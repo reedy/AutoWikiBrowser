@@ -32,11 +32,12 @@ namespace WikiFunctions
     public delegate void LoadDel();
     public delegate void SaveDel();
     public delegate void DiffDel();
+    public delegate void DeleteDel();
     public delegate void NoneDel();
     public delegate void FaultDel();
     public delegate void StatusDel();
 
-    public enum enumProcessStage : byte { load, diff, save, none }
+    public enum enumProcessStage : byte { load, diff, save, delete, none }
 
     /// <summary>
     /// Provides a webBrowser component adapted speciailly to work with Wikis.
@@ -65,6 +66,10 @@ namespace WikiFunctions
         /// Occurs when the diff or preview page has finished loading
         /// </summary>
         public event DiffDel Diffed;
+        /// <summary>
+        /// Occurs when the page has finished deleting
+        /// </summary>
+        public event DeleteDel Deleted;
         /// <summary>
         /// Occurs when the page has finished loading, and it was not a save/load/diff
         /// </summary>
@@ -118,6 +123,20 @@ namespace WikiFunctions
             get
             {
                 if (this.Document.Body.InnerHtml.Contains("<INPUT id=wpPreview"))
+                    return true;
+                else
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the page can be deleted
+        /// </summary>
+        public bool CanDelete
+        {
+            get
+            {
+                if (this.Document.Body.InnerHtml.Contains("<INPUT id=wpConfirmB"))
                     return true;
                 else
                     return false;
@@ -233,6 +252,17 @@ namespace WikiFunctions
                 return;
 
             this.Document.GetElementById("wpSummary").InnerText = Summary;
+        }
+
+        /// <summary>
+        /// Sets the reason given for deletion
+        /// </summary>
+        public void SetDeleteReason(string Reason)
+        {
+            if (this.Document == null || !this.Document.Body.InnerHtml.Contains("wpReason"))
+                return;
+
+            this.Document.GetElementById("wpReason").InnerText = Reason;
         }
 
         /// <summary>
@@ -363,6 +393,20 @@ namespace WikiFunctions
         }
 
         /// <summary>
+        /// Invokes the Delete button
+        /// </summary>
+        public void Delete()
+        {
+            if (CanDelete)
+            {
+                this.AllowNavigation = true;
+                ProcessStage = enumProcessStage.delete;
+                Status = "Deleting page";
+                this.Document.GetElementById("wpConfirmB").InvokeMember("click");
+            }
+        }
+
+        /// <summary>
         /// Loads the edit page of the given article
         /// </summary>
         public void LoadEditPage(string Article)
@@ -407,6 +451,13 @@ namespace WikiFunctions
                 this.AllowNavigation = false;
                 ProcessStage = enumProcessStage.none;
                 this.Loaded();
+            }
+            else if (ProcessStage == enumProcessStage.delete)
+            {
+                this.AllowNavigation = false;
+                ProcessStage = enumProcessStage.none;
+                Status = "Deleted";
+                this.Deleted();
             }
             else if (ProcessStage == enumProcessStage.diff)
             {
