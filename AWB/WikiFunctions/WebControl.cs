@@ -94,7 +94,7 @@ namespace WikiFunctions
         {
             get
             {
-                if (this.Document.Body.InnerHtml.Contains("<INPUT id=wpSave"))
+                if (this.Document != null && this.Document.GetElementById("wpSave") != null)
                     return true;
                 else
                     return false;
@@ -108,7 +108,7 @@ namespace WikiFunctions
         {
             get
             {
-                if (this.Document.Body.InnerHtml.Contains("<INPUT id=wpDiff"))
+                if (this.Document != null && this.Document.GetElementById("wpDiff") != null)
                     return true;
                 else
                     return false;
@@ -122,7 +122,7 @@ namespace WikiFunctions
         {
             get
             {
-                if (this.Document.Body.InnerHtml.Contains("<INPUT id=wpPreview"))
+                if (this.Document != null && this.Document.GetElementById("wpPreview") != null)
                     return true;
                 else
                     return false;
@@ -136,7 +136,7 @@ namespace WikiFunctions
         {
             get
             {
-                if (this.Document.Body.InnerHtml.Contains("<INPUT id=wpConfirmB"))
+                if (this.Document != null && this.Document.GetElementById("wpConfirmB") != null)
                     return true;
                 else
                     return false;
@@ -150,7 +150,7 @@ namespace WikiFunctions
         {
             get
             {
-                if (this.Document.Body.InnerHtml.Contains("<LI id=pt-logout"))
+                if (this.Document != null && this.Document.GetElementById("pt-logout") != null)
                     return true;
                 else
                     return false;
@@ -164,7 +164,7 @@ namespace WikiFunctions
         {
             get
             {
-                if (this.Document != null && this.Document.Body.InnerHtml.Contains("<TEXTAREA id=wpTextbox1"))
+                if (this.Document != null && this.Document.GetElementById("wpTextbox1") != null)
                     return true;
                 else
                     return false;

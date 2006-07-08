@@ -45,12 +45,7 @@ namespace AutoWikiBrowser
         public MainForm()
         {
             InitializeComponent();
-            ticker += timeKeeper;
-
-            webBrowserLogin.ScriptErrorsSuppressed = true;
-            webBrowserLogin.DocumentCompleted += web4Completed;
-            webBrowserLogin.Navigating += web4Starting;
-
+       
             btntsShowHide.Image = Resources.btnshowhide_image;
             btntsSave.Image = Resources.btntssave_image;
             btntsIgnore.Image = Resources.btntsignore_image;
@@ -90,6 +85,11 @@ namespace AutoWikiBrowser
             );
 
             UpdateButtons();
+
+            webBrowserLogin.ScriptErrorsSuppressed = true;
+            ticker += timeKeeper;            
+            webBrowserLogin.DocumentCompleted += web4Completed;
+            webBrowserLogin.Navigating += web4Starting;
 
             webBrowserEdit.Loaded += CaseWasLoad;
             webBrowserEdit.Diffed += CaseWasDiff;
@@ -383,8 +383,6 @@ namespace AutoWikiBrowser
         bool skippable = true;
         private void CaseWasDiff()
         {
-            lblStatusText.Text = "Ready to save";
-
             if (diffChecker(webBrowserEdit.Document.Body.InnerHtml))
             {//check if there are no changes and we want to skip
                 SkipPage();
