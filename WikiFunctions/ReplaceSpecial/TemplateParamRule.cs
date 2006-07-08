@@ -1,0 +1,175 @@
+//$Header: /cvsroot/autowikibrowser/WikiFunctions/ReplaceSpecial/TemplateParamRule.cs,v 1.2 2006/07/04 15:50:24 wikibluemoose Exp $
+/*
+    Derived from Autowikibrowser
+    Copyright (C) 2006 Martin Richards
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*/
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Windows.Forms;
+using System.Xml;
+using System.Text.RegularExpressions;
+
+namespace WikiFunctions.MWB
+{
+
+internal class TemplateParamRule: IRule
+{
+  public const string XmlName = "TemplateParamRule";
+  
+  public string ParamName_ = "";
+  public string NewParamName_ = "";
+  
+  TemplateParamRuleControl ruleControl_ = null;
+
+  public override Object Clone()
+  {
+    TemplateParamRule res = (TemplateParamRule) MemberwiseClone();
+    res.ruleControl_ = null;
+    return res;
+  }
+
+  public TemplateParamRule()
+  {
+    Name = "Template Parameter Rule";
+  }
+
+  public override Control GetControl()
+  {
+    return ruleControl_;
+  }
+  
+  public override void ForgetControl()
+  {
+    ruleControl_ = null;
+  }
+  
+  public override Control CreateControl(
+    IRuleControlOwner owner,
+    Control.ControlCollection collection,
+    System.Drawing.Point pos
+  )
+  {
+    TemplateParamRuleControl rc = new TemplateParamRuleControl(owner);
+    rc.Location = pos; 
+    rc.RestoreFromRule(this);
+    DisposeControl();
+    ruleControl_ = rc;
+    collection.Add(rc);
+    return rc;
+  }
+  
+  public override void Save()
+  {
+    if (ruleControl_ == null)
+      return;
+    ruleControl_.SaveToRule(this);
+  }
+  
+  public override void Restore()
+  {
+    if (ruleControl_ == null)
+      return;
+    ruleControl_.RestoreFromRule(this);
+  }
+  
+  public override void SelectName()
+  {
+    if (ruleControl_ == null)
+      return;
+    ruleControl_.SelectName();
+  }
+  
+
+  public override string Apply(TreeNode tn, string text, string title)
+  {
+    if (text == null || text == "")
+      return text;
+
+    if (!enabled_)
+      return text;
+
+    string pattern = 
+      "(\\|[\\s]*)" + ParamName_ + "([\\s]*=)";
+
+    text = Regex.Replace(text, pattern, "$1" + NewParamName_ + "$2");
+    
+    foreach (TreeNode t in tn.Nodes) 
+    {
+      IRule sr = (IRule) t.Tag;
+      text = sr.Apply(t, text, title);
+    }
+
+    return text;      
+  }
+
+
+  public override void WriteToXml(TreeNode tn, XmlTextWriter w)
+  {
+    if (tn == null)
+      return;
+      
+    TemplateParamRule r = (TemplateParamRule) tn.Tag;
+    
+    w.WriteStartElement(XmlName);
+    
+    w.WriteAttributeString("name", r.Name);
+    w.WriteAttributeString("enabled", r.enabled_.ToString());
+    w.WriteAttributeString("paramName", r.ParamName_);
+    w.WriteAttributeString("newParamName", r.NewParamName_);
+    
+    foreach (TreeNode t in tn.Nodes)
+    {
+      IRule sr = (IRule) t.Tag;
+      sr.WriteToXml(t, w);
+    }
+
+    w.WriteEndElement();
+  }
+
+  static public void ReadFromXml(TreeNodeCollection nodes, XmlTextReader rd, bool is_empty)
+  {
+    string name = "missing name";
+      
+    if (rd.MoveToAttribute("name"))
+      name = rd.Value;
+
+    TemplateParamRule r = new TemplateParamRule();
+    r.Name = name;
+    TreeNode tn = new TreeNode(name);
+    tn.Tag = r;
+    nodes.Add(tn);
+    
+    if (rd.MoveToAttribute("enabled"))
+      r.enabled_ = Convert.ToBoolean(rd.Value);
+
+    if (rd.MoveToAttribute("paramName"))
+      r.ParamName_ = rd.Value;
+
+    if (rd.MoveToAttribute("newParamName"))
+      r.NewParamName_ = rd.Value;
+    
+    if (!is_empty) {
+      if (rd.Read())
+        RuleFactory.ReadFromXml(tn.Nodes, rd);
+    }
+  }  
+
+}
+  
+}
