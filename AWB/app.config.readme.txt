@@ -1,0 +1,2 @@
+Copy the file app.config to the dir where AutoWikiBrowser.exe is stored and rename
+it to AutoWikiBrowser.exe.config. Edit it and enjoy!
