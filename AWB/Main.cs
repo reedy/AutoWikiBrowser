@@ -95,7 +95,7 @@ namespace AutoWikiBrowser
             webBrowserEdit.Diffed += CaseWasDiff;
             webBrowserEdit.Saved += CaseWasSaved;
             webBrowserEdit.None += CaseWasNull;
-            webBrowserEdit.Fault += startDelayedTimer;
+            webBrowserEdit.Fault += StartDelayedRestartTimer;
             webBrowserEdit.StatusChanged += UpdateStatus;
         }
 

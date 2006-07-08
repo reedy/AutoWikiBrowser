@@ -39,7 +39,7 @@ namespace WikiFunctions
 
         readonly Regex regexe = new Regex("<li>\\(?<a href=\"[^\"]*\" title=\"([^\"]*)\">[^<>]*</a>( \\(transclusion\\))?", RegexOptions.Compiled);
         readonly Regex wikiLinkReg = new Regex("\\[\\[(.*?)(\\]\\]|\\|)", RegexOptions.Compiled);
-        Regex regexe2 = new Regex("<a href=\"[^\"]*\" title=\"([^\"]*)\">[^<>]*</a>");
+        readonly Regex regexe2 = new Regex("<a href=\"[^\"]*\" title=\"([^\"]*)\">[^<>]*</a>");
 
         /// <summary>
         /// Gets a list of articles and sub-categories in a category.
@@ -51,7 +51,6 @@ namespace WikiFunctions
             Category = Regex.Replace(Category, "^" + Variables.CategoryNS, "", RegexOptions.IgnoreCase);
             Category = encodeText(Category);
 
-            bool b = true;
             string URL = Variables.URL + "index.php?title=Category:" + Category + "&from=";
             ArrayList ArticleArray = new ArrayList();
 
@@ -78,9 +77,9 @@ namespace WikiFunctions
                     URL = Variables.URL + "index.php?title=Category:" + Category + "&from=" + strPage;
                 }
                 else
-                    b = false;
+                    break;
             }
-            while (b);
+            while (true);
 
             return FilterSomeArticles(ArticleArray);
         }
@@ -94,7 +93,6 @@ namespace WikiFunctions
         public ArrayList FromWhatLinksHere(string Page, bool incOnly)
         {
             Page = encodeText(Page);
-            bool b = true;
             string URL = Variables.URL + "index.php?title=Special:Whatlinkshere&target=" + Page + "&limit=5000&offset=0";
             ArrayList ArticleArray = new ArrayList();
 
@@ -120,9 +118,9 @@ namespace WikiFunctions
                     URL = Variables.URL + "index.php?title=Special:Whatlinkshere&target=" + Page + "&limit=5000&from=" + strPage;
                 }
                 else
-                    b = false;
+                    break;
 
-            } while (b);
+            } while (true);
 
             return FilterSomeArticles(ArticleArray);
         }
@@ -191,7 +189,6 @@ namespace WikiFunctions
             int intStart = 0;
             Google = encodeText(Google);
             Google = Google.Replace("_", " ");
-            bool b = true;
             string URL = "http://www.google.com/search?q=" + Google + "+site:" + Variables.URLShort + "&num=100&hl=en&lr=&start=0&sa=N";
             ArrayList ArticleArray = new ArrayList();
 
@@ -220,9 +217,9 @@ namespace WikiFunctions
                     URL = "http://www.google.com/search?q=" + Google + "+site:" + Variables.URLShort + "&num=100&hl=en&lr=&start=" + intStart.ToString() + "&sa=N";
                 }
                 else
-                    b = false;
+                    break;
 
-            } while (b);
+            } while (true);
 
             return FilterSomeArticles(ArticleArray);
         }
