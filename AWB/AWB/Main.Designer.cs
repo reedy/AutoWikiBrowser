@@ -1345,9 +1345,9 @@ namespace AutoWikiBrowser
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.txtEdit);
-            this.panel1.Location = new System.Drawing.Point(503, 5);
+            this.panel1.Location = new System.Drawing.Point(497, 5);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(277, 366);
+            this.panel1.Size = new System.Drawing.Size(283, 366);
             this.panel1.TabIndex = 9;
             // 
             // txtEdit
@@ -1362,7 +1362,7 @@ namespace AutoWikiBrowser
             this.txtEdit.Multiline = true;
             this.txtEdit.Name = "txtEdit";
             this.txtEdit.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtEdit.Size = new System.Drawing.Size(277, 366);
+            this.txtEdit.Size = new System.Drawing.Size(283, 366);
             this.txtEdit.TabIndex = 0;
             this.txtEdit.TextChanged += new System.EventHandler(this.txtEdit_TextChanged);
             // 
