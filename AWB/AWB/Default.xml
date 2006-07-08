@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Settings program="AWB" schema="1">
+  <Project>
+    <projectlang proj="wikipedia" lang="en" />
+  </Project>
+  <Options>
+    <selectsource index="0" text="" />
+    <general general="True" tagger="True" unicodifyer="True" templateparser="False" />
+    <categorisation index="0" text="" />
+    <skip does="False" doesnot="False" regex="False" casesensitive="False" doestext="" doesnottext="" />
+    <message enabled="False" text="" append="True" />
+    <imager index="0" replace="" with="" />
+  </Options>
+  <FindAndReplaceSettings>
+    <findandreplace enabled="False" regex="False" casesensitive="False" multiline="False" singleline="False" ignorenofar="True" />
+  </FindAndReplaceSettings>
+  <FindAndReplace>
+    <replacerules>
+      <rule name="New rule" type="0" enabled="True" />
+    </replacerules>
+  </FindAndReplace>
+  <startoptions>
+    <summary text="clean up" />
+    <summary text="re-categorisation per [[WP:CFD|CFD]]" />
+    <summary text="clean up and  re-categorisation per [[WP:CFD|CFD]]" />
+    <summary text="removing category per [[WP:CFD|CFD]]" />
+    <summary text="[[Wikipedia:Template substitution|subst:'ing]]" />
+    <summary text="stub sorting" />
+    <summary text="clean up + typo fix" />
+    <summary text="bad link repair.  [[Wikipedia:Bad links|You can help!]]" />
+    <summary text="Fixing [[Wikipedia:Disambiguation pages with links|links to disambiguation pages]]" />
+    <summary text="Unicodifying" />
+    <summaryindex index="clean up" />
+    <find text="" regex="False" casesensitive="False" />
+    <menu>
+      <wordwrap enabled="True" />
+      <toolbar enabled="False" />
+      <bypass enabled="True" />
+      <ingnorenonexistent enabled="True" />
+      <noautochanges enabled="False" />
+      <skipnochanges enabled="False" />
+      <preview enabled="False" />
+      <minor enabled="False" />
+      <watch enabled="False" />
+      <timer enabled="False" />
+      <sortinterwiki enabled="True" />
+      <addignoredtolog enabled="False" />
+    </menu>
+  </startoptions>
+  <pastemore>
+    <pastemore1 text="" />
+    <pastemore2 text="" />
+    <pastemore3 text="" />
+    <pastemore4 text="" />
+    <pastemore5 text="" />
+    <pastemore6 text="" />
+    <pastemore7 text="" />
+    <pastemore8 text="" />
+    <pastemore9 text="" />
+    <pastemore10 text="" />
+  </pastemore>
+</Settings>
