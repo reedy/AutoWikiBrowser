@@ -38,6 +38,8 @@ namespace AutoWikiBrowser
             this.chkUser = new System.Windows.Forms.CheckBox();
             this.chkImage = new System.Windows.Forms.CheckBox();
             this.chkArticleTalk = new System.Windows.Forms.CheckBox();
+            this.txtContains = new System.Windows.Forms.TextBox();
+            this.chkContains = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // btnDone
@@ -142,14 +144,35 @@ namespace AutoWikiBrowser
             this.chkArticleTalk.Text = "Article talk";
             this.chkArticleTalk.UseVisualStyleBackColor = true;
             // 
+            // txtContains
+            // 
+            this.txtContains.Enabled = false;
+            this.txtContains.Location = new System.Drawing.Point(230, 33);
+            this.txtContains.Name = "txtContains";
+            this.txtContains.Size = new System.Drawing.Size(124, 20);
+            this.txtContains.TabIndex = 11;
+            // 
+            // chkContains
+            // 
+            this.chkContains.AutoSize = true;
+            this.chkContains.Location = new System.Drawing.Point(207, 12);
+            this.chkContains.Name = "chkContains";
+            this.chkContains.Size = new System.Drawing.Size(152, 17);
+            this.chkContains.TabIndex = 12;
+            this.chkContains.Text = "Filter out titles that contain:";
+            this.chkContains.UseVisualStyleBackColor = true;
+            this.chkContains.CheckedChanged += new System.EventHandler(this.chkContains_CheckedChanged);
+            // 
             // specialFilter
             // 
             this.AcceptButton = this.btnDone;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(371, 220);
+            this.ClientSize = new System.Drawing.Size(375, 223);
             this.ControlBox = false;
+            this.Controls.Add(this.chkContains);
+            this.Controls.Add(this.txtContains);
             this.Controls.Add(this.chkArticleTalk);
             this.Controls.Add(this.chkImage);
             this.Controls.Add(this.chkUser);
@@ -184,5 +207,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkUser;
         private System.Windows.Forms.CheckBox chkImage;
         private System.Windows.Forms.CheckBox chkArticleTalk;
+        private System.Windows.Forms.TextBox txtContains;
+        private System.Windows.Forms.CheckBox chkContains;
     }
 }

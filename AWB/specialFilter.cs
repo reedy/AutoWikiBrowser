@@ -41,5 +41,10 @@ namespace AutoWikiBrowser
 
             return filteredArray;
         }
+
+        private void chkContains_CheckedChanged(object sender, EventArgs e)
+        {
+            txtContains.Enabled = chkContains.Checked;
+        }
     }
 }
