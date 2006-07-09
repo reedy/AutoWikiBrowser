@@ -48,6 +48,18 @@ namespace WikiFunctions
         }
 
         /// <summary>
+        /// Tests title to make sure it is an editable namespace
+        /// </summary>
+        /// <param name="ArticleTitle">The title.</param>
+        public static bool IsEditableSpace(string ArticleTitle)
+        {
+            if (ArticleTitle.StartsWith(Variables.SpecialNS) || ArticleTitle.StartsWith(Variables.PortalNS) || ArticleTitle.StartsWith("Commons:") || ArticleTitle.StartsWith(Variables.MediaWikiNS))
+                return false;
+            else
+                return true;
+        }
+
+        /// <summary>
         /// Tests title to make sure it is either main, category or template namespace.
         /// </summary>
         /// <param name="ArticleTitle">The title.</param>
