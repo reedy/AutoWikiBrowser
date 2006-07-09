@@ -25,6 +25,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Collections;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace WikiFunctions
 {
@@ -48,42 +49,49 @@ namespace WikiFunctions
         /// <returns>The ArrayList of the articles.</returns>
         public ArrayList FromCategory(string Category)
         {
-            Category = Regex.Replace(Category, "^" + Variables.CategoryNS, "", RegexOptions.IgnoreCase);
-            Category = encodeText(Category);
+            // using http://en.wikipedia.org/wiki/User:Yurik/Query_API
+            string URL = Variables.URL + "/query.php?what=category&cptitle=" + Category + "&format=xml&cplimit=500";
+            ArrayList list = new ArrayList();
+            string title = "";
 
-            string URL = Variables.URL + "index.php?title=Category:" + Category + "&from=";
-            ArrayList ArticleArray = new ArrayList();
-
-            do
+            while (true)
             {
-                string PageText = Tools.GetHTML(URL);
-
-                if (PageText.Contains("<div class=\"noarticletext\">"))
+                string html = Tools.GetHTML(URL);
+                if (html.Contains("<error>emptyresult</error>"))
                     throw new Exception("That category does not exist. Make sure it is spelt correctly. If you want a stub category remember to type the category name and not the stub name.");
 
-                //cut out part we want
-                PageText = PageText.Substring(PageText.IndexOf("<!-- Saved in parser cache with key "));
-                PageText = PageText.Substring(0, PageText.IndexOf("<div class=\"printfooter\">"));
+                bool more = false;
 
-                foreach (Match m in regexe.Matches(PageText))
+                using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
                 {
-                    ArticleArray.Add(m.Groups[1].Value);
+                    while (reader.Read())
+                    {
+                        if (reader.LocalName.Equals("query"))
+                        {
+                            reader.ReadToFollowing("category");
+                            reader.MoveToAttribute("next");
+                            URL = Variables.URL + "/query.php?what=category&cptitle=" + Category + "&format=xml&cplimit=500&cpfrom=" + reader.Value;
+                            more = true;
+                            reader.ReadToFollowing("page");
+                        }
+
+                        if (reader.LocalName.Equals("page"))
+                        {
+                            reader.ReadToFollowing("title");
+                            title = reader.ReadInnerXml();
+                            if(Tools.IsEditableSpace(title) && title.Length > 0)
+                                list.Add(title);
+                        }
+                    }
                 }
 
-                if (Regex.IsMatch(PageText, "&amp;from=(.*?)\" title=\"", RegexOptions.RightToLeft))
-                {
-                    Match m = Regex.Match(PageText, "&amp;from=(.*?)\" title=\"", RegexOptions.RightToLeft);
-                    string strPage = m.Groups[1].Value;
-                    URL = Variables.URL + "index.php?title=Category:" + Category + "&from=" + strPage;
-                }
-                else
+                if (!more)
                     break;
             }
-            while (true);
 
-            return FilterSomeArticles(ArticleArray);
+            return list;
         }
-
+        
         /// <summary>
         /// Gets a list of articles that link to the given page.
         /// </summary>
@@ -423,6 +431,52 @@ namespace WikiFunctions
         //{
         //    get { return "working"; }
         //}
+
+        #region old methods
+        ///// <summary>
+        ///// Gets a list of articles and sub-categories in a category.
+        ///// </summary>
+        ///// <param name="Category">The category.</param>
+        ///// <returns>The ArrayList of the articles.</returns>
+        //public ArrayList FromCategory(string Category)
+        //{
+        //    Category = Regex.Replace(Category, "^" + Variables.CategoryNS, "", RegexOptions.IgnoreCase);
+        //    Category = encodeText(Category);
+
+        //    string URL = Variables.URL + "index.php?title=Category:" + Category + "&from=";
+        //    ArrayList ArticleArray = new ArrayList();
+
+        //    do
+        //    {
+        //        string PageText = Tools.GetHTML(URL);
+
+        //        if (PageText.Contains("<div class=\"noarticletext\">"))
+        //            throw new Exception("That category does not exist. Make sure it is spelt correctly. If you want a stub category remember to type the category name and not the stub name.");
+
+        //        //cut out part we want
+        //        PageText = PageText.Substring(PageText.IndexOf("<!-- Saved in parser cache with key "));
+        //        PageText = PageText.Substring(0, PageText.IndexOf("<div class=\"printfooter\">"));
+
+        //        foreach (Match m in regexe.Matches(PageText))
+        //        {
+        //            ArticleArray.Add(m.Groups[1].Value);
+        //        }
+
+        //        if (Regex.IsMatch(PageText, "&amp;from=(.*?)\" title=\"", RegexOptions.RightToLeft))
+        //        {
+        //            Match m = Regex.Match(PageText, "&amp;from=(.*?)\" title=\"", RegexOptions.RightToLeft);
+        //            string strPage = m.Groups[1].Value;
+        //            URL = Variables.URL + "index.php?title=Category:" + Category + "&from=" + strPage;
+        //        }
+        //        else
+        //            break;
+        //    }
+        //    while (true);
+
+        //    return FilterSomeArticles(ArticleArray);
+        //}
+
+        #endregion
 
     }
 }

@@ -48,7 +48,7 @@ namespace AutoWikiBrowser
             // ButtonOK
             // 
             this.ButtonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.ButtonOK.Location = new System.Drawing.Point(47, 63);
+            this.ButtonOK.Location = new System.Drawing.Point(110, 94);
             this.ButtonOK.Name = "ButtonOK";
             this.ButtonOK.Size = new System.Drawing.Size(75, 23);
             this.ButtonOK.TabIndex = 1;
@@ -58,7 +58,7 @@ namespace AutoWikiBrowser
             // buttonCancel
             // 
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(128, 63);
+            this.buttonCancel.Location = new System.Drawing.Point(191, 94);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 2;
@@ -68,7 +68,7 @@ namespace AutoWikiBrowser
             // chkDontAskAgain
             // 
             this.chkDontAskAgain.AutoSize = true;
-            this.chkDontAskAgain.Location = new System.Drawing.Point(9, 119);
+            this.chkDontAskAgain.Location = new System.Drawing.Point(4, 98);
             this.chkDontAskAgain.Name = "chkDontAskAgain";
             this.chkDontAskAgain.Size = new System.Drawing.Size(100, 17);
             this.chkDontAskAgain.TabIndex = 3;
@@ -78,7 +78,7 @@ namespace AutoWikiBrowser
             // lblTimeAndEdits
             // 
             this.lblTimeAndEdits.AutoSize = true;
-            this.lblTimeAndEdits.Location = new System.Drawing.Point(9, 94);
+            this.lblTimeAndEdits.Location = new System.Drawing.Point(9, 70);
             this.lblTimeAndEdits.Name = "lblTimeAndEdits";
             this.lblTimeAndEdits.Size = new System.Drawing.Size(0, 13);
             this.lblTimeAndEdits.TabIndex = 4;
@@ -89,7 +89,7 @@ namespace AutoWikiBrowser
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(267, 142);
+            this.ClientSize = new System.Drawing.Size(270, 123);
             this.Controls.Add(this.lblTimeAndEdits);
             this.Controls.Add(this.chkDontAskAgain);
             this.Controls.Add(this.buttonCancel);
