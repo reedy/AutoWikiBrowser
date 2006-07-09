@@ -797,14 +797,19 @@ namespace AutoWikiBrowser
                 return;
             }
 
-            Control.CheckForIllegalCrossThreadCalls = false;
+            intSourceIndex = cmboSourceSelect.SelectedIndex;
+            strSouce = txtSelectSource.Text;
+            boolWLHinc = chkWLHInc.Checked;
+
             ThreadStart thr_Process = new ThreadStart(MakeList);
             ListerThread = new Thread(thr_Process);
             ListerThread.IsBackground = true;
             ListerThread.Start();
         }
 
-
+        int intSourceIndex = 0;
+        string strSouce = "";
+        bool boolWLHinc = false;
         private void MakeList()
         {
             boolSaved = false;
@@ -812,28 +817,28 @@ namespace AutoWikiBrowser
 
             try
             {
-                switch (cmboSourceSelect.SelectedIndex)
+                switch (intSourceIndex)
                 {
                     case 0:
-                        addToList(getLists.FromCategory(txtSelectSource.Text));
+                        addToList(getLists.FromCategory(strSouce));
                         break;
                     case 1:
-                        addToList(getLists.FromWhatLinksHere(txtSelectSource.Text, chkWLHInc.Checked));
+                        addToList(getLists.FromWhatLinksHere(strSouce, boolWLHinc));
                         break;
                     case 2:
-                        addToList(getLists.FromLinksOnPage(txtSelectSource.Text));
+                        addToList(getLists.FromLinksOnPage(strSouce));
                         break;
                     case 4:
-                        addToList(getLists.FromGoogleSearch(txtSelectSource.Text));
+                        addToList(getLists.FromGoogleSearch(strSouce));
                         break;
                     case 5:
-                        addToList(getLists.FromUserContribs(txtSelectSource.Text));
+                        addToList(getLists.FromUserContribs(strSouce));
                         break;
                     case 6:
-                        addToList(getLists.FromSpecialPage(txtSelectSource.Text));
+                        addToList(getLists.FromSpecialPage(strSouce));
                         break;
                     case 7:
-                        addToList(getLists.FromImageLinks(txtSelectSource.Text));
+                        addToList(getLists.FromImageLinks(strSouce));
                         break;
                     default:
                         break;
@@ -884,8 +889,15 @@ namespace AutoWikiBrowser
             toolStripProgressBar1.Style = ProgressBarStyle.Marquee;
         }
 
+        private delegate void AddToListDel(ArrayList a);
         private void addToList(ArrayList ArticleArray)
         {
+            if (this.InvokeRequired)
+                {
+                    this.Invoke(new AddToListDel(addToList), ArticleArray);
+                    return;
+                }
+
             lbArticles.BeginUpdate();
 
             foreach (string s in ArticleArray)
