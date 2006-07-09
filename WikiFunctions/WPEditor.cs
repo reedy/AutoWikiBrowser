@@ -14,6 +14,12 @@ namespace WikiFunctions
     /// </summary>
     public class Editor
     {
+        /// <summary>
+        /// Instantiates the Editor class.
+        /// </summary>
+        public Editor()
+        {
+        }
 
         protected CookieCollection logincookies;
         protected bool LoggedIn;
@@ -27,7 +33,6 @@ namespace WikiFunctions
         /// <returns>The wikitext of the specified article.</returns>
         public static String GetWikiText(String Article, string indexpath, int oldid)
         {
-
             try
             {
                 string TargetURL = indexpath + "index.php?title=" + Article + "&action=raw&ctype=text/plain&dontcountme=s";
@@ -37,9 +42,9 @@ namespace WikiFunctions
 
                 HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(TargetURL);
                 HttpWebResponse resps;
-                System.IO.Stream stream;
-                System.IO.StreamReader sr;
-                string wikitext;
+                Stream stream;
+                StreamReader sr;
+                string wikitext = "";
 
                 wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
                 wr.UserAgent = "WPAutoEdit/1.0";
@@ -47,7 +52,7 @@ namespace WikiFunctions
                 resps = (HttpWebResponse)wr.GetResponse();
 
                 stream = resps.GetResponseStream();
-                sr = new System.IO.StreamReader(stream);
+                sr = new StreamReader(stream);
 
                 wikitext = sr.ReadToEnd();
 
@@ -55,18 +60,10 @@ namespace WikiFunctions
                 stream.Close();
                 resps.Close();
 
-                wr = null;
-                resps = null;
-                stream = null;
-                sr = null;
-
-                GC.Collect();
-
                 return wikitext;
             }
             catch (WebException ex)
             {
-                GC.Collect();
                 if (ex.ToString().Contains("404"))
                     return "";
                 else
@@ -86,23 +83,21 @@ namespace WikiFunctions
         {
             HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(m_indexpath + "index.php?title=" + Article + "&action=submit");
             WebResponse resps;
-            //System.IO.Stream stream;
-            //System.IO.StreamReader sr;
             String poststring;
             String editpagestr;
 
             editpagestr = GetEditPage(Article);
 
-            System.Text.RegularExpressions.Regex rx = new System.Text.RegularExpressions.Regex("<input type='hidden' value=\"([^\"]*)\" name=\"wpEdittime\" />");
-            System.Text.RegularExpressions.Match m;
-            string wpEdittime;
-            string wpEditkey;
+            Regex rx = new Regex("<input type='hidden' value=\"([^\"]*)\" name=\"wpEdittime\" />");
+            Match m;
+            string wpEdittime = "";
+            string wpEditkey = "";
 
             m = rx.Match(editpagestr);
 
             wpEdittime = m.Value.Substring(28, m.Value.Substring(28).IndexOf("\""));
 
-            rx = new System.Text.RegularExpressions.Regex("<input type='hidden' value=\"([^\"]*)\" name=\"wpEditToken\" />");
+            rx = new Regex("<input type='hidden' value=\"([^\"]*)\" name=\"wpEditToken\" />");
 
             m = rx.Match(editpagestr);
 
@@ -132,15 +127,15 @@ namespace WikiFunctions
 
             wr.ContentLength = bytedata.Length;
 
-            System.IO.Stream rs = wr.GetRequestStream();
+            Stream rs = wr.GetRequestStream();
 
             rs.Write(bytedata, 0, bytedata.Length);
             rs.Close();
 
             resps = wr.GetResponse();
 
-            string respstext;
-            string difflink;
+            string respstext = "";
+            string difflink = "";
             Regex permalinkrx = new Regex("<li id=\"t-permalink\"><a href=\"([^\"]*)\">");
             Match permalinkmatch;
 
@@ -156,7 +151,6 @@ namespace WikiFunctions
             difflink = difflink.Replace("&amp;", "&");
 
             return difflink;
-
         }
 
         /// <summary>
@@ -168,9 +162,9 @@ namespace WikiFunctions
         {
             HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(m_indexpath + "index.php?title=" + Article + "&action=edit");
             HttpWebResponse resps;
-            System.IO.Stream stream;
-            System.IO.StreamReader sr;
-            string wikitext;
+            Stream stream;
+            StreamReader sr;
+            string wikitext = "";
 
             wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
             wr.UserAgent = "WPAutoEdit/1.0";
@@ -185,7 +179,7 @@ namespace WikiFunctions
             resps = (HttpWebResponse) wr.GetResponse();
 
             stream = resps.GetResponseStream();
-            sr = new System.IO.StreamReader(stream);
+            sr = new StreamReader(stream);
 
             wikitext = sr.ReadToEnd();
 
@@ -225,7 +219,7 @@ namespace WikiFunctions
 
             wr.ContentLength = bytedata.Length;
 
-            System.IO.Stream rs = wr.GetRequestStream();
+            Stream rs = wr.GetRequestStream();
 
             rs.Write(bytedata, 0, bytedata.Length);
             rs.Close();
@@ -288,8 +282,8 @@ namespace WikiFunctions
         /// <returns>A link to the diff page for the changes made.</returns>
         public string EditPageReplace(string Article, string findregex, string replaceregex, string Summary, bool Minor)
         {
-            string pagetext;
-            System.Text.RegularExpressions.Regex rgex = new System.Text.RegularExpressions.Regex(findregex, RegexOptions.IgnoreCase);
+            string pagetext = "";
+            Regex rgex = new Regex(findregex, RegexOptions.IgnoreCase);
 
             pagetext = GetWikiText(Article, m_indexpath, 0);
 
@@ -394,9 +388,9 @@ namespace WikiFunctions
                                 "&rvlimit=" + Limit + "&titles=" + Article;
             HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(TargetURL);
             HttpWebResponse resps;
-            System.IO.Stream stream;
-            System.IO.StreamReader sr;
-            string pagetext;
+            Stream stream;
+            StreamReader sr;
+            string pagetext = "";
             List<Revision> History = new List<Revision>();
 
             wr.UserAgent = "WPAutoEdit/1.0";
@@ -419,7 +413,7 @@ namespace WikiFunctions
             Doc.LoadXml(pagetext);
 
             DocElement = Doc.DocumentElement;
-
+            
             foreach (XmlElement rvElement in Doc.GetElementsByTagName("rv"))
             {
                 Revision rv = new Revision();
@@ -451,14 +445,6 @@ namespace WikiFunctions
             public bool Minor = false;
             public string User = "";
 
-        }
-
-        /// <summary>
-        /// Instantiates the Editor class.
-        /// </summary>
-        public Editor()
-        {
-            
         }
     }
 }
