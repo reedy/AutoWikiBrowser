@@ -126,7 +126,10 @@ namespace AutoWikiBrowser
             this.sortAlphebeticallyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveListToTextFileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
-            this.addCategoryContentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addSelectedToListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fromCategoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fromWhatlinkshereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fromLinksOnPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -248,6 +251,7 @@ namespace AutoWikiBrowser
             this.btntsPreview = new System.Windows.Forms.ToolStripButton();
             this.btntsChanges = new System.Windows.Forms.ToolStripButton();
             this.webBrowserEdit = new WikiFunctions.WebControl();
+            this.fromImageLinksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -1098,12 +1102,12 @@ namespace AutoWikiBrowser
             this.sortAlphebeticallyMenuItem,
             this.saveListToTextFileToolStripMenuItem1,
             this.toolStripSeparator14,
-            this.addCategoryContentsToolStripMenuItem,
+            this.addSelectedToListToolStripMenuItem,
             this.toolStripSeparator5,
             this.removeToolStripMenuItem,
             this.clearToolStripMenuItem1});
             this.mnuListBox.Name = "contextMenuStrip2";
-            this.mnuListBox.Size = new System.Drawing.Size(195, 214);
+            this.mnuListBox.Size = new System.Drawing.Size(195, 236);
             this.mnuListBox.Opening += new System.ComponentModel.CancelEventHandler(this.mnuListBox_Opening);
             // 
             // filterOutNonMainSpaceArticlesToolStripMenuItem
@@ -1160,12 +1164,37 @@ namespace AutoWikiBrowser
             this.toolStripSeparator14.Name = "toolStripSeparator14";
             this.toolStripSeparator14.Size = new System.Drawing.Size(191, 6);
             // 
-            // addCategoryContentsToolStripMenuItem
+            // addSelectedToListToolStripMenuItem
             // 
-            this.addCategoryContentsToolStripMenuItem.Name = "addCategoryContentsToolStripMenuItem";
-            this.addCategoryContentsToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
-            this.addCategoryContentsToolStripMenuItem.Text = "Add category contents";
-            this.addCategoryContentsToolStripMenuItem.Click += new System.EventHandler(this.addCategoryContentsToolStripMenuItem_Click);
+            this.addSelectedToListToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fromCategoryToolStripMenuItem,
+            this.fromWhatlinkshereToolStripMenuItem,
+            this.fromLinksOnPageToolStripMenuItem,
+            this.fromImageLinksToolStripMenuItem});
+            this.addSelectedToListToolStripMenuItem.Name = "addSelectedToListToolStripMenuItem";
+            this.addSelectedToListToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.addSelectedToListToolStripMenuItem.Text = "Add selected to list...";
+            // 
+            // fromCategoryToolStripMenuItem
+            // 
+            this.fromCategoryToolStripMenuItem.Name = "fromCategoryToolStripMenuItem";
+            this.fromCategoryToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.fromCategoryToolStripMenuItem.Text = "From category";
+            this.fromCategoryToolStripMenuItem.Click += new System.EventHandler(this.fromCategoryToolStripMenuItem_Click);
+            // 
+            // fromWhatlinkshereToolStripMenuItem
+            // 
+            this.fromWhatlinkshereToolStripMenuItem.Name = "fromWhatlinkshereToolStripMenuItem";
+            this.fromWhatlinkshereToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.fromWhatlinkshereToolStripMenuItem.Text = "From whatlinkshere";
+            this.fromWhatlinkshereToolStripMenuItem.Click += new System.EventHandler(this.fromWhatlinkshereToolStripMenuItem_Click);
+            // 
+            // fromLinksOnPageToolStripMenuItem
+            // 
+            this.fromLinksOnPageToolStripMenuItem.Name = "fromLinksOnPageToolStripMenuItem";
+            this.fromLinksOnPageToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.fromLinksOnPageToolStripMenuItem.Text = "From links on page";
+            this.fromLinksOnPageToolStripMenuItem.Click += new System.EventHandler(this.fromLinksOnPageToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
@@ -2198,6 +2227,13 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
             this.webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
             // 
+            // fromImageLinksToolStripMenuItem
+            // 
+            this.fromImageLinksToolStripMenuItem.Name = "fromImageLinksToolStripMenuItem";
+            this.fromImageLinksToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.fromImageLinksToolStripMenuItem.Text = "From image links";
+            this.fromImageLinksToolStripMenuItem.Click += new System.EventHandler(this.fromImageLinksToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2460,9 +2496,13 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkSuppressTag;
         private WikiFunctions.WebControl webBrowserEdit;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
-        private System.Windows.Forms.ToolStripMenuItem addCategoryContentsToolStripMenuItem;
         private System.Windows.Forms.CheckBox chkSkipNoChanges;
         private System.Windows.Forms.ToolStripMenuItem wordWrapToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem addSelectedToListToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fromCategoryToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fromWhatlinkshereToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fromLinksOnPageToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fromImageLinksToolStripMenuItem;
 
 
     }
