@@ -45,7 +45,7 @@ namespace AutoWikiBrowser
         public MainForm()
         {
             InitializeComponent();
-       
+
             btntsShowHide.Image = Resources.btnshowhide_image;
             btntsSave.Image = Resources.btntssave_image;
             btntsIgnore.Image = Resources.btntsignore_image;
@@ -87,7 +87,7 @@ namespace AutoWikiBrowser
             UpdateButtons();
 
             webBrowserLogin.ScriptErrorsSuppressed = true;
-            ticker += timeKeeper;            
+            ticker += timeKeeper;
             webBrowserLogin.DocumentCompleted += web4Completed;
             webBrowserLogin.Navigating += web4Starting;
 
@@ -185,7 +185,7 @@ namespace AutoWikiBrowser
                     lblTimer.Text = "";
                     lblStatusText.Text = "No articles in list, you need to use the Make list";
                     this.Text = "AutoWikiBrowser";
-                    webBrowserEdit.Document.Write("");                    
+                    webBrowserEdit.Document.Write("");
                     btnMakeList.Enabled = true;
                     return;
                 }
@@ -687,7 +687,7 @@ namespace AutoWikiBrowser
                     lbArticles.SetSelected(lbArticles.SelectedIndex, false);
 
                 txtNewArticle.Text = EdittingArticle;
-                
+
                 int intPosition = lbArticles.Items.IndexOf(EdittingArticle);
 
                 lbArticles.Items.Remove(EdittingArticle);
@@ -738,7 +738,7 @@ namespace AutoWikiBrowser
                 else
                     lbArticles.SelectedIndex = i - 1;
 
-                lbArticles.EndUpdate();                
+                lbArticles.EndUpdate();
             }
             catch
             { }
@@ -752,17 +752,6 @@ namespace AutoWikiBrowser
             lbArticles.Items.Clear();
             NumberOfArticles = lbArticles.Items.Count;
             UpdateButtons();
-        }
-
-        private void addCategoryContentsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (lbArticles.SelectedItems.Count != 1)
-                return;
-
-            cmboSourceSelect.SelectedIndex = 0;
-            txtSelectSource.Text = lbArticles.SelectedItem.ToString();
-
-            btnMakeList.PerformClick();
         }
 
         Thread ListerThread = null;
@@ -949,6 +938,38 @@ namespace AutoWikiBrowser
             list = getLists.convertFromTalk(list);
             lbArticles.Items.Clear();
             addToList(list);
+        }
+
+        private void fromCategoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            cmboSourceSelect.SelectedIndex = 0;
+            txtSelectSource.Text = lbArticles.SelectedItem.ToString();
+
+            btnMakeList.PerformClick();
+        }
+
+        private void fromWhatlinkshereToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            cmboSourceSelect.SelectedIndex = 1;
+            txtSelectSource.Text = lbArticles.SelectedItem.ToString();
+
+            btnMakeList.PerformClick();
+        }
+
+        private void fromLinksOnPageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            cmboSourceSelect.SelectedIndex = 2;
+            txtSelectSource.Text = lbArticles.SelectedItem.ToString();
+
+            btnMakeList.PerformClick();
+        }
+
+        private void fromImageLinksToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            cmboSourceSelect.SelectedIndex = 7;
+            txtSelectSource.Text = lbArticles.SelectedItem.ToString();
+
+            btnMakeList.PerformClick();
         }
 
         #endregion
@@ -2089,10 +2110,22 @@ namespace AutoWikiBrowser
         {
             bool boolEnabled = lbArticles.Items.Count > 0;
 
-            if (lbArticles.SelectedItems.Count == 1 && lbArticles.SelectedItem.ToString().StartsWith("Category:"))
-                addCategoryContentsToolStripMenuItem.Enabled = true;
+            if (lbArticles.SelectedItems.Count == 1)
+            {
+                addSelectedToListToolStripMenuItem.Enabled = true;
+
+                if (lbArticles.SelectedItem.ToString().StartsWith(Variables.CategoryNS))
+                    fromCategoryToolStripMenuItem.Enabled = true;
+                else
+                    fromCategoryToolStripMenuItem.Enabled = false;
+
+                if (lbArticles.SelectedItem.ToString().StartsWith(Variables.ImageNS))
+                    fromImageLinksToolStripMenuItem.Enabled = true;
+                else
+                    fromImageLinksToolStripMenuItem.Enabled = false;
+            }
             else
-                addCategoryContentsToolStripMenuItem.Enabled = false;
+                addSelectedToListToolStripMenuItem.Enabled = false;                        
 
             removeToolStripMenuItem.Enabled = lbArticles.SelectedItem != null;
             clearToolStripMenuItem1.Enabled = boolEnabled;
@@ -3139,5 +3172,6 @@ namespace AutoWikiBrowser
         }
 
         #endregion
+        
     }
 }

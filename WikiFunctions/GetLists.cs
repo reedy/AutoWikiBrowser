@@ -49,7 +49,7 @@ namespace WikiFunctions
         /// <returns>The ArrayList of the articles.</returns>
         public ArrayList FromCategory(string Category)
         {
-            // using http://en.wikipedia.org/wiki/User:Yurik/Query_API
+            Category = encodeText(Category);
             string URL = Variables.URL + "/query.php?what=category&cptitle=" + Category + "&format=xml&cplimit=500";
             ArrayList list = new ArrayList();
             string title = "";
@@ -77,8 +77,8 @@ namespace WikiFunctions
 
                         if (reader.LocalName.Equals("page"))
                         {
-                            reader.ReadToFollowing("title");
-                            title = reader.ReadInnerXml();
+                            reader.ReadToDescendant("title");
+                            title = reader.ReadString();
                             if(Tools.IsEditableSpace(title) && title.Length > 0)
                                 list.Add(title);
                         }
@@ -298,21 +298,46 @@ namespace WikiFunctions
         {
             Image = Regex.Replace(Image, "^" + Variables.ImageNS, "", RegexOptions.IgnoreCase);
             Image = encodeText(Image);
-            ArrayList ArticleArray = new ArrayList();
 
-            string PageText = Tools.GetHTML(Variables.URL + "index.php?title=Image:" + Image);
+            string URL = Variables.URL + "query.php?what=imagelinks&titles=Image:"+ Image +"&illimit=500&format=xml";
+            ArrayList list = new ArrayList();
+            string title = "";
 
-            PageText = PageText.Substring(PageText.IndexOf("<h2 id=\"filelinks\">"));
-
-            if (!PageText.Contains("<li>"))
-                throw new Exception("That image does not exist. Make sure it is spelt correctly.");
-
-            foreach (Match m in regexe.Matches(PageText))
+            while (true)
             {
-                ArticleArray.Add(m.Groups[1].Value);
+                string html = Tools.GetHTML(URL);
+                if (!html.Contains("<imagelinks>"))
+                    throw new Exception("That image does not exist. Make sure it is spelt correctly.");
+
+                bool more = false;
+
+                using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
+                {
+                    while (reader.Read())
+                    {
+                        if (reader.LocalName.Equals("query"))
+                        {
+                            reader.ReadToFollowing("imagelinks");
+                            reader.MoveToAttribute("next");
+                            URL = Variables.URL + "query.php?what=imagelinks&titles=Image:" + Image + "&illimit=500&format=xml&ilcontfrom=" + reader.Value;
+                            more = true;
+                            reader.ReadToFollowing("page");
+                        }
+
+                        if (reader.LocalName.Equals("il"))
+                        {
+                            title = reader.ReadString();
+                            if (title.Length > 0)
+                                list.Add(title);
+                        }
+                    }
+                }
+
+                if (!more)
+                    break;
             }
 
-            return FilterSomeArticles(ArticleArray);
+            return list;
         }
 
         readonly Regex regexWatchList = new Regex("<LI><INPUT type=checkbox value=(.*?) name=id\\[\\]", RegexOptions.Compiled);
@@ -419,20 +444,8 @@ namespace WikiFunctions
             return newList;
         }
 
-        //int numberofarticles = 0;
-        //public int NumberOfArticles
-        //{
-        //    get { return numberofarticles; }
-        //}
-
-        //public delegate void State();
-        //public event State StateChanged;
-        //public string Sate
-        //{
-        //    get { return "working"; }
-        //}
-
         #region old methods
+
         ///// <summary>
         ///// Gets a list of articles and sub-categories in a category.
         ///// </summary>
@@ -472,6 +485,32 @@ namespace WikiFunctions
         //            break;
         //    }
         //    while (true);
+
+        //    return FilterSomeArticles(ArticleArray);
+        //}
+
+        ///// <summary>
+        ///// Gets a list of articles that use an image.
+        ///// </summary>
+        ///// <param name="Image">The image.</param>
+        ///// <returns>The ArrayList of the articles.</returns>
+        //public ArrayList FromImageLinks(string Image)
+        //{
+        //    Image = Regex.Replace(Image, "^" + Variables.ImageNS, "", RegexOptions.IgnoreCase);
+        //    Image = encodeText(Image);
+        //    ArrayList ArticleArray = new ArrayList();
+
+        //    string PageText = Tools.GetHTML(Variables.URL + "index.php?title=Image:" + Image);
+
+        //    PageText = PageText.Substring(PageText.IndexOf("<h2 id=\"filelinks\">"));
+
+        //    if (!PageText.Contains("<li>"))
+        //        throw new Exception("That image does not exist. Make sure it is spelt correctly.");
+
+        //    foreach (Match m in regexe.Matches(PageText))
+        //    {
+        //        ArticleArray.Add(m.Groups[1].Value);
+        //    }
 
         //    return FilterSomeArticles(ArticleArray);
         //}
