@@ -1,4 +1,4 @@
-//$Header: /cvsroot/autowikibrowser/WikiFunctions/ReplaceSpecial/IRule.cs,v 1.2 2006/07/04 15:50:23 wikibluemoose Exp $
+//$Header: /cvsroot/mwiki-browser/main/mwiki-browser/IRule.cs,v 1.4 2006/06/30 23:09:06 ligulem Exp $
 /*
     Derived from Autowikibrowser
     Copyright (C) 2006 Martin Richards
@@ -27,69 +27,70 @@ using System.Xml;
 namespace WikiFunctions.MWB
 {
 
-internal abstract class IRule: ICloneable
-{
-  private string name_ = "";
-  public bool enabled_ = true;
-
-  public string Name {
-    set { name_ = value; }
-    get { return name_; }
-  }
-
-  public abstract Control GetControl();
-  public abstract void ForgetControl();
-  
-  public abstract void SelectName();
-
-  public abstract void Save();
-  public abstract void Restore();
-  
-  public abstract Control CreateControl(
-    IRuleControlOwner owner,
-    Control.ControlCollection collection,
-    System.Drawing.Point pos
-  );
-  
-  public void DisposeControl()
-  {
-    Control old = GetControl();
-    if (old == null)
-      return;
-    ForgetControl();
-    old.Hide();
-    if (old.Parent != null)
-      old.Parent.Controls.Remove(old);
-    old.Dispose();
-  }
-
-  public abstract string Apply(TreeNode tn, string text, string title);
-
-  public abstract void WriteToXml(TreeNode tn, XmlTextWriter w);
-  
-  public abstract Object Clone();
-  
-  
-  public static TreeNode CloneTreeNode(TreeNode tn)
-  {
-    if (tn == null)
-      return null;
-    TreeNode res = (TreeNode) tn.Clone();
-    CloneTags(res);
-    return res;
-  }
-  
-  static void CloneTags(TreeNode tn)
-  {
-    IRule r = (IRule) tn.Tag;
-    tn.Tag = r.Clone();
-    foreach (TreeNode t in tn.Nodes) 
+    public abstract class IRule : ICloneable
     {
-      CloneTags(t);
+        private string name_ = "";
+        public bool enabled_ = true;
+
+        public string Name
+        {
+            set { name_ = value; }
+            get { return name_; }
+        }
+
+        public abstract Control GetControl();
+        public abstract void ForgetControl();
+
+        public abstract void SelectName();
+
+        public abstract void Save();
+        public abstract void Restore();
+
+        public abstract Control CreateControl(
+          IRuleControlOwner owner,
+          Control.ControlCollection collection,
+          System.Drawing.Point pos
+        );
+
+        public void DisposeControl()
+        {
+            Control old = GetControl();
+            if (old == null)
+                return;
+            ForgetControl();
+            old.Hide();
+            if (old.Parent != null)
+                old.Parent.Controls.Remove(old);
+            old.Dispose();
+        }
+
+        public abstract string Apply(TreeNode tn, string text, string title);
+
+        public abstract void WriteToXml(TreeNode tn, XmlTextWriter w);
+
+        public abstract Object Clone();
+
+
+        public static TreeNode CloneTreeNode(TreeNode tn)
+        {
+            if (tn == null)
+                return null;
+            TreeNode res = (TreeNode)tn.Clone();
+            CloneTags(res);
+            return res;
+        }
+
+        static void CloneTags(TreeNode tn)
+        {
+            IRule r = (IRule)tn.Tag;
+            tn.Tag = r.Clone();
+            foreach (TreeNode t in tn.Nodes)
+            {
+                CloneTags(t);
+            }
+        }
+
     }
-  }
-  
-}
 
 
 }

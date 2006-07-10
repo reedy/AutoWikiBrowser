@@ -1,4 +1,4 @@
-//$Header: /cvsroot/autowikibrowser/WikiFunctions/ReplaceSpecial/RuleFactory.cs,v 1.2 2006/07/04 15:50:24 wikibluemoose Exp $
+//$Header: /cvsroot/mwiki-browser/main/mwiki-browser/RuleFactory.cs,v 1.4 2006/06/30 15:21:18 ligulem Exp $
 /*
     Derived from Autowikibrowser
     Copyright (C) 2006 Martin Richards
@@ -28,97 +28,97 @@ using System.Text.RegularExpressions;
 namespace WikiFunctions.MWB
 {
 
-class RuleFactory
-{
-  public static Rule CreateRule()
-  {
-    return new Rule();
-  }
-  
-  public static InTemplateRule CreateInTemplateRule()
-  {
-    return new InTemplateRule();
-  }
-  
-  public static TemplateParamRule CreateTemplateParamRule()
-  {
-    return new TemplateParamRule();
-  }
-
-  static public void ReadFromXml(TreeNodeCollection nodes, XmlTextReader rd)
-  {
-    while (!rd.EOF)
+    class RuleFactory
     {
-      if (rd.NodeType == XmlNodeType.EndElement)
-        break;
-      else if (rd.Name == Rule.XmlName)
-        Rule.ReadFromXml(nodes, rd, rd.IsEmptyElement);
-      else if (rd.Name == InTemplateRule.XmlName)
-        InTemplateRule.ReadFromXml(nodes, rd, rd.IsEmptyElement);
-      else if (rd.Name == TemplateParamRule.XmlName)
-        TemplateParamRule.ReadFromXml(nodes, rd, rd.IsEmptyElement);
-      else
-        break;
-      if (!rd.Read())
-        break;     
+        public static Rule CreateRule()
+        {
+            return new Rule();
+        }
+
+        public static InTemplateRule CreateInTemplateRule()
+        {
+            return new InTemplateRule();
+        }
+
+        public static TemplateParamRule CreateTemplateParamRule()
+        {
+            return new TemplateParamRule();
+        }
+
+        static public void ReadFromXml(TreeNodeCollection nodes, XmlTextReader rd)
+        {
+            while (!rd.EOF)
+            {
+                if (rd.NodeType == XmlNodeType.EndElement)
+                    break;
+                else if (rd.Name == Rule.XmlName)
+                    Rule.ReadFromXml(nodes, rd, rd.IsEmptyElement);
+                else if (rd.Name == InTemplateRule.XmlName)
+                    InTemplateRule.ReadFromXml(nodes, rd, rd.IsEmptyElement);
+                else if (rd.Name == TemplateParamRule.XmlName)
+                    TemplateParamRule.ReadFromXml(nodes, rd, rd.IsEmptyElement);
+                else
+                    break;
+                if (!rd.Read())
+                    break;
+            }
+        }
+
+        static public void ReadFromXmlAWB(TreeNodeCollection nodes, XmlTextReader rd)
+        {
+            bool regex = false;
+            bool caseSensitive = false;
+            bool multiline = false;
+            bool singleline = false;
+
+            if (rd.MoveToAttribute("regex"))
+                regex = Convert.ToBoolean(rd.Value);
+            if (rd.MoveToAttribute("casesensitive"))
+                caseSensitive = Convert.ToBoolean(rd.Value);
+            if (rd.MoveToAttribute("multiline"))
+                multiline = Convert.ToBoolean(rd.Value);
+            if (rd.MoveToAttribute("singleline"))
+                singleline = Convert.ToBoolean(rd.Value);
+
+            RegexOptions regexOptions = RegexOptions.None;
+            if (!caseSensitive)
+                regexOptions |= RegexOptions.IgnoreCase;
+            if (multiline)
+                regexOptions |= RegexOptions.Multiline;
+            if (singleline)
+                regexOptions |= RegexOptions.Singleline;
+
+            int i = 1;
+            while (rd.Read())
+            {
+                if (rd.Name != "FAR" && rd.Name != "datagridFAR")
+                    break;
+
+                Rule r = new Rule();
+
+                r.Name = "Rule " + i.ToString();
+
+                r.regex_ = regex;
+                r.regexOptions_ = regexOptions;
+
+                if (rd.MoveToAttribute("apply"))
+                    r.numoftimes_ = Convert.ToInt32(rd.Value);
+
+                if (rd.MoveToAttribute("find"))
+                    r.replace_ = rd.Value;
+
+                if (rd.MoveToAttribute("replacewith"))
+                    r.with_ = rd.Value;
+
+                TreeNode tn = new TreeNode(r.Name);
+                tn.Tag = r;
+
+                nodes.Add(tn);
+
+                ++i;
+            }
+        }
+
     }
-  }
-
-  static public void ReadFromXmlAWB(TreeNodeCollection nodes, XmlTextReader rd)
-  {
-    bool regex = false;
-    bool caseSensitive = false;
-    bool multiline = false;
-    bool singleline = false;
-
-    if (rd.MoveToAttribute("regex"))
-      regex = Convert.ToBoolean(rd.Value);
-    if (rd.MoveToAttribute("casesensitive"))
-      caseSensitive = Convert.ToBoolean(rd.Value);
-    if (rd.MoveToAttribute("multiline"))
-      multiline = Convert.ToBoolean(rd.Value);
-    if (rd.MoveToAttribute("singleline"))
-      singleline = Convert.ToBoolean(rd.Value);
-      
-    RegexOptions regexOptions = RegexOptions.None;
-    if (!caseSensitive)
-      regexOptions |= RegexOptions.IgnoreCase;
-    if (multiline)
-      regexOptions |= RegexOptions.Multiline;
-    if (singleline)
-      regexOptions |= RegexOptions.Singleline;
-
-    int i=1;
-    while (rd.Read())
-    {
-      if (rd.Name != "FAR" && rd.Name != "datagridFAR")
-        break;
-        
-      Rule r = new Rule();
-      
-      r.Name = "Rule " + i.ToString();
-     
-      r.regex_ = regex;
-      r.regexOptions_ = regexOptions;
-      
-      if (rd.MoveToAttribute("apply"))
-        r.numoftimes_ = Convert.ToInt32(rd.Value);
-        
-      if (rd.MoveToAttribute("find"))
-        r.replace_ = rd.Value;
-      
-      if (rd.MoveToAttribute("replacewith"))
-        r.with_ = rd.Value;
-        
-      TreeNode tn = new TreeNode(r.Name);
-      tn.Tag = r;
-       
-      nodes.Add(tn);
-      
-      ++i;
-    }
-  }
-  
-}
 
 }

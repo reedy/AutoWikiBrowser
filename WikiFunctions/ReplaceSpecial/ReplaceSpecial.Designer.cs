@@ -56,17 +56,19 @@ namespace WikiFunctions.MWB
       this.NewSubruleInTemplateCallMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.NewSubruleTemplateParameterMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.EditMenu = new System.Windows.Forms.ToolStripMenuItem();
+      this.UndoMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.RedoMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
       this.CutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.CopyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.PasteMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.DeleteMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.NewSubruleButton = new System.Windows.Forms.Button();
       this.NoRuleSelectedLabel = new System.Windows.Forms.Label();
-      this.UndoMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.RedoMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+      this.RuleControlSpace = new System.Windows.Forms.Panel();
       this.TreeViewContextMenu.SuspendLayout();
       this.menuStrip1.SuspendLayout();
+      this.RuleControlSpace.SuspendLayout();
       this.SuspendLayout();
       // 
       // UpButton
@@ -124,6 +126,7 @@ namespace WikiFunctions.MWB
       // 
       // RulesTreeView
       // 
+      this.RulesTreeView.AllowDrop = true;
       this.RulesTreeView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                   | System.Windows.Forms.AnchorStyles.Left)));
       this.RulesTreeView.ContextMenuStrip = this.TreeViewContextMenu;
@@ -132,7 +135,11 @@ namespace WikiFunctions.MWB
       this.RulesTreeView.Name = "RulesTreeView";
       this.RulesTreeView.Size = new System.Drawing.Size(227, 406);
       this.RulesTreeView.TabIndex = 15;
+      this.RulesTreeView.DragDrop += new System.Windows.Forms.DragEventHandler(this.RulesTreeView_DragDrop);
+      this.RulesTreeView.DragOver += new System.Windows.Forms.DragEventHandler(this.RulesTreeView_DragOver);
       this.RulesTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.RulesTreeView_AfterSelect);
+      this.RulesTreeView.DragEnter += new System.Windows.Forms.DragEventHandler(this.RulesTreeView_DragEnter);
+      this.RulesTreeView.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.RulesTreeView_ItemDrag);
       // 
       // TreeViewContextMenu
       // 
@@ -297,12 +304,35 @@ namespace WikiFunctions.MWB
       this.EditMenu.Size = new System.Drawing.Size(37, 20);
       this.EditMenu.Text = "Edit";
       // 
+      // UndoMenuItem
+      // 
+      this.UndoMenuItem.Name = "UndoMenuItem";
+      this.UndoMenuItem.ShortcutKeyDisplayString = "Ctr+Z";
+      this.UndoMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+      this.UndoMenuItem.Size = new System.Drawing.Size(150, 22);
+      this.UndoMenuItem.Text = "Undo";
+      this.UndoMenuItem.Click += new System.EventHandler(this.UndoMenuItem_Click);
+      // 
+      // RedoMenuItem
+      // 
+      this.RedoMenuItem.Name = "RedoMenuItem";
+      this.RedoMenuItem.ShortcutKeyDisplayString = "Ctrl+Y";
+      this.RedoMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+      this.RedoMenuItem.Size = new System.Drawing.Size(150, 22);
+      this.RedoMenuItem.Text = "Redo";
+      this.RedoMenuItem.Click += new System.EventHandler(this.RedoMenuItem_Click);
+      // 
+      // toolStripSeparator2
+      // 
+      this.toolStripSeparator2.Name = "toolStripSeparator2";
+      this.toolStripSeparator2.Size = new System.Drawing.Size(147, 6);
+      // 
       // CutMenuItem
       // 
       this.CutMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
       this.CutMenuItem.Name = "CutMenuItem";
       this.CutMenuItem.ShortcutKeyDisplayString = "Ctrl+X";
-      this.CutMenuItem.Size = new System.Drawing.Size(152, 22);
+      this.CutMenuItem.Size = new System.Drawing.Size(150, 22);
       this.CutMenuItem.Text = "Cut";
       this.CutMenuItem.Click += new System.EventHandler(this.CutMenuItem_Click);
       // 
@@ -311,7 +341,7 @@ namespace WikiFunctions.MWB
       this.CopyMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
       this.CopyMenuItem.Name = "CopyMenuItem";
       this.CopyMenuItem.ShortcutKeyDisplayString = "Ctrl+C";
-      this.CopyMenuItem.Size = new System.Drawing.Size(152, 22);
+      this.CopyMenuItem.Size = new System.Drawing.Size(150, 22);
       this.CopyMenuItem.Text = "Copy";
       this.CopyMenuItem.Click += new System.EventHandler(this.CopyMenuItem_Click);
       // 
@@ -320,7 +350,7 @@ namespace WikiFunctions.MWB
       this.PasteMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
       this.PasteMenuItem.Name = "PasteMenuItem";
       this.PasteMenuItem.ShortcutKeyDisplayString = "Ctrl+V";
-      this.PasteMenuItem.Size = new System.Drawing.Size(152, 22);
+      this.PasteMenuItem.Size = new System.Drawing.Size(150, 22);
       this.PasteMenuItem.Text = "Paste";
       this.PasteMenuItem.Click += new System.EventHandler(this.PasteMenuItem_Click);
       // 
@@ -329,7 +359,7 @@ namespace WikiFunctions.MWB
       this.DeleteMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
       this.DeleteMenuItem.Name = "DeleteMenuItem";
       this.DeleteMenuItem.ShortcutKeyDisplayString = "Del";
-      this.DeleteMenuItem.Size = new System.Drawing.Size(152, 22);
+      this.DeleteMenuItem.Size = new System.Drawing.Size(150, 22);
       this.DeleteMenuItem.Text = "Delete";
       this.DeleteMenuItem.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal;
       this.DeleteMenuItem.Click += new System.EventHandler(this.DeleteMenuItem_Click);
@@ -348,41 +378,29 @@ namespace WikiFunctions.MWB
       // NoRuleSelectedLabel
       // 
       this.NoRuleSelectedLabel.AutoSize = true;
-      this.NoRuleSelectedLabel.Location = new System.Drawing.Point(423, 224);
+      this.NoRuleSelectedLabel.Location = new System.Drawing.Point(167, 194);
       this.NoRuleSelectedLabel.Name = "NoRuleSelectedLabel";
       this.NoRuleSelectedLabel.Size = new System.Drawing.Size(89, 13);
       this.NoRuleSelectedLabel.TabIndex = 18;
       this.NoRuleSelectedLabel.Text = "No Rule selected";
       // 
-      // UndoMenuItem
+      // RuleControlSpace
       // 
-      this.UndoMenuItem.Name = "UndoMenuItem";
-      this.UndoMenuItem.ShortcutKeyDisplayString = "Ctr+Z";
-      this.UndoMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-      this.UndoMenuItem.Size = new System.Drawing.Size(152, 22);
-      this.UndoMenuItem.Text = "Undo";
-      this.UndoMenuItem.Click += new System.EventHandler(this.UndoMenuItem_Click);
-      // 
-      // RedoMenuItem
-      // 
-      this.RedoMenuItem.Name = "RedoMenuItem";
-      this.RedoMenuItem.ShortcutKeyDisplayString = "Ctrl+Y";
-      this.RedoMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-      this.RedoMenuItem.Size = new System.Drawing.Size(152, 22);
-      this.RedoMenuItem.Text = "Redo";
-      this.RedoMenuItem.Click += new System.EventHandler(this.RedoMenuItem_Click);
-      // 
-      // toolStripSeparator2
-      // 
-      this.toolStripSeparator2.Name = "toolStripSeparator2";
-      this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
+      this.RuleControlSpace.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                  | System.Windows.Forms.AnchorStyles.Left)
+                  | System.Windows.Forms.AnchorStyles.Right)));
+      this.RuleControlSpace.Controls.Add(this.NoRuleSelectedLabel);
+      this.RuleControlSpace.Location = new System.Drawing.Point(262, 24);
+      this.RuleControlSpace.Name = "RuleControlSpace";
+      this.RuleControlSpace.Size = new System.Drawing.Size(443, 411);
+      this.RuleControlSpace.TabIndex = 19;
       // 
       // ReplaceSpecial
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(705, 467);
-      this.Controls.Add(this.NoRuleSelectedLabel);
+      this.Controls.Add(this.RuleControlSpace);
       this.Controls.Add(this.NewSubruleButton);
       this.Controls.Add(this.menuStrip1);
       this.Controls.Add(this.RulesTreeView);
@@ -409,6 +427,8 @@ namespace WikiFunctions.MWB
       this.TreeViewContextMenu.ResumeLayout(false);
       this.menuStrip1.ResumeLayout(false);
       this.menuStrip1.PerformLayout();
+      this.RuleControlSpace.ResumeLayout(false);
+      this.RuleControlSpace.PerformLayout();
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -451,5 +471,6 @@ namespace WikiFunctions.MWB
     private System.Windows.Forms.ToolStripMenuItem UndoMenuItem;
     private System.Windows.Forms.ToolStripMenuItem RedoMenuItem;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+    private System.Windows.Forms.Panel RuleControlSpace;
   }
 }

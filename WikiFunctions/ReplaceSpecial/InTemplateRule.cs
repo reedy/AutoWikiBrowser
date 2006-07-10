@@ -1,4 +1,4 @@
-//$Header: /cvsroot/autowikibrowser/WikiFunctions/ReplaceSpecial/InTemplateRule.cs,v 1.2 2006/07/04 15:50:23 wikibluemoose Exp $
+//$Header: /cvsroot/mwiki-browser/main/mwiki-browser/InTemplateRule.cs,v 1.7 2006/07/03 16:40:14 ligulem Exp $
 /*
     Derived from Autowikibrowser
     Copyright (C) 2006 Martin Richards
@@ -25,353 +25,358 @@ using System.Xml;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
-
 namespace WikiFunctions.MWB
 {
-
-internal class InTemplateRule: IRule
-{
-  public const string XmlName = "InTemplateRule";
-
-  public List<string> TemplateNames_ = new List<string>();
-  public string ReplaceWith_ = "";
-  public bool DoReplace_ = false;
-  
-  InTemplateRuleControl ruleControl_ = null;
-  
-  public override Object Clone()
-  {
-    InTemplateRule res = (InTemplateRule) MemberwiseClone();
-    res.ruleControl_ = null;
-    return res;
-  }
-
-  public InTemplateRule()
-  {
-    Name = "In Template Rule";
-  }
-  
-  public override Control GetControl()
-  {
-    return ruleControl_;
-  }
-  
-  public override void ForgetControl()
-  {
-    ruleControl_ = null;
-  }
-  
-  public override Control CreateControl(
-    IRuleControlOwner owner,
-    Control.ControlCollection collection,
-    System.Drawing.Point pos
-  )
-  {
-    InTemplateRuleControl rc = new InTemplateRuleControl(owner);
-    rc.Location = pos; 
-    rc.RestoreFromRule(this);
-    DisposeControl();
-    ruleControl_ = rc;
-    collection.Add(rc);
-    return rc;
-  }
-  
-  public override void Save()
-  {
-    if (ruleControl_ == null)
-      return;
-    ruleControl_.SaveToRule(this);
-  }
-  
-  public override void Restore()
-  {
-    if (ruleControl_ == null)
-      return;
-    ruleControl_.RestoreFromRule(this);
-  }
-  
-  public override void SelectName()
-  {
-    if (ruleControl_ == null)
-      return;
-    ruleControl_.SelectName();
-  }
-
-  
-  public override string Apply(TreeNode tn, string text, string title)
-  {
-    if (text == null || text == "")
-      return text;
-
-    if (!enabled_)
-      return text;
-      
-    foreach (string template in TemplateNames_)
+    public class InTemplateRule : IRule
     {
-      text = ApplyOnce(template, tn, text, title);
-    }
+        public const string XmlName = "InTemplateRule";
 
-    return text;      
-  }
-  
-  static string ApplyOnce(string template, TreeNode tn, string text, string title)
-  {
-    return ApplyInsideTemplate(template, tn, text, title);
-  }
-  
-  
-  class ParseTemplate
-  {
-    string template_ = "";
-    string text_ = "";
-    string title_ = "";
-    string result_ = "";
-    
-    public ParseTemplate(string template, string text, string title)
-    {
-      template_ = template;
-      text_ = text;
-      title_ = title;
-    }
-    
-    public string Result { get { return result_; } }
-    
-    public void Parse(TreeNode tn)
-    {
-      for (;;)
-      {
-        int i = text_.IndexOf("{{");
-        if (i < 0) {
-          result_ += text_;
-          return;
-        }
+        public List<string> TemplateNames_ = new List<string>();
+        public string ReplaceWith_ = "";
+        public bool DoReplace_ = false;
 
-        i += 2;
-        result_ += text_.Substring(0, i);
+        InTemplateRuleControl ruleControl_ = null;
 
-        text_ = text_.Substring(i);
-        Inside(tn);
-      }
-    }
-    
-    void Inside(TreeNode tn)
-    {
-      bool check_done = false;
-      bool check = true;
-      string t = "";
-      
-      for (;;)
-      {
-        int i = text_.IndexOf("}}");
-        if (i < 0)
-          return; // error: template not closed
-
-        int j = text_.IndexOf("{{");
-        
-        if (j != -1 && j < i) 
+        public override Object Clone()
         {
-          t = text_.Substring(0, j);
-          j += 2;
-          text_ = text_.Substring(j);
-          
-          if (!check_done) {
-            check = CheckIf(template_, tn, t);
-            check_done = true;
-          }
-          
-          if (check) {
-            result_ += ReplaceOn(template_, tn, t, title_);
-          } else {
-            result_ += t;
-          }
-          result_ += "{{";
-          Inside(tn);
-          continue;
+            InTemplateRule res = (InTemplateRule)MemberwiseClone();
+            res.ruleControl_ = null;
+            return res;
         }
-        
-        t = text_.Substring(0, i);
-        i += 2;
-        text_ = text_.Substring(i);
-        
-        if (check_done) {
-          if (check)
-            result_ += ReplaceOn(template_, tn, t, title_);
-          else
-            result_ += t;
-        }
-        else
-          result_ += ApplyOn(template_, tn, t, title_);
 
-        result_ += "}}";
-        
-        return;
-      
-      }
-    }
-  }
-  
-  static string ApplyInsideTemplate(string template, TreeNode tn, string text, string title)
-  {
-    ParseTemplate p = new ParseTemplate(template, text, title);
-    
-    p.Parse(tn);
-    
-    return p.Result;
-  }
-  
-   
-  
-  static bool CheckIf(string template, TreeNode tn, string text)
-  {
-    string s = template;
-
-    if (s == "")
-      return true;
-      
-    string firstchar = s.Substring(0,1);
-    string rest = s.Substring(1);
-    
-    firstchar = firstchar.ToLower();
-    
-    string pattern = 
-      "^[\\s]*" + "[" + firstchar.ToUpper() + firstchar + "]" + rest + "[\\s]*(\\}\\}|\\|)";
-      
-    pattern = pattern.Replace(" ", "[ _]+");
-    
-    if (!Regex.IsMatch(text, pattern))
-      return false;
- 
-    return true;
-  }
-  
-  
-  static string ReplaceOn(string template, TreeNode tn, string text, string title)
-  {
-    InTemplateRule r = (InTemplateRule) tn.Tag;
-    
-    foreach (TreeNode t in tn.Nodes) 
-    {
-      IRule sr = (IRule) t.Tag;
-      text = sr.Apply(t, text, title);
-    }
-
-    if (r.DoReplace_ && r.ReplaceWith_ != "")
-    {
-      string s = template;
-
-      if (s == "")
-        return text;
-
-      string firstchar = s.Substring(0,1);
-      string rest = s.Substring(1);
-      
-      firstchar = firstchar.ToLower();
-      
-      string pattern = 
-        "^([\\s]*)" + "[" + firstchar.ToUpper() + firstchar + "]" + rest + "([\\s]*(\\}\\}|\\|))";
-        
-      pattern = pattern.Replace(" ", "[ _]+");
-
-      text = Regex.Replace(text, pattern, "$1" + r.ReplaceWith_ + "$2");
-    }
-
-    return text;
-  }
-  
-  
-  static string ApplyOn(string template, TreeNode tn, string text, string title)
-  {
-    if (!CheckIf(template, tn, text))
-      return text;
-    
-    return ReplaceOn(template, tn, text, title);
-  }
-    
-  public override void WriteToXml(TreeNode tn, XmlTextWriter w)
-  {
-    if (tn == null)
-      return;
-      
-    InTemplateRule r = (InTemplateRule) tn.Tag;
-    
-    w.WriteStartElement(XmlName);
-    
-    w.WriteAttributeString("name", r.Name);
-    w.WriteAttributeString("enabled", r.enabled_.ToString());
-    
-    if (r.DoReplace_ && r.ReplaceWith_ != "") 
-      w.WriteAttributeString("replacewith", r.ReplaceWith_);
-      
-    foreach (string s in TemplateNames_)
-    {
-      w.WriteStartElement("template");
-      w.WriteString(s);
-      w.WriteEndElement();
-    }
-    
-    foreach (TreeNode t in tn.Nodes)
-    {
-      IRule sr = (IRule) t.Tag;
-      sr.WriteToXml(t, w);
-    }
-
-    w.WriteEndElement();
-  }
-    
-    
-  static public void ReadFromXml(TreeNodeCollection nodes, XmlTextReader rd,  bool is_empty)
-  {
-    string name = "missing name";
-      
-    if (rd.MoveToAttribute("name"))
-      name = rd.Value;
-
-    InTemplateRule r = new InTemplateRule();
-    r.Name = name;
-    TreeNode tn = new TreeNode(name);
-    tn.Tag = r;
-    nodes.Add(tn);
-    
-    if (rd.MoveToAttribute("enabled"))
-      r.enabled_ = Convert.ToBoolean(rd.Value);
-
-    if (rd.MoveToAttribute("templatename"))
-    {
-      r.TemplateNames_.Add(rd.Value);
-    }
-
-    if (rd.MoveToAttribute("replacewith"))
-    {
-      r.ReplaceWith_ = rd.Value;
-      r.DoReplace_ = r.ReplaceWith_ != "";
-    }
-    
-    if (is_empty)
-      return;
-    
-    rd.Read();
-    while (!rd.EOF)
-    {
-      if (rd.NodeType == XmlNodeType.EndElement)
-        break;
-      else if (rd.Name == "template") 
-      {
-        if (!rd.IsEmptyElement) 
+        public InTemplateRule()
         {
-          string s = rd.ReadElementContentAsString();
-          r.TemplateNames_.Add(s);
-          continue;
+            Name = "In Template Rule";
         }
-      }
-      else {
-        RuleFactory.ReadFromXml(tn.Nodes, rd);
-        continue;
-      }
-      rd.Read();
+
+        public override Control GetControl()
+        {
+            return ruleControl_;
+        }
+
+        public override void ForgetControl()
+        {
+            ruleControl_ = null;
+        }
+
+        public override Control CreateControl(
+          IRuleControlOwner owner,
+          Control.ControlCollection collection,
+          System.Drawing.Point pos
+        )
+        {
+            InTemplateRuleControl rc = new InTemplateRuleControl(owner);
+            rc.Location = pos;
+            rc.RestoreFromRule(this);
+            DisposeControl();
+            ruleControl_ = rc;
+            collection.Add(rc);
+            return rc;
+        }
+
+        public override void Save()
+        {
+            if (ruleControl_ == null)
+                return;
+            ruleControl_.SaveToRule(this);
+        }
+
+        public override void Restore()
+        {
+            if (ruleControl_ == null)
+                return;
+            ruleControl_.RestoreFromRule(this);
+        }
+
+        public override void SelectName()
+        {
+            if (ruleControl_ == null)
+                return;
+            ruleControl_.SelectName();
+        }
+
+
+        public override string Apply(TreeNode tn, string text, string title)
+        {
+            if (text == null || text == "")
+                return text;
+
+            if (!enabled_)
+                return text;
+
+            foreach (string template in TemplateNames_)
+            {
+                text = ApplyOnce(template, tn, text, title);
+            }
+
+            return text;
+        }
+
+        static string ApplyOnce(string template, TreeNode tn, string text, string title)
+        {
+            return ApplyInsideTemplate(template, tn, text, title);
+        }
+
+
+        class ParseTemplate
+        {
+            string template_ = "";
+            string text_ = "";
+            string title_ = "";
+            string result_ = "";
+
+            public ParseTemplate(string template, string text, string title)
+            {
+                template_ = template;
+                text_ = text;
+                title_ = title;
+            }
+
+            public string Result { get { return result_; } }
+
+            public void Parse(TreeNode tn)
+            {
+                for (; ; )
+                {
+                    int i = text_.IndexOf("{{");
+                    if (i < 0)
+                    {
+                        result_ += text_;
+                        return;
+                    }
+
+                    i += 2;
+                    result_ += text_.Substring(0, i);
+
+                    text_ = text_.Substring(i);
+                    Inside(tn);
+                }
+            }
+
+            void Inside(TreeNode tn)
+            {
+                bool check_done = false;
+                bool check = true;
+                string t = "";
+
+                for (; ; )
+                {
+                    int i = text_.IndexOf("}}");
+                    if (i < 0)
+                        return; // error: template not closed
+
+                    int j = text_.IndexOf("{{");
+
+                    if (j != -1 && j < i)
+                    {
+                        t = text_.Substring(0, j);
+                        j += 2;
+                        text_ = text_.Substring(j);
+
+                        if (!check_done)
+                        {
+                            check = CheckIf(template_, tn, t);
+                            check_done = true;
+                        }
+
+                        if (check)
+                        {
+                            result_ += ReplaceOn(template_, tn, t, title_);
+                        }
+                        else
+                        {
+                            result_ += t;
+                        }
+                        result_ += "{{";
+                        Inside(tn);
+                        continue;
+                    }
+
+                    t = text_.Substring(0, i);
+                    i += 2;
+                    text_ = text_.Substring(i);
+
+                    if (check_done)
+                    {
+                        if (check)
+                            result_ += ReplaceOn(template_, tn, t, title_);
+                        else
+                            result_ += t;
+                    }
+                    else
+                        result_ += ApplyOn(template_, tn, t, title_);
+
+                    result_ += "}}";
+
+                    return;
+
+                }
+            }
+        }
+
+        static string ApplyInsideTemplate(string template, TreeNode tn, string text, string title)
+        {
+            ParseTemplate p = new ParseTemplate(template, text, title);
+
+            p.Parse(tn);
+
+            return p.Result;
+        }
+
+
+
+        static bool CheckIf(string template, TreeNode tn, string text)
+        {
+            string s = template;
+
+            if (s == "")
+                return true;
+
+            string firstchar = s.Substring(0, 1);
+            string rest = s.Substring(1);
+
+            firstchar = firstchar.ToLower();
+
+            string pattern =
+              "^[\\s]*" + "[" + firstchar.ToUpper() + firstchar + "]" + rest + "[\\s]*(\\}\\}|\\|)";
+
+            pattern = pattern.Replace(" ", "[ _]+");
+
+            if (!Regex.IsMatch(text, pattern))
+                return false;
+
+            return true;
+        }
+
+
+        static string ReplaceOn(string template, TreeNode tn, string text, string title)
+        {
+            InTemplateRule r = (InTemplateRule)tn.Tag;
+
+            foreach (TreeNode t in tn.Nodes)
+            {
+                IRule sr = (IRule)t.Tag;
+                text = sr.Apply(t, text, title);
+            }
+
+            if (r.DoReplace_ && r.ReplaceWith_ != "")
+            {
+                string s = template;
+
+                if (s == "")
+                    return text;
+
+                string firstchar = s.Substring(0, 1);
+                string rest = s.Substring(1);
+
+                firstchar = firstchar.ToLower();
+
+                string pattern =
+                  "^([\\s]*)" + "[" + firstchar.ToUpper() + firstchar + "]" + rest + "([\\s]*(\\}\\}|\\|))";
+
+                pattern = pattern.Replace(" ", "[ _]+");
+
+                text = Regex.Replace(text, pattern, "$1" + r.ReplaceWith_ + "$2");
+            }
+
+            return text;
+        }
+
+
+        static string ApplyOn(string template, TreeNode tn, string text, string title)
+        {
+            if (!CheckIf(template, tn, text))
+                return text;
+
+            return ReplaceOn(template, tn, text, title);
+        }
+
+        public override void WriteToXml(TreeNode tn, XmlTextWriter w)
+        {
+            if (tn == null)
+                return;
+
+            InTemplateRule r = (InTemplateRule)tn.Tag;
+
+            w.WriteStartElement(XmlName);
+
+            w.WriteAttributeString("name", r.Name);
+            w.WriteAttributeString("enabled", r.enabled_.ToString());
+
+            if (r.DoReplace_ && r.ReplaceWith_ != "")
+                w.WriteAttributeString("replacewith", r.ReplaceWith_);
+
+            foreach (string s in TemplateNames_)
+            {
+                w.WriteStartElement("template");
+                w.WriteString(s);
+                w.WriteEndElement();
+            }
+
+            foreach (TreeNode t in tn.Nodes)
+            {
+                IRule sr = (IRule)t.Tag;
+                sr.WriteToXml(t, w);
+            }
+
+            w.WriteEndElement();
+        }
+
+
+        static public void ReadFromXml(TreeNodeCollection nodes, XmlTextReader rd, bool is_empty)
+        {
+            string name = "missing name";
+
+            if (rd.MoveToAttribute("name"))
+                name = rd.Value;
+
+            InTemplateRule r = new InTemplateRule();
+            r.Name = name;
+            TreeNode tn = new TreeNode(name);
+            tn.Tag = r;
+            nodes.Add(tn);
+
+            if (rd.MoveToAttribute("enabled"))
+                r.enabled_ = Convert.ToBoolean(rd.Value);
+
+            if (rd.MoveToAttribute("templatename"))
+            {
+                r.TemplateNames_.Add(rd.Value);
+            }
+
+            if (rd.MoveToAttribute("replacewith"))
+            {
+                r.ReplaceWith_ = rd.Value;
+                r.DoReplace_ = r.ReplaceWith_ != "";
+            }
+
+            if (is_empty)
+                return;
+
+            rd.Read();
+            while (!rd.EOF)
+            {
+                if (rd.NodeType == XmlNodeType.EndElement)
+                    break;
+                else if (rd.Name == "template")
+                {
+                    if (!rd.IsEmptyElement)
+                    {
+                        string s = rd.ReadElementContentAsString();
+                        r.TemplateNames_.Add(s);
+                        continue;
+                    }
+                }
+                else
+                {
+                    RuleFactory.ReadFromXml(tn.Nodes, rd);
+                    continue;
+                }
+                rd.Read();
+            }
+
+        }
+
     }
-    
-  }
-  
-}
 
 }
