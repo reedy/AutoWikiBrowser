@@ -806,6 +806,7 @@ namespace AutoWikiBrowser
             ListerThread.IsBackground = true;
             ListerThread.Start();
         }
+        //static readonly object lockObject = new object();
 
         int intSourceIndex = 0;
         string strSouce = "";
@@ -1366,19 +1367,8 @@ namespace AutoWikiBrowser
 
         private void specialFilter()
         {
-            ArrayList arrayList = ArrayFromList();
-
-            //filter the list via the form
-            specialFilter sF = new specialFilter(arrayList);
-            sF.ShowDialog();
-            if (sF.DialogResult == DialogResult.OK)
-                arrayList = sF.applyFilter();
-            else
-                return;
-
-            sF = null;
-
-            addToList(arrayList);
+            specialFilter sf = new specialFilter(lbArticles);
+            sf.ShowDialog();
         }
 
         private void txtNewCategory_Leave(object sender, EventArgs e)

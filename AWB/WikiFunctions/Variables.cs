@@ -308,7 +308,7 @@ namespace WikiFunctions
                     strlangcode = "nl";
                     strcategoryns = "Categorie:";
                     strtemplatens = "Sjabloon:";
-                    strprojectns = "Wikipedia:";              
+                    strprojectns = "Wikipedia:";
                     struserns = "Gebruiker:";
                     strimagens = "Afbeelding:";
                     strtalkns = " overleg:";
