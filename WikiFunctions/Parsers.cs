@@ -193,7 +193,7 @@ namespace WikiFunctions
             articleText = articleText.Replace("\r\n\r\n(* ?\\[?http)", "\r\n$1");
 
             articleText = Regex.Replace(articleText.Trim(), "----+$", "");
-
+                     
             return articleText.Trim();
         }
 
@@ -213,7 +213,13 @@ namespace WikiFunctions
             articleText = Regex.Replace(articleText, " \r\n", "\r\n");
 
             articleText = Regex.Replace(articleText, "==\r\n\r\n", "==\r\n");
-            //articleText = Regex.Replace(articleText, "^\\* (.)", "*$1", RegexOptions.Multiline);
+
+            //fix bullet points
+            articleText = Regex.Replace(articleText, "^\\* ", "*", RegexOptions.Multiline);
+            articleText = Regex.Replace(articleText, "^\\*", "* ", RegexOptions.Multiline);
+
+            //fix heading space
+            articleText = Regex.Replace(articleText, "^(={1,4}) ?(.*?) ?(={1,4})$", "$1$2$3", RegexOptions.Multiline);
 
             return articleText.Trim();
         }
