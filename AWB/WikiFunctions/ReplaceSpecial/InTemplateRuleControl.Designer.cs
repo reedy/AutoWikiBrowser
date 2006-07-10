@@ -29,16 +29,16 @@ namespace WikiFunctions.MWB
     private void InitializeComponent()
     {
       this.RuleGroupBox = new System.Windows.Forms.GroupBox();
+      this.DeleteButton = new System.Windows.Forms.Button();
+      this.AddButton = new System.Windows.Forms.Button();
+      this.AliasTextBox = new System.Windows.Forms.TextBox();
+      this.AliasesListBox = new System.Windows.Forms.ListBox();
       this.ReplaceWithTextBox = new System.Windows.Forms.TextBox();
       this.ReplaceCheckBox = new System.Windows.Forms.CheckBox();
       this.label2 = new System.Windows.Forms.Label();
       this.RuleEnabledCheckBox = new System.Windows.Forms.CheckBox();
       this.label1 = new System.Windows.Forms.Label();
       this.NameTextbox = new System.Windows.Forms.TextBox();
-      this.AliasesListBox = new System.Windows.Forms.ListBox();
-      this.AliasTextBox = new System.Windows.Forms.TextBox();
-      this.AddButton = new System.Windows.Forms.Button();
-      this.DeleteButton = new System.Windows.Forms.Button();
       this.RuleGroupBox.SuspendLayout();
       this.SuspendLayout();
       // 
@@ -65,20 +65,65 @@ namespace WikiFunctions.MWB
       this.RuleGroupBox.TabStop = false;
       this.RuleGroupBox.Text = "In Template Call Rule";
       // 
+      // DeleteButton
+      // 
+      this.DeleteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+      this.DeleteButton.Location = new System.Drawing.Point(369, 276);
+      this.DeleteButton.Name = "DeleteButton";
+      this.DeleteButton.Size = new System.Drawing.Size(51, 23);
+      this.DeleteButton.TabIndex = 19;
+      this.DeleteButton.Text = "Delete";
+      this.DeleteButton.UseVisualStyleBackColor = true;
+      this.DeleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
+      // 
+      // AddButton
+      // 
+      this.AddButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+      this.AddButton.Location = new System.Drawing.Point(369, 307);
+      this.AddButton.Name = "AddButton";
+      this.AddButton.Size = new System.Drawing.Size(51, 23);
+      this.AddButton.TabIndex = 18;
+      this.AddButton.Text = "Add";
+      this.AddButton.UseVisualStyleBackColor = true;
+      this.AddButton.Click += new System.EventHandler(this.AddButton_Click);
+      // 
+      // AliasTextBox
+      // 
+      this.AliasTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                  | System.Windows.Forms.AnchorStyles.Right)));
+      this.AliasTextBox.Location = new System.Drawing.Point(22, 309);
+      this.AliasTextBox.Name = "AliasTextBox";
+      this.AliasTextBox.Size = new System.Drawing.Size(341, 20);
+      this.AliasTextBox.TabIndex = 17;
+      // 
+      // AliasesListBox
+      // 
+      this.AliasesListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                  | System.Windows.Forms.AnchorStyles.Left)
+                  | System.Windows.Forms.AnchorStyles.Right)));
+      this.AliasesListBox.FormattingEnabled = true;
+      this.AliasesListBox.Location = new System.Drawing.Point(22, 74);
+      this.AliasesListBox.Name = "AliasesListBox";
+      this.AliasesListBox.Size = new System.Drawing.Size(341, 225);
+      this.AliasesListBox.Sorted = true;
+      this.AliasesListBox.TabIndex = 15;
+      this.AliasesListBox.SelectedIndexChanged += new System.EventHandler(this.AliasesListBox_SelectedIndexChanged);
+      // 
       // ReplaceWithTextBox
       // 
-      this.ReplaceWithTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+      this.ReplaceWithTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                   | System.Windows.Forms.AnchorStyles.Right)));
       this.ReplaceWithTextBox.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.ReplaceWithTextBox.Location = new System.Drawing.Point(22, 325);
+      this.ReplaceWithTextBox.Location = new System.Drawing.Point(22, 369);
       this.ReplaceWithTextBox.Name = "ReplaceWithTextBox";
       this.ReplaceWithTextBox.Size = new System.Drawing.Size(398, 21);
       this.ReplaceWithTextBox.TabIndex = 14;
       // 
       // ReplaceCheckBox
       // 
+      this.ReplaceCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       this.ReplaceCheckBox.AutoSize = true;
-      this.ReplaceCheckBox.Location = new System.Drawing.Point(22, 302);
+      this.ReplaceCheckBox.Location = new System.Drawing.Point(22, 346);
       this.ReplaceCheckBox.Name = "ReplaceCheckBox";
       this.ReplaceCheckBox.Size = new System.Drawing.Size(94, 17);
       this.ReplaceCheckBox.TabIndex = 13;
@@ -125,43 +170,6 @@ namespace WikiFunctions.MWB
       this.NameTextbox.TabIndex = 3;
       this.NameTextbox.DoubleClick += new System.EventHandler(this.NameTextbox_DoubleClick);
       this.NameTextbox.TextChanged += new System.EventHandler(this.NameTextbox_TextChanged);
-      // 
-      // AliasesListBox
-      // 
-      this.AliasesListBox.FormattingEnabled = true;
-      this.AliasesListBox.Location = new System.Drawing.Point(22, 74);
-      this.AliasesListBox.Name = "AliasesListBox";
-      this.AliasesListBox.Size = new System.Drawing.Size(341, 173);
-      this.AliasesListBox.Sorted = true;
-      this.AliasesListBox.TabIndex = 15;
-      this.AliasesListBox.SelectedIndexChanged += new System.EventHandler(this.AliasesListBox_SelectedIndexChanged);
-      // 
-      // AliasTextBox
-      // 
-      this.AliasTextBox.Location = new System.Drawing.Point(22, 257);
-      this.AliasTextBox.Name = "AliasTextBox";
-      this.AliasTextBox.Size = new System.Drawing.Size(341, 20);
-      this.AliasTextBox.TabIndex = 17;
-      // 
-      // AddButton
-      // 
-      this.AddButton.Location = new System.Drawing.Point(369, 254);
-      this.AddButton.Name = "AddButton";
-      this.AddButton.Size = new System.Drawing.Size(51, 23);
-      this.AddButton.TabIndex = 18;
-      this.AddButton.Text = "Add";
-      this.AddButton.UseVisualStyleBackColor = true;
-      this.AddButton.Click += new System.EventHandler(this.AddButton_Click);
-      // 
-      // DeleteButton
-      // 
-      this.DeleteButton.Location = new System.Drawing.Point(369, 224);
-      this.DeleteButton.Name = "DeleteButton";
-      this.DeleteButton.Size = new System.Drawing.Size(51, 23);
-      this.DeleteButton.TabIndex = 19;
-      this.DeleteButton.Text = "Delete";
-      this.DeleteButton.UseVisualStyleBackColor = true;
-      this.DeleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
       // 
       // InTemplateRuleControl
       // 

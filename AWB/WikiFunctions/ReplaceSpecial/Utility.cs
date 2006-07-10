@@ -1,4 +1,4 @@
-//$Header: /cvsroot/mwiki-browser/main/mwiki-browser/IRuleControlOwner.cs,v 1.1 2006/06/28 09:02:25 ligulem Exp $
+//$Header: /cvsroot/mwiki-browser/main/mwiki-browser/Utility.cs,v 1.3 2006/07/04 15:09:16 ligulem Exp $
 /*
     Derived from Autowikibrowser
     Copyright (C) 2006 Martin Richards
@@ -21,14 +21,32 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Windows.Forms;
+
 
 namespace WikiFunctions.MWB
 {
-
-    public interface IRuleControlOwner
+    class Utility
     {
-        void NameChanged(Control rc, string name);
-    }
+        public static string GetFilenameFromPath(string path)
+        {
+            string res = path;
+            res = res.Remove(0, res.LastIndexOf("\\") + 1);
+            return res;
+        }
 
+        // returns true if testnode is the same or a subnode of refnode
+        public static bool IsSubnodeOf(
+          System.Windows.Forms.TreeNode refnode,
+          System.Windows.Forms.TreeNode testnode)
+        {
+            for (
+              System.Windows.Forms.TreeNode t = testnode;
+              t != null; t = t.Parent)
+            {
+                if (ReferenceEquals(refnode, t))
+                    return true;
+            }
+            return false;
+        }
+    }
 }
