@@ -130,6 +130,7 @@ namespace AutoWikiBrowser
             this.fromCategoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fromWhatlinkshereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fromLinksOnPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fromImageLinksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -251,7 +252,6 @@ namespace AutoWikiBrowser
             this.btntsPreview = new System.Windows.Forms.ToolStripButton();
             this.btntsChanges = new System.Windows.Forms.ToolStripButton();
             this.webBrowserEdit = new WikiFunctions.WebControl();
-            this.fromImageLinksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -1124,7 +1124,6 @@ namespace AutoWikiBrowser
             this.specialFilterToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.specialFilterToolStripMenuItem.Text = "Special filter";
             this.specialFilterToolStripMenuItem.ToolTipText = "Filter articles by namespace";
-            this.specialFilterToolStripMenuItem.Visible = false;
             this.specialFilterToolStripMenuItem.Click += new System.EventHandler(this.specialFilterToolStripMenuItem_Click);
             // 
             // convertToTalkPagesToolStripMenuItem
@@ -1195,6 +1194,13 @@ namespace AutoWikiBrowser
             this.fromLinksOnPageToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.fromLinksOnPageToolStripMenuItem.Text = "From links on page";
             this.fromLinksOnPageToolStripMenuItem.Click += new System.EventHandler(this.fromLinksOnPageToolStripMenuItem_Click);
+            // 
+            // fromImageLinksToolStripMenuItem
+            // 
+            this.fromImageLinksToolStripMenuItem.Name = "fromImageLinksToolStripMenuItem";
+            this.fromImageLinksToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.fromImageLinksToolStripMenuItem.Text = "From image links";
+            this.fromImageLinksToolStripMenuItem.Click += new System.EventHandler(this.fromImageLinksToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
@@ -2226,13 +2232,6 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.WebBrowserShortcutsEnabled = false;
             this.webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
             this.webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
-            // 
-            // fromImageLinksToolStripMenuItem
-            // 
-            this.fromImageLinksToolStripMenuItem.Name = "fromImageLinksToolStripMenuItem";
-            this.fromImageLinksToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
-            this.fromImageLinksToolStripMenuItem.Text = "From image links";
-            this.fromImageLinksToolStripMenuItem.Click += new System.EventHandler(this.fromImageLinksToolStripMenuItem_Click);
             // 
             // MainForm
             // 
