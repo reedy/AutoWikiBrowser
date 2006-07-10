@@ -2418,7 +2418,7 @@ namespace AutoWikiBrowser
         private void ResetSettings()
         {
             findAndReplace.Clear();
-            //replaceSpecial.Clear();
+            replaceSpecial.Clear();
             cmboSourceSelect.SelectedIndex = 0;
             txtSelectSource.Text = "";
 
