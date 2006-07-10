@@ -274,6 +274,21 @@ namespace WikiFunctions
                     strsummarytag = " using [[Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
+                case "mi":
+                    strlangcode = "mi";
+                    strcategoryns = "Category:";
+                    strtemplatens = "Template:";
+                    strprojectns = Tools.TurnFirstToUpper(projectName) + ":";
+                    struserns = "User:";
+                    strimagens = "Image:";
+                    strtalkns = " talk:";
+                    strarticletalkns = "Talk:";
+                    strspecialns = "Special:";
+                    strportalns = "Portal:";
+                    strmediawikins = "MediaWiki:";
+                    strsummarytag = "";
+                    break;
+
                 case "sl":
                     strlangcode = "sl";
                     strcategoryns = "Kategorija:";

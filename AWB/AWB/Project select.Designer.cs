@@ -49,6 +49,7 @@ namespace AutoWikiBrowser
             "de",
             "fr",
             "nl",
+            "mi",
             "pt",
             "sv",
             "ru",
