@@ -109,6 +109,7 @@
     </Compile>
     <Compile Include="Resources.cs" />
     <Compile Include="Tools.cs" />
+    <Compile Include="ReplaceSpecial\Utility.cs" />
     <Compile Include="Variables.cs" />
     <Compile Include="WebControl.cs">
       <SubType>Component</SubType>
