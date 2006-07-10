@@ -39,6 +39,11 @@ namespace WikiFunctions.MWB
         Control ruleControl_;
         RuleTreeHistory history_;
 
+        public void Clear()
+        {
+            RulesTreeView.Nodes.Clear();
+            NewRule();
+        }
 
         public ReplaceSpecial()
         {
