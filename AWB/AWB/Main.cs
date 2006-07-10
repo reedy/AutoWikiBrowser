@@ -772,6 +772,7 @@ namespace AutoWikiBrowser
             }
 
             txtSelectSource.Text = Tools.TurnFirstToUpper(txtSelectSource.Text);
+            txtSelectSource.AutoCompleteCustomSource.Add(txtSelectSource.Text);
 
             //make sure there is some text.
             if (txtSelectSource.Text.Length == 0 && txtSelectSource.Enabled)
@@ -1193,7 +1194,8 @@ namespace AutoWikiBrowser
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AboutBox About = new AboutBox(webBrowserEdit.Version.ToString());
+            TimeSpan time = new TimeSpan(intHours, intMinutes, intSeconds);
+            AboutBox About = new AboutBox(webBrowserEdit.Version.ToString(), time, intEdits);
             About.Show();
         }
 

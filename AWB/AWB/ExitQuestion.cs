@@ -14,7 +14,7 @@ namespace AutoWikiBrowser
         {
             InitializeComponent();
 
-            lblMessage.Text = msg + "\r\nOk to exit AutoWikiBrowser?";
+            lblMessage.Text = msg + "\r\nAre you sure you want to exit?";
 
             lblTimeAndEdits.Text = "You made " + intEdits.ToString() + " edits in " + time.ToString();
         }

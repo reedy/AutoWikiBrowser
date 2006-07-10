@@ -58,7 +58,7 @@ namespace WikiFunctions
             {
                 string html = Tools.GetHTML(URL);
                 if (html.Contains("<error>emptyresult</error>"))
-                    throw new Exception("That category does not exist. Make sure it is spelt correctly. If you want a stub category remember to type the category name and not the stub name.");
+                    throw new Exception("The category " + Category + " does not exist. Make sure it is spelt correctly. If you want a stub category remember to type the category name and not the stub name.");
 
                 bool more = false;
 
@@ -109,7 +109,7 @@ namespace WikiFunctions
                 string PageText = Tools.GetHTML(URL);
 
                 if (PageText.Contains("No pages link to here."))
-                    throw new Exception("No pages link here. Make sure it is spelt correctly.");
+                    throw new Exception("No pages link to " + Page + ". Make sure it is spelt correctly.");
 
                 foreach (Match m in regexe.Matches(PageText))
                 {
@@ -147,7 +147,7 @@ namespace WikiFunctions
             string PageText = Tools.GetHTML(Variables.URL + "index.php?title=" + Article + "&action=edit");
 
             if (PageText.Contains("<title>Article not found - Wikipedia, the free encyclopedia</title>"))
-                throw new Exception("That page does not exist. Make sure it is spelt correctly.");
+                throw new Exception("The page " + Article + " does not exist. Make sure it is spelt correctly.");
 
             PageText = PageText.Substring(PageText.IndexOf("<textarea"));
             PageText = PageText.Substring(0, PageText.IndexOf("</textarea>"));
@@ -307,7 +307,7 @@ namespace WikiFunctions
             {
                 string html = Tools.GetHTML(URL);
                 if (!html.Contains("<imagelinks>"))
-                    throw new Exception("That image does not exist. Make sure it is spelt correctly.");
+                    throw new Exception("The image " + Image + " does not exist. Make sure it is spelt correctly.");
 
                 bool more = false;
 

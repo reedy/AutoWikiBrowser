@@ -32,7 +32,7 @@ namespace AutoWikiBrowser
     {
         public AboutBox() { } //default
 
-        public AboutBox(string IEVersion)
+        public AboutBox(string IEVersion, TimeSpan time, int intEdits)
         {
             InitializeComponent();
 
@@ -40,7 +40,8 @@ namespace AutoWikiBrowser
             lblAWBVersion.Text = "Version " + AssemblyVersion;
             textBoxDescription.Text = AssemblyDescription;
             lblOSVersion.Text = "Windows version: " + Environment.OSVersion.Version.Major.ToString() + "." + Environment.OSVersion.Version.Minor.ToString();
-            lblNETVersion.Text = ".NET Version: " + Environment.Version.ToString();           
+            lblNETVersion.Text = ".NET Version: " + Environment.Version.ToString();
+            lblTimeAndEdits.Text = "You made " + intEdits.ToString() + " edits in " + time.ToString();
         }
 
         #region Assembly Attribute Accessors
@@ -132,6 +133,36 @@ namespace AutoWikiBrowser
         {
             linkLabel1.LinkVisited = true;
             System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser");
+        }
+
+        private void lblTimeAndEdits_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblNETVersion_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblIEVersion_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblOSVersion_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

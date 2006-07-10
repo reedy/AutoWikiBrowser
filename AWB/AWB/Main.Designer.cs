@@ -1107,7 +1107,7 @@ namespace AutoWikiBrowser
             this.removeToolStripMenuItem,
             this.clearToolStripMenuItem1});
             this.mnuListBox.Name = "contextMenuStrip2";
-            this.mnuListBox.Size = new System.Drawing.Size(195, 236);
+            this.mnuListBox.Size = new System.Drawing.Size(195, 214);
             this.mnuListBox.Opening += new System.ComponentModel.CancelEventHandler(this.mnuListBox_Opening);
             // 
             // filterOutNonMainSpaceArticlesToolStripMenuItem
@@ -1238,8 +1238,8 @@ namespace AutoWikiBrowser
             // 
             // txtSelectSource
             // 
-            this.txtSelectSource.AutoCompleteCustomSource.AddRange(new string[] {
-            "Stubs"});
+            this.txtSelectSource.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.txtSelectSource.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.txtSelectSource.Location = new System.Drawing.Point(80, 48);
             this.txtSelectSource.Name = "txtSelectSource";
             this.txtSelectSource.Size = new System.Drawing.Size(127, 20);
