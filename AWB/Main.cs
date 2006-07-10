@@ -893,10 +893,10 @@ namespace AutoWikiBrowser
         private void addToList(ArrayList ArticleArray)
         {
             if (this.InvokeRequired)
-                {
-                    this.Invoke(new AddToListDel(addToList), ArticleArray);
-                    return;
-                }
+            {
+                this.Invoke(new AddToListDel(addToList), ArticleArray);
+                return;
+            }
 
             lbArticles.BeginUpdate();
 
@@ -1094,7 +1094,7 @@ namespace AutoWikiBrowser
                     lblStatusText.Text = "Loading page to check if we are logged in";
                     webBrowserLogin.Navigate(Variables.URLShort + "/wiki/Main_Page");
                     //wait to load
-                    while (webBrowserLogin.ReadyState.ToString() != "Complete") Application.DoEvents();
+                    while (webBrowserLogin.ReadyState != WebBrowserReadyState.Complete) Application.DoEvents();
                     strInnerHTML = webBrowserLogin.Document.Body.InnerHtml;
 
                     if (!strInnerHTML.Contains("<LI id=pt-logout"))
@@ -1115,7 +1115,7 @@ namespace AutoWikiBrowser
                 lblStatusText.Text = "Loading page to check if we are logged in and bot is enabled";
                 webBrowserLogin.Navigate("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage&action=edit");
                 //wait to load
-                while (webBrowserLogin.ReadyState.ToString() != "Complete") Application.DoEvents();
+                while (webBrowserLogin.ReadyState != WebBrowserReadyState.Complete) Application.DoEvents();
 
                 strInnerHTML = webBrowserLogin.Document.Body.InnerHtml;
 
@@ -2137,7 +2137,7 @@ namespace AutoWikiBrowser
                     fromImageLinksToolStripMenuItem.Enabled = false;
             }
             else
-                addSelectedToListToolStripMenuItem.Enabled = false;                        
+                addSelectedToListToolStripMenuItem.Enabled = false;
 
             removeToolStripMenuItem.Enabled = lbArticles.SelectedItem != null;
             clearToolStripMenuItem1.Enabled = boolEnabled;
@@ -3184,6 +3184,6 @@ namespace AutoWikiBrowser
         }
 
         #endregion
-        
+
     }
 }
