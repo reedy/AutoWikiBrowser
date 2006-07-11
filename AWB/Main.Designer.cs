@@ -1847,7 +1847,6 @@ namespace AutoWikiBrowser
             this.specialFilterToolStripMenuItem1.Name = "specialFilterToolStripMenuItem1";
             this.specialFilterToolStripMenuItem1.Size = new System.Drawing.Size(194, 22);
             this.specialFilterToolStripMenuItem1.Text = "Special filter";
-            this.specialFilterToolStripMenuItem1.Visible = false;
             this.specialFilterToolStripMenuItem1.Click += new System.EventHandler(this.specialFilterToolStripMenuItem1_Click);
             // 
             // sortAlphabeticallyToolStripMenuItem

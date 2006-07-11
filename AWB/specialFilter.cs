@@ -52,11 +52,14 @@ namespace AutoWikiBrowser
 
         private void btnApply_Click(object sender, EventArgs e)
         {
-            if (chkContains.Checked || chkNotContains.Checked)
-                FilterMatches();
+            bool does = (chkContains.Checked && txtContains.Text != "");
+            bool doesnot = (chkNotContains.Checked && txtDoesNotContain.Text != "");
+
+            if (does || doesnot)
+                FilterMatches(does, doesnot);
         }
 
-        private void FilterMatches()
+        private void FilterMatches(bool does, bool doesnot)
         {
             string strMatch = txtContains.Text;
             string strNotMatch = txtDoesNotContain.Text;
@@ -76,9 +79,9 @@ namespace AutoWikiBrowser
             while (i < lb.Items.Count)
             {
                 s = lb.Items[i].ToString();
-                if (chkContains.Checked && match.IsMatch(s))
+                if (does && match.IsMatch(s))
                     lb.Items.RemoveAt(i);
-                else if(chkNotContains.Checked && !notMatch.IsMatch(s))
+                else if(doesnot && !notMatch.IsMatch(s))
                     lb.Items.RemoveAt(i);
                 else
                     i++;
