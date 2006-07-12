@@ -101,7 +101,7 @@ namespace WikiFunctions
         /// <param name="Embedded">Gets articles that embed (transclude).</param>
         /// <returns>The ArrayList of the articles.</returns>
         public Dictionary<string, int> FromWhatLinksHere(string Page, bool Embedded)
-        {            
+        {
             string request = "backlinks";
             string initial = "bl";
             if (Embedded)
@@ -411,7 +411,7 @@ namespace WikiFunctions
 
         private string encodeText(string txt)
         {
-            txt = txt.Replace("{{", "Template:").Replace("}}", "");
+            txt = txt.Replace("{{", Variables.Namespaces[10]).Replace("}}", "");
             txt = txt.Replace(" ", "_");
             txt = HttpUtility.UrlEncode(txt);
             return txt;
