@@ -1398,7 +1398,7 @@ namespace AutoWikiBrowser
 
         private void specialFilter()
         {
-            specialFilter sf = new specialFilter(lbArticles);
+            specialFilter sf = new specialFilter(lbArticles, lblNumberOfArticles);
             sf.ShowDialog();
         }
 
