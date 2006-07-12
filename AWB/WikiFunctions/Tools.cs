@@ -35,11 +35,14 @@ namespace WikiFunctions
     /// </summary>
     public static class Tools
     {
-        public static int CalculateNS(string article)
+        public static int CalculateNS(string ArticleTitle)
         {
+            if (!ArticleTitle.Contains(":"))
+                return 0;
+
             foreach(KeyValuePair<int, string> k in Variables.Namespaces)
             {
-                if (article.StartsWith(k.Value))
+                if (ArticleTitle.StartsWith(k.Value))
                     return k.Key;
             }
 
@@ -52,10 +55,10 @@ namespace WikiFunctions
         /// <param name="ArticleTitle">The title.</param>
         public static bool IsMainSpace(string ArticleTitle)
         {
-            if (ArticleTitle.Contains(Variables.TalkNS) || ArticleTitle.StartsWith(Variables.ArticleTalkNS) || ArticleTitle.StartsWith("WP:") || ArticleTitle.StartsWith(Variables.SpecialNS) || ArticleTitle.StartsWith(Variables.PortalNS) || ArticleTitle.StartsWith(Variables.CategoryNS) || ArticleTitle.StartsWith("Help:") || ArticleTitle.StartsWith("Commons:") || ArticleTitle.StartsWith(Variables.MediaWikiNS) || ArticleTitle.StartsWith(Variables.ImageNS) || ArticleTitle.StartsWith(Variables.UserNS) || ArticleTitle.StartsWith(Variables.TemplateNS) || ArticleTitle.StartsWith(Variables.ProjectNS))
-                return false;
-            else
+            if (CalculateNS(ArticleTitle) == 0)
                 return true;
+            else
+                return false;
         }
 
         /// <summary>
@@ -64,22 +67,27 @@ namespace WikiFunctions
         /// <param name="ArticleTitle">The title.</param>
         public static bool IsEditableSpace(string ArticleTitle)
         {
-            if (ArticleTitle.StartsWith(Variables.SpecialNS) || ArticleTitle.StartsWith(Variables.PortalNS) || ArticleTitle.StartsWith("Commons:") || ArticleTitle.StartsWith(Variables.MediaWikiNS))
+            if(ArticleTitle.StartsWith("Commons:"))
                 return false;
-            else
-                return true;
+
+            int i = CalculateNS(ArticleTitle);
+            if (i < 0 || i > 99 || i == 7 || i == 8)
+                return false;
+
+            return true;
         }
 
         /// <summary>
-        /// Tests title to make sure it is either main, category or template namespace.
+        /// Tests title to make sure it is either main, image, category or template namespace.
         /// </summary>
         /// <param name="ArticleTitle">The title.</param>
         public static bool IsImportantNamespace(string ArticleTitle)
         {
-            if (ArticleTitle.Contains(Variables.TalkNS) || ArticleTitle.StartsWith(Variables.ArticleTalkNS) || ArticleTitle.StartsWith("WP:") || ArticleTitle.StartsWith(Variables.SpecialNS) || ArticleTitle.StartsWith(Variables.PortalNS) || ArticleTitle.StartsWith("Help:") || ArticleTitle.StartsWith("Commons:") || ArticleTitle.StartsWith(Variables.MediaWikiNS) || ArticleTitle.StartsWith(Variables.ImageNS) || ArticleTitle.StartsWith(Variables.UserNS) || ArticleTitle.StartsWith(Variables.ProjectNS))
-                return false;
-            else
+            int i = CalculateNS(ArticleTitle);
+            if (i == 0 || i == 6 || i ==10 || i ==14)
                 return true;
+            else
+                return false;
         }
 
         /// <summary>
@@ -88,10 +96,11 @@ namespace WikiFunctions
         /// <param name="ArticleTitle">The title.</param>
         public static bool IsNotTalk(string ArticleTitle)
         {
-            if (ArticleTitle.Contains(Variables.TalkNS) || ArticleTitle.StartsWith(Variables.ArticleTalkNS))
+            int i = CalculateNS(ArticleTitle);
+
+            if (i % 2 == 1)
                 return false;
-            else
-                return true;
+            else return true;
         }
 
         /// <summary>

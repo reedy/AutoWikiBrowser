@@ -305,7 +305,7 @@ namespace WikiFunctions
                 return false;
             else if (ignoreWikipediaNamespaceToolStripMenuItem.Checked && articleTitle.StartsWith(Variables.Namespaces[4]))
                 return false;
-            else if (ignoreMainNamespaceToolStripMenuItem.Checked && !(articleTitle.StartsWith(Variables.ImageNS) || articleTitle.StartsWith(Variables.ProjectNS) || articleTitle.StartsWith(Variables.CategoryNS) || articleTitle.StartsWith(Variables.TemplateNS) || articleTitle.StartsWith(Variables.MediaWikiNS)))
+            else if (ignoreMainNamespaceToolStripMenuItem.Checked && Tools.IsMainSpace(articleTitle))
                 return false;
             else
             {

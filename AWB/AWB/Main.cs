@@ -55,13 +55,7 @@ namespace AutoWikiBrowser
 
             //add articles to avoid (in future may be populated from checkpage
             //noParse.Add("User:Bluemoose/Sandbox");
-
-            NumberOfArticles = lbArticles.Items.Count;
-            cmboSourceSelect.SelectedIndex = 0;
-            cmboCategorise.SelectedIndex = 0;
-            cmboImages.SelectedIndex = 0;
-            lblStatusText.AutoSize = true;
-            lblBotTimer.AutoSize = true;
+                       
 
             //check that we are not using an old OS. 98 seems to mangled some unicode.
             if (Environment.OSVersion.Version.Major < 5)
@@ -83,6 +77,13 @@ namespace AutoWikiBrowser
                 /* string strLang, */ AutoWikiBrowser.Properties.Settings.Default.Language,
                 /* string strProj */  AutoWikiBrowser.Properties.Settings.Default.Project
             );
+
+            NumberOfArticles = lbArticles.Items.Count;
+            cmboSourceSelect.SelectedIndex = 0;
+            cmboCategorise.SelectedIndex = 0;
+            cmboImages.SelectedIndex = 0;
+            lblStatusText.AutoSize = true;
+            lblBotTimer.AutoSize = true;
 
             UpdateButtons();
 
@@ -526,9 +527,9 @@ namespace AutoWikiBrowser
                 }
                 else if (cmboCategorise.SelectedIndex == 2 && txtNewCategory.Text.Length > 0)
                 {
-                    string cat = "[[" + Variables.CategoryNS + txtNewCategory.Text + "]]";
-                    bool is_template = EdittingArticle.StartsWith(Variables.TemplateNS);
-                    if (EdittingArticle.StartsWith(Variables.TemplateNS))
+                    string cat = "[[" + Variables.Namespaces[14] + txtNewCategory.Text + "]]";
+                    bool is_template = EdittingArticle.StartsWith(Variables.Namespaces[10]);
+                    if (EdittingArticle.StartsWith(Variables.Namespaces[10]))
                         articleText += "<noinclude>\r\n" + cat + "\r\n</noinclude>";
                     else
                         articleText += cat;
@@ -580,7 +581,7 @@ namespace AutoWikiBrowser
 
                 if (chkAppend.Checked)
                 {
-                    if (!EdittingArticle.Contains(Variables.TalkNS) && !EdittingArticle.StartsWith(Variables.ArticleTalkNS))
+                    if (Tools.IsNotTalk(EdittingArticle))
                     {
                         MessageBox.Show("Messages should only be appended to talk pages.");
                     }
@@ -758,13 +759,13 @@ namespace AutoWikiBrowser
         private void btnMakeList_Click(object sender, EventArgs e)
         {
             if (cmboSourceSelect.SelectedIndex == 0)
-                txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.CategoryNS, "", RegexOptions.IgnoreCase);
+                txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[14], "", RegexOptions.IgnoreCase);
             else if (cmboSourceSelect.SelectedIndex == 6)
-                txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.UserNS, "", RegexOptions.IgnoreCase);
+                txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[2], "", RegexOptions.IgnoreCase);
             else if (cmboSourceSelect.SelectedIndex == 7)
-                txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.SpecialNS, "", RegexOptions.IgnoreCase);
+                txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[-1], "", RegexOptions.IgnoreCase);
             else if (cmboSourceSelect.SelectedIndex == 8)
-                txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.ImageNS, "", RegexOptions.IgnoreCase);
+                txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
             else if (cmboSourceSelect.SelectedIndex == 9)
             {
                 launchDumpSearcher();
@@ -1227,7 +1228,7 @@ namespace AutoWikiBrowser
             switch (cmboSourceSelect.SelectedIndex)
             {
                 case 0:
-                    lblSourceSelect.Text = Variables.CategoryNS;
+                    lblSourceSelect.Text = Variables.Namespaces[14];
                     txtSelectSource.Enabled = true;
                     chkWLHRedirects.Visible = false;
                     return;
@@ -1257,17 +1258,17 @@ namespace AutoWikiBrowser
                     chkWLHRedirects.Visible = false;
                     return;
                 case 6:
-                    lblSourceSelect.Text = Variables.UserNS;
+                    lblSourceSelect.Text = Variables.Namespaces[2];
                     txtSelectSource.Enabled = true;
                     chkWLHRedirects.Visible = false;
                     return;
                 case 7:
-                    lblSourceSelect.Text = Variables.SpecialNS;
+                    lblSourceSelect.Text = Variables.Namespaces[-1];
                     txtSelectSource.Enabled = true;
                     chkWLHRedirects.Visible = false;
                     return;
                 case 8:
-                    lblSourceSelect.Text = Variables.ImageNS;
+                    lblSourceSelect.Text = Variables.Namespaces[6];
                     txtSelectSource.Enabled = true;
                     chkWLHRedirects.Visible = false;
                     return;
@@ -1434,10 +1435,10 @@ namespace AutoWikiBrowser
             {
                 intLength = ArticleText.Length;
 
-                foreach (Match m in Regex.Matches(ArticleText, "\\[\\[" + Variables.CategoryNS, RegexOptions.IgnoreCase))
+                foreach (Match m in Regex.Matches(ArticleText, "\\[\\[" + Variables.Namespaces[14], RegexOptions.IgnoreCase))
                     intCats++;
 
-                foreach (Match m in Regex.Matches(ArticleText, "\\[\\[" + Variables.ImageNS, RegexOptions.IgnoreCase))
+                foreach (Match m in Regex.Matches(ArticleText, "\\[\\[" + Variables.Namespaces[6], RegexOptions.IgnoreCase))
                     intImages++;
 
                 foreach (Match m in Regex.Matches(ArticleText, "(\\[\\[[a-z]{2,3}:.*\\]\\]|\\[\\[simple:.*\\]\\]|\\[\\[fiu-vro:.*\\]\\]|\\[\\[minnan:.*\\]\\]|\\[\\[roa-rup:.*\\]\\]|\\[\\[tokipona:.*\\]\\]|\\[\\[zh-min-nan:.*\\]\\])"))
@@ -1451,7 +1452,7 @@ namespace AutoWikiBrowser
                 if ((Regex.IsMatch(ArticleText, "({{|-)([Ss]tub}})")) && (intLength > 3500))
                     lblWarn.Text = "Long article with a stub tag.\r\n";
 
-                if (!(Regex.IsMatch(ArticleText, "\\[\\[" + Variables.CategoryNS, RegexOptions.IgnoreCase)))
+                if (!(Regex.IsMatch(ArticleText, "\\[\\[" + Variables.Namespaces[14], RegexOptions.IgnoreCase)))
                     lblWarn.Text += "No category.\r\n";
 
                 if (ArticleText.StartsWith("=="))
@@ -2146,12 +2147,12 @@ namespace AutoWikiBrowser
             {
                 addSelectedToListToolStripMenuItem.Enabled = true;
 
-                if (lbArticles.SelectedItem.ToString().StartsWith(Variables.CategoryNS))
+                if (lbArticles.SelectedItem.ToString().StartsWith(Variables.Namespaces[14]))
                     fromCategoryToolStripMenuItem.Enabled = true;
                 else
                     fromCategoryToolStripMenuItem.Enabled = false;
 
-                if (lbArticles.SelectedItem.ToString().StartsWith(Variables.ImageNS))
+                if (lbArticles.SelectedItem.ToString().StartsWith(Variables.Namespaces[6]))
                     fromImageLinksToolStripMenuItem.Enabled = true;
                 else
                     fromImageLinksToolStripMenuItem.Enabled = false;
@@ -3195,12 +3196,12 @@ namespace AutoWikiBrowser
 
         private void txtImageReplace_Leave(object sender, EventArgs e)
         {
-            txtImageReplace.Text = Regex.Replace(txtImageReplace.Text, "^" + Variables.ImageNS, "", RegexOptions.IgnoreCase);
+            txtImageReplace.Text = Regex.Replace(txtImageReplace.Text, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
         }
 
         private void txtImageWith_Leave(object sender, EventArgs e)
         {
-            txtImageWith.Text = Regex.Replace(txtImageWith.Text, "^" + Variables.ImageNS, "", RegexOptions.IgnoreCase);
+            txtImageWith.Text = Regex.Replace(txtImageWith.Text, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
         }
 
         #endregion

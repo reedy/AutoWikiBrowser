@@ -60,7 +60,7 @@ namespace WikiFunctions
         {
             ArrayList CatArray = new ArrayList();
 
-            foreach (Match m in Regex.Matches(ArticleText, "<!-- ? ?\\[\\[" + Variables.CategoryNS + "[^\\]\\]]*\\]\\].*?-->|\\[\\[" + Variables.CategoryNS + "[^\\]\\]]*\\]\\]( {0,4}<!--.*?-->)?"))
+            foreach (Match m in Regex.Matches(ArticleText, "<!-- ? ?\\[\\[" + Variables.Namespaces[14] + "[^\\]\\]]*\\]\\].*?-->|\\[\\[" + Variables.Namespaces[14] + "[^\\]\\]]*\\]\\]( {0,4}<!--.*?-->)?"))
             {
                 string x = m.ToString();
                 //add to array, replace underscores with spaces, ignore

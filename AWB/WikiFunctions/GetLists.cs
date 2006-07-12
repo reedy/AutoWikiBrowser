@@ -242,7 +242,7 @@ namespace WikiFunctions
                 GoogleText = Regex.Replace(GoogleText, "<[bB]>|</[Bb]>", "");
 
                 //Regex pattern to find links
-                string pattern = "\">([^<]*) - " + Variables.ProjectNS.Remove(3);
+                string pattern = "\">([^<]*) - " + Variables.Namespaces[4].Remove(3);
 
                 //Find each match to the pattern
                 foreach (Match m in Regex.Matches(GoogleText, pattern))

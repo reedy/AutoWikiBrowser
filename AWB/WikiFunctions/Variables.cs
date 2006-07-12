@@ -31,8 +31,11 @@ namespace WikiFunctions
     {
         #region project and language settings
 
-        public static Dictionary<int, string> Namespaces = new Dictionary<int, string>(20);
-
+        /// <summary>
+        /// Provides access to the namespace keys
+        /// </summary>
+        public static Dictionary<int, string> Namespaces = new Dictionary<int, string>(24);
+        
         /// <summary>
         /// Gets a URL of the site, e.g. "http://en.wikipedia.org".
         /// </summary>
@@ -76,110 +79,16 @@ namespace WikiFunctions
             get { return strlangcode; }
         }
 
-
-
-
-        /*
-
-
-                static string strcategoryns = "Category:";
-                /// <summary>
-                /// Gets the category namespace, e.g. "Category:".
-                /// </summary>
-                public static string CategoryNS
-                {
-                    get { return strcategoryns; }
-                }
-
-                static string strtemplatens = "Template:";
-                /// <summary>
-                /// Gets the template namespace, e.g. "Template:".
-                /// </summary>
-                public static string TemplateNS
-                {
-                    get { return strtemplatens; }
-                }
-
-                static string strprojectns = "Wikipedia:";
-                /// <summary>
-                /// Gets the wikipedia namespace, e.g. "Wikipedia:".
-                /// </summary>
-                public static string ProjectNS
-                {
-                    get { return strprojectns; }
-                }
-
-                static string struserns = "User:";
-                /// <summary>
-                /// Gets the user namespace, e.g. "User:".
-                /// </summary>
-                public static string UserNS
-                {
-                    get { return struserns; }
-                }
-
-                static string strimagens = "Image:";
-                /// <summary>
-                /// Gets the image namespace, e.g. "Image:".
-                /// </summary>
-                public static string ImageNS
-                {
-                    get { return strimagens; }
-                }
-
-                static string strtalkns = " talk:";
-                /// <summary>
-                /// Gets the user talk namespace, e.g. " talk:".
-                /// </summary>
-                public static string TalkNS
-                {
-                    get { return strtalkns; }
-                }
-
-                static string strarticletalkns = "Talk:";
-                /// <summary>
-                /// Gets the talk namespace, e.g. "Talk:".
-                /// </summary>
-                public static string ArticleTalkNS
-                {
-                    get { return strarticletalkns; }
-                }
-
-                static string strspecialns = "Special:";
-                /// <summary>
-                /// Gets the special namespace, e.g. "Special:".
-                /// </summary>
-                public static string SpecialNS
-                {
-                    get { return strspecialns; }
-                }
-
-                static string strportalns = "Portal:";
-                /// <summary>
-                /// Gets the portal namespace, e.g. "Portal:".
-                /// </summary>
-                public static string PortalNS
-                {
-                    get { return strportalns; }
-                }
-
-                static string strmediawikins = "MediaWiki:";
-                /// <summary>
-                /// Gets the mediawiki namespace, e.g. "MediaWiki:".
-                /// </summary>
-                public static string MediaWikiNS
-                {
-                    get { return strmediawikins; }
-                }
-
-
-
-                */
-
-
-
-
-
+        static string strtalkns = " talk:";
+        /// <summary>
+        /// Gets the user talk namespace, e.g. " talk:".
+        /// </summary>
+        /// 
+        public static string TalkNS
+        {
+            get { return strtalkns; }
+        }
+        
         static string strsummarytag = " using [[Wikipedia:AutoWikiBrowser|AWB]]";
         /// <summary>
         /// Gets the tag to add to the edit summary, e.g. " using [[Wikipedia:AutoWikiBrowser|AWB]]".
@@ -196,114 +105,68 @@ namespace WikiFunctions
         /// <param name="projectName">The project name default is Wikipedia</param>
         public static void SetProject(string langCode, string projectName)
         {
-
             strproject = projectName;
 
             //set language variables
             switch (langCode)
             {
-                case "fr": // done by Adrian Buehlmann 2006-02-28
-                    strlangcode = "fr";
-                    strcategoryns = "Catégorie:";
-                    strtemplatens = "Modèle:";
-                    strprojectns = "Wikipédia:";
-                    struserns = "Utilisateur:";
-                    strimagens = "Image:";
-                    strtalkns = "Discussion Utilisateur:";
-                    strarticletalkns = "Discuter:";
-                    strspecialns = "Special:";
-                    strportalns = "Portail:";
-                    strmediawikins = "MediaWiki:";
-                    strsummarytag = " [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
-                    break;
+                case "ca":
+                    Namespaces[-2] = "Media:";
+                    Namespaces[-1] = "Especial:";
+                    Namespaces[1] = "Discussió:";
+                    Namespaces[2] = "Usuari:";
+                    Namespaces[3] = "Usuari Discussió:";
+                    Namespaces[4] = "Viquipèdia:";
+                    Namespaces[5] = "Viquipèdia Discussió:";
+                    Namespaces[6] = "Imatge:";
+                    Namespaces[7] = "Imatge Discussió:";
+                    Namespaces[8] = "MediaWiki:";
+                    Namespaces[9] = "MediaWiki Discussió:";
+                    Namespaces[10] = "Plantilla:";
+                    Namespaces[11] = "Plantilla Discussió:";
+                    Namespaces[12] = "Ajuda:";
+                    Namespaces[13] = "Ajuda Discussió:";
+                    Namespaces[14] = "Categoria:";
+                    Namespaces[15] = "Categoria Discussió:";
+                    Namespaces[100] = "Portal:";
+                    Namespaces[101] = "Portal Discussió:";
+                    Namespaces[102] = "Viquiprojecte:";
+                    Namespaces[103] = "Viquiprojecte Discussió:";
 
-                case "de": // done by Adrian Buehlmann 2006-02-28 (with help from Marc aka Genesis)
-                    strlangcode = "de";
-                    strcategoryns = "Kategorie:";
-                    strtemplatens = "Vorlage:";
-                    strprojectns = "Wikipedia:";
-                    struserns = "Benutzer:";
-                    strimagens = "Bild:";
-                    strtalkns = " Diskussion:";
-                    strarticletalkns = "Diskussion:";
-                    strspecialns = "Spezial:";
-                    strportalns = "Portal:";
-                    strmediawikins = "MediaWiki:";
-                    strsummarytag = " [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
-                    break;
-
-                case "sv":
-                    strlangcode = "sv";
-                    strcategoryns = "Kategori:";
-                    strtemplatens = "Template:";
-                    strprojectns = "Wikipedia:";
-                    struserns = "User:";
-                    strimagens = "Image:";
-                    strtalkns = " talk:";
-                    strarticletalkns = "Talk:";
-                    strspecialns = "Special:";
-                    strportalns = "Portal:";
-                    strmediawikins = "MediaWiki:";
-                    strsummarytag = " [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
-                    break;
-
-                case "ca": //by :ca:Usuari:Joanjoc (catalan wiki sysop)
                     strlangcode = "ca";
-                    strcategoryns = "Categoria:";
-                    strtemplatens = "Template:";
-                    strprojectns = "Viquipèdia:";
-                    struserns = "Usuari:";
-                    strimagens = "Imatge:";
                     strtalkns = " discussió:";
-                    strarticletalkns = "Discussió:";
-                    strspecialns = "Especial:";
-                    strportalns = "Portal:";
-                    strmediawikins = "MediaWiki:";
                     strsummarytag = " [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
-                case "ru": // done by Max Semenik 2006-04-16 (with help from Swix)
-                    strlangcode = "ru";
-                    strcategoryns = "Категория:";
-                    strtemplatens = "Шаблон:";
-                    strprojectns = "Википедия:";
-                    struserns = "Участник:";
-                    strimagens = "Изображение:";
-                    strtalkns = "Обсуждение:";
-                    strarticletalkns = "Обсуждение:";
-                    strspecialns = "Служебная:";
-                    strportalns = "Портал:";
-                    strmediawikins = "MediaWiki:";
+                case "de":
+                    Namespaces[-2] = "Media:";
+                    Namespaces[-1] = "Spezial:";
+                    Namespaces[1] = "Diskussion:";
+                    Namespaces[2] = "Benutzer:";
+                    Namespaces[3] = "Benutzer Diskussion:";
+                    Namespaces[4] = "Wikipedia:";
+                    Namespaces[5] = "Wikipedia Diskussion:";
+                    Namespaces[6] = "Bild:";
+                    Namespaces[7] = "Bild Diskussion:";
+                    Namespaces[8] = "MediaWiki:";
+                    Namespaces[9] = "MediaWiki Diskussion:";
+                    Namespaces[10] = "Vorlage:";
+                    Namespaces[11] = "Vorlage Diskussion:";
+                    Namespaces[12] = "Hilfe:";
+                    Namespaces[13] = "Hilfe Diskussion:";
+                    Namespaces[14] = "Kategorie:";
+                    Namespaces[15] = "Kategorie Diskussion:";
+                    Namespaces[100] = "Portal:";
+                    Namespaces[101] = "Portal Diskussion:";
+
+                    strlangcode = "de";
+                    strtalkns = " Diskussion:";
                     strsummarytag = " [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
-
-                /*
-         <ns id="-2">Media</ns>
-  <ns id="-1">Special</ns>
-  <ns id="0" />
-  <ns id="1">Talk</ns>
-  <ns id="2">User</ns>
-  <ns id="3">User talk</ns>
-  <ns id="4">Wikipedia</ns>
-  <ns id="5">Wikipedia talk</ns>
-  <ns id="6">Image</ns>
-  <ns id="7">Image talk</ns>
-  <ns id="8">MediaWiki</ns>
-  <ns id="9">MediaWiki talk</ns>
-  <ns id="10">Template</ns>
-  <ns id="11">Template talk</ns>
-  <ns id="12">Help</ns>
-  <ns id="13">Help talk</ns>
-  <ns id="14">Category</ns>
-  <ns id="15">Category talk</ns>
-  <ns id="100">Portal</ns>
-  <ns id="101">Portal talk</ns>
-         */
 
                 case "en":
                     Namespaces[-2] = "Media:";
                     Namespaces[-1] = "Special:";
-                    //Namespaces[0] = "";
                     Namespaces[1] = "Talk:";
                     Namespaces[2] = "User:";
                     Namespaces[3] = "User talk:";
@@ -323,69 +186,271 @@ namespace WikiFunctions
                     Namespaces[101] = "Portal talk:";
 
                     strlangcode = "en";
-                    strsummarytag = " using [[Wikipedia:AutoWikiBrowser|AWB]]";
-
-                    break;
-
-                case "mi":
-                    strlangcode = "mi";
-                    strcategoryns = "Category:";
-                    strtemplatens = "Template:";
-                    strprojectns = Tools.TurnFirstToUpper(projectName) + ":";
-                    struserns = "User:";
-                    strimagens = "Image:";
                     strtalkns = " talk:";
-                    strarticletalkns = "Talk:";
-                    strspecialns = "Special:";
-                    strportalns = "Portal:";
-                    strmediawikins = "MediaWiki:";
-                    strsummarytag = "";
+                    strsummarytag = " using [[Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
-                case "sl":
-                    strlangcode = "sl";
-                    strcategoryns = "Kategorija:";
-                    strtemplatens = "Predloga:";
-                    strprojectns = "Wikipedija:";
-                    struserns = "Uporabnik:";
-                    strimagens = "Slika:";
-                    strtalkns = " pogovor:";
-                    strarticletalkns = "Pogovor:";
-                    strspecialns = "Posebno:";
-                    strportalns = "Portal:";
-                    strmediawikins = "MediaWiki:";
+                case "es":
+                    Namespaces[-2] = "Media:";
+                    Namespaces[-1] = "Especial:";
+                    Namespaces[1] = "Discusión:";
+                    Namespaces[2] = "Usuario:";
+                    Namespaces[3] = "Usuario Discusión:";
+                    Namespaces[4] = "Wikipedia:";
+                    Namespaces[5] = "Wikipedia Discusión:";
+                    Namespaces[6] = "Imagen:";
+                    Namespaces[7] = "Imagen Discusión:";
+                    Namespaces[8] = "MediaWiki:";
+                    Namespaces[9] = "MediaWiki Discusión:";
+                    Namespaces[10] = "Plantilla:";
+                    Namespaces[11] = "Plantilla Discusión:";
+                    Namespaces[12] = "Ayuda:";
+                    Namespaces[13] = "Ayuda Discusión:";
+                    Namespaces[14] = "Categoría:";
+                    Namespaces[15] = "Categoría Discusión:";
+                    Namespaces[100] = "Portal:";
+                    Namespaces[101] = "Portal Discusión:";
+                    Namespaces[102] = "Wikiproyecto:";
+                    Namespaces[103] = "Wikiproyecto Discusión:";
+
+                    strlangcode = "es";
+                    strtalkns = " Discusión:";
+                    strsummarytag = " [[en:Wikipedia:AutoWikiBrowser|AWB]]";
+                    break;
+
+                case "fr":
+                    Namespaces[-2] = "Media:";
+                    Namespaces[-1] = "Special:";
+                    Namespaces[1] = "Discuter:";
+                    Namespaces[2] = "Utilisateur:";
+                    Namespaces[3] = "Discussion Utilisateur:";
+                    Namespaces[4] = "Wikipédia:";
+                    Namespaces[5] = "Discussion Wikipédia:";
+                    Namespaces[6] = "Image:";
+                    Namespaces[7] = "Discussion Image:";
+                    Namespaces[8] = "MediaWiki:";
+                    Namespaces[9] = "Discussion MediaWiki:";
+                    Namespaces[10] = "Modèle:";
+                    Namespaces[11] = "Discussion Modèle:";
+                    Namespaces[12] = "Aide:";
+                    Namespaces[13] = "Discussion Aide:";
+                    Namespaces[14] = "Catégorie:";
+                    Namespaces[15] = "Discussion Catégorie:";
+                    Namespaces[100] = "Portail:";
+                    Namespaces[101] = "Discussion Portail:";
+                    Namespaces[102] = "Projet:";
+                    Namespaces[103] = "Discussion Projet:";
+                    Namespaces[104] = "Référence:";
+                    Namespaces[105] = "Discussion Référence:";
+
+                    strlangcode = "fr";
+                    //strtalkns = "Discussion Utilisateur:";
                     strsummarytag = " [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
+                case "it":
+                    Namespaces[-2] = "Media:";
+                    Namespaces[-1] = "Speciale:";
+                    Namespaces[1] = "Discussione:";
+                    Namespaces[2] = "Utente:";
+                    Namespaces[3] = "Discussioni utente:";
+                    Namespaces[4] = "Wikipedia:";
+                    Namespaces[5] = "Discussioni Wikipedia:";
+                    Namespaces[6] = "Immagine:";
+                    Namespaces[7] = "Discussioni immagine:";
+                    Namespaces[8] = "MediaWiki:";
+                    Namespaces[9] = "Discussioni MediaWiki:";
+                    Namespaces[10] = "Template:";
+                    Namespaces[11] = "Discussioni template:";
+                    Namespaces[12] = "Aiuto:";
+                    Namespaces[13] = "Discussioni aiuto:";
+                    Namespaces[14] = "Categoria:";
+                    Namespaces[15] = "Discussioni categoria:";
+                    Namespaces[100] = "Portale:";
+                    Namespaces[101] = "Discussioni portale:";
+
+                    strlangcode = "it";
+                    //strtalkns = "Discussion Utilisateur:";
+                    strsummarytag = " [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
+                    break;
+
+                case "mi":
+                    Namespaces[-2] = "Media:";
+                    Namespaces[-1] = "Special:";
+                    Namespaces[1] = "Talk:";
+                    Namespaces[2] = "User:";
+                    Namespaces[3] = "User talk:";
+                    Namespaces[4] = "Wikipedia:";
+                    Namespaces[5] = "Wikipedia talk:";
+                    Namespaces[6] = "Image:";
+                    Namespaces[7] = "Image talk:";
+                    Namespaces[8] = "MediaWiki:";
+                    Namespaces[9] = "MediaWiki talk:";
+                    Namespaces[10] = "Template:";
+                    Namespaces[11] = "Template talk:";
+                    Namespaces[12] = "Help:";
+                    Namespaces[13] = "Help talk:";
+                    Namespaces[14] = "Category:";
+                    Namespaces[15] = "Category talk:";
+
+                    strlangcode = "mi";
+                    strtalkns = " talk:";
+                    strsummarytag = "";
+                    break;
+
                 case "nl":
+                    Namespaces[-2] = "Media:";
+                    Namespaces[-1] = "Speciaal:";
+                    Namespaces[1] = "Overleg:";
+                    Namespaces[2] = "Gebruiker:";
+                    Namespaces[3] = "Overleg gebruiker:";
+                    Namespaces[4] = "Wikipedia:";
+                    Namespaces[5] = "Overleg Wikipedia:";
+                    Namespaces[6] = "Afbeelding:";
+                    Namespaces[7] = "Overleg afbeelding:";
+                    Namespaces[8] = "MediaWiki:";
+                    Namespaces[9] = "Overleg MediaWiki:";
+                    Namespaces[10] = "Sjabloon:";
+                    Namespaces[11] = "Overleg sjabloon:";
+                    Namespaces[12] = "Help:";
+                    Namespaces[13] = "Overleg help:";
+                    Namespaces[14] = "Categorie:";
+                    Namespaces[15] = "Overleg categorie:";
+                    Namespaces[100] = "Portaal:";
+                    Namespaces[101] = "Overleg portaal:";
+
                     strlangcode = "nl";
-                    strcategoryns = "Categorie:";
-                    strtemplatens = "Sjabloon:";
-                    strprojectns = "Wikipedia:";
-                    struserns = "Gebruiker:";
-                    strimagens = "Afbeelding:";
                     strtalkns = " overleg:";
-                    strarticletalkns = "Overleg:";
-                    strspecialns = "Speciaal:";
-                    strportalns = "Portaal:";
-                    strmediawikins = "MediaWiki:";
                     strsummarytag = " met [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
+                case "pl":
+                    Namespaces[-2] = "Media:";
+                    Namespaces[-1] = "Specjalna:";
+                    Namespaces[1] = "Dyskusja:";
+                    Namespaces[2] = "Wikipedysta:";
+                    Namespaces[3] = "Dyskusja Wikipedysty:";
+                    Namespaces[4] = "Wikipedia:";
+                    Namespaces[5] = "Dyskusja Wikipedii:";
+                    Namespaces[6] = "Grafika:";
+                    Namespaces[7] = "Dyskusja grafiki:";
+                    Namespaces[8] = "MediaWiki:";
+                    Namespaces[9] = "Dyskusja MediaWiki:";
+                    Namespaces[10] = "Szablon:";
+                    Namespaces[11] = "Dyskusja szablonu:";
+                    Namespaces[12] = "Pomoc:";
+                    Namespaces[13] = "Dyskusja pomocy:";
+                    Namespaces[14] = "Kategoria:";
+                    Namespaces[15] = "Dyskusja kategorii:";
+                    Namespaces[100] = "Portal:";
+                    Namespaces[101] = "Dyskusja portalu:";
+
+                    strlangcode = "pl";
+                    //strtalkns = "";
+                    strsummarytag = " [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
+                    break;
+
                 case "pt":
+                    Namespaces[-2] = "Media:";
+                    Namespaces[-1] = "Especial:";
+                    Namespaces[1] = "Discussão:";
+                    Namespaces[2] = "Usuário:";
+                    Namespaces[3] = "Usuário Discussão:";
+                    Namespaces[4] = "Wikipedia:";
+                    Namespaces[5] = "Wikipedia Discussão:";
+                    Namespaces[6] = "Imagem:";
+                    Namespaces[7] = "Imagem Discussão:";
+                    Namespaces[8] = "MediaWiki:";
+                    Namespaces[9] = "MediaWiki Discussão:";
+                    Namespaces[10] = "Predefinição:";
+                    Namespaces[11] = "Predefinição Discussão:";
+                    Namespaces[12] = "Ajuda:";
+                    Namespaces[13] = "Ajuda Discussão:";
+                    Namespaces[14] = "Categoria:";
+                    Namespaces[15] = "Categoria Discussão:";
+                    Namespaces[100] = "Portal:";
+                    Namespaces[101] = "Discussão Portal:";
+
                     strlangcode = "pt";
-                    strcategoryns = "Categoria:";
-                    strtemplatens = "Predefinição:";
-                    strprojectns = "Wikipedia:";
-                    struserns = "Usuário:";
-                    strimagens = "Imagem:";
                     strtalkns = " discussão:";
-                    strarticletalkns = "Discussão:";
-                    strspecialns = "Especial:";
-                    strportalns = "Portal:";
-                    strmediawikins = "MediaWiki:";
                     strsummarytag = " utilizando [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
+
+                case "ru":
+                    Namespaces[-2] = "Медиа:";
+                    Namespaces[-1] = "Служебная:";
+                    Namespaces[1] = "Обсуждение:";
+                    Namespaces[2] = "Участник:";
+                    Namespaces[3] = "Обсуждение участника:";
+                    Namespaces[4] = "Википедия:";
+                    Namespaces[5] = "Обсуждение Википедии:";
+                    Namespaces[6] = "Изображение:";
+                    Namespaces[7] = "Обсуждение изображения:";
+                    Namespaces[8] = "MediaWiki:";
+                    Namespaces[9] = "Обсуждение MediaWiki:";
+                    Namespaces[10] = "Шаблон:";
+                    Namespaces[11] = "Обсуждение шаблона:";
+                    Namespaces[12] = "Справка:";
+                    Namespaces[13] = "Обсуждение справки:";
+                    Namespaces[14] = "Категория:";
+                    Namespaces[15] = "Обсуждение категории:";
+                    Namespaces[100] = "Портал:";
+                    Namespaces[101] = "Обсуждение портала:";
+
+                    strlangcode = "ru";
+                    strtalkns = "Обсуждение:";
+                    strsummarytag = " [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
+                    break;
+
+                case "sl":
+                    Namespaces[-2] = "Media:";
+                    Namespaces[-1] = "Posebno:";
+                    Namespaces[1] = "Pogovor:";
+                    Namespaces[2] = "Uporabnik:";
+                    Namespaces[3] = "Uporabniški pogovor:";
+                    Namespaces[4] = "Wikipedija:";
+                    Namespaces[5] = "Pogovor o Wikipediji:";
+                    Namespaces[6] = "Slika:";
+                    Namespaces[7] = "Pogovor o sliki:";
+                    Namespaces[8] = "MediaWiki:";
+                    Namespaces[9] = "Pogovor o MediaWiki:";
+                    Namespaces[10] = "Predloga:";
+                    Namespaces[11] = "Pogovor o predlogi:";
+                    Namespaces[12] = "Pomoč:";
+                    Namespaces[13] = "Pogovor o pomoči:";
+                    Namespaces[14] = "Kategorija:";
+                    Namespaces[15] = "Pogovor o kategoriji:";
+
+                    strlangcode = "sl";
+                    strtalkns = " pogovor:";
+                    strsummarytag = " [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
+                    break;
+
+                case "sv":
+                    Namespaces[-2] = "Media:";
+                    Namespaces[-1] = "Special:";
+                    Namespaces[1] = "Diskussion:";
+                    Namespaces[2] = "Användare:";
+                    Namespaces[3] = "Användardiskussion:";
+                    Namespaces[4] = "Wikipedia:";
+                    Namespaces[5] = "Wikipediadiskussion:";
+                    Namespaces[6] = "Bild:";
+                    Namespaces[7] = "Bilddiskussion:";
+                    Namespaces[8] = "MediaWiki:";
+                    Namespaces[9] = "MediaWiki diskussion:";
+                    Namespaces[10] = "Mall:";
+                    Namespaces[11] = "Malldiskussion:";
+                    Namespaces[12] = "Hjälp:";
+                    Namespaces[13] = "Hjälp diskussion:";
+                    Namespaces[14] = "Kategori:";
+                    Namespaces[15] = "Kategoridiskussion:";
+                    Namespaces[100] = "Portal:";
+                    Namespaces[101] = "Portaldiskussion:";
+
+                    strlangcode = "sv";
+                    strtalkns = " talk:";
+                    strsummarytag = " [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
+                    break;                
             }
         }
     }
