@@ -330,7 +330,7 @@ namespace WikiFunctions
         public string FixCats(string articleText)
         {//Fix common spacing/capitalisation errors in categories
             //articleText = Regex.Replace(articleText, "\\[\\[ ?[Cc]ategory ?: ?", "[[Category:");
-            articleText = Regex.Replace(articleText, "\\[\\[ ?" + caseInsensitive(Variables.CategoryNS.Replace(":", " ?:")) + " ?", "[[" + Variables.CategoryNS);
+            articleText = Regex.Replace(articleText, "\\[\\[ ?" + caseInsensitive(Variables.Namespaces[14].Replace(":", " ?:")) + " ?", "[[" + Variables.Namespaces[14]);
 
             articleText = Regex.Replace(articleText, "\\]\\] ?\\[\\[Category:", "]]\r\n[[Category:");
 
@@ -438,13 +438,13 @@ namespace WikiFunctions
         public string ReImager(string OldImage, string NewImage, string articleText)
         {
             //remove image prefix
-            OldImage = Regex.Replace(OldImage, "^" + Variables.ImageNS, "", RegexOptions.IgnoreCase).Replace("_", " ");
-            NewImage = Regex.Replace(NewImage, "^" + Variables.ImageNS, "", RegexOptions.IgnoreCase).Replace("_", " ");
+            OldImage = Regex.Replace(OldImage, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase).Replace("_", " ");
+            NewImage = Regex.Replace(NewImage, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase).Replace("_", " ");
 
             OldImage = Regex.Escape(OldImage).Replace("\\ ", "[ _]");
 
-            OldImage = "\\[\\[" + caseInsensitive(Variables.ImageNS) + caseInsensitive(OldImage);
-            NewImage = "[[" + Variables.ImageNS + NewImage;
+            OldImage = "\\[\\[" + caseInsensitive(Variables.Namespaces[6]) + caseInsensitive(OldImage);
+            NewImage = "[[" + Variables.Namespaces[6] + NewImage;
 
             articleText = Regex.Replace(articleText, OldImage, NewImage);
 
@@ -460,11 +460,11 @@ namespace WikiFunctions
         public string RemoveImage(string OldImage, string articleText)
         {
             //remove image prefix
-            OldImage = Regex.Replace(OldImage, "^" + Variables.ImageNS, "", RegexOptions.IgnoreCase).Replace("_", " ");
+            OldImage = Regex.Replace(OldImage, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase).Replace("_", " ");
 
             OldImage = Regex.Escape(OldImage).Replace("\\ ", "[ _]");
 
-            OldImage = "(\r\n)?\\[\\[" + caseInsensitive(Variables.ImageNS) + caseInsensitive(OldImage) + ".*\\]\\]";
+            OldImage = "(\r\n)?\\[\\[" + caseInsensitive(Variables.Namespaces[6]) + caseInsensitive(OldImage) + ".*\\]\\]";
 
             articleText = Regex.Replace(articleText, OldImage, "");
 
@@ -481,16 +481,16 @@ namespace WikiFunctions
         public string ReCategoriser(string OldCategory, string NewCategory, string articleText)
         {
             //remove category prefix
-            OldCategory = Regex.Replace(OldCategory, "^" + Variables.CategoryNS, "", RegexOptions.IgnoreCase);
-            NewCategory = Regex.Replace(NewCategory, "^" + Variables.CategoryNS, "", RegexOptions.IgnoreCase);
+            OldCategory = Regex.Replace(OldCategory, "^" + Variables.Namespaces[14], "", RegexOptions.IgnoreCase);
+            NewCategory = Regex.Replace(NewCategory, "^" + Variables.Namespaces[14], "", RegexOptions.IgnoreCase);
 
             //format categories properly
             articleText = FixCats(articleText);
 
             OldCategory = Regex.Escape(OldCategory).Replace("\\ ", "[ _]");
 
-            OldCategory = Variables.CategoryNS + OldCategory + "( ?\\|| ?\\]\\])";
-            NewCategory = Variables.CategoryNS + NewCategory + "$1";
+            OldCategory = Variables.Namespaces[14] + OldCategory + "( ?\\|| ?\\]\\])";
+            NewCategory = Variables.Namespaces[14] + NewCategory + "$1";
 
             articleText = Regex.Replace(articleText, OldCategory, NewCategory, RegexOptions.IgnoreCase);
 
@@ -515,7 +515,7 @@ namespace WikiFunctions
             strOldCat = Regex.Escape(strOldCat).Replace("\\ ", "[ _]");
             strOldCat = strFirst + strFirstLower + strOldCat;
 
-            strOldCat = "\\[\\[" + caseInsensitive(Variables.CategoryNS) + " ?[" + strOldCat + "( ?\\]\\]| ?\\|[^\\|]*?\\]\\])(\r\n)?";
+            strOldCat = "\\[\\[" + caseInsensitive(Variables.Namespaces[14]) + " ?[" + strOldCat + "( ?\\]\\]| ?\\|[^\\|]*?\\]\\])(\r\n)?";
             articleText = Regex.Replace(articleText, strOldCat, "");
 
             return articleText;
