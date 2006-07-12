@@ -58,7 +58,7 @@ namespace AutoWikiBrowser
             // 
             // btnApply
             // 
-            this.btnApply.Location = new System.Drawing.Point(272, 215);
+            this.btnApply.Location = new System.Drawing.Point(315, 215);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(75, 23);
             this.btnApply.TabIndex = 0;
@@ -68,7 +68,7 @@ namespace AutoWikiBrowser
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(353, 215);
+            this.btnCancel.Location = new System.Drawing.Point(396, 215);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 1;
@@ -139,7 +139,7 @@ namespace AutoWikiBrowser
             // txtContains
             // 
             this.txtContains.Enabled = false;
-            this.txtContains.Location = new System.Drawing.Point(250, 56);
+            this.txtContains.Location = new System.Drawing.Point(293, 56);
             this.txtContains.Name = "txtContains";
             this.txtContains.Size = new System.Drawing.Size(178, 20);
             this.txtContains.TabIndex = 11;
@@ -147,7 +147,7 @@ namespace AutoWikiBrowser
             // chkContains
             // 
             this.chkContains.AutoSize = true;
-            this.chkContains.Location = new System.Drawing.Point(250, 35);
+            this.chkContains.Location = new System.Drawing.Point(293, 35);
             this.chkContains.Name = "chkContains";
             this.chkContains.Size = new System.Drawing.Size(152, 17);
             this.chkContains.TabIndex = 12;
@@ -160,7 +160,7 @@ namespace AutoWikiBrowser
             this.chkIsRegex.AutoSize = true;
             this.chkIsRegex.Enabled = false;
             this.chkIsRegex.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkIsRegex.Location = new System.Drawing.Point(250, 12);
+            this.chkIsRegex.Location = new System.Drawing.Point(293, 12);
             this.chkIsRegex.Name = "chkIsRegex";
             this.chkIsRegex.Size = new System.Drawing.Size(120, 17);
             this.chkIsRegex.TabIndex = 13;
@@ -170,7 +170,7 @@ namespace AutoWikiBrowser
             // chkNotContains
             // 
             this.chkNotContains.AutoSize = true;
-            this.chkNotContains.Location = new System.Drawing.Point(250, 100);
+            this.chkNotContains.Location = new System.Drawing.Point(293, 100);
             this.chkNotContains.Name = "chkNotContains";
             this.chkNotContains.Size = new System.Drawing.Size(178, 17);
             this.chkNotContains.TabIndex = 15;
@@ -181,7 +181,7 @@ namespace AutoWikiBrowser
             // txtDoesNotContain
             // 
             this.txtDoesNotContain.Enabled = false;
-            this.txtDoesNotContain.Location = new System.Drawing.Point(250, 123);
+            this.txtDoesNotContain.Location = new System.Drawing.Point(293, 123);
             this.txtDoesNotContain.Name = "txtDoesNotContain";
             this.txtDoesNotContain.Size = new System.Drawing.Size(178, 20);
             this.txtDoesNotContain.TabIndex = 16;
@@ -343,7 +343,7 @@ namespace AutoWikiBrowser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(448, 260);
+            this.ClientSize = new System.Drawing.Size(483, 260);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.chkPortalTalk);
             this.Controls.Add(this.chkPortal);

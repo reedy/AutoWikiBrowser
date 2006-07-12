@@ -164,7 +164,6 @@ namespace WikiFunctions
             return list;
         }
 
-
         /// <summary>
         /// Gets a list of links on a page.
         /// </summary>

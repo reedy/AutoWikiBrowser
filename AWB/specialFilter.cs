@@ -1,3 +1,22 @@
+/*
+Autowikibrowser
+Copyright (C) 2006 Martin Richards
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*/
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,6 +39,7 @@ namespace AutoWikiBrowser
             InitializeComponent();
             lb = listbox;
             lbl = label;
+            UpdateText();
         }
 
         private void btnApply_Click(object sender, EventArgs e)
@@ -274,5 +294,28 @@ namespace AutoWikiBrowser
             txtDoesNotContain.Enabled = chkNotContains.Checked;
             chkIsRegex.Enabled = chkContains.Checked || chkNotContains.Checked;
         }
+
+        public void UpdateText()
+        {
+            chkArticleTalk.Text = Variables.Namespaces[1];
+            chkUser.Text = Variables.Namespaces[2];
+            chkUserTalk.Text = Variables.Namespaces[3];
+            chkWikipedia.Text = Variables.Namespaces[4];
+            chkWikipediaTalk.Text = Variables.Namespaces[5];
+            chkImage.Text = Variables.Namespaces[6];
+            chkImageTalk.Text = Variables.Namespaces[7];
+            chkMediaWiki.Text = Variables.Namespaces[8];
+            chkMediaWikiTalk.Text = Variables.Namespaces[9];
+            chkTemplate.Text = Variables.Namespaces[10];
+            chkTemplateTalk.Text = Variables.Namespaces[11];
+            chkHelp.Text = Variables.Namespaces[12];
+            chkHelpTalk.Text = Variables.Namespaces[13];
+            chkCategory.Text = Variables.Namespaces[14];
+            chkCategoryTalk.Text = Variables.Namespaces[15];
+            chkPortal.Text = Variables.Namespaces[100];
+            chkPortalTalk.Text = Variables.Namespaces[101];            
+
+        }
+
     }
 }

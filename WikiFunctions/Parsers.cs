@@ -1,5 +1,4 @@
-﻿//$Header: /cvsroot/autowikibrowser/WikiFunctions/Parsers.cs,v 1.37 2006/07/07 13:55:46 wikibluemoose Exp $
-/*
+﻿/*
 WikiFunctions
 Copyright (C) 2006 Martin Richards
 
@@ -329,7 +328,6 @@ namespace WikiFunctions
 
         public string FixCats(string articleText)
         {//Fix common spacing/capitalisation errors in categories
-            //articleText = Regex.Replace(articleText, "\\[\\[ ?[Cc]ategory ?: ?", "[[Category:");
             articleText = Regex.Replace(articleText, "\\[\\[ ?" + caseInsensitive(Variables.Namespaces[14].Replace(":", " ?:")) + " ?", "[[" + Variables.Namespaces[14]);
 
             articleText = Regex.Replace(articleText, "\\]\\] ?\\[\\[Category:", "]]\r\n[[Category:");
@@ -553,7 +551,7 @@ namespace WikiFunctions
 
             intRatio = intLinkCount / intLength;
 
-            if (!(articleTitle.Contains("talk:") || articleTitle.StartsWith("Talk:") || articleTitle.StartsWith("Portal:") || articleTitle.StartsWith("Category:") || articleTitle.StartsWith("Help:") || articleTitle.StartsWith("MediaWiki:") || articleTitle.StartsWith("Image:") || articleTitle.StartsWith("User:") || articleTitle.StartsWith("Template:") || articleTitle.StartsWith("Wikipedia:") || Regex.IsMatch(articleText, "#redirect", RegexOptions.IgnoreCase)))
+            if (Tools.IsMainSpace(articleTitle) && !Regex.IsMatch(articleText, "^#redirect", RegexOptions.IgnoreCase))
             {
                 if (intLinkCount < 4 && (intRatio < 0.0025))
                 {
