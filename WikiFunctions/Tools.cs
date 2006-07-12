@@ -40,7 +40,7 @@ namespace WikiFunctions
             if (!ArticleTitle.Contains(":"))
                 return 0;
 
-            foreach(KeyValuePair<int, string> k in Variables.Namespaces)
+            foreach (KeyValuePair<int, string> k in Variables.Namespaces)
             {
                 if (ArticleTitle.StartsWith(k.Value))
                     return k.Key;
@@ -67,7 +67,7 @@ namespace WikiFunctions
         /// <param name="ArticleTitle">The title.</param>
         public static bool IsEditableSpace(string ArticleTitle)
         {
-            if(ArticleTitle.StartsWith("Commons:"))
+            if (ArticleTitle.StartsWith("Commons:"))
                 return false;
 
             int i = CalculateNS(ArticleTitle);
@@ -84,7 +84,7 @@ namespace WikiFunctions
         public static bool IsImportantNamespace(string ArticleTitle)
         {
             int i = CalculateNS(ArticleTitle);
-            if (i == 0 || i == 6 || i ==10 || i ==14)
+            if (i == 0 || i == 6 || i == 10 || i == 14)
                 return true;
             else
                 return false;

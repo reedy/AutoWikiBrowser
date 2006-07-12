@@ -55,7 +55,7 @@ namespace AutoWikiBrowser
 
             //add articles to avoid (in future may be populated from checkpage
             //noParse.Add("User:Bluemoose/Sandbox");
-                       
+
 
             //check that we are not using an old OS. 98 seems to mangled some unicode.
             if (Environment.OSVersion.Version.Major < 5)
@@ -835,13 +835,13 @@ namespace AutoWikiBrowser
                     case 5:
                         addToList(getLists.FromGoogleSearch(strSouce));
                         break;
-                    case 7:
+                    case 6:
                         addToList(getLists.FromUserContribs(strSouce));
                         break;
-                    case 8:
+                    case 7:
                         addToList(getLists.FromSpecialPage(strSouce));
                         break;
-                    case 9:
+                    case 8:
                         addDictToList(getLists.FromImageLinks(strSouce));
                         break;
                     default:
