@@ -134,7 +134,7 @@ namespace AutoWikiBrowser
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.chkWLHInc = new System.Windows.Forms.CheckBox();
+            this.chkWLHRedirects = new System.Windows.Forms.CheckBox();
             this.txtSelectSource = new System.Windows.Forms.TextBox();
             this.lblNumberOfArticles = new System.Windows.Forms.Label();
             this.btnAdd = new System.Windows.Forms.Button();
@@ -1072,7 +1072,7 @@ namespace AutoWikiBrowser
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox2.ContextMenuStrip = this.mnuListBox;
-            this.groupBox2.Controls.Add(this.chkWLHInc);
+            this.groupBox2.Controls.Add(this.chkWLHRedirects);
             this.groupBox2.Controls.Add(this.txtSelectSource);
             this.groupBox2.Controls.Add(this.lblNumberOfArticles);
             this.groupBox2.Controls.Add(this.btnAdd);
@@ -1224,17 +1224,17 @@ namespace AutoWikiBrowser
             this.clearToolStripMenuItem1.ToolTipText = "Clear the list";
             this.clearToolStripMenuItem1.Click += new System.EventHandler(this.clearToolStripMenuItem1_Click);
             // 
-            // chkWLHInc
+            // chkWLHRedirects
             // 
-            this.chkWLHInc.AutoSize = true;
-            this.chkWLHInc.Location = new System.Drawing.Point(6, 76);
-            this.chkWLHInc.Name = "chkWLHInc";
-            this.chkWLHInc.Size = new System.Drawing.Size(68, 17);
-            this.chkWLHInc.TabIndex = 15;
-            this.chkWLHInc.Text = "Incl. only";
-            this.toolTip1.SetToolTip(this.chkWLHInc, "Only find \"(inclusion)\" articles, useful for templates");
-            this.chkWLHInc.UseVisualStyleBackColor = true;
-            this.chkWLHInc.Visible = false;
+            this.chkWLHRedirects.AutoSize = true;
+            this.chkWLHRedirects.Location = new System.Drawing.Point(6, 76);
+            this.chkWLHRedirects.Name = "chkWLHRedirects";
+            this.chkWLHRedirects.Size = new System.Drawing.Size(71, 17);
+            this.chkWLHRedirects.TabIndex = 15;
+            this.chkWLHRedirects.Text = "Red. only";
+            this.toolTip1.SetToolTip(this.chkWLHRedirects, "Only find redirects");
+            this.chkWLHRedirects.UseVisualStyleBackColor = true;
+            this.chkWLHRedirects.Visible = false;
             // 
             // txtSelectSource
             // 
@@ -1359,6 +1359,7 @@ namespace AutoWikiBrowser
             this.cmboSourceSelect.Items.AddRange(new object[] {
             "Category",
             "What links here",
+            "What transcludes here",
             "Links on page",
             "Text file",
             "Google Wikipedia",
@@ -2417,7 +2418,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkIgnoreCaseSensitive;
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.TextBox txtSelectSource;
-        private System.Windows.Forms.CheckBox chkWLHInc;
+        private System.Windows.Forms.CheckBox chkWLHRedirects;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem reparseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem doNotAutomaticallyDoAnythingToolStripMenuItem;

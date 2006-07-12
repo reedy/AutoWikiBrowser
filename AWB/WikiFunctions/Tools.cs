@@ -35,6 +35,17 @@ namespace WikiFunctions
     /// </summary>
     public static class Tools
     {
+        public static int CalculateNS(string article)
+        {
+            foreach(KeyValuePair<int, string> k in Variables.Namespaces)
+            {
+                if (article.StartsWith(k.Value))
+                    return k.Key;
+            }
+
+            return 0;
+        }
+
         /// <summary>
         /// Tests title to make sure it is main space
         /// </summary>

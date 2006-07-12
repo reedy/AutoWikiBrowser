@@ -759,13 +759,13 @@ namespace AutoWikiBrowser
         {
             if (cmboSourceSelect.SelectedIndex == 0)
                 txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.CategoryNS, "", RegexOptions.IgnoreCase);
-            else if (cmboSourceSelect.SelectedIndex == 5)
-                txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.UserNS, "", RegexOptions.IgnoreCase);
             else if (cmboSourceSelect.SelectedIndex == 6)
-                txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.SpecialNS, "", RegexOptions.IgnoreCase);
+                txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.UserNS, "", RegexOptions.IgnoreCase);
             else if (cmboSourceSelect.SelectedIndex == 7)
-                txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.ImageNS, "", RegexOptions.IgnoreCase);
+                txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.SpecialNS, "", RegexOptions.IgnoreCase);
             else if (cmboSourceSelect.SelectedIndex == 8)
+                txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.ImageNS, "", RegexOptions.IgnoreCase);
+            else if (cmboSourceSelect.SelectedIndex == 9)
             {
                 launchDumpSearcher();
                 return;
@@ -784,7 +784,7 @@ namespace AutoWikiBrowser
             if (!WikiStatus())
                 return;
 
-            if (cmboSourceSelect.SelectedIndex == 3)
+            if (cmboSourceSelect.SelectedIndex == 4)
             {
                 OpenFileDialog openListDialog = new OpenFileDialog();
                 openListDialog.Filter = "text files|*.txt|All files|*.*";
@@ -800,7 +800,6 @@ namespace AutoWikiBrowser
 
             intSourceIndex = cmboSourceSelect.SelectedIndex;
             strSouce = txtSelectSource.Text;
-            boolWLHinc = chkWLHInc.Checked;
 
             ThreadStart thr_Process = new ThreadStart(MakeList);
             ListerThread = new Thread(thr_Process);
@@ -811,7 +810,6 @@ namespace AutoWikiBrowser
 
         int intSourceIndex = 0;
         string strSouce = "";
-        bool boolWLHinc = false;
         private void MakeList()
         {
             boolSaved = false;
@@ -822,25 +820,28 @@ namespace AutoWikiBrowser
                 switch (intSourceIndex)
                 {
                     case 0:
-                        addToList(getLists.FromCategory(strSouce));
+                        addDictToList(getLists.FromCategory(strSouce));
                         break;
                     case 1:
-                        addToList(getLists.FromWhatLinksHere(strSouce, boolWLHinc));
+                        addDictToList(getLists.FromWhatLinksHere(strSouce, false));
                         break;
                     case 2:
+                        addDictToList(getLists.FromWhatLinksHere(strSouce, true));
+                        break;
+                    case 3:
                         addToList(getLists.FromLinksOnPage(strSouce));
                         break;
-                    case 4:
+                    case 5:
                         addToList(getLists.FromGoogleSearch(strSouce));
                         break;
-                    case 5:
+                    case 7:
                         addToList(getLists.FromUserContribs(strSouce));
                         break;
-                    case 6:
+                    case 8:
                         addToList(getLists.FromSpecialPage(strSouce));
                         break;
-                    case 7:
-                        addToList(getLists.FromImageLinks(strSouce));
+                    case 9:
+                        addDictToList(getLists.FromImageLinks(strSouce));
                         break;
                     default:
                         break;
@@ -913,6 +914,28 @@ namespace AutoWikiBrowser
             NumberOfArticles = lbArticles.Items.Count;
         }
 
+        private delegate void AddDictToListDel(Dictionary<string, int> a);
+        private void addDictToList(Dictionary<string, int> d)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new AddDictToListDel(addDictToList), d);
+                return;
+            }
+
+            lbArticles.BeginUpdate();
+
+            foreach (KeyValuePair<string, int> kvp in d)
+            {
+                if (!lbArticles.Items.Contains(kvp.Key))
+                    lbArticles.Items.Add(kvp.Key);
+            }
+
+            lbArticles.EndUpdate();
+
+            NumberOfArticles = lbArticles.Items.Count;
+        }
+
         private ArrayList ArrayFromList()
         {
             ArrayList list = new ArrayList();
@@ -972,7 +995,7 @@ namespace AutoWikiBrowser
 
         private void fromLinksOnPageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            cmboSourceSelect.SelectedIndex = 2;
+            cmboSourceSelect.SelectedIndex = 3;
             txtSelectSource.Text = lbArticles.SelectedItem.ToString();
 
             btnMakeList.PerformClick();
@@ -980,7 +1003,7 @@ namespace AutoWikiBrowser
 
         private void fromImageLinksToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            cmboSourceSelect.SelectedIndex = 7;
+            cmboSourceSelect.SelectedIndex = 8;
             txtSelectSource.Text = lbArticles.SelectedItem.ToString();
 
             btnMakeList.PerformClick();
@@ -1206,47 +1229,52 @@ namespace AutoWikiBrowser
                 case 0:
                     lblSourceSelect.Text = Variables.CategoryNS;
                     txtSelectSource.Enabled = true;
-                    chkWLHInc.Visible = false;
+                    chkWLHRedirects.Visible = false;
                     return;
                 case 1:
                     lblSourceSelect.Text = "What links to";
                     txtSelectSource.Enabled = true;
-                    chkWLHInc.Visible = true;
+                    chkWLHRedirects.Visible = false;
                     return;
                 case 2:
-                    lblSourceSelect.Text = "Links on";
+                    lblSourceSelect.Text = "What embeds";
                     txtSelectSource.Enabled = true;
-                    chkWLHInc.Visible = false;
+                    chkWLHRedirects.Visible = false;
                     return;
                 case 3:
-                    lblSourceSelect.Text = "From file";
-                    txtSelectSource.Enabled = false;
-                    chkWLHInc.Visible = false;
+                    lblSourceSelect.Text = "Links on";
+                    txtSelectSource.Enabled = true;
+                    chkWLHRedirects.Visible = false;
                     return;
                 case 4:
-                    lblSourceSelect.Text = "Google search";
-                    txtSelectSource.Enabled = true;
-                    chkWLHInc.Visible = false;
+                    lblSourceSelect.Text = "From file";
+                    txtSelectSource.Enabled = false;
+                    chkWLHRedirects.Visible = false;
                     return;
                 case 5:
-                    lblSourceSelect.Text = Variables.UserNS;
+                    lblSourceSelect.Text = "Google search";
                     txtSelectSource.Enabled = true;
-                    chkWLHInc.Visible = false;
+                    chkWLHRedirects.Visible = false;
                     return;
                 case 6:
-                    lblSourceSelect.Text = Variables.SpecialNS;
+                    lblSourceSelect.Text = Variables.UserNS;
                     txtSelectSource.Enabled = true;
-                    chkWLHInc.Visible = false;
+                    chkWLHRedirects.Visible = false;
                     return;
                 case 7:
+                    lblSourceSelect.Text = Variables.SpecialNS;
+                    txtSelectSource.Enabled = true;
+                    chkWLHRedirects.Visible = false;
+                    return;
+                case 8:
                     lblSourceSelect.Text = Variables.ImageNS;
                     txtSelectSource.Enabled = true;
-                    chkWLHInc.Visible = false;
+                    chkWLHRedirects.Visible = false;
                     return;
                 default:
                     lblSourceSelect.Text = "";
                     txtSelectSource.Enabled = false;
-                    chkWLHInc.Visible = false;
+                    chkWLHRedirects.Visible = false;
                     return;
             }
         }

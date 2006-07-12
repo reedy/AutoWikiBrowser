@@ -18,6 +18,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -30,17 +31,19 @@ namespace WikiFunctions
     {
         #region project and language settings
 
+        public static Dictionary<int, string> Namespaces = new Dictionary<int, string>(20);
+
         /// <summary>
         /// Gets a URL of the site, e.g. "http://en.wikipedia.org".
         /// </summary>
         public static string URL
         {
-            get 
+            get
             {
                 if (Project == "commons")
                     return "http://commons.wikimedia.org/w/";
                 else
-                    return "http://" + LangCode + "." + Project + ".org/w/"; 
+                    return "http://" + LangCode + "." + Project + ".org/w/";
             }
         }
 
@@ -73,95 +76,109 @@ namespace WikiFunctions
             get { return strlangcode; }
         }
 
-        static string strcategoryns = "Category:";
-        /// <summary>
-        /// Gets the category namespace, e.g. "Category:".
-        /// </summary>
-        public static string CategoryNS
-        {
-            get { return strcategoryns; }
-        }
 
-        static string strtemplatens = "Template:";
-        /// <summary>
-        /// Gets the template namespace, e.g. "Template:".
-        /// </summary>
-        public static string TemplateNS
-        {
-            get { return strtemplatens; }
-        }
 
-        static string strprojectns = "Wikipedia:";
-        /// <summary>
-        /// Gets the wikipedia namespace, e.g. "Wikipedia:".
-        /// </summary>
-        public static string ProjectNS
-        {
-            get { return strprojectns; }
-        }
 
-        static string struserns = "User:";
-        /// <summary>
-        /// Gets the user namespace, e.g. "User:".
-        /// </summary>
-        public static string UserNS
-        {
-            get { return struserns; }
-        }
+        /*
 
-        static string strimagens = "Image:";
-        /// <summary>
-        /// Gets the image namespace, e.g. "Image:".
-        /// </summary>
-        public static string ImageNS
-        {
-            get { return strimagens; }
-        }
 
-        static string strtalkns = " talk:";
-        /// <summary>
-        /// Gets the user talk namespace, e.g. " talk:".
-        /// </summary>
-        public static string TalkNS
-        {
-            get { return strtalkns; }
-        }
+                static string strcategoryns = "Category:";
+                /// <summary>
+                /// Gets the category namespace, e.g. "Category:".
+                /// </summary>
+                public static string CategoryNS
+                {
+                    get { return strcategoryns; }
+                }
 
-        static string strarticletalkns = "Talk:";
-        /// <summary>
-        /// Gets the talk namespace, e.g. "Talk:".
-        /// </summary>
-        public static string ArticleTalkNS
-        {
-            get { return strarticletalkns; }
-        }
+                static string strtemplatens = "Template:";
+                /// <summary>
+                /// Gets the template namespace, e.g. "Template:".
+                /// </summary>
+                public static string TemplateNS
+                {
+                    get { return strtemplatens; }
+                }
 
-        static string strspecialns = "Special:";
-        /// <summary>
-        /// Gets the special namespace, e.g. "Special:".
-        /// </summary>
-        public static string SpecialNS
-        {
-            get { return strspecialns; }
-        }
+                static string strprojectns = "Wikipedia:";
+                /// <summary>
+                /// Gets the wikipedia namespace, e.g. "Wikipedia:".
+                /// </summary>
+                public static string ProjectNS
+                {
+                    get { return strprojectns; }
+                }
 
-        static string strportalns = "Portal:";
-        /// <summary>
-        /// Gets the portal namespace, e.g. "Portal:".
-        /// </summary>
-        public static string PortalNS
-        {
-            get { return strportalns; }
-        }
+                static string struserns = "User:";
+                /// <summary>
+                /// Gets the user namespace, e.g. "User:".
+                /// </summary>
+                public static string UserNS
+                {
+                    get { return struserns; }
+                }
 
-        static string strmediawikins = "MediaWiki:";
-        /// <summary>
-        /// Gets the mediawiki namespace, e.g. "MediaWiki:".
-        /// </summary>
-        public static string MediaWikiNS
-        {
-            get { return strmediawikins; }
-        }
+                static string strimagens = "Image:";
+                /// <summary>
+                /// Gets the image namespace, e.g. "Image:".
+                /// </summary>
+                public static string ImageNS
+                {
+                    get { return strimagens; }
+                }
+
+                static string strtalkns = " talk:";
+                /// <summary>
+                /// Gets the user talk namespace, e.g. " talk:".
+                /// </summary>
+                public static string TalkNS
+                {
+                    get { return strtalkns; }
+                }
+
+                static string strarticletalkns = "Talk:";
+                /// <summary>
+                /// Gets the talk namespace, e.g. "Talk:".
+                /// </summary>
+                public static string ArticleTalkNS
+                {
+                    get { return strarticletalkns; }
+                }
+
+                static string strspecialns = "Special:";
+                /// <summary>
+                /// Gets the special namespace, e.g. "Special:".
+                /// </summary>
+                public static string SpecialNS
+                {
+                    get { return strspecialns; }
+                }
+
+                static string strportalns = "Portal:";
+                /// <summary>
+                /// Gets the portal namespace, e.g. "Portal:".
+                /// </summary>
+                public static string PortalNS
+                {
+                    get { return strportalns; }
+                }
+
+                static string strmediawikins = "MediaWiki:";
+                /// <summary>
+                /// Gets the mediawiki namespace, e.g. "MediaWiki:".
+                /// </summary>
+                public static string MediaWikiNS
+                {
+                    get { return strmediawikins; }
+                }
+
+
+
+                */
+
+
+
+
 
         static string strsummarytag = " using [[Wikipedia:AutoWikiBrowser|AWB]]";
         /// <summary>
@@ -179,6 +196,7 @@ namespace WikiFunctions
         /// <param name="projectName">The project name default is Wikipedia</param>
         public static void SetProject(string langCode, string projectName)
         {
+
             strproject = projectName;
 
             //set language variables
@@ -259,19 +277,54 @@ namespace WikiFunctions
                     strsummarytag = " [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
+                /*
+         <ns id="-2">Media</ns>
+  <ns id="-1">Special</ns>
+  <ns id="0" />
+  <ns id="1">Talk</ns>
+  <ns id="2">User</ns>
+  <ns id="3">User talk</ns>
+  <ns id="4">Wikipedia</ns>
+  <ns id="5">Wikipedia talk</ns>
+  <ns id="6">Image</ns>
+  <ns id="7">Image talk</ns>
+  <ns id="8">MediaWiki</ns>
+  <ns id="9">MediaWiki talk</ns>
+  <ns id="10">Template</ns>
+  <ns id="11">Template talk</ns>
+  <ns id="12">Help</ns>
+  <ns id="13">Help talk</ns>
+  <ns id="14">Category</ns>
+  <ns id="15">Category talk</ns>
+  <ns id="100">Portal</ns>
+  <ns id="101">Portal talk</ns>
+         */
+
                 case "en":
+                    Namespaces[-2] = "Media:";
+                    Namespaces[-1] = "Special:";
+                    //Namespaces[0] = "";
+                    Namespaces[1] = "Talk:";
+                    Namespaces[2] = "User:";
+                    Namespaces[3] = "User talk:";
+                    Namespaces[4] = "Wikipedia:";
+                    Namespaces[5] = "Wikipedia talk:";
+                    Namespaces[6] = "Image:";
+                    Namespaces[7] = "Image talk:";
+                    Namespaces[8] = "MediaWiki:";
+                    Namespaces[9] = "MediaWiki talk:";
+                    Namespaces[10] = "Template:";
+                    Namespaces[11] = "Template talk:";
+                    Namespaces[12] = "Help:";
+                    Namespaces[13] = "Help talk:";
+                    Namespaces[14] = "Category:";
+                    Namespaces[15] = "Category talk:";
+                    Namespaces[100] = "Portal:";
+                    Namespaces[101] = "Portal talk:";
+
                     strlangcode = "en";
-                    strcategoryns = "Category:";
-                    strtemplatens = "Template:";
-                    strprojectns = Tools.TurnFirstToUpper(projectName) + ":";
-                    struserns = "User:";
-                    strimagens = "Image:";
-                    strtalkns = " talk:";
-                    strarticletalkns = "Talk:";
-                    strspecialns = "Special:";
-                    strportalns = "Portal:";
-                    strmediawikins = "MediaWiki:";
                     strsummarytag = " using [[Wikipedia:AutoWikiBrowser|AWB]]";
+
                     break;
 
                 case "mi":
