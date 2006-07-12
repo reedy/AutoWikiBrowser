@@ -170,8 +170,28 @@ namespace WikiFunctions
                     Namespaces[1] = "Talk:";
                     Namespaces[2] = "User:";
                     Namespaces[3] = "User talk:";
-                    Namespaces[4] = "Wikipedia:";
-                    Namespaces[5] = "Wikipedia talk:";
+
+                    if (strproject == "wikisource")
+                    {
+                        Namespaces[4] = "Wikisource:";
+                        Namespaces[5] = "Wikisource talk:";
+                    }
+                    else if (strproject == "commons")
+                    {
+                        Namespaces[4] = "Commons:";
+                        Namespaces[5] = "Commons talk:";
+                    }
+                    else if (strproject == "wiktionary")
+                    {
+                        Namespaces[4] = "Wiktionary:";
+                        Namespaces[5] = "Wiktionary talk:";
+                    }
+                    else
+                    {
+                        Namespaces[4] = "Wikipedia:";
+                        Namespaces[5] = "Wikipedia talk:";
+                    }
+
                     Namespaces[6] = "Image:";
                     Namespaces[7] = "Image talk:";
                     Namespaces[8] = "MediaWiki:";

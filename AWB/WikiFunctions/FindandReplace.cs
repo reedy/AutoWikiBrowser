@@ -23,6 +23,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.Collections;
+using System.Collections.Generic;
 using System.Xml;
 
 namespace WikiFunctions
@@ -128,6 +129,30 @@ namespace WikiFunctions
         public void Clear()
         {
             dataGridView1.Rows.Clear();
+        }
+
+        /// <summary>
+        /// Returns a dictionary key/vaue list of the set find and replacemets.
+        /// </summary>
+        public Dictionary<string, string> GetReplacements()
+        {
+            Dictionary<string, string> r = new Dictionary<string, string>();
+
+            int i = 0;
+            while (i < dataGridView1.Rows.Count)
+            {
+                if (!(dataGridView1.Rows[i].Cells[0].Value == null) && !(dataGridView1.Rows[i].Cells[0].Value.ToString().Length == 0))
+                {
+                    if (dataGridView1.Rows[i].Cells[1].Value == null)
+                        dataGridView1.Rows[i].Cells[1].Value = "";
+
+                    r.Add(dataGridView1.Rows[i].Cells[0].Value.ToString(), dataGridView1.Rows[i].Cells[1].Value.ToString());
+
+                }
+                i++;
+            }
+
+            return r;
         }
 
         private void chkAreRegexes_CheckedChanged(object sender, EventArgs e)

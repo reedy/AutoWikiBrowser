@@ -40,7 +40,6 @@ namespace AutoWikiBrowser
     public partial class MainForm : Form
     {
         #region constructor etc.
-        //indicates stage in overall process (load, diff, saved, null)
 
         public MainForm()
         {
@@ -111,7 +110,7 @@ namespace AutoWikiBrowser
             set
             {
                 strUserName = value;
-                lblUserName.Text = "User:" + value;
+                lblUserName.Text = Variables.Namespaces[2] + value;
             }
         }
         string strSettingsFile = "";
@@ -120,7 +119,6 @@ namespace AutoWikiBrowser
         ArrayList noParse = new ArrayList();
 
         FindandReplace findAndReplace = new FindandReplace();
-
         WikiFunctions.MWB.ReplaceSpecial replaceSpecial = new WikiFunctions.MWB.ReplaceSpecial();
         Parsers parsers = new Parsers();
         WebControl webBrowserLogin = new WebControl();
@@ -361,24 +359,9 @@ namespace AutoWikiBrowser
         }
 
         private bool skipIf(string articleText)
-        {
-            //if (chkFindandReplace.Checked && findAndReplace.ReplacementAvailableCheck)
-            //    return findAndReplace.ReplacementAvailable(articleText, EdittingArticle);
-            //else
+        {//custom code to skip articles can be added here
             return true;
 
-            //string escTitle = Regex.Escape(EdittingArticle);
-
-            //if (articleText.Length < 80 || articleText.StartsWith("[[") || articleText.StartsWith("{") || articleText.StartsWith(":") || articleText.StartsWith("*") || Regex.IsMatch(articleText, "''' ?" + escTitle + " ?'''", RegexOptions.IgnoreCase))
-            //    return false;
-
-            //string strFirst80 = articleText.Substring(0, 80);
-            //string strSecondHalf = articleText.Substring(80);
-
-            //if (Regex.IsMatch(strFirst80, escTitle, RegexOptions.IgnoreCase) && !Regex.IsMatch(strFirst80, "'''") && (Regex.IsMatch(strFirst80, " (" + escTitle + ")([ ,])", RegexOptions.IgnoreCase) || Regex.IsMatch(strFirst80, "(^" + escTitle + ")([ ,])", RegexOptions.IgnoreCase)))
-            //    return true;
-            //else
-            //    return false
         }
 
         bool skippable = true;
@@ -1395,11 +1378,11 @@ namespace AutoWikiBrowser
         {
             specialFilter();
         }
-
+        
         private void specialFilter()
         {
-            specialFilter sf = new specialFilter(lbArticles, lblNumberOfArticles);
-            sf.ShowDialog();
+            specialFilter SepcialFilter = new specialFilter(lbArticles, lblNumberOfArticles);
+            SepcialFilter.ShowDialog();
         }
 
         private void txtNewCategory_Leave(object sender, EventArgs e)
