@@ -24,6 +24,7 @@ using System.Web;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Collections;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml;
 
@@ -46,13 +47,13 @@ namespace WikiFunctions
         /// Gets a list of articles and sub-categories in a category.
         /// </summary>
         /// <param name="Category">The category.</param>
-        /// <returns>The ArrayList of the articles.</returns>
-        public ArrayList FromCategory(string Category)
+        /// <returns>The Dictionary (string, int) of the articles.</returns>
+        public Dictionary<string, int> FromCategory(string Category)
         {
             Category = encodeText(Category);
             string URL = Variables.URL + "/query.php?what=category&cptitle=" + Category + "&format=xml&cplimit=500";
-            ArrayList list = new ArrayList();
-            string title = "";
+            Dictionary<string, int> list = new Dictionary<string, int>();
+            int ns = 0;
 
             while (true)
             {
@@ -75,12 +76,12 @@ namespace WikiFunctions
                             reader.ReadToFollowing("page");
                         }
 
-                        if (reader.LocalName.Equals("page"))
+                        if (reader.Name == "ns")
+                            ns = int.Parse(reader.ReadString());
+
+                        if (reader.Name == "title")
                         {
-                            reader.ReadToDescendant("title");
-                            title = reader.ReadString();
-                            if(Tools.IsEditableSpace(title) && title.Length > 0)
-                                list.Add(title);
+                            list.Add(reader.ReadString(), ns);
                         }
                     }
                 }
@@ -91,47 +92,78 @@ namespace WikiFunctions
 
             return list;
         }
-        
+
         /// <summary>
         /// Gets a list of articles that link to the given page.
         /// </summary>
         /// <param name="Page">The page to find links to.</param>
-        /// <param name="Page">Only list "inclusions".</param>
+        /// <param name="RedirectsOnly">Only list redirects.</param>
+        /// <param name="Embedded">Gets articles that embed (transclude).</param>
         /// <returns>The ArrayList of the articles.</returns>
-        public ArrayList FromWhatLinksHere(string Page, bool incOnly)
-        {
-            Page = encodeText(Page);
-            string URL = Variables.URL + "index.php?title=Special:Whatlinkshere&target=" + Page + "&limit=5000&offset=0";
-            ArrayList ArticleArray = new ArrayList();
-
-            do
+        public Dictionary<string, int> FromWhatLinksHere(string Page, bool Embedded)
+        {            
+            string request = "backlinks";
+            string initial = "bl";
+            if (Embedded)
             {
-                string PageText = Tools.GetHTML(URL);
+                request = "embeddedin";
+                initial = "ei";
+            }
 
-                if (PageText.Contains("No pages link to here."))
+            string OrigURL = Variables.URL + "query.php?what=" + request + "&titles=" + encodeText(Page) + "&" + initial + "limit=500&format=xml";
+            string URL = OrigURL;
+            Dictionary<string, int> list = new Dictionary<string, int>();
+            string title = "";
+            int ns = 0;
+
+            while (true)
+            {
+                string html = Tools.GetHTML(URL);
+                if (html.Contains("<" + request + " error=\"emptyrequest\" />"))
                     throw new Exception("No pages link to " + Page + ". Make sure it is spelt correctly.");
 
-                foreach (Match m in regexe.Matches(PageText))
+                bool more = false;
+
+                using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
                 {
-                    if (!incOnly)
-                        ArticleArray.Add(m.Groups[1].Value);
-                    else if (m.Groups[2].Value == " (transclusion)")
-                        ArticleArray.Add(m.Groups[1].Value);
+                    while (reader.Read())
+                    {
+                        if (reader.LocalName.Equals("query"))
+                        {
+                            reader.ReadToFollowing(request);
+                            if (reader.HasAttributes)
+                            {
+                                reader.MoveToAttribute("next");
+                                URL = OrigURL + "&blcontfrom=" + reader.Value;
+                                more = true;
+                            }
+                        }
+
+                        if (reader.Name.Equals(initial))
+                        {
+                            if (reader.AttributeCount > 1)
+                            {
+                                reader.MoveToAttribute("ns");
+                                ns = int.Parse(reader.Value);
+                            }
+                            else
+                                ns = 0;
+
+                            title = reader.ReadString();
+
+                            if (title.Length > 0 )
+                                list.Add(title, ns);
+                        }
+                    }
                 }
 
-                if (PageText.Contains(">next 5,000<") && Variables.LangCode == "en")
-                {
-                    Match m = Regex.Match(PageText, "from=(.*?)\"" + ">next 5,000<", RegexOptions.RightToLeft);
-                    string strPage = m.Groups[1].Value;
-                    URL = Variables.URL + "index.php?title=Special:Whatlinkshere&target=" + Page + "&limit=5000&from=" + strPage;
-                }
-                else
+                if (!more)
                     break;
+            }
 
-            } while (true);
-
-            return FilterSomeArticles(ArticleArray);
+            return list;
         }
+
 
         /// <summary>
         /// Gets a list of links on a page.
@@ -239,7 +271,7 @@ namespace WikiFunctions
         /// <returns>The ArrayList of the articles.</returns>
         public ArrayList FromUserContribs(string User)
         {
-            User = Regex.Replace(User, "^" + Variables.UserNS, "", RegexOptions.IgnoreCase);
+            User = Regex.Replace(User, "^" + Variables.Namespaces[2], "", RegexOptions.IgnoreCase);
             User = encodeText(User);
             ArrayList ArticleArray = new ArrayList();
 
@@ -260,7 +292,7 @@ namespace WikiFunctions
         /// <returns>The ArrayList of the articles.</returns>
         public ArrayList FromSpecialPage(string Special)
         {
-            Special = Regex.Replace(Special, "^" + Variables.SpecialNS, "", RegexOptions.IgnoreCase);
+            Special = Regex.Replace(Special, "^" + Variables.Namespaces[-1], "", RegexOptions.IgnoreCase);
             ArrayList ArticleArray = new ArrayList();
 
             string PageText = Tools.GetHTML(Variables.URL + "index.php?title=Special:" + Special);
@@ -294,14 +326,15 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="Image">The image.</param>
         /// <returns>The ArrayList of the articles.</returns>
-        public ArrayList FromImageLinks(string Image)
+        public Dictionary<string, int> FromImageLinks(string Image)
         {
-            Image = Regex.Replace(Image, "^" + Variables.ImageNS, "", RegexOptions.IgnoreCase);
+            Image = Regex.Replace(Image, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
             Image = encodeText(Image);
 
             string URL = Variables.URL + "query.php?what=imagelinks&titles=Image:"+ Image +"&illimit=500&format=xml";
-            ArrayList list = new ArrayList();
+            Dictionary<string, int> list = new Dictionary<string, int>();
             string title = "";
+            int ns = 0;   
 
             while (true)
             {
@@ -309,7 +342,7 @@ namespace WikiFunctions
                 if (!html.Contains("<imagelinks>"))
                     throw new Exception("The image " + Image + " does not exist. Make sure it is spelt correctly.");
 
-                bool more = false;
+                bool more = false;                             
 
                 using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
                 {
@@ -324,11 +357,20 @@ namespace WikiFunctions
                             reader.ReadToFollowing("page");
                         }
 
-                        if (reader.LocalName.Equals("il"))
+                        if (reader.Name.Equals("il"))
                         {
+                            if (reader.AttributeCount > 1)
+                            {
+                                reader.MoveToAttribute("ns");
+                                ns = int.Parse(reader.Value);
+                            }
+                            else
+                                ns = 0;
+
                             title = reader.ReadString();
+
                             if (title.Length > 0)
-                                list.Add(title);
+                                list.Add(title, ns);
                         }
                     }
                 }
@@ -382,7 +424,7 @@ namespace WikiFunctions
             ArrayList items = new ArrayList();
             foreach (string s in UnfilteredArticles)
             {
-                if ((!(s.StartsWith(Variables.SpecialNS) || s.StartsWith(Variables.PortalNS) || s.StartsWith("Commons:") || s.StartsWith(Variables.MediaWikiNS))))// && (!items.Contains(s))
+                if ((!(s.StartsWith(Variables.Namespaces[-1]) || s.StartsWith(Variables.Namespaces[100]) || s.StartsWith("Commons:") || s.StartsWith(Variables.Namespaces[8]))))// && (!items.Contains(s))
                 {
                     string z = s.Replace("&amp;", "&").Replace("&quot;", "\"").Replace("_", " ");
                     if (z.Contains("\""))
@@ -404,22 +446,24 @@ namespace WikiFunctions
         public ArrayList convertToTalk(ArrayList list)
         {
             ArrayList newList = new ArrayList();
-
+            int ns = 0;
             foreach (string s in list)
             {
-                if (s.StartsWith(Variables.ArticleTalkNS) || s.Contains(Variables.TalkNS))
+                ns = Tools.CalculateNS(s);
+
+                if (ns % 2 == 1)
                 {
                     newList.Add(s);
                     continue;
                 }
-                else if (s.StartsWith(Variables.TemplateNS) || s.StartsWith(Variables.CategoryNS) || s.StartsWith(Variables.ProjectNS) || s.StartsWith(Variables.UserNS) || s.StartsWith(Variables.ImageNS) || s.StartsWith(Variables.PortalNS) || s.StartsWith(Variables.MediaWikiNS))
+                else if (ns == 2 || ns == 4 || ns == 6 || ns == 8 || ns == 10 || ns == 12 || ns == 14 || ns == 16 || ns == 100)
                 {
                     newList.Add(s.Replace(":", Variables.TalkNS));
                     continue;
                 }
                 else
                 {
-                    newList.Add(Variables.ArticleTalkNS + s);
+                    newList.Add(Variables.Namespaces[1] + s);
                     continue;
                 }
             }
@@ -438,7 +482,7 @@ namespace WikiFunctions
 
             foreach (string s in list)
             {
-                newList.Add(s.Replace(Variables.ArticleTalkNS, "").Replace(Variables.TalkNS, ":"));
+                newList.Add(s.Replace(Variables.Namespaces[1], "").Replace(Variables.TalkNS, ":"));
             }
 
             return newList;
@@ -446,74 +490,119 @@ namespace WikiFunctions
 
         #region old methods
 
-        ///// <summary>
-        ///// Gets a list of articles and sub-categories in a category.
-        ///// </summary>
-        ///// <param name="Category">The category.</param>
-        ///// <returns>The ArrayList of the articles.</returns>
-        //public ArrayList FromCategory(string Category)
-        //{
-        //    Category = Regex.Replace(Category, "^" + Variables.CategoryNS, "", RegexOptions.IgnoreCase);
-        //    Category = encodeText(Category);
+        /*
+        
+        /// <summary>
+        /// Gets a list of articles and sub-categories in a category.
+        /// </summary>
+        /// <param name="Category">The category.</param>
+        /// <returns>The ArrayList of the articles.</returns>
+        public ArrayList FromCategory(string Category)
+        {
+            Category = Regex.Replace(Category, "^" + Variables.CategoryNS, "", RegexOptions.IgnoreCase);
+            Category = encodeText(Category);
 
-        //    string URL = Variables.URL + "index.php?title=Category:" + Category + "&from=";
-        //    ArrayList ArticleArray = new ArrayList();
+            string URL = Variables.URL + "index.php?title=Category:" + Category + "&from=";
+            ArrayList ArticleArray = new ArrayList();
 
-        //    do
-        //    {
-        //        string PageText = Tools.GetHTML(URL);
+            do
+            {
+                string PageText = Tools.GetHTML(URL);
 
-        //        if (PageText.Contains("<div class=\"noarticletext\">"))
-        //            throw new Exception("That category does not exist. Make sure it is spelt correctly. If you want a stub category remember to type the category name and not the stub name.");
+                if (PageText.Contains("<div class=\"noarticletext\">"))
+                    throw new Exception("That category does not exist. Make sure it is spelt correctly. If you want a stub category remember to type the category name and not the stub name.");
 
-        //        //cut out part we want
-        //        PageText = PageText.Substring(PageText.IndexOf("<!-- Saved in parser cache with key "));
-        //        PageText = PageText.Substring(0, PageText.IndexOf("<div class=\"printfooter\">"));
+                //cut out part we want
+                PageText = PageText.Substring(PageText.IndexOf("<!-- Saved in parser cache with key "));
+                PageText = PageText.Substring(0, PageText.IndexOf("<div class=\"printfooter\">"));
 
-        //        foreach (Match m in regexe.Matches(PageText))
-        //        {
-        //            ArticleArray.Add(m.Groups[1].Value);
-        //        }
+                foreach (Match m in regexe.Matches(PageText))
+                {
+                    ArticleArray.Add(m.Groups[1].Value);
+                }
 
-        //        if (Regex.IsMatch(PageText, "&amp;from=(.*?)\" title=\"", RegexOptions.RightToLeft))
-        //        {
-        //            Match m = Regex.Match(PageText, "&amp;from=(.*?)\" title=\"", RegexOptions.RightToLeft);
-        //            string strPage = m.Groups[1].Value;
-        //            URL = Variables.URL + "index.php?title=Category:" + Category + "&from=" + strPage;
-        //        }
-        //        else
-        //            break;
-        //    }
-        //    while (true);
+                if (Regex.IsMatch(PageText, "&amp;from=(.*?)\" title=\"", RegexOptions.RightToLeft))
+                {
+                    Match m = Regex.Match(PageText, "&amp;from=(.*?)\" title=\"", RegexOptions.RightToLeft);
+                    string strPage = m.Groups[1].Value;
+                    URL = Variables.URL + "index.php?title=Category:" + Category + "&from=" + strPage;
+                }
+                else
+                    break;
+            }
+            while (true);
 
-        //    return FilterSomeArticles(ArticleArray);
-        //}
+            return FilterSomeArticles(ArticleArray);
+        }
 
-        ///// <summary>
-        ///// Gets a list of articles that use an image.
-        ///// </summary>
-        ///// <param name="Image">The image.</param>
-        ///// <returns>The ArrayList of the articles.</returns>
-        //public ArrayList FromImageLinks(string Image)
-        //{
-        //    Image = Regex.Replace(Image, "^" + Variables.ImageNS, "", RegexOptions.IgnoreCase);
-        //    Image = encodeText(Image);
-        //    ArrayList ArticleArray = new ArrayList();
+        /// <summary>
+        /// Gets a list of articles that link to the given page.
+        /// </summary>
+        /// <param name="Page">The page to find links to.</param>
+        /// <param name="Page">Only list "inclusions".</param>
+        /// <returns>The ArrayList of the articles.</returns>
+        public ArrayList FromWhatLinksHere(string Page, bool incOnly)
+        {
+            Page = encodeText(Page);
+            string URL = Variables.URL + "index.php?title=Special:Whatlinkshere&target=" + Page + "&limit=5000&offset=0";
+            ArrayList ArticleArray = new ArrayList();
 
-        //    string PageText = Tools.GetHTML(Variables.URL + "index.php?title=Image:" + Image);
+            do
+            {
+                string PageText = Tools.GetHTML(URL);
 
-        //    PageText = PageText.Substring(PageText.IndexOf("<h2 id=\"filelinks\">"));
+                if (PageText.Contains("No pages link to here."))
+                    throw new Exception("No pages link to " + Page + ". Make sure it is spelt correctly.");
 
-        //    if (!PageText.Contains("<li>"))
-        //        throw new Exception("That image does not exist. Make sure it is spelt correctly.");
+                foreach (Match m in regexe.Matches(PageText))
+                {
+                    if (!incOnly)
+                        ArticleArray.Add(m.Groups[1].Value);
+                    else if (m.Groups[2].Value == " (transclusion)")
+                        ArticleArray.Add(m.Groups[1].Value);
+                }
 
-        //    foreach (Match m in regexe.Matches(PageText))
-        //    {
-        //        ArticleArray.Add(m.Groups[1].Value);
-        //    }
+                if (PageText.Contains(">next 5,000<") && Variables.LangCode == "en")
+                {
+                    Match m = Regex.Match(PageText, "from=(.*?)\"" + ">next 5,000<", RegexOptions.RightToLeft);
+                    string strPage = m.Groups[1].Value;
+                    URL = Variables.URL + "index.php?title=Special:Whatlinkshere&target=" + Page + "&limit=5000&from=" + strPage;
+                }
+                else
+                    break;
 
-        //    return FilterSomeArticles(ArticleArray);
-        //}
+            } while (true);
+
+            return FilterSomeArticles(ArticleArray);
+        }
+
+        /// <summary>
+        /// Gets a list of articles that use an image.
+        /// </summary>
+        /// <param name="Image">The image.</param>
+        /// <returns>The ArrayList of the articles.</returns>
+        public ArrayList FromImageLinks(string Image)
+        {
+            Image = Regex.Replace(Image, "^" + Variables.ImageNS, "", RegexOptions.IgnoreCase);
+            Image = encodeText(Image);
+            ArrayList ArticleArray = new ArrayList();
+
+            string PageText = Tools.GetHTML(Variables.URL + "index.php?title=Image:" + Image);
+
+            PageText = PageText.Substring(PageText.IndexOf("<h2 id=\"filelinks\">"));
+
+            if (!PageText.Contains("<li>"))
+                throw new Exception("That image does not exist. Make sure it is spelt correctly.");
+
+            foreach (Match m in regexe.Matches(PageText))
+            {
+                ArticleArray.Add(m.Groups[1].Value);
+            }
+
+            return FilterSomeArticles(ArticleArray);
+        }
+        
+        */
 
         #endregion
 

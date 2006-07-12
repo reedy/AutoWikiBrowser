@@ -420,7 +420,7 @@ namespace WikiFunctions.IRC
                 IrcConnection.Close();
 
             }
-            catch (Exception ex)
+            catch //(Exception ex)
             {
                 // System.Windows.Forms.MessageBox.Show(ex.Message);
             }

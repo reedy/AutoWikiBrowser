@@ -291,19 +291,19 @@ namespace WikiFunctions
         {
             if (ignoreRedirectsToolStripMenuItem1.Checked && articleText.StartsWith("#"))
                 return false;
-            else if (articleTitle.StartsWith(Variables.MediaWikiNS) || articleTitle.StartsWith(Variables.PortalNS)) //skip this namespace
+            else if (articleTitle.StartsWith(Variables.Namespaces[8]) || articleTitle.StartsWith(Variables.Namespaces[100])) //skip this namespace
                 return false;
             else if (ignoreDisambigsToolStripMenuItem.Checked && articleText.Contains("isambig}}"))
                 return false;
-            else if (ignoreImagesToolStripMenuItem.Checked && articleTitle.StartsWith(Variables.ImageNS))
+            else if (ignoreImagesToolStripMenuItem.Checked && articleTitle.StartsWith(Variables.Namespaces[6]))
                 return false;
-            else if (articleTitle.StartsWith("Help:"))
+            else if (articleTitle.StartsWith(Variables.Namespaces[12]))
                 return false;
-            else if (ignoreCategoryNamespaceToolStripMenuItem.Checked && articleTitle.StartsWith(Variables.CategoryNS))
+            else if (ignoreCategoryNamespaceToolStripMenuItem.Checked && articleTitle.StartsWith(Variables.Namespaces[14]))
                 return false;
-            else if (ignoreTemplateNamespaceToolStripMenuItem.Checked && articleTitle.StartsWith(Variables.TemplateNS))
+            else if (ignoreTemplateNamespaceToolStripMenuItem.Checked && articleTitle.StartsWith(Variables.Namespaces[10]))
                 return false;
-            else if (ignoreWikipediaNamespaceToolStripMenuItem.Checked && articleTitle.StartsWith(Variables.ProjectNS))
+            else if (ignoreWikipediaNamespaceToolStripMenuItem.Checked && articleTitle.StartsWith(Variables.Namespaces[4]))
                 return false;
             else if (ignoreMainNamespaceToolStripMenuItem.Checked && !(articleTitle.StartsWith(Variables.ImageNS) || articleTitle.StartsWith(Variables.ProjectNS) || articleTitle.StartsWith(Variables.CategoryNS) || articleTitle.StartsWith(Variables.TemplateNS) || articleTitle.StartsWith(Variables.MediaWikiNS)))
                 return false;

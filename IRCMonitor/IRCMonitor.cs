@@ -801,15 +801,15 @@ namespace IRCMonitor
             try
             {
                 GetLists lists = new GetLists();
-                ArrayList bots = new ArrayList();
+                Dictionary<string, int> bots = new Dictionary<string, int>();
                 string item = "";
                 bots = lists.FromCategory("Wikipedia bots");
 
-                foreach (string s in bots)
+                foreach (KeyValuePair<string, int> k in bots)
                 {
-                    if (s.StartsWith("User:"))
+                    if (k.Value == 2)
                     {
-                        item = s.Replace("User:", "");
+                        item = k.Key.Replace("User:", "");
                         if (!lbWhiteList.Items.Contains(item))
                             lbWhiteList.Items.Add(item);
                     }
