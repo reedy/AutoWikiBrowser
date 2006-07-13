@@ -511,6 +511,8 @@ namespace AutoWikiBrowser
                 else if (cmboCategorise.SelectedIndex == 2 && txtNewCategory.Text.Length > 0)
                 {
                     string cat = "[[" + Variables.Namespaces[14] + txtNewCategory.Text + "]]";
+                    cat = cat.Replace("%%key%%", Tools.MakeHumanCatKey(EdittingArticle));
+
                     bool is_template = EdittingArticle.StartsWith(Variables.Namespaces[10]);
                     if (EdittingArticle.StartsWith(Variables.Namespaces[10]))
                         articleText += "<noinclude>\r\n" + cat + "\r\n</noinclude>";
@@ -741,6 +743,7 @@ namespace AutoWikiBrowser
         Thread ListerThread = null;
         private void btnMakeList_Click(object sender, EventArgs e)
         {
+            txtSelectSource.Text = txtSelectSource.Text.Trim('[', ']');
             if (cmboSourceSelect.SelectedIndex == 0)
                 txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[14], "", RegexOptions.IgnoreCase);
             else if (cmboSourceSelect.SelectedIndex == 6)
@@ -1394,6 +1397,7 @@ namespace AutoWikiBrowser
 
         private void txtNewCategory_Leave(object sender, EventArgs e)
         {
+            txtNewCategory.Text = txtNewCategory.Text.Trim('[', ']');
             txtNewCategory.Text = Regex.Replace(txtNewCategory.Text, "^[Cc]ategory:", "");
             txtNewCategory.Text = Tools.TurnFirstToUpper(txtNewCategory.Text);
         }
@@ -2193,17 +2197,7 @@ namespace AutoWikiBrowser
                     strDeath = dates[1].ToString();
 
                 //make name, surname, firstname
-                string strName = EdittingArticle;
-
-                strName = Regex.Replace(strName, "\\(.*?\\)", "").Trim();
-
-                if (strName.Contains(" "))
-                {
-                    int intLast = strName.LastIndexOf(" ") + 1;
-                    string strLastName = strName.Substring(intLast);
-                    strName = strName.Remove(intLast);
-                    strName = strLastName + ", " + strName.Trim();
-                }
+                string strName = Tools.MakeHumanCatKey(EdittingArticle);
 
                 string Categories = "";
 

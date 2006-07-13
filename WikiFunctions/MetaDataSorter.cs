@@ -236,14 +236,7 @@ namespace WikiFunctions
         private ArrayList catKeyer(ArrayList arrayList, string strName)
         {
             // make key
-            strName = Regex.Replace(strName, "\\(.*?\\)$", "").Trim();
-            if (strName.Contains(" "))
-            {
-                int intLast = strName.LastIndexOf(" ") + 1;
-                string strLastName = strName.Substring(intLast);
-                strName = strName.Remove(intLast);
-                strName = strLastName + ", " + strName.Trim();
-            }
+            strName = Tools.MakeHumanCatKey(strName);
 
             //add key to cats that need it
             ArrayList newCats = new ArrayList();
