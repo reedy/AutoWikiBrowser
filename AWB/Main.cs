@@ -485,8 +485,7 @@ namespace AutoWikiBrowser
                         return articleText;
                     }
                 }
-
-                if (cmboImages.SelectedIndex == 2)
+                else if (cmboImages.SelectedIndex == 2)
                 {
                     testText = articleText;
                     articleText = parsers.RemoveImage(txtImageReplace.Text, articleText);
@@ -546,10 +545,13 @@ namespace AutoWikiBrowser
                 {
                     articleText = parsers.removeNowiki(articleText);
 
-                    articleText = parsers.conversions(articleText);
-                    articleText = parsers.LivingPeople(articleText);
-                    articleText = parsers.FixCats(articleText);
-                    articleText = parsers.fixHeadings(articleText);
+                    if (Variables.LangCode == "en")
+                    {//en only
+                        articleText = parsers.conversions(articleText);
+                        articleText = parsers.LivingPeople(articleText);
+                        articleText = parsers.FixCats(articleText);
+                        articleText = parsers.fixHeadings(articleText);
+                    }
                     articleText = parsers.SyntaxFixer(articleText);
                     articleText = parsers.linkFixer(articleText);
                     articleText = parsers.BulletExternalLinks(articleText);
@@ -1707,7 +1709,16 @@ namespace AutoWikiBrowser
 
         private void SetProject(string LangCode, string Project)
         {
+            //set namespaces
             Variables.SetProject(LangCode, Project);
+
+            //set interwikiorder
+            if (LangCode == "en" || LangCode == "pl")
+                parsers.InterWikiOrder = InterWikiOrderEnum.LocalLanguageAlpha;
+            else if (LangCode == "fi")
+                parsers.InterWikiOrder = InterWikiOrderEnum.LocalLanguageFirstWord;
+            else
+                parsers.InterWikiOrder = InterWikiOrderEnum.Alphabetical;
 
             if (Variables.LangCode != "en" || Variables.Project != "wikipedia")
             {
@@ -2178,6 +2189,11 @@ namespace AutoWikiBrowser
         private void metadataTemplateToolStripMenuItem_Click(object sender, EventArgs e)
         {
             txtEdit.SelectedText = "{{Persondata\r\n|NAME=\r\n|ALTERNATIVE NAMES=\r\n|SHORT DESCRIPTION=\r\n|DATE OF BIRTH=\r\n|PLACE OF BIRTH=\r\n|DATE OF DEATH=\r\n|PLACE OF DEATH=\r\n}}";
+        }
+
+        private void humanNameCategoryKeyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            txtEdit.SelectedText = Tools.MakeHumanCatKey(EdittingArticle);
         }
 
         private void birthdeathCatsToolStripMenuItem_Click(object sender, EventArgs e)
