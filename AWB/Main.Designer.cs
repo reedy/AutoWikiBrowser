@@ -252,6 +252,7 @@ namespace AutoWikiBrowser
             this.btntsPreview = new System.Windows.Forms.ToolStripButton();
             this.btntsChanges = new System.Windows.Forms.ToolStripButton();
             this.webBrowserEdit = new WikiFunctions.WebControl();
+            this.btnFilter = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -1072,6 +1073,7 @@ namespace AutoWikiBrowser
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox2.ContextMenuStrip = this.mnuListBox;
+            this.groupBox2.Controls.Add(this.btnFilter);
             this.groupBox2.Controls.Add(this.chkWLHRedirects);
             this.groupBox2.Controls.Add(this.txtSelectSource);
             this.groupBox2.Controls.Add(this.lblNumberOfArticles);
@@ -1122,7 +1124,7 @@ namespace AutoWikiBrowser
             // 
             this.specialFilterToolStripMenuItem.Name = "specialFilterToolStripMenuItem";
             this.specialFilterToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
-            this.specialFilterToolStripMenuItem.Text = "Special filter";
+            this.specialFilterToolStripMenuItem.Text = "Filter";
             this.specialFilterToolStripMenuItem.ToolTipText = "Filter articles by namespace";
             this.specialFilterToolStripMenuItem.Click += new System.EventHandler(this.specialFilterToolStripMenuItem_Click);
             // 
@@ -1258,7 +1260,7 @@ namespace AutoWikiBrowser
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(6, 230);
+            this.btnAdd.Location = new System.Drawing.Point(6, 211);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(58, 23);
             this.btnAdd.TabIndex = 9;
@@ -1269,7 +1271,7 @@ namespace AutoWikiBrowser
             // 
             // btnRemoveArticle
             // 
-            this.btnRemoveArticle.Location = new System.Drawing.Point(6, 259);
+            this.btnRemoveArticle.Location = new System.Drawing.Point(6, 240);
             this.btnRemoveArticle.Name = "btnRemoveArticle";
             this.btnRemoveArticle.Size = new System.Drawing.Size(58, 23);
             this.btnRemoveArticle.TabIndex = 10;
@@ -1280,7 +1282,7 @@ namespace AutoWikiBrowser
             // 
             // btnArticlesListClear
             // 
-            this.btnArticlesListClear.Location = new System.Drawing.Point(6, 288);
+            this.btnArticlesListClear.Location = new System.Drawing.Point(6, 269);
             this.btnArticlesListClear.Name = "btnArticlesListClear";
             this.btnArticlesListClear.Size = new System.Drawing.Size(58, 23);
             this.btnArticlesListClear.TabIndex = 12;
@@ -1291,7 +1293,7 @@ namespace AutoWikiBrowser
             // 
             // btnArticlesListSave
             // 
-            this.btnArticlesListSave.Location = new System.Drawing.Point(6, 317);
+            this.btnArticlesListSave.Location = new System.Drawing.Point(6, 327);
             this.btnArticlesListSave.Name = "btnArticlesListSave";
             this.btnArticlesListSave.Size = new System.Drawing.Size(58, 23);
             this.btnArticlesListSave.TabIndex = 16;
@@ -1302,9 +1304,9 @@ namespace AutoWikiBrowser
             // 
             // txtNewArticle
             // 
-            this.txtNewArticle.Location = new System.Drawing.Point(4, 200);
+            this.txtNewArticle.Location = new System.Drawing.Point(6, 181);
             this.txtNewArticle.Name = "txtNewArticle";
-            this.txtNewArticle.Size = new System.Drawing.Size(61, 20);
+            this.txtNewArticle.Size = new System.Drawing.Size(58, 20);
             this.txtNewArticle.TabIndex = 8;
             this.toolTip1.SetToolTip(this.txtNewArticle, "Enter the name of a new article");
             this.txtNewArticle.DoubleClick += new System.EventHandler(this.txtNewArticle_DoubleClick);
@@ -1847,7 +1849,7 @@ namespace AutoWikiBrowser
             // 
             this.specialFilterToolStripMenuItem1.Name = "specialFilterToolStripMenuItem1";
             this.specialFilterToolStripMenuItem1.Size = new System.Drawing.Size(194, 22);
-            this.specialFilterToolStripMenuItem1.Text = "Special filter";
+            this.specialFilterToolStripMenuItem1.Text = "Filter";
             this.specialFilterToolStripMenuItem1.Click += new System.EventHandler(this.specialFilterToolStripMenuItem1_Click);
             // 
             // sortAlphabeticallyToolStripMenuItem
@@ -2233,6 +2235,16 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
             this.webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
             // 
+            // btnFilter
+            // 
+            this.btnFilter.Location = new System.Drawing.Point(6, 298);
+            this.btnFilter.Name = "btnFilter";
+            this.btnFilter.Size = new System.Drawing.Size(58, 23);
+            this.btnFilter.TabIndex = 17;
+            this.btnFilter.Text = "Filter";
+            this.btnFilter.UseVisualStyleBackColor = true;
+            this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2502,6 +2514,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem fromWhatlinkshereToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fromLinksOnPageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fromImageLinksToolStripMenuItem;
+        private System.Windows.Forms.Button btnFilter;
 
 
     }
