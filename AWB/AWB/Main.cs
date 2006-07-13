@@ -1378,11 +1378,18 @@ namespace AutoWikiBrowser
         {
             specialFilter();
         }
+
+        private void btnFilter_Click(object sender, EventArgs e)
+        {
+            specialFilter();
+        }
         
         private void specialFilter()
         {
-            specialFilter SepcialFilter = new specialFilter(lbArticles, lblNumberOfArticles);
+            specialFilter SepcialFilter = new specialFilter(lbArticles);
             SepcialFilter.ShowDialog();
+            UpdateButtons();
+            lblNumberOfArticles.Text = lbArticles.Items.Count.ToString();
         }
 
         private void txtNewCategory_Leave(object sender, EventArgs e)
@@ -1709,6 +1716,7 @@ namespace AutoWikiBrowser
         {
             bool enabled = lbArticles.Items.Count > 0;
             btnStart.Enabled = enabled;
+            btnFilter.Enabled = enabled;
             btnRemoveArticle.Enabled = enabled;
             btnArticlesListClear.Enabled = enabled;
             btnArticlesListSave.Enabled = enabled;
@@ -3188,6 +3196,5 @@ namespace AutoWikiBrowser
         }
 
         #endregion
-
     }
 }

@@ -50,9 +50,9 @@ namespace WikiFunctions
         /// <returns>The Dictionary (string, int) of the articles.</returns>
         public Dictionary<string, int> FromCategory(string Category)
         {
-            Category = encodeText(Category);
-            string URL = Variables.URL + "/query.php?what=category&cptitle=" + Category + "&format=xml&cplimit=500";
             Dictionary<string, int> list = new Dictionary<string, int>();
+            string origURL = Variables.URL + "/query.php?what=category&cptitle=" + encodeText(Category) + "&format=xml&cplimit=500";
+            string URL = origURL;
             int ns = 0;
 
             while (true)
@@ -71,7 +71,7 @@ namespace WikiFunctions
                         {
                             reader.ReadToFollowing("category");
                             reader.MoveToAttribute("next");
-                            URL = Variables.URL + "/query.php?what=category&cptitle=" + Category + "&format=xml&cplimit=500&cpfrom=" + reader.Value;
+                            URL = origURL + "&cpfrom=" + reader.Value;
                             more = true;
                             reader.ReadToFollowing("page");
                         }

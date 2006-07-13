@@ -60,10 +60,10 @@ namespace WikiFunctions
         {
             ArrayList CatArray = new ArrayList();
 
-            foreach (Match m in Regex.Matches(ArticleText, "<!-- ? ?\\[\\[" + Variables.Namespaces[14] + "[^\\]\\]]*\\]\\].*?-->|\\[\\[" + Variables.Namespaces[14] + "[^\\]\\]]*\\]\\]( {0,4}<!--.*?-->)?"))
+            foreach (Match m in Regex.Matches(ArticleText, "<!-- ? ?\\[\\[" + Variables.Namespaces[14] + ".*?(\\]\\]|\\|.*?\\]\\]).*?-->|\\[\\[" + Variables.Namespaces[14] + ".*?(\\]\\]|\\|.*?\\]\\])( {0,4}<%%<[0-9]{1,4}>%%>)?"))
             {
-                string x = m.ToString();
-                //add to array, replace underscores with spaces, ignore
+                string x = m.Value;
+                //add to array, replace underscores with spaces, ignore=
                 if (!Regex.IsMatch(x, "\\[\\[Category:(Pages|Categories|Articles) for deletion\\]\\]"))
                 {
                     ArticleText = ArticleText.Replace(x, "");

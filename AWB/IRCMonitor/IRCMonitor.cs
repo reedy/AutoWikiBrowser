@@ -57,6 +57,8 @@ namespace IRCMonitor
             btnStop.Image = Resources.Stop;
             btnOpenInBrowser.Image = Resources.NewWindow;
 
+            Variables.SetProject("en", "wikipedia");
+
             btnIPColour.BackColor = ColourIP;
             btnRegisteredUserColour.BackColor = UserColour;
             btnSetWhiteListColour.BackColor = whitelistcolour;

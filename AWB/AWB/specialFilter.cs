@@ -33,12 +33,10 @@ namespace AutoWikiBrowser
     public partial class specialFilter : Form
     {
         ListBox lb;
-        Label lbl;
-        public specialFilter(ListBox listbox, Label label)
+        public specialFilter(ListBox listbox)
         {
             InitializeComponent();
             lb = listbox;
-            lbl = label;
             UpdateText();
         }
 
@@ -52,7 +50,7 @@ namespace AutoWikiBrowser
 
             FilterNamespace();
 
-            lbl.Text = lb.Items.Count.ToString();
+            this.Close();
         }
 
         private void FilterNamespace()
