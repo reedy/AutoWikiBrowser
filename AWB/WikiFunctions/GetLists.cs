@@ -134,7 +134,8 @@ namespace WikiFunctions
                             if (reader.HasAttributes)
                             {
                                 reader.MoveToAttribute("next");
-                                URL = OrigURL + "&blcontfrom=" + reader.Value;
+                                URL = OrigURL + "&" + initial + "contfrom=" + reader.Value;
+
                                 more = true;
                             }
                         }
@@ -151,7 +152,7 @@ namespace WikiFunctions
 
                             title = reader.ReadString();
 
-                            if (title.Length > 0 )
+                            if (title.Length > 0)
                                 list.Add(title, ns);
                         }
                     }
@@ -330,10 +331,10 @@ namespace WikiFunctions
             Image = Regex.Replace(Image, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
             Image = encodeText(Image);
 
-            string URL = Variables.URL + "query.php?what=imagelinks&titles=Image:"+ Image +"&illimit=500&format=xml";
+            string URL = Variables.URL + "query.php?what=imagelinks&titles=Image:" + Image + "&illimit=500&format=xml";
             Dictionary<string, int> list = new Dictionary<string, int>();
             string title = "";
-            int ns = 0;   
+            int ns = 0;
 
             while (true)
             {
@@ -341,7 +342,7 @@ namespace WikiFunctions
                 if (!html.Contains("<imagelinks>"))
                     throw new Exception("The image " + Image + " does not exist. Make sure it is spelt correctly.");
 
-                bool more = false;                             
+                bool more = false;
 
                 using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
                 {
