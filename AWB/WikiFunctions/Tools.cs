@@ -126,6 +126,17 @@ namespace WikiFunctions
             return Name;
         }
 
+        public static string ReadWebPage(string url)
+        {
+            WebRequest request = HttpWebRequest.Create(url);
+            Stream stream = request.GetResponse().GetResponseStream();
+            StreamReader sr = new StreamReader(stream);
+            string webPage = sr.ReadToEnd();
+            sr.Close();
+
+            return webPage;
+        }
+
         /// <summary>
         /// Gets the HTML from the given web address.
         /// </summary>

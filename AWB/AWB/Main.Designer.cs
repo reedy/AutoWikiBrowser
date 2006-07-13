@@ -134,6 +134,7 @@ namespace AutoWikiBrowser
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnFilter = new System.Windows.Forms.Button();
             this.chkWLHRedirects = new System.Windows.Forms.CheckBox();
             this.txtSelectSource = new System.Windows.Forms.TextBox();
             this.lblNumberOfArticles = new System.Windows.Forms.Label();
@@ -252,7 +253,6 @@ namespace AutoWikiBrowser
             this.btntsPreview = new System.Windows.Forms.ToolStripButton();
             this.btntsChanges = new System.Windows.Forms.ToolStripButton();
             this.webBrowserEdit = new WikiFunctions.WebControl();
-            this.btnFilter = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -1226,6 +1226,16 @@ namespace AutoWikiBrowser
             this.clearToolStripMenuItem1.ToolTipText = "Clear the list";
             this.clearToolStripMenuItem1.Click += new System.EventHandler(this.clearToolStripMenuItem1_Click);
             // 
+            // btnFilter
+            // 
+            this.btnFilter.Location = new System.Drawing.Point(6, 298);
+            this.btnFilter.Name = "btnFilter";
+            this.btnFilter.Size = new System.Drawing.Size(58, 23);
+            this.btnFilter.TabIndex = 17;
+            this.btnFilter.Text = "Filter";
+            this.btnFilter.UseVisualStyleBackColor = true;
+            this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
+            // 
             // chkWLHRedirects
             // 
             this.chkWLHRedirects.AutoSize = true;
@@ -1368,7 +1378,8 @@ namespace AutoWikiBrowser
             "User contribs",
             "Special page",
             "Image file links",
-            "Database dump"});
+            "Database dump",
+            "My Watchlist"});
             this.cmboSourceSelect.Location = new System.Drawing.Point(80, 20);
             this.cmboSourceSelect.Name = "cmboSourceSelect";
             this.cmboSourceSelect.Size = new System.Drawing.Size(127, 21);
@@ -2234,16 +2245,6 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.WebBrowserShortcutsEnabled = false;
             this.webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
             this.webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
-            // 
-            // btnFilter
-            // 
-            this.btnFilter.Location = new System.Drawing.Point(6, 298);
-            this.btnFilter.Name = "btnFilter";
-            this.btnFilter.Size = new System.Drawing.Size(58, 23);
-            this.btnFilter.TabIndex = 17;
-            this.btnFilter.Text = "Filter";
-            this.btnFilter.UseVisualStyleBackColor = true;
-            this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
             // 
             // MainForm
             // 

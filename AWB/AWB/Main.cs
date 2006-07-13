@@ -77,7 +77,6 @@ namespace AutoWikiBrowser
                 /* string strProj */  AutoWikiBrowser.Properties.Settings.Default.Project
             );
 
-            NumberOfArticles = lbArticles.Items.Count;
             cmboSourceSelect.SelectedIndex = 0;
             cmboCategorise.SelectedIndex = 0;
             cmboImages.SelectedIndex = 0;
@@ -685,7 +684,6 @@ namespace AutoWikiBrowser
                     lbArticles.SelectedIndex = intPosition;
             }
 
-            NumberOfArticles = lbArticles.Items.Count;
             UpdateButtons();
         }
 
@@ -700,7 +698,7 @@ namespace AutoWikiBrowser
             if (txtNewArticle.Text.Length > 0)
                 lbArticles.Items.Add(txtNewArticle.Text);
             txtNewArticle.Text = "";
-            NumberOfArticles = lbArticles.Items.Count;
+
             UpdateButtons();
         }
 
@@ -728,7 +726,7 @@ namespace AutoWikiBrowser
             }
             catch
             { }
-            NumberOfArticles = lbArticles.Items.Count;
+
             UpdateButtons();
         }
 
@@ -736,7 +734,7 @@ namespace AutoWikiBrowser
         {
             boolSaved = false;
             lbArticles.Items.Clear();
-            NumberOfArticles = lbArticles.Items.Count;
+
             UpdateButtons();
         }
 
@@ -784,6 +782,12 @@ namespace AutoWikiBrowser
                 UpdateButtons();
                 return;
             }
+            else if (cmboSourceSelect.SelectedIndex == 10)
+            {
+                addToList(getLists.FromWatchList());
+                UpdateButtons();
+                return;
+            }
 
             intSourceIndex = cmboSourceSelect.SelectedIndex;
             strSouce = txtSelectSource.Text;
@@ -818,6 +822,7 @@ namespace AutoWikiBrowser
                     case 3:
                         addToList(getLists.FromLinksOnPage(strSouce));
                         break;
+                        //4 from text file
                     case 5:
                         addToList(getLists.FromGoogleSearch(strSouce));
                         break;
@@ -830,6 +835,8 @@ namespace AutoWikiBrowser
                     case 8:
                         addDictToList(getLists.FromImageLinks(strSouce));
                         break;
+                        //9 from datadump
+                        //10 from watchlist
                     default:
                         break;
                 }
@@ -898,7 +905,7 @@ namespace AutoWikiBrowser
 
             lbArticles.EndUpdate();
 
-            NumberOfArticles = lbArticles.Items.Count;
+            UpdateButtons();
         }
 
         private delegate void AddDictToListDel(Dictionary<string, int> a);
@@ -920,7 +927,7 @@ namespace AutoWikiBrowser
 
             lbArticles.EndUpdate();
 
-            NumberOfArticles = lbArticles.Items.Count;
+            UpdateButtons();
         }
 
         private ArrayList ArrayFromList()
@@ -1368,7 +1375,6 @@ namespace AutoWikiBrowser
                 else //move on
                     i++;
             }
-            NumberOfArticles = lbArticles.Items.Count;
             UpdateButtons();
         }
 
@@ -1392,7 +1398,6 @@ namespace AutoWikiBrowser
             specialFilter SepcialFilter = new specialFilter(lbArticles);
             SepcialFilter.ShowDialog();
             UpdateButtons();
-            lblNumberOfArticles.Text = lbArticles.Items.Count.ToString();
         }
 
         private void txtNewCategory_Leave(object sender, EventArgs e)
@@ -1718,6 +1723,7 @@ namespace AutoWikiBrowser
 
         private void UpdateButtons()
         {
+            NumberOfArticles = lbArticles.Items.Count;
             bool enabled = lbArticles.Items.Count > 0;
             btnStart.Enabled = enabled;
             btnFilter.Enabled = enabled;
@@ -1909,7 +1915,7 @@ namespace AutoWikiBrowser
             }
 
             lbArticles.Items.Add(Article);
-            NumberOfArticles = lbArticles.Items.Count;
+            UpdateButtons();
         }
 
         private void addIgnoredToLogFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2103,8 +2109,7 @@ namespace AutoWikiBrowser
 
         private void clearTheListToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            lbArticles.Items.Clear();
-            NumberOfArticles = lbArticles.Items.Count;
+            lbArticles.Items.Clear();            
             UpdateButtons();
         }
 
