@@ -35,6 +35,9 @@ namespace WikiFunctions
     /// </summary>
     public static class Tools
     {
+        /// <summary>
+        /// Calculates the namespace index.
+        /// </summary>
         public static int CalculateNS(string ArticleTitle)
         {
             if (!ArticleTitle.Contains(":"))
@@ -101,6 +104,26 @@ namespace WikiFunctions
             if (i % 2 == 1)
                 return false;
             else return true;
+        }
+
+        /// <summary>
+        /// Returns Category key from article name e.g. "David Smith" returns "Smith, David".
+        /// </summary>
+        public static string MakeHumanCatKey(string Name)
+        {
+            string OrigName = Name;
+
+            Name = Regex.Replace(Name, "\\(.*?\\)$", "").Trim();
+
+            if (!Name.Contains(" "))
+                return OrigName;
+
+            int intLast = Name.LastIndexOf(" ") + 1;
+            string LastName = Name.Substring(intLast);
+            Name = Name.Remove(intLast);
+            Name = LastName + ", " + Name.Trim();
+
+            return Name;
         }
 
         /// <summary>
