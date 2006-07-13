@@ -51,6 +51,12 @@ namespace WikiFunctions
         }
         private bool boolInterwikiOrder = true;
 
+        public InterWikiOrderEnum InterWikiOrder
+        {
+            set { metaDataSorter.InterWikiOrder = value; }
+            get { return metaDataSorter.InterWikiOrder; }
+        }
+
         /// <summary>
         /// When set to true, adds key to categories (for people only) when parsed
         /// </summary>
@@ -219,6 +225,11 @@ namespace WikiFunctions
 
             //fix heading space
             articleText = Regex.Replace(articleText, "^(={1,4}) ?(.*?) ?(={1,4})$", "$1$2$3", RegexOptions.Multiline);
+
+            //fix dash spacing
+            articleText = Regex.Replace(articleText, " ?(–|&#150;|&ndash;|&#8211;|&#x2013;) ?", "$1");
+            articleText = Regex.Replace(articleText, " ?(—|&#151;|&mdash;|&#8212;|&#x2014;) ?", "$1");
+            articleText = Regex.Replace(articleText, "(—|&#151;|&mdash;|&#8212;|&#x2014;|–|&#150;|&ndash;|&#8211;|&#x2013;)", " $1 ");
 
             return articleText.Trim();
         }

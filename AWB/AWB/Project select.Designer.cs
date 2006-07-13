@@ -57,7 +57,7 @@ namespace AutoWikiBrowser
             "sv",
             "ru",
             "sl"});
-            this.cmboLang.Location = new System.Drawing.Point(110, 48);
+            this.cmboLang.Location = new System.Drawing.Point(103, 49);
             this.cmboLang.Name = "cmboLang";
             this.cmboLang.Size = new System.Drawing.Size(121, 21);
             this.cmboLang.TabIndex = 0;
@@ -65,7 +65,7 @@ namespace AutoWikiBrowser
             // btnOK
             // 
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(156, 136);
+            this.btnOK.Location = new System.Drawing.Point(149, 137);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 1;
@@ -81,7 +81,7 @@ namespace AutoWikiBrowser
             "wiktionary",
             "wikisource",
             "commons"});
-            this.cmboProject.Location = new System.Drawing.Point(110, 75);
+            this.cmboProject.Location = new System.Drawing.Point(103, 76);
             this.cmboProject.Name = "cmboProject";
             this.cmboProject.Size = new System.Drawing.Size(121, 21);
             this.cmboProject.TabIndex = 2;
@@ -90,7 +90,7 @@ namespace AutoWikiBrowser
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(46, 51);
+            this.label1.Location = new System.Drawing.Point(39, 52);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(58, 13);
             this.label1.TabIndex = 3;
@@ -99,7 +99,7 @@ namespace AutoWikiBrowser
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(61, 75);
+            this.label2.Location = new System.Drawing.Point(54, 76);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(43, 13);
             this.label2.TabIndex = 4;
@@ -118,7 +118,7 @@ namespace AutoWikiBrowser
             // chkSetAsDefault
             // 
             this.chkSetAsDefault.AutoSize = true;
-            this.chkSetAsDefault.Location = new System.Drawing.Point(109, 105);
+            this.chkSetAsDefault.Location = new System.Drawing.Point(102, 106);
             this.chkSetAsDefault.Name = "chkSetAsDefault";
             this.chkSetAsDefault.Size = new System.Drawing.Size(91, 17);
             this.chkSetAsDefault.TabIndex = 6;
@@ -127,7 +127,7 @@ namespace AutoWikiBrowser
             // 
             // ProjectSelect
             // 
-            this.ClientSize = new System.Drawing.Size(289, 171);
+            this.ClientSize = new System.Drawing.Size(289, 172);
             this.Controls.Add(this.chkSetAsDefault);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
