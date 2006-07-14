@@ -207,14 +207,12 @@ namespace WikiFunctions
             if (Variables.Project == "wiktionary")
                 return input;
 
-            if (input != "")
-            {
-                input = input.Trim();
-                string temp = input.Substring(0, 1);
-                return temp.ToUpper() + input.Remove(0, 1);
-            }
-            else
+            if (input.Length == 0)
                 return "";
+
+            input = char.ToString(input[0]) + input.Substring(1, input.Length - 1);
+
+            return input;
         }
 
         public static string linkChecker(string articleText)

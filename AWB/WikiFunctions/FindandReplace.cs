@@ -52,6 +52,9 @@ namespace WikiFunctions
             string f = "";
             string r = "";
 
+            if (chkIgnoreLinks.Checked)
+                ArticleText = RemoveLinks(ArticleText);
+
             while (i < dataGridView1.Rows.Count)
             {
                 if (!(dataGridView1.Rows[i].Cells[0].Value == null) && !(dataGridView1.Rows[i].Cells[0].Value.ToString().Length == 0))
@@ -66,6 +69,10 @@ namespace WikiFunctions
                 }
                 i++;
             }
+
+            if (chkIgnoreLinks.Checked)
+                ArticleText = AddLinks(ArticleText);
+
             return ArticleText;
         }
 
@@ -98,6 +105,32 @@ namespace WikiFunctions
                 ROptions = ROptions | RegexOptions.Singleline;
 
             return ROptions;
+        }
+
+        Hashtable hashLinks = new Hashtable();
+        readonly Regex NoLinksRegex = new Regex("\\[[Hh]ttp:.*?\\]|\\[\\[[Ii]mage:.*?\\]\\]", RegexOptions.Singleline);
+        private string RemoveLinks(string articleText)
+        {
+            hashLinks.Clear();
+
+            int i = 0;
+            foreach (Match m in NoLinksRegex.Matches(articleText))
+            {
+                articleText = articleText.Replace(m.Value, "<%%<" + i.ToString() + ">%%>");
+                hashLinks.Add("<%%<" + i.ToString() + ">%%>", m.Value);
+                i++;
+            }
+
+            return articleText;
+        }
+
+        private string AddLinks(string articleText)
+        {
+            foreach (DictionaryEntry D in hashLinks)
+                articleText = articleText.Replace(D.Key.ToString(), D.Value.ToString());
+
+            hashLinks.Clear();
+            return articleText;
         }
 
         private void FindandReplace_FormClosing(object sender, FormClosingEventArgs e)
@@ -195,6 +228,7 @@ namespace WikiFunctions
             XMLWriter.WriteAttributeString("multiline", isMulti.ToString());
             XMLWriter.WriteAttributeString("singleline", isSingle.ToString());
             XMLWriter.WriteAttributeString("ignorenofar", ignore.ToString());
+            XMLWriter.WriteAttributeString("ignorelinks", ignoreLinks.ToString());
 
             for (int i = 0; i != dataGridView1.Rows.Count; ++i)
             {
@@ -253,6 +287,15 @@ namespace WikiFunctions
         {
             get { return chkSingleline.Checked; }
             set { chkSingleline.Checked = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets whether the replacements ignore external links and images
+        /// </summary>
+        public bool ignoreLinks
+        {
+            get { return chkIgnoreLinks.Checked; }
+            set { chkIgnoreLinks.Checked = value; }
         }
 
         #endregion

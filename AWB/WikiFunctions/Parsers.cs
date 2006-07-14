@@ -128,12 +128,13 @@ namespace WikiFunctions
         }
 
         Hashtable hashNowiki = new Hashtable();
+        readonly Regex NoWikiRegex = new Regex("<nowiki>.*?</nowiki>|<math>.*?</math>|<!--.*?-->", RegexOptions.Singleline);
         public string RemoveNowiki(string articleText)
         {
             hashNowiki.Clear();
 
             int i = 0;
-            foreach (Match m in Regex.Matches(articleText, "<nowiki>.*?</nowiki>|<math>.*?</math>|<!--.*?-->", RegexOptions.Singleline))
+            foreach (Match m in NoWikiRegex.Matches(articleText))
             {
                 if (Regex.IsMatch(m.Value, "<!-- ?(categories|\\{\\{.*?stub\\}\\}.*?|other languages|language links|inter ?(language|wiki)? ?links|inter ?wiki ?language ?links|inter ?wiki|The below are interlanguage links\\.?) ?-->", RegexOptions.IgnoreCase))
                     continue;
@@ -615,14 +616,12 @@ namespace WikiFunctions
         private string TurnFirstToLower(string input)
         {
             //turns first character to lowercase
-            if (input != "")
-            {
-                input = input.Trim();
-                string temp = input.Substring(0, 1);
-                return temp.ToLower() + input.Remove(0, 1);
-            }
-            else
+            if (input.Length == 0)
                 return "";
+
+            input = char.ToLower(input[0]) + input.Substring(1, input.Length - 1);
+
+            return input;
         }
 
         public string LivingPeople(string articleText)
