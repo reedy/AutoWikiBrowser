@@ -443,7 +443,7 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="list">The arrayList of articles.</param>
         /// <returns>The ArrayList of the talk pages.</returns>
-        public ArrayList convertToTalk(ArrayList list)
+        public ArrayList ConvertToTalk(ArrayList list)
         {
             ArrayList newList = new ArrayList();
             int ns = 0;
@@ -476,7 +476,7 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="list">The arrayList of talk pages.</param>
         /// <returns>The ArrayList of articles.</returns>
-        public ArrayList convertFromTalk(ArrayList list)
+        public ArrayList ConvertFromTalk(ArrayList list)
         {
             ArrayList newList = new ArrayList();
 

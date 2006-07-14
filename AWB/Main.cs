@@ -543,27 +543,27 @@ namespace AutoWikiBrowser
 
                 if (process && chkGeneralParse.Checked && (Tools.IsMainSpace(EdittingArticle) || (EdittingArticle.Contains("Sandbox") || EdittingArticle.Contains("sandbox"))))
                 {
-                    articleText = parsers.removeNowiki(articleText);
+                    articleText = parsers.RemoveNowiki(articleText);
 
                     if (Variables.LangCode == "en")
                     {//en only
-                        articleText = parsers.conversions(articleText);
+                        articleText = parsers.Conversions(articleText);
                         articleText = parsers.LivingPeople(articleText);
                         articleText = parsers.FixCats(articleText);
-                        articleText = parsers.fixHeadings(articleText);
+                        articleText = parsers.FixHeadings(articleText);
                     }
                     articleText = parsers.SyntaxFixer(articleText);
-                    articleText = parsers.linkFixer(articleText);
+                    articleText = parsers.LinkFixer(articleText);
                     articleText = parsers.BulletExternalLinks(articleText);
                     articleText = parsers.SortMetaData(articleText, EdittingArticle);
                     articleText = parsers.BoldTitle(articleText, EdittingArticle);
-                    articleText = parsers.linkSimplifier(articleText);
+                    articleText = parsers.LinkSimplifier(articleText);
 
-                    articleText = parsers.addNowiki(articleText);
+                    articleText = parsers.AddNowiki(articleText);
                 }
 
                 if (process && chkGeneralParse.Checked && EdittingArticle.StartsWith("User talk:"))
-                    articleText = parsers.substUserTemplates(articleText);
+                    articleText = parsers.SubstUserTemplates(articleText);
 
                 if (chkAppend.Checked)
                 {
@@ -960,7 +960,7 @@ namespace AutoWikiBrowser
         private void convertToTalkPagesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ArrayList list = ArrayFromList();
-            list = getLists.convertToTalk(list);
+            list = getLists.ConvertToTalk(list);
             lbArticles.Items.Clear();
             addToList(list);
         }
@@ -968,7 +968,7 @@ namespace AutoWikiBrowser
         private void convertFromTalkPagesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ArrayList list = ArrayFromList();
-            list = getLists.convertFromTalk(list);
+            list = getLists.ConvertFromTalk(list);
             lbArticles.Items.Clear();
             addToList(list);
         }
@@ -1943,7 +1943,7 @@ namespace AutoWikiBrowser
         private void btnFalsePositive_Click(object sender, EventArgs e)
         {
             if (EdittingArticle.Length > 0)
-                Tools.writeLog("#[[" + EdittingArticle + "]]\r\n", @"False positives.txt");
+                Tools.WriteLog("#[[" + EdittingArticle + "]]\r\n", @"False positives.txt");
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -2032,12 +2032,12 @@ namespace AutoWikiBrowser
 
         private void listToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            txtEdit.SelectedText = Tools.htmlToWiki(txtEdit.SelectedText, "*");
+            txtEdit.SelectedText = Tools.HTMLToWiki(txtEdit.SelectedText, "*");
         }
 
         private void listToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            txtEdit.SelectedText = Tools.htmlToWiki(txtEdit.SelectedText, "#");
+            txtEdit.SelectedText = Tools.HTMLToWiki(txtEdit.SelectedText, "#");
         }
 
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)

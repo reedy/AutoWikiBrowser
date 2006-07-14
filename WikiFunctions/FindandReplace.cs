@@ -62,14 +62,14 @@ namespace WikiFunctions
                     f = dataGridView1.Rows[i].Cells[0].Value.ToString();
                     r = dataGridView1.Rows[i].Cells[1].Value.ToString();
 
-                    ArticleText = findandReplace(chkAreRegexes.Checked, f, r, ArticleText, strTitle, ROptions);
+                    ArticleText = PerformFindAndReplace(chkAreRegexes.Checked, f, r, ArticleText, strTitle, ROptions);
                 }
                 i++;
             }
             return ArticleText;
         }
 
-        private string findandReplace(bool Regexe, string strOld, string strNew, string FaRText, string strTitle, RegexOptions ROptions)
+        private string PerformFindAndReplace(bool Regexe, string strOld, string strNew, string FaRText, string strTitle, RegexOptions ROptions)
         {
             strOld = strOld.Replace("%%title%%", strTitle);
             strNew = strNew.Replace("%%title%%", strTitle);

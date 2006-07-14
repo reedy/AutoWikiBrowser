@@ -161,7 +161,7 @@ namespace WikiFunctions
                 HttpWebRequest rq = (HttpWebRequest)WebRequest.Create(URL);
 
                 rq.Proxy.Credentials = CredentialCache.DefaultCredentials;
-                rq.UserAgent = "AWB";
+                rq.UserAgent = "WikiFunctions " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
                 HttpWebResponse response = (HttpWebResponse)rq.GetResponse();
 
@@ -250,7 +250,7 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="Message">The message to write.</param>
         /// <param name="File">The name of the file, e.g. "Log.txt".</param>
-        public static void writeLog(string Message, string File)
+        public static void WriteLog(string Message, string File)
         {
             try
             {
@@ -264,7 +264,7 @@ namespace WikiFunctions
             }
         }
 
-        public static string htmlToWiki(string text, string bullet)
+        public static string HTMLToWiki(string text, string bullet)
         {//converts wiki/html/plain text list to wiki formatted list, bullet should be * or #
             text = text.Replace("\r\n\r\n", "\r\n");
             text = Regex.Replace(text, "<br ?/?>", "", RegexOptions.IgnoreCase);
