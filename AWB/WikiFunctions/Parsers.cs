@@ -90,22 +90,22 @@ namespace WikiFunctions
         public string Parse(string articleText, string articleTitle)
         {
             //remove stuff in <nowiki> and <math> tags
-            articleText = removeNowiki(articleText);
+            articleText = RemoveNowiki(articleText);
 
             //General parsing, such as [[category => [[Category, interwiki order standardisation,
-            articleText = conversions(articleText);
+            articleText = Conversions(articleText);
             articleText = LivingPeople(articleText);
-            articleText = fixHeadings(articleText);
+            articleText = FixHeadings(articleText);
             articleText = SyntaxFixer(articleText);
             articleText = FixCats(articleText);
-            articleText = linkFixer(articleText);
+            articleText = LinkFixer(articleText);
             articleText = BulletExternalLinks(articleText);
             articleText = SortMetaData(articleText, articleTitle);
             articleText = BoldTitle(articleText, articleTitle);
-            articleText = linkSimplifier(articleText);
+            articleText = LinkSimplifier(articleText);
 
             //add stuff in nowiki tags back
-            articleText = addNowiki(articleText);
+            articleText = AddNowiki(articleText);
 
             return articleText.Trim();
         }
@@ -128,7 +128,7 @@ namespace WikiFunctions
         }
 
         Hashtable hashNowiki = new Hashtable();
-        public string removeNowiki(string articleText)
+        public string RemoveNowiki(string articleText)
         {
             hashNowiki.Clear();
 
@@ -146,7 +146,7 @@ namespace WikiFunctions
             return articleText;
         }
 
-        public string addNowiki(string articleText)
+        public string AddNowiki(string articleText)
         {
             foreach (DictionaryEntry D in hashNowiki)
                 articleText = articleText.Replace(D.Key.ToString(), D.Value.ToString());
@@ -166,7 +166,7 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
-        public string fixHeadings(string articleText)
+        public string FixHeadings(string articleText)
         {
             if (!Regex.IsMatch(articleText, "= ?See also ?="))
                 articleText = regexHeadings0.Replace(articleText, "$1See also$3");
@@ -220,8 +220,8 @@ namespace WikiFunctions
             articleText = Regex.Replace(articleText, "==\r\n\r\n", "==\r\n");
 
             //fix bullet points
-            articleText = Regex.Replace(articleText, "^\\* ", "*", RegexOptions.Multiline);
-            articleText = Regex.Replace(articleText, "^\\*", "* ", RegexOptions.Multiline);
+            articleText = Regex.Replace(articleText, "^(\\*+) ", "$1", RegexOptions.Multiline);
+            articleText = Regex.Replace(articleText, "^(\\*+)", "$1 ", RegexOptions.Multiline);
 
             //fix heading space
             articleText = Regex.Replace(articleText, "^(={1,4}) ?(.*?) ?(={1,4})$", "$1$2$3", RegexOptions.Multiline);
@@ -285,7 +285,7 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
-        public string linkFixer(string articleText)
+        public string LinkFixer(string articleText)
         {
             string x = "";
             string y = "";
@@ -584,7 +584,7 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The simplified article text.</returns>
-        public string linkSimplifier(string articleText)
+        public string LinkSimplifier(string articleText)
         {//changes [[Dog|Dog]] to [[Dog]] and [[Dog|Dogs]] to [[Dog]]s
             string n = "";
             string a = "";
@@ -654,7 +654,7 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The new article text.</returns>
-        public string conversions(string articleText)
+        public string Conversions(string articleText)
         {//some very common conversions, such as bypassing template redirects.
             articleText = Regex.Replace(articleText, "\\{\\{(wikify|wfy|wiki)\\}\\}", "{{Wikify-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", RegexOptions.IgnoreCase);
             articleText = Regex.Replace(articleText, "\\{\\{(Clean ?up|Clean|Tidy)\\}\\}", "{{Cleanup-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", RegexOptions.IgnoreCase);
@@ -681,7 +681,7 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="TalPageText">The wiki text of the talk page.</param>
         /// <returns>The new text.</returns>
-        public string substUserTemplates(string TalkPageText)
+        public string SubstUserTemplates(string TalkPageText)
         {
             TalkPageText = Regex.Replace(TalkPageText, "\\{\\{(template:)?(test[n0-6]?[ab]?)\\}\\}", "{{subst:$2}}", RegexOptions.IgnoreCase);
             TalkPageText = Regex.Replace(TalkPageText, "\\{\\{(template:)?(test[n0-6]?[ab]?-n\\|.*?)\\}\\}", "{{subst:$2}}", RegexOptions.IgnoreCase);
