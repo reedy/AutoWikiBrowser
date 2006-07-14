@@ -2459,6 +2459,7 @@ namespace AutoWikiBrowser
             findAndReplace.caseSensitive = false;
             findAndReplace.isMulti = false;
             findAndReplace.isSingle = false;
+            findAndReplace.ignoreLinks = false;
 
             cmboCategorise.SelectedIndex = 0;
             txtNewCategory.Text = "";
@@ -2625,6 +2626,11 @@ namespace AutoWikiBrowser
                             {
                                 reader.MoveToAttribute("ignorenofar");
                                 chkIgnoreWhenNoFAR.Checked = bool.Parse(reader.Value);
+                            }
+                            if (reader.AttributeCount > 6)
+                            {
+                                reader.MoveToAttribute("ignorelinks");
+                                findAndReplace.ignoreLinks = bool.Parse(reader.Value);
                             }
 
                             continue;
