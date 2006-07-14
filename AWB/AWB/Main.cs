@@ -2283,7 +2283,7 @@ namespace AutoWikiBrowser
         private void btnFindAndReplaceAdvanced_Click(object sender, EventArgs e)
         {
             if (!replaceSpecial.Visible)
-                replaceSpecial.Show();
+                replaceSpecial.ShowDialog();
             else
                 replaceSpecial.Hide();
         }
@@ -2291,7 +2291,7 @@ namespace AutoWikiBrowser
         private void btnMoreFindAndReplce_Click(object sender, EventArgs e)
         {
             if (!findAndReplace.Visible)
-                findAndReplace.Show();
+                findAndReplace.ShowDialog();
             else
                 findAndReplace.Hide();
         }

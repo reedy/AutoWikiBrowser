@@ -106,9 +106,9 @@ namespace WikiFunctions
             // btnDone
             // 
             this.btnDone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDone.Location = new System.Drawing.Point(460, 271);
+            this.btnDone.Location = new System.Drawing.Point(429, 271);
             this.btnDone.Name = "btnDone";
-            this.btnDone.Size = new System.Drawing.Size(60, 23);
+            this.btnDone.Size = new System.Drawing.Size(91, 23);
             this.btnDone.TabIndex = 2;
             this.btnDone.Text = "Done";
             this.btnDone.UseVisualStyleBackColor = true;
