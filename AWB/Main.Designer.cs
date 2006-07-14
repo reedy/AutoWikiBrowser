@@ -176,6 +176,7 @@ namespace AutoWikiBrowser
             this.insertToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.birthdeathCatsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.metadataTemplateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.humanNameCategoryKeyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insertTagToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wikifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cleanupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -253,7 +254,6 @@ namespace AutoWikiBrowser
             this.btntsPreview = new System.Windows.Forms.ToolStripButton();
             this.btntsChanges = new System.Windows.Forms.ToolStripButton();
             this.webBrowserEdit = new WikiFunctions.WebControl();
-            this.humanNameCategoryKeyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -1441,7 +1441,7 @@ namespace AutoWikiBrowser
             this.toolStripSeparator9,
             this.replaceTextWithLastEditToolStripMenuItem});
             this.mnuTextBox.Name = "contextMenuStrip1";
-            this.mnuTextBox.Size = new System.Drawing.Size(200, 408);
+            this.mnuTextBox.Size = new System.Drawing.Size(200, 386);
             this.mnuTextBox.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // wordWrapToolStripMenuItem1
@@ -1625,6 +1625,13 @@ namespace AutoWikiBrowser
             this.metadataTemplateToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.metadataTemplateToolStripMenuItem.Text = "Meta-data template";
             this.metadataTemplateToolStripMenuItem.Click += new System.EventHandler(this.metadataTemplateToolStripMenuItem_Click);
+            // 
+            // humanNameCategoryKeyToolStripMenuItem
+            // 
+            this.humanNameCategoryKeyToolStripMenuItem.Name = "humanNameCategoryKeyToolStripMenuItem";
+            this.humanNameCategoryKeyToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.humanNameCategoryKeyToolStripMenuItem.Text = "Human name category key";
+            this.humanNameCategoryKeyToolStripMenuItem.Click += new System.EventHandler(this.humanNameCategoryKeyToolStripMenuItem_Click);
             // 
             // insertTagToolStripMenuItem
             // 
@@ -2248,13 +2255,6 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
             this.webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
             // 
-            // humanNameCategoryKeyToolStripMenuItem
-            // 
-            this.humanNameCategoryKeyToolStripMenuItem.Name = "humanNameCategoryKeyToolStripMenuItem";
-            this.humanNameCategoryKeyToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-            this.humanNameCategoryKeyToolStripMenuItem.Text = "Human name category key";
-            this.humanNameCategoryKeyToolStripMenuItem.Click += new System.EventHandler(this.humanNameCategoryKeyToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2266,6 +2266,7 @@ namespace AutoWikiBrowser
             this.Controls.Add(this.statusStrip2);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.statusStrip1);
+            this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MinimumSize = new System.Drawing.Size(600, 482);

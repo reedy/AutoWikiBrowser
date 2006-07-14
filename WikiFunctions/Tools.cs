@@ -144,6 +144,17 @@ namespace WikiFunctions
         /// <returns>The HTML.</returns>
         public static string GetHTML(string URL)
         {
+            return GetHTML(URL, Encoding.UTF8);
+        }
+
+        /// <summary>
+        /// Gets the HTML from the given web address.
+        /// </summary>
+        /// <param name="URL">The URL of the webpage.</param>
+        /// <param name="Enc">The ecoding to use.</param>
+        /// <returns>The HTML.</returns>
+        public static string GetHTML(string URL, Encoding Enc)
+        {
             string text = "";
             try
             {
@@ -155,7 +166,7 @@ namespace WikiFunctions
                 HttpWebResponse response = (HttpWebResponse)rq.GetResponse();
 
                 Stream stream = response.GetResponseStream();
-                StreamReader sr = new StreamReader(stream, Encoding.UTF8);
+                StreamReader sr = new StreamReader(stream, Enc);
 
                 text = sr.ReadToEnd();
 
