@@ -128,7 +128,7 @@ namespace WikiFunctions
         }
 
         Hashtable hashNowiki = new Hashtable();
-        readonly Regex NoWikiRegex = new Regex("<nowiki>.*?</nowiki>|<math>.*?</math>|<!--.*?-->", RegexOptions.Singleline);
+        readonly Regex NoWikiRegex = new Regex("<nowiki>.*?</nowiki>|<math>.*?</math>|<!--.*?-->", RegexOptions.Singleline | RegexOptions.Compiled);
         public string RemoveNowiki(string articleText)
         {
             hashNowiki.Clear();
@@ -388,7 +388,7 @@ namespace WikiFunctions
             articleText = articleText.Replace("&#9408;", "&amp;#9408;");
             articleText = articleText.Replace("&#9848;", "&amp;#9848;");
 
-            articleText = articleText.Replace("&#126;~", "&amp;#126;~");
+            articleText = articleText.Replace("&#126;", "&amp;#126;");
             articleText = articleText.Replace("&lt;", "&amp;lt;").Replace("&gt;", "&amp;gt;");
             articleText = articleText.Replace("&#160;", "&nbsp;");
             articleText = articleText.Replace("&nbsp;", "&amp;nbsp;").Replace("&thinsp;", "&amp;thinsp;").Replace("&shy;", "&amp;shy;");
@@ -682,6 +682,8 @@ namespace WikiFunctions
         /// <returns>The new text.</returns>
         public string SubstUserTemplates(string TalkPageText)
         {
+            TalkPageText = RemoveNowiki(TalkPageText);
+
             TalkPageText = Regex.Replace(TalkPageText, "\\{\\{(template:)?(test[n0-6]?[ab]?)\\}\\}", "{{subst:$2}}", RegexOptions.IgnoreCase);
             TalkPageText = Regex.Replace(TalkPageText, "\\{\\{(template:)?(test[n0-6]?[ab]?-n\\|.*?)\\}\\}", "{{subst:$2}}", RegexOptions.IgnoreCase);
             
@@ -691,7 +693,8 @@ namespace WikiFunctions
             TalkPageText = Regex.Replace(TalkPageText, "\\{\\{(template:)?(spam[0-5]?-n\\|.*?)\\}\\}", "{{subst:$2}}", RegexOptions.IgnoreCase);
 
             TalkPageText = Regex.Replace(TalkPageText, "\\{\\{(template:)?(welcome[0-6]|welcomeip|anon|welcome-anon)\\}\\}", "{{subst:$2}}", RegexOptions.IgnoreCase);
-                        
+
+            TalkPageText = AddNowiki(TalkPageText);
             return TalkPageText;
         }
 

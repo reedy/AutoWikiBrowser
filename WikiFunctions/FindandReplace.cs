@@ -108,7 +108,7 @@ namespace WikiFunctions
         }
 
         Hashtable hashLinks = new Hashtable();
-        readonly Regex NoLinksRegex = new Regex("\\[[Hh]ttp:.*?\\]|\\[\\[[Ii]mage:.*?\\]\\]", RegexOptions.Singleline);
+        readonly Regex NoLinksRegex = new Regex("<nowiki>.*?</nowiki>|<math>.*?</math>|<!--.*?-->|[Hh]ttp://[^\\ ]*|\\[[Hh]ttp:.*?\\]|\\[\\[[Ii]mage:.*?\\]\\]", RegexOptions.Singleline | RegexOptions.Compiled);
         private string RemoveLinks(string articleText)
         {
             hashLinks.Clear();
@@ -116,8 +116,9 @@ namespace WikiFunctions
             int i = 0;
             foreach (Match m in NoLinksRegex.Matches(articleText))
             {
-                articleText = articleText.Replace(m.Value, "<%%<" + i.ToString() + ">%%>");
-                hashLinks.Add("<%%<" + i.ToString() + ">%%>", m.Value);
+                MessageBox.Show(m.Value);
+                articleText = articleText.Replace(m.Value, "<" + i.ToString() + ">");
+                hashLinks.Add("<" + i.ToString() + ">", m.Value);
                 i++;
             }
 
@@ -228,7 +229,7 @@ namespace WikiFunctions
             XMLWriter.WriteAttributeString("multiline", isMulti.ToString());
             XMLWriter.WriteAttributeString("singleline", isSingle.ToString());
             XMLWriter.WriteAttributeString("ignorenofar", ignore.ToString());
-            XMLWriter.WriteAttributeString("ignorelinks", ignoreLinks.ToString());
+            XMLWriter.WriteAttributeString("ignoretext", ignoreLinks.ToString());
 
             for (int i = 0; i != dataGridView1.Rows.Count; ++i)
             {

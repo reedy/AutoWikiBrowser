@@ -62,6 +62,7 @@ namespace WikiFunctions
             this.chkSingleline = new System.Windows.Forms.CheckBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.chkIgnoreLinks = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -183,16 +184,31 @@ namespace WikiFunctions
             this.chkIgnoreLinks.AutoSize = true;
             this.chkIgnoreLinks.Location = new System.Drawing.Point(407, 98);
             this.chkIgnoreLinks.Name = "chkIgnoreLinks";
-            this.chkIgnoreLinks.Size = new System.Drawing.Size(177, 17);
+            this.chkIgnoreLinks.Size = new System.Drawing.Size(162, 17);
             this.chkIgnoreLinks.TabIndex = 14;
-            this.chkIgnoreLinks.Text = "Ignore external links and images";
+            this.chkIgnoreLinks.Text = "Ignore external links, images,";
+            this.toolTip1.SetToolTip(this.chkIgnoreLinks, "Find and replacements will not be made in external links, images, <nowiki>. <math" +
+                    "> and <!-- comments -->");
             this.chkIgnoreLinks.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(425, 118);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(140, 13);
+            this.label1.TabIndex = 15;
+            this.label1.Text = "nowiki, math and <!-- --> text";
+            this.toolTip1.SetToolTip(this.label1, "Find and replacements will not be made in external links, images, <nowiki>. <math" +
+                    "> and <!-- comments -->");
             // 
             // FindandReplace
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(583, 306);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.chkIgnoreLinks);
             this.Controls.Add(this.chkSingleline);
             this.Controls.Add(this.chkMultiline);
@@ -230,5 +246,6 @@ namespace WikiFunctions
         private System.Windows.Forms.CheckBox chkSingleline;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.CheckBox chkIgnoreLinks;
+        private System.Windows.Forms.Label label1;
     }
 }
