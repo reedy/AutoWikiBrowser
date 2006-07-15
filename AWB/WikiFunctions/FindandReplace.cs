@@ -116,7 +116,6 @@ namespace WikiFunctions
             int i = 0;
             foreach (Match m in NoLinksRegex.Matches(articleText))
             {
-                MessageBox.Show(m.Value);
                 articleText = articleText.Replace(m.Value, "<" + i.ToString() + ">");
                 hashLinks.Add("<" + i.ToString() + ">", m.Value);
                 i++;
