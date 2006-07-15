@@ -565,6 +565,7 @@ namespace AutoWikiBrowser
                 if (process && chkGeneralParse.Checked && EdittingArticle.StartsWith("User talk:"))
                     articleText = parsers.SubstUserTemplates(articleText);
 
+
                 if (chkAppend.Checked)
                 {
                     if (Tools.IsNotTalk(EdittingArticle))
@@ -2629,7 +2630,7 @@ namespace AutoWikiBrowser
                             }
                             if (reader.AttributeCount > 6)
                             {
-                                reader.MoveToAttribute("ignorelinks");
+                                reader.MoveToAttribute("ignoretext");
                                 findAndReplace.ignoreLinks = bool.Parse(reader.Value);
                             }
 
