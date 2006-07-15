@@ -90,7 +90,8 @@ namespace WikiFunctions.IRC
         readonly Regex editRegex = new Regex(":14\\[\\[07(.*?)14\\]\\]4 (M?)10 02(.*?) 5\\* 03(.*?) 5\\* \\((.*?)\\) 10(.*?)$", RegexOptions.Compiled);
         readonly Regex newArticleRegex = new Regex(":14\\[\\[07(.*?)14\\]\\]4 M?N10 02(.*?) 5\\* 03(.*?) 5\\* \\((.*?)\\) 10(.*?)$", RegexOptions.Compiled);
         readonly Regex movePageRegex = new Regex(":14\\[\\[07Special:Log/move14\\]\\]4 move(_redir)?10 02 5\\* 03(.*?) 5\\*  10moved \\[\\[02(.*?)10\\]\\] to \\[\\[(.*?)\\]\\](.*?)$", RegexOptions.Compiled);
-        readonly Regex newUserRegex = new Regex(":14\\[\\[07(.*)14\\]\\]4 create10 02 5\\* 03(.*?) 5\\*  10New user: \\[\\[(.*?)\\|Talk\\]\\] \\| \\[\\[(.*?)\\|contribs\\]\\] \\| \\[\\[(.*?)\\|block\\]\\]$", RegexOptions.Compiled);
+       // readonly Regex newUserRegex = new Regex(":14\\[\\[07(.*)14\\]\\]4 create10 02 5\\* 03(.*?) 5\\*  10New user: \\[\\[(.*?)\\|Talk\\]\\] \\| \\[\\[(.*?)\\|contribs\\]\\] \\| \\[\\[(.*?)\\|block\\]\\]$", RegexOptions.Compiled);
+        readonly Regex newUserRegex = new Regex(":14\\[\\[07Special:Log/newusers14\\]\\]4 create10 02 5\\* 03(.*?) 5\\*  10New user account$", RegexOptions.Compiled);
         readonly Regex uploadRegex = new Regex(":14\\[\\[07Special:Log/upload14\\]\\]4 upload10 02 5\\* 03(.*?) 5\\*  10uploaded \"\\[\\[02(.*?)10\\]\\]\"(.*?)$", RegexOptions.Compiled);
 
         readonly Regex deleteRegex = new Regex(":14\\[\\[07Special:Log/delete14\\]\\]4 delete10 02 5\\* 03(.*?) 5\\*  10deleted \"02(.*?)10\":(.*?)$", RegexOptions.Compiled);
@@ -139,7 +140,7 @@ namespace WikiFunctions.IRC
             {
                 Match m = newUserRegex.Match(msg);
 
-                this.NewUser(m.Groups[2].Value);
+                this.NewUser(m.Groups[1].Value);
             }
             else if (movePageRegex.IsMatch(msg))//move
             {
