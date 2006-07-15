@@ -132,6 +132,7 @@ namespace WikiFunctions
         public string RemoveNowiki(string articleText)
         {
             hashNowiki.Clear();
+            string s = "";
 
             int i = 0;
             foreach (Match m in NoWikiRegex.Matches(articleText))
@@ -139,8 +140,9 @@ namespace WikiFunctions
                 if (Regex.IsMatch(m.Value, "<!-- ?(categories|\\{\\{.*?stub\\}\\}.*?|other languages|language links|inter ?(language|wiki)? ?links|inter ?wiki ?language ?links|inter ?wiki|The below are interlanguage links\\.?) ?-->", RegexOptions.IgnoreCase))
                     continue;
 
-                articleText = articleText.Replace(m.Value, "<%%<" + i.ToString() + ">%%>");
-                hashNowiki.Add("<%%<" + i.ToString() + ">%%>", m.Value);
+                s = "<%%<" + i.ToString() + ">%%>";
+                articleText = articleText.Replace(m.Value, s);
+                hashNowiki.Add(s, m.Value);
                 i++;
             }
 
@@ -332,7 +334,7 @@ namespace WikiFunctions
 
             articleTextSubstring = articleText.Substring(intStart);
             articleText = articleText.Substring(0, intStart);
-            articleTextSubstring = Regex.Replace(articleTextSubstring, "(\r\n)?(\r\n)(\\[?http)", "$2*$3");
+            articleTextSubstring = Regex.Replace(articleTextSubstring, "(\r\n)?(\r\n)(\\[?http)", "$2* $3");
             articleText += articleTextSubstring;
 
             return articleText;
