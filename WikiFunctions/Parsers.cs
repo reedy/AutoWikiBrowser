@@ -390,6 +390,7 @@ namespace WikiFunctions
             articleText = articleText.Replace("&#9408;", "&amp;#9408;");
             articleText = articleText.Replace("&#9848;", "&amp;#9848;");
 
+            articleText = articleText.Replace("&#x5B;", "&amp;#x5B;").Replace("&#x5D;", "&amp;#x5D;");
             articleText = articleText.Replace("&#126;", "&amp;#126;");
             articleText = articleText.Replace("&lt;", "&amp;lt;").Replace("&gt;", "&amp;gt;");
             articleText = articleText.Replace("&#160;", "&nbsp;");
