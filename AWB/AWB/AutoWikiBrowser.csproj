@@ -144,6 +144,9 @@
     <Compile Include="specialFilter.Designer.cs">
       <DependentUpon>specialFilter.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Default.xml">
