@@ -54,6 +54,7 @@ namespace WikiFunctions
             string origURL = Variables.URL + "/query.php?what=category&cptitle=" + encodeText(Category) + "&format=xml&cplimit=500";
             string URL = origURL;
             int ns = 0;
+            string title = "";
 
             while (true)
             {
@@ -81,7 +82,9 @@ namespace WikiFunctions
 
                         if (reader.Name == "title")
                         {
-                            list.Add(reader.ReadString(), ns);
+                            title = reader.ReadString();
+                            if(!list.ContainsKey(title))
+                                list.Add(title, ns);
                         }
                     }
                 }
@@ -152,7 +155,7 @@ namespace WikiFunctions
 
                             title = reader.ReadString();
 
-                            if (title.Length > 0)
+                            if (title.Length > 0 && !list.ContainsKey(title))
                                 list.Add(title, ns);
                         }
                     }
@@ -169,29 +172,43 @@ namespace WikiFunctions
         /// Gets a list of links on a page.
         /// </summary>
         /// <param name="Article">The page to find links on.</param>
-        /// <returns>The ArrayList of the links.</returns>
-        public ArrayList FromLinksOnPage(string Article)
+        /// <returns>The Dictionar key/value of the links.</returns>
+        public Dictionary<string, int> FromLinksOnPage(string Article)
         {
-            Article = encodeText(Article);
-            ArrayList ArticleArray = new ArrayList();
-            string x = "";
+            string OrigURL = Variables.URL + "query.php?what=links&titles=" + encodeText(Article) + "&format=xml";
+            string URL = OrigURL;
 
-            string PageText = Tools.GetHTML(Variables.URL + "index.php?title=" + Article + "&action=edit");
+            Dictionary<string, int> list = new Dictionary<string, int>();
+            string title = "";
+            int ns = 0;
 
-            if (PageText.Contains("<title>Article not found - Wikipedia, the free encyclopedia</title>"))
-                throw new Exception("The page " + Article + " does not exist. Make sure it is spelt correctly.");
+            string html = Tools.GetHTML(URL);
+            if (!html.Contains("<links>"))
+                throw new Exception(Article + " either does not exist or has no links. Make sure it is spelt correctly.");
 
-            PageText = PageText.Substring(PageText.IndexOf("<textarea"));
-            PageText = PageText.Substring(0, PageText.IndexOf("</textarea>"));
-
-            foreach (Match m in wikiLinkReg.Matches(PageText))
+            using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
             {
-                x = m.Groups[1].Value;
+                while (reader.Read())
+                {
+                    if (reader.Name == ("l"))
+                    {
+                        if (reader.AttributeCount > 1)
+                        {
+                            reader.MoveToAttribute("ns");
+                            ns = int.Parse(reader.Value);
+                        }
+                        else
+                            ns = 0;
 
-                if (!(Regex.IsMatch(x, "(^[a-z]{2,3}:)|(simple:)")) && (!(x.StartsWith("#"))))
-                    ArticleArray.Add(Tools.TurnFirstToUpper(x));
+                        title = reader.ReadString();
+
+                        if (title.Length > 0 && !list.ContainsKey(title))
+                            list.Add(title, ns);
+                    }
+                }
             }
-            return FilterSomeArticles(ArticleArray);
+
+            return list;
         }
 
         /// <summary>
@@ -369,7 +386,7 @@ namespace WikiFunctions
 
                             title = reader.ReadString();
 
-                            if (title.Length > 0)
+                            if (title.Length > 0 && !list.ContainsKey(title))
                                 list.Add(title, ns);
                         }
                     }
@@ -575,6 +592,35 @@ namespace WikiFunctions
 
             return FilterSomeArticles(ArticleArray);
         }
+         
+        ///// <summary>
+        ///// Gets a list of links on a page.
+        ///// </summary>
+        ///// <param name="Article">The page to find links on.</param>
+        ///// <returns>The ArrayList of the links.</returns>
+        //public ArrayList FromLinksOnPage(string Article)
+        //{
+        //    Article = encodeText(Article);
+        //    ArrayList ArticleArray = new ArrayList();
+        //    string x = "";
+
+        //    string PageText = Tools.GetHTML(Variables.URL + "index.php?title=" + Article + "&action=edit");
+
+        //    if (PageText.Contains("<title>Article not found - Wikipedia, the free encyclopedia</title>"))
+        //        throw new Exception("The page " + Article + " does not exist. Make sure it is spelt correctly.");
+
+        //    PageText = PageText.Substring(PageText.IndexOf("<textarea"));
+        //    PageText = PageText.Substring(0, PageText.IndexOf("</textarea>"));
+
+        //    foreach (Match m in wikiLinkReg.Matches(PageText))
+        //    {
+        //        x = m.Groups[1].Value;
+
+        //        if (!(Regex.IsMatch(x, "(^[a-z]{2,3}:)|(simple:)")) && (!(x.StartsWith("#"))))
+        //            ArticleArray.Add(Tools.TurnFirstToUpper(x));
+        //    }
+        //    return FilterSomeArticles(ArticleArray);
+        //}
 
         /// <summary>
         /// Gets a list of articles that use an image.

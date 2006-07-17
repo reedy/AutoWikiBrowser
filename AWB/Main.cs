@@ -825,7 +825,7 @@ namespace AutoWikiBrowser
                         addDictToList(getLists.FromWhatLinksHere(strSouce, true));
                         break;
                     case 3:
-                        addToList(getLists.FromLinksOnPage(strSouce));
+                        addDictToList(getLists.FromLinksOnPage(strSouce));
                         break;
                         //4 from text file
                     case 5:

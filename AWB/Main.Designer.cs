@@ -149,6 +149,8 @@ namespace AutoWikiBrowser
             this.lbArticles = new System.Windows.Forms.ListBox();
             this.cmboSourceSelect = new System.Windows.Forms.ComboBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.btnOpenInBrowser = new System.Windows.Forms.ToolStripButton();
             this.txtEdit = new System.Windows.Forms.TextBox();
             this.mnuTextBox = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.wordWrapToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -254,8 +256,6 @@ namespace AutoWikiBrowser
             this.btntsPreview = new System.Windows.Forms.ToolStripButton();
             this.btntsChanges = new System.Windows.Forms.ToolStripButton();
             this.webBrowserEdit = new WikiFunctions.WebControl();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.btnOpenInBrowser = new System.Windows.Forms.ToolStripButton();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -274,13 +274,13 @@ namespace AutoWikiBrowser
             this.groupBox2.SuspendLayout();
             this.mnuListBox.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.statusStrip2.SuspendLayout();
             this.panel2.SuspendLayout();
             this.toolStrip.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -1404,6 +1404,26 @@ namespace AutoWikiBrowser
             this.panel1.Size = new System.Drawing.Size(283, 366);
             this.panel1.TabIndex = 9;
             // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnOpenInBrowser});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(283, 25);
+            this.toolStrip1.TabIndex = 1;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // btnOpenInBrowser
+            // 
+            this.btnOpenInBrowser.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnOpenInBrowser.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenInBrowser.Image")));
+            this.btnOpenInBrowser.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnOpenInBrowser.Name = "btnOpenInBrowser";
+            this.btnOpenInBrowser.Size = new System.Drawing.Size(23, 22);
+            this.btnOpenInBrowser.Text = "toolStripButton1";
+            this.btnOpenInBrowser.Click += new System.EventHandler(this.btnOpenInBrowser_Click);
+            // 
             // txtEdit
             // 
             this.txtEdit.AcceptsReturn = true;
@@ -2261,26 +2281,6 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
             this.webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
             // 
-            // toolStrip1
-            // 
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnOpenInBrowser});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(283, 25);
-            this.toolStrip1.TabIndex = 1;
-            this.toolStrip1.Text = "toolStrip1";
-            // 
-            // btnOpenInBrowser
-            // 
-            this.btnOpenInBrowser.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnOpenInBrowser.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenInBrowser.Image")));
-            this.btnOpenInBrowser.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnOpenInBrowser.Name = "btnOpenInBrowser";
-            this.btnOpenInBrowser.Size = new System.Drawing.Size(23, 22);
-            this.btnOpenInBrowser.Text = "toolStripButton1";
-            this.btnOpenInBrowser.Click += new System.EventHandler(this.btnOpenInBrowser_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2333,6 +2333,8 @@ namespace AutoWikiBrowser
             this.mnuListBox.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.mnuTextBox.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -2343,8 +2345,6 @@ namespace AutoWikiBrowser
             this.panel2.ResumeLayout(false);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
