@@ -286,5 +286,14 @@ namespace WikiFunctions
             sound.Stream = MyResource.beep2;
             sound.Play();
         }
+
+        public static string ApplyKeyWords(string Title, string Text)
+        {
+            Text = Text.Replace("%%title%%", Title);
+            Text = Text.Replace("%%key%%", Tools.MakeHumanCatKey(Title));
+
+            return Text;
+        }
+
     }
 }

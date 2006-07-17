@@ -172,7 +172,7 @@ namespace WikiFunctions
         /// Gets a list of links on a page.
         /// </summary>
         /// <param name="Article">The page to find links on.</param>
-        /// <returns>The Dictionar key/value of the links.</returns>
+        /// <returns>The dictionary key/value of the links.</returns>
         public Dictionary<string, int> FromLinksOnPage(string Article)
         {
             string OrigURL = Variables.URL + "query.php?what=links&titles=" + encodeText(Article) + "&format=xml";
