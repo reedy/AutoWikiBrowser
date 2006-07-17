@@ -853,9 +853,13 @@ namespace AutoWikiBrowser
             catch (ThreadAbortException)
             {
             }
+            catch (PageDoeNotExistException ex)
+            {
+                MessageBox.Show(ex.Message, "Page does not exist error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Unexpected error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
