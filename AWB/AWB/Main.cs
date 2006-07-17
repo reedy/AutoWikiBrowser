@@ -52,6 +52,8 @@ namespace AutoWikiBrowser
             btntsPreview.Image = Resources.preview;
             btntsChanges.Image = Resources.changes;
 
+            btnOpenInBrowser.Image = Resources.NewWindow;
+
             //add articles to avoid (in future may be populated from checkpage
             //noParse.Add("User:Bluemoose/Sandbox");
 
@@ -2553,5 +2555,10 @@ namespace AutoWikiBrowser
         }
 
         #endregion
+
+        private void btnOpenInBrowser_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(Variables.URL + "index.php?title=" + EdittingArticle);
+        }
     }
 }
