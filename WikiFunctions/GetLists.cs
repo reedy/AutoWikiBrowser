@@ -60,7 +60,7 @@ namespace WikiFunctions
             {
                 string html = Tools.GetHTML(URL);
                 if (html.Contains("<error>emptyresult</error>"))
-                    throw new Exception("The category " + Category + " does not exist. Make sure it is spelt correctly. If you want a stub category remember to type the category name and not the stub name.");
+                    throw new PageDoeNotExistException("The category " + Category + " does not exist. Make sure it is spelt correctly. If you want a stub category remember to type the category name and not the stub name.");
 
                 bool more = false;
 
@@ -123,7 +123,7 @@ namespace WikiFunctions
             {
                 string html = Tools.GetHTML(URL);
                 if (html.Contains("<" + request + " error=\"emptyrequest\" />"))
-                    throw new Exception("No pages link to " + Page + ". Make sure it is spelt correctly.");
+                    throw new PageDoeNotExistException("No pages link to " + Page + ". Make sure it is spelt correctly.");
 
                 bool more = false;
 
@@ -184,7 +184,7 @@ namespace WikiFunctions
 
             string html = Tools.GetHTML(URL);
             if (!html.Contains("<links>"))
-                throw new Exception(Article + " either does not exist or has no links. Make sure it is spelt correctly.");
+                throw new PageDoeNotExistException(Article + " either does not exist or has no links. Make sure it is spelt correctly.");
 
             using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
             {
@@ -357,7 +357,7 @@ namespace WikiFunctions
             {
                 string html = Tools.GetHTML(URL);
                 if (!html.Contains("<imagelinks>"))
-                    throw new Exception("The image " + Image + " does not exist. Make sure it is spelt correctly.");
+                    throw new PageDoeNotExistException("The image " + Image + " does not exist. Make sure it is spelt correctly.");
 
                 bool more = false;
 
@@ -413,7 +413,7 @@ namespace WikiFunctions
 
             if (!html.Contains("<LI id=pt-logout"))
             {
-                MessageBox.Show("Please make sure you are logged into Wikipedia in Internet Explorer so your watch list can be obtained", "Log in", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                throw new PageDoeNotExistException("Please make sure you are logged into Wikipedia in Internet Explorer so your watch list can be obtained");
                 return list;
             }
 
@@ -652,5 +652,16 @@ namespace WikiFunctions
 
         #endregion
 
+    }
+
+    [Serializable]
+    public class PageDoeNotExistException : ApplicationException
+    {
+        public PageDoeNotExistException() { }
+        public PageDoeNotExistException(string message) : base(message) { }
+
+        public PageDoeNotExistException(string message, System.Exception inner) : base(message, inner) { }
+        protected PageDoeNotExistException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+            : base(info, context) { }
     }
 }
