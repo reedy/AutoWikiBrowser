@@ -57,7 +57,6 @@ namespace AutoWikiBrowser
             //add articles to avoid (in future may be populated from checkpage
             //noParse.Add("User:Bluemoose/Sandbox");
 
-
             //check that we are not using an old OS. 98 seems to mangled some unicode.
             if (Environment.OSVersion.Version.Major < 5)
             {
@@ -102,8 +101,24 @@ namespace AutoWikiBrowser
 
         //Active article
         readonly Regex WikiLinkRegex = new Regex("\\[\\[(.*?)(\\]\\]|\\|)", RegexOptions.Compiled);
-        string EdittingArticle = "";
         string LastArticle = "";
+        string strSettingsFile = "";
+        string strListFile = "";
+        bool boolSaved = true;
+        ArrayList noParse = new ArrayList();
+        FindandReplace findAndReplace = new FindandReplace();
+        WikiFunctions.MWB.ReplaceSpecial replaceSpecial = new WikiFunctions.MWB.ReplaceSpecial();
+        Parsers parsers = new Parsers();
+        WebControl webBrowserLogin = new WebControl();
+        GetLists getLists = new GetLists();
+
+        string stredittingarticle = "";
+        public string EdittingArticle
+        {
+            get { return stredittingarticle; }
+            private set { stredittingarticle = value; }
+        }
+
         string strUserName = "";
         string UserName
         {
@@ -114,18 +129,7 @@ namespace AutoWikiBrowser
                 lblUserName.Text = Variables.Namespaces[2] + value;
             }
         }
-        string strSettingsFile = "";
-        string strListFile = "";
-        bool boolSaved = true;
-        ArrayList noParse = new ArrayList();
 
-        FindandReplace findAndReplace = new FindandReplace();
-        WikiFunctions.MWB.ReplaceSpecial replaceSpecial = new WikiFunctions.MWB.ReplaceSpecial();
-        Parsers parsers = new Parsers();
-        WebControl webBrowserLogin = new WebControl();
-        GetLists getLists = new GetLists();
-
-        //true = don't check whether we are logged in, false = do check.
         private bool WikiStatusBool = false;
         internal bool wikiStatusBool
         {
@@ -511,7 +515,7 @@ namespace AutoWikiBrowser
                 else if (cmboCategorise.SelectedIndex == 2 && txtNewCategory.Text.Length > 0)
                 {
                     string cat = "[[" + Variables.Namespaces[14] + txtNewCategory.Text + "]]";
-                    cat = cat.Replace("%%key%%", Tools.MakeHumanCatKey(EdittingArticle));
+                    cat = Tools.ApplyKeyWords(EdittingArticle, cat);
 
                     bool is_template = EdittingArticle.StartsWith(Variables.Namespaces[10]);
                     if (EdittingArticle.StartsWith(Variables.Namespaces[10]))
@@ -1550,7 +1554,7 @@ namespace AutoWikiBrowser
             else
                 regOptions = RegexOptions.IgnoreCase;
 
-            strRegex = strRegex.Replace("%%title%%", EdittingArticle);
+            strRegex = Tools.ApplyKeyWords(EdittingArticle, strRegex);
 
             if (!isRegex)
                 strRegex = Regex.Escape(strRegex);
@@ -1634,7 +1638,7 @@ namespace AutoWikiBrowser
                 else
                     RegOptions = RegexOptions.IgnoreCase;
 
-                strFind = strFind.Replace("%%title%%", EdittingArticle);
+                strFind = Tools.ApplyKeyWords(EdittingArticle, strFind);
 
                 if (!Regexe)
                     strFind = Regex.Escape(strFind);
@@ -1660,7 +1664,7 @@ namespace AutoWikiBrowser
                 else
                     RegOptions = RegexOptions.IgnoreCase;
 
-                strFind = strFind.Replace("%%title%%", EdittingArticle);
+                strFind = Tools.ApplyKeyWords(EdittingArticle, strFind);
 
                 if (!Regexe)
                     strFind = Regex.Escape(strFind);

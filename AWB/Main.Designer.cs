@@ -482,6 +482,7 @@ namespace AutoWikiBrowser
             this.chkOnlyIfContains.Size = new System.Drawing.Size(130, 17);
             this.chkOnlyIfContains.TabIndex = 4;
             this.chkOnlyIfContains.Text = "Skip if doesn\'t contain";
+            this.toolTip1.SetToolTip(this.chkOnlyIfContains, "Skip articles that do not contain this text");
             this.chkOnlyIfContains.UseVisualStyleBackColor = true;
             this.chkOnlyIfContains.CheckedChanged += new System.EventHandler(this.chkOnlyIfContains_CheckedChanged);
             // 
@@ -492,6 +493,7 @@ namespace AutoWikiBrowser
             this.txtIgnoreIfContains.Name = "txtIgnoreIfContains";
             this.txtIgnoreIfContains.Size = new System.Drawing.Size(117, 20);
             this.txtIgnoreIfContains.TabIndex = 23;
+            this.toolTip1.SetToolTip(this.txtIgnoreIfContains, "Skip articles that contain this text");
             // 
             // txtOnlyIfContains
             // 
@@ -500,6 +502,7 @@ namespace AutoWikiBrowser
             this.txtOnlyIfContains.Name = "txtOnlyIfContains";
             this.txtOnlyIfContains.Size = new System.Drawing.Size(117, 20);
             this.txtOnlyIfContains.TabIndex = 6;
+            this.toolTip1.SetToolTip(this.txtOnlyIfContains, "Skip articles that do not contain this text");
             // 
             // chkIgnoreIfContains
             // 
@@ -509,7 +512,7 @@ namespace AutoWikiBrowser
             this.chkIgnoreIfContains.Size = new System.Drawing.Size(101, 17);
             this.chkIgnoreIfContains.TabIndex = 22;
             this.chkIgnoreIfContains.Text = "Skip if contains:";
-            this.toolTip1.SetToolTip(this.chkIgnoreIfContains, "Wont make changes if article contains this text");
+            this.toolTip1.SetToolTip(this.chkIgnoreIfContains, "Skip articles that contain this text");
             this.chkIgnoreIfContains.UseVisualStyleBackColor = true;
             this.chkIgnoreIfContains.CheckedChanged += new System.EventHandler(this.chkIgnoreIfContains_CheckedChanged);
             // 
