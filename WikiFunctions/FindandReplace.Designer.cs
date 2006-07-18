@@ -63,6 +63,7 @@ namespace WikiFunctions
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.chkIgnoreLinks = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.chkAddToSummary = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -70,7 +71,7 @@ namespace WikiFunctions
             // 
             this.chkAreRegexes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkAreRegexes.AutoSize = true;
-            this.chkAreRegexes.Location = new System.Drawing.Point(410, 12);
+            this.chkAreRegexes.Location = new System.Drawing.Point(410, 10);
             this.chkAreRegexes.Name = "chkAreRegexes";
             this.chkAreRegexes.Size = new System.Drawing.Size(42, 17);
             this.chkAreRegexes.TabIndex = 0;
@@ -108,7 +109,7 @@ namespace WikiFunctions
             // btnDone
             // 
             this.btnDone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDone.Location = new System.Drawing.Point(483, 271);
+            this.btnDone.Location = new System.Drawing.Point(491, 271);
             this.btnDone.Name = "btnDone";
             this.btnDone.Size = new System.Drawing.Size(91, 23);
             this.btnDone.TabIndex = 2;
@@ -120,7 +121,7 @@ namespace WikiFunctions
             // 
             this.linkLabel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.linkLabel2.AutoSize = true;
-            this.linkLabel2.Location = new System.Drawing.Point(445, 13);
+            this.linkLabel2.Location = new System.Drawing.Point(445, 11);
             this.linkLabel2.Name = "linkLabel2";
             this.linkLabel2.Size = new System.Drawing.Size(97, 13);
             this.linkLabel2.TabIndex = 9;
@@ -131,7 +132,7 @@ namespace WikiFunctions
             // btnClear
             // 
             this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClear.Location = new System.Drawing.Point(514, 242);
+            this.btnClear.Location = new System.Drawing.Point(522, 242);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(60, 23);
             this.btnClear.TabIndex = 10;
@@ -143,7 +144,7 @@ namespace WikiFunctions
             // 
             this.chkCaseSensitive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkCaseSensitive.AutoSize = true;
-            this.chkCaseSensitive.Location = new System.Drawing.Point(410, 33);
+            this.chkCaseSensitive.Location = new System.Drawing.Point(410, 31);
             this.chkCaseSensitive.Name = "chkCaseSensitive";
             this.chkCaseSensitive.Size = new System.Drawing.Size(94, 17);
             this.chkCaseSensitive.TabIndex = 11;
@@ -155,7 +156,7 @@ namespace WikiFunctions
             this.chkMultiline.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkMultiline.AutoSize = true;
             this.chkMultiline.Enabled = false;
-            this.chkMultiline.Location = new System.Drawing.Point(410, 54);
+            this.chkMultiline.Location = new System.Drawing.Point(410, 52);
             this.chkMultiline.Name = "chkMultiline";
             this.chkMultiline.Size = new System.Drawing.Size(64, 17);
             this.chkMultiline.TabIndex = 12;
@@ -169,7 +170,7 @@ namespace WikiFunctions
             this.chkSingleline.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkSingleline.AutoSize = true;
             this.chkSingleline.Enabled = false;
-            this.chkSingleline.Location = new System.Drawing.Point(410, 75);
+            this.chkSingleline.Location = new System.Drawing.Point(410, 73);
             this.chkSingleline.Name = "chkSingleline";
             this.chkSingleline.Size = new System.Drawing.Size(71, 17);
             this.chkSingleline.TabIndex = 13;
@@ -182,7 +183,7 @@ namespace WikiFunctions
             // 
             this.chkIgnoreLinks.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkIgnoreLinks.AutoSize = true;
-            this.chkIgnoreLinks.Location = new System.Drawing.Point(410, 98);
+            this.chkIgnoreLinks.Location = new System.Drawing.Point(410, 96);
             this.chkIgnoreLinks.Name = "chkIgnoreLinks";
             this.chkIgnoreLinks.Size = new System.Drawing.Size(166, 17);
             this.chkIgnoreLinks.TabIndex = 14;
@@ -195,7 +196,7 @@ namespace WikiFunctions
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(417, 118);
+            this.label1.Location = new System.Drawing.Point(417, 116);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(159, 13);
             this.label1.TabIndex = 15;
@@ -203,11 +204,23 @@ namespace WikiFunctions
             this.toolTip1.SetToolTip(this.label1, "Find and replacements will not be made in external/interwiki links, images, <nowi" +
                     "ki>. <math> and <!-- comments -->");
             // 
+            // chkAddToSummary
+            // 
+            this.chkAddToSummary.AutoSize = true;
+            this.chkAddToSummary.Location = new System.Drawing.Point(410, 143);
+            this.chkAddToSummary.Name = "chkAddToSummary";
+            this.chkAddToSummary.Size = new System.Drawing.Size(187, 17);
+            this.chkAddToSummary.TabIndex = 16;
+            this.chkAddToSummary.Text = "Add replacements to edit summary";
+            this.toolTip1.SetToolTip(this.chkAddToSummary, "Appends information about replacements made to the edit summary");
+            this.chkAddToSummary.UseVisualStyleBackColor = true;
+            // 
             // FindandReplace
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(586, 306);
+            this.ClientSize = new System.Drawing.Size(594, 306);
+            this.Controls.Add(this.chkAddToSummary);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.chkIgnoreLinks);
             this.Controls.Add(this.chkSingleline);
@@ -247,5 +260,6 @@ namespace WikiFunctions
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.CheckBox chkIgnoreLinks;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox chkAddToSummary;
     }
 }

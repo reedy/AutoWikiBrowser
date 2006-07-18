@@ -42,6 +42,7 @@ namespace AutoWikiBrowser
             findAndReplace.isMulti = false;
             findAndReplace.isSingle = false;
             findAndReplace.ignoreLinks = false;
+            findAndReplace.AppendToSummary = true;
 
             cmboCategorise.SelectedIndex = 0;
             txtNewCategory.Text = "";
@@ -213,6 +214,11 @@ namespace AutoWikiBrowser
                             {
                                 reader.MoveToAttribute("ignoretext");
                                 findAndReplace.ignoreLinks = bool.Parse(reader.Value);
+                            }
+                            if (reader.AttributeCount > 7)
+                            {
+                                reader.MoveToAttribute("appendsummary");
+                                findAndReplace.AppendToSummary = bool.Parse(reader.Value);
                             }
 
                             continue;
