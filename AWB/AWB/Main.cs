@@ -52,8 +52,6 @@ namespace AutoWikiBrowser
             btntsPreview.Image = Resources.preview;
             btntsChanges.Image = Resources.changes;
 
-            btnOpenInBrowser.Image = Resources.NewWindow;
-
             //add articles to avoid (in future may be populated from checkpage
             //noParse.Add("User:Bluemoose/Sandbox");
 
@@ -101,6 +99,7 @@ namespace AutoWikiBrowser
 
         //Active article
         readonly Regex WikiLinkRegex = new Regex("\\[\\[(.*?)(\\]\\]|\\|)", RegexOptions.Compiled);
+        readonly Regex RedirectRegex = new Regex("^#redirect:? ?\\[\\[(.*?)\\]\\]", RegexOptions.IgnoreCase);
         string LastArticle = "";
         string strSettingsFile = "";
         string strListFile = "";
@@ -218,7 +217,7 @@ namespace AutoWikiBrowser
             if (!loadSuccess())
                 return;
 
-            if (webBrowserEdit.Document.GetElementById("wpTextbox1").InnerText != null)
+            if (webBrowserEdit.HasArticleTextBox)
                 strText = webBrowserEdit.GetArticleText();
 
             this.Text = "AutoWikiBrowser" + strSettingsFile + " - " + EdittingArticle;
@@ -230,11 +229,17 @@ namespace AutoWikiBrowser
                     MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
             }
 
+            Match m = RedirectRegex.Match(strText);
             //check for redirect
-            if (bypassRedirectsToolStripMenuItem.Checked && Regex.IsMatch(strText, "^#redirect", RegexOptions.IgnoreCase))
+            if (bypassRedirectsToolStripMenuItem.Checked && m.Success)
             {
-                Match m = Regex.Match(strText, "\\[\\[(.*?)\\]\\]");
                 strRedirect = m.Groups[1].Value;
+
+                if (strRedirect == EdittingArticle)
+                {//ignore recursice redirects
+                    SkipPage();
+                    return;
+                }
 
                 int intPos = 0;
                 intPos = lbArticles.Items.IndexOf(EdittingArticle);
@@ -483,34 +488,28 @@ namespace AutoWikiBrowser
 
                 if (cmboImages.SelectedIndex == 1)
                 {
-                    testText = articleText;
-                    articleText = parsers.ReImager(txtImageReplace.Text, txtImageWith.Text, articleText);
-                    if (testText == articleText)
-                    {
-                        skip = true;
+                    articleText = parsers.ReImager(txtImageReplace.Text, txtImageWith.Text, articleText, ref skip);
+                    if (skip)
                         return articleText;
-                    }
+                    else
+                        skip = false;
                 }
                 else if (cmboImages.SelectedIndex == 2)
                 {
-                    testText = articleText;
-                    articleText = parsers.RemoveImage(txtImageReplace.Text, articleText);
-                    if (testText == articleText)
-                    {
-                        skip = true;
+                    articleText = parsers.RemoveImage(txtImageReplace.Text, articleText, ref skip);
+                    if (skip)
                         return articleText;
-                    }
+                    else
+                        skip = false;
                 }
 
                 if (cmboCategorise.SelectedIndex == 1)
                 {
-                    testText = articleText;
-                    articleText = parsers.ReCategoriser(txtSelectSource.Text, txtNewCategory.Text, articleText);
-                    if (testText == articleText)
-                    {
-                        skip = true;
+                    articleText = parsers.ReCategoriser(txtSelectSource.Text, txtNewCategory.Text, articleText, ref skip);
+                    if (skip)
                         return articleText;
-                    }
+                    else
+                        skip = false;
                 }
                 else if (cmboCategorise.SelectedIndex == 2 && txtNewCategory.Text.Length > 0)
                 {
@@ -525,13 +524,11 @@ namespace AutoWikiBrowser
                 }
                 else if (cmboCategorise.SelectedIndex == 3 && txtNewCategory.Text.Length > 0)
                 {
-                    testText = articleText;
-                    articleText = parsers.RemoveOldCats(txtNewCategory.Text, articleText);
-                    if (testText == articleText)
-                    {
-                        skip = true;
+                    articleText = parsers.RemoveCategory(txtNewCategory.Text, articleText, ref skip);
+                    if (skip)
                         return articleText;
-                    }
+                    else
+                        skip = false;
                 }
 
                 if (chkFindandReplace.Checked)
@@ -562,7 +559,13 @@ namespace AutoWikiBrowser
                     articleText = parsers.LinkFixer(articleText);
                     articleText = parsers.BulletExternalLinks(articleText);
                     articleText = parsers.SortMetaData(articleText, EdittingArticle);
+                    
                     articleText = parsers.BoldTitle(articleText, EdittingArticle);
+                    //if (skip)
+                    //    return articleText;
+                    //else
+                    //    skip = false;
+
                     articleText = parsers.LinkSimplifier(articleText);
 
                     articleText = parsers.AddNowiki(articleText);
@@ -780,15 +783,23 @@ namespace AutoWikiBrowser
 
             if (cmboSourceSelect.SelectedIndex == 4)
             {
-                OpenFileDialog openListDialog = new OpenFileDialog();
-                openListDialog.Filter = "text files|*.txt|All files|*.*";
-                this.Focus();
-                if (openListDialog.ShowDialog() == DialogResult.OK)
+                try
                 {
-                    addToList(getLists.FromTextFile(openListDialog.FileName));
-                    strListFile = openListDialog.FileName;
+                    OpenFileDialog openListDialog = new OpenFileDialog();
+                    openListDialog.Filter = "text files|*.txt|All files|*.*";
+                    this.Focus();
+                    if (openListDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        addToList(getLists.FromTextFile(openListDialog.FileName));
+                        strListFile = openListDialog.FileName;
+                    }
+                    UpdateButtons();
                 }
-                UpdateButtons();
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
                 return;
             }
             else if (cmboSourceSelect.SelectedIndex == 10)
@@ -877,6 +888,7 @@ namespace AutoWikiBrowser
             }
             if (!toolStripProgressBar1.IsDisposed)
             {
+                this.Cursor = Cursors.Default;
                 btnMakeList.Enabled = true;
                 lblStatusText.Text = "List complete!";
                 toolStripProgressBar1.MarqueeAnimationSpeed = 0;
@@ -893,6 +905,7 @@ namespace AutoWikiBrowser
                 this.BeginInvoke(new StartProgBarDelegate(StartProgressBar));
                 return;
             }
+            this.Cursor = Cursors.WaitCursor;
             lblStatusText.Text = "Getting list";
             btnMakeList.Enabled = false;
             toolStripProgressBar1.MarqueeAnimationSpeed = 100;
@@ -912,7 +925,7 @@ namespace AutoWikiBrowser
 
             foreach (string s in ArticleArray)
             {
-                if (!lbArticles.Items.Contains(s))
+             //   if (!lbArticles.Items.Contains(s))
                     lbArticles.Items.Add(s);
             }
 
@@ -1064,10 +1077,12 @@ namespace AutoWikiBrowser
                 webBrowserEdit.SetMinor(markAllAsMinorToolStripMenuItem.Checked);
                 webBrowserEdit.SetWatch(addAllToWatchlistToolStripMenuItem.Checked);
 
-                string tag = cmboEditSummary.Text;
+                string tag = cmboEditSummary.Text + parsers.EditSummary;
+                if(findAndReplace.AppendToSummary)
+                    tag = tag += findAndReplace.EditSummary;
                 if (!chkSuppressTag.Enabled || !chkSuppressTag.Checked)
-                    tag += " " + parsers.EditSummary + Variables.SummaryTag;
-
+                    tag += " " + Variables.SummaryTag;
+                
                 webBrowserEdit.SetSummary(tag);
             }
         }
@@ -2076,6 +2091,11 @@ namespace AutoWikiBrowser
             txtEdit.Undo();
         }
 
+        private void humanNameDisambigTagToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            txtEdit.Text = "{{Hndis|name=" + Tools.MakeHumanCatKey(EdittingArticle) + "}}";
+        }
+
         private void wikifyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             txtEdit.Text = "{{Wikify-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + txtEdit.Text;
@@ -2564,9 +2584,5 @@ namespace AutoWikiBrowser
 
         #endregion
 
-        private void btnOpenInBrowser_Click(object sender, EventArgs e)
-        {
-            System.Diagnostics.Process.Start(Variables.URL + "index.php?title=" + EdittingArticle);
-        }
     }
 }

@@ -57,7 +57,7 @@ namespace AutoWikiBrowser
             "sv",
             "ru",
             "sl"});
-            this.cmboLang.Location = new System.Drawing.Point(103, 49);
+            this.cmboLang.Location = new System.Drawing.Point(102, 79);
             this.cmboLang.Name = "cmboLang";
             this.cmboLang.Size = new System.Drawing.Size(121, 21);
             this.cmboLang.TabIndex = 0;
@@ -80,8 +80,10 @@ namespace AutoWikiBrowser
             "wikipedia",
             "wiktionary",
             "wikisource",
-            "commons"});
-            this.cmboProject.Location = new System.Drawing.Point(103, 76);
+            "commons",
+            "meta",
+            "species"});
+            this.cmboProject.Location = new System.Drawing.Point(102, 52);
             this.cmboProject.Name = "cmboProject";
             this.cmboProject.Size = new System.Drawing.Size(121, 21);
             this.cmboProject.TabIndex = 2;
@@ -90,7 +92,7 @@ namespace AutoWikiBrowser
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(39, 52);
+            this.label1.Location = new System.Drawing.Point(38, 82);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(58, 13);
             this.label1.TabIndex = 3;
@@ -99,7 +101,7 @@ namespace AutoWikiBrowser
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(54, 76);
+            this.label2.Location = new System.Drawing.Point(53, 55);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(43, 13);
             this.label2.TabIndex = 4;

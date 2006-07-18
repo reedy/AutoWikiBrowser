@@ -45,6 +45,10 @@ namespace WikiFunctions
             {
                 if (Project == "commons")
                     return "http://commons.wikimedia.org/w/";
+                else if (Project == "meta")
+                    return "http://meta.wikimedia.org/w/";
+                else if (Project == "species")
+                    return "http://species.wikimedia.org/w/";
                 else
                     return "http://" + LangCode + "." + Project + ".org/w/";
             }
@@ -56,6 +60,10 @@ namespace WikiFunctions
             {
                 if (Project == "commons")
                     return "http://commons.wikimedia.org";
+                else if (Project == "meta")
+                    return "http://meta.wikimedia.org";
+                else if (Project == "species")
+                    return "http://species.wikimedia.org";
                 else
                     return "http://" + LangCode + "." + Project + ".org";
             }
@@ -175,6 +183,16 @@ namespace WikiFunctions
                     {
                         Namespaces[4] = "Wikisource:";
                         Namespaces[5] = "Wikisource talk:";
+                    }
+                    else if (strproject == "meta")
+                    {
+                        Namespaces[4] = "Meta:";
+                        Namespaces[5] = "Meta talk:";
+                    }
+                    else if (strproject == "species")
+                    {
+                        Namespaces[4] = "Wikispecies:";
+                        Namespaces[5] = "Wikispecies talk:";
                     }
                     else if (strproject == "commons")
                     {

@@ -51,6 +51,9 @@ namespace WikiFunctions
         }
         private bool boolInterwikiOrder = true;
 
+        /// <summary>
+        /// The interwiki link order to use
+        /// </summary>
         public InterWikiOrderEnum InterWikiOrder
         {
             set { metaDataSorter.InterWikiOrder = value; }
@@ -82,53 +85,19 @@ namespace WikiFunctions
         #region General Parse
 
         /// <summary>
-        /// Applies a series of formatting functions
-        /// </summary>
-        /// <param name="articleText">The wiki text of the article.</param>
-        /// <param name="articleTitle">The title of the article.</param>
-        /// <returns>The modified article text.</returns>
-        public string Parse(string articleText, string articleTitle)
-        {
-            //remove stuff in <nowiki> and <math> tags
-            articleText = RemoveNowiki(articleText);
-
-            //General parsing, such as [[category => [[Category, interwiki order standardisation,
-            articleText = Conversions(articleText);
-            articleText = LivingPeople(articleText);
-            articleText = FixHeadings(articleText);
-            articleText = SyntaxFixer(articleText);
-            articleText = FixCats(articleText);
-            articleText = LinkFixer(articleText);
-            articleText = BulletExternalLinks(articleText);
-            articleText = SortMetaData(articleText, articleTitle);
-            articleText = BoldTitle(articleText, articleTitle);
-            articleText = LinkSimplifier(articleText);
-
-            //add stuff in nowiki tags back
-            articleText = AddNowiki(articleText);
-
-            return articleText.Trim();
-        }
-
-        public string SortMetaData(string articleText, string articleTitle)
-        {
-            return metaDataSorter.Sort(articleText, articleTitle);
-        }
-
-        /// <summary>
         /// Re-organises the Person Data, stub/disambig templates, categories and interwikis
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">The article title.</param>
         /// <param name="sortWikis">True, sort interwiki order per pywiki bots, false keep current order.</param>
         /// <returns>The re-organised text.</returns>
-        public string Sort(string articleText, string articleTitle)
+        public string SortMetaData(string articleText, string articleTitle)
         {
             return metaDataSorter.Sort(articleText, articleTitle);
         }
 
         Hashtable hashNowiki = new Hashtable();
-        readonly Regex NoWikiRegex = new Regex("<nowiki>.*?</nowiki>|<math>.*?</math>|<!--.*?-->", RegexOptions.Singleline | RegexOptions.Compiled);
+        readonly Regex NoWikiRegex = new Regex("<nowiki>.*?</nowiki>|<math>.*?</math>|<!--.*?-->|\\[\\[[Ii]mage:.*?\\]\\]", RegexOptions.Singleline | RegexOptions.Compiled);
         public string RemoveNowiki(string articleText)
         {
             hashNowiki.Clear();
@@ -164,6 +133,26 @@ namespace WikiFunctions
         readonly Regex regexHeadings3 = new Regex("(== ?)(reference:?)(s? ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex regexHeadings4 = new Regex("(== ?)(source:?)(s? ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex regexHeadings5 = new Regex("(== ?)(further readings?:?)( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+        /// <summary>
+        /// Fix ==See also== and similar section common errors.
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="NoChange">Value that indicated whether no change was made.</param>
+        /// <returns>The modified article text.</returns>
+        public string FixHeadings(string articleText, ref bool NoChange)
+        {
+            string testText = articleText;
+            articleText = FixHeadings(articleText);
+
+            if (testText == articleText)
+                NoChange = true;
+            else
+                NoChange = false;
+
+            return articleText;
+        }
+
         /// <summary>
         /// Fix ==See also== and similar section common errors.
         /// </summary>
@@ -241,6 +230,25 @@ namespace WikiFunctions
         /// Fixes and improves syntax (such as html markup)
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="NoChange">Value that indicated whether no change was made.</param>
+        /// <returns>The modified article text.</returns>
+        public string SyntaxFixer(string articleText, ref bool NoChange)
+        {
+            string testText = articleText;
+            articleText = SyntaxFixer(articleText);
+
+            if (testText == articleText)
+                NoChange = true;
+            else
+                NoChange = false;
+
+            return articleText;
+        }
+
+        /// <summary>
+        /// Fixes and improves syntax (such as html markup)
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
         public string SyntaxFixer(string articleText)
         {
@@ -287,6 +295,25 @@ namespace WikiFunctions
         /// Fixes link syntax
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="NoChange">Value that indicated whether no change was made.</param>
+        /// <returns>The modified article text.</returns>
+        public string LinkFixer(string articleText, ref bool NoChange)
+        {
+            string testText = articleText;
+            articleText = LinkFixer(articleText);
+
+            if (testText == articleText)
+                NoChange = true;
+            else
+                NoChange = false;
+
+            return articleText;
+        }
+
+        /// <summary>
+        /// Fixes link syntax
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
         public string LinkFixer(string articleText)
         {
@@ -324,9 +351,28 @@ namespace WikiFunctions
         /// Adds bullet points to external links after "external links" header
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="NoChange">Value that indicated whether no change was made.</param>
+        /// <returns>The modified article text.</returns>
+        public string BulletExternalLinks(string articleText, ref bool NoChange)
+        {
+            string testText = articleText;
+            articleText = BulletExternalLinks(articleText);
+
+            if (testText == articleText)
+                NoChange = true;
+            else
+                NoChange = false;
+
+            return articleText;
+        }
+
+        /// <summary>
+        /// Adds bullet points to external links after "external links" header
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
         public string BulletExternalLinks(string articleText)
-        {//Bullets external links
+        {
             int intStart = 0;
             string articleTextSubstring = "";
             string strExtLink = Regex.Match(articleText, "= ? ?external links? ? ?=", RegexOptions.IgnoreCase).ToString();
@@ -352,6 +398,25 @@ namespace WikiFunctions
         #endregion
 
         #region other functions
+
+        /// <summary>
+        /// Converts HTML entities to unicode, with some deliberate exceptions
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="NoChange">Value that indicated whether no change was made.</param>
+        /// <returns>The modified article text.</returns>
+        public string Unicodify(string articleText, ref bool NoChange)
+        {
+            string testText = articleText;
+            articleText = Unicodify(articleText);
+
+            if (testText == articleText)
+                NoChange = true;
+            else
+                NoChange = false;
+
+            return articleText;
+        }
 
         /// <summary>
         /// Converts HTML entities to unicode, with some deliberate exceptions
@@ -408,6 +473,26 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">The title of the article.</param>
+        /// <param name="NoChange">Value that indicated whether no change was made.</param>
+        /// <returns>The modified article text.</returns>
+        public string BoldTitle(string articleText, string articleTitle, ref bool NoChange)
+        {
+            string testText = articleText;
+            articleText = BoldTitle(articleText, articleTitle);
+
+            if (testText == articleText)
+                NoChange = true;
+            else
+                NoChange = false;
+
+            return articleText;
+        }
+
+        /// <summary>
+        /// '''Emboldens''' the first occurence of the title, if it isnt already
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="articleTitle">The title of the article.</param>
         /// <returns>The modified article text.</returns>
         public string BoldTitle(string articleText, string articleTitle)
         {
@@ -415,11 +500,23 @@ namespace WikiFunctions
             if (Regex.IsMatch(articleTitle, "^(January|February|March|April|May|June|July|August|September|October|November|December) [0-9]{1,2}$"))
                 return articleText;
 
-            string escTitle = Regex.Replace(articleTitle, " \\(.*?\\)$", "");
+            string escTitle = articleTitle;
             escTitle = Regex.Escape(escTitle);
 
-            articleText = articleText.Replace("[[" + articleTitle + "]]", articleTitle);
-            articleText = articleText.Replace("[[" + TurnFirstToLower(articleTitle) + "]]", TurnFirstToLower(articleTitle));
+            //remove self links first
+            Regex tregex = new Regex("\\[\\[" + caseInsensitive(escTitle) + "\\]\\]");
+            if (!articleText.Contains("'''"))
+            {
+                articleText = tregex.Replace(articleText, "'''$1$2'''", 1);
+            }
+            else
+            {
+                articleText = articleText.Replace("[[" + articleTitle + "]]", articleTitle);
+                articleText = articleText.Replace("[[" + TurnFirstToLower(articleTitle) + "]]", TurnFirstToLower(articleTitle));
+            }
+
+            escTitle = Regex.Replace(articleTitle, " \\(.*?\\)$", "");
+            escTitle = Regex.Escape(escTitle);
 
             if (Regex.IsMatch(articleText, "^(\\[\\[|\\{|\\*|:|<)") || Regex.IsMatch(articleText, "''' ?" + escTitle + " ?'''", RegexOptions.IgnoreCase))
                 return articleText;
@@ -439,6 +536,27 @@ namespace WikiFunctions
             articleText = regexBold.Replace(articleText, "$1'''$2'''$3", 1);
 
             return articleText + strSecondHalf;
+        }
+
+        /// <summary>
+        /// Replaces an iamge in the article.
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="OldImage">The old image to replace.</param>
+        /// <param name="NewImage">The new image.</param>
+        /// <param name="NoChange">Value that indicated whether no change was made.</param>
+        /// <returns>The new article text.</returns>
+        public string ReImager(string OldImage, string NewImage, string articleText, ref bool NoChange)
+        {
+            string testText = articleText;
+            articleText = ReImager(OldImage, NewImage, articleText);
+
+            if (testText == articleText)
+                NoChange = true;
+            else
+                NoChange = false;
+
+            return articleText;
         }
 
         /// <summary>
@@ -469,6 +587,26 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="OldImage">The image to remove.</param>
+        /// <param name="NoChange">Value that indicated whether no change was made.</param>
+        /// <returns>The new article text.</returns>
+        public string RemoveImage(string OldImage, string articleText, ref bool NoChange)
+        {
+            string testText = articleText;
+            articleText = RemoveImage(OldImage, articleText);
+
+            if (testText == articleText)
+                NoChange = true;
+            else
+                NoChange = false;
+
+            return articleText;
+        }
+
+        /// <summary>
+        /// Removes an iamge in the article.
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="OldImage">The image to remove.</param>
         /// <returns>The new article text.</returns>
         public string RemoveImage(string OldImage, string articleText)
         {
@@ -482,6 +620,27 @@ namespace WikiFunctions
             articleText = Regex.Replace(articleText, OldImage, "");
 
             return articleText.Trim();
+        }
+
+        /// <summary>
+        /// Re-categorises the article.
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="OldCategory">The old category to replace.</param>
+        /// <param name="NewCategory">The new category.</param>
+        /// <param name="NoChange">Value that indicated whether no change was made.</param>
+        /// <returns>The re-categorised article text.</returns>
+        public string ReCategoriser(string OldCategory, string NewCategory, string articleText, ref bool NoChange)
+        {
+            string testText = articleText;
+            articleText = ReCategoriser(OldCategory, NewCategory, articleText);
+
+            if (testText == articleText)
+                NoChange = true;
+            else
+                NoChange = false;
+
+            return articleText;
         }
 
         /// <summary>
@@ -515,8 +674,28 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="strOldCat">The old category to remove.</param>
+        /// <param name="NoChange">Value that indicated whether no change was made.</param>
         /// <returns>The article text without the old category.</returns>
-        public string RemoveOldCats(string strOldCat, string articleText)
+        public string RemoveCategory(string strOldCat, string articleText, ref bool NoChange)
+        {
+            string testText = articleText;
+            articleText = RemoveCategory(strOldCat, articleText);
+
+            if (testText == articleText)
+                NoChange = true;
+            else
+                NoChange = false;
+
+            return articleText;
+        }
+
+        /// <summary>
+        /// Removes a category from an article.
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="strOldCat">The old category to remove.</param>
+        /// <returns>The article text without the old category.</returns>
+        public string RemoveCategory(string strOldCat, string articleText)
         {
             //format categories properly
             articleText = FixCats(articleText);
@@ -534,52 +713,22 @@ namespace WikiFunctions
             return articleText;
         }
 
-        private string caseInsensitive(string txt)
-        {//gets a string e.g. "Category" and returns "[Cc]ategory
-            if (txt != "")
-            {
-                txt = txt.Trim();
-                string temp = txt.Substring(0, 1);
-                return "[" + temp.ToUpper() + temp.ToLower() + "]" + txt.Remove(0, 1);
-            }
-            else
-                return "";
-        }
-
         /// <summary>
-        /// If necessary, adds wikify or stub tag
+        /// Simplifies some links in article wiki text such as changing [[Dog|Dogs]] to [[Dog]]s
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
-        /// <param name="articleTitlet">The old category to remove.</param>
-        /// <returns>The article text without the old category.</returns>
-        public string Tagger(string articleText, string articleTitle)
-        {//adds wikify tags and stub tags
-            if (articleText.Contains("}}"))
-                return articleText;
+        /// <param name="NoChange">Value that indicated whether no change was made.</param>
+        /// <returns>The simplified article text.</returns>
+        public string LinkSimplifier(string articleText, ref bool NoChange)
+        {
+            string testText = articleText;
+            articleText = LinkSimplifier(articleText);
 
-            double intLength = articleText.Length + 1;
-            double intLinkCount = 1;
-            double intRatio = 0;
+            if (testText == articleText)
+                NoChange = true;
+            else
+                NoChange = false;
 
-            foreach (Match m in Regex.Matches(articleText, "\\[\\["))
-                intLinkCount++;
-
-            intRatio = intLinkCount / intLength;
-
-            if (Tools.IsMainSpace(articleTitle) && !Regex.IsMatch(articleText, "^#redirect", RegexOptions.IgnoreCase))
-            {
-                if (intLinkCount < 4 && (intRatio < 0.0025))
-                {
-                    articleText = "{{Wikify-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + articleText;
-                    EditSummary += "and added wikify tag";
-                }
-
-                if (intLength <= 380 && (!(Regex.IsMatch(articleText, "((S|s)tub)"))))
-                {
-                    articleText = articleText + "\r\n\r\n\r\n{{stub}}";
-                    EditSummary += "and added stub tag";
-                }
-            }
             return articleText;
         }
 
@@ -589,7 +738,7 @@ namespace WikiFunctions
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The simplified article text.</returns>
         public string LinkSimplifier(string articleText)
-        {//changes [[Dog|Dog]] to [[Dog]] and [[Dog|Dogs]] to [[Dog]]s
+        {
             string n = "";
             string a = "";
             string b = "";
@@ -615,18 +764,7 @@ namespace WikiFunctions
             }
             return articleText;
         }
-
-        private string TurnFirstToLower(string input)
-        {
-            //turns first character to lowercase
-            if (input.Length == 0)
-                return "";
-
-            input = char.ToLower(input[0]) + input.Substring(1, input.Length - 1);
-
-            return input;
-        }
-
+        
         public string LivingPeople(string articleText)
         {
             string strNot = "\\[\\[ ?Category ?:[ _]?([0-9]{1,2}[ _]century[ _]deaths|[0-9s]{4,5}[ _]deaths|Disappeared[ _]people|Living[ _]people|Year[ _]of[ _]death[ _]missing|Possibly[ _]living[ _]people)";
@@ -655,9 +793,28 @@ namespace WikiFunctions
         /// Converts/subst'd some deprecated templates
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="NoChange">Value that indicated whether no change was made.</param>
+        /// <returns>The new article text.</returns>
+        public string Conversions(string articleText, ref bool NoChange)
+        {
+            string testText = articleText;
+            articleText = Conversions(articleText);
+
+            if (testText == articleText)
+                NoChange = true;
+            else
+                NoChange = false;
+
+            return articleText;
+        }
+
+        /// <summary>
+        /// Converts/subst'd some deprecated templates
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The new article text.</returns>
         public string Conversions(string articleText)
-        {//some very common conversions, such as bypassing template redirects.
+        {
             articleText = Regex.Replace(articleText, "\\{\\{(wikify|wfy|wiki)\\}\\}", "{{Wikify-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", RegexOptions.IgnoreCase);
             articleText = Regex.Replace(articleText, "\\{\\{(Clean ?up|Clean|Tidy)\\}\\}", "{{Cleanup-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", RegexOptions.IgnoreCase);
 
@@ -701,9 +858,102 @@ namespace WikiFunctions
             return TalkPageText;
         }
 
+        /// <summary>
+        /// If necessary, adds wikify or stub tag
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="articleTitlet">The old category to remove.</param>
+        /// <returns>The article text without the old category.</returns>
+        public string Tagger(string articleText, string articleTitle)
+        {
+            if (articleText.Contains("}}"))
+                return articleText;
+
+            double intLength = articleText.Length + 1;
+            double intLinkCount = 1;
+            double intRatio = 0;
+
+            foreach (Match m in Regex.Matches(articleText, "\\[\\["))
+                intLinkCount++;
+
+            intRatio = intLinkCount / intLength;
+
+            if (Tools.IsMainSpace(articleTitle) && !Regex.IsMatch(articleText, "^#redirect", RegexOptions.IgnoreCase))
+            {
+                if (intLinkCount < 4 && (intRatio < 0.0025))
+                {
+                    articleText = "{{Wikify-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + articleText;
+                    EditSummary += "and added wikify tag";
+                }
+
+                if (intLength <= 380 && (!(Regex.IsMatch(articleText, "((S|s)tub)"))))
+                {
+                    articleText = articleText + "\r\n\r\n\r\n{{stub}}";
+                    EditSummary += "and added stub tag";
+                }
+            }
+            return articleText;
+        }
+
+        #endregion
+
+        #region helper functions
+
+        private string caseInsensitive(string txt)
+        {//gets a string e.g. "Category" and returns "[Cc]ategory
+            if (txt != "")
+            {
+                txt = txt.Trim();
+                string temp = txt.Substring(0, 1);
+                return "([" + temp.ToUpper() + temp.ToLower() + "])(" + txt.Remove(0, 1) + ")";
+            }
+            else
+                return "";
+        }
+
+        private string TurnFirstToLower(string input)
+        {
+            //turns first character to lowercase
+            if (input.Length == 0)
+                return "";
+
+            input = char.ToLower(input[0]) + input.Substring(1, input.Length - 1);
+
+            return input;
+        }
+
         #endregion
 
         #region unused
+
+        /// <summary>
+        /// Applies all the formatting functions
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="articleTitle">The title of the article.</param>
+        /// <returns>The modified article text.</returns>
+        public string Parse(string articleText, string articleTitle)
+        {
+            //remove stuff in <nowiki> and <math> tags
+            articleText = RemoveNowiki(articleText);
+
+            //General parsing, such as [[category => [[Category, interwiki order standardisation,
+            articleText = Conversions(articleText);
+            articleText = LivingPeople(articleText);
+            articleText = FixHeadings(articleText);
+            articleText = SyntaxFixer(articleText);
+            articleText = FixCats(articleText);
+            articleText = LinkFixer(articleText);
+            articleText = BulletExternalLinks(articleText);
+            articleText = SortMetaData(articleText, articleTitle);
+            articleText = BoldTitle(articleText, articleTitle);
+            articleText = LinkSimplifier(articleText);
+
+            //add stuff in nowiki tags back
+            articleText = AddNowiki(articleText);
+
+            return articleText.Trim();
+        }
 
         //[http://en.wikipedia.org/wiki/Dog] to [[Dog]]
         //private string ExtToInternalLinks(string articleText)

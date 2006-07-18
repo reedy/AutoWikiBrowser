@@ -311,9 +311,53 @@ namespace AutoWikiBrowser
             chkCategory.Text = Variables.Namespaces[14];
             chkCategoryTalk.Text = Variables.Namespaces[15];
             chkPortal.Text = Variables.Namespaces[100];
-            chkPortalTalk.Text = Variables.Namespaces[101];            
+            chkPortalTalk.Text = Variables.Namespaces[101];
 
         }
+
+        #region contextMenu
+
+        private void nonTalkOnlyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (CheckBox cb in groupBox1.Controls)
+            {
+                if (cb.Name.Contains("Talk"))
+                    cb.Checked = false;
+                else
+                    cb.Checked = true;
+
+            }
+        }
+
+        private void talkSpaceOnlyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (CheckBox cb in this.groupBox1.Controls)
+            {
+                if (cb.Name.Contains("Talk"))
+                    cb.Checked = true;
+                else
+                    cb.Checked = false;
+
+            }
+        }
+
+        private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (CheckBox cb in this.groupBox1.Controls)
+            {
+                cb.Checked = true;
+            }
+        }
+
+        private void deselectAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (CheckBox cb in this.groupBox1.Controls)
+            {
+                cb.Checked = false;
+            }
+        }
+
+        #endregion
 
     }
 }

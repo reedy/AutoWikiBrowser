@@ -414,7 +414,6 @@ namespace WikiFunctions
             if (!html.Contains("<LI id=pt-logout"))
             {
                 throw new PageDoeNotExistException("Please make sure you are logged into Wikipedia in Internet Explorer so your watch list can be obtained");
-                return list;
             }
 
             foreach (Match m in regexWatchList.Matches(html))
