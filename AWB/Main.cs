@@ -1076,15 +1076,20 @@ namespace AutoWikiBrowser
             {
                 webBrowserEdit.SetMinor(markAllAsMinorToolStripMenuItem.Checked);
                 webBrowserEdit.SetWatch(addAllToWatchlistToolStripMenuItem.Checked);
-
-                string tag = cmboEditSummary.Text + parsers.EditSummary;
-                if(findAndReplace.AppendToSummary)
-                    tag = tag += findAndReplace.EditSummary;
-                if (!chkSuppressTag.Enabled || !chkSuppressTag.Checked)
-                    tag += " " + Variables.SummaryTag;
                 
-                webBrowserEdit.SetSummary(tag);
+                webBrowserEdit.SetSummary(MakeSummary());
             }
+        }
+
+        private string MakeSummary()
+        {
+            string tag = cmboEditSummary.Text + parsers.EditSummary;
+            if (findAndReplace.AppendToSummary)
+                tag = tag += findAndReplace.EditSummary;
+            if (!chkSuppressTag.Enabled || !chkSuppressTag.Checked)
+                tag += " " + Variables.SummaryTag;
+
+            return tag;
         }
 
         private void chkFindandReplace_CheckedChanged(object sender, EventArgs e)
@@ -2583,6 +2588,14 @@ namespace AutoWikiBrowser
         }
 
         #endregion
+
+        private void cmboEditSummary_MouseMove(object sender, MouseEventArgs e)
+        {
+            if(findAndReplace.EditSummary == "")
+                toolTip1.SetToolTip(cmboEditSummary, "Write or select an edit summary");
+            else
+                toolTip1.SetToolTip(cmboEditSummary, MakeSummary());
+        }
 
     }
 }

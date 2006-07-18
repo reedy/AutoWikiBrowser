@@ -207,6 +207,8 @@ namespace WikiFunctions
             // chkAddToSummary
             // 
             this.chkAddToSummary.AutoSize = true;
+            this.chkAddToSummary.Checked = true;
+            this.chkAddToSummary.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkAddToSummary.Location = new System.Drawing.Point(410, 143);
             this.chkAddToSummary.Name = "chkAddToSummary";
             this.chkAddToSummary.Size = new System.Drawing.Size(187, 17);
