@@ -899,6 +899,7 @@ namespace AutoWikiBrowser
             this.cmboEditSummary.TabIndex = 7;
             this.cmboEditSummary.Text = "clean up";
             this.toolTip1.SetToolTip(this.cmboEditSummary, "Write or select an edit summary");
+            this.cmboEditSummary.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmboEditSummary_MouseMove);
             this.cmboEditSummary.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmbEditSummary_KeyDown);
             // 
             // groupBox9
