@@ -551,6 +551,7 @@ namespace AutoWikiBrowser
                     if (Variables.LangCode == "en")
                     {//en only
                         articleText = parsers.Conversions(articleText);
+                        articleText = parsers.RemoveBadHeaders(articleText, EdittingArticle);
                         articleText = parsers.LivingPeople(articleText);
                         articleText = parsers.FixCats(articleText);
                         articleText = parsers.FixHeadings(articleText);
@@ -925,7 +926,7 @@ namespace AutoWikiBrowser
 
             foreach (string s in ArticleArray)
             {
-             //   if (!lbArticles.Items.Contains(s))
+                if (!lbArticles.Items.Contains(s))
                     lbArticles.Items.Add(s);
             }
 
