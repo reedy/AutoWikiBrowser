@@ -225,7 +225,7 @@ namespace WikiFunctions
 
                     strlangcode = "en";
                     strtalkns = " talk:";
-                    strsummarytag = " using [[Wikipedia:AutoWikiBrowser|AWB]]";
+                    strsummarytag = " using [[WP:AWB|AWB]]";
                     break;
 
                 case "es":
