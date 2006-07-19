@@ -39,6 +39,9 @@ namespace WikiFunctions
         public delegate void Kick(string article);
         public event Kick foundarticle;
 
+        Parsers parsers = new Parsers();
+        bool skip = true;
+
         public DumpSearcher()
         {
             InitializeComponent();
@@ -419,29 +422,15 @@ namespace WikiFunctions
             return false;
         }
 
+
         private bool boldTitle()
         {
             if (!chkNoBold.Checked)
                 return true;
 
+            parsers.BoldTitle(articleText, articleTitle, ref skip);
 
-            string escTitle = Regex.Replace(articleTitle, " \\(.*?\\)$", "");
-            escTitle = Regex.Escape(escTitle);
-
-            articleText = articleText.Replace("[[" + articleTitle + "]]", articleTitle);
-
-            if (Regex.IsMatch(articleText, "^(\\[\\[|\\{|\\*|:|<)") || Regex.IsMatch(articleText, "''' ?" + escTitle + " ?'''", RegexOptions.IgnoreCase))
-                return false;
-
-            Regex regexBold = new Regex("([^\\[]|^)(" + escTitle + ")([ ,.:;])", RegexOptions.IgnoreCase);
-
-            if (articleText.Contains("'''"))
-                return false;
-
-            if (regexBold.IsMatch(articleText))
-                return true;
-
-            return false;
+            return !skip;
         }
 
         private bool badLinks()
@@ -449,50 +438,19 @@ namespace WikiFunctions
             if (!chkBadLinks.Checked)
                 return true;
 
-            //remove nowiki'd and math'd text
-            string text = Regex.Replace(articleText, "(<nowiki>|<math>).*?(</nowiki>|</math>)", "");
+            parsers.LinkFixer(articleText, ref skip);
 
-            if (!Regex.IsMatch(articleText, "\\[\\[[Ii]mage:[^]]*http"))
-            {
-                if (Regex.IsMatch(text, "\\[\\[http:\\/\\/([^][]*?)\\]", RegexOptions.IgnoreCase)
-                || Regex.IsMatch(text, "\\[http:\\/\\/([^][]*?)\\]\\]", RegexOptions.IgnoreCase)
-                || Regex.IsMatch(text, "\\[\\[http:\\/\\/(.*?)\\]\\]", RegexOptions.IgnoreCase)
-                || Regex.IsMatch(text, "\\[\\[([^][]*?)\\]([^][][^\\]])")
-                || Regex.IsMatch(text, "([^][])\\[([^][]*?)\\]\\]([^\\]])"))
-                {
-                    return true;
-                }
-            }
-
-            if (Regex.IsMatch(text, "\\[?\\[image:(http:\\/\\/.*?)\\]\\]?", RegexOptions.IgnoreCase))
-                return true;
-
-            string s;
-            string z;
-            foreach (Match m in Regex.Matches(text, "\\[\\[.*?\\]\\]"))
-            {
-                s = m.ToString();
-                z = s;
-                s = System.Web.HttpUtility.UrlDecode(s.Replace("+", "%2B"));
-
-                if (s != z)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return !skip;
         }
-
+        
         private bool containsHTML()
         {
             if (!chkHTML.Checked)
                 return true;
 
-            if (Regex.IsMatch(articleText, "&amp;#[0-9]{2,5};|&amp;Aacute;|&amp;aacute;|&amp;Acirc;|&amp;acirc;|&amp;acute;|&amp;AElig;|&amp;aelig;|&amp;Agrave;|&amp;agrave;|&amp;alefsym;|&amp;Alpha;|&amp;alpha;|&amp;amp;|&amp;and;|&amp;ang;|&amp;Aring;|&amp;aring;|&amp;asymp;|&amp;Atilde;|&amp;atilde;|&amp;Auml;|&amp;auml;|&amp;bdquo;|&amp;Beta;|&amp;beta;|&amp;brvbar;|&amp;bull;|&amp;cap;|&amp;Ccedil;|&amp;ccedil;|&amp;cedil;|&amp;cedilla;|&amp;cent;|&amp;Chi;|&amp;chi;|&amp;circ;|&amp;cong;|&amp;copy;|&amp;crarr;|&amp;cup;|&amp;curren;|&amp;dagger;|&amp;Dagger;|&amp;darr;|&amp;dArr;|&amp;deg;|&amp;Delta;|&amp;delta;|&amp;diaeresis;|&amp;divide;|&amp;Eacute;|&amp;eacute;|&amp;Ecirc;|&amp;ecirc;|&amp;Egrave;|&amp;egrave;|&amp;empty;|&amp;emsp;|&amp;ensp;|&amp;Epsilon;|&amp;epsilon;|&amp;equiv;|&amp;Eta;|&amp;eta;|&amp;ETH;|&amp;eth;|&amp;Euml;|&amp;euml;|&amp;euro;|&amp;exist;|&amp;fnof;|&amp;forall;|&amp;frac12;|&amp;frac14;|&amp;frac34;|&amp;frasl;|&amp;Gamma;|&amp;gamma;|&amp;ge;|&amp;gt;|&amp;harr;|&amp;hArr;|&amp;hellip;|&amp;Iacute;|&amp;iacute;|&amp;Icirc;|&amp;icirc;|&amp;iexcl;|&amp;Igrave;|&amp;igrave;|&amp;image;|&amp;infin;|&amp;int;|&amp;Iota;|&amp;iota;|&amp;iquest;|&amp;isin;|&amp;Iuml;|&amp;iuml;|&amp;Kappa;|&amp;kappa;|&amp;Lambda;|&amp;lambda;|&amp;lang;|&amp;laquo;|&amp;larr;|&amp;lArr;|&amp;lceil;|&amp;ldquo;|&amp;le;|&amp;lfloor;|&amp;lowast;|&amp;loz;|&amp;lrm;|&amp;lsaquo;|&amp;lsquo;|&amp;lt;|&amp;macr;|&amp;micro;|&amp;middot;|&amp;Mu;|&amp;mu;|&amp;nabla;|&amp;ne;|&amp;ni;|&amp;not;|&amp;notin;|&amp;nsub;|&amp;Ntilde;|&amp;ntilde;|&amp;Nu;|&amp;nu;|&amp;Oacute;|&amp;oacute;|&amp;Ocirc;|&amp;ocirc;|&amp;OElig;|&amp;oelig;|&amp;Ograve;|&amp;ograve;|&amp;oline;|&amp;Omega;|&amp;omega;|&amp;Omicron;|&amp;omicron;|&amp;oplus;|&amp;or;|&amp;ordf;|&amp;ordm;|&amp;Oslash;|&amp;oslash;|&amp;Otilde;|&amp;otilde;|&amp;otimes;|&amp;Ouml;|&amp;ouml;|&amp;para;|&amp;part;|&amp;permil;|&amp;perp;|&amp;Phi;|&amp;phi;|&amp;Pi;|&amp;pi;|&amp;piv;|&amp;plusmn;|&amp;pound;|&amp;prime;|&amp;Prime;|&amp;prod;|&amp;prop;|&amp;Psi;|&amp;psi;|&amp;quot;|&amp;radic;|&amp;rang;|&amp;raquo;|&amp;rarr;|&amp;rArr;|&amp;rceil;|&amp;rdquo;|&amp;real;|&amp;reg;|&amp;rfloor;|&amp;Rho;|&amp;rho;|&amp;rlm;|&amp;rsaquo;|&amp;rsquo;|&amp;sbquo;|&amp;Scaron;|&amp;scaron;|&amp;sdot;|&amp;sect;|&amp;shy;|&amp;Sigma;|&amp;sigma;|&amp;sigmaf;|&amp;sim;|&amp;sub;|&amp;sube;|&amp;sum;|&amp;sup;|&amp;sup1;|&amp;sup2;|&amp;sup3;|&amp;supe;|&amp;szlig;|&amp;Tau;|&amp;tau;|&amp;there4;|&amp;Theta;|&amp;theta;|&amp;thetasym;|&amp;THORN;|&amp;thorn;|&amp;tilde;|&amp;trade;|&amp;Uacute;|&amp;uacute;|&amp;uarr;|&amp;uArr;|&amp;Ucirc;|&amp;ucirc;|&amp;Ugrave;|&amp;ugrave;|&amp;uml;|&amp;upsih;|&amp;Upsilon;|&amp;upsilon;|&amp;Uuml;|&amp;uuml;|&amp;weierp;|&amp;Xi;|&amp;xi;|&amp;Yacute;|&amp;yacute;|&amp;yen;|&amp;yuml;|&amp;Yuml;|&amp;Zeta;|&amp;zeta;|&amp;zwj;|&amp;zwnj;"))
-                return true;
-            else
-                return false;
+            parsers.Unicodify(articleText, ref skip);
+
+            return !skip;
         }
 
         private bool sectionHeaderError()
@@ -500,11 +458,16 @@ namespace WikiFunctions
             if (!Regex.IsMatch(articleText, "= ?See also ?=") && Regex.IsMatch(articleText, "(== ?)([Ss]ee Also:?|[rR]elated [tT]opics:?|[rR]elated [aA]rticles:?|[Ii]nternal [lL]inks:?|[Aa]lso [Ss]ee:?)( ?==)"))
                 return true;
 
-            if (Regex.IsMatch(articleText, "(== ?)(outside links|external sites?:?|web ?links?:?|exterior links?:?)( ?==)", RegexOptions.IgnoreCase)
-            || Regex.IsMatch(articleText, "(== ?)(Further Reading:?|source:?s?|external links?:?|reference:?)(s? ?==)"))
-                return true;
+            parsers.FixHeadings(articleText, ref skip);
 
-            return false;
+            return !skip;
+        }
+
+        private bool BulletExternal()
+        {
+            parsers.BulletExternalLinks(articleText, ref skip);
+
+            return !skip;
         }
 
         #endregion
