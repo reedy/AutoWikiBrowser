@@ -835,13 +835,13 @@ namespace WikiFunctions
             return articleText;
         }
 
-        Regex RegexBadHeader = new Regex("^(={1,4} ?(about|background|intro|introduction|summary|bio|biography) ?={1,4})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        Regex RegexBadHeader = new Regex("^(={1,4} ?(about|overview|general information|background|intro|introduction|summary|bio|biography) ?={1,4})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         /// <summary>
         /// Removes unnecessary introductory headers 
         /// </summary>
         public string RemoveBadHeaders(string articleText, string articleTitle)
         {
-            articleText = Regex.Replace(articleText, "^={1,4} ?" + articleTitle + " ?={1,4}", "");
+            articleText = Regex.Replace(articleText, "^={1,4} ?" + articleTitle + " ?={1,4}", "", RegexOptions.IgnoreCase);
             articleText = RegexBadHeader.Replace(articleText, "");
 
             return articleText.Trim();
