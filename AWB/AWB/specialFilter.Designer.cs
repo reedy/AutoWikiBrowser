@@ -62,14 +62,21 @@ namespace AutoWikiBrowser
             this.talkSpaceOnlyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.lbRemove = new System.Windows.Forms.ListBox();
+            this.btnGetList = new System.Windows.Forms.Button();
+            this.btnClear = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.contextmenuFilter.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnApply
             // 
-            this.btnApply.Location = new System.Drawing.Point(315, 222);
+            this.btnApply.Location = new System.Drawing.Point(298, 222);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(75, 23);
             this.btnApply.TabIndex = 0;
@@ -79,7 +86,7 @@ namespace AutoWikiBrowser
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(396, 222);
+            this.btnCancel.Location = new System.Drawing.Point(379, 222);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 1;
@@ -427,11 +434,72 @@ namespace AutoWikiBrowser
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Matches";
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.label2);
+            this.groupBox3.Controls.Add(this.label1);
+            this.groupBox3.Controls.Add(this.btnClear);
+            this.groupBox3.Controls.Add(this.btnGetList);
+            this.groupBox3.Controls.Add(this.lbRemove);
+            this.groupBox3.Location = new System.Drawing.Point(478, 13);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(184, 232);
+            this.groupBox3.TabIndex = 34;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Articles to remove";
+            // 
+            // lbRemove
+            // 
+            this.lbRemove.FormattingEnabled = true;
+            this.lbRemove.Location = new System.Drawing.Point(7, 45);
+            this.lbRemove.Name = "lbRemove";
+            this.lbRemove.Size = new System.Drawing.Size(170, 147);
+            this.lbRemove.TabIndex = 0;
+            // 
+            // btnGetList
+            // 
+            this.btnGetList.Location = new System.Drawing.Point(7, 203);
+            this.btnGetList.Name = "btnGetList";
+            this.btnGetList.Size = new System.Drawing.Size(75, 23);
+            this.btnGetList.TabIndex = 1;
+            this.btnGetList.Text = "Open file";
+            this.btnGetList.UseVisualStyleBackColor = true;
+            this.btnGetList.Click += new System.EventHandler(this.btnGetList_Click);
+            // 
+            // btnClear
+            // 
+            this.btnClear.Location = new System.Drawing.Point(89, 203);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(53, 23);
+            this.btnClear.TabIndex = 2;
+            this.btnClear.Text = "Clear";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 16);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(176, 13);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Items in this list will be removed from";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 29);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(62, 13);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "the main list";
+            // 
             // specialFilter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(481, 253);
+            this.ClientSize = new System.Drawing.Size(669, 253);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnCancel);
@@ -449,6 +517,8 @@ namespace AutoWikiBrowser
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -488,5 +558,11 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem deselectAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button btnGetList;
+        private System.Windows.Forms.ListBox lbRemove;
+        private System.Windows.Forms.Button btnClear;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
     }
 }

@@ -45,6 +45,9 @@ namespace AutoWikiBrowser
             bool does = (chkContains.Checked && txtContains.Text != "");
             bool doesnot = (chkNotContains.Checked && txtDoesNotContain.Text != "");
 
+            if (lbRemove.Items.Count > 0)
+                FilterList();
+
             if (does || doesnot)
                 FilterMatches(does, doesnot);
 
@@ -276,6 +279,39 @@ namespace AutoWikiBrowser
             }
         }
 
+        private void FilterList()
+        {
+            string s = "";
+            int i = 0;
+
+            while (i < lbRemove.Items.Count)
+            {
+                s = lbRemove.Items[i].ToString();
+                lb.Items.Remove(s);
+                i++;
+            }
+        }
+
+        private void btnGetList_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog of = new OpenFileDialog();
+            GetLists gl = new GetLists();
+            ArrayList list = new ArrayList();
+
+            if (of.ShowDialog() == DialogResult.OK)
+            {
+                list = gl.FromTextFile(of.FileName);
+
+                foreach (string s in list)
+                    lbRemove.Items.Add(s);
+            }
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            lbRemove.Items.Clear();
+        }
+
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -358,6 +394,7 @@ namespace AutoWikiBrowser
         }
 
         #endregion
+               
 
     }
 }
