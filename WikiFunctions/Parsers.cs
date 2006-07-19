@@ -815,8 +815,9 @@ namespace WikiFunctions
         /// <returns>The new article text.</returns>
         public string Conversions(string articleText)
         {
-            articleText = Regex.Replace(articleText, "\\{\\{(wikify|wfy|wiki)\\}\\}", "{{Wikify-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", RegexOptions.IgnoreCase);
-            articleText = Regex.Replace(articleText, "\\{\\{(Clean ?up|Clean|Tidy)\\}\\}", "{{Cleanup-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", RegexOptions.IgnoreCase);
+            articleText = Regex.Replace(articleText, "\\{\\{(template:)?(wikify|wfy|wiki)\\}\\}", "{{Wikify-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", RegexOptions.IgnoreCase);
+            articleText = Regex.Replace(articleText, "\\{\\{(template:)?(Clean ?up|Clean|Tidy)\\}\\}", "{{Cleanup-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", RegexOptions.IgnoreCase);
+            articleText = Regex.Replace(articleText, "\\{\\{(template:)?Linkless\\}\\}", "{{Linkless-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", RegexOptions.IgnoreCase);
 
             articleText = Regex.Replace(articleText, "\\{\\{(Dab|Disamb|Disambiguation)\\}\\}", "{{Disambig}}", RegexOptions.IgnoreCase);
             articleText = Regex.Replace(articleText, "\\{\\{(2cc|2LAdisambig|2LCdisambig|2LC)\\}\\}", "{{2CC}}", RegexOptions.IgnoreCase);
@@ -829,7 +830,6 @@ namespace WikiFunctions
 
             articleText = Regex.Replace(articleText, "\\{\\{(PAGENAME)\\}\\}", "{{subst:$1}}", RegexOptions.IgnoreCase);
 
-            // Commented out by Adrian on 2006-05-25
             //articleText = Regex.Replace(articleText, "\\{\\{(Citation required|Citationneeded|Cite[- ]?needed)\\}\\}", "{{Citation needed}}", RegexOptions.IgnoreCase);
 
             return articleText;
@@ -895,13 +895,13 @@ namespace WikiFunctions
                 if (intLinkCount < 4 && (intRatio < 0.0025))
                 {
                     articleText = "{{Wikify-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + articleText;
-                    EditSummary += "and added wikify tag";
+                    EditSummary += " and added wikify tag";
                 }
 
                 if (intLength <= 380 && (!(Regex.IsMatch(articleText, "((S|s)tub)"))))
                 {
                     articleText = articleText + "\r\n\r\n\r\n{{stub}}";
-                    EditSummary += "and added stub tag";
+                    EditSummary += " and added stub tag";
                 }
             }
             return articleText;
