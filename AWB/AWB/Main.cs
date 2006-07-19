@@ -2304,7 +2304,7 @@ namespace AutoWikiBrowser
 
         private void openPageInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(Variables.URL + "index.php?title=" + EdittingArticle);
+            System.Diagnostics.Process.Start(Variables.URL + "index.php?title=" + HttpUtility.UrlEncode(EdittingArticle));
         }
 
         private void previewInsteadOfDiffToolStripMenuItem_Click(object sender, EventArgs e)
