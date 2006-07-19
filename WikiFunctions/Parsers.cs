@@ -212,8 +212,8 @@ namespace WikiFunctions
             articleText = Regex.Replace(articleText, "==\r\n\r\n", "==\r\n");
 
             //fix bullet points
-            articleText = Regex.Replace(articleText, "^(\\*+) ", "$1", RegexOptions.Multiline);
-            articleText = Regex.Replace(articleText, "^(\\*+)", "$1 ", RegexOptions.Multiline);
+            articleText = Regex.Replace(articleText, "^([\\*#]+) ", "$1", RegexOptions.Multiline);
+            articleText = Regex.Replace(articleText, "^([\\*#]+)", "$1 ", RegexOptions.Multiline);
 
             //fix heading space
             articleText = Regex.Replace(articleText, "^(={1,4}) ?(.*?) ?(={1,4})$", "$1$2$3", RegexOptions.Multiline);
