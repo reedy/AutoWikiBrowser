@@ -190,7 +190,7 @@ namespace WikiFunctions
             articleText = articleText.Replace("\r\n\r\n(* ?\\[?http)", "\r\n$1");
 
             articleText = Regex.Replace(articleText.Trim(), "----+$", "");
-                     
+
             return articleText.Trim();
         }
 
@@ -518,7 +518,7 @@ namespace WikiFunctions
             escTitle = Regex.Replace(articleTitle, " \\(.*?\\)$", "");
             escTitle = Regex.Escape(escTitle);
 
-            if (Regex.IsMatch(articleText, "^(\\[\\[|\\{|\\*|:|<)") || Regex.IsMatch(articleText, "''' ?" + escTitle + " ?'''", RegexOptions.IgnoreCase))
+            if (Regex.IsMatch(articleText, "^(\\[\\[|\\{|\\*|:)") || Regex.IsMatch(articleText, "''' ?" + escTitle + " ?'''", RegexOptions.IgnoreCase))
                 return articleText;
 
             Regex regexBold = new Regex("([^\\[]|^)(" + escTitle + ")([ ,.:;])", RegexOptions.IgnoreCase);
@@ -764,7 +764,7 @@ namespace WikiFunctions
             }
             return articleText;
         }
-        
+
         public string LivingPeople(string articleText)
         {
             string strNot = "\\[\\[ ?Category ?:[ _]?([0-9]{1,2}[ _]century[ _]deaths|[0-9s]{4,5}[ _]deaths|Disappeared[ _]people|Living[ _]people|Year[ _]of[ _]death[ _]missing|Possibly[ _]living[ _]people)";
@@ -834,7 +834,7 @@ namespace WikiFunctions
 
             return articleText;
         }
-
+        
         Regex RegexBadHeader = new Regex("^(={1,4} ?(about|overview|definition|general information|background|intro|introduction|summary|bio|biography) ?={1,4})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         /// <summary>
         /// Removes unnecessary introductory headers 
@@ -858,7 +858,7 @@ namespace WikiFunctions
 
             TalkPageText = Regex.Replace(TalkPageText, "\\{\\{(template:)?(test[n0-6]?[ab]?)\\}\\}", "{{subst:$2}}", RegexOptions.IgnoreCase);
             TalkPageText = Regex.Replace(TalkPageText, "\\{\\{(template:)?(test[n0-6]?[ab]?-n\\|.*?)\\}\\}", "{{subst:$2}}", RegexOptions.IgnoreCase);
-            
+
             TalkPageText = Regex.Replace(TalkPageText, "\\{\\{(template:)?(3RR[0-5]?)\\}\\}", "{{subst:$2}}", RegexOptions.IgnoreCase);
 
             TalkPageText = Regex.Replace(TalkPageText, "\\{\\{(template:)?(spam[0-5][ab]?)\\}\\}", "{{subst:$2}}", RegexOptions.IgnoreCase);
