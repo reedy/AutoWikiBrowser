@@ -1049,7 +1049,7 @@ namespace AutoWikiBrowser
             }
             string msg = "";
             if (boolSaved == false)
-                msg = "You have changed the list since last saving it!";
+                msg = "You have changed the list since last saving it!\r\n";
 
             TimeSpan time = new TimeSpan(intHours, intMinutes, intSeconds);
             ExitQuestion dlg = new ExitQuestion(time, intEdits, msg);

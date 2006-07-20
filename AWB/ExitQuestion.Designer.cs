@@ -42,7 +42,7 @@ namespace AutoWikiBrowser
             this.lblMessage.Name = "lblMessage";
             this.lblMessage.Size = new System.Drawing.Size(246, 51);
             this.lblMessage.TabIndex = 0;
-            this.lblMessage.Text = "Ok to exit AutoWikiBrowser?";
+            this.lblMessage.Text = "Exit AutoWikiBrowser?";
             this.lblMessage.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // ButtonOK
@@ -52,7 +52,7 @@ namespace AutoWikiBrowser
             this.ButtonOK.Name = "ButtonOK";
             this.ButtonOK.Size = new System.Drawing.Size(75, 23);
             this.ButtonOK.TabIndex = 1;
-            this.ButtonOK.Text = "OK";
+            this.ButtonOK.Text = "Yes";
             this.ButtonOK.UseVisualStyleBackColor = true;
             // 
             // buttonCancel
@@ -62,7 +62,7 @@ namespace AutoWikiBrowser
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 2;
-            this.buttonCancel.Text = "Cancel";
+            this.buttonCancel.Text = "No";
             this.buttonCancel.UseVisualStyleBackColor = true;
             // 
             // chkDontAskAgain
