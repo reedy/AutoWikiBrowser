@@ -32,15 +32,27 @@ namespace WikiFunctions.DumpSearcher
         string articleText = "";
         string articleTitle = "";
 
+        Regex regComments = new Regex("&lt;!--.*?--&gt;", RegexOptions.Singleline | RegexOptions.Compiled);
+
         public bool Test(string Text, string Title)
         {
             articleText = Text;
             articleTitle = Title;
 
+            if (ignorecomments)
+                articleText = regComments.Replace(articleText, "");
+
             if (IgnoreName() && countLinks() && checkLength() && checkDoesContain() && checkDoesNotContain() && simpleLinks() && boldTitle() && badLinks() && containsHTML() && sectionHeaderError() && BulletExternalLinks())// && noBirthCat(articleText
                 return true;
             else
                 return false;
+        }
+
+        bool ignorecomments = false;
+        public bool IgnoreComments
+        {
+            get { return ignorecomments; }
+            set { ignorecomments = value; }
         }
 
         int checklength = 0;
@@ -49,27 +61,40 @@ namespace WikiFunctions.DumpSearcher
             get { return checklength; }
             set { checklength = value; }
         }
-        public bool checkLength()
+        int length = 0;
+        public int Length
+        {
+            get { return length; }
+            set { length = value; }
+        }
+        private bool checkLength()
         {
             if (checklength == 0)
                 return true;
-            else if (checklength == 1 && articleText.Length > numLength.Value)
+            else if (checklength == 1 && articleText.Length > length)
                 return true;
-            else if (checklength == 2 && articleText.Length < numLength.Value)
+            else if (checklength == 2 && articleText.Length < length)
                 return true;
             else
                 return false;
         }
 
-        int countlinks = false;
+        int countlinks = 0;
         public int CountLinks
         {
             get { return countlinks; }
             set { countlinks = value; }
         }
+        int links = 0;
+        public int Links
+        {
+            get { return links; }
+            set { links = value; }
+        }
+
         int intLinks = 0;
         readonly Regex Regexlinks = new Regex("\\[\\[", RegexOptions.Compiled);
-        public bool countLinks()
+        private bool countLinks()
         {
             if (countlinks == 0)
                 return true;
@@ -78,125 +103,170 @@ namespace WikiFunctions.DumpSearcher
                 intLinks = 0;
                 foreach (Match m in Regexlinks.Matches(articleText)) intLinks++;
 
-                if (countlinks == 1 && intLinks > nudLinks.Value)
+                if (countlinks == 1 && intLinks > links)
                     return true;
-                else if (countlinks == 2 && intLinks < nudLinks.Value)
+                else if (countlinks == 2 && intLinks < links)
                     return true;
                 else
                     return false;
             }
         }
 
+        Regex doescontainregex = new Regex("");
+        public Regex DoesContainRegex
+        {
+            get { return doescontainregex; }
+            set { doescontainregex = value; }
+        }
         bool doescontain = false;
         public bool DoesContain
         {
             get { return doescontain; }
             set { doescontain = value; }
         }
-        public bool checkDoesContain()
+        private bool checkDoesContain()
         {
             if (!doescontain)
                 return true;
 
-            if (PRegex.IsMatch(articleText))
+            if (doescontainregex.IsMatch(articleText))
                 return true;
             else
                 return false;
         }
 
+        Regex doesnotcontainregex = new Regex("");
+        public Regex DoesNotContainRegex
+        {
+            get { return doesnotcontainregex; }
+            set { doesnotcontainregex = value; }
+        }
         bool doesnotcontain = false;
         public bool DoesNotContain
         {
             get { return doesnotcontain; }
             set { doesnotcontain = value; }
         }
-        public bool checkDoesNotContain()
+        private bool checkDoesNotContain()
         {
             if (!doesnotcontain)
                 return true;
 
-            if (PNRegex.IsMatch(articleText))
+            if (doesnotcontainregex.IsMatch(articleText))
                 return false;
             else
                 return true;
         }
 
-        public bool IgnoreName()
+        bool ignoreredirects = false;
+        public bool IgnoreRedirects
         {
-            if (ignoreRedirectsToolStripMenuItem1.Checked && articleText.StartsWith("#"))
+            get { return ignoreredirects; }
+            set { ignoreredirects = value; }
+        }
+
+        //bool ignorecategory = false;
+        //public bool IgnoreCategory
+        //{
+        //    get { return ignorecategory; }
+        //    set { ignorecategory = value; }
+        //}
+
+        int[] namespaces;
+        public int[] Namespaces
+        {
+            get { return namespaces; }
+            set { namespaces = value; }
+
+        }
+
+        int NamespaceIndex = 0;
+        private bool IgnoreName()
+        {
+            if (ignoreredirects && articleText.StartsWith("#"))
                 return false;
-            else if (articleTitle.StartsWith(Variables.Namespaces[8]) || articleTitle.StartsWith(Variables.Namespaces[100])) //skip this namespace
-                return false;
-            else if (ignoreDisambigsToolStripMenuItem.Checked && articleText.Contains("isambig}}"))
-                return false;
-            else if (ignoreImagesToolStripMenuItem.Checked && articleTitle.StartsWith(Variables.Namespaces[6]))
-                return false;
-            else if (articleTitle.StartsWith(Variables.Namespaces[12]))
-                return false;
-            else if (ignoreCategoryNamespaceToolStripMenuItem.Checked && articleTitle.StartsWith(Variables.Namespaces[14]))
-                return false;
-            else if (ignoreTemplateNamespaceToolStripMenuItem.Checked && articleTitle.StartsWith(Variables.Namespaces[10]))
-                return false;
-            else if (ignoreWikipediaNamespaceToolStripMenuItem.Checked && articleTitle.StartsWith(Variables.Namespaces[4]))
-                return false;
-            else if (ignoreMainNamespaceToolStripMenuItem.Checked && Tools.IsMainSpace(articleTitle))
-                return false;
-            else
-            {
+
+            NamespaceIndex = Tools.CalculateNS(articleTitle);
+                        
+            //if (NamespaceIndex == 8 || articleTitle.StartsWith(Variables.Namespaces[100])) //skip this namespace
+            //    return false;
+            //else if (ignoreImagesToolStripMenuItem.Checked && articleTitle.StartsWith(Variables.Namespaces[6]))
+            //    return false;
+            //else if (articleTitle.StartsWith(Variables.Namespaces[12]))
+            //    return false;
+            //else if (ignoreCategoryNamespaceToolStripMenuItem.Checked && articleTitle.StartsWith(Variables.Namespaces[14]))
+            //    return false;
+            //else if (ignoreTemplateNamespaceToolStripMenuItem.Checked && articleTitle.StartsWith(Variables.Namespaces[10]))
+            //    return false;
+            //else if (ignoreWikipediaNamespaceToolStripMenuItem.Checked && articleTitle.StartsWith(Variables.Namespaces[4]))
+            //    return false;
+            //else if (ignoreMainNamespaceToolStripMenuItem.Checked && Tools.IsMainSpace(articleTitle))
+            //    return false;
+            //else
+            //{
                 if (TitleContains() && TitleNotContains())
                     return true;
                 else
                     return false;
-            }
+            //}
         }
 
-        public bool TitleContains()
+        Regex titlecontainsregex = new Regex("");
+        Regex TitleContainsRegex
         {
-            if (!chkCheckTitle.Checked)
+            get { return titlecontainsregex; }
+            set { titlecontainsregex = value; }
+        }
+        bool titlecontainsenabled = false;
+        bool TitleContainsEnabled
+        {
+            get { return titlecontainsenabled; }
+            set { titlecontainsenabled = value; }
+        }
+        private bool TitleContains()
+        {
+            if (!titlecontainsenabled)
                 return true;
 
-            else if (chkTitleRegex.Checked)
-            {
-                if (Regex.IsMatch(articleTitle, strTitle))
-                    return true;
-                else
-                    return false;
-            }
+            if (titlecontainsregex.IsMatch(articleTitle))
+                return true;
             else
-            {
-                if (articleTitle.Contains(strTitle))
-                    return true;
-                else
-                    return false;
-            }
+                return false;
         }
 
-        public bool TitleNotContains()
+        Regex titlenotcontainsregex = new Regex("");
+        Regex TitleNotContainsRegex
         {
-            if (!chkCheckNotInTitle.Checked)
+            get { return titlenotcontainsregex; }
+            set { titlenotcontainsregex = value; }
+        }
+        bool titlenotcontainsenabled = false;
+        bool TitleNotContainsEnabled
+        {
+            get { return titlenotcontainsenabled; }
+            set { titlenotcontainsenabled = value; }
+        }
+        private bool TitleNotContains()
+        {
+            if (!titlenotcontainsenabled)
                 return true;
 
-            else if (chkTitleRegex.Checked)
-            {
-                if (!Regex.IsMatch(articleTitle, strTitleNot))
-                    return true;
-                else
-                    return false;
-            }
+            if (!titlenotcontainsregex.IsMatch(articleTitle))
+                return true;
             else
-            {
-                if (!articleTitle.Contains(strTitleNot))
-                    return true;
-                else
-                    return false;
-            }
+                return false;
         }
-        
 
+        bool simplelinks = false;
+        bool SimpleLinks
+        {
+            get { return simplelinks; }
+            set { simplelinks = value; }
+        }
         Regex RegexSimpleLinks = new Regex("\\[\\[(.*?)\\|(.*?)\\]\\]", RegexOptions.Compiled);
-        public bool simpleLinks()
+        private bool simpleLinks()
         {
-            if (!chkSimpleLinks.Checked)
+            if (!simplelinks)
                 return true;
             string n = "";
             string a = "";
@@ -208,11 +278,11 @@ namespace WikiFunctions.DumpSearcher
                 a = m.Groups[1].Value;
                 b = m.Groups[2].Value;
 
-                if (a == b ||Tools.TurnFirstToLower(a) == b)
+                if (a == b || Tools.TurnFirstToLower(a) == b)
                 {
                     return true;
                 }
-                else if (a + "s" == b || TurnFirstToLower(a) + "s" == b)
+                else if (a + "s" == b || Tools.TurnFirstToLower(a) + "s" == b)
                 {
                     return true;
                 }
@@ -221,8 +291,17 @@ namespace WikiFunctions.DumpSearcher
             return false;
         }
 
-        public bool noBirthCat()
+        bool nobirthcat = false;
+        bool NoBirthCat
         {
+            get { return nobirthcat; }
+            set { nobirthcat = value; }
+        }
+        private bool noBirthCat()
+        {
+            if (!nobirthcat)
+                return true;
+
             if (Regex.IsMatch(articleText, "\\[\\[[Cc]ategory: ?[0-9]{3,4} births"))
                 return false;
 
@@ -237,10 +316,15 @@ namespace WikiFunctions.DumpSearcher
             return false;
         }
 
-
-        public bool boldTitle()
+        bool boldtitle = false;
+        bool BoldTitle
         {
-            if (!chkNoBold.Checked)
+            get { return boldtitle; }
+            set { boldtitle = value; }
+        }
+        private bool boldTitle()
+        {
+            if (!boldtitle)
                 return true;
 
             parsers.BoldTitle(articleText, articleTitle, ref skip);
@@ -248,9 +332,15 @@ namespace WikiFunctions.DumpSearcher
             return !skip;
         }
 
-        public bool badLinks()
+        bool badlinks = false;
+        bool BadLinks
         {
-            if (!chkBadLinks.Checked)
+            get { return badlinks; }
+            set { badlinks = value; }
+        }
+        private bool badLinks()
+        {
+            if (!badlinks)
                 return true;
 
             parsers.LinkFixer(articleText, ref skip);
@@ -258,9 +348,15 @@ namespace WikiFunctions.DumpSearcher
             return !skip;
         }
 
-        public bool containsHTML()
+        bool containshtml = false;
+        bool ContainsHTML
         {
-            if (!chkHTML.Checked)
+            get { return containshtml; }
+            set { containshtml = value; }
+        }
+        private bool containsHTML()
+        {
+            if (!containshtml)
                 return true;
 
             parsers.Unicodify(articleText, ref skip);
@@ -268,9 +364,15 @@ namespace WikiFunctions.DumpSearcher
             return !skip;
         }
 
-        public bool sectionHeaderError()
+        bool headererror = false;
+        bool HeaderError
         {
-            if (!chkSectionError.Checked)
+            get { return headererror; }
+            set { headererror = value; }
+        }
+        private bool sectionHeaderError()
+        {
+            if (!headererror)
                 return true;
 
             if (!Regex.IsMatch(articleText, "= ?See also ?=") && Regex.IsMatch(articleText, "(== ?)([Ss]ee Also:?|[rR]elated [tT]opics:?|[rR]elated [aA]rticles:?|[Ii]nternal [lL]inks:?|[Aa]lso [Ss]ee:?)( ?==)"))
@@ -281,11 +383,18 @@ namespace WikiFunctions.DumpSearcher
             return !skip;
         }
 
+        bool bulletexternal = false;
+        bool BulletExternal
+        {
+            get { return bulletexternal; }
+            set { bulletexternal = value; }
+        }
+
         Regex bulletRegex = new Regex(@"External [Ll]inks? ? ?={1,4} ? ?(
 ){0,3}\[?http", RegexOptions.Compiled);
-        public bool BulletExternalLinks()
+        private bool BulletExternalLinks()
         {
-            if (!chkUnbulletedLinks.Checked)
+            if (!bulletexternal)
                 return true;
 
             if (bulletRegex.IsMatch(articleText))
@@ -293,13 +402,5 @@ namespace WikiFunctions.DumpSearcher
             else
                 return false;
         }
-
-        public bool BulletExternal()
-        {
-            parsers.BulletExternalLinks(articleText, ref skip);
-
-            return !skip;
-        }
-
     }
 }

@@ -37,7 +37,6 @@ namespace WikiFunctions.DumpSearcher
     public partial class DumpSearcher : Form
     {
         MainProcess Main;
-        bool skip = true;
 
         public DumpSearcher()
         {
@@ -61,26 +60,16 @@ namespace WikiFunctions.DumpSearcher
         {
             try
             {
-                if (PThread != null)
+                if (Main != null)
                     return;
 
-                boolRun = true;
+                Main.Run = true;
 
                 if (fileName.Length == 0)
                 {
                     MessageBox.Show("Please open an \"Articles\" XML data-dump file from the file menu\r\n\r\nSee the About menu for where to download this file.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
-                }
-
-                try
-                {
-                    stream = new FileStream(fileName, FileMode.Open);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message.ToString());
-                    return;
-                }                
+                }                              
 
                 groupBox4.Enabled = false;
                 btnStart.Text = "Working";
@@ -90,22 +79,17 @@ namespace WikiFunctions.DumpSearcher
 
                 intMatches = 0;
                 intTimer = 0;
-                intLimit = Convert.ToInt32(nudLimitResults.Value);
 
                 progressBar1.Style = ProgressBarStyle.Marquee;
                 progressBar1.MarqueeAnimationSpeed = 100;
 
                 timer1.Enabled = true;
 
+                Start();
+
             }
             catch { }
         }
-
-        bool boolRun = true;
-        bool boolMessage = true;
-
-        string articleTitle = "";
-        string articleText = "";
 
         string strTitleNot = "";
         string strTitle = "";
@@ -152,7 +136,21 @@ namespace WikiFunctions.DumpSearcher
             makePatterns();
             //set options here
 
-            Main = new MainProcess(scn, fileName, nudLimitResults.Value);
+            Main = new MainProcess(scn, fileName, (int)nudLimitResults.Value);
+            Main.FoundArticle += MessageReceived;
+            Main.Stopped += Stopped;            
+            Main.Start();
+        }
+
+        private void MessageReceived(string msg)
+        {
+            lbArticles.Items.Add(msg);
+            intMatches++;
+        }
+
+        private void Stopped()
+        {
+            StopProgressBar();
         }
 
         private delegate void SetProgBarDelegate();
@@ -175,13 +173,13 @@ namespace WikiFunctions.DumpSearcher
                 btnStart.Text = "Start";
                 Tools.FlashWindow(this);
                 lblCount.Text = lbArticles.Items.Count.ToString() + " results";
-                if (boolMessage)
+                if (Main != null && Main.Message)
                     MessageBox.Show(lbArticles.Items.Count.ToString() + " matches in " + intTimer.ToString() + " seconds");
             }
             catch (Exception ex)
             {
-                if (boolMessage)
-                    MessageBox.Show(ex.Message.ToString());
+                if (Main != null && Main.Message)
+                    MessageBox.Show(ex.Message);
             }
         }
 
@@ -350,12 +348,12 @@ namespace WikiFunctions.DumpSearcher
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            try
-            {
-                if (PThread != null && PThread.IsAlive)
-                    PThread.Abort();
-            }
-            catch { }
+            //try
+            //{
+            //    if (PThread != null && PThread.IsAlive)
+            //        PThread.Abort();
+            //}
+            //catch { }
         }
 
         private void chkRegex_CheckedChanged(object sender, EventArgs e)
@@ -481,13 +479,17 @@ namespace WikiFunctions.DumpSearcher
 
         private void btnStop_Click(object sender, EventArgs e)
         {
-            boolRun = false;
+            if (Main != null)
+                Main.Run = false;
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            boolMessage = false;
-            boolRun = false;
+            if (Main != null)
+            {
+                Main.Message = false;
+                Main.Run = false;
+            }
 
             saveSettings();
         }
@@ -505,10 +507,7 @@ namespace WikiFunctions.DumpSearcher
             belowNormalToolStripMenuItem.Checked = false;
             lowestToolStripMenuItem.Checked = false;
 
-            if (PThread == null)
-                return;
-
-            PThread.Priority = ThreadPriority.Highest;
+            Main.Priority = ThreadPriority.Highest;
         }
 
         private void aboveNormalToolStripMenuItem_Click(object sender, EventArgs e)
@@ -518,10 +517,7 @@ namespace WikiFunctions.DumpSearcher
             belowNormalToolStripMenuItem.Checked = false;
             lowestToolStripMenuItem.Checked = false;
 
-            if (PThread == null)
-                return;
-
-            PThread.Priority = ThreadPriority.AboveNormal;
+            Main.Priority = ThreadPriority.AboveNormal;
         }
 
         private void normalToolStripMenuItem_Click(object sender, EventArgs e)
@@ -531,10 +527,7 @@ namespace WikiFunctions.DumpSearcher
             belowNormalToolStripMenuItem.Checked = false;
             lowestToolStripMenuItem.Checked = false;
 
-            if (PThread == null)
-                return;
-
-            PThread.Priority = ThreadPriority.Normal;
+            Main.Priority = ThreadPriority.Normal;
         }
 
         private void belowNormalToolStripMenuItem_Click(object sender, EventArgs e)
@@ -544,10 +537,7 @@ namespace WikiFunctions.DumpSearcher
             normalToolStripMenuItem.Checked = false;
             lowestToolStripMenuItem.Checked = false;
 
-            if (PThread == null)
-                return;
-
-            PThread.Priority = ThreadPriority.BelowNormal;
+            Main.Priority = ThreadPriority.BelowNormal;
         }
 
         private void lowestToolStripMenuItem_Click(object sender, EventArgs e)
@@ -557,10 +547,7 @@ namespace WikiFunctions.DumpSearcher
             normalToolStripMenuItem.Checked = false;
             belowNormalToolStripMenuItem.Checked = false;
 
-            if (PThread == null)
-                return;
-
-            PThread.Priority = ThreadPriority.Lowest;
+            Main.Priority = ThreadPriority.Lowest;
         }
         #endregion
 
@@ -684,7 +671,6 @@ namespace WikiFunctions.DumpSearcher
             //menu
             ignoreRedirectsToolStripMenuItem1.Checked = true;
             ignoreCommentsToolStripMenuItem.Checked = false;
-            ignoreDisambigsToolStripMenuItem.Checked = false;
             ignoreImagesToolStripMenuItem.Checked = true;
             ignoreTemplateNamespaceToolStripMenuItem.Checked = true;
             ignoreWikipediaNamespaceToolStripMenuItem.Checked = true;

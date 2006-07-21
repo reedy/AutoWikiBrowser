@@ -49,7 +49,6 @@ namespace WikiFunctions.DumpSearcher
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.optionsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.ignoreRedirectsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.ignoreDisambigsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ignoreImagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ignoreWikipediaNamespaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -115,9 +114,9 @@ namespace WikiFunctions.DumpSearcher
             this.lblCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.chkUnbulletedLinks = new System.Windows.Forms.CheckBox();
             this.chkHTML = new System.Windows.Forms.CheckBox();
             this.chkBadLinks = new System.Windows.Forms.CheckBox();
-            this.chkUnbulletedLinks = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numLength)).BeginInit();
@@ -262,7 +261,6 @@ namespace WikiFunctions.DumpSearcher
             // 
             this.optionsToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ignoreRedirectsToolStripMenuItem1,
-            this.ignoreDisambigsToolStripMenuItem,
             this.toolStripSeparator1,
             this.ignoreImagesToolStripMenuItem,
             this.ignoreWikipediaNamespaceToolStripMenuItem,
@@ -283,13 +281,6 @@ namespace WikiFunctions.DumpSearcher
             this.ignoreRedirectsToolStripMenuItem1.Name = "ignoreRedirectsToolStripMenuItem1";
             this.ignoreRedirectsToolStripMenuItem1.Size = new System.Drawing.Size(248, 22);
             this.ignoreRedirectsToolStripMenuItem1.Text = "Ignore redirects";
-            // 
-            // ignoreDisambigsToolStripMenuItem
-            // 
-            this.ignoreDisambigsToolStripMenuItem.CheckOnClick = true;
-            this.ignoreDisambigsToolStripMenuItem.Name = "ignoreDisambigsToolStripMenuItem";
-            this.ignoreDisambigsToolStripMenuItem.Size = new System.Drawing.Size(248, 22);
-            this.ignoreDisambigsToolStripMenuItem.Text = "Ignore disambigs";
             // 
             // toolStripSeparator1
             // 
@@ -1004,6 +995,16 @@ namespace WikiFunctions.DumpSearcher
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Other";
             // 
+            // chkUnbulletedLinks
+            // 
+            this.chkUnbulletedLinks.AutoSize = true;
+            this.chkUnbulletedLinks.Location = new System.Drawing.Point(168, 61);
+            this.chkUnbulletedLinks.Name = "chkUnbulletedLinks";
+            this.chkUnbulletedLinks.Size = new System.Drawing.Size(101, 17);
+            this.chkUnbulletedLinks.TabIndex = 35;
+            this.chkUnbulletedLinks.Text = "Unbulleted links";
+            this.chkUnbulletedLinks.UseVisualStyleBackColor = true;
+            // 
             // chkHTML
             // 
             this.chkHTML.AutoSize = true;
@@ -1023,16 +1024,6 @@ namespace WikiFunctions.DumpSearcher
             this.chkBadLinks.TabIndex = 32;
             this.chkBadLinks.Text = "Has bad links AWB will fix";
             this.chkBadLinks.UseVisualStyleBackColor = true;
-            // 
-            // chkUnbulletedLinks
-            // 
-            this.chkUnbulletedLinks.AutoSize = true;
-            this.chkUnbulletedLinks.Location = new System.Drawing.Point(168, 61);
-            this.chkUnbulletedLinks.Name = "chkUnbulletedLinks";
-            this.chkUnbulletedLinks.Size = new System.Drawing.Size(101, 17);
-            this.chkUnbulletedLinks.TabIndex = 35;
-            this.chkUnbulletedLinks.Text = "Unbulleted links";
-            this.chkUnbulletedLinks.UseVisualStyleBackColor = true;
             // 
             // DumpSearcher
             // 
@@ -1096,7 +1087,6 @@ namespace WikiFunctions.DumpSearcher
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem ignoreRedirectsToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem ignoreDisambigsToolStripMenuItem;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.NumericUpDown nudLimitResults;

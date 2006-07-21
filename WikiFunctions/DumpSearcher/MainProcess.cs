@@ -23,30 +23,59 @@ using System.Text;
 using System.Xml;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace WikiFunctions.DumpSearcher
 {
+    public delegate void FoundDel(string article);
+    public delegate void StopDel();
+
     class MainProcess
-    {
-        public delegate void FoundDel(string article);
+    {        
         public event FoundDel FoundArticle;
+                
+        public event StopDel Stopped;
 
         Scanners scanners;
         string FileName = "";
         int Limit = 100000;
         Stream stream;
-        Regex regComments = new Regex("&lt;!--.*?--&gt;", RegexOptions.Singleline | RegexOptions.Compiled);
+
+        SendOrPostCallback SOPC;
+        private SynchronizationContext context;
+        Thread ScanThread = null;
 
         public MainProcess(Scanners scns, string filename, int ResultLimit)
         {
             scanners = scns;
             FileName = filename;
             Limit = ResultLimit;
+            SOPC = new SendOrPostCallback(NewArticle);
+        }
+
+        private void NewArticle(object o)
+        {
+            this.FoundArticle(o.ToString());
         }
 
         public void Start()
         {
+            try
+            {
+                stream = new FileStream(FileName, FileMode.Open);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
 
+            context = SynchronizationContext.Current;
+
+            ThreadStart thr_Process = new ThreadStart(Process);
+            ScanThread = new Thread(thr_Process);
+            ScanThread.IsBackground = true;
+            ScanThread.Priority = tpriority;
+            ScanThread.Start();
         }
 
         private void Process()
@@ -67,13 +96,10 @@ namespace WikiFunctions.DumpSearcher
                             articleTitle = reader.ReadInnerXml();
                             reader.ReadToFollowing("text");
                             articleText = reader.ReadInnerXml();
-
-                            if (ignoreCommentsToolStripMenuItem.Checked)
-                                articleText = regComments.Replace(articleText, "");
-
+                                                  
                             if (scanners.Test(articleText, articleTitle))
                             {
-                                this.FoundArticle(articleTitle);
+                                context.Post(SOPC, articleTitle);
                             }
                         }
                     }
@@ -82,20 +108,40 @@ namespace WikiFunctions.DumpSearcher
             catch (Exception ex)
             {
                 if (boolMessage)
-                    MessageBox.Show("Problem on " + articleTitle + "\r\n\r\n" + ex.Message);
+                    throw new ApplicationException("Problem on " + articleTitle + "\r\n\r\n" + ex.Message);
             }
             finally
             {
-                StopProgressBar();
+                this.Stopped();
             }
         }
 
-        bool boolrun = true;
+        bool boolRun = true;
         public bool Run
         {
-            get { return boolrun; }
-            set { boolrun = value; }
+            get { return boolRun; }
+            set { boolRun = value; }
         }
+
+        bool boolMessage = true;
+        public bool Message
+        {
+            get { return boolMessage; }
+            set { boolMessage = value; }
+        }
+
+        ThreadPriority tpriority = ThreadPriority.Normal;
+        public ThreadPriority Priority
+        {
+            get { return tpriority; }
+            set
+            {
+                tpriority = value;
+                if(ScanThread != null)
+                    ScanThread.Priority = value; 
+            }
+        }
+
 
     }
 }
