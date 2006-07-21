@@ -215,6 +215,17 @@ namespace WikiFunctions
             return input;
         }
 
+        public static string TurnFirstToLower(string input)
+        {
+            //turns first character to lowercase
+            if (input.Length == 0)
+                return "";
+
+            input = char.ToLower(input[0]) + input.Substring(1, input.Length - 1);
+
+            return input;
+        }
+
         public static string linkChecker(string articleText)
         {//checks links to make them bypass redirects and (TODO) disambigs
             string link = "";

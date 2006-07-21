@@ -555,18 +555,16 @@ namespace AutoWikiBrowser
                         articleText = parsers.LivingPeople(articleText);
                         articleText = parsers.FixCats(articleText);
                         articleText = parsers.FixHeadings(articleText);
+                        //if (skip)
+                        //    return articleText;
+                        //else
+                        //    skip = false;
                     }
                     articleText = parsers.SyntaxFixer(articleText);
                     articleText = parsers.LinkFixer(articleText);
                     articleText = parsers.BulletExternalLinks(articleText);
-                    articleText = parsers.SortMetaData(articleText, EdittingArticle);
-                    
-                    articleText = parsers.BoldTitle(articleText, EdittingArticle);
-                    //if (skip)
-                    //    return articleText;
-                    //else
-                    //    skip = false;
-
+                    articleText = parsers.SortMetaData(articleText, EdittingArticle);                    
+                    articleText = parsers.BoldTitle(articleText, EdittingArticle);                    
                     articleText = parsers.LinkSimplifier(articleText);
 
                     articleText = parsers.AddNowiki(articleText);

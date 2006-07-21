@@ -921,18 +921,7 @@ namespace WikiFunctions
             }
             else
                 return "";
-        }
-
-        private string TurnFirstToLower(string input)
-        {
-            //turns first character to lowercase
-            if (input.Length == 0)
-                return "";
-
-            input = char.ToLower(input[0]) + input.Substring(1, input.Length - 1);
-
-            return input;
-        }
+        }        
 
         #endregion
 
