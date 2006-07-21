@@ -176,7 +176,7 @@ namespace WikiFunctions
                             if (ignoreCommentsToolStripMenuItem.Checked)
                                 articleText = regComments.Replace(articleText, "");
 
-                            if (IgnoreName() && countLinks() && checkLength() && checkDoesContain() && checkDoesNotContain() && simpleLinks() && boldTitle() && badLinks() && containsHTML())// && noBirthCat(articleText) && sectionHeaderError()
+                            if (IgnoreName() && countLinks() && checkLength() && checkDoesContain() && checkDoesNotContain() && simpleLinks() && boldTitle() && badLinks() && containsHTML() && sectionHeaderError())// && noBirthCat(articleText)
                             {
                                 lbArticles.Items.Add(articleTitle);
 
@@ -455,6 +455,9 @@ namespace WikiFunctions
 
         private bool sectionHeaderError()
         {
+            if (!chkSectionError.Checked)
+                return true;
+
             if (!Regex.IsMatch(articleText, "= ?See also ?=") && Regex.IsMatch(articleText, "(== ?)([Ss]ee Also:?|[rR]elated [tT]opics:?|[rR]elated [aA]rticles:?|[Ii]nternal [lL]inks:?|[Aa]lso [Ss]ee:?)( ?==)"))
                 return true;
 

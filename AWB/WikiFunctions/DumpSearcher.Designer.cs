@@ -116,6 +116,7 @@ namespace WikiFunctions
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.chkHTML = new System.Windows.Forms.CheckBox();
             this.chkBadLinks = new System.Windows.Forms.CheckBox();
+            this.chkSectionError = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numLength)).BeginInit();
@@ -366,14 +367,14 @@ namespace WikiFunctions
             this.belowNormalToolStripMenuItem,
             this.lowestToolStripMenuItem});
             this.threadPriorityToolStripMenuItem.Name = "threadPriorityToolStripMenuItem";
-            this.threadPriorityToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.threadPriorityToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.threadPriorityToolStripMenuItem.Text = "Thread priority";
             // 
             // highestToolStripMenuItem
             // 
             this.highestToolStripMenuItem.CheckOnClick = true;
             this.highestToolStripMenuItem.Name = "highestToolStripMenuItem";
-            this.highestToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.highestToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.highestToolStripMenuItem.Text = "Highest";
             this.highestToolStripMenuItem.Click += new System.EventHandler(this.highestToolStripMenuItem_Click);
             // 
@@ -381,7 +382,7 @@ namespace WikiFunctions
             // 
             this.aboveNormalToolStripMenuItem.CheckOnClick = true;
             this.aboveNormalToolStripMenuItem.Name = "aboveNormalToolStripMenuItem";
-            this.aboveNormalToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboveNormalToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.aboveNormalToolStripMenuItem.Text = "Above normal";
             this.aboveNormalToolStripMenuItem.Click += new System.EventHandler(this.aboveNormalToolStripMenuItem_Click);
             // 
@@ -391,7 +392,7 @@ namespace WikiFunctions
             this.normalToolStripMenuItem.CheckOnClick = true;
             this.normalToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.normalToolStripMenuItem.Name = "normalToolStripMenuItem";
-            this.normalToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.normalToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.normalToolStripMenuItem.Text = "Normal";
             this.normalToolStripMenuItem.Click += new System.EventHandler(this.normalToolStripMenuItem_Click);
             // 
@@ -399,7 +400,7 @@ namespace WikiFunctions
             // 
             this.belowNormalToolStripMenuItem.CheckOnClick = true;
             this.belowNormalToolStripMenuItem.Name = "belowNormalToolStripMenuItem";
-            this.belowNormalToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.belowNormalToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.belowNormalToolStripMenuItem.Text = "Below normal";
             this.belowNormalToolStripMenuItem.Click += new System.EventHandler(this.belowNormalToolStripMenuItem_Click);
             // 
@@ -407,7 +408,7 @@ namespace WikiFunctions
             // 
             this.lowestToolStripMenuItem.CheckOnClick = true;
             this.lowestToolStripMenuItem.Name = "lowestToolStripMenuItem";
-            this.lowestToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.lowestToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.lowestToolStripMenuItem.Text = "Lowest";
             this.lowestToolStripMenuItem.Click += new System.EventHandler(this.lowestToolStripMenuItem_Click);
             // 
@@ -978,6 +979,7 @@ namespace WikiFunctions
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.chkSectionError);
             this.groupBox5.Controls.Add(this.chkHTML);
             this.groupBox5.Controls.Add(this.chkBadLinks);
             this.groupBox5.Controls.Add(this.chkNoBold);
@@ -1008,6 +1010,17 @@ namespace WikiFunctions
             this.chkBadLinks.TabIndex = 32;
             this.chkBadLinks.Text = "Has bad links AWB will fix";
             this.chkBadLinks.UseVisualStyleBackColor = true;
+            // 
+            // chkSectionError
+            // 
+            this.chkSectionError.AutoSize = true;
+            this.chkSectionError.Location = new System.Drawing.Point(168, 41);
+            this.chkSectionError.Name = "chkSectionError";
+            this.chkSectionError.Size = new System.Drawing.Size(86, 17);
+            this.chkSectionError.TabIndex = 34;
+            this.chkSectionError.Text = "Section error";
+            this.toolTip1.SetToolTip(this.chkSectionError, "Detects common section header errors, such as upper casing \"==External Links==\"");
+            this.chkSectionError.UseVisualStyleBackColor = true;
             // 
             // DumpSearcher
             // 
@@ -1140,6 +1153,7 @@ namespace WikiFunctions
         private CheckBox chkMulti;
         private ToolStripMenuItem toolStripMenuItem1;
         private ToolStripSeparator toolStripSeparator4;
+        private CheckBox chkSectionError;
     }
 }
 
