@@ -1941,7 +1941,7 @@ namespace AutoWikiBrowser
 
         private void launchDumpSearcher()
         {
-            DumpSearcher ds = new DumpSearcher();
+            WikiFunctions.DumpSearcher.DumpSearcher ds = new WikiFunctions.DumpSearcher.DumpSearcher();
             ds.foundarticle += addTo;
             ds.Show();
         }

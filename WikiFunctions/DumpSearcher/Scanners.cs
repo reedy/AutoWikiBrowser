@@ -32,17 +32,22 @@ namespace WikiFunctions.DumpSearcher
         string articleText = "";
         string articleTitle = "";
 
-        public void NewArticle(string Text, string Title)
+        public bool Test(string Text, string Title)
         {
             articleText = Text;
             articleTitle = Title;
+
+            if (IgnoreName() && countLinks() && checkLength() && checkDoesContain() && checkDoesNotContain() && simpleLinks() && boldTitle() && badLinks() && containsHTML() && sectionHeaderError() && BulletExternalLinks())// && noBirthCat(articleText
+                return true;
+            else
+                return false;
         }
 
         int checklength = 0;
         public int CheckLength
         {
-            get { return intchecklength; }
-            set { intchecklength = value; }
+            get { return checklength; }
+            set { checklength = value; }
         }
         public bool checkLength()
         {
@@ -56,26 +61,26 @@ namespace WikiFunctions.DumpSearcher
                 return false;
         }
 
-        int checklength = false;
-        public int CheckLength
+        int countlinks = false;
+        public int CountLinks
         {
-            get { return checklength; }
-            set { checklength = value; }
+            get { return countlinks; }
+            set { countlinks = value; }
         }
         int intLinks = 0;
         readonly Regex Regexlinks = new Regex("\\[\\[", RegexOptions.Compiled);
         public bool countLinks()
         {
-            if (checklength == 0)
+            if (countlinks == 0)
                 return true;
             else
             {
                 intLinks = 0;
                 foreach (Match m in Regexlinks.Matches(articleText)) intLinks++;
 
-                if (checklength == 1 && intLinks > nudLinks.Value)
+                if (countlinks == 1 && intLinks > nudLinks.Value)
                     return true;
-                else if (checklength == 2 && intLinks < nudLinks.Value)
+                else if (countlinks == 2 && intLinks < nudLinks.Value)
                     return true;
                 else
                     return false;

@@ -35,14 +35,13 @@ namespace WikiFunctions.DumpSearcher
     /// Provides a form and functions for searching XML data dumps
     /// </summary>
     public partial class DumpSearcher : Form
-    {        
-        Parsers parsers = new Parsers();
+    {
+        MainProcess Main;
         bool skip = true;
 
         public DumpSearcher()
         {
             InitializeComponent();
-            Control.CheckForIllegalCrossThreadCalls = false;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -57,7 +56,6 @@ namespace WikiFunctions.DumpSearcher
         int intMatches = 0;
         int intLimit = 0;
         int intTimer = 0;
-        Thread PThread = null;
 
         private void btnStart_Click(object sender, EventArgs e)
         {
@@ -82,9 +80,7 @@ namespace WikiFunctions.DumpSearcher
                 {
                     MessageBox.Show(ex.Message.ToString());
                     return;
-                }
-
-                
+                }                
 
                 groupBox4.Enabled = false;
                 btnStart.Text = "Working";
@@ -101,11 +97,6 @@ namespace WikiFunctions.DumpSearcher
 
                 timer1.Enabled = true;
 
-                ThreadStart thr_Process = new ThreadStart(Process);
-                PThread = new Thread(thr_Process);
-                PThread.IsBackground = true;
-                PThread.Name = "pt";
-                PThread.Start();
             }
             catch { }
         }
@@ -153,7 +144,7 @@ namespace WikiFunctions.DumpSearcher
             PNRegex = new Regex(patternNot, ArticleRegOptions);
         }
 
-        MainProcess Main;
+        
         private void Start()
         {
             Scanners scn = new Scanners();
@@ -175,9 +166,6 @@ namespace WikiFunctions.DumpSearcher
                     return;
                 }
 
-                if (PThread != null)
-                    PThread = null;
-
                 progressBar1.MarqueeAnimationSpeed = 0;
                 progressBar1.Style = ProgressBarStyle.Continuous;
 
@@ -195,257 +183,6 @@ namespace WikiFunctions.DumpSearcher
                 if (boolMessage)
                     MessageBox.Show(ex.Message.ToString());
             }
-        }
-
-        #endregion
-
-        #region checkers
-        private bool checkLength()
-        {
-            if (cmboLength.SelectedIndex == 0)
-                return true;
-            else if (cmboLength.SelectedIndex == 1 && articleText.Length > numLength.Value)
-                return true;
-            else if (cmboLength.SelectedIndex == 2 && articleText.Length < numLength.Value)
-                return true;
-            else
-                return false;
-        }
-
-        private bool countLinks()
-        {
-            if (cmboLinks.SelectedIndex == 0)
-                return true;
-            else
-            {
-                int intLinks = 0;
-                foreach (Match m in Regex.Matches(articleText, "\\[\\[")) intLinks++;
-
-                if (cmboLinks.SelectedIndex == 1 && intLinks > nudLinks.Value)
-                    return true;
-                else if (cmboLinks.SelectedIndex == 2 && intLinks < nudLinks.Value)
-                    return true;
-                else
-                    return false;
-            }
-        }
-
-        private bool checkDoesContain()
-        {
-            if (!chkDoesContain.Checked)
-                return true;
-
-            if (PRegex.IsMatch(articleText))
-                return true;
-            else
-                return false;
-        }
-
-        private bool checkDoesNotContain()
-        {
-            if (!chkDoesNotContain.Checked)
-                return true;
-
-            if (PNRegex.IsMatch(articleText))
-                return false;
-            else
-                return true;
-        }
-
-        private bool IgnoreName()
-        {
-            if (ignoreRedirectsToolStripMenuItem1.Checked && articleText.StartsWith("#"))
-                return false;
-            else if (articleTitle.StartsWith(Variables.Namespaces[8]) || articleTitle.StartsWith(Variables.Namespaces[100])) //skip this namespace
-                return false;
-            else if (ignoreDisambigsToolStripMenuItem.Checked && articleText.Contains("isambig}}"))
-                return false;
-            else if (ignoreImagesToolStripMenuItem.Checked && articleTitle.StartsWith(Variables.Namespaces[6]))
-                return false;
-            else if (articleTitle.StartsWith(Variables.Namespaces[12]))
-                return false;
-            else if (ignoreCategoryNamespaceToolStripMenuItem.Checked && articleTitle.StartsWith(Variables.Namespaces[14]))
-                return false;
-            else if (ignoreTemplateNamespaceToolStripMenuItem.Checked && articleTitle.StartsWith(Variables.Namespaces[10]))
-                return false;
-            else if (ignoreWikipediaNamespaceToolStripMenuItem.Checked && articleTitle.StartsWith(Variables.Namespaces[4]))
-                return false;
-            else if (ignoreMainNamespaceToolStripMenuItem.Checked && Tools.IsMainSpace(articleTitle))
-                return false;
-            else
-            {
-                if (TitleContains() && TitleNotContains())
-                    return true;
-                else
-                    return false;
-            }
-        }
-
-        private bool TitleContains()
-        {
-            if (!chkCheckTitle.Checked)
-                return true;
-
-            else if (chkTitleRegex.Checked)
-            {
-                if (Regex.IsMatch(articleTitle, strTitle))
-                    return true;
-                else
-                    return false;
-            }
-            else
-            {
-                if (articleTitle.Contains(strTitle))
-                    return true;
-                else
-                    return false;
-            }
-        }
-
-        private bool TitleNotContains()
-        {
-            if (!chkCheckNotInTitle.Checked)
-                return true;
-
-            else if (chkTitleRegex.Checked)
-            {
-                if (!Regex.IsMatch(articleTitle, strTitleNot))
-                    return true;
-                else
-                    return false;
-            }
-            else
-            {
-                if (!articleTitle.Contains(strTitleNot))
-                    return true;
-                else
-                    return false;
-            }
-        }
-
-        #endregion
-
-        #region custom checkers
-
-        private bool simpleLinks()
-        {
-            if (!chkSimpleLinks.Checked)
-                return true;
-            string n = "";
-            string a = "";
-            string b = "";
-
-            foreach (Match m in Regex.Matches(articleText, "\\[\\[(.*?)\\|(.*?)\\]\\]"))
-            {
-                n = m.ToString();
-                a = m.Groups[1].Value;
-                b = m.Groups[2].Value;
-
-                if (a == b || TurnFirstToLower(a) == b)
-                {
-                    return true;
-                }
-                else if (a + "s" == b || TurnFirstToLower(a) + "s" == b)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private string TurnFirstToLower(string input)
-        {
-            //turns first character to lowercase
-            input = input.Trim();
-
-            if (input.Length > 0)
-            {
-                string temp = input.Substring(0, 1);
-                return temp.ToLower() + input.Remove(0, 1);
-            }
-            else
-                return input;
-        }
-
-        private bool noBirthCat()
-        {
-            if (Regex.IsMatch(articleText, "\\[\\[[Cc]ategory: ?[0-9]{3,4} births"))
-                return false;
-
-            string articleTextTemp = articleText;
-
-            if (articleTextTemp.Length > 80)
-                articleTextTemp = articleTextTemp.Substring(0, 80);
-
-            if (Regex.IsMatch(articleTextTemp, "(\\(| )[Bb]orn "))
-                return true;
-
-            return false;
-        }
-
-
-        private bool boldTitle()
-        {
-            if (!chkNoBold.Checked)
-                return true;
-
-            parsers.BoldTitle(articleText, articleTitle, ref skip);
-
-            return !skip;
-        }
-
-        private bool badLinks()
-        {
-            if (!chkBadLinks.Checked)
-                return true;
-
-            parsers.LinkFixer(articleText, ref skip);
-
-            return !skip;
-        }
-
-        private bool containsHTML()
-        {
-            if (!chkHTML.Checked)
-                return true;
-
-            parsers.Unicodify(articleText, ref skip);
-
-            return !skip;
-        }
-
-        private bool sectionHeaderError()
-        {
-            if (!chkSectionError.Checked)
-                return true;
-
-            if (!Regex.IsMatch(articleText, "= ?See also ?=") && Regex.IsMatch(articleText, "(== ?)([Ss]ee Also:?|[rR]elated [tT]opics:?|[rR]elated [aA]rticles:?|[Ii]nternal [lL]inks:?|[Aa]lso [Ss]ee:?)( ?==)"))
-                return true;
-
-            parsers.FixHeadings(articleText, ref skip);
-
-            return !skip;
-        }
-
-        Regex bulletRegex = new Regex(@"External [Ll]inks? ? ?={1,4} ? ?(
-){0,3}\[?http", RegexOptions.Compiled);
-        private bool BulletExternalLinks()
-        {
-            if (!chkUnbulletedLinks.Checked)
-                return true;
-
-            if (bulletRegex.IsMatch(articleText))
-                return true;
-            else
-                return false;
-        }
-
-        private bool BulletExternal()
-        {
-            parsers.BulletExternalLinks(articleText, ref skip);
-
-            return !skip;
         }
 
         #endregion

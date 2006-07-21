@@ -512,7 +512,7 @@ namespace WikiFunctions
             else
             {
                 articleText = articleText.Replace("[[" + articleTitle + "]]", articleTitle);
-                articleText = articleText.Replace("[[" + TurnFirstToLower(articleTitle) + "]]", TurnFirstToLower(articleTitle));
+                articleText = articleText.Replace("[[" + Tools.TurnFirstToLower(articleTitle) + "]]", Tools.TurnFirstToLower(articleTitle));
             }
 
             escTitle = Regex.Replace(articleTitle, " \\(.*?\\)$", "");
@@ -750,12 +750,12 @@ namespace WikiFunctions
                 a = m.Groups[1].Value;
                 b = m.Groups[2].Value;
 
-                if (a == b || TurnFirstToLower(a) == b)
+                if (a == b || Tools.TurnFirstToLower(a) == b)
                 {
                     k = Regex.Replace(n, "\\[\\[(.*?)\\|(.*?)\\]\\]", "[[$2]]");
                     articleText = articleText.Replace(n, k);
                 }
-                else if (a + "s" == b || TurnFirstToLower(a) + "s" == b)
+                else if (a + "s" == b || Tools.TurnFirstToLower(a) + "s" == b)
                 {
                     k = Regex.Replace(n, "\\[\\[(.*?)\\|(.*?)\\]\\]", "$2");
                     k = "[[" + k.Substring(0, k.Length - 1) + "]]s";
