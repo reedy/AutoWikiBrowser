@@ -71,8 +71,7 @@ namespace WikiFunctions.DumpSearcher
                             if (ignoreCommentsToolStripMenuItem.Checked)
                                 articleText = regComments.Replace(articleText, "");
 
-                            scanners.NewArticle(articleText, articleTitle);
-                            if (scanners.IgnoreName() && scanners.countLinks() && scanners.checkLength() && scanners.checkDoesContain() && scanners.checkDoesNotContain() && scanners.simpleLinks() && scanners.boldTitle() && scanners.badLinks() && scanners.containsHTML() && scanners.sectionHeaderError() && scanners.BulletExternalLinks())// && noBirthCat(articleText)
+                            if (scanners.Test(articleText, articleTitle))
                             {
                                 this.FoundArticle(articleTitle);
                             }
@@ -91,7 +90,12 @@ namespace WikiFunctions.DumpSearcher
             }
         }
 
-
+        bool boolrun = true;
+        public bool Run
+        {
+            get { return boolrun; }
+            set { boolrun = value; }
+        }
 
     }
 }
