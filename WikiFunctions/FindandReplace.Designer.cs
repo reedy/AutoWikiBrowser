@@ -206,6 +206,7 @@ namespace WikiFunctions
             // 
             // chkAddToSummary
             // 
+            this.chkAddToSummary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkAddToSummary.AutoSize = true;
             this.chkAddToSummary.Checked = true;
             this.chkAddToSummary.CheckState = System.Windows.Forms.CheckState.Checked;
