@@ -1930,21 +1930,14 @@ namespace AutoWikiBrowser
         private void launchDumpSearcher()
         {
             WikiFunctions.DumpSearcher.DumpSearcher ds = new WikiFunctions.DumpSearcher.DumpSearcher();
-            ds.ArticleFound += addTo;
+            ds.FoundArticle2 += addTo;
             ds.Show();
+            UpdateButtons();
         }
 
-        private delegate void AddTo(string Article);
-        private void addTo(string Article)
+        private void addTo(object Article)
         {
-            if (this.InvokeRequired)
-            {
-                this.BeginInvoke(new AddTo(addTo), Article);
-                return;
-            }
-
-            lbArticles.Items.Add(Article);
-            UpdateButtons();
+            lbArticles.Items.Add(Article);            
         }
 
         private void addIgnoredToLogFileToolStripMenuItem_Click(object sender, EventArgs e)

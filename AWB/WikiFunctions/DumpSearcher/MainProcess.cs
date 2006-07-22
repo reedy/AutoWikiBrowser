@@ -78,7 +78,6 @@ namespace WikiFunctions.DumpSearcher
             ThreadStart thr_Process = new ThreadStart(Process);
             ScanThread = new Thread(thr_Process);
             ScanThread.IsBackground = true;
-            ScanThread.Name = "Scanthread";
             ScanThread.Priority = tpriority;
             ScanThread.Start();
         }
@@ -88,21 +87,26 @@ namespace WikiFunctions.DumpSearcher
             string articleText = "";
             string articleTitle = "";
 
+            string page = "page";
+            string title = "title";
+            string text = "text";
+
             try
             {
                 using (XmlTextReader reader = new XmlTextReader(stream))
                 {
                     reader.WhitespaceHandling = WhitespaceHandling.None;
+
                     while (reader.Read() && boolRun)
                     {
-                        if (reader.LocalName == "page")
+                        if (reader.Name == page)
                         {
-                            reader.ReadToFollowing("title");
+                            reader.ReadToFollowing(title);
                             articleTitle = reader.ReadInnerXml();
-                            reader.ReadToFollowing("text");
+                            reader.ReadToFollowing(text);
                             articleText = reader.ReadInnerXml();
-                                                  
-                            if (scanners.Test(articleText, articleTitle))
+                             
+                            if (scanners.Test(ref articleText, ref articleTitle))
                             {
                                 context.Post(SOPC, articleTitle);
                             }
