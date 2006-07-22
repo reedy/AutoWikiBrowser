@@ -27,7 +27,7 @@ using System.Threading;
 
 namespace WikiFunctions.DumpSearcher
 {
-    public delegate void FoundDel(string article);
+    public delegate void FoundDel(object article);
     public delegate void StopDel();
 
     class MainProcess
@@ -55,7 +55,7 @@ namespace WikiFunctions.DumpSearcher
 
         private void NewArticle(object o)
         {
-            this.FoundArticle(o.ToString());
+            this.FoundArticle(o);
         }
 
         public void Start()
@@ -74,6 +74,7 @@ namespace WikiFunctions.DumpSearcher
             ThreadStart thr_Process = new ThreadStart(Process);
             ScanThread = new Thread(thr_Process);
             ScanThread.IsBackground = true;
+            ScanThread.Name = "Scanthread";
             ScanThread.Priority = tpriority;
             ScanThread.Start();
         }
@@ -99,7 +100,7 @@ namespace WikiFunctions.DumpSearcher
                                                   
                             if (scanners.Test(articleText, articleTitle))
                             {
-                                context.Post(SOPC, articleTitle);
+                                context.Post(SOPC, articleTitle);                                
                             }
                         }
                     }
@@ -130,7 +131,7 @@ namespace WikiFunctions.DumpSearcher
             set { boolMessage = value; }
         }
 
-        ThreadPriority tpriority = ThreadPriority.Normal;
+        ThreadPriority tpriority = ThreadPriority.BelowNormal;
         public ThreadPriority Priority
         {
             get { return tpriority; }
