@@ -359,7 +359,7 @@ namespace WikiFunctions.DumpSearcher
             this.belowNormalToolStripMenuItem,
             this.lowestToolStripMenuItem});
             this.threadPriorityToolStripMenuItem.Name = "threadPriorityToolStripMenuItem";
-            this.threadPriorityToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.threadPriorityToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.threadPriorityToolStripMenuItem.Text = "Thread priority";
             // 
             // highestToolStripMenuItem
@@ -382,7 +382,7 @@ namespace WikiFunctions.DumpSearcher
             // 
             this.normalToolStripMenuItem.CheckOnClick = true;
             this.normalToolStripMenuItem.Name = "normalToolStripMenuItem";
-            this.normalToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.normalToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.normalToolStripMenuItem.Text = "Normal";
             this.normalToolStripMenuItem.Click += new System.EventHandler(this.normalToolStripMenuItem_Click);
             // 
@@ -392,7 +392,7 @@ namespace WikiFunctions.DumpSearcher
             this.belowNormalToolStripMenuItem.CheckOnClick = true;
             this.belowNormalToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.belowNormalToolStripMenuItem.Name = "belowNormalToolStripMenuItem";
-            this.belowNormalToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.belowNormalToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.belowNormalToolStripMenuItem.Text = "Below normal";
             this.belowNormalToolStripMenuItem.Click += new System.EventHandler(this.belowNormalToolStripMenuItem_Click);
             // 
@@ -729,6 +729,7 @@ namespace WikiFunctions.DumpSearcher
             0,
             0,
             0});
+            this.nudLimitResults.ValueChanged += new System.EventHandler(this.nudLimitResults_ValueChanged);
             // 
             // label1
             // 

@@ -62,9 +62,8 @@ namespace AutoWikiBrowser
                 btnStart.Enabled = false;
             }
             else
-            {
                 btnMakeList.Enabled = true;
-            }
+
             Debug();
 
             if (AutoWikiBrowser.Properties.Settings.Default.LowThreadPriority)
@@ -85,7 +84,6 @@ namespace AutoWikiBrowser
             UpdateButtons();
 
             webBrowserLogin.ScriptErrorsSuppressed = true;
-            ticker += timeKeeper;
             webBrowserLogin.DocumentCompleted += web4Completed;
             webBrowserLogin.Navigating += web4Starting;
 
@@ -110,6 +108,8 @@ namespace AutoWikiBrowser
         Parsers parsers = new Parsers();
         WebControl webBrowserLogin = new WebControl();
         GetLists getLists = new GetLists();
+        TimeSpan StartTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+        int intEdits = 0;
 
         string stredittingarticle = "";
         public string EdittingArticle
@@ -1049,8 +1049,9 @@ namespace AutoWikiBrowser
             if (boolSaved == false)
                 msg = "You have changed the list since last saving it!\r\n";
 
-            TimeSpan time = new TimeSpan(intHours, intMinutes, intSeconds);
-            ExitQuestion dlg = new ExitQuestion(time, intEdits, msg);
+            TimeSpan Time = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+            Time = Time.Subtract(StartTime);
+            ExitQuestion dlg = new ExitQuestion(Time, intEdits, msg);
             dlg.ShowDialog();
             if (dlg.DialogResult == DialogResult.OK)
             {
@@ -1243,8 +1244,9 @@ namespace AutoWikiBrowser
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TimeSpan time = new TimeSpan(intHours, intMinutes, intSeconds);
-            AboutBox About = new AboutBox(webBrowserEdit.Version.ToString(), time, intEdits);
+            TimeSpan Time = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+            Time = Time.Subtract(StartTime);
+            AboutBox About = new AboutBox(webBrowserEdit.Version.ToString(), Time, intEdits);
             About.Show();
         }
 
@@ -1818,25 +1820,6 @@ namespace AutoWikiBrowser
 
         #region timers
 
-        int intHours = 0;
-        int intMinutes = 0;
-        int intSeconds = 0;
-        int intEdits = 0;
-        private void timeKeeper()
-        {
-            intSeconds++;
-            if (intSeconds == 60)
-            {
-                intMinutes++;
-                intSeconds = 0;
-            }
-            if (intMinutes == 60)
-            {
-                intHours++;
-                intMinutes = 0;
-            }
-        }
-
         int intRestartDelay = 5;
         int intStartInSeconds = 5;
         private void DelayedRestart()
@@ -1858,6 +1841,11 @@ namespace AutoWikiBrowser
             ticker += DelayedRestart;
             //increase the restart delay each time, this is decreased by 1 on each successfull save
             intRestartDelay += 3;
+        }
+        private void StartDelayedRestartTimer(int Delay)
+        {
+            intStartInSeconds = Delay;
+            ticker += DelayedRestart;
         }
         private void StopDelayedRestartTimer()
         {
@@ -1942,7 +1930,7 @@ namespace AutoWikiBrowser
         private void launchDumpSearcher()
         {
             WikiFunctions.DumpSearcher.DumpSearcher ds = new WikiFunctions.DumpSearcher.DumpSearcher();
-            //ds.foundarticle += addTo;           
+            ds.ArticleFound += addTo;
             ds.Show();
         }
 

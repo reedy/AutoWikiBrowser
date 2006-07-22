@@ -32,30 +32,34 @@ namespace WikiFunctions.DumpSearcher
 
     class MainProcess
     {        
-        public event FoundDel FoundArticle;
-                
-        public event StopDel Stopped;
+        public event FoundDel FoundArticle;                
+        public event StopDel StoppedEvent;
 
         Scanners scanners;
         string FileName = "";
-        int Limit = 100000;
         Stream stream;
 
         SendOrPostCallback SOPC;
+        SendOrPostCallback SOPCstopped;
         private SynchronizationContext context;
         Thread ScanThread = null;
 
-        public MainProcess(Scanners scns, string filename, int ResultLimit)
+        public MainProcess(Scanners scns, string filename)
         {
             scanners = scns;
             FileName = filename;
-            Limit = ResultLimit;
             SOPC = new SendOrPostCallback(NewArticle);
+            SOPCstopped = new SendOrPostCallback(Stopped);
         }
 
         private void NewArticle(object o)
         {
             this.FoundArticle(o);
+        }
+
+        private void Stopped(object o)
+        {
+            this.StoppedEvent();
         }
 
         public void Start()
@@ -100,7 +104,7 @@ namespace WikiFunctions.DumpSearcher
                                                   
                             if (scanners.Test(articleText, articleTitle))
                             {
-                                context.Post(SOPC, articleTitle);                                
+                                context.Post(SOPC, articleTitle);
                             }
                         }
                     }
@@ -113,7 +117,7 @@ namespace WikiFunctions.DumpSearcher
             }
             finally
             {
-                this.Stopped();
+                context.Post(SOPCstopped, articleTitle);
             }
         }
 
