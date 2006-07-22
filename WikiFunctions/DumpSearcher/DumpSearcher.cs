@@ -31,12 +31,19 @@ using System.Threading;
 
 namespace WikiFunctions.DumpSearcher
 {
+    public delegate void FoundArticleDel(string article);
+
     /// <summary>
     /// Provides a form and functions for searching XML data dumps
     /// </summary>
     public partial class DumpSearcher : Form
     {
         MainProcess Main;
+        public event FoundArticleDel ArticleFound;
+        TimeSpan StartTime;
+        int intMatches = 0;
+        int intTimer = 0;
+        int intLimit = 100000;
 
         public DumpSearcher()
         {
@@ -51,10 +58,7 @@ namespace WikiFunctions.DumpSearcher
             loadSettings();
         }
 
-        #region main process
-
-        int intMatches = 0;
-        int intTimer = 0;
+        #region main process    
 
         private void btnStart_Click(object sender, EventArgs e)
         {
@@ -91,7 +95,7 @@ namespace WikiFunctions.DumpSearcher
                 MessageBox.Show(ex.Message);
             }
         }
-
+        
         Regex TitleDoesRegex;
         Regex TitleDoesNotRegex;
         Regex ArticleDoesRegex;
@@ -172,55 +176,49 @@ namespace WikiFunctions.DumpSearcher
             scn.HeaderError = chkHeaderError.Checked;
             scn.UnbulletedLinks = chkUnbulletedLinks.Checked;
 
-            Main = new MainProcess(scn, fileName, (int)nudLimitResults.Value);
+            StartTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond);
+            intLimit = (int)nudLimitResults.Value;
+
+            Main = new MainProcess(scn, fileName);
             Main.FoundArticle += MessageReceived;
-            Main.Stopped += Stopped;
+            Main.StoppedEvent += Stopped;
             Main.Start();
         }
 
         private void MessageReceived(object msg)
         {
             lbArticles.Items.Add(msg);
+            ArticleFound(msg.ToString());
             intMatches++;
+            if (intMatches >= intLimit)
+                Main.Run = false;
             lblCount.Text = intMatches.ToString();
         }
 
         private void Stopped()
         {
             Main.FoundArticle -= MessageReceived;
-            Main.Stopped -= Stopped;
-            StopProgressBar();
-            Main = null;
-        }
+            Main.StoppedEvent -= Stopped;
 
-        private delegate void SetProgBarDelegate();
-        private void StopProgressBar()
-        {
-            try
-            {
-                if (this.InvokeRequired)
-                {
-                    this.BeginInvoke(new SetProgBarDelegate(StopProgressBar));
-                    return;
-                }
+            progressBar1.MarqueeAnimationSpeed = 0;
+            progressBar1.Style = ProgressBarStyle.Continuous;
 
-                progressBar1.MarqueeAnimationSpeed = 0;
-                progressBar1.Style = ProgressBarStyle.Continuous;
-
-                timer1.Enabled = false;
-                groupBox4.Enabled = true;
-                btnStart.Enabled = true;
-                btnStart.Text = "Start";
+            timer1.Enabled = false;
+            groupBox4.Enabled = true;
+            btnStart.Enabled = true;
+            btnStart.Text = "Start";
+            if (!this.ContainsFocus)
                 Tools.FlashWindow(this);
-                lblCount.Text = lbArticles.Items.Count.ToString() + " results";
-                if (Main != null && Main.Message)
-                    MessageBox.Show(lbArticles.Items.Count.ToString() + " matches in " + intTimer.ToString() + " seconds");
-            }
-            catch (Exception ex)
-            {
-                if (Main != null && Main.Message)
-                    MessageBox.Show(ex.Message);
-            }
+
+            lblCount.Text = lbArticles.Items.Count.ToString() + " results";
+
+            TimeSpan EndTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond);
+            EndTime = EndTime.Subtract(StartTime);
+
+            if (Main != null && Main.Message)
+                MessageBox.Show(lbArticles.Items.Count.ToString() + " matches in " + EndTime.ToString().TrimEnd('0'));
+
+            Main = null;
         }
 
         #endregion
@@ -588,6 +586,12 @@ namespace WikiFunctions.DumpSearcher
 
             Main.Priority = ThreadPriority.Lowest;
         }
+
+        private void nudLimitResults_ValueChanged(object sender, EventArgs e)
+        {
+            intLimit = (int)nudLimitResults.Value;
+        }
+
         #endregion
 
         #region properties
@@ -757,5 +761,6 @@ namespace WikiFunctions.DumpSearcher
         }
 
         #endregion
+        
     }
 }
