@@ -113,13 +113,13 @@ namespace WikiFunctions.DumpSearcher
         }
 
         Regex doescontainregex = new Regex("");
-        public Regex DoesContainRegex
+        public Regex ArticleDoesContainRegex
         {
             get { return doescontainregex; }
             set { doescontainregex = value; }
         }
         bool doescontain = false;
-        public bool DoesContain
+        public bool ArticleDoesContain
         {
             get { return doescontain; }
             set { doescontain = value; }
@@ -136,13 +136,13 @@ namespace WikiFunctions.DumpSearcher
         }
 
         Regex doesnotcontainregex = new Regex("");
-        public Regex DoesNotContainRegex
+        public Regex ArticleDoesNotContainRegex
         {
             get { return doesnotcontainregex; }
             set { doesnotcontainregex = value; }
         }
         bool doesnotcontain = false;
-        public bool DoesNotContain
+        public bool ArticleDoesNotContain
         {
             get { return doesnotcontain; }
             set { doesnotcontain = value; }
@@ -212,13 +212,13 @@ namespace WikiFunctions.DumpSearcher
         }
 
         Regex titlecontainsregex = new Regex("");
-        Regex TitleContainsRegex
+        public Regex TitleContainsRegex
         {
             get { return titlecontainsregex; }
             set { titlecontainsregex = value; }
         }
         bool titlecontainsenabled = false;
-        bool TitleContainsEnabled
+        public bool TitleContainsEnabled
         {
             get { return titlecontainsenabled; }
             set { titlecontainsenabled = value; }
@@ -235,13 +235,13 @@ namespace WikiFunctions.DumpSearcher
         }
 
         Regex titlenotcontainsregex = new Regex("");
-        Regex TitleNotContainsRegex
+        public Regex TitleNotContainsRegex
         {
             get { return titlenotcontainsregex; }
             set { titlenotcontainsregex = value; }
         }
         bool titlenotcontainsenabled = false;
-        bool TitleNotContainsEnabled
+        public bool TitleNotContainsEnabled
         {
             get { return titlenotcontainsenabled; }
             set { titlenotcontainsenabled = value; }
@@ -258,7 +258,7 @@ namespace WikiFunctions.DumpSearcher
         }
 
         bool simplelinks = false;
-        bool SimpleLinks
+        public bool SimpleLinks
         {
             get { return simplelinks; }
             set { simplelinks = value; }
@@ -292,7 +292,7 @@ namespace WikiFunctions.DumpSearcher
         }
 
         bool nobirthcat = false;
-        bool NoBirthCat
+        public bool NoBirthCat
         {
             get { return nobirthcat; }
             set { nobirthcat = value; }
@@ -317,7 +317,7 @@ namespace WikiFunctions.DumpSearcher
         }
 
         bool boldtitle = false;
-        bool BoldTitle
+        public bool NoBold
         {
             get { return boldtitle; }
             set { boldtitle = value; }
@@ -333,7 +333,7 @@ namespace WikiFunctions.DumpSearcher
         }
 
         bool badlinks = false;
-        bool BadLinks
+        public bool BadLinks
         {
             get { return badlinks; }
             set { badlinks = value; }
@@ -349,7 +349,7 @@ namespace WikiFunctions.DumpSearcher
         }
 
         bool containshtml = false;
-        bool ContainsHTML
+        public bool HasHTML
         {
             get { return containshtml; }
             set { containshtml = value; }
@@ -365,7 +365,7 @@ namespace WikiFunctions.DumpSearcher
         }
 
         bool headererror = false;
-        bool HeaderError
+        public bool HeaderError
         {
             get { return headererror; }
             set { headererror = value; }
@@ -384,7 +384,7 @@ namespace WikiFunctions.DumpSearcher
         }
 
         bool bulletexternal = false;
-        bool BulletExternal
+        public bool UnbulletedLinks
         {
             get { return bulletexternal; }
             set { bulletexternal = value; }

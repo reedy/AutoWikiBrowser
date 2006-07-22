@@ -70,19 +70,19 @@ namespace WikiFunctions.DumpSearcher
             this.chkCaseSensitive = new System.Windows.Forms.CheckBox();
             this.chkRegex = new System.Windows.Forms.CheckBox();
             this.cmboLinks = new System.Windows.Forms.ComboBox();
-            this.numLength = new System.Windows.Forms.NumericUpDown();
-            this.chkDoesNotContain = new System.Windows.Forms.CheckBox();
+            this.nudLength = new System.Windows.Forms.NumericUpDown();
+            this.chkArticleDoesNotContain = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.chkDoesContain = new System.Windows.Forms.CheckBox();
+            this.chkArticleDoesContain = new System.Windows.Forms.CheckBox();
             this.nudLinks = new System.Windows.Forms.NumericUpDown();
             this.cmboLength = new System.Windows.Forms.ComboBox();
             this.txtPatternNot = new System.Windows.Forms.TextBox();
             this.txtPattern = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtTitleNotContains = new System.Windows.Forms.TextBox();
-            this.chkCheckNotInTitle = new System.Windows.Forms.CheckBox();
+            this.chkTitleDoesNotContain = new System.Windows.Forms.CheckBox();
             this.txtTitleContains = new System.Windows.Forms.TextBox();
-            this.chkCheckTitle = new System.Windows.Forms.CheckBox();
+            this.chkTitleContains = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.chkTitleCase = new System.Windows.Forms.CheckBox();
             this.chkTitleRegex = new System.Windows.Forms.CheckBox();
@@ -98,7 +98,7 @@ namespace WikiFunctions.DumpSearcher
             this.btnTransfer = new System.Windows.Forms.Button();
             this.AlphaList = new System.Windows.Forms.Button();
             this.lbClear = new System.Windows.Forms.Button();
-            this.chkSectionError = new System.Windows.Forms.CheckBox();
+            this.chkHeaderError = new System.Windows.Forms.CheckBox();
             this.lbArticles = new System.Windows.Forms.ListBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -115,11 +115,11 @@ namespace WikiFunctions.DumpSearcher
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.chkUnbulletedLinks = new System.Windows.Forms.CheckBox();
-            this.chkHTML = new System.Windows.Forms.CheckBox();
+            this.chkHasHTML = new System.Windows.Forms.CheckBox();
             this.chkBadLinks = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numLength)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudLength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudLinks)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudLimitResults)).BeginInit();
@@ -359,7 +359,7 @@ namespace WikiFunctions.DumpSearcher
             this.belowNormalToolStripMenuItem,
             this.lowestToolStripMenuItem});
             this.threadPriorityToolStripMenuItem.Name = "threadPriorityToolStripMenuItem";
-            this.threadPriorityToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.threadPriorityToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.threadPriorityToolStripMenuItem.Text = "Thread priority";
             // 
             // highestToolStripMenuItem
@@ -380,19 +380,19 @@ namespace WikiFunctions.DumpSearcher
             // 
             // normalToolStripMenuItem
             // 
-            this.normalToolStripMenuItem.Checked = true;
             this.normalToolStripMenuItem.CheckOnClick = true;
-            this.normalToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.normalToolStripMenuItem.Name = "normalToolStripMenuItem";
-            this.normalToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.normalToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.normalToolStripMenuItem.Text = "Normal";
             this.normalToolStripMenuItem.Click += new System.EventHandler(this.normalToolStripMenuItem_Click);
             // 
             // belowNormalToolStripMenuItem
             // 
+            this.belowNormalToolStripMenuItem.Checked = true;
             this.belowNormalToolStripMenuItem.CheckOnClick = true;
+            this.belowNormalToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.belowNormalToolStripMenuItem.Name = "belowNormalToolStripMenuItem";
-            this.belowNormalToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.belowNormalToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.belowNormalToolStripMenuItem.Text = "Below normal";
             this.belowNormalToolStripMenuItem.Click += new System.EventHandler(this.belowNormalToolStripMenuItem_Click);
             // 
@@ -411,10 +411,10 @@ namespace WikiFunctions.DumpSearcher
             this.groupBox1.Controls.Add(this.chkCaseSensitive);
             this.groupBox1.Controls.Add(this.chkRegex);
             this.groupBox1.Controls.Add(this.cmboLinks);
-            this.groupBox1.Controls.Add(this.numLength);
-            this.groupBox1.Controls.Add(this.chkDoesNotContain);
+            this.groupBox1.Controls.Add(this.nudLength);
+            this.groupBox1.Controls.Add(this.chkArticleDoesNotContain);
             this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.chkDoesContain);
+            this.groupBox1.Controls.Add(this.chkArticleDoesContain);
             this.groupBox1.Controls.Add(this.nudLinks);
             this.groupBox1.Controls.Add(this.cmboLength);
             this.groupBox1.Controls.Add(this.txtPatternNot);
@@ -489,45 +489,45 @@ namespace WikiFunctions.DumpSearcher
             this.cmboLinks.TabIndex = 16;
             this.cmboLinks.SelectedIndexChanged += new System.EventHandler(this.cmboLinks_SelectedIndexChanged);
             // 
-            // numLength
+            // nudLength
             // 
-            this.numLength.Enabled = false;
-            this.numLength.Increment = new decimal(new int[] {
+            this.nudLength.Enabled = false;
+            this.nudLength.Increment = new decimal(new int[] {
             10,
             0,
             0,
             0});
-            this.numLength.Location = new System.Drawing.Point(209, 107);
-            this.numLength.Maximum = new decimal(new int[] {
+            this.nudLength.Location = new System.Drawing.Point(209, 107);
+            this.nudLength.Maximum = new decimal(new int[] {
             10000000,
             0,
             0,
             0});
-            this.numLength.Minimum = new decimal(new int[] {
+            this.nudLength.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.numLength.Name = "numLength";
-            this.numLength.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.numLength.Size = new System.Drawing.Size(73, 20);
-            this.numLength.TabIndex = 10;
-            this.numLength.Value = new decimal(new int[] {
+            this.nudLength.Name = "nudLength";
+            this.nudLength.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.nudLength.Size = new System.Drawing.Size(73, 20);
+            this.nudLength.TabIndex = 10;
+            this.nudLength.Value = new decimal(new int[] {
             1000,
             0,
             0,
             0});
             // 
-            // chkDoesNotContain
+            // chkArticleDoesNotContain
             // 
-            this.chkDoesNotContain.AutoSize = true;
-            this.chkDoesNotContain.Location = new System.Drawing.Point(12, 81);
-            this.chkDoesNotContain.Name = "chkDoesNotContain";
-            this.chkDoesNotContain.Size = new System.Drawing.Size(110, 17);
-            this.chkDoesNotContain.TabIndex = 13;
-            this.chkDoesNotContain.Text = "Does not contain:";
-            this.chkDoesNotContain.UseVisualStyleBackColor = true;
-            this.chkDoesNotContain.CheckedChanged += new System.EventHandler(this.chkDoesNotContain_CheckedChanged);
+            this.chkArticleDoesNotContain.AutoSize = true;
+            this.chkArticleDoesNotContain.Location = new System.Drawing.Point(12, 81);
+            this.chkArticleDoesNotContain.Name = "chkArticleDoesNotContain";
+            this.chkArticleDoesNotContain.Size = new System.Drawing.Size(110, 17);
+            this.chkArticleDoesNotContain.TabIndex = 13;
+            this.chkArticleDoesNotContain.Text = "Does not contain:";
+            this.chkArticleDoesNotContain.UseVisualStyleBackColor = true;
+            this.chkArticleDoesNotContain.CheckedChanged += new System.EventHandler(this.chkDoesNotContain_CheckedChanged);
             // 
             // label4
             // 
@@ -538,16 +538,16 @@ namespace WikiFunctions.DumpSearcher
             this.label4.TabIndex = 18;
             this.label4.Text = "No. of links";
             // 
-            // chkDoesContain
+            // chkArticleDoesContain
             // 
-            this.chkDoesContain.AutoSize = true;
-            this.chkDoesContain.Location = new System.Drawing.Point(12, 55);
-            this.chkDoesContain.Name = "chkDoesContain";
-            this.chkDoesContain.Size = new System.Drawing.Size(122, 17);
-            this.chkDoesContain.TabIndex = 12;
-            this.chkDoesContain.Text = "Article does contain:";
-            this.chkDoesContain.UseVisualStyleBackColor = true;
-            this.chkDoesContain.CheckedChanged += new System.EventHandler(this.chkDoesContain_CheckedChanged);
+            this.chkArticleDoesContain.AutoSize = true;
+            this.chkArticleDoesContain.Location = new System.Drawing.Point(12, 55);
+            this.chkArticleDoesContain.Name = "chkArticleDoesContain";
+            this.chkArticleDoesContain.Size = new System.Drawing.Size(122, 17);
+            this.chkArticleDoesContain.TabIndex = 12;
+            this.chkArticleDoesContain.Text = "Article does contain:";
+            this.chkArticleDoesContain.UseVisualStyleBackColor = true;
+            this.chkArticleDoesContain.CheckedChanged += new System.EventHandler(this.chkDoesContain_CheckedChanged);
             // 
             // nudLinks
             // 
@@ -620,16 +620,16 @@ namespace WikiFunctions.DumpSearcher
             this.txtTitleNotContains.TabIndex = 27;
             this.txtTitleNotContains.Leave += new System.EventHandler(this.txtTitleNotContains_Leave);
             // 
-            // chkCheckNotInTitle
+            // chkTitleDoesNotContain
             // 
-            this.chkCheckNotInTitle.AutoSize = true;
-            this.chkCheckNotInTitle.Location = new System.Drawing.Point(10, 66);
-            this.chkCheckNotInTitle.Name = "chkCheckNotInTitle";
-            this.chkCheckNotInTitle.Size = new System.Drawing.Size(128, 17);
-            this.chkCheckNotInTitle.TabIndex = 26;
-            this.chkCheckNotInTitle.Text = "Title does not contain";
-            this.chkCheckNotInTitle.UseVisualStyleBackColor = true;
-            this.chkCheckNotInTitle.CheckedChanged += new System.EventHandler(this.chkCheckNotInTitle_CheckedChanged);
+            this.chkTitleDoesNotContain.AutoSize = true;
+            this.chkTitleDoesNotContain.Location = new System.Drawing.Point(10, 66);
+            this.chkTitleDoesNotContain.Name = "chkTitleDoesNotContain";
+            this.chkTitleDoesNotContain.Size = new System.Drawing.Size(128, 17);
+            this.chkTitleDoesNotContain.TabIndex = 26;
+            this.chkTitleDoesNotContain.Text = "Title does not contain";
+            this.chkTitleDoesNotContain.UseVisualStyleBackColor = true;
+            this.chkTitleDoesNotContain.CheckedChanged += new System.EventHandler(this.chkCheckNotInTitle_CheckedChanged);
             // 
             // txtTitleContains
             // 
@@ -640,25 +640,25 @@ namespace WikiFunctions.DumpSearcher
             this.txtTitleContains.TabIndex = 22;
             this.txtTitleContains.Leave += new System.EventHandler(this.txtTitleContains_Leave);
             // 
-            // chkCheckTitle
+            // chkTitleContains
             // 
-            this.chkCheckTitle.AutoSize = true;
-            this.chkCheckTitle.Location = new System.Drawing.Point(10, 40);
-            this.chkCheckTitle.Name = "chkCheckTitle";
-            this.chkCheckTitle.Size = new System.Drawing.Size(113, 17);
-            this.chkCheckTitle.TabIndex = 23;
-            this.chkCheckTitle.Text = "Title does contain:";
-            this.chkCheckTitle.UseVisualStyleBackColor = true;
-            this.chkCheckTitle.CheckedChanged += new System.EventHandler(this.chkCheckTitle_CheckedChanged);
+            this.chkTitleContains.AutoSize = true;
+            this.chkTitleContains.Location = new System.Drawing.Point(10, 40);
+            this.chkTitleContains.Name = "chkTitleContains";
+            this.chkTitleContains.Size = new System.Drawing.Size(113, 17);
+            this.chkTitleContains.TabIndex = 23;
+            this.chkTitleContains.Text = "Title does contain:";
+            this.chkTitleContains.UseVisualStyleBackColor = true;
+            this.chkTitleContains.CheckedChanged += new System.EventHandler(this.chkCheckTitle_CheckedChanged);
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.chkTitleCase);
             this.groupBox2.Controls.Add(this.chkTitleRegex);
             this.groupBox2.Controls.Add(this.txtTitleNotContains);
-            this.groupBox2.Controls.Add(this.chkCheckNotInTitle);
+            this.groupBox2.Controls.Add(this.chkTitleDoesNotContain);
             this.groupBox2.Controls.Add(this.txtTitleContains);
-            this.groupBox2.Controls.Add(this.chkCheckTitle);
+            this.groupBox2.Controls.Add(this.chkTitleContains);
             this.groupBox2.Location = new System.Drawing.Point(322, 33);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(286, 98);
@@ -671,7 +671,6 @@ namespace WikiFunctions.DumpSearcher
             this.chkTitleCase.AutoSize = true;
             this.chkTitleCase.Checked = true;
             this.chkTitleCase.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkTitleCase.Enabled = false;
             this.chkTitleCase.Location = new System.Drawing.Point(182, 17);
             this.chkTitleCase.Name = "chkTitleCase";
             this.chkTitleCase.Size = new System.Drawing.Size(94, 17);
@@ -833,16 +832,16 @@ namespace WikiFunctions.DumpSearcher
             this.lbClear.UseVisualStyleBackColor = true;
             this.lbClear.Click += new System.EventHandler(this.lbClear_Click);
             // 
-            // chkSectionError
+            // chkHeaderError
             // 
-            this.chkSectionError.AutoSize = true;
-            this.chkSectionError.Location = new System.Drawing.Point(168, 41);
-            this.chkSectionError.Name = "chkSectionError";
-            this.chkSectionError.Size = new System.Drawing.Size(86, 17);
-            this.chkSectionError.TabIndex = 34;
-            this.chkSectionError.Text = "Section error";
-            this.toolTip1.SetToolTip(this.chkSectionError, "Detects common section header errors, such as upper casing \"==External Links==\"");
-            this.chkSectionError.UseVisualStyleBackColor = true;
+            this.chkHeaderError.AutoSize = true;
+            this.chkHeaderError.Location = new System.Drawing.Point(168, 41);
+            this.chkHeaderError.Name = "chkHeaderError";
+            this.chkHeaderError.Size = new System.Drawing.Size(86, 17);
+            this.chkHeaderError.TabIndex = 34;
+            this.chkHeaderError.Text = "Section error";
+            this.toolTip1.SetToolTip(this.chkHeaderError, "Detects common section header errors, such as upper casing \"==External Links==\"");
+            this.chkHeaderError.UseVisualStyleBackColor = true;
             // 
             // lbArticles
             // 
@@ -983,8 +982,8 @@ namespace WikiFunctions.DumpSearcher
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.chkUnbulletedLinks);
-            this.groupBox5.Controls.Add(this.chkSectionError);
-            this.groupBox5.Controls.Add(this.chkHTML);
+            this.groupBox5.Controls.Add(this.chkHeaderError);
+            this.groupBox5.Controls.Add(this.chkHasHTML);
             this.groupBox5.Controls.Add(this.chkBadLinks);
             this.groupBox5.Controls.Add(this.chkNoBold);
             this.groupBox5.Controls.Add(this.chkSimpleLinks);
@@ -1005,15 +1004,15 @@ namespace WikiFunctions.DumpSearcher
             this.chkUnbulletedLinks.Text = "Unbulleted links";
             this.chkUnbulletedLinks.UseVisualStyleBackColor = true;
             // 
-            // chkHTML
+            // chkHasHTML
             // 
-            this.chkHTML.AutoSize = true;
-            this.chkHTML.Location = new System.Drawing.Point(168, 21);
-            this.chkHTML.Name = "chkHTML";
-            this.chkHTML.Size = new System.Drawing.Size(114, 17);
-            this.chkHTML.TabIndex = 33;
-            this.chkHTML.Text = "Has HTML entities";
-            this.chkHTML.UseVisualStyleBackColor = true;
+            this.chkHasHTML.AutoSize = true;
+            this.chkHasHTML.Location = new System.Drawing.Point(168, 21);
+            this.chkHasHTML.Name = "chkHasHTML";
+            this.chkHasHTML.Size = new System.Drawing.Size(114, 17);
+            this.chkHasHTML.TabIndex = 33;
+            this.chkHasHTML.Text = "Has HTML entities";
+            this.chkHasHTML.UseVisualStyleBackColor = true;
             // 
             // chkBadLinks
             // 
@@ -1050,7 +1049,7 @@ namespace WikiFunctions.DumpSearcher
             this.menuStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numLength)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudLength)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudLinks)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
@@ -1103,7 +1102,7 @@ namespace WikiFunctions.DumpSearcher
         private ToolStripMenuItem ignoreMainNamespaceToolStripMenuItem;
         private NumericUpDown nudHeadingSpace;
         private TextBox txtTitleContains;
-        private CheckBox chkCheckTitle;
+        private CheckBox chkTitleContains;
         private ListBox lbArticles;
         private Button btnTransfer;
         private Button AlphaList;
@@ -1121,7 +1120,7 @@ namespace WikiFunctions.DumpSearcher
         private ToolStripStatusLabel lblCount;
         private ToolStripMenuItem removeToolStripMenuItem;
         private TextBox txtTitleNotContains;
-        private CheckBox chkCheckNotInTitle;
+        private CheckBox chkTitleDoesNotContain;
         private CheckBox chkTitleRegex;
         private CheckBox chkTitleCase;
         private CheckBox chkNoBold;
@@ -1137,25 +1136,25 @@ namespace WikiFunctions.DumpSearcher
         private GroupBox groupBox5;
         private CheckBox chkCaseSensitive;
         private CheckBox chkRegex;
-        private NumericUpDown numLength;
+        private NumericUpDown nudLength;
         private Label label4;
         private ComboBox cmboLength;
         private TextBox txtPattern;
         private Label label2;
         private TextBox txtPatternNot;
         private NumericUpDown nudLinks;
-        private CheckBox chkDoesContain;
-        private CheckBox chkDoesNotContain;
+        private CheckBox chkArticleDoesContain;
+        private CheckBox chkArticleDoesNotContain;
         private ComboBox cmboLinks;
         private CheckBox chkBadLinks;
-        private CheckBox chkHTML;
+        private CheckBox chkHasHTML;
         private ToolStripSeparator toolStripSeparator2;
         private ToolStripMenuItem ignoreCommentsToolStripMenuItem;
         private CheckBox chkSingle;
         private CheckBox chkMulti;
         private ToolStripMenuItem toolStripMenuItem1;
         private ToolStripSeparator toolStripSeparator4;
-        private CheckBox chkSectionError;
+        private CheckBox chkHeaderError;
         private CheckBox chkUnbulletedLinks;
     }
 }

@@ -41,6 +41,7 @@ namespace WikiFunctions.DumpSearcher
         public DumpSearcher()
         {
             InitializeComponent();
+            Thread.CurrentThread.Name = "Main";
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -53,7 +54,6 @@ namespace WikiFunctions.DumpSearcher
         #region main process
 
         int intMatches = 0;
-        int intLimit = 0;
         int intTimer = 0;
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -63,13 +63,11 @@ namespace WikiFunctions.DumpSearcher
                 if (Main != null)
                     return;
 
-                Main.Run = true;
-
                 if (fileName.Length == 0)
                 {
                     MessageBox.Show("Please open an \"Articles\" XML data-dump file from the file menu\r\n\r\nSee the About menu for where to download this file.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
-                }                              
+                }                     
 
                 groupBox4.Enabled = false;
                 btnStart.Text = "Working";
@@ -88,44 +86,61 @@ namespace WikiFunctions.DumpSearcher
                 Start();
 
             }
-            catch { }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
-        string strTitleNot = "";
-        string strTitle = "";
-
-        Regex PRegex;
-        Regex PNRegex;
-
-        RegexOptions ArticleRegOptions;
+        Regex TitleDoesRegex;
+        Regex TitleDoesNotRegex;
+        Regex ArticleDoesRegex;
+        Regex ArticleDoesNotRegex;
         private void makePatterns()
         {
+            string strTitleNot = "";
+            string strTitle = "";
+            RegexOptions TitleRegOptions;            
+
+            string strArticleDoes = convert(txtPattern.Text);
+            string strArticleDoesNot = convert(txtPatternNot.Text);
+            RegexOptions ArticleRegOptions;            
+
             strTitle = convert(txtTitleContains.Text);
             strTitleNot = convert(txtTitleNotContains.Text);
+            strArticleDoes = convert(txtPattern.Text);
+            strArticleDoesNot = convert(txtPatternNot.Text);
 
             ArticleRegOptions = RegexOptions.ExplicitCapture;
-
-            string pattern = convert(txtPattern.Text);
-            string patternNot = convert(txtPatternNot.Text);
-
-
+            TitleRegOptions = RegexOptions.ExplicitCapture;
+                        
             if (!chkRegex.Checked)
             {
-                pattern = Regex.Escape(pattern);
-                patternNot = Regex.Escape(patternNot);
+                strArticleDoes = Regex.Escape(strArticleDoes);
+                strArticleDoesNot = Regex.Escape(strArticleDoesNot);
+            }
+
+            if (!chkTitleRegex.Checked)
+            {
+                strTitle = Regex.Escape(strTitle);
+                strTitleNot = Regex.Escape(strTitleNot);
             }
 
             if (!chkCaseSensitive.Checked)
                 ArticleRegOptions = ArticleRegOptions | RegexOptions.IgnoreCase;
-
             if (chkMulti.Checked)
                 ArticleRegOptions = ArticleRegOptions | RegexOptions.Multiline;
-
             if (chkSingle.Checked)
                 ArticleRegOptions = ArticleRegOptions | RegexOptions.Singleline;
 
-            PRegex = new Regex(pattern, ArticleRegOptions);
-            PNRegex = new Regex(patternNot, ArticleRegOptions);
+            if (!chkTitleCase.Checked)
+                TitleRegOptions = TitleRegOptions | RegexOptions.IgnoreCase;
+
+            ArticleDoesRegex = new Regex(strArticleDoes, ArticleRegOptions);
+            ArticleDoesNotRegex = new Regex(strArticleDoesNot, ArticleRegOptions);
+
+            TitleDoesRegex = new Regex(strTitle, TitleRegOptions);
+            TitleDoesNotRegex = new Regex(strTitleNot, TitleRegOptions);
         }
 
         
@@ -134,23 +149,48 @@ namespace WikiFunctions.DumpSearcher
             Scanners scn = new Scanners();
 
             makePatterns();
-            //set options here
+
+            scn.ArticleDoesContain = chkArticleDoesContain.Checked;
+            scn.ArticleDoesNotContain = chkArticleDoesNotContain.Checked;
+            scn.ArticleDoesContainRegex = ArticleDoesRegex;
+            scn.ArticleDoesNotContainRegex = ArticleDoesNotRegex;
+
+            scn.TitleContainsEnabled = chkTitleContains.Checked;
+            scn.TitleNotContainsEnabled = chkTitleDoesNotContain.Checked;
+            scn.TitleContainsRegex = TitleDoesRegex;
+            scn.TitleNotContainsRegex = TitleDoesNotRegex;
+
+            scn.CheckLength = cmboLength.SelectedIndex;
+            scn.Length = (int)nudLength.Value;
+            scn.CountLinks = cmboLinks.SelectedIndex;
+            scn.Links = (int)nudLinks.Value;
+
+            scn.BadLinks = chkBadLinks.Checked;
+            scn.NoBold = chkNoBold.Checked;
+            scn.SimpleLinks = chkSimpleLinks.Checked;
+            scn.HasHTML = chkHasHTML.Checked;
+            scn.HeaderError = chkHeaderError.Checked;
+            scn.UnbulletedLinks = chkUnbulletedLinks.Checked;
 
             Main = new MainProcess(scn, fileName, (int)nudLimitResults.Value);
             Main.FoundArticle += MessageReceived;
-            Main.Stopped += Stopped;            
+            Main.Stopped += Stopped;
             Main.Start();
         }
 
-        private void MessageReceived(string msg)
+        private void MessageReceived(object msg)
         {
             lbArticles.Items.Add(msg);
             intMatches++;
+            lblCount.Text = intMatches.ToString();
         }
 
         private void Stopped()
         {
+            Main.FoundArticle -= MessageReceived;
+            Main.Stopped -= Stopped;
             StopProgressBar();
+            Main = null;
         }
 
         private delegate void SetProgBarDelegate();
@@ -268,8 +308,6 @@ namespace WikiFunctions.DumpSearcher
 
         }
 
-
-
         string strfileName = "";
         private string fileName
         {
@@ -378,30 +416,30 @@ namespace WikiFunctions.DumpSearcher
 
         private void chkDoesContain_CheckedChanged(object sender, EventArgs e)
         {
-            txtPattern.Enabled = chkDoesContain.Checked;
+            txtPattern.Enabled = chkArticleDoesContain.Checked;
         }
 
         private void chkDoesNotContain_CheckedChanged(object sender, EventArgs e)
         {
-            txtPatternNot.Enabled = chkDoesNotContain.Checked;
+            txtPatternNot.Enabled = chkArticleDoesNotContain.Checked;
         }
 
         private void chkCheckTitle_CheckedChanged(object sender, EventArgs e)
         {
-            txtTitleContains.Enabled = chkCheckTitle.Checked;
+            txtTitleContains.Enabled = chkTitleContains.Checked;
         }
 
         private void chkCheckNotInTitle_CheckedChanged(object sender, EventArgs e)
         {
-            txtTitleNotContains.Enabled = chkCheckNotInTitle.Checked;
+            txtTitleNotContains.Enabled = chkTitleDoesNotContain.Checked;
         }
 
         private void cmboLength_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmboLength.SelectedIndex == 0)
-                numLength.Enabled = false;
+                nudLength.Enabled = false;
             else
-                numLength.Enabled = true;
+                nudLength.Enabled = true;
 
         }
 
@@ -463,7 +501,8 @@ namespace WikiFunctions.DumpSearcher
             text = text.Replace("&", "&amp;");
             text = text.Replace("<", "&lt;");
             text = text.Replace(">", "&gt;");
-
+            text = text.Replace(@"\r\n", @"
+");
             return text;
         }
 
@@ -680,8 +719,8 @@ namespace WikiFunctions.DumpSearcher
             //contains
             txtPattern.Text = "";
             txtPatternNot.Text = "";
-            chkDoesContain.Checked = false; ;
-            chkDoesNotContain.Checked = false;
+            chkArticleDoesContain.Checked = false; ;
+            chkArticleDoesNotContain.Checked = false;
 
             chkRegex.Checked = false;
             chkCaseSensitive.Checked = false;
@@ -691,20 +730,20 @@ namespace WikiFunctions.DumpSearcher
             //title
             txtTitleContains.Text = "";
             txtTitleNotContains.Text = "";
-            chkCheckTitle.Checked = false;
-            chkCheckNotInTitle.Checked = false;
+            chkTitleContains.Checked = false;
+            chkTitleDoesNotContain.Checked = false;
             chkTitleRegex.Checked = false;
 
             //characters and links
             cmboLength.SelectedIndex = 0;
             cmboLinks.SelectedIndex = 0;
-            numLength.Value = 1000;
+            nudLength.Value = 1000;
             nudLinks.Value = 5;
 
             //extra
             chkNoBold.Checked = false;
             chkBadLinks.Checked = false;
-            chkHTML.Checked = false;
+            chkHasHTML.Checked = false;
             chkSimpleLinks.Checked = false;
 
             //results
