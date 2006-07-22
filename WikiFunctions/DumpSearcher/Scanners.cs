@@ -34,7 +34,7 @@ namespace WikiFunctions.DumpSearcher
 
         Regex regComments = new Regex("&lt;!--.*?--&gt;", RegexOptions.Singleline | RegexOptions.Compiled);
 
-        public bool Test(string Text, string Title)
+        public bool Test(ref string Text, ref string Title)
         {
             articleText = Text;
             articleTitle = Title;

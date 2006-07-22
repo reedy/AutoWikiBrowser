@@ -31,15 +31,13 @@ using System.Threading;
 
 namespace WikiFunctions.DumpSearcher
 {
-    public delegate void FoundArticleDel(string article);
-
     /// <summary>
     /// Provides a form and functions for searching XML data dumps
     /// </summary>
     public partial class DumpSearcher : Form
     {
+        public event FoundDel FoundArticle2;
         MainProcess Main;
-        public event FoundArticleDel ArticleFound;
         TimeSpan StartTime;
         int intMatches = 0;
         int intTimer = 0;
@@ -58,7 +56,7 @@ namespace WikiFunctions.DumpSearcher
             loadSettings();
         }
 
-        #region main process    
+        #region main process
 
         private void btnStart_Click(object sender, EventArgs e)
         {
@@ -176,6 +174,8 @@ namespace WikiFunctions.DumpSearcher
             scn.HeaderError = chkHeaderError.Checked;
             scn.UnbulletedLinks = chkUnbulletedLinks.Checked;
 
+            scn.IgnoreComments = ignoreCommentsToolStripMenuItem.Checked;
+
             StartTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond);
             intLimit = (int)nudLimitResults.Value;
 
@@ -188,8 +188,8 @@ namespace WikiFunctions.DumpSearcher
         private void MessageReceived(object msg)
         {
             lbArticles.Items.Add(msg);
-            ArticleFound(msg.ToString());
             intMatches++;
+            this.FoundArticle2(msg);
             if (intMatches >= intLimit)
                 Main.Run = false;
             lblCount.Text = intMatches.ToString();
