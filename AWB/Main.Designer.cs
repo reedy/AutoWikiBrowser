@@ -1874,47 +1874,47 @@ namespace AutoWikiBrowser
             // filterOutNonMainSpaceToolStripMenuItem
             // 
             this.filterOutNonMainSpaceToolStripMenuItem.Name = "filterOutNonMainSpaceToolStripMenuItem";
-            this.filterOutNonMainSpaceToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.filterOutNonMainSpaceToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
             this.filterOutNonMainSpaceToolStripMenuItem.Text = "Filter out non main space";
             this.filterOutNonMainSpaceToolStripMenuItem.Click += new System.EventHandler(this.filterOutNonMainSpaceToolStripMenuItem_Click);
             // 
             // specialFilterToolStripMenuItem1
             // 
             this.specialFilterToolStripMenuItem1.Name = "specialFilterToolStripMenuItem1";
-            this.specialFilterToolStripMenuItem1.Size = new System.Drawing.Size(194, 22);
+            this.specialFilterToolStripMenuItem1.Size = new System.Drawing.Size(199, 22);
             this.specialFilterToolStripMenuItem1.Text = "Filter";
             this.specialFilterToolStripMenuItem1.Click += new System.EventHandler(this.specialFilterToolStripMenuItem1_Click);
             // 
             // sortAlphabeticallyToolStripMenuItem
             // 
             this.sortAlphabeticallyToolStripMenuItem.Name = "sortAlphabeticallyToolStripMenuItem";
-            this.sortAlphabeticallyToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.sortAlphabeticallyToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
             this.sortAlphabeticallyToolStripMenuItem.Text = "Sort alphabetically";
             this.sortAlphabeticallyToolStripMenuItem.Click += new System.EventHandler(this.sortAlphabeticallyToolStripMenuItem_Click);
             // 
             // saveListToTextFileToolStripMenuItem
             // 
             this.saveListToTextFileToolStripMenuItem.Name = "saveListToTextFileToolStripMenuItem";
-            this.saveListToTextFileToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.saveListToTextFileToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
             this.saveListToTextFileToolStripMenuItem.Text = "Save list to text file";
             this.saveListToTextFileToolStripMenuItem.Click += new System.EventHandler(this.saveListToTextFileToolStripMenuItem_Click_1);
             // 
             // toolStripSeparator13
             // 
             this.toolStripSeparator13.Name = "toolStripSeparator13";
-            this.toolStripSeparator13.Size = new System.Drawing.Size(191, 6);
+            this.toolStripSeparator13.Size = new System.Drawing.Size(196, 6);
             // 
             // launchDumpSearcherToolStripMenuItem
             // 
             this.launchDumpSearcherToolStripMenuItem.Name = "launchDumpSearcherToolStripMenuItem";
-            this.launchDumpSearcherToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
-            this.launchDumpSearcherToolStripMenuItem.Text = "Launch DumpSearcher";
+            this.launchDumpSearcherToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+            this.launchDumpSearcherToolStripMenuItem.Text = "Launch Database Scanner";
             this.launchDumpSearcherToolStripMenuItem.Click += new System.EventHandler(this.launchDumpSearcherToolStripMenuItem_Click);
             // 
             // launchListComparerToolStripMenuItem
             // 
             this.launchListComparerToolStripMenuItem.Name = "launchListComparerToolStripMenuItem";
-            this.launchListComparerToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.launchListComparerToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
             this.launchListComparerToolStripMenuItem.Text = "Launch ListComparer";
             this.launchListComparerToolStripMenuItem.Click += new System.EventHandler(this.launchListComparerToolStripMenuItem_Click);
             // 

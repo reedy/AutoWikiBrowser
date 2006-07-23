@@ -1929,7 +1929,7 @@ namespace AutoWikiBrowser
 
         private void launchDumpSearcher()
         {
-            WikiFunctions.DumpSearcher.DumpSearcher ds = new WikiFunctions.DumpSearcher.DumpSearcher();
+            WikiFunctions.DatabaseScanner.DatabaseScanner ds = new WikiFunctions.DatabaseScanner.DatabaseScanner();
             ds.FoundArticle2 += addTo;
             ds.Show();
             UpdateButtons();
