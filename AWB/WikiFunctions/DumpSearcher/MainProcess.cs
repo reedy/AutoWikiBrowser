@@ -31,8 +31,8 @@ namespace WikiFunctions.DumpSearcher
     public delegate void StopDel();
 
     class MainProcess
-    {        
-        public event FoundDel FoundArticle;                
+    {
+        public event FoundDel FoundArticle;
         public event StopDel StoppedEvent;
 
         Scanners scanners;
@@ -44,12 +44,13 @@ namespace WikiFunctions.DumpSearcher
         private SynchronizationContext context;
         Thread ScanThread = null;
 
-        public MainProcess(Scanners scns, string filename)
+        public MainProcess(Scanners scns, string filename, ThreadPriority tp)
         {
             scanners = scns;
             FileName = filename;
             SOPC = new SendOrPostCallback(NewArticle);
             SOPCstopped = new SendOrPostCallback(Stopped);
+            Priority = tp;
         }
 
         private void NewArticle(object o)
@@ -102,10 +103,10 @@ namespace WikiFunctions.DumpSearcher
                         if (reader.Name == page)
                         {
                             reader.ReadToFollowing(title);
-                            articleTitle = reader.ReadInnerXml();
+                            articleTitle = reader.ReadString();
                             reader.ReadToFollowing(text);
-                            articleText = reader.ReadInnerXml();
-                             
+                            articleText = reader.ReadString();
+
                             if (scanners.Test(ref articleText, ref articleTitle))
                             {
                                 context.Post(SOPC, articleTitle);
@@ -146,8 +147,8 @@ namespace WikiFunctions.DumpSearcher
             set
             {
                 tpriority = value;
-                if(ScanThread != null)
-                    ScanThread.Priority = value; 
+                if (ScanThread != null)
+                    ScanThread.Priority = value;
             }
         }
 

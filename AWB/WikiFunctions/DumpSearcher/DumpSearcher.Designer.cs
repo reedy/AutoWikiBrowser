@@ -76,8 +76,8 @@ namespace WikiFunctions.DumpSearcher
             this.chkArticleDoesContain = new System.Windows.Forms.CheckBox();
             this.nudLinks = new System.Windows.Forms.NumericUpDown();
             this.cmboLength = new System.Windows.Forms.ComboBox();
-            this.txtPatternNot = new System.Windows.Forms.TextBox();
-            this.txtPattern = new System.Windows.Forms.TextBox();
+            this.txtArticleDoesNotContain = new System.Windows.Forms.TextBox();
+            this.txtArticleDoesContain = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtTitleNotContains = new System.Windows.Forms.TextBox();
             this.chkTitleDoesNotContain = new System.Windows.Forms.CheckBox();
@@ -417,8 +417,8 @@ namespace WikiFunctions.DumpSearcher
             this.groupBox1.Controls.Add(this.chkArticleDoesContain);
             this.groupBox1.Controls.Add(this.nudLinks);
             this.groupBox1.Controls.Add(this.cmboLength);
-            this.groupBox1.Controls.Add(this.txtPatternNot);
-            this.groupBox1.Controls.Add(this.txtPattern);
+            this.groupBox1.Controls.Add(this.txtArticleDoesNotContain);
+            this.groupBox1.Controls.Add(this.txtArticleDoesContain);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Location = new System.Drawing.Point(12, 33);
             this.groupBox1.Name = "groupBox1";
@@ -586,21 +586,21 @@ namespace WikiFunctions.DumpSearcher
             this.cmboLength.TabIndex = 11;
             this.cmboLength.SelectedIndexChanged += new System.EventHandler(this.cmboLength_SelectedIndexChanged);
             // 
-            // txtPatternNot
+            // txtArticleDoesNotContain
             // 
-            this.txtPatternNot.Enabled = false;
-            this.txtPatternNot.Location = new System.Drawing.Point(141, 81);
-            this.txtPatternNot.Name = "txtPatternNot";
-            this.txtPatternNot.Size = new System.Drawing.Size(142, 20);
-            this.txtPatternNot.TabIndex = 14;
+            this.txtArticleDoesNotContain.Enabled = false;
+            this.txtArticleDoesNotContain.Location = new System.Drawing.Point(141, 81);
+            this.txtArticleDoesNotContain.Name = "txtArticleDoesNotContain";
+            this.txtArticleDoesNotContain.Size = new System.Drawing.Size(142, 20);
+            this.txtArticleDoesNotContain.TabIndex = 14;
             // 
-            // txtPattern
+            // txtArticleDoesContain
             // 
-            this.txtPattern.Enabled = false;
-            this.txtPattern.Location = new System.Drawing.Point(141, 55);
-            this.txtPattern.Name = "txtPattern";
-            this.txtPattern.Size = new System.Drawing.Size(142, 20);
-            this.txtPattern.TabIndex = 1;
+            this.txtArticleDoesContain.Enabled = false;
+            this.txtArticleDoesContain.Location = new System.Drawing.Point(141, 55);
+            this.txtArticleDoesContain.Name = "txtArticleDoesContain";
+            this.txtArticleDoesContain.Size = new System.Drawing.Size(142, 20);
+            this.txtArticleDoesContain.TabIndex = 1;
             // 
             // label2
             // 
@@ -1140,9 +1140,9 @@ namespace WikiFunctions.DumpSearcher
         private NumericUpDown nudLength;
         private Label label4;
         private ComboBox cmboLength;
-        private TextBox txtPattern;
+        private TextBox txtArticleDoesContain;
         private Label label2;
-        private TextBox txtPatternNot;
+        private TextBox txtArticleDoesNotContain;
         private NumericUpDown nudLinks;
         private CheckBox chkArticleDoesContain;
         private CheckBox chkArticleDoesNotContain;
