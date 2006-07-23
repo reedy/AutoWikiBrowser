@@ -165,15 +165,9 @@ namespace WikiFunctions.DumpSearcher
             set { ignoreredirects = value; }
         }
 
-        //bool ignorecategory = false;
-        //public bool IgnoreCategory
-        //{
-        //    get { return ignorecategory; }
-        //    set { ignorecategory = value; }
-        //}
-
-        int[] namespaces;
-        public int[] Namespaces
+        //namespaces to ignore
+        List<int> namespaces = new List<int>();
+        public List<int> Namespaces
         {
             get { return namespaces; }
             set { namespaces = value; }
@@ -181,34 +175,26 @@ namespace WikiFunctions.DumpSearcher
         }
 
         int NamespaceIndex = 0;
+        int i = 0;
         private bool IgnoreName()
         {
             if (ignoreredirects && articleText.StartsWith("#"))
                 return false;
 
             NamespaceIndex = Tools.CalculateNS(articleTitle);
-                        
-            //if (NamespaceIndex == 8 || articleTitle.StartsWith(Variables.Namespaces[100])) //skip this namespace
-            //    return false;
-            //else if (ignoreImagesToolStripMenuItem.Checked && articleTitle.StartsWith(Variables.Namespaces[6]))
-            //    return false;
-            //else if (articleTitle.StartsWith(Variables.Namespaces[12]))
-            //    return false;
-            //else if (ignoreCategoryNamespaceToolStripMenuItem.Checked && articleTitle.StartsWith(Variables.Namespaces[14]))
-            //    return false;
-            //else if (ignoreTemplateNamespaceToolStripMenuItem.Checked && articleTitle.StartsWith(Variables.Namespaces[10]))
-            //    return false;
-            //else if (ignoreWikipediaNamespaceToolStripMenuItem.Checked && articleTitle.StartsWith(Variables.Namespaces[4]))
-            //    return false;
-            //else if (ignoreMainNamespaceToolStripMenuItem.Checked && Tools.IsMainSpace(articleTitle))
-            //    return false;
-            //else
-            //{
-                if (TitleContains() && TitleNotContains())
-                    return true;
-                else
+
+            i = 0;      
+            foreach (int j in namespaces)
+            {
+                if (NamespaceIndex == namespaces[i])
                     return false;
-            //}
+                i++;
+            }
+
+            if (TitleContains() && TitleNotContains())
+                return true;
+            else
+                return false;
         }
 
         Regex titlecontainsregex = new Regex("");

@@ -39,6 +39,19 @@ namespace WikiFunctions.DumpSearcher
         public event FoundDel FoundArticle2;
         MainProcess Main;
         TimeSpan StartTime;
+
+        ThreadPriority priority = ThreadPriority.Normal;
+        ThreadPriority Priority
+        {
+            get { return priority; }
+            set
+            {
+                if (Main != null)
+                    Main.Priority = value;
+                priority = value;
+            }
+        }
+
         int intMatches = 0;
         int intTimer = 0;
         int intLimit = 100000;
@@ -54,6 +67,11 @@ namespace WikiFunctions.DumpSearcher
             cmboLength.SelectedIndex = 0;
             cmboLinks.SelectedIndex = 0;
             loadSettings();
+
+            chkArticleDoesContain.Checked = true;
+            chkRegex.Checked = true;
+            txtArticleDoesContain.Text = "bob|catfish";
+            nudLimitResults.Value = 1000;
         }
 
         #region main process
@@ -98,20 +116,21 @@ namespace WikiFunctions.DumpSearcher
         Regex TitleDoesNotRegex;
         Regex ArticleDoesRegex;
         Regex ArticleDoesNotRegex;
+        List<int> namespaces = new List<int>();
         private void makePatterns()
         {
             string strTitleNot = "";
             string strTitle = "";
             RegexOptions TitleRegOptions;            
 
-            string strArticleDoes = convert(txtPattern.Text);
-            string strArticleDoesNot = convert(txtPatternNot.Text);
+            string strArticleDoes = convert(txtArticleDoesContain.Text);
+            string strArticleDoesNot = convert(txtArticleDoesNotContain.Text);
             RegexOptions ArticleRegOptions;            
 
             strTitle = convert(txtTitleContains.Text);
             strTitleNot = convert(txtTitleNotContains.Text);
-            strArticleDoes = convert(txtPattern.Text);
-            strArticleDoesNot = convert(txtPatternNot.Text);
+            strArticleDoes = convert(txtArticleDoesContain.Text);
+            strArticleDoesNot = convert(txtArticleDoesNotContain.Text);
 
             ArticleRegOptions = RegexOptions.ExplicitCapture;
             TitleRegOptions = RegexOptions.ExplicitCapture;
@@ -143,8 +162,24 @@ namespace WikiFunctions.DumpSearcher
 
             TitleDoesRegex = new Regex(strTitle, TitleRegOptions);
             TitleDoesNotRegex = new Regex(strTitleNot, TitleRegOptions);
-        }
 
+            namespaces.Clear();
+
+            if (ignoreCategoryNamespaceToolStripMenuItem.Checked)
+                namespaces.Add(14);
+
+            if (ignoreImagesToolStripMenuItem.Checked)
+                namespaces.Add(6);
+
+            if (ignoreTemplateNamespaceToolStripMenuItem.Checked)
+                namespaces.Add(10);
+
+            if (ignoreWikipediaNamespaceToolStripMenuItem.Checked)
+                namespaces.Add(4);
+
+            if (ignoreMainNamespaceToolStripMenuItem.Checked)
+                namespaces.Add(0);
+        }
         
         private void Start()
         {
@@ -176,10 +211,12 @@ namespace WikiFunctions.DumpSearcher
 
             scn.IgnoreComments = ignoreCommentsToolStripMenuItem.Checked;
 
+            scn.Namespaces = namespaces;
+
             StartTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond);
             intLimit = (int)nudLimitResults.Value;
 
-            Main = new MainProcess(scn, fileName);
+            Main = new MainProcess(scn, fileName, Priority);
             Main.FoundArticle += MessageReceived;
             Main.StoppedEvent += Stopped;
             Main.Start();
@@ -414,12 +451,12 @@ namespace WikiFunctions.DumpSearcher
 
         private void chkDoesContain_CheckedChanged(object sender, EventArgs e)
         {
-            txtPattern.Enabled = chkArticleDoesContain.Checked;
+            txtArticleDoesContain.Enabled = chkArticleDoesContain.Checked;
         }
 
         private void chkDoesNotContain_CheckedChanged(object sender, EventArgs e)
         {
-            txtPatternNot.Enabled = chkArticleDoesNotContain.Checked;
+            txtArticleDoesNotContain.Enabled = chkArticleDoesNotContain.Checked;
         }
 
         private void chkCheckTitle_CheckedChanged(object sender, EventArgs e)
@@ -544,7 +581,7 @@ namespace WikiFunctions.DumpSearcher
             belowNormalToolStripMenuItem.Checked = false;
             lowestToolStripMenuItem.Checked = false;
 
-            Main.Priority = ThreadPriority.Highest;
+            Priority = ThreadPriority.Highest;
         }
 
         private void aboveNormalToolStripMenuItem_Click(object sender, EventArgs e)
@@ -554,7 +591,7 @@ namespace WikiFunctions.DumpSearcher
             belowNormalToolStripMenuItem.Checked = false;
             lowestToolStripMenuItem.Checked = false;
 
-            Main.Priority = ThreadPriority.AboveNormal;
+            Priority = ThreadPriority.AboveNormal;
         }
 
         private void normalToolStripMenuItem_Click(object sender, EventArgs e)
@@ -564,7 +601,7 @@ namespace WikiFunctions.DumpSearcher
             belowNormalToolStripMenuItem.Checked = false;
             lowestToolStripMenuItem.Checked = false;
 
-            Main.Priority = ThreadPriority.Normal;
+            Priority = ThreadPriority.Normal;
         }
 
         private void belowNormalToolStripMenuItem_Click(object sender, EventArgs e)
@@ -574,7 +611,7 @@ namespace WikiFunctions.DumpSearcher
             normalToolStripMenuItem.Checked = false;
             lowestToolStripMenuItem.Checked = false;
 
-            Main.Priority = ThreadPriority.BelowNormal;
+            Priority = ThreadPriority.BelowNormal;
         }
 
         private void lowestToolStripMenuItem_Click(object sender, EventArgs e)
@@ -584,7 +621,7 @@ namespace WikiFunctions.DumpSearcher
             normalToolStripMenuItem.Checked = false;
             belowNormalToolStripMenuItem.Checked = false;
 
-            Main.Priority = ThreadPriority.Lowest;
+            Priority = ThreadPriority.Lowest;
         }
 
         private void nudLimitResults_ValueChanged(object sender, EventArgs e)
@@ -721,8 +758,8 @@ namespace WikiFunctions.DumpSearcher
             ignoreMainNamespaceToolStripMenuItem.Checked = false;
 
             //contains
-            txtPattern.Text = "";
-            txtPatternNot.Text = "";
+            txtArticleDoesContain.Text = "";
+            txtArticleDoesNotContain.Text = "";
             chkArticleDoesContain.Checked = false; ;
             chkArticleDoesNotContain.Checked = false;
 
