@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace WikiFunctions.DumpSearcher
+namespace WikiFunctions.DatabaseScanner
 {
     class Scanners
     {

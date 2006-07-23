@@ -25,7 +25,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading;
 
-namespace WikiFunctions.DumpSearcher
+namespace WikiFunctions.DatabaseScanner
 {
     public delegate void FoundDel(object article);
     public delegate void StopDel();
