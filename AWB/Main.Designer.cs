@@ -112,7 +112,7 @@ namespace AutoWikiBrowser
             this.lblLinks = new System.Windows.Forms.Label();
             this.btnStart = new System.Windows.Forms.Button();
             this.btnPreview = new System.Windows.Forms.Button();
-            this.btnApply = new System.Windows.Forms.Button();
+            this.btnSave = new System.Windows.Forms.Button();
             this.btnDiff = new System.Windows.Forms.Button();
             this.btnIgnore = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -252,6 +252,8 @@ namespace AutoWikiBrowser
             this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
             this.btntsPreview = new System.Windows.Forms.ToolStripButton();
             this.btntsChanges = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsbuttonFalsePositive = new System.Windows.Forms.ToolStripButton();
             this.webBrowserEdit = new WikiFunctions.WebControl();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -779,7 +781,7 @@ namespace AutoWikiBrowser
             this.tabPage4.Controls.Add(this.groupBox3);
             this.tabPage4.Controls.Add(this.btnStart);
             this.tabPage4.Controls.Add(this.btnPreview);
-            this.tabPage4.Controls.Add(this.btnApply);
+            this.tabPage4.Controls.Add(this.btnSave);
             this.tabPage4.Controls.Add(this.btnDiff);
             this.tabPage4.Controls.Add(this.btnIgnore);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
@@ -797,6 +799,7 @@ namespace AutoWikiBrowser
             this.btnFalsePositive.Size = new System.Drawing.Size(49, 20);
             this.btnFalsePositive.TabIndex = 29;
             this.btnFalsePositive.Text = "False";
+            this.toolTip1.SetToolTip(this.btnFalsePositive, "Add to false positives file");
             this.btnFalsePositive.UseVisualStyleBackColor = true;
             this.btnFalsePositive.Visible = false;
             this.btnFalsePositive.Click += new System.EventHandler(this.btnFalsePositive_Click);
@@ -1033,19 +1036,20 @@ namespace AutoWikiBrowser
             this.btnPreview.UseVisualStyleBackColor = true;
             this.btnPreview.Click += new System.EventHandler(this.btnPreview_Click);
             // 
-            // btnApply
+            // btnSave
             // 
-            this.btnApply.Enabled = false;
-            this.btnApply.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnApply.Location = new System.Drawing.Point(161, 197);
-            this.btnApply.Name = "btnApply";
-            this.btnApply.Size = new System.Drawing.Size(102, 32);
-            this.btnApply.TabIndex = 10;
-            this.btnApply.Tag = "Apply all the changes";
-            this.btnApply.Text = "Save";
-            this.toolTip1.SetToolTip(this.btnApply, "Save the changes and move on  (Shortcut ctrl + s)");
-            this.btnApply.UseVisualStyleBackColor = true;
-            this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
+            this.btnSave.Enabled = false;
+            this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSave.Location = new System.Drawing.Point(161, 197);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(102, 32);
+            this.btnSave.TabIndex = 10;
+            this.btnSave.Tag = "Apply all the changes";
+            this.btnSave.Text = "Save";
+            this.toolTip1.SetToolTip(this.btnSave, "Save the changes and move on  (Shortcut ctrl + s)");
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnApply_Click);
             // 
             // btnDiff
             // 
@@ -1063,6 +1067,7 @@ namespace AutoWikiBrowser
             // 
             this.btnIgnore.Enabled = false;
             this.btnIgnore.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnIgnore.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnIgnore.Location = new System.Drawing.Point(161, 162);
             this.btnIgnore.Name = "btnIgnore";
             this.btnIgnore.Size = new System.Drawing.Size(102, 32);
@@ -2171,7 +2176,9 @@ namespace AutoWikiBrowser
             this.btntsStop,
             this.toolStripSeparator15,
             this.btntsPreview,
-            this.btntsChanges});
+            this.btntsChanges,
+            this.toolStripSeparator16,
+            this.tsbuttonFalsePositive});
             this.toolStrip.Location = new System.Drawing.Point(0, 24);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Size = new System.Drawing.Size(783, 25);
@@ -2248,6 +2255,23 @@ namespace AutoWikiBrowser
             this.btntsChanges.Size = new System.Drawing.Size(23, 22);
             this.btntsChanges.Text = "Show changes";
             this.btntsChanges.Click += new System.EventHandler(this.btntsChanges_Click);
+            // 
+            // toolStripSeparator16
+            // 
+            this.toolStripSeparator16.Name = "toolStripSeparator16";
+            this.toolStripSeparator16.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tsbuttonFalsePositive
+            // 
+            this.tsbuttonFalsePositive.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbuttonFalsePositive.Image = ((System.Drawing.Image)(resources.GetObject("tsbuttonFalsePositive.Image")));
+            this.tsbuttonFalsePositive.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbuttonFalsePositive.Name = "tsbuttonFalsePositive";
+            this.tsbuttonFalsePositive.Size = new System.Drawing.Size(23, 22);
+            this.tsbuttonFalsePositive.Text = "toolStripButton1";
+            this.tsbuttonFalsePositive.ToolTipText = "Add to false positives file";
+            this.tsbuttonFalsePositive.Visible = false;
+            this.tsbuttonFalsePositive.Click += new System.EventHandler(this.tsbuttonFalsePositive_Click);
             // 
             // webBrowserEdit
             // 
@@ -2337,7 +2361,7 @@ namespace AutoWikiBrowser
         #endregion
 
         private System.Windows.Forms.Button btnStart;
-        private System.Windows.Forms.Button btnApply;
+        private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnIgnore;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btnArticlesListClear;
@@ -2540,6 +2564,8 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Button btnFilter;
         private System.Windows.Forms.ToolStripMenuItem humanNameCategoryKeyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem humanNameDisambigTagToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator16;
+        private System.Windows.Forms.ToolStripButton tsbuttonFalsePositive;
 
 
     }

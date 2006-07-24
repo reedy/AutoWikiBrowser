@@ -993,7 +993,7 @@ namespace WikiFunctions.DatabaseScanner
             this.groupBox5.Size = new System.Drawing.Size(286, 84);
             this.groupBox5.TabIndex = 32;
             this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Other";
+            this.groupBox5.Text = "AWB specific";
             // 
             // chkUnbulletedLinks
             // 
