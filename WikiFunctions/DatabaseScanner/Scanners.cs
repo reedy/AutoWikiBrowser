@@ -32,7 +32,7 @@ namespace WikiFunctions.DatabaseScanner
         string articleText = "";
         string articleTitle = "";
 
-        Regex regComments = new Regex("&lt;!--.*?--&gt;", RegexOptions.Singleline | RegexOptions.Compiled);
+        Regex regComments = new Regex("<!--.*?-->", RegexOptions.Singleline | RegexOptions.Compiled);
 
         public bool Test(ref string Text, ref string Title)
         {
