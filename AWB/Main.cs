@@ -110,7 +110,6 @@ namespace AutoWikiBrowser
         WikiFunctions.MWB.ReplaceSpecial replaceSpecial = new WikiFunctions.MWB.ReplaceSpecial();
         Parsers parsers = new Parsers();
         WebControl webBrowserLogin = new WebControl();
-        GetLists getLists = new GetLists();
         TimeSpan StartTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
         int intEdits = 0;
 
@@ -792,7 +791,7 @@ namespace AutoWikiBrowser
                     this.Focus();
                     if (openListDialog.ShowDialog() == DialogResult.OK)
                     {
-                        addToList(getLists.FromTextFile(openListDialog.FileName));
+                        addToList(GetLists.FromTextFile(openListDialog.FileName));
                         strListFile = openListDialog.FileName;
                     }
                     UpdateButtons();
@@ -806,7 +805,7 @@ namespace AutoWikiBrowser
             }
             else if (cmboSourceSelect.SelectedIndex == 10)
             {
-                addToList(getLists.FromWatchList());
+                addToList(GetLists.FromWatchList());
                 UpdateButtons();
                 return;
             }
@@ -833,29 +832,29 @@ namespace AutoWikiBrowser
                 switch (intSourceIndex)
                 {
                     case 0:
-                        addDictToList(getLists.FromCategory(strSouce));
+                        addDictToList(GetLists.FromCategory(strSouce));
                         break;
                     case 1:
-                        addDictToList(getLists.FromWhatLinksHere(strSouce, false));
+                        addDictToList(GetLists.FromWhatLinksHere(strSouce, false));
                         break;
                     case 2:
-                        addDictToList(getLists.FromWhatLinksHere(strSouce, true));
+                        addDictToList(GetLists.FromWhatLinksHere(strSouce, true));
                         break;
                     case 3:
-                        addDictToList(getLists.FromLinksOnPage(strSouce));
+                        addDictToList(GetLists.FromLinksOnPage(strSouce));
                         break;
                         //4 from text file
                     case 5:
-                        addToList(getLists.FromGoogleSearch(strSouce));
+                        addToList(GetLists.FromGoogleSearch(strSouce));
                         break;
                     case 6:
-                        addToList(getLists.FromUserContribs(strSouce));
+                        addToList(GetLists.FromUserContribs(strSouce));
                         break;
                     case 7:
-                        addToList(getLists.FromSpecialPage(strSouce));
+                        addToList(GetLists.FromSpecialPage(strSouce));
                         break;
                     case 8:
-                        addDictToList(getLists.FromImageLinks(strSouce));
+                        addDictToList(GetLists.FromImageLinks(strSouce));
                         break;
                         //9 from datadump
                         //10 from watchlist
@@ -986,7 +985,7 @@ namespace AutoWikiBrowser
         private void convertToTalkPagesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ArrayList list = ArrayFromList();
-            list = getLists.ConvertToTalk(list);
+            list = GetLists.ConvertToTalk(list);
             lbArticles.Items.Clear();
             addToList(list);
         }
@@ -994,7 +993,7 @@ namespace AutoWikiBrowser
         private void convertFromTalkPagesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ArrayList list = ArrayFromList();
-            list = getLists.ConvertFromTalk(list);
+            list = GetLists.ConvertFromTalk(list);
             lbArticles.Items.Clear();
             addToList(list);
         }
