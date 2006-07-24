@@ -1,4 +1,3 @@
-//$Header: /cvsroot/autowikibrowser/src/Program.cs,v 1.2 2006/03/05 10:30:07 adrianbuehlm Exp $
 /*
     Autowikibrowser
     Copyright (C) 2006 Martin Richards

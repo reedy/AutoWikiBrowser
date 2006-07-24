@@ -1,5 +1,3 @@
-//$Header: /cvsroot/autowikibrowser/src/Main.Designer.cs,v 1.107 2006/07/06 14:06:54 wikibluemoose Exp $
-
 /*
     Autowikibrowser
     Copyright (C) 2006 Martin Richards
