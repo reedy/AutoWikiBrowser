@@ -295,12 +295,11 @@ namespace AutoWikiBrowser
         private void btnGetList_Click(object sender, EventArgs e)
         {
             OpenFileDialog of = new OpenFileDialog();
-            GetLists gl = new GetLists();
             ArrayList list = new ArrayList();
 
             if (of.ShowDialog() == DialogResult.OK)
             {
-                list = gl.FromTextFile(of.FileName);
+                list = GetLists.FromTextFile(of.FileName);
 
                 foreach (string s in list)
                     lbRemove.Items.Add(s);

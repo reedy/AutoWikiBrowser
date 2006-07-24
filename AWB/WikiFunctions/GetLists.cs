@@ -33,22 +33,18 @@ namespace WikiFunctions
     /// <summary>
     /// Provides functionality to create and manipulate arrayLists of articles from many different sources
     /// </summary>
-    public class GetLists
+    public static class GetLists
     {
-        public GetLists()
-        {
-        }
-
-        readonly Regex regexe = new Regex("<li>\\(?<a href=\"[^\"]*\" title=\"([^\"]*)\">[^<>]*</a>( \\(transclusion\\))?", RegexOptions.Compiled);
-        readonly Regex wikiLinkReg = new Regex("\\[\\[(.*?)(\\]\\]|\\|)", RegexOptions.Compiled);
-        readonly Regex regexe2 = new Regex("<a href=\"[^\"]*\" title=\"([^\"]*)\">[^<>]*</a>");
+        readonly static Regex regexe = new Regex("<li>\\(?<a href=\"[^\"]*\" title=\"([^\"]*)\">[^<>]*</a>( \\(transclusion\\))?", RegexOptions.Compiled);
+        readonly static Regex wikiLinkReg = new Regex("\\[\\[(.*?)(\\]\\]|\\|)", RegexOptions.Compiled);
+        readonly static Regex regexe2 = new Regex("<a href=\"[^\"]*\" title=\"([^\"]*)\">[^<>]*</a>");
 
         /// <summary>
         /// Gets a list of articles and sub-categories in a category.
         /// </summary>
         /// <param name="Category">The category.</param>
         /// <returns>The Dictionary (string, int) of the articles.</returns>
-        public Dictionary<string, int> FromCategory(string Category)
+        public static Dictionary<string, int> FromCategory(string Category)
         {
             Dictionary<string, int> list = new Dictionary<string, int>();
             string origURL = Variables.URL + "/query.php?what=category&cptitle=" + encodeText(Category) + "&format=xml&cplimit=500";
@@ -103,7 +99,7 @@ namespace WikiFunctions
         /// <param name="RedirectsOnly">Only list redirects.</param>
         /// <param name="Embedded">Gets articles that embed (transclude).</param>
         /// <returns>The ArrayList of the articles.</returns>
-        public Dictionary<string, int> FromWhatLinksHere(string Page, bool Embedded)
+        public static Dictionary<string, int> FromWhatLinksHere(string Page, bool Embedded)
         {
             string request = "backlinks";
             string initial = "bl";
@@ -173,7 +169,7 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="Article">The page to find links on.</param>
         /// <returns>The dictionary key/value of the links.</returns>
-        public Dictionary<string, int> FromLinksOnPage(string Article)
+        public static Dictionary<string, int> FromLinksOnPage(string Article)
         {
             string OrigURL = Variables.URL + "query.php?what=links&titles=" + encodeText(Article) + "&format=xml";
             string URL = OrigURL;
@@ -216,7 +212,7 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="fileName">The file path of the list.</param>
         /// <returns>The ArrayList of the links.</returns>
-        public ArrayList FromTextFile(string fileName)
+        public static ArrayList FromTextFile(string fileName)
         {
             ArrayList ArticleArray = new ArrayList();
             string PageText = "";
@@ -241,7 +237,7 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="Google">The term to search for.</param>
         /// <returns>The ArrayList of the articles.</returns>
-        public ArrayList FromGoogleSearch(string Google)
+        public static ArrayList FromGoogleSearch(string Google)
         {
             int intStart = 0;
             Google = encodeText(Google);
@@ -286,7 +282,7 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="User">The name of the user.</param>
         /// <returns>The ArrayList of the articles.</returns>
-        public ArrayList FromUserContribs(string User)
+        public static ArrayList FromUserContribs(string User)
         {
             User = Regex.Replace(User, "^" + Variables.Namespaces[2], "", RegexOptions.IgnoreCase);
             User = encodeText(User);
@@ -307,7 +303,7 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="Special">The page to find links on, e.g. "Deadendpages" or "Deadendpages&limit=500&offset=0".</param>
         /// <returns>The ArrayList of the articles.</returns>
-        public ArrayList FromSpecialPage(string Special)
+        public static ArrayList FromSpecialPage(string Special)
         {
             Special = Regex.Replace(Special, "^" + Variables.Namespaces[-1], "", RegexOptions.IgnoreCase);
             ArrayList ArticleArray = new ArrayList();
@@ -343,7 +339,7 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="Image">The image.</param>
         /// <returns>The ArrayList of the articles.</returns>
-        public Dictionary<string, int> FromImageLinks(string Image)
+        public static Dictionary<string, int> FromImageLinks(string Image)
         {
             Image = Regex.Replace(Image, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
             Image = encodeText(Image);
@@ -399,8 +395,8 @@ namespace WikiFunctions
             return list;
         }
 
-        readonly Regex regexWatchList = new Regex("<LI><INPUT type=checkbox value=(.*?) name=id\\[\\]", RegexOptions.Compiled);
-        public ArrayList FromWatchList()
+        readonly static Regex regexWatchList = new Regex("<LI><INPUT type=checkbox value=(.*?) name=id\\[\\]", RegexOptions.Compiled);
+        public static ArrayList FromWatchList()
         {
             WebBrowser webbrowser = new WebBrowser();
             webbrowser.ScriptErrorsSuppressed = true;
@@ -426,7 +422,7 @@ namespace WikiFunctions
             return list;
         }
 
-        private string encodeText(string txt)
+        private static string encodeText(string txt)
         {
             txt = txt.Replace("{{", Variables.Namespaces[10]).Replace("}}", "");
             txt = txt.Replace(" ", "_");
@@ -434,7 +430,7 @@ namespace WikiFunctions
             return txt;
         }
 
-        private ArrayList FilterSomeArticles(ArrayList UnfilteredArticles)
+        private static ArrayList FilterSomeArticles(ArrayList UnfilteredArticles)
         {
             //Filter out artcles which we definately do not want to edit and remove duplicates.
             ArrayList items = new ArrayList();
@@ -459,7 +455,7 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="list">The arrayList of articles.</param>
         /// <returns>The ArrayList of the talk pages.</returns>
-        public ArrayList ConvertToTalk(ArrayList list)
+        public static ArrayList ConvertToTalk(ArrayList list)
         {
             ArrayList newList = new ArrayList();
             int ns = 0;
@@ -492,7 +488,7 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="list">The arrayList of talk pages.</param>
         /// <returns>The ArrayList of articles.</returns>
-        public ArrayList ConvertFromTalk(ArrayList list)
+        public static ArrayList ConvertFromTalk(ArrayList list)
         {
             ArrayList newList = new ArrayList();
 

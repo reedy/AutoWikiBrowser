@@ -802,10 +802,9 @@ namespace IRCMonitor
 
             try
             {
-                GetLists lists = new GetLists();
                 Dictionary<string, int> bots = new Dictionary<string, int>();
                 string item = "";
-                bots = lists.FromCategory("Wikipedia bots");
+                bots = GetLists.FromCategory("Wikipedia bots");
 
                 foreach (KeyValuePair<string, int> k in bots)
                 {
@@ -865,10 +864,8 @@ namespace IRCMonitor
         {
             try
             {
-                GetLists getlists = new GetLists();
-
                 ArrayList list = new ArrayList();
-                list = getlists.FromWatchList();
+                list = GetLists.FromWatchList();
 
                 foreach (string s in list)
                 {
