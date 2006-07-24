@@ -168,9 +168,6 @@
     <None Include="Resources\beep2.wav" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\btntsstop.image.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\btnshowhide.image.png" />
   </ItemGroup>
   <ItemGroup>

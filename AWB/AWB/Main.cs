@@ -47,10 +47,13 @@ namespace AutoWikiBrowser
 
             btntsShowHide.Image = Resources.btnshowhide_image;
             btntsSave.Image = Resources.btntssave_image;
-            btntsIgnore.Image = Resources.btntsignore_image;
+            btntsIgnore.Image = Resources.GoLtr;
             btntsStop.Image = Resources.Stop;
             btntsPreview.Image = Resources.preview;
             btntsChanges.Image = Resources.changes;
+            btnFalsePositive.Image = Resources.RolledBack;
+            //btnSave.Image = Resources.btntssave_image;
+            //btnIgnore.Image = Resources.GoLtr;
 
             //add articles to avoid (in future may be populated from checkpage
             //noParse.Add("User:Bluemoose/Sandbox");
@@ -1783,7 +1786,7 @@ namespace AutoWikiBrowser
         private void DisableButtons()
         {
             DisableStartButton();
-            btnApply.Enabled = false;
+            btnSave.Enabled = false;
 
             if (lbArticles.Items.Count == 0)
                 btnIgnore.Enabled = false;
@@ -1802,7 +1805,7 @@ namespace AutoWikiBrowser
         private void EnableButtons()
         {
             UpdateButtons();
-            btnApply.Enabled = true;
+            btnSave.Enabled = true;
             btnIgnore.Enabled = true;
             btnPreview.Enabled = true;
             btnDiff.Enabled = true;
@@ -1943,6 +1946,7 @@ namespace AutoWikiBrowser
         private void addIgnoredToLogFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             btnFalsePositive.Visible = addIgnoredToLogFileToolStripMenuItem.Checked;
+            tsbuttonFalsePositive.Visible = addIgnoredToLogFileToolStripMenuItem.Checked;
         }
 
         private void alphaSortInterwikiLinksToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
@@ -1950,8 +1954,17 @@ namespace AutoWikiBrowser
             parsers.sortInterwikiOrder = alphaSortInterwikiLinksToolStripMenuItem.Checked;
         }
 
-
         private void btnFalsePositive_Click(object sender, EventArgs e)
+        {
+            FalsePositive();
+        }
+
+        private void tsbuttonFalsePositive_Click(object sender, EventArgs e)
+        {
+            FalsePositive();
+        }
+
+        private void FalsePositive()
         {
             if (EdittingArticle.Length > 0)
                 Tools.WriteLog("#[[" + EdittingArticle + "]]\r\n", @"False positives.txt");
@@ -1988,7 +2001,7 @@ namespace AutoWikiBrowser
 
             if (e.Modifiers == Keys.Control)
             {
-                if (e.KeyCode == Keys.S && btnApply.Enabled)
+                if (e.KeyCode == Keys.S && btnSave.Enabled)
                 {
                     Save();
                     e.SuppressKeyPress = true;
@@ -2575,7 +2588,7 @@ namespace AutoWikiBrowser
                 toolTip1.SetToolTip(cmboEditSummary, "Write or select an edit summary");
             else
                 toolTip1.SetToolTip(cmboEditSummary, MakeSummary());
-        }
+        }      
 
     }
 }

@@ -79,13 +79,6 @@ namespace WikiFunctions {
             }
         }
         
-        internal static System.Drawing.Bitmap btntsignore_image {
-            get {
-                object obj = ResourceManager.GetObject("btntsignore_image", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap btntssave_image {
             get {
                 object obj = ResourceManager.GetObject("btntssave_image", resourceCulture);

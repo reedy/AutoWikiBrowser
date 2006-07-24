@@ -14,14 +14,6 @@ namespace WikiFunctions
             }
         }
 
-        public static System.Drawing.Bitmap btntsignore_image
-        {
-            get
-            {
-                return MyResource.btntsignore_image;
-            }
-        }
-
         public static System.Drawing.Bitmap btntssave_image
         {
             get
