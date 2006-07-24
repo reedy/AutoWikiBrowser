@@ -72,44 +72,23 @@ namespace WikiFunctions {
             }
         }
         
-        internal static System.Drawing.Bitmap btnshowhide_image {
+        internal static System.Drawing.Bitmap Changes {
             get {
-                object obj = ResourceManager.GetObject("btnshowhide_image", resourceCulture);
+                object obj = ResourceManager.GetObject("Changes", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap btntssave_image {
+        internal static System.Drawing.Bitmap Filesave {
             get {
-                object obj = ResourceManager.GetObject("btntssave_image", resourceCulture);
+                object obj = ResourceManager.GetObject("Filesave", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap changes {
+        internal static System.Drawing.Bitmap LeftArrow {
             get {
-                object obj = ResourceManager.GetObject("changes", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap filesave {
-            get {
-                object obj = ResourceManager.GetObject("filesave", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap GoLtr {
-            get {
-                object obj = ResourceManager.GetObject("GoLtr", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap GoRtl {
-            get {
-                object obj = ResourceManager.GetObject("GoRtl", resourceCulture);
+                object obj = ResourceManager.GetObject("LeftArrow", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -121,16 +100,37 @@ namespace WikiFunctions {
             }
         }
         
-        internal static System.Drawing.Bitmap preview {
+        internal static System.Drawing.Bitmap Preview {
             get {
-                object obj = ResourceManager.GetObject("preview", resourceCulture);
+                object obj = ResourceManager.GetObject("Preview", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap RolledBack {
+        internal static System.Drawing.Bitmap RightArrow {
             get {
-                object obj = ResourceManager.GetObject("RolledBack", resourceCulture);
+                object obj = ResourceManager.GetObject("RightArrow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap RollBack {
+            get {
+                object obj = ResourceManager.GetObject("RollBack", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Save {
+            get {
+                object obj = ResourceManager.GetObject("Save", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Showhide {
+            get {
+                object obj = ResourceManager.GetObject("Showhide", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
