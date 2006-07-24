@@ -863,18 +863,25 @@ namespace IRCMonitor
 
         private void btnImportWatchList_Click(object sender, EventArgs e)
         {
-            GetLists getlists = new GetLists();
-
-            ArrayList list = new ArrayList();
-            list = getlists.FromWatchList();
-
-            foreach (string s in list)
+            try
             {
-                if (!lbWatchList.Items.Contains(s))
-                    lbWatchList.Items.Add(s);
-            }
+                GetLists getlists = new GetLists();
 
-            lblWatchListCount.Text = lbWatchList.Items.Count.ToString();
+                ArrayList list = new ArrayList();
+                list = getlists.FromWatchList();
+
+                foreach (string s in list)
+                {
+                    if (!lbWatchList.Items.Contains(s))
+                        lbWatchList.Items.Add(s);
+                }
+
+                lblWatchListCount.Text = lbWatchList.Items.Count.ToString();
+            }
+            catch (PageDoeNotExistException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void lbWhiteList_KeyDown(object sender, KeyEventArgs e)

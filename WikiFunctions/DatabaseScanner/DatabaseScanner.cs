@@ -59,7 +59,6 @@ namespace WikiFunctions.DatabaseScanner
         public DatabaseScanner()
         {
             InitializeComponent();
-            Thread.CurrentThread.Name = "Main";
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -234,28 +233,38 @@ namespace WikiFunctions.DatabaseScanner
 
         private void Stopped()
         {
-            Main.FoundArticle -= MessageReceived;
-            Main.StoppedEvent -= Stopped;
+            try
+            {
+                if (Main != null)
+                {
+                    Main.FoundArticle -= MessageReceived;
+                    Main.StoppedEvent -= Stopped;
+                }
 
-            progressBar1.MarqueeAnimationSpeed = 0;
-            progressBar1.Style = ProgressBarStyle.Continuous;
+                progressBar1.MarqueeAnimationSpeed = 0;
+                progressBar1.Style = ProgressBarStyle.Continuous;
 
-            timer1.Enabled = false;
-            groupBox4.Enabled = true;
-            btnStart.Enabled = true;
-            btnStart.Text = "Start";
-            if (!this.ContainsFocus)
-                Tools.FlashWindow(this);
+                timer1.Enabled = false;
+                groupBox4.Enabled = true;
+                btnStart.Enabled = true;
+                btnStart.Text = "Start";
+                if (!this.ContainsFocus)
+                    Tools.FlashWindow(this);
 
-            lblCount.Text = lbArticles.Items.Count.ToString() + " results";
+                lblCount.Text = lbArticles.Items.Count.ToString() + " results";
 
-            TimeSpan EndTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond);
-            EndTime = EndTime.Subtract(StartTime);
+                TimeSpan EndTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond);
+                EndTime = EndTime.Subtract(StartTime);
 
-            if (Main != null && Main.Message)
-                MessageBox.Show(lbArticles.Items.Count.ToString() + " matches in " + EndTime.ToString().TrimEnd('0'));
+                if (Main != null && Main.Message)
+                    MessageBox.Show(lbArticles.Items.Count.ToString() + " matches in " + EndTime.ToString().TrimEnd('0'));
 
-            Main = null;
+                Main = null;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         #endregion
@@ -554,7 +563,13 @@ namespace WikiFunctions.DatabaseScanner
         private void btnStop_Click(object sender, EventArgs e)
         {
             if (Main != null)
-                Main.Run = false;
+            {
+                Main.Stop();
+                Main = null;
+            }
+            TimeSpan EndTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond);
+            EndTime = EndTime.Subtract(StartTime);
+            MessageBox.Show(lbArticles.Items.Count.ToString() + " matches in " + EndTime.ToString().TrimEnd('0'));
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -562,7 +577,8 @@ namespace WikiFunctions.DatabaseScanner
             if (Main != null)
             {
                 Main.Message = false;
-                Main.Run = false;
+                Main.Stop();
+                Main = null;
             }
 
             saveSettings();

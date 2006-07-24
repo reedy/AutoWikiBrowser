@@ -1,4 +1,3 @@
-//$Header: /cvsroot/autowikibrowser/src/AboutBox.Designer.cs,v 1.4 2006/06/21 10:25:56 wikibluemoose Exp $
 /*
     Autowikibrowser
     Copyright (C) 2006 Martin Richards

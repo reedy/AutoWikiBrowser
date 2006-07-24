@@ -455,6 +455,15 @@ namespace WikiFunctions
             articleText = articleText.Replace("&#9408;", "&amp;#9408;");
             articleText = articleText.Replace("&#9848;", "&amp;#9848;");
 
+            //Phoenician alphabet
+            articleText = Regex.Replace(articleText, "&(#x109[0-9A-Z]{2};)", "&amp;$1");
+
+            //Blackboard bold
+            articleText = Regex.Replace(articleText, "&(#(84|x1D)[A-Z0-9a-z]{2,3};)", "&amp;$1");
+
+            //Cuneiform script
+            articleText = Regex.Replace(articleText, "&(#x12[A-Za-z0-9]{3};)", "&amp;$1");
+
             articleText = articleText.Replace("&#x5B;", "&amp;#x5B;").Replace("&#x5D;", "&amp;#x5D;");
             articleText = articleText.Replace("&#126;", "&amp;#126;");
             articleText = articleText.Replace("&lt;", "&amp;lt;").Replace("&gt;", "&amp;gt;");

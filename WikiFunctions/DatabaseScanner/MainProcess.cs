@@ -63,6 +63,16 @@ namespace WikiFunctions.DatabaseScanner
             this.StoppedEvent();
         }
 
+        public void Stop()
+        {
+            Run = false;
+            if (ScanThread != null)
+            {
+                ScanThread.Abort();
+                ScanThread.Join();
+            }
+        }
+
         public void Start()
         {
             try
@@ -115,14 +125,16 @@ namespace WikiFunctions.DatabaseScanner
                     }
                 }
             }
+            catch (ThreadAbortException) { }
             catch (Exception ex)
             {
                 if (boolMessage)
-                    throw new ApplicationException("Problem on " + articleTitle + "\r\n\r\n" + ex.Message);
+                    System.Windows.Forms.MessageBox.Show("Problem on " + articleTitle + "\r\n\r\n" + ex.Message);
             }
             finally
             {
-                context.Post(SOPCstopped, articleTitle);
+                if (boolMessage)
+                    context.Post(SOPCstopped, articleTitle);
             }
         }
 
