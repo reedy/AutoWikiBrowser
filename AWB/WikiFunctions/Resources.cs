@@ -10,7 +10,7 @@ namespace WikiFunctions
         {
             get
             {
-                return MyResource.btnshowhide_image;
+                return MyResource.Showhide;
             }
         }
 
@@ -18,7 +18,7 @@ namespace WikiFunctions
         {
             get
             {
-                return MyResource.btntssave_image;
+                return MyResource.Save;
             }
         }
 
@@ -26,7 +26,7 @@ namespace WikiFunctions
         {
             get
             {
-                return MyResource.changes;
+                return MyResource.Changes;
             }
         }
 
@@ -34,7 +34,7 @@ namespace WikiFunctions
         {
             get
             {
-                return MyResource.filesave;
+                return MyResource.Filesave;
             }
         }
 
@@ -42,7 +42,7 @@ namespace WikiFunctions
         {
             get
             {
-                return MyResource.GoLtr;
+                return MyResource.RightArrow;
             }
         }
 
@@ -50,7 +50,7 @@ namespace WikiFunctions
         {
             get
             {
-                return MyResource.GoRtl;
+                return MyResource.LeftArrow;
             }
         }
 
@@ -66,7 +66,7 @@ namespace WikiFunctions
         {
             get
             {
-                return MyResource.preview;
+                return MyResource.Preview;
             }
         }
 
@@ -74,7 +74,7 @@ namespace WikiFunctions
         {
             get
             {
-                return MyResource.RolledBack;
+                return MyResource.RollBack;
             }
         }
 
