@@ -171,9 +171,6 @@
     <None Include="Resources\btnshowhide.image.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\btntsignore.image.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\btntssave.image.png" />
   </ItemGroup>
   <ItemGroup>
