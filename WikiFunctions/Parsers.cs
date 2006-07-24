@@ -844,7 +844,7 @@ namespace WikiFunctions
             return articleText;
         }
         
-        Regex RegexBadHeader = new Regex("^(={1,4} ?(about|overview|definition|general information|background|intro|introduction|summary|bio|biography) ?={1,4})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        Regex RegexBadHeader = new Regex("^(={1,4} ?(about|description|overview|definition|general information|background|intro|introduction|summary|bio|biography) ?={1,4})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         /// <summary>
         /// Removes unnecessary introductory headers 
         /// </summary>
