@@ -561,7 +561,7 @@ namespace AutoWikiBrowser
                         //else
                         //    skip = false;
                     }
-                    articleText = parsers.SyntaxFixer(articleText);
+                    articleText = parsers.FixSyntax(articleText);
                     articleText = parsers.LinkFixer(articleText);
                     articleText = parsers.BulletExternalLinks(articleText);
                     articleText = parsers.SortMetaData(articleText, EdittingArticle);                    

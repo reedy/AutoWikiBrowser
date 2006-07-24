@@ -232,10 +232,10 @@ namespace WikiFunctions
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="NoChange">Value that indicated whether no change was made.</param>
         /// <returns>The modified article text.</returns>
-        public string SyntaxFixer(string articleText, ref bool NoChange)
+        public string FixSyntax(string articleText, ref bool NoChange)
         {
             string testText = articleText;
-            articleText = SyntaxFixer(articleText);
+            articleText = FixSyntax(articleText);
 
             if (testText == articleText)
                 NoChange = true;
@@ -245,29 +245,29 @@ namespace WikiFunctions
             return articleText;
         }
 
-        readonly Regex SyntaxRegex1 = new Regex("\\[\\[http:\\/\\/([^][]*?)\\]", RegexOptions.IgnoreCase);
-        readonly Regex SyntaxRegex2 = new Regex("\\[http:\\/\\/([^][]*?)\\]\\]", RegexOptions.IgnoreCase);
-        readonly Regex SyntaxRegex3 = new Regex("\\[\\[http:\\/\\/(.*?)\\]\\]", RegexOptions.IgnoreCase);
-        readonly Regex SyntaxRegex4 = new Regex("\\[\\[([^][]*?)\\]([^][][^\\]])");
-        readonly Regex SyntaxRegex5 = new Regex("([^][])\\[([^][]*?)\\]\\]([^\\]])");
+        readonly Regex SyntaxRegex1 = new Regex("\\[\\[http:\\/\\/([^][]*?)\\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex SyntaxRegex2 = new Regex("\\[http:\\/\\/([^][]*?)\\]\\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex SyntaxRegex3 = new Regex("\\[\\[http:\\/\\/(.*?)\\]\\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex SyntaxRegex4 = new Regex("\\[\\[([^][]*?)\\]([^][][^\\]])", RegexOptions.Compiled);
+        readonly Regex SyntaxRegex5 = new Regex("([^][])\\[([^][]*?)\\]\\]([^\\]])", RegexOptions.Compiled);
 
-        readonly Regex SyntaxRegex6 = new Regex("\\[?\\[image:(http:\\/\\/.*?)\\]\\]?", RegexOptions.IgnoreCase);
-        readonly Regex SyntaxRegex7 = new Regex("\\[\\[ (.*)?\\]\\]");
-        readonly Regex SyntaxRegex8 = new Regex("\\[\\[([A-Za-z]*) \\]\\]");
-        readonly Regex SyntaxRegex9 = new Regex("\\[\\[(.*)?_#(.*)\\]\\]");
+        readonly Regex SyntaxRegex6 = new Regex("\\[?\\[image:(http:\\/\\/.*?)\\]\\]?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex SyntaxRegex7 = new Regex("\\[\\[ (.*)?\\]\\]", RegexOptions.Compiled);
+        readonly Regex SyntaxRegex8 = new Regex("\\[\\[([A-Za-z]*) \\]\\]", RegexOptions.Compiled);
+        readonly Regex SyntaxRegex9 = new Regex("\\[\\[(.*)?_#(.*)\\]\\]", RegexOptions.Compiled);
 
-        readonly Regex SyntaxRegex10 = new Regex("(\\{\\{[\\s]*)[Tt]emplate:(.*?\\}\\})", RegexOptions.Singleline);
-        readonly Regex SyntaxRegex11 = new Regex("^((#|\\*).*?)<br ?/?>\r\n", RegexOptions.Multiline | RegexOptions.IgnoreCase);
+        readonly Regex SyntaxRegex10 = new Regex("(\\{\\{[\\s]*)[Tt]emplate:(.*?\\}\\})", RegexOptions.Singleline | RegexOptions.Compiled);
+        readonly Regex SyntaxRegex11 = new Regex("^((#|\\*).*?)<br ?/?>\r\n", RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        readonly Regex SyntaxRegex12 = new Regex("<i>(.*?)</i>", RegexOptions.IgnoreCase);
-        readonly Regex SyntaxRegex13 = new Regex("<b>(.*?)</b>", RegexOptions.IgnoreCase);
+        readonly Regex SyntaxRegex12 = new Regex("<i>(.*?)</i>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex SyntaxRegex13 = new Regex("<b>(.*?)</b>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         /// <summary>
         /// Fixes and improves syntax (such as html markup)
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
-        public string SyntaxFixer(string articleText)
+        public string FixSyntax(string articleText)
         {
             //replace html with wiki syntax
             if (!Regex.IsMatch(articleText, "'</?[ib]>|</?[ib]>'", RegexOptions.IgnoreCase))
@@ -288,11 +288,11 @@ namespace WikiFunctions
             //articleText = Regex.Replace(articleText, "^<[Hh]4>(.*?)</[Hh]4>", "====$1====", RegexOptions.Multiline);
 
             //fix uneven bracketing on links
-                articleText = SyntaxRegex1.Replace(articleText, "[http://$1]");
-                articleText = SyntaxRegex2.Replace(articleText, "[http://$1]");
-                articleText = SyntaxRegex3.Replace(articleText, "[http://$1]");
-                articleText = SyntaxRegex4.Replace(articleText, "[[$1]]$2");
-                articleText = SyntaxRegex5.Replace(articleText, "$1[[$2]]$3");
+            articleText = SyntaxRegex1.Replace(articleText, "[http://$1]");
+            articleText = SyntaxRegex2.Replace(articleText, "[http://$1]");
+            articleText = SyntaxRegex3.Replace(articleText, "[http://$1]");
+            articleText = SyntaxRegex4.Replace(articleText, "[[$1]]$2");
+            articleText = SyntaxRegex5.Replace(articleText, "$1[[$2]]$3");
 
             //repair bad external links
             articleText = SyntaxRegex6.Replace(articleText, "[$1]");
@@ -301,6 +301,8 @@ namespace WikiFunctions
             articleText = SyntaxRegex7.Replace(articleText, "[[$1]]");
             articleText = SyntaxRegex8.Replace(articleText, "[[$1]]");
             articleText = SyntaxRegex9.Replace(articleText, "[[$1#$2]]");
+
+            articleText = Regex.Replace(articleText, "ISBN: ?([0-9])", "ISBN $1");
 
             return articleText.Trim();
         }
@@ -833,16 +835,16 @@ namespace WikiFunctions
             return articleText;
         }
 
-        readonly Regex ConversionsRegex1 = new Regex("\\{\\{(template:)?(wikify|wfy|wiki)\\}\\}", RegexOptions.IgnoreCase);
-        readonly Regex ConversionsRegex2 = new Regex("\\{\\{(template:)?(Clean ?up|Clean|Tidy)\\}\\}", RegexOptions.IgnoreCase);
-        readonly Regex ConversionsRegex3 = new Regex("\\{\\{(template:)?Linkless\\}\\}", RegexOptions.IgnoreCase);
-        readonly Regex ConversionsRegex4 = new Regex("\\{\\{(Dab|Disamb|Disambiguation)\\}\\}", RegexOptions.IgnoreCase);
-        readonly Regex ConversionsRegex5 = new Regex("\\{\\{(2cc|2LAdisambig|2LCdisambig|2LC)\\}\\}", RegexOptions.IgnoreCase);
-        readonly Regex ConversionsRegex6 = new Regex("\\{\\{(3cc|3LW|Tla-dab|TLA-disambig|TLAdisambig|3LC)\\}\\}", RegexOptions.IgnoreCase);
-        readonly Regex ConversionsRegex7 = new Regex("\\{\\{(4cc|4LW|4LA|4LC)\\}\\}", RegexOptions.IgnoreCase);
-        readonly Regex ConversionsRegex8 = new Regex("\\{\\{(Unsourced|Cite source|Unref|No references?|References|Not referenced|Needs? references|Sources|Cite-sources|Cleanup-sources?)\\}\\}", RegexOptions.IgnoreCase);
-        readonly Regex ConversionsRegex9 = new Regex("\\{\\{(Prettytable|Prettytable100|Pt)\\}\\}", RegexOptions.IgnoreCase);
-        readonly Regex ConversionsRegex10 = new Regex("\\{\\{(PAGENAMEE?)\\}\\}", RegexOptions.IgnoreCase);
+        readonly Regex ConversionsRegex1 = new Regex("\\{\\{(template:)?(wikify|wfy|wiki)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex ConversionsRegex2 = new Regex("\\{\\{(template:)?(Clean ?up|Clean|Tidy)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex ConversionsRegex3 = new Regex("\\{\\{(template:)?Linkless\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex ConversionsRegex4 = new Regex("\\{\\{(Dab|Disamb|Disambiguation)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex ConversionsRegex5 = new Regex("\\{\\{(2cc|2LAdisambig|2LCdisambig|2LC)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex ConversionsRegex6 = new Regex("\\{\\{(3cc|3LW|Tla-dab|TLA-disambig|TLAdisambig|3LC)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex ConversionsRegex7 = new Regex("\\{\\{(4cc|4LW|4LA|4LC)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex ConversionsRegex8 = new Regex("\\{\\{(Unsourced|Cite source|Unref|No references?|References|Not referenced|Needs? references|Sources|Cite-sources|Cleanup-sources?)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex ConversionsRegex9 = new Regex("\\{\\{(Prettytable|Prettytable100|Pt)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex ConversionsRegex10 = new Regex("\\{\\{(PAGENAMEE?)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         /// <summary>
         /// Converts/subst'd some deprecated templates
@@ -960,6 +962,18 @@ namespace WikiFunctions
         #region unused
 
         /// <summary>
+        /// Fixes minor problems
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <returns>The new article text.</returns>
+        public string MinorThings(string articleText)
+        {
+            articleText = Regex.Replace(articleText, "\b[Aa]\\.[Kk]\\.[Aa]\\.?\b", "also known as");
+
+            return articleText;
+        }
+
+        /// <summary>
         /// Applies all the formatting functions
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
@@ -974,7 +988,7 @@ namespace WikiFunctions
             articleText = Conversions(articleText);
             articleText = LivingPeople(articleText);
             articleText = FixHeadings(articleText);
-            articleText = SyntaxFixer(articleText);
+            articleText = FixSyntax(articleText);
             articleText = FixCats(articleText);
             articleText = LinkFixer(articleText);
             articleText = BulletExternalLinks(articleText);
