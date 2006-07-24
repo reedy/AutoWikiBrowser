@@ -98,7 +98,6 @@ namespace AutoWikiBrowser
             webBrowserEdit.StatusChanged += UpdateStatus;
         }
 
-        //Active article
         readonly Regex WikiLinkRegex = new Regex("\\[\\[(.*?)(\\]\\]|\\|)", RegexOptions.Compiled);
         readonly Regex RedirectRegex = new Regex("^#redirect:? ?\\[\\[(.*?)\\]\\]", RegexOptions.IgnoreCase);
         string LastArticle = "";
