@@ -120,10 +120,10 @@ namespace WikiFunctions.DatabaseScanner
         {
             string strTitleNot = "";
             string strTitle = "";
-            RegexOptions TitleRegOptions;            
+            RegexOptions TitleRegOptions;
 
-            string strArticleDoes = convert(txtArticleDoesContain.Text);
-            string strArticleDoesNot = convert(txtArticleDoesNotContain.Text);
+            string strArticleDoes = "";
+            string strArticleDoesNot = "";
             RegexOptions ArticleRegOptions;            
 
             strTitle = convert(txtTitleContains.Text);
@@ -542,9 +542,9 @@ namespace WikiFunctions.DatabaseScanner
 
         private string convert(string text)
         {
-            text = text.Replace("&", "&amp;");
-            text = text.Replace("<", "&lt;");
-            text = text.Replace(">", "&gt;");
+            //text = text.Replace("&", "&amp;");
+            //text = text.Replace("<", "&lt;");
+            //text = text.Replace(">", "&gt;");
             text = text.Replace(@"\r\n", @"
 ");
             return text;
