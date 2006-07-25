@@ -42,7 +42,7 @@ namespace WikiFunctions.DatabaseScanner
             if (ignorecomments)
                 articleText = regComments.Replace(articleText, "");
 
-            if (IgnoreName() && countLinks() && checkLength() && checkDoesContain() && checkDoesNotContain() && simpleLinks() && boldTitle() && badLinks() && containsHTML() && sectionHeaderError() && BulletExternalLinks())// && noBirthCat()  && ExcessHeader()
+            if (IgnoreName() && countLinks() && checkLength() && Wordcount() && checkDoesContain() && checkDoesNotContain() && simpleLinks() && boldTitle() && badLinks() && containsHTML() && sectionHeaderError() && BulletExternalLinks())// && noBirthCat()  && ExcessHeader()
                 return true;
             else
                 return false;
@@ -111,6 +111,38 @@ namespace WikiFunctions.DatabaseScanner
                     return false;
             }
         }
+
+        int countwords = 0;
+        public int CountWords
+        {
+            get { return countwords; }
+            set { countwords = value; }
+        }
+        int words = 0;
+        public int Words
+        {
+            get { return words; }
+            set { words = value; }
+        }
+
+        int intwords = 0;
+        private bool Wordcount()
+        {
+            if (countwords == 0)
+                return true;
+            else
+            {
+                intwords = Tools.WordCount(articleText);
+
+                if (countwords == 1 && intwords > words)
+                    return true;
+                else if (countwords == 2 && intwords < words)
+                    return true;
+                else
+                    return false;
+            }
+        }
+
 
         Regex doescontainregex = new Regex("");
         public Regex ArticleDoesContainRegex
@@ -394,6 +426,6 @@ namespace WikiFunctions.DatabaseScanner
             parsers.RemoveBadHeaders(articleText, articleTitle, ref skip);
 
             return !skip;
-        }
+        }        
     }
 }

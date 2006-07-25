@@ -65,6 +65,7 @@ namespace WikiFunctions.DatabaseScanner
         {
             cmboLength.SelectedIndex = 0;
             cmboLinks.SelectedIndex = 0;
+            cmboWords.SelectedIndex = 0;
             loadSettings();
 
             //chkArticleDoesContain.Checked = true;
@@ -200,6 +201,8 @@ namespace WikiFunctions.DatabaseScanner
             scn.Length = (int)nudLength.Value;
             scn.CountLinks = cmboLinks.SelectedIndex;
             scn.Links = (int)nudLinks.Value;
+            scn.CountWords = cmboWords.SelectedIndex;
+            scn.Words = (int)nudWords.Value;
 
             scn.BadLinks = chkBadLinks.Checked;
             scn.NoBold = chkNoBold.Checked;
@@ -522,6 +525,11 @@ namespace WikiFunctions.DatabaseScanner
             Clipboard.SetDataObject(lbArticles.SelectedItem.ToString(), true);
         }
 
+        private void openInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(Variables.URL + "index.php?title=" + System.Web.HttpUtility.UrlEncode(lbArticles.SelectedItem.ToString()));
+        }
+
         private void removeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             lbArticles.Items.RemoveAt(lbArticles.SelectedIndex);
@@ -533,11 +541,13 @@ namespace WikiFunctions.DatabaseScanner
             {
                 copyToolStripMenuItem.Enabled = true;
                 removeToolStripMenuItem.Enabled = true;
+                openInBrowserToolStripMenuItem.Enabled = true;
             }
             else
             {
                 copyToolStripMenuItem.Enabled = false;
                 removeToolStripMenuItem.Enabled = false;
+                openInBrowserToolStripMenuItem.Enabled = false;
             }
         }
 

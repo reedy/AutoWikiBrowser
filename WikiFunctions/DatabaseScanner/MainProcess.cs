@@ -118,8 +118,8 @@ namespace WikiFunctions.DatabaseScanner
                             articleText = reader.ReadString();
 
                             if (scanners.Test(ref articleText, ref articleTitle))
-                            {                                
-                               context.Post(SOPC, articleTitle);
+                            {
+                                context.Post(SOPC, articleTitle);
                             }
                         }
                     }
@@ -135,10 +135,8 @@ namespace WikiFunctions.DatabaseScanner
             {
                 if (boolMessage)
                     context.Post(SOPCstopped, articleTitle);
-
-                
             }
-        }        
+        }
 
         bool boolRun = true;
         public bool Run

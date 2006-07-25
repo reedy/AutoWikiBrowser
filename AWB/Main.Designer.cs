@@ -1375,8 +1375,10 @@ namespace AutoWikiBrowser
             // 
             // cmboSourceSelect
             // 
+            this.cmboSourceSelect.DropDownHeight = 200;
             this.cmboSourceSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmboSourceSelect.FormattingEnabled = true;
+            this.cmboSourceSelect.IntegralHeight = false;
             this.cmboSourceSelect.Items.AddRange(new object[] {
             "Category",
             "What links here",
