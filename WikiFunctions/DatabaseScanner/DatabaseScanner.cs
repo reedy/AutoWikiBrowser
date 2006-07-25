@@ -210,6 +210,7 @@ namespace WikiFunctions.DatabaseScanner
 
             scn.IgnoreComments = ignoreCommentsToolStripMenuItem.Checked;
 
+            scn.IgnoreRedirects = ignoreRedirectsToolStripMenuItem1.Checked;
             scn.Namespaces = namespaces;
 
             StartTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond);

@@ -42,7 +42,7 @@ namespace WikiFunctions.DatabaseScanner
             if (ignorecomments)
                 articleText = regComments.Replace(articleText, "");
 
-            if (IgnoreName() && countLinks() && checkLength() && checkDoesContain() && checkDoesNotContain() && simpleLinks() && boldTitle() && badLinks() && containsHTML() && sectionHeaderError() && BulletExternalLinks())// && noBirthCat(articleText
+            if (IgnoreName() && countLinks() && checkLength() && checkDoesContain() && checkDoesNotContain() && simpleLinks() && boldTitle() && badLinks() && containsHTML() && sectionHeaderError() && BulletExternalLinks())// && noBirthCat()  && ExcessHeader()
                 return true;
             else
                 return false;
@@ -158,7 +158,7 @@ namespace WikiFunctions.DatabaseScanner
                 return true;
         }
 
-        bool ignoreredirects = false;
+        bool ignoreredirects = true;
         public bool IgnoreRedirects
         {
             get { return ignoreredirects; }
@@ -180,7 +180,7 @@ namespace WikiFunctions.DatabaseScanner
         {
             if (ignoreredirects && articleText.StartsWith("#"))
                 return false;
-
+            
             NamespaceIndex = Tools.CalculateNS(articleTitle);
 
             i = 0;      
@@ -361,9 +361,6 @@ namespace WikiFunctions.DatabaseScanner
             if (!headererror)
                 return true;
 
-            if (!Regex.IsMatch(articleText, "= ?See also ?=") && Regex.IsMatch(articleText, "(== ?)([Ss]ee Also:?|[rR]elated [tT]opics:?|[rR]elated [aA]rticles:?|[Ii]nternal [lL]inks:?|[Aa]lso [Ss]ee:?)( ?==)"))
-                return true;
-
             parsers.FixHeadings(articleText, ref skip);
 
             return !skip;
@@ -387,6 +384,16 @@ namespace WikiFunctions.DatabaseScanner
                 return true;
             else
                 return false;
+        }
+
+        private bool ExcessHeader()
+        {
+            //if (!header)
+            //    return true;
+
+            parsers.RemoveBadHeaders(articleText, articleTitle, ref skip);
+
+            return !skip;
         }
     }
 }

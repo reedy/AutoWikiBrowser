@@ -36,6 +36,7 @@ namespace WikiFunctions
         #region constructor etc.
 
         MetaDataSorter metaDataSorter;
+        string testText = "";
         public Parsers()
         {//default constructor
             metaDataSorter = new MetaDataSorter(this);
@@ -142,7 +143,7 @@ namespace WikiFunctions
         /// <returns>The modified article text.</returns>
         public string FixHeadings(string articleText, ref bool NoChange)
         {
-            string testText = articleText;
+            testText = articleText;
             articleText = FixHeadings(articleText);
 
             if (testText == articleText)
@@ -234,7 +235,7 @@ namespace WikiFunctions
         /// <returns>The modified article text.</returns>
         public string FixSyntax(string articleText, ref bool NoChange)
         {
-            string testText = articleText;
+            testText = articleText;
             articleText = FixSyntax(articleText);
 
             if (testText == articleText)
@@ -315,7 +316,7 @@ namespace WikiFunctions
         /// <returns>The modified article text.</returns>
         public string LinkFixer(string articleText, ref bool NoChange)
         {
-            string testText = articleText;
+            testText = articleText;
             articleText = LinkFixer(articleText);
 
             if (testText == articleText)
@@ -371,7 +372,7 @@ namespace WikiFunctions
         /// <returns>The modified article text.</returns>
         public string BulletExternalLinks(string articleText, ref bool NoChange)
         {
-            string testText = articleText;
+            testText = articleText;
             articleText = BulletExternalLinks(articleText);
 
             if (testText == articleText)
@@ -423,7 +424,7 @@ namespace WikiFunctions
         /// <returns>The modified article text.</returns>
         public string Unicodify(string articleText, ref bool NoChange)
         {
-            string testText = articleText;
+            testText = articleText;
             articleText = Unicodify(articleText);
 
             if (testText == articleText)
@@ -502,7 +503,7 @@ namespace WikiFunctions
         /// <returns>The modified article text.</returns>
         public string BoldTitle(string articleText, string articleTitle, ref bool NoChange)
         {
-            string testText = articleText;
+            testText = articleText;
             articleText = BoldTitle(articleText, articleTitle);
 
             if (testText == articleText)
@@ -573,7 +574,7 @@ namespace WikiFunctions
         /// <returns>The new article text.</returns>
         public string ReImager(string OldImage, string NewImage, string articleText, ref bool NoChange)
         {
-            string testText = articleText;
+            testText = articleText;
             articleText = ReImager(OldImage, NewImage, articleText);
 
             if (testText == articleText)
@@ -616,7 +617,7 @@ namespace WikiFunctions
         /// <returns>The new article text.</returns>
         public string RemoveImage(string OldImage, string articleText, ref bool NoChange)
         {
-            string testText = articleText;
+            testText = articleText;
             articleText = RemoveImage(OldImage, articleText);
 
             if (testText == articleText)
@@ -657,7 +658,7 @@ namespace WikiFunctions
         /// <returns>The re-categorised article text.</returns>
         public string ReCategoriser(string OldCategory, string NewCategory, string articleText, ref bool NoChange)
         {
-            string testText = articleText;
+            testText = articleText;
             articleText = ReCategoriser(OldCategory, NewCategory, articleText);
 
             if (testText == articleText)
@@ -703,7 +704,7 @@ namespace WikiFunctions
         /// <returns>The article text without the old category.</returns>
         public string RemoveCategory(string strOldCat, string articleText, ref bool NoChange)
         {
-            string testText = articleText;
+            testText = articleText;
             articleText = RemoveCategory(strOldCat, articleText);
 
             if (testText == articleText)
@@ -746,7 +747,7 @@ namespace WikiFunctions
         /// <returns>The simplified article text.</returns>
         public string LinkSimplifier(string articleText, ref bool NoChange)
         {
-            string testText = articleText;
+            testText = articleText;
             articleText = LinkSimplifier(articleText);
 
             if (testText == articleText)
@@ -824,7 +825,7 @@ namespace WikiFunctions
         /// <returns>The new article text.</returns>
         public string Conversions(string articleText, ref bool NoChange)
         {
-            string testText = articleText;
+            testText = articleText;
             articleText = Conversions(articleText);
 
             if (testText == articleText)
@@ -869,13 +870,29 @@ namespace WikiFunctions
             return articleText;
         }
 
+        /// <summary>
+        /// Removes unnecessary introductory headers 
+        /// </summary>
+        public string RemoveBadHeaders(string articleText, string articleTitle, ref bool NoChange)
+        {
+            testText = articleText;
+            articleText = RemoveBadHeaders(articleText, articleTitle);
+
+            if (testText == articleText)
+                NoChange = true;
+            else
+                NoChange = false;
+
+            return articleText;
+        }
+
         Regex RegexBadHeader = new Regex("^(={1,4} ?(about|description|overview|definition|general information|background|intro|introduction|summary|bio|biography) ?={1,4})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         /// <summary>
         /// Removes unnecessary introductory headers 
         /// </summary>
         public string RemoveBadHeaders(string articleText, string articleTitle)
         {
-            articleText = Regex.Replace(articleText, "^={1,4} ?" + articleTitle + " ?={1,4}", "", RegexOptions.IgnoreCase);
+            articleText = Regex.Replace(articleText, "^={1,4} ?" + Regex.Escape(articleTitle) + " ?={1,4}", "", RegexOptions.IgnoreCase);
             articleText = RegexBadHeader.Replace(articleText, "");
 
             return articleText.Trim();
@@ -962,13 +979,23 @@ namespace WikiFunctions
         #region unused
 
         /// <summary>
-        /// Fixes minor problems
+        /// Fixes minor problems, such as abbreviations and miscapitalisations
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The new article text.</returns>
         public string MinorThings(string articleText)
         {
-            articleText = Regex.Replace(articleText, "\b[Aa]\\.[Kk]\\.[Aa]\\.?\b", "also known as");
+            articleText = Regex.Replace(articleText, "[Aa]\\.[Kk]\\.[Aa]\\.?", "also known as");
+
+            articleText = articleText.Replace("e.g.", "for example");
+            articleText = articleText.Replace("i.e.", "that is");
+
+            MatchCollection ma = Regex.Matches(articleText, "(monday|tuesday|wednesday|thursday|friday|saturday|sunday|january|february|april|june|july|august|september|october|november|december)");
+            if (ma.Count > 0)
+            {
+                foreach (Match m in ma)
+                    articleText = articleText.Replace(m.Groups[1].Value, Tools.TurnFirstToUpper(m.Groups[1].Value));
+            }
 
             return articleText;
         }
