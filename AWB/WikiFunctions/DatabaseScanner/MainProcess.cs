@@ -118,8 +118,8 @@ namespace WikiFunctions.DatabaseScanner
                             articleText = reader.ReadString();
 
                             if (scanners.Test(ref articleText, ref articleTitle))
-                            {
-                                context.Post(SOPC, articleTitle);
+                            {                                
+                               context.Post(SOPC, articleTitle);
                             }
                         }
                     }
@@ -135,8 +135,10 @@ namespace WikiFunctions.DatabaseScanner
             {
                 if (boolMessage)
                     context.Post(SOPCstopped, articleTitle);
+
+                
             }
-        }
+        }        
 
         bool boolRun = true;
         public bool Run
@@ -164,6 +166,23 @@ namespace WikiFunctions.DatabaseScanner
             }
         }
 
+        //System.Windows.Forms.MessageBox.Show("articles: " + articles.ToString() + " total stubs: " + stubs.ToString() + " stubbed: " + stubbedarticles.ToString());
 
+        //articles++;
+
+        //                        m = reg.Matches(articleText);
+
+        //                        if (m.Count > 0)
+        //                        {
+        //                            stubbedarticles++;
+        //                            stubs = stubs + m.Count;
+        //                        }
+
+        //Regex reg = new Regex("stub\\}\\}", RegexOptions.Compiled);
+        //MatchCollection m;
+
+        //int articles = 0;
+        //int stubs = 0;
+        //int stubbedarticles = 0;
     }
 }

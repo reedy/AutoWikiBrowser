@@ -105,7 +105,7 @@ namespace AutoWikiBrowser
             this.lblWarn = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.lblLength = new System.Windows.Forms.Label();
+            this.lblWords = new System.Windows.Forms.Label();
             this.lblInterLinks = new System.Windows.Forms.Label();
             this.lblCats = new System.Windows.Forms.Label();
             this.lblImages = new System.Windows.Forms.Label();
@@ -954,7 +954,7 @@ namespace AutoWikiBrowser
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.lblLength);
+            this.groupBox3.Controls.Add(this.lblWords);
             this.groupBox3.Controls.Add(this.lblInterLinks);
             this.groupBox3.Controls.Add(this.lblCats);
             this.groupBox3.Controls.Add(this.lblImages);
@@ -966,14 +966,14 @@ namespace AutoWikiBrowser
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Article statistics";
             // 
-            // lblLength
+            // lblWords
             // 
-            this.lblLength.AutoSize = true;
-            this.lblLength.Location = new System.Drawing.Point(6, 18);
-            this.lblLength.Name = "lblLength";
-            this.lblLength.Size = new System.Drawing.Size(61, 13);
-            this.lblLength.TabIndex = 17;
-            this.lblLength.Text = "Characters:";
+            this.lblWords.AutoSize = true;
+            this.lblWords.Location = new System.Drawing.Point(6, 18);
+            this.lblWords.Name = "lblWords";
+            this.lblWords.Size = new System.Drawing.Size(41, 13);
+            this.lblWords.TabIndex = 17;
+            this.lblWords.Text = "Words:";
             // 
             // lblInterLinks
             // 
@@ -2450,7 +2450,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Label lblLinks;
         private System.Windows.Forms.Label lblImages;
         private System.Windows.Forms.Label lblCats;
-        private System.Windows.Forms.Label lblLength;
+        private System.Windows.Forms.Label lblWords;
         private System.Windows.Forms.Label lblInterLinks;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label lblWarn;
