@@ -921,6 +921,8 @@ namespace WikiFunctions
             return TalkPageText;
         }
 
+        readonly Regex RegexStub = new Regex("\\{\\{.*?[Ss]tub\\}\\}", RegexOptions.Compiled);
+
         /// <summary>
         /// If necessary, adds wikify or stub tag
         /// </summary>
@@ -929,33 +931,58 @@ namespace WikiFunctions
         /// <returns>The article text without the old category.</returns>
         public string Tagger(string articleText, string articleTitle)
         {
-            if (articleText.Contains("}}"))
+            if (!Tools.IsMainSpace(articleTitle) || Regex.IsMatch(articleText, "^#redirect", RegexOptions.IgnoreCase))
                 return articleText;
 
-            double intLength = articleText.Length + 1;
-            double intLinkCount = 1;
-            double intRatio = 0;
+            double Length = articleText.Length + 1;
+            int words = Tools.WordCount(articleText);
+            double LinkCount = 1;
+            double Ratio = 0;
+
+            if (words > 500 && RegexStub.IsMatch(articleText))
+            {
+                MatchEvaluator stubEvaluator = new MatchEvaluator(stubChecker);
+                articleText = RegexStub.Replace(articleText, stubEvaluator);
+
+                return articleText;
+            }
+
+            if (articleText.Contains("}}"))
+            {
+                return articleText;
+            }
 
             foreach (Match m in Regex.Matches(articleText, "\\[\\["))
-                intLinkCount++;
+                LinkCount++;
 
-            intRatio = intLinkCount / intLength;
+            Ratio = LinkCount / Length;
 
-            if (Tools.IsMainSpace(articleTitle) && !Regex.IsMatch(articleText, "^#redirect", RegexOptions.IgnoreCase))
+            if (LinkCount < 4 && (Ratio < 0.0025))
             {
-                if (intLinkCount < 4 && (intRatio < 0.0025))
-                {
-                    articleText = "{{Wikify-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + articleText;
-                    EditSummary += " and added wikify tag";
-                }
+                articleText = "{{Wikify-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + articleText;
+                EditSummary += " and added wikify tag";
 
-                if (intLength <= 380 && (!(Regex.IsMatch(articleText, "((S|s)tub)"))))
-                {
-                    articleText = articleText + "\r\n\r\n\r\n{{stub}}";
-                    EditSummary += " and added stub tag";
-                }
+                return articleText;
             }
+
+            if (words <= 80 && !RegexStub.IsMatch(articleText))
+            {
+                articleText = articleText + "\r\n\r\n\r\n{{stub}}";
+                EditSummary += " and added stub tag";
+
+                return articleText;
+            }
+
             return articleText;
+        }
+
+        public string stubChecker(Match m)
+        // Replace each Regex cc match with the number of the occurrence.
+        {
+            if (Regex.IsMatch(m.Value, "\\{\\{[Ss]ect"))
+                return m.Value;
+            else
+                return "";
         }
 
         #endregion

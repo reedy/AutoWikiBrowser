@@ -117,6 +117,10 @@ namespace WikiFunctions.DatabaseScanner
             this.chkUnbulletedLinks = new System.Windows.Forms.CheckBox();
             this.chkHasHTML = new System.Windows.Forms.CheckBox();
             this.chkBadLinks = new System.Windows.Forms.CheckBox();
+            this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label3 = new System.Windows.Forms.Label();
+            this.nudWords = new System.Windows.Forms.NumericUpDown();
+            this.cmboWords = new System.Windows.Forms.ComboBox();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudLength)).BeginInit();
@@ -129,6 +133,7 @@ namespace WikiFunctions.DatabaseScanner
             this.groupBox4.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudWords)).BeginInit();
             this.SuspendLayout();
             // 
             // txtList
@@ -406,6 +411,9 @@ namespace WikiFunctions.DatabaseScanner
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cmboWords);
+            this.groupBox1.Controls.Add(this.nudWords);
+            this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.chkSingle);
             this.groupBox1.Controls.Add(this.chkMulti);
             this.groupBox1.Controls.Add(this.chkCaseSensitive);
@@ -856,23 +864,24 @@ namespace WikiFunctions.DatabaseScanner
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openInBrowserToolStripMenuItem,
             this.copyToolStripMenuItem,
             this.removeToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(114, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(154, 70);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // copyToolStripMenuItem
             // 
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.copyToolStripMenuItem.Text = "Copy";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
             // removeToolStripMenuItem
             // 
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.removeToolStripMenuItem.Text = "Remove";
             this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
             // 
@@ -1025,6 +1034,52 @@ namespace WikiFunctions.DatabaseScanner
             this.chkBadLinks.Text = "Has bad links AWB will fix";
             this.chkBadLinks.UseVisualStyleBackColor = true;
             // 
+            // openInBrowserToolStripMenuItem
+            // 
+            this.openInBrowserToolStripMenuItem.Name = "openInBrowserToolStripMenuItem";
+            this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.openInBrowserToolStripMenuItem.Text = "Open in browser";
+            this.openInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(24, 164);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(55, 13);
+            this.label3.TabIndex = 23;
+            this.label3.Text = "No. words";
+            // 
+            // nudWords
+            // 
+            this.nudWords.Location = new System.Drawing.Point(209, 159);
+            this.nudWords.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.nudWords.Name = "nudWords";
+            this.nudWords.Size = new System.Drawing.Size(73, 20);
+            this.nudWords.TabIndex = 24;
+            this.nudWords.Value = new decimal(new int[] {
+            200,
+            0,
+            0,
+            0});
+            // 
+            // cmboWords
+            // 
+            this.cmboWords.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmboWords.FormattingEnabled = true;
+            this.cmboWords.Items.AddRange(new object[] {
+            "Don\'t count words",
+            "Greater than:",
+            "Less than:"});
+            this.cmboWords.Location = new System.Drawing.Point(90, 159);
+            this.cmboWords.Name = "cmboWords";
+            this.cmboWords.Size = new System.Drawing.Size(113, 21);
+            this.cmboWords.TabIndex = 25;
+            // 
             // DatabaseScanner
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1065,6 +1120,7 @@ namespace WikiFunctions.DatabaseScanner
             this.statusStrip1.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudWords)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1157,6 +1213,10 @@ namespace WikiFunctions.DatabaseScanner
         private ToolStripSeparator toolStripSeparator4;
         private CheckBox chkHeaderError;
         private CheckBox chkUnbulletedLinks;
+        private ToolStripMenuItem openInBrowserToolStripMenuItem;
+        private ComboBox cmboWords;
+        private NumericUpDown nudWords;
+        private Label label3;
     }
 }
 

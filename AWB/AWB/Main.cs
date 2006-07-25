@@ -1453,7 +1453,7 @@ namespace AutoWikiBrowser
         private void ArticleInfo(bool reset)
         {
             string ArticleText = txtEdit.Text;
-            int intLength = 0;
+            int intWords = 0;
             int intCats = 0;
             int intImages = 0;
             int intLinks = 0;
@@ -1475,7 +1475,7 @@ namespace AutoWikiBrowser
             }
             else
             {
-                intLength = ArticleText.Length;
+                intWords = Tools.WordCount(ArticleText);
 
                 foreach (Match m in Regex.Matches(ArticleText, "\\[\\[" + Variables.Namespaces[14], RegexOptions.IgnoreCase))
                     intCats++;
@@ -1491,7 +1491,7 @@ namespace AutoWikiBrowser
 
                 intLinks = intLinks - intInterLinks - intImages - intCats;
 
-                if ((Regex.IsMatch(ArticleText, "({{|-)([Ss]tub}})")) && (intLength > 3500))
+                if ((Regex.IsMatch(ArticleText, "({{|-)([Ss]tub}})")) && (intWords > 450))
                     lblWarn.Text = "Long article with a stub tag.\r\n";
 
                 if (!(Regex.IsMatch(ArticleText, "\\[\\[" + Variables.Namespaces[14], RegexOptions.IgnoreCase)))
@@ -1500,7 +1500,7 @@ namespace AutoWikiBrowser
                 if (ArticleText.StartsWith("=="))
                     lblWarn.Text += "Starts with heading.";
 
-                lblWords.Text = "Words: " + Tools.WordCount(ArticleText).ToString();
+                lblWords.Text = "Words: " + intWords.ToString();
                 lblCats.Text = "Categories: " + intCats.ToString();
                 lblImages.Text = "Images: " + intImages.ToString();
                 lblLinks.Text = "Links: " + intLinks.ToString();
