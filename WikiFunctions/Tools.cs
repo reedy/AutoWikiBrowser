@@ -226,6 +226,17 @@ namespace WikiFunctions
             return input;
         }
 
+        static readonly Regex RegexWordCount = new Regex("[a-zA-Z]+", RegexOptions.Compiled);
+        public static int WordCount(string Text)
+        {
+            int i = 0;
+
+            foreach (Match m in RegexWordCount.Matches(Text))
+                i++;
+
+            return i;                
+        }
+
         public static string linkChecker(string articleText)
         {//checks links to make them bypass redirects and (TODO) disambigs
             string link = "";

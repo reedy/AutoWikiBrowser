@@ -553,6 +553,10 @@ namespace AutoWikiBrowser
                     {//en only
                         articleText = parsers.Conversions(articleText);
                         articleText = parsers.RemoveBadHeaders(articleText, EdittingArticle);
+                        //if (skip)
+                        //    return articleText;
+                        //else
+                        //    skip = false;
                         articleText = parsers.LivingPeople(articleText);
                         articleText = parsers.FixCats(articleText);
                         articleText = parsers.FixHeadings(articleText);
@@ -560,12 +564,16 @@ namespace AutoWikiBrowser
                         //    return articleText;
                         //else
                         //    skip = false;
+
+                        #if DEBUG
+                        articleText = parsers.MinorThings(articleText);
+                        #endif
                     }
                     articleText = parsers.FixSyntax(articleText);
                     articleText = parsers.LinkFixer(articleText);
                     articleText = parsers.BulletExternalLinks(articleText);
-                    articleText = parsers.SortMetaData(articleText, EdittingArticle);                    
-                    articleText = parsers.BoldTitle(articleText, EdittingArticle);                    
+                    articleText = parsers.SortMetaData(articleText, EdittingArticle);
+                    articleText = parsers.BoldTitle(articleText, EdittingArticle);
                     articleText = parsers.LinkSimplifier(articleText);
 
                     articleText = parsers.AddNowiki(articleText);
@@ -842,7 +850,7 @@ namespace AutoWikiBrowser
                     case 3:
                         addDictToList(GetLists.FromLinksOnPage(strSouce));
                         break;
-                        //4 from text file
+                    //4 from text file
                     case 5:
                         addToList(GetLists.FromGoogleSearch(strSouce));
                         break;
@@ -855,8 +863,8 @@ namespace AutoWikiBrowser
                     case 8:
                         addDictToList(GetLists.FromImageLinks(strSouce));
                         break;
-                        //9 from datadump
-                        //10 from watchlist
+                    //9 from datadump
+                    //10 from watchlist
                     default:
                         break;
                 }
@@ -1077,7 +1085,7 @@ namespace AutoWikiBrowser
             {
                 webBrowserEdit.SetMinor(markAllAsMinorToolStripMenuItem.Checked);
                 webBrowserEdit.SetWatch(addAllToWatchlistToolStripMenuItem.Checked);
-                
+
                 webBrowserEdit.SetSummary(MakeSummary());
             }
         }
@@ -1427,7 +1435,7 @@ namespace AutoWikiBrowser
         {
             specialFilter();
         }
-        
+
         private void specialFilter()
         {
             specialFilter SepcialFilter = new specialFilter(lbArticles);
@@ -1455,7 +1463,7 @@ namespace AutoWikiBrowser
             if (reset)
             {
                 //Resets all the alerts.
-                lblLength.Text = "Characters: ";
+                lblWords.Text = "Words: ";
                 lblCats.Text = "Categories: ";
                 lblImages.Text = "Images: ";
                 lblLinks.Text = "Links: ";
@@ -1492,7 +1500,7 @@ namespace AutoWikiBrowser
                 if (ArticleText.StartsWith("=="))
                     lblWarn.Text += "Starts with heading.";
 
-                lblLength.Text = "Characters: " + intLength.ToString();
+                lblWords.Text = "Words: " + Tools.WordCount(ArticleText).ToString();
                 lblCats.Text = "Categories: " + intCats.ToString();
                 lblImages.Text = "Images: " + intImages.ToString();
                 lblLinks.Text = "Links: " + intLinks.ToString();
@@ -1938,7 +1946,7 @@ namespace AutoWikiBrowser
 
         private void addTo(object Article)
         {
-            lbArticles.Items.Add(Article);            
+            lbArticles.Items.Add(Article);
         }
 
         private void addIgnoredToLogFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2147,7 +2155,7 @@ namespace AutoWikiBrowser
 
         private void clearTheListToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            lbArticles.Items.Clear();            
+            lbArticles.Items.Clear();
             UpdateButtons();
         }
 
@@ -2582,11 +2590,11 @@ namespace AutoWikiBrowser
 
         private void cmboEditSummary_MouseMove(object sender, MouseEventArgs e)
         {
-            if(findAndReplace.EditSummary == "")
+            if (findAndReplace.EditSummary == "")
                 toolTip1.SetToolTip(cmboEditSummary, "Write or select an edit summary");
             else
                 toolTip1.SetToolTip(cmboEditSummary, MakeSummary());
-        }      
+        }
 
     }
 }
