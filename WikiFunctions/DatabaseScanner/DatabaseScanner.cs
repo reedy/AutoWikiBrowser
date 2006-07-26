@@ -53,7 +53,6 @@ namespace WikiFunctions.DatabaseScanner
         }
 
         int intMatches = 0;
-        int intTimer = 0;
         int intLimit = 100000;
 
         public DatabaseScanner()
@@ -89,19 +88,17 @@ namespace WikiFunctions.DatabaseScanner
                     return;
                 }                     
 
-                groupBox4.Enabled = false;
-                btnStart.Text = "Working";
-                btnStart.Enabled = false;
                 lbArticles.Items.Clear();
                 lblCount.Text = "";
 
                 intMatches = 0;
-                intTimer = 0;
 
                 progressBar1.Style = ProgressBarStyle.Marquee;
                 progressBar1.MarqueeAnimationSpeed = 100;
 
                 timer1.Enabled = true;
+
+                UpdateControls(true);
 
                 Start();
 
@@ -249,9 +246,7 @@ namespace WikiFunctions.DatabaseScanner
                 progressBar1.Style = ProgressBarStyle.Continuous;
 
                 timer1.Enabled = false;
-                groupBox4.Enabled = true;
-                btnStart.Enabled = true;
-                btnStart.Text = "Start";
+                
                 if (!this.ContainsFocus)
                     Tools.FlashWindow(this);
 
@@ -264,6 +259,8 @@ namespace WikiFunctions.DatabaseScanner
                     MessageBox.Show(lbArticles.Items.Count.ToString() + " matches in " + EndTime.ToString().TrimEnd('0'));
 
                 Main = null;
+
+                UpdateControls(false);
             }
             catch (Exception ex)
             {
@@ -274,11 +271,6 @@ namespace WikiFunctions.DatabaseScanner
         #endregion
 
         # region other
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            intTimer++;
-        }
 
         private void wikifyToList()
         {
@@ -507,6 +499,13 @@ namespace WikiFunctions.DatabaseScanner
         private void button1_Click(object sender, EventArgs e)
         {
             wikifyToList();
+        }
+
+        private void btnFilter_Click(object sender, EventArgs e)
+        {
+            specialFilter SepcialFilter = new specialFilter(lbArticles);
+            SepcialFilter.ShowDialog();
+            lblCount.Text = lbArticles.Items.Count.ToString();
         }
 
         private void AlphaList_Click(object sender, EventArgs e)
@@ -822,6 +821,30 @@ namespace WikiFunctions.DatabaseScanner
             rdoHash.Checked = true;
 
             fileName = ""; ;
+        }
+
+        private void UpdateControls(bool busy)
+        {
+            if(busy)
+            {
+                groupBox1.Enabled = false;
+                groupBox2.Enabled = false;
+                groupBox4.Enabled = false;
+                groupBox5.Enabled = false;
+                btnFilter.Enabled = false;
+                btnStart.Enabled = false;
+                btnStart.Text = "Working";
+            }
+            else
+            {
+                groupBox1.Enabled = true;
+                groupBox2.Enabled = true;
+                groupBox4.Enabled = true;
+                groupBox5.Enabled = true;
+                btnFilter.Enabled = true;
+                btnStart.Enabled = true;
+                btnStart.Text = "Start";
+            }
         }
 
         #endregion

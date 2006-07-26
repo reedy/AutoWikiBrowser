@@ -116,10 +116,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="specialFilter.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>specialFilter.cs</DependentUpon>
-    </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -139,12 +135,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Settings.cs" />
-    <Compile Include="specialFilter.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="specialFilter.Designer.cs">
-      <DependentUpon>specialFilter.cs</DependentUpon>
-    </Compile>
     <Compile Include="UserSettings.cs">
       <SubType>Form</SubType>
     </Compile>
