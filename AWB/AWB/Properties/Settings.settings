@@ -14,6 +14,9 @@
     <Setting Name="DontAskForTerminate" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="StubMaxWordCount" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">500</Value>
+    </Setting>
     <Setting Name="LowThreadPriority" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>

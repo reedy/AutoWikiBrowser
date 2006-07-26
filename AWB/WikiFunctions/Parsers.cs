@@ -33,14 +33,26 @@ namespace WikiFunctions
     /// </summary>
     public class Parsers
     {
-        #region constructor etc.
-
-        MetaDataSorter metaDataSorter;
-        string testText = "";
+        #region constructor etc.        
         public Parsers()
         {//default constructor
             metaDataSorter = new MetaDataSorter(this);
         }
+
+        /// <summary>
+        /// Re-organises the Person Data, stub/disambig templates, categories and interwikis
+        /// </summary>
+        /// <param name="StubWordCount">The number of maximum number of words for a stub.</param>
+        public Parsers(int StubWordCount)
+        {
+            metaDataSorter = new MetaDataSorter(this);
+
+            StubMaxWordCount = StubWordCount;
+        }
+
+        MetaDataSorter metaDataSorter;
+        string testText = "";
+        int StubMaxWordCount = 500;
 
         /// <summary>
         /// Sort interwiki link order
@@ -327,6 +339,8 @@ namespace WikiFunctions
             return articleText;
         }
 
+        readonly Regex RegexLink = new Regex("\\[\\[.*?\\]\\]", RegexOptions.Compiled);
+
         /// <summary>
         /// Fixes link syntax
         /// </summary>
@@ -337,7 +351,7 @@ namespace WikiFunctions
             string x = "";
             string y = "";
 
-            foreach (Match m in Regex.Matches(articleText, "\\[\\[.*?\\]\\]"))
+            foreach (Match m in RegexLink.Matches(articleText))
             {
                 x = m.Value;
                 y = "";
@@ -939,7 +953,7 @@ namespace WikiFunctions
             double LinkCount = 1;
             double Ratio = 0;
 
-            if (words > 500 && RegexStub.IsMatch(articleText))
+            if (words > StubMaxWordCount && RegexStub.IsMatch(articleText))
             {
                 MatchEvaluator stubEvaluator = new MatchEvaluator(stubChecker);
                 articleText = RegexStub.Replace(articleText, stubEvaluator);

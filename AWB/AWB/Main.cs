@@ -55,19 +55,8 @@ namespace AutoWikiBrowser
             //btnSave.Image = Resources.btntssave_image;
             //btnIgnore.Image = Resources.GoLtr;
 
-            //add articles to avoid (in future may be populated from checkpage
-            //noParse.Add("User:Bluemoose/Sandbox");
-
-            //check that we are not using an old OS. 98 seems to mangled some unicode.
-            if (Environment.OSVersion.Version.Major < 5)
-            {
-                MessageBox.Show("You appear to be using an older operating system, this software may have trouble with some unicode fonts on operating systems older than Windows 2000, the start button has been disabled.", "Operating system", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                btnStart.Enabled = false;
-            }
-            else
-                btnMakeList.Enabled = true;
-
-            Debug();
+            int stubcount = AutoWikiBrowser.Properties.Settings.Default.StubMaxWordCount;
+            parsers = new Parsers(stubcount);
 
             if (AutoWikiBrowser.Properties.Settings.Default.LowThreadPriority)
                 Thread.CurrentThread.Priority = ThreadPriority.Lowest;
@@ -107,7 +96,7 @@ namespace AutoWikiBrowser
         ArrayList noParse = new ArrayList();
         FindandReplace findAndReplace = new FindandReplace();
         WikiFunctions.MWB.ReplaceSpecial replaceSpecial = new WikiFunctions.MWB.ReplaceSpecial();
-        Parsers parsers = new Parsers();
+        Parsers parsers;
         WebControl webBrowserLogin = new WebControl();
         TimeSpan StartTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
         int intEdits = 0;
@@ -144,6 +133,20 @@ namespace AutoWikiBrowser
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            //add articles to avoid (in future may be populated from checkpage
+            //noParse.Add("User:Bluemoose/Sandbox");
+
+            //check that we are not using an old OS. 98 seems to mangled some unicode.
+            if (Environment.OSVersion.Version.Major < 5)
+            {
+                MessageBox.Show("You appear to be using an older operating system, this software may have trouble with some unicode fonts on operating systems older than Windows 2000, the start button has been disabled.", "Operating system", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                btnStart.Enabled = false;
+            }
+            else
+                btnMakeList.Enabled = true;
+
+            Debug();
+
             loadDefaultSettings();
         }
 
@@ -1491,7 +1494,7 @@ namespace AutoWikiBrowser
 
                 intLinks = intLinks - intInterLinks - intImages - intCats;
 
-                if ((Regex.IsMatch(ArticleText, "({{|-)([Ss]tub}})")) && (intWords > 450))
+                if (Tools.IsMainSpace(EdittingArticle) && (Regex.IsMatch(ArticleText, "[Ss]tub\\}\\}")) && (intWords > 500))
                     lblWarn.Text = "Long article with a stub tag.\r\n";
 
                 if (!(Regex.IsMatch(ArticleText, "\\[\\[" + Variables.Namespaces[14], RegexOptions.IgnoreCase)))
