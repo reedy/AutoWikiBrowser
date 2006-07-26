@@ -2110,7 +2110,7 @@ namespace AutoWikiBrowser
 
         private void humanNameDisambigTagToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            txtEdit.Text = "{{Hndis|name=" + Tools.MakeHumanCatKey(EdittingArticle) + "}}";
+            txtEdit.SelectedText = "{{Hndis|name=" + Tools.MakeHumanCatKey(EdittingArticle) + "}}";
         }
 
         private void wikifyToolStripMenuItem_Click(object sender, EventArgs e)

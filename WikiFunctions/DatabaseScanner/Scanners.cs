@@ -24,198 +24,237 @@ using System.Text.RegularExpressions;
 
 namespace WikiFunctions.DatabaseScanner
 {
-    class Scanners
+    public abstract class Scan
     {
-        Parsers parsers = new Parsers();
-        bool skip = true;
-
-        string articleText = "";
-        string articleTitle = "";
-
-        Regex regComments = new Regex("<!--.*?-->", RegexOptions.Singleline | RegexOptions.Compiled);
-
-        public bool Test(ref string Text, ref string Title)
+        public virtual bool Check(ref string articleText, ref string articleTitle)
         {
-            articleText = Text;
-            articleTitle = Title;
+            return true;
+        }
+    }
 
-            if (ignorecomments)
-                articleText = regComments.Replace(articleText, "");
+    public class IsNotRedirect : Scan
+    {
+        public override bool Check(ref string articleText, ref string articleTitle)
+        {
+            if (articleText.StartsWith("#"))
+                return false;
+            else
+                return true;
+        }
+    }
 
-            if (IgnoreName() && countLinks() && checkLength() && Wordcount() && checkDoesContain() && checkDoesNotContain() && simpleLinks() && boldTitle() && badLinks() && containsHTML() && sectionHeaderError() && BulletExternalLinks())// && noBirthCat()  && ExcessHeader()
+    public class TextDoesContain : Scan
+    {
+        public TextDoesContain(Regex ContainsR)
+        {
+            Contains = ContainsR;
+        }
+
+        Regex Contains;
+
+        public override bool Check(ref string articleText, ref string articleTitle)
+        {
+            if (Contains.IsMatch(articleText))
                 return true;
             else
                 return false;
         }
+    }
 
-        bool ignorecomments = false;
-        public bool IgnoreComments
+    public class TextDoesNotContain : Scan
+    {
+        public TextDoesNotContain(Regex NotContainsR)
         {
-            get { return ignorecomments; }
-            set { ignorecomments = value; }
+            NotContains = NotContainsR;
         }
 
-        int checklength = 0;
-        public int CheckLength
+        Regex NotContains;
+
+        public override bool Check(ref string articleText, ref string articleTitle)
         {
-            get { return checklength; }
-            set { checklength = value; }
-        }
-        int length = 0;
-        public int Length
-        {
-            get { return length; }
-            set { length = value; }
-        }
-        private bool checkLength()
-        {
-            if (checklength == 0)
+            if (NotContains.IsMatch(articleText))
+                return false;
+            else
                 return true;
-            else if (checklength == 1 && articleText.Length > length)
-                return true;
-            else if (checklength == 2 && articleText.Length < length)
+        }
+    }
+
+    public class TitleDoesContain : Scan
+    {
+        public TitleDoesContain(Regex ContainsR)
+        {
+            Contains = ContainsR;
+        }
+
+        Regex Contains;
+
+        public override bool Check(ref string articleText, ref string articleTitle)
+        {
+            if (Contains.IsMatch(articleTitle))
                 return true;
             else
                 return false;
         }
+    }
 
-        int countlinks = 0;
-        public int CountLinks
+    public class TitleDoesNotContain : Scan
+    {
+        public TitleDoesNotContain(Regex NotContainsR)
         {
-            get { return countlinks; }
-            set { countlinks = value; }
-        }
-        int links = 0;
-        public int Links
-        {
-            get { return links; }
-            set { links = value; }
+            NotContains = NotContainsR;
         }
 
-        int intLinks = 0;
+        Regex NotContains;
+
+        public override bool Check(ref string articleText, ref string articleTitle)
+        {
+            if (NotContains.IsMatch(articleTitle))
+                return false;
+            else
+                return true;
+        }
+    }
+
+    public enum MoreLessThan : byte { LessThan, MoreThan, EqualTo }
+
+    public class CountCharacters : Scan
+    {
+        public CountCharacters(MoreLessThan Value, int Characters)
+        {
+            M = Value;
+            test = Characters;
+        }
+
+        MoreLessThan M;
+        int test = 0;
+        int actual = 0;
+
+        public override bool Check(ref string articleText, ref string articleTitle)
+        {
+            actual = articleText.Length;
+
+            if (M == MoreLessThan.MoreThan)
+            {
+                if (actual > test)
+                    return true;
+                else
+                    return false;
+            }
+            else if (M == MoreLessThan.LessThan)
+            {
+                if (actual < test)
+                    return true;
+                else
+                    return false;
+            }
+            else
+            {
+                if (actual == test)
+                    return true;
+                else
+                    return false;
+            }
+        }
+    }
+
+    public class CountLinks : Scan
+    {
+        public CountLinks(MoreLessThan Value, int Links)
+        {
+            M = Value;
+            test = Links;
+        }
+
+        MoreLessThan M;
+        int test = 0;
+        int actual = 0;
         readonly Regex Regexlinks = new Regex("\\[\\[", RegexOptions.Compiled);
-        private bool countLinks()
+
+        public override bool Check(ref string articleText, ref string articleTitle)
         {
-            if (countlinks == 0)
-                return true;
+            actual = 0;
+            foreach (Match m in Regexlinks.Matches(articleText))
+                actual++;
+
+            if (M == MoreLessThan.MoreThan)
+            {
+                if (actual > test)
+                    return true;
+                else
+                    return false;
+            }
+            else if (M == MoreLessThan.LessThan)
+            {
+                if (actual < test)
+                    return true;
+                else
+                    return false;
+            }
             else
             {
-                intLinks = 0;
-                foreach (Match m in Regexlinks.Matches(articleText)) intLinks++;
-
-                if (countlinks == 1 && intLinks > links)
-                    return true;
-                else if (countlinks == 2 && intLinks < links)
+                if (actual == test)
                     return true;
                 else
                     return false;
             }
         }
+    }
 
-        int countwords = 0;
-        public int CountWords
+    public class CountWords : Scan
+    {
+        public CountWords(MoreLessThan Value, int Words)
         {
-            get { return countwords; }
-            set { countwords = value; }
-        }
-        int words = 0;
-        public int Words
-        {
-            get { return words; }
-            set { words = value; }
+            M = Value;
+            test = Words;
         }
 
-        int intwords = 0;
-        private bool Wordcount()
+        MoreLessThan M;
+        int test = 0;
+        int actual = 0;
+
+        public override bool Check(ref string articleText, ref string articleTitle)
         {
-            if (countwords == 0)
-                return true;
+            actual = Tools.WordCount(articleText);
+
+            if (M == MoreLessThan.MoreThan)
+            {
+                if (actual > test)
+                    return true;
+                else
+                    return false;
+            }
+            else if (M == MoreLessThan.LessThan)
+            {
+                if (actual < test)
+                    return true;
+                else
+                    return false;
+            }
             else
             {
-                intwords = Tools.WordCount(articleText);
-
-                if (countwords == 1 && intwords > words)
-                    return true;
-                else if (countwords == 2 && intwords < words)
+                if (actual == test)
                     return true;
                 else
                     return false;
             }
         }
+    }
 
-
-        Regex doescontainregex = new Regex("");
-        public Regex ArticleDoesContainRegex
+    public class CheckNamespace : Scan
+    {
+        public CheckNamespace(List<int> NameSpaces)
         {
-            get { return doescontainregex; }
-            set { doescontainregex = value; }
-        }
-        bool doescontain = false;
-        public bool ArticleDoesContain
-        {
-            get { return doescontain; }
-            set { doescontain = value; }
-        }
-        private bool checkDoesContain()
-        {
-            if (!doescontain)
-                return true;
-
-            if (doescontainregex.IsMatch(articleText))
-                return true;
-            else
-                return false;
+            namespaces = NameSpaces;
         }
 
-        Regex doesnotcontainregex = new Regex("");
-        public Regex ArticleDoesNotContainRegex
-        {
-            get { return doesnotcontainregex; }
-            set { doesnotcontainregex = value; }
-        }
-        bool doesnotcontain = false;
-        public bool ArticleDoesNotContain
-        {
-            get { return doesnotcontain; }
-            set { doesnotcontain = value; }
-        }
-        private bool checkDoesNotContain()
-        {
-            if (!doesnotcontain)
-                return true;
-
-            if (doesnotcontainregex.IsMatch(articleText))
-                return false;
-            else
-                return true;
-        }
-
-        bool ignoreredirects = true;
-        public bool IgnoreRedirects
-        {
-            get { return ignoreredirects; }
-            set { ignoreredirects = value; }
-        }
-
-        //namespaces to ignore
         List<int> namespaces = new List<int>();
-        public List<int> Namespaces
-        {
-            get { return namespaces; }
-            set { namespaces = value; }
-
-        }
-
-        int NamespaceIndex = 0;
         int i = 0;
-        private bool IgnoreName()
-        {
-            if (ignoreredirects && articleText.StartsWith("#"))
-                return false;
-            
-            NamespaceIndex = Tools.CalculateNS(articleTitle);
+        int NamespaceIndex = 0;
 
-            i = 0;      
+        public override bool Check(ref string articleText, ref string articleTitle)
+        {
+            i = 0;
+            NamespaceIndex = Tools.CalculateNS(articleTitle);
             foreach (int j in namespaces)
             {
                 if (NamespaceIndex == namespaces[i])
@@ -223,69 +262,71 @@ namespace WikiFunctions.DatabaseScanner
                 i++;
             }
 
-            if (TitleContains() && TitleNotContains())
-                return true;
-            else
-                return false;
+            return true;
+        }
+    }
+
+    public class HasBadLinks : Scan
+    {
+        public HasBadLinks(Parsers p)
+        {
+            parsers = p;
         }
 
-        Regex titlecontainsregex = new Regex("");
-        public Regex TitleContainsRegex
+        bool skip = true;
+        Parsers parsers;
+        public override bool Check(ref string articleText, ref string articleTitle)
         {
-            get { return titlecontainsregex; }
-            set { titlecontainsregex = value; }
+            parsers.LinkFixer(articleText, ref skip);
+            return !skip;
         }
-        bool titlecontainsenabled = false;
-        public bool TitleContainsEnabled
-        {
-            get { return titlecontainsenabled; }
-            set { titlecontainsenabled = value; }
-        }
-        private bool TitleContains()
-        {
-            if (!titlecontainsenabled)
-                return true;
+    }
 
-            if (titlecontainsregex.IsMatch(articleTitle))
-                return true;
-            else
-                return false;
+    public class HasNoBoldTitle : Scan
+    {
+        public HasNoBoldTitle(Parsers p)
+        {
+            parsers = p;
         }
 
-        Regex titlenotcontainsregex = new Regex("");
-        public Regex TitleNotContainsRegex
+        bool skip = true;
+        Parsers parsers;
+        public override bool Check(ref string articleText, ref string articleTitle)
         {
-            get { return titlenotcontainsregex; }
-            set { titlenotcontainsregex = value; }
-        }
-        bool titlenotcontainsenabled = false;
-        public bool TitleNotContainsEnabled
-        {
-            get { return titlenotcontainsenabled; }
-            set { titlenotcontainsenabled = value; }
-        }
-        private bool TitleNotContains()
-        {
-            if (!titlenotcontainsenabled)
-                return true;
+            parsers.BoldTitle(articleText, articleTitle, ref skip);
 
-            if (!titlenotcontainsregex.IsMatch(articleTitle))
-                return true;
-            else
-                return false;
+            return !skip;
+        }
+    }
+
+    public class HasHTMLEntities : Scan
+    {
+        public HasHTMLEntities(Parsers p)
+        {
+            parsers = p;
         }
 
-        bool simplelinks = false;
-        public bool SimpleLinks
+        bool skip = true;
+        Parsers parsers;
+        public override bool Check(ref string articleText, ref string articleTitle)
         {
-            get { return simplelinks; }
-            set { simplelinks = value; }
+            parsers.Unicodify(articleText, ref skip);
+
+            return !skip;
         }
-        Regex RegexSimpleLinks = new Regex("\\[\\[(.*?)\\|(.*?)\\]\\]", RegexOptions.Compiled);
-        private bool simpleLinks()
+    }
+
+    public class HasSimpleLinks : Scan
+    {
+        public HasSimpleLinks(Parsers p)
         {
-            if (!simplelinks)
-                return true;
+            parsers = p;
+        }
+
+        Parsers parsers;
+        Regex RegexSimpleLinks = new Regex("\\[\\[([^[]*?)\\|([^[]*?)\\]\\]", RegexOptions.Compiled);
+        public override bool Check(ref string articleText, ref string articleTitle)
+        {
             string n = "";
             string a = "";
             string b = "";
@@ -308,124 +349,43 @@ namespace WikiFunctions.DatabaseScanner
 
             return false;
         }
+    }
 
-        bool nobirthcat = false;
-        public bool NoBirthCat
+    public class HasSectionError : Scan
+    {
+        public HasSectionError(Parsers p)
         {
-            get { return nobirthcat; }
-            set { nobirthcat = value; }
-        }
-        private bool noBirthCat()
-        {
-            if (!nobirthcat)
-                return true;
-
-            if (Regex.IsMatch(articleText, "\\[\\[[Cc]ategory: ?[0-9]{3,4} births"))
-                return false;
-
-            string articleTextTemp = articleText;
-
-            if (articleTextTemp.Length > 80)
-                articleTextTemp = articleTextTemp.Substring(0, 80);
-
-            if (Regex.IsMatch(articleTextTemp, "(\\(| )[Bb]orn "))
-                return true;
-
-            return false;
+            parsers = p;
         }
 
-        bool boldtitle = false;
-        public bool NoBold
+        bool skip = true;
+        Parsers parsers;
+        public override bool Check(ref string articleText, ref string articleTitle)
         {
-            get { return boldtitle; }
-            set { boldtitle = value; }
-        }
-        private bool boldTitle()
-        {
-            if (!boldtitle)
-                return true;
-
-            parsers.BoldTitle(articleText, articleTitle, ref skip);
-
-            return !skip;
-        }
-
-        bool badlinks = false;
-        public bool BadLinks
-        {
-            get { return badlinks; }
-            set { badlinks = value; }
-        }
-        private bool badLinks()
-        {
-            if (!badlinks)
-                return true;
-
-            parsers.LinkFixer(articleText, ref skip);
-
-            return !skip;
-        }
-
-        bool containshtml = false;
-        public bool HasHTML
-        {
-            get { return containshtml; }
-            set { containshtml = value; }
-        }
-        private bool containsHTML()
-        {
-            if (!containshtml)
-                return true;
-
-            parsers.Unicodify(articleText, ref skip);
-
-            return !skip;
-        }
-
-        bool headererror = false;
-        public bool HeaderError
-        {
-            get { return headererror; }
-            set { headererror = value; }
-        }
-        private bool sectionHeaderError()
-        {
-            if (!headererror)
-                return true;
-
             parsers.FixHeadings(articleText, ref skip);
 
             return !skip;
         }
+    }
 
-        bool bulletexternal = false;
-        public bool UnbulletedLinks
+    public class HasUnbulletedLinks : Scan
+    {
+        public HasUnbulletedLinks(Parsers p)
         {
-            get { return bulletexternal; }
-            set { bulletexternal = value; }
+            parsers = p;
         }
 
         Regex bulletRegex = new Regex(@"External [Ll]inks? ? ?={1,4} ? ?(
 ){0,3}\[?http", RegexOptions.Compiled);
-        private bool BulletExternalLinks()
-        {
-            if (!bulletexternal)
-                return true;
 
+        Parsers parsers;
+        public override bool Check(ref string articleText, ref string articleTitle)
+        {
             if (bulletRegex.IsMatch(articleText))
                 return true;
             else
                 return false;
         }
-
-        private bool ExcessHeader()
-        {
-            //if (!header)
-            //    return true;
-
-            parsers.RemoveBadHeaders(articleText, articleTitle, ref skip);
-
-            return !skip;
-        }        
     }
+
 }

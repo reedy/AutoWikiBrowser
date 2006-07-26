@@ -180,43 +180,75 @@ namespace WikiFunctions.DatabaseScanner
         
         private void Start()
         {
-            Scanners scn = new Scanners();
-
             makePatterns();
-
-            scn.ArticleDoesContain = chkArticleDoesContain.Checked;
-            scn.ArticleDoesNotContain = chkArticleDoesNotContain.Checked;
-            scn.ArticleDoesContainRegex = ArticleDoesRegex;
-            scn.ArticleDoesNotContainRegex = ArticleDoesNotRegex;
-
-            scn.TitleContainsEnabled = chkTitleContains.Checked;
-            scn.TitleNotContainsEnabled = chkTitleDoesNotContain.Checked;
-            scn.TitleContainsRegex = TitleDoesRegex;
-            scn.TitleNotContainsRegex = TitleDoesNotRegex;
-
-            scn.CheckLength = cmboLength.SelectedIndex;
-            scn.Length = (int)nudLength.Value;
-            scn.CountLinks = cmboLinks.SelectedIndex;
-            scn.Links = (int)nudLinks.Value;
-            scn.CountWords = cmboWords.SelectedIndex;
-            scn.Words = (int)nudWords.Value;
-
-            scn.BadLinks = chkBadLinks.Checked;
-            scn.NoBold = chkNoBold.Checked;
-            scn.SimpleLinks = chkSimpleLinks.Checked;
-            scn.HasHTML = chkHasHTML.Checked;
-            scn.HeaderError = chkHeaderError.Checked;
-            scn.UnbulletedLinks = chkUnbulletedLinks.Checked;
-
-            scn.IgnoreComments = ignoreCommentsToolStripMenuItem.Checked;
-
-            scn.IgnoreRedirects = ignoreRedirectsToolStripMenuItem1.Checked;
-            scn.Namespaces = namespaces;
 
             StartTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond);
             intLimit = (int)nudLimitResults.Value;
 
-            Main = new MainProcess(scn, fileName, Priority);
+            List<Scan> s = new List<Scan>();
+
+            s.Add(new CheckNamespace(namespaces));
+
+            if (ignoreRedirectsToolStripMenuItem1.Checked)
+                s.Add(new IsNotRedirect());
+
+            if(chkArticleDoesContain.Checked)
+                s.Add(new TextDoesContain(ArticleDoesRegex));
+
+            if (chkArticleDoesNotContain.Checked)
+                s.Add(new TextDoesNotContain(ArticleDoesNotRegex));
+
+            if(chkTitleContains.Checked)
+                s.Add(new TitleDoesContain(TitleDoesRegex));
+
+            if(chkTitleDoesNotContain.Checked)
+                s.Add(new TitleDoesNotContain(TitleDoesNotRegex));
+
+            if (cmboLength.SelectedIndex != 0)
+            {
+                if (cmboLength.SelectedIndex == 1)
+                    s.Add(new CountCharacters(MoreLessThan.MoreThan, (int)nudLength.Value));
+                else if (cmboLength.SelectedIndex == 2)
+                    s.Add(new CountCharacters(MoreLessThan.LessThan, (int)nudLength.Value));
+            }
+
+            if (cmboLinks.SelectedIndex != 0)
+            {
+                if (cmboLinks.SelectedIndex == 1)
+                    s.Add(new CountLinks(MoreLessThan.MoreThan, (int)nudLinks.Value));
+                else if (cmboLinks.SelectedIndex == 2)
+                    s.Add(new CountLinks(MoreLessThan.LessThan, (int)nudLinks.Value));
+            }
+
+            if (cmboWords.SelectedIndex != 0)
+            {
+                if (cmboWords.SelectedIndex == 1)
+                    s.Add(new CountWords(MoreLessThan.MoreThan, (int)nudWords.Value));
+                else if (cmboWords.SelectedIndex == 2)
+                    s.Add(new CountWords(MoreLessThan.LessThan, (int)nudWords.Value));
+            }
+
+            Parsers parsers = new Parsers();
+
+            if (chkBadLinks.Checked)
+                s.Add(new HasBadLinks(parsers));
+
+            if (chkNoBold.Checked)
+                s.Add(new HasNoBoldTitle(parsers));
+
+            if (chkSimpleLinks.Checked)
+                s.Add(new HasSimpleLinks(parsers));
+
+            if (chkHasHTML.Checked)
+                s.Add(new HasHTMLEntities(parsers));
+
+            if (chkHeaderError.Checked)
+                s.Add(new HasSectionError(parsers));
+
+            if (chkUnbulletedLinks.Checked)
+                s.Add(new HasUnbulletedLinks(parsers));
+
+            Main = new MainProcess(s, fileName, Priority, ignoreCommentsToolStripMenuItem.Checked);
             Main.FoundArticle += MessageReceived;
             Main.StoppedEvent += Stopped;
             Main.Start();

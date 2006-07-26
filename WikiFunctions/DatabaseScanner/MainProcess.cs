@@ -35,7 +35,6 @@ namespace WikiFunctions.DatabaseScanner
         public event FoundDel FoundArticle;
         public event StopDel StoppedEvent;
 
-        Scanners scanners;
         string FileName = "";
         Stream stream;
 
@@ -44,13 +43,19 @@ namespace WikiFunctions.DatabaseScanner
         private SynchronizationContext context;
         Thread ScanThread = null;
 
-        public MainProcess(Scanners scns, string filename, ThreadPriority tp)
+        List<Scan> s;
+        bool ignore = false;
+        Regex regComments = new Regex("<!--.*?-->", RegexOptions.Singleline | RegexOptions.Compiled);
+
+        public MainProcess(List<Scan> z, string filename, ThreadPriority tp, bool ignoreComments)
         {
-            scanners = scns;
             FileName = filename;
             SOPC = new SendOrPostCallback(NewArticle);
             SOPCstopped = new SendOrPostCallback(Stopped);
             Priority = tp;
+            ignore = ignoreComments;
+
+            s = z;
         }
 
         private void NewArticle(object o)
@@ -102,6 +107,8 @@ namespace WikiFunctions.DatabaseScanner
             string title = "title";
             string text = "text";
 
+            bool test = true;
+
             try
             {
                 using (XmlTextReader reader = new XmlTextReader(stream))
@@ -110,6 +117,8 @@ namespace WikiFunctions.DatabaseScanner
 
                     while (reader.Read() && boolRun)
                     {
+                        test = true;
+
                         if (reader.Name == page)
                         {
                             reader.ReadToFollowing(title);
@@ -117,10 +126,20 @@ namespace WikiFunctions.DatabaseScanner
                             reader.ReadToFollowing(text);
                             articleText = reader.ReadString();
 
-                            if (scanners.Test(ref articleText, ref articleTitle))
+                            if(ignore)
+                                articleText = regComments.Replace(articleText, "");
+
+                            foreach (Scan z in s)
                             {
-                                context.Post(SOPC, articleTitle);
+                                if (!z.Check(ref articleText, ref articleTitle))
+                                {
+                                    test = false;
+                                    break;
+                                }                                    
                             }
+                            
+                            if(test)
+                                context.Post(SOPC, articleTitle);
                         }
                     }
                 }
