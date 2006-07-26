@@ -70,6 +70,18 @@ namespace AutoWikiBrowser.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("500")]
+        public int StubMaxWordCount {
+            get {
+                return ((int)(this["StubMaxWordCount"]));
+            }
+            set {
+                this["StubMaxWordCount"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool LowThreadPriority {
             get {
