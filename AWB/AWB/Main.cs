@@ -175,6 +175,7 @@ namespace AutoWikiBrowser
 
                 DisableButtons();
                 parsers.EditSummary = "";
+                findAndReplace.EditSummary = "";
 
                 skippable = true;
 
