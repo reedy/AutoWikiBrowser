@@ -55,17 +55,26 @@ namespace AutoWikiBrowser
             //btnSave.Image = Resources.btntssave_image;
             //btnIgnore.Image = Resources.GoLtr;
 
-            int stubcount = AutoWikiBrowser.Properties.Settings.Default.StubMaxWordCount;
-            parsers = new Parsers(stubcount);
+            int stubcount = 500;
+            try
+            {
+                stubcount = AutoWikiBrowser.Properties.Settings.Default.StubMaxWordCount;
+                parsers = new Parsers(stubcount);
 
-            if (AutoWikiBrowser.Properties.Settings.Default.LowThreadPriority)
-                Thread.CurrentThread.Priority = ThreadPriority.Lowest;
+                if (AutoWikiBrowser.Properties.Settings.Default.LowThreadPriority)
+                    Thread.CurrentThread.Priority = ThreadPriority.Lowest;
 
-            //read and set project from user persistent settings (was saved on last exit)
-            SetProject(
-                /* string strLang, */ AutoWikiBrowser.Properties.Settings.Default.Language,
-                /* string strProj */  AutoWikiBrowser.Properties.Settings.Default.Project
-            );
+                //read and set project from user persistent settings (was saved on last exit)
+                SetProject(
+                    /* string strLang, */ AutoWikiBrowser.Properties.Settings.Default.Language,
+                    /* string strProj */  AutoWikiBrowser.Properties.Settings.Default.Project
+                );
+            }
+            catch (Exception ex)
+            {
+                parsers = new Parsers();
+                MessageBox.Show(ex.Message);
+            }
 
             cmboSourceSelect.SelectedIndex = 0;
             cmboCategorise.SelectedIndex = 0;
