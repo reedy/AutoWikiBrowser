@@ -43,11 +43,11 @@ namespace WikiFunctions
         /// Re-organises the Person Data, stub/disambig templates, categories and interwikis
         /// </summary>
         /// <param name="StubWordCount">The number of maximum number of words for a stub.</param>
-        public Parsers(int StubWordCount)
+        public Parsers(int StubWordCount, bool AddHumanKey)
         {
             metaDataSorter = new MetaDataSorter(this);
-
             StubMaxWordCount = StubWordCount;
+            addCatKey = AddHumanKey;
         }
 
         MetaDataSorter metaDataSorter;

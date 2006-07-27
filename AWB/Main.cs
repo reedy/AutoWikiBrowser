@@ -56,10 +56,12 @@ namespace AutoWikiBrowser
             //btnIgnore.Image = Resources.GoLtr;
 
             int stubcount = 500;
+            bool catkey = false;
             try
             {
                 stubcount = AutoWikiBrowser.Properties.Settings.Default.StubMaxWordCount;
-                parsers = new Parsers(stubcount);
+                catkey = AutoWikiBrowser.Properties.Settings.Default.AddHummanKeyToCats;
+                parsers = new Parsers(stubcount, catkey);
 
                 if (AutoWikiBrowser.Properties.Settings.Default.LowThreadPriority)
                     Thread.CurrentThread.Priority = ThreadPriority.Lowest;
@@ -576,11 +578,11 @@ namespace AutoWikiBrowser
                     }
                     articleText = parsers.FixSyntax(articleText);
                     articleText = parsers.FixLinks(articleText);
-                    articleText = parsers.BulletExternalLinks(articleText);
                     //if (skip)
                     //    return articleText;
                     //else
                     //    skip = false;
+                    articleText = parsers.BulletExternalLinks(articleText);                    
                     articleText = parsers.SortMetaData(articleText, EdittingArticle);
                     articleText = parsers.BoldTitle(articleText, EdittingArticle);
                     articleText = parsers.LinkSimplifier(articleText);
