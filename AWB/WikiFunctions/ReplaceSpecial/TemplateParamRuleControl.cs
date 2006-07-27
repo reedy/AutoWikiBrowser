@@ -1,4 +1,3 @@
-//$Header: /cvsroot/mwiki-browser/main/mwiki-browser/TemplateParamRuleControl.cs,v 1.2 2006/06/30 15:21:24 ligulem Exp $
 /*
     Derived from Autowikibrowser
     Copyright (C) 2006 Martin Richards

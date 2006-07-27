@@ -1,4 +1,3 @@
-//$Header: /cvsroot/mwiki-browser/main/mwiki-browser/ReplaceSpecial.cs,v 1.22 2006/07/06 11:20:45 ligulem Exp $
 /*
     Derived from Autowikibrowser
     Copyright (C) 2006 Martin Richards
