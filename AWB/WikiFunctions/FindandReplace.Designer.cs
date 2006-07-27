@@ -50,34 +50,23 @@ namespace WikiFunctions
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.chkAreRegexes = new System.Windows.Forms.CheckBox();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnDone = new System.Windows.Forms.Button();
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.btnClear = new System.Windows.Forms.Button();
-            this.chkCaseSensitive = new System.Windows.Forms.CheckBox();
-            this.chkMultiline = new System.Windows.Forms.CheckBox();
-            this.chkSingleline = new System.Windows.Forms.CheckBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.chkIgnoreLinks = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.chkAddToSummary = new System.Windows.Forms.CheckBox();
+            this.find = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.replace = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.casesensitive = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.regex = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.multi = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.single = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // chkAreRegexes
-            // 
-            this.chkAreRegexes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkAreRegexes.AutoSize = true;
-            this.chkAreRegexes.Location = new System.Drawing.Point(410, 10);
-            this.chkAreRegexes.Name = "chkAreRegexes";
-            this.chkAreRegexes.Size = new System.Drawing.Size(42, 17);
-            this.chkAreRegexes.TabIndex = 0;
-            this.chkAreRegexes.Text = "Are";
-            this.chkAreRegexes.UseVisualStyleBackColor = true;
-            this.chkAreRegexes.CheckedChanged += new System.EventHandler(this.chkAreRegexes_CheckedChanged);
             // 
             // dataGridView1
             // 
@@ -88,28 +77,22 @@ namespace WikiFunctions
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1,
-            this.Column2});
+            this.find,
+            this.replace,
+            this.casesensitive,
+            this.regex,
+            this.multi,
+            this.single});
             this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.dataGridView1.Location = new System.Drawing.Point(12, 10);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(392, 284);
+            this.dataGridView1.Size = new System.Drawing.Size(561, 280);
             this.dataGridView1.TabIndex = 1;
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "Find";
-            this.Column1.Name = "Column1";
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "Replace with";
-            this.Column2.Name = "Column2";
             // 
             // btnDone
             // 
             this.btnDone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDone.Location = new System.Drawing.Point(491, 271);
+            this.btnDone.Location = new System.Drawing.Point(660, 267);
             this.btnDone.Name = "btnDone";
             this.btnDone.Size = new System.Drawing.Size(91, 23);
             this.btnDone.TabIndex = 2;
@@ -121,7 +104,7 @@ namespace WikiFunctions
             // 
             this.linkLabel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.linkLabel2.AutoSize = true;
-            this.linkLabel2.Location = new System.Drawing.Point(445, 11);
+            this.linkLabel2.Location = new System.Drawing.Point(614, 11);
             this.linkLabel2.Name = "linkLabel2";
             this.linkLabel2.Size = new System.Drawing.Size(97, 13);
             this.linkLabel2.TabIndex = 9;
@@ -132,7 +115,7 @@ namespace WikiFunctions
             // btnClear
             // 
             this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClear.Location = new System.Drawing.Point(522, 242);
+            this.btnClear.Location = new System.Drawing.Point(691, 238);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(60, 23);
             this.btnClear.TabIndex = 10;
@@ -140,50 +123,11 @@ namespace WikiFunctions
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
-            // chkCaseSensitive
-            // 
-            this.chkCaseSensitive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkCaseSensitive.AutoSize = true;
-            this.chkCaseSensitive.Location = new System.Drawing.Point(410, 31);
-            this.chkCaseSensitive.Name = "chkCaseSensitive";
-            this.chkCaseSensitive.Size = new System.Drawing.Size(94, 17);
-            this.chkCaseSensitive.TabIndex = 11;
-            this.chkCaseSensitive.Text = "Case sensitive";
-            this.chkCaseSensitive.UseVisualStyleBackColor = true;
-            // 
-            // chkMultiline
-            // 
-            this.chkMultiline.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkMultiline.AutoSize = true;
-            this.chkMultiline.Enabled = false;
-            this.chkMultiline.Location = new System.Drawing.Point(410, 52);
-            this.chkMultiline.Name = "chkMultiline";
-            this.chkMultiline.Size = new System.Drawing.Size(64, 17);
-            this.chkMultiline.TabIndex = 12;
-            this.chkMultiline.Text = "Multiline";
-            this.toolTip1.SetToolTip(this.chkMultiline, "Changes meaning of \"^\" and \"$\" so they match beginning and end of every line, rat" +
-                    "her than just  of the entire string.");
-            this.chkMultiline.UseVisualStyleBackColor = true;
-            // 
-            // chkSingleline
-            // 
-            this.chkSingleline.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkSingleline.AutoSize = true;
-            this.chkSingleline.Enabled = false;
-            this.chkSingleline.Location = new System.Drawing.Point(410, 73);
-            this.chkSingleline.Name = "chkSingleline";
-            this.chkSingleline.Size = new System.Drawing.Size(71, 17);
-            this.chkSingleline.TabIndex = 13;
-            this.chkSingleline.Text = "Singleline";
-            this.toolTip1.SetToolTip(this.chkSingleline, "Changes meaning of \".\" so it matches all characters, rather than all but newline." +
-                    "");
-            this.chkSingleline.UseVisualStyleBackColor = true;
-            // 
             // chkIgnoreLinks
             // 
             this.chkIgnoreLinks.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkIgnoreLinks.AutoSize = true;
-            this.chkIgnoreLinks.Location = new System.Drawing.Point(410, 96);
+            this.chkIgnoreLinks.Location = new System.Drawing.Point(579, 96);
             this.chkIgnoreLinks.Name = "chkIgnoreLinks";
             this.chkIgnoreLinks.Size = new System.Drawing.Size(166, 17);
             this.chkIgnoreLinks.TabIndex = 14;
@@ -196,7 +140,7 @@ namespace WikiFunctions
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(417, 116);
+            this.label1.Location = new System.Drawing.Point(586, 116);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(159, 13);
             this.label1.TabIndex = 15;
@@ -210,7 +154,7 @@ namespace WikiFunctions
             this.chkAddToSummary.AutoSize = true;
             this.chkAddToSummary.Checked = true;
             this.chkAddToSummary.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkAddToSummary.Location = new System.Drawing.Point(410, 143);
+            this.chkAddToSummary.Location = new System.Drawing.Point(579, 143);
             this.chkAddToSummary.Name = "chkAddToSummary";
             this.chkAddToSummary.Size = new System.Drawing.Size(187, 17);
             this.chkAddToSummary.TabIndex = 16;
@@ -218,22 +162,70 @@ namespace WikiFunctions
             this.toolTip1.SetToolTip(this.chkAddToSummary, "Appends information about replacements made to the edit summary");
             this.chkAddToSummary.UseVisualStyleBackColor = true;
             // 
+            // find
+            // 
+            dataGridViewCellStyle2.NullValue = null;
+            this.find.DefaultCellStyle = dataGridViewCellStyle2;
+            this.find.FillWeight = 157.7052F;
+            this.find.HeaderText = "Find";
+            this.find.MinimumWidth = 45;
+            this.find.Name = "find";
+            this.find.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // replace
+            // 
+            this.replace.FillWeight = 149.4545F;
+            this.replace.HeaderText = "Replace with";
+            this.replace.MinimumWidth = 45;
+            this.replace.Name = "replace";
+            // 
+            // casesensitive
+            // 
+            this.casesensitive.FillWeight = 93.08352F;
+            this.casesensitive.HeaderText = "CaseSensitive";
+            this.casesensitive.MinimumWidth = 30;
+            this.casesensitive.Name = "casesensitive";
+            this.casesensitive.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.casesensitive.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // regex
+            // 
+            this.regex.FillWeight = 76.14212F;
+            this.regex.HeaderText = "Regex";
+            this.regex.MinimumWidth = 15;
+            this.regex.Name = "regex";
+            this.regex.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.regex.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // multi
+            // 
+            this.multi.FillWeight = 61.80732F;
+            this.multi.HeaderText = "MultiLine";
+            this.multi.Name = "multi";
+            this.multi.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.multi.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // single
+            // 
+            this.single.FillWeight = 61.80732F;
+            this.single.HeaderText = "SingleLine";
+            this.single.MinimumWidth = 30;
+            this.single.Name = "single";
+            this.single.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.single.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
             // FindandReplace
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(594, 306);
+            this.ClientSize = new System.Drawing.Size(763, 302);
             this.Controls.Add(this.chkAddToSummary);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.chkIgnoreLinks);
-            this.Controls.Add(this.chkSingleline);
-            this.Controls.Add(this.chkMultiline);
-            this.Controls.Add(this.chkCaseSensitive);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.linkLabel2);
             this.Controls.Add(this.btnDone);
             this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.chkAreRegexes);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.MinimumSize = new System.Drawing.Size(263, 129);
             this.Name = "FindandReplace";
@@ -250,19 +242,19 @@ namespace WikiFunctions
 
         #endregion
 
-        private System.Windows.Forms.CheckBox chkAreRegexes;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.Button btnDone;
         private System.Windows.Forms.LinkLabel linkLabel2;
         private System.Windows.Forms.Button btnClear;
-        private System.Windows.Forms.CheckBox chkCaseSensitive;
-        private System.Windows.Forms.CheckBox chkMultiline;
-        private System.Windows.Forms.CheckBox chkSingleline;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.CheckBox chkIgnoreLinks;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox chkAddToSummary;
+        private System.Windows.Forms.DataGridViewTextBoxColumn find;
+        private System.Windows.Forms.DataGridViewTextBoxColumn replace;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn casesensitive;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn regex;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn multi;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn single;
     }
 }
