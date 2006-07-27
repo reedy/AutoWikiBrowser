@@ -51,31 +51,31 @@ namespace WikiFunctions
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.find = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.replace = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.casesensitive = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.contextMenuCase = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.checkAllCaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uncheckAllCaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.regex = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.contextMenuRegex = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.checkAllRegexToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.uncheckAllRegexToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.multi = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.contextMenuMulti = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.checkAllMultiToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.uncheckAllMultiToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.single = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.contextMenuSingle = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.checkAllSingleToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.uncheckAllSingleToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.enabled = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.btnDone = new System.Windows.Forms.Button();
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.btnClear = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.chkIgnoreLinks = new System.Windows.Forms.CheckBox();
             this.chkAddToSummary = new System.Windows.Forms.CheckBox();
-            this.find = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.replace = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.casesensitive = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.regex = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.multi = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.single = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.enabled = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuCase.SuspendLayout();
             this.contextMenuRegex.SuspendLayout();
@@ -104,7 +104,40 @@ namespace WikiFunctions
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(673, 260);
             this.dataGridView1.TabIndex = 1;
+            this.dataGridView1.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridView1_RowsAdded);
             this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
+            // 
+            // find
+            // 
+            this.find.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.find.FillWeight = 92.50688F;
+            this.find.HeaderText = "Find";
+            this.find.MinimumWidth = 45;
+            this.find.Name = "find";
+            this.find.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // replace
+            // 
+            this.replace.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle1.NullValue = null;
+            this.replace.DefaultCellStyle = dataGridViewCellStyle1;
+            this.replace.FillWeight = 87.66718F;
+            this.replace.HeaderText = "Replace with";
+            this.replace.MinimumWidth = 45;
+            this.replace.Name = "replace";
+            // 
+            // casesensitive
+            // 
+            this.casesensitive.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.casesensitive.ContextMenuStrip = this.contextMenuCase;
+            this.casesensitive.FalseValue = "0";
+            this.casesensitive.FillWeight = 71.79286F;
+            this.casesensitive.HeaderText = "CaseSensitive";
+            this.casesensitive.Name = "casesensitive";
+            this.casesensitive.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.casesensitive.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.casesensitive.TrueValue = "1";
+            this.casesensitive.Width = 75;
             // 
             // contextMenuCase
             // 
@@ -128,6 +161,19 @@ namespace WikiFunctions
             this.uncheckAllCaseToolStripMenuItem.Text = "Uncheck all";
             this.uncheckAllCaseToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllCaseToolStripMenuItem_Click);
             // 
+            // regex
+            // 
+            this.regex.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.regex.ContextMenuStrip = this.contextMenuRegex;
+            this.regex.FalseValue = "0";
+            this.regex.FillWeight = 131.5755F;
+            this.regex.HeaderText = "Regex";
+            this.regex.Name = "regex";
+            this.regex.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.regex.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.regex.TrueValue = "1";
+            this.regex.Width = 40;
+            // 
             // contextMenuRegex
             // 
             this.contextMenuRegex.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -149,6 +195,19 @@ namespace WikiFunctions
             this.uncheckAllRegexToolStripMenuItem1.Size = new System.Drawing.Size(127, 22);
             this.uncheckAllRegexToolStripMenuItem1.Text = "Uncheck all";
             this.uncheckAllRegexToolStripMenuItem1.Click += new System.EventHandler(this.uncheckAllRegexToolStripMenuItem1_Click);
+            // 
+            // multi
+            // 
+            this.multi.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.multi.ContextMenuStrip = this.contextMenuMulti;
+            this.multi.FalseValue = "0";
+            this.multi.FillWeight = 150.1532F;
+            this.multi.HeaderText = "MultiLine";
+            this.multi.Name = "multi";
+            this.multi.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.multi.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.multi.TrueValue = "1";
+            this.multi.Width = 50;
             // 
             // contextMenuMulti
             // 
@@ -172,6 +231,19 @@ namespace WikiFunctions
             this.uncheckAllMultiToolStripMenuItem1.Text = "Uncheck all";
             this.uncheckAllMultiToolStripMenuItem1.Click += new System.EventHandler(this.uncheckAllMultiToolStripMenuItem1_Click);
             // 
+            // single
+            // 
+            this.single.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.single.ContextMenuStrip = this.contextMenuSingle;
+            this.single.FalseValue = "0";
+            this.single.FillWeight = 173.4641F;
+            this.single.HeaderText = "SingleLine";
+            this.single.Name = "single";
+            this.single.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.single.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.single.TrueValue = "1";
+            this.single.Width = 58;
+            // 
             // contextMenuSingle
             // 
             this.contextMenuSingle.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -193,6 +265,16 @@ namespace WikiFunctions
             this.uncheckAllSingleToolStripMenuItem1.Size = new System.Drawing.Size(127, 22);
             this.uncheckAllSingleToolStripMenuItem1.Text = "Uncheck all";
             this.uncheckAllSingleToolStripMenuItem1.Click += new System.EventHandler(this.uncheckAllSingleToolStripMenuItem1_Click);
+            // 
+            // enabled
+            // 
+            this.enabled.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.enabled.FalseValue = "0";
+            this.enabled.HeaderText = "Enabled";
+            this.enabled.Name = "enabled";
+            this.enabled.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.enabled.TrueValue = "1";
+            this.enabled.Width = 50;
             // 
             // btnDone
             // 
@@ -251,87 +333,6 @@ namespace WikiFunctions
             this.chkAddToSummary.Text = "Add replacements to edit summary";
             this.toolTip1.SetToolTip(this.chkAddToSummary, "Appends information about replacements made to the edit summary");
             this.chkAddToSummary.UseVisualStyleBackColor = true;
-            // 
-            // find
-            // 
-            this.find.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.find.FillWeight = 92.50688F;
-            this.find.HeaderText = "Find";
-            this.find.MinimumWidth = 45;
-            this.find.Name = "find";
-            this.find.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // replace
-            // 
-            this.replace.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle1.NullValue = null;
-            this.replace.DefaultCellStyle = dataGridViewCellStyle1;
-            this.replace.FillWeight = 87.66718F;
-            this.replace.HeaderText = "Replace with";
-            this.replace.MinimumWidth = 45;
-            this.replace.Name = "replace";
-            // 
-            // casesensitive
-            // 
-            this.casesensitive.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.casesensitive.ContextMenuStrip = this.contextMenuCase;
-            this.casesensitive.FalseValue = "0";
-            this.casesensitive.FillWeight = 71.79286F;
-            this.casesensitive.HeaderText = "CaseSensitive";
-            this.casesensitive.Name = "casesensitive";
-            this.casesensitive.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.casesensitive.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.casesensitive.TrueValue = "1";
-            this.casesensitive.Width = 75;
-            // 
-            // regex
-            // 
-            this.regex.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.regex.ContextMenuStrip = this.contextMenuRegex;
-            this.regex.FalseValue = "0";
-            this.regex.FillWeight = 131.5755F;
-            this.regex.HeaderText = "Regex";
-            this.regex.Name = "regex";
-            this.regex.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.regex.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.regex.TrueValue = "1";
-            this.regex.Width = 40;
-            // 
-            // multi
-            // 
-            this.multi.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.multi.ContextMenuStrip = this.contextMenuMulti;
-            this.multi.FalseValue = "0";
-            this.multi.FillWeight = 150.1532F;
-            this.multi.HeaderText = "MultiLine";
-            this.multi.Name = "multi";
-            this.multi.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.multi.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.multi.TrueValue = "1";
-            this.multi.Width = 50;
-            // 
-            // single
-            // 
-            this.single.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.single.ContextMenuStrip = this.contextMenuSingle;
-            this.single.FalseValue = "0";
-            this.single.FillWeight = 173.4641F;
-            this.single.HeaderText = "SingleLine";
-            this.single.Name = "single";
-            this.single.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.single.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.single.TrueValue = "1";
-            this.single.Width = 58;
-            // 
-            // enabled
-            // 
-            this.enabled.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.enabled.FalseValue = "0";
-            this.enabled.HeaderText = "Enabled";
-            this.enabled.Name = "enabled";
-            this.enabled.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.enabled.TrueValue = "1";
-            this.enabled.Width = 50;
             // 
             // FindandReplace
             // 
