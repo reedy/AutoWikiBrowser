@@ -182,7 +182,7 @@ namespace AutoWikiBrowser
                             replace = reader.Value;
 
                             if (find.Length > 0)
-                                findAndReplace.AddNew(find, replace, oldcasesensitive, oldregex, oldmulti, oldsingle);
+                                findAndReplace.AddNew(find, replace, oldcasesensitive, oldregex, oldmulti, oldsingle, -1);
 
                             continue;
                         }
@@ -210,6 +210,7 @@ namespace AutoWikiBrowser
                             bool casesens = true;
                             bool multi = false;
                             bool single = false;
+                            int times = -1;
 
                             reader.MoveToAttribute("find");
                             find = reader.Value;
@@ -224,9 +225,11 @@ namespace AutoWikiBrowser
                             multi = bool.Parse(reader.Value);
                             reader.MoveToAttribute("single");
                             single = bool.Parse(reader.Value);
+                            reader.MoveToAttribute("maxnumber");
+                            times = int.Parse(reader.Value);
 
                             if (find.Length > 0)
-                                findAndReplace.AddNew(find, replace, casesens, regex, multi, single);
+                                findAndReplace.AddNew(find, replace, casesens, regex, multi, single, times);
 
                             continue;
                         }

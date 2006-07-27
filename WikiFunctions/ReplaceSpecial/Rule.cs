@@ -1,4 +1,3 @@
-//$Header: /cvsroot/mwiki-browser/main/mwiki-browser/Rule.cs,v 1.14 2006/06/30 15:21:17 ligulem Exp $
 /*
     Derived from Autowikibrowser
     Copyright (C) 2006 Martin Richards
