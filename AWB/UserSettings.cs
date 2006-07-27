@@ -182,7 +182,7 @@ namespace AutoWikiBrowser
                             replace = reader.Value;
 
                             if (find.Length > 0)
-                                findAndReplace.AddNew(find, replace, oldcasesensitive, oldregex, oldmulti, oldsingle, -1);
+                                findAndReplace.AddNew(find, replace, oldcasesensitive, oldregex, oldmulti, oldsingle, -1, true);
 
                             continue;
                         }
@@ -211,6 +211,7 @@ namespace AutoWikiBrowser
                             bool multi = false;
                             bool single = false;
                             int times = -1;
+                            bool enabled = true;
 
                             reader.MoveToAttribute("find");
                             find = reader.Value;
@@ -225,11 +226,13 @@ namespace AutoWikiBrowser
                             multi = bool.Parse(reader.Value);
                             reader.MoveToAttribute("single");
                             single = bool.Parse(reader.Value);
+                            reader.MoveToAttribute("enabled");
+                            enabled = bool.Parse(reader.Value);
                             reader.MoveToAttribute("maxnumber");
-                            times = int.Parse(reader.Value);
+                            times = int.Parse(reader.Value);                            
 
                             if (find.Length > 0)
-                                findAndReplace.AddNew(find, replace, casesens, regex, multi, single, times);
+                                findAndReplace.AddNew(find, replace, casesens, regex, multi, single, times, enabled);
 
                             continue;
                         }
@@ -539,7 +542,7 @@ namespace AutoWikiBrowser
                 // Write first element
                 textWriter.WriteStartElement("Settings");
                 textWriter.WriteAttributeString("program", "AWB");
-                textWriter.WriteAttributeString("schema", "1");
+                textWriter.WriteAttributeString("schema", "2");
 
                 textWriter.WriteStartElement("Project");
                 textWriter.WriteStartElement("projectlang");
