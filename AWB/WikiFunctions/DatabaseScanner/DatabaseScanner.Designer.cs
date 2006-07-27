@@ -108,6 +108,7 @@ namespace WikiFunctions.DatabaseScanner
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnFilter = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.rdoBullet = new System.Windows.Forms.RadioButton();
@@ -121,7 +122,6 @@ namespace WikiFunctions.DatabaseScanner
             this.chkUnbulletedLinks = new System.Windows.Forms.CheckBox();
             this.chkHasHTML = new System.Windows.Forms.CheckBox();
             this.chkBadLinks = new System.Windows.Forms.CheckBox();
-            this.btnFilter = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudWords)).BeginInit();
@@ -448,9 +448,11 @@ namespace WikiFunctions.DatabaseScanner
             this.cmboWords.Name = "cmboWords";
             this.cmboWords.Size = new System.Drawing.Size(113, 21);
             this.cmboWords.TabIndex = 25;
+            this.cmboWords.SelectedIndexChanged += new System.EventHandler(this.cmboWords_SelectedIndexChanged);
             // 
             // nudWords
             // 
+            this.nudWords.Enabled = false;
             this.nudWords.Location = new System.Drawing.Point(209, 159);
             this.nudWords.Maximum = new decimal(new int[] {
             1000000,
@@ -469,7 +471,7 @@ namespace WikiFunctions.DatabaseScanner
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(24, 164);
+            this.label3.Location = new System.Drawing.Point(29, 162);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(55, 13);
             this.label3.TabIndex = 23;
@@ -949,6 +951,16 @@ namespace WikiFunctions.DatabaseScanner
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Get results";
             // 
+            // btnFilter
+            // 
+            this.btnFilter.Location = new System.Drawing.Point(64, 308);
+            this.btnFilter.Name = "btnFilter";
+            this.btnFilter.Size = new System.Drawing.Size(53, 23);
+            this.btnFilter.TabIndex = 33;
+            this.btnFilter.Text = "Filter";
+            this.btnFilter.UseVisualStyleBackColor = true;
+            this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
+            // 
             // btnStop
             // 
             this.btnStop.Location = new System.Drawing.Point(79, 19);
@@ -1080,16 +1092,6 @@ namespace WikiFunctions.DatabaseScanner
             this.chkBadLinks.TabIndex = 32;
             this.chkBadLinks.Text = "Has bad links AWB will fix";
             this.chkBadLinks.UseVisualStyleBackColor = true;
-            // 
-            // btnFilter
-            // 
-            this.btnFilter.Location = new System.Drawing.Point(64, 308);
-            this.btnFilter.Name = "btnFilter";
-            this.btnFilter.Size = new System.Drawing.Size(53, 23);
-            this.btnFilter.TabIndex = 33;
-            this.btnFilter.Text = "Filter";
-            this.btnFilter.UseVisualStyleBackColor = true;
-            this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
             // 
             // DatabaseScanner
             // 

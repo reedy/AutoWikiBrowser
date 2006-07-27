@@ -850,14 +850,14 @@ namespace WikiFunctions
             return articleText;
         }
 
-        readonly Regex ConversionsRegex1 = new Regex("\\{\\{(template:)?(wikify|wfy|wiki)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex ConversionsRegex1 = new Regex("\\{\\{(template:)?(wikify(\\|.*?)?|wfy|wiki)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex ConversionsRegex2 = new Regex("\\{\\{(template:)?(Clean ?up|Clean|Tidy)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex ConversionsRegex3 = new Regex("\\{\\{(template:)?Linkless\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex ConversionsRegex4 = new Regex("\\{\\{(Dab|Disamb|Disambiguation)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex ConversionsRegex5 = new Regex("\\{\\{(2cc|2LAdisambig|2LCdisambig|2LC)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex ConversionsRegex6 = new Regex("\\{\\{(3cc|3LW|Tla-dab|TLA-disambig|TLAdisambig|3LC)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex ConversionsRegex7 = new Regex("\\{\\{(4cc|4LW|4LA|4LC)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        readonly Regex ConversionsRegex8 = new Regex("\\{\\{(Unsourced|Cite source|Unref|No references?|References|Not referenced|Needs? references|Sources|Cite-sources|Cleanup-sources?)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        //readonly Regex ConversionsRegex8 = new Regex("\\{\\{(Unsourced|Cite source|Unref|No references?|References|Not referenced|Needs? references|Sources|Cite-sources|Cleanup-sources?)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex ConversionsRegex9 = new Regex("\\{\\{(Prettytable|Prettytable100|Pt)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex ConversionsRegex10 = new Regex("\\{\\{(PAGENAMEE?)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
@@ -869,6 +869,11 @@ namespace WikiFunctions
         public string Conversions(string articleText)
         {
             articleText = ConversionsRegex1.Replace(articleText, "{{Wikify-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
+            articleText = articleText.Replace(@"<div class=""messagebox cleanup metadata"">
+This article or section needs to be '''[[Wikipedia:Glossary#W|wikified]]'''.  Please format this article according to the guidelines laid out at [[Wikipedia:Guide to layout]]. Please remove this template after wikifying.
+</div>", "{{Wikify-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
+            articleText = articleText.Replace("[[Category:Articles that need to be wikified]]", "");
+
             articleText = ConversionsRegex2.Replace(articleText, "{{Cleanup-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
             articleText = ConversionsRegex3.Replace(articleText, "{{Linkless-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
 
@@ -877,7 +882,6 @@ namespace WikiFunctions
             articleText = ConversionsRegex6.Replace(articleText, "{{3CC}}");
             articleText = ConversionsRegex7.Replace(articleText, "{{4CC}}");
 
-            articleText = ConversionsRegex8.Replace(articleText, "{{Unreferenced}}");
             articleText = ConversionsRegex9.Replace(articleText, "{{subst:Prettytable}}");
             articleText = ConversionsRegex10.Replace(articleText, "{{subst:$1}}");
 

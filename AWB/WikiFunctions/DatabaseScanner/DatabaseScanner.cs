@@ -512,9 +512,16 @@ namespace WikiFunctions.DatabaseScanner
                 nudLength.Enabled = false;
             else
                 nudLength.Enabled = true;
-
         }
 
+        private void cmboWords_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmboWords.SelectedIndex == 0)
+                nudWords.Enabled = false;
+            else
+                nudWords.Enabled = true;
+        }
+        
         private void cmboLinks_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmboLinks.SelectedIndex == 0)
@@ -880,6 +887,7 @@ namespace WikiFunctions.DatabaseScanner
         }
 
         #endregion
+
         
     }
 }
