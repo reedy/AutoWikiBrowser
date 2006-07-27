@@ -91,5 +91,17 @@ namespace AutoWikiBrowser.Properties {
                 this["LowThreadPriority"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AddHummanKeyToCats {
+            get {
+                return ((bool)(this["AddHummanKeyToCats"]));
+            }
+            set {
+                this["AddHummanKeyToCats"] = value;
+            }
+        }
     }
 }

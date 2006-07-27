@@ -124,7 +124,8 @@
     <BaseApplicationManifest Include="Properties\app.manifest">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BaseApplicationManifest>
-    <None Include="app.config" />
+    <None Include="app.config">
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
