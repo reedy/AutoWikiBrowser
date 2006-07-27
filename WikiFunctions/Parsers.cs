@@ -288,11 +288,15 @@ namespace WikiFunctions
                 articleText = SyntaxRegex12.Replace(articleText, "''$1''");
                 articleText = SyntaxRegex13.Replace(articleText, "'''$1'''");
             }
+            articleText = Regex.Replace(articleText, "^<hr>|^----+", "----", RegexOptions.Multiline);
+
+            //remove appearance of double line break
+            articleText = Regex.Replace(articleText, "(^==?[^=]*==?)\r\n(\r\n)?----+", "$1", RegexOptions.Multiline);
 
             //remove unnecessary namespace
             articleText = SyntaxRegex10.Replace(articleText, "$1$2");
 
-            //remove <br> from lists, correct xhtml syntax
+            //remove <br> from lists
             articleText = SyntaxRegex11.Replace(articleText, "$1\r\n");
 
             //can cause problems
@@ -326,10 +330,10 @@ namespace WikiFunctions
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="NoChange">Value that indicated whether no change was made.</param>
         /// <returns>The modified article text.</returns>
-        public string LinkFixer(string articleText, ref bool NoChange)
+        public string FixLinks(string articleText, ref bool NoChange)
         {
             testText = articleText;
-            articleText = LinkFixer(articleText);
+            articleText = FixLinks(articleText);
 
             if (testText == articleText)
                 NoChange = true;
@@ -346,7 +350,7 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
-        public string LinkFixer(string articleText)
+        public string FixLinks(string articleText)
         {
             string x = "";
             string y = "";
@@ -1062,7 +1066,7 @@ This article or section needs to be '''[[Wikipedia:Glossary#W|wikified]]'''.  Pl
             articleText = FixHeadings(articleText);
             articleText = FixSyntax(articleText);
             articleText = FixCats(articleText);
-            articleText = LinkFixer(articleText);
+            articleText = FixLinks(articleText);
             articleText = BulletExternalLinks(articleText);
             articleText = SortMetaData(articleText, articleTitle);
             articleText = BoldTitle(articleText, articleTitle);

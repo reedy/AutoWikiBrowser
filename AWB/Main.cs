@@ -155,8 +155,8 @@ namespace AutoWikiBrowser
                 btnMakeList.Enabled = true;
 
             Debug();
-
             loadDefaultSettings();
+            UpdateButtons();
         }
 
         #endregion
@@ -565,26 +565,22 @@ namespace AutoWikiBrowser
                     if (Variables.LangCode == "en")
                     {//en only
                         articleText = parsers.Conversions(articleText);
-                        articleText = parsers.RemoveBadHeaders(articleText, EdittingArticle);
-                        //if (skip)
-                        //    return articleText;
-                        //else
-                        //    skip = false;
+                        articleText = parsers.RemoveBadHeaders(articleText, EdittingArticle);                        
                         articleText = parsers.LivingPeople(articleText);
                         articleText = parsers.FixCats(articleText);
                         articleText = parsers.FixHeadings(articleText);
-                        //if (skip)
-                        //    return articleText;
-                        //else
-                        //    skip = false;
 
                         #if DEBUG
                         articleText = parsers.MinorThings(articleText);
                         #endif
                     }
                     articleText = parsers.FixSyntax(articleText);
-                    articleText = parsers.LinkFixer(articleText);
+                    articleText = parsers.FixLinks(articleText);
                     articleText = parsers.BulletExternalLinks(articleText);
+                    //if (skip)
+                    //    return articleText;
+                    //else
+                    //    skip = false;
                     articleText = parsers.SortMetaData(articleText, EdittingArticle);
                     articleText = parsers.BoldTitle(articleText, EdittingArticle);
                     articleText = parsers.LinkSimplifier(articleText);
@@ -2472,6 +2468,19 @@ namespace AutoWikiBrowser
             SaveList();
         }
 
+        private void cmboEditSummary_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (findAndReplace.EditSummary == "")
+                toolTip1.SetToolTip(cmboEditSummary, "Write or select an edit summary");
+            else
+                toolTip1.SetToolTip(cmboEditSummary, MakeSummary());
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateButtons();
+        }
+
         #endregion
 
         #region tool bar stuff
@@ -2600,14 +2609,6 @@ namespace AutoWikiBrowser
         }
 
         #endregion
-
-        private void cmboEditSummary_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (findAndReplace.EditSummary == "")
-                toolTip1.SetToolTip(cmboEditSummary, "Write or select an edit summary");
-            else
-                toolTip1.SetToolTip(cmboEditSummary, MakeSummary());
-        }
 
     }
 }
