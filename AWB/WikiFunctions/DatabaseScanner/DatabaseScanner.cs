@@ -75,7 +75,7 @@ namespace WikiFunctions.DatabaseScanner
 
         #region main process
 
-        private void btnStart_Click(object sender, EventArgs e)
+        private void StartButton()
         {
             try
             {
@@ -609,7 +609,15 @@ namespace WikiFunctions.DatabaseScanner
             txtTitleNotContains.Text = convert(txtTitleNotContains.Text);
         }
 
-        private void btnStop_Click(object sender, EventArgs e)
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            if (btnStart.Text == "Start")
+                StartButton();
+            else
+                StopButton();
+        }
+
+        private void StopButton()
         {
             if (Main != null)
             {
@@ -871,8 +879,7 @@ namespace WikiFunctions.DatabaseScanner
                 groupBox4.Enabled = false;
                 groupBox5.Enabled = false;
                 btnFilter.Enabled = false;
-                btnStart.Enabled = false;
-                btnStart.Text = "Working";
+                btnStart.Text = "Stop";
             }
             else
             {
@@ -881,12 +888,11 @@ namespace WikiFunctions.DatabaseScanner
                 groupBox4.Enabled = true;
                 groupBox5.Enabled = true;
                 btnFilter.Enabled = true;
-                btnStart.Enabled = true;
                 btnStart.Text = "Start";
             }
         }
 
-        #endregion
+        #endregion  
 
         
     }

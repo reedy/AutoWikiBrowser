@@ -109,7 +109,6 @@ namespace WikiFunctions.DatabaseScanner
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btnFilter = new System.Windows.Forms.Button();
-            this.btnStop = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.rdoBullet = new System.Windows.Forms.RadioButton();
             this.rdoHash = new System.Windows.Forms.RadioButton();
@@ -162,7 +161,7 @@ namespace WikiFunctions.DatabaseScanner
             this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnStart.Location = new System.Drawing.Point(11, 19);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(62, 23);
+            this.btnStart.Size = new System.Drawing.Size(99, 23);
             this.btnStart.TabIndex = 2;
             this.btnStart.Text = "Start";
             this.btnStart.UseVisualStyleBackColor = true;
@@ -937,7 +936,6 @@ namespace WikiFunctions.DatabaseScanner
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.btnFilter);
-            this.groupBox3.Controls.Add(this.btnStop);
             this.groupBox3.Controls.Add(this.btnStart);
             this.groupBox3.Controls.Add(this.btnClearList);
             this.groupBox3.Controls.Add(this.btnAlphaList);
@@ -960,16 +958,6 @@ namespace WikiFunctions.DatabaseScanner
             this.btnFilter.Text = "Filter";
             this.btnFilter.UseVisualStyleBackColor = true;
             this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
-            // 
-            // btnStop
-            // 
-            this.btnStop.Location = new System.Drawing.Point(79, 19);
-            this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(38, 23);
-            this.btnStop.TabIndex = 32;
-            this.btnStop.Text = "Stop";
-            this.btnStop.UseVisualStyleBackColor = true;
-            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
             // groupBox4
             // 
@@ -1195,7 +1183,6 @@ namespace WikiFunctions.DatabaseScanner
         private CheckBox chkTitleCase;
         private CheckBox chkNoBold;
         private CheckBox chkSimpleLinks;
-        private Button btnStop;
         private ToolStripMenuItem otherToolStripMenuItem;
         private ToolStripMenuItem threadPriorityToolStripMenuItem;
         private ToolStripMenuItem highestToolStripMenuItem;

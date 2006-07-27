@@ -277,7 +277,7 @@ namespace WikiFunctions.DatabaseScanner
         Parsers parsers;
         public override bool Check(ref string articleText, ref string articleTitle)
         {
-            parsers.LinkFixer(articleText, ref skip);
+            parsers.FixLinks(articleText, ref skip);
             return !skip;
         }
     }
