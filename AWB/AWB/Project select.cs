@@ -32,12 +32,13 @@ namespace AutoWikiBrowser
 
         private void cmboProject_SelectedIndexChanged(object sender, EventArgs e)
         {//disable other languages that are not wikipedia.
-            if (cmboProject.SelectedIndex != 0)
+            if (cmboProject.SelectedIndex >= 3)
             {
-                cmboLang.SelectedIndex = 0;                
+                cmboLang.SelectedIndex = 0;
+                cmboLang.Enabled = false;
             }
-
-            cmboLang.Enabled = (cmboProject.SelectedIndex == 0);
+            else
+                cmboLang.Enabled = true;
         }
     }
 }
