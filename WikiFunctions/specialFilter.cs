@@ -51,21 +51,26 @@ namespace WikiFunctions
             if (does || doesnot)
                 FilterMatches(does, doesnot);
 
-            FilterNamespace();
+            if (lb.Items[0] is Article)
+                FilterNamespace();
+            else
+                throw new Exception("List contains invalid objects");
+
 
             this.Close();
         }
 
         private void FilterNamespace()
         {
-            int j = 0;
             int i = 0;
+
+            Article a;
 
             while (i < lb.Items.Count)
             {
-                j = Tools.CalculateNS(lb.Items[i].ToString());
+                a = (Article)lb.Items[i];
 
-                if (j == 0)
+                if (a.NameSpaceKey == 0)
                 {
                     if (chkArticle.Checked)
                     {
@@ -75,7 +80,7 @@ namespace WikiFunctions
                     else
                         lb.Items.RemoveAt(i);
                 }
-                else if (j == 1)
+                else if (a.NameSpaceKey == 1)
                 {
                     if (chkArticleTalk.Checked)
                     {
@@ -85,7 +90,7 @@ namespace WikiFunctions
                     else
                         lb.Items.RemoveAt(i);
                 }
-                else if (j == 2)
+                else if (a.NameSpaceKey == 2)
                 {
                     if (chkUser.Checked)
                     {
@@ -95,7 +100,7 @@ namespace WikiFunctions
                     else
                         lb.Items.RemoveAt(i);
                 }
-                else if (j == 3)
+                else if (a.NameSpaceKey == 3)
                 {
                     if (chkUserTalk.Checked)
                     {
@@ -105,7 +110,7 @@ namespace WikiFunctions
                     else
                         lb.Items.RemoveAt(i);
                 }
-                else if (j == 4)
+                else if (a.NameSpaceKey == 4)
                 {
                     if (chkWikipedia.Checked)
                     {
@@ -115,7 +120,7 @@ namespace WikiFunctions
                     else
                         lb.Items.RemoveAt(i);
                 }
-                else if (j == 5)
+                else if (a.NameSpaceKey == 5)
                 {
                     if (chkWikipediaTalk.Checked)
                     {
@@ -125,7 +130,7 @@ namespace WikiFunctions
                     else
                         lb.Items.RemoveAt(i);
                 }
-                else if (j == 6)
+                else if (a.NameSpaceKey == 6)
                 {
                     if (chkImage.Checked)
                     {
@@ -135,7 +140,7 @@ namespace WikiFunctions
                     else
                         lb.Items.RemoveAt(i);
                 }
-                else if (j == 7)
+                else if (a.NameSpaceKey == 7)
                 {
                     if (chkImageTalk.Checked)
                     {
@@ -145,7 +150,7 @@ namespace WikiFunctions
                     else
                         lb.Items.RemoveAt(i);
                 }
-                else if (j == 8)
+                else if (a.NameSpaceKey == 8)
                 {
                     if (chkMediaWiki.Checked)
                     {
@@ -155,7 +160,7 @@ namespace WikiFunctions
                     else
                         lb.Items.RemoveAt(i);
                 }
-                else if (j == 9)
+                else if (a.NameSpaceKey == 9)
                 {
                     if (chkMediaWikiTalk.Checked)
                     {
@@ -165,7 +170,7 @@ namespace WikiFunctions
                     else
                         lb.Items.RemoveAt(i);
                 }
-                else if (j == 10)
+                else if (a.NameSpaceKey == 10)
                 {
                     if (chkTemplate.Checked)
                     {
@@ -175,7 +180,7 @@ namespace WikiFunctions
                     else
                         lb.Items.RemoveAt(i);
                 }
-                else if (j == 11)
+                else if (a.NameSpaceKey == 11)
                 {
                     if (chkTemplateTalk.Checked)
                     {
@@ -185,7 +190,7 @@ namespace WikiFunctions
                     else
                         lb.Items.RemoveAt(i);
                 }
-                else if (j == 12)
+                else if (a.NameSpaceKey == 12)
                 {
                     if (chkHelp.Checked)
                     {
@@ -195,7 +200,7 @@ namespace WikiFunctions
                     else
                         lb.Items.RemoveAt(i);
                 }
-                else if (j == 13)
+                else if (a.NameSpaceKey == 13)
                 {
                     if (chkHelpTalk.Checked)
                     {
@@ -205,7 +210,7 @@ namespace WikiFunctions
                     else
                         lb.Items.RemoveAt(i);
                 }
-                else if (j == 14)
+                else if (a.NameSpaceKey == 14)
                 {
                     if (chkCategory.Checked)
                     {
@@ -215,7 +220,7 @@ namespace WikiFunctions
                     else
                         lb.Items.RemoveAt(i);
                 }
-                else if (j == 15)
+                else if (a.NameSpaceKey == 15)
                 {
                     if (chkCategoryTalk.Checked)
                     {
@@ -225,7 +230,7 @@ namespace WikiFunctions
                     else
                         lb.Items.RemoveAt(i);
                 }
-                else if (j == 100)
+                else if (a.NameSpaceKey == 100)
                 {
                     if (chkPortal.Checked)
                     {
@@ -235,7 +240,7 @@ namespace WikiFunctions
                     else
                         lb.Items.RemoveAt(i);
                 }
-                else if (j == 101)
+                else if (a.NameSpaceKey == 101)
                 {
                     if (chkPortalTalk.Checked)
                     {
@@ -295,14 +300,14 @@ namespace WikiFunctions
         private void btnGetList_Click(object sender, EventArgs e)
         {
             OpenFileDialog of = new OpenFileDialog();
-            ArrayList list = new ArrayList();
+            List<Article> list = new List<Article>();
 
             if (of.ShowDialog() == DialogResult.OK)
             {
                 list = GetLists.FromTextFile(of.FileName);
 
-                foreach (string s in list)
-                    lbRemove.Items.Add(s);
+                foreach (Article a in list)
+                    lbRemove.Items.Add(a);
             }
         }
 
@@ -393,7 +398,7 @@ namespace WikiFunctions
         }
 
         #endregion
-               
+
 
     }
 }

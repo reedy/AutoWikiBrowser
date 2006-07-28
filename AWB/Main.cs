@@ -567,14 +567,14 @@ namespace AutoWikiBrowser
                     if (Variables.LangCode == "en")
                     {//en only
                         articleText = parsers.Conversions(articleText);
-                        articleText = parsers.RemoveBadHeaders(articleText, EdittingArticle);                        
+                        articleText = parsers.RemoveBadHeaders(articleText, EdittingArticle);
                         articleText = parsers.LivingPeople(articleText);
                         articleText = parsers.FixCats(articleText);
                         articleText = parsers.FixHeadings(articleText);
 
-                        #if DEBUG
+#if DEBUG
                         articleText = parsers.MinorThings(articleText);
-                        #endif
+#endif
                     }
                     articleText = parsers.FixSyntax(articleText);
                     articleText = parsers.FixLinks(articleText);
@@ -582,7 +582,7 @@ namespace AutoWikiBrowser
                     //    return articleText;
                     //else
                     //    skip = false;
-                    articleText = parsers.BulletExternalLinks(articleText);                    
+                    articleText = parsers.BulletExternalLinks(articleText);
                     articleText = parsers.SortMetaData(articleText, EdittingArticle);
                     articleText = parsers.BoldTitle(articleText, EdittingArticle);
                     articleText = parsers.LinkSimplifier(articleText);
@@ -724,12 +724,15 @@ namespace AutoWikiBrowser
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            boolSaved = false;
-            txtNewArticle.Text = Tools.TurnFirstToUpper(txtNewArticle.Text);
-            if (txtNewArticle.Text.Length > 0)
-                lbArticles.Items.Add(txtNewArticle.Text);
-            txtNewArticle.Text = "";
+            if (txtNewArticle.Text.Length == 0)
+            {
+                UpdateButtons();
+                return;
+            }
 
+            boolSaved = false;
+            AddToList(Tools.TurnFirstToUpper(txtNewArticle.Text));
+            txtNewArticle.Text = "";
             UpdateButtons();
         }
 
@@ -809,7 +812,7 @@ namespace AutoWikiBrowser
                     this.Focus();
                     if (openListDialog.ShowDialog() == DialogResult.OK)
                     {
-                        addToList(GetLists.FromTextFile(openListDialog.FileName));
+                        AddArticleListToList(GetLists.FromTextFile(openListDialog.FileName));
                         strListFile = openListDialog.FileName;
                     }
                     UpdateButtons();
@@ -823,7 +826,7 @@ namespace AutoWikiBrowser
             }
             else if (cmboSourceSelect.SelectedIndex == 10)
             {
-                addToList(GetLists.FromWatchList());
+                AddArticleListToList(GetLists.FromWatchList());
                 UpdateButtons();
                 return;
             }
@@ -850,29 +853,29 @@ namespace AutoWikiBrowser
                 switch (intSourceIndex)
                 {
                     case 0:
-                        addDictToList(GetLists.FromCategory(strSouce));
+                        AddArticleListToList(GetLists.FromCategory(strSouce));
                         break;
                     case 1:
-                        addDictToList(GetLists.FromWhatLinksHere(strSouce, false));
+                        AddArticleListToList(GetLists.FromWhatLinksHere(strSouce, false));
                         break;
                     case 2:
-                        addDictToList(GetLists.FromWhatLinksHere(strSouce, true));
+                        AddArticleListToList(GetLists.FromWhatLinksHere(strSouce, true));
                         break;
                     case 3:
-                        addDictToList(GetLists.FromLinksOnPage(strSouce));
+                        AddArticleListToList(GetLists.FromLinksOnPage(strSouce));
                         break;
                     //4 from text file
                     case 5:
-                        addToList(GetLists.FromGoogleSearch(strSouce));
+                        AddArticleListToList(GetLists.FromGoogleSearch(strSouce));
                         break;
                     case 6:
-                        addToList(GetLists.FromUserContribs(strSouce));
+                        AddArticleListToList(GetLists.FromUserContribs(strSouce));
                         break;
                     case 7:
-                        addToList(GetLists.FromSpecialPage(strSouce));
+                        AddArticleListToList(GetLists.FromSpecialPage(strSouce));
                         break;
                     case 8:
-                        addDictToList(GetLists.FromImageLinks(strSouce));
+                        AddArticleListToList(GetLists.FromImageLinks(strSouce));
                         break;
                     //9 from datadump
                     //10 from watchlist
@@ -931,21 +934,35 @@ namespace AutoWikiBrowser
             toolStripProgressBar1.Style = ProgressBarStyle.Marquee;
         }
 
-        private delegate void AddToListDel(ArrayList a);
-        private void addToList(ArrayList ArticleArray)
+        private delegate void AddToListDel(string s);
+        private void AddToList(string s)
         {
             if (this.InvokeRequired)
             {
-                this.Invoke(new AddToListDel(addToList), ArticleArray);
+                this.Invoke(new AddToListDel(AddToList), s);
+                return;
+            }
+
+            Article a = new Article(s);
+            lbArticles.Items.Add(a);
+            UpdateButtons();
+        }
+
+        private delegate void AddArticleListDel(List<Article> l);
+        private void AddArticleListToList(List<Article> l)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new AddArticleListDel(AddArticleListToList), l);
                 return;
             }
 
             lbArticles.BeginUpdate();
 
-            foreach (string s in ArticleArray)
+            foreach (Article a in l)
             {
-                if (!lbArticles.Items.Contains(s))
-                    lbArticles.Items.Add(s);
+                if (!lbArticles.Items.Contains(a))
+                    lbArticles.Items.Add(a);
             }
 
             lbArticles.EndUpdate();
@@ -953,36 +970,15 @@ namespace AutoWikiBrowser
             UpdateButtons();
         }
 
-        private delegate void AddDictToListDel(Dictionary<string, int> a);
-        private void addDictToList(Dictionary<string, int> d)
+        private List<Article> ArticleListFromListBox()
         {
-            if (this.InvokeRequired)
-            {
-                this.Invoke(new AddDictToListDel(addDictToList), d);
-                return;
-            }
-
-            lbArticles.BeginUpdate();
-
-            foreach (KeyValuePair<string, int> kvp in d)
-            {
-                if (!lbArticles.Items.Contains(kvp.Key))
-                    lbArticles.Items.Add(kvp.Key);
-            }
-
-            lbArticles.EndUpdate();
-
-            UpdateButtons();
-        }
-
-        private ArrayList ArrayFromList()
-        {
-            ArrayList list = new ArrayList();
+            List<Article> list = new List<Article>();
 
             int i = 0;
             while (i < lbArticles.Items.Count)
             {
-                list.Add(lbArticles.Items[i]);
+
+                list.Add((Article)lbArticles.Items[i]);
                 i++;
             }
             return list;
@@ -1002,18 +998,18 @@ namespace AutoWikiBrowser
 
         private void convertToTalkPagesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ArrayList list = ArrayFromList();
+            List<Article> list = ArticleListFromListBox();
             list = GetLists.ConvertToTalk(list);
             lbArticles.Items.Clear();
-            addToList(list);
+            AddArticleListToList(list);
         }
 
         private void convertFromTalkPagesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ArrayList list = ArrayFromList();
+            List<Article> list = ArticleListFromListBox();
             list = GetLists.ConvertFromTalk(list);
             lbArticles.Items.Clear();
-            addToList(list);
+            AddArticleListToList(list);
         }
 
         private void fromCategoryToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1726,7 +1722,7 @@ namespace AutoWikiBrowser
         [Conditional("DEBUG")]
         public void Debug()
         {//stop logging in when de-bugging
-            lbArticles.Items.Add("User:Bluemoose/Sandbox");
+            AddToList("User:Bluemoose/Sandbox");
             wikiStatusBool = true;
             chkAutoMode.Enabled = true;
             chkQuickSave.Enabled = true;
@@ -1949,15 +1945,9 @@ namespace AutoWikiBrowser
 
         private void launchDumpSearcher()
         {
-            WikiFunctions.DatabaseScanner.DatabaseScanner ds = new WikiFunctions.DatabaseScanner.DatabaseScanner();
-            ds.FoundArticle2 += addTo;
+            WikiFunctions.DatabaseScanner.DatabaseScanner ds = new WikiFunctions.DatabaseScanner.DatabaseScanner(lbArticles);
             ds.Show();
             UpdateButtons();
-        }
-
-        private void addTo(object Article)
-        {
-            lbArticles.Items.Add(Article);
         }
 
         private void addIgnoredToLogFileToolStripMenuItem_Click(object sender, EventArgs e)

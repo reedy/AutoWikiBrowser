@@ -802,15 +802,15 @@ namespace IRCMonitor
 
             try
             {
-                Dictionary<string, int> bots = new Dictionary<string, int>();
+                List<Article> bots = new List<Article>();
                 string item = "";
                 bots = GetLists.FromCategory("Wikipedia bots");
 
-                foreach (KeyValuePair<string, int> k in bots)
+                foreach (Article a in bots)
                 {
-                    if (k.Value == 2)
+                    if (a.NameSpaceKey == 2)
                     {
-                        item = k.Key.Replace("User:", "");
+                        item = a.Name.Replace("User:", "");
                         if (!lbWhiteList.Items.Contains(item))
                             lbWhiteList.Items.Add(item);
                     }
@@ -864,13 +864,13 @@ namespace IRCMonitor
         {
             try
             {
-                ArrayList list = new ArrayList();
+                List<Article> list = new List<Article>();
                 list = GetLists.FromWatchList();
 
-                foreach (string s in list)
+                foreach (Article a in list)
                 {
-                    if (!lbWatchList.Items.Contains(s))
-                        lbWatchList.Items.Add(s);
+                    if (!lbWatchList.Items.Contains(a))
+                        lbWatchList.Items.Add(a);
                 }
 
                 lblWatchListCount.Text = lbWatchList.Items.Count.ToString();

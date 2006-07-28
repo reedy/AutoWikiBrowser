@@ -36,9 +36,9 @@ namespace WikiFunctions.DatabaseScanner
     /// </summary>
     public partial class DatabaseScanner : Form
     {
-        public event FoundDel FoundArticle2;
         MainProcess Main;
         TimeSpan StartTime;
+        ListBox AWBListbox;
 
         ThreadPriority priority = ThreadPriority.Normal;
         ThreadPriority Priority
@@ -58,6 +58,12 @@ namespace WikiFunctions.DatabaseScanner
         public DatabaseScanner()
         {
             InitializeComponent();
+        }
+
+        public DatabaseScanner(ListBox l)
+        {
+            InitializeComponent();
+            AWBListbox = l;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -256,9 +262,14 @@ namespace WikiFunctions.DatabaseScanner
 
         private void MessageReceived(object msg)
         {
-            lbArticles.Items.Add(msg);
+            Article a = new Article(msg.ToString());
+            lbArticles.Items.Add(a);
+
+            if (AWBListbox != null)
+                AWBListbox.Items.Add(a);
+
             intMatches++;
-            this.FoundArticle2(msg);
+
             if (intMatches >= intLimit)
                 Main.Run = false;
             lblCount.Text = intMatches.ToString();
