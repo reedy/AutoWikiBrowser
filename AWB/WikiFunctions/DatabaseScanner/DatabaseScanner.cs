@@ -581,7 +581,20 @@ namespace WikiFunctions.DatabaseScanner
 
         private void removeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            lbArticles.Items.RemoveAt(lbArticles.SelectedIndex);
+            lbArticles.BeginUpdate();
+            int i = lbArticles.SelectedIndex;
+
+            while (lbArticles.SelectedItems.Count > 0)
+                lbArticles.Items.Remove(lbArticles.SelectedItem);
+
+            if (lbArticles.Items.Count > i)
+                lbArticles.SelectedIndex = i;
+            else
+                lbArticles.SelectedIndex = i - 1;
+
+            lbArticles.EndUpdate();
+
+            lblCount.Text = lbArticles.Items.Count.ToString();
         }
 
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
