@@ -899,6 +899,7 @@ namespace WikiFunctions.DatabaseScanner
             this.lbArticles.FormattingEnabled = true;
             this.lbArticles.Location = new System.Drawing.Point(11, 51);
             this.lbArticles.Name = "lbArticles";
+            this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.lbArticles.Size = new System.Drawing.Size(286, 251);
             this.lbArticles.TabIndex = 22;
             // 
