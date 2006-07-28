@@ -36,6 +36,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArticleStruct.cs" />
     <Compile Include="DatabaseScanner\AboutDatabaseScanner.cs">
       <SubType>Form</SubType>
     </Compile>

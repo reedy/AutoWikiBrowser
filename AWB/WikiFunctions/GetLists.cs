@@ -43,10 +43,10 @@ namespace WikiFunctions
         /// Gets a list of articles and sub-categories in a category.
         /// </summary>
         /// <param name="Category">The category.</param>
-        /// <returns>The Dictionary (string, int) of the articles.</returns>
-        public static Dictionary<string, int> FromCategory(string Category)
+        /// <returns>The list of the articles.</returns>
+        public static List<Article> FromCategory(string Category)
         {
-            Dictionary<string, int> list = new Dictionary<string, int>();
+            List<Article> list = new List<Article>();
             string origURL = Variables.URL + "/query.php?what=category&cptitle=" + encodeText(Category) + "&format=xml&cplimit=500";
             string URL = origURL;
             int ns = 0;
@@ -79,8 +79,7 @@ namespace WikiFunctions
                         if (reader.Name == "title")
                         {
                             title = reader.ReadString();
-                            if(!list.ContainsKey(title))
-                                list.Add(title, ns);
+                            list.Add(new Article(title, ns));
                         }
                     }
                 }
@@ -98,8 +97,8 @@ namespace WikiFunctions
         /// <param name="Page">The page to find links to.</param>
         /// <param name="RedirectsOnly">Only list redirects.</param>
         /// <param name="Embedded">Gets articles that embed (transclude).</param>
-        /// <returns>The ArrayList of the articles.</returns>
-        public static Dictionary<string, int> FromWhatLinksHere(string Page, bool Embedded)
+        /// <returns>The list of the articles.</returns>
+        public static List<Article> FromWhatLinksHere(string Page, bool Embedded)
         {
             string request = "backlinks";
             string initial = "bl";
@@ -111,7 +110,7 @@ namespace WikiFunctions
 
             string OrigURL = Variables.URL + "query.php?what=" + request + "&titles=" + encodeText(Page) + "&" + initial + "limit=500&format=xml";
             string URL = OrigURL;
-            Dictionary<string, int> list = new Dictionary<string, int>();
+            List<Article> list = new List<Article>();
             string title = "";
             int ns = 0;
 
@@ -150,9 +149,7 @@ namespace WikiFunctions
                                 ns = 0;
 
                             title = reader.ReadString();
-
-                            if (title.Length > 0 && !list.ContainsKey(title))
-                                list.Add(title, ns);
+                            list.Add(new Article(title, ns));
                         }
                     }
                 }
@@ -168,13 +165,13 @@ namespace WikiFunctions
         /// Gets a list of links on a page.
         /// </summary>
         /// <param name="Article">The page to find links on.</param>
-        /// <returns>The dictionary key/value of the links.</returns>
-        public static Dictionary<string, int> FromLinksOnPage(string Article)
+        /// <returns>The list of the links.</returns>
+        public static List<Article> FromLinksOnPage(string Article)
         {
             string OrigURL = Variables.URL + "query.php?what=links&titles=" + encodeText(Article) + "&format=xml";
             string URL = OrigURL;
 
-            Dictionary<string, int> list = new Dictionary<string, int>();
+            List<Article> list = new List<Article>();
             string title = "";
             int ns = 0;
 
@@ -197,9 +194,7 @@ namespace WikiFunctions
                             ns = 0;
 
                         title = reader.ReadString();
-
-                        if (title.Length > 0 && !list.ContainsKey(title))
-                            list.Add(title, ns);
+                        list.Add(new Article(title, ns));
                     }
                 }
             }
@@ -207,16 +202,18 @@ namespace WikiFunctions
             return list;
         }
 
+        static readonly Regex RegexFromFile = new Regex("(^[a-z]{2,3}:)|(simple:)", RegexOptions.Compiled);
+
         /// <summary>
         /// Gets a list of [[wiki]] style links from txt file.
         /// </summary>
         /// <param name="fileName">The file path of the list.</param>
-        /// <returns>The ArrayList of the links.</returns>
-        public static ArrayList FromTextFile(string fileName)
+        /// <returns>The list of the links.</returns>
+        public static List<Article> FromTextFile(string fileName)
         {
-            ArrayList ArticleArray = new ArrayList();
+            List<Article> list = new List<Article>();
             string PageText = "";
-            string x = "";
+            string title = "";
 
             StreamReader sr = new StreamReader(fileName, Encoding.UTF8);
             PageText = sr.ReadToEnd();
@@ -224,26 +221,30 @@ namespace WikiFunctions
 
             foreach (Match m in wikiLinkReg.Matches(PageText))
             {
-                x = m.Groups[1].Value;
-                if (!(Regex.IsMatch(x, "(^[a-z]{2,3}:)|(simple:)")) && (!(x.StartsWith("#"))) && !ArticleArray.Contains(x))
-                    ArticleArray.Add(Tools.TurnFirstToUpper(x));
+                title = m.Groups[1].Value;
+                if (!RegexFromFile.IsMatch(title) && (!(title.StartsWith("#"))))
+                {
+                    title = Tools.TurnFirstToUpper(title);
+                    list.Add(new Article(title));
+                }
             }
 
-            return ArticleArray;
+            return list;
         }
 
         /// <summary>
         /// Gets a list from a google search of the site.
         /// </summary>
         /// <param name="Google">The term to search for.</param>
-        /// <returns>The ArrayList of the articles.</returns>
-        public static ArrayList FromGoogleSearch(string Google)
+        /// <returns>The list of the articles.</returns>
+        public static List<Article> FromGoogleSearch(string Google)
         {
             int intStart = 0;
             Google = encodeText(Google);
             Google = Google.Replace("_", " ");
             string URL = "http://www.google.com/search?q=" + Google + "+site:" + Variables.URLShort + "&num=100&hl=en&lr=&start=0&sa=N";
-            ArrayList ArticleArray = new ArrayList();
+            string title = "";
+            List<Article> list = new List<Article>();
 
             do
             {
@@ -255,13 +256,18 @@ namespace WikiFunctions
                 GoogleText = Regex.Replace(GoogleText, "<[bB]>|</[Bb]>", "");
 
                 //Regex pattern to find links
-                string pattern = "\">([^<]*) - " + Variables.Namespaces[4].TrimEnd(':');
+                Regex RegexGoogle = new Regex("\">([^<]*) - " + Variables.Namespaces[4].TrimEnd(':'), RegexOptions.Compiled);
 
                 //Find each match to the pattern
-                foreach (Match m in Regex.Matches(GoogleText, pattern))
+                foreach (Match m in RegexGoogle.Matches(GoogleText))
                 {
-                    //add it to the list
-                    ArticleArray.Add(m.Groups[1].Value);
+                    title = m.Groups[1].Value;
+                    title = title.Replace("&amp;", "&").Replace("&quot;", "\"").Replace("_", " ");
+                    if (title.Contains("\""))
+                    {
+                        title = title.Replace("'", "");
+                    }
+                    list.Add(new Article(title));
                 }
 
                 if (GoogleText.Contains("<br>Next</a>"))
@@ -274,78 +280,86 @@ namespace WikiFunctions
 
             } while (true);
 
-            return FilterSomeArticles(ArticleArray);
+            return FilterSomeArticles(list);
         }
 
         /// <summary>
         /// Gets a list from a users contribs.
         /// </summary>
         /// <param name="User">The name of the user.</param>
-        /// <returns>The ArrayList of the articles.</returns>
-        public static ArrayList FromUserContribs(string User)
+        /// <returns>The list of the articles.</returns>
+        public static List<Article> FromUserContribs(string User)
         {
             User = Regex.Replace(User, "^" + Variables.Namespaces[2], "", RegexOptions.IgnoreCase);
             User = encodeText(User);
-            ArrayList ArticleArray = new ArrayList();
+            List<Article> list = new List<Article>();
 
             string PageText = Tools.GetHTML(Variables.URL + "index.php?title=Special:Contributions&target=" + User + "&offset=0&limit=2500");
+            Regex RegexUserContribs = new Regex("<li>.*? title=\"([^\"]*)\">[^<>]*</a>", RegexOptions.Compiled);
+            string title = "";
 
-            foreach (Match m in Regex.Matches(PageText, "<li>.*? title=\"([^\"]*)\">[^<>]*</a>"))
+            foreach (Match m in RegexUserContribs.Matches(PageText))
             {
-                ArticleArray.Add(m.Groups[1].Value);
+                title = m.Groups[1].Value;
+
+                list.Add(new Article(title));
             }
 
-            return FilterSomeArticles(ArticleArray);
+            return list;
         }
 
         /// <summary>
         /// Gets a list of links on a special page.
         /// </summary>
         /// <param name="Special">The page to find links on, e.g. "Deadendpages" or "Deadendpages&limit=500&offset=0".</param>
-        /// <returns>The ArrayList of the articles.</returns>
-        public static ArrayList FromSpecialPage(string Special)
+        /// <returns>The list of the articles.</returns>
+        public static List<Article> FromSpecialPage(string Special)
         {
             Special = Regex.Replace(Special, "^" + Variables.Namespaces[-1], "", RegexOptions.IgnoreCase);
-            ArrayList ArticleArray = new ArrayList();
+            List<Article> list = new List<Article>();
 
             string PageText = Tools.GetHTML(Variables.URL + "index.php?title=Special:" + Special);
 
             PageText = PageText.Substring(PageText.IndexOf("<!-- start content -->"), PageText.IndexOf("<!-- end content -->") - PageText.IndexOf("<!-- start content -->"));
-            string s = "";
+            string title = "";
+            int ns = 0;
 
             if (regexe.IsMatch(PageText))
             {
                 foreach (Match m in regexe.Matches(PageText))
                 {
-                    s = m.Groups[1].Value;
-                    ArticleArray.Add(s);
+                    title = m.Groups[1].Value;
+                    list.Add(new Article(title));
                 }
             }
             else
             {
                 foreach (Match m in regexe2.Matches(PageText))
                 {
-                    s = m.Groups[1].Value;
-                    if (s != "Wikipedia:Special pages" && s != "Wikipedia talk:Special:Lonelypages" && s != "Wikipedia:Offline reports" && s != "Template:Specialpageslist")
-                        ArticleArray.Add(s);
+                    title = m.Groups[1].Value;
+                    if (title != "Wikipedia:Special pages" && title != "Wikipedia talk:Special:Lonelypages" && title != "Wikipedia:Offline reports" && title != "Template:Specialpageslist")
+                    {
+                        ns = Tools.CalculateNS(title);
+                        list.Add(new Article(title, ns));
+                    }
                 }
             }
 
-            return FilterSomeArticles(ArticleArray);
+            return FilterSomeArticles(list);
         }
 
         /// <summary>
         /// Gets a list of articles that use an image.
         /// </summary>
         /// <param name="Image">The image.</param>
-        /// <returns>The ArrayList of the articles.</returns>
-        public static Dictionary<string, int> FromImageLinks(string Image)
+        /// <returns>The list of the articles.</returns>
+        public static List<Article> FromImageLinks(string Image)
         {
             Image = Regex.Replace(Image, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
             Image = encodeText(Image);
 
             string URL = Variables.URL + "query.php?what=imagelinks&titles=Image:" + Image + "&illimit=500&format=xml";
-            Dictionary<string, int> list = new Dictionary<string, int>();
+            List<Article> list = new List<Article>();
             string title = "";
             int ns = 0;
 
@@ -381,9 +395,7 @@ namespace WikiFunctions
                                 ns = 0;
 
                             title = reader.ReadString();
-
-                            if (title.Length > 0 && !list.ContainsKey(title))
-                                list.Add(title, ns);
+                            list.Add(new Article(title, ns));
                         }
                     }
                 }
@@ -396,7 +408,7 @@ namespace WikiFunctions
         }
 
         readonly static Regex regexWatchList = new Regex("<LI><INPUT type=checkbox value=(.*?) name=id\\[\\]", RegexOptions.Compiled);
-        public static ArrayList FromWatchList()
+        public static List<Article> FromWatchList()
         {
             WebBrowser webbrowser = new WebBrowser();
             webbrowser.ScriptErrorsSuppressed = true;
@@ -404,8 +416,8 @@ namespace WikiFunctions
             while (webbrowser.ReadyState != WebBrowserReadyState.Complete) Application.DoEvents();
 
             string html = webbrowser.Document.Body.InnerHtml;
-            string article = "";
-            ArrayList list = new ArrayList();
+            string title = "";
+            List<Article> list = new List<Article>();
 
             if (!html.Contains("<LI id=pt-logout"))
             {
@@ -414,9 +426,9 @@ namespace WikiFunctions
 
             foreach (Match m in regexWatchList.Matches(html))
             {
-                article = m.Groups[1].Value.Trim('"');
-                article = article.Replace("&amp;", "&").Replace("&quot;", "\"");
-                list.Add(article);
+                title = m.Groups[1].Value.Trim('"');
+                title = title.Replace("&amp;", "&").Replace("&quot;", "\"");
+                list.Add(new Article(title));
             }
 
             return list;
@@ -430,52 +442,45 @@ namespace WikiFunctions
             return txt;
         }
 
-        private static ArrayList FilterSomeArticles(ArrayList UnfilteredArticles)
+        private static List<Article> FilterSomeArticles(List<Article> UnfilteredArticles)
         {
             //Filter out artcles which we definately do not want to edit and remove duplicates.
-            ArrayList items = new ArrayList();
-            foreach (string s in UnfilteredArticles)
+            List<Article> items = new List<Article>();
+
+            foreach (Article a in UnfilteredArticles)
             {
-                if ((!(s.StartsWith(Variables.Namespaces[-1]) || s.StartsWith(Variables.Namespaces[100]) || s.StartsWith("Commons:") || s.StartsWith(Variables.Namespaces[8]))))// && (!items.Contains(s))
+                if (a.NameSpaceKey >= 0 && a.NameSpaceKey != 9 && a.NameSpaceKey != 8 && !a.Name.StartsWith("Commons:"))
                 {
-                    string z = s.Replace("&amp;", "&").Replace("&quot;", "\"").Replace("_", " ");
-                    if (z.Contains("\""))
-                    {
-                        z = z.Replace("'", "");
-                    }
-                    items.Add(z);
+                    items.Add(a);
                 }
             }
-
             return items;
         }
 
         /// <summary>
         /// Turns an arraylist of articles into an arraylist of the associated talk pages.
         /// </summary>
-        /// <param name="list">The arrayList of articles.</param>
-        /// <returns>The ArrayList of the talk pages.</returns>
-        public static ArrayList ConvertToTalk(ArrayList list)
+        /// <param name="list">The list of articles.</param>
+        /// <returns>The list of the talk pages.</returns>
+        public static List<Article> ConvertToTalk(List<Article> list)
         {
-            ArrayList newList = new ArrayList();
-            int ns = 0;
-            foreach (string s in list)
-            {
-                ns = Tools.CalculateNS(s);
+            List<Article> newList = new List<Article>();
 
-                if (ns % 2 == 1)
+            foreach (Article a in list)
+            {
+                if (a.NameSpaceKey % 2 == 1)
                 {
-                    newList.Add(s);
+                    newList.Add(a);
                     continue;
                 }
-                else if (ns == 2 || ns == 4 || ns == 6 || ns == 8 || ns == 10 || ns == 12 || ns == 14 || ns == 16 || ns == 100)
+                else if (a.NameSpaceKey == 2 || a.NameSpaceKey == 4 || a.NameSpaceKey == 6 || a.NameSpaceKey == 8 || a.NameSpaceKey == 10 || a.NameSpaceKey == 12 || a.NameSpaceKey == 14 || a.NameSpaceKey == 16 || a.NameSpaceKey == 100)
                 {
-                    newList.Add(s.Replace(":", Variables.TalkNS));
+                    newList.Add(new Article(a.Name.Replace(":", Variables.TalkNS), a.NameSpaceKey));
                     continue;
                 }
                 else
                 {
-                    newList.Add(Variables.Namespaces[1] + s);
+                    newList.Add(new Article(Variables.Namespaces[1] + a.Name, a.NameSpaceKey));
                     continue;
                 }
             }
@@ -486,15 +491,15 @@ namespace WikiFunctions
         /// <summary>
         /// Turns an arraylist of talk pages into an arraylist of the associated articles.
         /// </summary>
-        /// <param name="list">The arrayList of talk pages.</param>
-        /// <returns>The ArrayList of articles.</returns>
-        public static ArrayList ConvertFromTalk(ArrayList list)
+        /// <param name="list">The list of talk pages.</param>
+        /// <returns>The list of articles.</returns>
+        public static List<Article> ConvertFromTalk(List<Article> list)
         {
-            ArrayList newList = new ArrayList();
+            List<Article> newList = new List<Article>();
 
-            foreach (string s in list)
+            foreach (Article a in list)
             {
-                newList.Add(s.Replace(Variables.Namespaces[1], "").Replace(Variables.TalkNS, ":"));
+                newList.Add(new Article(a.Name.Replace(Variables.Namespaces[1], "").Replace(Variables.TalkNS, ":"), a.NameSpaceKey));
             }
 
             return newList;
@@ -658,5 +663,5 @@ namespace WikiFunctions
         public PageDoeNotExistException(string message, System.Exception inner) : base(message, inner) { }
         protected PageDoeNotExistException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) { }
-    }
+    }    
 }
