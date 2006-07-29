@@ -475,12 +475,12 @@ namespace WikiFunctions
                 }
                 else if (a.NameSpaceKey == 2 || a.NameSpaceKey == 4 || a.NameSpaceKey == 6 || a.NameSpaceKey == 8 || a.NameSpaceKey == 10 || a.NameSpaceKey == 12 || a.NameSpaceKey == 14 || a.NameSpaceKey == 16 || a.NameSpaceKey == 100)
                 {
-                    newList.Add(new Article(a.Name.Replace(":", Variables.TalkNS), a.NameSpaceKey));
+                    newList.Add(new Article(a.Name.Replace(":", Variables.TalkNS)));
                     continue;
                 }
                 else
                 {
-                    newList.Add(new Article(Variables.Namespaces[1] + a.Name, a.NameSpaceKey));
+                    newList.Add(new Article(Variables.Namespaces[1] + a.Name));
                     continue;
                 }
             }
@@ -499,7 +499,7 @@ namespace WikiFunctions
 
             foreach (Article a in list)
             {
-                newList.Add(new Article(a.Name.Replace(Variables.Namespaces[1], "").Replace(Variables.TalkNS, ":"), a.NameSpaceKey));
+                newList.Add(new Article(a.Name.Replace(Variables.Namespaces[1], "").Replace(Variables.TalkNS, ":")));
             }
 
             return newList;
