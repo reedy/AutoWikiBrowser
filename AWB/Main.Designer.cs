@@ -135,6 +135,7 @@ namespace AutoWikiBrowser
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.lbArticles = new WikiFunctions.ListBox2();
             this.btnFilter = new System.Windows.Forms.Button();
             this.chkWLHRedirects = new System.Windows.Forms.CheckBox();
             this.txtSelectSource = new System.Windows.Forms.TextBox();
@@ -147,7 +148,6 @@ namespace AutoWikiBrowser
             this.lblSourceSelect = new System.Windows.Forms.Label();
             this.btnMakeList = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.lbArticles = new System.Windows.Forms.ListBox();
             this.cmboSourceSelect = new System.Windows.Forms.ComboBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtEdit = new System.Windows.Forms.TextBox();
@@ -1121,6 +1121,7 @@ namespace AutoWikiBrowser
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox2.ContextMenuStrip = this.mnuListBox;
+            this.groupBox2.Controls.Add(this.lbArticles);
             this.groupBox2.Controls.Add(this.btnFilter);
             this.groupBox2.Controls.Add(this.chkWLHRedirects);
             this.groupBox2.Controls.Add(this.txtSelectSource);
@@ -1133,7 +1134,6 @@ namespace AutoWikiBrowser
             this.groupBox2.Controls.Add(this.lblSourceSelect);
             this.groupBox2.Controls.Add(this.btnMakeList);
             this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Controls.Add(this.lbArticles);
             this.groupBox2.Controls.Add(this.cmboSourceSelect);
             this.groupBox2.Location = new System.Drawing.Point(3, 3);
             this.groupBox2.Name = "groupBox2";
@@ -1274,6 +1274,18 @@ namespace AutoWikiBrowser
             this.clearToolStripMenuItem1.ToolTipText = "Clear the list";
             this.clearToolStripMenuItem1.Click += new System.EventHandler(this.clearToolStripMenuItem1_Click);
             // 
+            // lbArticles
+            // 
+            this.lbArticles.ContextMenuStrip = this.mnuListBox;
+            this.lbArticles.FormattingEnabled = true;
+            this.lbArticles.Location = new System.Drawing.Point(70, 99);
+            this.lbArticles.Name = "lbArticles";
+            this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.lbArticles.Size = new System.Drawing.Size(134, 264);
+            this.lbArticles.TabIndex = 4;
+            this.lbArticles.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lbArticles_MouseMove);
+            this.lbArticles.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbArticles_KeyDown);
+            // 
             // btnFilter
             // 
             this.btnFilter.Location = new System.Drawing.Point(6, 298);
@@ -1399,18 +1411,6 @@ namespace AutoWikiBrowser
             this.label1.Size = new System.Drawing.Size(57, 13);
             this.label1.TabIndex = 4;
             this.label1.Text = "Make from";
-            // 
-            // lbArticles
-            // 
-            this.lbArticles.ContextMenuStrip = this.mnuListBox;
-            this.lbArticles.FormattingEnabled = true;
-            this.lbArticles.Location = new System.Drawing.Point(70, 99);
-            this.lbArticles.Name = "lbArticles";
-            this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbArticles.Size = new System.Drawing.Size(137, 264);
-            this.lbArticles.TabIndex = 4;
-            this.lbArticles.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lbArticles_MouseMove);
-            this.lbArticles.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbArticles_KeyDown);
             // 
             // cmboSourceSelect
             // 
@@ -2536,7 +2536,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem goToLineToolStripMenuItem;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
-        private System.Windows.Forms.ListBox lbArticles;
         private System.Windows.Forms.ToolStripMenuItem pasteMoreToolStripMenuItem;
         private System.Windows.Forms.ToolStripTextBox PasteMore1;
         private System.Windows.Forms.ToolStripTextBox PasteMore2;
@@ -2611,6 +2610,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkRegExTypo;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.CheckBox chkRegexTypoSkip;
+        private WikiFunctions.ListBox2 lbArticles;
 
 
     }

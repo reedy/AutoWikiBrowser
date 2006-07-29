@@ -58,6 +58,12 @@
       <DependentUpon>FindandReplace.cs</DependentUpon>
     </Compile>
     <Compile Include="GetLists.cs" />
+    <Compile Include="ListBox2.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ListBox2.Designer.cs">
+      <DependentUpon>ListBox2.cs</DependentUpon>
+    </Compile>
     <Compile Include="ListComparer.cs">
       <SubType>Form</SubType>
     </Compile>
