@@ -103,7 +103,8 @@ namespace WikiFunctions
 
             if (i % 2 == 1)
                 return false;
-            else return true;
+            else 
+                return true;
         }
 
         /// <summary>
