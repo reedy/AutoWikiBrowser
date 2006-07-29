@@ -585,10 +585,6 @@ namespace AutoWikiBrowser
                     }
                     articleText = parsers.FixSyntax(articleText);
                     articleText = parsers.FixLinks(articleText);
-                    //if (skip)
-                    //    return articleText;
-                    //else
-                    //    skip = false;
                     articleText = parsers.BulletExternalLinks(articleText);
                     articleText = parsers.SortMetaData(articleText, EdittingArticle.Name);
                     articleText = parsers.BoldTitle(articleText, EdittingArticle.Name);
@@ -745,6 +741,9 @@ namespace AutoWikiBrowser
 
         private void btnRemoveArticle_Click(object sender, EventArgs e)
         {
+            foreach (Article a in lbArticles.Enumerate())
+                MessageBox.Show(a.Name);
+
             try
             {
                 boolSaved = false;
@@ -981,13 +980,12 @@ namespace AutoWikiBrowser
         {
             List<Article> list = new List<Article>();
 
-            int i = 0;
-            while (i < lbArticles.Items.Count)
-            {
 
-                list.Add((Article)lbArticles.Items[i]);
-                i++;
+            foreach (Article a in lbArticles.Enumerate())
+            {
+                list.Add(a);
             }
+
             return list;
         }
 
@@ -1371,24 +1369,6 @@ namespace AutoWikiBrowser
             txtOnlyIfContains.Enabled = chkOnlyIfContains.Checked;
         }
 
-        private void lbArticles_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Delete)
-                btnRemoveArticle.PerformClick();
-        }
-
-        private void lbArticles_MouseMove(object sender, MouseEventArgs e)
-        {
-            string strTip = "";
-
-            //Get the item
-            int nIdx = lbArticles.IndexFromPoint(e.Location);
-            if ((nIdx >= 0) && (nIdx < lbArticles.Items.Count))
-                strTip = lbArticles.Items[nIdx].ToString();
-
-            toolTip1.SetToolTip(lbArticles, strTip);
-        }
-
         private void saveListToTextFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveList();
@@ -1397,15 +1377,11 @@ namespace AutoWikiBrowser
         {//Save lbArticles list to text file.
             try
             {
-                int i = 0;
-                string s = "";
                 StringBuilder strList = new StringBuilder("");
 
-                while (i < lbArticles.Items.Count)
+                foreach (Article a in lbArticles.Enumerate())
                 {
-                    s = lbArticles.Items[i].ToString();
-                    strList.Append("# [[" + s + "]]" + "\r\n");
-                    i++;
+                    strList.Append("# [[" + a.Name + "]]\r\n");
                 }
 
                 if (strListFile.Length > 0)
@@ -2637,5 +2613,32 @@ namespace AutoWikiBrowser
 
         #endregion               
 
+        private void lbArticles_MouseMove(object sender, MouseEventArgs e)
+        {
+            string strTip = "";
+
+            //Get the item
+            int nIdx = lbArticles.IndexFromPoint(e.Location);
+            if ((nIdx >= 0) && (nIdx < lbArticles.Items.Count))
+                strTip = lbArticles.Items[nIdx].ToString();
+
+            toolTip1.SetToolTip(lbArticles, strTip);
+        }
+
+        private void lbArticles_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+                btnRemoveArticle.PerformClick();
+        }
+
+        private void lbArticles_MouseMove_1(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void lbArticles_KeyDown_1(object sender, KeyEventArgs e)
+        {
+
+        }
     }
 }
