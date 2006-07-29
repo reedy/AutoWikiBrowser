@@ -195,10 +195,8 @@ namespace WikiFunctions
             //Replace lines that only contain one or two spaces with only a newline
             articleText = Regex.Replace(articleText, "^ ? ? \r\n", "\r\n", RegexOptions.Multiline);
 
-            while (articleText.IndexOf("\r\n\r\n\r\n") > 0)
-            {
-                articleText = articleText.Replace("\r\n\r\n\r\n", "\r\n\r\n");
-            }
+            articleText = Regex.Replace(articleText, "\r\n(\r\n)+", "\r\n\r\n");
+
             articleText = Regex.Replace(articleText, "== ? ?\r\n\r\n==", "==\r\n==");
             articleText = articleText.Replace("\r\n\r\n(* ?\\[?http)", "\r\n$1");
 
