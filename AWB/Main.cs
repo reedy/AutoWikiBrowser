@@ -112,8 +112,8 @@ namespace AutoWikiBrowser
         TimeSpan StartTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
         int intEdits = 0;
 
-        string stredittingarticle = "";
-        public string EdittingArticle
+        Article stredittingarticle = new Article();
+        public Article EdittingArticle
         {
             get { return stredittingarticle; }
             private set { stredittingarticle = value; }
@@ -212,12 +212,10 @@ namespace AutoWikiBrowser
                 if (lbArticles.SelectedItem == null)
                     lbArticles.SelectedIndex = 0;
 
-                EdittingArticle = lbArticles.SelectedItem.ToString();
-
-                string Article = HttpUtility.UrlEncode(EdittingArticle);
+                EdittingArticle = (Article)lbArticles.SelectedItem;// lbArticles.SelectedItem.ToString();
 
                 //Navigate to edit page
-                webBrowserEdit.LoadEditPage(Article);
+                webBrowserEdit.LoadEditPage(EdittingArticle.URLEncodedName);
             }
             catch
             {
@@ -228,13 +226,12 @@ namespace AutoWikiBrowser
         private void CaseWasLoad()
         {
             string strText = "";
-            string strRedirect = "";
+            Article Redirect = new Article();
 
             if (!loadSuccess())
                 return;
 
-            if (webBrowserEdit.HasArticleTextBox)
-                strText = webBrowserEdit.GetArticleText();
+            strText = webBrowserEdit.GetArticleText();
 
             this.Text = "AutoWikiBrowser" + strSettingsFile + " - " + EdittingArticle;
 
@@ -249,9 +246,9 @@ namespace AutoWikiBrowser
             //check for redirect
             if (bypassRedirectsToolStripMenuItem.Checked && m.Success)
             {
-                strRedirect = m.Groups[1].Value;
+                Redirect.Name = m.Groups[1].Value;
 
-                if (strRedirect == EdittingArticle)
+                if (Redirect.Name == EdittingArticle.Name)
                 {//ignore recursice redirects
                     SkipPage();
                     return;
@@ -260,14 +257,12 @@ namespace AutoWikiBrowser
                 int intPos = 0;
                 intPos = lbArticles.Items.IndexOf(EdittingArticle);
 
-                lbArticles.Items.Insert(intPos, strRedirect);
                 RemoveEdittingArticle();
-                EdittingArticle = strRedirect;
                 lbArticles.ClearSelected();
+                lbArticles.Items.Insert(intPos, EdittingArticle);
 
-                lbArticles.SelectedItem = strRedirect;
-                strRedirect = HttpUtility.UrlEncode(strRedirect);
-                webBrowserEdit.LoadEditPage(strRedirect);
+                lbArticles.SelectedItem = Redirect;
+                webBrowserEdit.LoadEditPage(HttpUtility.UrlEncode(Redirect.Name));
                 return;
             }
 
@@ -530,10 +525,9 @@ namespace AutoWikiBrowser
                 else if (cmboCategorise.SelectedIndex == 2 && txtNewCategory.Text.Length > 0)
                 {
                     string cat = "[[" + Variables.Namespaces[14] + txtNewCategory.Text + "]]";
-                    cat = Tools.ApplyKeyWords(EdittingArticle, cat);
+                    cat = Tools.ApplyKeyWords(EdittingArticle.Name, cat);
 
-                    bool is_template = EdittingArticle.StartsWith(Variables.Namespaces[10]);
-                    if (EdittingArticle.StartsWith(Variables.Namespaces[10]))
+                    if (EdittingArticle.NameSpaceKey == 10)
                         articleText += "<noinclude>\r\n" + cat + "\r\n</noinclude>";
                     else
                         articleText += cat;
@@ -550,8 +544,8 @@ namespace AutoWikiBrowser
                 if (chkFindandReplace.Checked)
                 {
                     testText = articleText;
-                    articleText = findAndReplace.MultipleFindAndReplce(articleText, EdittingArticle);
-                    articleText = replaceSpecial.ApplyRules(articleText, EdittingArticle);
+                    articleText = findAndReplace.MultipleFindAndReplce(articleText, EdittingArticle.Name);
+                    articleText = replaceSpecial.ApplyRules(articleText, EdittingArticle.Name);
 
                     if (chkIgnoreWhenNoFAR.Checked && (testText == articleText))
                     {
@@ -560,14 +554,14 @@ namespace AutoWikiBrowser
                     }
                 }
 
-                if (process && chkGeneralParse.Checked && (Tools.IsMainSpace(EdittingArticle) || (EdittingArticle.Contains("Sandbox") || EdittingArticle.Contains("sandbox"))))
+                if (process && chkGeneralParse.Checked && (EdittingArticle.NameSpaceKey == 0 || (EdittingArticle.Name.Contains("Sandbox") || EdittingArticle.Name.Contains("sandbox"))))
                 {
                     articleText = parsers.RemoveNowiki(articleText);
 
                     if (Variables.LangCode == "en")
                     {//en only
                         articleText = parsers.Conversions(articleText);
-                        articleText = parsers.RemoveBadHeaders(articleText, EdittingArticle);
+                        articleText = parsers.RemoveBadHeaders(articleText, EdittingArticle.Name);
                         articleText = parsers.LivingPeople(articleText);
                         articleText = parsers.FixCats(articleText);
                         articleText = parsers.FixHeadings(articleText);
@@ -583,20 +577,20 @@ namespace AutoWikiBrowser
                     //else
                     //    skip = false;
                     articleText = parsers.BulletExternalLinks(articleText);
-                    articleText = parsers.SortMetaData(articleText, EdittingArticle);
-                    articleText = parsers.BoldTitle(articleText, EdittingArticle);
+                    articleText = parsers.SortMetaData(articleText, EdittingArticle.Name);
+                    articleText = parsers.BoldTitle(articleText, EdittingArticle.Name);
                     articleText = parsers.LinkSimplifier(articleText);
 
                     articleText = parsers.AddNowiki(articleText);
                 }
 
-                if (process && chkGeneralParse.Checked && EdittingArticle.StartsWith("User talk:"))
+                if (process && chkGeneralParse.Checked && EdittingArticle.NameSpaceKey == 3)
                     articleText = parsers.SubstUserTemplates(articleText);
 
 
                 if (chkAppend.Checked)
                 {
-                    if (Tools.IsNotTalk(EdittingArticle))
+                    if (Tools.IsNotTalk(EdittingArticle.Name))
                     {
                         MessageBox.Show("Messages should only be appended to talk pages.");
                     }
@@ -607,7 +601,7 @@ namespace AutoWikiBrowser
                 }
 
                 if (process && chkAutoTagger.Checked)
-                    articleText = parsers.Tagger(articleText, EdittingArticle);
+                    articleText = parsers.Tagger(articleText, EdittingArticle.Name);
 
                 return articleText;
             }
@@ -702,7 +696,7 @@ namespace AutoWikiBrowser
                 while (lbArticles.SelectedItems.Count > 0)
                     lbArticles.SetSelected(lbArticles.SelectedIndex, false);
 
-                txtNewArticle.Text = EdittingArticle;
+                txtNewArticle.Text = EdittingArticle.Name;
 
                 int intPosition = lbArticles.Items.IndexOf(EdittingArticle);
 
@@ -1498,7 +1492,7 @@ namespace AutoWikiBrowser
 
                 intLinks = intLinks - intInterLinks - intImages - intCats;
 
-                if (Tools.IsMainSpace(EdittingArticle) && (Regex.IsMatch(ArticleText, "[Ss]tub\\}\\}")) && (intWords > 500))
+                if (EdittingArticle.NameSpaceKey == 0 && (Regex.IsMatch(ArticleText, "[Ss]tub\\}\\}")) && (intWords > 500))
                     lblWarn.Text = "Long article with a stub tag.\r\n";
 
                 if (!(Regex.IsMatch(ArticleText, "\\[\\[" + Variables.Namespaces[14], RegexOptions.IgnoreCase)))
@@ -1595,7 +1589,7 @@ namespace AutoWikiBrowser
             else
                 regOptions = RegexOptions.IgnoreCase;
 
-            strRegex = Tools.ApplyKeyWords(EdittingArticle, strRegex);
+            strRegex = Tools.ApplyKeyWords(EdittingArticle.Name, strRegex);
 
             if (!isRegex)
                 strRegex = Regex.Escape(strRegex);
@@ -1679,7 +1673,7 @@ namespace AutoWikiBrowser
                 else
                     RegOptions = RegexOptions.IgnoreCase;
 
-                strFind = Tools.ApplyKeyWords(EdittingArticle, strFind);
+                strFind = Tools.ApplyKeyWords(EdittingArticle.Name, strFind);
 
                 if (!Regexe)
                     strFind = Regex.Escape(strFind);
@@ -1705,7 +1699,7 @@ namespace AutoWikiBrowser
                 else
                     RegOptions = RegexOptions.IgnoreCase;
 
-                strFind = Tools.ApplyKeyWords(EdittingArticle, strFind);
+                strFind = Tools.ApplyKeyWords(EdittingArticle.Name, strFind);
 
                 if (!Regexe)
                     strFind = Regex.Escape(strFind);
@@ -1973,8 +1967,8 @@ namespace AutoWikiBrowser
 
         private void FalsePositive()
         {
-            if (EdittingArticle.Length > 0)
-                Tools.WriteLog("#[[" + EdittingArticle + "]]\r\n", @"False positives.txt");
+            if (EdittingArticle.Name.Length > 0)
+                Tools.WriteLog("#[[" + EdittingArticle.Name + "]]\r\n", @"False positives.txt");
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -2098,7 +2092,7 @@ namespace AutoWikiBrowser
 
         private void humanNameDisambigTagToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            txtEdit.SelectedText = "{{Hndis|name=" + Tools.MakeHumanCatKey(EdittingArticle) + "}}";
+            txtEdit.SelectedText = "{{Hndis|name=" + Tools.MakeHumanCatKey(EdittingArticle.Name) + "}}";
         }
 
         private void wikifyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2229,7 +2223,7 @@ namespace AutoWikiBrowser
 
         private void humanNameCategoryKeyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            txtEdit.SelectedText = Tools.MakeHumanCatKey(EdittingArticle);
+            txtEdit.SelectedText = Tools.MakeHumanCatKey(EdittingArticle.Name);
         }
 
         private void birthdeathCatsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2254,7 +2248,7 @@ namespace AutoWikiBrowser
                     strDeath = dates[1].ToString();
 
                 //make name, surname, firstname
-                string strName = Tools.MakeHumanCatKey(EdittingArticle);
+                string strName = Tools.MakeHumanCatKey(EdittingArticle.Name);
 
                 string Categories = "";
 
@@ -2290,7 +2284,7 @@ namespace AutoWikiBrowser
 
             undoToolStripMenuItem.Enabled = txtEdit.CanUndo;
 
-            if (EdittingArticle.Length > 0)
+            if (EdittingArticle.Name.Length > 0)
                 openPageInBrowserToolStripMenuItem.Enabled = true;
             else
                 openPageInBrowserToolStripMenuItem.Enabled = false;
@@ -2303,7 +2297,7 @@ namespace AutoWikiBrowser
 
         private void openPageInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(Variables.URL + "index.php?title=" + HttpUtility.UrlEncode(EdittingArticle));
+            System.Diagnostics.Process.Start(Variables.URL + "index.php?title=" + EdittingArticle.URLEncodedName);
         }
 
         private void previewInsteadOfDiffToolStripMenuItem_Click(object sender, EventArgs e)

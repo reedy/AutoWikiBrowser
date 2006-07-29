@@ -18,6 +18,11 @@ namespace WikiFunctions
             this.NameSpaceKey = NameSpaceKey;
         }
 
+        public string URLEncodedName
+        {
+            get { return System.Web.HttpUtility.UrlEncode(Name); }
+        }
+
         public int NameSpaceKey;
         public string Name;
 
