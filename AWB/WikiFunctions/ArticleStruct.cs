@@ -8,14 +8,23 @@ namespace WikiFunctions
     {
         public Article(string Name)
         {
-            this.Name = Name;
-            this.NameSpaceKey = Tools.CalculateNS(Name);
+            strName = Name;
+            intNameSpaceKey = Tools.CalculateNS(Name);
         }
 
         public Article(string Name, int NameSpaceKey)
         {
-            this.Name = Name;
-            this.NameSpaceKey = NameSpaceKey;
+            strName = Name;
+            intNameSpaceKey = NameSpaceKey;
+        }
+
+        public int intNameSpaceKey;
+        public string strName;
+
+        public string Name
+        {
+            get { return strName; }
+            set { strName = value; }
         }
 
         public string URLEncodedName
@@ -23,8 +32,10 @@ namespace WikiFunctions
             get { return System.Web.HttpUtility.UrlEncode(Name); }
         }
 
-        public int NameSpaceKey;
-        public string Name;
+        public int NameSpaceKey
+        {
+            get { return intNameSpaceKey; }
+        }       
 
         public override string ToString()
         {

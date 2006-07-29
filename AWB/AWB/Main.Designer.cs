@@ -72,6 +72,9 @@ namespace AutoWikiBrowser
             this.cmboCategorise = new System.Windows.Forms.ComboBox();
             this.txtNewCategory = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.chkRegexTypoSkip = new System.Windows.Forms.CheckBox();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.chkRegExTypo = new System.Windows.Forms.CheckBox();
             this.ImageGroupBox = new System.Windows.Forms.GroupBox();
             this.lblImageWith = new System.Windows.Forms.Label();
             this.lblImageReplace = new System.Windows.Forms.Label();
@@ -332,9 +335,9 @@ namespace AutoWikiBrowser
             this.chkIgnoreWhenNoFAR.Enabled = false;
             this.chkIgnoreWhenNoFAR.Location = new System.Drawing.Point(6, 43);
             this.chkIgnoreWhenNoFAR.Name = "chkIgnoreWhenNoFAR";
-            this.chkIgnoreWhenNoFAR.Size = new System.Drawing.Size(221, 17);
+            this.chkIgnoreWhenNoFAR.Size = new System.Drawing.Size(212, 17);
             this.chkIgnoreWhenNoFAR.TabIndex = 10;
-            this.chkIgnoreWhenNoFAR.Text = "Ignore article when no replacement made";
+            this.chkIgnoreWhenNoFAR.Text = "Skip article when no replacement made";
             this.chkIgnoreWhenNoFAR.UseVisualStyleBackColor = true;
             // 
             // btnFindAndReplaceAdvanced
@@ -554,6 +557,9 @@ namespace AutoWikiBrowser
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.chkRegexTypoSkip);
+            this.tabPage2.Controls.Add(this.linkLabel1);
+            this.tabPage2.Controls.Add(this.chkRegExTypo);
             this.tabPage2.Controls.Add(this.ImageGroupBox);
             this.tabPage2.Controls.Add(this.groupBox7);
             this.tabPage2.Controls.Add(this.groupBox4);
@@ -565,6 +571,38 @@ namespace AutoWikiBrowser
             this.tabPage2.Text = "More options";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // chkRegexTypoSkip
+            // 
+            this.chkRegexTypoSkip.AutoSize = true;
+            this.chkRegexTypoSkip.Enabled = false;
+            this.chkRegexTypoSkip.Location = new System.Drawing.Point(7, 319);
+            this.chkRegexTypoSkip.Name = "chkRegexTypoSkip";
+            this.chkRegexTypoSkip.Size = new System.Drawing.Size(170, 17);
+            this.chkRegexTypoSkip.TabIndex = 30;
+            this.chkRegexTypoSkip.Text = "Skip article when no typo fixed";
+            this.chkRegexTypoSkip.UseVisualStyleBackColor = true;
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(24, 303);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(111, 13);
+            this.linkLabel1.TabIndex = 29;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "Enable RegexTypoFix";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
+            // chkRegExTypo
+            // 
+            this.chkRegExTypo.AutoSize = true;
+            this.chkRegExTypo.Location = new System.Drawing.Point(7, 303);
+            this.chkRegExTypo.Name = "chkRegExTypo";
+            this.chkRegExTypo.Size = new System.Drawing.Size(15, 14);
+            this.chkRegExTypo.TabIndex = 28;
+            this.chkRegExTypo.UseVisualStyleBackColor = true;
+            this.chkRegExTypo.CheckedChanged += new System.EventHandler(this.chkRegExTypo_CheckedChanged);
+            // 
             // ImageGroupBox
             // 
             this.ImageGroupBox.Controls.Add(this.lblImageWith);
@@ -574,7 +612,7 @@ namespace AutoWikiBrowser
             this.ImageGroupBox.Controls.Add(this.cmboImages);
             this.ImageGroupBox.Location = new System.Drawing.Point(6, 206);
             this.ImageGroupBox.Name = "ImageGroupBox";
-            this.ImageGroupBox.Size = new System.Drawing.Size(256, 100);
+            this.ImageGroupBox.Size = new System.Drawing.Size(256, 91);
             this.ImageGroupBox.TabIndex = 27;
             this.ImageGroupBox.TabStop = false;
             this.ImageGroupBox.Text = "Images";
@@ -582,7 +620,7 @@ namespace AutoWikiBrowser
             // lblImageWith
             // 
             this.lblImageWith.AutoSize = true;
-            this.lblImageWith.Location = new System.Drawing.Point(18, 77);
+            this.lblImageWith.Location = new System.Drawing.Point(18, 68);
             this.lblImageWith.Name = "lblImageWith";
             this.lblImageWith.Size = new System.Drawing.Size(63, 13);
             this.lblImageWith.TabIndex = 4;
@@ -591,7 +629,7 @@ namespace AutoWikiBrowser
             // lblImageReplace
             // 
             this.lblImageReplace.AutoSize = true;
-            this.lblImageReplace.Location = new System.Drawing.Point(4, 52);
+            this.lblImageReplace.Location = new System.Drawing.Point(0, 42);
             this.lblImageReplace.Name = "lblImageReplace";
             this.lblImageReplace.Size = new System.Drawing.Size(81, 13);
             this.lblImageReplace.TabIndex = 3;
@@ -599,7 +637,7 @@ namespace AutoWikiBrowser
             // 
             // txtImageWith
             // 
-            this.txtImageWith.Location = new System.Drawing.Point(87, 74);
+            this.txtImageWith.Location = new System.Drawing.Point(87, 65);
             this.txtImageWith.Name = "txtImageWith";
             this.txtImageWith.Size = new System.Drawing.Size(163, 20);
             this.txtImageWith.TabIndex = 2;
@@ -607,7 +645,7 @@ namespace AutoWikiBrowser
             // 
             // txtImageReplace
             // 
-            this.txtImageReplace.Location = new System.Drawing.Point(87, 49);
+            this.txtImageReplace.Location = new System.Drawing.Point(87, 39);
             this.txtImageReplace.Name = "txtImageReplace";
             this.txtImageReplace.Size = new System.Drawing.Size(163, 20);
             this.txtImageReplace.TabIndex = 1;
@@ -620,7 +658,7 @@ namespace AutoWikiBrowser
             this.cmboImages.Items.AddRange(new object[] {
             "None",
             "Replace"});
-            this.cmboImages.Location = new System.Drawing.Point(87, 20);
+            this.cmboImages.Location = new System.Drawing.Point(87, 12);
             this.cmboImages.Name = "cmboImages";
             this.cmboImages.Size = new System.Drawing.Size(163, 21);
             this.cmboImages.TabIndex = 0;
@@ -2327,6 +2365,7 @@ namespace AutoWikiBrowser
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.ImageGroupBox.ResumeLayout(false);
             this.ImageGroupBox.PerformLayout();
             this.groupBox7.ResumeLayout(false);
@@ -2569,6 +2608,9 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem humanNameDisambigTagToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator16;
         private System.Windows.Forms.ToolStripButton tsbuttonFalsePositive;
+        private System.Windows.Forms.CheckBox chkRegExTypo;
+        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.CheckBox chkRegexTypoSkip;
 
 
     }
