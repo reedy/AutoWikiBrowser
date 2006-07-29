@@ -58,6 +58,9 @@ namespace AutoWikiBrowser
             txtImageReplace.Text = "";
             txtImageWith.Text = "";
 
+            chkRegExTypo.Checked = false;
+            chkRegexTypoSkip.Checked = false;
+
             txtFind.Text = "";
             chkFindRegex.Checked = false;
             chkFindCaseSensitive.Checked = false;
@@ -327,6 +330,15 @@ namespace AutoWikiBrowser
 
                             continue;
                         }
+                        if (reader.Name == "regextypofixproperties" && reader.HasAttributes)
+                        {
+                            reader.MoveToAttribute("enabled");
+                            chkRegExTypo.Checked = bool.Parse(reader.Value);
+                            reader.MoveToAttribute("skipnofixed");
+                            chkRegexTypoSkip.Checked = bool.Parse(reader.Value);
+
+                            continue;
+                        }
                         if (reader.Name == "find" && reader.HasAttributes)
                         {
                             reader.MoveToAttribute("text");
@@ -592,13 +604,20 @@ namespace AutoWikiBrowser
                 textWriter.WriteEndElement();
                 textWriter.WriteEndElement();
 
-                textWriter.WriteStartElement("FindAndReplaceSettings");
+                textWriter.WriteStartElement("regextypofix");
+                textWriter.WriteStartElement("regextypofixproperties");
+                textWriter.WriteAttributeString("enabled", chkRegExTypo.Checked.ToString());
+                textWriter.WriteAttributeString("skipnofixed", chkRegexTypoSkip.Checked.ToString());
+                textWriter.WriteEndElement();
+                textWriter.WriteEndElement();
+
+                textWriter.WriteStartElement("FindAndReplaceSettings");                
                 findAndReplace.WriteToXml(textWriter, chkFindandReplace.Checked, chkIgnoreWhenNoFAR.Checked);
                 textWriter.WriteEndElement();
 
                 textWriter.WriteStartElement("FindAndReplace");
                 replaceSpecial.WriteToXml(textWriter, chkFindandReplace.Checked);
-                textWriter.WriteEndElement();
+                textWriter.WriteEndElement();                
 
                 textWriter.WriteStartElement("startoptions");
                 int j = 0;

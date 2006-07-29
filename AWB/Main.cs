@@ -106,6 +106,7 @@ namespace AutoWikiBrowser
         bool boolSaved = true;
         ArrayList noParse = new ArrayList();
         FindandReplace findAndReplace = new FindandReplace();
+        RegExTypoFix RegexTypos;
         WikiFunctions.MWB.ReplaceSpecial replaceSpecial = new WikiFunctions.MWB.ReplaceSpecial();
         Parsers parsers;
         WebControl webBrowserLogin = new WebControl();
@@ -178,6 +179,8 @@ namespace AutoWikiBrowser
                 DisableButtons();
                 parsers.EditSummary = "";
                 findAndReplace.EditSummary = "";
+                if (RegexTypos != null)
+                    RegexTypos.EditSummary = "";
 
                 skippable = true;
 
@@ -213,7 +216,7 @@ namespace AutoWikiBrowser
                     lbArticles.SelectedIndex = 0;
 
                 EdittingArticle = (Article)lbArticles.SelectedItem;// lbArticles.SelectedItem.ToString();
-
+            
                 //Navigate to edit page
                 webBrowserEdit.LoadEditPage(EdittingArticle.URLEncodedName);
             }
@@ -553,6 +556,16 @@ namespace AutoWikiBrowser
                         return articleText;
                     }
                 }
+
+                if (chkRegExTypo.Checked && RegexTypos != null)
+                {
+                    articleText = RegexTypos.PerformTypoFixes(articleText, ref skip);
+                    if (skip && chkRegexTypoSkip.Checked)
+                        return articleText;
+                    else
+                        skip = false;
+                }
+
 
                 if (process && chkGeneralParse.Checked && (EdittingArticle.NameSpaceKey == 0 || (EdittingArticle.Name.Contains("Sandbox") || EdittingArticle.Name.Contains("sandbox"))))
                 {
@@ -1091,11 +1104,24 @@ namespace AutoWikiBrowser
             }
         }
 
+        private string EditSummary
+        {
+            get
+            {
+                string tag = "";
+                if (findAndReplace.AppendToSummary)
+                    tag = tag += findAndReplace.EditSummary;
+                if (chkRegExTypo.Checked && RegexTypos != null)
+                    tag = tag += RegexTypos.EditSummary;
+
+                return tag;
+            }
+        }
+
         private string MakeSummary()
         {
             string tag = cmboEditSummary.Text + parsers.EditSummary;
-            if (findAndReplace.AppendToSummary)
-                tag = tag += findAndReplace.EditSummary;
+            tag = tag += EditSummary;
             if (!chkSuppressTag.Enabled || !chkSuppressTag.Checked)
                 tag += " " + Variables.SummaryTag;
 
@@ -2456,7 +2482,7 @@ namespace AutoWikiBrowser
 
         private void cmboEditSummary_MouseMove(object sender, MouseEventArgs e)
         {
-            if (findAndReplace.EditSummary == "")
+            if (EditSummary == "")
                 toolTip1.SetToolTip(cmboEditSummary, "Write or select an edit summary");
             else
                 toolTip1.SetToolTip(cmboEditSummary, MakeSummary());
@@ -2465,6 +2491,21 @@ namespace AutoWikiBrowser
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
             UpdateButtons();
+        }
+
+        private void chkRegExTypo_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkRegExTypo.Checked)
+                RegexTypos = new RegExTypoFix();
+            else
+                RegexTypos = null;
+
+            chkRegexTypoSkip.Enabled = chkRegExTypo.Checked;
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/User:Mboverload/RegExTypoFix");
         }
 
         #endregion
@@ -2594,7 +2635,7 @@ namespace AutoWikiBrowser
             txtImageWith.Text = Regex.Replace(txtImageWith.Text, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
         }
 
-        #endregion
+        #endregion               
 
     }
 }
