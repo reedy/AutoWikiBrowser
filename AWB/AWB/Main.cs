@@ -2472,7 +2472,10 @@ namespace AutoWikiBrowser
         private void chkRegExTypo_CheckedChanged(object sender, EventArgs e)
         {
             if (chkRegExTypo.Checked)
+            {
+                MessageBox.Show("Warning message!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 RegexTypos = new RegExTypoFix();
+            }
             else
                 RegexTypos = null;
 
