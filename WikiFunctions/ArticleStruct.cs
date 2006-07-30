@@ -18,8 +18,8 @@ namespace WikiFunctions
             intNameSpaceKey = NameSpaceKey;
         }
 
-        public int intNameSpaceKey;
-        public string strName;
+        int intNameSpaceKey;
+        string strName;
 
         public string Name
         {
