@@ -2473,7 +2473,13 @@ namespace AutoWikiBrowser
         {
             if (chkRegExTypo.Checked)
             {
-                MessageBox.Show("Warning message!", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Warning message!", "<red center>ATTENTION</red center>
+
+1.  Check to make sure you have the LATEST version of AWB.  This version of AWB is <insert AWB version variable here>.  You can get the latest version [[link to page|here]].  This will ensure you have the most corrections and least errors.
+
+2. Please check each edit before you make it.  Although this has been built to hopefully be 100% accurate there is always the possibility of an error.  If you find a problem or want to suggest a new misspelling please visit [[http://en.wikipedia.org/wiki/User:Mboverload/RegExTypoFix|the RegExTypoFix page]]
+
+Good luck and thank you for taking the time to help our encyclopedia.  [[http://en.wikipedia.org/wiki/User:Mboverload/RegExTypoFix|RegExTypoFix page]] is developed by hand by [[User:mboverload]].", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 RegexTypos = new RegExTypoFix();
             }
             else
