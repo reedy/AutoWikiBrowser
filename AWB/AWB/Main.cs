@@ -741,9 +741,6 @@ namespace AutoWikiBrowser
 
         private void btnRemoveArticle_Click(object sender, EventArgs e)
         {
-            foreach (Article a in lbArticles.Enumerate())
-                MessageBox.Show(a.Name);
-
             try
             {
                 boolSaved = false;
