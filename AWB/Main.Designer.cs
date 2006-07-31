@@ -919,7 +919,10 @@ namespace AutoWikiBrowser
             // 
             // cmboEditSummary
             // 
+            this.cmboEditSummary.DropDownHeight = 198;
+            this.cmboEditSummary.DropDownWidth = 400;
             this.cmboEditSummary.FormattingEnabled = true;
+            this.cmboEditSummary.IntegralHeight = false;
             this.cmboEditSummary.Items.AddRange(new object[] {
             "clean up",
             "re-categorisation per [[WP:CFD|CFD]]",
@@ -932,7 +935,6 @@ namespace AutoWikiBrowser
             "Fixing [[Wikipedia:Disambiguation pages with links|links to disambiguation pages]]",
             "Unicodifying"});
             this.cmboEditSummary.Location = new System.Drawing.Point(55, 6);
-
             this.cmboEditSummary.MaxLength = 155;
             this.cmboEditSummary.Name = "cmboEditSummary";
             this.cmboEditSummary.Size = new System.Drawing.Size(210, 21);
