@@ -2456,7 +2456,7 @@ namespace AutoWikiBrowser
         private void cmboEditSummary_MouseMove(object sender, MouseEventArgs e)
         {
             if (EditSummary == "")
-                toolTip1.SetToolTip(cmboEditSummary, "Write or select an edit summary");
+                toolTip1.SetToolTip(cmboEditSummary, "");
             else
                 toolTip1.SetToolTip(cmboEditSummary, MakeSummary());
         }
