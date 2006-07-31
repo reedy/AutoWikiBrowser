@@ -1335,6 +1335,10 @@ namespace AutoWikiBrowser
             }
         }
 
+        private void loginToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            WikiStatus();
+        }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2640,7 +2644,7 @@ Good luck and thank you for taking the time to help our encyclopedia. RegExTypoF
             txtImageWith.Text = Regex.Replace(txtImageWith.Text, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
         }
 
-        #endregion               
+        #endregion       
         
     }
 }
