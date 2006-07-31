@@ -49,7 +49,7 @@ namespace WikiFunctions
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.find = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.replace = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -120,8 +120,8 @@ namespace WikiFunctions
             // replace
             // 
             this.replace.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle1.NullValue = null;
-            this.replace.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.NullValue = null;
+            this.replace.DefaultCellStyle = dataGridViewCellStyle2;
             this.replace.FillWeight = 87.66718F;
             this.replace.HeaderText = "Replace with";
             this.replace.MinimumWidth = 45;
@@ -202,93 +202,93 @@ namespace WikiFunctions
             this.uncheckAllSinglelineToolStripMenuItem,
             this.disableAllToolStripMenuItem});
             this.FindAndReplaceContextMenu.Name = "FindAndReplaceContextMenu";
-            this.FindAndReplaceContextMenu.Size = new System.Drawing.Size(225, 280);
+            this.FindAndReplaceContextMenu.Size = new System.Drawing.Size(236, 258);
             this.FindAndReplaceContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.FindAndReplaceContextMenu_Opening);
             // 
             // deleteRowToolStripMenuItem
             // 
             this.deleteRowToolStripMenuItem.Name = "deleteRowToolStripMenuItem";
-            this.deleteRowToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.deleteRowToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.deleteRowToolStripMenuItem.Text = "Delete row";
             this.deleteRowToolStripMenuItem.Click += new System.EventHandler(this.deleteRowToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(221, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(232, 6);
             // 
             // allCaseSensitiveToolStripMenuItem
             // 
             this.allCaseSensitiveToolStripMenuItem.Name = "allCaseSensitiveToolStripMenuItem";
-            this.allCaseSensitiveToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.allCaseSensitiveToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.allCaseSensitiveToolStripMenuItem.Text = "Check all case sensitive";
             this.allCaseSensitiveToolStripMenuItem.Click += new System.EventHandler(this.allCaseSensitiveToolStripMenuItem_Click);
             // 
             // checkAllRegularExpressionsToolStripMenuItem
             // 
             this.checkAllRegularExpressionsToolStripMenuItem.Name = "checkAllRegularExpressionsToolStripMenuItem";
-            this.checkAllRegularExpressionsToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.checkAllRegularExpressionsToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.checkAllRegularExpressionsToolStripMenuItem.Text = "Check all regular expressions";
             this.checkAllRegularExpressionsToolStripMenuItem.Click += new System.EventHandler(this.checkAllRegularExpressionsToolStripMenuItem_Click);
             // 
             // checkAllMultlineToolStripMenuItem
             // 
             this.checkAllMultlineToolStripMenuItem.Name = "checkAllMultlineToolStripMenuItem";
-            this.checkAllMultlineToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.checkAllMultlineToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.checkAllMultlineToolStripMenuItem.Text = "Check all multline";
             this.checkAllMultlineToolStripMenuItem.Click += new System.EventHandler(this.checkAllMultlineToolStripMenuItem_Click);
             // 
             // checkAllSinglelineToolStripMenuItem
             // 
             this.checkAllSinglelineToolStripMenuItem.Name = "checkAllSinglelineToolStripMenuItem";
-            this.checkAllSinglelineToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.checkAllSinglelineToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.checkAllSinglelineToolStripMenuItem.Text = "Check all singleline";
             this.checkAllSinglelineToolStripMenuItem.Click += new System.EventHandler(this.checkAllSinglelineToolStripMenuItem_Click);
             // 
             // enableAllToolStripMenuItem
             // 
             this.enableAllToolStripMenuItem.Name = "enableAllToolStripMenuItem";
-            this.enableAllToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.enableAllToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.enableAllToolStripMenuItem.Text = "Enable all";
             this.enableAllToolStripMenuItem.Click += new System.EventHandler(this.enableAllToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(221, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(232, 6);
             // 
             // uncheckAllCaseSensitiveToolStripMenuItem
             // 
             this.uncheckAllCaseSensitiveToolStripMenuItem.Name = "uncheckAllCaseSensitiveToolStripMenuItem";
-            this.uncheckAllCaseSensitiveToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.uncheckAllCaseSensitiveToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.uncheckAllCaseSensitiveToolStripMenuItem.Text = "Uncheck all case sensitive";
             this.uncheckAllCaseSensitiveToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllCaseSensitiveToolStripMenuItem_Click);
             // 
             // uncheckAllRegularExpressionsToolStripMenuItem
             // 
             this.uncheckAllRegularExpressionsToolStripMenuItem.Name = "uncheckAllRegularExpressionsToolStripMenuItem";
-            this.uncheckAllRegularExpressionsToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.uncheckAllRegularExpressionsToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.uncheckAllRegularExpressionsToolStripMenuItem.Text = "Uncheck all regular expressions";
             this.uncheckAllRegularExpressionsToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllRegularExpressionsToolStripMenuItem_Click);
             // 
             // uncheckAllMultilineToolStripMenuItem
             // 
             this.uncheckAllMultilineToolStripMenuItem.Name = "uncheckAllMultilineToolStripMenuItem";
-            this.uncheckAllMultilineToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.uncheckAllMultilineToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.uncheckAllMultilineToolStripMenuItem.Text = "Uncheck all multiline";
             this.uncheckAllMultilineToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllMultilineToolStripMenuItem_Click);
             // 
             // uncheckAllSinglelineToolStripMenuItem
             // 
             this.uncheckAllSinglelineToolStripMenuItem.Name = "uncheckAllSinglelineToolStripMenuItem";
-            this.uncheckAllSinglelineToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.uncheckAllSinglelineToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.uncheckAllSinglelineToolStripMenuItem.Text = "Uncheck all singleline";
             this.uncheckAllSinglelineToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllSinglelineToolStripMenuItem_Click);
             // 
             // disableAllToolStripMenuItem
             // 
             this.disableAllToolStripMenuItem.Name = "disableAllToolStripMenuItem";
-            this.disableAllToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.disableAllToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.disableAllToolStripMenuItem.Text = "Disable all";
             this.disableAllToolStripMenuItem.Click += new System.EventHandler(this.disableAllToolStripMenuItem_Click);
             // 
@@ -306,7 +306,7 @@ namespace WikiFunctions
             // linkLabel2
             // 
             this.linkLabel2.AutoSize = true;
-            this.linkLabel2.Location = new System.Drawing.Point(555, 6);
+            this.linkLabel2.Location = new System.Drawing.Point(544, 6);
             this.linkLabel2.Name = "linkLabel2";
             this.linkLabel2.Size = new System.Drawing.Size(119, 13);
             this.linkLabel2.TabIndex = 9;
@@ -355,12 +355,12 @@ namespace WikiFunctions
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(845, 318);
-            this.Controls.Add(this.chkAddToSummary);
             this.Controls.Add(this.chkIgnoreLinks);
+            this.Controls.Add(this.chkAddToSummary);
             this.Controls.Add(this.btnClear);
-            this.Controls.Add(this.linkLabel2);
             this.Controls.Add(this.btnDone);
             this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.linkLabel2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.MinimumSize = new System.Drawing.Size(263, 129);
             this.Name = "FindandReplace";

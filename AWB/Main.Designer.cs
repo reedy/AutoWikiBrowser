@@ -932,7 +932,8 @@ namespace AutoWikiBrowser
             "stub sorting",
             "[[WP:RETF|RegExTypoFix]]",
             "bad link repair.  [[Wikipedia:Bad links|You can help!]]",
-            "Fixing [[Wikipedia:Disambiguation pages with links|links to disambiguation pages]]",
+            "Fixing [[Wikipedia:Disambiguation pages with links|links to disambiguation pages]" +
+                "]",
             "Unicodifying"});
             this.cmboEditSummary.Location = new System.Drawing.Point(55, 6);
             this.cmboEditSummary.MaxLength = 155;
@@ -940,7 +941,6 @@ namespace AutoWikiBrowser
             this.cmboEditSummary.Size = new System.Drawing.Size(210, 21);
             this.cmboEditSummary.TabIndex = 7;
             this.cmboEditSummary.Text = "clean up";
-            this.toolTip1.SetToolTip(this.cmboEditSummary, "Write or select an edit summary");
             this.cmboEditSummary.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmboEditSummary_MouseMove);
             this.cmboEditSummary.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmbEditSummary_KeyDown);
             // 
