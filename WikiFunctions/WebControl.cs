@@ -84,7 +84,7 @@ namespace WikiFunctions
         public event StatusDel StatusChanged;
 
         #endregion
-
+        
         #region Properties
 
         /// <summary>
@@ -191,6 +191,12 @@ namespace WikiFunctions
         #endregion
 
         #region Methods
+
+        public void Stop2()
+        {
+            ProcessStage = enumProcessStage.none;
+            this.Stop();
+        }
 
         /// <summary>
         /// Gets the text from the textbox
