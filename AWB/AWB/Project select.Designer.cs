@@ -43,20 +43,6 @@ namespace AutoWikiBrowser
             // 
             this.cmboLang.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmboLang.FormattingEnabled = true;
-            this.cmboLang.Items.AddRange(new object[] {
-            "en",
-            "ca",
-            "de",
-            "es",
-            "fr",
-            "it",
-            "nl",
-            "mi",
-            "pl",
-            "pt",
-            "sv",
-            "ru",
-            "sl"});
             this.cmboLang.Location = new System.Drawing.Point(102, 79);
             this.cmboLang.Name = "cmboLang";
             this.cmboLang.Size = new System.Drawing.Size(121, 21);
@@ -76,13 +62,6 @@ namespace AutoWikiBrowser
             // 
             this.cmboProject.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmboProject.FormattingEnabled = true;
-            this.cmboProject.Items.AddRange(new object[] {
-            "wikipedia",
-            "wiktionary",
-            "wikisource",
-            "commons",
-            "meta",
-            "species"});
             this.cmboProject.Location = new System.Drawing.Point(102, 52);
             this.cmboProject.Name = "cmboProject";
             this.cmboProject.Size = new System.Drawing.Size(121, 21);

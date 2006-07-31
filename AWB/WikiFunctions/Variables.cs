@@ -24,6 +24,9 @@ using System.Text;
 
 namespace WikiFunctions
 {
+    public enum LangCodeEnum { en, ca, de, es, fr, it, nl, mi, pl, pt, sv, ru, sl }
+    public enum ProjectEnum { wikipedia, wiktionary, wikisource, commons, meta, species }
+
     /// <summary>
     /// Holds static variables, to allow functionality on different wikis.
     /// </summary>
@@ -111,14 +114,14 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="langCode">The language code, default is en</param>
         /// <param name="projectName">The project name default is Wikipedia</param>
-        public static void SetProject(string langCode, string projectName)
+        public static void SetProject(LangCodeEnum langCode, ProjectEnum projectName)
         {
-            strproject = projectName;
+            strproject = projectName.ToString();
 
             //set language variables
             switch (langCode)
             {
-                case "ca":
+                case LangCodeEnum.ca:
                     Namespaces[-2] = "Media:";
                     Namespaces[-1] = "Especial:";
                     Namespaces[1] = "Discussió:";
@@ -146,7 +149,7 @@ namespace WikiFunctions
                     strsummarytag = " [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
-                case "de":
+                case LangCodeEnum.de:
                     Namespaces[-2] = "Media:";
                     Namespaces[-1] = "Spezial:";
                     Namespaces[1] = "Diskussion:";
@@ -172,7 +175,7 @@ namespace WikiFunctions
                     strsummarytag = " [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
-                case "en":
+                case LangCodeEnum.en:
                     Namespaces[-2] = "Media:";
                     Namespaces[-1] = "Special:";
                     Namespaces[1] = "Talk:";
@@ -228,7 +231,7 @@ namespace WikiFunctions
                     strsummarytag = " using [[WP:AWB|AWB]]";
                     break;
 
-                case "es":
+                case LangCodeEnum.es:
                     Namespaces[-2] = "Media:";
                     Namespaces[-1] = "Especial:";
                     Namespaces[1] = "Discusión:";
@@ -256,7 +259,7 @@ namespace WikiFunctions
                     strsummarytag = " [[en:Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
-                case "fr":
+                case LangCodeEnum.fr:
                     Namespaces[-2] = "Media:";
                     Namespaces[-1] = "Special:";
                     Namespaces[1] = "Discuter:";
@@ -286,7 +289,7 @@ namespace WikiFunctions
                     strsummarytag = " [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
-                case "it":
+                case LangCodeEnum.it:
                     Namespaces[-2] = "Media:";
                     Namespaces[-1] = "Speciale:";
                     Namespaces[1] = "Discussione:";
@@ -312,7 +315,7 @@ namespace WikiFunctions
                     strsummarytag = " [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
-                case "mi":
+                case LangCodeEnum.mi:
                     Namespaces[-2] = "Media:";
                     Namespaces[-1] = "Special:";
                     Namespaces[1] = "Talk:";
@@ -336,7 +339,7 @@ namespace WikiFunctions
                     strsummarytag = "";
                     break;
 
-                case "nl":
+                case LangCodeEnum.nl:
                     Namespaces[-2] = "Media:";
                     Namespaces[-1] = "Speciaal:";
                     Namespaces[1] = "Overleg:";
@@ -362,7 +365,7 @@ namespace WikiFunctions
                     strsummarytag = " met [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
-                case "pl":
+                case LangCodeEnum.pl:
                     Namespaces[-2] = "Media:";
                     Namespaces[-1] = "Specjalna:";
                     Namespaces[1] = "Dyskusja:";
@@ -388,7 +391,7 @@ namespace WikiFunctions
                     strsummarytag = " [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
-                case "pt":
+                case LangCodeEnum.pt:
                     Namespaces[-2] = "Media:";
                     Namespaces[-1] = "Especial:";
                     Namespaces[1] = "Discussão:";
@@ -414,7 +417,7 @@ namespace WikiFunctions
                     strsummarytag = " utilizando [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
-                case "ru":
+                case LangCodeEnum.ru:
                     Namespaces[-2] = "Медиа:";
                     Namespaces[-1] = "Служебная:";
                     Namespaces[1] = "Обсуждение:";
@@ -440,7 +443,7 @@ namespace WikiFunctions
                     strsummarytag = " [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
-                case "sl":
+                case LangCodeEnum.sl:
                     Namespaces[-2] = "Media:";
                     Namespaces[-1] = "Posebno:";
                     Namespaces[1] = "Pogovor:";
@@ -464,7 +467,7 @@ namespace WikiFunctions
                     strsummarytag = " [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
-                case "sv":
+                case LangCodeEnum.sv:
                     Namespaces[-2] = "Media:";
                     Namespaces[-1] = "Special:";
                     Namespaces[1] = "Diskussion:";
