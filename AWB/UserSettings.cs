@@ -253,7 +253,11 @@ namespace AutoWikiBrowser
                             string project = reader.Value;
                             reader.MoveToAttribute("lang");
                             string language = reader.Value;
-                            SetProject(language, project);
+
+                            LangCodeEnum l = (LangCodeEnum)Enum.Parse(typeof(LangCodeEnum), language);
+                            ProjectEnum p = (ProjectEnum)Enum.Parse(typeof(ProjectEnum), project);
+
+                            SetProject(l ,p);
 
                             continue;
                         }

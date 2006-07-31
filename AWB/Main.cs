@@ -67,10 +67,9 @@ namespace AutoWikiBrowser
                     Thread.CurrentThread.Priority = ThreadPriority.Lowest;
 
                 //read and set project from user persistent settings (was saved on last exit)
-                SetProject(
-                    /* string strLang, */ AutoWikiBrowser.Properties.Settings.Default.Language,
-                    /* string strProj */  AutoWikiBrowser.Properties.Settings.Default.Project
-                );
+                LangCodeEnum l = (LangCodeEnum)Enum.Parse(typeof(LangCodeEnum), AutoWikiBrowser.Properties.Settings.Default.Language);
+                ProjectEnum p = (ProjectEnum)Enum.Parse(typeof(ProjectEnum), AutoWikiBrowser.Properties.Settings.Default.Project);
+                SetProject(l, p);
             }
             catch (Exception ex)
             {
@@ -1746,20 +1745,20 @@ namespace AutoWikiBrowser
             Proj = null;
         }
 
-        private void SetProject(string LangCode, string Project)
+        private void SetProject(LangCodeEnum Code, ProjectEnum Project)
         {
             //set namespaces
-            Variables.SetProject(LangCode, Project);
+            Variables.SetProject(Code, Project);
 
             //set interwikiorder
-            if (LangCode == "en" || LangCode == "pl")
+            if (Code == LangCodeEnum.en || Code == LangCodeEnum.pl)
                 parsers.InterWikiOrder = InterWikiOrderEnum.LocalLanguageAlpha;
-            else if (LangCode == "fi")
-                parsers.InterWikiOrder = InterWikiOrderEnum.LocalLanguageFirstWord;
+            //else if (Code == "fi")
+            //    parsers.InterWikiOrder = InterWikiOrderEnum.LocalLanguageFirstWord;
             else
                 parsers.InterWikiOrder = InterWikiOrderEnum.Alphabetical;
 
-            if (Variables.LangCode != "en" || Variables.Project != "wikipedia")
+            if (Code != LangCodeEnum.en || Project != ProjectEnum.wikipedia)
             {
                 chkAutoTagger.Checked = false;
                 chkGeneralParse.Checked = false;

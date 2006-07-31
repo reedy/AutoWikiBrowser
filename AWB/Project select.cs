@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using WikiFunctions;
 
 namespace AutoWikiBrowser
 {
@@ -12,19 +13,36 @@ namespace AutoWikiBrowser
     {
         public ProjectSelect(string lang, string proj)
         {
-            InitializeComponent();
+            InitializeComponent();           
+
+            foreach (LangCodeEnum l in Enum.GetValues(typeof(LangCodeEnum)))
+                cmboLang.Items.Add(l.ToString());
+
+            foreach (ProjectEnum l in Enum.GetValues(typeof(ProjectEnum)))
+                cmboProject.Items.Add(l.ToString());
+
             cmboLang.SelectedItem = lang;
-            cmboProject.SelectedItem = proj;
+            cmboProject.SelectedItem = proj;                
         }
 
-        public string Language
+        public LangCodeEnum Language
         {
-            get { return cmboLang.SelectedItem.ToString();}
+            get
+            {
+                LangCodeEnum l = (LangCodeEnum)Enum.Parse(typeof(LangCodeEnum), cmboLang.SelectedItem.ToString());
+                return l;
+
+            }  
         }
-        public string Project
+        public ProjectEnum Project
         {
-            get { return cmboProject.SelectedItem.ToString();}
+            get
+            {
+                ProjectEnum p = (ProjectEnum)Enum.Parse(typeof(ProjectEnum), cmboProject.SelectedItem.ToString());
+                return p;
+            }
         }
+
         public bool SetAsDefault
         {
             get { return chkSetAsDefault.Checked; }

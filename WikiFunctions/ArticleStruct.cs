@@ -42,6 +42,7 @@ namespace WikiFunctions
 
         public int NameSpaceKey;
         public string Name;
+
         //public string ArticleText;
         //public string OriginalText;
         //public string EditSummary;
