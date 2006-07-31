@@ -187,10 +187,7 @@ namespace AutoWikiBrowser
                 txtEdit.Clear();
 
                 if (webBrowserEdit.IsBusy)
-                {
-                    webBrowserEdit.ProcessStage = enumProcessStage.none;
-                    webBrowserEdit.Stop();
-                }
+                    webBrowserEdit.Stop2();
 
                 if (webBrowserEdit.Document != null)
                     webBrowserEdit.Document.Write("");
@@ -1262,6 +1259,7 @@ namespace AutoWikiBrowser
                 lblBotTimer.Enabled = true;
                 chkSkipNoChanges.Checked = true;
                 chkSuppressTag.Enabled = true;
+                chkRegExTypo.Checked = false;
             }
             else
             {
@@ -1925,6 +1923,29 @@ namespace AutoWikiBrowser
 
         #region menus and buttons
 
+        private void lbArticles_MouseMove(object sender, MouseEventArgs e)
+        {
+            string strTip = "";
+
+            //Get the item
+            int nIdx = lbArticles.IndexFromPoint(e.Location);
+            if ((nIdx >= 0) && (nIdx < lbArticles.Items.Count))
+                strTip = lbArticles.Items[nIdx].ToString();
+
+            toolTip1.SetToolTip(lbArticles, strTip);
+        }
+
+        private void lbArticles_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+                btnRemoveArticle.PerformClick();
+        }
+
+        private void txtNewArticle_MouseMove(object sender, MouseEventArgs e)
+        {
+            toolTip1.SetToolTip(txtNewArticle, txtNewArticle.Text);
+        }
+
         private void launchListComparerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ListComparer lc = new ListComparer();
@@ -2341,14 +2362,12 @@ namespace AutoWikiBrowser
             stopSaveInterval();
             StopDelayedRestartTimer();
             if (webBrowserEdit.IsBusy)
-                webBrowserEdit.Stop();
+                webBrowserEdit.Stop2();
 
             webBrowserLogin.Stop();
             lblStatusText.Text = "Stopped";
 
             StopProgressBar();
-
-            UpdateButtons();
         }
 
         private void helpToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -2468,6 +2487,12 @@ namespace AutoWikiBrowser
 
         private void chkRegExTypo_CheckedChanged(object sender, EventArgs e)
         {
+            if (chkAutoMode.Checked)
+            {
+                MessageBox.Show("RegexTypoFix cannot be used with auto save on.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
             if (chkRegExTypo.Checked)
             {
                 MessageBox.Show(@"ATTENTION
@@ -2617,23 +2642,6 @@ Good luck and thank you for taking the time to help our encyclopedia. RegExTypoF
         }
 
         #endregion               
-
-        private void lbArticles_MouseMove(object sender, MouseEventArgs e)
-        {
-            string strTip = "";
-
-            //Get the item
-            int nIdx = lbArticles.IndexFromPoint(e.Location);
-            if ((nIdx >= 0) && (nIdx < lbArticles.Items.Count))
-                strTip = lbArticles.Items[nIdx].ToString();
-
-            toolTip1.SetToolTip(lbArticles, strTip);
-        }
-
-        private void lbArticles_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Delete)
-                btnRemoveArticle.PerformClick();
-        }
+        
     }
 }

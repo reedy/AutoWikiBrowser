@@ -1533,7 +1533,7 @@ namespace IRCMonitor
 
         private void btnStop_Click(object sender, EventArgs e)
         {
-            webBrowser.Stop();
+            webBrowser.Stop2();
         }
 
         private void btnOpenInBrowser_Click(object sender, EventArgs e)
