@@ -204,7 +204,13 @@ namespace WikiFunctions
         public string GetArticleText()
         {
             if (HasArticleTextBox)
-                return this.Document.GetElementById("wpTextbox1").InnerText;
+            {
+                string txt = this.Document.GetElementById("wpTextbox1").InnerText;
+                if (txt == null)
+                    return "";
+                else
+                    return txt;
+            }
             else
                 return "";
         }

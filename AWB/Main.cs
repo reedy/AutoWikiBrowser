@@ -232,7 +232,7 @@ namespace AutoWikiBrowser
 
             strText = webBrowserEdit.GetArticleText();
 
-            this.Text = "AutoWikiBrowser" + strSettingsFile + " - " + EdittingArticle;
+            this.Text = "AutoWikiBrowser" + strSettingsFile + " - " + EdittingArticle.Name;
 
             //check not in use
             if (Regex.IsMatch(strText, "\\{\\{[Ii]nuse"))
