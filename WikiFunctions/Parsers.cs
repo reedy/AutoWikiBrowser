@@ -192,9 +192,6 @@ namespace WikiFunctions
         /// <returns>The modified article text.</returns>
         public static string RemoveWhiteSpace(string articleText)
         {
-            //Replace lines that only contain one or two spaces with only a newline
-            articleText = Regex.Replace(articleText, "^ ? ? \r\n", "\r\n", RegexOptions.Multiline);
-
             articleText = Regex.Replace(articleText, "\r\n(\r\n)+", "\r\n\r\n");
 
             articleText = Regex.Replace(articleText, "== ? ?\r\n\r\n==", "==\r\n==");
