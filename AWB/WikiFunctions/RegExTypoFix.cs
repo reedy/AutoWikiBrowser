@@ -1367,7 +1367,7 @@ namespace WikiFunctions
                 TypoStrings.Add(@"\b(P|p)atroling\b" ,"$1atrolling");
                 TypoStrings.Add(@"\b(P|p)eope\b" ,"$1eople");
                 TypoStrings.Add(@"\b(P|p)erciev(e|ed)\b" ,"$1erceiv$2");
-                TypoStrings.Add(@"\b(P|p)erformenc(e|es)\b" ,"$1erformenc$2")
+                TypoStrings.Add(@"\b(P|p)erformenc(e|es)\b", "$1erformenc$2");
                 TypoStrings.Add(@"\b(P|p)erimiter\b" ,"$1erimeter");
                 TypoStrings.Add(@"\b(P|p)ermenant\b" ,"$1ermanent");
                 TypoStrings.Add(@"\b(P|p)ersu(e|ed|ing)" ,"$1ursu$2");
