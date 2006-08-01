@@ -1,4 +1,4 @@
-/*
+﻿/*
 Autowikibrowser
 Copyright (C) 2006 Martin Richards
 
