@@ -2498,12 +2498,13 @@ namespace AutoWikiBrowser
 
             if (chkRegExTypo.Checked)
             {
-                MessageBox.Show(@"ATTENTION
-1.  Check to make sure you have the latest version of AWB.  This version of AWB is" + Assembly.GetExecutingAssembly().GetName().Version.ToString() +  @"This will ensure you have the most corrections and least errors.
+                MessageBox.Show(@"1.  Make sure you have the latest version of AWB.  This version of AWB is " + Assembly.GetExecutingAssembly().GetName().Version.ToString() +  @". This will ensure you have the most corrections and least errors.
 
-2. Please check each edit before you make it.  Although this has been built to hopefully be 100% accurate there is always the possibility of an error.  If you find a problem or want to suggest a new misspelling please visit http://en.wikipedia.org/wiki/User:Mboverload/RegExTypoFix
+2.  Check each edit before you make it.  Although this has been built to be very accurate there is always the possibility of an error which requires your attention to watch out for.  If you find a problem or want to suggest a new misspelling please visit http://en.wikipedia.org/wiki/User:Mboverload/RegExTypoFix
 
-Good luck and thank you for taking the time to help our encyclopedia. RegExTypoFix is developed by hand by User:mboverload.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+3.  Optional:  Select [[WP:RETF|RegExTypoFix]] as the edit summary in the drop down box when doing spelling corrections.  This lets everyone know where to bring issues with the typo correction. 
+
+Thank you for taking the time to help the encyclopedia. RegExTypoFix is developed by hand by User:Mboverload.", "ATTENTION", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 RegexTypos = new RegExTypoFix();
             }
             else
