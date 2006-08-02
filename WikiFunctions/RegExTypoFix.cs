@@ -176,7 +176,7 @@ namespace WikiFunctions
                         }
                         if (reader.Name == "Typos" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("value");
+                            reader.MoveToAttribute("version");
                             Version = decimal.Parse(reader.Value);
                             continue;                           
                         }
