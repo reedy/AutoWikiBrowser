@@ -568,6 +568,8 @@ namespace AutoWikiBrowser
                         skip = false;
                 }
 
+                if (process && chkAutoTagger.Checked)
+                    articleText = parsers.Tagger(articleText, EdittingArticle.Name);
 
                 if (process && chkGeneralParse.Checked && (EdittingArticle.NameSpaceKey == 0 || (EdittingArticle.Name.Contains("Sandbox") || EdittingArticle.Name.Contains("sandbox"))))
                 {
@@ -597,8 +599,7 @@ namespace AutoWikiBrowser
 
                 if (process && chkGeneralParse.Checked && EdittingArticle.NameSpaceKey == 3)
                     articleText = parsers.SubstUserTemplates(articleText);
-
-
+                
                 if (chkAppend.Checked)
                 {
                     if (Tools.IsNotTalk(EdittingArticle.Name))
@@ -610,9 +611,6 @@ namespace AutoWikiBrowser
                     else
                         articleText = txtAppendMessage.Text + "\r\n\r\n" + articleText;
                 }
-
-                if (process && chkAutoTagger.Checked)
-                    articleText = parsers.Tagger(articleText, EdittingArticle.Name);
 
                 return articleText;
             }
