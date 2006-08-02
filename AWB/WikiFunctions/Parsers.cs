@@ -184,8 +184,8 @@ namespace WikiFunctions
             articleText = regexHeadings3.Replace(articleText, "$1Reference$3");
             articleText = regexHeadings4.Replace(articleText, "$1Source$3");
             articleText = regexHeadings5.Replace(articleText, "$1Further reading$3");
-            articleText = regexHeadings6.Replace(articleText, "$1Early life$3");
-            articleText = regexHeadings7.Replace(articleText, "$1Early career$3");
+            articleText = regexHeadings6.Replace(articleText, "$1Early life$2");
+            articleText = regexHeadings7.Replace(articleText, "$1Early career$2");
 
             return articleText;
         }
