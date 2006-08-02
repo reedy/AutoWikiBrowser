@@ -289,7 +289,6 @@ namespace WikiFunctions
                 TypoStrings.Add(@"\b(A|a)rchitectual\b", "$1rchitectural");
                 TypoStrings.Add(@"\b(A|a)rchtyp(e|es)\b", "$1rchetyp$2");
                 TypoStrings.Add(@"\b(A|a)ready\b", "$1lready");
-                TypoStrings.Add(@"\b(A|a)rent\b", "$1ren't");
                 TypoStrings.Add(@"\b(A|a)reodynami(c|cs)\b", "$1erodynami$2");
                 TypoStrings.Add(@"\b(A|a)rgubly\b", "$1rguably");
                 TypoStrings.Add(@"\b(A|a)rguemen(t|ts)\b", "$1rgumen$2");
