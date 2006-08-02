@@ -33,7 +33,7 @@ namespace WikiFunctions
     /// </summary>
     public class Parsers
     {
-        #region constructor etc.        
+        #region constructor etc.
         public Parsers()
         {//default constructor
             metaDataSorter = new MetaDataSorter(this);
@@ -539,8 +539,7 @@ namespace WikiFunctions
             if (Regex.IsMatch(articleTitle, "^(January|February|March|April|May|June|July|August|September|October|November|December) [0-9]{1,2}$"))
                 return articleText;
 
-            string escTitle = articleTitle;
-            escTitle = Regex.Escape(escTitle);
+            string escTitle = Regex.Escape(articleTitle);
 
             //remove self links first
             Regex tregex = new Regex("\\[\\[" + caseInsensitive(escTitle) + "\\]\\]");
@@ -803,6 +802,7 @@ namespace WikiFunctions
                     articleText = articleText.Replace(n, k);
                 }
             }
+
             return articleText;
         }
 
@@ -1008,7 +1008,7 @@ This article or section needs to be '''[[Wikipedia:Glossary#W|wikified]]'''.  Pl
 
         private string caseInsensitive(string txt)
         {//gets a string e.g. "Category" and returns "[Cc]ategory
-            if (txt != "")
+            if (txt != "" && Regex.IsMatch(txt[0].ToString(), "[a-zA-Z]"))
             {
                 txt = txt.Trim();
                 string temp = txt.Substring(0, 1);

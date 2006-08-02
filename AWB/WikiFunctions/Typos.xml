@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Typos value="1" >
+<Typos version="1" >
 	<Typo find="\b(A|a)bandonned\b" replace="$1bandoned" />
 	<Typo find="\b(A|a)bberratio(n|ns)\b" replace="$1berratio$2" />
 	<Typo find="\b(A|a)beratio(n|ns)\b" replace="$1berratio$2" />
