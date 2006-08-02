@@ -313,7 +313,7 @@ namespace AutoWikiBrowser
             ArticleInfo(false);
 
             if (chkAutoMode.Checked && chkQuickSave.Checked)
-                startDelayedTimer();
+                startDelayedAutoSaveTimer();
             else
                 GetDiff(previewInsteadOfDiffToolStripMenuItem.Checked);
         }
@@ -400,7 +400,7 @@ namespace AutoWikiBrowser
 
             if (chkAutoMode.Checked)
             {
-                startDelayedTimer();
+                startDelayedAutoSaveTimer();
                 return;
             }
 
@@ -446,7 +446,13 @@ namespace AutoWikiBrowser
 
             if (webBrowserEdit.Document.Body.InnerHtml.Contains("<DIV CLASS=PREVIEWNOTE><P><STRONG>Sorry! We could not process your edit due to a loss of session data."))
             {//if session data is lost, if data is lost then save after delay with tmrAutoSaveDelay
-                startDelayedTimer();
+                StartDelayedRestartTimer();
+                return;
+            }
+
+            if (webBrowserEdit.Document.Body.InnerHtml.Contains("The Wikipedia database is currently locked, and is not accepting any edits or other modifications."))
+            {//http://en.wikipedia.org/wiki/MediaWiki:Readonlytext
+                StartDelayedRestartTimer(60);
                 return;
             }
 
@@ -1870,7 +1876,7 @@ namespace AutoWikiBrowser
             lblBotTimer.Text = "Bot timer: " + intTimer.ToString();
         }
 
-        private void startDelayedTimer()
+        private void startDelayedAutoSaveTimer()
         {
             ticker += DelayedAutoSave;
         }
