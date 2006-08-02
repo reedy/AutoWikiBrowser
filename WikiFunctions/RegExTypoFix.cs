@@ -249,6 +249,7 @@ namespace WikiFunctions
                 TypoStrings.Add(@"\b(A|a)ppolog(y|ies)\b", "$1polog$2");
                 TypoStrings.Add(@"\b(A|a)pprearanc(e|es)\b", "$1ppearanc$2");
                 TypoStrings.Add(@"\b(A|a)pprieciat(e|ed)\b", "$1ppreciat$2");
+				TypoStrings.Add(@"\b(A|a)ppricait(e|ed)\b", "$1ppreciat$2");
                 TypoStrings.Add(@"\b(A|a)pproachs\b", "$1pproaches");
                 TypoStrings.Add(@"\b(A|a)ppropiate\b", "$1ppropriate");
                 TypoStrings.Add(@"\b(A|a)ppropraite\b", "$1ppropriate");
