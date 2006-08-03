@@ -387,6 +387,9 @@ namespace AutoWikiBrowser
         bool skippable = true;
         private void CaseWasDiff()
         {
+            this.ActiveControl = txtEdit;
+            txtEdit.Select(0, 0);
+
             if (diffChecker(webBrowserEdit.Document.Body.InnerHtml))
             {//check if there are no changes and we want to skip
                 SkipPage();
