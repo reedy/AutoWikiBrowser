@@ -1,12 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Typos version="1" >
 	<Typo find="\b(A|a)bandonned\b" replace="$1bandoned" />
-	<Typo find="\b(A|a)bberratio(n|ns)\b" replace="$1berratio$2" />
-	<Typo find="\b(A|a)beratio(n|ns)\b" replace="$1berratio$2" />
+	<Typo find="\b(A|a)bb?err?atio(n|ns)\b" replace="$1berratio$2" />
 	<Typo find="\b(A|a)bilt(y|ies)\b" replace="$1bilit$2" />
-	<Typo find="\b(A|a)bilties\b" replace="$1bilities" />
+	<Typo find="\b(A|a)b(il|li)ties\b" replace="$1bilities" />
 	<Typo find="\b(A|a)bilty\b" replace="$1bility" />
-	<Typo find="\b(A|a)blities\b" replace="$1bilities" />
 	<Typo find="\b(A|a)bondo(n|ns|ned|ning)\b" replace="$1bando$2" />
 	<Typo find="\b(A|a)bortifican(t|ts)\b" replace="$1bortifacien$2" />
 	<Typo find="\b(A|a)breviat(ed|tion)\b" replace="$1bbreviat$2" />
@@ -14,11 +12,11 @@
 	<Typo find="\b(A|a)bsens(e|es)\b" replace="$1bsenc$2" />
 	<Typo find="\b(A|a)bsense\b" replace="$1bsence" />
 	<Typo find="\b(A|a)bsorb(s|t)ion\b" replace="$1bsorption" />
-	<Typo find="\b(A|a)cadam(y|ies)\b" replace="$1cadem$2" />
+	<Typo find="\b(A|a)cc?adam(y|ies)\b" replace="$1cadem$2" />
 	<Typo find="\b(A|a)cadmi(c|cs)\b" replace="$1cademi$2" />
-	<Typo find="\b(A|a)ccadem(y|ies)\b" replace="$1cadem$2" />
 	<Typo find="\b(A|a)ccademi(c|cs)\b" replace="$1cademi$2" />
 	<Typo find="\b(A|a)cccus(e|ing|ed)\b" replace="$1ccus$2" />
+	<Typo find="\b(A|a)ccuss(e|ed)\b" replace="$1ccus$2" />
 	<Typo find="\b(A|a)ccelleration\b" replace="$1cceleration" />
 	<Typo find="\b(A|a)ccension\b" replace="$1ccession" />
 	<Typo find="\b(A|a)cceptence\b" replace="$1cceptance" />
@@ -26,16 +24,13 @@
 	<Typo find="\b(A|a)ccessab(le|ility)\b" replace="$1ccessib$2" />
 	<Typo find="\b(A|a)ccidently\b" replace="$1ccidentally" />
 	<Typo find="\b(A|a)cclimitization\b" replace="$1cclimatization" />
-	<Typo find="\b(A|a)ccomadat(e|ed|es|ing|ion|ions)\b" replace="$1ccommodat$2" />
-	<Typo find="\b(A|a)ccomdat(e|ed|es|ing|ion|ions)\b" replace="$1ccommodat$2" />
-	<Typo find="\b(A|a)ccomodat(e|es|ed|ing)\b" replace="$1ccommodat$2" />
+	<Typo find="\b(A|a)ccom[ao]?dat(e|ed|es|ing|ion|ions)\b" replace="$1ccommodat$2" />
 	<Typo find="\b(A|a)ccomodation\b" replace="$1ccommodation" />
 	<Typo find="\b(A|a)ccompanyed\b" replace="$1ccompanied" />
 	<Typo find="\b(A|a)ccord(eo|ia)(n|ns)\b" replace="$1ccordio$3" />
 	<Typo find="\b(A|a)ccousti(c|cally)\b" replace="$1cousti$2" />
 	<Typo find="\b(A|a)ccquainted\b" replace="$1cquainted" />
-	<Typo find="\b(A|a)ccross\b" replace="$1cross" />
-	<Typo find="\b(A|a)ccuss(e|ed)\b" replace="$1ccus$2" />
+	<Typo find="\b(A|a)ccross\b" replace="$1cross" />	
 	<Typo find="\b(A|a)cedemi(c|cs)\b" replace="$1cademi$2" />
 	<Typo find="\b(A|a)cheiv(e|ing)\b" replace="$1chiev$2" />
 	<Typo find="\b(A|a)cheive(d|s|ing|ment|ments)\b" replace="$1chieve$2" />
@@ -98,8 +93,7 @@
 	<Typo find="\b(A|a)ggreeing\b" replace="$1greeing" />
 	<Typo find="\b(A|a)ggreemen(t|ts)\b" replace="$1greemen$2" />
 	<Typo find="\b(A|a)ggresiv(e|eness)\b" replace="$1ggressiv$2" />
-	<Typo find="\b(A|a)gianst\b" replace="$1gainst" />
-	<Typo find="\b(A|a)ginst\b" replace="$1gainst" />
+	<Typo find="\b(A|a)gia?nst\b" replace="$1gainst" />
 	<Typo find="\b(A|a)gravat(e|es|ing)\b" replace="$1ggravat$2" />
 	<Typo find="\b(A|a)gred\b" replace="$1greed" />
 	<Typo find="\b(A|a)greeemen(t|ts)\b" replace="$1greemen$2" />
@@ -121,8 +115,7 @@
 	<Typo find="\b(A|a)lchoho(l|lic)\b" replace="$1lcoho$2" />
 	<Typo find="\b(A|a)lcohal\b" replace="$1lcohol" />
 	<Typo find="\b(A|a)lcoholical\b" replace="$1lcoholic" />
-	<Typo find="\b(A|a)ledg(e|ed|es|edly)\b" replace="$1lleg$2" />
-	<Typo find="\b(A|a)leg(e|ed|es|edly)\b" replace="$1lleg$2" />
+	<Typo find="\b(A|a)led?g(e|ed|es|edly)\b" replace="$1lleg$2" />
 	<Typo find="\b(A|a)legienc(e|es)\b" replace="$1llegianc$2" />
 	<Typo find="\b(A|a)lgebraical\b" replace="$1lgebraic" />
 	<Typo find="\b(A|a)lgorhitms\b" replace="$1lgorithms" />
