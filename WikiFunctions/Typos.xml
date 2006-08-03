@@ -1478,7 +1478,7 @@
 	<Typo find="\b(U|u)nconscience\b" replace="$1nconscious" />
 	<Typo find="\b(U|u)nconvential\b" replace="$1nconventional" />
 	<Typo find="\b(U|u)ndecideable\b" replace="$1ndecidable" />
-	<Typo find="\b(U|u)ndertan(d|ds|ding)\b" replace="$1nderstand" />
+	<Typo find="\b(U|u)ndertan(d|ds|ding)\b" replace="$1nderstan$2" />
 	<Typo find="\b(U|u)necessary\b" replace="$1nnecessary" />
 	<Typo find="\b(U|u)nforetunately\b" replace="$1nfortunately" />
 	<Typo find="\b(U|u)nfortunatly\b" replace="$1nfortunately" />
