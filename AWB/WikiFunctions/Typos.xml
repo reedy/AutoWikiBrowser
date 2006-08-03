@@ -1385,10 +1385,7 @@
 	<Typo find="\b(S|s)uroun(d|ds|ded|ding|dings)\b" replace="$1urroun$2" />
 	<Typo find="\b(S|s)urplanted\b" replace="$1upplanted" />
 	<Typo find="\b(S|s)urpres(s|sed)\b" replace="$1uppres$2" />
-	<Typo find="\b(S|s)urprize\b" replace="$1urprise" />
-	<Typo find="\b(S|s)urprized\b" replace="$1urprised" />
-	<Typo find="\b(S|s)urprizing\b" replace="$1urprising" />
-	<Typo find="\b(S|s)urprizingly\b" replace="$1urprisingly" />
+	<Typo find="\b(S|s)urpriz(e|ed|ing|ingly)\b" replace="$1urpris$2" />
 	<Typo find="\b(S|s)urrepetitious\b" replace="$1urreptitious" />
 	<Typo find="\b(S|s)urrepetitiously\b" replace="$1urreptitiously" />
 	<Typo find="\b(S|s)urreptious\b" replace="$1urreptitious" />
@@ -1463,8 +1460,7 @@
 	<Typo find="\b(T|t)owrad\b" replace="$1oward" />
 	<Typo find="\b(T|t)ra(nf|nsf)or(m|med|ming)\b" replace="$1ransfor$3" />
 	<Typo find="\b(T|t)raditionaly\b" replace="$1raditionally" />
-	<Typo find="\b(T|t)ranfered\b" replace="$1ransferred" />
-	<Typo find="\b(T|t)ransfered\b" replace="$1ransferred" />
+	<Typo find="\b(T|t)rans?fered\b" replace="$1ransferred" />
 	<Typo find="\b(T|t)ranslater\b" replace="$1ranslator" />
 	<Typo find="\b(T|t)ransmissable\b" replace="$1ransmissible" />
 	<Typo find="\b(T|t)ransporation\b" replace="$1ransportation" />
@@ -1474,8 +1470,7 @@
 	<Typo find="\b(T|t)rustworthyness\b" replace="$1rustworthiness" />
 	<Typo find="\b(T|t)uscon\b" replace="$1ucson" />
 	<Typo find="\b(T|t)ypcial\b" replace="$1ypical" />
-	<Typo find="\b(T|t)yrany\b" replace="$1yranny" />
-	<Typo find="\b(T|t)yrrany\b" replace="$1yranny" />
+	<Typo find="\b(T|t)yrr?any\b" replace="$1yranny" />
 	<Typo find="\b(U|u)biquitious\b" replace="$1biquitous" />
 	<Typo find="\b(U|u)ise\b" replace="$1se" />
 	<Typo find="\b(U|u)ncertainity\b" replace="$1ncertainty" />
@@ -1497,13 +1492,8 @@
 	<Typo find="\b(U|u)nivesities\b" replace="$1niversities" />
 	<Typo find="\b(U|u)nivesity\b" replace="$1niversity" />
 	<Typo find="\b(U|u)nmanouverable\b" replace="$1nmaneuverable" />
-	<Typo find="\b(U|u)nmistakeably\b" replace="$1mistakably" />
-	<Typo find="\b(U|u)nneccesarily\b" replace="$1nnecessarily" />
-	<Typo find="\b(U|u)nneccesary\b" replace="$1nnecessary" />
-	<Typo find="\b(U|u)nneccessarily\b" replace="$1nnecessarily" />
-	<Typo find="\b(U|u)nneccessary\b" replace="$1nnecessary" />
-	<Typo find="\b(U|u)nnecesarily\b" replace="$1nnecessarily" />
-	<Typo find="\b(U|u)nnecesary\b" replace="$1nnecessary" />
+	<Typo find="\b(U|u)nmistakeably\b" replace="$1mistakably" />	
+	<Typo find="\b(U|u)nnecc?ess?ar(y|ily)\b" replace="$1nnecessar$2" />
 	<Typo find="\b(U|u)noffical\b" replace="$1nofficial" />
 	<Typo find="\b(U|u)noticeable\b" replace="$1nnoticeable" />
 	<Typo find="\b(U|u)nplesant\b" replace="$1npleasant" />
