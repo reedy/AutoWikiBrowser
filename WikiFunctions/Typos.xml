@@ -236,8 +236,7 @@
 	<Typo find="\b(A|a)rchaology\b" replace="$1rcheology" />
 	<Typo find="\b(A|a)rcheaologis(t|ts)\b" replace="$1rcheologis$2" />
 	<Typo find="\b(A|a)rchetec(t|ts)\b" replace="$1rchitec$2" />
-	<Typo find="\b(A|a)rchetectural\b" replace="$1rchitectural" />
-	<Typo find="\b(A|a)rchetecturally\b" replace="$1rchitecturally" />
+	<Typo find="\b(A|a)rchetectura(l|lly)\b" replace="$1rchitectura$2" />
 	<Typo find="\b(A|a)rchetecture\b" replace="$1rchitecture" />
 	<Typo find="\b(A|a)rchiac\b" replace="$1rchaic" />
 	<Typo find="\b(A|a)rchictec(t|ts)\b" replace="$1rchitec$2" />
