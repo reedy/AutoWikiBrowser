@@ -78,7 +78,6 @@
 	<Typo find="\b(A|a)dmite(d|dly)\b" replace="$1dmitte$2" />
 	<Typo find="\b(A|a)dolecen(t|ts)\b" replace="$1dolescen$2" />
 	<Typo find="\b(A|a)dquir(e|es|ed|ing)\b" replace="$1cquir$2" />
-	<Typo find="\b(A|a)dquir(e|es|ing)\b" replace="$1cquir$2" />
 	<Typo find="\b(A|a)dresab(le|ility)\b" replace="$1ddressab$2" />
 	<Typo find="\b(A|a)dressab(le|ility)\b" replace="$1ddressab$2" />
 	<Typo find="\b(A|a)dressing\b" replace="$1ddressing" />
@@ -88,8 +87,7 @@
 	<Typo find="\b(A|a)dvesar(y|ys)\b" replace="$1dversar$2" />
 	<Typo find="\b(A|a)erie(l|ls)\b" replace="$1eria$2" />
 	<Typo find="\b(A|a)esthecially\b" replace="$1esthetically" />
-	<Typo find="\b(A|a)fficianad(o|os)\b" replace="$1ficionad$2" />
-	<Typo find="\b(A|a)fficionad(o|os)\b" replace="$1ficionad$2" />
+	<Typo find="\b(A|a)ffici[oa]nad(o|os)\b" replace="$1ficionad$2" />
 	<Typo find="\b(A|a)ffilat(e|es)\b" replace="$1ffiliat$2" />
 	<Typo find="\b(A|a)ffilliat(e|es)\b" replace="$1ffiliat$2" />
 	<Typo find="\b(A|a)forememtioned\b" replace="$1forementioned" />
@@ -316,15 +314,11 @@
 	<Typo find="\b(A|a)utomonomous\b" replace="$1utonomous" />
 	<Typo find="\b(A|a)utority\b" replace="$1uthority" />
 	<Typo find="\b(A|a)uxilary\b" replace="$1uxiliary" />
-	<Typo find="\b(A|a)uxillaries\b" replace="$1uxiliaries" />
-	<Typo find="\b(A|a)uxillary\b" replace="$1uxiliary" />
-	<Typo find="\b(A|a)uxilliaries\b" replace="$1uxiliaries" />
-	<Typo find="\b(A|a)uxilliary\b" replace="$1uxiliary" />
+	<Typo find="\b(A|a)uxilli?ar(y|ies)\b" replace="$1uxiliar$2" />
 	<Typo find="\b(A|a)vailablity\b" replace="$1vailability" />
 	<Typo find="\b(A|a)vailaible\b" replace="$1vailable" />
 	<Typo find="\b(A|a)vailble\b" replace="$1vailable" />
-	<Typo find="\b(A|a)vailiable\b" replace="$1vailable" />
-	<Typo find="\b(A|a)vailible\b" replace="$1vailable" />
+	<Typo find="\b(A|a)vailia?ble\b" replace="$1vailable" />
 	<Typo find="\b(A|a)valable\b" replace="$1vailable" />
 	<Typo find="\b(A|a)valance\b" replace="$1valanche" />
 	<Typo find="\b(A|a)valiable\b" replace="$1vailable" />
@@ -364,7 +358,6 @@
 	<Typo find="\b(B|b)eginnig\b" replace="$1eginning" />
 	<Typo find="\b(B|b)eleagured\b" replace="$1eleaguered" />
 	<Typo find="\b(B|b)elei(f|fs)\b" replace="$1elie$2" />
-	<Typo find="\b(B|b)eleiv(e|ed)\b" replace="$1eliev$2" />
 	<Typo find="\b(B|b)eleiv(e|es|ed|ing)\b" replace="$1eliev$2" />
 	<Typo find="\b(B|b)eleive\b" replace="$1elieve" />
 	<Typo find="\b(B|b)eligum\b" replace="$1elgium" />
