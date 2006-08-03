@@ -170,9 +170,15 @@ namespace WikiFunctions
                             find = reader.Value;
                             reader.MoveToAttribute("replace");
                             replace = reader.Value;
-
-                            TypoStrings.Add(find, replace);
-                            continue;
+                            //try
+                            //{
+                                TypoStrings.Add(find, replace);
+                                continue;
+                            //}
+                            //catch (Exception ex)
+                            //{
+                            //    MessageBox.Show("Error on " + find + "\r\n\r\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            //}
                         }
                         if (reader.Name == "Typos" && reader.HasAttributes)
                         {
@@ -190,8 +196,7 @@ namespace WikiFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show(find);
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error on " + find + "\r\n\r\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             return TypoStrings;
