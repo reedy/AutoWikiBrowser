@@ -1172,8 +1172,7 @@
 	<Typo find="\b(G|g)overmnen(t|ts)\b" replace="$1overnmen$2" />
 	<Typo find="\b(G|g)overner\b" replace="$1overnor" />
 	<Typo find="\b(G|g)overnmne(t|ts|tal|taly)\b" replace="$1overnmen$2" />
-	<Typo find="\b(G|g)ovormen(t|ts|tal|taly)\b" replace="$1overnment$2" />
-	<Typo find="\b(G|g)ovornmen(t|ts|tal|taly)\b" replace="$1overnmen$2" />
+	<Typo find="\b(G|g)ovorn?men(t|ts|tal|taly)\b" replace="$1overnmen$2" />
 	<Typo find="\b(G|g)raceful(l|ly|lness)\b" replace="$1raceful$2" />
 	<Typo find="\b(G|g)rafitti\b" replace="$1raffiti" />
 	<Typo find="\b(G|g)ramatica(l|lly|lity)\b" replace="$1rammatica$2" />
