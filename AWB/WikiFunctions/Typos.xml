@@ -1275,7 +1275,6 @@
 	<Typo find="\b(I|i)nvolvment\b" replace="$1nvolvement" />
 	<Typo find="\b(J|j)anurary\b" replace="January" />
 	<Typo find="\b(J|j)ewelery\b" replace="$1ewelery" />
-	<Typo find="\b(J|j)udgemental\b" replace="$1udgmental" />
 	<Typo find="\b(K|k)nowlege\b" replace="$1nowledge" />
 	<Typo find="\b(L|l)angaug(e|es|ed)\b" replace="$1anguag$2" />
 	<Typo find="\b(L|l)enght\b" replace="$1ength" />
