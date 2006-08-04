@@ -36,6 +36,12 @@ namespace WikiFunctions
             InterWikiOrder = InterWikiOrderEnum.LocalLanguageAlpha;
         }
 
+        public void SetProjectOtions(LangCodeEnum Language, ProjectEnum Project)
+        {
+
+        }
+        //string LinkFA = "";
+
         private InterWikiOrderEnum order;
         public InterWikiOrderEnum InterWikiOrder
         {//orders from http://meta.wikimedia.org/wiki/Interwiki_sorting_order
