@@ -100,7 +100,7 @@ namespace WikiFunctions
             ArticleText = AddLinks(ArticleText);
 
             if (EditSummary != "")
-                EditSummary = ", Typos: " + EditSummary.Trim();
+                EditSummary = " Typos: " + EditSummary.Trim();
 
             return ArticleText;
         }
