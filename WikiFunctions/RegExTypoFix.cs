@@ -63,7 +63,7 @@ namespace WikiFunctions
 
         public string PerformTypoFixes(string ArticleText, ref bool NoChange)
         {
-            if (Regex.IsMatch(ArticleText, @"133t|-ology|\[sic\]|\{\{sic\}\}|\[''sic''\]|spellfixno"))
+            if (Regex.IsMatch(ArticleText, "133t|-ology|\\[sic\\]|\\[''sic''\\]|\\{\\{sic\\}\\}|spellfixno"))
                 return ArticleText;
 
             hashLinks.Clear();
