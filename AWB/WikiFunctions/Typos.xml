@@ -487,6 +487,7 @@
      <Typo find="\b(C|c)hemicaly\b" replace="$1hemically" />
      <Typo find="\b(C|c)hildbird\b" replace="$1hildbirth" />
      <Typo find="\b(C|c)hilden\b" replace="$1hildren" />
+     <Typo find="\b(C|c)hilderen\b" replace="$1hildren" />
      <Typo find="\b(C|c)hoosen\b" replace="$1hosen" />
      <Typo find="\b(C|c)hracte(r|rs)\b" replace="$1haracte$2" />
      <Typo find="\b(C|c)hristanity\b" replace="Christianity" />
@@ -514,11 +515,11 @@
      <Typo find="\b(C|c)lincial\b" replace="$1linical" />
      <Typo find="\b(C|c)linicaly\b" replace="$1linically" />
      <Typo find="\b(C|c)mopute(r|rs)\b" replace="$1ompute$2" />
+     <Typo find="\b(C|c)o-incided\b" replace="$1oincided" />
      <Typo find="\b(C|c)octail\b" replace="$1ocktail" />
      <Typo find="\b(C|c)oform\b" replace="$1onform" />
      <Typo find="\b(C|c)ognizent\b" replace="$1ognizant" />
      <Typo find="\b(C|c)oincedentally\b" replace="$1oincidentally" />
-     <Typo find="\b(C|c)o-incided\b" replace="$1oincided" />
      <Typo find="\b(C|c)olaborat(e|es|ed|or|ors)\b" replace="$1ollaborat$2" />
      <Typo find="\b(C|c)olaborations\b" replace="$1ollaborations" />
      <Typo find="\b(C|c)olateral\b" replace="$1ollateral" />
@@ -550,6 +551,7 @@
      <Typo find="\b(C|c)omited\b" replace="$1ommitted" />
      <Typo find="\b(C|c)omiting\b" replace="$1ommitting" />
      <Typo find="\b(C|c)omitted\b" replace="$1ommitted" />
+     <Typo find="\b(C|c)omittee\b" replace="$1ommittee" />
      <Typo find="\b(C|c)omittee\b" replace="$1ommittee" />
      <Typo find="\b(C|c)omitting\b" replace="$1ommitting" />
      <Typo find="\b(C|c)ommandoes\b" replace="$1ommandos" />
@@ -914,6 +916,7 @@
      <Typo find="\b(D|d)istictio(n|ns)\b" replace="$1istinctio$2" />
      <Typo find="\b(D|d)istingis(h|hed|hes|hing)\b" replace="$1istinguis$2" />
      <Typo find="\b(D|d)istingquis(h|hed|hes|hing)\b" replace="$1istinguis$2" />
+     <Typo find="\b(D|d)istingus(h|ed|hing)\b" replace="$1istinguis$2" />
      <Typo find="\b(D|d)istrubutio(n|ns)\b" replace="$1istributio$2" />
      <Typo find="\b(D|d)istruct(ive|ion)\b" replace="$1estruct$2" />
      <Typo find="\b(D|d)itribut(e|es|ed|ing)\b" replace="$1istribut$2" />
@@ -931,6 +934,7 @@
      <Typo find="\b(D|d)rummless\b" replace="$1rumless" />
      <Typo find="\b(E|e)alier\b" replace="$1arlier" />
      <Typo find="\b(E|e)cclectic\b" replace="$1clectic" />
+     <Typo find="\b(E|e)cconomy\b" replace="$1conomy" />
      <Typo find="\b(E|e)ceonom(y|ies)\b" replace="$1conom$2" />
      <Typo find="\b(E|e)clisp(e|es|ed)\b" replace="$1clips$2" />
      <Typo find="\b(E|e)comoni(c|cs)\b" replace="$1conomi$2" />
@@ -1232,6 +1236,7 @@
      <Typo find="\b(H|h)ypocrit\b" replace="$1ypocrite" />
      <Typo find="\b(H|h)ypocrits\b" replace="$1ypocrites" />
      <Typo find="\b(I|i)mmediatly\b" replace="$1mmediately" />
+     <Typo find="\b(I|i)mmidiately\b" replace="$1mmediately" />
      <Typo find="\b(I|i)mprisonement\b" replace="$1mprisonment" />
      <Typo find="\b(I|i)mprovmen(t|ts)\b" replace="$1mprovemen$2" />
      <Typo find="\b(I|i)ndefinat(e|ely)\b" replace="$1ndefinit$2" />
@@ -1243,6 +1248,7 @@
      <Typo find="\b(I|i)nititiv(e|es)\b" replace="$1nitiativ$2" />
      <Typo find="\b(I|i)nseperable\b" replace="$1nseparable" />
      <Typo find="\b(I|i)ntelegenc(e|es)\b" replace="$1ntelligenc$2" />
+     <Typo find="\b(I|i)ntentionaly\b" replace="$1ntentionally" />
      <Typo find="\b(I|i)ntepretatio(n|ns)\b" replace="$1nterpretatio$2" />
      <Typo find="\b(I|i)nterchangab(ly|le)\b" replace="$1nterchangeab$2" />
      <Typo find="\b(I|i)nterfereing\b" replace="$1nterfering" />
@@ -1284,13 +1290,14 @@
      <Typo find="\b(O|o)bselet(e|ed)\b" replace="$1bsolet$2" />
      <Typo find="\b(O|o)bviousuly\b" replace="$1bviously" />
      <Typo find="\b(O|o)cassion\b" replace="$1ccasion" />
-     <Typo find="\b(O|O)ccasina(l|lly)\b" replace="$1ccasiona$2" />
+     <Typo find="\b(O|o)ccasina(l|lly)\b" replace="$1ccasiona$2" />
      <Typo find="\b(O|o)ccasionaly\b" replace="$1ccasionally" />
      <Typo find="\b(O|o)ccassio(n|ns)\b" replace="$1ccasio$2" />
      <Typo find="\b(O|o)ccastio(n|nal)\b" replace="$1ccasio$2" />
      <Typo find="\b(O|o)ccupp(y|ies|ied)\b" replace="$1ccup$2" />
      <Typo find="\b(O|o)ccuranc(e|es)\b" replace="$1ccurrenc$2" />
      <Typo find="\b(O|o)ccured\b" replace="$1ccurred" />
+     <Typo find="\b(O|o)fficialy\b" replace="$1fficially" />
      <Typo find="\b(O|o)mmited\b" replace="$1mitted" />
      <Typo find="\b(O|o)posing\b" replace="$1pposing" />
      <Typo find="\b(O|o)position\b" replace="$1pposition" />
@@ -1313,6 +1320,7 @@
      <Typo find="\b(P|p)erformenc(e|es)\b" replace="$1erformenc$2" />
      <Typo find="\b(P|p)erimiter\b" replace="$1erimeter" />
      <Typo find="\b(P|p)ermenant\b" replace="$1ermanent" />
+     <Typo find="\b(P|p)ersonaly\b" replace="$1ersonally" />
      <Typo find="\b(P|p)ersu(e|ed|ing)" replace="$1ursu$2" />
      <Typo find="\b(P|p)hilosphe(r|rs)\b" replace="$1hilosophe$2" />
      <Typo find="\b(P|p)opulatin\b" replace="$1opulation" />
@@ -1363,6 +1371,7 @@
      <Typo find="\b(S|s)entanc(e|es|ed|ing|ings|er|ers)\b" replace="$1entenc$2" />
      <Typo find="\b(S|s)eperat(e|es|ed|ely|ion|ing)" replace="$1eparat$2" />
      <Typo find="\b(S|s)eperatis(t|ts)\b" replace="$1eparatis$2" />
+     <Typo find="\b(S|s)erriou(s|sly)\b" replace="$1eriou$2" />
      <Typo find="\b(S|s)erveral\b" replace="$1everal" />
      <Typo find="\b(S|s)everly\b" replace="$1everely" />
      <Typo find="\b(S|s)iezed\b" replace="$1eized" />
@@ -1602,11 +1611,11 @@
      <Typo find="\b(Y|y)tou\b" replace="$1ou" />
      <Typo find="\b(Y|y)uo\b" replace="$1ou" />
      <Typo find="\b(Z|z)eebra\b" replace="$1ebra" />
+     <Typo find="\bUnthaw\b" replace="Thaw" />
+     <Typo find="\bVery unique\b" replace="Unique" />
      <Typo find="\bemmediately\b" replace="immediately" />
      <Typo find="\bemprisoned\b" replace="imprisoned" />
      <Typo find="\benflamed\b" replace="inflamed" />
-     <Typo find="\bUnthaw\b" replace="Thaw" />
      <Typo find="\bunthaw\b" replace="thaw" />
-     <Typo find="\bVery unique\b" replace="Unique" />
      <Typo find="\bvery unique\b" replace="unique" />
 </Typos>
