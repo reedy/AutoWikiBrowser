@@ -63,15 +63,18 @@ namespace WikiFunctions
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.lbRemove = new System.Windows.Forms.ListBox();
-            this.btnGetList = new System.Windows.Forms.Button();
-            this.btnClear = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btnClear = new System.Windows.Forms.Button();
+            this.btnGetList = new System.Windows.Forms.Button();
+            this.lbRemove = new System.Windows.Forms.ListBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.chkRemoveDups = new System.Windows.Forms.CheckBox();
             this.contextmenuFilter.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnApply
@@ -157,7 +160,7 @@ namespace WikiFunctions
             // txtContains
             // 
             this.txtContains.Enabled = false;
-            this.txtContains.Location = new System.Drawing.Point(6, 86);
+            this.txtContains.Location = new System.Drawing.Point(6, 63);
             this.txtContains.Name = "txtContains";
             this.txtContains.Size = new System.Drawing.Size(178, 20);
             this.txtContains.TabIndex = 11;
@@ -165,7 +168,7 @@ namespace WikiFunctions
             // chkContains
             // 
             this.chkContains.AutoSize = true;
-            this.chkContains.Location = new System.Drawing.Point(6, 65);
+            this.chkContains.Location = new System.Drawing.Point(6, 42);
             this.chkContains.Name = "chkContains";
             this.chkContains.Size = new System.Drawing.Size(152, 17);
             this.chkContains.TabIndex = 12;
@@ -188,7 +191,7 @@ namespace WikiFunctions
             // chkNotContains
             // 
             this.chkNotContains.AutoSize = true;
-            this.chkNotContains.Location = new System.Drawing.Point(6, 130);
+            this.chkNotContains.Location = new System.Drawing.Point(6, 89);
             this.chkNotContains.Name = "chkNotContains";
             this.chkNotContains.Size = new System.Drawing.Size(178, 17);
             this.chkNotContains.TabIndex = 15;
@@ -199,7 +202,7 @@ namespace WikiFunctions
             // txtDoesNotContain
             // 
             this.txtDoesNotContain.Enabled = false;
-            this.txtDoesNotContain.Location = new System.Drawing.Point(6, 153);
+            this.txtDoesNotContain.Location = new System.Drawing.Point(6, 112);
             this.txtDoesNotContain.Name = "txtDoesNotContain";
             this.txtDoesNotContain.Size = new System.Drawing.Size(178, 20);
             this.txtDoesNotContain.TabIndex = 16;
@@ -429,7 +432,7 @@ namespace WikiFunctions
             this.groupBox2.Controls.Add(this.chkNotContains);
             this.groupBox2.Location = new System.Drawing.Point(279, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(192, 204);
+            this.groupBox2.Size = new System.Drawing.Size(192, 142);
             this.groupBox2.TabIndex = 33;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Matches";
@@ -448,23 +451,23 @@ namespace WikiFunctions
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Articles to remove";
             // 
-            // lbRemove
+            // label2
             // 
-            this.lbRemove.FormattingEnabled = true;
-            this.lbRemove.Location = new System.Drawing.Point(7, 45);
-            this.lbRemove.Name = "lbRemove";
-            this.lbRemove.Size = new System.Drawing.Size(170, 147);
-            this.lbRemove.TabIndex = 0;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 29);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(62, 13);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "the main list";
             // 
-            // btnGetList
+            // label1
             // 
-            this.btnGetList.Location = new System.Drawing.Point(7, 203);
-            this.btnGetList.Name = "btnGetList";
-            this.btnGetList.Size = new System.Drawing.Size(75, 23);
-            this.btnGetList.TabIndex = 1;
-            this.btnGetList.Text = "Open file";
-            this.btnGetList.UseVisualStyleBackColor = true;
-            this.btnGetList.Click += new System.EventHandler(this.btnGetList_Click);
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 16);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(176, 13);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Items in this list will be removed from";
             // 
             // btnClear
             // 
@@ -476,29 +479,50 @@ namespace WikiFunctions
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
-            // label1
+            // btnGetList
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 16);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(176, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Items in this list will be removed from";
+            this.btnGetList.Location = new System.Drawing.Point(7, 203);
+            this.btnGetList.Name = "btnGetList";
+            this.btnGetList.Size = new System.Drawing.Size(75, 23);
+            this.btnGetList.TabIndex = 1;
+            this.btnGetList.Text = "Open file";
+            this.btnGetList.UseVisualStyleBackColor = true;
+            this.btnGetList.Click += new System.EventHandler(this.btnGetList_Click);
             // 
-            // label2
+            // lbRemove
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 29);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(62, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "the main list";
+            this.lbRemove.FormattingEnabled = true;
+            this.lbRemove.Location = new System.Drawing.Point(7, 45);
+            this.lbRemove.Name = "lbRemove";
+            this.lbRemove.Size = new System.Drawing.Size(170, 147);
+            this.lbRemove.TabIndex = 0;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.chkRemoveDups);
+            this.groupBox4.Location = new System.Drawing.Point(280, 161);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(192, 55);
+            this.groupBox4.TabIndex = 35;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Other";
+            // 
+            // chkRemoveDups
+            // 
+            this.chkRemoveDups.AutoSize = true;
+            this.chkRemoveDups.Location = new System.Drawing.Point(7, 20);
+            this.chkRemoveDups.Name = "chkRemoveDups";
+            this.chkRemoveDups.Size = new System.Drawing.Size(119, 17);
+            this.chkRemoveDups.TabIndex = 0;
+            this.chkRemoveDups.Text = "Remove Duplicates";
+            this.chkRemoveDups.UseVisualStyleBackColor = true;
             // 
             // specialFilter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(669, 253);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
@@ -519,6 +543,8 @@ namespace WikiFunctions
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -564,5 +590,7 @@ namespace WikiFunctions
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.CheckBox chkRemoveDups;
     }
 }

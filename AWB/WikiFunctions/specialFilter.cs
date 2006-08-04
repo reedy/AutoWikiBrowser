@@ -32,8 +32,8 @@ namespace WikiFunctions
 {
     public partial class specialFilter : Form
     {
-        ListBox lb;
-        public specialFilter(ListBox listbox)
+        ListBox2 lb;
+        public specialFilter(ListBox2 listbox)
         {
             InitializeComponent();
             lb = listbox;
@@ -44,6 +44,9 @@ namespace WikiFunctions
         {
             bool does = (chkContains.Checked && txtContains.Text != "");
             bool doesnot = (chkNotContains.Checked && txtDoesNotContain.Text != "");
+
+            if (chkRemoveDups.Checked)
+                RemoveDuplicates();            
 
             if (lbRemove.Items.Count > 0)
                 FilterList();
@@ -58,6 +61,22 @@ namespace WikiFunctions
 
 
             this.Close();
+        }
+
+        private void RemoveDuplicates()
+        {
+            List<Article> list = new List<Article>();
+
+            foreach (Article a in lb.Enumerate())
+            {
+                if(!list.Contains(a))
+                    list.Add(a);
+            }
+
+            lb.Items.Clear();
+
+            foreach(Article a in list)
+                lb.Items.Add(a);            
         }
 
         private void FilterNamespace()

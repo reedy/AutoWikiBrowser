@@ -102,7 +102,6 @@ namespace WikiFunctions.DatabaseScanner
             this.btnAlphaList = new System.Windows.Forms.Button();
             this.btnClearList = new System.Windows.Forms.Button();
             this.chkHeaderError = new System.Windows.Forms.CheckBox();
-            this.lbArticles = new System.Windows.Forms.ListBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -121,6 +120,7 @@ namespace WikiFunctions.DatabaseScanner
             this.chkUnbulletedLinks = new System.Windows.Forms.CheckBox();
             this.chkHasHTML = new System.Windows.Forms.CheckBox();
             this.chkBadLinks = new System.Windows.Forms.CheckBox();
+            this.lbArticles = new WikiFunctions.ListBox2();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudWords)).BeginInit();
@@ -893,16 +893,6 @@ namespace WikiFunctions.DatabaseScanner
             this.toolTip1.SetToolTip(this.chkHeaderError, "Detects common section header errors, such as upper casing \"==External Links==\"");
             this.chkHeaderError.UseVisualStyleBackColor = true;
             // 
-            // lbArticles
-            // 
-            this.lbArticles.ContextMenuStrip = this.contextMenuStrip1;
-            this.lbArticles.FormattingEnabled = true;
-            this.lbArticles.Location = new System.Drawing.Point(11, 51);
-            this.lbArticles.Name = "lbArticles";
-            this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbArticles.Size = new System.Drawing.Size(286, 251);
-            this.lbArticles.TabIndex = 22;
-            // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -936,11 +926,11 @@ namespace WikiFunctions.DatabaseScanner
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.lbArticles);
             this.groupBox3.Controls.Add(this.btnFilter);
             this.groupBox3.Controls.Add(this.btnStart);
             this.groupBox3.Controls.Add(this.btnClearList);
             this.groupBox3.Controls.Add(this.btnAlphaList);
-            this.groupBox3.Controls.Add(this.lbArticles);
             this.groupBox3.Controls.Add(this.nudLimitResults);
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Location = new System.Drawing.Point(13, 226);
@@ -1082,6 +1072,16 @@ namespace WikiFunctions.DatabaseScanner
             this.chkBadLinks.Text = "Has bad links AWB will fix";
             this.chkBadLinks.UseVisualStyleBackColor = true;
             // 
+            // lbArticles
+            // 
+            this.lbArticles.ContextMenuStrip = this.contextMenuStrip1;
+            this.lbArticles.FormattingEnabled = true;
+            this.lbArticles.Location = new System.Drawing.Point(6, 48);
+            this.lbArticles.Name = "lbArticles";
+            this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.lbArticles.Size = new System.Drawing.Size(291, 251);
+            this.lbArticles.TabIndex = 34;
+            // 
             // DatabaseScanner
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1162,7 +1162,6 @@ namespace WikiFunctions.DatabaseScanner
         private NumericUpDown nudHeadingSpace;
         private TextBox txtTitleContains;
         private CheckBox chkTitleContains;
-        private ListBox lbArticles;
         private Button btnTransfer;
         private Button btnAlphaList;
         private Button btnClearList;
@@ -1219,6 +1218,7 @@ namespace WikiFunctions.DatabaseScanner
         private NumericUpDown nudWords;
         private Label label3;
         private Button btnFilter;
+        private ListBox2 lbArticles;
     }
 }
 
