@@ -64,6 +64,22 @@ namespace WikiFunctions
             return Name.GetHashCode();
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj is Article)
+            {
+                Article a = new Article();
+                a = (Article)obj;
+
+                if (a.Name == this.Name)
+                    return true;
+                else
+                    return false;
+            }
+
+            return base.Equals(obj);
+        }
+
         #endregion
     }
 }
