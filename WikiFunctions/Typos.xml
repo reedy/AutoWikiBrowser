@@ -371,6 +371,7 @@
      <Typo find="\b(B|b)ernouilli\b" replace="$1ernoulli" />
      <Typo find="\b(B|b)eseig(e|ed|ing)\b" replace="$1esieg$2" />
      <Typo find="\b(B|b)eteen\b" replace="$1etween" />
+     <Typo find="\b(B|b)etween\b" replace="$1etween" />
      <Typo find="\b(B|b)etwen\b" replace="$1etween" />
      <Typo find="\b(B|b)ewteen\b" replace="$1etween" />
      <Typo find="\b(B|b)illingua(l|lism)\b" replace="$1ilingua$2" />
@@ -718,8 +719,6 @@
      <Typo find="\b(C|c)opmetito(r|rs)\b" replace="$1ompetito$2" />
      <Typo find="\b(C|c)oppied\b" replace="$1opied" />
      <Typo find="\b(C|c)opute(r|rs)\b" replace="$1ompute$2" />
-     <Typo find="\b(C|c)opywrit(e|ed|es)\b" replace="$1opyright$2" />
-     <Typo find="\b(C|c)opywrite\b" replace="$1opyright" />
      <Typo find="\b(C|c)oridal\b" replace="$1ordial" />
      <Typo find="\b(C|c)orosio(n|ns)\b" replace="$1orrosio$2" />
      <Typo find="\b(C|c)orparate\b" replace="$1orporate" />
@@ -741,7 +740,6 @@
      <Typo find="\b(C|c)ountinue\b" replace="$1ontinue" />
      <Typo find="\b(C|c)ountinued\b" replace="$1ontinued" />
      <Typo find="\b(C|c)oururie(r|rs)\b" replace="$1ourie$2" />
-     <Typo find="\b(C|c)overted\b" replace="$1onverted" />
      <Typo find="\b(C|c)reaeted\b" replace="$1reated" />
      <Typo find="\b(C|c)ritereon\b" replace="$1riterion" />
      <Typo find="\b(C|c)riterias\b" replace="$1riteria" />
@@ -749,8 +747,6 @@
      <Typo find="\b(C|c)ritising\b" replace="$1riticising" />
      <Typo find="\b(C|c)ritisised\b" replace="$1riticised" />
      <Typo find="\b(C|c)ritisising\b" replace="$1riticising" />
-     <Typo find="\b(C|c)ritisism\b" replace="$1riticism" />
-     <Typo find="\b(C|c)ritisisms\b" replace="$1riticisms" />
      <Typo find="\b(C|c)ritisiz(e|es|ing|ed)\b" replace="$1riticis$2" />
      <Typo find="\b(C|c)ritiz(e|es|ing|ed)\b" replace="$1riticiz$2" />
      <Typo find="\b(C|c)rockodil(e|es)\b" replace="$1rocodil$2" />
@@ -764,7 +760,6 @@
      <Typo find="\b(C|c)urriculem\b" replace="$1urriculum" />
      <Typo find="\b(C|c)yclinde(r|rs)\b" replace="$1ylinde$2" />
      <Typo find="\b(D|d)almatio(n|ns)\b" replace="$1almatia$2" />
-     <Typo find="\b(D|d)almation\b" replace="$1almatian" />
      <Typo find="\b(D|d)ebateable\b" replace="$1ebatable" />
      <Typo find="\b(D|d)ecaffinated\b" replace="$1ecaffeinated" />
      <Typo find="\b(D|d)ecathalon\b" replace="$1ecathlon" />
@@ -848,7 +843,6 @@
      <Typo find="\b(D|d)icove(r|ry|rs|red|ring|ries)\b" replace="$1iscove$2" />
      <Typo find="\b(D|d)icus(s|sed|sing)\b" replace="$1iscus$2" />
      <Typo find="\b(D|d)icuss(ed|ing)\b" replace="$1iscuss$2" />
-     <Typo find="\b(D|d)ieing\b" replace="$1ying" />
      <Typo find="\b(D|d)iferenc(e|es)\b" replace="$1ifferenc$2" />
      <Typo find="\b(D|d)iferr?e?nt\b" replace="$1ifferent" />
      <Typo find="\b(D|d)ifferentiatiatio(n|ns)\b" replace="$1ifferentiatio$2" />
@@ -1538,7 +1532,6 @@
      <Typo find="\b(V|v)erfication\b" replace="$1erification" />
      <Typo find="\b(V|v)erison\b" replace="$1ersion" />
      <Typo find="\b(V|v)erisons\b" replace="$1ersions" />
-     <Typo find="\b(V|v)etween\b" replace="$1etween" />
      <Typo find="\b(V|v)eyr\b" replace="$1ery" />
      <Typo find="\b(V|v)igilence\b" replace="$1igilance" />
      <Typo find="\b(V|v)igourous\b" replace="$1igorous" />
