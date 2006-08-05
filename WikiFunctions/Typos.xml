@@ -496,7 +496,6 @@
      <Typo find="\b(C|c)hoosen\b" replace="$1hosen" />
      <Typo find="\b(C|c)hracte(r|rs)\b" replace="$1haracte$2" />
      <Typo find="\b(C|c)hristanity\b" replace="Christianity" />
-     <Typo find="\b(C|c)huch\b" replace="$1hurch" />
      <Typo find="\b(C|c)hurchs\b" replace="$1hurches" />
      <Typo find="\b(C|c)ilinder\b" replace="$1cylinder" />
      <Typo find="\b(C|c)incinatti\b" replace="$1incinnati" />
