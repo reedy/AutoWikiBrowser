@@ -624,7 +624,7 @@
      <Typo find="\b(C|c)onived\b" replace="$1onnived" />
      <Typo find="\b(C|c)onjecutr(e|ed)\b" replace="$1onjectur$2" />
      <Typo find="\b(C|c)onjuctio(n|ns)\b" replace="$1onjunctio$2" />
-     <Typo find="\b(C|c)onneticut\b" replace="$1onnecticut" />
+     <Typo find="\b(C|c)onneticut\b" replace="Connecticut" />
      <Typo find="\b(C|c)onotations\b" replace="$1onnotations" />
      <Typo find="\b(C|c)onquerd\b" replace="$1onquered" />
      <Typo find="\b(C|c)onquere(r|rs)\b" replace="$1onquero$2" />
@@ -1562,7 +1562,6 @@
      <Typo find="\b(W|w)roking\b" replace="$1orking" />
      <Typo find="\b(W|w)tih\b" replace="$1ith" />
      <Typo find="\b(W|w)tith\b" replace="$1ith" />
-     <Typo find="\b(S|s)upport\b" replace="$1upport" />
      <Typo find="\b(Y|y)aers\b" replace="$1ears" />
      <Typo find="\b(Y|y)atch\b" replace="$1acht" />
      <Typo find="\b(Y|y)easr\b" replace="$1ears" />
