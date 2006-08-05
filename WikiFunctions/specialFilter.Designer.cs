@@ -67,9 +67,9 @@ namespace WikiFunctions
             this.label1 = new System.Windows.Forms.Label();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnGetList = new System.Windows.Forms.Button();
-            this.lbRemove = new System.Windows.Forms.ListBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.chkRemoveDups = new System.Windows.Forms.CheckBox();
+            this.lbRemove = new WikiFunctions.ListBox2();
             this.contextmenuFilter.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -439,11 +439,11 @@ namespace WikiFunctions
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.lbRemove);
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Controls.Add(this.btnClear);
             this.groupBox3.Controls.Add(this.btnGetList);
-            this.groupBox3.Controls.Add(this.lbRemove);
             this.groupBox3.Location = new System.Drawing.Point(478, 13);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(184, 232);
@@ -489,14 +489,6 @@ namespace WikiFunctions
             this.btnGetList.UseVisualStyleBackColor = true;
             this.btnGetList.Click += new System.EventHandler(this.btnGetList_Click);
             // 
-            // lbRemove
-            // 
-            this.lbRemove.FormattingEnabled = true;
-            this.lbRemove.Location = new System.Drawing.Point(7, 45);
-            this.lbRemove.Name = "lbRemove";
-            this.lbRemove.Size = new System.Drawing.Size(170, 147);
-            this.lbRemove.TabIndex = 0;
-            // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.chkRemoveDups);
@@ -510,12 +502,22 @@ namespace WikiFunctions
             // chkRemoveDups
             // 
             this.chkRemoveDups.AutoSize = true;
+            this.chkRemoveDups.Checked = true;
+            this.chkRemoveDups.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkRemoveDups.Location = new System.Drawing.Point(7, 20);
             this.chkRemoveDups.Name = "chkRemoveDups";
             this.chkRemoveDups.Size = new System.Drawing.Size(119, 17);
             this.chkRemoveDups.TabIndex = 0;
             this.chkRemoveDups.Text = "Remove Duplicates";
             this.chkRemoveDups.UseVisualStyleBackColor = true;
+            // 
+            // lbRemove
+            // 
+            this.lbRemove.FormattingEnabled = true;
+            this.lbRemove.Location = new System.Drawing.Point(9, 45);
+            this.lbRemove.Name = "lbRemove";
+            this.lbRemove.Size = new System.Drawing.Size(169, 147);
+            this.lbRemove.TabIndex = 5;
             // 
             // specialFilter
             // 
@@ -586,11 +588,11 @@ namespace WikiFunctions
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button btnGetList;
-        private System.Windows.Forms.ListBox lbRemove;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.CheckBox chkRemoveDups;
+        private ListBox2 lbRemove;
     }
 }
