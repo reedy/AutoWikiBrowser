@@ -144,8 +144,9 @@ namespace WikiFunctions
         private Dictionary<string, string> LoadTypos()
         {
             Dictionary<string, string> TypoStrings = new Dictionary<string, string>();
-            string file = Environment.CurrentDirectory + "\\Typos.xml";
-
+            string file = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            file = file.Remove(file.LastIndexOf("\\")) + "\\Typos.xml";
+            
             if (!File.Exists(file))
             {
                 MessageBox.Show("Typo xml file does not exist in current directory", "File does not exist", MessageBoxButtons.OK, MessageBoxIcon.Error);
