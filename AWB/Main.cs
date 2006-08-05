@@ -212,7 +212,7 @@ namespace AutoWikiBrowser
                     lbArticles.SelectedIndex = 0;
 
                 EdittingArticle = (Article)lbArticles.SelectedItem;// lbArticles.SelectedItem.ToString();
-            
+
                 //Navigate to edit page
                 webBrowserEdit.LoadEditPage(EdittingArticle.URLEncodedName);
             }
@@ -323,7 +323,11 @@ namespace AutoWikiBrowser
             try
             {
                 string HTML = webBrowserEdit.Document.Body.InnerHtml;
-
+                if (HTML.Contains("The Wikipedia database is currently locked, and is not accepting any edits or other modifications."))
+                {//http://en.wikipedia.org/wiki/MediaWiki:Readonlytext
+                    StartDelayedRestartTimer(60);
+                    return false;
+                }
                 if (HTML.Contains("<H1 class=firstHeading>View source</H1>"))
                 {
                     SkipPage();
@@ -450,12 +454,6 @@ namespace AutoWikiBrowser
             if (webBrowserEdit.Document.Body.InnerHtml.Contains("<DIV CLASS=PREVIEWNOTE><P><STRONG>Sorry! We could not process your edit due to a loss of session data."))
             {//if session data is lost, if data is lost then save after delay with tmrAutoSaveDelay
                 StartDelayedRestartTimer();
-                return;
-            }
-
-            if (webBrowserEdit.Document.Body.InnerHtml.Contains("The Wikipedia database is currently locked, and is not accepting any edits or other modifications."))
-            {//http://en.wikipedia.org/wiki/MediaWiki:Readonlytext
-                StartDelayedRestartTimer(60);
                 return;
             }
 
@@ -602,7 +600,7 @@ namespace AutoWikiBrowser
 
                 if (process && chkGeneralParse.Checked && EdittingArticle.NameSpaceKey == 3)
                     articleText = parsers.SubstUserTemplates(articleText);
-                
+
                 if (chkAppend.Checked)
                 {
                     if (Tools.IsNotTalk(EdittingArticle.Name))
@@ -1095,8 +1093,10 @@ namespace AutoWikiBrowser
         {
             if (webBrowserEdit.Document.Body.InnerHtml.Contains("wpMinoredit"))
             {
-                webBrowserEdit.SetMinor(markAllAsMinorToolStripMenuItem.Checked);
-                webBrowserEdit.SetWatch(addAllToWatchlistToolStripMenuItem.Checked);
+                if (markAllAsMinorToolStripMenuItem.Checked)
+                    webBrowserEdit.SetMinor(true);
+                if (addAllToWatchlistToolStripMenuItem.Checked)
+                    webBrowserEdit.SetWatch(true);
 
                 webBrowserEdit.SetSummary(MakeSummary());
             }
@@ -2505,7 +2505,7 @@ namespace AutoWikiBrowser
 
             if (chkRegExTypo.Checked)
             {
-                MessageBox.Show(@"1.  Make sure you have the latest version of AWB.  This version of AWB is " + Assembly.GetExecutingAssembly().GetName().Version.ToString() +  @". This will ensure you have the most corrections and least errors.
+                MessageBox.Show(@"1.  Make sure you have the latest version of AWB.  This version of AWB is " + Assembly.GetExecutingAssembly().GetName().Version.ToString() + @". This will ensure you have the most corrections and least errors.
 
 2.  Check each edit before you make it.  Although this has been built to be very accurate there is always the possibility of an error which requires your attention to watch out for.  If you find a problem or want to suggest a new misspelling please visit http://en.wikipedia.org/wiki/User:Mboverload/RegExTypoFix
 
@@ -2652,7 +2652,7 @@ Thank you for taking the time to help the encyclopedia. RegExTypoFix is develope
             txtImageWith.Text = Regex.Replace(txtImageWith.Text, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
         }
 
-        #endregion       
-        
+        #endregion
+
     }
 }
