@@ -1017,10 +1017,16 @@ namespace AutoWikiBrowser
 
         private void fromCategoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            cmboSourceSelect.SelectedIndex = 0;
-            txtSelectSource.Text = lbArticles.SelectedItem.ToString();
+            string[] c = new string[lbArticles.SelectedItems.Count];
 
-            btnMakeList.PerformClick();
+            int i = 0;
+            foreach (object o in lbArticles.SelectedItems)
+            {
+                c[i] = o.ToString();
+                i++;
+            }
+
+            AddArticleListToList(GetLists.FromCategory(c));
         }
 
         private void fromWhatlinkshereToolStripMenuItem_Click(object sender, EventArgs e)
