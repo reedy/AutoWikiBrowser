@@ -44,48 +44,52 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="Category">The category.</param>
         /// <returns>The list of the articles.</returns>
-        public static List<Article> FromCategory(string Category)
+        public static List<Article> FromCategory(params string[] Categories)
         {
             List<Article> list = new List<Article>();
-            string origURL = Variables.URL + "/query.php?what=category&cptitle=" + encodeText(Category) + "&format=xml&cplimit=500";
-            string URL = origURL;
-            int ns = 0;
-            string title = "";
 
-            while (true)
+            foreach (string Category in Categories)
             {
-                string html = Tools.GetHTML(URL);
-                if (html.Contains("<error>emptyresult</error>"))
-                    throw new PageDoeNotExistException("The category " + Category + " does not exist. Make sure it is spelt correctly. If you want a stub category remember to type the category name and not the stub name.");
+                string origURL = Variables.URL + "/query.php?what=category&cptitle=" + encodeText(Category) + "&format=xml&cplimit=500";
+                string URL = origURL;
+                int ns = 0;
+                string title = "";
 
-                bool more = false;
-
-                using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
+                while (true)
                 {
-                    while (reader.Read())
+                    string html = Tools.GetHTML(URL);
+                    if (html.Contains("<error>emptyresult</error>"))
+                        throw new PageDoeNotExistException("The category " + Category + " does not exist. Make sure it is spelt correctly. If you want a stub category remember to type the category name and not the stub name.");
+
+                    bool more = false;
+
+                    using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
                     {
-                        if (reader.LocalName.Equals("query"))
+                        while (reader.Read())
                         {
-                            reader.ReadToFollowing("category");
-                            reader.MoveToAttribute("next");
-                            URL = origURL + "&cpfrom=" + reader.Value;
-                            more = true;
-                            reader.ReadToFollowing("page");
-                        }
+                            if (reader.LocalName.Equals("query"))
+                            {
+                                reader.ReadToFollowing("category");
+                                reader.MoveToAttribute("next");
+                                URL = origURL + "&cpfrom=" + reader.Value;
+                                more = true;
+                                reader.ReadToFollowing("page");
+                            }
 
-                        if (reader.Name == "ns")
-                            ns = int.Parse(reader.ReadString());
+                            if (reader.Name == "ns")
+                                ns = int.Parse(reader.ReadString());
 
-                        if (reader.Name == "title")
-                        {
-                            title = reader.ReadString();
-                            list.Add(new Article(title, ns));
+                            if (reader.Name == "title")
+                            {
+                                title = reader.ReadString();
+                                list.Add(new Article(title, ns));
+                            }
                         }
                     }
-                }
 
-                if (!more)
-                    break;
+                    if (!more)
+                        break;
+                }
             }
 
             return list;
