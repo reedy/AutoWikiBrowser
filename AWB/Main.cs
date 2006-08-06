@@ -443,10 +443,6 @@ namespace AutoWikiBrowser
         {
             if (webBrowserEdit.Document.Body.InnerHtml.Contains("<H1 class=firstHeading>Edit conflict: "))
             {//if session data is lost, if data is lost then save after delay with tmrAutoSaveDelay
-
-                if (!chkAutoMode.Checked)
-                    MessageBox.Show("Edit conflict, restarting");
-
                 Start();
                 return;
             }
