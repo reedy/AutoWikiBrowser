@@ -102,7 +102,7 @@ namespace WikiFunctions
         /// <param name="RedirectsOnly">Only list redirects.</param>
         /// <param name="Embedded">Gets articles that embed (transclude).</param>
         /// <returns>The list of the articles.</returns>
-        public static List<Article> FromWhatLinksHere(string Page, bool Embedded)
+        public static List<Article> FromWhatLinksHere(bool Embedded, params string[] Pages)
         {
             string request = "backlinks";
             string initial = "bl";
@@ -111,38 +111,89 @@ namespace WikiFunctions
                 request = "embeddedin";
                 initial = "ei";
             }
-
-            string OrigURL = Variables.URL + "query.php?what=" + request + "&titles=" + encodeText(Page) + "&" + initial + "limit=500&format=xml";
-            string URL = OrigURL;
             List<Article> list = new List<Article>();
-            string title = "";
-            int ns = 0;
 
-            while (true)
+            foreach (string Page in Pages)
             {
-                string html = Tools.GetHTML(URL);
-                if (html.Contains("<" + request + " error=\"emptyrequest\" />"))
-                    throw new PageDoeNotExistException("No pages link to " + Page + ". Make sure it is spelt correctly.");
 
-                bool more = false;
+                string OrigURL = Variables.URL + "query.php?what=" + request + "&titles=" + encodeText(Page) + "&" + initial + "limit=500&format=xml";
+                string URL = OrigURL;
+                string title = "";
+                int ns = 0;
+
+                while (true)
+                {
+                    string html = Tools.GetHTML(URL);
+                    if (html.Contains("<" + request + " error=\"emptyrequest\" />"))
+                        throw new PageDoeNotExistException("No pages link to " + Page + ". Make sure it is spelt correctly.");
+
+                    bool more = false;
+
+                    using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
+                    {
+                        while (reader.Read())
+                        {
+                            if (reader.LocalName.Equals("query"))
+                            {
+                                reader.ReadToFollowing(request);
+                                if (reader.HasAttributes)
+                                {
+                                    reader.MoveToAttribute("next");
+                                    URL = OrigURL + "&" + initial + "contfrom=" + reader.Value;
+
+                                    more = true;
+                                }
+                            }
+
+                            if (reader.Name.Equals(initial))
+                            {
+                                if (reader.AttributeCount > 1)
+                                {
+                                    reader.MoveToAttribute("ns");
+                                    ns = int.Parse(reader.Value);
+                                }
+                                else
+                                    ns = 0;
+
+                                title = reader.ReadString();
+                                list.Add(new Article(title, ns));
+                            }
+                        }
+                    }
+
+                    if (!more)
+                        break;
+                }
+            }
+
+            return list;
+        }
+
+        /// <summary>
+        /// Gets a list of links on a page.
+        /// </summary>
+        /// <param name="Article">The page to find links on.</param>
+        /// <returns>The list of the links.</returns>
+        public static List<Article> FromLinksOnPage(params string[] Articles)
+        {
+            List<Article> list = new List<Article>();
+
+            foreach (string Article in Articles)
+            {
+                string OrigURL = Variables.URL + "query.php?what=links&titles=" + encodeText(Article) + "&format=xml";
+                string URL = OrigURL;
+                string title = "";
+                int ns = 0;
+
+                string html = Tools.GetHTML(URL);
+                if (!html.Contains("<links>"))
+                    throw new PageDoeNotExistException(Article + " either does not exist or has no links. Make sure it is spelt correctly.");
 
                 using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
                 {
                     while (reader.Read())
                     {
-                        if (reader.LocalName.Equals("query"))
-                        {
-                            reader.ReadToFollowing(request);
-                            if (reader.HasAttributes)
-                            {
-                                reader.MoveToAttribute("next");
-                                URL = OrigURL + "&" + initial + "contfrom=" + reader.Value;
-
-                                more = true;
-                            }
-                        }
-
-                        if (reader.Name.Equals(initial))
+                        if (reader.Name == ("l"))
                         {
                             if (reader.AttributeCount > 1)
                             {
@@ -155,50 +206,6 @@ namespace WikiFunctions
                             title = reader.ReadString();
                             list.Add(new Article(title, ns));
                         }
-                    }
-                }
-
-                if (!more)
-                    break;
-            }
-
-            return list;
-        }
-
-        /// <summary>
-        /// Gets a list of links on a page.
-        /// </summary>
-        /// <param name="Article">The page to find links on.</param>
-        /// <returns>The list of the links.</returns>
-        public static List<Article> FromLinksOnPage(string Article)
-        {
-            string OrigURL = Variables.URL + "query.php?what=links&titles=" + encodeText(Article) + "&format=xml";
-            string URL = OrigURL;
-
-            List<Article> list = new List<Article>();
-            string title = "";
-            int ns = 0;
-
-            string html = Tools.GetHTML(URL);
-            if (!html.Contains("<links>"))
-                throw new PageDoeNotExistException(Article + " either does not exist or has no links. Make sure it is spelt correctly.");
-
-            using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
-            {
-                while (reader.Read())
-                {
-                    if (reader.Name == ("l"))
-                    {
-                        if (reader.AttributeCount > 1)
-                        {
-                            reader.MoveToAttribute("ns");
-                            ns = int.Parse(reader.Value);
-                        }
-                        else
-                            ns = 0;
-
-                        title = reader.ReadString();
-                        list.Add(new Article(title, ns));
                     }
                 }
             }
@@ -241,48 +248,52 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="Google">The term to search for.</param>
         /// <returns>The list of the articles.</returns>
-        public static List<Article> FromGoogleSearch(string Google)
+        public static List<Article> FromGoogleSearch(params string[] Googles)
         {
-            int intStart = 0;
-            Google = encodeText(Google);
-            Google = Google.Replace("_", " ");
-            string URL = "http://www.google.com/search?q=" + Google + "+site:" + Variables.URLShort + "&num=100&hl=en&lr=&start=0&sa=N";
-            string title = "";
             List<Article> list = new List<Article>();
 
-            do
+            foreach (string G in Googles)
             {
-                string GoogleText = Tools.GetHTML(URL, Encoding.Default);
+                int intStart = 0;
+                string Google = encodeText(G);
+                Google = Google.Replace("_", " ");
+                string URL = "http://www.google.com/search?q=" + Google + "+site:" + Variables.URLShort + "&num=100&hl=en&lr=&start=0&sa=N";
+                string title = "";
 
-                GoogleText = HttpUtility.HtmlDecode(GoogleText);
-
-                //Remove googles bold highlighting.
-                GoogleText = Regex.Replace(GoogleText, "<[bB]>|</[Bb]>", "");
-
-                //Regex pattern to find links
-                Regex RegexGoogle = new Regex("\">([^<]*) - " + Variables.Namespaces[4].TrimEnd(':'), RegexOptions.Compiled);
-
-                //Find each match to the pattern
-                foreach (Match m in RegexGoogle.Matches(GoogleText))
+                do
                 {
-                    title = m.Groups[1].Value;
-                    title = title.Replace("&amp;", "&").Replace("&quot;", "\"").Replace("_", " ");
-                    if (title.Contains("\""))
+                    string GoogleText = Tools.GetHTML(URL, Encoding.Default);
+
+                    GoogleText = HttpUtility.HtmlDecode(GoogleText);
+
+                    //Remove googles bold highlighting.
+                    GoogleText = Regex.Replace(GoogleText, "<[bB]>|</[Bb]>", "");
+
+                    //Regex pattern to find links
+                    Regex RegexGoogle = new Regex("\">([^<]*) - " + Variables.Namespaces[4].TrimEnd(':'), RegexOptions.Compiled);
+
+                    //Find each match to the pattern
+                    foreach (Match m in RegexGoogle.Matches(GoogleText))
                     {
-                        title = title.Replace("'", "");
+                        title = m.Groups[1].Value;
+                        title = title.Replace("&amp;", "&").Replace("&quot;", "\"").Replace("_", " ");
+                        if (title.Contains("\""))
+                        {
+                            title = title.Replace("'", "");
+                        }
+                        list.Add(new Article(title));
                     }
-                    list.Add(new Article(title));
-                }
 
-                if (GoogleText.Contains("<br>Next</a>"))
-                {
-                    intStart += 100;
-                    URL = "http://www.google.com/search?q=" + Google + "+site:" + Variables.URLShort + "&num=100&hl=en&lr=&start=" + intStart.ToString() + "&sa=N";
-                }
-                else
-                    break;
+                    if (GoogleText.Contains("<br>Next</a>"))
+                    {
+                        intStart += 100;
+                        URL = "http://www.google.com/search?q=" + Google + "+site:" + Variables.URLShort + "&num=100&hl=en&lr=&start=" + intStart.ToString() + "&sa=N";
+                    }
+                    else
+                        break;
 
-            } while (true);
+                } while (true);
+            }
 
             return FilterSomeArticles(list);
         }
@@ -292,21 +303,25 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="User">The name of the user.</param>
         /// <returns>The list of the articles.</returns>
-        public static List<Article> FromUserContribs(string User)
+        public static List<Article> FromUserContribs(params string[] Users)
         {
-            User = Regex.Replace(User, "^" + Variables.Namespaces[2], "", RegexOptions.IgnoreCase);
-            User = encodeText(User);
             List<Article> list = new List<Article>();
 
-            string PageText = Tools.GetHTML(Variables.URL + "index.php?title=Special:Contributions&target=" + User + "&offset=0&limit=2500");
-            Regex RegexUserContribs = new Regex("<li>.*? title=\"([^\"]*)\">[^<>]*</a>", RegexOptions.Compiled);
-            string title = "";
-
-            foreach (Match m in RegexUserContribs.Matches(PageText))
+            foreach (string U in Users)
             {
-                title = m.Groups[1].Value;
+                string User = Regex.Replace(U, "^" + Variables.Namespaces[2], "", RegexOptions.IgnoreCase);
+                User = encodeText(User);
 
-                list.Add(new Article(title));
+                string PageText = Tools.GetHTML(Variables.URL + "index.php?title=Special:Contributions&target=" + User + "&offset=0&limit=2500");
+                Regex RegexUserContribs = new Regex("<li>.*? title=\"([^\"]*)\">[^<>]*</a>", RegexOptions.Compiled);
+                string title = "";
+
+                foreach (Match m in RegexUserContribs.Matches(PageText))
+                {
+                    title = m.Groups[1].Value;
+
+                    list.Add(new Article(title));
+                }
             }
 
             return list;
@@ -317,38 +332,40 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="Special">The page to find links on, e.g. "Deadendpages" or "Deadendpages&limit=500&offset=0".</param>
         /// <returns>The list of the articles.</returns>
-        public static List<Article> FromSpecialPage(string Special)
+        public static List<Article> FromSpecialPage(params string[] Specials)
         {
-            Special = Regex.Replace(Special, "^" + Variables.Namespaces[-1], "", RegexOptions.IgnoreCase);
             List<Article> list = new List<Article>();
 
-            string PageText = Tools.GetHTML(Variables.URL + "index.php?title=Special:" + Special);
-
-            PageText = PageText.Substring(PageText.IndexOf("<!-- start content -->"), PageText.IndexOf("<!-- end content -->") - PageText.IndexOf("<!-- start content -->"));
-            string title = "";
-            int ns = 0;
-
-            if (regexe.IsMatch(PageText))
+            foreach (string S in Specials)
             {
-                foreach (Match m in regexe.Matches(PageText))
+                string Special = Regex.Replace(S, "^" + Variables.Namespaces[-1], "", RegexOptions.IgnoreCase);
+                string PageText = Tools.GetHTML(Variables.URL + "index.php?title=Special:" + Special);
+
+                PageText = PageText.Substring(PageText.IndexOf("<!-- start content -->"), PageText.IndexOf("<!-- end content -->") - PageText.IndexOf("<!-- start content -->"));
+                string title = "";
+                int ns = 0;
+
+                if (regexe.IsMatch(PageText))
                 {
-                    title = m.Groups[1].Value;
-                    list.Add(new Article(title));
-                }
-            }
-            else
-            {
-                foreach (Match m in regexe2.Matches(PageText))
-                {
-                    title = m.Groups[1].Value;
-                    if (title != "Wikipedia:Special pages" && title != "Wikipedia talk:Special:Lonelypages" && title != "Wikipedia:Offline reports" && title != "Template:Specialpageslist")
+                    foreach (Match m in regexe.Matches(PageText))
                     {
-                        ns = Tools.CalculateNS(title);
-                        list.Add(new Article(title, ns));
+                        title = m.Groups[1].Value;
+                        list.Add(new Article(title));
+                    }
+                }
+                else
+                {
+                    foreach (Match m in regexe2.Matches(PageText))
+                    {
+                        title = m.Groups[1].Value;
+                        if (title != "Wikipedia:Special pages" && title != "Wikipedia talk:Special:Lonelypages" && title != "Wikipedia:Offline reports" && title != "Template:Specialpageslist")
+                        {
+                            ns = Tools.CalculateNS(title);
+                            list.Add(new Article(title, ns));
+                        }
                     }
                 }
             }
-
             return FilterSomeArticles(list);
         }
 
@@ -357,55 +374,59 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="Image">The image.</param>
         /// <returns>The list of the articles.</returns>
-        public static List<Article> FromImageLinks(string Image)
+        public static List<Article> FromImageLinks(params string[] Images)
         {
-            Image = Regex.Replace(Image, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
-            Image = encodeText(Image);
-
-            string URL = Variables.URL + "query.php?what=imagelinks&titles=Image:" + Image + "&illimit=500&format=xml";
             List<Article> list = new List<Article>();
-            string title = "";
-            int ns = 0;
 
-            while (true)
+            foreach (string I in Images)
             {
-                string html = Tools.GetHTML(URL);
-                if (!html.Contains("<imagelinks>"))
-                    throw new PageDoeNotExistException("The image " + Image + " does not exist. Make sure it is spelt correctly.");
+                string Image = Regex.Replace(I, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
+                Image = encodeText(Image);
 
-                bool more = false;
+                string URL = Variables.URL + "query.php?what=imagelinks&titles=Image:" + Image + "&illimit=500&format=xml";
+                string title = "";
+                int ns = 0;
 
-                using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
+                while (true)
                 {
-                    while (reader.Read())
+                    string html = Tools.GetHTML(URL);
+                    if (!html.Contains("<imagelinks>"))
+                        throw new PageDoeNotExistException("The image " + Image + " does not exist. Make sure it is spelt correctly.");
+
+                    bool more = false;
+
+                    using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
                     {
-                        if (reader.LocalName.Equals("query"))
+                        while (reader.Read())
                         {
-                            reader.ReadToFollowing("imagelinks");
-                            reader.MoveToAttribute("next");
-                            URL = Variables.URL + "query.php?what=imagelinks&titles=Image:" + Image + "&illimit=500&format=xml&ilcontfrom=" + reader.Value;
-                            more = true;
-                            reader.ReadToFollowing("page");
-                        }
-
-                        if (reader.Name.Equals("il"))
-                        {
-                            if (reader.AttributeCount > 1)
+                            if (reader.LocalName.Equals("query"))
                             {
-                                reader.MoveToAttribute("ns");
-                                ns = int.Parse(reader.Value);
+                                reader.ReadToFollowing("imagelinks");
+                                reader.MoveToAttribute("next");
+                                URL = Variables.URL + "query.php?what=imagelinks&titles=Image:" + Image + "&illimit=500&format=xml&ilcontfrom=" + reader.Value;
+                                more = true;
+                                reader.ReadToFollowing("page");
                             }
-                            else
-                                ns = 0;
 
-                            title = reader.ReadString();
-                            list.Add(new Article(title, ns));
+                            if (reader.Name.Equals("il"))
+                            {
+                                if (reader.AttributeCount > 1)
+                                {
+                                    reader.MoveToAttribute("ns");
+                                    ns = int.Parse(reader.Value);
+                                }
+                                else
+                                    ns = 0;
+
+                                title = reader.ReadString();
+                                list.Add(new Article(title, ns));
+                            }
                         }
                     }
-                }
 
-                if (!more)
-                    break;
+                    if (!more)
+                        break;
+                }
             }
 
             return list;

@@ -835,19 +835,25 @@ namespace AutoWikiBrowser
                 return;
             }
 
-            intSourceIndex = cmboSourceSelect.SelectedIndex;
-            strSouce = txtSelectSource.Text;
+            string[] s = txtSelectSource.Text.Split('|');
 
-            ThreadStart thr_Process = new ThreadStart(MakeList);
+            MakeList(cmboSourceSelect.SelectedIndex, s);
+        }
+
+        private void MakeList(int Source, string[] SourceValues)
+        {
+            intSourceIndex = Source;
+            strSouce = SourceValues;
+
+            ThreadStart thr_Process = new ThreadStart(MakeList2);
             ListerThread = new Thread(thr_Process);
             ListerThread.IsBackground = true;
             ListerThread.Start();
         }
-        //static readonly object lockObject = new object();
 
         int intSourceIndex = 0;
-        string strSouce = "";
-        private void MakeList()
+        string[] strSouce;
+        private void MakeList2()
         {
             boolSaved = false;
             StartProgressBar();
@@ -860,10 +866,10 @@ namespace AutoWikiBrowser
                         AddArticleListToList(GetLists.FromCategory(strSouce));
                         break;
                     case 1:
-                        AddArticleListToList(GetLists.FromWhatLinksHere(strSouce, false));
+                        AddArticleListToList(GetLists.FromWhatLinksHere(false, strSouce));
                         break;
                     case 2:
-                        AddArticleListToList(GetLists.FromWhatLinksHere(strSouce, true));
+                        AddArticleListToList(GetLists.FromWhatLinksHere(true, strSouce));
                         break;
                     case 3:
                         AddArticleListToList(GetLists.FromLinksOnPage(strSouce));
@@ -1026,33 +1032,51 @@ namespace AutoWikiBrowser
                 i++;
             }
 
-            AddArticleListToList(GetLists.FromCategory(c));
+            MakeList(0, c);
         }
 
         private void fromWhatlinkshereToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            cmboSourceSelect.SelectedIndex = 1;
-            txtSelectSource.Text = lbArticles.SelectedItem.ToString();
+            string[] c = new string[lbArticles.SelectedItems.Count];
 
-            btnMakeList.PerformClick();
+            int i = 0;
+            foreach (object o in lbArticles.SelectedItems)
+            {
+                c[i] = o.ToString();
+                i++;
+            }
+
+            MakeList(1, c);
         }
 
         private void fromLinksOnPageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            cmboSourceSelect.SelectedIndex = 3;
-            txtSelectSource.Text = lbArticles.SelectedItem.ToString();
+            string[] c = new string[lbArticles.SelectedItems.Count];
 
-            btnMakeList.PerformClick();
+            int i = 0;
+            foreach (object o in lbArticles.SelectedItems)
+            {
+                c[i] = o.ToString();
+                i++;
+            }
+
+            MakeList(3, c);
         }
 
         private void fromImageLinksToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            cmboSourceSelect.SelectedIndex = 8;
-            txtSelectSource.Text = lbArticles.SelectedItem.ToString();
+            string[] c = new string[lbArticles.SelectedItems.Count];
 
-            btnMakeList.PerformClick();
+            int i = 0;
+            foreach (object o in lbArticles.SelectedItems)
+            {
+                c[i] = o.ToString();
+                i++;
+            }
+
+            MakeList(8, c);
         }
-
+       
         #endregion
 
         #region extra stuff
@@ -2222,8 +2246,6 @@ namespace AutoWikiBrowser
 
             if (lbArticles.SelectedItems.Count == 1)
             {
-                addSelectedToListToolStripMenuItem.Enabled = true;
-
                 if (lbArticles.SelectedItem.ToString().StartsWith(Variables.Namespaces[14]))
                     fromCategoryToolStripMenuItem.Enabled = true;
                 else
@@ -2234,8 +2256,8 @@ namespace AutoWikiBrowser
                 else
                     fromImageLinksToolStripMenuItem.Enabled = false;
             }
-            else
-                addSelectedToListToolStripMenuItem.Enabled = false;
+
+            addSelectedToListToolStripMenuItem.Enabled = lbArticles.SelectedItems.Count > 0;
 
             removeToolStripMenuItem.Enabled = lbArticles.SelectedItem != null;
             clearToolStripMenuItem1.Enabled = boolEnabled;
