@@ -645,8 +645,6 @@
      <Typo find="\b(C|c)onsequentually\b" replace="$1onsequently" />
      <Typo find="\b(C|c)onsequeseces\b" replace="$1onsequences" />
      <Typo find="\b(C|c)onser(n|ns)\b" replace="$1oncer$2" />
-     <Typo find="\b(C|c)onserned\b" replace="$1oncerned" />
-     <Typo find="\b(C|c)onserning\b" replace="$1oncerning" />
      <Typo find="\b(C|c)onservitive\b" replace="$1onservative" />
      <Typo find="\b(C|c)onsiciousness\b" replace="$1onsciousness" />
      <Typo find="\b(C|c)onsicousness\b" replace="$1onsciousness" />
@@ -1129,7 +1127,6 @@
      <Typo find="\b(G|g)ratuitiou(s|sly|sness)\b" replace="$1ratuitou$2" />
      <Typo find="\b(G|g)reatfu(l|lness)\b" replace="$1ratefu$2" />
      <Typo find="\b(G|g)reatfully\b" replace="$1ratefully" />
-     <Typo find="\b(G|g)ridles\b" replace="$1riddles" />
      <Typo find="\b(G|g)rievious\b" replace="$1rievous" />
      <Typo find="\b(G|g)uarente(e|es|ed|eing)\b" replace="$1uarante$2" />
      <Typo find="\b(G|g)uatamal(a|an)\b" replace="$1uatemal$2" />
@@ -1155,7 +1152,6 @@
      <Typo find="\b(H|h)avent\b" replace="$1aven't" />
      <Typo find="\b(H|h)aviest\b" replace="$1eaviest" />
      <Typo find="\b(H|h)eadquate(r|rs|red|ring)\b" replace="$1eadquarte$2" />
-     <Typo find="\b(H|h)eathy\b" replace="$1ealthy" />
      <Typo find="\b(H|h)eidelburg\b" replace="$1eidelberg" />
      <Typo find="\b(H|h)eigher\b" replace="$1igher" />
      <Typo find="\b(H|h)eirarch(y|ies|ical)\b" replace="$1ierarch$2" />
@@ -1171,7 +1167,6 @@
      <Typo find="\b(H|h)ierach(y|ies|ical)\b" replace="$1ierarch$2" />
      <Typo find="\b(H|h)ierarc(y|ies|ical)\b" replace="$1ierarchic$2" />
      <Typo find="\b(H|h)ieroglp(h|hs)\b" replace="$1ieroglyp$2" />
-     <Typo find="\b(H|h)igest\b" replace="$1ighest" />
      <Typo find="\b(H|h)illariou(s|sly|sness)\b" replace="$1ilariou$2" />
      <Typo find="\b(H|h)inder[ea]nc(e|es)\b" replace="$1indranc$2" />
      <Typo find="\b(H|h)indrenc(e|es)\b" replace="$1indranc$2" />
@@ -1179,7 +1174,6 @@
      <Typo find="\b(H|h)istocompatabil(ities|ity)\b" replace="$1istocompatibil$2" />
      <Typo find="\b(H|h)istoricia(n|ns)\b" replace="$1istoria$2" />
      <Typo find="\b(H|h)omogeneiz(e|es|ed|ing)\b" replace="$1omogeniz$2" />
-     <Typo find="\b(H|h)ompage\b" replace="$1omepage" />
      <Typo find="\b(H|h)onory\b" replace="$1onorary" />
      <Typo find="\b(H|h)orrifing\b" replace="$1orrifying" />
      <Typo find="\b(H|h)ospitible\b" replace="$1ospitable" />
