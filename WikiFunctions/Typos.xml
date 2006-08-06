@@ -770,7 +770,6 @@
      <Typo find="\b(D|d)ecomissio(n|ns|ning|ned)\b" replace="$1ecommissio$2" />
      <Typo find="\b(D|d)ecrib(ed|es|ing)\b" replace="$1escrib$2" />
      <Typo find="\b(D|d)ectec(t|ted|ts|ting)\b" replace="$1etec$2" />
-     <Typo find="\b(D|d)ecyphe(r|red)\b" replace="$1eciphe$2" />
      <Typo find="\b(D|d)efenden(t|ts)\b" replace="$1efendan$2" />
      <Typo find="\b(D|d)effensiv(e|ely)\b" replace="$1efensiv$2" />
      <Typo find="\b(D|d)effin(e|ed|ing)\b" replace="$1efin$2" />
@@ -904,13 +903,11 @@
      <Typo find="\b(D|d)ravadian\b" replace="$1ravidian" />
      <Typo find="\b(D|d)riectly\b" replace="$1irectly" />
      <Typo find="\b(D|d)ruming\b" replace="$1rumming" />
-     <Typo find="\b(D|d)rummless\b" replace="$1rumless" />
      <Typo find="\b(E|e)alier\b" replace="$1arlier" />
      <Typo find="\b(E|e)cclectic\b" replace="$1clectic" />
      <Typo find="\b(E|e)cconomy\b" replace="$1conomy" />
      <Typo find="\b(E|e)ceonom(y|ies)\b" replace="$1conom$2" />
      <Typo find="\b(E|e)clisp(e|es|ed)\b" replace="$1clips$2" />
-     <Typo find="\b(E|e)comoni(c|cs)\b" replace="$1conomi$2" />
      <Typo find="\b(E|e)conomicaly\b" replace="$1conomically" />
      <Typo find="\b(E|e)conomics(t|ts)\b" replace="$1economis$2" />
      <Typo find="\b(E|e)early\b" replace="$1arly" />
