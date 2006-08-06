@@ -319,6 +319,7 @@ namespace AutoWikiBrowser
                             {
                                 reader.MoveToAttribute("append");
                                 rdoAppend.Checked = bool.Parse(reader.Value);
+                                rdoPrepend.Checked = !bool.Parse(reader.Value);
                             }
 
                             continue;

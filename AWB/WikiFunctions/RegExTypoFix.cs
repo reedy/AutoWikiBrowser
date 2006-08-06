@@ -80,7 +80,7 @@ namespace WikiFunctions
                     Replace = k.Value;
                     ArticleText = k.Key.Replace(ArticleText, Replace);
 
-                    if (Matches[0].Value != Replace)
+                    if (Matches[0].Value != Matches[0].Result(Replace))
                     {
                         summary = Matches[0].Value + " → " + Matches[0].Result(Replace);
 
