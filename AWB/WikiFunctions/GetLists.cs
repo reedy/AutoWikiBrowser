@@ -220,23 +220,27 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="fileName">The file path of the list.</param>
         /// <returns>The list of the links.</returns>
-        public static List<Article> FromTextFile(string fileName)
+        public static List<Article> FromTextFile(params string[] FileNames)
         {
             List<Article> list = new List<Article>();
-            string PageText = "";
-            string title = "";
 
-            StreamReader sr = new StreamReader(fileName, Encoding.UTF8);
-            PageText = sr.ReadToEnd();
-            sr.Close();
-
-            foreach (Match m in wikiLinkReg.Matches(PageText))
+            foreach (string fileName in FileNames)
             {
-                title = m.Groups[1].Value;
-                if (!RegexFromFile.IsMatch(title) && (!(title.StartsWith("#"))))
+                string PageText = "";
+                string title = "";
+
+                StreamReader sr = new StreamReader(fileName, Encoding.UTF8);
+                PageText = sr.ReadToEnd();
+                sr.Close();
+
+                foreach (Match m in wikiLinkReg.Matches(PageText))
                 {
-                    title = Tools.TurnFirstToUpper(title);
-                    list.Add(new Article(title));
+                    title = m.Groups[1].Value;
+                    if (!RegexFromFile.IsMatch(title) && (!(title.StartsWith("#"))))
+                    {
+                        title = Tools.TurnFirstToUpper(title);
+                        list.Add(new Article(title));
+                    }
                 }
             }
 

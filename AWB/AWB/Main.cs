@@ -813,10 +813,12 @@ namespace AutoWikiBrowser
                 {
                     OpenFileDialog openListDialog = new OpenFileDialog();
                     openListDialog.Filter = "text files|*.txt|All files|*.*";
+                    openListDialog.Multiselect = true;
+
                     this.Focus();
                     if (openListDialog.ShowDialog() == DialogResult.OK)
                     {
-                        AddArticleListToList(GetLists.FromTextFile(openListDialog.FileName));
+                        AddArticleListToList(GetLists.FromTextFile(openListDialog.FileNames));
                         strListFile = openListDialog.FileName;
                     }
                     UpdateButtons();
