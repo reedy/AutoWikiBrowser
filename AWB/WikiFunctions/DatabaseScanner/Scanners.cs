@@ -45,37 +45,43 @@ namespace WikiFunctions.DatabaseScanner
 
     public class TextDoesContain : Scan
     {
-        public TextDoesContain(Regex ContainsR)
+        public TextDoesContain(params Regex[] ContainsR)
         {
             Contains = ContainsR;
         }
 
-        Regex Contains;
+        Regex[] Contains;
 
         public override bool Check(ref string articleText, ref string articleTitle)
         {
-            if (Contains.IsMatch(articleText))
-                return true;
-            else
-                return false;
+            foreach (Regex r in Contains)
+            {
+                if (!r.IsMatch(articleText))
+                    return false;
+            }
+
+            return true;
         }
     }
 
     public class TextDoesNotContain : Scan
     {
-        public TextDoesNotContain(Regex NotContainsR)
+        public TextDoesNotContain(params Regex[] NotContainsR)
         {
             NotContains = NotContainsR;
         }
 
-        Regex NotContains;
+        Regex[] NotContains;
 
         public override bool Check(ref string articleText, ref string articleTitle)
         {
-            if (NotContains.IsMatch(articleText))
-                return false;
-            else
-                return true;
+            foreach (Regex r in NotContains)
+            {
+                if (r.IsMatch(articleText))
+                    return false;                   
+            }
+
+            return true;
         }
     }
 

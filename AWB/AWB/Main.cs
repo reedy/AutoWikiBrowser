@@ -112,7 +112,7 @@ namespace AutoWikiBrowser
         TimeSpan StartTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
         int intEdits = 0;
 
-        Article stredittingarticle = new Article();
+        Article stredittingarticle = new Article("");
         public Article EdittingArticle
         {
             get { return stredittingarticle; }
