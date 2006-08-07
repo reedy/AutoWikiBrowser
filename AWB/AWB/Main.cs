@@ -2537,8 +2537,10 @@ namespace AutoWikiBrowser
 
 3.  Optional:  Select [[WP:RETF|RegExTypoFix]] as the edit summary in the drop down box when doing spelling corrections.  This lets everyone know where to bring issues with the typo correction. 
 
-Thank you for taking the time to help the encyclopedia. RegExTypoFix is developed by hand by User:Mboverload.", "ATTENTION", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+Thank you for taking the time to help the encyclopedia. RegExTypoFix is developed by hand by User:Mboverload.", "Attention", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                lblStatusText.Text = "Loading typos";
                 RegexTypos = new RegExTypoFix();
+                lblStatusText.Text = RegexTypos.NumberofTypos.ToString() + " typos loaded";
             }
             else
                 RegexTypos = null;
