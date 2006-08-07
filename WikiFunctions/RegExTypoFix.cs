@@ -144,60 +144,75 @@ namespace WikiFunctions
         private Dictionary<string, string> LoadTypos()
         {
             Dictionary<string, string> TypoStrings = new Dictionary<string, string>();
-            string file = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            file = file.Remove(file.LastIndexOf("\\")) + "\\Typos.xml";
+
+            //string file = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            //file = file.Remove(file.LastIndexOf("\\")) + "\\Typos.xml";
             
-            if (!File.Exists(file))
-            {
-                MessageBox.Show("Typo xml file does not exist in current directory", "File does not exist", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return TypoStrings;
-            }
+            //if (!File.Exists(file))
+            //{
+            //    MessageBox.Show("Typo xml file does not exist in current directory", "File does not exist", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    return TypoStrings;
+            //}
 
-            string find = "";
-            string replace = "";
+            //string find = "";
+            //string replace = "";
 
+            //try
+            //{                
+            //    Stream stream = new FileStream(file, FileMode.Open);                
+
+            //    using (XmlTextReader reader = new XmlTextReader(stream))
+            //    {
+            //        reader.WhitespaceHandling = WhitespaceHandling.None;
+            //        while (reader.Read())
+            //        {
+            //            if (reader.Name == "Typo" && reader.HasAttributes)
+            //            {
+            //                reader.MoveToAttribute("find");
+            //                find = reader.Value;
+            //                reader.MoveToAttribute("replace");
+            //                replace = reader.Value;
+            //                //try
+            //                //{
+            //                    TypoStrings.Add(find, replace);
+            //                    continue;
+            //                //}
+            //                //catch (Exception ex)
+            //                //{
+            //                //    MessageBox.Show("Error on " + find + "\r\n\r\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //                //}
+            //            }
+            //            if (reader.Name == "Typos" && reader.HasAttributes)
+            //            {
+            //                reader.MoveToAttribute("version");
+            //                Version = decimal.Parse(reader.Value);
+            //                continue;                           
+            //            }
+            //        }
+            //        stream.Close();
+            //    }
+            //}
+            //catch (IOException ex)
+            //{
+            //    MessageBox.Show(ex.Message, "File error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show("Error on " + find + "\r\n\r\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
+
+            Regex TypoRegex = new Regex("<Typo find=\"(.*?)\" replace=\"(.*?)\" />");
             try
-            {                
-                Stream stream = new FileStream(file, FileMode.Open);                
-
-                using (XmlTextReader reader = new XmlTextReader(stream))
-                {
-                    reader.WhitespaceHandling = WhitespaceHandling.None;
-                    while (reader.Read())
-                    {
-                        if (reader.Name == "Typo" && reader.HasAttributes)
-                        {
-                            reader.MoveToAttribute("find");
-                            find = reader.Value;
-                            reader.MoveToAttribute("replace");
-                            replace = reader.Value;
-                            //try
-                            //{
-                                TypoStrings.Add(find, replace);
-                                continue;
-                            //}
-                            //catch (Exception ex)
-                            //{
-                            //    MessageBox.Show("Error on " + find + "\r\n\r\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            //}
-                        }
-                        if (reader.Name == "Typos" && reader.HasAttributes)
-                        {
-                            reader.MoveToAttribute("version");
-                            Version = decimal.Parse(reader.Value);
-                            continue;                           
-                        }
-                    }
-                    stream.Close();
-                }
-            }
-            catch (IOException ex)
             {
-                MessageBox.Show(ex.Message, "File error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                string text = Tools.GetArticleText("Wikipedia:AutoWikiBrowser/Typos");
+                foreach (Match m in TypoRegex.Matches(text))
+                {
+                    TypoStrings.Add(m.Groups[1].Value, m.Groups[2].Value);
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error on " + find + "\r\n\r\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             return TypoStrings;
@@ -210,33 +225,9 @@ namespace WikiFunctions
             private set { decVersion = value; }
         }
 
-        //private void WriteSettings(Dictionary<string, string> TypoRegexes)
-        //{
-        //    string file = Environment.CurrentDirectory + "\\Typos.xml";
-
-        //    XmlTextWriter textWriter = new XmlTextWriter(file, UTF8Encoding.UTF8);
-        //    // Opens the document
-        //    textWriter.Formatting = Formatting.Indented;
-        //    textWriter.WriteStartDocument();
-
-        //    // Write first element
-        //    textWriter.WriteStartElement("Typos");
-
-        //    foreach (KeyValuePair<string, string> k in TypoRegexes)
-        //    {
-        //        textWriter.WriteStartElement("Typo");
-        //        textWriter.WriteAttributeString("find", k.Key);
-        //        textWriter.WriteAttributeString("replace", k.Value);
-        //        textWriter.WriteEndElement();
-        //    }
-
-        //    textWriter.WriteEndElement();
-
-        //    // Ends the document.
-        //    textWriter.WriteEndDocument();
-        //    // close writer
-        //    textWriter.Close();
-        //}
-
+        public int NumberofTypos
+        {
+            get { return TypoRegexes.Count; }
+        }
     }
 }
