@@ -1164,8 +1164,6 @@
      <Typo find="\b(H|h)ertzs\b" replace="$1ertz" />
      <Typo find="\b(H|h)esistan(t|tly)\b" replace="$1esitan$2" />
      <Typo find="\b(H|h)eterogenous\b" replace="$1eterogeneous" />
-     <Typo find="\b(H|h)ierach(y|ies|ical)\b" replace="$1ierarch$2" />
-     <Typo find="\b(H|h)ierarc(y|ies|ical)\b" replace="$1ierarchic$2" />
      <Typo find="\b(H|h)ieroglp(h|hs)\b" replace="$1ieroglyp$2" />
      <Typo find="\b(H|h)illariou(s|sly|sness)\b" replace="$1ilariou$2" />
      <Typo find="\b(H|h)inder[ea]nc(e|es)\b" replace="$1indranc$2" />
