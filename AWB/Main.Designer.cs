@@ -100,7 +100,6 @@ namespace AutoWikiBrowser
             this.chkFindRegex = new System.Windows.Forms.CheckBox();
             this.txtFind = new System.Windows.Forms.TextBox();
             this.btnStop = new System.Windows.Forms.Button();
-            this.lblTimer = new System.Windows.Forms.Label();
             this.cmboEditSummary = new System.Windows.Forms.ComboBox();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.lbDuplicateWikilinks = new System.Windows.Forms.ListBox();
@@ -135,20 +134,7 @@ namespace AutoWikiBrowser
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.lbArticles = new WikiFunctions.ListBox2();
-            this.btnFilter = new System.Windows.Forms.Button();
-            this.chkWLHRedirects = new System.Windows.Forms.CheckBox();
-            this.txtSelectSource = new System.Windows.Forms.TextBox();
-            this.lblNumberOfArticles = new System.Windows.Forms.Label();
-            this.btnAdd = new System.Windows.Forms.Button();
-            this.btnRemoveArticle = new System.Windows.Forms.Button();
-            this.btnArticlesListClear = new System.Windows.Forms.Button();
-            this.btnArticlesListSave = new System.Windows.Forms.Button();
-            this.txtNewArticle = new System.Windows.Forms.TextBox();
-            this.lblSourceSelect = new System.Windows.Forms.Label();
-            this.btnMakeList = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.cmboSourceSelect = new System.Windows.Forms.ComboBox();
+            this.listMaker1 = new WikiFunctions.ListMaker();
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtEdit = new System.Windows.Forms.TextBox();
             this.mnuTextBox = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -239,14 +225,14 @@ namespace AutoWikiBrowser
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.lblStatusText = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblBotTimer = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblTimer = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblUserName = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblProject = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.saveListDialog = new System.Windows.Forms.SaveFileDialog();
             this.saveXML = new System.Windows.Forms.SaveFileDialog();
             this.openXML = new System.Windows.Forms.OpenFileDialog();
             this.Timer = new System.Windows.Forms.Timer(this.components);
-            this.statusStrip2 = new System.Windows.Forms.StatusStrip();
-            this.lblProject = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblUserName = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.btntsShowHide = new System.Windows.Forms.ToolStripButton();
@@ -259,6 +245,7 @@ namespace AutoWikiBrowser
             this.btntsChanges = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbuttonFalsePositive = new System.Windows.Forms.ToolStripButton();
+            this.lbltsNumberofItems = new System.Windows.Forms.ToolStripLabel();
             this.webBrowserEdit = new WikiFunctions.WebControl();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -281,7 +268,6 @@ namespace AutoWikiBrowser
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            this.statusStrip2.SuspendLayout();
             this.panel2.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -815,7 +801,6 @@ namespace AutoWikiBrowser
             this.tabPage4.Controls.Add(this.btnFalsePositive);
             this.tabPage4.Controls.Add(this.groupBox10);
             this.tabPage4.Controls.Add(this.btnStop);
-            this.tabPage4.Controls.Add(this.lblTimer);
             this.tabPage4.Controls.Add(this.cmboEditSummary);
             this.tabPage4.Controls.Add(this.groupBox9);
             this.tabPage4.Controls.Add(this.label6);
@@ -912,13 +897,6 @@ namespace AutoWikiBrowser
             this.btnStop.UseVisualStyleBackColor = true;
             this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
-            // lblTimer
-            // 
-            this.lblTimer.Location = new System.Drawing.Point(222, 229);
-            this.lblTimer.Name = "lblTimer";
-            this.lblTimer.Size = new System.Drawing.Size(37, 13);
-            this.lblTimer.TabIndex = 27;
-            // 
             // cmboEditSummary
             // 
             this.cmboEditSummary.DropDownHeight = 198;
@@ -931,7 +909,7 @@ namespace AutoWikiBrowser
             "clean up and  re-categorisation per [[WP:CFD|CFD]]",
             "removing category per [[WP:CFD|CFD]]",
             "[[Wikipedia:Template substitution|subst:\'ing]]",
-            "stub sorting",
+            "[[Wikipedia:WikiProject Stub sorting|stub sorting]]",
             "[[WP:RETF|RegExTypoFix]]",
             "bad link repair.  [[Wikipedia:Bad links|You can help!]]",
             "Fixing [[Wikipedia:Disambiguation pages with links|links to disambiguation pages]" +
@@ -1125,20 +1103,7 @@ namespace AutoWikiBrowser
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox2.ContextMenuStrip = this.mnuListBox;
-            this.groupBox2.Controls.Add(this.lbArticles);
-            this.groupBox2.Controls.Add(this.btnFilter);
-            this.groupBox2.Controls.Add(this.chkWLHRedirects);
-            this.groupBox2.Controls.Add(this.txtSelectSource);
-            this.groupBox2.Controls.Add(this.lblNumberOfArticles);
-            this.groupBox2.Controls.Add(this.btnAdd);
-            this.groupBox2.Controls.Add(this.btnRemoveArticle);
-            this.groupBox2.Controls.Add(this.btnArticlesListClear);
-            this.groupBox2.Controls.Add(this.btnArticlesListSave);
-            this.groupBox2.Controls.Add(this.txtNewArticle);
-            this.groupBox2.Controls.Add(this.lblSourceSelect);
-            this.groupBox2.Controls.Add(this.btnMakeList);
-            this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Controls.Add(this.cmboSourceSelect);
+            this.groupBox2.Controls.Add(this.listMaker1);
             this.groupBox2.Location = new System.Drawing.Point(3, 3);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(210, 366);
@@ -1162,7 +1127,6 @@ namespace AutoWikiBrowser
             this.clearToolStripMenuItem1});
             this.mnuListBox.Name = "contextMenuStrip2";
             this.mnuListBox.Size = new System.Drawing.Size(195, 214);
-            this.mnuListBox.Opening += new System.ComponentModel.CancelEventHandler(this.mnuListBox_Opening);
             // 
             // filterOutNonMainSpaceArticlesToolStripMenuItem
             // 
@@ -1170,7 +1134,6 @@ namespace AutoWikiBrowser
             this.filterOutNonMainSpaceArticlesToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.filterOutNonMainSpaceArticlesToolStripMenuItem.Text = "Filter out non main space";
             this.filterOutNonMainSpaceArticlesToolStripMenuItem.ToolTipText = "Filter out articles that are not in the main namespace";
-            this.filterOutNonMainSpaceArticlesToolStripMenuItem.Click += new System.EventHandler(this.filterOutNonMainSpaceArticlesToolStripMenuItem_Click);
             // 
             // specialFilterToolStripMenuItem
             // 
@@ -1178,7 +1141,6 @@ namespace AutoWikiBrowser
             this.specialFilterToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.specialFilterToolStripMenuItem.Text = "Filter";
             this.specialFilterToolStripMenuItem.ToolTipText = "Filter articles by namespace";
-            this.specialFilterToolStripMenuItem.Click += new System.EventHandler(this.specialFilterToolStripMenuItem_Click);
             // 
             // convertToTalkPagesToolStripMenuItem
             // 
@@ -1186,7 +1148,6 @@ namespace AutoWikiBrowser
             this.convertToTalkPagesToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.convertToTalkPagesToolStripMenuItem.Text = "Convert to talk pages";
             this.convertToTalkPagesToolStripMenuItem.ToolTipText = "Convert namespace to talk";
-            this.convertToTalkPagesToolStripMenuItem.Click += new System.EventHandler(this.convertToTalkPagesToolStripMenuItem_Click);
             // 
             // convertFromTalkPagesToolStripMenuItem
             // 
@@ -1194,7 +1155,6 @@ namespace AutoWikiBrowser
             this.convertFromTalkPagesToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.convertFromTalkPagesToolStripMenuItem.Text = "Convert from talk pages";
             this.convertFromTalkPagesToolStripMenuItem.ToolTipText = "Convert namespace of talk pages to associated article";
-            this.convertFromTalkPagesToolStripMenuItem.Click += new System.EventHandler(this.convertFromTalkPagesToolStripMenuItem_Click);
             // 
             // sortAlphebeticallyMenuItem
             // 
@@ -1202,7 +1162,6 @@ namespace AutoWikiBrowser
             this.sortAlphebeticallyMenuItem.Size = new System.Drawing.Size(194, 22);
             this.sortAlphebeticallyMenuItem.Text = "Sort alphabetically";
             this.sortAlphebeticallyMenuItem.ToolTipText = "Sorts the list alphabetically";
-            this.sortAlphebeticallyMenuItem.Click += new System.EventHandler(this.sortAlphebeticallyToolStripMenuItem_Click);
             // 
             // saveListToTextFileToolStripMenuItem1
             // 
@@ -1210,7 +1169,6 @@ namespace AutoWikiBrowser
             this.saveListToTextFileToolStripMenuItem1.Size = new System.Drawing.Size(194, 22);
             this.saveListToTextFileToolStripMenuItem1.Text = "Save list to file";
             this.saveListToTextFileToolStripMenuItem1.ToolTipText = "Saves list to a text file";
-            this.saveListToTextFileToolStripMenuItem1.Click += new System.EventHandler(this.saveListToTextFileToolStripMenuItem1_Click);
             // 
             // toolStripSeparator14
             // 
@@ -1233,28 +1191,24 @@ namespace AutoWikiBrowser
             this.fromCategoryToolStripMenuItem.Name = "fromCategoryToolStripMenuItem";
             this.fromCategoryToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.fromCategoryToolStripMenuItem.Text = "From category";
-            this.fromCategoryToolStripMenuItem.Click += new System.EventHandler(this.fromCategoryToolStripMenuItem_Click);
             // 
             // fromWhatlinkshereToolStripMenuItem
             // 
             this.fromWhatlinkshereToolStripMenuItem.Name = "fromWhatlinkshereToolStripMenuItem";
             this.fromWhatlinkshereToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.fromWhatlinkshereToolStripMenuItem.Text = "From whatlinkshere";
-            this.fromWhatlinkshereToolStripMenuItem.Click += new System.EventHandler(this.fromWhatlinkshereToolStripMenuItem_Click);
             // 
             // fromLinksOnPageToolStripMenuItem
             // 
             this.fromLinksOnPageToolStripMenuItem.Name = "fromLinksOnPageToolStripMenuItem";
             this.fromLinksOnPageToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.fromLinksOnPageToolStripMenuItem.Text = "From links on page";
-            this.fromLinksOnPageToolStripMenuItem.Click += new System.EventHandler(this.fromLinksOnPageToolStripMenuItem_Click);
             // 
             // fromImageLinksToolStripMenuItem
             // 
             this.fromImageLinksToolStripMenuItem.Name = "fromImageLinksToolStripMenuItem";
             this.fromImageLinksToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.fromImageLinksToolStripMenuItem.Text = "From image links";
-            this.fromImageLinksToolStripMenuItem.Click += new System.EventHandler(this.fromImageLinksToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
@@ -1268,7 +1222,6 @@ namespace AutoWikiBrowser
             this.removeToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.removeToolStripMenuItem.Text = "Remove";
             this.removeToolStripMenuItem.ToolTipText = "Remove the selected articles";
-            this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
             // 
             // clearToolStripMenuItem1
             // 
@@ -1276,172 +1229,20 @@ namespace AutoWikiBrowser
             this.clearToolStripMenuItem1.Size = new System.Drawing.Size(194, 22);
             this.clearToolStripMenuItem1.Text = "Clear";
             this.clearToolStripMenuItem1.ToolTipText = "Clear the list";
-            this.clearToolStripMenuItem1.Click += new System.EventHandler(this.clearToolStripMenuItem1_Click);
             // 
-            // lbArticles
+            // listMaker1
             // 
-            this.lbArticles.ContextMenuStrip = this.mnuListBox;
-            this.lbArticles.FormattingEnabled = true;
-            this.lbArticles.Location = new System.Drawing.Point(70, 99);
-            this.lbArticles.Name = "lbArticles";
-            this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbArticles.Size = new System.Drawing.Size(134, 264);
-            this.lbArticles.TabIndex = 4;
-            this.lbArticles.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lbArticles_MouseMove);
-            this.lbArticles.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbArticles_KeyDown);
-            // 
-            // btnFilter
-            // 
-            this.btnFilter.Location = new System.Drawing.Point(6, 298);
-            this.btnFilter.Name = "btnFilter";
-            this.btnFilter.Size = new System.Drawing.Size(58, 23);
-            this.btnFilter.TabIndex = 17;
-            this.btnFilter.Text = "Filter";
-            this.btnFilter.UseVisualStyleBackColor = true;
-            this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
-            // 
-            // chkWLHRedirects
-            // 
-            this.chkWLHRedirects.AutoSize = true;
-            this.chkWLHRedirects.Location = new System.Drawing.Point(6, 76);
-            this.chkWLHRedirects.Name = "chkWLHRedirects";
-            this.chkWLHRedirects.Size = new System.Drawing.Size(71, 17);
-            this.chkWLHRedirects.TabIndex = 15;
-            this.chkWLHRedirects.Text = "Red. only";
-            this.toolTip1.SetToolTip(this.chkWLHRedirects, "Only find redirects");
-            this.chkWLHRedirects.UseVisualStyleBackColor = true;
-            this.chkWLHRedirects.Visible = false;
-            // 
-            // txtSelectSource
-            // 
-            this.txtSelectSource.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.txtSelectSource.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.txtSelectSource.Location = new System.Drawing.Point(80, 48);
-            this.txtSelectSource.Name = "txtSelectSource";
-            this.txtSelectSource.Size = new System.Drawing.Size(127, 20);
-            this.txtSelectSource.TabIndex = 0;
-            this.toolTip1.SetToolTip(this.txtSelectSource, "Select the source of the list");
-            this.txtSelectSource.DoubleClick += new System.EventHandler(this.txtSelectSource_DoubleClick);
-            this.txtSelectSource.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSelectSource_KeyPress);
-            // 
-            // lblNumberOfArticles
-            // 
-            this.lblNumberOfArticles.Location = new System.Drawing.Point(145, 76);
-            this.lblNumberOfArticles.Name = "lblNumberOfArticles";
-            this.lblNumberOfArticles.Size = new System.Drawing.Size(59, 17);
-            this.lblNumberOfArticles.TabIndex = 14;
-            this.lblNumberOfArticles.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // btnAdd
-            // 
-            this.btnAdd.Location = new System.Drawing.Point(6, 211);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(58, 23);
-            this.btnAdd.TabIndex = 9;
-            this.btnAdd.Text = "Add";
-            this.toolTip1.SetToolTip(this.btnAdd, "Add the new article");
-            this.btnAdd.UseVisualStyleBackColor = true;
-            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
-            // 
-            // btnRemoveArticle
-            // 
-            this.btnRemoveArticle.Location = new System.Drawing.Point(6, 240);
-            this.btnRemoveArticle.Name = "btnRemoveArticle";
-            this.btnRemoveArticle.Size = new System.Drawing.Size(58, 23);
-            this.btnRemoveArticle.TabIndex = 10;
-            this.btnRemoveArticle.Text = "Remove";
-            this.toolTip1.SetToolTip(this.btnRemoveArticle, "Remove the selected article  (Shortcut delete)");
-            this.btnRemoveArticle.UseVisualStyleBackColor = true;
-            this.btnRemoveArticle.Click += new System.EventHandler(this.btnRemoveArticle_Click);
-            // 
-            // btnArticlesListClear
-            // 
-            this.btnArticlesListClear.Location = new System.Drawing.Point(6, 269);
-            this.btnArticlesListClear.Name = "btnArticlesListClear";
-            this.btnArticlesListClear.Size = new System.Drawing.Size(58, 23);
-            this.btnArticlesListClear.TabIndex = 12;
-            this.btnArticlesListClear.Text = "Clear";
-            this.toolTip1.SetToolTip(this.btnArticlesListClear, "Clear out the list");
-            this.btnArticlesListClear.UseVisualStyleBackColor = true;
-            this.btnArticlesListClear.Click += new System.EventHandler(this.btnArticlesListClear_Click);
-            // 
-            // btnArticlesListSave
-            // 
-            this.btnArticlesListSave.Location = new System.Drawing.Point(6, 327);
-            this.btnArticlesListSave.Name = "btnArticlesListSave";
-            this.btnArticlesListSave.Size = new System.Drawing.Size(58, 23);
-            this.btnArticlesListSave.TabIndex = 16;
-            this.btnArticlesListSave.Text = "Save...";
-            this.toolTip1.SetToolTip(this.btnArticlesListSave, "Save the list to a file");
-            this.btnArticlesListSave.UseVisualStyleBackColor = true;
-            this.btnArticlesListSave.Click += new System.EventHandler(this.btnArticlesListSave_Click);
-            // 
-            // txtNewArticle
-            // 
-            this.txtNewArticle.Location = new System.Drawing.Point(6, 185);
-            this.txtNewArticle.Name = "txtNewArticle";
-            this.txtNewArticle.Size = new System.Drawing.Size(58, 20);
-            this.txtNewArticle.TabIndex = 8;
-            this.toolTip1.SetToolTip(this.txtNewArticle, "Enter the name of a new article");
-            this.txtNewArticle.DoubleClick += new System.EventHandler(this.txtNewArticle_DoubleClick);
-            this.txtNewArticle.MouseMove += new System.Windows.Forms.MouseEventHandler(this.txtNewArticle_MouseMove);
-            this.txtNewArticle.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNewArticle_KeyPress);
-            // 
-            // lblSourceSelect
-            // 
-            this.lblSourceSelect.Location = new System.Drawing.Point(6, 47);
-            this.lblSourceSelect.Name = "lblSourceSelect";
-            this.lblSourceSelect.Size = new System.Drawing.Size(73, 21);
-            this.lblSourceSelect.TabIndex = 5;
-            this.lblSourceSelect.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // btnMakeList
-            // 
-            this.btnMakeList.Enabled = false;
-            this.btnMakeList.Location = new System.Drawing.Point(80, 72);
-            this.btnMakeList.Name = "btnMakeList";
-            this.btnMakeList.Size = new System.Drawing.Size(62, 23);
-            this.btnMakeList.TabIndex = 3;
-            this.btnMakeList.Tag = "Get all pages needing editting";
-            this.btnMakeList.Text = "Make list";
-            this.toolTip1.SetToolTip(this.btnMakeList, "Make the List!");
-            this.btnMakeList.UseVisualStyleBackColor = true;
-            this.btnMakeList.Click += new System.EventHandler(this.btnMakeList_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(17, 24);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(57, 13);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Make from";
-            // 
-            // cmboSourceSelect
-            // 
-            this.cmboSourceSelect.DropDownHeight = 200;
-            this.cmboSourceSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmboSourceSelect.FormattingEnabled = true;
-            this.cmboSourceSelect.IntegralHeight = false;
-            this.cmboSourceSelect.Items.AddRange(new object[] {
-            "Category",
-            "What links here",
-            "What transcludes here",
-            "Links on page",
-            "Text file",
-            "Google Wikipedia",
-            "User contribs",
-            "Special page",
-            "Image file links",
-            "Database dump",
-            "My Watchlist"});
-            this.cmboSourceSelect.Location = new System.Drawing.Point(80, 20);
-            this.cmboSourceSelect.Name = "cmboSourceSelect";
-            this.cmboSourceSelect.Size = new System.Drawing.Size(127, 21);
-            this.cmboSourceSelect.TabIndex = 1;
-            this.cmboSourceSelect.Tag = "Source of pages to edit";
-            this.toolTip1.SetToolTip(this.cmboSourceSelect, "Select the way you want to make the list");
-            this.cmboSourceSelect.SelectedIndexChanged += new System.EventHandler(this.cmbSourceSelect_SelectedIndexChanged);
+            this.listMaker1.ListFile = "";
+            this.listMaker1.ListThread = null;
+            this.listMaker1.Location = new System.Drawing.Point(3, 15);
+            this.listMaker1.Name = "listMaker1";
+            this.listMaker1.NumberOfArticles = 0;
+            this.listMaker1.SelectedSourceIndex = -1;
+            this.listMaker1.Size = new System.Drawing.Size(207, 350);
+            this.listMaker1.SourceText = "";
+            this.listMaker1.Status = "";
+            this.listMaker1.TabIndex = 0;
+            this.listMaker1.WikiStatus = false;
             // 
             // panel1
             // 
@@ -1960,7 +1761,7 @@ namespace AutoWikiBrowser
             this.saveListToTextFileToolStripMenuItem.Name = "saveListToTextFileToolStripMenuItem";
             this.saveListToTextFileToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
             this.saveListToTextFileToolStripMenuItem.Text = "Save list to text file";
-            this.saveListToTextFileToolStripMenuItem.Click += new System.EventHandler(this.saveListToTextFileToolStripMenuItem_Click_1);
+            this.saveListToTextFileToolStripMenuItem.Click += new System.EventHandler(this.saveListToTextFileToolStripMenuItem_Click);
             // 
             // toolStripSeparator13
             // 
@@ -2129,23 +1930,21 @@ namespace AutoWikiBrowser
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.statusStrip1.AutoSize = false;
-            this.statusStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripProgressBar1,
             this.lblStatusText,
-            this.lblBotTimer});
+            this.lblBotTimer,
+            this.lblTimer,
+            this.lblUserName,
+            this.lblProject});
+            this.statusStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.statusStrip1.Location = new System.Drawing.Point(0, 599);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(557, 22);
-            this.statusStrip1.SizingGrip = false;
+            this.statusStrip1.Size = new System.Drawing.Size(783, 22);
             this.statusStrip1.TabIndex = 4;
             // 
             // toolStripProgressBar1
             // 
-            this.toolStripProgressBar1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripProgressBar1.AutoSize = false;
             this.toolStripProgressBar1.Name = "toolStripProgressBar1";
             this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
@@ -2166,6 +1965,25 @@ namespace AutoWikiBrowser
             this.lblBotTimer.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.lblBotTimer.Size = new System.Drawing.Size(85, 17);
             this.lblBotTimer.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblTimer
+            // 
+            this.lblTimer.Name = "lblTimer";
+            this.lblTimer.Size = new System.Drawing.Size(46, 17);
+            this.lblTimer.Text = "Timer: 0";
+            this.lblTimer.Visible = false;
+            // 
+            // lblUserName
+            // 
+            this.lblUserName.Name = "lblUserName";
+            this.lblUserName.Size = new System.Drawing.Size(33, 17);
+            this.lblUserName.Text = "User:";
+            // 
+            // lblProject
+            // 
+            this.lblProject.Name = "lblProject";
+            this.lblProject.Size = new System.Drawing.Size(52, 17);
+            this.lblProject.Text = "Wikipedia";
             // 
             // saveListDialog
             // 
@@ -2189,30 +2007,6 @@ namespace AutoWikiBrowser
             this.Timer.Enabled = true;
             this.Timer.Interval = 1000;
             this.Timer.Tick += new System.EventHandler(this.Timer_Tick);
-            // 
-            // statusStrip2
-            // 
-            this.statusStrip2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.statusStrip2.AutoSize = false;
-            this.statusStrip2.Dock = System.Windows.Forms.DockStyle.None;
-            this.statusStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lblProject,
-            this.lblUserName});
-            this.statusStrip2.Location = new System.Drawing.Point(555, 599);
-            this.statusStrip2.Name = "statusStrip2";
-            this.statusStrip2.Size = new System.Drawing.Size(228, 22);
-            this.statusStrip2.TabIndex = 667;
-            // 
-            // lblProject
-            // 
-            this.lblProject.Name = "lblProject";
-            this.lblProject.Size = new System.Drawing.Size(52, 17);
-            this.lblProject.Text = "Wikipedia";
-            // 
-            // lblUserName
-            // 
-            this.lblUserName.Name = "lblUserName";
-            this.lblUserName.Size = new System.Drawing.Size(0, 17);
             // 
             // panel2
             // 
@@ -2238,7 +2032,8 @@ namespace AutoWikiBrowser
             this.btntsPreview,
             this.btntsChanges,
             this.toolStripSeparator16,
-            this.tsbuttonFalsePositive});
+            this.tsbuttonFalsePositive,
+            this.lbltsNumberofItems});
             this.toolStrip.Location = new System.Drawing.Point(0, 24);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Size = new System.Drawing.Size(783, 25);
@@ -2333,6 +2128,12 @@ namespace AutoWikiBrowser
             this.tsbuttonFalsePositive.Visible = false;
             this.tsbuttonFalsePositive.Click += new System.EventHandler(this.tsbuttonFalsePositive_Click);
             // 
+            // lbltsNumberofItems
+            // 
+            this.lbltsNumberofItems.Name = "lbltsNumberofItems";
+            this.lbltsNumberofItems.Size = new System.Drawing.Size(49, 22);
+            this.lbltsNumberofItems.Text = "Articles: ";
+            // 
             // webBrowserEdit
             // 
             this.webBrowserEdit.AllowNavigation = false;
@@ -2359,7 +2160,6 @@ namespace AutoWikiBrowser
             this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.webBrowserEdit);
-            this.Controls.Add(this.statusStrip2);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.statusStrip1);
             this.DoubleBuffered = true;
@@ -2400,7 +2200,6 @@ namespace AutoWikiBrowser
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.mnuListBox.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -2409,8 +2208,6 @@ namespace AutoWikiBrowser
             this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.statusStrip2.ResumeLayout(false);
-            this.statusStrip2.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
@@ -2425,14 +2222,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnIgnore;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Button btnArticlesListClear;
-        private System.Windows.Forms.Button btnAdd;
-        private System.Windows.Forms.TextBox txtNewArticle;
-        private System.Windows.Forms.Button btnRemoveArticle;
-        private System.Windows.Forms.Label lblSourceSelect;
-        private System.Windows.Forms.Button btnMakeList;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox cmboSourceSelect;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.StatusStrip statusStrip1;
@@ -2443,7 +2232,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ToolStripStatusLabel lblStatusText;
-        private System.Windows.Forms.Label lblNumberOfArticles;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ContextMenuStrip mnuTextBox;
         private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
@@ -2526,7 +2314,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
         private System.Windows.Forms.ComboBox cmboCategorise;
-        private System.Windows.Forms.Label lblTimer;
         private System.Windows.Forms.ToolStripMenuItem showTimerToolStripMenuItem;
         private System.Windows.Forms.Button btnMoreFindAndReplce;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
@@ -2537,8 +2324,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripStatusLabel lblBotTimer;
         private System.Windows.Forms.CheckBox chkIgnoreCaseSensitive;
         private System.Windows.Forms.Button btnStop;
-        private System.Windows.Forms.TextBox txtSelectSource;
-        private System.Windows.Forms.CheckBox chkWLHRedirects;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem reparseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem doNotAutomaticallyDoAnythingToolStripMenuItem;
@@ -2574,9 +2359,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Button btnFalsePositive;
         private System.Windows.Forms.ToolStripMenuItem specialFilterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem specialFilterToolStripMenuItem1;
-        private System.Windows.Forms.StatusStrip statusStrip2;
-        private System.Windows.Forms.ToolStripStatusLabel lblUserName;
-        private System.Windows.Forms.ToolStripStatusLabel lblProject;
         private System.Windows.Forms.ToolStripMenuItem convertListToToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem listToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem listToolStripMenuItem1;
@@ -2592,7 +2374,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripButton btntsStop;
         private System.Windows.Forms.ToolStripMenuItem enableTheToolbarToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem convertToTalkPagesToolStripMenuItem;
-        private System.Windows.Forms.Button btnArticlesListSave;
         private System.Windows.Forms.RadioButton rdoPrepend;
         private System.Windows.Forms.RadioButton rdoAppend;
         private System.Windows.Forms.ToolStripMenuItem convertFromTalkPagesToolStripMenuItem;
@@ -2621,7 +2402,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem fromWhatlinkshereToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fromLinksOnPageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fromImageLinksToolStripMenuItem;
-        private System.Windows.Forms.Button btnFilter;
         private System.Windows.Forms.ToolStripMenuItem humanNameCategoryKeyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem humanNameDisambigTagToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator16;
@@ -2629,9 +2409,13 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkRegExTypo;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.CheckBox chkRegexTypoSkip;
-        private WikiFunctions.ListBox2 lbArticles;
         private System.Windows.Forms.ToolStripMenuItem loginToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator17;
+        private System.Windows.Forms.ToolStripLabel lbltsNumberofItems;
+        private System.Windows.Forms.ToolStripStatusLabel lblProject;
+        private System.Windows.Forms.ToolStripStatusLabel lblUserName;
+        private System.Windows.Forms.ToolStripStatusLabel lblTimer;
+        private WikiFunctions.ListMaker listMaker1;
 
 
     }

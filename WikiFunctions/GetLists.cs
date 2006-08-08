@@ -43,14 +43,15 @@ namespace WikiFunctions
         /// Gets a list of articles and sub-categories in a category.
         /// </summary>
         /// <param name="Category">The category.</param>
+        /// <param name="SubCategories">Whether to get all sub categories as well.</param>
         /// <returns>The list of the articles.</returns>
-        public static List<Article> FromCategory(params string[] Categories)
+        public static List<Article> FromCategory(bool SubCategories, params string[] Categories)
         {
             List<Article> list = new List<Article>();
-
-            foreach (string Category in Categories)
+           
+            for(int i = 0; i < Categories.Length; i++)
             {
-                string origURL = Variables.URL + "/query.php?what=category&cptitle=" + encodeText(Category) + "&format=xml&cplimit=500";
+                string origURL = Variables.URL + "/query.php?what=category&cptitle=" + encodeText(Categories[i]) + "&format=xml&cplimit=500";
                 string URL = origURL;
                 int ns = 0;
                 string title = "";
@@ -59,7 +60,7 @@ namespace WikiFunctions
                 {
                     string html = Tools.GetHTML(URL);
                     if (html.Contains("<error>emptyresult</error>"))
-                        throw new PageDoeNotExistException("The category " + Category + " does not exist. Make sure it is spelt correctly. If you want a stub category remember to type the category name and not the stub name.");
+                        MessageBox.Show("The category " + Categories[i] + " does not exist. Make sure it is spelt correctly. If you want a stub category remember to type the category name and not the stub name.");
 
                     bool more = false;
 
@@ -83,7 +84,13 @@ namespace WikiFunctions
                             {
                                 title = reader.ReadString();
                                 list.Add(new Article(title, ns));
-                            }
+
+                                if (SubCategories && ns == 14)
+                                {
+                                    Array.Resize<string>(ref Categories, Categories.Length + 1);
+                                    Categories[Categories.Length - 1] = title.Replace(Variables.Namespaces[14], "");
+                                }
+                            }                                                        
                         }
                     }
 
@@ -229,7 +236,7 @@ namespace WikiFunctions
                 string PageText = "";
                 string title = "";
 
-                StreamReader sr = new StreamReader(fileName, Encoding.UTF8);
+                StreamReader sr = new StreamReader(fileName, Encoding.Default);
                 PageText = sr.ReadToEnd();
                 sr.Close();
 
