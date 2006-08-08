@@ -2531,19 +2531,23 @@ namespace AutoWikiBrowser
 
             if (chkRegExTypo.Checked)
             {
-                MessageBox.Show(@"1.  Make sure you have the latest version of AWB.  This version of AWB is " + Assembly.GetExecutingAssembly().GetName().Version.ToString() + @". This will ensure you have the most corrections and least errors.
+                lblStatusText.Text = "Loading typos";
 
-2.  Check each edit before you make it.  Although this has been built to be very accurate there is always the possibility of an error which requires your attention to watch out for.  If you find a problem or want to suggest a new misspelling please visit http://en.wikipedia.org/wiki/User:Mboverload/RegExTypoFix
+                MessageBox.Show(@"
+1.  Check each edit before you make it. Although this has been built to be very accurate there is always the possibility of an error which requires your attention to watch out for.
 
-3.  Optional:  Select [[WP:RETF|RegExTypoFix]] as the edit summary in the drop down box when doing spelling corrections.  This lets everyone know where to bring issues with the typo correction. 
+2. Optional:  Select [[WP:RETF|RegExTypoFix]] as the edit summary in the drop down box when doing spelling corrections.  This lets everyone know where to bring issues with the typo correction. 
+
+3. The newest typos will now be downloaded from http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/Typos
 
 Thank you for taking the time to help the encyclopedia. RegExTypoFix is developed by hand by User:Mboverload.", "Attention", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                lblStatusText.Text = "Loading typos";
-                RegexTypos = new RegExTypoFix();
-                lblStatusText.Text = RegexTypos.NumberofTypos.ToString() + " typos loaded";
+
+                if (RegexTypos == null)
+                {
+                    RegexTypos = new RegExTypoFix();
+                    lblStatusText.Text = RegexTypos.NumberofTypos.ToString() + " typos loaded";
+                }
             }
-            else
-                RegexTypos = null;
 
             chkRegexTypoSkip.Enabled = chkRegExTypo.Checked;
         }
