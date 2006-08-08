@@ -505,9 +505,7 @@ namespace WikiFunctions
             articleText = articleText.Replace("&#160;", "&nbsp;");
             articleText = articleText.Replace("&nbsp;", "&amp;nbsp;").Replace("&thinsp;", "&amp;thinsp;").Replace("&shy;", "&amp;shy;");
             articleText = articleText.Replace("&prime;", "&amp;prime;").Replace("&Prime;", "&amp;Prime;");
-            articleText = Regex.Replace(articleText, "&(#0?9[13];)", "&amp;$1");
-            articleText = Regex.Replace(articleText, "&(#0?12[345];)", "&amp;$1");
-            articleText = Regex.Replace(articleText, "&(#0?0?3[92];)", "&amp;$1");
+            articleText = Regex.Replace(articleText, "&#(x7c|0?9[13]|0?12[345]|0?0?3[92]);", "&amp;#$1;");
 
             return articleText;
         }

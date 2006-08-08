@@ -24,7 +24,7 @@ using System.Text;
 
 namespace WikiFunctions
 {
-    public enum LangCodeEnum { en, ca, de, es, fr, it, nl, mi, pl, pt, sv, ru, sl }
+    public enum LangCodeEnum { en, ca, da, de, es, fr, it, nl, mi, pl, pt, sv, ru, sl }
     public enum ProjectEnum { wikipedia, wiktionary, wikisource, commons, meta, species }
 
     /// <summary>
@@ -146,6 +146,32 @@ namespace WikiFunctions
 
                     strlangcode = "ca";
                     strtalkns = " discussió:";
+                    strsummarytag = " [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
+                    break;
+
+                case LangCodeEnum.da:
+                    Namespaces[-2] = "Media:";
+                    Namespaces[-1] = "Speciel:";
+                    Namespaces[1] = "Diskussion:";
+                    Namespaces[2] = "Bruger:";
+                    Namespaces[3] = "Bruger diskussion:";
+                    Namespaces[4] = "Wikipedia:";
+                    Namespaces[5] = "Wikipedia diskussion:";
+                    Namespaces[6] = "Billede:";
+                    Namespaces[7] = "Billede diskussion:";
+                    Namespaces[8] = "MediaWiki:";
+                    Namespaces[9] = "MediaWiki diskussion:";
+                    Namespaces[10] = "Skabelon:";
+                    Namespaces[11] = "Skabelon diskussion:";
+                    Namespaces[12] = "Hjælp:";
+                    Namespaces[13] = "Hjælp diskussion:";
+                    Namespaces[14] = "Kategori:";
+                    Namespaces[15] = "Kategori diskussion:";
+                    Namespaces[100] = "Portal:";
+                    Namespaces[101] = "Portal diskussion:";
+
+                    strlangcode = "da";
+                    strtalkns = " diskussion:";
                     strsummarytag = " [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
