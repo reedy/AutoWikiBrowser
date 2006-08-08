@@ -46,7 +46,7 @@ namespace WikiFunctions
         {
             if (chkRemoveDups.Checked)
             {
-                foreach (Article a in lb.Enumerate())
+                foreach (Article a in lb)
                 {
                     if (!list.Contains(a))
                         list.Add(a);
@@ -54,7 +54,7 @@ namespace WikiFunctions
             }
             else
             {
-                foreach (Article a in lb.Enumerate())
+                foreach (Article a in lb)
                 {
                     list.Add(a);
                 }
@@ -299,7 +299,7 @@ namespace WikiFunctions
 
         private void FilterList()
         {
-            foreach (Article a in lbRemove.Enumerate())
+            foreach (Article a in lbRemove)
             {
                 list.Remove(a);
             }

@@ -100,6 +100,7 @@ namespace AutoWikiBrowser
             webBrowserEdit.StatusChanged += UpdateStatus;
 
             listMaker1.BusyStateChanged += SetProgressBar;
+            listMaker1.NoOfArticlesChanged += UpdateButtons;
         }
 
         readonly Regex WikiLinkRegex = new Regex("\\[\\[(.*?)(\\]\\]|\\|)", RegexOptions.Compiled);
@@ -1451,7 +1452,7 @@ namespace AutoWikiBrowser
 
         private void filterOutNonMainSpaceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            listMaker1.FilterArticles();
+            listMaker1.FilterNonMainArticles();
         }
 
         private void specialFilterToolStripMenuItem1_Click(object sender, EventArgs e)
