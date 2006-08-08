@@ -97,10 +97,11 @@ namespace AutoWikiBrowser
             webBrowserEdit.Saved += CaseWasSaved;
             webBrowserEdit.None += CaseWasNull;
             webBrowserEdit.Fault += StartDelayedRestartTimer;
-            webBrowserEdit.StatusChanged += UpdateStatus;
+            webBrowserEdit.StatusChanged += UpdateWebBrowserStatus;
 
             listMaker1.BusyStateChanged += SetProgressBar;
             listMaker1.NoOfArticlesChanged += UpdateButtons;
+            listMaker1.StatusTextChanged += UpdateListStatus;
         }
 
         readonly Regex WikiLinkRegex = new Regex("\\[\\[(.*?)(\\]\\]|\\|)", RegexOptions.Compiled);
@@ -450,7 +451,7 @@ namespace AutoWikiBrowser
             intEdits++;
 
             LastArticle = "";
-            listMaker1.RemoveEdittingArticle(EdittingArticle);
+            listMaker1.RemoveArticle(EdittingArticle);
             Start();
         }
 
@@ -470,7 +471,7 @@ namespace AutoWikiBrowser
                 //reset timer.
                 stopDelayedTimer();
                 webBrowserEdit.Document.Write("");
-                listMaker1.RemoveEdittingArticle(EdittingArticle);
+                listMaker1.RemoveArticle(EdittingArticle);
                 Start();
             }
             catch { }
@@ -686,28 +687,16 @@ namespace AutoWikiBrowser
 
         #endregion
 
-        #region MakeList
-
-
-        private void webBrowserEdit_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
-        {
-            toolStripProgressBar1.MarqueeAnimationSpeed = 0;
-            toolStripProgressBar1.Style = ProgressBarStyle.Continuous;
-        }
-
-        private void webBrowserEdit_Navigating(object sender, WebBrowserNavigatingEventArgs e)
-        {
-            toolStripProgressBar1.Style = ProgressBarStyle.Marquee;
-            toolStripProgressBar1.MarqueeAnimationSpeed = 100;
-        }
-
-        #endregion
-
         #region extra stuff
 
-        private void UpdateStatus()
+        private void UpdateWebBrowserStatus()
         {
             lblStatusText.Text = webBrowserEdit.Status;
+        }
+
+        private void UpdateListStatus()
+        {
+            lblStatusText.Text = listMaker1.Status;
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -1930,6 +1919,18 @@ Thank you for taking the time to help the encyclopedia. RegExTypoFix is develope
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/User:Mboverload/RegExTypoFix");
+        }
+
+        private void webBrowserEdit_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+            toolStripProgressBar1.MarqueeAnimationSpeed = 0;
+            toolStripProgressBar1.Style = ProgressBarStyle.Continuous;
+        }
+
+        private void webBrowserEdit_Navigating(object sender, WebBrowserNavigatingEventArgs e)
+        {
+            toolStripProgressBar1.Style = ProgressBarStyle.Marquee;
+            toolStripProgressBar1.MarqueeAnimationSpeed = 100;
         }
 
         #endregion

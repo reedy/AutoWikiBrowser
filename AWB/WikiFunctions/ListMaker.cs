@@ -14,14 +14,16 @@ namespace WikiFunctions
 {
     public enum SourceType : byte { Category, WhatLinksHere, WhatTranscludesHere, LinksOnPage, TextFile, GoogleWikipedia, UserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist }
 
+    public delegate void StatusTextChangedDel();
     public delegate void BusyStateChangedDel();
     public delegate void NoOfArticlesChangedDel();
 
     public partial class ListMaker : UserControl, IEnumerable<Article>
     {
+        public event StatusTextChangedDel StatusTextChanged;
         public event BusyStateChangedDel BusyStateChanged;
         public event NoOfArticlesChangedDel NoOfArticlesChanged;
-        
+
         public ListMaker()
         {
             InitializeComponent();
@@ -198,7 +200,9 @@ namespace WikiFunctions
             }
             else if (cmboSourceSelect.SelectedIndex == 10)
             {
+                BusyStatus = true;
                 AddArticleListToList(GetLists.FromWatchList());
+                BusyStatus = false;
                 UpdateButtons();
                 return;
             }
@@ -292,6 +296,9 @@ namespace WikiFunctions
 
         #region Properties
 
+        /// <summary>
+        /// Sets whether the buttons are enabled or not
+        /// </summary>
         public bool ButtonsEnabled
         {
             set
@@ -303,35 +310,44 @@ namespace WikiFunctions
             }
         }
 
+        /// <summary>
+        /// Gets or sets the selected index
+        /// </summary>
         public int SelectedSourceIndex
         {
             get { return cmboSourceSelect.SelectedIndex; }
             set { cmboSourceSelect.SelectedIndex = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the source text
+        /// </summary>
         public string SourceText
         {
             get { return txtSelectSource.Text; }
             set { txtSelectSource.Text = value; }
         }
 
+        /// <summary>
+        /// Set whether the make button is enabled
+        /// </summary>
         public bool MakeListEnabled
         {
             set { btnMakeList.Enabled = value; }
         }
 
-        public Thread ListThread
-        {
-            get { return ListerThread; }
-            set { ListerThread = value; }
-        }
-
+        /// <summary>
+        /// Gets the number of articles in the list
+        /// </summary>
         public int NumberOfArticles
         {
             get { return lbArticles.Items.Count; }
         }
 
         bool bSaved = true;
+        /// <summary>
+        /// Gets a value showing whether the list has been saved since last changed
+        /// </summary>
         public bool Saved
         {
             get { return bSaved; }
@@ -346,16 +362,23 @@ namespace WikiFunctions
         }
 
         string strStatus = "";
+        /// <summary>
+        /// The status of the process
+        /// </summary>
         public string Status
         {
             get { return strStatus; }
             set
-            {
+            {                
                 strStatus = value;
+                this.StatusTextChanged();
             }
         }
 
         bool bBusyStatus = false;
+        /// <summary>
+        /// Gets a value indicating whether the process is busy
+        /// </summary>
         public bool BusyStatus
         {
             get { return bBusyStatus; }
@@ -367,12 +390,18 @@ namespace WikiFunctions
         }
 
         string strListFile = "";
+        /// <summary>
+        /// The file the list was made from
+        /// </summary>
         public string ListFile
         {
             get { return strListFile; }
             set { strListFile = value; }
         }
 
+        /// <summary>
+        /// Returns the selected article
+        /// </summary>
         public Article SelectedArticle()
         {
             if (lbArticles.SelectedItem == null)
@@ -385,7 +414,10 @@ namespace WikiFunctions
 
         #region Methods
 
-        public void RemoveEdittingArticle(Article EdittingArticle)
+        /// <summary>
+        /// Removes the given article from the list
+        /// </summary>
+        public void RemoveArticle(Article EdittingArticle)
         {
             Saved = false;
             if (lbArticles.Items.Contains(EdittingArticle))
@@ -407,7 +439,7 @@ namespace WikiFunctions
             }
 
             UpdateButtons();
-        }        
+        }
 
         private void launchDumpSearcher()
         {
@@ -417,6 +449,9 @@ namespace WikiFunctions
         }
 
         private delegate void AddToListDel(string s);
+        /// <summary>
+        /// Adds the given string to the list, first turning it into an Article
+        /// </summary>
         public void AddToList(string s)
         {
             if (this.InvokeRequired)
@@ -611,13 +646,19 @@ namespace WikiFunctions
             UpdateButtons();
         }
 
+        /// <summary>
+        /// Opens the dialog to filter out articles
+        /// </summary>
         public void Filter()
         {
             specialFilter SepcialFilter = new specialFilter(lbArticles);
             SepcialFilter.ShowDialog();
             UpdateButtons();
-        }       
+        }
 
+        /// <summary>
+        /// Saves the list to the specified text file.
+        /// </summary>
         public void SaveList()
         {//Save lbArticles list to text file.
             try
@@ -651,6 +692,9 @@ namespace WikiFunctions
             }
         }
 
+        /// <summary>
+        /// Filters out articles that are not in the main namespace
+        /// </summary>
         public void FilterNonMainArticles()
         {
             //filter out non-mainspace articles
@@ -669,12 +713,18 @@ namespace WikiFunctions
             UpdateButtons();
         }
 
+        /// <summary>
+        /// Alphabetically sorts the list
+        /// </summary>
         public void AlphaSortList()
         {
             lbArticles.Sorted = true;
             lbArticles.Sorted = false;
         }
 
+        /// <summary>
+        /// Replaces one article in the list with another, in the same place
+        /// </summary>
         public void ReplaceArticle(Article OldArticle, Article NewArticle)
         {
             lbArticles.ClearSelected();
@@ -682,12 +732,15 @@ namespace WikiFunctions
             int intPos = 0;
             intPos = lbArticles.Items.IndexOf(OldArticle);
 
-            RemoveEdittingArticle(OldArticle);
+            RemoveArticle(OldArticle);
             lbArticles.Items.Insert(intPos, NewArticle);
 
             lbArticles.SelectedItem = NewArticle;
         }
 
+        /// <summary>
+        /// Stops the processes
+        /// </summary>
         public void Stop()
         {
             if (ListerThread != null)
@@ -700,9 +753,9 @@ namespace WikiFunctions
         {
             lblNumberOfArticles.Text = lbArticles.Items.Count.ToString();
             this.NoOfArticlesChanged();
-        } 
+        }
 
-        #endregion        
+        #endregion
 
         #region Context menu
 

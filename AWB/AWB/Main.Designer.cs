@@ -2123,13 +2123,11 @@ namespace AutoWikiBrowser
             // listMaker1
             // 
             this.listMaker1.ListFile = "";
-            this.listMaker1.ListThread = null;
             this.listMaker1.Location = new System.Drawing.Point(3, 15);
             this.listMaker1.Name = "listMaker1";
             this.listMaker1.SelectedSourceIndex = -1;
             this.listMaker1.Size = new System.Drawing.Size(201, 345);
             this.listMaker1.SourceText = "";
-            this.listMaker1.Status = "";
             this.listMaker1.TabIndex = 0;
             this.listMaker1.WikiStatus = false;
             // 
