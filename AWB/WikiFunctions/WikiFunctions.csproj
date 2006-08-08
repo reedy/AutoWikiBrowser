@@ -70,6 +70,12 @@
     <Compile Include="ListComparer.Designer.cs">
       <DependentUpon>ListComparer.cs</DependentUpon>
     </Compile>
+    <Compile Include="ListMaker.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ListMaker.Designer.cs">
+      <DependentUpon>ListMaker.cs</DependentUpon>
+    </Compile>
     <Compile Include="MetaDataSorter.cs" />
     <Compile Include="NoFlickerListView.cs">
       <SubType>Component</SubType>
@@ -152,6 +158,10 @@
     <EmbeddedResource Include="ListComparer.resx">
       <DependentUpon>ListComparer.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListMaker.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ListMaker.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ReplaceSpecial\InTemplateRuleControl.resx">
       <DependentUpon>InTemplateRuleControl.cs</DependentUpon>

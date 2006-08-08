@@ -44,6 +44,9 @@ namespace AutoWikiBrowser
         public MainForm()
         {
             InitializeComponent();
+            lblUserName.Alignment = ToolStripItemAlignment.Right;
+            lblProject.Alignment = ToolStripItemAlignment.Right;
+            lblTimer.Alignment = ToolStripItemAlignment.Right;            
 
             btntsShowHide.Image = Resources.btnshowhide_image;
             btntsSave.Image = Resources.btntssave_image;
@@ -77,7 +80,7 @@ namespace AutoWikiBrowser
                 MessageBox.Show(ex.Message);
             }
 
-            cmboSourceSelect.SelectedIndex = 0;
+            listMaker1.SelectedSourceIndex = 0;
             cmboCategorise.SelectedIndex = 0;
             cmboImages.SelectedIndex = 0;
             lblStatusText.AutoSize = true;
@@ -95,13 +98,14 @@ namespace AutoWikiBrowser
             webBrowserEdit.None += CaseWasNull;
             webBrowserEdit.Fault += StartDelayedRestartTimer;
             webBrowserEdit.StatusChanged += UpdateStatus;
+
+            listMaker1.BusyStateChanged += SetProgressBar;
         }
 
         readonly Regex WikiLinkRegex = new Regex("\\[\\[(.*?)(\\]\\]|\\|)", RegexOptions.Compiled);
         readonly Regex RedirectRegex = new Regex("^#redirect:? ?\\[\\[(.*?)\\]\\]", RegexOptions.IgnoreCase);
         string LastArticle = "";
         string strSettingsFile = "";
-        string strListFile = "";
         bool boolSaved = true;
         ArrayList noParse = new ArrayList();
         FindandReplace findAndReplace = new FindandReplace();
@@ -137,11 +141,6 @@ namespace AutoWikiBrowser
             set { WikiStatusBool = value; }
         }
 
-        private int NumberOfArticles
-        {
-            set { lblNumberOfArticles.Text = value.ToString(); }
-        }
-
         private void MainForm_Load(object sender, EventArgs e)
         {
             //add articles to avoid (in future may be populated from checkpage
@@ -154,7 +153,7 @@ namespace AutoWikiBrowser
                 btnStart.Enabled = false;
             }
             else
-                btnMakeList.Enabled = true;
+                listMaker1.MakeListEnabled = true;
 
             Debug();
             loadDefaultSettings();
@@ -197,21 +196,18 @@ namespace AutoWikiBrowser
 
                 ArticleInfo(true);
 
-                if (lbArticles.Items.Count < 1)
+                if (listMaker1.NumberOfArticles < 1)
                 {
                     stopSaveInterval();
                     lblTimer.Text = "";
                     lblStatusText.Text = "No articles in list, you need to use the Make list";
                     this.Text = "AutoWikiBrowser";
                     webBrowserEdit.Document.Write("");
-                    btnMakeList.Enabled = true;
+                    listMaker1.MakeListEnabled = true;
                     return;
                 }
 
-                if (lbArticles.SelectedItem == null)
-                    lbArticles.SelectedIndex = 0;
-
-                EdittingArticle = (Article)lbArticles.SelectedItem;// lbArticles.SelectedItem.ToString();
+                EdittingArticle = listMaker1.SelectedArticle();
 
                 //Navigate to edit page
                 webBrowserEdit.LoadEditPage(EdittingArticle.URLEncodedName);
@@ -224,8 +220,7 @@ namespace AutoWikiBrowser
 
         private void CaseWasLoad()
         {
-            string strText = "";
-            Article Redirect = new Article();
+            string strText = "";           
 
             if (!loadSuccess())
                 return;
@@ -245,7 +240,7 @@ namespace AutoWikiBrowser
             //check for redirect
             if (bypassRedirectsToolStripMenuItem.Checked && m.Success)
             {
-                Redirect.Name = m.Groups[1].Value;
+                Article Redirect = new Article(m.Groups[1].Value);
 
                 if (Redirect.Name == EdittingArticle.Name)
                 {//ignore recursice redirects
@@ -253,14 +248,8 @@ namespace AutoWikiBrowser
                     return;
                 }
 
-                int intPos = 0;
-                intPos = lbArticles.Items.IndexOf(EdittingArticle);
-
-                RemoveEdittingArticle();
-                lbArticles.ClearSelected();
-                lbArticles.Items.Insert(intPos, EdittingArticle);
-
-                lbArticles.SelectedItem = Redirect;
+                listMaker1.ReplaceArticle(EdittingArticle, Redirect);
+                
                 webBrowserEdit.LoadEditPage(HttpUtility.UrlEncode(Redirect.Name));
                 return;
             }
@@ -460,7 +449,7 @@ namespace AutoWikiBrowser
             intEdits++;
 
             LastArticle = "";
-            RemoveEdittingArticle();
+            listMaker1.RemoveEdittingArticle(EdittingArticle);
             Start();
         }
 
@@ -480,7 +469,7 @@ namespace AutoWikiBrowser
                 //reset timer.
                 stopDelayedTimer();
                 webBrowserEdit.Document.Write("");
-                RemoveEdittingArticle();
+                listMaker1.RemoveEdittingArticle(EdittingArticle);
                 Start();
             }
             catch { }
@@ -518,7 +507,7 @@ namespace AutoWikiBrowser
 
                 if (cmboCategorise.SelectedIndex == 1)
                 {
-                    articleText = parsers.ReCategoriser(txtSelectSource.Text, txtNewCategory.Text, articleText, ref skip);
+                    articleText = parsers.ReCategoriser(listMaker1.SourceText, txtNewCategory.Text, articleText, ref skip);
                     if (skip)
                         return articleText;
                     else
@@ -694,302 +683,10 @@ namespace AutoWikiBrowser
             catch { }
         }
 
-        private void RemoveEdittingArticle()
-        {
-            boolSaved = false;
-            if (lbArticles.Items.Contains(EdittingArticle))
-            {
-                while (lbArticles.SelectedItems.Count > 0)
-                    lbArticles.SetSelected(lbArticles.SelectedIndex, false);
-
-                txtNewArticle.Text = EdittingArticle.Name;
-
-                int intPosition = lbArticles.Items.IndexOf(EdittingArticle);
-
-                lbArticles.Items.Remove(EdittingArticle);
-
-                if (lbArticles.Items.Count == intPosition)
-                    intPosition--;
-
-                if (lbArticles.Items.Count > 0)
-                    lbArticles.SelectedIndex = intPosition;
-            }
-
-            UpdateButtons();
-        }
-
         #endregion
 
         #region MakeList
 
-        private void btnAdd_Click(object sender, EventArgs e)
-        {
-            if (txtNewArticle.Text.Length == 0)
-            {
-                UpdateButtons();
-                return;
-            }
-
-            boolSaved = false;
-            AddToList(Tools.TurnFirstToUpper(txtNewArticle.Text));
-            txtNewArticle.Text = "";
-            UpdateButtons();
-        }
-
-        private void btnRemoveArticle_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                boolSaved = false;
-
-                lbArticles.BeginUpdate();
-                int i = lbArticles.SelectedIndex;
-
-                if (lbArticles.SelectedItems.Count > 0)
-                    txtNewArticle.Text = lbArticles.SelectedItem.ToString();
-
-                while (lbArticles.SelectedItems.Count > 0)
-                    lbArticles.Items.Remove(lbArticles.SelectedItem);
-
-                if (lbArticles.Items.Count > i)
-                    lbArticles.SelectedIndex = i;
-                else
-                    lbArticles.SelectedIndex = i - 1;
-
-                lbArticles.EndUpdate();
-            }
-            catch
-            { }
-
-            UpdateButtons();
-        }
-
-        private void btnArticlesListClear_Click(object sender, EventArgs e)
-        {
-            boolSaved = false;
-            lbArticles.Items.Clear();
-
-            UpdateButtons();
-        }
-
-        Thread ListerThread = null;
-        private void btnMakeList_Click(object sender, EventArgs e)
-        {
-            txtSelectSource.Text = txtSelectSource.Text.Trim('[', ']');
-            if (cmboSourceSelect.SelectedIndex == 0)
-                txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[14], "", RegexOptions.IgnoreCase);
-            else if (cmboSourceSelect.SelectedIndex == 6)
-                txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[2], "", RegexOptions.IgnoreCase);
-            else if (cmboSourceSelect.SelectedIndex == 7)
-                txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[-1], "", RegexOptions.IgnoreCase);
-            else if (cmboSourceSelect.SelectedIndex == 8)
-                txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
-            else if (cmboSourceSelect.SelectedIndex == 9)
-            {
-                launchDumpSearcher();
-                return;
-            }
-
-            txtSelectSource.Text = Tools.TurnFirstToUpper(txtSelectSource.Text);
-            txtSelectSource.AutoCompleteCustomSource.Add(txtSelectSource.Text);
-
-            //make sure there is some text.
-            if (txtSelectSource.Text.Length == 0 && txtSelectSource.Enabled)
-            {
-                MessageBox.Show("Please enter some text", "No text", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            if (!WikiStatus())
-                return;
-
-            if (cmboSourceSelect.SelectedIndex == 4)
-            {
-                try
-                {
-                    OpenFileDialog openListDialog = new OpenFileDialog();
-                    openListDialog.Filter = "text files|*.txt|All files|*.*";
-                    openListDialog.Multiselect = true;
-
-                    this.Focus();
-                    if (openListDialog.ShowDialog() == DialogResult.OK)
-                    {
-                        AddArticleListToList(GetLists.FromTextFile(openListDialog.FileNames));
-                        strListFile = openListDialog.FileName;
-                    }
-                    UpdateButtons();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-
-                return;
-            }
-            else if (cmboSourceSelect.SelectedIndex == 10)
-            {
-                AddArticleListToList(GetLists.FromWatchList());
-                UpdateButtons();
-                return;
-            }
-
-            string[] s = txtSelectSource.Text.Split('|');
-
-            MakeList(cmboSourceSelect.SelectedIndex, s);
-        }
-
-        private void MakeList(int Source, string[] SourceValues)
-        {
-            intSourceIndex = Source;
-            strSouce = SourceValues;
-
-            ThreadStart thr_Process = new ThreadStart(MakeList2);
-            ListerThread = new Thread(thr_Process);
-            ListerThread.IsBackground = true;
-            ListerThread.Start();
-        }
-
-        int intSourceIndex = 0;
-        string[] strSouce;
-        private void MakeList2()
-        {
-            boolSaved = false;
-            StartProgressBar();
-
-            try
-            {
-                switch (intSourceIndex)
-                {
-                    case 0:
-                        AddArticleListToList(GetLists.FromCategory(strSouce));
-                        break;
-                    case 1:
-                        AddArticleListToList(GetLists.FromWhatLinksHere(false, strSouce));
-                        break;
-                    case 2:
-                        AddArticleListToList(GetLists.FromWhatLinksHere(true, strSouce));
-                        break;
-                    case 3:
-                        AddArticleListToList(GetLists.FromLinksOnPage(strSouce));
-                        break;
-                    //4 from text file
-                    case 5:
-                        AddArticleListToList(GetLists.FromGoogleSearch(strSouce));
-                        break;
-                    case 6:
-                        AddArticleListToList(GetLists.FromUserContribs(strSouce));
-                        break;
-                    case 7:
-                        AddArticleListToList(GetLists.FromSpecialPage(strSouce));
-                        break;
-                    case 8:
-                        AddArticleListToList(GetLists.FromImageLinks(strSouce));
-                        break;
-                    //9 from datadump
-                    //10 from watchlist
-                    default:
-                        break;
-                }
-            }
-            catch (ThreadAbortException)
-            {
-            }
-            catch (PageDoeNotExistException ex)
-            {
-                MessageBox.Show(ex.Message, "Page does not exist error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Unexpected error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                StopProgressBar();
-            }
-        }
-
-        private delegate void SetProgBarDelegate();
-        private void StopProgressBar()
-        {
-            if (this.InvokeRequired)
-            {
-                this.BeginInvoke(new SetProgBarDelegate(StopProgressBar));
-                return;
-            }
-            if (!toolStripProgressBar1.IsDisposed)
-            {
-                this.Cursor = Cursors.Default;
-                btnMakeList.Enabled = true;
-                lblStatusText.Text = "List complete!";
-                toolStripProgressBar1.MarqueeAnimationSpeed = 0;
-                toolStripProgressBar1.Style = ProgressBarStyle.Continuous;
-                UpdateButtons();
-            }
-        }
-
-        private delegate void StartProgBarDelegate();
-        private void StartProgressBar()
-        {
-            if (this.InvokeRequired)
-            {
-                this.BeginInvoke(new StartProgBarDelegate(StartProgressBar));
-                return;
-            }
-            this.Cursor = Cursors.WaitCursor;
-            lblStatusText.Text = "Getting list";
-            btnMakeList.Enabled = false;
-            toolStripProgressBar1.MarqueeAnimationSpeed = 100;
-            toolStripProgressBar1.Style = ProgressBarStyle.Marquee;
-        }
-
-        private delegate void AddToListDel(string s);
-        private void AddToList(string s)
-        {
-            if (this.InvokeRequired)
-            {
-                this.Invoke(new AddToListDel(AddToList), s);
-                return;
-            }
-
-            Article a = new Article(s);
-            lbArticles.Items.Add(a);
-            UpdateButtons();
-        }
-
-        private delegate void AddArticleListDel(List<Article> l);
-        private void AddArticleListToList(List<Article> l)
-        {
-            if (this.InvokeRequired)
-            {
-                this.Invoke(new AddArticleListDel(AddArticleListToList), l);
-                return;
-            }
-
-            lbArticles.BeginUpdate();
-
-            foreach (Article a in l)
-            {
-                if (!lbArticles.Items.Contains(a))
-                    lbArticles.Items.Add(a);
-            }
-
-            lbArticles.EndUpdate();
-
-            UpdateButtons();
-        }
-
-        private List<Article> ArticleListFromListBox()
-        {
-            List<Article> list = new List<Article>();
-
-
-            foreach (Article a in lbArticles.Enumerate())
-            {
-                list.Add(a);
-            }
-
-            return list;
-        }
 
         private void webBrowserEdit_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
@@ -1003,78 +700,6 @@ namespace AutoWikiBrowser
             toolStripProgressBar1.MarqueeAnimationSpeed = 100;
         }
 
-        private void convertToTalkPagesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            List<Article> list = ArticleListFromListBox();
-            list = GetLists.ConvertToTalk(list);
-            lbArticles.Items.Clear();
-            AddArticleListToList(list);
-        }
-
-        private void convertFromTalkPagesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            List<Article> list = ArticleListFromListBox();
-            list = GetLists.ConvertFromTalk(list);
-            lbArticles.Items.Clear();
-            AddArticleListToList(list);
-        }
-
-        private void fromCategoryToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string[] c = new string[lbArticles.SelectedItems.Count];
-
-            int i = 0;
-            foreach (object o in lbArticles.SelectedItems)
-            {
-                c[i] = o.ToString();
-                i++;
-            }
-
-            MakeList(0, c);
-        }
-
-        private void fromWhatlinkshereToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string[] c = new string[lbArticles.SelectedItems.Count];
-
-            int i = 0;
-            foreach (object o in lbArticles.SelectedItems)
-            {
-                c[i] = o.ToString();
-                i++;
-            }
-
-            MakeList(1, c);
-        }
-
-        private void fromLinksOnPageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string[] c = new string[lbArticles.SelectedItems.Count];
-
-            int i = 0;
-            foreach (object o in lbArticles.SelectedItems)
-            {
-                c[i] = o.ToString();
-                i++;
-            }
-
-            MakeList(3, c);
-        }
-
-        private void fromImageLinksToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string[] c = new string[lbArticles.SelectedItems.Count];
-
-            int i = 0;
-            foreach (object o in lbArticles.SelectedItems)
-            {
-                c[i] = o.ToString();
-                i++;
-            }
-
-            MakeList(8, c);
-        }
-       
         #endregion
 
         #region extra stuff
@@ -1165,7 +790,7 @@ namespace AutoWikiBrowser
         {
             if (cmboCategorise.SelectedIndex > 0)
             {
-                if (cmboCategorise.SelectedIndex == 1 && (txtSelectSource.Text.Length == 0 || cmboSourceSelect.SelectedIndex != 0))
+                if (cmboCategorise.SelectedIndex == 1 && (listMaker1.SourceText.Length == 0 || listMaker1.SelectedSourceIndex != 0))
                 {
                     cmboCategorise.SelectedIndex = 0;
                     MessageBox.Show("Please create a list of articles from a category first", "Make list", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -1313,63 +938,6 @@ namespace AutoWikiBrowser
             About.Show();
         }
 
-        private void cmbSourceSelect_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            switch (cmboSourceSelect.SelectedIndex)
-            {
-                case 0:
-                    lblSourceSelect.Text = Variables.Namespaces[14];
-                    txtSelectSource.Enabled = true;
-                    chkWLHRedirects.Visible = false;
-                    return;
-                case 1:
-                    lblSourceSelect.Text = "What links to";
-                    txtSelectSource.Enabled = true;
-                    chkWLHRedirects.Visible = false;
-                    return;
-                case 2:
-                    lblSourceSelect.Text = "What embeds";
-                    txtSelectSource.Enabled = true;
-                    chkWLHRedirects.Visible = false;
-                    return;
-                case 3:
-                    lblSourceSelect.Text = "Links on";
-                    txtSelectSource.Enabled = true;
-                    chkWLHRedirects.Visible = false;
-                    return;
-                case 4:
-                    lblSourceSelect.Text = "From file";
-                    txtSelectSource.Enabled = false;
-                    chkWLHRedirects.Visible = false;
-                    return;
-                case 5:
-                    lblSourceSelect.Text = "Google search";
-                    txtSelectSource.Enabled = true;
-                    chkWLHRedirects.Visible = false;
-                    return;
-                case 6:
-                    lblSourceSelect.Text = Variables.Namespaces[2];
-                    txtSelectSource.Enabled = true;
-                    chkWLHRedirects.Visible = false;
-                    return;
-                case 7:
-                    lblSourceSelect.Text = Variables.Namespaces[-1];
-                    txtSelectSource.Enabled = true;
-                    chkWLHRedirects.Visible = false;
-                    return;
-                case 8:
-                    lblSourceSelect.Text = Variables.Namespaces[6];
-                    txtSelectSource.Enabled = true;
-                    chkWLHRedirects.Visible = false;
-                    return;
-                default:
-                    lblSourceSelect.Text = "";
-                    txtSelectSource.Enabled = false;
-                    chkWLHRedirects.Visible = false;
-                    return;
-            }
-        }
-
         private void loginToolStripMenuItem_Click(object sender, EventArgs e)
         {
             WikiStatus();
@@ -1400,83 +968,6 @@ namespace AutoWikiBrowser
         private void chkOnlyIfContains_CheckedChanged(object sender, EventArgs e)
         {
             txtOnlyIfContains.Enabled = chkOnlyIfContains.Checked;
-        }
-
-        private void saveListToTextFileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SaveList();
-        }
-        private void SaveList()
-        {//Save lbArticles list to text file.
-            try
-            {
-                StringBuilder strList = new StringBuilder("");
-
-                foreach (Article a in lbArticles.Enumerate())
-                {
-                    strList.Append("# [[" + a.Name + "]]\r\n");
-                }
-
-                if (strListFile.Length > 0)
-                    saveListDialog.FileName = strListFile;
-
-                if (saveListDialog.ShowDialog() == DialogResult.OK)
-                {
-                    strListFile = saveListDialog.FileName;
-                    StreamWriter sw = new StreamWriter(strListFile, false, Encoding.UTF8);
-                    sw.Write(strList);
-                    sw.Close();
-                    boolSaved = true;
-                }
-            }
-            catch (IOException ex)
-            {
-                MessageBox.Show(ex.Message, "File error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void FilterArticles()
-        {
-            //filter out non-mainspace articles
-            int i = 0;
-            string s = "";
-
-            while (i < lbArticles.Items.Count)
-            {
-                s = lbArticles.Items[i].ToString();
-
-                if (!Tools.IsMainSpace(s))
-                    lbArticles.Items.Remove(lbArticles.Items[i]);
-                else //move on
-                    i++;
-            }
-            UpdateButtons();
-        }
-
-        private void specialFilterToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            specialFilter();
-        }
-
-        private void specialFilterToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            specialFilter();
-        }
-
-        private void btnFilter_Click(object sender, EventArgs e)
-        {
-            specialFilter();
-        }
-
-        private void specialFilter()
-        {
-            specialFilter SepcialFilter = new specialFilter(lbArticles);
-            SepcialFilter.ShowDialog();
-            UpdateButtons();
         }
 
         private void txtNewCategory_Leave(object sender, EventArgs e)
@@ -1751,7 +1242,7 @@ namespace AutoWikiBrowser
         [Conditional("DEBUG")]
         public void Debug()
         {//stop logging in when de-bugging
-            AddToList("User:Bluemoose/Sandbox");
+            listMaker1.AddToList("User:Bluemoose/Sandbox");
             wikiStatusBool = true;
             chkAutoMode.Enabled = true;
             chkQuickSave.Enabled = true;
@@ -1811,13 +1302,10 @@ namespace AutoWikiBrowser
 
         private void UpdateButtons()
         {
-            NumberOfArticles = lbArticles.Items.Count;
-            bool enabled = lbArticles.Items.Count > 0;
+            bool enabled = listMaker1.NumberOfArticles > 0;
             btnStart.Enabled = enabled;
-            btnFilter.Enabled = enabled;
-            btnRemoveArticle.Enabled = enabled;
-            btnArticlesListClear.Enabled = enabled;
-            btnArticlesListSave.Enabled = enabled;
+            listMaker1.ButtonsEnabled = enabled;
+            lbltsNumberofItems.Text = "Articles: " + listMaker1.NumberOfArticles.ToString();
         }
 
         private void DisableStartButton()
@@ -1830,7 +1318,7 @@ namespace AutoWikiBrowser
             DisableStartButton();
             btnSave.Enabled = false;
 
-            if (lbArticles.Items.Count == 0)
+            if (listMaker1.NumberOfArticles == 0)
                 btnIgnore.Enabled = false;
 
             btnPreview.Enabled = false;
@@ -1838,7 +1326,7 @@ namespace AutoWikiBrowser
             btntsPreview.Enabled = false;
             btntsChanges.Enabled = false;
 
-            btnMakeList.Enabled = false;
+            listMaker1.MakeListEnabled = false;
 
             btntsSave.Enabled = false;
             btntsIgnore.Enabled = false;
@@ -1854,11 +1342,10 @@ namespace AutoWikiBrowser
             btntsPreview.Enabled = true;
             btntsChanges.Enabled = true;
 
-            btnMakeList.Enabled = true;
+            listMaker1.MakeListEnabled = true;
 
             btntsSave.Enabled = true;
             btntsIgnore.Enabled = true;
-
         }
 
         #endregion
@@ -1932,18 +1419,19 @@ namespace AutoWikiBrowser
 
         private void showTimerToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            lblTimer.Visible = showTimerToolStripMenuItem.Checked;
             stopSaveInterval();
         }
         int intStartTimer = 0;
         private void SaveInterval()
         {
             intStartTimer++;
-            lblTimer.Text = intStartTimer.ToString();
+            lblTimer.Text = "Timer: " + intStartTimer.ToString();
         }
         private void stopSaveInterval()
         {
             intStartTimer = 0;
-            lblTimer.Text = intStartTimer.ToString();
+            lblTimer.Text = "Timer: 0";
             ticker -= SaveInterval;
         }
 
@@ -1961,29 +1449,26 @@ namespace AutoWikiBrowser
 
         #region menus and buttons
 
-        private void lbArticles_MouseMove(object sender, MouseEventArgs e)
+        private void filterOutNonMainSpaceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string strTip = "";
-
-            //Get the item
-            int nIdx = lbArticles.IndexFromPoint(e.Location);
-            if ((nIdx >= 0) && (nIdx < lbArticles.Items.Count))
-                strTip = lbArticles.Items[nIdx].ToString();
-
-            toolTip1.SetToolTip(lbArticles, strTip);
+            listMaker1.FilterArticles();
         }
 
-        private void lbArticles_KeyDown(object sender, KeyEventArgs e)
+        private void specialFilterToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            if (e.KeyCode == Keys.Delete)
-                btnRemoveArticle.PerformClick();
+            listMaker1.Filter();
         }
 
-        private void txtNewArticle_MouseMove(object sender, MouseEventArgs e)
+        private void sortAlphabeticallyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            toolTip1.SetToolTip(txtNewArticle, txtNewArticle.Text);
+            listMaker1.AlphaSortList();
         }
 
+        private void saveListToTextFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            listMaker1.SaveList();
+        }
+        
         private void launchListComparerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ListComparer lc = new ListComparer();
@@ -1997,7 +1482,7 @@ namespace AutoWikiBrowser
 
         private void launchDumpSearcher()
         {
-            WikiFunctions.DatabaseScanner.DatabaseScanner ds = new WikiFunctions.DatabaseScanner.DatabaseScanner(lbArticles);
+            WikiFunctions.DatabaseScanner.DatabaseScanner ds = new WikiFunctions.DatabaseScanner.DatabaseScanner();
             ds.Show();
             UpdateButtons();
         }
@@ -2094,25 +1579,8 @@ namespace AutoWikiBrowser
                 e.SuppressKeyPress = true;
                 cmboEditSummary.Items.Add(cmboEditSummary.Text);
             }
-        }
-
-        private void txtSelectSource_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == '\r')
-            {
-                e.Handled = true;
-                btnMakeList.PerformClick();
-            }
-        }
-        private void txtNewArticle_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == '\r')
-            {
-                e.Handled = true;
-                btnAdd.PerformClick();
-            }
-        }
-
+        }       
+        
         private void listToolStripMenuItem_Click(object sender, EventArgs e)
         {
             txtEdit.SelectedText = Tools.HTMLToWiki(txtEdit.SelectedText, "*");
@@ -2188,88 +1656,6 @@ namespace AutoWikiBrowser
             string text = txtEdit.SelectedText;
             text = parsers.Unicodify(text);
             txtEdit.SelectedText = text;
-        }
-
-        private void btnFilterList_Click(object sender, EventArgs e)
-        {
-            FilterArticles();
-        }
-
-        private void filterOutNonMainSpaceArticlesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FilterArticles();
-        }
-
-        private void sortAlphebeticallyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            lbArticles.Sorted = true;
-            lbArticles.Sorted = false;
-        }
-
-        private void clearTheListToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            lbArticles.Items.Clear();
-            UpdateButtons();
-        }
-
-        private void saveListToTextFileToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            SaveList();
-        }
-
-        private void saveListToTextFileToolStripMenuItem_Click_1(object sender, EventArgs e)
-        {
-            SaveList();
-        }
-
-        private void filterOutNonMainSpaceToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FilterArticles();
-        }
-
-        private void sortAlphabeticallyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            lbArticles.Sorted = true;
-            lbArticles.Sorted = false;
-        }
-
-        private void removeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            btnRemoveArticle.PerformClick();
-        }
-
-        private void mnuListBox_Opening(object sender, CancelEventArgs e)
-        {
-            bool boolEnabled = lbArticles.Items.Count > 0;
-
-            if (lbArticles.SelectedItems.Count == 1)
-            {
-                if (lbArticles.SelectedItem.ToString().StartsWith(Variables.Namespaces[14]))
-                    fromCategoryToolStripMenuItem.Enabled = true;
-                else
-                    fromCategoryToolStripMenuItem.Enabled = false;
-
-                if (lbArticles.SelectedItem.ToString().StartsWith(Variables.Namespaces[6]))
-                    fromImageLinksToolStripMenuItem.Enabled = true;
-                else
-                    fromImageLinksToolStripMenuItem.Enabled = false;
-            }
-
-            addSelectedToListToolStripMenuItem.Enabled = lbArticles.SelectedItems.Count > 0;
-
-            removeToolStripMenuItem.Enabled = lbArticles.SelectedItem != null;
-            clearToolStripMenuItem1.Enabled = boolEnabled;
-            filterOutNonMainSpaceArticlesToolStripMenuItem.Enabled = boolEnabled;
-            convertToTalkPagesToolStripMenuItem.Enabled = boolEnabled;
-            convertFromTalkPagesToolStripMenuItem.Enabled = boolEnabled;
-            sortAlphebeticallyMenuItem.Enabled = boolEnabled;
-            saveListToTextFileToolStripMenuItem1.Enabled = boolEnabled;
-            specialFilterToolStripMenuItem.Enabled = boolEnabled;
-        }
-
-        private void clearToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            btnArticlesListClear.PerformClick();
         }
 
         private void metadataTemplateToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2390,10 +1776,7 @@ namespace AutoWikiBrowser
                 stopDelayedTimer();
                 EnableButtons();
                 return;
-            }
-
-            if (ListerThread != null)
-                ListerThread.Abort();
+            }           
 
             stopSaveInterval();
             StopDelayedRestartTimer();
@@ -2402,8 +1785,6 @@ namespace AutoWikiBrowser
 
             webBrowserLogin.Stop();
             lblStatusText.Text = "Stopped";
-
-            StopProgressBar();
         }
 
         private void helpToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -2486,26 +1867,11 @@ namespace AutoWikiBrowser
         private void removeAllExcessWhitespaceToolStripMenuItem_Click(object sender, EventArgs e)
         {
             txtEdit.Text = parsers.RemoveAllWhiteSpace(txtEdit.Text);
-        }
-
-        private void txtSelectSource_DoubleClick(object sender, EventArgs e)
-        {
-            txtSelectSource.SelectAll();
-        }
-
-        private void txtNewArticle_DoubleClick(object sender, EventArgs e)
-        {
-            txtNewArticle.SelectAll();
-        }
+        }               
 
         private void txtNewCategory_DoubleClick(object sender, EventArgs e)
         {
             txtNewCategory.SelectAll();
-        }
-
-        private void btnArticlesListSave_Click(object sender, EventArgs e)
-        {
-            SaveList();
         }
 
         private void cmboEditSummary_MouseMove(object sender, MouseEventArgs e)
@@ -2692,7 +2058,20 @@ Thank you for taking the time to help the encyclopedia. RegExTypoFix is develope
             txtImageWith.Text = Regex.Replace(txtImageWith.Text, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
         }
 
-        #endregion
+        private void SetProgressBar()
+        {
+            if (listMaker1.BusyStatus)
+            {
+                toolStripProgressBar1.MarqueeAnimationSpeed = 100;
+                toolStripProgressBar1.Style = ProgressBarStyle.Marquee;
+            }
+            else
+            {
+                toolStripProgressBar1.MarqueeAnimationSpeed = 0;
+                toolStripProgressBar1.Style = ProgressBarStyle.Continuous;
+            }
+        }
 
+        #endregion        
     }
 }

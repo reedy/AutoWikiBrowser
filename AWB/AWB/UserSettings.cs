@@ -28,8 +28,8 @@ namespace AutoWikiBrowser
         {
             findAndReplace.Clear();
             replaceSpecial.Clear();
-            cmboSourceSelect.SelectedIndex = 0;
-            txtSelectSource.Text = "";
+            listMaker1.SelectedSourceIndex = 0;
+            listMaker1.SourceText = "";
 
             chkGeneralParse.Checked = true;
             chkAutoTagger.Checked = true;
@@ -264,9 +264,9 @@ namespace AutoWikiBrowser
                         if (reader.Name == "selectsource" && reader.HasAttributes)
                         {
                             reader.MoveToAttribute("index");
-                            cmboSourceSelect.SelectedIndex = int.Parse(reader.Value);
+                            listMaker1.SelectedSourceIndex = int.Parse(reader.Value);
                             reader.MoveToAttribute("text");
-                            txtSelectSource.Text = reader.Value;
+                            listMaker1.SourceText = reader.Value;
 
                             continue;
                         }
@@ -582,8 +582,8 @@ namespace AutoWikiBrowser
                 textWriter.WriteStartElement("Options");
 
                 textWriter.WriteStartElement("selectsource");
-                textWriter.WriteAttributeString("index", cmboSourceSelect.SelectedIndex.ToString());
-                textWriter.WriteAttributeString("text", txtSelectSource.Text);
+                textWriter.WriteAttributeString("index", listMaker1.SelectedSourceIndex.ToString());
+                textWriter.WriteAttributeString("text", listMaker1.SourceText);
                 textWriter.WriteEndElement();
 
                 textWriter.WriteStartElement("general");

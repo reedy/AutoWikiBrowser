@@ -804,7 +804,7 @@ namespace IRCMonitor
             {
                 List<Article> bots = new List<Article>();
                 string item = "";
-                bots = GetLists.FromCategory("Wikipedia bots");
+                bots = GetLists.FromCategory(false, "Wikipedia bots");
 
                 foreach (Article a in bots)
                 {
