@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
 using System.Data;
@@ -13,18 +14,41 @@ namespace WikiFunctions
 {
     public enum SourceType : byte { Category, WhatLinksHere, WhatTranscludesHere, LinksOnPage, TextFile, GoogleWikipedia, UserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist }
 
-    public delegate void StatusChangedDel();
     public delegate void BusyStateChangedDel();
+    public delegate void NoOfArticlesChangedDel();
 
-    public partial class ListMaker : UserControl
+    public partial class ListMaker : UserControl, IEnumerable<Article>
     {
-        public event StatusChangedDel StatusChanged;
         public event BusyStateChangedDel BusyStateChanged;
-
+        public event NoOfArticlesChangedDel NoOfArticlesChanged;
+        
         public ListMaker()
         {
             InitializeComponent();
         }
+
+        #region Enumerator
+        public IEnumerator<Article> GetEnumerator()
+        {
+            int i = 0;
+            while (i < lbArticles.Items.Count)
+            {
+                yield return (Article)lbArticles.Items[i];
+                i++;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            int i = 0;
+            while (i < lbArticles.Items.Count)
+            {
+                yield return (Article)lbArticles.Items[i];
+                i++;
+            }
+        }
+
+        #endregion
 
         #region Events
 
@@ -101,7 +125,7 @@ namespace WikiFunctions
 
         private void btnRemoveArticle_Click(object sender, EventArgs e)
         {
-            RemoveArticle();
+            RemoveSelectedArticle();
         }
 
         private void btnArticlesListClear_Click(object sender, EventArgs e)
@@ -184,6 +208,86 @@ namespace WikiFunctions
             MakeList(cmboSourceSelect.SelectedIndex, s);
         }
 
+        private void lbArticles_MouseMove(object sender, MouseEventArgs e)
+        {
+            string strTip = "";
+
+            //Get the item
+            int nIdx = lbArticles.IndexFromPoint(e.Location);
+            if ((nIdx >= 0) && (nIdx < lbArticles.Items.Count))
+                strTip = lbArticles.Items[nIdx].ToString();
+
+            toolTip1.SetToolTip(lbArticles, strTip);
+        }
+
+        private void txtNewArticle_MouseMove(object sender, MouseEventArgs e)
+        {
+            toolTip1.SetToolTip(txtNewArticle, txtNewArticle.Text);
+        }
+
+        private void lbArticles_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+                btnRemoveArticle.PerformClick();
+        }
+
+        private void txtNewArticle_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '\r')
+            {
+                e.Handled = true;
+                btnAdd.PerformClick();
+            }
+        }
+
+        private void txtSelectSource_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '\r')
+            {
+                e.Handled = true;
+                btnMakeList.PerformClick();
+            }
+        }
+
+        private void mnuListBox_Opening(object sender, CancelEventArgs e)
+        {
+            bool boolEnabled = lbArticles.Items.Count > 0;
+
+            if (lbArticles.SelectedItems.Count == 1)
+            {
+                if (lbArticles.SelectedItem.ToString().StartsWith(Variables.Namespaces[14]))
+                    fromCategoryToolStripMenuItem.Enabled = true;
+                else
+                    fromCategoryToolStripMenuItem.Enabled = false;
+
+                if (lbArticles.SelectedItem.ToString().StartsWith(Variables.Namespaces[6]))
+                    fromImageLinksToolStripMenuItem.Enabled = true;
+                else
+                    fromImageLinksToolStripMenuItem.Enabled = false;
+            }
+
+            addSelectedToListToolStripMenuItem.Enabled = lbArticles.SelectedItems.Count > 0;
+
+            removeToolStripMenuItem.Enabled = lbArticles.SelectedItem != null;
+            clearToolStripMenuItem1.Enabled = boolEnabled;
+            filterOutNonMainSpaceArticlesToolStripMenuItem.Enabled = boolEnabled;
+            convertToTalkPagesToolStripMenuItem.Enabled = boolEnabled;
+            convertFromTalkPagesToolStripMenuItem.Enabled = boolEnabled;
+            sortAlphebeticallyMenuItem.Enabled = boolEnabled;
+            saveListToTextFileToolStripMenuItem1.Enabled = boolEnabled;
+            specialFilterToolStripMenuItem.Enabled = boolEnabled;
+        }
+
+        private void txtNewArticle_DoubleClick(object sender, EventArgs e)
+        {
+            txtNewArticle.SelectAll();
+        }
+
+        private void txtSelectSource_DoubleClick(object sender, EventArgs e)
+        {
+            txtSelectSource.SelectAll();
+        }
+
         #endregion
 
         #region Properties
@@ -224,10 +328,6 @@ namespace WikiFunctions
 
         public int NumberOfArticles
         {
-            set
-            {
-
-            }
             get { return lbArticles.Items.Count; }
         }
 
@@ -307,23 +407,7 @@ namespace WikiFunctions
             }
 
             UpdateButtons();
-        }
-
-        private void convertToTalkPagesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            List<Article> list = ArticleListFromListBox();
-            list = GetLists.ConvertToTalk(list);
-            lbArticles.Items.Clear();
-            AddArticleListToList(list);
-        }
-
-        private void convertFromTalkPagesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            List<Article> list = ArticleListFromListBox();
-            list = GetLists.ConvertFromTalk(list);
-            lbArticles.Items.Clear();
-            AddArticleListToList(list);
-        }
+        }        
 
         private void launchDumpSearcher()
         {
@@ -373,7 +457,7 @@ namespace WikiFunctions
             List<Article> list = new List<Article>();
 
 
-            foreach (Article a in lbArticles.Enumerate())
+            foreach (Article a in lbArticles)
             {
                 list.Add(a);
             }
@@ -395,8 +479,6 @@ namespace WikiFunctions
             this.Cursor = Cursors.WaitCursor;
             Status = "Getting list";
             btnMakeList.Enabled = false;
-            //toolStripProgressBar1.MarqueeAnimationSpeed = 100;
-            //toolStripProgressBar1.Style = ProgressBarStyle.Marquee;
         }
 
         private delegate void SetProgBarDelegate();
@@ -493,7 +575,7 @@ namespace WikiFunctions
             UpdateButtons();
         }
 
-        private void RemoveArticle()
+        private void RemoveSelectedArticle()
         {
             try
             {
@@ -534,6 +616,130 @@ namespace WikiFunctions
             specialFilter SepcialFilter = new specialFilter(lbArticles);
             SepcialFilter.ShowDialog();
             UpdateButtons();
+        }       
+
+        public void SaveList()
+        {//Save lbArticles list to text file.
+            try
+            {
+                StringBuilder strList = new StringBuilder("");
+
+                foreach (Article a in lbArticles)
+                {
+                    strList.Append("# [[" + a.Name + "]]\r\n");
+                }
+
+                if (strListFile.Length > 0)
+                    saveListDialog.FileName = strListFile;
+
+                if (saveListDialog.ShowDialog() == DialogResult.OK)
+                {
+                    strListFile = saveListDialog.FileName;
+                    StreamWriter sw = new StreamWriter(strListFile, false, Encoding.UTF8);
+                    sw.Write(strList);
+                    sw.Close();
+                    Saved = true;
+                }
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show(ex.Message, "File error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public void FilterNonMainArticles()
+        {
+            //filter out non-mainspace articles
+            int i = 0;
+            string s = "";
+
+            while (i < lbArticles.Items.Count)
+            {
+                s = lbArticles.Items[i].ToString();
+
+                if (!Tools.IsMainSpace(s))
+                    lbArticles.Items.Remove(lbArticles.Items[i]);
+                else //move on
+                    i++;
+            }
+            UpdateButtons();
+        }
+
+        public void AlphaSortList()
+        {
+            lbArticles.Sorted = true;
+            lbArticles.Sorted = false;
+        }
+
+        public void ReplaceArticle(Article OldArticle, Article NewArticle)
+        {
+            lbArticles.ClearSelected();
+
+            int intPos = 0;
+            intPos = lbArticles.Items.IndexOf(OldArticle);
+
+            RemoveEdittingArticle(OldArticle);
+            lbArticles.Items.Insert(intPos, NewArticle);
+
+            lbArticles.SelectedItem = NewArticle;
+        }
+
+        public void Stop()
+        {
+            if (ListerThread != null)
+                ListerThread.Abort();
+
+            StopProgressBar();
+        }
+
+        private void UpdateButtons()
+        {
+            lblNumberOfArticles.Text = lbArticles.Items.Count.ToString();
+            this.NoOfArticlesChanged();
+        } 
+
+        #endregion        
+
+        #region Context menu
+
+        private void filterOutNonMainSpaceArticlesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FilterNonMainArticles();
+        }
+
+        private void specialFilterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Filter();
+        }
+
+        private void sortAlphebeticallyMenuItem_Click(object sender, EventArgs e)
+        {
+            AlphaSortList();
+        }
+
+        private void saveListToTextFileToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            SaveList();
+        }
+
+        private void convertToTalkPagesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<Article> list = ArticleListFromListBox();
+            list = GetLists.ConvertToTalk(list);
+            lbArticles.Items.Clear();
+            AddArticleListToList(list);
+        }
+
+        private void convertFromTalkPagesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<Article> list = ArticleListFromListBox();
+            list = GetLists.ConvertFromTalk(list);
+            lbArticles.Items.Clear();
+            AddArticleListToList(list);
         }
 
         private void fromCategoryToolStripMenuItem_Click(object sender, EventArgs e)
@@ -592,170 +798,15 @@ namespace WikiFunctions
             MakeList(8, c);
         }
 
-        public void SaveList()
-        {//Save lbArticles list to text file.
-            try
-            {
-                StringBuilder strList = new StringBuilder("");
-
-                foreach (Article a in lbArticles.Enumerate())
-                {
-                    strList.Append("# [[" + a.Name + "]]\r\n");
-                }
-
-                if (strListFile.Length > 0)
-                    saveListDialog.FileName = strListFile;
-
-                if (saveListDialog.ShowDialog() == DialogResult.OK)
-                {
-                    strListFile = saveListDialog.FileName;
-                    StreamWriter sw = new StreamWriter(strListFile, false, Encoding.UTF8);
-                    sw.Write(strList);
-                    sw.Close();
-                    Saved = true;
-                }
-            }
-            catch (IOException ex)
-            {
-                MessageBox.Show(ex.Message, "File error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        public void FilterArticles()
+        private void removeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //filter out non-mainspace articles
-            int i = 0;
-            string s = "";
-
-            while (i < lbArticles.Items.Count)
-            {
-                s = lbArticles.Items[i].ToString();
-
-                if (!Tools.IsMainSpace(s))
-                    lbArticles.Items.Remove(lbArticles.Items[i]);
-                else //move on
-                    i++;
-            }
-            UpdateButtons();
+            RemoveSelectedArticle();
         }
 
-        public void AlphaSortList()
+        private void clearToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            lbArticles.Sorted = true;
-            lbArticles.Sorted = false;
+            Clear();
         }
-
         #endregion
-
-
-        private void UpdateButtons()
-        {
-
-        }
-
-        public void ReplaceArticle(Article OldArticle, Article NewArticle)
-        {
-            lbArticles.ClearSelected();
-
-            int intPos = 0;
-            intPos = lbArticles.Items.IndexOf(OldArticle);
-
-            RemoveEdittingArticle(OldArticle);
-            lbArticles.Items.Insert(intPos, NewArticle);
-
-            lbArticles.SelectedItem = NewArticle;
-        }
-
-        private void lbArticles_MouseMove(object sender, MouseEventArgs e)
-        {
-            string strTip = "";
-
-            //Get the item
-            int nIdx = lbArticles.IndexFromPoint(e.Location);
-            if ((nIdx >= 0) && (nIdx < lbArticles.Items.Count))
-                strTip = lbArticles.Items[nIdx].ToString();
-
-            toolTip1.SetToolTip(lbArticles, strTip);
-        }
-
-        private void txtNewArticle_MouseMove(object sender, MouseEventArgs e)
-        {
-            toolTip1.SetToolTip(txtNewArticle, txtNewArticle.Text);
-        }
-
-        private void lbArticles_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Delete)
-                btnRemoveArticle.PerformClick();
-        }
-
-        private void txtNewArticle_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == '\r')
-            {
-                e.Handled = true;
-                btnAdd.PerformClick();
-            }
-        }
-
-        private void txtSelectSource_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == '\r')
-            {
-                e.Handled = true;
-                btnMakeList.PerformClick();
-            }
-        }
-
-        private void mnuListBox_Opening(object sender, CancelEventArgs e)
-        {
-            bool boolEnabled = lbArticles.Items.Count > 0;
-
-            if (lbArticles.SelectedItems.Count == 1)
-            {
-                if (lbArticles.SelectedItem.ToString().StartsWith(Variables.Namespaces[14]))
-                    fromCategoryToolStripMenuItem.Enabled = true;
-                else
-                    fromCategoryToolStripMenuItem.Enabled = false;
-
-                if (lbArticles.SelectedItem.ToString().StartsWith(Variables.Namespaces[6]))
-                    fromImageLinksToolStripMenuItem.Enabled = true;
-                else
-                    fromImageLinksToolStripMenuItem.Enabled = false;
-            }
-
-            addSelectedToListToolStripMenuItem.Enabled = lbArticles.SelectedItems.Count > 0;
-
-            removeToolStripMenuItem.Enabled = lbArticles.SelectedItem != null;
-            clearToolStripMenuItem1.Enabled = boolEnabled;
-            filterOutNonMainSpaceArticlesToolStripMenuItem.Enabled = boolEnabled;
-            convertToTalkPagesToolStripMenuItem.Enabled = boolEnabled;
-            convertFromTalkPagesToolStripMenuItem.Enabled = boolEnabled;
-            sortAlphebeticallyMenuItem.Enabled = boolEnabled;
-            saveListToTextFileToolStripMenuItem1.Enabled = boolEnabled;
-            specialFilterToolStripMenuItem.Enabled = boolEnabled;
-        }
-
-        public void Stop()
-        {
-            if (ListerThread != null)
-                ListerThread.Abort();
-
-            StopProgressBar();
-        }
-
-        private void txtNewArticle_DoubleClick(object sender, EventArgs e)
-        {
-            txtNewArticle.SelectAll();
-        }
-
-        private void txtSelectSource_DoubleClick(object sender, EventArgs e)
-        {
-            txtSelectSource.SelectAll();
-        }
     }
 }

@@ -87,11 +87,13 @@ namespace WikiFunctions
             // 
             // txtSelectSource
             // 
+            this.txtSelectSource.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSelectSource.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.txtSelectSource.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.txtSelectSource.Location = new System.Drawing.Point(78, 30);
             this.txtSelectSource.Name = "txtSelectSource";
-            this.txtSelectSource.Size = new System.Drawing.Size(127, 20);
+            this.txtSelectSource.Size = new System.Drawing.Size(134, 20);
             this.txtSelectSource.TabIndex = 18;
             this.txtSelectSource.DoubleClick += new System.EventHandler(this.txtSelectSource_DoubleClick);
             this.txtSelectSource.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSelectSource_KeyPress);
@@ -177,7 +179,7 @@ namespace WikiFunctions
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(15, 6);
+            this.label1.Location = new System.Drawing.Point(15, 5);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(57, 13);
             this.label1.TabIndex = 21;
@@ -185,6 +187,8 @@ namespace WikiFunctions
             // 
             // cmboSourceSelect
             // 
+            this.cmboSourceSelect.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.cmboSourceSelect.DropDownHeight = 200;
             this.cmboSourceSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmboSourceSelect.FormattingEnabled = true;
@@ -203,7 +207,7 @@ namespace WikiFunctions
             "My Watchlist"});
             this.cmboSourceSelect.Location = new System.Drawing.Point(78, 2);
             this.cmboSourceSelect.Name = "cmboSourceSelect";
-            this.cmboSourceSelect.Size = new System.Drawing.Size(127, 21);
+            this.cmboSourceSelect.Size = new System.Drawing.Size(134, 21);
             this.cmboSourceSelect.TabIndex = 19;
             this.cmboSourceSelect.Tag = "Source of pages to edit";
             this.cmboSourceSelect.SelectedIndexChanged += new System.EventHandler(this.cmboSourceSelect_SelectedIndexChanged);
@@ -223,7 +227,7 @@ namespace WikiFunctions
             this.removeToolStripMenuItem,
             this.clearToolStripMenuItem1});
             this.mnuListBox.Name = "contextMenuStrip2";
-            this.mnuListBox.Size = new System.Drawing.Size(195, 214);
+            this.mnuListBox.Size = new System.Drawing.Size(195, 236);
             this.mnuListBox.Opening += new System.ComponentModel.CancelEventHandler(this.mnuListBox_Opening);
             // 
             // filterOutNonMainSpaceArticlesToolStripMenuItem
@@ -232,6 +236,7 @@ namespace WikiFunctions
             this.filterOutNonMainSpaceArticlesToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.filterOutNonMainSpaceArticlesToolStripMenuItem.Text = "Filter out non main space";
             this.filterOutNonMainSpaceArticlesToolStripMenuItem.ToolTipText = "Filter out articles that are not in the main namespace";
+            this.filterOutNonMainSpaceArticlesToolStripMenuItem.Click += new System.EventHandler(this.filterOutNonMainSpaceArticlesToolStripMenuItem_Click);
             // 
             // specialFilterToolStripMenuItem
             // 
@@ -239,6 +244,7 @@ namespace WikiFunctions
             this.specialFilterToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.specialFilterToolStripMenuItem.Text = "Filter";
             this.specialFilterToolStripMenuItem.ToolTipText = "Filter articles by namespace";
+            this.specialFilterToolStripMenuItem.Click += new System.EventHandler(this.specialFilterToolStripMenuItem_Click);
             // 
             // convertToTalkPagesToolStripMenuItem
             // 
@@ -246,6 +252,7 @@ namespace WikiFunctions
             this.convertToTalkPagesToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.convertToTalkPagesToolStripMenuItem.Text = "Convert to talk pages";
             this.convertToTalkPagesToolStripMenuItem.ToolTipText = "Convert namespace to talk";
+            this.convertToTalkPagesToolStripMenuItem.Click += new System.EventHandler(this.convertToTalkPagesToolStripMenuItem_Click);
             // 
             // convertFromTalkPagesToolStripMenuItem
             // 
@@ -253,6 +260,7 @@ namespace WikiFunctions
             this.convertFromTalkPagesToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.convertFromTalkPagesToolStripMenuItem.Text = "Convert from talk pages";
             this.convertFromTalkPagesToolStripMenuItem.ToolTipText = "Convert namespace of talk pages to associated article";
+            this.convertFromTalkPagesToolStripMenuItem.Click += new System.EventHandler(this.convertFromTalkPagesToolStripMenuItem_Click);
             // 
             // sortAlphebeticallyMenuItem
             // 
@@ -260,6 +268,7 @@ namespace WikiFunctions
             this.sortAlphebeticallyMenuItem.Size = new System.Drawing.Size(194, 22);
             this.sortAlphebeticallyMenuItem.Text = "Sort alphabetically";
             this.sortAlphebeticallyMenuItem.ToolTipText = "Sorts the list alphabetically";
+            this.sortAlphebeticallyMenuItem.Click += new System.EventHandler(this.sortAlphebeticallyMenuItem_Click);
             // 
             // saveListToTextFileToolStripMenuItem1
             // 
@@ -267,6 +276,7 @@ namespace WikiFunctions
             this.saveListToTextFileToolStripMenuItem1.Size = new System.Drawing.Size(194, 22);
             this.saveListToTextFileToolStripMenuItem1.Text = "Save list to file";
             this.saveListToTextFileToolStripMenuItem1.ToolTipText = "Saves list to a text file";
+            this.saveListToTextFileToolStripMenuItem1.Click += new System.EventHandler(this.saveListToTextFileToolStripMenuItem1_Click);
             // 
             // toolStripSeparator14
             // 
@@ -289,24 +299,28 @@ namespace WikiFunctions
             this.fromCategoryToolStripMenuItem.Name = "fromCategoryToolStripMenuItem";
             this.fromCategoryToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.fromCategoryToolStripMenuItem.Text = "From category";
+            this.fromCategoryToolStripMenuItem.Click += new System.EventHandler(this.fromCategoryToolStripMenuItem_Click);
             // 
             // fromWhatlinkshereToolStripMenuItem
             // 
             this.fromWhatlinkshereToolStripMenuItem.Name = "fromWhatlinkshereToolStripMenuItem";
             this.fromWhatlinkshereToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.fromWhatlinkshereToolStripMenuItem.Text = "From whatlinkshere";
+            this.fromWhatlinkshereToolStripMenuItem.Click += new System.EventHandler(this.fromWhatlinkshereToolStripMenuItem_Click);
             // 
             // fromLinksOnPageToolStripMenuItem
             // 
             this.fromLinksOnPageToolStripMenuItem.Name = "fromLinksOnPageToolStripMenuItem";
             this.fromLinksOnPageToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.fromLinksOnPageToolStripMenuItem.Text = "From links on page";
+            this.fromLinksOnPageToolStripMenuItem.Click += new System.EventHandler(this.fromLinksOnPageToolStripMenuItem_Click);
             // 
             // fromImageLinksToolStripMenuItem
             // 
             this.fromImageLinksToolStripMenuItem.Name = "fromImageLinksToolStripMenuItem";
             this.fromImageLinksToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.fromImageLinksToolStripMenuItem.Text = "From image links";
+            this.fromImageLinksToolStripMenuItem.Click += new System.EventHandler(this.fromImageLinksToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
@@ -320,6 +334,7 @@ namespace WikiFunctions
             this.removeToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.removeToolStripMenuItem.Text = "Remove";
             this.removeToolStripMenuItem.ToolTipText = "Remove the selected articles";
+            this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
             // 
             // clearToolStripMenuItem1
             // 
@@ -327,6 +342,7 @@ namespace WikiFunctions
             this.clearToolStripMenuItem1.Size = new System.Drawing.Size(194, 22);
             this.clearToolStripMenuItem1.Text = "Clear";
             this.clearToolStripMenuItem1.ToolTipText = "Clear the list";
+            this.clearToolStripMenuItem1.Click += new System.EventHandler(this.clearToolStripMenuItem1_Click);
             // 
             // saveListDialog
             // 
@@ -336,11 +352,13 @@ namespace WikiFunctions
             // 
             // lbArticles
             // 
+            this.lbArticles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.lbArticles.FormattingEnabled = true;
             this.lbArticles.Location = new System.Drawing.Point(68, 81);
             this.lbArticles.Name = "lbArticles";
             this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbArticles.Size = new System.Drawing.Size(134, 264);
+            this.lbArticles.Size = new System.Drawing.Size(141, 264);
             this.lbArticles.TabIndex = 22;
             this.lbArticles.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lbArticles_MouseMove);
             this.lbArticles.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbArticles_KeyDown);
@@ -361,10 +379,10 @@ namespace WikiFunctions
             this.Controls.Add(this.txtNewArticle);
             this.Controls.Add(this.lblSourceSelect);
             this.Controls.Add(this.btnMakeList);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.cmboSourceSelect);
+            this.Controls.Add(this.label1);
             this.Name = "ListMaker";
-            this.Size = new System.Drawing.Size(207, 350);
+            this.Size = new System.Drawing.Size(214, 350);
             this.mnuListBox.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
