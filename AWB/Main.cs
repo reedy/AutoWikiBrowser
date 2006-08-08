@@ -2533,14 +2533,17 @@ namespace AutoWikiBrowser
             {
                 lblStatusText.Text = "Loading typos";
 
-                MessageBox.Show(@"
+                string message = @"
 1.  Check each edit before you make it. Although this has been built to be very accurate there is always the possibility of an error which requires your attention to watch out for.
 
 2. Optional:  Select [[WP:RETF|RegExTypoFix]] as the edit summary in the drop down box when doing spelling corrections.  This lets everyone know where to bring issues with the typo correction. 
 
-3. The newest typos will now be downloaded from http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/Typos
+Thank you for taking the time to help the encyclopedia. RegExTypoFix is developed by hand by User:Mboverload.";
 
-Thank you for taking the time to help the encyclopedia. RegExTypoFix is developed by hand by User:Mboverload.", "Attention", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                if (RegexTypos == null)
+                    message += "\r\n\r\nThe newest typos will now be downloaded from http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/Typos";
+
+                MessageBox.Show(message, "Attention", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                 if (RegexTypos == null)
                 {
