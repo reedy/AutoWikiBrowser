@@ -324,6 +324,17 @@ namespace AutoWikiBrowser
 
                             continue;
                         }
+                        if (reader.Name == "automode" && reader.HasAttributes)
+                        {
+                            reader.MoveToAttribute("delay");
+                            nudBotSpeed.Value = int.Parse(reader.Value);
+                            reader.MoveToAttribute("quicksave");
+                            chkQuickSave.Checked = bool.Parse(reader.Value);
+                            reader.MoveToAttribute("suppresstag");
+                            chkSuppressTag.Checked = bool.Parse(reader.Value);
+
+                            continue;
+                        }
                         if (reader.Name == "imager" && reader.HasAttributes)
                         {
                             reader.MoveToAttribute("index");
@@ -600,6 +611,12 @@ namespace AutoWikiBrowser
                 textWriter.WriteAttributeString("enabled", chkAppend.Checked.ToString());
                 textWriter.WriteAttributeString("text", txtAppendMessage.Text);
                 textWriter.WriteAttributeString("append", rdoAppend.Checked.ToString());
+                textWriter.WriteEndElement();
+
+                textWriter.WriteStartElement("automode");
+                textWriter.WriteAttributeString("delay", nudBotSpeed.Value.ToString());
+                textWriter.WriteAttributeString("quicksave", chkQuickSave.Checked.ToString());
+                textWriter.WriteAttributeString("suppresstag", chkSuppressTag.Checked.ToString());
                 textWriter.WriteEndElement();
 
                 textWriter.WriteStartElement("imager");

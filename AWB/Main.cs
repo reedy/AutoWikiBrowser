@@ -1148,7 +1148,7 @@ namespace AutoWikiBrowser
         {
             string tag = cmboEditSummary.Text + parsers.EditSummary;
             tag = tag += EditSummary;
-            if (!chkSuppressTag.Enabled || !chkSuppressTag.Checked)
+            if (!chkAutoMode.Checked || !chkSuppressTag.Checked)
                 tag += " " + Variables.SummaryTag;
 
             return tag;
@@ -1247,7 +1247,7 @@ namespace AutoWikiBrowser
                 else if (!strInnerHTML.Contains(Assembly.GetExecutingAssembly().GetName().Version.ToString() + " enabled"))
                 {//see if this version is enabled
                     MessageBox.Show("This version is not enabled, please download the newest version. If you have the newest version, check that Wikipedia is online.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser");
+                    System.Diagnostics.Process.Start("http://sourceforge.net/project/showfiles.php?group_id=158332");
                     return false;
                 }
                 else
@@ -2545,7 +2545,12 @@ Thank you for taking the time to help the encyclopedia. RegExTypoFix is develope
                 if (RegexTypos == null)
                 {
                     RegexTypos = new RegExTypoFix();
-                    lblStatusText.Text = RegexTypos.NumberofTypos.ToString() + " typos loaded";
+                    lblStatusText.Text = RegexTypos.Typos.Count.ToString() + " typos loaded";
+
+                    //foreach (KeyValuePair<Regex, string> k in RegexTypos.Typos)
+                    //{
+                    //    txtEdit.AppendText(k.Key + " => " + k.Value + "\r\n");
+                    //}
                 }
             }
 
