@@ -218,16 +218,9 @@ namespace WikiFunctions
             return TypoStrings;
         }
 
-        decimal decVersion = 0;
-        public decimal Version
+        public Dictionary<Regex, string> Typos
         {
-            get { return decVersion; }
-            private set { decVersion = value; }
-        }
-
-        public int NumberofTypos
-        {
-            get { return TypoRegexes.Count; }
+            get { return TypoRegexes; }
         }
     }
 }
