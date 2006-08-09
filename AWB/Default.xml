@@ -1,21 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Settings program="AWB" schema="1">
+<Settings program="AWB" schema="2">
   <Project>
     <projectlang proj="wikipedia" lang="en" />
   </Project>
   <Options>
     <selectsource index="0" text="" />
-    <general general="True" tagger="True" unicodifyer="True" templateparser="False" />
+    <general general="True" tagger="True" unicodifyer="True" />
     <categorisation index="0" text="" />
     <skip does="False" doesnot="False" regex="False" casesensitive="False" doestext="" doesnottext="" />
     <message enabled="False" text="" append="True" />
+    <automode delay="15" quicksave="False" suppresstag="False" />
     <imager index="0" replace="" with="" />
   </Options>
+  <regextypofix>
+    <regextypofixproperties enabled="False" skipnofixed="False" />
+  </regextypofix>
   <FindAndReplaceSettings>
-    <findandreplace enabled="False" regex="False" casesensitive="False" multiline="False" singleline="False" ignorenofar="True" />
+    <findandreplacesettings enabled="False" ignorenofar="False" ignoretext="False" appendsummary="True" />
   </FindAndReplaceSettings>
   <FindAndReplace>
-    <replacerules>
+    <replacerules enabled="False">
       <rule name="New rule" type="0" enabled="True" />
     </replacerules>
   </FindAndReplace>
