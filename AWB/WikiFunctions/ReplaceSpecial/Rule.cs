@@ -408,7 +408,7 @@ namespace WikiFunctions.MWB
                 {
                     if (!rd.IsEmptyElement)
                     {
-                        r.replace_ = rd.ReadElementContentAsString();
+                        r.replace_ = Utility.ReadAllElementContent(ref rd);
                         continue;
                     }
                 }
@@ -416,7 +416,7 @@ namespace WikiFunctions.MWB
                 {
                     if (!rd.IsEmptyElement)
                     {
-                        r.with_ = rd.ReadElementContentAsString();
+                        r.with_ = Utility.ReadAllElementContent(ref rd);
                         continue;
                     }
                 }
