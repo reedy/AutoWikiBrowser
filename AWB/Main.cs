@@ -54,7 +54,8 @@ namespace AutoWikiBrowser
             btntsStop.Image = Resources.Stop;
             btntsPreview.Image = Resources.preview;
             btntsChanges.Image = Resources.changes;
-            btnFalsePositive.Image = Resources.RolledBack;
+            btntsFalsePositive.Image = Resources.RolledBack;
+            btntsStart.Image = Resources.Run;
             //btnSave.Image = Resources.btntssave_image;
             //btnIgnore.Image = Resources.GoLtr;
 
@@ -152,7 +153,7 @@ namespace AutoWikiBrowser
             if (Environment.OSVersion.Version.Major < 5)
             {
                 MessageBox.Show("You appear to be using an older operating system, this software may have trouble with some unicode fonts on operating systems older than Windows 2000, the start button has been disabled.", "Operating system", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                btnStart.Enabled = false;
+                SetStartButton(false);
             }
             else
                 listMaker1.MakeListEnabled = true;
@@ -251,6 +252,7 @@ namespace AutoWikiBrowser
                 }
 
                 listMaker1.ReplaceArticle(EdittingArticle, Redirect);
+                EdittingArticle = Redirect;
                 
                 webBrowserEdit.LoadEditPage(HttpUtility.UrlEncode(Redirect.Name));
                 return;
@@ -469,11 +471,13 @@ namespace AutoWikiBrowser
             {
                 //reset timer.
                 stopDelayedTimer();
-                webBrowserEdit.Document.Write("");
                 listMaker1.Remove(EdittingArticle);
                 Start();
             }
-            catch { }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);            
+            }
         }
 
         private string Process(string articleText, ref bool skip)
@@ -1267,20 +1271,20 @@ namespace AutoWikiBrowser
         private void UpdateButtons()
         {
             bool enabled = listMaker1.NumberOfArticles > 0;
-            btnStart.Enabled = enabled;
+            SetStartButton(enabled);
             listMaker1.ButtonsEnabled = enabled;
             lbltsNumberofItems.Text = "Articles: " + listMaker1.NumberOfArticles.ToString();
         }
 
-        private void DisableStartButton()
+        private void SetStartButton(bool enabled)
         {
-            btnStart.Enabled = false;
+            btnStart.Enabled = enabled;
+            btntsStart.Enabled = enabled;
         }
 
         private void DisableButtons()
         {
-            DisableStartButton();
-            btnSave.Enabled = false;
+            SetStartButton(false);
 
             if (listMaker1.NumberOfArticles == 0)
                 btnIgnore.Enabled = false;
@@ -1292,8 +1296,8 @@ namespace AutoWikiBrowser
 
             listMaker1.MakeListEnabled = false;
 
+            btnSave.Enabled = false;
             btntsSave.Enabled = false;
-            btntsIgnore.Enabled = false;
         }
 
         private void EnableButtons()
@@ -1500,7 +1504,7 @@ namespace AutoWikiBrowser
         private void addIgnoredToLogFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             btnFalsePositive.Visible = addIgnoredToLogFileToolStripMenuItem.Checked;
-            tsbuttonFalsePositive.Visible = addIgnoredToLogFileToolStripMenuItem.Checked;
+            btntsFalsePositive.Visible = addIgnoredToLogFileToolStripMenuItem.Checked;
         }
 
         private void alphaSortInterwikiLinksToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
@@ -1946,6 +1950,11 @@ Thank you for taking the time to help the encyclopedia. RegExTypoFix is develope
             setBrowserSize();
         }
 
+        private void btntsStart_Click(object sender, EventArgs e)
+        {
+            Start();
+        }
+
         private void btntsSave_Click(object sender, EventArgs e)
         {
             Save();
@@ -2071,5 +2080,6 @@ Thank you for taking the time to help the encyclopedia. RegExTypoFix is develope
         }
 
         #endregion                       
+        
     }
 }

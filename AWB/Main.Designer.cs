@@ -134,7 +134,6 @@ namespace AutoWikiBrowser
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.listMaker1 = new WikiFunctions.ListMaker();
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtEdit = new System.Windows.Forms.TextBox();
             this.mnuTextBox = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -237,15 +236,18 @@ namespace AutoWikiBrowser
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.btntsShowHide = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
+            this.btntsStart = new System.Windows.Forms.ToolStripButton();
+            this.btntsStop = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator18 = new System.Windows.Forms.ToolStripSeparator();
             this.btntsSave = new System.Windows.Forms.ToolStripButton();
             this.btntsIgnore = new System.Windows.Forms.ToolStripButton();
-            this.btntsStop = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
             this.btntsPreview = new System.Windows.Forms.ToolStripButton();
             this.btntsChanges = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsbuttonFalsePositive = new System.Windows.Forms.ToolStripButton();
+            this.btntsFalsePositive = new System.Windows.Forms.ToolStripButton();
             this.lbltsNumberofItems = new System.Windows.Forms.ToolStripLabel();
+            this.listMaker1 = new WikiFunctions.ListMaker();
             this.webBrowserEdit = new WikiFunctions.WebControl();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -1230,17 +1232,6 @@ namespace AutoWikiBrowser
             this.clearToolStripMenuItem1.Text = "Clear";
             this.clearToolStripMenuItem1.ToolTipText = "Clear the list";
             // 
-            // listMaker1
-            // 
-            this.listMaker1.ListFile = "";
-            this.listMaker1.Location = new System.Drawing.Point(3, 15);
-            this.listMaker1.Name = "listMaker1";
-            this.listMaker1.SelectedSourceIndex = 1;
-            this.listMaker1.Size = new System.Drawing.Size(201, 345);
-            this.listMaker1.SourceText = "";
-            this.listMaker1.TabIndex = 0;
-            this.listMaker1.WikiStatus = false;
-            // 
             // panel1
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -2022,14 +2013,16 @@ namespace AutoWikiBrowser
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btntsShowHide,
             this.toolStripSeparator12,
+            this.btntsStart,
+            this.btntsStop,
+            this.toolStripSeparator18,
             this.btntsSave,
             this.btntsIgnore,
-            this.btntsStop,
             this.toolStripSeparator15,
             this.btntsPreview,
             this.btntsChanges,
             this.toolStripSeparator16,
-            this.tsbuttonFalsePositive,
+            this.btntsFalsePositive,
             this.lbltsNumberofItems});
             this.toolStrip.Location = new System.Drawing.Point(0, 24);
             this.toolStrip.Name = "toolStrip";
@@ -2052,6 +2045,32 @@ namespace AutoWikiBrowser
             this.toolStripSeparator12.Name = "toolStripSeparator12";
             this.toolStripSeparator12.Size = new System.Drawing.Size(6, 25);
             // 
+            // btntsStart
+            // 
+            this.btntsStart.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btntsStart.Enabled = false;
+            this.btntsStart.Image = ((System.Drawing.Image)(resources.GetObject("btntsStart.Image")));
+            this.btntsStart.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btntsStart.Name = "btntsStart";
+            this.btntsStart.Size = new System.Drawing.Size(23, 22);
+            this.btntsStart.Text = "toolStripButton1";
+            this.btntsStart.ToolTipText = "Start";
+            this.btntsStart.Click += new System.EventHandler(this.btntsStart_Click);
+            // 
+            // btntsStop
+            // 
+            this.btntsStop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btntsStop.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btntsStop.Name = "btntsStop";
+            this.btntsStop.Size = new System.Drawing.Size(23, 22);
+            this.btntsStop.Text = "Stop";
+            this.btntsStop.Click += new System.EventHandler(this.btntsStop_Click);
+            // 
+            // toolStripSeparator18
+            // 
+            this.toolStripSeparator18.Name = "toolStripSeparator18";
+            this.toolStripSeparator18.Size = new System.Drawing.Size(6, 25);
+            // 
             // btntsSave
             // 
             this.btntsSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -2071,15 +2090,6 @@ namespace AutoWikiBrowser
             this.btntsIgnore.Size = new System.Drawing.Size(23, 22);
             this.btntsIgnore.Text = "Ignore";
             this.btntsIgnore.Click += new System.EventHandler(this.btntsIgnore_Click);
-            // 
-            // btntsStop
-            // 
-            this.btntsStop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btntsStop.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btntsStop.Name = "btntsStop";
-            this.btntsStop.Size = new System.Drawing.Size(23, 22);
-            this.btntsStop.Text = "Stop";
-            this.btntsStop.Click += new System.EventHandler(this.btntsStop_Click);
             // 
             // toolStripSeparator15
             // 
@@ -2113,23 +2123,34 @@ namespace AutoWikiBrowser
             this.toolStripSeparator16.Name = "toolStripSeparator16";
             this.toolStripSeparator16.Size = new System.Drawing.Size(6, 25);
             // 
-            // tsbuttonFalsePositive
+            // btntsFalsePositive
             // 
-            this.tsbuttonFalsePositive.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbuttonFalsePositive.Image = ((System.Drawing.Image)(resources.GetObject("tsbuttonFalsePositive.Image")));
-            this.tsbuttonFalsePositive.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbuttonFalsePositive.Name = "tsbuttonFalsePositive";
-            this.tsbuttonFalsePositive.Size = new System.Drawing.Size(23, 22);
-            this.tsbuttonFalsePositive.Text = "toolStripButton1";
-            this.tsbuttonFalsePositive.ToolTipText = "Add to false positives file";
-            this.tsbuttonFalsePositive.Visible = false;
-            this.tsbuttonFalsePositive.Click += new System.EventHandler(this.tsbuttonFalsePositive_Click);
+            this.btntsFalsePositive.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btntsFalsePositive.Image = ((System.Drawing.Image)(resources.GetObject("btntsFalsePositive.Image")));
+            this.btntsFalsePositive.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btntsFalsePositive.Name = "btntsFalsePositive";
+            this.btntsFalsePositive.Size = new System.Drawing.Size(23, 22);
+            this.btntsFalsePositive.Text = "toolStripButton1";
+            this.btntsFalsePositive.ToolTipText = "Add to false positives file";
+            this.btntsFalsePositive.Visible = false;
+            this.btntsFalsePositive.Click += new System.EventHandler(this.tsbuttonFalsePositive_Click);
             // 
             // lbltsNumberofItems
             // 
             this.lbltsNumberofItems.Name = "lbltsNumberofItems";
             this.lbltsNumberofItems.Size = new System.Drawing.Size(49, 22);
             this.lbltsNumberofItems.Text = "Articles: ";
+            // 
+            // listMaker1
+            // 
+            this.listMaker1.ListFile = "";
+            this.listMaker1.Location = new System.Drawing.Point(3, 15);
+            this.listMaker1.Name = "listMaker1";
+            this.listMaker1.SelectedSourceIndex = 1;
+            this.listMaker1.Size = new System.Drawing.Size(201, 345);
+            this.listMaker1.SourceText = "";
+            this.listMaker1.TabIndex = 0;
+            this.listMaker1.WikiStatus = false;
             // 
             // webBrowserEdit
             // 
@@ -2402,7 +2423,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem humanNameCategoryKeyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem humanNameDisambigTagToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator16;
-        private System.Windows.Forms.ToolStripButton tsbuttonFalsePositive;
+        private System.Windows.Forms.ToolStripButton btntsFalsePositive;
         private System.Windows.Forms.CheckBox chkRegExTypo;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.CheckBox chkRegexTypoSkip;
@@ -2413,6 +2434,8 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripStatusLabel lblUserName;
         private System.Windows.Forms.ToolStripStatusLabel lblTimer;
         private WikiFunctions.ListMaker listMaker1;
+        private System.Windows.Forms.ToolStripButton btntsStart;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
 
 
     }
