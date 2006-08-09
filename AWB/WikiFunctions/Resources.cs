@@ -85,5 +85,13 @@ namespace WikiFunctions
                 return MyResource.Stop;
             }
         }
+
+        public static System.Drawing.Bitmap Run
+        {
+            get
+            {
+                return MyResource.Run;
+            }
+        }
     }
 }
