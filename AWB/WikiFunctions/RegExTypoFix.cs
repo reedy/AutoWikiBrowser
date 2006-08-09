@@ -201,13 +201,13 @@ namespace WikiFunctions
             //    MessageBox.Show("Error on " + find + "\r\n\r\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             //}
 
-            Regex TypoRegex = new Regex("<Typo find=\"(.*?)\" replace=\"(.*?)\" />");
+            Regex TypoRegex = new Regex("<Typo( word=\".*?\")? find=\"(.*?)\" replace=\"(.*?)\" />");
             try
             {
                 string text = Tools.GetArticleText("Wikipedia:AutoWikiBrowser/Typos");
                 foreach (Match m in TypoRegex.Matches(text))
                 {
-                    TypoStrings.Add(m.Groups[1].Value, m.Groups[2].Value);
+                    TypoStrings.Add(m.Groups[2].Value, m.Groups[3].Value);
                 }
             }
             catch (Exception ex)
