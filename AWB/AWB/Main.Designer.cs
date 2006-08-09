@@ -134,7 +134,6 @@ namespace AutoWikiBrowser
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.listMaker1 = new WikiFunctions.ListMaker();
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtEdit = new System.Windows.Forms.TextBox();
             this.mnuTextBox = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -246,6 +245,7 @@ namespace AutoWikiBrowser
             this.toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbuttonFalsePositive = new System.Windows.Forms.ToolStripButton();
             this.lbltsNumberofItems = new System.Windows.Forms.ToolStripLabel();
+            this.listMaker1 = new WikiFunctions.ListMaker();
             this.webBrowserEdit = new WikiFunctions.WebControl();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -910,7 +910,7 @@ namespace AutoWikiBrowser
             "removing category per [[WP:CFD|CFD]]",
             "[[Wikipedia:Template substitution|subst:\'ing]]",
             "[[Wikipedia:WikiProject Stub sorting|stub sorting]]",
-            "[[WP:RETF|RegExTypoFix]]",
+            "[[WP:RETF|RETF]]",
             "bad link repair.  [[Wikipedia:Bad links|You can help!]]",
             "Fixing [[Wikipedia:Disambiguation pages with links|links to disambiguation pages]" +
                 "]",
@@ -1229,17 +1229,6 @@ namespace AutoWikiBrowser
             this.clearToolStripMenuItem1.Size = new System.Drawing.Size(194, 22);
             this.clearToolStripMenuItem1.Text = "Clear";
             this.clearToolStripMenuItem1.ToolTipText = "Clear the list";
-            // 
-            // listMaker1
-            // 
-            this.listMaker1.ListFile = "";
-            this.listMaker1.Location = new System.Drawing.Point(3, 15);
-            this.listMaker1.Name = "listMaker1";
-            this.listMaker1.SelectedSourceIndex = 1;
-            this.listMaker1.Size = new System.Drawing.Size(201, 345);
-            this.listMaker1.SourceText = "";
-            this.listMaker1.TabIndex = 0;
-            this.listMaker1.WikiStatus = false;
             // 
             // panel1
             // 
@@ -2130,6 +2119,17 @@ namespace AutoWikiBrowser
             this.lbltsNumberofItems.Name = "lbltsNumberofItems";
             this.lbltsNumberofItems.Size = new System.Drawing.Size(49, 22);
             this.lbltsNumberofItems.Text = "Articles: ";
+            // 
+            // listMaker1
+            // 
+            this.listMaker1.ListFile = "";
+            this.listMaker1.Location = new System.Drawing.Point(3, 15);
+            this.listMaker1.Name = "listMaker1";
+            this.listMaker1.SelectedSourceIndex = 1;
+            this.listMaker1.Size = new System.Drawing.Size(201, 345);
+            this.listMaker1.SourceText = "";
+            this.listMaker1.TabIndex = 0;
+            this.listMaker1.WikiStatus = false;
             // 
             // webBrowserEdit
             // 
