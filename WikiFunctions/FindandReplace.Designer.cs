@@ -49,7 +49,7 @@ namespace WikiFunctions
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.find = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.replace = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -101,9 +101,9 @@ namespace WikiFunctions
             this.enabled});
             this.dataGridView1.ContextMenuStrip = this.FindAndReplaceContextMenu;
             this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 30);
+            this.dataGridView1.Location = new System.Drawing.Point(12, 67);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(739, 346);
+            this.dataGridView1.Size = new System.Drawing.Size(653, 265);
             this.dataGridView1.TabIndex = 1;
             this.dataGridView1.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridView1_RowsAdded);
             this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
@@ -120,8 +120,8 @@ namespace WikiFunctions
             // replace
             // 
             this.replace.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle3.NullValue = null;
-            this.replace.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.NullValue = null;
+            this.replace.DefaultCellStyle = dataGridViewCellStyle1;
             this.replace.FillWeight = 87.66718F;
             this.replace.HeaderText = "Replace with";
             this.replace.MinimumWidth = 45;
@@ -294,8 +294,8 @@ namespace WikiFunctions
             // 
             // btnDone
             // 
-            this.btnDone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDone.Location = new System.Drawing.Point(757, 353);
+            this.btnDone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDone.Location = new System.Drawing.Point(605, 37);
             this.btnDone.Name = "btnDone";
             this.btnDone.Size = new System.Drawing.Size(60, 23);
             this.btnDone.TabIndex = 2;
@@ -306,7 +306,7 @@ namespace WikiFunctions
             // linkLabel2
             // 
             this.linkLabel2.AutoSize = true;
-            this.linkLabel2.Location = new System.Drawing.Point(547, 8);
+            this.linkLabel2.Location = new System.Drawing.Point(9, 51);
             this.linkLabel2.Name = "linkLabel2";
             this.linkLabel2.Size = new System.Drawing.Size(119, 13);
             this.linkLabel2.TabIndex = 9;
@@ -316,8 +316,8 @@ namespace WikiFunctions
             // 
             // btnClear
             // 
-            this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClear.Location = new System.Drawing.Point(757, 324);
+            this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClear.Location = new System.Drawing.Point(605, 8);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(60, 23);
             this.btnClear.TabIndex = 10;
@@ -342,7 +342,7 @@ namespace WikiFunctions
             this.chkAddToSummary.AutoSize = true;
             this.chkAddToSummary.Checked = true;
             this.chkAddToSummary.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkAddToSummary.Location = new System.Drawing.Point(351, 5);
+            this.chkAddToSummary.Location = new System.Drawing.Point(12, 28);
             this.chkAddToSummary.MinimumSize = new System.Drawing.Size(190, 20);
             this.chkAddToSummary.Name = "chkAddToSummary";
             this.chkAddToSummary.Size = new System.Drawing.Size(190, 20);
@@ -355,12 +355,12 @@ namespace WikiFunctions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(829, 388);
+            this.ClientSize = new System.Drawing.Size(677, 344);
             this.Controls.Add(this.chkIgnoreLinks);
-            this.Controls.Add(this.btnClear);
             this.Controls.Add(this.chkAddToSummary);
-            this.Controls.Add(this.btnDone);
+            this.Controls.Add(this.btnClear);
             this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.btnDone);
             this.Controls.Add(this.linkLabel2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.MinimumSize = new System.Drawing.Size(685, 130);

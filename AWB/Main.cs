@@ -259,14 +259,14 @@ namespace AutoWikiBrowser
             }
 
             if (chkIgnoreIfContains.Checked && IgnoreIfContains(EdittingArticle + strText,
-            txtIgnoreIfContains.Text, chkIgnoreIsRegex.Checked, chkIgnoreCaseSensitive.Checked))
+            txtIgnoreIfContains.Text, chkIgnoreIsRegex.Checked, chkIgnoreCaseSensitive.Checked, true))
             {
                 SkipPage();
                 return;
             }
 
-            if (chkOnlyIfContains.Checked && IgnoreIfDoesntContain(EdittingArticle + strText,
-            txtOnlyIfContains.Text, chkIgnoreIsRegex.Checked, chkIgnoreCaseSensitive.Checked))
+            if (chkOnlyIfContains.Checked && IgnoreIfContains(EdittingArticle + strText,
+            txtOnlyIfContains.Text, chkIgnoreIsRegex.Checked, chkIgnoreCaseSensitive.Checked, false))
             {
                 SkipPage();
                 return;
@@ -660,7 +660,10 @@ namespace AutoWikiBrowser
                 webBrowserEdit.SetArticleText(txtEdit.Text);
                 webBrowserEdit.Save();
             }
-            catch { }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         #endregion
@@ -1122,9 +1125,9 @@ namespace AutoWikiBrowser
 
         private void toolStripTextBox2_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!Regex.IsMatch(e.KeyChar.ToString(), "[0-9]") && e.KeyChar != 8)
+            if (!char.IsNumber(e.KeyChar) && e.KeyChar != 8)
                 e.Handled = true;
-
+            
             if (e.KeyChar == '\r' && toolStripTextBox2.Text.Length > 0)
             {
                 e.Handled = true;
@@ -1156,7 +1159,7 @@ namespace AutoWikiBrowser
             txtEdit.Focus();
         }
 
-        private bool IgnoreIfContains(string strArticle, string strFind, bool Regexe, bool caseSensitive)
+        private bool IgnoreIfContains(string strArticle, string strFind, bool Regexe, bool caseSensitive, bool DoesContain)
         {
             if (strFind.Length > 0)
             {
@@ -1173,35 +1176,9 @@ namespace AutoWikiBrowser
                     strFind = Regex.Escape(strFind);
 
                 if (Regex.IsMatch(strArticle, strFind, RegOptions))
-                    return true;
+                    return DoesContain;
                 else
-                    return false;
-            }
-            else
-                return false;
-        }
-
-
-        private bool IgnoreIfDoesntContain(string strArticle, string strFind, bool Regexe, bool caseSensitive)
-        {
-            if (strFind.Length > 0)
-            {
-                RegexOptions RegOptions;
-
-                if (caseSensitive)
-                    RegOptions = RegexOptions.None;
-                else
-                    RegOptions = RegexOptions.IgnoreCase;
-
-                strFind = Tools.ApplyKeyWords(EdittingArticle.Name, strFind);
-
-                if (!Regexe)
-                    strFind = Regex.Escape(strFind);
-
-                if (Regex.IsMatch(strArticle, strFind, RegOptions))
-                    return false;
-                else
-                    return true;
+                    return !DoesContain;
             }
             else
                 return false;
@@ -1716,15 +1693,8 @@ namespace AutoWikiBrowser
 
             undoToolStripMenuItem.Enabled = txtEdit.CanUndo;
 
-            if (EdittingArticle.Name.Length > 0)
-                openPageInBrowserToolStripMenuItem.Enabled = true;
-            else
-                openPageInBrowserToolStripMenuItem.Enabled = false;
-
-            if (LastArticle.Length > 0)
-                replaceTextWithLastEditToolStripMenuItem.Enabled = true;
-            else
-                replaceTextWithLastEditToolStripMenuItem.Enabled = false;
+            openPageInBrowserToolStripMenuItem.Enabled = EdittingArticle.Name.Length > 0;
+            replaceTextWithLastEditToolStripMenuItem.Enabled = LastArticle.Length > 0;
         }
 
         private void openPageInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
