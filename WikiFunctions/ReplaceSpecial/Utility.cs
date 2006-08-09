@@ -47,5 +47,22 @@ namespace WikiFunctions.MWB
             }
             return false;
         }
+
+        public static string ReadAllElementContent(ref System.Xml.XmlTextReader r)
+        {
+            System.Xml.WhitespaceHandling saved_handling = r.WhitespaceHandling;
+            try
+            {
+                r.WhitespaceHandling = System.Xml.WhitespaceHandling.All;
+                string res = r.ReadElementContentAsString();
+                if (r.NodeType == System.Xml.XmlNodeType.Whitespace)
+                    r.Read();
+                return res;
+            }
+            finally
+            {
+                r.WhitespaceHandling = saved_handling;
+            }
+        }
     }
 }
