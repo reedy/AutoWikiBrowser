@@ -449,9 +449,9 @@ namespace AutoWikiBrowser
                 intRestartDelay -= 1;
 
             intEdits++;
-
+           
             LastArticle = "";
-            listMaker1.RemoveArticle(EdittingArticle);
+            listMaker1.Remove(EdittingArticle);
             Start();
         }
 
@@ -471,7 +471,7 @@ namespace AutoWikiBrowser
                 //reset timer.
                 stopDelayedTimer();
                 webBrowserEdit.Document.Write("");
-                listMaker1.RemoveArticle(EdittingArticle);
+                listMaker1.Remove(EdittingArticle);
                 Start();
             }
             catch { }
@@ -2051,7 +2051,7 @@ Thank you for taking the time to help the encyclopedia. RegExTypoFix is develope
         }
 
         private void txtImageReplace_Leave(object sender, EventArgs e)
-        {
+        {   
             txtImageReplace.Text = Regex.Replace(txtImageReplace.Text, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
         }
 
@@ -2074,6 +2074,6 @@ Thank you for taking the time to help the encyclopedia. RegExTypoFix is develope
             }
         }
 
-        #endregion        
+        #endregion                       
     }
 }
