@@ -12,13 +12,13 @@ using System.IO;
 
 namespace WikiFunctions
 {
-    public enum SourceType : byte { Category, WhatLinksHere, WhatTranscludesHere, LinksOnPage, TextFile, GoogleWikipedia, UserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist }
+    public enum SourceType { Category, WhatLinksHere, WhatTranscludesHere, LinksOnPage, TextFile, GoogleWikipedia, UserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist }
 
     public delegate void StatusTextChangedDel();
     public delegate void BusyStateChangedDel();
     public delegate void NoOfArticlesChangedDel();
 
-    public partial class ListMaker : UserControl, IEnumerable<Article>
+    public partial class ListMaker : UserControl, IEnumerable<Article>, ICollection<Article>, IList<Article>
     {
         public event StatusTextChangedDel StatusTextChanged;
         public event BusyStateChangedDel BusyStateChanged;
@@ -28,6 +28,9 @@ namespace WikiFunctions
         {
             InitializeComponent();
         }
+
+        new public void Refresh()
+        {}
 
         #region Enumerator
         public IEnumerator<Article> GetEnumerator()
@@ -47,6 +50,106 @@ namespace WikiFunctions
             {
                 yield return (Article)lbArticles.Items[i];
                 i++;
+            }
+        }
+
+        #endregion
+
+        #region ICollection<Article> Members
+
+        public void Add(Article item)
+        {
+            lbArticles.Items.Add(item);
+            Saved = false;
+            UpdateNumberOfArticles();
+        }
+
+        public void Clear()
+        {
+            lbArticles.Items.Clear();
+            Saved = false;
+            UpdateNumberOfArticles();
+        }
+
+        public bool Contains(Article item)
+        {
+            return lbArticles.Items.Contains(item);
+        }
+
+        public void CopyTo(Article[] array, int arrayIndex)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public int Count
+        {
+            get { return lbArticles.Items.Count; }
+        }
+
+        public bool IsReadOnly
+        {
+            get { return false; }
+        }
+
+        public bool Remove(Article item)
+        {
+            if (lbArticles.Items.Contains(item))
+            {
+                while (lbArticles.SelectedItems.Count > 0)
+                    lbArticles.SetSelected(lbArticles.SelectedIndex, false);
+
+                txtNewArticle.Text = item.Name;
+
+                int intPosition = lbArticles.Items.IndexOf(item);
+
+                lbArticles.Items.Remove(item);
+
+                if (lbArticles.Items.Count == intPosition)
+                    intPosition--;
+
+                if (lbArticles.Items.Count > 0)
+                    lbArticles.SelectedIndex = intPosition;
+
+                Saved = false;
+                UpdateNumberOfArticles();
+                return true;
+            }
+            else
+                return false;
+        }
+
+        #endregion
+
+        #region IList<Article> Members
+
+        public int IndexOf(Article item)
+        {
+            return lbArticles.Items.IndexOf(item);
+        }
+
+        public void Insert(int index, Article item)
+        {
+            lbArticles.Items.Insert(index, item);
+            Saved = false;
+            UpdateNumberOfArticles();
+        }
+
+        public void RemoveAt(int index)
+        {
+            lbArticles.Items.RemoveAt(index);
+            Saved = false;
+            UpdateNumberOfArticles();
+        }
+
+        public Article this[int index]
+        {
+            get
+            {
+                return (Article)lbArticles.Items[index];
+            }
+            set
+            {
+                lbArticles.Items[index] = value;
             }
         }
 
@@ -115,14 +218,14 @@ namespace WikiFunctions
         {
             if (txtNewArticle.Text.Length == 0)
             {
-                UpdateButtons();
+                UpdateNumberOfArticles();
                 return;
             }
 
             Saved = false;
             AddToList(Tools.TurnFirstToUpper(txtNewArticle.Text));
             txtNewArticle.Text = "";
-            UpdateButtons();
+            UpdateNumberOfArticles();
         }
 
         private void btnRemoveArticle_Click(object sender, EventArgs e)
@@ -189,7 +292,7 @@ namespace WikiFunctions
                         AddArticleListToList(GetLists.FromTextFile(openListDialog.FileNames));
                         ListFile = openListDialog.FileName;
                     }
-                    UpdateButtons();
+                    UpdateNumberOfArticles();
                 }
                 catch (Exception ex)
                 {
@@ -203,7 +306,7 @@ namespace WikiFunctions
                 BusyStatus = true;
                 AddArticleListToList(GetLists.FromWatchList());
                 BusyStatus = false;
-                UpdateButtons();
+                UpdateNumberOfArticles();
                 return;
             }
 
@@ -313,6 +416,7 @@ namespace WikiFunctions
         /// <summary>
         /// Gets or sets the selected index
         /// </summary>
+        [Browsable(false)]
         public int SelectedSourceIndex
         {
             get { return cmboSourceSelect.SelectedIndex; }
@@ -355,6 +459,7 @@ namespace WikiFunctions
         }
 
         bool bWikiStatus = true;
+        [Browsable(false)]
         public bool WikiStatus
         {
             get { return bWikiStatus; }
@@ -364,12 +469,12 @@ namespace WikiFunctions
         string strStatus = "";
         /// <summary>
         /// The status of the process
-        /// </summary>
+        /// </summary>        
         public string Status
         {
             get { return strStatus; }
-            set
-            {                
+            private set
+            {
                 strStatus = value;
                 this.StatusTextChanged();
             }
@@ -414,38 +519,11 @@ namespace WikiFunctions
 
         #region Methods
 
-        /// <summary>
-        /// Removes the given article from the list
-        /// </summary>
-        public void RemoveArticle(Article EdittingArticle)
-        {
-            Saved = false;
-            if (lbArticles.Items.Contains(EdittingArticle))
-            {
-                while (lbArticles.SelectedItems.Count > 0)
-                    lbArticles.SetSelected(lbArticles.SelectedIndex, false);
-
-                txtNewArticle.Text = EdittingArticle.Name;
-
-                int intPosition = lbArticles.Items.IndexOf(EdittingArticle);
-
-                lbArticles.Items.Remove(EdittingArticle);
-
-                if (lbArticles.Items.Count == intPosition)
-                    intPosition--;
-
-                if (lbArticles.Items.Count > 0)
-                    lbArticles.SelectedIndex = intPosition;
-            }
-
-            UpdateButtons();
-        }
-
         private void launchDumpSearcher()
         {
             WikiFunctions.DatabaseScanner.DatabaseScanner ds = new WikiFunctions.DatabaseScanner.DatabaseScanner(lbArticles);
             ds.Show();
-            UpdateButtons();
+            UpdateNumberOfArticles();
         }
 
         private delegate void AddToListDel(string s);
@@ -462,7 +540,7 @@ namespace WikiFunctions
 
             Article a = new Article(s);
             lbArticles.Items.Add(a);
-            UpdateButtons();
+            UpdateNumberOfArticles();
         }
 
         private delegate void AddArticleListDel(List<Article> l);
@@ -484,7 +562,7 @@ namespace WikiFunctions
 
             lbArticles.EndUpdate();
 
-            UpdateButtons();
+            UpdateNumberOfArticles();
         }
 
         private List<Article> ArticleListFromListBox()
@@ -529,7 +607,7 @@ namespace WikiFunctions
             btnMakeList.Enabled = true;
             Status = "List complete!";
             BusyStatus = false;
-            UpdateButtons();
+            UpdateNumberOfArticles();
         }
 
         Thread ListerThread = null;
@@ -607,7 +685,7 @@ namespace WikiFunctions
         {
             specialFilter SepcialFilter = new specialFilter(lbArticles);
             SepcialFilter.ShowDialog();
-            UpdateButtons();
+            UpdateNumberOfArticles();
         }
 
         private void RemoveSelectedArticle()
@@ -635,15 +713,7 @@ namespace WikiFunctions
             catch
             { }
 
-            UpdateButtons();
-        }
-
-        private void Clear()
-        {
-            Saved = false;
-            lbArticles.Items.Clear();
-
-            UpdateButtons();
+            UpdateNumberOfArticles();
         }
 
         /// <summary>
@@ -653,7 +723,7 @@ namespace WikiFunctions
         {
             specialFilter SepcialFilter = new specialFilter(lbArticles);
             SepcialFilter.ShowDialog();
-            UpdateButtons();
+            UpdateNumberOfArticles();
         }
 
         /// <summary>
@@ -710,7 +780,7 @@ namespace WikiFunctions
                 else //move on
                     i++;
             }
-            UpdateButtons();
+            UpdateNumberOfArticles();
         }
 
         /// <summary>
@@ -732,7 +802,7 @@ namespace WikiFunctions
             int intPos = 0;
             intPos = lbArticles.Items.IndexOf(OldArticle);
 
-            RemoveArticle(OldArticle);
+            Remove(OldArticle);
             lbArticles.Items.Insert(intPos, NewArticle);
 
             lbArticles.SelectedItem = NewArticle;
@@ -749,7 +819,7 @@ namespace WikiFunctions
             StopProgressBar();
         }
 
-        private void UpdateButtons()
+        private void UpdateNumberOfArticles()
         {
             lblNumberOfArticles.Text = lbArticles.Items.Count.ToString();
             this.NoOfArticlesChanged();
@@ -860,6 +930,6 @@ namespace WikiFunctions
         {
             Clear();
         }
-        #endregion
+        #endregion       
     }
 }
