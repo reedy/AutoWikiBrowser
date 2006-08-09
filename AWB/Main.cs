@@ -606,17 +606,7 @@ namespace AutoWikiBrowser
                 MessageBox.Show(ex.Message);
                 return articleText;
             }
-        }
-
-        private void btnPreview_Click(object sender, EventArgs e)
-        {
-            GetDiff(true);
-        }
-
-        private void btnDiff_Click(object sender, EventArgs e)
-        {
-            GetDiff(false);
-        }
+        }        
 
         private void GetDiff(bool boolPreview)
         {
@@ -1423,6 +1413,52 @@ namespace AutoWikiBrowser
 
         #region menus and buttons
 
+        private void btnPreview_Click(object sender, EventArgs e)
+        {
+            GetDiff(true);
+        }
+
+        private void btnDiff_Click(object sender, EventArgs e)
+        {
+            GetDiff(false);
+        }
+
+        private void btnFalsePositive_Click(object sender, EventArgs e)
+        {
+            FalsePositive();
+        }
+
+        private void tsbuttonFalsePositive_Click(object sender, EventArgs e)
+        {
+            FalsePositive();
+        }
+
+        private void FalsePositive()
+        {
+            if (EdittingArticle.Name.Length > 0)
+                Tools.WriteLog("#[[" + EdittingArticle.Name + "]]\r\n", @"False positives.txt");
+        }
+
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            Start();
+        }
+
+        private void btnStop_Click(object sender, EventArgs e)
+        {
+            Stop();
+        }
+
+        private void btnApply_Click(object sender, EventArgs e)
+        {
+            Save();
+        }
+
+        private void btnIgnore_Click(object sender, EventArgs e)
+        {
+            SkipPage();
+        }
+
         private void filterOutNonMainSpaceToolStripMenuItem_Click(object sender, EventArgs e)
         {
             listMaker1.FilterNonMainArticles();
@@ -1470,43 +1506,7 @@ namespace AutoWikiBrowser
         private void alphaSortInterwikiLinksToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
         {
             parsers.sortInterwikiOrder = alphaSortInterwikiLinksToolStripMenuItem.Checked;
-        }
-
-        private void btnFalsePositive_Click(object sender, EventArgs e)
-        {
-            FalsePositive();
-        }
-
-        private void tsbuttonFalsePositive_Click(object sender, EventArgs e)
-        {
-            FalsePositive();
-        }
-
-        private void FalsePositive()
-        {
-            if (EdittingArticle.Name.Length > 0)
-                Tools.WriteLog("#[[" + EdittingArticle.Name + "]]\r\n", @"False positives.txt");
-        }
-
-        private void btnStart_Click(object sender, EventArgs e)
-        {
-            Start();
-        }
-
-        private void btnStop_Click(object sender, EventArgs e)
-        {
-            Stop();
-        }
-
-        private void btnApply_Click(object sender, EventArgs e)
-        {
-            Save();
-        }
-
-        private void btnIgnore_Click(object sender, EventArgs e)
-        {
-            SkipPage();
-        }
+        }        
 
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
