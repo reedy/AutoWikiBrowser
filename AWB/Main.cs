@@ -382,8 +382,7 @@ namespace AutoWikiBrowser
         bool skippable = true;
         private void CaseWasDiff()
         {
-            this.ActiveControl = txtEdit;
-            txtEdit.Select(0, 0);
+            this.Focus();
 
             if (diffChecker(webBrowserEdit.Document.Body.InnerHtml))
             {//check if there are no changes and we want to skip
@@ -611,46 +610,31 @@ namespace AutoWikiBrowser
 
         private void btnPreview_Click(object sender, EventArgs e)
         {
-            ShowPreview();
+            GetDiff(true);
         }
 
         private void btnDiff_Click(object sender, EventArgs e)
         {
-            ShowDiff();
-        }
-
-        private void ShowPreview()
-        {
-            DisableButtons();
-            LastArticle = txtEdit.Text; // added by Adrian 2006-03-12
-
-            skippable = false;
-            GetDiff(true);
-        }
-
-        private void ShowDiff()
-        {
-            DisableButtons();
-            LastArticle = txtEdit.Text; // added by Adrian 2006-03-12
-
             GetDiff(false);
         }
 
         private void GetDiff(bool boolPreview)
         {
-            if (webBrowserEdit.Document == null)
-                return;
-
-            if (!webBrowserEdit.CanDiff && !webBrowserEdit.CanPreview)
-                return;
-
             //get either diff or preiew.
             webBrowserEdit.SetArticleText(txtEdit.Text);
 
+            DisableButtons();
+            LastArticle = txtEdit.Text;
+
             if (boolPreview)
+            {
+                skippable = false;
                 webBrowserEdit.ShowPreview();
+            }
             else
+            {
                 webBrowserEdit.ShowDiff();
+            }
         }
 
         private void Save()
@@ -1553,6 +1537,18 @@ namespace AutoWikiBrowser
                     e.SuppressKeyPress = true;
                     return;
                 }
+                if (e.KeyCode == Keys.D && btnDiff.Enabled)
+                {
+                    GetDiff(false);
+                    e.SuppressKeyPress = true;
+                    return;
+                }
+                if (e.KeyCode == Keys.E && btnPreview.Enabled)
+                {
+                    GetDiff(true);
+                    e.SuppressKeyPress = true;
+                    return;
+                }
                 if (e.KeyCode == Keys.F)
                 {
                     find(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked);
@@ -1967,12 +1963,12 @@ Thank you for taking the time to help the encyclopedia. RegExTypoFix is develope
 
         private void btntsPreview_Click(object sender, EventArgs e)
         {
-            ShowPreview();
+            GetDiff(true);
         }
 
         private void btntsChanges_Click(object sender, EventArgs e)
         {
-            ShowDiff();
+            GetDiff(false);
         }
 
         private void setBrowserSize()
