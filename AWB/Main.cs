@@ -46,7 +46,7 @@ namespace AutoWikiBrowser
             InitializeComponent();
             lblUserName.Alignment = ToolStripItemAlignment.Right;
             lblProject.Alignment = ToolStripItemAlignment.Right;
-            lblTimer.Alignment = ToolStripItemAlignment.Right;            
+            lblTimer.Alignment = ToolStripItemAlignment.Right;
 
             btntsShowHide.Image = Resources.btnshowhide_image;
             btntsSave.Image = Resources.btntssave_image;
@@ -223,7 +223,7 @@ namespace AutoWikiBrowser
 
         private void CaseWasLoad()
         {
-            string strText = "";           
+            string strText = "";
 
             if (!loadSuccess())
                 return;
@@ -253,7 +253,7 @@ namespace AutoWikiBrowser
 
                 listMaker1.ReplaceArticle(EdittingArticle, Redirect);
                 EdittingArticle = Redirect;
-                
+
                 webBrowserEdit.LoadEditPage(HttpUtility.UrlEncode(Redirect.Name));
                 return;
             }
@@ -392,11 +392,6 @@ namespace AutoWikiBrowser
                 return;
             }
 
-            if (!AutoWikiBrowser.Properties.Settings.Default.DisableDiffScrollDown)
-            {
-                webBrowserEdit.Document.GetElementById("contentSub").ScrollIntoView(true);
-            }
-
             if (chkAutoMode.Checked)
             {
                 startDelayedAutoSaveTimer();
@@ -450,7 +445,7 @@ namespace AutoWikiBrowser
                 intRestartDelay -= 1;
 
             intEdits++;
-           
+
             LastArticle = "";
             listMaker1.Remove(EdittingArticle);
             Start();
@@ -474,9 +469,9 @@ namespace AutoWikiBrowser
                 listMaker1.Remove(EdittingArticle);
                 Start();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);            
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -610,7 +605,7 @@ namespace AutoWikiBrowser
                 MessageBox.Show(ex.Message);
                 return articleText;
             }
-        }        
+        }
 
         private void GetDiff(bool boolPreview)
         {
@@ -1127,7 +1122,7 @@ namespace AutoWikiBrowser
         {
             if (!char.IsNumber(e.KeyChar) && e.KeyChar != 8)
                 e.Handled = true;
-            
+
             if (e.KeyChar == '\r' && toolStripTextBox2.Text.Length > 0)
             {
                 e.Handled = true;
@@ -1459,7 +1454,7 @@ namespace AutoWikiBrowser
         {
             listMaker1.SaveList();
         }
-        
+
         private void launchListComparerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ListComparer lc = new ListComparer();
@@ -1487,7 +1482,7 @@ namespace AutoWikiBrowser
         private void alphaSortInterwikiLinksToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
         {
             parsers.sortInterwikiOrder = alphaSortInterwikiLinksToolStripMenuItem.Checked;
-        }        
+        }
 
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
@@ -1546,8 +1541,8 @@ namespace AutoWikiBrowser
                 e.SuppressKeyPress = true;
                 cmboEditSummary.Items.Add(cmboEditSummary.Text);
             }
-        }       
-        
+        }
+
         private void listToolStripMenuItem_Click(object sender, EventArgs e)
         {
             txtEdit.SelectedText = Tools.HTMLToWiki(txtEdit.SelectedText, "*");
@@ -1736,7 +1731,7 @@ namespace AutoWikiBrowser
                 stopDelayedTimer();
                 EnableButtons();
                 return;
-            }           
+            }
 
             stopSaveInterval();
             StopDelayedRestartTimer();
@@ -1827,7 +1822,7 @@ namespace AutoWikiBrowser
         private void removeAllExcessWhitespaceToolStripMenuItem_Click(object sender, EventArgs e)
         {
             txtEdit.Text = parsers.RemoveAllWhiteSpace(txtEdit.Text);
-        }               
+        }
 
         private void txtNewCategory_DoubleClick(object sender, EventArgs e)
         {
@@ -1901,6 +1896,21 @@ Thank you for taking the time to help the encyclopedia. RegExTypoFix is develope
         {
             toolStripProgressBar1.Style = ProgressBarStyle.Marquee;
             toolStripProgressBar1.MarqueeAnimationSpeed = 100;
+        }
+
+        private void preferencesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MyPreferences mp = new MyPreferences(webBrowserEdit.EnhanceDiffEnabled, webBrowserEdit.ScrollDown, webBrowserEdit.DiffFontSize, txtEdit.Font);
+
+            if (mp.ShowDialog() == DialogResult.OK)
+            {
+                webBrowserEdit.EnhanceDiffEnabled = mp.EnhanceDiff;
+                webBrowserEdit.ScrollDown = mp.ScrollDown;
+                webBrowserEdit.DiffFontSize = mp.DiffFontSize;
+                txtEdit.Font = mp.TextBoxFont;
+            }
+
+            mp = null;
         }
 
         #endregion
@@ -2026,7 +2036,7 @@ Thank you for taking the time to help the encyclopedia. RegExTypoFix is develope
         }
 
         private void txtImageReplace_Leave(object sender, EventArgs e)
-        {   
+        {
             txtImageReplace.Text = Regex.Replace(txtImageReplace.Text, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
         }
 
@@ -2049,7 +2059,7 @@ Thank you for taking the time to help the encyclopedia. RegExTypoFix is develope
             }
         }
 
-        #endregion                       
-        
+        #endregion
+
     }
 }

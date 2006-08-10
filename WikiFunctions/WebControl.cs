@@ -188,6 +188,38 @@ namespace WikiFunctions
             }
         }
 
+        public bool IsDiff
+        {
+            get
+            {
+                if (this.Document.Body.InnerHtml.Contains("<DIV id=wikiDiff>"))
+                    return true;
+                else
+                    return false;
+            }
+        }
+
+        int intDiffFontSize = 150;
+        public int DiffFontSize
+        {
+            get { return intDiffFontSize; }
+            set { intDiffFontSize = value; }
+        }
+
+        bool bEnhanceDiff = true;
+        public bool EnhanceDiffEnabled
+        {
+            get { return bEnhanceDiff; }
+            set { bEnhanceDiff = value; }
+        }
+
+        bool bScrollDown = true;
+        public bool ScrollDown
+        {
+            get { return bScrollDown; }
+            set { bScrollDown = value; }
+        }
+
         #endregion
 
         #region Methods
@@ -312,20 +344,17 @@ namespace WikiFunctions
 
         string startMark = "<!-- start content -->";
         string endMark = "<!-- end content -->";
+
         /// <summary>
         /// Gets the HTML within the <!-- start content --> and <!-- end content --> tags
         /// </summary>
-        public string PageHTMLSubstring
+        public string PageHTMLSubstring(string text)
         {
-            get
-            {
-                string text = this.Document.Body.InnerHtml;
-                if (this.Document.Body.InnerHtml.Contains(startMark) && this.Document.Body.InnerHtml.Contains(endMark))
-                    return text.Substring(text.IndexOf(startMark), text.IndexOf(endMark) - text.IndexOf(startMark));
-                else
-                    return text;
-            }
-        }
+            if (this.Document.Body.InnerHtml.Contains(startMark) && this.Document.Body.InnerHtml.Contains(endMark))
+                return text.Substring(text.IndexOf(startMark), text.IndexOf(endMark) - text.IndexOf(startMark));
+            else
+                return text;
+        }                
 
         /// <summary>
         /// If logged in, gets the user name from the cookie
@@ -344,19 +373,22 @@ namespace WikiFunctions
             return UserName;
         }
 
-        ///// <summary>
-        ///// Removes excess HTML from the document
-        ///// </summary>
-        //public void RemoveHTML()
-        //{
-        //    //string html = this.Document.Body.InnerHtml;
+        /// <summary>
+        /// Removes excess HTML from the document
+        /// </summary>
+        public void EnhanceDiff()
+        {           
+            string html = this.Document.Body.InnerHtml;
+            html = PageHTMLSubstring(html);
+            html = html.Replace("<DIV id=wikiDiff>", "<DIV id=wikiDiff style=\"FONT-SIZE: " + DiffFontSize.ToString() + "%\">");
+            html = html.Replace("<TABLE class=diff cellSpacing=4 cellPadding=0 width=\"98%\" border=0>", "<TABLE class=diff cellSpacing=2 cellPadding=0 width=\"100%\" border=0>");
+            this.Document.Body.InnerHtml = html;
+        }
 
-        //    //html = html.Substring(html.IndexOf("<TABLE"), html.IndexOf("</TABLE>") - html.IndexOf("<TABLE"));
-
-        //    //this.Document.Body.InnerHtml = html;
-
-        //    this.Document.Body.InnerHtml = PageHTMLSubstring;
-        //}
+        public void ScrollToContent()
+        {
+            this.Document.GetElementById("contentSub").ScrollIntoView(true);
+        }        
 
         #endregion
 
@@ -473,6 +505,11 @@ namespace WikiFunctions
             }
             else if (ProcessStage == enumProcessStage.diff)
             {
+                if (EnhanceDiffEnabled && IsDiff)
+                    EnhanceDiff();
+                else if (ScrollDown)
+                    ScrollToContent();
+
                 this.AllowNavigation = false;
                 ProcessStage = enumProcessStage.none;
                 Status = "Ready to save";
