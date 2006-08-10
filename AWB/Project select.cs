@@ -9,9 +9,9 @@ using WikiFunctions;
 
 namespace AutoWikiBrowser
 {
-    public partial class ProjectSelect : Form
+    public partial class MyPreferences : Form
     {
-        public ProjectSelect(string lang, string proj)
+        public MyPreferences(string lang, string proj, bool EDiff, bool SDown, int DiffSize, Font TextFont)
         {
             InitializeComponent();           
 
@@ -22,8 +22,15 @@ namespace AutoWikiBrowser
                 cmboProject.Items.Add(l.ToString());
 
             cmboLang.SelectedItem = lang;
-            cmboProject.SelectedItem = proj;                
+            cmboProject.SelectedItem = proj;
+
+            EnhanceDiff = EDiff;
+            ScrollDown = SDown;
+            DiffFontSize = DiffSize;
+            TextBoxFont = TextFont;
         }
+
+        #region Language and project
 
         public LangCodeEnum Language
         {
@@ -58,5 +65,46 @@ namespace AutoWikiBrowser
             else
                 cmboLang.Enabled = true;
         }
+
+        #endregion
+
+        #region Other
+
+        public bool EnhanceDiff
+        {
+            get { return chkEnhanceDiff.Checked; }
+            set { chkEnhanceDiff.Checked = value; }
+        }
+
+        public bool ScrollDown
+        {
+            get { return chkScrollDown.Checked; }
+            set { chkScrollDown.Checked = value; }
+        }
+
+        public int DiffFontSize
+        {
+            get { return (int)nudDiffFontSize.Value; }
+            set { nudDiffFontSize.Value = value; }
+        }
+
+        Font f;
+        public Font TextBoxFont
+        {
+            get { return f; }
+            set { f = value; }
+        }
+
+        private void btnTextBoxFont_Click(object sender, EventArgs e)
+        {
+            fontDialog.Font = TextBoxFont;
+            if (fontDialog.ShowDialog() == DialogResult.OK)
+            {
+                TextBoxFont = fontDialog.Font;
+            }
+        }
+
+        #endregion
+                
     }
 }
