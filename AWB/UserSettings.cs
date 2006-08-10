@@ -543,6 +543,19 @@ namespace AutoWikiBrowser
 
                             continue;
                         }
+                        if (reader.Name == "preferencevalues" && reader.HasAttributes)
+                        {
+                            reader.MoveToAttribute("enhancediff");
+                            webBrowserEdit.EnhanceDiffEnabled = bool.Parse(reader.Value);
+
+                            reader.MoveToAttribute("scrolldown");
+                            webBrowserEdit.ScrollDown = bool.Parse(reader.Value);
+
+                            reader.MoveToAttribute("difffontsize");
+                            webBrowserEdit.DiffFontSize = int.Parse(reader.Value);
+
+                            continue;
+                        }
                     }
                     stream.Close();
                     findAndReplace.MakeList();
@@ -764,7 +777,9 @@ namespace AutoWikiBrowser
 
                 textWriter.WriteStartElement("preferences");
                 textWriter.WriteStartElement("preferencevalues");
-                textWriter.WriteAttributeString("EnhanceDiff", webBrowserEdit.EnhanceDiffEnabled.ToString());
+                textWriter.WriteAttributeString("enhancediff", webBrowserEdit.EnhanceDiffEnabled.ToString());
+                textWriter.WriteAttributeString("scrolldown", webBrowserEdit.ScrollDown.ToString());
+                textWriter.WriteAttributeString("difffontsize", webBrowserEdit.DiffFontSize.ToString());
                 textWriter.WriteEndElement();
                 textWriter.WriteEndElement();
 

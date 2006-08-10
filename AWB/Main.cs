@@ -1738,6 +1738,7 @@ namespace AutoWikiBrowser
             if (webBrowserEdit.IsBusy)
                 webBrowserEdit.Stop2();
 
+            listMaker1.Stop();
             webBrowserLogin.Stop();
             lblStatusText.Text = "Stopped";
         }
