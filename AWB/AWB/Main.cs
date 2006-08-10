@@ -1194,25 +1194,30 @@ namespace AutoWikiBrowser
 
         private void selectProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ProjectSelect Proj = new ProjectSelect(Variables.LangCode, Variables.Project);
-            Proj.ShowDialog();
-            if (Proj.DialogResult == DialogResult.OK)
+            MyPreferences MyPrefs = new MyPreferences(Variables.LangCode, Variables.Project, webBrowserEdit.EnhanceDiffEnabled, webBrowserEdit.ScrollDown, webBrowserEdit.DiffFontSize, txtEdit.Font);
+            
+            if (MyPrefs.ShowDialog() == DialogResult.OK)
             {
+                webBrowserEdit.EnhanceDiffEnabled = MyPrefs.EnhanceDiff;
+                webBrowserEdit.ScrollDown = MyPrefs.ScrollDown;
+                webBrowserEdit.DiffFontSize = MyPrefs.DiffFontSize;
+                txtEdit.Font = MyPrefs.TextBoxFont;
+
                 wikiStatusBool = false;
                 chkQuickSave.Checked = false;
                 chkQuickSave.Enabled = false;
                 chkAutoMode.Checked = false;
                 chkAutoMode.Enabled = false;
 
-                SetProject(Proj.Language, Proj.Project);
-                if (Proj.SetAsDefault)
+                SetProject(MyPrefs.Language, MyPrefs.Project);
+                if (MyPrefs.SetAsDefault)
                 {
                     AutoWikiBrowser.Properties.Settings.Default.Language = Variables.LangCode;
                     AutoWikiBrowser.Properties.Settings.Default.Project = Variables.Project;
                     AutoWikiBrowser.Properties.Settings.Default.Save();
                 }
             }
-            Proj = null;
+            MyPrefs = null;
         }
 
         private void SetProject(LangCodeEnum Code, ProjectEnum Project)
@@ -1897,21 +1902,6 @@ Thank you for taking the time to help the encyclopedia. RegExTypoFix is develope
         {
             toolStripProgressBar1.Style = ProgressBarStyle.Marquee;
             toolStripProgressBar1.MarqueeAnimationSpeed = 100;
-        }
-
-        private void preferencesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MyPreferences mp = new MyPreferences(webBrowserEdit.EnhanceDiffEnabled, webBrowserEdit.ScrollDown, webBrowserEdit.DiffFontSize, txtEdit.Font);
-
-            if (mp.ShowDialog() == DialogResult.OK)
-            {
-                webBrowserEdit.EnhanceDiffEnabled = mp.EnhanceDiff;
-                webBrowserEdit.ScrollDown = mp.ScrollDown;
-                webBrowserEdit.DiffFontSize = mp.DiffFontSize;
-                txtEdit.Font = mp.TextBoxFont;
-            }
-
-            mp = null;
         }
 
         #endregion

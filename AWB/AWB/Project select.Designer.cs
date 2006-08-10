@@ -2,7 +2,7 @@
 
 namespace AutoWikiBrowser
 {
-    partial class ProjectSelect
+    partial class MyPreferences
     {
         /// <summary>
         /// Required designer variable.
@@ -31,38 +31,49 @@ namespace AutoWikiBrowser
         private void InitializeComponent()
         {
             this.cmboLang = new System.Windows.Forms.ComboBox();
-            this.btnOK = new System.Windows.Forms.Button();
+            this.btnApply = new System.Windows.Forms.Button();
             this.cmboProject = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.chkSetAsDefault = new System.Windows.Forms.CheckBox();
+            this.btnTextBoxFont = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.nudDiffFontSize = new System.Windows.Forms.NumericUpDown();
+            this.chkScrollDown = new System.Windows.Forms.CheckBox();
+            this.chkEnhanceDiff = new System.Windows.Forms.CheckBox();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            ((System.ComponentModel.ISupportInitialize)(this.nudDiffFontSize)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmboLang
             // 
             this.cmboLang.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmboLang.FormattingEnabled = true;
-            this.cmboLang.Location = new System.Drawing.Point(102, 79);
+            this.cmboLang.Location = new System.Drawing.Point(77, 90);
             this.cmboLang.Name = "cmboLang";
             this.cmboLang.Size = new System.Drawing.Size(121, 21);
             this.cmboLang.TabIndex = 0;
             // 
-            // btnOK
+            // btnApply
             // 
-            this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(149, 137);
-            this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(75, 23);
-            this.btnOK.TabIndex = 1;
-            this.btnOK.Text = "OK";
-            this.btnOK.UseVisualStyleBackColor = true;
+            this.btnApply.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.btnApply.Location = new System.Drawing.Point(163, 294);
+            this.btnApply.Name = "btnApply";
+            this.btnApply.Size = new System.Drawing.Size(75, 23);
+            this.btnApply.TabIndex = 1;
+            this.btnApply.Text = "Apply";
+            this.btnApply.UseVisualStyleBackColor = true;
             // 
             // cmboProject
             // 
             this.cmboProject.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmboProject.FormattingEnabled = true;
-            this.cmboProject.Location = new System.Drawing.Point(102, 52);
+            this.cmboProject.Location = new System.Drawing.Point(77, 63);
             this.cmboProject.Name = "cmboProject";
             this.cmboProject.Size = new System.Drawing.Size(121, 21);
             this.cmboProject.TabIndex = 2;
@@ -71,7 +82,7 @@ namespace AutoWikiBrowser
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(38, 82);
+            this.label1.Location = new System.Drawing.Point(13, 93);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(58, 13);
             this.label1.TabIndex = 3;
@@ -80,7 +91,7 @@ namespace AutoWikiBrowser
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(53, 55);
+            this.label2.Location = new System.Drawing.Point(28, 66);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(43, 13);
             this.label2.TabIndex = 4;
@@ -89,7 +100,7 @@ namespace AutoWikiBrowser
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(1, 9);
+            this.label3.Location = new System.Drawing.Point(6, 23);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(284, 26);
             this.label3.TabIndex = 5;
@@ -99,41 +110,155 @@ namespace AutoWikiBrowser
             // chkSetAsDefault
             // 
             this.chkSetAsDefault.AutoSize = true;
-            this.chkSetAsDefault.Location = new System.Drawing.Point(102, 106);
+            this.chkSetAsDefault.Location = new System.Drawing.Point(77, 117);
             this.chkSetAsDefault.Name = "chkSetAsDefault";
             this.chkSetAsDefault.Size = new System.Drawing.Size(91, 17);
             this.chkSetAsDefault.TabIndex = 6;
             this.chkSetAsDefault.Text = "Set as default";
             this.chkSetAsDefault.UseVisualStyleBackColor = true;
             // 
-            // ProjectSelect
+            // btnTextBoxFont
             // 
-            this.ClientSize = new System.Drawing.Size(289, 172);
-            this.Controls.Add(this.chkSetAsDefault);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.cmboProject);
-            this.Controls.Add(this.btnOK);
-            this.Controls.Add(this.cmboLang);
+            this.btnTextBoxFont.Location = new System.Drawing.Point(5, 92);
+            this.btnTextBoxFont.Name = "btnTextBoxFont";
+            this.btnTextBoxFont.Size = new System.Drawing.Size(82, 23);
+            this.btnTextBoxFont.TabIndex = 11;
+            this.btnTextBoxFont.Text = "Text box font";
+            this.btnTextBoxFont.UseVisualStyleBackColor = true;
+            this.btnTextBoxFont.Click += new System.EventHandler(this.btnTextBoxFont_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 68);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(65, 13);
+            this.label4.TabIndex = 10;
+            this.label4.Text = "Diff font size";
+            // 
+            // nudDiffFontSize
+            // 
+            this.nudDiffFontSize.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.nudDiffFontSize.Location = new System.Drawing.Point(77, 66);
+            this.nudDiffFontSize.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.nudDiffFontSize.Minimum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.nudDiffFontSize.Name = "nudDiffFontSize";
+            this.nudDiffFontSize.Size = new System.Drawing.Size(49, 20);
+            this.nudDiffFontSize.TabIndex = 9;
+            this.nudDiffFontSize.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            // 
+            // chkScrollDown
+            // 
+            this.chkScrollDown.AutoSize = true;
+            this.chkScrollDown.Location = new System.Drawing.Point(6, 43);
+            this.chkScrollDown.Name = "chkScrollDown";
+            this.chkScrollDown.Size = new System.Drawing.Size(138, 17);
+            this.chkScrollDown.TabIndex = 8;
+            this.chkScrollDown.Text = "Scroll Down on preview";
+            this.chkScrollDown.UseVisualStyleBackColor = true;
+            // 
+            // chkEnhanceDiff
+            // 
+            this.chkEnhanceDiff.AutoSize = true;
+            this.chkEnhanceDiff.Location = new System.Drawing.Point(6, 19);
+            this.chkEnhanceDiff.Name = "chkEnhanceDiff";
+            this.chkEnhanceDiff.Size = new System.Drawing.Size(111, 17);
+            this.chkEnhanceDiff.TabIndex = 7;
+            this.chkEnhanceDiff.Text = "Enhance diff view";
+            this.chkEnhanceDiff.UseVisualStyleBackColor = true;
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.Location = new System.Drawing.Point(244, 294);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.TabIndex = 12;
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.cmboLang);
+            this.groupBox1.Controls.Add(this.cmboProject);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.chkSetAsDefault);
+            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(307, 141);
+            this.groupBox1.TabIndex = 13;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Project";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.chkEnhanceDiff);
+            this.groupBox2.Controls.Add(this.chkScrollDown);
+            this.groupBox2.Controls.Add(this.nudDiffFontSize);
+            this.groupBox2.Controls.Add(this.btnTextBoxFont);
+            this.groupBox2.Controls.Add(this.label4);
+            this.groupBox2.Location = new System.Drawing.Point(13, 160);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(306, 128);
+            this.groupBox2.TabIndex = 14;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Other";
+            // 
+            // MyPreferences
+            // 
+            this.ClientSize = new System.Drawing.Size(331, 325);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.btnCancel);
+            this.Controls.Add(this.btnApply);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "ProjectSelect";
+            this.Name = "MyPreferences";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Preferences";
+            ((System.ComponentModel.ISupportInitialize)(this.nudDiffFontSize)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.ComboBox cmboLang;
-        private System.Windows.Forms.Button btnOK;
+        private System.Windows.Forms.Button btnApply;
         private System.Windows.Forms.ComboBox cmboProject;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox chkSetAsDefault;
+        private System.Windows.Forms.Button btnTextBoxFont;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.NumericUpDown nudDiffFontSize;
+        private System.Windows.Forms.CheckBox chkScrollDown;
+        private System.Windows.Forms.CheckBox chkEnhanceDiff;
+        private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox2;
     }
 }

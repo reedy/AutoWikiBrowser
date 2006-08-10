@@ -116,10 +116,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Preferences.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>Preferences.cs</DependentUpon>
-    </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -140,12 +136,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Settings.cs" />
-    <Compile Include="Preferences.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Preferences.Designer.cs">
-      <DependentUpon>Preferences.cs</DependentUpon>
-    </Compile>
     <Compile Include="UserSettings.cs">
       <SubType>Form</SubType>
     </Compile>
