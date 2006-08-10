@@ -96,6 +96,13 @@ namespace AutoWikiBrowser
             chkQuickSave.Checked = false;
             nudBotSpeed.Value = 15;
 
+            //preferences
+            webBrowserEdit.EnhanceDiffEnabled = true;
+            webBrowserEdit.ScrollDown = true;
+            webBrowserEdit.DiffFontSize = 150;
+            System.Drawing.Font f = new System.Drawing.Font("Courier New", 9, System.Drawing.FontStyle.Regular);
+            txtEdit.Font = f;
+
             lblStatusText.Text = "Default settings loaded.";
         }
 
@@ -753,6 +760,11 @@ namespace AutoWikiBrowser
                 textWriter.WriteAttributeString("text", PasteMore10.Text);
                 textWriter.WriteEndElement();
 
+                textWriter.WriteEndElement();
+
+                textWriter.WriteStartElement("preferences");
+                textWriter.WriteStartElement("preferencevalues");
+                textWriter.WriteAttributeString("EnhanceDiff", webBrowserEdit.EnhanceDiffEnabled.ToString());
                 textWriter.WriteEndElement();
                 textWriter.WriteEndElement();
 

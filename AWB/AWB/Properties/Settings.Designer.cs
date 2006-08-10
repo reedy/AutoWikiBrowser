@@ -23,15 +23,6 @@ namespace AutoWikiBrowser.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool DisableDiffScrollDown {
-            get {
-                return ((bool)(this["DisableDiffScrollDown"]));
-            }
-        }
-        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("en")]
