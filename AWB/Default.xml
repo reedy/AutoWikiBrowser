@@ -16,11 +16,11 @@
 		<regextypofixproperties enabled="False" skipnofixed="False" />
 	</regextypofix>
 	<FindAndReplaceSettings>
-		<findandreplacesettings enabled="False" ignorenofar="False" ignoretext="False" appendsummary="True" />
+		<findandreplacesettings enabled="False" ignorenofar="True" ignoretext="False" appendsummary="True" />
 	</FindAndReplaceSettings>
 	<FindAndReplace>
 		<replacerules enabled="False">
-			<rule name="New rule" type="0" enabled="True" />
+			<rule name="Rule" type="0" enabled="True" />
 		</replacerules>
 	</FindAndReplace>
 	<startoptions>
@@ -64,6 +64,6 @@
 		<pastemore10 text="" />
 	</pastemore>
 	<preferences>
-		<preferencevalues enhancediff="True" scrolldown="True" difffontsize="120" />
+		<preferencevalues enhancediff="True" scrolldown="True" difffontsize="150" textboxfontsize="9.75" textboxfont="Courier New" />
 	</preferences>
 </Settings>

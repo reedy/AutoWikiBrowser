@@ -100,7 +100,7 @@ namespace AutoWikiBrowser
             webBrowserEdit.EnhanceDiffEnabled = true;
             webBrowserEdit.ScrollDown = true;
             webBrowserEdit.DiffFontSize = 150;
-            System.Drawing.Font f = new System.Drawing.Font("Courier New", 9, System.Drawing.FontStyle.Regular);
+            System.Drawing.Font f = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular);
             txtEdit.Font = f;
 
             lblStatusText.Text = "Default settings loaded.";
@@ -554,6 +554,18 @@ namespace AutoWikiBrowser
                             reader.MoveToAttribute("difffontsize");
                             webBrowserEdit.DiffFontSize = int.Parse(reader.Value);
 
+                            float s = 9.75F;
+                            string d = "Courier New";
+
+                            reader.MoveToAttribute("textboxfontsize");
+                            s = float.Parse(reader.Value);
+
+                            reader.MoveToAttribute("textboxfont");
+                            d = reader.Value;
+                            
+                            System.Drawing.Font f = new System.Drawing.Font(d, s);
+                            txtEdit.Font = f;
+
                             continue;
                         }
                     }
@@ -780,6 +792,8 @@ namespace AutoWikiBrowser
                 textWriter.WriteAttributeString("enhancediff", webBrowserEdit.EnhanceDiffEnabled.ToString());
                 textWriter.WriteAttributeString("scrolldown", webBrowserEdit.ScrollDown.ToString());
                 textWriter.WriteAttributeString("difffontsize", webBrowserEdit.DiffFontSize.ToString());
+                textWriter.WriteAttributeString("textboxfontsize", txtEdit.Font.Size.ToString());
+                textWriter.WriteAttributeString("textboxfont", txtEdit.Font.Name);
                 textWriter.WriteEndElement();
                 textWriter.WriteEndElement();
 
