@@ -45,6 +45,8 @@ namespace AutoWikiBrowser
             this.btnCancel = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.fontDialog = new System.Windows.Forms.FontDialog();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.nudDiffFontSize)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -121,16 +123,16 @@ namespace AutoWikiBrowser
             // 
             this.btnTextBoxFont.Location = new System.Drawing.Point(5, 92);
             this.btnTextBoxFont.Name = "btnTextBoxFont";
-            this.btnTextBoxFont.Size = new System.Drawing.Size(82, 23);
+            this.btnTextBoxFont.Size = new System.Drawing.Size(112, 23);
             this.btnTextBoxFont.TabIndex = 11;
-            this.btnTextBoxFont.Text = "Text box font";
+            this.btnTextBoxFont.Text = "Set text box font";
             this.btnTextBoxFont.UseVisualStyleBackColor = true;
             this.btnTextBoxFont.Click += new System.EventHandler(this.btnTextBoxFont_Click);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 68);
+            this.label4.Location = new System.Drawing.Point(12, 68);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(65, 13);
             this.label4.TabIndex = 10;
@@ -150,7 +152,7 @@ namespace AutoWikiBrowser
             0,
             0});
             this.nudDiffFontSize.Minimum = new decimal(new int[] {
-            50,
+            150,
             0,
             0,
             0});
@@ -158,7 +160,7 @@ namespace AutoWikiBrowser
             this.nudDiffFontSize.Size = new System.Drawing.Size(49, 20);
             this.nudDiffFontSize.TabIndex = 9;
             this.nudDiffFontSize.Value = new decimal(new int[] {
-            50,
+            150,
             0,
             0,
             0});
@@ -166,6 +168,8 @@ namespace AutoWikiBrowser
             // chkScrollDown
             // 
             this.chkScrollDown.AutoSize = true;
+            this.chkScrollDown.Checked = true;
+            this.chkScrollDown.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkScrollDown.Location = new System.Drawing.Point(6, 43);
             this.chkScrollDown.Name = "chkScrollDown";
             this.chkScrollDown.Size = new System.Drawing.Size(138, 17);
@@ -176,6 +180,8 @@ namespace AutoWikiBrowser
             // chkEnhanceDiff
             // 
             this.chkEnhanceDiff.AutoSize = true;
+            this.chkEnhanceDiff.Checked = true;
+            this.chkEnhanceDiff.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkEnhanceDiff.Location = new System.Drawing.Point(6, 19);
             this.chkEnhanceDiff.Name = "chkEnhanceDiff";
             this.chkEnhanceDiff.Size = new System.Drawing.Size(111, 17);
@@ -209,6 +215,7 @@ namespace AutoWikiBrowser
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.chkEnhanceDiff);
             this.groupBox2.Controls.Add(this.chkScrollDown);
             this.groupBox2.Controls.Add(this.nudDiffFontSize);
@@ -220,6 +227,15 @@ namespace AutoWikiBrowser
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Other";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(129, 68);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(15, 13);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "%";
             // 
             // MyPreferences
             // 
@@ -260,5 +276,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.FontDialog fontDialog;
+        private System.Windows.Forms.Label label5;
     }
 }
