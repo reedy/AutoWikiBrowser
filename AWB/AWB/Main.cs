@@ -67,9 +67,6 @@ namespace AutoWikiBrowser
                 catkey = AutoWikiBrowser.Properties.Settings.Default.AddHummanKeyToCats;
                 parsers = new Parsers(stubcount, catkey);
 
-                if (AutoWikiBrowser.Properties.Settings.Default.LowThreadPriority)
-                    Thread.CurrentThread.Priority = ThreadPriority.Lowest;
-
                 //read and set project from user persistent settings (was saved on last exit)
                 LangCodeEnum l = (LangCodeEnum)Enum.Parse(typeof(LangCodeEnum), AutoWikiBrowser.Properties.Settings.Default.Language);
                 ProjectEnum p = (ProjectEnum)Enum.Parse(typeof(ProjectEnum), AutoWikiBrowser.Properties.Settings.Default.Project);
@@ -134,6 +131,20 @@ namespace AutoWikiBrowser
             {
                 strUserName = value;
                 lblUserName.Text = Variables.Namespaces[2] + value;
+            }
+        }
+
+        bool bLowThreadPriority = false;
+        bool LowThreadPriority
+        {
+            get { return bLowThreadPriority; }
+            set
+            {
+                bLowThreadPriority = value;
+                if (value)
+                    Thread.CurrentThread.Priority = ThreadPriority.Lowest;
+                else
+                    Thread.CurrentThread.Priority = ThreadPriority.Normal;
             }
         }
 
@@ -1194,7 +1205,7 @@ namespace AutoWikiBrowser
 
         private void selectProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MyPreferences MyPrefs = new MyPreferences(Variables.LangCode, Variables.Project, webBrowserEdit.EnhanceDiffEnabled, webBrowserEdit.ScrollDown, webBrowserEdit.DiffFontSize, txtEdit.Font);
+            MyPreferences MyPrefs = new MyPreferences(Variables.LangCode, Variables.Project, webBrowserEdit.EnhanceDiffEnabled, webBrowserEdit.ScrollDown, webBrowserEdit.DiffFontSize, txtEdit.Font, LowThreadPriority);
             
             if (MyPrefs.ShowDialog() == DialogResult.OK)
             {
@@ -1202,6 +1213,7 @@ namespace AutoWikiBrowser
                 webBrowserEdit.ScrollDown = MyPrefs.ScrollDown;
                 webBrowserEdit.DiffFontSize = MyPrefs.DiffFontSize;
                 txtEdit.Font = MyPrefs.TextBoxFont;
+                LowThreadPriority = MyPrefs.LowThreadPriority;
 
                 wikiStatusBool = false;
                 chkQuickSave.Checked = false;
