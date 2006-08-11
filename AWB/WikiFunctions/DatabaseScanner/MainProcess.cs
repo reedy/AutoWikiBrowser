@@ -109,6 +109,12 @@ namespace WikiFunctions.DatabaseScanner
 
             bool test = true;
 
+            //Regex Regexlinks = new Regex("\\[\\[[^:]*?\\]\\]", RegexOptions.Compiled);
+            //int links = 0;
+            //int characters = 0;
+            //int words = 0;
+           // int[] c = new int[2000];            
+
             try
             {
                 using (XmlTextReader reader = new XmlTextReader(stream))
@@ -136,10 +142,22 @@ namespace WikiFunctions.DatabaseScanner
                                     test = false;
                                     break;
                                 }                                    
-                            }
-                            
-                            if(test)
+                            }                           
+                         
+                            if (test)
+                            {
+                                //MatchCollection m = Regexlinks.Matches(articleText);
+                                //links = m.Count;
+
+                                //if (links < 2000)
+                                //    c[links]++;
+                                //else
+                                //{
+                                //    c[1999]++;
+                                //    System.Windows.Forms.MessageBox.Show(articleTitle);
+                                //}
                                 context.Post(SOPC, articleTitle);
+                            }
                         }
                     }
                 }
@@ -152,6 +170,15 @@ namespace WikiFunctions.DatabaseScanner
             }
             finally
             {
+                //StringBuilder r = new StringBuilder();
+                //r.AppendLine("Links\tFrequency\r\n");
+                //for(int j = 0; j < c.Length; j++)
+                //{
+                //    r.AppendLine(j.ToString() + "\t" + c[j].ToString());                    
+                //}
+                //Results res = new Results(r.ToString());
+                //res.ShowDialog();
+
                 if (boolMessage)
                     context.Post(SOPCstopped, articleTitle);
             }

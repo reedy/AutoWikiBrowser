@@ -178,9 +178,8 @@ namespace WikiFunctions.DatabaseScanner
 
         public override bool Check(ref string articleText, ref string articleTitle)
         {
-            actual = 0;
-            foreach (Match m in Regexlinks.Matches(articleText))
-                actual++;
+            MatchCollection m = Regexlinks.Matches(articleText);
+            actual = m.Count;
 
             if (M == MoreLessThan.MoreThan)
             {
