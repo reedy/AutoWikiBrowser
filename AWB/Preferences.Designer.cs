@@ -45,8 +45,8 @@ namespace AutoWikiBrowser
             this.btnCancel = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.fontDialog = new System.Windows.Forms.FontDialog();
             this.label5 = new System.Windows.Forms.Label();
+            this.fontDialog = new System.Windows.Forms.FontDialog();
             ((System.ComponentModel.ISupportInitialize)(this.nudDiffFontSize)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -152,7 +152,7 @@ namespace AutoWikiBrowser
             0,
             0});
             this.nudDiffFontSize.Minimum = new decimal(new int[] {
-            150,
+            20,
             0,
             0,
             0});
