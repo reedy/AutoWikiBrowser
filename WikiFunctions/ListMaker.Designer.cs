@@ -227,7 +227,7 @@ namespace WikiFunctions
             this.removeToolStripMenuItem,
             this.clearToolStripMenuItem1});
             this.mnuListBox.Name = "contextMenuStrip2";
-            this.mnuListBox.Size = new System.Drawing.Size(195, 236);
+            this.mnuListBox.Size = new System.Drawing.Size(195, 214);
             this.mnuListBox.Opening += new System.ComponentModel.CancelEventHandler(this.mnuListBox_Opening);
             // 
             // filterOutNonMainSpaceArticlesToolStripMenuItem
@@ -367,6 +367,7 @@ namespace WikiFunctions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ContextMenuStrip = this.mnuListBox;
             this.Controls.Add(this.lbArticles);
             this.Controls.Add(this.btnFilter);
             this.Controls.Add(this.chkWLHRedirects);
@@ -405,7 +406,6 @@ namespace WikiFunctions
         private System.Windows.Forms.Button btnMakeList;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cmboSourceSelect;
-        private System.Windows.Forms.ContextMenuStrip mnuListBox;
         private System.Windows.Forms.ToolStripMenuItem filterOutNonMainSpaceArticlesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem specialFilterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem convertToTalkPagesToolStripMenuItem;
@@ -423,5 +423,6 @@ namespace WikiFunctions
         private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem1;
         private System.Windows.Forms.SaveFileDialog saveListDialog;
         private System.Windows.Forms.ToolTip toolTip1;
+        public System.Windows.Forms.ContextMenuStrip mnuListBox;
     }
 }

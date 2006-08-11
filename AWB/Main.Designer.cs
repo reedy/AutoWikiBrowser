@@ -118,22 +118,6 @@ namespace AutoWikiBrowser
             this.btnDiff = new System.Windows.Forms.Button();
             this.btnIgnore = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.mnuListBox = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.filterOutNonMainSpaceArticlesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.specialFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.convertToTalkPagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.convertFromTalkPagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.sortAlphebeticallyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveListToTextFileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
-            this.addSelectedToListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.fromCategoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.fromWhatlinkshereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.fromLinksOnPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.fromImageLinksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.clearToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.listMaker1 = new WikiFunctions.ListMaker();
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtEdit = new System.Windows.Forms.TextBox();
@@ -265,7 +249,6 @@ namespace AutoWikiBrowser
             this.groupBox9.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.mnuListBox.SuspendLayout();
             this.panel1.SuspendLayout();
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -1104,7 +1087,6 @@ namespace AutoWikiBrowser
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)));
-            this.groupBox2.ContextMenuStrip = this.mnuListBox;
             this.groupBox2.Controls.Add(this.listMaker1);
             this.groupBox2.Location = new System.Drawing.Point(3, 3);
             this.groupBox2.Name = "groupBox2";
@@ -1112,125 +1094,6 @@ namespace AutoWikiBrowser
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "(1) Make list";
-            // 
-            // mnuListBox
-            // 
-            this.mnuListBox.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.filterOutNonMainSpaceArticlesToolStripMenuItem,
-            this.specialFilterToolStripMenuItem,
-            this.convertToTalkPagesToolStripMenuItem,
-            this.convertFromTalkPagesToolStripMenuItem,
-            this.sortAlphebeticallyMenuItem,
-            this.saveListToTextFileToolStripMenuItem1,
-            this.toolStripSeparator14,
-            this.addSelectedToListToolStripMenuItem,
-            this.toolStripSeparator5,
-            this.removeToolStripMenuItem,
-            this.clearToolStripMenuItem1});
-            this.mnuListBox.Name = "contextMenuStrip2";
-            this.mnuListBox.Size = new System.Drawing.Size(195, 214);
-            // 
-            // filterOutNonMainSpaceArticlesToolStripMenuItem
-            // 
-            this.filterOutNonMainSpaceArticlesToolStripMenuItem.Name = "filterOutNonMainSpaceArticlesToolStripMenuItem";
-            this.filterOutNonMainSpaceArticlesToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
-            this.filterOutNonMainSpaceArticlesToolStripMenuItem.Text = "Filter out non main space";
-            this.filterOutNonMainSpaceArticlesToolStripMenuItem.ToolTipText = "Filter out articles that are not in the main namespace";
-            // 
-            // specialFilterToolStripMenuItem
-            // 
-            this.specialFilterToolStripMenuItem.Name = "specialFilterToolStripMenuItem";
-            this.specialFilterToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
-            this.specialFilterToolStripMenuItem.Text = "Filter";
-            this.specialFilterToolStripMenuItem.ToolTipText = "Filter articles by namespace";
-            // 
-            // convertToTalkPagesToolStripMenuItem
-            // 
-            this.convertToTalkPagesToolStripMenuItem.Name = "convertToTalkPagesToolStripMenuItem";
-            this.convertToTalkPagesToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
-            this.convertToTalkPagesToolStripMenuItem.Text = "Convert to talk pages";
-            this.convertToTalkPagesToolStripMenuItem.ToolTipText = "Convert namespace to talk";
-            // 
-            // convertFromTalkPagesToolStripMenuItem
-            // 
-            this.convertFromTalkPagesToolStripMenuItem.Name = "convertFromTalkPagesToolStripMenuItem";
-            this.convertFromTalkPagesToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
-            this.convertFromTalkPagesToolStripMenuItem.Text = "Convert from talk pages";
-            this.convertFromTalkPagesToolStripMenuItem.ToolTipText = "Convert namespace of talk pages to associated article";
-            // 
-            // sortAlphebeticallyMenuItem
-            // 
-            this.sortAlphebeticallyMenuItem.Name = "sortAlphebeticallyMenuItem";
-            this.sortAlphebeticallyMenuItem.Size = new System.Drawing.Size(194, 22);
-            this.sortAlphebeticallyMenuItem.Text = "Sort alphabetically";
-            this.sortAlphebeticallyMenuItem.ToolTipText = "Sorts the list alphabetically";
-            // 
-            // saveListToTextFileToolStripMenuItem1
-            // 
-            this.saveListToTextFileToolStripMenuItem1.Name = "saveListToTextFileToolStripMenuItem1";
-            this.saveListToTextFileToolStripMenuItem1.Size = new System.Drawing.Size(194, 22);
-            this.saveListToTextFileToolStripMenuItem1.Text = "Save list to file";
-            this.saveListToTextFileToolStripMenuItem1.ToolTipText = "Saves list to a text file";
-            // 
-            // toolStripSeparator14
-            // 
-            this.toolStripSeparator14.Name = "toolStripSeparator14";
-            this.toolStripSeparator14.Size = new System.Drawing.Size(191, 6);
-            // 
-            // addSelectedToListToolStripMenuItem
-            // 
-            this.addSelectedToListToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fromCategoryToolStripMenuItem,
-            this.fromWhatlinkshereToolStripMenuItem,
-            this.fromLinksOnPageToolStripMenuItem,
-            this.fromImageLinksToolStripMenuItem});
-            this.addSelectedToListToolStripMenuItem.Name = "addSelectedToListToolStripMenuItem";
-            this.addSelectedToListToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
-            this.addSelectedToListToolStripMenuItem.Text = "Add selected to list...";
-            // 
-            // fromCategoryToolStripMenuItem
-            // 
-            this.fromCategoryToolStripMenuItem.Name = "fromCategoryToolStripMenuItem";
-            this.fromCategoryToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
-            this.fromCategoryToolStripMenuItem.Text = "From category";
-            // 
-            // fromWhatlinkshereToolStripMenuItem
-            // 
-            this.fromWhatlinkshereToolStripMenuItem.Name = "fromWhatlinkshereToolStripMenuItem";
-            this.fromWhatlinkshereToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
-            this.fromWhatlinkshereToolStripMenuItem.Text = "From whatlinkshere";
-            // 
-            // fromLinksOnPageToolStripMenuItem
-            // 
-            this.fromLinksOnPageToolStripMenuItem.Name = "fromLinksOnPageToolStripMenuItem";
-            this.fromLinksOnPageToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
-            this.fromLinksOnPageToolStripMenuItem.Text = "From links on page";
-            // 
-            // fromImageLinksToolStripMenuItem
-            // 
-            this.fromImageLinksToolStripMenuItem.Name = "fromImageLinksToolStripMenuItem";
-            this.fromImageLinksToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
-            this.fromImageLinksToolStripMenuItem.Text = "From image links";
-            // 
-            // toolStripSeparator5
-            // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(191, 6);
-            // 
-            // removeToolStripMenuItem
-            // 
-            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Delete)));
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
-            this.removeToolStripMenuItem.Text = "Remove";
-            this.removeToolStripMenuItem.ToolTipText = "Remove the selected articles";
-            // 
-            // clearToolStripMenuItem1
-            // 
-            this.clearToolStripMenuItem1.Name = "clearToolStripMenuItem1";
-            this.clearToolStripMenuItem1.Size = new System.Drawing.Size(194, 22);
-            this.clearToolStripMenuItem1.Text = "Clear";
-            this.clearToolStripMenuItem1.ToolTipText = "Clear the list";
             // 
             // listMaker1
             // 
@@ -1666,28 +1529,28 @@ namespace AutoWikiBrowser
             // saveSettingsToolStripMenuItem
             // 
             this.saveSettingsToolStripMenuItem.Name = "saveSettingsToolStripMenuItem";
-            this.saveSettingsToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.saveSettingsToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this.saveSettingsToolStripMenuItem.Text = "Save settings";
             this.saveSettingsToolStripMenuItem.Click += new System.EventHandler(this.saveSettingsToolStripMenuItem_Click);
             // 
             // loadSettingsToolStripMenuItem
             // 
             this.loadSettingsToolStripMenuItem.Name = "loadSettingsToolStripMenuItem";
-            this.loadSettingsToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.loadSettingsToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this.loadSettingsToolStripMenuItem.Text = "Load settings";
             this.loadSettingsToolStripMenuItem.Click += new System.EventHandler(this.loadSettingsToolStripMenuItem_Click);
             // 
             // loadDefaultSettingsToolStripMenuItem
             // 
             this.loadDefaultSettingsToolStripMenuItem.Name = "loadDefaultSettingsToolStripMenuItem";
-            this.loadDefaultSettingsToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.loadDefaultSettingsToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this.loadDefaultSettingsToolStripMenuItem.Text = "Reset settings";
             this.loadDefaultSettingsToolStripMenuItem.Click += new System.EventHandler(this.loadDefaultSettingsToolStripMenuItem_Click);
             // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(205, 6);
+            this.toolStripSeparator8.Size = new System.Drawing.Size(212, 6);
             // 
             // PreferencesToolStripMenuItem
             // 
@@ -1699,25 +1562,25 @@ namespace AutoWikiBrowser
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(205, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(212, 6);
             // 
             // loginToolStripMenuItem
             // 
             this.loginToolStripMenuItem.Name = "loginToolStripMenuItem";
-            this.loginToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.loginToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this.loginToolStripMenuItem.Text = "Login";
             this.loginToolStripMenuItem.Click += new System.EventHandler(this.loginToolStripMenuItem_Click);
             // 
             // toolStripSeparator17
             // 
             this.toolStripSeparator17.Name = "toolStripSeparator17";
-            this.toolStripSeparator17.Size = new System.Drawing.Size(205, 6);
+            this.toolStripSeparator17.Size = new System.Drawing.Size(212, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -2222,7 +2085,6 @@ namespace AutoWikiBrowser
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
-            this.mnuListBox.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.mnuTextBox.ResumeLayout(false);
@@ -2297,10 +2159,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
         private System.Windows.Forms.CheckBox chkIgnoreIsRegex;
         private System.Windows.Forms.SaveFileDialog saveListDialog;
-        private System.Windows.Forms.ContextMenuStrip mnuListBox;
-        private System.Windows.Forms.ToolStripMenuItem filterOutNonMainSpaceArticlesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem sortAlphebeticallyMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveListToTextFileToolStripMenuItem1;
         private System.Windows.Forms.Button btnPreview;
         private System.Windows.Forms.Button btnDiff;
         private System.Windows.Forms.ToolStripMenuItem generalToolStripMenuItem;
@@ -2356,9 +2214,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.Timer Timer;
         private System.Windows.Forms.CheckBox chkUnicodifyWhole;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
-        private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem goToLineToolStripMenuItem;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
@@ -2379,7 +2234,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem addIgnoredToLogFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
         private System.Windows.Forms.Button btnFalsePositive;
-        private System.Windows.Forms.ToolStripMenuItem specialFilterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem specialFilterToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem convertListToToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem listToolStripMenuItem;
@@ -2395,10 +2249,8 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripButton btntsIgnore;
         private System.Windows.Forms.ToolStripButton btntsStop;
         private System.Windows.Forms.ToolStripMenuItem enableTheToolbarToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem convertToTalkPagesToolStripMenuItem;
         private System.Windows.Forms.RadioButton rdoPrepend;
         private System.Windows.Forms.RadioButton rdoAppend;
-        private System.Windows.Forms.ToolStripMenuItem convertFromTalkPagesToolStripMenuItem;
         private System.Windows.Forms.GroupBox ImageGroupBox;
         private System.Windows.Forms.Label lblImageWith;
         private System.Windows.Forms.Label lblImageReplace;
@@ -2416,14 +2268,8 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripButton btntsChanges;
         private System.Windows.Forms.CheckBox chkSuppressTag;
         private WikiFunctions.WebControl webBrowserEdit;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
         private System.Windows.Forms.CheckBox chkSkipNoChanges;
         private System.Windows.Forms.ToolStripMenuItem wordWrapToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem addSelectedToListToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem fromCategoryToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem fromWhatlinkshereToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem fromLinksOnPageToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem fromImageLinksToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem humanNameCategoryKeyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem humanNameDisambigTagToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator16;
