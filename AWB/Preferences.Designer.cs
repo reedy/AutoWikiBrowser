@@ -47,6 +47,7 @@ namespace AutoWikiBrowser
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
             this.fontDialog = new System.Windows.Forms.FontDialog();
+            this.chkLowPriority = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.nudDiffFontSize)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -215,6 +216,7 @@ namespace AutoWikiBrowser
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.chkLowPriority);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.chkEnhanceDiff);
             this.groupBox2.Controls.Add(this.chkScrollDown);
@@ -236,6 +238,16 @@ namespace AutoWikiBrowser
             this.label5.Size = new System.Drawing.Size(15, 13);
             this.label5.TabIndex = 12;
             this.label5.Text = "%";
+            // 
+            // chkLowPriority
+            // 
+            this.chkLowPriority.AutoSize = true;
+            this.chkLowPriority.Location = new System.Drawing.Point(159, 19);
+            this.chkLowPriority.Name = "chkLowPriority";
+            this.chkLowPriority.Size = new System.Drawing.Size(112, 17);
+            this.chkLowPriority.TabIndex = 13;
+            this.chkLowPriority.Text = "Low thread priority";
+            this.chkLowPriority.UseVisualStyleBackColor = true;
             // 
             // MyPreferences
             // 
@@ -278,5 +290,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.FontDialog fontDialog;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.CheckBox chkLowPriority;
     }
 }

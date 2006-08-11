@@ -74,18 +74,6 @@ namespace AutoWikiBrowser.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool LowThreadPriority {
-            get {
-                return ((bool)(this["LowThreadPriority"]));
-            }
-            set {
-                this["LowThreadPriority"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool AddHummanKeyToCats {
             get {
                 return ((bool)(this["AddHummanKeyToCats"]));

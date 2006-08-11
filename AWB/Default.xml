@@ -64,6 +64,6 @@
 		<pastemore10 text="" />
 	</pastemore>
 	<preferences>
-		<preferencevalues enhancediff="True" scrolldown="True" difffontsize="150" textboxfontsize="9.75" textboxfont="Courier New" />
+		<preferencevalues enhancediff="True" scrolldown="True" difffontsize="150" textboxfontsize="9.75" textboxfont="Courier New" lowthreadpriority="False" />
 	</preferences>
 </Settings>
