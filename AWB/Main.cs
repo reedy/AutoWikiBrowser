@@ -114,7 +114,30 @@ namespace AutoWikiBrowser
         Parsers parsers;
         WebControl webBrowserLogin = new WebControl();
         TimeSpan StartTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-        int intEdits = 0;
+        int intEdits = 0;        
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            //add articles to avoid (in future may be populated from checkpage
+            //noParse.Add("User:Bluemoose/Sandbox");
+
+            //check that we are not using an old OS. 98 seems to mangled some unicode.
+            if (Environment.OSVersion.Version.Major < 5)
+            {
+                MessageBox.Show("You appear to be using an older operating system, this software may have trouble with some unicode fonts on operating systems older than Windows 2000, the start button has been disabled.", "Operating system", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                SetStartButton(false);
+            }
+            else
+                listMaker1.MakeListEnabled = true;
+
+            Debug();
+            loadDefaultSettings();
+            UpdateButtons();
+        }
+
+        #endregion
+
+        #region Properties
 
         Article stredittingarticle = new Article("");
         public Article EdittingArticle
@@ -135,7 +158,7 @@ namespace AutoWikiBrowser
         }
 
         bool bLowThreadPriority = false;
-        bool LowThreadPriority
+        private bool LowThreadPriority
         {
             get { return bLowThreadPriority; }
             set
@@ -148,30 +171,18 @@ namespace AutoWikiBrowser
             }
         }
 
+        bool bFlashAndBeep = true;
+        private bool FlashAndBeep
+        {
+            get { return bFlashAndBeep; }
+            set { bFlashAndBeep = value; }
+        }
+
         private bool WikiStatusBool = false;
         internal bool wikiStatusBool
         {
             get { return WikiStatusBool; }
             set { WikiStatusBool = value; }
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            //add articles to avoid (in future may be populated from checkpage
-            //noParse.Add("User:Bluemoose/Sandbox");
-
-            //check that we are not using an old OS. 98 seems to mangled some unicode.
-            if (Environment.OSVersion.Version.Major < 5)
-            {
-                MessageBox.Show("You appear to be using an older operating system, this software may have trouble with some unicode fonts on operating systems older than Windows 2000, the start button has been disabled.", "Operating system", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                SetStartButton(false);
-            }
-            else
-                listMaker1.MakeListEnabled = true;
-
-            Debug();
-            loadDefaultSettings();
-            UpdateButtons();
         }
 
         #endregion
@@ -395,8 +406,6 @@ namespace AutoWikiBrowser
         bool skippable = true;
         private void CaseWasDiff()
         {
-            this.Focus();
-
             if (diffChecker(webBrowserEdit.Document.Body.InnerHtml))
             {//check if there are no changes and we want to skip
                 SkipPage();
@@ -409,11 +418,13 @@ namespace AutoWikiBrowser
                 return;
             }
 
-            if (!this.ContainsFocus)
+            if (!this.ContainsFocus && FlashAndBeep)
             {
                 Tools.FlashWindow(this);
                 Tools.Beep1();
             }
+
+            this.Focus();
 
             EnableButtons();
         }
@@ -1205,7 +1216,7 @@ namespace AutoWikiBrowser
 
         private void selectProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MyPreferences MyPrefs = new MyPreferences(Variables.LangCode, Variables.Project, webBrowserEdit.EnhanceDiffEnabled, webBrowserEdit.ScrollDown, webBrowserEdit.DiffFontSize, txtEdit.Font, LowThreadPriority);
+            MyPreferences MyPrefs = new MyPreferences(Variables.LangCode, Variables.Project, webBrowserEdit.EnhanceDiffEnabled, webBrowserEdit.ScrollDown, webBrowserEdit.DiffFontSize, txtEdit.Font, LowThreadPriority, FlashAndBeep);
             
             if (MyPrefs.ShowDialog() == DialogResult.OK)
             {
@@ -1214,6 +1225,7 @@ namespace AutoWikiBrowser
                 webBrowserEdit.DiffFontSize = MyPrefs.DiffFontSize;
                 txtEdit.Font = MyPrefs.TextBoxFont;
                 LowThreadPriority = MyPrefs.LowThreadPriority;
+                FlashAndBeep = MyPrefs.FlashAndBeep;
 
                 wikiStatusBool = false;
                 chkQuickSave.Checked = false;
