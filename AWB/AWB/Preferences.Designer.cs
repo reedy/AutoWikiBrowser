@@ -48,6 +48,7 @@ namespace AutoWikiBrowser
             this.chkLowPriority = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.fontDialog = new System.Windows.Forms.FontDialog();
+            this.chkFlashAndBeep = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.nudDiffFontSize)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -65,7 +66,7 @@ namespace AutoWikiBrowser
             // btnApply
             // 
             this.btnApply.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnApply.Location = new System.Drawing.Point(163, 294);
+            this.btnApply.Location = new System.Drawing.Point(163, 320);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(75, 23);
             this.btnApply.TabIndex = 1;
@@ -122,7 +123,7 @@ namespace AutoWikiBrowser
             // 
             // btnTextBoxFont
             // 
-            this.btnTextBoxFont.Location = new System.Drawing.Point(5, 92);
+            this.btnTextBoxFont.Location = new System.Drawing.Point(177, 19);
             this.btnTextBoxFont.Name = "btnTextBoxFont";
             this.btnTextBoxFont.Size = new System.Drawing.Size(112, 23);
             this.btnTextBoxFont.TabIndex = 11;
@@ -193,7 +194,7 @@ namespace AutoWikiBrowser
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(244, 294);
+            this.btnCancel.Location = new System.Drawing.Point(244, 320);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 12;
@@ -217,6 +218,7 @@ namespace AutoWikiBrowser
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.chkFlashAndBeep);
             this.groupBox2.Controls.Add(this.chkLowPriority);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.chkEnhanceDiff);
@@ -226,7 +228,7 @@ namespace AutoWikiBrowser
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Location = new System.Drawing.Point(13, 160);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(306, 128);
+            this.groupBox2.Size = new System.Drawing.Size(306, 154);
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Other";
@@ -234,7 +236,7 @@ namespace AutoWikiBrowser
             // chkLowPriority
             // 
             this.chkLowPriority.AutoSize = true;
-            this.chkLowPriority.Location = new System.Drawing.Point(159, 19);
+            this.chkLowPriority.Location = new System.Drawing.Point(6, 102);
             this.chkLowPriority.Name = "chkLowPriority";
             this.chkLowPriority.Size = new System.Drawing.Size(112, 17);
             this.chkLowPriority.TabIndex = 13;
@@ -250,9 +252,21 @@ namespace AutoWikiBrowser
             this.label5.TabIndex = 12;
             this.label5.Text = "%";
             // 
+            // chkFlashAndBeep
+            // 
+            this.chkFlashAndBeep.AutoSize = true;
+            this.chkFlashAndBeep.Checked = true;
+            this.chkFlashAndBeep.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkFlashAndBeep.Location = new System.Drawing.Point(6, 126);
+            this.chkFlashAndBeep.Name = "chkFlashAndBeep";
+            this.chkFlashAndBeep.Size = new System.Drawing.Size(195, 17);
+            this.chkFlashAndBeep.TabIndex = 14;
+            this.chkFlashAndBeep.Text = "Flash and beep when ready to save";
+            this.chkFlashAndBeep.UseVisualStyleBackColor = true;
+            // 
             // MyPreferences
             // 
-            this.ClientSize = new System.Drawing.Size(331, 325);
+            this.ClientSize = new System.Drawing.Size(331, 351);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnCancel);
@@ -292,5 +306,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.FontDialog fontDialog;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.CheckBox chkLowPriority;
+        private System.Windows.Forms.CheckBox chkFlashAndBeep;
     }
 }

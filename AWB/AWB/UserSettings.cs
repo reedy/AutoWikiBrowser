@@ -103,6 +103,7 @@ namespace AutoWikiBrowser
             System.Drawing.Font f = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular);
             txtEdit.Font = f;
             LowThreadPriority = false;
+            FlashAndBeep = true;
 
             lblStatusText.Text = "Default settings loaded.";
         }
@@ -567,6 +568,12 @@ namespace AutoWikiBrowser
                             reader.MoveToAttribute("lowthreadpriority");
                             LowThreadPriority = bool.Parse(reader.Value);
 
+                            if (reader.AttributeCount > 6)
+                            {
+                                reader.MoveToAttribute("flashandbeep");
+                                FlashAndBeep = bool.Parse(reader.Value);
+                            }
+
                             continue;
                         }
                     }
@@ -796,6 +803,7 @@ namespace AutoWikiBrowser
                 textWriter.WriteAttributeString("textboxfontsize", txtEdit.Font.Size.ToString());
                 textWriter.WriteAttributeString("textboxfont", txtEdit.Font.Name);
                 textWriter.WriteAttributeString("lowthreadpriority", LowThreadPriority.ToString());
+                textWriter.WriteAttributeString("flashandbeep", FlashAndBeep.ToString());
                 textWriter.WriteEndElement();
                 textWriter.WriteEndElement();
 

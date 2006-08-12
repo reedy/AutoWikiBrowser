@@ -11,7 +11,7 @@ namespace AutoWikiBrowser
 {
     public partial class MyPreferences : Form
     {
-        public MyPreferences(string lang, string proj, bool EDiff, bool SDown, int DiffSize, Font TextFont, bool LowPriority)
+        public MyPreferences(string lang, string proj, bool EDiff, bool SDown, int DiffSize, Font TextFont, bool LowPriority, bool FlashBeep)
         {
             InitializeComponent();           
 
@@ -29,6 +29,7 @@ namespace AutoWikiBrowser
             DiffFontSize = DiffSize;
             TextBoxFont = TextFont;
             LowThreadPriority = LowPriority;
+            FlashAndBeep = FlashBeep;
         }
 
         #region Language and project
@@ -109,6 +110,12 @@ namespace AutoWikiBrowser
         {
             get { return chkLowPriority.Checked; }
             set { chkLowPriority.Checked = value; }
+        }
+
+        public bool FlashAndBeep
+        {
+            get { return chkFlashAndBeep.Checked; }
+            set { chkFlashAndBeep.Checked = value; }
         }
 
         #endregion

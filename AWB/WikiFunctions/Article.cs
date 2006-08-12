@@ -66,18 +66,10 @@ namespace WikiFunctions
 
         public override bool Equals(object obj)
         {
-            if (obj is Article)
-            {
-                Article a = new Article();
-                a = (Article)obj;
-
-                if (a.Name == this.Name)
-                    return true;
-                else
-                    return false;
-            }
-
-            return base.Equals(obj);
+            if (obj.GetHashCode() == this.GetHashCode())
+                return true;
+            else
+                return false;
         }
 
         #endregion
