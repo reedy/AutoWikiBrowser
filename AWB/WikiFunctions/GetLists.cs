@@ -122,8 +122,7 @@ namespace WikiFunctions
 
             foreach (string Page in Pages)
             {
-
-                string OrigURL = Variables.URL + "query.php?what=" + request + "&titles=" + encodeText(Page) + "&" + initial + "limit=500&format=xml";
+                string OrigURL = Variables.URL + "query.php?what=" + request + "&titles=" + encodeText(Page) + "&" + initial + "limit=500&" + initial + "filter=all&format=xml";
                 string URL = OrigURL;
                 string title = "";
                 int ns = 0;
