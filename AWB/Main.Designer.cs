@@ -202,7 +202,7 @@ namespace AutoWikiBrowser
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.addIgnoredToLogFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.launchIRCMonitorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dumpHTMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -1764,30 +1764,32 @@ namespace AutoWikiBrowser
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.launchIRCMonitorToolStripMenuItem,
+            this.dumpHTMLToolStripMenuItem,
             this.helpToolStripMenuItem1,
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
             this.helpToolStripMenuItem.Text = "Help";
             // 
-            // launchIRCMonitorToolStripMenuItem
+            // dumpHTMLToolStripMenuItem
             // 
-            this.launchIRCMonitorToolStripMenuItem.Name = "launchIRCMonitorToolStripMenuItem";
-            this.launchIRCMonitorToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-            this.launchIRCMonitorToolStripMenuItem.Text = "Launch IRC Monitor";
+            this.dumpHTMLToolStripMenuItem.Name = "dumpHTMLToolStripMenuItem";
+            this.dumpHTMLToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.dumpHTMLToolStripMenuItem.Text = "Dump HTML";
+            this.dumpHTMLToolStripMenuItem.Visible = false;
+            this.dumpHTMLToolStripMenuItem.Click += new System.EventHandler(this.dumpHTMLToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem1
             // 
             this.helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
-            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(168, 22);
+            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.helpToolStripMenuItem1.Text = "Help";
             this.helpToolStripMenuItem1.Click += new System.EventHandler(this.helpToolStripMenuItem1_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.aboutToolStripMenuItem.Text = "About...";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -2260,7 +2262,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
         private System.Windows.Forms.ToolStripMenuItem launchDumpSearcherToolStripMenuItem;
         private System.Windows.Forms.Button btnFindAndReplaceAdvanced;
-        private System.Windows.Forms.ToolStripMenuItem launchIRCMonitorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem launchListComparerToolStripMenuItem;
         private System.Windows.Forms.CheckBox chkIgnoreWhenNoFAR;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator15;
@@ -2286,6 +2287,7 @@ namespace AutoWikiBrowser
         private WikiFunctions.ListMaker listMaker1;
         private System.Windows.Forms.ToolStripButton btntsStart;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
+        private System.Windows.Forms.ToolStripMenuItem dumpHTMLToolStripMenuItem;
 
 
     }

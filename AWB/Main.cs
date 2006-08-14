@@ -456,6 +456,15 @@ namespace AutoWikiBrowser
                 return;
             }
 
+            if (!chkAutoMode.Checked && webBrowserEdit.Document.Body.InnerHtml.Contains("<A class=extiw title=m:spam_blacklist href=\"http://meta.wikimedia.org/wiki/spam_blacklist\">"))
+            {//check edit wasn't blocked due to spam filter
+                if (MessageBox.Show("Edit has been blocked by spam blacklist. Try and edit again?", "Spam blacklist", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                {
+                    Start();
+                    return;
+                }
+            }
+
             if (webBrowserEdit.Document.Body.InnerHtml.Contains("<DIV CLASS=PREVIEWNOTE><P><STRONG>Sorry! We could not process your edit due to a loss of session data."))
             {//if session data is lost, if data is lost then save after delay with tmrAutoSaveDelay
                 StartDelayedRestartTimer();
@@ -1208,6 +1217,7 @@ namespace AutoWikiBrowser
             wikiStatusBool = true;
             chkAutoMode.Enabled = true;
             chkQuickSave.Enabled = true;
+            dumpHTMLToolStripMenuItem.Visible = true;
         }
 
         #endregion
@@ -1704,6 +1714,8 @@ namespace AutoWikiBrowser
         }
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
+            txtEdit.Focus();
+
             if (txtEdit.SelectedText.Length > 0)
             {
                 cutToolStripMenuItem.Enabled = true;
@@ -1928,6 +1940,11 @@ Thank you for taking the time to help the encyclopedia. RegExTypoFix is develope
             toolStripProgressBar1.MarqueeAnimationSpeed = 100;
         }
 
+        private void dumpHTMLToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            txtEdit.Text = webBrowserEdit.Document.Body.InnerHtml;
+        }
+
         #endregion
 
         #region tool bar stuff
@@ -2074,7 +2091,7 @@ Thank you for taking the time to help the encyclopedia. RegExTypoFix is develope
             }
         }
 
-        #endregion
+        #endregion        
 
     }
 }
