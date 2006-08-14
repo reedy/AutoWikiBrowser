@@ -546,11 +546,11 @@ namespace AutoWikiBrowser
                 }
                 else if (cmboCategorise.SelectedIndex == 2 && txtNewCategory.Text.Length > 0)
                 {
-                    string cat = "[[" + Variables.Namespaces[14] + txtNewCategory.Text + "]]";
+                    string cat = "\r\n[[" + Variables.Namespaces[14] + txtNewCategory.Text + "]]";
                     cat = Tools.ApplyKeyWords(EdittingArticle.Name, cat);
 
                     if (EdittingArticle.NameSpaceKey == 10)
-                        articleText += "<noinclude>\r\n" + cat + "\r\n</noinclude>";
+                        articleText += "<noinclude>" + cat + "\r\n</noinclude>";
                     else
                         articleText += cat;
                 }
