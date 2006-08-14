@@ -147,7 +147,7 @@ namespace WikiFunctions
         readonly Regex regexHeadings4 = new Regex("(== ?)(source:?)(s? ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex regexHeadings5 = new Regex("(== ?)(further readings?:?)( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        readonly Regex regexHeadings6 = new Regex("(== ?)Early Life( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex regexHeadings6 = new Regex("(== ?)(Early|Personal|Adult) Life( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex regexHeadings7 = new Regex("(== ?)Early Career( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         /// <summary>
@@ -184,7 +184,7 @@ namespace WikiFunctions
             articleText = regexHeadings3.Replace(articleText, "$1Reference$3");
             articleText = regexHeadings4.Replace(articleText, "$1Source$3");
             articleText = regexHeadings5.Replace(articleText, "$1Further reading$3");
-            articleText = regexHeadings6.Replace(articleText, "$1Early life$2");
+            articleText = regexHeadings6.Replace(articleText, "$1$2 life$3");
             articleText = regexHeadings7.Replace(articleText, "$1Early career$2");
 
             return articleText;
