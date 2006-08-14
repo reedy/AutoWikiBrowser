@@ -371,7 +371,7 @@ namespace WikiFunctions
                     fromImageLinksToolStripMenuItem.Enabled = true;
                 else
                     fromImageLinksToolStripMenuItem.Enabled = false;
-            }
+            }           
 
             addSelectedToListToolStripMenuItem.Enabled = lbArticles.SelectedItems.Count > 0;
 
@@ -383,6 +383,8 @@ namespace WikiFunctions
             sortAlphebeticallyMenuItem.Enabled = boolEnabled;
             saveListToTextFileToolStripMenuItem1.Enabled = boolEnabled;
             specialFilterToolStripMenuItem.Enabled = boolEnabled;
+
+            openInBrowserToolStripMenuItem.Enabled = lbArticles.SelectedItems.Count == 1;
         }
 
         private void txtNewArticle_DoubleClick(object sender, EventArgs e)
@@ -930,6 +932,12 @@ namespace WikiFunctions
         {
             Clear();
         }
-        #endregion       
+
+        private void openInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(Variables.URL + "index.php?title=" + System.Web.HttpUtility.UrlEncode(lbArticles.SelectedItem.ToString()));
+        }
+
+        #endregion        
     }
 }

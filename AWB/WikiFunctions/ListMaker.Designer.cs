@@ -61,6 +61,8 @@ namespace WikiFunctions
             this.saveListDialog = new System.Windows.Forms.SaveFileDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.lbArticles = new WikiFunctions.ListBox2();
+            this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuListBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -225,9 +227,11 @@ namespace WikiFunctions
             this.addSelectedToListToolStripMenuItem,
             this.toolStripSeparator5,
             this.removeToolStripMenuItem,
-            this.clearToolStripMenuItem1});
+            this.clearToolStripMenuItem1,
+            this.toolStripSeparator1,
+            this.openInBrowserToolStripMenuItem});
             this.mnuListBox.Name = "contextMenuStrip2";
-            this.mnuListBox.Size = new System.Drawing.Size(195, 214);
+            this.mnuListBox.Size = new System.Drawing.Size(195, 264);
             this.mnuListBox.Opening += new System.ComponentModel.CancelEventHandler(this.mnuListBox_Opening);
             // 
             // filterOutNonMainSpaceArticlesToolStripMenuItem
@@ -363,6 +367,18 @@ namespace WikiFunctions
             this.lbArticles.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lbArticles_MouseMove);
             this.lbArticles.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbArticles_KeyDown);
             // 
+            // openInBrowserToolStripMenuItem
+            // 
+            this.openInBrowserToolStripMenuItem.Name = "openInBrowserToolStripMenuItem";
+            this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.openInBrowserToolStripMenuItem.Text = "Open article in browser";
+            this.openInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(191, 6);
+            // 
             // ListMaker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -424,5 +440,7 @@ namespace WikiFunctions
         private System.Windows.Forms.SaveFileDialog saveListDialog;
         private System.Windows.Forms.ToolTip toolTip1;
         public System.Windows.Forms.ContextMenuStrip mnuListBox;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem openInBrowserToolStripMenuItem;
     }
 }
