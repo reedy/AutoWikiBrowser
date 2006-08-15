@@ -546,13 +546,7 @@ namespace AutoWikiBrowser
                 }
                 else if (cmboCategorise.SelectedIndex == 2 && txtNewCategory.Text.Length > 0)
                 {
-                    string cat = "\r\n[[" + Variables.Namespaces[14] + txtNewCategory.Text + "]]";
-                    cat = Tools.ApplyKeyWords(EdittingArticle.Name, cat);
-
-                    if (EdittingArticle.NameSpaceKey == 10)
-                        articleText += "<noinclude>" + cat + "\r\n</noinclude>";
-                    else
-                        articleText += cat;
+                    articleText = parsers.AddCategory(txtNewCategory.Text, articleText, EdittingArticle.Name);
                 }
                 else if (cmboCategorise.SelectedIndex == 3 && txtNewCategory.Text.Length > 0)
                 {
@@ -599,10 +593,14 @@ namespace AutoWikiBrowser
                         articleText = parsers.LivingPeople(articleText);
                         articleText = parsers.FixCats(articleText);
                         articleText = parsers.FixHeadings(articleText);
+                        //if (skip && chkRegexTypoSkip.Checked)
+                        //    return articleText;
+                        //else
+                        //    skip = false;
 
-#if DEBUG
-                        articleText = parsers.MinorThings(articleText);
-#endif
+//#if DEBUG
+//                        articleText = parsers.MinorThings(articleText);
+//#endif
                     }
                     articleText = parsers.FixSyntax(articleText);
                     articleText = parsers.FixLinks(articleText);
