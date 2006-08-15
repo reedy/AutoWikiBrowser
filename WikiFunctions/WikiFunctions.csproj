@@ -64,6 +64,7 @@
       <DependentUpon>FindandReplace.cs</DependentUpon>
     </Compile>
     <Compile Include="GetLists.cs" />
+    <Compile Include="HideText.cs" />
     <Compile Include="ListBox2.cs">
       <SubType>Component</SubType>
     </Compile>

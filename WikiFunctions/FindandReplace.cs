@@ -37,6 +37,9 @@ namespace WikiFunctions
         {
             InitializeComponent();
         }
+
+        HideText RemoveLinks = new HideText("<nowiki>.*?</nowiki>|<math>.*?</math>|<!--.*?-->|[Hh]ttp://[^\\ ]*|\\[[Hh]ttp:.*?\\]|\\[\\[[Ii]mage:.*?\\]\\]|\\[\\[([a-z]{2,3}|simple|fiu-vro|minnan|roa-rup|tokipona|zh-min-nan):.*\\]\\]", false);
+
         List<Replacements> ReplacementList = new List<Replacements>();
         bool applydefault = false;
         private bool ApplyDefaultFormatting
@@ -104,7 +107,7 @@ namespace WikiFunctions
             EditSummary = "";
 
             if (chkIgnoreLinks.Checked)
-                ArticleText = RemoveLinks(ArticleText);
+                ArticleText = RemoveLinks.Hide(ArticleText);
 
             foreach (Replacements rep in ReplacementList)
             {
@@ -112,7 +115,7 @@ namespace WikiFunctions
             }
 
             if (chkIgnoreLinks.Checked)
-                ArticleText = AddLinks(ArticleText);
+                ArticleText = RemoveLinks.AddBack(ArticleText);
 
             if (EditSummary != "")
                 EditSummary = ", Replaced: " + EditSummary.Trim();
@@ -148,36 +151,7 @@ namespace WikiFunctions
             }
 
             return ArticleText;
-        }
-
-        Hashtable hashLinks = new Hashtable();
-        readonly Regex NoLinksRegex = new Regex("<nowiki>.*?</nowiki>|<math>.*?</math>|<!--.*?-->|[Hh]ttp://[^\\ ]*|\\[[Hh]ttp:.*?\\]|\\[\\[[Ii]mage:.*?\\]\\]|\\[\\[([a-z]{2,3}|simple|fiu-vro|minnan|roa-rup|tokipona|zh-min-nan):.*\\]\\]", RegexOptions.Singleline | RegexOptions.Compiled);
-        private string RemoveLinks(string articleText)
-        {
-            hashLinks.Clear();
-            string s = "";
-
-            int i = 0;
-            foreach (Match m in NoLinksRegex.Matches(articleText))
-            {
-                s = "⌊⌊⌊⌊" + i.ToString() + "⌋⌋⌋⌋";
-
-                articleText = articleText.Replace(m.Value, s);
-                hashLinks.Add(s, m.Value);
-                i++;
-            }
-
-            return articleText;
-        }
-
-        private string AddLinks(string articleText)
-        {
-            foreach (DictionaryEntry D in hashLinks)
-                articleText = articleText.Replace(D.Key.ToString(), D.Value.ToString());
-
-            hashLinks.Clear();
-            return articleText;
-        }       
+        }             
 
         private void btnDone_Click(object sender, EventArgs e)
         {
