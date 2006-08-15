@@ -38,7 +38,7 @@ namespace WikiFunctions
             InitializeComponent();
         }
 
-        HideText RemoveLinks = new HideText("<nowiki>.*?</nowiki>|<math>.*?</math>|<!--.*?-->|[Hh]ttp://[^\\ ]*|\\[[Hh]ttp:.*?\\]|\\[\\[[Ii]mage:.*?\\]\\]|\\[\\[([a-z]{2,3}|simple|fiu-vro|minnan|roa-rup|tokipona|zh-min-nan):.*\\]\\]", false);
+        HideText RemoveLinks = new HideText(true, false);
 
         List<Replacements> ReplacementList = new List<Replacements>();
         bool applydefault = false;

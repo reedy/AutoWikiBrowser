@@ -107,7 +107,7 @@ namespace AutoWikiBrowser
         string LastArticle = "";
         string strSettingsFile = "";
         bool boolSaved = true;
-        HideText RemoveText = new HideText("<nowiki>.*?</nowiki>|<math>.*?</math>|<!--.*?-->|\\[\\[[Ii]mage:.*?\\]\\]", true);
+        HideText RemoveText = new HideText(false, true);
         ArrayList noParse = new ArrayList();
         FindandReplace findAndReplace = new FindandReplace();
         RegExTypoFix RegexTypos;
