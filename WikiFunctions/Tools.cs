@@ -245,6 +245,13 @@ namespace WikiFunctions
             return m.Count;
         }
 
+       static readonly Regex RegexLinkCount = new Regex("\\[\\[[^:]*?\\]\\]", RegexOptions.Compiled);
+        public static int LinkCount(string Text)
+        {
+            MatchCollection m = RegexLinkCount.Matches(Text);
+            return m.Count;
+        }
+
         public static string linkChecker(string articleText)
         {//checks links to make them bypass redirects and (TODO) disambigs
             string link = "";

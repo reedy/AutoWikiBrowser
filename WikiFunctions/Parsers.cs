@@ -804,13 +804,16 @@ namespace WikiFunctions
 
         public string LivingPeople(string articleText)
         {
-            string strNot = "\\[\\[ ?Category ?:[ _]?([0-9]{1,2}[ _]century[ _]deaths|[0-9s]{4,5}[ _]deaths|Disappeared[ _]people|Living[ _]people|Year[ _]of[ _]death[ _]missing|Possibly[ _]living[ _]people)";
-
-            if (!Regex.IsMatch(articleText, "\\[\\[ ?Category ?:[ _]?[0-9]{4}[ _]births", RegexOptions.IgnoreCase) || Regex.IsMatch(articleText, strNot, RegexOptions.IgnoreCase))
+            if(Regex.IsMatch(articleText, "\\[\\[ ?Category ?:[ _]?([0-9]{1,2}[ _]century[ _]deaths|[0-9s]{4,5}[ _]deaths|Disappeared[ _]people|Living[ _]people|Year[ _]of[ _]death[ _]missing|Possibly[ _]living[ _]people)", RegexOptions.IgnoreCase))
                 return articleText;
 
-            string birthCat = Regex.Match(articleText, "\\[\\[ ?Category ?:[ _]?[0-9]{4}[ _]births(\\|.*?)?\\]\\]", RegexOptions.IgnoreCase).ToString();
-            int birthYear = int.Parse(Regex.Match(birthCat, "[0-9]{4}").ToString());
+            Match m = Regex.Match(articleText, "\\[\\[ ?Category ?:[ _]?([0-9]{4})[ _]births(\\|.*?)?\\]\\]", RegexOptions.IgnoreCase);
+
+            if (!m.Success)
+                return articleText;
+
+            string birthCat = m.Value;
+            int birthYear = int.Parse(m.Groups[1].Value);
             string catKey = "";
 
             if (birthYear < 1910)
@@ -962,8 +965,7 @@ This article or section needs to be '''[[Wikipedia:Glossary#W|wikified]]'''.  Pl
                 return articleText;
             }
 
-            foreach (Match m in Regex.Matches(articleText, "\\[\\["))
-                LinkCount++;
+            LinkCount = Tools.LinkCount(articleText);
 
             Ratio = LinkCount / Length;
 
