@@ -365,9 +365,9 @@ namespace AutoWikiBrowser
 
                     dlgTalk DlgTalk = new dlgTalk();
                     if (DlgTalk.ShowDialog() == DialogResult.Yes)
-                        System.Diagnostics.Process.Start("http://en.wikipedia.org/w/index.php?title=User_talk:" + UserName + "&diff=curr");
+                        System.Diagnostics.Process.Start("http://en.wikipedia.org/w/index.php?title=User_talk:" + UserName);
                     else
-                        System.Diagnostics.Process.Start("IExplore", "http://en.wikipedia.org/w/index.php?title=User_talk:" + UserName + "&diff=curr");
+                        System.Diagnostics.Process.Start("IExplore", "http://en.wikipedia.org/w/index.php?title=User_talk:" + UserName);
 
                     DlgTalk = null;
                     return false;

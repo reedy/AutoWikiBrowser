@@ -37,6 +37,7 @@ namespace WikiFunctions
         public Parsers()
         {//default constructor
             metaDataSorter = new MetaDataSorter(this);
+            MakeRegexes();
         }
 
         /// <summary>
@@ -48,8 +49,30 @@ namespace WikiFunctions
             metaDataSorter = new MetaDataSorter(this);
             StubMaxWordCount = StubWordCount;
             addCatKey = AddHumanKey;
+            MakeRegexes();
         }
 
+        private void MakeRegexes()
+        {
+            //look bad if changed            
+            RegexUnicode.Add(new Regex("&(ndash|mdash|minus|times|lt|gt|#160|nbsp|thinsp|shy|[Pp]rime);", RegexOptions.Compiled), "&amp;$1;");
+            //IE6 does like these            
+            RegexUnicode.Add(new Regex("&#(705|803|596|620|699|700|8652|9408|9848);", RegexOptions.Compiled), "&amp;#$1;");
+            //Phoenician alphabet
+            RegexUnicode.Add(new Regex("&#(x109[0-9A-Z]{2});", RegexOptions.Compiled), "&amp;#$1;");
+            //Blackboard bold            
+            RegexUnicode.Add(new Regex("&#((84|x1D)[A-Z0-9a-z]{2,3});", RegexOptions.Compiled), "&amp;#$1;");
+            //Cuneiform script            
+            RegexUnicode.Add(new Regex("&#(x12[A-Za-z0-9]{3});", RegexOptions.Compiled), "&amp;#$1;");
+            //interfere with wiki syntax            
+            RegexUnicode.Add(new Regex("&#(126|x5D|x5B|x7c|0?9[13]|0?12[345]|0?0?3[92]);", RegexOptions.Compiled), "&amp;#$1;");
+            //not entity, but still wrong
+            RegexUnicode.Add(new Regex("(cm| m|km|mi)<sup>2</sup>", RegexOptions.Compiled), "$1²");
+        }
+
+        Dictionary<Regex, string> RegexUnicode = new Dictionary<Regex, string>();
+        Dictionary<Regex, string> RegexHeadings = new Dictionary<Regex, string>();
+        
         MetaDataSorter metaDataSorter;
         string testText = "";
         int StubMaxWordCount = 500;
@@ -365,11 +388,9 @@ namespace WikiFunctions
                 else
                     y = x;
 
-                y = noUnicoify(y);
-
                 y = y.Replace("+", "%2B");
                 y = HttpUtility.HtmlDecode(y);
-                y = HttpUtility.UrlDecode(y);
+                y = Unicodify(y);
 
                 if (y.StartsWith("[[Category:"))
                     y = y.Replace("|]]", "| ]]");
@@ -451,7 +472,7 @@ namespace WikiFunctions
                 NoChange = false;
 
             return articleText;
-        }
+        }        
 
         /// <summary>
         /// Converts HTML entities to unicode, with some deliberate exceptions
@@ -460,52 +481,17 @@ namespace WikiFunctions
         /// <returns>The modified article text.</returns>
         public string Unicodify(string articleText)
         {
-            articleText = noUnicoify(articleText);
-            articleText = Regex.Replace(articleText, "&(ndash|mdash);", "&amp;$1;");
-            articleText = Regex.Replace(articleText, "(cm| m|km|mi)<sup>2</sup>", "$1²");
-
-            articleText = HttpUtility.HtmlDecode(articleText);
-
-            return articleText;
-        }
-
-        private static string noUnicoify(string articleText)
-        {//entities that should never be unicoded, and convert some to more readable form
             articleText = Regex.Replace(articleText, "&#150;|&#8211;|&#x2013;", "&ndash;");
             articleText = Regex.Replace(articleText, "&#151;|&#8212;|&#x2014;", "&mdash;");
-
             articleText = articleText.Replace(" &amp; ", " & ");
             articleText = articleText.Replace("&amp;", "&amp;amp;");
+            
+            foreach (KeyValuePair<Regex, string> k in RegexUnicode)
+            {
+                articleText = k.Key.Replace(articleText, k.Value);
+            }
 
-            articleText = articleText.Replace("&minus;", "&amp;minus;").Replace("&times;", "&amp;times;");
-
-            //IE6 does like these 
-            articleText = articleText.Replace("&#705;", "&amp;#705;");
-            articleText = articleText.Replace("&#803;", "&amp;#803;");
-            articleText = articleText.Replace("&#596;", "&amp;#596;");
-            articleText = articleText.Replace("&#620;", "&amp;#620;");
-            articleText = articleText.Replace("&#699;", "&amp;#699;");
-            articleText = articleText.Replace("&#700;", "&amp;#700;");
-            articleText = articleText.Replace("&#8652;", "&amp;#8652;");
-            articleText = articleText.Replace("&#9408;", "&amp;#9408;");
-            articleText = articleText.Replace("&#9848;", "&amp;#9848;");
-
-            //Phoenician alphabet
-            articleText = Regex.Replace(articleText, "&(#x109[0-9A-Z]{2};)", "&amp;$1");
-
-            //Blackboard bold
-            articleText = Regex.Replace(articleText, "&(#(84|x1D)[A-Z0-9a-z]{2,3};)", "&amp;$1");
-
-            //Cuneiform script
-            articleText = Regex.Replace(articleText, "&(#x12[A-Za-z0-9]{3};)", "&amp;$1");
-
-            articleText = articleText.Replace("&#x5B;", "&amp;#x5B;").Replace("&#x5D;", "&amp;#x5D;");
-            articleText = articleText.Replace("&#126;", "&amp;#126;");
-            articleText = articleText.Replace("&lt;", "&amp;lt;").Replace("&gt;", "&amp;gt;");
-            articleText = articleText.Replace("&#160;", "&nbsp;");
-            articleText = articleText.Replace("&nbsp;", "&amp;nbsp;").Replace("&thinsp;", "&amp;thinsp;").Replace("&shy;", "&amp;shy;");
-            articleText = articleText.Replace("&prime;", "&amp;prime;").Replace("&Prime;", "&amp;Prime;");
-            articleText = Regex.Replace(articleText, "&#(x7c|0?9[13]|0?12[345]|0?0?3[92]);", "&amp;#$1;");
+            articleText = HttpUtility.HtmlDecode(articleText);
 
             return articleText;
         }
