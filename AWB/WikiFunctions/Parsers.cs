@@ -357,7 +357,6 @@ namespace WikiFunctions
 
                 y = y.Replace("+", "%2B");
                 y = HttpUtility.HtmlDecode(y);
-                y = Unicodify(y);
 
                 if (y.StartsWith("[[Category:"))
                     y = y.Replace("|]]", "| ]]");

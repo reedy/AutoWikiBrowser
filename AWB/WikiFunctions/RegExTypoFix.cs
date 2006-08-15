@@ -37,7 +37,7 @@ namespace WikiFunctions
         }
 
         Dictionary<Regex, string> TypoRegexes = new Dictionary<Regex, string>();
-        HideText RemoveText = new HideText("<nowiki>.*?</nowiki>|<math>.*?</math>|<!--.*?-->|[Hh]ttp://[^\\ ]*|\\[[Hh]ttp:.*?\\]|\\[\\[[Ii]mage:.*?\\]\\]|\\[\\[([a-z]{2,3}|simple|fiu-vro|minnan|roa-rup|tokipona|zh-min-nan):.*\\]\\]", false);
+        HideText RemoveText = new HideText(true, false);
 
         private void MakeRegexes()
         {
