@@ -664,6 +664,47 @@ namespace WikiFunctions
         }
 
         /// <summary>
+        /// Adds the category to the article.
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="NewCategory">The new category.</param>
+        /// <returns>The article text.</returns>
+        public string AddCategory(string NewCategory, string articleText, string articleTitle, ref bool NoChange)
+        {
+            testText = articleText;
+            articleText = AddCategory(NewCategory, articleText, articleTitle);
+
+            if (testText == articleText)
+                NoChange = true;
+            else
+                NoChange = false;
+
+            return articleText;
+        }
+
+        /// <summary>
+        /// Adds the category to the article.
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="NewCategory">The new category.</param>
+        /// <returns>The article text.</returns>
+        public string AddCategory(string NewCategory, string articleText, string articleTitle)
+        {
+            if (Regex.IsMatch(articleText, "\\[\\[ ?[Cc]ategory ?: ?" + Regex.Escape(NewCategory)))
+                return articleText;
+
+            string cat = "\r\n[[" + Variables.Namespaces[14] + NewCategory + "]]";
+            cat = Tools.ApplyKeyWords(articleTitle, cat);
+
+            if (articleTitle.StartsWith(Variables.Namespaces[10]))
+                articleText += "<noinclude>" + cat + "\r\n</noinclude>";
+            else
+                articleText += cat;
+
+            return articleText;
+        }
+
+        /// <summary>
         /// Re-categorises the article.
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
