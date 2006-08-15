@@ -202,6 +202,17 @@ namespace WikiFunctions
             FlashWindow(window.Handle, true);
         }
 
+        public static string caseInsensitive(string input)
+        {//gets a string e.g. "Category" and returns "[Cc]ategory
+            if (input != "" && char.IsLetter(input[0]))
+            {
+                input = input.Trim();
+                return "[" + char.ToUpper(input[0]) + char.ToLower(input[0]) + "]" + input.Remove(0, 1);
+            }
+            else
+                return input;
+        }
+
         public static string TurnFirstToUpper(string input)
         {//turns first character to uppercase
             //other projects don't always start with capital
@@ -211,7 +222,7 @@ namespace WikiFunctions
             if (input.Length == 0)
                 return "";
 
-            input = char.ToUpper(input[0]) + input.Substring(1, input.Length - 1);
+            input = char.ToUpper(input[0]) + input.Remove(0, 1);
 
             return input;
         }
@@ -222,7 +233,7 @@ namespace WikiFunctions
             if (input.Length == 0)
                 return "";
 
-            input = char.ToLower(input[0]) + input.Substring(1, input.Length - 1);
+            input = char.ToLower(input[0]) + input.Remove(0, 1);
 
             return input;
         }
@@ -230,12 +241,8 @@ namespace WikiFunctions
         static readonly Regex RegexWordCount = new Regex("[a-zA-Z]+", RegexOptions.Compiled);
         public static int WordCount(string Text)
         {
-            int i = 0;
-
-            foreach (Match m in RegexWordCount.Matches(Text))
-                i++;
-
-            return i;                
+            MatchCollection m = RegexWordCount.Matches(Text);
+            return m.Count;
         }
 
         public static string linkChecker(string articleText)

@@ -38,7 +38,12 @@ namespace WikiFunctions
         /// Provides access to the namespace keys
         /// </summary>
         public static Dictionary<int, string> Namespaces = new Dictionary<int, string>(24);
-        
+
+        /// <summary>
+        /// Provides access to the namespace keys in a form so the first letter is case insensitive e.g. [Ww]ikipedia:
+        /// </summary>
+        public static Dictionary<int, string> NamespacesCaseInsensitive = new Dictionary<int, string>(24);
+
         /// <summary>
         /// Gets a URL of the site, e.g. "http://en.wikipedia.org".
         /// </summary>
@@ -518,6 +523,12 @@ namespace WikiFunctions
                     strtalkns = " talk:";
                     strsummarytag = " [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
                     break;                
+            }
+
+            NamespacesCaseInsensitive.Clear();
+            foreach (KeyValuePair<int, string> k in Namespaces)
+            {
+                NamespacesCaseInsensitive.Add(k.Key, Tools.caseInsensitive(k.Value));
             }
         }
     }

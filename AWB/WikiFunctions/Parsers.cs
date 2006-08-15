@@ -71,8 +71,7 @@ namespace WikiFunctions
         }
 
         Dictionary<Regex, string> RegexUnicode = new Dictionary<Regex, string>();
-        Dictionary<Regex, string> RegexHeadings = new Dictionary<Regex, string>();
-        
+                
         MetaDataSorter metaDataSorter;
         string testText = "";
         int StubMaxWordCount = 500;
@@ -130,37 +129,6 @@ namespace WikiFunctions
         public string SortMetaData(string articleText, string articleTitle)
         {
             return metaDataSorter.Sort(articleText, articleTitle);
-        }
-
-        Hashtable hashNowiki = new Hashtable();
-        readonly Regex NoWikiRegex = new Regex("<nowiki>.*?</nowiki>|<math>.*?</math>|<!--.*?-->|\\[\\[[Ii]mage:.*?\\]\\]", RegexOptions.Singleline | RegexOptions.Compiled);
-        public string RemoveNowiki(string articleText)
-        {
-            hashNowiki.Clear();
-            string s = "";
-
-            int i = 0;
-            foreach (Match m in NoWikiRegex.Matches(articleText))
-            {
-                if (Regex.IsMatch(m.Value, "<!-- ?(categories|\\{\\{.*?stub\\}\\}.*?|other languages|language links|inter ?(language|wiki)? ?links|inter ?wiki ?language ?links|inter ?wiki|The below are interlanguage links\\.?) ?-->", RegexOptions.IgnoreCase))
-                    continue;
-
-                s = "<%%<" + i.ToString() + ">%%>";
-                articleText = articleText.Replace(m.Value, s);
-                hashNowiki.Add(s, m.Value);
-                i++;
-            }
-
-            return articleText;
-        }
-
-        public string AddNowiki(string articleText)
-        {
-            foreach (DictionaryEntry D in hashNowiki)
-                articleText = articleText.Replace(D.Key.ToString(), D.Value.ToString());
-
-            hashNowiki.Clear();
-            return articleText;
         }
 
         readonly Regex regexHeadings0 = new Regex("(== ?)(see also:?|related topics:?|related articles:?|internal links:?|also see:?)( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -255,8 +223,7 @@ namespace WikiFunctions
             articleText = Regex.Replace(articleText, "^(={1,4}) ?(.*?) ?(={1,4})$", "$1$2$3", RegexOptions.Multiline);
 
             //fix dash spacing
-            articleText = Regex.Replace(articleText, " ?(–|&#150;|&ndash;|&#8211;|&#x2013;) ?", "$1");
-            articleText = Regex.Replace(articleText, " ?(—|&#151;|&mdash;|&#8212;|&#x2014;) ?", "$1");
+            articleText = Regex.Replace(articleText, " ?(–|—|&#15[01];|&[nm]dash;|&#821[12];|&#x201[34];) ?", "$1");
             articleText = Regex.Replace(articleText, "(—|&#151;|&mdash;|&#8212;|&#x2014;|–|&#150;|&ndash;|&#8211;|&#x2013;)", " $1 ");
 
             return articleText.Trim();
@@ -444,7 +411,7 @@ namespace WikiFunctions
 
         public string FixCats(string articleText)
         {//Fix common spacing/capitalisation errors in categories
-            articleText = Regex.Replace(articleText, "\\[\\[ ?" + caseInsensitive(Variables.Namespaces[14].Replace(":", " ?:")) + " ?", "[[" + Variables.Namespaces[14]);
+            articleText = Regex.Replace(articleText, "\\[\\[ ?" + Variables.NamespacesCaseInsensitive[14].Replace(":", " ?:") + " ?", "[[" + Variables.Namespaces[14]);
 
             articleText = Regex.Replace(articleText, "\\]\\] ?\\[\\[Category:", "]]\r\n[[Category:");
 
@@ -531,10 +498,10 @@ namespace WikiFunctions
             string escTitle = Regex.Escape(articleTitle);
 
             //remove self links first
-            Regex tregex = new Regex("\\[\\[" + caseInsensitive(escTitle) + "\\]\\]");
+            Regex tregex = new Regex("\\[\\[(" + Tools.caseInsensitive(escTitle) + ")\\]\\]");
             if (!articleText.Contains("'''"))
             {
-                articleText = tregex.Replace(articleText, "'''$1$2'''", 1);
+                articleText = tregex.Replace(articleText, "'''$1'''", 1);
             }
             else
             {
@@ -601,7 +568,7 @@ namespace WikiFunctions
 
             OldImage = Regex.Escape(OldImage).Replace("\\ ", "[ _]");
 
-            OldImage = "\\[\\[" + caseInsensitive(Variables.Namespaces[6]) + caseInsensitive(OldImage);
+            OldImage = "\\[\\[" + Variables.NamespacesCaseInsensitive[6] + Tools.caseInsensitive(OldImage);
             NewImage = "[[" + Variables.Namespaces[6] + NewImage;
 
             articleText = Regex.Replace(articleText, OldImage, NewImage);
@@ -642,7 +609,7 @@ namespace WikiFunctions
 
             OldImage = Regex.Escape(OldImage).Replace("\\ ", "[ _]");
 
-            OldImage = "(\r\n)?\\[\\[" + caseInsensitive(Variables.Namespaces[6]) + caseInsensitive(OldImage) + ".*\\]\\]";
+            OldImage = "(\r\n)?\\[\\[" + Variables.NamespacesCaseInsensitive[6] + Tools.caseInsensitive(OldImage) + ".*\\]\\]";
 
             articleText = Regex.Replace(articleText, OldImage, "");
 
@@ -775,7 +742,7 @@ namespace WikiFunctions
             strOldCat = Regex.Escape(strOldCat).Replace("\\ ", "[ _]");
             strOldCat = strFirst + strFirstLower + strOldCat;
 
-            strOldCat = "\\[\\[" + caseInsensitive(Variables.Namespaces[14]) + " ?[" + strOldCat + "( ?\\]\\]| ?\\|[^\\|]*?\\]\\])(\r\n)?";
+            strOldCat = "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + " ?[" + strOldCat + "( ?\\]\\]| ?\\|[^\\|]*?\\]\\])(\r\n)?";
             articleText = Regex.Replace(articleText, strOldCat, "");
 
             return articleText;
@@ -952,8 +919,6 @@ This article or section needs to be '''[[Wikipedia:Glossary#W|wikified]]'''.  Pl
         /// <returns>The new text.</returns>
         public string SubstUserTemplates(string TalkPageText)
         {
-            TalkPageText = RemoveNowiki(TalkPageText);
-
             TalkPageText = Regex.Replace(TalkPageText, "\\{\\{(template:)?(test[n0-6]?[ab]?)\\}\\}", "{{subst:$2}}", RegexOptions.IgnoreCase);
             TalkPageText = Regex.Replace(TalkPageText, "\\{\\{(template:)?(test[n0-6]?[ab]?-n\\|.*?)\\}\\}", "{{subst:$2}}", RegexOptions.IgnoreCase);
 
@@ -964,7 +929,6 @@ This article or section needs to be '''[[Wikipedia:Glossary#W|wikified]]'''.  Pl
 
             TalkPageText = Regex.Replace(TalkPageText, "\\{\\{(template:)?(welcome[0-6]|welcomeip|anon|welcome-anon)\\}\\}", "{{subst:$2}}", RegexOptions.IgnoreCase);
 
-            TalkPageText = AddNowiki(TalkPageText);
             return TalkPageText;
         }
 
@@ -1023,27 +987,11 @@ This article or section needs to be '''[[Wikipedia:Glossary#W|wikified]]'''.  Pl
             return articleText;
         }
 
-        public string stubChecker(Match m)
+        private string stubChecker(Match m)
         // Replace each Regex cc match with the number of the occurrence.
         {
             if (Regex.IsMatch(m.Value, "\\{\\{[Ss]ect"))
                 return m.Value;
-            else
-                return "";
-        }
-
-        #endregion
-
-        #region helper functions
-
-        private string caseInsensitive(string txt)
-        {//gets a string e.g. "Category" and returns "[Cc]ategory
-            if (txt != "" && Regex.IsMatch(txt[0].ToString(), "[a-zA-Z]"))
-            {
-                txt = txt.Trim();
-                string temp = txt.Substring(0, 1);
-                return "([" + temp.ToUpper() + temp.ToLower() + "])(" + txt.Remove(0, 1) + ")";
-            }
             else
                 return "";
         }
@@ -1072,35 +1020,6 @@ This article or section needs to be '''[[Wikipedia:Glossary#W|wikified]]'''.  Pl
             }
 
             return articleText;
-        }
-
-        /// <summary>
-        /// Applies all the formatting functions
-        /// </summary>
-        /// <param name="articleText">The wiki text of the article.</param>
-        /// <param name="articleTitle">The title of the article.</param>
-        /// <returns>The modified article text.</returns>
-        public string Parse(string articleText, string articleTitle)
-        {
-            //remove stuff in <nowiki> and <math> tags
-            articleText = RemoveNowiki(articleText);
-
-            //General parsing, such as [[category => [[Category, interwiki order standardisation,
-            articleText = Conversions(articleText);
-            articleText = LivingPeople(articleText);
-            articleText = FixHeadings(articleText);
-            articleText = FixSyntax(articleText);
-            articleText = FixCats(articleText);
-            articleText = FixLinks(articleText);
-            articleText = BulletExternalLinks(articleText);
-            articleText = SortMetaData(articleText, articleTitle);
-            articleText = BoldTitle(articleText, articleTitle);
-            articleText = LinkSimplifier(articleText);
-
-            //add stuff in nowiki tags back
-            articleText = AddNowiki(articleText);
-
-            return articleText.Trim();
         }
 
         //[http://en.wikipedia.org/wiki/Dog] to [[Dog]]

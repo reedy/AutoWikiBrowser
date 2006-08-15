@@ -107,6 +107,7 @@ namespace AutoWikiBrowser
         string LastArticle = "";
         string strSettingsFile = "";
         bool boolSaved = true;
+        HideText RemoveText = new HideText("<nowiki>.*?</nowiki>|<math>.*?</math>|<!--.*?-->|\\[\\[[Ii]mage:.*?\\]\\]", true);
         ArrayList noParse = new ArrayList();
         FindandReplace findAndReplace = new FindandReplace();
         RegExTypoFix RegexTypos;
@@ -114,7 +115,7 @@ namespace AutoWikiBrowser
         Parsers parsers;
         WebControl webBrowserLogin = new WebControl();
         TimeSpan StartTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-        int intEdits = 0;        
+        int intEdits = 0;
 
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -581,10 +582,10 @@ namespace AutoWikiBrowser
 
                 if (process && chkAutoTagger.Checked)
                     articleText = parsers.Tagger(articleText, EdittingArticle.Name);
-
+                                
                 if (process && chkGeneralParse.Checked && (EdittingArticle.NameSpaceKey == 0 || (EdittingArticle.Name.Contains("Sandbox") || EdittingArticle.Name.Contains("sandbox"))))
                 {
-                    articleText = parsers.RemoveNowiki(articleText);
+                    articleText = RemoveText.Hide(articleText);
 
                     if (Variables.LangCode == "en")
                     {//en only
@@ -598,9 +599,9 @@ namespace AutoWikiBrowser
                         //else
                         //    skip = false;
 
-//#if DEBUG
-//                        articleText = parsers.MinorThings(articleText);
-//#endif
+                        //#if DEBUG
+                        //                        articleText = parsers.MinorThings(articleText);
+                        //#endif
                     }
                     articleText = parsers.FixSyntax(articleText);
                     articleText = parsers.FixLinks(articleText);
@@ -609,11 +610,14 @@ namespace AutoWikiBrowser
                     articleText = parsers.BoldTitle(articleText, EdittingArticle.Name);
                     articleText = parsers.LinkSimplifier(articleText);
 
-                    articleText = parsers.AddNowiki(articleText);
+                    articleText = RemoveText.AddBack(articleText);
                 }
-
-                if (process && chkGeneralParse.Checked && EdittingArticle.NameSpaceKey == 3)
+                else if (process && chkGeneralParse.Checked && EdittingArticle.NameSpaceKey == 3)
+                {
+                    articleText = RemoveText.Hide(articleText);
                     articleText = parsers.SubstUserTemplates(articleText);
+                    articleText = RemoveText.AddBack(articleText);
+                }
 
                 if (chkAppend.Checked)
                 {
@@ -1225,7 +1229,7 @@ namespace AutoWikiBrowser
         private void selectProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MyPreferences MyPrefs = new MyPreferences(Variables.LangCode, Variables.Project, webBrowserEdit.EnhanceDiffEnabled, webBrowserEdit.ScrollDown, webBrowserEdit.DiffFontSize, txtEdit.Font, LowThreadPriority, FlashAndBeep);
-            
+
             if (MyPrefs.ShowDialog() == DialogResult.OK)
             {
                 webBrowserEdit.EnhanceDiffEnabled = MyPrefs.EnhanceDiff;
@@ -2089,7 +2093,7 @@ Thank you for taking the time to help the encyclopedia. RegExTypoFix is develope
             }
         }
 
-        #endregion        
+        #endregion
 
     }
 }

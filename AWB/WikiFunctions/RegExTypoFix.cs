@@ -18,6 +18,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 using System;
+using System.Collections.Specialized;
 using System.Collections.Generic;
 using System.Collections;
 using System.Text;
@@ -36,6 +37,7 @@ namespace WikiFunctions
         }
 
         Dictionary<Regex, string> TypoRegexes = new Dictionary<Regex, string>();
+        HideText RemoveText = new HideText("<nowiki>.*?</nowiki>|<math>.*?</math>|<!--.*?-->|[Hh]ttp://[^\\ ]*|\\[[Hh]ttp:.*?\\]|\\[\\[[Ii]mage:.*?\\]\\]|\\[\\[([a-z]{2,3}|simple|fiu-vro|minnan|roa-rup|tokipona|zh-min-nan):.*\\]\\]", false);
 
         private void MakeRegexes()
         {
@@ -66,8 +68,7 @@ namespace WikiFunctions
             if (Regex.IsMatch(ArticleText, "133t|-ology|\\(sic\\)|\\[sic\\]|\\[''sic''\\]|\\{\\{sic\\}\\}|spellfixno"))
                 return ArticleText;
 
-            hashLinks.Clear();
-            ArticleText = RemoveLinks(ArticleText);
+            ArticleText = RemoveText.Hide(ArticleText);
             string OriginalText = ArticleText;
             string Replace = "";
 
@@ -97,7 +98,7 @@ namespace WikiFunctions
             else
                 NoChange = false;
 
-            ArticleText = AddLinks(ArticleText);
+            ArticleText = RemoveText.AddBack(ArticleText);
 
             if (EditSummary != "")
                 EditSummary = " Typos: " + EditSummary.Trim();
@@ -112,94 +113,9 @@ namespace WikiFunctions
             set { strSummary = value; }
         }
 
-        Hashtable hashLinks = new Hashtable();
-        readonly Regex NoLinksRegex = new Regex("<nowiki>.*?</nowiki>|<math>.*?</math>|<!--.*?-->|[Hh]ttp://[^\\ ]*|\\[[Hh]ttp:.*?\\]|\\[\\[[Ii]mage:.*?\\]\\]|\\[\\[([a-z]{2,3}|simple|fiu-vro|minnan|roa-rup|tokipona|zh-min-nan):.*\\]\\]", RegexOptions.Singleline | RegexOptions.Compiled);
-        private string RemoveLinks(string articleText)
-        {
-            hashLinks.Clear();
-            string s = "";
-
-            int i = 0;
-            foreach (Match m in NoLinksRegex.Matches(articleText))
-            {
-                s = "⌊⌊⌊⌊" + i.ToString() + "⌋⌋⌋⌋";
-
-                articleText = articleText.Replace(m.Value, s);
-                hashLinks.Add(s, m.Value);
-                i++;
-            }
-
-            return articleText;
-        }
-
-        private string AddLinks(string articleText)
-        {
-            foreach (DictionaryEntry D in hashLinks)
-                articleText = articleText.Replace(D.Key.ToString(), D.Value.ToString());
-
-            hashLinks.Clear();
-            return articleText;
-        }       
-
         private Dictionary<string, string> LoadTypos()
         {
             Dictionary<string, string> TypoStrings = new Dictionary<string, string>();
-
-            //string file = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            //file = file.Remove(file.LastIndexOf("\\")) + "\\Typos.xml";
-            
-            //if (!File.Exists(file))
-            //{
-            //    MessageBox.Show("Typo xml file does not exist in current directory", "File does not exist", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //    return TypoStrings;
-            //}
-
-            //string find = "";
-            //string replace = "";
-
-            //try
-            //{                
-            //    Stream stream = new FileStream(file, FileMode.Open);                
-
-            //    using (XmlTextReader reader = new XmlTextReader(stream))
-            //    {
-            //        reader.WhitespaceHandling = WhitespaceHandling.None;
-            //        while (reader.Read())
-            //        {
-            //            if (reader.Name == "Typo" && reader.HasAttributes)
-            //            {
-            //                reader.MoveToAttribute("find");
-            //                find = reader.Value;
-            //                reader.MoveToAttribute("replace");
-            //                replace = reader.Value;
-            //                //try
-            //                //{
-            //                    TypoStrings.Add(find, replace);
-            //                    continue;
-            //                //}
-            //                //catch (Exception ex)
-            //                //{
-            //                //    MessageBox.Show("Error on " + find + "\r\n\r\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //                //}
-            //            }
-            //            if (reader.Name == "Typos" && reader.HasAttributes)
-            //            {
-            //                reader.MoveToAttribute("version");
-            //                Version = decimal.Parse(reader.Value);
-            //                continue;                           
-            //            }
-            //        }
-            //        stream.Close();
-            //    }
-            //}
-            //catch (IOException ex)
-            //{
-            //    MessageBox.Show(ex.Message, "File error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show("Error on " + find + "\r\n\r\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
 
             Regex TypoRegex = new Regex("<(?:Typo )?word=\".*?\"[ \\t]find=\"(.*?)\"[ \\t]replace=\"(.*?)\" ?/?>");
             try
