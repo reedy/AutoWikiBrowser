@@ -429,7 +429,7 @@ namespace WikiFunctions.DatabaseScanner
 
                 if (saveFileDialog2.ShowDialog() == DialogResult.OK)
                 {
-                    StreamWriter sw = new StreamWriter(saveFileDialog2.FileName);
+                    StreamWriter sw = new StreamWriter(saveFileDialog2.FileName, false, Encoding.UTF8);
                     sw.Write(strList);
                     sw.Close();
                 }
@@ -439,8 +439,6 @@ namespace WikiFunctions.DatabaseScanner
                 MessageBox.Show(ex.Message.ToString());
             }
         }
-
-
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
