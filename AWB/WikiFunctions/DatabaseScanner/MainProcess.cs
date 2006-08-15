@@ -109,7 +109,6 @@ namespace WikiFunctions.DatabaseScanner
 
             bool test = true;
 
-            //Regex Regexlinks = new Regex("\\[\\[[^:]*?\\]\\]", RegexOptions.Compiled);
             //int links = 0;
             //int characters = 0;
             //int words = 0;
@@ -146,9 +145,7 @@ namespace WikiFunctions.DatabaseScanner
                          
                             if (test)
                             {
-                                //MatchCollection m = Regexlinks.Matches(articleText);
-                                //links = m.Count;
-
+                                //links = Tools.LinkCount(articleText);
                                 //if (links < 2000)
                                 //    c[links]++;
                                 //else
