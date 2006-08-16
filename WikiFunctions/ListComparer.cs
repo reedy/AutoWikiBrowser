@@ -181,7 +181,7 @@ namespace WikiFunctions
             while (i < lbBoth.Items.Count)
             {
                 s = lbBoth.Items[i].ToString();
-                strList.Append("# [[" + s + "]]" + "\r\n");
+                strList.AppendLine("# [[" + s + "]]");
                 i++;
             }
             SaveList(strList);
@@ -210,7 +210,7 @@ namespace WikiFunctions
             while (i < lbFirst.Items.Count)
             {
                 s = lbFirst.Items[i].ToString();
-                strList.Append("# [[" + s + "]]" + "\r\n");
+                strList.AppendLine("# [[" + s + "]]");
                 i++;
             }
             SaveList(strList);
@@ -225,7 +225,7 @@ namespace WikiFunctions
             while (i < lbSecond.Items.Count)
             {
                 s = lbSecond.Items[i].ToString();
-                strList.Append("# [[" + s + "]]" + "\r\n");
+                strList.AppendLine("# [[" + s + "]]");
                 i++;
             }
             SaveList(strList);

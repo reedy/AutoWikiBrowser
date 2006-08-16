@@ -339,7 +339,7 @@ namespace WikiFunctions.DatabaseScanner
 
             if (chkHeading.Checked)
             {
-                strbList.Append("==0==\r\n");
+                strbList.AppendLine("==0==");
                 intSectionNumber++;
             }
 
@@ -351,12 +351,12 @@ namespace WikiFunctions.DatabaseScanner
 
                     s = s.Replace("&amp;", "&");
 
-                    strbList.Append(strBullet + " [[" + s + "]]\r\n");
+                    strbList.AppendLine(strBullet + " [[" + s + "]]");
 
                     intSection++;
                     if (chkHeading.Checked && intSection == intHeadingSpace)
                     {
-                        strbList.Append("\r\n==" + intSectionNumber + "==\r\n");
+                        strbList.AppendLine("\r\n==" + intSectionNumber + "==");
                         intSectionNumber++;
                         intSection = 0;
                     }
@@ -380,9 +380,9 @@ namespace WikiFunctions.DatabaseScanner
                         sr = s;
 
                     if (sr != l)
-                        strbList.Append("\r\n== " + sr + " ==\r\n");
+                        strbList.AppendLine("\r\n== " + sr + " ==");
 
-                    strbList.Append(strBullet + " [[" + s + "]]\r\n");
+                    strbList.AppendLine(strBullet + " [[" + s + "]]");
 
                     l = sr;
                     i++;

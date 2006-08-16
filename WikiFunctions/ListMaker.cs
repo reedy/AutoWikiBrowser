@@ -739,7 +739,7 @@ namespace WikiFunctions
 
                 foreach (Article a in lbArticles)
                 {
-                    strList.Append("# [[" + a.Name + "]]\r\n");
+                    strList.AppendLine("# [[" + a.Name + "]]");
                 }
 
                 if (strListFile.Length > 0)
