@@ -737,7 +737,7 @@ namespace AutoWikiBrowser
                 e.Cancel = true;
                 dlg = null;
                 return;                
-            }            
+            }
 
             Stop();
         }
