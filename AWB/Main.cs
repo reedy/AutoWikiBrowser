@@ -735,8 +735,9 @@ namespace AutoWikiBrowser
             else
             {
                 e.Cancel = true;
-            }
-            dlg = null;
+                dlg = null;
+                return;                
+            }            
 
             Stop();
         }
@@ -2091,7 +2092,7 @@ Thank you for taking the time to help the encyclopedia. RegExTypoFix is develope
                 toolStripProgressBar1.Style = ProgressBarStyle.Continuous;
             }
         }
-
+        
         #endregion
 
     }

@@ -168,6 +168,9 @@ namespace WikiFunctions.DatabaseScanner
 
             namespaces.Clear();
 
+            namespaces.Add(8);
+            namespaces.Add(100);
+
             if (ignoreCategoryNamespaceToolStripMenuItem.Checked)
                 namespaces.Add(14);
 
