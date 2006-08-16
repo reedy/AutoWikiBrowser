@@ -345,6 +345,8 @@ namespace WikiFunctions
             string x = "";
             string y = "";
 
+            string cat = "[[" + Variables.Namespaces[14];
+
             foreach (Match m in RegexLink.Matches(articleText))
             {
                 x = m.Value;
@@ -356,9 +358,9 @@ namespace WikiFunctions
                     y = x;
 
                 y = y.Replace("+", "%2B");
-                y = HttpUtility.HtmlDecode(y);
+                y = HttpUtility.UrlDecode(y);
 
-                if (y.StartsWith("[[Category:"))
+                if (y.StartsWith(cat))
                     y = y.Replace("|]]", "| ]]");
                 else
                     y = Regex.Replace(y, " ?\\| ?", "|");
@@ -673,32 +675,14 @@ namespace WikiFunctions
         /// <returns>The re-categorised article text.</returns>
         public string ReCategoriser(string OldCategory, string NewCategory, string articleText, ref bool NoChange)
         {
-            testText = articleText;
-            articleText = ReCategoriser(OldCategory, NewCategory, articleText);
-
-            if (testText == articleText)
-                NoChange = true;
-            else
-                NoChange = false;
-
-            return articleText;
-        }
-
-        /// <summary>
-        /// Re-categorises the article.
-        /// </summary>
-        /// <param name="articleText">The wiki text of the article.</param>
-        /// <param name="OldCategory">The old category to replace.</param>
-        /// <param name="NewCategory">The new category.</param>
-        /// <returns>The re-categorised article text.</returns>
-        public string ReCategoriser(string OldCategory, string NewCategory, string articleText)
-        {
             //remove category prefix
             OldCategory = Regex.Replace(OldCategory, "^" + Variables.Namespaces[14], "", RegexOptions.IgnoreCase);
             NewCategory = Regex.Replace(NewCategory, "^" + Variables.Namespaces[14], "", RegexOptions.IgnoreCase);
 
             //format categories properly
             articleText = FixCategories(articleText);
+
+            testText = articleText;
 
             if (Regex.IsMatch(articleText, "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + Tools.caseInsensitive(NewCategory)))
             {
@@ -709,6 +693,11 @@ namespace WikiFunctions
             NewCategory = Variables.Namespaces[14] + NewCategory + "$1";
                         
             articleText = Regex.Replace(articleText, OldCategory, NewCategory, RegexOptions.IgnoreCase);
+            
+            if (testText == articleText)
+                NoChange = true;
+            else
+                NoChange = false;
 
             return articleText;
         }       
@@ -743,9 +732,6 @@ namespace WikiFunctions
         {
             //format categories properly
             articleText = FixCategories(articleText);
-
-            string strFirst = strOldCat.Substring(0, 1);
-            string strFirstLower = strFirst.ToLower() + "]";
 
             strOldCat = Tools.caseInsensitive(strOldCat);
 
