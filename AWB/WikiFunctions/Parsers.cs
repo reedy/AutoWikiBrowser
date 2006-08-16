@@ -408,9 +408,16 @@ namespace WikiFunctions
             return articleText;
         }
 
-        public string FixCats(string articleText)
+        public string FixCategories(string articleText)
         {//Fix common spacing/capitalisation errors in categories
-            articleText = Regex.Replace(articleText, "\\[\\[ ?" + Variables.NamespacesCaseInsensitive[14].Replace(":", " ?:") + " ?", "[[" + Variables.Namespaces[14]);
+
+            Regex catregex = new Regex("\\[\\[ ?" + Variables.NamespacesCaseInsensitive[14].Replace(":", " ?:") + "(.*?)\\]\\]");
+            string cat = "[[" + Variables.Namespaces[14];
+
+            foreach(Match m in catregex.Matches(articleText))
+            {
+                articleText = articleText.Replace(m.Value, cat + m.Groups[1].Value.Replace("_", " ") + "]]");
+            }
 
             articleText = Regex.Replace(articleText, "\\]\\] ?\\[\\[Category:", "]]\r\n[[Category:");
 
@@ -691,17 +698,20 @@ namespace WikiFunctions
             NewCategory = Regex.Replace(NewCategory, "^" + Variables.Namespaces[14], "", RegexOptions.IgnoreCase);
 
             //format categories properly
-            articleText = FixCats(articleText);
+            articleText = FixCategories(articleText);
 
-            OldCategory = Regex.Escape(OldCategory).Replace("\\ ", "[ _]");
+            if (Regex.IsMatch(articleText, "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + Tools.caseInsensitive(NewCategory)))
+            {
+                return RemoveCategory(OldCategory, articleText);
+            }           
 
             OldCategory = Variables.Namespaces[14] + OldCategory + "( ?\\|| ?\\]\\])";
             NewCategory = Variables.Namespaces[14] + NewCategory + "$1";
-
+                        
             articleText = Regex.Replace(articleText, OldCategory, NewCategory, RegexOptions.IgnoreCase);
 
             return articleText;
-        }
+        }       
 
         /// <summary>
         /// Removes a category from an article.
@@ -732,16 +742,14 @@ namespace WikiFunctions
         public string RemoveCategory(string strOldCat, string articleText)
         {
             //format categories properly
-            articleText = FixCats(articleText);
+            articleText = FixCategories(articleText);
 
             string strFirst = strOldCat.Substring(0, 1);
             string strFirstLower = strFirst.ToLower() + "]";
 
-            strOldCat = strOldCat.Substring(1, strOldCat.Length - 1);
-            strOldCat = Regex.Escape(strOldCat).Replace("\\ ", "[ _]");
-            strOldCat = strFirst + strFirstLower + strOldCat;
+            strOldCat = Tools.caseInsensitive(strOldCat);
 
-            strOldCat = "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + " ?[" + strOldCat + "( ?\\]\\]| ?\\|[^\\|]*?\\]\\])(\r\n)?";
+            strOldCat = "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + " ?" + strOldCat + "( ?\\]\\]| ?\\|[^\\|]*?\\]\\])(\r\n)?";
             articleText = Regex.Replace(articleText, strOldCat, "");
 
             return articleText;
@@ -989,8 +997,7 @@ This article or section needs to be '''[[Wikipedia:Glossary#W|wikified]]'''.  Pl
         }
 
         private string stubChecker(Match m)
-        // Replace each Regex cc match with the number of the occurrence.
-        {
+        {// Replace each Regex cc match with the number of the occurrence.
             if (Regex.IsMatch(m.Value, "\\{\\{[Ss]ect"))
                 return m.Value;
             else

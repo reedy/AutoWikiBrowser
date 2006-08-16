@@ -592,7 +592,7 @@ namespace AutoWikiBrowser
                         articleText = parsers.Conversions(articleText);
                         articleText = parsers.RemoveBadHeaders(articleText, EdittingArticle.Name);
                         articleText = parsers.LivingPeople(articleText);
-                        articleText = parsers.FixCats(articleText);
+                        articleText = parsers.FixCategories(articleText);
                         articleText = parsers.FixHeadings(articleText);
                         //if (skip && chkRegexTypoSkip.Checked)
                         //    return articleText;
