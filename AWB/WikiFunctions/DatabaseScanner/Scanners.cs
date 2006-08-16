@@ -393,4 +393,21 @@ namespace WikiFunctions.DatabaseScanner
         }
     }
 
+    public class LivingPerson : Scan
+    {
+        public LivingPerson(Parsers p)
+        {
+            parsers = p;
+        }
+
+        bool skip = true;
+        Parsers parsers;
+        public override bool Check(ref string articleText, ref string articleTitle)
+        {
+            parsers.LivingPeople(articleText, ref skip);
+
+            return !skip;
+        }
+    }
+
 }

@@ -507,7 +507,7 @@ namespace AutoWikiBrowser
             }
         }
 
-        private string Process(string articleText, ref bool skip)
+        private string Process(string articleText, ref bool NoChange)
         {
             string testText; // use to check if changes are made
             bool process = true;
@@ -522,28 +522,28 @@ namespace AutoWikiBrowser
 
                 if (cmboImages.SelectedIndex == 1)
                 {
-                    articleText = parsers.ReImager(txtImageReplace.Text, txtImageWith.Text, articleText, ref skip);
-                    if (skip)
+                    articleText = parsers.ReImager(txtImageReplace.Text, txtImageWith.Text, articleText, ref NoChange);
+                    if (NoChange)
                         return articleText;
                     else
-                        skip = false;
+                        NoChange = false;
                 }
                 else if (cmboImages.SelectedIndex == 2)
                 {
-                    articleText = parsers.RemoveImage(txtImageReplace.Text, articleText, ref skip);
-                    if (skip)
+                    articleText = parsers.RemoveImage(txtImageReplace.Text, articleText, ref NoChange);
+                    if (NoChange)
                         return articleText;
                     else
-                        skip = false;
+                        NoChange = false;
                 }
 
                 if (cmboCategorise.SelectedIndex == 1)
                 {
-                    articleText = parsers.ReCategoriser(listMaker1.SourceText, txtNewCategory.Text, articleText, ref skip);
-                    if (skip)
+                    articleText = parsers.ReCategoriser(listMaker1.SourceText, txtNewCategory.Text, articleText, ref NoChange);
+                    if (NoChange)
                         return articleText;
                     else
-                        skip = false;
+                        NoChange = false;
                 }
                 else if (cmboCategorise.SelectedIndex == 2 && txtNewCategory.Text.Length > 0)
                 {
@@ -551,11 +551,11 @@ namespace AutoWikiBrowser
                 }
                 else if (cmboCategorise.SelectedIndex == 3 && txtNewCategory.Text.Length > 0)
                 {
-                    articleText = parsers.RemoveCategory(txtNewCategory.Text, articleText, ref skip);
-                    if (skip)
+                    articleText = parsers.RemoveCategory(txtNewCategory.Text, articleText, ref NoChange);
+                    if (NoChange)
                         return articleText;
                     else
-                        skip = false;
+                        NoChange = false;
                 }
 
                 if (chkFindandReplace.Checked)
@@ -566,18 +566,18 @@ namespace AutoWikiBrowser
 
                     if (chkIgnoreWhenNoFAR.Checked && (testText == articleText))
                     {
-                        skip = true;
+                        NoChange = true;
                         return articleText;
                     }
                 }
 
                 if (chkRegExTypo.Checked && RegexTypos != null)
                 {
-                    articleText = RegexTypos.PerformTypoFixes(articleText, ref skip);
-                    if (skip && chkRegexTypoSkip.Checked)
+                    articleText = RegexTypos.PerformTypoFixes(articleText, ref NoChange);
+                    if (NoChange && chkRegexTypoSkip.Checked)
                         return articleText;
                     else
-                        skip = false;
+                        NoChange = false;
                 }
 
                 if (process && chkAutoTagger.Checked)
@@ -591,14 +591,14 @@ namespace AutoWikiBrowser
                     {//en only
                         articleText = parsers.Conversions(articleText);
                         articleText = parsers.RemoveBadHeaders(articleText, EdittingArticle.Name);
-                        articleText = parsers.LivingPeople(articleText);
+                        articleText = parsers.LivingPeople(articleText, ref NoChange);
+                        if (NoChange)
+                            return articleText;
+                        else
+                            NoChange = false;
+
                         articleText = parsers.FixCategories(articleText);
                         articleText = parsers.FixHeadings(articleText);
-                        //if (skip && chkRegexTypoSkip.Checked)
-                        //    return articleText;
-                        //else
-                        //    skip = false;
-
                         //#if DEBUG
                         //                        articleText = parsers.MinorThings(articleText);
                         //#endif
@@ -857,6 +857,12 @@ namespace AutoWikiBrowser
                 while (webBrowserLogin.ReadyState != WebBrowserReadyState.Complete) Application.DoEvents();
 
                 strInnerHTML = webBrowserLogin.Document.Body.InnerHtml;
+
+                Match m = Regex.Match(strInnerHTML, "&lt;!--Message:(.*?)--&gt;");
+                if (m.Success && m.Groups[1].Value.Trim().Length > 0)
+                {
+                    MessageBox.Show(m.Groups[1].Value, "Automated message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
 
                 if (!webBrowserLogin.LoggedIn)
                 {//see if we are logged in

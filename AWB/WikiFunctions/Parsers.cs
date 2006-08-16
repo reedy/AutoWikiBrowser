@@ -796,8 +796,11 @@ namespace WikiFunctions
             return articleText;
         }
 
-        public string LivingPeople(string articleText)
+        public string LivingPeople(string articleText, ref bool NoChange)
         {
+            NoChange = true;
+            testText = articleText;
+
             if(Regex.IsMatch(articleText, "\\[\\[ ?Category ?:[ _]?([0-9]{1,2}[ _]century[ _]deaths|[0-9s]{4,5}[ _]deaths|Disappeared[ _]people|Living[ _]people|Year[ _]of[ _]death[ _]missing|Possibly[ _]living[ _]people)", RegexOptions.IgnoreCase))
                 return articleText;
 
@@ -819,6 +822,11 @@ namespace WikiFunctions
                 catKey = "]]";
 
             articleText += "[[Category:Living people" + catKey;
+
+            if (testText == articleText)
+                NoChange = true;
+            else
+                NoChange = false;
 
             return articleText;
         }
