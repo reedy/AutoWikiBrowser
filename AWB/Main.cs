@@ -592,10 +592,10 @@ namespace AutoWikiBrowser
                         articleText = parsers.Conversions(articleText);
                         articleText = parsers.RemoveBadHeaders(articleText, EdittingArticle.Name);
                         articleText = parsers.LivingPeople(articleText, ref NoChange);
-                        if (NoChange)
-                            return articleText;
-                        else
-                            NoChange = false;
+                        //if (NoChange)
+                        //    return articleText;
+                        //else
+                        //    NoChange = false;
 
                         articleText = parsers.FixCategories(articleText);
                         articleText = parsers.FixHeadings(articleText);
