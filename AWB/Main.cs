@@ -1782,7 +1782,6 @@ namespace AutoWikiBrowser
                 webBrowserEdit.Stop2();
 
             listMaker1.Stop();
-            webBrowserLogin.Stop();
             lblStatusText.Text = "Stopped";
         }
 
