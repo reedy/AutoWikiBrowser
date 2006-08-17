@@ -414,12 +414,14 @@ namespace WikiFunctions
         public string FixCategories(string articleText)
         {//Fix common spacing/capitalisation errors in categories
 
-            Regex catregex = new Regex("\\[\\[ ?" + Variables.NamespacesCaseInsensitive[14].Replace(":", " ?:") + "(.*?)\\]\\]");
+            Regex catregex = new Regex("\\[\\[ ?" + Variables.NamespacesCaseInsensitive[14].Replace(":", " ?:") + " ?(.*?)\\]\\]");
             string cat = "[[" + Variables.Namespaces[14];
+            string x = "";
 
             foreach(Match m in catregex.Matches(articleText))
             {
-                articleText = articleText.Replace(m.Value, cat + m.Groups[1].Value.Replace("_", " ") + "]]");
+                x = cat + m.Groups[1].Value.Replace("_", " ") + "]]";
+                articleText = articleText.Replace(m.Value, x);
             }
 
             articleText = Regex.Replace(articleText, "\\]\\] ?\\[\\[Category:", "]]\r\n[[Category:");
