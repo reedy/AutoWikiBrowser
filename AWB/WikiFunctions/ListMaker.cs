@@ -799,14 +799,13 @@ namespace WikiFunctions
         /// </summary>
         public void ReplaceArticle(Article OldArticle, Article NewArticle)
         {
-            lbArticles.ClearSelected();
-
             int intPos = 0;
             intPos = lbArticles.Items.IndexOf(OldArticle);
 
             Remove(OldArticle);
             lbArticles.Items.Insert(intPos, NewArticle);
 
+            lbArticles.ClearSelected();
             lbArticles.SelectedItem = NewArticle;
         }
 

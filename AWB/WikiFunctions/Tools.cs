@@ -80,6 +80,27 @@ namespace WikiFunctions
             return true;
         }
 
+        readonly static Regex RedirectRegex = new Regex("^#redirect:? ?\\[\\[(.*?)\\]\\]", RegexOptions.IgnoreCase);
+        
+        /// <summary>
+        /// Tests article to see if it is a redirect
+        /// </summary>
+        /// <param name="Text">The title.</param>
+        public static bool IsRedirect(string Text)
+        {
+            return RedirectRegex.IsMatch(Text);
+        }
+
+        /// <summary>
+        /// Gets the target of the redirect
+        /// </summary>
+        /// <param name="Text">The title.</param>
+        public static string RedirectTarget(string Text)
+        {
+            Match m = RedirectRegex.Match(Text);
+            return m.Groups[1].Value;
+        }
+
         /// <summary>
         /// Tests title to make sure it is either main, image, category or template namespace.
         /// </summary>
@@ -269,7 +290,7 @@ namespace WikiFunctions
                 text = GetArticleText(article);
 
                 //test if redirect
-                if (Regex.IsMatch(text, "^#Redirect:? ?", RegexOptions.IgnoreCase))
+                if (Tools.IsRedirect(text))
                 {
                     string directLink = Regex.Match(text, "\\[\\[.*?\\]\\]").ToString().Replace("[[", "").Replace("]]", "");
                     directLink = "[[" + directLink + "|" + article + "]]";
