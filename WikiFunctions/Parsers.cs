@@ -194,6 +194,7 @@ namespace WikiFunctions
             articleText = articleText.Replace("\r\n\r\n(* ?\\[?http)", "\r\n$1");
 
             articleText = Regex.Replace(articleText.Trim(), "----+$", "");
+            articleText = Regex.Replace(articleText.Trim(), "<br ?/?>$", "", RegexOptions.IgnoreCase);
 
             return articleText.Trim();
         }

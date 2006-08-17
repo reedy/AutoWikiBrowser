@@ -84,8 +84,6 @@ namespace AutoWikiBrowser
             lblStatusText.AutoSize = true;
             lblBotTimer.AutoSize = true;
 
-            UpdateButtons();
-
             webBrowserLogin.ScriptErrorsSuppressed = true;
             webBrowserLogin.DocumentCompleted += web4Completed;
             webBrowserLogin.Navigating += web4Starting;
