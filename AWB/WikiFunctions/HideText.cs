@@ -15,6 +15,8 @@ namespace WikiFunctions
                 Regex += "|[Hh]ttp://[^\\ ]*|\\[[Hh]ttp:.*?\\]|\\[\\[([a-z]{2,3}|simple|fiu-vro|minnan|roa-rup|tokipona|zh-min-nan):.*\\]\\]";
 
             NoLinksRegex = new Regex(Regex, RegexOptions.Compiled | RegexOptions.Singleline);
+
+            this.LeaveMetaHeadings = LeaveMetaHeadings;
         }
 
         bool LeaveMetaHeadings = false;
