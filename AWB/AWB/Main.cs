@@ -258,7 +258,7 @@ namespace AutoWikiBrowser
                 if (!chkAutoMode.Checked)
                     MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
             }
-            
+
             //check for redirect
             if (bypassRedirectsToolStripMenuItem.Checked && Tools.IsRedirect(strText))
             {
@@ -269,7 +269,7 @@ namespace AutoWikiBrowser
                     SkipPage();
                     return;
                 }
-                
+
                 listMaker1.ReplaceArticle(EdittingArticle, Redirect);
                 EdittingArticle = Redirect;
 
@@ -579,7 +579,13 @@ namespace AutoWikiBrowser
                 if (EdittingArticle.NameSpaceKey == 0 || EdittingArticle.Name.Contains("Sandbox") || EdittingArticle.Name.Contains("sandbox"))
                 {
                     if (process && chkAutoTagger.Checked)
+                    {
                         articleText = parsers.Tagger(articleText, EdittingArticle.Name);
+                        //if (NoChange)
+                        //    return articleText;
+                        //else
+                        //    NoChange = false;
+                    }
 
                     if (process && chkGeneralParse.Checked)
                     {
@@ -590,11 +596,6 @@ namespace AutoWikiBrowser
                             articleText = parsers.Conversions(articleText);
                             articleText = parsers.RemoveBadHeaders(articleText, EdittingArticle.Name);
                             articleText = parsers.LivingPeople(articleText, ref NoChange);
-                            //if (NoChange)
-                            //    return articleText;
-                            //else
-                            //    NoChange = false;
-
                             articleText = parsers.FixCategories(articleText);
                             articleText = parsers.FixHeadings(articleText);
                             //#if DEBUG
@@ -635,7 +636,7 @@ namespace AutoWikiBrowser
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message); 
+                MessageBox.Show(ex.Message);
                 NoChange = false;
                 return articleText;
             }
@@ -737,7 +738,7 @@ namespace AutoWikiBrowser
             {
                 e.Cancel = true;
                 dlg = null;
-                return;                
+                return;
             }
 
             Stop();
@@ -1905,12 +1906,9 @@ namespace AutoWikiBrowser
             {
                 lblStatusText.Text = "Loading typos";
 
-                string message = @"
-1.  Check each edit before you make it. Although this has been built to be very accurate there is always the possibility of an error which requires your attention to watch out for.
+                string message = @"1. Check each edit before you make it. Although this has been built to be very accurate there is always the possibility of an error which requires your attention.
 
-2. Optional:  Select [[WP:RETF|RegExTypoFix]] as the edit summary in the drop down box when doing spelling corrections.  This lets everyone know where to bring issues with the typo correction. 
-
-Thank you for taking the time to help the encyclopedia. RegExTypoFix is developed by hand by User:Mboverload.";
+2. Optional: Select [[WP:RETF|RegExTypoFix]] as the edit summary. This lets everyone know where to bring issues with the typo correction.";
 
                 if (RegexTypos == null)
                     message += "\r\n\r\nThe newest typos will now be downloaded from http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/Typos";
@@ -1921,11 +1919,6 @@ Thank you for taking the time to help the encyclopedia. RegExTypoFix is develope
                 {
                     RegexTypos = new RegExTypoFix();
                     lblStatusText.Text = RegexTypos.Typos.Count.ToString() + " typos loaded";
-
-                    //foreach (KeyValuePair<Regex, string> k in RegexTypos.Typos)
-                    //{
-                    //    txtEdit.AppendText(k.Key + " => " + k.Value + "\r\n");
-                    //}
                 }
             }
 
@@ -2099,7 +2092,7 @@ Thank you for taking the time to help the encyclopedia. RegExTypoFix is develope
                 toolStripProgressBar1.Style = ProgressBarStyle.Continuous;
             }
         }
-        
+
         #endregion
 
     }
