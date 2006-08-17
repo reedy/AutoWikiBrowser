@@ -631,11 +631,13 @@ namespace AutoWikiBrowser
                         articleText = txtAppendMessage.Text + "\r\n\r\n" + articleText;
                 }
 
+                NoChange = false;
                 return articleText;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message); 
+                NoChange = false;
                 return articleText;
             }
         }
