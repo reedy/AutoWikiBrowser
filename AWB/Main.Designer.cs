@@ -1123,7 +1123,7 @@ namespace AutoWikiBrowser
             this.txtEdit.AcceptsTab = true;
             this.txtEdit.ContextMenuStrip = this.mnuTextBox;
             this.txtEdit.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtEdit.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtEdit.Font = new System.Drawing.Font("Courier New", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtEdit.Location = new System.Drawing.Point(0, 0);
             this.txtEdit.MaxLength = 0;
             this.txtEdit.Multiline = true;

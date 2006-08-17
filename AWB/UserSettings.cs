@@ -100,7 +100,7 @@ namespace AutoWikiBrowser
             webBrowserEdit.EnhanceDiffEnabled = true;
             webBrowserEdit.ScrollDown = true;
             webBrowserEdit.DiffFontSize = 150;
-            System.Drawing.Font f = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular);
+            System.Drawing.Font f = new System.Drawing.Font("Courier New", 10F, System.Drawing.FontStyle.Regular);
             txtEdit.Font = f;
             LowThreadPriority = false;
             FlashAndBeep = true;
@@ -556,7 +556,7 @@ namespace AutoWikiBrowser
                             reader.MoveToAttribute("difffontsize");
                             webBrowserEdit.DiffFontSize = int.Parse(reader.Value);
 
-                            float s = 9.75F;
+                            float s = 10F;
                             string d = "Courier New";
                             reader.MoveToAttribute("textboxfontsize");
                             s = float.Parse(reader.Value);
