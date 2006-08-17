@@ -260,8 +260,13 @@ namespace WikiFunctions
         }
 
         static readonly Regex RegexWordCount = new Regex("[a-zA-Z]+", RegexOptions.Compiled);
+        static readonly Regex RegexWordCountTable = new Regex("\\{\\|.*?\\|\\}", RegexOptions.Compiled | RegexOptions.Singleline);
+        static readonly Regex RegexWordCountTemplate = new Regex("\\{\\{.*?\\}\\}", RegexOptions.Compiled | RegexOptions.Singleline);
         public static int WordCount(string Text)
         {
+            Text = RegexWordCountTable.Replace(Text, "");
+            Text = RegexWordCountTemplate.Replace(Text, "");
+
             MatchCollection m = RegexWordCount.Matches(Text);
             return m.Count;
         }
