@@ -101,7 +101,6 @@ namespace AutoWikiBrowser
         }
 
         readonly Regex WikiLinkRegex = new Regex("\\[\\[(.*?)(\\]\\]|\\|)", RegexOptions.Compiled);
-        readonly Regex RedirectRegex = new Regex("^#redirect:? ?\\[\\[(.*?)\\]\\]", RegexOptions.IgnoreCase);
         string LastArticle = "";
         string strSettingsFile = "";
         bool boolSaved = true;
@@ -259,19 +258,18 @@ namespace AutoWikiBrowser
                 if (!chkAutoMode.Checked)
                     MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
             }
-
-            Match m = RedirectRegex.Match(strText);
+            
             //check for redirect
-            if (bypassRedirectsToolStripMenuItem.Checked && m.Success)
+            if (bypassRedirectsToolStripMenuItem.Checked && Tools.IsRedirect(strText))
             {
-                Article Redirect = new Article(m.Groups[1].Value);
+                Article Redirect = new Article(Tools.RedirectTarget(strText));
 
                 if (Redirect.Name == EdittingArticle.Name)
                 {//ignore recursice redirects
                     SkipPage();
                     return;
                 }
-
+                
                 listMaker1.ReplaceArticle(EdittingArticle, Redirect);
                 EdittingArticle = Redirect;
 
@@ -578,37 +576,40 @@ namespace AutoWikiBrowser
                         NoChange = false;
                 }
 
-                if (process && chkAutoTagger.Checked)
-                    articleText = parsers.Tagger(articleText, EdittingArticle.Name);
-                                
-                if (process && chkGeneralParse.Checked && (EdittingArticle.NameSpaceKey == 0 || (EdittingArticle.Name.Contains("Sandbox") || EdittingArticle.Name.Contains("sandbox"))))
+                if (EdittingArticle.NameSpaceKey == 0 || EdittingArticle.Name.Contains("Sandbox") || EdittingArticle.Name.Contains("sandbox"))
                 {
-                    articleText = RemoveText.Hide(articleText);
+                    if (process && chkAutoTagger.Checked)
+                        articleText = parsers.Tagger(articleText, EdittingArticle.Name);
 
-                    if (Variables.LangCode == "en")
-                    {//en only
-                        articleText = parsers.Conversions(articleText);
-                        articleText = parsers.RemoveBadHeaders(articleText, EdittingArticle.Name);
-                        articleText = parsers.LivingPeople(articleText, ref NoChange);
-                        //if (NoChange)
-                        //    return articleText;
-                        //else
-                        //    NoChange = false;
+                    if (process && chkGeneralParse.Checked)
+                    {
+                        articleText = RemoveText.Hide(articleText);
 
-                        articleText = parsers.FixCategories(articleText);
-                        articleText = parsers.FixHeadings(articleText);
-                        //#if DEBUG
-                        //                        articleText = parsers.MinorThings(articleText);
-                        //#endif
+                        if (Variables.LangCode == "en")
+                        {//en only
+                            articleText = parsers.Conversions(articleText);
+                            articleText = parsers.RemoveBadHeaders(articleText, EdittingArticle.Name);
+                            articleText = parsers.LivingPeople(articleText, ref NoChange);
+                            //if (NoChange)
+                            //    return articleText;
+                            //else
+                            //    NoChange = false;
+
+                            articleText = parsers.FixCategories(articleText);
+                            articleText = parsers.FixHeadings(articleText);
+                            //#if DEBUG
+                            //                        articleText = parsers.MinorThings(articleText);
+                            //#endif
+                        }
+                        articleText = parsers.FixSyntax(articleText);
+                        articleText = parsers.FixLinks(articleText);
+                        articleText = parsers.BulletExternalLinks(articleText);
+                        articleText = parsers.SortMetaData(articleText, EdittingArticle.Name);
+                        articleText = parsers.BoldTitle(articleText, EdittingArticle.Name);
+                        articleText = parsers.LinkSimplifier(articleText);
+
+                        articleText = RemoveText.AddBack(articleText);
                     }
-                    articleText = parsers.FixSyntax(articleText);
-                    articleText = parsers.FixLinks(articleText);
-                    articleText = parsers.BulletExternalLinks(articleText);
-                    articleText = parsers.SortMetaData(articleText, EdittingArticle.Name);
-                    articleText = parsers.BoldTitle(articleText, EdittingArticle.Name);
-                    articleText = parsers.LinkSimplifier(articleText);
-
-                    articleText = RemoveText.AddBack(articleText);
                 }
                 else if (process && chkGeneralParse.Checked && EdittingArticle.NameSpaceKey == 3)
                 {

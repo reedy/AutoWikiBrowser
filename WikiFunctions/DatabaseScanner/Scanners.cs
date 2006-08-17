@@ -36,7 +36,7 @@ namespace WikiFunctions.DatabaseScanner
     {
         public override bool Check(ref string articleText, ref string articleTitle)
         {
-            if (articleText.StartsWith("#"))
+            if (Tools.IsRedirect(articleText))
                 return false;
             else
                 return true;

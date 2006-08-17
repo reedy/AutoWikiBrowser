@@ -940,14 +940,30 @@ This article or section needs to be '''[[Wikipedia:Glossary#W|wikified]]'''.  Pl
         readonly Regex RegexStub = new Regex("\\{\\{.*?[Ss]tub\\}\\}", RegexOptions.Compiled);
 
         /// <summary>
-        /// If necessary, adds wikify or stub tag
+        /// If necessary, adds/removes wikify or stub tag
+        /// </summary>
+        public string Tagger(string articleText, string articleTitle, ref bool NoChange)
+        {
+            testText = articleText;
+            articleText = Tagger(articleText, articleTitle);
+
+            if (testText == articleText)
+                NoChange = true;
+            else
+                NoChange = false;
+
+            return articleText;
+        }
+
+        /// <summary>
+        /// adds/removes
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitlet">The old category to remove.</param>
         /// <returns>The article text without the old category.</returns>
         public string Tagger(string articleText, string articleTitle)
         {
-            if (!Tools.IsMainSpace(articleTitle) || Regex.IsMatch(articleText, "^#redirect", RegexOptions.IgnoreCase))
+            if (Tools.IsRedirect(articleText))
                 return articleText;
 
             double Length = articleText.Length + 1;
