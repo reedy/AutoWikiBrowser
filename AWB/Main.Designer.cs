@@ -630,7 +630,9 @@ namespace AutoWikiBrowser
             this.cmboImages.FormattingEnabled = true;
             this.cmboImages.Items.AddRange(new object[] {
             "None",
-            "Replace"});
+            "Replace",
+            "Remove",
+            "Remove <!-- comment out -->"});
             this.cmboImages.Location = new System.Drawing.Point(87, 12);
             this.cmboImages.Name = "cmboImages";
             this.cmboImages.Size = new System.Drawing.Size(163, 21);

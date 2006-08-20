@@ -452,8 +452,7 @@ namespace AutoWikiBrowser
                 Start();
                 return;
             }
-
-            if (!chkAutoMode.Checked && webBrowserEdit.Document.Body.InnerHtml.Contains("<A class=extiw title=m:spam_blacklist href=\"http://meta.wikimedia.org/wiki/spam_blacklist\">"))
+            else if (!chkAutoMode.Checked && webBrowserEdit.Document.Body.InnerHtml.Contains("<A class=extiw title=m:spam_blacklist href=\"http://meta.wikimedia.org/wiki/spam_blacklist\">"))
             {//check edit wasn't blocked due to spam filter
                 if (MessageBox.Show("Edit has been blocked by spam blacklist. Try and edit again?", "Spam blacklist", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
@@ -461,8 +460,7 @@ namespace AutoWikiBrowser
                     return;
                 }
             }
-
-            if (webBrowserEdit.Document.Body.InnerHtml.Contains("<DIV CLASS=PREVIEWNOTE><P><STRONG>Sorry! We could not process your edit due to a loss of session data."))
+            else if (webBrowserEdit.Document.Body.InnerHtml.Contains("<DIV CLASS=PREVIEWNOTE"))
             {//if session data is lost, if data is lost then save after delay with tmrAutoSaveDelay
                 StartDelayedRestartTimer();
                 return;
@@ -526,7 +524,15 @@ namespace AutoWikiBrowser
                 }
                 else if (cmboImages.SelectedIndex == 2)
                 {
-                    articleText = parsers.RemoveImage(txtImageReplace.Text, articleText, ref NoChange);
+                    articleText = parsers.RemoveImage(txtImageReplace.Text, articleText, false);
+                    if (NoChange)
+                        return articleText;
+                    else
+                        NoChange = false;
+                }
+                else if (cmboImages.SelectedIndex == 3)
+                {
+                    articleText = parsers.RemoveImage(txtImageReplace.Text, articleText, true);
                     if (NoChange)
                         return articleText;
                     else
