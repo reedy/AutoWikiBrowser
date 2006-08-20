@@ -519,24 +519,18 @@ namespace AutoWikiBrowser
                     articleText = parsers.ReImager(txtImageReplace.Text, txtImageWith.Text, articleText, ref NoChange);
                     if (NoChange)
                         return articleText;
-                    else
-                        NoChange = false;
                 }
                 else if (cmboImages.SelectedIndex == 2)
                 {
-                    articleText = parsers.RemoveImage(txtImageReplace.Text, articleText, false);
+                    articleText = parsers.RemoveImage(txtImageReplace.Text, articleText, false, txtImageWith.Text);
                     if (NoChange)
                         return articleText;
-                    else
-                        NoChange = false;
                 }
                 else if (cmboImages.SelectedIndex == 3)
                 {
-                    articleText = parsers.RemoveImage(txtImageReplace.Text, articleText, true);
+                    articleText = parsers.RemoveImage(txtImageReplace.Text, articleText, true, txtImageWith.Text, ref NoChange);
                     if (NoChange)
                         return articleText;
-                    else
-                        NoChange = false;
                 }
 
                 if (cmboCategorise.SelectedIndex == 1)
@@ -544,8 +538,6 @@ namespace AutoWikiBrowser
                     articleText = parsers.ReCategoriser(listMaker1.SourceText, txtNewCategory.Text, articleText, ref NoChange);
                     if (NoChange)
                         return articleText;
-                    else
-                        NoChange = false;
                 }
                 else if (cmboCategorise.SelectedIndex == 2 && txtNewCategory.Text.Length > 0)
                 {
@@ -556,8 +548,6 @@ namespace AutoWikiBrowser
                     articleText = parsers.RemoveCategory(txtNewCategory.Text, articleText, ref NoChange);
                     if (NoChange)
                         return articleText;
-                    else
-                        NoChange = false;
                 }
 
                 if (chkFindandReplace.Checked)
@@ -578,8 +568,6 @@ namespace AutoWikiBrowser
                     articleText = RegexTypos.PerformTypoFixes(articleText, ref NoChange);
                     if (NoChange && chkRegexTypoSkip.Checked)
                         return articleText;
-                    else
-                        NoChange = false;
                 }
 
                 if (EdittingArticle.NameSpaceKey == 0 || EdittingArticle.Name.Contains("Sandbox") || EdittingArticle.Name.Contains("sandbox"))
@@ -589,8 +577,6 @@ namespace AutoWikiBrowser
                         articleText = parsers.Tagger(articleText, EdittingArticle.Name);
                         //if (NoChange)
                         //    return articleText;
-                        //else
-                        //    NoChange = false;
                     }
 
                     if (process && chkGeneralParse.Checked)
@@ -2066,12 +2052,25 @@ namespace AutoWikiBrowser
                 txtImageWith.Enabled = true;
 
             }
-            else
+            else if (cmboImages.SelectedIndex == 2)
             {
                 lblImageReplace.Text = "Remove image:";
                 lblImageWith.Text = "";
+
                 txtImageWith.Visible = false;
                 txtImageReplace.Enabled = true;
+                txtImageWith.Enabled = false;
+
+            }
+            else if (cmboImages.SelectedIndex == 3)
+            {
+                lblImageReplace.Text = "Remove image:";
+                lblImageWith.Text = "Comment:";
+
+                txtImageWith.Visible = true;
+                txtImageReplace.Enabled = true;
+                txtImageWith.Enabled = true;
+
             }
         }
 
