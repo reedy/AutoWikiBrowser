@@ -71,7 +71,7 @@ namespace WikiFunctions
         }
 
         Dictionary<Regex, string> RegexUnicode = new Dictionary<Regex, string>();
-                
+
         MetaDataSorter metaDataSorter;
         string testText = "";
         int StubMaxWordCount = 500;
@@ -418,7 +418,7 @@ namespace WikiFunctions
             string cat = "[[" + Variables.Namespaces[14];
             string x = "";
 
-            foreach(Match m in catregex.Matches(articleText))
+            foreach (Match m in catregex.Matches(articleText))
             {
                 x = cat + m.Groups[1].Value.Replace("_", " ") + "]]";
                 articleText = articleText.Replace(m.Value, x);
@@ -450,7 +450,7 @@ namespace WikiFunctions
                 NoChange = false;
 
             return articleText;
-        }        
+        }
 
         /// <summary>
         /// Converts HTML entities to unicode, with some deliberate exceptions
@@ -463,7 +463,7 @@ namespace WikiFunctions
             articleText = Regex.Replace(articleText, "&#151;|&#8212;|&#x2014;", "&mdash;");
             articleText = articleText.Replace(" &amp; ", " & ");
             articleText = articleText.Replace("&amp;", "&amp;amp;");
-            
+
             foreach (KeyValuePair<Regex, string> k in RegexUnicode)
             {
                 articleText = k.Key.Replace(articleText, k.Value);
@@ -554,7 +554,7 @@ namespace WikiFunctions
         public string ReImager(string OldImage, string NewImage, string articleText, ref bool NoChange)
         {
             testText = articleText;
-            articleText = ReImager(OldImage, NewImage, articleText);
+            articleText = ReplaceImage(OldImage, NewImage, articleText);
 
             if (testText == articleText)
                 NoChange = true;
@@ -571,7 +571,7 @@ namespace WikiFunctions
         /// <param name="OldImage">The old image to replace.</param>
         /// <param name="NewImage">The new image.</param>
         /// <returns>The new article text.</returns>
-        public string ReImager(string OldImage, string NewImage, string articleText)
+        public string ReplaceImage(string OldImage, string NewImage, string articleText)
         {
             //remove image prefix
             OldImage = Regex.Replace(OldImage, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase).Replace("_", " ");
@@ -579,8 +579,8 @@ namespace WikiFunctions
 
             OldImage = Regex.Escape(OldImage).Replace("\\ ", "[ _]");
 
-            OldImage = "\\[\\[" + Variables.NamespacesCaseInsensitive[6] + Tools.caseInsensitive(OldImage);
-            NewImage = "[[" + Variables.Namespaces[6] + NewImage;
+            OldImage = Variables.NamespacesCaseInsensitive[6] + Tools.caseInsensitive(OldImage);
+            NewImage = Variables.Namespaces[6] + NewImage;
 
             articleText = Regex.Replace(articleText, OldImage, NewImage);
 
@@ -591,41 +591,83 @@ namespace WikiFunctions
         /// Removes an iamge in the article.
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
-        /// <param name="OldImage">The image to remove.</param>
-        /// <param name="NoChange">Value that indicated whether no change was made.</param>
+        /// <param name="Image">The image to remove.</param>
         /// <returns>The new article text.</returns>
-        public string RemoveImage(string OldImage, string articleText, ref bool NoChange)
+        public string RemoveImage(string Image, string articleText, bool CommentOut)
         {
-            testText = articleText;
-            articleText = RemoveImage(OldImage, articleText);
+            //remove image prefix
+            Image = Regex.Replace(Image, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase).Replace("_", " ");
+            Image = Regex.Escape(Image).Replace("\\ ", "[ _]");
+            Image = Variables.NamespacesCaseInsensitive[6] + Tools.caseInsensitive(Image);
 
-            if (testText == articleText)
-                NoChange = true;
-            else
-                NoChange = false;
+            //System.Windows.Forms.MessageBox.Show(Image);
+            //Red Arrows Eclat.png
+
+            Regex r = new Regex("\\[\\[" + Image + ".*\\]\\]", RegexOptions.Singleline);
+
+            Match m = r.Match(articleText);
+
+            if (m.Success)
+            {
+                string match = m.Value;
+
+                int i = 0;
+                int j = 0;
+
+                foreach (char c in match)
+                {
+                    if (c == '[')
+                        j++;
+                    if (c == ']')
+                        j--;
+
+                    i++;
+
+                    if (j == 0)
+                        break;
+                }
+                match = match.Remove(i);
+
+                if (CommentOut)
+                    articleText = articleText.Replace(match, "<!-- $0 -->");
+                else
+                    articleText = articleText.Replace(match, "");
+            }
+
+            r = new Regex(Image);
+            m = r.Match(articleText);
+
+            if(m.Success)
+            {
+                if (CommentOut)
+                    articleText = Regex.Replace(articleText, Image, "<!-- $0 -->");
+                else
+                    articleText = Regex.Replace(articleText, Image, "");
+            }
+
 
             return articleText;
         }
 
-        /// <summary>
-        /// Removes an iamge in the article.
-        /// </summary>
-        /// <param name="articleText">The wiki text of the article.</param>
-        /// <param name="OldImage">The image to remove.</param>
-        /// <returns>The new article text.</returns>
-        public string RemoveImage(string OldImage, string articleText)
-        {
-            //remove image prefix
-            OldImage = Regex.Replace(OldImage, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase).Replace("_", " ");
+        ///// <summary>
+        ///// Removes an iamge in the article.
+        ///// </summary>
+        ///// <param name="articleText">The wiki text of the article.</param>
+        ///// <param name="OldImage">The image to remove.</param>
+        ///// <param name="NoChange">Value that indicated whether no change was made.</param>
+        ///// <returns>The new article text.</returns>
+        //public string RemoveImage(string OldImage, string articleText, bool CommentOut, ref bool NoChange)
+        //{
+        //    testText = articleText;
+        //    articleText = RemoveImage(OldImage, articleText);
 
-            OldImage = Regex.Escape(OldImage).Replace("\\ ", "[ _]");
+        //    if (testText == articleText)
+        //        NoChange = true;
+        //    else
+        //        NoChange = false;
 
-            OldImage = "(\r\n)?\\[\\[" + Variables.NamespacesCaseInsensitive[6] + Tools.caseInsensitive(OldImage) + ".*\\]\\]";
-
-            articleText = Regex.Replace(articleText, OldImage, "");
-
-            return articleText.Trim();
-        }
+        //    return articleText;
+        //}
 
         /// <summary>
         /// Adds the category to the article.
@@ -690,20 +732,20 @@ namespace WikiFunctions
             if (Regex.IsMatch(articleText, "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + Tools.caseInsensitive(NewCategory)))
             {
                 return RemoveCategory(OldCategory, articleText);
-            }           
+            }
 
             OldCategory = Variables.Namespaces[14] + OldCategory + "( ?\\|| ?\\]\\])";
             NewCategory = Variables.Namespaces[14] + NewCategory + "$1";
-                        
+
             articleText = Regex.Replace(articleText, OldCategory, NewCategory, RegexOptions.IgnoreCase);
-            
+
             if (testText == articleText)
                 NoChange = true;
             else
                 NoChange = false;
 
             return articleText;
-        }       
+        }
 
         /// <summary>
         /// Removes a category from an article.
@@ -804,7 +846,7 @@ namespace WikiFunctions
             NoChange = true;
             testText = articleText;
 
-            if(Regex.IsMatch(articleText, "\\[\\[ ?Category ?:[ _]?([0-9]{1,2}[ _]century[ _]deaths|[0-9s]{4,5}[ _]deaths|Disappeared[ _]people|Living[ _]people|Year[ _]of[ _]death[ _]missing|Possibly[ _]living[ _]people)", RegexOptions.IgnoreCase))
+            if (Regex.IsMatch(articleText, "\\[\\[ ?Category ?:[ _]?([0-9]{1,2}[ _]century[ _]deaths|[0-9s]{4,5}[ _]deaths|Disappeared[ _]people|Living[ _]people|Year[ _]of[ _]death[ _]missing|Possibly[ _]living[ _]people)", RegexOptions.IgnoreCase))
                 return articleText;
 
             Match m = Regex.Match(articleText, "\\[\\[ ?Category ?:[ _]?([0-9]{4})[ _]births(\\|.*?)?\\]\\]", RegexOptions.IgnoreCase);
