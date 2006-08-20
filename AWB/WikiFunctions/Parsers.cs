@@ -593,81 +593,81 @@ namespace WikiFunctions
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="Image">The image to remove.</param>
         /// <returns>The new article text.</returns>
-        public string RemoveImage(string Image, string articleText, bool CommentOut)
+        public string RemoveImage(string Image, string articleText, bool CommentOut, string Comment)
         {
             //remove image prefix
             Image = Regex.Replace(Image, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase).Replace("_", " ");
             Image = Regex.Escape(Image).Replace("\\ ", "[ _]");
-            Image = Variables.NamespacesCaseInsensitive[6] + Tools.caseInsensitive(Image);
+            Image = Tools.caseInsensitive(Image);
 
-            //System.Windows.Forms.MessageBox.Show(Image);
-            //Red Arrows Eclat.png
+            Regex r = new Regex("\\[\\[" + Variables.NamespacesCaseInsensitive[6] + Image + ".*\\]\\]", RegexOptions.Singleline);
+            MatchCollection n = r.Matches(articleText);
 
-            Regex r = new Regex("\\[\\[" + Image + ".*\\]\\]", RegexOptions.Singleline);
-
-            Match m = r.Match(articleText);
-
-            if (m.Success)
+            if (n.Count > 0)
             {
-                string match = m.Value;
-
-                int i = 0;
-                int j = 0;
-
-                foreach (char c in match)
+                foreach (Match m in n)
                 {
-                    if (c == '[')
-                        j++;
-                    if (c == ']')
-                        j--;
+                    string match = m.Value;
 
-                    i++;
+                    int i = 0;
+                    int j = 0;
 
-                    if (j == 0)
-                        break;
+                    foreach (char c in match)
+                    {
+                        if (c == '[')
+                            j++;
+                        if (c == ']')
+                            j--;
+
+                        i++;
+
+                        if (j == 0)
+                            break;
+                    }
+                    match = match.Remove(i);
+
+                    if (CommentOut)
+                        articleText = articleText.Replace(match, "<!-- " + Comment + " " + match + " -->");
+                    else
+                        articleText = articleText.Replace(match, "");
                 }
-                match = match.Remove(i);
-
-                if (CommentOut)
-                    articleText = articleText.Replace(match, "<!-- $0 -->");
-                else
-                    articleText = articleText.Replace(match, "");
             }
-
-            r = new Regex(Image);
-            m = r.Match(articleText);
-
-            if(m.Success)
+            else
             {
-                if (CommentOut)
-                    articleText = Regex.Replace(articleText, Image, "<!-- $0 -->");
-                else
-                    articleText = Regex.Replace(articleText, Image, "");
-            }
+                r = new Regex("(" + Variables.NamespacesCaseInsensitive[6] + ")?" + Image);
+                n = r.Matches(articleText);
 
+                foreach (Match m in n)
+                {
+                    if (CommentOut)
+                        articleText = Regex.Replace(articleText, m.Value, "<!-- " + Comment + " $0 -->");
+                    else
+                        articleText = Regex.Replace(articleText, m.Value, "");
+                }
+            }
 
             return articleText;
         }
 
-        ///// <summary>
-        ///// Removes an iamge in the article.
-        ///// </summary>
-        ///// <param name="articleText">The wiki text of the article.</param>
-        ///// <param name="OldImage">The image to remove.</param>
-        ///// <param name="NoChange">Value that indicated whether no change was made.</param>
-        ///// <returns>The new article text.</returns>
-        //public string RemoveImage(string OldImage, string articleText, bool CommentOut, ref bool NoChange)
-        //{
-        //    testText = articleText;
-        //    articleText = RemoveImage(OldImage, articleText);
+        /// <summary>
+        /// Removes an iamge in the article.
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="OldImage">The image to remove.</param>
+        /// <param name="NoChange">Value that indicated whether no change was made.</param>
+        /// <returns>The new article text.</returns>
+        public string RemoveImage(string Image, string articleText, bool CommentOut, string Comment, ref bool NoChange)
+        {
+            testText = articleText;
+            articleText = RemoveImage(Image, articleText, CommentOut, Comment);
 
-        //    if (testText == articleText)
-        //        NoChange = true;
-        //    else
-        //        NoChange = false;
+            if (testText == articleText)
+                NoChange = true;
+            else
+                NoChange = false;
 
-        //    return articleText;
-        //}
+            return articleText;
+        }
 
         /// <summary>
         /// Adds the category to the article.
