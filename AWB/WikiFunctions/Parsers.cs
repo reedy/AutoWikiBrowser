@@ -600,7 +600,7 @@ namespace WikiFunctions
             Image = Regex.Escape(Image).Replace("\\ ", "[ _]");
             Image = Tools.caseInsensitive(Image);
 
-            Regex r = new Regex("\\[\\[" + Variables.NamespacesCaseInsensitive[6] + Image + ".*\\]\\]", RegexOptions.Singleline);
+            Regex r = new Regex("\\[\\[" + Variables.NamespacesCaseInsensitive[6] + Image + ".*\\]\\]");
             MatchCollection n = r.Matches(articleText);
 
             if (n.Count > 0)
@@ -616,20 +616,26 @@ namespace WikiFunctions
                     {
                         if (c == '[')
                             j++;
-                        if (c == ']')
+                        else if (c == ']')
                             j--;
 
                         i++;
 
                         if (j == 0)
-                            break;
-                    }
-                    match = match.Remove(i);
+                        {
+                            if (match.Length > i)
+                                match = match.Remove(i);
 
-                    if (CommentOut)
-                        articleText = articleText.Replace(match, "<!-- " + Comment + " " + match + " -->");
-                    else
-                        articleText = articleText.Replace(match, "");
+                            Regex t = new Regex(Regex.Escape(match));
+
+                            if (CommentOut)
+                                articleText = t.Replace(articleText, "<!-- " + Comment + " " + match + " -->", 1, m.Index);
+                            else
+                                articleText = t.Replace(articleText, "", 1);
+
+                            break;
+                        }
+                    }                   
                 }
             }
             else
@@ -639,10 +645,12 @@ namespace WikiFunctions
 
                 foreach (Match m in n)
                 {
+                    Regex t = new Regex(Regex.Escape(m.Value));
+
                     if (CommentOut)
-                        articleText = Regex.Replace(articleText, m.Value, "<!-- " + Comment + " $0 -->");
+                        articleText = t.Replace(articleText, "<!-- " + Comment + " $0 -->", 1, m.Index);
                     else
-                        articleText = Regex.Replace(articleText, m.Value, "");
+                        articleText = t.Replace(articleText, "", 1, m.Index);
                 }
             }
 
