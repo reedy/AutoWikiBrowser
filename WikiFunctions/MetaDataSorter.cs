@@ -36,6 +36,10 @@ namespace WikiFunctions
             InterWikiOrder = InterWikiOrderEnum.LocalLanguageAlpha;
         }
 
+        Regex RegexDisambig = new Regex("\\{\\{([Dd]isambig|2CC|3CC|4CC|[Gg]eodis)\\}\\}");
+        Regex RegexStubs = new Regex("<!-- ?\\{\\{.*?stub\\}\\}.*?-->|:?\\{\\{.*?stub\\}\\}");
+        Regex RegexPersondata = new Regex("\\{\\{ ?[Pp]ersondata.*?\\}\\}", RegexOptions.Singleline);
+
         public void SetProjectOtions(LangCodeEnum Language, ProjectEnum Project)
         {
 
@@ -119,10 +123,11 @@ namespace WikiFunctions
         {
             string strPersonData = "";
 
-            string metaPattern = "(\\{\\{ ?[Pp]ersondata.*?\\}\\})";
-            if (Regex.IsMatch(ArticleText, metaPattern, RegexOptions.Singleline))
+            Match m = RegexPersondata.Match(ArticleText);
+
+            if (m.Success)
             {
-                strPersonData = Regex.Match(ArticleText, metaPattern, RegexOptions.Singleline).ToString();
+                strPersonData = m.Value;
                 ArticleText = ArticleText.Replace(strPersonData, "");
                 strPersonData = "\r\n\r\n" + strPersonData;
             }
@@ -133,18 +138,17 @@ namespace WikiFunctions
         private string removeStubs(ref string ArticleText)
         {
             ArrayList StubArray = new ArrayList();
-            string stubPattern = "<!-- ?\\{\\{.*?stub\\}\\}.*?-->|:?\\{\\{.*?stub\\}\\}";
-            if (Regex.IsMatch(ArticleText, stubPattern))
+            MatchCollection n = RegexStubs.Matches(ArticleText);
+            string x = "";
+
+            foreach (Match m in n)
             {
-                foreach (Match m in Regex.Matches(ArticleText, stubPattern))
+                x = m.Value;
+                if (!((Regex.IsMatch(x, "[Ss]ect") || (Regex.IsMatch(x, "tl\\|")))))
                 {
-                    string x = m.ToString();
-                    if (!((Regex.IsMatch(x, "[Ss]ect") || (Regex.IsMatch(x, "tl\\|")))))
-                    {
-                        StubArray.Add(x);
-                        //remove old stub
-                        ArticleText = ArticleText.Replace(x, "");
-                    }
+                    StubArray.Add(x);
+                    //remove old stub
+                    ArticleText = ArticleText.Replace(x, "");
                 }
             }
 
@@ -157,9 +161,9 @@ namespace WikiFunctions
         private string removeDisambig(ref string ArticleText)
         {
             string strDisambig = "";
-            if (Regex.IsMatch(ArticleText, "\\{\\{(Disambig|2CC|3CC|4CC)\\}\\}", RegexOptions.IgnoreCase))
+            if (RegexDisambig.IsMatch(ArticleText))
             {
-                strDisambig = Regex.Match(ArticleText, "\\{\\{(Disambig|2CC|3CC|4CC)\\}\\}", RegexOptions.IgnoreCase).ToString();
+                strDisambig = RegexDisambig.Match(ArticleText).Value;
                 ArticleText = ArticleText.Replace(strDisambig, "");
                 strDisambig = "\r\n\r\n" + strDisambig;
             }
@@ -172,7 +176,7 @@ namespace WikiFunctions
             ArrayList LinkFAArrayList = new ArrayList();
             foreach (Match m in Regex.Matches(ArticleText, "(\\{\\{[Ll]ink FA\\|)([a-z\\-]{2,10})[^\\}\\}]*\\}\\}"))
             {
-                string x = m.ToString();
+                string x = m.Value;
                 LinkFAArrayList.Add(x);
                 //remove old LinkFA
                 ArticleText = ArticleText.Replace(x, "");
@@ -213,7 +217,7 @@ namespace WikiFunctions
                     string x = "";
                     foreach (Match m in rege.Matches(ArticleText))
                     {
-                        x = m.ToString();
+                        x = m.Value;
                         ArticleText = rege.Replace(ArticleText, "", 1);
                         x = HttpUtility.HtmlDecode(x).Replace("_", " ");
                         InterWikiArray.Add(x);
@@ -227,7 +231,7 @@ namespace WikiFunctions
                 {
                     foreach (Match m in Regex.Matches(ArticleText, interPattern))
                     {
-                        string x = m.ToString();
+                        string x = m.Value;
                         ArticleText = ArticleText.Replace(x, "");
                         x = HttpUtility.HtmlDecode(x).Replace("_", " ");
                         InterWikiArray.Add(x);
