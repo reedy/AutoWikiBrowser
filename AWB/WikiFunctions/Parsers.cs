@@ -740,13 +740,15 @@ namespace WikiFunctions
 
             if (Regex.IsMatch(articleText, "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + Tools.caseInsensitive(NewCategory)))
             {
-                return RemoveCategory(OldCategory, articleText);
+                articleText = RemoveCategory(OldCategory, articleText);
             }
+            else
+            {
+                OldCategory = Variables.Namespaces[14] + OldCategory + "( ?\\|| ?\\]\\])";
+                NewCategory = Variables.Namespaces[14] + NewCategory + "$1";
 
-            OldCategory = Variables.Namespaces[14] + OldCategory + "( ?\\|| ?\\]\\])";
-            NewCategory = Variables.Namespaces[14] + NewCategory + "$1";
-
-            articleText = Regex.Replace(articleText, OldCategory, NewCategory, RegexOptions.IgnoreCase);
+                articleText = Regex.Replace(articleText, OldCategory, NewCategory, RegexOptions.IgnoreCase);
+            }
 
             if (testText == articleText)
                 NoChange = true;
