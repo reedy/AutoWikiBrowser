@@ -164,8 +164,27 @@ namespace WikiFunctions
             GetTextFileArticles2();
         }
 
+        //Regex reg = new Regex(" ?\\(.*?\\)$", RegexOptions.Compiled);
+        //Regex reg3 = new Regex("Township|New York|Ontario", RegexOptions.Compiled);
+
         private void btnGo_Click(object sender, EventArgs e)
         {
+            //int i = 0;
+            //string s = "";
+
+            //while (i < lbFirst.Items.Count)
+            //{
+            //    s = lbFirst.Items[i].ToString();
+
+            //    s = reg.Replace(s, "");
+
+            //    if (reg3.IsMatch(s))
+            //        lbBoth.Items.Add(lbFirst.Items[i].ToString());
+
+            //    i++;
+            //}
+            //return;
+
             GetDuplicates();
             lblFirst.Text = lbFirst.Items.Count.ToString() + " only in list 1";
             lblSecond.Text = lbSecond.Items.Count.ToString() + " only in list 2";

@@ -29,8 +29,6 @@ namespace WikiFunctions
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ListComparer));
-            this.lbFirst = new System.Windows.Forms.ListBox();
-            this.lbSecond = new System.Windows.Forms.ListBox();
             this.lbBoth = new System.Windows.Forms.ListBox();
             this.btnOpen1 = new System.Windows.Forms.Button();
             this.btnOpen2 = new System.Windows.Forms.Button();
@@ -47,23 +45,9 @@ namespace WikiFunctions
             this.label3 = new System.Windows.Forms.Label();
             this.btnSave2 = new System.Windows.Forms.Button();
             this.btnSave1 = new System.Windows.Forms.Button();
+            this.lbSecond = new WikiFunctions.ListBox2();
+            this.lbFirst = new WikiFunctions.ListBox2();
             this.SuspendLayout();
-            // 
-            // lbFirst
-            // 
-            this.lbFirst.FormattingEnabled = true;
-            this.lbFirst.Location = new System.Drawing.Point(9, 28);
-            this.lbFirst.Name = "lbFirst";
-            this.lbFirst.Size = new System.Drawing.Size(154, 186);
-            this.lbFirst.TabIndex = 0;
-            // 
-            // lbSecond
-            // 
-            this.lbSecond.FormattingEnabled = true;
-            this.lbSecond.Location = new System.Drawing.Point(169, 28);
-            this.lbSecond.Name = "lbSecond";
-            this.lbSecond.Size = new System.Drawing.Size(158, 186);
-            this.lbSecond.TabIndex = 1;
             // 
             // lbBoth
             // 
@@ -95,7 +79,7 @@ namespace WikiFunctions
             // 
             // btnGo
             // 
-            this.btnGo.Location = new System.Drawing.Point(333, 90);
+            this.btnGo.Location = new System.Drawing.Point(322, 88);
             this.btnGo.Name = "btnGo";
             this.btnGo.Size = new System.Drawing.Size(57, 56);
             this.btnGo.TabIndex = 5;
@@ -142,7 +126,7 @@ namespace WikiFunctions
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(405, 267);
+            this.btnSave.Location = new System.Drawing.Point(396, 267);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 9;
@@ -152,7 +136,7 @@ namespace WikiFunctions
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(405, 323);
+            this.btnClear.Location = new System.Drawing.Point(396, 310);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(75, 23);
             this.btnClear.TabIndex = 10;
@@ -207,11 +191,29 @@ namespace WikiFunctions
             this.btnSave1.UseVisualStyleBackColor = true;
             this.btnSave1.Click += new System.EventHandler(this.btnSave1_Click);
             // 
+            // lbSecond
+            // 
+            this.lbSecond.FormattingEnabled = true;
+            this.lbSecond.Location = new System.Drawing.Point(169, 25);
+            this.lbSecond.Name = "lbSecond";
+            this.lbSecond.Size = new System.Drawing.Size(137, 186);
+            this.lbSecond.TabIndex = 17;
+            // 
+            // lbFirst
+            // 
+            this.lbFirst.FormattingEnabled = true;
+            this.lbFirst.Location = new System.Drawing.Point(9, 25);
+            this.lbFirst.Name = "lbFirst";
+            this.lbFirst.Size = new System.Drawing.Size(137, 186);
+            this.lbFirst.TabIndex = 16;
+            // 
             // ListComparer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(534, 358);
+            this.ClientSize = new System.Drawing.Size(534, 343);
+            this.Controls.Add(this.lbSecond);
+            this.Controls.Add(this.lbFirst);
             this.Controls.Add(this.btnSave1);
             this.Controls.Add(this.btnSave2);
             this.Controls.Add(this.label3);
@@ -226,9 +228,7 @@ namespace WikiFunctions
             this.Controls.Add(this.btnOpen2);
             this.Controls.Add(this.btnOpen1);
             this.Controls.Add(this.lbBoth);
-            this.Controls.Add(this.lbSecond);
-            this.Controls.Add(this.lbFirst);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ListComparer";
             this.ShowIcon = false;
@@ -241,8 +241,6 @@ namespace WikiFunctions
 
         #endregion
 
-        private System.Windows.Forms.ListBox lbFirst;
-        private System.Windows.Forms.ListBox lbSecond;
         private System.Windows.Forms.ListBox lbBoth;
         private System.Windows.Forms.Button btnOpen1;
         private System.Windows.Forms.Button btnOpen2;
@@ -259,6 +257,8 @@ namespace WikiFunctions
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnSave2;
         private System.Windows.Forms.Button btnSave1;
+        private ListBox2 lbFirst;
+        private ListBox2 lbSecond;
     }
 }
 

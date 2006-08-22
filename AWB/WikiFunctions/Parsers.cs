@@ -635,7 +635,8 @@ namespace WikiFunctions
 
                             break;
                         }
-                    }                   
+
+                    }
                 }
             }
             else
