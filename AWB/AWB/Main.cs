@@ -574,9 +574,7 @@ namespace AutoWikiBrowser
                 {
                     if (process && chkAutoTagger.Checked)
                     {
-                        articleText = parsers.Tagger(articleText, EdittingArticle.Name);
-                        //if (NoChange)
-                        //    return articleText;
+                        articleText = parsers.Tagger(articleText, EdittingArticle.Name);                        
                     }
 
                     if (process && chkGeneralParse.Checked)
@@ -596,7 +594,10 @@ namespace AutoWikiBrowser
                         }
                         articleText = parsers.FixSyntax(articleText);
                         articleText = parsers.FixLinks(articleText);
-                        articleText = parsers.BulletExternalLinks(articleText);
+                        articleText = parsers.BulletExternalLinks(articleText, ref NoChange);
+                        //if (NoChange)
+                        //    return articleText;
+
                         articleText = parsers.SortMetaData(articleText, EdittingArticle.Name);
                         articleText = parsers.BoldTitle(articleText, EdittingArticle.Name);
                         articleText = parsers.LinkSimplifier(articleText);

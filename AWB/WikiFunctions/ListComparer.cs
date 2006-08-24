@@ -165,7 +165,7 @@ namespace WikiFunctions
         }
 
         //Regex reg = new Regex(" ?\\(.*?\\)$", RegexOptions.Compiled);
-        //Regex reg3 = new Regex("Township|New York|Ontario", RegexOptions.Compiled);
+        //Regex reg3 = new Regex("^[A-Za-z]* [A-Za-z]*$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         private void btnGo_Click(object sender, EventArgs e)
         {
