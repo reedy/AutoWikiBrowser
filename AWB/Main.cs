@@ -130,6 +130,7 @@ namespace AutoWikiBrowser
 
             Debug();
             loadDefaultSettings();
+            LoadPlugins();
             UpdateButtons();
         }
 
@@ -511,6 +512,19 @@ namespace AutoWikiBrowser
                 if (noParse.Contains(EdittingArticle))
                     process = false;
 
+                if (ipi.Length > 1)
+                {
+                    foreach (IAWBPlugin a in ipi)
+                    {
+                        if (a != null)
+                        {
+                            articleText = a.ProcessArticle(articleText, EdittingArticle.Name, ref NoChange);
+                            if (NoChange)
+                                return articleText;
+                        }
+                    }
+                }
+
                 if (chkUnicodifyWhole.Checked && process)
                     articleText = parsers.Unicodify(articleText);
 
@@ -574,7 +588,7 @@ namespace AutoWikiBrowser
                 {
                     if (process && chkAutoTagger.Checked)
                     {
-                        articleText = parsers.Tagger(articleText, EdittingArticle.Name);                        
+                        articleText = parsers.Tagger(articleText, EdittingArticle.Name);
                     }
 
                     if (process && chkGeneralParse.Checked)
@@ -2101,5 +2115,43 @@ namespace AutoWikiBrowser
 
         #endregion
 
+        private IAWBPlugin[] ipi;
+        private void LoadPlugins()
+        {
+            try
+            {
+                string path = Application.StartupPath;
+                string[] pluginFiles = Directory.GetFiles(path, "*.DLL");
+
+                ipi = new IAWBPlugin[pluginFiles.Length];
+
+                for (int i = 0; i < pluginFiles.Length; i++)
+                {
+                    string imFile = Path.GetFileName(pluginFiles[i]);
+
+                    Assembly asm = Assembly.LoadFile(path + "\\" + imFile);
+
+                    if (asm != null)
+                    {
+                        Type[] types = asm.GetTypes();
+
+                        foreach (Type t in types)
+                        {                           
+                            Type g = t.GetInterface("IAWBPlugin");
+
+                            if (g != null)
+                            {
+                                ipi[i] = (IAWBPlugin)Activator.CreateInstance(t);
+                              //  MessageBox.Show(ipi[i].Name);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }
