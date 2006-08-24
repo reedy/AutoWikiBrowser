@@ -119,7 +119,7 @@ namespace AutoWikiBrowser
         {//load Default.xml file if it exists
             try
             {
-                string filename = Environment.CurrentDirectory + "\\Default.xml";
+                string filename = Application.StartupPath + "\\Default.xml";
 
                 if (File.Exists(filename))
                     loadSettings(filename);
