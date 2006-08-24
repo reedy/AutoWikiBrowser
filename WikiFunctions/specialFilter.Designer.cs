@@ -63,13 +63,13 @@ namespace WikiFunctions
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.lbRemove = new WikiFunctions.ListBox2();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnGetList = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.chkRemoveDups = new System.Windows.Forms.CheckBox();
-            this.lbRemove = new WikiFunctions.ListBox2();
             this.contextmenuFilter.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -451,6 +451,14 @@ namespace WikiFunctions
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Articles to remove";
             // 
+            // lbRemove
+            // 
+            this.lbRemove.FormattingEnabled = true;
+            this.lbRemove.Location = new System.Drawing.Point(9, 45);
+            this.lbRemove.Name = "lbRemove";
+            this.lbRemove.Size = new System.Drawing.Size(169, 147);
+            this.lbRemove.TabIndex = 5;
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -502,22 +510,12 @@ namespace WikiFunctions
             // chkRemoveDups
             // 
             this.chkRemoveDups.AutoSize = true;
-            this.chkRemoveDups.Checked = true;
-            this.chkRemoveDups.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkRemoveDups.Location = new System.Drawing.Point(7, 20);
             this.chkRemoveDups.Name = "chkRemoveDups";
             this.chkRemoveDups.Size = new System.Drawing.Size(119, 17);
             this.chkRemoveDups.TabIndex = 0;
             this.chkRemoveDups.Text = "Remove Duplicates";
             this.chkRemoveDups.UseVisualStyleBackColor = true;
-            // 
-            // lbRemove
-            // 
-            this.lbRemove.FormattingEnabled = true;
-            this.lbRemove.Location = new System.Drawing.Point(9, 45);
-            this.lbRemove.Name = "lbRemove";
-            this.lbRemove.Size = new System.Drawing.Size(169, 147);
-            this.lbRemove.TabIndex = 5;
             // 
             // specialFilter
             // 
