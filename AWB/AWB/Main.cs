@@ -104,7 +104,7 @@ namespace AutoWikiBrowser
         string LastArticle = "";
         string strSettingsFile = "";
         bool boolSaved = true;
-        HideText RemoveText = new HideText(false, true);
+        HideText RemoveText = new HideText(false, true, false);
         ArrayList noParse = new ArrayList();
         FindandReplace findAndReplace = new FindandReplace();
         RegExTypoFix RegexTypos;
@@ -518,7 +518,7 @@ namespace AutoWikiBrowser
                     {
                         if (a != null)
                         {
-                            articleText = a.ProcessArticle(articleText, EdittingArticle.Name, ref NoChange);
+                            articleText = a.ProcessArticle(articleText, EdittingArticle.Name, EdittingArticle.NameSpaceKey, ref NoChange);
                             if (NoChange)
                                 return articleText;
                         }

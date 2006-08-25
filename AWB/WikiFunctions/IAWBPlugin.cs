@@ -7,8 +7,7 @@ namespace WikiFunctions
     public interface IAWBPlugin
     {
         string Name { get; }
-
-        string ProcessArticle(string ArticleText, string ArticleTitle, ref bool Skip);
-
+        string EditSummary { get;set; }
+        string ProcessArticle(string ArticleText, string ArticleTitle, int Namespace, ref bool Skip);
     }
 }
