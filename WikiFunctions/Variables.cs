@@ -25,7 +25,7 @@ using System.Text;
 namespace WikiFunctions
 {
     public enum LangCodeEnum { en, ca, da, de, es, fr, it, nl, mi, pl, pt, sv, ru, sl }
-    public enum ProjectEnum { wikipedia, wiktionary, wikisource, commons, meta, species }
+    public enum ProjectEnum { wikipedia, wiktionary, wikisource, commons, meta, species, wikinews }
 
     /// <summary>
     /// Holds static variables, to allow functionality on different wikis.
