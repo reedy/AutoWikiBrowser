@@ -204,6 +204,9 @@ namespace AutoWikiBrowser
                 if (RegexTypos != null)
                     RegexTypos.EditSummary = "";
 
+                foreach (IAWBPlugin a in AWBPlugins)
+                    a.EditSummary = "";
+
                 skippable = true;
 
                 txtEdit.Clear();
