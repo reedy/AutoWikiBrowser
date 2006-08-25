@@ -81,6 +81,8 @@ namespace AutoWikiBrowser
             alphaSortInterwikiLinksToolStripMenuItem.Checked = true;
             addIgnoredToLogFileToolStripMenuItem.Checked = false;
 
+            usePluginsToolStripMenuItem.Checked = true;
+
             PasteMore1.Text = "";
             PasteMore2.Text = "";
             PasteMore3.Text = "";
@@ -103,7 +105,7 @@ namespace AutoWikiBrowser
             System.Drawing.Font f = new System.Drawing.Font("Courier New", 10F, System.Drawing.FontStyle.Regular);
             txtEdit.Font = f;
             LowThreadPriority = false;
-            FlashAndBeep = true;
+            FlashAndBeep = true;            
 
             lblStatusText.Text = "Default settings loaded.";
         }
@@ -475,6 +477,14 @@ namespace AutoWikiBrowser
 
                             continue;
                         }
+                        if (reader.Name == "useplugins" && reader.HasAttributes)
+                        {
+                            reader.MoveToAttribute("enabled");
+                            usePluginsToolStripMenuItem.Checked = bool.Parse(reader.Value);
+                            btnFalsePositive.Visible = bool.Parse(reader.Value);
+
+                            continue;
+                        }
                         if (reader.Name == "pastemore1" && reader.HasAttributes)
                         {
                             reader.MoveToAttribute("text");
@@ -757,6 +767,11 @@ namespace AutoWikiBrowser
                 textWriter.WriteStartElement("addignoredtolog");
                 textWriter.WriteAttributeString("enabled", addIgnoredToLogFileToolStripMenuItem.Checked.ToString());
                 textWriter.WriteEndElement();
+
+                textWriter.WriteStartElement("useplugins");
+                textWriter.WriteAttributeString("enabled", usePluginsToolStripMenuItem.Checked.ToString());
+                textWriter.WriteEndElement();
+
                 textWriter.WriteEndElement();
                 textWriter.WriteEndElement();
 
@@ -805,7 +820,7 @@ namespace AutoWikiBrowser
                 textWriter.WriteAttributeString("lowthreadpriority", LowThreadPriority.ToString());
                 textWriter.WriteAttributeString("flashandbeep", FlashAndBeep.ToString());
                 textWriter.WriteEndElement();
-                textWriter.WriteEndElement();
+                textWriter.WriteEndElement();                
 
                 // Ends the document.
                 textWriter.WriteEndDocument();

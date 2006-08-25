@@ -1,69 +1,70 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Settings program="AWB" schema="2">
-  <Project>
-    <projectlang proj="wikipedia" lang="en" />
-  </Project>
-  <Options>
-    <selectsource index="0" text="" />
-    <general general="True" tagger="True" unicodifyer="True" />
-    <categorisation index="0" text="" />
-    <skip does="False" doesnot="False" regex="False" casesensitive="False" doestext="" doesnottext="" />
-    <message enabled="False" text="" append="True" />
-    <automode delay="15" quicksave="False" suppresstag="False" />
-    <imager index="0" replace="" with="" />
-  </Options>
-  <regextypofix>
-    <regextypofixproperties enabled="False" skipnofixed="False" />
-  </regextypofix>
-  <FindAndReplaceSettings>
-    <findandreplacesettings enabled="False" ignorenofar="True" ignoretext="False" appendsummary="True" />
-  </FindAndReplaceSettings>
-  <FindAndReplace>
-    <replacerules enabled="False">
-      <rule name="Rule" type="0" enabled="True" />
-    </replacerules>
-  </FindAndReplace>
-  <startoptions>
-    <summary text="clean up" />
-    <summary text="re-categorisation per [[WP:CFD|CFD]]" />
-    <summary text="clean up and  re-categorisation per [[WP:CFD|CFD]]" />
-    <summary text="removing category per [[WP:CFD|CFD]]" />
-    <summary text="[[Wikipedia:Template substitution|subst:'ing]]" />
-    <summary text="stub sorting" />
-    <summary text="[[WP:RETF|RETF]]" />
-    <summary text="bad link repair.  [[Wikipedia:Bad links|You can help!]]" />
-    <summary text="Fixing [[Wikipedia:Disambiguation pages with links|links to disambiguation pages]]" />
-    <summary text="Unicodifying" />
-    <summaryindex index="clean up" />
-    <find text="" regex="False" casesensitive="False" />
-    <menu>
-      <wordwrap enabled="True" />
-      <toolbar enabled="False" />
-      <bypass enabled="True" />
-      <ingnorenonexistent enabled="True" />
-      <noautochanges enabled="False" />
-      <skipnochanges enabled="False" />
-      <preview enabled="False" />
-      <minor enabled="False" />
-      <watch enabled="False" />
-      <timer enabled="False" />
-      <sortinterwiki enabled="True" />
-      <addignoredtolog enabled="False" />
-    </menu>
-  </startoptions>
-  <pastemore>
-    <pastemore1 text="" />
-    <pastemore2 text="" />
-    <pastemore3 text="" />
-    <pastemore4 text="" />
-    <pastemore5 text="" />
-    <pastemore6 text="" />
-    <pastemore7 text="" />
-    <pastemore8 text="" />
-    <pastemore9 text="" />
-    <pastemore10 text="" />
-  </pastemore>
-  <preferences>
-    <preferencevalues enhancediff="True" scrolldown="True" difffontsize="150" textboxfontsize="10" textboxfont="Courier New" lowthreadpriority="False" flashandbeep="True" />
-  </preferences>
+	<Project>
+		<projectlang proj="wikipedia" lang="en" />
+	</Project>
+	<Options>
+		<selectsource index="0" text="" />
+		<general general="True" tagger="True" unicodifyer="True" />
+		<categorisation index="0" text="" />
+		<skip does="False" doesnot="False" regex="False" casesensitive="False" doestext="" doesnottext="" />
+		<message enabled="False" text="" append="True" />
+		<automode delay="15" quicksave="False" suppresstag="False" />
+		<imager index="0" replace="" with="" />
+	</Options>
+	<regextypofix>
+		<regextypofixproperties enabled="False" skipnofixed="False" />
+	</regextypofix>
+	<FindAndReplaceSettings>
+		<findandreplacesettings enabled="False" ignorenofar="True" ignoretext="False" appendsummary="True" />
+	</FindAndReplaceSettings>
+	<FindAndReplace>
+		<replacerules enabled="False">
+			<rule name="Rule" type="0" enabled="True" />
+		</replacerules>
+	</FindAndReplace>
+	<startoptions>
+		<summary text="clean up" />
+		<summary text="re-categorisation per [[WP:CFD|CFD]]" />
+		<summary text="clean up and  re-categorisation per [[WP:CFD|CFD]]" />
+		<summary text="removing category per [[WP:CFD|CFD]]" />
+		<summary text="[[Wikipedia:Template substitution|subst:'ing]]" />
+		<summary text="stub sorting" />
+		<summary text="[[WP:RETF|RETF]]" />
+		<summary text="bad link repair.  [[Wikipedia:Bad links|You can help!]]" />
+		<summary text="Fixing [[Wikipedia:Disambiguation pages with links|links to disambiguation pages]]" />
+		<summary text="Unicodifying" />
+		<summaryindex index="clean up" />
+		<find text="" regex="False" casesensitive="False" />
+		<menu>
+			<wordwrap enabled="True" />
+			<toolbar enabled="False" />
+			<bypass enabled="True" />
+			<ingnorenonexistent enabled="True" />
+			<noautochanges enabled="False" />
+			<skipnochanges enabled="False" />
+			<preview enabled="False" />
+			<minor enabled="False" />
+			<watch enabled="False" />
+			<timer enabled="False" />
+			<sortinterwiki enabled="True" />
+			<addignoredtolog enabled="False" />
+			<useplugins enabled="True" />
+		</menu>
+	</startoptions>
+	<pastemore>
+		<pastemore1 text="" />
+		<pastemore2 text="" />
+		<pastemore3 text="" />
+		<pastemore4 text="" />
+		<pastemore5 text="" />
+		<pastemore6 text="" />
+		<pastemore7 text="" />
+		<pastemore8 text="" />
+		<pastemore9 text="" />
+		<pastemore10 text="" />
+	</pastemore>
+	<preferences>
+		<preferencevalues enhancediff="True" scrolldown="True" difffontsize="150" textboxfontsize="10" textboxfont="Courier New" lowthreadpriority="False" flashandbeep="True" />
+	</preferences>
 </Settings>

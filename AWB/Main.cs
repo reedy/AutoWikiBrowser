@@ -512,16 +512,13 @@ namespace AutoWikiBrowser
                 if (noParse.Contains(EdittingArticle))
                     process = false;
 
-                if (ipi.Length > 1)
+                if (usePluginsToolStripMenuItem.Checked && AWBPlugins.Count > 0)
                 {
-                    foreach (IAWBPlugin a in ipi)
+                    foreach (IAWBPlugin a in AWBPlugins)
                     {
-                        if (a != null)
-                        {
-                            articleText = a.ProcessArticle(articleText, EdittingArticle.Name, EdittingArticle.NameSpaceKey, ref NoChange);
-                            if (NoChange)
-                                return articleText;
-                        }
+                        articleText = a.ProcessArticle(articleText, EdittingArticle.Name, EdittingArticle.NameSpaceKey, ref NoChange);
+                        if (NoChange)
+                            return articleText;
                     }
                 }
 
@@ -774,6 +771,11 @@ namespace AutoWikiBrowser
                 if (chkRegExTypo.Checked && RegexTypos != null)
                     tag = tag += RegexTypos.EditSummary;
 
+                foreach (IAWBPlugin a in AWBPlugins)
+                {
+                    tag += a.EditSummary;
+                }
+
                 return tag;
             }
         }
@@ -781,7 +783,7 @@ namespace AutoWikiBrowser
         private string MakeSummary()
         {
             string tag = cmboEditSummary.Text + parsers.EditSummary;
-            tag = tag += EditSummary;
+            tag += EditSummary;
             if (!chkAutoMode.Checked || !chkSuppressTag.Checked)
                 tag += " " + Variables.SummaryTag;
 
@@ -2115,7 +2117,9 @@ namespace AutoWikiBrowser
 
         #endregion
 
-        private IAWBPlugin[] ipi;
+        //private IAWBPlugin[] AWBPlugins;
+
+        List<IAWBPlugin> AWBPlugins = new List<IAWBPlugin>();
         private void LoadPlugins()
         {
             try
@@ -2123,7 +2127,7 @@ namespace AutoWikiBrowser
                 string path = Application.StartupPath;
                 string[] pluginFiles = Directory.GetFiles(path, "*.DLL");
 
-                ipi = new IAWBPlugin[pluginFiles.Length];
+                IAWBPlugin[] Plugins = new IAWBPlugin[pluginFiles.Length];
 
                 for (int i = 0; i < pluginFiles.Length; i++)
                 {
@@ -2136,13 +2140,14 @@ namespace AutoWikiBrowser
                         Type[] types = asm.GetTypes();
 
                         foreach (Type t in types)
-                        {                           
+                        {
                             Type g = t.GetInterface("IAWBPlugin");
 
                             if (g != null)
                             {
-                                ipi[i] = (IAWBPlugin)Activator.CreateInstance(t);
-                              //  MessageBox.Show(ipi[i].Name);
+                                AWBPlugins.Add((IAWBPlugin)Activator.CreateInstance(t));
+                                //AWBPlugins[i] = (IAWBPlugin)Activator.CreateInstance(t);
+                                //  MessageBox.Show(ipi[i].Name);
                             }
                         }
                     }
@@ -2152,6 +2157,16 @@ namespace AutoWikiBrowser
             {
                 MessageBox.Show(ex.Message);
             }
+
+            foreach (IAWBPlugin a in AWBPlugins)
+            {
+                ToolStripMenuItem i = new ToolStripMenuItem(a.Name);
+                i.Enabled = false;
+                pluginsToolStripMenuItem.DropDownItems.Add(i);
+            }
+
+            if (AWBPlugins.Count < 1)
+                pluginsToolStripMenuItem.Visible = false;
         }
     }
 }
