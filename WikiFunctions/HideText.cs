@@ -7,9 +7,12 @@ namespace WikiFunctions
 {
     public class HideText
     {
-        public HideText(bool HideExternalLinks, bool LeaveMetaHeadings)
+        public HideText(bool HideExternalLinks, bool LeaveMetaHeadings, bool HideImages)
         {
-            string Regex = "<nowiki>.*?</nowiki>|<math>.*?</math>|<!--.*?-->|\\[\\[[Ii]mage:.*?\\]\\]";
+            string Regex = "<nowiki>.*?</nowiki>|<math>.*?</math>|<!--.*?-->";
+
+            if (HideImages)
+                Regex += "|\\[\\[[Ii]mage:.*?\\]\\]";
 
             if (HideExternalLinks)
                 Regex += "|[Hh]ttp://[^\\ ]*|\\[[Hh]ttp:.*?\\]|\\[\\[([a-z]{2,3}|simple|fiu-vro|minnan|roa-rup|tokipona|zh-min-nan):.*\\]\\]";

@@ -37,7 +37,7 @@ namespace WikiFunctions
         }
 
         Dictionary<Regex, string> TypoRegexes = new Dictionary<Regex, string>();
-        HideText RemoveText = new HideText(true, false);
+        HideText RemoveText = new HideText(true, false, true);
 
         private void MakeRegexes()
         {

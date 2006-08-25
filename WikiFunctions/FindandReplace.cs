@@ -38,7 +38,7 @@ namespace WikiFunctions
             InitializeComponent();
         }
 
-        HideText RemoveLinks = new HideText(true, false);
+        HideText RemoveLinks = new HideText(true, false, true);
 
         List<Replacements> ReplacementList = new List<Replacements>();
         bool applydefault = false;
