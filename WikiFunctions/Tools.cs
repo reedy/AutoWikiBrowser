@@ -200,7 +200,7 @@ namespace WikiFunctions
         /// <returns>The wiki text of the article.</returns>
         public static string GetArticleText(string ArticleTitle)
         {
-            string text = GetHTML(Variables.URL + "index.php?title=" + ArticleTitle + "&action=raw&ctype=text/plain&dontcountme=s");
+            string text = GetHTML(Variables.URL + "index.php?title=" + ArticleTitle + "&action=raw&ctype=text/plain&dontcountme=s", Encoding.UTF8);
             return text;
         }
 
