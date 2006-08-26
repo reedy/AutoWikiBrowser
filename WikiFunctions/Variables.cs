@@ -238,6 +238,11 @@ namespace WikiFunctions
                         Namespaces[4] = "Wiktionary:";
                         Namespaces[5] = "Wiktionary talk:";
                     }
+                    else if (strproject == "wikinews")
+                    {
+                        Namespaces[4] = "Wikinews:";
+                        Namespaces[5] = "Wikinews talk:";
+                    }
                     else
                     {
                         Namespaces[4] = "Wikipedia:";
