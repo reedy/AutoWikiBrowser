@@ -32,20 +32,23 @@ namespace WikiFunctions
         {
             this.Name = Name;
             this.NameSpaceKey = Tools.CalculateNS(Name);
+            this.EditSummary = "";
         }
 
         public Article(string Name, int NameSpaceKey)
         {
             this.Name = Name;
             this.NameSpaceKey = NameSpaceKey;
+            this.EditSummary = "";
         }
 
         public int NameSpaceKey;
         public string Name;
+        public string EditSummary;
 
         //public string ArticleText;
         //public string OriginalText;
-        //public string EditSummary;
+        
 
         public string URLEncodedName
         {

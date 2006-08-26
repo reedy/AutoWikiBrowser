@@ -201,18 +201,9 @@ namespace AutoWikiBrowser
                     MessageBox.Show("Please enter an edit summary.", "Edit summary", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
                 StopDelayedRestartTimer();
-
                 DisableButtons();
-                parsers.EditSummary = "";
-                findAndReplace.EditSummary = "";
-                if (RegexTypos != null)
-                    RegexTypos.EditSummary = "";
-
-                foreach (IAWBPlugin a in AWBPlugins)
-                    a.EditSummary = "";
-
+                EdittingArticle.EditSummary = "";
                 skippable = true;
-
                 txtEdit.Clear();
 
                 if (webBrowserEdit.IsBusy)
@@ -523,7 +514,7 @@ namespace AutoWikiBrowser
                 {
                     foreach (IAWBPlugin a in AWBPlugins)
                     {
-                        articleText = a.ProcessArticle(articleText, EdittingArticle.Name, EdittingArticle.NameSpaceKey, ref NoChange);
+                        articleText = a.ProcessArticle(articleText, EdittingArticle.Name, EdittingArticle.NameSpaceKey, ref EdittingArticle.EditSummary, ref NoChange);
                         if (NoChange)
                             return articleText;
                     }
@@ -571,7 +562,7 @@ namespace AutoWikiBrowser
                 if (chkFindandReplace.Checked)
                 {
                     testText = articleText;
-                    articleText = findAndReplace.MultipleFindAndReplce(articleText, EdittingArticle.Name);
+                    articleText = findAndReplace.MultipleFindAndReplce(articleText, EdittingArticle.Name, ref EdittingArticle.EditSummary);                    
                     articleText = replaceSpecial.ApplyRules(articleText, EdittingArticle.Name);
 
                     if (chkIgnoreWhenNoFAR.Checked && (testText == articleText))
@@ -583,7 +574,7 @@ namespace AutoWikiBrowser
 
                 if (chkRegExTypo.Checked && RegexTypos != null)
                 {
-                    articleText = RegexTypos.PerformTypoFixes(articleText, ref NoChange);
+                    articleText = RegexTypos.PerformTypoFixes(articleText, ref NoChange, ref EdittingArticle.EditSummary);
                     if (NoChange && chkRegexTypoSkip.Checked)
                         return articleText;
                 }
@@ -592,7 +583,7 @@ namespace AutoWikiBrowser
                 {
                     if (process && chkAutoTagger.Checked)
                     {
-                        articleText = parsers.Tagger(articleText, EdittingArticle.Name);
+                        articleText = parsers.Tagger(articleText, EdittingArticle.Name, ref EdittingArticle.EditSummary);
                     }
 
                     if (process && chkGeneralParse.Checked)
@@ -605,10 +596,7 @@ namespace AutoWikiBrowser
                             articleText = parsers.RemoveBadHeaders(articleText, EdittingArticle.Name);
                             articleText = parsers.LivingPeople(articleText, ref NoChange);
                             articleText = parsers.FixCategories(articleText);
-                            articleText = parsers.FixHeadings(articleText);
-                            //#if DEBUG
-                            //                        articleText = parsers.MinorThings(articleText);
-                            //#endif
+                            articleText = parsers.FixHeadings(articleText);                            
                         }
                         articleText = parsers.FixSyntax(articleText);
                         articleText = parsers.FixLinks(articleText);
@@ -768,29 +756,9 @@ namespace AutoWikiBrowser
             }
         }
 
-        private string EditSummary
-        {
-            get
-            {
-                string tag = "";
-                if (findAndReplace.AppendToSummary)
-                    tag = tag += findAndReplace.EditSummary;
-                if (chkRegExTypo.Checked && RegexTypos != null)
-                    tag = tag += RegexTypos.EditSummary;
-
-                foreach (IAWBPlugin a in AWBPlugins)
-                {
-                    tag += a.EditSummary;
-                }
-
-                return tag;
-            }
-        }
-
         private string MakeSummary()
         {
-            string tag = cmboEditSummary.Text + parsers.EditSummary;
-            tag += EditSummary;
+            string tag = cmboEditSummary.Text + EdittingArticle.EditSummary;
             if (!chkAutoMode.Checked || !chkSuppressTag.Checked)
                 tag += " " + Variables.SummaryTag;
 
@@ -1899,7 +1867,7 @@ namespace AutoWikiBrowser
 
         private void cmboEditSummary_MouseMove(object sender, MouseEventArgs e)
         {
-            if (EditSummary == "")
+            if (EdittingArticle.EditSummary == "")
                 toolTip1.SetToolTip(cmboEditSummary, "");
             else
                 toolTip1.SetToolTip(cmboEditSummary, MakeSummary());
@@ -2166,7 +2134,7 @@ namespace AutoWikiBrowser
             foreach (IAWBPlugin a in AWBPlugins)
             {
                 a.Initialise(listMaker1, webBrowserEdit, pluginsToolStripMenuItem, mnuTextBox);
-                
+
                 ToolStripMenuItem i = new ToolStripMenuItem(a.Name);
                 i.Enabled = false;
                 pluginsToolStripMenuItem.DropDownItems.Add(i);

@@ -37,6 +37,7 @@ namespace WikiFunctions.Parse
         {
             InitializeComponent();
         }
+        string streditsummary = "";
 
         HideText RemoveLinks = new HideText(true, false, true);
 
@@ -102,9 +103,9 @@ namespace WikiFunctions.Parse
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <param name="ArticleTitle">The title of the article.</param>
         /// <returns>The modified article text.</returns>
-        public string MultipleFindAndReplce(string ArticleText, string strTitle)
+        public string MultipleFindAndReplce(string ArticleText, string strTitle, ref string EditSummary)
         {
-            EditSummary = "";
+            streditsummary = "";
 
             if (chkIgnoreLinks.Checked)
                 ArticleText = RemoveLinks.Hide(ArticleText);
@@ -117,8 +118,8 @@ namespace WikiFunctions.Parse
             if (chkIgnoreLinks.Checked)
                 ArticleText = RemoveLinks.AddBack(ArticleText);
 
-            if (EditSummary != "")
-                EditSummary = ", Replaced: " + EditSummary.Trim();
+            if (streditsummary != "")
+                EditSummary += ", Replaced: " + summary.Trim();
 
             return ArticleText;
         }
@@ -146,7 +147,7 @@ namespace WikiFunctions.Parse
                     if (Matches.Count > 1)
                         summary += " (" + Matches.Count.ToString() + ")";
 
-                    EditSummary += summary + ", ";
+                    streditsummary += summary + ", ";
                 }
             }
 
@@ -256,14 +257,7 @@ namespace WikiFunctions.Parse
         {
             get { return chkAddToSummary.Checked; }
             set { chkAddToSummary.Checked = value; }
-        }
-
-        string streditsummary = "";
-        public string EditSummary
-        {
-            get { return streditsummary; }
-            set { streditsummary = value; }
-        }
+        }       
 
         #endregion
 

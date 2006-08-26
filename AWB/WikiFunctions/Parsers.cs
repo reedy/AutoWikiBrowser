@@ -105,16 +105,6 @@ namespace WikiFunctions.Parse
         }
         private bool boolAddCatKey = false;
 
-        /// <summary>
-        /// Used to append extra text to the edit summary.
-        /// </summary>
-        public string EditSummary
-        {
-            get { return editsummary; }
-            set { editsummary = value; }
-        }
-        string editsummary = "";
-
         #endregion
 
         #region General Parse
@@ -997,10 +987,10 @@ This article or section needs to be '''[[Wikipedia:Glossary#W|wikified]]'''.  Pl
         /// <summary>
         /// If necessary, adds/removes wikify or stub tag
         /// </summary>
-        public string Tagger(string articleText, string articleTitle, ref bool NoChange)
+        public string Tagger(string articleText, string articleTitle, ref bool NoChange, ref string Summary)
         {
             testText = articleText;
-            articleText = Tagger(articleText, articleTitle);
+            articleText = Tagger(articleText, articleTitle, ref Summary);
 
             if (testText == articleText)
                 NoChange = true;
@@ -1016,7 +1006,7 @@ This article or section needs to be '''[[Wikipedia:Glossary#W|wikified]]'''.  Pl
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitlet">The old category to remove.</param>
         /// <returns>The article text without the old category.</returns>
-        public string Tagger(string articleText, string articleTitle)
+        public string Tagger(string articleText, string articleTitle, ref string Summary)
         {
             if (Tools.IsRedirect(articleText))
                 return articleText;
@@ -1046,7 +1036,7 @@ This article or section needs to be '''[[Wikipedia:Glossary#W|wikified]]'''.  Pl
             if (LinkCount < 4 && (Ratio < 0.0025))
             {
                 articleText = "{{Wikify-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + articleText;
-                EditSummary += " and added wikify tag";
+                Summary += " and added wikify tag";
 
                 return articleText;
             }
@@ -1054,7 +1044,7 @@ This article or section needs to be '''[[Wikipedia:Glossary#W|wikified]]'''.  Pl
             if (words <= 80 && !RegexStub.IsMatch(articleText))
             {
                 articleText = articleText + "\r\n\r\n\r\n{{stub}}";
-                EditSummary += " and added stub tag";
+                Summary += " and added stub tag";
 
                 return articleText;
             }

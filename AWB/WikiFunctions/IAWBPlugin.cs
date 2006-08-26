@@ -9,7 +9,6 @@ namespace WikiFunctions.Plugin
     {
         void Initialise(WikiFunctions.Lists.ListMaker list, WikiFunctions.Browser.WebControl web, ToolStripMenuItem tsmi, ContextMenuStrip cms);
         string Name { get; }
-        string EditSummary { get;set; }
-        string ProcessArticle(string ArticleText, string ArticleTitle, int Namespace, ref bool Skip);
+        string ProcessArticle(string ArticleText, string ArticleTitle, int Namespace, ref string Summary, ref bool Skip);
     }
 }
