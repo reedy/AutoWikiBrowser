@@ -2168,8 +2168,7 @@ namespace AutoWikiBrowser
                 pluginsToolStripMenuItem.DropDownItems.Add(i);
             }
 
-            if (AWBPlugins.Count < 1)
-                pluginsToolStripMenuItem.Visible = false;
+            pluginsToolStripMenuItem.Visible = AWBPlugins.Count > 1;
         }
     }
 }
