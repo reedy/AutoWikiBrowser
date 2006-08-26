@@ -81,7 +81,7 @@ namespace WikiFunctions
         }
 
         readonly static Regex RedirectRegex = new Regex("^#redirect:? ?\\[\\[(.*?)\\]\\]", RegexOptions.IgnoreCase);
-        
+
         /// <summary>
         /// Tests article to see if it is a redirect
         /// </summary>
@@ -124,7 +124,7 @@ namespace WikiFunctions
 
             if (i % 2 == 1)
                 return false;
-            else 
+            else
                 return true;
         }
 
@@ -146,17 +146,6 @@ namespace WikiFunctions
             Name = LastName + ", " + Name.Trim();
 
             return Name;
-        }
-
-        public static string ReadWebPage(string url)
-        {
-            WebRequest request = HttpWebRequest.Create(url);
-            Stream stream = request.GetResponse().GetResponseStream();
-            StreamReader sr = new StreamReader(stream);
-            string webPage = sr.ReadToEnd();
-            sr.Close();
-
-            return webPage;
         }
 
         /// <summary>
@@ -218,13 +207,19 @@ namespace WikiFunctions
         [DllImport("user32.dll")]
         private static extern bool FlashWindow(IntPtr hwnd, bool bInvert);
 
+        /// <summary>
+        /// Flashes the given form in the taskbar
+        /// </summary>
         public static void FlashWindow(System.Windows.Forms.Form window)
         {
             FlashWindow(window.Handle, true);
         }
 
+        /// <summary>
+        /// Returns a regex case insensitive version of a string e.g. "Category" returns "[Cc]ategory"
+        /// </summary>
         public static string caseInsensitive(string input)
-        {//gets a string e.g. "Category" and returns "[Cc]ategory
+        {
             if (input != "" && char.IsLetter(input[0]))
             {
                 input = input.Trim();
@@ -234,9 +229,11 @@ namespace WikiFunctions
                 return input;
         }
 
+        /// <summary>
+        /// Returns uppercase version of the string
+        /// </summary>
         public static string TurnFirstToUpper(string input)
-        {//turns first character to uppercase
-            //other projects don't always start with capital
+        {   //other projects don't always start with capital
             if (Variables.Project == "wiktionary")
                 return input;
 
@@ -248,6 +245,20 @@ namespace WikiFunctions
             return input;
         }
 
+        /// <summary>
+        /// Applies the key words "%%title%%" etc.
+        /// </summary>
+        public static string ApplyKeyWords(string Title, string Text)
+        {
+            Text = Text.Replace("%%title%%", Title);
+            Text = Text.Replace("%%key%%", Tools.MakeHumanCatKey(Title));
+
+            return Text;
+        }
+
+        /// <summary>
+        /// Returns lowercase version of the string
+        /// </summary>
         public static string TurnFirstToLower(string input)
         {
             //turns first character to lowercase
@@ -262,6 +273,10 @@ namespace WikiFunctions
         static readonly Regex RegexWordCount = new Regex("[a-zA-Z]+", RegexOptions.Compiled);
         static readonly Regex RegexWordCountTable = new Regex("\\{\\|.*?\\|\\}", RegexOptions.Compiled | RegexOptions.Singleline);
         static readonly Regex RegexWordCountTemplate = new Regex("\\{\\{.*?\\}\\}", RegexOptions.Compiled | RegexOptions.Singleline);
+
+        /// <summary>
+        /// Returns word count of the string
+        /// </summary>
         public static int WordCount(string Text)
         {
             Text = RegexWordCountTable.Replace(Text, "");
@@ -271,7 +286,10 @@ namespace WikiFunctions
             return m.Count;
         }
 
-       static readonly Regex RegexLinkCount = new Regex("\\[\\[[^:]*?\\]\\]", RegexOptions.Compiled);
+        static readonly Regex RegexLinkCount = new Regex("\\[\\[[^:]*?\\]\\]", RegexOptions.Compiled);
+        /// <summary>
+        /// Returns the number of [[links]] in the string
+        /// </summary>
         public static int LinkCount(string Text)
         {
             MatchCollection m = RegexLinkCount.Matches(Text);
@@ -325,7 +343,10 @@ namespace WikiFunctions
             }
         }
 
-        public static string HTMLToWiki(string text, string bullet)
+        /// <summary>
+        /// Turns an HTML list into a wiki style list
+        /// </summary>
+        public static string HTMLListToWiki(string text, string bullet)
         {//converts wiki/html/plain text list to wiki formatted list, bullet should be * or #
             text = text.Replace("\r\n\r\n", "\r\n");
             text = Regex.Replace(text, "<br ?/?>", "", RegexOptions.IgnoreCase);
@@ -337,26 +358,25 @@ namespace WikiFunctions
             return text;
         }
 
+        /// <summary>
+        /// Beeps
+        /// </summary>
         public static void Beep1()
         {//public domain sounds from http://www.partnersinrhyme.com/soundfx/PDsoundfx/beep.shtml
             System.Media.SoundPlayer sound = new System.Media.SoundPlayer();
             sound.Stream = MyResource.beep1;
             sound.Play();
         }
+
+        /// <summary>
+        /// Beeps
+        /// </summary>
         public static void Beep2()
         {
             System.Media.SoundPlayer sound = new System.Media.SoundPlayer();
             sound.Stream = MyResource.beep2;
             sound.Play();
-        }
-
-        public static string ApplyKeyWords(string Title, string Text)
-        {
-            Text = Text.Replace("%%title%%", Title);
-            Text = Text.Replace("%%key%%", Tools.MakeHumanCatKey(Title));
-
-            return Text;
-        }
+        }       
 
     }
 }
