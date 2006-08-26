@@ -289,7 +289,7 @@ namespace WikiFunctions.Lists
                     this.Focus();
                     if (openListDialog.ShowDialog() == DialogResult.OK)
                     {
-                        AddArticleListToList(GetLists.FromTextFile(openListDialog.FileNames));
+                        Add(GetLists.FromTextFile(openListDialog.FileNames));
                         ListFile = openListDialog.FileName;
                     }
                     UpdateNumberOfArticles();
@@ -304,7 +304,7 @@ namespace WikiFunctions.Lists
             else if (cmboSourceSelect.SelectedIndex == 10)
             {
                 BusyStatus = true;
-                AddArticleListToList(GetLists.FromWatchList());
+                Add(GetLists.FromWatchList());
                 BusyStatus = false;
                 UpdateNumberOfArticles();
                 return;
@@ -545,12 +545,12 @@ namespace WikiFunctions.Lists
             UpdateNumberOfArticles();
         }
 
-        private delegate void AddArticleListDel(List<Article> l);
-        private void AddArticleListToList(List<Article> l)
+        private delegate void AddDel(List<Article> l);
+        private void Add(List<Article> l)
         {
             if (this.InvokeRequired)
             {
-                this.Invoke(new AddArticleListDel(AddArticleListToList), l);
+                this.Invoke(new AddDel(Add), l);
                 return;
             }
 
@@ -636,29 +636,29 @@ namespace WikiFunctions.Lists
                 switch (intSourceIndex)
                 {
                     case 0:
-                        AddArticleListToList(GetLists.FromCategory(false, strSouce));
+                        Add(GetLists.FromCategory(false, strSouce));
                         break;
                     case 1:
-                        AddArticleListToList(GetLists.FromWhatLinksHere(false, strSouce));
+                        Add(GetLists.FromWhatLinksHere(false, strSouce));
                         break;
                     case 2:
-                        AddArticleListToList(GetLists.FromWhatLinksHere(true, strSouce));
+                        Add(GetLists.FromWhatLinksHere(true, strSouce));
                         break;
                     case 3:
-                        AddArticleListToList(GetLists.FromLinksOnPage(strSouce));
+                        Add(GetLists.FromLinksOnPage(strSouce));
                         break;
                     //4 from text file
                     case 5:
-                        AddArticleListToList(GetLists.FromGoogleSearch(strSouce));
+                        Add(GetLists.FromGoogleSearch(strSouce));
                         break;
                     case 6:
-                        AddArticleListToList(GetLists.FromUserContribs(strSouce));
+                        Add(GetLists.FromUserContribs(strSouce));
                         break;
                     case 7:
-                        AddArticleListToList(GetLists.FromSpecialPage(strSouce));
+                        Add(GetLists.FromSpecialPage(strSouce));
                         break;
                     case 8:
-                        AddArticleListToList(GetLists.FromImageLinks(strSouce));
+                        Add(GetLists.FromImageLinks(strSouce));
                         break;
                     //9 from datadump
                     //10 from watchlist
@@ -855,7 +855,7 @@ namespace WikiFunctions.Lists
             List<Article> list = ArticleListFromListBox();
             list = GetLists.ConvertToTalk(list);
             lbArticles.Items.Clear();
-            AddArticleListToList(list);
+            Add(list);
         }
 
         private void convertFromTalkPagesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -863,7 +863,7 @@ namespace WikiFunctions.Lists
             List<Article> list = ArticleListFromListBox();
             list = GetLists.ConvertFromTalk(list);
             lbArticles.Items.Clear();
-            AddArticleListToList(list);
+            Add(list);
         }
 
         private void fromCategoryToolStripMenuItem_Click(object sender, EventArgs e)
