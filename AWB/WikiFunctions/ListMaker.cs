@@ -10,7 +10,7 @@ using System.Threading;
 using System.Text.RegularExpressions;
 using System.IO;
 
-namespace WikiFunctions
+namespace WikiFunctions.Lists
 {
     public enum SourceType { Category, WhatLinksHere, WhatTranscludesHere, LinksOnPage, TextFile, GoogleWikipedia, UserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist }
 

@@ -33,6 +33,10 @@ using System.Xml;
 using System.Reflection;
 using System.Diagnostics;
 using WikiFunctions;
+using WikiFunctions.Plugin;
+using WikiFunctions.Parse;
+using WikiFunctions.Lists;
+using WikiFunctions.Browser;
 
 [assembly: CLSCompliant(true)]
 namespace AutoWikiBrowser
@@ -2163,12 +2167,14 @@ namespace AutoWikiBrowser
 
             foreach (IAWBPlugin a in AWBPlugins)
             {
+                a.Initialise(this, pluginsToolStripMenuItem, mnuTextBox);
+                
                 ToolStripMenuItem i = new ToolStripMenuItem(a.Name);
                 i.Enabled = false;
                 pluginsToolStripMenuItem.DropDownItems.Add(i);
             }
 
-            pluginsToolStripMenuItem.Visible = AWBPlugins.Count > 1;
+            pluginsToolStripMenuItem.Visible = AWBPlugins.Count > 0;
         }
     }
 }

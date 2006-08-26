@@ -28,6 +28,8 @@ using System.IO;
 using System.Xml;
 using System.Text.RegularExpressions;
 using System.Threading;
+using WikiFunctions.Parse;
+using WikiFunctions.Lists;
 
 namespace WikiFunctions.DatabaseScanner
 {
@@ -668,7 +670,7 @@ namespace WikiFunctions.DatabaseScanner
 
         private void listComparerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            WikiFunctions.ListComparer LC = new WikiFunctions.ListComparer();
+            ListComparer LC = new ListComparer();
             LC.Show();
         }
 

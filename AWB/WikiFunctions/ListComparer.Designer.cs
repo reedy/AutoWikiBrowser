@@ -1,4 +1,4 @@
-namespace WikiFunctions
+namespace WikiFunctions.Lists
 {
     partial class ListComparer
     {
@@ -45,8 +45,8 @@ namespace WikiFunctions
             this.label3 = new System.Windows.Forms.Label();
             this.btnSave2 = new System.Windows.Forms.Button();
             this.btnSave1 = new System.Windows.Forms.Button();
-            this.lbSecond = new WikiFunctions.ListBox2();
-            this.lbFirst = new WikiFunctions.ListBox2();
+            this.lbSecond = new WikiFunctions.Lists.ListBox2();
+            this.lbFirst = new WikiFunctions.Lists.ListBox2();
             this.SuspendLayout();
             // 
             // lbBoth

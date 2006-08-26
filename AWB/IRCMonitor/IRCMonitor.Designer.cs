@@ -187,7 +187,7 @@ namespace IRCMonitor
             this.columnHeader21 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader22 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader23 = new System.Windows.Forms.ColumnHeader();
-            this.webBrowser = new WikiFunctions.WebControl();
+            this.webBrowser = new WikiFunctions.Browser.WebControl();
             this.groupBox1.SuspendLayout();
             this.tabPage7.SuspendLayout();
             this.tabPage5.SuspendLayout();
@@ -2026,7 +2026,7 @@ namespace IRCMonitor
         private System.Windows.Forms.ColumnHeader columnHeader21;
         private System.Windows.Forms.ColumnHeader columnHeader22;
         private System.Windows.Forms.ColumnHeader columnHeader23;
-        private WikiFunctions.WebControl webBrowser;
+        private WikiFunctions.Browser.WebControl webBrowser;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
     }

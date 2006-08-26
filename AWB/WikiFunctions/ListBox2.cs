@@ -7,7 +7,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 
-namespace WikiFunctions
+namespace WikiFunctions.Lists
 {
     public partial class ListBox2 : ListBox, IEnumerable<Article>
     {

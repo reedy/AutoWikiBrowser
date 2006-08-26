@@ -27,7 +27,7 @@ using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.Web;
 
-namespace WikiFunctions
+namespace WikiFunctions.Browser
 {
     public delegate void LoadDel();
     public delegate void SaveDel();

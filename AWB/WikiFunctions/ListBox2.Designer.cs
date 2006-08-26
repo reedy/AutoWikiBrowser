@@ -1,4 +1,4 @@
-namespace WikiFunctions
+namespace WikiFunctions.Lists
 {
     partial class ListBox2
     {

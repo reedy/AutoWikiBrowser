@@ -30,6 +30,7 @@ using System.Text.RegularExpressions;
 using System.IO;
 using System.Xml;
 using WikiFunctions;
+using WikiFunctions.Lists;
 
 namespace IRCMonitor
 {

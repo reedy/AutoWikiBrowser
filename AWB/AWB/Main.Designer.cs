@@ -118,7 +118,7 @@ namespace AutoWikiBrowser
             this.btnDiff = new System.Windows.Forms.Button();
             this.btnIgnore = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.listMaker1 = new WikiFunctions.ListMaker();
+            this.listMaker1 = new WikiFunctions.Lists.ListMaker();
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtEdit = new System.Windows.Forms.TextBox();
             this.mnuTextBox = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -234,7 +234,7 @@ namespace AutoWikiBrowser
             this.toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
             this.btntsFalsePositive = new System.Windows.Forms.ToolStripButton();
             this.lbltsNumberofItems = new System.Windows.Forms.ToolStripLabel();
-            this.webBrowserEdit = new WikiFunctions.WebControl();
+            this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -2291,7 +2291,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripButton btntsPreview;
         private System.Windows.Forms.ToolStripButton btntsChanges;
         private System.Windows.Forms.CheckBox chkSuppressTag;
-        private WikiFunctions.WebControl webBrowserEdit;
+        private WikiFunctions.Browser.WebControl webBrowserEdit;
         private System.Windows.Forms.CheckBox chkSkipNoChanges;
         private System.Windows.Forms.ToolStripMenuItem wordWrapToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem humanNameCategoryKeyToolStripMenuItem;
@@ -2307,7 +2307,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripStatusLabel lblProject;
         private System.Windows.Forms.ToolStripStatusLabel lblUserName;
         private System.Windows.Forms.ToolStripStatusLabel lblTimer;
-        private WikiFunctions.ListMaker listMaker1;
+        private WikiFunctions.Lists.ListMaker listMaker1;
         private System.Windows.Forms.ToolStripButton btntsStart;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
         private System.Windows.Forms.ToolStripMenuItem dumpHTMLToolStripMenuItem;

@@ -26,7 +26,7 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Drawing;
 
-namespace WikiFunctions
+namespace WikiFunctions.Parse
 {
     /// <summary>
     /// Provides a form and functions for setting and applying multiple find and replacements on a text string.

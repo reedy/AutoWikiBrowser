@@ -28,7 +28,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml;
 
-namespace WikiFunctions
+namespace WikiFunctions.Lists
 {
     /// <summary>
     /// Provides functionality to create and manipulate arrayLists of articles from many different sources
