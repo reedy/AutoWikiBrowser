@@ -61,9 +61,8 @@ namespace WikiFunctions.Parse
         }
 
         MatchCollection Matches;
-        string summary = "";
 
-        public string PerformTypoFixes(string ArticleText, ref bool NoChange)
+        public string PerformTypoFixes(string ArticleText, ref bool NoChange, ref string Summary)
         {
             if (Regex.IsMatch(ArticleText, "133t|-ology|\\(sic\\)|\\[sic\\]|\\[''sic''\\]|\\{\\{sic\\}\\}|spellfixno"))
                 return ArticleText;
@@ -71,6 +70,8 @@ namespace WikiFunctions.Parse
             ArticleText = RemoveText.Hide(ArticleText);
             string OriginalText = ArticleText;
             string Replace = "";
+            string strSummary = "";
+            string tempSummary = "";
 
             foreach (KeyValuePair<Regex, string> k in TypoRegexes)
             {
@@ -83,12 +84,12 @@ namespace WikiFunctions.Parse
 
                     if (Matches[0].Value != Matches[0].Result(Replace))
                     {
-                        summary = Matches[0].Value + " → " + Matches[0].Result(Replace);
+                        tempSummary = Matches[0].Value + " → " + Matches[0].Result(Replace);
 
                         if (Matches.Count > 1)
-                            summary += " (" + Matches.Count.ToString() + ")";
+                            tempSummary += " (" + Matches.Count.ToString() + ")";
 
-                        EditSummary += summary + ", ";
+                        strSummary += tempSummary + ", ";
                     }
                 }
             }
@@ -100,18 +101,14 @@ namespace WikiFunctions.Parse
 
             ArticleText = RemoveText.AddBack(ArticleText);
 
-            if (EditSummary != "")
-                EditSummary = " Typos: " + EditSummary.Trim();
+            if (strSummary != "")
+            {
+                strSummary = " Typos: " + strSummary.Trim();
+                Summary += strSummary;
+            }
 
             return ArticleText;
-        }
-
-        string strSummary = "";
-        public string EditSummary
-        {
-            get { return strSummary; }
-            set { strSummary = value; }
-        }
+        }               
 
         private Dictionary<string, string> LoadTypos()
         {
