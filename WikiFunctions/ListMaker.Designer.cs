@@ -1,4 +1,4 @@
-namespace WikiFunctions
+namespace WikiFunctions.Lists
 {
     partial class ListMaker
     {
@@ -60,7 +60,7 @@ namespace WikiFunctions
             this.clearToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.saveListDialog = new System.Windows.Forms.SaveFileDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.lbArticles = new WikiFunctions.ListBox2();
+            this.lbArticles = new WikiFunctions.Lists.ListBox2();
             this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuListBox.SuspendLayout();

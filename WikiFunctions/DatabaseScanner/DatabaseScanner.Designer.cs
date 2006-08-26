@@ -120,7 +120,7 @@ namespace WikiFunctions.DatabaseScanner
             this.chkUnbulletedLinks = new System.Windows.Forms.CheckBox();
             this.chkHasHTML = new System.Windows.Forms.CheckBox();
             this.chkBadLinks = new System.Windows.Forms.CheckBox();
-            this.lbArticles = new WikiFunctions.ListBox2();
+            this.lbArticles = new WikiFunctions.Lists.ListBox2();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudWords)).BeginInit();
@@ -1218,7 +1218,7 @@ namespace WikiFunctions.DatabaseScanner
         private NumericUpDown nudWords;
         private Label label3;
         private Button btnFilter;
-        private ListBox2 lbArticles;
+        private WikiFunctions.Lists.ListBox2 lbArticles;
     }
 }
 

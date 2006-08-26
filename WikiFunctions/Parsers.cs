@@ -26,7 +26,7 @@ using System.Collections;
 using System.Web;
 
 [assembly: CLSCompliant(true)]
-namespace WikiFunctions
+namespace WikiFunctions.Parse
 {
     /// <summary>
     /// Provides functions for editting wiki text, such as formatting and re-categorisation.

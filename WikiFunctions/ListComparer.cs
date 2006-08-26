@@ -27,7 +27,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace WikiFunctions
+namespace WikiFunctions.Lists
 {
     /// <summary>
     /// Provides a form for comparing 2 lists, to find duplicates and/or removing one list from another.

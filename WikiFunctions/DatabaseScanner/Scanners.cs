@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using WikiFunctions.Parse;
 
 namespace WikiFunctions.DatabaseScanner
 {

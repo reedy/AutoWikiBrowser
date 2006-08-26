@@ -1,4 +1,4 @@
-namespace WikiFunctions
+namespace WikiFunctions.Lists
 {
     partial class specialFilter
     {
@@ -63,7 +63,7 @@ namespace WikiFunctions
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.lbRemove = new WikiFunctions.ListBox2();
+            this.lbRemove = new WikiFunctions.Lists.ListBox2();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.btnClear = new System.Windows.Forms.Button();

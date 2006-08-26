@@ -27,7 +27,7 @@ using System.Xml;
 using System.IO;
 using System.Windows.Forms;
 
-namespace WikiFunctions
+namespace WikiFunctions.Parse
 {
     public class RegExTypoFix
     {

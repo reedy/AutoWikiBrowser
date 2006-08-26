@@ -28,7 +28,7 @@ using System.Collections;
 using System.Text.RegularExpressions;
 using WikiFunctions;
 
-namespace WikiFunctions
+namespace WikiFunctions.Lists
 {
     public partial class specialFilter : Form
     {

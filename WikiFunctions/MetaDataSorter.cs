@@ -24,7 +24,7 @@ using System.Text.RegularExpressions;
 using System.Collections;
 using System.Web;
 
-namespace WikiFunctions
+namespace WikiFunctions.Parse
 {
     public enum InterWikiOrderEnum : byte { LocalLanguageAlpha, LocalLanguageFirstWord, Alphabetical }
     class MetaDataSorter

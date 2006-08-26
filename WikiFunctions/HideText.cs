@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace WikiFunctions
+namespace WikiFunctions.Parse
 {
     public class HideText
     {
