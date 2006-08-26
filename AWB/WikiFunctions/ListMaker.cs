@@ -30,7 +30,7 @@ namespace WikiFunctions.Lists
         }
 
         new public void Refresh()
-        {}
+        { }
 
         #region Enumerator
         public IEnumerator<Article> GetEnumerator()
@@ -57,6 +57,9 @@ namespace WikiFunctions.Lists
 
         #region ICollection<Article> Members
 
+        /// <summary>
+        /// Adds the article to the list
+        /// </summary>
         public void Add(Article item)
         {
             lbArticles.Items.Add(item);
@@ -64,6 +67,9 @@ namespace WikiFunctions.Lists
             UpdateNumberOfArticles();
         }
 
+        /// <summary>
+        /// Clears the list
+        /// </summary>
         public void Clear()
         {
             lbArticles.Items.Clear();
@@ -71,6 +77,9 @@ namespace WikiFunctions.Lists
             UpdateNumberOfArticles();
         }
 
+        /// <summary>
+        /// Returns a value indicating whether the given article is in the list
+        /// </summary>
         public bool Contains(Article item)
         {
             return lbArticles.Items.Contains(item);
@@ -81,6 +90,9 @@ namespace WikiFunctions.Lists
             throw new Exception("The method or operation is not implemented.");
         }
 
+        /// <summary>
+        /// Returns the length of the list
+        /// </summary>
         public int Count
         {
             get { return lbArticles.Items.Count; }
@@ -91,6 +103,18 @@ namespace WikiFunctions.Lists
             get { return false; }
         }
 
+        /// <summary>
+        /// Removes the given article, by title, from the list
+        /// </summary>
+        public bool Remove(string Title)
+        {
+            Article a = new Article(Title);
+            return Remove(a);
+        }
+
+        /// <summary>
+        /// Removes the given article from the list
+        /// </summary>
         public bool Remove(Article item)
         {
             if (lbArticles.Items.Contains(item))
@@ -122,11 +146,17 @@ namespace WikiFunctions.Lists
 
         #region IList<Article> Members
 
+        /// <summary>
+        /// Returns the index of the given article
+        /// </summary>
         public int IndexOf(Article item)
         {
             return lbArticles.Items.IndexOf(item);
         }
 
+        /// <summary>
+        /// Inserts the given article at a specific index
+        /// </summary>
         public void Insert(int index, Article item)
         {
             lbArticles.Items.Insert(index, item);
@@ -134,6 +164,9 @@ namespace WikiFunctions.Lists
             UpdateNumberOfArticles();
         }
 
+        /// <summary>
+        /// Returns article at the given index
+        /// </summary>
         public void RemoveAt(int index)
         {
             lbArticles.Items.RemoveAt(index);
@@ -371,7 +404,7 @@ namespace WikiFunctions.Lists
                     fromImageLinksToolStripMenuItem.Enabled = true;
                 else
                     fromImageLinksToolStripMenuItem.Enabled = false;
-            }           
+            }
 
             addSelectedToListToolStripMenuItem.Enabled = lbArticles.SelectedItems.Count > 0;
 
@@ -546,7 +579,10 @@ namespace WikiFunctions.Lists
         }
 
         private delegate void AddDel(List<Article> l);
-        private void Add(List<Article> l)
+        /// <summary>
+        /// Adds the article list to the list
+        /// </summary>
+        public void Add(List<Article> l)
         {
             if (this.InvokeRequired)
             {
@@ -567,10 +603,12 @@ namespace WikiFunctions.Lists
             UpdateNumberOfArticles();
         }
 
+        /// <summary>
+        /// Returns the list of articles
+        /// </summary>
         private List<Article> ArticleListFromListBox()
         {
             List<Article> list = new List<Article>();
-
 
             foreach (Article a in lbArticles)
             {
@@ -937,6 +975,6 @@ namespace WikiFunctions.Lists
             System.Diagnostics.Process.Start(Variables.URL + "index.php?title=" + System.Web.HttpUtility.UrlEncode(lbArticles.SelectedItem.ToString()));
         }
 
-        #endregion        
+        #endregion
     }
 }
