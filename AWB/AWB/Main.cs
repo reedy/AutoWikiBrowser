@@ -1611,12 +1611,12 @@ namespace AutoWikiBrowser
 
         private void listToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            txtEdit.SelectedText = Tools.HTMLToWiki(txtEdit.SelectedText, "*");
+            txtEdit.SelectedText = Tools.HTMLListToWiki(txtEdit.SelectedText, "*");
         }
 
         private void listToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            txtEdit.SelectedText = Tools.HTMLToWiki(txtEdit.SelectedText, "#");
+            txtEdit.SelectedText = Tools.HTMLListToWiki(txtEdit.SelectedText, "#");
         }
 
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
