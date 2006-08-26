@@ -223,7 +223,7 @@ namespace WikiFunctions.Lists
             }
 
             Saved = false;
-            AddToList(Tools.TurnFirstToUpper(txtNewArticle.Text));
+            Add(Tools.TurnFirstToUpper(txtNewArticle.Text));
             txtNewArticle.Text = "";
             UpdateNumberOfArticles();
         }
@@ -532,11 +532,11 @@ namespace WikiFunctions.Lists
         /// <summary>
         /// Adds the given string to the list, first turning it into an Article
         /// </summary>
-        public void AddToList(string s)
+        public void Add(string s)
         {
             if (this.InvokeRequired)
             {
-                this.Invoke(new AddToListDel(AddToList), s);
+                this.Invoke(new AddToListDel(Add), s);
                 return;
             }
 

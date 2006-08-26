@@ -1240,7 +1240,7 @@ namespace AutoWikiBrowser
         [Conditional("DEBUG")]
         public void Debug()
         {//stop logging in when de-bugging
-            listMaker1.AddToList("User:Bluemoose/Sandbox");
+            listMaker1.Add("User:Bluemoose/Sandbox");
             wikiStatusBool = true;
             chkAutoMode.Enabled = true;
             chkQuickSave.Enabled = true;
@@ -2153,8 +2153,6 @@ namespace AutoWikiBrowser
                             if (g != null)
                             {
                                 AWBPlugins.Add((IAWBPlugin)Activator.CreateInstance(t));
-                                //AWBPlugins[i] = (IAWBPlugin)Activator.CreateInstance(t);
-                                //  MessageBox.Show(ipi[i].Name);
                             }
                         }
                     }
@@ -2167,7 +2165,7 @@ namespace AutoWikiBrowser
 
             foreach (IAWBPlugin a in AWBPlugins)
             {
-                a.Initialise(this, pluginsToolStripMenuItem, mnuTextBox);
+                a.Initialise(listMaker1, webBrowserEdit, pluginsToolStripMenuItem, mnuTextBox);
                 
                 ToolStripMenuItem i = new ToolStripMenuItem(a.Name);
                 i.Enabled = false;
