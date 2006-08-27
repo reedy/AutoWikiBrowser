@@ -4,7 +4,7 @@
 		<projectlang proj="wikipedia" lang="en" />
 	</Project>
 	<Options>
-		<selectsource index="0" text="" />
+		<selectsource index="1" text="" />
 		<general general="True" tagger="True" unicodifyer="True" />
 		<categorisation index="0" text="" />
 		<skip does="False" doesnot="False" regex="False" casesensitive="False" doestext="" doesnottext="" />
@@ -49,8 +49,8 @@
 			<timer enabled="False" />
 			<sortinterwiki enabled="True" />
 			<addignoredtolog enabled="False" />
-			<useplugins enabled="True" />
 		</menu>
+		<plugins />
 	</startoptions>
 	<pastemore>
 		<pastemore1 text="" />
