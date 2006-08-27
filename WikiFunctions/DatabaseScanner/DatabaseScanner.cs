@@ -198,8 +198,8 @@ namespace WikiFunctions.DatabaseScanner
 
             List<Scan> s = new List<Scan>();
 
-            s.Add(new CheckNamespace(namespaces));            
-
+            s.Add(new CheckNamespace(namespaces));
+            
             if (ignoreRedirectsToolStripMenuItem1.Checked)
                 s.Add(new IsNotRedirect());
 
