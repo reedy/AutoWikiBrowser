@@ -118,7 +118,7 @@ namespace WikiFunctions.Parse
             if (chkIgnoreLinks.Checked)
                 ArticleText = RemoveLinks.AddBack(ArticleText);
 
-            if (streditsummary != "")
+            if (chkAddToSummary.Checked && streditsummary != "")
                 EditSummary += ", Replaced: " + summary.Trim();
 
             return ArticleText;
