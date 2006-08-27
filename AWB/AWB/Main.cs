@@ -632,7 +632,7 @@ namespace AutoWikiBrowser
                             return articleText;
                         else if (tempSummary.Length > 0)
                         {
-                            EdittingArticle.EditSummary += tempSummary;
+                            EdittingArticle.EditSummary += " " + tempSummary.Trim();
                         }
                     }
                 }
