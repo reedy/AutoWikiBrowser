@@ -623,11 +623,17 @@ namespace AutoWikiBrowser
                 SkipArticle = false;
                 if (AWBPlugins.Count > 0)
                 {
+                    string tempSummary = "";
+
                     foreach (IAWBPlugin a in AWBPlugins)
                     {
-                        articleText = a.ProcessArticle(articleText, EdittingArticle.Name, EdittingArticle.NameSpaceKey, ref EdittingArticle.EditSummary, ref SkipArticle);
+                        articleText = a.ProcessArticle(articleText, EdittingArticle.Name, EdittingArticle.NameSpaceKey, ref tempSummary, ref SkipArticle);
                         if (SkipArticle)
                             return articleText;
+                        else if (tempSummary.Length > 0)
+                        {
+                            EdittingArticle.EditSummary += tempSummary;
+                        }
                     }
                 }
 
