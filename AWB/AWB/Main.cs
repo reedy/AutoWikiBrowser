@@ -133,8 +133,8 @@ namespace AutoWikiBrowser
                 listMaker1.MakeListEnabled = true;
 
             Debug();
-            loadDefaultSettings();
             LoadPlugins();
+            loadDefaultSettings();            
             UpdateButtons();
         }
 
@@ -508,17 +508,7 @@ namespace AutoWikiBrowser
             try
             {
                 if (noParse.Contains(EdittingArticle))
-                    process = false;
-
-                if (usePluginsToolStripMenuItem.Checked && AWBPlugins.Count > 0)
-                {
-                    foreach (IAWBPlugin a in AWBPlugins)
-                    {
-                        articleText = a.ProcessArticle(articleText, EdittingArticle.Name, EdittingArticle.NameSpaceKey, ref EdittingArticle.EditSummary, ref NoChange);
-                        if (NoChange)
-                            return articleText;
-                    }
-                }
+                    process = false;                
 
                 if (chkUnicodifyWhole.Checked && process)
                     articleText = parsers.Unicodify(articleText);
@@ -628,6 +618,16 @@ namespace AutoWikiBrowser
                         articleText += "\r\n\r\n" + txtAppendMessage.Text;
                     else
                         articleText = txtAppendMessage.Text + "\r\n\r\n" + articleText;
+                }
+
+                if (usePluginsToolStripMenuItem.Checked && AWBPlugins.Count > 0)
+                {
+                    foreach (IAWBPlugin a in AWBPlugins)
+                    {
+                        articleText = a.ProcessArticle(articleText, EdittingArticle.Name, EdittingArticle.NameSpaceKey, ref EdittingArticle.EditSummary, ref NoChange);
+                        if (NoChange)
+                            return articleText;
+                    }
                 }
 
                 NoChange = false;

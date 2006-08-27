@@ -411,4 +411,21 @@ namespace WikiFunctions.DatabaseScanner
         }
     }
 
+    public class Typo : Scan
+    {
+        public Typo()
+        {            
+        }
+
+        RegExTypoFix retf = new RegExTypoFix();
+        bool skip = true;
+        string a = "";
+
+        public override bool Check(ref string articleText, ref string articleTitle)
+        {
+            retf.PerformTypoFixes(articleText, ref skip, ref a);
+            return !skip;
+        }
+    }
+
 }
