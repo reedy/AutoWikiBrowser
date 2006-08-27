@@ -81,8 +81,6 @@ namespace AutoWikiBrowser
             alphaSortInterwikiLinksToolStripMenuItem.Checked = true;
             addIgnoredToLogFileToolStripMenuItem.Checked = false;
 
-            usePluginsToolStripMenuItem.Checked = true;
-
             PasteMore1.Text = "";
             PasteMore2.Text = "";
             PasteMore3.Text = "";
@@ -476,15 +474,7 @@ namespace AutoWikiBrowser
                             btnFalsePositive.Visible = bool.Parse(reader.Value);
 
                             continue;
-                        }
-                        if (reader.Name == "useplugins" && reader.HasAttributes)
-                        {
-                            reader.MoveToAttribute("enabled");
-                            usePluginsToolStripMenuItem.Checked = bool.Parse(reader.Value);
-                            btnFalsePositive.Visible = bool.Parse(reader.Value);
-
-                            continue;
-                        }
+                        }                        
                         if (reader.Name == "pastemore1" && reader.HasAttributes)
                         {
                             reader.MoveToAttribute("text");
@@ -766,13 +756,13 @@ namespace AutoWikiBrowser
 
                 textWriter.WriteStartElement("addignoredtolog");
                 textWriter.WriteAttributeString("enabled", addIgnoredToLogFileToolStripMenuItem.Checked.ToString());
-                textWriter.WriteEndElement();
-
-                textWriter.WriteStartElement("useplugins");
-                textWriter.WriteAttributeString("enabled", usePluginsToolStripMenuItem.Checked.ToString());
-                textWriter.WriteEndElement();
+                textWriter.WriteEndElement();     
 
                 textWriter.WriteEndElement();
+
+                textWriter.WriteStartElement("plugins");
+                textWriter.WriteEndElement();
+
                 textWriter.WriteEndElement();
 
                 textWriter.WriteStartElement("pastemore");

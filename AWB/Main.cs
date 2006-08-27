@@ -500,7 +500,7 @@ namespace AutoWikiBrowser
             }
         }
 
-        private string Process(string articleText, ref bool NoChange)
+        private string Process(string articleText, ref bool SkipArticle)
         {
             string testText; // use to check if changes are made
             bool process = true;
@@ -515,27 +515,27 @@ namespace AutoWikiBrowser
 
                 if (cmboImages.SelectedIndex == 1)
                 {
-                    articleText = parsers.ReImager(txtImageReplace.Text, txtImageWith.Text, articleText, ref NoChange);
-                    if (NoChange)
+                    articleText = parsers.ReImager(txtImageReplace.Text, txtImageWith.Text, articleText, ref SkipArticle);
+                    if (SkipArticle)
                         return articleText;
                 }
                 else if (cmboImages.SelectedIndex == 2)
                 {
                     articleText = parsers.RemoveImage(txtImageReplace.Text, articleText, false, txtImageWith.Text);
-                    if (NoChange)
+                    if (SkipArticle)
                         return articleText;
                 }
                 else if (cmboImages.SelectedIndex == 3)
                 {
-                    articleText = parsers.RemoveImage(txtImageReplace.Text, articleText, true, txtImageWith.Text, ref NoChange);
-                    if (NoChange)
+                    articleText = parsers.RemoveImage(txtImageReplace.Text, articleText, true, txtImageWith.Text, ref SkipArticle);
+                    if (SkipArticle)
                         return articleText;
                 }
 
                 if (cmboCategorise.SelectedIndex == 1)
                 {
-                    articleText = parsers.ReCategoriser(listMaker1.SourceText, txtNewCategory.Text, articleText, ref NoChange);
-                    if (NoChange)
+                    articleText = parsers.ReCategoriser(listMaker1.SourceText, txtNewCategory.Text, articleText, ref SkipArticle);
+                    if (SkipArticle)
                         return articleText;
                 }
                 else if (cmboCategorise.SelectedIndex == 2 && txtNewCategory.Text.Length > 0)
@@ -544,8 +544,8 @@ namespace AutoWikiBrowser
                 }
                 else if (cmboCategorise.SelectedIndex == 3 && txtNewCategory.Text.Length > 0)
                 {
-                    articleText = parsers.RemoveCategory(txtNewCategory.Text, articleText, ref NoChange);
-                    if (NoChange)
+                    articleText = parsers.RemoveCategory(txtNewCategory.Text, articleText, ref SkipArticle);
+                    if (SkipArticle)
                         return articleText;
                 }
 
@@ -557,15 +557,15 @@ namespace AutoWikiBrowser
 
                     if (chkIgnoreWhenNoFAR.Checked && (testText == articleText))
                     {
-                        NoChange = true;
+                        SkipArticle = true;
                         return articleText;
                     }
                 }
 
                 if (chkRegExTypo.Checked && RegexTypos != null)
                 {
-                    articleText = RegexTypos.PerformTypoFixes(articleText, ref NoChange, ref EdittingArticle.EditSummary);
-                    if (NoChange && chkRegexTypoSkip.Checked)
+                    articleText = RegexTypos.PerformTypoFixes(articleText, ref SkipArticle, ref EdittingArticle.EditSummary);
+                    if (SkipArticle && chkRegexTypoSkip.Checked)
                         return articleText;
                 }
 
@@ -584,13 +584,13 @@ namespace AutoWikiBrowser
                         {//en only
                             articleText = parsers.Conversions(articleText);
                             articleText = parsers.RemoveBadHeaders(articleText, EdittingArticle.Name);
-                            articleText = parsers.LivingPeople(articleText, ref NoChange);
+                            articleText = parsers.LivingPeople(articleText, ref SkipArticle);
                             articleText = parsers.FixCategories(articleText);
                             articleText = parsers.FixHeadings(articleText);                            
                         }
                         articleText = parsers.FixSyntax(articleText);
                         articleText = parsers.FixLinks(articleText);
-                        articleText = parsers.BulletExternalLinks(articleText, ref NoChange);
+                        articleText = parsers.BulletExternalLinks(articleText, ref SkipArticle);
                         //if (NoChange)
                         //    return articleText;
 
@@ -620,23 +620,24 @@ namespace AutoWikiBrowser
                         articleText = txtAppendMessage.Text + "\r\n\r\n" + articleText;
                 }
 
-                if (usePluginsToolStripMenuItem.Checked && AWBPlugins.Count > 0)
+                SkipArticle = false;
+                if (AWBPlugins.Count > 0)
                 {
                     foreach (IAWBPlugin a in AWBPlugins)
                     {
-                        articleText = a.ProcessArticle(articleText, EdittingArticle.Name, EdittingArticle.NameSpaceKey, ref EdittingArticle.EditSummary, ref NoChange);
-                        if (NoChange)
+                        articleText = a.ProcessArticle(articleText, EdittingArticle.Name, EdittingArticle.NameSpaceKey, ref EdittingArticle.EditSummary, ref SkipArticle);
+                        if (SkipArticle)
                             return articleText;
                     }
                 }
 
-                NoChange = false;
+                SkipArticle = false;
                 return articleText;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                NoChange = false;
+                SkipArticle = false;
                 return articleText;
             }
         }
@@ -2135,9 +2136,9 @@ namespace AutoWikiBrowser
             {
                 a.Initialise(listMaker1, webBrowserEdit, pluginsToolStripMenuItem, mnuTextBox);
 
-                ToolStripMenuItem i = new ToolStripMenuItem(a.Name);
-                i.Enabled = false;
-                pluginsToolStripMenuItem.DropDownItems.Add(i);
+                //ToolStripMenuItem i = new ToolStripMenuItem(a.Name);
+                //i.Enabled = false;
+                //pluginsToolStripMenuItem.DropDownItems.Add(i);
             }
 
             pluginsToolStripMenuItem.Visible = AWBPlugins.Count > 0;
