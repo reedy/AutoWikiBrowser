@@ -1044,7 +1044,7 @@ This article or section needs to be '''[[Wikipedia:Glossary#W|wikified]]'''.  Pl
                 return articleText;
             }
 
-            if (words <= 80 && !RegexStub.IsMatch(articleText))
+            if (articleText.Length <= 300 && !RegexStub.IsMatch(articleText))
             {
                 articleText = articleText + "\r\n\r\n\r\n{{stub}}";
                 Summary += " and added stub tag";
