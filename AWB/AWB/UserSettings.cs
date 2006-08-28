@@ -71,7 +71,7 @@ namespace AutoWikiBrowser
             panel2.Show();
             enableToolBar = false;
             bypassRedirectsToolStripMenuItem.Checked = true;
-            ignoreNonexistentPagesToolStripMenuItem.Checked = true;
+            chkIgnoreNonExistent.Checked = true;
             doNotAutomaticallyDoAnythingToolStripMenuItem.Checked = false;
             chkSkipNoChanges.Checked = false;
             previewInsteadOfDiffToolStripMenuItem.Checked = false;
@@ -416,7 +416,7 @@ namespace AutoWikiBrowser
                         if (reader.Name == "ingnorenonexistent" && reader.HasAttributes)
                         {
                             reader.MoveToAttribute("enabled");
-                            ignoreNonexistentPagesToolStripMenuItem.Checked = bool.Parse(reader.Value);
+                            chkIgnoreNonExistent.Checked = bool.Parse(reader.Value);
 
                             continue;
                         }
@@ -723,7 +723,7 @@ namespace AutoWikiBrowser
                 textWriter.WriteEndElement();
 
                 textWriter.WriteStartElement("ingnorenonexistent");
-                textWriter.WriteAttributeString("enabled", ignoreNonexistentPagesToolStripMenuItem.Checked.ToString());
+                textWriter.WriteAttributeString("enabled", chkIgnoreNonExistent.Checked.ToString());
                 textWriter.WriteEndElement();
 
                 textWriter.WriteStartElement("noautochanges");

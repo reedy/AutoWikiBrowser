@@ -61,6 +61,7 @@ namespace AutoWikiBrowser
             this.chkAutoTagger = new System.Windows.Forms.CheckBox();
             this.chkGeneralParse = new System.Windows.Forms.CheckBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.chkIgnoreNonExistent = new System.Windows.Forms.CheckBox();
             this.chkSkipNoChanges = new System.Windows.Forms.CheckBox();
             this.chkIgnoreCaseSensitive = new System.Windows.Forms.CheckBox();
             this.chkIgnoreIsRegex = new System.Windows.Forms.CheckBox();
@@ -190,7 +191,6 @@ namespace AutoWikiBrowser
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.enableTheToolbarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bypassRedirectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ignoreNonexistentPagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.doNotAutomaticallyDoAnythingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.previewInsteadOfDiffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
@@ -404,6 +404,7 @@ namespace AutoWikiBrowser
             // 
             // groupBox8
             // 
+            this.groupBox8.Controls.Add(this.chkIgnoreNonExistent);
             this.groupBox8.Controls.Add(this.chkSkipNoChanges);
             this.groupBox8.Controls.Add(this.chkIgnoreCaseSensitive);
             this.groupBox8.Controls.Add(this.chkIgnoreIsRegex);
@@ -418,10 +419,22 @@ namespace AutoWikiBrowser
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Skip articles";
             // 
+            // chkIgnoreNonExistent
+            // 
+            this.chkIgnoreNonExistent.AutoSize = true;
+            this.chkIgnoreNonExistent.Checked = true;
+            this.chkIgnoreNonExistent.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkIgnoreNonExistent.Location = new System.Drawing.Point(4, 110);
+            this.chkIgnoreNonExistent.Name = "chkIgnoreNonExistent";
+            this.chkIgnoreNonExistent.Size = new System.Drawing.Size(147, 17);
+            this.chkIgnoreNonExistent.TabIndex = 31;
+            this.chkIgnoreNonExistent.Text = "Ignore non-existing pages";
+            this.chkIgnoreNonExistent.UseVisualStyleBackColor = true;
+            // 
             // chkSkipNoChanges
             // 
             this.chkSkipNoChanges.AutoSize = true;
-            this.chkSkipNoChanges.Location = new System.Drawing.Point(4, 110);
+            this.chkSkipNoChanges.Location = new System.Drawing.Point(4, 86);
             this.chkSkipNoChanges.Name = "chkSkipNoChanges";
             this.chkSkipNoChanges.Size = new System.Drawing.Size(195, 17);
             this.chkSkipNoChanges.TabIndex = 30;
@@ -453,7 +466,7 @@ namespace AutoWikiBrowser
             // chkOnlyIfContains
             // 
             this.chkOnlyIfContains.AutoSize = true;
-            this.chkOnlyIfContains.Location = new System.Drawing.Point(4, 64);
+            this.chkOnlyIfContains.Location = new System.Drawing.Point(4, 62);
             this.chkOnlyIfContains.Name = "chkOnlyIfContains";
             this.chkOnlyIfContains.Size = new System.Drawing.Size(130, 17);
             this.chkOnlyIfContains.TabIndex = 4;
@@ -474,7 +487,7 @@ namespace AutoWikiBrowser
             // txtOnlyIfContains
             // 
             this.txtOnlyIfContains.Enabled = false;
-            this.txtOnlyIfContains.Location = new System.Drawing.Point(134, 62);
+            this.txtOnlyIfContains.Location = new System.Drawing.Point(134, 60);
             this.txtOnlyIfContains.Name = "txtOnlyIfContains";
             this.txtOnlyIfContains.Size = new System.Drawing.Size(117, 20);
             this.txtOnlyIfContains.TabIndex = 6;
@@ -1654,7 +1667,6 @@ namespace AutoWikiBrowser
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.enableTheToolbarToolStripMenuItem,
             this.bypassRedirectsToolStripMenuItem,
-            this.ignoreNonexistentPagesToolStripMenuItem,
             this.doNotAutomaticallyDoAnythingToolStripMenuItem,
             this.previewInsteadOfDiffToolStripMenuItem,
             this.toolStripSeparator6,
@@ -1685,15 +1697,6 @@ namespace AutoWikiBrowser
             this.bypassRedirectsToolStripMenuItem.Name = "bypassRedirectsToolStripMenuItem";
             this.bypassRedirectsToolStripMenuItem.Size = new System.Drawing.Size(244, 22);
             this.bypassRedirectsToolStripMenuItem.Text = "Bypass redirects";
-            // 
-            // ignoreNonexistentPagesToolStripMenuItem
-            // 
-            this.ignoreNonexistentPagesToolStripMenuItem.Checked = true;
-            this.ignoreNonexistentPagesToolStripMenuItem.CheckOnClick = true;
-            this.ignoreNonexistentPagesToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ignoreNonexistentPagesToolStripMenuItem.Name = "ignoreNonexistentPagesToolStripMenuItem";
-            this.ignoreNonexistentPagesToolStripMenuItem.Size = new System.Drawing.Size(244, 22);
-            this.ignoreNonexistentPagesToolStripMenuItem.Text = "Ignore non-existent pages";
             // 
             // doNotAutomaticallyDoAnythingToolStripMenuItem
             // 
@@ -2241,7 +2244,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripTextBox PasteMore8;
         private System.Windows.Forms.ToolStripTextBox PasteMore9;
         private System.Windows.Forms.ToolStripTextBox PasteMore10;
-        private System.Windows.Forms.ToolStripMenuItem ignoreNonexistentPagesToolStripMenuItem;
         private System.Windows.Forms.GroupBox groupBox10;
         private System.Windows.Forms.TextBox txtEdit;
         private System.Windows.Forms.ToolStripMenuItem addIgnoredToLogFileToolStripMenuItem;
@@ -2300,6 +2302,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem dumpHTMLToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pluginsToolStripMenuItem;
         private WikiFunctions.Lists.ListMaker listMaker1;
+        private System.Windows.Forms.CheckBox chkIgnoreNonExistent;
 
 
     }

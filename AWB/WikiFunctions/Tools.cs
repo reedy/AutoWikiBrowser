@@ -296,6 +296,17 @@ namespace WikiFunctions
             return m.Count;
         }
 
+        /// <summary>
+        /// Removes underscores and wiki syntax from links
+        /// </summary>
+        public static string RemoveSyntax(string Text)
+        {
+            Text = Text.Replace("_", " ").Trim();
+            Text = Text.Trim('[', ']');
+
+            return Text;
+        }
+
         public static string linkChecker(string articleText)
         {//checks links to make them bypass redirects and (TODO) disambigs
             string link = "";
@@ -376,7 +387,7 @@ namespace WikiFunctions
             System.Media.SoundPlayer sound = new System.Media.SoundPlayer();
             sound.Stream = MyResource.beep2;
             sound.Play();
-        }       
+        }    
 
     }
 }
