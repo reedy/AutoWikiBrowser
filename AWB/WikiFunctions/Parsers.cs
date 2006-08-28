@@ -908,7 +908,7 @@ namespace WikiFunctions.Parse
         readonly Regex ConversionsRegex7 = new Regex("\\{\\{(4cc|4LW|4LA|4LC)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         //readonly Regex ConversionsRegex8 = new Regex("\\{\\{(Unsourced|Cite source|Unref|No references?|References|Not referenced|Needs? references|Sources|Cite-sources|Cleanup-sources?)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex ConversionsRegex9 = new Regex("\\{\\{(Prettytable|Prettytable100|Pt)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        readonly Regex ConversionsRegex10 = new Regex("\\{\\{(PAGENAMEE?)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex ConversionsRegexSUBST = new Regex("\\{\\{(?:[Tt]emplate:)?(PAGENAMEE?\\}\\}|[Ll]ived\\||[Bb]io-cats\\|)", RegexOptions.Compiled);
 
         /// <summary>
         /// Converts/subst'd some deprecated templates
@@ -932,7 +932,7 @@ This article or section needs to be '''[[Wikipedia:Glossary#W|wikified]]'''.  Pl
             articleText = ConversionsRegex7.Replace(articleText, "{{4CC}}");
 
             articleText = ConversionsRegex9.Replace(articleText, "{{subst:Prettytable}}");
-            articleText = ConversionsRegex10.Replace(articleText, "{{subst:$1}}");
+            articleText = ConversionsRegexSUBST.Replace(articleText, "{{subst:$1");
 
             return articleText;
         }
