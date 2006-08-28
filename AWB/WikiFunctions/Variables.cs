@@ -25,7 +25,7 @@ using System.Text;
 namespace WikiFunctions
 {
     public enum LangCodeEnum { en, ca, da, de, es, fr, it, nl, mi, pl, pt, sv, ru, sl }
-    public enum ProjectEnum { wikipedia, wiktionary, wikisource, commons, meta, species, wikinews }
+    public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikinews, wikiquote, commons, meta, species }
 
     /// <summary>
     /// Holds static variables, to allow functionality on different wikis.
@@ -242,6 +242,11 @@ namespace WikiFunctions
                     {
                         Namespaces[4] = "Wikinews:";
                         Namespaces[5] = "Wikinews talk:";
+                    }
+                    else if (strproject == "wikiquote")
+                    {
+                        Namespaces[4] = "Wikiquote:";
+                        Namespaces[5] = "Wikiquote talk:";
                     }
                     else
                     {
