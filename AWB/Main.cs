@@ -380,7 +380,7 @@ namespace AutoWikiBrowser
                     StartDelayedRestartTimer();
                     return false;
                 }
-                if (webBrowserEdit.Document.GetElementById("wpTextbox1").InnerText == null && ignoreNonexistentPagesToolStripMenuItem.Checked)
+                if (webBrowserEdit.Document.GetElementById("wpTextbox1").InnerText == null && chkIgnoreNonExistent.Checked)
                 {//check if it is a non-existent page, if so then skip it automatically.
                     SkipPage();
                     return false;
@@ -431,11 +431,11 @@ namespace AutoWikiBrowser
             if (!skippable || !chkSkipNoChanges.Checked || previewInsteadOfDiffToolStripMenuItem.Checked || doNotAutomaticallyDoAnythingToolStripMenuItem.Checked)
                 return false;
 
-            if (!strHTML.Contains("class=diff-context") && !strHTML.Contains("class=diff-deletedline"))
-                return true;
+            //if (!strHTML.Contains("class=diff-context") && !strHTML.Contains("class=diff-deletedline"))
+            //    return true;
 
             strHTML = strHTML.Replace("<SPAN class=diffchange></SPAN>", "");
-            strHTML = Regex.Match(strHTML, "<TD align=left colSpan=2.*?</DIV>", RegexOptions.Singleline).ToString();
+            strHTML = Regex.Match(strHTML, "<TD align=left colSpan=2.*?</DIV>", RegexOptions.Singleline).Value;
 
             //check for no changes, or no new lines (that have text on the new line)
             if (strHTML.Contains("<SPAN class=diffchange>") || Regex.IsMatch(strHTML, "class=diff-deletedline>[^<]") || Regex.IsMatch(strHTML, "<TD colSpan=2>&nbsp;</TD>\r\n<TD>\\+</TD>\r\n<TD class=diff-addedline>[^<]"))
@@ -490,7 +490,7 @@ namespace AutoWikiBrowser
             try
             {
                 //reset timer.
-                stopDelayedTimer();
+                stopDelayedAutoSaveTimer();
                 listMaker1.Remove(EdittingArticle);
                 Start();
             }
@@ -925,7 +925,7 @@ namespace AutoWikiBrowser
                 nudBotSpeed.Enabled = false;
                 lblBotTimer.Enabled = false;
                 chkSuppressTag.Enabled = false;
-                stopDelayedTimer();
+                stopDelayedAutoSaveTimer();
             }
         }
 
@@ -1337,7 +1337,7 @@ namespace AutoWikiBrowser
         int intStartInSeconds = 5;
         private void DelayedRestart()
         {
-            stopDelayedTimer();
+            stopDelayedAutoSaveTimer();
             lblStatusText.Text = "Restarting in " + intStartInSeconds.ToString();
 
             if (intStartInSeconds == 0)
@@ -1366,7 +1366,7 @@ namespace AutoWikiBrowser
             intStartInSeconds = intRestartDelay;
         }
 
-        private void stopDelayedTimer()
+        private void stopDelayedAutoSaveTimer()
         {
             ticker -= DelayedAutoSave;
             intTimer = 0;
@@ -1391,7 +1391,7 @@ namespace AutoWikiBrowser
             }
             else
             {
-                stopDelayedTimer();
+                stopDelayedAutoSaveTimer();
                 SaveArticle();
             }
 
@@ -1771,7 +1771,7 @@ namespace AutoWikiBrowser
             UpdateButtons();
             if (intTimer > 0)
             {//stop and reset the bot timer.
-                stopDelayedTimer();
+                stopDelayedAutoSaveTimer();
                 EnableButtons();
                 return;
             }

@@ -573,7 +573,7 @@ namespace WikiFunctions.Lists
                 return;
             }
 
-            Article a = new Article(s);
+            Article a = new Article(Tools.RemoveSyntax(s));
             lbArticles.Items.Add(a);
             UpdateNumberOfArticles();
         }
