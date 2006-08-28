@@ -910,6 +910,10 @@ namespace WikiFunctions.Parse
         readonly Regex ConversionsRegex9 = new Regex("\\{\\{(Prettytable|Prettytable100|Pt)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex ConversionsRegexSUBST = new Regex("\\{\\{(?:[Tt]emplate:)?(PAGENAMEE?\\}\\}|[Ll]ived\\||[Bb]io-cats\\|)", RegexOptions.Compiled);
 
+        readonly Regex ConversionsRegexLifeTime1 = new Regex(@"\{\{[Ll]ife(?:time|span)\|([0-9]{4})\|([0-9]{4})\|(.*?)\}\}", RegexOptions.Compiled);
+        readonly Regex ConversionsRegexLifeTime2 = new Regex(@"\{\{[Ll]ife(?:time|span)\|\|([0-9]{4})\|(.*?)\}\}", RegexOptions.Compiled);
+        readonly Regex ConversionsRegexLifeTime3 = new Regex(@"\{\{[Ll]ife(?:time|span)\|([0-9]{4})\|\|(.*?)\}\}", RegexOptions.Compiled);
+
         /// <summary>
         /// Converts/subst'd some deprecated templates
         /// </summary>
@@ -933,6 +937,10 @@ This article or section needs to be '''[[Wikipedia:Glossary#W|wikified]]'''.  Pl
 
             articleText = ConversionsRegex9.Replace(articleText, "{{subst:Prettytable}}");
             articleText = ConversionsRegexSUBST.Replace(articleText, "{{subst:$1");
+
+            articleText = ConversionsRegexLifeTime1.Replace(articleText, "[[Category:$1 births|$3]]\r\n[[Category:$2 deaths|$3]]");
+            articleText = ConversionsRegexLifeTime2.Replace(articleText, "[[Category:Year of birth unknown|$2]]\r\n[[Category:$1 deaths|$2]]");
+            articleText = ConversionsRegexLifeTime3.Replace(articleText, "[[Category:Year of death unknown|$2]]\r\n[[Category:$1 birthss|$2]]");
 
             return articleText;
         }
