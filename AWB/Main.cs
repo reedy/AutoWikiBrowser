@@ -502,7 +502,7 @@ namespace AutoWikiBrowser
 
         private string Process(string articleText, ref bool SkipArticle)
         {
-            string testText; // use to check if changes are made
+            string testText = ""; // use to check if changes are made
             bool process = true;
 
             try

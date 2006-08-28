@@ -286,11 +286,14 @@ namespace WikiFunctions.Parse
             //articleText = Regex.Replace(articleText, "^<[Hh]4>(.*?)</[Hh]4>", "====$1====", RegexOptions.Multiline);
 
             //fix uneven bracketing on links
-            articleText = SyntaxRegex1.Replace(articleText, "[http://$1]");
-            articleText = SyntaxRegex2.Replace(articleText, "[http://$1]");
-            articleText = SyntaxRegex3.Replace(articleText, "[http://$1]");
-            articleText = SyntaxRegex4.Replace(articleText, "[[$1]]$2");
-            articleText = SyntaxRegex5.Replace(articleText, "$1[[$2]]$3");
+            if (!Regex.IsMatch(articleText, "\\[\\[[Ii]mage:[^]]*http"))
+            {
+                articleText = SyntaxRegex1.Replace(articleText, "[http://$1]");
+                articleText = SyntaxRegex2.Replace(articleText, "[http://$1]");
+                articleText = SyntaxRegex3.Replace(articleText, "[http://$1]");
+                articleText = SyntaxRegex4.Replace(articleText, "[[$1]]$2");
+                articleText = SyntaxRegex5.Replace(articleText, "$1[[$2]]$3");
+            }
 
             //repair bad external links
             articleText = SyntaxRegex6.Replace(articleText, "[$1]");
