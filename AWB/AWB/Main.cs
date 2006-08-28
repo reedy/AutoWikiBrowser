@@ -302,13 +302,10 @@ namespace AutoWikiBrowser
                 string strOrigText = strText;
                 strText = Process(strText, ref skip);
 
-                if (skippable && chkSkipNoChanges.Checked)
+                if (skippable && chkSkipNoChanges.Checked && strText == strOrigText)
                 {
-                    if (strText == strOrigText)
-                    {
-                        SkipPage();
-                        return;
-                    }
+                    SkipPage();
+                    return;
                 }
             }
 
