@@ -326,7 +326,7 @@ namespace WikiFunctions
                 //test if redirect
                 if (Tools.IsRedirect(text))
                 {
-                    string directLink = Regex.Match(text, "\\[\\[.*?\\]\\]").ToString().Replace("[[", "").Replace("]]", "");
+                    string directLink = Regex.Match(text, "\\[\\[(.*?)\\]\\]").Groups[1].Value;
                     directLink = "[[" + directLink + "|" + article + "]]";
 
                     articleText = articleText.Replace(link, directLink);

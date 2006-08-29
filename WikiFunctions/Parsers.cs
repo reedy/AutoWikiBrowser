@@ -393,8 +393,13 @@ namespace WikiFunctions.Parse
         {
             int intStart = 0;
             string articleTextSubstring = "";
-            string strExtLink = Regex.Match(articleText, "= ? ?external links? ? ?=", RegexOptions.IgnoreCase).ToString();
-            intStart = articleText.LastIndexOf(strExtLink);
+
+            Match m = Regex.Match(articleText, "= ? ?external links? ? ?=", RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
+
+            if(!m.Success)
+                return articleText;
+
+            intStart = m.Index;
 
             articleTextSubstring = articleText.Substring(intStart);
             articleText = articleText.Substring(0, intStart);
@@ -866,7 +871,7 @@ namespace WikiFunctions.Parse
                 return articleText;
 
             if (birthCat.Contains("|"))
-                catKey = Regex.Match(birthCat, "\\|.*?\\]\\]").ToString();
+                catKey = Regex.Match(birthCat, "\\|.*?\\]\\]").Value;
             else
                 catKey = "]]";
 
