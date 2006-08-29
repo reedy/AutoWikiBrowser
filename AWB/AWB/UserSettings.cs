@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Xml;
 using WikiFunctions;
+using WikiFunctions.Plugin;
 
 namespace AutoWikiBrowser
 {
@@ -103,7 +104,17 @@ namespace AutoWikiBrowser
             System.Drawing.Font f = new System.Drawing.Font("Courier New", 10F, System.Drawing.FontStyle.Regular);
             txtEdit.Font = f;
             LowThreadPriority = false;
-            FlashAndBeep = true;            
+            FlashAndBeep = true;
+
+            try
+            {
+                foreach (IAWBPlugin a in AWBPlugins)
+                    a.Reset();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Problem reseting plugin\r\n\r\n" + ex.Message);
+            }
 
             lblStatusText.Text = "Default settings loaded.";
         }
@@ -285,8 +296,6 @@ namespace AutoWikiBrowser
                             chkGeneralParse.Checked = bool.Parse(reader.Value);
                             reader.MoveToAttribute("tagger");
                             chkAutoTagger.Checked = bool.Parse(reader.Value);
-                            //reader.MoveToAttribute("whitespace");
-                            //chkRemoveWhiteSpace.Checked = bool.Parse(reader.Value);
                             reader.MoveToAttribute("unicodifyer");
                             chkUnicodifyWhole.Checked = bool.Parse(reader.Value);
 
@@ -324,13 +333,10 @@ namespace AutoWikiBrowser
                             chkAppend.Checked = bool.Parse(reader.Value);
                             reader.MoveToAttribute("text");
                             txtAppendMessage.Text = reader.Value;
-                            if (reader.AttributeCount > 2)
-                            {
                                 reader.MoveToAttribute("append");
                                 rdoAppend.Checked = bool.Parse(reader.Value);
                                 rdoPrepend.Checked = !bool.Parse(reader.Value);
-                            }
-
+                            
                             continue;
                         }
                         if (reader.Name == "automode" && reader.HasAttributes)
@@ -576,6 +582,16 @@ namespace AutoWikiBrowser
 
                             continue;
                         }
+
+                        foreach (IAWBPlugin a in AWBPlugins)
+                        {
+                            if (reader.Name == a.Name.Replace(' ', '_') && reader.HasAttributes)
+                            {
+                                a.ReadXML(reader);
+                                break;
+                            }
+                        }
+
                     }
                     stream.Close();
                     findAndReplace.MakeList();
@@ -760,8 +776,22 @@ namespace AutoWikiBrowser
 
                 textWriter.WriteEndElement();
 
-                textWriter.WriteStartElement("plugins");
-                textWriter.WriteEndElement();
+                //write plugin settings
+                try
+                {
+                    textWriter.WriteStartElement("plugins");
+                    foreach (IAWBPlugin a in AWBPlugins)
+                    {
+                        textWriter.WriteStartElement(a.Name.Replace(' ', '_'));
+                        a.WriteXML(textWriter);
+                        textWriter.WriteEndElement();                        
+                    }
+                    textWriter.WriteEndElement();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Problem writing plugin settings\r\n" + ex.Message);
+                }
 
                 textWriter.WriteEndElement();
 
