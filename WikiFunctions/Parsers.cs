@@ -61,10 +61,10 @@ namespace WikiFunctions.Parse
             //Phoenician alphabet
             RegexUnicode.Add(new Regex("&#(x109[0-9A-Z]{2});", RegexOptions.Compiled), "&amp;#$1;");
             //Blackboard bold            
-            RegexUnicode.Add(new Regex("&#((84|x1D)[A-Z0-9a-z]{2,3});", RegexOptions.Compiled), "&amp;#$1;");
+            RegexUnicode.Add(new Regex("&#((?:277|119|84|x1D)[A-Z0-9a-z]{2,3});", RegexOptions.Compiled), "&amp;#$1;");
             //Cuneiform script            
             RegexUnicode.Add(new Regex("&#(x12[A-Za-z0-9]{3});", RegexOptions.Compiled), "&amp;#$1;");
-            //interfere with wiki syntax            
+            //interfere with wiki syntax
             RegexUnicode.Add(new Regex("&#(126|x5D|x5B|x7c|0?9[13]|0?12[345]|0?0?3[92]);", RegexOptions.Compiled), "&amp;#$1;");
             //not entity, but still wrong
             RegexUnicode.Add(new Regex("(cm| m|km|mi)<sup>2</sup>", RegexOptions.Compiled), "$1²");
