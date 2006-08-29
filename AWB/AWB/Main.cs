@@ -109,7 +109,7 @@ namespace AutoWikiBrowser
         string strSettingsFile = "";
         bool boolSaved = true;
         HideText RemoveText = new HideText(false, true, false);
-        ArrayList noParse = new ArrayList();
+        List<string> noParse = new List<string>();
         FindandReplace findAndReplace = new FindandReplace();
         RegExTypoFix RegexTypos;
         WikiFunctions.MWB.ReplaceSpecial replaceSpecial = new WikiFunctions.MWB.ReplaceSpecial();
@@ -504,8 +504,8 @@ namespace AutoWikiBrowser
 
             try
             {
-                if (noParse.Contains(EdittingArticle))
-                    process = false;                
+                if (noParse.Contains(EdittingArticle.Name))
+                    process = false;
 
                 if (chkUnicodifyWhole.Checked && process)
                     articleText = parsers.Unicodify(articleText);
@@ -1673,21 +1673,16 @@ namespace AutoWikiBrowser
             //find first dates
             string strBirth = "";
             string strDeath = "";
-            ArrayList dates = new ArrayList();
-            string pattern = "[1-2][0-9]{3}";
-
+            Regex RegexDates = new Regex("[1-2][0-9]{3}");
+            
             try
             {
-                foreach (Match m in Regex.Matches(txtEdit.Text, pattern))
-                {
-                    string s = m.ToString();
-                    dates.Add(s);
-                }
-
-                if (dates.Count >= 1)
-                    strBirth = dates[0].ToString();
-                if (dates.Count >= 2)
-                    strDeath = dates[1].ToString();
+                MatchCollection m = RegexDates.Matches(txtEdit.Text);
+                
+                if (m.Count >= 1)
+                    strBirth = m[0].Value;
+                if (m.Count >= 2)
+                    strDeath = m[1].Value;
 
                 //make name, surname, firstname
                 string strName = Tools.MakeHumanCatKey(EdittingArticle.Name);

@@ -31,7 +31,7 @@ using System.Xml;
 namespace WikiFunctions.Lists
 {
     /// <summary>
-    /// Provides functionality to create and manipulate arrayLists of articles from many different sources
+    /// Provides functionality to create and manipulate Lists of articles from many different sources
     /// </summary>
     public static class GetLists
     {
@@ -493,7 +493,7 @@ namespace WikiFunctions.Lists
         }
 
         /// <summary>
-        /// Turns an arraylist of articles into an arraylist of the associated talk pages.
+        /// Turns a list of articles into an list of the associated talk pages.
         /// </summary>
         /// <param name="list">The list of articles.</param>
         /// <returns>The list of the talk pages.</returns>
@@ -524,7 +524,7 @@ namespace WikiFunctions.Lists
         }
 
         /// <summary>
-        /// Turns an arraylist of talk pages into an arraylist of the associated articles.
+        /// Turns a list of talk pages into a list of the associated articles.
         /// </summary>
         /// <param name="list">The list of talk pages.</param>
         /// <returns>The list of articles.</returns>
