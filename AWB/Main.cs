@@ -506,6 +506,23 @@ namespace AutoWikiBrowser
             {
                 if (noParse.Contains(EdittingArticle.Name))
                     process = false;
+                                
+                if (AWBPlugins.Count > 0)
+                {
+                    SkipArticle = false;
+                    string tempSummary = "";
+
+                    foreach (IAWBPlugin a in AWBPlugins)
+                    {
+                        articleText = a.ProcessArticle(articleText, EdittingArticle.Name, EdittingArticle.NameSpaceKey, ref tempSummary, ref SkipArticle);
+                        if (SkipArticle)
+                            return articleText;
+                        else if (tempSummary.Length > 0)
+                        {
+                            EdittingArticle.EditSummary += " " + tempSummary.Trim();
+                        }
+                    }
+                }
 
                 if (chkUnicodifyWhole.Checked && process)
                     articleText = parsers.Unicodify(articleText);
@@ -615,24 +632,7 @@ namespace AutoWikiBrowser
                         articleText += "\r\n\r\n" + txtAppendMessage.Text;
                     else
                         articleText = txtAppendMessage.Text + "\r\n\r\n" + articleText;
-                }
-
-                SkipArticle = false;
-                if (AWBPlugins.Count > 0)
-                {
-                    string tempSummary = "";
-
-                    foreach (IAWBPlugin a in AWBPlugins)
-                    {
-                        articleText = a.ProcessArticle(articleText, EdittingArticle.Name, EdittingArticle.NameSpaceKey, ref tempSummary, ref SkipArticle);
-                        if (SkipArticle)
-                            return articleText;
-                        else if (tempSummary.Length > 0)
-                        {
-                            EdittingArticle.EditSummary += " " + tempSummary.Trim();
-                        }
-                    }
-                }
+                }               
 
                 SkipArticle = false;
                 return articleText;
