@@ -904,6 +904,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
+        readonly Regex ConversionsRegextUncat = new Regex("\\{\\{(template:)?(Uncategorized|Uncat|Classify|Category needed|Catneeded|categorize|nocat)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex ConversionsRegex1 = new Regex("\\{\\{(template:)?(wikify(\\|.*?)?|wfy|wiki)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex ConversionsRegex2 = new Regex("\\{\\{(template:)?(Clean ?up|Clean|Tidy)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex ConversionsRegex3 = new Regex("\\{\\{(template:)?Linkless\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -945,7 +946,12 @@ This article or section needs to be '''[[Wikipedia:Glossary#W|wikified]]'''.  Pl
 
             articleText = ConversionsRegexLifeTime1.Replace(articleText, "[[Category:$1 births|$3]]\r\n[[Category:$2 deaths|$3]]");
             articleText = ConversionsRegexLifeTime2.Replace(articleText, "[[Category:Year of birth unknown|$2]]\r\n[[Category:$1 deaths|$2]]");
-            articleText = ConversionsRegexLifeTime3.Replace(articleText, "[[Category:Year of death unknown|$2]]\r\n[[Category:$1 birthss|$2]]");
+            articleText = ConversionsRegexLifeTime3.Replace(articleText, "[[Category:$1 births|$2]]\r\n[[Category:Year of death unknown|$2]]");
+
+            if(ConversionsRegextUncat.IsMatch(articleText))
+                articleText = ConversionsRegextUncat.Replace(articleText, "{{Uncat-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
+            else
+                articleText = Regex.Replace(articleText, @"\[\[[Cc]ategory:[Cc]ategory needed\]\]", "{{Uncat-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
 
             return articleText;
         }
