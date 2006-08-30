@@ -50,7 +50,7 @@ namespace AutoWikiBrowser
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tpSetOptions = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.chkIgnoreWhenNoFAR = new System.Windows.Forms.CheckBox();
             this.btnFindAndReplaceAdvanced = new System.Windows.Forms.Button();
@@ -72,7 +72,7 @@ namespace AutoWikiBrowser
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.cmboCategorise = new System.Windows.Forms.ComboBox();
             this.txtNewCategory = new System.Windows.Forms.TextBox();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tpMoreOptions = new System.Windows.Forms.TabPage();
             this.chkRegexTypoSkip = new System.Windows.Forms.CheckBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.chkRegExTypo = new System.Windows.Forms.CheckBox();
@@ -93,7 +93,7 @@ namespace AutoWikiBrowser
             this.rdoAppend = new System.Windows.Forms.RadioButton();
             this.chkAppend = new System.Windows.Forms.CheckBox();
             this.txtAppendMessage = new System.Windows.Forms.TextBox();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.tpStart = new System.Windows.Forms.TabPage();
             this.btnFalsePositive = new System.Windows.Forms.Button();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.chkFindCaseSensitive = new System.Windows.Forms.CheckBox();
@@ -235,17 +235,17 @@ namespace AutoWikiBrowser
             this.lbltsNumberofItems = new System.Windows.Forms.ToolStripLabel();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
             this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.tpSetOptions.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.groupBox5.SuspendLayout();
-            this.tabPage2.SuspendLayout();
+            this.tpMoreOptions.SuspendLayout();
             this.ImageGroupBox.SuspendLayout();
             this.groupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudBotSpeed)).BeginInit();
             this.groupBox4.SuspendLayout();
-            this.tabPage4.SuspendLayout();
+            this.tpStart.SuspendLayout();
             this.groupBox10.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -262,9 +262,9 @@ namespace AutoWikiBrowser
             // 
             this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)));
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Controls.Add(this.tpSetOptions);
+            this.tabControl1.Controls.Add(this.tpMoreOptions);
+            this.tabControl1.Controls.Add(this.tpStart);
             this.tabControl1.HotTrack = true;
             this.tabControl1.Location = new System.Drawing.Point(219, 5);
             this.tabControl1.MinimumSize = new System.Drawing.Size(276, 0);
@@ -274,19 +274,19 @@ namespace AutoWikiBrowser
             this.tabControl1.TabIndex = 666;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
-            // tabPage1
+            // tpSetOptions
             // 
-            this.tabPage1.Controls.Add(this.groupBox1);
-            this.tabPage1.Controls.Add(this.groupBox6);
-            this.tabPage1.Controls.Add(this.groupBox8);
-            this.tabPage1.Controls.Add(this.groupBox5);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(268, 342);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "(2) Set options";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.tpSetOptions.Controls.Add(this.groupBox1);
+            this.tpSetOptions.Controls.Add(this.groupBox6);
+            this.tpSetOptions.Controls.Add(this.groupBox8);
+            this.tpSetOptions.Controls.Add(this.groupBox5);
+            this.tpSetOptions.Location = new System.Drawing.Point(4, 22);
+            this.tpSetOptions.Name = "tpSetOptions";
+            this.tpSetOptions.Padding = new System.Windows.Forms.Padding(3);
+            this.tpSetOptions.Size = new System.Drawing.Size(268, 342);
+            this.tpSetOptions.TabIndex = 0;
+            this.tpSetOptions.Text = "(2) Set options";
+            this.tpSetOptions.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
@@ -542,21 +542,21 @@ namespace AutoWikiBrowser
             this.txtNewCategory.DoubleClick += new System.EventHandler(this.txtNewCategory_DoubleClick);
             this.txtNewCategory.Leave += new System.EventHandler(this.txtNewCategory_Leave);
             // 
-            // tabPage2
+            // tpMoreOptions
             // 
-            this.tabPage2.Controls.Add(this.chkRegexTypoSkip);
-            this.tabPage2.Controls.Add(this.linkLabel1);
-            this.tabPage2.Controls.Add(this.chkRegExTypo);
-            this.tabPage2.Controls.Add(this.ImageGroupBox);
-            this.tabPage2.Controls.Add(this.groupBox7);
-            this.tabPage2.Controls.Add(this.groupBox4);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(268, 342);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "More options";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tpMoreOptions.Controls.Add(this.chkRegexTypoSkip);
+            this.tpMoreOptions.Controls.Add(this.linkLabel1);
+            this.tpMoreOptions.Controls.Add(this.chkRegExTypo);
+            this.tpMoreOptions.Controls.Add(this.ImageGroupBox);
+            this.tpMoreOptions.Controls.Add(this.groupBox7);
+            this.tpMoreOptions.Controls.Add(this.groupBox4);
+            this.tpMoreOptions.Location = new System.Drawing.Point(4, 22);
+            this.tpMoreOptions.Name = "tpMoreOptions";
+            this.tpMoreOptions.Padding = new System.Windows.Forms.Padding(3);
+            this.tpMoreOptions.Size = new System.Drawing.Size(268, 342);
+            this.tpMoreOptions.TabIndex = 1;
+            this.tpMoreOptions.Text = "More options";
+            this.tpMoreOptions.UseVisualStyleBackColor = true;
             // 
             // chkRegexTypoSkip
             // 
@@ -797,27 +797,27 @@ namespace AutoWikiBrowser
             this.txtAppendMessage.TabIndex = 1;
             this.toolTip1.SetToolTip(this.txtAppendMessage, "Message, including title in wiki format");
             // 
-            // tabPage4
+            // tpStart
             // 
-            this.tabPage4.Controls.Add(this.btnFalsePositive);
-            this.tabPage4.Controls.Add(this.groupBox10);
-            this.tabPage4.Controls.Add(this.btnStop);
-            this.tabPage4.Controls.Add(this.cmboEditSummary);
-            this.tabPage4.Controls.Add(this.groupBox9);
-            this.tabPage4.Controls.Add(this.label6);
-            this.tabPage4.Controls.Add(this.groupBox3);
-            this.tabPage4.Controls.Add(this.btnStart);
-            this.tabPage4.Controls.Add(this.btnPreview);
-            this.tabPage4.Controls.Add(this.btnSave);
-            this.tabPage4.Controls.Add(this.btnDiff);
-            this.tabPage4.Controls.Add(this.btnIgnore);
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(268, 342);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "(3) Start";
-            this.tabPage4.UseVisualStyleBackColor = true;
+            this.tpStart.Controls.Add(this.btnFalsePositive);
+            this.tpStart.Controls.Add(this.groupBox10);
+            this.tpStart.Controls.Add(this.btnStop);
+            this.tpStart.Controls.Add(this.cmboEditSummary);
+            this.tpStart.Controls.Add(this.groupBox9);
+            this.tpStart.Controls.Add(this.label6);
+            this.tpStart.Controls.Add(this.groupBox3);
+            this.tpStart.Controls.Add(this.btnStart);
+            this.tpStart.Controls.Add(this.btnPreview);
+            this.tpStart.Controls.Add(this.btnSave);
+            this.tpStart.Controls.Add(this.btnDiff);
+            this.tpStart.Controls.Add(this.btnIgnore);
+            this.tpStart.Location = new System.Drawing.Point(4, 22);
+            this.tpStart.Name = "tpStart";
+            this.tpStart.Padding = new System.Windows.Forms.Padding(3);
+            this.tpStart.Size = new System.Drawing.Size(268, 342);
+            this.tpStart.TabIndex = 3;
+            this.tpStart.Text = "(3) Start";
+            this.tpStart.UseVisualStyleBackColor = true;
             // 
             // btnFalsePositive
             // 
@@ -2075,7 +2075,7 @@ namespace AutoWikiBrowser
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
+            this.tpSetOptions.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox6.ResumeLayout(false);
@@ -2084,8 +2084,8 @@ namespace AutoWikiBrowser
             this.groupBox8.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
+            this.tpMoreOptions.ResumeLayout(false);
+            this.tpMoreOptions.PerformLayout();
             this.ImageGroupBox.ResumeLayout(false);
             this.ImageGroupBox.PerformLayout();
             this.groupBox7.ResumeLayout(false);
@@ -2093,7 +2093,7 @@ namespace AutoWikiBrowser
             ((System.ComponentModel.ISupportInitialize)(this.nudBotSpeed)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            this.tabPage4.ResumeLayout(false);
+            this.tpStart.ResumeLayout(false);
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
             this.groupBox9.ResumeLayout(false);
@@ -2152,7 +2152,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem openPageInBrowserToolStripMenuItem;
         private System.Windows.Forms.ComboBox cmboEditSummary;
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tpSetOptions;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckBox chkFindandReplace;
         private System.Windows.Forms.GroupBox groupBox6;
@@ -2161,7 +2161,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkGeneralParse;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.TextBox txtNewCategory;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tpMoreOptions;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.CheckBox chkAutoMode;
         private System.Windows.Forms.NumericUpDown nudBotSpeed;
@@ -2191,7 +2191,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem insertToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem birthdeathCatsToolStripMenuItem;
         private System.Windows.Forms.GroupBox groupBox8;
-        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.TabPage tpStart;
         private System.Windows.Forms.Label lblLinks;
         private System.Windows.Forms.Label lblImages;
         private System.Windows.Forms.Label lblCats;
