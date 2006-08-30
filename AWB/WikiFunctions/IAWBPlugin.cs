@@ -8,7 +8,7 @@ namespace WikiFunctions.Plugin
 {
     public interface IAWBPlugin
     {
-        void Initialise(WikiFunctions.Lists.ListMaker list, WikiFunctions.Browser.WebControl web, ToolStripMenuItem tsmi, ContextMenuStrip cms);
+        void Initialise(WikiFunctions.Lists.ListMaker list, WikiFunctions.Browser.WebControl web, ToolStripMenuItem tsmi, ContextMenuStrip cms, TabControl tab);
         string Name { get; }
         string ProcessArticle(string ArticleText, string ArticleTitle, int Namespace, ref string Summary, ref bool Skip);
 

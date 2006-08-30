@@ -2146,7 +2146,7 @@ namespace AutoWikiBrowser
 
             foreach (IAWBPlugin a in AWBPlugins)
             {
-                a.Initialise(listMaker1, webBrowserEdit, pluginsToolStripMenuItem, mnuTextBox);
+                a.Initialise(listMaker1, webBrowserEdit, pluginsToolStripMenuItem, mnuTextBox, tabControl1);
 
                 //ToolStripMenuItem i = new ToolStripMenuItem(a.Name);
                 //i.Enabled = false;
