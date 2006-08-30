@@ -40,6 +40,7 @@ namespace AutoWikiBrowser
             chkIgnoreWhenNoFAR.Checked = true;
             findAndReplace.ignoreLinks = false;
             findAndReplace.AppendToSummary = true;
+            findAndReplace.AfterOtherFixes = false;
 
             cmboCategorise.SelectedIndex = 0;
             txtNewCategory.Text = "";
@@ -157,60 +158,6 @@ namespace AutoWikiBrowser
                     reader.WhitespaceHandling = WhitespaceHandling.None;
                     while (reader.Read())
                     {
-                        #region old
-                        bool oldregex = true;
-                        bool oldcasesensitive = true;
-                        bool oldmulti = false;
-                        bool oldsingle = false;
-
-                        if (reader.Name == "findandreplace" && reader.HasAttributes)
-                        {
-                            reader.MoveToAttribute("enabled");
-                            chkFindandReplace.Checked = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("regex");
-                            oldregex = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("casesensitive");
-                            oldcasesensitive = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("multiline");
-                            oldmulti = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("singleline");
-                            oldsingle = bool.Parse(reader.Value);
-                            if (reader.AttributeCount > 5)
-                            {
-                                reader.MoveToAttribute("ignorenofar");
-                                chkIgnoreWhenNoFAR.Checked = bool.Parse(reader.Value);
-                            }
-                            if (reader.AttributeCount > 6)
-                            {
-                                reader.MoveToAttribute("ignoretext");
-                                findAndReplace.ignoreLinks = bool.Parse(reader.Value);
-                            }
-                            if (reader.AttributeCount > 7)
-                            {
-                                reader.MoveToAttribute("appendsummary");
-                                findAndReplace.AppendToSummary = bool.Parse(reader.Value);
-                            }
-
-                            continue;
-                        }
-
-                        if (reader.Name == "datagridFAR" && reader.HasAttributes)
-                        {
-                            string find = "";
-                            string replace = "";
-
-                            reader.MoveToAttribute("find");
-                            find = reader.Value;
-                            reader.MoveToAttribute("replacewith");
-                            replace = reader.Value;
-
-                            if (find.Length > 0)
-                                findAndReplace.AddNew(find, replace, oldcasesensitive, oldregex, oldmulti, oldsingle, -1, true);
-
-                            continue;
-                        }
-                        #endregion
-
                         if (reader.Name == "findandreplacesettings" && reader.HasAttributes)
                         {
                             reader.MoveToAttribute("enabled");
@@ -221,6 +168,11 @@ namespace AutoWikiBrowser
                             findAndReplace.ignoreLinks = bool.Parse(reader.Value);
                             reader.MoveToAttribute("appendsummary");
                             findAndReplace.AppendToSummary = bool.Parse(reader.Value);
+                            if (reader.AttributeCount > 4)
+                            {
+                                reader.MoveToAttribute("afterotherfixes");
+                                findAndReplace.AfterOtherFixes = bool.Parse(reader.Value);
+                            }
 
                             continue;
                         }

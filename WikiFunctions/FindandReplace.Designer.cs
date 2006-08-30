@@ -78,6 +78,7 @@ namespace WikiFunctions.Parse
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.chkIgnoreLinks = new System.Windows.Forms.CheckBox();
             this.chkAddToSummary = new System.Windows.Forms.CheckBox();
+            this.chkAfterOtherFixes = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.FindAndReplaceContextMenu.SuspendLayout();
             this.SuspendLayout();
@@ -101,9 +102,9 @@ namespace WikiFunctions.Parse
             this.enabled});
             this.dataGridView1.ContextMenuStrip = this.FindAndReplaceContextMenu;
             this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 67);
+            this.dataGridView1.Location = new System.Drawing.Point(12, 87);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(653, 265);
+            this.dataGridView1.Size = new System.Drawing.Size(653, 267);
             this.dataGridView1.TabIndex = 1;
             this.dataGridView1.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridView1_RowsAdded);
             this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
@@ -306,7 +307,7 @@ namespace WikiFunctions.Parse
             // linkLabel2
             // 
             this.linkLabel2.AutoSize = true;
-            this.linkLabel2.Location = new System.Drawing.Point(9, 51);
+            this.linkLabel2.Location = new System.Drawing.Point(12, 71);
             this.linkLabel2.Name = "linkLabel2";
             this.linkLabel2.Size = new System.Drawing.Size(119, 13);
             this.linkLabel2.TabIndex = 9;
@@ -351,11 +352,22 @@ namespace WikiFunctions.Parse
             this.toolTip1.SetToolTip(this.chkAddToSummary, "Appends information about replacements made to the edit summary");
             this.chkAddToSummary.UseVisualStyleBackColor = true;
             // 
+            // chkAfterOtherFixes
+            // 
+            this.chkAfterOtherFixes.AutoSize = true;
+            this.chkAfterOtherFixes.Location = new System.Drawing.Point(12, 51);
+            this.chkAfterOtherFixes.Name = "chkAfterOtherFixes";
+            this.chkAfterOtherFixes.Size = new System.Drawing.Size(222, 17);
+            this.chkAfterOtherFixes.TabIndex = 17;
+            this.chkAfterOtherFixes.Text = "Apply after general fixes, otherwise before";
+            this.chkAfterOtherFixes.UseVisualStyleBackColor = true;
+            // 
             // FindandReplace
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(677, 344);
+            this.ClientSize = new System.Drawing.Size(677, 366);
+            this.Controls.Add(this.chkAfterOtherFixes);
             this.Controls.Add(this.chkIgnoreLinks);
             this.Controls.Add(this.chkAddToSummary);
             this.Controls.Add(this.btnClear);
@@ -408,5 +420,6 @@ namespace WikiFunctions.Parse
         private System.Windows.Forms.ToolStripMenuItem checkAllSinglelineToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem uncheckAllSinglelineToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.CheckBox chkAfterOtherFixes;
     }
 }

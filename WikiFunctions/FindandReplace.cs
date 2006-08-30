@@ -215,6 +215,7 @@ namespace WikiFunctions.Parse
             XMLWriter.WriteAttributeString("ignorenofar", ignore.ToString());
             XMLWriter.WriteAttributeString("ignoretext", ignoreLinks.ToString());
             XMLWriter.WriteAttributeString("appendsummary", AppendToSummary.ToString());
+            XMLWriter.WriteAttributeString("afterotherfixes", AfterOtherFixes.ToString());
 
             foreach (DataGridViewRow dataGridRow in dataGridView1.Rows)
             {
@@ -257,7 +258,16 @@ namespace WikiFunctions.Parse
         {
             get { return chkAddToSummary.Checked; }
             set { chkAddToSummary.Checked = value; }
-        }       
+        }
+
+        /// <summary>
+        /// Gets or sets whether the replacements are made after or before the general fixes
+        /// </summary>
+        public bool AfterOtherFixes
+        {
+            get { return chkAfterOtherFixes.Checked; }
+            set { chkAfterOtherFixes.Checked = value; }
+        }
 
         #endregion
 
