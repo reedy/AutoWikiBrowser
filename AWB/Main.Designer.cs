@@ -426,9 +426,9 @@ namespace AutoWikiBrowser
             this.chkIgnoreNonExistent.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkIgnoreNonExistent.Location = new System.Drawing.Point(4, 110);
             this.chkIgnoreNonExistent.Name = "chkIgnoreNonExistent";
-            this.chkIgnoreNonExistent.Size = new System.Drawing.Size(147, 17);
+            this.chkIgnoreNonExistent.Size = new System.Drawing.Size(138, 17);
             this.chkIgnoreNonExistent.TabIndex = 31;
-            this.chkIgnoreNonExistent.Text = "Ignore non-existing pages";
+            this.chkIgnoreNonExistent.Text = "Skip non-existing pages";
             this.chkIgnoreNonExistent.UseVisualStyleBackColor = true;
             // 
             // chkSkipNoChanges

@@ -4,7 +4,7 @@
 		<projectlang proj="wikipedia" lang="en" />
 	</Project>
 	<Options>
-		<selectsource index="1" text="" />
+		<selectsource index="0" text="" />
 		<general general="True" tagger="True" unicodifyer="True" />
 		<categorisation index="0" text="" />
 		<skip does="False" doesnot="False" regex="False" casesensitive="False" doestext="" doesnottext="" />
