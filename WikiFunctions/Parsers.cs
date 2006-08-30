@@ -67,10 +67,28 @@ namespace WikiFunctions.Parse
             //interfere with wiki syntax
             RegexUnicode.Add(new Regex("&#(126|x5D|x5B|x7c|0?9[13]|0?12[345]|0?0?3[92]);", RegexOptions.Compiled), "&amp;#$1;");
             //not entity, but still wrong
-            RegexUnicode.Add(new Regex("(cm| m|km|mi)<sup>2</sup>", RegexOptions.Compiled), "$1²");
+            RegexUnicode.Add(new Regex("(cm| m|mm|km|mi)<sup>2</sup>", RegexOptions.Compiled), "$1²");
+            RegexUnicode.Add(new Regex("(cm| m|mm|km|mi)<sup>3</sup>", RegexOptions.Compiled), "$1³");
+
+            RegexConversion.Add(new Regex("\\{\\{(template:)?(wikify(\\|.*?)?|wfy|wiki)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Wikify-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
+            RegexConversion.Add(new Regex("\\{\\{(template:)?(Clean ?up|Clean|Tidy)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Cleanup-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
+            RegexConversion.Add(new Regex("\\{\\{(template:)?Linkless\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Linkless-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
+            RegexConversion.Add(new Regex("\\{\\{(template:)?(Uncategori[sz]ed|Uncat|Classify|Category needed|Catneeded|categori[zs]e|nocats?)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Uncat-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
+
+            RegexConversion.Add(new Regex("\\{\\{(Dab|Disamb|Disambiguation)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Disambig}}");
+            RegexConversion.Add(new Regex("\\{\\{(2cc|2LAdisambig|2LCdisambig|2LC)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{2CC}}");
+            RegexConversion.Add(new Regex("\\{\\{(3cc|3LW|Tla-dab|TLA-disambig|TLAdisambig|3LC)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{3CC}}");
+            RegexConversion.Add(new Regex("\\{\\{(4cc|4LW|4LA|4LC)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{4CC}}");
+            RegexConversion.Add(new Regex("\\{\\{(Prettytable|Prettytable100|Pt)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{subst:Prettytable}}");
+            RegexConversion.Add(new Regex("\\{\\{(?:[Tt]emplate:)?(PAGENAMEE?\\}\\}|[Ll]ived\\||[Bb]io-cats\\|)", RegexOptions.Compiled), "{{subst:$1");
+
+            RegexConversion.Add(new Regex(@"\{\{[Ll]ife(?:time|span)\|([0-9]{4})\|([0-9]{4})\|(.*?)\}\}", RegexOptions.Compiled), "[[Category:$1 births|$3]]\r\n[[Category:$2 deaths|$3]]");
+            RegexConversion.Add(new Regex(@"\{\{[Ll]ife(?:time|span)\|\|([0-9]{4})\|(.*?)\}\}", RegexOptions.Compiled), "[[Category:Year of birth unknown|$2]]\r\n[[Category:$1 deaths|$2]]");
+            RegexConversion.Add(new Regex(@"\{\{[Ll]ife(?:time|span)\|([0-9]{4})\|\|(.*?)\}\}", RegexOptions.Compiled), "[[Category:$1 births|$2]]\r\n[[Category:Year of death unknown|$2]]");
         }
 
         Dictionary<Regex, string> RegexUnicode = new Dictionary<Regex, string>();
+        Dictionary<Regex, string> RegexConversion = new Dictionary<Regex, string>();
 
         MetaDataSorter metaDataSorter;
         string testText = "";
@@ -396,7 +414,7 @@ namespace WikiFunctions.Parse
 
             Match m = Regex.Match(articleText, "= ? ?external links? ? ?=", RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
 
-            if(!m.Success)
+            if (!m.Success)
                 return articleText;
 
             intStart = m.Index;
@@ -902,22 +920,6 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        readonly Regex ConversionsRegextUncat = new Regex("\\{\\{(template:)?(Uncategori[sz]ed|Uncat|Classify|Category needed|Catneeded|categori[zs]e|nocats?)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        readonly Regex ConversionsRegex1 = new Regex("\\{\\{(template:)?(wikify(\\|.*?)?|wfy|wiki)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        readonly Regex ConversionsRegex2 = new Regex("\\{\\{(template:)?(Clean ?up|Clean|Tidy)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        readonly Regex ConversionsRegex3 = new Regex("\\{\\{(template:)?Linkless\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        readonly Regex ConversionsRegex4 = new Regex("\\{\\{(Dab|Disamb|Disambiguation)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        readonly Regex ConversionsRegex5 = new Regex("\\{\\{(2cc|2LAdisambig|2LCdisambig|2LC)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        readonly Regex ConversionsRegex6 = new Regex("\\{\\{(3cc|3LW|Tla-dab|TLA-disambig|TLAdisambig|3LC)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        readonly Regex ConversionsRegex7 = new Regex("\\{\\{(4cc|4LW|4LA|4LC)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        //readonly Regex ConversionsRegex8 = new Regex("\\{\\{(Unsourced|Cite source|Unref|No references?|References|Not referenced|Needs? references|Sources|Cite-sources|Cleanup-sources?)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        readonly Regex ConversionsRegex9 = new Regex("\\{\\{(Prettytable|Prettytable100|Pt)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        readonly Regex ConversionsRegexSUBST = new Regex("\\{\\{(?:[Tt]emplate:)?(PAGENAMEE?\\}\\}|[Ll]ived\\||[Bb]io-cats\\|)", RegexOptions.Compiled);
-
-        readonly Regex ConversionsRegexLifeTime1 = new Regex(@"\{\{[Ll]ife(?:time|span)\|([0-9]{4})\|([0-9]{4})\|(.*?)\}\}", RegexOptions.Compiled);
-        readonly Regex ConversionsRegexLifeTime2 = new Regex(@"\{\{[Ll]ife(?:time|span)\|\|([0-9]{4})\|(.*?)\}\}", RegexOptions.Compiled);
-        readonly Regex ConversionsRegexLifeTime3 = new Regex(@"\{\{[Ll]ife(?:time|span)\|([0-9]{4})\|\|(.*?)\}\}", RegexOptions.Compiled);
-
         /// <summary>
         /// Converts/subst'd some deprecated templates
         /// </summary>
@@ -925,31 +927,10 @@ namespace WikiFunctions.Parse
         /// <returns>The new article text.</returns>
         public string Conversions(string articleText)
         {
-            articleText = ConversionsRegex1.Replace(articleText, "{{Wikify-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
-            articleText = articleText.Replace(@"<div class=""messagebox cleanup metadata"">
-This article or section needs to be '''[[Wikipedia:Glossary#W|wikified]]'''.  Please format this article according to the guidelines laid out at [[Wikipedia:Guide to layout]]. Please remove this template after wikifying.
-</div>", "{{Wikify-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
-            articleText = articleText.Replace("[[Category:Articles that need to be wikified]]", "");
-
-            articleText = ConversionsRegex2.Replace(articleText, "{{Cleanup-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
-            articleText = ConversionsRegex3.Replace(articleText, "{{Linkless-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
-
-            articleText = ConversionsRegex4.Replace(articleText, "{{Disambig}}");
-            articleText = ConversionsRegex5.Replace(articleText, "{{2CC}}");
-            articleText = ConversionsRegex6.Replace(articleText, "{{3CC}}");
-            articleText = ConversionsRegex7.Replace(articleText, "{{4CC}}");
-
-            articleText = ConversionsRegex9.Replace(articleText, "{{subst:Prettytable}}");
-            articleText = ConversionsRegexSUBST.Replace(articleText, "{{subst:$1");
-
-            articleText = ConversionsRegexLifeTime1.Replace(articleText, "[[Category:$1 births|$3]]\r\n[[Category:$2 deaths|$3]]");
-            articleText = ConversionsRegexLifeTime2.Replace(articleText, "[[Category:Year of birth unknown|$2]]\r\n[[Category:$1 deaths|$2]]");
-            articleText = ConversionsRegexLifeTime3.Replace(articleText, "[[Category:$1 births|$2]]\r\n[[Category:Year of death unknown|$2]]");
-
-            if (ConversionsRegextUncat.IsMatch(articleText))
-                articleText = ConversionsRegextUncat.Replace(articleText, "{{Uncat-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
-            else
-                articleText = Regex.Replace(articleText, @"\[\[[Cc]ategory:[Cc]ategory needed\]\]", "{{Uncat-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
+            foreach (KeyValuePair<Regex, string> k in RegexConversion)
+            {
+                articleText = k.Key.Replace(articleText, k.Value);
+            }
 
             return articleText;
         }
