@@ -9,14 +9,14 @@
 		<categorisation index="0" text="" />
 		<skip does="False" doesnot="False" regex="False" casesensitive="False" doestext="" doesnottext="" />
 		<message enabled="False" text="" append="True" />
-		<automode delay="15" quicksave="False" suppresstag="False" />
+		<automode delay="15" quicksave="False" suppresstag="True" />
 		<imager index="0" replace="" with="" />
 	</Options>
 	<regextypofix>
 		<regextypofixproperties enabled="False" skipnofixed="False" />
 	</regextypofix>
 	<FindAndReplaceSettings>
-		<findandreplacesettings enabled="False" ignorenofar="True" ignoretext="False" appendsummary="True" />
+		<findandreplacesettings enabled="False" ignorenofar="True" ignoretext="False" appendsummary="True" afterotherfixes="False" />
 	</FindAndReplaceSettings>
 	<FindAndReplace>
 		<replacerules enabled="False">
@@ -34,6 +34,7 @@
 		<summary text="bad link repair.  [[Wikipedia:Bad links|You can help!]]" />
 		<summary text="Fixing [[Wikipedia:Disambiguation pages with links|links to disambiguation pages]]" />
 		<summary text="Unicodifying" />
+		<summary text="use by-date category" />
 		<summaryindex index="clean up" />
 		<find text="" regex="False" casesensitive="False" />
 		<menu>

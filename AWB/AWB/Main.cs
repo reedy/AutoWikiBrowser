@@ -134,7 +134,7 @@ namespace AutoWikiBrowser
 
             Debug();
             LoadPlugins();
-            loadDefaultSettings();            
+            loadDefaultSettings();
             UpdateButtons();
         }
 
@@ -499,14 +499,13 @@ namespace AutoWikiBrowser
 
         private string Process(string articleText, ref bool SkipArticle)
         {
-            string testText = ""; // use to check if changes are made
             bool process = true;
 
             try
             {
                 if (noParse.Contains(EdittingArticle.Name))
                     process = false;
-                                
+
                 if (AWBPlugins.Count > 0)
                 {
                     SkipArticle = false;
@@ -563,17 +562,10 @@ namespace AutoWikiBrowser
                         return articleText;
                 }
 
-                if (chkFindandReplace.Checked)
+                if (chkFindandReplace.Checked && !findAndReplace.AfterOtherFixes)
                 {
-                    testText = articleText;
-                    articleText = findAndReplace.MultipleFindAndReplce(articleText, EdittingArticle.Name, ref EdittingArticle.EditSummary);                    
-                    articleText = replaceSpecial.ApplyRules(articleText, EdittingArticle.Name);
-
-                    if (chkIgnoreWhenNoFAR.Checked && (testText == articleText))
-                    {
-                        SkipArticle = true;
-                        return articleText;
-                    }
+                    SkipArticle = false;
+                    articleText = PerformFindAndReplace(articleText, ref SkipArticle);
                 }
 
                 if (chkRegExTypo.Checked && RegexTypos != null)
@@ -600,7 +592,7 @@ namespace AutoWikiBrowser
                             articleText = parsers.RemoveBadHeaders(articleText, EdittingArticle.Name);
                             articleText = parsers.LivingPeople(articleText, ref SkipArticle);
                             articleText = parsers.FixCategories(articleText);
-                            articleText = parsers.FixHeadings(articleText);                            
+                            articleText = parsers.FixHeadings(articleText);
                         }
                         articleText = parsers.FixSyntax(articleText);
                         articleText = parsers.FixLinks(articleText);
@@ -632,15 +624,37 @@ namespace AutoWikiBrowser
                         articleText += "\r\n\r\n" + txtAppendMessage.Text;
                     else
                         articleText = txtAppendMessage.Text + "\r\n\r\n" + articleText;
-                }               
+                }
 
-                SkipArticle = false;
+                if (chkFindandReplace.Checked && findAndReplace.AfterOtherFixes)
+                {
+                    SkipArticle = false;
+                    articleText = PerformFindAndReplace(articleText, ref SkipArticle);
+                }
+
                 return articleText;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
                 SkipArticle = false;
+                return articleText;
+            }
+        }
+
+        private string PerformFindAndReplace(string articleText, ref bool SkipArticle)
+        {
+            string testText = articleText;
+            articleText = findAndReplace.MultipleFindAndReplce(articleText, EdittingArticle.Name, ref EdittingArticle.EditSummary);
+            articleText = replaceSpecial.ApplyRules(articleText, EdittingArticle.Name);
+
+            if (chkIgnoreWhenNoFAR.Checked && (testText == articleText))
+            {
+                SkipArticle = true;
+                return articleText;
+            }
+            else
+            {
                 return articleText;
             }
         }
@@ -1655,7 +1669,7 @@ namespace AutoWikiBrowser
         {
             string text = txtEdit.SelectedText;
             text = parsers.Unicodify(text);
-            txtEdit.SelectedText = text;            
+            txtEdit.SelectedText = text;
         }
 
         private void metadataTemplateToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1674,11 +1688,11 @@ namespace AutoWikiBrowser
             string strBirth = "";
             string strDeath = "";
             Regex RegexDates = new Regex("[1-2][0-9]{3}");
-            
+
             try
             {
                 MatchCollection m = RegexDates.Matches(txtEdit.Text);
-                
+
                 if (m.Count >= 1)
                     strBirth = m[0].Value;
                 if (m.Count >= 2)
