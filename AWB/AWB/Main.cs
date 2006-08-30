@@ -502,7 +502,7 @@ namespace AutoWikiBrowser
         private string Process(string articleText, ref bool SkipArticle)
         {
             bool process = true;
-
+            
             try
             {
                 if (noParse.Contains(EdittingArticle.Name))
@@ -634,6 +634,7 @@ namespace AutoWikiBrowser
                     articleText = PerformFindAndReplace(articleText, ref SkipArticle);
                 }
 
+                SkipArticle = false;
                 return articleText;
             }
             catch (Exception ex)
@@ -2145,7 +2146,7 @@ namespace AutoWikiBrowser
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Problem loading plugin");
             }
 
             foreach (IAWBPlugin a in AWBPlugins)
