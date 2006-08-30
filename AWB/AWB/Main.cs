@@ -322,8 +322,10 @@ namespace AutoWikiBrowser
 
             if (chkAutoMode.Checked && chkQuickSave.Checked)
                 startDelayedAutoSaveTimer();
+            else if (previewInsteadOfDiffToolStripMenuItem.Checked)
+                GetPreview();
             else
-                GetDiff(previewInsteadOfDiffToolStripMenuItem.Checked);
+                GetDiff();
         }
 
         private bool loadSuccess()
@@ -659,23 +661,25 @@ namespace AutoWikiBrowser
             }
         }
 
-        private void GetDiff(bool boolPreview)
+        private void GetDiff()
         {
-            //get either diff or preiew.
             webBrowserEdit.SetArticleText(txtEdit.Text);
 
             DisableButtons();
             LastArticle = txtEdit.Text;
 
-            if (boolPreview)
-            {
-                skippable = false;
-                webBrowserEdit.ShowPreview();
-            }
-            else
-            {
-                webBrowserEdit.ShowDiff();
-            }
+            webBrowserEdit.ShowDiff();
+        }
+
+        private void GetPreview()
+        {
+            webBrowserEdit.SetArticleText(txtEdit.Text);
+
+            DisableButtons();
+            LastArticle = txtEdit.Text;
+
+            skippable = false;
+            webBrowserEdit.ShowPreview();
         }
 
         private void Save()
@@ -1443,12 +1447,12 @@ namespace AutoWikiBrowser
 
         private void btnPreview_Click(object sender, EventArgs e)
         {
-            GetDiff(true);
+            GetPreview();
         }
 
         private void btnDiff_Click(object sender, EventArgs e)
         {
-            GetDiff(false);
+            GetDiff();
         }
 
         private void btnFalsePositive_Click(object sender, EventArgs e)
@@ -1567,13 +1571,13 @@ namespace AutoWikiBrowser
                 }
                 if (e.KeyCode == Keys.D && btnDiff.Enabled)
                 {
-                    GetDiff(false);
+                    GetDiff();
                     e.SuppressKeyPress = true;
                     return;
                 }
                 if (e.KeyCode == Keys.E && btnPreview.Enabled)
                 {
-                    GetDiff(true);
+                    GetPreview();
                     e.SuppressKeyPress = true;
                     return;
                 }
@@ -1983,12 +1987,12 @@ namespace AutoWikiBrowser
 
         private void btntsPreview_Click(object sender, EventArgs e)
         {
-            GetDiff(true);
+            GetPreview();
         }
 
         private void btntsChanges_Click(object sender, EventArgs e)
         {
-            GetDiff(false);
+            GetDiff();
         }
 
         private void setBrowserSize()
@@ -2146,11 +2150,14 @@ namespace AutoWikiBrowser
 
             foreach (IAWBPlugin a in AWBPlugins)
             {
-                a.Initialise(listMaker1, webBrowserEdit, pluginsToolStripMenuItem, mnuTextBox, tabControl1);
+                a.Start += Start;
+                a.Save += Save;
+                a.Skip += SkipPage;
+                a.Stop += Stop;
+                a.Diff += GetDiff;
+                a.Preview += GetDiff;
 
-                //ToolStripMenuItem i = new ToolStripMenuItem(a.Name);
-                //i.Enabled = false;
-                //pluginsToolStripMenuItem.DropDownItems.Add(i);
+                a.Initialise(listMaker1, webBrowserEdit, pluginsToolStripMenuItem, mnuTextBox, tabControl1);
             }
 
             pluginsToolStripMenuItem.Visible = AWBPlugins.Count > 0;
