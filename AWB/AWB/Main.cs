@@ -1648,7 +1648,7 @@ namespace AutoWikiBrowser
 
         private void uncategorisedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            txtEdit.SelectedText = "[[Category:Category needed]]";
+            txtEdit.SelectedText = "{{Uncat-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
         }
 
         private void unicodifyToolStripMenuItem_Click(object sender, EventArgs e)
