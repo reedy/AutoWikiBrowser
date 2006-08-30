@@ -1655,7 +1655,7 @@ namespace AutoWikiBrowser
         {
             string text = txtEdit.SelectedText;
             text = parsers.Unicodify(text);
-            txtEdit.SelectedText = text;
+            txtEdit.SelectedText = text;            
         }
 
         private void metadataTemplateToolStripMenuItem_Click(object sender, EventArgs e)
