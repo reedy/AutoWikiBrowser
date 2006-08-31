@@ -1031,7 +1031,7 @@ namespace WikiFunctions.Parse
                 return articleText.Trim();
             }
 
-            if (articleText.Contains("}}"))
+            if (Regex.IsMatch(articleText, @"\{\{.*?\}\}"))
             {
                 return articleText;
             }
@@ -1047,11 +1047,17 @@ namespace WikiFunctions.Parse
 
                 return articleText;
             }
-
-            if (articleText.Length <= 300 && !RegexStub.IsMatch(articleText))
+            else if (articleText.Length <= 300 && !RegexStub.IsMatch(articleText))
             {
                 articleText = articleText + "\r\n\r\n\r\n{{stub}}";
                 Summary += " and added stub tag";
+
+                return articleText;
+            }
+            else if(words > 8 && !Regex.IsMatch(articleText, @"\[\[ ?category", RegexOptions.IgnoreCase))
+            {
+                articleText += "\r\n\r\n{{Uncat-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
+                Summary += " and added uncategorised tag";
 
                 return articleText;
             }
