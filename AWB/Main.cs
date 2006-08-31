@@ -2158,7 +2158,7 @@ namespace AutoWikiBrowser
                 a.Diff += GetDiff;
                 a.Preview += GetDiff;
 
-                a.Initialise(listMaker1, webBrowserEdit, pluginsToolStripMenuItem, mnuTextBox, tabControl1, this);
+                a.Initialise(listMaker1, webBrowserEdit, pluginsToolStripMenuItem, mnuTextBox, tabControl1, this, txtEdit);
             }
 
             pluginsToolStripMenuItem.Visible = AWBPlugins.Count > 0;
