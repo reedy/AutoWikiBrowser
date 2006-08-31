@@ -14,15 +14,14 @@ namespace WikiFunctions.Lists
 {
     public enum SourceType { Category, WhatLinksHere, WhatTranscludesHere, LinksOnPage, TextFile, GoogleWikipedia, UserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist }
 
-    public delegate void StatusTextChangedDel();
-    public delegate void BusyStateChangedDel();
-    public delegate void NoOfArticlesChangedDel();
+    public delegate void ListMakerEventHandler();
 
     public partial class ListMaker : UserControl, IEnumerable<Article>, ICollection<Article>, IList<Article>
     {
-        public event StatusTextChangedDel StatusTextChanged;
-        public event BusyStateChangedDel BusyStateChanged;
-        public event NoOfArticlesChangedDel NoOfArticlesChanged;
+        public event ListMakerEventHandler StatusTextChanged;
+        public event ListMakerEventHandler BusyStateChanged;
+        public event ListMakerEventHandler NoOfArticlesChanged;
+        public event ListMakerEventHandler ListFinished;
 
         public ListMaker()
         {
@@ -648,6 +647,9 @@ namespace WikiFunctions.Lists
             Status = "List complete!";
             BusyStatus = false;
             UpdateNumberOfArticles();
+
+            if (ListFinished != null)
+                ListFinished();
         }
 
         Thread ListerThread = null;
