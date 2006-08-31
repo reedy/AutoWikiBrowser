@@ -54,15 +54,15 @@ namespace WikiFunctions.Parse
 
         private void MakeRegexes()
         {
-            //look bad if changed            
+            //look bad if changed
             RegexUnicode.Add(new Regex("&(ndash|mdash|minus|times|lt|gt|#160|nbsp|thinsp|shy|[Pp]rime);", RegexOptions.Compiled), "&amp;$1;");
-            //IE6 does like these            
+            //IE6 does like these
             RegexUnicode.Add(new Regex("&#(705|803|596|620|699|700|8652|9408|9848);", RegexOptions.Compiled), "&amp;#$1;");
             //Phoenician alphabet
             RegexUnicode.Add(new Regex("&#(x109[0-9A-Z]{2});", RegexOptions.Compiled), "&amp;#$1;");
-            //Blackboard bold            
+            //Blackboard bold and more
             RegexUnicode.Add(new Regex("&#((?:277|119|84|x1D|x100)[A-Z0-9a-z]{2,3});", RegexOptions.Compiled), "&amp;#$1;");
-            //Cuneiform script            
+            //Cuneiform script
             RegexUnicode.Add(new Regex("&#(x12[A-Za-z0-9]{3});", RegexOptions.Compiled), "&amp;#$1;");
             //interfere with wiki syntax
             RegexUnicode.Add(new Regex("&#(126|x5D|x5B|x7c|0?9[13]|0?12[345]|0?0?3[92]);", RegexOptions.Compiled), "&amp;#$1;");

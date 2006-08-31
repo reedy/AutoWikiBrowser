@@ -80,7 +80,7 @@ namespace WikiFunctions
             return true;
         }
 
-        readonly static Regex RedirectRegex = new Regex("^#redirect:? ?\\[\\[(.*?)\\]\\]", RegexOptions.IgnoreCase);
+        readonly static Regex RedirectRegex = new Regex("^#redirect.*?\\[\\[(.*?)\\]\\]", RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Tests article to see if it is a redirect
