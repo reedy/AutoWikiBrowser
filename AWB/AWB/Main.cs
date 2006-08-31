@@ -763,7 +763,7 @@ namespace AutoWikiBrowser
                 return;
             }
 
-            Stop();
+            //Stop();
         }
 
         private void setCheckBoxes()
@@ -2158,7 +2158,7 @@ namespace AutoWikiBrowser
                 a.Diff += GetDiff;
                 a.Preview += GetDiff;
 
-                a.Initialise(listMaker1, webBrowserEdit, pluginsToolStripMenuItem, mnuTextBox, tabControl1);
+                a.Initialise(listMaker1, webBrowserEdit, pluginsToolStripMenuItem, mnuTextBox, tabControl1, this);
             }
 
             pluginsToolStripMenuItem.Visible = AWBPlugins.Count > 0;
