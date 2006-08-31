@@ -61,7 +61,7 @@ namespace WikiFunctions.Parse
             //Phoenician alphabet
             RegexUnicode.Add(new Regex("&#(x109[0-9A-Z]{2});", RegexOptions.Compiled), "&amp;#$1;");
             //Blackboard bold            
-            RegexUnicode.Add(new Regex("&#((?:277|119|84|x1D)[A-Z0-9a-z]{2,3});", RegexOptions.Compiled), "&amp;#$1;");
+            RegexUnicode.Add(new Regex("&#((?:277|119|84|x1D|x100)[A-Z0-9a-z]{2,3});", RegexOptions.Compiled), "&amp;#$1;");
             //Cuneiform script            
             RegexUnicode.Add(new Regex("&#(x12[A-Za-z0-9]{3});", RegexOptions.Compiled), "&amp;#$1;");
             //interfere with wiki syntax
@@ -472,7 +472,7 @@ namespace WikiFunctions.Parse
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
         public string Unicodify(string articleText)
-        {
+        {            
             articleText = Regex.Replace(articleText, "&#150;|&#8211;|&#x2013;", "&ndash;");
             articleText = Regex.Replace(articleText, "&#151;|&#8212;|&#x2014;", "&mdash;");
             articleText = articleText.Replace(" &amp; ", " & ");
@@ -482,8 +482,14 @@ namespace WikiFunctions.Parse
             {
                 articleText = k.Key.Replace(articleText, k.Value);
             }
-
-            articleText = HttpUtility.HtmlDecode(articleText);
+            try
+            {
+                articleText = HttpUtility.HtmlDecode(articleText);
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.ToString());
+            }
 
             return articleText;
         }
