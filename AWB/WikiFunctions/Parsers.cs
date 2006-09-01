@@ -70,10 +70,10 @@ namespace WikiFunctions.Parse
             RegexUnicode.Add(new Regex("(cm| m|mm|km|mi)<sup>2</sup>", RegexOptions.Compiled), "$1²");
             RegexUnicode.Add(new Regex("(cm| m|mm|km|mi)<sup>3</sup>", RegexOptions.Compiled), "$1³");
 
-            RegexConversion.Add(new Regex("\\{\\{(template:)?(wikify(\\|.*?)?|wfy|wiki)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Wikify-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
-            RegexConversion.Add(new Regex("\\{\\{(template:)?(Clean ?up|Clean|Tidy)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Cleanup-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
-            RegexConversion.Add(new Regex("\\{\\{(template:)?Linkless\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Linkless-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
-            RegexConversion.Add(new Regex("\\{\\{(template:)?(Uncategori[sz]ed|Uncat|Classify|Category needed|Catneeded|categori[zs]e|nocats?)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Uncat-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
+            RegexTagger.Add(new Regex("\\{\\{(template:)?(wikify(\\|.*?)?|wfy|wiki)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Wikify-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
+            RegexTagger.Add(new Regex("\\{\\{(template:)?(Clean ?up|CU|Clean|Tidy)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Cleanup-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
+            RegexTagger.Add(new Regex("\\{\\{(template:)?Linkless\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Linkless-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
+            RegexTagger.Add(new Regex("\\{\\{(template:)?(Uncategori[sz]ed|Uncat|Classify|Category needed|Catneeded|categori[zs]e|nocats?)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Uncat-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
 
             RegexConversion.Add(new Regex("\\{\\{(Dab|Disamb|Disambiguation)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Disambig}}");
             RegexConversion.Add(new Regex("\\{\\{(2cc|2LAdisambig|2LCdisambig|2LC)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{2CC}}");
@@ -89,6 +89,7 @@ namespace WikiFunctions.Parse
 
         Dictionary<Regex, string> RegexUnicode = new Dictionary<Regex, string>();
         Dictionary<Regex, string> RegexConversion = new Dictionary<Regex, string>();
+        Dictionary<Regex, string> RegexTagger = new Dictionary<Regex, string>();
 
         MetaDataSorter metaDataSorter;
         string testText = "";
@@ -1023,13 +1024,20 @@ namespace WikiFunctions.Parse
             double LinkCount = 1;
             double Ratio = 0;
 
+            //update by-date tags
+            foreach (KeyValuePair<Regex, string> k in RegexTagger)
+            {
+                articleText = k.Key.Replace(articleText, k.Value);
+            }
+
+            //remove stub tags from long articles
             if (words > StubMaxWordCount && RegexStub.IsMatch(articleText))
             {
                 MatchEvaluator stubEvaluator = new MatchEvaluator(stubChecker);
                 articleText = RegexStub.Replace(articleText, stubEvaluator);
 
                 return articleText.Trim();
-            }
+            }            
 
             if (Regex.IsMatch(articleText, @"\{\{.*?\}\}"))
             {
