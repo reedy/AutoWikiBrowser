@@ -1642,12 +1642,12 @@ namespace AutoWikiBrowser
 
         private void wikifyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            txtEdit.Text = "{{Wikify-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + txtEdit.Text;
+            txtEdit.Text = "{{Wikify|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + txtEdit.Text;
         }
 
         private void cleanupToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            txtEdit.Text = "{{cleanup-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + txtEdit.Text;
+            txtEdit.Text = "{{cleanup|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + txtEdit.Text;
         }
 
         private void expandToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1667,7 +1667,7 @@ namespace AutoWikiBrowser
 
         private void uncategorisedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            txtEdit.SelectedText = "{{Uncat-date|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
+            txtEdit.SelectedText = "{{Uncategorized|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
         }
 
         private void unicodifyToolStripMenuItem_Click(object sender, EventArgs e)
