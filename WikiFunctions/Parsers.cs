@@ -759,16 +759,19 @@ namespace WikiFunctions.Parse
 
             testText = articleText;
 
-            if (Regex.IsMatch(articleText, "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + Tools.caseInsensitive(NewCategory)))
+            if (Regex.IsMatch(articleText, "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + Tools.caseInsensitive(Regex.Escape(NewCategory)) + "( ?\\|| ?\\]\\])"))
             {
                 articleText = RemoveCategory(OldCategory, articleText);
             }
             else
             {
+                OldCategory = Regex.Escape(OldCategory);
+                OldCategory = Tools.caseInsensitive(OldCategory);                
+
                 OldCategory = Variables.Namespaces[14] + OldCategory + "( ?\\|| ?\\]\\])";
                 NewCategory = Variables.Namespaces[14] + NewCategory + "$1";
 
-                articleText = Regex.Replace(articleText, OldCategory, NewCategory, RegexOptions.IgnoreCase);
+                articleText = Regex.Replace(articleText, OldCategory, NewCategory);
             }
 
             if (testText == articleText)
@@ -810,6 +813,7 @@ namespace WikiFunctions.Parse
             //format categories properly
             articleText = FixCategories(articleText);
 
+            strOldCat = Regex.Escape(strOldCat);
             strOldCat = Tools.caseInsensitive(strOldCat);
 
             strOldCat = "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + " ?" + strOldCat + "( ?\\]\\]| ?\\|[^\\|]*?\\]\\])(\r\n)?";
