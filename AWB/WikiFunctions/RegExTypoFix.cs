@@ -117,7 +117,7 @@ namespace WikiFunctions.Parse
             Regex TypoRegex = new Regex("<(?:Typo )?word=\".*?\"[ \\t]find=\"(.*?)\"[ \\t]replace=\"(.*?)\" ?/?>");
             try
             {
-                string text = Tools.GetArticleText("Wikipedia:AutoWikiBrowser/Typos");
+                string text = Tools.GetArticleText(Variables.Namespaces[4] + "AutoWikiBrowser/Typos");
                 foreach (Match m in TypoRegex.Matches(text))
                 {
                     TypoStrings.Add(m.Groups[1].Value, m.Groups[2].Value);
