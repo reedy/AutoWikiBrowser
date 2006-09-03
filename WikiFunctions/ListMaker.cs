@@ -154,6 +154,14 @@ namespace WikiFunctions.Lists
         }
 
         /// <summary>
+        /// Returns the index of the given article title
+        /// </summary>
+        public int IndexOf(string item)
+        {
+            return lbArticles.Items.IndexOf(item);
+        }
+
+        /// <summary>
         /// Inserts the given article at a specific index
         /// </summary>
         public void Insert(int index, Article item)
@@ -164,7 +172,18 @@ namespace WikiFunctions.Lists
         }
 
         /// <summary>
-        /// Returns article at the given index
+        /// Inserts the given article at a specific index
+        /// </summary>
+        public void Insert(int index, string item)
+        {
+            Article a = new Article(item);
+            lbArticles.Items.Insert(index, a);
+            Saved = false;
+            UpdateNumberOfArticles();
+        }
+
+        /// <summary>
+        /// Removes article at the given index
         /// </summary>
         public void RemoveAt(int index)
         {
