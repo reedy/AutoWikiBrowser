@@ -70,7 +70,7 @@ namespace WikiFunctions.Parse
             RegexUnicode.Add(new Regex("(cm| m|mm|km|mi)<sup>2</sup>", RegexOptions.Compiled), "$1²");
             RegexUnicode.Add(new Regex("(cm| m|mm|km|mi)<sup>3</sup>", RegexOptions.Compiled), "$1³");
 
-            RegexTagger.Add(new Regex("\\{\\{(template:)?(wikify|wfy|wiki)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Wikify|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
+            RegexTagger.Add(new Regex("\\{\\{(template:)?(wikify|wikify-date|wfy|wiki)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Wikify|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
             RegexTagger.Add(new Regex("\\{\\{(template:)?(Clean ?up|CU|Clean|Tidy)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Cleanup|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
             RegexTagger.Add(new Regex("\\{\\{(template:)?Linkless\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Linkless|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
             RegexTagger.Add(new Regex("\\{\\{(template:)?(Uncategori[sz]ed|Uncat|Classify|Category needed|Catneeded|categori[zs]e|nocats?)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Uncategorized|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
