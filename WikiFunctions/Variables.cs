@@ -45,7 +45,7 @@ namespace WikiFunctions
         public static Dictionary<int, string> NamespacesCaseInsensitive = new Dictionary<int, string>(24);
 
         /// <summary>
-        /// Gets a URL of the site, e.g. "http://en.wikipedia.org".
+        /// Gets a URL of the site, e.g. "http://en.wikipedia.org/w/".
         /// </summary>
         public static string URL
         {
@@ -62,6 +62,9 @@ namespace WikiFunctions
             }
         }
 
+        /// <summary>
+        /// Gets a URL of the site, e.g. "http://en.wikipedia.org".
+        /// </summary>
         public static string URLShort
         {
             get

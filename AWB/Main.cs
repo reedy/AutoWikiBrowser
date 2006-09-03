@@ -1913,7 +1913,7 @@ namespace AutoWikiBrowser
 2. Optional: Select [[WP:RETF|RegExTypoFix]] as the edit summary. This lets everyone know where to bring issues with the typo correction.";
 
                 if (RegexTypos == null)
-                    message += "\r\n\r\nThe newest typos will now be downloaded from http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/Typos";
+                    message += "\r\n\r\nThe newest typos will now be downloaded from " + Variables.URL + Variables.Namespaces[4] + "AutoWikiBrowser/Typos";
 
                 MessageBox.Show(message, "Attention", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
