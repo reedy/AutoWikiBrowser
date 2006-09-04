@@ -1052,27 +1052,21 @@ namespace WikiFunctions.Parse
 
             Ratio = LinkCount / Length;
 
-            if (LinkCount < 4 && (Ratio < 0.0025))
+            if (words > 8 && !Regex.IsMatch(articleText, @"\[\[ ?category", RegexOptions.IgnoreCase))
+            {
+                articleText += "\r\n\r\n{{Uncategorized|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
+                Summary += ", added uncategorised tag";
+            }
+            else if (LinkCount < 3 && (Ratio < 0.0025))
             {
                 articleText = "{{Wikify|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + articleText;
-                Summary += " and added wikify tag";
-
-                return articleText;
+                Summary += ", added wikify tag";
             }
             else if (articleText.Length <= 300 && !RegexStub.IsMatch(articleText))
             {
                 articleText = articleText + "\r\n\r\n\r\n{{stub}}";
-                Summary += " and added stub tag";
-
-                return articleText;
-            }
-            else if(words > 8 && !Regex.IsMatch(articleText, @"\[\[ ?category", RegexOptions.IgnoreCase))
-            {
-                articleText += "\r\n\r\n{{Uncategorized|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
-                Summary += " and added uncategorised tag";
-
-                return articleText;
-            }
+                Summary += ", added stub tag";
+            }            
 
             return articleText;
         }
