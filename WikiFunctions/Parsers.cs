@@ -1063,12 +1063,12 @@ namespace WikiFunctions.Parse
             if (words > 8 && !Regex.IsMatch(ArticleText, @"\[\[ ?category", RegexOptions.IgnoreCase))
             {
                 ArticleText += "\r\n\r\n{{Uncategorized|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
-                Summary += ", added uncategorised tag";
+                Summary += ", added [[:Category:Category needed|uncategorised]] tag";
             }
             else if (LinkCount < 3 && (Ratio < 0.0025))
             {
                 ArticleText = "{{Wikify|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + ArticleText;
-                Summary += ", added wikify tag";
+                Summary += ", added [[:Category:Articles that need to be wikified|wikify]] tag";
             }
             else if (ArticleText.Length <= 300 && !RegexStub.IsMatch(ArticleText))
             {
