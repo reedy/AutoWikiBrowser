@@ -75,11 +75,13 @@ namespace WikiFunctions.Parse
             RegexTagger.Add(new Regex("\\{\\{(template:)?Linkless\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Linkless|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
             RegexTagger.Add(new Regex("\\{\\{(template:)?(Uncategori[sz]ed|Uncat|Classify|Category needed|Catneeded|categori[zs]e|nocats?)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Uncategorized|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
 
-            RegexConversion.Add(new Regex("\\{\\{(Dab|Disamb|Disambiguation)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Disambig}}");
-            RegexConversion.Add(new Regex("\\{\\{(2cc|2LAdisambig|2LCdisambig|2LC)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{2CC}}");
-            RegexConversion.Add(new Regex("\\{\\{(3cc|3LW|Tla-dab|TLA-disambig|TLAdisambig|3LC)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{3CC}}");
-            RegexConversion.Add(new Regex("\\{\\{(4cc|4LW|4LA|4LC)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{4CC}}");
-            RegexConversion.Add(new Regex("\\{\\{(Prettytable|Prettytable100|Pt)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{subst:Prettytable}}");
+            RegexConversion.Add(new Regex("\\{\\{(?:Template:)?(Dab|Disamb|Disambiguation)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Disambig}}");
+            RegexConversion.Add(new Regex("\\{\\{(?:Template:)?(2cc|2LAdisambig|2LCdisambig|2LC)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{2CC}}");
+            RegexConversion.Add(new Regex("\\{\\{(?:Template:)?(3cc|3LW|Tla|Tla-dab|TLA-disambig|TLAdisambig|3LC)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{3CC}}");
+            RegexConversion.Add(new Regex("\\{\\{(?:Template:)?(4cc|4LW|4LA|4LC)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{4CC}}");
+            RegexConversion.Add(new Regex("\\{\\{(?:Template:)?(Surname|Bio-dab|Hndisambig)", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Hndis");
+
+            RegexConversion.Add(new Regex("\\{\\{(?:Template:)?(Prettytable|Prettytable100|Pt)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{subst:Prettytable}}");
             RegexConversion.Add(new Regex("\\{\\{(?:[Tt]emplate:)?(PAGENAMEE?\\}\\}|[Ll]ived\\||[Bb]io-cats\\|)", RegexOptions.Compiled), "{{subst:$1");
 
             RegexConversion.Add(new Regex(@"\{\{[Ll]ife(?:time|span)\|([0-9]{4})\|([0-9]{4})\|(.*?)\}\}", RegexOptions.Compiled), "[[Category:$1 births|$3]]\r\n[[Category:$2 deaths|$3]]");
