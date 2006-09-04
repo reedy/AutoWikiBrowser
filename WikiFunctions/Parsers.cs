@@ -938,6 +938,13 @@ namespace WikiFunctions.Parse
         /// <returns>The new article text.</returns>
         public string Conversions(string articleText)
         {
+            //Use proper codes
+            articleText = articleText.Replace("[[zh-tw:", "[[zh:");
+            articleText = articleText.Replace("[[nb:", "[[no:");
+            articleText = articleText.Replace("[[dk:", "[[da:");
+
+            articleText = articleText.Replace("{{msg:", "{{");
+
             foreach (KeyValuePair<Regex, string> k in RegexConversion)
             {
                 articleText = k.Key.Replace(articleText, k.Value);
