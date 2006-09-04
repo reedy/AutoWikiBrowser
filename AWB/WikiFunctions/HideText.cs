@@ -28,35 +28,35 @@ namespace WikiFunctions.Parse
         Regex NoLinksRegex = new Regex("", RegexOptions.Singleline | RegexOptions.Compiled);
         readonly Regex NoWikiIgnoreRegex = new Regex("<!-- ?(categories|\\{\\{.*?stub\\}\\}.*?|other languages|language links|inter ?(language|wiki)? ?links|inter ?wiki ?language ?links|inter ?wiki|The below are interlanguage links\\.?) ?-->", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         
-        public string Hide(string articleText)
+        public string Hide(string ArticleText)
         {
             NoEditList.Clear();
             string s = "";
 
             int i = 0;
-            foreach (Match m in NoLinksRegex.Matches(articleText))
+            foreach (Match m in NoLinksRegex.Matches(ArticleText))
             {
                 if (LeaveMetaHeadings && NoWikiIgnoreRegex.IsMatch(m.Value))
                     continue;
 
                 s = "⌊⌊⌊⌊" + i.ToString() + "⌋⌋⌋⌋";
 
-                articleText = articleText.Replace(m.Value, s);
+                ArticleText = ArticleText.Replace(m.Value, s);
                 NoEditList.Add(s, m.Value);
                 i++;
             }
 
-            return articleText;
+            return ArticleText;
 
         }
 
-        public string AddBack(string articleText)
+        public string AddBack(string ArticleText)
         {
             foreach (KeyValuePair<string, string> k in NoEditList)
-                articleText = articleText.Replace(k.Key, k.Value);
+                ArticleText = ArticleText.Replace(k.Key, k.Value);
 
             NoEditList.Clear();
-            return articleText;
+            return ArticleText;
         }  
 
     }

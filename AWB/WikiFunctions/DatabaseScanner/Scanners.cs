@@ -27,7 +27,7 @@ namespace WikiFunctions.DatabaseScanner
 {
     public abstract class Scan
     {
-        public virtual bool Check(ref string articleText, ref string articleTitle)
+        public virtual bool Check(ref string ArticleText, ref string ArticleTitle)
         {
             return true;
         }
@@ -35,9 +35,9 @@ namespace WikiFunctions.DatabaseScanner
 
     public class IsNotRedirect : Scan
     {
-        public override bool Check(ref string articleText, ref string articleTitle)
+        public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
-            if (Tools.IsRedirect(articleText))
+            if (Tools.IsRedirect(ArticleText))
                 return false;
             else
                 return true;
@@ -53,11 +53,11 @@ namespace WikiFunctions.DatabaseScanner
 
         Regex[] Contains;
 
-        public override bool Check(ref string articleText, ref string articleTitle)
+        public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
             foreach (Regex r in Contains)
             {
-                if (!r.IsMatch(articleText))
+                if (!r.IsMatch(ArticleText))
                     return false;
             }
 
@@ -74,11 +74,11 @@ namespace WikiFunctions.DatabaseScanner
 
         Regex[] NotContains;
 
-        public override bool Check(ref string articleText, ref string articleTitle)
+        public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
             foreach (Regex r in NotContains)
             {
-                if (r.IsMatch(articleText))
+                if (r.IsMatch(ArticleText))
                     return false;                   
             }
 
@@ -95,9 +95,9 @@ namespace WikiFunctions.DatabaseScanner
 
         Regex Contains;
 
-        public override bool Check(ref string articleText, ref string articleTitle)
+        public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
-            if (Contains.IsMatch(articleTitle))
+            if (Contains.IsMatch(ArticleTitle))
                 return true;
             else
                 return false;
@@ -113,9 +113,9 @@ namespace WikiFunctions.DatabaseScanner
 
         Regex NotContains;
 
-        public override bool Check(ref string articleText, ref string articleTitle)
+        public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
-            if (NotContains.IsMatch(articleTitle))
+            if (NotContains.IsMatch(ArticleTitle))
                 return false;
             else
                 return true;
@@ -136,9 +136,9 @@ namespace WikiFunctions.DatabaseScanner
         int test = 0;
         int actual = 0;
 
-        public override bool Check(ref string articleText, ref string articleTitle)
+        public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
-            actual = articleText.Length;
+            actual = ArticleText.Length;
 
             if (M == MoreLessThan.MoreThan)
             {
@@ -177,9 +177,9 @@ namespace WikiFunctions.DatabaseScanner
         int actual = 0;
         readonly Regex Regexlinks = new Regex("\\[\\[", RegexOptions.Compiled);
 
-        public override bool Check(ref string articleText, ref string articleTitle)
+        public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
-            MatchCollection m = Regexlinks.Matches(articleText);
+            MatchCollection m = Regexlinks.Matches(ArticleText);
             actual = m.Count;
 
             if (M == MoreLessThan.MoreThan)
@@ -218,9 +218,9 @@ namespace WikiFunctions.DatabaseScanner
         int test = 0;
         int actual = 0;
 
-        public override bool Check(ref string articleText, ref string articleTitle)
+        public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
-            actual = Tools.WordCount(articleText);
+            actual = Tools.WordCount(ArticleText);
 
             if (M == MoreLessThan.MoreThan)
             {
@@ -257,10 +257,10 @@ namespace WikiFunctions.DatabaseScanner
         int i = 0;
         int NamespaceIndex = 0;
 
-        public override bool Check(ref string articleText, ref string articleTitle)
+        public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
             i = 0;
-            NamespaceIndex = Tools.CalculateNS(articleTitle);
+            NamespaceIndex = Tools.CalculateNS(ArticleTitle);
             foreach (int j in namespaces)
             {
                 if (NamespaceIndex == namespaces[i])
@@ -281,9 +281,9 @@ namespace WikiFunctions.DatabaseScanner
 
         bool skip = true;
         Parsers parsers;
-        public override bool Check(ref string articleText, ref string articleTitle)
+        public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
-            parsers.FixLinks(articleText, ref skip);
+            parsers.FixLinks(ArticleText, ref skip);
             return !skip;
         }
     }
@@ -297,9 +297,9 @@ namespace WikiFunctions.DatabaseScanner
 
         bool skip = true;
         Parsers parsers;
-        public override bool Check(ref string articleText, ref string articleTitle)
+        public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
-            parsers.BoldTitle(articleText, articleTitle, ref skip);
+            parsers.BoldTitle(ArticleText, ArticleTitle, ref skip);
 
             return !skip;
         }
@@ -314,9 +314,9 @@ namespace WikiFunctions.DatabaseScanner
 
         bool skip = true;
         Parsers parsers;
-        public override bool Check(ref string articleText, ref string articleTitle)
+        public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
-            parsers.Unicodify(articleText, ref skip);
+            parsers.Unicodify(ArticleText, ref skip);
 
             return !skip;
         }
@@ -331,13 +331,13 @@ namespace WikiFunctions.DatabaseScanner
 
         Parsers parsers;
         Regex RegexSimpleLinks = new Regex("\\[\\[([^[]*?)\\|([^[]*?)\\]\\]", RegexOptions.Compiled);
-        public override bool Check(ref string articleText, ref string articleTitle)
+        public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
             string n = "";
             string a = "";
             string b = "";
 
-            foreach (Match m in RegexSimpleLinks.Matches(articleText))
+            foreach (Match m in RegexSimpleLinks.Matches(ArticleText))
             {
                 n = m.Value;
                 a = m.Groups[1].Value;
@@ -366,9 +366,9 @@ namespace WikiFunctions.DatabaseScanner
 
         bool skip = true;
         Parsers parsers;
-        public override bool Check(ref string articleText, ref string articleTitle)
+        public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
-            parsers.FixHeadings(articleText, ref skip);
+            parsers.FixHeadings(ArticleText, ref skip);
 
             return !skip;
         }
@@ -385,9 +385,9 @@ namespace WikiFunctions.DatabaseScanner
 ){0,3}\[?http", RegexOptions.Compiled);
 
         Parsers parsers;
-        public override bool Check(ref string articleText, ref string articleTitle)
+        public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
-            if (bulletRegex.IsMatch(articleText))
+            if (bulletRegex.IsMatch(ArticleText))
                 return true;
             else
                 return false;
@@ -403,9 +403,9 @@ namespace WikiFunctions.DatabaseScanner
 
         bool skip = true;
         Parsers parsers;
-        public override bool Check(ref string articleText, ref string articleTitle)
+        public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
-            parsers.LivingPeople(articleText, ref skip);
+            parsers.LivingPeople(ArticleText, ref skip);
 
             return !skip;
         }
@@ -421,9 +421,9 @@ namespace WikiFunctions.DatabaseScanner
         bool skip = true;
         string a = "";
 
-        public override bool Check(ref string articleText, ref string articleTitle)
+        public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
-            retf.PerformTypoFixes(articleText, ref skip, ref a);
+            retf.PerformTypoFixes(ArticleText, ref skip, ref a);
             return !skip;
         }
     }

@@ -73,13 +73,13 @@ namespace WikiFunctions.Parse
         string[] interwikiArray;
         const string interPattern = "\\[\\[(nds-nl|rmy|lij|bat-smg|map-bms|ksh|pdc|vls|nrm|frp|zh-yue|tet|xal|pap|tokipona|minnan|aa|af|ak|als|am|ang|ab|ar|an|arc|roa-rup|as|ast|gn|av|ay|az|bm|bn|zh-min-nan|ba|be|bh|bi|bo|bs|br|bg|ca|cv|ceb|cs|ch|ny|sn|tum|cho|co|za|cy|da|de|dv|nv|dz|mh|et|el|en|es|eo|eu|ee|fa|fo|fr|fy|ff|fur|ga|gv|gd|gl|ki|gu|got|ko|ha|haw|hy|hi|ho|hr|io|ig|ilo|id|ia|ie|iu|ik|os|xh|zu|is|it|he|jv|kl|kn|kr|ka|ks|csb|kk|kw|rw|ky|rn|sw|kv|kg|ht|kj|ku|lo|lad|la|lv|lb|lt|li|ln|jbo|lg|lmo|hu|mk|mg|ml|mt|mi|mr|ms|mo|mn|mus|my|nah|na|nb|fj|nl|cr|ne|ja|nap|ce|pih|nb|no|nn|oc|or|om|ng|hz|ug|pa|pi|pam|ps|km|nds|pl|pms|pt|ty|ro|rm|qu|ru|war|se|sm|sa|sg|sc|sco|st|tn|sq|scn|si|simple|sd|ss|sk|sl|so|sr|sh|su|fi|sv|tl|ta|tt|te|th|vi|ti|tg|tpi|to|chr|chy|ve|tr|tk|tw|udm|bug|uk|ur|uz|vec|vo|fiu-vro|wa|wo|ts|ii|yi|yo|zh|zh-tw|zh-cn):.*?\\]\\]";
 
-        internal string Sort(string ArticleText, string articleTitle)
+        internal string Sort(string ArticleText, string ArticleTitle)
         {
             ArticleText = Regex.Replace(ArticleText, "<!-- ?\\[\\[en:.*?\\]\\] ?-->", "");
 
             string strPersonData = removePersonData(ref ArticleText);
             string strDisambig = removeDisambig(ref ArticleText);
-            string strCategories = removeCats(ref ArticleText, articleTitle);
+            string strCategories = removeCats(ref ArticleText, ArticleTitle);
             string strInterwikis = interwikis(ref ArticleText);
             string strStub = removeStubs(ref ArticleText);
 
@@ -91,7 +91,7 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
-        private string removeCats(ref string ArticleText, string articleTitle)
+        private string removeCats(ref string ArticleText, string ArticleTitle)
         {
             ArrayList CatArray = new ArrayList();
 
@@ -107,7 +107,7 @@ namespace WikiFunctions.Parse
             }
 
             if (parser.addCatKey)
-                CatArray = catKeyer(CatArray, articleTitle);
+                CatArray = catKeyer(CatArray, ArticleTitle);
 
             if (Regex.IsMatch(ArticleText, "<!-- ?categories ?-->", RegexOptions.IgnoreCase))
             {
