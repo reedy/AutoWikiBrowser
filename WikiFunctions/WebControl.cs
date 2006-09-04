@@ -255,7 +255,7 @@ namespace WikiFunctions.Browser
             if (HasArticleTextBox)
             {
                 this.Document.GetElementById("wpTextbox1").Enabled = true;
-                this.Document.GetElementById("wpTextbox1").InnerText = ArticleText;
+                this.Document.GetElementById("wpTextbox1").InnerText = ArticleText.Trim();
             }
         }
 

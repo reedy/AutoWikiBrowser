@@ -580,8 +580,10 @@ namespace AutoWikiBrowser
                 if (EdittingArticle.NameSpaceKey == 0 || EdittingArticle.Name.Contains("Sandbox") || EdittingArticle.Name.Contains("sandbox"))
                 {
                     if (process && chkAutoTagger.Checked)
-                    {
+                    {//, ref SkipArticle
                         articleText = parsers.Tagger(articleText, EdittingArticle.Name, ref EdittingArticle.EditSummary);
+                        //if (SkipArticle)
+                        //    return articleText;
                     }
 
                     if (process && chkGeneralParse.Checked)
@@ -599,9 +601,7 @@ namespace AutoWikiBrowser
                         articleText = parsers.FixSyntax(articleText);
                         articleText = parsers.FixLinks(articleText);
                         articleText = parsers.BulletExternalLinks(articleText, ref SkipArticle);
-                        //if (NoChange)
-                        //    return articleText;
-
+                        
                         articleText = parsers.SortMetaData(articleText, EdittingArticle.Name);
                         articleText = parsers.BoldTitle(articleText, EdittingArticle.Name);
                         articleText = parsers.LinkSimplifier(articleText);

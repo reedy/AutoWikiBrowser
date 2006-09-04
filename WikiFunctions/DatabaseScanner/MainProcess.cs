@@ -100,8 +100,8 @@ namespace WikiFunctions.DatabaseScanner
 
         private void Process()
         {
-            string articleText = "";
-            string articleTitle = "";
+            string ArticleText = "";
+            string ArticleTitle = "";
 
             string page = "page";
             string title = "title";
@@ -127,16 +127,16 @@ namespace WikiFunctions.DatabaseScanner
                         if (reader.Name == page)
                         {
                             reader.ReadToFollowing(title);
-                            articleTitle = reader.ReadString();
+                            ArticleTitle = reader.ReadString();
                             reader.ReadToFollowing(text);
-                            articleText = reader.ReadString();
+                            ArticleText = reader.ReadString();
 
                             if(ignore)
-                                articleText = regComments.Replace(articleText, "");
+                                ArticleText = regComments.Replace(ArticleText, "");
 
                             foreach (Scan z in s)
                             {
-                                if (!z.Check(ref articleText, ref articleTitle))
+                                if (!z.Check(ref ArticleText, ref ArticleTitle))
                                 {
                                     test = false;
                                     break;
@@ -145,15 +145,15 @@ namespace WikiFunctions.DatabaseScanner
                          
                             if (test)
                             {
-                                //links = Tools.LinkCount(articleText);
+                                //links = Tools.LinkCount(ArticleText);
                                 //if (links < 2000)
                                 //    c[links]++;
                                 //else
                                 //{
                                 //    c[1999]++;
-                                //    System.Windows.Forms.MessageBox.Show(articleTitle);
+                                //    System.Windows.Forms.MessageBox.Show(ArticleTitle);
                                 //}
-                                context.Post(SOPC, articleTitle);
+                                context.Post(SOPC, ArticleTitle);
                             }
                         }
                     }
@@ -163,7 +163,7 @@ namespace WikiFunctions.DatabaseScanner
             catch (Exception ex)
             {
                 if (boolMessage)
-                    System.Windows.Forms.MessageBox.Show("Problem on " + articleTitle + "\r\n\r\n" + ex.Message);
+                    System.Windows.Forms.MessageBox.Show("Problem on " + ArticleTitle + "\r\n\r\n" + ex.Message);
             }
             finally
             {
@@ -177,7 +177,7 @@ namespace WikiFunctions.DatabaseScanner
                 //res.ShowDialog();
 
                 if (boolMessage)
-                    context.Post(SOPCstopped, articleTitle);
+                    context.Post(SOPCstopped, ArticleTitle);
             }
         }
 
@@ -211,7 +211,7 @@ namespace WikiFunctions.DatabaseScanner
 
         //articles++;
 
-        //                        m = reg.Matches(articleText);
+        //                        m = reg.Matches(ArticleText);
 
         //                        if (m.Count > 0)
         //                        {

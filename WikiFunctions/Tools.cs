@@ -307,12 +307,12 @@ namespace WikiFunctions
             return Text;
         }
 
-        public static string linkChecker(string articleText)
+        public static string linkChecker(string ArticleText)
         {//checks links to make them bypass redirects and (TODO) disambigs
             string link = "";
             string article = "";
 
-            foreach (Match m in Regex.Matches(articleText, "(\\[\\[)(.*?)(\\]\\])"))
+            foreach (Match m in Regex.Matches(ArticleText, "(\\[\\[)(.*?)(\\]\\])"))
             {
                 //make link
                 link = m.Value;
@@ -329,10 +329,10 @@ namespace WikiFunctions
                     string directLink = Regex.Match(text, "\\[\\[(.*?)\\]\\]").Groups[1].Value;
                     directLink = "[[" + directLink + "|" + article + "]]";
 
-                    articleText = articleText.Replace(link, directLink);
+                    ArticleText = ArticleText.Replace(link, directLink);
                 }
             }
-            return articleText;
+            return ArticleText;
         }
 
         /// <summary>
