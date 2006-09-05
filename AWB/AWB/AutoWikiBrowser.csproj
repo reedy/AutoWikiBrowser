@@ -116,6 +116,10 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="SkipOptions.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SkipOptions.cs</DependentUpon>
+    </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -136,6 +140,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Settings.cs" />
+    <Compile Include="SkipOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SkipOptions.Designer.cs">
+      <DependentUpon>SkipOptions.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserSettings.cs">
       <SubType>Form</SubType>
     </Compile>

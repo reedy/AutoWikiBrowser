@@ -52,6 +52,9 @@ namespace AutoWikiBrowser
             txtIgnoreIfContains.Text = "";
             txtOnlyIfContains.Text = "";
 
+            Skip.SkipNoTag = false;
+            Skip.SkipNoUnicode = false;
+
             chkAppend.Checked = false;
             rdoAppend.Checked = true;
             txtAppendMessage.Text = "";
@@ -276,6 +279,15 @@ namespace AutoWikiBrowser
                             txtIgnoreIfContains.Text = reader.Value;
                             reader.MoveToAttribute("doesnottext");
                             txtOnlyIfContains.Text = reader.Value;
+
+                            continue;
+                        }
+                        if (reader.Name == "moreskip" && reader.HasAttributes)
+                        {
+                            reader.MoveToAttribute("nounicode");
+                            Skip.SkipNoUnicode  = bool.Parse(reader.Value);
+                            reader.MoveToAttribute("notagged");
+                            Skip.SkipNoTag = bool.Parse(reader.Value);
 
                             continue;
                         }
@@ -613,6 +625,11 @@ namespace AutoWikiBrowser
                 textWriter.WriteAttributeString("casesensitive", chkIgnoreCaseSensitive.Checked.ToString());
                 textWriter.WriteAttributeString("doestext", txtIgnoreIfContains.Text);
                 textWriter.WriteAttributeString("doesnottext", txtOnlyIfContains.Text);
+                textWriter.WriteEndElement();
+
+                textWriter.WriteStartElement("moreskip");
+                textWriter.WriteAttributeString("nounicode", Skip.SkipNoUnicode.ToString());
+                textWriter.WriteAttributeString("notagged", Skip.SkipNoTag.ToString());
                 textWriter.WriteEndElement();
 
                 textWriter.WriteStartElement("message");

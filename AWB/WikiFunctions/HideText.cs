@@ -9,7 +9,7 @@ namespace WikiFunctions.Parse
     {
         public HideText(bool HideExternalLinks, bool LeaveMetaHeadings, bool HideImages)
         {
-            string Regex = "<nowiki>.*?</nowiki>|<math>.*?</math>|<!--.*?-->";
+            string Regex = "<nowiki>.*?</nowiki>|<pre>.*?</pre>|<math>.*?</math>|<!--.*?-->";
 
             if (HideImages)
                 Regex += "|\\[\\[[Ii]mage:.*?\\]\\]";
