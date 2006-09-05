@@ -112,6 +112,7 @@ namespace AutoWikiBrowser
         List<string> noParse = new List<string>();
         FindandReplace findAndReplace = new FindandReplace();
         RegExTypoFix RegexTypos;
+        SkipOptions Skip = new SkipOptions();
         WikiFunctions.MWB.ReplaceSpecial replaceSpecial = new WikiFunctions.MWB.ReplaceSpecial();
         Parsers parsers;
         WebControl webBrowserLogin = new WebControl();
@@ -276,21 +277,21 @@ namespace AutoWikiBrowser
                 return;
             }
 
-            if (chkIgnoreIfContains.Checked && IgnoreIfContains(EdittingArticle + strText,
+            if (chkIgnoreIfContains.Checked && Skip.SkipIfContains(strText, EdittingArticle.Name,
             txtIgnoreIfContains.Text, chkIgnoreIsRegex.Checked, chkIgnoreCaseSensitive.Checked, true))
             {
                 SkipPage();
                 return;
             }
 
-            if (chkOnlyIfContains.Checked && IgnoreIfContains(EdittingArticle + strText,
+            if (chkOnlyIfContains.Checked && Skip.SkipIfContains(strText, EdittingArticle.Name,
             txtOnlyIfContains.Text, chkIgnoreIsRegex.Checked, chkIgnoreCaseSensitive.Checked, false))
             {
                 SkipPage();
                 return;
             }
 
-            if (!skipIf(strText))
+            if (!Skip.skipIf(strText))
             {
                 SkipPage();
                 return;
@@ -390,12 +391,6 @@ namespace AutoWikiBrowser
                 MessageBox.Show(ex.Message);
             }
             return true;
-        }
-
-        private bool skipIf(string articleText)
-        {//custom code to skip articles can be added here
-            return true;
-
         }
 
         bool skippable = true;
@@ -526,7 +521,11 @@ namespace AutoWikiBrowser
                 }
 
                 if (chkUnicodifyWhole.Checked && process)
-                    articleText = parsers.Unicodify(articleText);
+                {
+                    articleText = parsers.Unicodify(articleText, ref SkipArticle);
+                    if (Skip.SkipNoUnicode && SkipArticle)
+                        return articleText;
+                }
 
                 if (cmboImages.SelectedIndex == 1)
                 {
@@ -580,10 +579,10 @@ namespace AutoWikiBrowser
                 if (EdittingArticle.NameSpaceKey == 0 || EdittingArticle.Name.Contains("Sandbox") || EdittingArticle.Name.Contains("sandbox"))
                 {
                     if (process && chkAutoTagger.Checked)
-                    {//, ref SkipArticle
-                        articleText = parsers.Tagger(articleText, EdittingArticle.Name, ref EdittingArticle.EditSummary);
-                        //if (SkipArticle)
-                        //    return articleText;
+                    {
+                        articleText = parsers.Tagger(articleText, EdittingArticle.Name, ref SkipArticle, ref EdittingArticle.EditSummary);
+                        if (Skip.SkipNoTag && SkipArticle)
+                            return articleText;
                     }
 
                     if (process && chkGeneralParse.Checked)
@@ -1201,32 +1200,7 @@ namespace AutoWikiBrowser
             txtEdit.Select(intStart, intEnd - intStart);
             txtEdit.ScrollToCaret();
             txtEdit.Focus();
-        }
-
-        private bool IgnoreIfContains(string strArticle, string strFind, bool Regexe, bool caseSensitive, bool DoesContain)
-        {
-            if (strFind.Length > 0)
-            {
-                RegexOptions RegOptions;
-
-                if (caseSensitive)
-                    RegOptions = RegexOptions.None;
-                else
-                    RegOptions = RegexOptions.IgnoreCase;
-
-                strFind = Tools.ApplyKeyWords(EdittingArticle.Name, strFind);
-
-                if (!Regexe)
-                    strFind = Regex.Escape(strFind);
-
-                if (Regex.IsMatch(strArticle, strFind, RegOptions))
-                    return DoesContain;
-                else
-                    return !DoesContain;
-            }
-            else
-                return false;
-        }
+        }        
 
         [Conditional("DEBUG")]
         public void Debug()
@@ -1445,6 +1419,11 @@ namespace AutoWikiBrowser
         #endregion
 
         #region menus and buttons
+
+        private void btnMoreSkip_Click(object sender, EventArgs e)
+        {
+            Skip.ShowDialog();
+        }
 
         private void btnPreview_Click(object sender, EventArgs e)
         {
@@ -2110,7 +2089,7 @@ namespace AutoWikiBrowser
 
         #endregion
 
-        //private IAWBPlugin[] AWBPlugins;
+        #region Plugin
 
         List<IAWBPlugin> AWBPlugins = new List<IAWBPlugin>();
         private void LoadPlugins()
@@ -2163,5 +2142,7 @@ namespace AutoWikiBrowser
 
             pluginsToolStripMenuItem.Visible = AWBPlugins.Count > 0;
         }
+
+        #endregion
     }
 }
