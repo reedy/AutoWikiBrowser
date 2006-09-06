@@ -529,13 +529,13 @@ namespace AutoWikiBrowser
 
                 if (cmboImages.SelectedIndex == 1)
                 {
-                    articleText = parsers.ReImager(txtImageReplace.Text, txtImageWith.Text, articleText, ref SkipArticle);
+                    articleText = parsers.ReplaceImage(txtImageReplace.Text, txtImageWith.Text, articleText, ref SkipArticle);
                     if (SkipArticle)
                         return articleText;
                 }
                 else if (cmboImages.SelectedIndex == 2)
                 {
-                    articleText = parsers.RemoveImage(txtImageReplace.Text, articleText, false, txtImageWith.Text);
+                    articleText = parsers.RemoveImage(txtImageReplace.Text, articleText, false, txtImageWith.Text, ref SkipArticle);
                     if (SkipArticle)
                         return articleText;
                 }
