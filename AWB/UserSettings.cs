@@ -51,9 +51,7 @@ namespace AutoWikiBrowser
             chkIgnoreCaseSensitive.Checked = false;
             txtIgnoreIfContains.Text = "";
             txtOnlyIfContains.Text = "";
-
-            Skip.SkipNoTag = false;
-            Skip.SkipNoUnicode = false;
+            Skip.SelectedItem = 0;
 
             chkAppend.Checked = false;
             rdoAppend.Checked = true;
@@ -207,7 +205,7 @@ namespace AutoWikiBrowser
                             reader.MoveToAttribute("enabled");
                             enabled = bool.Parse(reader.Value);
                             reader.MoveToAttribute("maxnumber");
-                            times = int.Parse(reader.Value);                            
+                            times = int.Parse(reader.Value);
 
                             if (find.Length > 0)
                                 findAndReplace.AddNew(find, replace, casesens, regex, multi, single, times, enabled);
@@ -232,7 +230,7 @@ namespace AutoWikiBrowser
                             LangCodeEnum l = (LangCodeEnum)Enum.Parse(typeof(LangCodeEnum), language);
                             ProjectEnum p = (ProjectEnum)Enum.Parse(typeof(ProjectEnum), project);
 
-                            SetProject(l ,p);
+                            SetProject(l, p);
 
                             continue;
                         }
@@ -279,16 +277,11 @@ namespace AutoWikiBrowser
                             txtIgnoreIfContains.Text = reader.Value;
                             reader.MoveToAttribute("doesnottext");
                             txtOnlyIfContains.Text = reader.Value;
-
-                            continue;
-                        }
-                        if (reader.Name == "moreskip" && reader.HasAttributes)
-                        {
-                            reader.MoveToAttribute("nounicode");
-                            Skip.SkipNoUnicode  = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("notagged");
-                            Skip.SkipNoTag = bool.Parse(reader.Value);
-
+                            if (reader.AttributeCount > 6)
+                            {
+                                reader.MoveToAttribute("moreindex");
+                                Skip.SelectedItem = int.Parse(reader.Value);
+                            }
                             continue;
                         }
                         if (reader.Name == "message" && reader.HasAttributes)
@@ -297,10 +290,10 @@ namespace AutoWikiBrowser
                             chkAppend.Checked = bool.Parse(reader.Value);
                             reader.MoveToAttribute("text");
                             txtAppendMessage.Text = reader.Value;
-                                reader.MoveToAttribute("append");
-                                rdoAppend.Checked = bool.Parse(reader.Value);
-                                rdoPrepend.Checked = !bool.Parse(reader.Value);
-                            
+                            reader.MoveToAttribute("append");
+                            rdoAppend.Checked = bool.Parse(reader.Value);
+                            rdoPrepend.Checked = !bool.Parse(reader.Value);
+
                             continue;
                         }
                         if (reader.Name == "automode" && reader.HasAttributes)
@@ -444,7 +437,7 @@ namespace AutoWikiBrowser
                             btnFalsePositive.Visible = bool.Parse(reader.Value);
 
                             continue;
-                        }                        
+                        }
                         if (reader.Name == "pastemore1" && reader.HasAttributes)
                         {
                             reader.MoveToAttribute("text");
@@ -531,10 +524,10 @@ namespace AutoWikiBrowser
                             reader.MoveToAttribute("textboxfontsize");
                             s = float.Parse(reader.Value);
                             reader.MoveToAttribute("textboxfont");
-                            d = reader.Value;                            
+                            d = reader.Value;
                             System.Drawing.Font f = new System.Drawing.Font(d, s);
                             txtEdit.Font = f;
-                            
+
                             reader.MoveToAttribute("lowthreadpriority");
                             LowThreadPriority = bool.Parse(reader.Value);
 
@@ -568,7 +561,7 @@ namespace AutoWikiBrowser
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -625,11 +618,7 @@ namespace AutoWikiBrowser
                 textWriter.WriteAttributeString("casesensitive", chkIgnoreCaseSensitive.Checked.ToString());
                 textWriter.WriteAttributeString("doestext", txtIgnoreIfContains.Text);
                 textWriter.WriteAttributeString("doesnottext", txtOnlyIfContains.Text);
-                textWriter.WriteEndElement();
-
-                textWriter.WriteStartElement("moreskip");
-                textWriter.WriteAttributeString("nounicode", Skip.SkipNoUnicode.ToString());
-                textWriter.WriteAttributeString("notagged", Skip.SkipNoTag.ToString());
+                textWriter.WriteAttributeString("moreindex", Skip.SelectedItem.ToString());
                 textWriter.WriteEndElement();
 
                 textWriter.WriteStartElement("message");
@@ -658,13 +647,13 @@ namespace AutoWikiBrowser
                 textWriter.WriteEndElement();
                 textWriter.WriteEndElement();
 
-                textWriter.WriteStartElement("FindAndReplaceSettings");                
+                textWriter.WriteStartElement("FindAndReplaceSettings");
                 findAndReplace.WriteToXml(textWriter, chkFindandReplace.Checked, chkIgnoreWhenNoFAR.Checked);
                 textWriter.WriteEndElement();
 
                 textWriter.WriteStartElement("FindAndReplace");
                 replaceSpecial.WriteToXml(textWriter, chkFindandReplace.Checked);
-                textWriter.WriteEndElement();                
+                textWriter.WriteEndElement();
 
                 textWriter.WriteStartElement("startoptions");
                 int j = 0;
@@ -741,7 +730,7 @@ namespace AutoWikiBrowser
 
                 textWriter.WriteStartElement("addignoredtolog");
                 textWriter.WriteAttributeString("enabled", addIgnoredToLogFileToolStripMenuItem.Checked.ToString());
-                textWriter.WriteEndElement();     
+                textWriter.WriteEndElement();
 
                 textWriter.WriteEndElement();
 
@@ -753,7 +742,7 @@ namespace AutoWikiBrowser
                     {
                         textWriter.WriteStartElement(a.Name.Replace(' ', '_'));
                         a.WriteXML(textWriter);
-                        textWriter.WriteEndElement();                        
+                        textWriter.WriteEndElement();
                     }
                     textWriter.WriteEndElement();
                 }
@@ -809,7 +798,7 @@ namespace AutoWikiBrowser
                 textWriter.WriteAttributeString("lowthreadpriority", LowThreadPriority.ToString());
                 textWriter.WriteAttributeString("flashandbeep", FlashAndBeep.ToString());
                 textWriter.WriteEndElement();
-                textWriter.WriteEndElement();                
+                textWriter.WriteEndElement();
 
                 // Ends the document.
                 textWriter.WriteEndDocument();

@@ -21,14 +21,14 @@ namespace AutoWikiBrowser
 
         public bool SkipNoUnicode
         {
-            get { return chkUnicoder.Checked; }
-            set { chkUnicoder.Checked = value; }
+            get { return rdoNoUnicode.Checked; }
+            set { rdoNoUnicode.Checked = value; }
         }
 
         public bool SkipNoTag
         {
-            get { return chkTagger.Checked; }
-            set { chkTagger.Checked = value; }
+            get { return rdoNoTag.Checked; }
+            set { rdoNoTag.Checked = value; }
         }
 
         #endregion
@@ -72,6 +72,41 @@ namespace AutoWikiBrowser
             this.Hide();
         }
 
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+        }
+
+        public int SelectedItem
+        {
+            get
+            {
+                foreach (RadioButton rd in gbOptions.Controls)
+                {
+                    if (rd.Checked)
+                    {
+                        return Convert.ToInt32(rd.Tag);
+                    }
+                }
+
+                return 0;
+            }
+            set
+            {
+                foreach (RadioButton rd in gbOptions.Controls)
+                {                    
+                    if (Convert.ToInt32(rd.Tag) == value)
+                    {
+                        rd.Checked = true;
+                        return;
+                    }
+                        
+                }
+                rdoNone.Checked = true;
+            }
+        }
+
         #endregion
+        
     }
 }

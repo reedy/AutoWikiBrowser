@@ -574,7 +574,7 @@ namespace WikiFunctions.Parse
         /// <param name="NewImage">The new image.</param>
         /// <param name="NoChange">Value that indicated whether no change was made.</param>
         /// <returns>The new article text.</returns>
-        public string ReImager(string OldImage, string NewImage, string ArticleText, ref bool NoChange)
+        public string ReplaceImage(string OldImage, string NewImage, string ArticleText, ref bool NoChange)
         {
             testText = ArticleText;
             ArticleText = ReplaceImage(OldImage, NewImage, ArticleText);
