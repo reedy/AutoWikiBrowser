@@ -24,7 +24,7 @@ using System.Text;
 
 namespace WikiFunctions
 {
-    public enum LangCodeEnum { en, ca, da, de, es, fr, it, nl, mi, pl, pt, sv, ru, sl, zh }
+    public enum LangCodeEnum { en, ca, da, de, eo, es, fi, fr, it, ja, nl, no, mi, pl, pt, ru, sk, sl, sv, zh }
     public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikinews, wikiquote, commons, meta, species }
 
     /// <summary>
@@ -154,7 +154,7 @@ namespace WikiFunctions
                     Namespaces[103] = "Viquiprojecte Discussió:";
 
                     strtalkns = " discussió:";
-                    strsummarytag = " [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
+                    strsummarytag = " [[Viquipèdia:AutoWikiBrowser|AWB]]";
                     break;
 
                 case LangCodeEnum.da:
@@ -179,7 +179,7 @@ namespace WikiFunctions
                     Namespaces[101] = "Portal diskussion:";
 
                     strtalkns = " diskussion:";
-                    strsummarytag = " [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
+                    strsummarytag = " [[Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
                 case LangCodeEnum.de:
@@ -204,7 +204,7 @@ namespace WikiFunctions
                     Namespaces[101] = "Portal Diskussion:";
 
                     strtalkns = " Diskussion:";
-                    strsummarytag = " [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
+                    strsummarytag = " [[Wikipedia:AutoWikiBrowser|AWB]]";
                     break;                
 
                 case LangCodeEnum.es:
@@ -231,7 +231,54 @@ namespace WikiFunctions
                     Namespaces[103] = "Wikiproyecto Discusión:";
 
                     strtalkns = " Discusión:";
-                    strsummarytag = " [[en:Wikipedia:AutoWikiBrowser|AWB]]";
+                    strsummarytag = " [[Wikipedia:AutoWikiBrowser|AWB]]";
+                    break;
+
+                case LangCodeEnum.eo:
+                    Namespaces[-2] = "Media:";
+                    Namespaces[-1] = "Speciala:";
+                    Namespaces[1] = "Diskuto:";
+                    Namespaces[2] = "Vikipediisto:";
+                    Namespaces[3] = "Vikipediista diskuto:";
+                    Namespaces[4] = "Vikipedio:";
+                    Namespaces[5] = "Vikipedia diskuto:";
+                    Namespaces[6] = "Dosiero:";
+                    Namespaces[7] = "Dosiera diskuto:";
+                    Namespaces[8] = "MediaWiki:";
+                    Namespaces[9] = "MediaWiki diskuto:";
+                    Namespaces[10] = "Ŝablono:";
+                    Namespaces[11] = "Ŝablona diskuto:";
+                    Namespaces[12] = "Helpo:";
+                    Namespaces[13] = "Helpa diskuto:";
+                    Namespaces[14] = "Kategorio:";
+                    Namespaces[15] = "Kategoria diskuto:";
+                    Namespaces[100] = "Portalo:";
+                    Namespaces[101] = "Portala diskuto:";
+
+                    strsummarytag = " [[Vikipedio:AutoWikiBrowser|AWB]]";
+                    break;
+
+                case LangCodeEnum.fi:
+                    Namespaces[-2] = "Media:";
+                    Namespaces[-1] = "Toiminnot:";
+                    Namespaces[1] = "Keskustelu:";
+                    Namespaces[2] = "Käyttäjä:";
+                    Namespaces[3] = "Keskustelu käyttäjästä:";
+                    Namespaces[4] = "Wikipedia:";
+                    Namespaces[5] = "Keskustelu Wikipediasta:";
+                    Namespaces[6] = "Kuva:";
+                    Namespaces[7] = "Keskustelu kuvasta:";
+                    Namespaces[8] = "MediaWiki:";
+                    Namespaces[9] = "MediaWiki talk:";
+                    Namespaces[10] = "Malline:";
+                    Namespaces[11] = "Keskustelu mallineesta:";
+                    Namespaces[12] = "Ohje:";
+                    Namespaces[13] = "Keskustelu ohjeesta:";
+                    Namespaces[14] = "Luokka:";
+                    Namespaces[15] = "Keskustelu luokasta:";
+
+                    //strtalkns = "Discussion Utilisateur:";
+                    strsummarytag = " [[Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
                 case LangCodeEnum.fr:
@@ -260,7 +307,7 @@ namespace WikiFunctions
                     Namespaces[105] = "Discussion Référence:";
 
                     //strtalkns = "Discussion Utilisateur:";
-                    strsummarytag = " [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
+                    strsummarytag = " [[Wikipédia:AutoWikiBrowser|AWB]]";
                     break;
 
                 case LangCodeEnum.it:
@@ -285,7 +332,32 @@ namespace WikiFunctions
                     Namespaces[101] = "Discussioni portale:";
 
                     //strtalkns = "Discussion Utilisateur:";
-                    strsummarytag = " [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
+                    strsummarytag = " [[Wikipedia:AutoWikiBrowser|AWB]]";
+                    break;
+
+                case LangCodeEnum.ja:
+                    Namespaces[-2] = "Media:";
+                    Namespaces[-1] = "特別:";
+                    Namespaces[1] = "ノート:";
+                    Namespaces[2] = "利用者:";
+                    Namespaces[3] = "利用者‐会話:";
+                    Namespaces[4] = "Wikipedia:";
+                    Namespaces[5] = "Wikipedia‐ノート:";
+                    Namespaces[6] = "画像:";
+                    Namespaces[7] = "画像‐ノート:";
+                    Namespaces[8] = "MediaWiki:";
+                    Namespaces[9] = "MediaWiki‐ノート:";
+                    Namespaces[10] = "Template:";
+                    Namespaces[11] = "Template‐ノート:";
+                    Namespaces[12] = "Help:";
+                    Namespaces[13] = "Help‐ノート:";
+                    Namespaces[14] = "Category:";
+                    Namespaces[15] = "Category‐ノート:";
+                    Namespaces[100] = "Portal:";
+                    Namespaces[101] = "Portal‐ノート:";
+
+                    strtalkns = "‐ノート:";
+                    strsummarytag = " [[Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
                 case LangCodeEnum.mi:
@@ -308,7 +380,7 @@ namespace WikiFunctions
                     Namespaces[15] = "Category talk:";
                                         
                     strtalkns = " talk:";
-                    strsummarytag = "";
+                    strsummarytag = " [[Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
                 case LangCodeEnum.nl:
@@ -333,7 +405,32 @@ namespace WikiFunctions
                     Namespaces[101] = "Overleg portaal:";
 
                     strtalkns = " overleg:";
-                    strsummarytag = " met [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
+                    strsummarytag = " met [[Wikipedia:AutoWikiBrowser|AWB]]";
+                    break;
+
+                case LangCodeEnum.no:
+                    Namespaces[-2] = "Medium:";
+                    Namespaces[-1] = "Spesial:";
+                    Namespaces[1] = "Diskusjon:";
+                    Namespaces[2] = "Bruker:";
+                    Namespaces[3] = "Brukerdiskusjon:";
+                    Namespaces[4] = "Wikipedia:";
+                    Namespaces[5] = "Wikipedia-diskusjon:";
+                    Namespaces[6] = "Bilde:";
+                    Namespaces[7] = "Bildediskusjon:";
+                    Namespaces[8] = "MediaWiki:";
+                    Namespaces[9] = "MediaWiki-diskusjon:";
+                    Namespaces[10] = "Mal:";
+                    Namespaces[11] = "Maldiskusjon:";
+                    Namespaces[12] = "Hjelp:";
+                    Namespaces[13] = "Hjelpdiskusjon:";
+                    Namespaces[14] = "Kategori:";
+                    Namespaces[15] = "Kategoridiskusjon:";
+                    Namespaces[100] = "Portal:";
+                    Namespaces[101] = "Portaldiskusjon:";
+
+                    strtalkns = "diskusjon:";
+                    strsummarytag = " [[Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
                 case LangCodeEnum.pl:
@@ -358,7 +455,7 @@ namespace WikiFunctions
                     Namespaces[101] = "Dyskusja portalu:";
 
                     //strtalkns = "";
-                    strsummarytag = " [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
+                    strsummarytag = " [[Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
                 case LangCodeEnum.pt:
@@ -383,7 +480,7 @@ namespace WikiFunctions
                     Namespaces[101] = "Discussão Portal:";
 
                     strtalkns = " discussão:";
-                    strsummarytag = " utilizando [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
+                    strsummarytag = " utilizando [[Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
                 case LangCodeEnum.ru:
@@ -408,7 +505,31 @@ namespace WikiFunctions
                     Namespaces[101] = "Обсуждение портала:";
 
                     strtalkns = "Обсуждение:";
-                    strsummarytag = " [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
+                    strsummarytag = " [[Википедия:AutoWikiBrowser|AWB]]";
+                    break;
+
+                case LangCodeEnum.sk:
+                    Namespaces[-2] = "Médiá:";
+                    Namespaces[-1] = "Špeciálne:";
+                    Namespaces[1] = "Diskusia:";
+                    Namespaces[2] = "Redaktor:";
+                    Namespaces[3] = "Diskusia s redaktorom:";
+                    Namespaces[4] = "Wikipédia:";
+                    Namespaces[5] = "Diskusia k Wikipédii:";
+                    Namespaces[6] = "Obrázok:";
+                    Namespaces[7] = "Diskusia k obrázku:";
+                    Namespaces[8] = "MediaWiki:";
+                    Namespaces[9] = "Diskusia k MediaWiki:";
+                    Namespaces[10] = "Šablóna:";
+                    Namespaces[11] = "Diskusia k šablóne:";
+                    Namespaces[12] = "Pomoc:";
+                    Namespaces[13] = "Diskusia k pomoci:";
+                    Namespaces[14] = "Kategória:";
+                    Namespaces[15] = "Diskusia ku kategórii:";
+                    Namespaces[100] = "Portál:";
+                    Namespaces[101] = "Diskusia k portálu:";
+                    strtalkns = " k pomoci:";
+                    strsummarytag = " [[Wikipédia:AutoWikiBrowser|AWB]]";
                     break;
 
                 case LangCodeEnum.sl:
@@ -431,7 +552,7 @@ namespace WikiFunctions
                     Namespaces[15] = "Pogovor o kategoriji:";
 
                     strtalkns = " pogovor:";
-                    strsummarytag = " [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
+                    strsummarytag = " [[Wikipedija:AutoWikiBrowser|AWB]]";
                     break;
 
                 case LangCodeEnum.sv:
@@ -456,7 +577,7 @@ namespace WikiFunctions
                     Namespaces[101] = "Portaldiskussion:";
 
                     strtalkns = " talk:";
-                    strsummarytag = " [[:en:Wikipedia:AutoWikiBrowser|AWB]]";
+                    strsummarytag = " [[Wikipedia:AutoWikiBrowser|AWB]]";
                     break;            
     
                 default:
