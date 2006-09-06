@@ -51,7 +51,7 @@ namespace AutoWikiBrowser
             chkIgnoreCaseSensitive.Checked = false;
             txtIgnoreIfContains.Text = "";
             txtOnlyIfContains.Text = "";
-            Skip.SelectedItem = 0;
+            Skip.SelectedItem = "0";
 
             chkAppend.Checked = false;
             rdoAppend.Checked = true;
@@ -280,7 +280,7 @@ namespace AutoWikiBrowser
                             if (reader.AttributeCount > 6)
                             {
                                 reader.MoveToAttribute("moreindex");
-                                Skip.SelectedItem = int.Parse(reader.Value);
+                                Skip.SelectedItem = reader.Value;
                             }
                             continue;
                         }
