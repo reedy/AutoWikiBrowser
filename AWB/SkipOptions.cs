@@ -22,13 +22,11 @@ namespace AutoWikiBrowser
         public bool SkipNoUnicode
         {
             get { return rdoNoUnicode.Checked; }
-            set { rdoNoUnicode.Checked = value; }
         }
 
         public bool SkipNoTag
         {
             get { return rdoNoTag.Checked; }
-            set { rdoNoTag.Checked = value; }
         }
 
         #endregion
@@ -77,7 +75,7 @@ namespace AutoWikiBrowser
             this.Hide();
         }
 
-        public int SelectedItem
+        public string SelectedItem
         {
             get
             {
@@ -85,17 +83,17 @@ namespace AutoWikiBrowser
                 {
                     if (rd.Checked)
                     {
-                        return Convert.ToInt32(rd.Tag);
+                        return rd.Tag.ToString();
                     }
                 }
 
-                return 0;
+                return "0";
             }
             set
             {
                 foreach (RadioButton rd in gbOptions.Controls)
                 {                    
-                    if (Convert.ToInt32(rd.Tag) == value)
+                    if (rd.Tag.ToString() == value)
                     {
                         rd.Checked = true;
                         return;
