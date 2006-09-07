@@ -79,6 +79,8 @@ namespace WikiFunctions.Parse
 
                 if (Matches.Count > 0)
                 {
+                    //MessageBox.Show(k.Key + " " + k.Value);
+
                     Replace = k.Value;
                     ArticleText = k.Key.Replace(ArticleText, Replace);
 
