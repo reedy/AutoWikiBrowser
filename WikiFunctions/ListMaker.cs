@@ -411,19 +411,6 @@ namespace WikiFunctions.Lists
         {
             bool boolEnabled = lbArticles.Items.Count > 0;
 
-            if (lbArticles.SelectedItems.Count == 1)
-            {
-                if (lbArticles.SelectedItem.ToString().StartsWith(Variables.Namespaces[14]))
-                    fromCategoryToolStripMenuItem.Enabled = true;
-                else
-                    fromCategoryToolStripMenuItem.Enabled = false;
-
-                if (lbArticles.SelectedItem.ToString().StartsWith(Variables.Namespaces[6]))
-                    fromImageLinksToolStripMenuItem.Enabled = true;
-                else
-                    fromImageLinksToolStripMenuItem.Enabled = false;
-            }
-
             addSelectedToListToolStripMenuItem.Enabled = lbArticles.SelectedItems.Count > 0;
 
             removeToolStripMenuItem.Enabled = lbArticles.SelectedItem != null;
