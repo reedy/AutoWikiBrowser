@@ -59,7 +59,7 @@ namespace AutoWikiBrowser
 
         private void cmboProject_SelectedIndexChanged(object sender, EventArgs e)
         {//disable other languages that are not wikipedia.
-            if (cmboProject.SelectedIndex >= 3)
+            if (cmboProject.SelectedIndex >= 6)
             {
                 cmboLang.SelectedIndex = 0;
                 cmboLang.Enabled = false;
