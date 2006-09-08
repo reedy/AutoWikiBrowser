@@ -134,6 +134,10 @@ namespace AutoWikiBrowser
                 listMaker1.MakeListEnabled = true;
 
             Debug();
+
+            if(AutoWikiBrowser.Properties.Settings.Default.LogInOnStart)
+                WikiStatus();
+
             LoadPlugins();
             loadDefaultSettings();
             UpdateButtons();
