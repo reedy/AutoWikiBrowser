@@ -61,6 +61,7 @@ namespace AutoWikiBrowser
             this.chkAutoTagger = new System.Windows.Forms.CheckBox();
             this.chkGeneralParse = new System.Windows.Forms.CheckBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.btnMoreSkip = new System.Windows.Forms.Button();
             this.chkIgnoreNonExistent = new System.Windows.Forms.CheckBox();
             this.chkSkipNoChanges = new System.Windows.Forms.CheckBox();
             this.chkIgnoreCaseSensitive = new System.Windows.Forms.CheckBox();
@@ -234,7 +235,6 @@ namespace AutoWikiBrowser
             this.btntsFalsePositive = new System.Windows.Forms.ToolStripButton();
             this.lbltsNumberofItems = new System.Windows.Forms.ToolStripLabel();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
-            this.btnMoreSkip = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tpSetOptions.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -420,6 +420,16 @@ namespace AutoWikiBrowser
             this.groupBox8.TabIndex = 27;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Skip articles";
+            // 
+            // btnMoreSkip
+            // 
+            this.btnMoreSkip.Location = new System.Drawing.Point(196, 106);
+            this.btnMoreSkip.Name = "btnMoreSkip";
+            this.btnMoreSkip.Size = new System.Drawing.Size(55, 23);
+            this.btnMoreSkip.TabIndex = 32;
+            this.btnMoreSkip.Text = "More";
+            this.btnMoreSkip.UseVisualStyleBackColor = true;
+            this.btnMoreSkip.Click += new System.EventHandler(this.btnMoreSkip_Click);
             // 
             // chkIgnoreNonExistent
             // 
@@ -1856,6 +1866,7 @@ namespace AutoWikiBrowser
             // 
             // lblUserName
             // 
+            this.lblUserName.BackColor = System.Drawing.Color.Red;
             this.lblUserName.Name = "lblUserName";
             this.lblUserName.Size = new System.Drawing.Size(33, 17);
             this.lblUserName.Text = "User:";
@@ -2054,16 +2065,6 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.WebBrowserShortcutsEnabled = false;
             this.webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
             this.webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
-            // 
-            // btnMoreSkip
-            // 
-            this.btnMoreSkip.Location = new System.Drawing.Point(196, 106);
-            this.btnMoreSkip.Name = "btnMoreSkip";
-            this.btnMoreSkip.Size = new System.Drawing.Size(55, 23);
-            this.btnMoreSkip.TabIndex = 32;
-            this.btnMoreSkip.Text = "More";
-            this.btnMoreSkip.UseVisualStyleBackColor = true;
-            this.btnMoreSkip.Click += new System.EventHandler(this.btnMoreSkip_Click);
             // 
             // MainForm
             // 
