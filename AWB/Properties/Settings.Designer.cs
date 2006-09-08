@@ -82,5 +82,17 @@ namespace AutoWikiBrowser.Properties {
                 this["AddHummanKeyToCats"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool LogInOnStart {
+            get {
+                return ((bool)(this["LogInOnStart"]));
+            }
+            set {
+                this["LogInOnStart"] = value;
+            }
+        }
     }
 }
