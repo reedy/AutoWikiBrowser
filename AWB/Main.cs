@@ -190,7 +190,14 @@ namespace AutoWikiBrowser
         internal bool wikiStatusBool
         {
             get { return WikiStatusBool; }
-            set { WikiStatusBool = value; }
+            set
+            {
+                WikiStatusBool = value;
+                if (value == true)
+                    lblUserName.BackColor = Color.LightGreen;
+                else
+                    lblUserName.BackColor = Color.Red;
+            }
         }
 
         #endregion
