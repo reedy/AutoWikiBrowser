@@ -161,19 +161,16 @@ namespace AutoWikiBrowser
                     {
                         if (reader.Name == "findandreplacesettings" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("enabled");
-                            chkFindandReplace.Checked = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("ignorenofar");
-                            chkIgnoreWhenNoFAR.Checked = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("ignoretext");
-                            findAndReplace.ignoreLinks = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("appendsummary");
-                            findAndReplace.AppendToSummary = bool.Parse(reader.Value);
-                            if (reader.AttributeCount > 4)
-                            {
-                                reader.MoveToAttribute("afterotherfixes");
+                            if (reader.MoveToAttribute("enabled"))
+                                chkFindandReplace.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("ignorenofar"))
+                                chkIgnoreWhenNoFAR.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("ignoretext"))
+                                findAndReplace.ignoreLinks = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("appendsummary"))
+                                findAndReplace.AppendToSummary = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("afterotherfixes"))
                                 findAndReplace.AfterOtherFixes = bool.Parse(reader.Value);
-                            }
 
                             continue;
                         }
@@ -189,23 +186,23 @@ namespace AutoWikiBrowser
                             int times = -1;
                             bool enabled = true;
 
-                            reader.MoveToAttribute("find");
-                            find = reader.Value;
-                            reader.MoveToAttribute("replacewith");
-                            replace = reader.Value;
+                            if (reader.MoveToAttribute("find"))
+                                find = reader.Value;
+                            if (reader.MoveToAttribute("replacewith"))
+                                replace = reader.Value;
 
-                            reader.MoveToAttribute("casesensitive");
-                            casesens = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("regex");
-                            regex = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("multi");
-                            multi = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("single");
-                            single = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("enabled");
-                            enabled = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("maxnumber");
-                            times = int.Parse(reader.Value);
+                            if (reader.MoveToAttribute("casesensitive"))
+                                casesens = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("regex"))
+                                regex = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("multi"))
+                                multi = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("single"))
+                                single = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("enabled"))
+                                enabled = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("maxnumber"))
+                                times = int.Parse(reader.Value);
 
                             if (find.Length > 0)
                                 findAndReplace.AddNew(find, replace, casesens, regex, multi, single, times, enabled);
@@ -222,10 +219,13 @@ namespace AutoWikiBrowser
 
                         if (reader.Name == "projectlang" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("proj");
-                            string project = reader.Value;
-                            reader.MoveToAttribute("lang");
-                            string language = reader.Value;
+                            string project = "";
+                            string language = "";
+
+                            if (reader.MoveToAttribute("proj"))
+                                project = reader.Value;
+                            if (reader.MoveToAttribute("lang"))
+                                language = reader.Value;
 
                             LangCodeEnum l = (LangCodeEnum)Enum.Parse(typeof(LangCodeEnum), language);
                             ProjectEnum p = (ProjectEnum)Enum.Parse(typeof(ProjectEnum), project);
@@ -236,120 +236,118 @@ namespace AutoWikiBrowser
                         }
                         if (reader.Name == "selectsource" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("index");
-                            listMaker1.SelectedSourceIndex = int.Parse(reader.Value);
-                            reader.MoveToAttribute("text");
-                            listMaker1.SourceText = reader.Value;
+                            if (reader.MoveToAttribute("index"))
+                                listMaker1.SelectedSourceIndex = int.Parse(reader.Value);
+                            if (reader.MoveToAttribute("text"))
+                                listMaker1.SourceText = reader.Value;
 
                             continue;
                         }
                         if (reader.Name == "general" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("general");
-                            chkGeneralParse.Checked = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("tagger");
-                            chkAutoTagger.Checked = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("unicodifyer");
-                            chkUnicodifyWhole.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("general"))
+                                chkGeneralParse.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("tagger"))
+                                chkAutoTagger.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("unicodifyer"))
+                                chkUnicodifyWhole.Checked = bool.Parse(reader.Value);
 
                             continue;
                         }
                         if (reader.Name == "categorisation" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("index");
-                            cmboCategorise.SelectedIndex = int.Parse(reader.Value);
-                            reader.MoveToAttribute("text");
-                            txtNewCategory.Text = reader.Value;
+                            if (reader.MoveToAttribute("index"))
+                                cmboCategorise.SelectedIndex = int.Parse(reader.Value);
+                            if (reader.MoveToAttribute("text"))
+                                txtNewCategory.Text = reader.Value;
 
                             continue;
                         }
                         if (reader.Name == "skip" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("does");
-                            chkIgnoreIfContains.Checked = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("doesnot");
-                            chkOnlyIfContains.Checked = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("regex");
-                            chkIgnoreIsRegex.Checked = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("casesensitive");
-                            chkIgnoreCaseSensitive.Checked = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("doestext");
-                            txtIgnoreIfContains.Text = reader.Value;
-                            reader.MoveToAttribute("doesnottext");
-                            txtOnlyIfContains.Text = reader.Value;
-                            if (reader.AttributeCount > 6)
-                            {
-                                reader.MoveToAttribute("moreindex");
+                            if (reader.MoveToAttribute("does"))
+                                chkIgnoreIfContains.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("doesnot"))
+                                chkOnlyIfContains.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("regex"))
+                                chkIgnoreIsRegex.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("casesensitive"))
+                                chkIgnoreCaseSensitive.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("doestext"))
+                                txtIgnoreIfContains.Text = reader.Value;
+                            if (reader.MoveToAttribute("doesnottext"))
+                                txtOnlyIfContains.Text = reader.Value;
+                            if (reader.MoveToAttribute("moreindex"))
                                 Skip.SelectedItem = reader.Value;
-                            }
+
                             continue;
                         }
                         if (reader.Name == "message" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("enabled");
-                            chkAppend.Checked = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("text");
-                            txtAppendMessage.Text = reader.Value;
-                            reader.MoveToAttribute("append");
-                            rdoAppend.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("enabled"))
+                                chkAppend.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("text"))
+                                txtAppendMessage.Text = reader.Value;
+                            if (reader.MoveToAttribute("append"))
+                                rdoAppend.Checked = bool.Parse(reader.Value);
                             rdoPrepend.Checked = !bool.Parse(reader.Value);
 
                             continue;
                         }
                         if (reader.Name == "automode" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("delay");
-                            nudBotSpeed.Value = int.Parse(reader.Value);
-                            reader.MoveToAttribute("quicksave");
-                            chkQuickSave.Checked = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("suppresstag");
-                            chkSuppressTag.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("delay"))
+                                nudBotSpeed.Value = int.Parse(reader.Value);
+                            if (reader.MoveToAttribute("quicksave"))
+                                chkQuickSave.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("suppresstag"))
+                                chkSuppressTag.Checked = bool.Parse(reader.Value);
 
                             continue;
                         }
                         if (reader.Name == "imager" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("index");
-                            cmboImages.SelectedIndex = int.Parse(reader.Value);
-                            reader.MoveToAttribute("replace");
-                            txtImageReplace.Text = reader.Value;
-                            reader.MoveToAttribute("with");
-                            txtImageWith.Text = reader.Value;
+                            if (reader.MoveToAttribute("index"))
+                                cmboImages.SelectedIndex = int.Parse(reader.Value);
+                            if (reader.MoveToAttribute("replace"))
+                                txtImageReplace.Text = reader.Value;
+                            if (reader.MoveToAttribute("with"))
+                                txtImageWith.Text = reader.Value;
 
                             continue;
                         }
                         if (reader.Name == "regextypofixproperties" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("enabled");
-                            chkRegExTypo.Checked = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("skipnofixed");
-                            chkRegexTypoSkip.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("enabled"))
+                                chkRegExTypo.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("skipnofixed"))
+                                chkRegexTypoSkip.Checked = bool.Parse(reader.Value);
 
                             continue;
                         }
                         if (reader.Name == "find" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("text");
-                            txtFind.Text = reader.Value;
-                            reader.MoveToAttribute("regex");
-                            chkFindRegex.Checked = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("casesensitive");
-                            chkFindCaseSensitive.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("text"))
+                                txtFind.Text = reader.Value;
+                            if (reader.MoveToAttribute("regex"))
+                                chkFindRegex.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("casesensitive"))
+                                chkFindCaseSensitive.Checked = bool.Parse(reader.Value);
 
                             continue;
                         }
                         if (reader.Name == "summary" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("text");
-                            if (!cmboEditSummary.Items.Contains(reader.Value) && reader.Value.Length > 0)
-                                cmboEditSummary.Items.Add(reader.Value);
+                            if (reader.MoveToAttribute("text"))
+                                if (!cmboEditSummary.Items.Contains(reader.Value) && reader.Value.Length > 0)
+                                    cmboEditSummary.Items.Add(reader.Value);
 
                             continue;
                         }
                         if (reader.Name == "summaryindex" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("index");
-                            cmboEditSummary.Text = reader.Value;
+                            if (reader.MoveToAttribute("index"))
+                                cmboEditSummary.Text = reader.Value;
 
                             continue;
                         }
@@ -357,185 +355,182 @@ namespace AutoWikiBrowser
                         //menu
                         if (reader.Name == "wordwrap" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("enabled");
-                            wordWrapToolStripMenuItem1.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("enabled"))
+                                wordWrapToolStripMenuItem1.Checked = bool.Parse(reader.Value);
 
                             continue;
                         }
                         if (reader.Name == "toolbar" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("enabled");
-                            enableToolBar = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("enabled"))
+                                enableToolBar = bool.Parse(reader.Value);
 
                             continue;
                         }
                         if (reader.Name == "bypass" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("enabled");
-                            bypassRedirectsToolStripMenuItem.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("enabled"))
+                                bypassRedirectsToolStripMenuItem.Checked = bool.Parse(reader.Value);
 
                             continue;
                         }
                         if (reader.Name == "ingnorenonexistent" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("enabled");
-                            chkIgnoreNonExistent.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("enabled"))
+                                chkIgnoreNonExistent.Checked = bool.Parse(reader.Value);
 
                             continue;
                         }
                         if (reader.Name == "noautochanges" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("enabled");
-                            doNotAutomaticallyDoAnythingToolStripMenuItem.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("enabled"))
+                                doNotAutomaticallyDoAnythingToolStripMenuItem.Checked = bool.Parse(reader.Value);
 
                             continue;
                         }
                         if (reader.Name == "skipnochanges" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("enabled");
-                            chkSkipNoChanges.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("enabled"))
+                                chkSkipNoChanges.Checked = bool.Parse(reader.Value);
                         }
                         if (reader.Name == "preview" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("enabled");
-                            previewInsteadOfDiffToolStripMenuItem.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("enabled"))
+                                previewInsteadOfDiffToolStripMenuItem.Checked = bool.Parse(reader.Value);
 
                             continue;
                         }
                         if (reader.Name == "minor" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("enabled");
-                            markAllAsMinorToolStripMenuItem.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("enabled"))
+                                markAllAsMinorToolStripMenuItem.Checked = bool.Parse(reader.Value);
 
                             continue;
                         }
                         if (reader.Name == "watch" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("enabled");
-                            addAllToWatchlistToolStripMenuItem.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("enabled"))
+                                addAllToWatchlistToolStripMenuItem.Checked = bool.Parse(reader.Value);
 
                             continue;
                         }
                         if (reader.Name == "timer" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("enabled");
-                            showTimerToolStripMenuItem.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("enabled"))
+                                showTimerToolStripMenuItem.Checked = bool.Parse(reader.Value);
 
                             continue;
                         }
                         if (reader.Name == "sortinterwiki" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("enabled");
-                            alphaSortInterwikiLinksToolStripMenuItem.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("enabled"))
+                                alphaSortInterwikiLinksToolStripMenuItem.Checked = bool.Parse(reader.Value);
 
                             continue;
                         }
                         if (reader.Name == "addignoredtolog" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("enabled");
-                            addIgnoredToLogFileToolStripMenuItem.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("enabled"))
+                                addIgnoredToLogFileToolStripMenuItem.Checked = bool.Parse(reader.Value);
                             btnFalsePositive.Visible = bool.Parse(reader.Value);
 
                             continue;
                         }
                         if (reader.Name == "pastemore1" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("text");
-                            PasteMore1.Text = reader.Value;
+                            if (reader.MoveToAttribute("text"))
+                                PasteMore1.Text = reader.Value;
 
                             continue;
                         }
                         if (reader.Name == "pastemore2" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("text");
-                            PasteMore2.Text = reader.Value;
+                            if (reader.MoveToAttribute("text"))
+                                PasteMore2.Text = reader.Value;
 
                             continue;
                         }
                         if (reader.Name == "pastemore3" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("text");
-                            PasteMore3.Text = reader.Value;
+                            if (reader.MoveToAttribute("text"))
+                                PasteMore3.Text = reader.Value;
 
                             continue;
                         }
                         if (reader.Name == "pastemore4" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("text");
-                            PasteMore4.Text = reader.Value;
+                            if (reader.MoveToAttribute("text"))
+                                PasteMore4.Text = reader.Value;
 
                             continue;
                         }
                         if (reader.Name == "pastemore5" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("text");
-                            PasteMore5.Text = reader.Value;
+                            if (reader.MoveToAttribute("text"))
+                                PasteMore5.Text = reader.Value;
 
                             continue;
                         }
                         if (reader.Name == "pastemore6" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("text");
-                            PasteMore6.Text = reader.Value;
+                            if (reader.MoveToAttribute("text"))
+                                PasteMore6.Text = reader.Value;
 
                             continue;
                         }
                         if (reader.Name == "pastemore7" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("text");
-                            PasteMore7.Text = reader.Value;
+                            if (reader.MoveToAttribute("text"))
+                                PasteMore7.Text = reader.Value;
 
                             continue;
                         }
                         if (reader.Name == "pastemore8" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("text");
-                            PasteMore8.Text = reader.Value;
+                            if (reader.MoveToAttribute("text"))
+                                PasteMore8.Text = reader.Value;
 
                             continue;
                         }
                         if (reader.Name == "pastemore9" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("text");
-                            PasteMore9.Text = reader.Value;
+                            if (reader.MoveToAttribute("text"))
+                                PasteMore9.Text = reader.Value;
 
                             continue;
                         }
                         if (reader.Name == "pastemore10" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("text");
-                            PasteMore10.Text = reader.Value;
+                            if (reader.MoveToAttribute("text"))
+                                PasteMore10.Text = reader.Value;
 
                             continue;
                         }
                         if (reader.Name == "preferencevalues" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("enhancediff");
-                            webBrowserEdit.EnhanceDiffEnabled = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("enhancediff"))
+                                webBrowserEdit.EnhanceDiffEnabled = bool.Parse(reader.Value);
 
-                            reader.MoveToAttribute("scrolldown");
-                            webBrowserEdit.ScrollDown = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("scrolldown"))
+                                webBrowserEdit.ScrollDown = bool.Parse(reader.Value);
 
-                            reader.MoveToAttribute("difffontsize");
-                            webBrowserEdit.DiffFontSize = int.Parse(reader.Value);
+                            if (reader.MoveToAttribute("difffontsize"))
+                                webBrowserEdit.DiffFontSize = int.Parse(reader.Value);
 
                             float s = 10F;
                             string d = "Courier New";
-                            reader.MoveToAttribute("textboxfontsize");
-                            s = float.Parse(reader.Value);
-                            reader.MoveToAttribute("textboxfont");
-                            d = reader.Value;
+                            if (reader.MoveToAttribute("textboxfontsize"))
+                                s = float.Parse(reader.Value);
+                            if (reader.MoveToAttribute("textboxfont"))
+                                d = reader.Value;
                             System.Drawing.Font f = new System.Drawing.Font(d, s);
                             txtEdit.Font = f;
 
-                            reader.MoveToAttribute("lowthreadpriority");
-                            LowThreadPriority = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("lowthreadpriority"))
+                                LowThreadPriority = bool.Parse(reader.Value);
 
-                            if (reader.AttributeCount > 6)
-                            {
-                                reader.MoveToAttribute("flashandbeep");
+                            if (reader.MoveToAttribute("flashandbeep"))
                                 FlashAndBeep = bool.Parse(reader.Value);
-                            }
 
                             continue;
                         }

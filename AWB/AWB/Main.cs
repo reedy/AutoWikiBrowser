@@ -222,7 +222,7 @@ namespace AutoWikiBrowser
                     webBrowserEdit.Stop2();
 
                 if (webBrowserEdit.Document != null)
-                    webBrowserEdit.Document.Write("");
+                    webBrowserEdit.Document.Write("");                    
 
                 //check we are logged in
                 if (!WikiStatus())
@@ -760,8 +760,7 @@ namespace AutoWikiBrowser
             dlg.ShowDialog();
             if (dlg.DialogResult == DialogResult.OK)
             {
-                AutoWikiBrowser.Properties.Settings.Default.DontAskForTerminate
-                = dlg.checkBoxDontAskAgain;
+                AutoWikiBrowser.Properties.Settings.Default.DontAskForTerminate = dlg.checkBoxDontAskAgain;
 
                 // save user persistent settings
                 AutoWikiBrowser.Properties.Settings.Default.Save();
@@ -773,7 +772,10 @@ namespace AutoWikiBrowser
                 return;
             }
 
-            //Stop();
+            if (webBrowserEdit.IsBusy)
+                webBrowserEdit.Stop2();
+            if (webBrowserLogin.IsBusy)
+                webBrowserLogin.Stop();            
         }
 
         private void setCheckBoxes()
@@ -1781,6 +1783,8 @@ namespace AutoWikiBrowser
             StopDelayedRestartTimer();
             if (webBrowserEdit.IsBusy)
                 webBrowserEdit.Stop2();
+            if(webBrowserLogin.IsBusy)
+                webBrowserLogin.Stop();
 
             listMaker1.Stop();
             lblStatusText.Text = "Stopped";
