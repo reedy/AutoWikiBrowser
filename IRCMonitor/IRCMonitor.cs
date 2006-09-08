@@ -59,7 +59,7 @@ namespace IRCMonitor
             btnOpenInBrowser.Image = Resources.NewWindow;
 
             Variables.SetProject(LangCodeEnum.en, ProjectEnum.wikipedia);
-          
+
             btnIPColour.BackColor = ColourIP;
             btnRegisteredUserColour.BackColor = UserColour;
             btnSetWhiteListColour.BackColor = whitelistcolour;
@@ -1031,128 +1031,128 @@ namespace IRCMonitor
                     {
                         if (reader.Name == "editFilter" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("IPIndex");
-                            cmboEditIP.SelectedIndex = int.Parse(reader.Value);
-                            reader.MoveToAttribute("minorIndex");
-                            cmboEditMinor.SelectedIndex = int.Parse(reader.Value);
-                            reader.MoveToAttribute("nameSpaceIndex");
-                            cmboEditNamespace.SelectedIndex = int.Parse(reader.Value);
+                            if (reader.MoveToAttribute("IPIndex"))
+                                cmboEditIP.SelectedIndex = int.Parse(reader.Value);
+                            if (reader.MoveToAttribute("minorIndex"))
+                                cmboEditMinor.SelectedIndex = int.Parse(reader.Value);
+                            if (reader.MoveToAttribute("nameSpaceIndex"))
+                                cmboEditNamespace.SelectedIndex = int.Parse(reader.Value);
                             continue;
                         }
                         if (reader.Name == "editTitleRegex" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("enabled");
-                            chkEditTitleRegex.Checked = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("value");
-                            txtEditTitleRegex.Text = reader.Value;
+                            if (reader.MoveToAttribute("enabled"))
+                                chkEditTitleRegex.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("value"))
+                                txtEditTitleRegex.Text = reader.Value;
                             continue;
                         }
                         if (reader.Name == "editLessMoreThan" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("less");
-                            nudLessThan.Value = int.Parse(reader.Value);
-                            reader.MoveToAttribute("more");
-                            nudMoreThan.Value = int.Parse(reader.Value);
+                            if (reader.MoveToAttribute("less"))
+                                nudLessThan.Value = int.Parse(reader.Value);
+                            if (reader.MoveToAttribute("more"))
+                                nudMoreThan.Value = int.Parse(reader.Value);
                             continue;
                         }
                         if (reader.Name == "newFilter" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("showNewArticles");
-                            chkShowNewArticles.Checked = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("showUploads");
-                            chkShowUploads.Checked = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("namespace");
-                            cmboNewStuffNamespace.SelectedIndex = int.Parse(reader.Value);
+                            if (reader.MoveToAttribute("showNewArticles"))
+                                chkShowNewArticles.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("showUploads"))
+                                chkShowUploads.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("namespace"))
+                                cmboNewStuffNamespace.SelectedIndex = int.Parse(reader.Value);
                             continue;
                         }
                         if (reader.Name == "actions" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("showBlocks");
-                            chkShowBlocks.Checked = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("showUnblocks");
-                            chkShowUnblocks.Checked = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("showProtections");
-                            chkShowProtections.Checked = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("showUnprotections");
-                            chkShowUnprotections.Checked = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("showDeletions");
-                            chkShowDeletions.Checked = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("showRestores");
-                            chkShowRestores.Checked = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("pageMoveNamespace");
-                            cmboPageMoveNamespace.SelectedIndex = int.Parse(reader.Value);
+                            if (reader.MoveToAttribute("showBlocks"))
+                                chkShowBlocks.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("showUnblocks"))
+                                chkShowUnblocks.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("showProtections"))
+                                chkShowProtections.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("showUnprotections"))
+                                chkShowUnprotections.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("showDeletions"))
+                                chkShowDeletions.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("showRestores"))
+                                chkShowRestores.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("pageMoveNamespace"))
+                                cmboPageMoveNamespace.SelectedIndex = int.Parse(reader.Value);
 
                             continue;
                         }
                         if (reader.Name == "lists" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("flashOnBlacklisted");
-                            chkFlashBlackListed.Checked = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("flashWatchlisted");
-                            chkFlashWatchlisted.Checked = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("soundOnBlacklisted");
-                            chkBlackListSound.Checked = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("soundOnWatchListed");
-                            chkSoundOnWatchedChanged.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("flashOnBlacklisted"))
+                                chkFlashBlackListed.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("flashWatchlisted"))
+                                chkFlashWatchlisted.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("soundOnBlacklisted"))
+                                chkBlackListSound.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("soundOnWatchListed"))
+                                chkSoundOnWatchedChanged.Checked = bool.Parse(reader.Value);
                             continue;
                         }
                         if (reader.Name == "colours" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("IPColour");
-                            ColourIP = Color.FromArgb(int.Parse(reader.Value));
-                            reader.MoveToAttribute("userColour");
-                            UserColour = Color.FromArgb(int.Parse(reader.Value));
-                            reader.MoveToAttribute("whiteListColour");
-                            WhiteListColour = Color.FromArgb(int.Parse(reader.Value));
-                            reader.MoveToAttribute("blacklistColour");
-                            BlackListColour = Color.FromArgb(int.Parse(reader.Value));
-                            reader.MoveToAttribute("watchedColour");
-                            WatchListColour = Color.FromArgb(int.Parse(reader.Value));
-                            reader.MoveToAttribute("checkedColour");
-                            CheckedColour = Color.FromArgb(int.Parse(reader.Value));
+                            if (reader.MoveToAttribute("IPColour"))
+                                ColourIP = Color.FromArgb(int.Parse(reader.Value));
+                            if (reader.MoveToAttribute("userColour"))
+                                UserColour = Color.FromArgb(int.Parse(reader.Value));
+                            if (reader.MoveToAttribute("whiteListColour"))
+                                WhiteListColour = Color.FromArgb(int.Parse(reader.Value));
+                            if (reader.MoveToAttribute("blacklistColour"))
+                                BlackListColour = Color.FromArgb(int.Parse(reader.Value));
+                            if (reader.MoveToAttribute("watchedColour"))
+                                WatchListColour = Color.FromArgb(int.Parse(reader.Value));
+                            if (reader.MoveToAttribute("checkedColour"))
+                                CheckedColour = Color.FromArgb(int.Parse(reader.Value));
                             continue;
                         }
                         if (reader.Name == "preferences" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("changeCheckedColour");
-                            chkChangeCheckedColour.Checked = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("ignoreWhiteList");
-                            chkIgnoreWhiteList.Checked = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("onlyBlackAndWatched");
-                            chkOnlyBlackAndWatched.Checked = bool.Parse(reader.Value);
-                            reader.MoveToAttribute("userBrowser");
-                            chkBrowser.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("changeCheckedColour"))
+                                chkChangeCheckedColour.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("ignoreWhiteList"))
+                                chkIgnoreWhiteList.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("onlyBlackAndWatched"))
+                                chkOnlyBlackAndWatched.Checked = bool.Parse(reader.Value);
+                            if (reader.MoveToAttribute("userBrowser"))
+                                chkBrowser.Checked = bool.Parse(reader.Value);
                             continue;
                         }
                         if (reader.Name == "IRCSettings" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("nickName");
-                            txtNickname.Text = reader.Value;
-                            reader.MoveToAttribute("server");
-                            txtServer.Text = reader.Value;
-                            reader.MoveToAttribute("channel");
-                            cmboChannel.SelectedIndex = int.Parse(reader.Value);
-                            reader.MoveToAttribute("port");
-                            txtPort.Text = reader.Value;
+                            if (reader.MoveToAttribute("nickName"))
+                                txtNickname.Text = reader.Value;
+                            if (reader.MoveToAttribute("server"))
+                                txtServer.Text = reader.Value;
+                            if (reader.MoveToAttribute("channel"))
+                                cmboChannel.SelectedIndex = int.Parse(reader.Value);
+                            if (reader.MoveToAttribute("port"))
+                                txtPort.Text = reader.Value;
                             continue;
                         }
 
                         if (reader.Name == "whitelist" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("user");
-                            lbWhiteList.Items.Add(reader.Value);
+                            if (reader.MoveToAttribute("user"))
+                                lbWhiteList.Items.Add(reader.Value);
                             continue;
                         }
                         if (reader.Name == "blacklist" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("item");
-                            lbBlackList.Items.Add(reader.Value);
+                            if (reader.MoveToAttribute("item"))
+                                lbBlackList.Items.Add(reader.Value);
                             continue;
                         }
                         if (reader.Name == "watchlist" && reader.HasAttributes)
                         {
-                            reader.MoveToAttribute("item");
-                            lbWatchList.Items.Add(reader.Value);
+                            if (reader.MoveToAttribute("item"))
+                                lbWatchList.Items.Add(reader.Value);
                             continue;
                         }
                     }
