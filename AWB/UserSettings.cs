@@ -185,7 +185,7 @@ namespace AutoWikiBrowser
                             bool single = false;
                             int times = -1;
                             bool enabled = true;
-
+                            
                             if (reader.MoveToAttribute("find"))
                                 find = reader.Value;
                             if (reader.MoveToAttribute("replacewith"))

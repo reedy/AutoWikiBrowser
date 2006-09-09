@@ -101,7 +101,7 @@ namespace AutoWikiBrowser
 
             listMaker1.BusyStateChanged += SetProgressBar;
             listMaker1.NoOfArticlesChanged += UpdateButtons;
-            listMaker1.StatusTextChanged += UpdateListStatus;
+            listMaker1.StatusTextChanged += UpdateListStatus;            
         }
 
         readonly Regex WikiLinkRegex = new Regex("\\[\\[(.*?)(\\]\\]|\\|)", RegexOptions.Compiled);
@@ -508,7 +508,7 @@ namespace AutoWikiBrowser
         private string Process(string articleText, ref bool SkipArticle)
         {
             bool process = true;
-            
+
             try
             {
                 if (noParse.Contains(EdittingArticle.Name))
@@ -2159,5 +2159,5 @@ namespace AutoWikiBrowser
         }
 
         #endregion
-    }
+    }    
 }
