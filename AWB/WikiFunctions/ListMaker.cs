@@ -21,6 +21,9 @@ namespace WikiFunctions.Lists
         public event ListMakerEventHandler StatusTextChanged;
         public event ListMakerEventHandler BusyStateChanged;
         public event ListMakerEventHandler NoOfArticlesChanged;
+        /// <summary>
+        /// Occurs when a list has been created
+        /// </summary>
         public event ListMakerEventHandler ListFinished;
 
         public ListMaker()
@@ -273,10 +276,8 @@ namespace WikiFunctions.Lists
                 return;
             }
 
-            Saved = false;
-            Add(Tools.TurnFirstToUpper(txtNewArticle.Text));
+            Add(txtNewArticle.Text);
             txtNewArticle.Text = "";
-            UpdateNumberOfArticles();
         }
 
         private void btnRemoveArticle_Click(object sender, EventArgs e)
@@ -578,6 +579,8 @@ namespace WikiFunctions.Lists
                 return;
             }
 
+            Saved = false;
+            s = Tools.TurnFirstToUpper(s);
             Article a = new Article(Tools.RemoveSyntax(s));
             lbArticles.Items.Add(a);
             UpdateNumberOfArticles();
@@ -594,6 +597,8 @@ namespace WikiFunctions.Lists
                 this.Invoke(new AddDel(Add), l);
                 return;
             }
+
+            Saved = false;
 
             lbArticles.BeginUpdate();
 

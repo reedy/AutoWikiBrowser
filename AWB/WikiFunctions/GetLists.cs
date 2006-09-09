@@ -153,11 +153,8 @@ namespace WikiFunctions.Lists
 
                             if (reader.Name.Equals(initial))
                             {
-                                if (reader.AttributeCount > 1)
-                                {
-                                    reader.MoveToAttribute("ns");
-                                    ns = int.Parse(reader.Value);
-                                }
+                                if (reader.MoveToAttribute("ns"))
+                                    ns = int.Parse(reader.Value);                                
                                 else
                                     ns = 0;
 
@@ -201,11 +198,8 @@ namespace WikiFunctions.Lists
                     {
                         if (reader.Name == ("l"))
                         {
-                            if (reader.AttributeCount > 1)
-                            {
-                                reader.MoveToAttribute("ns");
+                            if (reader.MoveToAttribute("ns"))
                                 ns = int.Parse(reader.Value);
-                            }
                             else
                                 ns = 0;
 
