@@ -573,8 +573,9 @@ namespace WikiFunctions.Parse
 
             ArticleText = regexBold.Replace(ArticleText, "$1'''$2'''$3", 1);
 
+            ArticleText = ArticleText + strSecondHalf;
             ArticleText = hider.AddBackMore(ArticleText);
-            return ArticleText + strSecondHalf;
+            return ArticleText;
         }
 
         /// <summary>

@@ -1904,7 +1904,7 @@ namespace AutoWikiBrowser
 
                 string message = @"1. Check each edit before you make it. Although this has been built to be very accurate there is always the possibility of an error which requires your attention.
 
-2. Optional: Select [[WP:RETF|RegExTypoFix]] as the edit summary. This lets everyone know where to bring issues with the typo correction.";
+2. Optional: Select [[WP:AWB/T|Typo fixing]] as the edit summary. This lets everyone know where to bring issues with the typo correction.";
 
                 if (RegexTypos == null)
                     message += "\r\n\r\nThe newest typos will now be downloaded from " + Variables.URL + Variables.Namespaces[4] + "AutoWikiBrowser/Typos";
