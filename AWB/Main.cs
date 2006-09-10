@@ -2150,7 +2150,7 @@ namespace AutoWikiBrowser
                 a.Skip += SkipPage;
                 a.Stop += Stop;
                 a.Diff += GetDiff;
-                a.Preview += GetDiff;
+                a.Preview += GetPreview;
 
                 a.Initialise(listMaker1, webBrowserEdit, pluginsToolStripMenuItem, mnuTextBox, tabControl1, this, txtEdit);
             }
