@@ -84,7 +84,7 @@ namespace WikiFunctions.Browser
         public event StatusDel StatusChanged;
 
         #endregion
-        
+
         #region Properties
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace WikiFunctions.Browser
                     return false;
             }
         }
-        
+
         string strStatus = "";
         /// <summary>
         /// Gets a string indicating the current status
@@ -188,6 +188,9 @@ namespace WikiFunctions.Browser
             }
         }
 
+        /// <summary>
+        /// Gets a bool indicating if the current page is a diff
+        /// </summary>
         public bool IsDiff
         {
             get
@@ -200,6 +203,9 @@ namespace WikiFunctions.Browser
         }
 
         int intDiffFontSize = 150;
+        /// <summary>
+        /// Gets or sets the font size of the diff text
+        /// </summary>
         public int DiffFontSize
         {
             get { return intDiffFontSize; }
@@ -207,6 +213,9 @@ namespace WikiFunctions.Browser
         }
 
         bool bEnhanceDiff = true;
+        /// <summary>
+        /// Gets or sets a value indicating whether to use the enhanced diff
+        /// </summary>
         public bool EnhanceDiffEnabled
         {
             get { return bEnhanceDiff; }
@@ -214,10 +223,34 @@ namespace WikiFunctions.Browser
         }
 
         bool bScrollDown = true;
+        /// <summary>
+        /// Gets or sets a value indicating whether to scroll down to the diff
+        /// </summary>
         public bool ScrollDown
         {
             get { return bScrollDown; }
             set { bScrollDown = value; }
+        }
+
+        bool boolTalkExists = true;
+        /// <summary>
+        /// Gets a value indicating if the associated talk page exists
+        /// </summary>
+        public bool TalkPageExists
+        {
+            get { return boolTalkExists; }
+            private set { boolTalkExists = value; }
+
+        }
+
+        bool boolArticlePageExists = true;
+        /// <summary>
+        /// Gets a value indicating if the associated article page exists
+        /// </summary>
+        public bool ArticlePageExists
+        {
+            get { return boolArticlePageExists;}
+            private set { boolArticlePageExists = value; }
         }
 
         #endregion
@@ -354,7 +387,7 @@ namespace WikiFunctions.Browser
                 return text.Substring(text.IndexOf(startMark), text.IndexOf(endMark) - text.IndexOf(startMark));
             else
                 return text;
-        }                
+        }
 
         /// <summary>
         /// If logged in, gets the user name from the cookie
@@ -377,7 +410,7 @@ namespace WikiFunctions.Browser
         /// Removes excess HTML from the document
         /// </summary>
         public void EnhanceDiff()
-        {           
+        {
             string html = this.Document.Body.InnerHtml;
             html = PageHTMLSubstring(html);
             html = html.Replace("<DIV id=wikiDiff>", "<DIV id=wikiDiff style=\"FONT-SIZE: " + DiffFontSize.ToString() + "%\">");
@@ -388,7 +421,7 @@ namespace WikiFunctions.Browser
         public void ScrollToContent()
         {
             this.Document.GetElementById("contentSub").ScrollIntoView(true);
-        }        
+        }
 
         #endregion
 
@@ -479,6 +512,7 @@ namespace WikiFunctions.Browser
             this.Navigate(Variables.URL + "index.php?title=Special:Userlogin&returnto=Main_Page");
         }
 
+        Regex RegexArticleExists = new Regex("<LI (class=new|class=\"selected new\") id=ca-nstab", RegexOptions.Compiled);
         protected override void OnDocumentCompleted(WebBrowserDocumentCompletedEventArgs e)
         {
             base.OnDocumentCompleted(e);
@@ -486,14 +520,26 @@ namespace WikiFunctions.Browser
             if (!this.Document.Body.InnerHtml.Contains("id=siteSub"))
             {
                 ProcessStage = enumProcessStage.none;
+                if (Fault != null)
                 this.Fault();
                 return;
             }
 
             if (ProcessStage == enumProcessStage.load)
             {
+                if (this.Document.Body.InnerHtml.Contains("<LI class=new id=ca-talk>") || this.Document.Body.InnerHtml.Contains("<LI class=\"selected new\" id=ca-talk>"))
+                    TalkPageExists = false;
+                else
+                    TalkPageExists = true;
+
+                if (RegexArticleExists.IsMatch(this.Document.Body.InnerHtml))
+                    ArticlePageExists = false;
+                else
+                    ArticlePageExists = true;
+
                 this.AllowNavigation = false;
                 ProcessStage = enumProcessStage.none;
+                if (Loaded != null)
                 this.Loaded();
             }
             else if (ProcessStage == enumProcessStage.delete)
@@ -501,6 +547,7 @@ namespace WikiFunctions.Browser
                 this.AllowNavigation = false;
                 ProcessStage = enumProcessStage.none;
                 Status = "Deleted";
+                if (Deleted != null)
                 this.Deleted();
             }
             else if (ProcessStage == enumProcessStage.diff)
@@ -513,13 +560,15 @@ namespace WikiFunctions.Browser
                 this.AllowNavigation = false;
                 ProcessStage = enumProcessStage.none;
                 Status = "Ready to save";
+                if (Diffed != null)
                 this.Diffed();
                 //RemoveHTML();
                 this.Document.GetElementById("wpTextbox1").Enabled = false;
             }
             else if (ProcessStage == enumProcessStage.none)
             {
-                this.None();
+                if (None != null)
+                    this.None();
             }
         }
 
