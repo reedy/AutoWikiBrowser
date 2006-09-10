@@ -93,6 +93,7 @@ namespace WikiFunctions.Parse
         Dictionary<Regex, string> RegexConversion = new Dictionary<Regex, string>();
         Dictionary<Regex, string> RegexTagger = new Dictionary<Regex, string>();
 
+        HideText hider = new HideText();
         MetaDataSorter metaDataSorter;
         string testText = "";
         int StubMaxWordCount = 500;
@@ -529,6 +530,8 @@ namespace WikiFunctions.Parse
             if (Regex.IsMatch(ArticleTitle, "^(January|February|March|April|May|June|July|August|September|October|November|December) [0-9]{1,2}$"))
                 return ArticleText;
 
+            ArticleText = hider.HideMore(ArticleText);
+
             string escTitle = Regex.Escape(ArticleTitle);
 
             //remove self links first
@@ -546,8 +549,11 @@ namespace WikiFunctions.Parse
             escTitle = Regex.Replace(ArticleTitle, " \\(.*?\\)$", "");
             escTitle = Regex.Escape(escTitle);
 
-            if (Regex.IsMatch(ArticleText, "^(\\[\\[|\\{|\\*|:)") || Regex.IsMatch(ArticleText, "''' ?" + escTitle + " ?'''", RegexOptions.IgnoreCase))
+            if (Regex.IsMatch(ArticleText, "^(\\[\\[|\\*|:)") || Regex.IsMatch(ArticleText, "''' ?" + escTitle + " ?'''", RegexOptions.IgnoreCase))
+            {
+                ArticleText = hider.AddBackMore(ArticleText);
                 return ArticleText;
+            }
 
             Regex regexBold = new Regex("([^\\[]|^)(" + escTitle + ")([ ,.:;])", RegexOptions.IgnoreCase);
 
@@ -559,10 +565,15 @@ namespace WikiFunctions.Parse
             }
 
             if (ArticleText.Contains("'''"))
-                return ArticleText + strSecondHalf;
+            {
+                ArticleText = ArticleText + strSecondHalf;
+                ArticleText = hider.AddBackMore(ArticleText);
+                return ArticleText;
+            }
 
             ArticleText = regexBold.Replace(ArticleText, "$1'''$2'''$3", 1);
 
+            ArticleText = hider.AddBackMore(ArticleText);
             return ArticleText + strSecondHalf;
         }
 
