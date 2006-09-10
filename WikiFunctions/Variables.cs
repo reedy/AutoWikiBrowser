@@ -97,16 +97,6 @@ namespace WikiFunctions
         {
             get { return strlangcode; }
         }
-
-        static string strtalkns = " talk:";
-        /// <summary>
-        /// Gets the user talk namespace, e.g. " talk:".
-        /// </summary>
-        /// 
-        public static string TalkNS
-        {
-            get { return strtalkns; }
-        }
         
         static string strsummarytag = " using [[Wikipedia:AutoWikiBrowser|AWB]]";
         /// <summary>
@@ -153,7 +143,6 @@ namespace WikiFunctions
                     Namespaces[102] = "Viquiprojecte:";
                     Namespaces[103] = "Viquiprojecte Discussió:";
 
-                    strtalkns = " discussió:";
                     strsummarytag = " [[Viquipèdia:AutoWikiBrowser|AWB]]";
                     break;
 
@@ -178,7 +167,6 @@ namespace WikiFunctions
                     Namespaces[100] = "Portal:";
                     Namespaces[101] = "Portal diskussion:";
 
-                    strtalkns = " diskussion:";
                     strsummarytag = " [[Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
@@ -203,7 +191,6 @@ namespace WikiFunctions
                     Namespaces[100] = "Portal:";
                     Namespaces[101] = "Portal Diskussion:";
 
-                    strtalkns = " Diskussion:";
                     strsummarytag = " [[Wikipedia:AutoWikiBrowser|AWB]]";
                     break;                
 
@@ -230,7 +217,6 @@ namespace WikiFunctions
                     Namespaces[102] = "Wikiproyecto:";
                     Namespaces[103] = "Wikiproyecto Discusión:";
 
-                    strtalkns = " Discusión:";
                     strsummarytag = " [[Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
@@ -277,7 +263,6 @@ namespace WikiFunctions
                     Namespaces[14] = "Luokka:";
                     Namespaces[15] = "Keskustelu luokasta:";
 
-                    //strtalkns = "Discussion Utilisateur:";
                     strsummarytag = " [[Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
@@ -306,7 +291,6 @@ namespace WikiFunctions
                     Namespaces[104] = "Référence:";
                     Namespaces[105] = "Discussion Référence:";
 
-                    //strtalkns = "Discussion Utilisateur:";
                     strsummarytag = " [[Wikipédia:AutoWikiBrowser|AWB]]";
                     break;
 
@@ -331,7 +315,6 @@ namespace WikiFunctions
                     Namespaces[100] = "Portale:";
                     Namespaces[101] = "Discussioni portale:";
 
-                    //strtalkns = "Discussion Utilisateur:";
                     strsummarytag = " [[Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
@@ -356,7 +339,6 @@ namespace WikiFunctions
                     Namespaces[100] = "Portal:";
                     Namespaces[101] = "Portal‐ノート:";
 
-                    strtalkns = "‐ノート:";
                     strsummarytag = " [[Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
@@ -378,8 +360,7 @@ namespace WikiFunctions
                     Namespaces[13] = "Help talk:";
                     Namespaces[14] = "Category:";
                     Namespaces[15] = "Category talk:";
-                                        
-                    strtalkns = " talk:";
+                    
                     strsummarytag = " [[Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
@@ -404,7 +385,6 @@ namespace WikiFunctions
                     Namespaces[100] = "Portaal:";
                     Namespaces[101] = "Overleg portaal:";
 
-                    strtalkns = " overleg:";
                     strsummarytag = " met [[Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
@@ -429,7 +409,6 @@ namespace WikiFunctions
                     Namespaces[100] = "Portal:";
                     Namespaces[101] = "Portaldiskusjon:";
 
-                    strtalkns = "diskusjon:";
                     strsummarytag = " [[Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
@@ -454,7 +433,6 @@ namespace WikiFunctions
                     Namespaces[100] = "Portal:";
                     Namespaces[101] = "Dyskusja portalu:";
 
-                    //strtalkns = "";
                     strsummarytag = " [[Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
@@ -479,7 +457,6 @@ namespace WikiFunctions
                     Namespaces[100] = "Portal:";
                     Namespaces[101] = "Discussão Portal:";
 
-                    strtalkns = " discussão:";
                     strsummarytag = " utilizando [[Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
@@ -504,7 +481,6 @@ namespace WikiFunctions
                     Namespaces[100] = "Портал:";
                     Namespaces[101] = "Обсуждение портала:";
 
-                    strtalkns = "Обсуждение:";
                     strsummarytag = " [[Википедия:AutoWikiBrowser|AWB]]";
                     break;
 
@@ -528,7 +504,7 @@ namespace WikiFunctions
                     Namespaces[15] = "Diskusia ku kategórii:";
                     Namespaces[100] = "Portál:";
                     Namespaces[101] = "Diskusia k portálu:";
-                    strtalkns = " k pomoci:";
+                    
                     strsummarytag = " [[Wikipédia:AutoWikiBrowser|AWB]]";
                     break;
 
@@ -551,7 +527,6 @@ namespace WikiFunctions
                     Namespaces[14] = "Kategorija:";
                     Namespaces[15] = "Pogovor o kategoriji:";
 
-                    strtalkns = " pogovor:";
                     strsummarytag = " [[Wikipedija:AutoWikiBrowser|AWB]]";
                     break;
 
@@ -576,7 +551,6 @@ namespace WikiFunctions
                     Namespaces[100] = "Portal:";
                     Namespaces[101] = "Portaldiskussion:";
 
-                    strtalkns = " talk:";
                     strsummarytag = " [[Wikipedia:AutoWikiBrowser|AWB]]";
                     break;            
     
@@ -651,7 +625,6 @@ namespace WikiFunctions
                     Namespaces[100] = "Portal:";
                     Namespaces[101] = "Portal talk:";
 
-                    strtalkns = " talk:";
                     strsummarytag = " using [[WP:AWB|AWB]]";
                     break;
             }
