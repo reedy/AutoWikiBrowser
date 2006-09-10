@@ -923,7 +923,7 @@ namespace AutoWikiBrowser
             "removing category per [[WP:CFD|CFD]]",
             "[[Wikipedia:Template substitution|subst:\'ing]]",
             "[[Wikipedia:WikiProject Stub sorting|stub sorting]]",
-            "[[WP:RETF|RETF]]",
+            "[[WP:AWB/T|Typo fixing]]",
             "bad link repair.  [[Wikipedia:Bad links|You can help!]]",
             "Fixing [[Wikipedia:Disambiguation pages with links|links to disambiguation pages]" +
                 "]",
