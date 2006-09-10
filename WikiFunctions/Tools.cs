@@ -118,14 +118,26 @@ namespace WikiFunctions
         /// Tests title to make sure it is not a talk page.
         /// </summary>
         /// <param name="ArticleTitle">The title.</param>
-        public static bool IsNotTalk(string ArticleTitle)
+        public static bool IsTalkPage(string ArticleTitle)
         {
             int i = CalculateNS(ArticleTitle);
 
             if (i % 2 == 1)
-                return false;
-            else
                 return true;
+            else
+                return false;
+        }
+
+        /// <summary>
+        /// Tests title to make sure it is not a talk page.
+        /// </summary>
+        /// <param name="Key">The namespace key</param>
+        public static bool IsTalkPage(int Key)
+        {
+            if (Key % 2 == 1)
+                return true;
+            else
+                return false;
         }
 
         /// <summary>

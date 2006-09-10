@@ -497,19 +497,20 @@ namespace WikiFunctions.Lists
 
             foreach (Article a in list)
             {
-                if (a.NameSpaceKey % 2 == 1)
+                if (Tools.IsTalkPage(a.NameSpaceKey))
                 {
                     newList.Add(a);
                     continue;
                 }
-                else if (a.NameSpaceKey == 2 || a.NameSpaceKey == 4 || a.NameSpaceKey == 6 || a.NameSpaceKey == 8 || a.NameSpaceKey == 10 || a.NameSpaceKey == 12 || a.NameSpaceKey == 14 || a.NameSpaceKey == 16 || a.NameSpaceKey == 100)
+                else if (a.NameSpaceKey == 0)
                 {
-                    newList.Add(new Article(a.Name.Replace(":", Variables.TalkNS)));
+                    newList.Add(new Article(Variables.Namespaces[1] + a.Name));
                     continue;
                 }
                 else
                 {
-                    newList.Add(new Article(Variables.Namespaces[1] + a.Name));
+                    string s = Regex.Replace(a.Name, "^" + Variables.Namespaces[a.NameSpaceKey], Variables.Namespaces[a.NameSpaceKey + 1]);
+                    newList.Add(new Article(s));
                     continue;
                 }
             }
@@ -528,7 +529,21 @@ namespace WikiFunctions.Lists
 
             foreach (Article a in list)
             {
-                newList.Add(new Article(a.Name.Replace(Variables.Namespaces[1], "").Replace(Variables.TalkNS, ":")));
+                if (Tools.IsTalkPage(a.NameSpaceKey))
+                {
+                    if (a.NameSpaceKey == 1)
+                    {
+                        string s = Regex.Replace(a.Name, "^" + Variables.Namespaces[a.NameSpaceKey], "");
+                        newList.Add(new Article(s));
+                    }
+                    else
+                    {
+                        string s = Regex.Replace(a.Name, "^" + Variables.Namespaces[a.NameSpaceKey], Variables.Namespaces[a.NameSpaceKey - 1]);
+                        newList.Add(new Article(s));
+                    }
+                }
+                else
+                    newList.Add(a);                
             }
 
             return newList;
