@@ -628,7 +628,7 @@ namespace AutoWikiBrowser
 
                 if (chkAppend.Checked)
                 {
-                    if (Tools.IsNotTalk(EdittingArticle.Name))
+                    if (!Tools.IsTalkPage(EdittingArticle.Name))
                     {
                         MessageBox.Show("Messages should only be appended to talk pages.");
                     }

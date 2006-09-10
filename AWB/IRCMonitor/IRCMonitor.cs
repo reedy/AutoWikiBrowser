@@ -667,7 +667,7 @@ namespace IRCMonitor
         {
             if (index == 1 && !Tools.IsMainSpace(Article))
                 return false;
-            if (index == 2 && !Tools.IsNotTalk(Article))
+            if (index == 2 && Tools.IsTalkPage(Article))
                 return false;
 
             return true;
