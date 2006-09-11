@@ -241,22 +241,17 @@ namespace WikiFunctions.DatabaseScanner
 
             Parsers parsers = new Parsers();
 
-            if (chkBadLinks.Checked)
+            if (rdoBadLinks.Checked)
                 s.Add(new HasBadLinks(parsers));
-
-            if (chkNoBold.Checked)
+            else if (rdoNoBold.Checked)
                 s.Add(new HasNoBoldTitle(parsers));
-
-            if (chkSimpleLinks.Checked)
+            else if (rdoSimpleLinks.Checked)
                 s.Add(new HasSimpleLinks(parsers));
-
-            if (chkHasHTML.Checked)
+            else if (rdoHasHTML.Checked)
                 s.Add(new HasHTMLEntities(parsers));
-
-            if (chkHeaderError.Checked)
+            else if (rdoHeaderError.Checked)
                 s.Add(new HasSectionError(parsers));
-
-            if (chkUnbulletedLinks.Checked)
+            else if (rdoUnbulletedLinks.Checked)
                 s.Add(new HasUnbulletedLinks(parsers));
 
             Main = new MainProcess(s, fileName, Priority, ignoreCommentsToolStripMenuItem.Checked);
@@ -882,10 +877,7 @@ namespace WikiFunctions.DatabaseScanner
             nudLinks.Value = 5;
 
             //extra
-            chkNoBold.Checked = false;
-            chkBadLinks.Checked = false;
-            chkHasHTML.Checked = false;
-            chkSimpleLinks.Checked = false;
+            rdoNone.Checked = true;
 
             //results
             chkHeading.Checked = false;
