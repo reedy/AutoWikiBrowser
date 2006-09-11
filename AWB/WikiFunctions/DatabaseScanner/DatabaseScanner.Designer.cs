@@ -89,8 +89,6 @@ namespace WikiFunctions.DatabaseScanner
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.chkTitleCase = new System.Windows.Forms.CheckBox();
             this.chkTitleRegex = new System.Windows.Forms.CheckBox();
-            this.chkSimpleLinks = new System.Windows.Forms.CheckBox();
-            this.chkNoBold = new System.Windows.Forms.CheckBox();
             this.nudLimitResults = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.nudHeadingSpace = new System.Windows.Forms.NumericUpDown();
@@ -101,7 +99,6 @@ namespace WikiFunctions.DatabaseScanner
             this.btnTransfer = new System.Windows.Forms.Button();
             this.btnAlphaList = new System.Windows.Forms.Button();
             this.btnClearList = new System.Windows.Forms.Button();
-            this.chkHeaderError = new System.Windows.Forms.CheckBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -117,9 +114,13 @@ namespace WikiFunctions.DatabaseScanner
             this.lblCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.chkUnbulletedLinks = new System.Windows.Forms.CheckBox();
-            this.chkHasHTML = new System.Windows.Forms.CheckBox();
-            this.chkBadLinks = new System.Windows.Forms.CheckBox();
+            this.rdoNoBold = new System.Windows.Forms.RadioButton();
+            this.rdoSimpleLinks = new System.Windows.Forms.RadioButton();
+            this.rdoBadLinks = new System.Windows.Forms.RadioButton();
+            this.rdoHasHTML = new System.Windows.Forms.RadioButton();
+            this.rdoHeaderError = new System.Windows.Forms.RadioButton();
+            this.rdoUnbulletedLinks = new System.Windows.Forms.RadioButton();
+            this.rdoNone = new System.Windows.Forms.RadioButton();
             this.lbArticles = new WikiFunctions.Lists.ListBox2();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -737,26 +738,6 @@ namespace WikiFunctions.DatabaseScanner
             this.chkTitleRegex.Text = "Are regexes";
             this.chkTitleRegex.UseVisualStyleBackColor = true;
             // 
-            // chkSimpleLinks
-            // 
-            this.chkSimpleLinks.AutoSize = true;
-            this.chkSimpleLinks.Location = new System.Drawing.Point(6, 41);
-            this.chkSimpleLinks.Name = "chkSimpleLinks";
-            this.chkSimpleLinks.Size = new System.Drawing.Size(150, 17);
-            this.chkSimpleLinks.TabIndex = 31;
-            this.chkSimpleLinks.Text = "Has links AWB will simplify";
-            this.chkSimpleLinks.UseVisualStyleBackColor = true;
-            // 
-            // chkNoBold
-            // 
-            this.chkNoBold.AutoSize = true;
-            this.chkNoBold.Location = new System.Drawing.Point(6, 21);
-            this.chkNoBold.Name = "chkNoBold";
-            this.chkNoBold.Size = new System.Drawing.Size(158, 17);
-            this.chkNoBold.TabIndex = 30;
-            this.chkNoBold.Text = "Has title AWB will embolden";
-            this.chkNoBold.UseVisualStyleBackColor = true;
-            // 
             // nudLimitResults
             // 
             this.nudLimitResults.Increment = new decimal(new int[] {
@@ -881,17 +862,6 @@ namespace WikiFunctions.DatabaseScanner
             this.toolTip1.SetToolTip(this.btnClearList, "Clear the list");
             this.btnClearList.UseVisualStyleBackColor = true;
             this.btnClearList.Click += new System.EventHandler(this.lbClear_Click);
-            // 
-            // chkHeaderError
-            // 
-            this.chkHeaderError.AutoSize = true;
-            this.chkHeaderError.Location = new System.Drawing.Point(168, 41);
-            this.chkHeaderError.Name = "chkHeaderError";
-            this.chkHeaderError.Size = new System.Drawing.Size(86, 17);
-            this.chkHeaderError.TabIndex = 34;
-            this.chkHeaderError.Text = "Section error";
-            this.toolTip1.SetToolTip(this.chkHeaderError, "Detects common section header errors, such as upper casing \"==External Links==\"");
-            this.chkHeaderError.UseVisualStyleBackColor = true;
             // 
             // contextMenuStrip1
             // 
@@ -1029,12 +999,13 @@ namespace WikiFunctions.DatabaseScanner
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.chkUnbulletedLinks);
-            this.groupBox5.Controls.Add(this.chkHeaderError);
-            this.groupBox5.Controls.Add(this.chkHasHTML);
-            this.groupBox5.Controls.Add(this.chkBadLinks);
-            this.groupBox5.Controls.Add(this.chkNoBold);
-            this.groupBox5.Controls.Add(this.chkSimpleLinks);
+            this.groupBox5.Controls.Add(this.rdoNone);
+            this.groupBox5.Controls.Add(this.rdoUnbulletedLinks);
+            this.groupBox5.Controls.Add(this.rdoHeaderError);
+            this.groupBox5.Controls.Add(this.rdoHasHTML);
+            this.groupBox5.Controls.Add(this.rdoBadLinks);
+            this.groupBox5.Controls.Add(this.rdoSimpleLinks);
+            this.groupBox5.Controls.Add(this.rdoNoBold);
             this.groupBox5.Location = new System.Drawing.Point(322, 136);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(286, 84);
@@ -1042,35 +1013,83 @@ namespace WikiFunctions.DatabaseScanner
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "AWB specific";
             // 
-            // chkUnbulletedLinks
+            // rdoNoBold
             // 
-            this.chkUnbulletedLinks.AutoSize = true;
-            this.chkUnbulletedLinks.Location = new System.Drawing.Point(168, 61);
-            this.chkUnbulletedLinks.Name = "chkUnbulletedLinks";
-            this.chkUnbulletedLinks.Size = new System.Drawing.Size(101, 17);
-            this.chkUnbulletedLinks.TabIndex = 35;
-            this.chkUnbulletedLinks.Text = "Unbulleted links";
-            this.chkUnbulletedLinks.UseVisualStyleBackColor = true;
+            this.rdoNoBold.AutoSize = true;
+            this.rdoNoBold.Location = new System.Drawing.Point(6, 30);
+            this.rdoNoBold.Name = "rdoNoBold";
+            this.rdoNoBold.Size = new System.Drawing.Size(157, 17);
+            this.rdoNoBold.TabIndex = 0;
+            this.rdoNoBold.Text = "Has title AWB will embolden";
+            this.toolTip1.SetToolTip(this.rdoNoBold, "AWB \'\'\'emboldens\'\'\' the title when appropriate");
+            this.rdoNoBold.UseVisualStyleBackColor = true;
             // 
-            // chkHasHTML
+            // rdoSimpleLinks
             // 
-            this.chkHasHTML.AutoSize = true;
-            this.chkHasHTML.Location = new System.Drawing.Point(168, 21);
-            this.chkHasHTML.Name = "chkHasHTML";
-            this.chkHasHTML.Size = new System.Drawing.Size(114, 17);
-            this.chkHasHTML.TabIndex = 33;
-            this.chkHasHTML.Text = "Has HTML entities";
-            this.chkHasHTML.UseVisualStyleBackColor = true;
+            this.rdoSimpleLinks.AutoSize = true;
+            this.rdoSimpleLinks.Location = new System.Drawing.Point(6, 47);
+            this.rdoSimpleLinks.Name = "rdoSimpleLinks";
+            this.rdoSimpleLinks.Size = new System.Drawing.Size(149, 17);
+            this.rdoSimpleLinks.TabIndex = 1;
+            this.rdoSimpleLinks.Text = "Has links AWB will simplify";
+            this.toolTip1.SetToolTip(this.rdoSimpleLinks, "AWB simplifies some links");
+            this.rdoSimpleLinks.UseVisualStyleBackColor = true;
             // 
-            // chkBadLinks
+            // rdoBadLinks
             // 
-            this.chkBadLinks.AutoSize = true;
-            this.chkBadLinks.Location = new System.Drawing.Point(6, 61);
-            this.chkBadLinks.Name = "chkBadLinks";
-            this.chkBadLinks.Size = new System.Drawing.Size(148, 17);
-            this.chkBadLinks.TabIndex = 32;
-            this.chkBadLinks.Text = "Has bad links AWB will fix";
-            this.chkBadLinks.UseVisualStyleBackColor = true;
+            this.rdoBadLinks.AutoSize = true;
+            this.rdoBadLinks.Location = new System.Drawing.Point(6, 64);
+            this.rdoBadLinks.Name = "rdoBadLinks";
+            this.rdoBadLinks.Size = new System.Drawing.Size(147, 17);
+            this.rdoBadLinks.TabIndex = 2;
+            this.rdoBadLinks.Text = "Has bad links AWB will fix";
+            this.toolTip1.SetToolTip(this.rdoBadLinks, "AWB fixes bad links, such as wrong syntax and URL coding");
+            this.rdoBadLinks.UseVisualStyleBackColor = true;
+            // 
+            // rdoHasHTML
+            // 
+            this.rdoHasHTML.AutoSize = true;
+            this.rdoHasHTML.Location = new System.Drawing.Point(163, 30);
+            this.rdoHasHTML.Name = "rdoHasHTML";
+            this.rdoHasHTML.Size = new System.Drawing.Size(113, 17);
+            this.rdoHasHTML.TabIndex = 3;
+            this.rdoHasHTML.Text = "Has HTML entities";
+            this.toolTip1.SetToolTip(this.rdoHasHTML, "AWB replaces HTML entities with unicode");
+            this.rdoHasHTML.UseVisualStyleBackColor = true;
+            // 
+            // rdoHeaderError
+            // 
+            this.rdoHeaderError.AutoSize = true;
+            this.rdoHeaderError.Location = new System.Drawing.Point(163, 47);
+            this.rdoHeaderError.Name = "rdoHeaderError";
+            this.rdoHeaderError.Size = new System.Drawing.Size(85, 17);
+            this.rdoHeaderError.TabIndex = 4;
+            this.rdoHeaderError.Text = "Section error";
+            this.toolTip1.SetToolTip(this.rdoHeaderError, "AWB fixes common mis-capitalisation in headings");
+            this.rdoHeaderError.UseVisualStyleBackColor = true;
+            // 
+            // rdoUnbulletedLinks
+            // 
+            this.rdoUnbulletedLinks.AutoSize = true;
+            this.rdoUnbulletedLinks.Location = new System.Drawing.Point(163, 64);
+            this.rdoUnbulletedLinks.Name = "rdoUnbulletedLinks";
+            this.rdoUnbulletedLinks.Size = new System.Drawing.Size(100, 17);
+            this.rdoUnbulletedLinks.TabIndex = 5;
+            this.rdoUnbulletedLinks.Text = "Unbulleted links";
+            this.toolTip1.SetToolTip(this.rdoUnbulletedLinks, "AWB bullets links in external links sections");
+            this.rdoUnbulletedLinks.UseVisualStyleBackColor = true;
+            // 
+            // rdoNone
+            // 
+            this.rdoNone.AutoSize = true;
+            this.rdoNone.Checked = true;
+            this.rdoNone.Location = new System.Drawing.Point(6, 13);
+            this.rdoNone.Name = "rdoNone";
+            this.rdoNone.Size = new System.Drawing.Size(51, 17);
+            this.rdoNone.TabIndex = 6;
+            this.rdoNone.TabStop = true;
+            this.rdoNone.Text = "None";
+            this.rdoNone.UseVisualStyleBackColor = true;
             // 
             // lbArticles
             // 
@@ -1181,8 +1200,6 @@ namespace WikiFunctions.DatabaseScanner
         private CheckBox chkTitleDoesNotContain;
         private CheckBox chkTitleRegex;
         private CheckBox chkTitleCase;
-        private CheckBox chkNoBold;
-        private CheckBox chkSimpleLinks;
         private ToolStripMenuItem otherToolStripMenuItem;
         private ToolStripMenuItem threadPriorityToolStripMenuItem;
         private ToolStripMenuItem highestToolStripMenuItem;
@@ -1203,22 +1220,25 @@ namespace WikiFunctions.DatabaseScanner
         private CheckBox chkArticleDoesContain;
         private CheckBox chkArticleDoesNotContain;
         private ComboBox cmboLinks;
-        private CheckBox chkBadLinks;
-        private CheckBox chkHasHTML;
         private ToolStripSeparator toolStripSeparator2;
         private ToolStripMenuItem ignoreCommentsToolStripMenuItem;
         private CheckBox chkSingle;
         private CheckBox chkMulti;
         private ToolStripMenuItem toolStripMenuItem1;
         private ToolStripSeparator toolStripSeparator4;
-        private CheckBox chkHeaderError;
-        private CheckBox chkUnbulletedLinks;
         private ToolStripMenuItem openInBrowserToolStripMenuItem;
         private ComboBox cmboWords;
         private NumericUpDown nudWords;
         private Label label3;
         private Button btnFilter;
         private WikiFunctions.Lists.ListBox2 lbArticles;
+        private RadioButton rdoUnbulletedLinks;
+        private RadioButton rdoHeaderError;
+        private RadioButton rdoHasHTML;
+        private RadioButton rdoBadLinks;
+        private RadioButton rdoSimpleLinks;
+        private RadioButton rdoNoBold;
+        private RadioButton rdoNone;
     }
 }
 
