@@ -211,7 +211,7 @@ namespace AutoWikiBrowser
                 //check edit summary
                 if (cmboEditSummary.Text == "")
                     MessageBox.Show("Please enter an edit summary.", "Edit summary", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-
+                
                 StopDelayedRestartTimer();
                 DisableButtons();
                 EdittingArticle.EditSummary = "";
@@ -232,6 +232,7 @@ namespace AutoWikiBrowser
 
                 if (listMaker1.NumberOfArticles < 1)
                 {
+                    webBrowserEdit.Busy = false;
                     stopSaveInterval();
                     lblTimer.Text = "";
                     lblStatusText.Text = "No articles in list, you need to use the Make list";
@@ -239,6 +240,10 @@ namespace AutoWikiBrowser
                     webBrowserEdit.Document.Write("");
                     listMaker1.MakeListEnabled = true;
                     return;
+                }
+                else
+                {
+                    webBrowserEdit.Busy = true;
                 }
 
                 EdittingArticle = listMaker1.SelectedArticle();
