@@ -29,13 +29,14 @@ using System.Web;
 
 namespace WikiFunctions.Browser
 {
-    public delegate void LoadDel();
-    public delegate void SaveDel();
-    public delegate void DiffDel();
-    public delegate void DeleteDel();
-    public delegate void NoneDel();
-    public delegate void FaultDel();
-    public delegate void StatusDel();
+    //public delegate void LoadDel();
+    //public delegate void SaveDel();
+    //public delegate void DiffDel();
+    //public delegate void DeleteDel();
+    //public delegate void NoneDel();
+    //public delegate void FaultDel();
+    //public delegate void StatusDel();
+    public delegate void WebControlDel();
 
     public enum enumProcessStage : byte { load, diff, save, delete, none }
 
@@ -57,31 +58,35 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Occurs when the edit page has finished loading
         /// </summary>
-        public event LoadDel Loaded;
+        public event WebControlDel Loaded;
         /// <summary>
         /// Occurs when the page has finished saving
         /// </summary>
-        public event SaveDel Saved;
+        public event WebControlDel Saved;
         /// <summary>
         /// Occurs when the diff or preview page has finished loading
         /// </summary>
-        public event DiffDel Diffed;
+        public event WebControlDel Diffed;
         /// <summary>
         /// Occurs when the page has finished deleting
         /// </summary>
-        public event DeleteDel Deleted;
+        public event WebControlDel Deleted;
         /// <summary>
         /// Occurs when the page has finished loading, and it was not a save/load/diff
         /// </summary>
-        public event DiffDel None;
+        public event WebControlDel None;
         /// <summary>
         /// Occurs when the page failed to load properly
         /// </summary>
-        public event FaultDel Fault;
+        public event WebControlDel Fault;
         /// <summary>
         /// Occurs when the status changes
         /// </summary>
-        public event StatusDel StatusChanged;
+        public event WebControlDel StatusChanged;
+        /// <summary>
+        /// Occurs when the Busy state changes
+        /// </summary>
+        public event WebControlDel BusyChanged;
 
         #endregion
 
@@ -188,6 +193,23 @@ namespace WikiFunctions.Browser
             }
         }
 
+        bool boolBusy = false;
+        /// <summary>
+        /// Gets a value indicating whether articles are still being processed
+        /// </summary>
+        public bool Busy
+        {
+            get { return boolBusy; }
+            set
+            {
+                bool b = boolBusy;
+                boolBusy = value;
+                if (b != boolBusy && BusyChanged != null)
+                    BusyChanged();
+            }
+
+        }
+
         /// <summary>
         /// Gets a bool indicating if the current page is a diff
         /// </summary>
@@ -260,6 +282,7 @@ namespace WikiFunctions.Browser
         public void Stop2()
         {
             ProcessStage = enumProcessStage.none;
+            Busy = false;
             this.Stop();
         }
 
