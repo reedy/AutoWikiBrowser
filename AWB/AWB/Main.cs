@@ -98,6 +98,7 @@ namespace AutoWikiBrowser
             webBrowserEdit.None += CaseWasNull;
             webBrowserEdit.Fault += StartDelayedRestartTimer;
             webBrowserEdit.StatusChanged += UpdateWebBrowserStatus;
+            webBrowserEdit.BusyChanged += hello;
 
             listMaker1.BusyStateChanged += SetProgressBar;
             listMaker1.NoOfArticlesChanged += UpdateButtons;
@@ -219,10 +220,10 @@ namespace AutoWikiBrowser
                 txtEdit.Clear();
 
                 if (webBrowserEdit.IsBusy)
-                    webBrowserEdit.Stop2();
+                    webBrowserEdit.Stop();
 
                 if (webBrowserEdit.Document != null)
-                    webBrowserEdit.Document.Write("");                    
+                    webBrowserEdit.Document.Write("");
 
                 //check we are logged in
                 if (!WikiStatus())
@@ -2164,5 +2165,11 @@ namespace AutoWikiBrowser
         }
 
         #endregion
+
+        private void hello()
+        {
+            MessageBox.Show("hello");
+        }
+
     }    
 }

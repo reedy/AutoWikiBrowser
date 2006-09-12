@@ -207,7 +207,6 @@ namespace WikiFunctions.Browser
                 if (b != boolBusy && BusyChanged != null)
                     BusyChanged();
             }
-
         }
 
         /// <summary>
@@ -539,7 +538,7 @@ namespace WikiFunctions.Browser
         protected override void OnDocumentCompleted(WebBrowserDocumentCompletedEventArgs e)
         {
             base.OnDocumentCompleted(e);
-
+            
             if (!this.Document.Body.InnerHtml.Contains("id=siteSub"))
             {
                 ProcessStage = enumProcessStage.none;
@@ -601,6 +600,8 @@ namespace WikiFunctions.Browser
             {
                 this.OnDocumentCompleted(null);
                 this.AllowNavigation = false;
+                ProcessStage = enumProcessStage.none;
+                this.Stop();
                 this.Saved();
             }
             base.OnProgressChanged(e);
