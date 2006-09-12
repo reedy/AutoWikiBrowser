@@ -98,7 +98,7 @@ namespace AutoWikiBrowser
             webBrowserEdit.None += CaseWasNull;
             webBrowserEdit.Fault += StartDelayedRestartTimer;
             webBrowserEdit.StatusChanged += UpdateWebBrowserStatus;
-            webBrowserEdit.BusyChanged += hello;
+            //webBrowserEdit.BusyChanged += hello;
 
             listMaker1.BusyStateChanged += SetProgressBar;
             listMaker1.NoOfArticlesChanged += UpdateButtons;
@@ -2166,10 +2166,10 @@ namespace AutoWikiBrowser
 
         #endregion
 
-        private void hello()
-        {
-            MessageBox.Show("hello");
-        }
+        //private void hello()
+        //{
+        //    MessageBox.Show("hello");
+        //}
 
     }    
 }
