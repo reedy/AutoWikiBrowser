@@ -212,7 +212,16 @@ namespace WikiFunctions
         /// <returns>The wiki text of the article.</returns>
         public static string GetArticleText(string ArticleTitle)
         {
-            string text = GetHTML(Variables.URL + "index.php?title=" + ArticleTitle + "&action=raw&ctype=text/plain&dontcountme=s", Encoding.UTF8);
+            string text = "";
+            try
+            {
+                text = GetHTML(Variables.URL + "index.php?title=" + ArticleTitle + "&action=raw&ctype=text/plain&dontcountme=s", Encoding.UTF8);
+            }
+            catch
+            {
+                throw new Exception("There was a problem loading " + Variables.URL + "index.php?title=" + ArticleTitle + ", please make sure the page exists");
+            }
+
             return text;
         }
 
