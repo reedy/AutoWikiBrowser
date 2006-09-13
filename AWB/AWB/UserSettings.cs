@@ -29,7 +29,7 @@ namespace AutoWikiBrowser
         {
             findAndReplace.Clear();
             replaceSpecial.Clear();
-            listMaker1.SelectedSourceIndex = 0;
+            listMaker1.SelectedSource = 0;
             listMaker1.SourceText = "";
 
             chkGeneralParse.Checked = true;
@@ -237,7 +237,7 @@ namespace AutoWikiBrowser
                         if (reader.Name == "selectsource" && reader.HasAttributes)
                         {
                             if (reader.MoveToAttribute("index"))
-                                listMaker1.SelectedSourceIndex = int.Parse(reader.Value);
+                                listMaker1.SelectedSource = (WikiFunctions.Lists.SourceType)int.Parse(reader.Value);
                             if (reader.MoveToAttribute("text"))
                                 listMaker1.SourceText = reader.Value;
 
@@ -590,7 +590,7 @@ namespace AutoWikiBrowser
                 textWriter.WriteStartElement("Options");
 
                 textWriter.WriteStartElement("selectsource");
-                textWriter.WriteAttributeString("index", listMaker1.SelectedSourceIndex.ToString());
+                textWriter.WriteAttributeString("index", listMaker1.SelectedSource.ToString());
                 textWriter.WriteAttributeString("text", listMaker1.SourceText);
                 textWriter.WriteEndElement();
 

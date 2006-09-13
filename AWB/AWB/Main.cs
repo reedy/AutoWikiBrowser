@@ -82,10 +82,10 @@ namespace AutoWikiBrowser
                 catch (Exception ex)
                 {
                     parsers = new Parsers();
+                    SetProject(LangCodeEnum.en, ProjectEnum.wikipedia);
                     MessageBox.Show(ex.Message);
                 }
-
-                listMaker1.SelectedSourceIndex = 0;
+                
                 cmboCategorise.SelectedIndex = 0;
                 cmboImages.SelectedIndex = 0;
                 lblStatusText.AutoSize = true;
@@ -832,7 +832,7 @@ namespace AutoWikiBrowser
         {
             if (cmboCategorise.SelectedIndex > 0)
             {
-                if (cmboCategorise.SelectedIndex == 1 && (listMaker1.SourceText.Length == 0 || listMaker1.SelectedSourceIndex != 0))
+                if (cmboCategorise.SelectedIndex == 1 && (listMaker1.SourceText.Length == 0 || listMaker1.SelectedSource != SourceType.Category))
                 {
                     cmboCategorise.SelectedIndex = 0;
                     MessageBox.Show("Please create a list of articles from a category first", "Make list", MessageBoxButtons.OK, MessageBoxIcon.Warning);

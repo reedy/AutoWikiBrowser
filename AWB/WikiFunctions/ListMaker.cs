@@ -213,58 +213,70 @@ namespace WikiFunctions.Lists
 
         private void cmboSourceSelect_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (cmboSourceSelect.SelectedIndex)
+            switch ((SourceType)cmboSourceSelect.SelectedIndex)
             {
-                case 0:
-                    lblSourceSelect.Text = Variables.Namespaces[14];
+                case SourceType.Category:
+                    if (Variables.Namespaces.ContainsKey(14))
+                        lblSourceSelect.Text = Variables.Namespaces[14];
+                    else
+                        lblSourceSelect.Text = "Category:";
                     txtSelectSource.Enabled = true;
                     chkWLHRedirects.Visible = false;
-                    return;
-                case 1:
+                    break;
+                case SourceType.WhatLinksHere:
                     lblSourceSelect.Text = "What links to";
                     txtSelectSource.Enabled = true;
                     chkWLHRedirects.Visible = false;
-                    return;
-                case 2:
+                    break;
+                case SourceType.WhatTranscludesHere:
                     lblSourceSelect.Text = "What embeds";
                     txtSelectSource.Enabled = true;
                     chkWLHRedirects.Visible = false;
-                    return;
-                case 3:
+                    break;
+                case SourceType.LinksOnPage:
                     lblSourceSelect.Text = "Links on";
                     txtSelectSource.Enabled = true;
                     chkWLHRedirects.Visible = false;
-                    return;
-                case 4:
+                    break;
+                case SourceType.TextFile:
                     lblSourceSelect.Text = "From file";
                     txtSelectSource.Enabled = false;
                     chkWLHRedirects.Visible = false;
-                    return;
-                case 5:
+                    break;
+                case SourceType.GoogleWikipedia:
                     lblSourceSelect.Text = "Google search";
                     txtSelectSource.Enabled = true;
                     chkWLHRedirects.Visible = false;
-                    return;
-                case 6:
-                    lblSourceSelect.Text = Variables.Namespaces[2];
+                    break;
+                case SourceType.UserContribs:
+                    if (Variables.Namespaces.ContainsKey(2))
+                        lblSourceSelect.Text = Variables.Namespaces[2];
+                    else
+                        lblSourceSelect.Text = "User:";
                     txtSelectSource.Enabled = true;
                     chkWLHRedirects.Visible = false;
-                    return;
-                case 7:
-                    lblSourceSelect.Text = Variables.Namespaces[-1];
+                    break;
+                case SourceType.SpecialPage:
+                    if (Variables.Namespaces.ContainsKey(-1))
+                        lblSourceSelect.Text = Variables.Namespaces[-1];
+                    else
+                        lblSourceSelect.Text = "Special:";
                     txtSelectSource.Enabled = true;
                     chkWLHRedirects.Visible = false;
-                    return;
-                case 8:
-                    lblSourceSelect.Text = Variables.Namespaces[6];
+                    break;
+                case SourceType.ImageFileLinks:
+                    if (Variables.Namespaces.ContainsKey(6))
+                        lblSourceSelect.Text = Variables.Namespaces[6];
+                    else
+                        lblSourceSelect.Text = "Image:";
                     txtSelectSource.Enabled = true;
                     chkWLHRedirects.Visible = false;
-                    return;
+                    break;
                 default:
                     lblSourceSelect.Text = "";
                     txtSelectSource.Enabled = false;
                     chkWLHRedirects.Visible = false;
-                    return;
+                    break;
             }
         }
 
@@ -302,20 +314,17 @@ namespace WikiFunctions.Lists
 
         private void btnMakeList_Click(object sender, EventArgs e)
         {
+            SourceType ST = (SourceType)cmboSourceSelect.SelectedIndex;
+
             txtSelectSource.Text = txtSelectSource.Text.Trim('[', ']');
-            if (cmboSourceSelect.SelectedIndex == 0)
+            if (ST == SourceType.Category)
                 txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[14], "", RegexOptions.IgnoreCase);
-            else if (cmboSourceSelect.SelectedIndex == 6)
+            else if (ST == SourceType.UserContribs)
                 txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[2], "", RegexOptions.IgnoreCase);
-            else if (cmboSourceSelect.SelectedIndex == 7)
+            else if (ST == SourceType.SpecialPage)
                 txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[-1], "", RegexOptions.IgnoreCase);
-            else if (cmboSourceSelect.SelectedIndex == 8)
+            else if (ST == SourceType.ImageFileLinks)
                 txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
-            else if (cmboSourceSelect.SelectedIndex == 9)
-            {
-                launchDumpSearcher();
-                return;
-            }
 
             txtSelectSource.Text = Tools.TurnFirstToUpper(txtSelectSource.Text);
             txtSelectSource.AutoCompleteCustomSource.Add(txtSelectSource.Text);
@@ -327,10 +336,12 @@ namespace WikiFunctions.Lists
                 return;
             }
 
-            //if (!WikiStatus)
-            //    return;
-
-            if (cmboSourceSelect.SelectedIndex == 4)
+            if (ST == SourceType.DatabaseDump)
+            {
+                launchDumpSearcher();
+                return;
+            }
+            else if (ST == SourceType.TextFile)
             {
                 try
                 {
@@ -353,7 +364,7 @@ namespace WikiFunctions.Lists
 
                 return;
             }
-            else if (cmboSourceSelect.SelectedIndex == 10)
+            else if (ST == SourceType.MyWatchlist)
             {
                 BusyStatus = true;
                 Add(GetLists.FromWatchList());
@@ -364,7 +375,7 @@ namespace WikiFunctions.Lists
 
             string[] s = txtSelectSource.Text.Split('|');
 
-            MakeList(cmboSourceSelect.SelectedIndex, s);
+            MakeList(ST, s);
         }
 
         private void lbArticles_MouseMove(object sender, MouseEventArgs e)
@@ -457,11 +468,10 @@ namespace WikiFunctions.Lists
         /// <summary>
         /// Gets or sets the selected index
         /// </summary>
-        [Browsable(false)]
-        public int SelectedSourceIndex
+        public SourceType SelectedSource
         {
-            get { return cmboSourceSelect.SelectedIndex; }
-            set { cmboSourceSelect.SelectedIndex = value; }
+            get { return (SourceType)cmboSourceSelect.SelectedIndex; }
+            set { cmboSourceSelect.SelectedIndex = (int)value; }
         }
 
         /// <summary>
@@ -664,9 +674,14 @@ namespace WikiFunctions.Lists
         }
 
         Thread ListerThread = null;
-        private void MakeList(int Source, string[] SourceValues)
+        /// <summary>
+        /// Makes a list of pages
+        /// </summary>
+        /// <param name="ST">The type of list to create</param>
+        /// <param name="SourceValues">An array of string values to create the list with, e.g. an array of categories. Use null if not appropriate</param>
+        public void MakeList(SourceType ST, string[] SourceValues)
         {
-            intSourceIndex = Source;
+            Source = ST;
             strSouce = SourceValues;
 
             ThreadStart thr_Process = new ThreadStart(MakeList2);
@@ -675,8 +690,9 @@ namespace WikiFunctions.Lists
             ListerThread.Start();
         }
 
-        int intSourceIndex = 0;
+        SourceType Source = SourceType.Category;
         string[] strSouce;
+
         private void MakeList2()
         {
             Saved = false;
@@ -684,31 +700,31 @@ namespace WikiFunctions.Lists
 
             try
             {
-                switch (intSourceIndex)
+                switch (Source)
                 {
-                    case 0:
+                    case SourceType.Category:
                         Add(GetLists.FromCategory(false, strSouce));
                         break;
-                    case 1:
+                    case SourceType.WhatLinksHere:
                         Add(GetLists.FromWhatLinksHere(false, strSouce));
                         break;
-                    case 2:
+                    case SourceType.WhatTranscludesHere:
                         Add(GetLists.FromWhatLinksHere(true, strSouce));
                         break;
-                    case 3:
+                    case SourceType.LinksOnPage:
                         Add(GetLists.FromLinksOnPage(strSouce));
                         break;
                     //4 from text file
-                    case 5:
+                    case SourceType.GoogleWikipedia:
                         Add(GetLists.FromGoogleSearch(strSouce));
                         break;
-                    case 6:
+                    case SourceType.UserContribs:
                         Add(GetLists.FromUserContribs(strSouce));
                         break;
-                    case 7:
+                    case SourceType.SpecialPage:
                         Add(GetLists.FromSpecialPage(strSouce));
                         break;
-                    case 8:
+                    case SourceType.ImageFileLinks:
                         Add(GetLists.FromImageLinks(strSouce));
                         break;
                     //9 from datadump
@@ -942,7 +958,7 @@ namespace WikiFunctions.Lists
                 i++;
             }
 
-            MakeList(1, c);
+            MakeList(SourceType.WhatLinksHere, c);
         }
 
         private void fromLinksOnPageToolStripMenuItem_Click(object sender, EventArgs e)
@@ -956,7 +972,7 @@ namespace WikiFunctions.Lists
                 i++;
             }
 
-            MakeList(3, c);
+            MakeList(SourceType.LinksOnPage, c);
         }
 
         private void fromImageLinksToolStripMenuItem_Click(object sender, EventArgs e)
@@ -970,7 +986,7 @@ namespace WikiFunctions.Lists
                 i++;
             }
 
-            MakeList(8, c);
+            MakeList(SourceType.ImageFileLinks, c);
         }
 
         private void removeToolStripMenuItem_Click(object sender, EventArgs e)
