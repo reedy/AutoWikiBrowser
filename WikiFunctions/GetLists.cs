@@ -354,6 +354,9 @@ namespace WikiFunctions.Lists
                     foreach (Match m in regexe.Matches(PageText))
                     {
                         title = m.Groups[1].Value;
+                        if (title == "")
+                            continue;
+                        title = title.Replace("&amp;", "&").Replace("&quot;", "\"");
                         list.Add(new Article(title));
                     }
                 }
@@ -363,7 +366,11 @@ namespace WikiFunctions.Lists
                     {
                         title = m.Groups[1].Value;
                         if (title != "Wikipedia:Special pages" && title != "Wikipedia talk:Special:Lonelypages" && title != "Wikipedia:Offline reports" && title != "Template:Specialpageslist")
-                        {
+                        {                            
+                            title = title.Replace("&amp;", "&").Replace("&quot;", "\"");
+                            if (title == "")
+                                continue;
+
                             ns = Tools.CalculateNS(title);
                             list.Add(new Article(title, ns));
                         }
