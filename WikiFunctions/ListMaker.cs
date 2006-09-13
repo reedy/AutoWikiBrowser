@@ -334,7 +334,7 @@ namespace WikiFunctions.Lists
             {
                 MessageBox.Show("Please enter some text", "No text", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
-            }            
+            }
 
             string[] s = txtSelectSource.Text.Split('|');
 
@@ -490,7 +490,8 @@ namespace WikiFunctions.Lists
             private set
             {
                 strStatus = value;
-                this.StatusTextChanged();
+                if (StatusTextChanged != null)
+                    this.StatusTextChanged();
             }
         }
 
@@ -504,7 +505,8 @@ namespace WikiFunctions.Lists
             private set
             {
                 bBusyStatus = value;
-                this.BusyStateChanged();
+                if (BusyStateChanged != null)
+                    this.BusyStateChanged();
             }
         }
 
@@ -892,7 +894,8 @@ namespace WikiFunctions.Lists
         private void UpdateNumberOfArticles()
         {
             lblNumberOfArticles.Text = lbArticles.Items.Count.ToString();
-            this.NoOfArticlesChanged();
+            if (NoOfArticlesChanged != null)
+                this.NoOfArticlesChanged();
         }
 
         #endregion
