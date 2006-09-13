@@ -48,61 +48,69 @@ namespace AutoWikiBrowser
         public MainForm()
         {
             InitializeComponent();
-            lblUserName.Alignment = ToolStripItemAlignment.Right;
-            lblProject.Alignment = ToolStripItemAlignment.Right;
-            lblTimer.Alignment = ToolStripItemAlignment.Right;
 
-            btntsShowHide.Image = Resources.btnshowhide_image;
-            btntsSave.Image = Resources.btntssave_image;
-            btntsIgnore.Image = Resources.GoLtr;
-            btntsStop.Image = Resources.Stop;
-            btntsPreview.Image = Resources.preview;
-            btntsChanges.Image = Resources.changes;
-            btntsFalsePositive.Image = Resources.RolledBack;
-            btntsStart.Image = Resources.Run;
-            //btnSave.Image = Resources.btntssave_image;
-            //btnIgnore.Image = Resources.GoLtr;
-
-            int stubcount = 500;
-            bool catkey = false;
             try
             {
-                stubcount = AutoWikiBrowser.Properties.Settings.Default.StubMaxWordCount;
-                catkey = AutoWikiBrowser.Properties.Settings.Default.AddHummanKeyToCats;
-                parsers = new Parsers(stubcount, catkey);
+                lblUserName.Alignment = ToolStripItemAlignment.Right;
+                lblProject.Alignment = ToolStripItemAlignment.Right;
+                lblTimer.Alignment = ToolStripItemAlignment.Right;
 
-                //read and set project from user persistent settings (was saved on last exit)
-                LangCodeEnum l = (LangCodeEnum)Enum.Parse(typeof(LangCodeEnum), AutoWikiBrowser.Properties.Settings.Default.Language);
-                ProjectEnum p = (ProjectEnum)Enum.Parse(typeof(ProjectEnum), AutoWikiBrowser.Properties.Settings.Default.Project);
-                SetProject(l, p);
+                btntsShowHide.Image = Resources.btnshowhide_image;
+                btntsSave.Image = Resources.btntssave_image;
+                btntsIgnore.Image = Resources.GoLtr;
+                btntsStop.Image = Resources.Stop;
+                btntsPreview.Image = Resources.preview;
+                btntsChanges.Image = Resources.changes;
+                btntsFalsePositive.Image = Resources.RolledBack;
+                btntsStart.Image = Resources.Run;
+                //btnSave.Image = Resources.btntssave_image;
+                //btnIgnore.Image = Resources.GoLtr;
+
+                int stubcount = 500;
+                bool catkey = false;
+                try
+                {
+                    stubcount = AutoWikiBrowser.Properties.Settings.Default.StubMaxWordCount;
+                    catkey = AutoWikiBrowser.Properties.Settings.Default.AddHummanKeyToCats;
+                    parsers = new Parsers(stubcount, catkey);
+
+                    //read and set project from user persistent settings (was saved on last exit)
+                    LangCodeEnum l = (LangCodeEnum)Enum.Parse(typeof(LangCodeEnum), AutoWikiBrowser.Properties.Settings.Default.Language);
+                    ProjectEnum p = (ProjectEnum)Enum.Parse(typeof(ProjectEnum), AutoWikiBrowser.Properties.Settings.Default.Project);
+                    SetProject(l, p);
+                }
+                catch (Exception ex)
+                {
+                    parsers = new Parsers();
+                    MessageBox.Show(ex.Message);
+                }
+
+                listMaker1.SelectedSourceIndex = 0;
+                cmboCategorise.SelectedIndex = 0;
+                cmboImages.SelectedIndex = 0;
+                lblStatusText.AutoSize = true;
+                lblBotTimer.AutoSize = true;
+
+                webBrowserLogin.ScriptErrorsSuppressed = true;
+                webBrowserLogin.DocumentCompleted += web4Completed;
+                webBrowserLogin.Navigating += web4Starting;
+
+                webBrowserEdit.Loaded += CaseWasLoad;
+                webBrowserEdit.Diffed += CaseWasDiff;
+                webBrowserEdit.Saved += CaseWasSaved;
+                webBrowserEdit.None += CaseWasNull;
+                webBrowserEdit.Fault += StartDelayedRestartTimer;
+                webBrowserEdit.StatusChanged += UpdateWebBrowserStatus;
+                //webBrowserEdit.BusyChanged += hello;
+
+                listMaker1.BusyStateChanged += SetProgressBar;
+                listMaker1.NoOfArticlesChanged += UpdateButtons;
+                listMaker1.StatusTextChanged += UpdateListStatus;
             }
             catch (Exception ex)
             {
-                parsers = new Parsers();
                 MessageBox.Show(ex.Message);
             }
-
-            listMaker1.SelectedSourceIndex = 0;
-            cmboCategorise.SelectedIndex = 0;
-            cmboImages.SelectedIndex = 0;
-            lblStatusText.AutoSize = true;
-            lblBotTimer.AutoSize = true;
-
-            webBrowserLogin.ScriptErrorsSuppressed = true;
-            webBrowserLogin.DocumentCompleted += web4Completed;
-            webBrowserLogin.Navigating += web4Starting;
-
-            webBrowserEdit.Loaded += CaseWasLoad;
-            webBrowserEdit.Diffed += CaseWasDiff;
-            webBrowserEdit.Saved += CaseWasSaved;
-            webBrowserEdit.None += CaseWasNull;
-            webBrowserEdit.Fault += StartDelayedRestartTimer;
-            webBrowserEdit.StatusChanged += UpdateWebBrowserStatus;
-            //webBrowserEdit.BusyChanged += hello;
-
-            listMaker1.BusyStateChanged += SetProgressBar;
-            listMaker1.NoOfArticlesChanged += UpdateButtons;
-            listMaker1.StatusTextChanged += UpdateListStatus;            
         }
 
         readonly Regex WikiLinkRegex = new Regex("\\[\\[(.*?)(\\]\\]|\\|)", RegexOptions.Compiled);
@@ -126,22 +134,29 @@ namespace AutoWikiBrowser
             //noParse.Add("User:Bluemoose/Sandbox");
 
             //check that we are not using an old OS. 98 seems to mangled some unicode.
-            if (Environment.OSVersion.Version.Major < 5)
+            try
             {
-                MessageBox.Show("You appear to be using an older operating system, this software may have trouble with some unicode fonts on operating systems older than Windows 2000, the start button has been disabled.", "Operating system", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                SetStartButton(false);
+                if (Environment.OSVersion.Version.Major < 5)
+                {
+                    MessageBox.Show("You appear to be using an older operating system, this software may have trouble with some unicode fonts on operating systems older than Windows 2000, the start button has been disabled.", "Operating system", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    SetStartButton(false);
+                }
+                else
+                    listMaker1.MakeListEnabled = true;
+
+                Debug();
+
+                if (AutoWikiBrowser.Properties.Settings.Default.LogInOnStart)
+                    WikiStatus();
+
+                LoadPlugins();
+                loadDefaultSettings();
+                UpdateButtons();
             }
-            else
-                listMaker1.MakeListEnabled = true;
-
-            Debug();
-
-            if(AutoWikiBrowser.Properties.Settings.Default.LogInOnStart)
-                WikiStatus();
-
-            LoadPlugins();
-            loadDefaultSettings();
-            UpdateButtons();
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         #endregion
