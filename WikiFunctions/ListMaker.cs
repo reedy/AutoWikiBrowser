@@ -213,7 +213,7 @@ namespace WikiFunctions.Lists
 
         private void cmboSourceSelect_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch ((SourceType)cmboSourceSelect.SelectedIndex)
+            switch (SelectedSource)
             {
                 case SourceType.Category:
                     if (Variables.Namespaces.ContainsKey(14))
@@ -314,7 +314,7 @@ namespace WikiFunctions.Lists
 
         private void btnMakeList_Click(object sender, EventArgs e)
         {
-            SourceType ST = (SourceType)cmboSourceSelect.SelectedIndex;
+            SourceType ST = SelectedSource;
 
             txtSelectSource.Text = txtSelectSource.Text.Trim('[', ']');
             if (ST == SourceType.Category)
@@ -334,44 +334,7 @@ namespace WikiFunctions.Lists
             {
                 MessageBox.Show("Please enter some text", "No text", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
-            }
-
-            if (ST == SourceType.DatabaseDump)
-            {
-                launchDumpSearcher();
-                return;
-            }
-            else if (ST == SourceType.TextFile)
-            {
-                try
-                {
-                    OpenFileDialog openListDialog = new OpenFileDialog();
-                    openListDialog.Filter = "text files|*.txt|All files|*.*";
-                    openListDialog.Multiselect = true;
-
-                    this.Focus();
-                    if (openListDialog.ShowDialog() == DialogResult.OK)
-                    {
-                        Add(GetLists.FromTextFile(openListDialog.FileNames));
-                        ListFile = openListDialog.FileName;
-                    }
-                    UpdateNumberOfArticles();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-
-                return;
-            }
-            else if (ST == SourceType.MyWatchlist)
-            {
-                BusyStatus = true;
-                Add(GetLists.FromWatchList());
-                BusyStatus = false;
-                UpdateNumberOfArticles();
-                return;
-            }
+            }            
 
             string[] s = txtSelectSource.Text.Split('|');
 
@@ -681,13 +644,52 @@ namespace WikiFunctions.Lists
         /// <param name="SourceValues">An array of string values to create the list with, e.g. an array of categories. Use null if not appropriate</param>
         public void MakeList(SourceType ST, string[] SourceValues)
         {
-            Source = ST;
-            strSouce = SourceValues;
+            if (ST == SourceType.DatabaseDump)
+            {
+                launchDumpSearcher();
+                return;
+            }
+            else if (ST == SourceType.TextFile)
+            {
+                try
+                {
+                    OpenFileDialog openListDialog = new OpenFileDialog();
+                    openListDialog.Filter = "text files|*.txt|All files|*.*";
+                    openListDialog.Multiselect = true;
 
-            ThreadStart thr_Process = new ThreadStart(MakeList2);
-            ListerThread = new Thread(thr_Process);
-            ListerThread.IsBackground = true;
-            ListerThread.Start();
+                    this.Focus();
+                    if (openListDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        Add(GetLists.FromTextFile(openListDialog.FileNames));
+                        ListFile = openListDialog.FileName;
+                    }
+                    UpdateNumberOfArticles();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
+                return;
+            }
+            else if (ST == SourceType.MyWatchlist)
+            {
+                BusyStatus = true;
+                Add(GetLists.FromWatchList());
+                BusyStatus = false;
+                UpdateNumberOfArticles();
+                return;
+            }
+            else
+            {
+                Source = ST;
+                strSouce = SourceValues;
+
+                ThreadStart thr_Process = new ThreadStart(MakeList2);
+                ListerThread = new Thread(thr_Process);
+                ListerThread.IsBackground = true;
+                ListerThread.Start();
+            }
         }
 
         SourceType Source = SourceType.Category;
