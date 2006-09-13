@@ -590,14 +590,14 @@ namespace AutoWikiBrowser
                 textWriter.WriteStartElement("Options");
 
                 textWriter.WriteStartElement("selectsource");
-                textWriter.WriteAttributeString("index", listMaker1.SelectedSource.ToString());
+                int x = (int)listMaker1.SelectedSource;
+                textWriter.WriteAttributeString("index", x.ToString());
                 textWriter.WriteAttributeString("text", listMaker1.SourceText);
                 textWriter.WriteEndElement();
 
                 textWriter.WriteStartElement("general");
                 textWriter.WriteAttributeString("general", chkGeneralParse.Checked.ToString());
                 textWriter.WriteAttributeString("tagger", chkAutoTagger.Checked.ToString());
-                //textWriter.WriteAttributeString("whitespace", chkRemoveWhiteSpace.Checked.ToString());
                 textWriter.WriteAttributeString("unicodifyer", chkUnicodifyWhole.Checked.ToString());
                 textWriter.WriteEndElement();
 
