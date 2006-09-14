@@ -38,6 +38,10 @@ namespace WikiFunctions.Lists
         readonly static Regex regexe = new Regex("<li>\\(?<a href=\"[^\"]*\" title=\"([^\"]*)\">[^<>]*</a>( \\(transclusion\\))?", RegexOptions.Compiled);
         readonly static Regex wikiLinkReg = new Regex("\\[\\[(.*?)(\\]\\]|\\|)", RegexOptions.Compiled);
         readonly static Regex regexe2 = new Regex("<a href=\"[^\"]*\" title=\"([^\"]*)\">[^<>]*</a>");
+        readonly static Regex RegexFromFile = new Regex("(^[a-z]{2,3}:)|(simple:)", RegexOptions.Compiled);
+        readonly static Regex regexWatchList = new Regex("<LI><INPUT type=checkbox value=(.*?) name=id\\[\\]", RegexOptions.Compiled);
+
+        #region From category
 
         /// <summary>
         /// Gets a list of articles and sub-categories in a category.
@@ -47,9 +51,21 @@ namespace WikiFunctions.Lists
         /// <returns>The list of the articles.</returns>
         public static List<Article> FromCategory(bool SubCategories, params string[] Categories)
         {
+            return FromCategory(SubCategories, -1, Categories);
+        }
+
+        /// <summary>
+        /// Gets a list of articles and sub-categories in a category.
+        /// </summary>
+        /// <param name="Category">The category.</param>
+        /// <param name="SubCategories">Whether to get all sub categories as well.</param>
+        /// <param name="Limit">The maximum number of results resulted..</param>
+        /// <returns>The list of the articles.</returns>
+        public static List<Article> FromCategory(bool SubCategories, int Limit, params string[] Categories)
+        {
             List<Article> list = new List<Article>();
-           
-            for(int i = 0; i < Categories.Length; i++)
+
+            for (int i = 0; i < Categories.Length; i++)
             {
                 string origURL = Variables.URL + "/query.php?what=category&cptitle=" + encodeText(Categories[i]) + "&format=xml&cplimit=500";
                 string URL = origURL;
@@ -85,12 +101,18 @@ namespace WikiFunctions.Lists
                                 title = reader.ReadString();
                                 list.Add(new Article(title, ns));
 
+                                if (Limit >= 0 && list.Count >= Limit)
+                                {
+                                    more = false;
+                                    break;
+                                }
+
                                 if (SubCategories && ns == 14)
                                 {
                                     Array.Resize<string>(ref Categories, Categories.Length + 1);
                                     Categories[Categories.Length - 1] = title.Replace(Variables.Namespaces[14], "");
                                 }
-                            }                                                        
+                            }
                         }
                     }
 
@@ -102,6 +124,10 @@ namespace WikiFunctions.Lists
             return list;
         }
 
+        #endregion
+
+        #region From whatlinkshere
+
         /// <summary>
         /// Gets a list of articles that link to the given page.
         /// </summary>
@@ -110,6 +136,19 @@ namespace WikiFunctions.Lists
         /// <param name="Embedded">Gets articles that embed (transclude).</param>
         /// <returns>The list of the articles.</returns>
         public static List<Article> FromWhatLinksHere(bool Embedded, params string[] Pages)
+        {
+            return FromWhatLinksHere(Embedded, -1, Pages);
+        }
+
+        /// <summary>
+        /// Gets a list of articles that link to the given page.
+        /// </summary>
+        /// <param name="Page">The page to find links to.</param>
+        /// <param name="RedirectsOnly">Only list redirects.</param>
+        /// <param name="Embedded">Gets articles that embed (transclude).</param>
+        /// <param name="Limit">The maximum number of results resulted..</param>
+        /// <returns>The list of the articles.</returns>
+        public static List<Article> FromWhatLinksHere(bool Embedded, int Limit, params string[] Pages)
         {
             string request = "backlinks";
             string initial = "bl";
@@ -154,12 +193,18 @@ namespace WikiFunctions.Lists
                             if (reader.Name.Equals(initial))
                             {
                                 if (reader.MoveToAttribute("ns"))
-                                    ns = int.Parse(reader.Value);                                
+                                    ns = int.Parse(reader.Value);
                                 else
                                     ns = 0;
 
                                 title = reader.ReadString();
                                 list.Add(new Article(title, ns));
+
+                                if (Limit >= 0 && list.Count >= Limit)
+                                {
+                                    more = false;
+                                    break;
+                                }
                             }
                         }
                     }
@@ -172,12 +217,27 @@ namespace WikiFunctions.Lists
             return list;
         }
 
+        #endregion
+
+        #region From links on page
+
         /// <summary>
         /// Gets a list of links on a page.
         /// </summary>
         /// <param name="Article">The page to find links on.</param>
         /// <returns>The list of the links.</returns>
         public static List<Article> FromLinksOnPage(params string[] Articles)
+        {
+            return FromLinksOnPage(-1, Articles);
+        }
+
+        /// <summary>
+        /// Gets a list of links on a page.
+        /// </summary>
+        /// <param name="Limit">The maximum number of results resulted.</param>
+        /// <param name="Article">The page to find links on.</param>
+        /// <returns>The list of the links.</returns>
+        public static List<Article> FromLinksOnPage(int Limit, params string[] Articles)
         {
             List<Article> list = new List<Article>();
 
@@ -205,6 +265,11 @@ namespace WikiFunctions.Lists
 
                             title = reader.ReadString();
                             list.Add(new Article(title, ns));
+
+                            if (Limit >= 0 && list.Count >= Limit)
+                            {
+                                break;
+                            }
                         }
                     }
                 }
@@ -213,7 +278,9 @@ namespace WikiFunctions.Lists
             return list;
         }
 
-        static readonly Regex RegexFromFile = new Regex("(^[a-z]{2,3}:)|(simple:)", RegexOptions.Compiled);
+        #endregion
+
+        #region From textfile
 
         /// <summary>
         /// Gets a list of [[wiki]] style links from txt file.
@@ -221,6 +288,17 @@ namespace WikiFunctions.Lists
         /// <param name="fileName">The file path of the list.</param>
         /// <returns>The list of the links.</returns>
         public static List<Article> FromTextFile(params string[] FileNames)
+        {
+            return FromTextFile(-1, FileNames);
+        }
+
+        /// <summary>
+        /// Gets a list of [[wiki]] style links from txt file.
+        /// </summary>
+        /// <param name="Limit">The maximum number of results resulted.</param>
+        /// <param name="fileName">The file path of the list.</param>
+        /// <returns>The list of the links.</returns>
+        public static List<Article> FromTextFile(int Limit, params string[] FileNames)
         {
             List<Article> list = new List<Article>();
 
@@ -240,6 +318,11 @@ namespace WikiFunctions.Lists
                     {
                         title = Tools.TurnFirstToUpper(title);
                         list.Add(new Article(title));
+
+                        if (Limit >= 0 && list.Count >= Limit)
+                        {
+                            break;
+                        }
                     }
                 }
             }
@@ -247,12 +330,27 @@ namespace WikiFunctions.Lists
             return list;
         }
 
+        #endregion
+
+        #region From google
+
         /// <summary>
         /// Gets a list from a google search of the site.
         /// </summary>
         /// <param name="Google">The term to search for.</param>
         /// <returns>The list of the articles.</returns>
         public static List<Article> FromGoogleSearch(params string[] Googles)
+        {
+            return FromGoogleSearch(-1, Googles);
+        }
+
+        /// <summary>
+        /// Gets a list from a google search of the site.
+        /// </summary>
+        /// <param name="Limit">The maximum number of results resulted.</param>
+        /// <param name="Google">The term to search for.</param>
+        /// <returns>The list of the articles.</returns>
+        public static List<Article> FromGoogleSearch(int Limit, params string[] Googles)
         {
             List<Article> list = new List<Article>();
 
@@ -286,6 +384,11 @@ namespace WikiFunctions.Lists
                             title = title.Replace("'", "");
                         }
                         list.Add(new Article(title));
+
+                        if (Limit >= 0 && list.Count >= Limit)
+                        {
+                            break;
+                        }
                     }
 
                     if (GoogleText.Contains("<br>Next</a>"))
@@ -302,12 +405,27 @@ namespace WikiFunctions.Lists
             return FilterSomeArticles(list);
         }
 
+        #endregion
+
+        #region From user contributions
+
         /// <summary>
         /// Gets a list from a users contribs.
         /// </summary>
         /// <param name="User">The name of the user.</param>
         /// <returns>The list of the articles.</returns>
         public static List<Article> FromUserContribs(params string[] Users)
+        {
+            return FromUserContribs(-1, Users);
+        }
+
+        /// <summary>
+        /// Gets a list from a users contribs.
+        /// </summary>
+        /// <param name="Limit">The maximum number of results resulted.</param>
+        /// <param name="User">The name of the user.</param>
+        /// <returns>The list of the articles.</returns>
+        public static List<Article> FromUserContribs(int Limit, params string[] Users)
         {
             List<Article> list = new List<Article>();
 
@@ -325,11 +443,20 @@ namespace WikiFunctions.Lists
                     title = m.Groups[1].Value;
 
                     list.Add(new Article(title));
+
+                    if (Limit >= 0 && list.Count >= Limit)
+                    {
+                        break;
+                    }
                 }
             }
 
             return list;
         }
+
+        #endregion
+
+        #region From special page
 
         /// <summary>
         /// Gets a list of links on a special page.
@@ -337,6 +464,17 @@ namespace WikiFunctions.Lists
         /// <param name="Special">The page to find links on, e.g. "Deadendpages" or "Deadendpages&limit=500&offset=0".</param>
         /// <returns>The list of the articles.</returns>
         public static List<Article> FromSpecialPage(params string[] Specials)
+        {
+            return FromSpecialPage(-1, Specials);
+        }
+
+        /// <summary>
+        /// Gets a list of links on a special page.
+        /// </summary>
+        /// <param name="Limit">The maximum number of results resulted.</param>
+        /// <param name="Special">The page to find links on, e.g. "Deadendpages" or "Deadendpages&limit=500&offset=0".</param>
+        /// <returns>The list of the articles.</returns>
+        public static List<Article> FromSpecialPage(int Limit, params string[] Specials)
         {
             List<Article> list = new List<Article>();
 
@@ -358,6 +496,11 @@ namespace WikiFunctions.Lists
                             continue;
                         title = title.Replace("&amp;", "&").Replace("&quot;", "\"");
                         list.Add(new Article(title));
+
+                        if (Limit >= 0 && list.Count >= Limit)
+                        {
+                            break;
+                        }
                     }
                 }
                 else
@@ -366,13 +509,18 @@ namespace WikiFunctions.Lists
                     {
                         title = m.Groups[1].Value;
                         if (title != "Wikipedia:Special pages" && title != "Wikipedia talk:Special:Lonelypages" && title != "Wikipedia:Offline reports" && title != "Template:Specialpageslist")
-                        {                            
+                        {
                             title = title.Replace("&amp;", "&").Replace("&quot;", "\"");
                             if (title == "")
                                 continue;
 
                             ns = Tools.CalculateNS(title);
                             list.Add(new Article(title, ns));
+
+                            if (Limit >= 0 && list.Count >= Limit)
+                            {
+                                break;
+                            }
                         }
                     }
                 }
@@ -380,12 +528,27 @@ namespace WikiFunctions.Lists
             return FilterSomeArticles(list);
         }
 
+        #endregion
+
+        #region From image links
+
         /// <summary>
         /// Gets a list of articles that use an image.
         /// </summary>
         /// <param name="Image">The image.</param>
         /// <returns>The list of the articles.</returns>
         public static List<Article> FromImageLinks(params string[] Images)
+        {
+            return FromImageLinks(-1, Images);
+        }
+
+        /// <summary>
+        /// Gets a list of articles that use an image.
+        /// </summary>
+        /// <param name="Limit">The maximum number of results resulted.</param>
+        /// <param name="Image">The image.</param>
+        /// <returns>The list of the articles.</returns>
+        public static List<Article> FromImageLinks(int Limit, params string[] Images)
         {
             List<Article> list = new List<Article>();
 
@@ -431,6 +594,12 @@ namespace WikiFunctions.Lists
 
                                 title = reader.ReadString();
                                 list.Add(new Article(title, ns));
+
+                                if (Limit >= 0 && list.Count >= Limit)
+                                {
+                                    more = false;
+                                    break;
+                                }
                             }
                         }
                     }
@@ -443,7 +612,10 @@ namespace WikiFunctions.Lists
             return list;
         }
 
-        readonly static Regex regexWatchList = new Regex("<LI><INPUT type=checkbox value=(.*?) name=id\\[\\]", RegexOptions.Compiled);
+        #endregion
+
+        #region From watchlist
+
         public static List<Article> FromWatchList()
         {
             WebBrowser webbrowser = new WebBrowser();
@@ -469,6 +641,10 @@ namespace WikiFunctions.Lists
 
             return list;
         }
+
+        #endregion
+
+        #region Other methods
 
         private static string encodeText(string txt)
         {
@@ -550,11 +726,13 @@ namespace WikiFunctions.Lists
                     }
                 }
                 else
-                    newList.Add(a);                
+                    newList.Add(a);
             }
 
             return newList;
         }
+
+        #endregion
 
         #region old methods
 
@@ -714,5 +892,5 @@ namespace WikiFunctions.Lists
         public PageDoeNotExistException(string message, System.Exception inner) : base(message, inner) { }
         protected PageDoeNotExistException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) { }
-    }    
+    }
 }
