@@ -554,33 +554,33 @@ namespace AutoWikiBrowser
 
                 if (chkUnicodifyWhole.Checked && process)
                 {
-                    articleText = parsers.Unicodify(articleText, ref SkipArticle);
+                    articleText = parsers.Unicodify(articleText, out SkipArticle);
                     if (Skip.SkipNoUnicode && SkipArticle)
                         return articleText;
                 }
 
                 if (cmboImages.SelectedIndex == 1)
                 {
-                    articleText = parsers.ReplaceImage(txtImageReplace.Text, txtImageWith.Text, articleText, ref SkipArticle);
+                    articleText = parsers.ReplaceImage(txtImageReplace.Text, txtImageWith.Text, articleText, out SkipArticle);
                     if (SkipArticle)
                         return articleText;
                 }
                 else if (cmboImages.SelectedIndex == 2)
                 {
-                    articleText = parsers.RemoveImage(txtImageReplace.Text, articleText, false, txtImageWith.Text, ref SkipArticle);
+                    articleText = parsers.RemoveImage(txtImageReplace.Text, articleText, false, txtImageWith.Text, out SkipArticle);
                     if (SkipArticle)
                         return articleText;
                 }
                 else if (cmboImages.SelectedIndex == 3)
                 {
-                    articleText = parsers.RemoveImage(txtImageReplace.Text, articleText, true, txtImageWith.Text, ref SkipArticle);
+                    articleText = parsers.RemoveImage(txtImageReplace.Text, articleText, true, txtImageWith.Text, out SkipArticle);
                     if (SkipArticle)
                         return articleText;
                 }
 
                 if (cmboCategorise.SelectedIndex == 1)
                 {
-                    articleText = parsers.ReCategoriser(listMaker1.SourceText, txtNewCategory.Text, articleText, ref SkipArticle);
+                    articleText = parsers.ReCategoriser(listMaker1.SourceText, txtNewCategory.Text, articleText, out SkipArticle);
                     if (SkipArticle)
                         return articleText;
                 }
@@ -590,7 +590,7 @@ namespace AutoWikiBrowser
                 }
                 else if (cmboCategorise.SelectedIndex == 3 && txtNewCategory.Text.Length > 0)
                 {
-                    articleText = parsers.RemoveCategory(txtNewCategory.Text, articleText, ref SkipArticle);
+                    articleText = parsers.RemoveCategory(txtNewCategory.Text, articleText, out SkipArticle);
                     if (SkipArticle)
                         return articleText;
                 }
@@ -605,7 +605,7 @@ namespace AutoWikiBrowser
 
                 if (chkRegExTypo.Checked && RegexTypos != null)
                 {
-                    articleText = RegexTypos.PerformTypoFixes(articleText, ref SkipArticle, ref EdittingArticle.EditSummary);
+                    articleText = RegexTypos.PerformTypoFixes(articleText, out SkipArticle, ref EdittingArticle.EditSummary);
                     if (SkipArticle && chkRegexTypoSkip.Checked)
                         return articleText;
                 }
@@ -614,7 +614,7 @@ namespace AutoWikiBrowser
                 {
                     if (process && chkAutoTagger.Checked)
                     {
-                        articleText = parsers.Tagger(articleText, EdittingArticle.Name, ref SkipArticle, ref EdittingArticle.EditSummary);
+                        articleText = parsers.Tagger(articleText, EdittingArticle.Name, out SkipArticle, ref EdittingArticle.EditSummary);
                         if (Skip.SkipNoTag && SkipArticle)
                             return articleText;
                     }
@@ -627,13 +627,13 @@ namespace AutoWikiBrowser
                         {//en only
                             articleText = parsers.Conversions(articleText);
                             articleText = parsers.RemoveBadHeaders(articleText, EdittingArticle.Name);
-                            articleText = parsers.LivingPeople(articleText, ref SkipArticle);
+                            articleText = parsers.LivingPeople(articleText, out SkipArticle);
                             articleText = parsers.FixCategories(articleText);
                             articleText = parsers.FixHeadings(articleText);
                         }
                         articleText = parsers.FixSyntax(articleText);
                         articleText = parsers.FixLinks(articleText);
-                        articleText = parsers.BulletExternalLinks(articleText, ref SkipArticle);
+                        articleText = parsers.BulletExternalLinks(articleText, out SkipArticle);
                         
                         articleText = parsers.SortMetaData(articleText, EdittingArticle.Name);
                         articleText = parsers.BoldTitle(articleText, EdittingArticle.Name);
