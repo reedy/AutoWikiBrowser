@@ -29,13 +29,6 @@ using System.Web;
 
 namespace WikiFunctions.Browser
 {
-    //public delegate void LoadDel();
-    //public delegate void SaveDel();
-    //public delegate void DiffDel();
-    //public delegate void DeleteDel();
-    //public delegate void NoneDel();
-    //public delegate void FaultDel();
-    //public delegate void StatusDel();
     public delegate void WebControlDel();
 
     public enum enumProcessStage : byte { load, diff, save, delete, none }
@@ -53,6 +46,8 @@ namespace WikiFunctions.Browser
             this.ScriptErrorsSuppressed = true;
             ProcessStage = enumProcessStage.none;
         }
+
+        Regex LoginRegex = new Regex("var wgUserName = \"(.*?)\";", RegexOptions.Compiled);
 
         public enumProcessStage ProcessStage = new enumProcessStage();
         /// <summary>
@@ -159,6 +154,31 @@ namespace WikiFunctions.Browser
                     return true;
                 else
                     return false;
+            }
+        }
+
+        /// <summary>
+        /// Gets the user name if logged in
+        /// </summary>
+        public string UserName
+        {
+            get
+            {
+                if (this.Document.Cookie == null)
+                    return "";
+
+                //Match m = LoginRegex.Match(this.Document.Body.InnerHtml);
+              
+                //return m.Groups[1].Value;
+
+
+                string cookieText = this.Document.Cookie;
+                Match m = Regex.Match(cookieText, "enwikiUserName=(.*?); ");
+                string UserName = m.Groups[1].Value;
+                UserName = UserName.Replace("+", " ");
+                UserName = HttpUtility.UrlDecode(UserName);
+
+                return UserName;
             }
         }
 
@@ -409,24 +429,7 @@ namespace WikiFunctions.Browser
                 return text.Substring(text.IndexOf(startMark), text.IndexOf(endMark) - text.IndexOf(startMark));
             else
                 return text;
-        }
-
-        /// <summary>
-        /// If logged in, gets the user name from the cookie
-        /// </summary>
-        public string GetUserName()
-        {
-            if (this.Document.Cookie == null)
-                return "";
-
-            string cookieText = this.Document.Cookie;
-            Match m = Regex.Match(cookieText, "enwikiUserName=(.*?); ");
-            string UserName = m.Groups[1].Value;
-            UserName = UserName.Replace("+", " ");
-            UserName = HttpUtility.UrlDecode(UserName);
-
-            return UserName;
-        }
+        }        
 
         /// <summary>
         /// Removes excess HTML from the document
