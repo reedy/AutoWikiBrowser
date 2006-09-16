@@ -598,7 +598,9 @@ namespace AutoWikiBrowser
                 if (chkFindandReplace.Checked && !findAndReplace.AfterOtherFixes)
                 {
                     SkipArticle = false;
-                    articleText = PerformFindAndReplace(articleText, ref SkipArticle);
+                    articleText = PerformFindAndReplace(articleText, out SkipArticle);
+                    if (SkipArticle)
+                        return articleText;
                 }
 
                 if (chkRegExTypo.Checked && RegexTypos != null)
@@ -662,7 +664,9 @@ namespace AutoWikiBrowser
                 if (chkFindandReplace.Checked && findAndReplace.AfterOtherFixes)
                 {
                     SkipArticle = false;
-                    articleText = PerformFindAndReplace(articleText, ref SkipArticle);
+                    articleText = PerformFindAndReplace(articleText, out SkipArticle);
+                    if (SkipArticle)
+                        return articleText;
                 }
 
                 SkipArticle = false;
@@ -676,7 +680,7 @@ namespace AutoWikiBrowser
             }
         }
 
-        private string PerformFindAndReplace(string articleText, ref bool SkipArticle)
+        private string PerformFindAndReplace(string articleText, out bool SkipArticle)
         {
             string testText = articleText;
             articleText = findAndReplace.MultipleFindAndReplce(articleText, EdittingArticle.Name, ref EdittingArticle.EditSummary);
@@ -689,6 +693,7 @@ namespace AutoWikiBrowser
             }
             else
             {
+                SkipArticle = false;
                 return articleText;
             }
         }
@@ -926,7 +931,7 @@ namespace AutoWikiBrowser
                 else
                 {//see if we are allowed to use this softare
 
-                    UserName = webBrowserLogin.GetUserName();
+                    UserName = webBrowserLogin.UserName;
                     strInnerHTML = strInnerHTML.Substring(strInnerHTML.IndexOf("enabledusersbegins"), strInnerHTML.IndexOf("enabledusersends") - strInnerHTML.IndexOf("enabledusersbegins"));
                     string strBotUsers = strInnerHTML.Substring(strInnerHTML.IndexOf("enabledbots"), strInnerHTML.IndexOf("enabledbotsends") - strInnerHTML.IndexOf("enabledbots"));
 

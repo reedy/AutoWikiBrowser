@@ -23,7 +23,7 @@ namespace WikiFunctions.Parse
         Dictionary<string, string> NoEditList = new Dictionary<string, string>();
         Regex NoLinksRegex = new Regex("<nowiki>.*?</nowiki>|<pre>.*?</pre>|<math>.*?</math>|<!--.*?-->", RegexOptions.Singleline | RegexOptions.Compiled);
         Regex ImagesRegex = new Regex("\\[\\[[Ii]mage:.*?\\]\\]", RegexOptions.Singleline | RegexOptions.Compiled);
-        Regex ExternalLinkRegex = new Regex("[Hh]ttp://[^\\ ]*|\\[[Hh]ttp:.*?\\]", RegexOptions.Singleline | RegexOptions.Compiled);
+        Regex ExternalLinkRegex = new Regex("[Hh]ttp://[^\\ \n]*|\\[[Hh]ttp:.*?\\]", RegexOptions.Compiled);
         Regex InterwikiRegex = new Regex("\\[\\[([a-z]{2,3}|simple|fiu-vro|minnan|roa-rup|tokipona|zh-min-nan):.*\\]\\]", RegexOptions.Compiled);
                 
         readonly Regex NoWikiIgnoreRegex = new Regex("<!-- ?(categories|\\{\\{.*?stub\\}\\}.*?|other languages|language links|inter ?(language|wiki)? ?links|inter ?wiki ?language ?links|inter ?wiki|The below are interlanguage links\\.?) ?-->", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -79,7 +79,6 @@ namespace WikiFunctions.Parse
             }
 
             return ArticleText;
-
         }
 
         public string AddBack(string ArticleText)
