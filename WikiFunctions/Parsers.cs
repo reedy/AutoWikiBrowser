@@ -159,7 +159,7 @@ namespace WikiFunctions.Parse
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <param name="NoChange">Value that indicated whether no change was made.</param>
         /// <returns>The modified article text.</returns>
-        public string FixHeadings(string ArticleText, ref bool NoChange)
+        public string FixHeadings(string ArticleText, out bool NoChange)
         {
             testText = ArticleText;
             ArticleText = FixHeadings(ArticleText);
@@ -248,7 +248,7 @@ namespace WikiFunctions.Parse
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <param name="NoChange">Value that indicated whether no change was made.</param>
         /// <returns>The modified article text.</returns>
-        public string FixSyntax(string ArticleText, ref bool NoChange)
+        public string FixSyntax(string ArticleText, out bool NoChange)
         {
             testText = ArticleText;
             ArticleText = FixSyntax(ArticleText);
@@ -336,7 +336,7 @@ namespace WikiFunctions.Parse
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <param name="NoChange">Value that indicated whether no change was made.</param>
         /// <returns>The modified article text.</returns>
-        public string FixLinks(string ArticleText, ref bool NoChange)
+        public string FixLinks(string ArticleText, out bool NoChange)
         {
             testText = ArticleText;
             ArticleText = FixLinks(ArticleText);
@@ -393,7 +393,7 @@ namespace WikiFunctions.Parse
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <param name="NoChange">Value that indicated whether no change was made.</param>
         /// <returns>The modified article text.</returns>
-        public string BulletExternalLinks(string ArticleText, ref bool NoChange)
+        public string BulletExternalLinks(string ArticleText, out bool NoChange)
         {
             testText = ArticleText;
             ArticleText = BulletExternalLinks(ArticleText);
@@ -457,7 +457,7 @@ namespace WikiFunctions.Parse
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <param name="NoChange">Value that indicated whether no change was made.</param>
         /// <returns>The modified article text.</returns>
-        public string Unicodify(string ArticleText, ref bool NoChange)
+        public string Unicodify(string ArticleText, out bool NoChange)
         {
             testText = ArticleText;
             ArticleText = Unicodify(ArticleText);
@@ -505,7 +505,7 @@ namespace WikiFunctions.Parse
         /// <param name="ArticleTitle">The title of the article.</param>
         /// <param name="NoChange">Value that indicated whether no change was made.</param>
         /// <returns>The modified article text.</returns>
-        public string BoldTitle(string ArticleText, string ArticleTitle, ref bool NoChange)
+        public string BoldTitle(string ArticleText, string ArticleTitle, out bool NoChange)
         {
             testText = ArticleText;
             ArticleText = BoldTitle(ArticleText, ArticleTitle);
@@ -586,7 +586,7 @@ namespace WikiFunctions.Parse
         /// <param name="NewImage">The new image.</param>
         /// <param name="NoChange">Value that indicated whether no change was made.</param>
         /// <returns>The new article text.</returns>
-        public string ReplaceImage(string OldImage, string NewImage, string ArticleText, ref bool NoChange)
+        public string ReplaceImage(string OldImage, string NewImage, string ArticleText, out bool NoChange)
         {
             testText = ArticleText;
             ArticleText = ReplaceImage(OldImage, NewImage, ArticleText);
@@ -700,7 +700,7 @@ namespace WikiFunctions.Parse
         /// <param name="OldImage">The image to remove.</param>
         /// <param name="NoChange">Value that indicated whether no change was made.</param>
         /// <returns>The new article text.</returns>
-        public string RemoveImage(string Image, string ArticleText, bool CommentOut, string Comment, ref bool NoChange)
+        public string RemoveImage(string Image, string ArticleText, bool CommentOut, string Comment, out bool NoChange)
         {
             testText = ArticleText;
             ArticleText = RemoveImage(Image, ArticleText, CommentOut, Comment);
@@ -719,7 +719,7 @@ namespace WikiFunctions.Parse
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <param name="NewCategory">The new category.</param>
         /// <returns>The article text.</returns>
-        public string AddCategory(string NewCategory, string ArticleText, string ArticleTitle, ref bool NoChange)
+        public string AddCategory(string NewCategory, string ArticleText, string ArticleTitle, out bool NoChange)
         {
             testText = ArticleText;
             ArticleText = AddCategory(NewCategory, ArticleText, ArticleTitle);
@@ -762,7 +762,7 @@ namespace WikiFunctions.Parse
         /// <param name="NewCategory">The new category.</param>
         /// <param name="NoChange">Value that indicated whether no change was made.</param>
         /// <returns>The re-categorised article text.</returns>
-        public string ReCategoriser(string OldCategory, string NewCategory, string ArticleText, ref bool NoChange)
+        public string ReCategoriser(string OldCategory, string NewCategory, string ArticleText, out bool NoChange)
         {
             //remove category prefix
             OldCategory = Regex.Replace(OldCategory, "^" + Variables.Namespaces[14], "", RegexOptions.IgnoreCase);
@@ -803,7 +803,7 @@ namespace WikiFunctions.Parse
         /// <param name="strOldCat">The old category to remove.</param>
         /// <param name="NoChange">Value that indicated whether no change was made.</param>
         /// <returns>The article text without the old category.</returns>
-        public string RemoveCategory(string strOldCat, string ArticleText, ref bool NoChange)
+        public string RemoveCategory(string strOldCat, string ArticleText, out bool NoChange)
         {
             testText = ArticleText;
             ArticleText = RemoveCategory(strOldCat, ArticleText);
@@ -842,7 +842,7 @@ namespace WikiFunctions.Parse
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <param name="NoChange">Value that indicated whether no change was made.</param>
         /// <returns>The simplified article text.</returns>
-        public string LinkSimplifier(string ArticleText, ref bool NoChange)
+        public string LinkSimplifier(string ArticleText, out bool NoChange)
         {
             testText = ArticleText;
             ArticleText = LinkSimplifier(ArticleText);
@@ -891,7 +891,7 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
-        public string LivingPeople(string ArticleText, ref bool NoChange)
+        public string LivingPeople(string ArticleText, out bool NoChange)
         {
             NoChange = true;
             testText = ArticleText;
@@ -932,7 +932,7 @@ namespace WikiFunctions.Parse
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <param name="NoChange">Value that indicated whether no change was made.</param>
         /// <returns>The new article text.</returns>
-        public string Conversions(string ArticleText, ref bool NoChange)
+        public string Conversions(string ArticleText, out bool NoChange)
         {
             testText = ArticleText;
             ArticleText = Conversions(ArticleText);
@@ -970,7 +970,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Removes unnecessary introductory headers 
         /// </summary>
-        public string RemoveBadHeaders(string ArticleText, string ArticleTitle, ref bool NoChange)
+        public string RemoveBadHeaders(string ArticleText, string ArticleTitle, out bool NoChange)
         {
             testText = ArticleText;
             ArticleText = RemoveBadHeaders(ArticleText, ArticleTitle);
@@ -1020,7 +1020,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// If necessary, adds/removes wikify or stub tag
         /// </summary>
-        public string Tagger(string ArticleText, string ArticleTitle, ref bool NoChange, ref string Summary)
+        public string Tagger(string ArticleText, string ArticleTitle, out bool NoChange, ref string Summary)
         {
             testText = ArticleText;
             ArticleText = Tagger(ArticleText, ArticleTitle, ref Summary);

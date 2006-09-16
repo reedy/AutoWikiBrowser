@@ -283,7 +283,7 @@ namespace WikiFunctions.DatabaseScanner
         Parsers parsers;
         public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
-            parsers.FixLinks(ArticleText, ref skip);
+            parsers.FixLinks(ArticleText, out skip);
             return !skip;
         }
     }
@@ -299,7 +299,7 @@ namespace WikiFunctions.DatabaseScanner
         Parsers parsers;
         public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
-            parsers.BoldTitle(ArticleText, ArticleTitle, ref skip);
+            parsers.BoldTitle(ArticleText, ArticleTitle, out skip);
 
             return !skip;
         }
@@ -316,7 +316,7 @@ namespace WikiFunctions.DatabaseScanner
         Parsers parsers;
         public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
-            parsers.Unicodify(ArticleText, ref skip);
+            parsers.Unicodify(ArticleText, out skip);
 
             return !skip;
         }
@@ -368,7 +368,7 @@ namespace WikiFunctions.DatabaseScanner
         Parsers parsers;
         public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
-            parsers.FixHeadings(ArticleText, ref skip);
+            parsers.FixHeadings(ArticleText, out skip);
 
             return !skip;
         }
@@ -405,7 +405,7 @@ namespace WikiFunctions.DatabaseScanner
         Parsers parsers;
         public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
-            parsers.LivingPeople(ArticleText, ref skip);
+            parsers.LivingPeople(ArticleText, out skip);
 
             return !skip;
         }
@@ -423,7 +423,7 @@ namespace WikiFunctions.DatabaseScanner
 
         public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
-            retf.PerformTypoFixes(ArticleText, ref skip, ref a);
+            retf.PerformTypoFixes(ArticleText, out skip, ref a);
             return !skip;
         }
     }

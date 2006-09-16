@@ -36,6 +36,7 @@ namespace WikiFunctions.Parse
             MakeRegexes();
         }
 
+        Regex IgnoreRegex = new Regex("133t|-ology|\\(sic\\)|\\[sic\\]|\\[''sic''\\]|\\{\\{sic\\}\\}|spellfixno", RegexOptions.Compiled);
         Dictionary<Regex, string> TypoRegexes = new Dictionary<Regex, string>();
         HideText RemoveText = new HideText(true, false, true);
 
@@ -62,10 +63,13 @@ namespace WikiFunctions.Parse
 
         MatchCollection Matches;
 
-        public string PerformTypoFixes(string ArticleText, ref bool NoChange, ref string Summary)
+        public string PerformTypoFixes(string ArticleText, out bool NoChange, ref string Summary)
         {
-            if (Regex.IsMatch(ArticleText, "133t|-ology|\\(sic\\)|\\[sic\\]|\\[''sic''\\]|\\{\\{sic\\}\\}|spellfixno"))
+            if (IgnoreRegex.IsMatch(ArticleText))
+            {
+                NoChange = true;
                 return ArticleText;
+            }
 
             ArticleText = RemoveText.Hide(ArticleText);
             string OriginalText = ArticleText;
