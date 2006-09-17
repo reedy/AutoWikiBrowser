@@ -153,16 +153,18 @@ namespace WikiFunctions.Parse
         readonly Regex regexHeadings6 = new Regex("(== ?)(Early|Personal|Adult) Life( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex regexHeadings7 = new Regex("(== ?)Early Career( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
+        readonly Regex RegexBadHeader = new Regex("^(={1,4} ?(about|description|overview|definition|general information|background|intro|introduction|summary|bio|biography) ?={1,4})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
         /// <summary>
         /// Fix ==See also== and similar section common errors.
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <param name="NoChange">Value that indicated whether no change was made.</param>
         /// <returns>The modified article text.</returns>
-        public string FixHeadings(string ArticleText, out bool NoChange)
+        public string FixHeadings(string ArticleText, string ArticleTitle, out bool NoChange)
         {
             testText = ArticleText;
-            ArticleText = FixHeadings(ArticleText);
+            ArticleText = FixHeadings(ArticleText, ArticleTitle);
 
             if (testText == ArticleText)
                 NoChange = true;
@@ -173,12 +175,15 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Fix ==See also== and similar section common errors.
+        /// Fix ==See also== and similar section common errors. Removes unecessary introductary headings.
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
-        public string FixHeadings(string ArticleText)
+        public string FixHeadings(string ArticleText, string ArticleTitle)
         {
+            ArticleText = Regex.Replace(ArticleText, "^={1,4} ?" + Regex.Escape(ArticleTitle) + " ?={1,4}", "", RegexOptions.IgnoreCase);
+            ArticleText = RegexBadHeader.Replace(ArticleText, "");
+
             if (!Regex.IsMatch(ArticleText, "= ?See also ?="))
                 ArticleText = regexHeadings0.Replace(ArticleText, "$1See also$3");
 
@@ -190,7 +195,7 @@ namespace WikiFunctions.Parse
             ArticleText = regexHeadings6.Replace(ArticleText, "$1$2 life$3");
             ArticleText = regexHeadings7.Replace(ArticleText, "$1Early career$2");
 
-            return ArticleText;
+            return ArticleText.Trim();
         }
 
         /// <summary>
@@ -965,34 +970,6 @@ namespace WikiFunctions.Parse
             }
 
             return ArticleText;
-        }
-
-        /// <summary>
-        /// Removes unnecessary introductory headers 
-        /// </summary>
-        public string RemoveBadHeaders(string ArticleText, string ArticleTitle, out bool NoChange)
-        {
-            testText = ArticleText;
-            ArticleText = RemoveBadHeaders(ArticleText, ArticleTitle);
-
-            if (testText == ArticleText)
-                NoChange = true;
-            else
-                NoChange = false;
-
-            return ArticleText;
-        }
-
-        Regex RegexBadHeader = new Regex("^(={1,4} ?(about|description|overview|definition|general information|background|intro|introduction|summary|bio|biography) ?={1,4})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        /// <summary>
-        /// Removes unnecessary introductory headers 
-        /// </summary>
-        public string RemoveBadHeaders(string ArticleText, string ArticleTitle)
-        {
-            ArticleText = Regex.Replace(ArticleText, "^={1,4} ?" + Regex.Escape(ArticleTitle) + " ?={1,4}", "", RegexOptions.IgnoreCase);
-            ArticleText = RegexBadHeader.Replace(ArticleText, "");
-
-            return ArticleText.Trim();
         }
 
         /// <summary>

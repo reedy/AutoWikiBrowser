@@ -79,7 +79,7 @@ namespace WikiFunctions.Lists
                         MessageBox.Show("The category " + Categories[i] + " does not exist. Make sure it is spelt correctly. If you want a stub category remember to type the category name and not the stub name.");
 
                     bool more = false;
-
+                   
                     using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
                     {
                         while (reader.Read())
@@ -92,11 +92,11 @@ namespace WikiFunctions.Lists
                                 more = true;
                                 reader.ReadToFollowing("page");
                             }
-
-                            if (reader.Name == "ns")
+                            else if (reader.Name == "ns")
+                            {
                                 ns = int.Parse(reader.ReadString());
-
-                            if (reader.Name == "title")
+                            }
+                            else if (reader.Name == "title")
                             {
                                 title = reader.ReadString();
                                 list.Add(new Article(title, ns));

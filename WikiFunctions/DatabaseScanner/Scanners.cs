@@ -368,7 +368,7 @@ namespace WikiFunctions.DatabaseScanner
         Parsers parsers;
         public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
-            parsers.FixHeadings(ArticleText, out skip);
+            parsers.FixHeadings(ArticleText, ArticleTitle, out skip);
 
             return !skip;
         }

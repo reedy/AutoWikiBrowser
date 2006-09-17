@@ -365,7 +365,7 @@ namespace WikiFunctions
         {
             try
             {
-                StreamWriter writer = new StreamWriter(Environment.CurrentDirectory + "\\" + File, true, Encoding.UTF8);
+                StreamWriter writer = new StreamWriter(Application.StartupPath + "\\" + File, true, Encoding.UTF8);
                 writer.Write(Message);
                 writer.Close();
             }
