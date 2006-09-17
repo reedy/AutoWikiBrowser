@@ -29,6 +29,21 @@ namespace AutoWikiBrowser
             get { return rdoNoTag.Checked; }
         }
 
+        public bool SkipNoHeaderError
+        {
+            get { return rdoNoHeaderError.Checked; }
+        }
+
+        public bool SkipNoBoldTitle
+        {
+            get { return rdoNoBoldTitle.Checked; }
+        }
+
+        public bool SkipNoBulletedLink
+        {
+            get { return rdoNoBulletedLink.Checked; }
+        }
+
         #endregion
 
         #region Methods
