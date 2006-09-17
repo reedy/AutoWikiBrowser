@@ -628,14 +628,24 @@ namespace AutoWikiBrowser
                             articleText = parsers.Conversions(articleText);
                             articleText = parsers.LivingPeople(articleText, out SkipArticle);
                             articleText = parsers.FixCategories(articleText);
-                            articleText = parsers.FixHeadings(articleText, EdittingArticle.Name);
+
+                            articleText = parsers.FixHeadings(articleText, EdittingArticle.Name, out SkipArticle);
+                            if (Skip.SkipNoHeaderError && SkipArticle)
+                                return articleText;
                         }
                         articleText = parsers.FixSyntax(articleText);
                         articleText = parsers.FixLinks(articleText);
+
                         articleText = parsers.BulletExternalLinks(articleText, out SkipArticle);
+                        if (Skip.SkipNoBulletedLink && SkipArticle)
+                            return articleText;
                         
                         articleText = parsers.SortMetaData(articleText, EdittingArticle.Name);
-                        articleText = parsers.BoldTitle(articleText, EdittingArticle.Name);
+
+                        articleText = parsers.BoldTitle(articleText, EdittingArticle.Name, out SkipArticle);
+                        if (Skip.SkipNoBoldTitle && SkipArticle)
+                            return articleText;
+
                         articleText = parsers.LinkSimplifier(articleText);
 
                         articleText = RemoveText.AddBack(articleText);
