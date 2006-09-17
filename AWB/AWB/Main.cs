@@ -626,10 +626,9 @@ namespace AutoWikiBrowser
                         if (Variables.LangCode == "en")
                         {//en only
                             articleText = parsers.Conversions(articleText);
-                            articleText = parsers.RemoveBadHeaders(articleText, EdittingArticle.Name);
                             articleText = parsers.LivingPeople(articleText, out SkipArticle);
                             articleText = parsers.FixCategories(articleText);
-                            articleText = parsers.FixHeadings(articleText);
+                            articleText = parsers.FixHeadings(articleText, EdittingArticle.Name);
                         }
                         articleText = parsers.FixSyntax(articleText);
                         articleText = parsers.FixLinks(articleText);
