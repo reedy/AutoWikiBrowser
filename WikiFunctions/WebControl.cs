@@ -195,7 +195,7 @@ namespace WikiFunctions.Browser
                 string HTMLsub = "";
 
                 if (this.Document.Body.InnerHtml.Contains("<!-- start content -->"))
-                    HTMLsub = this.Document.Body.InnerHtml.Remove(HTML.IndexOf("<!-- start content -->"));
+                    HTMLsub = this.Document.Body.InnerHtml.Remove(this.Document.Body.InnerHtml.IndexOf("<!-- start content -->"));
                 else
                     HTMLsub = this.Document.Body.InnerHtml;
 
