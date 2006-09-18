@@ -168,7 +168,7 @@ namespace WikiFunctions.Browser
                     return "";
 
                 //Match m = LoginRegex.Match(this.Document.Body.InnerHtml);
-              
+
                 //return m.Groups[1].Value;
 
 
@@ -179,6 +179,30 @@ namespace WikiFunctions.Browser
                 UserName = HttpUtility.UrlDecode(UserName);
 
                 return UserName;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether there is a new message
+        /// </summary>
+        public bool NewMessage
+        {
+            get
+            {
+                if (this.Document == null)
+                    return false;
+
+                string HTMLsub = "";
+
+                if (this.Document.Body.InnerHtml.Contains("<!-- start content -->"))
+                    HTMLsub = this.Document.Body.InnerHtml.Remove(HTML.IndexOf("<!-- start content -->"));
+                else
+                    HTMLsub = this.Document.Body.InnerHtml;
+
+                if (HTMLsub.Contains("<DIV class=usermessage>"))
+                    return true;
+                else
+                    return false;
             }
         }
 
@@ -290,7 +314,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public bool ArticlePageExists
         {
-            get { return boolArticlePageExists;}
+            get { return boolArticlePageExists; }
             private set { boolArticlePageExists = value; }
         }
 
@@ -429,7 +453,7 @@ namespace WikiFunctions.Browser
                 return text.Substring(text.IndexOf(startMark), text.IndexOf(endMark) - text.IndexOf(startMark));
             else
                 return text;
-        }        
+        }
 
         /// <summary>
         /// Removes excess HTML from the document
@@ -541,12 +565,12 @@ namespace WikiFunctions.Browser
         protected override void OnDocumentCompleted(WebBrowserDocumentCompletedEventArgs e)
         {
             base.OnDocumentCompleted(e);
-            
+
             if (!this.Document.Body.InnerHtml.Contains("id=siteSub"))
             {
                 ProcessStage = enumProcessStage.none;
                 if (Fault != null)
-                this.Fault();
+                    this.Fault();
                 return;
             }
 
@@ -565,7 +589,7 @@ namespace WikiFunctions.Browser
                 this.AllowNavigation = false;
                 ProcessStage = enumProcessStage.none;
                 if (Loaded != null)
-                this.Loaded();
+                    this.Loaded();
             }
             else if (ProcessStage == enumProcessStage.delete)
             {
@@ -573,7 +597,7 @@ namespace WikiFunctions.Browser
                 ProcessStage = enumProcessStage.none;
                 Status = "Deleted";
                 if (Deleted != null)
-                this.Deleted();
+                    this.Deleted();
             }
             else if (ProcessStage == enumProcessStage.diff)
             {
@@ -586,7 +610,7 @@ namespace WikiFunctions.Browser
                 ProcessStage = enumProcessStage.none;
                 Status = "Ready to save";
                 if (Diffed != null)
-                this.Diffed();
+                    this.Diffed();
                 //RemoveHTML();
                 this.Document.GetElementById("wpTextbox1").Enabled = false;
             }

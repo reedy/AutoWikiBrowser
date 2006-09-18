@@ -99,11 +99,18 @@ namespace WikiFunctions.DatabaseScanner
             this.btnTransfer = new System.Windows.Forms.Button();
             this.btnAlphaList = new System.Windows.Forms.Button();
             this.btnClearList = new System.Windows.Forms.Button();
+            this.rdoNoBold = new System.Windows.Forms.RadioButton();
+            this.rdoSimpleLinks = new System.Windows.Forms.RadioButton();
+            this.rdoBadLinks = new System.Windows.Forms.RadioButton();
+            this.rdoHasHTML = new System.Windows.Forms.RadioButton();
+            this.rdoHeaderError = new System.Windows.Forms.RadioButton();
+            this.rdoUnbulletedLinks = new System.Windows.Forms.RadioButton();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.lbArticles = new WikiFunctions.Lists.ListBox2();
             this.btnFilter = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.rdoBullet = new System.Windows.Forms.RadioButton();
@@ -114,14 +121,8 @@ namespace WikiFunctions.DatabaseScanner
             this.lblCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.rdoNoBold = new System.Windows.Forms.RadioButton();
-            this.rdoSimpleLinks = new System.Windows.Forms.RadioButton();
-            this.rdoBadLinks = new System.Windows.Forms.RadioButton();
-            this.rdoHasHTML = new System.Windows.Forms.RadioButton();
-            this.rdoHeaderError = new System.Windows.Forms.RadioButton();
-            this.rdoUnbulletedLinks = new System.Windows.Forms.RadioButton();
             this.rdoNone = new System.Windows.Forms.RadioButton();
-            this.lbArticles = new WikiFunctions.Lists.ListBox2();
+            this.rdoTypo = new System.Windows.Forms.RadioButton();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudWords)).BeginInit();
@@ -147,7 +148,7 @@ namespace WikiFunctions.DatabaseScanner
             this.txtList.Multiline = true;
             this.txtList.Name = "txtList";
             this.txtList.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtList.Size = new System.Drawing.Size(266, 232);
+            this.txtList.Size = new System.Drawing.Size(266, 215);
             this.txtList.TabIndex = 0;
             this.txtList.WordWrap = false;
             // 
@@ -809,7 +810,7 @@ namespace WikiFunctions.DatabaseScanner
             // btnClear
             // 
             this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClear.Location = new System.Drawing.Point(168, 308);
+            this.btnClear.Location = new System.Drawing.Point(163, 294);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(45, 23);
             this.btnClear.TabIndex = 18;
@@ -821,7 +822,7 @@ namespace WikiFunctions.DatabaseScanner
             // btnCopy
             // 
             this.btnCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCopy.Location = new System.Drawing.Point(10, 308);
+            this.btnCopy.Location = new System.Drawing.Point(5, 294);
             this.btnCopy.Name = "btnCopy";
             this.btnCopy.Size = new System.Drawing.Size(100, 23);
             this.btnCopy.TabIndex = 19;
@@ -862,156 +863,6 @@ namespace WikiFunctions.DatabaseScanner
             this.toolTip1.SetToolTip(this.btnClearList, "Clear the list");
             this.btnClearList.UseVisualStyleBackColor = true;
             this.btnClearList.Click += new System.EventHandler(this.lbClear_Click);
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openInBrowserToolStripMenuItem,
-            this.copyToolStripMenuItem,
-            this.removeToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(154, 70);
-            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
-            // 
-            // openInBrowserToolStripMenuItem
-            // 
-            this.openInBrowserToolStripMenuItem.Name = "openInBrowserToolStripMenuItem";
-            this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
-            this.openInBrowserToolStripMenuItem.Text = "Open in browser";
-            this.openInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem_Click);
-            // 
-            // copyToolStripMenuItem
-            // 
-            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
-            this.copyToolStripMenuItem.Text = "Copy";
-            this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
-            // 
-            // removeToolStripMenuItem
-            // 
-            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
-            this.removeToolStripMenuItem.Text = "Remove";
-            this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.lbArticles);
-            this.groupBox3.Controls.Add(this.btnFilter);
-            this.groupBox3.Controls.Add(this.btnStart);
-            this.groupBox3.Controls.Add(this.btnClearList);
-            this.groupBox3.Controls.Add(this.btnAlphaList);
-            this.groupBox3.Controls.Add(this.nudLimitResults);
-            this.groupBox3.Controls.Add(this.label1);
-            this.groupBox3.Location = new System.Drawing.Point(13, 226);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(303, 337);
-            this.groupBox3.TabIndex = 27;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Get results";
-            // 
-            // btnFilter
-            // 
-            this.btnFilter.Location = new System.Drawing.Point(64, 308);
-            this.btnFilter.Name = "btnFilter";
-            this.btnFilter.Size = new System.Drawing.Size(53, 23);
-            this.btnFilter.TabIndex = 33;
-            this.btnFilter.Text = "Filter";
-            this.btnFilter.UseVisualStyleBackColor = true;
-            this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.rdoBullet);
-            this.groupBox4.Controls.Add(this.rdoHash);
-            this.groupBox4.Controls.Add(this.btnSave);
-            this.groupBox4.Controls.Add(this.txtList);
-            this.groupBox4.Controls.Add(this.chkHeading);
-            this.groupBox4.Controls.Add(this.nudHeadingSpace);
-            this.groupBox4.Controls.Add(this.btnClear);
-            this.groupBox4.Controls.Add(this.btnTransfer);
-            this.groupBox4.Controls.Add(this.btnCopy);
-            this.groupBox4.Enabled = false;
-            this.groupBox4.Location = new System.Drawing.Point(322, 226);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(286, 337);
-            this.groupBox4.TabIndex = 28;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Make wikified list from results";
-            // 
-            // rdoBullet
-            // 
-            this.rdoBullet.AutoSize = true;
-            this.rdoBullet.Location = new System.Drawing.Point(247, 18);
-            this.rdoBullet.Name = "rdoBullet";
-            this.rdoBullet.Size = new System.Drawing.Size(29, 17);
-            this.rdoBullet.TabIndex = 26;
-            this.rdoBullet.Text = "*";
-            this.rdoBullet.UseVisualStyleBackColor = true;
-            // 
-            // rdoHash
-            // 
-            this.rdoHash.AutoSize = true;
-            this.rdoHash.Checked = true;
-            this.rdoHash.Location = new System.Drawing.Point(212, 18);
-            this.rdoHash.Name = "rdoHash";
-            this.rdoHash.Size = new System.Drawing.Size(32, 17);
-            this.rdoHash.TabIndex = 25;
-            this.rdoHash.TabStop = true;
-            this.rdoHash.Text = "#";
-            this.rdoHash.UseVisualStyleBackColor = true;
-            // 
-            // btnSave
-            // 
-            this.btnSave.Location = new System.Drawing.Point(116, 308);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(47, 23);
-            this.btnSave.TabIndex = 24;
-            this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.progressBar1,
-            this.lblCount});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 568);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(613, 22);
-            this.statusStrip1.SizingGrip = false;
-            this.statusStrip1.TabIndex = 29;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // progressBar1
-            // 
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(100, 16);
-            // 
-            // lblCount
-            // 
-            this.lblCount.Name = "lblCount";
-            this.lblCount.Size = new System.Drawing.Size(0, 17);
-            // 
-            // timer1
-            // 
-            this.timer1.Interval = 1000;
-            // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.rdoNone);
-            this.groupBox5.Controls.Add(this.rdoUnbulletedLinks);
-            this.groupBox5.Controls.Add(this.rdoHeaderError);
-            this.groupBox5.Controls.Add(this.rdoHasHTML);
-            this.groupBox5.Controls.Add(this.rdoBadLinks);
-            this.groupBox5.Controls.Add(this.rdoSimpleLinks);
-            this.groupBox5.Controls.Add(this.rdoNoBold);
-            this.groupBox5.Location = new System.Drawing.Point(322, 136);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(286, 84);
-            this.groupBox5.TabIndex = 32;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "AWB specific";
             // 
             // rdoNoBold
             // 
@@ -1079,6 +930,167 @@ namespace WikiFunctions.DatabaseScanner
             this.toolTip1.SetToolTip(this.rdoUnbulletedLinks, "AWB bullets links in external links sections");
             this.rdoUnbulletedLinks.UseVisualStyleBackColor = true;
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openInBrowserToolStripMenuItem,
+            this.copyToolStripMenuItem,
+            this.removeToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(154, 70);
+            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
+            // 
+            // openInBrowserToolStripMenuItem
+            // 
+            this.openInBrowserToolStripMenuItem.Name = "openInBrowserToolStripMenuItem";
+            this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.openInBrowserToolStripMenuItem.Text = "Open in browser";
+            this.openInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem_Click);
+            // 
+            // copyToolStripMenuItem
+            // 
+            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.copyToolStripMenuItem.Text = "Copy";
+            this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
+            // 
+            // removeToolStripMenuItem
+            // 
+            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.removeToolStripMenuItem.Text = "Remove";
+            this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.lbArticles);
+            this.groupBox3.Controls.Add(this.btnFilter);
+            this.groupBox3.Controls.Add(this.btnStart);
+            this.groupBox3.Controls.Add(this.btnClearList);
+            this.groupBox3.Controls.Add(this.btnAlphaList);
+            this.groupBox3.Controls.Add(this.nudLimitResults);
+            this.groupBox3.Controls.Add(this.label1);
+            this.groupBox3.Location = new System.Drawing.Point(13, 226);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(303, 337);
+            this.groupBox3.TabIndex = 27;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Get results";
+            // 
+            // lbArticles
+            // 
+            this.lbArticles.ContextMenuStrip = this.contextMenuStrip1;
+            this.lbArticles.FormattingEnabled = true;
+            this.lbArticles.Location = new System.Drawing.Point(6, 48);
+            this.lbArticles.Name = "lbArticles";
+            this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.lbArticles.Size = new System.Drawing.Size(291, 251);
+            this.lbArticles.TabIndex = 34;
+            // 
+            // btnFilter
+            // 
+            this.btnFilter.Location = new System.Drawing.Point(64, 308);
+            this.btnFilter.Name = "btnFilter";
+            this.btnFilter.Size = new System.Drawing.Size(53, 23);
+            this.btnFilter.TabIndex = 33;
+            this.btnFilter.Text = "Filter";
+            this.btnFilter.UseVisualStyleBackColor = true;
+            this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.rdoBullet);
+            this.groupBox4.Controls.Add(this.rdoHash);
+            this.groupBox4.Controls.Add(this.btnSave);
+            this.groupBox4.Controls.Add(this.txtList);
+            this.groupBox4.Controls.Add(this.chkHeading);
+            this.groupBox4.Controls.Add(this.nudHeadingSpace);
+            this.groupBox4.Controls.Add(this.btnClear);
+            this.groupBox4.Controls.Add(this.btnTransfer);
+            this.groupBox4.Controls.Add(this.btnCopy);
+            this.groupBox4.Enabled = false;
+            this.groupBox4.Location = new System.Drawing.Point(322, 240);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(286, 323);
+            this.groupBox4.TabIndex = 28;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Make wikified list from results";
+            // 
+            // rdoBullet
+            // 
+            this.rdoBullet.AutoSize = true;
+            this.rdoBullet.Location = new System.Drawing.Point(247, 18);
+            this.rdoBullet.Name = "rdoBullet";
+            this.rdoBullet.Size = new System.Drawing.Size(29, 17);
+            this.rdoBullet.TabIndex = 26;
+            this.rdoBullet.Text = "*";
+            this.rdoBullet.UseVisualStyleBackColor = true;
+            // 
+            // rdoHash
+            // 
+            this.rdoHash.AutoSize = true;
+            this.rdoHash.Checked = true;
+            this.rdoHash.Location = new System.Drawing.Point(212, 18);
+            this.rdoHash.Name = "rdoHash";
+            this.rdoHash.Size = new System.Drawing.Size(32, 17);
+            this.rdoHash.TabIndex = 25;
+            this.rdoHash.TabStop = true;
+            this.rdoHash.Text = "#";
+            this.rdoHash.UseVisualStyleBackColor = true;
+            // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(111, 294);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(47, 23);
+            this.btnSave.TabIndex = 24;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.progressBar1,
+            this.lblCount});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 568);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(613, 22);
+            this.statusStrip1.SizingGrip = false;
+            this.statusStrip1.TabIndex = 29;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(100, 16);
+            // 
+            // lblCount
+            // 
+            this.lblCount.Name = "lblCount";
+            this.lblCount.Size = new System.Drawing.Size(0, 17);
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 1000;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.rdoTypo);
+            this.groupBox5.Controls.Add(this.rdoNone);
+            this.groupBox5.Controls.Add(this.rdoUnbulletedLinks);
+            this.groupBox5.Controls.Add(this.rdoHeaderError);
+            this.groupBox5.Controls.Add(this.rdoHasHTML);
+            this.groupBox5.Controls.Add(this.rdoBadLinks);
+            this.groupBox5.Controls.Add(this.rdoSimpleLinks);
+            this.groupBox5.Controls.Add(this.rdoNoBold);
+            this.groupBox5.Location = new System.Drawing.Point(322, 136);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(286, 102);
+            this.groupBox5.TabIndex = 32;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "AWB specific";
+            // 
             // rdoNone
             // 
             this.rdoNone.AutoSize = true;
@@ -1091,15 +1103,16 @@ namespace WikiFunctions.DatabaseScanner
             this.rdoNone.Text = "None";
             this.rdoNone.UseVisualStyleBackColor = true;
             // 
-            // lbArticles
+            // rdoTypo
             // 
-            this.lbArticles.ContextMenuStrip = this.contextMenuStrip1;
-            this.lbArticles.FormattingEnabled = true;
-            this.lbArticles.Location = new System.Drawing.Point(6, 48);
-            this.lbArticles.Name = "lbArticles";
-            this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbArticles.Size = new System.Drawing.Size(291, 251);
-            this.lbArticles.TabIndex = 34;
+            this.rdoTypo.AutoSize = true;
+            this.rdoTypo.Location = new System.Drawing.Point(163, 81);
+            this.rdoTypo.Name = "rdoTypo";
+            this.rdoTypo.Size = new System.Drawing.Size(49, 17);
+            this.rdoTypo.TabIndex = 7;
+            this.rdoTypo.TabStop = true;
+            this.rdoTypo.Text = "Typo";
+            this.rdoTypo.UseVisualStyleBackColor = true;
             // 
             // DatabaseScanner
             // 
@@ -1239,6 +1252,7 @@ namespace WikiFunctions.DatabaseScanner
         private RadioButton rdoSimpleLinks;
         private RadioButton rdoNoBold;
         private RadioButton rdoNone;
+        private RadioButton rdoTypo;
     }
 }
 
