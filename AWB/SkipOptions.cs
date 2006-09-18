@@ -107,19 +107,18 @@ namespace AutoWikiBrowser
             set
             {
                 foreach (RadioButton rd in gbOptions.Controls)
-                {                    
+                {
                     if (rd.Tag.ToString() == value)
                     {
                         rd.Checked = true;
                         return;
                     }
-                        
                 }
                 rdoNone.Checked = true;
             }
         }
 
         #endregion
-        
+
     }
 }
