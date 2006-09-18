@@ -383,8 +383,8 @@ namespace AutoWikiBrowser
                     Start();
                     return false;
                 }
-                string HTMLsub = HTML.Remove(HTML.IndexOf("<!-- start content -->"));
-                if (HTMLsub.Contains("<DIV class=usermessage>"))
+
+                if (webBrowserEdit.NewMessage)
                 {//check if we have any messages
                     wikiStatusBool = false;
                     UpdateButtons();

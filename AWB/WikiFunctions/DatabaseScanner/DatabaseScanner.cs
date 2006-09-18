@@ -253,6 +253,8 @@ namespace WikiFunctions.DatabaseScanner
                 s.Add(new HasSectionError(parsers));
             else if (rdoUnbulletedLinks.Checked)
                 s.Add(new HasUnbulletedLinks(parsers));
+            else if(rdoTypo.Checked)
+                s.Add(new Typo());
 
             Main = new MainProcess(s, fileName, Priority, ignoreCommentsToolStripMenuItem.Checked);
             Main.FoundArticle += MessageReceived;

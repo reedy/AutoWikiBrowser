@@ -151,7 +151,7 @@ namespace WikiFunctions.Parse
         readonly Regex regexHeadings5 = new Regex("(== ?)(further readings?:?)( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         readonly Regex regexHeadings6 = new Regex("(== ?)(Early|Personal|Adult) Life( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        readonly Regex regexHeadings7 = new Regex("(== ?)Early Career( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex regexHeadingsCareer = new Regex("(== ?)(Early|Political) Career( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         readonly Regex RegexBadHeader = new Regex("^(={1,4} ?(about|description|overview|definition|general information|background|intro|introduction|summary|bio|biography) ?={1,4})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
@@ -171,7 +171,7 @@ namespace WikiFunctions.Parse
             else
                 NoChange = false;
 
-            return ArticleText;
+            return ArticleText.Trim();
         }
 
         /// <summary>
@@ -193,9 +193,9 @@ namespace WikiFunctions.Parse
             ArticleText = regexHeadings4.Replace(ArticleText, "$1Source$3");
             ArticleText = regexHeadings5.Replace(ArticleText, "$1Further reading$3");
             ArticleText = regexHeadings6.Replace(ArticleText, "$1$2 life$3");
-            ArticleText = regexHeadings7.Replace(ArticleText, "$1Early career$2");
+            ArticleText = regexHeadingsCareer.Replace(ArticleText, "$1$2 career$3");
 
-            return ArticleText.Trim();
+            return ArticleText;
         }
 
         /// <summary>
@@ -992,7 +992,8 @@ namespace WikiFunctions.Parse
             return TalkPageText;
         }
 
-        readonly Regex RegexStub = new Regex("\\{\\{.*?[Ss]tub\\}\\}", RegexOptions.Compiled);
+        readonly Regex StubRegex = new Regex("\\{\\{.*?[Ss]tub\\}\\}", RegexOptions.Compiled);
+        readonly Regex TemplateRegex = new Regex(@"\{\{.*?\}\}", RegexOptions.Compiled);
 
         /// <summary>
         /// If necessary, adds/removes wikify or stub tag
@@ -1033,17 +1034,18 @@ namespace WikiFunctions.Parse
             }
 
             //remove stub tags from long articles
-            if (words > StubMaxWordCount && RegexStub.IsMatch(ArticleText))
+            if (words > StubMaxWordCount && StubRegex.IsMatch(ArticleText))
             {
                 MatchEvaluator stubEvaluator = new MatchEvaluator(stubChecker);
-                ArticleText = RegexStub.Replace(ArticleText, stubEvaluator);
+                ArticleText = StubRegex.Replace(ArticleText, stubEvaluator);
 
                 return ArticleText.Trim();
-            }            
+            }
 
-            if (Regex.IsMatch(ArticleText, @"\{\{.*?\}\}"))
+            foreach (Match m in TemplateRegex.Matches(ArticleText))
             {
-                return ArticleText;
+                if (!m.Value.Contains("stub"))
+                    return ArticleText;
             }
 
             LinkCount = Tools.LinkCount(ArticleText);
@@ -1059,7 +1061,7 @@ namespace WikiFunctions.Parse
                 ArticleText = "{{Wikify|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + ArticleText;
                 Summary += ", added [[:Category:Articles that need to be wikified|wikify]] tag";
             }
-            else if (ArticleText.Length <= 300 && !RegexStub.IsMatch(ArticleText))
+            else if (ArticleText.Length <= 300 && !StubRegex.IsMatch(ArticleText))
             {
                 ArticleText = ArticleText + "\r\n\r\n\r\n{{stub}}";
                 Summary += ", added stub tag";
