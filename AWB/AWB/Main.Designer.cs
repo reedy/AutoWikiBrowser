@@ -214,6 +214,8 @@ namespace AutoWikiBrowser
             this.lblTimer = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblUserName = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblProject = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblEditCount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblIgnoredArticles = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.saveListDialog = new System.Windows.Forms.SaveFileDialog();
             this.saveXML = new System.Windows.Forms.SaveFileDialog();
@@ -235,7 +237,7 @@ namespace AutoWikiBrowser
             this.btntsFalsePositive = new System.Windows.Forms.ToolStripButton();
             this.lbltsNumberofItems = new System.Windows.Forms.ToolStripLabel();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
-            this.lblEditCount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblEditsPerMin = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabControl1.SuspendLayout();
             this.tpSetOptions.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -1829,7 +1831,9 @@ namespace AutoWikiBrowser
             this.lblTimer,
             this.lblUserName,
             this.lblProject,
-            this.lblEditCount});
+            this.lblEditCount,
+            this.lblIgnoredArticles,
+            this.lblEditsPerMin});
             this.statusStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.statusStrip1.Location = new System.Drawing.Point(0, 599);
             this.statusStrip1.Name = "statusStrip1";
@@ -1878,6 +1882,18 @@ namespace AutoWikiBrowser
             this.lblProject.Name = "lblProject";
             this.lblProject.Size = new System.Drawing.Size(52, 17);
             this.lblProject.Text = "Wikipedia";
+            // 
+            // lblEditCount
+            // 
+            this.lblEditCount.Name = "lblEditCount";
+            this.lblEditCount.Size = new System.Drawing.Size(43, 17);
+            this.lblEditCount.Text = "Edits: 0";
+            // 
+            // lblIgnoredArticles
+            // 
+            this.lblIgnoredArticles.Name = "lblIgnoredArticles";
+            this.lblIgnoredArticles.Size = new System.Drawing.Size(58, 17);
+            this.lblIgnoredArticles.Text = "Ignored: 0";
             // 
             // saveListDialog
             // 
@@ -2069,11 +2085,11 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
             this.webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
             // 
-            // lblEditCount
+            // lblEditsPerMin
             // 
-            this.lblEditCount.Name = "lblEditCount";
-            this.lblEditCount.Size = new System.Drawing.Size(43, 17);
-            this.lblEditCount.Text = "Edits: 0";
+            this.lblEditsPerMin.Name = "lblEditsPerMin";
+            this.lblEditsPerMin.Size = new System.Drawing.Size(63, 17);
+            this.lblEditsPerMin.Text = "Edits/min: 0";
             // 
             // MainForm
             // 
@@ -2327,6 +2343,8 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkIgnoreNonExistent;
         private System.Windows.Forms.Button btnMoreSkip;
         private System.Windows.Forms.ToolStripStatusLabel lblEditCount;
+        private System.Windows.Forms.ToolStripStatusLabel lblIgnoredArticles;
+        private System.Windows.Forms.ToolStripStatusLabel lblEditsPerMin;
 
 
     }
