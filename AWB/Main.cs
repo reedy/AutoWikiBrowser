@@ -54,6 +54,8 @@ namespace AutoWikiBrowser
                 lblUserName.Alignment = ToolStripItemAlignment.Right;
                 lblProject.Alignment = ToolStripItemAlignment.Right;
                 lblTimer.Alignment = ToolStripItemAlignment.Right;
+                lblEditsPerMin.Alignment = ToolStripItemAlignment.Right;
+                lblIgnoredArticles.Alignment = ToolStripItemAlignment.Right;                
                 lblEditCount.Alignment = ToolStripItemAlignment.Right;
 
                 btntsShowHide.Image = Resources.btnshowhide_image;
@@ -181,16 +183,6 @@ namespace AutoWikiBrowser
             }
         }
 
-        int intEditsPerMin = 0;
-        private int NumberOfEditsPerMinute
-        {
-            get { return intEditsPerMin; }
-            set
-            {
-                intEditsPerMin = value;
-            }
-        }
-
         int intIgnoredEdits = 0;
         private int NumberOfIgnoredEdits
         {
@@ -198,8 +190,20 @@ namespace AutoWikiBrowser
             set
             {
                 intIgnoredEdits = value;
+                lblIgnoredArticles.Text = "Ignored: " + value.ToString();
             }
         }
+
+        int intEditsPerMin = 0;
+        private int NumberOfEditsPerMinute
+        {
+            get { return intEditsPerMin; }
+            set
+            {
+                intEditsPerMin = value;
+                lblEditsPerMin.Text = "Edits/min: " + value.ToString();
+            }
+        }        
 
         string strUserName = "";
         string UserName
@@ -1494,6 +1498,22 @@ namespace AutoWikiBrowser
             {
                 ticker();
             }
+
+            seconds++;
+            if (seconds == 60)
+            {
+                seconds = 0;
+                EditsPerMin();
+            }
+        }
+
+        int seconds = 0;
+        int lastTotal = 0;
+        private void EditsPerMin()
+        {
+            int editsInLastMin = NumberOfEdits - lastTotal;
+            NumberOfEditsPerMinute = editsInLastMin;
+            lastTotal = NumberOfEdits;
         }
 
         #endregion
