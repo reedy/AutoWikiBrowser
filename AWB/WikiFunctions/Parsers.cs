@@ -153,7 +153,7 @@ namespace WikiFunctions.Parse
         readonly Regex regexHeadings6 = new Regex("(== ?)(Early|Personal|Adult) Life( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex regexHeadingsCareer = new Regex("(== ?)(Early|Political) Career( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        readonly Regex RegexBadHeader = new Regex("^(={1,4} ?(about|description|overview|definition|general information|background|intro|introduction|summary|bio|biography) ?={1,4})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex RegexBadHeader = new Regex("^(={1,4} ?(about|description|overview|definition|profile|general information|background|intro|introduction|summary|bio|biography) ?={1,4})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         /// <summary>
         /// Fix ==See also== and similar section common errors.

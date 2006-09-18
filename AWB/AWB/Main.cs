@@ -54,6 +54,7 @@ namespace AutoWikiBrowser
                 lblUserName.Alignment = ToolStripItemAlignment.Right;
                 lblProject.Alignment = ToolStripItemAlignment.Right;
                 lblTimer.Alignment = ToolStripItemAlignment.Right;
+                lblEditCount.Alignment = ToolStripItemAlignment.Right;
 
                 btntsShowHide.Image = Resources.btnshowhide_image;
                 btntsSave.Image = Resources.btntssave_image;
@@ -126,8 +127,7 @@ namespace AutoWikiBrowser
         Parsers parsers;
         WebControl webBrowserLogin = new WebControl();
         TimeSpan StartTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-        int intEdits = 0;
-
+        
         private void MainForm_Load(object sender, EventArgs e)
         {
             //add articles to avoid (in future may be populated from checkpage
@@ -168,6 +168,37 @@ namespace AutoWikiBrowser
         {
             get { return stredittingarticle; }
             private set { stredittingarticle = value; }
+        }
+
+        int intEdits = 0;
+        private int NumberOfEdits
+        {
+            get { return intEdits; }
+            set
+            {
+                intEdits = value;
+                lblEditCount.Text = "Edits: " + value.ToString();
+            }
+        }
+
+        int intEditsPerMin = 0;
+        private int NumberOfEditsPerMinute
+        {
+            get { return intEditsPerMin; }
+            set
+            {
+                intEditsPerMin = value;
+            }
+        }
+
+        int intIgnoredEdits = 0;
+        private int NumberOfIgnoredEdits
+        {
+            get { return intIgnoredEdits; }
+            set
+            {
+                intIgnoredEdits = value;
+            }
         }
 
         string strUserName = "";
@@ -495,7 +526,7 @@ namespace AutoWikiBrowser
             if (intRestartDelay > 5)
                 intRestartDelay -= 1;
 
-            intEdits++;
+            NumberOfEdits++;
 
             LastArticle = "";
             listMaker1.Remove(EdittingArticle);
@@ -516,6 +547,7 @@ namespace AutoWikiBrowser
             try
             {
                 //reset timer.
+                NumberOfIgnoredEdits++;
                 stopDelayedAutoSaveTimer();
                 listMaker1.Remove(EdittingArticle);
                 Start();
@@ -791,7 +823,7 @@ namespace AutoWikiBrowser
 
             TimeSpan Time = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
             Time = Time.Subtract(StartTime);
-            ExitQuestion dlg = new ExitQuestion(Time, intEdits, msg);
+            ExitQuestion dlg = new ExitQuestion(Time, NumberOfEdits, msg);
             dlg.ShowDialog();
             if (dlg.DialogResult == DialogResult.OK)
             {
@@ -996,7 +1028,7 @@ namespace AutoWikiBrowser
         {
             TimeSpan Time = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
             Time = Time.Subtract(StartTime);
-            AboutBox About = new AboutBox(webBrowserEdit.Version.ToString(), Time, intEdits);
+            AboutBox About = new AboutBox(webBrowserEdit.Version.ToString(), Time, NumberOfEdits);
             About.Show();
         }
 
