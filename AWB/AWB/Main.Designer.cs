@@ -120,7 +120,6 @@ namespace AutoWikiBrowser
             this.btnDiff = new System.Windows.Forms.Button();
             this.btnIgnore = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.listMaker1 = new WikiFunctions.Lists.ListMaker();
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtEdit = new System.Windows.Forms.TextBox();
             this.mnuTextBox = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -216,6 +215,7 @@ namespace AutoWikiBrowser
             this.lblProject = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblEditCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblIgnoredArticles = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblEditsPerMin = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.saveListDialog = new System.Windows.Forms.SaveFileDialog();
             this.saveXML = new System.Windows.Forms.SaveFileDialog();
@@ -236,8 +236,8 @@ namespace AutoWikiBrowser
             this.toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
             this.btntsFalsePositive = new System.Windows.Forms.ToolStripButton();
             this.lbltsNumberofItems = new System.Windows.Forms.ToolStripLabel();
+            this.listMaker1 = new WikiFunctions.Lists.ListMaker();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
-            this.lblEditsPerMin = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabControl1.SuspendLayout();
             this.tpSetOptions.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -1126,17 +1126,6 @@ namespace AutoWikiBrowser
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "(1) Make list";
             // 
-            // listMaker1
-            // 
-            this.listMaker1.ListFile = "";
-            this.listMaker1.Location = new System.Drawing.Point(3, 15);
-            this.listMaker1.Name = "listMaker1";
-            this.listMaker1.SelectedSource = WikiFunctions.Lists.SourceType.Category;
-            this.listMaker1.Size = new System.Drawing.Size(201, 345);
-            this.listMaker1.SourceText = "";
-            this.listMaker1.TabIndex = 0;
-            this.listMaker1.WikiStatus = false;
-            // 
             // panel1
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -1828,12 +1817,12 @@ namespace AutoWikiBrowser
             this.toolStripProgressBar1,
             this.lblStatusText,
             this.lblBotTimer,
-            this.lblTimer,
             this.lblUserName,
             this.lblProject,
-            this.lblEditCount,
             this.lblIgnoredArticles,
-            this.lblEditsPerMin});
+            this.lblEditCount,
+            this.lblEditsPerMin,
+            this.lblTimer});
             this.statusStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.statusStrip1.Location = new System.Drawing.Point(0, 599);
             this.statusStrip1.Name = "statusStrip1";
@@ -1849,24 +1838,23 @@ namespace AutoWikiBrowser
             // 
             // lblStatusText
             // 
-            this.lblStatusText.AutoSize = false;
             this.lblStatusText.Name = "lblStatusText";
-            this.lblStatusText.Size = new System.Drawing.Size(300, 17);
+            this.lblStatusText.Size = new System.Drawing.Size(0, 17);
             this.lblStatusText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblBotTimer
             // 
-            this.lblBotTimer.AutoSize = false;
             this.lblBotTimer.Margin = new System.Windows.Forms.Padding(2, 3, 0, 2);
             this.lblBotTimer.Name = "lblBotTimer";
             this.lblBotTimer.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.lblBotTimer.Size = new System.Drawing.Size(85, 17);
+            this.lblBotTimer.Size = new System.Drawing.Size(0, 17);
             this.lblBotTimer.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblTimer
             // 
             this.lblTimer.Name = "lblTimer";
-            this.lblTimer.Size = new System.Drawing.Size(46, 17);
+            this.lblTimer.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblTimer.Size = new System.Drawing.Size(50, 17);
             this.lblTimer.Text = "Timer: 0";
             this.lblTimer.Visible = false;
             // 
@@ -1874,26 +1862,38 @@ namespace AutoWikiBrowser
             // 
             this.lblUserName.BackColor = System.Drawing.Color.Red;
             this.lblUserName.Name = "lblUserName";
-            this.lblUserName.Size = new System.Drawing.Size(33, 17);
+            this.lblUserName.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblUserName.Size = new System.Drawing.Size(37, 17);
             this.lblUserName.Text = "User:";
             // 
             // lblProject
             // 
+            this.lblProject.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.lblProject.Name = "lblProject";
-            this.lblProject.Size = new System.Drawing.Size(52, 17);
+            this.lblProject.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblProject.Size = new System.Drawing.Size(56, 17);
             this.lblProject.Text = "Wikipedia";
             // 
             // lblEditCount
             // 
             this.lblEditCount.Name = "lblEditCount";
-            this.lblEditCount.Size = new System.Drawing.Size(43, 17);
+            this.lblEditCount.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblEditCount.Size = new System.Drawing.Size(47, 17);
             this.lblEditCount.Text = "Edits: 0";
             // 
             // lblIgnoredArticles
             // 
             this.lblIgnoredArticles.Name = "lblIgnoredArticles";
-            this.lblIgnoredArticles.Size = new System.Drawing.Size(58, 17);
+            this.lblIgnoredArticles.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblIgnoredArticles.Size = new System.Drawing.Size(62, 17);
             this.lblIgnoredArticles.Text = "Ignored: 0";
+            // 
+            // lblEditsPerMin
+            // 
+            this.lblEditsPerMin.Name = "lblEditsPerMin";
+            this.lblEditsPerMin.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblEditsPerMin.Size = new System.Drawing.Size(67, 17);
+            this.lblEditsPerMin.Text = "Edits/min: 0";
             // 
             // saveListDialog
             // 
@@ -2063,6 +2063,17 @@ namespace AutoWikiBrowser
             this.lbltsNumberofItems.Size = new System.Drawing.Size(49, 22);
             this.lbltsNumberofItems.Text = "Articles: ";
             // 
+            // listMaker1
+            // 
+            this.listMaker1.ListFile = "";
+            this.listMaker1.Location = new System.Drawing.Point(3, 15);
+            this.listMaker1.Name = "listMaker1";
+            this.listMaker1.SelectedSource = WikiFunctions.Lists.SourceType.Category;
+            this.listMaker1.Size = new System.Drawing.Size(201, 345);
+            this.listMaker1.SourceText = "";
+            this.listMaker1.TabIndex = 0;
+            this.listMaker1.WikiStatus = false;
+            // 
             // webBrowserEdit
             // 
             this.webBrowserEdit.AllowNavigation = false;
@@ -2084,12 +2095,6 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.WebBrowserShortcutsEnabled = false;
             this.webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
             this.webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
-            // 
-            // lblEditsPerMin
-            // 
-            this.lblEditsPerMin.Name = "lblEditsPerMin";
-            this.lblEditsPerMin.Size = new System.Drawing.Size(63, 17);
-            this.lblEditsPerMin.Text = "Edits/min: 0";
             // 
             // MainForm
             // 
