@@ -568,6 +568,7 @@ namespace WikiFunctions.Browser
 
             if (!this.Document.Body.InnerHtml.Contains("id=siteSub"))
             {
+
                 ProcessStage = enumProcessStage.none;
                 if (Fault != null)
                     this.Fault();
