@@ -239,7 +239,7 @@ namespace WikiFunctions
         /// <summary>
         /// Returns a regex case insensitive version of a string e.g. "Category" returns "[Cc]ategory"
         /// </summary>
-        public static string caseInsensitive(string input)
+        public static string CaseInsensitive(string input)
         {
             if (input != "" && char.IsLetter(input[0]))
             {
@@ -408,7 +408,27 @@ namespace WikiFunctions
             System.Media.SoundPlayer sound = new System.Media.SoundPlayer();
             sound.Stream = MyResource.beep2;
             sound.Play();
-        }    
+        }
+
+        static bool bWriteDebug = false;
+        /// <summary>
+        /// Gets or sets value whether debug is enabled
+        /// </summary>
+        public static bool WriteDebugEnabled
+        {
+            get { return bWriteDebug; }
+            set { bWriteDebug = value; }
+        }
+
+        /// <summary>
+        /// Writes debug log message
+        /// </summary>
+        public static void WriteDebug(string Object, string Text)
+        {
+            if (!bWriteDebug)
+                return;            
+
+        }
 
     }
 }

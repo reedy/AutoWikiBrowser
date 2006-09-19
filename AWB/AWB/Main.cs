@@ -302,8 +302,9 @@ namespace AutoWikiBrowser
                 //Navigate to edit page
                 webBrowserEdit.LoadEditPage(EdittingArticle.URLEncodedName);
             }
-            catch
+            catch(Exception ex)
             {
+                Tools.WriteDebug(this.Name, "Start() error: " + ex.Message);
                 StartDelayedRestartTimer();
             }
         }
@@ -428,9 +429,9 @@ namespace AutoWikiBrowser
 
                     dlgTalk DlgTalk = new dlgTalk();
                     if (DlgTalk.ShowDialog() == DialogResult.Yes)
-                        System.Diagnostics.Process.Start(Variables.URL + "index.php?title=User_talk:" + UserName);
+                        System.Diagnostics.Process.Start(Variables.URL + "index.php?title=User_talk:" + UserName + "&action=purge");
                     else
-                        System.Diagnostics.Process.Start("IExplore", Variables.URL + "index.php?title=User_talk:" + UserName);
+                        System.Diagnostics.Process.Start("IExplore", Variables.URL + "index.php?title=User_talk:" + UserName + "&action=purge");
 
                     DlgTalk = null;
                     return false;

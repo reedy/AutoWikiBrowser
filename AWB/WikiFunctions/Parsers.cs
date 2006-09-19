@@ -540,7 +540,7 @@ namespace WikiFunctions.Parse
             string escTitle = Regex.Escape(ArticleTitle);
 
             //remove self links first
-            Regex tregex = new Regex("\\[\\[(" + Tools.caseInsensitive(escTitle) + ")\\]\\]");
+            Regex tregex = new Regex("\\[\\[(" + Tools.CaseInsensitive(escTitle) + ")\\]\\]");
             if (!ArticleText.Contains("'''"))
             {
                 ArticleText = tregex.Replace(ArticleText, "'''$1'''", 1);
@@ -619,7 +619,7 @@ namespace WikiFunctions.Parse
 
             OldImage = Regex.Escape(OldImage).Replace("\\ ", "[ _]");
 
-            OldImage = Variables.NamespacesCaseInsensitive[6] + Tools.caseInsensitive(OldImage);
+            OldImage = Variables.NamespacesCaseInsensitive[6] + Tools.CaseInsensitive(OldImage);
             NewImage = Variables.Namespaces[6] + NewImage;
 
             ArticleText = Regex.Replace(ArticleText, OldImage, NewImage);
@@ -638,7 +638,7 @@ namespace WikiFunctions.Parse
             //remove image prefix
             Image = Regex.Replace(Image, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase).Replace("_", " ");
             Image = Regex.Escape(Image).Replace("\\ ", "[ _]");
-            Image = Tools.caseInsensitive(Image);
+            Image = Tools.CaseInsensitive(Image);
 
             Regex r = new Regex("\\[\\[" + Variables.NamespacesCaseInsensitive[6] + Image + ".*\\]\\]");
             MatchCollection n = r.Matches(ArticleText);
@@ -778,14 +778,14 @@ namespace WikiFunctions.Parse
 
             testText = ArticleText;
 
-            if (Regex.IsMatch(ArticleText, "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + Tools.caseInsensitive(Regex.Escape(NewCategory)) + "( ?\\|| ?\\]\\])"))
+            if (Regex.IsMatch(ArticleText, "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + Tools.CaseInsensitive(Regex.Escape(NewCategory)) + "( ?\\|| ?\\]\\])"))
             {
                 ArticleText = RemoveCategory(OldCategory, ArticleText);
             }
             else
             {
                 OldCategory = Regex.Escape(OldCategory);
-                OldCategory = Tools.caseInsensitive(OldCategory);                
+                OldCategory = Tools.CaseInsensitive(OldCategory);                
 
                 OldCategory = Variables.Namespaces[14] + OldCategory + "( ?\\|| ?\\]\\])";
                 NewCategory = Variables.Namespaces[14] + NewCategory + "$1";
@@ -833,7 +833,7 @@ namespace WikiFunctions.Parse
             ArticleText = FixCategories(ArticleText);
 
             strOldCat = Regex.Escape(strOldCat);
-            strOldCat = Tools.caseInsensitive(strOldCat);
+            strOldCat = Tools.CaseInsensitive(strOldCat);
 
             strOldCat = "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + " ?" + strOldCat + "( ?\\]\\]| ?\\|[^\\|]*?\\]\\])(\r\n)?";
             ArticleText = Regex.Replace(ArticleText, strOldCat, "");

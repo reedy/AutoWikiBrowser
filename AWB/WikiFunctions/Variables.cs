@@ -632,7 +632,7 @@ namespace WikiFunctions
             NamespacesCaseInsensitive.Clear();
             foreach (KeyValuePair<int, string> k in Namespaces)
             {
-                NamespacesCaseInsensitive.Add(k.Key, Tools.caseInsensitive(k.Value));
+                NamespacesCaseInsensitive.Add(k.Key, Tools.CaseInsensitive(k.Value));
             }
         }
     }
