@@ -319,8 +319,6 @@ namespace WikiFunctions.DatabaseScanner
 
         private void wikifyToList()
         {
-            bool b = true;
-
             StringBuilder strbList = new StringBuilder("");
             int i = 0;
             string s = "";
@@ -340,10 +338,7 @@ namespace WikiFunctions.DatabaseScanner
             {
                 strbList.AppendLine("==0==");
                 intSectionNumber++;
-            }
 
-            if (b)
-            {
                 while (i < lbArticles.Items.Count)
                 {
                     s = lbArticles.Items[i].ToString();
@@ -353,7 +348,7 @@ namespace WikiFunctions.DatabaseScanner
                     strbList.AppendLine(strBullet + " [[" + s + "]]");
 
                     intSection++;
-                    if (chkHeading.Checked && intSection == intHeadingSpace)
+                    if (intSection == intHeadingSpace)
                     {
                         strbList.AppendLine("\r\n==" + intSectionNumber + "==");
                         intSectionNumber++;
@@ -363,7 +358,7 @@ namespace WikiFunctions.DatabaseScanner
                     i++;
                 }
             }
-            else
+            else if (chkABCHeader.Checked)
             {
                 while (i < lbArticles.Items.Count)
                 {
@@ -384,13 +379,26 @@ namespace WikiFunctions.DatabaseScanner
                     strbList.AppendLine(strBullet + " [[" + s + "]]");
 
                     l = sr;
+
+                    i++;
+                }
+            }
+            else
+            {
+                while (i < lbArticles.Items.Count)
+                {
+                    s = lbArticles.Items[i].ToString();
+
+                    s = s.Replace("&amp;", "&");
+
+                    strbList.AppendLine(strBullet + " [[" + s + "]]");
+
+                    intSection++;
                     i++;
                 }
             }
 
-
             txtList.Text = strbList.ToString().Trim();
-
         }
 
         string strfileName = "";
@@ -544,6 +552,15 @@ namespace WikiFunctions.DatabaseScanner
         private void chkHeading_CheckedChanged(object sender, EventArgs e)
         {
             nudHeadingSpace.Enabled = chkHeading.Checked;
+
+            if (chkHeading.Checked)
+                chkABCHeader.Checked = false;
+        }
+
+        private void chkABCHeader_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkABCHeader.Checked)
+                chkHeading.Checked = false;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -913,8 +930,6 @@ namespace WikiFunctions.DatabaseScanner
             }
         }
 
-        #endregion  
-
-        
+        #endregion
     }
 }

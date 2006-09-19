@@ -110,7 +110,6 @@ namespace WikiFunctions.DatabaseScanner
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.lbArticles = new WikiFunctions.Lists.ListBox2();
             this.btnFilter = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.rdoBullet = new System.Windows.Forms.RadioButton();
@@ -121,8 +120,10 @@ namespace WikiFunctions.DatabaseScanner
             this.lblCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.rdoNone = new System.Windows.Forms.RadioButton();
             this.rdoTypo = new System.Windows.Forms.RadioButton();
+            this.rdoNone = new System.Windows.Forms.RadioButton();
+            this.lbArticles = new WikiFunctions.Lists.ListBox2();
+            this.chkABCHeader = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudWords)).BeginInit();
@@ -148,7 +149,7 @@ namespace WikiFunctions.DatabaseScanner
             this.txtList.Multiline = true;
             this.txtList.Name = "txtList";
             this.txtList.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtList.Size = new System.Drawing.Size(266, 215);
+            this.txtList.Size = new System.Drawing.Size(266, 229);
             this.txtList.TabIndex = 0;
             this.txtList.WordWrap = false;
             // 
@@ -804,13 +805,14 @@ namespace WikiFunctions.DatabaseScanner
             this.chkHeading.Size = new System.Drawing.Size(115, 17);
             this.chkHeading.TabIndex = 19;
             this.chkHeading.Text = "Add heading every";
+            this.toolTip1.SetToolTip(this.chkHeading, "Add numbered heading");
             this.chkHeading.UseVisualStyleBackColor = true;
             this.chkHeading.CheckedChanged += new System.EventHandler(this.chkHeading_CheckedChanged);
             // 
             // btnClear
             // 
             this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClear.Location = new System.Drawing.Point(163, 294);
+            this.btnClear.Location = new System.Drawing.Point(168, 308);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(45, 23);
             this.btnClear.TabIndex = 18;
@@ -822,7 +824,7 @@ namespace WikiFunctions.DatabaseScanner
             // btnCopy
             // 
             this.btnCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCopy.Location = new System.Drawing.Point(5, 294);
+            this.btnCopy.Location = new System.Drawing.Point(10, 308);
             this.btnCopy.Name = "btnCopy";
             this.btnCopy.Size = new System.Drawing.Size(100, 23);
             this.btnCopy.TabIndex = 19;
@@ -833,9 +835,9 @@ namespace WikiFunctions.DatabaseScanner
             // 
             // btnTransfer
             // 
-            this.btnTransfer.Location = new System.Drawing.Point(10, 42);
+            this.btnTransfer.Location = new System.Drawing.Point(168, 44);
             this.btnTransfer.Name = "btnTransfer";
-            this.btnTransfer.Size = new System.Drawing.Size(55, 22);
+            this.btnTransfer.Size = new System.Drawing.Size(108, 22);
             this.btnTransfer.TabIndex = 23;
             this.btnTransfer.Text = "Make";
             this.toolTip1.SetToolTip(this.btnTransfer, "Turn list into wiki formatted text, which can be saved or copied.");
@@ -900,7 +902,7 @@ namespace WikiFunctions.DatabaseScanner
             // rdoHasHTML
             // 
             this.rdoHasHTML.AutoSize = true;
-            this.rdoHasHTML.Location = new System.Drawing.Point(163, 30);
+            this.rdoHasHTML.Location = new System.Drawing.Point(166, 13);
             this.rdoHasHTML.Name = "rdoHasHTML";
             this.rdoHasHTML.Size = new System.Drawing.Size(113, 17);
             this.rdoHasHTML.TabIndex = 3;
@@ -911,7 +913,7 @@ namespace WikiFunctions.DatabaseScanner
             // rdoHeaderError
             // 
             this.rdoHeaderError.AutoSize = true;
-            this.rdoHeaderError.Location = new System.Drawing.Point(163, 47);
+            this.rdoHeaderError.Location = new System.Drawing.Point(166, 30);
             this.rdoHeaderError.Name = "rdoHeaderError";
             this.rdoHeaderError.Size = new System.Drawing.Size(85, 17);
             this.rdoHeaderError.TabIndex = 4;
@@ -922,7 +924,7 @@ namespace WikiFunctions.DatabaseScanner
             // rdoUnbulletedLinks
             // 
             this.rdoUnbulletedLinks.AutoSize = true;
-            this.rdoUnbulletedLinks.Location = new System.Drawing.Point(163, 64);
+            this.rdoUnbulletedLinks.Location = new System.Drawing.Point(166, 47);
             this.rdoUnbulletedLinks.Name = "rdoUnbulletedLinks";
             this.rdoUnbulletedLinks.Size = new System.Drawing.Size(100, 17);
             this.rdoUnbulletedLinks.TabIndex = 5;
@@ -977,16 +979,6 @@ namespace WikiFunctions.DatabaseScanner
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Get results";
             // 
-            // lbArticles
-            // 
-            this.lbArticles.ContextMenuStrip = this.contextMenuStrip1;
-            this.lbArticles.FormattingEnabled = true;
-            this.lbArticles.Location = new System.Drawing.Point(6, 48);
-            this.lbArticles.Name = "lbArticles";
-            this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbArticles.Size = new System.Drawing.Size(291, 251);
-            this.lbArticles.TabIndex = 34;
-            // 
             // btnFilter
             // 
             this.btnFilter.Location = new System.Drawing.Point(64, 308);
@@ -999,6 +991,7 @@ namespace WikiFunctions.DatabaseScanner
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.chkABCHeader);
             this.groupBox4.Controls.Add(this.rdoBullet);
             this.groupBox4.Controls.Add(this.rdoHash);
             this.groupBox4.Controls.Add(this.btnSave);
@@ -1009,9 +1002,9 @@ namespace WikiFunctions.DatabaseScanner
             this.groupBox4.Controls.Add(this.btnTransfer);
             this.groupBox4.Controls.Add(this.btnCopy);
             this.groupBox4.Enabled = false;
-            this.groupBox4.Location = new System.Drawing.Point(322, 240);
+            this.groupBox4.Location = new System.Drawing.Point(322, 226);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(286, 323);
+            this.groupBox4.Size = new System.Drawing.Size(286, 337);
             this.groupBox4.TabIndex = 28;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Make wikified list from results";
@@ -1019,7 +1012,7 @@ namespace WikiFunctions.DatabaseScanner
             // rdoBullet
             // 
             this.rdoBullet.AutoSize = true;
-            this.rdoBullet.Location = new System.Drawing.Point(247, 18);
+            this.rdoBullet.Location = new System.Drawing.Point(247, 17);
             this.rdoBullet.Name = "rdoBullet";
             this.rdoBullet.Size = new System.Drawing.Size(29, 17);
             this.rdoBullet.TabIndex = 26;
@@ -1030,7 +1023,7 @@ namespace WikiFunctions.DatabaseScanner
             // 
             this.rdoHash.AutoSize = true;
             this.rdoHash.Checked = true;
-            this.rdoHash.Location = new System.Drawing.Point(212, 18);
+            this.rdoHash.Location = new System.Drawing.Point(212, 17);
             this.rdoHash.Name = "rdoHash";
             this.rdoHash.Size = new System.Drawing.Size(32, 17);
             this.rdoHash.TabIndex = 25;
@@ -1040,7 +1033,7 @@ namespace WikiFunctions.DatabaseScanner
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(111, 294);
+            this.btnSave.Location = new System.Drawing.Point(116, 308);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(47, 23);
             this.btnSave.TabIndex = 24;
@@ -1086,10 +1079,21 @@ namespace WikiFunctions.DatabaseScanner
             this.groupBox5.Controls.Add(this.rdoNoBold);
             this.groupBox5.Location = new System.Drawing.Point(322, 136);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(286, 102);
+            this.groupBox5.Size = new System.Drawing.Size(286, 84);
             this.groupBox5.TabIndex = 32;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "AWB specific";
+            // 
+            // rdoTypo
+            // 
+            this.rdoTypo.AutoSize = true;
+            this.rdoTypo.Location = new System.Drawing.Point(166, 64);
+            this.rdoTypo.Name = "rdoTypo";
+            this.rdoTypo.Size = new System.Drawing.Size(49, 17);
+            this.rdoTypo.TabIndex = 7;
+            this.rdoTypo.TabStop = true;
+            this.rdoTypo.Text = "Typo";
+            this.rdoTypo.UseVisualStyleBackColor = true;
             // 
             // rdoNone
             // 
@@ -1103,16 +1107,27 @@ namespace WikiFunctions.DatabaseScanner
             this.rdoNone.Text = "None";
             this.rdoNone.UseVisualStyleBackColor = true;
             // 
-            // rdoTypo
+            // lbArticles
             // 
-            this.rdoTypo.AutoSize = true;
-            this.rdoTypo.Location = new System.Drawing.Point(163, 81);
-            this.rdoTypo.Name = "rdoTypo";
-            this.rdoTypo.Size = new System.Drawing.Size(49, 17);
-            this.rdoTypo.TabIndex = 7;
-            this.rdoTypo.TabStop = true;
-            this.rdoTypo.Text = "Typo";
-            this.rdoTypo.UseVisualStyleBackColor = true;
+            this.lbArticles.ContextMenuStrip = this.contextMenuStrip1;
+            this.lbArticles.FormattingEnabled = true;
+            this.lbArticles.Location = new System.Drawing.Point(6, 48);
+            this.lbArticles.Name = "lbArticles";
+            this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.lbArticles.Size = new System.Drawing.Size(291, 251);
+            this.lbArticles.TabIndex = 34;
+            // 
+            // chkABCHeader
+            // 
+            this.chkABCHeader.AutoSize = true;
+            this.chkABCHeader.Location = new System.Drawing.Point(16, 40);
+            this.chkABCHeader.Name = "chkABCHeader";
+            this.chkABCHeader.Size = new System.Drawing.Size(108, 17);
+            this.chkABCHeader.TabIndex = 27;
+            this.chkABCHeader.Text = "A B C... headings";
+            this.toolTip1.SetToolTip(this.chkABCHeader, "Add alphabetised heading, list must be alphabetised first");
+            this.chkABCHeader.UseVisualStyleBackColor = true;
+            this.chkABCHeader.CheckedChanged += new System.EventHandler(this.chkABCHeader_CheckedChanged);
             // 
             // DatabaseScanner
             // 
@@ -1253,6 +1268,7 @@ namespace WikiFunctions.DatabaseScanner
         private RadioButton rdoNoBold;
         private RadioButton rdoNone;
         private RadioButton rdoTypo;
+        private CheckBox chkABCHeader;
     }
 }
 
