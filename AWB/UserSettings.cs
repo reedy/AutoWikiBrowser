@@ -134,8 +134,7 @@ namespace AutoWikiBrowser
             {
                 string filename = Application.StartupPath + "\\Default.xml";
 
-                if (File.Exists(filename))
-                    loadSettings(filename);
+                loadSettings(filename);
             }
             catch (Exception ex)
             {
@@ -147,9 +146,12 @@ namespace AutoWikiBrowser
         {
             try
             {
+                if (!File.Exists(filename))
+                    throw new FileNotFoundException("Settings file not found.");
+
                 strSettingsFile = " - " + filename.Remove(0, filename.LastIndexOf("\\") + 1);
                 this.Text = "AutoWikiBrowser" + strSettingsFile;
-
+                
                 Stream stream = new FileStream(filename, FileMode.Open);
                 findAndReplace.Clear();
                 cmboEditSummary.Items.Clear();
