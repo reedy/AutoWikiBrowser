@@ -175,11 +175,10 @@ namespace WikiFunctions.DatabaseScanner
         MoreLessThan M;
         int test = 0;
         int actual = 0;
-        readonly Regex Regexlinks = new Regex("\\[\\[", RegexOptions.Compiled);
 
         public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
-            MatchCollection m = Regexlinks.Matches(ArticleText);
+            MatchCollection m = WikiRegexes.SimpleWikiLink.Matches(ArticleText);
             actual = m.Count;
 
             if (M == MoreLessThan.MoreThan)
@@ -356,14 +355,13 @@ namespace WikiFunctions.DatabaseScanner
         }
 
         Parsers parsers;
-        Regex RegexSimpleLinks = new Regex("\\[\\[([^[]*?)\\|([^[]*?)\\]\\]", RegexOptions.Compiled);
         public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
             string n = "";
             string a = "";
             string b = "";
 
-            foreach (Match m in RegexSimpleLinks.Matches(ArticleText))
+            foreach (Match m in WikiRegexes.PipedWikiLink.Matches(ArticleText))
             {
                 n = m.Value;
                 a = m.Groups[1].Value;

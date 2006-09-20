@@ -21,10 +21,8 @@ namespace WikiFunctions.Parse
         bool HideExternal = false;
 
         Dictionary<string, string> NoEditList = new Dictionary<string, string>();
-        Regex NoLinksRegex = new Regex("<nowiki>.*?</nowiki>|<pre>.*?</pre>|<math>.*?</math>|<!--.*?-->", RegexOptions.Singleline | RegexOptions.Compiled);
         Regex ImagesRegex = new Regex("\\[\\[[Ii]mage:.*?\\]\\]", RegexOptions.Singleline | RegexOptions.Compiled);
-        Regex ExternalLinkRegex = new Regex("[Hh]ttp://[^\\ \n]*|\\[[Hh]ttp:.*?\\]", RegexOptions.Compiled);
-        Regex InterwikiRegex = new Regex("\\[\\[([a-z]{2,3}|simple|fiu-vro|minnan|roa-rup|tokipona|zh-min-nan):.*\\]\\]", RegexOptions.Compiled);
+        
                 
         readonly Regex NoWikiIgnoreRegex = new Regex("<!-- ?(categories|\\{\\{.*?stub\\}\\}.*?|other languages|language links|inter ?(language|wiki)? ?links|inter ?wiki ?language ?links|inter ?wiki|The below are interlanguage links\\.?) ?-->", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         
@@ -34,7 +32,7 @@ namespace WikiFunctions.Parse
             string s = "";
 
             int i = 0;
-            foreach (Match m in NoLinksRegex.Matches(ArticleText))
+            foreach (Match m in WikiRegexes.UnFormattedText.Matches(ArticleText))
             {
                 if (LeaveMetaHeadings && NoWikiIgnoreRegex.IsMatch(m.Value))
                     continue;
@@ -60,7 +58,7 @@ namespace WikiFunctions.Parse
 
             if (HideExternal)
             {
-                foreach (Match m in ExternalLinkRegex.Matches(ArticleText))
+                foreach (Match m in WikiRegexes.ExternalLinks.Matches(ArticleText))
                 {
                     s = "⌊⌊⌊⌊" + i.ToString() + "⌋⌋⌋⌋";
 
@@ -68,7 +66,7 @@ namespace WikiFunctions.Parse
                     NoEditList.Add(s, m.Value);
                     i++;
                 }
-                foreach (Match m in InterwikiRegex.Matches(ArticleText))
+                foreach (Match m in WikiRegexes.InterWikiLinks.Matches(ArticleText))
                 {
                     s = "⌊⌊⌊⌊" + i.ToString() + "⌋⌋⌋⌋";
 

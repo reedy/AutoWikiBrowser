@@ -120,6 +120,7 @@ namespace AutoWikiBrowser
             this.btnDiff = new System.Windows.Forms.Button();
             this.btnIgnore = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.listMaker1 = new WikiFunctions.Lists.ListMaker();
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtEdit = new System.Windows.Forms.TextBox();
             this.mnuTextBox = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -210,12 +211,12 @@ namespace AutoWikiBrowser
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.lblStatusText = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblBotTimer = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblTimer = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblUserName = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblProject = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblEditCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblIgnoredArticles = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblEditCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblEditsPerMin = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblTimer = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.saveListDialog = new System.Windows.Forms.SaveFileDialog();
             this.saveXML = new System.Windows.Forms.SaveFileDialog();
@@ -236,7 +237,6 @@ namespace AutoWikiBrowser
             this.toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
             this.btntsFalsePositive = new System.Windows.Forms.ToolStripButton();
             this.lbltsNumberofItems = new System.Windows.Forms.ToolStripLabel();
-            this.listMaker1 = new WikiFunctions.Lists.ListMaker();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
             this.tabControl1.SuspendLayout();
             this.tpSetOptions.SuspendLayout();
@@ -736,7 +736,7 @@ namespace AutoWikiBrowser
             this.nudBotSpeed.TabIndex = 23;
             this.toolTip1.SetToolTip(this.nudBotSpeed, "Time in seconds between saves");
             this.nudBotSpeed.Value = new decimal(new int[] {
-            15,
+            10,
             0,
             0,
             0});
@@ -1125,6 +1125,17 @@ namespace AutoWikiBrowser
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "(1) Make list";
+            // 
+            // listMaker1
+            // 
+            this.listMaker1.ListFile = "";
+            this.listMaker1.Location = new System.Drawing.Point(3, 15);
+            this.listMaker1.Name = "listMaker1";
+            this.listMaker1.SelectedSource = WikiFunctions.Lists.SourceType.Category;
+            this.listMaker1.Size = new System.Drawing.Size(201, 345);
+            this.listMaker1.SourceText = "";
+            this.listMaker1.TabIndex = 0;
+            this.listMaker1.WikiStatus = false;
             // 
             // panel1
             // 
@@ -1850,14 +1861,6 @@ namespace AutoWikiBrowser
             this.lblBotTimer.Size = new System.Drawing.Size(0, 17);
             this.lblBotTimer.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // lblTimer
-            // 
-            this.lblTimer.Name = "lblTimer";
-            this.lblTimer.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblTimer.Size = new System.Drawing.Size(50, 17);
-            this.lblTimer.Text = "Timer: 0";
-            this.lblTimer.Visible = false;
-            // 
             // lblUserName
             // 
             this.lblUserName.BackColor = System.Drawing.Color.Red;
@@ -1874,13 +1877,6 @@ namespace AutoWikiBrowser
             this.lblProject.Size = new System.Drawing.Size(56, 17);
             this.lblProject.Text = "Wikipedia";
             // 
-            // lblEditCount
-            // 
-            this.lblEditCount.Name = "lblEditCount";
-            this.lblEditCount.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblEditCount.Size = new System.Drawing.Size(47, 17);
-            this.lblEditCount.Text = "Edits: 0";
-            // 
             // lblIgnoredArticles
             // 
             this.lblIgnoredArticles.Name = "lblIgnoredArticles";
@@ -1888,12 +1884,27 @@ namespace AutoWikiBrowser
             this.lblIgnoredArticles.Size = new System.Drawing.Size(62, 17);
             this.lblIgnoredArticles.Text = "Ignored: 0";
             // 
+            // lblEditCount
+            // 
+            this.lblEditCount.Name = "lblEditCount";
+            this.lblEditCount.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblEditCount.Size = new System.Drawing.Size(47, 17);
+            this.lblEditCount.Text = "Edits: 0";
+            // 
             // lblEditsPerMin
             // 
             this.lblEditsPerMin.Name = "lblEditsPerMin";
             this.lblEditsPerMin.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblEditsPerMin.Size = new System.Drawing.Size(67, 17);
             this.lblEditsPerMin.Text = "Edits/min: 0";
+            // 
+            // lblTimer
+            // 
+            this.lblTimer.Name = "lblTimer";
+            this.lblTimer.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblTimer.Size = new System.Drawing.Size(50, 17);
+            this.lblTimer.Text = "Timer: 0";
+            this.lblTimer.Visible = false;
             // 
             // saveListDialog
             // 
@@ -2062,17 +2073,6 @@ namespace AutoWikiBrowser
             this.lbltsNumberofItems.Name = "lbltsNumberofItems";
             this.lbltsNumberofItems.Size = new System.Drawing.Size(49, 22);
             this.lbltsNumberofItems.Text = "Articles: ";
-            // 
-            // listMaker1
-            // 
-            this.listMaker1.ListFile = "";
-            this.listMaker1.Location = new System.Drawing.Point(3, 15);
-            this.listMaker1.Name = "listMaker1";
-            this.listMaker1.SelectedSource = WikiFunctions.Lists.SourceType.Category;
-            this.listMaker1.Size = new System.Drawing.Size(201, 345);
-            this.listMaker1.SourceText = "";
-            this.listMaker1.TabIndex = 0;
-            this.listMaker1.WikiStatus = false;
             // 
             // webBrowserEdit
             // 

@@ -1074,7 +1074,7 @@ namespace AutoWikiBrowser
         private void txtNewCategory_Leave(object sender, EventArgs e)
         {
             txtNewCategory.Text = txtNewCategory.Text.Trim('[', ']');
-            txtNewCategory.Text = Regex.Replace(txtNewCategory.Text, "^[Cc]ategory:", "");
+            txtNewCategory.Text = Regex.Replace(txtNewCategory.Text, "^" + Variables.NamespacesCaseInsensitive[14], "");
             txtNewCategory.Text = Tools.TurnFirstToUpper(txtNewCategory.Text);
         }
 
@@ -1111,15 +1111,15 @@ namespace AutoWikiBrowser
                 foreach (Match m in Regex.Matches(ArticleText, "\\[\\[" + Variables.Namespaces[6], RegexOptions.IgnoreCase))
                     intImages++;
 
-                foreach (Match m in Regex.Matches(ArticleText, "\\[\\[([a-z]{2,3}|simple|fiu-vro|minnan|roa-rup|tokipona|zh-min-nan):.*\\]\\]"))
+                foreach (Match m in WikiRegexes.InterWikiLinks.Matches(ArticleText))
                     intInterLinks++;
 
-                foreach (Match m in Regex.Matches(ArticleText, "\\[\\["))
+                foreach (Match m in WikiRegexes.WikiLinksOnly.Matches(ArticleText))
                     intLinks++;
 
                 intLinks = intLinks - intInterLinks - intImages - intCats;
 
-                if (EdittingArticle.NameSpaceKey == 0 && (Regex.IsMatch(ArticleText, "[Ss]tub\\}\\}")) && (intWords > 500))
+                if (EdittingArticle.NameSpaceKey == 0 && (WikiRegexes.Stub.IsMatch(ArticleText)) && (intWords > 500))
                     lblWarn.Text = "Long article with a stub tag.\r\n";
 
                 if (!(Regex.IsMatch(ArticleText, "\\[\\[" + Variables.Namespaces[14], RegexOptions.IgnoreCase)))
@@ -1142,7 +1142,7 @@ namespace AutoWikiBrowser
                 foreach (Match m in WikiRegexes.WikiLink.Matches(ArticleText))
                 {
                     x = m.Groups[1].Value;
-                    if (!Regex.IsMatch(x, "^(January|February|March|April|May|June|July|August|September|October|November|December) [0-9]{1,2}$") && !Regex.IsMatch(x, "^[0-9]{1,2} (January|February|March|April|May|June|July|August|September|October|November|December)$"))
+                    if (!WikiRegexes.Dates.IsMatch(x) && !WikiRegexes.Dates2.IsMatch(x))
                         ArrayLinks.Add(x);
                 }
 

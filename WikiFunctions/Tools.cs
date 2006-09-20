@@ -80,7 +80,6 @@ namespace WikiFunctions
             return true;
         }
 
-        readonly static Regex RedirectRegex = new Regex("^#redirect.*?\\[\\[(.*?)\\]\\]", RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Tests article to see if it is a redirect
@@ -88,7 +87,7 @@ namespace WikiFunctions
         /// <param name="Text">The title.</param>
         public static bool IsRedirect(string Text)
         {
-            return RedirectRegex.IsMatch(Text);
+            return WikiRegexes.RedirectRegex.IsMatch(Text);
         }
 
         /// <summary>
@@ -97,7 +96,7 @@ namespace WikiFunctions
         /// <param name="Text">The title.</param>
         public static string RedirectTarget(string Text)
         {
-            Match m = RedirectRegex.Match(Text);
+            Match m = WikiRegexes.RedirectRegex.Match(Text);
             return m.Groups[1].Value;
         }
 
@@ -291,9 +290,7 @@ namespace WikiFunctions
             return input;
         }
 
-        static readonly Regex RegexWordCount = new Regex("[a-zA-Z]+", RegexOptions.Compiled);
         static readonly Regex RegexWordCountTable = new Regex("\\{\\|.*?\\|\\}", RegexOptions.Compiled | RegexOptions.Singleline);
-        static readonly Regex RegexWordCountTemplate = new Regex("\\{\\{.*?\\}\\}", RegexOptions.Compiled | RegexOptions.Singleline);
 
         /// <summary>
         /// Returns word count of the string
@@ -301,19 +298,18 @@ namespace WikiFunctions
         public static int WordCount(string Text)
         {
             Text = RegexWordCountTable.Replace(Text, "");
-            Text = RegexWordCountTemplate.Replace(Text, "");
+            Text = WikiRegexes.TemplateMultiLine.Replace(Text, "");
 
-            MatchCollection m = RegexWordCount.Matches(Text);
+            MatchCollection m = WikiRegexes.RegexWordCount.Matches(Text);
             return m.Count;
         }
 
-        static readonly Regex RegexLinkCount = new Regex("\\[\\[[^:]*?\\]\\]", RegexOptions.Compiled);
         /// <summary>
         /// Returns the number of [[links]] in the string
         /// </summary>
         public static int LinkCount(string Text)
         {
-            MatchCollection m = RegexLinkCount.Matches(Text);
+            MatchCollection m = WikiRegexes.WikiLinksOnly.Matches(Text);
             return m.Count;
         }
 
@@ -333,11 +329,11 @@ namespace WikiFunctions
             string link = "";
             string article = "";
 
-            foreach (Match m in Regex.Matches(ArticleText, "(\\[\\[)(.*?)(\\]\\])"))
+            foreach (Match m in WikiRegexes.SimpleWikiLink.Matches(ArticleText))
             {
                 //make link
                 link = m.Value;
-                article = m.Groups[2].Value;
+                article = m.Groups[1].Value;
                 //MessageBox.Show(link);
 
                 //get text
@@ -347,7 +343,7 @@ namespace WikiFunctions
                 //test if redirect
                 if (Tools.IsRedirect(text))
                 {
-                    string directLink = Regex.Match(text, "\\[\\[(.*?)\\]\\]").Groups[1].Value;
+                    string directLink = Tools.RedirectTarget(text);
                     directLink = "[[" + directLink + "|" + article + "]]";
 
                     ArticleText = ArticleText.Replace(link, directLink);
