@@ -297,7 +297,7 @@ namespace WikiFunctions.Parse
                 ArticleText = SyntaxRegexBold.Replace(ArticleText, "'''$1'''");
             }
             ArticleText = Regex.Replace(ArticleText, "^<hr>|^----+", "----", RegexOptions.Multiline);
-
+                      
             //remove appearance of double line break
             ArticleText = Regex.Replace(ArticleText, "(^==?[^=]*==?)\r\n(\r\n)?----+", "$1", RegexOptions.Multiline);
 
@@ -549,11 +549,17 @@ namespace WikiFunctions.Parse
                 return ArticleText;
             }
 
-            ArticleText = regexBold.Replace(ArticleText, "$1'''$2'''$3", 1);
+            if (regexBold.IsMatch(ArticleText))
+            {
+                NoChange = false;
+                ArticleText = regexBold.Replace(ArticleText, "$1'''$2'''$3", 1);
+            }
+            else
+                NoChange = true;
 
             ArticleText = ArticleText + strSecondHalf;
             ArticleText = hider.AddBackMore(ArticleText);
-            NoChange = false;
+            
             return ArticleText;
         }
 
@@ -1020,7 +1026,7 @@ namespace WikiFunctions.Parse
             LinkCount = Tools.LinkCount(ArticleText);
             Ratio = LinkCount / Length;
 
-            if (words > 8 && ! WikiRegexes.Category.IsMatch(ArticleText))
+            if (words > 6 && !WikiRegexes.Category.IsMatch(ArticleText))
             {
                 ArticleText += "\r\n\r\n{{Uncategorized|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
                 Summary += ", added [[:Category:Category needed|uncategorised]] tag";

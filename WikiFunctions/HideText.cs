@@ -90,7 +90,7 @@ namespace WikiFunctions.Parse
 
 
         Dictionary<string, string> HideList = new Dictionary<string, string>();
-        Regex MoreRegex = new Regex("\\[\\[[Ii]mage:.*?\\]\\]|[Hh]ttp://[^\\ ]*|\\[[Hh]ttp:.*?\\]|\\{\\{.*?\\}\\}", RegexOptions.Singleline | RegexOptions.Compiled);
+        Regex MoreRegex = new Regex("\\[\\[[Ii]mage:.*\\]\\]|[Hh]ttp://[^\\ \n]*|\\[[Hh]ttp:.*?\\]|\\{\\{[^\\}]*?\\}\\}|^:.*", RegexOptions.Multiline | RegexOptions.Compiled);
 
         /// <summary>
         /// Hides images, external links and templates
@@ -103,6 +103,7 @@ namespace WikiFunctions.Parse
             int i = 0;
             foreach (Match m in MoreRegex.Matches(ArticleText))
             {
+                System.Windows.Forms.MessageBox.Show(m.Value);
                 s = "⌊⌊⌊⌊M" + i.ToString() + "⌋⌋⌋⌋";
 
                 ArticleText = ArticleText.Replace(m.Value, s);
