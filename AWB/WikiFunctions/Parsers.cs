@@ -345,20 +345,16 @@ namespace WikiFunctions.Parse
         {
             testText = ArticleText;
 
-            string x = "";
             string y = "";
 
             string cat = "[[" + Variables.Namespaces[14];
 
             foreach (Match m in WikiRegexes.SimpleWikiLink.Matches(ArticleText))
             {
-                x = m.Value;
-                y = "";
-
-                if (!x.StartsWith("[[Image:") && !x.StartsWith("[[image:") && !x.StartsWith("[[_") && !x.Contains("|_"))
-                    y = x.Replace("_", " ");
+                if (!m.Value.StartsWith("[[Image:") && !m.Value.StartsWith("[[image:") && !m.Value.StartsWith("[[_") && !m.Value.Contains("|_"))
+                    y = m.Value.Replace("_", " ");
                 else
-                    y = x;
+                    y = m.Value;
 
                 y = y.Replace("+", "%2B");
                 y = HttpUtility.UrlDecode(y);
@@ -368,7 +364,7 @@ namespace WikiFunctions.Parse
                 else
                     y = Regex.Replace(y, " ?\\| ?", "|");
 
-                ArticleText = ArticleText.Replace(x, y);
+                ArticleText = ArticleText.Replace(m.Value, y);
             }
 
             if (testText == ArticleText)
