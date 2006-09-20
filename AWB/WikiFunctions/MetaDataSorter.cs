@@ -36,9 +36,7 @@ namespace WikiFunctions.Parse
             InterWikiOrder = InterWikiOrderEnum.LocalLanguageAlpha;
         }
 
-        Regex RegexDisambig = new Regex("\\{\\{([Dd]isambig|2CC|3CC|4CC|[Gg]eodis)\\}\\}");
         Regex RegexStubs = new Regex("<!-- ?\\{\\{.*?stub\\}\\}.*?-->|:?\\{\\{.*?stub\\}\\}");
-        Regex RegexPersondata = new Regex("\\{\\{ ?[Pp]ersondata.*?\\}\\}", RegexOptions.Singleline);
 
         public void SetProjectOtions(LangCodeEnum Language, ProjectEnum Project)
         {
@@ -123,7 +121,7 @@ namespace WikiFunctions.Parse
         {
             string strPersonData = "";
 
-            Match m = RegexPersondata.Match(ArticleText);
+            Match m = WikiRegexes.Persondata.Match(ArticleText);
 
             if (m.Success)
             {
@@ -161,9 +159,9 @@ namespace WikiFunctions.Parse
         private string removeDisambig(ref string ArticleText)
         {
             string strDisambig = "";
-            if (RegexDisambig.IsMatch(ArticleText))
+            if (WikiRegexes.Disambigs.IsMatch(ArticleText))
             {
-                strDisambig = RegexDisambig.Match(ArticleText).Value;
+                strDisambig = WikiRegexes.Disambigs.Match(ArticleText).Value;
                 ArticleText = ArticleText.Replace(strDisambig, "");
                 strDisambig = "\r\n\r\n" + strDisambig;
             }

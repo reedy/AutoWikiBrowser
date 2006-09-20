@@ -324,7 +324,6 @@ namespace IRCMonitor
         #endregion
 
         #region Message processing
-        readonly Regex isIPAddress = new Regex("^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}$", RegexOptions.Compiled);
         int MaxNumberOfRows = 500;
 
         ListViewItem lvItem;
@@ -332,7 +331,7 @@ namespace IRCMonitor
         private void ProcessEdit(string article, string minor, string difflink, string user, int plusminus, string comment)
         {
             bool IPedit = false;
-            if (isIPAddress.IsMatch(user))
+            if (WikiRegexes.IPAddress.IsMatch(user))
                 IPedit = true;
 
             bool blacklistedUser = lbBlackList.Items.Contains(user);
@@ -415,7 +414,7 @@ namespace IRCMonitor
         private void ProcessNewArticles(string article, string user, int plusmin, string comment)
         {
             bool IPedit = false;
-            if (isIPAddress.IsMatch(user))
+            if (WikiRegexes.IPAddress.IsMatch(user))
                 IPedit = true;
 
             bool whiteListedUser = lbWhiteList.Items.Contains(user);

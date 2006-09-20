@@ -280,8 +280,8 @@ namespace WikiFunctions.Parse
         readonly Regex SyntaxRegex10 = new Regex("(\\{\\{[\\s]*)[Tt]emplate:(.*?\\}\\})", RegexOptions.Singleline | RegexOptions.Compiled);
         readonly Regex SyntaxRegex11 = new Regex("^((#|\\*).*?)<br ?/?>\r\n", RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        readonly Regex SyntaxRegex12 = new Regex("<i>(.*?)</i>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        readonly Regex SyntaxRegex13 = new Regex("<b>(.*?)</b>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex SyntaxRegexItalic = new Regex("<i>(.*?)</i>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex SyntaxRegexBold = new Regex("<b>(.*?)</b>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         /// <summary>
         /// Fixes and improves syntax (such as html markup)
@@ -293,8 +293,8 @@ namespace WikiFunctions.Parse
             //replace html with wiki syntax
             if (!Regex.IsMatch(ArticleText, "'</?[ib]>|</?[ib]>'", RegexOptions.IgnoreCase))
             {
-                ArticleText = SyntaxRegex12.Replace(ArticleText, "''$1''");
-                ArticleText = SyntaxRegex13.Replace(ArticleText, "'''$1'''");
+                ArticleText = SyntaxRegexItalic.Replace(ArticleText, "''$1''");
+                ArticleText = SyntaxRegexBold.Replace(ArticleText, "'''$1'''");
             }
             ArticleText = Regex.Replace(ArticleText, "^<hr>|^----+", "----", RegexOptions.Multiline);
 
@@ -500,7 +500,7 @@ namespace WikiFunctions.Parse
         public string BoldTitle(string ArticleText, string ArticleTitle, out bool NoChange)
         {
             //ignore date articles
-            if (Regex.IsMatch(ArticleTitle, "^(January|February|March|April|May|June|July|August|September|October|November|December) [0-9]{1,2}$"))
+            if (WikiRegexes.Dates2.IsMatch(ArticleTitle))
             {
                 NoChange = true;
                 return ArticleText;
@@ -1020,7 +1020,7 @@ namespace WikiFunctions.Parse
             LinkCount = Tools.LinkCount(ArticleText);
             Ratio = LinkCount / Length;
 
-            if (words > 8 && !Regex.IsMatch(ArticleText, @"\[\[ ?category", RegexOptions.IgnoreCase))
+            if (words > 8 && ! WikiRegexes.Category.IsMatch(ArticleText))
             {
                 ArticleText += "\r\n\r\n{{Uncategorized|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
                 Summary += ", added [[:Category:Category needed|uncategorised]] tag";

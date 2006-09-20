@@ -9,7 +9,7 @@
 		<categorisation index="0" text="" />
 		<skip does="False" doesnot="False" regex="False" casesensitive="False" doestext="" doesnottext="" />
 		<message enabled="False" text="" append="True" />
-		<automode delay="15" quicksave="False" suppresstag="True" />
+		<automode delay="10" quicksave="False" suppresstag="True" />
 		<imager index="0" replace="" with="" />
 	</Options>
 	<regextypofix>

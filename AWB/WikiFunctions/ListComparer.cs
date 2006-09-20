@@ -38,7 +38,6 @@ namespace WikiFunctions.Lists
         {
             InitializeComponent();
         }
-        Regex regexFindPattern = new Regex("\\[\\[(.*?)(\\]\\]|\\|)", RegexOptions.Compiled);
 
         #region list 1
         private void GetTextFileArticles1()
@@ -57,7 +56,7 @@ namespace WikiFunctions.Lists
                     ArticleText = sr.ReadToEnd();
                     sr.Close();
 
-                   foreach (Match m in regexFindPattern.Matches(ArticleText))
+                    foreach (Match m in WikiRegexes.WikiLink.Matches(ArticleText))
                     {
                          x = m.Groups[1].Value;
                         lbFirst.Items.Add(TurnFirstToUpper(x));
@@ -90,7 +89,7 @@ namespace WikiFunctions.Lists
                     ArticleText = sr.ReadToEnd();
                     sr.Close();
 
-                    foreach (Match m in regexFindPattern.Matches(ArticleText))
+                    foreach (Match m in WikiRegexes.WikiLink.Matches(ArticleText))
                     {
                         x = m.Groups[1].Value;
                         lbSecond.Items.Add(TurnFirstToUpper(x));
