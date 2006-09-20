@@ -43,7 +43,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches single and multiline templates
         /// </summary>
-        public static readonly Regex TemplateMultiLine = new Regex(@"\{\{.*?\}\}", RegexOptions.Compiled);
+        public static readonly Regex TemplateMultiLine = new Regex(@"\{\{[^\\}]*?\}\}", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches external links
@@ -100,7 +100,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches categories (en only)
         /// </summary>
-        public static readonly Regex Category = new Regex(@"\[\[ ?[Cc]ategory ?:(.*?)\]\] ", RegexOptions.Compiled);
+        public static readonly Regex Category = new Regex(@"\[\[Category:(.*?)\]\]", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches persondata
