@@ -100,7 +100,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches categories (en only)
         /// </summary>
-        public static readonly Regex Category = new Regex(@"\[\[Category:(.*?)\]\]", RegexOptions.Compiled);
+        public static readonly Regex Category = new Regex(@"\[\[[Cc]ategory:(.*?)\]\]", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches persondata
