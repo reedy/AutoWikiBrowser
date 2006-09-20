@@ -79,7 +79,7 @@ namespace WikiFunctions.DatabaseScanner
             foreach (Regex r in NotContains)
             {
                 if (r.IsMatch(ArticleText))
-                    return false;                   
+                    return false;
             }
 
             return true;
@@ -276,40 +276,29 @@ namespace WikiFunctions.DatabaseScanner
         public HasBadLinks()
         {
         }
-        string testText = "";
 
-        public string FixLinks(string ArticleText, out bool NoChange)
+        public bool FixLinks(string ArticleText)
         {
-            testText = ArticleText;
-
-            string x = "";
             string y = "";
-            string cat = "[[" + Variables.Namespaces[14];            
+            string cat = "[[" + Variables.Namespaces[14];
 
             foreach (Match m in WikiRegexes.SimpleWikiLink.Matches(ArticleText))
             {
-                x = m.Value;
-                y = x;
+                y = m.Value;
                 y = y.Replace("+", "%2B");
                 y = System.Web.HttpUtility.UrlDecode(y);
 
-                ArticleText = ArticleText.Replace(x, y);
+                if (m.Value != y)
+                    return
+                        false;
             }
 
-            if (testText == ArticleText)
-                NoChange = true;
-            else
-                NoChange = false;
-
-            return ArticleText;
+            return true;
         }
-
-        bool skip = true;
 
         public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
-            FixLinks(ArticleText, out skip);
-            return !skip;
+            return FixLinks(ArticleText);
         }
     }
 
@@ -438,7 +427,7 @@ namespace WikiFunctions.DatabaseScanner
     public class Typo : Scan
     {
         public Typo()
-        {            
+        {
         }
 
         RegExTypoFix retf = new RegExTypoFix();

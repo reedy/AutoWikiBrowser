@@ -103,7 +103,6 @@ namespace WikiFunctions.Parse
             int i = 0;
             foreach (Match m in MoreRegex.Matches(ArticleText))
             {
-                System.Windows.Forms.MessageBox.Show(m.Value);
                 s = "⌊⌊⌊⌊M" + i.ToString() + "⌋⌋⌋⌋";
 
                 ArticleText = ArticleText.Replace(m.Value, s);

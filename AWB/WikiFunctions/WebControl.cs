@@ -49,7 +49,6 @@ namespace WikiFunctions.Browser
 
         Regex LoginRegex = new Regex("var wgUserName = \"(.*?)\";", RegexOptions.Compiled);
 
-        public enumProcessStage ProcessStage = new enumProcessStage();
         /// <summary>
         /// Occurs when the edit page has finished loading
         /// </summary>
@@ -86,6 +85,13 @@ namespace WikiFunctions.Browser
         #endregion
 
         #region Properties
+
+        public enumProcessStage pStage = new enumProcessStage();
+        public enumProcessStage ProcessStage
+        {
+            get { return pStage; }
+            private set { pStage = value; }
+        }
 
         /// <summary>
         /// Gets a value indicating whether the page can be saved

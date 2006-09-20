@@ -919,7 +919,7 @@ namespace AutoWikiBrowser
                     return true;
 
                 //stop the process stage being confused when the webbrowser document completed event fires.
-                webBrowserEdit.ProcessStage = enumProcessStage.none;
+                
                 string strInnerHTML;
 
                 //don't require to log in in other languages.
