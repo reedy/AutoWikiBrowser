@@ -148,6 +148,7 @@
       <DependentUpon>WebControl.cs</DependentUpon>
     </Compile>
     <Compile Include="WikiIRC.cs" />
+    <Compile Include="WikiRegexes.cs" />
     <Compile Include="WPEditor.cs" />
   </ItemGroup>
   <ItemGroup>

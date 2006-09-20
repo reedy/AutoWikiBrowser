@@ -115,8 +115,7 @@ namespace AutoWikiBrowser
                 MessageBox.Show(ex.Message);
             }
         }
-
-        readonly Regex WikiLinkRegex = new Regex("\\[\\[(.*?)(\\]\\]|\\|)", RegexOptions.Compiled);
+       
         string LastArticle = "";
         string strSettingsFile = "";
         bool boolSaved = true;
@@ -671,7 +670,10 @@ namespace AutoWikiBrowser
                                 return articleText;
                         }
                         articleText = parsers.FixSyntax(articleText);
-                        articleText = parsers.FixLinks(articleText);
+
+                        articleText = parsers.FixLinks(articleText, out SkipArticle);
+                        if (Skip.SkipNoBadLink && SkipArticle)
+                            return articleText;
 
                         articleText = parsers.BulletExternalLinks(articleText, out SkipArticle);
                         if (Skip.SkipNoBulletedLink && SkipArticle)
@@ -1137,7 +1139,7 @@ namespace AutoWikiBrowser
                 ArrayList ArrayLinks = new ArrayList();
                 string x = "";
                 //get all the links
-                foreach (Match m in WikiLinkRegex.Matches(ArticleText))
+                foreach (Match m in WikiRegexes.WikiLink.Matches(ArticleText))
                 {
                     x = m.Groups[1].Value;
                     if (!Regex.IsMatch(x, "^(January|February|March|April|May|June|July|August|September|October|November|December) [0-9]{1,2}$") && !Regex.IsMatch(x, "^[0-9]{1,2} (January|February|March|April|May|June|July|August|September|October|November|December)$"))

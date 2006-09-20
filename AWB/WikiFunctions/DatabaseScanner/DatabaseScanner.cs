@@ -242,7 +242,7 @@ namespace WikiFunctions.DatabaseScanner
             Parsers parsers = new Parsers();
 
             if (rdoBadLinks.Checked)
-                s.Add(new HasBadLinks(parsers));
+                s.Add(new HasBadLinks());
             else if (rdoNoBold.Checked)
                 s.Add(new HasNoBoldTitle(parsers));
             else if (rdoSimpleLinks.Checked)

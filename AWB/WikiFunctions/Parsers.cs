@@ -97,7 +97,7 @@ namespace WikiFunctions.Parse
         MetaDataSorter metaDataSorter;
         string testText = "";
         int StubMaxWordCount = 500;
-
+        
         /// <summary>
         /// Sort interwiki link order
         /// </summary>
@@ -333,7 +333,7 @@ namespace WikiFunctions.Parse
             ArticleText = Regex.Replace(ArticleText, "ISBN: ?([0-9])", "ISBN $1");
 
             return ArticleText.Trim();
-        }
+        }        
 
         /// <summary>
         /// Fixes link syntax
@@ -344,31 +344,13 @@ namespace WikiFunctions.Parse
         public string FixLinks(string ArticleText, out bool NoChange)
         {
             testText = ArticleText;
-            ArticleText = FixLinks(ArticleText);
 
-            if (testText == ArticleText)
-                NoChange = true;
-            else
-                NoChange = false;
-
-            return ArticleText;
-        }
-
-        readonly Regex RegexLink = new Regex("\\[\\[.*?\\]\\]", RegexOptions.Compiled);
-
-        /// <summary>
-        /// Fixes link syntax
-        /// </summary>
-        /// <param name="ArticleText">The wiki text of the article.</param>
-        /// <returns>The modified article text.</returns>
-        public string FixLinks(string ArticleText)
-        {
             string x = "";
             string y = "";
 
             string cat = "[[" + Variables.Namespaces[14];
 
-            foreach (Match m in RegexLink.Matches(ArticleText))
+            foreach (Match m in WikiRegexes.SimpleWikiLink.Matches(ArticleText))
             {
                 x = m.Value;
                 y = "";
@@ -388,6 +370,11 @@ namespace WikiFunctions.Parse
 
                 ArticleText = ArticleText.Replace(x, y);
             }
+
+            if (testText == ArticleText)
+                NoChange = true;
+            else
+                NoChange = false;
 
             return ArticleText;
         }
@@ -512,28 +499,12 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public string BoldTitle(string ArticleText, string ArticleTitle, out bool NoChange)
         {
-            testText = ArticleText;
-            ArticleText = BoldTitle(ArticleText, ArticleTitle);
-
-            if (testText == ArticleText)
-                NoChange = true;
-            else
-                NoChange = false;
-
-            return ArticleText;
-        }
-
-        /// <summary>
-        /// '''Emboldens''' the first occurence of the title, if it isnt already
-        /// </summary>
-        /// <param name="ArticleText">The wiki text of the article.</param>
-        /// <param name="ArticleTitle">The title of the article.</param>
-        /// <returns>The modified article text.</returns>
-        public string BoldTitle(string ArticleText, string ArticleTitle)
-        {
             //ignore date articles
             if (Regex.IsMatch(ArticleTitle, "^(January|February|March|April|May|June|July|August|September|October|November|December) [0-9]{1,2}$"))
+            {
+                NoChange = true;
                 return ArticleText;
+            }
 
             ArticleText = hider.HideMore(ArticleText);
 
@@ -555,8 +526,9 @@ namespace WikiFunctions.Parse
             escTitle = Regex.Escape(escTitle);
 
             if (Regex.IsMatch(ArticleText, "^(\\[\\[|\\*|:)") || Regex.IsMatch(ArticleText, "''' ?" + escTitle + " ?'''", RegexOptions.IgnoreCase))
-            {
+            {                
                 ArticleText = hider.AddBackMore(ArticleText);
+                NoChange = true;
                 return ArticleText;
             }
 
@@ -573,6 +545,7 @@ namespace WikiFunctions.Parse
             {
                 ArticleText = ArticleText + strSecondHalf;
                 ArticleText = hider.AddBackMore(ArticleText);
+                NoChange = true;
                 return ArticleText;
             }
 
@@ -580,6 +553,7 @@ namespace WikiFunctions.Parse
 
             ArticleText = ArticleText + strSecondHalf;
             ArticleText = hider.AddBackMore(ArticleText);
+            NoChange = false;
             return ArticleText;
         }
 
@@ -860,8 +834,6 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
-        readonly Regex LinkSimplierRegex = new Regex("\\[\\[([^[]*?)\\|([^[]*?)\\]\\]", RegexOptions.Compiled);
-
         /// <summary>
         /// Simplifies some links in article wiki text such as changing [[Dog|Dogs]] to [[Dog]]s
         /// </summary>
@@ -874,7 +846,7 @@ namespace WikiFunctions.Parse
             string b = "";
             string k = "";
 
-            foreach (Match m in LinkSimplierRegex.Matches(ArticleText))
+            foreach (Match m in WikiRegexes.PipedWikiLink.Matches(ArticleText))
             {
                 n = m.Value;
                 a = m.Groups[1].Value;
@@ -882,12 +854,12 @@ namespace WikiFunctions.Parse
 
                 if (a == b || Tools.TurnFirstToLower(a) == b)
                 {
-                    k = LinkSimplierRegex.Replace(n, "[[$2]]");
+                    k = WikiRegexes.PipedWikiLink.Replace(n, "[[$2]]");
                     ArticleText = ArticleText.Replace(n, k);
                 }
                 else if (a + "s" == b || Tools.TurnFirstToLower(a) + "s" == b)
                 {
-                    k = LinkSimplierRegex.Replace(n, "$2");
+                    k = WikiRegexes.PipedWikiLink.Replace(n, "$2");
                     k = "[[" + k.Substring(0, k.Length - 1) + "]]s";
                     ArticleText = ArticleText.Replace(n, k);
                 }
@@ -990,11 +962,8 @@ namespace WikiFunctions.Parse
             TalkPageText = Regex.Replace(TalkPageText, "\\{\\{(template:)?(welcome[0-6]|welcomeip|anon|welcome-anon)\\}\\}", "{{subst:$2}}", RegexOptions.IgnoreCase);
 
             return TalkPageText;
-        }
-
-        readonly Regex StubRegex = new Regex("\\{\\{.*?[Ss]tub\\}\\}", RegexOptions.Compiled);
-        readonly Regex TemplateRegex = new Regex(@"\{\{.*?\}\}", RegexOptions.Compiled);
-
+        }              
+        
         /// <summary>
         /// If necessary, adds/removes wikify or stub tag
         /// </summary>
@@ -1034,15 +1003,15 @@ namespace WikiFunctions.Parse
             }
 
             //remove stub tags from long articles
-            if (words > StubMaxWordCount && StubRegex.IsMatch(ArticleText))
+            if (words > StubMaxWordCount && WikiRegexes.Stub.IsMatch(ArticleText))
             {
                 MatchEvaluator stubEvaluator = new MatchEvaluator(stubChecker);
-                ArticleText = StubRegex.Replace(ArticleText, stubEvaluator);
+                ArticleText = WikiRegexes.Stub.Replace(ArticleText, stubEvaluator);
 
                 return ArticleText.Trim();
             }
 
-            foreach (Match m in TemplateRegex.Matches(ArticleText))
+            foreach (Match m in WikiRegexes.Template.Matches(ArticleText))
             {
                 if (!m.Value.Contains("stub"))
                     return ArticleText;
@@ -1061,7 +1030,7 @@ namespace WikiFunctions.Parse
                 ArticleText = "{{Wikify|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + ArticleText;
                 Summary += ", added [[:Category:Articles that need to be wikified|wikify]] tag";
             }
-            else if (ArticleText.Length <= 300 && !StubRegex.IsMatch(ArticleText))
+            else if (ArticleText.Length <= 300 && !WikiRegexes.Stub.IsMatch(ArticleText))
             {
                 ArticleText = ArticleText + "\r\n\r\n\r\n{{stub}}";
                 Summary += ", added stub tag";

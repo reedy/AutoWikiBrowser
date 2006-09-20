@@ -36,12 +36,13 @@ namespace AutoWikiBrowser
             this.rdoNoBulletedLink = new System.Windows.Forms.RadioButton();
             this.rdoNoBoldTitle = new System.Windows.Forms.RadioButton();
             this.rdoNoHeaderError = new System.Windows.Forms.RadioButton();
+            this.rdoNoBadLink = new System.Windows.Forms.RadioButton();
             this.gbOptions.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(292, 166);
+            this.btnClose.Location = new System.Drawing.Point(292, 173);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 2;
@@ -86,6 +87,7 @@ namespace AutoWikiBrowser
             // 
             // gbOptions
             // 
+            this.gbOptions.Controls.Add(this.rdoNoBadLink);
             this.gbOptions.Controls.Add(this.rdoNoBulletedLink);
             this.gbOptions.Controls.Add(this.rdoNoBoldTitle);
             this.gbOptions.Controls.Add(this.rdoNoHeaderError);
@@ -94,7 +96,7 @@ namespace AutoWikiBrowser
             this.gbOptions.Controls.Add(this.rdoNoUnicode);
             this.gbOptions.Location = new System.Drawing.Point(12, 12);
             this.gbOptions.Name = "gbOptions";
-            this.gbOptions.Size = new System.Drawing.Size(355, 137);
+            this.gbOptions.Size = new System.Drawing.Size(355, 155);
             this.gbOptions.TabIndex = 6;
             this.gbOptions.TabStop = false;
             this.gbOptions.Text = "Options";
@@ -102,7 +104,7 @@ namespace AutoWikiBrowser
             // rdoNoBulletedLink
             // 
             this.rdoNoBulletedLink.AutoSize = true;
-            this.rdoNoBulletedLink.Location = new System.Drawing.Point(175, 91);
+            this.rdoNoBulletedLink.Location = new System.Drawing.Point(171, 67);
             this.rdoNoBulletedLink.Name = "rdoNoBulletedLink";
             this.rdoNoBulletedLink.Size = new System.Drawing.Size(168, 17);
             this.rdoNoBulletedLink.TabIndex = 9;
@@ -114,7 +116,7 @@ namespace AutoWikiBrowser
             // rdoNoBoldTitle
             // 
             this.rdoNoBoldTitle.AutoSize = true;
-            this.rdoNoBoldTitle.Location = new System.Drawing.Point(175, 67);
+            this.rdoNoBoldTitle.Location = new System.Drawing.Point(171, 43);
             this.rdoNoBoldTitle.Name = "rdoNoBoldTitle";
             this.rdoNoBoldTitle.Size = new System.Drawing.Size(135, 17);
             this.rdoNoBoldTitle.TabIndex = 7;
@@ -126,7 +128,7 @@ namespace AutoWikiBrowser
             // rdoNoHeaderError
             // 
             this.rdoNoHeaderError.AutoSize = true;
-            this.rdoNoHeaderError.Location = new System.Drawing.Point(175, 44);
+            this.rdoNoHeaderError.Location = new System.Drawing.Point(171, 20);
             this.rdoNoHeaderError.Name = "rdoNoHeaderError";
             this.rdoNoHeaderError.Size = new System.Drawing.Size(154, 17);
             this.rdoNoHeaderError.TabIndex = 6;
@@ -135,11 +137,22 @@ namespace AutoWikiBrowser
             this.rdoNoHeaderError.Text = "Skip if no header error fixed";
             this.rdoNoHeaderError.UseVisualStyleBackColor = true;
             // 
+            // rdoNoBadLink
+            // 
+            this.rdoNoBadLink.AutoSize = true;
+            this.rdoNoBadLink.Location = new System.Drawing.Point(171, 91);
+            this.rdoNoBadLink.Name = "rdoNoBadLink";
+            this.rdoNoBadLink.Size = new System.Drawing.Size(139, 17);
+            this.rdoNoBadLink.TabIndex = 10;
+            this.rdoNoBadLink.TabStop = true;
+            this.rdoNoBadLink.Text = "Skip if no bad links fixed";
+            this.rdoNoBadLink.UseVisualStyleBackColor = true;
+            // 
             // SkipOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(383, 204);
+            this.ClientSize = new System.Drawing.Size(383, 208);
             this.Controls.Add(this.gbOptions);
             this.Controls.Add(this.btnClose);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -166,5 +179,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.RadioButton rdoNoHeaderError;
         private System.Windows.Forms.RadioButton rdoNoBoldTitle;
         private System.Windows.Forms.RadioButton rdoNoBulletedLink;
+        private System.Windows.Forms.RadioButton rdoNoBadLink;
     }
 }
