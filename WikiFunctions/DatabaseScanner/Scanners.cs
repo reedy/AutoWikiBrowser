@@ -274,16 +274,42 @@ namespace WikiFunctions.DatabaseScanner
 
     public class HasBadLinks : Scan
     {
-        public HasBadLinks(Parsers p)
+        public HasBadLinks()
         {
-            parsers = p;
+        }
+        string testText = "";
+
+        public string FixLinks(string ArticleText, out bool NoChange)
+        {
+            testText = ArticleText;
+
+            string x = "";
+            string y = "";
+            string cat = "[[" + Variables.Namespaces[14];            
+
+            foreach (Match m in WikiRegexes.SimpleWikiLink.Matches(ArticleText))
+            {
+                x = m.Value;
+                y = x;
+                y = y.Replace("+", "%2B");
+                y = System.Web.HttpUtility.UrlDecode(y);
+
+                ArticleText = ArticleText.Replace(x, y);
+            }
+
+            if (testText == ArticleText)
+                NoChange = true;
+            else
+                NoChange = false;
+
+            return ArticleText;
         }
 
         bool skip = true;
-        Parsers parsers;
+
         public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
-            parsers.FixLinks(ArticleText, out skip);
+            FixLinks(ArticleText, out skip);
             return !skip;
         }
     }

@@ -31,7 +31,7 @@ using System.Collections;
 namespace WikiFunctions
 {
     /// <summary>
-    /// Provides some static methods, such as getting the html of a page, 
+    /// Provides some static methods, such as getting the html of a page
     /// </summary>
     public static class Tools
     {
@@ -426,9 +426,8 @@ namespace WikiFunctions
         public static void WriteDebug(string Object, string Text)
         {
             if (!bWriteDebug)
-                return;            
+                return;
 
         }
-
-    }
+    }    
 }

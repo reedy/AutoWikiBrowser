@@ -44,6 +44,11 @@ namespace AutoWikiBrowser
             get { return rdoNoBulletedLink.Checked; }
         }
 
+        public bool SkipNoBadLink
+        {
+            get { return rdoNoBadLink.Checked; }
+        }
+
         #endregion
 
         #region Methods
