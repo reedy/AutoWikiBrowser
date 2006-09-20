@@ -145,6 +145,7 @@ namespace AutoWikiBrowser
             this.rdoNoBadLink.Size = new System.Drawing.Size(139, 17);
             this.rdoNoBadLink.TabIndex = 10;
             this.rdoNoBadLink.TabStop = true;
+            this.rdoNoBadLink.Tag = "6";
             this.rdoNoBadLink.Text = "Skip if no bad links fixed";
             this.rdoNoBadLink.UseVisualStyleBackColor = true;
             // 
