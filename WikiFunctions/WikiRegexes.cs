@@ -48,7 +48,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches single and multiline templates
         /// </summary>
-        public static readonly Regex TemplateMultiLine = new Regex(@"\{\{[^\\}]*?\}\}", RegexOptions.Compiled);
+        public static readonly Regex TemplateMultiLine = new Regex(@"\{\{.*?\}\}", RegexOptions.Compiled | RegexOptions.Singleline);
 
         /// <summary>
         /// Matches external links
