@@ -57,7 +57,7 @@ namespace WikiFunctions.Parse
             //look bad if changed
             RegexUnicode.Add(new Regex("&(ndash|mdash|minus|times|lt|gt|nbsp|thinsp|shy|[Pp]rime);", RegexOptions.Compiled), "&amp;$1;");
             //IE6 does like these
-            RegexUnicode.Add(new Regex("&#(705|803|596|620|699|700|8652|9408|9848|12288|160);", RegexOptions.Compiled), "&amp;#$1;");
+            RegexUnicode.Add(new Regex("&#(705|803|596|620|699|700|8652|9408|9848|12288|160|61);", RegexOptions.Compiled), "&amp;#$1;");
             //Phoenician alphabet
             RegexUnicode.Add(new Regex("&#(x109[0-9A-Z]{2});", RegexOptions.Compiled), "&amp;#$1;");
             //Blackboard bold and more
