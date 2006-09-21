@@ -578,7 +578,7 @@ namespace AutoWikiBrowser
 
                     foreach (IAWBPlugin a in AWBPlugins)
                     {
-                        articleText = a.ProcessArticle(articleText, EdittingArticle.Name, EdittingArticle.NameSpaceKey, ref tempSummary, ref SkipArticle);
+                        articleText = a.ProcessArticle(articleText, EdittingArticle.Name, EdittingArticle.NameSpaceKey, ref tempSummary, out SkipArticle);
                         if (SkipArticle)
                             return articleText;
                         else if (tempSummary.Length > 0)
