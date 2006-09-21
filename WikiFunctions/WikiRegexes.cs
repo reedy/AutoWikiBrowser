@@ -56,9 +56,9 @@ namespace WikiFunctions
         public static readonly Regex InterWikiLinks = new Regex(@"\[\[([a-z]{2,3}|simple|fiu-vro|minnan|roa-rup|tokipona|zh-min-nan):.*\]\]", RegexOptions.Compiled);
 
         /// <summary>
-        /// Matches unformatted text regions: nowiki, pre, math, html comments
+        /// Matches unformatted text regions: nowiki, pre, math, html comments, timelines
         /// </summary>
-        public static readonly Regex UnFormattedText = new Regex(@"<nowiki>.*?</nowiki>|<pre>.*?</pre>|<math>.*?</math>|<!--.*?-->", RegexOptions.Singleline | RegexOptions.Compiled);
+        public static readonly Regex UnFormattedText = new Regex(@"<nowiki>.*?</nowiki>|<pre>.*?</pre>|<math>.*?</math>|<!--.*?-->|<timeline>.*?</timeline>", RegexOptions.Singleline | RegexOptions.Compiled);
 
         /// <summary>
         /// Matches redirects
@@ -105,7 +105,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches persondata
         /// </summary>
-        public static readonly Regex Persondata = new Regex("\\{\\{ ?[Pp]ersondata.*?\\}\\}", RegexOptions.Singleline);
+        public static readonly Regex Persondata = new Regex(@"\{\{ ?[Pp]ersondata.*?\}\}", RegexOptions.Singleline);
         
         #endregion
         //???
