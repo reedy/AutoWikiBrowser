@@ -500,9 +500,7 @@ namespace WikiFunctions.Parse
             {
                 NoChange = true;
                 return ArticleText;
-            }
-
-            ArticleText = hider.HideMore(ArticleText);
+            }            
 
             string escTitle = Regex.Escape(ArticleTitle);
 
@@ -518,15 +516,16 @@ namespace WikiFunctions.Parse
                 ArticleText = ArticleText.Replace("[[" + Tools.TurnFirstToLower(ArticleTitle) + "]]", Tools.TurnFirstToLower(ArticleTitle));
             }
 
-            escTitle = Regex.Replace(ArticleTitle, " \\(.*?\\)$", "");
-            escTitle = Regex.Escape(escTitle);
-
             if (Regex.IsMatch(ArticleText, "^(\\[\\[|\\*|:)") || Regex.IsMatch(ArticleText, "''' ?" + escTitle + " ?'''", RegexOptions.IgnoreCase))
-            {                
-                ArticleText = hider.AddBackMore(ArticleText);
+            {
                 NoChange = true;
                 return ArticleText;
             }
+
+            ArticleText = hider.HideMore(ArticleText);
+
+            escTitle = Regex.Replace(ArticleTitle, " \\(.*?\\)$", "");
+            escTitle = Regex.Escape(escTitle);
 
             Regex regexBold = new Regex("([^\\[]|^)(" + escTitle + ")([ ,.:;])", RegexOptions.IgnoreCase);
 

@@ -7,7 +7,7 @@ namespace WikiFunctions.Parse
 {
     public class HideText
     {
-        public HideText(){ }
+        public HideText() { }
 
         public HideText(bool HideExternalLinks, bool LeaveMetaHeadings, bool HideImages)
         {
@@ -22,10 +22,10 @@ namespace WikiFunctions.Parse
 
         Dictionary<string, string> NoEditList = new Dictionary<string, string>();
         Regex ImagesRegex = new Regex("\\[\\[[Ii]mage:.*?\\]\\]", RegexOptions.Singleline | RegexOptions.Compiled);
-        
-                
+
+
         readonly Regex NoWikiIgnoreRegex = new Regex("<!-- ?(categories|\\{\\{.*?stub\\}\\}.*?|other languages|language links|inter ?(language|wiki)? ?links|inter ?wiki ?language ?links|inter ?wiki|The below are interlanguage links\\.?) ?-->", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        
+
         public string Hide(string ArticleText)
         {
             NoEditList.Clear();
@@ -89,24 +89,65 @@ namespace WikiFunctions.Parse
         }
 
 
-        Dictionary<string, string> HideList = new Dictionary<string, string>();
-        Regex MoreRegex = new Regex("\\[\\[[Ii]mage:.*\\]\\]|[Hh]ttp://[^\\ \n]*|\\[[Hh]ttp:.*?\\]|\\{\\{[^\\}]*?\\}\\}|^:.*", RegexOptions.Multiline | RegexOptions.Compiled);
+        List<HideObject> MoreHide = new List<HideObject>(32);
 
         /// <summary>
-        /// Hides images, external links and templates
+        /// Hides images, external links, templates, headings, images
         /// </summary>
         public string HideMore(string ArticleText)
         {
-            HideList.Clear();
+            MoreHide.Clear();
             string s = "";
 
             int i = 0;
-            foreach (Match m in MoreRegex.Matches(ArticleText))
+            foreach (Match m in WikiRegexes.Template.Matches(ArticleText))
             {
                 s = "⌊⌊⌊⌊M" + i.ToString() + "⌋⌋⌋⌋";
 
                 ArticleText = ArticleText.Replace(m.Value, s);
-                HideList.Add(s, m.Value);
+
+                MoreHide.Add(new HideObject(s, m.Value));
+                i++;
+            }
+            foreach (Match m in WikiRegexes.TemplateMultiLine.Matches(ArticleText))
+            {
+                s = "⌊⌊⌊⌊M" + i.ToString() + "⌋⌋⌋⌋";
+
+                ArticleText = ArticleText.Replace(m.Value, s);
+
+                MoreHide.Add(new HideObject(s, m.Value));
+                i++;
+            }
+            foreach (Match m in WikiRegexes.Images.Matches(ArticleText))
+            {
+                s = "⌊⌊⌊⌊M" + i.ToString() + "⌋⌋⌋⌋";
+
+                ArticleText = ArticleText.Replace(m.Value, s);
+                MoreHide.Add(new HideObject(s, m.Value));
+                i++;
+            }
+            foreach (Match m in WikiRegexes.ExternalLinks.Matches(ArticleText))
+            {
+                s = "⌊⌊⌊⌊M" + i.ToString() + "⌋⌋⌋⌋";
+
+                ArticleText = ArticleText.Replace(m.Value, s);
+                MoreHide.Add(new HideObject(s, m.Value));
+                i++;
+            }
+            foreach (Match m in WikiRegexes.Heading.Matches(ArticleText))
+            {
+                s = "⌊⌊⌊⌊M" + i.ToString() + "⌋⌋⌋⌋";
+
+                ArticleText = ArticleText.Replace(m.Value, s);
+                MoreHide.Add(new HideObject(s, m.Value));
+                i++;
+            }
+            foreach (Match m in WikiRegexes.IndentedText.Matches(ArticleText))
+            {
+                s = "⌊⌊⌊⌊M" + i.ToString() + "⌋⌋⌋⌋";
+
+                ArticleText = ArticleText.Replace(m.Value, s);
+                MoreHide.Add(new HideObject(s, m.Value));
                 i++;
             }
 
@@ -118,11 +159,26 @@ namespace WikiFunctions.Parse
         /// </summary>
         public string AddBackMore(string ArticleText)
         {
-            foreach (KeyValuePair<string, string> k in HideList)
-                ArticleText = ArticleText.Replace(k.Key, k.Value);
+            MoreHide.Reverse();
 
-            HideList.Clear();
+            foreach (HideObject k in MoreHide)
+                ArticleText = ArticleText.Replace(k.code, k.text);
+
+            MoreHide.Clear();
             return ArticleText;
         }
     }
+
+    struct HideObject
+    {
+        public HideObject(string code, string text)
+        {
+            this.code = code;
+            this.text = text;
+        }
+
+        public string code;
+        public string text;
+    }
+
 }

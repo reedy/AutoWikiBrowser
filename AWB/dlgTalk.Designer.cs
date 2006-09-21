@@ -66,7 +66,7 @@ namespace AutoWikiBrowser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(242, 130);
+            this.ClientSize = new System.Drawing.Size(238, 126);
             this.ControlBox = false;
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnDefault);
@@ -78,6 +78,7 @@ namespace AutoWikiBrowser
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "New message";
+            this.TopMost = true;
             this.ResumeLayout(false);
 
         }
