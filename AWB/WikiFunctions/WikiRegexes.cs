@@ -34,6 +34,11 @@ namespace WikiFunctions
         /// Matches == headings ==
         /// </summary>
         public static readonly Regex Heading = new Regex(@"^(=+)(.*?)(=+)", RegexOptions.Compiled);
+
+        /// <summary>
+        /// Matches text indented with a :
+        /// </summary>
+        public static readonly Regex IndentedText = new Regex(@"^:.*", RegexOptions.Compiled | RegexOptions.Multiline);
         
         /// <summary>
         /// Matches single line templates
@@ -102,6 +107,11 @@ namespace WikiFunctions
         /// </summary>
         public static readonly Regex Category = new Regex(@"\[\[[Cc]ategory:(.*?)\]\]", RegexOptions.Compiled);
 
+        /// <summary>
+        /// Matches images (en only)
+        /// </summary>
+        public static readonly Regex Images = new Regex(@"\[\[[Ii]mage:.*\]\]", RegexOptions.Compiled);
+        
         /// <summary>
         /// Matches persondata
         /// </summary>
