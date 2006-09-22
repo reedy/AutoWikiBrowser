@@ -2248,7 +2248,7 @@ namespace AutoWikiBrowser
             pluginsToolStripMenuItem.Visible = AWBPlugins.Count > 0;
         }
 
-        #endregion        
+        #endregion
 
         //private void hello()
         //{

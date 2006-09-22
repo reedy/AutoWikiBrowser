@@ -10,9 +10,17 @@ namespace AutoWikiBrowser
 {
     public partial class MainForm
     {
+        private void saveAsDefaultToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            saveSettings(Application.StartupPath + "/Default.xml");
+        }
+
         private void saveSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            saveSettings();
+            if (saveXML.ShowDialog() != DialogResult.OK)
+                return;
+
+            saveSettings(saveXML.FileName);            
         }
 
         private void loadSettingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -562,17 +570,14 @@ namespace AutoWikiBrowser
             }
         }
 
-        private void saveSettings()
+        private void saveSettings(string FileName)
         {
             try
-            {
-                if (saveXML.ShowDialog() != DialogResult.OK)
-                    return;
-
-                strSettingsFile = " - " + saveXML.FileName.Remove(0, saveXML.FileName.LastIndexOf("\\") + 1);
+            { 
+                strSettingsFile = " - " + FileName.Remove(0, FileName.LastIndexOf("\\") + 1);
                 this.Text = "AutoWikiBrowser" + strSettingsFile;
 
-                XmlTextWriter textWriter = new XmlTextWriter(saveXML.FileName, UTF8Encoding.UTF8);
+                XmlTextWriter textWriter = new XmlTextWriter(FileName, UTF8Encoding.UTF8);
                 // Opens the document
                 textWriter.Formatting = Formatting.Indented;
                 textWriter.WriteStartDocument();

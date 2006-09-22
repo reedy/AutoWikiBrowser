@@ -238,6 +238,7 @@ namespace AutoWikiBrowser
             this.btntsFalsePositive = new System.Windows.Forms.ToolStripButton();
             this.lbltsNumberofItems = new System.Windows.Forms.ToolStripLabel();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
+            this.saveAsDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tpSetOptions.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -1546,6 +1547,7 @@ namespace AutoWikiBrowser
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveSettingsToolStripMenuItem,
+            this.saveAsDefaultToolStripMenuItem,
             this.loadSettingsToolStripMenuItem,
             this.loadDefaultSettingsToolStripMenuItem,
             this.toolStripSeparator8,
@@ -2096,6 +2098,13 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
             this.webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
             // 
+            // saveAsDefaultToolStripMenuItem
+            // 
+            this.saveAsDefaultToolStripMenuItem.Name = "saveAsDefaultToolStripMenuItem";
+            this.saveAsDefaultToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.saveAsDefaultToolStripMenuItem.Text = "Save as default";
+            this.saveAsDefaultToolStripMenuItem.Click += new System.EventHandler(this.saveAsDefaultToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2350,6 +2359,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripStatusLabel lblEditCount;
         private System.Windows.Forms.ToolStripStatusLabel lblIgnoredArticles;
         private System.Windows.Forms.ToolStripStatusLabel lblEditsPerMin;
+        private System.Windows.Forms.ToolStripMenuItem saveAsDefaultToolStripMenuItem;
 
 
     }
