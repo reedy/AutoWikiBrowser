@@ -368,7 +368,7 @@ namespace AutoWikiBrowser
             if (!doNotAutomaticallyDoAnythingToolStripMenuItem.Checked)
             {
                 string strOrigText = strText;
-                strText = Process(strText, ref skip);
+                strText = Process(strText, out skip);
 
                 if (skippable && chkSkipNoChanges.Checked && strText == strOrigText)
                 {
@@ -562,7 +562,7 @@ namespace AutoWikiBrowser
             }
         }
 
-        private string Process(string articleText, ref bool SkipArticle)
+        private string Process(string articleText, out bool SkipArticle)
         {
             bool process = true;
 
@@ -578,7 +578,9 @@ namespace AutoWikiBrowser
 
                     foreach (IAWBPlugin a in AWBPlugins)
                     {
-                        articleText = a.ProcessArticle(articleText, EdittingArticle.Name, EdittingArticle.NameSpaceKey, ref tempSummary, out SkipArticle);
+                        tempSummary = "";
+
+                        articleText = a.ProcessArticle(articleText, EdittingArticle.Name, EdittingArticle.NameSpaceKey, out tempSummary, out SkipArticle);
                         if (SkipArticle)
                             return articleText;
                         else if (tempSummary.Length > 0)
@@ -1888,7 +1890,7 @@ namespace AutoWikiBrowser
         private void reparseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             bool b = true;
-            txtEdit.Text = Process(txtEdit.Text, ref b);
+            txtEdit.Text = Process(txtEdit.Text, out b);
         }
 
         private void replaceTextWithLastEditToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2244,7 +2246,7 @@ namespace AutoWikiBrowser
 
                 a.Initialise(listMaker1, webBrowserEdit, pluginsToolStripMenuItem, mnuTextBox, tabControl1, this, txtEdit);
             }
-
+            
             pluginsToolStripMenuItem.Visible = AWBPlugins.Count > 0;
         }
 
