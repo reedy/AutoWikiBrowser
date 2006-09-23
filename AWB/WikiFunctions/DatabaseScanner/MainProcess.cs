@@ -36,6 +36,7 @@ namespace WikiFunctions.DatabaseScanner
         public event StopDel StoppedEvent;
 
         string FileName = "";
+        string From = "";
         Stream stream;
 
         SendOrPostCallback SOPC;
@@ -46,6 +47,18 @@ namespace WikiFunctions.DatabaseScanner
         List<Scan> s;
         bool ignore = false;
         Regex regComments = new Regex("<!--.*?-->", RegexOptions.Singleline | RegexOptions.Compiled);
+
+        public MainProcess(List<Scan> z, string filename, ThreadPriority tp, bool ignoreComments, string StartFrom)
+        {
+            FileName = filename;
+            SOPC = new SendOrPostCallback(NewArticle);
+            SOPCstopped = new SendOrPostCallback(Stopped);
+            Priority = tp;
+            ignore = ignoreComments;
+            From = StartFrom;
+
+            s = z;
+        }
 
         public MainProcess(List<Scan> z, string filename, ThreadPriority tp, bool ignoreComments)
         {
@@ -119,6 +132,21 @@ namespace WikiFunctions.DatabaseScanner
                 using (XmlTextReader reader = new XmlTextReader(stream))
                 {
                     reader.WhitespaceHandling = WhitespaceHandling.None;
+                    
+                    if (From.Length > 0)
+                    {//move to start from article
+                        while (reader.Read() && boolRun)
+                        {
+                            if (reader.Name == page)
+                            {
+                                reader.ReadToFollowing(title);
+                                ArticleTitle = reader.ReadString();
+
+                                if (From == ArticleTitle)
+                                    break;
+                            }
+                        }
+                    }
 
                     while (reader.Read() && boolRun)
                     {

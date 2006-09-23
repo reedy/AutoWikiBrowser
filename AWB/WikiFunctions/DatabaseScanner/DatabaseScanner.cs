@@ -98,7 +98,7 @@ namespace WikiFunctions.DatabaseScanner
 
                 lbArticles.Items.Clear();
                 lblCount.Text = "";
-
+                                
                 intMatches = 0;
 
                 progressBar1.Style = ProgressBarStyle.Marquee;
@@ -108,6 +108,7 @@ namespace WikiFunctions.DatabaseScanner
 
                 UpdateControls(true);
 
+                txtStartFrom.Text = Tools.TurnFirstToUpper(txtStartFrom.Text);
                 Start();
 
             }
@@ -256,7 +257,7 @@ namespace WikiFunctions.DatabaseScanner
             else if(rdoTypo.Checked)
                 s.Add(new Typo());
 
-            Main = new MainProcess(s, fileName, Priority, ignoreCommentsToolStripMenuItem.Checked);
+            Main = new MainProcess(s, fileName, Priority, ignoreCommentsToolStripMenuItem.Checked, txtStartFrom.Text);
             Main.FoundArticle += MessageReceived;
             Main.StoppedEvent += Stopped;
             Main.Start();

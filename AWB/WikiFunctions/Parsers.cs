@@ -352,7 +352,10 @@ namespace WikiFunctions.Parse
             foreach (Match m in WikiRegexes.SimpleWikiLink.Matches(ArticleText))
             {
                 if (!m.Value.StartsWith("[[Image:") && !m.Value.StartsWith("[[image:") && !m.Value.StartsWith("[[_") && !m.Value.Contains("|_"))
+                {
                     y = m.Value.Replace("_", " ");
+                    y = Regex.Replace(y, " ?\\| ?", "|");
+                }
                 else
                     y = m.Value;
 
@@ -361,8 +364,6 @@ namespace WikiFunctions.Parse
 
                 if (y.StartsWith(cat))
                     y = y.Replace("|]]", "| ]]");
-                else
-                    y = Regex.Replace(y, " ?\\| ?", "|");
 
                 ArticleText = ArticleText.Replace(m.Value, y);
             }

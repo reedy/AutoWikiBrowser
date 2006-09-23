@@ -105,11 +105,13 @@ namespace WikiFunctions.DatabaseScanner
             this.rdoHasHTML = new System.Windows.Forms.RadioButton();
             this.rdoHeaderError = new System.Windows.Forms.RadioButton();
             this.rdoUnbulletedLinks = new System.Windows.Forms.RadioButton();
+            this.chkABCHeader = new System.Windows.Forms.CheckBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.lbArticles = new WikiFunctions.Lists.ListBox2();
             this.btnFilter = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.rdoBullet = new System.Windows.Forms.RadioButton();
@@ -122,8 +124,8 @@ namespace WikiFunctions.DatabaseScanner
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.rdoTypo = new System.Windows.Forms.RadioButton();
             this.rdoNone = new System.Windows.Forms.RadioButton();
-            this.lbArticles = new WikiFunctions.Lists.ListBox2();
-            this.chkABCHeader = new System.Windows.Forms.CheckBox();
+            this.txtStartFrom = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudWords)).BeginInit();
@@ -932,6 +934,18 @@ namespace WikiFunctions.DatabaseScanner
             this.toolTip1.SetToolTip(this.rdoUnbulletedLinks, "AWB bullets links in external links sections");
             this.rdoUnbulletedLinks.UseVisualStyleBackColor = true;
             // 
+            // chkABCHeader
+            // 
+            this.chkABCHeader.AutoSize = true;
+            this.chkABCHeader.Location = new System.Drawing.Point(16, 40);
+            this.chkABCHeader.Name = "chkABCHeader";
+            this.chkABCHeader.Size = new System.Drawing.Size(108, 17);
+            this.chkABCHeader.TabIndex = 27;
+            this.chkABCHeader.Text = "A B C... headings";
+            this.toolTip1.SetToolTip(this.chkABCHeader, "Add alphabetised heading, list must be alphabetised first");
+            this.chkABCHeader.UseVisualStyleBackColor = true;
+            this.chkABCHeader.CheckedChanged += new System.EventHandler(this.chkABCHeader_CheckedChanged);
+            // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -965,6 +979,8 @@ namespace WikiFunctions.DatabaseScanner
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.label5);
+            this.groupBox3.Controls.Add(this.txtStartFrom);
             this.groupBox3.Controls.Add(this.lbArticles);
             this.groupBox3.Controls.Add(this.btnFilter);
             this.groupBox3.Controls.Add(this.btnStart);
@@ -978,6 +994,16 @@ namespace WikiFunctions.DatabaseScanner
             this.groupBox3.TabIndex = 27;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Get results";
+            // 
+            // lbArticles
+            // 
+            this.lbArticles.ContextMenuStrip = this.contextMenuStrip1;
+            this.lbArticles.FormattingEnabled = true;
+            this.lbArticles.Location = new System.Drawing.Point(6, 74);
+            this.lbArticles.Name = "lbArticles";
+            this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.lbArticles.Size = new System.Drawing.Size(291, 225);
+            this.lbArticles.TabIndex = 34;
             // 
             // btnFilter
             // 
@@ -1107,27 +1133,22 @@ namespace WikiFunctions.DatabaseScanner
             this.rdoNone.Text = "None";
             this.rdoNone.UseVisualStyleBackColor = true;
             // 
-            // lbArticles
+            // txtStartFrom
             // 
-            this.lbArticles.ContextMenuStrip = this.contextMenuStrip1;
-            this.lbArticles.FormattingEnabled = true;
-            this.lbArticles.Location = new System.Drawing.Point(6, 48);
-            this.lbArticles.Name = "lbArticles";
-            this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbArticles.Size = new System.Drawing.Size(291, 251);
-            this.lbArticles.TabIndex = 34;
+            this.txtStartFrom.Location = new System.Drawing.Point(213, 48);
+            this.txtStartFrom.Name = "txtStartFrom";
+            this.txtStartFrom.Size = new System.Drawing.Size(84, 20);
+            this.txtStartFrom.TabIndex = 35;
+            this.toolTip1.SetToolTip(this.txtStartFrom, "Article to start scanning from, leave blank to start at beginning");
             // 
-            // chkABCHeader
+            // label5
             // 
-            this.chkABCHeader.AutoSize = true;
-            this.chkABCHeader.Location = new System.Drawing.Point(16, 40);
-            this.chkABCHeader.Name = "chkABCHeader";
-            this.chkABCHeader.Size = new System.Drawing.Size(108, 17);
-            this.chkABCHeader.TabIndex = 27;
-            this.chkABCHeader.Text = "A B C... headings";
-            this.toolTip1.SetToolTip(this.chkABCHeader, "Add alphabetised heading, list must be alphabetised first");
-            this.chkABCHeader.UseVisualStyleBackColor = true;
-            this.chkABCHeader.CheckedChanged += new System.EventHandler(this.chkABCHeader_CheckedChanged);
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(120, 51);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(86, 13);
+            this.label5.TabIndex = 36;
+            this.label5.Text = "Start from article:";
             // 
             // DatabaseScanner
             // 
@@ -1269,6 +1290,8 @@ namespace WikiFunctions.DatabaseScanner
         private RadioButton rdoNone;
         private RadioButton rdoTypo;
         private CheckBox chkABCHeader;
+        private Label label5;
+        private TextBox txtStartFrom;
     }
 }
 
