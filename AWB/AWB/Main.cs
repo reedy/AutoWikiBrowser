@@ -272,7 +272,7 @@ namespace AutoWikiBrowser
                     webBrowserEdit.Stop();
 
                 if (webBrowserEdit.Document != null)
-                    webBrowserEdit.Document.Write("");
+                    webBrowserEdit.DocumentText = "";
 
                 //check we are logged in
                 if (!WikiStatus())
@@ -999,7 +999,7 @@ namespace AutoWikiBrowser
                     }
                     else
                     {
-                        MessageBox.Show("You are not enabled to use this.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        MessageBox.Show(UserName + " is not enabled to use this.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/CheckPage");
                         return false;
                     }
