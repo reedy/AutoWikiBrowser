@@ -47,7 +47,7 @@ namespace WikiFunctions.Browser
             ProcessStage = enumProcessStage.none;
         }
 
-        Regex LoginRegex = new Regex("var wgUserName = \"(.*?)\";", RegexOptions.Compiled);
+        Regex LoginRegex = new Regex("var wgUserName = (.*?);", RegexOptions.Compiled);
 
         /// <summary>
         /// Occurs when the edit page has finished loading
@@ -156,10 +156,15 @@ namespace WikiFunctions.Browser
         {
             get
             {
-                if (this.Document != null && this.Document.GetElementById("pt-logout") != null)
-                    return true;
-                else
+                if (this.Document == null)
                     return false;
+
+                Match m = LoginRegex.Match(this.DocumentText);
+
+                if (!m.Success || m.Groups[1].Value == "null")
+                    return false;
+                else
+                    return true;
             }
         }
 
@@ -170,21 +175,15 @@ namespace WikiFunctions.Browser
         {
             get
             {
-                if (this.Document.Cookie == null)
+                if (this.Document == null)
                     return "";
 
-                //Match m = LoginRegex.Match(this.Document.Body.InnerHtml);
+                Match m = LoginRegex.Match(this.DocumentText);
 
-                //return m.Groups[1].Value;
+                if (m.Groups[1].Value == "null")
+                    return "";
 
-
-                string cookieText = this.Document.Cookie;
-                Match m = Regex.Match(cookieText, "enwikiUserName=(.*?); ");
-                string UserName = m.Groups[1].Value;
-                UserName = UserName.Replace("+", " ");
-                UserName = HttpUtility.UrlDecode(UserName);
-
-                return UserName;
+                return m.Groups[1].Value.Trim('"');
             }
         }
 
