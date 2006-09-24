@@ -24,7 +24,7 @@ using System.Text;
 
 namespace WikiFunctions
 {
-    public enum LangCodeEnum { en, ca, da, de, eo, es, fi, fr, it, ja, nl, no, mi, pl, pt, ru, sk, sl, sv, zh }
+    public enum LangCodeEnum { en, ca, da, de, eo, es, fi, fr, hu, it, ja, nl, no, mi, pl, pt, ru, sk, sl, sv, zh }
     public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikiquote, wikiversity, wikibooks, wikinews, commons, meta, species }
 
     /// <summary>
@@ -97,7 +97,7 @@ namespace WikiFunctions
         {
             get { return strlangcode; }
         }
-        
+
         static string strsummarytag = " using [[Wikipedia:AutoWikiBrowser|AWB]]";
         /// <summary>
         /// Gets the tag to add to the edit summary, e.g. " using [[Wikipedia:AutoWikiBrowser|AWB]]".
@@ -192,7 +192,7 @@ namespace WikiFunctions
                     Namespaces[101] = "Portal Diskussion:";
 
                     strsummarytag = " [[Wikipedia:AutoWikiBrowser|AWB]]";
-                    break;                
+                    break;
 
                 case LangCodeEnum.es:
                     Namespaces[-2] = "Media:";
@@ -294,6 +294,28 @@ namespace WikiFunctions
                     strsummarytag = " [[Wikipédia:AutoWikiBrowser|AWB]]";
                     break;
 
+                case LangCodeEnum.hu:
+                    Namespaces[-2] = "Média:";
+                    Namespaces[-1] = "Speciális:";
+                    Namespaces[1] = "Vita:";
+                    Namespaces[2] = "User:";
+                    Namespaces[3] = "User vita:";
+                    Namespaces[4] = "Wikipédia:";
+                    Namespaces[5] = "Wikipédia vita:";
+                    Namespaces[6] = "Kép:";
+                    Namespaces[7] = "Kép vita:";
+                    Namespaces[8] = "MediaWiki:";
+                    Namespaces[9] = "MediaWiki vita:";
+                    Namespaces[10] = "Sablon:";
+                    Namespaces[11] = "Sablon vita:";
+                    Namespaces[12] = "Segítség:";
+                    Namespaces[13] = "Segítség vita:";
+                    Namespaces[14] = "Kategória:";
+                    Namespaces[15] = "Kategória vita:";
+
+                    strsummarytag = " [[Wikipédia:AutoWikiBrowser|AWB]]";
+                    break;
+
                 case LangCodeEnum.it:
                     Namespaces[-2] = "Media:";
                     Namespaces[-1] = "Speciale:";
@@ -360,7 +382,7 @@ namespace WikiFunctions
                     Namespaces[13] = "Help talk:";
                     Namespaces[14] = "Category:";
                     Namespaces[15] = "Category talk:";
-                    
+
                     strsummarytag = " [[Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
@@ -504,7 +526,7 @@ namespace WikiFunctions
                     Namespaces[15] = "Diskusia ku kategórii:";
                     Namespaces[100] = "Portál:";
                     Namespaces[101] = "Diskusia k portálu:";
-                    
+
                     strsummarytag = " [[Wikipédia:AutoWikiBrowser|AWB]]";
                     break;
 
@@ -552,8 +574,8 @@ namespace WikiFunctions
                     Namespaces[101] = "Portaldiskussion:";
 
                     strsummarytag = " [[Wikipedia:AutoWikiBrowser|AWB]]";
-                    break;            
-    
+                    break;
+
                 default:
                     Namespaces[-2] = "Media:";
                     Namespaces[-1] = "Special:";
