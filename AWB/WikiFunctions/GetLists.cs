@@ -583,11 +583,8 @@ namespace WikiFunctions.Lists
 
                             if (reader.Name.Equals("il"))
                             {
-                                if (reader.AttributeCount > 1)
-                                {
-                                    reader.MoveToAttribute("ns");
+                                if (reader.MoveToAttribute("ns"))
                                     ns = int.Parse(reader.Value);
-                                }
                                 else
                                     ns = 0;
 
