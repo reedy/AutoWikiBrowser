@@ -642,5 +642,40 @@ namespace WikiFunctions.Browser
 
         #endregion
 
+        protected override void OnNavigating(WebBrowserNavigatingEventArgs e)
+        {     
+            base.OnNavigating(e);
+            StartTimer();
+        }
+
+        int LoadTime = 0;
+        private void StartTimer()
+        {
+            LoadTime = 0;
+            timer1.Tick += IncrememntTime;
+        }
+
+        private void IncrememntTime(object sender, EventArgs e)
+        {
+            LoadTime++;
+
+            if(LoadTime == timeout)
+            {
+                timer1.Tick -= IncrememntTime;
+                Stop2();
+                Status = "Timed out";
+                LoadTime = 0;
+                if (this.Fault != null)
+                    this.Fault;
+            }
+        }
+
+        int timeout = 30;
+        public int TimeoutLimit
+        {
+            get { return timeout; }
+            set { timeout = value; }
+        }
+
     }
 }
