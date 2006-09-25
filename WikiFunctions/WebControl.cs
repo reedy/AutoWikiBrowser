@@ -43,11 +43,16 @@ namespace WikiFunctions.Browser
         public WebControl()
         {
             InitializeComponent();
+            timer1.Interval = 1000;
+            timer1.Enabled = true;
+
             this.ScriptErrorsSuppressed = true;
             ProcessStage = enumProcessStage.none;
         }
 
         Regex LoginRegex = new Regex("var wgUserName = (.*?);", RegexOptions.Compiled);
+
+        Timer timer1 = new Timer();
 
         /// <summary>
         /// Occurs when the edit page has finished loading
@@ -570,6 +575,7 @@ namespace WikiFunctions.Browser
         protected override void OnDocumentCompleted(WebBrowserDocumentCompletedEventArgs e)
         {
             base.OnDocumentCompleted(e);
+            StopTimer();
 
             if (!this.Document.Body.InnerHtml.Contains("id=siteSub"))
             {
@@ -631,6 +637,7 @@ namespace WikiFunctions.Browser
         {
             if (this.ReadyState == WebBrowserReadyState.Interactive && ProcessStage == enumProcessStage.save)
             {
+                StopTimer();
                 this.OnDocumentCompleted(null);
                 this.AllowNavigation = false;
                 ProcessStage = enumProcessStage.none;
@@ -643,30 +650,35 @@ namespace WikiFunctions.Browser
         #endregion
 
         protected override void OnNavigating(WebBrowserNavigatingEventArgs e)
-        {     
+        {
             base.OnNavigating(e);
             StartTimer();
         }
 
         int LoadTime = 0;
         private void StartTimer()
-        {
+        {            
             LoadTime = 0;
             timer1.Tick += IncrememntTime;
+        }
+
+        private void StopTimer()
+        {
+            timer1.Tick -= IncrememntTime;
+            LoadTime = 0;
         }
 
         private void IncrememntTime(object sender, EventArgs e)
         {
             LoadTime++;
 
-            if(LoadTime == timeout)
+            if (LoadTime == timeout)
             {
-                timer1.Tick -= IncrememntTime;
+                StopTimer();
                 Stop2();
-                Status = "Timed out";
-                LoadTime = 0;
+                Status = "Timed out";                
                 if (this.Fault != null)
-                    this.Fault;
+                    this.Fault();
             }
         }
 
