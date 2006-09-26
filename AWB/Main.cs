@@ -55,7 +55,7 @@ namespace AutoWikiBrowser
                 lblProject.Alignment = ToolStripItemAlignment.Right;
                 lblTimer.Alignment = ToolStripItemAlignment.Right;
                 lblEditsPerMin.Alignment = ToolStripItemAlignment.Right;
-                lblIgnoredArticles.Alignment = ToolStripItemAlignment.Right;                
+                lblIgnoredArticles.Alignment = ToolStripItemAlignment.Right;
                 lblEditCount.Alignment = ToolStripItemAlignment.Right;
 
                 btntsShowHide.Image = Resources.btnshowhide_image;
@@ -88,7 +88,7 @@ namespace AutoWikiBrowser
                     SetProject(LangCodeEnum.en, ProjectEnum.wikipedia);
                     MessageBox.Show(ex.Message);
                 }
-                
+
                 cmboCategorise.SelectedIndex = 0;
                 cmboImages.SelectedIndex = 0;
                 lblStatusText.AutoSize = true;
@@ -115,7 +115,7 @@ namespace AutoWikiBrowser
                 MessageBox.Show(ex.Message);
             }
         }
-       
+
         string LastArticle = "";
         string strSettingsFile = "";
         bool boolSaved = true;
@@ -128,7 +128,7 @@ namespace AutoWikiBrowser
         Parsers parsers;
         WebControl webBrowserLogin = new WebControl();
         TimeSpan StartTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-        
+
         private void MainForm_Load(object sender, EventArgs e)
         {
             //add articles to avoid (in future may be populated from checkpage
@@ -202,7 +202,7 @@ namespace AutoWikiBrowser
                 intEditsPerMin = value;
                 lblEditsPerMin.Text = "Edits/min: " + value.ToString();
             }
-        }        
+        }
 
         string strUserName = "";
         string UserName
@@ -261,7 +261,7 @@ namespace AutoWikiBrowser
                 //check edit summary
                 if (cmboEditSummary.Text == "")
                     MessageBox.Show("Please enter an edit summary.", "Edit summary", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                
+
                 StopDelayedRestartTimer();
                 DisableButtons();
                 EdittingArticle.EditSummary = "";
@@ -272,7 +272,7 @@ namespace AutoWikiBrowser
                     webBrowserEdit.Stop();
 
                 if (webBrowserEdit.Document != null)
-                    webBrowserEdit.DocumentText = "";
+                    webBrowserEdit.Document.Write("");
 
                 //check we are logged in
                 if (!WikiStatus())
@@ -301,7 +301,7 @@ namespace AutoWikiBrowser
                 //Navigate to edit page
                 webBrowserEdit.LoadEditPage(EdittingArticle.URLEncodedName);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Tools.WriteDebug(this.Name, "Start() error: " + ex.Message);
                 StartDelayedRestartTimer();
@@ -680,7 +680,7 @@ namespace AutoWikiBrowser
                         articleText = parsers.BulletExternalLinks(articleText, out SkipArticle);
                         if (Skip.SkipNoBulletedLink && SkipArticle)
                             return articleText;
-                        
+
                         articleText = parsers.SortMetaData(articleText, EdittingArticle.Name);
 
                         articleText = parsers.BoldTitle(articleText, EdittingArticle.Name, out SkipArticle);
@@ -851,7 +851,7 @@ namespace AutoWikiBrowser
             if (webBrowserEdit.IsBusy)
                 webBrowserEdit.Stop2();
             if (webBrowserLogin.IsBusy)
-                webBrowserLogin.Stop();            
+                webBrowserLogin.Stop();
         }
 
         private void setCheckBoxes()
@@ -921,7 +921,7 @@ namespace AutoWikiBrowser
                     return true;
 
                 //stop the process stage being confused when the webbrowser document completed event fires.
-                
+
                 string strInnerHTML;
 
                 //don't require to log in in other languages.
@@ -1207,6 +1207,7 @@ namespace AutoWikiBrowser
 
         private Regex regexObj;
         private Match matchObj;
+
         private void find(string strRegex, bool isRegex, bool caseSensive)
         {
             string ArticleText = txtEdit.Text;
@@ -1289,7 +1290,7 @@ namespace AutoWikiBrowser
             txtEdit.Select(intStart, intEnd - intStart);
             txtEdit.ScrollToCaret();
             txtEdit.Focus();
-        }        
+        }
 
         [Conditional("DEBUG")]
         public void Debug()
@@ -1875,7 +1876,7 @@ namespace AutoWikiBrowser
             StopDelayedRestartTimer();
             if (webBrowserEdit.IsBusy)
                 webBrowserEdit.Stop2();
-            if(webBrowserLogin.IsBusy)
+            if (webBrowserLogin.IsBusy)
                 webBrowserLogin.Stop();
 
             listMaker1.Stop();
@@ -2246,7 +2247,7 @@ namespace AutoWikiBrowser
 
                 a.Initialise(listMaker1, webBrowserEdit, pluginsToolStripMenuItem, mnuTextBox, tabControl1, this, txtEdit);
             }
-            
+
             pluginsToolStripMenuItem.Visible = AWBPlugins.Count > 0;
         }
 
@@ -2257,5 +2258,5 @@ namespace AutoWikiBrowser
         //    MessageBox.Show("hello");
         //}
 
-    }    
+    }
 }
