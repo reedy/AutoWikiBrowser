@@ -638,7 +638,7 @@ namespace WikiFunctions.Browser
             if (this.ReadyState == WebBrowserReadyState.Interactive && ProcessStage == enumProcessStage.save)
             {
                 StopTimer();
-                this.OnDocumentCompleted(null);
+                base.OnDocumentCompleted(null);
                 this.AllowNavigation = false;
                 ProcessStage = enumProcessStage.none;
                 this.Stop();
