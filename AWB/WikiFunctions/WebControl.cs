@@ -569,6 +569,7 @@ namespace WikiFunctions.Browser
             ProcessStage = enumProcessStage.none;
             Status = "Loading log in page";
             this.Navigate(Variables.URL + "index.php?title=Special:Userlogin&returnto=Main_Page");
+            Busy = false;
         }
 
         Regex RegexArticleExists = new Regex("<LI (class=new|class=\"selected new\") id=ca-nstab", RegexOptions.Compiled);
