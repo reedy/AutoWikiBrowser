@@ -424,6 +424,20 @@ namespace WikiFunctions
             if (!bWriteDebug)
                 return;
 
-        }
+            try
+            {
+
+                WriteLog(string.Format(
+@"Object: {0}
+Time: {1}
+Message: {2}
+
+", Object, DateTime.Now.ToLongTimeString(), Text), "Log.txt");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }        
     }    
 }
