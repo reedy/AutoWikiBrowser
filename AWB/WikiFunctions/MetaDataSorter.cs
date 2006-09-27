@@ -1,4 +1,4 @@
-/*
+﻿/*
 Autowikibrowser
 Copyright (C) 2006 Martin Richards
 
@@ -33,44 +33,56 @@ namespace WikiFunctions.Parse
         public MetaDataSorter(Parsers p)
         {
             parser = p;
-            InterWikiOrder = InterWikiOrderEnum.LocalLanguageAlpha;
+
+            InterWikisList.Clear();
+            foreach (string s in InterwikiLocalAlpha)
+                InterWikisList.Add(new Regex("\\[\\[" + s + ":.*?\\]\\]", RegexOptions.Compiled));
         }
 
-        Regex RegexStubs = new Regex("<!-- ?\\{\\{.*?stub\\}\\}.*?-->|:?\\{\\{.*?stub\\}\\}");
+        Regex StubsRegex = new Regex("<!-- ?\\{\\{.*?stub\\}\\}.*?-->|:?\\{\\{.*?stub\\}\\}");
+        Regex InterLangRegex = new Regex("<!-- ?(other languages|language links|inter ?(language|wiki)? ?links|inter ?wiki ?language ?links|inter ?wiki|The below are interlanguage links\\.?) ?-->", RegexOptions.IgnoreCase);
+        Regex CatCommentRegex = new Regex("<!-- ?categories ?-->", RegexOptions.IgnoreCase);
+        
+        readonly string[] InterwikiLocalAlpha = new string[] { "aa", "af", "ak", "als", "am", "ang", "ab", "ar", "an", "roa-rup", "frp", "as", "ast", "gn", "av", "ay", "az", "bm", "bn", "zh-min-nan", "map-bms", "ba", "be", "bh", "bi", "bo", "bs", "br", "bg", "ca", "cv", "ceb", "cs", "ch", "ny", "sn", "tum", "cho", "co", "za", "cy", "da", "pdc", "de", "dv", "arc", "nv", "dz", "mh", "et", "el", "en", "es", "eo", "eu", "ee", "fa", "fo", "fr", "fy", "ff", "fur", "ga", "gv", "gd", "gl", "ki", "gu", "got", "xal", "ko", "ha", "haw", "hy", "hi", "ho", "hr", "io", "ig", "ilo", "id", "ia", "ie", "iu", "ik", "os", "xh", "zu", "is", "it", "he", "jv", "kl", "kn", "kr", "ka", "ks", "csb", "kk", "kw", "rw", "ky", "rn", "sw", "kv", "kg", "ht", "kj", "ku", "lo", "lad", "la", "lv", "lb", "lt", "lij", "li", "ln", "jbo", "lg", "lmo", "hu", "mk", "mg", "ml", "mt", "mi", "mr", "ms", "mo", "mn", "mus", "my", "nah", "na", "fj", "nl", "nds-nl", "cr", "ne", "ja", "nap", "ce", "pih", "nb", "no", "nn", "nrm", "oc", "or", "om", "ng", "hz", "ug", "pa", "pi", "pam", "pap", "ps", "km", "nds", "pl", "pms", "pt", "ty", "ksh", "ro", "rmy", "rm", "qu", "ru", "war", "se", "sm", "sa", "sg", "sc", "sco", "st", "tn", "sq", "scn", "si", "simple", "sd", "ss", "sk", "sl", "so", "sr", "sh", "su", "fi", "sv", "tl", "ta", "tt", "te", "tet", "th", "vi", "ti", "tg", "tpi", "to", "chr", "chy", "ve", "tr", "tk", "tw", "udm", "bug", "uk", "ur", "uz", "vec", "vo", "fiu-vro", "wa", "vls", "wo", "ts", "ii", "yi", "yo", "zh-yue", "bat-smg", "zh", "zh-tw", "zh-cn" };
+        readonly string[] InterwikiLocalFirst = new string[] { "aa", "af", "ak", "als", "am", "ang", "ab", "ar", "an", "roa-rup", "frp", "as", "ast", "gn", "av", "ay", "az", "id", "ms", "bm", "bn", "zh-min-nan", "ban", "map-bms", "jv", "su", "bug", "ba", "be", "bh", "mt", "bi", "bo", "bs", "br", "bg", "ca", "ceb", "cv", "cs", "ch", "ny", "sn", "tum", "cho", "co", "za", "cy", "da", "pdc", "de", "dv", "nv", "dz", "mh", "et", "na", "el", "en", "es", "eo", "eu", "ee", "to", "fa", "fo", "fr", "fy", "ff", "fur", "ga", "gv", "sm", "gd", "gl", "gay", "ki", "gu", "got", "ko", "ha", "haw", "hy", "hi", "ho", "hr", "io", "ig", "ia", "ie", "iu", "ik", "os", "xh", "zu", "is", "it", "he", "kl", "xal", "kn", "kr", "ka", "ks", "csb", "kw", "rw", "ky", "rn", "sw", "kv", "kg", "ht", "kj", "ku", "lad", "lo", "la", "lv", "lb", "lt", "li", "ln", "jbo", "lg", "lmo", "hu", "mk", "mg", "ml", "mi", "mr", "chm", "mo", "mn", "mus", "my", "nah", "fj", "nap", "nds-nl", "nl", "cr", "ne", "ja", "ce", "pih", "nb", "no", "nn", "nrm", "oc", "or", "om", "ng", "hz", "ug", "uz", "pa", "kk", "pi", "pam", "pap", "ps", "km", "pms", "nds", "pl", "pt", "ty", "ksh", "ro", "rm", "rmy", "qu", "ru", "se", "sa", "sg", "sc", "sco", "st", "tn", "sq", "scn", "si", "simple", "sd", "ss", "sk", "sl", "so", "sr", "sh", "fi", "sv", "tl", "ta", "tt", "te", "tet", "th", "vi", "ti", "tlh", "tg", "tpi", "chr", "chy", "ve", "tr", "tk", "tw", "udm", "uk", "ur", "vec", "vo", "fiu-vro", "wa", "war", "vls", "wo", "ts", "ii", "yi", "yo", "zh-yue", "bat-smg", "zh", "zh-tw", "zh-cn" };
+        readonly string[] InterwikiAlpha = new string[] { "aa", "ab", "af", "ak", "als", "am", "an", "ang", "ar", "as", "ast", "av", "ay", "az", "ba", "ban", "bat-smg", "be", "bg", "bh", "bi", "bm", "bn", "bo", "br", "bs", "bug", "ca", "ce", "ceb", "ch", "chm", "cho", "chr", "chy", "co", "cr", "cs", "csb", "cv", "cy", "da", "de", "dv", "dz", "ee", "el", "en", "eo", "es", "et", "eu", "fa", "ff", "fi", "fiu-vro", "fj", "fo", "fr", "frp", "fur", "fy", "ga", "gay", "gd", "gl", "gn", "got", "gu", "gv", "ha", "haw", "he", "hi", "ho", "hr", "ht", "hu", "hy", "hz", "ia", "id", "ie", "ig", "ii", "ilo", "ik", "io", "is", "it", "iu", "ja", "jbo", "jv", "ka", "kg", "ki", "kj", "kk", "kl", "km", "kn", "ko", "kr", "ks", "ksh", "ku", "kv", "kw", "ky", "la", "lad", "lb", "lg", "li", "lmo", "ln", "lo", "lt", "lv", "map-bms", "mg", "mh", "mi", "mk", "ml", "mn", "mo", "mr", "ms", "mt", "mus", "my", "na", "nah", "nap", "nds", "nds-nl", "ne", "ng", "nl", "nn", "nb", "no", "nrm", "nv", "ny", "oc", "om", "or", "os", "pa", "pam", "pap", "pdc", "pi", "pih", "pl", "pms", "ps", "pt", "qu", "rm", "rmy", "rn", "ro", "roa-rup", "ru", "rw", "sa", "sc", "scn", "sco", "sd", "se", "sg", "sh", "si", "simple", "sk", "sl", "sm", "sn", "so", "sq", "sr", "ss", "st", "su", "sv", "sw", "ta", "te", "tet", "tg", "th", "ti", "tk", "tl", "tlh", "tn", "to", "tpi", "tr", "ts", "tt", "tum", "tw", "ty", "udm", "ug", "uk", "ur", "uz", "ve", "vec", "vi", "vls", "vo", "wa", "war", "wo", "xal", "xh", "yi", "yo", "za", "zh", "zh-cn", "zh-min-nan", "zh-tw", "zh-yue", "zu" };
+        List<Regex> InterWikisList = new List<Regex>();
 
-        public void SetProjectOtions(LangCodeEnum Language, ProjectEnum Project)
-        {
-
-        }
-        //string LinkFA = "";
-
-        private InterWikiOrderEnum order;
+        private InterWikiOrderEnum order = InterWikiOrderEnum.LocalLanguageAlpha;
         public InterWikiOrderEnum InterWikiOrder
         {//orders from http://meta.wikimedia.org/wiki/Interwiki_sorting_order
             set
             {
-                order = value;
-                if (value == InterWikiOrderEnum.LocalLanguageAlpha)
+                if (order != value)
                 {
-                    interwikiArray = new string[] { "aa", "af", "ak", "als", "am", "ang", "ab", "ar", "an", "roa-rup", "frp", "as", "ast", "gn", "av", "ay", "az", "bm", "bn", "zh-min-nan", "map-bms", "ba", "be", "bh", "bi", "bo", "bs", "br", "bg", "ca", "cv", "ceb", "cs", "ch", "ny", "sn", "tum", "cho", "co", "za", "cy", "da", "pdc", "de", "dv", "arc", "nv", "dz", "mh", "et", "el", "en", "es", "eo", "eu", "ee", "fa", "fo", "fr", "fy", "ff", "fur", "ga", "gv", "gd", "gl", "ki", "gu", "got", "xal", "ko", "ha", "haw", "hy", "hi", "ho", "hr", "io", "ig", "ilo", "id", "ia", "ie", "iu", "ik", "os", "xh", "zu", "is", "it", "he", "jv", "kl", "kn", "kr", "ka", "ks", "csb", "kk", "kw", "rw", "ky", "rn", "sw", "kv", "kg", "ht", "kj", "ku", "lo", "lad", "la", "lv", "lb", "lt", "lij", "li", "ln", "jbo", "lg", "lmo", "hu", "mk", "mg", "ml", "mt", "mi", "mr", "ms", "mo", "mn", "mus", "my", "nah", "na", "fj", "nl", "nds-nl", "cr", "ne", "ja", "nap", "ce", "pih", "nb", "no", "nn", "nrm", "oc", "or", "om", "ng", "hz", "ug", "pa", "pi", "pam", "pap", "ps", "km", "nds", "pl", "pms", "pt", "ty", "ksh", "ro", "rmy", "rm", "qu", "ru", "war", "se", "sm", "sa", "sg", "sc", "sco", "st", "tn", "sq", "scn", "si", "simple", "sd", "ss", "sk", "sl", "so", "sr", "sh", "su", "fi", "sv", "tl", "ta", "tt", "te", "tet", "th", "vi", "ti", "tg", "tpi", "to", "chr", "chy", "ve", "tr", "tk", "tw", "udm", "bug", "uk", "ur", "uz", "vec", "vo", "fiu-vro", "wa", "vls", "wo", "ts", "ii", "yi", "yo", "zh-yue", "bat-smg", "zh", "zh-tw", "zh-cn" };
-                }
-                else if (value == InterWikiOrderEnum.LocalLanguageFirstWord)
-                {
-                    interwikiArray = new string[] { "aa", "af", "ak", "als", "am", "ang", "ab", "ar", "an", "roa-rup", "frp", "as", "ast", "gn", "av", "ay", "az", "id", "ms", "bm", "bn", "zh-min-nan", "ban", "map-bms", "jv", "su", "bug", "ba", "be", "bh", "mt", "bi", "bo", "bs", "br", "bg", "ca", "ceb", "cv", "cs", "ch", "ny", "sn", "tum", "cho", "co", "za", "cy", "da", "pdc", "de", "dv", "nv", "dz", "mh", "et", "na", "el", "en", "es", "eo", "eu", "ee", "to", "fa", "fo", "fr", "fy", "ff", "fur", "ga", "gv", "sm", "gd", "gl", "gay", "ki", "gu", "got", "ko", "ha", "haw", "hy", "hi", "ho", "hr", "io", "ig", "ia", "ie", "iu", "ik", "os", "xh", "zu", "is", "it", "he", "kl", "xal", "kn", "kr", "ka", "ks", "csb", "kw", "rw", "ky", "rn", "sw", "kv", "kg", "ht", "kj", "ku", "lad", "lo", "la", "lv", "lb", "lt", "li", "ln", "jbo", "lg", "lmo", "hu", "mk", "mg", "ml", "mi", "mr", "chm", "mo", "mn", "mus", "my", "nah", "fj", "nap", "nds-nl", "nl", "cr", "ne", "ja", "ce", "pih", "nb", "no", "nn", "nrm", "oc", "or", "om", "ng", "hz", "ug", "uz", "pa", "kk", "pi", "pam", "pap", "ps", "km", "pms", "nds", "pl", "pt", "ty", "ksh", "ro", "rm", "rmy", "qu", "ru", "se", "sa", "sg", "sc", "sco", "st", "tn", "sq", "scn", "si", "simple", "sd", "ss", "sk", "sl", "so", "sr", "sh", "fi", "sv", "tl", "ta", "tt", "te", "tet", "th", "vi", "ti", "tlh", "tg", "tpi", "chr", "chy", "ve", "tr", "tk", "tw", "udm", "uk", "ur", "vec", "vo", "fiu-vro", "wa", "war", "vls", "wo", "ts", "ii", "yi", "yo", "zh-yue", "bat-smg", "zh", "zh-tw", "zh-cn" };
-                }
-                else if (value == InterWikiOrderEnum.Alphabetical)
-                {
-                    interwikiArray = new string[] { "aa", "ab", "af", "ak", "als", "am", "an", "ang", "ar", "as", "ast", "av", "ay", "az", "ba", "ban", "bat-smg", "be", "bg", "bh", "bi", "bm", "bn", "bo", "br", "bs", "bug", "ca", "ce", "ceb", "ch", "chm", "cho", "chr", "chy", "co", "cr", "cs", "csb", "cv", "cy", "da", "de", "dv", "dz", "ee", "el", "en", "eo", "es", "et", "eu", "fa", "ff", "fi", "fiu-vro", "fj", "fo", "fr", "frp", "fur", "fy", "ga", "gay", "gd", "gl", "gn", "got", "gu", "gv", "ha", "haw", "he", "hi", "ho", "hr", "ht", "hu", "hy", "hz", "ia", "id", "ie", "ig", "ii", "ilo", "ik", "io", "is", "it", "iu", "ja", "jbo", "jv", "ka", "kg", "ki", "kj", "kk", "kl", "km", "kn", "ko", "kr", "ks", "ksh", "ku", "kv", "kw", "ky", "la", "lad", "lb", "lg", "li", "lmo", "ln", "lo", "lt", "lv", "map-bms", "mg", "mh", "mi", "mk", "ml", "mn", "mo", "mr", "ms", "mt", "mus", "my", "na", "nah", "nap", "nds", "nds-nl", "ne", "ng", "nl", "nn", "nb", "no", "nrm", "nv", "ny", "oc", "om", "or", "os", "pa", "pam", "pap", "pdc", "pi", "pih", "pl", "pms", "ps", "pt", "qu", "rm", "rmy", "rn", "ro", "roa-rup", "ru", "rw", "sa", "sc", "scn", "sco", "sd", "se", "sg", "sh", "si", "simple", "sk", "sl", "sm", "sn", "so", "sq", "sr", "ss", "st", "su", "sv", "sw", "ta", "te", "tet", "tg", "th", "ti", "tk", "tl", "tlh", "tn", "to", "tpi", "tr", "ts", "tt", "tum", "tw", "ty", "udm", "ug", "uk", "ur", "uz", "ve", "vec", "vi", "vls", "vo", "wa", "war", "wo", "xal", "xh", "yi", "yo", "za", "zh", "zh-cn", "zh-min-nan", "zh-tw", "zh-yue", "zu" };
+                    order = value;
+                    if (value == InterWikiOrderEnum.LocalLanguageAlpha)
+                    {
+                        InterWikisList.Clear();
+                        foreach (string s in InterwikiLocalAlpha)
+                            InterWikisList.Add(new Regex("\\[\\[" + s + ":.*?\\]\\]", RegexOptions.Compiled));
+
+                    }
+                    else if (value == InterWikiOrderEnum.LocalLanguageFirstWord)
+                    {
+                        InterWikisList.Clear();
+                        foreach (string s in InterwikiLocalFirst)
+                            InterWikisList.Add(new Regex("\\[\\[" + s + ":.*?\\]\\]", RegexOptions.Compiled));
+
+                    }
+                    else if (value == InterWikiOrderEnum.Alphabetical)
+                    {
+                        InterWikisList.Clear();
+                        foreach (string s in InterwikiAlpha)
+                            InterWikisList.Add(new Regex("\\[\\[" + s + ":.*?\\]\\]", RegexOptions.Compiled));
+
+                    }
                 }
             }
             get
             { return order; }
         }
-
-        //Orders them by local language per [[m:Interwiki sorting order]]
-        string[] interwikiArray;
-        const string interPattern = "\\[\\[(nds-nl|rmy|lij|bat-smg|map-bms|ksh|pdc|vls|nrm|frp|zh-yue|tet|xal|pap|tokipona|minnan|aa|af|ak|als|am|ang|ab|ar|an|arc|roa-rup|as|ast|gn|av|ay|az|bm|bn|zh-min-nan|ba|be|bh|bi|bo|bs|br|bg|ca|cv|ceb|cs|ch|ny|sn|tum|cho|co|za|cy|da|de|dv|nv|dz|mh|et|el|en|es|eo|eu|ee|fa|fo|fr|fy|ff|fur|ga|gv|gd|gl|ki|gu|got|ko|ha|haw|hy|hi|ho|hr|io|ig|ilo|id|ia|ie|iu|ik|os|xh|zu|is|it|he|jv|kl|kn|kr|ka|ks|csb|kk|kw|rw|ky|rn|sw|kv|kg|ht|kj|ku|lo|lad|la|lv|lb|lt|li|ln|jbo|lg|lmo|hu|mk|mg|ml|mt|mi|mr|ms|mo|mn|mus|my|nah|na|nb|fj|nl|cr|ne|ja|nap|ce|pih|nb|no|nn|oc|or|om|ng|hz|ug|pa|pi|pam|ps|km|nds|pl|pms|pt|ty|ro|rm|qu|ru|war|se|sm|sa|sg|sc|sco|st|tn|sq|scn|si|simple|sd|ss|sk|sl|so|sr|sh|su|fi|sv|tl|ta|tt|te|th|vi|ti|tg|tpi|to|chr|chy|ve|tr|tk|tw|udm|bug|uk|ur|uz|vec|vo|fiu-vro|wa|wo|ts|ii|yi|yo|zh|zh-tw|zh-cn):.*?\\]\\]";
-
+                               
         internal string Sort(string ArticleText, string ArticleTitle)
         {
             ArticleText = Regex.Replace(ArticleText, "<!-- ?\\[\\[en:.*?\\]\\] ?-->", "");
@@ -91,30 +103,31 @@ namespace WikiFunctions.Parse
 
         private string removeCats(ref string ArticleText, string ArticleTitle)
         {
-            ArrayList CatArray = new ArrayList();
+            List<string> CategoryList = new List<string>();
+            string x = "";
 
-            foreach (Match m in Regex.Matches(ArticleText, "<!-- ? ?\\[\\[" + Variables.Namespaces[14] + ".*?(\\]\\]|\\|.*?\\]\\]).*?-->|\\[\\[" + Variables.Namespaces[14] + ".*?(\\]\\]|\\|.*?\\]\\])( {0,4}<%%<[0-9]{1,4}>%%>)?"))
+            foreach (Match m in Regex.Matches(ArticleText, "<!-- ? ?\\[\\[" + Variables.Namespaces[14] + ".*?(\\]\\]|\\|.*?\\]\\]).*?-->|\\[\\[" + Variables.Namespaces[14] + ".*?(\\]\\]|\\|.*?\\]\\])( {0,4}⌊⌊⌊⌊[0-9]{1,4}⌋⌋⌋⌋)?"))
             {
-                string x = m.Value;
+                x = m.Value;
                 //add to array, replace underscores with spaces, ignore=
                 if (!Regex.IsMatch(x, "\\[\\[Category:(Pages|Categories|Articles) for deletion\\]\\]"))
                 {
                     ArticleText = ArticleText.Replace(x, "");
-                    CatArray.Add(x.Replace("_", " "));
+                    CategoryList.Add(x.Replace("_", " "));
                 }
             }
 
             if (parser.addCatKey)
-                CatArray = catKeyer(CatArray, ArticleTitle);
+                CategoryList = catKeyer(CategoryList, ArticleTitle);
 
-            if (Regex.IsMatch(ArticleText, "<!-- ?categories ?-->", RegexOptions.IgnoreCase))
+            if (CatCommentRegex.IsMatch(ArticleText))
             {
-                string catComment = Regex.Match(ArticleText, "<!-- ?categories ?-->", RegexOptions.IgnoreCase).ToString();
+                string catComment = CatCommentRegex.Match(ArticleText).Value;
                 ArticleText = ArticleText.Replace(catComment, "");
-                CatArray.Insert(0, catComment);
+                CategoryList.Insert(0, catComment);
             }
 
-            return ArrayToString(CatArray);
+            return ListToString(CategoryList);
         }
 
         private string removePersonData(ref string ArticleText)
@@ -135,8 +148,8 @@ namespace WikiFunctions.Parse
 
         private string removeStubs(ref string ArticleText)
         {
-            ArrayList StubArray = new ArrayList();
-            MatchCollection n = RegexStubs.Matches(ArticleText);
+            List<string> StubList = new List<string>();
+            MatchCollection n = StubsRegex.Matches(ArticleText);
             string x = "";
 
             foreach (Match m in n)
@@ -144,14 +157,14 @@ namespace WikiFunctions.Parse
                 x = m.Value;
                 if (!((Regex.IsMatch(x, "[Ss]ect") || (Regex.IsMatch(x, "tl\\|")))))
                 {
-                    StubArray.Add(x);
+                    StubList.Add(x);
                     //remove old stub
                     ArticleText = ArticleText.Replace(x, "");
                 }
             }
 
-            if (StubArray.Count != 0)
-                return "\r\n" + ArrayToString(StubArray);
+            if (StubList.Count != 0)
+                return "\r\n" + ListToString(StubList);
             else
                 return "";
         }
@@ -169,92 +182,90 @@ namespace WikiFunctions.Parse
             return strDisambig;
         }
 
-        private ArrayList removeLinkFAs(ref string ArticleText)
+        private List<string> removeLinkFAs(ref string ArticleText)
         {
-            ArrayList LinkFAArrayList = new ArrayList();
-            foreach (Match m in Regex.Matches(ArticleText, "(\\{\\{[Ll]ink FA\\|)([a-z\\-]{2,10})[^\\}\\}]*\\}\\}"))
+            List<string> LinkFAList = new List<string>();
+            string x = "";
+            foreach (Match m in WikiRegexes.LinkFAs.Matches(ArticleText))
             {
-                string x = m.Value;
-                LinkFAArrayList.Add(x);
+                x = m.Value;
+                LinkFAList.Add(x);
                 //remove old LinkFA
                 ArticleText = ArticleText.Replace(x, "");
             }
 
-            return LinkFAArrayList;
+            return LinkFAList;
         }
 
         private string interwikis(ref string ArticleText)
         {
-            string interwikis = "";
-
-            interwikis = ArrayToString(removeLinkFAs(ref ArticleText)) + ArrayToString(removeInterWikis(ref ArticleText));
+            string interwikis = ListToString(removeLinkFAs(ref ArticleText)) + ListToString(removeInterWikis(ref ArticleText));
 
             return interwikis;
         }
 
-        private ArrayList removeInterWikis(ref string ArticleText)
+        private List<string> removeInterWikis(ref string ArticleText)
         {
-            ArrayList InterWikiArray = new ArrayList();
+            List<string> InterWikiList = new List<string>();
 
-            string strInterLangRegex = "<!-- ?(other languages|language links|inter ?(language|wiki)? ?links|inter ?wiki ?language ?links|inter ?wiki|The below are interlanguage links\\.?) ?-->";
-            if (Regex.IsMatch(ArticleText, strInterLangRegex, RegexOptions.IgnoreCase))
+            if (InterLangRegex.IsMatch(ArticleText))
             {
                 string interWikiComment = "";
-                interWikiComment = Regex.Match(ArticleText, strInterLangRegex, RegexOptions.IgnoreCase).ToString();
+                interWikiComment = InterLangRegex.Match(ArticleText).Value;
                 ArticleText = ArticleText.Replace(interWikiComment, "");
-                InterWikiArray.Add(interWikiComment);
+                InterWikiList.Add(interWikiComment);
             }
 
             if (parser.sortInterwikiOrder)
             {
-                foreach (string s in interwikiArray)
+                string x;
+                foreach (Regex  rege in InterWikisList)
                 {
-                    Regex rege = new Regex("\\[\\[" + s + ":.*?\\]\\]");
-
                     //use foreach as some articles have multiple links to same wiki
-                    string x = "";
+                    x = "";
                     foreach (Match m in rege.Matches(ArticleText))
                     {
                         x = m.Value;
                         ArticleText = rege.Replace(ArticleText, "", 1);
                         x = HttpUtility.HtmlDecode(x).Replace("_", " ");
-                        InterWikiArray.Add(x);
+                        InterWikiList.Add(x);
                     }
                 }
             }
             else
             {
+                string x;
                 //keeps existing order
-                if (Regex.IsMatch(ArticleText, interPattern))
+                if (WikiRegexes.InterWikiLinks.IsMatch(ArticleText))
                 {
-                    foreach (Match m in Regex.Matches(ArticleText, interPattern))
+                    foreach (Match m in WikiRegexes.InterWikiLinks.Matches(ArticleText))
                     {
-                        string x = m.Value;
+                        x = m.Value;
                         ArticleText = ArticleText.Replace(x, "");
                         x = HttpUtility.HtmlDecode(x).Replace("_", " ");
-                        InterWikiArray.Add(x);
+                        InterWikiList.Add(x);
 
                     }
                 }
             }
 
-            return InterWikiArray;
+            return InterWikiList;
         }
 
-        private string ArrayToString(ArrayList items)
-        {//remove duplicates, and return arraylist as string.
+        private string ListToString(List<string> items)
+        {//remove duplicates, and return List as string.
 
             if (items.Count == 0)
                 return "";
 
             string List = "";
-            ArrayList uniqueItems = new ArrayList();
+            List<string> uniqueItems = new List<string>();
 
             //remove duplicates
-            for (int i = 0; i < items.Count; i++)
+            foreach (string s in items)
             {
-                if (!uniqueItems.Contains(items[i]))
-                    uniqueItems.Add(items[i]);
+                if (!uniqueItems.Contains(s))
+                    uniqueItems.Add(s);
             }
 
             //add to string
@@ -266,14 +277,14 @@ namespace WikiFunctions.Parse
             return "\r\n" + List;
         }
 
-        private ArrayList catKeyer(ArrayList arrayList, string strName)
+        private List<string> catKeyer(List<string> List, string strName)
         {
             // make key
             strName = Tools.MakeHumanCatKey(strName);
 
             //add key to cats that need it
-            ArrayList newCats = new ArrayList();
-            foreach (string s in arrayList)
+            List<string> newCats = new List<string>();
+            foreach (string s in List)
             {
                 string z = s;
                 if (!z.Contains("|"))

@@ -258,6 +258,8 @@ namespace AutoWikiBrowser
         {
             try
             {
+                Tools.WriteDebug(this.Name, "Starting");
+
                 //check edit summary
                 if (cmboEditSummary.Text == "")
                     MessageBox.Show("Please enter an edit summary.", "Edit summary", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -1295,6 +1297,7 @@ namespace AutoWikiBrowser
         [Conditional("DEBUG")]
         public void Debug()
         {//stop logging in when de-bugging
+            Tools.WriteDebugEnabled = true;
             listMaker1.Add("User:Bluemoose/Sandbox");
             wikiStatusBool = true;
             chkAutoMode.Enabled = true;
