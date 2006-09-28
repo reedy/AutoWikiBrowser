@@ -334,7 +334,8 @@ namespace WikiFunctions.Browser
 
         public void Stop2()
         {
-            ProcessStage = enumProcessStage.none;
+            StopTimer();
+            ProcessStage = enumProcessStage.none;            
             Busy = false;
             this.Stop();
         }
@@ -639,7 +640,7 @@ namespace WikiFunctions.Browser
             if (this.ReadyState == WebBrowserReadyState.Interactive && ProcessStage == enumProcessStage.save)
             {
                 StopTimer();
-                base.OnDocumentCompleted(null);
+                this.OnDocumentCompleted(null);
                 this.AllowNavigation = false;
                 ProcessStage = enumProcessStage.none;
                 this.Stop();
