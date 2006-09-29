@@ -151,19 +151,19 @@ namespace WikiFunctions
                     Namespaces[-1] = "Speciel:";
                     Namespaces[1] = "Diskussion:";
                     Namespaces[2] = "Bruger:";
-                    Namespaces[3] = "Bruger diskussion:";
+                    Namespaces[3] = "Brugerdiskussion:";
                     Namespaces[4] = "Wikipedia:";
-                    Namespaces[5] = "Wikipedia diskussion:";
+                    Namespaces[5] = "Wikipedia-diskussion:";
                     Namespaces[6] = "Billede:";
-                    Namespaces[7] = "Billede diskussion:";
+                    Namespaces[7] = "Billedediskussion:";
                     Namespaces[8] = "MediaWiki:";
-                    Namespaces[9] = "MediaWiki diskussion:";
+                    Namespaces[9] = "MediaWiki-diskussion:";
                     Namespaces[10] = "Skabelon:";
-                    Namespaces[11] = "Skabelon diskussion:";
+                    Namespaces[11] = "Skabelondiskussion:";
                     Namespaces[12] = "Hjælp:";
-                    Namespaces[13] = "Hjælp diskussion:";
+                    Namespaces[13] = "Hjælp-diskussion:";
                     Namespaces[14] = "Kategori:";
-                    Namespaces[15] = "Kategori diskussion:";
+                    Namespaces[15] = "Kategoridiskussion:";
                     Namespaces[100] = "Portal:";
                     Namespaces[101] = "Portal diskussion:";
 
