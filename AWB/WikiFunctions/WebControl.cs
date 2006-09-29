@@ -335,7 +335,7 @@ namespace WikiFunctions.Browser
         public void Stop2()
         {
             StopTimer();
-            ProcessStage = enumProcessStage.none;            
+            ProcessStage = enumProcessStage.none;
             Busy = false;
             this.Stop();
         }
@@ -644,7 +644,8 @@ namespace WikiFunctions.Browser
                 this.AllowNavigation = false;
                 ProcessStage = enumProcessStage.none;
                 this.Stop();
-                this.Saved();
+                if (this.Saved != null)
+                    this.Saved();
             }
             base.OnProgressChanged(e);
         }
@@ -659,7 +660,7 @@ namespace WikiFunctions.Browser
 
         int LoadTime = 0;
         private void StartTimer()
-        {            
+        {
             LoadTime = 0;
             timer1.Tick += IncrememntTime;
         }
@@ -678,7 +679,7 @@ namespace WikiFunctions.Browser
             {
                 StopTimer();
                 Stop2();
-                Status = "Timed out";                
+                Status = "Timed out";
                 if (this.Fault != null)
                     this.Fault();
             }
