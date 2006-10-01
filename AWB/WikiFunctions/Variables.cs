@@ -167,7 +167,7 @@ namespace WikiFunctions
                     Namespaces[100] = "Portal:";
                     Namespaces[101] = "Portal diskussion:";
 
-                    strsummarytag = " [[Wikipedia:AutoWikiBrowser|AWB]]";
+                    strsummarytag = " ved brug af [[Wikipedia:AutoWikiBrowser|AWB]]";
                     break;
 
                 case LangCodeEnum.de:

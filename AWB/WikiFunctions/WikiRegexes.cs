@@ -68,7 +68,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches redirects
         /// </summary>
-        public static readonly Regex RedirectRegex = new Regex("^#redirect.*?\\[\\[(.*?)\\]\\]", RegexOptions.IgnoreCase);
+        public static readonly Regex RedirectRegex = new Regex("^#redirect.*?\\[\\[(.*?)\\]\\]", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
         /// Matches words

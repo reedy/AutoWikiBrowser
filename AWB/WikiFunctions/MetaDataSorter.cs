@@ -171,6 +171,9 @@ namespace WikiFunctions.Parse
 
         private string removeDisambig(ref string ArticleText)
         {
+            if (Variables.LangCode != "en")
+                return "";
+
             string strDisambig = "";
             if (WikiRegexes.Disambigs.IsMatch(ArticleText))
             {
