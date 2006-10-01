@@ -922,20 +922,18 @@ namespace AutoWikiBrowser
                 if (wikiStatusBool)
                     return true;
 
-                //stop the process stage being confused when the webbrowser document completed event fires.
-
-                string strInnerHTML;
+                string strInnerHTML = String.Empty;
+                lblStatusText.Text = "Loading page to check if we are logged in";
 
                 //don't require to log in in other languages.
                 if (Variables.LangCode != "en" || Variables.Project != "wikipedia")
-                {
-                    lblStatusText.Text = "Loading page to check if we are logged in";
+                {                    
                     webBrowserLogin.Navigate(Variables.URLShort + "/wiki/Main_Page");
                     //wait to load
                     while (webBrowserLogin.ReadyState != WebBrowserReadyState.Complete) Application.DoEvents();
                     strInnerHTML = webBrowserLogin.Document.Body.InnerHtml;
 
-                    if (!strInnerHTML.Contains("<LI id=pt-logout"))
+                    if (!webBrowserLogin.LoggedIn)
                     {//see if we are logged in
                         MessageBox.Show("You are not logged in. The log in screen will now load, enter your name and password, click \"Log in\", wait for it to complete, then start the process again.\r\n\r\nIn the future you can make sure this won't happen by logging in to Wikipedia using Microsoft Internet Explorer.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         webBrowserEdit.LoadLogInPage();
@@ -950,7 +948,6 @@ namespace AutoWikiBrowser
                 }
 
                 //load check page
-                lblStatusText.Text = "Loading page to check if we are logged in and bot is enabled";
                 webBrowserLogin.Navigate("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage&action=edit");
                 //wait to load
                 while (webBrowserLogin.ReadyState != WebBrowserReadyState.Complete) Application.DoEvents();
@@ -1009,7 +1006,7 @@ namespace AutoWikiBrowser
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.ToString());
+                MessageBox.Show(e.Message);
                 return false;
             }
         }
