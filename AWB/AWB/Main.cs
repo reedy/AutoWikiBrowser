@@ -924,83 +924,71 @@ namespace AutoWikiBrowser
 
                 string strInnerHTML = String.Empty;
                 lblStatusText.Text = "Loading page to check if we are logged in";
-
-                //don't require to log in in other languages.
-                if (Variables.LangCode != "en" || Variables.Project != "wikipedia")
-                {                    
-                    webBrowserLogin.Navigate(Variables.URLShort + "/wiki/Main_Page");
-                    //wait to load
-                    while (webBrowserLogin.ReadyState != WebBrowserReadyState.Complete) Application.DoEvents();
-                    strInnerHTML = webBrowserLogin.Document.Body.InnerHtml;
-
-                    if (!webBrowserLogin.LoggedIn)
-                    {//see if we are logged in
-                        MessageBox.Show("You are not logged in. The log in screen will now load, enter your name and password, click \"Log in\", wait for it to complete, then start the process again.\r\n\r\nIn the future you can make sure this won't happen by logging in to Wikipedia using Microsoft Internet Explorer.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        webBrowserEdit.LoadLogInPage();
-                        return false;
-                    }
-                    else
-                    {
-                        wikiStatusBool = true;
-                        chkAutoMode.Enabled = true;
-                        return true;
-                    }
-                }
-
                 //load check page
-                webBrowserLogin.Navigate("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage&action=edit");
+                webBrowserLogin.Navigate(Variables.URLShort + "/w/index.php?title=Project:AutoWikiBrowser/CheckPage&action=edit");
                 //wait to load
                 while (webBrowserLogin.ReadyState != WebBrowserReadyState.Complete) Application.DoEvents();
 
                 strInnerHTML = webBrowserLogin.Document.Body.InnerHtml;
 
+                //see if there is a message
                 Match m = Regex.Match(strInnerHTML, "&lt;!--Message:(.*?)--&gt;");
                 if (m.Success && m.Groups[1].Value.Trim().Length > 0)
                 {
                     MessageBox.Show(m.Groups[1].Value, "Automated message", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-
+                //see if we are logged in
                 if (!webBrowserLogin.LoggedIn)
-                {//see if we are logged in
+                {
                     MessageBox.Show("You are not logged in. The log in screen will now load, enter your name and password, click \"Log in\", wait for it to complete, then start the process again.\r\n\r\nIn the future you can make sure this won't happen by logging in to Wikipedia using Microsoft Internet Explorer.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     webBrowserEdit.LoadLogInPage();
                     return false;
                 }
-                else if (!strInnerHTML.Contains("enabledusersbegins"))
+
+                //don't require approval in in other languages.
+                if (Variables.LangCode != "en" || Variables.Project != "wikipedia")
                 {
-                    MessageBox.Show("Check page failed to load.\r\n\r\nCheck your Internet Explorer is working and that the Wikipedia servers are online, also try clearing Internet Explorer cache.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;
-                }
-                else if (!strInnerHTML.Contains(Assembly.GetExecutingAssembly().GetName().Version.ToString() + " enabled"))
-                {//see if this version is enabled
-                    MessageBox.Show("This version is not enabled, please download the newest version. If you have the newest version, check that Wikipedia is online.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    System.Diagnostics.Process.Start("http://sourceforge.net/project/showfiles.php?group_id=158332");
-                    return false;
+                    wikiStatusBool = true;
+                    chkAutoMode.Enabled = true;
+                    return true;
                 }
                 else
-                {//see if we are allowed to use this softare
-
-                    UserName = webBrowserLogin.UserName;
-                    strInnerHTML = strInnerHTML.Substring(strInnerHTML.IndexOf("enabledusersbegins"), strInnerHTML.IndexOf("enabledusersends") - strInnerHTML.IndexOf("enabledusersbegins"));
-                    string strBotUsers = strInnerHTML.Substring(strInnerHTML.IndexOf("enabledbots"), strInnerHTML.IndexOf("enabledbotsends") - strInnerHTML.IndexOf("enabledbots"));
-
-                    if (UserName.Length > 0 && strInnerHTML.Contains("* " + UserName + "\r\n") || strInnerHTML.Contains("Everybody enabled = true"))
+                {
+                    if (!strInnerHTML.Contains("enabledusersbegins"))
                     {
-                        if (strBotUsers.Contains("* " + UserName + "\r\n"))
-                        {//enable botmode
-                            chkAutoMode.Enabled = true;
-                        }
-
-                        wikiStatusBool = true;
-                        lblStatusText.Text = "Logged in, user enabled and software enabled";
-                        UpdateButtons();
-                        return true;
+                        MessageBox.Show("Check page failed to load.\r\n\r\nCheck your Internet Explorer is working and that the Wikipedia servers are online, also try clearing Internet Explorer cache.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
+                    else if (!strInnerHTML.Contains(Assembly.GetExecutingAssembly().GetName().Version.ToString() + " enabled"))
+                    {//see if this version is enabled
+                        MessageBox.Show("This version is not enabled, please download the newest version. If you have the newest version, check that Wikipedia is online.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        System.Diagnostics.Process.Start("http://sourceforge.net/project/showfiles.php?group_id=158332");
+                        return false;
                     }
                     else
-                    {
-                        MessageBox.Show(UserName + " is not enabled to use this.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                        System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/CheckPage");
-                        return false;
+                    {//see if we are allowed to use this softare
+                        UserName = webBrowserLogin.UserName;
+                        strInnerHTML = strInnerHTML.Substring(strInnerHTML.IndexOf("enabledusersbegins"), strInnerHTML.IndexOf("enabledusersends") - strInnerHTML.IndexOf("enabledusersbegins"));
+                        string strBotUsers = strInnerHTML.Substring(strInnerHTML.IndexOf("enabledbots"), strInnerHTML.IndexOf("enabledbotsends") - strInnerHTML.IndexOf("enabledbots"));
+
+                        if (UserName.Length > 0 && strInnerHTML.Contains("* " + UserName + "\r\n") || strInnerHTML.Contains("Everybody enabled = true"))
+                        {
+                            if (strBotUsers.Contains("* " + UserName + "\r\n"))
+                            {//enable botmode
+                                chkAutoMode.Enabled = true;
+                            }
+
+                            wikiStatusBool = true;
+                            lblStatusText.Text = "Logged in, user enabled and software enabled";
+                            UpdateButtons();
+                            return true;
+                        }
+                        else
+                        {
+                            MessageBox.Show(UserName + " is not enabled to use this.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/CheckPage");
+                            return false;
+                        }
                     }
                 }
             }
