@@ -650,7 +650,7 @@ namespace AutoWikiBrowser
                         return articleText;
                 }
 
-                if (EdittingArticle.NameSpaceKey == 0 || EdittingArticle.Name.Contains("Sandbox") || EdittingArticle.Name.Contains("sandbox"))
+                if (EdittingArticle.NameSpaceKey == 0 || EdittingArticle.NameSpaceKey == 14 || EdittingArticle.Name.Contains("Sandbox") || EdittingArticle.Name.Contains("sandbox"))
                 {
                     if (process && chkAutoTagger.Checked)
                     {
