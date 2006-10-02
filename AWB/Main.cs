@@ -922,21 +922,16 @@ namespace AutoWikiBrowser
                 if (wikiStatusBool)
                     return true;
 
-                string strInnerHTML = String.Empty;
+                string strText = String.Empty;
                 lblStatusText.Text = "Loading page to check if we are logged in";
                 //load check page
                 webBrowserLogin.Navigate(Variables.URLShort + "/w/index.php?title=Project:AutoWikiBrowser/CheckPage&action=edit");
                 //wait to load
                 while (webBrowserLogin.ReadyState != WebBrowserReadyState.Complete) Application.DoEvents();
 
-                strInnerHTML = webBrowserLogin.Document.Body.InnerHtml;
-
-                //see if there is a message
-                Match m = Regex.Match(strInnerHTML, "&lt;!--Message:(.*?)--&gt;");
-                if (m.Success && m.Groups[1].Value.Trim().Length > 0)
-                {
-                    MessageBox.Show(m.Groups[1].Value, "Automated message", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+                strText = webBrowserLogin.GetArticleText();
+                UserName = webBrowserLogin.UserName;
+           
                 //see if we are logged in
                 if (!webBrowserLogin.LoggedIn)
                 {
@@ -945,8 +940,15 @@ namespace AutoWikiBrowser
                     return false;
                 }
 
+                //see if there is a message
+                Match m = Regex.Match(strText, "<!--Message:(.*?)-->");
+                if (m.Success && m.Groups[1].Value.Trim().Length > 0)
+                {
+                    MessageBox.Show(m.Groups[1].Value, "Automated message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
                 //don't require approval in in other languages.
-                if (Variables.LangCode != "en" || Variables.Project != "wikipedia")
+                if (strText.Length < 1)
                 {
                     wikiStatusBool = true;
                     chkAutoMode.Enabled = true;
@@ -954,24 +956,31 @@ namespace AutoWikiBrowser
                 }
                 else
                 {
-                    if (!strInnerHTML.Contains("enabledusersbegins"))
+                    //see if all users enabled
+                    if (strText.Contains("<!--All users enabled-->"))
+                    {
+                        wikiStatusBool = true;
+                        chkAutoMode.Enabled = true;
+                        return true;
+                    }
+                    else if (!m.Success)
                     {
                         MessageBox.Show("Check page failed to load.\r\n\r\nCheck your Internet Explorer is working and that the Wikipedia servers are online, also try clearing Internet Explorer cache.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return false;
                     }
-                    else if (!strInnerHTML.Contains(Assembly.GetExecutingAssembly().GetName().Version.ToString() + " enabled"))
-                    {//see if this version is enabled
+                    //see if this version is enabled
+                    else if (!strText.Contains(Assembly.GetExecutingAssembly().GetName().Version.ToString() + " enabled"))
+                    {
                         MessageBox.Show("This version is not enabled, please download the newest version. If you have the newest version, check that Wikipedia is online.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         System.Diagnostics.Process.Start("http://sourceforge.net/project/showfiles.php?group_id=158332");
                         return false;
                     }
+                    //see if we are allowed to use this softare
                     else
-                    {//see if we are allowed to use this softare
-                        UserName = webBrowserLogin.UserName;
-                        strInnerHTML = strInnerHTML.Substring(strInnerHTML.IndexOf("enabledusersbegins"), strInnerHTML.IndexOf("enabledusersends") - strInnerHTML.IndexOf("enabledusersbegins"));
-                        string strBotUsers = strInnerHTML.Substring(strInnerHTML.IndexOf("enabledbots"), strInnerHTML.IndexOf("enabledbotsends") - strInnerHTML.IndexOf("enabledbots"));
+                    {
+                        string strBotUsers = strText.Substring(strText.IndexOf("enabledbots"), strText.IndexOf("enabledbotsends") - strText.IndexOf("enabledbots"));
 
-                        if (UserName.Length > 0 && strInnerHTML.Contains("* " + UserName + "\r\n") || strInnerHTML.Contains("Everybody enabled = true"))
+                        if (UserName.Length > 0 && strText.Contains("* " + UserName + "\r\n") || strText.Contains("Everybody enabled = true"))
                         {
                             if (strBotUsers.Contains("* " + UserName + "\r\n"))
                             {//enable botmode
