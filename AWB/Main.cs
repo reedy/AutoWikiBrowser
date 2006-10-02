@@ -667,12 +667,12 @@ namespace AutoWikiBrowser
                         {//en only
                             articleText = parsers.Conversions(articleText);
                             articleText = parsers.LivingPeople(articleText, out SkipArticle);
-                            articleText = parsers.FixCategories(articleText);
-
+                            
                             articleText = parsers.FixHeadings(articleText, EdittingArticle.Name, out SkipArticle);
                             if (Skip.SkipNoHeaderError && SkipArticle)
                                 return articleText;
                         }
+                        articleText = parsers.FixCategories(articleText);
                         articleText = parsers.FixSyntax(articleText);
 
                         articleText = parsers.FixLinks(articleText, out SkipArticle);
