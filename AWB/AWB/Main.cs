@@ -989,7 +989,7 @@ namespace AutoWikiBrowser
                         else
                         {
                             MessageBox.Show(UserName + " is not enabled to use this.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/CheckPage");
+                            System.Diagnostics.Process.Start(Variables.URLShort + "/wiki/Wikipedia:AutoWikiBrowser/CheckPage");
                             return false;
                         }
                     }
