@@ -76,16 +76,10 @@ namespace AutoWikiBrowser
                     stubcount = AutoWikiBrowser.Properties.Settings.Default.StubMaxWordCount;
                     catkey = AutoWikiBrowser.Properties.Settings.Default.AddHummanKeyToCats;
                     parsers = new Parsers(stubcount, catkey);
-
-                    //read and set project from user persistent settings (was saved on last exit)
-                    LangCodeEnum l = (LangCodeEnum)Enum.Parse(typeof(LangCodeEnum), AutoWikiBrowser.Properties.Settings.Default.Language);
-                    ProjectEnum p = (ProjectEnum)Enum.Parse(typeof(ProjectEnum), AutoWikiBrowser.Properties.Settings.Default.Project);
-                    SetProject(l, p);
                 }
                 catch (Exception ex)
                 {
                     parsers = new Parsers();
-                    SetProject(LangCodeEnum.en, ProjectEnum.wikipedia);
                     MessageBox.Show(ex.Message);
                 }
 
@@ -1323,12 +1317,6 @@ namespace AutoWikiBrowser
                 chkAutoMode.Enabled = false;
 
                 SetProject(MyPrefs.Language, MyPrefs.Project);
-                if (MyPrefs.SetAsDefault)
-                {
-                    AutoWikiBrowser.Properties.Settings.Default.Language = Variables.LangCode;
-                    AutoWikiBrowser.Properties.Settings.Default.Project = Variables.Project;
-                    AutoWikiBrowser.Properties.Settings.Default.Save();
-                }
             }
             MyPrefs = null;
         }

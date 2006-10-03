@@ -32,6 +32,11 @@ namespace WikiFunctions
     /// </summary>
     public static class Variables
     {
+        static Variables()
+        {
+            SetProject(LangCodeEnum.en, ProjectEnum.wikipedia);
+        }
+
         #region project and language settings
 
         /// <summary>

@@ -51,8 +51,15 @@ namespace WikiFunctions.Parse
                 RegexOptions roptions = RegexOptions.Compiled;
                 foreach (KeyValuePair<string, string> k in TypoStrings)
                 {
-                    r = new Regex(k.Key, roptions);
-                    TypoRegexes.Add(r, k.Value);
+                    try
+                    {
+                        r = new Regex(k.Key, roptions);
+                        TypoRegexes.Add(r, k.Value);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
                 }
             }
             catch (Exception ex)
@@ -114,19 +121,26 @@ namespace WikiFunctions.Parse
             }
 
             return ArticleText;
-        }               
+        }
 
         private Dictionary<string, string> LoadTypos()
         {
             Dictionary<string, string> TypoStrings = new Dictionary<string, string>();
 
-            Regex TypoRegex = new Regex("<(?:Typo )?word=\".*?\"[ \\t]find=\"(.*?)\"[ \\t]replace=\"(.*?)\" ?/?>");
+            Regex TypoRegex = new Regex("<(?:Typo )?word=\"(.*?)\"[ \\t]find=\"(.*?)\"[ \\t]replace=\"(.*?)\" ?/?>");
             try
             {
                 string text = Tools.GetArticleText(Variables.Namespaces[4] + "AutoWikiBrowser/Typos");
                 foreach (Match m in TypoRegex.Matches(text))
                 {
-                    TypoStrings.Add(m.Groups[1].Value, m.Groups[2].Value);
+                    try
+                    {
+                        TypoStrings.Add(m.Groups[2].Value, m.Groups[3].Value);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("There was a problem with the word: " + m.Groups[1].Value + "\r\n\r\n" + ex.Message, "Problem");
+                    }
                 }
             }
             catch (Exception ex)
