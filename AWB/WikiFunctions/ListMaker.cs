@@ -216,10 +216,7 @@ namespace WikiFunctions.Lists
             switch (SelectedSource)
             {
                 case SourceType.Category:
-                    if (Variables.Namespaces.ContainsKey(14))
-                        lblSourceSelect.Text = Variables.Namespaces[14];
-                    else
-                        lblSourceSelect.Text = "Category:";
+                    lblSourceSelect.Text = Variables.Namespaces[14];
                     txtSelectSource.Enabled = true;
                     chkWLHRedirects.Visible = false;
                     break;
@@ -249,26 +246,17 @@ namespace WikiFunctions.Lists
                     chkWLHRedirects.Visible = false;
                     break;
                 case SourceType.UserContribs:
-                    if (Variables.Namespaces.ContainsKey(2))
-                        lblSourceSelect.Text = Variables.Namespaces[2];
-                    else
-                        lblSourceSelect.Text = "User:";
+                    lblSourceSelect.Text = Variables.Namespaces[2];
                     txtSelectSource.Enabled = true;
                     chkWLHRedirects.Visible = false;
                     break;
                 case SourceType.SpecialPage:
-                    if (Variables.Namespaces.ContainsKey(-1))
-                        lblSourceSelect.Text = Variables.Namespaces[-1];
-                    else
-                        lblSourceSelect.Text = "Special:";
+                    lblSourceSelect.Text = Variables.Namespaces[-1];
                     txtSelectSource.Enabled = true;
                     chkWLHRedirects.Visible = false;
                     break;
                 case SourceType.ImageFileLinks:
-                    if (Variables.Namespaces.ContainsKey(6))
-                        lblSourceSelect.Text = Variables.Namespaces[6];
-                    else
-                        lblSourceSelect.Text = "Image:";
+                    lblSourceSelect.Text = Variables.Namespaces[6];
                     txtSelectSource.Enabled = true;
                     chkWLHRedirects.Visible = false;
                     break;

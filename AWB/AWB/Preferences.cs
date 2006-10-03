@@ -13,7 +13,7 @@ namespace AutoWikiBrowser
     {
         public MyPreferences(string lang, string proj, bool EDiff, bool SDown, int DiffSize, Font TextFont, bool LowPriority, bool FlashBeep)
         {
-            InitializeComponent();           
+            InitializeComponent();
 
             foreach (LangCodeEnum l in Enum.GetValues(typeof(LangCodeEnum)))
                 cmboLang.Items.Add(l.ToString());
@@ -40,8 +40,7 @@ namespace AutoWikiBrowser
             {
                 LangCodeEnum l = (LangCodeEnum)Enum.Parse(typeof(LangCodeEnum), cmboLang.SelectedItem.ToString());
                 return l;
-
-            }  
+            }
         }
         public ProjectEnum Project
         {
@@ -50,11 +49,6 @@ namespace AutoWikiBrowser
                 ProjectEnum p = (ProjectEnum)Enum.Parse(typeof(ProjectEnum), cmboProject.SelectedItem.ToString());
                 return p;
             }
-        }
-
-        public bool SetAsDefault
-        {
-            get { return chkSetAsDefault.Checked; }
         }
 
         private void cmboProject_SelectedIndexChanged(object sender, EventArgs e)
@@ -119,6 +113,6 @@ namespace AutoWikiBrowser
         }
 
         #endregion
-                
+
     }
 }

@@ -36,7 +36,6 @@ namespace AutoWikiBrowser
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.chkSetAsDefault = new System.Windows.Forms.CheckBox();
             this.btnTextBoxFont = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.nudDiffFontSize = new System.Windows.Forms.NumericUpDown();
@@ -45,10 +44,11 @@ namespace AutoWikiBrowser
             this.btnCancel = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.chkFlashAndBeep = new System.Windows.Forms.CheckBox();
             this.chkLowPriority = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.fontDialog = new System.Windows.Forms.FontDialog();
-            this.chkFlashAndBeep = new System.Windows.Forms.CheckBox();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.nudDiffFontSize)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -110,16 +110,6 @@ namespace AutoWikiBrowser
             this.label3.TabIndex = 5;
             this.label3.Text = "Warning! for languages and projects other than the English\r\n wikipedia this softw" +
                 "are may not function properly.";
-            // 
-            // chkSetAsDefault
-            // 
-            this.chkSetAsDefault.AutoSize = true;
-            this.chkSetAsDefault.Location = new System.Drawing.Point(77, 117);
-            this.chkSetAsDefault.Name = "chkSetAsDefault";
-            this.chkSetAsDefault.Size = new System.Drawing.Size(91, 17);
-            this.chkSetAsDefault.TabIndex = 6;
-            this.chkSetAsDefault.Text = "Set as default";
-            this.chkSetAsDefault.UseVisualStyleBackColor = true;
             // 
             // btnTextBoxFont
             // 
@@ -203,12 +193,12 @@ namespace AutoWikiBrowser
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.cmboLang);
             this.groupBox1.Controls.Add(this.cmboProject);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.chkSetAsDefault);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(307, 141);
@@ -233,6 +223,18 @@ namespace AutoWikiBrowser
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Other";
             // 
+            // chkFlashAndBeep
+            // 
+            this.chkFlashAndBeep.AutoSize = true;
+            this.chkFlashAndBeep.Checked = true;
+            this.chkFlashAndBeep.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkFlashAndBeep.Location = new System.Drawing.Point(6, 126);
+            this.chkFlashAndBeep.Name = "chkFlashAndBeep";
+            this.chkFlashAndBeep.Size = new System.Drawing.Size(195, 17);
+            this.chkFlashAndBeep.TabIndex = 14;
+            this.chkFlashAndBeep.Text = "Flash and beep when ready to save";
+            this.chkFlashAndBeep.UseVisualStyleBackColor = true;
+            // 
             // chkLowPriority
             // 
             this.chkLowPriority.AutoSize = true;
@@ -252,17 +254,14 @@ namespace AutoWikiBrowser
             this.label5.TabIndex = 12;
             this.label5.Text = "%";
             // 
-            // chkFlashAndBeep
+            // label6
             // 
-            this.chkFlashAndBeep.AutoSize = true;
-            this.chkFlashAndBeep.Checked = true;
-            this.chkFlashAndBeep.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkFlashAndBeep.Location = new System.Drawing.Point(6, 126);
-            this.chkFlashAndBeep.Name = "chkFlashAndBeep";
-            this.chkFlashAndBeep.Size = new System.Drawing.Size(195, 17);
-            this.chkFlashAndBeep.TabIndex = 14;
-            this.chkFlashAndBeep.Text = "Flash and beep when ready to save";
-            this.chkFlashAndBeep.UseVisualStyleBackColor = true;
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(9, 122);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(214, 13);
+            this.label6.TabIndex = 6;
+            this.label6.Text = "Save settings as default to remember details";
             // 
             // MyPreferences
             // 
@@ -294,7 +293,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.CheckBox chkSetAsDefault;
         private System.Windows.Forms.Button btnTextBoxFont;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.NumericUpDown nudDiffFontSize;
@@ -307,5 +305,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.CheckBox chkLowPriority;
         private System.Windows.Forms.CheckBox chkFlashAndBeep;
+        private System.Windows.Forms.Label label6;
     }
 }
