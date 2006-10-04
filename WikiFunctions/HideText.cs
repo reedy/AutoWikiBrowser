@@ -20,7 +20,7 @@ namespace WikiFunctions.Parse
         bool bHideImages = false;
         bool HideExternal = false;
 
-        Dictionary<string, string> NoEditList = new Dictionary<string, string>();
+        List<HideObject> NoEditList = new List<HideObject>();
         Regex ImagesRegex = new Regex("\\[\\[[Ii]mage:.*?\\]\\]", RegexOptions.Singleline | RegexOptions.Compiled);
 
 
@@ -40,7 +40,7 @@ namespace WikiFunctions.Parse
                 s = "⌊⌊⌊⌊" + i.ToString() + "⌋⌋⌋⌋";
 
                 ArticleText = ArticleText.Replace(m.Value, s);
-                NoEditList.Add(s, m.Value);
+                NoEditList.Add(new HideObject(s, m.Value));
                 i++;
             }
 
@@ -51,7 +51,7 @@ namespace WikiFunctions.Parse
                     s = "⌊⌊⌊⌊" + i.ToString() + "⌋⌋⌋⌋";
 
                     ArticleText = ArticleText.Replace(m.Value, s);
-                    NoEditList.Add(s, m.Value);
+                    NoEditList.Add(new HideObject(s, m.Value));
                     i++;
                 }
             }
@@ -63,7 +63,7 @@ namespace WikiFunctions.Parse
                     s = "⌊⌊⌊⌊" + i.ToString() + "⌋⌋⌋⌋";
 
                     ArticleText = ArticleText.Replace(m.Value, s);
-                    NoEditList.Add(s, m.Value);
+                    NoEditList.Add(new HideObject(s, m.Value));
                     i++;
                 }
                 foreach (Match m in WikiRegexes.InterWikiLinks.Matches(ArticleText))
@@ -71,7 +71,7 @@ namespace WikiFunctions.Parse
                     s = "⌊⌊⌊⌊" + i.ToString() + "⌋⌋⌋⌋";
 
                     ArticleText = ArticleText.Replace(m.Value, s);
-                    NoEditList.Add(s, m.Value);
+                    NoEditList.Add(new HideObject(s, m.Value));
                     i++;
                 }
             }
@@ -81,8 +81,10 @@ namespace WikiFunctions.Parse
 
         public string AddBack(string ArticleText)
         {
-            foreach (KeyValuePair<string, string> k in NoEditList)
-                ArticleText = ArticleText.Replace(k.Key, k.Value);
+            NoEditList.Reverse();
+
+            foreach (HideObject k in NoEditList)
+                ArticleText = ArticleText.Replace(k.code, k.text);
 
             NoEditList.Clear();
             return ArticleText;
