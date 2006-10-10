@@ -34,10 +34,6 @@ namespace WikiFunctions.Parse
         {
             parser = p;
 
-            foreach (string z in InterwikiAlpha)
-                if (Array.IndexOf(InterwikiLocalAlpha, z) == -1)
-                    System.Windows.Forms.MessageBox.Show(z);
-
             InterWikisList.Clear();
             foreach (string s in InterwikiLocalAlpha)
                 InterWikisList.Add(new Regex("\\[\\[" + s + ":.*?\\]\\]", RegexOptions.Compiled));
