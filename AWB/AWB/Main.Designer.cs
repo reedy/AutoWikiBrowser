@@ -120,7 +120,6 @@ namespace AutoWikiBrowser
             this.btnDiff = new System.Windows.Forms.Button();
             this.btnIgnore = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.listMaker1 = new WikiFunctions.Lists.ListMaker();
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtEdit = new System.Windows.Forms.TextBox();
             this.mnuTextBox = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -173,6 +172,7 @@ namespace AutoWikiBrowser
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadDefaultSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
@@ -237,8 +237,8 @@ namespace AutoWikiBrowser
             this.toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
             this.btntsFalsePositive = new System.Windows.Forms.ToolStripButton();
             this.lbltsNumberofItems = new System.Windows.Forms.ToolStripLabel();
+            this.listMaker1 = new WikiFunctions.Lists.ListMaker();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
-            this.saveAsDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tpSetOptions.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -762,7 +762,7 @@ namespace AutoWikiBrowser
             this.groupBox4.Size = new System.Drawing.Size(257, 124);
             this.groupBox4.TabIndex = 7;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Messaging";
+            this.groupBox4.Text = "Appeding/Prepend text";
             // 
             // rdoPrepend
             // 
@@ -795,9 +795,9 @@ namespace AutoWikiBrowser
             this.chkAppend.AutoSize = true;
             this.chkAppend.Location = new System.Drawing.Point(6, 16);
             this.chkAppend.Name = "chkAppend";
-            this.chkAppend.Size = new System.Drawing.Size(191, 17);
+            this.chkAppend.Size = new System.Drawing.Size(65, 17);
             this.chkAppend.TabIndex = 0;
-            this.chkAppend.Text = "Append message  (talk pages only)";
+            this.chkAppend.Text = "Enabled";
             this.toolTip1.SetToolTip(this.chkAppend, "For appending a message to a user talk page for example");
             this.chkAppend.UseVisualStyleBackColor = true;
             this.chkAppend.CheckedChanged += new System.EventHandler(this.chkAppend_CheckedChanged);
@@ -1126,17 +1126,6 @@ namespace AutoWikiBrowser
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "(1) Make list";
-            // 
-            // listMaker1
-            // 
-            this.listMaker1.ListFile = "";
-            this.listMaker1.Location = new System.Drawing.Point(3, 15);
-            this.listMaker1.Name = "listMaker1";
-            this.listMaker1.SelectedSource = WikiFunctions.Lists.SourceType.Category;
-            this.listMaker1.Size = new System.Drawing.Size(201, 345);
-            this.listMaker1.SourceText = "";
-            this.listMaker1.TabIndex = 0;
-            this.listMaker1.WikiStatus = false;
             // 
             // panel1
             // 
@@ -1566,6 +1555,13 @@ namespace AutoWikiBrowser
             this.saveSettingsToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this.saveSettingsToolStripMenuItem.Text = "Save settings";
             this.saveSettingsToolStripMenuItem.Click += new System.EventHandler(this.saveSettingsToolStripMenuItem_Click);
+            // 
+            // saveAsDefaultToolStripMenuItem
+            // 
+            this.saveAsDefaultToolStripMenuItem.Name = "saveAsDefaultToolStripMenuItem";
+            this.saveAsDefaultToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.saveAsDefaultToolStripMenuItem.Text = "Save as default";
+            this.saveAsDefaultToolStripMenuItem.Click += new System.EventHandler(this.saveAsDefaultToolStripMenuItem_Click);
             // 
             // loadSettingsToolStripMenuItem
             // 
@@ -2076,6 +2072,17 @@ namespace AutoWikiBrowser
             this.lbltsNumberofItems.Size = new System.Drawing.Size(49, 22);
             this.lbltsNumberofItems.Text = "Articles: ";
             // 
+            // listMaker1
+            // 
+            this.listMaker1.ListFile = "";
+            this.listMaker1.Location = new System.Drawing.Point(3, 15);
+            this.listMaker1.Name = "listMaker1";
+            this.listMaker1.SelectedSource = WikiFunctions.Lists.SourceType.Category;
+            this.listMaker1.Size = new System.Drawing.Size(201, 345);
+            this.listMaker1.SourceText = "";
+            this.listMaker1.TabIndex = 0;
+            this.listMaker1.WikiStatus = false;
+            // 
             // webBrowserEdit
             // 
             this.webBrowserEdit.AllowNavigation = false;
@@ -2094,16 +2101,10 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.Size = new System.Drawing.Size(780, 193);
             this.webBrowserEdit.TabIndex = 670;
             this.webBrowserEdit.TabStop = false;
+            this.webBrowserEdit.TimeoutLimit = 30;
             this.webBrowserEdit.WebBrowserShortcutsEnabled = false;
             this.webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
             this.webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
-            // 
-            // saveAsDefaultToolStripMenuItem
-            // 
-            this.saveAsDefaultToolStripMenuItem.Name = "saveAsDefaultToolStripMenuItem";
-            this.saveAsDefaultToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
-            this.saveAsDefaultToolStripMenuItem.Text = "Save as default";
-            this.saveAsDefaultToolStripMenuItem.Click += new System.EventHandler(this.saveAsDefaultToolStripMenuItem_Click);
             // 
             // MainForm
             // 
