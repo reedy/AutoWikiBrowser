@@ -697,11 +697,7 @@ namespace AutoWikiBrowser
 
                 if (chkAppend.Checked)
                 {
-                    if (!Tools.IsTalkPage(EdittingArticle.Name))
-                    {
-                        MessageBox.Show("Messages should only be appended to talk pages.");
-                    }
-                    else if (rdoAppend.Checked)
+                    if (rdoAppend.Checked)
                         articleText += "\r\n\r\n" + txtAppendMessage.Text;
                     else
                         articleText = txtAppendMessage.Text + "\r\n\r\n" + articleText;
