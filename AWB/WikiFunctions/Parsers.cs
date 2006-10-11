@@ -351,7 +351,7 @@ namespace WikiFunctions.Parse
 
             foreach (Match m in WikiRegexes.SimpleWikiLink.Matches(ArticleText))
             {
-                if (!y.StartsWith(cat) && !m.Value.StartsWith("[[Image:") && !m.Value.StartsWith("[[image:") && !m.Value.StartsWith("[[_") && !m.Value.Contains("|_"))
+                if (!m.Value.StartsWith(cat) && !m.Value.StartsWith("[[Image:") && !m.Value.StartsWith("[[image:") && !m.Value.StartsWith("[[_") && !m.Value.Contains("|_"))
                 {
                     y = m.Value.Replace("_", " ");
                     y = Regex.Replace(y, " ?\\| ?", "|");
