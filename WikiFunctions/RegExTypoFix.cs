@@ -123,6 +123,22 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
+        public bool DetectTypo(string ArticleText)
+        {
+            if (IgnoreRegex.IsMatch(ArticleText))
+                return false;
+
+            ArticleText = RemoveText.Hide(ArticleText);
+
+            foreach (KeyValuePair<Regex, string> k in TypoRegexes)
+            {
+                if (k.Key.IsMatch(ArticleText))
+                    return true;
+            }
+
+            return false;
+        }
+
         private Dictionary<string, string> LoadTypos()
         {
             Dictionary<string, string> TypoStrings = new Dictionary<string, string>();
