@@ -35,9 +35,34 @@ namespace WikiFunctions
         static Variables()
         {
             SetProject(LangCodeEnum.en, ProjectEnum.wikipedia);
+
+            enLangNamespaces[-2] = "Media:";
+            enLangNamespaces[-1] = "Special:";
+            enLangNamespaces[1] = "Talk:";
+            enLangNamespaces[2] = "User:";
+            enLangNamespaces[3] = "User talk:";
+            enLangNamespaces[4] = "Wikipedia:";
+            enLangNamespaces[5] = "Wikipedia talk:";
+            enLangNamespaces[6] = "Image:";
+            enLangNamespaces[7] = "Image talk:";
+            enLangNamespaces[8] = "MediaWiki:";
+            enLangNamespaces[9] = "MediaWiki talk:";
+            enLangNamespaces[10] = "Template:";
+            enLangNamespaces[11] = "Template talk:";
+            enLangNamespaces[12] = "Help:";
+            enLangNamespaces[13] = "Help talk:";
+            enLangNamespaces[14] = "Category:";
+            enLangNamespaces[15] = "Category talk:";
+            enLangNamespaces[100] = "Portal:";
+            enLangNamespaces[101] = "Portal talk:";
         }
 
         #region project and language settings
+
+        /// <summary>
+        /// Provides access to the en namespace keys
+        /// </summary>
+        public static Dictionary<int, string> enLangNamespaces = new Dictionary<int, string>(20);
 
         /// <summary>
         /// Provides access to the namespace keys
@@ -659,8 +684,14 @@ namespace WikiFunctions
             NamespacesCaseInsensitive.Clear();
             foreach (KeyValuePair<int, string> k in Namespaces)
             {
-                NamespacesCaseInsensitive.Add(k.Key, Tools.CaseInsensitive(k.Value));
+                //other languages can use the english syntax
+                if (langCode != LangCodeEnum.en)
+                    NamespacesCaseInsensitive.Add(k.Key, "(?:" + Tools.CaseInsensitive(k.Value) + "|" + Tools.CaseInsensitive(enLangNamespaces[k.Key]).Replace(":", " ?:") + ")");
+                else
+                    NamespacesCaseInsensitive.Add(k.Key, Tools.CaseInsensitive(k.Value).Replace(":"," ?:"));
             }
+
+            WikiRegexes.MakeLangSpecificRegexes();
         }
     }
 }

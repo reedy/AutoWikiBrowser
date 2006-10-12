@@ -10,6 +10,12 @@ namespace WikiFunctions
     /// </summary>
     public static class WikiRegexes
     {
+        public static void MakeLangSpecificRegexes()
+        {
+            Category = new Regex(@"\[\[" + Variables.NamespacesCaseInsensitive[14] + @"(.*?)\]\]", RegexOptions.Compiled);
+            Images = new Regex(@"\[\[" + Variables.NamespacesCaseInsensitive[6] + @"(.*?)\]\]", RegexOptions.Compiled);
+        }
+
         /// <summary>
         /// Matches all wikilinks, categories, images etc.
         /// </summary>
@@ -90,6 +96,16 @@ namespace WikiFunctions
         /// </summary>
         public static readonly Regex Dates2 = new Regex("^(January|February|March|April|May|June|July|August|September|October|November|December) [0-9]{1,2}$", RegexOptions.Compiled);
 
+        /// <summary>
+        /// Matches categories
+        /// </summary>
+        public static Regex Category = new Regex(@"\[\[[Cc]ategory:(.*?)\]\]", RegexOptions.Compiled);
+
+        /// <summary>
+        /// Matches images
+        /// </summary>
+        public static Regex Images = new Regex(@"\[\[[Ii]mage:.*\]\]", RegexOptions.Compiled);
+        
         #region en only
 
         /// <summary>
@@ -103,28 +119,16 @@ namespace WikiFunctions
         public static readonly Regex Stub = new Regex(@"\{\{.*?[Ss]tub\}\}", RegexOptions.Compiled);
 
         /// <summary>
-        /// Matches categories (en only)
+        /// Matches persondata (en only)
         /// </summary>
-        public static readonly Regex Category = new Regex(@"\[\[[Cc]ategory:(.*?)\]\]", RegexOptions.Compiled);
+        public static readonly Regex Persondata = new Regex(@"\{\{ ?[Pp]ersondata.*?\}\}", RegexOptions.Singleline | RegexOptions.Compiled);
 
         /// <summary>
-        /// Matches images (en only)
-        /// </summary>
-        public static readonly Regex Images = new Regex(@"\[\[[Ii]mage:.*\]\]", RegexOptions.Compiled);
-        
-        /// <summary>
-        /// Matches persondata
-        /// </summary>
-        public static readonly Regex Persondata = new Regex(@"\{\{ ?[Pp]ersondata.*?\}\}", RegexOptions.Singleline);
-
-        /// <summary>
-        /// Matches {{Link FA|xxx}}
+        /// Matches {{Link FA|xxx}} (en only)
         /// </summary>
         public static readonly Regex LinkFAs = new Regex(@"\{\{[Ll]ink FA\|.*?\}\}", RegexOptions.Compiled);
-
-
+        
         #endregion
-        //???
     
     }
 }
