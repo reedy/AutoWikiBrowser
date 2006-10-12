@@ -12,7 +12,7 @@ namespace AutoWikiBrowser
     {
         private void saveAsDefaultToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            saveSettings(Application.StartupPath + "/Default.xml");
+            saveSettings(Application.StartupPath + "\\Default.xml");
         }
 
         private void saveSettingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -558,6 +558,7 @@ namespace AutoWikiBrowser
                     stream.Close();
                     findAndReplace.MakeList();
                     lblStatusText.Text = "Settings successfully loaded";
+                    UpdateRecentList(filename);
                 }
             }
             catch (IOException ex)
@@ -816,6 +817,76 @@ namespace AutoWikiBrowser
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             lblStatusText.Text = "Settings successfully saved";
+            UpdateRecentList(FileName);
         }
+
+        public void UpdateRecentList(string[] list)
+        {
+            RecentList.Clear();
+            RecentList.AddRange(list);
+            UpdateRecentSettingsMenu();
+        }
+
+        public void UpdateRecentList(string s)
+        {
+            int i = RecentList.IndexOf(s);
+
+            if (i >= 0) RecentList.RemoveAt(i);
+            
+            RecentList.Insert(0, s);
+            UpdateRecentSettingsMenu();
+        }
+
+        public void LoadRecentSettingsList()
+        {
+            string s;
+            
+            try
+            {
+                Microsoft.Win32.RegistryKey reg = Microsoft.Win32.Registry.CurrentUser.
+                    OpenSubKey("Software\\Wikipedia\\AutoWikiBrowser");
+
+                s = reg.GetValue("RecentList", "").ToString();
+            }
+            catch
+            {
+                return;
+            }
+            UpdateRecentList(s.Split('|'));
+        }
+
+        private void UpdateRecentSettingsMenu()
+        {
+            while (RecentList.Count > 5)
+                RecentList.RemoveAt(5);
+
+            recentToolStripMenuItem.DropDown.Items.Clear();
+            foreach (string filename in RecentList)
+            {
+                ToolStripItem item = recentToolStripMenuItem.DropDownItems.Add(filename);
+                item.Click += RecentSettingsClick;
+            }
+        }
+
+        public void SaveRecentSettingsList()
+        {
+            Microsoft.Win32.RegistryKey reg = Microsoft.Win32.Registry.CurrentUser.
+                    CreateSubKey("Software\\Wikipedia\\AutoWikiBrowser");
+
+            string list="";
+            foreach(string s in RecentList)
+            {
+                if (list != "") list += "|";
+                list += s;
+            }
+
+            reg.SetValue("RecentList", list);
+        }
+
+        private void RecentSettingsClick(object sender, EventArgs e)
+        {
+            loadSettings((sender as ToolStripItem).Text);
+        }
+
     }
 }

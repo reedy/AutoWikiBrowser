@@ -37,6 +37,7 @@ using WikiFunctions.Plugin;
 using WikiFunctions.Parse;
 using WikiFunctions.Lists;
 using WikiFunctions.Browser;
+using System.Collections.Specialized;
 
 [assembly: CLSCompliant(true)]
 namespace AutoWikiBrowser
@@ -122,6 +123,7 @@ namespace AutoWikiBrowser
         Parsers parsers;
         WebControl webBrowserLogin = new WebControl();
         TimeSpan StartTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+        StringCollection RecentList = new StringCollection();
 
         private void MainForm_Load(object sender, EventArgs e)
         {
