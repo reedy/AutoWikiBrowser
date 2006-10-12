@@ -420,7 +420,7 @@ namespace WikiFunctions.Parse
         public string FixCategories(string ArticleText)
         {//Fix common spacing/capitalisation errors in categories
 
-            Regex catregex = new Regex("\\[\\[ ?" + Variables.NamespacesCaseInsensitive[14].Replace(":", " ?:") + " ?(.*?)\\]\\]");
+            Regex catregex = new Regex("\\[\\[ ?" + Variables.NamespacesCaseInsensitive[14] + " ?(.*?)\\]\\]");
             string cat = "[[" + Variables.Namespaces[14];
             string x = "";
 
