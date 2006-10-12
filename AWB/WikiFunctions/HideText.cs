@@ -21,7 +21,6 @@ namespace WikiFunctions.Parse
         bool HideExternal = false;
 
         List<HideObject> NoEditList = new List<HideObject>();
-        Regex ImagesRegex = new Regex("\\[\\[[Ii]mage:.*?\\]\\]", RegexOptions.Singleline | RegexOptions.Compiled);
         
         readonly Regex NoWikiIgnoreRegex = new Regex("<!-- ?(categories|\\{\\{.*?stub\\}\\}.*?|other languages|language links|inter ?(language|wiki)? ?links|inter ?wiki ?language ?links|inter ?wiki|The below are interlanguage links\\.?) ?-->", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
@@ -45,7 +44,7 @@ namespace WikiFunctions.Parse
 
             if (bHideImages)
             {
-                foreach (Match m in ImagesRegex.Matches(ArticleText))
+                foreach (Match m in WikiRegexes.Images.Matches(ArticleText))
                 {
                     s = "⌊⌊⌊⌊" + i.ToString() + "⌋⌋⌋⌋";
 

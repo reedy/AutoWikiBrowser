@@ -58,11 +58,11 @@ namespace WikiFunctions.Lists
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveListDialog = new System.Windows.Forms.SaveFileDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.lbArticles = new WikiFunctions.Lists.ListBox2();
-            this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuListBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -231,7 +231,7 @@ namespace WikiFunctions.Lists
             this.toolStripSeparator1,
             this.openInBrowserToolStripMenuItem});
             this.mnuListBox.Name = "contextMenuStrip2";
-            this.mnuListBox.Size = new System.Drawing.Size(195, 264);
+            this.mnuListBox.Size = new System.Drawing.Size(195, 242);
             this.mnuListBox.Opening += new System.ComponentModel.CancelEventHandler(this.mnuListBox_Opening);
             // 
             // filterOutNonMainSpaceArticlesToolStripMenuItem
@@ -348,6 +348,18 @@ namespace WikiFunctions.Lists
             this.clearToolStripMenuItem1.ToolTipText = "Clear the list";
             this.clearToolStripMenuItem1.Click += new System.EventHandler(this.clearToolStripMenuItem1_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(191, 6);
+            // 
+            // openInBrowserToolStripMenuItem
+            // 
+            this.openInBrowserToolStripMenuItem.Name = "openInBrowserToolStripMenuItem";
+            this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.openInBrowserToolStripMenuItem.Text = "Open article in browser";
+            this.openInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem_Click);
+            // 
             // saveListDialog
             // 
             this.saveListDialog.DefaultExt = "txt";
@@ -366,18 +378,6 @@ namespace WikiFunctions.Lists
             this.lbArticles.TabIndex = 22;
             this.lbArticles.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lbArticles_MouseMove);
             this.lbArticles.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbArticles_KeyDown);
-            // 
-            // openInBrowserToolStripMenuItem
-            // 
-            this.openInBrowserToolStripMenuItem.Name = "openInBrowserToolStripMenuItem";
-            this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
-            this.openInBrowserToolStripMenuItem.Text = "Open article in browser";
-            this.openInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(191, 6);
             // 
             // ListMaker
             // 
