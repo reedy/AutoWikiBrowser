@@ -616,7 +616,7 @@ namespace WikiFunctions.Lists
         {
             WebBrowser webbrowser = new WebBrowser();
             webbrowser.ScriptErrorsSuppressed = true;
-            webbrowser.Navigate("http://en.wikipedia.org/wiki/Special:Watchlist/edit");
+            webbrowser.Navigate(Variables.URL + "index.php?title=Special:Watchlist/edit");
             while (webbrowser.ReadyState != WebBrowserReadyState.Complete) Application.DoEvents();
 
             string html = webbrowser.Document.Body.InnerHtml;

@@ -6,6 +6,7 @@ using System.Web;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Xml;
+using System.Collections.Specialized;
 
 namespace WikiFunctions
 {
@@ -25,6 +26,7 @@ namespace WikiFunctions
         protected bool LoggedIn;
         protected string m_indexpath = Variables.URL;
 
+        #region Editing
         /// <summary>
         /// Gets the wikitext for a specified article.
         /// </summary>
@@ -169,57 +171,6 @@ namespace WikiFunctions
         {
             return EditPage(Article, NewText, Summary, Minor, false);
         }
-
-        /// <summary>
-        /// Adds the specified page to current user's watchlist or removes from it
-        /// </summary>
-        /// <param name="Page">Page to watch/unwatch</param>
-        /// <param name="Watch">Whether to add or remove</param>
-        /// <returns></returns>
-        public bool WatchPage(String Page, bool Watch)
-        {
-            try
-            {
-                HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(m_indexpath + "index.php?title=" +
-                    HttpUtility.UrlEncode(Page) + "&action=" + (Watch ? "watch" : "unwatch"));
-                WebResponse resps;
-
-                wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
-                wr.UserAgent = "WPAutoEdit/1.0";
-                wr.CookieContainer = new CookieContainer();
-
-                foreach (Cookie cook in logincookies)
-                    wr.CookieContainer.Add(cook);
-
-                resps = wr.GetResponse();
-            }
-            catch
-            {
-                return false;
-            }
-            return true;
-        }
-
-        /// <summary>
-        /// Adds the specified page to current user's watchlist
-        /// </summary>
-        /// <param name="Page">Page to watch</param>
-        /// <returns></returns>
-        public bool WatchPage(String Page)
-        {
-            return WatchPage(Page, true);
-        }
-
-        /// <summary>
-        /// Removes the specified page from current user's watchlist
-        /// </summary>
-        /// <param name="Page">Page to unwatch</param>
-        /// <returns></returns>
-        public bool UnwatchPage(String Page)
-        {
-            return WatchPage(Page, false);
-        }
-
 
         /// <summary>
         /// Internal function to retrieve the HTML for the "edit" page of an article.
@@ -379,7 +330,10 @@ namespace WikiFunctions
             get { return m_indexpath; }
             set { m_indexpath = value; }
         }
+        #endregion
 
+
+        #region Revisions and reverts
         /// <summary>
         /// Reverts an article to the specified revision.
         /// </summary>
@@ -442,7 +396,7 @@ namespace WikiFunctions
                 Summary = Summary.Replace("%u", History[i].User);
 
                 RevertToRevision(Article, History[i].RevisionID, Summary, Minor);
-            }            
+            }
         }
 
         /// <summary>
@@ -464,7 +418,7 @@ namespace WikiFunctions
 
             wr.UserAgent = "WPAutoEdit/1.0";
 
-            resps =  (HttpWebResponse)wr.GetResponse();
+            resps = (HttpWebResponse)wr.GetResponse();
 
             stream = resps.GetResponseStream();
 
@@ -482,7 +436,7 @@ namespace WikiFunctions
             Doc.LoadXml(pagetext);
 
             DocElement = Doc.DocumentElement;
-            
+
             foreach (XmlElement rvElement in Doc.GetElementsByTagName("rv"))
             {
                 Revision rv = new Revision();
@@ -491,7 +445,7 @@ namespace WikiFunctions
                 rv.Time = DateTime.Parse(rvElement.Attributes["timestamp"].Value);
                 rv.Summary = rvElement.InnerText;
                 rv.User = rvElement.Attributes["user"].Value;
-                
+
                 if (rvElement.OuterXml.Contains("minor=\""))
                     rv.Minor = true;
                 else
@@ -515,5 +469,179 @@ namespace WikiFunctions
             public string User = "";
 
         }
+
+        #endregion
+
+        #region Watchlist-related
+
+        /// <summary>
+        /// Adds the specified page to current user's watchlist or removes from it
+        /// </summary>
+        /// <param name="Page">Page to watch/unwatch</param>
+        /// <param name="Watch">Whether to add or remove</param>
+        /// <returns>true if successful</returns>
+        public bool WatchPage(String Page, bool Watch)
+        {
+            try
+            {
+                HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(m_indexpath + "index.php?title=" +
+                    HttpUtility.UrlEncode(Page) + "&action=" + (Watch ? "watch" : "unwatch"));
+                WebResponse resps;
+
+                wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
+                wr.UserAgent = "WPAutoEdit/1.0";
+                wr.CookieContainer = new CookieContainer();
+
+                foreach (Cookie cook in logincookies)
+                    wr.CookieContainer.Add(cook);
+
+                resps = wr.GetResponse();
+                resps.Close();
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Adds the specified page to current user's watchlist
+        /// </summary>
+        /// <param name="Page">Page to watch</param>
+        /// <returns>true if successful</returns>
+        public bool WatchPage(String Page)
+        {
+            return WatchPage(Page, true);
+        }
+
+        /// <summary>
+        /// Removes the specified page from current user's watchlist
+        /// </summary>
+        /// <param name="Page">Page to unwatch</param>
+        /// <returns>true if successful</returns>
+        public bool UnwatchPage(String Page)
+        {
+            return WatchPage(Page, false);
+        }
+
+        /// <summary>
+        /// Removes all items from watchlist
+        /// </summary>
+        /// <returns>true if successful</returns>
+        public bool ClearWatchlist()
+        {   // doesn't work so far
+            try
+            {
+                Regex rx = new Regex("<input name=\"token\" type=\"hidden\" value=\"([^\"]*)\" />");
+                Match m;
+                
+                HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(m_indexpath + 
+                    "index.php?title=Special:Watchlist/clear");
+                WebResponse resps;
+
+                wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
+                wr.UserAgent = "WPAutoEdit/1.0";
+                wr.CookieContainer = new CookieContainer();
+
+                foreach (Cookie cook in logincookies)
+                    wr.CookieContainer.Add(cook);
+
+                resps = wr.GetResponse();
+
+                Stream stream;
+                StreamReader sr;
+
+                stream = resps.GetResponseStream();
+                sr = new StreamReader(stream);
+
+                string html = sr.ReadToEnd();
+                resps.Close();
+                sr.Close();
+
+                m = rx.Match(html);
+
+                int index = m.Value.IndexOf("value=\"") + 7;
+                string token = m.Value.Substring(index, m.Value.Substring(index).IndexOf("\""));
+
+                wr = (HttpWebRequest)WebRequest.Create(m_indexpath +
+                    "index.php?title=Special:Watchlist&amp;action=clear");
+
+                wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
+                wr.UserAgent = "WPAutoEdit/1.0";
+                wr.CookieContainer = new CookieContainer();
+
+                foreach (Cookie cook in logincookies)
+                    wr.CookieContainer.Add(cook);
+
+                wr.Method = "POST";
+                wr.ContentType = "application/x-www-form-urlencoded";
+
+                byte[] bytedata = Encoding.UTF8.GetBytes("submit=Submit&token=" + token);
+
+                wr.ContentLength = bytedata.Length;
+
+                Stream rs = wr.GetRequestStream();
+
+                rs.Write(bytedata, 0, bytedata.Length);
+                rs.Close();
+
+                resps = wr.GetResponse();
+                stream = resps.GetResponseStream();
+                sr = new StreamReader(stream);
+
+                html = sr.ReadToEnd();
+
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Returns all pages in user's watchlist
+        /// </summary>
+        /// <returns>StringCollection with page titles</returns>
+        public StringCollection GetWatchlist()
+        {
+            HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(m_indexpath +
+               "index.php?title=Special:Watchlist/edit");
+            WebResponse resps;
+
+            wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
+            wr.UserAgent = "WPAutoEdit/1.0";
+     
+            wr.CookieContainer = new CookieContainer();
+            foreach (Cookie cook in logincookies)
+                wr.CookieContainer.Add(cook);
+
+            resps = wr.GetResponse();
+
+            Stream stream;
+            StreamReader sr;
+
+            stream = resps.GetResponseStream();
+            sr = new StreamReader(stream);
+
+            string html = sr.ReadToEnd();
+            resps.Close();
+            sr.Close();
+
+            StringCollection list = new StringCollection();
+            Regex r = new Regex("<input type=\"checkbox\" name=\"id\\[\\]\" value=(.*?) />");
+            foreach (Match m in r.Matches(html))
+            {
+                string title = m.Groups[1].Value.Trim('"');
+                title = title.Replace("&amp;", "&").Replace("&quot;", "\"");
+                list.Add(title);
+            }
+
+            return list;
+        }
+
+        #endregion
+
     }
 }
