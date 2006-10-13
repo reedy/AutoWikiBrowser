@@ -78,10 +78,12 @@ namespace WikiFunctions
         /// <param name="NewText">The new wikitext for the article.</param>
         /// <param name="Summary">The edit summary to use for this edit.</param>
         /// <param name="Minor">Whether or not to flag the edit as minor.</param>
+        /// <param name="Watch">Whether article should be added to your watchlist</param>
         /// <returns>A link to the diff page for the changes made.</returns>
-        public string EditPage(String Article, String NewText, String Summary, bool Minor)
+        public string EditPage(String Article, String NewText, String Summary, bool Minor, bool Watch)
         {
-            HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(m_indexpath + "index.php?title=" + Article + "&action=submit");
+            HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(m_indexpath + "index.php?title=" + 
+                HttpUtility.UrlEncode(Article) + "&action=submit");
             WebResponse resps;
             String poststring;
             String editpagestr;
@@ -117,6 +119,8 @@ namespace WikiFunctions
 
             if (Minor)
                 poststring = poststring.Insert(poststring.IndexOf("wpSummary"), "wpMinoredit=1&");
+
+            if (Watch) poststring += "&wpWatchthis=1";
 
             wr.Method = "POST";
             wr.ContentType = "application/x-www-form-urlencoded";
@@ -154,13 +158,78 @@ namespace WikiFunctions
         }
 
         /// <summary>
+        /// Edits the specified page.
+        /// </summary>
+        /// <param name="Article">The article to edit.</param>
+        /// <param name="NewText">The new wikitext for the article.</param>
+        /// <param name="Summary">The edit summary to use for this edit.</param>
+        /// <param name="Minor">Whether or not to flag the edit as minor.</param>
+        /// <returns>A link to the diff page for the changes made.</returns>
+        public string EditPage(String Article, String NewText, String Summary, bool Minor)
+        {
+            return EditPage(Article, NewText, Summary, Minor, false);
+        }
+
+        /// <summary>
+        /// Adds the specified page to current user's watchlist or removes from it
+        /// </summary>
+        /// <param name="Page">Page to watch/unwatch</param>
+        /// <param name="Watch">Whether to add or remove</param>
+        /// <returns></returns>
+        public bool WatchPage(String Page, bool Watch)
+        {
+            try
+            {
+                HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(m_indexpath + "index.php?title=" +
+                    HttpUtility.UrlEncode(Page) + "&action=" + (Watch ? "watch" : "unwatch"));
+                WebResponse resps;
+
+                wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
+                wr.UserAgent = "WPAutoEdit/1.0";
+                wr.CookieContainer = new CookieContainer();
+
+                foreach (Cookie cook in logincookies)
+                    wr.CookieContainer.Add(cook);
+
+                resps = wr.GetResponse();
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Adds the specified page to current user's watchlist
+        /// </summary>
+        /// <param name="Page">Page to watch</param>
+        /// <returns></returns>
+        public bool WatchPage(String Page)
+        {
+            return WatchPage(Page, true);
+        }
+
+        /// <summary>
+        /// Removes the specified page from current user's watchlist
+        /// </summary>
+        /// <param name="Page">Page to unwatch</param>
+        /// <returns></returns>
+        public bool UnwatchPage(String Page)
+        {
+            return WatchPage(Page, false);
+        }
+
+
+        /// <summary>
         /// Internal function to retrieve the HTML for the "edit" page of an article.
         /// </summary>
         /// <param name="Article">The article to retrieve the edit page for.</param>
         /// <returns>The full HTML source of the edit page for the specified article.</returns>
         public string GetEditPage(String Article)
         {
-            HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(m_indexpath + "index.php?title=" + Article + "&action=edit");
+            HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(m_indexpath + "index.php?title=" + 
+                HttpUtility.UrlEncode(Article) + "&action=edit");
             HttpWebResponse resps;
             Stream stream;
             StreamReader sr;
@@ -206,7 +275,7 @@ namespace WikiFunctions
 
             //Create poststring
             poststring = string.Format("wpName=+{0}&wpPassword={1}&wpRemember=1&wpLoginattempt=Log+in",
-                new string[] {Username, password});
+                new string[] { HttpUtility.UrlEncode(Username), HttpUtility.UrlEncode(password) });
 
             wr.Method = "POST";
             wr.ContentType = "application/x-www-form-urlencoded";
@@ -385,7 +454,7 @@ namespace WikiFunctions
         public List<Revision> GetHistory(string Article, int Limit)
         {
             string TargetURL = m_indexpath + "query.php?format=xml&what=revisions&rvcomments=1" +
-                                "&rvlimit=" + Limit + "&titles=" + Article;
+                                "&rvlimit=" + Limit + "&titles=" + HttpUtility.UrlEncode(Article);
             HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(TargetURL);
             HttpWebResponse resps;
             Stream stream;
