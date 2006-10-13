@@ -41,8 +41,8 @@ namespace WikiFunctions
             enLangNamespaces[1] = "Talk:";
             enLangNamespaces[2] = "User:";
             enLangNamespaces[3] = "User talk:";
-            enLangNamespaces[4] = "Wikipedia:";
-            enLangNamespaces[5] = "Wikipedia talk:";
+            enLangNamespaces[4] = "Project:";
+            enLangNamespaces[5] = "Project talk:";
             enLangNamespaces[6] = "Image:";
             enLangNamespaces[7] = "Image talk:";
             enLangNamespaces[8] = "MediaWiki:";
