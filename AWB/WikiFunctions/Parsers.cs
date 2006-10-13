@@ -374,6 +374,85 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
+        /// Simplifies some links in article wiki text such as changing [[Dog|Dogs]] to [[Dog]]s
+        /// </summary>
+        /// <param name="ArticleText">The wiki text of the article.</param>
+        /// <param name="NoChange">Value that indicated whether no change was made.</param>
+        /// <returns>The simplified article text.</returns>
+        public string LinkSimplifier(string ArticleText, out bool NoChange)
+        {
+            testText = ArticleText;
+            ArticleText = LinkSimplifier(ArticleText);
+
+            if (testText == ArticleText)
+                NoChange = true;
+            else
+                NoChange = false;
+
+            return ArticleText;
+        }
+
+        /// <summary>
+        /// Simplifies some links in article wiki text such as changing [[Dog|Dogs]] to [[Dog]]s
+        /// </summary>
+        /// <param name="ArticleText">The wiki text of the article.</param>
+        /// <returns>The simplified article text.</returns>
+        public string LinkSimplifier(string ArticleText)
+        {
+            string n = "";
+            string a = "";
+            string b = "";
+            string k = "";
+
+            foreach (Match m in WikiRegexes.PipedWikiLink.Matches(ArticleText))
+            {
+                n = m.Value;
+                a = m.Groups[1].Value;
+                b = m.Groups[2].Value;
+
+                if (a == b || Tools.TurnFirstToLower(a) == b)
+                {
+                    k = WikiRegexes.PipedWikiLink.Replace(n, "[[$2]]");
+                    ArticleText = ArticleText.Replace(n, k);
+                }
+                else if (a + "s" == b || Tools.TurnFirstToLower(a) + "s" == b)
+                {
+                    k = WikiRegexes.PipedWikiLink.Replace(n, "$2");
+                    k = "[[" + k.Substring(0, k.Length - 1) + "]]s";
+                    ArticleText = ArticleText.Replace(n, k);
+                }
+            }
+
+            return ArticleText;
+        }
+
+        /// <summary>
+        /// Fixes mistakes in headings, such as removing links in headings
+        /// </summary>
+        /// <param name="ArticleText">The wiki text of the article.</param>
+        /// <returns>The article text.</returns>
+        public string FixHeadings(string ArticleText)
+        {
+            string s = "";
+
+            //remove simple wiki-links
+            foreach (Match m in WikiRegexes.Heading.Matches(ArticleText))
+            {
+                s = WikiRegexes.UnPipedWikiLink.Replace(m.Value, "$1");
+                ArticleText = ArticleText.Replace(m.Value, s);
+            }
+
+            //remove piped wiki-links
+            foreach (Match m in WikiRegexes.Heading.Matches(ArticleText))
+            {
+                s = WikiRegexes.PipedWikiLink.Replace(m.Value, "$2");
+                ArticleText = ArticleText.Replace(m.Value, s);
+            }
+
+            return ArticleText;
+        }
+
+        /// <summary>
         /// Adds bullet points to external links after "external links" header
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
@@ -815,60 +894,7 @@ namespace WikiFunctions.Parse
             ArticleText = Regex.Replace(ArticleText, strOldCat, "");
 
             return ArticleText;
-        }
-
-        /// <summary>
-        /// Simplifies some links in article wiki text such as changing [[Dog|Dogs]] to [[Dog]]s
-        /// </summary>
-        /// <param name="ArticleText">The wiki text of the article.</param>
-        /// <param name="NoChange">Value that indicated whether no change was made.</param>
-        /// <returns>The simplified article text.</returns>
-        public string LinkSimplifier(string ArticleText, out bool NoChange)
-        {
-            testText = ArticleText;
-            ArticleText = LinkSimplifier(ArticleText);
-
-            if (testText == ArticleText)
-                NoChange = true;
-            else
-                NoChange = false;
-
-            return ArticleText;
-        }
-
-        /// <summary>
-        /// Simplifies some links in article wiki text such as changing [[Dog|Dogs]] to [[Dog]]s
-        /// </summary>
-        /// <param name="ArticleText">The wiki text of the article.</param>
-        /// <returns>The simplified article text.</returns>
-        public string LinkSimplifier(string ArticleText)
-        {
-            string n = "";
-            string a = "";
-            string b = "";
-            string k = "";
-
-            foreach (Match m in WikiRegexes.PipedWikiLink.Matches(ArticleText))
-            {
-                n = m.Value;
-                a = m.Groups[1].Value;
-                b = m.Groups[2].Value;
-
-                if (a == b || Tools.TurnFirstToLower(a) == b)
-                {
-                    k = WikiRegexes.PipedWikiLink.Replace(n, "[[$2]]");
-                    ArticleText = ArticleText.Replace(n, k);
-                }
-                else if (a + "s" == b || Tools.TurnFirstToLower(a) + "s" == b)
-                {
-                    k = WikiRegexes.PipedWikiLink.Replace(n, "$2");
-                    k = "[[" + k.Substring(0, k.Length - 1) + "]]s";
-                    ArticleText = ArticleText.Replace(n, k);
-                }
-            }
-
-            return ArticleText;
-        }
+        }        
 
         public string LivingPeople(string ArticleText, out bool NoChange)
         {

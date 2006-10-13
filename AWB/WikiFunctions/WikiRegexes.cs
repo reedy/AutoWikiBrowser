@@ -35,11 +35,16 @@ namespace WikiFunctions
         /// Matches piped wikilinks, group 1 is target, group 2 the text
         /// </summary>
         public static readonly Regex PipedWikiLink = new Regex(@"\[\[([^[]*?)\|([^[]*?)\]\]", RegexOptions.Compiled);
-        
+
+        /// <summary>
+        /// Matches unpiped wikilinks, group 1 is text
+        /// </summary>
+        public static readonly Regex UnPipedWikiLink = new Regex(@"\[\[([^\|]*?)\]\]", RegexOptions.Compiled);
+
         /// <summary>
         /// Matches == headings ==
         /// </summary>
-        public static readonly Regex Heading = new Regex(@"^(=+)(.*?)(=+)", RegexOptions.Compiled);
+        public static readonly Regex Heading = new Regex(@"^(=+)(.*?)(=+)", RegexOptions.Compiled | RegexOptions.Multiline);
 
         /// <summary>
         /// Matches text indented with a :
