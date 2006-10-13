@@ -686,6 +686,7 @@ namespace AutoWikiBrowser
                             return articleText;
 
                         articleText = parsers.LinkSimplifier(articleText);
+                        articleText = parsers.FixHeadings(articleText);
 
                         articleText = RemoveText.AddBack(articleText);
                     }
