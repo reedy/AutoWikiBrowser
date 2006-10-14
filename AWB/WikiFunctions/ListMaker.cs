@@ -894,6 +894,28 @@ namespace WikiFunctions.Lists
                 this.NoOfArticlesChanged();
         }
 
+        /// <summary>
+        /// Converts the list to equivalent talk page
+        /// </summary>
+        public void ConvertToTalkPages()
+        {
+            List<Article> list = ArticleListFromListBox();
+            list = GetLists.ConvertToTalk(list);
+            lbArticles.Items.Clear();
+            Add(list);
+        }
+
+        /// <summary>
+        /// Converts the list to equivalent non-talk page
+        /// </summary>
+        public void ConvertFromTalkPages()
+        {
+            List<Article> list = ArticleListFromListBox();
+            list = GetLists.ConvertFromTalk(list);
+            lbArticles.Items.Clear();
+            Add(list);
+        }
+
         #endregion
 
         #region Context menu
@@ -920,19 +942,13 @@ namespace WikiFunctions.Lists
 
         private void convertToTalkPagesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            List<Article> list = ArticleListFromListBox();
-            list = GetLists.ConvertToTalk(list);
-            lbArticles.Items.Clear();
-            Add(list);
+            ConvertToTalkPages();
         }
 
         private void convertFromTalkPagesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            List<Article> list = ArticleListFromListBox();
-            list = GetLists.ConvertFromTalk(list);
-            lbArticles.Items.Clear();
-            Add(list);
-        }
+            ConvertFromTalkPages();
+        }        
 
         private void fromCategoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
