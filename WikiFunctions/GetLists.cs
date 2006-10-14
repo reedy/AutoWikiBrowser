@@ -640,6 +640,73 @@ namespace WikiFunctions.Lists
 
         #endregion
 
+        #region From wiki search
+        /// <summary>
+        /// Gets a list from  wiki's internal search
+        /// </summary>
+        /// <param name="terms">The terms to search for.</param>
+        /// <returns>The list of the articles.</returns>
+        public static List<Article> FromWikiSearch(params string[] terms)
+        {
+            return FromWikiSearch(-1, terms);
+        }
+
+        /// <summary>
+        /// Gets a list from  wiki's internal search
+        /// </summary>
+        /// <param name="Limit">The maximum number of results resulted.</param>
+        /// <param name="terms">The terms to search for.</param>
+        /// <returns>The list of the articles.</returns>
+        public static List<Article> FromWikiSearch(int Limit, params string[] terms)
+        {
+            List<Article> list = new List<Article>();
+
+            //Regex pattern to find links
+            Regex SearchRegex = new Regex("<li style=\"padding-bottom: 1em;\"><a .*? title=\"([^\"]*)\">", RegexOptions.Compiled);
+
+            foreach (string s in terms)
+            {
+                int intStart = 0;
+                string URL = Variables.URL + "/index.php?title=Special:Search&fulltext=Search&search=" + HttpUtility.UrlEncode(s) + "&limit=100&uselang=en";
+                string title = "";
+
+                do
+                {
+                    int n = list.Count ;
+                    string SearchText = Tools.GetHTML(URL);
+
+                    //Find each match to the pattern
+                    foreach (Match m in SearchRegex.Matches(SearchText))
+                    {
+                        title = m.Groups[1].Value;
+                        title = HttpUtility.HtmlDecode(title);//title.Replace("&amp;", "&").Replace("&quot;", "\"").Replace("_", " ");
+                        if (title.Contains("\""))
+                        {
+                            title = title.Replace("'", "");
+                        }
+                        list.Add(new Article(title));
+
+                        if (Limit >= 0 && list.Count >= Limit)
+                        {
+                            break;
+                        }
+                    }
+
+                    if (list.Count != n)
+                    {
+                        intStart += 100;
+                        URL = Variables.URL + "/index.php?title=Special:Search&fulltext=Search&search=" + HttpUtility.UrlEncode(s) + "&limit=100&uselang=en&offset=" + intStart.ToString();
+                    }
+                    else
+                        break;
+
+                } while (true);
+            }
+
+            return list;//FilterSomeArticles(list);
+        }
+        #endregion
+
         #region Other methods
 
         private static string encodeText(string txt)

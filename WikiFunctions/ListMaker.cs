@@ -12,7 +12,7 @@ using System.IO;
 
 namespace WikiFunctions.Lists
 {
-    public enum SourceType { Category, WhatLinksHere, WhatTranscludesHere, LinksOnPage, TextFile, GoogleWikipedia, UserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist }
+    public enum SourceType { Category, WhatLinksHere, WhatTranscludesHere, LinksOnPage, TextFile, GoogleWikipedia, UserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist, WikiSearch }
 
     public delegate void ListMakerEventHandler();
 
@@ -257,6 +257,11 @@ namespace WikiFunctions.Lists
                     break;
                 case SourceType.ImageFileLinks:
                     lblSourceSelect.Text = Variables.Namespaces[6];
+                    txtSelectSource.Enabled = true;
+                    chkWLHRedirects.Visible = false;
+                    break;
+                case SourceType.WikiSearch:
+                    lblSourceSelect.Text = "Wiki search";
                     txtSelectSource.Enabled = true;
                     chkWLHRedirects.Visible = false;
                     break;
@@ -721,6 +726,9 @@ namespace WikiFunctions.Lists
                         break;
                     //9 from datadump
                     //10 from watchlist
+                    case SourceType.WikiSearch:
+                        Add(GetLists.FromWikiSearch(strSouce));
+                        break;
                     default:
                         break;
                 }
