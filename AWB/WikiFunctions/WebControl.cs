@@ -243,7 +243,9 @@ namespace WikiFunctions.Browser
             private set
             {
                 strStatus = value;
-                this.StatusChanged();
+
+                if(this.StatusChanged != null)
+                    this.StatusChanged();
             }
         }
 
