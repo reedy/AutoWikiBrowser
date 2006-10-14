@@ -663,11 +663,19 @@ namespace WikiFunctions.Lists
 
             //Regex pattern to find links
             Regex SearchRegex = new Regex("<li style=\"padding-bottom: 1em;\"><a .*? title=\"([^\"]*)\">", RegexOptions.Compiled);
+            string ns = "&ns0=1";
+
+            // explicitly add available namespaces to search options
+            foreach(KeyValuePair<int, string> p in Variables.Namespaces)
+            {
+                if (p.Key <= 0) continue;
+                ns += "&ns" + p.Key.ToString() + "=1";
+            }
 
             foreach (string s in terms)
             {
                 int intStart = 0;
-                string URL = Variables.URL + "/index.php?title=Special:Search&fulltext=Search&search=" + HttpUtility.UrlEncode(s) + "&limit=100&uselang=en";
+                string URL = Variables.URL + "/index.php?title=Special:Search&fulltext=Search&search=" + HttpUtility.UrlEncode(s) + "&limit=100&uselang=en" + ns;
                 string title = "";
 
                 do
@@ -695,7 +703,7 @@ namespace WikiFunctions.Lists
                     if (list.Count != n)
                     {
                         intStart += 100;
-                        URL = Variables.URL + "/index.php?title=Special:Search&fulltext=Search&search=" + HttpUtility.UrlEncode(s) + "&limit=100&uselang=en&offset=" + intStart.ToString();
+                        URL = Variables.URL + "/index.php?title=Special:Search&fulltext=Search&search=" + HttpUtility.UrlEncode(s) + "&limit=100&uselang=en&offset=" + intStart.ToString() + ns;
                     }
                     else
                         break;
