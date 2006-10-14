@@ -206,7 +206,8 @@ namespace WikiFunctions.Lists
             "Special page",
             "Image file links",
             "Database dump",
-            "My Watchlist"});
+            "My Watchlist",
+            "Wiki search"});
             this.cmboSourceSelect.Location = new System.Drawing.Point(78, 2);
             this.cmboSourceSelect.Name = "cmboSourceSelect";
             this.cmboSourceSelect.Size = new System.Drawing.Size(134, 21);
@@ -231,13 +232,13 @@ namespace WikiFunctions.Lists
             this.toolStripSeparator1,
             this.openInBrowserToolStripMenuItem});
             this.mnuListBox.Name = "contextMenuStrip2";
-            this.mnuListBox.Size = new System.Drawing.Size(195, 242);
+            this.mnuListBox.Size = new System.Drawing.Size(206, 242);
             this.mnuListBox.Opening += new System.ComponentModel.CancelEventHandler(this.mnuListBox_Opening);
             // 
             // filterOutNonMainSpaceArticlesToolStripMenuItem
             // 
             this.filterOutNonMainSpaceArticlesToolStripMenuItem.Name = "filterOutNonMainSpaceArticlesToolStripMenuItem";
-            this.filterOutNonMainSpaceArticlesToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.filterOutNonMainSpaceArticlesToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
             this.filterOutNonMainSpaceArticlesToolStripMenuItem.Text = "Filter out non main space";
             this.filterOutNonMainSpaceArticlesToolStripMenuItem.ToolTipText = "Filter out articles that are not in the main namespace";
             this.filterOutNonMainSpaceArticlesToolStripMenuItem.Click += new System.EventHandler(this.filterOutNonMainSpaceArticlesToolStripMenuItem_Click);
@@ -245,7 +246,7 @@ namespace WikiFunctions.Lists
             // specialFilterToolStripMenuItem
             // 
             this.specialFilterToolStripMenuItem.Name = "specialFilterToolStripMenuItem";
-            this.specialFilterToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.specialFilterToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
             this.specialFilterToolStripMenuItem.Text = "Filter";
             this.specialFilterToolStripMenuItem.ToolTipText = "Filter articles by namespace";
             this.specialFilterToolStripMenuItem.Click += new System.EventHandler(this.specialFilterToolStripMenuItem_Click);
@@ -253,7 +254,7 @@ namespace WikiFunctions.Lists
             // convertToTalkPagesToolStripMenuItem
             // 
             this.convertToTalkPagesToolStripMenuItem.Name = "convertToTalkPagesToolStripMenuItem";
-            this.convertToTalkPagesToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.convertToTalkPagesToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
             this.convertToTalkPagesToolStripMenuItem.Text = "Convert to talk pages";
             this.convertToTalkPagesToolStripMenuItem.ToolTipText = "Convert namespace to talk";
             this.convertToTalkPagesToolStripMenuItem.Click += new System.EventHandler(this.convertToTalkPagesToolStripMenuItem_Click);
@@ -261,7 +262,7 @@ namespace WikiFunctions.Lists
             // convertFromTalkPagesToolStripMenuItem
             // 
             this.convertFromTalkPagesToolStripMenuItem.Name = "convertFromTalkPagesToolStripMenuItem";
-            this.convertFromTalkPagesToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.convertFromTalkPagesToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
             this.convertFromTalkPagesToolStripMenuItem.Text = "Convert from talk pages";
             this.convertFromTalkPagesToolStripMenuItem.ToolTipText = "Convert namespace of talk pages to associated article";
             this.convertFromTalkPagesToolStripMenuItem.Click += new System.EventHandler(this.convertFromTalkPagesToolStripMenuItem_Click);
@@ -269,7 +270,7 @@ namespace WikiFunctions.Lists
             // sortAlphebeticallyMenuItem
             // 
             this.sortAlphebeticallyMenuItem.Name = "sortAlphebeticallyMenuItem";
-            this.sortAlphebeticallyMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.sortAlphebeticallyMenuItem.Size = new System.Drawing.Size(205, 22);
             this.sortAlphebeticallyMenuItem.Text = "Sort alphabetically";
             this.sortAlphebeticallyMenuItem.ToolTipText = "Sorts the list alphabetically";
             this.sortAlphebeticallyMenuItem.Click += new System.EventHandler(this.sortAlphebeticallyMenuItem_Click);
@@ -277,7 +278,7 @@ namespace WikiFunctions.Lists
             // saveListToTextFileToolStripMenuItem1
             // 
             this.saveListToTextFileToolStripMenuItem1.Name = "saveListToTextFileToolStripMenuItem1";
-            this.saveListToTextFileToolStripMenuItem1.Size = new System.Drawing.Size(194, 22);
+            this.saveListToTextFileToolStripMenuItem1.Size = new System.Drawing.Size(205, 22);
             this.saveListToTextFileToolStripMenuItem1.Text = "Save list to file";
             this.saveListToTextFileToolStripMenuItem1.ToolTipText = "Saves list to a text file";
             this.saveListToTextFileToolStripMenuItem1.Click += new System.EventHandler(this.saveListToTextFileToolStripMenuItem1_Click);
@@ -285,7 +286,7 @@ namespace WikiFunctions.Lists
             // toolStripSeparator14
             // 
             this.toolStripSeparator14.Name = "toolStripSeparator14";
-            this.toolStripSeparator14.Size = new System.Drawing.Size(191, 6);
+            this.toolStripSeparator14.Size = new System.Drawing.Size(202, 6);
             // 
             // addSelectedToListToolStripMenuItem
             // 
@@ -295,47 +296,47 @@ namespace WikiFunctions.Lists
             this.fromLinksOnPageToolStripMenuItem,
             this.fromImageLinksToolStripMenuItem});
             this.addSelectedToListToolStripMenuItem.Name = "addSelectedToListToolStripMenuItem";
-            this.addSelectedToListToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.addSelectedToListToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
             this.addSelectedToListToolStripMenuItem.Text = "Add selected to list...";
             // 
             // fromCategoryToolStripMenuItem
             // 
             this.fromCategoryToolStripMenuItem.Name = "fromCategoryToolStripMenuItem";
-            this.fromCategoryToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.fromCategoryToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             this.fromCategoryToolStripMenuItem.Text = "From category";
             this.fromCategoryToolStripMenuItem.Click += new System.EventHandler(this.fromCategoryToolStripMenuItem_Click);
             // 
             // fromWhatlinkshereToolStripMenuItem
             // 
             this.fromWhatlinkshereToolStripMenuItem.Name = "fromWhatlinkshereToolStripMenuItem";
-            this.fromWhatlinkshereToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.fromWhatlinkshereToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             this.fromWhatlinkshereToolStripMenuItem.Text = "From whatlinkshere";
             this.fromWhatlinkshereToolStripMenuItem.Click += new System.EventHandler(this.fromWhatlinkshereToolStripMenuItem_Click);
             // 
             // fromLinksOnPageToolStripMenuItem
             // 
             this.fromLinksOnPageToolStripMenuItem.Name = "fromLinksOnPageToolStripMenuItem";
-            this.fromLinksOnPageToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.fromLinksOnPageToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             this.fromLinksOnPageToolStripMenuItem.Text = "From links on page";
             this.fromLinksOnPageToolStripMenuItem.Click += new System.EventHandler(this.fromLinksOnPageToolStripMenuItem_Click);
             // 
             // fromImageLinksToolStripMenuItem
             // 
             this.fromImageLinksToolStripMenuItem.Name = "fromImageLinksToolStripMenuItem";
-            this.fromImageLinksToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.fromImageLinksToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             this.fromImageLinksToolStripMenuItem.Text = "From image links";
             this.fromImageLinksToolStripMenuItem.Click += new System.EventHandler(this.fromImageLinksToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(191, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(202, 6);
             // 
             // removeToolStripMenuItem
             // 
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
             this.removeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Delete)));
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
             this.removeToolStripMenuItem.Text = "Remove";
             this.removeToolStripMenuItem.ToolTipText = "Remove the selected articles";
             this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
@@ -343,7 +344,7 @@ namespace WikiFunctions.Lists
             // clearToolStripMenuItem1
             // 
             this.clearToolStripMenuItem1.Name = "clearToolStripMenuItem1";
-            this.clearToolStripMenuItem1.Size = new System.Drawing.Size(194, 22);
+            this.clearToolStripMenuItem1.Size = new System.Drawing.Size(205, 22);
             this.clearToolStripMenuItem1.Text = "Clear";
             this.clearToolStripMenuItem1.ToolTipText = "Clear the list";
             this.clearToolStripMenuItem1.Click += new System.EventHandler(this.clearToolStripMenuItem1_Click);
@@ -351,12 +352,12 @@ namespace WikiFunctions.Lists
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(191, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(202, 6);
             // 
             // openInBrowserToolStripMenuItem
             // 
             this.openInBrowserToolStripMenuItem.Name = "openInBrowserToolStripMenuItem";
-            this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
             this.openInBrowserToolStripMenuItem.Text = "Open article in browser";
             this.openInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem_Click);
             // 

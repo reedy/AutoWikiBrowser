@@ -43,12 +43,12 @@ namespace AutoWikiBrowser
             this.chkEnhanceDiff = new System.Windows.Forms.CheckBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.chkFlashAndBeep = new System.Windows.Forms.CheckBox();
             this.chkLowPriority = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.fontDialog = new System.Windows.Forms.FontDialog();
-            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.nudDiffFontSize)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -206,6 +206,15 @@ namespace AutoWikiBrowser
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Project";
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(9, 122);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(214, 13);
+            this.label6.TabIndex = 6;
+            this.label6.Text = "Save settings as default to remember details";
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.chkFlashAndBeep);
@@ -254,17 +263,10 @@ namespace AutoWikiBrowser
             this.label5.TabIndex = 12;
             this.label5.Text = "%";
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(9, 122);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(214, 13);
-            this.label6.TabIndex = 6;
-            this.label6.Text = "Save settings as default to remember details";
-            // 
             // MyPreferences
             // 
+            this.AcceptButton = this.btnApply;
+            this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(331, 351);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
