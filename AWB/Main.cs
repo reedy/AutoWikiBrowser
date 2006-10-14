@@ -1571,6 +1571,16 @@ namespace AutoWikiBrowser
             listMaker1.Filter();
         }
 
+        private void convertToTalkPagesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            listMaker1.ConvertToTalkPages();
+        }
+
+        private void convertFromTalkPagesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            listMaker1.ConvertFromTalkPages();
+        }
+
         private void sortAlphabeticallyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             listMaker1.AlphaSortList();
@@ -2235,12 +2245,7 @@ namespace AutoWikiBrowser
             pluginsToolStripMenuItem.Visible = AWBPlugins.Count > 0;
         }
 
-        #endregion
-
-        //private void hello()
-        //{
-        //    MessageBox.Show("hello");
-        //}
+        #endregion        
 
     }
 }
