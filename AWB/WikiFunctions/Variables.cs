@@ -612,58 +612,6 @@ namespace WikiFunctions
                     Namespaces[1] = "Talk:";
                     Namespaces[2] = "User:";
                     Namespaces[3] = "User talk:";
-
-                    if (strproject == "wikisource")
-                    {
-                        Namespaces[4] = "Wikisource:";
-                        Namespaces[5] = "Wikisource talk:";
-                    }
-                    else if (strproject == "meta")
-                    {
-                        Namespaces[4] = "Meta:";
-                        Namespaces[5] = "Meta talk:";
-                    }
-                    else if (strproject == "species")
-                    {
-                        Namespaces[4] = "Wikispecies:";
-                        Namespaces[5] = "Wikispecies talk:";
-                    }
-                    else if (strproject == "commons")
-                    {
-                        Namespaces[4] = "Commons:";
-                        Namespaces[5] = "Commons talk:";
-                    }
-                    else if (strproject == "wiktionary")
-                    {
-                        Namespaces[4] = "Wiktionary:";
-                        Namespaces[5] = "Wiktionary talk:";
-                    }
-                    else if (strproject == "wikinews")
-                    {
-                        Namespaces[4] = "Wikinews:";
-                        Namespaces[5] = "Wikinews talk:";
-                    }
-                    else if (strproject == "wikiquote")
-                    {
-                        Namespaces[4] = "Wikiquote:";
-                        Namespaces[5] = "Wikiquote talk:";
-                    }
-                    else if (strproject == "wikiversity")
-                    {
-                        Namespaces[4] = "Wikiversity:";
-                        Namespaces[5] = "Wikiversity talk:";
-                    }
-                    else if (strproject == "wikibooks")
-                    {
-                        Namespaces[4] = "Wikibooks:";
-                        Namespaces[5] = "Wikibooks talk:";
-                    }
-                    else
-                    {
-                        Namespaces[4] = "Wikipedia:";
-                        Namespaces[5] = "Wikipedia talk:";
-                    }
-
                     Namespaces[6] = "Image:";
                     Namespaces[7] = "Image talk:";
                     Namespaces[8] = "MediaWiki:";
@@ -677,6 +625,59 @@ namespace WikiFunctions
                     Namespaces[100] = "Portal:";
                     Namespaces[101] = "Portal talk:";
 
+                    switch (projectName)
+                    {
+                        case ProjectEnum.wikisource:
+                            Namespaces[4] = "Wikisource:";
+                            Namespaces[5] = "Wikisource talk:";
+                            break;
+
+                        case ProjectEnum.meta:
+                            Namespaces[4] = "Meta:";
+                            Namespaces[5] = "Meta talk:";
+                            break;
+
+                        case ProjectEnum.species:
+                            Namespaces[4] = "Wikispecies:";
+                            Namespaces[5] = "Wikispecies talk:";
+                            break;
+
+                        case ProjectEnum.commons:
+                            Namespaces[4] = "Commons:";
+                            Namespaces[5] = "Commons talk:";
+                            break;
+
+                        case ProjectEnum.wiktionary:
+                            Namespaces[4] = "Wiktionary:";
+                            Namespaces[5] = "Wiktionary talk:";
+                            break;
+
+                        case ProjectEnum.wikinews:
+                            Namespaces[4] = "Wikinews:";
+                            Namespaces[5] = "Wikinews talk:";
+                            break;
+
+                        case ProjectEnum.wikiquote:
+                            Namespaces[4] = "Wikiquote:";
+                            Namespaces[5] = "Wikiquote talk:";
+                            break;
+
+                        case ProjectEnum.wikiversity:
+                            Namespaces[4] = "Wikiversity:";
+                            Namespaces[5] = "Wikiversity talk:";
+                            break;
+
+                        case ProjectEnum.wikibooks:
+                            Namespaces[4] = "Wikibooks:";
+                            Namespaces[5] = "Wikibooks talk:";
+                            break;
+
+                        default:
+                            Namespaces[4] = "Wikipedia:";
+                            Namespaces[5] = "Wikipedia talk:";
+                            break;
+                    }
+
                     strsummarytag = " using [[Project:AWB|AWB]]";
                     break;
             }
@@ -688,7 +689,7 @@ namespace WikiFunctions
                 if (langCode != LangCodeEnum.en)
                     NamespacesCaseInsensitive.Add(k.Key, "(?:" + Tools.CaseInsensitive(k.Value) + "|" + Tools.CaseInsensitive(enLangNamespaces[k.Key]).Replace(":", " ?:") + ")");
                 else
-                    NamespacesCaseInsensitive.Add(k.Key, Tools.CaseInsensitive(k.Value).Replace(":"," ?:"));
+                    NamespacesCaseInsensitive.Add(k.Key, Tools.CaseInsensitive(k.Value).Replace(":", " ?:"));
             }
 
             WikiRegexes.MakeLangSpecificRegexes();
