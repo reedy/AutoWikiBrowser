@@ -358,8 +358,18 @@ namespace WikiFunctions.Lists
             chkHelpTalk.Text = Variables.Namespaces[13];
             chkCategory.Text = Variables.Namespaces[14];
             chkCategoryTalk.Text = Variables.Namespaces[15];
-            chkPortal.Text = Variables.Namespaces[100];
-            chkPortalTalk.Text = Variables.Namespaces[101];
+            if (Variables.Namespaces.ContainsKey(100))
+            {
+                chkPortal.Text = Variables.Namespaces[100];
+                chkPortalTalk.Text = Variables.Namespaces[101];
+                chkPortal.Visible = true;
+                chkPortalTalk.Visible = true;
+            }
+            else
+            {
+                chkPortal.Visible = false;
+                chkPortalTalk.Visible = false;
+            }
         }
 
         #region contextMenu
