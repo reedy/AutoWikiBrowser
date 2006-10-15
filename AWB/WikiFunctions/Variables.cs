@@ -622,7 +622,6 @@ namespace WikiFunctions
                     {
                         Namespaces[4] = "Meta:";
                         Namespaces[5] = "Meta talk:";
-                        strsummarytag = " using [[:en:WP:AWB|AWB]]";
                     }
                     else if (strproject == "species")
                     {
@@ -633,7 +632,6 @@ namespace WikiFunctions
                     {
                         Namespaces[4] = "Commons:";
                         Namespaces[5] = "Commons talk:";
-                        strsummarytag = " using [[COM:AWB|AWB]]";
                     }
                     else if (strproject == "wiktionary")
                     {
@@ -679,7 +677,7 @@ namespace WikiFunctions
                     Namespaces[100] = "Portal:";
                     Namespaces[101] = "Portal talk:";
 
-                    strsummarytag = " using [[WP:AWB|AWB]]";
+                    strsummarytag = " using [[Project:AWB|AWB]]";
                     break;
             }
 
