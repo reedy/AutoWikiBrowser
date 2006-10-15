@@ -56,8 +56,6 @@ namespace WikiFunctions
             enLangNamespaces[13] = "Help talk:";
             enLangNamespaces[14] = "Category:";
             enLangNamespaces[15] = "Category talk:";
-            enLangNamespaces[100] = "Portal:";
-            enLangNamespaces[101] = "Portal talk:";
         }
 
         #region project and language settings
@@ -538,7 +536,7 @@ namespace WikiFunctions
                         Namespaces[100] = "Портал:";
                         Namespaces[101] = "Обсуждение портала:";
 
-                        strsummarytag = " [[Википедия:AutoWikiBrowser|AWB]]";
+                        strsummarytag = " при помощи [[Википедия:AutoWikiBrowser|AWB]]";
                         break;
 
                     case LangCodeEnum.sk:
@@ -639,7 +637,7 @@ namespace WikiFunctions
             else
             {
                 Namespaces = LoadNamespaces(URL);
-                strsummarytag = " using [[Project:AWB|AWB]]";
+                strsummarytag = " ([[Project:AWB|AWB]])";
             }
 
             NamespacesCaseInsensitive.Clear();
