@@ -646,7 +646,7 @@ namespace WikiFunctions
             foreach (KeyValuePair<int, string> k in Namespaces)
             {
                 //other languages can use the english syntax
-                if (langCode != LangCodeEnum.en)
+                if (langCode != LangCodeEnum.en && enLangNamespaces.ContainsKey(k.Key))
                     NamespacesCaseInsensitive.Add(k.Key, "(?:" + Tools.CaseInsensitive(k.Value) + "|" + Tools.CaseInsensitive(enLangNamespaces[k.Key]).Replace(":", " ?:") + ")");
                 else
                     NamespacesCaseInsensitive.Add(k.Key, Tools.CaseInsensitive(k.Value).Replace(":", " ?:"));
