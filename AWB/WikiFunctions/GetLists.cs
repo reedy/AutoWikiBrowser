@@ -666,10 +666,10 @@ namespace WikiFunctions.Lists
             string ns = "&ns0=1";
 
             // explicitly add available namespaces to search options
-            foreach(KeyValuePair<int, string> p in Variables.Namespaces)
+            foreach(int k in Variables.Namespaces.Keys)
             {
-                if (p.Key <= 0) continue;
-                ns += "&ns" + p.Key.ToString() + "=1";
+                if (k <= 0) continue;
+                ns += "&ns" + k.ToString() + "=1";
             }
 
             foreach (string s in terms)
