@@ -44,19 +44,18 @@ namespace AutoWikiBrowser
             this.txtCode.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCode.Location = new System.Drawing.Point(15, 158);
+            this.txtCode.Location = new System.Drawing.Point(12, 130);
             this.txtCode.Multiline = true;
             this.txtCode.Name = "txtCode";
             this.txtCode.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtCode.Size = new System.Drawing.Size(640, 96);
+            this.txtCode.Size = new System.Drawing.Size(640, 161);
             this.txtCode.TabIndex = 0;
-            this.txtCode.Text = "            Skip = false;\r\n            Summary = \"test\";\r\n\r\n            ArticleTe" +
-                "xt = \"test\\r\\n\\r\\n\" + ArticleText;\r\n\r\n            return ArticleText;";
+            this.txtCode.Text = resources.GetString("txtCode.Text");
             // 
             // btnDone
             // 
             this.btnDone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDone.Location = new System.Drawing.Point(580, 314);
+            this.btnDone.Location = new System.Drawing.Point(580, 347);
             this.btnDone.Name = "btnDone";
             this.btnDone.Size = new System.Drawing.Size(75, 23);
             this.btnDone.TabIndex = 1;
@@ -67,7 +66,7 @@ namespace AutoWikiBrowser
             // btnMake
             // 
             this.btnMake.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnMake.Location = new System.Drawing.Point(487, 314);
+            this.btnMake.Location = new System.Drawing.Point(487, 347);
             this.btnMake.Name = "btnMake";
             this.btnMake.Size = new System.Drawing.Size(87, 23);
             this.btnMake.TabIndex = 2;
@@ -82,7 +81,7 @@ namespace AutoWikiBrowser
             this.cmboLang.Items.AddRange(new object[] {
             "C# 2.0",
             "Visual Basic.NET 2005"});
-            this.cmboLang.Location = new System.Drawing.Point(344, 316);
+            this.cmboLang.Location = new System.Drawing.Point(344, 349);
             this.cmboLang.Name = "cmboLang";
             this.cmboLang.Size = new System.Drawing.Size(137, 21);
             this.cmboLang.TabIndex = 3;
@@ -92,7 +91,7 @@ namespace AutoWikiBrowser
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(283, 319);
+            this.label1.Location = new System.Drawing.Point(283, 352);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(55, 13);
             this.label1.TabIndex = 4;
@@ -104,26 +103,28 @@ namespace AutoWikiBrowser
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.lblStart.Location = new System.Drawing.Point(12, 9);
             this.lblStart.Name = "lblStart";
-            this.lblStart.Size = new System.Drawing.Size(643, 146);
+            this.lblStart.Size = new System.Drawing.Size(643, 118);
             this.lblStart.TabIndex = 5;
-            this.lblStart.Text = resources.GetString("lblStart.Text");
+            this.lblStart.Text = "using System;\r\nusing System.Collections.Generic;\r\nusing System.Text;\r\nusing WikiF" +
+                "unctions;\r\n\r\nnamespace AutoWikiBrowser\r\n{\r\n    class Module1 : ICS\r\n    {";
             this.lblStart.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // lblEnd
             // 
             this.lblEnd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblEnd.Location = new System.Drawing.Point(12, 257);
+            this.lblEnd.Location = new System.Drawing.Point(12, 294);
             this.lblEnd.Name = "lblEnd";
-            this.lblEnd.Size = new System.Drawing.Size(643, 45);
+            this.lblEnd.Size = new System.Drawing.Size(643, 36);
             this.lblEnd.TabIndex = 6;
-            this.lblEnd.Text = "        }\r\n    }\r\n}";
+            this.lblEnd.Text = "    }\r\n}";
             // 
             // lblStatus
             // 
+            this.lblStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblStatus.AutoSize = true;
             this.lblStatus.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.lblStatus.Location = new System.Drawing.Point(12, 319);
+            this.lblStatus.Location = new System.Drawing.Point(12, 352);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(93, 13);
             this.lblStatus.TabIndex = 7;
@@ -133,7 +134,7 @@ namespace AutoWikiBrowser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(664, 349);
+            this.ClientSize = new System.Drawing.Size(664, 382);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.lblEnd);
             this.Controls.Add(this.lblStart);
@@ -144,7 +145,7 @@ namespace AutoWikiBrowser
             this.Controls.Add(this.txtCode);
             this.Name = "CustomModule";
             this.ShowIcon = false;
-            this.Text = "CSParser";
+            this.Text = "Module";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CSParser_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();

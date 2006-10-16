@@ -17,6 +17,7 @@ namespace AutoWikiBrowser
         {
             InitializeComponent();
             cmboLang.SelectedIndex = 0;
+            txtCode.Text = codeexample;
         }
 
         IModule m = null;
@@ -42,37 +43,42 @@ namespace AutoWikiBrowser
 
         string codestart = "";
         string codeend = "";
+        string codeexample = @"        public string ProcessArticle(string ArticleText, string ArticleTitle, int Namespace, out string Summary, out bool Skip)
+        {
+            Skip = false;
+            Summary = ""test"";
+
+            ArticleText = ""test\r\n\r\n"" + ArticleText;
+
+            return ArticleText;
+        }";
 
         public void MakeModule()
         {
             try
             {
-                ICodeCompiler compiler;
-                if (cmboLang.SelectedIndex == 0)
-                {
-                    Microsoft.CSharp.CSharpCodeProvider codeProvider = new Microsoft.CSharp.CSharpCodeProvider();
-                    compiler = codeProvider.CreateCompiler();
-                }
-                else
-                {
-                    Microsoft.VisualBasic.VBCodeProvider codeProvider = new Microsoft.VisualBasic.VBCodeProvider();
-                    compiler = codeProvider.CreateCompiler();
-                }
+                CompilerParameters cp = new CompilerParameters();
+                cp.GenerateExecutable = false;
+                cp.IncludeDebugInformation = false;
 
-                CompilerParameters parameters = new CompilerParameters();
-
-                parameters.GenerateExecutable = false;
-                parameters.IncludeDebugInformation = false;
-
-                // Add available assemblies
                 foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
                 {
-                    parameters.ReferencedAssemblies.Add(asm.Location);
+                    cp.ReferencedAssemblies.Add(asm.Location);
                 }
 
                 string code = codestart + txtCode.Text + codeend;
 
-                CompilerResults results = compiler.CompileAssemblyFromSource(parameters, code);
+                CompilerResults results;
+                if (cmboLang.SelectedIndex == 0)
+                {
+                    Microsoft.CSharp.CSharpCodeProvider codeProvider = new Microsoft.CSharp.CSharpCodeProvider();
+                    results = codeProvider.CompileAssemblyFromSource(cp, code);
+                }
+                else
+                {
+                    Microsoft.VisualBasic.VBCodeProvider codeProvider = new Microsoft.VisualBasic.VBCodeProvider();
+                    results = codeProvider.CompileAssemblyFromSource(cp, code);
+                }
 
                 if (results.Errors.Count > 0)
                 {
@@ -136,11 +142,17 @@ namespace AutoWikiBrowser
 {
     class Module1 : WikiFunctions.Plugin.IModule
     {
-        public string ProcessArticle(string ArticleText, string ArticleTitle, int Namespace, out string Summary, out bool Skip)
-        {";
-                codeend = @"        }
-    }    
-}";
+";
+                codeend = "    }\r\n}";
+                codeexample = @"        public string ProcessArticle(string ArticleText, string ArticleTitle, int Namespace, out string Summary, out bool Skip)
+        {
+            Skip = false;
+            Summary = ""test"";
+
+            ArticleText = ""test\r\n\r\n"" + ArticleText;
+
+            return ArticleText;
+        }";
             }
             else
             {
@@ -149,15 +161,14 @@ namespace AutoWikiBrowser
 Public Class Class1
     Implements WikiFunctions.Plugin.IModule
 
-
-    Public Function ProcessArticle(ByVal ArticleText As String, ByVal ArticleTitle As String, ByVal [Namespace] As Integer, ByRef Summary As String, ByRef Skip As Boolean) As String Implements WikiFunctions.Plugin.ICS.ProcessArticle";
-                codeend = @"
-    End Function
-End Class";
+";
+                codeend = "\r\nEnd Class";
+                codeexample = @"";
             }
 
             lblStart.Text = codestart;
             lblEnd.Text = codeend;
+            txtCode.Text = codeexample;
         }
-    }    
+    }
 }
