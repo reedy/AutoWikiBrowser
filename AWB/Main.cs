@@ -124,6 +124,7 @@ namespace AutoWikiBrowser
         WebControl webBrowserLogin = new WebControl();
         TimeSpan StartTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
         StringCollection RecentList = new StringCollection();
+        CustomModule cParser = new CustomModule();
 
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -568,6 +569,18 @@ namespace AutoWikiBrowser
             {
                 if (noParse.Contains(EdittingArticle.Name))
                     process = false;
+
+                if (enableModuleToolStripMenuItem.Checked && cParser.Module != null)
+                {
+                    string tempSummary = "";
+                    articleText = cParser.Module.ProcessArticle(articleText, EdittingArticle.Name, EdittingArticle.NameSpaceKey, out tempSummary, out SkipArticle);
+                    if (SkipArticle)
+                        return articleText;
+                    else if (tempSummary.Length > 0)
+                    {
+                        EdittingArticle.EditSummary += " " + tempSummary.Trim();
+                    }
+                }            
 
                 if (AWBPlugins.Count > 0)
                 {
@@ -1510,6 +1523,16 @@ namespace AutoWikiBrowser
 
         #region menus and buttons
 
+        private void enableModuleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            makeModuleToolStripMenuItem.Enabled = enableModuleToolStripMenuItem.Checked;
+        }
+
+        private void makeModuleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            cParser.Show();
+        }
+
         private void btnMoreSkip_Click(object sender, EventArgs e)
         {
             Skip.ShowDialog();
@@ -2246,6 +2269,5 @@ namespace AutoWikiBrowser
         }
 
         #endregion        
-
     }
 }
