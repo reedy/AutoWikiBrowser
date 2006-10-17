@@ -931,7 +931,7 @@ namespace AutoWikiBrowser
                 string strText = String.Empty;
                 lblStatusText.Text = "Loading page to check if we are logged in";
                 //load check page
-                webBrowserLogin.Navigate(Variables.URLShort + "/w/index.php?title=Project:AutoWikiBrowser/CheckPage&action=edit");
+                webBrowserLogin.Navigate(Variables.URL + "index.php?title=Project:AutoWikiBrowser/CheckPage&action=edit");
                 //wait to load
                 while (webBrowserLogin.ReadyState != WebBrowserReadyState.Complete) Application.DoEvents();
 
@@ -1311,7 +1311,7 @@ namespace AutoWikiBrowser
 
         private void selectProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MyPreferences MyPrefs = new MyPreferences(Variables.LangCode, Variables.Project, webBrowserEdit.EnhanceDiffEnabled, webBrowserEdit.ScrollDown, webBrowserEdit.DiffFontSize, txtEdit.Font, LowThreadPriority, FlashAndBeep);
+            MyPreferences MyPrefs = new MyPreferences(Variables.LangCode, Variables.Project, Variables.CustomProject, webBrowserEdit.EnhanceDiffEnabled, webBrowserEdit.ScrollDown, webBrowserEdit.DiffFontSize, txtEdit.Font, LowThreadPriority, FlashAndBeep);
 
             if (MyPrefs.ShowDialog() == DialogResult.OK)
             {
@@ -1328,15 +1328,15 @@ namespace AutoWikiBrowser
                 chkAutoMode.Checked = false;
                 chkAutoMode.Enabled = false;
 
-                SetProject(MyPrefs.Language, MyPrefs.Project);
+                SetProject(MyPrefs.Language, MyPrefs.Project, MyPrefs.CustomProject);
             }
             MyPrefs = null;
         }
 
-        private void SetProject(LangCodeEnum Code, ProjectEnum Project)
+        private void SetProject(LangCodeEnum Code, ProjectEnum Project, string CustomProject)
         {
             //set namespaces
-            Variables.SetProject(Code, Project);
+            Variables.SetProject(Code, Project, CustomProject);
 
             //set interwikiorder
             if (Code == LangCodeEnum.en || Code == LangCodeEnum.pl)
@@ -1351,7 +1351,8 @@ namespace AutoWikiBrowser
                 chkAutoTagger.Checked = false;
                 chkGeneralParse.Checked = false;
             }
-            lblProject.Text = Variables.LangCode + "." + Variables.Project;
+            if (Project != ProjectEnum.custom) lblProject.Text = Variables.LangCode + "." + Variables.Project;
+            else lblProject.Text = Variables.URLShort;
         }
 
         #endregion

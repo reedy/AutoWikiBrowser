@@ -11,7 +11,7 @@ namespace AutoWikiBrowser
 {
     public partial class MyPreferences : Form
     {
-        public MyPreferences(string lang, string proj, bool EDiff, bool SDown, int DiffSize, Font TextFont, bool LowPriority, bool FlashBeep)
+        public MyPreferences(string lang, string proj, string customproj, bool EDiff, bool SDown, int DiffSize, Font TextFont, bool LowPriority, bool FlashBeep)
         {
             InitializeComponent();
 
@@ -24,12 +24,16 @@ namespace AutoWikiBrowser
             cmboLang.SelectedItem = lang;
             cmboProject.SelectedItem = proj;
 
+            edtCustomProject.Text = customproj;
+
             EnhanceDiff = EDiff;
             ScrollDown = SDown;
             DiffFontSize = DiffSize;
             TextBoxFont = TextFont;
             LowThreadPriority = LowPriority;
             FlashAndBeep = FlashBeep;
+
+            cmboProject_SelectedIndexChanged(null, null);
         }
 
         #region Language and project
@@ -49,6 +53,36 @@ namespace AutoWikiBrowser
                 ProjectEnum p = (ProjectEnum)Enum.Parse(typeof(ProjectEnum), cmboProject.SelectedItem.ToString());
                 return p;
             }
+        }
+        public string CustomProject
+        {
+            get
+            {
+                return edtCustomProject.Text;
+            }
+        }
+
+        private void cmboProject_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if ((ProjectEnum)Enum.Parse(typeof(ProjectEnum), cmboProject.SelectedItem.ToString()) == ProjectEnum.custom)
+            {
+                edtCustomProject.Visible = true;
+                cmboLang.Visible = false;
+                lblLang.Text = "http://";
+                edtCustomProject_TextChanged(null, null);
+            }
+            else
+            {
+                edtCustomProject.Visible = false;
+                cmboLang.Visible = true;
+                lblLang.Text = "Language:";
+                btnApply.Enabled = true;
+            }
+        }
+
+        private void edtCustomProject_TextChanged(object sender, EventArgs e)
+        {
+            btnApply.Enabled = edtCustomProject.Text != "";
         }
 
         #endregion
@@ -102,6 +136,7 @@ namespace AutoWikiBrowser
         }
 
         #endregion
+
 
     }
 }

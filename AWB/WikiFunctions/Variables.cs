@@ -28,7 +28,7 @@ using System.Windows.Forms;
 namespace WikiFunctions
 {
     public enum LangCodeEnum { en, ca, da, de, eo, es, fi, fr, hu, it, ja, nl, no, mi, pl, pt, ru, sk, sl, sv, zh }
-    public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikiquote, wikiversity, wikibooks, wikinews, commons, meta, species }
+    public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikiquote, wikiversity, wikibooks, wikinews, commons, meta, species, custom }
 
     /// <summary>
     /// Holds static variables, to allow functionality on different wikis.
@@ -88,6 +88,8 @@ namespace WikiFunctions
                     return "http://meta.wikimedia.org/w/";
                 else if (Project == "species")
                     return "http://species.wikimedia.org/w/";
+                else if (Project == "custom")
+                    return "http://" + CustomProject;
                 else
                     return "http://" + LangCode + "." + Project + ".org/w/";
             }
@@ -106,6 +108,8 @@ namespace WikiFunctions
                     return "http://meta.wikimedia.org";
                 else if (Project == "species")
                     return "http://species.wikimedia.org";
+                else if (Project == "custom")
+                    return "http://" + CustomProject.Substring(0, CustomProject.IndexOf("/"));
                 else
                     return "http://" + LangCode + "." + Project + ".org";
             }
@@ -129,6 +133,19 @@ namespace WikiFunctions
             get { return strlangcode; }
         }
 
+        static string strcustomproject = "";
+        /// <summary>
+        /// Gets script path of a custom project or empty string if standard project
+        /// </summary>
+        public static string CustomProject
+        {
+            get
+            {
+                return strcustomproject;
+            }
+
+        }
+
         static string strsummarytag = " using [[Wikipedia:AutoWikiBrowser|AWB]]";
         /// <summary>
         /// Gets the tag to add to the edit summary, e.g. " using [[Wikipedia:AutoWikiBrowser|AWB]]".
@@ -145,8 +162,20 @@ namespace WikiFunctions
         /// <param name="projectName">The project name default is Wikipedia</param>
         public static void SetProject(LangCodeEnum langCode, ProjectEnum projectName)
         {
+            SetProject(langCode, projectName, "");
+        }
+
+        /// <summary>
+        /// Sets different language variables, such as namespaces. Default is english Wikipedia
+        /// </summary>
+        /// <param name="langCode">The language code, default is en</param>
+        /// <param name="projectName">The project name default is Wikipedia</param>
+        /// <param name="customProject">Script path of a custom project or ""</param>
+        public static void SetProject(LangCodeEnum langCode, ProjectEnum projectName, string customProject)
+        {
             strproject = projectName.ToString();
             strlangcode = langCode.ToString();
+            strcustomproject = customProject;
 
             if (projectName == ProjectEnum.wikipedia)
             {

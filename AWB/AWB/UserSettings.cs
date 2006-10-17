@@ -231,16 +231,19 @@ namespace AutoWikiBrowser
                         {
                             string project = "";
                             string language = "";
+                            string customproject = "";
 
                             if (reader.MoveToAttribute("proj"))
                                 project = reader.Value;
                             if (reader.MoveToAttribute("lang"))
                                 language = reader.Value;
+                            if (reader.MoveToAttribute("custom"))
+                                customproject = reader.Value;
 
                             LangCodeEnum l = (LangCodeEnum)Enum.Parse(typeof(LangCodeEnum), language);
                             ProjectEnum p = (ProjectEnum)Enum.Parse(typeof(ProjectEnum), project);
 
-                            SetProject(l, p);
+                            SetProject(l, p, customproject);
 
                             continue;
                         }
@@ -592,6 +595,7 @@ namespace AutoWikiBrowser
                 textWriter.WriteStartElement("projectlang");
                 textWriter.WriteAttributeString("proj", Variables.Project);
                 textWriter.WriteAttributeString("lang", Variables.LangCode);
+                textWriter.WriteAttributeString("custom", Variables.CustomProject);
                 textWriter.WriteEndElement();
                 textWriter.WriteEndElement();
 
