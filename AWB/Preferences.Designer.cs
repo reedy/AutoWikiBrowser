@@ -33,7 +33,7 @@ namespace AutoWikiBrowser
             this.cmboLang = new System.Windows.Forms.ComboBox();
             this.btnApply = new System.Windows.Forms.Button();
             this.cmboProject = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblLang = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.btnTextBoxFont = new System.Windows.Forms.Button();
@@ -49,6 +49,7 @@ namespace AutoWikiBrowser
             this.chkLowPriority = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.fontDialog = new System.Windows.Forms.FontDialog();
+            this.edtCustomProject = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.nudDiffFontSize)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -81,15 +82,16 @@ namespace AutoWikiBrowser
             this.cmboProject.Name = "cmboProject";
             this.cmboProject.Size = new System.Drawing.Size(121, 21);
             this.cmboProject.TabIndex = 2;
+            this.cmboProject.SelectedIndexChanged += new System.EventHandler(this.cmboProject_SelectedIndexChanged);
             // 
-            // label1
+            // lblLang
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 93);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(58, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Language:";
+            this.lblLang.Location = new System.Drawing.Point(13, 93);
+            this.lblLang.Name = "lblLang";
+            this.lblLang.Size = new System.Drawing.Size(58, 13);
+            this.lblLang.TabIndex = 3;
+            this.lblLang.Text = "Language:";
+            this.lblLang.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // label2
             // 
@@ -196,8 +198,9 @@ namespace AutoWikiBrowser
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.cmboLang);
             this.groupBox1.Controls.Add(this.cmboProject);
-            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.lblLang);
             this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.edtCustomProject);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(307, 141);
@@ -262,6 +265,15 @@ namespace AutoWikiBrowser
             this.label5.TabIndex = 12;
             this.label5.Text = "%";
             // 
+            // edtCustomProject
+            // 
+            this.edtCustomProject.Location = new System.Drawing.Point(78, 91);
+            this.edtCustomProject.Name = "edtCustomProject";
+            this.edtCustomProject.Size = new System.Drawing.Size(212, 20);
+            this.edtCustomProject.TabIndex = 7;
+            this.edtCustomProject.Visible = false;
+            this.edtCustomProject.TextChanged += new System.EventHandler(this.edtCustomProject_TextChanged);
+            // 
             // MyPreferences
             // 
             this.AcceptButton = this.btnApply;
@@ -291,7 +303,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ComboBox cmboLang;
         private System.Windows.Forms.Button btnApply;
         private System.Windows.Forms.ComboBox cmboProject;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblLang;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnTextBoxFont;
@@ -307,5 +319,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkLowPriority;
         private System.Windows.Forms.CheckBox chkFlashAndBeep;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox edtCustomProject;
     }
 }

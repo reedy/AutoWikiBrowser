@@ -89,6 +89,7 @@ namespace WikiFunctions.Lists
             // 
             // btnCancel
             // 
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Location = new System.Drawing.Point(379, 222);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
@@ -360,38 +361,38 @@ namespace WikiFunctions.Lists
             this.nonTalkOnlyToolStripMenuItem,
             this.talkSpaceOnlyToolStripMenuItem});
             this.contextmenuFilter.Name = "contextmenuFilter";
-            this.contextmenuFilter.Size = new System.Drawing.Size(168, 98);
+            this.contextmenuFilter.Size = new System.Drawing.Size(179, 98);
             // 
             // selectAllToolStripMenuItem
             // 
             this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
-            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             this.selectAllToolStripMenuItem.Text = "Select all";
             this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.selectAllToolStripMenuItem_Click);
             // 
             // deselectAllToolStripMenuItem
             // 
             this.deselectAllToolStripMenuItem.Name = "deselectAllToolStripMenuItem";
-            this.deselectAllToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.deselectAllToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             this.deselectAllToolStripMenuItem.Text = "Deselect all";
             this.deselectAllToolStripMenuItem.Click += new System.EventHandler(this.deselectAllToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(164, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(175, 6);
             // 
             // nonTalkOnlyToolStripMenuItem
             // 
             this.nonTalkOnlyToolStripMenuItem.Name = "nonTalkOnlyToolStripMenuItem";
-            this.nonTalkOnlyToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.nonTalkOnlyToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             this.nonTalkOnlyToolStripMenuItem.Text = "Non talk space only";
             this.nonTalkOnlyToolStripMenuItem.Click += new System.EventHandler(this.nonTalkOnlyToolStripMenuItem_Click);
             // 
             // talkSpaceOnlyToolStripMenuItem
             // 
             this.talkSpaceOnlyToolStripMenuItem.Name = "talkSpaceOnlyToolStripMenuItem";
-            this.talkSpaceOnlyToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.talkSpaceOnlyToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             this.talkSpaceOnlyToolStripMenuItem.Text = "Talk space only";
             this.talkSpaceOnlyToolStripMenuItem.Click += new System.EventHandler(this.talkSpaceOnlyToolStripMenuItem_Click);
             // 
@@ -519,8 +520,10 @@ namespace WikiFunctions.Lists
             // 
             // specialFilter
             // 
+            this.AcceptButton = this.btnApply;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(669, 253);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
