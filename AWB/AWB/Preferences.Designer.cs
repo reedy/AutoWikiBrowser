@@ -44,12 +44,12 @@ namespace AutoWikiBrowser
             this.btnCancel = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.txtCustomProject = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.chkFlashAndBeep = new System.Windows.Forms.CheckBox();
             this.chkLowPriority = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.fontDialog = new System.Windows.Forms.FontDialog();
-            this.edtCustomProject = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.nudDiffFontSize)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -200,7 +200,7 @@ namespace AutoWikiBrowser
             this.groupBox1.Controls.Add(this.cmboProject);
             this.groupBox1.Controls.Add(this.lblLang);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.edtCustomProject);
+            this.groupBox1.Controls.Add(this.txtCustomProject);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(307, 141);
@@ -216,6 +216,15 @@ namespace AutoWikiBrowser
             this.label6.Size = new System.Drawing.Size(214, 13);
             this.label6.TabIndex = 6;
             this.label6.Text = "Save settings as default to remember details";
+            // 
+            // txtCustomProject
+            // 
+            this.txtCustomProject.Location = new System.Drawing.Point(78, 91);
+            this.txtCustomProject.Name = "txtCustomProject";
+            this.txtCustomProject.Size = new System.Drawing.Size(212, 20);
+            this.txtCustomProject.TabIndex = 7;
+            this.txtCustomProject.Visible = false;
+            this.txtCustomProject.TextChanged += new System.EventHandler(this.edtCustomProject_TextChanged);
             // 
             // groupBox2
             // 
@@ -265,15 +274,6 @@ namespace AutoWikiBrowser
             this.label5.TabIndex = 12;
             this.label5.Text = "%";
             // 
-            // edtCustomProject
-            // 
-            this.edtCustomProject.Location = new System.Drawing.Point(78, 91);
-            this.edtCustomProject.Name = "edtCustomProject";
-            this.edtCustomProject.Size = new System.Drawing.Size(212, 20);
-            this.edtCustomProject.TabIndex = 7;
-            this.edtCustomProject.Visible = false;
-            this.edtCustomProject.TextChanged += new System.EventHandler(this.edtCustomProject_TextChanged);
-            // 
             // MyPreferences
             // 
             this.AcceptButton = this.btnApply;
@@ -319,6 +319,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkLowPriority;
         private System.Windows.Forms.CheckBox chkFlashAndBeep;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox edtCustomProject;
+        private System.Windows.Forms.TextBox txtCustomProject;
     }
 }

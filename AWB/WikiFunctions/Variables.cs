@@ -173,6 +173,8 @@ namespace WikiFunctions
         /// <param name="customProject">Script path of a custom project or ""</param>
         public static void SetProject(LangCodeEnum langCode, ProjectEnum projectName, string customProject)
         {
+            Namespaces.Clear();
+
             strproject = projectName.ToString();
             strlangcode = langCode.ToString();
             strcustomproject = customProject;
@@ -639,29 +641,21 @@ namespace WikiFunctions
                         break;
 
                     default:
-                        Namespaces[-2] = "Media:";
-                        Namespaces[-1] = "Special:";
-                        Namespaces[1] = "Talk:";
-                        Namespaces[2] = "User:";
-                        Namespaces[3] = "User talk:";
-                        Namespaces[4] = "Wikipedia:";
-                        Namespaces[5] = "Wikipedia talk:";
-                        Namespaces[6] = "Image:";
-                        Namespaces[7] = "Image talk:";
-                        Namespaces[8] = "MediaWiki:";
-                        Namespaces[9] = "MediaWiki talk:";
-                        Namespaces[10] = "Template:";
-                        Namespaces[11] = "Template talk:";
-                        Namespaces[12] = "Help:";
-                        Namespaces[13] = "Help talk:";
-                        Namespaces[14] = "Category:";
-                        Namespaces[15] = "Category talk:";
-                        Namespaces[100] = "Portal:";
-                        Namespaces[101] = "Portal talk:";
-
-                        strsummarytag = " using [[Project:AWB|AWB]]";
+                        SetToEnglish("Wikipedia:", "Wikipedia talk:");
                         break;
                 }
+            }
+            else if (projectName == ProjectEnum.commons)
+            {
+                SetToEnglish("Commons:", "Commons talk:");
+            }
+            else if (projectName == ProjectEnum.meta)
+            {
+                SetToEnglish("Meta:", "Meta talk:");
+            }
+            else if (projectName == ProjectEnum.species)
+            {
+                SetToEnglish("Wikispecies:", "Wikispecies talk:");
             }
             else
             {
@@ -740,22 +734,39 @@ namespace WikiFunctions
         }
 
         //User:MaxSem's code
-        static void SetDefaults()
+        private static void SetDefaults()
         {
             strproject = "wikipedia";
             strlangcode = "en";
-            strsummarytag = " using [[Wikipedia:AutoWikiBrowser|AWB]]";
+            strsummarytag = " using [[Project:AWB|AWB]]";
 
             Namespaces.Clear();
-            foreach (int k in enLangNamespaces.Keys)
-            {
-                Namespaces[k] = enLangNamespaces[k];
-            }
+            SetToEnglish("Wikipedia:", "Wikipedia talk:");
+        }
 
-            Namespaces[4] = "Wikipedia:";
-            Namespaces[5] = "Wikipedia talk:";
+        private static void SetToEnglish(string Project, string ProjectTalk)
+        {
+            Namespaces[-2] = "Media:";
+            Namespaces[-1] = "Special:";
+            Namespaces[1] = "Talk:";
+            Namespaces[2] = "User:";
+            Namespaces[3] = "User talk:";
+            Namespaces[4] = Project;
+            Namespaces[5] = ProjectTalk;
+            Namespaces[6] = "Image:";
+            Namespaces[7] = "Image talk:";
+            Namespaces[8] = "MediaWiki:";
+            Namespaces[9] = "MediaWiki talk:";
+            Namespaces[10] = "Template:";
+            Namespaces[11] = "Template talk:";
+            Namespaces[12] = "Help:";
+            Namespaces[13] = "Help talk:";
+            Namespaces[14] = "Category:";
+            Namespaces[15] = "Category talk:";
             Namespaces[100] = "Portal:";
             Namespaces[101] = "Portal talk:";
+
+            strsummarytag = " using [[Project:AWB|AWB]]";
         }
     }
 }
