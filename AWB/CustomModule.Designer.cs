@@ -44,11 +44,11 @@ namespace AutoWikiBrowser
             this.txtCode.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCode.Location = new System.Drawing.Point(12, 130);
+            this.txtCode.Location = new System.Drawing.Point(12, 142);
             this.txtCode.Multiline = true;
             this.txtCode.Name = "txtCode";
             this.txtCode.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtCode.Size = new System.Drawing.Size(640, 161);
+            this.txtCode.Size = new System.Drawing.Size(640, 149);
             this.txtCode.TabIndex = 0;
             this.txtCode.Text = resources.GetString("txtCode.Text");
             // 
@@ -103,10 +103,9 @@ namespace AutoWikiBrowser
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.lblStart.Location = new System.Drawing.Point(12, 9);
             this.lblStart.Name = "lblStart";
-            this.lblStart.Size = new System.Drawing.Size(643, 118);
+            this.lblStart.Size = new System.Drawing.Size(643, 130);
             this.lblStart.TabIndex = 5;
-            this.lblStart.Text = "using System;\r\nusing System.Collections.Generic;\r\nusing System.Text;\r\nusing WikiF" +
-                "unctions;\r\n\r\nnamespace AutoWikiBrowser\r\n{\r\n    class Module1 : ICS\r\n    {";
+            this.lblStart.Text = resources.GetString("lblStart.Text");
             this.lblStart.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // lblEnd

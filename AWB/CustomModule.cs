@@ -43,15 +43,7 @@ namespace AutoWikiBrowser
 
         string codestart = "";
         string codeend = "";
-        string codeexample = @"        public string ProcessArticle(string ArticleText, string ArticleTitle, int Namespace, out string Summary, out bool Skip)
-        {
-            Skip = false;
-            Summary = ""test"";
-
-            ArticleText = ""test\r\n\r\n"" + ArticleText;
-
-            return ArticleText;
-        }";
+        string codeexample = @"";
 
         public void MakeModule()
         {
@@ -136,6 +128,7 @@ namespace AutoWikiBrowser
                 codestart = @"using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using WikiFunctions;
 
 namespace AutoWikiBrowser
