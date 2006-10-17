@@ -24,7 +24,7 @@ namespace AutoWikiBrowser
             cmboLang.SelectedItem = lang;
             cmboProject.SelectedItem = proj;
 
-            edtCustomProject.Text = customproj;
+            txtCustomProject.Text = customproj;
 
             EnhanceDiff = EDiff;
             ScrollDown = SDown;
@@ -58,22 +58,25 @@ namespace AutoWikiBrowser
         {
             get
             {
-                return edtCustomProject.Text;
+                return txtCustomProject.Text;
             }
         }
 
         private void cmboProject_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //disable language selection for single language projects
+            cmboLang.Enabled = cmboProject.SelectedIndex <= 6;
+
             if ((ProjectEnum)Enum.Parse(typeof(ProjectEnum), cmboProject.SelectedItem.ToString()) == ProjectEnum.custom)
             {
-                edtCustomProject.Visible = true;
+                txtCustomProject.Visible = true;
                 cmboLang.Visible = false;
                 lblLang.Text = "http://";
                 edtCustomProject_TextChanged(null, null);
             }
             else
             {
-                edtCustomProject.Visible = false;
+                txtCustomProject.Visible = false;
                 cmboLang.Visible = true;
                 lblLang.Text = "Language:";
                 btnApply.Enabled = true;
@@ -82,7 +85,7 @@ namespace AutoWikiBrowser
 
         private void edtCustomProject_TextChanged(object sender, EventArgs e)
         {
-            btnApply.Enabled = edtCustomProject.Text != "";
+            btnApply.Enabled = txtCustomProject.Text != "";
         }
 
         #endregion
