@@ -116,13 +116,14 @@ namespace WikiFunctions
                 wr.CookieContainer.Add(Cook);
 
             //Create poststring
-            poststring = string.Format("wpSection=&wpStarttime={0}&wpEdittime={1}&wpScrolltop=&wpTextbox1={2}&wpWatchThis={3}&wpSummary={4}&wpSave=Save%20Page&wpEditToken={5}",
-                new string[] { DateTime.Now.ToUniversalTime().ToString("yyyyMMddHHmmss"), wpEdittime, HttpUtility.UrlEncode(NewText), "off", HttpUtility.UrlEncode(Summary), wpEditkey });
+            poststring = string.Format("wpSection=&wpStarttime={0}&wpEdittime={1}&wpScrolltop=&wpTextbox1={2}&wpSummary={3}&wpSave=Save%20Page&wpEditToken={4}",
+                new string[] { DateTime.Now.ToUniversalTime().ToString("yyyyMMddHHmmss"), wpEdittime, HttpUtility.UrlEncode(NewText), HttpUtility.UrlEncode(Summary), wpEditkey });
 
             if (Minor)
                 poststring = poststring.Insert(poststring.IndexOf("wpSummary"), "wpMinoredit=1&");
 
-            if (Watch) poststring += "&wpWatchthis=1";
+            if (Watch || editpagestr.Contains("type='checkbox' name='wpWatchthis' checked='checked' accesskey=\"w\" id='wpWatchthis'  />")) 
+                poststring += "&wpWatchthis=1";
 
             wr.Method = "POST";
             wr.ContentType = "application/x-www-form-urlencoded";
