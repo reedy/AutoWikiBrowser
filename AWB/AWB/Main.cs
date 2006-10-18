@@ -672,7 +672,7 @@ namespace AutoWikiBrowser
                     {
                         articleText = RemoveText.Hide(articleText);
 
-                        if (Variables.LangCode == "en")
+                        if (Variables.LangCode == LangCodeEnum.en)
                         {//en only
                             articleText = parsers.Conversions(articleText);
                             articleText = parsers.LivingPeople(articleText, out SkipArticle);

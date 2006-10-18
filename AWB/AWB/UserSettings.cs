@@ -14,7 +14,7 @@ namespace AutoWikiBrowser
     {
         private void saveAsDefaultToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            saveSettings(Application.StartupPath + "\\Default.xml");
+            //   saveSettings(Application.StartupPath + "\\Default.xml");
         }
 
         private void saveSettingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -22,7 +22,7 @@ namespace AutoWikiBrowser
             if (saveXML.ShowDialog() != DialogResult.OK)
                 return;
 
-            saveSettings(saveXML.FileName);
+            //  saveSettings(saveXML.FileName);
         }
 
         private void loadSettingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -578,256 +578,6 @@ namespace AutoWikiBrowser
             }
         }
 
-        private void saveSettings(string FileName)
-        {
-            try
-            {
-                strSettingsFile = " - " + FileName.Remove(0, FileName.LastIndexOf("\\") + 1);
-                this.Text = "AutoWikiBrowser" + strSettingsFile;
-
-                XmlTextWriter textWriter = new XmlTextWriter(FileName, UTF8Encoding.UTF8);
-                // Opens the document
-                textWriter.Formatting = Formatting.Indented;
-                textWriter.WriteStartDocument();
-
-                // Write first element
-                textWriter.WriteStartElement("Settings");
-                textWriter.WriteAttributeString("program", "AWB");
-                textWriter.WriteAttributeString("schema", "2");
-
-                textWriter.WriteStartElement("Project");
-                textWriter.WriteStartElement("projectlang");
-                textWriter.WriteAttributeString("proj", Variables.Project);
-                textWriter.WriteAttributeString("lang", Variables.LangCode);
-                textWriter.WriteAttributeString("custom", Variables.CustomProject);
-                textWriter.WriteEndElement();
-                textWriter.WriteEndElement();
-
-                textWriter.WriteStartElement("Options");
-
-                textWriter.WriteStartElement("selectsource");
-                int x = (int)listMaker1.SelectedSource;
-                textWriter.WriteAttributeString("index", x.ToString());
-                textWriter.WriteAttributeString("text", listMaker1.SourceText);
-                textWriter.WriteEndElement();
-
-                textWriter.WriteStartElement("general");
-                textWriter.WriteAttributeString("general", chkGeneralFixes.Checked.ToString());
-                textWriter.WriteAttributeString("tagger", chkAutoTagger.Checked.ToString());
-                textWriter.WriteAttributeString("unicodifyer", chkUnicodifyWhole.Checked.ToString());
-                textWriter.WriteEndElement();
-
-                textWriter.WriteStartElement("categorisation");
-                textWriter.WriteAttributeString("index", cmboCategorise.SelectedIndex.ToString());
-                textWriter.WriteAttributeString("text", txtNewCategory.Text);
-                textWriter.WriteEndElement();
-
-                textWriter.WriteStartElement("skip");
-                textWriter.WriteAttributeString("does", chkSkipIfContains.Checked.ToString());
-                textWriter.WriteAttributeString("doesnot", chkSkipIfNotContains.Checked.ToString());
-                textWriter.WriteAttributeString("regex", chkSkipIsRegex.Checked.ToString());
-                textWriter.WriteAttributeString("casesensitive", chkSkipCaseSensitive.Checked.ToString());
-                textWriter.WriteAttributeString("doestext", txtSkipIfContains.Text);
-                textWriter.WriteAttributeString("doesnottext", txtSkipIfNotContains.Text);
-                textWriter.WriteAttributeString("moreindex", Skip.SelectedItem.ToString());
-                textWriter.WriteEndElement();
-
-                textWriter.WriteStartElement("message");
-                textWriter.WriteAttributeString("enabled", chkAppend.Checked.ToString());
-                textWriter.WriteAttributeString("text", txtAppendMessage.Text);
-                textWriter.WriteAttributeString("append", rdoAppend.Checked.ToString());
-                textWriter.WriteEndElement();
-
-                textWriter.WriteStartElement("automode");
-                textWriter.WriteAttributeString("delay", nudBotSpeed.Value.ToString());
-                textWriter.WriteAttributeString("quicksave", chkQuickSave.Checked.ToString());
-                textWriter.WriteAttributeString("suppresstag", chkSuppressTag.Checked.ToString());
-                textWriter.WriteEndElement();
-
-                textWriter.WriteStartElement("imager");
-                textWriter.WriteAttributeString("index", cmboImages.SelectedIndex.ToString());
-                textWriter.WriteAttributeString("replace", txtImageReplace.Text);
-                textWriter.WriteAttributeString("with", txtImageWith.Text);
-                textWriter.WriteEndElement();
-                textWriter.WriteEndElement();
-
-                textWriter.WriteStartElement("regextypofix");
-                textWriter.WriteStartElement("regextypofixproperties");
-                textWriter.WriteAttributeString("enabled", chkRegExTypo.Checked.ToString());
-                textWriter.WriteAttributeString("skipnofixed", chkSkipIfNoRegexTypo.Checked.ToString());
-                textWriter.WriteEndElement();
-                textWriter.WriteEndElement();
-
-                textWriter.WriteStartElement("FindAndReplaceSettings");
-                findAndReplace.WriteToXml(textWriter, chkFindandReplace.Checked, chkSkipWhenNoFAR.Checked);
-                textWriter.WriteEndElement();
-
-                textWriter.WriteStartElement("FindAndReplace");
-                replaceSpecial.WriteToXml(textWriter, chkFindandReplace.Checked);
-                textWriter.WriteEndElement();
-
-                textWriter.WriteStartElement("startoptions");
-                int j = 0;
-                while (j < cmboEditSummary.Items.Count)
-                {
-                    textWriter.WriteStartElement("summary");
-                    textWriter.WriteAttributeString("text", cmboEditSummary.Items[j].ToString());
-                    textWriter.WriteEndElement();
-                    j++;
-                }
-
-                if (!cmboEditSummary.Items.Contains(cmboEditSummary.Text))
-                {
-                    textWriter.WriteStartElement("summary");
-                    textWriter.WriteAttributeString("text", cmboEditSummary.Text);
-                    textWriter.WriteEndElement();
-                }
-
-                textWriter.WriteStartElement("summaryindex");
-                textWriter.WriteAttributeString("index", cmboEditSummary.Text);
-                textWriter.WriteEndElement();
-
-                textWriter.WriteStartElement("find");
-                textWriter.WriteAttributeString("text", txtFind.Text);
-                textWriter.WriteAttributeString("regex", chkFindRegex.Checked.ToString());
-                textWriter.WriteAttributeString("casesensitive", chkFindCaseSensitive.Checked.ToString());
-                textWriter.WriteEndElement();
-
-                textWriter.WriteStartElement("menu");
-
-                textWriter.WriteStartElement("wordwrap");
-                textWriter.WriteAttributeString("enabled", wordWrapToolStripMenuItem1.Checked.ToString());
-                textWriter.WriteEndElement();
-
-                textWriter.WriteStartElement("toolbar");
-                textWriter.WriteAttributeString("enabled", enableToolBar.ToString());
-                textWriter.WriteEndElement();
-
-                textWriter.WriteStartElement("bypass");
-                textWriter.WriteAttributeString("enabled", bypassRedirectsToolStripMenuItem.Checked.ToString());
-                textWriter.WriteEndElement();
-
-                textWriter.WriteStartElement("ingnorenonexistent");
-                textWriter.WriteAttributeString("enabled", chkSkipNonExistent.Checked.ToString());
-                textWriter.WriteEndElement();
-
-                textWriter.WriteStartElement("noautochanges");
-                textWriter.WriteAttributeString("enabled", doNotAutomaticallyDoAnythingToolStripMenuItem.Checked.ToString());
-                textWriter.WriteEndElement();
-
-                textWriter.WriteStartElement("skipnochanges");
-                textWriter.WriteAttributeString("enabled", chkSkipNoChanges.Checked.ToString());
-                textWriter.WriteEndElement();
-
-                textWriter.WriteStartElement("preview");
-                textWriter.WriteAttributeString("enabled", previewInsteadOfDiffToolStripMenuItem.Checked.ToString());
-                textWriter.WriteEndElement();
-
-                textWriter.WriteStartElement("minor");
-                textWriter.WriteAttributeString("enabled", markAllAsMinorToolStripMenuItem.Checked.ToString());
-                textWriter.WriteEndElement();
-
-                textWriter.WriteStartElement("watch");
-                textWriter.WriteAttributeString("enabled", addAllToWatchlistToolStripMenuItem.Checked.ToString());
-                textWriter.WriteEndElement();
-
-                textWriter.WriteStartElement("timer");
-                textWriter.WriteAttributeString("enabled", showTimerToolStripMenuItem.Checked.ToString());
-                textWriter.WriteEndElement();
-
-                textWriter.WriteStartElement("sortinterwiki");
-                textWriter.WriteAttributeString("enabled", alphaSortInterwikiLinksToolStripMenuItem.Checked.ToString());
-                textWriter.WriteEndElement();
-
-                textWriter.WriteStartElement("addignoredtolog");
-                textWriter.WriteAttributeString("enabled", addIgnoredToLogFileToolStripMenuItem.Checked.ToString());
-                textWriter.WriteEndElement();
-
-                textWriter.WriteEndElement();
-
-                //write plugin settings
-                try
-                {
-                    textWriter.WriteStartElement("plugins");
-                    foreach (IAWBPlugin a in AWBPlugins)
-                    {
-                        textWriter.WriteStartElement(a.Name.Replace(' ', '_'));
-                        a.WriteXML(textWriter);
-                        textWriter.WriteEndElement();
-                    }
-                    textWriter.WriteEndElement();
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("Problem writing plugin settings\r\n" + ex.Message);
-                }
-
-                textWriter.WriteEndElement();
-
-                textWriter.WriteStartElement("pastemore");
-
-                textWriter.WriteStartElement("pastemore1");
-                textWriter.WriteAttributeString("text", PasteMore1.Text);
-                textWriter.WriteEndElement();
-                textWriter.WriteStartElement("pastemore2");
-                textWriter.WriteAttributeString("text", PasteMore2.Text);
-                textWriter.WriteEndElement();
-                textWriter.WriteStartElement("pastemore3");
-                textWriter.WriteAttributeString("text", PasteMore3.Text);
-                textWriter.WriteEndElement();
-                textWriter.WriteStartElement("pastemore4");
-                textWriter.WriteAttributeString("text", PasteMore4.Text);
-                textWriter.WriteEndElement();
-                textWriter.WriteStartElement("pastemore5");
-                textWriter.WriteAttributeString("text", PasteMore5.Text);
-                textWriter.WriteEndElement();
-                textWriter.WriteStartElement("pastemore6");
-                textWriter.WriteAttributeString("text", PasteMore6.Text);
-                textWriter.WriteEndElement();
-                textWriter.WriteStartElement("pastemore7");
-                textWriter.WriteAttributeString("text", PasteMore7.Text);
-                textWriter.WriteEndElement();
-                textWriter.WriteStartElement("pastemore8");
-                textWriter.WriteAttributeString("text", PasteMore8.Text);
-                textWriter.WriteEndElement();
-                textWriter.WriteStartElement("pastemore9");
-                textWriter.WriteAttributeString("text", PasteMore9.Text);
-                textWriter.WriteEndElement();
-                textWriter.WriteStartElement("pastemore10");
-                textWriter.WriteAttributeString("text", PasteMore10.Text);
-                textWriter.WriteEndElement();
-
-                textWriter.WriteEndElement();
-
-                textWriter.WriteStartElement("preferences");
-                textWriter.WriteStartElement("preferencevalues");
-                textWriter.WriteAttributeString("enhancediff", webBrowserEdit.EnhanceDiffEnabled.ToString());
-                textWriter.WriteAttributeString("scrolldown", webBrowserEdit.ScrollDown.ToString());
-                textWriter.WriteAttributeString("difffontsize", webBrowserEdit.DiffFontSize.ToString());
-                textWriter.WriteAttributeString("textboxfontsize", txtEdit.Font.Size.ToString());
-                textWriter.WriteAttributeString("textboxfont", txtEdit.Font.Name);
-                textWriter.WriteAttributeString("lowthreadpriority", LowThreadPriority.ToString());
-                textWriter.WriteAttributeString("flashandbeep", FlashAndBeep.ToString());
-                textWriter.WriteEndElement();
-                textWriter.WriteEndElement();
-
-                // Ends the document.
-                textWriter.WriteEndDocument();
-                // close writer
-                textWriter.Close();
-            }
-            catch (IOException ex)
-            {
-                MessageBox.Show(ex.Message, "File error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            lblStatusText.Text = "Settings successfully saved";
-            UpdateRecentList(FileName);
-        }
-
         public void UpdateRecentList(string[] list)
         {
             RecentList.Clear();
@@ -902,91 +652,107 @@ namespace AutoWikiBrowser
         {
             UserPrefs p = new UserPrefs();
 
-            p.Project = ProjectEnum.wikipedia;
-            p.LanguageCode = LangCodeEnum.en;
-            p.CustomProject = "";
+            p.LanguageCode = Variables.LangCode;
+            p.Project = Variables.Project;
+            p.CustomProject = Variables.CustomProject;
+
+            p.FindAndReplace.Enabled = chkFindandReplace.Checked;
+            p.FindAndReplace.IgnoreSomeText = findAndReplace.ignoreLinks;
+            p.FindAndReplace.AppendSummary = findAndReplace.AppendToSummary;
+            p.FindAndReplace.Replacements = findAndReplace.GetList();
+
+            /*
+            listMaker1.SourceText = p.List.ListSource;
+            listMaker1.SelectedSource = p.List.Source;
+            listMaker1.Add(p.List.ArticleList);
 
 
-            p.FindAndReplace.Enabled = false;
-            p.FindAndReplace.IgnoreSomeText = false;
-            p.FindAndReplace.AppendSummary = true;
-            p.FindAndReplace.Replacements = new List<WikiFunctions.Parse.Replacement>();
+            chkGeneralFixes.Checked = p.Editprefs.GeneralFixes;
+            chkAutoTagger.Checked = p.Editprefs.Tagger;
+            chkUnicodifyWhole.Checked = p.Editprefs.Unicodify;
+
+            cmboCategorise.SelectedIndex = p.Editprefs.Recategorisation;
+            txtNewCategory.Text = p.Editprefs.NewCategory;
+
+            cmboImages.SelectedIndex = p.Editprefs.ReImage;
+            txtImageReplace.Text = p.Editprefs.ImageFind;
+            txtImageWith.Text = p.Editprefs.Replace;
+
+            chkAppend.Checked = p.Editprefs.AppendText;
+            rdoAppend.Checked = p.Editprefs.Append;
+            rdoPrepend.Checked = !p.Editprefs.Append;
+            txtAppendMessage.Text = p.Editprefs.Text;
+
+            nudBotSpeed.Value = (decimal)p.Editprefs.AutoDelay;
+            chkQuickSave.Checked = p.Editprefs.QuickSave;
+            chkSuppressTag.Checked = p.Editprefs.SuppressTag;
+
+            chkRegExTypo.Checked = p.Editprefs.RegexTypoFix;
 
 
-            p.List.ListSource = "";
-            p.List.Source = WikiFunctions.Lists.SourceType.Category;
-            p.List.ArticleList = new List<Article>();
+            chkSkipNonExistent.Checked = p.Skipoptions.SkipNonexistent;
+            chkSkipNoChanges.Checked = p.Skipoptions.SkipWhenNoChanges;
+
+            chkSkipIfContains.Checked = p.Skipoptions.SkipDoes;
+            chkSkipIfNotContains.Checked = p.Skipoptions.SkipDoesNot;
+
+            txtSkipIfContains.Text = p.Skipoptions.SkipDoesText;
+            txtSkipIfNotContains.Text = p.Skipoptions.SkipDoesNotText;
+
+            chkSkipIsRegex.Checked = p.Skipoptions.Regex;
+            chkSkipCaseSensitive.Checked = p.Skipoptions.CaseSensitive;
+
+            chkSkipWhenNoFAR.Checked = p.Skipoptions.SkipNoFindAndReplace;
+            chkSkipIfNoRegexTypo.Checked = p.Skipoptions.SkipNoRegexTypoFix;
+            Skip.SelectedItem = p.Skipoptions.GeneralSkip;
 
 
-            p.Editprefs.GeneralFixes = true;
-            p.Editprefs.Tagger = true;
-            p.Editprefs.Unicodify = true;
+            foreach (string s in p.General.Summaries)
+                cmboEditSummary.Items.Add(s);
 
-            p.Editprefs.Recategorisation = 0;
-            p.Editprefs.NewCategory = "";
-
-            p.Editprefs.ReImage = 0;
-            p.Editprefs.ImageFind = "";
-            p.Editprefs.Replace = "";
-
-            p.Editprefs.AppendText = false;
-            p.Editprefs.Append = true;
-            p.Editprefs.Text = "";
-
-            p.Editprefs.AutoDelay = 10;
-            p.Editprefs.QuickSave = false;
-            p.Editprefs.SuppressTag = false;
-
-            p.Editprefs.RegexTypoFix = false;
+            PasteMore1.Text = p.General.PasteMore[0];
+            PasteMore2.Text = p.General.PasteMore[1];
+            PasteMore3.Text = p.General.PasteMore[2];
+            PasteMore4.Text = p.General.PasteMore[3];
+            PasteMore5.Text = p.General.PasteMore[4];
+            PasteMore6.Text = p.General.PasteMore[5];
+            PasteMore7.Text = p.General.PasteMore[6];
+            PasteMore8.Text = p.General.PasteMore[7];
+            PasteMore9.Text = p.General.PasteMore[8];
+            PasteMore10.Text = p.General.PasteMore[9];
 
 
-            p.Skipoptions.SkipNonexistent = true;
-            p.Skipoptions.SkipWhenNoChanges = false;
+            txtFind.Text = p.General.FindText;
+            chkFindRegex.Checked = p.General.FindRegex;
+            chkFindCaseSensitive.Checked = p.General.FindCaseSensitive;
 
-            p.Skipoptions.SkipDoes = false;
-            p.Skipoptions.SkipDoesNot = false;
+            wordWrapToolStripMenuItem1.Checked = p.General.WordWrap;
+            enableTheToolbarToolStripMenuItem.Checked = p.General.ToolBarEnabled;
+            bypassRedirectsToolStripMenuItem.Checked = p.General.BypassRedirect;
+            doNotAutomaticallyDoAnythingToolStripMenuItem.Checked = p.General.NoAutoChanges;
+            previewInsteadOfDiffToolStripMenuItem.Checked = p.General.Preview;
+            markAllAsMinorToolStripMenuItem.Checked = p.General.Minor;
+            addAllToWatchlistToolStripMenuItem.Checked = p.General.Watch;
+            showTimerToolStripMenuItem.Checked = p.General.TimerEnabled;
+            sortAlphabeticallyToolStripMenuItem.Checked = p.General.SortInterwikiOrder;
+            addIgnoredToLogFileToolStripMenuItem.Checked = p.General.AddIgnoredToLog;
 
-            p.Skipoptions.SkipDoesText = "";
-            p.Skipoptions.SkipDoesNotText = "";
+            webBrowserEdit.EnhanceDiffEnabled = p.General.EnhancedDiff;
+            webBrowserEdit.ScrollDown = p.General.ScrollDown;
+            webBrowserEdit.DiffFontSize = p.General.DiffFontSize;
 
-            p.Skipoptions.Regex = false;
-            p.Skipoptions.CaseSensitive = false;
+            System.Drawing.Font f = new System.Drawing.Font(p.General.TextBoxFont, p.General.TextBoxSize);
+            txtEdit.Font = f;
 
-            p.Skipoptions.SkipNoFindAndReplace = false;
-            p.Skipoptions.SkipNoRegexTypoFix = false;
-
-
-            p.General.Summaries = new List<string>();
-
-            p.General.PasteMore = new string[10];
-
-            p.General.FindText = "";
-            p.General.FindRegex = false;
-            p.General.FindCaseSensitive = false;
-
-            p.General.WordWrap = true;
-            p.General.ToolBarEnabled = false;
-            p.General.BypassRedirect = true;
-            p.General.NoAutoChanges = false;
-            p.General.Preview = false;
-            p.General.Minor = false;
-            p.General.Watch = false;
-            p.General.TimerEnabled = false;
-            p.General.SortInterwikiOrder = true;
-            p.General.AddIgnoredToLog = false;
-
-            p.General.EnhancedDiff = true;
-            p.General.ScrollDown = true;
-            p.General.DiffFontSize = 150;
-            p.General.TextBoxSize = 10;
-            p.General.TextBoxFont = "Courier New";
-            p.General.LowThreadPriority = false;
-            p.General.FlashAndBeep = true;
+            LowThreadPriority = p.General.LowThreadPriority;
+            FlashAndBeep = p.General.FlashAndBeep;
 
 
-            p.Module.Enabled = false;
-            p.Module.Language = 0;
-            p.Module.Code = "";
+            cModule.ModuleEnabled = p.Module.Enabled;
+            cModule.Language = p.Module.Language;
+            cModule.Code = p.Module.Code;
+
+             */
 
             return p;
         }
@@ -1043,6 +809,7 @@ namespace AutoWikiBrowser
 
             chkSkipWhenNoFAR.Checked = p.Skipoptions.SkipNoFindAndReplace;
             chkSkipIfNoRegexTypo.Checked = p.Skipoptions.SkipNoRegexTypoFix;
+            Skip.SelectedItem = p.Skipoptions.GeneralSkip;
 
             foreach (string s in p.General.Summaries)
                 cmboEditSummary.Items.Add(s);
@@ -1210,14 +977,16 @@ namespace AutoWikiBrowser
 
         public bool SkipNoFindAndReplace = false;
         public bool SkipNoRegexTypoFix = false;
+
+        public string GeneralSkip = "";
     }
 
     [Serializable]
     public class GeneralPrefs
     {
-        public List <string > Summaries = new List< string> () ;
+        public List<string> Summaries = new List<string>();
 
-        public string[] PasteMore = new string[10] { "", "", "", "", "", "", "", "", "", "" };
+        public string[] PasteMore = new string[10] { "" , "" , "" , "" , "" , "" , "" , "", "", "" };
 
         public string FindText = "";
         public bool FindRegex = false;

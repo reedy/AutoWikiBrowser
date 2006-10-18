@@ -183,14 +183,6 @@ namespace WikiFunctions.Parse
             dataGridView1.Rows.Clear();
         }
 
-        /// <summary>
-        /// Returns a list of the set find and replacemets.
-        /// </summary>
-        public List<Replacement> GetReplacements()
-        {
-            return ReplacementList;
-        }
-
         #region loading/saving
 
         /// <summary>

@@ -82,13 +82,13 @@ namespace WikiFunctions
         {
             get
             {
-                if (Project == "commons")
+                if (Project == ProjectEnum.commons)
                     return "http://commons.wikimedia.org/w/";
-                else if (Project == "meta")
+                else if (Project == ProjectEnum.meta)
                     return "http://meta.wikimedia.org/w/";
-                else if (Project == "species")
+                else if (Project == ProjectEnum.species)
                     return "http://species.wikimedia.org/w/";
-                else if (Project == "custom")
+                else if (Project == ProjectEnum.custom)
                     return "http://" + CustomProject;
                 else
                     return "http://" + LangCode + "." + Project + ".org/w/";
@@ -102,33 +102,33 @@ namespace WikiFunctions
         {
             get
             {
-                if (Project == "commons")
+                if (Project == ProjectEnum.commons)
                     return "http://commons.wikimedia.org";
-                else if (Project == "meta")
+                else if (Project == ProjectEnum.meta)
                     return "http://meta.wikimedia.org";
-                else if (Project == "species")
+                else if (Project == ProjectEnum.species)
                     return "http://species.wikimedia.org";
-                else if (Project == "custom")
+                else if (Project == ProjectEnum.custom)
                     return "http://" + CustomProject.Substring(0, CustomProject.IndexOf("/"));
                 else
                     return "http://" + LangCode + "." + Project + ".org";
             }
         }
 
-        static string strproject = "wikipedia";
+        static ProjectEnum strproject = ProjectEnum.wikipedia;
         /// <summary>
         /// Gets a name of the project, e.g. "wikipedia".
         /// </summary>
-        public static string Project
+        public static ProjectEnum Project
         {
             get { return strproject; }
         }
 
-        static string strlangcode = "en";
+        static LangCodeEnum strlangcode = LangCodeEnum.en;
         /// <summary>
         /// Gets the language code, e.g. "en".
         /// </summary>
-        public static string LangCode
+        public static LangCodeEnum LangCode
         {
             get { return strlangcode; }
         }
@@ -146,7 +146,7 @@ namespace WikiFunctions
 
         }
 
-        static string strsummarytag = " using [[Wikipedia:AutoWikiBrowser|AWB]]";
+        static string strsummarytag = " using [[Project:AWB|AWB]]";
         /// <summary>
         /// Gets the tag to add to the edit summary, e.g. " using [[Wikipedia:AutoWikiBrowser|AWB]]".
         /// </summary>
@@ -175,8 +175,8 @@ namespace WikiFunctions
         {
             Namespaces.Clear();
 
-            strproject = projectName.ToString();
-            strlangcode = langCode.ToString();
+            strproject = projectName;
+            strlangcode = langCode;
             strcustomproject = customProject;
 
             if (projectName == ProjectEnum.wikipedia)
@@ -736,8 +736,8 @@ namespace WikiFunctions
         //User:MaxSem's code
         private static void SetDefaults()
         {
-            strproject = "wikipedia";
-            strlangcode = "en";
+            strproject = ProjectEnum.wikipedia;
+            strlangcode = LangCodeEnum.en;
             strsummarytag = " using [[Project:AWB|AWB]]";
 
             Namespaces.Clear();
