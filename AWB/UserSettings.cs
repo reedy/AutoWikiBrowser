@@ -42,12 +42,12 @@ namespace AutoWikiBrowser
             listMaker1.SelectedSource = 0;
             listMaker1.SourceText = "";
 
-            chkGeneralParse.Checked = true;
+            chkGeneralFixes.Checked = true;
             chkAutoTagger.Checked = true;
             chkUnicodifyWhole.Checked = true;
 
             chkFindandReplace.Checked = false;
-            chkIgnoreWhenNoFAR.Checked = true;
+            chkSkipWhenNoFAR.Checked = true;
             findAndReplace.ignoreLinks = false;
             findAndReplace.AppendToSummary = true;
             findAndReplace.AfterOtherFixes = false;
@@ -55,12 +55,12 @@ namespace AutoWikiBrowser
             cmboCategorise.SelectedIndex = 0;
             txtNewCategory.Text = "";
 
-            chkIgnoreIfContains.Checked = false;
-            chkOnlyIfContains.Checked = false;
-            chkIgnoreIsRegex.Checked = false;
-            chkIgnoreCaseSensitive.Checked = false;
-            txtIgnoreIfContains.Text = "";
-            txtOnlyIfContains.Text = "";
+            chkSkipIfContains.Checked = false;
+            chkSkipIfNotContains.Checked = false;
+            chkSkipIsRegex.Checked = false;
+            chkSkipCaseSensitive.Checked = false;
+            txtSkipIfContains.Text = "";
+            txtSkipIfNotContains.Text = "";
             Skip.SelectedItem = "0";
 
             chkAppend.Checked = false;
@@ -72,7 +72,7 @@ namespace AutoWikiBrowser
             txtImageWith.Text = "";
 
             chkRegExTypo.Checked = false;
-            chkRegexTypoSkip.Checked = false;
+            chkSkipIfNoRegexTypo.Checked = false;
 
             txtFind.Text = "";
             chkFindRegex.Checked = false;
@@ -84,7 +84,7 @@ namespace AutoWikiBrowser
             panel2.Show();
             enableToolBar = false;
             bypassRedirectsToolStripMenuItem.Checked = true;
-            chkIgnoreNonExistent.Checked = true;
+            chkSkipNonExistent.Checked = true;
             doNotAutomaticallyDoAnythingToolStripMenuItem.Checked = false;
             chkSkipNoChanges.Checked = false;
             previewInsteadOfDiffToolStripMenuItem.Checked = false;
@@ -128,7 +128,7 @@ namespace AutoWikiBrowser
                 MessageBox.Show("Problem reseting plugin\r\n\r\n" + ex.Message);
             }
 
-            enableModuleToolStripMenuItem.Checked = false;
+            cModule.ModuleEnabled = false;
 
             lblStatusText.Text = "Default settings loaded.";
         }
@@ -178,7 +178,7 @@ namespace AutoWikiBrowser
                             if (reader.MoveToAttribute("enabled"))
                                 chkFindandReplace.Checked = bool.Parse(reader.Value);
                             if (reader.MoveToAttribute("ignorenofar"))
-                                chkIgnoreWhenNoFAR.Checked = bool.Parse(reader.Value);
+                                chkSkipWhenNoFAR.Checked = bool.Parse(reader.Value);
                             if (reader.MoveToAttribute("ignoretext"))
                                 findAndReplace.ignoreLinks = bool.Parse(reader.Value);
                             if (reader.MoveToAttribute("appendsummary"))
@@ -263,7 +263,7 @@ namespace AutoWikiBrowser
                         if (reader.Name == "general" && reader.HasAttributes)
                         {
                             if (reader.MoveToAttribute("general"))
-                                chkGeneralParse.Checked = bool.Parse(reader.Value);
+                                chkGeneralFixes.Checked = bool.Parse(reader.Value);
                             if (reader.MoveToAttribute("tagger"))
                                 chkAutoTagger.Checked = bool.Parse(reader.Value);
                             if (reader.MoveToAttribute("unicodifyer"))
@@ -283,17 +283,17 @@ namespace AutoWikiBrowser
                         if (reader.Name == "skip" && reader.HasAttributes)
                         {
                             if (reader.MoveToAttribute("does"))
-                                chkIgnoreIfContains.Checked = bool.Parse(reader.Value);
+                                chkSkipIfContains.Checked = bool.Parse(reader.Value);
                             if (reader.MoveToAttribute("doesnot"))
-                                chkOnlyIfContains.Checked = bool.Parse(reader.Value);
+                                chkSkipIfNotContains.Checked = bool.Parse(reader.Value);
                             if (reader.MoveToAttribute("regex"))
-                                chkIgnoreIsRegex.Checked = bool.Parse(reader.Value);
+                                chkSkipIsRegex.Checked = bool.Parse(reader.Value);
                             if (reader.MoveToAttribute("casesensitive"))
-                                chkIgnoreCaseSensitive.Checked = bool.Parse(reader.Value);
+                                chkSkipCaseSensitive.Checked = bool.Parse(reader.Value);
                             if (reader.MoveToAttribute("doestext"))
-                                txtIgnoreIfContains.Text = reader.Value;
+                                txtSkipIfContains.Text = reader.Value;
                             if (reader.MoveToAttribute("doesnottext"))
-                                txtOnlyIfContains.Text = reader.Value;
+                                txtSkipIfNotContains.Text = reader.Value;
                             if (reader.MoveToAttribute("moreindex"))
                                 Skip.SelectedItem = reader.Value;
 
@@ -338,7 +338,7 @@ namespace AutoWikiBrowser
                             if (reader.MoveToAttribute("enabled"))
                                 chkRegExTypo.Checked = bool.Parse(reader.Value);
                             if (reader.MoveToAttribute("skipnofixed"))
-                                chkRegexTypoSkip.Checked = bool.Parse(reader.Value);
+                                chkSkipIfNoRegexTypo.Checked = bool.Parse(reader.Value);
 
                             continue;
                         }
@@ -394,7 +394,7 @@ namespace AutoWikiBrowser
                         if (reader.Name == "ingnorenonexistent" && reader.HasAttributes)
                         {
                             if (reader.MoveToAttribute("enabled"))
-                                chkIgnoreNonExistent.Checked = bool.Parse(reader.Value);
+                                chkSkipNonExistent.Checked = bool.Parse(reader.Value);
 
                             continue;
                         }
@@ -612,7 +612,7 @@ namespace AutoWikiBrowser
                 textWriter.WriteEndElement();
 
                 textWriter.WriteStartElement("general");
-                textWriter.WriteAttributeString("general", chkGeneralParse.Checked.ToString());
+                textWriter.WriteAttributeString("general", chkGeneralFixes.Checked.ToString());
                 textWriter.WriteAttributeString("tagger", chkAutoTagger.Checked.ToString());
                 textWriter.WriteAttributeString("unicodifyer", chkUnicodifyWhole.Checked.ToString());
                 textWriter.WriteEndElement();
@@ -623,12 +623,12 @@ namespace AutoWikiBrowser
                 textWriter.WriteEndElement();
 
                 textWriter.WriteStartElement("skip");
-                textWriter.WriteAttributeString("does", chkIgnoreIfContains.Checked.ToString());
-                textWriter.WriteAttributeString("doesnot", chkOnlyIfContains.Checked.ToString());
-                textWriter.WriteAttributeString("regex", chkIgnoreIsRegex.Checked.ToString());
-                textWriter.WriteAttributeString("casesensitive", chkIgnoreCaseSensitive.Checked.ToString());
-                textWriter.WriteAttributeString("doestext", txtIgnoreIfContains.Text);
-                textWriter.WriteAttributeString("doesnottext", txtOnlyIfContains.Text);
+                textWriter.WriteAttributeString("does", chkSkipIfContains.Checked.ToString());
+                textWriter.WriteAttributeString("doesnot", chkSkipIfNotContains.Checked.ToString());
+                textWriter.WriteAttributeString("regex", chkSkipIsRegex.Checked.ToString());
+                textWriter.WriteAttributeString("casesensitive", chkSkipCaseSensitive.Checked.ToString());
+                textWriter.WriteAttributeString("doestext", txtSkipIfContains.Text);
+                textWriter.WriteAttributeString("doesnottext", txtSkipIfNotContains.Text);
                 textWriter.WriteAttributeString("moreindex", Skip.SelectedItem.ToString());
                 textWriter.WriteEndElement();
 
@@ -654,12 +654,12 @@ namespace AutoWikiBrowser
                 textWriter.WriteStartElement("regextypofix");
                 textWriter.WriteStartElement("regextypofixproperties");
                 textWriter.WriteAttributeString("enabled", chkRegExTypo.Checked.ToString());
-                textWriter.WriteAttributeString("skipnofixed", chkRegexTypoSkip.Checked.ToString());
+                textWriter.WriteAttributeString("skipnofixed", chkSkipIfNoRegexTypo.Checked.ToString());
                 textWriter.WriteEndElement();
                 textWriter.WriteEndElement();
 
                 textWriter.WriteStartElement("FindAndReplaceSettings");
-                findAndReplace.WriteToXml(textWriter, chkFindandReplace.Checked, chkIgnoreWhenNoFAR.Checked);
+                findAndReplace.WriteToXml(textWriter, chkFindandReplace.Checked, chkSkipWhenNoFAR.Checked);
                 textWriter.WriteEndElement();
 
                 textWriter.WriteStartElement("FindAndReplace");
@@ -708,7 +708,7 @@ namespace AutoWikiBrowser
                 textWriter.WriteEndElement();
 
                 textWriter.WriteStartElement("ingnorenonexistent");
-                textWriter.WriteAttributeString("enabled", chkIgnoreNonExistent.Checked.ToString());
+                textWriter.WriteAttributeString("enabled", chkSkipNonExistent.Checked.ToString());
                 textWriter.WriteEndElement();
 
                 textWriter.WriteStartElement("noautochanges");
@@ -898,6 +898,198 @@ namespace AutoWikiBrowser
 
         //new methods, using serialization
 
+        private UserPrefs MakePrefs()
+        {
+            UserPrefs p = new UserPrefs();
+
+            p.Project = ProjectEnum.wikipedia;
+            p.LanguageCode = LangCodeEnum.en;
+            p.CustomProject = "";
+
+
+            p.FindAndReplace.Enabled = false;
+            p.FindAndReplace.IgnoreSomeText = false;
+            p.FindAndReplace.AppendSummary = true;
+            p.FindAndReplace.Replacements = new List<WikiFunctions.Parse.Replacement>();
+
+
+            p.List.ListSource = "";
+            p.List.Source = WikiFunctions.Lists.SourceType.Category;
+            p.List.ArticleList = new List<Article>();
+
+
+            p.Editprefs.GeneralFixes = true;
+            p.Editprefs.Tagger = true;
+            p.Editprefs.Unicodify = true;
+
+            p.Editprefs.Recategorisation = 0;
+            p.Editprefs.NewCategory = "";
+
+            p.Editprefs.ReImage = 0;
+            p.Editprefs.ImageFind = "";
+            p.Editprefs.Replace = "";
+
+            p.Editprefs.AppendText = false;
+            p.Editprefs.Append = true;
+            p.Editprefs.Text = "";
+
+            p.Editprefs.AutoDelay = 10;
+            p.Editprefs.QuickSave = false;
+            p.Editprefs.SuppressTag = false;
+
+            p.Editprefs.RegexTypoFix = false;
+
+
+            p.Skipoptions.SkipNonexistent = true;
+            p.Skipoptions.SkipWhenNoChanges = false;
+
+            p.Skipoptions.SkipDoes = false;
+            p.Skipoptions.SkipDoesNot = false;
+
+            p.Skipoptions.SkipDoesText = "";
+            p.Skipoptions.SkipDoesNotText = "";
+
+            p.Skipoptions.Regex = false;
+            p.Skipoptions.CaseSensitive = false;
+
+            p.Skipoptions.SkipNoFindAndReplace = false;
+            p.Skipoptions.SkipNoRegexTypoFix = false;
+
+
+            p.General.Summaries = new List<string>();
+
+            p.General.PasteMore = new string[10];
+
+            p.General.FindText = "";
+            p.General.FindRegex = false;
+            p.General.FindCaseSensitive = false;
+
+            p.General.WordWrap = true;
+            p.General.ToolBarEnabled = false;
+            p.General.BypassRedirect = true;
+            p.General.NoAutoChanges = false;
+            p.General.Preview = false;
+            p.General.Minor = false;
+            p.General.Watch = false;
+            p.General.TimerEnabled = false;
+            p.General.SortInterwikiOrder = true;
+            p.General.AddIgnoredToLog = false;
+
+            p.General.EnhancedDiff = true;
+            p.General.ScrollDown = true;
+            p.General.DiffFontSize = 150;
+            p.General.TextBoxSize = 10;
+            p.General.TextBoxFont = "Courier New";
+            p.General.LowThreadPriority = false;
+            p.General.FlashAndBeep = true;
+
+
+            p.Module.Enabled = false;
+            p.Module.Language = 0;
+            p.Module.Code = "";
+
+            return p;
+        }
+
+        private void LoadPrefs(UserPrefs p)
+        {
+            SetProject(p.LanguageCode, p.Project, p.CustomProject);
+
+            chkFindandReplace.Checked = p.FindAndReplace.Enabled;
+            findAndReplace.ignoreLinks = p.FindAndReplace.IgnoreSomeText;
+            findAndReplace.AppendToSummary = p.FindAndReplace.AppendSummary;
+            findAndReplace.AddNew(p.FindAndReplace.Replacements);
+
+
+            listMaker1.SourceText = p.List.ListSource;
+            listMaker1.SelectedSource = p.List.Source;
+            listMaker1.Add(p.List.ArticleList);
+
+
+            chkGeneralFixes.Checked = p.Editprefs.GeneralFixes;
+            chkAutoTagger.Checked = p.Editprefs.Tagger;
+            chkUnicodifyWhole.Checked = p.Editprefs.Unicodify;
+
+            cmboCategorise.SelectedIndex = p.Editprefs.Recategorisation;
+            txtNewCategory.Text = p.Editprefs.NewCategory;
+
+            cmboImages.SelectedIndex = p.Editprefs.ReImage;
+            txtImageReplace.Text = p.Editprefs.ImageFind;
+            txtImageWith.Text = p.Editprefs.Replace;
+
+            chkAppend.Checked = p.Editprefs.AppendText;
+            rdoAppend.Checked = p.Editprefs.Append;
+            rdoPrepend.Checked = !p.Editprefs.Append;
+            txtAppendMessage.Text = p.Editprefs.Text;
+
+            nudBotSpeed.Value = (decimal)p.Editprefs.AutoDelay;
+            chkQuickSave.Checked = p.Editprefs.QuickSave;
+            chkSuppressTag.Checked = p.Editprefs.SuppressTag;
+
+            chkRegExTypo.Checked = p.Editprefs.RegexTypoFix;
+
+
+            chkSkipNonExistent.Checked = p.Skipoptions.SkipNonexistent;
+            chkSkipNoChanges.Checked = p.Skipoptions.SkipWhenNoChanges;
+
+            chkSkipIfContains.Checked = p.Skipoptions.SkipDoes;
+            chkSkipIfNotContains.Checked = p.Skipoptions.SkipDoesNot;
+
+            txtSkipIfContains.Text = p.Skipoptions.SkipDoesText;
+            txtSkipIfNotContains.Text = p.Skipoptions.SkipDoesNotText;
+
+            chkSkipIsRegex.Checked = p.Skipoptions.Regex;
+            chkSkipCaseSensitive.Checked = p.Skipoptions.CaseSensitive;
+
+            chkSkipWhenNoFAR.Checked = p.Skipoptions.SkipNoFindAndReplace;
+            chkSkipIfNoRegexTypo.Checked = p.Skipoptions.SkipNoRegexTypoFix;
+
+            foreach (string s in p.General.Summaries)
+                cmboEditSummary.Items.Add(s);
+
+            PasteMore1.Text = p.General.PasteMore[0];
+            PasteMore2.Text = p.General.PasteMore[1];
+            PasteMore3.Text = p.General.PasteMore[2];
+            PasteMore4.Text = p.General.PasteMore[3];
+            PasteMore5.Text = p.General.PasteMore[4];
+            PasteMore6.Text = p.General.PasteMore[5];
+            PasteMore7.Text = p.General.PasteMore[6];
+            PasteMore8.Text = p.General.PasteMore[7];
+            PasteMore9.Text = p.General.PasteMore[8];
+            PasteMore10.Text = p.General.PasteMore[9];
+
+
+            txtFind.Text = p.General.FindText;
+            chkFindRegex.Checked = p.General.FindRegex;
+            chkFindCaseSensitive.Checked = p.General.FindCaseSensitive;
+
+            wordWrapToolStripMenuItem1.Checked = p.General.WordWrap;
+            enableTheToolbarToolStripMenuItem.Checked = p.General.ToolBarEnabled;
+            bypassRedirectsToolStripMenuItem.Checked = p.General.BypassRedirect;
+            doNotAutomaticallyDoAnythingToolStripMenuItem.Checked = p.General.NoAutoChanges;
+            previewInsteadOfDiffToolStripMenuItem.Checked = p.General.Preview;
+            markAllAsMinorToolStripMenuItem.Checked = p.General.Minor;
+            addAllToWatchlistToolStripMenuItem.Checked = p.General.Watch;
+            showTimerToolStripMenuItem.Checked = p.General.TimerEnabled;
+            sortAlphabeticallyToolStripMenuItem.Checked = p.General.SortInterwikiOrder;
+            addIgnoredToLogFileToolStripMenuItem.Checked = p.General.AddIgnoredToLog;
+
+            webBrowserEdit.EnhanceDiffEnabled = p.General.EnhancedDiff;
+            webBrowserEdit.ScrollDown = p.General.ScrollDown;
+            webBrowserEdit.DiffFontSize = p.General.DiffFontSize;
+
+            System.Drawing.Font f = new System.Drawing.Font(p.General.TextBoxFont, p.General.TextBoxSize);
+            txtEdit.Font = f;
+
+            LowThreadPriority = p.General.LowThreadPriority;
+            FlashAndBeep = p.General.FlashAndBeep;
+
+
+            cModule.ModuleEnabled = p.Module.Enabled;
+            cModule.Language = p.Module.Language;
+            cModule.Code = p.Module.Code;
+        }
+
         private void SavePrefs(UserPrefs p)
         {
             try
@@ -935,11 +1127,6 @@ namespace AutoWikiBrowser
             }
         }
 
-        private void LoadPrefs(UserPrefs p)
-        {
-            SetProject(p.LanguageCode, p.Project, "");
-        }
-
     }
 
     //mother class
@@ -953,8 +1140,9 @@ namespace AutoWikiBrowser
 
         public ListPrefs List = new ListPrefs();
         public FaRPrefs FindAndReplace = new FaRPrefs();
-        public EditPrefs EditPrefs = new EditPrefs();
-        public SkipPrefs SkipOptions = new SkipPrefs();
+        public EditPrefs Editprefs = new EditPrefs();
+        public GeneralPrefs General = new GeneralPrefs();
+        public SkipPrefs Skipoptions = new SkipPrefs();
         public ModulePrefs Module = new ModulePrefs();
     }
 
@@ -1001,7 +1189,7 @@ namespace AutoWikiBrowser
         public bool QuickSave = false;
         public bool SuppressTag = false;
 
-        public bool RegexTypoFix = false;        
+        public bool RegexTypoFix = false;
     }
 
     //skip options
@@ -1027,9 +1215,9 @@ namespace AutoWikiBrowser
     [Serializable]
     public class GeneralPrefs
     {
-        public List<string> Summaries = new List<string>();
+        public List <string > Summaries = new List< string> () ;
 
-        public string[] PasteMore = new string[10];
+        public string[] PasteMore = new string[10] { "", "", "", "", "", "", "", "", "", "" };
 
         public string FindText = "";
         public bool FindRegex = false;

@@ -32,6 +32,12 @@ namespace AutoWikiBrowser
             set { cmboLang.SelectedIndex = value; }
         }
 
+        public bool ModuleEnabled
+        {
+            get { return chkModuleEnabled.Checked; }
+            set { chkModuleEnabled.Checked = value; }
+        }
+
         IModule m = null;
         public IModule Module
         {

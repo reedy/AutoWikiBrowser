@@ -80,20 +80,23 @@ namespace WikiFunctions.Parse
                 r = r.Replace(@"\r", "\r").Replace(@"\n", "\n");
 
                 if (!(bool)dataGridRow.Cells["regex"].FormattedValue)
+                {
                     f = Regex.Escape(f);
+                    
+                    rep.Find = f;
+                    rep.Replace = r;
 
-                rep.Find = f;
-                rep.Replace = r;
+                    rep.RegularExpressinonOptions = RegexOptions.None;
+                    if (!(bool)dataGridRow.Cells["casesensitive"].FormattedValue)
+                        rep.RegularExpressinonOptions = rep.RegularExpressinonOptions | RegexOptions.IgnoreCase;
+                    if ((bool)dataGridRow.Cells["multi"].FormattedValue)
+                        rep.RegularExpressinonOptions = rep.RegularExpressinonOptions | RegexOptions.Multiline;
 
-                rep.RegularExpressinonOptions = RegexOptions.None;
-                if (!(bool)dataGridRow.Cells["casesensitive"].FormattedValue)
-                    rep.RegularExpressinonOptions = rep.RegularExpressinonOptions | RegexOptions.IgnoreCase;
-                if ((bool)dataGridRow.Cells["multi"].FormattedValue)
-                    rep.RegularExpressinonOptions = rep.RegularExpressinonOptions | RegexOptions.Multiline;
-                if ((bool)dataGridRow.Cells["single"].FormattedValue)
-                    rep.RegularExpressinonOptions = rep.RegularExpressinonOptions | RegexOptions.Singleline;
+                    if ((bool)dataGridRow.Cells["single"].FormattedValue)
+                        rep.RegularExpressinonOptions = rep.RegularExpressinonOptions | RegexOptions.Singleline;
 
-                ReplacementList.Add(rep);
+                    ReplacementList.Add(rep);
+                }
             }
         }
 
@@ -137,7 +140,7 @@ namespace WikiFunctions.Parse
             Matches = findRegex.Matches(ArticleText);
 
             if (Matches.Count > 0)
-            {                
+            {
                 ArticleText = findRegex.Replace(ArticleText, Replace);
 
                 if (Matches[0].Value != Matches[0].Result(Replace))
@@ -152,7 +155,7 @@ namespace WikiFunctions.Parse
             }
 
             return ArticleText;
-        }             
+        }
 
         private void btnDone_Click(object sender, EventArgs e)
         {
@@ -195,11 +198,28 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="Find">The string to find.</param>
         /// <param name="ReplaceWith">The replacement string.</param>
-        public void AddNew(string Find, string ReplaceWith, bool CaseSensitive, bool Regex, bool MultiLine, bool SingleLine, int Times, bool enabled)
+        public void AddNew(string Find, string ReplaceWith, bool CaseSensitive, bool IsRegex, bool MultiLine, bool SingleLine, int Times, bool enabled)
         {
-            dataGridView1.Rows.Add(Find, ReplaceWith, CaseSensitive, Regex, MultiLine, SingleLine, enabled);
+            dataGridView1.Rows.Add(Find, ReplaceWith, CaseSensitive, IsRegex, MultiLine, SingleLine, enabled);
             if (!enabled)
                 dataGridView1.Rows[dataGridView1.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightGray;
+        }
+
+        public void AddNew(Replacement R)
+        {
+            dataGridView1.Rows.Add(R.Find, R.Replace, R.CaseSensitive, R.IsRegex, R.MultiLine, R.SingleLine, R.Enabled);
+            if (!R.Enabled)
+                dataGridView1.Rows[dataGridView1.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightGray;
+        }
+
+        public void AddNew(List<Replacement> RList)
+        {
+            foreach (Replacement R in RList)
+            {
+                dataGridView1.Rows.Add(R.Find, R.Replace, R.CaseSensitive, R.IsRegex, R.MultiLine, R.SingleLine, R.Enabled);
+                if (!R.Enabled)
+                    dataGridView1.Rows[dataGridView1.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightGray;
+            }
         }
 
         /// <summary>
@@ -240,6 +260,37 @@ namespace WikiFunctions.Parse
             }
 
             XMLWriter.WriteEndElement();
+        }
+
+        /// <summary>
+        /// Gets the find and replace settings.
+        /// </summary>
+        public List<Replacement> GetList()
+        {
+            List<Replacement> RList = new List<Replacement>();
+            Replacement R;
+
+            foreach (DataGridViewRow dataGridRow in dataGridView1.Rows)
+            {
+                if (dataGridRow.IsNewRow || dataGridRow.Cells["find"].Value == null)
+                    continue;
+
+                if (dataGridRow.Cells["replace"].Value == null)
+                    dataGridRow.Cells["replace"].Value = "";
+
+                R = new Replacement();
+                R.Find = dataGridRow.Cells["find"].Value.ToString();
+                R.Replace = dataGridRow.Cells["replace"].Value.ToString();
+                R.CaseSensitive = (bool)dataGridRow.Cells["casesensitive"].FormattedValue;
+                R.IsRegex = (bool)dataGridRow.Cells["regex"].FormattedValue;
+                R.MultiLine = (bool)dataGridRow.Cells["multi"].FormattedValue;
+                R.SingleLine = (bool)dataGridRow.Cells["single"].FormattedValue;
+                R.Enabled = (bool)dataGridRow.Cells["enabled"].FormattedValue;
+
+                RList.Add(R);
+            }
+
+            return RList;
         }
 
         /// <summary>
@@ -400,6 +451,14 @@ namespace WikiFunctions.Parse
     {
         public string Find;
         public string Replace;
+
+        public bool IsRegex;
+        public bool MultiLine;
+        public bool SingleLine;
+        public bool CaseSensitive;
+
+        public bool Enabled;
+
         public RegexOptions RegularExpressinonOptions;
     }
 }
