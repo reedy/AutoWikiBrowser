@@ -20,6 +20,18 @@ namespace AutoWikiBrowser
             txtCode.Text = codeexample;
         }
 
+        public string Code
+        {
+            get { return txtCode.Text; }
+            set { txtCode.Text = value; }
+        }
+
+        public int Language
+        {
+            get { return cmboLang.SelectedIndex; }
+            set { cmboLang.SelectedIndex = value; }
+        }
+
         IModule m = null;
         public IModule Module
         {

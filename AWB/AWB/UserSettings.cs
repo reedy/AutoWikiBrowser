@@ -3,6 +3,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Xml;
+using System.Xml.Serialization;
+using System.Collections.Generic;
 using WikiFunctions;
 using WikiFunctions.Plugin;
 
@@ -20,7 +22,7 @@ namespace AutoWikiBrowser
             if (saveXML.ShowDialog() != DialogResult.OK)
                 return;
 
-            saveSettings(saveXML.FileName);            
+            saveSettings(saveXML.FileName);
         }
 
         private void loadSettingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -126,6 +128,8 @@ namespace AutoWikiBrowser
                 MessageBox.Show("Problem reseting plugin\r\n\r\n" + ex.Message);
             }
 
+            enableModuleToolStripMenuItem.Checked = false;
+
             lblStatusText.Text = "Default settings loaded.";
         }
 
@@ -159,7 +163,7 @@ namespace AutoWikiBrowser
 
                 strSettingsFile = " - " + filename.Remove(0, filename.LastIndexOf("\\") + 1);
                 this.Text = "AutoWikiBrowser" + strSettingsFile;
-                
+
                 Stream stream = new FileStream(filename, FileMode.Open);
                 findAndReplace.Clear();
                 cmboEditSummary.Items.Clear();
@@ -195,7 +199,7 @@ namespace AutoWikiBrowser
                             bool single = false;
                             int times = -1;
                             bool enabled = true;
-                            
+
                             if (reader.MoveToAttribute("find"))
                                 find = reader.Value;
                             if (reader.MoveToAttribute("replacewith"))
@@ -577,7 +581,7 @@ namespace AutoWikiBrowser
         private void saveSettings(string FileName)
         {
             try
-            { 
+            {
                 strSettingsFile = " - " + FileName.Remove(0, FileName.LastIndexOf("\\") + 1);
                 this.Text = "AutoWikiBrowser" + strSettingsFile;
 
@@ -836,7 +840,7 @@ namespace AutoWikiBrowser
             int i = RecentList.IndexOf(s);
 
             if (i >= 0) RecentList.RemoveAt(i);
-            
+
             RecentList.Insert(0, s);
             UpdateRecentSettingsMenu();
         }
@@ -844,7 +848,7 @@ namespace AutoWikiBrowser
         public void LoadRecentSettingsList()
         {
             string s;
-            
+
             try
             {
                 Microsoft.Win32.RegistryKey reg = Microsoft.Win32.Registry.CurrentUser.
@@ -877,8 +881,8 @@ namespace AutoWikiBrowser
             Microsoft.Win32.RegistryKey reg = Microsoft.Win32.Registry.CurrentUser.
                     CreateSubKey("Software\\Wikipedia\\AutoWikiBrowser");
 
-            string list="";
-            foreach(string s in RecentList)
+            string list = "";
+            foreach (string s in RecentList)
             {
                 if (list != "") list += "|";
                 list += s;
@@ -892,5 +896,170 @@ namespace AutoWikiBrowser
             loadSettings((sender as ToolStripItem).Text);
         }
 
+        //new methods, using serialization
+
+        private void SavePrefs(UserPrefs p)
+        {
+            try
+            {
+                XmlSerializer xs = new XmlSerializer(typeof(UserPrefs));
+                FileStream fStream = new FileStream("AWBPrefs.xml", FileMode.Create, FileAccess.Write, FileShare.None);
+
+                xs.Serialize(fStream, p);
+                fStream.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void LoadPrefs(string path)
+        {
+            try
+            {
+                UserPrefs p;
+
+                XmlSerializer xs = new XmlSerializer(typeof(UserPrefs));
+                FileStream fStream = new FileStream("AWBPrefs.xml", FileMode.Open, FileAccess.Read, FileShare.None);
+
+                p = (UserPrefs)xs.Deserialize(fStream);
+
+                fStream.Close();
+
+                LoadPrefs(p);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void LoadPrefs(UserPrefs p)
+        {
+            SetProject(p.LanguageCode, p.Project, "");
+        }
+
+    }
+
+    //mother class
+    [Serializable]
+    public class UserPrefs
+    {
+        public UserPrefs() { }
+        public ProjectEnum Project = ProjectEnum.wikipedia;
+        public LangCodeEnum LanguageCode = LangCodeEnum.en;
+        public string CustomProject = "";
+
+        public ListPrefs List = new ListPrefs();
+        public FaRPrefs FindAndReplace = new FaRPrefs();
+        public EditPrefs EditPrefs = new EditPrefs();
+        public SkipPrefs SkipOptions = new SkipPrefs();
+        public ModulePrefs Module = new ModulePrefs();
+    }
+
+    //find and replace prefs
+    [Serializable]
+    public class FaRPrefs
+    {
+        public bool Enabled = false;
+        public bool IgnoreSomeText = false;
+        public bool AppendSummary = true;
+        public List<WikiFunctions.Parse.Replacement> Replacements = new List<WikiFunctions.Parse.Replacement>();
+
+        //need to save "Advanced find and replace" settings.
+    }
+
+    [Serializable]
+    public class ListPrefs
+    {
+        public string ListSource = "";
+        public WikiFunctions.Lists.SourceType Source = WikiFunctions.Lists.SourceType.Category;
+        public List<Article> ArticleList = new List<Article>();
+    }
+
+    //the basic settings
+    [Serializable]
+    public class EditPrefs
+    {
+        public bool GeneralFixes = true;
+        public bool Tagger = true;
+        public bool Unicodify = true;
+
+        public int Recategorisation = 0;
+        public string NewCategory = "";
+
+        public int ReImage = 0;
+        public string ImageFind = "";
+        public string Replace = "";
+
+        public bool AppendText = false;
+        public bool Append = true;
+        public string Text = "";
+
+        public int AutoDelay = 10;
+        public bool QuickSave = false;
+        public bool SuppressTag = false;
+
+        public bool RegexTypoFix = false;        
+    }
+
+    //skip options
+    [Serializable]
+    public class SkipPrefs
+    {
+        public bool SkipNonexistent = true;
+        public bool SkipWhenNoChanges = false;
+
+        public bool SkipDoes = false;
+        public bool SkipDoesNot = false;
+
+        public string SkipDoesText = "";
+        public string SkipDoesNotText = "";
+
+        public bool Regex = false;
+        public bool CaseSensitive = false;
+
+        public bool SkipNoFindAndReplace = false;
+        public bool SkipNoRegexTypoFix = false;
+    }
+
+    [Serializable]
+    public class GeneralPrefs
+    {
+        public List<string> Summaries = new List<string>();
+
+        public string[] PasteMore = new string[10];
+
+        public string FindText = "";
+        public bool FindRegex = false;
+        public bool FindCaseSensitive = false;
+
+        public bool WordWrap = true;
+        public bool ToolBarEnabled = false;
+        public bool BypassRedirect = true;
+        public bool NoAutoChanges = false;
+        public bool Preview = false;
+        public bool Minor = false;
+        public bool Watch = false;
+        public bool TimerEnabled = false;
+        public bool SortInterwikiOrder = true;
+        public bool AddIgnoredToLog = false;
+
+        public bool EnhancedDiff = true;
+        public bool ScrollDown = true;
+        public int DiffFontSize = 150;
+        public int TextBoxSize = 10;
+        public string TextBoxFont = "Courier New";
+        public bool LowThreadPriority = false;
+        public bool FlashAndBeep = true;
+    }
+
+    [Serializable]
+    public class ModulePrefs
+    {
+        public bool Enabled = false;
+        public int Language = 0;
+        public string Code = "";
     }
 }

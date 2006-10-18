@@ -41,7 +41,7 @@ namespace WikiFunctions.Parse
 
         HideText RemoveLinks = new HideText(true, false, true);
 
-        List<Replacements> ReplacementList = new List<Replacements>();
+        List<Replacement> ReplacementList = new List<Replacement>();
         bool applydefault = false;
         private bool ApplyDefaultFormatting
         {
@@ -71,7 +71,7 @@ namespace WikiFunctions.Parse
                 if (dataGridRow.Cells["replace"].Value == null)
                     dataGridRow.Cells["replace"].Value = "";
 
-                Replacements rep = new Replacements();
+                Replacement rep = new Replacement();
 
                 f = dataGridRow.Cells["find"].Value.ToString();
                 r = dataGridRow.Cells["replace"].Value.ToString();
@@ -110,7 +110,7 @@ namespace WikiFunctions.Parse
             if (chkIgnoreLinks.Checked)
                 ArticleText = RemoveLinks.Hide(ArticleText);
 
-            foreach (Replacements rep in ReplacementList)
+            foreach (Replacement rep in ReplacementList)
             {
                 ArticleText = PerformFindAndReplace(rep.Find, rep.Replace, ArticleText, strTitle, rep.RegularExpressinonOptions);
             }
@@ -183,7 +183,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Returns a list of the set find and replacemets.
         /// </summary>
-        public List<Replacements> GetReplacements()
+        public List<Replacement> GetReplacements()
         {
             return ReplacementList;
         }
@@ -396,11 +396,10 @@ namespace WikiFunctions.Parse
         #endregion
     }
 
-    public struct Replacements
+    public struct Replacement
     {
         public string Find;
         public string Replace;
-        public int NumberOfTimes;
         public RegexOptions RegularExpressinonOptions;
     }
 }
