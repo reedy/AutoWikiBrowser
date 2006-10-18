@@ -343,15 +343,15 @@ namespace AutoWikiBrowser
                 return;
             }
 
-            if (chkIgnoreIfContains.Checked && Skip.SkipIfContains(strText, EdittingArticle.Name,
-            txtIgnoreIfContains.Text, chkIgnoreIsRegex.Checked, chkIgnoreCaseSensitive.Checked, true))
+            if (chkSkipIfContains.Checked && Skip.SkipIfContains(strText, EdittingArticle.Name,
+            txtSkipIfContains.Text, chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, true))
             {
                 SkipPage();
                 return;
             }
 
-            if (chkOnlyIfContains.Checked && Skip.SkipIfContains(strText, EdittingArticle.Name,
-            txtOnlyIfContains.Text, chkIgnoreIsRegex.Checked, chkIgnoreCaseSensitive.Checked, false))
+            if (chkSkipIfNotContains.Checked && Skip.SkipIfContains(strText, EdittingArticle.Name,
+            txtSkipIfNotContains.Text, chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, false))
             {
                 SkipPage();
                 return;
@@ -446,7 +446,7 @@ namespace AutoWikiBrowser
                     StartDelayedRestartTimer();
                     return false;
                 }
-                if (webBrowserEdit.Document.GetElementById("wpTextbox1").InnerText == null && chkIgnoreNonExistent.Checked)
+                if (webBrowserEdit.Document.GetElementById("wpTextbox1").InnerText == null && chkSkipNonExistent.Checked)
                 {//check if it is a non-existent page, if so then skip it automatically.
                     SkipPage();
                     return false;
@@ -570,7 +570,7 @@ namespace AutoWikiBrowser
                 if (noParse.Contains(EdittingArticle.Name))
                     process = false;
 
-                if (enableModuleToolStripMenuItem.Checked && cModule.Module != null)
+                if (cModule.ModuleEnabled && cModule.Module != null)
                 {
                     string tempSummary = "";
                     articleText = cModule.Module.ProcessArticle(articleText, EdittingArticle.Name, EdittingArticle.NameSpaceKey, out tempSummary, out SkipArticle);
@@ -655,7 +655,7 @@ namespace AutoWikiBrowser
                 if (chkRegExTypo.Checked && RegexTypos != null)
                 {
                     articleText = RegexTypos.PerformTypoFixes(articleText, out SkipArticle, ref EdittingArticle.EditSummary);
-                    if (SkipArticle && chkRegexTypoSkip.Checked)
+                    if (SkipArticle && chkSkipIfNoRegexTypo.Checked)
                         return articleText;
                 }
 
@@ -668,7 +668,7 @@ namespace AutoWikiBrowser
                             return articleText;
                     }
 
-                    if (process && chkGeneralParse.Checked)
+                    if (process && chkGeneralFixes.Checked)
                     {
                         articleText = RemoveText.Hide(articleText);
 
@@ -704,7 +704,7 @@ namespace AutoWikiBrowser
                         articleText = RemoveText.AddBack(articleText);
                     }
                 }
-                else if (process && chkGeneralParse.Checked && EdittingArticle.NameSpaceKey == 3)
+                else if (process && chkGeneralFixes.Checked && EdittingArticle.NameSpaceKey == 3)
                 {
                     articleText = RemoveText.Hide(articleText);
                     articleText = parsers.SubstUserTemplates(articleText);
@@ -744,7 +744,7 @@ namespace AutoWikiBrowser
             articleText = findAndReplace.MultipleFindAndReplce(articleText, EdittingArticle.Name, ref EdittingArticle.EditSummary);
             articleText = replaceSpecial.ApplyRules(articleText, EdittingArticle.Name);
 
-            if (chkIgnoreWhenNoFAR.Checked && (testText == articleText))
+            if (chkSkipWhenNoFAR.Checked && (testText == articleText))
             {
                 SkipArticle = true;
                 return articleText;
@@ -888,7 +888,7 @@ namespace AutoWikiBrowser
         {
             btnMoreFindAndReplce.Enabled = chkFindandReplace.Checked;
             btnFindAndReplaceAdvanced.Enabled = chkFindandReplace.Checked;
-            chkIgnoreWhenNoFAR.Enabled = chkFindandReplace.Checked;
+            chkSkipWhenNoFAR.Enabled = chkFindandReplace.Checked;
         }
 
         private void cmboCategorise_SelectedIndexChanged(object sender, EventArgs e)
@@ -1067,12 +1067,12 @@ namespace AutoWikiBrowser
 
         private void chkIgnoreIfContains_CheckedChanged(object sender, EventArgs e)
         {
-            txtIgnoreIfContains.Enabled = chkIgnoreIfContains.Checked;
+            txtSkipIfContains.Enabled = chkSkipIfContains.Checked;
         }
 
         private void chkOnlyIfContains_CheckedChanged(object sender, EventArgs e)
         {
-            txtOnlyIfContains.Enabled = chkOnlyIfContains.Checked;
+            txtSkipIfNotContains.Enabled = chkSkipIfNotContains.Checked;
         }
 
         private void txtNewCategory_Leave(object sender, EventArgs e)
@@ -1349,7 +1349,7 @@ namespace AutoWikiBrowser
             if (Code != LangCodeEnum.en || Project != ProjectEnum.wikipedia)
             {
                 chkAutoTagger.Checked = false;
-                chkGeneralParse.Checked = false;
+                chkGeneralFixes.Checked = false;
             }
             if (Project != ProjectEnum.custom) lblProject.Text = Variables.LangCode + "." + Variables.Project;
             else lblProject.Text = Variables.URLShort;
@@ -1523,11 +1523,6 @@ namespace AutoWikiBrowser
         #endregion
 
         #region menus and buttons
-
-        private void enableModuleToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            makeModuleToolStripMenuItem.Enabled = enableModuleToolStripMenuItem.Checked;
-        }
 
         private void makeModuleToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1861,7 +1856,7 @@ namespace AutoWikiBrowser
 
         private void chkGeneralParse_CheckedChanged(object sender, EventArgs e)
         {
-            alphaSortInterwikiLinksToolStripMenuItem.Enabled = chkGeneralParse.Checked;
+            alphaSortInterwikiLinksToolStripMenuItem.Enabled = chkGeneralFixes.Checked;
         }
 
         private void btnFindAndReplaceAdvanced_Click(object sender, EventArgs e)
@@ -2029,7 +2024,7 @@ namespace AutoWikiBrowser
                 }
             }
 
-            chkRegexTypoSkip.Enabled = chkRegExTypo.Checked;
+            chkSkipIfNoRegexTypo.Enabled = chkRegExTypo.Checked;
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
