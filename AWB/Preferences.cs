@@ -11,15 +11,15 @@ namespace AutoWikiBrowser
 {
     public partial class MyPreferences : Form
     {
-        public MyPreferences(string lang, string proj, string customproj, bool EDiff, bool SDown, int DiffSize, Font TextFont, bool LowPriority, bool FlashBeep)
+        public MyPreferences(LangCodeEnum lang, ProjectEnum proj, string customproj, bool EDiff, bool SDown, int DiffSize, Font TextFont, bool LowPriority, bool FlashBeep)
         {
             InitializeComponent();
 
             foreach (LangCodeEnum l in Enum.GetValues(typeof(LangCodeEnum)))
-                cmboLang.Items.Add(l.ToString());
+                cmboLang.Items.Add(l);
 
             foreach (ProjectEnum l in Enum.GetValues(typeof(ProjectEnum)))
-                cmboProject.Items.Add(l.ToString());
+                cmboProject.Items.Add(l);
 
             cmboLang.SelectedItem = lang;
             cmboProject.SelectedItem = proj;

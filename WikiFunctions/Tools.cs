@@ -254,7 +254,7 @@ namespace WikiFunctions
         /// </summary>
         public static string TurnFirstToUpper(string input)
         {   //other projects don't always start with capital
-            if (Variables.Project == "wiktionary")
+            if (Variables.Project == ProjectEnum.wiktionary)
                 return input;
 
             if (input.Length == 0)
