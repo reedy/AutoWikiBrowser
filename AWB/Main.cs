@@ -124,7 +124,7 @@ namespace AutoWikiBrowser
         WebControl webBrowserLogin = new WebControl();
         TimeSpan StartTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
         StringCollection RecentList = new StringCollection();
-        CustomModule cParser = new CustomModule();
+        CustomModule cModule = new CustomModule();
 
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -570,17 +570,17 @@ namespace AutoWikiBrowser
                 if (noParse.Contains(EdittingArticle.Name))
                     process = false;
 
-                if (enableModuleToolStripMenuItem.Checked && cParser.Module != null)
+                if (enableModuleToolStripMenuItem.Checked && cModule.Module != null)
                 {
                     string tempSummary = "";
-                    articleText = cParser.Module.ProcessArticle(articleText, EdittingArticle.Name, EdittingArticle.NameSpaceKey, out tempSummary, out SkipArticle);
+                    articleText = cModule.Module.ProcessArticle(articleText, EdittingArticle.Name, EdittingArticle.NameSpaceKey, out tempSummary, out SkipArticle);
                     if (SkipArticle)
                         return articleText;
                     else if (tempSummary.Length > 0)
                     {
                         EdittingArticle.EditSummary += " " + tempSummary.Trim();
                     }
-                }            
+                }
 
                 if (AWBPlugins.Count > 0)
                 {
@@ -676,7 +676,7 @@ namespace AutoWikiBrowser
                         {//en only
                             articleText = parsers.Conversions(articleText);
                             articleText = parsers.LivingPeople(articleText, out SkipArticle);
-                            
+
                             articleText = parsers.FixHeadings(articleText, EdittingArticle.Name, out SkipArticle);
                             if (Skip.SkipNoHeaderError && SkipArticle)
                                 return articleText;
@@ -937,7 +937,7 @@ namespace AutoWikiBrowser
 
                 strText = webBrowserLogin.GetArticleText();
                 UserName = webBrowserLogin.UserName;
-           
+
                 //see if we are logged in
                 if (!webBrowserLogin.LoggedIn)
                 {
@@ -1531,7 +1531,7 @@ namespace AutoWikiBrowser
 
         private void makeModuleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            cParser.Show();
+            cModule.Show();
         }
 
         private void btnMoreSkip_Click(object sender, EventArgs e)
@@ -2269,6 +2269,6 @@ namespace AutoWikiBrowser
             pluginsToolStripMenuItem.Visible = AWBPlugins.Count > 0;
         }
 
-        #endregion        
+        #endregion
     }
 }
