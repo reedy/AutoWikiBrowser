@@ -1869,12 +1869,6 @@ namespace AutoWikiBrowser
 
         private void btnMoreFindAndReplce_Click(object sender, EventArgs e)
         {
-            Replacement r = new Replacement();
-            r.RegularExpressinonOptions = RegexOptions.IgnoreCase | RegexOptions.Multiline;
-
-            MessageBox.Show(r.RegularExpressinonOptions.ToString());
-            findAndReplace.AddNew(r);
-
             if (!findAndReplace.Visible)
                 findAndReplace.ShowDialog();
             else
