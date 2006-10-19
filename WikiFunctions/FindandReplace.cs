@@ -59,19 +59,25 @@ namespace WikiFunctions.Parse
 
             string f = "";
             string r = "";
+            Replacement rep;
 
             foreach (DataGridViewRow dataGridRow in dataGridView1.Rows)
             {
                 if (dataGridRow.IsNewRow)
                     continue;
 
-                if (!(bool)dataGridRow.Cells["enabled"].FormattedValue || dataGridRow.Cells["find"].Value == null)
+                if (dataGridRow.Cells["find"].Value == null)
                     continue;
+
+                rep = new Replacement();
+
+                if ((bool)dataGridRow.Cells["enabled"].FormattedValue)
+                    rep.Enabled = true;
+                else
+                    rep.Enabled = false;
 
                 if (dataGridRow.Cells["replace"].Value == null)
                     dataGridRow.Cells["replace"].Value = "";
-
-                Replacement rep = new Replacement();
 
                 f = dataGridRow.Cells["find"].Value.ToString();
                 r = dataGridRow.Cells["replace"].Value.ToString();
@@ -82,25 +88,27 @@ namespace WikiFunctions.Parse
                 if (!(bool)dataGridRow.Cells["regex"].FormattedValue)
                 {
                     f = Regex.Escape(f);
-
-                    rep.Find = f;
-                    rep.Replace = r;
-
-                    rep.RegularExpressinonOptions = RegexOptions.None;
-                    if (!(bool)dataGridRow.Cells["casesensitive"].FormattedValue)
-                        rep.RegularExpressinonOptions = rep.RegularExpressinonOptions | RegexOptions.IgnoreCase;
-                    if ((bool)dataGridRow.Cells["multi"].FormattedValue)
-                        rep.RegularExpressinonOptions = rep.RegularExpressinonOptions | RegexOptions.Multiline;
-
-                    if ((bool)dataGridRow.Cells["single"].FormattedValue)
-                        rep.RegularExpressinonOptions = rep.RegularExpressinonOptions | RegexOptions.Singleline;
-
-                    rep.Enabled = true;
-
-                    ReplacementList.Add(rep);
+                    rep.IsRegex = false;
                 }
+                else
+                    rep.IsRegex = true;
+
+                rep.Find = f;
+                rep.Replace = r;
+
+                rep.RegularExpressinonOptions = RegexOptions.None;
+                if (!(bool)dataGridRow.Cells["casesensitive"].FormattedValue)
+                    rep.RegularExpressinonOptions = rep.RegularExpressinonOptions | RegexOptions.IgnoreCase;
+                if ((bool)dataGridRow.Cells["multi"].FormattedValue)
+                    rep.RegularExpressinonOptions = rep.RegularExpressinonOptions | RegexOptions.Multiline;
+
+                if ((bool)dataGridRow.Cells["single"].FormattedValue)
+                    rep.RegularExpressinonOptions = rep.RegularExpressinonOptions | RegexOptions.Singleline;
+
+                ReplacementList.Add(rep);
             }
         }
+
 
         /// <summary>
         /// Applies a series of defined find and replacements to the supplied article text.
@@ -117,6 +125,9 @@ namespace WikiFunctions.Parse
 
             foreach (Replacement rep in ReplacementList)
             {
+                if (!rep.Enabled)
+                    continue;
+
                 ArticleText = PerformFindAndReplace(rep.Find, rep.Replace, ArticleText, strTitle, rep.RegularExpressinonOptions);
             }
 
