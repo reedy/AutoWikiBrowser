@@ -95,6 +95,8 @@ namespace WikiFunctions.Parse
                     if ((bool)dataGridRow.Cells["single"].FormattedValue)
                         rep.RegularExpressinonOptions = rep.RegularExpressinonOptions | RegexOptions.Singleline;
 
+                    rep.Enabled = true;
+
                     ReplacementList.Add(rep);
                 }
             }
@@ -206,6 +208,8 @@ namespace WikiFunctions.Parse
             dataGridView1.Rows.Add(R.Find, R.Replace, CaseSens, R.IsRegex, Multiine, SingleLine, R.Enabled);
             if (!R.Enabled)
                 dataGridView1.Rows[dataGridView1.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightGray;
+
+            ReplacementList.Add(R);
         }
 
         public void AddNew(List<Replacement> RList)
@@ -223,6 +227,8 @@ namespace WikiFunctions.Parse
                 dataGridView1.Rows.Add(R.Find, R.Replace, CaseSens, R.IsRegex, Multiine, SingleLine, R.Enabled);
                 if (!R.Enabled)
                     dataGridView1.Rows[dataGridView1.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightGray;
+
+                ReplacementList.Add(R);
             }
         }
 
