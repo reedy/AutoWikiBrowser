@@ -816,7 +816,10 @@ namespace AutoWikiBrowser
             Skip.SelectedItem = p.Skipoptions.GeneralSkip;
 
             foreach (string s in p.General.Summaries)
-                cmboEditSummary.Items.Add(s);
+            {
+                if (!cmboEditSummary.Items.Contains(s))
+                    cmboEditSummary.Items.Add(s);
+            }
 
             PasteMore1.Text = p.General.PasteMore[0];
             PasteMore2.Text = p.General.PasteMore[1];
