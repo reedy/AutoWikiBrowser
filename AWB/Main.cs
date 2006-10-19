@@ -148,7 +148,7 @@ namespace AutoWikiBrowser
                     WikiStatus();
 
                 LoadPlugins();
-                loadDefaultSettings();
+                LoadPrefs();
                 UpdateButtons();
             }
             catch (Exception ex)
