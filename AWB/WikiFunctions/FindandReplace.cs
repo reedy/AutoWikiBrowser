@@ -82,7 +82,7 @@ namespace WikiFunctions.Parse
                 if (!(bool)dataGridRow.Cells["regex"].FormattedValue)
                 {
                     f = Regex.Escape(f);
-                    
+
                     rep.Find = f;
                     rep.Replace = r;
 
@@ -199,59 +199,31 @@ namespace WikiFunctions.Parse
 
         public void AddNew(Replacement R)
         {
-            dataGridView1.Rows.Add(R.Find, R.Replace, R.CaseSensitive, R.IsRegex, R.MultiLine, R.SingleLine, R.Enabled);
+            bool CaseSens = !R.RegularExpressinonOptions.ToString().Contains("IgnoreCase");
+            bool Multiine = R.RegularExpressinonOptions.ToString().Contains("Multiline");
+            bool SingleLine = R.RegularExpressinonOptions.ToString().Contains("Singleline");
+
+            dataGridView1.Rows.Add(R.Find, R.Replace, CaseSens, R.IsRegex, Multiine, SingleLine, R.Enabled);
             if (!R.Enabled)
                 dataGridView1.Rows[dataGridView1.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightGray;
         }
 
         public void AddNew(List<Replacement> RList)
         {
+            bool CaseSens;
+            bool Multiine;
+            bool SingleLine;
+
             foreach (Replacement R in RList)
             {
-                dataGridView1.Rows.Add(R.Find, R.Replace, R.CaseSensitive, R.IsRegex, R.MultiLine, R.SingleLine, R.Enabled);
+                CaseSens = !R.RegularExpressinonOptions.ToString().Contains("IgnoreCase");
+                Multiine = R.RegularExpressinonOptions.ToString().Contains("Multiline");
+                SingleLine = R.RegularExpressinonOptions.ToString().Contains("Singleline");
+
+                dataGridView1.Rows.Add(R.Find, R.Replace, CaseSens, R.IsRegex, Multiine, SingleLine, R.Enabled);
                 if (!R.Enabled)
                     dataGridView1.Rows[dataGridView1.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightGray;
             }
-        }
-
-        /// <summary>
-        /// Writes the find and replace settings to XML.
-        /// </summary>
-        /// <param name="XMLWriter">The XML writer to write to.</param>
-        /// <param name="enabled">Set whether find and replace is enabled.</param>
-        public void WriteToXml(XmlTextWriter XMLWriter, bool enabled, bool ignore)
-        {
-            XMLWriter.WriteStartElement("findandreplacesettings");
-
-            XMLWriter.WriteAttributeString("enabled", enabled.ToString());
-            XMLWriter.WriteAttributeString("ignorenofar", ignore.ToString());
-            XMLWriter.WriteAttributeString("ignoretext", ignoreLinks.ToString());
-            XMLWriter.WriteAttributeString("appendsummary", AppendToSummary.ToString());
-            XMLWriter.WriteAttributeString("afterotherfixes", AfterOtherFixes.ToString());
-
-            foreach (DataGridViewRow dataGridRow in dataGridView1.Rows)
-            {
-                if (dataGridRow.IsNewRow || dataGridRow.Cells["find"].Value == null)
-                    continue;
-
-                if (dataGridRow.Cells["replace"].Value == null)
-                    dataGridRow.Cells["replace"].Value = "";
-
-                XMLWriter.WriteStartElement("FindAndReplace");
-
-                XMLWriter.WriteAttributeString("find", dataGridRow.Cells["find"].Value.ToString());
-                XMLWriter.WriteAttributeString("replacewith", dataGridRow.Cells["replace"].Value.ToString());
-                XMLWriter.WriteAttributeString("casesensitive", dataGridRow.Cells["casesensitive"].FormattedValue.ToString());
-                XMLWriter.WriteAttributeString("regex", dataGridRow.Cells["regex"].FormattedValue.ToString());
-                XMLWriter.WriteAttributeString("multi", dataGridRow.Cells["multi"].FormattedValue.ToString());
-                XMLWriter.WriteAttributeString("single", dataGridRow.Cells["single"].FormattedValue.ToString());
-                XMLWriter.WriteAttributeString("enabled", dataGridRow.Cells["enabled"].FormattedValue.ToString());
-                XMLWriter.WriteAttributeString("maxnumber", "-1");
-
-                XMLWriter.WriteEndElement();
-            }
-
-            XMLWriter.WriteEndElement();
         }
 
         /// <summary>
@@ -259,30 +231,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         public List<Replacement> GetList()
         {
-            List<Replacement> RList = new List<Replacement>();
-            Replacement R;
-
-            foreach (DataGridViewRow dataGridRow in dataGridView1.Rows)
-            {
-                if (dataGridRow.IsNewRow || dataGridRow.Cells["find"].Value == null)
-                    continue;
-
-                if (dataGridRow.Cells["replace"].Value == null)
-                    dataGridRow.Cells["replace"].Value = "";
-
-                R = new Replacement();
-                R.Find = dataGridRow.Cells["find"].Value.ToString();
-                R.Replace = dataGridRow.Cells["replace"].Value.ToString();
-                R.CaseSensitive = (bool)dataGridRow.Cells["casesensitive"].FormattedValue;
-                R.IsRegex = (bool)dataGridRow.Cells["regex"].FormattedValue;
-                R.MultiLine = (bool)dataGridRow.Cells["multi"].FormattedValue;
-                R.SingleLine = (bool)dataGridRow.Cells["single"].FormattedValue;
-                R.Enabled = (bool)dataGridRow.Cells["enabled"].FormattedValue;
-
-                RList.Add(R);
-            }
-
-            return RList;
+            return ReplacementList;
         }
 
         /// <summary>
@@ -445,10 +394,6 @@ namespace WikiFunctions.Parse
         public string Replace;
 
         public bool IsRegex;
-        public bool MultiLine;
-        public bool SingleLine;
-        public bool CaseSensitive;
-
         public bool Enabled;
 
         public RegexOptions RegularExpressinonOptions;

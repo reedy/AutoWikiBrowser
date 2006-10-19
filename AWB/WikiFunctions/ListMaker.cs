@@ -584,7 +584,7 @@ namespace WikiFunctions.Lists
         /// <summary>
         /// Returns the list of articles
         /// </summary>
-        private List<Article> ArticleListFromListBox()
+        public List<Article> GetArticleList()
         {
             List<Article> list = new List<Article>();
 
@@ -899,7 +899,7 @@ namespace WikiFunctions.Lists
         /// </summary>
         public void ConvertToTalkPages()
         {
-            List<Article> list = ArticleListFromListBox();
+            List<Article> list = GetArticleList();
             list = GetLists.ConvertToTalk(list);
             lbArticles.Items.Clear();
             Add(list);
@@ -910,7 +910,7 @@ namespace WikiFunctions.Lists
         /// </summary>
         public void ConvertFromTalkPages()
         {
-            List<Article> list = ArticleListFromListBox();
+            List<Article> list = GetArticleList();
             list = GetLists.ConvertFromTalk(list);
             lbArticles.Items.Clear();
             Add(list);
