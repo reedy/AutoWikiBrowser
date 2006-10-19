@@ -661,12 +661,13 @@ namespace AutoWikiBrowser
             p.FindAndReplace.AppendSummary = findAndReplace.AppendToSummary;
             p.FindAndReplace.Replacements = findAndReplace.GetList();
 
+
+            p.List.ListSource = listMaker1.SourceText;
+            p.List.Source = listMaker1.SelectedSource;
+            p.List.ArticleList = listMaker1.GetArticleList();
+
+
             /*
-            listMaker1.SourceText = p.List.ListSource;
-            listMaker1.SelectedSource = p.List.Source;
-            listMaker1.Add(p.List.ArticleList);
-
-
             chkGeneralFixes.Checked = p.Editprefs.GeneralFixes;
             chkAutoTagger.Checked = p.Editprefs.Tagger;
             chkUnicodifyWhole.Checked = p.Editprefs.Unicodify;
@@ -986,7 +987,7 @@ namespace AutoWikiBrowser
     {
         public List<string> Summaries = new List<string>();
 
-        public string[] PasteMore = new string[10] { "" , "" , "" , "" , "" , "" , "" , "", "", "" };
+        public string[] PasteMore = new string[10] { "", "" , "" , "" , "" , "" , "" , "" , "" , "" };
 
         public string FindText = "";
         public bool FindRegex = false;
