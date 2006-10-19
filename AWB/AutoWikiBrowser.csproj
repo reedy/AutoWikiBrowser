@@ -166,8 +166,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Default.xml">
-    </Content>
     <Content Include="globe.ico" />
   </ItemGroup>
   <ItemGroup>

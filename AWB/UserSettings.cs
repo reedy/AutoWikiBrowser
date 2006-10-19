@@ -7,6 +7,7 @@ using System.Xml.Serialization;
 using System.Collections.Generic;
 using WikiFunctions;
 using WikiFunctions.Plugin;
+using WikiFunctions.AWBSettings;
 
 namespace AutoWikiBrowser
 {
@@ -120,8 +121,8 @@ namespace AutoWikiBrowser
 
             try
             {
-                foreach (IAWBPlugin a in AWBPlugins)
-                    a.Reset();
+                foreach (KeyValuePair<string, IAWBPlugin> a in AWBPlugins)
+                    a.Value.Reset();
             }
             catch (Exception ex)
             {
@@ -540,14 +541,14 @@ namespace AutoWikiBrowser
                             continue;
                         }
 
-                        foreach (IAWBPlugin a in AWBPlugins)
-                        {
-                            if (reader.Name == a.Name.Replace(' ', '_') && reader.HasAttributes)
-                            {
-                                a.ReadXML(reader);
-                                break;
-                            }
-                        }
+                        //foreach (IAWBPlugin a in AWBPlugins)
+                        //{
+                        //    if (reader.Name == a.Name.Replace(' ', '_') && reader.HasAttributes)
+                        //    {
+                        //        a.LoadSettings(reader);
+                        //        break;
+                        //    }
+                        //}
 
                     }
                     stream.Close();
@@ -745,6 +746,14 @@ namespace AutoWikiBrowser
             p.Module.Language = cModule.Language;
             p.Module.Code = cModule.Code;
 
+            foreach (KeyValuePair<string, IAWBPlugin> a in AWBPlugins)
+            {
+                PluginPrefs pp = new PluginPrefs();
+                pp.Name = a.Key;
+                pp.PluginSettings = a.Value.SaveSettings();
+
+                p.Plugin.Add(pp);
+            }
 
             return p;
         }
@@ -850,6 +859,12 @@ namespace AutoWikiBrowser
             cModule.ModuleEnabled = p.Module.Enabled;
             cModule.Language = p.Module.Language;
             cModule.Code = p.Module.Code;
+
+            foreach (PluginPrefs pp in p.Plugin)
+            {
+                if (AWBPlugins.ContainsKey(pp.Name))
+                    AWBPlugins[pp.Name].LoadSettings(pp.PluginSettings);
+            }
         }
 
         /// <summary>
@@ -916,130 +931,5 @@ namespace AutoWikiBrowser
                 MessageBox.Show(ex.Message, "Error loading settings", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-    }
-
-    //mother class
-    [Serializable]
-    public class UserPrefs
-    {
-        public UserPrefs() { }
-        public ProjectEnum Project = ProjectEnum.wikipedia;
-        public LangCodeEnum LanguageCode = LangCodeEnum.en;
-        public string CustomProject = "";
-
-        public ListPrefs List = new ListPrefs();
-        public FaRPrefs FindAndReplace = new FaRPrefs();
-        public EditPrefs Editprefs = new EditPrefs();
-        public GeneralPrefs General = new GeneralPrefs();
-        public SkipPrefs Skipoptions = new SkipPrefs();
-        public ModulePrefs Module = new ModulePrefs();
-    }
-
-    //find and replace prefs
-    [Serializable]
-    public class FaRPrefs
-    {
-        public bool Enabled = false;
-        public bool IgnoreSomeText = false;
-        public bool AppendSummary = true;
-        public List<WikiFunctions.Parse.Replacement> Replacements = new List<WikiFunctions.Parse.Replacement>();
-
-        //need to save "Advanced find and replace" settings.
-    }
-
-    [Serializable]
-    public class ListPrefs
-    {
-        public string ListSource = "";
-        public WikiFunctions.Lists.SourceType Source = WikiFunctions.Lists.SourceType.Category;
-        public List<Article> ArticleList = new List<Article>();
-    }
-
-    //the basic settings
-    [Serializable]
-    public class EditPrefs
-    {
-        public bool GeneralFixes = true;
-        public bool Tagger = true;
-        public bool Unicodify = true;
-
-        public int Recategorisation = 0;
-        public string NewCategory = "";
-
-        public int ReImage = 0;
-        public string ImageFind = "";
-        public string Replace = "";
-
-        public bool AppendText = false;
-        public bool Append = true;
-        public string Text = "";
-
-        public int AutoDelay = 10;
-        public bool QuickSave = false;
-        public bool SuppressTag = false;
-
-        public bool RegexTypoFix = false;
-    }
-
-    //skip options
-    [Serializable]
-    public class SkipPrefs
-    {
-        public bool SkipNonexistent = true;
-        public bool SkipWhenNoChanges = false;
-
-        public bool SkipDoes = false;
-        public bool SkipDoesNot = false;
-
-        public string SkipDoesText = "";
-        public string SkipDoesNotText = "";
-
-        public bool Regex = false;
-        public bool CaseSensitive = false;
-
-        public bool SkipNoFindAndReplace = false;
-        public bool SkipNoRegexTypoFix = false;
-
-        public string GeneralSkip = "";
-    }
-
-    [Serializable]
-    public class GeneralPrefs
-    {
-        public List<string> Summaries = new List<string>();
-
-        public string[] PasteMore = new string[ 10] { "" , "" , "" , "" , "" , "", "", "", "", "" };
-
-        public string FindText = "";
-        public bool FindRegex = false;
-        public bool FindCaseSensitive = false;
-
-        public bool WordWrap = true;
-        public bool ToolBarEnabled = false;
-        public bool BypassRedirect = true;
-        public bool NoAutoChanges = false;
-        public bool Preview = false;
-        public bool Minor = false;
-        public bool Watch = false;
-        public bool TimerEnabled = false;
-        public bool SortInterwikiOrder = true;
-        public bool AddIgnoredToLog = false;
-
-        public bool EnhancedDiff = true;
-        public bool ScrollDown = true;
-        public int DiffFontSize = 150;
-        public int TextBoxSize = 10;
-        public string TextBoxFont = "Courier New";
-        public bool LowThreadPriority = false;
-        public bool FlashAndBeep = true;
-    }
-
-    [Serializable]
-    public class ModulePrefs
-    {
-        public bool Enabled = false;
-        public int Language = 0;
-        public string Code = "";
     }
 }
