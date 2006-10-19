@@ -14,7 +14,7 @@ namespace AutoWikiBrowser
     {
         private void saveAsDefaultToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //   saveSettings(Application.StartupPath + "\\Default.xml");
+            SavePrefs();
         }
 
         private void saveSettingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -22,7 +22,7 @@ namespace AutoWikiBrowser
             if (saveXML.ShowDialog() != DialogResult.OK)
                 return;
 
-            //  saveSettings(saveXML.FileName);
+            SavePrefs(saveXML.FileName);
         }
 
         private void loadSettingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -137,23 +137,11 @@ namespace AutoWikiBrowser
         {
             if (openXML.ShowDialog() != DialogResult.OK)
                 return;
-            loadSettings(openXML.FileName);
+
+            LoadPrefs(openXML.FileName);
         }
 
-        private void loadDefaultSettings()
-        {//load Default.xml file if it exists
-            try
-            {
-                string filename = Application.StartupPath + "\\Default.xml";
-
-                loadSettings(filename);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
+        [Obsolete]
         private void loadSettings(string filename)
         {
             try
@@ -643,11 +631,14 @@ namespace AutoWikiBrowser
 
         private void RecentSettingsClick(object sender, EventArgs e)
         {
-            loadSettings((sender as ToolStripItem).Text);
+            LoadPrefs((sender as ToolStripItem).Text);
         }
 
         //new methods, using serialization
 
+        /// <summary>
+        /// Make preferences object from current settings
+        /// </summary>
         private UserPrefs MakePrefs()
         {
             UserPrefs p = new UserPrefs();
@@ -667,97 +658,100 @@ namespace AutoWikiBrowser
             p.List.ArticleList = listMaker1.GetArticleList();
 
 
-            /*
-            chkGeneralFixes.Checked = p.Editprefs.GeneralFixes;
-            chkAutoTagger.Checked = p.Editprefs.Tagger;
-            chkUnicodifyWhole.Checked = p.Editprefs.Unicodify;
+            p.Editprefs.GeneralFixes = chkGeneralFixes.Checked;
+            p.Editprefs.Tagger = chkAutoTagger.Checked;
+            p.Editprefs.Unicodify = chkUnicodifyWhole.Checked;
 
-            cmboCategorise.SelectedIndex = p.Editprefs.Recategorisation;
-            txtNewCategory.Text = p.Editprefs.NewCategory;
+            p.Editprefs.Recategorisation = cmboCategorise.SelectedIndex;
+            p.Editprefs.NewCategory = txtNewCategory.Text;
 
-            cmboImages.SelectedIndex = p.Editprefs.ReImage;
-            txtImageReplace.Text = p.Editprefs.ImageFind;
-            txtImageWith.Text = p.Editprefs.Replace;
-
-            chkAppend.Checked = p.Editprefs.AppendText;
-            rdoAppend.Checked = p.Editprefs.Append;
-            rdoPrepend.Checked = !p.Editprefs.Append;
-            txtAppendMessage.Text = p.Editprefs.Text;
-
-            nudBotSpeed.Value = (decimal)p.Editprefs.AutoDelay;
-            chkQuickSave.Checked = p.Editprefs.QuickSave;
-            chkSuppressTag.Checked = p.Editprefs.SuppressTag;
-
-            chkRegExTypo.Checked = p.Editprefs.RegexTypoFix;
+            p.Editprefs.ReImage = cmboImages.SelectedIndex;
+            p.Editprefs.ImageFind = txtImageReplace.Text;
+            p.Editprefs.Replace = txtImageWith.Text;
 
 
-            chkSkipNonExistent.Checked = p.Skipoptions.SkipNonexistent;
-            chkSkipNoChanges.Checked = p.Skipoptions.SkipWhenNoChanges;
+            p.Editprefs.AppendText = chkAppend.Checked;
+            p.Editprefs.Append = rdoAppend.Checked;
+            p.Editprefs.Append = !rdoPrepend.Checked;
+            p.Editprefs.Text = txtAppendMessage.Text;
 
-            chkSkipIfContains.Checked = p.Skipoptions.SkipDoes;
-            chkSkipIfNotContains.Checked = p.Skipoptions.SkipDoesNot;
+            p.Editprefs.AutoDelay = (int)nudBotSpeed.Value;
+            p.Editprefs.QuickSave = chkQuickSave.Checked;
+            p.Editprefs.SuppressTag = chkSuppressTag.Checked;
 
-            txtSkipIfContains.Text = p.Skipoptions.SkipDoesText;
-            txtSkipIfNotContains.Text = p.Skipoptions.SkipDoesNotText;
-
-            chkSkipIsRegex.Checked = p.Skipoptions.Regex;
-            chkSkipCaseSensitive.Checked = p.Skipoptions.CaseSensitive;
-
-            chkSkipWhenNoFAR.Checked = p.Skipoptions.SkipNoFindAndReplace;
-            chkSkipIfNoRegexTypo.Checked = p.Skipoptions.SkipNoRegexTypoFix;
-            Skip.SelectedItem = p.Skipoptions.GeneralSkip;
+            p.Editprefs.RegexTypoFix = chkRegExTypo.Checked;
 
 
-            foreach (string s in p.General.Summaries)
-                cmboEditSummary.Items.Add(s);
+            p.Skipoptions.SkipNonexistent = chkSkipNonExistent.Checked;
+            p.Skipoptions.SkipWhenNoChanges = chkSkipNoChanges.Checked;
 
-            PasteMore1.Text = p.General.PasteMore[0];
-            PasteMore2.Text = p.General.PasteMore[1];
-            PasteMore3.Text = p.General.PasteMore[2];
-            PasteMore4.Text = p.General.PasteMore[3];
-            PasteMore5.Text = p.General.PasteMore[4];
-            PasteMore6.Text = p.General.PasteMore[5];
-            PasteMore7.Text = p.General.PasteMore[6];
-            PasteMore8.Text = p.General.PasteMore[7];
-            PasteMore9.Text = p.General.PasteMore[8];
-            PasteMore10.Text = p.General.PasteMore[9];
+            p.Skipoptions.SkipDoes = chkSkipIfContains.Checked;
+            p.Skipoptions.SkipDoesNot = chkSkipIfNotContains.Checked;
 
+            p.Skipoptions.SkipDoesText = txtSkipIfContains.Text;
+            p.Skipoptions.SkipDoesNotText = txtSkipIfNotContains.Text;
 
-            txtFind.Text = p.General.FindText;
-            chkFindRegex.Checked = p.General.FindRegex;
-            chkFindCaseSensitive.Checked = p.General.FindCaseSensitive;
+            p.Skipoptions.Regex = chkSkipIsRegex.Checked;
+            p.Skipoptions.CaseSensitive = chkSkipCaseSensitive.Checked;
 
-            wordWrapToolStripMenuItem1.Checked = p.General.WordWrap;
-            enableTheToolbarToolStripMenuItem.Checked = p.General.ToolBarEnabled;
-            bypassRedirectsToolStripMenuItem.Checked = p.General.BypassRedirect;
-            doNotAutomaticallyDoAnythingToolStripMenuItem.Checked = p.General.NoAutoChanges;
-            previewInsteadOfDiffToolStripMenuItem.Checked = p.General.Preview;
-            markAllAsMinorToolStripMenuItem.Checked = p.General.Minor;
-            addAllToWatchlistToolStripMenuItem.Checked = p.General.Watch;
-            showTimerToolStripMenuItem.Checked = p.General.TimerEnabled;
-            sortAlphabeticallyToolStripMenuItem.Checked = p.General.SortInterwikiOrder;
-            addIgnoredToLogFileToolStripMenuItem.Checked = p.General.AddIgnoredToLog;
-
-            webBrowserEdit.EnhanceDiffEnabled = p.General.EnhancedDiff;
-            webBrowserEdit.ScrollDown = p.General.ScrollDown;
-            webBrowserEdit.DiffFontSize = p.General.DiffFontSize;
-
-            System.Drawing.Font f = new System.Drawing.Font(p.General.TextBoxFont, p.General.TextBoxSize);
-            txtEdit.Font = f;
-
-            LowThreadPriority = p.General.LowThreadPriority;
-            FlashAndBeep = p.General.FlashAndBeep;
+            p.Skipoptions.SkipNoFindAndReplace = chkSkipWhenNoFAR.Checked;
+            p.Skipoptions.SkipNoRegexTypoFix = chkSkipIfNoRegexTypo.Checked;
+            p.Skipoptions.GeneralSkip = Skip.SelectedItem;
 
 
-            cModule.ModuleEnabled = p.Module.Enabled;
-            cModule.Language = p.Module.Language;
-            cModule.Code = p.Module.Code;
+            foreach (object s in cmboEditSummary.Items)
+                p.General.Summaries.Add(s.ToString());
 
-             */
+            p.General.PasteMore[0] = PasteMore1.Text;
+            p.General.PasteMore[1] = PasteMore2.Text;
+            p.General.PasteMore[2] = PasteMore3.Text;
+            p.General.PasteMore[3] = PasteMore4.Text;
+            p.General.PasteMore[4] = PasteMore5.Text;
+            p.General.PasteMore[5] = PasteMore6.Text;
+            p.General.PasteMore[6] = PasteMore7.Text;
+            p.General.PasteMore[7] = PasteMore8.Text;
+            p.General.PasteMore[8] = PasteMore9.Text;
+            p.General.PasteMore[9] = PasteMore10.Text;
+
+
+            p.General.FindText = txtFind.Text;
+            p.General.FindRegex = chkFindRegex.Checked;
+            p.General.FindCaseSensitive = chkFindCaseSensitive.Checked;
+
+
+            p.General.WordWrap = wordWrapToolStripMenuItem1.Checked;
+            p.General.ToolBarEnabled = enableTheToolbarToolStripMenuItem.Checked;
+            p.General.BypassRedirect = bypassRedirectsToolStripMenuItem.Checked;
+            p.General.NoAutoChanges = doNotAutomaticallyDoAnythingToolStripMenuItem.Checked;
+            p.General.Preview = previewInsteadOfDiffToolStripMenuItem.Checked;
+            p.General.Minor = markAllAsMinorToolStripMenuItem.Checked;
+            p.General.Watch = addAllToWatchlistToolStripMenuItem.Checked;
+            p.General.TimerEnabled = showTimerToolStripMenuItem.Checked;
+            p.General.SortInterwikiOrder = sortAlphabeticallyToolStripMenuItem.Checked;
+            p.General.AddIgnoredToLog = addIgnoredToLogFileToolStripMenuItem.Checked;
+
+            p.General.EnhancedDiff = webBrowserEdit.EnhanceDiffEnabled;
+            p.General.ScrollDown = webBrowserEdit.ScrollDown;
+            p.General.DiffFontSize = webBrowserEdit.DiffFontSize;
+
+            p.General.TextBoxFont = txtEdit.Font.Name;
+            p.General.TextBoxSize = (int)txtEdit.Font.Size;
+
+            p.General.LowThreadPriority = LowThreadPriority;
+            p.General.FlashAndBeep = FlashAndBeep;
+
+
+            p.Module.Enabled = cModule.ModuleEnabled;
+            p.Module.Language = cModule.Language;
+            p.Module.Code = cModule.Code;
+
 
             return p;
         }
 
+        /// <summary>
+        /// Load preferences object
+        /// </summary>
         private void LoadPrefs(UserPrefs p)
         {
             SetProject(p.LanguageCode, p.Project, p.CustomProject);
@@ -789,7 +783,7 @@ namespace AutoWikiBrowser
             rdoPrepend.Checked = !p.Editprefs.Append;
             txtAppendMessage.Text = p.Editprefs.Text;
 
-            nudBotSpeed.Value = (decimal)p.Editprefs.AutoDelay;
+            nudBotSpeed.Value = p.Editprefs.AutoDelay;
             chkQuickSave.Checked = p.Editprefs.QuickSave;
             chkSuppressTag.Checked = p.Editprefs.SuppressTag;
 
@@ -858,30 +852,58 @@ namespace AutoWikiBrowser
             cModule.Code = p.Module.Code;
         }
 
-        private void SavePrefs(UserPrefs p)
+        /// <summary>
+        /// Save preferences as default
+        /// </summary>
+        private void SavePrefs()
+        {
+            SavePrefs("Default.xml");
+        }
+
+        /// <summary>
+        /// Save preferences to file
+        /// </summary>
+        private void SavePrefs(string Path)
         {
             try
             {
-                XmlSerializer xs = new XmlSerializer(typeof(UserPrefs));
-                FileStream fStream = new FileStream("AWBPrefs.xml", FileMode.Create, FileAccess.Write, FileShare.None);
+                //test file to see if it is an old AWB file
 
-                xs.Serialize(fStream, p);
+                UserPrefs P = MakePrefs();
+                XmlSerializer xs = new XmlSerializer(typeof(UserPrefs));
+                FileStream fStream = new FileStream(Path, FileMode.Create, FileAccess.Write);
+
+                xs.Serialize(fStream, P);
                 fStream.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Error saving settings", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void LoadPrefs(string path)
+        /// <summary>
+        /// Load default preferences
+        /// </summary>
+        private void LoadPrefs()
+        {
+            if (!File.Exists("Default.xml"))
+                return;
+
+            LoadPrefs("Default.xml");
+        }
+
+        /// <summary>
+        /// Load preferences from file
+        /// </summary>
+        private void LoadPrefs(string Path)
         {
             try
             {
                 UserPrefs p;
 
                 XmlSerializer xs = new XmlSerializer(typeof(UserPrefs));
-                FileStream fStream = new FileStream("AWBPrefs.xml", FileMode.Open, FileAccess.Read, FileShare.None);
+                FileStream fStream = new FileStream(Path, FileMode.Open, FileAccess.Read);
 
                 p = (UserPrefs)xs.Deserialize(fStream);
 
@@ -891,7 +913,7 @@ namespace AutoWikiBrowser
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Error loading settings", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -987,7 +1009,7 @@ namespace AutoWikiBrowser
     {
         public List<string> Summaries = new List<string>();
 
-        public string[] PasteMore = new string[10] { "", "" , "" , "" , "" , "" , "" , "" , "" , "" };
+        public string[] PasteMore = new string[ 10] { "" , "" , "" , "" , "" , "", "", "", "", "" };
 
         public string FindText = "";
         public bool FindRegex = false;
