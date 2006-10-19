@@ -587,11 +587,11 @@ namespace AutoWikiBrowser
                     SkipArticle = false;
                     string tempSummary = "";
 
-                    foreach (IAWBPlugin a in AWBPlugins)
+                    foreach (KeyValuePair<string, IAWBPlugin> a in AWBPlugins)
                     {
                         tempSummary = "";
 
-                        articleText = a.ProcessArticle(articleText, EdittingArticle.Name, EdittingArticle.NameSpaceKey, out tempSummary, out SkipArticle);
+                        articleText = a.Value.ProcessArticle(articleText, EdittingArticle.Name, EdittingArticle.NameSpaceKey, out tempSummary, out SkipArticle);
                         if (SkipArticle)
                             return articleText;
                         else if (tempSummary.Length > 0)
@@ -2218,7 +2218,8 @@ namespace AutoWikiBrowser
 
         #region Plugin
 
-        List<IAWBPlugin> AWBPlugins = new List<IAWBPlugin>();
+        Dictionary<string, IAWBPlugin> AWBPlugins = new Dictionary<string, IAWBPlugin>();
+     //   List<IAWBPlugin> AWBPlugins = new List<IAWBPlugin>();
         private void LoadPlugins()
         {
             try
@@ -2244,7 +2245,8 @@ namespace AutoWikiBrowser
 
                             if (g != null)
                             {
-                                AWBPlugins.Add((IAWBPlugin)Activator.CreateInstance(t));
+                                IAWBPlugin awb = (IAWBPlugin)Activator.CreateInstance(t);
+                                AWBPlugins.Add(awb.Name, awb);
                             }
                         }
                     }
@@ -2255,16 +2257,16 @@ namespace AutoWikiBrowser
                 MessageBox.Show(ex.Message, "Problem loading plugin");
             }
 
-            foreach (IAWBPlugin a in AWBPlugins)
+            foreach (KeyValuePair<string, IAWBPlugin> a in AWBPlugins)
             {
-                a.Start += Start;
-                a.Save += Save;
-                a.Skip += SkipPage;
-                a.Stop += Stop;
-                a.Diff += GetDiff;
-                a.Preview += GetPreview;
+                a.Value.Start += Start;
+                a.Value.Save += Save;
+                a.Value.Skip += SkipPage;
+                a.Value.Stop += Stop;
+                a.Value.Diff += GetDiff;
+                a.Value.Preview += GetPreview;
 
-                a.Initialise(listMaker1, webBrowserEdit, pluginsToolStripMenuItem, mnuTextBox, tabControl1, this, txtEdit);
+                a.Value.Initialise(listMaker1, webBrowserEdit, pluginsToolStripMenuItem, mnuTextBox, tabControl1, this, txtEdit);
             }
 
             pluginsToolStripMenuItem.Visible = AWBPlugins.Count > 0;
