@@ -25,7 +25,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace WikiFunctions.MWB
-{
+{    
     public class InTemplateRule : IRule
     {
         public const string XmlName = "InTemplateRule";
@@ -289,38 +289,6 @@ namespace WikiFunctions.MWB
 
             return ReplaceOn(template, tn, text, title);
         }
-
-        public override void WriteToXml(TreeNode tn, XmlTextWriter w)
-        {
-            if (tn == null)
-                return;
-
-            InTemplateRule r = (InTemplateRule)tn.Tag;
-
-            w.WriteStartElement(XmlName);
-
-            w.WriteAttributeString("name", r.Name);
-            w.WriteAttributeString("enabled", r.enabled_.ToString());
-
-            if (r.DoReplace_ && r.ReplaceWith_ != "")
-                w.WriteAttributeString("replacewith", r.ReplaceWith_);
-
-            foreach (string s in TemplateNames_)
-            {
-                w.WriteStartElement("template");
-                w.WriteString(s);
-                w.WriteEndElement();
-            }
-
-            foreach (TreeNode t in tn.Nodes)
-            {
-                IRule sr = (IRule)t.Tag;
-                sr.WriteToXml(t, w);
-            }
-
-            w.WriteEndElement();
-        }
-
 
         static public void ReadFromXml(TreeNodeCollection nodes, XmlTextReader rd, bool is_empty)
         {

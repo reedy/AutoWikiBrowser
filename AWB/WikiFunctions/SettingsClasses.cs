@@ -33,6 +33,7 @@ namespace WikiFunctions.AWBSettings
         public bool AppendSummary = true;
         public List<WikiFunctions.Parse.Replacement> Replacements = new List<WikiFunctions.Parse.Replacement>();
 
+        public List<WikiFunctions.MWB.IRule> AdvancedReps = new List<WikiFunctions.MWB.IRule>();
         //need to save "Advanced find and replace" settings.
     }
 

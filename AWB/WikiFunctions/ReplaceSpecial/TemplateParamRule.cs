@@ -26,7 +26,6 @@ using System.Text.RegularExpressions;
 
 namespace WikiFunctions.MWB
 {
-
     public class TemplateParamRule : IRule
     {
         public const string XmlName = "TemplateParamRule";
@@ -117,29 +116,6 @@ namespace WikiFunctions.MWB
             return text;
         }
 
-
-        public override void WriteToXml(TreeNode tn, XmlTextWriter w)
-        {
-            if (tn == null)
-                return;
-
-            TemplateParamRule r = (TemplateParamRule)tn.Tag;
-
-            w.WriteStartElement(XmlName);
-
-            w.WriteAttributeString("name", r.Name);
-            w.WriteAttributeString("enabled", r.enabled_.ToString());
-            w.WriteAttributeString("paramName", r.ParamName_);
-            w.WriteAttributeString("newParamName", r.NewParamName_);
-
-            foreach (TreeNode t in tn.Nodes)
-            {
-                IRule sr = (IRule)t.Tag;
-                sr.WriteToXml(t, w);
-            }
-
-            w.WriteEndElement();
-        }
 
         static public void ReadFromXml(TreeNodeCollection nodes, XmlTextReader rd, bool is_empty)
         {
