@@ -25,7 +25,9 @@ using System.Xml;
 
 namespace WikiFunctions.MWB
 {
-
+    [System.Xml.Serialization.XmlInclude(typeof(Rule))]
+    [System.Xml.Serialization.XmlInclude(typeof(TemplateParamRule))]
+    [System.Xml.Serialization.XmlInclude(typeof(InTemplateRule))]
     public abstract class IRule : ICloneable
     {
         private string name_ = "";
@@ -64,8 +66,6 @@ namespace WikiFunctions.MWB
         }
 
         public abstract string Apply(TreeNode tn, string text, string title);
-
-        public abstract void WriteToXml(TreeNode tn, XmlTextWriter w);
 
         public abstract Object Clone();
 

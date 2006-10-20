@@ -323,25 +323,11 @@ namespace WikiFunctions.MWB
             return text;
         }
 
+       
+        
         private void DeleteMenuItem_Click(object sender, EventArgs e)
         {
             DeleteCmd();
-        }
-
-        public void WriteToXml(XmlTextWriter w, bool enabled)
-        {
-            SaveCurrentRule();
-            w.WriteStartElement(XmlName);
-
-            w.WriteAttributeString("enabled", enabled.ToString());
-
-            foreach (TreeNode tn in RulesTreeView.Nodes)
-            {
-                IRule r = (IRule)tn.Tag;
-                r.WriteToXml(tn, w);
-            }
-
-            w.WriteEndElement();
         }
 
         public void ReadFromXml(XmlTextReader rd, ref bool enabled)
@@ -445,6 +431,29 @@ namespace WikiFunctions.MWB
         private void NewTemplateParameterRuleMenuItem_Click(object sender, EventArgs e)
         {
             AddNewRule(RuleFactory.CreateTemplateParamRule());
+        }
+
+        public List<IRule> GetRules()
+        {
+            List<IRule> l = new List<IRule>();
+
+            foreach (TreeNode tn in RulesTreeView.Nodes)
+            {
+                IRule r = (IRule)tn.Tag;
+                l.Add(r);
+            }
+
+            return l;
+        }
+
+        public void AddNewRule(List<IRule> Rules)
+        {
+            Clear();
+
+            foreach (IRule r in Rules)
+            {
+                AddNewRule(r);
+            }
         }
 
         private void AddNewRule(IRule r)

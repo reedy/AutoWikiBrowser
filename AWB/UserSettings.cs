@@ -652,8 +652,8 @@ namespace AutoWikiBrowser
             p.FindAndReplace.IgnoreSomeText = findAndReplace.ignoreLinks;
             p.FindAndReplace.AppendSummary = findAndReplace.AppendToSummary;
             p.FindAndReplace.Replacements = findAndReplace.GetList();
-
-
+            p.FindAndReplace.AdvancedReps = replaceSpecial.GetRules();
+            
             p.List.ListSource = listMaker1.SourceText;
             p.List.Source = listMaker1.SelectedSource;
             p.List.ArticleList = listMaker1.GetArticleList();
@@ -769,7 +769,7 @@ namespace AutoWikiBrowser
             findAndReplace.ignoreLinks = p.FindAndReplace.IgnoreSomeText;
             findAndReplace.AppendToSummary = p.FindAndReplace.AppendSummary;
             findAndReplace.AddNew(p.FindAndReplace.Replacements);
-
+            replaceSpecial.AddNewRule(p.FindAndReplace.AdvancedReps);
 
             listMaker1.SourceText = p.List.ListSource;
             listMaker1.SelectedSource = p.List.Source;
@@ -896,7 +896,7 @@ namespace AutoWikiBrowser
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error saving settings", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.ToString(), "Error saving settings", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

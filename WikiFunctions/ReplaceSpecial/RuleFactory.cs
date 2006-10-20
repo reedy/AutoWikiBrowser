@@ -63,61 +63,6 @@ namespace WikiFunctions.MWB
             }
         }
 
-        static public void ReadFromXmlAWB(TreeNodeCollection nodes, XmlTextReader rd)
-        {
-            bool regex = false;
-            bool caseSensitive = false;
-            bool multiline = false;
-            bool singleline = false;
-
-            if (rd.MoveToAttribute("regex"))
-                regex = Convert.ToBoolean(rd.Value);
-            if (rd.MoveToAttribute("casesensitive"))
-                caseSensitive = Convert.ToBoolean(rd.Value);
-            if (rd.MoveToAttribute("multiline"))
-                multiline = Convert.ToBoolean(rd.Value);
-            if (rd.MoveToAttribute("singleline"))
-                singleline = Convert.ToBoolean(rd.Value);
-
-            RegexOptions regexOptions = RegexOptions.None;
-            if (!caseSensitive)
-                regexOptions |= RegexOptions.IgnoreCase;
-            if (multiline)
-                regexOptions |= RegexOptions.Multiline;
-            if (singleline)
-                regexOptions |= RegexOptions.Singleline;
-
-            int i = 1;
-            while (rd.Read())
-            {
-                if (rd.Name != "FAR" && rd.Name != "datagridFAR")
-                    break;
-
-                Rule r = new Rule();
-
-                r.Name = "Rule " + i.ToString();
-
-                r.regex_ = regex;
-                r.regexOptions_ = regexOptions;
-
-                if (rd.MoveToAttribute("apply"))
-                    r.numoftimes_ = Convert.ToInt32(rd.Value);
-
-                if (rd.MoveToAttribute("find"))
-                    r.replace_ = rd.Value;
-
-                if (rd.MoveToAttribute("replacewith"))
-                    r.with_ = rd.Value;
-
-                TreeNode tn = new TreeNode(r.Name);
-                tn.Tag = r;
-
-                nodes.Add(tn);
-
-                ++i;
-            }
-        }
-
     }
 
 }
