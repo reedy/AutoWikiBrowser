@@ -143,17 +143,10 @@ namespace AutoWikiBrowser
         }
 
         [Obsolete]
-        private void loadSettings(string filename)
+        private void loadSettings(Stream stream)
         {
             try
             {
-                if (!File.Exists(filename))
-                    throw new FileNotFoundException("Settings file not found.");
-
-                strSettingsFile = " - " + filename.Remove(0, filename.LastIndexOf("\\") + 1);
-                this.Text = "AutoWikiBrowser" + strSettingsFile;
-
-                Stream stream = new FileStream(filename, FileMode.Open);
                 findAndReplace.Clear();
                 cmboEditSummary.Items.Clear();
 
@@ -553,8 +546,6 @@ namespace AutoWikiBrowser
                     }
                     stream.Close();
                     findAndReplace.MakeList();
-                    lblStatusText.Text = "Settings successfully loaded";
-                    UpdateRecentList(filename);
                 }
             }
             catch (IOException ex)
@@ -884,15 +875,13 @@ namespace AutoWikiBrowser
         private void SavePrefs(string Path)
         {
             try
-            {
-                //test file to see if it is an old AWB file
-
-                UserPrefs P = MakePrefs();
-                XmlSerializer xs = new XmlSerializer(typeof(UserPrefs));
-                FileStream fStream = new FileStream(Path, FileMode.Create, FileAccess.Write);
-
-                xs.Serialize(fStream, P);
-                fStream.Close();
+            {                
+                using (FileStream fStream = new FileStream(Path, FileMode.Open, FileAccess.Read))
+                {
+                    UserPrefs P = MakePrefs();
+                    XmlSerializer xs = new XmlSerializer(typeof(UserPrefs));
+                    xs.Serialize(fStream, P);
+                }
             }
             catch (Exception ex)
             {
@@ -918,16 +907,22 @@ namespace AutoWikiBrowser
         {
             try
             {
-                UserPrefs p;
+                using (FileStream fStream = new FileStream(Path, FileMode.Open, FileAccess.Read))
+                {
+                    //todo
+                    //test file to see if it is an old AWB file
+                    //clear old settings.
 
-                XmlSerializer xs = new XmlSerializer(typeof(UserPrefs));
-                FileStream fStream = new FileStream(Path, FileMode.Open, FileAccess.Read);
+                    UserPrefs p;
+                    XmlSerializer xs = new XmlSerializer(typeof(UserPrefs));
+                    p = (UserPrefs)xs.Deserialize(fStream);
+                    LoadPrefs(p);                    
+                }
 
-                p = (UserPrefs)xs.Deserialize(fStream);
-
-                fStream.Close();
-
-                LoadPrefs(p);
+                SettingsFile = " - " + Path.Remove(0, Path.LastIndexOf("\\") + 1);
+                this.Text = "AutoWikiBrowser" + SettingsFile;
+                lblStatusText.Text = "Settings successfully loaded";
+                UpdateRecentList(Path);
             }
             catch (Exception ex)
             {

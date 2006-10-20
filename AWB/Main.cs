@@ -112,7 +112,7 @@ namespace AutoWikiBrowser
         }
 
         string LastArticle = "";
-        string strSettingsFile = "";
+        string SettingsFile = "";
         bool boolSaved = true;
         HideText RemoveText = new HideText(false, true, false);
         List<string> noParse = new List<string>();
@@ -316,7 +316,7 @@ namespace AutoWikiBrowser
 
             strText = webBrowserEdit.GetArticleText();
 
-            this.Text = "AutoWikiBrowser" + strSettingsFile + " - " + EdittingArticle.Name;
+            this.Text = "AutoWikiBrowser" + SettingsFile + " - " + EdittingArticle.Name;
 
             //check not in use
             if (Regex.IsMatch(strText, "\\{\\{[Ii]nuse"))
