@@ -20,14 +20,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace WikiFunctions
-{
+{    
     public class Article
     {
         public Article()
         { }
-
+        
         public Article(string Name)
         {
             this.Name = Name;
@@ -42,13 +43,15 @@ namespace WikiFunctions
             this.EditSummary = "";
         }
 
+        [XmlAttribute]
         public int NameSpaceKey;
         public string Name;
-        public string EditSummary;
+
+        [XmlIgnore]
+        public string EditSummary = "";
 
         //public string ArticleText;
         //public string OriginalText;
-        
 
         public string URLEncodedName
         {
