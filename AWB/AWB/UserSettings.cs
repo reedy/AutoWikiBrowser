@@ -851,7 +851,6 @@ namespace AutoWikiBrowser
             LowThreadPriority = p.General.LowThreadPriority;
             FlashAndBeep = p.General.FlashAndBeep;
 
-
             cModule.ModuleEnabled = p.Module.Enabled;
             cModule.Language = p.Module.Language;
             cModule.Code = p.Module.Code;

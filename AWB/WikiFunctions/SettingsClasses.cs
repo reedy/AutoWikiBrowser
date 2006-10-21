@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace WikiFunctions.AWBSettings
 {
 
     //mother class
-    [Serializable]
+    [Serializable, XmlRoot("AutoWikiBrowserPreferences")]
     public class UserPrefs
     {
         public UserPrefs() { }

@@ -35,7 +35,12 @@ namespace AutoWikiBrowser
         public bool ModuleEnabled
         {
             get { return chkModuleEnabled.Checked; }
-            set { chkModuleEnabled.Checked = value; }
+            set 
+            { 
+                chkModuleEnabled.Checked = value;
+                if (value)
+                    MakeModule();
+            }
         }
 
         IModule m = null;
