@@ -75,6 +75,7 @@ namespace WikiFunctions
         /// </summary>
         public static Dictionary<int, string> NamespacesCaseInsensitive = new Dictionary<int, string>(24);
 
+        static string strURL = "http://en.wikipedia.org/w/";
         /// <summary>
         /// Gets a URL of the site, e.g. "http://en.wikipedia.org/w/".
         /// </summary>
@@ -82,19 +83,12 @@ namespace WikiFunctions
         {
             get
             {
-                if (Project == ProjectEnum.commons)
-                    return "http://commons.wikimedia.org/w/";
-                else if (Project == ProjectEnum.meta)
-                    return "http://meta.wikimedia.org/w/";
-                else if (Project == ProjectEnum.species)
-                    return "http://species.wikimedia.org/w/";
-                else if (Project == ProjectEnum.custom)
-                    return "http://" + CustomProject;
-                else
-                    return "http://" + LangCode + "." + Project + ".org/w/";
+                return strURL;
             }
+            private set { strURL = value; }
         }
 
+        static string strURLShort = "http://en.wikipedia.org";
         /// <summary>
         /// Gets a URL of the site, e.g. "http://en.wikipedia.org".
         /// </summary>
@@ -102,17 +96,9 @@ namespace WikiFunctions
         {
             get
             {
-                if (Project == ProjectEnum.commons)
-                    return "http://commons.wikimedia.org";
-                else if (Project == ProjectEnum.meta)
-                    return "http://meta.wikimedia.org";
-                else if (Project == ProjectEnum.species)
-                    return "http://species.wikimedia.org";
-                else if (Project == ProjectEnum.custom)
-                    return "http://" + CustomProject.Substring(0, CustomProject.IndexOf("/"));
-                else
-                    return "http://" + LangCode + "." + Project + ".org";
+                return strURLShort;
             }
+            private set { strURLShort = value; }
         }
 
         static ProjectEnum strproject = ProjectEnum.wikipedia;
@@ -178,6 +164,17 @@ namespace WikiFunctions
             strproject = projectName;
             strlangcode = langCode;
             strcustomproject = customProject;
+                        
+            if (Project == ProjectEnum.custom)
+            {
+                URL = "http://" + CustomProject;
+                URLShort = "http://" + CustomProject.Substring(0, CustomProject.IndexOf("/"));
+            }
+            else
+            {
+                URL = "http://" + LangCode + "." + Project + ".org/w/";
+                URLShort = "http://" + LangCode + "." + Project + ".org";
+            }
 
             if (projectName == ProjectEnum.wikipedia)
             {
@@ -653,14 +650,20 @@ namespace WikiFunctions
             else if (projectName == ProjectEnum.commons)
             {
                 SetToEnglish("Commons:", "Commons talk:");
+                URL = "http://commons.wikimedia.org/w/";
+                URLShort = "http://commons.wikimedia.org";
             }
             else if (projectName == ProjectEnum.meta)
             {
                 SetToEnglish("Meta:", "Meta talk:");
+                URL = "http://meta.wikimedia.org/w/";
+                URLShort = "http://meta.wikimedia.org";
             }
             else if (projectName == ProjectEnum.species)
             {
                 SetToEnglish("Wikispecies:", "Wikispecies talk:");
+                URL = "http://species.wikimedia.org/w/";
+                URLShort = "http://species.wikimedia.org";
             }
             else
             {
