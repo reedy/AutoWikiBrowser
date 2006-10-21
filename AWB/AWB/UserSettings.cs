@@ -556,6 +556,8 @@ namespace AutoWikiBrowser
             {
                 MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            MessageBox.Show("Please re-save this settings file to use the new settings format.", "Re-save", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         public void UpdateRecentList(string[] list)
@@ -876,7 +878,7 @@ namespace AutoWikiBrowser
         {
             try
             {                
-                using (FileStream fStream = new FileStream(Path, FileMode.Open, FileAccess.Read))
+                using (FileStream fStream = new FileStream(Path, FileMode.Create))
                 {
                     UserPrefs P = MakePrefs();
                     XmlSerializer xs = new XmlSerializer(typeof(UserPrefs));
@@ -885,7 +887,7 @@ namespace AutoWikiBrowser
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error saving settings", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error saving settings", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -907,16 +909,31 @@ namespace AutoWikiBrowser
         {
             try
             {
-                using (FileStream fStream = new FileStream(Path, FileMode.Open, FileAccess.Read))
-                {
-                    //todo
-                    //test file to see if it is an old AWB file
-                    //clear old settings.
+                findAndReplace.Clear();
+                replaceSpecial.Clear();
 
-                    UserPrefs p;
-                    XmlSerializer xs = new XmlSerializer(typeof(UserPrefs));
-                    p = (UserPrefs)xs.Deserialize(fStream);
-                    LoadPrefs(p);                    
+                //test file to see if it is an old AWB file
+                StreamReader sr = new StreamReader(new FileStream(Path, FileMode.Open));
+                string test = sr.ReadToEnd();
+                bool oldFile = false;
+                sr.Close();
+
+                if (test.Contains("<Settings program=\"AWB\""))
+                    oldFile = true;
+
+                using (FileStream fStream = new FileStream(Path, FileMode.Open))
+                {
+                    if (oldFile)
+                    {
+                        loadSettings(fStream);
+                    }
+                    else
+                    {
+                        UserPrefs p;
+                        XmlSerializer xs = new XmlSerializer(typeof(UserPrefs));
+                        p = (UserPrefs)xs.Deserialize(fStream);
+                        LoadPrefs(p);
+                    }
                 }
 
                 SettingsFile = " - " + Path.Remove(0, Path.LastIndexOf("\\") + 1);

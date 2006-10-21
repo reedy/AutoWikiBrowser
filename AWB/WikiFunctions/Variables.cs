@@ -27,7 +27,7 @@ using System.Windows.Forms;
 
 namespace WikiFunctions
 {
-    public enum LangCodeEnum { en, ca, da, de, eo, es, fi, fr, hu, it, ja, nl, no, mi, pl, pt, ru, sk, sl, sv, zh }
+    public enum LangCodeEnum { en, ca, da, de, eo, es, fi, fr, hu, it, ja, nl, no, mi, pl, pt, ru, sk, sl, sv, ta, tj, zh }
     public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikiquote, wikiversity, wikibooks, wikinews, commons, meta, species, custom }
 
     /// <summary>
@@ -184,6 +184,10 @@ namespace WikiFunctions
                 //set language variables
                 switch (langCode)
                 {
+                    case LangCodeEnum.en:
+                        SetToEnglish("Wikipedia:", "Wikipedia talk:");
+                        break;
+
                     case LangCodeEnum.ca:
                         Namespaces[-2] = "Media:";
                         Namespaces[-1] = "Especial:";
@@ -641,7 +645,8 @@ namespace WikiFunctions
                         break;
 
                     default:
-                        SetToEnglish("Wikipedia:", "Wikipedia talk:");
+                        Namespaces = LoadNamespaces(URL);
+                        strsummarytag = " ([[Project:AWB|AWB]])";
                         break;
                 }
             }
