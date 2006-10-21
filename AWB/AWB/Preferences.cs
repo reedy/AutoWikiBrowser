@@ -139,7 +139,5 @@ namespace AutoWikiBrowser
         }
 
         #endregion
-
-
     }
 }

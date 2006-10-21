@@ -66,7 +66,7 @@ namespace WikiFunctions.Lists
 
             for (int i = 0; i < Categories.Length; i++)
             {
-                string origURL = Variables.URL + "/query.php?what=category&cptitle=" + encodeText(Categories[i]) + "&format=xml&cplimit=500";
+                string origURL = Variables.URLLong + "/query.php?what=category&cptitle=" + encodeText(Categories[i]) + "&format=xml&cplimit=500";
                 string URL = origURL;
                 int ns = 0;
                 string title = "";
@@ -160,7 +160,7 @@ namespace WikiFunctions.Lists
 
             foreach (string Page in Pages)
             {
-                string OrigURL = Variables.URL + "query.php?what=" + request + "&titles=" + encodeText(Page) + "&" + initial + "limit=500&" + initial + "filter=all&format=xml";
+                string OrigURL = Variables.URLLong + "query.php?what=" + request + "&titles=" + encodeText(Page) + "&" + initial + "limit=500&" + initial + "filter=all&format=xml";
                 string URL = OrigURL;
                 string title = "";
                 int ns = 0;
@@ -242,7 +242,7 @@ namespace WikiFunctions.Lists
 
             foreach (string Article in Articles)
             {
-                string OrigURL = Variables.URL + "query.php?what=links&titles=" + encodeText(Article) + "&format=xml";
+                string OrigURL = Variables.URLLong + "query.php?what=links&titles=" + encodeText(Article) + "&format=xml";
                 string URL = OrigURL;
                 string title = "";
                 int ns = 0;
@@ -358,7 +358,7 @@ namespace WikiFunctions.Lists
                 int intStart = 0;
                 string Google = encodeText(G);
                 Google = Google.Replace("_", " ");
-                string URL = "http://www.google.com/search?q=" + Google + "+site:" + Variables.URLShort + "&num=100&hl=en&lr=&start=0&sa=N";
+                string URL = "http://www.google.com/search?q=" + Google + "+site:" + Variables.URL + "&num=100&hl=en&lr=&start=0&sa=N";
                 string title = "";
 
                 do
@@ -393,7 +393,7 @@ namespace WikiFunctions.Lists
                     if (GoogleText.Contains("<br>Next</a>"))
                     {
                         intStart += 100;
-                        URL = "http://www.google.com/search?q=" + Google + "+site:" + Variables.URLShort + "&num=100&hl=en&lr=&start=" + intStart.ToString() + "&sa=N";
+                        URL = "http://www.google.com/search?q=" + Google + "+site:" + Variables.URL + "&num=100&hl=en&lr=&start=" + intStart.ToString() + "&sa=N";
                     }
                     else
                         break;
@@ -433,7 +433,7 @@ namespace WikiFunctions.Lists
                 string User = Regex.Replace(U, "^" + Variables.Namespaces[2], "", RegexOptions.IgnoreCase);
                 User = encodeText(User);
 
-                string PageText = Tools.GetHTML(Variables.URL + "index.php?title=Special:Contributions&target=" + User + "&offset=0&limit=2500");
+                string PageText = Tools.GetHTML(Variables.URLLong + "index.php?title=Special:Contributions&target=" + User + "&offset=0&limit=2500");
                 Regex RegexUserContribs = new Regex("<li>.*? title=\"([^\"]*)\">[^<>]*</a>", RegexOptions.Compiled);
                 string title = "";
 
@@ -480,7 +480,7 @@ namespace WikiFunctions.Lists
             foreach (string S in Specials)
             {
                 string Special = Regex.Replace(S, "^" + Variables.Namespaces[-1], "", RegexOptions.IgnoreCase);
-                string PageText = Tools.GetHTML(Variables.URL + "index.php?title=Special:" + Special);
+                string PageText = Tools.GetHTML(Variables.URLLong + "index.php?title=Special:" + Special);
 
                 PageText = PageText.Substring(PageText.IndexOf("<!-- start content -->"), PageText.IndexOf("<!-- end content -->") - PageText.IndexOf("<!-- start content -->"));
                 string title = "";
@@ -556,7 +556,7 @@ namespace WikiFunctions.Lists
                 string Image = Regex.Replace(I, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
                 Image = encodeText(Image);
 
-                string URL = Variables.URL + "query.php?what=imagelinks&titles=Image:" + Image + "&illimit=500&format=xml";
+                string URL = Variables.URLLong + "query.php?what=imagelinks&titles=Image:" + Image + "&illimit=500&format=xml";
                 string title = "";
                 int ns = 0;
 
@@ -576,7 +576,7 @@ namespace WikiFunctions.Lists
                             {
                                 reader.ReadToFollowing("imagelinks");
                                 reader.MoveToAttribute("next");
-                                URL = Variables.URL + "query.php?what=imagelinks&titles=Image:" + Image + "&illimit=500&format=xml&ilcontfrom=" + reader.Value;
+                                URL = Variables.URLLong + "query.php?what=imagelinks&titles=Image:" + Image + "&illimit=500&format=xml&ilcontfrom=" + reader.Value;
                                 more = true;
                                 reader.ReadToFollowing("page");
                             }
@@ -616,7 +616,7 @@ namespace WikiFunctions.Lists
         {
             WebBrowser webbrowser = new WebBrowser();
             webbrowser.ScriptErrorsSuppressed = true;
-            webbrowser.Navigate(Variables.URL + "index.php?title=Special:Watchlist/edit");
+            webbrowser.Navigate(Variables.URLLong + "index.php?title=Special:Watchlist/edit");
             while (webbrowser.ReadyState != WebBrowserReadyState.Complete) Application.DoEvents();
 
             string html = webbrowser.Document.Body.InnerHtml;
@@ -675,7 +675,7 @@ namespace WikiFunctions.Lists
             foreach (string s in terms)
             {
                 int intStart = 0;
-                string URL = Variables.URL + "/index.php?title=Special:Search&fulltext=Search&search=" + HttpUtility.UrlEncode(s) + "&limit=100&uselang=en" + ns;
+                string URL = Variables.URLLong + "/index.php?title=Special:Search&fulltext=Search&search=" + HttpUtility.UrlEncode(s) + "&limit=100&uselang=en" + ns;
                 string title = "";
 
                 do
@@ -703,7 +703,7 @@ namespace WikiFunctions.Lists
                     if (list.Count != n)
                     {
                         intStart += 100;
-                        URL = Variables.URL + "/index.php?title=Special:Search&fulltext=Search&search=" + HttpUtility.UrlEncode(s) + "&limit=100&uselang=en&offset=" + intStart.ToString() + ns;
+                        URL = Variables.URLLong + "/index.php?title=Special:Search&fulltext=Search&search=" + HttpUtility.UrlEncode(s) + "&limit=100&uselang=en&offset=" + intStart.ToString() + ns;
                     }
                     else
                         break;
