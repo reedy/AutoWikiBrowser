@@ -57,8 +57,10 @@ namespace AutoWikiBrowser
             // 
             // cmboLang
             // 
+            this.cmboLang.DropDownHeight = 212;
             this.cmboLang.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmboLang.FormattingEnabled = true;
+            this.cmboLang.IntegralHeight = false;
             this.cmboLang.Location = new System.Drawing.Point(77, 90);
             this.cmboLang.Name = "cmboLang";
             this.cmboLang.Size = new System.Drawing.Size(121, 21);
