@@ -555,7 +555,7 @@ namespace WikiFunctions.Browser
                 this.AllowNavigation = true;
                 ProcessStage = enumProcessStage.load;
                 Status = "Loading page";
-                this.Navigate(Variables.URL + "index.php?title=" + Article + "&action=edit");
+                this.Navigate(Variables.URLLong + "index.php?title=" + Article + "&action=edit");
             }
             catch (Exception ex)
             {
@@ -571,7 +571,7 @@ namespace WikiFunctions.Browser
             this.AllowNavigation = true;
             ProcessStage = enumProcessStage.none;
             Status = "Loading log in page";
-            this.Navigate(Variables.URL + "index.php?title=Special:Userlogin&returnto=Main_Page");
+            this.Navigate(Variables.URLLong + "index.php?title=Special:Userlogin&returnto=Main_Page");
             Busy = false;
         }
 

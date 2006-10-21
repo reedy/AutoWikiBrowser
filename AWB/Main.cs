@@ -427,9 +427,9 @@ namespace AutoWikiBrowser
 
                     dlgTalk DlgTalk = new dlgTalk();
                     if (DlgTalk.ShowDialog() == DialogResult.Yes)
-                        System.Diagnostics.Process.Start(Variables.URL + "index.php?title=User_talk:" + UserName + "&action=purge");
+                        System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=User_talk:" + UserName + "&action=purge");
                     else
-                        System.Diagnostics.Process.Start("IExplore", Variables.URL + "index.php?title=User_talk:" + UserName + "&action=purge");
+                        System.Diagnostics.Process.Start("IExplore", Variables.URLLong + "index.php?title=User_talk:" + UserName + "&action=purge");
 
                     DlgTalk = null;
                     return false;
@@ -931,7 +931,7 @@ namespace AutoWikiBrowser
                 string strText = String.Empty;
                 lblStatusText.Text = "Loading page to check if we are logged in";
                 //load check page
-                webBrowserLogin.Navigate(Variables.URL + "index.php?title=Project:AutoWikiBrowser/CheckPage&action=edit");
+                webBrowserLogin.Navigate(Variables.URLLong + "index.php?title=Project:AutoWikiBrowser/CheckPage&action=edit");
                 //wait to load
                 while (webBrowserLogin.ReadyState != WebBrowserReadyState.Complete) Application.DoEvents();
 
@@ -1001,7 +1001,7 @@ namespace AutoWikiBrowser
                         else
                         {
                             MessageBox.Show(UserName + " is not enabled to use this.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                            System.Diagnostics.Process.Start(Variables.URLShort + "/wiki/Project:AutoWikiBrowser/CheckPage");
+                            System.Diagnostics.Process.Start(Variables.URL + "/wiki/Project:AutoWikiBrowser/CheckPage");
                             return false;
                         }
                     }
@@ -1352,7 +1352,7 @@ namespace AutoWikiBrowser
                 chkGeneralFixes.Checked = false;
             }
             if (Project != ProjectEnum.custom) lblProject.Text = Variables.LangCode + "." + Variables.Project;
-            else lblProject.Text = Variables.URLShort;
+            else lblProject.Text = Variables.URL;
         }
 
         #endregion
@@ -1846,7 +1846,7 @@ namespace AutoWikiBrowser
 
         private void openPageInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(Variables.URL + "index.php?title=" + EdittingArticle.URLEncodedName);
+            System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=" + EdittingArticle.URLEncodedName);
         }
 
         private void previewInsteadOfDiffToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2013,7 +2013,7 @@ namespace AutoWikiBrowser
 2. Optional: Select [[WP:AWB/T|Typo fixing]] as the edit summary. This lets everyone know where to bring issues with the typo correction.";
 
                 if (RegexTypos == null)
-                    message += "\r\n\r\nThe newest typos will now be downloaded from " + Variables.URL + Variables.Namespaces[4] + "AutoWikiBrowser/Typos";
+                    message += "\r\n\r\nThe newest typos will now be downloaded from " + Variables.URLLong + Variables.Namespaces[4] + "AutoWikiBrowser/Typos";
 
                 MessageBox.Show(message, "Attention", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 

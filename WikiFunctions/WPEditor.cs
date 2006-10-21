@@ -24,7 +24,7 @@ namespace WikiFunctions
 
         protected CookieCollection logincookies;
         protected bool LoggedIn;
-        protected string m_indexpath = Variables.URL;
+        protected string m_indexpath = Variables.URLLong;
 
         #region Editing
         /// <summary>

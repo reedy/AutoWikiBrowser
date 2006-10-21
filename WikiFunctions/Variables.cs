@@ -75,9 +75,20 @@ namespace WikiFunctions
         /// </summary>
         public static Dictionary<int, string> NamespacesCaseInsensitive = new Dictionary<int, string>(24);
 
-        static string strURL = "http://en.wikipedia.org/w/";
         /// <summary>
         /// Gets a URL of the site, e.g. "http://en.wikipedia.org/w/".
+        /// </summary>
+        public static string URLLong
+        {
+            get
+            {
+                return URL + "/w/";
+            }
+        }
+
+        static string strURL = "http://en.wikipedia.org";
+        /// <summary>
+        /// Gets a URL of the site, e.g. "http://en.wikipedia.org".
         /// </summary>
         public static string URL
         {
@@ -86,19 +97,6 @@ namespace WikiFunctions
                 return strURL;
             }
             private set { strURL = value; }
-        }
-
-        static string strURLShort = "http://en.wikipedia.org";
-        /// <summary>
-        /// Gets a URL of the site, e.g. "http://en.wikipedia.org".
-        /// </summary>
-        public static string URLShort
-        {
-            get
-            {
-                return strURLShort;
-            }
-            private set { strURLShort = value; }
         }
 
         static ProjectEnum strproject = ProjectEnum.wikipedia;
@@ -166,15 +164,9 @@ namespace WikiFunctions
             strcustomproject = customProject;
                         
             if (Project == ProjectEnum.custom)
-            {
                 URL = "http://" + CustomProject;
-                URLShort = "http://" + CustomProject.Substring(0, CustomProject.IndexOf("/"));
-            }
             else
-            {
-                URL = "http://" + LangCode + "." + Project + ".org/w/";
-                URLShort = "http://" + LangCode + "." + Project + ".org";
-            }
+                URL = "http://" + LangCode + "." + Project + ".org";
 
             if (projectName == ProjectEnum.wikipedia)
             {
@@ -642,7 +634,7 @@ namespace WikiFunctions
                         break;
 
                     default:
-                        Namespaces = LoadNamespaces(URL);
+                        Namespaces = LoadNamespaces(URLLong);
                         strsummarytag = " ([[Project:AWB|AWB]])";
                         break;
                 }
@@ -650,24 +642,21 @@ namespace WikiFunctions
             else if (projectName == ProjectEnum.commons)
             {
                 SetToEnglish("Commons:", "Commons talk:");
-                URL = "http://commons.wikimedia.org/w/";
-                URLShort = "http://commons.wikimedia.org";
+                URL = "http://commons.wikimedia.org";
             }
             else if (projectName == ProjectEnum.meta)
             {
                 SetToEnglish("Meta:", "Meta talk:");
-                URL = "http://meta.wikimedia.org/w/";
-                URLShort = "http://meta.wikimedia.org";
+                URL = "http://meta.wikimedia.org";
             }
             else if (projectName == ProjectEnum.species)
             {
                 SetToEnglish("Wikispecies:", "Wikispecies talk:");
-                URL = "http://species.wikimedia.org/w/";
-                URLShort = "http://species.wikimedia.org";
+                URL = "http://species.wikimedia.org";
             }
             else
             {
-                Namespaces = LoadNamespaces(URL);
+                Namespaces = LoadNamespaces(URLLong);
                 strsummarytag = " ([[Project:AWB|AWB]])";
             }
 
