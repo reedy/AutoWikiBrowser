@@ -634,7 +634,7 @@ namespace WikiFunctions
                         break;
 
                     default:
-                        Namespaces = LoadNamespaces(URLLong);
+                        Namespaces = LoadNamespaces(URL);
                         strsummarytag = " ([[Project:AWB|AWB]])";
                         break;
                 }
@@ -690,7 +690,7 @@ namespace WikiFunctions
             }
             else
             {
-                Namespaces = LoadNamespaces(URLLong);
+                Namespaces = LoadNamespaces(URL);
                 strsummarytag = " ([[Project:AWB|AWB]])";
             }
 
@@ -713,7 +713,7 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="url">URL of directory where scripts reside, e.g. "http://en.wikipedia.org".</param>
         /// <returns>Dictionary int=>string containing namespaces.</returns>
-        public static Dictionary<int, string> LoadNamespaces(string url)
+        public static Dictionary<int, string> LoadNamespaces(string URL)
         {
             Dictionary<int, string> ns = new Dictionary<int, string>();
 
@@ -721,7 +721,7 @@ namespace WikiFunctions
             {
                 try
                 {
-                    StringReader sr = new StringReader(Tools.GetHTML(url + "query.php?what=namespaces&format=xml"));
+                    StringReader sr = new StringReader(Tools.GetHTML(URL + "/w/query.php?what=namespaces&format=xml"));
                     XmlTextReader xml = new XmlTextReader(sr);
                     xml.MoveToContent();
 
