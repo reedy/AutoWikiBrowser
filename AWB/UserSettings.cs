@@ -882,6 +882,7 @@ namespace AutoWikiBrowser
                     UserPrefs P = MakePrefs();
                     XmlSerializer xs = new XmlSerializer(typeof(UserPrefs));
                     xs.Serialize(fStream, P);
+                    UpdateRecentList(Path);
                 }
             }
             catch (Exception ex)
