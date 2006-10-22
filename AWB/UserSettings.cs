@@ -288,8 +288,10 @@ namespace AutoWikiBrowser
                             if (reader.MoveToAttribute("text"))
                                 txtAppendMessage.Text = reader.Value;
                             if (reader.MoveToAttribute("append"))
+                            {
                                 rdoAppend.Checked = bool.Parse(reader.Value);
-                            rdoPrepend.Checked = !bool.Parse(reader.Value);
+                                rdoPrepend.Checked = !bool.Parse(reader.Value);
+                            }
 
                             continue;
                         }
@@ -646,7 +648,7 @@ namespace AutoWikiBrowser
             p.FindAndReplace.AppendSummary = findAndReplace.AppendToSummary;
             p.FindAndReplace.Replacements = findAndReplace.GetList();
             p.FindAndReplace.AdvancedReps = replaceSpecial.GetRules();
-            
+
             p.List.ListSource = listMaker1.SourceText;
             p.List.Source = listMaker1.SelectedSource;
             p.List.ArticleList = listMaker1.GetArticleList();
@@ -695,6 +697,8 @@ namespace AutoWikiBrowser
 
             foreach (object s in cmboEditSummary.Items)
                 p.General.Summaries.Add(s.ToString());
+
+            p.General.SelectedSummary = cmboEditSummary.Text;
 
             p.General.PasteMore[0] = PasteMore1.Text;
             p.General.PasteMore[1] = PasteMore2.Text;
@@ -808,11 +812,12 @@ namespace AutoWikiBrowser
             chkSkipIfNoRegexTypo.Checked = p.Skipoptions.SkipNoRegexTypoFix;
             Skip.SelectedItem = p.Skipoptions.GeneralSkip;
 
+            cmboEditSummary.Items.Clear();
             foreach (string s in p.General.Summaries)
             {
-                if (!cmboEditSummary.Items.Contains(s))
-                    cmboEditSummary.Items.Add(s);
+                cmboEditSummary.Items.Add(s);
             }
+            cmboEditSummary.Text = p.General.SelectedSummary;
 
             PasteMore1.Text = p.General.PasteMore[0];
             PasteMore2.Text = p.General.PasteMore[1];
@@ -876,7 +881,7 @@ namespace AutoWikiBrowser
         private void SavePrefs(string Path)
         {
             try
-            {                
+            {
                 using (FileStream fStream = new FileStream(Path, FileMode.Create))
                 {
                     UserPrefs P = MakePrefs();
@@ -918,7 +923,7 @@ namespace AutoWikiBrowser
                 bool oldFile = false;
                 sr.Close();
 
-                if (test.Contains("<Settings program=\"AWB\""))
+                if (test.Contains("<projectlang proj="))
                     oldFile = true;
 
                 using (FileStream fStream = new FileStream(Path, FileMode.Open))
