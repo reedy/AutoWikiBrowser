@@ -174,7 +174,7 @@ namespace WikiFunctions
                 switch (langCode)
                 {
                     case LangCodeEnum.en:
-                        SetToEnglish("Wikipedia:", "Wikipedia talk:");
+                        SetToEnglish();
                         break;
 
                     case LangCodeEnum.ca:
@@ -642,11 +642,45 @@ namespace WikiFunctions
             else if (projectName == ProjectEnum.commons)
             {
                 SetToEnglish("Commons:", "Commons talk:");
+                Namespaces[100] = "Creator:";
+                Namespaces[101] = "Creator talk:";
                 URL = "http://commons.wikimedia.org";
             }
             else if (projectName == ProjectEnum.meta)
             {
                 SetToEnglish("Meta:", "Meta talk:");
+                Namespaces[100] = "Hilfe";
+                Namespaces[101] = "Hilfe Diskussion";
+                Namespaces[102] = "Aide";
+                Namespaces[103] = "Discussion Aide";
+                Namespaces[104] = "Hjælp";
+                Namespaces[105] = "Hjælp diskussion";
+                Namespaces[106] = "Helpo";
+                Namespaces[107] = "Helpa diskuto";
+                Namespaces[108] = "Hjälp";
+                Namespaces[109] = "Hjälp diskussion";
+                Namespaces[110] = "Ayuda";
+                Namespaces[111] = "Ayuda Discusión";
+                Namespaces[112] = "Aiuto";
+                Namespaces[113] = "Discussioni aiuto";
+                Namespaces[114] = "ヘルプ";
+                Namespaces[115] = "ヘルプ‐ノート";
+                Namespaces[116] = "NL Help";
+                Namespaces[117] = "Overleg help";
+                Namespaces[118] = "Pomoc";
+                Namespaces[119] = "Dyskusja pomocy";
+                Namespaces[120] = "Ajuda";
+                Namespaces[121] = "Ajuda Discussão";
+                Namespaces[122] = "CA Ajuda";
+                Namespaces[123] = "CA Ajuda Discussió";
+                Namespaces[124] = "Hjelp";
+                Namespaces[125] = "Hjelp diskusjon";
+                Namespaces[126] = "帮助";
+                Namespaces[127] = "帮助 对话";
+                Namespaces[128] = "Помощь";
+                Namespaces[129] = "Помощь Дискуссия";
+                Namespaces[130] = "Pomoč";
+                Namespaces[131] = "Pogovor o pomoči";
                 URL = "http://meta.wikimedia.org";
             }
             else if (projectName == ProjectEnum.species)
@@ -738,7 +772,14 @@ namespace WikiFunctions
             strsummarytag = " using [[Project:AWB|AWB]]";
 
             Namespaces.Clear();
+            SetToEnglish();
+        }
+
+        private static void SetToEnglish()
+        {
             SetToEnglish("Wikipedia:", "Wikipedia talk:");
+            Namespaces[100] = "Portal:";
+            Namespaces[101] = "Portal talk:";
         }
 
         private static void SetToEnglish(string Project, string ProjectTalk)
@@ -760,8 +801,6 @@ namespace WikiFunctions
             Namespaces[13] = "Help talk:";
             Namespaces[14] = "Category:";
             Namespaces[15] = "Category talk:";
-            Namespaces[100] = "Portal:";
-            Namespaces[101] = "Portal talk:";
 
             strsummarytag = " using [[Project:AWB|AWB]]";
         }

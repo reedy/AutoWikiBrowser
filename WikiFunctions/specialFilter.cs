@@ -266,6 +266,11 @@ namespace WikiFunctions.Lists
                     else
                         list.RemoveAt(i);
                 }
+                else if (list[i].NameSpaceKey > 101)
+                {
+                    // Filter out all obscure namespaces
+                    list.RemoveAt(i);
+                }
                 else
                     i++;
             }
