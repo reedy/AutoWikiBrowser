@@ -35,7 +35,6 @@ namespace WikiFunctions.AWBSettings
         public List<WikiFunctions.Parse.Replacement> Replacements = new List<WikiFunctions.Parse.Replacement>();
 
         public List<WikiFunctions.MWB.IRule> AdvancedReps = new List<WikiFunctions.MWB.IRule>();
-        //need to save "Advanced find and replace" settings.
     }
 
     [Serializable]
@@ -97,6 +96,7 @@ namespace WikiFunctions.AWBSettings
     [Serializable]
     public class GeneralPrefs
     {
+        public string SelectedSummary = "Clean up";
         public List<string> Summaries = new List<string>();
 
         public string[] PasteMore = new string[10] { "", "", "", "", "", "", "", "", "", "" };
