@@ -150,6 +150,7 @@ namespace AutoWikiBrowser
                 LoadPlugins();
                 LoadPrefs();
                 UpdateButtons();
+                LoadRecentSettingsList();
             }
             catch (Exception ex)
             {
@@ -860,6 +861,8 @@ namespace AutoWikiBrowser
                 webBrowserEdit.Stop2();
             if (webBrowserLogin.IsBusy)
                 webBrowserLogin.Stop();
+
+            SaveRecentSettingsList();
         }
 
         private void setCheckBoxes()
