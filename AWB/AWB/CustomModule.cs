@@ -186,5 +186,30 @@ Public Class Class1
             lblEnd.Text = codeend;
             txtCode.Text = codeexample;
         }
+
+        private void guideToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(@"A module allows you to process the article text using your own C# or Visual Basic.NET code.
+
+Use the ""Makes module"" button to compile load the code.
+
+The method ""ProcessArticle"" is called when AWB is applying all its own processes. Do not change the sigature of this method.
+
+The int value ""Namespace"" gives you the key of the namespace, e.g. mainspace is 0 etc., the string ""Summary"" must be set to the message to append to the summary (or can be an empty string), the bool ""Skip"" must be set whether to skip the article or not.", "Guide", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void chkModuleEnabled_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkModuleEnabled.Checked)
+            {
+                btnDone.Enabled = true;
+                btnMake.Enabled = true;
+            }
+            else
+            {
+                btnDone.Enabled = false;
+                btnMake.Enabled = false;
+            }
+        }
     }
 }
