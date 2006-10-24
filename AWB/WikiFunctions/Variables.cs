@@ -127,7 +127,6 @@ namespace WikiFunctions
             {
                 return strcustomproject;
             }
-
         }
 
         static string strsummarytag = " using [[Project:AWB|AWB]]";
@@ -721,7 +720,7 @@ namespace WikiFunctions
             {
                 try
                 {
-                    StringReader sr = new StringReader(Tools.GetHTML(URL + "/w/query.php?what=namespaces&format=xml"));
+                    StringReader sr = new StringReader(Tools.GetHTML(URL + "/w/api.php?action=query&meta=siteinfo&siprop=general|namespaces&format=xml"));
                     XmlTextReader xml = new XmlTextReader(sr);
                     xml.MoveToContent();
 
