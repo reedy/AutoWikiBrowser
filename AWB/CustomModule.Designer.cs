@@ -38,6 +38,10 @@ namespace AutoWikiBrowser
             this.lblEnd = new System.Windows.Forms.Label();
             this.lblStatus = new System.Windows.Forms.Label();
             this.chkModuleEnabled = new System.Windows.Forms.CheckBox();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.guideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtCode
@@ -45,17 +49,18 @@ namespace AutoWikiBrowser
             this.txtCode.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCode.Location = new System.Drawing.Point(12, 185);
+            this.txtCode.Location = new System.Drawing.Point(12, 209);
             this.txtCode.Multiline = true;
             this.txtCode.Name = "txtCode";
             this.txtCode.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtCode.Size = new System.Drawing.Size(640, 154);
+            this.txtCode.Size = new System.Drawing.Size(640, 174);
             this.txtCode.TabIndex = 0;
             this.txtCode.Text = resources.GetString("txtCode.Text");
             // 
             // btnDone
             // 
-            this.btnDone.Location = new System.Drawing.Point(490, 11);
+            this.btnDone.Enabled = false;
+            this.btnDone.Location = new System.Drawing.Point(489, 30);
             this.btnDone.Name = "btnDone";
             this.btnDone.Size = new System.Drawing.Size(75, 23);
             this.btnDone.TabIndex = 1;
@@ -65,7 +70,8 @@ namespace AutoWikiBrowser
             // 
             // btnMake
             // 
-            this.btnMake.Location = new System.Drawing.Point(397, 11);
+            this.btnMake.Enabled = false;
+            this.btnMake.Location = new System.Drawing.Point(396, 30);
             this.btnMake.Name = "btnMake";
             this.btnMake.Size = new System.Drawing.Size(87, 23);
             this.btnMake.TabIndex = 2;
@@ -79,7 +85,7 @@ namespace AutoWikiBrowser
             this.cmboLang.Items.AddRange(new object[] {
             "C# 2.0",
             "Visual Basic.NET 2005"});
-            this.cmboLang.Location = new System.Drawing.Point(254, 13);
+            this.cmboLang.Location = new System.Drawing.Point(253, 32);
             this.cmboLang.Name = "cmboLang";
             this.cmboLang.Size = new System.Drawing.Size(137, 21);
             this.cmboLang.TabIndex = 3;
@@ -88,7 +94,7 @@ namespace AutoWikiBrowser
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(193, 16);
+            this.label1.Location = new System.Drawing.Point(192, 35);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(55, 13);
             this.label1.TabIndex = 4;
@@ -98,7 +104,7 @@ namespace AutoWikiBrowser
             // 
             this.lblStart.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblStart.Location = new System.Drawing.Point(12, 52);
+            this.lblStart.Location = new System.Drawing.Point(12, 76);
             this.lblStart.Name = "lblStart";
             this.lblStart.Size = new System.Drawing.Size(643, 130);
             this.lblStart.TabIndex = 5;
@@ -109,7 +115,7 @@ namespace AutoWikiBrowser
             // 
             this.lblEnd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblEnd.Location = new System.Drawing.Point(9, 342);
+            this.lblEnd.Location = new System.Drawing.Point(9, 386);
             this.lblEnd.Name = "lblEnd";
             this.lblEnd.Size = new System.Drawing.Size(643, 36);
             this.lblEnd.TabIndex = 6;
@@ -119,7 +125,7 @@ namespace AutoWikiBrowser
             // 
             this.lblStatus.AutoSize = true;
             this.lblStatus.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.lblStatus.Location = new System.Drawing.Point(94, 16);
+            this.lblStatus.Location = new System.Drawing.Point(93, 35);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(93, 13);
             this.lblStatus.TabIndex = 7;
@@ -128,18 +134,44 @@ namespace AutoWikiBrowser
             // chkModuleEnabled
             // 
             this.chkModuleEnabled.AutoSize = true;
-            this.chkModuleEnabled.Location = new System.Drawing.Point(12, 15);
+            this.chkModuleEnabled.Location = new System.Drawing.Point(11, 34);
             this.chkModuleEnabled.Name = "chkModuleEnabled";
             this.chkModuleEnabled.Size = new System.Drawing.Size(65, 17);
             this.chkModuleEnabled.TabIndex = 8;
             this.chkModuleEnabled.Text = "Enabled";
             this.chkModuleEnabled.UseVisualStyleBackColor = true;
+            this.chkModuleEnabled.CheckedChanged += new System.EventHandler(this.chkModuleEnabled_CheckedChanged);
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.helpToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(664, 24);
+            this.menuStrip1.TabIndex = 9;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.guideToolStripMenuItem});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
+            this.helpToolStripMenuItem.Text = "Help";
+            // 
+            // guideToolStripMenuItem
+            // 
+            this.guideToolStripMenuItem.Name = "guideToolStripMenuItem";
+            this.guideToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.guideToolStripMenuItem.Text = "Guide";
+            this.guideToolStripMenuItem.Click += new System.EventHandler(this.guideToolStripMenuItem_Click);
             // 
             // CustomModule
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(664, 387);
+            this.ClientSize = new System.Drawing.Size(664, 431);
             this.Controls.Add(this.chkModuleEnabled);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.lblEnd);
@@ -149,10 +181,14 @@ namespace AutoWikiBrowser
             this.Controls.Add(this.btnMake);
             this.Controls.Add(this.btnDone);
             this.Controls.Add(this.txtCode);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "CustomModule";
             this.ShowIcon = false;
             this.Text = "Module";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CSParser_FormClosing);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -169,5 +205,8 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Label lblEnd;
         private System.Windows.Forms.Label lblStatus;
         private System.Windows.Forms.CheckBox chkModuleEnabled;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem guideToolStripMenuItem;
     }
 }
