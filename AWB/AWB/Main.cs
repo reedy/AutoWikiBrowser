@@ -956,6 +956,15 @@ namespace AutoWikiBrowser
                     MessageBox.Show(m.Groups[1].Value, "Automated message", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
+                //Get list of articles not to apply general fixes to.
+                Match n = Regex.Match(strText, "<!--No general fixes:.*?-->", RegexOptions.Singleline);
+                if (n.Success)
+                {
+                    foreach (Match link in WikiRegexes.UnPipedWikiLink.Matches(n.Value))
+                        if(!noParse.Contains(link.Groups[1].Value))
+                            noParse.Add(link.Groups[1].Value);
+                }
+
                 //don't require approval in in other languages.
                 if (strText.Length < 1)
                 {
@@ -963,16 +972,15 @@ namespace AutoWikiBrowser
                     chkAutoMode.Enabled = true;
                     return true;
                 }
-                else
-                {
-                    //see if all users enabled
-                    if (strText.Contains("<!--All users enabled-->"))
-                    {
-                        wikiStatusBool = true;
+                else if(strText.Contains("<!--All users enabled-->"))
+                {//see if all users enabled
+                    wikiStatusBool = true;
                         chkAutoMode.Enabled = true;
                         return true;
-                    }
-                    else if (!m.Success)
+                }
+                else
+                {
+                    if (!m.Success)
                     {
                         MessageBox.Show("Check page failed to load.\r\n\r\nCheck your Internet Explorer is working and that the Wikipedia servers are online, also try clearing Internet Explorer cache.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return false;
@@ -1978,7 +1986,13 @@ namespace AutoWikiBrowser
 
         private void removeAllExcessWhitespaceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            txtEdit.Text = parsers.RemoveAllWhiteSpace(txtEdit.Text);
+            string text = txtEdit.Text;
+
+            text = RemoveText.Hide(text);
+            text = parsers.RemoveAllWhiteSpace(text);
+            text = RemoveText.AddBack(text);
+
+            txtEdit.Text = text;
         }
 
         private void txtNewCategory_DoubleClick(object sender, EventArgs e)
@@ -2216,7 +2230,7 @@ namespace AutoWikiBrowser
         #region Plugin
 
         Dictionary<string, IAWBPlugin> AWBPlugins = new Dictionary<string, IAWBPlugin>();
-     //   List<IAWBPlugin> AWBPlugins = new List<IAWBPlugin>();
+        //   List<IAWBPlugin> AWBPlugins = new List<IAWBPlugin>();
         private void LoadPlugins()
         {
             try
