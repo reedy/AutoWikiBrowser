@@ -371,7 +371,7 @@ namespace WikiFunctions.Lists
                     GoogleText = Regex.Replace(GoogleText, "<[bB]>|</[Bb]>", "");
 
                     //Regex pattern to find links
-                    Regex RegexGoogle = new Regex("\">([^<]*) (-|—) " + Variables.Namespaces[4].TrimEnd(':'), RegexOptions.Compiled);
+                    Regex RegexGoogle = new Regex("\">([^<]*) (-|—) " + Variables.ProjectName, RegexOptions.Compiled);
 
                     //Find each match to the pattern
                     foreach (Match m in RegexGoogle.Matches(GoogleText))

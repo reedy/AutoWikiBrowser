@@ -201,7 +201,7 @@ namespace WikiFunctions.Lists
             "What transcludes here",
             "Links on page",
             "Text file",
-            "Google Wikipedia",
+            "Google search",
             "User contribs",
             "Special page",
             "Image file links",
