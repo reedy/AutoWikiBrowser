@@ -86,6 +86,11 @@ namespace WikiFunctions
             }
         }
 
+        /// <summary>
+        /// Full project name, e.g. "Wikimedia Commons"
+        /// </summary>
+        public static string ProjectName;
+
         static string strURL = "http://en.wikipedia.org";
         /// <summary>
         /// Gets a URL of the site, e.g. "http://en.wikipedia.org".
@@ -161,6 +166,8 @@ namespace WikiFunctions
             strproject = projectName;
             strlangcode = langCode;
             strcustomproject = customProject;
+
+            ProjectName = "";
                         
             if (Project == ProjectEnum.custom)
                 URL = "http://" + CustomProject;
@@ -564,6 +571,7 @@ namespace WikiFunctions
 
                     case LangCodeEnum.simple:
                         SetToEnglish("Wikipedia:", "Wikipedia talk:");
+                        ProjectName = "Simple English Wikipedia";
                         break;
 
                     case LangCodeEnum.sk:
@@ -648,6 +656,7 @@ namespace WikiFunctions
                 Namespaces[100] = "Creator:";
                 Namespaces[101] = "Creator talk:";
                 URL = "http://commons.wikimedia.org";
+                ProjectName = "Wikimedia Commons";
             }
             else if (projectName == ProjectEnum.meta)
             {
@@ -708,6 +717,8 @@ namespace WikiFunctions
             }
 
             WikiRegexes.MakeLangSpecificRegexes();
+
+            if (ProjectName == "") ProjectName = Namespaces[4].TrimEnd(':');
         }
 
         //User:MaxSem's code
