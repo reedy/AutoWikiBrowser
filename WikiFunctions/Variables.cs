@@ -27,7 +27,7 @@ using System.Windows.Forms;
 
 namespace WikiFunctions
 {
-    public enum LangCodeEnum { en, ca, da, de, eo, es, fi, fr, hu, it, ja, nl, no, mi, pl, pt, ru, sk, sl, sv, ta, tj, zh }
+    public enum LangCodeEnum { en, ca, da, de, eo, es, fi, fr, hu, it, ja, nl, no, mi, pl, pt, ru, simple, sk, sl, sv, ta, tj, zh }
     public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikiquote, wikiversity, wikibooks, wikinews, commons, meta, species, custom }
 
     /// <summary>
@@ -560,6 +560,10 @@ namespace WikiFunctions
                         Namespaces[101] = "Обсуждение портала:";
 
                         strsummarytag = " при помощи [[Википедия:AutoWikiBrowser|AWB]]";
+                        break;
+
+                    case LangCodeEnum.simple:
+                        SetToEnglish("Wikipedia:", "Wikipedia talk:");
                         break;
 
                     case LangCodeEnum.sk:
