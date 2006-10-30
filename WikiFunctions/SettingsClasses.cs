@@ -11,6 +11,9 @@ namespace WikiFunctions.AWBSettings
     public class UserPrefs
     {
         public UserPrefs() { }
+
+        [XmlAttribute]
+        public string Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
         public ProjectEnum Project = ProjectEnum.wikipedia;
         public LangCodeEnum LanguageCode = LangCodeEnum.en;
         public string CustomProject = "";

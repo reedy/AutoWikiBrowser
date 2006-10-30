@@ -1,6 +1,4 @@
-﻿//$Header: /cvsroot/autowikibrowser/src/Properties/AssemblyInfo.cs,v 1.42 2006/07/06 14:06:54 wikibluemoose Exp $
-
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
