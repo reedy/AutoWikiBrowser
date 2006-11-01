@@ -133,6 +133,12 @@ namespace IRCMonitor
             this.addUserToBlacklistToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.addArticlefileToWatchlistToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabpage1 = new System.Windows.Forms.TabPage();
+            this.listViewEdit = new WikiFunctions.NoFlickerListView();
+            this.columnHeader19 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader20 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader21 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader22 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader23 = new System.Windows.Forms.ColumnHeader();
             this.txtEditTitleRegex = new System.Windows.Forms.TextBox();
             this.chkEditTitleRegex = new System.Windows.Forms.CheckBox();
             this.label10 = new System.Windows.Forms.Label();
@@ -142,9 +148,9 @@ namespace IRCMonitor
             this.cmboEditMinor = new System.Windows.Forms.ComboBox();
             this.cmboEditIP = new System.Windows.Forms.ComboBox();
             this.contextMenuEdit = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.diffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.articleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.userToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.diffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.whitelistUserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.unwhitelistUserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -158,6 +164,7 @@ namespace IRCMonitor
             this.clmType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage8 = new System.Windows.Forms.TabPage();
+            this.webBrowser = new WikiFunctions.Browser.WebControl();
             this.toolStripBrowser = new System.Windows.Forms.ToolStrip();
             this.btnBack = new System.Windows.Forms.ToolStripButton();
             this.btnFoward = new System.Windows.Forms.ToolStripButton();
@@ -181,13 +188,6 @@ namespace IRCMonitor
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnPause = new System.Windows.Forms.Button();
             this.btnDisconnect = new System.Windows.Forms.Button();
-            this.listViewEdit = new WikiFunctions.NoFlickerListView();
-            this.columnHeader19 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader20 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader21 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader22 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader23 = new System.Windows.Forms.ColumnHeader();
-            this.webBrowser = new WikiFunctions.Browser.WebControl();
             this.groupBox1.SuspendLayout();
             this.tabPage7.SuspendLayout();
             this.tabPage5.SuspendLayout();
@@ -603,7 +603,8 @@ namespace IRCMonitor
             this.cmboChannel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmboChannel.FormattingEnabled = true;
             this.cmboChannel.Items.AddRange(new object[] {
-            "#en.wikipedia"});
+            "#en.wikipedia",
+            "#meta"});
             this.cmboChannel.Location = new System.Drawing.Point(81, 451);
             this.cmboChannel.Name = "cmboChannel";
             this.cmboChannel.Size = new System.Drawing.Size(100, 21);
@@ -804,31 +805,31 @@ namespace IRCMonitor
             this.addUseToBlacklistToolStripMenuItem,
             this.addarticletoWatchToolStripMenuItem});
             this.contextMenuPageMoves.Name = "contextMenuPageMoves";
-            this.contextMenuPageMoves.Size = new System.Drawing.Size(184, 76);
+            this.contextMenuPageMoves.Size = new System.Drawing.Size(195, 76);
             // 
             // loadNewPageToolStripMenuItem
             // 
             this.loadNewPageToolStripMenuItem.Name = "loadNewPageToolStripMenuItem";
-            this.loadNewPageToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.loadNewPageToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.loadNewPageToolStripMenuItem.Text = "Load new page";
             this.loadNewPageToolStripMenuItem.Click += new System.EventHandler(this.loadNewPageToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(180, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(191, 6);
             // 
             // addUseToBlacklistToolStripMenuItem
             // 
             this.addUseToBlacklistToolStripMenuItem.Name = "addUseToBlacklistToolStripMenuItem";
-            this.addUseToBlacklistToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.addUseToBlacklistToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.addUseToBlacklistToolStripMenuItem.Text = "Add user to blacklist";
             this.addUseToBlacklistToolStripMenuItem.Click += new System.EventHandler(this.addUseToBlacklistToolStripMenuItem_Click);
             // 
             // addarticletoWatchToolStripMenuItem
             // 
             this.addarticletoWatchToolStripMenuItem.Name = "addarticletoWatchToolStripMenuItem";
-            this.addarticletoWatchToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.addarticletoWatchToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.addarticletoWatchToolStripMenuItem.Text = "Add article to watchlist";
             this.addarticletoWatchToolStripMenuItem.Click += new System.EventHandler(this.addarticletoWatchToolStripMenuItem_Click);
             // 
@@ -1025,26 +1026,26 @@ namespace IRCMonitor
             this.loadAdminsLogToolStripMenuItem,
             this.loadArticleuserPageToolStripMenuItem});
             this.contextMenuActions.Name = "contextMenuActions";
-            this.contextMenuActions.Size = new System.Drawing.Size(182, 70);
+            this.contextMenuActions.Size = new System.Drawing.Size(193, 70);
             // 
             // loadAdminTalkPageToolStripMenuItem
             // 
             this.loadAdminTalkPageToolStripMenuItem.Name = "loadAdminTalkPageToolStripMenuItem";
-            this.loadAdminTalkPageToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.loadAdminTalkPageToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
             this.loadAdminTalkPageToolStripMenuItem.Text = "Load admin talk page";
             this.loadAdminTalkPageToolStripMenuItem.Click += new System.EventHandler(this.loadAdminTalkPageToolStripMenuItem_Click);
             // 
             // loadAdminsLogToolStripMenuItem
             // 
             this.loadAdminsLogToolStripMenuItem.Name = "loadAdminsLogToolStripMenuItem";
-            this.loadAdminsLogToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.loadAdminsLogToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
             this.loadAdminsLogToolStripMenuItem.Text = "Load admins log";
             this.loadAdminsLogToolStripMenuItem.Click += new System.EventHandler(this.loadAdminsLogToolStripMenuItem_Click);
             // 
             // loadArticleuserPageToolStripMenuItem
             // 
             this.loadArticleuserPageToolStripMenuItem.Name = "loadArticleuserPageToolStripMenuItem";
-            this.loadArticleuserPageToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.loadArticleuserPageToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
             this.loadArticleuserPageToolStripMenuItem.Text = "Load article/user page";
             this.loadArticleuserPageToolStripMenuItem.Click += new System.EventHandler(this.loadArticleuserPageToolStripMenuItem_Click);
             // 
@@ -1204,26 +1205,26 @@ namespace IRCMonitor
             this.loadBlockPageToolStripMenuItem,
             this.addUserToBlackListToolStripMenuItem});
             this.contextMenuNewUser.Name = "contextMenuNewUser";
-            this.contextMenuNewUser.Size = new System.Drawing.Size(174, 70);
+            this.contextMenuNewUser.Size = new System.Drawing.Size(185, 70);
             // 
             // loadUserPageToolStripMenuItem
             // 
             this.loadUserPageToolStripMenuItem.Name = "loadUserPageToolStripMenuItem";
-            this.loadUserPageToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.loadUserPageToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.loadUserPageToolStripMenuItem.Text = "Load User page";
             this.loadUserPageToolStripMenuItem.Click += new System.EventHandler(this.loadUserPageToolStripMenuItem_Click);
             // 
             // loadBlockPageToolStripMenuItem
             // 
             this.loadBlockPageToolStripMenuItem.Name = "loadBlockPageToolStripMenuItem";
-            this.loadBlockPageToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.loadBlockPageToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.loadBlockPageToolStripMenuItem.Text = "Load block page";
             this.loadBlockPageToolStripMenuItem.Click += new System.EventHandler(this.loadBlockPageToolStripMenuItem_Click);
             // 
             // addUserToBlackListToolStripMenuItem
             // 
             this.addUserToBlackListToolStripMenuItem.Name = "addUserToBlackListToolStripMenuItem";
-            this.addUserToBlackListToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.addUserToBlackListToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.addUserToBlackListToolStripMenuItem.Text = "Add user to black list";
             this.addUserToBlackListToolStripMenuItem.Click += new System.EventHandler(this.addUserToBlackListToolStripMenuItem_Click);
             // 
@@ -1236,38 +1237,38 @@ namespace IRCMonitor
             this.addUserToBlacklistToolStripMenuItem1,
             this.addArticlefileToWatchlistToolStripMenuItem});
             this.contextMenuNewStuff.Name = "contextMenuNewStuff";
-            this.contextMenuNewStuff.Size = new System.Drawing.Size(203, 98);
+            this.contextMenuNewStuff.Size = new System.Drawing.Size(214, 98);
             // 
             // loadArticlefileToolStripMenuItem
             // 
             this.loadArticlefileToolStripMenuItem.Name = "loadArticlefileToolStripMenuItem";
-            this.loadArticlefileToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.loadArticlefileToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
             this.loadArticlefileToolStripMenuItem.Text = "Load article/file";
             this.loadArticlefileToolStripMenuItem.Click += new System.EventHandler(this.loadArticlefileToolStripMenuItem_Click);
             // 
             // loadUserPageToolStripMenuItem1
             // 
             this.loadUserPageToolStripMenuItem1.Name = "loadUserPageToolStripMenuItem1";
-            this.loadUserPageToolStripMenuItem1.Size = new System.Drawing.Size(202, 22);
+            this.loadUserPageToolStripMenuItem1.Size = new System.Drawing.Size(213, 22);
             this.loadUserPageToolStripMenuItem1.Text = "Load user page";
             this.loadUserPageToolStripMenuItem1.Click += new System.EventHandler(this.loadUserPageToolStripMenuItem1_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(199, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(210, 6);
             // 
             // addUserToBlacklistToolStripMenuItem1
             // 
             this.addUserToBlacklistToolStripMenuItem1.Name = "addUserToBlacklistToolStripMenuItem1";
-            this.addUserToBlacklistToolStripMenuItem1.Size = new System.Drawing.Size(202, 22);
+            this.addUserToBlacklistToolStripMenuItem1.Size = new System.Drawing.Size(213, 22);
             this.addUserToBlacklistToolStripMenuItem1.Text = "Add user to blacklist";
             this.addUserToBlacklistToolStripMenuItem1.Click += new System.EventHandler(this.addUserToBlacklistToolStripMenuItem1_Click);
             // 
             // addArticlefileToWatchlistToolStripMenuItem
             // 
             this.addArticlefileToWatchlistToolStripMenuItem.Name = "addArticlefileToWatchlistToolStripMenuItem";
-            this.addArticlefileToWatchlistToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.addArticlefileToWatchlistToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
             this.addArticlefileToWatchlistToolStripMenuItem.Text = "Add Article/file to watchlist";
             this.addArticlefileToWatchlistToolStripMenuItem.Click += new System.EventHandler(this.addArticlefileToWatchlistToolStripMenuItem_Click);
             // 
@@ -1290,6 +1291,53 @@ namespace IRCMonitor
             this.tabpage1.TabIndex = 0;
             this.tabpage1.Text = "Edits";
             this.tabpage1.UseVisualStyleBackColor = true;
+            // 
+            // listViewEdit
+            // 
+            this.listViewEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.listViewEdit.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader19,
+            this.columnHeader20,
+            this.columnHeader21,
+            this.columnHeader22,
+            this.columnHeader23});
+            this.listViewEdit.FullRowSelect = true;
+            this.listViewEdit.GridLines = true;
+            this.listViewEdit.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.listViewEdit.Location = new System.Drawing.Point(0, 58);
+            this.listViewEdit.MultiSelect = false;
+            this.listViewEdit.Name = "listViewEdit";
+            this.listViewEdit.Size = new System.Drawing.Size(884, 501);
+            this.listViewEdit.TabIndex = 25;
+            this.listViewEdit.UseCompatibleStateImageBehavior = false;
+            this.listViewEdit.View = System.Windows.Forms.View.Details;
+            this.listViewEdit.DoubleClick += new System.EventHandler(this.listViewEdit_DoubleClick_1);
+            this.listViewEdit.MouseUp += new System.Windows.Forms.MouseEventHandler(this.listViewEdit_MouseUp_1);
+            // 
+            // columnHeader19
+            // 
+            this.columnHeader19.Text = "Article";
+            this.columnHeader19.Width = 188;
+            // 
+            // columnHeader20
+            // 
+            this.columnHeader20.Text = "User";
+            this.columnHeader20.Width = 157;
+            // 
+            // columnHeader21
+            // 
+            this.columnHeader21.Text = "Minor";
+            // 
+            // columnHeader22
+            // 
+            this.columnHeader22.Text = "+ -";
+            // 
+            // columnHeader23
+            // 
+            this.columnHeader23.Text = "Comment";
+            this.columnHeader23.Width = 416;
             // 
             // txtEditTitleRegex
             // 
@@ -1400,68 +1448,68 @@ namespace IRCMonitor
             // contextMenuEdit
             // 
             this.contextMenuEdit.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.diffToolStripMenuItem,
             this.articleToolStripMenuItem,
             this.userToolStripMenuItem,
-            this.diffToolStripMenuItem,
             this.toolStripSeparator1,
             this.whitelistUserToolStripMenuItem,
             this.unwhitelistUserToolStripMenuItem,
             this.blacklistUserToolStripMenuItem,
             this.unblacklistUserToolStripMenuItem});
             this.contextMenuEdit.Name = "contextMenuEdit";
-            this.contextMenuEdit.Size = new System.Drawing.Size(155, 164);
+            this.contextMenuEdit.Size = new System.Drawing.Size(166, 164);
+            // 
+            // diffToolStripMenuItem
+            // 
+            this.diffToolStripMenuItem.Name = "diffToolStripMenuItem";
+            this.diffToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.diffToolStripMenuItem.Text = "Load diff";
+            this.diffToolStripMenuItem.Click += new System.EventHandler(this.diffToolStripMenuItem_Click);
             // 
             // articleToolStripMenuItem
             // 
             this.articleToolStripMenuItem.Name = "articleToolStripMenuItem";
-            this.articleToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.articleToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.articleToolStripMenuItem.Text = "Load article";
             this.articleToolStripMenuItem.Click += new System.EventHandler(this.articleToolStripMenuItem_Click);
             // 
             // userToolStripMenuItem
             // 
             this.userToolStripMenuItem.Name = "userToolStripMenuItem";
-            this.userToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.userToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.userToolStripMenuItem.Text = "Load user page";
             this.userToolStripMenuItem.Click += new System.EventHandler(this.userToolStripMenuItem_Click);
-            // 
-            // diffToolStripMenuItem
-            // 
-            this.diffToolStripMenuItem.Name = "diffToolStripMenuItem";
-            this.diffToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
-            this.diffToolStripMenuItem.Text = "Load diff";
-            this.diffToolStripMenuItem.Click += new System.EventHandler(this.diffToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(151, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(162, 6);
             // 
             // whitelistUserToolStripMenuItem
             // 
             this.whitelistUserToolStripMenuItem.Name = "whitelistUserToolStripMenuItem";
-            this.whitelistUserToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.whitelistUserToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.whitelistUserToolStripMenuItem.Text = "Whitelist user";
             this.whitelistUserToolStripMenuItem.Click += new System.EventHandler(this.whitelistUserToolStripMenuItem_Click);
             // 
             // unwhitelistUserToolStripMenuItem
             // 
             this.unwhitelistUserToolStripMenuItem.Name = "unwhitelistUserToolStripMenuItem";
-            this.unwhitelistUserToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.unwhitelistUserToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.unwhitelistUserToolStripMenuItem.Text = "Un-whitelist user";
             this.unwhitelistUserToolStripMenuItem.Click += new System.EventHandler(this.unwhitelistUserToolStripMenuItem_Click);
             // 
             // blacklistUserToolStripMenuItem
             // 
             this.blacklistUserToolStripMenuItem.Name = "blacklistUserToolStripMenuItem";
-            this.blacklistUserToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.blacklistUserToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.blacklistUserToolStripMenuItem.Text = "Blacklist user";
             this.blacklistUserToolStripMenuItem.Click += new System.EventHandler(this.blacklistUserToolStripMenuItem_Click);
             // 
             // unblacklistUserToolStripMenuItem
             // 
             this.unblacklistUserToolStripMenuItem.Name = "unblacklistUserToolStripMenuItem";
-            this.unblacklistUserToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.unblacklistUserToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.unblacklistUserToolStripMenuItem.Text = "Un-blacklist user";
             this.unblacklistUserToolStripMenuItem.Click += new System.EventHandler(this.unblacklistUserToolStripMenuItem_Click);
             // 
@@ -1551,6 +1599,25 @@ namespace IRCMonitor
             this.tabPage8.Text = "Browser";
             this.tabPage8.UseVisualStyleBackColor = true;
             // 
+            // webBrowser
+            // 
+            this.webBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.webBrowser.Busy = false;
+            this.webBrowser.DiffFontSize = 150;
+            this.webBrowser.EnhanceDiffEnabled = true;
+            this.webBrowser.Location = new System.Drawing.Point(0, 31);
+            this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser.Name = "webBrowser";
+            this.webBrowser.ScriptErrorsSuppressed = true;
+            this.webBrowser.ScrollDown = true;
+            this.webBrowser.Size = new System.Drawing.Size(884, 525);
+            this.webBrowser.TabIndex = 3;
+            this.webBrowser.TimeoutLimit = 30;
+            this.webBrowser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowser_Navigating_1);
+            this.webBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser_DocumentCompleted_1);
+            // 
             // toolStripBrowser
             // 
             this.toolStripBrowser.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1613,27 +1680,27 @@ namespace IRCMonitor
             // 
             // btnRevert
             // 
-            this.btnRevert.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnRevert.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.btnRevert.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.revertAndWarnToolStripMenuItem,
             this.revertToolStripMenuItem});
             this.btnRevert.Enabled = false;
             this.btnRevert.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnRevert.Name = "btnRevert";
-            this.btnRevert.Size = new System.Drawing.Size(13, 22);
-            this.btnRevert.Text = "Revert options";
+            this.btnRevert.Size = new System.Drawing.Size(53, 22);
+            this.btnRevert.Text = "Revert";
             // 
             // revertAndWarnToolStripMenuItem
             // 
             this.revertAndWarnToolStripMenuItem.Name = "revertAndWarnToolStripMenuItem";
-            this.revertAndWarnToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.revertAndWarnToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.revertAndWarnToolStripMenuItem.Text = "Revert and warn";
             this.revertAndWarnToolStripMenuItem.Click += new System.EventHandler(this.revertAndWarnToolStripMenuItem_Click);
             // 
             // revertToolStripMenuItem
             // 
             this.revertToolStripMenuItem.Name = "revertToolStripMenuItem";
-            this.revertToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.revertToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.revertToolStripMenuItem.Text = "Revert";
             this.revertToolStripMenuItem.Click += new System.EventHandler(this.revertToolStripMenuItem_Click);
             // 
@@ -1693,21 +1760,21 @@ namespace IRCMonitor
             // loadSettingsToolStripMenuItem
             // 
             this.loadSettingsToolStripMenuItem.Name = "loadSettingsToolStripMenuItem";
-            this.loadSettingsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.loadSettingsToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.loadSettingsToolStripMenuItem.Text = "Load settings";
             this.loadSettingsToolStripMenuItem.Click += new System.EventHandler(this.loadSettingsToolStripMenuItem_Click);
             // 
             // saveSettingsToolStripMenuItem
             // 
             this.saveSettingsToolStripMenuItem.Name = "saveSettingsToolStripMenuItem";
-            this.saveSettingsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.saveSettingsToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.saveSettingsToolStripMenuItem.Text = "Save settings";
             this.saveSettingsToolStripMenuItem.Click += new System.EventHandler(this.saveSettingsToolStripMenuItem_Click);
             // 
             // loadDefaultSettingsToolStripMenuItem
             // 
             this.loadDefaultSettingsToolStripMenuItem.Name = "loadDefaultSettingsToolStripMenuItem";
-            this.loadDefaultSettingsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.loadDefaultSettingsToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.loadDefaultSettingsToolStripMenuItem.Text = "Reset settings";
             this.loadDefaultSettingsToolStripMenuItem.Click += new System.EventHandler(this.loadDefaultSettingsToolStripMenuItem_Click);
             // 
@@ -1722,7 +1789,7 @@ namespace IRCMonitor
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -1746,67 +1813,6 @@ namespace IRCMonitor
             this.btnDisconnect.UseVisualStyleBackColor = true;
             this.btnDisconnect.Visible = false;
             this.btnDisconnect.Click += new System.EventHandler(this.btnDisconnect_Click);
-            // 
-            // listViewEdit
-            // 
-            this.listViewEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.listViewEdit.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader19,
-            this.columnHeader20,
-            this.columnHeader21,
-            this.columnHeader22,
-            this.columnHeader23});
-            this.listViewEdit.FullRowSelect = true;
-            this.listViewEdit.GridLines = true;
-            this.listViewEdit.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.listViewEdit.Location = new System.Drawing.Point(0, 58);
-            this.listViewEdit.MultiSelect = false;
-            this.listViewEdit.Name = "listViewEdit";
-            this.listViewEdit.Size = new System.Drawing.Size(884, 501);
-            this.listViewEdit.TabIndex = 25;
-            this.listViewEdit.UseCompatibleStateImageBehavior = false;
-            this.listViewEdit.View = System.Windows.Forms.View.Details;
-            this.listViewEdit.DoubleClick += new System.EventHandler(this.listViewEdit_DoubleClick_1);
-            this.listViewEdit.MouseUp += new System.Windows.Forms.MouseEventHandler(this.listViewEdit_MouseUp_1);
-            // 
-            // columnHeader19
-            // 
-            this.columnHeader19.Text = "Article";
-            this.columnHeader19.Width = 188;
-            // 
-            // columnHeader20
-            // 
-            this.columnHeader20.Text = "User";
-            this.columnHeader20.Width = 157;
-            // 
-            // columnHeader21
-            // 
-            this.columnHeader21.Text = "Minor";
-            // 
-            // columnHeader22
-            // 
-            this.columnHeader22.Text = "+ -";
-            // 
-            // columnHeader23
-            // 
-            this.columnHeader23.Text = "Comment";
-            this.columnHeader23.Width = 416;
-            // 
-            // webBrowser
-            // 
-            this.webBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.webBrowser.Location = new System.Drawing.Point(0, 31);
-            this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser.Name = "webBrowser";
-            this.webBrowser.ScriptErrorsSuppressed = true;
-            this.webBrowser.Size = new System.Drawing.Size(884, 525);
-            this.webBrowser.TabIndex = 3;
-            this.webBrowser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowser_Navigating_1);
-            this.webBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser_DocumentCompleted_1);
             // 
             // IRCMonitor
             // 

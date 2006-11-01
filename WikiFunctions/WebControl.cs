@@ -99,6 +99,46 @@ namespace WikiFunctions.Browser
         }
 
         /// <summary>
+        /// Returns title of currently loaded page
+        /// </summary>
+        public string ArticleTitle
+        {
+            get
+            {
+                string s = ToString();
+                s = s.Remove(0, s.IndexOf("var wgTitle = \"") + "var wgTitle = \"".Length);
+                return HttpUtility.HtmlDecode(s.Substring(0, s.IndexOf("\"")));
+            }
+        }
+
+        /// <summary>
+        /// Gets contents of currently loaded page
+        /// </summary>
+        /// <returns>HTML text</returns>
+        public override string ToString()
+        {
+            try
+            {
+                return Document.GetElementsByTagName("html")[0].OuterHtml;
+            }
+            catch
+            {
+                return "";
+            }
+        }
+
+        /// <summary>
+        /// Returns revision ID of currently loaded page
+        /// </summary>
+        public int Revid
+        {
+            get
+            {
+                Regex r = new Regex("&diff=\\d+");
+                return int.Parse(r.Match(Url.ToString()).Value.Remove(0, 6));
+            }
+        }
+        /// <summary>
         /// Gets a value indicating whether the page can be saved
         /// </summary>
         public bool CanSave
@@ -561,6 +601,26 @@ namespace WikiFunctions.Browser
         }
 
         /// <summary>
+        /// Loads the edit page of the given article
+        /// </summary>
+        /// <param name="Article">article title</param>
+        /// <param name="Revision">revision</param>
+        public void LoadEditPage(string Article, int Revision)
+        {
+            try
+            {
+                this.AllowNavigation = true;
+                ProcessStage = enumProcessStage.load;
+                Status = "Loading page";
+                this.Navigate(Variables.URLLong + "index.php?title=" + Article + "&action=edit&oldid=" 
+                    + Revision.ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        /// <summary>
         /// Loads the log in page
         /// </summary>
         public void LoadLogInPage()
@@ -647,6 +707,23 @@ namespace WikiFunctions.Browser
                     this.Saved();
             }
             base.OnProgressChanged(e);
+        }
+
+        #endregion
+
+        #region IRCMonitor-related
+        public string AdminRollbackUrl
+        {
+            get
+            {
+                string url = "";
+                foreach (HtmlElement h in Document.Links)
+                {
+                    string s = h.GetAttribute("href").ToString();
+                    if (s.Contains("action=rollback")) url = s;
+                }
+                return url;
+            }
         }
 
         #endregion
