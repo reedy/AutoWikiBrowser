@@ -89,6 +89,8 @@ namespace AutoWikiBrowser
                 lblStatusText.AutoSize = true;
                 lblBotTimer.AutoSize = true;
 
+                Variables.UserNameChanged += UpdateUserName;
+
                 webBrowserLogin.ScriptErrorsSuppressed = true;
                 webBrowserLogin.DocumentCompleted += web4Completed;
                 webBrowserLogin.Navigating += web4Starting;
@@ -99,8 +101,7 @@ namespace AutoWikiBrowser
                 webBrowserEdit.None += CaseWasNull;
                 webBrowserEdit.Fault += StartDelayedRestartTimer;
                 webBrowserEdit.StatusChanged += UpdateWebBrowserStatus;
-                //webBrowserEdit.BusyChanged += hello;
-
+                
                 listMaker1.BusyStateChanged += SetProgressBar;
                 listMaker1.NoOfArticlesChanged += UpdateButtons;
                 listMaker1.StatusTextChanged += UpdateListStatus;
@@ -125,6 +126,8 @@ namespace AutoWikiBrowser
         TimeSpan StartTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
         StringCollection RecentList = new StringCollection();
         CustomModule cModule = new CustomModule();
+
+        WikiFunctions.DotNetWikiBot DNWB;
 
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -199,17 +202,6 @@ namespace AutoWikiBrowser
             {
                 intEditsPerMin = value;
                 lblEditsPerMin.Text = "Edits/min: " + value.ToString();
-            }
-        }
-
-        string strUserName = "";
-        string UserName
-        {
-            get { return strUserName; }
-            set
-            {
-                strUserName = value;
-                lblUserName.Text = Variables.Namespaces[2] + value;
             }
         }
 
@@ -428,9 +420,9 @@ namespace AutoWikiBrowser
 
                     dlgTalk DlgTalk = new dlgTalk();
                     if (DlgTalk.ShowDialog() == DialogResult.Yes)
-                        System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=User_talk:" + UserName + "&action=purge");
+                        System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=User_talk:" + Variables.UserName + "&action=purge");
                     else
-                        System.Diagnostics.Process.Start("IExplore", Variables.URLLong + "index.php?title=User_talk:" + UserName + "&action=purge");
+                        System.Diagnostics.Process.Start("IExplore", Variables.URLLong + "index.php?title=User_talk:" + Variables.UserName + "&action=purge");
 
                     DlgTalk = null;
                     return false;
@@ -817,6 +809,11 @@ namespace AutoWikiBrowser
 
         #region extra stuff
 
+        private void UpdateUserName(object sender, EventArgs e)
+        {
+            lblUserName.Text = Variables.UserName;
+        }
+
         private void UpdateWebBrowserStatus()
         {
             lblStatusText.Text = webBrowserEdit.Status;
@@ -939,7 +936,7 @@ namespace AutoWikiBrowser
                 while (webBrowserLogin.ReadyState != WebBrowserReadyState.Complete) Application.DoEvents();
 
                 strText = webBrowserLogin.GetArticleText();
-                UserName = webBrowserLogin.UserName;
+                Variables.UserName = webBrowserLogin.UserName();
 
                 //see if we are logged in
                 if (!webBrowserLogin.LoggedIn)
@@ -997,9 +994,9 @@ namespace AutoWikiBrowser
                     {
                         string strBotUsers = strText.Substring(strText.IndexOf("enabledbots"), strText.IndexOf("enabledbotsends") - strText.IndexOf("enabledbots"));
 
-                        if (UserName.Length > 0 && strText.Contains("* " + UserName + "\r\n") || strText.Contains("Everybody enabled = true"))
+                        if (Variables.UserName.Length > 0 && strText.Contains("* " + Variables.UserName + "\r\n") || strText.Contains("Everybody enabled = true"))
                         {
-                            if (strBotUsers.Contains("* " + UserName + "\r\n"))
+                            if (strBotUsers.Contains("* " + Variables.UserName + "\r\n"))
                             {//enable botmode
                                 chkAutoMode.Enabled = true;
                             }
@@ -1011,7 +1008,7 @@ namespace AutoWikiBrowser
                         }
                         else
                         {
-                            MessageBox.Show(UserName + " is not enabled to use this.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            MessageBox.Show(Variables.UserName + " is not enabled to use this.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                             System.Diagnostics.Process.Start(Variables.URL + "/wiki/Project:AutoWikiBrowser/CheckPage");
                             return false;
                         }
@@ -2238,11 +2235,12 @@ namespace AutoWikiBrowser
                 string path = Application.StartupPath;
                 string[] pluginFiles = Directory.GetFiles(path, "*.DLL");
 
-                IAWBPlugin[] Plugins = new IAWBPlugin[pluginFiles.Length];
-
-                for (int i = 0; i < pluginFiles.Length; i++)
+                foreach (string s in pluginFiles)
                 {
-                    string imFile = Path.GetFileName(pluginFiles[i]);
+                    if (s.EndsWith("DotNetWikiBot.dll"))
+                        continue;
+
+                    string imFile = Path.GetFileName(s);
 
                     Assembly asm = Assembly.LoadFile(path + "\\" + imFile);
 
@@ -2281,8 +2279,41 @@ namespace AutoWikiBrowser
             }
 
             pluginsToolStripMenuItem.Visible = AWBPlugins.Count > 0;
-        }
+        }        
 
         #endregion
+
+        private void LogginDNWB()
+        {
+            try
+            {
+                LoginDlg lg = new LoginDlg();
+                lg.UserName = Variables.UserName;
+
+                if (lg.ShowDialog() == DialogResult.OK)
+                {
+                    DNWB = new DotNetWikiBot(Variables.URL, lg.UserName, lg.Password);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void MoveArticle(string NewTitle)
+        {
+            if (DNWB == null)
+                LogginDNWB();
+
+            try
+            {
+                DNWB.MovePage(EdittingArticle.Name, "User:Bluemoose/Sandboxtest", "test");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }

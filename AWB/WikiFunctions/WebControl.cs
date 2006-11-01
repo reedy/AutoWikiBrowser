@@ -86,7 +86,7 @@ namespace WikiFunctions.Browser
         /// Occurs when the Busy state changes
         /// </summary>
         public event WebControlDel BusyChanged;
-
+        
         #endregion
 
         #region Properties
@@ -176,20 +176,17 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Gets the user name if logged in
         /// </summary>
-        public string UserName
+        public string UserName()
         {
-            get
-            {
-                if (this.Document == null)
-                    return "";
+            if (this.Document == null)
+                return "";
 
-                Match m = LoginRegex.Match(this.DocumentText);
+            Match m = LoginRegex.Match(this.DocumentText);
 
-                if (m.Groups[1].Value == "null")
-                    return "";
+            if (m.Groups[1].Value == "null")
+                return "";
 
-                return m.Groups[1].Value.Trim('"');
-            }
+            return m.Groups[1].Value.Trim('"');
         }
 
         /// <summary>
