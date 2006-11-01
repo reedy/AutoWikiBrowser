@@ -58,6 +58,27 @@ namespace WikiFunctions
             enLangNamespaces[15] = "Category talk:";
         }
 
+        /// <summary>
+        /// Occurs when user name changes
+        /// </summary>
+        public static event EventHandler UserNameChanged;
+
+        static string strUserName = "";
+        public static string UserName
+        {
+            get { return strUserName; }
+            set 
+            {
+                if (strUserName != value)
+                {
+                    if (UserNameChanged != null)
+                        UserNameChanged(null, null);
+
+                    strUserName = value;
+                }
+            }
+        }
+
         #region project and language settings
 
         /// <summary>
