@@ -68,6 +68,13 @@ namespace IRCMonitor
             btnSetCheckedColour.BackColor = CheckedColour;
 
             btnStart.Enabled = false;
+
+            webBrowser.Saved += new WikiFunctions.Browser.WebControlDel(webBrowser_Saved);
+        }
+
+        void webBrowser_Saved()
+        {
+            webBrowser.AllowNavigation = true;
         }
 
         private void IRCMonitor_Load(object sender, EventArgs e)
@@ -676,6 +683,7 @@ namespace IRCMonitor
         {
             if (chkBrowser.Checked)
             {
+                webBrowser.AllowNavigation = true;
                 webBrowser.Navigate(URL);
                 tabControl.SelectedTab = tabPage8;
             }
@@ -1522,7 +1530,7 @@ namespace IRCMonitor
             //MessageBox.Show(webBrowser.DiffNewUser);
             string baduser;
 
-            Revert("Reverted edits by [[Special:Contributions/%v|%v]] to last version by [[User:%u|%u]] using [[WP:AWB|IRCMonitor]]",
+            Revert("Reverted edits by [[Special:Contributions/%v|%v]] ([[User talk:%v|talk]]) to last version by %u using [[WP:AWB|IRCMonitor]]",
                 webBrowser.Revid, out baduser);
         }
 
@@ -1589,6 +1597,7 @@ namespace IRCMonitor
                 webBrowser.LoadEditPage(webBrowser.ArticleTitle, hist[i].RevisionID);
                 while (webBrowser.ReadyState != WebBrowserReadyState.Complete) Application.DoEvents();
                 webBrowser.SetSummary(summary);
+                webBrowser.SetMinor(true);
                 webBrowser.Save();
             }
             
