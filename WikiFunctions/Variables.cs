@@ -71,10 +71,10 @@ namespace WikiFunctions
             {
                 if (strUserName != value)
                 {
+                    strUserName = value;
+
                     if (UserNameChanged != null)
                         UserNameChanged(null, null);
-
-                    strUserName = value;
                 }
             }
         }
