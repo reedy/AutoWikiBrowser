@@ -1500,6 +1500,7 @@ namespace IRCMonitor
             btnBack.Enabled = webBrowser.CanGoBack;
             btnFoward.Enabled = webBrowser.CanGoForward;
             btnStop.Enabled = false;
+            btnRevert.Enabled = webBrowser.Url.ToString().Contains("&diff=");
         }
 
         private void webBrowser_Navigating_1(object sender, WebBrowserNavigatingEventArgs e)
@@ -1518,7 +1519,11 @@ namespace IRCMonitor
 
         private void revertToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //MessageBox.Show(webBrowser.DiffNewUser);
+            string baduser;
 
+            Revert("Reverted edits by [[Special:Contributions/%v|%v]] to last version by [[User:%u|%u]] using [[WP:AWB|IRCMonitor]]",
+                webBrowser.Revid, out baduser);
         }
 
         private void btnBack_Click(object sender, EventArgs e)
@@ -1546,5 +1551,49 @@ namespace IRCMonitor
         }
 
         #endregion
+
+        
+        #region Vandalfighting
+        void Revert(string summary, int badrev, out string username)
+        {
+            int i;
+            Editor e = new Editor();
+
+            username = null;
+            List < WikiFunctions.Editor.Revision > hist = e.GetHistory(webBrowser.ArticleTitle, 50);
+            foreach (WikiFunctions.Editor.Revision r in hist)
+            {
+                if(r.RevisionID == badrev) 
+                {
+                    username = r.User;
+                    break;
+                }
+            }
+
+            if (hist[0].User != username)
+            {
+                MessageBox.Show("Cannot revert!");
+                return;
+            }
+
+            for (i = 0; i <= 249 && hist[i].User == username; i++)
+            {
+            }
+
+            if (hist[i].User != username)
+            {
+
+                summary = summary.Replace("%v", username);
+                summary = summary.Replace("%u", hist[i].User);
+
+                webBrowser.LoadEditPage(webBrowser.ArticleTitle, hist[i].RevisionID);
+                while (webBrowser.ReadyState != WebBrowserReadyState.Complete) Application.DoEvents();
+                webBrowser.SetSummary(summary);
+                webBrowser.Save();
+            }
+            
+        }
+        #endregion
+        //*/
     }
 }
