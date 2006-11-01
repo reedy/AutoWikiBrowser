@@ -2227,7 +2227,6 @@ namespace AutoWikiBrowser
         #region Plugin
 
         Dictionary<string, IAWBPlugin> AWBPlugins = new Dictionary<string, IAWBPlugin>();
-        //   List<IAWBPlugin> AWBPlugins = new List<IAWBPlugin>();
         private void LoadPlugins()
         {
             try
@@ -2279,7 +2278,7 @@ namespace AutoWikiBrowser
             }
 
             pluginsToolStripMenuItem.Visible = AWBPlugins.Count > 0;
-        }        
+        }
 
         #endregion
 
@@ -2308,7 +2307,7 @@ namespace AutoWikiBrowser
 
             try
             {
-                DNWB.MovePage(EdittingArticle.Name, "User:Bluemoose/Sandboxtest", "test");
+                DNWB.MovePage(EdittingArticle.Name, NewTitle, "test");
             }
             catch (Exception ex)
             {
