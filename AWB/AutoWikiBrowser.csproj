@@ -167,6 +167,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="globe.ico" />
+    <Content Include="ToDo.txt" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
