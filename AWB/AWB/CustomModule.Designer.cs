@@ -83,8 +83,7 @@ namespace AutoWikiBrowser
             // 
             this.cmboLang.FormattingEnabled = true;
             this.cmboLang.Items.AddRange(new object[] {
-            "C# 2.0",
-            "Visual Basic.NET 2005"});
+            "C# 2.0"});
             this.cmboLang.Location = new System.Drawing.Point(253, 32);
             this.cmboLang.Name = "cmboLang";
             this.cmboLang.Size = new System.Drawing.Size(137, 21);
@@ -163,7 +162,7 @@ namespace AutoWikiBrowser
             // guideToolStripMenuItem
             // 
             this.guideToolStripMenuItem.Name = "guideToolStripMenuItem";
-            this.guideToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.guideToolStripMenuItem.Size = new System.Drawing.Size(101, 22);
             this.guideToolStripMenuItem.Text = "Guide";
             this.guideToolStripMenuItem.Click += new System.EventHandler(this.guideToolStripMenuItem_Click);
             // 
