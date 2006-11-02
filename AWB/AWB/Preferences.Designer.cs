@@ -78,8 +78,10 @@ namespace AutoWikiBrowser
             // 
             // cmboProject
             // 
+            this.cmboProject.DropDownHeight = 206;
             this.cmboProject.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmboProject.FormattingEnabled = true;
+            this.cmboProject.IntegralHeight = false;
             this.cmboProject.Location = new System.Drawing.Point(77, 63);
             this.cmboProject.Name = "cmboProject";
             this.cmboProject.Size = new System.Drawing.Size(121, 21);
