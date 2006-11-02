@@ -100,6 +100,21 @@ namespace WikiFunctions
             return m.Groups[1].Value;
         }
 
+        static string[] InvalidChars = new string[] { "[", "]", "{", "}", "|", "<",">", "%" };
+
+        /// <summary>
+        /// Tests article title to see if it is valid
+        /// </summary>
+        /// <param name="Text">The title.</param>
+        public static bool IsValidTitle(string ArticleTitle)
+        {
+            foreach(string s in InvalidChars)
+                if(ArticleTitle.Contains(s))
+                    return false;
+
+            return true;
+        }
+
         /// <summary>
         /// Tests title to make sure it is either main, image, category or template namespace.
         /// </summary>
