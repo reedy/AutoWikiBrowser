@@ -12,8 +12,8 @@ namespace WikiFunctions
     {
         public static void MakeLangSpecificRegexes()
         {
-            Category = new Regex(@"\[\[" + Variables.NamespacesCaseInsensitive[14] + @"(.*?)\]\]", RegexOptions.Compiled);
-            Images = new Regex(@"\[\[" + Variables.NamespacesCaseInsensitive[6] + @"(.*?)\]\]", RegexOptions.Compiled);
+            Category = new Regex("\\[\\[" + Variables.NamespacesCaseInsensitive[14] + "(.*?)\\]\\]|<[Gg]allery>[\\s\\S]*?</[Gg]allery>", RegexOptions.Compiled);
+            Images = new Regex("\\[\\[" + Variables.NamespacesCaseInsensitive[6] + "(.*?)\\]\\]|<[Gg]allery>[\\s\\S]*?</[Gg]allery>", RegexOptions.Compiled);
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches images
         /// </summary>
-        public static Regex Images = new Regex(@"\[\[[Ii]mage:.*\]\]", RegexOptions.Compiled);
+        public static Regex Images = new Regex("\\[\\[[Ii]mage:.*\\]\\]|<[Gg]allery>[\\s\\S]*?</[Gg]allery>", RegexOptions.Compiled);
         
         #region en only
 
