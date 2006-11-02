@@ -777,7 +777,8 @@ namespace WikiFunctions
                 catch
                 {
                     if (MessageBox.Show("An error occured while loading project information from the server. " +
-                        "Please make sure that your internet connection works and such combination of project/language exist.",
+                        "Please make sure that your internet connection works and such combination of project/language exist." +
+                        "\r\nEnter the URL in the format \"en.wikipedia.org\"",
                         "Error loading namespaces", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error) != DialogResult.Retry)
                     {
                         SetDefaults();
