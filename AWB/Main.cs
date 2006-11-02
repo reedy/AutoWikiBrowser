@@ -290,6 +290,12 @@ namespace AutoWikiBrowser
 
                 EdittingArticle = listMaker1.SelectedArticle();
 
+                if (!Tools.IsValidTitle(EdittingArticle.Name))
+                {
+                    SkipPage();
+                    return;
+                }
+
                 //Navigate to edit page
                 webBrowserEdit.LoadEditPage(EdittingArticle.URLEncodedName);
             }
