@@ -95,7 +95,7 @@ namespace WikiFunctions.Browser
         public enumProcessStage ProcessStage
         {
             get { return pStage; }
-            private set { pStage = value; }
+            set { pStage = value; }
         }
 
         /// <summary>
@@ -106,8 +106,8 @@ namespace WikiFunctions.Browser
             get
             {
                 string s = ToString();
-                s = s.Remove(0, s.IndexOf("var wgTitle = \"") + "var wgTitle = \"".Length);
-                return HttpUtility.HtmlDecode(s.Substring(0, s.IndexOf("\"")));
+                s = s.Remove(0, s.IndexOf("var wgPageName = \"") + "var wgPageName = \"".Length);
+                return HttpUtility.HtmlDecode(s.Substring(0, s.IndexOf("\""))).Replace("_", " ");
             }
         }
 
@@ -134,8 +134,19 @@ namespace WikiFunctions.Browser
         {
             get
             {
-                Regex r = new Regex("&diff=\\d+");
-                return int.Parse(r.Match(Url.ToString()).Value.Remove(0, 6));
+                int rev;
+                Regex r;
+                try
+                {
+                    r = new Regex("&diff=\\d+");
+                    if (int.TryParse(r.Match(Url.ToString()).Value.Remove(0, 6), out rev)) return rev;
+                }
+                finally
+                {
+                    r = new Regex("&oldid=\\d+");
+                    rev = int.Parse(r.Match(Url.ToString()).Value.Remove(0, 7));
+                }
+                return rev;
             }
         }
         /// <summary>
@@ -313,6 +324,17 @@ namespace WikiFunctions.Browser
                     return true;
                 else
                     return false;
+            }
+        }
+
+        /// <summary>
+        /// returns true if current page is a userpage
+        /// </summary>
+        public bool IsUserTalk
+        {
+            get 
+            {
+                return ArticleTitle.IndexOf(Variables.Namespaces[3]) == 0;
             }
         }
 
@@ -592,7 +614,7 @@ namespace WikiFunctions.Browser
                 this.AllowNavigation = true;
                 ProcessStage = enumProcessStage.load;
                 Status = "Loading page";
-                this.Navigate(Variables.URLLong + "index.php?title=" + Article + "&action=edit");
+                this.Navigate(Variables.URLLong + "index.php?title=" + HttpUtility.UrlEncode(Article) + "&action=edit");
             }
             catch (Exception ex)
             {
@@ -612,7 +634,7 @@ namespace WikiFunctions.Browser
                 this.AllowNavigation = true;
                 ProcessStage = enumProcessStage.load;
                 Status = "Loading page";
-                this.Navigate(Variables.URLLong + "index.php?title=" + Article + "&action=edit&oldid=" 
+                this.Navigate(Variables.URLLong + "index.php?title=" + HttpUtility.UrlEncode(Article) + "&action=edit&oldid=" 
                     + Revision.ToString());
             }
             catch (Exception ex)
@@ -620,6 +642,28 @@ namespace WikiFunctions.Browser
                 MessageBox.Show(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Loads the edit page of the given article
+        /// </summary>
+        /// <param name="Article">page title</param>
+        /// <param name="Section">section name</param>
+        public void LoadEditPage(string Article, string Section)
+        {
+            try
+            {
+                this.AllowNavigation = true;
+                ProcessStage = enumProcessStage.load;
+                Status = "Loading page";
+                string url = Variables.URLLong + "index.php?title=" + HttpUtility.UrlEncode(Article) + "&action=edit&section=" + Section;
+                this.Navigate(url);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
         /// <summary>
         /// Loads the log in page
         /// </summary>

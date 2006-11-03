@@ -31,6 +31,8 @@ using System.IO;
 using System.Xml;
 using WikiFunctions;
 using WikiFunctions.Lists;
+using System.Web;
+using System.Net;
 
 namespace IRCMonitor
 {
@@ -72,15 +74,134 @@ namespace IRCMonitor
             webBrowser.Saved += new WikiFunctions.Browser.WebControlDel(webBrowser_Saved);
         }
 
+        public string VandalName;
+        public string VandalizedPage;
+        public enum NextTaskType { None, Warn, Report, Contribs, Blacklist };
+        NextTaskType NextTask = NextTaskType.None;
+
+        string[] WarningTemplates = new string[] 
+        {
+            "Simple vandalism",
+            "*{{test1}}",
+            "*{{test2}}",
+            "*{{test3}}",
+            "*{{test4}}",
+            "*{{test4im}}",
+            "*{{blatantvandal}}",
+            "*{{test5}}",
+            "*{{test6}}",
+            "Blanking",
+            "*{{blank1}}",
+            "*{{blank2}}",
+            "*{{blank3}}",
+            "*{{blank4}}",
+            "*{{blank5}}",
+            "Removing content",
+            "*{{test1a}}",
+            "*{{test2a}}",
+            "*{{test2del}}",
+            "*{{test3a}}",
+            "*{{test4a}}",
+            "Userpage vandalism",
+            "*{{tpv1}}",
+            "*{{tpv2}}",
+            "*{{tpv3}}",
+            "*{{tpv4}}",
+            "*{{tpv5}}",
+            "Linkspam",
+            "*{{welcomespam}}",
+            "*{{spam0}}",
+            "*{{spam1}}",
+            "*{{spam2}}",
+            "*{{spam2a}}",
+            "*{{spam3}}",
+            "*{{spam4}}",
+            "*{{spam4im}}",
+            "*{{spam5}}",
+            "*{{spam5i}}",
+            "Personal attacks",
+            "*{{npa2}}",
+            "*{{npa3}}",
+            "*{{npa4}}",
+            "*{{npa5}}",
+            "*{{npa6}}",
+            "Introducing deliberate factual errors",
+            "*{{verror}}",
+            "*{{verror2}}",
+            "*{{verror3}}",
+            "*{{verror4}}",
+            "Using improper humor",
+            "*{{behave}}",
+            "*{{joke}}",
+            "*{{funnybut}}",
+            "*{{seriously}}",
+            "Removing {{afd}} templates",
+            "*{{drmafd}}",
+            "*{{drmafd2}}",
+            "*{{drmafd3}}",
+            "*{{drmafd4}}",
+            "*{{drmafd}}",
+        };
+
         void webBrowser_Saved()
         {
             webBrowser.AllowNavigation = true;
+            switch (NextTask)
+            {
+                case NextTaskType.Warn:
+                    NextTask = NextTaskType.None;
+                    webBrowser.Navigate("http://en.wikipedia.org/wiki/User talk:" + HttpUtility.UrlEncode(VandalName));
+                    break;
+                case NextTaskType.Report:
+                    NextTask = NextTaskType.None;
+                    ReportVandal();
+                    break;
+                case NextTaskType.Blacklist:
+                    AddToBlacklist(VandalName);
+                    break;
+                default:
+                    NextTask = NextTaskType.None;
+                    break;
+            }
+        }
+
+        private void ReportVandal()
+        {
+            webBrowser.Navigate("http://en.wikipedia.org/w/index.php?title=Wikipedia:Administrator_intervention_against_vandalism&action=edit&section=2");
+            while (webBrowser.ReadyState != WebBrowserReadyState.Complete) Application.DoEvents();
+            IPAddress dummy;
+            webBrowser.SetArticleText(webBrowser.GetArticleText() + "\r\n*{{" + (IPAddress.TryParse(VandalName, out dummy) ? "IPvandal" : "vandal") + "|" + VandalName + "}} ~~~~");
+            webBrowser.SetSummary("Reporting [[Special:Contributions/%v|%v]] ([[User talk:%v|talk]])  using [[WP:AWB|IRCMonitor]]".Replace("%v", VandalName));
+            NextTask = NextTaskType.None;
+            //webBrowser.Save();
         }
 
         private void IRCMonitor_Load(object sender, EventArgs e)
         {
             ResetStats();
             loadDefaultSettings();
+
+            btnWarn.DropDownItems.Clear();
+            Stack<ToolStripItemCollection> st = new Stack<ToolStripItemCollection>();
+            st.Push(btnWarn.DropDownItems);
+            foreach (string s in WarningTemplates)
+            {
+                string Title = s.TrimStart('*');
+                int Level = s.Length - Title.Length;
+                ToolStripMenuItem ts = new ToolStripMenuItem(Title);
+                
+                if (Level > st.Count - 1)
+                {
+                    ToolStripMenuItem parent = (ToolStripMenuItem)st.Peek()[st.Peek().Count - 1];
+                    st.Push(parent.DropDownItems);
+                }
+                else if (Level < st.Count - 1)
+                {
+                    for (; Level < st.Count - 1; Level++) st.Pop();
+                }
+                if (Title.StartsWith("{{")) ts.Click += new EventHandler(WarnUserClick);
+                st.Peek().Add(ts);
+            }
             Start();
         }
 
@@ -781,6 +902,14 @@ namespace IRCMonitor
 
         #region Lists
 
+        public void AddToBlacklist(string username)
+        {
+            username = Tools.TurnFirstToUpper(username);
+            if (lbBlackList.Items.Contains(username)) return;
+            lbBlackList.Items.Add(username);
+            lblBlackListCount.Text = lbBlackList.Items.Count.ToString();
+        }
+
         private void btnWhiteListAdd_Click(object sender, EventArgs e)
         {
             if (txtList.Text == "")
@@ -797,10 +926,8 @@ namespace IRCMonitor
             if (txtList.Text == "")
                 return;
 
-            lbBlackList.Items.Add(Tools.TurnFirstToUpper(txtList.Text));
+            AddToBlacklist(txtList.Text);
             txtList.Clear();
-
-            lblBlackListCount.Text = lbBlackList.Items.Count.ToString();
         }
 
         private void btnWhiteListeAddBots_Click(object sender, EventArgs e)
@@ -1509,6 +1636,7 @@ namespace IRCMonitor
             btnFoward.Enabled = webBrowser.CanGoForward;
             btnStop.Enabled = false;
             btnRevert.Enabled = webBrowser.Url.ToString().Contains("&diff=");
+            btnWarn.Enabled = webBrowser.IsUserTalk;
         }
 
         private void webBrowser_Navigating_1(object sender, WebBrowserNavigatingEventArgs e)
@@ -1522,16 +1650,18 @@ namespace IRCMonitor
 
         private void revertAndWarnToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            NextTask = NextTaskType.Warn;
+            VandalizedPage = webBrowser.ArticleTitle;
+            Revert("Reverted edits by [[Special:Contributions/%v|%v]] ([[User talk:%v|talk]]) to last version by %u using [[WP:AWB|IRCMonitor]]",
+                webBrowser.Revid, out VandalName);
         }
 
         private void revertToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //MessageBox.Show(webBrowser.DiffNewUser);
-            string baduser;
-
+            NextTask = NextTaskType.None;
+            VandalizedPage = webBrowser.ArticleTitle;
             Revert("Reverted edits by [[Special:Contributions/%v|%v]] ([[User talk:%v|talk]]) to last version by %u using [[WP:AWB|IRCMonitor]]",
-                webBrowser.Revid, out baduser);
+                webBrowser.Revid, out VandalName);
         }
 
         private void btnBack_Click(object sender, EventArgs e)
@@ -1584,7 +1714,7 @@ namespace IRCMonitor
                 return;
             }
 
-            for (i = 0; i <= 249 && hist[i].User == username; i++)
+            for (i = 0; i <= hist.Count && hist[i].User == username; i++)
             {
             }
 
@@ -1602,7 +1732,43 @@ namespace IRCMonitor
             }
             
         }
+
+        private void WarnUserClick(object sender, EventArgs e)
+        {
+            string username = webBrowser.ArticleTitle;
+            username = username.Remove(0, username.IndexOf(':') + 1);
+            WarnUser(username, (sender as ToolStripMenuItem).Text, VandalizedPage);
+        }
+
+        public void WarnUser(string user, string template, string pageConcerned)
+        {
+            string warning = template.Insert(2, "subst:") + " —~~~~";
+
+            webBrowser.LoadEditPage("User talk:" + user);
+            while (webBrowser.ReadyState != WebBrowserReadyState.Complete) Application.DoEvents();
+
+            webBrowser.AllowNavigation = true;
+            webBrowser.SetArticleText(webBrowser.GetArticleText() + "\r\n\r\n" + warning);
+            webBrowser.SetSummary(webBrowser.GetSummary() + "Warning user with " + template + " using [[WP:AWB|IRCMonitor]]");
+            VandalName = user;
+            NextTask = NextTaskType.Blacklist;
+            webBrowser.ProcessStage = WikiFunctions.Browser.enumProcessStage.save;
+        }
+
+        private void revertAndReportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NextTask = NextTaskType.Report;
+            VandalizedPage = webBrowser.ArticleTitle;
+            Revert("Reverted edits by [[Special:Contributions/%v|%v]] ([[User talk:%v|talk]]) to last version by %u using [[WP:AWB|IRCMonitor]]",
+                webBrowser.Revid, out VandalName);
+        }
         #endregion
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            UTCtime.Text = DateTime.UtcNow.ToString("T, m yyyy", System.Globalization.DateTimeFormatInfo.InvariantInfo);
+        }
+
         //*/
     }
 }
