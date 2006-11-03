@@ -171,10 +171,19 @@ namespace IRCMonitor
             this.btnStop = new System.Windows.Forms.ToolStripButton();
             this.txtURL = new System.Windows.Forms.ToolStripTextBox();
             this.btnGo = new System.Windows.Forms.ToolStripButton();
+            this.btnOpenInBrowser = new System.Windows.Forms.ToolStripButton();
             this.btnRevert = new System.Windows.Forms.ToolStripDropDownButton();
             this.revertAndWarnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.revertAndReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.revertToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnOpenInBrowser = new System.Windows.Forms.ToolStripButton();
+            this.btnWarn = new System.Windows.Forms.ToolStripDropDownButton();
+            this.btnUser = new System.Windows.Forms.ToolStripSplitButton();
+            this.reportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contribsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.logsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.blockLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.blockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.blockAndLeaveAMessageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.pbBrowserProgess = new System.Windows.Forms.ToolStripProgressBar();
             this.saveXML = new System.Windows.Forms.SaveFileDialog();
@@ -188,6 +197,10 @@ namespace IRCMonitor
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnPause = new System.Windows.Forms.Button();
             this.btnDisconnect = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.UTCtime = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.groupBox1.SuspendLayout();
             this.tabPage7.SuspendLayout();
             this.tabPage5.SuspendLayout();
@@ -214,6 +227,7 @@ namespace IRCMonitor
             this.toolStripBrowser.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.MainMenu.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnStart
@@ -526,6 +540,7 @@ namespace IRCMonitor
             this.lbBlackList.Name = "lbBlackList";
             this.lbBlackList.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.lbBlackList.Size = new System.Drawing.Size(152, 290);
+            this.lbBlackList.Sorted = true;
             this.lbBlackList.TabIndex = 15;
             this.lbBlackList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbBlackList_KeyDown);
             // 
@@ -1626,8 +1641,10 @@ namespace IRCMonitor
             this.btnStop,
             this.txtURL,
             this.btnGo,
+            this.btnOpenInBrowser,
             this.btnRevert,
-            this.btnOpenInBrowser});
+            this.btnWarn,
+            this.btnUser});
             this.toolStripBrowser.Location = new System.Drawing.Point(3, 3);
             this.toolStripBrowser.Name = "toolStripBrowser";
             this.toolStripBrowser.Size = new System.Drawing.Size(878, 25);
@@ -1678,11 +1695,21 @@ namespace IRCMonitor
             this.btnGo.Text = "Go";
             this.btnGo.Click += new System.EventHandler(this.btnGo_Click);
             // 
+            // btnOpenInBrowser
+            // 
+            this.btnOpenInBrowser.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnOpenInBrowser.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnOpenInBrowser.Name = "btnOpenInBrowser";
+            this.btnOpenInBrowser.Size = new System.Drawing.Size(23, 22);
+            this.btnOpenInBrowser.Text = "Open page in external browser";
+            this.btnOpenInBrowser.Click += new System.EventHandler(this.btnOpenInBrowser_Click);
+            // 
             // btnRevert
             // 
             this.btnRevert.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.btnRevert.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.revertAndWarnToolStripMenuItem,
+            this.revertAndReportToolStripMenuItem,
             this.revertToolStripMenuItem});
             this.btnRevert.Enabled = false;
             this.btnRevert.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -1693,25 +1720,86 @@ namespace IRCMonitor
             // revertAndWarnToolStripMenuItem
             // 
             this.revertAndWarnToolStripMenuItem.Name = "revertAndWarnToolStripMenuItem";
-            this.revertAndWarnToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.revertAndWarnToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.revertAndWarnToolStripMenuItem.Text = "Revert and warn";
             this.revertAndWarnToolStripMenuItem.Click += new System.EventHandler(this.revertAndWarnToolStripMenuItem_Click);
+            // 
+            // revertAndReportToolStripMenuItem
+            // 
+            this.revertAndReportToolStripMenuItem.Name = "revertAndReportToolStripMenuItem";
+            this.revertAndReportToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.revertAndReportToolStripMenuItem.Text = "Revert and report";
+            this.revertAndReportToolStripMenuItem.Click += new System.EventHandler(this.revertAndReportToolStripMenuItem_Click);
             // 
             // revertToolStripMenuItem
             // 
             this.revertToolStripMenuItem.Name = "revertToolStripMenuItem";
-            this.revertToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.revertToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.revertToolStripMenuItem.Text = "Revert";
             this.revertToolStripMenuItem.Click += new System.EventHandler(this.revertToolStripMenuItem_Click);
             // 
-            // btnOpenInBrowser
+            // btnWarn
             // 
-            this.btnOpenInBrowser.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnOpenInBrowser.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnOpenInBrowser.Name = "btnOpenInBrowser";
-            this.btnOpenInBrowser.Size = new System.Drawing.Size(23, 22);
-            this.btnOpenInBrowser.Text = "Open page in external browser";
-            this.btnOpenInBrowser.Click += new System.EventHandler(this.btnOpenInBrowser_Click);
+            this.btnWarn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnWarn.Enabled = false;
+            this.btnWarn.Image = ((System.Drawing.Image)(resources.GetObject("btnWarn.Image")));
+            this.btnWarn.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnWarn.Name = "btnWarn";
+            this.btnWarn.Size = new System.Drawing.Size(46, 22);
+            this.btnWarn.Text = "Warn";
+            // 
+            // btnUser
+            // 
+            this.btnUser.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnUser.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.reportToolStripMenuItem,
+            this.contribsToolStripMenuItem,
+            this.logsToolStripMenuItem,
+            this.blockLogToolStripMenuItem,
+            this.blockToolStripMenuItem,
+            this.blockAndLeaveAMessageToolStripMenuItem});
+            this.btnUser.Enabled = false;
+            this.btnUser.Image = ((System.Drawing.Image)(resources.GetObject("btnUser.Image")));
+            this.btnUser.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnUser.Name = "btnUser";
+            this.btnUser.Size = new System.Drawing.Size(45, 22);
+            this.btnUser.Text = "User";
+            // 
+            // reportToolStripMenuItem
+            // 
+            this.reportToolStripMenuItem.Name = "reportToolStripMenuItem";
+            this.reportToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+            this.reportToolStripMenuItem.Text = "Report";
+            // 
+            // contribsToolStripMenuItem
+            // 
+            this.contribsToolStripMenuItem.Name = "contribsToolStripMenuItem";
+            this.contribsToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+            this.contribsToolStripMenuItem.Text = "Contribs";
+            // 
+            // logsToolStripMenuItem
+            // 
+            this.logsToolStripMenuItem.Name = "logsToolStripMenuItem";
+            this.logsToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+            this.logsToolStripMenuItem.Text = "Logs";
+            // 
+            // blockLogToolStripMenuItem
+            // 
+            this.blockLogToolStripMenuItem.Name = "blockLogToolStripMenuItem";
+            this.blockLogToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+            this.blockLogToolStripMenuItem.Text = "Block log";
+            // 
+            // blockToolStripMenuItem
+            // 
+            this.blockToolStripMenuItem.Name = "blockToolStripMenuItem";
+            this.blockToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+            this.blockToolStripMenuItem.Text = "Block";
+            // 
+            // blockAndLeaveAMessageToolStripMenuItem
+            // 
+            this.blockAndLeaveAMessageToolStripMenuItem.Name = "blockAndLeaveAMessageToolStripMenuItem";
+            this.blockAndLeaveAMessageToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+            this.blockAndLeaveAMessageToolStripMenuItem.Text = "Block and leave a message";
             // 
             // statusStrip
             // 
@@ -1814,11 +1902,47 @@ namespace IRCMonitor
             this.btnDisconnect.Visible = false;
             this.btnDisconnect.Click += new System.EventHandler(this.btnDisconnect_Click);
             // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.SystemColors.Info;
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.UTCtime);
+            this.panel1.Controls.Add(this.label17);
+            this.panel1.Location = new System.Drawing.Point(565, 27);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(134, 23);
+            this.panel1.TabIndex = 25;
+            // 
+            // UTCtime
+            // 
+            this.UTCtime.AutoSize = true;
+            this.UTCtime.Location = new System.Drawing.Point(72, 4);
+            this.UTCtime.Name = "UTCtime";
+            this.UTCtime.Size = new System.Drawing.Size(0, 13);
+            this.UTCtime.TabIndex = 1;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label17.Location = new System.Drawing.Point(3, 4);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(63, 13);
+            this.label17.TabIndex = 0;
+            this.label17.Text = "UTC time:";
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Interval = 1000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // IRCMonitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(892, 666);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.MainMenu);
             this.Controls.Add(this.tabControl);
@@ -1870,6 +1994,8 @@ namespace IRCMonitor
             this.statusStrip.PerformLayout();
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2035,6 +2161,19 @@ namespace IRCMonitor
         private WikiFunctions.Browser.WebControl webBrowser;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripDropDownButton btnWarn;
+        private System.Windows.Forms.ToolStripMenuItem revertAndReportToolStripMenuItem;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label UTCtime;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.ToolStripSplitButton btnUser;
+        private System.Windows.Forms.ToolStripMenuItem reportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem contribsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem logsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem blockLogToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem blockToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem blockAndLeaveAMessageToolStripMenuItem;
     }
 }
 
