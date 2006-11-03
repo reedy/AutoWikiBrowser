@@ -103,7 +103,7 @@ namespace WikiFunctions
         {
             get
             {
-                return URL + "/w/";
+                return URL + URLEnd;
             }
         }
 
@@ -111,6 +111,8 @@ namespace WikiFunctions
         /// Full project name, e.g. "Wikimedia Commons"
         /// </summary>
         public static string ProjectName;
+
+        static string URLEnd = "/w/";
 
         static string strURL = "http://en.wikipedia.org";
         /// <summary>
@@ -189,9 +191,20 @@ namespace WikiFunctions
             strcustomproject = customProject;
 
             ProjectName = "";
-                        
+            URLEnd = "/w/";
+
             if (Project == ProjectEnum.custom)
+            {
+                int x = customProject.IndexOf('/');
+
+                if (x > 0)
+                {
+                    URLEnd = customProject.Substring(x, customProject.Length - x);
+                    customProject = customProject.Substring(0, x);
+                }
+
                 URL = "http://" + CustomProject;
+            }
             else
                 URL = "http://" + LangCode + "." + Project + ".org";
 
@@ -778,7 +791,7 @@ namespace WikiFunctions
                 {
                     if (MessageBox.Show("An error occured while loading project information from the server. " +
                         "Please make sure that your internet connection works and such combination of project/language exist." +
-                        "\r\nEnter the URL in the format \"en.wikipedia.org\"",
+                        "\r\nEnter the URL in the format \"en.wikipedia.org/w/\"",
                         "Error loading namespaces", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error) != DialogResult.Retry)
                     {
                         SetDefaults();
