@@ -216,7 +216,11 @@ namespace WikiFunctions.Parse
             bool Multiine = R.RegularExpressinonOptions.ToString().Contains("Multiline");
             bool SingleLine = R.RegularExpressinonOptions.ToString().Contains("Singleline");
 
-            dataGridView1.Rows.Add(R.Find, R.Replace, CaseSens, R.IsRegex, Multiine, SingleLine, R.Enabled);
+            if(!R.IsRegex)
+                dataGridView1.Rows.Add(Regex.Unescape(R.Find), R.Replace, CaseSens, R.IsRegex, Multiine, SingleLine, R.Enabled);
+            else
+                dataGridView1.Rows.Add(R.Find, R.Replace, CaseSens, R.IsRegex, Multiine, SingleLine, R.Enabled);
+
             if (!R.Enabled)
                 dataGridView1.Rows[dataGridView1.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightGray;
 
@@ -225,21 +229,9 @@ namespace WikiFunctions.Parse
 
         public void AddNew(List<Replacement> RList)
         {
-            bool CaseSens;
-            bool Multiine;
-            bool SingleLine;
-
             foreach (Replacement R in RList)
             {
-                CaseSens = !R.RegularExpressinonOptions.ToString().Contains("IgnoreCase");
-                Multiine = R.RegularExpressinonOptions.ToString().Contains("Multiline");
-                SingleLine = R.RegularExpressinonOptions.ToString().Contains("Singleline");
-
-                dataGridView1.Rows.Add(R.Find, R.Replace, CaseSens, R.IsRegex, Multiine, SingleLine, R.Enabled);
-                if (!R.Enabled)
-                    dataGridView1.Rows[dataGridView1.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightGray;
-
-                ReplacementList.Add(R);
+                AddNew(R);
             }
         }
 
