@@ -625,17 +625,27 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Loads the edit page of the given article
         /// </summary>
-        /// <param name="Article">article title</param>
-        /// <param name="Revision">revision</param>
+        /// <param name="Article">Article title</param>
+        /// <param name="Revision">Revision</param>
         public void LoadEditPage(string Article, int Revision)
+        {
+            LoadEditPage(Article, Revision.ToString());
+        }
+
+        /// <summary>
+        /// Loads the edit page of the given article
+        /// </summary>
+        /// <param name="Article">Article title</param>
+        /// <param name="Revision">Revision</param>
+        public void LoadEditPage(string Article, string Revision)
         {
             try
             {
                 this.AllowNavigation = true;
                 ProcessStage = enumProcessStage.load;
                 Status = "Loading page";
-                this.Navigate(Variables.URLLong + "index.php?title=" + HttpUtility.UrlEncode(Article) + "&action=edit&oldid=" 
-                    + Revision.ToString());
+                this.Navigate(Variables.URLLong + "index.php?title=" + HttpUtility.UrlEncode(Article) + "&action=edit&oldid="
+                    + Revision);
             }
             catch (Exception ex)
             {
@@ -646,9 +656,9 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Loads the edit page of the given article
         /// </summary>
-        /// <param name="Article">page title</param>
-        /// <param name="Section">section name</param>
-        public void LoadEditPage(string Article, string Section)
+        /// <param name="Article">Article title</param>
+        /// <param name="Section">Section name</param>
+        public void LoadEditPageSection(string Article, string Section)
         {
             try
             {

@@ -297,7 +297,7 @@ namespace AutoWikiBrowser
                 }
 
                 //Navigate to edit page
-                webBrowserEdit.LoadEditPage(EdittingArticle.URLEncodedName);
+                webBrowserEdit.LoadEditPage(EdittingArticle.Name);
             }
             catch (Exception ex)
             {
@@ -338,7 +338,7 @@ namespace AutoWikiBrowser
                 listMaker1.ReplaceArticle(EdittingArticle, Redirect);
                 EdittingArticle = Redirect;
 
-                webBrowserEdit.LoadEditPage(HttpUtility.UrlEncode(Redirect.Name));
+                webBrowserEdit.LoadEditPage(Redirect.Name);
                 return;
             }
 
