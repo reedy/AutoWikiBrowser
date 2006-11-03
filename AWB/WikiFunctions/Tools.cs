@@ -303,7 +303,7 @@ namespace WikiFunctions
             input = char.ToLower(input[0]) + input.Remove(0, 1);
 
             return input;
-        }
+        }        
 
         static readonly Regex RegexWordCountTable = new Regex("\\{\\|.*?\\|\\}", RegexOptions.Compiled | RegexOptions.Singleline);
 
