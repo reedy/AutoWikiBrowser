@@ -164,6 +164,7 @@ namespace AutoWikiBrowser
             this.listToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.unicodifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bypassAllRedirectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeAllExcessWhitespaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reparseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -1188,6 +1189,7 @@ namespace AutoWikiBrowser
             this.insertTagToolStripMenuItem,
             this.convertListToToolStripMenuItem,
             this.unicodifyToolStripMenuItem,
+            this.bypassAllRedirectsToolStripMenuItem,
             this.removeAllExcessWhitespaceToolStripMenuItem,
             this.reparseToolStripMenuItem,
             this.toolStripSeparator4,
@@ -1195,7 +1197,7 @@ namespace AutoWikiBrowser
             this.toolStripSeparator9,
             this.replaceTextWithLastEditToolStripMenuItem});
             this.mnuTextBox.Name = "contextMenuStrip1";
-            this.mnuTextBox.Size = new System.Drawing.Size(200, 386);
+            this.mnuTextBox.Size = new System.Drawing.Size(200, 430);
             this.mnuTextBox.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // wordWrapToolStripMenuItem1
@@ -1495,6 +1497,14 @@ namespace AutoWikiBrowser
             this.unicodifyToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
             this.unicodifyToolStripMenuItem.Text = "Unicodify selected";
             this.unicodifyToolStripMenuItem.Click += new System.EventHandler(this.unicodifyToolStripMenuItem_Click);
+            // 
+            // bypassAllRedirectsToolStripMenuItem
+            // 
+            this.bypassAllRedirectsToolStripMenuItem.Enabled = false;
+            this.bypassAllRedirectsToolStripMenuItem.Name = "bypassAllRedirectsToolStripMenuItem";
+            this.bypassAllRedirectsToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
+            this.bypassAllRedirectsToolStripMenuItem.Text = "Bypass all redirects";
+            this.bypassAllRedirectsToolStripMenuItem.Click += new System.EventHandler(this.bypassAllRedirectsToolStripMenuItem_Click);
             // 
             // removeAllExcessWhitespaceToolStripMenuItem
             // 
@@ -2140,6 +2150,7 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.Location = new System.Drawing.Point(0, 27);
             this.webBrowserEdit.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowserEdit.Name = "webBrowserEdit";
+            this.webBrowserEdit.ProcessStage = WikiFunctions.Browser.enumProcessStage.none;
             this.webBrowserEdit.ScriptErrorsSuppressed = true;
             this.webBrowserEdit.ScrollDown = true;
             this.webBrowserEdit.Size = new System.Drawing.Size(780, 193);
@@ -2410,6 +2421,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem convertFromTalkPagesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripAdvanced;
         private System.Windows.Forms.ToolStripMenuItem makeModuleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem bypassAllRedirectsToolStripMenuItem;
 
 
     }

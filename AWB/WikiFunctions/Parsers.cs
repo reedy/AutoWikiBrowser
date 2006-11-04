@@ -1080,6 +1080,46 @@ namespace WikiFunctions.Parse
         #region unused
 
         /// <summary>
+        /// Bypasses all redirects in the article
+        /// </summary>
+        public string BypassRedirects(string ArticleText)
+        {//checks links to make them bypass redirects and (TODO) disambigs
+            string link = "";
+            string article = "";
+
+            MatchCollection simple = WikiRegexes.WikiLinksOnly.Matches(ArticleText);
+            MatchCollection piped = WikiRegexes.PipedWikiLink.Matches(ArticleText);
+
+            foreach (Match m in simple)
+            {
+                //make link
+                link = m.Value;
+                article = m.Groups[1].Value;
+
+                //get text
+                string text = "";
+                try
+                {
+                    text = Tools.GetArticleText(article);
+                }
+                catch
+                {
+                    continue;
+                }
+
+                //test if redirect
+                if (Tools.IsRedirect(text))
+                {
+                    string directLink = Tools.RedirectTarget(text).Replace("_"," ");
+                    directLink = "[[" + directLink + "|" + article + "]]";
+
+                    ArticleText = ArticleText.Replace(link, directLink);
+                }
+            }
+            return ArticleText;
+        }
+
+        /// <summary>
         /// Fixes minor problems, such as abbreviations and miscapitalisations
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>

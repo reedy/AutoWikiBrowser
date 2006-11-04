@@ -226,6 +226,9 @@ namespace WikiFunctions
         /// <returns>The wiki text of the article.</returns>
         public static string GetArticleText(string ArticleTitle)
         {
+            if (!IsValidTitle(ArticleTitle))
+                return "";
+
             string text = "";
             try
             {
@@ -337,35 +340,7 @@ namespace WikiFunctions
             Text = Text.Trim('[', ']');
 
             return Text;
-        }
-
-        public static string linkChecker(string ArticleText)
-        {//checks links to make them bypass redirects and (TODO) disambigs
-            string link = "";
-            string article = "";
-
-            foreach (Match m in WikiRegexes.SimpleWikiLink.Matches(ArticleText))
-            {
-                //make link
-                link = m.Value;
-                article = m.Groups[1].Value;
-                //MessageBox.Show(link);
-
-                //get text
-                string text = "";
-                text = GetArticleText(article);
-
-                //test if redirect
-                if (Tools.IsRedirect(text))
-                {
-                    string directLink = Tools.RedirectTarget(text);
-                    directLink = "[[" + directLink + "|" + article + "]]";
-
-                    ArticleText = ArticleText.Replace(link, directLink);
-                }
-            }
-            return ArticleText;
-        }
+        }        
 
         /// <summary>
         /// Writes a message to the given file in the directory of the application.
