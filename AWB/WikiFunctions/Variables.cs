@@ -63,7 +63,25 @@ namespace WikiFunctions
         /// </summary>
         public static event EventHandler UserNameChanged;
 
+        /// <summary>
+        /// Occurs when wiki status changes
+        /// </summary>
+        public static event EventHandler WikiStatusChanged;
+
+        /// <summary>
+        /// Occurs when bot status changes
+        /// </summary>
+        public static event EventHandler BotStatusChanged;
+
+        /// <summary>
+        /// Occurs when admin status changes
+        /// </summary>
+        public static event EventHandler AdminStatusChanged;
+
         static string strUserName = "";
+        /// <summary>
+        /// Gets the user name
+        /// </summary>
         public static string UserName
         {
             get { return strUserName; }
@@ -76,6 +94,65 @@ namespace WikiFunctions
                     if (UserNameChanged != null)
                         UserNameChanged(null, null);
                 }
+            }
+        }
+
+        private static bool bWikiStatus = false;
+
+        /// <summary>
+        /// Gets a value indicating whether the user is enabled to use the software
+        /// </summary>
+        public static bool WikiStatus
+        {
+            get { return bWikiStatus; }
+            set
+            {
+                if (bWikiStatus != value)
+                {
+                    bWikiStatus = value;
+                    if (WikiStatusChanged != null)
+                        WikiStatusChanged(null, null);
+                }                
+            }
+        }
+
+        static bool bIsAdmin = false;
+
+        /// <summary>
+        /// Gets a value indicating whether user is an admin
+        /// </summary>
+        public static bool IsAdmin
+        {
+            get { return bIsAdmin; }
+            set 
+            {
+                if (bIsAdmin != value)
+                {
+                    bIsAdmin = value;
+
+                    if (AdminStatusChanged != null)
+                        AdminStatusChanged(null, null);
+                }
+            }
+        }
+
+        static bool bIsBot = false;
+
+        /// <summary>
+        /// Gets a value indicating whether user is a bot
+        /// </summary>
+        public static bool IsBot
+        {
+            get { return bIsBot; }
+            set
+            {
+                if (bIsBot != value)
+                {
+                    bIsBot = value;
+
+                    if (BotStatusChanged != null)
+                        BotStatusChanged(null, null);
+                }            
             }
         }
 

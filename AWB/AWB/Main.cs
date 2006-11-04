@@ -90,6 +90,8 @@ namespace AutoWikiBrowser
                 lblBotTimer.AutoSize = true;
 
                 Variables.UserNameChanged += UpdateUserName;
+                Variables.BotStatusChanged += UpdateBotStatus;
+                Variables.AdminStatusChanged += UpdateAdminStatus;
 
                 webBrowserLogin.ScriptErrorsSuppressed = true;
                 webBrowserLogin.DocumentCompleted += web4Completed;
@@ -101,7 +103,7 @@ namespace AutoWikiBrowser
                 webBrowserEdit.None += CaseWasNull;
                 webBrowserEdit.Fault += StartDelayedRestartTimer;
                 webBrowserEdit.StatusChanged += UpdateWebBrowserStatus;
-                
+
                 listMaker1.BusyStateChanged += SetProgressBar;
                 listMaker1.NoOfArticlesChanged += UpdateButtons;
                 listMaker1.StatusTextChanged += UpdateListStatus;
@@ -224,20 +226,6 @@ namespace AutoWikiBrowser
         {
             get { return bFlashAndBeep; }
             set { bFlashAndBeep = value; }
-        }
-
-        private bool WikiStatusBool = false;
-        internal bool wikiStatusBool
-        {
-            get { return WikiStatusBool; }
-            set
-            {
-                WikiStatusBool = value;
-                if (value == true)
-                    lblUserName.BackColor = Color.LightGreen;
-                else
-                    lblUserName.BackColor = Color.Red;
-            }
         }
 
         #endregion
@@ -412,14 +400,14 @@ namespace AutoWikiBrowser
                 //check we are still logged in
                 if (!webBrowserEdit.LoggedIn)
                 {
-                    wikiStatusBool = false;
+                    Variables.WikiStatus = false;
                     Start();
                     return false;
                 }
 
                 if (webBrowserEdit.NewMessage)
                 {//check if we have any messages
-                    wikiStatusBool = false;
+                    Variables.WikiStatus = false;
                     UpdateButtons();
                     webBrowserEdit.Document.Write("");
                     this.Focus();
@@ -931,7 +919,7 @@ namespace AutoWikiBrowser
             try
             {
                 //check if we need to bother checking or not
-                if (wikiStatusBool)
+                if (Variables.WikiStatus)
                     return true;
 
                 string strText = String.Empty;
@@ -964,22 +952,22 @@ namespace AutoWikiBrowser
                 if (n.Success)
                 {
                     foreach (Match link in WikiRegexes.UnPipedWikiLink.Matches(n.Value))
-                        if(!noParse.Contains(link.Groups[1].Value))
+                        if (!noParse.Contains(link.Groups[1].Value))
                             noParse.Add(link.Groups[1].Value);
                 }
 
                 //don't require approval in in other languages.
                 if (strText.Length < 1)
                 {
-                    wikiStatusBool = true;
-                    chkAutoMode.Enabled = true;
+                    Variables.WikiStatus = true;
+                    Variables.IsBot = true;
                     return true;
                 }
-                else if(strText.Contains("<!--All users enabled-->"))
+                else if (strText.Contains("<!--All users enabled-->"))
                 {//see if all users enabled
-                    wikiStatusBool = true;
-                        chkAutoMode.Enabled = true;
-                        return true;
+                    Variables.WikiStatus = true;
+                    Variables.IsBot = true;
+                    return true;
                 }
                 else
                 {
@@ -998,16 +986,21 @@ namespace AutoWikiBrowser
                     //see if we are allowed to use this softare
                     else
                     {
-                        string strBotUsers = strText.Substring(strText.IndexOf("enabledbots"), strText.IndexOf("enabledbotsends") - strText.IndexOf("enabledbots"));
+                        string strBotUsers = Regex.Match(strText, "<!--enabledbots-->.*?<!--enabledbotsends-->", RegexOptions.Singleline).Value; //strText.Substring(strText.IndexOf("<!--enabledbots-->"), strText.IndexOf("<!--enabledbotsends-->") - strText.IndexOf("<!--enabledbots-->"));
+                        string strAdmins = Regex.Match(strText, "<!--adminsbegins-->.*?<!--adminsends-->", RegexOptions.Singleline).Value; // strText.Substring(strText.IndexOf("<!--adminsbegins-->"), strText.IndexOf("<!--adminsends-->") - strText.IndexOf("<!--adminsbegins-->"));
 
-                        if (Variables.UserName.Length > 0 && strText.Contains("* " + Variables.UserName + "\r\n") || strText.Contains("Everybody enabled = true"))
+                        if (Variables.UserName.Length > 0 && strText.Contains("* " + Variables.UserName + "\r\n"))
                         {
                             if (strBotUsers.Contains("* " + Variables.UserName + "\r\n"))
                             {//enable botmode
-                                chkAutoMode.Enabled = true;
+                                Variables.IsBot = true;
+                            }
+                            if (strAdmins.Contains("* " + Variables.UserName + "\r\n"))
+                            {//enable admin features
+                                Variables.IsAdmin = true;
                             }
 
-                            wikiStatusBool = true;
+                            Variables.WikiStatus = true;
                             lblStatusText.Text = "Logged in, user enabled and software enabled";
                             UpdateButtons();
                             return true;
@@ -1025,6 +1018,30 @@ namespace AutoWikiBrowser
             {
                 MessageBox.Show(e.Message);
                 return false;
+            }
+        }
+
+        private void UpdateBotStatus(object sender, EventArgs e)
+        {
+            chkAutoMode.Enabled = Variables.IsBot;
+        }
+
+        private void UpdateAdminStatus(object sender, EventArgs e)
+        {
+
+        }
+
+        private void UpdateWikiStatus()
+        {
+            if (Variables.WikiStatus)
+            {
+                lblUserName.BackColor = Color.Red;
+            }
+            else
+            {
+                Variables.IsBot = false;
+                Variables.IsAdmin = false;
+                lblUserName.BackColor = Color.Red;
             }
         }
 
@@ -1313,8 +1330,9 @@ namespace AutoWikiBrowser
         {//stop logging in when de-bugging
             Tools.WriteDebugEnabled = true;
             listMaker1.Add("User:Bluemoose/Sandbox");
-            wikiStatusBool = true;
-            chkAutoMode.Enabled = true;
+            Variables.WikiStatus = true;
+            Variables.IsBot = true;
+            Variables.IsAdmin = true;
             chkQuickSave.Enabled = true;
             dumpHTMLToolStripMenuItem.Visible = true;
             bypassAllRedirectsToolStripMenuItem.Enabled = true;
@@ -1337,11 +1355,12 @@ namespace AutoWikiBrowser
                 LowThreadPriority = MyPrefs.LowThreadPriority;
                 FlashAndBeep = MyPrefs.FlashAndBeep;
 
-                wikiStatusBool = false;
+                Variables.WikiStatus = false;
                 chkQuickSave.Checked = false;
                 chkQuickSave.Enabled = false;
                 chkAutoMode.Checked = false;
-                chkAutoMode.Enabled = false;
+                Variables.IsBot = false;
+                Variables.IsAdmin = false;
 
                 SetProject(MyPrefs.Language, MyPrefs.Project, MyPrefs.CustomProject);
             }
@@ -2325,6 +2344,6 @@ namespace AutoWikiBrowser
             {
                 MessageBox.Show(ex.Message);
             }
-        }        
+        }
     }
 }
