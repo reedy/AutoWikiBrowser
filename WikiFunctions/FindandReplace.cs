@@ -208,6 +208,8 @@ namespace WikiFunctions.Parse
             dataGridView1.Rows.Add(Find, ReplaceWith, CaseSensitive, IsRegex, MultiLine, SingleLine, enabled);
             if (!enabled)
                 dataGridView1.Rows[dataGridView1.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightGray;
+
+            MakeList();
         }
 
         public void AddNew(Replacement R)

@@ -1317,6 +1317,7 @@ namespace AutoWikiBrowser
             chkAutoMode.Enabled = true;
             chkQuickSave.Enabled = true;
             dumpHTMLToolStripMenuItem.Visible = true;
+            bypassAllRedirectsToolStripMenuItem.Enabled = true;
         }
 
         #endregion
@@ -1780,6 +1781,11 @@ namespace AutoWikiBrowser
         private void uncategorisedToolStripMenuItem_Click(object sender, EventArgs e)
         {
             txtEdit.SelectedText = "{{Uncategorized|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
+        }
+
+        private void bypassAllRedirectsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            txtEdit.Text = parsers.BypassRedirects(txtEdit.Text);
         }
 
         private void unicodifyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2319,6 +2325,6 @@ namespace AutoWikiBrowser
             {
                 MessageBox.Show(ex.Message);
             }
-        }
+        }        
     }
 }
