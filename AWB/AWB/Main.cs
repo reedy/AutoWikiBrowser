@@ -662,6 +662,8 @@ namespace AutoWikiBrowser
                         if (Variables.LangCode == LangCodeEnum.en)
                         {//en only
                             articleText = parsers.Conversions(articleText);
+                            articleText = parsers.FixHeadings(articleText);
+
                             articleText = parsers.LivingPeople(articleText, out SkipArticle);
 
                             articleText = parsers.FixHeadings(articleText, EdittingArticle.Name, out SkipArticle);
@@ -686,8 +688,7 @@ namespace AutoWikiBrowser
                             return articleText;
 
                         articleText = parsers.LinkSimplifier(articleText);
-                        articleText = parsers.FixHeadings(articleText);
-
+                        
                         articleText = RemoveText.AddBack(articleText);
                     }
                 }
@@ -2311,8 +2312,6 @@ namespace AutoWikiBrowser
             pluginsToolStripMenuItem.Visible = AWBPlugins.Count > 0;
         }
 
-        #endregion
-
         private void LogginDNWB()
         {
             try
@@ -2345,5 +2344,7 @@ namespace AutoWikiBrowser
                 MessageBox.Show(ex.Message);
             }
         }
+
+        #endregion
     }
 }
