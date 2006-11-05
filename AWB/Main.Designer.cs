@@ -245,6 +245,7 @@ namespace AutoWikiBrowser
             this.btntsFalsePositive = new System.Windows.Forms.ToolStripButton();
             this.lbltsNumberofItems = new System.Windows.Forms.ToolStripLabel();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
+            this.logOutDebugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tpSetOptions.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -1197,7 +1198,7 @@ namespace AutoWikiBrowser
             this.toolStripSeparator9,
             this.replaceTextWithLastEditToolStripMenuItem});
             this.mnuTextBox.Name = "contextMenuStrip1";
-            this.mnuTextBox.Size = new System.Drawing.Size(200, 430);
+            this.mnuTextBox.Size = new System.Drawing.Size(200, 408);
             this.mnuTextBox.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // wordWrapToolStripMenuItem1
@@ -1857,6 +1858,7 @@ namespace AutoWikiBrowser
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.dumpHTMLToolStripMenuItem,
+            this.logOutDebugToolStripMenuItem,
             this.helpToolStripMenuItem1,
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
@@ -1866,22 +1868,22 @@ namespace AutoWikiBrowser
             // dumpHTMLToolStripMenuItem
             // 
             this.dumpHTMLToolStripMenuItem.Name = "dumpHTMLToolStripMenuItem";
-            this.dumpHTMLToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
-            this.dumpHTMLToolStripMenuItem.Text = "Dump HTML";
+            this.dumpHTMLToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.dumpHTMLToolStripMenuItem.Text = "Dump HTML (Debug)";
             this.dumpHTMLToolStripMenuItem.Visible = false;
             this.dumpHTMLToolStripMenuItem.Click += new System.EventHandler(this.dumpHTMLToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem1
             // 
             this.helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
-            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(130, 22);
+            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(172, 22);
             this.helpToolStripMenuItem1.Text = "Help";
             this.helpToolStripMenuItem1.Click += new System.EventHandler(this.helpToolStripMenuItem1_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.aboutToolStripMenuItem.Text = "About...";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -2161,6 +2163,14 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
             this.webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
             // 
+            // logOutDebugToolStripMenuItem
+            // 
+            this.logOutDebugToolStripMenuItem.Name = "logOutDebugToolStripMenuItem";
+            this.logOutDebugToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.logOutDebugToolStripMenuItem.Text = "Log out (Debug)";
+            this.logOutDebugToolStripMenuItem.Visible = false;
+            this.logOutDebugToolStripMenuItem.Click += new System.EventHandler(this.logOutDebugToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2422,6 +2432,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem toolStripAdvanced;
         private System.Windows.Forms.ToolStripMenuItem makeModuleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem bypassAllRedirectsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem logOutDebugToolStripMenuItem;
 
 
     }

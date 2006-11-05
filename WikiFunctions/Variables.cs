@@ -839,6 +839,8 @@ namespace WikiFunctions
         }
     }
 
+    public enum WikiStatusResult { Error, NotLoggedIn, NotRegistered, OldVersion, Registered }
+
     public class UserProperties
     {
         public UserProperties()
@@ -956,7 +958,7 @@ namespace WikiFunctions
             }
         }
 
-        public bool UpdateWikiStatus()
+        public WikiStatusResult UpdateWikiStatus()
         {//this checks if you are logged in, registered and have the newest version.
             try
             {
@@ -977,7 +979,7 @@ namespace WikiFunctions
                 LoggedIn = webBrowserLogin.GetLogInStatus();
                 if (!webBrowserLogin.GetLogInStatus())
                 {
-                    return false;
+                    return WikiStatusResult.NotLoggedIn;
                 }
 
                 //see if there is a message
@@ -990,29 +992,32 @@ namespace WikiFunctions
                 //don't require approval if checkpage does not exist.
                 if (strText.Length < 1)
                 {
-                    this.WikiStatus = true;
-                    this.IsBot = true;
-                    return true;
+                    WikiStatus = true;
+                    IsBot = true;
+                    return WikiStatusResult.Registered;
                 }
                 else if (strText.Contains("<!--All users enabled-->"))
                 {//see if all users enabled
                     this.WikiStatus = true;
                     this.IsBot = true;
-                    return true;
+                    return WikiStatusResult.Registered;
                 }
                 else
                 {
                     if (!m.Success)
                     {
-                        MessageBox.Show("Check page failed to load.\r\n\r\nCheck your Internet Explorer is working and that the Wikipedia servers are online, also try clearing Internet Explorer cache.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return false;
+                        IsBot = false;
+                        IsAdmin = false;
+                        WikiStatus = false;
+                        return WikiStatusResult.Error;
                     }
                     //see if this version is enabled
                     else if (!strText.Contains(Assembly.GetExecutingAssembly().GetName().Version.ToString() + " enabled"))
                     {
-                        MessageBox.Show("This version is not enabled, please download the newest version. If you have the newest version, check that Wikipedia is online.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        System.Diagnostics.Process.Start("http://sourceforge.net/project/showfiles.php?group_id=158332");
-                        return false;
+                        IsBot = false;
+                        IsAdmin = false;
+                        WikiStatus = false;
+                        return WikiStatusResult.OldVersion;
                     }
                     //see if we are allowed to use this softare
                     else
@@ -1033,21 +1038,25 @@ namespace WikiFunctions
 
                             this.WikiStatus = true;
 
-                            return true;
+                            return WikiStatusResult.Registered;
                         }
                         else
                         {
-                            MessageBox.Show(this.Name + " is not enabled to use this.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                            System.Diagnostics.Process.Start(Variables.URL + "/wiki/Project:AutoWikiBrowser/CheckPage");
-                            return false;
+                            IsBot = false;
+                            IsAdmin = false;
+                            WikiStatus = false;
+                            return WikiStatusResult.NotRegistered;
                         }
                     }
                 }
             }
             catch (Exception e)
             {
+                IsBot = false;
+                IsAdmin = false;
+                WikiStatus = false;
                 MessageBox.Show(e.Message);
-                return false;
+                return WikiStatusResult.Error;
             }
         }
 
