@@ -191,7 +191,7 @@ Public Class Class1
         {
             MessageBox.Show(@"A module allows you to process the article text using your own C# or Visual Basic.NET code.
 
-Use the ""Makes module"" button to compile load the code.
+Use the ""Makes module"" button to compile and load the code.
 
 The method ""ProcessArticle"" is called when AWB is applying all its own processes. Do not change the sigature of this method.
 

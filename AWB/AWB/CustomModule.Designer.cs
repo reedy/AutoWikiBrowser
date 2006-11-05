@@ -60,7 +60,7 @@ namespace AutoWikiBrowser
             // btnDone
             // 
             this.btnDone.Enabled = false;
-            this.btnDone.Location = new System.Drawing.Point(489, 30);
+            this.btnDone.Location = new System.Drawing.Point(544, 30);
             this.btnDone.Name = "btnDone";
             this.btnDone.Size = new System.Drawing.Size(75, 23);
             this.btnDone.TabIndex = 1;
@@ -71,7 +71,7 @@ namespace AutoWikiBrowser
             // btnMake
             // 
             this.btnMake.Enabled = false;
-            this.btnMake.Location = new System.Drawing.Point(396, 30);
+            this.btnMake.Location = new System.Drawing.Point(451, 30);
             this.btnMake.Name = "btnMake";
             this.btnMake.Size = new System.Drawing.Size(87, 23);
             this.btnMake.TabIndex = 2;
@@ -84,7 +84,7 @@ namespace AutoWikiBrowser
             this.cmboLang.FormattingEnabled = true;
             this.cmboLang.Items.AddRange(new object[] {
             "C# 2.0"});
-            this.cmboLang.Location = new System.Drawing.Point(253, 32);
+            this.cmboLang.Location = new System.Drawing.Point(308, 32);
             this.cmboLang.Name = "cmboLang";
             this.cmboLang.Size = new System.Drawing.Size(137, 21);
             this.cmboLang.TabIndex = 3;
@@ -93,7 +93,7 @@ namespace AutoWikiBrowser
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(192, 35);
+            this.label1.Location = new System.Drawing.Point(247, 35);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(55, 13);
             this.label1.TabIndex = 4;
@@ -124,7 +124,7 @@ namespace AutoWikiBrowser
             // 
             this.lblStatus.AutoSize = true;
             this.lblStatus.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.lblStatus.Location = new System.Drawing.Point(93, 35);
+            this.lblStatus.Location = new System.Drawing.Point(82, 35);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(93, 13);
             this.lblStatus.TabIndex = 7;
@@ -162,7 +162,7 @@ namespace AutoWikiBrowser
             // guideToolStripMenuItem
             // 
             this.guideToolStripMenuItem.Name = "guideToolStripMenuItem";
-            this.guideToolStripMenuItem.Size = new System.Drawing.Size(101, 22);
+            this.guideToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.guideToolStripMenuItem.Text = "Guide";
             this.guideToolStripMenuItem.Click += new System.EventHandler(this.guideToolStripMenuItem_Click);
             // 
