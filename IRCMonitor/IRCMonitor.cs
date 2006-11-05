@@ -189,10 +189,10 @@ namespace IRCMonitor
 
             string strText = browser.GetArticleText();
 
-            string enabledUsers = Tools.StringBetwen(strText, "enabledusersbegins", "enabledusersends");
+            string enabledUsers = Tools.StringBetween(strText, "enabledusersbegins", "enabledusersends");
             if (enabledUsers.Contains("*" + User.Name)) Approved = true;
 
-            string disabledUsers = Tools.StringBetwen(strText, "disabledusersbegins", "disabledusersends");
+            string disabledUsers = Tools.StringBetween(strText, "disabledusersbegins", "disabledusersends");
             if (disabledUsers.Contains("*" + User.Name))
             {
                 Approved = false;

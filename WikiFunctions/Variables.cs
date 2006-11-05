@@ -58,103 +58,7 @@ namespace WikiFunctions
             enLangNamespaces[15] = "Category talk:";
         }
 
-        /// <summary>
-        /// Occurs when user name changes
-        /// </summary>
-        public static event EventHandler UserNameChanged;
-
-        /// <summary>
-        /// Occurs when wiki status changes
-        /// </summary>
-        public static event EventHandler WikiStatusChanged;
-
-        /// <summary>
-        /// Occurs when bot status changes
-        /// </summary>
-        public static event EventHandler BotStatusChanged;
-
-        /// <summary>
-        /// Occurs when admin status changes
-        /// </summary>
-        public static event EventHandler AdminStatusChanged;
-
-        static string strUserName = "";
-        /// <summary>
-        /// Gets the user name
-        /// </summary>
-        public static string UserName
-        {
-            get { return strUserName; }
-            set 
-            {
-                if (strUserName != value)
-                {
-                    strUserName = value;
-
-                    if (UserNameChanged != null)
-                        UserNameChanged(null, null);
-                }
-            }
-        }
-
-        private static bool bWikiStatus = false;
-
-        /// <summary>
-        /// Gets a value indicating whether the user is enabled to use the software
-        /// </summary>
-        public static bool WikiStatus
-        {
-            get { return bWikiStatus; }
-            set
-            {
-                if (bWikiStatus != value)
-                {
-                    bWikiStatus = value;
-                    if (WikiStatusChanged != null)
-                        WikiStatusChanged(null, null);
-                }                
-            }
-        }
-
-        static bool bIsAdmin = false;
-
-        /// <summary>
-        /// Gets a value indicating whether user is an admin
-        /// </summary>
-        public static bool IsAdmin
-        {
-            get { return bIsAdmin; }
-            set 
-            {
-                if (bIsAdmin != value)
-                {
-                    bIsAdmin = value;
-
-                    if (AdminStatusChanged != null)
-                        AdminStatusChanged(null, null);
-                }
-            }
-        }
-
-        static bool bIsBot = false;
-
-        /// <summary>
-        /// Gets a value indicating whether user is a bot
-        /// </summary>
-        public static bool IsBot
-        {
-            get { return bIsBot; }
-            set
-            {
-                if (bIsBot != value)
-                {
-                    bIsBot = value;
-
-                    if (BotStatusChanged != null)
-                        BotStatusChanged(null, null);
-                }            
-            }
-        }
+        public static UserProperties User = new UserProperties();
 
         #region project and language settings
 
@@ -931,5 +835,110 @@ namespace WikiFunctions
             strsummarytag = " using [[Project:AWB|AWB]]";
         }
     }
+
+    public class UserProperties
+    {
+        /// <summary>
+        /// Occurs when user name changes
+        /// </summary>
+        public event EventHandler UserNameChanged;
+
+        /// <summary>
+        /// Occurs when wiki status changes
+        /// </summary>
+        public event EventHandler WikiStatusChanged;
+
+        /// <summary>
+        /// Occurs when bot status changes
+        /// </summary>
+        public event EventHandler BotStatusChanged;
+
+        /// <summary>
+        /// Occurs when admin status changes
+        /// </summary>
+        public event EventHandler AdminStatusChanged;
+
+        string strName = "";
+        private bool bWikiStatus = false;
+        bool bIsAdmin = false;
+        bool bIsBot = false;
+
+        /// <summary>
+        /// Gets the user name
+        /// </summary>
+        public string Name
+        {
+            get { return strName; }
+            set
+            {
+                if (strName != value)
+                {
+                    strName = value;
+
+                    if (UserNameChanged != null)
+                        UserNameChanged(null, null);
+                }
+            }
+        }
+                
+        /// <summary>
+        /// Gets a value indicating whether the user is enabled to use the software
+        /// </summary>
+        public bool WikiStatus
+        {
+            get { return bWikiStatus; }
+            set
+            {
+                if (bWikiStatus != value)
+                {
+                    bWikiStatus = value;
+                    if (WikiStatusChanged != null)
+                        WikiStatusChanged(null, null);
+                }
+            }
+        }       
+
+        /// <summary>
+        /// Gets a value indicating whether user is an admin
+        /// </summary>
+        public bool IsAdmin
+        {
+            get { return bIsAdmin; }
+            set
+            {
+                if (bIsAdmin != value)
+                {
+                    bIsAdmin = value;
+
+                    if (AdminStatusChanged != null)
+                        AdminStatusChanged(null, null);
+                }
+            }
+        }        
+
+        /// <summary>
+        /// Gets a value indicating whether user is a bot
+        /// </summary>
+        public bool IsBot
+        {
+            get { return bIsBot; }
+            set
+            {
+                if (bIsBot != value)
+                {
+                    bIsBot = value;
+
+                    if (BotStatusChanged != null)
+                        BotStatusChanged(null, null);
+                }
+            }
+        }
+
+        public bool IsIP
+        {
+            get { return Tools.IsIP(Name); }
+        }
+    }
 }
+
         #endregion
