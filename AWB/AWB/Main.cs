@@ -94,9 +94,8 @@ namespace AutoWikiBrowser
                 Variables.User.AdminStatusChanged += UpdateAdminStatus;
                 Variables.User.WikiStatusChanged += UpdateWikiStatus;
 
-                webBrowserLogin.ScriptErrorsSuppressed = true;
-                webBrowserLogin.DocumentCompleted += web4Completed;
-                webBrowserLogin.Navigating += web4Starting;
+                Variables.User.webBrowserLogin.DocumentCompleted += web4Completed;
+                Variables.User.webBrowserLogin.Navigating += web4Starting;
 
                 webBrowserEdit.Loaded += CaseWasLoad;
                 webBrowserEdit.Diffed += CaseWasDiff;
@@ -125,7 +124,6 @@ namespace AutoWikiBrowser
         SkipOptions Skip = new SkipOptions();
         WikiFunctions.MWB.ReplaceSpecial replaceSpecial = new WikiFunctions.MWB.ReplaceSpecial();
         Parsers parsers;
-        WebControl webBrowserLogin = new WebControl();
         TimeSpan StartTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
         StringCollection RecentList = new StringCollection();
         CustomModule cModule = new CustomModule();
@@ -148,10 +146,10 @@ namespace AutoWikiBrowser
                 else
                     listMaker1.MakeListEnabled = true;
 
-                Debug();
-
                 if (AutoWikiBrowser.Properties.Settings.Default.LogInOnStart)
-                    WikiStatus();
+                    Variables.User.UpdateWikiStatus();
+
+                Debug();
 
                 LoadPlugins();
                 LoadPrefs();
@@ -256,8 +254,12 @@ namespace AutoWikiBrowser
                     webBrowserEdit.Document.Write("");
 
                 //check we are logged in
-                if (!WikiStatus())
+                if (!Variables.User.WikiStatus)
+                {
+                    lblStatusText.Text = "Loading page to check if we are logged in.";
+                    Variables.User.UpdateWikiStatus();
                     return;
+                }
 
                 ArticleInfo(true);
 
@@ -399,9 +401,9 @@ namespace AutoWikiBrowser
                     return false;
                 }
                 //check we are still logged in
-                if (!webBrowserEdit.LoggedIn)
+                if (!webBrowserEdit.GetLogInStatus())
                 {
-                    Variables.User.WikiStatus = false;
+                    Variables.User.LoggedIn = false;
                     Start();
                     return false;
                 }
@@ -529,7 +531,12 @@ namespace AutoWikiBrowser
             if (webBrowserEdit.Document.Body.InnerHtml.Contains("<B>You have successfully signed in to Wikipedia as"))
             {
                 lblStatusText.Text = "Signed in, now re-starting";
-                WikiStatus();
+
+                if (!Variables.User.WikiStatus)
+                {
+                    lblStatusText.Text = "Loading page to check if we are logged in.";
+                    Variables.User.UpdateWikiStatus();
+                }
             }
         }
 
@@ -852,8 +859,8 @@ namespace AutoWikiBrowser
 
             if (webBrowserEdit.IsBusy)
                 webBrowserEdit.Stop2();
-            if (webBrowserLogin.IsBusy)
-                webBrowserLogin.Stop();
+            if (Variables.User.webBrowserLogin.IsBusy)
+                Variables.User.webBrowserLogin.Stop();
 
             SaveRecentSettingsList();
         }
@@ -916,116 +923,6 @@ namespace AutoWikiBrowser
             toolStripProgressBar1.Style = ProgressBarStyle.Marquee;
         }
 
-        private bool WikiStatus()
-        {//this checks if you are logged in, registered and have the newest version. Some bits disabled.
-            try
-            {
-                //check if we need to bother checking or not
-                if (Variables.User.WikiStatus)
-                    return true;
-
-                string strText = String.Empty;
-                lblStatusText.Text = "Loading page to check if we are logged in";
-                //load check page
-                webBrowserLogin.Navigate(Variables.URLLong + "index.php?title=Project:AutoWikiBrowser/CheckPage&action=edit");
-                //wait to load
-                while (webBrowserLogin.ReadyState != WebBrowserReadyState.Complete) Application.DoEvents();
-
-                strText = webBrowserLogin.GetArticleText();
-                Variables.User.Name = webBrowserLogin.UserName();
-
-                //see if we are logged in
-                if (!webBrowserLogin.LoggedIn)
-                {
-                    MessageBox.Show("You are not logged in. The log in screen will now load, enter your name and password, click \"Log in\", wait for it to complete, then start the process again.\r\n\r\nIn the future you can make sure this won't happen by logging in to Wikipedia using Microsoft Internet Explorer.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    webBrowserEdit.LoadLogInPage();
-                    return false;
-                }
-
-                //see if there is a message
-                Match m = Regex.Match(strText, "<!--Message:(.*?)-->");
-                if (m.Success && m.Groups[1].Value.Trim().Length > 0)
-                {
-                    MessageBox.Show(m.Groups[1].Value, "Automated message", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-
-                //Get list of articles not to apply general fixes to.
-                Match n = Regex.Match(strText, "<!--No general fixes:.*?-->", RegexOptions.Singleline);
-                if (n.Success)
-                {
-                    foreach (Match link in WikiRegexes.UnPipedWikiLink.Matches(n.Value))
-                        if (!noParse.Contains(link.Groups[1].Value))
-                            noParse.Add(link.Groups[1].Value);
-                }
-
-                //don't require approval in in other languages.
-                if (strText.Length < 1)
-                {
-                    Variables.User.WikiStatus = true;
-                    Variables.User.IsBot = true;
-                    return true;
-                }
-                else if (strText.Contains("<!--All users enabled-->"))
-                {//see if all users enabled
-                    Variables.User.WikiStatus = true;
-                    Variables.User.IsBot = true;
-                    return true;
-                }
-                else
-                {
-                    if (!m.Success)
-                    {
-                        MessageBox.Show("Check page failed to load.\r\n\r\nCheck your Internet Explorer is working and that the Wikipedia servers are online, also try clearing Internet Explorer cache.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return false;
-                    }
-                    //see if this version is enabled
-                    else if (!strText.Contains(Assembly.GetExecutingAssembly().GetName().Version.ToString() + " enabled"))
-                    {
-                        MessageBox.Show("This version is not enabled, please download the newest version. If you have the newest version, check that Wikipedia is online.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        System.Diagnostics.Process.Start("http://sourceforge.net/project/showfiles.php?group_id=158332");
-                        return false;
-                    }
-                    //see if we are allowed to use this softare
-                    else
-                    {
-                        string strBotUsers = Tools.StringBetween(strText, "<!--enabledbots-->", "<!--enabledbotsends-->");
-                        string strAdmins = Tools.StringBetween(strText, "<!--adminsbegins-->", "<!--adminsends-->");
-
-                        if (Variables.User.Name.Length > 0 && strText.Contains("* " + Variables.User.Name + "\r\n"))
-                        {
-                            if (strBotUsers.Contains("* " + Variables.User.Name + "\r\n"))
-                            {//enable botmode
-                                Variables.User.IsBot = true;
-                            }
-                            if (strAdmins.Contains("* " + Variables.User.Name + "\r\n"))
-                            {//enable admin features
-                                Variables.User.IsAdmin = true;
-                            }
-
-                            Variables.User.WikiStatus = true;
-
-                            string label = string.Format("Logged in, user enabled and software enabled. Bot = {0}, Admin = {1}", Variables.User.IsBot, Variables.User.IsAdmin);                            
-                            lblStatusText.Text = label;
-                            
-                            UpdateButtons();
-                            return true;
-                        }
-                        else
-                        {
-                            MessageBox.Show(Variables.User.Name + " is not enabled to use this.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                            System.Diagnostics.Process.Start(Variables.URL + "/wiki/Project:AutoWikiBrowser/CheckPage");
-                            return false;
-                        }
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-                return false;
-            }
-        }
-
         private void UpdateBotStatus(object sender, EventArgs e)
         {
             chkAutoMode.Enabled = Variables.User.IsBot;
@@ -1040,15 +937,39 @@ namespace AutoWikiBrowser
         {
             if (Variables.User.WikiStatus)
             {
+                //Get list of articles not to apply general fixes to.
+                Match n = Regex.Match(Variables.User.CheckPageText, "<!--No general fixes:.*?-->", RegexOptions.Singleline);
+                if (n.Success)
+                {
+                    foreach (Match link in WikiRegexes.UnPipedWikiLink.Matches(n.Value))
+                        if (!noParse.Contains(link.Groups[1].Value))
+                            noParse.Add(link.Groups[1].Value);
+                }
+
                 lblUserName.BackColor = Color.LightGreen;
+
+                string label = string.Format("Logged in, user and software enabled. Bot = {0}, Admin = {1}", Variables.User.IsBot, Variables.User.IsAdmin);
+                lblStatusText.Text = label;
             }
             else
             {
+                lblStatusText.Text = "Software disabled";
+
                 Variables.User.IsBot = false;
                 Variables.User.IsAdmin = false;
                 lblUserName.BackColor = Color.Red;
+
+                if (!Variables.User.LoggedIn)
+                {
+                    MessageBox.Show("You are not logged in. The log in screen will now load, enter your name and password, click \"Log in\", wait for it to complete, then start the process again.\r\n\r\nIn the future you can make sure this won't happen by logging in to Wikipedia using Microsoft Internet Explorer.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    webBrowserEdit.LoadLogInPage();
+                }
             }
+
+            UpdateButtons();
         }
+
+
 
         private void chkAutoMode_CheckedChanged(object sender, EventArgs e)
         {
@@ -1081,7 +1002,11 @@ namespace AutoWikiBrowser
 
         private void loginToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            WikiStatus();
+            if (!Variables.User.LoggedIn)
+            {
+                lblStatusText.Text = "Loading page to check if we are logged in.";
+                Variables.User.UpdateWikiStatus();
+            }
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1933,8 +1858,8 @@ namespace AutoWikiBrowser
             StopDelayedRestartTimer();
             if (webBrowserEdit.IsBusy)
                 webBrowserEdit.Stop2();
-            if (webBrowserLogin.IsBusy)
-                webBrowserLogin.Stop();
+            if (Variables.User.webBrowserLogin.IsBusy)
+                Variables.User.webBrowserLogin.Stop();
 
             listMaker1.Stop();
             lblStatusText.Text = "Stopped";
