@@ -715,6 +715,43 @@ namespace WikiFunctions.Lists
         }
         #endregion
 
+        #region From Special:Listusers
+        /// <summary>
+        /// Gets a list of users with given parameters
+        /// </summary>
+        /// <param name="group">user group, e.g. "sysop"</param>
+        /// <param name="from">username to start from</param>
+        /// <param name="limit">limit of users returned (max. 5000) if value <= 0, maximum assumed</param>
+        /// <returns>The list of the articles.</returns>
+        public static List<Article> FromListusers(string group, string from, int limit)
+        {
+            if (limit == 0 || limit < 0) limit = 5000;
+            List<Article> list = new List<Article>();
+
+            try
+            {
+                string url = Variables.URLLong + "index.php?title=Special:Listusers&group=" + group +
+                    "&username=" + HttpUtility.UrlEncode(from) + "&limit=" + limit.ToString();
+
+                string search = Tools.GetHTML(url);
+                search = Tools.StringBetwen(search, "<!-- start content -->", "<!-- end content -->");
+                search = "<div>" + search + "</div>";
+                StringReader sr = new StringReader(search);
+                XmlDocument xml = new XmlDocument();
+                xml.Load(sr);
+
+                foreach (XmlNode n in xml.GetElementsByTagName("li"))
+                {
+                    list.Add(new Article(Variables.Namespaces[2] + n.FirstChild.InnerText));
+                }
+            }
+            finally
+            {
+            }
+            return list;
+        }
+        #endregion
+
         #region Other methods
 
         private static string encodeText(string txt)

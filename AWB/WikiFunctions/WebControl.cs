@@ -105,7 +105,7 @@ namespace WikiFunctions.Browser
         {
             get
             {
-                string s = ToString();
+                string s = DocumentText;
                 s = s.Remove(0, s.IndexOf("var wgPageName = \"") + "var wgPageName = \"".Length);
                 return HttpUtility.HtmlDecode(s.Substring(0, s.IndexOf("\""))).Replace("_", " ");
             }
@@ -117,14 +117,7 @@ namespace WikiFunctions.Browser
         /// <returns>HTML text</returns>
         public override string ToString()
         {
-            try
-            {
-                return Document.GetElementsByTagName("html")[0].OuterHtml;
-            }
-            catch
-            {
-                return "";
-            }
+            return DocumentText;
         }
 
         /// <summary>
@@ -139,7 +132,8 @@ namespace WikiFunctions.Browser
                 try
                 {
                     r = new Regex("&diff=\\d+");
-                    if (int.TryParse(r.Match(Url.ToString()).Value.Remove(0, 6), out rev)) return rev;
+                    Match m = r.Match(Url.ToString());
+                    if (m.Success && int.TryParse(m.Value.Remove(0, 6), out rev)) return rev;
                 }
                 finally
                 {
@@ -240,6 +234,17 @@ namespace WikiFunctions.Browser
             return m.Groups[1].Value.Trim('"');
         }
 
+        public UserInfo GetUserInfo()
+        {
+            Navigate(Variables.URLLong + "query.php?what=userinfo&uiextended");
+            Wait();
+
+            string s = Document.Body.InnerText;
+            s = s.Remove(0, s.IndexOf("<yurik>"));
+            s = s.Remove(s.IndexOf("</yurik>") + 8, s.Length - s.IndexOf("</yurik>") - 8);
+            return new UserInfo(s);
+        }
+
         /// <summary>
         /// Gets a value indicating whether there is a new message
         /// </summary>
@@ -327,6 +332,14 @@ namespace WikiFunctions.Browser
             }
         }
 
+        public bool IsUserPage
+        {
+            get
+            {
+                return ArticleTitle.StartsWith(Variables.Namespaces[2]);
+            }
+        }
+
         /// <summary>
         /// returns true if current page is a userpage
         /// </summary>
@@ -334,7 +347,16 @@ namespace WikiFunctions.Browser
         {
             get 
             {
-                return ArticleTitle.IndexOf(Variables.Namespaces[3]) == 0;
+                return ArticleTitle.StartsWith(Variables.Namespaces[3]);
+            }
+        }
+
+        public bool IsUserSpace
+        {
+            get
+            {
+                string s = ArticleTitle;
+                return s.StartsWith(Variables.Namespaces[2]) || s.StartsWith(Variables.Namespaces[3]);
             }
         }
 
@@ -542,6 +564,14 @@ namespace WikiFunctions.Browser
         public void ScrollToContent()
         {
             this.Document.GetElementById("contentSub").ScrollIntoView(true);
+        }
+
+        /// <summary>
+        /// wait for current operation to complete
+        /// </summary>
+        public void Wait()
+        {
+            while (ReadyState != WebBrowserReadyState.Complete) Application.DoEvents();
         }
 
         #endregion

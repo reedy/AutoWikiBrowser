@@ -645,4 +645,63 @@ namespace WikiFunctions
         #endregion
 
     }
+
+    /// <summary>
+    /// Class that stores information about user and his rights
+    /// </summary>
+    public class UserInfo
+    {
+        StringCollection Groups = new StringCollection();
+        StringCollection Rights = new StringCollection();
+
+        public UserInfo(string xml)
+        {
+            StringReader sr = new StringReader(xml);
+            XmlTextReader xr = new XmlTextReader(sr);
+
+            xr.MoveToContent();
+
+            while (xr.Read())
+            {
+                if (xr.Name == "g")
+                {
+                    Groups.Add(xr.ReadString());
+                }
+                if (xr.Name == "r")
+                {
+                    Rights.Add(xr.ReadString());
+                }
+                if (xr.Name == "name")
+                {
+                    Name = xr.ReadString();
+                }
+            }
+        }
+
+        public bool IsSysop
+        {
+            get
+            {
+                return Groups.Contains("sysop");
+            }
+        }
+
+        public bool IsBot
+        {
+            get
+            {
+                return Groups.Contains("bot");
+            }
+        }
+
+        public bool IsAnon
+        {
+            get
+            {
+                return Tools.IsIP(Name);
+            }
+        }   
+
+        public string Name;
+    }
 }

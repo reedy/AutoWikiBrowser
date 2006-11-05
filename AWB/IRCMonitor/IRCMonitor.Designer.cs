@@ -177,7 +177,7 @@ namespace IRCMonitor
             this.revertAndReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.revertToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnWarn = new System.Windows.Forms.ToolStripDropDownButton();
-            this.btnUser = new System.Windows.Forms.ToolStripSplitButton();
+            this.btnUser = new System.Windows.Forms.ToolStripDropDownButton();
             this.reportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contribsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -186,6 +186,7 @@ namespace IRCMonitor
             this.blockAndLeaveAMessageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.pbBrowserProgess = new System.Windows.Forms.ToolStripProgressBar();
+            this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.saveXML = new System.Windows.Forms.SaveFileDialog();
             this.openXML = new System.Windows.Forms.OpenFileDialog();
             this.MainMenu = new System.Windows.Forms.MenuStrip();
@@ -1625,11 +1626,13 @@ namespace IRCMonitor
             this.webBrowser.Location = new System.Drawing.Point(0, 31);
             this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser.Name = "webBrowser";
+            this.webBrowser.ProcessStage = WikiFunctions.Browser.enumProcessStage.none;
             this.webBrowser.ScriptErrorsSuppressed = true;
             this.webBrowser.ScrollDown = true;
             this.webBrowser.Size = new System.Drawing.Size(884, 525);
             this.webBrowser.TabIndex = 3;
             this.webBrowser.TimeoutLimit = 30;
+            this.webBrowser.StatusTextChanged += new System.EventHandler(this.webBrowser_StatusChanged);
             this.webBrowser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowser_Navigating_1);
             this.webBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser_DocumentCompleted_1);
             // 
@@ -1762,7 +1765,7 @@ namespace IRCMonitor
             this.btnUser.Image = ((System.Drawing.Image)(resources.GetObject("btnUser.Image")));
             this.btnUser.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnUser.Name = "btnUser";
-            this.btnUser.Size = new System.Drawing.Size(45, 22);
+            this.btnUser.Size = new System.Drawing.Size(42, 22);
             this.btnUser.Text = "User";
             // 
             // reportToolStripMenuItem
@@ -1770,24 +1773,28 @@ namespace IRCMonitor
             this.reportToolStripMenuItem.Name = "reportToolStripMenuItem";
             this.reportToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
             this.reportToolStripMenuItem.Text = "Report";
+            this.reportToolStripMenuItem.Click += new System.EventHandler(this.reportToolStripMenuItem_Click);
             // 
             // contribsToolStripMenuItem
             // 
             this.contribsToolStripMenuItem.Name = "contribsToolStripMenuItem";
             this.contribsToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
             this.contribsToolStripMenuItem.Text = "Contribs";
+            this.contribsToolStripMenuItem.Click += new System.EventHandler(this.contribsToolStripMenuItem_Click);
             // 
             // logsToolStripMenuItem
             // 
             this.logsToolStripMenuItem.Name = "logsToolStripMenuItem";
             this.logsToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
             this.logsToolStripMenuItem.Text = "Logs";
+            this.logsToolStripMenuItem.Click += new System.EventHandler(this.logsToolStripMenuItem_Click);
             // 
             // blockLogToolStripMenuItem
             // 
             this.blockLogToolStripMenuItem.Name = "blockLogToolStripMenuItem";
             this.blockLogToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
             this.blockLogToolStripMenuItem.Text = "Block log";
+            this.blockLogToolStripMenuItem.Click += new System.EventHandler(this.blockLogToolStripMenuItem_Click);
             // 
             // blockToolStripMenuItem
             // 
@@ -1804,7 +1811,8 @@ namespace IRCMonitor
             // statusStrip
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.pbBrowserProgess});
+            this.pbBrowserProgess,
+            this.StatusLabel});
             this.statusStrip.Location = new System.Drawing.Point(0, 644);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(892, 22);
@@ -1815,6 +1823,11 @@ namespace IRCMonitor
             // 
             this.pbBrowserProgess.Name = "pbBrowserProgess";
             this.pbBrowserProgess.Size = new System.Drawing.Size(100, 16);
+            // 
+            // StatusLabel
+            // 
+            this.StatusLabel.Name = "StatusLabel";
+            this.StatusLabel.Size = new System.Drawing.Size(0, 17);
             // 
             // saveXML
             // 
@@ -1908,18 +1921,20 @@ namespace IRCMonitor
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.UTCtime);
             this.panel1.Controls.Add(this.label17);
-            this.panel1.Location = new System.Drawing.Point(565, 27);
+            this.panel1.Location = new System.Drawing.Point(403, 27);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(134, 23);
+            this.panel1.Size = new System.Drawing.Size(296, 23);
             this.panel1.TabIndex = 25;
             // 
             // UTCtime
             // 
-            this.UTCtime.AutoSize = true;
+            this.UTCtime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.UTCtime.Location = new System.Drawing.Point(72, 4);
             this.UTCtime.Name = "UTCtime";
-            this.UTCtime.Size = new System.Drawing.Size(0, 13);
+            this.UTCtime.Size = new System.Drawing.Size(215, 13);
             this.UTCtime.TabIndex = 1;
+            this.UTCtime.Text = "    ";
+            this.UTCtime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label17
             // 
@@ -2167,13 +2182,14 @@ namespace IRCMonitor
         private System.Windows.Forms.Label UTCtime;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.ToolStripSplitButton btnUser;
         private System.Windows.Forms.ToolStripMenuItem reportToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem contribsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem logsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem blockLogToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem blockToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem blockAndLeaveAMessageToolStripMenuItem;
+        private System.Windows.Forms.ToolStripDropDownButton btnUser;
+        private System.Windows.Forms.ToolStripStatusLabel StatusLabel;
     }
 }
 
