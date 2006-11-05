@@ -2006,7 +2006,7 @@ namespace AutoWikiBrowser
 2. Optional: Select [[WP:AWB/T|Typo fixing]] as the edit summary. This lets everyone know where to bring issues with the typo correction.";
 
                 if (RegexTypos == null)
-                    message += "\r\n\r\nThe newest typos will now be downloaded from " + Variables.URLLong + Variables.Namespaces[4] + "AutoWikiBrowser/Typos";
+                    message += "\r\n\r\nThe newest typos will now be downloaded from " + Variables.URL + "/wiki/" + Variables.Namespaces[4] + "AutoWikiBrowser/Typos";
 
                 MessageBox.Show(message, "Attention", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
