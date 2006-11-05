@@ -858,7 +858,7 @@ namespace AutoWikiBrowser
 
             cModule.ModuleEnabled = p.Module.Enabled;
             cModule.Language = p.Module.Language;
-            cModule.Code = p.Module.Code;
+            cModule.Code = p.Module.Code.Replace("\n", "\r\n");
 
             foreach (PluginPrefs pp in p.Plugin)
             {
