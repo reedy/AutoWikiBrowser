@@ -689,7 +689,7 @@ namespace AutoWikiBrowser
                             return articleText;
 
                         articleText = parsers.LinkSimplifier(articleText);
-                        
+
                         articleText = RemoveText.AddBack(articleText);
                     }
                 }
@@ -988,8 +988,8 @@ namespace AutoWikiBrowser
                     //see if we are allowed to use this softare
                     else
                     {
-                        string strBotUsers = Regex.Match(strText, "<!--enabledbots-->.*?<!--enabledbotsends-->", RegexOptions.Singleline).Value; //strText.Substring(strText.IndexOf("<!--enabledbots-->"), strText.IndexOf("<!--enabledbotsends-->") - strText.IndexOf("<!--enabledbots-->"));
-                        string strAdmins = Regex.Match(strText, "<!--adminsbegins-->.*?<!--adminsends-->", RegexOptions.Singleline).Value; // strText.Substring(strText.IndexOf("<!--adminsbegins-->"), strText.IndexOf("<!--adminsends-->") - strText.IndexOf("<!--adminsbegins-->"));
+                        string strBotUsers = Tools.StringBetween(strText, "<!--enabledbots-->", "<!--enabledbotsends-->");
+                        string strAdmins = Tools.StringBetween(strText, "<!--adminsbegins-->", "<!--adminsends-->");
 
                         if (Variables.User.Name.Length > 0 && strText.Contains("* " + Variables.User.Name + "\r\n"))
                         {
@@ -1003,7 +1003,10 @@ namespace AutoWikiBrowser
                             }
 
                             Variables.User.WikiStatus = true;
-                            lblStatusText.Text = "Logged in, user enabled and software enabled";
+
+                            string label = string.Format("Logged in, user enabled and software enabled. Bot = {0}, Admin = {1}", Variables.User.IsBot, Variables.User.IsAdmin);                            
+                            lblStatusText.Text = label;
+                            
                             UpdateButtons();
                             return true;
                         }
