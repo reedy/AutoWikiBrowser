@@ -428,6 +428,23 @@ Message: {2}
             {
                 MessageBox.Show(ex.Message);
             }
-        }        
+        }
+
+        /// <summary>
+        /// Checks whether given string is a valid IP address
+        /// </summary>
+        public static bool IsIP(string s)
+        {
+            IPAddress dummy;
+            return IPAddress.TryParse(s, out dummy);
+        }
+
+        /// <summary>
+        /// returns content of a given string that lies between two other strings
+        /// </summary>
+        public static string StringBetwen(string source, string start, string end)
+        {
+            return source.Substring(source.IndexOf(start), source.IndexOf(end) - source.IndexOf(start));
+        }
     }    
 }

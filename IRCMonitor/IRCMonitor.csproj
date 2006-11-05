@@ -43,6 +43,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
@@ -63,6 +64,7 @@
     <Compile Include="IRCMonitor.Designer.cs">
       <DependentUpon>IRCMonitor.cs</DependentUpon>
     </Compile>
+    <Compile Include="IrcSettings.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="About.resx">
