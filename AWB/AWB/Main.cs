@@ -257,8 +257,8 @@ namespace AutoWikiBrowser
                 if (!Variables.User.WikiStatus)
                 {
                     lblStatusText.Text = "Loading page to check if we are logged in.";
-                    Variables.User.UpdateWikiStatus();
-                    return;
+                    if (!Variables.User.UpdateWikiStatus())
+                        return;
                 }
 
                 ArticleInfo(true);
