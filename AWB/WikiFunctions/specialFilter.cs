@@ -304,9 +304,18 @@ namespace WikiFunctions.Lists
 
         private void FilterList()
         {
-            foreach (Article a in lbRemove)
+            if (cbOpType.SelectedIndex == 0) foreach (Article a in lbRemove)
+                {
+                    list.Remove(a);
+                }
+            else
             {
-                list.Remove(a);
+                List<Article> list2 = new List<Article>();
+                foreach (Article a in list)
+                {
+                    if (lbRemove.Items.Contains(a)) list2.Add(a);
+                }
+                list = list2;
             }
         }
 
@@ -420,6 +429,11 @@ namespace WikiFunctions.Lists
         }
 
         #endregion
+
+        private void specialFilter_Load(object sender, EventArgs e)
+        {
+            cbOpType.SelectedIndex = 0;
+        }
 
 
     }
