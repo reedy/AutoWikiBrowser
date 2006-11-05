@@ -765,7 +765,7 @@ namespace WikiFunctions
                             {
                                 xml.MoveToAttribute("id");
                                 int id = int.Parse(xml.GetAttribute("id"));
-                                ns[id] = xml.ReadString();
+                                ns[id] = xml.ReadString() + ":";
                             }
                         }
                     }

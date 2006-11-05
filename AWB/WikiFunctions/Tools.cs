@@ -232,7 +232,7 @@ namespace WikiFunctions
             string text = "";
             try
             {
-                text = GetHTML(Variables.URLLong + "index.php?title=" + ArticleTitle + "&action=raw&ctype=text/plain&dontcountme=s", Encoding.UTF8);
+                text = GetHTML(Variables.URLLong + "index.php?title=" + HttpUtility.UrlEncode(ArticleTitle) + "&action=raw&ctype=text/plain&dontcountme=s", Encoding.UTF8);
             }
             catch
             {
