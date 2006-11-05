@@ -1002,7 +1002,7 @@ namespace AutoWikiBrowser
 
         private void loginToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!Variables.User.LoggedIn)
+            if (!Variables.User.WikiStatus)
             {
                 lblStatusText.Text = "Loading page to check if we are logged in.";
                 Variables.User.UpdateWikiStatus();
@@ -1276,8 +1276,8 @@ namespace AutoWikiBrowser
         {
             MyPreferences MyPrefs = new MyPreferences(Variables.LangCode, Variables.Project, Variables.CustomProject, webBrowserEdit.EnhanceDiffEnabled, webBrowserEdit.ScrollDown, webBrowserEdit.DiffFontSize, txtEdit.Font, LowThreadPriority, FlashAndBeep);
 
-            if (MyPrefs.ShowDialog() == DialogResult.OK)
-            {
+            if (MyPrefs.ShowDialog(this) == DialogResult.OK)
+            {                
                 webBrowserEdit.EnhanceDiffEnabled = MyPrefs.EnhanceDiff;
                 webBrowserEdit.ScrollDown = MyPrefs.ScrollDown;
                 webBrowserEdit.DiffFontSize = MyPrefs.DiffFontSize;
@@ -1285,14 +1285,17 @@ namespace AutoWikiBrowser
                 LowThreadPriority = MyPrefs.LowThreadPriority;
                 FlashAndBeep = MyPrefs.FlashAndBeep;
 
-                Variables.User.WikiStatus = false;
-                chkQuickSave.Checked = false;
-                chkQuickSave.Enabled = false;
-                chkAutoMode.Checked = false;
-                Variables.User.IsBot = false;
-                Variables.User.IsAdmin = false;
+                if (MyPrefs.Language != Variables.LangCode || MyPrefs.Project != Variables.Project || MyPrefs.CustomProject != Variables.CustomProject)
+                {
+                    SetProject(MyPrefs.Language, MyPrefs.Project, MyPrefs.CustomProject);
 
-                SetProject(MyPrefs.Language, MyPrefs.Project, MyPrefs.CustomProject);
+                    Variables.User.WikiStatus = false;
+                    chkQuickSave.Checked = false;
+                    chkQuickSave.Enabled = false;
+                    chkAutoMode.Checked = false;
+                    Variables.User.IsBot = false;
+                    Variables.User.IsAdmin = false;
+                }
             }
             MyPrefs = null;
         }
