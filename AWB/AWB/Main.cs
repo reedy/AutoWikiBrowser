@@ -92,7 +92,6 @@ namespace AutoWikiBrowser
                 Variables.User.UserNameChanged += UpdateUserName;
                 Variables.User.BotStatusChanged += UpdateBotStatus;
                 Variables.User.AdminStatusChanged += UpdateAdminStatus;
-                Variables.User.WikiStatusChanged += UpdateWikiStatus;
 
                 Variables.User.webBrowserLogin.DocumentCompleted += web4Completed;
                 Variables.User.webBrowserLogin.Navigating += web4Starting;
@@ -147,7 +146,7 @@ namespace AutoWikiBrowser
                     listMaker1.MakeListEnabled = true;
 
                 if (AutoWikiBrowser.Properties.Settings.Default.LogInOnStart)
-                    Variables.User.UpdateWikiStatus();
+                    CheckStatus();
 
                 Debug();
 
@@ -256,8 +255,7 @@ namespace AutoWikiBrowser
                 //check we are logged in
                 if (!Variables.User.WikiStatus)
                 {
-                    lblStatusText.Text = "Loading page to check if we are logged in.";
-                    if (!Variables.User.UpdateWikiStatus())
+                    if (!CheckStatus())
                         return;
                 }
 
@@ -534,8 +532,7 @@ namespace AutoWikiBrowser
 
                 if (!Variables.User.WikiStatus)
                 {
-                    lblStatusText.Text = "Loading page to check if we are logged in.";
-                    Variables.User.UpdateWikiStatus();
+                    CheckStatus();
                 }
             }
         }
@@ -933,44 +930,6 @@ namespace AutoWikiBrowser
 
         }
 
-        private void UpdateWikiStatus(object sender, EventArgs e)
-        {
-            if (Variables.User.WikiStatus)
-            {
-                //Get list of articles not to apply general fixes to.
-                Match n = Regex.Match(Variables.User.CheckPageText, "<!--No general fixes:.*?-->", RegexOptions.Singleline);
-                if (n.Success)
-                {
-                    foreach (Match link in WikiRegexes.UnPipedWikiLink.Matches(n.Value))
-                        if (!noParse.Contains(link.Groups[1].Value))
-                            noParse.Add(link.Groups[1].Value);
-                }
-
-                lblUserName.BackColor = Color.LightGreen;
-
-                string label = string.Format("Logged in, user and software enabled. Bot = {0}, Admin = {1}", Variables.User.IsBot, Variables.User.IsAdmin);
-                lblStatusText.Text = label;
-            }
-            else
-            {
-                lblStatusText.Text = "Software disabled";
-
-                Variables.User.IsBot = false;
-                Variables.User.IsAdmin = false;
-                lblUserName.BackColor = Color.Red;
-
-                if (!Variables.User.LoggedIn)
-                {
-                    MessageBox.Show("You are not logged in. The log in screen will now load, enter your name and password, click \"Log in\", wait for it to complete, then start the process again.\r\n\r\nIn the future you can make sure this won't happen by logging in to Wikipedia using Microsoft Internet Explorer.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    webBrowserEdit.LoadLogInPage();
-                }
-            }
-
-            UpdateButtons();
-        }
-
-
-
         private void chkAutoMode_CheckedChanged(object sender, EventArgs e)
         {
             if (chkAutoMode.Checked)
@@ -1004,9 +963,64 @@ namespace AutoWikiBrowser
         {
             if (!Variables.User.WikiStatus)
             {
-                lblStatusText.Text = "Loading page to check if we are logged in.";
-                Variables.User.UpdateWikiStatus();
+                CheckStatus();
             }
+        }
+
+        private bool CheckStatus()
+        {
+            lblStatusText.Text = "Loading page to check if we are logged in.";
+            WikiStatusResult Result = Variables.User.UpdateWikiStatus();
+
+            bool b = false;
+            string label = "Software disabled";
+
+            switch (Result)
+            {
+                case WikiStatusResult.Error:                    
+                    lblUserName.BackColor = Color.Red;
+                    MessageBox.Show("Check page failed to load.\r\n\r\nCheck your Internet Explorer is working and that the Wikipedia servers are online, also try clearing Internet Explorer cache.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+
+                case WikiStatusResult.NotLoggedIn:
+                    lblUserName.BackColor = Color.Red;
+                    MessageBox.Show("You are not logged in. The log in screen will now load, enter your name and password, click \"Log in\", wait for it to complete, then start the process again.\r\n\r\nIn the future you can make sure this won't happen by logging in to Wikipedia using Microsoft Internet Explorer.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    webBrowserEdit.LoadLogInPage();
+                    break;
+
+                case WikiStatusResult.NotRegistered:
+                    lblUserName.BackColor = Color.Red;
+                    MessageBox.Show(Variables.User.Name + " is not enabled to use this.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    System.Diagnostics.Process.Start(Variables.URL + "/wiki/Project:AutoWikiBrowser/CheckPage");
+
+                    break;
+
+                case WikiStatusResult.OldVersion:
+                    lblUserName.BackColor = Color.Red;
+                    MessageBox.Show("This version is not enabled, please download the newest version. If you have the newest version, check that Wikipedia is online.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    System.Diagnostics.Process.Start("http://sourceforge.net/project/showfiles.php?group_id=158332");
+                    break;
+
+                case WikiStatusResult.Registered:
+                    b = true;
+                    label = string.Format("Logged in, user and software enabled. Bot = {0}, Admin = {1}", Variables.User.IsBot, Variables.User.IsAdmin);
+                    lblUserName.BackColor = Color.LightGreen;
+
+                    //Get list of articles not to apply general fixes to.
+                    Match n = Regex.Match(Variables.User.CheckPageText, "<!--No general fixes:.*?-->", RegexOptions.Singleline);
+                    if (n.Success)
+                    {
+                        foreach (Match link in WikiRegexes.UnPipedWikiLink.Matches(n.Value))
+                            if (!noParse.Contains(link.Groups[1].Value))
+                                noParse.Add(link.Groups[1].Value);
+                    }
+                    break;
+            }
+
+            lblStatusText.Text = label;
+            UpdateButtons();
+
+            return b;
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1265,6 +1279,7 @@ namespace AutoWikiBrowser
             Variables.User.IsAdmin = true;
             chkQuickSave.Enabled = true;
             dumpHTMLToolStripMenuItem.Visible = true;
+            logOutDebugToolStripMenuItem.Visible = true;
             bypassAllRedirectsToolStripMenuItem.Enabled = true;
         }
 
@@ -2027,6 +2042,11 @@ namespace AutoWikiBrowser
             txtEdit.Text = webBrowserEdit.Document.Body.InnerHtml;
         }
 
+        private void logOutDebugToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Variables.User.WikiStatus = false;
+        }
+
         #endregion
 
         #region tool bar stuff
@@ -2278,5 +2298,6 @@ namespace AutoWikiBrowser
         }
 
         #endregion
+        
     }
 }
