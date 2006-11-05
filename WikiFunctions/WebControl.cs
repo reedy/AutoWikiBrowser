@@ -202,20 +202,17 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Gets a value indicating whether the user is logged in
         /// </summary>
-        public bool LoggedIn
+        public bool GetLogInStatus()
         {
-            get
-            {
-                if (this.Document == null)
-                    return false;
+            if (this.Document == null)
+                return false;
 
-                Match m = LoginRegex.Match(this.DocumentText);
+            Match m = LoginRegex.Match(this.DocumentText);
 
-                if (!m.Success || m.Groups[1].Value == "null")
-                    return false;
-                else
-                    return true;
-            }
+            if (!m.Success || m.Groups[1].Value == "null")
+                return false;
+            else
+                return true;
         }
 
         /// <summary>
@@ -821,7 +818,7 @@ namespace WikiFunctions.Browser
         int LoadTime = 0;
         private void StartTimer()
         {
-            LoadTime = 0;
+            StopTimer();
             timer1.Tick += IncrememntTime;
         }
 

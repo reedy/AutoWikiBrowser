@@ -24,6 +24,9 @@ using System.Text;
 using System.Xml;
 using System.IO;
 using System.Windows.Forms;
+using WikiFunctions.Browser;
+using System.Text.RegularExpressions;
+using System.Reflection;
 
 namespace WikiFunctions
 {
@@ -838,6 +841,11 @@ namespace WikiFunctions
 
     public class UserProperties
     {
+        public UserProperties()
+        {
+            webBrowserLogin.ScriptErrorsSuppressed = true;
+        }
+
         /// <summary>
         /// Occurs when user name changes
         /// </summary>
@@ -862,6 +870,9 @@ namespace WikiFunctions
         private bool bWikiStatus = false;
         bool bIsAdmin = false;
         bool bIsBot = false;
+        bool bLoggedIn = false;
+
+        public WebControl webBrowserLogin = new WebControl();
 
         /// <summary>
         /// Gets the user name
@@ -880,7 +891,7 @@ namespace WikiFunctions
                 }
             }
         }
-                
+
         /// <summary>
         /// Gets a value indicating whether the user is enabled to use the software
         /// </summary>
@@ -896,7 +907,7 @@ namespace WikiFunctions
                         WikiStatusChanged(null, null);
                 }
             }
-        }       
+        }
 
         /// <summary>
         /// Gets a value indicating whether user is an admin
@@ -914,7 +925,7 @@ namespace WikiFunctions
                         AdminStatusChanged(null, null);
                 }
             }
-        }        
+        }
 
         /// <summary>
         /// Gets a value indicating whether user is a bot
@@ -934,9 +945,117 @@ namespace WikiFunctions
             }
         }
 
-        public bool IsIP
+        public bool LoggedIn
         {
-            get { return Tools.IsIP(Name); }
+            get { return bLoggedIn; }
+            set
+            {
+                bLoggedIn = value;
+                if (bLoggedIn == false)
+                    WikiStatus = false;
+            }
+        }
+
+        public bool UpdateWikiStatus()
+        {//this checks if you are logged in, registered and have the newest version.
+            try
+            {
+                string strText = String.Empty;
+
+                //load check page
+                webBrowserLogin.Navigate(Variables.URLLong + "index.php?title=Project:AutoWikiBrowser/CheckPage&action=edit");
+                //wait to load
+                webBrowserLogin.Wait();
+
+                strText = webBrowserLogin.GetArticleText();
+
+                CheckPageText = strText;
+
+                this.Name = webBrowserLogin.UserName();
+
+                //see if we are logged in
+                LoggedIn = webBrowserLogin.GetLogInStatus();
+                if (!webBrowserLogin.GetLogInStatus())
+                {
+                    return false;
+                }
+
+                //see if there is a message
+                Match m = Regex.Match(strText, "<!--Message:(.*?)-->");
+                if (m.Success && m.Groups[1].Value.Trim().Length > 0)
+                {
+                    MessageBox.Show(m.Groups[1].Value, "Automated message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
+                //don't require approval if checkpage does not exist.
+                if (strText.Length < 1)
+                {
+                    this.WikiStatus = true;
+                    this.IsBot = true;
+                    return true;
+                }
+                else if (strText.Contains("<!--All users enabled-->"))
+                {//see if all users enabled
+                    this.WikiStatus = true;
+                    this.IsBot = true;
+                    return true;
+                }
+                else
+                {
+                    if (!m.Success)
+                    {
+                        MessageBox.Show("Check page failed to load.\r\n\r\nCheck your Internet Explorer is working and that the Wikipedia servers are online, also try clearing Internet Explorer cache.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
+                    //see if this version is enabled
+                    else if (!strText.Contains(Assembly.GetExecutingAssembly().GetName().Version.ToString() + " enabled"))
+                    {
+                        MessageBox.Show("This version is not enabled, please download the newest version. If you have the newest version, check that Wikipedia is online.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        System.Diagnostics.Process.Start("http://sourceforge.net/project/showfiles.php?group_id=158332");
+                        return false;
+                    }
+                    //see if we are allowed to use this softare
+                    else
+                    {
+                        string strBotUsers = Tools.StringBetween(strText, "<!--enabledbots-->", "<!--enabledbotsends-->");
+                        string strAdmins = Tools.StringBetween(strText, "<!--adminsbegins-->", "<!--adminsends-->");
+
+                        if (this.Name.Length > 0 && strText.Contains("* " + Variables.User.Name + "\r\n"))
+                        {
+                            if (strBotUsers.Contains("* " + Variables.User.Name + "\r\n"))
+                            {//enable botmode
+                                this.IsBot = true;
+                            }
+                            if (strAdmins.Contains("* " + Variables.User.Name + "\r\n"))
+                            {//enable admin features
+                                this.IsAdmin = true;
+                            }
+
+                            this.WikiStatus = true;
+
+                            return true;
+                        }
+                        else
+                        {
+                            MessageBox.Show(this.Name + " is not enabled to use this.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            System.Diagnostics.Process.Start(Variables.URL + "/wiki/Project:AutoWikiBrowser/CheckPage");
+                            return false;
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                return false;
+            }
+        }
+
+        string strCheckPage = "";
+        public string CheckPageText
+        {
+            get { return strCheckPage; }
+            private set { strCheckPage = value; }
         }
     }
 }
