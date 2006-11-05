@@ -979,6 +979,9 @@ namespace WikiFunctions
                 LoggedIn = webBrowserLogin.GetLogInStatus();
                 if (!webBrowserLogin.GetLogInStatus())
                 {
+                    IsBot = false;
+                    IsAdmin = false;
+                    WikiStatus = false;
                     return WikiStatusResult.NotLoggedIn;
                 }
 
