@@ -482,7 +482,7 @@ namespace WikiFunctions.Lists
                 string Special = Regex.Replace(S, "^" + Variables.Namespaces[-1], "", RegexOptions.IgnoreCase);
                 string PageText = Tools.GetHTML(Variables.URLLong + "index.php?title=Special:" + Special);
 
-                PageText = PageText.Substring(PageText.IndexOf("<!-- start content -->"), PageText.IndexOf("<!-- end content -->") - PageText.IndexOf("<!-- start content -->"));
+                PageText = Tools.StringBetween(PageText, "<!-- start content -->", "<!-- end content -->");
                 string title = "";
                 int ns = 0;
 
@@ -734,7 +734,7 @@ namespace WikiFunctions.Lists
                     "&username=" + HttpUtility.UrlEncode(from) + "&limit=" + limit.ToString();
 
                 string search = Tools.GetHTML(url);
-                search = Tools.StringBetwen(search, "<!-- start content -->", "<!-- end content -->");
+                search = Tools.StringBetween(search, "<!-- start content -->", "<!-- end content -->");
                 search = "<div>" + search + "</div>";
                 StringReader sr = new StringReader(search);
                 XmlDocument xml = new XmlDocument();

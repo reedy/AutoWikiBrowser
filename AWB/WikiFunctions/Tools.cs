@@ -442,9 +442,16 @@ Message: {2}
         /// <summary>
         /// returns content of a given string that lies between two other strings
         /// </summary>
-        public static string StringBetwen(string source, string start, string end)
+        public static string StringBetween(string source, string start, string end)
         {
-            return source.Substring(source.IndexOf(start), source.IndexOf(end) - source.IndexOf(start));
+            try
+            {
+                return source.Substring(source.IndexOf(start), source.IndexOf(end) - source.IndexOf(start));
+            }
+            catch
+            {
+                return "";
+            }
         }
     }    
 }

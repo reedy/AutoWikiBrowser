@@ -89,9 +89,10 @@ namespace AutoWikiBrowser
                 lblStatusText.AutoSize = true;
                 lblBotTimer.AutoSize = true;
 
-                Variables.UserNameChanged += UpdateUserName;
-                Variables.BotStatusChanged += UpdateBotStatus;
-                Variables.AdminStatusChanged += UpdateAdminStatus;
+                Variables.User.UserNameChanged += UpdateUserName;
+                Variables.User.BotStatusChanged += UpdateBotStatus;
+                Variables.User.AdminStatusChanged += UpdateAdminStatus;
+                Variables.User.WikiStatusChanged += UpdateWikiStatus;
 
                 webBrowserLogin.ScriptErrorsSuppressed = true;
                 webBrowserLogin.DocumentCompleted += web4Completed;
@@ -400,23 +401,23 @@ namespace AutoWikiBrowser
                 //check we are still logged in
                 if (!webBrowserEdit.LoggedIn)
                 {
-                    Variables.WikiStatus = false;
+                    Variables.User.WikiStatus = false;
                     Start();
                     return false;
                 }
 
                 if (webBrowserEdit.NewMessage)
                 {//check if we have any messages
-                    Variables.WikiStatus = false;
+                    Variables.User.WikiStatus = false;
                     UpdateButtons();
                     webBrowserEdit.Document.Write("");
                     this.Focus();
 
                     dlgTalk DlgTalk = new dlgTalk();
                     if (DlgTalk.ShowDialog() == DialogResult.Yes)
-                        System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=User_talk:" + Variables.UserName + "&action=purge");
+                        System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=User_talk:" + Variables.User.Name + "&action=purge");
                     else
-                        System.Diagnostics.Process.Start("IExplore", Variables.URLLong + "index.php?title=User_talk:" + Variables.UserName + "&action=purge");
+                        System.Diagnostics.Process.Start("IExplore", Variables.URLLong + "index.php?title=User_talk:" + Variables.User.Name + "&action=purge");
 
                     DlgTalk = null;
                     return false;
@@ -806,7 +807,7 @@ namespace AutoWikiBrowser
 
         private void UpdateUserName(object sender, EventArgs e)
         {
-            lblUserName.Text = Variables.UserName;
+            lblUserName.Text = Variables.User.Name;
         }
 
         private void UpdateWebBrowserStatus()
@@ -920,7 +921,7 @@ namespace AutoWikiBrowser
             try
             {
                 //check if we need to bother checking or not
-                if (Variables.WikiStatus)
+                if (Variables.User.WikiStatus)
                     return true;
 
                 string strText = String.Empty;
@@ -931,7 +932,7 @@ namespace AutoWikiBrowser
                 while (webBrowserLogin.ReadyState != WebBrowserReadyState.Complete) Application.DoEvents();
 
                 strText = webBrowserLogin.GetArticleText();
-                Variables.UserName = webBrowserLogin.UserName();
+                Variables.User.Name = webBrowserLogin.UserName();
 
                 //see if we are logged in
                 if (!webBrowserLogin.LoggedIn)
@@ -960,14 +961,14 @@ namespace AutoWikiBrowser
                 //don't require approval in in other languages.
                 if (strText.Length < 1)
                 {
-                    Variables.WikiStatus = true;
-                    Variables.IsBot = true;
+                    Variables.User.WikiStatus = true;
+                    Variables.User.IsBot = true;
                     return true;
                 }
                 else if (strText.Contains("<!--All users enabled-->"))
                 {//see if all users enabled
-                    Variables.WikiStatus = true;
-                    Variables.IsBot = true;
+                    Variables.User.WikiStatus = true;
+                    Variables.User.IsBot = true;
                     return true;
                 }
                 else
@@ -990,25 +991,25 @@ namespace AutoWikiBrowser
                         string strBotUsers = Regex.Match(strText, "<!--enabledbots-->.*?<!--enabledbotsends-->", RegexOptions.Singleline).Value; //strText.Substring(strText.IndexOf("<!--enabledbots-->"), strText.IndexOf("<!--enabledbotsends-->") - strText.IndexOf("<!--enabledbots-->"));
                         string strAdmins = Regex.Match(strText, "<!--adminsbegins-->.*?<!--adminsends-->", RegexOptions.Singleline).Value; // strText.Substring(strText.IndexOf("<!--adminsbegins-->"), strText.IndexOf("<!--adminsends-->") - strText.IndexOf("<!--adminsbegins-->"));
 
-                        if (Variables.UserName.Length > 0 && strText.Contains("* " + Variables.UserName + "\r\n"))
+                        if (Variables.User.Name.Length > 0 && strText.Contains("* " + Variables.User.Name + "\r\n"))
                         {
-                            if (strBotUsers.Contains("* " + Variables.UserName + "\r\n"))
+                            if (strBotUsers.Contains("* " + Variables.User.Name + "\r\n"))
                             {//enable botmode
-                                Variables.IsBot = true;
+                                Variables.User.IsBot = true;
                             }
-                            if (strAdmins.Contains("* " + Variables.UserName + "\r\n"))
+                            if (strAdmins.Contains("* " + Variables.User.Name + "\r\n"))
                             {//enable admin features
-                                Variables.IsAdmin = true;
+                                Variables.User.IsAdmin = true;
                             }
 
-                            Variables.WikiStatus = true;
+                            Variables.User.WikiStatus = true;
                             lblStatusText.Text = "Logged in, user enabled and software enabled";
                             UpdateButtons();
                             return true;
                         }
                         else
                         {
-                            MessageBox.Show(Variables.UserName + " is not enabled to use this.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            MessageBox.Show(Variables.User.Name + " is not enabled to use this.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                             System.Diagnostics.Process.Start(Variables.URL + "/wiki/Project:AutoWikiBrowser/CheckPage");
                             return false;
                         }
@@ -1024,7 +1025,7 @@ namespace AutoWikiBrowser
 
         private void UpdateBotStatus(object sender, EventArgs e)
         {
-            chkAutoMode.Enabled = Variables.IsBot;
+            chkAutoMode.Enabled = Variables.User.IsBot;
         }
 
         private void UpdateAdminStatus(object sender, EventArgs e)
@@ -1032,16 +1033,16 @@ namespace AutoWikiBrowser
 
         }
 
-        private void UpdateWikiStatus()
+        private void UpdateWikiStatus(object sender, EventArgs e)
         {
-            if (Variables.WikiStatus)
+            if (Variables.User.WikiStatus)
             {
-                lblUserName.BackColor = Color.Red;
+                lblUserName.BackColor = Color.LightGreen;
             }
             else
             {
-                Variables.IsBot = false;
-                Variables.IsAdmin = false;
+                Variables.User.IsBot = false;
+                Variables.User.IsAdmin = false;
                 lblUserName.BackColor = Color.Red;
             }
         }
@@ -1331,9 +1332,9 @@ namespace AutoWikiBrowser
         {//stop logging in when de-bugging
             Tools.WriteDebugEnabled = true;
             listMaker1.Add("User:Bluemoose/Sandbox");
-            Variables.WikiStatus = true;
-            Variables.IsBot = true;
-            Variables.IsAdmin = true;
+            Variables.User.WikiStatus = true;
+            Variables.User.IsBot = true;
+            Variables.User.IsAdmin = true;
             chkQuickSave.Enabled = true;
             dumpHTMLToolStripMenuItem.Visible = true;
             bypassAllRedirectsToolStripMenuItem.Enabled = true;
@@ -1356,12 +1357,12 @@ namespace AutoWikiBrowser
                 LowThreadPriority = MyPrefs.LowThreadPriority;
                 FlashAndBeep = MyPrefs.FlashAndBeep;
 
-                Variables.WikiStatus = false;
+                Variables.User.WikiStatus = false;
                 chkQuickSave.Checked = false;
                 chkQuickSave.Enabled = false;
                 chkAutoMode.Checked = false;
-                Variables.IsBot = false;
-                Variables.IsAdmin = false;
+                Variables.User.IsBot = false;
+                Variables.User.IsAdmin = false;
 
                 SetProject(MyPrefs.Language, MyPrefs.Project, MyPrefs.CustomProject);
             }
@@ -2317,7 +2318,7 @@ namespace AutoWikiBrowser
             try
             {
                 LoginDlg lg = new LoginDlg();
-                lg.UserName = Variables.UserName;
+                lg.UserName = Variables.User.Name;
 
                 if (lg.ShowDialog() == DialogResult.OK)
                 {
