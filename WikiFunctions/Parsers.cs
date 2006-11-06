@@ -1019,6 +1019,8 @@ namespace WikiFunctions.Parse
             if (Tools.IsRedirect(ArticleText))
                 return ArticleText;
 
+            if (!Tools.IsMainSpace(ArticleTitle)) return ArticleText;
+
             double Length = ArticleText.Length + 1;
             int words = Tools.WordCount(ArticleText);
             double LinkCount = 1;
