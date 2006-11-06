@@ -149,13 +149,16 @@ namespace IRCMonitor
 
             WikiStatus();
 
-            if (!Approved)
-                MessageBox.Show("You are not approved to use this software's anti-vandal features, so they're disabled.",
-                    "Authentification complete");
+            if (!Approved) //statusStrip.Text = "You are not approved to use this software's anti-vandal features, so they're disabled.";
+            MessageBox.Show("You are not approved to use this software's anti-vandal features, so they're disabled.",
+                "Authentification complete");
             else
             {
-                if (PowerToolsApproved) MessageBox.Show("You are approved to use full set of IRCMonitor's features.",
-                    "Authentification complete");
+                //if (PowerToolsApproved) statusStrip.Text = "You are approved to use full set of IRCMonitor's features.";
+                //else statusStrip.Text = "You are approved to use all non-admin features of IRCMonitor";
+
+                //MessageBox.Show("You are approved to use full set of IRCMonitor's features.",
+                //"Authentification complete");
                 //else MessageBox.Show("You are approved to use all non-admin features of IRCMonitor",
                 //    "Authentification complete");
             }
@@ -184,25 +187,26 @@ namespace IRCMonitor
                 return;
             }
 
-            browser.LoadEditPage("Project:IRCMonitor/CheckPage");
+            browser.LoadEditPage("Project:AutoWikiBrowser/CheckPage");
             browser.Wait();
 
             string strText = browser.GetArticleText();
 
             string enabledUsers = Tools.StringBetween(strText, "enabledusersbegins", "enabledusersends");
-            if (enabledUsers.Contains("*" + User.Name)) Approved = true;
+            if (enabledUsers.Contains("* " + User.Name)) Approved = true;
 
             string disabledUsers = Tools.StringBetween(strText, "disabledusersbegins", "disabledusersends");
-            if (disabledUsers.Contains("*" + User.Name))
+            if (disabledUsers.Contains("* " + User.Name))
             {
                 Approved = false;
                 PowerToolsApproved = false;
                 return;
             }
 
-            if (strText.Contains("Current version is " + Assembly.GetExecutingAssembly().GetName().Version.ToString()))
+            //if (strText.Contains("Current version is " + Assembly.GetExecutingAssembly().GetName().Version.ToString()))
+            if(!strText.Contains(Assembly.GetExecutingAssembly().GetName().Version.ToString() + " enabled"))
             {
-                MessageBox.Show("This version of IRCM is obsolete, please download the newest version. If you have the newest version, check that Wikipedia is online.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("This version of IRCMonitor is obsolete, please download the newest version. If you have the newest version, check that Wikipedia is online.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 System.Diagnostics.Process.Start("http://sourceforge.net/project/showfiles.php?group_id=158332");
                 Approved = false;
                 PowerToolsApproved = false;
@@ -1497,7 +1501,11 @@ namespace IRCMonitor
 
         private void userToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            openInBrowser(Variables.URL + "/wiki/User:" + listViewEdit.SelectedItems[0].SubItems[1].Text);
+            string username = listViewEdit.SelectedItems[0].SubItems[1].Text;
+
+            // for anons, display user talk instead of userpage
+            if (Tools.IsIP(username)) openInBrowser(Variables.URL + "/wiki/User talk:" + username);
+                else openInBrowser(Variables.URL + "/wiki/User:" + username);
         }
 
         private void diffToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1637,9 +1645,42 @@ namespace IRCMonitor
             btnBack.Enabled = webBrowser.CanGoBack;
             btnFoward.Enabled = webBrowser.CanGoForward;
             btnStop.Enabled = false;
-            btnRevert.Enabled = webBrowser.Url.ToString().Contains("&diff=");
-            btnWarn.Enabled = webBrowser.IsUserSpace;
-            btnUser.Enabled = webBrowser.IsUserSpace;
+
+            string LoggedInUser = webBrowser.UserName();
+
+            if (User == null || !webBrowser.Url.ToString().StartsWith(Variables.URL) || 
+                User.Name != LoggedInUser || !Approved)
+            {
+                btnRevert.Enabled = false;
+                btnWarn.Enabled = false;
+                btnUser.Enabled = false;
+                if (User != null && User.Name != LoggedInUser && !webBrowser.CanGoForward)
+                {
+                    Approved = false;
+                    PowerToolsApproved = false;
+                    User.Name = LoggedInUser;
+                    if (LoggedInUser != "" && MessageBox.Show("You've logged in. Do you wish IRCMonitor to check if you are approved?",
+                        "Login", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        WikiStatus();
+                        if (Approved)
+                        {
+                            //webBrowser.Navigate(webBrowser.Url);
+                        }
+                    }
+                    else
+                    {
+                        StatusLabel.Text = "You are not approved to use IRCMonitor";
+                    }
+
+                }
+            }
+            else
+            {
+                btnRevert.Enabled = webBrowser.Url.ToString().Contains("&diff=");
+                btnWarn.Enabled = webBrowser.IsUserSpace;
+                btnUser.Enabled = webBrowser.IsUserSpace;
+            }
         }
 
         private void webBrowser_Navigating_1(object sender, WebBrowserNavigatingEventArgs e)
@@ -1800,6 +1841,27 @@ namespace IRCMonitor
             NextTask = NextTaskType.None;
             webBrowser.Navigate(Variables.URLLong + "index.php?title=Special:Log&type=block&page=User:" +
                 webBrowser.ArticleTitle.Remove(0, webBrowser.ArticleTitle.IndexOf(':') + 1));
+        }
+
+        private void txtURL_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            switch (e.KeyChar)
+            {
+                case '\r': //ENTER:
+                    openInBrowser(txtURL.Text);
+                    e.Handled = true;
+                    break;
+            }
+        }
+
+        private void loginToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openInBrowser(Variables.URL + "/wiki/Special:Userlogin");
+        }
+
+        private void iRCMonitorPageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/Wikipedia:IRCMonitor");
         }
 
         //*/

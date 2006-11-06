@@ -172,6 +172,7 @@ namespace IRCMonitor
             this.txtURL = new System.Windows.Forms.ToolStripTextBox();
             this.btnGo = new System.Windows.Forms.ToolStripButton();
             this.btnOpenInBrowser = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.btnRevert = new System.Windows.Forms.ToolStripDropDownButton();
             this.revertAndWarnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.revertAndReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -194,6 +195,7 @@ namespace IRCMonitor
             this.loadSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadDefaultSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnPause = new System.Windows.Forms.Button();
@@ -202,6 +204,7 @@ namespace IRCMonitor
             this.UTCtime = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.iRCMonitorPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.tabPage7.SuspendLayout();
             this.tabPage5.SuspendLayout();
@@ -1645,6 +1648,7 @@ namespace IRCMonitor
             this.txtURL,
             this.btnGo,
             this.btnOpenInBrowser,
+            this.toolStripSeparator4,
             this.btnRevert,
             this.btnWarn,
             this.btnUser});
@@ -1687,15 +1691,17 @@ namespace IRCMonitor
             // 
             this.txtURL.Name = "txtURL";
             this.txtURL.Size = new System.Drawing.Size(300, 25);
+            this.txtURL.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtURL_KeyPress);
             // 
             // btnGo
             // 
-            this.btnGo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnGo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnGo.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnGo.Image = ((System.Drawing.Image)(resources.GetObject("btnGo.Image")));
             this.btnGo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnGo.Name = "btnGo";
-            this.btnGo.Size = new System.Drawing.Size(23, 22);
-            this.btnGo.Text = "Go";
+            this.btnGo.Size = new System.Drawing.Size(29, 22);
+            this.btnGo.Text = "Go!";
             this.btnGo.Click += new System.EventHandler(this.btnGo_Click);
             // 
             // btnOpenInBrowser
@@ -1706,6 +1712,11 @@ namespace IRCMonitor
             this.btnOpenInBrowser.Size = new System.Drawing.Size(23, 22);
             this.btnOpenInBrowser.Text = "Open page in external browser";
             this.btnOpenInBrowser.Click += new System.EventHandler(this.btnOpenInBrowser_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
             // 
             // btnRevert
             // 
@@ -1853,7 +1864,8 @@ namespace IRCMonitor
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadSettingsToolStripMenuItem,
             this.saveSettingsToolStripMenuItem,
-            this.loadDefaultSettingsToolStripMenuItem});
+            this.loadDefaultSettingsToolStripMenuItem,
+            this.loginToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -1879,9 +1891,17 @@ namespace IRCMonitor
             this.loadDefaultSettingsToolStripMenuItem.Text = "Reset settings";
             this.loadDefaultSettingsToolStripMenuItem.Click += new System.EventHandler(this.loadDefaultSettingsToolStripMenuItem_Click);
             // 
+            // loginToolStripMenuItem
+            // 
+            this.loginToolStripMenuItem.Name = "loginToolStripMenuItem";
+            this.loginToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.loginToolStripMenuItem.Text = "Login";
+            this.loginToolStripMenuItem.Click += new System.EventHandler(this.loginToolStripMenuItem_Click);
+            // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.iRCMonitorPageToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(40, 20);
@@ -1890,7 +1910,7 @@ namespace IRCMonitor
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -1951,6 +1971,13 @@ namespace IRCMonitor
             this.timer1.Enabled = true;
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // iRCMonitorPageToolStripMenuItem
+            // 
+            this.iRCMonitorPageToolStripMenuItem.Name = "iRCMonitorPageToolStripMenuItem";
+            this.iRCMonitorPageToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.iRCMonitorPageToolStripMenuItem.Text = "IRCMonitor page";
+            this.iRCMonitorPageToolStripMenuItem.Click += new System.EventHandler(this.iRCMonitorPageToolStripMenuItem_Click);
             // 
             // IRCMonitor
             // 
@@ -2190,6 +2217,9 @@ namespace IRCMonitor
         private System.Windows.Forms.ToolStripMenuItem blockAndLeaveAMessageToolStripMenuItem;
         private System.Windows.Forms.ToolStripDropDownButton btnUser;
         private System.Windows.Forms.ToolStripStatusLabel StatusLabel;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripMenuItem loginToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem iRCMonitorPageToolStripMenuItem;
     }
 }
 
