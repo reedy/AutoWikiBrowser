@@ -958,8 +958,11 @@ namespace WikiFunctions
             }
         }
 
+        /// <summary>
+        /// Checks log in status, registered and version.
+        /// </summary>
         public WikiStatusResult UpdateWikiStatus()
-        {//this checks if you are logged in, registered and have the newest version.
+        {
             try
             {
                 string strText = String.Empty;
