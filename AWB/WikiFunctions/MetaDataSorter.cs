@@ -148,6 +148,9 @@ namespace WikiFunctions.Parse
 
         private string removeStubs(ref string ArticleText)
         {
+            if (Variables.LangCode != LangCodeEnum.en)
+                return "";
+
             List<string> StubList = new List<string>();
             MatchCollection n = StubsRegex.Matches(ArticleText);
             string x = "";
