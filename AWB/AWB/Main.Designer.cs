@@ -95,6 +95,8 @@ namespace AutoWikiBrowser
             this.chkAppend = new System.Windows.Forms.CheckBox();
             this.txtAppendMessage = new System.Windows.Forms.TextBox();
             this.tpStart = new System.Windows.Forms.TabPage();
+            this.btnMove = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
             this.btnFalsePositive = new System.Windows.Forms.Button();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.chkFindCaseSensitive = new System.Windows.Forms.CheckBox();
@@ -212,6 +214,7 @@ namespace AutoWikiBrowser
             this.makeModuleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dumpHTMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.logOutDebugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -245,7 +248,6 @@ namespace AutoWikiBrowser
             this.btntsFalsePositive = new System.Windows.Forms.ToolStripButton();
             this.lbltsNumberofItems = new System.Windows.Forms.ToolStripLabel();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
-            this.logOutDebugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tpSetOptions.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -282,7 +284,7 @@ namespace AutoWikiBrowser
             this.tabControl1.MinimumSize = new System.Drawing.Size(276, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(276, 368);
+            this.tabControl1.Size = new System.Drawing.Size(276, 374);
             this.tabControl1.TabIndex = 666;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
@@ -295,7 +297,7 @@ namespace AutoWikiBrowser
             this.tpSetOptions.Location = new System.Drawing.Point(4, 22);
             this.tpSetOptions.Name = "tpSetOptions";
             this.tpSetOptions.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSetOptions.Size = new System.Drawing.Size(268, 342);
+            this.tpSetOptions.Size = new System.Drawing.Size(268, 348);
             this.tpSetOptions.TabIndex = 0;
             this.tpSetOptions.Text = "(2) Set options";
             this.tpSetOptions.UseVisualStyleBackColor = true;
@@ -576,7 +578,7 @@ namespace AutoWikiBrowser
             this.tpMoreOptions.Location = new System.Drawing.Point(4, 22);
             this.tpMoreOptions.Name = "tpMoreOptions";
             this.tpMoreOptions.Padding = new System.Windows.Forms.Padding(3);
-            this.tpMoreOptions.Size = new System.Drawing.Size(268, 342);
+            this.tpMoreOptions.Size = new System.Drawing.Size(268, 348);
             this.tpMoreOptions.TabIndex = 1;
             this.tpMoreOptions.Text = "More options";
             this.tpMoreOptions.UseVisualStyleBackColor = true;
@@ -822,6 +824,8 @@ namespace AutoWikiBrowser
             // 
             // tpStart
             // 
+            this.tpStart.Controls.Add(this.btnMove);
+            this.tpStart.Controls.Add(this.btnDelete);
             this.tpStart.Controls.Add(this.btnFalsePositive);
             this.tpStart.Controls.Add(this.groupBox10);
             this.tpStart.Controls.Add(this.btnStop);
@@ -837,14 +841,38 @@ namespace AutoWikiBrowser
             this.tpStart.Location = new System.Drawing.Point(4, 22);
             this.tpStart.Name = "tpStart";
             this.tpStart.Padding = new System.Windows.Forms.Padding(3);
-            this.tpStart.Size = new System.Drawing.Size(268, 342);
+            this.tpStart.Size = new System.Drawing.Size(268, 348);
             this.tpStart.TabIndex = 3;
             this.tpStart.Text = "(3) Start";
             this.tpStart.UseVisualStyleBackColor = true;
             // 
+            // btnMove
+            // 
+            this.btnMove.Enabled = false;
+            this.btnMove.Location = new System.Drawing.Point(160, 154);
+            this.btnMove.Name = "btnMove";
+            this.btnMove.Size = new System.Drawing.Size(49, 23);
+            this.btnMove.TabIndex = 31;
+            this.btnMove.Text = "Move";
+            this.btnMove.UseVisualStyleBackColor = true;
+            this.btnMove.Visible = false;
+            this.btnMove.Click += new System.EventHandler(this.btnMove_Click);
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.Enabled = false;
+            this.btnDelete.Location = new System.Drawing.Point(213, 154);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(49, 23);
+            this.btnDelete.TabIndex = 30;
+            this.btnDelete.Text = "Delete";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Visible = false;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
             // btnFalsePositive
             // 
-            this.btnFalsePositive.Location = new System.Drawing.Point(160, 60);
+            this.btnFalsePositive.Location = new System.Drawing.Point(160, 59);
             this.btnFalsePositive.Name = "btnFalsePositive";
             this.btnFalsePositive.Size = new System.Drawing.Size(49, 20);
             this.btnFalsePositive.TabIndex = 29;
@@ -860,7 +888,7 @@ namespace AutoWikiBrowser
             this.groupBox10.Controls.Add(this.btnFind);
             this.groupBox10.Controls.Add(this.chkFindRegex);
             this.groupBox10.Controls.Add(this.txtFind);
-            this.groupBox10.Location = new System.Drawing.Point(152, 240);
+            this.groupBox10.Location = new System.Drawing.Point(152, 249);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Size = new System.Drawing.Size(110, 96);
             this.groupBox10.TabIndex = 16;
@@ -912,7 +940,7 @@ namespace AutoWikiBrowser
             // 
             this.btnStop.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStop.Location = new System.Drawing.Point(213, 60);
+            this.btnStop.Location = new System.Drawing.Point(213, 59);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(49, 20);
             this.btnStop.TabIndex = 28;
@@ -955,7 +983,7 @@ namespace AutoWikiBrowser
             this.groupBox9.Controls.Add(this.lblWarn);
             this.groupBox9.Location = new System.Drawing.Point(6, 131);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(139, 205);
+            this.groupBox9.Size = new System.Drawing.Size(139, 214);
             this.groupBox9.TabIndex = 24;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Alerts";
@@ -963,7 +991,7 @@ namespace AutoWikiBrowser
             // lbDuplicateWikilinks
             // 
             this.lbDuplicateWikilinks.FormattingEnabled = true;
-            this.lbDuplicateWikilinks.Location = new System.Drawing.Point(6, 130);
+            this.lbDuplicateWikilinks.Location = new System.Drawing.Point(6, 142);
             this.lbDuplicateWikilinks.Name = "lbDuplicateWikilinks";
             this.lbDuplicateWikilinks.Size = new System.Drawing.Size(127, 69);
             this.lbDuplicateWikilinks.TabIndex = 27;
@@ -974,7 +1002,7 @@ namespace AutoWikiBrowser
             // 
             this.lblDuplicateWikilinks.AutoSize = true;
             this.lblDuplicateWikilinks.ForeColor = System.Drawing.Color.Red;
-            this.lblDuplicateWikilinks.Location = new System.Drawing.Point(6, 114);
+            this.lblDuplicateWikilinks.Location = new System.Drawing.Point(6, 126);
             this.lblDuplicateWikilinks.Name = "lblDuplicateWikilinks";
             this.lblDuplicateWikilinks.Size = new System.Drawing.Size(91, 13);
             this.lblDuplicateWikilinks.TabIndex = 28;
@@ -1072,7 +1100,7 @@ namespace AutoWikiBrowser
             // btnPreview
             // 
             this.btnPreview.Enabled = false;
-            this.btnPreview.Location = new System.Drawing.Point(160, 98);
+            this.btnPreview.Location = new System.Drawing.Point(160, 93);
             this.btnPreview.Name = "btnPreview";
             this.btnPreview.Size = new System.Drawing.Size(102, 23);
             this.btnPreview.TabIndex = 15;
@@ -1086,7 +1114,7 @@ namespace AutoWikiBrowser
             this.btnSave.Enabled = false;
             this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSave.Location = new System.Drawing.Point(160, 197);
+            this.btnSave.Location = new System.Drawing.Point(160, 214);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(102, 32);
             this.btnSave.TabIndex = 10;
@@ -1099,7 +1127,7 @@ namespace AutoWikiBrowser
             // btnDiff
             // 
             this.btnDiff.Enabled = false;
-            this.btnDiff.Location = new System.Drawing.Point(160, 125);
+            this.btnDiff.Location = new System.Drawing.Point(160, 119);
             this.btnDiff.Name = "btnDiff";
             this.btnDiff.Size = new System.Drawing.Size(102, 23);
             this.btnDiff.TabIndex = 16;
@@ -1113,7 +1141,7 @@ namespace AutoWikiBrowser
             this.btnIgnore.Enabled = false;
             this.btnIgnore.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnIgnore.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnIgnore.Location = new System.Drawing.Point(160, 162);
+            this.btnIgnore.Location = new System.Drawing.Point(160, 179);
             this.btnIgnore.Name = "btnIgnore";
             this.btnIgnore.Size = new System.Drawing.Size(102, 32);
             this.btnIgnore.TabIndex = 14;
@@ -1129,7 +1157,7 @@ namespace AutoWikiBrowser
             this.groupBox2.Controls.Add(this.listMaker1);
             this.groupBox2.Location = new System.Drawing.Point(3, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(210, 366);
+            this.groupBox2.Size = new System.Drawing.Size(210, 372);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "(1) Make list";
@@ -1140,7 +1168,7 @@ namespace AutoWikiBrowser
             this.listMaker1.Location = new System.Drawing.Point(3, 15);
             this.listMaker1.Name = "listMaker1";
             this.listMaker1.SelectedSource = WikiFunctions.Lists.SourceType.Category;
-            this.listMaker1.Size = new System.Drawing.Size(201, 345);
+            this.listMaker1.Size = new System.Drawing.Size(201, 351);
             this.listMaker1.SourceText = "";
             this.listMaker1.TabIndex = 0;
             this.listMaker1.WikiStatus = false;
@@ -1153,7 +1181,7 @@ namespace AutoWikiBrowser
             this.panel1.Controls.Add(this.txtEdit);
             this.panel1.Location = new System.Drawing.Point(497, 5);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(283, 366);
+            this.panel1.Size = new System.Drawing.Size(283, 372);
             this.panel1.TabIndex = 9;
             // 
             // txtEdit
@@ -1168,7 +1196,7 @@ namespace AutoWikiBrowser
             this.txtEdit.Multiline = true;
             this.txtEdit.Name = "txtEdit";
             this.txtEdit.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtEdit.Size = new System.Drawing.Size(283, 366);
+            this.txtEdit.Size = new System.Drawing.Size(283, 372);
             this.txtEdit.TabIndex = 0;
             this.txtEdit.TextChanged += new System.EventHandler(this.txtEdit_TextChanged);
             // 
@@ -1873,6 +1901,14 @@ namespace AutoWikiBrowser
             this.dumpHTMLToolStripMenuItem.Visible = false;
             this.dumpHTMLToolStripMenuItem.Click += new System.EventHandler(this.dumpHTMLToolStripMenuItem_Click);
             // 
+            // logOutDebugToolStripMenuItem
+            // 
+            this.logOutDebugToolStripMenuItem.Name = "logOutDebugToolStripMenuItem";
+            this.logOutDebugToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.logOutDebugToolStripMenuItem.Text = "Log out (Debug)";
+            this.logOutDebugToolStripMenuItem.Visible = false;
+            this.logOutDebugToolStripMenuItem.Click += new System.EventHandler(this.logOutDebugToolStripMenuItem_Click);
+            // 
             // helpToolStripMenuItem1
             // 
             this.helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
@@ -2003,7 +2039,7 @@ namespace AutoWikiBrowser
             this.panel2.Controls.Add(this.panel1);
             this.panel2.Location = new System.Drawing.Point(0, 221);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(783, 371);
+            this.panel2.Size = new System.Drawing.Size(783, 377);
             this.panel2.TabIndex = 668;
             // 
             // toolStrip
@@ -2149,27 +2185,19 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.DiffFontSize = 120;
             this.webBrowserEdit.EnhanceDiffEnabled = true;
             this.webBrowserEdit.IsWebBrowserContextMenuEnabled = false;
-            this.webBrowserEdit.Location = new System.Drawing.Point(0, 27);
+            this.webBrowserEdit.Location = new System.Drawing.Point(0, 25);
             this.webBrowserEdit.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowserEdit.Name = "webBrowserEdit";
             this.webBrowserEdit.ProcessStage = WikiFunctions.Browser.enumProcessStage.none;
             this.webBrowserEdit.ScriptErrorsSuppressed = true;
             this.webBrowserEdit.ScrollDown = true;
-            this.webBrowserEdit.Size = new System.Drawing.Size(780, 193);
+            this.webBrowserEdit.Size = new System.Drawing.Size(780, 195);
             this.webBrowserEdit.TabIndex = 670;
             this.webBrowserEdit.TabStop = false;
             this.webBrowserEdit.TimeoutLimit = 30;
             this.webBrowserEdit.WebBrowserShortcutsEnabled = false;
             this.webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
             this.webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
-            // 
-            // logOutDebugToolStripMenuItem
-            // 
-            this.logOutDebugToolStripMenuItem.Name = "logOutDebugToolStripMenuItem";
-            this.logOutDebugToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-            this.logOutDebugToolStripMenuItem.Text = "Log out (Debug)";
-            this.logOutDebugToolStripMenuItem.Visible = false;
-            this.logOutDebugToolStripMenuItem.Click += new System.EventHandler(this.logOutDebugToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -2433,6 +2461,8 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem makeModuleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem bypassAllRedirectsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem logOutDebugToolStripMenuItem;
+        private System.Windows.Forms.Button btnMove;
+        private System.Windows.Forms.Button btnDelete;
 
 
     }
