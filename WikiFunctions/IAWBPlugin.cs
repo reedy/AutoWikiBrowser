@@ -21,8 +21,8 @@ namespace WikiFunctions.Plugin
         string Name { get; }
         string ProcessArticle(string ArticleText, string ArticleTitle, int Namespace, out string Summary, out bool Skip);
 
-        void LoadSettings(object Prefs);
-        object SaveSettings();
+        void LoadSettings(object[] Prefs);
+        object[] SaveSettings();
         void Reset();
     }
 
