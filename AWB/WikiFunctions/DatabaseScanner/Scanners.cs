@@ -435,4 +435,23 @@ namespace WikiFunctions.DatabaseScanner
             return retf.DetectTypo(ArticleText);
         }
     }
+
+    public class UnCategorised : Scan
+    {
+        public UnCategorised() { }
+
+        public override bool Check(ref string ArticleText, ref string ArticleTitle)
+        {
+            if (WikiRegexes.Category.IsMatch(ArticleText))
+                return false;
+
+            foreach (Match m in WikiRegexes.Template.Matches(ArticleText))
+            {
+                if (!m.Value.Contains("stub"))
+                    return false;
+            }
+
+            return true;
+        }
+    }
 }
