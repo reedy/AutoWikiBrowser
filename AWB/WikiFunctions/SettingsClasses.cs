@@ -140,6 +140,6 @@ namespace WikiFunctions.AWBSettings
     public class PluginPrefs
     {
         public string Name = "";
-        public object PluginSettings = null;
+        public object[] PluginSettings = null;
     }
 }
