@@ -1345,6 +1345,10 @@ namespace AutoWikiBrowser
         {
             bool enabled = listMaker1.NumberOfArticles > 0;
             SetStartButton(enabled);
+
+            btnMove.Visible = Variables.User.IsAdmin;
+            btnDelete.Visible = Variables.User.IsAdmin;
+
             listMaker1.ButtonsEnabled = enabled;
             lbltsNumberofItems.Text = "Articles: " + listMaker1.NumberOfArticles.ToString();
         }
@@ -1371,6 +1375,9 @@ namespace AutoWikiBrowser
 
             btnSave.Enabled = false;
             btntsSave.Enabled = false;
+
+            btnMove.Enabled = false;
+            btnDelete.Enabled = false;
         }
 
         private void EnableButtons()
@@ -1387,6 +1394,9 @@ namespace AutoWikiBrowser
 
             btntsSave.Enabled = true;
             btntsIgnore.Enabled = true;
+
+            btnMove.Enabled = true;
+            btnDelete.Enabled = true;
         }
 
         #endregion
@@ -1560,6 +1570,16 @@ namespace AutoWikiBrowser
         private void btnIgnore_Click(object sender, EventArgs e)
         {
             SkipPage();
+        }
+
+        private void btnMove_Click(object sender, EventArgs e)
+        {
+            MoveArticle();
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            DeleteArticle();
         }
 
         private void filterOutNonMainSpaceToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2271,10 +2291,16 @@ namespace AutoWikiBrowser
                 LoginDlg lg = new LoginDlg();
                 lg.UserName = Variables.User.Name;
 
+                string name = "";
+                string password = "";
+
                 if (lg.ShowDialog() == DialogResult.OK)
                 {
-                    DNWB = new DotNetWikiBot(Variables.URL, lg.UserName, lg.Password);
+                    name = lg.UserName;
+                    password = lg.Password;
                 }
+
+                DNWB = new DotNetWikiBot(Variables.URL, name, password);
             }
             catch (Exception ex)
             {
@@ -2282,14 +2308,20 @@ namespace AutoWikiBrowser
             }
         }
 
-        private void MoveArticle(string NewTitle)
+        private void MoveArticle()
         {
             if (DNWB == null)
                 LogginDNWB();
 
+            string NewTitle = "";
+            string Summary = "";
+
+            throw new Exception("Get new title and summary here");
+            //get new title and summary;
+
             try
             {
-                DNWB.MovePage(EdittingArticle.Name, NewTitle, "test");
+                DNWB.MovePage(EdittingArticle.Name, NewTitle, Summary);
             }
             catch (Exception ex)
             {
@@ -2297,7 +2329,27 @@ namespace AutoWikiBrowser
             }
         }
 
-        #endregion
+        private void DeleteArticle()
+        {
+            if (DNWB == null)
+                LogginDNWB();
+
+            string Summary = "";
+
+            throw new Exception();
+            //get summary
+
+            try
+            {
+                DNWB.DeletePage(EdittingArticle.Name, Summary);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }       
+
+        #endregion        
         
     }
 }
