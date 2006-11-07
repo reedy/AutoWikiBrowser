@@ -918,6 +918,8 @@ namespace WikiFunctions.DatabaseScanner
                 groupBox4.Enabled = false;
                 groupBox5.Enabled = false;
                 btnFilter.Enabled = false;
+                nudLimitResults.Enabled = false;
+                txtStartFrom.Enabled = false;
                 btnStart.Text = "Stop";
             }
             else
@@ -927,6 +929,8 @@ namespace WikiFunctions.DatabaseScanner
                 groupBox4.Enabled = true;
                 groupBox5.Enabled = true;
                 btnFilter.Enabled = true;
+                nudLimitResults.Enabled = true;
+                txtStartFrom.Enabled = true;
                 btnStart.Text = "Start";
             }
         }
