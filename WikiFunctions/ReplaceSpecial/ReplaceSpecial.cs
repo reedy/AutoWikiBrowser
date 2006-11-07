@@ -448,7 +448,7 @@ namespace WikiFunctions.MWB
 
         public void AddNewRule(List<IRule> Rules)
         {
-            Clear();
+            RulesTreeView.Nodes.Clear();
 
             foreach (IRule r in Rules)
             {
