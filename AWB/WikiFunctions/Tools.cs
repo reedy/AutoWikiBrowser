@@ -129,7 +129,7 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// Tests title to make sure it is not a talk page.
+        /// Tests title to make sure it is a talk page.
         /// </summary>
         /// <param name="ArticleTitle">The title.</param>
         public static bool IsTalkPage(string ArticleTitle)
@@ -143,7 +143,7 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// Tests title to make sure it is not a talk page.
+        /// Tests title to make sure it is a talk page.
         /// </summary>
         /// <param name="Key">The namespace key</param>
         public static bool IsTalkPage(int Key)
@@ -268,6 +268,17 @@ namespace WikiFunctions
         }
 
         /// <summary>
+        /// Applies the key words "%%title%%" etc.
+        /// </summary>
+        public static string ApplyKeyWords(string Title, string Text)
+        {
+            Text = Text.Replace("%%title%%", Title);
+            Text = Text.Replace("%%key%%", Tools.MakeHumanCatKey(Title));
+
+            return Text;
+        }
+
+        /// <summary>
         /// Returns uppercase version of the string
         /// </summary>
         public static string TurnFirstToUpper(string input)
@@ -281,18 +292,7 @@ namespace WikiFunctions
             input = char.ToUpper(input[0]) + input.Remove(0, 1);
 
             return input;
-        }
-
-        /// <summary>
-        /// Applies the key words "%%title%%" etc.
-        /// </summary>
-        public static string ApplyKeyWords(string Title, string Text)
-        {
-            Text = Text.Replace("%%title%%", Title);
-            Text = Text.Replace("%%key%%", Tools.MakeHumanCatKey(Title));
-
-            return Text;
-        }
+        }        
 
         /// <summary>
         /// Returns lowercase version of the string
