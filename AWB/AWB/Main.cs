@@ -37,6 +37,7 @@ using WikiFunctions.Plugin;
 using WikiFunctions.Parse;
 using WikiFunctions.Lists;
 using WikiFunctions.Browser;
+using WikiFunctions.Controls;
 using System.Collections.Specialized;
 
 [assembly: CLSCompliant(true)]
@@ -2294,7 +2295,7 @@ namespace AutoWikiBrowser
                 string name = "";
                 string password = "";
 
-                if (lg.ShowDialog() == DialogResult.OK)
+                if (lg.ShowDialog(this) == DialogResult.OK)
                 {
                     name = lg.UserName;
                     password = lg.Password;
@@ -2313,15 +2314,14 @@ namespace AutoWikiBrowser
             if (DNWB == null)
                 LogginDNWB();
 
-            string NewTitle = "";
-            string Summary = "";
-
-            throw new Exception("Get new title and summary here");
-            //get new title and summary;
-
             try
             {
-                DNWB.MovePage(EdittingArticle.Name, NewTitle, Summary);
+                MoveDeleteDialog dlg = new MoveDeleteDialog(true);
+
+                if (dlg.ShowDialog(this) == DialogResult.OK)
+                {
+                    DNWB.MovePage(EdittingArticle.Name, dlg.NewTitle, dlg.Summary);
+                }
             }
             catch (Exception ex)
             {
@@ -2334,14 +2334,14 @@ namespace AutoWikiBrowser
             if (DNWB == null)
                 LogginDNWB();
 
-            string Summary = "";
-
-            throw new Exception();
-            //get summary
-
             try
             {
-                DNWB.DeletePage(EdittingArticle.Name, Summary);
+                MoveDeleteDialog dlg = new MoveDeleteDialog(false);
+
+                if (dlg.ShowDialog(this) == DialogResult.OK)
+                {
+                    DNWB.DeletePage(EdittingArticle.Name, dlg.Summary);
+                }
             }
             catch (Exception ex)
             {
