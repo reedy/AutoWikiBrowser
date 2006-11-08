@@ -1038,7 +1038,7 @@ namespace WikiFunctions.Parse
                 MatchEvaluator stubEvaluator = new MatchEvaluator(stubChecker);
                 ArticleText = WikiRegexes.Stub.Replace(ArticleText, stubEvaluator);
 
-                return ArticleText.Trim();
+                ArticleText = ArticleText.Trim();
             }
 
             foreach (Match m in WikiRegexes.Template.Matches(ArticleText))
