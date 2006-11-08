@@ -86,7 +86,7 @@ namespace WikiFunctions.Browser
         /// Occurs when the Busy state changes
         /// </summary>
         public event WebControlDel BusyChanged;
-        
+
         #endregion
 
         #region Properties
@@ -228,7 +228,10 @@ namespace WikiFunctions.Browser
             if (m.Groups[1].Value == "null")
                 return "";
 
-            return m.Groups[1].Value.Trim('"');
+            string s = m.Groups[1].Value.Trim('"');
+            s = s.Replace("\\\"", "\"").Replace("\\'", "'");
+
+            return s;
         }
 
         public UserInfo GetUserInfo()
@@ -294,7 +297,7 @@ namespace WikiFunctions.Browser
             {
                 strStatus = value;
 
-                if(this.StatusChanged != null)
+                if (this.StatusChanged != null)
                     this.StatusChanged();
             }
         }
@@ -342,7 +345,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public bool IsUserTalk
         {
-            get 
+            get
             {
                 return ArticleTitle.StartsWith(Variables.Namespaces[3]);
             }
