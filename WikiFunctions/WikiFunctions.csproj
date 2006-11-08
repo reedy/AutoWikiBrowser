@@ -37,6 +37,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Article.cs" />
+    <Compile Include="Controls\MoveDeleteDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\MoveDeleteDialog.Designer.cs">
+      <DependentUpon>MoveDeleteDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="DatabaseScanner\AboutDatabaseScanner.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -160,6 +166,10 @@
     <Compile Include="WPEditor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Controls\MoveDeleteDialog.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>MoveDeleteDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DatabaseScanner\AboutDatabaseScanner.resx">
       <DependentUpon>AboutDatabaseScanner.cs</DependentUpon>
       <SubType>Designer</SubType>
