@@ -1347,8 +1347,8 @@ namespace AutoWikiBrowser
             bool enabled = listMaker1.NumberOfArticles > 0;
             SetStartButton(enabled);
 
-            btnMove.Visible = Variables.User.IsAdmin;
-            btnDelete.Visible = Variables.User.IsAdmin;
+        //    btnMove.Visible = Variables.User.IsAdmin;
+        //    btnDelete.Visible = Variables.User.IsAdmin;
 
             listMaker1.ButtonsEnabled = enabled;
             lbltsNumberofItems.Text = "Articles: " + listMaker1.NumberOfArticles.ToString();
