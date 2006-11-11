@@ -76,12 +76,6 @@
     <Compile Include="AboutBox.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Albums.Designer.vb">
-      <DependentUpon>Albums.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Albums.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="AssessmentComments.Designer.vb">
       <DependentUpon>AssessmentComments.vb</DependentUpon>
     </Compile>
@@ -99,9 +93,6 @@
       <DependentUpon>Australia.vb</DependentUpon>
     </Compile>
     <Compile Include="Australia.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Bio.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Generic.Designer.vb">
@@ -165,22 +156,16 @@
     <Compile Include="PluginSettings.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="SettingsControlBase.Designer.vb">
-      <DependentUpon>SettingsControlBase.vb</DependentUpon>
-    </Compile>
-    <Compile Include="SettingsControlBase.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Songs.Designer.vb">
-      <DependentUpon>Songs.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Songs.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="TimerStats.Designer.vb">
       <DependentUpon>TimerStats.vb</DependentUpon>
     </Compile>
     <Compile Include="TimerStats.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="WPBiography.Designer.vb">
+      <DependentUpon>WPBiography.vb</DependentUpon>
+    </Compile>
+    <Compile Include="WPBiography.vb">
       <SubType>UserControl</SubType>
     </Compile>
   </ItemGroup>
@@ -188,10 +173,6 @@
     <EmbeddedResource Include="AboutBox.resx">
       <SubType>Designer</SubType>
       <DependentUpon>AboutBox.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Albums.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>Albums.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AssessmentComments.resx">
       <SubType>Designer</SubType>
@@ -204,10 +185,6 @@
     <EmbeddedResource Include="Australia.resx">
       <SubType>Designer</SubType>
       <DependentUpon>Australia.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Bio.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>Bio.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Generic.resx">
       <SubType>Designer</SubType>
@@ -243,17 +220,13 @@
       <SubType>Designer</SubType>
       <DependentUpon>PluginSettings.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SettingsControlBase.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>SettingsControlBase.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Songs.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>Songs.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="TimerStats.resx">
       <SubType>Designer</SubType>
       <DependentUpon>TimerStats.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WPBiography.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>WPBiography.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -276,11 +249,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Physics generic template.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Film generic template.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

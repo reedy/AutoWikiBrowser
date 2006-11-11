@@ -63,7 +63,7 @@ Friend NotInheritable Class PluginSettingsControl
             Return ManuallyAssessCheckBox.Checked
         End Get
         Set(ByVal value As Boolean)
-            Cleanup = value
+            ManuallyAssessCheckBox.Checked = value
         End Set
     End Property
     Public Property Cleanup() As Boolean
@@ -208,7 +208,6 @@ Friend NotInheritable Class PluginSettingsControl
             SkipNoChangesCheckBox.Enabled = True
         End If
 
-        CleanupCheckBox.Checked = ManuallyAssess
         CleanupCheckBox.Enabled = ManuallyAssess
         MyTrace.WriteBulletedLine(String.Format("Manual assessments mode on: {0}", _
            ManuallyAssess.ToString), True, True, True)

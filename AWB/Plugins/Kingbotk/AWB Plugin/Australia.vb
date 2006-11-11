@@ -27,7 +27,7 @@ Friend NotInheritable Class AustraliaSettings
     Private txtEdit As TextBox
 
     ' XML interface:
-    Friend Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader) Implements GenericSettingsClass.ReadXML
+    Friend Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader)
         Sports = PluginManager.XMLReadBoolean(Reader, conSportParm, Sports)
         Politics = PluginManager.XMLReadBoolean(Reader, conPoliticsParm, Politics)
         Place = PluginManager.XMLReadBoolean(Reader, conPlaceParm, Place)
@@ -50,7 +50,7 @@ Friend NotInheritable Class AustraliaSettings
         AutoStub = PluginManager.XMLReadBoolean(Reader, conAutoStubParm, AutoStub)
         StubClass = PluginManager.XMLReadBoolean(Reader, conStubClassParm, StubClass)
     End Sub
-    Friend Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter) Implements GenericSettingsClass.WriteXML
+    Friend Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter)
         With Writer
             .WriteAttributeString(conSportParm, Sports.ToString)
             .WriteAttributeString(conPoliticsParm, Politics.ToString)
@@ -75,7 +75,7 @@ Friend NotInheritable Class AustraliaSettings
             .WriteAttributeString(conStubClassParm, StubClass.ToString)
         End With
     End Sub
-    Friend Sub Reset() Implements GenericSettingsClass.XMLReset
+    Friend Sub Reset()
         AutoStub = False
         StubClass = False
 
@@ -384,11 +384,8 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk
         Protected Overrides Sub TemplateFound()
             ' Nothing to do here
         End Sub
-        Protected Overrides Sub GotTemplateNotPreferredName(ByVal TemplateName As String)
-        End Sub
-        Protected Overrides Function WriteTemplateHeader(ByRef PutTemplateAtTop As Boolean) As String
-            WriteTemplateHeader = "{{WP Australia" & _
-               Microsoft.VisualBasic.vbCrLf & WriteOutParameterToHeader("class")
+        Protected Overrides Function CreateTemplateHeader(ByRef PutTemplateAtTop As Boolean) As String
+            CreateTemplateHeader = "{{WP Australia" & Microsoft.VisualBasic.vbCrLf & WriteOutClassHeader()
         End Function
 
         'User interface:

@@ -31,6 +31,7 @@ Partial Class GenericTemplateSettings
         Me.AutoStubSupportYNCheckBox = New System.Windows.Forms.CheckBox
         Me.SkipRegexTextBox = New System.Windows.Forms.TextBox
         Me.SkipRegexCheckBox = New System.Windows.Forms.CheckBox
+        Me.TextInsertContextMenuStrip = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
         Me.AlternateNamesCheckBox = New System.Windows.Forms.CheckBox
         Me.Label2 = New System.Windows.Forms.Label
@@ -154,6 +155,11 @@ Partial Class GenericTemplateSettings
         Me.ToolTip1.SetToolTip(Me.SkipRegexCheckBox, "Check this if you want to supply a regular expression to tell the plugin when to " & _
                 "skip pages")
         Me.SkipRegexCheckBox.UseVisualStyleBackColor = True
+        '
+        'TextInsertContextMenuStrip
+        '
+        Me.TextInsertContextMenuStrip.Name = "TextInsertContextMenuStrip"
+        Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(61, 4)
         '
         'GroupBox1
         '
@@ -309,6 +315,7 @@ Partial Class GenericTemplateSettings
 
     End Sub
     Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
+    Friend WithEvents TextInsertContextMenuStrip As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
     Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
     Friend WithEvents StubClassCheckBox As System.Windows.Forms.CheckBox

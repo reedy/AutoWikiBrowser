@@ -66,7 +66,7 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk
             If disposing Then
                 ' The object is being disposed, not finalized.
                 ' It is safe to access other objects (other than the mybase object)
-                ' only from inside this block
+                ' only frm inside this block
                 RemoveHandler PluginSettings.CleanupCheckBox.CheckedChanged, _
                    AddressOf Me.CleanupCheckBox_CheckedChanged
             End If
@@ -243,50 +243,40 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk
         ' UI event handlers:
         Private Sub Save_Click(ByVal sender As Object, ByVal e As EventArgs) _
         Handles AWBSave.Click, OurSave.Click
-            If Not disposed Then ' TODO: this is a hack
-                If State.blnNextEventShouldBeMainSpace Then
-                    LoadTalkPage()
-                Else
-                    LoadArticle()
-                End If
-
-                State.blnNextEventShouldBeMainSpace = Not State.blnNextEventShouldBeMainSpace
+            If State.blnNextEventShouldBeMainSpace Then
+                LoadTalkPage()
+            Else
+                LoadArticle()
             End If
+
+            State.blnNextEventShouldBeMainSpace = Not State.blnNextEventShouldBeMainSpace
         End Sub
         Private Sub Skip_Click(ByVal sender As Object, ByVal e As EventArgs) _
         Handles AWBSkip.Click, OurSkip.Click
-            If Not disposed Then ' TODO: this is a hack
-                If State.blnNextEventShouldBeMainSpace Then
-                    LoadTalkPage()
-                Else
-                    LoadArticle()
-                    PluginSettingsControl.MyTrace.SkippedArticle("User", "User clicked Ignore")
-                    PluginSettings.PluginStats.SkippedMiscellaneousIncrement(True)
-                End If
-
-                State.blnNextEventShouldBeMainSpace = Not State.blnNextEventShouldBeMainSpace
+            If State.blnNextEventShouldBeMainSpace Then
+                LoadTalkPage()
+            Else
+                LoadArticle()
+                PluginSettingsControl.MyTrace.SkippedArticle("User", "User clicked Ignore")
+                PluginSettings.PluginStats.SkippedMiscellaneousIncrement(True)
             End If
+
+            State.blnNextEventShouldBeMainSpace = Not State.blnNextEventShouldBeMainSpace
         End Sub
         Private Sub Preview_Click(ByVal sender As Object, ByVal e As EventArgs) _
         Handles AWBPreview.Click, OurPreview.Click
-            If Not disposed Then ' TODO: this is a hack
-                PreviewButtonColour(True)
-            End If
+            PreviewButtonColour(True)
         End Sub
         Private Sub CleanupCheckBox_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs)
-            If Not disposed Then ' TODO: this is a hack
-                If PluginSettings.Cleanup And Not webcontrol.Busy Then ToggleAWBCleanup(True)
-            End If
+            If PluginSettings.Cleanup And Not webcontrol.Busy Then ToggleAWBCleanup(True)
         End Sub
 
         ' Webcontrol event handlers:
         Private Sub webcontrol_BusyChanged() Handles webcontrol.BusyChanged
-            If Not disposed Then ' TODO: this is a hack
-                If webcontrol.Busy Then
-                    LoadArticle()
-                Else
-                    Reset()
-                End If
+            If webcontrol.Busy Then
+                LoadArticle()
+            Else
+                Reset()
             End If
         End Sub
         'Private Sub webcontrol_Diffed() Handles webcontrol.Diffed
