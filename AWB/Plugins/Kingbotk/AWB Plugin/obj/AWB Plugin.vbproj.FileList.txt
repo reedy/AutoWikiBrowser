@@ -1,0 +1,19 @@
+obj\Release\ResolveAssemblyReference.cache
+obj\Release\AWB Plugin.vbproj.GenerateResource.Cache
+bin\Debug\AWB Plugin.dll
+bin\Debug\AWB Plugin.pdb
+bin\Debug\AWB Plugin.xml
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\AWB.Plugins.SDKSoftware.Kingbotk.Resources.resources
+obj\Debug\AWB Plugin.vbproj.GenerateResource.Cache
+obj\Debug\AWB Plugin.dll
+obj\Debug\AWB Plugin.xml
+obj\Debug\AWB Plugin.pdb
+bin\Release\AWB Plugin.dll
+bin\Release\AWB Plugin.pdb
+bin\Release\AWB Plugin.xml
+obj\Release\AWB Plugin.dll
+obj\Release\AWB Plugin.xml
+obj\Release\AWB Plugin.pdb
+obj\Release\Resources.resources
+bin\Release\WikiFunctions.dll
