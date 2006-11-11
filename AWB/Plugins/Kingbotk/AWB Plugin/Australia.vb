@@ -9,6 +9,7 @@ Friend NotInheritable Class AustraliaSettings
     Private Const conCrimeParm As String = "AusCrime"
     Private Const conV8Parm As String = "AusV8"
     Private Const conNRLParm As String = "AusNRL"
+    Private Const conNBLParm As String = "AusNBL"
     Private Const conALeagueParm As String = "AusALeague"
     Private Const conAFLParm As String = "AusAFL"
     Private Const conSydneyParm As String = "AusSydney"
@@ -26,8 +27,8 @@ Friend NotInheritable Class AustraliaSettings
     ' UI:
     Private txtEdit As TextBox
 
-    ' XML interface:
-    Friend Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader)
+#Region "XML interface:"
+    Friend Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader) Implements GenericSettingsClass.ReadXML
         Sports = PluginManager.XMLReadBoolean(Reader, conSportParm, Sports)
         Politics = PluginManager.XMLReadBoolean(Reader, conPoliticsParm, Politics)
         Place = PluginManager.XMLReadBoolean(Reader, conPlaceParm, Place)
@@ -36,6 +37,7 @@ Friend NotInheritable Class AustraliaSettings
         Crime = PluginManager.XMLReadBoolean(Reader, conCrimeParm, Crime)
         V8 = PluginManager.XMLReadBoolean(Reader, conV8Parm, V8)
         NRL = PluginManager.XMLReadBoolean(Reader, conNRLParm, NRL)
+        NBL = PluginManager.XMLReadBoolean(Reader, conNBLParm, NBL)
         ALeague = PluginManager.XMLReadBoolean(Reader, conALeagueParm, ALeague)
         AFL = PluginManager.XMLReadBoolean(Reader, conAFLParm, AFL)
         Sydney = PluginManager.XMLReadBoolean(Reader, conSydneyParm, Sydney)
@@ -50,7 +52,7 @@ Friend NotInheritable Class AustraliaSettings
         AutoStub = PluginManager.XMLReadBoolean(Reader, conAutoStubParm, AutoStub)
         StubClass = PluginManager.XMLReadBoolean(Reader, conStubClassParm, StubClass)
     End Sub
-    Friend Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter)
+    Friend Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter) Implements GenericSettingsClass.WriteXML
         With Writer
             .WriteAttributeString(conSportParm, Sports.ToString)
             .WriteAttributeString(conPoliticsParm, Politics.ToString)
@@ -60,6 +62,7 @@ Friend NotInheritable Class AustraliaSettings
             .WriteAttributeString(conCrimeParm, Crime.ToString)
             .WriteAttributeString(conV8Parm, V8.ToString)
             .WriteAttributeString(conNRLParm, NRL.ToString)
+            .WriteAttributeString(conNBLParm, NBL.ToString)
             .WriteAttributeString(conALeagueParm, ALeague.ToString)
             .WriteAttributeString(conAFLParm, AFL.ToString)
             .WriteAttributeString(conSydneyParm, Sydney.ToString)
@@ -75,7 +78,7 @@ Friend NotInheritable Class AustraliaSettings
             .WriteAttributeString(conStubClassParm, StubClass.ToString)
         End With
     End Sub
-    Friend Sub Reset()
+    Friend Sub Reset() Implements GenericSettingsClass.XMLReset
         AutoStub = False
         StubClass = False
 
@@ -83,6 +86,7 @@ Friend NotInheritable Class AustraliaSettings
             If TypeOf ctl Is CheckBox Then DirectCast(ctl, CheckBox).Checked = False
         Next
     End Sub
+#End Region
 
     ' Properties:
     Friend Property Sports() As Boolean
@@ -139,6 +143,14 @@ Friend NotInheritable Class AustraliaSettings
         End Get
         Set(ByVal value As Boolean)
             V8CheckBox.Checked = value
+        End Set
+    End Property
+    Friend Property NBL() As Boolean
+        Get
+            Return NBLCheckBox.Checked
+        End Get
+        Set(ByVal value As Boolean)
+            NBLCheckBox.Checked = value
         End Set
     End Property
     Friend Property NRL() As Boolean
@@ -304,7 +316,7 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk
             End Get
         End Property
         Protected Overrides Sub ImportanceParameter(ByVal Importance As Importance)
-            Template.NewOrReplaceTemplateParm("importance", Importance.ToString, Me.Article, False)
+            Template.NewOrReplaceTemplateParm("importance", Importance.ToString, Me.Article, False, False)
         End Sub
         Protected Overrides ReadOnly Property OurTemplateHasAlternateNames() As Boolean
             Get
@@ -372,8 +384,9 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk
                 If .Sports Then AddAndLogNewParamWithAYesValue("sports")
                 If .AFL Then AddAndLogNewParamWithAYesValue("afl")
                 If .ALeague Then AddAndLogNewParamWithAYesValue("aleague")
+                If .NBL Then AddAndLogNewParamWithAYesValue("nbl", "NBL")
                 If .NRL Then AddAndLogNewParamWithAYesValue("nrl")
-                If .V8 Then AddAndLogNewParamWithAYesValue("v8")
+                If .V8 Then AddAndLogNewParamWithAYesValue("V8", "v8")
                 If .Crime Then AddAndLogNewParamWithAYesValue("crime")
                 If .Law Then AddAndLogNewParamWithAYesValue("law")
                 If .Military Then AddAndLogNewParamWithAYesValue("military")
@@ -381,11 +394,16 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk
                 If .Politics Then AddAndLogNewParamWithAYesValue("politics")
             End With
         End Sub
-        Protected Overrides Sub TemplateFound()
-            ' Nothing to do here
+        Protected Overrides Function TemplateFound() As Boolean
+            If CheckForDoublyNamedParameters("V8", "v8") Then Return True ' tag is bad, exit
+            If CheckForDoublyNamedParameters("nbl", "NBL") Then Return True
+        End Function
+        Protected Overrides Sub GotTemplateNotPreferredName(ByVal TemplateName As String)
         End Sub
-        Protected Overrides Function CreateTemplateHeader(ByRef PutTemplateAtTop As Boolean) As String
-            CreateTemplateHeader = "{{WP Australia" & Microsoft.VisualBasic.vbCrLf & WriteOutClassHeader()
+        Protected Overrides Function WriteTemplateHeader(ByRef PutTemplateAtTop As Boolean) As String
+            WriteTemplateHeader = "{{WP Australia" & _
+               Microsoft.VisualBasic.vbCrLf & WriteOutParameterToHeader("class") & _
+               WriteOutParameterToHeader("importance")
         End Function
 
         'User interface:

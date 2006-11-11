@@ -33,8 +33,11 @@ Partial Class AssessmentComments
         Me.btnSave = New System.Windows.Forms.Button
         Me.Label1 = New System.Windows.Forms.Label
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.LeadButton = New System.Windows.Forms.Button
+        Me.SectionsButton = New System.Windows.Forms.Button
         Me.Label2 = New System.Windows.Forms.Label
         Me.SkipButton = New System.Windows.Forms.Button
+        Me.ToneButton = New System.Windows.Forms.Button
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -52,6 +55,7 @@ Partial Class AssessmentComments
         Me.WebControl1.ScrollDown = True
         Me.WebControl1.Size = New System.Drawing.Size(807, 450)
         Me.WebControl1.TabIndex = 0
+        Me.WebControl1.TimeoutLimit = 30
         Me.WebControl1.WebBrowserShortcutsEnabled = False
         '
         'PictureBox1
@@ -154,12 +158,32 @@ Partial Class AssessmentComments
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(305, 460)
+        Me.Label1.Location = New System.Drawing.Point(362, 460)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(230, 39)
+        Me.Label1.Size = New System.Drawing.Size(174, 52)
         Me.Label1.TabIndex = 32
-        Me.Label1.Text = "Need other boilerplate text items?" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Need customised text items to save in setting" & _
-            "s?" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Let me know."
+        Me.Label1.Text = "Need other boilerplate text items?" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Need customised text items to save" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "in settin" & _
+            "gs?" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Let me know."
+        '
+        'LeadButton
+        '
+        Me.LeadButton.Location = New System.Drawing.Point(281, 460)
+        Me.LeadButton.Name = "LeadButton"
+        Me.LeadButton.Size = New System.Drawing.Size(75, 23)
+        Me.LeadButton.TabIndex = 35
+        Me.LeadButton.Text = "Lead"
+        Me.ToolTip1.SetToolTip(Me.LeadButton, "Lead needs work")
+        Me.LeadButton.UseVisualStyleBackColor = True
+        '
+        'SectionsButton
+        '
+        Me.SectionsButton.Location = New System.Drawing.Point(281, 489)
+        Me.SectionsButton.Name = "SectionsButton"
+        Me.SectionsButton.Size = New System.Drawing.Size(75, 23)
+        Me.SectionsButton.TabIndex = 36
+        Me.SectionsButton.Text = "Sections"
+        Me.ToolTip1.SetToolTip(Me.SectionsButton, "Article needs sections")
+        Me.SectionsButton.UseVisualStyleBackColor = True
         '
         'Label2
         '
@@ -181,11 +205,24 @@ Partial Class AssessmentComments
         Me.SkipButton.Text = "Skip"
         Me.SkipButton.UseVisualStyleBackColor = True
         '
+        'ToneButton
+        '
+        Me.ToneButton.Location = New System.Drawing.Point(281, 518)
+        Me.ToneButton.Name = "ToneButton"
+        Me.ToneButton.Size = New System.Drawing.Size(75, 23)
+        Me.ToneButton.TabIndex = 37
+        Me.ToneButton.Text = "Tone"
+        Me.ToolTip1.SetToolTip(Me.ToneButton, "Article needs enyclopedic tone")
+        Me.ToneButton.UseVisualStyleBackColor = True
+        '
         'AssessmentComments
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(808, 583)
+        Me.Controls.Add(Me.ToneButton)
+        Me.Controls.Add(Me.SectionsButton)
+        Me.Controls.Add(Me.LeadButton)
         Me.Controls.Add(Me.SkipButton)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
@@ -225,4 +262,7 @@ Partial Class AssessmentComments
     Friend WithEvents ToolStripStatusLabel1 As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents SkipButton As System.Windows.Forms.Button
+    Friend WithEvents LeadButton As System.Windows.Forms.Button
+    Friend WithEvents SectionsButton As System.Windows.Forms.Button
+    Friend WithEvents ToneButton As System.Windows.Forms.Button
 End Class

@@ -62,9 +62,10 @@ Partial Class PluginSettingsControl
         Me.Label7 = New System.Windows.Forms.Label
         Me.SkipNoChangesCheckBox = New System.Windows.Forms.CheckBox
         Me.SkipBadTagsCheckBox = New System.Windows.Forms.CheckBox
-        Me.Led1 = New AWB.Plugins.SDKSoftware.Kingbotk.Components.LED
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
         Me.lblAWBNudges = New System.Windows.Forms.Label
+        Me.ResetTimerButton = New System.Windows.Forms.Button
+        Me.Led1 = New AWB.Plugins.SDKSoftware.Kingbotk.Components.LED
         Me.GroupBox4 = New System.Windows.Forms.GroupBox
         Me.PluginMenuStrip = New System.Windows.Forms.MenuStrip
         Me.PluginToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -72,14 +73,12 @@ Partial Class PluginSettingsControl
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
         Me.SetAWBToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.LoadSettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.SaveSettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator
-        Me.BotModeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuAbout = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuHelp = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuHelpReleaseNotes = New System.Windows.Forms.ToolStripMenuItem
         Me.TextInsertContextMenuStrip = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.UniversalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ClassToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.StubClassMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.StartClassMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -107,6 +106,12 @@ Partial Class PluginSettingsControl
         Me.TopPriorityMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator
         Me.NAPriorityMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.WPNovelsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.NovelsWikiProjectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.NovelinfoboxneededToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.NovelinfoboxincompToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ClassListToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.BotTimer = New System.Windows.Forms.Timer(Me.components)
         Me.TimerStats1 = New TimerStats
         Me.AWBGroupBox.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -535,14 +540,6 @@ Partial Class PluginSettingsControl
                 "s, NO for manual editing)")
         Me.SkipBadTagsCheckBox.UseVisualStyleBackColor = True
         '
-        'Led1
-        '
-        Me.Led1.Location = New System.Drawing.Point(9, 318)
-        Me.Led1.Name = "Led1"
-        Me.Led1.Size = New System.Drawing.Size(20, 20)
-        Me.Led1.TabIndex = 43
-        Me.ToolTip1.SetToolTip(Me.Led1, "Green when the plugin is processing article text")
-        '
         'GroupBox1
         '
         Me.GroupBox1.Controls.Add(Me.CategoryTextBox)
@@ -557,13 +554,31 @@ Partial Class PluginSettingsControl
         'lblAWBNudges
         '
         Me.lblAWBNudges.AutoSize = True
-        Me.lblAWBNudges.Location = New System.Drawing.Point(69, 269)
+        Me.lblAWBNudges.Location = New System.Drawing.Point(69, 257)
         Me.lblAWBNudges.Name = "lblAWBNudges"
         Me.lblAWBNudges.Size = New System.Drawing.Size(56, 13)
         Me.lblAWBNudges.TabIndex = 48
         Me.lblAWBNudges.Text = "Nudges: 0"
         Me.ToolTip1.SetToolTip(Me.lblAWBNudges, "Number of times AWB stopped sending articles and got nudged")
         Me.lblAWBNudges.Visible = False
+        '
+        'ResetTimerButton
+        '
+        Me.ResetTimerButton.Location = New System.Drawing.Point(66, 274)
+        Me.ResetTimerButton.Name = "ResetTimerButton"
+        Me.ResetTimerButton.Size = New System.Drawing.Size(69, 23)
+        Me.ResetTimerButton.TabIndex = 49
+        Me.ResetTimerButton.Text = "Reset"
+        Me.ToolTip1.SetToolTip(Me.ResetTimerButton, "Reset the timer")
+        Me.ResetTimerButton.UseVisualStyleBackColor = True
+        '
+        'Led1
+        '
+        Me.Led1.Location = New System.Drawing.Point(9, 318)
+        Me.Led1.Name = "Led1"
+        Me.Led1.Size = New System.Drawing.Size(20, 20)
+        Me.Led1.TabIndex = 43
+        Me.ToolTip1.SetToolTip(Me.Led1, "Green when the plugin is processing article text")
         '
         'GroupBox4
         '
@@ -589,7 +604,7 @@ Partial Class PluginSettingsControl
         '
         'PluginToolStripMenuItem
         '
-        Me.PluginToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LoggingToolStripMenuItem, Me.ToolStripMenuItem1, Me.ToolStripSeparator2, Me.SetAWBToolStripMenuItem, Me.LoadSettingsToolStripMenuItem, Me.SaveSettingsToolStripMenuItem, Me.ToolStripSeparator3, Me.BotModeToolStripMenuItem})
+        Me.PluginToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LoggingToolStripMenuItem, Me.ToolStripMenuItem1, Me.ToolStripSeparator2, Me.SetAWBToolStripMenuItem, Me.ToolStripSeparator3})
         Me.PluginToolStripMenuItem.Name = "PluginToolStripMenuItem"
         Me.PluginToolStripMenuItem.Size = New System.Drawing.Size(91, 20)
         Me.PluginToolStripMenuItem.Text = "Kingbotk Plugin"
@@ -599,6 +614,7 @@ Partial Class PluginSettingsControl
         Me.LoggingToolStripMenuItem.Name = "LoggingToolStripMenuItem"
         Me.LoggingToolStripMenuItem.Size = New System.Drawing.Size(155, 22)
         Me.LoggingToolStripMenuItem.Text = "Logging"
+        Me.LoggingToolStripMenuItem.ToolTipText = "Configure the plugin's logging feature"
         '
         'ToolStripMenuItem1
         '
@@ -617,30 +633,12 @@ Partial Class PluginSettingsControl
         Me.SetAWBToolStripMenuItem.Name = "SetAWBToolStripMenuItem"
         Me.SetAWBToolStripMenuItem.Size = New System.Drawing.Size(155, 22)
         Me.SetAWBToolStripMenuItem.Text = "Set AWB"
-        '
-        'LoadSettingsToolStripMenuItem
-        '
-        Me.LoadSettingsToolStripMenuItem.Name = "LoadSettingsToolStripMenuItem"
-        Me.LoadSettingsToolStripMenuItem.Size = New System.Drawing.Size(155, 22)
-        Me.LoadSettingsToolStripMenuItem.Text = "Load settings"
-        '
-        'SaveSettingsToolStripMenuItem
-        '
-        Me.SaveSettingsToolStripMenuItem.Name = "SaveSettingsToolStripMenuItem"
-        Me.SaveSettingsToolStripMenuItem.Size = New System.Drawing.Size(155, 22)
-        Me.SaveSettingsToolStripMenuItem.Text = "Save settings"
+        Me.SetAWBToolStripMenuItem.ToolTipText = "Reset AWB to default values suitable for use with the plugin"
         '
         'ToolStripSeparator3
         '
         Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
         Me.ToolStripSeparator3.Size = New System.Drawing.Size(152, 6)
-        '
-        'BotModeToolStripMenuItem
-        '
-        Me.BotModeToolStripMenuItem.Enabled = False
-        Me.BotModeToolStripMenuItem.Name = "BotModeToolStripMenuItem"
-        Me.BotModeToolStripMenuItem.Size = New System.Drawing.Size(155, 22)
-        Me.BotModeToolStripMenuItem.Text = "Bot mode"
         '
         'MenuAbout
         '
@@ -662,9 +660,16 @@ Partial Class PluginSettingsControl
         '
         'TextInsertContextMenuStrip
         '
-        Me.TextInsertContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ClassToolStripMenuItem, Me.ImportanceToolStripMenuItem, Me.PriorityToolStripMenuItem})
+        Me.TextInsertContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UniversalToolStripMenuItem, Me.WPNovelsToolStripMenuItem})
         Me.TextInsertContextMenuStrip.Name = "EditBoxContextMenuStrip"
-        Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(130, 70)
+        Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(153, 70)
+        '
+        'UniversalToolStripMenuItem
+        '
+        Me.UniversalToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ClassToolStripMenuItem, Me.ImportanceToolStripMenuItem, Me.PriorityToolStripMenuItem})
+        Me.UniversalToolStripMenuItem.Name = "UniversalToolStripMenuItem"
+        Me.UniversalToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.UniversalToolStripMenuItem.Text = "Universal"
         '
         'ClassToolStripMenuItem
         '
@@ -828,6 +833,41 @@ Partial Class PluginSettingsControl
         Me.NAPriorityMenuItem.Size = New System.Drawing.Size(141, 22)
         Me.NAPriorityMenuItem.Text = "Not applicable"
         '
+        'WPNovelsToolStripMenuItem
+        '
+        Me.WPNovelsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NovelsWikiProjectToolStripMenuItem, Me.NovelinfoboxneededToolStripMenuItem, Me.NovelinfoboxincompToolStripMenuItem, Me.ClassListToolStripMenuItem})
+        Me.WPNovelsToolStripMenuItem.Name = "WPNovelsToolStripMenuItem"
+        Me.WPNovelsToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.WPNovelsToolStripMenuItem.Text = "WPNovels"
+        '
+        'NovelsWikiProjectToolStripMenuItem
+        '
+        Me.NovelsWikiProjectToolStripMenuItem.Name = "NovelsWikiProjectToolStripMenuItem"
+        Me.NovelsWikiProjectToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
+        Me.NovelsWikiProjectToolStripMenuItem.Text = "{{NovelsWikiProject}}"
+        '
+        'NovelinfoboxneededToolStripMenuItem
+        '
+        Me.NovelinfoboxneededToolStripMenuItem.Name = "NovelinfoboxneededToolStripMenuItem"
+        Me.NovelinfoboxneededToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
+        Me.NovelinfoboxneededToolStripMenuItem.Text = "{{Novelinfoboxneeded}}"
+        '
+        'NovelinfoboxincompToolStripMenuItem
+        '
+        Me.NovelinfoboxincompToolStripMenuItem.Name = "NovelinfoboxincompToolStripMenuItem"
+        Me.NovelinfoboxincompToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
+        Me.NovelinfoboxincompToolStripMenuItem.Text = "{{Novelinfoboxincomp}}"
+        '
+        'ClassListToolStripMenuItem
+        '
+        Me.ClassListToolStripMenuItem.Name = "ClassListToolStripMenuItem"
+        Me.ClassListToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
+        Me.ClassListToolStripMenuItem.Text = "class=List"
+        '
+        'BotTimer
+        '
+        Me.BotTimer.Interval = 600000
+        '
         'TimerStats1
         '
         Me.TimerStats1.Location = New System.Drawing.Point(5, 250)
@@ -841,9 +881,10 @@ Partial Class PluginSettingsControl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.Controls.Add(Me.lblAWBNudges)
+        Me.Controls.Add(Me.ResetTimerButton)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.PluginMenuStrip)
+        Me.Controls.Add(Me.lblAWBNudges)
         Me.Controls.Add(Me.TimerStats1)
         Me.Controls.Add(Me.SkipNoChangesCheckBox)
         Me.Controls.Add(Me.GroupBox4)
@@ -912,12 +953,9 @@ Partial Class PluginSettingsControl
     Friend WithEvents LoggingToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents SetAWBToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents LoadSettingsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents SaveSettingsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MenuAbout As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator3 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents BotModeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MenuHelp As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents Led1 As LED
     Friend WithEvents TimerStats1 As TimerStats
@@ -925,33 +963,6 @@ Partial Class PluginSettingsControl
     Friend WithEvents CopyToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents PasteToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents TextInsertContextMenuStrip As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents ClassToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents StubClassMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents StartClassMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents BClassMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents GAClassMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents AClassMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents FAClassMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ImportanceToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents PriorityToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripSeparator4 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents NeededClassMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents CatClassMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents DabClassMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents TemplateClassMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents NAClassMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents LowImportanceMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents MidImportanceMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents HighImportanceMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents TopImportanceMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripSeparator5 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents NAImportanceMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents LowPriorityMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents MidPriorityMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents HighPriorityMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents TopPriorityMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripSeparator6 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents NAPriorityMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MenuHelpReleaseNotes As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents Label7 As System.Windows.Forms.Label
     Friend WithEvents SkipNoChangesCheckBox As System.Windows.Forms.CheckBox
@@ -959,5 +970,40 @@ Partial Class PluginSettingsControl
     Friend WithEvents Label9 As System.Windows.Forms.Label
     Friend WithEvents lblRedlink As System.Windows.Forms.Label
     Friend WithEvents lblAWBNudges As System.Windows.Forms.Label
+    Friend WithEvents ResetTimerButton As System.Windows.Forms.Button
+    Friend WithEvents BotTimer As System.Windows.Forms.Timer
+    Friend WithEvents UniversalToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ClassToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents StubClassMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents StartClassMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents BClassMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents GAClassMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents AClassMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents FAClassMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator4 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents NeededClassMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents CatClassMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DabClassMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents TemplateClassMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents NAClassMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ImportanceToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents LowImportanceMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents MidImportanceMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents HighImportanceMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents TopImportanceMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator5 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents NAImportanceMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents PriorityToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents LowPriorityMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents MidPriorityMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents HighPriorityMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents TopPriorityMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator6 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents NAPriorityMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents WPNovelsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents NovelsWikiProjectToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents NovelinfoboxneededToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents NovelinfoboxincompToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ClassListToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

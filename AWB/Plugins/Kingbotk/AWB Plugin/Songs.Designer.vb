@@ -23,6 +23,10 @@ Partial Class WPSongsSettings
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.StubClassCheckBox = New System.Windows.Forms.CheckBox
         Me.AutoStubCheckBox = New System.Windows.Forms.CheckBox
+        Me.LinkLabel1 = New System.Windows.Forms.LinkLabel
+        Me.TextInsertContextMenuStrip = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.InsertTemplateCallMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.TextInsertContextMenuStrip.SuspendLayout()
         Me.SuspendLayout()
         '
         'StubClassCheckBox
@@ -47,16 +51,40 @@ Partial Class WPSongsSettings
         Me.ToolTip1.SetToolTip(Me.AutoStubCheckBox, "class=Stub|auto=yes")
         Me.AutoStubCheckBox.UseVisualStyleBackColor = True
         '
+        'LinkLabel1
+        '
+        Me.LinkLabel1.AutoSize = True
+        Me.LinkLabel1.Location = New System.Drawing.Point(130, 24)
+        Me.LinkLabel1.Name = "LinkLabel1"
+        Me.LinkLabel1.Size = New System.Drawing.Size(51, 13)
+        Me.LinkLabel1.TabIndex = 8
+        Me.LinkLabel1.TabStop = True
+        Me.LinkLabel1.Text = "{{songs}}"
+        '
+        'TextInsertContextMenuStrip
+        '
+        Me.TextInsertContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.InsertTemplateCallMenuItem})
+        Me.TextInsertContextMenuStrip.Name = "TextInsertContextMenuStrip"
+        Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(153, 48)
+        '
+        'InsertTemplateCallMenuItem
+        '
+        Me.InsertTemplateCallMenuItem.Name = "InsertTemplateCallMenuItem"
+        Me.InsertTemplateCallMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.InsertTemplateCallMenuItem.Text = "{{songs}}"
+        '
         'WPSongsSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me.LinkLabel1)
         Me.Controls.Add(Me.StubClassCheckBox)
         Me.Controls.Add(Me.AutoStubCheckBox)
         Me.MaximumSize = New System.Drawing.Size(276, 349)
         Me.MinimumSize = New System.Drawing.Size(276, 349)
         Me.Name = "WPSongsSettings"
         Me.Size = New System.Drawing.Size(276, 349)
+        Me.TextInsertContextMenuStrip.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -64,5 +92,8 @@ Partial Class WPSongsSettings
     Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
     Friend WithEvents StubClassCheckBox As System.Windows.Forms.CheckBox
     Friend WithEvents AutoStubCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents LinkLabel1 As System.Windows.Forms.LinkLabel
+    Private WithEvents TextInsertContextMenuStrip As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents InsertTemplateCallMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

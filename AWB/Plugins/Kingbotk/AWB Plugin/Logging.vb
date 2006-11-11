@@ -88,7 +88,7 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk.Components
         Public Overridable Sub WriteBulletedLine(ByVal Line As String, ByVal Bold As Boolean, _
         ByVal VerboseOnly As Boolean, Optional ByVal DateStamp As Boolean = False) _
         Implements MyTraceListener.WriteBulletedLine
-            If VerboseOnly And Not mVerbose Then Exit Sub
+            If VerboseOnly AndAlso Not mVerbose Then Exit Sub
         End Sub
         Public MustOverride Sub SkippedArticle(ByVal SkippedBy As String, ByVal Reason As String) _
            Implements MyTraceListener.SkippedArticle
@@ -104,7 +104,7 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk.Components
         End Sub
         Public Sub WriteArticleActionLineVerbose(ByVal Line As String, ByVal PluginName As String, _
         ByVal VerboseOnly As Boolean) Implements MyTraceListener.WriteArticleActionLine
-            If VerboseOnly And Not mVerbose Then Exit Sub
+            If VerboseOnly AndAlso Not mVerbose Then Exit Sub
             WriteArticleActionLine(Line, PluginName)
         End Sub
         Protected Shared Function GetArticleTemplate(ByVal ArticleFullTitle As String, ByVal NS As Namespaces) _
@@ -149,7 +149,7 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk.Components
         End Property
         Friend Sub Initialise(ByVal LogBadPages As Boolean, ByVal LogXHTML As Boolean, _
         ByVal LogWiki As Boolean, ByVal LogVerbose As Boolean, ByVal LogFolder As String)
-            If LogBadPages Or LogXHTML Or LogWiki Then
+            If LogBadPages OrElse LogXHTML OrElse LogWiki Then
                 If Not IO.Directory.Exists(LogFolder) Then LogFolder = Application.StartupPath
 
                 If LogBadPages Then

@@ -28,9 +28,12 @@ Partial Class WPBiographySettings
         Me.LivingCheckBox = New System.Windows.Forms.CheckBox
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.WorkgroupsGroupBox = New System.Windows.Forms.GroupBox
+        Me.SportsCheckBox = New System.Windows.Forms.CheckBox
+        Me.MusiciansCheckBox = New System.Windows.Forms.CheckBox
         Me.BritishRoyaltyCheckBox = New System.Windows.Forms.CheckBox
         Me.PoliticianCheckBox = New System.Windows.Forms.CheckBox
         Me.RoyaltyCheckBox = New System.Windows.Forms.CheckBox
+        Me.ScienceAcademiaCheckBox = New System.Windows.Forms.CheckBox
         Me.MilitaryCheckBox = New System.Windows.Forms.CheckBox
         Me.ArtsEntsCheckBox = New System.Windows.Forms.CheckBox
         Me.ForcePriorityParmCheckBox = New System.Windows.Forms.CheckBox
@@ -44,8 +47,11 @@ Partial Class WPBiographySettings
         Me.ArtsEntertainmentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.BritishRoyaltyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.MilitaryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.MusiciansToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.PoliticsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.RoyaltyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ScienceAcademiaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.SportsGamesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
         Me.AttentionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.InfoboxToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -137,23 +143,48 @@ Partial Class WPBiographySettings
         '
         'WorkgroupsGroupBox
         '
+        Me.WorkgroupsGroupBox.Controls.Add(Me.SportsCheckBox)
+        Me.WorkgroupsGroupBox.Controls.Add(Me.MusiciansCheckBox)
         Me.WorkgroupsGroupBox.Controls.Add(Me.BritishRoyaltyCheckBox)
         Me.WorkgroupsGroupBox.Controls.Add(Me.PoliticianCheckBox)
         Me.WorkgroupsGroupBox.Controls.Add(Me.RoyaltyCheckBox)
+        Me.WorkgroupsGroupBox.Controls.Add(Me.ScienceAcademiaCheckBox)
         Me.WorkgroupsGroupBox.Controls.Add(Me.MilitaryCheckBox)
         Me.WorkgroupsGroupBox.Controls.Add(Me.ArtsEntsCheckBox)
         Me.WorkgroupsGroupBox.Location = New System.Drawing.Point(135, 6)
         Me.WorkgroupsGroupBox.Name = "WorkgroupsGroupBox"
-        Me.WorkgroupsGroupBox.Size = New System.Drawing.Size(121, 132)
+        Me.WorkgroupsGroupBox.Size = New System.Drawing.Size(129, 192)
         Me.WorkgroupsGroupBox.TabIndex = 2
         Me.WorkgroupsGroupBox.TabStop = False
         Me.WorkgroupsGroupBox.Text = "Workgroups"
         Me.ToolTip1.SetToolTip(Me.WorkgroupsGroupBox, "a&e-work-group=yes")
         '
+        'SportsCheckBox
+        '
+        Me.SportsCheckBox.AutoSize = True
+        Me.SportsCheckBox.Location = New System.Drawing.Point(6, 173)
+        Me.SportsCheckBox.Name = "SportsCheckBox"
+        Me.SportsCheckBox.Size = New System.Drawing.Size(94, 17)
+        Me.SportsCheckBox.TabIndex = 9
+        Me.SportsCheckBox.Text = "Sports/Games"
+        Me.ToolTip1.SetToolTip(Me.SportsCheckBox, "sports-work-group=yes")
+        Me.SportsCheckBox.UseVisualStyleBackColor = True
+        '
+        'MusiciansCheckBox
+        '
+        Me.MusiciansCheckBox.AutoSize = True
+        Me.MusiciansCheckBox.Location = New System.Drawing.Point(6, 63)
+        Me.MusiciansCheckBox.Name = "MusiciansCheckBox"
+        Me.MusiciansCheckBox.Size = New System.Drawing.Size(73, 17)
+        Me.MusiciansCheckBox.TabIndex = 8
+        Me.MusiciansCheckBox.Text = "Musicians"
+        Me.ToolTip1.SetToolTip(Me.MusiciansCheckBox, "musician-work-group=yes")
+        Me.MusiciansCheckBox.UseVisualStyleBackColor = True
+        '
         'BritishRoyaltyCheckBox
         '
         Me.BritishRoyaltyCheckBox.AutoSize = True
-        Me.BritishRoyaltyCheckBox.Location = New System.Drawing.Point(6, 65)
+        Me.BritishRoyaltyCheckBox.Location = New System.Drawing.Point(6, 129)
         Me.BritishRoyaltyCheckBox.Name = "BritishRoyaltyCheckBox"
         Me.BritishRoyaltyCheckBox.Size = New System.Drawing.Size(92, 17)
         Me.BritishRoyaltyCheckBox.TabIndex = 6
@@ -164,18 +195,18 @@ Partial Class WPBiographySettings
         'PoliticianCheckBox
         '
         Me.PoliticianCheckBox.AutoSize = True
-        Me.PoliticianCheckBox.Location = New System.Drawing.Point(6, 111)
+        Me.PoliticianCheckBox.Location = New System.Drawing.Point(6, 85)
         Me.PoliticianCheckBox.Name = "PoliticianCheckBox"
-        Me.PoliticianCheckBox.Size = New System.Drawing.Size(68, 17)
+        Me.PoliticianCheckBox.Size = New System.Drawing.Size(73, 17)
         Me.PoliticianCheckBox.TabIndex = 5
-        Me.PoliticianCheckBox.Text = "Politician"
+        Me.PoliticianCheckBox.Text = "Politicians"
         Me.ToolTip1.SetToolTip(Me.PoliticianCheckBox, "politician-work-group=yes")
         Me.PoliticianCheckBox.UseVisualStyleBackColor = True
         '
         'RoyaltyCheckBox
         '
         Me.RoyaltyCheckBox.AutoSize = True
-        Me.RoyaltyCheckBox.Location = New System.Drawing.Point(6, 88)
+        Me.RoyaltyCheckBox.Location = New System.Drawing.Point(6, 107)
         Me.RoyaltyCheckBox.Name = "RoyaltyCheckBox"
         Me.RoyaltyCheckBox.Size = New System.Drawing.Size(61, 17)
         Me.RoyaltyCheckBox.TabIndex = 4
@@ -183,10 +214,21 @@ Partial Class WPBiographySettings
         Me.ToolTip1.SetToolTip(Me.RoyaltyCheckBox, "royalty-work-group=yes")
         Me.RoyaltyCheckBox.UseVisualStyleBackColor = True
         '
+        'ScienceAcademiaCheckBox
+        '
+        Me.ScienceAcademiaCheckBox.AutoSize = True
+        Me.ScienceAcademiaCheckBox.Location = New System.Drawing.Point(6, 151)
+        Me.ScienceAcademiaCheckBox.Name = "ScienceAcademiaCheckBox"
+        Me.ScienceAcademiaCheckBox.Size = New System.Drawing.Size(117, 17)
+        Me.ScienceAcademiaCheckBox.TabIndex = 7
+        Me.ScienceAcademiaCheckBox.Text = "Science/Academia"
+        Me.ToolTip1.SetToolTip(Me.ScienceAcademiaCheckBox, "s&a-work-group=yes")
+        Me.ScienceAcademiaCheckBox.UseVisualStyleBackColor = True
+        '
         'MilitaryCheckBox
         '
         Me.MilitaryCheckBox.AutoSize = True
-        Me.MilitaryCheckBox.Location = New System.Drawing.Point(6, 42)
+        Me.MilitaryCheckBox.Location = New System.Drawing.Point(6, 41)
         Me.MilitaryCheckBox.Name = "MilitaryCheckBox"
         Me.MilitaryCheckBox.Size = New System.Drawing.Size(58, 17)
         Me.MilitaryCheckBox.TabIndex = 3
@@ -220,9 +262,9 @@ Partial Class WPBiographySettings
         'OptionsGroupBox
         '
         Me.OptionsGroupBox.Controls.Add(Me.ForcePriorityParmCheckBox)
-        Me.OptionsGroupBox.Location = New System.Drawing.Point(6, 144)
+        Me.OptionsGroupBox.Location = New System.Drawing.Point(6, 202)
         Me.OptionsGroupBox.Name = "OptionsGroupBox"
-        Me.OptionsGroupBox.Size = New System.Drawing.Size(250, 43)
+        Me.OptionsGroupBox.Size = New System.Drawing.Size(258, 43)
         Me.OptionsGroupBox.TabIndex = 3
         Me.OptionsGroupBox.TabStop = False
         Me.OptionsGroupBox.Text = "Options"
@@ -269,7 +311,7 @@ Partial Class WPBiographySettings
         '
         'ToolStripMenuItem3
         '
-        Me.ToolStripMenuItem3.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ArtsEntertainmentToolStripMenuItem, Me.BritishRoyaltyToolStripMenuItem, Me.MilitaryToolStripMenuItem, Me.PoliticsToolStripMenuItem, Me.RoyaltyToolStripMenuItem})
+        Me.ToolStripMenuItem3.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ArtsEntertainmentToolStripMenuItem, Me.BritishRoyaltyToolStripMenuItem, Me.MilitaryToolStripMenuItem, Me.MusiciansToolStripMenuItem, Me.PoliticsToolStripMenuItem, Me.RoyaltyToolStripMenuItem, Me.ScienceAcademiaToolStripMenuItem, Me.SportsGamesToolStripMenuItem})
         Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
         Me.ToolStripMenuItem3.Size = New System.Drawing.Size(187, 22)
         Me.ToolStripMenuItem3.Text = "Workgroups"
@@ -292,6 +334,12 @@ Partial Class WPBiographySettings
         Me.MilitaryToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
         Me.MilitaryToolStripMenuItem.Text = "Military"
         '
+        'MusiciansToolStripMenuItem
+        '
+        Me.MusiciansToolStripMenuItem.Name = "MusiciansToolStripMenuItem"
+        Me.MusiciansToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
+        Me.MusiciansToolStripMenuItem.Text = "Musicians"
+        '
         'PoliticsToolStripMenuItem
         '
         Me.PoliticsToolStripMenuItem.Name = "PoliticsToolStripMenuItem"
@@ -303,6 +351,18 @@ Partial Class WPBiographySettings
         Me.RoyaltyToolStripMenuItem.Name = "RoyaltyToolStripMenuItem"
         Me.RoyaltyToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
         Me.RoyaltyToolStripMenuItem.Text = "Royalty"
+        '
+        'ScienceAcademiaToolStripMenuItem
+        '
+        Me.ScienceAcademiaToolStripMenuItem.Name = "ScienceAcademiaToolStripMenuItem"
+        Me.ScienceAcademiaToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
+        Me.ScienceAcademiaToolStripMenuItem.Text = "Science/Academia"
+        '
+        'SportsGamesToolStripMenuItem
+        '
+        Me.SportsGamesToolStripMenuItem.Name = "SportsGamesToolStripMenuItem"
+        Me.SportsGamesToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
+        Me.SportsGamesToolStripMenuItem.Text = "Sports/Games"
         '
         'ToolStripSeparator2
         '
@@ -391,9 +451,9 @@ Partial Class WPBiographySettings
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.Controls.Add(Me.LinkLabel1)
         Me.Controls.Add(Me.TipLabel)
-        Me.Controls.Add(Me.OptionsGroupBox)
         Me.Controls.Add(Me.WorkgroupsGroupBox)
         Me.Controls.Add(Me.ParametersGroup)
+        Me.Controls.Add(Me.OptionsGroupBox)
         Me.MaximumSize = New System.Drawing.Size(276, 349)
         Me.MinimumSize = New System.Drawing.Size(276, 349)
         Me.Name = "WPBiographySettings"
@@ -449,5 +509,11 @@ Partial Class WPBiographySettings
     Friend WithEvents ToolStripSeparator3 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents ActivePoliticianToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents WPBiographyToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SportsCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents MusiciansCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents ScienceAcademiaCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents MusiciansToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ScienceAcademiaToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SportsGamesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

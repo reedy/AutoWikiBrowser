@@ -11,6 +11,7 @@ Friend NotInheritable Class GenericTemplateSettings
 
     ' UI:
     Private txtEdit As TextBox
+    Private WithEvents InsertTemplateCallMenuItem As ToolStripMenuItem
 
     ' Enums:
     Friend Enum ImportanceSettingEnum
@@ -186,17 +187,24 @@ Friend NotInheritable Class GenericTemplateSettings
     Public ReadOnly Property TextInsertContextMenuStripItems() As ToolStripItemCollection _
     Implements GenericSettingsClass.TextInsertContextMenuStripItems
         Get
-            Return TextInsertContextMenuStrip.Items
+            Return Nothing ' not used by generic template objects
         End Get
     End Property
     Public WriteOnly Property EditTextBox() As TextBox Implements GenericSettingsClass.EditTextBox
         Set(ByVal value As TextBox)
             txtEdit = value
+            PluginManager.AddItemToTextBoxInsertionContextMenu(InsertTemplateCallMenuItem, txtEdit)
+        End Set
+    End Property
+    Public WriteOnly Property StubClassModeAllowed() As Boolean _
+    Implements GenericSettingsClass.StubClassModeAllowed
+        Set(ByVal value As Boolean)
+            StubClassCheckBox.Enabled = value
         End Set
     End Property
 #End Region
 
-    ' Initialisation:
+    ' Initialisation and goodbye:
     Friend Sub New(ByVal OurPluginName As String)
 
         ' This call is required by the Windows Form Designer.
@@ -204,10 +212,18 @@ Friend NotInheritable Class GenericTemplateSettings
 
         ' Add any initialization after the InitializeComponent() call.
         mName = OurPluginName
+        InsertTemplateCallMenuItem = New ToolStripMenuItem(mName & _
+           " (you haven't entered a template name yet)")
+    End Sub
+    Friend Sub Goodbye()
+        PluginManager.RemoveItemFromTextBoxInsertionContextMenu(InsertTemplateCallMenuItem, txtEdit)
+        txtEdit = Nothing
+        InsertTemplateCallMenuItem.Dispose()
+        InsertTemplateCallMenuItem = Nothing
     End Sub
 
 #Region "XML interface"
-    Public Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader)
+    Public Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader) Implements GenericSettingsClass.ReadXML
         AutoStub = PluginManager.XMLReadBoolean(Reader, conAutoStubParm, AutoStub)
         StubClass = PluginManager.XMLReadBoolean(Reader, conStubClassParm, StubClass)
         TemplateName = PluginManager.XMLReadString(Reader, conTemplateNameParm, TemplateName)
@@ -224,7 +240,7 @@ Friend NotInheritable Class GenericTemplateSettings
         SkipRegexYN = PluginManager.XMLReadBoolean(Reader, conSkipRegexYN, SkipRegexYN)
         SkipRegex = PluginManager.XMLReadString(Reader, conSkipRegex, SkipRegex)
     End Sub
-    Public Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter)
+    Public Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter) Implements GenericSettingsClass.WriteXML
         With Writer
             .WriteAttributeString(conTemplateNameParm, TemplateName)
             .WriteAttributeString(conAutoStubParm, AutoStub.ToString)
@@ -239,7 +255,7 @@ Friend NotInheritable Class GenericTemplateSettings
             .WriteAttributeString(conSkipRegex, SkipRegex)
         End With
     End Sub
-    Public Sub Reset()
+    Public Sub Reset() Implements GenericSettingsClass.XMLReset
         TemplateName = ""
         AutoStub = False
         StubClass = False
@@ -254,13 +270,7 @@ Friend NotInheritable Class GenericTemplateSettings
     End Sub
 #End Region
 
-    Public WriteOnly Property StubClassModeAllowed() As Boolean Implements AWB.Plugins.SDKSoftware.Kingbotk.GenericSettingsClass.StubClassModeAllowed
-        Set(ByVal value As Boolean)
-            StubClassCheckBox.Enabled = value
-        End Set
-    End Property
-
-    ' Event handlers:
+#Region "Event handlers"
     Private Sub LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) _
     Handles LinkLabel1.LinkClicked
         System.Diagnostics.Process.Start( _
@@ -298,12 +308,20 @@ Friend NotInheritable Class GenericTemplateSettings
     Handles SkipRegexCheckBox.CheckedChanged
         SkipRegexTextBox.Enabled = SkipRegexCheckBox.Checked
     End Sub
+    Private Sub TemplateNameTextBox_TextChanged(ByVal sender As Object, ByVal e As EventArgs) _
+    Handles TemplateNameTextBox.TextChanged
+        InsertTemplateCallMenuItem.Text = "{{" & TemplateName & "}}"
+    End Sub
+    Private Sub InsertTemplateCallMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles InsertTemplateCallMenuItem.Click
+        txtEdit.SelectedText = "{{" & TemplateName & "}}"
+    End Sub
+#End Region
 End Class
 
 Namespace AWB.Plugins.SDKSoftware.Kingbotk
     Friend NotInheritable Class GenericTemplatePlugin
         Inherits PluginBase
-        Implements GenericTemplatePluginInterface
+        Implements GenericTemplatePluginInterface, IDisposable
 
         ' Objects:
         Private OurTab As TabPage
@@ -336,12 +354,14 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk
             AddHandler OurSettingsControl.AlternateNamesTextBox.TextChanged, AddressOf Me.TemplateNamesChanged
             AddHandler OurSettingsControl.PropertiesButton.Click, AddressOf Me.PropertiesButtonClick
         End Sub
-        Protected Friend Overrides Sub Initialise(ByVal AWBPluginsMenu As ToolStripMenuItem, ByVal txt As TextBox)
+        Protected Friend Overrides Sub Initialise(ByVal AWBPluginsMenu As ToolStripMenuItem, _
+        ByVal txt As TextBox)
             OurMenuItem = New ToolStripMenuItem(conPluginShortName)
             MyBase.InitialiseBase(AWBPluginsMenu, txt) ' must set menu item object first
             OurTab.UseVisualStyleBackColor = True
             OurSettingsControl.Reset()
             OurTab.Controls.Add(OurSettingsControl)
+            DeleteMeMenuItem.ToolTipText = "Delete the " & conPluginShortName & " plugin"
             OurMenuItem.DropDownItems.Add(DeleteMeMenuItem)
         End Sub
 
@@ -373,9 +393,9 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk
         Protected Overrides Sub ImportanceParameter(ByVal Importance As Importance)
             Select Case OurSettingsControl.ImportanceSetting
                 Case GenericTemplateSettings.ImportanceSettingEnum.Imp
-                    Template.NewOrReplaceTemplateParm("importance", Importance.ToString, Me.Article, False)
+                    Template.NewOrReplaceTemplateParm("importance", Importance.ToString, Me.Article, False, False)
                 Case GenericTemplateSettings.ImportanceSettingEnum.Pri
-                    Template.NewOrReplaceTemplateParm("priority", Importance.ToString, Me.Article, False)
+                    Template.NewOrReplaceTemplateParm("priority", Importance.ToString, Me.Article, False, False)
                     ' Case GenericTemplateSettings.ImportanceSettingEnum.None ' do nothing
             End Select
         End Sub
@@ -426,19 +446,27 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk
                 End Try
             End If
         End Function
-        Protected Overrides Sub TemplateFound()
+        Protected Overrides Function TemplateFound() As Boolean
             ' Nothing to do here
+        End Function
+        Protected Overrides Sub GotTemplateNotPreferredName(ByVal TemplateName As String)
         End Sub
-        Protected Overrides Function CreateTemplateHeader(ByRef PutTemplateAtTop As Boolean) As String
-            CreateTemplateHeader = "{{" & PreferredTemplateNameWiki & WriteOutClassHeader()
+        Protected Overrides Function WriteTemplateHeader(ByRef PutTemplateAtTop As Boolean) As String
+            WriteTemplateHeader = "{{" & PreferredTemplateNameWiki & WriteOutParameterToHeader("class")
+
+            Select Case OurSettingsControl.ImportanceSetting
+                Case GenericTemplateSettings.ImportanceSettingEnum.Imp
+                    WriteTemplateHeader += WriteOutParameterToHeader("importance")
+                Case GenericTemplateSettings.ImportanceSettingEnum.Pri
+                    WriteTemplateHeader += WriteOutParameterToHeader("priority")
+            End Select
         End Function
         Protected Overrides Sub ProcessArticleFinish()
             StubClass()
         End Sub
-
         Private Function PreferredTemplateNameWikiMatchEvaluator(ByVal match As Match) As String
-            Return "[" & match.Groups("first").Value.ToUpper & match.Groups("first").Value.ToLower & "]" & _
-               match.Groups("second").Value
+            Return "^[" & match.Groups("first").Value.ToUpper & match.Groups("first").Value.ToLower & "]" & _
+               match.Groups("second").Value & "$"
         End Function
 
         'User interface:
@@ -461,21 +489,6 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk
         End Sub
 
         ' Our interface:
-        Friend Sub Goodbye(ByVal AWBPluginsMenu As ToolStripMenuItem) Implements GenericTemplatePluginInterface.Goodbye
-            ShowHideOurObjects(False)
-            AWBPluginsMenu.DropDownItems.Remove(OurMenuItem)
-            OurMenuItem = Nothing
-            Manager = Nothing
-            Article = Nothing
-            Template = Nothing
-            MainRegex = Nothing
-            SecondChanceRegex = Nothing
-            PreferredTemplateNameRegex = Nothing
-            OurTab = Nothing
-            OurSettingsControl = Nothing
-            DeleteMeMenuItem = Nothing
-            SkipRegex = Nothing
-        End Sub
         Friend ReadOnly Property GenericTemplateKey() As String _
         Implements GenericTemplatePluginInterface.GenericTemplateKey
             Get
@@ -486,7 +499,7 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk
         ' Settings control event handlers:
         Private Sub SkipRegexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
             With OurSettingsControl
-                If .SkipRegexYN = False Or .SkipRegex = "" Then
+                If .SkipRegexYN = False OrElse .SkipRegex = "" Then
                     SkipRegex = Nothing
                 Else
                     SkipRegex = New Regex(.SkipRegex, RegexOptions.IgnoreCase Or RegexOptions.Compiled)
@@ -506,7 +519,7 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk
                     PreferredTemplateNameRegex = Nothing
                     SecondChanceRegex = Nothing
                 Else
-                    If .HasAlternateNames And Not .AlternateNames = "" Then
+                    If .HasAlternateNames AndAlso Not .AlternateNames = "" Then
                         RegexpMiddle = .TemplateName & "|" & .AlternateNames
                         PreferredTemplateNameRegex = New Regex( _
                            PreferredTemplateNameRegexCreator.Replace(PreferredTemplateNameWiki, _
@@ -601,13 +614,70 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk
         Protected Overrides Sub InspectUnsetParameter(ByVal Param As String)
         End Sub ' will never be called
 
+#Region "IDisposable"
+        Private disposed As Boolean = False  ' To detect redundant calls
+
+        ' This procedure is where the actual cleanup occurs
+        Private Sub Dispose(ByVal disposing As Boolean, ByVal AWBPluginsMenu As ToolStripMenuItem)
+            ' Exit now if the object has already been disposed
+            If disposed Then Exit Sub
+
+            If disposing Then
+                ' The object is being disposed, not finalized.
+                ' It is safe to access other objects (other than the mybase object)
+                ' only from inside this block
+                PluginSettingsControl.MyTrace.WriteBulletedLine("Generic template """ & OurName & _
+                   """ finalized.", True, True, True)
+                RemoveHandler OurSettingsControl.SkipRegexCheckBox.CheckedChanged, AddressOf Me.SkipRegexChanged
+                RemoveHandler OurSettingsControl.SkipRegexTextBox.TextChanged, AddressOf Me.SkipRegexChanged
+                RemoveHandler OurSettingsControl.TemplateNameTextBox.TextChanged, AddressOf Me.TemplateNamesChanged
+                RemoveHandler OurSettingsControl.AlternateNamesCheckBox.CheckedChanged, AddressOf Me.TemplateNamesChanged
+                RemoveHandler OurSettingsControl.AlternateNamesTextBox.TextChanged, AddressOf Me.TemplateNamesChanged
+                RemoveHandler OurSettingsControl.PropertiesButton.Click, AddressOf Me.PropertiesButtonClick
+                ShowHideOurObjects(False)
+                OurSettingsControl.Goodbye()
+                OurSettingsControl.Dispose()
+
+                If Not AWBPluginsMenu Is Nothing Then AWBPluginsMenu.DropDownItems.Remove(OurMenuItem)
+            End If
+
+            ' Perform cleanup that has to be executed in either case:
+            OurMenuItem = Nothing
+            Manager = Nothing
+            Article = Nothing
+            Template = Nothing
+            MainRegex = Nothing
+            SecondChanceRegex = Nothing
+            PreferredTemplateNameRegex = Nothing
+            OurTab = Nothing
+            OurSettingsControl = Nothing
+            DeleteMeMenuItem = Nothing
+            SkipRegex = Nothing
+
+            ' Remember that this object has been disposed of:
+            Me.disposed = True
+        End Sub
+
+        Friend Sub Dispose(ByVal AWBPluginsMenu As ToolStripMenuItem) _
+        Implements GenericTemplatePluginInterface.Goodbye
+            Debug.WriteLine("Disposing of generic plugin " & OurName)
+            ' Execute the code that does the cleanup.
+            Dispose(True, AWBPluginsMenu)
+            ' Let the CLR know that Finalize doesn't have to be called.
+            GC.SuppressFinalize(Me)
+        End Sub
+
+        Public Sub Dispose() Implements IDisposable.Dispose
+            Dispose(Nothing)
+        End Sub
+
         Protected Overrides Sub Finalize()
             MyBase.Finalize()
-
-            On Error Resume Next
-            PluginSettingsControl.MyTrace.WriteBulletedLine("Generic template """ & OurName & """ finalized.", _
-               True, True, True)
+            Debug.WriteLine("Finalizing generic plugin " & OurName)
+            ' Execute the code that does the cleanup.
+            Dispose(False, Nothing)
         End Sub
+#End Region
     End Class
 
     Friend Interface GenericTemplatePluginInterface

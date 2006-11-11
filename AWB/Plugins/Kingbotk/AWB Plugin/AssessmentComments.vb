@@ -104,4 +104,13 @@ Friend NotInheritable Class AssessmentComments
     Private Sub CopyeditButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CopyeditButton.Click
         AddLine("The article would benefit from copyediting")
     End Sub
+    Private Sub LeadButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LeadButton.Click
+        AddLine("Expand the lead per [[WP:LEAD]]")
+    End Sub
+    Private Sub SectionsButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SectionsButton.Click
+        AddLine("Add appropriate section headings per [[WP:MOS]]")
+    End Sub
+    Private Sub ToneButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToneButton.Click
+        AddLine("The article needs to be written in an enyclopedic tone")
+    End Sub
 End Class
