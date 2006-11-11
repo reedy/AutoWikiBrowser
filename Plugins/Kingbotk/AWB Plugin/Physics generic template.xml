@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Settings program="AWB" schema="2">
+  <Project>
+    <projectlang proj="wikipedia" lang="en" />
+  </Project>
+  <Options>
+    <selectsource index="0" text="" />
+    <general general="False" tagger="False" unicodifyer="False" />
+    <categorisation index="0" text="" />
+    <skip does="False" doesnot="False" regex="False" casesensitive="False" doestext="" doesnottext="" moreindex="0" />
+    <message enabled="False" text="" append="True" />
+    <automode delay="1" quicksave="True" suppresstag="True" />
+    <imager index="0" replace="" with="" />
+  </Options>
+  <regextypofix>
+    <regextypofixproperties enabled="False" skipnofixed="False" />
+  </regextypofix>
+  <FindAndReplaceSettings>
+    <findandreplacesettings enabled="False" ignorenofar="True" ignoretext="False" appendsummary="True" afterotherfixes="False" />
+  </FindAndReplaceSettings>
+  <FindAndReplace>
+    <replacerules enabled="False">
+      <rule name="Rule" type="0" enabled="True" />
+    </replacerules>
+  </FindAndReplace>
+  <startoptions>
+    <summary text="clean up" />
+    <summary text="re-categorisation per [[WP:CFD|CFD]]" />
+    <summary text="clean up and  re-categorisation per [[WP:CFD|CFD]]" />
+    <summary text="removing category per [[WP:CFD|CFD]]" />
+    <summary text="[[Wikipedia:Template substitution|subst:'ing]]" />
+    <summary text="stub sorting" />
+    <summary text="[[WP:AWB/T|Typo fixing]]" />
+    <summary text="bad link repair.  [[Wikipedia:Bad links|You can help!]]" />
+    <summary text="Fixing [[Wikipedia:Disambiguation pages with links|links to disambiguation pages]]" />
+    <summary text="Unicodifying" />
+    <summary text="use by-date category" />
+    <summary text="Tagging" />
+    <summaryindex index="Tagging" />
+    <find text="" regex="False" casesensitive="False" />
+    <menu>
+      <wordwrap enabled="True" />
+      <toolbar enabled="False" />
+      <bypass enabled="True" />
+      <ingnorenonexistent enabled="False" />
+      <noautochanges enabled="False" />
+      <skipnochanges enabled="False" />
+      <preview enabled="False" />
+      <minor enabled="False" />
+      <watch enabled="False" />
+      <timer enabled="False" />
+      <sortinterwiki enabled="True" />
+      <addignoredtolog enabled="False" />
+    </menu>
+    <plugins>
+      <Kingbotk_Plugin ShowHideTabs="True" ShowManualAssessmentsInstructions="True" CategoryName="" ManuallyAssess="False" Cleanup="False" LogBadPages="True" LogFolder="F:\Work\Programming\awb2\AWB\AWB\bin\Debug" LogVerbose="True" LogWiki="True" LogXHTML="False" SkipBadTags="False" SkipWhenNoChange="False" AlwaysLeaveAComment="False" AusEnabled="False" AusSport="False" AusPolitics="False" AusPlace="False" AusMilitary="False" AusLaw="False" AusCrime="False" AusV8="False" AusNRL="False" AusALeague="False" AusAFL="False" AusSydney="False" AusPerth="False" AusMelb="False" AusLakeM="False" AusHobart="False" AusGee="False" AusCanb="False" AusBris="False" AusAdel="False" AusAutoStub="False" AusStubClass="False" MilHistEnabled="False" MilHistWWII="False" MilHistWWI="False" MilHistWeapon="False" MilHistUS="False" MilHistPoland="False" MilHistNapol="False" MilHistMidAges="False" MilHistMemorial="False" MilHistMarit="False" MilHistJapan="False" MilHistItaly="False" MilHistIndia="False" MilHistGerman="False" MilHistFrench="False" MilHistDutch="False" MilHistClassic="False" MilHistChina="False" MilHistCanuck="False" MilHistBrit="False" MilHistAir="False" MilHistAus="False" MilHistAncNE="False" MilHistACW="False" MilHistStubClass="False" MilHistAutoStub="False" MilHistRmImportance="False" BioEnabled="False" BioLivingPerson="False" BioAutoStub="False" BioStubClass="False" BioActivePol="False" BioArtsEntsWG="False" BioMilitaryWG="False" BioRoyaltyWG="False" BioPoliticianWG="False" BioForcePriorityParm="False" BioBritishRoyaltyWG="False" BioNonBio="False" PhysicsGenericEnabled="True" PhysicsGenericTemplateName="Physics" PhysicsGenericAutoStub="False" PhysicsGenericStubClass="False" PhysicsGenericTemplateAlternateNamesYN="False" PhysicsGenericTemplateAlternateNames="" PhysicsGenericTemplateImp="Imp" PhysicsGenericTemplateCats="True" PhysicsGenericTemplateTempl="True" PhysicsGenericTemplateAutoStubYN="True" PhysicsGenericSkipRegexYN="False" PhysicsGenericSkipRegex="" GenericTemplatesCount="1" GenericTemplate0="Physics" />
+    </plugins>
+  </startoptions>
+  <pastemore>
+    <pastemore1 text="" />
+    <pastemore2 text="" />
+    <pastemore3 text="" />
+    <pastemore4 text="" />
+    <pastemore5 text="" />
+    <pastemore6 text="" />
+    <pastemore7 text="" />
+    <pastemore8 text="" />
+    <pastemore9 text="" />
+    <pastemore10 text="" />
+  </pastemore>
+  <preferences>
+    <preferencevalues enhancediff="True" scrolldown="True" difffontsize="150" textboxfontsize="10" textboxfont="Courier New" lowthreadpriority="False" flashandbeep="True" />
+  </preferences>
+</Settings>

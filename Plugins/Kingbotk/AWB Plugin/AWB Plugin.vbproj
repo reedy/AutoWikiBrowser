@@ -34,12 +34,16 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="WikiFunctions, Version=3.0.2.7, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>T:\Downloads\Net\AWB\Latest AWB build\WikiFunctions.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -55,6 +59,7 @@
     <Import Include="System.Diagnostics" />
     <Import Include="System.Text.RegularExpressions" />
     <Import Include="System.Windows.Forms" />
+    <Import Include="System.Xml" />
     <Import Include="WikiFunctions" />
     <Import Include="WikiFunctions.Browser" />
     <Import Include="WikiFunctions.DatabaseScanner" />
@@ -71,9 +76,74 @@
     <Compile Include="AboutBox.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OtherObjects.vb" />
+    <Compile Include="Albums.Designer.vb">
+      <DependentUpon>Albums.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Albums.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AssessmentComments.Designer.vb">
+      <DependentUpon>AssessmentComments.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AssessmentComments.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AssessmentForm.Designer.vb">
+      <DependentUpon>AssessmentForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AssessmentForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AssessmentsClass.vb" />
+    <Compile Include="Australia.Designer.vb">
+      <DependentUpon>Australia.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Australia.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Bio.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Generic.Designer.vb">
+      <DependentUpon>Generic.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Generic.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GenericTemplateProperties.Designer.vb">
+      <DependentUpon>GenericTemplateProperties.vb</DependentUpon>
+    </Compile>
+    <Compile Include="GenericTemplateProperties.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LED.Designer.vb">
+      <DependentUpon>LED.vb</DependentUpon>
+    </Compile>
+    <Compile Include="LED.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Logging.Designer.vb">
+      <DependentUpon>Logging.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Logging.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ManualAssessmentsInstructionsDialog.Designer.vb">
+      <DependentUpon>ManualAssessmentsInstructionsDialog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ManualAssessmentsInstructionsDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Article.vb" />
     <Compile Include="Enums.vb" />
-    <Compile Include="Plugin.vb" />
+    <Compile Include="MilHist.Designer.vb">
+      <DependentUpon>MilHist.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MilHist.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PluginBase.vb" />
+    <Compile Include="PluginManager.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -95,10 +165,22 @@
     <Compile Include="PluginSettings.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="WPBioSettings.Designer.vb">
-      <DependentUpon>WPBioSettings.vb</DependentUpon>
+    <Compile Include="SettingsControlBase.Designer.vb">
+      <DependentUpon>SettingsControlBase.vb</DependentUpon>
     </Compile>
-    <Compile Include="WPBioSettings.vb">
+    <Compile Include="SettingsControlBase.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Songs.Designer.vb">
+      <DependentUpon>Songs.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Songs.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TimerStats.Designer.vb">
+      <DependentUpon>TimerStats.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TimerStats.vb">
       <SubType>UserControl</SubType>
     </Compile>
   </ItemGroup>
@@ -106,6 +188,50 @@
     <EmbeddedResource Include="AboutBox.resx">
       <SubType>Designer</SubType>
       <DependentUpon>AboutBox.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Albums.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Albums.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AssessmentComments.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>AssessmentComments.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AssessmentForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>AssessmentForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Australia.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Australia.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bio.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Bio.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Generic.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Generic.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GenericTemplateProperties.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>GenericTemplateProperties.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LED.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>LED.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Logging.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Logging.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ManualAssessmentsInstructionsDialog.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ManualAssessmentsInstructionsDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MilHist.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>MilHist.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -117,12 +243,21 @@
       <SubType>Designer</SubType>
       <DependentUpon>PluginSettings.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WPBioSettings.resx">
+    <EmbeddedResource Include="SettingsControlBase.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>WPBioSettings.vb</DependentUpon>
+      <DependentUpon>SettingsControlBase.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Songs.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Songs.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimerStats.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>TimerStats.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -135,6 +270,19 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{94E38DFF-614B-4CBD-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WP1_0_Icon_small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Physics generic template.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Film generic template.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

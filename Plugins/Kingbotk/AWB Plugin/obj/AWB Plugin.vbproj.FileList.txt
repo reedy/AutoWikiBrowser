@@ -3,7 +3,6 @@ obj\Release\AWB Plugin.vbproj.GenerateResource.Cache
 obj\Debug\ResolveAssemblyReference.cache
 obj\Debug\AWB Plugin.vbproj.GenerateResource.Cache
 obj\Release\Resources.resources
-bin\Release\WikiFunctions.dll
 obj\Release\AboutBox.resources
 bin\Release\Kingbotk AWB Plugin.dll
 bin\Release\Kingbotk AWB Plugin.pdb
@@ -11,16 +10,49 @@ bin\Release\Kingbotk AWB Plugin.xml
 obj\Release\Kingbotk AWB Plugin.dll
 obj\Release\Kingbotk AWB Plugin.xml
 obj\Release\Kingbotk AWB Plugin.pdb
-obj\Release\WPBioSettings.resources
 bin\Debug\Kingbotk AWB Plugin.dll
 bin\Debug\Kingbotk AWB Plugin.pdb
 bin\Debug\Kingbotk AWB Plugin.xml
-bin\Debug\WikiFunctions.dll
 obj\Debug\AboutBox.resources
 obj\Debug\Resources.resources
-obj\Debug\WPBioSettings.resources
 obj\Debug\Kingbotk AWB Plugin.dll
 obj\Debug\Kingbotk AWB Plugin.xml
 obj\Debug\Kingbotk AWB Plugin.pdb
-obj\Release\PluginSettings.resources
-obj\Debug\PluginSettings.resources
+bin\Release\Kingbotk AWB Plugin.dll.config
+bin\Debug\Kingbotk AWB Plugin.dll.config
+obj\Debug\Logging.resources
+obj\Release\Logging.resources
+obj\Release\PluginSettingsControl.resources
+obj\Debug\PluginSettingsControl.resources
+obj\Release\AWB.Plugins.SDKSoftware.Kingbotk.Components.LED.resources
+obj\Debug\AWB.Plugins.SDKSoftware.Kingbotk.Components.LED.resources
+obj\Release\TimerStats.resources
+obj\Debug\TimerStats.resources
+obj\Release\ManualAssessmentsInstructionsDialog.resources
+obj\Debug\ManualAssessmentsInstructionsDialog.resources
+obj\Release\AssessmentForm.resources
+obj\Release\AssessmentComments.resources
+obj\Debug\AssessmentComments.resources
+obj\Debug\AssessmentForm.resources
+obj\Debug\AustraliaSettings.resources
+obj\Debug\MilHistSettings.resources
+obj\Release\AustraliaSettings.resources
+obj\Release\MilHistSettings.resources
+obj\Release\GenericTemplateSettings.resources
+obj\Release\GenericTemplatePropertiesForm.resources
+obj\Debug\GenericTemplateSettings.resources
+obj\Debug\GenericTemplatePropertiesForm.resources
+bin\Release\Physics generic template.xml
+bin\Debug\Physics generic template.xml
+bin\Debug\WikiFunctions.dll
+bin\Release\WikiFunctions.dll
+bin\Release\Film generic template.xml
+bin\Debug\Film generic template.xml
+obj\Release\WPAlbumsSettings.resources
+obj\Release\WPSongsSettings.resources
+obj\Release\SettingsControlBase.resources
+obj\Release\AWB.Plugins.SDKSoftware.Kingbotk.Components.WPBiographySettings.resources
+obj\Debug\WPAlbumsSettings.resources
+obj\Debug\AWB.Plugins.SDKSoftware.Kingbotk.Components.WPBiographySettings.resources
+obj\Debug\SettingsControlBase.resources
+obj\Debug\WPSongsSettings.resources
