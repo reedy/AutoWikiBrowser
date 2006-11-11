@@ -63,7 +63,7 @@ Friend NotInheritable Class PluginSettingsControl
             Return ManuallyAssessCheckBox.Checked
         End Get
         Set(ByVal value As Boolean)
-            ManuallyAssessCheckBox.Checked = value
+            Cleanup = value
         End Set
     End Property
     Public Property Cleanup() As Boolean
@@ -141,7 +141,7 @@ Friend NotInheritable Class PluginSettingsControl
     Private Sub LoggingToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) _
     Handles LoggingToolStripMenuItem.Click
         Dim frm As New Logging(Me)
-        If frm.ShowDialog = DialogResult.OK And MyTrace.HaveOpenFile Then
+        If frm.ShowDialog = DialogResult.OK AndAlso MyTrace.HaveOpenFile Then
             MessageBox.Show("Log files are open. Your changes will take affect after restarting AWB.", _
             "Restart AWB", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
@@ -149,14 +149,6 @@ Friend NotInheritable Class PluginSettingsControl
     Private Sub SetAWBToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) _
     Handles SetAWBToolStripMenuItem.Click
         ' TODO: SetAWBToolStripMenuItem_Click - do AWB settings (basically turn everything off)
-    End Sub
-    Private Sub LoadSettingsToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) _
-    Handles LoadSettingsToolStripMenuItem.Click
-        ' TODO: LoadSettingsToolStripMenuItem_Click
-    End Sub
-    Private Sub SaveSettingsToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) _
-    Handles SaveSettingsToolStripMenuItem.Click
-        ' TODO: SaveSettingsToolStripMenuItem_Click
     End Sub
     Private Sub LivingPeopleToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) _
     Handles LivingPeopleToolStripMenuItem.Click
@@ -208,9 +200,13 @@ Friend NotInheritable Class PluginSettingsControl
             SkipNoChangesCheckBox.Enabled = True
         End If
 
+        CleanupCheckBox.Checked = ManuallyAssess
         CleanupCheckBox.Enabled = ManuallyAssess
         MyTrace.WriteBulletedLine(String.Format("Manual assessments mode on: {0}", _
            ManuallyAssess.ToString), True, True, True)
+    End Sub
+    Private Sub ResetTimerButton_Click(ByVal sender As Object, ByVal e As EventArgs) Handles ResetTimerButton.Click
+        TimerStats1.Reset()
     End Sub
 
     ' Event handlers - AWB components (some additionally double-handled in Plugin Manager):
@@ -336,6 +332,18 @@ Friend NotInheritable Class PluginSettingsControl
     End Sub
     Private Sub NAPriorityMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles NAPriorityMenuItem.Click
         txtEdit.SelectedText = "|priority=NA"
+    End Sub
+    Private Sub NovelsWikiProjectToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles NovelsWikiProjectToolStripMenuItem.Click
+        txtEdit.SelectedText = "{{NovelsWikiProject}}"
+    End Sub
+    Private Sub NovelinfoboxneededToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles NovelinfoboxneededToolStripMenuItem.Click
+        txtEdit.SelectedText = "{{Novelinfoboxneeded}}"
+    End Sub
+    Private Sub NovelinfoboxincompToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles NovelinfoboxincompToolStripMenuItem.Click
+        txtEdit.SelectedText = "{{Novelinfoboxincomp}}"
+    End Sub
+    Private Sub NovelsClassListToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles ClassListToolStripMenuItem.Click
+        txtEdit.SelectedText = "|class=List"
     End Sub
 #End Region
 

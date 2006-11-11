@@ -21,13 +21,16 @@ Partial Class MilHistSettings
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Me.TextInsertContextMenuStrip = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.WPMILHISTToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.StubClassCheckBox = New System.Windows.Forms.CheckBox
         Me.NapoleonicCheckBox = New System.Windows.Forms.CheckBox
         Me.AncientNearEastCheckBox = New System.Windows.Forms.CheckBox
         Me.AmericanCivilWarCheckBox = New System.Windows.Forms.CheckBox
+        Me.AutoStubCheckBox = New System.Windows.Forms.CheckBox
+        Me.RemoveImportanceCheckBox = New System.Windows.Forms.CheckBox
         Me.TaskForcesGroupBox = New System.Windows.Forms.GroupBox
-        Me.LinkLabel1 = New System.Windows.Forms.LinkLabel
+        Me.EarlyModernCheckBox = New System.Windows.Forms.CheckBox
         Me.WWIICheckBox = New System.Windows.Forms.CheckBox
         Me.WWICheckBox = New System.Windows.Forms.CheckBox
         Me.WeaponryCheckBox = New System.Windows.Forms.CheckBox
@@ -48,15 +51,22 @@ Partial Class MilHistSettings
         Me.BritishCheckBox = New System.Windows.Forms.CheckBox
         Me.AviationCheckBox = New System.Windows.Forms.CheckBox
         Me.AustralianCheckBox = New System.Windows.Forms.CheckBox
-        Me.TipLabel = New System.Windows.Forms.Label
-        Me.AutoStubCheckBox = New System.Windows.Forms.CheckBox
+        Me.LinkLabel1 = New System.Windows.Forms.LinkLabel
+        Me.TextInsertContextMenuStrip.SuspendLayout()
         Me.TaskForcesGroupBox.SuspendLayout()
         Me.SuspendLayout()
         '
         'TextInsertContextMenuStrip
         '
+        Me.TextInsertContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.WPMILHISTToolStripMenuItem})
         Me.TextInsertContextMenuStrip.Name = "TextInsertContextMenuStrip"
-        Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(61, 4)
+        Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(151, 26)
+        '
+        'WPMILHISTToolStripMenuItem
+        '
+        Me.WPMILHISTToolStripMenuItem.Name = "WPMILHISTToolStripMenuItem"
+        Me.WPMILHISTToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+        Me.WPMILHISTToolStripMenuItem.Text = "{{WPMILHIST}}"
         '
         'StubClassCheckBox
         '
@@ -102,9 +112,31 @@ Partial Class MilHistSettings
         Me.ToolTip1.SetToolTip(Me.AmericanCivilWarCheckBox, "American Civil War")
         Me.AmericanCivilWarCheckBox.UseVisualStyleBackColor = True
         '
+        'AutoStubCheckBox
+        '
+        Me.AutoStubCheckBox.AutoSize = True
+        Me.AutoStubCheckBox.Location = New System.Drawing.Point(196, 44)
+        Me.AutoStubCheckBox.Name = "AutoStubCheckBox"
+        Me.AutoStubCheckBox.Size = New System.Drawing.Size(73, 17)
+        Me.AutoStubCheckBox.TabIndex = 8
+        Me.AutoStubCheckBox.Text = "Auto-Stub"
+        Me.ToolTip1.SetToolTip(Me.AutoStubCheckBox, "class=Stub|auto=yes")
+        Me.AutoStubCheckBox.UseVisualStyleBackColor = True
+        '
+        'RemoveImportanceCheckBox
+        '
+        Me.RemoveImportanceCheckBox.AutoSize = True
+        Me.RemoveImportanceCheckBox.Location = New System.Drawing.Point(196, 66)
+        Me.RemoveImportanceCheckBox.Name = "RemoveImportanceCheckBox"
+        Me.RemoveImportanceCheckBox.Size = New System.Drawing.Size(84, 43)
+        Me.RemoveImportanceCheckBox.TabIndex = 9
+        Me.RemoveImportanceCheckBox.Text = "Force" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "removal of" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "importance="
+        Me.ToolTip1.SetToolTip(Me.RemoveImportanceCheckBox, "Remove importance= parameters forceably")
+        Me.RemoveImportanceCheckBox.UseVisualStyleBackColor = True
+        '
         'TaskForcesGroupBox
         '
-        Me.TaskForcesGroupBox.Controls.Add(Me.LinkLabel1)
+        Me.TaskForcesGroupBox.Controls.Add(Me.EarlyModernCheckBox)
         Me.TaskForcesGroupBox.Controls.Add(Me.WWIICheckBox)
         Me.TaskForcesGroupBox.Controls.Add(Me.WWICheckBox)
         Me.TaskForcesGroupBox.Controls.Add(Me.WeaponryCheckBox)
@@ -135,15 +167,15 @@ Partial Class MilHistSettings
         Me.TaskForcesGroupBox.TabStop = False
         Me.TaskForcesGroupBox.Text = "Task Forces"
         '
-        'LinkLabel1
+        'EarlyModernCheckBox
         '
-        Me.LinkLabel1.AutoSize = True
-        Me.LinkLabel1.Location = New System.Drawing.Point(91, 265)
-        Me.LinkLabel1.Name = "LinkLabel1"
-        Me.LinkLabel1.Size = New System.Drawing.Size(84, 13)
-        Me.LinkLabel1.TabIndex = 8
-        Me.LinkLabel1.TabStop = True
-        Me.LinkLabel1.Text = "{{WPMILHIST}}"
+        Me.EarlyModernCheckBox.AutoSize = True
+        Me.EarlyModernCheckBox.Location = New System.Drawing.Point(100, 261)
+        Me.EarlyModernCheckBox.Name = "EarlyModernCheckBox"
+        Me.EarlyModernCheckBox.Size = New System.Drawing.Size(88, 17)
+        Me.EarlyModernCheckBox.TabIndex = 10
+        Me.EarlyModernCheckBox.Text = "Early-Modern"
+        Me.EarlyModernCheckBox.UseVisualStyleBackColor = True
         '
         'WWIICheckBox
         '
@@ -345,75 +377,67 @@ Partial Class MilHistSettings
         Me.AustralianCheckBox.Text = "Australian"
         Me.AustralianCheckBox.UseVisualStyleBackColor = True
         '
-        'TipLabel
+        'LinkLabel1
         '
-        Me.TipLabel.AutoSize = True
-        Me.TipLabel.Location = New System.Drawing.Point(17, 295)
-        Me.TipLabel.Name = "TipLabel"
-        Me.TipLabel.Size = New System.Drawing.Size(255, 39)
-        Me.TipLabel.TabIndex = 7
-        Me.TipLabel.Text = "Tip: The plugin also adds parameter insertion options" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "to the context menu of the" & _
-            " edit box. Just right" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "click inside the edit box to access them."
-        Me.TipLabel.Visible = False
-        '
-        'AutoStubCheckBox
-        '
-        Me.AutoStubCheckBox.AutoSize = True
-        Me.AutoStubCheckBox.Location = New System.Drawing.Point(196, 45)
-        Me.AutoStubCheckBox.Name = "AutoStubCheckBox"
-        Me.AutoStubCheckBox.Size = New System.Drawing.Size(73, 17)
-        Me.AutoStubCheckBox.TabIndex = 8
-        Me.AutoStubCheckBox.Text = "Auto-Stub"
-        Me.ToolTip1.SetToolTip(Me.AutoStubCheckBox, "class=Stub|auto=yes")
-        Me.AutoStubCheckBox.UseVisualStyleBackColor = True
+        Me.LinkLabel1.AutoSize = True
+        Me.LinkLabel1.Location = New System.Drawing.Point(185, 325)
+        Me.LinkLabel1.Name = "LinkLabel1"
+        Me.LinkLabel1.Size = New System.Drawing.Size(84, 13)
+        Me.LinkLabel1.TabIndex = 8
+        Me.LinkLabel1.TabStop = True
+        Me.LinkLabel1.Text = "{{WPMILHIST}}"
         '
         'MilHistSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me.LinkLabel1)
+        Me.Controls.Add(Me.RemoveImportanceCheckBox)
         Me.Controls.Add(Me.AutoStubCheckBox)
         Me.Controls.Add(Me.StubClassCheckBox)
-        Me.Controls.Add(Me.TipLabel)
         Me.Controls.Add(Me.TaskForcesGroupBox)
         Me.MaximumSize = New System.Drawing.Size(276, 349)
         Me.MinimumSize = New System.Drawing.Size(276, 349)
         Me.Name = "MilHistSettings"
         Me.Size = New System.Drawing.Size(276, 349)
+        Me.TextInsertContextMenuStrip.ResumeLayout(False)
         Me.TaskForcesGroupBox.ResumeLayout(False)
         Me.TaskForcesGroupBox.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents TextInsertContextMenuStrip As System.Windows.Forms.ContextMenuStrip
-    Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
-    Friend WithEvents TaskForcesGroupBox As System.Windows.Forms.GroupBox
-    Friend WithEvents WWIICheckBox As System.Windows.Forms.CheckBox
-    Friend WithEvents WWICheckBox As System.Windows.Forms.CheckBox
-    Friend WithEvents WeaponryCheckBox As System.Windows.Forms.CheckBox
-    Friend WithEvents USCheckBox As System.Windows.Forms.CheckBox
-    Friend WithEvents PolishCheckBox As System.Windows.Forms.CheckBox
-    Friend WithEvents NapoleonicCheckBox As System.Windows.Forms.CheckBox
-    Friend WithEvents MiddleAgesCheckBox As System.Windows.Forms.CheckBox
-    Friend WithEvents MemorialsCheckBox As System.Windows.Forms.CheckBox
-    Friend WithEvents MaritimeCheckBox As System.Windows.Forms.CheckBox
-    Friend WithEvents JapaneseCheckBox As System.Windows.Forms.CheckBox
-    Friend WithEvents ItalianCheckBox As System.Windows.Forms.CheckBox
-    Friend WithEvents IndianCheckBox As System.Windows.Forms.CheckBox
-    Friend WithEvents GermanCheckBox As System.Windows.Forms.CheckBox
-    Friend WithEvents FrenchCheckBox As System.Windows.Forms.CheckBox
-    Friend WithEvents DutchCheckBox As System.Windows.Forms.CheckBox
-    Friend WithEvents ClassicalCheckBox As System.Windows.Forms.CheckBox
-    Friend WithEvents ChineseCheckBox As System.Windows.Forms.CheckBox
-    Friend WithEvents CanadianCheckBox As System.Windows.Forms.CheckBox
-    Friend WithEvents BritishCheckBox As System.Windows.Forms.CheckBox
-    Friend WithEvents AviationCheckBox As System.Windows.Forms.CheckBox
-    Friend WithEvents AustralianCheckBox As System.Windows.Forms.CheckBox
-    Friend WithEvents AncientNearEastCheckBox As System.Windows.Forms.CheckBox
-    Friend WithEvents AmericanCivilWarCheckBox As System.Windows.Forms.CheckBox
-    Friend WithEvents StubClassCheckBox As System.Windows.Forms.CheckBox
-    Friend WithEvents TipLabel As System.Windows.Forms.Label
-    Friend WithEvents LinkLabel1 As System.Windows.Forms.LinkLabel
-    Friend WithEvents AutoStubCheckBox As System.Windows.Forms.CheckBox
+    Private WithEvents TextInsertContextMenuStrip As System.Windows.Forms.ContextMenuStrip
+    Private WithEvents ToolTip1 As System.Windows.Forms.ToolTip
+    Private WithEvents TaskForcesGroupBox As System.Windows.Forms.GroupBox
+    Private WithEvents WWIICheckBox As System.Windows.Forms.CheckBox
+    Private WithEvents WWICheckBox As System.Windows.Forms.CheckBox
+    Private WithEvents WeaponryCheckBox As System.Windows.Forms.CheckBox
+    Private WithEvents USCheckBox As System.Windows.Forms.CheckBox
+    Private WithEvents PolishCheckBox As System.Windows.Forms.CheckBox
+    Private WithEvents NapoleonicCheckBox As System.Windows.Forms.CheckBox
+    Private WithEvents MiddleAgesCheckBox As System.Windows.Forms.CheckBox
+    Private WithEvents MemorialsCheckBox As System.Windows.Forms.CheckBox
+    Private WithEvents MaritimeCheckBox As System.Windows.Forms.CheckBox
+    Private WithEvents JapaneseCheckBox As System.Windows.Forms.CheckBox
+    Private WithEvents ItalianCheckBox As System.Windows.Forms.CheckBox
+    Private WithEvents IndianCheckBox As System.Windows.Forms.CheckBox
+    Private WithEvents GermanCheckBox As System.Windows.Forms.CheckBox
+    Private WithEvents FrenchCheckBox As System.Windows.Forms.CheckBox
+    Private WithEvents DutchCheckBox As System.Windows.Forms.CheckBox
+    Private WithEvents ClassicalCheckBox As System.Windows.Forms.CheckBox
+    Private WithEvents ChineseCheckBox As System.Windows.Forms.CheckBox
+    Private WithEvents CanadianCheckBox As System.Windows.Forms.CheckBox
+    Private WithEvents BritishCheckBox As System.Windows.Forms.CheckBox
+    Private WithEvents AviationCheckBox As System.Windows.Forms.CheckBox
+    Private WithEvents AustralianCheckBox As System.Windows.Forms.CheckBox
+    Private WithEvents AncientNearEastCheckBox As System.Windows.Forms.CheckBox
+    Private WithEvents AmericanCivilWarCheckBox As System.Windows.Forms.CheckBox
+    Private WithEvents StubClassCheckBox As System.Windows.Forms.CheckBox
+    Private WithEvents LinkLabel1 As System.Windows.Forms.LinkLabel
+    Private WithEvents AutoStubCheckBox As System.Windows.Forms.CheckBox
+    Private WithEvents RemoveImportanceCheckBox As System.Windows.Forms.CheckBox
+    Private WithEvents WPMILHISTToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Private WithEvents EarlyModernCheckBox As System.Windows.Forms.CheckBox
 
 End Class

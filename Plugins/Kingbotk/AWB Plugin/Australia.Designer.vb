@@ -47,6 +47,7 @@ Partial Class AustraliaSettings
         Me.SportCheckBox = New System.Windows.Forms.CheckBox
         Me.TopicsGroupBox = New System.Windows.Forms.GroupBox
         Me.LinkLabel1 = New System.Windows.Forms.LinkLabel
+        Me.NBLCheckBox = New System.Windows.Forms.CheckBox
         Me.ParametersGroup.SuspendLayout()
         Me.TopicsGroupBox.SuspendLayout()
         Me.SuspendLayout()
@@ -195,7 +196,7 @@ Partial Class AustraliaSettings
         '
         Me.AFLCheckBox.AutoSize = True
         Me.AFLCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.AFLCheckBox.Location = New System.Drawing.Point(91, 41)
+        Me.AFLCheckBox.Location = New System.Drawing.Point(165, 41)
         Me.AFLCheckBox.Name = "AFLCheckBox"
         Me.AFLCheckBox.Size = New System.Drawing.Size(45, 17)
         Me.AFLCheckBox.TabIndex = 12
@@ -206,7 +207,7 @@ Partial Class AustraliaSettings
         '
         Me.ALeagueCheckBox.AutoSize = True
         Me.ALeagueCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ALeagueCheckBox.Location = New System.Drawing.Point(91, 63)
+        Me.ALeagueCheckBox.Location = New System.Drawing.Point(165, 63)
         Me.ALeagueCheckBox.Name = "ALeagueCheckBox"
         Me.ALeagueCheckBox.Size = New System.Drawing.Size(72, 17)
         Me.ALeagueCheckBox.TabIndex = 13
@@ -217,7 +218,7 @@ Partial Class AustraliaSettings
         '
         Me.NRLCheckBox.AutoSize = True
         Me.NRLCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.NRLCheckBox.Location = New System.Drawing.Point(91, 85)
+        Me.NRLCheckBox.Location = New System.Drawing.Point(165, 107)
         Me.NRLCheckBox.Name = "NRLCheckBox"
         Me.NRLCheckBox.Size = New System.Drawing.Size(48, 17)
         Me.NRLCheckBox.TabIndex = 14
@@ -228,7 +229,7 @@ Partial Class AustraliaSettings
         '
         Me.V8CheckBox.AutoSize = True
         Me.V8CheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.V8CheckBox.Location = New System.Drawing.Point(91, 107)
+        Me.V8CheckBox.Location = New System.Drawing.Point(165, 129)
         Me.V8CheckBox.Name = "V8CheckBox"
         Me.V8CheckBox.Size = New System.Drawing.Size(39, 17)
         Me.V8CheckBox.TabIndex = 15
@@ -238,7 +239,7 @@ Partial Class AustraliaSettings
         'CrimeCheckBox
         '
         Me.CrimeCheckBox.AutoSize = True
-        Me.CrimeCheckBox.Location = New System.Drawing.Point(91, 129)
+        Me.CrimeCheckBox.Location = New System.Drawing.Point(91, 19)
         Me.CrimeCheckBox.Name = "CrimeCheckBox"
         Me.CrimeCheckBox.Size = New System.Drawing.Size(52, 17)
         Me.CrimeCheckBox.TabIndex = 16
@@ -248,7 +249,7 @@ Partial Class AustraliaSettings
         'LawCheckBox
         '
         Me.LawCheckBox.AutoSize = True
-        Me.LawCheckBox.Location = New System.Drawing.Point(91, 151)
+        Me.LawCheckBox.Location = New System.Drawing.Point(91, 41)
         Me.LawCheckBox.Name = "LawCheckBox"
         Me.LawCheckBox.Size = New System.Drawing.Size(46, 17)
         Me.LawCheckBox.TabIndex = 17
@@ -258,7 +259,7 @@ Partial Class AustraliaSettings
         'MilitaryCheckBox
         '
         Me.MilitaryCheckBox.AutoSize = True
-        Me.MilitaryCheckBox.Location = New System.Drawing.Point(91, 173)
+        Me.MilitaryCheckBox.Location = New System.Drawing.Point(91, 63)
         Me.MilitaryCheckBox.Name = "MilitaryCheckBox"
         Me.MilitaryCheckBox.Size = New System.Drawing.Size(58, 17)
         Me.MilitaryCheckBox.TabIndex = 18
@@ -268,7 +269,7 @@ Partial Class AustraliaSettings
         'PlaceCheckBox
         '
         Me.PlaceCheckBox.AutoSize = True
-        Me.PlaceCheckBox.Location = New System.Drawing.Point(91, 195)
+        Me.PlaceCheckBox.Location = New System.Drawing.Point(91, 85)
         Me.PlaceCheckBox.Name = "PlaceCheckBox"
         Me.PlaceCheckBox.Size = New System.Drawing.Size(53, 17)
         Me.PlaceCheckBox.TabIndex = 19
@@ -278,7 +279,7 @@ Partial Class AustraliaSettings
         'PoliticsCheckBox
         '
         Me.PoliticsCheckBox.AutoSize = True
-        Me.PoliticsCheckBox.Location = New System.Drawing.Point(91, 217)
+        Me.PoliticsCheckBox.Location = New System.Drawing.Point(91, 107)
         Me.PoliticsCheckBox.Name = "PoliticsCheckBox"
         Me.PoliticsCheckBox.Size = New System.Drawing.Size(59, 17)
         Me.PoliticsCheckBox.TabIndex = 20
@@ -288,7 +289,7 @@ Partial Class AustraliaSettings
         'SportCheckBox
         '
         Me.SportCheckBox.AutoSize = True
-        Me.SportCheckBox.Location = New System.Drawing.Point(91, 19)
+        Me.SportCheckBox.Location = New System.Drawing.Point(165, 19)
         Me.SportCheckBox.Name = "SportCheckBox"
         Me.SportCheckBox.Size = New System.Drawing.Size(56, 17)
         Me.SportCheckBox.TabIndex = 21
@@ -297,6 +298,7 @@ Partial Class AustraliaSettings
         '
         'TopicsGroupBox
         '
+        Me.TopicsGroupBox.Controls.Add(Me.NBLCheckBox)
         Me.TopicsGroupBox.Controls.Add(Me.SportCheckBox)
         Me.TopicsGroupBox.Controls.Add(Me.PoliticsCheckBox)
         Me.TopicsGroupBox.Controls.Add(Me.PlaceCheckBox)
@@ -318,7 +320,7 @@ Partial Class AustraliaSettings
         Me.TopicsGroupBox.Controls.Add(Me.AdelaideCheckBox)
         Me.TopicsGroupBox.Location = New System.Drawing.Point(11, 6)
         Me.TopicsGroupBox.Name = "TopicsGroupBox"
-        Me.TopicsGroupBox.Size = New System.Drawing.Size(172, 244)
+        Me.TopicsGroupBox.Size = New System.Drawing.Size(241, 244)
         Me.TopicsGroupBox.TabIndex = 2
         Me.TopicsGroupBox.TabStop = False
         Me.TopicsGroupBox.Text = "Cities && Topics"
@@ -332,6 +334,17 @@ Partial Class AustraliaSettings
         Me.LinkLabel1.TabIndex = 9
         Me.LinkLabel1.TabStop = True
         Me.LinkLabel1.Text = "{{WP Australia}}"
+        '
+        'NBLCheckBox
+        '
+        Me.NBLCheckBox.AutoSize = True
+        Me.NBLCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.NBLCheckBox.Location = New System.Drawing.Point(165, 85)
+        Me.NBLCheckBox.Name = "NBLCheckBox"
+        Me.NBLCheckBox.Size = New System.Drawing.Size(47, 17)
+        Me.NBLCheckBox.TabIndex = 22
+        Me.NBLCheckBox.Text = "NBL"
+        Me.NBLCheckBox.UseVisualStyleBackColor = True
         '
         'AustraliaSettings
         '
@@ -380,5 +393,6 @@ Partial Class AustraliaSettings
     Friend WithEvents SportCheckBox As System.Windows.Forms.CheckBox
     Friend WithEvents TopicsGroupBox As System.Windows.Forms.GroupBox
     Friend WithEvents LinkLabel1 As System.Windows.Forms.LinkLabel
+    Friend WithEvents NBLCheckBox As System.Windows.Forms.CheckBox
 
 End Class

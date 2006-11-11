@@ -44,7 +44,11 @@ obj\Release\GenericTemplateSettings.resources
 obj\Release\GenericTemplatePropertiesForm.resources
 obj\Debug\GenericTemplateSettings.resources
 obj\Debug\GenericTemplatePropertiesForm.resources
-bin\Release\Physics generic template.xml
-bin\Debug\Physics generic template.xml
 bin\Debug\WikiFunctions.dll
 bin\Release\WikiFunctions.dll
+obj\Release\WPAlbumsSettings.resources
+obj\Release\WPSongsSettings.resources
+obj\Debug\WPAlbumsSettings.resources
+obj\Debug\WPSongsSettings.resources
+bin\Debug\AutoWikiBrowser.exe
+bin\Release\AutoWikiBrowser.exe

@@ -18,7 +18,6 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk
         ' Events:
         Event Preview()
         Event StopAWB()
-        Event Skip()
 
         ' Regex:
         Private Shared ReqphotoRegex As New Regex("\{\{\s*(template\s*:\s*|)\s*reqphoto\s*\}\}[\s\n\r]*", _
@@ -66,7 +65,7 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk
             If disposing Then
                 ' The object is being disposed, not finalized.
                 ' It is safe to access other objects (other than the mybase object)
-                ' only frm inside this block
+                ' only from inside this block
                 RemoveHandler PluginSettings.CleanupCheckBox.CheckedChanged, _
                    AddressOf Me.CleanupCheckBox_CheckedChanged
             End If
@@ -106,13 +105,17 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk
         ' Friend methods:
         Friend Sub Reset()
             ToggleAWBCleanup(False)
+
             If listmaker.Count > 0 Then
-                If listmaker.Count > 1 Then _
-                   If listmaker(1).Name = State.strNextTalkPageExpected Then listmaker.RemoveAt(1)
+                If listmaker.Count > 1 AndAlso listmaker(1).Name = State.strNextTalkPageExpected Then _
+                   listmaker.RemoveAt(1)
+
                 If listmaker(0).Name = State.strNextTalkPageExpected Then listmaker.RemoveAt(0)
             End If
+
             PreviewButtonColour(True)
             State = New StateClass
+            ResetUserEditSummary()
         End Sub
         Friend Sub ResetUserEditSummary()
             ' Resets the edit summary back to what the user chose
@@ -135,8 +138,9 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk
             State.blnNextEventShouldBeMainSpace = True
             State.blnNextArticleShouldBeTalk = True
         End Sub
-        Friend Sub ProcessTalkPage(ByVal TheArticle As Article, _
-        ByVal PluginSettings As PluginSettingsControl, ByVal ActivePlugins As List(Of PluginBase))
+        Friend Function ProcessTalkPage(ByVal TheArticle As Article, _
+        ByVal PluginSettings As PluginSettingsControl, ByVal ActivePlugins As List(Of PluginBase)) As Boolean
+
             If Not State.blnNextArticleShouldBeTalk Then
                 IsThisABug("an article")
             ElseIf Not State.strNextTalkPageExpected = TheArticle.FullArticleTitle Then
@@ -148,29 +152,21 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk
 
                 Dim frmDialog As New AssessmentForm
 
-                Dim blnSkipNextTalk As Boolean = Not (frmDialog.ShowDialog(State.Classification, State.Importance, _
+                ProcessTalkPage = (frmDialog.ShowDialog(State.Classification, State.Importance, _
                    State.NeedsInfobox, State.NeedsAttention, State.ShowComments, _
                    PluginSettings.AssessmentsAlwaysLeaveAComment, State.NeedsPhoto, _
                    State.strNextTalkPageExpected) = DialogResult.OK)
 
-                If blnSkipNextTalk Then
-                    RaiseEvent Skip()
-                    blnSkipNextTalk = False
-                    PluginSettings.PluginStats.SkippedMiscellaneousIncrement(True)
-                    PluginManager.StatusText.Text = "Skipping this talk page"
-                    LoadArticle()
-                Else
+                If ProcessTalkPage Then
                     PluginManager.StatusText.Text = "Processing " & TheArticle.FullArticleTitle
 
-                    If State.NeedsPhoto Then
-                        If Not ReqphotoRegex.IsMatch(TheArticle.AlteredArticleText) Then
-                            With TheArticle
-                                .AlteredArticleText = _
-                                   "{{reqphoto}}" & Microsoft.VisualBasic.vbCrLf & .AlteredArticleText
-                                .ArticleHasAMajorChange()
-                            End With
-                            PluginSettingsControl.MyTrace.WriteArticleActionLine1("Added {{reqphoto}}", conMe, True)
-                        End If
+                    If State.NeedsPhoto AndAlso Not ReqphotoRegex.IsMatch(TheArticle.AlteredArticleText) Then
+                        With TheArticle
+                            .AlteredArticleText = _
+                               "{{reqphoto}}" & Microsoft.VisualBasic.vbCrLf & .AlteredArticleText
+                            .ArticleHasAMajorChange()
+                        End With
+                        PluginSettingsControl.MyTrace.WriteArticleActionLine1("Added {{reqphoto}}", conMe, True)
                     End If
 
                     For Each p As PluginBase In ActivePlugins
@@ -179,12 +175,16 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk
                         If TheArticle.PluginManagerGetSkipResults = SkipResults.SkipBadTag Then
                             MessageBox.Show("Bad tag(s), please fix manually.", "Bad tag", MessageBoxButtons.OK, _
                                MessageBoxIcon.Exclamation)
-                            Exit Sub
+                            Exit Function
                         End If
                     Next
-                End If
+                Else
+                    PluginSettings.PluginStats.SkippedMiscellaneousIncrement(False)
+                    PluginManager.StatusText.Text = "Skipping this talk page"
+                    LoadArticle()
             End If
-        End Sub
+            End If
+        End Function
 
         ' Private:
         Private Sub PreviewButtonColour(ByVal Reset As Boolean)
@@ -223,7 +223,7 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk
 
             If PluginSettings.Cleanup Then
                 With EditSummaryBox
-                    If Not (.Text = "clean up" Or .Text = "") Then State.strEditSummary = .Text
+                    If Not (.Text = "clean up" OrElse .Text = "") Then State.strEditSummary = .Text
                     .Text = "clean up"
                 End With
             End If
@@ -243,40 +243,49 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk
         ' UI event handlers:
         Private Sub Save_Click(ByVal sender As Object, ByVal e As EventArgs) _
         Handles AWBSave.Click, OurSave.Click
-            If State.blnNextEventShouldBeMainSpace Then
-                LoadTalkPage()
-            Else
-                LoadArticle()
-            End If
+            If Not disposed Then ' TODO: this is a hack
+                If State.blnNextEventShouldBeMainSpace Then
+                    LoadTalkPage()
+                Else
+                    LoadArticle()
+                End If
 
-            State.blnNextEventShouldBeMainSpace = Not State.blnNextEventShouldBeMainSpace
+                State.blnNextEventShouldBeMainSpace = Not State.blnNextEventShouldBeMainSpace
+            End If
         End Sub
         Private Sub Skip_Click(ByVal sender As Object, ByVal e As EventArgs) _
         Handles AWBSkip.Click, OurSkip.Click
-            If State.blnNextEventShouldBeMainSpace Then
-                LoadTalkPage()
-            Else
-                LoadArticle()
-                PluginSettingsControl.MyTrace.SkippedArticle("User", "User clicked Ignore")
-                PluginSettings.PluginStats.SkippedMiscellaneousIncrement(True)
-            End If
+            If Not disposed Then ' TODO: this is a hack
+                If State.blnNextEventShouldBeMainSpace Then
+                    LoadTalkPage()
+                Else
+                    LoadArticle()
+                    PluginSettingsControl.MyTrace.SkippedArticle("User", "User clicked Ignore")
+                    PluginSettings.PluginStats.SkippedMiscellaneousIncrement(True)
+                End If
 
-            State.blnNextEventShouldBeMainSpace = Not State.blnNextEventShouldBeMainSpace
+                State.blnNextEventShouldBeMainSpace = Not State.blnNextEventShouldBeMainSpace
+            End If
         End Sub
         Private Sub Preview_Click(ByVal sender As Object, ByVal e As EventArgs) _
         Handles AWBPreview.Click, OurPreview.Click
-            PreviewButtonColour(True)
+            If Not disposed Then ' TODO: this is a hack
+                PreviewButtonColour(True)
+            End If
         End Sub
         Private Sub CleanupCheckBox_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs)
-            If PluginSettings.Cleanup And Not webcontrol.Busy Then ToggleAWBCleanup(True)
+            ' TODO: this is a hack
+            If Not disposed AndAlso PluginSettings.Cleanup AndAlso Not webcontrol.Busy Then ToggleAWBCleanup(True)
         End Sub
 
         ' Webcontrol event handlers:
         Private Sub webcontrol_BusyChanged() Handles webcontrol.BusyChanged
-            If webcontrol.Busy Then
-                LoadArticle()
-            Else
-                Reset()
+            If Not disposed Then ' TODO: this is a hack
+                If webcontrol.Busy Then
+                    LoadArticle()
+                Else
+                    Reset()
+                End If
             End If
         End Sub
         'Private Sub webcontrol_Diffed() Handles webcontrol.Diffed
