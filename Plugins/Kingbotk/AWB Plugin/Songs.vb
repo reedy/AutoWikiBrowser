@@ -1,81 +1,81 @@
-' TODO: There's a great deal of common code used in these controls which could be inherited if I can work out how to inherit from and use a custom user control
-Public Class WPSongsSettings
-    Implements GenericSettingsClass
+Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
+    ' TODO: There's a great deal of common code used in these controls which could be inherited if I can work out how to inherit from and use a custom user control
+    Friend NotInheritable Class WPSongsSettings
+        Implements IGenericSettings
 
-    Private Const conAutoStubParm As String = "SongsAutoStub"
-    Private Const conStubClassParm As String = "SongsStubClass"
+        Private Const conAutoStubParm As String = "SongsAutoStub"
+        Private Const conStubClassParm As String = "SongsStubClass"
 
-    ' UI:
-    Private txtEdit As TextBox
+        ' UI:
+        Private txtEdit As TextBox
 
-    ' Properties:
-    Public Property StubClass() As Boolean Implements GenericSettingsClass.StubClass
-        Get
-            Return StubClassCheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            StubClassCheckBox.Checked = value
-        End Set
-    End Property
-    Public Property AutoStub() As Boolean Implements GenericSettingsClass.AutoStub
-        Get
-            Return AutoStubCheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            AutoStubCheckBox.Checked = value
-        End Set
-    End Property
-    WriteOnly Property StubClassModeAllowed() As Boolean Implements GenericSettingsClass.StubClassModeAllowed
-        Set(ByVal value As Boolean)
-            StubClassCheckBox.Enabled = value
-        End Set
-    End Property
-    Public WriteOnly Property EditTextBox() As TextBox Implements GenericSettingsClass.EditTextBox
-        Set(ByVal value As TextBox)
-            txtEdit = value
-        End Set
-    End Property
-    Friend ReadOnly Property TextInsertContextMenuStripItems() As ToolStripItemCollection _
-    Implements GenericSettingsClass.TextInsertContextMenuStripItems
-        Get
-            Return TextInsertContextMenuStrip.Items
-        End Get
-    End Property
+        ' Properties:
+        Public Property StubClass() As Boolean Implements IGenericSettings.StubClass
+            Get
+                Return StubClassCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                StubClassCheckBox.Checked = value
+            End Set
+        End Property
+        Public Property AutoStub() As Boolean Implements IGenericSettings.AutoStub
+            Get
+                Return AutoStubCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                AutoStubCheckBox.Checked = value
+            End Set
+        End Property
+        WriteOnly Property StubClassModeAllowed() As Boolean Implements IGenericSettings.StubClassModeAllowed
+            Set(ByVal value As Boolean)
+                StubClassCheckBox.Enabled = value
+            End Set
+        End Property
+        Public WriteOnly Property EditTextBox() As TextBox Implements IGenericSettings.EditTextBox
+            Set(ByVal value As TextBox)
+                txtEdit = value
+            End Set
+        End Property
+        Friend ReadOnly Property TextInsertContextMenuStripItems() As ToolStripItemCollection _
+        Implements IGenericSettings.TextInsertContextMenuStripItems
+            Get
+                Return TextInsertContextMenuStrip.Items
+            End Get
+        End Property
 
 #Region "XML interface"
-    Public Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader) Implements GenericSettingsClass.ReadXML
-        AutoStub = PluginManager.XMLReadBoolean(Reader, conAutoStubParm, AutoStub)
-        StubClass = PluginManager.XMLReadBoolean(Reader, conStubClassParm, StubClass)
-    End Sub
-    Public Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter) Implements GenericSettingsClass.WriteXML
-        Writer.WriteAttributeString(conAutoStubParm, AutoStub.ToString)
-        Writer.WriteAttributeString(conStubClassParm, StubClass.ToString)
-    End Sub
-    Public Sub Reset() Implements GenericSettingsClass.XMLReset
-        AutoStub = False
-        StubClass = False
-    End Sub
+        Public Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader) Implements IGenericSettings.ReadXML
+            AutoStub = PluginManager.XMLReadBoolean(Reader, conAutoStubParm, AutoStub)
+            StubClass = PluginManager.XMLReadBoolean(Reader, conStubClassParm, StubClass)
+        End Sub
+        Public Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter) Implements IGenericSettings.WriteXML
+            Writer.WriteAttributeString(conAutoStubParm, AutoStub.ToString)
+            Writer.WriteAttributeString(conStubClassParm, StubClass.ToString)
+        End Sub
+        Public Sub Reset() Implements IGenericSettings.XMLReset
+            AutoStub = False
+            StubClass = False
+        End Sub
 #End Region
 
-    ' Event handlers:
-    Private Sub InsertTemplateCallMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles InsertTemplateCallMenuItem.Click
-        txtEdit.SelectedText = "{{songs}}"
-    End Sub
-    Private Sub LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) _
-    Handles LinkLabel1.LinkClicked
-        System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/Template:Songs")
-    End Sub
-    Private Sub AutoStubCheckBox_CheckedChanged(ByVal sender As System.Object, _
-    ByVal e As System.EventArgs) Handles AutoStubCheckBox.CheckedChanged
-        If AutoStubCheckBox.Checked Then StubClassCheckBox.Checked = False
-    End Sub
-    Private Sub StubClassCheckBox_CheckedChanged(ByVal sender As System.Object, _
-    ByVal e As System.EventArgs) Handles StubClassCheckBox.CheckedChanged
-        If StubClassCheckBox.Checked Then AutoStubCheckBox.Checked = False
-    End Sub
-End Class
+        ' Event handlers:
+        Private Sub InsertTemplateCallMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles InsertTemplateCallMenuItem.Click
+            txtEdit.SelectedText = "{{songs}}"
+        End Sub
+        Private Sub LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) _
+        Handles LinkLabel1.LinkClicked
+            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/Template:Songs")
+        End Sub
+        Private Sub AutoStubCheckBox_CheckedChanged(ByVal sender As System.Object, _
+        ByVal e As System.EventArgs) Handles AutoStubCheckBox.CheckedChanged
+            If AutoStubCheckBox.Checked Then StubClassCheckBox.Checked = False
+        End Sub
+        Private Sub StubClassCheckBox_CheckedChanged(ByVal sender As System.Object, _
+        ByVal e As System.EventArgs) Handles StubClassCheckBox.CheckedChanged
+            If StubClassCheckBox.Checked Then AutoStubCheckBox.Checked = False
+        End Sub
+    End Class
 
-Namespace AWB.Plugins.SDKSoftware.Kingbotk
     Friend NotInheritable Class WPSongs
         Inherits PluginBase
 
@@ -110,7 +110,7 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk
                 Return True
             End Get
         End Property
-        Protected Friend Overrides ReadOnly Property GenericSettings() As GenericSettingsClass
+        Protected Friend Overrides ReadOnly Property GenericSettings() As IGenericSettings
             Get
                 Return OurSettingsControl
             End Get
@@ -188,5 +188,15 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk
         End Property
         Protected Overrides Sub InspectUnsetParameter(ByVal Param As String)
         End Sub ' will never be called
+        Friend Overrides ReadOnly Property HasSharedLogLocation() As Boolean
+            Get
+                Return False
+            End Get
+        End Property
+        Friend Overrides ReadOnly Property SharedLogLocation() As String
+            Get
+                Return ""
+            End Get
+        End Property
     End Class
 End Namespace

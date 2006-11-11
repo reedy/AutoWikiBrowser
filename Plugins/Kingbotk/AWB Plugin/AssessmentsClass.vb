@@ -1,5 +1,5 @@
 ' Manual assessment:
-Namespace AWB.Plugins.SDKSoftware.Kingbotk
+Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
     Friend NotInheritable Class Assessments
         Implements IDisposable
 
@@ -182,7 +182,7 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk
                     PluginSettings.PluginStats.SkippedMiscellaneousIncrement(False)
                     PluginManager.StatusText.Text = "Skipping this talk page"
                     LoadArticle()
-            End If
+                End If
             End If
         End Function
 

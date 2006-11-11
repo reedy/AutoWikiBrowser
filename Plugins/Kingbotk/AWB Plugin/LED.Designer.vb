@@ -1,4 +1,4 @@
-Namespace AWB.Plugins.SDKSoftware.Kingbotk.Components
+Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
     <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
     Partial Class LED
         Inherits System.Windows.Forms.UserControl

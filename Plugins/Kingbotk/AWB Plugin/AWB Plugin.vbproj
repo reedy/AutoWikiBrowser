@@ -37,6 +37,7 @@
       <HintPath>T:\Downloads\Net\AWB\Latest AWB build\AutoWikiBrowser.exe</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
@@ -50,11 +51,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Import Include="AWB" />
-    <Import Include="AWB.Plugins" />
-    <Import Include="AWB.Plugins.SDKSoftware" />
-    <Import Include="AWB.Plugins.SDKSoftware.Kingbotk" />
-    <Import Include="AWB.Plugins.SDKSoftware.Kingbotk.Components" />
+    <Import Include="AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk" />
+    <Import Include="AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components" />
+    <Import Include="AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments" />
+    <Import Include="AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins" />
+    <Import Include="My" />
     <Import Include="System" />
     <Import Include="System.Collections" />
     <Import Include="System.Collections.Generic" />
@@ -68,6 +69,8 @@
     <Import Include="WikiFunctions.DatabaseScanner" />
     <Import Include="WikiFunctions.IRC" />
     <Import Include="WikiFunctions.Lists" />
+    <Import Include="WikiFunctions.Logging" />
+    <Import Include="WikiFunctions.Logging.Uploader" />
     <Import Include="WikiFunctions.MWB" />
     <Import Include="WikiFunctions.Parse" />
     <Import Include="WikiFunctions.Plugin" />
@@ -122,11 +125,18 @@
     <Compile Include="LED.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Logging.Designer.vb">
-      <DependentUpon>Logging.vb</DependentUpon>
+    <Compile Include="LoginForm.Designer.vb">
+      <DependentUpon>LoginForm.vb</DependentUpon>
     </Compile>
-    <Compile Include="Logging.vb">
+    <Compile Include="LoginForm.vb">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyTrace.vb" />
+    <Compile Include="PluginLogging.Designer.vb">
+      <DependentUpon>PluginLogging.vb</DependentUpon>
+    </Compile>
+    <Compile Include="PluginLogging.vb">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="ManualAssessmentsInstructionsDialog.Designer.vb">
       <DependentUpon>ManualAssessmentsInstructionsDialog.vb</DependentUpon>
@@ -217,9 +227,13 @@
       <SubType>Designer</SubType>
       <DependentUpon>LED.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Logging.resx">
+    <EmbeddedResource Include="LoginForm.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>Logging.vb</DependentUpon>
+      <DependentUpon>LoginForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PluginLogging.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PluginLogging.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ManualAssessmentsInstructionsDialog.resx">
       <SubType>Designer</SubType>
@@ -269,6 +283,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\WP1_0_Icon_small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WikiFunctions2\WikiFunctions2.vbproj">
+      <Project>{9B6B7696-E6EB-4A4C-BF26-29317EE65E15}</Project>
+      <Name>WikiFunctions2</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\king_worship.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
