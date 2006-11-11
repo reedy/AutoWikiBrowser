@@ -1,23 +1,13 @@
-Public NotInheritable Class AboutBox
-
+Friend NotInheritable Class AboutBox
     Private Sub AboutBox_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        ' Set the title of the form.
-        'Dim ApplicationTitle As String
-        'If My.Application.Info.Title <> "" Then
-        '    ApplicationTitle = My.Application.Info.Title
-        'Else
-        '    ApplicationTitle = System.IO.Path.GetFileNameWithoutExtension(My.Application.Info.AssemblyName)
-        'End If
-        'Me.Text = String.Format("About {0}", ApplicationTitle)
-        ' Initialize all of the text displayed on the About Box.
-        ' TODO: Customize the application's assembly information in the "Application" pane of the project 
-        '    properties dialog (under the "Project" menu).
-        'Me.LabelProductName.Text = My.Application.Info.ProductName
-        'Me.LabelVersion.Text = String.Format("Version {0}", System.Reflection.Assembly.GetExecutingAssembly.GetName.Version.ToString) 'My.Application.Info.Version.ToString)
         Me.LabelCopyright.Text = "Copyright © SDK Software 2006"
         Me.LabelCompanyName.Text = "Written by Kingboyk"
         Me.TextBoxDescription.Text = _
-           "An AWB plugin for adding and updating WikiProject templates on Wikipedia talk pages"
+           "An AWB plugin for adding and updating WikiProject templates on Wikipedia talk pages. " & _
+           Microsoft.VisualBasic.vbCrLf & Microsoft.VisualBasic.vbCrLf & "AWB Version: " & _
+           Application.ProductVersion.ToString & Microsoft.VisualBasic.vbCrLf & Microsoft.VisualBasic.vbCrLf & _
+           "Made in England. Store in a dry place and consume within 7 days of opening. COMES WITH NO WARRANTY - " _
+           & "check your edits and use sensibly!"
         Me.LabelProductName.Text = "Kingbotk Templating Plugin"
         Me.Text = "About the Kingbotk Templating Plugin"
     End Sub
