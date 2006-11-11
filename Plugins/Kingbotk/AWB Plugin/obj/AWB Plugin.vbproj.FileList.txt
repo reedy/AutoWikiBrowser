@@ -18,9 +18,11 @@ obj\Debug\Resources.resources
 obj\Debug\Kingbotk AWB Plugin.dll
 obj\Debug\Kingbotk AWB Plugin.xml
 obj\Debug\Kingbotk AWB Plugin.pdb
+obj\Release\WPBiographySettings.resources
 bin\Release\Kingbotk AWB Plugin.dll.config
 bin\Debug\Kingbotk AWB Plugin.dll.config
 obj\Debug\Logging.resources
+obj\Debug\WPBiographySettings.resources
 obj\Release\Logging.resources
 obj\Release\PluginSettingsControl.resources
 obj\Debug\PluginSettingsControl.resources
@@ -46,13 +48,3 @@ bin\Release\Physics generic template.xml
 bin\Debug\Physics generic template.xml
 bin\Debug\WikiFunctions.dll
 bin\Release\WikiFunctions.dll
-bin\Release\Film generic template.xml
-bin\Debug\Film generic template.xml
-obj\Release\WPAlbumsSettings.resources
-obj\Release\WPSongsSettings.resources
-obj\Release\SettingsControlBase.resources
-obj\Release\AWB.Plugins.SDKSoftware.Kingbotk.Components.WPBiographySettings.resources
-obj\Debug\WPAlbumsSettings.resources
-obj\Debug\AWB.Plugins.SDKSoftware.Kingbotk.Components.WPBiographySettings.resources
-obj\Debug\SettingsControlBase.resources
-obj\Debug\WPSongsSettings.resources

@@ -24,16 +24,14 @@ Friend NotInheritable Class MilHistSettings
     Private Const conAustralianWGParm As String = "MilHistAus"
     Private Const conAncientNearEastWGParm As String = "MilHistAncNE"
     Private Const conAmericanCivilWarWGParm As String = "MilHistACW"
-    Private Const conEarlyModernWGParm As String = "MilHistEarlyModern"
     Private Const conStubClassParm As String = "MilHistStubClass"
     Private Const conAutoStubParm As String = "MilHistAutoStub"
-    Private Const conForceImportanceRemoval As String = "MilHistRmImportance"
 
     ' UI:
     Private txtEdit As TextBox
 
-#Region "XML interface"
-    Public Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader) Implements GenericSettingsClass.ReadXML
+    ' XML interface:
+    Public Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader)
         WWII = PluginManager.XMLReadBoolean(Reader, conWWIIWGParm, WWII)
         WWI = PluginManager.XMLReadBoolean(Reader, conWWIWGParm, WWI)
         Weaponry = PluginManager.XMLReadBoolean(Reader, conWeaponryWGParm, Weaponry)
@@ -59,11 +57,8 @@ Friend NotInheritable Class MilHistSettings
         AmericanCivilWar = PluginManager.XMLReadBoolean(Reader, conAmericanCivilWarWGParm, AmericanCivilWar)
         StubClass = PluginManager.XMLReadBoolean(Reader, conStubClassParm, StubClass)
         AutoStub = PluginManager.XMLReadBoolean(Reader, conAutoStubParm, AutoStub)
-        ForceImportanceRemoval = _
-           PluginManager.XMLReadBoolean(Reader, conForceImportanceRemoval, ForceImportanceRemoval)
-        EarlyModern = PluginManager.XMLReadBoolean(Reader, conEarlyModernWGParm, EarlyModern)
     End Sub
-    Public Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter) Implements GenericSettingsClass.WriteXML
+    Public Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter)
         With Writer
             .WriteAttributeString(conWWIIWGParm, WWII.ToString)
             .WriteAttributeString(conWWIWGParm, WWI.ToString)
@@ -90,20 +85,16 @@ Friend NotInheritable Class MilHistSettings
             .WriteAttributeString(conAmericanCivilWarWGParm, AmericanCivilWar.ToString)
             .WriteAttributeString(conStubClassParm, StubClass.ToString)
             .WriteAttributeString(conAutoStubParm, AutoStub.ToString)
-            .WriteAttributeString(conForceImportanceRemoval, ForceImportanceRemoval.ToString)
-            .WriteAttributeString(conEarlyModernWGParm, EarlyModern.ToString)
         End With
     End Sub
-    Public Sub Reset() Implements GenericSettingsClass.XMLReset
+    Public Sub Reset()
         StubClass = False
         AutoStub = False
-        ForceImportanceRemoval = False
 
         For Each ctl As Control In Me.TaskForcesGroupBox.Controls
             If TypeOf ctl Is CheckBox Then DirectCast(ctl, CheckBox).Checked = False
         Next
     End Sub
-#End Region
 
     ' Properties:
     Friend Property WWII() As Boolean
@@ -290,14 +281,6 @@ Friend NotInheritable Class MilHistSettings
             AmericanCivilWarCheckBox.Checked = value
         End Set
     End Property
-    Friend Property EarlyModern() As Boolean
-        Get
-            Return EarlyModernCheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            EarlyModernCheckBox.Checked = value
-        End Set
-    End Property
     Friend Property StubClass() As Boolean Implements GenericSettingsClass.StubClass
         Get
             Return StubClassCheckBox.Checked
@@ -317,14 +300,6 @@ Friend NotInheritable Class MilHistSettings
         End Get
         Set(ByVal value As Boolean)
             AutoStubCheckBox.Checked = value
-        End Set
-    End Property
-    Public Property ForceImportanceRemoval() As Boolean
-        Get
-            Return RemoveImportanceCheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            RemoveImportanceCheckBox.Checked = value
         End Set
     End Property
     Friend WriteOnly Property EditTextBox() As TextBox Implements GenericSettingsClass.EditTextBox
@@ -350,10 +325,6 @@ Friend NotInheritable Class MilHistSettings
     Private Sub StubClassCheckBox_CheckedChanged(ByVal sender As System.Object, _
     ByVal e As System.EventArgs) Handles StubClassCheckBox.CheckedChanged
         If StubClassCheckBox.Checked Then AutoStubCheckBox.Checked = False
-    End Sub
-    Private Sub WPMILHISTToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) _
-    Handles WPMILHISTToolStripMenuItem.Click
-        txtEdit.SelectedText = "{{WPMILHIST}}"
     End Sub
 End Class
 
@@ -425,14 +396,10 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk
         ' Article processing:
         Protected Overrides ReadOnly Property InspectUnsetParameters() As Boolean
             Get
-                Return OurSettingsControl.ForceImportanceRemoval
+                Return False
             End Get
         End Property
         Protected Overrides Sub InspectUnsetParameter(ByVal Param As String)
-            ' We only get called if InspectUnsetParameters is True
-            If String.Equals(Param, "importance", StringComparison.CurrentCultureIgnoreCase) Then
-                Article.DoneReplacement("importance=", "", True, conPluginShortName)
-            End If
         End Sub
         Protected Overrides Function SkipIfContains() As Boolean
             ' None
@@ -449,7 +416,6 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk
                 If .Chinese Then AddAndLogNewParamWithAYesValue("Chinese-task-force")
                 If .Classical Then AddAndLogNewParamWithAYesValue("Classical-task-force")
                 If .Dutch Then AddAndLogNewParamWithAYesValue("Dutch-task-force")
-                If .EarlyModern Then AddAndLogNewParamWithAYesValue("Early-Modern-task-force")
                 If .French Then AddAndLogNewParamWithAYesValue("French-task-force")
                 If .German Then AddAndLogNewParamWithAYesValue("German-task-force")
                 If .Indian Then AddAndLogNewParamWithAYesValue("Indian-task-force")
@@ -465,21 +431,12 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk
                 If .WWI Then AddAndLogNewParamWithAYesValue("WWI-task-force")
                 If .WWII Then AddAndLogNewParamWithAYesValue("WWII-task-force")
             End With
-            If Template.Parameters.ContainsKey("importance") Then
-                Template.Parameters.Remove("importance")
-                Article.ArticleHasAMajorChange()
-                PluginSettingsControl.MyTrace.WriteArticleActionLine("Removed importance parameter", _
-                   conPluginShortName)
-            End If
         End Sub
         Protected Overrides Sub TemplateFound()
             ' Nothing to do here
         End Sub
-        Protected Overrides Sub GotTemplateNotPreferredName(ByVal TemplateName As String)
-        End Sub
-        Protected Overrides Function WriteTemplateHeader(ByRef PutTemplateAtTop As Boolean) As String
-            WriteTemplateHeader = "{{WPMILHIST" & _
-               Microsoft.VisualBasic.vbCrLf & WriteOutParameterToHeader("class")
+        Protected Overrides Function CreateTemplateHeader(ByRef PutTemplateAtTop As Boolean) As String
+            CreateTemplateHeader = "{{WPMILHIST" & Microsoft.VisualBasic.vbCrLf & WriteOutClassHeader()
         End Function
 
         'User interface:

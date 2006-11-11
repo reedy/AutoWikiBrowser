@@ -664,13 +664,13 @@ Partial Class PluginSettingsControl
         '
         Me.TextInsertContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ClassToolStripMenuItem, Me.ImportanceToolStripMenuItem, Me.PriorityToolStripMenuItem})
         Me.TextInsertContextMenuStrip.Name = "EditBoxContextMenuStrip"
-        Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(153, 92)
+        Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(130, 70)
         '
         'ClassToolStripMenuItem
         '
         Me.ClassToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.StubClassMenuItem, Me.StartClassMenuItem, Me.BClassMenuItem, Me.GAClassMenuItem, Me.AClassMenuItem, Me.FAClassMenuItem, Me.ToolStripSeparator4, Me.NeededClassMenuItem, Me.CatClassMenuItem, Me.DabClassMenuItem, Me.TemplateClassMenuItem, Me.NAClassMenuItem})
         Me.ClassToolStripMenuItem.Name = "ClassToolStripMenuItem"
-        Me.ClassToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ClassToolStripMenuItem.Size = New System.Drawing.Size(129, 22)
         Me.ClassToolStripMenuItem.Text = "Class"
         '
         'StubClassMenuItem
@@ -748,84 +748,84 @@ Partial Class PluginSettingsControl
         '
         Me.ImportanceToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LowImportanceMenuItem, Me.MidImportanceMenuItem, Me.HighImportanceMenuItem, Me.TopImportanceMenuItem, Me.ToolStripSeparator5, Me.NAImportanceMenuItem})
         Me.ImportanceToolStripMenuItem.Name = "ImportanceToolStripMenuItem"
-        Me.ImportanceToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ImportanceToolStripMenuItem.Size = New System.Drawing.Size(129, 22)
         Me.ImportanceToolStripMenuItem.Text = "Importance"
         '
         'LowImportanceMenuItem
         '
         Me.LowImportanceMenuItem.Name = "LowImportanceMenuItem"
-        Me.LowImportanceMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.LowImportanceMenuItem.Size = New System.Drawing.Size(141, 22)
         Me.LowImportanceMenuItem.Text = "Low"
         '
         'MidImportanceMenuItem
         '
         Me.MidImportanceMenuItem.Name = "MidImportanceMenuItem"
-        Me.MidImportanceMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.MidImportanceMenuItem.Size = New System.Drawing.Size(141, 22)
         Me.MidImportanceMenuItem.Text = "Mid"
         '
         'HighImportanceMenuItem
         '
         Me.HighImportanceMenuItem.Name = "HighImportanceMenuItem"
-        Me.HighImportanceMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.HighImportanceMenuItem.Size = New System.Drawing.Size(141, 22)
         Me.HighImportanceMenuItem.Text = "High"
         '
         'TopImportanceMenuItem
         '
         Me.TopImportanceMenuItem.Name = "TopImportanceMenuItem"
-        Me.TopImportanceMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.TopImportanceMenuItem.Size = New System.Drawing.Size(141, 22)
         Me.TopImportanceMenuItem.Text = "Top"
         '
         'ToolStripSeparator5
         '
         Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
-        Me.ToolStripSeparator5.Size = New System.Drawing.Size(149, 6)
+        Me.ToolStripSeparator5.Size = New System.Drawing.Size(138, 6)
         '
         'NAImportanceMenuItem
         '
         Me.NAImportanceMenuItem.Name = "NAImportanceMenuItem"
-        Me.NAImportanceMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.NAImportanceMenuItem.Size = New System.Drawing.Size(141, 22)
         Me.NAImportanceMenuItem.Text = "Not applicable"
         '
         'PriorityToolStripMenuItem
         '
         Me.PriorityToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LowPriorityMenuItem, Me.MidPriorityMenuItem, Me.HighPriorityMenuItem, Me.TopPriorityMenuItem, Me.ToolStripSeparator6, Me.NAPriorityMenuItem})
         Me.PriorityToolStripMenuItem.Name = "PriorityToolStripMenuItem"
-        Me.PriorityToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.PriorityToolStripMenuItem.Size = New System.Drawing.Size(129, 22)
         Me.PriorityToolStripMenuItem.Text = "Priority"
         '
         'LowPriorityMenuItem
         '
         Me.LowPriorityMenuItem.Name = "LowPriorityMenuItem"
-        Me.LowPriorityMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.LowPriorityMenuItem.Size = New System.Drawing.Size(141, 22)
         Me.LowPriorityMenuItem.Text = "Low"
         '
         'MidPriorityMenuItem
         '
         Me.MidPriorityMenuItem.Name = "MidPriorityMenuItem"
-        Me.MidPriorityMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.MidPriorityMenuItem.Size = New System.Drawing.Size(141, 22)
         Me.MidPriorityMenuItem.Text = "Mid"
         '
         'HighPriorityMenuItem
         '
         Me.HighPriorityMenuItem.Name = "HighPriorityMenuItem"
-        Me.HighPriorityMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.HighPriorityMenuItem.Size = New System.Drawing.Size(141, 22)
         Me.HighPriorityMenuItem.Text = "High"
         '
         'TopPriorityMenuItem
         '
         Me.TopPriorityMenuItem.Name = "TopPriorityMenuItem"
-        Me.TopPriorityMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.TopPriorityMenuItem.Size = New System.Drawing.Size(141, 22)
         Me.TopPriorityMenuItem.Text = "Top"
         '
         'ToolStripSeparator6
         '
         Me.ToolStripSeparator6.Name = "ToolStripSeparator6"
-        Me.ToolStripSeparator6.Size = New System.Drawing.Size(149, 6)
+        Me.ToolStripSeparator6.Size = New System.Drawing.Size(138, 6)
         '
         'NAPriorityMenuItem
         '
         Me.NAPriorityMenuItem.Name = "NAPriorityMenuItem"
-        Me.NAPriorityMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.NAPriorityMenuItem.Size = New System.Drawing.Size(141, 22)
         Me.NAPriorityMenuItem.Text = "Not applicable"
         '
         'TimerStats1
