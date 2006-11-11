@@ -1,0 +1,40 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+AWBPlugin
+</name>
+</assembly>
+<members>
+<member name="P:AWB.Plugins.SDKSoftware.Kingbotk.My.Resources.Resources.ResourceManager">
+	<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:AWB.Plugins.SDKSoftware.Kingbotk.My.Resources.Resources.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="T:AWB.Plugins.SDKSoftware.Kingbotk.My.Resources.Resources">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member><member name="T:AWB.Plugins.SDKSoftware.Kingbotk.Article">
+	<summary>
+ An object representing an article which may or may not contain the targetted template
+ </summary>
+</member><member name="T:AWB.Plugins.SDKSoftware.Kingbotk.SDKAWBTemplatesPluginBase">
+	<summary>
+ SDK Software's base class for template-manipulating AWB plugins
+ </summary>
+</member><member name="T:AWB.Plugins.SDKSoftware.Kingbotk.WPBioBase">
+	<summary>
+ The base class for plugins which manipulate the WPBiography template
+ </summary>
+</member><member name="T:AWB.Plugins.SDKSoftware.Kingbotk.BioLivingPeoplePlugin">
+	<summary>
+ An AWB plugin which ensures that a talk page contains WPBiography|living=yes
+ </summary>
+</member>
+</members>
+</doc>
