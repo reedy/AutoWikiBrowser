@@ -6,30 +6,30 @@ KingbotkAWBPlugin
 </name>
 </assembly>
 <members>
-<member name="M:AWB.Plugins.SDKSoftware.Kingbotk.PluginBase.TemplateFound">
+<member name="M:AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.PluginBase.TemplateFound">
 	<summary>
  Send the template to the plugin for preinspection
  </summary>
 	<returns>False if OK, TRUE IF BAD TAG</returns>
-</member><member name="M:AWB.Plugins.SDKSoftware.Kingbotk.PluginBase.CheckForDoublyNamedParameters(System.String,System.String)">
+</member><member name="M:AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.PluginBase.CheckForDoublyNamedParameters(System.String,System.String)">
 	<summary>
  Checks if params which have two names (V8, v8) exist under both names
  </summary>
 	<returns>True if BAD TAG</returns>
-</member><member name="T:AWB.Plugins.SDKSoftware.Kingbotk.PluginBase">
+</member><member name="T:AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.PluginBase">
 	<summary>
  SDK Software's base class for template-manipulating AWB plugins
  </summary>
-</member><member name="T:AWB.Plugins.SDKSoftware.Kingbotk.Article">
+</member><member name="T:AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Article">
 	<summary>
  An object representing an article which may or may not contain the targetted template
  </summary>
-</member><member name="M:AWB.Plugins.SDKSoftware.Kingbotk.Templating.NewOrReplaceTemplateParm(System.String,System.String,AWB.Plugins.SDKSoftware.Kingbotk.Article,System.Boolean,System.Boolean,System.Boolean,System.String,System.String)">
+</member><member name="M:AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Templating.NewOrReplaceTemplateParm(System.String,System.String,AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Article,System.Boolean,System.Boolean,System.Boolean,System.String,System.String)">
 	<summary>
  Checks for the existence of a parameter and adds it if missing/optionally changes it
  </summary>
 	<returns>True if made a change</returns>
-</member><member name="T:AWB.Plugins.SDKSoftware.Kingbotk.PluginManager">
+</member><member name="T:AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.PluginManager">
 	<summary>
  The plugin manager, which interracts with AWB and manages the individual plugins
  </summary>

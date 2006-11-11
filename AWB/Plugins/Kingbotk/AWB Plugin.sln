@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Basic Express 2005
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "AWB Plugin", "AWB Plugin\AWB Plugin.vbproj", "{70AF6097-1ED6-475C-878E-A0BAEDB705F6}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "WikiFunctions2", "WikiFunctions2\WikiFunctions2.vbproj", "{9B6B7696-E6EB-4A4C-BF26-29317EE65E15}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{70AF6097-1ED6-475C-878E-A0BAEDB705F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70AF6097-1ED6-475C-878E-A0BAEDB705F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70AF6097-1ED6-475C-878E-A0BAEDB705F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B6B7696-E6EB-4A4C-BF26-29317EE65E15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B6B7696-E6EB-4A4C-BF26-29317EE65E15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B6B7696-E6EB-4A4C-BF26-29317EE65E15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B6B7696-E6EB-4A4C-BF26-29317EE65E15}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

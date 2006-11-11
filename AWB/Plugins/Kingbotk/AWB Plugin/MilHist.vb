@@ -1,363 +1,363 @@
-Friend NotInheritable Class MilHistSettings
-    Implements GenericSettingsClass
+Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
+    Friend NotInheritable Class MilHistSettings
+        Implements IGenericSettings
 
-    Private Const conWWIIWGParm As String = "MilHistWWII"
-    Private Const conWWIWGParm As String = "MilHistWWI"
-    Private Const conWeaponryWGParm As String = "MilHistWeapon"
-    Private Const conUSWGParm As String = "MilHistUS"
-    Private Const conPolishWGParm As String = "MilHistPoland"
-    Private Const conNapoleonicWGParm As String = "MilHistNapol"
-    Private Const conMiddleAgesWGParm As String = "MilHistMidAges"
-    Private Const conMemorialsWGParm As String = "MilHistMemorial"
-    Private Const conMaritimeWGParm As String = "MilHistMarit"
-    Private Const conJapaneseWGParm As String = "MilHistJapan"
-    Private Const conItalianWGParm As String = "MilHistItaly"
-    Private Const conIndianWGParm As String = "MilHistIndia"
-    Private Const conGermanWGParm As String = "MilHistGerman"
-    Private Const conFrenchWGParm As String = "MilHistFrench"
-    Private Const conDutchWGParm As String = "MilHistDutch"
-    Private Const conClassicalWGParm As String = "MilHistClassic"
-    Private Const conChineseWGParm As String = "MilHistChina"
-    Private Const conCanadianWGParm As String = "MilHistCanuck"
-    Private Const conBritishWGParm As String = "MilHistBrit"
-    Private Const conAviationWGParm As String = "MilHistAir"
-    Private Const conAustralianWGParm As String = "MilHistAus"
-    Private Const conAncientNearEastWGParm As String = "MilHistAncNE"
-    Private Const conAmericanCivilWarWGParm As String = "MilHistACW"
-    Private Const conEarlyModernWGParm As String = "MilHistEarlyModern"
-    Private Const conStubClassParm As String = "MilHistStubClass"
-    Private Const conAutoStubParm As String = "MilHistAutoStub"
-    Private Const conForceImportanceRemoval As String = "MilHistRmImportance"
+        Private Const conWWIIWGParm As String = "MilHistWWII"
+        Private Const conWWIWGParm As String = "MilHistWWI"
+        Private Const conWeaponryWGParm As String = "MilHistWeapon"
+        Private Const conUSWGParm As String = "MilHistUS"
+        Private Const conPolishWGParm As String = "MilHistPoland"
+        Private Const conNapoleonicWGParm As String = "MilHistNapol"
+        Private Const conMiddleAgesWGParm As String = "MilHistMidAges"
+        Private Const conMemorialsWGParm As String = "MilHistMemorial"
+        Private Const conMaritimeWGParm As String = "MilHistMarit"
+        Private Const conJapaneseWGParm As String = "MilHistJapan"
+        Private Const conItalianWGParm As String = "MilHistItaly"
+        Private Const conIndianWGParm As String = "MilHistIndia"
+        Private Const conGermanWGParm As String = "MilHistGerman"
+        Private Const conFrenchWGParm As String = "MilHistFrench"
+        Private Const conDutchWGParm As String = "MilHistDutch"
+        Private Const conClassicalWGParm As String = "MilHistClassic"
+        Private Const conChineseWGParm As String = "MilHistChina"
+        Private Const conCanadianWGParm As String = "MilHistCanuck"
+        Private Const conBritishWGParm As String = "MilHistBrit"
+        Private Const conAviationWGParm As String = "MilHistAir"
+        Private Const conAustralianWGParm As String = "MilHistAus"
+        Private Const conAncientNearEastWGParm As String = "MilHistAncNE"
+        Private Const conAmericanCivilWarWGParm As String = "MilHistACW"
+        Private Const conEarlyModernWGParm As String = "MilHistEarlyModern"
+        Private Const conStubClassParm As String = "MilHistStubClass"
+        Private Const conAutoStubParm As String = "MilHistAutoStub"
+        Private Const conForceImportanceRemoval As String = "MilHistRmImportance"
 
-    ' UI:
-    Private txtEdit As TextBox
+        ' UI:
+        Private txtEdit As TextBox
 
 #Region "XML interface"
-    Public Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader) Implements GenericSettingsClass.ReadXML
-        WWII = PluginManager.XMLReadBoolean(Reader, conWWIIWGParm, WWII)
-        WWI = PluginManager.XMLReadBoolean(Reader, conWWIWGParm, WWI)
-        Weaponry = PluginManager.XMLReadBoolean(Reader, conWeaponryWGParm, Weaponry)
-        US = PluginManager.XMLReadBoolean(Reader, conUSWGParm, US)
-        Polish = PluginManager.XMLReadBoolean(Reader, conPolishWGParm, Polish)
-        Napoleonic = PluginManager.XMLReadBoolean(Reader, conNapoleonicWGParm, Napoleonic)
-        MiddleAges = PluginManager.XMLReadBoolean(Reader, conMiddleAgesWGParm, MiddleAges)
-        Memorials = PluginManager.XMLReadBoolean(Reader, conMemorialsWGParm, Memorials)
-        Maritime = PluginManager.XMLReadBoolean(Reader, conMaritimeWGParm, Maritime)
-        Japanese = PluginManager.XMLReadBoolean(Reader, conJapaneseWGParm, Japanese)
-        Italian = PluginManager.XMLReadBoolean(Reader, conItalianWGParm, Italian)
-        Indian = PluginManager.XMLReadBoolean(Reader, conIndianWGParm, Indian)
-        German = PluginManager.XMLReadBoolean(Reader, conGermanWGParm, German)
-        French = PluginManager.XMLReadBoolean(Reader, conFrenchWGParm, French)
-        Dutch = PluginManager.XMLReadBoolean(Reader, conDutchWGParm, Dutch)
-        Classical = PluginManager.XMLReadBoolean(Reader, conClassicalWGParm, Classical)
-        Chinese = PluginManager.XMLReadBoolean(Reader, conChineseWGParm, Chinese)
-        Canadian = PluginManager.XMLReadBoolean(Reader, conCanadianWGParm, Canadian)
-        British = PluginManager.XMLReadBoolean(Reader, conBritishWGParm, British)
-        Aviation = PluginManager.XMLReadBoolean(Reader, conAviationWGParm, Aviation)
-        Australian = PluginManager.XMLReadBoolean(Reader, conAustralianWGParm, Australian)
-        AncientNearEast = PluginManager.XMLReadBoolean(Reader, conAncientNearEastWGParm, AncientNearEast)
-        AmericanCivilWar = PluginManager.XMLReadBoolean(Reader, conAmericanCivilWarWGParm, AmericanCivilWar)
-        StubClass = PluginManager.XMLReadBoolean(Reader, conStubClassParm, StubClass)
-        AutoStub = PluginManager.XMLReadBoolean(Reader, conAutoStubParm, AutoStub)
-        ForceImportanceRemoval = _
-           PluginManager.XMLReadBoolean(Reader, conForceImportanceRemoval, ForceImportanceRemoval)
-        EarlyModern = PluginManager.XMLReadBoolean(Reader, conEarlyModernWGParm, EarlyModern)
-    End Sub
-    Public Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter) Implements GenericSettingsClass.WriteXML
-        With Writer
-            .WriteAttributeString(conWWIIWGParm, WWII.ToString)
-            .WriteAttributeString(conWWIWGParm, WWI.ToString)
-            .WriteAttributeString(conWeaponryWGParm, Weaponry.ToString)
-            .WriteAttributeString(conUSWGParm, US.ToString)
-            .WriteAttributeString(conPolishWGParm, Polish.ToString)
-            .WriteAttributeString(conNapoleonicWGParm, Napoleonic.ToString)
-            .WriteAttributeString(conMiddleAgesWGParm, MiddleAges.ToString)
-            .WriteAttributeString(conMemorialsWGParm, Memorials.ToString)
-            .WriteAttributeString(conMaritimeWGParm, Maritime.ToString)
-            .WriteAttributeString(conJapaneseWGParm, Japanese.ToString)
-            .WriteAttributeString(conItalianWGParm, Italian.ToString)
-            .WriteAttributeString(conIndianWGParm, Indian.ToString)
-            .WriteAttributeString(conGermanWGParm, German.ToString)
-            .WriteAttributeString(conFrenchWGParm, French.ToString)
-            .WriteAttributeString(conDutchWGParm, Dutch.ToString)
-            .WriteAttributeString(conClassicalWGParm, Classical.ToString)
-            .WriteAttributeString(conChineseWGParm, Chinese.ToString)
-            .WriteAttributeString(conCanadianWGParm, Canadian.ToString)
-            .WriteAttributeString(conBritishWGParm, British.ToString)
-            .WriteAttributeString(conAviationWGParm, Aviation.ToString)
-            .WriteAttributeString(conAustralianWGParm, Australian.ToString)
-            .WriteAttributeString(conAncientNearEastWGParm, AncientNearEast.ToString)
-            .WriteAttributeString(conAmericanCivilWarWGParm, AmericanCivilWar.ToString)
-            .WriteAttributeString(conStubClassParm, StubClass.ToString)
-            .WriteAttributeString(conAutoStubParm, AutoStub.ToString)
-            .WriteAttributeString(conForceImportanceRemoval, ForceImportanceRemoval.ToString)
-            .WriteAttributeString(conEarlyModernWGParm, EarlyModern.ToString)
-        End With
-    End Sub
-    Public Sub Reset() Implements GenericSettingsClass.XMLReset
-        StubClass = False
-        AutoStub = False
-        ForceImportanceRemoval = False
+        Public Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader) Implements IGenericSettings.ReadXML
+            WWII = PluginManager.XMLReadBoolean(Reader, conWWIIWGParm, WWII)
+            WWI = PluginManager.XMLReadBoolean(Reader, conWWIWGParm, WWI)
+            Weaponry = PluginManager.XMLReadBoolean(Reader, conWeaponryWGParm, Weaponry)
+            US = PluginManager.XMLReadBoolean(Reader, conUSWGParm, US)
+            Polish = PluginManager.XMLReadBoolean(Reader, conPolishWGParm, Polish)
+            Napoleonic = PluginManager.XMLReadBoolean(Reader, conNapoleonicWGParm, Napoleonic)
+            MiddleAges = PluginManager.XMLReadBoolean(Reader, conMiddleAgesWGParm, MiddleAges)
+            Memorials = PluginManager.XMLReadBoolean(Reader, conMemorialsWGParm, Memorials)
+            Maritime = PluginManager.XMLReadBoolean(Reader, conMaritimeWGParm, Maritime)
+            Japanese = PluginManager.XMLReadBoolean(Reader, conJapaneseWGParm, Japanese)
+            Italian = PluginManager.XMLReadBoolean(Reader, conItalianWGParm, Italian)
+            Indian = PluginManager.XMLReadBoolean(Reader, conIndianWGParm, Indian)
+            German = PluginManager.XMLReadBoolean(Reader, conGermanWGParm, German)
+            French = PluginManager.XMLReadBoolean(Reader, conFrenchWGParm, French)
+            Dutch = PluginManager.XMLReadBoolean(Reader, conDutchWGParm, Dutch)
+            Classical = PluginManager.XMLReadBoolean(Reader, conClassicalWGParm, Classical)
+            Chinese = PluginManager.XMLReadBoolean(Reader, conChineseWGParm, Chinese)
+            Canadian = PluginManager.XMLReadBoolean(Reader, conCanadianWGParm, Canadian)
+            British = PluginManager.XMLReadBoolean(Reader, conBritishWGParm, British)
+            Aviation = PluginManager.XMLReadBoolean(Reader, conAviationWGParm, Aviation)
+            Australian = PluginManager.XMLReadBoolean(Reader, conAustralianWGParm, Australian)
+            AncientNearEast = PluginManager.XMLReadBoolean(Reader, conAncientNearEastWGParm, AncientNearEast)
+            AmericanCivilWar = PluginManager.XMLReadBoolean(Reader, conAmericanCivilWarWGParm, AmericanCivilWar)
+            StubClass = PluginManager.XMLReadBoolean(Reader, conStubClassParm, StubClass)
+            AutoStub = PluginManager.XMLReadBoolean(Reader, conAutoStubParm, AutoStub)
+            ForceImportanceRemoval = _
+               PluginManager.XMLReadBoolean(Reader, conForceImportanceRemoval, ForceImportanceRemoval)
+            EarlyModern = PluginManager.XMLReadBoolean(Reader, conEarlyModernWGParm, EarlyModern)
+        End Sub
+        Public Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter) Implements IGenericSettings.WriteXML
+            With Writer
+                .WriteAttributeString(conWWIIWGParm, WWII.ToString)
+                .WriteAttributeString(conWWIWGParm, WWI.ToString)
+                .WriteAttributeString(conWeaponryWGParm, Weaponry.ToString)
+                .WriteAttributeString(conUSWGParm, US.ToString)
+                .WriteAttributeString(conPolishWGParm, Polish.ToString)
+                .WriteAttributeString(conNapoleonicWGParm, Napoleonic.ToString)
+                .WriteAttributeString(conMiddleAgesWGParm, MiddleAges.ToString)
+                .WriteAttributeString(conMemorialsWGParm, Memorials.ToString)
+                .WriteAttributeString(conMaritimeWGParm, Maritime.ToString)
+                .WriteAttributeString(conJapaneseWGParm, Japanese.ToString)
+                .WriteAttributeString(conItalianWGParm, Italian.ToString)
+                .WriteAttributeString(conIndianWGParm, Indian.ToString)
+                .WriteAttributeString(conGermanWGParm, German.ToString)
+                .WriteAttributeString(conFrenchWGParm, French.ToString)
+                .WriteAttributeString(conDutchWGParm, Dutch.ToString)
+                .WriteAttributeString(conClassicalWGParm, Classical.ToString)
+                .WriteAttributeString(conChineseWGParm, Chinese.ToString)
+                .WriteAttributeString(conCanadianWGParm, Canadian.ToString)
+                .WriteAttributeString(conBritishWGParm, British.ToString)
+                .WriteAttributeString(conAviationWGParm, Aviation.ToString)
+                .WriteAttributeString(conAustralianWGParm, Australian.ToString)
+                .WriteAttributeString(conAncientNearEastWGParm, AncientNearEast.ToString)
+                .WriteAttributeString(conAmericanCivilWarWGParm, AmericanCivilWar.ToString)
+                .WriteAttributeString(conStubClassParm, StubClass.ToString)
+                .WriteAttributeString(conAutoStubParm, AutoStub.ToString)
+                .WriteAttributeString(conForceImportanceRemoval, ForceImportanceRemoval.ToString)
+                .WriteAttributeString(conEarlyModernWGParm, EarlyModern.ToString)
+            End With
+        End Sub
+        Public Sub Reset() Implements IGenericSettings.XMLReset
+            StubClass = False
+            AutoStub = False
+            ForceImportanceRemoval = False
 
-        For Each ctl As Control In Me.TaskForcesGroupBox.Controls
-            If TypeOf ctl Is CheckBox Then DirectCast(ctl, CheckBox).Checked = False
-        Next
-    End Sub
+            For Each ctl As Control In Me.TaskForcesGroupBox.Controls
+                If TypeOf ctl Is CheckBox Then DirectCast(ctl, CheckBox).Checked = False
+            Next
+        End Sub
 #End Region
 
-    ' Properties:
-    Friend Property WWII() As Boolean
-        Get
-            Return WWIICheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            WWIICheckBox.Checked = value
-        End Set
-    End Property
-    Friend Property WWI() As Boolean
-        Get
-            Return WWICheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            WWICheckBox.Checked = value
-        End Set
-    End Property
-    Friend Property Weaponry() As Boolean
-        Get
-            Return WeaponryCheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            WeaponryCheckBox.Checked = value
-        End Set
-    End Property
-    Friend Property US() As Boolean
-        Get
-            Return USCheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            USCheckBox.Checked = value
-        End Set
-    End Property
-    Friend Property Polish() As Boolean
-        Get
-            Return PolishCheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            PolishCheckBox.Checked = value
-        End Set
-    End Property
-    Friend Property Napoleonic() As Boolean
-        Get
-            Return NapoleonicCheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            NapoleonicCheckBox.Checked = value
-        End Set
-    End Property
-    Friend Property MiddleAges() As Boolean
-        Get
-            Return MiddleAgesCheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            MiddleAgesCheckBox.Checked = value
-        End Set
-    End Property
-    Friend Property Memorials() As Boolean
-        Get
-            Return MemorialsCheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            MemorialsCheckBox.Checked = value
-        End Set
-    End Property
-    Friend Property Maritime() As Boolean
-        Get
-            Return MaritimeCheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            MaritimeCheckBox.Checked = value
-        End Set
-    End Property
-    Friend Property Japanese() As Boolean
-        Get
-            Return JapaneseCheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            JapaneseCheckBox.Checked = value
-        End Set
-    End Property
-    Friend Property Italian() As Boolean
-        Get
-            Return ItalianCheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            ItalianCheckBox.Checked = value
-        End Set
-    End Property
-    Friend Property Indian() As Boolean
-        Get
-            Return IndianCheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            IndianCheckBox.Checked = value
-        End Set
-    End Property
-    Friend Property German() As Boolean
-        Get
-            Return GermanCheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            GermanCheckBox.Checked = value
-        End Set
-    End Property
-    Friend Property French() As Boolean
-        Get
-            Return FrenchCheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            FrenchCheckBox.Checked = value
-        End Set
-    End Property
-    Friend Property Dutch() As Boolean
-        Get
-            Return DutchCheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            DutchCheckBox.Checked = value
-        End Set
-    End Property
-    Friend Property Classical() As Boolean
-        Get
-            Return ClassicalCheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            ClassicalCheckBox.Checked = value
-        End Set
-    End Property
-    Friend Property Chinese() As Boolean
-        Get
-            Return ChineseCheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            ChineseCheckBox.Checked = value
-        End Set
-    End Property
-    Friend Property Canadian() As Boolean
-        Get
-            Return CanadianCheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            CanadianCheckBox.Checked = value
-        End Set
-    End Property
-    Friend Property British() As Boolean
-        Get
-            Return BritishCheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            BritishCheckBox.Checked = value
-        End Set
-    End Property
-    Friend Property Aviation() As Boolean
-        Get
-            Return AviationCheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            AviationCheckBox.Checked = value
-        End Set
-    End Property
-    Friend Property Australian() As Boolean
-        Get
-            Return AustralianCheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            AustralianCheckBox.Checked = value
-        End Set
-    End Property
-    Friend Property AncientNearEast() As Boolean
-        Get
-            Return AncientNearEastCheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            AncientNearEastCheckBox.Checked = value
-        End Set
-    End Property
-    Friend Property AmericanCivilWar() As Boolean
-        Get
-            Return AmericanCivilWarCheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            AmericanCivilWarCheckBox.Checked = value
-        End Set
-    End Property
-    Friend Property EarlyModern() As Boolean
-        Get
-            Return EarlyModernCheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            EarlyModernCheckBox.Checked = value
-        End Set
-    End Property
-    Friend Property StubClass() As Boolean Implements GenericSettingsClass.StubClass
-        Get
-            Return StubClassCheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            StubClassCheckBox.Checked = value
-        End Set
-    End Property
-    WriteOnly Property StubClassModeAllowed() As Boolean Implements GenericSettingsClass.StubClassModeAllowed
-        Set(ByVal value As Boolean)
-            StubClassCheckBox.Enabled = value
-        End Set
-    End Property
-    Public Property AutoStub() As Boolean Implements GenericSettingsClass.AutoStub
-        Get
-            Return AutoStubCheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            AutoStubCheckBox.Checked = value
-        End Set
-    End Property
-    Public Property ForceImportanceRemoval() As Boolean
-        Get
-            Return RemoveImportanceCheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            RemoveImportanceCheckBox.Checked = value
-        End Set
-    End Property
-    Friend WriteOnly Property EditTextBox() As TextBox Implements GenericSettingsClass.EditTextBox
-        Set(ByVal value As TextBox)
-            txtEdit = value
-        End Set
-    End Property
-    Friend ReadOnly Property TextInsertContextMenuStripItems() As ToolStripItemCollection _
-    Implements GenericSettingsClass.TextInsertContextMenuStripItems
-        Get
-            Return TextInsertContextMenuStrip.Items
-        End Get
-    End Property
+        ' Properties:
+        Friend Property WWII() As Boolean
+            Get
+                Return WWIICheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                WWIICheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property WWI() As Boolean
+            Get
+                Return WWICheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                WWICheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Weaponry() As Boolean
+            Get
+                Return WeaponryCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                WeaponryCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property US() As Boolean
+            Get
+                Return USCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                USCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Polish() As Boolean
+            Get
+                Return PolishCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                PolishCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Napoleonic() As Boolean
+            Get
+                Return NapoleonicCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                NapoleonicCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property MiddleAges() As Boolean
+            Get
+                Return MiddleAgesCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                MiddleAgesCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Memorials() As Boolean
+            Get
+                Return MemorialsCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                MemorialsCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Maritime() As Boolean
+            Get
+                Return MaritimeCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                MaritimeCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Japanese() As Boolean
+            Get
+                Return JapaneseCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                JapaneseCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Italian() As Boolean
+            Get
+                Return ItalianCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                ItalianCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Indian() As Boolean
+            Get
+                Return IndianCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                IndianCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property German() As Boolean
+            Get
+                Return GermanCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                GermanCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property French() As Boolean
+            Get
+                Return FrenchCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                FrenchCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Dutch() As Boolean
+            Get
+                Return DutchCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                DutchCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Classical() As Boolean
+            Get
+                Return ClassicalCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                ClassicalCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Chinese() As Boolean
+            Get
+                Return ChineseCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                ChineseCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Canadian() As Boolean
+            Get
+                Return CanadianCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                CanadianCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property British() As Boolean
+            Get
+                Return BritishCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                BritishCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Aviation() As Boolean
+            Get
+                Return AviationCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                AviationCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Australian() As Boolean
+            Get
+                Return AustralianCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                AustralianCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property AncientNearEast() As Boolean
+            Get
+                Return AncientNearEastCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                AncientNearEastCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property AmericanCivilWar() As Boolean
+            Get
+                Return AmericanCivilWarCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                AmericanCivilWarCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property EarlyModern() As Boolean
+            Get
+                Return EarlyModernCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                EarlyModernCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property StubClass() As Boolean Implements IGenericSettings.StubClass
+            Get
+                Return StubClassCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                StubClassCheckBox.Checked = value
+            End Set
+        End Property
+        WriteOnly Property StubClassModeAllowed() As Boolean Implements IGenericSettings.StubClassModeAllowed
+            Set(ByVal value As Boolean)
+                StubClassCheckBox.Enabled = value
+            End Set
+        End Property
+        Public Property AutoStub() As Boolean Implements IGenericSettings.AutoStub
+            Get
+                Return AutoStubCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                AutoStubCheckBox.Checked = value
+            End Set
+        End Property
+        Public Property ForceImportanceRemoval() As Boolean
+            Get
+                Return RemoveImportanceCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                RemoveImportanceCheckBox.Checked = value
+            End Set
+        End Property
+        Friend WriteOnly Property EditTextBox() As TextBox Implements IGenericSettings.EditTextBox
+            Set(ByVal value As TextBox)
+                txtEdit = value
+            End Set
+        End Property
+        Friend ReadOnly Property TextInsertContextMenuStripItems() As ToolStripItemCollection _
+        Implements IGenericSettings.TextInsertContextMenuStripItems
+            Get
+                Return TextInsertContextMenuStrip.Items
+            End Get
+        End Property
 
-    ' Event handlers:
-    Private Sub LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
-        System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/Template:WPMILHIST")
-    End Sub
-    Private Sub AutoStubCheckBox_CheckedChanged(ByVal sender As System.Object, _
-    ByVal e As System.EventArgs) Handles AutoStubCheckBox.CheckedChanged
-        If AutoStubCheckBox.Checked Then StubClassCheckBox.Checked = False
-    End Sub
-    Private Sub StubClassCheckBox_CheckedChanged(ByVal sender As System.Object, _
-    ByVal e As System.EventArgs) Handles StubClassCheckBox.CheckedChanged
-        If StubClassCheckBox.Checked Then AutoStubCheckBox.Checked = False
-    End Sub
-    Private Sub WPMILHISTToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) _
-    Handles WPMILHISTToolStripMenuItem.Click
-        txtEdit.SelectedText = "{{WPMILHIST}}"
-    End Sub
-End Class
+        ' Event handlers:
+        Private Sub LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
+            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/Template:WPMILHIST")
+        End Sub
+        Private Sub AutoStubCheckBox_CheckedChanged(ByVal sender As System.Object, _
+        ByVal e As System.EventArgs) Handles AutoStubCheckBox.CheckedChanged
+            If AutoStubCheckBox.Checked Then StubClassCheckBox.Checked = False
+        End Sub
+        Private Sub StubClassCheckBox_CheckedChanged(ByVal sender As System.Object, _
+        ByVal e As System.EventArgs) Handles StubClassCheckBox.CheckedChanged
+            If StubClassCheckBox.Checked Then AutoStubCheckBox.Checked = False
+        End Sub
+        Private Sub WPMILHISTToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) _
+        Handles WPMILHISTToolStripMenuItem.Click
+            txtEdit.SelectedText = "{{WPMILHIST}}"
+        End Sub
+    End Class
 
-Namespace AWB.Plugins.SDKSoftware.Kingbotk
     Friend NotInheritable Class WPMilHist
         Inherits PluginBase
 
@@ -389,7 +389,7 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk
                 Return True
             End Get
         End Property
-        Protected Friend Overrides ReadOnly Property GenericSettings() As GenericSettingsClass
+        Protected Friend Overrides ReadOnly Property GenericSettings() As IGenericSettings
             Get
                 Return OurSettingsControl
             End Get
@@ -402,6 +402,16 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk
         Protected Overrides ReadOnly Property TemplateTalkClassParm() As String
             Get
                 Return "NA"
+            End Get
+        End Property
+        Friend Overrides ReadOnly Property HasSharedLogLocation() As Boolean
+            Get
+                Return True
+            End Get
+        End Property
+        Friend Overrides ReadOnly Property SharedLogLocation() As String
+            Get
+                Return "Wikipedia:WikiProject Military history/Automation/Logs"
             End Get
         End Property
 

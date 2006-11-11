@@ -12,7 +12,7 @@ Option Strict On
 Option Explicit On
 
 
-Namespace AWB.Plugins.SDKSoftware.Kingbotk.My
+Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.My
 
     <Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(), _
      Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "8.0.0.0"), _
@@ -56,7 +56,7 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk.My
     End Class
 End Namespace
 
-Namespace AWB.Plugins.SDKSoftware.Kingbotk.My
+Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.My
 
     <Global.Microsoft.VisualBasic.HideModuleNameAttribute(), _
      Global.System.Diagnostics.DebuggerNonUserCodeAttribute(), _

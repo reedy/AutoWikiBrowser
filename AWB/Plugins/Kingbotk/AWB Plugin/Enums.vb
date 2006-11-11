@@ -1,29 +1,4 @@
-Namespace AWB
-    Public Enum Namespaces As Integer
-        Media = -2
-        Special = -1
-        Main = 0
-        Talk
-        User
-        UserTalk
-        Project
-        ProjectTalk
-        Image
-        ImageTalk
-        Mediawiki
-        MediawikiTalk
-        Template
-        TemplateTalk
-        Help
-        HelpTalk
-        Category
-        CategoryTalk
-        Portal = 100
-        PortalTalk
-    End Enum
-End Namespace
-
-Namespace AWB.Plugins.SDKSoftware.Kingbotk
+Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
     Friend Enum SkipResults As Integer
         NotSet = -1
         'Processed = 0

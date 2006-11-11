@@ -1,21 +1,37 @@
 Imports System.Drawing
 
-Namespace AWB.Plugins.SDKSoftware.Kingbotk.Components
+Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
+    Friend Enum Colour
+        Red
+        Green
+        Blue
+    End Enum
     Friend NotInheritable Class LED
-        Private br As Brush = Brushes.Red
+        Private br As Brush = Brushes.Red, col As Colour = Colour.Red
 
-        Private Sub LED_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles Me.Paint
-            'Dim br As New Drawing2D.HatchBrush(Drawing2D.HatchStyle.Percent90, Color.White, Color.Red)
+        Protected Overrides Sub OnPaint(ByVal e As System.Windows.Forms.PaintEventArgs)
+            MyBase.OnPaint(e)
             e.Graphics.FillEllipse(br, 2, 2, Me.Size.Width - 2, Me.Size.Height - 2)
-            'br.Dispose()
         End Sub
-        Public Sub Green()
-            br = Brushes.LimeGreen
-            Me.Refresh()
-        End Sub
-        Public Sub Red()
-            br = Brushes.Red
-            Me.Refresh()
-        End Sub
+        Public Property Colour() As Colour
+            Get
+                Return col
+            End Get
+            Set(ByVal value As Colour)
+                Select Case col
+                    Case Colour.Blue
+                        br = Brushes.Blue
+                        col = Colour.Blue
+                    Case Kingbotk.Components.Colour.Green
+                        br = Brushes.LimeGreen
+                        col = Colour.Green
+                    Case Kingbotk.Components.Colour.Red
+                        br = Brushes.Red
+                        col = Colour.Red
+                End Select
+
+                MyBase.Refresh()
+            End Set
+        End Property
     End Class
 End Namespace

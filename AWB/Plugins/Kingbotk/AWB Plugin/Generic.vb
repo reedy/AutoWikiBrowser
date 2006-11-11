@@ -1,327 +1,327 @@
-Friend NotInheritable Class GenericTemplateSettings
-    Implements GenericSettingsClass
+Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
+    Friend NotInheritable Class GenericTemplateSettings
+        Implements IGenericSettings
 
-    ' Our name:
-    Private mName As String
+        ' Our name:
+        Private mName As String
 
-    ' Events:
-    Event ImportanceCheckedChanged()
-    Event CatsCheckedChanged()
-    Event TemplateCheckedChanged()
+        ' Events:
+        Event ImportanceCheckedChanged()
+        Event CatsCheckedChanged()
+        Event TemplateCheckedChanged()
 
-    ' UI:
-    Private txtEdit As TextBox
-    Private WithEvents InsertTemplateCallMenuItem As ToolStripMenuItem
+        ' UI:
+        Private txtEdit As TextBox
+        Private WithEvents InsertTemplateCallMenuItem As ToolStripMenuItem
 
-    ' Enums:
-    Friend Enum ImportanceSettingEnum
-        Imp
-        Pri
-        None
-    End Enum
+        ' Enums:
+        Friend Enum ImportanceSettingEnum
+            Imp
+            Pri
+            None
+        End Enum
 
 #Region "Parameter Names"
-    Private ReadOnly Property conTemplateNameParm() As String
-        Get
-            Return mName & "GenericTemplateName"
-        End Get
-    End Property
-    Private ReadOnly Property conTemplateAlternateNamesYNParm() As String
-        Get
-            Return mName & "GenericTemplateAlternateNamesYN"
-        End Get
-    End Property
-    Private ReadOnly Property conTemplateAlternateNamesParm() As String
-        Get
-            Return mName & "GenericTemplateAlternateNames"
-        End Get
-    End Property
-    Private ReadOnly Property conTemplateImportanceParm() As String
-        Get
-            Return mName & "GenericTemplateImp"
-        End Get
-    End Property
-    Private ReadOnly Property conTemplateCatsParm() As String
-        Get
-            Return mName & "GenericTemplateCats"
-        End Get
-    End Property
-    Private ReadOnly Property conTemplateTemplatesParm() As String
-        Get
-            Return mName & "GenericTemplateTempl"
-        End Get
-    End Property
-    Private ReadOnly Property conTemplateAutoStubYNParm() As String
-        Get
-            Return mName & "GenericTemplateAutoStubYN"
-        End Get
-    End Property
-    Private ReadOnly Property conSkipRegexYN() As String
-        Get
-            Return mName & "GenericSkipRegexYN"
-        End Get
-    End Property
-    Private ReadOnly Property conSkipRegex() As String
-        Get
-            Return mName & "GenericSkipRegex"
-        End Get
-    End Property
-    Private ReadOnly Property conAutoStubParm() As String
-        Get
-            Return mName & "GenericAutoStub"
-        End Get
-    End Property
-    Private ReadOnly Property conStubClassParm() As String
-        Get
-            Return mName & "GenericStubClass"
-        End Get
-    End Property
+        Private ReadOnly Property conTemplateNameParm() As String
+            Get
+                Return mName & "GenericTemplateName"
+            End Get
+        End Property
+        Private ReadOnly Property conTemplateAlternateNamesYNParm() As String
+            Get
+                Return mName & "GenericTemplateAlternateNamesYN"
+            End Get
+        End Property
+        Private ReadOnly Property conTemplateAlternateNamesParm() As String
+            Get
+                Return mName & "GenericTemplateAlternateNames"
+            End Get
+        End Property
+        Private ReadOnly Property conTemplateImportanceParm() As String
+            Get
+                Return mName & "GenericTemplateImp"
+            End Get
+        End Property
+        Private ReadOnly Property conTemplateCatsParm() As String
+            Get
+                Return mName & "GenericTemplateCats"
+            End Get
+        End Property
+        Private ReadOnly Property conTemplateTemplatesParm() As String
+            Get
+                Return mName & "GenericTemplateTempl"
+            End Get
+        End Property
+        Private ReadOnly Property conTemplateAutoStubYNParm() As String
+            Get
+                Return mName & "GenericTemplateAutoStubYN"
+            End Get
+        End Property
+        Private ReadOnly Property conSkipRegexYN() As String
+            Get
+                Return mName & "GenericSkipRegexYN"
+            End Get
+        End Property
+        Private ReadOnly Property conSkipRegex() As String
+            Get
+                Return mName & "GenericSkipRegex"
+            End Get
+        End Property
+        Private ReadOnly Property conAutoStubParm() As String
+            Get
+                Return mName & "GenericAutoStub"
+            End Get
+        End Property
+        Private ReadOnly Property conStubClassParm() As String
+            Get
+                Return mName & "GenericStubClass"
+            End Get
+        End Property
 #End Region
 
 #Region "Properties"
-    Public Property TemplateName() As String
-        Get
-            Return TemplateNameTextBox.Text.Trim
-        End Get
-        Set(ByVal value As String)
-            TemplateNameTextBox.Text = value
-        End Set
-    End Property
-    Public Property HasAlternateNames() As Boolean
-        Get
-            Return AlternateNamesCheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            AlternateNamesCheckBox.Checked = value
-        End Set
-    End Property
-    Public Property AlternateNames() As String
-        Get
-            Return AlternateNamesTextBox.Text.Trim
-        End Get
-        Set(ByVal value As String)
-            AlternateNamesTextBox.Text = value
-        End Set
-    End Property
-    Public Property ImportanceSetting() As ImportanceSettingEnum
-        Get
-            If ImportanceCheckedListBox.CheckedIndices.Count = 0 Then
-                Return ImportanceSettingEnum.None
-            Else
-                Return DirectCast(ImportanceCheckedListBox.CheckedIndices(0), ImportanceSettingEnum)
-            End If
-        End Get
-        Set(ByVal value As ImportanceSettingEnum)
-            ImportanceCheckedListBox.SetItemChecked(DirectCast(value, Integer), True)
-        End Set
-    End Property
-    Public Property HasCategoryClass() As Boolean
-        Get
-            If CatsCheckedListBox.CheckedIndices.Count = 0 Then
-                Return False
-            Else
-                Return (CatsCheckedListBox.CheckedIndices(0) = 0)
-            End If
-        End Get
-        Set(ByVal value As Boolean)
-            If value Then CatsCheckedListBox.SetItemChecked(0, True) Else CatsCheckedListBox.SetItemChecked(1, True)
-        End Set
-    End Property
-    Public Property HasTemplateClass() As Boolean
-        Get
-            If TemplatesCheckedListBox.CheckedIndices.Count = 0 Then
-                Return False
-            Else
-                Return (TemplatesCheckedListBox.CheckedIndices(0) = 0)
-            End If
-        End Get
-        Set(ByVal value As Boolean)
-            If value Then TemplatesCheckedListBox.SetItemChecked(0, True) _
-               Else TemplatesCheckedListBox.SetItemChecked(1, True)
-        End Set
-    End Property
-    Public Property SkipRegex() As String
-        Get
-            Return SkipRegexTextBox.Text.Trim
-        End Get
-        Set(ByVal value As String)
-            SkipRegexTextBox.Text = value
-        End Set
-    End Property
-    Public Property SkipRegexYN() As Boolean
-        Get
-            Return SkipRegexCheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            SkipRegexCheckBox.Checked = value
-        End Set
-    End Property
-    Public Property AutoStubYN() As Boolean
-        Get
-            Return AutoStubSupportYNCheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            AutoStubSupportYNCheckBox.Checked = value
-        End Set
-    End Property
-    Public Property StubClass() As Boolean Implements GenericSettingsClass.StubClass
-        Get
-            Return StubClassCheckBox.Checked
-        End Get
-        Set(ByVal value As Boolean)
-            StubClassCheckBox.Checked = value
-        End Set
-    End Property
-    Public Property AutoStub() As Boolean Implements GenericSettingsClass.AutoStub
-        Get
-            Return (AutoStubCheckBox.Checked And AutoStubSupportYNCheckBox.Checked)
-        End Get
-        Set(ByVal value As Boolean)
-            If AutoStubYN Then
-                AutoStubCheckBox.Checked = value
-            Else
-                AutoStubCheckBox.Checked = False
-            End If
-        End Set
-    End Property
-    Public ReadOnly Property TextInsertContextMenuStripItems() As ToolStripItemCollection _
-    Implements GenericSettingsClass.TextInsertContextMenuStripItems
-        Get
-            Return Nothing ' not used by generic template objects
-        End Get
-    End Property
-    Public WriteOnly Property EditTextBox() As TextBox Implements GenericSettingsClass.EditTextBox
-        Set(ByVal value As TextBox)
-            txtEdit = value
-            PluginManager.AddItemToTextBoxInsertionContextMenu(InsertTemplateCallMenuItem, txtEdit)
-        End Set
-    End Property
-    Public WriteOnly Property StubClassModeAllowed() As Boolean _
-    Implements GenericSettingsClass.StubClassModeAllowed
-        Set(ByVal value As Boolean)
-            StubClassCheckBox.Enabled = value
-        End Set
-    End Property
+        Public Property TemplateName() As String
+            Get
+                Return TemplateNameTextBox.Text.Trim
+            End Get
+            Set(ByVal value As String)
+                TemplateNameTextBox.Text = value
+            End Set
+        End Property
+        Public Property HasAlternateNames() As Boolean
+            Get
+                Return AlternateNamesCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                AlternateNamesCheckBox.Checked = value
+            End Set
+        End Property
+        Public Property AlternateNames() As String
+            Get
+                Return AlternateNamesTextBox.Text.Trim
+            End Get
+            Set(ByVal value As String)
+                AlternateNamesTextBox.Text = value
+            End Set
+        End Property
+        Public Property ImportanceSetting() As ImportanceSettingEnum
+            Get
+                If ImportanceCheckedListBox.CheckedIndices.Count = 0 Then
+                    Return ImportanceSettingEnum.None
+                Else
+                    Return DirectCast(ImportanceCheckedListBox.CheckedIndices(0), ImportanceSettingEnum)
+                End If
+            End Get
+            Set(ByVal value As ImportanceSettingEnum)
+                ImportanceCheckedListBox.SetItemChecked(DirectCast(value, Integer), True)
+            End Set
+        End Property
+        Public Property HasCategoryClass() As Boolean
+            Get
+                If CatsCheckedListBox.CheckedIndices.Count = 0 Then
+                    Return False
+                Else
+                    Return (CatsCheckedListBox.CheckedIndices(0) = 0)
+                End If
+            End Get
+            Set(ByVal value As Boolean)
+                If value Then CatsCheckedListBox.SetItemChecked(0, True) Else CatsCheckedListBox.SetItemChecked(1, True)
+            End Set
+        End Property
+        Public Property HasTemplateClass() As Boolean
+            Get
+                If TemplatesCheckedListBox.CheckedIndices.Count = 0 Then
+                    Return False
+                Else
+                    Return (TemplatesCheckedListBox.CheckedIndices(0) = 0)
+                End If
+            End Get
+            Set(ByVal value As Boolean)
+                If value Then TemplatesCheckedListBox.SetItemChecked(0, True) _
+                   Else TemplatesCheckedListBox.SetItemChecked(1, True)
+            End Set
+        End Property
+        Public Property SkipRegex() As String
+            Get
+                Return SkipRegexTextBox.Text.Trim
+            End Get
+            Set(ByVal value As String)
+                SkipRegexTextBox.Text = value
+            End Set
+        End Property
+        Public Property SkipRegexYN() As Boolean
+            Get
+                Return SkipRegexCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                SkipRegexCheckBox.Checked = value
+            End Set
+        End Property
+        Public Property AutoStubYN() As Boolean
+            Get
+                Return AutoStubSupportYNCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                AutoStubSupportYNCheckBox.Checked = value
+            End Set
+        End Property
+        Public Property StubClass() As Boolean Implements IGenericSettings.StubClass
+            Get
+                Return StubClassCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                StubClassCheckBox.Checked = value
+            End Set
+        End Property
+        Public Property AutoStub() As Boolean Implements IGenericSettings.AutoStub
+            Get
+                Return (AutoStubCheckBox.Checked And AutoStubSupportYNCheckBox.Checked)
+            End Get
+            Set(ByVal value As Boolean)
+                If AutoStubYN Then
+                    AutoStubCheckBox.Checked = value
+                Else
+                    AutoStubCheckBox.Checked = False
+                End If
+            End Set
+        End Property
+        Public ReadOnly Property TextInsertContextMenuStripItems() As ToolStripItemCollection _
+        Implements IGenericSettings.TextInsertContextMenuStripItems
+            Get
+                Return Nothing ' not used by generic template objects
+            End Get
+        End Property
+        Public WriteOnly Property EditTextBox() As TextBox Implements IGenericSettings.EditTextBox
+            Set(ByVal value As TextBox)
+                txtEdit = value
+                PluginManager.AddItemToTextBoxInsertionContextMenu(InsertTemplateCallMenuItem, txtEdit)
+            End Set
+        End Property
+        Public WriteOnly Property StubClassModeAllowed() As Boolean _
+        Implements IGenericSettings.StubClassModeAllowed
+            Set(ByVal value As Boolean)
+                StubClassCheckBox.Enabled = value
+            End Set
+        End Property
 #End Region
 
-    ' Initialisation and goodbye:
-    Friend Sub New(ByVal OurPluginName As String)
+        ' Initialisation and goodbye:
+        Friend Sub New(ByVal OurPluginName As String)
 
-        ' This call is required by the Windows Form Designer.
-        InitializeComponent()
+            ' This call is required by the Windows Form Designer.
+            InitializeComponent()
 
-        ' Add any initialization after the InitializeComponent() call.
-        mName = OurPluginName
-        InsertTemplateCallMenuItem = New ToolStripMenuItem(mName & _
-           " (you haven't entered a template name yet)")
-    End Sub
-    Friend Sub Goodbye()
-        PluginManager.RemoveItemFromTextBoxInsertionContextMenu(InsertTemplateCallMenuItem, txtEdit)
-        txtEdit = Nothing
-        InsertTemplateCallMenuItem.Dispose()
-        InsertTemplateCallMenuItem = Nothing
-    End Sub
+            ' Add any initialization after the InitializeComponent() call.
+            mName = OurPluginName
+            InsertTemplateCallMenuItem = New ToolStripMenuItem(mName & _
+               " (you haven't entered a template name yet)")
+        End Sub
+        Friend Sub Goodbye()
+            PluginManager.RemoveItemFromTextBoxInsertionContextMenu(InsertTemplateCallMenuItem, txtEdit)
+            txtEdit = Nothing
+            InsertTemplateCallMenuItem.Dispose()
+            InsertTemplateCallMenuItem = Nothing
+        End Sub
 
 #Region "XML interface"
-    Public Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader) Implements GenericSettingsClass.ReadXML
-        AutoStub = PluginManager.XMLReadBoolean(Reader, conAutoStubParm, AutoStub)
-        StubClass = PluginManager.XMLReadBoolean(Reader, conStubClassParm, StubClass)
-        TemplateName = PluginManager.XMLReadString(Reader, conTemplateNameParm, TemplateName)
-        HasAlternateNames = PluginManager.XMLReadBoolean( _
-           Reader, conTemplateAlternateNamesYNParm, HasAlternateNames)
-        AlternateNames = PluginManager.XMLReadString( _
-           Reader, conTemplateAlternateNamesParm, AlternateNames)
-        ImportanceSetting = CType(ImportanceSettingEnum.Parse(GetType(ImportanceSettingEnum), _
-           PluginManager.XMLReadString(Reader, conTemplateImportanceParm, ImportanceSetting.ToString), True), _
-           ImportanceSettingEnum)
-        HasCategoryClass = PluginManager.XMLReadBoolean(Reader, conTemplateCatsParm, HasCategoryClass)
-        HasTemplateClass = PluginManager.XMLReadBoolean(Reader, conTemplateTemplatesParm, HasTemplateClass)
-        AutoStubYN = PluginManager.XMLReadBoolean(Reader, conTemplateAutoStubYNParm, AutoStubYN)
-        SkipRegexYN = PluginManager.XMLReadBoolean(Reader, conSkipRegexYN, SkipRegexYN)
-        SkipRegex = PluginManager.XMLReadString(Reader, conSkipRegex, SkipRegex)
-    End Sub
-    Public Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter) Implements GenericSettingsClass.WriteXML
-        With Writer
-            .WriteAttributeString(conTemplateNameParm, TemplateName)
-            .WriteAttributeString(conAutoStubParm, AutoStub.ToString)
-            .WriteAttributeString(conStubClassParm, StubClass.ToString)
-            .WriteAttributeString(conTemplateAlternateNamesYNParm, HasAlternateNames.ToString)
-            .WriteAttributeString(conTemplateAlternateNamesParm, AlternateNames)
-            .WriteAttributeString(conTemplateImportanceParm, ImportanceSetting.ToString)
-            .WriteAttributeString(conTemplateCatsParm, HasCategoryClass.ToString)
-            .WriteAttributeString(conTemplateTemplatesParm, HasTemplateClass.ToString)
-            .WriteAttributeString(conTemplateAutoStubYNParm, AutoStubYN.ToString)
-            .WriteAttributeString(conSkipRegexYN, SkipRegexYN.ToString)
-            .WriteAttributeString(conSkipRegex, SkipRegex)
-        End With
-    End Sub
-    Public Sub Reset() Implements GenericSettingsClass.XMLReset
-        TemplateName = ""
-        AutoStub = False
-        StubClass = False
-        HasAlternateNames = False
-        AlternateNames = ""
-        ImportanceSetting = ImportanceSettingEnum.None
-        HasCategoryClass = False
-        HasTemplateClass = False
-        AutoStubYN = False
-        SkipRegexYN = False
-        SkipRegex = ""
-    End Sub
+        Public Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader) Implements IGenericSettings.ReadXML
+            AutoStub = PluginManager.XMLReadBoolean(Reader, conAutoStubParm, AutoStub)
+            StubClass = PluginManager.XMLReadBoolean(Reader, conStubClassParm, StubClass)
+            TemplateName = PluginManager.XMLReadString(Reader, conTemplateNameParm, TemplateName)
+            HasAlternateNames = PluginManager.XMLReadBoolean( _
+               Reader, conTemplateAlternateNamesYNParm, HasAlternateNames)
+            AlternateNames = PluginManager.XMLReadString( _
+               Reader, conTemplateAlternateNamesParm, AlternateNames)
+            ImportanceSetting = CType(ImportanceSettingEnum.Parse(GetType(ImportanceSettingEnum), _
+               PluginManager.XMLReadString(Reader, conTemplateImportanceParm, ImportanceSetting.ToString), True), _
+               ImportanceSettingEnum)
+            HasCategoryClass = PluginManager.XMLReadBoolean(Reader, conTemplateCatsParm, HasCategoryClass)
+            HasTemplateClass = PluginManager.XMLReadBoolean(Reader, conTemplateTemplatesParm, HasTemplateClass)
+            AutoStubYN = PluginManager.XMLReadBoolean(Reader, conTemplateAutoStubYNParm, AutoStubYN)
+            SkipRegexYN = PluginManager.XMLReadBoolean(Reader, conSkipRegexYN, SkipRegexYN)
+            SkipRegex = PluginManager.XMLReadString(Reader, conSkipRegex, SkipRegex)
+        End Sub
+        Public Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter) Implements IGenericSettings.WriteXML
+            With Writer
+                .WriteAttributeString(conTemplateNameParm, TemplateName)
+                .WriteAttributeString(conAutoStubParm, AutoStub.ToString)
+                .WriteAttributeString(conStubClassParm, StubClass.ToString)
+                .WriteAttributeString(conTemplateAlternateNamesYNParm, HasAlternateNames.ToString)
+                .WriteAttributeString(conTemplateAlternateNamesParm, AlternateNames)
+                .WriteAttributeString(conTemplateImportanceParm, ImportanceSetting.ToString)
+                .WriteAttributeString(conTemplateCatsParm, HasCategoryClass.ToString)
+                .WriteAttributeString(conTemplateTemplatesParm, HasTemplateClass.ToString)
+                .WriteAttributeString(conTemplateAutoStubYNParm, AutoStubYN.ToString)
+                .WriteAttributeString(conSkipRegexYN, SkipRegexYN.ToString)
+                .WriteAttributeString(conSkipRegex, SkipRegex)
+            End With
+        End Sub
+        Public Sub Reset() Implements IGenericSettings.XMLReset
+            TemplateName = ""
+            AutoStub = False
+            StubClass = False
+            HasAlternateNames = False
+            AlternateNames = ""
+            ImportanceSetting = ImportanceSettingEnum.None
+            HasCategoryClass = False
+            HasTemplateClass = False
+            AutoStubYN = False
+            SkipRegexYN = False
+            SkipRegex = ""
+        End Sub
 #End Region
 
 #Region "Event handlers"
-    Private Sub LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) _
-    Handles LinkLabel1.LinkClicked
-        System.Diagnostics.Process.Start( _
-           "http://en.wikipedia.org/wiki/User:Kingbotk/Plugin/Generic_WikiProject_templates")
-    End Sub
-    Private Sub ImportanceCheckedListBox_ItemCheck(ByVal sender As Object, ByVal e As ItemCheckEventArgs) _
-    Handles ImportanceCheckedListBox.ItemCheck
-        AssessmentForm.AllowOnlyOneCheckedItem(sender, e)
-        RaiseEvent ImportanceCheckedChanged()
-    End Sub
-    Private Sub CatsCheckedListBox_ItemCheck(ByVal sender As Object, ByVal e As ItemCheckEventArgs) _
-    Handles CatsCheckedListBox.ItemCheck
-        AssessmentForm.AllowOnlyOneCheckedItem(sender, e)
-        RaiseEvent CatsCheckedChanged()
-    End Sub
-    Private Sub TemplatesCheckedListBox_ItemCheck(ByVal sender As Object, ByVal e As ItemCheckEventArgs) _
-    Handles TemplatesCheckedListBox.ItemCheck
-        AssessmentForm.AllowOnlyOneCheckedItem(sender, e)
-        RaiseEvent TemplateCheckedChanged()
-    End Sub
-    Private Sub AlternateNamesCheckBox_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
-    Handles AlternateNamesCheckBox.CheckedChanged
-        AlternateNamesTextBox.Enabled = AlternateNamesCheckBox.Checked
-    End Sub
-    Private Sub AutoStubSupportYNCheckBox_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
-    Handles AutoStubSupportYNCheckBox.CheckedChanged
-        If AutoStubSupportYNCheckBox.Checked Then
-            AutoStubCheckBox.Enabled = True
-        Else
-            AutoStubCheckBox.Checked = False
-            AutoStubCheckBox.Enabled = False
-        End If
-    End Sub
-    Private Sub SkipRegexCheckBox_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
-    Handles SkipRegexCheckBox.CheckedChanged
-        SkipRegexTextBox.Enabled = SkipRegexCheckBox.Checked
-    End Sub
-    Private Sub TemplateNameTextBox_TextChanged(ByVal sender As Object, ByVal e As EventArgs) _
-    Handles TemplateNameTextBox.TextChanged
-        InsertTemplateCallMenuItem.Text = "{{" & TemplateName & "}}"
-    End Sub
-    Private Sub InsertTemplateCallMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles InsertTemplateCallMenuItem.Click
-        txtEdit.SelectedText = "{{" & TemplateName & "}}"
-    End Sub
+        Private Sub LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) _
+        Handles LinkLabel1.LinkClicked
+            System.Diagnostics.Process.Start( _
+               "http://en.wikipedia.org/wiki/User:Kingbotk/Plugin/Generic_WikiProject_templates")
+        End Sub
+        Private Sub ImportanceCheckedListBox_ItemCheck(ByVal sender As Object, ByVal e As ItemCheckEventArgs) _
+        Handles ImportanceCheckedListBox.ItemCheck
+            AssessmentForm.AllowOnlyOneCheckedItem(sender, e)
+            RaiseEvent ImportanceCheckedChanged()
+        End Sub
+        Private Sub CatsCheckedListBox_ItemCheck(ByVal sender As Object, ByVal e As ItemCheckEventArgs) _
+        Handles CatsCheckedListBox.ItemCheck
+            AssessmentForm.AllowOnlyOneCheckedItem(sender, e)
+            RaiseEvent CatsCheckedChanged()
+        End Sub
+        Private Sub TemplatesCheckedListBox_ItemCheck(ByVal sender As Object, ByVal e As ItemCheckEventArgs) _
+        Handles TemplatesCheckedListBox.ItemCheck
+            AssessmentForm.AllowOnlyOneCheckedItem(sender, e)
+            RaiseEvent TemplateCheckedChanged()
+        End Sub
+        Private Sub AlternateNamesCheckBox_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
+        Handles AlternateNamesCheckBox.CheckedChanged
+            AlternateNamesTextBox.Enabled = AlternateNamesCheckBox.Checked
+        End Sub
+        Private Sub AutoStubSupportYNCheckBox_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
+        Handles AutoStubSupportYNCheckBox.CheckedChanged
+            If AutoStubSupportYNCheckBox.Checked Then
+                AutoStubCheckBox.Enabled = True
+            Else
+                AutoStubCheckBox.Checked = False
+                AutoStubCheckBox.Enabled = False
+            End If
+        End Sub
+        Private Sub SkipRegexCheckBox_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
+        Handles SkipRegexCheckBox.CheckedChanged
+            SkipRegexTextBox.Enabled = SkipRegexCheckBox.Checked
+        End Sub
+        Private Sub TemplateNameTextBox_TextChanged(ByVal sender As Object, ByVal e As EventArgs) _
+        Handles TemplateNameTextBox.TextChanged
+            InsertTemplateCallMenuItem.Text = "{{" & TemplateName & "}}"
+        End Sub
+        Private Sub InsertTemplateCallMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles InsertTemplateCallMenuItem.Click
+            txtEdit.SelectedText = "{{" & TemplateName & "}}"
+        End Sub
 #End Region
-End Class
+    End Class
 
-Namespace AWB.Plugins.SDKSoftware.Kingbotk
     Friend NotInheritable Class GenericTemplatePlugin
         Inherits PluginBase
-        Implements GenericTemplatePluginInterface, IDisposable
+        Implements IGenericTemplatePlugin, IDisposable
 
         ' Objects:
         Private OurTab As TabPage
@@ -422,7 +422,7 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk
                 Return (Not PreferredTemplateNameRegex Is Nothing)
             End Get
         End Property
-        Protected Friend Overrides ReadOnly Property GenericSettings() As GenericSettingsClass
+        Protected Friend Overrides ReadOnly Property GenericSettings() As IGenericSettings
             Get
                 Return OurSettingsControl
             End Get
@@ -490,7 +490,7 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk
 
         ' Our interface:
         Friend ReadOnly Property GenericTemplateKey() As String _
-        Implements GenericTemplatePluginInterface.GenericTemplateKey
+        Implements IGenericTemplatePlugin.GenericTemplateKey
             Get
                 Return OurName
             End Get
@@ -613,6 +613,16 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk
         End Property
         Protected Overrides Sub InspectUnsetParameter(ByVal Param As String)
         End Sub ' will never be called
+        Friend Overrides ReadOnly Property HasSharedLogLocation() As Boolean
+            Get
+                Return False
+            End Get
+        End Property
+        Friend Overrides ReadOnly Property SharedLogLocation() As String
+            Get
+                Return ""
+            End Get
+        End Property
 
 #Region "IDisposable"
         Private disposed As Boolean = False  ' To detect redundant calls
@@ -659,7 +669,7 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk
         End Sub
 
         Friend Sub Dispose(ByVal AWBPluginsMenu As ToolStripMenuItem) _
-        Implements GenericTemplatePluginInterface.Goodbye
+        Implements IGenericTemplatePlugin.Goodbye
             Debug.WriteLine("Disposing of generic plugin " & OurName)
             ' Execute the code that does the cleanup.
             Dispose(True, AWBPluginsMenu)
@@ -679,8 +689,10 @@ Namespace AWB.Plugins.SDKSoftware.Kingbotk
         End Sub
 #End Region
     End Class
+End Namespace
 
-    Friend Interface GenericTemplatePluginInterface
+Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
+    Friend Interface IGenericTemplatePlugin
         Sub Goodbye(ByVal AWBPluginsMenu As ToolStripMenuItem)
         ReadOnly Property GenericTemplateKey() As String
     End Interface
