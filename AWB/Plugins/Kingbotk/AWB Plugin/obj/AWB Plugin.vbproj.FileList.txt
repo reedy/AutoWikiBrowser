@@ -1,19 +1,26 @@
 obj\Release\ResolveAssemblyReference.cache
 obj\Release\AWB Plugin.vbproj.GenerateResource.Cache
-bin\Debug\AWB Plugin.dll
-bin\Debug\AWB Plugin.pdb
-bin\Debug\AWB Plugin.xml
 obj\Debug\ResolveAssemblyReference.cache
-obj\Debug\AWB.Plugins.SDKSoftware.Kingbotk.Resources.resources
 obj\Debug\AWB Plugin.vbproj.GenerateResource.Cache
-obj\Debug\AWB Plugin.dll
-obj\Debug\AWB Plugin.xml
-obj\Debug\AWB Plugin.pdb
-bin\Release\AWB Plugin.dll
-bin\Release\AWB Plugin.pdb
-bin\Release\AWB Plugin.xml
-obj\Release\AWB Plugin.dll
-obj\Release\AWB Plugin.xml
-obj\Release\AWB Plugin.pdb
 obj\Release\Resources.resources
 bin\Release\WikiFunctions.dll
+obj\Release\AboutBox.resources
+bin\Release\Kingbotk AWB Plugin.dll
+bin\Release\Kingbotk AWB Plugin.pdb
+bin\Release\Kingbotk AWB Plugin.xml
+obj\Release\Kingbotk AWB Plugin.dll
+obj\Release\Kingbotk AWB Plugin.xml
+obj\Release\Kingbotk AWB Plugin.pdb
+obj\Release\WPBioSettings.resources
+bin\Debug\Kingbotk AWB Plugin.dll
+bin\Debug\Kingbotk AWB Plugin.pdb
+bin\Debug\Kingbotk AWB Plugin.xml
+bin\Debug\WikiFunctions.dll
+obj\Debug\AboutBox.resources
+obj\Debug\Resources.resources
+obj\Debug\WPBioSettings.resources
+obj\Debug\Kingbotk AWB Plugin.dll
+obj\Debug\Kingbotk AWB Plugin.xml
+obj\Debug\Kingbotk AWB Plugin.pdb
+obj\Release\PluginSettings.resources
+obj\Debug\PluginSettings.resources
