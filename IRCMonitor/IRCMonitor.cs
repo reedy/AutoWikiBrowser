@@ -76,7 +76,7 @@ namespace IRCMonitor
             webBrowser.Saved += new WikiFunctions.Browser.WebControlDel(webBrowser_Saved);
         }
 
-        public ProjectSettings Project = new ProjectSettings();
+        public ProjectSettings Project = new EnWikipediaSettings();
 
         public string VandalName;
         public string VandalizedPage;
@@ -114,26 +114,33 @@ namespace IRCMonitor
         {
             webBrowser.Navigate(Project.ReportURL);
             webBrowser.Wait();
-            webBrowser.SetArticleText(webBrowser.GetArticleText() + "\r\n*{{" + (Tools.IsIP(username)? Project.ReportAnonTemplate : Project.ReportRegisteredTemplate) + "|" + VandalName + "}} ~~~~");
-            webBrowser.SetSummary(Project.ReportSummary.Replace("%v", username) + Project.Using);
             NextTask = NextTaskType.None;
+            if (webBrowser.GetArticleText().Contains(username + "}}"))
+            {
+                MessageBox.Show("This user is already reported", "AIV", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                webBrowser.GoBack();
+                return;
+            }
+            webBrowser.SetArticleText(webBrowser.GetArticleText() + "\r\n*{{" + (Tools.IsIP(username)? Project.ReportAnonTemplate : Project.ReportRegisteredTemplate) + "|" + username + "}} ~~~~");
+            webBrowser.SetSummary(Project.ReportSummary.Replace("%v", username) + Project.Using);
             //webBrowser.Save();
         }
 
-        private void IRCMonitor_Load(object sender, EventArgs e)
+        public void MakeMenu(string[] Templates, ToolStripItemCollection Items, EventHandler Handler)
         {
-            ResetStats();
-            loadDefaultSettings();
-
-            btnWarn.DropDownItems.Clear();
             Stack<ToolStripItemCollection> st = new Stack<ToolStripItemCollection>();
-            st.Push(btnWarn.DropDownItems);
-            foreach (string s in Project.WarningTemplates)
+            st.Push(Items);
+            foreach (string s in Templates)
             {
                 string Title = s.TrimStart('*');
                 int Level = s.Length - Title.Length;
+                int tag;
+                if (Title == "") continue;
+                if (int.TryParse(Tools.StringBetween(Title, "[", "]"), out tag)) tag = -1;
+                if (Title[0] != '{' && Title.Contains("{")) Title = Title.Remove(0, Title.IndexOf('{'));
                 ToolStripMenuItem ts = new ToolStripMenuItem(Title);
-                
+                ts.Tag = tag;
+
                 if (Level > st.Count - 1)
                 {
                     ToolStripMenuItem parent = (ToolStripMenuItem)st.Peek()[st.Peek().Count - 1];
@@ -143,9 +150,20 @@ namespace IRCMonitor
                 {
                     for (; Level < st.Count - 1; Level++) st.Pop();
                 }
-                if (Title.StartsWith("{{")) ts.Click += new EventHandler(WarnUserClick);
+                if (Title.StartsWith("{{")) ts.Click += Handler;
                 st.Peek().Add(ts);
             }
+        }
+
+        private void IRCMonitor_Load(object sender, EventArgs e)
+        {
+            ResetStats();
+            loadDefaultSettings();
+
+            btnWarn.DropDownItems.Clear();
+            MakeMenu(Project.WarningTemplates, btnWarn.DropDownItems, new EventHandler(WarnUserClick));
+            MakeMenu(Project.StubTypes, addStubToolStripMenuItem.DropDownItems, new EventHandler(AddStubClick));
+            MakeMenu(Project.PageTags, tagWithToolStripMenuItem.DropDownItems, new EventHandler(AddTagClick));
 
             WikiStatus();
 
@@ -171,8 +189,17 @@ namespace IRCMonitor
             Approved = false;
             PowerToolsApproved = false;
 
+            BackgroundRequest Req = new BackgroundRequest();
+            Req.GetHTML(Variables.URLLong + "index.php?title=Project:AutoWikiBrowser/CheckPage&action=raw&dontcountme=s");
+
             WebControl browser = new WebControl();
             User = browser.GetUserInfo();
+
+            //browser.LoadEditPage("Project:AutoWikiBrowser/CheckPage");
+            //browser.Wait();
+
+            while (!Req.Done) Application.DoEvents();
+
             if (User.IsSysop)
             {
                 Approved = true;
@@ -187,10 +214,7 @@ namespace IRCMonitor
                 return;
             }
 
-            browser.LoadEditPage("Project:AutoWikiBrowser/CheckPage");
-            browser.Wait();
-
-            string strText = browser.GetArticleText();
+            string strText = (string)Req.Result;//browser.GetArticleText();
 
             string enabledUsers = Tools.StringBetween(strText, "enabledusersbegins", "enabledusersends");
             if (enabledUsers.Contains("* " + User.Name)) Approved = true;
@@ -1654,6 +1678,7 @@ namespace IRCMonitor
                 btnRevert.Enabled = false;
                 btnWarn.Enabled = false;
                 btnUser.Enabled = false;
+                btnPage.Enabled = false;
                 if (User != null && User.Name != LoggedInUser && !webBrowser.CanGoForward)
                 {
                     Approved = false;
@@ -1680,6 +1705,7 @@ namespace IRCMonitor
                 btnRevert.Enabled = webBrowser.Url.ToString().Contains("&diff=");
                 btnWarn.Enabled = webBrowser.IsUserSpace;
                 btnUser.Enabled = webBrowser.IsUserSpace;
+                btnPage.Enabled = true;//webBrowser.Is
             }
         }
 
@@ -1752,7 +1778,8 @@ namespace IRCMonitor
 
             if (hist[0].User != username)
             {
-                MessageBox.Show("Cannot revert!");
+                webBrowser.Navigate(Variables.URLLong + "index.php?title=" + HttpUtility.UrlEncode(webBrowser.ArticleTitle) + "&action=history");
+                MessageBox.Show("Another user has edited this article. Please look at its history and check if there is vandalism", "Cannot revert", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
@@ -1780,7 +1807,37 @@ namespace IRCMonitor
         {
             string username = webBrowser.ArticleTitle;
             username = username.Remove(0, username.IndexOf(':') + 1);
-            WarnUser(username, (sender as ToolStripMenuItem).Text, VandalizedPage);
+            string template = (sender as ToolStripMenuItem).Text;
+            template = template.Substring(0, template.IndexOf("}}") + 2);
+            WarnUser(username, template, VandalizedPage);
+        }
+
+        private void AddStubClick(object sender, EventArgs e)
+        {
+            string tag = (sender as ToolStripMenuItem).Text;
+            tag = tag.Substring(0, tag.LastIndexOf("}}") + 2);
+
+            NextTask = NextTaskType.None;
+            webBrowser.LoadEditPage(webBrowser.ArticleTitle);
+            webBrowser.Wait();
+            string summary;
+            webBrowser.SetArticleText(Project.AppendTag(webBrowser.GetArticleText(), tag, out summary));
+            webBrowser.SetSummary(summary + Project.Using);
+            webBrowser.Save();
+        }
+
+        private void AddTagClick(object sender, EventArgs e)
+        {
+            string tag = (sender as ToolStripMenuItem).Text;
+            tag = tag.Substring(0, tag.LastIndexOf("}}") + 2);
+
+            NextTask = NextTaskType.None;
+            webBrowser.LoadEditPage(webBrowser.ArticleTitle);
+            webBrowser.Wait();
+            string summary;
+            webBrowser.SetArticleText(Project.PrependTag(webBrowser.GetArticleText(), tag, out summary));
+            webBrowser.SetSummary(summary + Project.Using);
+            webBrowser.Save();
         }
 
         public void WarnUser(string user, string template, string pageConcerned)
@@ -1808,7 +1865,7 @@ namespace IRCMonitor
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            UTCtime.Text = DateTime.UtcNow.ToString("f", System.Globalization.DateTimeFormatInfo.InvariantInfo);
+            UTCtime.Text = DateTime.UtcNow.ToShortDateString() + " " + DateTime.UtcNow.ToLongTimeString();
         }
 
         private void reportToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1862,6 +1919,11 @@ namespace IRCMonitor
         private void iRCMonitorPageToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/Wikipedia:IRCMonitor");
+        }
+
+        private void blacklistToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddToBlacklist(webBrowser.ArticleTitle.Remove(0, webBrowser.ArticleTitle.IndexOf(':') + 1));
         }
 
         //*/
