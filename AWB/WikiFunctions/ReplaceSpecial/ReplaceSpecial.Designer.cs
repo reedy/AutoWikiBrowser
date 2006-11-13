@@ -399,7 +399,7 @@ namespace WikiFunctions.MWB
         // 
         this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
         this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        this.ClientSize = new System.Drawing.Size(705, 467);
+        this.ClientSize = new System.Drawing.Size(705, 475);
         this.Controls.Add(this.RuleControlSpace);
         this.Controls.Add(this.NewSubruleButton);
         this.Controls.Add(this.menuStrip1);
@@ -417,6 +417,7 @@ namespace WikiFunctions.MWB
         this.MaximizeBox = false;
         this.MinimumSize = new System.Drawing.Size(713, 501);
         this.Name = "ReplaceSpecial";
+        this.ShowIcon = false;
         this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
         this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
         this.Text = "Replace Special";
