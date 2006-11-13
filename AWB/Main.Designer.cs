@@ -88,7 +88,7 @@ namespace AutoWikiBrowser
             this.chkQuickSave = new System.Windows.Forms.CheckBox();
             this.chkAutoMode = new System.Windows.Forms.CheckBox();
             this.nudBotSpeed = new System.Windows.Forms.NumericUpDown();
-            this.label5 = new System.Windows.Forms.Label();
+            this.lblAutoDelay = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.rdoPrepend = new System.Windows.Forms.RadioButton();
             this.rdoAppend = new System.Windows.Forms.RadioButton();
@@ -684,7 +684,7 @@ namespace AutoWikiBrowser
             this.groupBox7.Controls.Add(this.chkQuickSave);
             this.groupBox7.Controls.Add(this.chkAutoMode);
             this.groupBox7.Controls.Add(this.nudBotSpeed);
-            this.groupBox7.Controls.Add(this.label5);
+            this.groupBox7.Controls.Add(this.lblAutoDelay);
             this.groupBox7.Location = new System.Drawing.Point(6, 136);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(257, 64);
@@ -751,14 +751,15 @@ namespace AutoWikiBrowser
             0,
             0});
             // 
-            // label5
+            // lblAutoDelay
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(91, 17);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(83, 13);
-            this.label5.TabIndex = 25;
-            this.label5.Text = "Delay (seconds)";
+            this.lblAutoDelay.AutoSize = true;
+            this.lblAutoDelay.Enabled = false;
+            this.lblAutoDelay.Location = new System.Drawing.Point(91, 17);
+            this.lblAutoDelay.Name = "lblAutoDelay";
+            this.lblAutoDelay.Size = new System.Drawing.Size(83, 13);
+            this.lblAutoDelay.TabIndex = 25;
+            this.lblAutoDelay.Text = "Delay (seconds)";
             // 
             // groupBox4
             // 
@@ -872,6 +873,7 @@ namespace AutoWikiBrowser
             // 
             // btnFalsePositive
             // 
+            this.btnFalsePositive.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnFalsePositive.Location = new System.Drawing.Point(160, 59);
             this.btnFalsePositive.Name = "btnFalsePositive";
             this.btnFalsePositive.Size = new System.Drawing.Size(49, 20);
@@ -940,6 +942,7 @@ namespace AutoWikiBrowser
             // 
             this.btnStop.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnStop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnStop.Location = new System.Drawing.Point(213, 59);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(49, 20);
@@ -1087,6 +1090,7 @@ namespace AutoWikiBrowser
             // btnStart
             // 
             this.btnStart.Enabled = false;
+            this.btnStart.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnStart.Location = new System.Drawing.Point(160, 33);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(102, 23);
@@ -1100,6 +1104,7 @@ namespace AutoWikiBrowser
             // btnPreview
             // 
             this.btnPreview.Enabled = false;
+            this.btnPreview.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnPreview.Location = new System.Drawing.Point(160, 93);
             this.btnPreview.Name = "btnPreview";
             this.btnPreview.Size = new System.Drawing.Size(102, 23);
@@ -1127,6 +1132,7 @@ namespace AutoWikiBrowser
             // btnDiff
             // 
             this.btnDiff.Enabled = false;
+            this.btnDiff.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnDiff.Location = new System.Drawing.Point(160, 119);
             this.btnDiff.Name = "btnDiff";
             this.btnDiff.Size = new System.Drawing.Size(102, 23);
@@ -2311,7 +2317,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.CheckBox chkAutoMode;
         private System.Windows.Forms.NumericUpDown nudBotSpeed;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblAutoDelay;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.CheckBox chkAppend;
         private System.Windows.Forms.TextBox txtAppendMessage;

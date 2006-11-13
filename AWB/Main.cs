@@ -68,8 +68,12 @@ namespace AutoWikiBrowser
                 btntsChanges.Image = Resources.changes;
                 btntsFalsePositive.Image = Resources.RolledBack;
                 btntsStart.Image = Resources.Run;
+
                 //btnSave.Image = Resources.btntssave_image;
                 //btnIgnore.Image = Resources.GoLtr;
+
+                //btnDiff.Image = Resources.changes;
+                //btnPreview.Image = Resources.preview;
 
                 int stubcount = 500;
                 bool catkey = false;
@@ -937,6 +941,7 @@ namespace AutoWikiBrowser
             {
                 chkQuickSave.Enabled = true;
                 nudBotSpeed.Enabled = true;
+                lblAutoDelay.Enabled = true;
                 lblBotTimer.Enabled = true;
                 chkSkipNoChanges.Checked = true;
                 chkSuppressTag.Enabled = true;
@@ -946,6 +951,7 @@ namespace AutoWikiBrowser
             {
                 chkQuickSave.Enabled = false;
                 nudBotSpeed.Enabled = false;
+                lblAutoDelay.Enabled = false;
                 lblBotTimer.Enabled = false;
                 chkSuppressTag.Enabled = false;
                 stopDelayedAutoSaveTimer();
