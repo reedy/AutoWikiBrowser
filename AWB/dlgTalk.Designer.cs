@@ -35,8 +35,9 @@ namespace AutoWikiBrowser
             // 
             // btnIE
             // 
+            this.btnIE.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnIE.DialogResult = System.Windows.Forms.DialogResult.No;
-            this.btnIE.Location = new System.Drawing.Point(19, 95);
+            this.btnIE.Location = new System.Drawing.Point(19, 87);
             this.btnIE.Name = "btnIE";
             this.btnIE.Size = new System.Drawing.Size(98, 23);
             this.btnIE.TabIndex = 0;
@@ -45,8 +46,9 @@ namespace AutoWikiBrowser
             // 
             // btnDefault
             // 
+            this.btnDefault.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDefault.DialogResult = System.Windows.Forms.DialogResult.Yes;
-            this.btnDefault.Location = new System.Drawing.Point(123, 95);
+            this.btnDefault.Location = new System.Drawing.Point(123, 87);
             this.btnDefault.Name = "btnDefault";
             this.btnDefault.Size = new System.Drawing.Size(98, 23);
             this.btnDefault.TabIndex = 1;
@@ -66,12 +68,12 @@ namespace AutoWikiBrowser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(238, 126);
+            this.ClientSize = new System.Drawing.Size(242, 122);
             this.ControlBox = false;
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnDefault);
             this.Controls.Add(this.btnIE);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "dlgTalk";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
