@@ -1,5 +1,7 @@
 using System;
 using System.Xml.Serialization;
+using System.Resources;
+using System.IO;
 
 
 namespace IRCMonitor
@@ -9,7 +11,7 @@ namespace IRCMonitor
     {
         public ProjectSettings()
         {
-            SetToEnglish();
+            //SetToEnglish();
         }
 
         public string Using;
@@ -22,8 +24,56 @@ namespace IRCMonitor
 
         public string[] WarningTemplates;
         public string WarningSummary;
+        public string AppendedTagSummary;
+        public string PrependedTagSummary;
 
-        public void SetToEnglish()
+        public string[] StubTypes;
+        public string[] PageTags;
+
+
+        public string AppendTag(string PageContent, string TagToAdd, out string Summary)
+        {
+            PageContent += "\r\n" + TagToAdd;
+            Summary = AppendedTagSummary.Replace("%1", TagToAdd);
+            return PageContent;
+        }
+
+        public string PrependTag(string PageContent, string TagToAdd, out string Summary)
+        {
+            PageContent = TagToAdd + "\r\n" + PageContent;
+            Summary = PrependedTagSummary.Replace("%1", TagToAdd);
+            return PageContent;
+        }
+
+        public string[] LoadStubs(string FileName, int InitialLevel)
+        {
+            string[] stubs;
+            StreamReader sr = new StreamReader(FileName);
+            string contents = sr.ReadToEnd();
+            stubs = contents.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+
+            int Level = InitialLevel;
+            for (int i = 0; i < stubs.Length; i++)
+            {
+                string s = stubs[i];
+                s = s.TrimEnd(new char[] { '=', ' ' });
+                if (s[0] == '=')
+                {
+                    Level = s.LastIndexOf('=') + 1;
+                    s = s.TrimStart(new char[] { '=', ' ' });
+                }
+
+                s = "".PadLeft(Level - InitialLevel, '*') + s;
+                stubs[i] = s;
+            }
+
+            return stubs;
+        }
+    };
+
+    public class EnWikipediaSettings : ProjectSettings
+    {
+        public EnWikipediaSettings()
         {
             Using = " using [[WP:IRCM|IRCM]]";
 
@@ -35,70 +85,178 @@ namespace IRCMonitor
             WarningTemplates = new string[] 
             {
                 "Simple vandalism",
-                "*{{test1}}",
-                "*{{test2}}",
-                "*{{test3}}",
-                "*{{test4}}",
-                "*{{test4im}}",
-                "*{{blatantvandal}}",
-                "*{{test5}}",
-                "*{{test6}}",
+                "*[0]{{test0}} - Just to inform that some actions could be considered vandalism",
+                "*{{test1}} - AGF: Thank you for experimenting with Wikipedia",
+                "*{{test2}} - Please do not add nonsense to Wikipedia. It is considered vandalism",
+                "*{{test3}} - Please stop",
+                "*{{test4}} - This is your last warning",
+                "*{{test4im}} - This is the only warning you will receive",
+                "*{{blatantvandal}} - You may be blocked from editing without further warning",
+                "*{{test5}} - You have been temporarily blocked from editing",
+                "*{{test6}} - You have been blocked from editing Wikipedia for repeated vandalism",
                 "Blanking",
-                "*{{blank1}}",
-                "*{{blank2}}",
-                "*{{blank3}}",
-                "*{{blank4}}",
-                "*{{blank5}}",
+                "*{{blank1}} - Please do not replace Wikipedia pages with blank content",
+                "*{{blank2}} - It is considered vandalism",
+                "*{{blank3}} - If you continue to blank pages, you will be blocked from editing Wikipedia",
+                "*{{blank4}} - This is your last warning",
+                "*{{blank5}} - You have been blocked from editing Wikipedia for blanking pages",
                 "Removing content",
-                "*{{test1a}}",
-                "*{{test2a}}",
-                "*{{test2del}}",
-                "*{{test3a}}",
-                "*{{test4a}}",
+                "*{{test1a}} - Your recent edit removed content from an article",
+                "*{{test2a}} - Please do not remove content from Wikipedia. It is considered vandalism",
+                "*{{test2del}} - Please do not delete sections of text or valid links. It is considered vandalism",
+                "*{{test3a}} - If you continue to remove content from pages, you will be blocked",
+                "*{{test4a}} - This is your last warning",
                 "Userpage vandalism",
-                "*{{tpv1}}",
-                "*{{tpv2}}",
-                "*{{tpv3}}",
-                "*{{tpv4}}",
-                "*{{tpv5}}",
+                "*{{tpv1}} - Please do not edit the user pages of other contributors without their approval",
+                "*{{tpv2}} - Please do not target one or more user's pages or talk pages for abuse or insults",
+                "*{{tpv3}} - If you continue you will be blocked",
+                "*{{tpv4}} - This is your last warning",
+                "*{{tpv5}} - You have been temporarily blocked",
                 "Linkspam",
-                "*{{welcomespam}}",
-                "*{{spam0}}",
-                "*{{spam1}}",
-                "*{{spam2}}",
-                "*{{spam2a}}",
-                "*{{spam3}}",
-                "*{{spam4}}",
-                "*{{spam4im}}",
-                "*{{spam5}}",
-                "*{{spam5i}}",
+                "*{{welcomespam}} - Welcoming + links to policies",
+                "*{{spam0}} - The commercial links/content you added were inappropriate",
+                "*{{spam1}} - Please do not add inappropriate external links to Wikipedia",
+                "*{{spam2}} - Please stop adding inappropriate external links to Wikipedia",
+                "*{{spam2a}} - Adding unrelated external links to articles is considered vandalism",
+                "*{{spam3}} - If you continue spamming you will be blocked",
+                "*{{spam4}} - This is your last warning",
+                "*{{spam4im}} - This is the only warning you will receive",
+                "*{{spam5}} - You've been temporarily blocked for continuing to add spam links",
+                "*{{spam5i}} - You have been blocked indefinitely for continuing to add spam links",
                 "Personal attacks",
-                "*{{npa2}}",
-                "*{{npa3}}",
-                "*{{npa4}}",
-                "*{{npa5}}",
-                "*{{npa6}}",
+                "*{{npa2}} - First warning",
+                "*{{npa3}} - If you continue to make personal attacks on other people, you will be blocked",
+                "*{{npa4}} - This is your last warning",
+                "*{{npa5}} - You have been temporarily blocked from editing for disrupting Wikipedia",
+                "*{{npa6}} - Block and severe warning",
                 "Introducing deliberate factual errors",
-                "*{{verror}}",
-                "*{{verror2}}",
-                "*{{verror3}}",
-                "*{{verror4}}",
+                "*{{verror}} - Your test of deliberately adding incorrect information...",
+                "*{{verror2}} - It is considered vandalism",
+                "*{{verror3}} - If you continue, you will be blocked",
+                "*{{verror4}} - This is your last warning",
                 "Using improper humor",
-                "*{{behave}}",
-                "*{{joke}}",
-                "*{{funnybut}}",
-                "*{{seriously}}",
+                "*{{behave}} - Don't make joke edits",
+                "*{{joke}} - Please keep your edits factual and neutral",
+                "*{{funnybut}} - It is time to straighten up and make serious contributions",
+                "*{{seriously}} - You might not get another warning before having a block imposed",
+                "Creating inappropriate pages",
+                "*{{test1article}} - Thank you for experimenting with Wikipedia",
+                "*{{test2article}} - Please refrain from creating inappropriate pages",
+                "*{{test3article}} - If you continue to create inappropriate pages, you will be blocked",
+                "*{{test4article}} - This is your last warning",
+                "*{{test5article}} - You've been blocked for continually creating inappropriate pages",
+                "Removing speedy deletion templates",
+                "*{{drmspeedy}} - Please do not remove speedy deletion tags",
+                "*{{drmspeedy2}} - Please stop removing speedy deletion notices",
+                "*{{drmspeedy3}} - If you continue to remove them, you will be blocked",
+                "*{{drmspeedy4}} - This is your last warning",
+                "*{{drmspeedy5}} - You have been temporarily blocked",
                 "Removing {{afd}} templates",
-                "*{{drmafd}}",
-                "*{{drmafd2}}",
-                "*{{drmafd3}}",
-                "*{{drmafd4}}",
-                "*{{drmafd}}",
+                "*{{drmafd}} - Informing not to do it",
+                "*{{drmafd2}} - Please stop removing...",
+                "*{{drmafd3}} - If you continue to remove them, you will be blocked",
+                "*{{drmafd4}} - This is your last warning",
+                "*{{drmafd5}} - You have been temporarily blocked",
             };
 
             ReportAnonTemplate = "IPvandal";
             ReportRegisteredTemplate = "vandal";
             WarningSummary = "Warned user with %t";
+            AppendedTagSummary = "Added %1";
+            PrependedTagSummary = "Tagged with %1";
+
+            StubTypes = LoadStubs("enwiki.stubs.txt", 3);
+
+            /*
+            StubTypes = new string[]
+            {
+                "Geography",
+                "*{{geo-stub}}",
+                "*{{russia-stub}}",
+                "Biography",
+                "*{{bio-stub}}",
+                "*{{russia-bio-stub}}"
+            };//*/
+
+            // stubs
+            //string stubs = (string)ResourceManager.GetObject("en.wikipedia.stubs");
+
+            //StubTypes = stubs.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+
+            PageTags = new string[]
+            {
+                "Cleanup",
+                "*{{subst:cleanup-now}}",
+                "*{{cleanup-list}}",
+                "*{{cleanup-image}}",
+                "*{{disambig-cleanup}}",
+                "*{{technical}}",
+                "*{{cleanup-english}}",
+                "*{{uncategorized}}",
+                "*{{wikify}}",
+                "Disputes",
+                "*{{advert}}",
+                "*{{Autobiography}}",
+                "*{{citecheck}}",
+                "*{{contradict}}",
+                "*{{disputed}}",
+                "*{{hoax}}",
+                "*{{OriginalResearch}}",
+                "*{{POV}}",
+                "*{{POV-check}}",
+                "*{{TotallyDisputed}}",
+                "*{{weasel}}",
+                "Notability",
+                "*{{notability}}",
+                "*{{notability|Biographies}}",
+                "*{{notability|Books}}",
+                "*{{notability|Companies}}",
+                "*{{notability|Fiction}}",
+                "*{{notability|Music}}",
+                "*{{notability|Neologisms}}",
+                "*{{notability|Numbers}}",
+                "*{{notability|Web}}",
+                "*{{notability|Notability}}",
+                "Speedy deletion",
+                "*{{db-nonsense}}",
+                "*{{db-test}}",
+                "*{{db-vandalism}}",
+                "*{{db-pagemove}}",
+                "*{{db-repost}}",
+                "*{{db-banned}}",
+                "*{{db-afd}}",
+                "*{{db-g6}}",
+                "*{{db-author}}",
+                "*{{db-blanked}}",
+                "*{{db-talk}}",
+                "*{{db-attack}}",
+                "*{{db-spam}}",
+                "*{{db-empty}}",
+                "*{{db-nocontext}}",
+                "*{{db-foreign}}",
+                "*{{db-nocontent}}",
+                "*{{db-transwiki}}",
+                "*{{db-bio}}",
+                "*{{db-band}}",
+                "*{{db-club}}",
+                "*{{db-group}}",
+                "*{{db-web}}",
+                "*{{db-redirnone}}",
+                "*{{db-rediruser}}",
+                "*{{db-redirtypo}}",
+                "*{{db-noimage}}",
+                "*{{db-noncom}}",
+                "*{{db-unksource}}",
+                "*{{db-unfree}}",
+                "*{{db-norat}}",
+                "*{{db-badfairuse}}",
+                "*{{db-catempty}}",
+                "*{{db-catfd}}",
+                "*{{db-userreq}}",
+                "*{{db-nouser}}",
+                "*{{db-disparage}}",
+                "*{{db-emptyportal}}"
+            };
         }
-    };
+    }
 };

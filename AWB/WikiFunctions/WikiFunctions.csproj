@@ -37,6 +37,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Article.cs" />
+    <Compile Include="Background.cs" />
     <Compile Include="Controls\MoveDeleteDialog.cs">
       <SubType>Form</SubType>
     </Compile>
