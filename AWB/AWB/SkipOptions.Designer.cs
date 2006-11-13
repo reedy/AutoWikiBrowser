@@ -33,16 +33,16 @@ namespace AutoWikiBrowser
             this.rdoNoUnicode = new System.Windows.Forms.RadioButton();
             this.rdoNoTag = new System.Windows.Forms.RadioButton();
             this.gbOptions = new System.Windows.Forms.GroupBox();
+            this.rdoNoBadLink = new System.Windows.Forms.RadioButton();
             this.rdoNoBulletedLink = new System.Windows.Forms.RadioButton();
             this.rdoNoBoldTitle = new System.Windows.Forms.RadioButton();
             this.rdoNoHeaderError = new System.Windows.Forms.RadioButton();
-            this.rdoNoBadLink = new System.Windows.Forms.RadioButton();
             this.gbOptions.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(292, 173);
+            this.btnClose.Location = new System.Drawing.Point(292, 135);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 2;
@@ -79,10 +79,10 @@ namespace AutoWikiBrowser
             this.rdoNoTag.AutoSize = true;
             this.rdoNoTag.Location = new System.Drawing.Point(6, 67);
             this.rdoNoTag.Name = "rdoNoTag";
-            this.rdoNoTag.Size = new System.Drawing.Size(131, 17);
+            this.rdoNoTag.Size = new System.Drawing.Size(132, 17);
             this.rdoNoTag.TabIndex = 5;
             this.rdoNoTag.Tag = "2";
-            this.rdoNoTag.Text = "Skip if no tag changes";
+            this.rdoNoTag.Text = "Skip if no tag changed";
             this.rdoNoTag.UseVisualStyleBackColor = true;
             // 
             // gbOptions
@@ -96,10 +96,22 @@ namespace AutoWikiBrowser
             this.gbOptions.Controls.Add(this.rdoNoUnicode);
             this.gbOptions.Location = new System.Drawing.Point(12, 12);
             this.gbOptions.Name = "gbOptions";
-            this.gbOptions.Size = new System.Drawing.Size(355, 155);
+            this.gbOptions.Size = new System.Drawing.Size(355, 117);
             this.gbOptions.TabIndex = 6;
             this.gbOptions.TabStop = false;
             this.gbOptions.Text = "Options";
+            // 
+            // rdoNoBadLink
+            // 
+            this.rdoNoBadLink.AutoSize = true;
+            this.rdoNoBadLink.Location = new System.Drawing.Point(171, 91);
+            this.rdoNoBadLink.Name = "rdoNoBadLink";
+            this.rdoNoBadLink.Size = new System.Drawing.Size(139, 17);
+            this.rdoNoBadLink.TabIndex = 10;
+            this.rdoNoBadLink.TabStop = true;
+            this.rdoNoBadLink.Tag = "6";
+            this.rdoNoBadLink.Text = "Skip if no bad links fixed";
+            this.rdoNoBadLink.UseVisualStyleBackColor = true;
             // 
             // rdoNoBulletedLink
             // 
@@ -137,23 +149,11 @@ namespace AutoWikiBrowser
             this.rdoNoHeaderError.Text = "Skip if no header error fixed";
             this.rdoNoHeaderError.UseVisualStyleBackColor = true;
             // 
-            // rdoNoBadLink
-            // 
-            this.rdoNoBadLink.AutoSize = true;
-            this.rdoNoBadLink.Location = new System.Drawing.Point(171, 91);
-            this.rdoNoBadLink.Name = "rdoNoBadLink";
-            this.rdoNoBadLink.Size = new System.Drawing.Size(139, 17);
-            this.rdoNoBadLink.TabIndex = 10;
-            this.rdoNoBadLink.TabStop = true;
-            this.rdoNoBadLink.Tag = "6";
-            this.rdoNoBadLink.Text = "Skip if no bad links fixed";
-            this.rdoNoBadLink.UseVisualStyleBackColor = true;
-            // 
             // SkipOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(383, 208);
+            this.ClientSize = new System.Drawing.Size(383, 167);
             this.Controls.Add(this.gbOptions);
             this.Controls.Add(this.btnClose);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -162,7 +162,7 @@ namespace AutoWikiBrowser
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Tag = "";
-            this.Text = "SkipOptions";
+            this.Text = "Skip options";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SkipOptions_FormClosing);
             this.gbOptions.ResumeLayout(false);
             this.gbOptions.PerformLayout();
