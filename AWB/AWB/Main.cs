@@ -1855,12 +1855,18 @@ namespace AutoWikiBrowser
             undoToolStripMenuItem.Enabled = txtEdit.CanUndo;
 
             openPageInBrowserToolStripMenuItem.Enabled = EdittingArticle.Name.Length > 0;
+            openHistoryMenuItem.Enabled = EdittingArticle.Name.Length > 0;
             replaceTextWithLastEditToolStripMenuItem.Enabled = LastArticle.Length > 0;
         }
 
         private void openPageInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=" + EdittingArticle.URLEncodedName);
+        }
+
+        private void openHistoryMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=" + EdittingArticle.URLEncodedName + "&action=history");
         }
 
         private void previewInsteadOfDiffToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2355,7 +2361,6 @@ namespace AutoWikiBrowser
             }
         }       
 
-        #endregion        
-        
+        #endregion      
     }
 }
