@@ -718,7 +718,7 @@ namespace AutoWikiBrowser
 
 
             p.General.WordWrap = wordWrapToolStripMenuItem1.Checked;
-            p.General.ToolBarEnabled = enableTheToolbarToolStripMenuItem.Checked;
+            p.General.ToolBarEnabled = enableToolBar;
             p.General.BypassRedirect = bypassRedirectsToolStripMenuItem.Checked;
             p.General.NoAutoChanges = doNotAutomaticallyDoAnythingToolStripMenuItem.Checked;
             p.General.Preview = previewInsteadOfDiffToolStripMenuItem.Checked;
@@ -836,7 +836,7 @@ namespace AutoWikiBrowser
             chkFindCaseSensitive.Checked = p.General.FindCaseSensitive;
 
             wordWrapToolStripMenuItem1.Checked = p.General.WordWrap;
-            enableTheToolbarToolStripMenuItem.Checked = p.General.ToolBarEnabled;
+            enableToolBar = p.General.ToolBarEnabled;
             bypassRedirectsToolStripMenuItem.Checked = p.General.BypassRedirect;
             doNotAutomaticallyDoAnythingToolStripMenuItem.Checked = p.General.NoAutoChanges;
             previewInsteadOfDiffToolStripMenuItem.Checked = p.General.Preview;
