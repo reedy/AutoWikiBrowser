@@ -150,6 +150,8 @@ namespace WikiFunctions.Lists
             // 
             // txtNewArticle
             // 
+            this.txtNewArticle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.txtNewArticle.Location = new System.Drawing.Point(68, 325);
             this.txtNewArticle.Name = "txtNewArticle";
             this.txtNewArticle.Size = new System.Drawing.Size(141, 20);
