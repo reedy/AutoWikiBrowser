@@ -68,7 +68,7 @@ namespace WikiFunctions.Lists
             // 
             // btnFilter
             // 
-            this.btnFilter.Location = new System.Drawing.Point(4, 280);
+            this.btnFilter.Location = new System.Drawing.Point(4, 211);
             this.btnFilter.Name = "btnFilter";
             this.btnFilter.Size = new System.Drawing.Size(58, 23);
             this.btnFilter.TabIndex = 31;
@@ -110,7 +110,7 @@ namespace WikiFunctions.Lists
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(4, 193);
+            this.btnAdd.Location = new System.Drawing.Point(4, 322);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(58, 23);
             this.btnAdd.TabIndex = 25;
@@ -120,7 +120,7 @@ namespace WikiFunctions.Lists
             // 
             // btnRemoveArticle
             // 
-            this.btnRemoveArticle.Location = new System.Drawing.Point(4, 222);
+            this.btnRemoveArticle.Location = new System.Drawing.Point(4, 153);
             this.btnRemoveArticle.Name = "btnRemoveArticle";
             this.btnRemoveArticle.Size = new System.Drawing.Size(58, 23);
             this.btnRemoveArticle.TabIndex = 26;
@@ -130,7 +130,7 @@ namespace WikiFunctions.Lists
             // 
             // btnArticlesListClear
             // 
-            this.btnArticlesListClear.Location = new System.Drawing.Point(4, 251);
+            this.btnArticlesListClear.Location = new System.Drawing.Point(4, 182);
             this.btnArticlesListClear.Name = "btnArticlesListClear";
             this.btnArticlesListClear.Size = new System.Drawing.Size(58, 23);
             this.btnArticlesListClear.TabIndex = 27;
@@ -140,7 +140,7 @@ namespace WikiFunctions.Lists
             // 
             // btnArticlesListSave
             // 
-            this.btnArticlesListSave.Location = new System.Drawing.Point(4, 309);
+            this.btnArticlesListSave.Location = new System.Drawing.Point(4, 240);
             this.btnArticlesListSave.Name = "btnArticlesListSave";
             this.btnArticlesListSave.Size = new System.Drawing.Size(58, 23);
             this.btnArticlesListSave.TabIndex = 30;
@@ -150,9 +150,9 @@ namespace WikiFunctions.Lists
             // 
             // txtNewArticle
             // 
-            this.txtNewArticle.Location = new System.Drawing.Point(4, 167);
+            this.txtNewArticle.Location = new System.Drawing.Point(68, 325);
             this.txtNewArticle.Name = "txtNewArticle";
-            this.txtNewArticle.Size = new System.Drawing.Size(58, 20);
+            this.txtNewArticle.Size = new System.Drawing.Size(141, 20);
             this.txtNewArticle.TabIndex = 24;
             this.txtNewArticle.DoubleClick += new System.EventHandler(this.txtNewArticle_DoubleClick);
             this.txtNewArticle.MouseMove += new System.Windows.Forms.MouseEventHandler(this.txtNewArticle_MouseMove);
@@ -375,7 +375,7 @@ namespace WikiFunctions.Lists
             this.lbArticles.Location = new System.Drawing.Point(68, 81);
             this.lbArticles.Name = "lbArticles";
             this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbArticles.Size = new System.Drawing.Size(141, 264);
+            this.lbArticles.Size = new System.Drawing.Size(141, 238);
             this.lbArticles.TabIndex = 22;
             this.lbArticles.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lbArticles_MouseMove);
             this.lbArticles.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbArticles_KeyDown);
@@ -386,17 +386,17 @@ namespace WikiFunctions.Lists
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ContextMenuStrip = this.mnuListBox;
             this.Controls.Add(this.lbArticles);
-            this.Controls.Add(this.btnFilter);
             this.Controls.Add(this.chkWLHRedirects);
+            this.Controls.Add(this.btnFilter);
             this.Controls.Add(this.txtSelectSource);
             this.Controls.Add(this.lblNumberOfArticles);
-            this.Controls.Add(this.btnAdd);
+            this.Controls.Add(this.lblSourceSelect);
             this.Controls.Add(this.btnRemoveArticle);
+            this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.btnArticlesListClear);
             this.Controls.Add(this.btnArticlesListSave);
-            this.Controls.Add(this.txtNewArticle);
-            this.Controls.Add(this.lblSourceSelect);
             this.Controls.Add(this.btnMakeList);
+            this.Controls.Add(this.txtNewArticle);
             this.Controls.Add(this.cmboSourceSelect);
             this.Controls.Add(this.label1);
             this.Name = "ListMaker";
