@@ -358,7 +358,7 @@ namespace WikiFunctions.Lists
                 int intStart = 0;
                 string Google = encodeText(G);
                 Google = Google.Replace("_", " ");
-                string URL = "http://www.google.com/search?q=" + Google + "+site:" + Variables.URL + "&num=100&hl=en&lr=&start=0&sa=N";
+                string URL = "http://www.google.com/search?q=" + Google + "+site:" + Variables.URL + "&num=100&hl=en&lr=&start=0&sa=N&filter=0";
                 string title = "";
 
                 do
@@ -393,7 +393,7 @@ namespace WikiFunctions.Lists
                     if (GoogleText.Contains("<br>Next</a>"))
                     {
                         intStart += 100;
-                        URL = "http://www.google.com/search?q=" + Google + "+site:" + Variables.URL + "&num=100&hl=en&lr=&start=" + intStart.ToString() + "&sa=N";
+                        URL = "http://www.google.com/search?q=" + Google + "+site:" + Variables.URL + "&num=100&hl=en&lr=&start=" + intStart.ToString() + "&sa=N&filter=0";
                     }
                     else
                         break;
