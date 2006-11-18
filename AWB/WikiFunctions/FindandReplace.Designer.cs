@@ -398,7 +398,7 @@ namespace WikiFunctions.Parse
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.CheckBox chkIgnoreLinks;
-        private System.Windows.Forms.CheckBox chkAddToSummary;
+        public  System.Windows.Forms.CheckBox chkAddToSummary;
         private System.Windows.Forms.DataGridViewTextBoxColumn find;
         private System.Windows.Forms.DataGridViewTextBoxColumn replace;
         private System.Windows.Forms.DataGridViewCheckBoxColumn casesensitive;

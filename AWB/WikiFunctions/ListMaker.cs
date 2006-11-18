@@ -12,7 +12,7 @@ using System.IO;
 
 namespace WikiFunctions.Lists
 {
-    public enum SourceType { Category, WhatLinksHere, WhatTranscludesHere, LinksOnPage, TextFile, GoogleWikipedia, UserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist, WikiSearch }
+    public enum SourceType { None = -1, Category, WhatLinksHere, WhatTranscludesHere, LinksOnPage, TextFile, GoogleWikipedia, UserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist, WikiSearch }
 
     public delegate void ListMakerEventHandler();
 

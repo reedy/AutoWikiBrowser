@@ -793,6 +793,36 @@ namespace WikiFunctions.Browser
             base.OnProgressChanged(e);
         }
 
+        public bool MovePage(string OldTitle, string NewTitle, string Summary)
+        {
+            Navigate(Variables.URL + "/wiki/Special:Movepage/" + OldTitle);
+
+            Wait();
+
+            if (this.Document == null || !this.Document.Body.InnerHtml.Contains("wpNewTitle"))
+                return false;
+
+            Document.GetElementById("wpNewTitle").InnerText = NewTitle;
+
+            if (!Document.Body.InnerHtml.Contains("wpReason"))
+                return false;
+
+            Document.GetElementById("wpReason").InnerText = Summary;
+
+            foreach(HtmlElement e in Document.GetElementById("movepage").GetElementsByTagName("input"))
+            {
+                if (e.GetAttribute("name") == "wpMove")
+                {
+                    e.InvokeMember("click");
+                    Wait();
+                    if (e.Document.GetElementById("movepage") != null) return false;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         #endregion
 
         #region IRCMonitor-related
