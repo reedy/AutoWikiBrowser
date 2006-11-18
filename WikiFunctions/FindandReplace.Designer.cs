@@ -101,7 +101,7 @@ namespace WikiFunctions.Parse
             this.single,
             this.enabled});
             this.dataGridView1.ContextMenuStrip = this.FindAndReplaceContextMenu;
-            this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
+            this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.dataGridView1.Location = new System.Drawing.Point(12, 87);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(653, 267);
