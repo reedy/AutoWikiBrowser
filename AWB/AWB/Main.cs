@@ -120,6 +120,9 @@ namespace AutoWikiBrowser
 
         string LastArticle = "";
         string SettingsFile = "";
+        string LastMove = "";
+        string LastDelete = "";
+
         bool boolSaved = true;
         HideText RemoveText = new HideText(false, true, false);
         List<string> noParse = new List<string>();
@@ -2302,10 +2305,12 @@ namespace AutoWikiBrowser
             try
             {
                 dlg.NewTitle = EdittingArticle.Name;
+                dlg.Summary = LastMove;
 
                 if (dlg.ShowDialog(this) == DialogResult.OK)
                 {
-                    webBrowserEdit.MovePage(EdittingArticle.Name, dlg.NewTitle, dlg.Summary);
+                    LastMove = dlg.Summary;
+                    webBrowserEdit.MovePage(EdittingArticle.Name, dlg.NewTitle, dlg.Summary);                    
                 }
             }
             catch (Exception ex)
@@ -2324,8 +2329,11 @@ namespace AutoWikiBrowser
 
             try
             {
+                dlg.Summary = LastDelete;
+
                 if (dlg.ShowDialog(this) == DialogResult.OK)
                 {
+                    LastDelete = dlg.Summary;
                     webBrowserEdit.DeletePage(EdittingArticle.Name, dlg.Summary);
                 }
             }

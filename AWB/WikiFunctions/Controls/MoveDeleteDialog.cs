@@ -10,12 +10,21 @@ namespace WikiFunctions.Controls
 {
     public partial class MoveDeleteDialog : Form
     {
-        public MoveDeleteDialog(bool ShowNewTitle)
+        public MoveDeleteDialog(bool IsMove)
         {
             InitializeComponent();
 
-            if (!ShowNewTitle)
+            if (IsMove)
             {
+                this.Text = "Move";
+                btnOk.Text = "Move";
+            }
+            else
+            {
+                this.Text = "Delete";
+                btnOk.Text = "Delete";
+                this.Size = new Size(this.Width, 115);
+
                 label1.Visible = false;
                 txtNewTitle.Visible = false;
             }

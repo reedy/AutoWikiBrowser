@@ -38,14 +38,15 @@ namespace WikiFunctions.Controls
             // 
             // txtNewTitle
             // 
-            this.txtNewTitle.Location = new System.Drawing.Point(73, 23);
+            this.txtNewTitle.Location = new System.Drawing.Point(62, 12);
             this.txtNewTitle.Name = "txtNewTitle";
             this.txtNewTitle.Size = new System.Drawing.Size(254, 20);
             this.txtNewTitle.TabIndex = 0;
             // 
             // txtSummary
             // 
-            this.txtSummary.Location = new System.Drawing.Point(73, 50);
+            this.txtSummary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSummary.Location = new System.Drawing.Point(62, 39);
             this.txtSummary.Name = "txtSummary";
             this.txtSummary.Size = new System.Drawing.Size(254, 20);
             this.txtSummary.TabIndex = 1;
@@ -53,7 +54,7 @@ namespace WikiFunctions.Controls
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(19, 26);
+            this.label1.Location = new System.Drawing.Point(8, 15);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(48, 13);
             this.label1.TabIndex = 2;
@@ -61,8 +62,9 @@ namespace WikiFunctions.Controls
             // 
             // label2
             // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(17, 53);
+            this.label2.Location = new System.Drawing.Point(6, 42);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(50, 13);
             this.label2.TabIndex = 3;
@@ -70,8 +72,9 @@ namespace WikiFunctions.Controls
             // 
             // btnOk
             // 
+            this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOk.Location = new System.Drawing.Point(252, 85);
+            this.btnOk.Location = new System.Drawing.Point(241, 74);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 4;
@@ -80,8 +83,9 @@ namespace WikiFunctions.Controls
             // 
             // btnCancel
             // 
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(171, 85);
+            this.btnCancel.Location = new System.Drawing.Point(160, 74);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 5;
@@ -94,7 +98,7 @@ namespace WikiFunctions.Controls
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(347, 128);
+            this.ClientSize = new System.Drawing.Size(327, 108);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.label2);
