@@ -1675,7 +1675,7 @@ namespace AutoWikiBrowser
             // 
             this.loginToolStripMenuItem.Name = "loginToolStripMenuItem";
             this.loginToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
-            this.loginToolStripMenuItem.Text = "Login";
+            this.loginToolStripMenuItem.Text = "Log in";
             this.loginToolStripMenuItem.Click += new System.EventHandler(this.loginToolStripMenuItem_Click);
             // 
             // toolStripSeparator17
