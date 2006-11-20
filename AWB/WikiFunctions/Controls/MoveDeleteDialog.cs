@@ -32,6 +32,5 @@ namespace WikiFunctions.Controls
             get { return txtSummary.Text; }
             set { txtSummary.Text = value; }
         }
-
     }
 }

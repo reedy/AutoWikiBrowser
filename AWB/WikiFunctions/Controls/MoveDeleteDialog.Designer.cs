@@ -70,6 +70,7 @@ namespace WikiFunctions.Controls
             // 
             // btnOk
             // 
+            this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnOk.Location = new System.Drawing.Point(252, 85);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
@@ -87,7 +88,7 @@ namespace WikiFunctions.Controls
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
-            // MoveDelete
+            // MoveDeleteDialog
             // 
             this.AcceptButton = this.btnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -101,9 +102,9 @@ namespace WikiFunctions.Controls
             this.Controls.Add(this.txtSummary);
             this.Controls.Add(this.txtNewTitle);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Name = "MoveDelete";
+            this.Name = "MoveDeleteDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "MoveDelete";
+            this.Text = "Enter details";
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -132,8 +132,6 @@ namespace AutoWikiBrowser
         StringCollection RecentList = new StringCollection();
         CustomModule cModule = new CustomModule();
 
-        WikiFunctions.DotNetWikiBot DNWB;
-
         private void MainForm_Load(object sender, EventArgs e)
         {
             //add articles to avoid (in future may be populated from checkpage
@@ -984,7 +982,7 @@ namespace AutoWikiBrowser
 
             switch (Result)
             {
-                case WikiStatusResult.Error:                    
+                case WikiStatusResult.Error:
                     lblUserName.BackColor = Color.Red;
                     MessageBox.Show("Check page failed to load.\r\n\r\nCheck your Internet Explorer is working and that the Wikipedia servers are online, also try clearing Internet Explorer cache.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
@@ -1299,7 +1297,7 @@ namespace AutoWikiBrowser
             MyPreferences MyPrefs = new MyPreferences(Variables.LangCode, Variables.Project, Variables.CustomProject, webBrowserEdit.EnhanceDiffEnabled, webBrowserEdit.ScrollDown, webBrowserEdit.DiffFontSize, txtEdit.Font, LowThreadPriority, FlashAndBeep);
 
             if (MyPrefs.ShowDialog(this) == DialogResult.OK)
-            {                
+            {
                 webBrowserEdit.EnhanceDiffEnabled = MyPrefs.EnhanceDiff;
                 webBrowserEdit.ScrollDown = MyPrefs.ScrollDown;
                 webBrowserEdit.DiffFontSize = MyPrefs.DiffFontSize;
@@ -1353,8 +1351,8 @@ namespace AutoWikiBrowser
             bool enabled = listMaker1.NumberOfArticles > 0;
             SetStartButton(enabled);
 
-        //    btnMove.Visible = Variables.User.IsAdmin;
-        //    btnDelete.Visible = Variables.User.IsAdmin;
+            //    btnMove.Visible = Variables.User.IsAdmin;
+            //    btnDelete.Visible = Variables.User.IsAdmin;
 
             listMaker1.ButtonsEnabled = enabled;
             lbltsNumberofItems.Text = "Articles: " + listMaker1.NumberOfArticles.ToString();
@@ -2297,70 +2295,50 @@ namespace AutoWikiBrowser
             pluginsToolStripMenuItem.Visible = AWBPlugins.Count > 0;
         }
 
-        private void LogginDNWB()
-        {
-            try
-            {
-                LoginDlg lg = new LoginDlg();
-                lg.UserName = Variables.User.Name;
-
-                string name = "";
-                string password = "";
-
-                if (lg.ShowDialog(this) == DialogResult.OK)
-                {
-                    name = lg.UserName;
-                    password = lg.Password;
-                }
-
-                DNWB = new DotNetWikiBot(Variables.URL, name, password);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
         private void MoveArticle()
         {
-            if (DNWB == null)
-                LogginDNWB();
+            MoveDeleteDialog dlg = new MoveDeleteDialog(true);
 
             try
             {
-                MoveDeleteDialog dlg = new MoveDeleteDialog(true);
+                dlg.NewTitle = EdittingArticle.Name;
 
                 if (dlg.ShowDialog(this) == DialogResult.OK)
                 {
-                    DNWB.MovePage(EdittingArticle.Name, dlg.NewTitle, dlg.Summary);
+                    webBrowserEdit.MovePage(EdittingArticle.Name, dlg.NewTitle, dlg.Summary);
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                dlg.Dispose();
             }
         }
 
         private void DeleteArticle()
         {
-            if (DNWB == null)
-                LogginDNWB();
+            MoveDeleteDialog dlg = new MoveDeleteDialog(false);
 
             try
             {
-                MoveDeleteDialog dlg = new MoveDeleteDialog(false);
-
                 if (dlg.ShowDialog(this) == DialogResult.OK)
                 {
-                    DNWB.DeletePage(EdittingArticle.Name, dlg.Summary);
+                    webBrowserEdit.DeletePage(EdittingArticle.Name, dlg.Summary);
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-        }       
+            finally
+            {
+                dlg.Dispose();
+            }
+        }
 
-        #endregion      
+        #endregion
     }
 }
