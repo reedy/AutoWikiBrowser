@@ -197,11 +197,11 @@ namespace AutoWikiBrowser
             this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
             this.launchDumpSearcherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.launchListComparerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuGeneral = new System.Windows.Forms.ToolStripMenuItem();
             this.enableTheToolbarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bypassRedirectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.doNotAutomaticallyDoAnythingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.previewInsteadOfDiffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripComboOnLoad = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.markAllAsMinorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addAllToWatchlistToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1592,7 +1592,7 @@ namespace AutoWikiBrowser
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.generalToolStripMenuItem,
-            this.toolsToolStripMenuItem,
+            this.ToolStripMenuGeneral,
             this.pluginsToolStripMenuItem,
             this.toolStripAdvanced,
             this.helpToolStripMenuItem});
@@ -1768,13 +1768,13 @@ namespace AutoWikiBrowser
             this.launchListComparerToolStripMenuItem.Text = "Launch ListComparer";
             this.launchListComparerToolStripMenuItem.Click += new System.EventHandler(this.launchListComparerToolStripMenuItem_Click);
             // 
-            // toolsToolStripMenuItem
+            // ToolStripMenuGeneral
             // 
-            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuGeneral.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.enableTheToolbarToolStripMenuItem,
             this.bypassRedirectsToolStripMenuItem,
             this.doNotAutomaticallyDoAnythingToolStripMenuItem,
-            this.previewInsteadOfDiffToolStripMenuItem,
+            this.toolStripComboOnLoad,
             this.toolStripSeparator6,
             this.markAllAsMinorToolStripMenuItem,
             this.addAllToWatchlistToolStripMenuItem,
@@ -1783,9 +1783,9 @@ namespace AutoWikiBrowser
             this.alphaSortInterwikiLinksToolStripMenuItem,
             this.toolStripSeparator11,
             this.addIgnoredToLogFileToolStripMenuItem});
-            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
-            this.toolsToolStripMenuItem.Text = "General";
+            this.ToolStripMenuGeneral.Name = "ToolStripMenuGeneral";
+            this.ToolStripMenuGeneral.Size = new System.Drawing.Size(56, 20);
+            this.ToolStripMenuGeneral.Text = "General";
             // 
             // enableTheToolbarToolStripMenuItem
             // 
@@ -1811,13 +1811,15 @@ namespace AutoWikiBrowser
             this.doNotAutomaticallyDoAnythingToolStripMenuItem.Size = new System.Drawing.Size(244, 22);
             this.doNotAutomaticallyDoAnythingToolStripMenuItem.Text = "Do not automatically apply changes";
             // 
-            // previewInsteadOfDiffToolStripMenuItem
+            // toolStripComboOnLoad
             // 
-            this.previewInsteadOfDiffToolStripMenuItem.CheckOnClick = true;
-            this.previewInsteadOfDiffToolStripMenuItem.Name = "previewInsteadOfDiffToolStripMenuItem";
-            this.previewInsteadOfDiffToolStripMenuItem.Size = new System.Drawing.Size(244, 22);
-            this.previewInsteadOfDiffToolStripMenuItem.Text = "Preview instead of diff";
-            this.previewInsteadOfDiffToolStripMenuItem.Click += new System.EventHandler(this.previewInsteadOfDiffToolStripMenuItem_Click);
+            this.toolStripComboOnLoad.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.toolStripComboOnLoad.Items.AddRange(new object[] {
+            "On load: Show changes",
+            "On load: Show preview",
+            "On load: Show edit page"});
+            this.toolStripComboOnLoad.Name = "toolStripComboOnLoad";
+            this.toolStripComboOnLoad.Size = new System.Drawing.Size(160, 21);
             // 
             // toolStripSeparator6
             // 
@@ -2287,7 +2289,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuGeneral;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.Label label6;
@@ -2339,7 +2341,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Button btnDiff;
         private System.Windows.Forms.ToolStripMenuItem generalToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem bypassRedirectsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem previewInsteadOfDiffToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveListToTextFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem filterOutNonMainSpaceToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sortAlphabeticallyToolStripMenuItem;
@@ -2478,6 +2479,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Button btnMove;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.ToolStripMenuItem openHistoryMenuItem;
+        private System.Windows.Forms.ToolStripComboBox toolStripComboOnLoad;
 
 
     }

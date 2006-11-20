@@ -112,7 +112,7 @@ namespace WikiFunctions.AWBSettings
         public bool ToolBarEnabled = false;
         public bool BypassRedirect = true;
         public bool NoAutoChanges = false;
-        public bool Preview = false;
+        public int OnLoadAction = 0;
         public bool Minor = false;
         public bool Watch = false;
         public bool TimerEnabled = false;

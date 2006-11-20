@@ -89,6 +89,7 @@ namespace AutoWikiBrowser
                     MessageBox.Show(ex.Message);
                 }
 
+                toolStripComboOnLoad.SelectedIndex = 0;
                 cmboCategorise.SelectedIndex = 0;
                 cmboImages.SelectedIndex = 0;
                 lblStatusText.AutoSize = true;
@@ -155,7 +156,6 @@ namespace AutoWikiBrowser
                     CheckStatus();
 
                 Debug();
-
                 LoadPlugins();
                 LoadPrefs();
                 UpdateButtons();
@@ -382,11 +382,27 @@ namespace AutoWikiBrowser
             ArticleInfo(false);
 
             if (chkAutoMode.Checked && chkQuickSave.Checked)
-                startDelayedAutoSaveTimer();
-            else if (previewInsteadOfDiffToolStripMenuItem.Checked)
-                GetPreview();
-            else
+                startDelayedAutoSaveTimer();            
+            else if (toolStripComboOnLoad.SelectedIndex == 0)
                 GetDiff();
+            else if (toolStripComboOnLoad.SelectedIndex == 1)
+                GetPreview();
+            else if (toolStripComboOnLoad.SelectedIndex == 2)
+            {
+                if (chkAutoMode.Checked)
+                {
+                    startDelayedAutoSaveTimer();
+                    return;
+                }
+
+                if (!this.ContainsFocus && FlashAndBeep)
+                {
+                    Tools.FlashWindow(this);
+                    Tools.Beep1();
+                }
+                this.Focus();
+                EnableButtons();
+            }
         }
 
         private bool loadSuccess()
@@ -482,7 +498,7 @@ namespace AutoWikiBrowser
         private bool diffChecker(string strHTML)
         {//check diff to see if it should be skipped
 
-            if (!skippable || !chkSkipNoChanges.Checked || previewInsteadOfDiffToolStripMenuItem.Checked || doNotAutomaticallyDoAnythingToolStripMenuItem.Checked)
+            if (!skippable || !chkSkipNoChanges.Checked || toolStripComboOnLoad.SelectedIndex != 0 || doNotAutomaticallyDoAnythingToolStripMenuItem.Checked)
                 return false;
 
             //if (!strHTML.Contains("class=diff-context") && !strHTML.Contains("class=diff-deletedline"))
@@ -1870,11 +1886,6 @@ namespace AutoWikiBrowser
             System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=" + EdittingArticle.URLEncodedName + "&action=history");
         }
 
-        private void previewInsteadOfDiffToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            chkSkipNoChanges.Enabled = !previewInsteadOfDiffToolStripMenuItem.Checked;
-        }
-
         private void chkGeneralParse_CheckedChanged(object sender, EventArgs e)
         {
             alphaSortInterwikiLinksToolStripMenuItem.Enabled = chkGeneralFixes.Checked;
@@ -2348,5 +2359,6 @@ namespace AutoWikiBrowser
         }
 
         #endregion
+
     }
 }
