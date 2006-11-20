@@ -31,7 +31,7 @@ namespace WikiFunctions.Browser
 {
     public delegate void WebControlDel();
 
-    public enum enumProcessStage : byte { load, diff, save, none }
+    public enum enumProcessStage : byte { load, diff, save, delete, none }
 
     /// <summary>
     /// Provides a webBrowser component adapted speciailly to work with Wikis.
@@ -628,8 +628,27 @@ namespace WikiFunctions.Browser
             if (CanDelete)
             {
                 this.AllowNavigation = true;
+                ProcessStage = enumProcessStage.delete;
                 Status = "Deleting page";
                 this.Document.GetElementById("wpConfirmB").InvokeMember("click");
+            }
+        }
+
+        /// <summary>
+        /// Loads the edit page of the given article
+        /// </summary>
+        public void LoadDeletePage(string Article)
+        {
+            try
+            {
+                this.AllowNavigation = true;
+                ProcessStage = enumProcessStage.delete;
+                Status = "Loading delete page";
+                Navigate(Variables.URLLong + "index.php?title=" + Article + "&action=delete");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -723,7 +742,6 @@ namespace WikiFunctions.Browser
 
             if (!this.Document.Body.InnerHtml.Contains("id=siteSub"))
             {
-
                 ProcessStage = enumProcessStage.none;
                 if (Fault != null)
                     this.Fault();
@@ -833,12 +851,9 @@ namespace WikiFunctions.Browser
             return false;
         }
 
-        public bool DeletePage(string Title, string Summary)
+        public bool DeletePage(string Article, string Summary)
         {
-            AllowNavigation = true;
-            Status = "Loading delete page";
-            Navigate(Variables.URLLong + "index.php?title=" + Title + "&action=delete");
-
+            LoadDeletePage(Article);
             Wait();
 
             if (this.Document == null)
@@ -853,9 +868,8 @@ namespace WikiFunctions.Browser
                 return false;
             }
 
-            Document.GetElementById("wpReason").InnerText = Summary;
-
-            Status = "Deleting";
+            SetDeleteReason(Summary);
+            
             Delete();
             Wait();
             AllowNavigation = false;
