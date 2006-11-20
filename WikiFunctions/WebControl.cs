@@ -492,14 +492,15 @@ namespace WikiFunctions.Browser
         }
 
         /// <summary>
-        /// Sets the reason given for deletion
+        /// Sets the reason given for deletion, returns true if successful
         /// </summary>
-        public void SetDeleteReason(string Reason)
+        public bool SetReason(string Reason)
         {
             if (this.Document == null || !this.Document.Body.InnerHtml.Contains("wpReason"))
-                return;
+                return false;
 
             this.Document.GetElementById("wpReason").InnerText = Reason;
+            return true;
         }
 
         /// <summary>
@@ -807,6 +808,9 @@ namespace WikiFunctions.Browser
             base.OnProgressChanged(e);
         }
 
+        /// <summary>
+        /// Moves an article, returns true if successful
+        /// </summary>
         public bool MovePage(string OldTitle, string NewTitle, string Summary)
         {
             AllowNavigation = true;            
@@ -823,13 +827,11 @@ namespace WikiFunctions.Browser
 
             Document.GetElementById("wpNewTitle").InnerText = NewTitle;
 
-            if (!Document.Body.InnerHtml.Contains("wpReason"))
+            if (!SetReason(Summary))
             {
                 AllowNavigation = false;
                 return false;
             }
-
-            Document.GetElementById("wpReason").InnerText = Summary;
 
             foreach (HtmlElement e in Document.GetElementById("movepage").GetElementsByTagName("input"))
             {
@@ -851,6 +853,9 @@ namespace WikiFunctions.Browser
             return false;
         }
 
+        /// <summary>
+        /// Deletes an article, returns true if successful
+        /// </summary>
         public bool DeletePage(string Article, string Summary)
         {
             LoadDeletePage(Article);
@@ -862,13 +867,11 @@ namespace WikiFunctions.Browser
                 return false;
             }
 
-            if (!Document.Body.InnerHtml.Contains("wpReason"))
+            if (!SetReason(Summary))
             {
                 AllowNavigation = false;
                 return false;
             }
-
-            SetDeleteReason(Summary);
             
             Delete();
             Wait();
