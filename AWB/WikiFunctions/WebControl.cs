@@ -31,7 +31,7 @@ namespace WikiFunctions.Browser
 {
     public delegate void WebControlDel();
 
-    public enum enumProcessStage : byte { load, diff, save, delete, none }
+    public enum enumProcessStage : byte { load, diff, save, none }
 
     /// <summary>
     /// Provides a webBrowser component adapted speciailly to work with Wikis.
@@ -628,7 +628,6 @@ namespace WikiFunctions.Browser
             if (CanDelete)
             {
                 this.AllowNavigation = true;
-                ProcessStage = enumProcessStage.delete;
                 Status = "Deleting page";
                 this.Document.GetElementById("wpConfirmB").InvokeMember("click");
             }
@@ -745,16 +744,13 @@ namespace WikiFunctions.Browser
 
                 this.AllowNavigation = false;
                 ProcessStage = enumProcessStage.none;
+
+                Status = "Ready to save";
+               
                 if (Loaded != null)
                     this.Loaded();
-            }
-            else if (ProcessStage == enumProcessStage.delete)
-            {
-                this.AllowNavigation = false;
-                ProcessStage = enumProcessStage.none;
-                Status = "Deleted";
-                if (Deleted != null)
-                    this.Deleted();
+
+                this.Document.GetElementById("wpTextbox1").Enabled = false;
             }
             else if (ProcessStage == enumProcessStage.diff)
             {

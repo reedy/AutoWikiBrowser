@@ -88,7 +88,7 @@ namespace AutoWikiBrowser
             chkSkipNonExistent.Checked = true;
             doNotAutomaticallyDoAnythingToolStripMenuItem.Checked = false;
             chkSkipNoChanges.Checked = false;
-            previewInsteadOfDiffToolStripMenuItem.Checked = false;
+            toolStripComboOnLoad.SelectedIndex = 0;
             markAllAsMinorToolStripMenuItem.Checked = false;
             addAllToWatchlistToolStripMenuItem.Checked = false;
             showTimerToolStripMenuItem.Checked = false;
@@ -393,13 +393,6 @@ namespace AutoWikiBrowser
                         {
                             if (reader.MoveToAttribute("enabled"))
                                 chkSkipNoChanges.Checked = bool.Parse(reader.Value);
-                        }
-                        if (reader.Name == "preview" && reader.HasAttributes)
-                        {
-                            if (reader.MoveToAttribute("enabled"))
-                                previewInsteadOfDiffToolStripMenuItem.Checked = bool.Parse(reader.Value);
-
-                            continue;
                         }
                         if (reader.Name == "minor" && reader.HasAttributes)
                         {
@@ -721,7 +714,7 @@ namespace AutoWikiBrowser
             p.General.ToolBarEnabled = enableToolBar;
             p.General.BypassRedirect = bypassRedirectsToolStripMenuItem.Checked;
             p.General.NoAutoChanges = doNotAutomaticallyDoAnythingToolStripMenuItem.Checked;
-            p.General.Preview = previewInsteadOfDiffToolStripMenuItem.Checked;
+            p.General.OnLoadAction = toolStripComboOnLoad.SelectedIndex;
             p.General.Minor = markAllAsMinorToolStripMenuItem.Checked;
             p.General.Watch = addAllToWatchlistToolStripMenuItem.Checked;
             p.General.TimerEnabled = showTimerToolStripMenuItem.Checked;
@@ -839,7 +832,7 @@ namespace AutoWikiBrowser
             enableToolBar = p.General.ToolBarEnabled;
             bypassRedirectsToolStripMenuItem.Checked = p.General.BypassRedirect;
             doNotAutomaticallyDoAnythingToolStripMenuItem.Checked = p.General.NoAutoChanges;
-            previewInsteadOfDiffToolStripMenuItem.Checked = p.General.Preview;
+            toolStripComboOnLoad.SelectedIndex = p.General.OnLoadAction;
             markAllAsMinorToolStripMenuItem.Checked = p.General.Minor;
             addAllToWatchlistToolStripMenuItem.Checked = p.General.Watch;
             showTimerToolStripMenuItem.Checked = p.General.TimerEnabled;
