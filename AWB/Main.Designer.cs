@@ -857,7 +857,6 @@ namespace AutoWikiBrowser
             this.btnMove.TabIndex = 31;
             this.btnMove.Text = "Move";
             this.btnMove.UseVisualStyleBackColor = true;
-            this.btnMove.Visible = false;
             this.btnMove.Click += new System.EventHandler(this.btnMove_Click);
             // 
             // btnDelete
@@ -869,7 +868,6 @@ namespace AutoWikiBrowser
             this.btnDelete.TabIndex = 30;
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = true;
-            this.btnDelete.Visible = false;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnFalsePositive
@@ -1234,7 +1232,7 @@ namespace AutoWikiBrowser
             this.toolStripSeparator9,
             this.replaceTextWithLastEditToolStripMenuItem});
             this.mnuTextBox.Name = "contextMenuStrip1";
-            this.mnuTextBox.Size = new System.Drawing.Size(217, 452);
+            this.mnuTextBox.Size = new System.Drawing.Size(217, 430);
             this.mnuTextBox.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // wordWrapToolStripMenuItem1

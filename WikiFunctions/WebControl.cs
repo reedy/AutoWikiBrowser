@@ -795,32 +795,77 @@ namespace WikiFunctions.Browser
 
         public bool MovePage(string OldTitle, string NewTitle, string Summary)
         {
-            Navigate(Variables.URL + "/wiki/Special:Movepage/" + OldTitle);
+            AllowNavigation = true;            
 
+            Navigate(Variables.URL + "/wiki/Special:Movepage/" + OldTitle);
+            Status = "Loading move page";
             Wait();
 
             if (this.Document == null || !this.Document.Body.InnerHtml.Contains("wpNewTitle"))
+            {
+                AllowNavigation = false;
                 return false;
+            }
 
             Document.GetElementById("wpNewTitle").InnerText = NewTitle;
 
             if (!Document.Body.InnerHtml.Contains("wpReason"))
+            {
+                AllowNavigation = false;
                 return false;
+            }
 
             Document.GetElementById("wpReason").InnerText = Summary;
 
-            foreach(HtmlElement e in Document.GetElementById("movepage").GetElementsByTagName("input"))
+            foreach (HtmlElement e in Document.GetElementById("movepage").GetElementsByTagName("input"))
             {
                 if (e.GetAttribute("name") == "wpMove")
                 {
+                    Status = "Moving";
                     e.InvokeMember("click");
                     Wait();
+
+                    AllowNavigation = false;
                     if (e.Document.GetElementById("movepage") != null) return false;
+
+                    Status = "Moved";
                     return true;
                 }
             }
 
+            AllowNavigation = false;
             return false;
+        }
+
+        public bool DeletePage(string Title, string Summary)
+        {
+            AllowNavigation = true;
+            Status = "Loading delete page";
+            Navigate(Variables.URLLong + "index.php?title=" + Title + "&action=delete");
+
+            Wait();
+
+            if (this.Document == null)
+            {
+                AllowNavigation = false;
+                return false;
+            }
+
+            if (!Document.Body.InnerHtml.Contains("wpReason"))
+            {
+                AllowNavigation = false;
+                return false;
+            }
+
+            Document.GetElementById("wpReason").InnerText = Summary;
+
+            Status = "Deleting";
+            Delete();
+            Wait();
+            AllowNavigation = false;
+
+            Status = "Deleted";
+            return true;
         }
 
         #endregion
