@@ -401,6 +401,9 @@ namespace AutoWikiBrowser
                     Tools.Beep1();
                 }
                 this.Focus();
+                txtEdit.Focus();
+                txtEdit.SelectionLength = 0;
+
                 EnableButtons();
             }
         }
@@ -490,8 +493,10 @@ namespace AutoWikiBrowser
                 Tools.Beep1();
             }
 
-            this.Focus();
-
+            this.Focus();            
+            txtEdit.Focus();
+            txtEdit.SelectionLength = 0;
+            
             EnableButtons();
         }
 
@@ -2321,7 +2326,8 @@ namespace AutoWikiBrowser
                 if (dlg.ShowDialog(this) == DialogResult.OK)
                 {
                     LastMove = dlg.Summary;
-                    webBrowserEdit.MovePage(EdittingArticle.Name, dlg.NewTitle, dlg.Summary);                    
+                    webBrowserEdit.MovePage(EdittingArticle.Name, dlg.NewTitle, dlg.Summary);
+                    MessageBox.Show("dd");
                 }
             }
             catch (Exception ex)
