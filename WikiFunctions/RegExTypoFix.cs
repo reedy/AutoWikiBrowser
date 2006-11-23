@@ -70,8 +70,9 @@ namespace WikiFunctions.Parse
 
         MatchCollection Matches;
 
-        public string PerformTypoFixes(string ArticleText, out bool NoChange, ref string Summary)
+        public string PerformTypoFixes(string ArticleText, out bool NoChange, out string Summary)
         {
+            Summary = "";
             if (IgnoreRegex.IsMatch(ArticleText))
             {
                 NoChange = true;
@@ -90,8 +91,6 @@ namespace WikiFunctions.Parse
 
                 if (Matches.Count > 0)
                 {
-                    //MessageBox.Show(k.Key + " " + k.Value);
-
                     Replace = k.Value;
                     ArticleText = k.Key.Replace(ArticleText, Replace);
 
