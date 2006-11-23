@@ -673,9 +673,12 @@ namespace AutoWikiBrowser
 
                 if (chkRegExTypo.Checked && RegexTypos != null)
                 {
-                    articleText = RegexTypos.PerformTypoFixes(articleText, out SkipArticle, ref EdittingArticle.EditSummary);
+                    string tempSummary = "";
+                    articleText = RegexTypos.PerformTypoFixes(articleText, out SkipArticle, out tempSummary);
                     if (SkipArticle && chkSkipIfNoRegexTypo.Checked)
                         return articleText;
+                    else
+                        EdittingArticle.EditSummary += tempSummary;
                 }
 
                 if (EdittingArticle.NameSpaceKey == 0 || EdittingArticle.NameSpaceKey == 14 || EdittingArticle.Name.Contains("Sandbox") || EdittingArticle.Name.Contains("sandbox"))
