@@ -480,7 +480,7 @@ namespace WikiFunctions.Lists
             foreach (string S in Specials)
             {
                 string Special = Regex.Replace(S, "^" + Variables.Namespaces[-1], "", RegexOptions.IgnoreCase);
-                string PageText = Tools.GetHTML(Variables.URLLong + "index.php?title=Special:" + Special);
+                string PageText = Tools.GetHTML(Variables.URLLong + "index.php?title=Special:" + Special + "&limit=5000");
 
                 PageText = Tools.StringBetween(PageText, "<!-- start content -->", "<!-- end content -->");
                 string title = "";

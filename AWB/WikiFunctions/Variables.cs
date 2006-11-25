@@ -30,7 +30,7 @@ using System.Reflection;
 
 namespace WikiFunctions
 {
-    public enum LangCodeEnum { en, ca, da, de, eo, es, fi, fr, he, hu, it, ja, nl, no, mi, pl, pt, ru, simple, sk, sl, sv, ta, tj, zh }
+    public enum LangCodeEnum { en, ca, da, de, eo, es, fi, fr, he, hu, it, ja, nl, no, mi, pl, pt, ru, simple, sk, sl, sv, ta, tj, ur, zh }
     public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikiquote, wikiversity, wikibooks, wikinews, commons, meta, species, custom }
 
     /// <summary>
