@@ -361,27 +361,24 @@ namespace WikiFunctions.Lists
                 string URL = "http://www.google.com/search?q=" + Google + "+site:" + Variables.URL + "&num=100&hl=en&lr=&start=0&sa=N&filter=0";
                 string title = "";
 
+                //Regex pattern to find links
+                Regex RegexGoogle = new Regex("class=l href\\s*=\\s*(?:\"(?<1>[^\"]*)\"|(?<1>\\S+))",
+                    RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
                 do
                 {
                     string GoogleText = Tools.GetHTML(URL, Encoding.Default);
-
-                    GoogleText = HttpUtility.HtmlDecode(GoogleText);
-
-                    //Remove googles bold highlighting.
-                    GoogleText = Regex.Replace(GoogleText, "<[bB]>|</[Bb]>", "");
-
-                    //Regex pattern to find links
-                    Regex RegexGoogle = new Regex("\">([^<]*) (-|—) " + Variables.ProjectName, RegexOptions.Compiled);
 
                     //Find each match to the pattern
                     foreach (Match m in RegexGoogle.Matches(GoogleText))
                     {
                         title = m.Groups[1].Value;
-                        title = title.Replace("&amp;", "&").Replace("&quot;", "\"").Replace("_", " ");
-                        if (title.Contains("\""))
-                        {
-                            title = title.Replace("'", "");
-                        }
+                        if (!title.StartsWith(Variables.URL + "/wiki/")) continue;
+
+                        title = title.Remove(0, (Variables.URL + "/wiki/").Length);
+
+                        title = HttpUtility.UrlDecode(title).Replace('_', ' ');
+
                         list.Add(new Article(title));
 
                         if (Limit >= 0 && list.Count >= Limit)
