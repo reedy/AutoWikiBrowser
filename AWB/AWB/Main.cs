@@ -671,7 +671,7 @@ namespace AutoWikiBrowser
                         return articleText;
                 }
 
-                if (chkRegExTypo.Checked && RegexTypos != null && !chkAutoMode.Checked && !Tools.IsTalkPage(EdittingArticle.Name))
+                if (chkRegExTypo.Checked && RegexTypos != null && !chkAutoMode.Checked && !Tools.IsTalkPage(EdittingArticle.NameSpaceKey))
                 {
                     string tempSummary = "";
                     articleText = RegexTypos.PerformTypoFixes(articleText, out SkipArticle, out tempSummary);
