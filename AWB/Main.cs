@@ -671,7 +671,7 @@ namespace AutoWikiBrowser
                         return articleText;
                 }
 
-                if (chkRegExTypo.Checked && RegexTypos != null)
+                if (chkRegExTypo.Checked && RegexTypos != null && !chkAutoMode.Checked)
                 {
                     string tempSummary = "";
                     articleText = RegexTypos.PerformTypoFixes(articleText, out SkipArticle, out tempSummary);
@@ -2044,10 +2044,11 @@ namespace AutoWikiBrowser
 
         private void chkRegExTypo_CheckedChanged(object sender, EventArgs e)
         {
-            if (chkAutoMode.Checked)
+            if (chkAutoMode.Checked && chkRegExTypo.Checked)
             {
                 MessageBox.Show("RegexTypoFix cannot be used with auto save on.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return;
+                chkAutoMode.Checked = false;
+                //return;
             }
 
             if (chkRegExTypo.Checked)
