@@ -79,7 +79,7 @@ namespace WikiFunctions.Parse
                 return ArticleText;
             }
 
-            ArticleText = RemoveText.Hide(ArticleText);
+            ArticleText = RemoveText.HideMore(ArticleText);
             string OriginalText = ArticleText;
             string Replace = "";
             string strSummary = "";
@@ -111,7 +111,7 @@ namespace WikiFunctions.Parse
             else
                 NoChange = false;
 
-            ArticleText = RemoveText.AddBack(ArticleText);
+            ArticleText = RemoveText.AddBackMore(ArticleText);
 
             if (strSummary != "")
             {
