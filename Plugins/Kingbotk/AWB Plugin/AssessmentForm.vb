@@ -5,7 +5,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
 
         Friend Shared Sub AllowOnlyOneCheckedItem(ByVal sender As Object, ByVal e As ItemCheckEventArgs) _
         Handles ClassCheckedListBox.ItemCheck, ImportanceCheckedListBox.ItemCheck
-            Dim ListBox = DirectCast(sender, CheckedListBox)
+            Dim ListBox As CheckedListBox = DirectCast(sender, CheckedListBox)
 
             If e.NewValue = CheckState.Checked Then
                 For Each i As Integer In ListBox.CheckedIndices
