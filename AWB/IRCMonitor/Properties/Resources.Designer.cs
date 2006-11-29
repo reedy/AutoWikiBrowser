@@ -59,5 +59,12 @@ namespace WikiFunctions.Properties {
                 resourceCulture = value;
             }
         }
+        
+        internal static System.Drawing.Icon IRCM {
+            get {
+                object obj = ResourceManager.GetObject("IRCM", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
     }
 }

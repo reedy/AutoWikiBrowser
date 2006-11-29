@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("IRCMonitor")]
-[assembly: AssemblyCopyright("Copyright ©  2006")]
+[assembly: AssemblyCopyright("Copyright ©  2006 AutoWikiBrowser project. Distributed on terms of the GNU GPL")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
