@@ -1,8 +1,4 @@
-So far it is not ready to be released as end-user package:
-it has quick revert and warning features but no checklist for limiting
-using this tool by vandals/trolls.
-
-* Add user functions (block, see contribs etc.)
+* Add user-related functions (block, see contribs etc.) - partially done
 * Move a lot of hardcoded things to settings - mostly done. AIV is the issue.
 * Add support of other projects.
 * Make code to guess new section name if needed when issuing warnings.

@@ -295,6 +295,10 @@ namespace IRCMonitor
             this.chkIgnoreWhiteList.Text = "Ignore white listed users";
             this.chkIgnoreWhiteList.UseVisualStyleBackColor = true;
             // 
+            // colorDialog
+            // 
+            this.colorDialog.FullOpen = true;
+            // 
             // txtNickname
             // 
             this.txtNickname.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -1357,7 +1361,7 @@ namespace IRCMonitor
             // 
             // columnHeader22
             // 
-            this.columnHeader22.Text = "+ -";
+            this.columnHeader22.Text = "+/-";
             // 
             // columnHeader23
             // 
@@ -2003,15 +2007,14 @@ namespace IRCMonitor
             this.panel1.Controls.Add(this.label17);
             this.panel1.Location = new System.Drawing.Point(403, 27);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(296, 23);
+            this.panel1.Size = new System.Drawing.Size(174, 23);
             this.panel1.TabIndex = 25;
             // 
             // UTCtime
             // 
-            this.UTCtime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.UTCtime.Location = new System.Drawing.Point(72, 4);
+            this.UTCtime.Location = new System.Drawing.Point(58, 4);
             this.UTCtime.Name = "UTCtime";
-            this.UTCtime.Size = new System.Drawing.Size(215, 13);
+            this.UTCtime.Size = new System.Drawing.Size(109, 13);
             this.UTCtime.TabIndex = 1;
             this.UTCtime.Text = "    ";
             this.UTCtime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -2044,6 +2047,7 @@ namespace IRCMonitor
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.btnPause);
             this.Controls.Add(this.btnDisconnect);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.MainMenu;
             this.MinimumSize = new System.Drawing.Size(700, 500);
             this.Name = "IRCMonitor";

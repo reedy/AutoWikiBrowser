@@ -18,11 +18,11 @@ namespace WikiFunctions
             //  - Project->Properties->Application->Assembly Information
             //  - AssemblyInfo.cs
             this.Text = String.Format("About {0}", AssemblyTitle);
-            this.labelProductName.Text = AssemblyProduct;
-            this.labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
-            this.labelCopyright.Text = AssemblyCopyright;
-            this.labelCompanyName.Text = AssemblyCompany;
-            this.textBoxDescription.Text = AssemblyDescription;
+            labelProductName.Text = AssemblyProduct;
+            labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
+            labelCopyright.Text = AssemblyCopyright;
+            //this.labelCompanyName.Text = AssemblyCompany;
+            textBoxDescription.Text = AssemblyDescription;
         }
 
         #region Assembly Attribute Accessors
@@ -116,5 +116,23 @@ namespace WikiFunctions
         {
             this.Close();
         }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            linkLabel1.LinkVisited = true;
+            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/KOTOR");
+        }
+
+        private void Robot_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://commons.wikimedia.org/wiki/Image:Pomoc-nik.png");
+        }
+
+        private void labelCopyright_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            labelCopyright.LinkVisited = true;
+            System.Diagnostics.Process.Start("http://www.gnu.org/licenses/gpl.html");
+        }
+
     }
 }

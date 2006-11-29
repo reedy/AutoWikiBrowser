@@ -312,36 +312,42 @@ namespace IRCMonitor
 
         private void btnIPColour_Click(object sender, EventArgs e)
         {
+            colorDialog.Color = ColourIP;
             if (colorDialog.ShowDialog() == DialogResult.OK)
                 ColourIP = colorDialog.Color;
         }
 
         private void btnRegisteredUserColour_Click(object sender, EventArgs e)
         {
+            colorDialog.Color = UserColour;
             if (colorDialog.ShowDialog() == DialogResult.OK)
                 UserColour = colorDialog.Color;
         }
 
         private void btnSetWhiteListColour_Click(object sender, EventArgs e)
         {
+            colorDialog.Color = WhiteListColour;
             if (colorDialog.ShowDialog() == DialogResult.OK)
                 WhiteListColour = colorDialog.Color;
         }
 
         private void btnSetBlackListColour_Click(object sender, EventArgs e)
         {
+            colorDialog.Color = BlackListColour;
             if (colorDialog.ShowDialog() == DialogResult.OK)
                 BlackListColour = colorDialog.Color;
         }
 
         private void btnSetWatchedColour_Click(object sender, EventArgs e)
         {
+            colorDialog.Color = WatchListColour;
             if (colorDialog.ShowDialog() == DialogResult.OK)
                 WatchListColour = colorDialog.Color;
         }
 
         private void btnSetCheckedColour_Click(object sender, EventArgs e)
         {
+            colorDialog.Color = CheckedColour;
             if (colorDialog.ShowDialog() == DialogResult.OK)
                 CheckedColour = colorDialog.Color;
         }
@@ -1796,6 +1802,12 @@ namespace IRCMonitor
 
                 webBrowser.LoadEditPage(webBrowser.ArticleTitle, hist[i].RevisionID);
                 webBrowser.Wait();
+                if (webBrowser.GetArticleText().Trim() == "")
+                {
+                    MessageBox.Show("Cannot revert to empty revision. Probably, there is some error.");
+                    NextTask = NextTaskType.None;
+                    return;
+                }
                 webBrowser.SetSummary(summary);
                 webBrowser.SetMinor(true);
                 webBrowser.Save();
