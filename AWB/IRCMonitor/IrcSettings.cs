@@ -47,29 +47,34 @@ namespace IRCMonitor
 
         public string[] LoadStubs(string FileName, int InitialLevel)
         {
-            string[] stubs;
-            StreamReader sr = new StreamReader(FileName);
-            string contents = sr.ReadToEnd();
-            stubs = contents.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+            string[] stubs = new string[]{};
 
-            int Level = InitialLevel;
-            for (int i = 0; i < stubs.Length; i++)
+            try
             {
-                string s = stubs[i];
-                s = s.TrimEnd(new char[] { '=', ' ' });
-                if (s[0] == '=')
-                {
-                    Level = s.LastIndexOf('=') + 1;
-                    s = s.TrimStart(new char[] { '=', ' ' });
-                }
+                StreamReader sr = new StreamReader(FileName);
+                string contents = sr.ReadToEnd();
+                stubs = contents.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
 
-                s = "".PadLeft(Level - InitialLevel, '*') + s;
-                stubs[i] = s;
+                int Level = InitialLevel;
+                for (int i = 0; i < stubs.Length; i++)
+                {
+                    string s = stubs[i];
+                    s = s.TrimEnd(new char[] { '=', ' ' });
+                    if (s[0] == '=')
+                    {
+                        Level = s.LastIndexOf('=') + 1;
+                        s = s.TrimStart(new char[] { '=', ' ' });
+                    }
+
+                    s = "".PadLeft(Level - InitialLevel, '*') + s;
+                    stubs[i] = s;
+                }
             }
+            catch { }
 
             return stubs;
         }
-    };
+    }
 
     public class EnWikipediaSettings : ProjectSettings
     {
@@ -81,7 +86,7 @@ namespace IRCMonitor
             ReportSummary = "Reporting [[Special:Contributions/%v|%v]] ([[User talk:%v|talk]])";
 
             RevertSummary = "Reverted edits by [[Special:Contributions/%v|%v]] ([[User talk:%v|talk]]) to last version by %u";
-                
+
             WarningTemplates = new string[] 
             {
                 "Simple vandalism",
@@ -164,7 +169,7 @@ namespace IRCMonitor
             WarningSummary = "Warned user with %t";
             AppendedTagSummary = "Added %1";
             PrependedTagSummary = "Tagged with %1";
-
+            
             StubTypes = LoadStubs("enwiki.stubs.txt", 3);
 
             /*
@@ -259,4 +264,4 @@ namespace IRCMonitor
             };
         }
     }
-};
+}
