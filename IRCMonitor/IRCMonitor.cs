@@ -71,8 +71,6 @@ namespace IRCMonitor
             btnSetWatchedColour.BackColor = WatchListColour;
             btnSetCheckedColour.BackColor = CheckedColour;
 
-            btnStart.Enabled = true;
-
             webBrowser.Saved += new WikiFunctions.Browser.WebControlDel(webBrowser_Saved);
         }
 
