@@ -1053,8 +1053,16 @@ namespace WikiFunctions.Parse
 
             if (words > 6 && !WikiRegexes.Category.IsMatch(ArticleText))
             {
-                ArticleText += "\r\n\r\n{{Uncategorized|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
-                Summary += ", added [[:Category:Category needed|uncategorised]] tag";
+                if (WikiRegexes.Stub.IsMatch(ArticleText))
+                {
+                    ArticleText += "\r\n\r\n{{Uncategorizedstub|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
+                    Summary += ", added [[:Category:Uncategorized stubs|uncategorised]] tag";
+                }
+                else
+                {
+                    ArticleText += "\r\n\r\n{{Uncategorized|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
+                    Summary += ", added [[:Category:Category needed|uncategorised]] tag";
+                }
             }
             else if (LinkCount < 3 && (Ratio < 0.0025))
             {
