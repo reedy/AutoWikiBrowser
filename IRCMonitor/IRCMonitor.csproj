@@ -103,6 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="IRCM.ico" />
+    <Content Include="enwiki.stubs.txt" />
     <Content Include="IRCMonitorDefault.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
