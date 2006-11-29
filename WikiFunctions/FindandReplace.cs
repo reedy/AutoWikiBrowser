@@ -82,8 +82,8 @@ namespace WikiFunctions.Parse
                 f = dataGridRow.Cells["find"].Value.ToString();
                 r = dataGridRow.Cells["replace"].Value.ToString();
 
-                f = f.Replace(@"\r", "\r").Replace(@"\n", "\n");
-                r = r.Replace(@"\r", "\r").Replace(@"\n", "\n");
+                f = Encode(f);
+                r = Encode(r);
 
                 if (!(bool)dataGridRow.Cells["regex"].FormattedValue)
                 {
@@ -196,6 +196,16 @@ namespace WikiFunctions.Parse
             dataGridView1.Rows.Clear();
         }
 
+        private string Encode(string Text)
+        {
+           return Text.Replace("\\r\\n", "\r\n");
+        }
+
+        private string Decode(string Text)
+        {
+            return Text.Replace("\n", "\\r\\n");
+        }
+
         #region loading/saving
 
         /// <summary>
@@ -219,9 +229,9 @@ namespace WikiFunctions.Parse
             bool SingleLine = R.RegularExpressinonOptions.ToString().Contains("Singleline");
 
             if(!R.IsRegex)
-                dataGridView1.Rows.Add(Regex.Unescape(R.Find), R.Replace, CaseSens, R.IsRegex, Multiine, SingleLine, R.Enabled);
+                dataGridView1.Rows.Add(Regex.Unescape(Decode(R.Find)), Decode(R.Replace), CaseSens, R.IsRegex, Multiine, SingleLine, R.Enabled);
             else
-                dataGridView1.Rows.Add(R.Find, R.Replace, CaseSens, R.IsRegex, Multiine, SingleLine, R.Enabled);
+                dataGridView1.Rows.Add(Decode(R.Find), Decode(R.Replace), CaseSens, R.IsRegex, Multiine, SingleLine, R.Enabled);
 
             if (!R.Enabled)
                 dataGridView1.Rows[dataGridView1.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightGray;
@@ -401,6 +411,15 @@ namespace WikiFunctions.Parse
 
     public struct Replacement
     {
+        public Replacement(string Find, string Replace, bool IsRegex, bool Enabled, RegexOptions RegularExpressinonOptions)
+        {
+            this.Find = Find;
+            this.Replace = Replace;
+            this.IsRegex = IsRegex;
+            this.Enabled = Enabled;
+            this.RegularExpressinonOptions = RegularExpressinonOptions;
+        }
+
         public string Find;
         public string Replace;
 
