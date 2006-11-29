@@ -71,7 +71,7 @@ namespace IRCMonitor
             btnSetWatchedColour.BackColor = WatchListColour;
             btnSetCheckedColour.BackColor = CheckedColour;
 
-            btnStart.Enabled = false;
+            btnStart.Enabled = true;
 
             webBrowser.Saved += new WikiFunctions.Browser.WebControlDel(webBrowser_Saved);
         }
@@ -82,11 +82,6 @@ namespace IRCMonitor
         public string VandalizedPage;
         public enum NextTaskType { None, Warn, Report, Contribs, Blacklist };
         NextTaskType NextTask = NextTaskType.None;
-
-        public UserInfo User;
-        public bool Approved = false;
-        public bool PowerToolsApproved = false;
-
         
         void webBrowser_Saved()
         {
@@ -164,84 +159,77 @@ namespace IRCMonitor
             MakeMenu(Project.WarningTemplates, btnWarn.DropDownItems, new EventHandler(WarnUserClick));
             MakeMenu(Project.StubTypes, addStubToolStripMenuItem.DropDownItems, new EventHandler(AddStubClick));
             MakeMenu(Project.PageTags, tagWithToolStripMenuItem.DropDownItems, new EventHandler(AddTagClick));
-
-            WikiStatus();
-
-            if (!Approved) //statusStrip.Text = "You are not approved to use this software's anti-vandal features, so they're disabled.";
-            MessageBox.Show("You are not approved to use this software's anti-vandal features, so they're disabled.",
-                "Authentification complete");
-            else
-            {
-                //if (PowerToolsApproved) statusStrip.Text = "You are approved to use full set of IRCMonitor's features.";
-                //else statusStrip.Text = "You are approved to use all non-admin features of IRCMonitor";
-
-                //MessageBox.Show("You are approved to use full set of IRCMonitor's features.",
-                //"Authentification complete");
-                //else MessageBox.Show("You are approved to use all non-admin features of IRCMonitor",
-                //    "Authentification complete");
-            }
-
-            Start();
         }
 
-        private void WikiStatus()
+        private bool CheckStatus()
         {
-            Approved = false;
-            PowerToolsApproved = false;
+            lblStatusText.Text = "Loading page to check if we are logged in.";
+            WikiStatusResult Result = Variables.User.UpdateWikiStatus();
 
-            BackgroundRequest Req = new BackgroundRequest();
-            Req.GetHTML(Variables.URLLong + "index.php?title=Project:AutoWikiBrowser/CheckPage&action=raw&dontcountme=s");
+            bool b = false;
+            string label = "Software disabled";
 
-            WebControl browser = new WebControl();
-            User = browser.GetUserInfo();
-
-            //browser.LoadEditPage("Project:AutoWikiBrowser/CheckPage");
-            //browser.Wait();
-
-            while (!Req.Done) Application.DoEvents();
-
-            if (User.IsSysop)
+            switch (Result)
             {
-                Approved = true;
-                PowerToolsApproved = true;
+                case WikiStatusResult.Error:
+                    lblUserName.BackColor = Color.Red;
+                    MessageBox.Show("Check page failed to load.\r\n\r\nCheck your Internet Explorer is working and that the Wikipedia servers are online, also try clearing Internet Explorer cache.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+
+                case WikiStatusResult.NotLoggedIn:
+                    lblUserName.BackColor = Color.Red;
+                    webBrowser.LoadLogInPage();
+                    tabControl.SelectedTab = tabPage8;
+                    MessageBox.Show("You are not logged in. The log in screen will now load, enter your name and password, click \"Log in\", wait for it to complete, then start the process again.\r\n\r\nIn the future you can make sure this won't happen by logging in to Wikipedia using Microsoft Internet Explorer.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    break;
+
+                case WikiStatusResult.NotRegistered:
+                    lblUserName.BackColor = Color.Red;
+                    MessageBox.Show(Variables.User.Name + " is not enabled to use this.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    System.Diagnostics.Process.Start(Variables.URL + "/wiki/Project:AutoWikiBrowser/CheckPage");
+
+                    break;
+
+                case WikiStatusResult.OldVersion:
+                    lblUserName.BackColor = Color.Red;
+                    MessageBox.Show("This version is not enabled, please download the newest version. If you have the newest version, check that Wikipedia is online.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    System.Diagnostics.Process.Start("http://sourceforge.net/project/showfiles.php?group_id=158332");
+                    break;
+
+                case WikiStatusResult.Registered:
+                    b = true;
+                    label = string.Format("Logged in, user and software enabled. Bot = {0}, Admin = {1}", Variables.User.IsBot, Variables.User.IsAdmin);
+                    lblUserName.BackColor = Color.LightGreen;
+
+                    break;
             }
 
-            if (User.IsAnon)
-            {
-                //MessageBox.Show("Anonymous editors cannot use 
-                Approved = false;
-                PowerToolsApproved = false;
-                return;
-            }
+            lblUserName.Text = Variables.User.Name;
+            lblStatusText.Text = label;
 
-            string strText = (string)Req.Result;//browser.GetArticleText();
+            return b;
+        }
 
-            string enabledUsers = Tools.StringBetween(strText, "enabledusersbegins", "enabledusersends");
-            if (enabledUsers.Contains("* " + User.Name)) Approved = true;
-
-            string disabledUsers = Tools.StringBetween(strText, "disabledusersbegins", "disabledusersends");
-            if (disabledUsers.Contains("* " + User.Name))
-            {
-                Approved = false;
-                PowerToolsApproved = false;
-                return;
-            }
-
-            //if (strText.Contains("Current version is " + Assembly.GetExecutingAssembly().GetName().Version.ToString()))
-            if(!strText.Contains(Assembly.GetExecutingAssembly().GetName().Version.ToString() + " enabled"))
-            {
-                MessageBox.Show("This version of IRCMonitor is obsolete, please download the newest version. If you have the newest version, check that Wikipedia is online.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                System.Diagnostics.Process.Start("http://sourceforge.net/project/showfiles.php?group_id=158332");
-                Approved = false;
-                PowerToolsApproved = false;
-                return;
-            }
+        private void UpdateButtons()
+        {
+            btnRevert.Enabled = Variables.User.IsAdmin && webBrowser.Url.ToString().Contains("&diff=");
+            btnWarn.Enabled = Variables.User.WikiStatus && webBrowser.IsUserSpace;
+            btnUser.Enabled = Variables.User.WikiStatus && webBrowser.IsUserSpace;
+            btnPage.Enabled = Variables.User.WikiStatus;
         }
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            btnStart.Enabled = false;
-            Start();
+            if (btnStart.Text == "Connect")
+            {
+                btnStart.Text = "Disconnect";
+                Start();
+            }
+            else
+            {
+                btnStart.Text = "Connect";
+                WikiIRC.run = false;
+            }
         }
 
         WikiIRC IrcObject;
@@ -250,6 +238,7 @@ namespace IRCMonitor
         {
             Stop();
 
+            lblStatusText.Text = "Connecting";
             Random n = new Random();
 
             string name = "ircM";
@@ -395,11 +384,12 @@ namespace IRCMonitor
 
         private void connected()
         {
-            //  MessageBox.Show("connect");
+            lblStatusText.Text = "Connected";
         }
 
         private void disconnected()
         {
+            lblStatusText.Text = "Disconnected";
             if (WikiIRC.run)
             {
                 Start();
@@ -1678,40 +1668,16 @@ namespace IRCMonitor
 
             string LoggedInUser = webBrowser.UserName();
 
-            if (User == null || !webBrowser.Url.ToString().StartsWith(Variables.URL) || 
-                User.Name != LoggedInUser || !Approved)
+            if (WikiFunctions.Variables.User.WikiStatus || !webBrowser.Url.ToString().StartsWith(Variables.URL) ||
+                WikiFunctions.Variables.User.Name != LoggedInUser)
             {
-                btnRevert.Enabled = false;
-                btnWarn.Enabled = false;
-                btnUser.Enabled = false;
-                btnPage.Enabled = false;
-                if (User != null && User.Name != LoggedInUser && !webBrowser.CanGoForward)
-                {
-                    Approved = false;
-                    PowerToolsApproved = false;
-                    User.Name = LoggedInUser;
-                    if (LoggedInUser != "" && MessageBox.Show("You've logged in. Do you wish IRCMonitor to check if you are approved?",
-                        "Login", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                    {
-                        WikiStatus();
-                        if (Approved)
-                        {
-                            //webBrowser.Navigate(webBrowser.Url);
-                        }
-                    }
-                    else
-                    {
-                        StatusLabel.Text = "You are not approved to use IRCMonitor";
-                    }
-
-                }
+                WikiFunctions.Variables.User.WikiStatus = false;
+                UpdateButtons();
+                WikiFunctions.Variables.User.UpdateWikiStatus();
             }
             else
             {
-                btnRevert.Enabled = webBrowser.Url.ToString().Contains("&diff=");
-                btnWarn.Enabled = webBrowser.IsUserSpace;
-                btnUser.Enabled = webBrowser.IsUserSpace;
-                btnPage.Enabled = true;//webBrowser.Is
+                UpdateButtons();
             }
         }
 
@@ -1763,7 +1729,6 @@ namespace IRCMonitor
         }
 
         #endregion
-
         
         #region Vandalfighting
         void Revert(string summary, int badrev, out string username)
@@ -1895,7 +1860,7 @@ namespace IRCMonitor
 
         private void webBrowser_StatusChanged(object sender, EventArgs e)
         {
-            StatusLabel.Text = webBrowser.StatusText;
+            lblStatusText.Text = webBrowser.StatusText;
         }
 
         private void logsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1925,7 +1890,7 @@ namespace IRCMonitor
 
         private void loginToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            openInBrowser(Variables.URL + "/wiki/Special:Userlogin");
+            CheckStatus();
         }
 
         private void iRCMonitorPageToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1937,7 +1902,5 @@ namespace IRCMonitor
         {
             AddToBlacklist(webBrowser.ArticleTitle.Remove(0, webBrowser.ArticleTitle.IndexOf(':') + 1));
         }
-
-        //*/
     }
 }

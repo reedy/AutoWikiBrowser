@@ -194,6 +194,8 @@ namespace IRCMonitor
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.pbBrowserProgess = new System.Windows.Forms.ToolStripProgressBar();
             this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblStatusText = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblUserName = new System.Windows.Forms.ToolStripStatusLabel();
             this.saveXML = new System.Windows.Forms.SaveFileDialog();
             this.openXML = new System.Windows.Forms.OpenFileDialog();
             this.MainMenu = new System.Windows.Forms.MenuStrip();
@@ -206,7 +208,6 @@ namespace IRCMonitor
             this.iRCMonitorPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnPause = new System.Windows.Forms.Button();
-            this.btnDisconnect = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.UTCtime = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
@@ -244,11 +245,10 @@ namespace IRCMonitor
             // 
             this.btnStart.Location = new System.Drawing.Point(4, 27);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(57, 23);
+            this.btnStart.Size = new System.Drawing.Size(77, 23);
             this.btnStart.TabIndex = 0;
             this.btnStart.Text = "Connect";
             this.btnStart.UseVisualStyleBackColor = true;
-            this.btnStart.Visible = false;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // textBox1
@@ -834,31 +834,31 @@ namespace IRCMonitor
             this.addUseToBlacklistToolStripMenuItem,
             this.addarticletoWatchToolStripMenuItem});
             this.contextMenuPageMoves.Name = "contextMenuPageMoves";
-            this.contextMenuPageMoves.Size = new System.Drawing.Size(195, 76);
+            this.contextMenuPageMoves.Size = new System.Drawing.Size(184, 76);
             // 
             // loadNewPageToolStripMenuItem
             // 
             this.loadNewPageToolStripMenuItem.Name = "loadNewPageToolStripMenuItem";
-            this.loadNewPageToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.loadNewPageToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
             this.loadNewPageToolStripMenuItem.Text = "Load new page";
             this.loadNewPageToolStripMenuItem.Click += new System.EventHandler(this.loadNewPageToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(191, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(180, 6);
             // 
             // addUseToBlacklistToolStripMenuItem
             // 
             this.addUseToBlacklistToolStripMenuItem.Name = "addUseToBlacklistToolStripMenuItem";
-            this.addUseToBlacklistToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.addUseToBlacklistToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
             this.addUseToBlacklistToolStripMenuItem.Text = "Add user to blacklist";
             this.addUseToBlacklistToolStripMenuItem.Click += new System.EventHandler(this.addUseToBlacklistToolStripMenuItem_Click);
             // 
             // addarticletoWatchToolStripMenuItem
             // 
             this.addarticletoWatchToolStripMenuItem.Name = "addarticletoWatchToolStripMenuItem";
-            this.addarticletoWatchToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.addarticletoWatchToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
             this.addarticletoWatchToolStripMenuItem.Text = "Add article to watchlist";
             this.addarticletoWatchToolStripMenuItem.Click += new System.EventHandler(this.addarticletoWatchToolStripMenuItem_Click);
             // 
@@ -1055,26 +1055,26 @@ namespace IRCMonitor
             this.loadAdminsLogToolStripMenuItem,
             this.loadArticleuserPageToolStripMenuItem});
             this.contextMenuActions.Name = "contextMenuActions";
-            this.contextMenuActions.Size = new System.Drawing.Size(193, 70);
+            this.contextMenuActions.Size = new System.Drawing.Size(182, 70);
             // 
             // loadAdminTalkPageToolStripMenuItem
             // 
             this.loadAdminTalkPageToolStripMenuItem.Name = "loadAdminTalkPageToolStripMenuItem";
-            this.loadAdminTalkPageToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.loadAdminTalkPageToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.loadAdminTalkPageToolStripMenuItem.Text = "Load admin talk page";
             this.loadAdminTalkPageToolStripMenuItem.Click += new System.EventHandler(this.loadAdminTalkPageToolStripMenuItem_Click);
             // 
             // loadAdminsLogToolStripMenuItem
             // 
             this.loadAdminsLogToolStripMenuItem.Name = "loadAdminsLogToolStripMenuItem";
-            this.loadAdminsLogToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.loadAdminsLogToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.loadAdminsLogToolStripMenuItem.Text = "Load admins log";
             this.loadAdminsLogToolStripMenuItem.Click += new System.EventHandler(this.loadAdminsLogToolStripMenuItem_Click);
             // 
             // loadArticleuserPageToolStripMenuItem
             // 
             this.loadArticleuserPageToolStripMenuItem.Name = "loadArticleuserPageToolStripMenuItem";
-            this.loadArticleuserPageToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.loadArticleuserPageToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.loadArticleuserPageToolStripMenuItem.Text = "Load article/user page";
             this.loadArticleuserPageToolStripMenuItem.Click += new System.EventHandler(this.loadArticleuserPageToolStripMenuItem_Click);
             // 
@@ -1234,26 +1234,26 @@ namespace IRCMonitor
             this.loadBlockPageToolStripMenuItem,
             this.addUserToBlackListToolStripMenuItem});
             this.contextMenuNewUser.Name = "contextMenuNewUser";
-            this.contextMenuNewUser.Size = new System.Drawing.Size(185, 70);
+            this.contextMenuNewUser.Size = new System.Drawing.Size(174, 70);
             // 
             // loadUserPageToolStripMenuItem
             // 
             this.loadUserPageToolStripMenuItem.Name = "loadUserPageToolStripMenuItem";
-            this.loadUserPageToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.loadUserPageToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.loadUserPageToolStripMenuItem.Text = "Load User page";
             this.loadUserPageToolStripMenuItem.Click += new System.EventHandler(this.loadUserPageToolStripMenuItem_Click);
             // 
             // loadBlockPageToolStripMenuItem
             // 
             this.loadBlockPageToolStripMenuItem.Name = "loadBlockPageToolStripMenuItem";
-            this.loadBlockPageToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.loadBlockPageToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.loadBlockPageToolStripMenuItem.Text = "Load block page";
             this.loadBlockPageToolStripMenuItem.Click += new System.EventHandler(this.loadBlockPageToolStripMenuItem_Click);
             // 
             // addUserToBlackListToolStripMenuItem
             // 
             this.addUserToBlackListToolStripMenuItem.Name = "addUserToBlackListToolStripMenuItem";
-            this.addUserToBlackListToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.addUserToBlackListToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.addUserToBlackListToolStripMenuItem.Text = "Add user to black list";
             this.addUserToBlackListToolStripMenuItem.Click += new System.EventHandler(this.addUserToBlackListToolStripMenuItem_Click);
             // 
@@ -1266,38 +1266,38 @@ namespace IRCMonitor
             this.addUserToBlacklistToolStripMenuItem1,
             this.addArticlefileToWatchlistToolStripMenuItem});
             this.contextMenuNewStuff.Name = "contextMenuNewStuff";
-            this.contextMenuNewStuff.Size = new System.Drawing.Size(214, 98);
+            this.contextMenuNewStuff.Size = new System.Drawing.Size(203, 98);
             // 
             // loadArticlefileToolStripMenuItem
             // 
             this.loadArticlefileToolStripMenuItem.Name = "loadArticlefileToolStripMenuItem";
-            this.loadArticlefileToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+            this.loadArticlefileToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.loadArticlefileToolStripMenuItem.Text = "Load article/file";
             this.loadArticlefileToolStripMenuItem.Click += new System.EventHandler(this.loadArticlefileToolStripMenuItem_Click);
             // 
             // loadUserPageToolStripMenuItem1
             // 
             this.loadUserPageToolStripMenuItem1.Name = "loadUserPageToolStripMenuItem1";
-            this.loadUserPageToolStripMenuItem1.Size = new System.Drawing.Size(213, 22);
+            this.loadUserPageToolStripMenuItem1.Size = new System.Drawing.Size(202, 22);
             this.loadUserPageToolStripMenuItem1.Text = "Load user page";
             this.loadUserPageToolStripMenuItem1.Click += new System.EventHandler(this.loadUserPageToolStripMenuItem1_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(210, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(199, 6);
             // 
             // addUserToBlacklistToolStripMenuItem1
             // 
             this.addUserToBlacklistToolStripMenuItem1.Name = "addUserToBlacklistToolStripMenuItem1";
-            this.addUserToBlacklistToolStripMenuItem1.Size = new System.Drawing.Size(213, 22);
+            this.addUserToBlacklistToolStripMenuItem1.Size = new System.Drawing.Size(202, 22);
             this.addUserToBlacklistToolStripMenuItem1.Text = "Add user to blacklist";
             this.addUserToBlacklistToolStripMenuItem1.Click += new System.EventHandler(this.addUserToBlacklistToolStripMenuItem1_Click);
             // 
             // addArticlefileToWatchlistToolStripMenuItem
             // 
             this.addArticlefileToWatchlistToolStripMenuItem.Name = "addArticlefileToWatchlistToolStripMenuItem";
-            this.addArticlefileToWatchlistToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+            this.addArticlefileToWatchlistToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.addArticlefileToWatchlistToolStripMenuItem.Text = "Add Article/file to watchlist";
             this.addArticlefileToWatchlistToolStripMenuItem.Click += new System.EventHandler(this.addArticlefileToWatchlistToolStripMenuItem_Click);
             // 
@@ -1486,59 +1486,59 @@ namespace IRCMonitor
             this.blacklistUserToolStripMenuItem,
             this.unblacklistUserToolStripMenuItem});
             this.contextMenuEdit.Name = "contextMenuEdit";
-            this.contextMenuEdit.Size = new System.Drawing.Size(166, 164);
+            this.contextMenuEdit.Size = new System.Drawing.Size(155, 164);
             // 
             // diffToolStripMenuItem
             // 
             this.diffToolStripMenuItem.Name = "diffToolStripMenuItem";
-            this.diffToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.diffToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.diffToolStripMenuItem.Text = "Load diff";
             this.diffToolStripMenuItem.Click += new System.EventHandler(this.diffToolStripMenuItem_Click);
             // 
             // articleToolStripMenuItem
             // 
             this.articleToolStripMenuItem.Name = "articleToolStripMenuItem";
-            this.articleToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.articleToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.articleToolStripMenuItem.Text = "Load article";
             this.articleToolStripMenuItem.Click += new System.EventHandler(this.articleToolStripMenuItem_Click);
             // 
             // userToolStripMenuItem
             // 
             this.userToolStripMenuItem.Name = "userToolStripMenuItem";
-            this.userToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.userToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.userToolStripMenuItem.Text = "Load user page";
             this.userToolStripMenuItem.Click += new System.EventHandler(this.userToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(162, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(151, 6);
             // 
             // whitelistUserToolStripMenuItem
             // 
             this.whitelistUserToolStripMenuItem.Name = "whitelistUserToolStripMenuItem";
-            this.whitelistUserToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.whitelistUserToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.whitelistUserToolStripMenuItem.Text = "Whitelist user";
             this.whitelistUserToolStripMenuItem.Click += new System.EventHandler(this.whitelistUserToolStripMenuItem_Click);
             // 
             // unwhitelistUserToolStripMenuItem
             // 
             this.unwhitelistUserToolStripMenuItem.Name = "unwhitelistUserToolStripMenuItem";
-            this.unwhitelistUserToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.unwhitelistUserToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.unwhitelistUserToolStripMenuItem.Text = "Un-whitelist user";
             this.unwhitelistUserToolStripMenuItem.Click += new System.EventHandler(this.unwhitelistUserToolStripMenuItem_Click);
             // 
             // blacklistUserToolStripMenuItem
             // 
             this.blacklistUserToolStripMenuItem.Name = "blacklistUserToolStripMenuItem";
-            this.blacklistUserToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.blacklistUserToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.blacklistUserToolStripMenuItem.Text = "Blacklist user";
             this.blacklistUserToolStripMenuItem.Click += new System.EventHandler(this.blacklistUserToolStripMenuItem_Click);
             // 
             // unblacklistUserToolStripMenuItem
             // 
             this.unblacklistUserToolStripMenuItem.Name = "unblacklistUserToolStripMenuItem";
-            this.unblacklistUserToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.unblacklistUserToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.unblacklistUserToolStripMenuItem.Text = "Un-blacklist user";
             this.unblacklistUserToolStripMenuItem.Click += new System.EventHandler(this.unblacklistUserToolStripMenuItem_Click);
             // 
@@ -1745,21 +1745,21 @@ namespace IRCMonitor
             // revertAndWarnToolStripMenuItem
             // 
             this.revertAndWarnToolStripMenuItem.Name = "revertAndWarnToolStripMenuItem";
-            this.revertAndWarnToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.revertAndWarnToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.revertAndWarnToolStripMenuItem.Text = "Revert and warn";
             this.revertAndWarnToolStripMenuItem.Click += new System.EventHandler(this.revertAndWarnToolStripMenuItem_Click);
             // 
             // revertAndReportToolStripMenuItem
             // 
             this.revertAndReportToolStripMenuItem.Name = "revertAndReportToolStripMenuItem";
-            this.revertAndReportToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.revertAndReportToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.revertAndReportToolStripMenuItem.Text = "Revert and report";
             this.revertAndReportToolStripMenuItem.Click += new System.EventHandler(this.revertAndReportToolStripMenuItem_Click);
             // 
             // revertToolStripMenuItem
             // 
             this.revertToolStripMenuItem.Name = "revertToolStripMenuItem";
-            this.revertToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.revertToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.revertToolStripMenuItem.Text = "Revert";
             this.revertToolStripMenuItem.Click += new System.EventHandler(this.revertToolStripMenuItem_Click);
             // 
@@ -1796,57 +1796,57 @@ namespace IRCMonitor
             // contribsToolStripMenuItem
             // 
             this.contribsToolStripMenuItem.Name = "contribsToolStripMenuItem";
-            this.contribsToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+            this.contribsToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.contribsToolStripMenuItem.Text = "Contribs";
             this.contribsToolStripMenuItem.Click += new System.EventHandler(this.contribsToolStripMenuItem_Click);
             // 
             // logsToolStripMenuItem
             // 
             this.logsToolStripMenuItem.Name = "logsToolStripMenuItem";
-            this.logsToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+            this.logsToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.logsToolStripMenuItem.Text = "Logs";
             this.logsToolStripMenuItem.Click += new System.EventHandler(this.logsToolStripMenuItem_Click);
             // 
             // blockLogToolStripMenuItem
             // 
             this.blockLogToolStripMenuItem.Name = "blockLogToolStripMenuItem";
-            this.blockLogToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+            this.blockLogToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.blockLogToolStripMenuItem.Text = "Block log";
             this.blockLogToolStripMenuItem.Click += new System.EventHandler(this.blockLogToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(210, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(199, 6);
             // 
             // reportToolStripMenuItem
             // 
             this.reportToolStripMenuItem.Name = "reportToolStripMenuItem";
-            this.reportToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+            this.reportToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.reportToolStripMenuItem.Text = "Report";
             this.reportToolStripMenuItem.Click += new System.EventHandler(this.reportToolStripMenuItem_Click);
             // 
             // blockToolStripMenuItem
             // 
             this.blockToolStripMenuItem.Name = "blockToolStripMenuItem";
-            this.blockToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+            this.blockToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.blockToolStripMenuItem.Text = "Block";
             // 
             // blockAndLeaveAMessageToolStripMenuItem
             // 
             this.blockAndLeaveAMessageToolStripMenuItem.Name = "blockAndLeaveAMessageToolStripMenuItem";
-            this.blockAndLeaveAMessageToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+            this.blockAndLeaveAMessageToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.blockAndLeaveAMessageToolStripMenuItem.Text = "Block and leave a message";
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(210, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(199, 6);
             // 
             // blacklistToolStripMenuItem
             // 
             this.blacklistToolStripMenuItem.Name = "blacklistToolStripMenuItem";
-            this.blacklistToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+            this.blacklistToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.blacklistToolStripMenuItem.Text = "Blacklist";
             this.blacklistToolStripMenuItem.Click += new System.EventHandler(this.blacklistToolStripMenuItem_Click);
             // 
@@ -1866,25 +1866,27 @@ namespace IRCMonitor
             // addStubToolStripMenuItem
             // 
             this.addStubToolStripMenuItem.Name = "addStubToolStripMenuItem";
-            this.addStubToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.addStubToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.addStubToolStripMenuItem.Text = "Add stub";
             // 
             // tagWithToolStripMenuItem
             // 
             this.tagWithToolStripMenuItem.Name = "tagWithToolStripMenuItem";
-            this.tagWithToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.tagWithToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.tagWithToolStripMenuItem.Text = "Tag with";
             // 
             // statusStrip
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.pbBrowserProgess,
-            this.StatusLabel});
+            this.StatusLabel,
+            this.lblStatusText,
+            this.lblUserName});
+            this.statusStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.statusStrip.Location = new System.Drawing.Point(0, 644);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(892, 22);
             this.statusStrip.TabIndex = 21;
-            this.statusStrip.Text = "statusStrip1";
             // 
             // pbBrowserProgess
             // 
@@ -1896,6 +1898,20 @@ namespace IRCMonitor
             this.StatusLabel.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
             this.StatusLabel.Name = "StatusLabel";
             this.StatusLabel.Size = new System.Drawing.Size(0, 17);
+            // 
+            // lblStatusText
+            // 
+            this.lblStatusText.Name = "lblStatusText";
+            this.lblStatusText.Size = new System.Drawing.Size(38, 17);
+            this.lblStatusText.Text = "Status";
+            // 
+            // lblUserName
+            // 
+            this.lblUserName.BackColor = System.Drawing.Color.Red;
+            this.lblUserName.Name = "lblUserName";
+            this.lblUserName.Size = new System.Drawing.Size(61, 17);
+            this.lblUserName.Text = "Logged out";
+            this.lblUserName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // saveXML
             // 
@@ -1930,28 +1946,28 @@ namespace IRCMonitor
             // loadSettingsToolStripMenuItem
             // 
             this.loadSettingsToolStripMenuItem.Name = "loadSettingsToolStripMenuItem";
-            this.loadSettingsToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.loadSettingsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.loadSettingsToolStripMenuItem.Text = "Load settings";
             this.loadSettingsToolStripMenuItem.Click += new System.EventHandler(this.loadSettingsToolStripMenuItem_Click);
             // 
             // saveSettingsToolStripMenuItem
             // 
             this.saveSettingsToolStripMenuItem.Name = "saveSettingsToolStripMenuItem";
-            this.saveSettingsToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.saveSettingsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.saveSettingsToolStripMenuItem.Text = "Save settings";
             this.saveSettingsToolStripMenuItem.Click += new System.EventHandler(this.saveSettingsToolStripMenuItem_Click);
             // 
             // loadDefaultSettingsToolStripMenuItem
             // 
             this.loadDefaultSettingsToolStripMenuItem.Name = "loadDefaultSettingsToolStripMenuItem";
-            this.loadDefaultSettingsToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.loadDefaultSettingsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.loadDefaultSettingsToolStripMenuItem.Text = "Reset settings";
             this.loadDefaultSettingsToolStripMenuItem.Click += new System.EventHandler(this.loadDefaultSettingsToolStripMenuItem_Click);
             // 
             // loginToolStripMenuItem
             // 
             this.loginToolStripMenuItem.Name = "loginToolStripMenuItem";
-            this.loginToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.loginToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.loginToolStripMenuItem.Text = "Login";
             this.loginToolStripMenuItem.Click += new System.EventHandler(this.loginToolStripMenuItem_Click);
             // 
@@ -1967,37 +1983,26 @@ namespace IRCMonitor
             // iRCMonitorPageToolStripMenuItem
             // 
             this.iRCMonitorPageToolStripMenuItem.Name = "iRCMonitorPageToolStripMenuItem";
-            this.iRCMonitorPageToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.iRCMonitorPageToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.iRCMonitorPageToolStripMenuItem.Text = "IRCMonitor page";
             this.iRCMonitorPageToolStripMenuItem.Click += new System.EventHandler(this.iRCMonitorPageToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // btnPause
             // 
-            this.btnPause.Location = new System.Drawing.Point(67, 27);
+            this.btnPause.Location = new System.Drawing.Point(87, 27);
             this.btnPause.Name = "btnPause";
             this.btnPause.Size = new System.Drawing.Size(54, 23);
             this.btnPause.TabIndex = 23;
             this.btnPause.Text = "Pause";
             this.btnPause.UseVisualStyleBackColor = true;
             this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
-            // 
-            // btnDisconnect
-            // 
-            this.btnDisconnect.Location = new System.Drawing.Point(705, 27);
-            this.btnDisconnect.Name = "btnDisconnect";
-            this.btnDisconnect.Size = new System.Drawing.Size(75, 23);
-            this.btnDisconnect.TabIndex = 24;
-            this.btnDisconnect.Text = "Disconnect";
-            this.btnDisconnect.UseVisualStyleBackColor = true;
-            this.btnDisconnect.Visible = false;
-            this.btnDisconnect.Click += new System.EventHandler(this.btnDisconnect_Click);
             // 
             // panel1
             // 
@@ -2046,7 +2051,6 @@ namespace IRCMonitor
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.btnPause);
-            this.Controls.Add(this.btnDisconnect);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.MainMenu;
             this.MinimumSize = new System.Drawing.Size(700, 500);
@@ -2247,7 +2251,6 @@ namespace IRCMonitor
         private System.Windows.Forms.ToolStripMenuItem revertAndWarnToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem revertToolStripMenuItem;
         private System.Windows.Forms.CheckBox chkShowUnblocks;
-        private System.Windows.Forms.Button btnDisconnect;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.ToolStripButton btnOpenInBrowser;
@@ -2283,6 +2286,8 @@ namespace IRCMonitor
         private System.Windows.Forms.ToolStripDropDownButton btnPage;
         private System.Windows.Forms.ToolStripMenuItem addStubToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tagWithToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel lblStatusText;
+        private System.Windows.Forms.ToolStripStatusLabel lblUserName;
     }
 }
 
