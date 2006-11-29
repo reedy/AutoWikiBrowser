@@ -70,7 +70,7 @@ namespace IRCMonitor
                     stubs[i] = s;
                 }
             }
-            catch { }
+            catch (Exception ex) { System.Windows.Forms.MessageBox.Show(ex.ToString()); }
 
             return stubs;
         }
@@ -171,22 +171,6 @@ namespace IRCMonitor
             PrependedTagSummary = "Tagged with %1";
             
             StubTypes = LoadStubs("enwiki.stubs.txt", 3);
-
-            /*
-            StubTypes = new string[]
-            {
-                "Geography",
-                "*{{geo-stub}}",
-                "*{{russia-stub}}",
-                "Biography",
-                "*{{bio-stub}}",
-                "*{{russia-bio-stub}}"
-            };//*/
-
-            // stubs
-            //string stubs = (string)ResourceManager.GetObject("en.wikipedia.stubs");
-
-            //StubTypes = stubs.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
 
             PageTags = new string[]
             {
