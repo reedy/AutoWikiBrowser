@@ -446,7 +446,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             InitializeComponent()
 
             ' Add any initialization after the InitializeComponent() call.
-            StatLabels.AddRange({lblTagged, lblSkipped, lblNoChange, lblBadTag, lblNamespace, lblNew, lblRedlink})
+            StatLabels.AddRange(New Label() {lblTagged, lblSkipped, lblNoChange, lblBadTag, lblNamespace, lblNew, _
+               lblRedlink})
 
             txtEdit = txt
             chkBotMode = chk
