@@ -1410,6 +1410,8 @@ namespace AutoWikiBrowser
 
             btnMove.Enabled = false;
             btnDelete.Enabled = false;
+
+            if (cmboEditSummary.Focused) txtEdit.Focus();
         }
 
         private void EnableButtons()
@@ -2101,6 +2103,33 @@ namespace AutoWikiBrowser
             Variables.User.WikiStatus = false;
         }
 
+        private void summariesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SummaryEditor se = new SummaryEditor();
+
+            string[] summaries = new string[cmboEditSummary.Items.Count];
+            cmboEditSummary.Items.CopyTo(summaries, 0);
+            se.Summaries.Lines = summaries;
+
+            string PrevSummary = cmboEditSummary.SelectedText;
+
+            if (se.ShowDialog() == DialogResult.OK)
+            {
+                cmboEditSummary.Items.Clear();
+
+                foreach (string s in se.Summaries.Lines)
+                {
+                    if (s.Trim() == "") continue;
+
+                    cmboEditSummary.Items.Add(s.Trim());
+                }
+
+                if (cmboEditSummary.Items.Contains(PrevSummary))
+                    cmboEditSummary.SelectedText = PrevSummary;
+                else cmboEditSummary.SelectedItem = 0;
+            }
+        }
+
         #endregion
 
         #region tool bar stuff
@@ -2369,6 +2398,7 @@ namespace AutoWikiBrowser
         }
 
         #endregion
+
 
     }
 }
