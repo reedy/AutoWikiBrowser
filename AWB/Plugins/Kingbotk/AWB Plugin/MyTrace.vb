@@ -1,4 +1,8 @@
 Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
+    ''' <summary>
+    ''' Logging manager
+    ''' </summary>
+    ''' <remarks></remarks>
     Friend NotInheritable Class MyTrace
         Inherits TraceManager
 
@@ -274,6 +278,10 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         End Sub
 
         ' Trace listener child classes:
+        ''' <summary>
+        ''' Keeps track of logging statistics
+        ''' </summary>
+        ''' <remarks></remarks>
         Private NotInheritable Class TraceStatus
             Inherits Uploader.TraceStatus
             Private LinesLabel As Label, LinesSinceUploadLabel As Label, NumberOfUploadsLabel As Label
@@ -330,6 +338,10 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             End Property
         End Class
 
+        ''' <summary>
+        ''' Logs in XHTML
+        ''' </summary>
+        ''' <remarks></remarks>
         Private NotInheritable Class XHTMLTraceListener
             Inherits Logging.XHTMLTraceListener
             Implements ITraceStatusProvider
@@ -348,6 +360,10 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             End Property
         End Class
 
+        ''' <summary>
+        ''' Logs in wiki format
+        ''' </summary>
+        ''' <remarks></remarks>
         Private NotInheritable Class WikiTraceListener
             Inherits Logging.WikiTraceListener
 
@@ -358,6 +374,10 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             End Sub
         End Class
 
+        ''' <summary>
+        ''' Logs pages which have bad templates
+        ''' </summary>
+        ''' <remarks></remarks>
         Private NotInheritable Class BadPagesTraceListener
             Inherits TraceListenerUploadableBase
 
