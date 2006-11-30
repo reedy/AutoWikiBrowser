@@ -1,4 +1,8 @@
 Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
+    ''' <summary>
+    ''' A form which displays the configuration properties of a "generic template"
+    ''' </summary>
+    ''' <remarks></remarks>
     Friend NotInheritable Class GenericTemplatePropertiesForm
 
         Private Sub OK_Button_Click(ByVal sender As Object, ByVal e As EventArgs) Handles OK_Button.Click

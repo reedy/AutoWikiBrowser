@@ -6,6 +6,10 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Green
         Blue
     End Enum
+    ''' <summary>
+    ''' A simple "LED" user control
+    ''' </summary>
+    ''' <remarks></remarks>
     Friend NotInheritable Class LED
         Private br As Brush = Brushes.Red, col As Colour = Colour.Red
 
