@@ -210,7 +210,7 @@ namespace IRCMonitor
 
         private void UpdateButtons()
         {
-            btnRevert.Enabled = Variables.User.IsAdmin && webBrowser.Url.ToString().Contains("&diff=");
+            btnRevert.Enabled = webBrowser.Url.ToString().Contains("&diff=");
             btnWarn.Enabled = Variables.User.WikiStatus && webBrowser.IsUserSpace;
             btnUser.Enabled = Variables.User.WikiStatus && webBrowser.IsUserSpace;
             btnPage.Enabled = Variables.User.WikiStatus;
@@ -1666,7 +1666,7 @@ namespace IRCMonitor
 
             string LoggedInUser = webBrowser.UserName();
 
-            if (WikiFunctions.Variables.User.WikiStatus || !webBrowser.Url.ToString().StartsWith(Variables.URL) ||
+            if (!WikiFunctions.Variables.User.WikiStatus || !webBrowser.Url.ToString().StartsWith(Variables.URL) ||
                 WikiFunctions.Variables.User.Name != LoggedInUser)
             {
                 WikiFunctions.Variables.User.WikiStatus = false;
