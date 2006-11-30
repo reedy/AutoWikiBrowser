@@ -47,8 +47,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.PoliticsCheckBox = New System.Windows.Forms.CheckBox
             Me.SportCheckBox = New System.Windows.Forms.CheckBox
             Me.TopicsGroupBox = New System.Windows.Forms.GroupBox
-            Me.LinkLabel1 = New System.Windows.Forms.LinkLabel
             Me.NBLCheckBox = New System.Windows.Forms.CheckBox
+            Me.LinkLabel1 = New System.Windows.Forms.LinkLabel
             Me.ParametersGroup.SuspendLayout()
             Me.TopicsGroupBox.SuspendLayout()
             Me.SuspendLayout()
@@ -326,16 +326,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.TopicsGroupBox.TabStop = False
             Me.TopicsGroupBox.Text = "Cities && Topics"
             '
-            'LinkLabel1
-            '
-            Me.LinkLabel1.AutoSize = True
-            Me.LinkLabel1.Location = New System.Drawing.Point(189, 276)
-            Me.LinkLabel1.Name = "LinkLabel1"
-            Me.LinkLabel1.Size = New System.Drawing.Size(84, 13)
-            Me.LinkLabel1.TabIndex = 9
-            Me.LinkLabel1.TabStop = True
-            Me.LinkLabel1.Text = "{{WP Australia}}"
-            '
             'NBLCheckBox
             '
             Me.NBLCheckBox.AutoSize = True
@@ -346,6 +336,16 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.NBLCheckBox.TabIndex = 22
             Me.NBLCheckBox.Text = "NBL"
             Me.NBLCheckBox.UseVisualStyleBackColor = True
+            '
+            'LinkLabel1
+            '
+            Me.LinkLabel1.AutoSize = True
+            Me.LinkLabel1.Location = New System.Drawing.Point(189, 276)
+            Me.LinkLabel1.Name = "LinkLabel1"
+            Me.LinkLabel1.Size = New System.Drawing.Size(84, 13)
+            Me.LinkLabel1.TabIndex = 9
+            Me.LinkLabel1.TabStop = True
+            Me.LinkLabel1.Text = "{{WP Australia}}"
             '
             'AustraliaSettings
             '
