@@ -287,15 +287,19 @@ Namespace Logging.Uploader
         ByVal UploadTo As String, ByVal LinkToLog As LogEntry, ByVal PageNumber As Integer, _
         ByVal StartDate As Date, ByVal OpenInBrowser As Boolean, ByVal AddToWatchlist As Boolean, _
         ByVal Username As String, Optional ByVal LogHeader As String = "")
-            LogIt(Log, LogTitle, LogDetails, UploadTo, New List(Of LogEntry)({LinkToLog}), PageNumber, StartDate, _
-               OpenInBrowser, AddToWatchlist, Username, LogHeader)
+            Dim LinksToLog As New List(Of LogEntry)
+            LinksToLog.Add(LinkToLog)
+
+            LogIt(Log, LogTitle, LogDetails, UploadTo, LinksToLog, PageNumber, StartDate, OpenInBrowser, _
+               AddToWatchlist, Username, LogHeader)
         End Sub
         Public Overridable Sub LogIt(ByVal Log As String, ByVal LogTitle As String, ByVal LogDetails As String, _
         ByVal UploadTo As String, ByVal LogEntryLocation As String, ByVal PageNumber As Integer, _
         ByVal StartDate As Date)
-            LogIt(Log, LogTitle, LogDetails, UploadTo, _
-               New List(Of LogEntry)({New LogEntry(LogEntryLocation, False)}), PageNumber, StartDate, _
-               False, False, "", "")
+            Dim LinksToLog As New List(Of LogEntry)
+            LinksToLog.Add(New LogEntry(LogEntryLocation, False))
+
+            LogIt(Log, LogTitle, LogDetails, UploadTo, LinksToLog, PageNumber, StartDate, False, False, "", "")
         End Sub
         Protected Overridable Sub DoLogEntry(ByVal LogTitle As String, ByVal LogDetails As String, _
         ByVal PageNumber As Integer, ByVal StartDate As Date, ByVal UploadTo As String, _
