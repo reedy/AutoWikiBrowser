@@ -2110,6 +2110,7 @@ namespace AutoWikiBrowser
             string[] summaries = new string[cmboEditSummary.Items.Count];
             cmboEditSummary.Items.CopyTo(summaries, 0);
             se.Summaries.Lines = summaries;
+            se.Summaries.Select(0, 0);
 
             string PrevSummary = cmboEditSummary.SelectedText;
 

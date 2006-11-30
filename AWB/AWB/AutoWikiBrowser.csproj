@@ -135,6 +135,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>SkipOptions.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SummaryEditor.resx">
+      <DependentUpon>SummaryEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -160,6 +164,12 @@
     </Compile>
     <Compile Include="SkipOptions.Designer.cs">
       <DependentUpon>SkipOptions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SummaryEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SummaryEditor.Designer.cs">
+      <DependentUpon>SummaryEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="UserSettings.cs">
       <SubType>Form</SubType>
