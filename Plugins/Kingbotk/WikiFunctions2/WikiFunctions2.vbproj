@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="WikiFunctions, Version=3.0.4.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>T:\Downloads\Net\AWB\Latest AWB build\WikiFunctions.dll</HintPath>
+      <HintPath>..\AWB\WikiFunctions.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
