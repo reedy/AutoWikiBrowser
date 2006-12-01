@@ -312,26 +312,24 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Protected Overrides Sub ProcessArticleFinish()
             StubClass()
             With OurSettingsControl
-                If .Maps Then AddAndLogNewParamWithAYesValue("Maps")
-                If .Cities Then AddAndLogNewParamWithAYesValue("Cities")
-                If .Districts Then AddAndLogNewParamWithAYesValue("Districts")
-                If .States Then AddAndLogNewParamWithAYesValue("States")
-                If .Andhra Then AddAndLogNewParamWithAYesValue("Andhra")
-                If .Bengal Then AddAndLogNewParamWithAYesValue("Bengal")
-                If .Goa Then AddAndLogNewParamWithAYesValue("Goa")
-                If .Karnataka Then AddAndLogNewParamWithAYesValue("Karnataka")
-                If .Kerala Then AddAndLogNewParamWithAYesValue("Kerala")
-                If .Maharashtra Then AddAndLogNewParamWithAYesValue("Maharashtra")
-                If .Tamilnadu Then AddAndLogNewParamWithAYesValue("Tamilnadu")
+                If .Maps Then AddAndLogNewParamWithAYesValue("maps")
+                If .Cities Then AddAndLogNewParamWithAYesValue("cities")
+                If .Districts Then AddAndLogNewParamWithAYesValue("districts")
+                If .States Then AddAndLogNewParamWithAYesValue("states")
+                If .Andhra Then AddAndLogNewParamWithAYesValue("andhra")
+                If .Bengal Then AddAndLogNewParamWithAYesValue("bengal")
+                If .Goa Then AddAndLogNewParamWithAYesValue("goa")
+                If .Karnataka Then AddAndLogNewParamWithAYesValue("karnataka")
+                If .Kerala Then AddAndLogNewParamWithAYesValue("kerala")
+                If .Maharashtra Then AddAndLogNewParamWithAYesValue("maharashtra")
+                If .Tamilnadu Then AddAndLogNewParamWithAYesValue("tamilnadu")
                 If .Politics Then AddAndLogNewParamWithAYesValue("politics")
-                If .History Then AddAndLogNewParamWithAYesValue("History")
+                If .History Then AddAndLogNewParamWithAYesValue("history")
                 If .Cinema Then AddAndLogNewParamWithAYesValue("cinema")
-                If .Tamil Then AddAndLogNewParamWithAYesValue("Tamil")
+                If .Tamil Then AddAndLogNewParamWithAYesValue("tamil")
             End With
         End Sub
         Protected Overrides Function TemplateFound() As Boolean
-            If CheckForDoublyNamedParameters("V8", "v8") Then Return True ' tag is bad, exit
-            If CheckForDoublyNamedParameters("nbl", "NBL") Then Return True
         End Function
         Protected Overrides Sub GotTemplateNotPreferredName(ByVal TemplateName As String)
         End Sub

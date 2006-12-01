@@ -42,8 +42,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.DistrictsCheckBox = New System.Windows.Forms.CheckBox
             Me.PoliticsCheckBox = New System.Windows.Forms.CheckBox
             Me.TopicsGroupBox = New System.Windows.Forms.GroupBox
-            Me.LinkLabel1 = New System.Windows.Forms.LinkLabel
             Me.TamilCheckBox = New System.Windows.Forms.CheckBox
+            Me.LinkLabel1 = New System.Windows.Forms.LinkLabel
             Me.ParametersGroup.SuspendLayout()
             Me.TopicsGroupBox.SuspendLayout()
             Me.SuspendLayout()
@@ -264,16 +264,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.TopicsGroupBox.TabStop = False
             Me.TopicsGroupBox.Text = "Cities && Topics"
             '
-            'LinkLabel1
-            '
-            Me.LinkLabel1.AutoSize = True
-            Me.LinkLabel1.Location = New System.Drawing.Point(189, 276)
-            Me.LinkLabel1.Name = "LinkLabel1"
-            Me.LinkLabel1.Size = New System.Drawing.Size(67, 13)
-            Me.LinkLabel1.TabIndex = 9
-            Me.LinkLabel1.TabStop = True
-            Me.LinkLabel1.Text = "{{WP India}}"
-            '
             'TamilCheckBox
             '
             Me.TamilCheckBox.AutoSize = True
@@ -284,6 +274,16 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.TamilCheckBox.TabIndex = 22
             Me.TamilCheckBox.Text = "Tamil"
             Me.TamilCheckBox.UseVisualStyleBackColor = True
+            '
+            'LinkLabel1
+            '
+            Me.LinkLabel1.AutoSize = True
+            Me.LinkLabel1.Location = New System.Drawing.Point(189, 276)
+            Me.LinkLabel1.Name = "LinkLabel1"
+            Me.LinkLabel1.Size = New System.Drawing.Size(67, 13)
+            Me.LinkLabel1.TabIndex = 9
+            Me.LinkLabel1.TabStop = True
+            Me.LinkLabel1.Text = "{{WP India}}"
             '
             'IndiaSettings
             '
