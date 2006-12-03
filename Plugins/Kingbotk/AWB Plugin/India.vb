@@ -1,3 +1,4 @@
+' By Reedy Boy, based on the Australia plugin
 Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
     Friend NotInheritable Class IndiaSettings
         Implements IGenericSettings
@@ -269,12 +270,12 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         End Property
         Protected Overrides ReadOnly Property CategoryTalkClassParm() As String
             Get
-                Return "NA"
+                Return "Cat"
             End Get
         End Property
         Protected Overrides ReadOnly Property TemplateTalkClassParm() As String
             Get
-                Return "NA"
+                Return "Template"
             End Get
         End Property
 

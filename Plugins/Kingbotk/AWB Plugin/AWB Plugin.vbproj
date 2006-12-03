@@ -51,7 +51,7 @@
     <Reference Include="WikiFunctions, Version=3.0.4.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\AWB\WikiFunctions.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -302,7 +302,7 @@
     <ProjectReference Include="..\WikiFunctions2\WikiFunctions2.vbproj">
       <Project>{9B6B7696-E6EB-4A4C-BF26-29317EE65E15}</Project>
       <Name>WikiFunctions2</Name>
-      <Private>False</Private>
+      <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
