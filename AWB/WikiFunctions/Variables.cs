@@ -150,6 +150,9 @@ namespace WikiFunctions
             get { return strsummarytag; }
         }
 
+        public static string Stub;
+        public static string SectStub;
+
         /// <summary>
         /// Sets different language variables, such as namespaces. Default is english Wikipedia
         /// </summary>
@@ -176,6 +179,10 @@ namespace WikiFunctions
 
             ProjectName = "";
             URLEnd = "/w/";
+
+            Stub = "[Ss]tub";
+
+            SectStub = "[Ss]ect";
 
             if (Project == ProjectEnum.custom)
             {
@@ -537,6 +544,7 @@ namespace WikiFunctions
                         Namespaces[101] = "Dyskusja portalu:";
 
                         strsummarytag = " [[Wikipedia:AutoWikiBrowser|AWB]]";
+                        SectStub = "[Ss]ek";
                         break;
 
                     case LangCodeEnum.pt:
@@ -636,6 +644,7 @@ namespace WikiFunctions
                         Namespaces[15] = "Pogovor o kategoriji:";
 
                         strsummarytag = " [[Wikipedija:AutoWikiBrowser|AWB]]";
+                        Stub = "(?:[Ss]tub|[Šš]krbina)";
                         break;
 
                     case LangCodeEnum.sv:
@@ -737,6 +746,7 @@ namespace WikiFunctions
             WikiRegexes.MakeLangSpecificRegexes();
 
             if (ProjectName == "") ProjectName = Namespaces[4].TrimEnd(':');
+
         }
 
         //User:MaxSem's code
@@ -797,7 +807,6 @@ namespace WikiFunctions
             return ns;
         }
 
-        //User:MaxSem's code
         private static void SetDefaults()
         {
             strproject = ProjectEnum.wikipedia;

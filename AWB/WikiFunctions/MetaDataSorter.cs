@@ -39,7 +39,8 @@ namespace WikiFunctions.Parse
                 InterWikisList.Add(new Regex("\\[\\[" + s + ":.*?\\]\\]", RegexOptions.Compiled));
         }
 
-        Regex StubsRegex = new Regex("<!-- ?\\{\\{.*?stub\\}\\}.*?-->|:?\\{\\{.*?stub\\}\\}");
+        // now will be generated dynamically using Variables.Stub
+        //Regex StubsRegex = new Regex("<!-- ?\\{\\{.*?stub\\}\\}.*?-->|:?\\{\\{.*?stub\\}\\}");
         Regex InterLangRegex = new Regex("<!-- ?(other languages|language links|inter ?(language|wiki)? ?links|inter ?wiki ?language ?links|inter ?wiki|The below are interlanguage links\\.?) ?-->", RegexOptions.IgnoreCase);
         Regex CatCommentRegex = new Regex("<!-- ?categories ?-->", RegexOptions.IgnoreCase);
 
@@ -96,7 +97,7 @@ namespace WikiFunctions.Parse
             //filter out excess white space and remove "----" from end of article
             ArticleText = Parsers.RemoveWhiteSpace(ArticleText);
 
-            ArticleText += strPersonData + strDisambig + strCategories + strInterwikis + strStub;
+            ArticleText += strPersonData + strDisambig + strCategories + strStub + strInterwikis;
 
             return ArticleText;
         }
@@ -106,7 +107,7 @@ namespace WikiFunctions.Parse
             List<string> CategoryList = new List<string>();
             string x = "";
 
-            foreach (Match m in Regex.Matches(ArticleText, "<!-- ? ?\\[\\[" + Variables.Namespaces[14] + ".*?(\\]\\]|\\|.*?\\]\\]).*?-->|\\[\\[" + Variables.Namespaces[14] + ".*?(\\]\\]|\\|.*?\\]\\])( {0,4}⌊⌊⌊⌊[0-9]{1,4}⌋⌋⌋⌋)?"))
+            foreach (Match m in Regex.Matches(ArticleText, "<!-- ? ?\\[\\[" + Variables.NamespacesCaseInsensitive[14] + ".*?(\\]\\]|\\|.*?\\]\\]).*?-->|\\[\\[" + Variables.NamespacesCaseInsensitive[14] + ".*?(\\]\\]|\\|.*?\\]\\])( {0,4}⌊⌊⌊⌊[0-9]{1,4}⌋⌋⌋⌋)?"))
             {
                 x = m.Value;
                 //add to array, replace underscores with spaces, ignore=
@@ -148,8 +149,10 @@ namespace WikiFunctions.Parse
 
         private string removeStubs(ref string ArticleText)
         {
-            if (Variables.LangCode != LangCodeEnum.en)
-                return "";
+            //if (Variables.LangCode != LangCodeEnum.en)
+            //    return "";
+
+            Regex StubsRegex = new Regex("<!-- ?\\{\\{.*?" + Variables.Stub + "b\\}\\}.*?-->|:?\\{\\{.*?" + Variables.Stub + "\\}\\}");
 
             List<string> StubList = new List<string>();
             MatchCollection n = StubsRegex.Matches(ArticleText);
@@ -158,7 +161,7 @@ namespace WikiFunctions.Parse
             foreach (Match m in n)
             {
                 x = m.Value;
-                if (!((Regex.IsMatch(x, "[Ss]ect") || (Regex.IsMatch(x, "tl\\|")))))
+                if (!((Regex.IsMatch(x, Variables.SectStub) || (Regex.IsMatch(x, "tl\\|")))))
                 {
                     StubList.Add(x);
                     //remove old stub
