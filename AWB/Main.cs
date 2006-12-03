@@ -1305,7 +1305,7 @@ namespace AutoWikiBrowser
         public void Debug()
         {//stop logging in when de-bugging
             Tools.WriteDebugEnabled = true;
-            listMaker1.Add("User:Bluemoose/Sandbox");
+            listMaker1.Add("User:MaxSem/Sandbox");
             Variables.User.WikiStatus = true;
             Variables.User.IsBot = true;
             Variables.User.IsAdmin = true;
