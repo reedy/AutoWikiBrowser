@@ -1,8 +1,9 @@
 Things to do:
 
-* Migrate to [[m:API]] (rather than QueriAPI), when API is completed
+* Migrate to [[m:API]] (rather than QueryAPI), when API is completed
 * Fix VB.NET module
 * Split options to enabled/disable flash + beep
 * Use serialisation for saving settings for IRC monitor (like AWB)
 * Enable other languages for IRC monitor
-* Finish implementing dotnetwikibot functions to allow moving/deleting articles
+* Finish implementing dotnetwikibot functions to allow moving/deleting articles - doubtful, better add this functionality to WebControl
+* Fix Elonka's bug: escape chars reconversion during serialization/deserialization

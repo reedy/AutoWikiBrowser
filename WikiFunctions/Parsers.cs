@@ -1051,7 +1051,7 @@ namespace WikiFunctions.Parse
             LinkCount = Tools.LinkCount(ArticleText);
             Ratio = LinkCount / Length;
 
-            if (words > 6 && !WikiRegexes.Category.IsMatch(ArticleText))
+            if (words > 6 && !WikiRegexes.Category.IsMatch(ArticleText) && !Regex.IsMatch(ArticleText, @"\{\{[Uu]ncategori[zs]ed"))
             {
                 if (WikiRegexes.Stub.IsMatch(ArticleText))
                 {
