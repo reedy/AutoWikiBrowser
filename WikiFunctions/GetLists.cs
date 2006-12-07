@@ -64,6 +64,8 @@ namespace WikiFunctions.Lists
         {
             List<Article> list = new List<Article>();
 
+            List<string> titles = new List<string>();
+
             for (int i = 0; i < Categories.Length; i++)
             {
                 string origURL = Variables.URLLong + "/query.php?what=category&cptitle=" + encodeText(Categories[i]) + "&format=xml&cplimit=500";
@@ -98,7 +100,10 @@ namespace WikiFunctions.Lists
                             else if (reader.Name == "title")
                             {
                                 title = reader.ReadString();
-                                list.Add(new Article(title, ns));
+                                Article a = new Article(title, ns);
+                                if (titles.Contains(title)) continue;
+                                list.Add(a);
+                                titles.Add(title);
 
                                 if (Limit >= 0 && list.Count >= Limit)
                                 {
