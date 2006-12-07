@@ -35,7 +35,7 @@ namespace WikiFunctions.Lists
     /// </summary>
     public static class GetLists
     {
-        readonly static Regex regexe = new Regex("<li>\\(?<a href=\"[^\"]*\" title=\"([^\"]*)\">[^<>]*</a>( \\(transclusion\\))?", RegexOptions.Compiled);
+        readonly static Regex regexe = new Regex("<li>[^<]*<a [^>]*>([^<]*)</a>", RegexOptions.Compiled);
         readonly static Regex regexe2 = new Regex("<a href=\"[^\"]*\" title=\"([^\"]*)\">[^<>]*</a>", RegexOptions.Compiled);
         readonly static Regex RegexFromFile = new Regex("(^[a-z]{2,3}:)|(simple:)", RegexOptions.Compiled);
         readonly static Regex regexWatchList = new Regex("<LI><INPUT type=checkbox value=(.*?) name=id\\[\\]", RegexOptions.Compiled);
@@ -169,7 +169,7 @@ namespace WikiFunctions.Lists
                 {
                     string html = Tools.GetHTML(URL);
                     if (html.Contains("<" + request + " error=\"emptyrequest\" />"))
-                        throw new PageDoeNotExistException("No pages link to " + Page + ". Make sure it is spelt correctly.");
+                        throw new PageDoesNotExistException("No pages link to " + Page + ". Make sure it is spelt correctly.");
 
                     bool more = false;
 
@@ -249,7 +249,7 @@ namespace WikiFunctions.Lists
 
                 string html = Tools.GetHTML(URL);
                 if (!html.Contains("<links>"))
-                    throw new PageDoeNotExistException(Article + " either does not exist or has no links. Make sure it is spelt correctly.");
+                    throw new PageDoesNotExistException(Article + " either does not exist or has no links. Make sure it is spelt correctly.");
 
                 using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
                 {
@@ -474,12 +474,14 @@ namespace WikiFunctions.Lists
         {
             List<Article> list = new List<Article>();
 
+            if (Limit < 0) Limit = 1000;
+
             foreach (string S in Specials)
             {
                 string Special = Regex.Replace(S, "^" + Variables.Namespaces[-1], "", RegexOptions.IgnoreCase);
 
                 string url = Variables.URLLong + "index.php?title=Special:" + Special;
-                if (!url.Contains("&limit=")) url += "&limit=50";
+                if (!url.Contains("&limit=")) url += "&limit=" + Limit.ToString();
                 string PageText = Tools.GetHTML(url);
 
                 PageText = Tools.StringBetween(PageText, "<!-- start content -->", "<!-- end content -->");
@@ -493,7 +495,7 @@ namespace WikiFunctions.Lists
                         title = m.Groups[1].Value;
                         if (title == "")
                             continue;
-                        title = title.Replace("&amp;", "&").Replace("&quot;", "\"");
+                        title = HttpUtility.HtmlDecode(title);
                         list.Add(new Article(title));
 
                         if (Limit >= 0 && list.Count >= Limit)
@@ -564,7 +566,7 @@ namespace WikiFunctions.Lists
                 {
                     string html = Tools.GetHTML(URL);
                     if (!html.Contains("<imagelinks>"))
-                        throw new PageDoeNotExistException("The image " + Image + " does not exist. Make sure it is spelt correctly.");
+                        throw new PageDoesNotExistException("The image " + Image + " does not exist. Make sure it is spelt correctly.");
 
                     bool more = false;
 
@@ -625,7 +627,7 @@ namespace WikiFunctions.Lists
 
             if (!html.Contains("<LI id=pt-logout"))
             {
-                throw new PageDoeNotExistException("Please make sure you are logged into Wikipedia in Internet Explorer so your watch list can be obtained");
+                throw new PageDoesNotExistException("Please make sure you are logged into Wikipedia in Internet Explorer so your watch list can be obtained");
             }
 
             foreach (Match m in regexWatchList.Matches(html))
@@ -992,13 +994,13 @@ namespace WikiFunctions.Lists
     }
 
     [Serializable]
-    public class PageDoeNotExistException : ApplicationException
+    public class PageDoesNotExistException : ApplicationException
     {
-        public PageDoeNotExistException() { }
-        public PageDoeNotExistException(string message) : base(message) { }
+        public PageDoesNotExistException() { }
+        public PageDoesNotExistException(string message) : base(message) { }
 
-        public PageDoeNotExistException(string message, System.Exception inner) : base(message, inner) { }
-        protected PageDoeNotExistException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+        public PageDoesNotExistException(string message, System.Exception inner) : base(message, inner) { }
+        protected PageDoesNotExistException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) { }
     }
 }
