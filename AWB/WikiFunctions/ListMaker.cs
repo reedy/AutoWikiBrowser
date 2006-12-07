@@ -736,7 +736,7 @@ namespace WikiFunctions.Lists
             catch (ThreadAbortException)
             {
             }
-            catch (PageDoeNotExistException ex)
+            catch (PageDoesNotExistException ex)
             {
                 MessageBox.Show(ex.Message, "Page does not exist error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }

@@ -1034,7 +1034,7 @@ namespace IRCMonitor
 
                 lblWatchListCount.Text = lbWatchList.Items.Count.ToString();
             }
-            catch (PageDoeNotExistException ex)
+            catch (PageDoesNotExistException ex)
             {
                 MessageBox.Show(ex.Message);
             }
