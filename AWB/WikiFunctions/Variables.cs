@@ -182,7 +182,7 @@ namespace WikiFunctions
 
             Stub = "[Ss]tub";
 
-            SectStub = "[Ss]ect";
+            SectStub = @"\{\{[Ss]ect";
 
             if (Project == ProjectEnum.custom)
             {
@@ -544,7 +544,7 @@ namespace WikiFunctions
                         Namespaces[101] = "Dyskusja portalu:";
 
                         strsummarytag = " [[Wikipedia:AutoWikiBrowser|AWB]]";
-                        SectStub = "[Ss]ek";
+                        SectStub = @"\{\{[Ss]ek";
                         break;
 
                     case LangCodeEnum.pt:

@@ -1080,7 +1080,7 @@ namespace WikiFunctions.Parse
 
         private string stubChecker(Match m)
         {// Replace each Regex cc match with the number of the occurrence.
-            if (Regex.IsMatch(m.Value, "\\{\\{[Ss]ect"))
+            if (Regex.IsMatch(m.Value, Variables.SectStub))
                 return m.Value;
             else
                 return "";
