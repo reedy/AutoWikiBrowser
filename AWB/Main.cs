@@ -39,6 +39,7 @@ using WikiFunctions.Lists;
 using WikiFunctions.Browser;
 using WikiFunctions.Controls;
 using System.Collections.Specialized;
+using WikiFunctions.Background;
 
 [assembly: CLSCompliant(true)]
 namespace AutoWikiBrowser
@@ -1806,7 +1807,15 @@ namespace AutoWikiBrowser
 
         private void bypassAllRedirectsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            txtEdit.Text = parsers.BypassRedirects(txtEdit.Text);
+            //txtEdit.Text = parsers.BypassRedirects(txtEdit.Text);
+            BackgroundRequest r = new BackgroundRequest();
+
+            Enabled = false;
+            r.BypassRedirects(txtEdit.Text);
+            while (!r.Done) Application.DoEvents();
+            Enabled = true;
+
+            txtEdit.Text = (string)r.Result;
         }
 
         private void unicodifyToolStripMenuItem_Click(object sender, EventArgs e)
