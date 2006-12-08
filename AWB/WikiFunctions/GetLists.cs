@@ -480,7 +480,7 @@ namespace WikiFunctions.Lists
         {
             List<Article> list = new List<Article>();
 
-            if (Limit < 0) Limit = 10;
+            if (Limit < 0) Limit = 1000;
 
             foreach (string S in Specials)
             {
