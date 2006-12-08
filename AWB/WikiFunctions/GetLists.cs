@@ -35,6 +35,7 @@ namespace WikiFunctions.Lists
     /// </summary>
     public static class GetLists
     {
+        readonly static Regex regexli = new Regex("<li>.*</li>", RegexOptions.Compiled);
         readonly static Regex regexe = new Regex("<li>[^<]*<a [^>]*>([^<]*)</a>", RegexOptions.Compiled);
         readonly static Regex regexe2 = new Regex("<a href=\"[^\"]*\" title=\"([^\"]*)\">[^<>]*</a>", RegexOptions.Compiled);
         readonly static Regex RegexFromFile = new Regex("(^[a-z]{2,3}:)|(simple:)", RegexOptions.Compiled);
@@ -479,7 +480,7 @@ namespace WikiFunctions.Lists
         {
             List<Article> list = new List<Article>();
 
-            if (Limit < 0) Limit = 1000;
+            if (Limit < 0) Limit = 10;
 
             foreach (string S in Specials)
             {
@@ -493,7 +494,28 @@ namespace WikiFunctions.Lists
                 string title = "";
                 int ns = 0;
 
-                if (regexe.IsMatch(PageText))
+                if (regexli.IsMatch(PageText))
+                {
+                    foreach (Match m in regexli.Matches(PageText))
+                    {
+                        foreach (Match m2 in regexe2.Matches(m.Value))
+                        {
+                            if (m2.Value.Contains("&amp;action=") && !m2.Value.Contains("&amp;action=edit"))
+                                continue;
+
+                            title = m2.Groups[1].Value;
+
+                            title = HttpUtility.HtmlDecode(title);
+
+                            if (title.Trim() == "") continue;
+
+                            list.Add(new Article(title));
+                            break;
+                        }
+                    }
+                }
+                else
+                /*if (regexe.IsMatch(PageText))
                 {
                     foreach (Match m in regexe.Matches(PageText))
                     {
@@ -508,12 +530,12 @@ namespace WikiFunctions.Lists
                             break;
                         }
                     }
-                }
-                else
+                }*/
                 {
                     foreach (Match m in regexe2.Matches(PageText))
                     {
                         title = m.Groups[1].Value;
+                        if (title.Trim() == "") continue;
                         if (title != "Wikipedia:Special pages" && title != "Wikipedia talk:Special:Lonelypages" && title != "Wikipedia:Offline reports" && title != "Template:Specialpageslist")
                         {
                             title = title.Replace("&amp;", "&").Replace("&quot;", "\"");
@@ -521,6 +543,7 @@ namespace WikiFunctions.Lists
                                 continue;
 
                             ns = Tools.CalculateNS(title);
+                            if (ns < 0) continue;
                             list.Add(new Article(title, ns));
 
                             if (Limit >= 0 && list.Count >= Limit)
