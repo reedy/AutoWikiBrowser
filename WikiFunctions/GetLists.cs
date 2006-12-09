@@ -285,7 +285,7 @@ namespace WikiFunctions.Lists
 
         #endregion
 
-        #region From textfile
+        #region From text file
 
         /// <summary>
         /// Gets a list of [[wiki]] style links from txt file.
@@ -316,12 +316,29 @@ namespace WikiFunctions.Lists
                 PageText = sr.ReadToEnd();
                 sr.Close();
 
-                foreach (Match m in WikiRegexes.WikiLink.Matches(PageText))
+                if (WikiRegexes.WikiLink.IsMatch(PageText))
                 {
-                    title = m.Groups[1].Value;
-                    if (!RegexFromFile.IsMatch(title) && (!(title.StartsWith("#"))))
+                    foreach (Match m in WikiRegexes.WikiLink.Matches(PageText))
                     {
-                        title = Tools.TurnFirstToUpper(title);
+                        title = m.Groups[1].Value;
+                        if (!RegexFromFile.IsMatch(title) && (!(title.StartsWith("#"))))
+                        {
+                            title = Tools.TurnFirstToUpper(title);
+                            list.Add(new Article(title));
+
+                            if (Limit >= 0 && list.Count >= Limit)
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (string s in PageText.Split(new string[]{"\r\n"}, StringSplitOptions.RemoveEmptyEntries))
+                    {
+                        if (s.Trim() == "" || !Tools.IsValidTitle(s)) continue;
+                        title = Tools.TurnFirstToUpper(s.Trim());
                         list.Add(new Article(title));
 
                         if (Limit >= 0 && list.Count >= Limit)
