@@ -129,6 +129,8 @@ namespace AutoWikiBrowser
         HideText RemoveText = new HideText(false, true, false);
         List<string> noParse = new List<string>();
         FindandReplace findAndReplace = new FindandReplace();
+        SubstTemplates substTemplates = new SubstTemplates();
+
         RegExTypoFix RegexTypos;
         SkipOptions Skip = new SkipOptions();
         WikiFunctions.MWB.ReplaceSpecial replaceSpecial = new WikiFunctions.MWB.ReplaceSpecial();
@@ -767,6 +769,7 @@ namespace AutoWikiBrowser
             string testText = articleText;
             articleText = findAndReplace.MultipleFindAndReplce(articleText, EdittingArticle.Name, ref EdittingArticle.EditSummary);
             articleText = replaceSpecial.ApplyRules(articleText, EdittingArticle.Name);
+            articleText = substTemplates.SubstituteTemplates(articleText);
 
             if (chkSkipWhenNoFAR.Checked && (testText == articleText))
             {
@@ -920,6 +923,7 @@ namespace AutoWikiBrowser
             btnMoreFindAndReplce.Enabled = chkFindandReplace.Checked;
             btnFindAndReplaceAdvanced.Enabled = chkFindandReplace.Checked;
             chkSkipWhenNoFAR.Enabled = chkFindandReplace.Checked;
+            btnSubst.Enabled = chkFindandReplace.Checked;
         }
 
         private void cmboCategorise_SelectedIndexChanged(object sender, EventArgs e)
@@ -2414,6 +2418,11 @@ namespace AutoWikiBrowser
         }
 
         #endregion
+
+        private void btnSubst_Click(object sender, EventArgs e)
+        {
+            substTemplates.ShowDialog();
+        }
 
 
     }
