@@ -1,6 +1,6 @@
 ﻿/*
 WikiFunctions
-Copyright (C) 2006
+Copyright (C) 2006 Martin Richards
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

@@ -1808,6 +1808,12 @@ namespace AutoWikiBrowser
         private void bypassAllRedirectsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //txtEdit.Text = parsers.BypassRedirects(txtEdit.Text);
+            if (MessageBox.Show("Replacement of links to redirects with direct links is strongly discouraged, " +
+                "however it could be useful in some circumstances. Are you sure you want to continue?",
+                "Bypass redirects", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
+                
+                return;
+
             BackgroundRequest r = new BackgroundRequest();
 
             Enabled = false;

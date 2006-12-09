@@ -133,6 +133,16 @@ namespace WikiFunctions
         /// Matches {{Link FA|xxx}} (en only)
         /// </summary>
         public static readonly Regex LinkFAs = new Regex(@"\{\{[Ll]ink FA\|.*?\}\}", RegexOptions.Compiled);
+
+        /// <summary>
+        /// matches <!-- comments -->
+        /// </summary>
+        public static readonly Regex Comments = new Regex(@"<!--.*?-->", RegexOptions.Compiled | RegexOptions.Singleline);
+
+        /// <summary>
+        /// matches <cite> tags
+        /// </summary>
+        public static readonly Regex Cites = new Regex(@"<cite[^>]*?>[^<]*<\s*/cite\s*>", RegexOptions.Compiled | RegexOptions.Singleline);
         
         #endregion
     
