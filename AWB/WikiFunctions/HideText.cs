@@ -150,6 +150,38 @@ namespace WikiFunctions.Parse
                 MoreHide.Add(new HideObject(s, m.Value));
                 i++;
             }
+            foreach (Match m in WikiRegexes.InterWikiLinks.Matches(ArticleText))
+            {
+                s = "⌊⌊⌊⌊M" + i.ToString() + "⌋⌋⌋⌋";
+
+                ArticleText = ArticleText.Replace(m.Value, s);
+                MoreHide.Add(new HideObject(s, m.Value));
+                i++;
+            }
+            foreach (Match m in WikiRegexes.UnFormattedText.Matches(ArticleText))
+            {
+                s = "⌊⌊⌊⌊M" + i.ToString() + "⌋⌋⌋⌋";
+
+                ArticleText = ArticleText.Replace(m.Value, s);
+                MoreHide.Add(new HideObject(s, m.Value));
+                i++;
+            }
+            foreach (Match m in WikiRegexes.SimpleWikiLink.Matches(ArticleText))
+            {
+                s = "⌊⌊⌊⌊M" + i.ToString() + "⌋⌋⌋⌋";
+
+                ArticleText = ArticleText.Replace(m.Value, s);
+                MoreHide.Add(new HideObject(s, m.Value));
+                i++;
+            }
+            foreach (Match m in WikiRegexes.Cites.Matches(ArticleText))
+            {
+                s = "⌊⌊⌊⌊M" + i.ToString() + "⌋⌋⌋⌋";
+
+                ArticleText = ArticleText.Replace(m.Value, s);
+                MoreHide.Add(new HideObject(s, m.Value));
+                i++;
+            }
 
             return ArticleText;
         }
