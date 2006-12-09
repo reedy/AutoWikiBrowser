@@ -803,22 +803,38 @@ namespace WikiFunctions.Lists
             try
             {
                 StringBuilder strList = new StringBuilder("");
-
-                foreach (Article a in lbArticles)
-                {
-                    strList.AppendLine("# [[" + a.Name + "]]");
-                }
+                StreamWriter sw;
 
                 if (strListFile.Length > 0)
                     saveListDialog.FileName = strListFile;
 
                 if (saveListDialog.ShowDialog() == DialogResult.OK)
                 {
-                    strListFile = saveListDialog.FileName;
-                    StreamWriter sw = new StreamWriter(strListFile, false, Encoding.UTF8);
-                    sw.Write(strList);
-                    sw.Close();
-                    Saved = true;
+                    switch (saveListDialog.FilterIndex)
+                    {
+                        case 1: //wikitext
+                            foreach (Article a in lbArticles)
+                            {
+                                strList.AppendLine("# [[" + a.Name + "]]");
+                            }
+                            strListFile = saveListDialog.FileName;
+                            sw = new StreamWriter(strListFile, false, Encoding.UTF8);
+                            sw.Write(strList);
+                            sw.Close();
+                            Saved = true;
+                            break;
+                        case 2: //plaintext
+                            foreach (Article a in lbArticles)
+                            {
+                                strList.AppendLine(a.Name);
+                            }
+                            strListFile = saveListDialog.FileName;
+                            sw = new StreamWriter(strListFile, false, Encoding.UTF8);
+                            sw.Write(strList);
+                            sw.Close();
+                            Saved = true;
+                            break;
+                    }
                 }
             }
             catch (IOException ex)
