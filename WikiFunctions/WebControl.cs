@@ -111,6 +111,22 @@ namespace WikiFunctions.Browser
             }
         }
 
+
+        /// <summary>
+        /// get or sets contents of edit box
+        /// </summary>
+        public string ArticleText
+        {
+            get
+            {
+                return GetArticleText();
+            }
+            set
+            {
+                SetArticleText(value);
+            }
+        }
+
         /// <summary>
         /// Gets contents of currently loaded page
         /// </summary>

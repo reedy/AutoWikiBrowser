@@ -38,6 +38,7 @@ namespace WikiFunctions.AWBSettings
         public List<WikiFunctions.Parse.Replacement> Replacements = new List<WikiFunctions.Parse.Replacement>();
 
         public List<WikiFunctions.MWB.IRule> AdvancedReps = new List<WikiFunctions.MWB.IRule>();
+        public string[] SubstTemplates = new string[0];
     }
 
     [Serializable]

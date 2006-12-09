@@ -40,6 +40,8 @@ namespace AutoWikiBrowser
         {
             findAndReplace.Clear();
             replaceSpecial.Clear();
+            substTemplates.Clear();
+
             listMaker1.SelectedSource = 0;
             listMaker1.SourceText = "";
 
@@ -148,6 +150,8 @@ namespace AutoWikiBrowser
             try
             {
                 findAndReplace.Clear();
+                replaceSpecial.Clear();
+                substTemplates.Clear();
                 cmboEditSummary.Items.Clear();
 
                 using (XmlTextReader reader = new XmlTextReader(stream))
@@ -641,6 +645,7 @@ namespace AutoWikiBrowser
             p.FindAndReplace.AppendSummary = findAndReplace.AppendToSummary;
             p.FindAndReplace.Replacements = findAndReplace.GetList();
             p.FindAndReplace.AdvancedReps = replaceSpecial.GetRules();
+            p.FindAndReplace.SubstTemplates = substTemplates.TemplateList;
 
             p.List.ListSource = listMaker1.SourceText;
             p.List.Source = listMaker1.SelectedSource;
@@ -760,6 +765,7 @@ namespace AutoWikiBrowser
             findAndReplace.AppendToSummary = p.FindAndReplace.AppendSummary;
             findAndReplace.AddNew(p.FindAndReplace.Replacements);
             replaceSpecial.AddNewRule(p.FindAndReplace.AdvancedReps);
+            substTemplates.TemplateList = p.FindAndReplace.SubstTemplates;
 
             listMaker1.SourceText = p.List.ListSource;
             listMaker1.SelectedSource = p.List.Source;
@@ -909,6 +915,7 @@ namespace AutoWikiBrowser
             {
                 findAndReplace.Clear();
                 replaceSpecial.Clear();
+                substTemplates.Clear();
 
                 //test file to see if it is an old AWB file
                 StreamReader sr = new StreamReader(new FileStream(Path, FileMode.Open));

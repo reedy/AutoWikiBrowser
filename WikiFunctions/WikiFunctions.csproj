@@ -159,6 +159,12 @@
     <Compile Include="specialFilter.Designer.cs">
       <DependentUpon>specialFilter.cs</DependentUpon>
     </Compile>
+    <Compile Include="SubstTemplates.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubstTemplates.Designer.cs">
+      <DependentUpon>SubstTemplates.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tools.cs" />
     <Compile Include="ReplaceSpecial\Utility.cs" />
     <Compile Include="Variables.cs" />
@@ -233,6 +239,10 @@
     <EmbeddedResource Include="specialFilter.resx">
       <DependentUpon>specialFilter.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubstTemplates.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SubstTemplates.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

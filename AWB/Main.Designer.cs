@@ -52,6 +52,7 @@ namespace AutoWikiBrowser
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tpSetOptions = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnSubst = new System.Windows.Forms.Button();
             this.chkSkipWhenNoFAR = new System.Windows.Forms.CheckBox();
             this.btnFindAndReplaceAdvanced = new System.Windows.Forms.Button();
             this.btnMoreFindAndReplce = new System.Windows.Forms.Button();
@@ -210,6 +211,7 @@ namespace AutoWikiBrowser
             this.alphaSortInterwikiLinksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.addIgnoredToLogFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.summariesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripAdvanced = new System.Windows.Forms.ToolStripMenuItem();
             this.makeModuleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -249,7 +251,6 @@ namespace AutoWikiBrowser
             this.btntsFalsePositive = new System.Windows.Forms.ToolStripButton();
             this.lbltsNumberofItems = new System.Windows.Forms.ToolStripLabel();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
-            this.summariesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tpSetOptions.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -286,7 +287,7 @@ namespace AutoWikiBrowser
             this.tabControl1.MinimumSize = new System.Drawing.Size(276, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(276, 374);
+            this.tabControl1.Size = new System.Drawing.Size(286, 374);
             this.tabControl1.TabIndex = 666;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
@@ -299,23 +300,35 @@ namespace AutoWikiBrowser
             this.tpSetOptions.Location = new System.Drawing.Point(4, 22);
             this.tpSetOptions.Name = "tpSetOptions";
             this.tpSetOptions.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSetOptions.Size = new System.Drawing.Size(268, 348);
+            this.tpSetOptions.Size = new System.Drawing.Size(278, 348);
             this.tpSetOptions.TabIndex = 0;
             this.tpSetOptions.Text = "(2) Set options";
             this.tpSetOptions.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnSubst);
             this.groupBox1.Controls.Add(this.chkSkipWhenNoFAR);
             this.groupBox1.Controls.Add(this.btnFindAndReplaceAdvanced);
             this.groupBox1.Controls.Add(this.btnMoreFindAndReplce);
             this.groupBox1.Controls.Add(this.chkFindandReplace);
             this.groupBox1.Location = new System.Drawing.Point(6, 77);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(257, 68);
+            this.groupBox1.Size = new System.Drawing.Size(266, 68);
             this.groupBox1.TabIndex = 15;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Find and replace";
+            // 
+            // btnSubst
+            // 
+            this.btnSubst.Enabled = false;
+            this.btnSubst.Location = new System.Drawing.Point(205, 15);
+            this.btnSubst.Name = "btnSubst";
+            this.btnSubst.Size = new System.Drawing.Size(55, 23);
+            this.btnSubst.TabIndex = 11;
+            this.btnSubst.Text = "subst:";
+            this.btnSubst.UseVisualStyleBackColor = true;
+            this.btnSubst.Click += new System.EventHandler(this.btnSubst_Click);
             // 
             // chkSkipWhenNoFAR
             // 
@@ -333,9 +346,9 @@ namespace AutoWikiBrowser
             // btnFindAndReplaceAdvanced
             // 
             this.btnFindAndReplaceAdvanced.Enabled = false;
-            this.btnFindAndReplaceAdvanced.Location = new System.Drawing.Point(169, 15);
+            this.btnFindAndReplaceAdvanced.Location = new System.Drawing.Point(132, 15);
             this.btnFindAndReplaceAdvanced.Name = "btnFindAndReplaceAdvanced";
-            this.btnFindAndReplaceAdvanced.Size = new System.Drawing.Size(82, 23);
+            this.btnFindAndReplaceAdvanced.Size = new System.Drawing.Size(67, 23);
             this.btnFindAndReplaceAdvanced.TabIndex = 9;
             this.btnFindAndReplaceAdvanced.Text = "Advanced";
             this.btnFindAndReplaceAdvanced.UseVisualStyleBackColor = true;
@@ -344,9 +357,9 @@ namespace AutoWikiBrowser
             // btnMoreFindAndReplce
             // 
             this.btnMoreFindAndReplce.Enabled = false;
-            this.btnMoreFindAndReplce.Location = new System.Drawing.Point(77, 15);
+            this.btnMoreFindAndReplce.Location = new System.Drawing.Point(69, 15);
             this.btnMoreFindAndReplce.Name = "btnMoreFindAndReplce";
-            this.btnMoreFindAndReplce.Size = new System.Drawing.Size(82, 23);
+            this.btnMoreFindAndReplce.Size = new System.Drawing.Size(57, 23);
             this.btnMoreFindAndReplce.TabIndex = 8;
             this.btnMoreFindAndReplce.Text = "Normal";
             this.btnMoreFindAndReplce.UseVisualStyleBackColor = true;
@@ -371,7 +384,7 @@ namespace AutoWikiBrowser
             this.groupBox6.Controls.Add(this.chkGeneralFixes);
             this.groupBox6.Location = new System.Drawing.Point(6, 6);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(257, 65);
+            this.groupBox6.Size = new System.Drawing.Size(266, 65);
             this.groupBox6.TabIndex = 17;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "General";
@@ -431,7 +444,7 @@ namespace AutoWikiBrowser
             this.groupBox8.Controls.Add(this.chkSkipIfContains);
             this.groupBox8.Location = new System.Drawing.Point(6, 203);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(257, 133);
+            this.groupBox8.Size = new System.Drawing.Size(266, 133);
             this.groupBox8.TabIndex = 27;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Skip articles";
@@ -538,7 +551,7 @@ namespace AutoWikiBrowser
             this.groupBox5.Controls.Add(this.txtNewCategory);
             this.groupBox5.Location = new System.Drawing.Point(6, 151);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(257, 46);
+            this.groupBox5.Size = new System.Drawing.Size(266, 46);
             this.groupBox5.TabIndex = 16;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Categorisation";
@@ -563,7 +576,7 @@ namespace AutoWikiBrowser
             this.txtNewCategory.Enabled = false;
             this.txtNewCategory.Location = new System.Drawing.Point(153, 16);
             this.txtNewCategory.Name = "txtNewCategory";
-            this.txtNewCategory.Size = new System.Drawing.Size(100, 20);
+            this.txtNewCategory.Size = new System.Drawing.Size(107, 20);
             this.txtNewCategory.TabIndex = 0;
             this.toolTip1.SetToolTip(this.txtNewCategory, "The new category, the old one is specified when you make the list");
             this.txtNewCategory.DoubleClick += new System.EventHandler(this.txtNewCategory_DoubleClick);
@@ -580,7 +593,7 @@ namespace AutoWikiBrowser
             this.tpMoreOptions.Location = new System.Drawing.Point(4, 22);
             this.tpMoreOptions.Name = "tpMoreOptions";
             this.tpMoreOptions.Padding = new System.Windows.Forms.Padding(3);
-            this.tpMoreOptions.Size = new System.Drawing.Size(268, 348);
+            this.tpMoreOptions.Size = new System.Drawing.Size(278, 348);
             this.tpMoreOptions.TabIndex = 1;
             this.tpMoreOptions.Text = "More options";
             this.tpMoreOptions.UseVisualStyleBackColor = true;
@@ -844,7 +857,7 @@ namespace AutoWikiBrowser
             this.tpStart.Location = new System.Drawing.Point(4, 22);
             this.tpStart.Name = "tpStart";
             this.tpStart.Padding = new System.Windows.Forms.Padding(3);
-            this.tpStart.Size = new System.Drawing.Size(268, 348);
+            this.tpStart.Size = new System.Drawing.Size(278, 348);
             this.tpStart.TabIndex = 3;
             this.tpStart.Text = "(3) Start";
             this.tpStart.UseVisualStyleBackColor = true;
@@ -1186,9 +1199,9 @@ namespace AutoWikiBrowser
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.txtEdit);
-            this.panel1.Location = new System.Drawing.Point(497, 5);
+            this.panel1.Location = new System.Drawing.Point(511, 5);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(283, 372);
+            this.panel1.Size = new System.Drawing.Size(269, 372);
             this.panel1.TabIndex = 9;
             // 
             // txtEdit
@@ -1203,7 +1216,7 @@ namespace AutoWikiBrowser
             this.txtEdit.Multiline = true;
             this.txtEdit.Name = "txtEdit";
             this.txtEdit.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtEdit.Size = new System.Drawing.Size(283, 372);
+            this.txtEdit.Size = new System.Drawing.Size(269, 372);
             this.txtEdit.TabIndex = 0;
             this.txtEdit.TextChanged += new System.EventHandler(this.txtEdit_TextChanged);
             // 
@@ -1878,6 +1891,13 @@ namespace AutoWikiBrowser
             this.addIgnoredToLogFileToolStripMenuItem.Text = "Enable button to log false positives";
             this.addIgnoredToLogFileToolStripMenuItem.Click += new System.EventHandler(this.addIgnoredToLogFileToolStripMenuItem_Click);
             // 
+            // summariesToolStripMenuItem
+            // 
+            this.summariesToolStripMenuItem.Name = "summariesToolStripMenuItem";
+            this.summariesToolStripMenuItem.Size = new System.Drawing.Size(255, 22);
+            this.summariesToolStripMenuItem.Text = "Edit summaries";
+            this.summariesToolStripMenuItem.Click += new System.EventHandler(this.summariesToolStripMenuItem_Click);
+            // 
             // pluginsToolStripMenuItem
             // 
             this.pluginsToolStripMenuItem.Name = "pluginsToolStripMenuItem";
@@ -2199,6 +2219,7 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.webBrowserEdit.ArticleText = "";
             this.webBrowserEdit.Busy = false;
             this.webBrowserEdit.DiffFontSize = 120;
             this.webBrowserEdit.EnhanceDiffEnabled = true;
@@ -2216,13 +2237,6 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.WebBrowserShortcutsEnabled = false;
             this.webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
             this.webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
-            // 
-            // summariesToolStripMenuItem
-            // 
-            this.summariesToolStripMenuItem.Name = "summariesToolStripMenuItem";
-            this.summariesToolStripMenuItem.Size = new System.Drawing.Size(255, 22);
-            this.summariesToolStripMenuItem.Text = "Edit summaries";
-            this.summariesToolStripMenuItem.Click += new System.EventHandler(this.summariesToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -2490,6 +2504,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem openHistoryMenuItem;
         private System.Windows.Forms.ToolStripComboBox toolStripComboOnLoad;
         private System.Windows.Forms.ToolStripMenuItem summariesToolStripMenuItem;
+        private System.Windows.Forms.Button btnSubst;
 
 
     }
