@@ -1013,7 +1013,7 @@ namespace WikiFunctions.Parse
         /// adds/removes
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
-        /// <param name="ArticleTitlet">The old category to remove.</param>
+        /// <param name="ArticleTitle">The old category to remove.</param>
         /// <returns>The article text without the old category.</returns>
         public string Tagger(string ArticleText, string ArticleTitle, ref string Summary)
         {
@@ -1023,9 +1023,13 @@ namespace WikiFunctions.Parse
             if (!Tools.IsMainSpace(ArticleTitle)) return ArticleText;
 
             double Length = ArticleText.Length + 1;
-            int words = Tools.WordCount(ArticleText);
+
             double LinkCount = 1;
             double Ratio = 0;
+
+            
+            string CommentsStripped = WikiRegexes.Comments.Replace(ArticleText, "");
+            int words = Tools.WordCount(CommentsStripped);
 
             //update by-date tags
             foreach (KeyValuePair<Regex, string> k in RegexTagger)
@@ -1034,7 +1038,7 @@ namespace WikiFunctions.Parse
             }
 
             //remove stub tags from long articles
-            if (words > StubMaxWordCount && WikiRegexes.Stub.IsMatch(ArticleText))
+            if (words > StubMaxWordCount && WikiRegexes.Stub.IsMatch(CommentsStripped))
             {
                 MatchEvaluator stubEvaluator = new MatchEvaluator(stubChecker);
                 ArticleText = WikiRegexes.Stub.Replace(ArticleText, stubEvaluator);
@@ -1048,12 +1052,12 @@ namespace WikiFunctions.Parse
                     return ArticleText;
             }
 
-            LinkCount = Tools.LinkCount(ArticleText);
+            LinkCount = Tools.LinkCount(CommentsStripped);
             Ratio = LinkCount / Length;
 
-            if (words > 6 && !WikiRegexes.Category.IsMatch(ArticleText) && !Regex.IsMatch(ArticleText, @"\{\{[Uu]ncategori[zs]ed"))
+            if (words > 6 && !WikiRegexes.Category.IsMatch(CommentsStripped) && !Regex.IsMatch(ArticleText, @"\{\{[Uu]ncategori[zs]ed"))
             {
-                if (WikiRegexes.Stub.IsMatch(ArticleText))
+                if (WikiRegexes.Stub.IsMatch(CommentsStripped))
                 {
                     ArticleText += "\r\n\r\n{{Uncategorizedstub|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
                     Summary += ", added [[:Category:Uncategorized stubs|uncategorised]] tag";
@@ -1069,7 +1073,7 @@ namespace WikiFunctions.Parse
                 ArticleText = "{{Wikify|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + ArticleText;
                 Summary += ", added [[:Category:Articles that need to be wikified|wikify]] tag";
             }
-            else if (ArticleText.Length <= 300 && !WikiRegexes.Stub.IsMatch(ArticleText))
+            else if (CommentsStripped.Length <= 300 && !WikiRegexes.Stub.IsMatch(CommentsStripped))
             {
                 ArticleText = ArticleText + "\r\n\r\n\r\n{{stub}}";
                 Summary += ", added stub tag";
