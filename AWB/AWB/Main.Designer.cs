@@ -251,6 +251,7 @@ namespace AutoWikiBrowser
             this.btntsFalsePositive = new System.Windows.Forms.ToolStripButton();
             this.lbltsNumberofItems = new System.Windows.Forms.ToolStripLabel();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
+            this.testRegexToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tpSetOptions.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -370,7 +371,7 @@ namespace AutoWikiBrowser
             this.chkFindandReplace.AutoSize = true;
             this.chkFindandReplace.Location = new System.Drawing.Point(6, 19);
             this.chkFindandReplace.Name = "chkFindandReplace";
-            this.chkFindandReplace.Size = new System.Drawing.Size(65, 17);
+            this.chkFindandReplace.Size = new System.Drawing.Size(64, 17);
             this.chkFindandReplace.TabIndex = 6;
             this.chkFindandReplace.Text = "Enabled";
             this.toolTip1.SetToolTip(this.chkFindandReplace, "Enable text find and replace.");
@@ -396,7 +397,7 @@ namespace AutoWikiBrowser
             this.chkUnicodifyWhole.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkUnicodifyWhole.Location = new System.Drawing.Point(6, 39);
             this.chkUnicodifyWhole.Name = "chkUnicodifyWhole";
-            this.chkUnicodifyWhole.Size = new System.Drawing.Size(132, 17);
+            this.chkUnicodifyWhole.Size = new System.Drawing.Size(133, 17);
             this.chkUnicodifyWhole.TabIndex = 27;
             this.chkUnicodifyWhole.Text = "Unicodify whole article";
             this.toolTip1.SetToolTip(this.chkUnicodifyWhole, "Converts all (with a couple of exceptions) HTML and URL encoded characters to uni" +
@@ -410,7 +411,7 @@ namespace AutoWikiBrowser
             this.chkAutoTagger.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkAutoTagger.Location = new System.Drawing.Point(119, 16);
             this.chkAutoTagger.Name = "chkAutoTagger";
-            this.chkAutoTagger.Size = new System.Drawing.Size(66, 17);
+            this.chkAutoTagger.Size = new System.Drawing.Size(68, 17);
             this.chkAutoTagger.TabIndex = 27;
             this.chkAutoTagger.Text = "Auto tag";
             this.toolTip1.SetToolTip(this.chkAutoTagger, "Automatically add {{wikify}} and {{stub}} tags when appropriate");
@@ -423,7 +424,7 @@ namespace AutoWikiBrowser
             this.chkGeneralFixes.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkGeneralFixes.Location = new System.Drawing.Point(6, 16);
             this.chkGeneralFixes.Name = "chkGeneralFixes";
-            this.chkGeneralFixes.Size = new System.Drawing.Size(114, 17);
+            this.chkGeneralFixes.Size = new System.Drawing.Size(118, 17);
             this.chkGeneralFixes.TabIndex = 11;
             this.chkGeneralFixes.Tag = "Apply general minor fixes";
             this.chkGeneralFixes.Text = "Apply general fixes";
@@ -466,7 +467,7 @@ namespace AutoWikiBrowser
             this.chkSkipNonExistent.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkSkipNonExistent.Location = new System.Drawing.Point(4, 110);
             this.chkSkipNonExistent.Name = "chkSkipNonExistent";
-            this.chkSkipNonExistent.Size = new System.Drawing.Size(138, 17);
+            this.chkSkipNonExistent.Size = new System.Drawing.Size(139, 17);
             this.chkSkipNonExistent.TabIndex = 31;
             this.chkSkipNonExistent.Text = "Skip non-existing pages";
             this.chkSkipNonExistent.UseVisualStyleBackColor = true;
@@ -476,7 +477,7 @@ namespace AutoWikiBrowser
             this.chkSkipNoChanges.AutoSize = true;
             this.chkSkipNoChanges.Location = new System.Drawing.Point(4, 86);
             this.chkSkipNoChanges.Name = "chkSkipNoChanges";
-            this.chkSkipNoChanges.Size = new System.Drawing.Size(195, 17);
+            this.chkSkipNoChanges.Size = new System.Drawing.Size(193, 17);
             this.chkSkipNoChanges.TabIndex = 30;
             this.chkSkipNoChanges.Text = "Skip articles when no change made";
             this.toolTip1.SetToolTip(this.chkSkipNoChanges, "Automatically skips articles when no changes were automatically made");
@@ -487,7 +488,7 @@ namespace AutoWikiBrowser
             this.chkSkipCaseSensitive.AutoSize = true;
             this.chkSkipCaseSensitive.Location = new System.Drawing.Point(69, 13);
             this.chkSkipCaseSensitive.Name = "chkSkipCaseSensitive";
-            this.chkSkipCaseSensitive.Size = new System.Drawing.Size(94, 17);
+            this.chkSkipCaseSensitive.Size = new System.Drawing.Size(95, 17);
             this.chkSkipCaseSensitive.TabIndex = 29;
             this.chkSkipCaseSensitive.Text = "Case sensitive";
             this.chkSkipCaseSensitive.UseVisualStyleBackColor = true;
@@ -497,7 +498,7 @@ namespace AutoWikiBrowser
             this.chkSkipIsRegex.AutoSize = true;
             this.chkSkipIsRegex.Location = new System.Drawing.Point(169, 13);
             this.chkSkipIsRegex.Name = "chkSkipIsRegex";
-            this.chkSkipIsRegex.Size = new System.Drawing.Size(82, 17);
+            this.chkSkipIsRegex.Size = new System.Drawing.Size(85, 17);
             this.chkSkipIsRegex.TabIndex = 28;
             this.chkSkipIsRegex.Text = "Are regexes";
             this.toolTip1.SetToolTip(this.chkSkipIsRegex, "Enables regular expressions for the \"Ignore if contains\".");
@@ -604,7 +605,7 @@ namespace AutoWikiBrowser
             this.chkSkipIfNoRegexTypo.Enabled = false;
             this.chkSkipIfNoRegexTypo.Location = new System.Drawing.Point(6, 319);
             this.chkSkipIfNoRegexTypo.Name = "chkSkipIfNoRegexTypo";
-            this.chkSkipIfNoRegexTypo.Size = new System.Drawing.Size(170, 17);
+            this.chkSkipIfNoRegexTypo.Size = new System.Drawing.Size(173, 17);
             this.chkSkipIfNoRegexTypo.TabIndex = 30;
             this.chkSkipIfNoRegexTypo.Text = "Skip article when no typo fixed";
             this.chkSkipIfNoRegexTypo.UseVisualStyleBackColor = true;
@@ -649,7 +650,7 @@ namespace AutoWikiBrowser
             this.lblImageWith.AutoSize = true;
             this.lblImageWith.Location = new System.Drawing.Point(22, 68);
             this.lblImageWith.Name = "lblImageWith";
-            this.lblImageWith.Size = new System.Drawing.Size(63, 13);
+            this.lblImageWith.Size = new System.Drawing.Size(64, 13);
             this.lblImageWith.TabIndex = 4;
             this.lblImageWith.Text = "With image:";
             // 
@@ -658,7 +659,7 @@ namespace AutoWikiBrowser
             this.lblImageReplace.AutoSize = true;
             this.lblImageReplace.Location = new System.Drawing.Point(4, 42);
             this.lblImageReplace.Name = "lblImageReplace";
-            this.lblImageReplace.Size = new System.Drawing.Size(81, 13);
+            this.lblImageReplace.Size = new System.Drawing.Size(80, 13);
             this.lblImageReplace.TabIndex = 3;
             this.lblImageReplace.Text = "Replace image:";
             // 
@@ -713,7 +714,7 @@ namespace AutoWikiBrowser
             this.chkSuppressTag.Enabled = false;
             this.chkSuppressTag.Location = new System.Drawing.Point(96, 40);
             this.chkSuppressTag.Name = "chkSuppressTag";
-            this.chkSuppressTag.Size = new System.Drawing.Size(136, 17);
+            this.chkSuppressTag.Size = new System.Drawing.Size(132, 17);
             this.chkSuppressTag.TabIndex = 28;
             this.chkSuppressTag.Text = "Suppress \"using AWB\"";
             this.chkSuppressTag.UseVisualStyleBackColor = true;
@@ -724,7 +725,7 @@ namespace AutoWikiBrowser
             this.chkQuickSave.Enabled = false;
             this.chkQuickSave.Location = new System.Drawing.Point(9, 40);
             this.chkQuickSave.Name = "chkQuickSave";
-            this.chkQuickSave.Size = new System.Drawing.Size(80, 17);
+            this.chkQuickSave.Size = new System.Drawing.Size(78, 17);
             this.chkQuickSave.TabIndex = 27;
             this.chkQuickSave.Text = "Quick save";
             this.toolTip1.SetToolTip(this.chkQuickSave, "Saves without loading diff first");
@@ -736,7 +737,7 @@ namespace AutoWikiBrowser
             this.chkAutoMode.Enabled = false;
             this.chkAutoMode.Location = new System.Drawing.Point(9, 16);
             this.chkAutoMode.Name = "chkAutoMode";
-            this.chkAutoMode.Size = new System.Drawing.Size(74, 17);
+            this.chkAutoMode.Size = new System.Drawing.Size(75, 17);
             this.chkAutoMode.TabIndex = 26;
             this.chkAutoMode.Text = "Auto save";
             this.chkAutoMode.UseVisualStyleBackColor = true;
@@ -772,7 +773,7 @@ namespace AutoWikiBrowser
             this.lblAutoDelay.Enabled = false;
             this.lblAutoDelay.Location = new System.Drawing.Point(91, 17);
             this.lblAutoDelay.Name = "lblAutoDelay";
-            this.lblAutoDelay.Size = new System.Drawing.Size(83, 13);
+            this.lblAutoDelay.Size = new System.Drawing.Size(84, 13);
             this.lblAutoDelay.TabIndex = 25;
             this.lblAutoDelay.Text = "Delay (seconds)";
             // 
@@ -820,7 +821,7 @@ namespace AutoWikiBrowser
             this.chkAppend.AutoSize = true;
             this.chkAppend.Location = new System.Drawing.Point(6, 16);
             this.chkAppend.Name = "chkAppend";
-            this.chkAppend.Size = new System.Drawing.Size(65, 17);
+            this.chkAppend.Size = new System.Drawing.Size(64, 17);
             this.chkAppend.TabIndex = 0;
             this.chkAppend.Text = "Enabled";
             this.toolTip1.SetToolTip(this.chkAppend, "For appending a message to a user talk page for example");
@@ -916,7 +917,7 @@ namespace AutoWikiBrowser
             this.chkFindCaseSensitive.AutoSize = true;
             this.chkFindCaseSensitive.Location = new System.Drawing.Point(6, 75);
             this.chkFindCaseSensitive.Name = "chkFindCaseSensitive";
-            this.chkFindCaseSensitive.Size = new System.Drawing.Size(94, 17);
+            this.chkFindCaseSensitive.Size = new System.Drawing.Size(95, 17);
             this.chkFindCaseSensitive.TabIndex = 30;
             this.chkFindCaseSensitive.Text = "Case sensitive";
             this.chkFindCaseSensitive.UseVisualStyleBackColor = true;
@@ -938,7 +939,7 @@ namespace AutoWikiBrowser
             this.chkFindRegex.AutoSize = true;
             this.chkFindRegex.Location = new System.Drawing.Point(6, 56);
             this.chkFindRegex.Name = "chkFindRegex";
-            this.chkFindRegex.Size = new System.Drawing.Size(63, 17);
+            this.chkFindRegex.Size = new System.Drawing.Size(66, 17);
             this.chkFindRegex.TabIndex = 29;
             this.chkFindRegex.Text = "Is regex";
             this.chkFindRegex.UseVisualStyleBackColor = true;
@@ -1061,7 +1062,7 @@ namespace AutoWikiBrowser
             this.lblWords.AutoSize = true;
             this.lblWords.Location = new System.Drawing.Point(6, 18);
             this.lblWords.Name = "lblWords";
-            this.lblWords.Size = new System.Drawing.Size(41, 13);
+            this.lblWords.Size = new System.Drawing.Size(42, 13);
             this.lblWords.TabIndex = 17;
             this.lblWords.Text = "Words:";
             // 
@@ -1070,7 +1071,7 @@ namespace AutoWikiBrowser
             this.lblInterLinks.AutoSize = true;
             this.lblInterLinks.Location = new System.Drawing.Point(5, 86);
             this.lblInterLinks.Name = "lblInterLinks";
-            this.lblInterLinks.Size = new System.Drawing.Size(55, 13);
+            this.lblInterLinks.Size = new System.Drawing.Size(58, 13);
             this.lblInterLinks.TabIndex = 22;
             this.lblInterLinks.Text = "Inter links:";
             // 
@@ -1079,7 +1080,7 @@ namespace AutoWikiBrowser
             this.lblCats.AutoSize = true;
             this.lblCats.Location = new System.Drawing.Point(5, 69);
             this.lblCats.Name = "lblCats";
-            this.lblCats.Size = new System.Drawing.Size(60, 13);
+            this.lblCats.Size = new System.Drawing.Size(63, 13);
             this.lblCats.TabIndex = 18;
             this.lblCats.Text = "Categories:";
             // 
@@ -1088,7 +1089,7 @@ namespace AutoWikiBrowser
             this.lblImages.AutoSize = true;
             this.lblImages.Location = new System.Drawing.Point(6, 52);
             this.lblImages.Name = "lblImages";
-            this.lblImages.Size = new System.Drawing.Size(44, 13);
+            this.lblImages.Size = new System.Drawing.Size(46, 13);
             this.lblImages.TabIndex = 19;
             this.lblImages.Text = "Images:";
             // 
@@ -1097,7 +1098,7 @@ namespace AutoWikiBrowser
             this.lblLinks.AutoSize = true;
             this.lblLinks.Location = new System.Drawing.Point(6, 35);
             this.lblLinks.Name = "lblLinks";
-            this.lblLinks.Size = new System.Drawing.Size(35, 13);
+            this.lblLinks.Size = new System.Drawing.Size(34, 13);
             this.lblLinks.TabIndex = 20;
             this.lblLinks.Text = "Links:";
             // 
@@ -1607,8 +1608,8 @@ namespace AutoWikiBrowser
             this.fileToolStripMenuItem,
             this.generalToolStripMenuItem,
             this.ToolStripMenuGeneral,
-            this.pluginsToolStripMenuItem,
             this.toolStripAdvanced,
+            this.pluginsToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -1908,7 +1909,8 @@ namespace AutoWikiBrowser
             // toolStripAdvanced
             // 
             this.toolStripAdvanced.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.makeModuleToolStripMenuItem});
+            this.makeModuleToolStripMenuItem,
+            this.testRegexToolStripMenuItem});
             this.toolStripAdvanced.Name = "toolStripAdvanced";
             this.toolStripAdvanced.Size = new System.Drawing.Size(67, 20);
             this.toolStripAdvanced.Text = "Advanced";
@@ -1916,7 +1918,7 @@ namespace AutoWikiBrowser
             // makeModuleToolStripMenuItem
             // 
             this.makeModuleToolStripMenuItem.Name = "makeModuleToolStripMenuItem";
-            this.makeModuleToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.makeModuleToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.makeModuleToolStripMenuItem.Text = "Make module";
             this.makeModuleToolStripMenuItem.Click += new System.EventHandler(this.makeModuleToolStripMenuItem_Click);
             // 
@@ -2238,6 +2240,13 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
             this.webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
             // 
+            // testRegexToolStripMenuItem
+            // 
+            this.testRegexToolStripMenuItem.Name = "testRegexToolStripMenuItem";
+            this.testRegexToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.testRegexToolStripMenuItem.Text = "Test regex...";
+            this.testRegexToolStripMenuItem.Click += new System.EventHandler(this.testRegexToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2505,6 +2514,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripComboBox toolStripComboOnLoad;
         private System.Windows.Forms.ToolStripMenuItem summariesToolStripMenuItem;
         private System.Windows.Forms.Button btnSubst;
+        private System.Windows.Forms.ToolStripMenuItem testRegexToolStripMenuItem;
 
 
     }

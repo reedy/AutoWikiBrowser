@@ -155,7 +155,7 @@ namespace IRCMonitor
 
             btnWarn.DropDownItems.Clear();
             MakeMenu(Project.WarningTemplates, btnWarn.DropDownItems, new EventHandler(WarnUserClick));
-            MakeMenu(Project.StubTypes, addStubToolStripMenuItem.DropDownItems, new EventHandler(AddStubClick));
+            //MakeMenu(Project.StubTypes, addStubToolStripMenuItem.DropDownItems, new EventHandler(AddStubClick));
             MakeMenu(Project.PageTags, tagWithToolStripMenuItem.DropDownItems, new EventHandler(AddTagClick));
         }
 
@@ -1763,7 +1763,7 @@ namespace IRCMonitor
                 summary = summary.Replace("%u", hist[i].User);
                 summary += Project.Using;
 
-                webBrowser.LoadEditPage(webBrowser.ArticleTitle, hist[i].RevisionID);
+                webBrowser.LoadEditPage(webBrowser.ArticleTitle);//, hist[i].RevisionID);
                 webBrowser.Wait();
                 if (webBrowser.GetArticleText().Trim() == "")
                 {
@@ -1774,6 +1774,7 @@ namespace IRCMonitor
                 webBrowser.SetSummary(summary);
                 webBrowser.SetMinor(true);
                 webBrowser.Save();
+                webBrowser.Wait();
             }
             
         }

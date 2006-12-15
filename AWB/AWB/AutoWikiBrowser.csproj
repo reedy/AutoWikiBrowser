@@ -131,6 +131,10 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="RegexTester.resx">
+      <DependentUpon>RegexTester.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="SkipOptions.resx">
       <SubType>Designer</SubType>
       <DependentUpon>SkipOptions.cs</DependentUpon>
@@ -157,6 +161,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="RegexTester.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RegexTester.designer.cs">
+      <DependentUpon>RegexTester.cs</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="SkipOptions.cs">
