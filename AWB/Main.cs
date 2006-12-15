@@ -138,6 +138,7 @@ namespace AutoWikiBrowser
         TimeSpan StartTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
         StringCollection RecentList = new StringCollection();
         CustomModule cModule = new CustomModule();
+        RegexTester regexTester = new RegexTester();
 
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -958,6 +959,7 @@ namespace AutoWikiBrowser
         private void UpdateBotStatus(object sender, EventArgs e)
         {
             chkAutoMode.Enabled = Variables.User.IsBot;
+
         }
 
         private void UpdateAdminStatus(object sender, EventArgs e)
@@ -1388,6 +1390,7 @@ namespace AutoWikiBrowser
 
             listMaker1.ButtonsEnabled = enabled;
             lbltsNumberofItems.Text = "Articles: " + listMaker1.NumberOfArticles.ToString();
+            bypassAllRedirectsToolStripMenuItem.Enabled = Variables.User.IsAdmin;
         }
 
         private void SetStartButton(bool enabled)
@@ -2422,6 +2425,11 @@ namespace AutoWikiBrowser
         private void btnSubst_Click(object sender, EventArgs e)
         {
             substTemplates.ShowDialog();
+        }
+
+        private void testRegexToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            regexTester.ShowDialog();
         }
 
 

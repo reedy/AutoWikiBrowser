@@ -749,7 +749,6 @@ namespace WikiFunctions
 
         }
 
-        //User:MaxSem's code
         /// <summary>
         /// Loads namespaces from query.php
         /// </summary>

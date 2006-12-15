@@ -170,7 +170,7 @@ namespace IRCMonitor
             AppendedTagSummary = "Added %1";
             PrependedTagSummary = "Tagged with %1";
             
-            StubTypes = LoadStubs("enwiki.stubs.txt", 3);
+            //StubTypes = LoadStubs("enwiki.stubs.txt", 3);
 
             PageTags = new string[]
             {
