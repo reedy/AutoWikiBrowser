@@ -30,7 +30,7 @@ using System.Reflection;
 
 namespace WikiFunctions
 {
-    public enum LangCodeEnum { en, ca, da, de, eo, es, fi, fr, he, hu, it, ja, nl, no, mi, pl, pt, ru, simple, sk, sl, sv, ta, tj, ur, zh }
+    public enum LangCodeEnum { en, ca, da, de, eo, es, fi, fr, he, hu, it, ja, nl, no, mi, pl, pt, ru, simple, sk, sl, sv, ta, tj, uk, ur, zh }
     public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikiquote, wikiversity, wikibooks, wikinews, commons, meta, species, custom }
 
     /// <summary>
@@ -669,6 +669,29 @@ namespace WikiFunctions
                         Namespaces[101] = "Portaldiskussion:";
 
                         strsummarytag = " [[Wikipedia:AutoWikiBrowser|AWB]]";
+                        break;
+
+                    case LangCodeEnum.uk:
+                        Namespaces[-2] = "Медіа:";
+                        Namespaces[-1] = "Спеціальні:";
+                        Namespaces[1] = "Обговорення:";
+                        Namespaces[2] = "Користувач:";
+                        Namespaces[3] = "Обговорення користувача:";
+                        Namespaces[4] = "Вікіпедія:";
+                        Namespaces[5] = "Обговорення Вікіпедія:";
+                        Namespaces[6] = "Зображення:";
+                        Namespaces[7] = "Обговорення зображення:";
+                        Namespaces[8] = "MediaWiki:";
+                        Namespaces[9] = "Обговорення MediaWiki:";
+                        Namespaces[10] = "Шаблон:";
+                        Namespaces[11] = "Обговорення шаблону:";
+                        Namespaces[12] = "Довідка:";
+                        Namespaces[13] = "Обговорення довідки:";
+                        Namespaces[14] = "Категорія:";
+                        Namespaces[15] = "Обговорення категорії:";
+
+                        Stub = "(?:[Ss]tub|[Дд]оробити)";
+                        strsummarytag = " з допомогою [[Вікіпедія:AutoWikiBrowser|AWB]]";
                         break;
 
                     default:
