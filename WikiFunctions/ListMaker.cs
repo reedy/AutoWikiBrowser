@@ -994,6 +994,20 @@ namespace WikiFunctions.Lists
             MakeList(SourceType.WhatLinksHere, c);
         }
 
+        private void fromTranscludesHereToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string[] c = new string[lbArticles.SelectedItems.Count];
+
+            int i = 0;
+            foreach (object o in lbArticles.SelectedItems)
+            {
+                c[i] = o.ToString();
+                i++;
+            }
+
+            MakeList(SourceType.WhatTranscludesHere, c);
+        }
+
         private void fromLinksOnPageToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string[] c = new string[lbArticles.SelectedItems.Count];
