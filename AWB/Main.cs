@@ -702,7 +702,7 @@ namespace AutoWikiBrowser
                         {//en only
                             articleText = parsers.Conversions(articleText);
                             articleText = parsers.FixHeadings(articleText);
-
+                            articleText = parsers.FixDates(articleText);
                             articleText = parsers.LivingPeople(articleText, out SkipArticle);
 
                             articleText = parsers.FixHeadings(articleText, EdittingArticle.Name, out SkipArticle);
