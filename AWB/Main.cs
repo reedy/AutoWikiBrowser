@@ -2432,6 +2432,12 @@ namespace AutoWikiBrowser
             regexTester.ShowDialog();
         }
 
+        private void chkLock_CheckedChanged(object sender, EventArgs e)
+        {
+            cmboEditSummary.Visible = !chkLock.Checked;
+            lblSummary.Text = cmboEditSummary.Text;
+            lblSummary.Visible = chkLock.Checked;
+        }
 
     }
 }

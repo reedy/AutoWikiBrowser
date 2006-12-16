@@ -115,7 +115,7 @@ namespace WikiFunctions.Parse
 
             if (strSummary != "")
             {
-                strSummary = " Typos: " + strSummary.Trim();
+                strSummary = ", Typos fixed: " + strSummary.Trim();
                 Summary += strSummary;
             }
 
