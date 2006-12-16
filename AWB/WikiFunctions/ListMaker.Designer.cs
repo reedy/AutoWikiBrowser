@@ -55,6 +55,7 @@ namespace WikiFunctions.Lists
             this.fromWhatlinkshereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fromLinksOnPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fromImageLinksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fromTranscludesHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -294,6 +295,7 @@ namespace WikiFunctions.Lists
             // 
             this.addSelectedToListToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fromCategoryToolStripMenuItem,
+            this.fromTranscludesHereToolStripMenuItem,
             this.fromWhatlinkshereToolStripMenuItem,
             this.fromLinksOnPageToolStripMenuItem,
             this.fromImageLinksToolStripMenuItem});
@@ -307,6 +309,13 @@ namespace WikiFunctions.Lists
             this.fromCategoryToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             this.fromCategoryToolStripMenuItem.Text = "From category";
             this.fromCategoryToolStripMenuItem.Click += new System.EventHandler(this.fromCategoryToolStripMenuItem_Click);
+            // 
+            // fromTranscludesHereToolStripMenuItem
+            // 
+            this.fromTranscludesHereToolStripMenuItem.Name = "fromTranscludesHereToolStripMenuItem";
+            this.fromTranscludesHereToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.fromTranscludesHereToolStripMenuItem.Text = "From transclusions";
+            this.fromTranscludesHereToolStripMenuItem.Click += new System.EventHandler(this.fromTranscludesHereToolStripMenuItem_Click);
             // 
             // fromWhatlinkshereToolStripMenuItem
             // 
@@ -437,6 +446,7 @@ namespace WikiFunctions.Lists
         private System.Windows.Forms.ToolStripMenuItem fromWhatlinkshereToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fromLinksOnPageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fromImageLinksToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fromTranscludesHereToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem1;
