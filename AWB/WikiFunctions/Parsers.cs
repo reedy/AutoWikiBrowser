@@ -144,6 +144,9 @@ namespace WikiFunctions.Parse
             return metaDataSorter.Sort(ArticleText, ArticleTitle);
         }
 
+        readonly Regex regexFixDates0 = new Regex("([12][0-9][0-9]0)'s", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex regexFixDates1 = new Regex("(January|February|March|April|May|June|July|August|September|October|November|December) ([1-9][0-9]?)(?:st|nd|rd|th)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex regexFixDates2 = new Regex("([1-9][0-9]?)(?:st|nd|rd|th) (January|February|March|April|May|June|July|August|September|October|November|December)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex regexHeadings0 = new Regex("(== ?)(see also:?|related topics:?|related articles:?|internal links:?|also see:?)( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex regexHeadings1 = new Regex("(== ?)(external links:?|external sites:?|outside links|web ?links:?|exterior links:?)( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex regexHeadings2 = new Regex("(== ?)(external link:?|external site:?|web ?link:?|exterior link:?)( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -195,6 +198,20 @@ namespace WikiFunctions.Parse
             ArticleText = regexHeadings5.Replace(ArticleText, "$1Further reading$3");
             ArticleText = regexHeadings6.Replace(ArticleText, "$1$2 life$3");
             ArticleText = regexHeadingsCareer.Replace(ArticleText, "$1$2 career$3");
+
+            return ArticleText;
+        }
+
+        /// <summary>
+        /// Fix date and decade formatting errors.
+        /// </summary>
+        /// <param name="ArticleText">The wiki text of the article.</param>
+        /// <returns>The modified article text.</returns>
+        public string FixDates(string ArticleText)
+        {
+            ArticleText = regexFixDates0.Replace(ArticleText, "$1s");
+            ArticleText = regexFixDates1.Replace(ArticleText, "$1 $2");
+            ArticleText = regexFixDates2.Replace(ArticleText, "$1 $2");
 
             return ArticleText;
         }
