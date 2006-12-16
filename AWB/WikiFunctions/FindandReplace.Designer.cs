@@ -49,7 +49,7 @@ namespace WikiFunctions.Parse
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.find = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.replace = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -79,6 +79,7 @@ namespace WikiFunctions.Parse
             this.chkIgnoreLinks = new System.Windows.Forms.CheckBox();
             this.chkAddToSummary = new System.Windows.Forms.CheckBox();
             this.chkAfterOtherFixes = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.FindAndReplaceContextMenu.SuspendLayout();
             this.SuspendLayout();
@@ -121,8 +122,8 @@ namespace WikiFunctions.Parse
             // replace
             // 
             this.replace.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle1.NullValue = null;
-            this.replace.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.NullValue = null;
+            this.replace.DefaultCellStyle = dataGridViewCellStyle4;
             this.replace.FillWeight = 87.66718F;
             this.replace.HeaderText = "Replace with";
             this.replace.MinimumWidth = 45;
@@ -203,93 +204,93 @@ namespace WikiFunctions.Parse
             this.uncheckAllSinglelineToolStripMenuItem,
             this.disableAllToolStripMenuItem});
             this.FindAndReplaceContextMenu.Name = "FindAndReplaceContextMenu";
-            this.FindAndReplaceContextMenu.Size = new System.Drawing.Size(225, 258);
+            this.FindAndReplaceContextMenu.Size = new System.Drawing.Size(236, 258);
             this.FindAndReplaceContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.FindAndReplaceContextMenu_Opening);
             // 
             // deleteRowToolStripMenuItem
             // 
             this.deleteRowToolStripMenuItem.Name = "deleteRowToolStripMenuItem";
-            this.deleteRowToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.deleteRowToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.deleteRowToolStripMenuItem.Text = "Delete row";
             this.deleteRowToolStripMenuItem.Click += new System.EventHandler(this.deleteRowToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(221, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(232, 6);
             // 
             // allCaseSensitiveToolStripMenuItem
             // 
             this.allCaseSensitiveToolStripMenuItem.Name = "allCaseSensitiveToolStripMenuItem";
-            this.allCaseSensitiveToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.allCaseSensitiveToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.allCaseSensitiveToolStripMenuItem.Text = "Check all case sensitive";
             this.allCaseSensitiveToolStripMenuItem.Click += new System.EventHandler(this.allCaseSensitiveToolStripMenuItem_Click);
             // 
             // checkAllRegularExpressionsToolStripMenuItem
             // 
             this.checkAllRegularExpressionsToolStripMenuItem.Name = "checkAllRegularExpressionsToolStripMenuItem";
-            this.checkAllRegularExpressionsToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.checkAllRegularExpressionsToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.checkAllRegularExpressionsToolStripMenuItem.Text = "Check all regular expressions";
             this.checkAllRegularExpressionsToolStripMenuItem.Click += new System.EventHandler(this.checkAllRegularExpressionsToolStripMenuItem_Click);
             // 
             // checkAllMultlineToolStripMenuItem
             // 
             this.checkAllMultlineToolStripMenuItem.Name = "checkAllMultlineToolStripMenuItem";
-            this.checkAllMultlineToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.checkAllMultlineToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.checkAllMultlineToolStripMenuItem.Text = "Check all multline";
             this.checkAllMultlineToolStripMenuItem.Click += new System.EventHandler(this.checkAllMultlineToolStripMenuItem_Click);
             // 
             // checkAllSinglelineToolStripMenuItem
             // 
             this.checkAllSinglelineToolStripMenuItem.Name = "checkAllSinglelineToolStripMenuItem";
-            this.checkAllSinglelineToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.checkAllSinglelineToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.checkAllSinglelineToolStripMenuItem.Text = "Check all singleline";
             this.checkAllSinglelineToolStripMenuItem.Click += new System.EventHandler(this.checkAllSinglelineToolStripMenuItem_Click);
             // 
             // enableAllToolStripMenuItem
             // 
             this.enableAllToolStripMenuItem.Name = "enableAllToolStripMenuItem";
-            this.enableAllToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.enableAllToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.enableAllToolStripMenuItem.Text = "Enable all";
             this.enableAllToolStripMenuItem.Click += new System.EventHandler(this.enableAllToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(221, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(232, 6);
             // 
             // uncheckAllCaseSensitiveToolStripMenuItem
             // 
             this.uncheckAllCaseSensitiveToolStripMenuItem.Name = "uncheckAllCaseSensitiveToolStripMenuItem";
-            this.uncheckAllCaseSensitiveToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.uncheckAllCaseSensitiveToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.uncheckAllCaseSensitiveToolStripMenuItem.Text = "Uncheck all case sensitive";
             this.uncheckAllCaseSensitiveToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllCaseSensitiveToolStripMenuItem_Click);
             // 
             // uncheckAllRegularExpressionsToolStripMenuItem
             // 
             this.uncheckAllRegularExpressionsToolStripMenuItem.Name = "uncheckAllRegularExpressionsToolStripMenuItem";
-            this.uncheckAllRegularExpressionsToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.uncheckAllRegularExpressionsToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.uncheckAllRegularExpressionsToolStripMenuItem.Text = "Uncheck all regular expressions";
             this.uncheckAllRegularExpressionsToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllRegularExpressionsToolStripMenuItem_Click);
             // 
             // uncheckAllMultilineToolStripMenuItem
             // 
             this.uncheckAllMultilineToolStripMenuItem.Name = "uncheckAllMultilineToolStripMenuItem";
-            this.uncheckAllMultilineToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.uncheckAllMultilineToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.uncheckAllMultilineToolStripMenuItem.Text = "Uncheck all multiline";
             this.uncheckAllMultilineToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllMultilineToolStripMenuItem_Click);
             // 
             // uncheckAllSinglelineToolStripMenuItem
             // 
             this.uncheckAllSinglelineToolStripMenuItem.Name = "uncheckAllSinglelineToolStripMenuItem";
-            this.uncheckAllSinglelineToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.uncheckAllSinglelineToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.uncheckAllSinglelineToolStripMenuItem.Text = "Uncheck all singleline";
             this.uncheckAllSinglelineToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllSinglelineToolStripMenuItem_Click);
             // 
             // disableAllToolStripMenuItem
             // 
             this.disableAllToolStripMenuItem.Name = "disableAllToolStripMenuItem";
-            this.disableAllToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.disableAllToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.disableAllToolStripMenuItem.Text = "Disable all";
             this.disableAllToolStripMenuItem.Click += new System.EventHandler(this.disableAllToolStripMenuItem_Click);
             // 
@@ -307,12 +308,12 @@ namespace WikiFunctions.Parse
             // linkLabel2
             // 
             this.linkLabel2.AutoSize = true;
-            this.linkLabel2.Location = new System.Drawing.Point(12, 71);
+            this.linkLabel2.Location = new System.Drawing.Point(32, 71);
             this.linkLabel2.Name = "linkLabel2";
-            this.linkLabel2.Size = new System.Drawing.Size(119, 13);
+            this.linkLabel2.Size = new System.Drawing.Size(162, 13);
             this.linkLabel2.TabIndex = 9;
             this.linkLabel2.TabStop = true;
-            this.linkLabel2.Text = "See regular expressions";
+            this.linkLabel2.Text = "regular expressions on Wikipedia";
             this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
             // 
             // btnClear
@@ -362,11 +363,21 @@ namespace WikiFunctions.Parse
             this.chkAfterOtherFixes.Text = "Apply after general fixes, otherwise before";
             this.chkAfterOtherFixes.UseVisualStyleBackColor = true;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(9, 71);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(26, 13);
+            this.label1.TabIndex = 18;
+            this.label1.Text = "See";
+            // 
             // FindandReplace
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(677, 366);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.chkAfterOtherFixes);
             this.Controls.Add(this.chkIgnoreLinks);
             this.Controls.Add(this.chkAddToSummary);
@@ -421,5 +432,6 @@ namespace WikiFunctions.Parse
         private System.Windows.Forms.ToolStripMenuItem uncheckAllSinglelineToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.CheckBox chkAfterOtherFixes;
+        private System.Windows.Forms.Label label1;
     }
 }

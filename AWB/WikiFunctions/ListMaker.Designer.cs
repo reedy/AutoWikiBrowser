@@ -52,10 +52,10 @@ namespace WikiFunctions.Lists
             this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
             this.addSelectedToListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fromCategoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fromTranscludesHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fromWhatlinkshereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fromLinksOnPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fromImageLinksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.fromTranscludesHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -163,9 +163,9 @@ namespace WikiFunctions.Lists
             // 
             // lblSourceSelect
             // 
-            this.lblSourceSelect.Location = new System.Drawing.Point(4, 29);
+            this.lblSourceSelect.Location = new System.Drawing.Point(0, 29);
             this.lblSourceSelect.Name = "lblSourceSelect";
-            this.lblSourceSelect.Size = new System.Drawing.Size(73, 21);
+            this.lblSourceSelect.Size = new System.Drawing.Size(77, 21);
             this.lblSourceSelect.TabIndex = 23;
             this.lblSourceSelect.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
