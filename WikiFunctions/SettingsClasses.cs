@@ -24,6 +24,7 @@ namespace WikiFunctions.AWBSettings
         public GeneralPrefs General = new GeneralPrefs();
         public SkipPrefs Skipoptions = new SkipPrefs();
         public ModulePrefs Module = new ModulePrefs();
+        public DabPrefs Disambiguation = new DabPrefs();
 
         public List<PluginPrefs> Plugin = new List<PluginPrefs>();
     }
@@ -127,6 +128,14 @@ namespace WikiFunctions.AWBSettings
         public string TextBoxFont = "Courier New";
         public bool LowThreadPriority = false;
         public bool FlashAndBeep = true;
+    }
+
+    [Serializable]
+    public class DabPrefs
+    {
+        public bool Enabled = false;
+        public string Link = "";
+        public string[] Variants = new string[0];
     }
 
     [Serializable]

@@ -121,6 +121,10 @@ namespace AutoWikiBrowser
             LowThreadPriority = false;
             FlashAndBeep = true;
 
+            chkEnableDab.Checked = false;
+            txtDabLink.Text = "";
+            txtDabVariants.Text = "";
+
             try
             {
                 foreach (KeyValuePair<string, IAWBPlugin> a in AWBPlugins)
@@ -736,6 +740,9 @@ namespace AutoWikiBrowser
             p.General.LowThreadPriority = LowThreadPriority;
             p.General.FlashAndBeep = FlashAndBeep;
 
+            p.Disambiguation.Enabled = chkEnableDab.Checked;
+            p.Disambiguation.Link = txtDabLink.Text;
+            p.Disambiguation.Variants = txtDabVariants.Lines;
 
             p.Module.Enabled = cModule.ModuleEnabled;
             p.Module.Language = cModule.Language;
@@ -854,6 +861,10 @@ namespace AutoWikiBrowser
 
             LowThreadPriority = p.General.LowThreadPriority;
             FlashAndBeep = p.General.FlashAndBeep;
+
+            chkEnableDab.Checked = p.Disambiguation.Enabled;
+            txtDabLink.Text = p.Disambiguation.Link;
+            txtDabVariants.Lines = p.Disambiguation.Variants;
 
             cModule.ModuleEnabled = p.Module.Enabled;
             cModule.Language = p.Module.Language;

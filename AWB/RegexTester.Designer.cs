@@ -190,6 +190,8 @@ namespace AutoWikiBrowser
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.KeyPreview = true;
             this.Name = "RegexTester";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.Text = "Test regexes";
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RegexTester_KeyPress);
             this.statusStrip1.ResumeLayout(false);

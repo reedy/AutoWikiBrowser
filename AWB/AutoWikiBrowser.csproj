@@ -76,6 +76,12 @@
     <Compile Include="CustomModule.Designer.cs">
       <DependentUpon>CustomModule.cs</DependentUpon>
     </Compile>
+    <Compile Include="DabForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DabForm.Designer.cs">
+      <DependentUpon>DabForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ExitQuestion.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -109,6 +115,10 @@
     <EmbeddedResource Include="CustomModule.resx">
       <SubType>Designer</SubType>
       <DependentUpon>CustomModule.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DabForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>DabForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="dlgTalk.resx">
       <SubType>Designer</SubType>
