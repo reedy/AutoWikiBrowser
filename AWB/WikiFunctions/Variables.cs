@@ -92,6 +92,14 @@ namespace WikiFunctions
         }
 
         /// <summary>
+        /// localized names of months
+        /// </summary>
+        public static string[] MonthNames;
+
+        public static string[] enLangMonthNames = new string[12]{"January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"};
+
+        /// <summary>
         /// Full project name, e.g. "Wikimedia Commons"
         /// </summary>
         public static string ProjectName;
@@ -181,6 +189,8 @@ namespace WikiFunctions
             URLEnd = "/w/";
 
             Stub = "[Ss]tub";
+
+            MonthNames = enLangMonthNames;
 
             SectStub = @"\{\{[Ss]ect";
 
@@ -593,6 +603,9 @@ namespace WikiFunctions
                         Namespaces[101] = "Обсуждение портала:";
 
                         strsummarytag = " при помощи [[Википедия:AutoWikiBrowser|AWB]]";
+                        Stub = "(?:[Ss]tub|[Зз]аготовка)";
+                        MonthNames = new string[12] { "января", "февраля", "марта", "апреля",
+                            "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"};
                         break;
 
                     case LangCodeEnum.simple:
@@ -695,7 +708,7 @@ namespace WikiFunctions
                         break;
 
                     default:
-                        Namespaces = LoadNamespaces(URL);
+                        LoadProjectOptions(URL);
                         strsummarytag = " ([[Project:AWB|AWB]])";
                         break;
                 }
@@ -752,7 +765,7 @@ namespace WikiFunctions
             }
             else
             {
-                Namespaces = LoadNamespaces(URL);
+                LoadProjectOptions(URL);
                 strsummarytag = " ([[Project:AWB|AWB]])";
             }
 
@@ -777,30 +790,71 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="url">URL of directory where scripts reside, e.g. "http://en.wikipedia.org".</param>
         /// <returns>Dictionary int=>string containing namespaces.</returns>
-        public static Dictionary<int, string> LoadNamespaces(string URL)
+        public static void LoadProjectOptions(string URL)
         {
             Dictionary<int, string> ns = new Dictionary<int, string>();
+            string[] months = (string[])enLangMonthNames.Clone();
+            List<string>mwpages = new List<string>();
+
+            string url = URL + "/w/query.php?what=namespaces|content&format=xml&titles=";
+
+            foreach(string s in enLangMonthNames)
+            {
+                mwpages.Add(s + "-gen");
+                url += "MediaWiki:" + mwpages[mwpages.Count - 1] + "|";
+            }
+
+            url = url.Remove(url.Length - 1, 1);
 
             do// retry loop
             {
                 try
                 {
-                    StringReader sr = new StringReader(Tools.GetHTML(URL + "/w/api.php?action=query&meta=siteinfo&siprop=general|namespaces&format=xml"));
+                    StringReader sr = new StringReader(Tools.GetHTML(url));
                     XmlTextReader xml = new XmlTextReader(sr);
                     xml.MoveToContent();
 
+                    string title = "";
+                    string month = "";
+                    bool content = false;
                     while (xml.Read())
                     {
-                        if (xml.IsStartElement() && xml.Name == "ns")
+                        if (xml.IsStartElement())
                         {
-                            if (!xml.IsEmptyElement)
+                            if(xml.Name == "ns" && !content)
                             {
-                                xml.MoveToAttribute("id");
-                                int id = int.Parse(xml.GetAttribute("id"));
-                                ns[id] = xml.ReadString() + ":";
+                                if (!xml.IsEmptyElement)
+                                {
+                                    xml.MoveToAttribute("id");
+                                    int id = int.Parse(xml.GetAttribute("id"));
+                                    ns[id] = xml.ReadString() + ":";
+                                }
+                            }
+                            if (xml.Name == "pages") content = true;
+                            if (xml.Name == "title")
+                            {
+                                title = xml.ReadString();
+                                title = title.Remove(0, title.IndexOf(":") + 1);
+                                if (month != "")
+                                {
+                                    months[mwpages.IndexOf(title)] = month;
+                                    month = "";
+                                    title = "";
+                                }
+                            }
+                            if (xml.Name == "content" /*&& mwpages.Contains(title)*/)
+                            {
+                                month = xml.ReadString();
+                                if (title != "")
+                                {
+                                    months[mwpages.IndexOf(title)] = month;
+                                    month = "";
+                                    title = "";
+                                }
                             }
                         }
                     }
+                   
                     break;
                 }
                 catch
@@ -815,6 +869,8 @@ namespace WikiFunctions
                         MessageBox.Show("Defaulting to the English Wikipedia settings.", "Project options",
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                        return;
+                        /*
                         ns.Clear(); // in case error was caused by XML parsing
                         foreach (KeyValuePair<int, string> p in Namespaces)
                         {
@@ -822,11 +878,13 @@ namespace WikiFunctions
                         }
 
                         break;
+                         */
                     }
                 }
             } while (true);
 
-            return ns;
+            Namespaces = ns;
+            MonthNames = months;
         }
 
         private static void SetDefaults()
@@ -867,6 +925,7 @@ namespace WikiFunctions
             Namespaces[15] = "Category talk:";
 
             strsummarytag = " using [[Project:AWB|AWB]]";
+            MonthNames = enLangMonthNames;
         }
     }
 
