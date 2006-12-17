@@ -652,7 +652,7 @@ namespace AutoWikiBrowser
 
                 if (cmboCategorise.SelectedIndex == 1)
                 {
-                    articleText = parsers.ReCategoriser(listMaker1.SourceText, txtNewCategory.Text, articleText, out SkipArticle);
+                    articleText = parsers.ReCategoriser(txtNewCategory.Text, txtNewCategory2.Text, articleText, out SkipArticle);
                     if (SkipArticle)
                         return articleText;
                 }
@@ -931,16 +931,24 @@ namespace AutoWikiBrowser
         {
             if (cmboCategorise.SelectedIndex > 0)
             {
-                if (cmboCategorise.SelectedIndex == 1 && (listMaker1.SourceText.Length == 0 || listMaker1.SelectedSource != SourceType.Category))
+                txtNewCategory.Enabled = true;
+                if (cmboCategorise.SelectedIndex == 1)
                 {
-                    cmboCategorise.SelectedIndex = 0;
-                    MessageBox.Show("Please create a list of articles from a category first", "Make list", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    label1.Text = "with Category:";
+                    txtNewCategory2.Enabled = true;
                 }
                 else
-                    txtNewCategory.Enabled = true;
+                {
+                    label1.Text = "";
+                    txtNewCategory2.Enabled = false;
+                }
             }
             else
+            {
+                label1.Text = "";
+                txtNewCategory2.Enabled = false;
                 txtNewCategory.Enabled = false;
+            }
         }
 
 
@@ -2250,7 +2258,6 @@ namespace AutoWikiBrowser
         {
             if (cmboImages.SelectedIndex == 0)
             {
-                lblImageReplace.Text = "";
                 lblImageWith.Text = "";
                 txtImageWith.Visible = true;
                 txtImageReplace.Enabled = false;
@@ -2258,30 +2265,27 @@ namespace AutoWikiBrowser
             }
             else if (cmboImages.SelectedIndex == 1)
             {
-                lblImageReplace.Text = "Replace image:";
                 lblImageWith.Text = "With Image:";
 
-                txtImageWith.Visible = true;
+                txtImageWith.Enabled = true;
                 txtImageReplace.Enabled = true;
                 txtImageWith.Enabled = true;
 
             }
             else if (cmboImages.SelectedIndex == 2)
             {
-                lblImageReplace.Text = "Remove image:";
                 lblImageWith.Text = "";
 
-                txtImageWith.Visible = false;
+                txtImageWith.Enabled = false;
                 txtImageReplace.Enabled = true;
                 txtImageWith.Enabled = false;
 
             }
             else if (cmboImages.SelectedIndex == 3)
             {
-                lblImageReplace.Text = "Remove image:";
                 lblImageWith.Text = "Comment:";
-
-                txtImageWith.Visible = true;
+                
+                txtImageWith.Enabled = true;
                 txtImageReplace.Enabled = true;
                 txtImageWith.Enabled = true;
 
