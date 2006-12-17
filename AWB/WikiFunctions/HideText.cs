@@ -186,6 +186,8 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
+
+
         /// <summary>
         /// Adds back hidden stuff from HideMore
         /// </summary>

@@ -44,6 +44,12 @@
     <Compile Include="Controls\MoveDeleteDialog.Designer.cs">
       <DependentUpon>MoveDeleteDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="DabControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DabControl.Designer.cs">
+      <DependentUpon>DabControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="DatabaseScanner\AboutDatabaseScanner.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -182,6 +188,10 @@
     <EmbeddedResource Include="Controls\MoveDeleteDialog.resx">
       <SubType>Designer</SubType>
       <DependentUpon>MoveDeleteDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DabControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>DabControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DatabaseScanner\AboutDatabaseScanner.resx">
       <DependentUpon>AboutDatabaseScanner.cs</DependentUpon>

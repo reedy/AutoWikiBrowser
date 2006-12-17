@@ -138,12 +138,15 @@ namespace AutoWikiBrowser
         TimeSpan StartTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
         StringCollection RecentList = new StringCollection();
         CustomModule cModule = new CustomModule();
-        RegexTester regexTester = new RegexTester();
+        public RegexTester regexTester = new RegexTester();
 
         private void MainForm_Load(object sender, EventArgs e)
         {
             //add articles to avoid (in future may be populated from checkpage
             //noParse.Add("User:Bluemoose/Sandbox");
+
+            // hide this tab until it's fully written
+            //tabControl1.TabPages.Remove(tpDab);
 
             //check that we are not using an old OS. 98 seems to mangled some unicode.
             try
@@ -685,7 +688,7 @@ namespace AutoWikiBrowser
                         EdittingArticle.EditSummary += tempSummary;
                 }
 
-                if (EdittingArticle.NameSpaceKey == 0 || EdittingArticle.NameSpaceKey == 14 || EdittingArticle.Name.Contains("Sandbox") || EdittingArticle.Name.Contains("sandbox"))
+                if (EdittingArticle.NameSpaceKey == 0 || EdittingArticle.NameSpaceKey == 14 || EdittingArticle.Name.Contains("Sandbox") || EdittingArticle.Name.Contains("Sandbox"))
                 {
                     if (process && chkAutoTagger.Checked)
                     {
@@ -722,7 +725,9 @@ namespace AutoWikiBrowser
 
                         articleText = parsers.SortMetaData(articleText, EdittingArticle.Name);
 
+                        articleText = RemoveText.HideMore(articleText);
                         articleText = parsers.BoldTitle(articleText, EdittingArticle.Name, out SkipArticle);
+                        articleText = RemoveText.AddBackMore(articleText);
                         if (Skip.SkipNoBoldTitle && SkipArticle)
                             return articleText;
 
@@ -2442,6 +2447,22 @@ namespace AutoWikiBrowser
             lblSummary.Text = cmboEditSummary.Text;
             lblSummary.Visible = chkLock.Checked;
         }
+
+        private void txtDabLink_TextChanged(object sender, EventArgs e)
+        {
+            btnLoadLinks.Enabled = txtDabLink.Text.Trim() != "";
+        }
+
+        private void txtDabLink_Enter(object sender, EventArgs e)
+        {
+            if (txtDabLink.Text == "") txtDabLink.Text = listMaker1.SourceText;
+        }
+
+        private void chkEnableDab_CheckedChanged(object sender, EventArgs e)
+        {
+            panelDab.Enabled = chkEnableDab.Checked;
+        }
+
 
     }
 }
