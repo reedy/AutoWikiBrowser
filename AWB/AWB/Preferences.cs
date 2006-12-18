@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using WikiFunctions;
 
@@ -60,6 +61,11 @@ namespace AutoWikiBrowser
             {
                 return txtCustomProject.Text;
             }
+        }
+
+        private void txtCustomProject_Leave(object sender, EventArgs e)
+        {
+            txtCustomProject.Text = Regex.Replace(txtCustomProject.Text, "^http://", "", RegexOptions.IgnoreCase);
         }
 
         private void cmboProject_SelectedIndexChanged(object sender, EventArgs e)
