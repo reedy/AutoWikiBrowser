@@ -229,6 +229,7 @@ namespace AutoWikiBrowser
             this.txtCustomProject.TabIndex = 7;
             this.txtCustomProject.Visible = false;
             this.txtCustomProject.TextChanged += new System.EventHandler(this.edtCustomProject_TextChanged);
+            this.txtCustomProject.Leave += new System.EventHandler(this.txtCustomProject_Leave);
             // 
             // groupBox2
             // 
