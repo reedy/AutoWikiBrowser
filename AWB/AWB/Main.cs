@@ -1109,6 +1109,13 @@ namespace AutoWikiBrowser
             txtNewCategory.Text = Tools.TurnFirstToUpper(txtNewCategory.Text);
         }
 
+        private void txtNewCategory2_Leave(object sender, EventArgs e)
+        {
+            txtNewCategory2.Text = txtNewCategory2.Text.Trim('[', ']');
+            txtNewCategory2.Text = Regex.Replace(txtNewCategory2.Text, "^" + Variables.NamespacesCaseInsensitive[14], "");
+            txtNewCategory2.Text = Tools.TurnFirstToUpper(txtNewCategory2.Text);
+        }
+
         private void ArticleInfo(bool reset)
         {
             string ArticleText = txtEdit.Text;
@@ -2097,7 +2104,7 @@ namespace AutoWikiBrowser
 2. Optional: Select [[WP:AWB/T|Typo fixing]] as the edit summary. This lets everyone know where to bring issues with the typo correction.";
 
                 if (RegexTypos == null)
-                    message += "\r\n\r\nThe newest typos will now be downloaded from " + Variables.URL + "/wiki/" + Variables.Namespaces[4] + "AutoWikiBrowser/Typos";
+                    message += "\r\n\r\nThe newest typos will now be downloaded from " + Variables.URL + "/wiki/" + Variables.Namespaces[4] + "AutoWikiBrowser/Typos when you press OK.";
 
                 MessageBox.Show(message, "Attention", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 

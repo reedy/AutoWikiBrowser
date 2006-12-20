@@ -375,7 +375,7 @@ namespace WikiFunctions.Lists
             // saveListDialog
             // 
             this.saveListDialog.DefaultExt = "txt";
-            this.saveListDialog.Filter = "Text file with wiki markup|*.txt|Plaitext file|*.txt";
+            this.saveListDialog.Filter = "Text file with wiki markup|*.txt|Plaintext list|*.txt";
             this.saveListDialog.Title = "Save article list";
             // 
             // lbArticles
