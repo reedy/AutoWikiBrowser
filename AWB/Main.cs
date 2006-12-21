@@ -2470,6 +2470,39 @@ namespace AutoWikiBrowser
             panelDab.Enabled = chkEnableDab.Checked;
         }
 
+        private void btnLoadLinks_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Article link = new Article(txtDabLink.Text);
+                List<Article> l = GetLists.FromLinksOnPage(txtDabLink.Text);
+                txtDabVariants.Text = "";
+                foreach (Article a in l)
+                {
+                    uint i;
+                    // exclude years
+                    if (uint.TryParse(a.Name, out i) && (i < 2100)) continue;
+                    // disambigs typically link to pages in the same namespace only
+                    ///if (link.NameSpaceKey != a.NameSpaceKey) continue;
+
+                    txtDabVariants.Text += a.Name + "\r\n";
+                }
+            }
+            finally
+            {
+            }
+        }
+
+        private void txtDabLink_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            switch (e.KeyChar)
+            {
+                case '\r':
+                    e.Handled = true;
+                    btnLoadLinks_Click(this, null);
+                    break;
+            }
+        }
 
     }
 }

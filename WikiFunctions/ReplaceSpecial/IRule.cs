@@ -33,6 +33,8 @@ namespace WikiFunctions.MWB
         private string name_ = "";
         public bool enabled_ = true;
 
+        public List<IRule> Children;
+
         public string Name
         {
             set { name_ = value; }

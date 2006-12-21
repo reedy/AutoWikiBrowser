@@ -22,7 +22,7 @@ namespace WikiFunctions.AWBSettings
         public FaRPrefs FindAndReplace = new FaRPrefs();
         public EditPrefs Editprefs = new EditPrefs();
         public GeneralPrefs General = new GeneralPrefs();
-        public SkipPrefs Skipoptions = new SkipPrefs();
+        public SkipPrefs SkipOptions = new SkipPrefs();
         public ModulePrefs Module = new ModulePrefs();
         public DabPrefs Disambiguation = new DabPrefs();
 
@@ -94,6 +94,7 @@ namespace WikiFunctions.AWBSettings
 
         public bool SkipNoFindAndReplace = false;
         public bool SkipNoRegexTypoFix = false;
+        public bool SkipNoDisambiguation = false;
 
         public string GeneralSkip = "";
     }

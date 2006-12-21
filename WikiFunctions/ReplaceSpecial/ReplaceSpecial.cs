@@ -433,6 +433,19 @@ namespace WikiFunctions.MWB
             AddNewRule(RuleFactory.CreateTemplateParamRule());
         }
 
+        private void RecurseNode(TreeNode n, ref IRule r)
+        {
+            if (n.Nodes.Count == 0) return;
+
+            r.Children = new List<IRule>();
+            foreach (TreeNode n1 in n.Nodes)
+            {
+                IRule r1 = (IRule)n1.Tag;
+                if (n1.Nodes.Count > 0) RecurseNode(n1, ref r1);
+                r.Children.Add(r1);
+            }
+        }
+
         public List<IRule> GetRules()
         {
             List<IRule> l = new List<IRule>();
@@ -440,6 +453,7 @@ namespace WikiFunctions.MWB
             foreach (TreeNode tn in RulesTreeView.Nodes)
             {
                 IRule r = (IRule)tn.Tag;
+                if (tn.Nodes.Count > 0) RecurseNode(tn, ref r);
                 l.Add(r);
             }
 
@@ -478,11 +492,30 @@ namespace WikiFunctions.MWB
                 RulesTreeView.Nodes.Add(n);
             }
 
-            RulesTreeView.SelectedNode = n;
-            RulesTreeView.Select();
+            if (r.Children != null && r.Children.Count > 0) foreach (IRule rnew in r.Children) AddNewRule(rnew, n);
+            else
+            {
+                RulesTreeView.SelectedNode = n;
+                RulesTreeView.Select();
+            }
 
             RestoreSelectedRule();
             this.currentRule_.SelectName();
+        }
+
+        private void AddNewRule(IRule r, TreeNode tn)
+        {
+            TreeNode n = new TreeNode(r.Name);
+            n.Tag = r;
+
+            tn.Nodes.Add(n);
+
+            if (r.Children != null && r.Children.Count > 0) foreach (IRule rnew in r.Children) AddNewRule(rnew, n);
+            else
+            {
+                RulesTreeView.SelectedNode = n;
+                RulesTreeView.Select();
+            }
         }
 
         void NewSubrule()
