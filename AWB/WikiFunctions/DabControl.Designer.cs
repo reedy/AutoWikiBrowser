@@ -51,6 +51,7 @@ namespace WikiFunctions
             // cmboChouce
             // 
             this.cmboChouce.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmboChouce.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmboChouce.FormattingEnabled = true;
             this.cmboChouce.Location = new System.Drawing.Point(357, 3);
             this.cmboChouce.Name = "cmboChouce";
@@ -94,9 +95,11 @@ namespace WikiFunctions
             this.Controls.Add(this.txtCorrection);
             this.Controls.Add(this.cmboChouce);
             this.Controls.Add(this.txtViewer);
+            this.MaximumSize = new System.Drawing.Size(0, 130);
             this.MinimumSize = new System.Drawing.Size(600, 130);
             this.Name = "DabControl";
             this.Size = new System.Drawing.Size(600, 130);
+            this.Load += new System.EventHandler(this.DabControl_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

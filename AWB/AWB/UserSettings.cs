@@ -124,6 +124,7 @@ namespace AutoWikiBrowser
             chkEnableDab.Checked = false;
             txtDabLink.Text = "";
             txtDabVariants.Text = "";
+            chkSkipNoDab.Checked = false;
 
             try
             {
@@ -680,22 +681,22 @@ namespace AutoWikiBrowser
             p.Editprefs.RegexTypoFix = chkRegExTypo.Checked;
 
 
-            p.Skipoptions.SkipNonexistent = chkSkipNonExistent.Checked;
-            p.Skipoptions.SkipWhenNoChanges = chkSkipNoChanges.Checked;
+            p.SkipOptions.SkipNonexistent = chkSkipNonExistent.Checked;
+            p.SkipOptions.SkipWhenNoChanges = chkSkipNoChanges.Checked;
 
-            p.Skipoptions.SkipDoes = chkSkipIfContains.Checked;
-            p.Skipoptions.SkipDoesNot = chkSkipIfNotContains.Checked;
+            p.SkipOptions.SkipDoes = chkSkipIfContains.Checked;
+            p.SkipOptions.SkipDoesNot = chkSkipIfNotContains.Checked;
 
-            p.Skipoptions.SkipDoesText = txtSkipIfContains.Text;
-            p.Skipoptions.SkipDoesNotText = txtSkipIfNotContains.Text;
+            p.SkipOptions.SkipDoesText = txtSkipIfContains.Text;
+            p.SkipOptions.SkipDoesNotText = txtSkipIfNotContains.Text;
 
-            p.Skipoptions.Regex = chkSkipIsRegex.Checked;
-            p.Skipoptions.CaseSensitive = chkSkipCaseSensitive.Checked;
+            p.SkipOptions.Regex = chkSkipIsRegex.Checked;
+            p.SkipOptions.CaseSensitive = chkSkipCaseSensitive.Checked;
 
-            p.Skipoptions.SkipNoFindAndReplace = chkSkipWhenNoFAR.Checked;
-            p.Skipoptions.SkipNoRegexTypoFix = chkSkipIfNoRegexTypo.Checked;
-            p.Skipoptions.GeneralSkip = Skip.SelectedItem;
-
+            p.SkipOptions.SkipNoFindAndReplace = chkSkipWhenNoFAR.Checked;
+            p.SkipOptions.SkipNoRegexTypoFix = chkSkipIfNoRegexTypo.Checked;
+            p.SkipOptions.GeneralSkip = Skip.SelectedItem;
+            p.SkipOptions.SkipNoDisambiguation = chkSkipNoDab.Checked;
 
             foreach (object s in cmboEditSummary.Items)
                 p.General.Summaries.Add(s.ToString());
@@ -802,21 +803,22 @@ namespace AutoWikiBrowser
             chkRegExTypo.Checked = p.Editprefs.RegexTypoFix;
 
 
-            chkSkipNonExistent.Checked = p.Skipoptions.SkipNonexistent;
-            chkSkipNoChanges.Checked = p.Skipoptions.SkipWhenNoChanges;
+            chkSkipNonExistent.Checked = p.SkipOptions.SkipNonexistent;
+            chkSkipNoChanges.Checked = p.SkipOptions.SkipWhenNoChanges;
 
-            chkSkipIfContains.Checked = p.Skipoptions.SkipDoes;
-            chkSkipIfNotContains.Checked = p.Skipoptions.SkipDoesNot;
+            chkSkipIfContains.Checked = p.SkipOptions.SkipDoes;
+            chkSkipIfNotContains.Checked = p.SkipOptions.SkipDoesNot;
 
-            txtSkipIfContains.Text = p.Skipoptions.SkipDoesText;
-            txtSkipIfNotContains.Text = p.Skipoptions.SkipDoesNotText;
+            txtSkipIfContains.Text = p.SkipOptions.SkipDoesText;
+            txtSkipIfNotContains.Text = p.SkipOptions.SkipDoesNotText;
 
-            chkSkipIsRegex.Checked = p.Skipoptions.Regex;
-            chkSkipCaseSensitive.Checked = p.Skipoptions.CaseSensitive;
+            chkSkipIsRegex.Checked = p.SkipOptions.Regex;
+            chkSkipCaseSensitive.Checked = p.SkipOptions.CaseSensitive;
 
-            chkSkipWhenNoFAR.Checked = p.Skipoptions.SkipNoFindAndReplace;
-            chkSkipIfNoRegexTypo.Checked = p.Skipoptions.SkipNoRegexTypoFix;
-            Skip.SelectedItem = p.Skipoptions.GeneralSkip;
+            chkSkipWhenNoFAR.Checked = p.SkipOptions.SkipNoFindAndReplace;
+            chkSkipIfNoRegexTypo.Checked = p.SkipOptions.SkipNoRegexTypoFix;
+            Skip.SelectedItem = p.SkipOptions.GeneralSkip;
+            chkSkipNoDab.Checked = p.SkipOptions.SkipNoDisambiguation;
 
             cmboEditSummary.Items.Clear();
             foreach (string s in p.General.Summaries)

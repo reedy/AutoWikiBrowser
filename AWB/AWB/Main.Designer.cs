@@ -100,6 +100,7 @@ namespace AutoWikiBrowser
             this.tpDab = new System.Windows.Forms.TabPage();
             this.panelDab = new System.Windows.Forms.Panel();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.chkSkipNoDab = new System.Windows.Forms.CheckBox();
             this.txtDabVariants = new System.Windows.Forms.TextBox();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.btnLoadLinks = new System.Windows.Forms.Button();
@@ -902,6 +903,7 @@ namespace AutoWikiBrowser
             // 
             // groupBox12
             // 
+            this.groupBox12.Controls.Add(this.chkSkipNoDab);
             this.groupBox12.Controls.Add(this.txtDabVariants);
             this.groupBox12.Location = new System.Drawing.Point(3, 50);
             this.groupBox12.Name = "groupBox12";
@@ -909,6 +911,16 @@ namespace AutoWikiBrowser
             this.groupBox12.TabIndex = 10;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Variants";
+            // 
+            // chkSkipNoDab
+            // 
+            this.chkSkipNoDab.AutoSize = true;
+            this.chkSkipNoDab.Location = new System.Drawing.Point(6, 240);
+            this.chkSkipNoDab.Name = "chkSkipNoDab";
+            this.chkSkipNoDab.Size = new System.Drawing.Size(229, 17);
+            this.chkSkipNoDab.TabIndex = 6;
+            this.chkSkipNoDab.Text = "Skip article when no disambiguations made";
+            this.chkSkipNoDab.UseVisualStyleBackColor = true;
             // 
             // txtDabVariants
             // 
@@ -918,7 +930,8 @@ namespace AutoWikiBrowser
             this.txtDabVariants.Location = new System.Drawing.Point(6, 19);
             this.txtDabVariants.Multiline = true;
             this.txtDabVariants.Name = "txtDabVariants";
-            this.txtDabVariants.Size = new System.Drawing.Size(248, 238);
+            this.txtDabVariants.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtDabVariants.Size = new System.Drawing.Size(248, 215);
             this.txtDabVariants.TabIndex = 5;
             // 
             // groupBox11
@@ -935,12 +948,13 @@ namespace AutoWikiBrowser
             // btnLoadLinks
             // 
             this.btnLoadLinks.Enabled = false;
-            this.btnLoadLinks.Location = new System.Drawing.Point(179, 12);
+            this.btnLoadLinks.Location = new System.Drawing.Point(179, 13);
             this.btnLoadLinks.Name = "btnLoadLinks";
             this.btnLoadLinks.Size = new System.Drawing.Size(75, 23);
             this.btnLoadLinks.TabIndex = 1;
             this.btnLoadLinks.Text = "Load links";
             this.btnLoadLinks.UseVisualStyleBackColor = true;
+            this.btnLoadLinks.Click += new System.EventHandler(this.btnLoadLinks_Click);
             // 
             // txtDabLink
             // 
@@ -949,6 +963,7 @@ namespace AutoWikiBrowser
             this.txtDabLink.Size = new System.Drawing.Size(167, 20);
             this.txtDabLink.TabIndex = 0;
             this.txtDabLink.Enter += new System.EventHandler(this.txtDabLink_Enter);
+            this.txtDabLink.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDabLink_KeyPress);
             this.txtDabLink.TextChanged += new System.EventHandler(this.txtDabLink_TextChanged);
             // 
             // chkEnableDab
@@ -2065,15 +2080,15 @@ namespace AutoWikiBrowser
             // makeModuleToolStripMenuItem
             // 
             this.makeModuleToolStripMenuItem.Name = "makeModuleToolStripMenuItem";
-            this.makeModuleToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.makeModuleToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.makeModuleToolStripMenuItem.Text = "Make module";
             this.makeModuleToolStripMenuItem.Click += new System.EventHandler(this.makeModuleToolStripMenuItem_Click);
             // 
             // testRegexToolStripMenuItem
             // 
             this.testRegexToolStripMenuItem.Name = "testRegexToolStripMenuItem";
-            this.testRegexToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
-            this.testRegexToolStripMenuItem.Text = "Test regex...";
+            this.testRegexToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.testRegexToolStripMenuItem.Text = "Test regex";
             this.testRegexToolStripMenuItem.Click += new System.EventHandler(this.testRegexToolStripMenuItem_Click);
             // 
             // pluginsToolStripMenuItem
@@ -2689,6 +2704,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.GroupBox groupBox13;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtNewCategory2;
+        private System.Windows.Forms.CheckBox chkSkipNoDab;
 
 
     }
