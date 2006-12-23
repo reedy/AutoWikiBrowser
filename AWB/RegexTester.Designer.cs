@@ -40,6 +40,7 @@ namespace AutoWikiBrowser
             this.Status = new System.Windows.Forms.ToolStripStatusLabel();
             this.ResultText = new System.Windows.Forms.TextBox();
             this.Multiline = new System.Windows.Forms.CheckBox();
+            this.Casesensitive = new System.Windows.Forms.CheckBox();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,7 +49,7 @@ namespace AutoWikiBrowser
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(31, 13);
+            this.label1.Size = new System.Drawing.Size(30, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Find:";
             // 
@@ -57,7 +58,7 @@ namespace AutoWikiBrowser
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(12, 35);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(49, 13);
+            this.label2.Size = new System.Drawing.Size(50, 13);
             this.label2.TabIndex = 1;
             this.label2.Text = "Replace:";
             // 
@@ -68,7 +69,7 @@ namespace AutoWikiBrowser
             this.Find.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Find.Location = new System.Drawing.Point(75, 6);
             this.Find.Name = "Find";
-            this.Find.Size = new System.Drawing.Size(485, 22);
+            this.Find.Size = new System.Drawing.Size(415, 22);
             this.Find.TabIndex = 2;
             this.Find.TextChanged += new System.EventHandler(this.ConditionsChanged);
             // 
@@ -79,14 +80,14 @@ namespace AutoWikiBrowser
             this.Replace.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Replace.Location = new System.Drawing.Point(75, 32);
             this.Replace.Name = "Replace";
-            this.Replace.Size = new System.Drawing.Size(485, 22);
+            this.Replace.Size = new System.Drawing.Size(415, 22);
             this.Replace.TabIndex = 3;
             this.Replace.TextChanged += new System.EventHandler(this.ConditionsChanged);
             // 
             // Go
             // 
             this.Go.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.Go.Location = new System.Drawing.Point(585, 32);
+            this.Go.Location = new System.Drawing.Point(596, 19);
             this.Go.Name = "Go";
             this.Go.Size = new System.Drawing.Size(75, 23);
             this.Go.TabIndex = 4;
@@ -114,7 +115,7 @@ namespace AutoWikiBrowser
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(27, 249);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(41, 13);
+            this.label3.Size = new System.Drawing.Size(40, 13);
             this.label3.TabIndex = 7;
             this.label3.Text = "Result:";
             // 
@@ -164,18 +165,31 @@ namespace AutoWikiBrowser
             this.Multiline.AutoSize = true;
             this.Multiline.Checked = true;
             this.Multiline.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.Multiline.Location = new System.Drawing.Point(585, 8);
+            this.Multiline.Location = new System.Drawing.Point(496, 12);
             this.Multiline.Name = "Multiline";
             this.Multiline.Size = new System.Drawing.Size(64, 17);
             this.Multiline.TabIndex = 11;
             this.Multiline.Text = "Multiline";
             this.Multiline.UseVisualStyleBackColor = true;
             // 
+            // Casesensitive
+            // 
+            this.Casesensitive.AutoSize = true;
+            this.Casesensitive.Checked = true;
+            this.Casesensitive.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.Casesensitive.Location = new System.Drawing.Point(496, 35);
+            this.Casesensitive.Name = "Casesensitive";
+            this.Casesensitive.Size = new System.Drawing.Size(94, 17);
+            this.Casesensitive.TabIndex = 12;
+            this.Casesensitive.Text = "Case sensitive";
+            this.Casesensitive.UseVisualStyleBackColor = true;
+            // 
             // RegexTester
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(683, 479);
+            this.Controls.Add(this.Casesensitive);
             this.Controls.Add(this.Multiline);
             this.Controls.Add(this.ResultText);
             this.Controls.Add(this.statusStrip1);
@@ -215,6 +229,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripStatusLabel Status;
         private System.Windows.Forms.TextBox ResultText;
         private System.Windows.Forms.CheckBox Multiline;
+        private System.Windows.Forms.CheckBox Casesensitive;
     }
 }
 

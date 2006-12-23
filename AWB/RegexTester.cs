@@ -30,7 +30,10 @@ namespace AutoWikiBrowser
             try
             {
                 Regex r;
-                if(Multiline.Checked) r = new Regex(Find.Text, RegexOptions.Singleline);
+                if (Multiline.Checked && Casesensitive.Checked) r = new Regex(Find.Text, RegexOptions.Singleline);
+                else if (!Multiline.Checked && Casesensitive.Checked) r = new Regex(Find.Text);
+                else if (Multiline.Checked && !Casesensitive.Checked) r = new Regex(Find.Text, RegexOptions.Singleline | RegexOptions.IgnoreCase);
+                else if (!Multiline.Checked && !Casesensitive.Checked) r = new Regex(Find.Text, RegexOptions.IgnoreCase);
                 else r = new Regex(Find.Text);
 
                 if (Replace.Text.Trim() == "")
