@@ -120,6 +120,8 @@ namespace AutoWikiBrowser
             txtEdit.Font = f;
             LowThreadPriority = false;
             FlashAndBeep = true;
+            chkLock.Checked = false;
+
 
             chkEnableDab.Checked = false;
             txtDabLink.Text = "";
@@ -740,6 +742,7 @@ namespace AutoWikiBrowser
 
             p.General.LowThreadPriority = LowThreadPriority;
             p.General.FlashAndBeep = FlashAndBeep;
+            p.General.LockSummary = chkLock.Checked;
 
             p.Disambiguation.Enabled = chkEnableDab.Checked;
             p.Disambiguation.Link = txtDabLink.Text;
@@ -863,6 +866,7 @@ namespace AutoWikiBrowser
 
             LowThreadPriority = p.General.LowThreadPriority;
             FlashAndBeep = p.General.FlashAndBeep;
+            chkLock.Checked = p.General.LockSummary;
 
             chkEnableDab.Checked = p.Disambiguation.Enabled;
             txtDabLink.Text = p.Disambiguation.Link;
