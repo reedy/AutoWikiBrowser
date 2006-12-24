@@ -129,6 +129,7 @@ namespace WikiFunctions.AWBSettings
         public string TextBoxFont = "Courier New";
         public bool LowThreadPriority = false;
         public bool FlashAndBeep = true;
+        public bool LockSummary = false;
     }
 
     [Serializable]

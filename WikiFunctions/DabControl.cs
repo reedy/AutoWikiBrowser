@@ -15,6 +15,18 @@ namespace WikiFunctions
             InitializeComponent();
         }
 
+        public DabControl(string articleTitle, string articleText, Match match, List<string> variants)
+        {
+            ArticleTitle = articleTitle;
+            ArticleText = articleText;
+            Match = match;
+            Variants = variants;
+
+            InitializeComponent();
+
+
+        }
+
         // input data
         public string ArticleTitle;
         public string ArticleText;
@@ -29,12 +41,13 @@ namespace WikiFunctions
         //internal
         bool StartOfSentence = false;
 
+        /*
         public DabControl(IContainer container)
         {
             container.Add(this);
 
             InitializeComponent();
-        }
+        }*/
 
         //public void 
 
