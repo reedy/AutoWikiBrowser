@@ -1204,6 +1204,7 @@ namespace AutoWikiBrowser
 
         private void lbDuplicateWikilinks_Click(object sender, EventArgs e)
         {
+            int selection = lbDuplicateWikilinks.SelectedIndex;
             if (lbDuplicateWikilinks.SelectedIndex != -1)
             {
                 string strLink = Regex.Escape(lbDuplicateWikilinks.SelectedItem.ToString());
@@ -1213,6 +1214,7 @@ namespace AutoWikiBrowser
                 resetFind();
 
             ArticleInfo(false);
+            lbDuplicateWikilinks.SelectedIndex = selection;
         }
         private void txtFind_TextChanged(object sender, EventArgs e)
         {
@@ -1283,7 +1285,14 @@ namespace AutoWikiBrowser
                     txtEdit.ScrollToCaret();
                 }
                 else
+                {
+                    MessageBox.Show("No more occurances.", "Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtEdit.SelectionStart = 0;
+                    txtEdit.SelectionLength = 0;
+                    txtEdit.Focus();
+                    txtEdit.ScrollToCaret();
                     resetFind();
+                }
             }
         }
 
