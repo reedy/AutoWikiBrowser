@@ -260,14 +260,33 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// Returns a regex case insensitive version of a string e.g. "Category" returns "[Cc][Aa]tegory"
+        /// Returns a regex case insensitive version of a string for the first letter only e.g. "Category" returns "[Cc]ategory"
         /// </summary>
         public static string CaseInsensitive(string input)
         {
             if (input != "" && char.IsLetter(input[0]))
             {
                 input = input.Trim();
-                return "[" + char.ToUpper(input[0]) + char.ToLower(input[0]) + "]" + "[" + char.ToUpper(input[1]) + char.ToLower(input[1]) + "]" + input.Remove(0, 2);
+                return "[" + char.ToUpper(input[0]) + char.ToLower(input[0]) + "]" + input.Remove(0, 1);
+            }
+            else
+                return input;
+        }
+
+        /// <summary>
+        /// Returns a regex case insensitive version of an entire string e.g. "Category" returns "[Cc][Aa][Tt][Ee][Gg][Oo][Rr][Yy]"
+        /// </summary>
+        public static string AllCaseInsensitive(string input)
+        {
+            if (input != "" && char.IsLetter(input[0]))
+            {
+                input = input.Trim();
+                string result = "";
+                for (int i=0; i<=input.Length-1; i++)
+                {
+                    result = result + "[" + char.ToUpper(input[i]) + char.ToLower(input[i]) + "]";
+                }
+                return result;
             }
             else
                 return input;
