@@ -2408,7 +2408,6 @@ namespace AutoWikiBrowser
                 {
                     LastMove = dlg.Summary;
                     webBrowserEdit.MovePage(EdittingArticle.Name, dlg.NewTitle, dlg.Summary);
-                    MessageBox.Show("dd");
                 }
             }
             catch (Exception ex)

@@ -29,27 +29,19 @@ namespace WikiFunctions.Controls
         private void InitializeComponent()
         {
             this.txtNewTitle = new System.Windows.Forms.TextBox();
-            this.txtSummary = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.cmboSummary = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // txtNewTitle
             // 
             this.txtNewTitle.Location = new System.Drawing.Point(62, 12);
             this.txtNewTitle.Name = "txtNewTitle";
-            this.txtNewTitle.Size = new System.Drawing.Size(254, 20);
+            this.txtNewTitle.Size = new System.Drawing.Size(339, 20);
             this.txtNewTitle.TabIndex = 0;
-            // 
-            // txtSummary
-            // 
-            this.txtSummary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSummary.Location = new System.Drawing.Point(62, 39);
-            this.txtSummary.Name = "txtSummary";
-            this.txtSummary.Size = new System.Drawing.Size(254, 20);
-            this.txtSummary.TabIndex = 1;
             // 
             // label1
             // 
@@ -64,7 +56,7 @@ namespace WikiFunctions.Controls
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 42);
+            this.label2.Location = new System.Drawing.Point(8, 41);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(50, 13);
             this.label2.TabIndex = 3;
@@ -74,7 +66,7 @@ namespace WikiFunctions.Controls
             // 
             this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOk.Location = new System.Drawing.Point(241, 74);
+            this.btnOk.Location = new System.Drawing.Point(155, 73);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 4;
@@ -85,25 +77,31 @@ namespace WikiFunctions.Controls
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(160, 74);
+            this.btnCancel.Location = new System.Drawing.Point(236, 73);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 5;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
+            // cmboSummary
+            // 
+            this.cmboSummary.FormattingEnabled = true;
+            this.cmboSummary.Location = new System.Drawing.Point(62, 38);
+            this.cmboSummary.Name = "cmboSummary";
+            this.cmboSummary.Size = new System.Drawing.Size(339, 21);
+            this.cmboSummary.TabIndex = 6;
+            // 
             // MoveDeleteDialog
             // 
-            this.AcceptButton = this.btnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(327, 108);
+            this.ClientSize = new System.Drawing.Size(413, 108);
+            this.Controls.Add(this.cmboSummary);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.txtSummary);
             this.Controls.Add(this.txtNewTitle);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "MoveDeleteDialog";
@@ -117,10 +115,10 @@ namespace WikiFunctions.Controls
         #endregion
 
         private System.Windows.Forms.TextBox txtNewTitle;
-        private System.Windows.Forms.TextBox txtSummary;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.ComboBox cmboSummary;
     }
 }
