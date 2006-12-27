@@ -774,9 +774,9 @@ namespace WikiFunctions
             {
                 //other languages can use the english syntax
                 if (langCode != LangCodeEnum.en && enLangNamespaces.ContainsKey(k.Key))
-                    NamespacesCaseInsensitive.Add(k.Key, "(?:" + Tools.CaseInsensitive(k.Value) + "|" + Tools.CaseInsensitive(enLangNamespaces[k.Key]).Replace(":", " ?:") + ")");
+                    NamespacesCaseInsensitive.Add(k.Key, "(?:" + Tools.AllCaseInsensitive(k.Value) + "|" + Tools.AllCaseInsensitive(enLangNamespaces[k.Key]).Replace(":", " ?:") + ")");
                 else
-                    NamespacesCaseInsensitive.Add(k.Key, Tools.CaseInsensitive(k.Value).Replace(":", " ?:"));
+                    NamespacesCaseInsensitive.Add(k.Key, Tools.AllCaseInsensitive(k.Value).Replace(":", " ?:"));
             }
 
             WikiRegexes.MakeLangSpecificRegexes();
