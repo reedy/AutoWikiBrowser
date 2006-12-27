@@ -260,14 +260,14 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// Returns a regex case insensitive version of a string e.g. "Category" returns "[Cc]ategory"
+        /// Returns a regex case insensitive version of a string e.g. "Category" returns "[Cc][Aa]tegory"
         /// </summary>
         public static string CaseInsensitive(string input)
         {
             if (input != "" && char.IsLetter(input[0]))
             {
                 input = input.Trim();
-                return "[" + char.ToUpper(input[0]) + char.ToLower(input[0]) + "]" + input.Remove(0, 1);
+                return "[" + char.ToUpper(input[0]) + char.ToLower(input[0]) + "]" + "[" + char.ToUpper(input[1]) + char.ToLower(input[1]) + "]" + input.Remove(0, 2);
             }
             else
                 return input;
