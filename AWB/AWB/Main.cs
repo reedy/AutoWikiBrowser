@@ -1991,7 +1991,7 @@ namespace AutoWikiBrowser
 
         private void helpToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser#User_manual");
+            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/User_manual");
         }
 
         private void reparseToolStripMenuItem_Click(object sender, EventArgs e)
