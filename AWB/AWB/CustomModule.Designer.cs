@@ -41,6 +41,7 @@ namespace AutoWikiBrowser
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.guideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.chkFixedwidth = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -49,13 +50,15 @@ namespace AutoWikiBrowser
             this.txtCode.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCode.Location = new System.Drawing.Point(12, 209);
+            this.txtCode.Font = new System.Drawing.Font("Courier New", 9F);
+            this.txtCode.Location = new System.Drawing.Point(12, 231);
             this.txtCode.Multiline = true;
             this.txtCode.Name = "txtCode";
             this.txtCode.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtCode.Size = new System.Drawing.Size(640, 174);
+            this.txtCode.Size = new System.Drawing.Size(640, 178);
             this.txtCode.TabIndex = 0;
             this.txtCode.Text = resources.GetString("txtCode.Text");
+            this.txtCode.WordWrap = false;
             // 
             // btnDone
             // 
@@ -103,9 +106,10 @@ namespace AutoWikiBrowser
             // 
             this.lblStart.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblStart.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStart.Location = new System.Drawing.Point(12, 76);
             this.lblStart.Name = "lblStart";
-            this.lblStart.Size = new System.Drawing.Size(643, 130);
+            this.lblStart.Size = new System.Drawing.Size(643, 152);
             this.lblStart.TabIndex = 5;
             this.lblStart.Text = resources.GetString("lblStart.Text");
             this.lblStart.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -114,7 +118,8 @@ namespace AutoWikiBrowser
             // 
             this.lblEnd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblEnd.Location = new System.Drawing.Point(9, 386);
+            this.lblEnd.Font = new System.Drawing.Font("Courier New", 9F);
+            this.lblEnd.Location = new System.Drawing.Point(9, 412);
             this.lblEnd.Name = "lblEnd";
             this.lblEnd.Size = new System.Drawing.Size(643, 36);
             this.lblEnd.TabIndex = 6;
@@ -166,11 +171,25 @@ namespace AutoWikiBrowser
             this.guideToolStripMenuItem.Text = "Guide";
             this.guideToolStripMenuItem.Click += new System.EventHandler(this.guideToolStripMenuItem_Click);
             // 
+            // chkFixedwidth
+            // 
+            this.chkFixedwidth.AutoSize = true;
+            this.chkFixedwidth.Checked = true;
+            this.chkFixedwidth.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkFixedwidth.Location = new System.Drawing.Point(11, 56);
+            this.chkFixedwidth.Name = "chkFixedwidth";
+            this.chkFixedwidth.Size = new System.Drawing.Size(100, 17);
+            this.chkFixedwidth.TabIndex = 10;
+            this.chkFixedwidth.Text = "Fixed width font";
+            this.chkFixedwidth.UseVisualStyleBackColor = true;
+            this.chkFixedwidth.CheckedChanged += new System.EventHandler(this.chkFixedwidth_CheckedChanged);
+            // 
             // CustomModule
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(664, 431);
+            this.ClientSize = new System.Drawing.Size(664, 457);
+            this.Controls.Add(this.chkFixedwidth);
             this.Controls.Add(this.chkModuleEnabled);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.lblEnd);
@@ -207,5 +226,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem guideToolStripMenuItem;
+        private System.Windows.Forms.CheckBox chkFixedwidth;
     }
 }

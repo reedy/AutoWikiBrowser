@@ -189,7 +189,7 @@ Public Class Class1
 
         private void guideToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(@"A module allows you to process the article text using your own C# or Visual Basic.NET code.
+            MessageBox.Show(@"A module allows you to process the article text using your own C# code.
 
 Use the ""Makes module"" button to compile and load the code.
 
@@ -209,6 +209,22 @@ The int value ""Namespace"" gives you the key of the namespace, e.g. mainspace i
             {
                 btnDone.Enabled = false;
                 btnMake.Enabled = false;
+            }
+        }
+
+        private void chkFixedwidth_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkFixedwidth.Checked)
+            {
+                txtCode.Font = new Font("Courier New", 9);
+                lblStart.Font = new Font("Courier New", 9);
+                lblEnd.Font = new Font("Courier New", 9);
+            }
+            else
+            {
+                txtCode.Font = new Font("Microsoft Sans Serif", 8);
+                lblStart.Font = new Font("Microsoft Sans Serif", 8);
+                lblEnd.Font = new Font("Microsoft Sans Serif", 8);
             }
         }
     }
