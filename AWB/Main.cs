@@ -1286,7 +1286,7 @@ namespace AutoWikiBrowser
                 }
                 else
                 {
-                    MessageBox.Show("No more occurances.", "Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("No more occurances.", "Done", MessageBoxButtons.OK, MessageBoxIcon.Question);
                     txtEdit.SelectionStart = 0;
                     txtEdit.SelectionLength = 0;
                     txtEdit.Focus();
