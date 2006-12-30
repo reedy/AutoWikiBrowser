@@ -35,6 +35,11 @@ namespace WikiFunctions.Lists
     /// </summary>
     public static class GetLists
     {
+        /// <summary>
+        /// whether errors shoud be ignored without informing user
+        /// </summary>
+        public static bool QuietMode = false;
+
         readonly static Regex regexli = new Regex("<li>.*</li>", RegexOptions.Compiled);
         readonly static Regex regexe = new Regex("<li>[^<]*<a [^>]*>([^<]*)</a>", RegexOptions.Compiled);
         readonly static Regex regexe2 = new Regex("<a href=\"[^\"]*\" title=\"([^\"]*)\">[^<>]*</a>", RegexOptions.Compiled);
@@ -77,7 +82,7 @@ namespace WikiFunctions.Lists
                 while (true)
                 {
                     string html = Tools.GetHTML(URL);
-                    if (html.Contains("<error>emptyresult</error>"))
+                    if (html.Contains("<error>emptyresult</error>") && !QuietMode)
                         MessageBox.Show("The category " + Categories[i] + " does not exist. Make sure it is spelt correctly. If you want a stub category remember to type the category name and not the stub name.");
 
                     bool more = false;

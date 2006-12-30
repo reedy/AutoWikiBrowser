@@ -40,8 +40,6 @@ namespace WikiFunctions
     {
         static Variables()
         {
-            SetProject(LangCodeEnum.en, ProjectEnum.wikipedia);
-
             enLangNamespaces[-2] = "Media:";
             enLangNamespaces[-1] = "Special:";
             enLangNamespaces[1] = "Talk:";
@@ -59,6 +57,8 @@ namespace WikiFunctions
             enLangNamespaces[13] = "Help talk:";
             enLangNamespaces[14] = "Category:";
             enLangNamespaces[15] = "Category talk:";
+
+            SetProject(LangCodeEnum.en, ProjectEnum.wikipedia);
         }
 
         public static UserProperties User = new UserProperties();

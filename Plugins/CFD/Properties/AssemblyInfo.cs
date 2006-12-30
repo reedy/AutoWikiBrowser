@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("WikiFunctions")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("CFD")]
+[assembly: AssemblyDescription("AutoWikiBrowser plugin for recategorisation")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("WikiFunctions")]
+[assembly: AssemblyProduct("CFD")]
 [assembly: AssemblyCopyright("Copyright ©  2006")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("fcfb55e1-bab5-4501-878a-03d20087c842")]
+[assembly: Guid("d0e5435f-41a7-4602-a09f-df55c4e0bf16")]
 
 // Version information for an assembly consists of the following four values:
 //
