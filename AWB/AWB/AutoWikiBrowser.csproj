@@ -158,9 +158,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <BaseApplicationManifest Include="Properties\app.manifest">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </BaseApplicationManifest>
     <None Include="app.config">
     </None>
     <None Include="Properties\Settings.settings">
@@ -207,6 +204,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Plugins\CFD\CFD.csproj">
+      <Project>{3443EC53-0B83-4356-A032-AD9693448F19}</Project>
+      <Name>CFD</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WikiFunctions\WikiFunctions.csproj">
       <Project>{B5B0008C-A306-4B0D-B91E-5C03DA7014E0}</Project>
       <Name>WikiFunctions</Name>

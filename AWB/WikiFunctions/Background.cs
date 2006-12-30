@@ -23,6 +23,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Web;
+using WikiFunctions.Lists;
 
 namespace WikiFunctions.Background
 {
@@ -58,6 +59,7 @@ namespace WikiFunctions.Background
         }
 
         protected string strParam;
+        protected object objParam;
 
         public void GetHTML(string url)
         {
@@ -226,6 +228,47 @@ namespace WikiFunctions.Background
             catch(Exception e)
             {
                 //ui.Close();
+                Error = e;
+            }
+        }
+
+
+        /// <summary>
+        /// returns list of pages from a list of categories
+        /// </summary>
+        /// <param name="categories"></param>
+        public void GetFromCategories(string[] categories)
+        {
+            objParam = categories;
+
+            ui = new PleaseWait();
+
+            BgThread = new Thread(new ThreadStart(GetFromCategoriesFunc));
+            BgThread.IsBackground = true;
+            ui.Show(Application.OpenForms[0]);
+            BgThread.Start();
+        }
+
+        private void GetFromCategoriesFunc()
+        {
+            List<Article> list = new List<Article>();
+            ui.Worker = Thread.CurrentThread;
+
+            ui.Status = "Getting category contents";
+            try
+            {
+                int n=0;
+                
+                foreach (string s in (string[])objParam)
+                {
+                    ui.SetProgress(n, ((string[])objParam).Length);
+                    list.AddRange(GetLists.FromCategory(false, new string[1] {s}));
+                }
+
+                Result = list;
+            }
+            catch (Exception e)
+            {
                 Error = e;
             }
         }

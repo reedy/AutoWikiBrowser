@@ -278,13 +278,15 @@ namespace WikiFunctions
         /// </summary>
         public static string AllCaseInsensitive(string input)
         {
-            if (input != "" && char.IsLetter(input[0]))
+            if (input != "")
             {
                 input = input.Trim();
                 string result = "";
-                for (int i=0; i<=input.Length-1; i++)
+                for (int i = 0; i <= input.Length - 1; i++)
                 {
-                    result = result + "[" + char.ToUpper(input[i]) + char.ToLower(input[i]) + "]";
+                    if (char.IsLetter(input[i]))
+                        result = result + "[" + char.ToUpper(input[i]) + char.ToLower(input[i]) + "]";
+                    else result = result + input[i];
                 }
                 return result;
             }

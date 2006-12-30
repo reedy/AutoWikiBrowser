@@ -8,3 +8,5 @@ Things to do:
 * Finish implementing dotnetwikibot functions to allow moving/deleting articles - doubtful, better add this functionality to WebControl
 * Fix Elonka's bug: escape chars reconversion during serialization/deserialization
 * Make RETF correct visible parts of wikilinks and image captions
+* Make DB scanner hide some patterns when needed.
+* Write a CFD plugin
