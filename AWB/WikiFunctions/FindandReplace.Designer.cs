@@ -49,7 +49,7 @@ namespace WikiFunctions.Parse
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.find = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.replace = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -122,8 +122,8 @@ namespace WikiFunctions.Parse
             // replace
             // 
             this.replace.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle4.NullValue = null;
-            this.replace.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.NullValue = null;
+            this.replace.DefaultCellStyle = dataGridViewCellStyle1;
             this.replace.FillWeight = 87.66718F;
             this.replace.HeaderText = "Replace with";
             this.replace.MinimumWidth = 45;
@@ -297,6 +297,7 @@ namespace WikiFunctions.Parse
             // btnDone
             // 
             this.btnDone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDone.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnDone.Location = new System.Drawing.Point(605, 37);
             this.btnDone.Name = "btnDone";
             this.btnDone.Size = new System.Drawing.Size(60, 23);
@@ -310,7 +311,7 @@ namespace WikiFunctions.Parse
             this.linkLabel2.AutoSize = true;
             this.linkLabel2.Location = new System.Drawing.Point(32, 71);
             this.linkLabel2.Name = "linkLabel2";
-            this.linkLabel2.Size = new System.Drawing.Size(162, 13);
+            this.linkLabel2.Size = new System.Drawing.Size(164, 13);
             this.linkLabel2.TabIndex = 9;
             this.linkLabel2.TabStop = true;
             this.linkLabel2.Text = "regular expressions on Wikipedia";
@@ -332,7 +333,7 @@ namespace WikiFunctions.Parse
             this.chkIgnoreLinks.AutoSize = true;
             this.chkIgnoreLinks.Location = new System.Drawing.Point(12, 5);
             this.chkIgnoreLinks.Name = "chkIgnoreLinks";
-            this.chkIgnoreLinks.Size = new System.Drawing.Size(321, 17);
+            this.chkIgnoreLinks.Size = new System.Drawing.Size(337, 17);
             this.chkIgnoreLinks.TabIndex = 14;
             this.chkIgnoreLinks.Text = "Ignore external/interwiki links, images, nowiki, math and <!-- -->";
             this.toolTip1.SetToolTip(this.chkIgnoreLinks, "Find and replacements will not be made in external/interwiki links, images, <nowi" +
@@ -347,7 +348,7 @@ namespace WikiFunctions.Parse
             this.chkAddToSummary.Location = new System.Drawing.Point(12, 28);
             this.chkAddToSummary.MinimumSize = new System.Drawing.Size(190, 20);
             this.chkAddToSummary.Name = "chkAddToSummary";
-            this.chkAddToSummary.Size = new System.Drawing.Size(190, 20);
+            this.chkAddToSummary.Size = new System.Drawing.Size(192, 20);
             this.chkAddToSummary.TabIndex = 16;
             this.chkAddToSummary.Text = "Add replacements to edit summary";
             this.toolTip1.SetToolTip(this.chkAddToSummary, "Appends information about replacements made to the edit summary");
@@ -358,7 +359,7 @@ namespace WikiFunctions.Parse
             this.chkAfterOtherFixes.AutoSize = true;
             this.chkAfterOtherFixes.Location = new System.Drawing.Point(12, 51);
             this.chkAfterOtherFixes.Name = "chkAfterOtherFixes";
-            this.chkAfterOtherFixes.Size = new System.Drawing.Size(222, 17);
+            this.chkAfterOtherFixes.Size = new System.Drawing.Size(234, 17);
             this.chkAfterOtherFixes.TabIndex = 17;
             this.chkAfterOtherFixes.Text = "Apply after general fixes, otherwise before";
             this.chkAfterOtherFixes.UseVisualStyleBackColor = true;
@@ -368,7 +369,7 @@ namespace WikiFunctions.Parse
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(9, 71);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(26, 13);
+            this.label1.Size = new System.Drawing.Size(25, 13);
             this.label1.TabIndex = 18;
             this.label1.Text = "See";
             // 
@@ -376,6 +377,7 @@ namespace WikiFunctions.Parse
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnDone;
             this.ClientSize = new System.Drawing.Size(677, 366);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.chkAfterOtherFixes);
