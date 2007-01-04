@@ -855,7 +855,8 @@ namespace WikiFunctions.Lists
             //filter out non-mainspace articles
             int i = 0;
             string s = "";
-
+            
+            lbArticles.BeginUpdate();
             while (i < lbArticles.Items.Count)
             {
                 s = lbArticles.Items[i].ToString();
@@ -865,6 +866,7 @@ namespace WikiFunctions.Lists
                 else //move on
                     i++;
             }
+            lbArticles.EndUpdate();
             UpdateNumberOfArticles();
         }
 
