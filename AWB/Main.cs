@@ -142,9 +142,6 @@ namespace AutoWikiBrowser
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            //add articles to avoid (in future may be populated from checkpage
-            //noParse.Add("User:Bluemoose/Sandbox");
-
             // hide this tab until it's fully written
             //tabControl1.TabPages.Remove(tpDab);
 
@@ -167,6 +164,13 @@ namespace AutoWikiBrowser
                 LoadPrefs();
                 UpdateButtons();
                 LoadRecentSettingsList();
+
+                /*
+                bool skip;
+                DabForm df = new DabForm();
+                df.Disambiguate("uppsdf  asfasf fdodntr wegtwebr [[link]]. [[to dab#abc]] afsfasfsa\ngrregherher  [[to dab|rw]] errwe sf", 
+                    "", "to dab", new string[]{"foo", "bar"}, out skip);
+                //*/
             }
             catch (Exception ex)
             {
@@ -757,6 +761,17 @@ namespace AutoWikiBrowser
                     articleText = PerformFindAndReplace(articleText, out SkipArticle);
                     if (SkipArticle)
                         return articleText;
+                }
+
+                if (chkEnableDab.Checked && txtDabLink.Text.Trim() != "" &&
+                    txtDabVariants.Text.Trim() != "")
+                {
+                    SkipArticle = false;
+                    DabForm df = new DabForm();
+                    articleText = df.Disambiguate(articleText, EdittingArticle.Name, txtDabLink.Text.Trim(), 
+                        txtDabVariants.Lines, out SkipArticle);
+
+                    if (SkipArticle && chkSkipNoDab.Checked) return articleText;
                 }
 
                 SkipArticle = false;

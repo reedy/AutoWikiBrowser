@@ -31,6 +31,9 @@ namespace AutoWikiBrowser
             this.tableLayout = new System.Windows.Forms.TableLayoutPanel();
             this.btnDone = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.btnOpenInBrowser = new System.Windows.Forms.Button();
+            this.btnResetAll = new System.Windows.Forms.Button();
+            this.btnUndoAll = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // tableLayout
@@ -52,6 +55,7 @@ namespace AutoWikiBrowser
             // btnDone
             // 
             this.btnDone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDone.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnDone.Location = new System.Drawing.Point(679, 417);
             this.btnDone.Name = "btnDone";
             this.btnDone.Size = new System.Drawing.Size(75, 23);
@@ -70,11 +74,48 @@ namespace AutoWikiBrowser
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
+            // btnOpenInBrowser
+            // 
+            this.btnOpenInBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnOpenInBrowser.Location = new System.Drawing.Point(12, 417);
+            this.btnOpenInBrowser.Name = "btnOpenInBrowser";
+            this.btnOpenInBrowser.Size = new System.Drawing.Size(121, 23);
+            this.btnOpenInBrowser.TabIndex = 3;
+            this.btnOpenInBrowser.Text = "Open in browser";
+            this.btnOpenInBrowser.UseVisualStyleBackColor = true;
+            this.btnOpenInBrowser.Click += new System.EventHandler(this.btnOpenInBrowser_Click);
+            // 
+            // btnResetAll
+            // 
+            this.btnResetAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnResetAll.Location = new System.Drawing.Point(139, 417);
+            this.btnResetAll.Name = "btnResetAll";
+            this.btnResetAll.Size = new System.Drawing.Size(121, 23);
+            this.btnResetAll.TabIndex = 4;
+            this.btnResetAll.Text = "Reset all";
+            this.btnResetAll.UseVisualStyleBackColor = true;
+            this.btnResetAll.Click += new System.EventHandler(this.btnResetAll_Click);
+            // 
+            // btnUndoAll
+            // 
+            this.btnUndoAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnUndoAll.Location = new System.Drawing.Point(266, 417);
+            this.btnUndoAll.Name = "btnUndoAll";
+            this.btnUndoAll.Size = new System.Drawing.Size(121, 23);
+            this.btnUndoAll.TabIndex = 5;
+            this.btnUndoAll.Text = "Undo all";
+            this.btnUndoAll.UseVisualStyleBackColor = true;
+            this.btnUndoAll.Click += new System.EventHandler(this.btnUndoAll_Click);
+            // 
             // DabForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(766, 452);
+            this.Controls.Add(this.btnUndoAll);
+            this.Controls.Add(this.btnResetAll);
+            this.Controls.Add(this.btnOpenInBrowser);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnDone);
             this.Controls.Add(this.tableLayout);
@@ -83,6 +124,9 @@ namespace AutoWikiBrowser
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.Text = "Disambiguation";
+            this.Resize += new System.EventHandler(this.DabForm_Resize);
+            this.Move += new System.EventHandler(this.DabForm_Move);
+            this.Load += new System.EventHandler(this.DabForm_Load);
             this.ResumeLayout(false);
 
         }
@@ -92,5 +136,8 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.TableLayoutPanel tableLayout;
         private System.Windows.Forms.Button btnDone;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Button btnOpenInBrowser;
+        private System.Windows.Forms.Button btnResetAll;
+        private System.Windows.Forms.Button btnUndoAll;
     }
 }
