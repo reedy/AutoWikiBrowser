@@ -708,7 +708,7 @@ namespace WikiFunctions
                         break;
 
                     default:
-                        LoadProjectOptions(URL);
+                        LoadProjectOptions(URLLong);
                         strsummarytag = " ([[Project:AWB|AWB]])";
                         break;
                 }
@@ -796,7 +796,7 @@ namespace WikiFunctions
             string[] months = (string[])enLangMonthNames.Clone();
             List<string>mwpages = new List<string>();
 
-            string url = URL + "/w/query.php?what=namespaces|content&format=xml&titles=";
+            string url = URL + "query.php?what=namespaces|content&format=xml&titles=";
 
             foreach(string s in enLangMonthNames)
             {
@@ -857,7 +857,7 @@ namespace WikiFunctions
                    
                     break;
                 }
-                catch
+                catch(Exception e)
                 {
                     if (MessageBox.Show("An error occured while loading project information from the server. " +
                         "Please make sure that your internet connection works and such combination of project/language exist." +

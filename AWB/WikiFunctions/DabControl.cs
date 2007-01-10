@@ -80,6 +80,7 @@ namespace WikiFunctions.Disambiguation
             // prepare variants
             cmboChoice.Items.Add("[no change]");
             cmboChoice.Items.Add("[unlink]");
+            cmboChoice.Items.Add("{{dn}}");
 
             foreach (string s in Variants) cmboChoice.Items.Add(s);
 
@@ -120,7 +121,7 @@ namespace WikiFunctions.Disambiguation
             {
                 if (char.IsSeparator(ArticleText[n]))
                 {
-                    n--;
+                    //n--;
                     break;
                 }
             }
@@ -165,11 +166,16 @@ namespace WikiFunctions.Disambiguation
                 txtCorrection.Text = Surroundings.Replace(Match.Value, VisibleLink);
                 CurrentLink = VisibleLink;
             }
+            else if (n == 2) // add {{dn}}
+            {
+                CurrentLink = Match.Value + "{{dn}}";
+                txtCorrection.Text = Surroundings.Replace(Match.Value, CurrentLink);
+            }
             else
             {
                 CurrentLink = "[[";
-                if (StartOfSentence) CurrentLink += Tools.TurnFirstToUpper(Variants[n - 2]);
-                else CurrentLink += Variants[n - 2];
+                if (StartOfSentence) CurrentLink += Tools.TurnFirstToUpper(Variants[n - 3]);
+                else CurrentLink += Variants[n - 3];
                 CurrentLink += "|" + VisibleLink + "]]";
                 txtCorrection.Text = Surroundings.Replace(Match.Value, CurrentLink);
             }

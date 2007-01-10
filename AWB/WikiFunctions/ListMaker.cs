@@ -9,10 +9,13 @@ using System.Windows.Forms;
 using System.Threading;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Diagnostics;
 
 namespace WikiFunctions.Lists
 {
-    public enum SourceType { None = -1, Category, WhatLinksHere, WhatTranscludesHere, LinksOnPage, TextFile, GoogleWikipedia, UserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist, WikiSearch }
+    //CategoryRecursive is enabled in debug builds only due to server load
+    //it should always be the last item
+    public enum SourceType { None = -1, Category, WhatLinksHere, WhatTranscludesHere, LinksOnPage, TextFile, GoogleWikipedia, UserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist, WikiSearch, CategoryRecursive }
 
     public delegate void ListMakerEventHandler();
 
@@ -29,10 +32,18 @@ namespace WikiFunctions.Lists
         public ListMaker()
         {
             InitializeComponent();
+            OnDebug();
         }
 
         new public void Refresh()
         { }
+
+        [Conditional("DEBUG")]
+        void OnDebug()
+        {
+            cmboSourceSelect.Items.Add("Category (recursive)");
+        }
+
 
         #region Enumerator
         public IEnumerator<Article> GetEnumerator()
@@ -265,6 +276,12 @@ namespace WikiFunctions.Lists
                     txtSelectSource.Enabled = true;
                     chkWLHRedirects.Visible = false;
                     break;
+                case SourceType.CategoryRecursive:
+                    // debug only
+                    lblSourceSelect.Text = Variables.Namespaces[14];
+                    txtSelectSource.Enabled = true;
+                    chkWLHRedirects.Visible = false;
+                    break;
                 default:
                     lblSourceSelect.Text = "";
                     txtSelectSource.Enabled = false;
@@ -310,7 +327,7 @@ namespace WikiFunctions.Lists
             SourceType ST = SelectedSource;
 
             txtSelectSource.Text = txtSelectSource.Text.Trim('[', ']');
-            if (ST == SourceType.Category)
+            if (ST == SourceType.Category || ST == SourceType.CategoryRecursive)
                 txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[14], "", RegexOptions.IgnoreCase);
             else if (ST == SourceType.UserContribs)
                 txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[2], "", RegexOptions.IgnoreCase);
@@ -572,7 +589,7 @@ namespace WikiFunctions.Lists
 
             foreach (Article a in l)
             {
-                if (!lbArticles.Items.Contains(a))
+                //if (!lbArticles.Items.Contains(a))
                     lbArticles.Items.Add(a);
             }
 
@@ -728,6 +745,11 @@ namespace WikiFunctions.Lists
                     //10 from watchlist
                     case SourceType.WikiSearch:
                         Add(GetLists.FromWikiSearch(strSouce));
+                        break;
+                    case SourceType.CategoryRecursive:
+                        GetLists.QuietMode = true;
+                        Add(GetLists.FromCategory(true, strSouce));
+                        GetLists.QuietMode = false;
                         break;
                     default:
                         break;
@@ -1054,6 +1076,11 @@ namespace WikiFunctions.Lists
         }
 
         #endregion
+
+        private void ListMaker_Load(object sender, EventArgs e)
+        {
+            
+        }
 
     }
 }

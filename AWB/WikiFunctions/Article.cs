@@ -72,10 +72,14 @@ namespace WikiFunctions
 
         public override bool Equals(object obj)
         {
+            if (obj == null || !(obj is Article)) return false;
+            return Name == (obj as Article).Name;
+            /*
             if (obj.GetHashCode() == this.GetHashCode())
                 return true;
             else
                 return false;
+            */
         }
 
         #endregion
