@@ -82,7 +82,7 @@ namespace WikiFunctions.Lists
             this.chkWLHRedirects.AutoSize = true;
             this.chkWLHRedirects.Location = new System.Drawing.Point(4, 58);
             this.chkWLHRedirects.Name = "chkWLHRedirects";
-            this.chkWLHRedirects.Size = new System.Drawing.Size(71, 17);
+            this.chkWLHRedirects.Size = new System.Drawing.Size(72, 17);
             this.chkWLHRedirects.TabIndex = 29;
             this.chkWLHRedirects.Text = "Red. only";
             this.chkWLHRedirects.UseVisualStyleBackColor = true;
@@ -412,6 +412,7 @@ namespace WikiFunctions.Lists
             this.Controls.Add(this.label1);
             this.Name = "ListMaker";
             this.Size = new System.Drawing.Size(214, 350);
+            this.Load += new System.EventHandler(this.ListMaker_Load);
             this.mnuListBox.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

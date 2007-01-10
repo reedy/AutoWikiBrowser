@@ -120,6 +120,8 @@ namespace AutoWikiBrowser
             }
         }
 
+        bool Abort = false;
+
         string LastArticle = "";
         string SettingsFile = "";
         string LastMove = "";
@@ -165,11 +167,11 @@ namespace AutoWikiBrowser
                 UpdateButtons();
                 LoadRecentSettingsList();
 
-                /*
+                //*
                 bool skip;
                 DabForm df = new DabForm();
-                df.Disambiguate("uppsdf  asfasf fdodntr wegtwebr [[link]]. [[to dab#abc]] afsfasfsa\ngrregherher  [[to dab|rw]] errwe sf", 
-                    "", "to dab", new string[]{"foo", "bar"}, out skip);
+                df.Disambiguate("uppsdf  [[fuck|asfasf]] fdodntr wegtwebr [[fuck]]. [[to dab#abc]] afsfasfsa\ngrregherher  [[fuck|rw]] errwe sf", 
+                    "", "fuck", new string[]{"foo", "bar"}, out skip);
                 //*/
             }
             catch (Exception ex)
@@ -374,14 +376,14 @@ namespace AutoWikiBrowser
                 string strOrigText = strText;
                 strText = Process(strText, out skip);
 
-                if (skippable && chkSkipNoChanges.Checked && strText == strOrigText)
+                if (!Abort && skippable && chkSkipNoChanges.Checked && strText == strOrigText)
                 {
                     SkipPage();
                     return;
                 }
             }
 
-            if (skip)
+            if (!Abort && skip)
             {
                 SkipPage();
                 return;
@@ -392,31 +394,40 @@ namespace AutoWikiBrowser
             //Update statistics and alerts
             ArticleInfo(false);
 
-            if (chkAutoMode.Checked && chkQuickSave.Checked)
-                startDelayedAutoSaveTimer();            
-            else if (toolStripComboOnLoad.SelectedIndex == 0)
-                GetDiff();
-            else if (toolStripComboOnLoad.SelectedIndex == 1)
-                GetPreview();
-            else if (toolStripComboOnLoad.SelectedIndex == 2)
+            if (!Abort)
             {
-                if (chkAutoMode.Checked)
-                {
+                if (chkAutoMode.Checked && chkQuickSave.Checked)
                     startDelayedAutoSaveTimer();
-                    return;
-                }
-
-                if (!this.ContainsFocus && FlashAndBeep)
+                else if (toolStripComboOnLoad.SelectedIndex == 0)
+                    GetDiff();
+                else if (toolStripComboOnLoad.SelectedIndex == 1)
+                    GetPreview();
+                else if (toolStripComboOnLoad.SelectedIndex == 2)
                 {
-                    Tools.FlashWindow(this);
-                    Tools.Beep1();
-                }
-                this.Focus();
-                txtEdit.Focus();
-                txtEdit.SelectionLength = 0;
+                    if (chkAutoMode.Checked)
+                    {
+                        startDelayedAutoSaveTimer();
+                        return;
+                    }
 
-                EnableButtons();
+                    if (!this.ContainsFocus && FlashAndBeep)
+                    {
+                        Tools.FlashWindow(this);
+                        Tools.Beep1();
+                    }
+                    this.Focus();
+                    txtEdit.Focus();
+                    txtEdit.SelectionLength = 0;
+
+                    EnableButtons();
+                }
             }
+            else
+            {
+                EnableButtons();
+                Abort = false;
+            }
+            
         }
 
         private bool loadSuccess()
@@ -770,6 +781,9 @@ namespace AutoWikiBrowser
                     DabForm df = new DabForm();
                     articleText = df.Disambiguate(articleText, EdittingArticle.Name, txtDabLink.Text.Trim(), 
                         txtDabVariants.Lines, out SkipArticle);
+
+                    Abort = df.Abort;
+                    if (Abort) Stop();
 
                     if (SkipArticle && chkSkipNoDab.Checked) return articleText;
                 }
@@ -2497,7 +2511,9 @@ namespace AutoWikiBrowser
         {
             try
             {
-                Article link = new Article(txtDabLink.Text);
+                string name = txtDabLink.Text.Trim();
+                if (name.Contains("|")) name = name.Substring(0, name.IndexOf('|') - 1);
+                Article link = new Article(name);
                 List<Article> l = GetLists.FromLinksOnPage(txtDabLink.Text);
                 txtDabVariants.Text = "";
                 foreach (Article a in l)
@@ -2505,8 +2521,9 @@ namespace AutoWikiBrowser
                     uint i;
                     // exclude years
                     if (uint.TryParse(a.Name, out i) && (i < 2100)) continue;
+
                     // disambigs typically link to pages in the same namespace only
-                    ///if (link.NameSpaceKey != a.NameSpaceKey) continue;
+                    if (link.NameSpaceKey != a.NameSpaceKey) continue;
 
                     txtDabVariants.Text += a.Name + "\r\n";
                 }
@@ -2523,6 +2540,17 @@ namespace AutoWikiBrowser
                 case '\r':
                     e.Handled = true;
                     btnLoadLinks_Click(this, null);
+                    break;
+            }
+        }
+
+        private void txtFind_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            switch (e.KeyChar)
+            {
+                case '\r':
+                    e.Handled = true;
+                    btnFind_Click(this, null);
                     break;
             }
         }

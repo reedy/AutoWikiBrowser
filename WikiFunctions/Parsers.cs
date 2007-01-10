@@ -909,8 +909,11 @@ namespace WikiFunctions.Parse
             strOldCat = Regex.Escape(strOldCat);
             strOldCat = Tools.CaseInsensitive(strOldCat);
 
-            strOldCat = "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + " ?" + strOldCat + "( ?\\]\\]| ?\\|[^\\|]*?\\]\\])(\r\n)?";
-            ArticleText = Regex.Replace(ArticleText, strOldCat, "");
+            //broken into two parts to avoid removal of newline when it's not desirable
+            string s = "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + " ?" + strOldCat + "( ?\\]\\]| ?\\|[^\\|]*?\\]\\])\r\n\\[";
+            ArticleText = Regex.Replace(ArticleText, s, "[");
+            s = "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + " ?" + strOldCat + "( ?\\]\\]| ?\\|[^\\|]*?\\]\\])";
+            ArticleText = Regex.Replace(ArticleText, s, "");
 
             return ArticleText;
         }        

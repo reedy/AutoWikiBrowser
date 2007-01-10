@@ -34,6 +34,7 @@ namespace AutoWikiBrowser
             this.btnOpenInBrowser = new System.Windows.Forms.Button();
             this.btnResetAll = new System.Windows.Forms.Button();
             this.btnUndoAll = new System.Windows.Forms.Button();
+            this.btnAbort = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // tableLayout
@@ -42,21 +43,21 @@ namespace AutoWikiBrowser
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayout.AutoScroll = true;
-            this.tableLayout.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.OutsetPartial;
+            this.tableLayout.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.InsetDouble;
             this.tableLayout.ColumnCount = 1;
             this.tableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayout.Location = new System.Drawing.Point(12, 12);
             this.tableLayout.Name = "tableLayout";
             this.tableLayout.RowCount = 1;
             this.tableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayout.Size = new System.Drawing.Size(742, 399);
+            this.tableLayout.Size = new System.Drawing.Size(637, 399);
             this.tableLayout.TabIndex = 0;
             // 
             // btnDone
             // 
             this.btnDone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDone.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnDone.Location = new System.Drawing.Point(679, 417);
+            this.btnDone.Location = new System.Drawing.Point(574, 417);
             this.btnDone.Name = "btnDone";
             this.btnDone.Size = new System.Drawing.Size(75, 23);
             this.btnDone.TabIndex = 1;
@@ -66,7 +67,8 @@ namespace AutoWikiBrowser
             // btnCancel
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCancel.Location = new System.Drawing.Point(598, 417);
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.Location = new System.Drawing.Point(493, 417);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 2;
@@ -79,8 +81,8 @@ namespace AutoWikiBrowser
             this.btnOpenInBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnOpenInBrowser.Location = new System.Drawing.Point(12, 417);
             this.btnOpenInBrowser.Name = "btnOpenInBrowser";
-            this.btnOpenInBrowser.Size = new System.Drawing.Size(121, 23);
-            this.btnOpenInBrowser.TabIndex = 3;
+            this.btnOpenInBrowser.Size = new System.Drawing.Size(110, 23);
+            this.btnOpenInBrowser.TabIndex = 6;
             this.btnOpenInBrowser.Text = "Open in browser";
             this.btnOpenInBrowser.UseVisualStyleBackColor = true;
             this.btnOpenInBrowser.Click += new System.EventHandler(this.btnOpenInBrowser_Click);
@@ -88,10 +90,10 @@ namespace AutoWikiBrowser
             // btnResetAll
             // 
             this.btnResetAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnResetAll.Location = new System.Drawing.Point(139, 417);
+            this.btnResetAll.Location = new System.Drawing.Point(128, 417);
             this.btnResetAll.Name = "btnResetAll";
-            this.btnResetAll.Size = new System.Drawing.Size(121, 23);
-            this.btnResetAll.TabIndex = 4;
+            this.btnResetAll.Size = new System.Drawing.Size(110, 23);
+            this.btnResetAll.TabIndex = 5;
             this.btnResetAll.Text = "Reset all";
             this.btnResetAll.UseVisualStyleBackColor = true;
             this.btnResetAll.Click += new System.EventHandler(this.btnResetAll_Click);
@@ -99,20 +101,32 @@ namespace AutoWikiBrowser
             // btnUndoAll
             // 
             this.btnUndoAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnUndoAll.Location = new System.Drawing.Point(266, 417);
+            this.btnUndoAll.Location = new System.Drawing.Point(244, 417);
             this.btnUndoAll.Name = "btnUndoAll";
-            this.btnUndoAll.Size = new System.Drawing.Size(121, 23);
-            this.btnUndoAll.TabIndex = 5;
+            this.btnUndoAll.Size = new System.Drawing.Size(110, 23);
+            this.btnUndoAll.TabIndex = 4;
             this.btnUndoAll.Text = "Undo all";
             this.btnUndoAll.UseVisualStyleBackColor = true;
             this.btnUndoAll.Click += new System.EventHandler(this.btnUndoAll_Click);
+            // 
+            // btnAbort
+            // 
+            this.btnAbort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAbort.DialogResult = System.Windows.Forms.DialogResult.Abort;
+            this.btnAbort.Location = new System.Drawing.Point(412, 417);
+            this.btnAbort.Name = "btnAbort";
+            this.btnAbort.Size = new System.Drawing.Size(75, 23);
+            this.btnAbort.TabIndex = 3;
+            this.btnAbort.Text = "Abort";
+            this.btnAbort.UseVisualStyleBackColor = true;
             // 
             // DabForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(766, 452);
+            this.ClientSize = new System.Drawing.Size(661, 452);
+            this.Controls.Add(this.btnAbort);
             this.Controls.Add(this.btnUndoAll);
             this.Controls.Add(this.btnResetAll);
             this.Controls.Add(this.btnOpenInBrowser);
@@ -139,5 +153,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Button btnOpenInBrowser;
         private System.Windows.Forms.Button btnResetAll;
         private System.Windows.Forms.Button btnUndoAll;
+        private System.Windows.Forms.Button btnAbort;
     }
 }
