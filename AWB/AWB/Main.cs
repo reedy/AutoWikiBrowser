@@ -167,12 +167,6 @@ namespace AutoWikiBrowser
                 UpdateButtons();
                 LoadRecentSettingsList();
 
-                //*
-                bool skip;
-                DabForm df = new DabForm();
-                df.Disambiguate("uppsdf  [[fuck|asfasf]] fdodntr wegtwebr [[fuck]]. [[to dab#abc]] afsfasfsa\ngrregherher  [[fuck|rw]] errwe sf", 
-                    "", "fuck", new string[]{"foo", "bar"}, out skip);
-                //*/
             }
             catch (Exception ex)
             {
