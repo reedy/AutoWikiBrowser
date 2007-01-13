@@ -328,7 +328,7 @@ namespace WikiFunctions.Lists
 
             txtSelectSource.Text = txtSelectSource.Text.Trim('[', ']');
             if (ST == SourceType.Category || ST == SourceType.CategoryRecursive)
-                txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[14], "", RegexOptions.IgnoreCase);
+                txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.NamespacesCaseInsensitive[14], "", RegexOptions.IgnoreCase);
             else if (ST == SourceType.UserContribs)
                 txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[2], "", RegexOptions.IgnoreCase);
             else if (ST == SourceType.SpecialPage)

@@ -74,7 +74,7 @@ namespace WikiFunctions.Lists
 
             for (int i = 0; i < Categories.Length; i++)
             {
-                string origURL = Variables.URLLong + "/query.php?what=category&cptitle=" + encodeText(Categories[i]) + "&format=xml&cplimit=500";
+                string origURL = Variables.URLLong + "/query.php?what=category&cptitle=Category:" + encodeText(Categories[i]) + "&format=xml&cplimit=500";
                 string URL = origURL;
                 int ns = 0;
                 string title = "";
@@ -808,9 +808,8 @@ namespace WikiFunctions.Lists
 
         private static string encodeText(string txt)
         {
-            txt = txt.Replace("{{", Variables.Namespaces[10]).Replace("}}", "");
-            txt = txt.Replace(" ", "_");
-            txt = HttpUtility.UrlEncode(txt);
+            txt = txt.Replace(' ', '_').Replace("&", "%26");
+            //txt = HttpUtility.UrlEncode(txt);
             return txt;
         }
 
