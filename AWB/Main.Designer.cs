@@ -834,7 +834,7 @@ namespace AutoWikiBrowser
             this.groupBox5.Size = new System.Drawing.Size(266, 71);
             this.groupBox5.TabIndex = 16;
             this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Categores";
+            this.groupBox5.Text = "Categories";
             // 
             // txtNewCategory2
             // 
