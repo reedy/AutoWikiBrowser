@@ -446,32 +446,6 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Fixes mistakes in headings, such as removing links in headings
-        /// </summary>
-        /// <param name="ArticleText">The wiki text of the article.</param>
-        /// <returns>The article text.</returns>
-        public string FixHeadings(string ArticleText)
-        {
-            string s = "";
-
-            //remove simple wiki-links
-            foreach (Match m in WikiRegexes.Heading.Matches(ArticleText))
-            {
-                s = WikiRegexes.UnPipedWikiLink.Replace(m.Value, "$1");
-                ArticleText = ArticleText.Replace(m.Value, s);
-            }
-
-            //remove piped wiki-links
-            foreach (Match m in WikiRegexes.Heading.Matches(ArticleText))
-            {
-                s = WikiRegexes.PipedWikiLink.Replace(m.Value, "$2");
-                ArticleText = ArticleText.Replace(m.Value, s);
-            }
-
-            return ArticleText;
-        }
-
-        /// <summary>
         /// Adds bullet points to external links after "external links" header
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
