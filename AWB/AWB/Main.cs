@@ -713,7 +713,7 @@ namespace AutoWikiBrowser
                         if (Variables.LangCode == LangCodeEnum.en)
                         {//en only
                             articleText = parsers.Conversions(articleText);
-                            articleText = parsers.FixHeadings(articleText);
+                            //articleText = parsers.FixHeadings(articleText);
                             articleText = parsers.FixDates(articleText);
                             articleText = parsers.LivingPeople(articleText, out SkipArticle);
 
