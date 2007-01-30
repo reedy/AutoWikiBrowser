@@ -2,11 +2,7 @@ Imports System.Xml.Serialization
 
 Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
 
-
-    <System.Serializable()> Public Class PluginSettings
-        'Public conNudgeParm As String = NudgeMenuItem.Checked.ToString
-        'Public conShowHideTabsParm As String = ShowHideTabs.ToString
-        'Public conShowManualAssessmentsInstructions As String = blnShowManualAssessmentsInstructions.ToString
-
+    <System.Serializable()> Public Class AWBSettings ' Must be public
+        Public test As String = "MaxSem dies"
     End Class
 End Namespace
