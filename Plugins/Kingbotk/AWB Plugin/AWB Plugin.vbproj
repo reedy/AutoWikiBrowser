@@ -185,6 +185,7 @@
     <Compile Include="PluginSettings.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Settings.vb" />
     <Compile Include="Songs.Designer.vb">
       <DependentUpon>Songs.vb</DependentUpon>
     </Compile>
