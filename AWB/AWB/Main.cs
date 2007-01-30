@@ -1263,6 +1263,7 @@ namespace AutoWikiBrowser
         }
         private void btnFind_Click(object sender, EventArgs e)
         {
+            lblDone.Text = "";
             find(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked);
         }
 
@@ -1309,7 +1310,7 @@ namespace AutoWikiBrowser
                 }
                 else
                 {
-                    MessageBox.Show("No more occurances.", "Done", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                    lblDone.Text = "Done";
                     txtEdit.SelectionStart = 0;
                     txtEdit.SelectionLength = 0;
                     txtEdit.Focus();
