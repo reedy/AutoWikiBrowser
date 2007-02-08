@@ -390,7 +390,7 @@ namespace WikiFunctions.Lists
                 string title = "";
 
                 //Regex pattern to find links
-                Regex RegexGoogle = new Regex("class=l href\\s*=\\s*(?:\"(?<1>[^\"]*)\"|(?<1>\\S+))",
+                Regex RegexGoogle = new Regex("href\\s*=\\s*(?:\"(?<1>[^\"]*)\"|(?<1>\\S+) class=l)",
                     RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
                 do
