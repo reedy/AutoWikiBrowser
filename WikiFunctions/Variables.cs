@@ -765,6 +765,7 @@ namespace WikiFunctions
             }
             else
             {
+                URLEnd = "";
                 LoadProjectOptions(URL);
                 strsummarytag = " ([[Project:AWB|AWB]])";
             }
@@ -794,94 +795,57 @@ namespace WikiFunctions
         {
             Dictionary<int, string> ns = new Dictionary<int, string>();
             string[] months = (string[])enLangMonthNames.Clone();
-            List<string>mwpages = new List<string>();
 
-            string url = URL + "query.php?what=namespaces|content&format=xml&titles=";
+            string url = URL + "index.php?title=Special:Contributions/Dummy_variable";
 
-            foreach(string s in enLangMonthNames)
+            try
             {
-                mwpages.Add(s + "-gen");
-                url += "MediaWiki:" + mwpages[mwpages.Count - 1] + "|";
+                string sr = Tools.GetHTML(url);
+                int ns_number;
+                string ns_name;
+
+                foreach (Match m in Regex.Matches(sr, @"<option value=""([0-9]+)"">(.*?)</option>"))
+                {
+                    ns_number = int.Parse(Regex.Replace(m.ToString(), @"<option value=""([0-9]+)"">(.*?)</option>", "$1"));
+                    ns_name = Regex.Replace(m.ToString(), @"<option value=""([0-9]+)"">(.*?)</option>", "$2");
+                    ns[ns_number] = ns_name + ":";
+                }
+                ns[-1] = "Special:";
+
+                for (int a = 0; a < 12; a++)
+                {
+                    url = URL + "index.php?title=MediaWiki:" + months[a];
+                    sr = Tools.GetHTML(url);
+                    foreach (Match m in Regex.Matches(sr, @">.*?</textarea>"))
+                    {
+                        months[a] = Regex.Replace(m.ToString(), @">(.*?)</textarea>", "$1");
+                    }
+                }
             }
-
-            url = url.Remove(url.Length - 1, 1);
-
-            do// retry loop
+            catch(Exception e)
             {
-                try
+                if (MessageBox.Show("An error occured while loading project information from the server. " +
+                    "Please make sure that your internet connection works and such combination of project/language exist." +
+                    "\r\nEnter the URL of the index.php file in the format \"en.wikipedia.org/w/\"",
+                    "Error loading namespaces", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error) != DialogResult.Retry)
                 {
-                    StringReader sr = new StringReader(Tools.GetHTML(url));
-                    XmlTextReader xml = new XmlTextReader(sr);
-                    xml.MoveToContent();
+                    SetDefaults();
 
-                    string title = "";
-                    string month = "";
-                    bool content = false;
-                    while (xml.Read())
+                    MessageBox.Show("Defaulting to the English Wikipedia settings.", "Project options",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    return;
+                    /*
+                    ns.Clear(); // in case error was caused by XML parsing
+                    foreach (KeyValuePair<int, string> p in Namespaces)
                     {
-                        if (xml.IsStartElement())
-                        {
-                            if(xml.Name == "ns" && !content)
-                            {
-                                if (!xml.IsEmptyElement)
-                                {
-                                    xml.MoveToAttribute("id");
-                                    int id = int.Parse(xml.GetAttribute("id"));
-                                    ns[id] = xml.ReadString() + ":";
-                                }
-                            }
-                            if (xml.Name == "pages") content = true;
-                            if (xml.Name == "title")
-                            {
-                                title = xml.ReadString();
-                                title = title.Remove(0, title.IndexOf(":") + 1);
-                                if (month != "")
-                                {
-                                    months[mwpages.IndexOf(title)] = month;
-                                    month = "";
-                                    title = "";
-                                }
-                            }
-                            if (xml.Name == "content" /*&& mwpages.Contains(title)*/)
-                            {
-                                month = xml.ReadString();
-                                if (title != "")
-                                {
-                                    months[mwpages.IndexOf(title)] = month;
-                                    month = "";
-                                    title = "";
-                                }
-                            }
-                        }
+                        ns.Add(p.Key, p.Value);
                     }
-                   
+
                     break;
+                     */
                 }
-                catch(Exception e)
-                {
-                    if (MessageBox.Show("An error occured while loading project information from the server. " +
-                        "Please make sure that your internet connection works and such combination of project/language exist." +
-                        "\r\nEnter the URL in the format \"en.wikipedia.org/w/\"",
-                        "Error loading namespaces", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error) != DialogResult.Retry)
-                    {
-                        SetDefaults();
-
-                        MessageBox.Show("Defaulting to the English Wikipedia settings.", "Project options",
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                        return;
-                        /*
-                        ns.Clear(); // in case error was caused by XML parsing
-                        foreach (KeyValuePair<int, string> p in Namespaces)
-                        {
-                            ns.Add(p.Key, p.Value);
-                        }
-
-                        break;
-                         */
-                    }
-                }
-            } while (true);
+            }
 
             Namespaces = ns;
             MonthNames = months;
