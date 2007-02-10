@@ -127,6 +127,8 @@ namespace AutoWikiBrowser
         string LastMove = "";
         string LastDelete = "";
 
+        int oldselection = 0;
+
         bool boolSaved = true;
         HideText RemoveText = new HideText(false, true, false);
         List<string> noParse = new List<string>();
@@ -166,7 +168,6 @@ namespace AutoWikiBrowser
                 LoadPrefs();
                 UpdateButtons();
                 LoadRecentSettingsList();
-
             }
             catch (Exception ex)
             {
@@ -1228,17 +1229,25 @@ namespace AutoWikiBrowser
         private void lbDuplicateWikilinks_Click(object sender, EventArgs e)
         {
             int selection = lbDuplicateWikilinks.SelectedIndex;
+            if (selection != oldselection)
+            {
+                resetFind();
+            }
             if (lbDuplicateWikilinks.SelectedIndex != -1)
             {
                 string strLink = Regex.Escape(lbDuplicateWikilinks.SelectedItem.ToString());
                 find("\\[\\[" + strLink + "(\\|.*?)?\\]\\]", true, true);
+                
             }
             else
                 resetFind();
 
             ArticleInfo(false);
             lbDuplicateWikilinks.SelectedIndex = selection;
+
+            oldselection = selection;
         }
+
         private void txtFind_TextChanged(object sender, EventArgs e)
         {
             resetFind();
@@ -2549,6 +2558,5 @@ namespace AutoWikiBrowser
                     break;
             }
         }
-
     }
 }
