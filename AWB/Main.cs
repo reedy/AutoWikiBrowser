@@ -1243,8 +1243,14 @@ namespace AutoWikiBrowser
                 resetFind();
 
             ArticleInfo(false);
-            lbDuplicateWikilinks.SelectedIndex = selection;
-
+            try
+            {
+                lbDuplicateWikilinks.SelectedIndex = selection;
+            }
+            catch
+            {
+                lbDuplicateWikilinks.SelectedIndex = lbDuplicateWikilinks.Items.Count - 1;
+            }
             oldselection = selection;
         }
 
