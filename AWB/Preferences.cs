@@ -66,6 +66,8 @@ namespace AutoWikiBrowser
         private void txtCustomProject_Leave(object sender, EventArgs e)
         {
             txtCustomProject.Text = Regex.Replace(txtCustomProject.Text, "^http://", "", RegexOptions.IgnoreCase);
+            txtCustomProject.Text = txtCustomProject.Text.TrimEnd('/');
+            txtCustomProject.Text = txtCustomProject.Text + "/";
         }
 
         private void cmboProject_SelectedIndexChanged(object sender, EventArgs e)
