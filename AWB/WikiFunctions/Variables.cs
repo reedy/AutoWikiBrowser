@@ -804,47 +804,50 @@ namespace WikiFunctions
                 int ns_number;
                 string ns_name;
 
-                foreach (Match m in Regex.Matches(sr, @"<option value=""([0-9]+)"">(.*?)</option>"))
+                if (Regex.IsMatch(sr, @"<option value=""([0-9]+)"">(.*?)</option>"))
                 {
-                    ns_number = int.Parse(Regex.Replace(m.ToString(), @"<option value=""([0-9]+)"">(.*?)</option>", "$1"));
-                    ns_name = Regex.Replace(m.ToString(), @"<option value=""([0-9]+)"">(.*?)</option>", "$2");
-                    ns[ns_number] = ns_name + ":";
-                }
-                ns[-1] = "Special:";
-
-                for (int a = 0; a < 12; a++)
-                {
-                    url = URL + "index.php?title=MediaWiki:" + months[a];
-                    sr = Tools.GetHTML(url);
-                    foreach (Match m in Regex.Matches(sr, @">.*?</textarea>"))
+                    foreach (Match m in Regex.Matches(sr, @"<option value=""([0-9]+)"">(.*?)</option>"))
                     {
-                        months[a] = Regex.Replace(m.ToString(), @">(.*?)</textarea>", "$1");
+                        ns_number = int.Parse(Regex.Replace(m.ToString(), @"<option value=""([0-9]+)"">(.*?)</option>", "$1"));
+                        ns_name = Regex.Replace(m.ToString(), @"<option value=""([0-9]+)"">(.*?)</option>", "$2");
+                        ns[ns_number] = ns_name + ":";
+                    }
+                    ns[-1] = "Special:";
+
+                    for (int a = 0; a < 12; a++)
+                    {
+                        url = URL + "index.php?title=MediaWiki:" + months[a];
+                        sr = Tools.GetHTML(url);
+                        foreach (Match m in Regex.Matches(sr, @">.*?</textarea>"))
+                        {
+                            months[a] = Regex.Replace(m.ToString(), @">(.*?)</textarea>", "$1");
+                        }
                     }
                 }
+                else
+                    throw new Exception();
             }
             catch(Exception e)
             {
-                if (MessageBox.Show("An error occured while loading project information from the server. " +
+                MessageBox.Show("An error occured while loading project information from the server. " +
                     "Please make sure that your internet connection works and such combination of project/language exist." +
                     "\r\nEnter the URL of the index.php file in the format \"en.wikipedia.org/w/\"",
-                    "Error loading namespaces", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error) != DialogResult.Retry)
-                {
+                    "Error loading namespaces", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     SetDefaults();
 
-                    MessageBox.Show("Defaulting to the English Wikipedia settings.", "Project options",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Defaulting to the English Wikipedia settings.", "Project options",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    return;
-                    /*
-                    ns.Clear(); // in case error was caused by XML parsing
-                    foreach (KeyValuePair<int, string> p in Namespaces)
-                    {
-                        ns.Add(p.Key, p.Value);
-                    }
-
-                    break;
-                     */
+                return;
+                /*
+                ns.Clear(); // in case error was caused by XML parsing
+                foreach (KeyValuePair<int, string> p in Namespaces)
+                {
+                    ns.Add(p.Key, p.Value);
                 }
+
+                break;
+                 */
             }
 
             Namespaces = ns;
