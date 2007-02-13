@@ -218,7 +218,64 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Applies removes some excess whitespace from the article
+        /// Footnote formatting errors per [[WP:FN]].
+        /// </summary>
+        /// <param name="ArticleText">The wiki text of the article.</param>
+        /// <returns>The modified article text.</returns>
+        public string FixFootnotes(string ArticleText)
+        {
+            string factTag = "({{[ ]*fact[ ]*}}|{{[ ]*fact[ ]*[\\|][^}]*}}|{{[ ]*facts[ ]*}}|{{[ ]*citequote[ ]*}}|{{[ ]*citation needed[ ]*}}|{{[ ]*cn[ ]*}}|{{[ ]*verification needed[ ]*}}|{{[ ]*verify source[ ]*}}|{{[ ]*verify credibility[ ]*}}|{{[ ]*who[ ]*}}|{{[ ]*failed verification[ ]*}}|{{[ ]*nonspecific[ ]*}}|{{[ ]*dubious[ ]*}}|{{[ ]*or[ ]*}}|{{[ ]*lopsided[ ]*}}|{{[ ]*GR[ ]*[\\|][ ]*[^ ]+[ ]*}}|{{[ ]*[c]?r[e]?f[ ]*[\\|][^}]*}}|{{[ ]*ref[ _]label[ ]*[\\|][^}]*}}|{{[ ]*ref[ _]num[ ]*[\\|][^}]*}})";
+            ArticleText = Regex.Replace(ArticleText, "[\\n\\r\\f\\t ]+?" + factTag, "$1");
+
+            // One space/linefeed
+            ArticleText = Regex.Replace(ArticleText, "[\\n\\r\\f\\t ]+?<ref([ >])", "<ref$1");
+            // remove trailing spaces from named refs
+            ArticleText = Regex.Replace(ArticleText, "<ref ([^>]*[^>])[ ]*>", "<ref $1>");
+            // removed superscripted punctuation between refs
+            ArticleText = Regex.Replace(ArticleText, "(</ref>|<ref[^>]*?/>)<sup>[ ]*[,;-]?[ ]*</sup><ref", "$1<ref");
+            ArticleText = Regex.Replace(ArticleText, "(</ref>|<ref[^>]*?/>)[ ]*[,;-]?[ ]*<ref", "$1<ref");
+
+            string LacksPunctuation = "([^\\.,;:!\\?\"'’])";
+            string QuestionOrExclam = "([!\\?])";
+            string MinorPunctuation = "([\\.,;:])";
+            string AnyPunctuation = "([\\.,;:!\\?])";
+            string MajorPunctuation = "([,;:!\\?])";
+            string Period = "([\\.])";
+            string Quote = "([\"'’]*)";
+            string Space = "[ ]*";
+
+            string RefTag = "(<ref>([^<]|<[^/]|</[^r]|</r[^e]|</re[^f]|</ref[^>])*?</ref>" + "|<ref[^>]*?[^/]>([^<]|<[^/]|</[^r]|</r[^e]|</re[^f]" + "|</ref[^>])*?</ref>|<ref[^>]*?/>)";
+
+            string match0a = LacksPunctuation + Quote + factTag + Space + AnyPunctuation;
+            string match0b = QuestionOrExclam + Quote + factTag + Space + MajorPunctuation;
+            string match0c = MinorPunctuation + Quote + factTag + Space + AnyPunctuation;
+            string match0d = QuestionOrExclam + Quote + factTag + Space + Period;
+
+            string match1a = LacksPunctuation + Quote + RefTag + Space + AnyPunctuation;
+            string match1b = QuestionOrExclam + Quote + RefTag + Space + MajorPunctuation;
+            string match1c = MinorPunctuation + Quote + RefTag + Space + AnyPunctuation;
+            string match1d = QuestionOrExclam + Quote + RefTag + Space + Period;
+
+            string oldArticleText = "";
+
+            while (oldArticleText != ArticleText)
+            { // repeat for multiple refs together
+                oldArticleText = ArticleText;
+                ArticleText = Regex.Replace(ArticleText, match0a, "$1$2$4$3");
+                ArticleText = Regex.Replace(ArticleText, match0b, "$1$2$4$3");
+                ArticleText = Regex.Replace(ArticleText, match0c, "$2$4$3");
+                ArticleText = Regex.Replace(ArticleText, match0d, "$1$2$3");
+
+                ArticleText = Regex.Replace(ArticleText, match1a, "$1$2$6$3");
+                ArticleText = Regex.Replace(ArticleText, match1b, "$1$2$6$3");
+                ArticleText = Regex.Replace(ArticleText, match1c, "$2$6$3");
+                ArticleText = Regex.Replace(ArticleText, match1d, "$1$2$3");
+            }
+            return ArticleText;
+        }
+
+        /// <summary>
+        /// Applies/removes some excess whitespace from the article
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
