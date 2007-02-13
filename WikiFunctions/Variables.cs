@@ -30,7 +30,7 @@ using System.Reflection;
 
 namespace WikiFunctions
 {
-    public enum LangCodeEnum { en, ca, da, de, eo, es, fi, fr, he, hu, it, ja, nl, no, mi, pl, pt, ru, simple, sk, sl, sv, ta, tj, uk, ur, zh }
+    public enum LangCodeEnum { en, ar, ca, da, de, eo, es, fi, fr, he, hu, it, ja, nl, no, mi, pl, pt, ru, simple, sk, sl, sv, ta, tj, uk, ur, zh }
     public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikiquote, wikiversity, wikibooks, wikinews, commons, meta, species, custom }
 
     /// <summary>
@@ -216,6 +216,30 @@ namespace WikiFunctions
                 {
                     case LangCodeEnum.en:
                         SetToEnglish();
+                        break;
+
+                    case LangCodeEnum.ar:
+                        Namespaces[-2] = "Media:";
+                        Namespaces[-1] = "Special:";
+                        Namespaces[1] = "نقاش:";
+                        Namespaces[2] = "مستخدم:";
+                        Namespaces[3] = "نقاش المستخدم:";
+                        Namespaces[4] = "ويكيبيدي:";
+                        Namespaces[5] = "نقاش ويكيبيدي:";
+                        Namespaces[6] = "صورة:";
+                        Namespaces[7] = "نقاش الصورة:";
+                        Namespaces[8] = "ميدياويكي:";
+                        Namespaces[9] = "نقاش ميدياويكي:";
+                        Namespaces[10] = "قالب:";
+                        Namespaces[11] = "نقاش قالب:";
+                        Namespaces[12] = "مساعدة:";
+                        Namespaces[13] = "نقاش المساعدة:";
+                        Namespaces[14] = "تصني�?:";
+                        Namespaces[15] = "نقاش التصني�?:";
+                        Namespaces[100] = "بواب:";
+                        Namespaces[101] = "نقاش البوابة:";
+
+                        strsummarytag = " [[Project:AWB|AWB]]";
                         break;
 
                     case LangCodeEnum.ca:
@@ -443,21 +467,21 @@ namespace WikiFunctions
                         Namespaces[-1] = "特別:";
                         Namespaces[1] = "ノート:";
                         Namespaces[2] = "利用者:";
-                        Namespaces[3] = "利用者‐会話:";
+                        Namespaces[3] = "利用者�?会話:";
                         Namespaces[4] = "Wikipedia:";
-                        Namespaces[5] = "Wikipedia‐ノート:";
-                        Namespaces[6] = "画像:";
-                        Namespaces[7] = "画像‐ノート:";
+                        Namespaces[5] = "Wikipedia�?ノート:";
+                        Namespaces[6] = "画�?:";
+                        Namespaces[7] = "画�?�?ノート:";
                         Namespaces[8] = "MediaWiki:";
-                        Namespaces[9] = "MediaWiki‐ノート:";
+                        Namespaces[9] = "MediaWiki�?ノート:";
                         Namespaces[10] = "Template:";
-                        Namespaces[11] = "Template‐ノート:";
+                        Namespaces[11] = "Template�?ノート:";
                         Namespaces[12] = "Help:";
-                        Namespaces[13] = "Help‐ノート:";
+                        Namespaces[13] = "Help�?ノート:";
                         Namespaces[14] = "Category:";
-                        Namespaces[15] = "Category‐ノート:";
+                        Namespaces[15] = "Category�?ノート:";
                         Namespaces[100] = "Portal:";
-                        Namespaces[101] = "Portal‐ノート:";
+                        Namespaces[101] = "Portal�?ノート:";
 
                         strsummarytag = " [[Wikipedia:AutoWikiBrowser|AWB]]";
                         break;
@@ -583,29 +607,29 @@ namespace WikiFunctions
 
                     case LangCodeEnum.ru:
                         Namespaces[-2] = "Медиа:";
-                        Namespaces[-1] = "Служебная:";
-                        Namespaces[1] = "Обсуждение:";
-                        Namespaces[2] = "Участник:";
-                        Namespaces[3] = "Обсуждение участника:";
-                        Namespaces[4] = "Википедия:";
-                        Namespaces[5] = "Обсуждение Википедии:";
+                        Namespaces[-1] = "Служебна�?:";
+                        Namespaces[1] = "Об�?уждение:";
+                        Namespaces[2] = "Уча�?тник:";
+                        Namespaces[3] = "Об�?уждение уча�?тника:";
+                        Namespaces[4] = "Википеди�?:";
+                        Namespaces[5] = "Об�?уждение Википедии:";
                         Namespaces[6] = "Изображение:";
-                        Namespaces[7] = "Обсуждение изображения:";
+                        Namespaces[7] = "Об�?уждение изображени�?:";
                         Namespaces[8] = "MediaWiki:";
-                        Namespaces[9] = "Обсуждение MediaWiki:";
+                        Namespaces[9] = "Об�?уждение MediaWiki:";
                         Namespaces[10] = "Шаблон:";
-                        Namespaces[11] = "Обсуждение шаблона:";
+                        Namespaces[11] = "Об�?уждение шаблона:";
                         Namespaces[12] = "Справка:";
-                        Namespaces[13] = "Обсуждение справки:";
-                        Namespaces[14] = "Категория:";
-                        Namespaces[15] = "Обсуждение категории:";
+                        Namespaces[13] = "Об�?уждение �?правки:";
+                        Namespaces[14] = "Категори�?:";
+                        Namespaces[15] = "Об�?уждение категории:";
                         Namespaces[100] = "Портал:";
-                        Namespaces[101] = "Обсуждение портала:";
+                        Namespaces[101] = "Об�?уждение портала:";
 
-                        strsummarytag = " при помощи [[Википедия:AutoWikiBrowser|AWB]]";
+                        strsummarytag = " при помощи [[Википеди�?:AutoWikiBrowser|AWB]]";
                         Stub = "(?:[Ss]tub|[Зз]аготовка)";
-                        MonthNames = new string[12] { "января", "февраля", "марта", "апреля",
-                            "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"};
+                        MonthNames = new string[12] { "�?нвар�?", "феврал�?", "марта", "апрел�?",
+                            "ма�?", "июн�?", "июл�?", "авгу�?та", "�?ент�?бр�?", "окт�?бр�?", "но�?бр�?", "декабр�?"};
                         break;
 
                     case LangCodeEnum.simple:
@@ -651,8 +675,8 @@ namespace WikiFunctions
                         Namespaces[9] = "Pogovor o MediaWiki:";
                         Namespaces[10] = "Predloga:";
                         Namespaces[11] = "Pogovor o predlogi:";
-                        Namespaces[12] = "Pomoč:";
-                        Namespaces[13] = "Pogovor o pomoči:";
+                        Namespaces[12] = "Pomo�?:";
+                        Namespaces[13] = "Pogovor o pomo�?i:";
                         Namespaces[14] = "Kategorija:";
                         Namespaces[15] = "Pogovor o kategoriji:";
 
@@ -687,24 +711,24 @@ namespace WikiFunctions
                     case LangCodeEnum.uk:
                         Namespaces[-2] = "Медіа:";
                         Namespaces[-1] = "Спеціальні:";
-                        Namespaces[1] = "Обговорення:";
-                        Namespaces[2] = "Користувач:";
-                        Namespaces[3] = "Обговорення користувача:";
-                        Namespaces[4] = "Вікіпедія:";
-                        Namespaces[5] = "Обговорення Вікіпедія:";
-                        Namespaces[6] = "Зображення:";
-                        Namespaces[7] = "Обговорення зображення:";
+                        Namespaces[1] = "Обговоренн�?:";
+                        Namespaces[2] = "Кори�?тувач:";
+                        Namespaces[3] = "Обговоренн�? кори�?тувача:";
+                        Namespaces[4] = "Вікіпеді�?:";
+                        Namespaces[5] = "Обговоренн�? Вікіпеді�?:";
+                        Namespaces[6] = "Зображенн�?:";
+                        Namespaces[7] = "Обговоренн�? зображенн�?:";
                         Namespaces[8] = "MediaWiki:";
-                        Namespaces[9] = "Обговорення MediaWiki:";
+                        Namespaces[9] = "Обговоренн�? MediaWiki:";
                         Namespaces[10] = "Шаблон:";
-                        Namespaces[11] = "Обговорення шаблону:";
+                        Namespaces[11] = "Обговоренн�? шаблону:";
                         Namespaces[12] = "Довідка:";
-                        Namespaces[13] = "Обговорення довідки:";
-                        Namespaces[14] = "Категорія:";
-                        Namespaces[15] = "Обговорення категорії:";
+                        Namespaces[13] = "Обговоренн�? довідки:";
+                        Namespaces[14] = "Категорі�?:";
+                        Namespaces[15] = "Обговоренн�? категорії:";
 
                         Stub = "(?:[Ss]tub|[Дд]оробити)";
-                        strsummarytag = " з допомогою [[Вікіпедія:AutoWikiBrowser|AWB]]";
+                        strsummarytag = " з допомогою [[Вікіпеді�?:AutoWikiBrowser|AWB]]";
                         break;
 
                     default:
@@ -739,7 +763,7 @@ namespace WikiFunctions
                 Namespaces[112] = "Aiuto";
                 Namespaces[113] = "Discussioni aiuto";
                 Namespaces[114] = "ヘルプ";
-                Namespaces[115] = "ヘルプ‐ノート";
+                Namespaces[115] = "ヘルプ�?ノート";
                 Namespaces[116] = "NL Help";
                 Namespaces[117] = "Overleg help";
                 Namespaces[118] = "Pomoc";
@@ -751,11 +775,11 @@ namespace WikiFunctions
                 Namespaces[124] = "Hjelp";
                 Namespaces[125] = "Hjelp diskusjon";
                 Namespaces[126] = "帮助";
-                Namespaces[127] = "帮助 对话";
+                Namespaces[127] = "帮助 对�?";
                 Namespaces[128] = "Помощь";
-                Namespaces[129] = "Помощь Дискуссия";
-                Namespaces[130] = "Pomoč";
-                Namespaces[131] = "Pogovor o pomoči";
+                Namespaces[129] = "Помощь Ди�?ку�?�?и�?";
+                Namespaces[130] = "Pomo�?";
+                Namespaces[131] = "Pogovor o pomo�?i";
                 URL = "http://meta.wikimedia.org";
             }
             else if (projectName == ProjectEnum.species)
