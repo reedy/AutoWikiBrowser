@@ -253,35 +253,42 @@ namespace WikiFunctions.Lists
 
             foreach (string Article in Articles)
             {
-                string OrigURL = Variables.URLLong + "query.php?what=links&titles=" + encodeText(Article) + "&format=xml";
-                string URL = OrigURL;
-                string title = "";
-                int ns = 0;
-
-                string html = Tools.GetHTML(URL);
-                if (!html.Contains("<links>"))
-                    throw new PageDoesNotExistException(Article + " either does not exist or has no links. Make sure it is spelt correctly.");
-
-                using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
+                try
                 {
-                    while (reader.Read())
+                    string OrigURL = Variables.URLLong + "query.php?what=links&titles=" + encodeText(Article) + "&format=xml";
+                    string URL = OrigURL;
+                    string title = "";
+                    int ns = 0;
+
+                    string html = Tools.GetHTML(URL);
+                    if (!html.Contains("<links>"))
+                        throw new PageDoesNotExistException("\"" + Article + "\" either does not exist or has no links. Make sure it is spelt correctly.");
+
+                    using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
                     {
-                        if (reader.Name == ("l"))
+                        while (reader.Read())
                         {
-                            if (reader.MoveToAttribute("ns"))
-                                ns = int.Parse(reader.Value);
-                            else
-                                ns = 0;
-
-                            title = reader.ReadString();
-                            list.Add(new Article(title, ns));
-
-                            if (Limit >= 0 && list.Count >= Limit)
+                            if (reader.Name == ("l"))
                             {
-                                break;
+                                if (reader.MoveToAttribute("ns"))
+                                    ns = int.Parse(reader.Value);
+                                else
+                                    ns = 0;
+
+                                title = reader.ReadString();
+                                list.Add(new Article(title, ns));
+
+                                if (Limit >= 0 && list.Count >= Limit)
+                                {
+                                    break;
+                                }
                             }
                         }
                     }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
                 }
             }
 
