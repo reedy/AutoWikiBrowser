@@ -134,34 +134,18 @@ namespace AutoWikiBrowser
             System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser");
         }
 
-        private void lblTimeAndEdits_Click(object sender, EventArgs e)
+        private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
 
+            linkLabel1.LinkVisited = true;
+            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/User:MaxSem");
         }
 
-        private void lblNETVersion_Click(object sender, EventArgs e)
+        private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
 
-        }
-
-        private void lblIEVersion_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblOSVersion_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
+            linkLabel1.LinkVisited = true;
+            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/User:Mets501");
         }
     }
 }
