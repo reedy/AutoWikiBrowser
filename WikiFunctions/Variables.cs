@@ -789,7 +789,8 @@ namespace WikiFunctions
             }
             else
             {
-                URLEnd = "";
+                if (projectName == ProjectEnum.custom)
+                    URLEnd = "";
                 LoadProjectOptions(URL);
                 strsummarytag = " ([[Project:AWB|AWB]])";
             }
@@ -820,15 +821,16 @@ namespace WikiFunctions
             Dictionary<int, string> ns = new Dictionary<int, string>();
             string[] months = (string[])enLangMonthNames.Clone();
 
-            string url = URL + "index.php?title=Special:Contributions/Dummy_variable";
+            string url = URLLong + "index.php?title=Special:Contributions/Dummy_variable";
 
             try
             {
+
                 string sr = Tools.GetHTML(url);
                 int ns_number;
                 string ns_name;
 
-                if (Regex.IsMatch(sr, @"<option value=""([0-9]+)"">(.*?)</option>"))
+                if (Regex.IsMatch(sr, "<option value=\"([0-9]+)\">(.*?)</option>"))
                 {
                     foreach (Match m in Regex.Matches(sr, @"<option value=""([0-9]+)"">(.*?)</option>"))
                     {
@@ -840,7 +842,7 @@ namespace WikiFunctions
 
                     for (int a = 0; a < 12; a++)
                     {
-                        url = URL + "index.php?title=MediaWiki:" + months[a];
+                        url = URLLong + "index.php?title=MediaWiki:" + months[a];
                         sr = Tools.GetHTML(url);
                         foreach (Match m in Regex.Matches(sr, @">.*?</textarea>"))
                         {
@@ -849,7 +851,9 @@ namespace WikiFunctions
                     }
                 }
                 else
+                {
                     throw new Exception();
+                }
             }
             catch(Exception e)
             {
@@ -1061,7 +1065,6 @@ namespace WikiFunctions
 
                 strText = webBrowserLogin.GetArticleText();
                 CheckPageText = strText;
-                MessageBox.Show(CheckPageText);
                 this.Name = webBrowserLogin.UserName();
 
                 //see if we are logged in
