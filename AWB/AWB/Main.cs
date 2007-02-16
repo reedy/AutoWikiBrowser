@@ -718,7 +718,7 @@ namespace AutoWikiBrowser
                             articleText = parsers.FixDates(articleText);
                             articleText = parsers.FixFootnotes(articleText);
                             articleText = parsers.LivingPeople(articleText, out SkipArticle);
-
+                            articleText = parsers.ChangeToDefaultSort(articleText);
                             articleText = parsers.FixHeadings(articleText, EdittingArticle.Name, out SkipArticle);
                             if (Skip.SkipNoHeaderError && SkipArticle)
                                 return articleText;
