@@ -266,6 +266,8 @@ namespace AutoWikiBrowser
             this.btntsFalsePositive = new System.Windows.Forms.ToolStripButton();
             this.lbltsNumberofItems = new System.Windows.Forms.ToolStripLabel();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
+            this.mnuWebBrowser = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.copyToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tpSetOptions.SuspendLayout();
             this.groupBox13.SuspendLayout();
@@ -293,6 +295,7 @@ namespace AutoWikiBrowser
             this.statusStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.toolStrip.SuspendLayout();
+            this.mnuWebBrowser.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -2409,6 +2412,7 @@ namespace AutoWikiBrowser
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.webBrowserEdit.ArticleText = "";
             this.webBrowserEdit.Busy = false;
+            this.webBrowserEdit.ContextMenuStrip = this.mnuWebBrowser;
             this.webBrowserEdit.DiffFontSize = 120;
             this.webBrowserEdit.EnhanceDiffEnabled = true;
             this.webBrowserEdit.IsWebBrowserContextMenuEnabled = false;
@@ -2425,6 +2429,20 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.WebBrowserShortcutsEnabled = false;
             this.webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
             this.webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
+            // 
+            // mnuWebBrowser
+            // 
+            this.mnuWebBrowser.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.copyToolStripMenuItem1});
+            this.mnuWebBrowser.Name = "mnuWebBrowser";
+            this.mnuWebBrowser.Size = new System.Drawing.Size(111, 26);
+            // 
+            // copyToolStripMenuItem1
+            // 
+            this.copyToolStripMenuItem1.Name = "copyToolStripMenuItem1";
+            this.copyToolStripMenuItem1.Size = new System.Drawing.Size(110, 22);
+            this.copyToolStripMenuItem1.Text = "Copy";
+            this.copyToolStripMenuItem1.Click += new System.EventHandler(this.copyToolStripMenuItem1_Click);
             // 
             // MainForm
             // 
@@ -2493,6 +2511,7 @@ namespace AutoWikiBrowser
             this.panel2.ResumeLayout(false);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
+            this.mnuWebBrowser.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2717,6 +2736,8 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.TextBox txtNewCategory2;
         private System.Windows.Forms.CheckBox chkSkipNoDab;
         private System.Windows.Forms.Label lblDone;
+        private System.Windows.Forms.ContextMenuStrip mnuWebBrowser;
+        private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem1;
 
 
     }
