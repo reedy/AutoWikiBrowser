@@ -55,7 +55,7 @@ namespace AutoWikiBrowser
             this.txtCode.Multiline = true;
             this.txtCode.Name = "txtCode";
             this.txtCode.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtCode.Size = new System.Drawing.Size(640, 178);
+            this.txtCode.Size = new System.Drawing.Size(640, 174);
             this.txtCode.TabIndex = 0;
             this.txtCode.Text = resources.GetString("txtCode.Text");
             this.txtCode.WordWrap = false;
@@ -86,7 +86,8 @@ namespace AutoWikiBrowser
             // 
             this.cmboLang.FormattingEnabled = true;
             this.cmboLang.Items.AddRange(new object[] {
-            "C# 2.0"});
+            "C# 2.0",
+            "VB .NET 2.0"});
             this.cmboLang.Location = new System.Drawing.Point(308, 32);
             this.cmboLang.Name = "cmboLang";
             this.cmboLang.Size = new System.Drawing.Size(137, 21);
@@ -119,9 +120,9 @@ namespace AutoWikiBrowser
             this.lblEnd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.lblEnd.Font = new System.Drawing.Font("Courier New", 9F);
-            this.lblEnd.Location = new System.Drawing.Point(9, 412);
+            this.lblEnd.Location = new System.Drawing.Point(9, 408);
             this.lblEnd.Name = "lblEnd";
-            this.lblEnd.Size = new System.Drawing.Size(643, 36);
+            this.lblEnd.Size = new System.Drawing.Size(643, 39);
             this.lblEnd.TabIndex = 6;
             this.lblEnd.Text = "    }\r\n}";
             // 
@@ -188,7 +189,7 @@ namespace AutoWikiBrowser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(664, 457);
+            this.ClientSize = new System.Drawing.Size(664, 466);
             this.Controls.Add(this.chkFixedwidth);
             this.Controls.Add(this.chkModuleEnabled);
             this.Controls.Add(this.lblStatus);
