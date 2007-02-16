@@ -981,8 +981,8 @@ namespace WikiFunctions.Parse
                         allsame = false;
                         break;
                     }
+                    matches++;
                 }
-                matches++;
             }
             if (allsame && matches > 1)
             {

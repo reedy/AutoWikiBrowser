@@ -105,7 +105,6 @@ namespace WikiFunctions.Parse
                 s = "⌊⌊⌊⌊M" + i.ToString() + "⌋⌋⌋⌋";
 
                 ArticleText = ArticleText.Replace(m.Value, s);
-
                 MoreHide.Add(new HideObject(s, m.Value));
                 i++;
             }
@@ -114,7 +113,6 @@ namespace WikiFunctions.Parse
                 s = "⌊⌊⌊⌊M" + i.ToString() + "⌋⌋⌋⌋";
 
                 ArticleText = ArticleText.Replace(m.Value, s);
-
                 MoreHide.Add(new HideObject(s, m.Value));
                 i++;
             }
@@ -134,7 +132,39 @@ namespace WikiFunctions.Parse
                 MoreHide.Add(new HideObject(s, m.Value));
                 i++;
             }
-            foreach (Match m in WikiRegexes.Heading.Matches(ArticleText))
+            foreach (Match m in WikiRegexes.Heading5.Matches(ArticleText))
+            {
+                s = "⌊⌊⌊⌊M" + i.ToString() + "⌋⌋⌋⌋";
+
+                ArticleText = ArticleText.Replace(m.Value, s);
+                MoreHide.Add(new HideObject(s, m.Value));
+                i++;
+            }
+            foreach (Match m in WikiRegexes.Heading4.Matches(ArticleText))
+            {
+                s = "⌊⌊⌊⌊M" + i.ToString() + "⌋⌋⌋⌋";
+
+                ArticleText = ArticleText.Replace(m.Value, s);
+                MoreHide.Add(new HideObject(s, m.Value));
+                i++;
+            }
+            foreach (Match m in WikiRegexes.Heading3.Matches(ArticleText))
+            {
+                s = "⌊⌊⌊⌊M" + i.ToString() + "⌋⌋⌋⌋";
+
+                ArticleText = ArticleText.Replace(m.Value, s);
+                MoreHide.Add(new HideObject(s, m.Value));
+                i++;
+            }
+            foreach (Match m in WikiRegexes.Heading2.Matches(ArticleText))
+            {
+                s = "⌊⌊⌊⌊M" + i.ToString() + "⌋⌋⌋⌋";
+
+                ArticleText = ArticleText.Replace(m.Value, s);
+                MoreHide.Add(new HideObject(s, m.Value));
+                i++;
+            }
+            foreach (Match m in WikiRegexes.Heading1.Matches(ArticleText))
             {
                 s = "⌊⌊⌊⌊M" + i.ToString() + "⌋⌋⌋⌋";
 
