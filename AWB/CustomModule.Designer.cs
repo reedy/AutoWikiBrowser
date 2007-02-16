@@ -55,7 +55,7 @@ namespace AutoWikiBrowser
             this.txtCode.Multiline = true;
             this.txtCode.Name = "txtCode";
             this.txtCode.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtCode.Size = new System.Drawing.Size(640, 174);
+            this.txtCode.Size = new System.Drawing.Size(640, 184);
             this.txtCode.TabIndex = 0;
             this.txtCode.Text = resources.GetString("txtCode.Text");
             this.txtCode.WordWrap = false;
@@ -120,7 +120,7 @@ namespace AutoWikiBrowser
             this.lblEnd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.lblEnd.Font = new System.Drawing.Font("Courier New", 9F);
-            this.lblEnd.Location = new System.Drawing.Point(9, 408);
+            this.lblEnd.Location = new System.Drawing.Point(9, 418);
             this.lblEnd.Name = "lblEnd";
             this.lblEnd.Size = new System.Drawing.Size(643, 39);
             this.lblEnd.TabIndex = 6;
