@@ -997,11 +997,14 @@ namespace WikiFunctions.Lists
             int i = 0;
             foreach (object o in lbArticles.SelectedItems)
             {
-                c[i] = o.ToString();
-                i++;
+                if (o.ToString().Contains(Variables.Namespaces[14]))
+                {
+                    c[i] = o.ToString().Substring(Variables.Namespaces[14].Length);
+                    i++;
+                }
             }
-
-            MakeList(0, c);
+            if (i>0)
+                MakeList(SourceType.Category, c);
         }
 
         private void fromWhatlinkshereToolStripMenuItem_Click(object sender, EventArgs e)
