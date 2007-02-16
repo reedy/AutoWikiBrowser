@@ -1811,6 +1811,11 @@ namespace AutoWikiBrowser
             }
         }
 
+        private void copyToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if ((webBrowserEdit.Document != null)) webBrowserEdit.Document.ExecCommand("Copy", false, System.DBNull.Value);
+        }
+
         private void listToolStripMenuItem_Click(object sender, EventArgs e)
         {
             txtEdit.SelectedText = Tools.HTMLListToWiki(txtEdit.SelectedText, "*");
