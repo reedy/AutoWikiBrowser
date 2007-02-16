@@ -158,8 +158,7 @@ namespace AutoWikiBrowser
 {
     class Module1 : WikiFunctions.Plugin.IModule
     {
-";
-                codeend = "    }\r\n}";
+";                
                 codeexample = @"        public string ProcessArticle(string ArticleText, string ArticleTitle, int Namespace, out string Summary, out bool Skip)
         {
             Skip = false;
@@ -169,17 +168,31 @@ namespace AutoWikiBrowser
 
             return ArticleText;
         }";
+
+                codeend = "    }\r\n}";
             }
             else
             {
-                codestart = @"Imports WikiFunctions
+                codestart = @"Imports System.Collections.Generic
+Imports System.Text.RegularExpressions
+Imports WikiFunctions
 
-Public Class Class1
-    Implements WikiFunctions.Plugin.IModule
-
+Namespace AutoWikiBrowser
+    Public Class Module1
+        Implements WikiFunctions.Plugin.IModule
 ";
-                codeend = "\r\nEnd Class";
-                codeexample = @"";
+                
+                codeexample = @"        Public Function ProcessArticle(ByVal ArticleText As String, ByVal ArticleTitle As String, ByVal Namespace AS Integer, ByRef string Summary, ByRef Skip As Boolean) As String
+            Skip = False
+            Summary = ""test""
+
+            ArticleText = ""test"" & vbCrLf & vbCrLf & ArticleText
+
+            Return ArticleText
+
+        End Function";
+
+                codeend = "     End Class\r\nEnd Namespace";
             }
 
             lblStart.Text = codestart;
