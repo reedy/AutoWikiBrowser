@@ -677,7 +677,10 @@ namespace WikiFunctions.Parse
             if (regexBold.IsMatch(ArticleText))
             {
                 NoChange = false;
-                ArticleText = regexBold.Replace(ArticleText, "$1'''$2'''$3", 1);
+                if (!(ArticleText.IndexOf("Image") != 0))
+                {
+                    ArticleText = regexBold.Replace(ArticleText, "$1'''$2'''$3", 1);
+                }
             }
             else
                 NoChange = true;
