@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.CodeDom.Compiler;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using WikiFunctions.Plugin;
 
 namespace AutoWikiBrowser
@@ -81,7 +82,7 @@ namespace AutoWikiBrowser
                     cp.ReferencedAssemblies.Add(asm.Location);
                 }
 
-                string code = codestart + txtCode.Text + codeend;
+                string code = codestart + txtCode.Text + "\r\n" + codeend;
 
                 CompilerResults results;
                 if (cmboLang.SelectedIndex == 0)
@@ -159,7 +160,7 @@ namespace AutoWikiBrowser
     class Module1 : WikiFunctions.Plugin.IModule
     {
 ";                
-                codeexample = @"        public string ProcessArticle(string ArticleText, string ArticleTitle, int Namespace, out string Summary, out bool Skip)
+                codeexample = @"        public string ProcessArticle(string ArticleText, string ArticleTitle, int wikiNamespace, out string Summary, out bool Skip)
         {
             Skip = false;
             Summary = ""test"";
@@ -181,12 +182,13 @@ Namespace AutoWikiBrowser
     Public Class Module1
         Implements WikiFunctions.Plugin.IModule
 ";
-                
-                codeexample = @"        Public Function ProcessArticle(ByVal ArticleText As String, ByVal ArticleTitle As String, ByVal Namespace As Integer, ByRef Summary As String, ByRef Skip As Boolean) As String
+
+                codeexample = @"        Public Function ProcessArticle(ByVal ArticleText As String, ByVal ArticleTitle As String, ByVal wikiNamespace As Integer, ByRef Summary As String, ByRef Skip As Boolean) As String Implements WikiFunctions.Plugin.IModule.ProcessArticle
             Skip = False
             Summary = ""test""
 
-            ArticleText = ""test \r\n"" & ArticleText
+            'ArticleText = ""test "" & VbCrLf & VbCrLf & ArticleText 'VB Code
+            ArticleText = ""test /r/n/r/n"" & ArticleText 'How C# Wants it
 
             Return ArticleText
 
