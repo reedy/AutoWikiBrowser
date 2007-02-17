@@ -224,8 +224,8 @@ namespace WikiFunctions
                         Namespaces[1] = "نقاش:";
                         Namespaces[2] = "مستخدم:";
                         Namespaces[3] = "نقاش المستخدم:";
-                        Namespaces[4] = "ويكيبيدي:";
-                        Namespaces[5] = "نقاش ويكيبيدي:";
+                        Namespaces[4] = "ويكيبيديا:";
+                        Namespaces[5] = "نقاش ويكيبيديا:";
                         Namespaces[6] = "صورة:";
                         Namespaces[7] = "نقاش الصورة:";
                         Namespaces[8] = "ميدياويكي:";
@@ -234,7 +234,7 @@ namespace WikiFunctions
                         Namespaces[11] = "نقاش قالب:";
                         Namespaces[12] = "مساعدة:";
                         Namespaces[13] = "نقاش المساعدة:";
-                        Namespaces[14] = "تصني?:";
+                        Namespaces[14] = "التصنيف:";
                         Namespaces[15] = "نقاش التصنيف:";
                         Namespaces[100] = "بواب:";
                         Namespaces[101] = "نقاش البوابة:";
