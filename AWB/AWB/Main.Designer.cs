@@ -93,6 +93,7 @@ namespace AutoWikiBrowser
             this.chkAppend = new System.Windows.Forms.CheckBox();
             this.txtAppendMessage = new System.Windows.Forms.TextBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.chkSkipNoCatChange = new System.Windows.Forms.CheckBox();
             this.txtNewCategory2 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.cmboCategorise = new System.Windows.Forms.ComboBox();
@@ -268,6 +269,7 @@ namespace AutoWikiBrowser
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
             this.mnuWebBrowser = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.chkSkipNoImgChange = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tpSetOptions.SuspendLayout();
             this.groupBox13.SuspendLayout();
@@ -629,6 +631,7 @@ namespace AutoWikiBrowser
             // 
             // ImageGroupBox
             // 
+            this.ImageGroupBox.Controls.Add(this.chkSkipNoImgChange);
             this.ImageGroupBox.Controls.Add(this.lblImageWith);
             this.ImageGroupBox.Controls.Add(this.txtImageWith);
             this.ImageGroupBox.Controls.Add(this.txtImageReplace);
@@ -829,6 +832,7 @@ namespace AutoWikiBrowser
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.chkSkipNoCatChange);
             this.groupBox5.Controls.Add(this.txtNewCategory2);
             this.groupBox5.Controls.Add(this.label1);
             this.groupBox5.Controls.Add(this.cmboCategorise);
@@ -840,13 +844,23 @@ namespace AutoWikiBrowser
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Categories";
             // 
+            // chkSkipNoCatChange
+            // 
+            this.chkSkipNoCatChange.AutoSize = true;
+            this.chkSkipNoCatChange.Location = new System.Drawing.Point(12, 44);
+            this.chkSkipNoCatChange.Name = "chkSkipNoCatChange";
+            this.chkSkipNoCatChange.Size = new System.Drawing.Size(53, 17);
+            this.chkSkipNoCatChange.TabIndex = 3;
+            this.chkSkipNoCatChange.Text = "Skip?";
+            this.chkSkipNoCatChange.UseVisualStyleBackColor = true;
+            // 
             // txtNewCategory2
             // 
             this.txtNewCategory2.Enabled = false;
             this.txtNewCategory2.Location = new System.Drawing.Point(153, 42);
             this.txtNewCategory2.Name = "txtNewCategory2";
             this.txtNewCategory2.Size = new System.Drawing.Size(107, 20);
-            this.txtNewCategory2.TabIndex = 5;
+            this.txtNewCategory2.TabIndex = 2;
             this.txtNewCategory2.Leave += new System.EventHandler(this.txtNewCategory2_Leave);
             // 
             // label1
@@ -869,7 +883,7 @@ namespace AutoWikiBrowser
             this.cmboCategorise.Location = new System.Drawing.Point(7, 16);
             this.cmboCategorise.Name = "cmboCategorise";
             this.cmboCategorise.Size = new System.Drawing.Size(140, 21);
-            this.cmboCategorise.TabIndex = 3;
+            this.cmboCategorise.TabIndex = 0;
             this.cmboCategorise.SelectedIndexChanged += new System.EventHandler(this.cmboCategorise_SelectedIndexChanged);
             // 
             // txtNewCategory
@@ -878,7 +892,7 @@ namespace AutoWikiBrowser
             this.txtNewCategory.Location = new System.Drawing.Point(153, 16);
             this.txtNewCategory.Name = "txtNewCategory";
             this.txtNewCategory.Size = new System.Drawing.Size(107, 20);
-            this.txtNewCategory.TabIndex = 0;
+            this.txtNewCategory.TabIndex = 1;
             this.toolTip1.SetToolTip(this.txtNewCategory, "The new category, the old one is specified when you make the list");
             this.txtNewCategory.DoubleClick += new System.EventHandler(this.txtNewCategory_DoubleClick);
             this.txtNewCategory.Leave += new System.EventHandler(this.txtNewCategory_Leave);
@@ -2444,6 +2458,16 @@ namespace AutoWikiBrowser
             this.copyToolStripMenuItem1.Text = "Copy";
             this.copyToolStripMenuItem1.Click += new System.EventHandler(this.copyToolStripMenuItem1_Click);
             // 
+            // chkSkipNoImgChange
+            // 
+            this.chkSkipNoImgChange.AutoSize = true;
+            this.chkSkipNoImgChange.Location = new System.Drawing.Point(9, 42);
+            this.chkSkipNoImgChange.Name = "chkSkipNoImgChange";
+            this.chkSkipNoImgChange.Size = new System.Drawing.Size(53, 17);
+            this.chkSkipNoImgChange.TabIndex = 3;
+            this.chkSkipNoImgChange.Text = "Skip?";
+            this.chkSkipNoImgChange.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2738,6 +2762,8 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Label lblDone;
         private System.Windows.Forms.ContextMenuStrip mnuWebBrowser;
         private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem1;
+        private System.Windows.Forms.CheckBox chkSkipNoCatChange;
+        private System.Windows.Forms.CheckBox chkSkipNoImgChange;
 
 
     }
