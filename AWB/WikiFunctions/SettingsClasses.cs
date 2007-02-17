@@ -36,6 +36,7 @@ namespace WikiFunctions.AWBSettings
         public bool Enabled = false;
         public bool IgnoreSomeText = false;
         public bool AppendSummary = true;
+        public bool AfterOtherFixes = false;
         public List<WikiFunctions.Parse.Replacement> Replacements = new List<WikiFunctions.Parse.Replacement>();
 
         public List<WikiFunctions.MWB.IRule> AdvancedReps = new List<WikiFunctions.MWB.IRule>();
