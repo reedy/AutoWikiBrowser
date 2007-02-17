@@ -46,7 +46,8 @@ namespace AutoWikiBrowser
             this.label6 = new System.Windows.Forms.Label();
             this.txtCustomProject = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.chkFlashAndBeep = new System.Windows.Forms.CheckBox();
+            this.chkBeep = new System.Windows.Forms.CheckBox();
+            this.chkFlash = new System.Windows.Forms.CheckBox();
             this.chkLowPriority = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.fontDialog = new System.Windows.Forms.FontDialog();
@@ -228,12 +229,13 @@ namespace AutoWikiBrowser
             this.txtCustomProject.Size = new System.Drawing.Size(212, 20);
             this.txtCustomProject.TabIndex = 7;
             this.txtCustomProject.Visible = false;
-            this.txtCustomProject.TextChanged += new System.EventHandler(this.edtCustomProject_TextChanged);
             this.txtCustomProject.Leave += new System.EventHandler(this.txtCustomProject_Leave);
+            this.txtCustomProject.TextChanged += new System.EventHandler(this.edtCustomProject_TextChanged);
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.chkFlashAndBeep);
+            this.groupBox2.Controls.Add(this.chkBeep);
+            this.groupBox2.Controls.Add(this.chkFlash);
             this.groupBox2.Controls.Add(this.chkLowPriority);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.chkEnhanceDiff);
@@ -248,17 +250,29 @@ namespace AutoWikiBrowser
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Other";
             // 
-            // chkFlashAndBeep
+            // chkBeep
             // 
-            this.chkFlashAndBeep.AutoSize = true;
-            this.chkFlashAndBeep.Checked = true;
-            this.chkFlashAndBeep.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkFlashAndBeep.Location = new System.Drawing.Point(6, 126);
-            this.chkFlashAndBeep.Name = "chkFlashAndBeep";
-            this.chkFlashAndBeep.Size = new System.Drawing.Size(195, 17);
-            this.chkFlashAndBeep.TabIndex = 14;
-            this.chkFlashAndBeep.Text = "Flash and beep when ready to save";
-            this.chkFlashAndBeep.UseVisualStyleBackColor = true;
+            this.chkBeep.AutoSize = true;
+            this.chkBeep.Checked = true;
+            this.chkBeep.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkBeep.Location = new System.Drawing.Point(63, 125);
+            this.chkBeep.Name = "chkBeep";
+            this.chkBeep.Size = new System.Drawing.Size(51, 17);
+            this.chkBeep.TabIndex = 16;
+            this.chkBeep.Text = "Beep";
+            this.chkBeep.UseVisualStyleBackColor = true;
+            // 
+            // chkFlash
+            // 
+            this.chkFlash.AutoSize = true;
+            this.chkFlash.Checked = true;
+            this.chkFlash.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkFlash.Location = new System.Drawing.Point(6, 125);
+            this.chkFlash.Name = "chkFlash";
+            this.chkFlash.Size = new System.Drawing.Size(51, 17);
+            this.chkFlash.TabIndex = 15;
+            this.chkFlash.Text = "Flash";
+            this.chkFlash.UseVisualStyleBackColor = true;
             // 
             // chkLowPriority
             // 
@@ -322,8 +336,9 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.FontDialog fontDialog;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.CheckBox chkLowPriority;
-        private System.Windows.Forms.CheckBox chkFlashAndBeep;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtCustomProject;
+        private System.Windows.Forms.CheckBox chkBeep;
+        private System.Windows.Forms.CheckBox chkFlash;
     }
 }
