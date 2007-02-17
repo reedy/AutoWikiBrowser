@@ -234,14 +234,14 @@ namespace WikiFunctions
                         Namespaces[11] = "نقاش قالب:";
                         Namespaces[12] = "مساعدة:";
                         Namespaces[13] = "نقاش المساعدة:";
-                        Namespaces[14] = "التصنيف:";
+                        Namespaces[14] = "تصنيف:";
                         Namespaces[15] = "نقاش التصنيف:";
-                        Namespaces[100] = "بواب:";
+                        Namespaces[100] = "بوابة:";
                         Namespaces[101] = "نقاش البوابة:";
 
-                        strsummarytag = " [[Project:AWB|AWB]]";
+                        strsummarytag = "باستخدام [[ويكيبيديا:AWB|الأوتو ويكي براوزر]]";
                         break;
-
+                                             
                     case LangCodeEnum.ca:
                         Namespaces[-2] = "Media:";
                         Namespaces[-1] = "Especial:";
