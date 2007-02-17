@@ -1156,7 +1156,13 @@ namespace WikiFunctions.Parse
             LinkCount = Tools.LinkCount(CommentsStripped);
             Ratio = LinkCount / Length;
 
-            if (words > 6 && !WikiRegexes.Category.IsMatch(CommentsStripped) && !Regex.IsMatch(ArticleText, @"\{\{[Uu]ncategori[zs]ed"))
+            string catHTML = "<div id=\"catlinks\"></div>";
+            if (!WikiRegexes.Category.IsMatch(CommentsStripped))
+            {
+                catHTML = Tools.GetHTML(Variables.URLLong + "index.php?title=" + HttpUtility.UrlEncode(ArticleTitle));
+            }
+
+            if (words > 6 && (catHTML.IndexOf("<div id=\"catlinks\">") == -1) && !Regex.IsMatch(ArticleText, @"\{\{[Uu]ncategori[zs]ed"))
             {
                 if (WikiRegexes.Stub.IsMatch(CommentsStripped))
                 {
