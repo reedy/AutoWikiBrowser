@@ -419,19 +419,7 @@ namespace AutoWikiBrowser
                         return;
                     }
 
-                    if ((!this.ContainsFocus && (Beep && Flash)))
-                    {
-                        Tools.FlashWindow(this);
-                        Tools.Beep1();
-                    }
-                    else if (!this.ContainsFocus && Flash)
-                    {
-                        Tools.FlashWindow(this);
-                    }
-                    else if (!this.ContainsFocus && Beep)
-                    {
-                        Tools.Beep1();
-                    }
+                    bleepflash();
 
                     this.Focus();
                     txtEdit.Focus();
@@ -446,6 +434,23 @@ namespace AutoWikiBrowser
                 Abort = false;
             }
             
+        }
+
+        private void bleepflash()
+        {
+            if (!this.ContainsFocus && (Beep && Flash))
+            {
+                Tools.FlashWindow(this);
+                Tools.Beep1();
+            }
+            else if (!this.ContainsFocus && Flash)
+            {
+                Tools.FlashWindow(this);
+            }
+            else if (!this.ContainsFocus && Beep)
+            {
+                Tools.Beep1();
+            }
         }
 
         private bool loadSuccess()
@@ -527,19 +532,7 @@ namespace AutoWikiBrowser
                 return;
             }
 
-            if ((!this.ContainsFocus && (Beep && Flash)))
-            {
-                Tools.FlashWindow(this);
-                Tools.Beep1();
-            }
-            else if (!this.ContainsFocus && Flash)
-            {
-                Tools.FlashWindow(this);
-            }
-            else if (!this.ContainsFocus && Beep)
-            {
-                Tools.Beep1();
-            }
+            bleepflash();
 
             this.Focus();            
             txtEdit.Focus();
