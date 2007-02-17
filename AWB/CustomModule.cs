@@ -82,7 +82,7 @@ namespace AutoWikiBrowser
                     cp.ReferencedAssemblies.Add(asm.Location);
                 }
 
-                string code = codestart + txtCode.Text + "\r\n" + codeend;
+                string code = codestart + Regex.Replace(txtCode.Text, "VbCrLf", "\"/r/n\"", RegexOptions.IgnoreCase) + "\r\n" + codeend;
 
                 CompilerResults results;
                 if (cmboLang.SelectedIndex == 0)
@@ -187,9 +187,8 @@ Namespace AutoWikiBrowser
             Skip = False
             Summary = ""test""
 
-            'ArticleText = ""test "" & VbCrLf & VbCrLf & ArticleText 'VB Code
-            ArticleText = ""test /r/n/r/n"" & ArticleText 'How C# Wants it
-
+            ArticleText = ""test "" & VbCrLf & VbCrLf & ArticleText
+            
             Return ArticleText
 
         End Function";
