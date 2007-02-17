@@ -164,7 +164,7 @@ namespace AutoWikiBrowser
             Skip = false;
             Summary = ""test"";
 
-            ArticleText = ""test\r\n\r\n"" + ArticleText;
+            ArticleText = ""test \r\n\r\n"" + ArticleText;
 
             return ArticleText;
         }";
@@ -182,22 +182,23 @@ Namespace AutoWikiBrowser
         Implements WikiFunctions.Plugin.IModule
 ";
                 
-                codeexample = @"        Public Function ProcessArticle(ByVal ArticleText As String, ByVal ArticleTitle As String, ByVal Namespace AS Integer, ByRef string Summary, ByRef Skip As Boolean) As String
+                codeexample = @"        Public Function ProcessArticle(ByVal ArticleText As String, ByVal ArticleTitle As String, ByVal Namespace As Integer, ByRef Summary As String, ByRef Skip As Boolean) As String
             Skip = False
             Summary = ""test""
 
-            ArticleText = ""test"" & vbCrLf & vbCrLf & ArticleText
+            ArticleText = ""test \r\n"" & ArticleText
 
             Return ArticleText
 
         End Function";
 
-                codeend = "     End Class\r\nEnd Namespace";
+                codeend = @"     End Class
+End Namespace";
             }
 
             lblStart.Text = codestart;
-            lblEnd.Text = codeend;
             txtCode.Text = codeexample;
+            lblEnd.Text = codeend;
         }
 
         private void guideToolStripMenuItem_Click(object sender, EventArgs e)
