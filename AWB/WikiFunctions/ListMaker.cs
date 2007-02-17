@@ -44,6 +44,8 @@ namespace WikiFunctions.Lists
             cmboSourceSelect.Items.Add("Category (recursive)");
         }
 
+        public string strlbArticlesTooltip = "";
+        public string strtxtNewArticleTooltip = "";
 
         #region Enumerator
         public IEnumerator<Article> GetEnumerator()
@@ -359,13 +361,16 @@ namespace WikiFunctions.Lists
             int nIdx = lbArticles.IndexFromPoint(e.Location);
             if ((nIdx >= 0) && (nIdx < lbArticles.Items.Count))
                 strTip = lbArticles.Items[nIdx].ToString();
-
-            toolTip1.SetToolTip(lbArticles, strTip);
+            if (strTip != strlbArticlesTooltip)
+                toolTip1.SetToolTip(lbArticles, strTip);
+            strlbArticlesTooltip = strTip;
         }
 
         private void txtNewArticle_MouseMove(object sender, MouseEventArgs e)
         {
-            toolTip1.SetToolTip(txtNewArticle, txtNewArticle.Text);
+            if (txtNewArticle.Text != strtxtNewArticleTooltip)
+                toolTip1.SetToolTip(txtNewArticle, txtNewArticle.Text);
+            strtxtNewArticleTooltip = txtNewArticle.Text;
         }
 
         private void lbArticles_KeyDown(object sender, KeyEventArgs e)
