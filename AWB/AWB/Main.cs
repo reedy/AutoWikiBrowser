@@ -996,9 +996,18 @@ namespace AutoWikiBrowser
                     label1.Text = "";
                     txtNewCategory2.Enabled = false;
                 }
+                label2.Enabled = true;
+                label3.Enabled = true;
+                chkSkipNoCatChange.Enabled = true;
             }
             else
             {
+                if (!chkSkipNoImgChange.Enabled)
+                {
+                    label2.Enabled = false;
+                    label3.Enabled = false;
+                }
+                chkSkipNoCatChange.Enabled = false;
                 label1.Text = "";
                 txtNewCategory2.Enabled = false;
                 txtNewCategory.Enabled = false;
@@ -2351,9 +2360,15 @@ namespace AutoWikiBrowser
             if (cmboImages.SelectedIndex == 0)
             {
                 lblImageWith.Text = "";
-                txtImageWith.Visible = true;
+
                 txtImageReplace.Enabled = false;
                 txtImageWith.Enabled = false;
+                if (!chkSkipNoCatChange.Enabled)
+                {
+                    label2.Enabled = false;
+                    label3.Enabled = false;
+                }
+                chkSkipNoImgChange.Enabled = false;
             }
             else if (cmboImages.SelectedIndex == 1)
             {
@@ -2361,8 +2376,9 @@ namespace AutoWikiBrowser
 
                 txtImageWith.Enabled = true;
                 txtImageReplace.Enabled = true;
-                txtImageWith.Enabled = true;
-
+                label2.Enabled = true;
+                label3.Enabled = true;
+                chkSkipNoImgChange.Enabled = true;
             }
             else if (cmboImages.SelectedIndex == 2)
             {
@@ -2370,8 +2386,9 @@ namespace AutoWikiBrowser
 
                 txtImageWith.Enabled = false;
                 txtImageReplace.Enabled = true;
-                txtImageWith.Enabled = false;
-
+                label2.Enabled = true;
+                label3.Enabled = true;
+                chkSkipNoImgChange.Enabled = true;
             }
             else if (cmboImages.SelectedIndex == 3)
             {
@@ -2379,8 +2396,9 @@ namespace AutoWikiBrowser
                 
                 txtImageWith.Enabled = true;
                 txtImageReplace.Enabled = true;
-                txtImageWith.Enabled = true;
-
+                label2.Enabled = true;
+                label3.Enabled = true;
+                chkSkipNoImgChange.Enabled = true;
             }
         }
 
