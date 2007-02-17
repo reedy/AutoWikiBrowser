@@ -145,7 +145,28 @@ namespace WikiFunctions.Parse
             Regex TypoRegex = new Regex("<(?:Typo )?word=\"(.*?)\"[ \\t]find=\"(.*?)\"[ \\t]replace=\"(.*?)\" ?/?>");
             try
             {
-                string text = Tools.GetArticleText(Variables.Namespaces[4] + "AutoWikiBrowser/Typos");
+                string text = "";
+                try
+                {
+                    text = Tools.GetArticleText(Variables.Namespaces[4] + "AutoWikiBrowser/Typos");
+                }
+                catch
+                {
+                    if (text == "")
+                    {
+                        if (MessageBox.Show("No list of typos was found.  Would you like to use the list of typos from the English Wikipedia?\r\nOnly choose OK if this is an English wiki.", "Load from English Wikipedia?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        {
+                            try
+                            {
+                                text = Tools.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/Typos&action=raw&ctype=text/plain&dontcountme=s", Encoding.UTF8);
+                            }
+                            catch
+                            {
+                                MessageBox.Show("There was a problem loading the list of typos.");
+                            }
+                        }
+                    }
+                }
                 foreach (Match m in TypoRegex.Matches(text))
                 {
                     try
