@@ -607,10 +607,15 @@ namespace AutoWikiBrowser
                 RecentList.RemoveAt(5);
 
             recentToolStripMenuItem.DropDown.Items.Clear();
+            int i = 1;
             foreach (string filename in RecentList)
             {
-                ToolStripItem item = recentToolStripMenuItem.DropDownItems.Add(filename);
-                item.Click += RecentSettingsClick;
+                if (i != RecentList.Count)
+                {
+                    i ++;
+                    ToolStripItem item = recentToolStripMenuItem.DropDownItems.Add(filename);
+                    item.Click += RecentSettingsClick;
+                }
             }
         }
 

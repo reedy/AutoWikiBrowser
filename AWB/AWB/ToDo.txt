@@ -1,7 +1,7 @@
 Things to do:
 
 * Migrate to [[m:API]] (rather than QueryAPI), when API is completed
-* Fix VB.NET module
+* Fix VB.NET module - Fixed 17/02/07 - Reedy_Boy
 * Split options to enabled/disable flash + beep
 * Use serialisation for saving settings for IRC monitor (like AWB)
 * Enable other languages for IRC monitor
