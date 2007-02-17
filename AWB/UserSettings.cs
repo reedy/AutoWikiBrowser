@@ -655,6 +655,7 @@ namespace AutoWikiBrowser
             p.FindAndReplace.Enabled = chkFindandReplace.Checked;
             p.FindAndReplace.IgnoreSomeText = findAndReplace.ignoreLinks;
             p.FindAndReplace.AppendSummary = findAndReplace.AppendToSummary;
+            p.FindAndReplace.AfterOtherFixes = findAndReplace.AfterOtherFixes;
             p.FindAndReplace.Replacements = findAndReplace.GetList();
             p.FindAndReplace.AdvancedReps = replaceSpecial.GetRules();
             p.FindAndReplace.SubstTemplates = substTemplates.TemplateList;
@@ -779,6 +780,7 @@ namespace AutoWikiBrowser
             chkFindandReplace.Checked = p.FindAndReplace.Enabled;
             findAndReplace.ignoreLinks = p.FindAndReplace.IgnoreSomeText;
             findAndReplace.AppendToSummary = p.FindAndReplace.AppendSummary;
+            findAndReplace.AfterOtherFixes = p.FindAndReplace.AfterOtherFixes;
             findAndReplace.AddNew(p.FindAndReplace.Replacements);
             replaceSpecial.AddNewRule(p.FindAndReplace.AdvancedReps);
             substTemplates.TemplateList = p.FindAndReplace.SubstTemplates;
