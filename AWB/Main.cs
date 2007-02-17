@@ -671,26 +671,26 @@ namespace AutoWikiBrowser
                 if (cmboImages.SelectedIndex == 1)
                 {
                     articleText = parsers.ReplaceImage(txtImageReplace.Text, txtImageWith.Text, articleText, out SkipArticle);
-                    if (SkipArticle)
+                    if (SkipArticle && chkSkipNoImgChange.Checked)
                         return articleText;
                 }
                 else if (cmboImages.SelectedIndex == 2)
                 {
                     articleText = parsers.RemoveImage(txtImageReplace.Text, articleText, false, txtImageWith.Text, out SkipArticle);
-                    if (SkipArticle)
+                    if (SkipArticle && chkSkipNoImgChange.Checked)
                         return articleText;
                 }
                 else if (cmboImages.SelectedIndex == 3)
                 {
                     articleText = parsers.RemoveImage(txtImageReplace.Text, articleText, true, txtImageWith.Text, out SkipArticle);
-                    if (SkipArticle)
+                    if (SkipArticle && chkSkipNoImgChange.Checked)
                         return articleText;
                 }
 
                 if (cmboCategorise.SelectedIndex == 1)
                 {
                     articleText = parsers.ReCategoriser(txtNewCategory.Text, txtNewCategory2.Text, articleText, out SkipArticle);
-                    if (SkipArticle)
+                    if (SkipArticle && chkSkipNoCatChange.Checked)
                         return articleText;
                 }
                 else if (cmboCategorise.SelectedIndex == 2 && txtNewCategory.Text.Length > 0)
@@ -700,7 +700,7 @@ namespace AutoWikiBrowser
                 else if (cmboCategorise.SelectedIndex == 3 && txtNewCategory.Text.Length > 0)
                 {
                     articleText = parsers.RemoveCategory(txtNewCategory.Text, articleText, out SkipArticle);
-                    if (SkipArticle)
+                    if (SkipArticle && chkSkipNoCatChange.Checked)
                         return articleText;
                 }
 
