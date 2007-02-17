@@ -233,11 +233,25 @@ namespace AutoWikiBrowser
             }
         }
 
-        bool bFlashAndBeep = true;
+        //bool bFlashAndBeep = true;
         private bool FlashAndBeep
         {
-            get { return bFlashAndBeep; }
-            set { bFlashAndBeep = value; }
+            //get { return bFlashAndBeep; }
+            set { bFlash = value; bBeep = value; }
+        }
+
+        bool bFlash = false;
+        private bool Flash
+        {
+            get { return bFlash; }
+            set { bFlash = value; }
+        }
+
+        bool bBeep = false;
+        private bool Beep
+        {
+            get { return bBeep; }
+            set { bBeep = value; }
         }
 
         #endregion
@@ -405,11 +419,20 @@ namespace AutoWikiBrowser
                         return;
                     }
 
-                    if (!this.ContainsFocus && FlashAndBeep)
+                    if ((!this.ContainsFocus && (Beep && Flash)))
                     {
                         Tools.FlashWindow(this);
                         Tools.Beep1();
                     }
+                    else if (!this.ContainsFocus && Flash)
+                    {
+                        Tools.FlashWindow(this);
+                    }
+                    else if (!this.ContainsFocus && Beep)
+                    {
+                        Tools.Beep1();
+                    }
+
                     this.Focus();
                     txtEdit.Focus();
                     txtEdit.SelectionLength = 0;
@@ -504,9 +527,17 @@ namespace AutoWikiBrowser
                 return;
             }
 
-            if (!this.ContainsFocus && FlashAndBeep)
+            if ((!this.ContainsFocus && (Beep && Flash)))
             {
                 Tools.FlashWindow(this);
+                Tools.Beep1();
+            }
+            else if (!this.ContainsFocus && Flash)
+            {
+                Tools.FlashWindow(this);
+            }
+            else if (!this.ContainsFocus && Beep)
+            {
                 Tools.Beep1();
             }
 
@@ -1397,7 +1428,7 @@ namespace AutoWikiBrowser
 
         private void selectProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MyPreferences MyPrefs = new MyPreferences(Variables.LangCode, Variables.Project, Variables.CustomProject, webBrowserEdit.EnhanceDiffEnabled, webBrowserEdit.ScrollDown, webBrowserEdit.DiffFontSize, txtEdit.Font, LowThreadPriority, FlashAndBeep);
+            MyPreferences MyPrefs = new MyPreferences(Variables.LangCode, Variables.Project, Variables.CustomProject, webBrowserEdit.EnhanceDiffEnabled, webBrowserEdit.ScrollDown, webBrowserEdit.DiffFontSize, txtEdit.Font, LowThreadPriority, Flash, Beep);
 
             if (MyPrefs.ShowDialog(this) == DialogResult.OK)
             {
@@ -1406,7 +1437,9 @@ namespace AutoWikiBrowser
                 webBrowserEdit.DiffFontSize = MyPrefs.DiffFontSize;
                 txtEdit.Font = MyPrefs.TextBoxFont;
                 LowThreadPriority = MyPrefs.LowThreadPriority;
-                FlashAndBeep = MyPrefs.FlashAndBeep;
+                //FlashAndBeep = MyPrefs.FlashAndBeep;
+                Flash = MyPrefs.perfFlash;
+                Beep = MyPrefs.perfBeep;
 
                 if (MyPrefs.Language != Variables.LangCode || MyPrefs.Project != Variables.Project || MyPrefs.CustomProject != Variables.CustomProject)
                 {

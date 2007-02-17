@@ -120,6 +120,8 @@ namespace AutoWikiBrowser
             txtEdit.Font = f;
             LowThreadPriority = false;
             FlashAndBeep = true;
+            Flash = true;
+            Beep = true;
             chkLock.Checked = false;
 
 
@@ -535,7 +537,15 @@ namespace AutoWikiBrowser
                                 LowThreadPriority = bool.Parse(reader.Value);
 
                             if (reader.MoveToAttribute("flashandbeep"))
-                                FlashAndBeep = bool.Parse(reader.Value);
+                            {
+                               FlashAndBeep = bool.Parse(reader.Value);
+                            }
+
+                            if (reader.MoveToAttribute("flash"))
+                                Flash = bool.Parse(reader.Value);
+
+                            if (reader.MoveToAttribute("beep"))
+                                Beep = bool.Parse(reader.Value);
 
                             continue;
                         }
@@ -747,7 +757,11 @@ namespace AutoWikiBrowser
             p.General.TextBoxSize = (int)txtEdit.Font.Size;
 
             p.General.LowThreadPriority = LowThreadPriority;
-            p.General.FlashAndBeep = FlashAndBeep;
+            p.General.FlashAndBeep = false;
+
+            p.General.Flash = Flash;
+            p.General.Beep = Beep;
+            
             p.General.LockSummary = chkLock.Checked;
 
             p.Disambiguation.Enabled = chkEnableDab.Checked;
@@ -788,8 +802,7 @@ namespace AutoWikiBrowser
             listMaker1.SourceText = p.List.ListSource;
             listMaker1.SelectedSource = p.List.Source;
             listMaker1.Add(p.List.ArticleList);
-
-
+            
             chkGeneralFixes.Checked = p.Editprefs.GeneralFixes;
             chkAutoTagger.Checked = p.Editprefs.Tagger;
             chkUnicodifyWhole.Checked = p.Editprefs.Unicodify;
@@ -811,8 +824,7 @@ namespace AutoWikiBrowser
             chkSuppressTag.Checked = p.Editprefs.SuppressTag;
 
             chkRegExTypo.Checked = p.Editprefs.RegexTypoFix;
-
-
+            
             chkSkipNonExistent.Checked = p.SkipOptions.SkipNonexistent;
             chkSkipNoChanges.Checked = p.SkipOptions.SkipWhenNoChanges;
 
@@ -872,7 +884,25 @@ namespace AutoWikiBrowser
             txtEdit.Font = f;
 
             LowThreadPriority = p.General.LowThreadPriority;
-            FlashAndBeep = p.General.FlashAndBeep;
+            //FlashAndBeep = p.General.FlashAndBeep;
+
+            if (p.General.Flash == p.General.FlashAndBeep)
+            {
+                Flash = p.General.FlashAndBeep;
+            }
+            else
+            {
+                Flash = p.General.Flash;
+            }
+
+            if (p.General.Beep == p.General.FlashAndBeep)
+            {
+                Beep = p.General.FlashAndBeep;
+            }
+            else
+            {
+                Beep = p.General.Beep;
+            }
             chkLock.Checked = p.General.LockSummary;
 
             chkEnableDab.Checked = p.Disambiguation.Enabled;

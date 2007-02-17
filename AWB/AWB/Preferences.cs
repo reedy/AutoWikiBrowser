@@ -12,7 +12,7 @@ namespace AutoWikiBrowser
 {
     public partial class MyPreferences : Form
     {
-        public MyPreferences(LangCodeEnum lang, ProjectEnum proj, string customproj, bool EDiff, bool SDown, int DiffSize, Font TextFont, bool LowPriority, bool FlashBeep)
+        public MyPreferences(LangCodeEnum lang, ProjectEnum proj, string customproj, bool EDiff, bool SDown, int DiffSize, Font TextFont, bool LowPriority, bool Flash, bool Beep)
         {
             InitializeComponent();
 
@@ -32,7 +32,9 @@ namespace AutoWikiBrowser
             DiffFontSize = DiffSize;
             TextBoxFont = TextFont;
             LowThreadPriority = LowPriority;
-            FlashAndBeep = FlashBeep;
+            //FlashAndBeep = FlashBeep;
+            perfFlash = Flash;
+            perfBeep = Beep;
 
             cmboProject_SelectedIndexChanged(null, null);
         }
@@ -142,8 +144,20 @@ namespace AutoWikiBrowser
 
         public bool FlashAndBeep
         {
-            get { return chkFlashAndBeep.Checked; }
-            set { chkFlashAndBeep.Checked = value; }
+            //get { return chkFlashAndBeep.Checked; }
+            set { chkFlash.Checked = value; chkBeep.Checked = value; }
+        }
+
+        public bool perfFlash
+        {
+            get { return chkFlash.Checked; }
+            set { chkFlash.Checked = value; }
+        }
+
+        public bool perfBeep
+        {
+            get { return chkBeep.Checked; }
+            set { chkBeep.Checked = value; }
         }
 
         #endregion
