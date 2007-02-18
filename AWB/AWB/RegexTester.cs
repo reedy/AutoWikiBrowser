@@ -36,25 +36,13 @@ namespace AutoWikiBrowser
                 else if (!Multiline.Checked && !Casesensitive.Checked) r = new Regex(Find.Text, RegexOptions.IgnoreCase);
                 else r = new Regex(Find.Text);
 
-                if (Replace.Text.Trim() == "")
-                {
-                    int n = 0;
-                    foreach (Match m in r.Matches(Source.Text))
-                    {
-                        ResultList.Items.Add(m.Value);
-                        n++;
-                    }
-                    Status.Text = n.ToString() + " matches found";
-                    ResultList.Visible = true;
-                    ResultText.Visible = false;
-                }
+                ResultText.Text = r.Replace(Source.Text, Replace.Text);
+                if (r.Matches(Source.Text).Count != 1)
+                    Status.Text = r.Matches(Source.Text).Count.ToString() + " replacements performed";
                 else
-                {
-                    ResultText.Text = r.Replace(Source.Text, Replace.Text);
-                    Status.Text = "Replacement(s) performed";
-                    ResultList.Visible = false;
-                    ResultText.Visible = true;
-                }
+                    Status.Text = "1 replacements performed";
+                ResultList.Visible = false;
+                ResultText.Visible = true;
             }
             catch (Exception ex)
             {
