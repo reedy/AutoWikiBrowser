@@ -1279,6 +1279,10 @@ namespace AutoWikiBrowser
             ArticleInfo(false);
             try
             {
+                if (lbDuplicateWikilinks.Items.Count != selection + 2)
+                    lbDuplicateWikilinks.SelectedIndex = selection + 2;
+                else
+                    lbDuplicateWikilinks.SelectedIndex = selection + 1;
                 lbDuplicateWikilinks.SelectedIndex = selection;
             }
             catch
