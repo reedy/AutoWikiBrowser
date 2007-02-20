@@ -957,43 +957,49 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <returns>The article text possibly using defaultsort.</returns>
-        public string ChangeToDefaultSort(string ArticleText)
+        public string ChangeToDefaultSort(string ArticleText, string ArticleTitle)
         {
-            string sort = "";
-            bool allsame = false;
-            int matches = 0;
-
-            //format categories properly
-            ArticleText = FixCategories(ArticleText);
-
-            //broken into two parts to avoid removal of newline when it's not desirable
-            string s = "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + " ?(.*?)( ?\\]\\]| ?\\|[^\\|]*?\\]\\])";
-            foreach (Match m in Regex.Matches(ArticleText, s))
+            if (!Regex.IsMatch(ArticleText, "defaultsort", RegexOptions.IgnoreCase))
             {
-                if (m.Result("$2") != "]]")
-                {
-                    if (sort == "")
-                        sort = m.Result("$2");
-                    if (sort == m.Result("$2"))
-                    {
-                        allsame = true;
-                        sort = m.Result("$2");
-                    }
-                    else
-                    {
-                        allsame = false;
-                        break;
-                    }
-                    matches++;
-                }
-            }
-            if (allsame && matches > 1)
-            {
+                string sort = "";
+                bool allsame = false;
+                int matches = 0;
+
+                //format categories properly
+                ArticleText = FixCategories(ArticleText);
+
+                //broken into two parts to avoid removal of newline when it's not desirable
+                string s = "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + " ?(.*?)( ?\\]\\]| ?\\|[^\\|]*?\\]\\])";
                 foreach (Match m in Regex.Matches(ArticleText, s))
                 {
-                    ArticleText = Regex.Replace(ArticleText, s, "[[" + Variables.Namespaces[14] + "$1]]");
+                    if (m.Result("$2") != "]]")
+                    {
+                        if (sort == "")
+                            sort = m.Result("$2");
+                        if (sort == m.Result("$2"))
+                        {
+                            allsame = true;
+                            sort = m.Result("$2");
+                        }
+                        else
+                        {
+                            allsame = false;
+                            break;
+                        }
+                        matches++;
+                    }
                 }
-                ArticleText = ArticleText + "\r\n{{DEFAULTSORT:" + sort.TrimStart('|').TrimEnd(']') + "}}";
+                if (allsame && matches > 1)
+                {
+                    foreach (Match m in Regex.Matches(ArticleText, s))
+                    {
+                        ArticleText = Regex.Replace(ArticleText, s, "[[" + Variables.Namespaces[14] + "$1]]");
+                    }
+                    if (sort.TrimStart('|').TrimEnd(']') != ArticleTitle)
+                    {
+                        ArticleText = ArticleText + "\r\n{{DEFAULTSORT:" + sort.TrimStart('|').TrimEnd(']') + "}}";
+                    }
+                }
             }
             return ArticleText;
         }
