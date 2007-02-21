@@ -269,7 +269,8 @@ namespace WikiFunctions.MWB
         {
             Rule r = (Rule)tn.Tag;
 
-            if (r.replace_ != null && r.with_ != null && r.replace_ != "" && r.with_ != "")
+            //if (r.replace_ != null && r.with_ != null && r.replace_ != "" && r.with_ != "")
+            if (r.replace_ != null && r.replace_ != "")
             {
                 string replace = r.replace_.Replace("%%title%%", title);
                 string with = r.with_.Replace("%%title%%", title);
