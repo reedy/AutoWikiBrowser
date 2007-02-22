@@ -41,7 +41,7 @@ namespace WikiFunctions.Lists
         public static bool QuietMode = false;
 
         readonly static Regex regexli = new Regex("<li>.*</li>", RegexOptions.Compiled);
-        readonly static Regex regexe = new Regex("<li>[^<]*<a [^>]*>([^<]*)</a>", RegexOptions.Compiled);
+        readonly static Regex regexe = new Regex("<li>\\(?<a href=\"[^\"]*\" title=\"([^\"]*)\">[^<>]*</a> \\(redirect page\\)", RegexOptions.Compiled);
         readonly static Regex regexe2 = new Regex("<a href=\"[^\"]*\" title=\"([^\"]*)\">[^<>]*</a>", RegexOptions.Compiled);
         readonly static Regex RegexFromFile = new Regex("(^[a-z]{2,3}:)|(simple:)", RegexOptions.Compiled);
         readonly static Regex regexWatchList = new Regex("<LI><INPUT type=checkbox value=(.*?) name=id\\[\\]", RegexOptions.Compiled);
@@ -142,7 +142,6 @@ namespace WikiFunctions.Lists
         /// Gets a list of articles that link to the given page.
         /// </summary>
         /// <param name="Page">The page to find links to.</param>
-        /// <param name="RedirectsOnly">Only list redirects.</param>
         /// <param name="Embedded">Gets articles that embed (transclude).</param>
         /// <returns>The list of the articles.</returns>
         public static List<Article> FromWhatLinksHere(bool Embedded, params string[] Pages)
@@ -153,8 +152,7 @@ namespace WikiFunctions.Lists
         /// <summary>
         /// Gets a list of articles that link to the given page.
         /// </summary>
-        /// <param name="Page">The page to find links to.</param>
-        /// <param name="RedirectsOnly">Only list redirects.</param>
+        /// <param name="Pages">The page to find links to.</param>
         /// <param name="Embedded">Gets articles that embed (transclude).</param>
         /// <param name="Limit">The maximum number of results resulted..</param>
         /// <returns>The list of the articles.</returns>
@@ -222,6 +220,75 @@ namespace WikiFunctions.Lists
                     if (!more)
                         break;
                 }
+            }
+
+            return list;
+        }
+
+        #endregion
+
+        #region From redirects
+
+        /// <summary>
+        /// Gets a list of articles that redirect to the given page.
+        /// </summary>
+        /// <param name="Pages">The page to find redirects to.</param>
+        /// <returns>The list of the articles.</returns>
+        public static List<Article> FromRedirects(params string[] Pages)
+        {
+            return FromRedirects(-1, Pages);
+        }
+
+        /// <summary>
+        /// Gets a list of articles that link to the given page.
+        /// </summary>
+        /// <param name="Page">The page to find links to.</param>
+        /// <param name="RedirectsOnly">Only list redirects.</param>
+        /// <param name="Embedded">Gets articles that embed (transclude).</param>
+        /// <param name="Limit">The maximum number of results resulted..</param>
+        /// <returns>The list of the articles.</returns>
+        public static List<Article> FromRedirects(int Limit, params string[] Pages)
+        {
+            List<Article> list = new List<Article>();
+
+            foreach (string page in Pages)
+            {
+                string Page = page;
+                Page = encodeText(Page);
+                string URL = Variables.URLLong + "index.php?title=Special:Whatlinkshere&target=" + Page + "&limit=5000&offset=0";
+                
+                do
+                {
+                    string PageText = Tools.GetHTML(URL);
+
+                    if (PageText.Contains("No pages link to here."))
+                        throw new Exception("No pages link to " + Page + ". Make sure it is spelt correctly.");
+
+                    foreach (Match m in regexe.Matches(PageText))
+                    {
+                        string pagetitle = m.Groups[1].Value;
+                        bool added = false;
+                        foreach (KeyValuePair<int, string> Namespace in Variables.Namespaces)
+                        {
+                            if (pagetitle.Contains(Namespace.Value))
+                            {
+                                list.Add(new Article(pagetitle, Namespace.Key));
+                                added = true;
+                            }
+                        }
+                        if (!added)
+                            list.Add(new Article(pagetitle, 0));
+                    }
+                    if (PageText.Contains(">next 5,000<"))
+                    {
+                        Match m = Regex.Match(PageText, "from=(.*?)\" title=\"(.*?)\"" + ">next 5,000<", RegexOptions.RightToLeft);
+                        string strPage = m.Groups[1].Value;
+                        URL = Variables.URLLong + "index.php?title=Special:Whatlinkshere&target=" + Page + "&limit=5000&from=" + strPage;
+                    }
+                    else
+                        break;
+
+                } while (true);
             }
 
             return list;

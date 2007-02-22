@@ -15,7 +15,7 @@ namespace WikiFunctions.Lists
 {
     //CategoryRecursive is enabled in debug builds only due to server load
     //it should always be the last item
-    public enum SourceType { None = -1, Category, WhatLinksHere, WhatTranscludesHere, LinksOnPage, TextFile, GoogleWikipedia, UserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist, WikiSearch, CategoryRecursive }
+    public enum SourceType { None = -1, Category, WhatLinksHere, WhatTranscludesHere, LinksOnPage, TextFile, GoogleWikipedia, UserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist, WikiSearch, Redirects, CategoryRecursive}
 
     public delegate void ListMakerEventHandler();
 
@@ -32,6 +32,10 @@ namespace WikiFunctions.Lists
         public ListMaker()
         {
             InitializeComponent();
+            if (Variables.LangCode == LangCodeEnum.en)
+            {
+                cmboSourceSelect.Items.Add("Redirects");
+            }
             OnDebug();
         }
 
@@ -90,6 +94,18 @@ namespace WikiFunctions.Lists
             lbArticles.Items.Clear();
             Saved = false;
             UpdateNumberOfArticles();
+        }
+
+        /// <summary>
+        /// Removes/Adds the "Redirects" option from/to the list
+        /// </summary>
+        public void AddRemoveRedirects()
+        {
+            if (Variables.LangCode != LangCodeEnum.en)
+                cmboSourceSelect.Items.Remove("Redirects");
+            else
+                if (!cmboSourceSelect.Items.Contains("Redirects"))
+                    cmboSourceSelect.Items.Add("Redirects");
         }
 
         /// <summary>
@@ -275,6 +291,11 @@ namespace WikiFunctions.Lists
                     break;
                 case SourceType.WikiSearch:
                     lblSourceSelect.Text = "Wiki search";
+                    txtSelectSource.Enabled = true;
+                    chkWLHRedirects.Visible = false;
+                    break;
+                case SourceType.Redirects:
+                    lblSourceSelect.Text = "Redirects to:";
                     txtSelectSource.Enabled = true;
                     chkWLHRedirects.Visible = false;
                     break;
@@ -636,7 +657,7 @@ namespace WikiFunctions.Lists
             foreach (Article a in l)
             {
                 //if (!lbArticles.Items.Contains(a))
-                    lbArticles.Items.Add(a);
+                lbArticles.Items.Add(a);
             }
 
             lbArticles.EndUpdate();
@@ -741,7 +762,7 @@ namespace WikiFunctions.Lists
             else
             {
                 Source = ST;
-                strSouce = SourceValues;
+                strSource = SourceValues;
 
                 ThreadStart thr_Process = new ThreadStart(MakeList2);
                 ListerThread = new Thread(thr_Process);
@@ -751,7 +772,7 @@ namespace WikiFunctions.Lists
         }
 
         SourceType Source = SourceType.Category;
-        string[] strSouce;
+        string[] strSource;
 
         private void MakeList2()
         {
@@ -763,38 +784,41 @@ namespace WikiFunctions.Lists
                 switch (Source)
                 {
                     case SourceType.Category:
-                        Add(GetLists.FromCategory(false, strSouce));
+                        Add(GetLists.FromCategory(false, strSource));
                         break;
                     case SourceType.WhatLinksHere:
-                        Add(GetLists.FromWhatLinksHere(false, strSouce));
+                        Add(GetLists.FromWhatLinksHere(false, strSource));
                         break;
                     case SourceType.WhatTranscludesHere:
-                        Add(GetLists.FromWhatLinksHere(true, strSouce));
+                        Add(GetLists.FromWhatLinksHere(true, strSource));
                         break;
                     case SourceType.LinksOnPage:
-                        Add(GetLists.FromLinksOnPage(strSouce));
+                        Add(GetLists.FromLinksOnPage(strSource));
                         break;
                     //4 from text file
                     case SourceType.GoogleWikipedia:
-                        Add(GetLists.FromGoogleSearch(strSouce));
+                        Add(GetLists.FromGoogleSearch(strSource));
                         break;
                     case SourceType.UserContribs:
-                        Add(GetLists.FromUserContribs(strSouce));
+                        Add(GetLists.FromUserContribs(strSource));
                         break;
                     case SourceType.SpecialPage:
-                        Add(GetLists.FromSpecialPage(strSouce));
+                        Add(GetLists.FromSpecialPage(strSource));
                         break;
                     case SourceType.ImageFileLinks:
-                        Add(GetLists.FromImageLinks(strSouce));
+                        Add(GetLists.FromImageLinks(strSource));
                         break;
                     //9 from datadump
                     //10 from watchlist
                     case SourceType.WikiSearch:
-                        Add(GetLists.FromWikiSearch(strSouce));
+                        Add(GetLists.FromWikiSearch(strSource));
+                        break;
+                    case SourceType.Redirects:
+                        Add(GetLists.FromRedirects(strSource));
                         break;
                     case SourceType.CategoryRecursive:
                         GetLists.QuietMode = true;
-                        Add(GetLists.FromCategory(true, strSouce));
+                        Add(GetLists.FromCategory(true, strSource));
                         GetLists.QuietMode = false;
                         break;
                     default:
@@ -923,7 +947,7 @@ namespace WikiFunctions.Lists
             //filter out non-mainspace articles
             int i = 0;
             string s = "";
-            
+
             lbArticles.BeginUpdate();
             while (i < lbArticles.Items.Count)
             {
@@ -1034,7 +1058,7 @@ namespace WikiFunctions.Lists
         private void convertFromTalkPagesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ConvertFromTalkPages();
-        }        
+        }
 
         private void fromCategoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1049,7 +1073,7 @@ namespace WikiFunctions.Lists
                     i++;
                 }
             }
-            if (i>0)
+            if (i > 0)
                 MakeList(SourceType.Category, c);
         }
 

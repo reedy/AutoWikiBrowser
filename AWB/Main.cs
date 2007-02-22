@@ -1463,6 +1463,8 @@ namespace AutoWikiBrowser
                 }
             }
             MyPrefs = null;
+
+            listMaker1.AddRemoveRedirects();
         }
 
         private void SetProject(LangCodeEnum Code, ProjectEnum Project, string CustomProject)
