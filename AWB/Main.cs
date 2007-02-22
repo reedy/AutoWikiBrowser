@@ -150,6 +150,7 @@ namespace AutoWikiBrowser
             //tabControl1.TabPages.Remove(tpDab);
 
             //check that we are not using an old OS. 98 seems to mangled some unicode.
+
             try
             {
                 if (Environment.OSVersion.Version.Major < 5)
@@ -463,6 +464,7 @@ namespace AutoWikiBrowser
                     StartDelayedRestartTimer(60);
                     return false;
                 }
+
                 if (HTML.Contains("<H1 class=firstHeading>View source</H1>"))
                 {
                     SkipPage();
@@ -564,6 +566,7 @@ namespace AutoWikiBrowser
         {
             if (webBrowserEdit.Document.Body.InnerHtml.Contains("<H1 class=firstHeading>Edit conflict: "))
             {//if session data is lost, if data is lost then save after delay with tmrAutoSaveDelay
+                MessageBox.Show("There has been an Edit Conflict. AWB will now re-apply its changes on the updated page. \n\r Please re-review the changes before saving. Any Custom edits will be lost, and have to be re-added manually.", "Edit Conflict");
                 Start();
                 return;
             }
