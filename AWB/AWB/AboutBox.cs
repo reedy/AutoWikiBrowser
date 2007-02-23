@@ -116,36 +116,52 @@ namespace AutoWikiBrowser
             this.Close();
         }
 
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void linkBluemoose_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            linkLabel1.LinkVisited = true;
+            linkBluemoose.LinkVisited = true;
             System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/User:Bluemoose");
         }
 
-        private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void linkLigulem_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            linkLabel3.LinkVisited = true;
+            linkLigulem.LinkVisited = true;
             System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/User:Ligulem");
+        }
+
+        private void linkMaxSem_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            linkMaxSem.LinkVisited = true;
+            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/User:MaxSem");
+        }
+
+        private void linkMets501_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            linkMets501.LinkVisited = true;
+            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/User:Mets501");
+        }
+
+        private void linkReedy_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            linkMets501.LinkVisited = true;
+            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/User:Reedy Boy");
         }
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            linkLabel1.LinkVisited = true;
+            linkAWBPage.LinkVisited = true;
             System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser");
         }
-
-        private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        
+        private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-
-            linkLabel1.LinkVisited = true;
-            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/User:MaxSem");
+            linkBugs.LinkVisited = true;
+            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs");
         }
 
-        private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void linkLabel7_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-
-            linkLabel1.LinkVisited = true;
-            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/User:Mets501");
+            linkFeatureRequests.LinkVisited = true;
+            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests");
         }
     }
 }
