@@ -175,6 +175,11 @@ namespace WikiFunctions
             int intLast = Name.LastIndexOf(" ") + 1;
             string LastName = Name.Substring(intLast);
             Name = Name.Remove(intLast);
+
+            if (Name.IndexOf("Author:") == 0)
+                Name = Name.Replace("Author:", "");
+            
+
             Name = LastName + ", " + Name.Trim();
 
             return Name;
