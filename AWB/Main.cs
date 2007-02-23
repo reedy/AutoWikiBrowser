@@ -462,6 +462,7 @@ namespace AutoWikiBrowser
                 if (HTML.Contains("The Wikipedia database is currently locked, and is not accepting any edits or other modifications."))
                 {//http://en.wikipedia.org/wiki/MediaWiki:Readonlytext
                     StartDelayedRestartTimer(60);
+                    Start();
                     return false;
                 }
 
@@ -483,8 +484,7 @@ namespace AutoWikiBrowser
                     Variables.User.LoggedIn = false;
                     Start();
                     return false;
-
-                    
+                
                 }
 
                 if (webBrowserEdit.NewMessage)
