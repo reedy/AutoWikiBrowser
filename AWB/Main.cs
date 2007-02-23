@@ -461,7 +461,7 @@ namespace AutoWikiBrowser
                 string HTML = webBrowserEdit.Document.Body.InnerHtml;
                 if (HTML.Contains("The Wikipedia database is currently locked, and is not accepting any edits or other modifications."))
                 {//http://en.wikipedia.org/wiki/MediaWiki:Readonlytext
-                    StartDelayedRestartTimer(60);
+                    StartDelayedRestartTimer();
                     Start();
                     return false;
                 }
@@ -1587,7 +1587,7 @@ namespace AutoWikiBrowser
             intStartInSeconds = intRestartDelay;
             ticker += DelayedRestart;
             //increase the restart delay each time, this is decreased by 1 on each successfull save
-            intRestartDelay += 3;
+            intRestartDelay += 5;
         }
         private void StartDelayedRestartTimer(int Delay)
         {
