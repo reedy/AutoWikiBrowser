@@ -467,8 +467,15 @@ namespace AutoWikiBrowser
 
                 if (HTML.Contains("<H1 class=firstHeading>View source</H1>"))
                 {
-                    SkipPage();
-                    return false;
+                    if (Variables.User.IsAdmin)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        SkipPage();
+                        return false;
+                    }
                 }
                 //check we are still logged in
                 if (!webBrowserEdit.GetLogInStatus())
@@ -476,6 +483,8 @@ namespace AutoWikiBrowser
                     Variables.User.LoggedIn = false;
                     Start();
                     return false;
+
+                    
                 }
 
                 if (webBrowserEdit.NewMessage)
