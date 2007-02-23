@@ -354,7 +354,8 @@ namespace AutoWikiBrowser
                         {
                             if (reader.MoveToAttribute("text"))
                                 if (!cmboEditSummary.Items.Contains(reader.Value) && reader.Value.Length > 0)
-                                    cmboEditSummary.Items.Add(reader.Value);
+                                   cmboEditSummary.Items.Add(reader.Value);
+
 
                             continue;
                         }
@@ -847,7 +848,12 @@ namespace AutoWikiBrowser
             {
                 cmboEditSummary.Items.Add(s);
             }
+
+            chkLock.Checked = p.General.LockSummary;
             cmboEditSummary.Text = p.General.SelectedSummary;
+
+            if (chkLock.Checked)
+                lblSummary.Text = p.General.SelectedSummary;
 
             PasteMore1.Text = p.General.PasteMore[0];
             PasteMore2.Text = p.General.PasteMore[1];
@@ -903,8 +909,7 @@ namespace AutoWikiBrowser
             {
                 Beep = p.General.Beep;
             }
-            chkLock.Checked = p.General.LockSummary;
-
+            
             chkEnableDab.Checked = p.Disambiguation.Enabled;
             txtDabLink.Text = p.Disambiguation.Link;
             txtDabVariants.Lines = p.Disambiguation.Variants;
