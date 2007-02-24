@@ -31,6 +31,34 @@ namespace WikiFunctions.MWB
 {
     public partial class ReplaceSpecial : Form, IRuleControlOwner
     {
+        #region contextmenu
+        private void NewRuleContextMenuItem_Click(object sender, EventArgs e)
+        {
+            NewRule();
+        }
+
+        private void NewSubruleContextMenuItem_Click(object sender, EventArgs e)
+        {
+            NewSubrule();
+        }
+
+        private void CutMenuItem_Click(object sender, EventArgs e)
+        {
+            CutCmd();
+        }
+
+        private void CopyMenuItem_Click(object sender, EventArgs e)
+        {
+            CopyCmd();
+        }
+
+        private void PasteMenuItem_Click(object sender, EventArgs e)
+        {
+            PasteCmd();
+        }
+
+        #endregion
+
         public const string XmlName = "replacerules";
 
         IRule currentRule_;
@@ -355,13 +383,8 @@ namespace WikiFunctions.MWB
                 RulesTreeView.SelectedNode = RulesTreeView.Nodes[0];
 
             RulesTreeView.ExpandAll();
-        }        
-
-        private void CutMenuItem_Click(object sender, EventArgs e)
-        {
-            CutCmd();
         }
-
+      
         void CutCmd()
         {
             TreeNode s = RulesTreeView.SelectedNode;
@@ -372,12 +395,7 @@ namespace WikiFunctions.MWB
             DeleteCmd();
             RestoreSelectedRule();
         }
-
-        private void CopyMenuItem_Click(object sender, EventArgs e)
-        {
-            CopyCmd();
-        }
-
+        
         void CopyCmd()
         {
             TreeNode s = RulesTreeView.SelectedNode;
@@ -388,11 +406,6 @@ namespace WikiFunctions.MWB
 
             clipboard_ = IRule.CloneTreeNode(s);
             UpdateEnbabledStates();
-        }
-
-        private void PasteMenuItem_Click(object sender, EventArgs e)
-        {
-            PasteCmd();
         }
 
         void PasteCmd()
@@ -666,7 +679,6 @@ namespace WikiFunctions.MWB
 
             e.Effect = DragDropEffects.Move;
         }
-
     }
 
 }
