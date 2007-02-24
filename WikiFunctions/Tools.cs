@@ -176,9 +176,11 @@ namespace WikiFunctions
             string LastName = Name.Substring(intLast);
             Name = Name.Remove(intLast);
 
-            if (Name.IndexOf("Author:") == 0)
-                Name = Name.Replace("Author:", "");
-            
+            foreach (KeyValuePair<int, string> Namespace in Variables.Namespaces)
+            {
+                if (Name.Contains(Namespace.Value))
+                    Name = Name.Replace(Namespace.Value, "");
+            }
 
             Name = LastName + ", " + Name.Trim();
 
