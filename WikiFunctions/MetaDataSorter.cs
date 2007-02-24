@@ -231,15 +231,19 @@ namespace WikiFunctions.Parse
             if (InterLangRegex.IsMatch(ArticleText))
             {
                 string interWikiComment = "";
+
                 interWikiComment = InterLangRegex.Match(ArticleText).Value;
                 ArticleText = ArticleText.Replace(interWikiComment, "");
                 InterWikiList.Add(interWikiComment);
             }
 
+            if (ArticleText.IndexOf("[[Simple:") != 0)
+                ArticleText = ArticleText.Replace("[[Simple:", "[[simple:");
+            
             if (parser.sortInterwikiOrder)
             {
                 string x;
-                foreach (Regex  rege in InterWikisList)
+                foreach (Regex rege in InterWikisList)
                 {
                     //use foreach as some articles have multiple links to same wiki
                     x = "";
