@@ -61,6 +61,7 @@ namespace WikiFunctions.AWBSettings
 
         public int Recategorisation = 0;
         public string NewCategory = "";
+        public string NewCategory2 = "";
 
         public int ReImage = 0;
         public string ImageFind = "";

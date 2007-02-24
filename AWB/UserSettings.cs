@@ -59,6 +59,7 @@ namespace AutoWikiBrowser
 
             cmboCategorise.SelectedIndex = 0;
             txtNewCategory.Text = "";
+            txtNewCategory2.Text = "";
 
             chkSkipIfContains.Checked = false;
             chkSkipIfNotContains.Checked = false;
@@ -277,7 +278,8 @@ namespace AutoWikiBrowser
                                 cmboCategorise.SelectedIndex = int.Parse(reader.Value);
                             if (reader.MoveToAttribute("text"))
                                 txtNewCategory.Text = reader.Value;
-
+                            if (reader.MoveToAttribute("text2"))
+                                txtNewCategory2.Text = reader.Value;
                             continue;
                         }
                         if (reader.Name == "skip" && reader.HasAttributes)
@@ -687,6 +689,7 @@ namespace AutoWikiBrowser
 
             p.Editprefs.Recategorisation = cmboCategorise.SelectedIndex;
             p.Editprefs.NewCategory = txtNewCategory.Text;
+            p.Editprefs.NewCategory2 = txtNewCategory2.Text;
 
             p.Editprefs.ReImage = cmboImages.SelectedIndex;
             p.Editprefs.ImageFind = txtImageReplace.Text;
@@ -815,7 +818,8 @@ namespace AutoWikiBrowser
 
             cmboCategorise.SelectedIndex = p.Editprefs.Recategorisation;
             txtNewCategory.Text = p.Editprefs.NewCategory;
-
+            txtNewCategory2.Text = p.Editprefs.NewCategory2;
+            
             cmboImages.SelectedIndex = p.Editprefs.ReImage;
             txtImageReplace.Text = p.Editprefs.ImageFind;
             txtImageWith.Text = p.Editprefs.Replace;
