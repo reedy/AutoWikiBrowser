@@ -272,6 +272,13 @@ namespace AutoWikiBrowser
             this.mnuWebBrowser = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
+            this.ntfyTray = new System.Windows.Forms.NotifyIcon(this.components);
+            this.mnuNotify = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.showToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.exitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.showHidePanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.mnuTextBox.SuspendLayout();
@@ -300,6 +307,7 @@ namespace AutoWikiBrowser
             this.groupBox3.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.mnuWebBrowser.SuspendLayout();
+            this.mnuNotify.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox2
@@ -929,7 +937,8 @@ namespace AutoWikiBrowser
             this.alphaSortInterwikiLinksToolStripMenuItem,
             this.toolStripSeparator11,
             this.addIgnoredToLogFileToolStripMenuItem,
-            this.summariesToolStripMenuItem});
+            this.summariesToolStripMenuItem,
+            this.showHidePanelToolStripMenuItem});
             this.ToolStripMenuGeneral.Name = "ToolStripMenuGeneral";
             this.ToolStripMenuGeneral.Size = new System.Drawing.Size(56, 20);
             this.ToolStripMenuGeneral.Text = "General";
@@ -1042,14 +1051,14 @@ namespace AutoWikiBrowser
             // makeModuleToolStripMenuItem
             // 
             this.makeModuleToolStripMenuItem.Name = "makeModuleToolStripMenuItem";
-            this.makeModuleToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.makeModuleToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.makeModuleToolStripMenuItem.Text = "Make module";
             this.makeModuleToolStripMenuItem.Click += new System.EventHandler(this.makeModuleToolStripMenuItem_Click);
             // 
             // testRegexToolStripMenuItem
             // 
             this.testRegexToolStripMenuItem.Name = "testRegexToolStripMenuItem";
-            this.testRegexToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.testRegexToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.testRegexToolStripMenuItem.Text = "Test regex";
             this.testRegexToolStripMenuItem.Click += new System.EventHandler(this.testRegexToolStripMenuItem_Click);
             // 
@@ -2494,6 +2503,58 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
             this.webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
             // 
+            // ntfyTray
+            // 
+            this.ntfyTray.ContextMenuStrip = this.mnuNotify;
+            this.ntfyTray.Icon = ((System.Drawing.Icon)(resources.GetObject("ntfyTray.Icon")));
+            this.ntfyTray.Text = "AutoWikiBrowser";
+            this.ntfyTray.Visible = true;
+            // 
+            // mnuNotify
+            // 
+            this.mnuNotify.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showToolStripMenuItem,
+            this.hideToolStripMenuItem,
+            this.toolStripSeparator5,
+            this.exitToolStripMenuItem1});
+            this.mnuNotify.Name = "mnuNotify";
+            this.mnuNotify.Size = new System.Drawing.Size(112, 76);
+            // 
+            // showToolStripMenuItem
+            // 
+            this.showToolStripMenuItem.Name = "showToolStripMenuItem";
+            this.showToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.showToolStripMenuItem.Text = "Show";
+            this.showToolStripMenuItem.Click += new System.EventHandler(this.showToolStripMenuItem_Click);
+            // 
+            // hideToolStripMenuItem
+            // 
+            this.hideToolStripMenuItem.Name = "hideToolStripMenuItem";
+            this.hideToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.hideToolStripMenuItem.Text = "Hide";
+            this.hideToolStripMenuItem.Click += new System.EventHandler(this.hideToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(108, 6);
+            // 
+            // exitToolStripMenuItem1
+            // 
+            this.exitToolStripMenuItem1.Name = "exitToolStripMenuItem1";
+            this.exitToolStripMenuItem1.Size = new System.Drawing.Size(111, 22);
+            this.exitToolStripMenuItem1.Text = "Exit";
+            this.exitToolStripMenuItem1.Click += new System.EventHandler(this.exitToolStripMenuItem1_Click);
+            // 
+            // showHidePanelToolStripMenuItem
+            // 
+            this.showHidePanelToolStripMenuItem.Name = "showHidePanelToolStripMenuItem";
+            this.showHidePanelToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
+            this.showHidePanelToolStripMenuItem.Size = new System.Drawing.Size(255, 22);
+            this.showHidePanelToolStripMenuItem.Text = "ShowHidePanel";
+            this.showHidePanelToolStripMenuItem.Visible = false;
+            this.showHidePanelToolStripMenuItem.Click += new System.EventHandler(this.showHidePanelToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2563,6 +2624,7 @@ namespace AutoWikiBrowser
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
             this.mnuWebBrowser.ResumeLayout(false);
+            this.mnuNotify.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2793,6 +2855,13 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnDiff;
         private System.Windows.Forms.Button btnIgnore;
+        private System.Windows.Forms.NotifyIcon ntfyTray;
+        private System.Windows.Forms.ContextMenuStrip mnuNotify;
+        private System.Windows.Forms.ToolStripMenuItem showToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hideToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem showHidePanelToolStripMenuItem;
 
 
     }
