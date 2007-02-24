@@ -910,6 +910,20 @@ namespace AutoWikiBrowser
 
         #region extra stuff
 
+        private void panelShowHide()
+        {
+            if (panel2.Visible)
+            {
+                panel2.Hide();
+            }
+            else
+            {
+                panel2.Show();
+            }
+            setBrowserSize();
+        }
+
+
         private void UpdateUserName(object sender, EventArgs e)
         {
             lblUserName.Text = Variables.User.Name;
@@ -2280,21 +2294,18 @@ namespace AutoWikiBrowser
             }
         }
 
+        private void showHidePanelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            panelShowHide();
+        }
+
         #endregion
 
         #region tool bar stuff
 
         private void btnShowHide_Click(object sender, EventArgs e)
         {
-            if (panel2.Visible)
-            {
-                panel2.Hide();
-            }
-            else
-            {
-                panel2.Show();
-            }
-            setBrowserSize();
+            panelShowHide();
         }
 
         private void btntsStart_Click(object sender, EventArgs e)
@@ -2631,6 +2642,21 @@ namespace AutoWikiBrowser
                     btnFind_Click(this, null);
                     break;
             }
+        }
+
+        private void showToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Visible = true;
+        }
+
+        private void hideToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Visible = false;
+        }
+
+        private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
