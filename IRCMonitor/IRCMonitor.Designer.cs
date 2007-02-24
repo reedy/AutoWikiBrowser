@@ -1919,7 +1919,7 @@ namespace IRCMonitor
             // 
             // openXML
             // 
-            this.openXML.FileName = "openFileDialog1";
+            this.openXML.FileName = "";
             // 
             // MainMenu
             // 
