@@ -15,11 +15,13 @@ namespace AutoWikiBrowser
     {
         private void saveAsDefaultToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SavePrefs();
+            if (MessageBox.Show("Are you sure you want to save these settings as the default settings?", "Save as default?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                SavePrefs();
         }
 
         private void saveSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            saveXML.FileName = settingsfilename;
             if (saveXML.ShowDialog() != DialogResult.OK)
                 return;
 
@@ -151,7 +153,10 @@ namespace AutoWikiBrowser
                 return;
 
             LoadPrefs(openXML.FileName);
+            settingsfilename = openXML.FileName;
         }
+
+        private string settingsfilename = "settings";
 
         [Obsolete]
         private void loadSettings(Stream stream)
