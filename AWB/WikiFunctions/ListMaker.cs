@@ -1133,6 +1133,20 @@ namespace WikiFunctions.Lists
             MakeList(SourceType.ImageFileLinks, c);
         }
 
+        private void fromRedirectsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string[] c = new string[lbArticles.SelectedItems.Count];
+
+            int i = 0;
+            foreach (object o in lbArticles.SelectedItems)
+            {
+                c[i] = o.ToString();
+                i++;
+            }
+
+            MakeList(SourceType.Redirects, c);
+        }
+
         private void removeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             RemoveSelectedArticle();
