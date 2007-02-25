@@ -36,7 +36,8 @@ namespace WikiFunctions.Parse
 
             InterWikisList.Clear();
             foreach (string s in InterwikiLocalAlpha)
-                InterWikisList.Add(new Regex("\\[\\[" + s + ":.*?\\]\\]", RegexOptions.Compiled));
+                //InterWikisList.Add(new Regex("\\[\\[" + s + ":.*?\\]\\]", RegexOptions.Compiled));
+                InterWikisList.Add(new Regex("\\[\\[(?<site>" + s + "):(?<text>.*?)\\]\\]", RegexOptions.Compiled | RegexOptions.IgnoreCase));
         }
 
         // now will be generated dynamically using Variables.Stub
@@ -63,7 +64,6 @@ namespace WikiFunctions.Parse
                         foreach (string s in InterwikiLocalAlpha)
                             //InterWikisList.Add(new Regex("\\[\\[" + s + ":.*?\\]\\]", RegexOptions.Compiled | RegexOptions.IgnoreCase));
                             InterWikisList.Add(new Regex("\\[\\[(?<site>" + s + "):(?<text>.*?)\\]\\]", RegexOptions.Compiled | RegexOptions.IgnoreCase));
-
                     }
                     else if (value == InterWikiOrderEnum.LocalLanguageFirstWord)
                     {
@@ -71,8 +71,6 @@ namespace WikiFunctions.Parse
                         foreach (string s in InterwikiLocalFirst)
                             //InterWikisList.Add(new Regex("\\[\\[" + s + ":.*?\\]\\]", RegexOptions.Compiled | RegexOptions.IgnoreCase));
                             InterWikisList.Add(new Regex("\\[\\[(?<site>" + s + "):(?<text>.*?)\\]\\]", RegexOptions.Compiled | RegexOptions.IgnoreCase));
-
-
                     }
                     else if (value == InterWikiOrderEnum.Alphabetical)
                     {
@@ -80,7 +78,6 @@ namespace WikiFunctions.Parse
                         foreach (string s in InterwikiAlpha)
                             //InterWikisList.Add(new Regex("\\[\\[" + s + ":.*?\\]\\]", RegexOptions.Compiled | RegexOptions.IgnoreCase));
                             InterWikisList.Add(new Regex("\\[\\[(?<site>" + s + "):(?<text>.*?)\\]\\]", RegexOptions.Compiled | RegexOptions.IgnoreCase));
-
                     }
                 }
             }
@@ -285,8 +282,7 @@ namespace WikiFunctions.Parse
         public static string IWMatchEval(Match match)
         {
             string[] textArray = new string[] { "[[", match.Groups["site"].ToString().ToLower(), ":", match.Groups["text"].ToString(), "]]" };
-            string text = string.Concat(textArray);
-            return text;
+            return string.Concat(textArray);
         }
 
         private string ListToString(List<string> items)
