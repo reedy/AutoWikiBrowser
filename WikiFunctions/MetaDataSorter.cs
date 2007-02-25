@@ -234,7 +234,8 @@ namespace WikiFunctions.Parse
 
             for (int i = 0; i != (InterWikisList.Count -1); i++)
             {
-                ArticleText = interwikiregex.Replace(ArticleText, new MatchEvaluator(MetaDataSorter.IWMatchEval));
+                //ArticleText = interwikiregex.Replace(ArticleText, new MatchEvaluator(MetaDataSorter.IWMatchEval));
+                ArticleText = InterWikisList[i].Replace(ArticleText, new MatchEvaluator(MetaDataSorter.IWMatchEval));
             }
 
             if (InterLangRegex.IsMatch(ArticleText))
