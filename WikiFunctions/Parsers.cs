@@ -211,9 +211,10 @@ namespace WikiFunctions.Parse
         public string FixDates(string ArticleText)
         {
             ArticleText = regexFixDates0.Replace(ArticleText, "$1s");
+            /*
             ArticleText = regexFixDates1.Replace(ArticleText, "$1 $2");
             ArticleText = regexFixDates2.Replace(ArticleText, "$1 $2");
-
+            */
             return ArticleText;
         }
 
