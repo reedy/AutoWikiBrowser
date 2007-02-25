@@ -61,21 +61,25 @@ namespace WikiFunctions.Parse
                     {
                         InterWikisList.Clear();
                         foreach (string s in InterwikiLocalAlpha)
-                            InterWikisList.Add(new Regex("\\[\\[" + s + ":.*?\\]\\]", RegexOptions.Compiled));
+                            //InterWikisList.Add(new Regex("\\[\\[" + s + ":.*?\\]\\]", RegexOptions.Compiled | RegexOptions.IgnoreCase));
+                            InterWikisList.Add(new Regex("\\[\\[(?<site>" + s + "):(?<text>.*?)\\]\\]", RegexOptions.Compiled | RegexOptions.IgnoreCase));
 
                     }
                     else if (value == InterWikiOrderEnum.LocalLanguageFirstWord)
                     {
                         InterWikisList.Clear();
                         foreach (string s in InterwikiLocalFirst)
-                            InterWikisList.Add(new Regex("\\[\\[" + s + ":.*?\\]\\]", RegexOptions.Compiled));
+                            //InterWikisList.Add(new Regex("\\[\\[" + s + ":.*?\\]\\]", RegexOptions.Compiled | RegexOptions.IgnoreCase));
+                            InterWikisList.Add(new Regex("\\[\\[(?<site>" + s + "):(?<text>.*?)\\]\\]", RegexOptions.Compiled | RegexOptions.IgnoreCase));
+
 
                     }
                     else if (value == InterWikiOrderEnum.Alphabetical)
                     {
                         InterWikisList.Clear();
                         foreach (string s in InterwikiAlpha)
-                            InterWikisList.Add(new Regex("\\[\\[" + s + ":.*?\\]\\]", RegexOptions.Compiled));
+                            //InterWikisList.Add(new Regex("\\[\\[" + s + ":.*?\\]\\]", RegexOptions.Compiled | RegexOptions.IgnoreCase));
+                            InterWikisList.Add(new Regex("\\[\\[(?<site>" + s + "):(?<text>.*?)\\]\\]", RegexOptions.Compiled | RegexOptions.IgnoreCase));
 
                     }
                 }
@@ -220,13 +224,18 @@ namespace WikiFunctions.Parse
         private string interwikis(ref string ArticleText)
         {
             string interwikis = ListToString(removeLinkFAs(ref ArticleText)) + ListToString(removeInterWikis(ref ArticleText));
-
             return interwikis;
         }
 
         private List<string> removeInterWikis(ref string ArticleText)
         {
             List<string> InterWikiList = new List<string>();
+            //Regex interwikiregex = new Regex(@"\[\[(?<site>.*?):(?<text>.*?)\]\]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+            for (int i = 0; i != (InterWikisList.Count -1); i++)
+            {
+                ArticleText = interwikiregex.Replace(ArticleText, new MatchEvaluator(MetaDataSorter.IWMatchEval));
+            }
 
             if (InterLangRegex.IsMatch(ArticleText))
             {
@@ -236,10 +245,7 @@ namespace WikiFunctions.Parse
                 ArticleText = ArticleText.Replace(interWikiComment, "");
                 InterWikiList.Add(interWikiComment);
             }
-
-            if (ArticleText.IndexOf("[[Simple:") != 0)
-                ArticleText = ArticleText.Replace("[[Simple:", "[[simple:");
-            
+           
             if (parser.sortInterwikiOrder)
             {
                 string x;
@@ -268,12 +274,18 @@ namespace WikiFunctions.Parse
                         ArticleText = ArticleText.Replace(x, "");
                         x = HttpUtility.HtmlDecode(x).Replace("_", " ");
                         InterWikiList.Add(x);
-
                     }
                 }
             }
 
             return InterWikiList;
+        }
+
+        public static string IWMatchEval(Match match)
+        {
+            string[] textArray = new string[] { "[[", match.Groups["site"].ToString().ToLower(), ":", match.Groups["text"].ToString(), "]]" };
+            string text = string.Concat(textArray);
+            return text;
         }
 
         private string ListToString(List<string> items)
