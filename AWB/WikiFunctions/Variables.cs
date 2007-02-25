@@ -1051,96 +1051,112 @@ namespace WikiFunctions
             try
             {
                 string strText = String.Empty;
-                //load check page
-                if (Variables.LangCode != LangCodeEnum.ar)
-                {
-                    webBrowserLogin.Navigate(Variables.URLLong + "index.php?title=Project:AutoWikiBrowser/CheckPage&action=edit");
-                }
-                else
-                {
-                    webBrowserLogin.Navigate("http://ar.wikipedia.org/w/index.php?title=%D9%88%D9%8A%D9%83%D9%8A%D8%A8%D9%8A%D8%AF%D9%8A%D8%A7:%D9%82%D8%A7%D8%A6%D9%85%D8%A9_%D8%A7%D9%84%D9%88%D9%8A%D9%83%D9%8A%D8%A8%D9%8A%D8%AF%D9%8A%D9%88%D9%86_%D8%A7%D9%84%D9%85%D8%B3%D9%85%D9%88%D8%AD_%D9%84%D9%87%D9%85_%D8%A8%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85_%D8%A7%D9%84%D8%A3%D9%88%D8%AA%D9%88_%D9%88%D9%8A%D9%83%D9%8A_%D8%A8%D8%B1%D8%A7%D9%88%D8%B2%D8%B1&action=edit");
-                }
+
+                //load version check page
+                webBrowserLogin.Navigate("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=edit");
                 //wait to load
                 webBrowserLogin.Wait();
 
                 strText = webBrowserLogin.GetArticleText();
-                CheckPageText = strText;
-                this.Name = webBrowserLogin.UserName();
 
-                //see if we are logged in
-                LoggedIn = webBrowserLogin.GetLogInStatus();
-                if (!webBrowserLogin.GetLogInStatus())
+                //see if this version is enabled
+                if (!strText.Contains(Assembly.GetExecutingAssembly().GetName().Version.ToString() + " enabled"))
                 {
                     IsBot = false;
                     IsAdmin = false;
                     WikiStatus = false;
-                    return WikiStatusResult.NotLoggedIn;
-                }
-
-                //see if there is a message
-                Match m = Regex.Match(strText, "<!--Message:(.*?)-->");
-                if (m.Success && m.Groups[1].Value.Trim().Length > 0)
-                {
-                    MessageBox.Show(m.Groups[1].Value, "Automated message", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-
-                //don't require approval if checkpage does not exist.
-                if (strText.Length < 1)
-                {
-                    WikiStatus = true;
-                    IsBot = true;
-                    return WikiStatusResult.Registered;
-                }
-                else if (strText.Contains("<!--All users enabled-->"))
-                {//see if all users enabled
-                    this.WikiStatus = true;
-                    this.IsBot = true;
-                    return WikiStatusResult.Registered;
+                    return WikiStatusResult.OldVersion;
                 }
                 else
                 {
-                    if (!m.Success)
+                    if (strText.Contains(Assembly.GetExecutingAssembly().GetName().Version.ToString() + " enabled (old)"))
                     {
-                        IsBot = false;
-                        IsAdmin = false;
-                        WikiStatus = false;
-                        return WikiStatusResult.Error;
+                        if (MessageBox.Show("This version has been superceeded by a new version.  You may continue to use this version or update to the newest version.\r\n\r\nWould you like to upgrade to the newest version?", "Upgrade?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                            System.Diagnostics.Process.Start("http://sourceforge.net/project/showfiles.php?group_id=158332");
                     }
-                    //see if this version is enabled
-                    else if (!strText.Contains(Assembly.GetExecutingAssembly().GetName().Version.ToString() + " enabled"))
+                    //load check page
+                    if (Variables.LangCode != LangCodeEnum.ar)
                     {
-                        IsBot = false;
-                        IsAdmin = false;
-                        WikiStatus = false;
-                        return WikiStatusResult.OldVersion;
+                        webBrowserLogin.Navigate(Variables.URLLong + "index.php?title=Project:AutoWikiBrowser/CheckPage&action=edit");
                     }
-                    //see if we are allowed to use this softare
                     else
                     {
-                        string strBotUsers = Tools.StringBetween(strText, "<!--enabledbots-->", "<!--enabledbotsends-->");
-                        string strAdmins = Tools.StringBetween(strText, "<!--adminsbegins-->", "<!--adminsends-->");
+                        webBrowserLogin.Navigate("http://ar.wikipedia.org/w/index.php?title=%D9%88%D9%8A%D9%83%D9%8A%D8%A8%D9%8A%D8%AF%D9%8A%D8%A7:%D9%82%D8%A7%D8%A6%D9%85%D8%A9_%D8%A7%D9%84%D9%88%D9%8A%D9%83%D9%8A%D8%A8%D9%8A%D8%AF%D9%8A%D9%88%D9%86_%D8%A7%D9%84%D9%85%D8%B3%D9%85%D9%88%D8%AD_%D9%84%D9%87%D9%85_%D8%A8%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85_%D8%A7%D9%84%D8%A3%D9%88%D8%AA%D9%88_%D9%88%D9%8A%D9%83%D9%8A_%D8%A8%D8%B1%D8%A7%D9%88%D8%B2%D8%B1&action=edit");
+                    }
+                    //wait to load
+                    webBrowserLogin.Wait();
 
-                        if (this.Name.Length > 0 && strText.Contains("* " + Variables.User.Name + "\r\n"))
-                        {
-                            if (strBotUsers.Contains("* " + Variables.User.Name + "\r\n"))
-                            {//enable botmode
-                                this.IsBot = true;
-                            }
-                            if (strAdmins.Contains("* " + Variables.User.Name + "\r\n"))
-                            {//enable admin features
-                                this.IsAdmin = true;
-                            }
+                    strText = webBrowserLogin.GetArticleText();
+                    CheckPageText = strText;
+                    this.Name = webBrowserLogin.UserName();
 
-                            this.WikiStatus = true;
+                    //see if we are logged in
+                    LoggedIn = webBrowserLogin.GetLogInStatus();
+                    if (!webBrowserLogin.GetLogInStatus())
+                    {
+                        IsBot = false;
+                        IsAdmin = false;
+                        WikiStatus = false;
+                        return WikiStatusResult.NotLoggedIn;
+                    }
 
-                            return WikiStatusResult.Registered;
-                        }
-                        else
+                    //see if there is a message
+                    Match m = Regex.Match(strText, "<!--Message:(.*?)-->");
+                    if (m.Success && m.Groups[1].Value.Trim().Length > 0)
+                    {
+                        MessageBox.Show(m.Groups[1].Value, "Automated message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+
+                    //don't require approval if checkpage does not exist.
+                    if (strText.Length < 1)
+                    {
+                        WikiStatus = true;
+                        IsBot = true;
+                        return WikiStatusResult.Registered;
+                    }
+                    else if (strText.Contains("<!--All users enabled-->"))
+                    {//see if all users enabled
+                        this.WikiStatus = true;
+                        this.IsBot = true;
+                        return WikiStatusResult.Registered;
+                    }
+                    else
+                    {
+                        if (!m.Success)
                         {
                             IsBot = false;
                             IsAdmin = false;
                             WikiStatus = false;
-                            return WikiStatusResult.NotRegistered;
+                            return WikiStatusResult.Error;
+                        }
+                        //see if we are allowed to use this softare
+                        else
+                        {
+                            string strBotUsers = Tools.StringBetween(strText, "<!--enabledbots-->", "<!--enabledbotsends-->");
+                            string strAdmins = Tools.StringBetween(strText, "<!--adminsbegins-->", "<!--adminsends-->");
+
+                            if (this.Name.Length > 0 && strText.Contains("* " + Variables.User.Name + "\r\n"))
+                            {
+                                if (strBotUsers.Contains("* " + Variables.User.Name + "\r\n"))
+                                {//enable botmode
+                                    this.IsBot = true;
+                                }
+                                if (strAdmins.Contains("* " + Variables.User.Name + "\r\n"))
+                                {//enable admin features
+                                    this.IsAdmin = true;
+                                }
+
+                                this.WikiStatus = true;
+
+                                return WikiStatusResult.Registered;
+                            }
+                            else
+                            {
+                                IsBot = false;
+                                IsAdmin = false;
+                                WikiStatus = false;
+                                return WikiStatusResult.NotRegistered;
+                            }
                         }
                     }
                 }
