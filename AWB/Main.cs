@@ -1103,6 +1103,15 @@ namespace AutoWikiBrowser
             }
         }
 
+        private void logOutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Would you really like to logout?", "Logout", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                webBrowserEdit.LoadLogOut();
+                Variables.User.UpdateWikiStatus();
+            }
+        }
+
         private bool CheckStatus()
         {
             lblStatusText.Text = "Loading page to check if we are logged in.";
@@ -2658,5 +2667,7 @@ namespace AutoWikiBrowser
         {
             this.Close();
         }
+
+
     }
 }
