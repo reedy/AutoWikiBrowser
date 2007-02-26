@@ -751,6 +751,18 @@ namespace WikiFunctions.Browser
             Busy = false;
         }
 
+        /// <summary>
+        /// Allows user to logout
+        /// </summary>
+        public void LoadLogOut()
+        {
+            this.AllowNavigation = false;
+            ProcessStage = enumProcessStage.none;
+            Status = "Logging Out";
+            this.Navigate(Variables.URLLong + "index.php?title=Special:Userlogout");
+            Busy = false;
+        }
+        
         Regex RegexArticleExists = new Regex("<LI (class=new|class=\"selected new\") id=ca-nstab", RegexOptions.Compiled);
         protected override void OnDocumentCompleted(WebBrowserDocumentCompletedEventArgs e)
         {
