@@ -3,7 +3,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
     Friend NotInheritable Class IndiaSettings
         Implements IGenericSettings
 
-        Private Const conMapsParm As String = "IndMaps"
         Private Const conCitiesParm As String = "IndCities"
         Private Const conDistrictsParm As String = "IndDistricts"
         Private Const conStatesParm As String = "IndStates"
@@ -19,12 +18,28 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Private Const conCinemaParm As String = "IndCinema"
         Private Const conTamilParm As String = "IndTamil"
 
+        Private Const conGeogParm As String = "IndGeography"
+        Private Const conRegionsParm As String = "IndRegions"
+        Private Const conWBengalParm As String = "IndWestBengal"
+        Private Const conHimachalParm As String = "IndHimachal"
+        Private Const conLiteratureParm As String = "IndLiterature"
+        Private Const conProtectedAreasParm As String = "IndProtectedAreas"
+        Private Const conMilHistoryParm As String = "IndMilHistory"
+        Private Const conHinduParm As String = "IndHinduism"
+        Private Const conBuddhismParm As String = "IndBuddhism"
+        Private Const conJainismParm As String = "IndJainism"
+        Private Const conSikhismParm As String = "IndSikhism"
+        Private Const conZoroParm As String = "IndZoro"
+        Private Const conTradeParm As String = "IndTrade"
+        Private Const conTranslationParm As String = "IndTranslation"
+        Private Const conCasteParm As String = "IndCaste"
+        Private Const conAsianAmericanParm As String = "IndAsianAmerican"
+
         ' UI:
         Private txtEdit As TextBox
 
 #Region "XML interface:"
         Friend Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader) Implements IGenericSettings.ReadXML
-            Maps = PluginManager.XMLReadBoolean(Reader, conMapsParm, Maps)
             Cities = PluginManager.XMLReadBoolean(Reader, conCitiesParm, Cities)
             Districts = PluginManager.XMLReadBoolean(Reader, conDistrictsParm, Districts)
             States = PluginManager.XMLReadBoolean(Reader, conStatesParm, States)
@@ -39,10 +54,26 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             History = PluginManager.XMLReadBoolean(Reader, conHistoryParm, History)
             Cinema = PluginManager.XMLReadBoolean(Reader, conCinemaParm, Cinema)
             Tamil = PluginManager.XMLReadBoolean(Reader, conTamilParm, Tamil)
+
+            Geography = PluginManager.XMLReadBoolean(Reader, conGeogParm, Geography)
+            Regions = PluginManager.XMLReadBoolean(Reader, conRegionsParm, Regions)
+            WestBengal = PluginManager.XMLReadBoolean(Reader, conWBengalParm, WestBengal)
+            Himachal = PluginManager.XMLReadBoolean(Reader, conHimachalParm, Himachal)
+            Literature = PluginManager.XMLReadBoolean(Reader, conLiteratureParm, Literature)
+            ProtectedAreas = PluginManager.XMLReadBoolean(Reader, conProtectedAreasParm, ProtectedAreas)
+            MilHistory = PluginManager.XMLReadBoolean(Reader, conMilHistoryParm, MilHistory)
+            Hindu = PluginManager.XMLReadBoolean(Reader, conHinduParm, Hindu)
+            Buddhism = PluginManager.XMLReadBoolean(Reader, conBuddhismParm, Buddhism)
+            Jainism = PluginManager.XMLReadBoolean(Reader, conJainismParm, Jainism)
+            Sikhism = PluginManager.XMLReadBoolean(Reader, conSikhismParm, Sikhism)
+            Zoro = PluginManager.XMLReadBoolean(Reader, conZoroParm, Zoro)
+            Trade = PluginManager.XMLReadBoolean(Reader, conTradeParm, Trade)
+            Translation = PluginManager.XMLReadBoolean(Reader, conTranslationParm, Translation)
+            Caste = PluginManager.XMLReadBoolean(Reader, conCasteParm, Caste)
+            AsianAmerican = PluginManager.XMLReadBoolean(Reader, conAsianAmericanParm, AsianAmerican)
         End Sub
         Friend Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter) Implements IGenericSettings.WriteXML
             With Writer
-                .WriteAttributeString(conMapsParm, Maps.ToString)
                 .WriteAttributeString(conCitiesParm, Cities.ToString)
                 .WriteAttributeString(conDistrictsParm, States.ToString)
                 .WriteAttributeString(conStatesParm, States.ToString)
@@ -57,27 +88,36 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 .WriteAttributeString(conHistoryParm, History.ToString)
                 .WriteAttributeString(conCinemaParm, Cinema.ToString)
                 .WriteAttributeString(conTamilParm, Tamil.ToString)
+
+                .WriteAttributeString(conGeogParm, Geography.ToString)
+                .WriteAttributeString(conRegionsParm, Regions.ToString)
+                .WriteAttributeString(conWBengalParm, WestBengal.ToString)
+                .WriteAttributeString(conHimachalParm, Himachal.ToString)
+                .WriteAttributeString(conLiteratureParm, Literature.ToString)
+                .WriteAttributeString(conProtectedAreasParm, ProtectedAreas.ToString)
+                .WriteAttributeString(conMilHistoryParm, MilHistory.ToString)
+                .WriteAttributeString(conHinduParm, Hindu.ToString)
+                .WriteAttributeString(conBuddhismParm, Buddhism.ToString)
+                .WriteAttributeString(conJainismParm, Jainism.ToString)
+                .WriteAttributeString(conSikhismParm, Sikhism.ToString)
+                .WriteAttributeString(conZoroParm, Zoro.ToString)
+                .WriteAttributeString(conTradeParm, Trade.ToString)
+                .WriteAttributeString(conTranslationParm, Translation.ToString)
+                .WriteAttributeString(conCasteParm, Caste.ToString)
+                .WriteAttributeString(conAsianAmericanParm, AsianAmerican.ToString)
             End With
         End Sub
         Friend Sub Reset() Implements IGenericSettings.XMLReset
             AutoStub = False
             StubClass = False
 
-            For Each ctl As Control In Me.TopicsGroupBox.Controls
+            For Each ctl As Control In Me.TabControl1.Controls
                 If TypeOf ctl Is CheckBox Then DirectCast(ctl, CheckBox).Checked = False
             Next
         End Sub
 #End Region
 
         ' Properties:
-        Friend Property Maps() As Boolean
-            Get
-                Return MapsCheckBox.Checked
-            End Get
-            Set(ByVal value As Boolean)
-                MapsCheckBox.Checked = value
-            End Set
-        End Property
         Friend Property Cities() As Boolean
             Get
                 Return CitiesCheckBox.Checked
@@ -188,6 +228,134 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             End Get
             Set(ByVal value As Boolean)
                 TamilCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Geography() As Boolean
+            Get
+                Return GeogCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                GeogCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Regions() As Boolean
+            Get
+                Return RegionsCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                RegionsCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property WestBengal() As Boolean
+            Get
+                Return WBengalCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                WBengalCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Himachal() As Boolean
+            Get
+                Return HimachalCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                HimachalCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Literature() As Boolean
+            Get
+                Return LiteratureCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                LiteratureCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property ProtectedAreas() As Boolean
+            Get
+                Return ProtectedCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                ProtectedCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property MilHistory() As Boolean
+            Get
+                Return MilHistoryCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                MilHistoryCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Hindu() As Boolean
+            Get
+                Return HinduCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                HinduCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Buddhism() As Boolean
+            Get
+                Return BuddCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                BuddCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Jainism() As Boolean
+            Get
+                Return JainCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                JainCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Sikhism() As Boolean
+            Get
+                Return SikhCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                SikhCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Zoro() As Boolean
+            Get
+                Return ZoroCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                ZoroCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Trade() As Boolean
+            Get
+                Return TradeCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                TradeCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Translation() As Boolean
+            Get
+                Return TranslationCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                TranslationCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Caste() As Boolean
+            Get
+                Return CasteCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                CasteCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property AsianAmerican() As Boolean
+            Get
+                Return AsianAmerCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                AsianAmerCheckBox.Checked = value
             End Set
         End Property
         Friend Property StubClass() As Boolean Implements IGenericSettings.StubClass
@@ -313,7 +481,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Protected Overrides Sub ProcessArticleFinish()
             StubClass()
             With OurSettingsControl
-                If .Maps Then AddAndLogNewParamWithAYesValue("maps")
                 If .Cities Then AddAndLogNewParamWithAYesValue("cities")
                 If .Districts Then AddAndLogNewParamWithAYesValue("districts")
                 If .States Then AddAndLogNewParamWithAYesValue("states")
@@ -328,6 +495,23 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 If .History Then AddAndLogNewParamWithAYesValue("history")
                 If .Cinema Then AddAndLogNewParamWithAYesValue("cinema")
                 If .Tamil Then AddAndLogNewParamWithAYesValue("tamil")
+
+                If .Geography Then AddAndLogNewParamWithAYesValue("geography")
+                If .Regions Then AddAndLogNewParamWithAYesValue("regions")
+                If .WestBengal Then AddAndLogNewParamWithAYesValue("bengal")
+                If .Himachal Then AddAndLogNewParamWithAYesValue("himachal")
+                If .Literature Then AddAndLogNewParamWithAYesValue("literature")
+                If .ProtectedAreas Then AddAndLogNewParamWithAYesValue("protected-areas")
+                If .MilHistory Then AddAndLogNewParamWithAYesValue("history")
+                If .Hindu Then AddAndLogNewParamWithAYesValue("")
+                If .Buddhism Then AddAndLogNewParamWithAYesValue("")
+                If .Jainism Then AddAndLogNewParamWithAYesValue("")
+                If .Sikhism Then AddAndLogNewParamWithAYesValue("")
+                If .Zoro Then AddAndLogNewParamWithAYesValue("")
+                If .Trade Then AddAndLogNewParamWithAYesValue("")
+                If .Translation Then AddAndLogNewParamWithAYesValue("")
+                If .Caste Then AddAndLogNewParamWithAYesValue("")
+                If .AsianAmerican Then AddAndLogNewParamWithAYesValue("")
             End With
         End Sub
         Protected Overrides Function TemplateFound() As Boolean
