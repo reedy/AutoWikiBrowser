@@ -67,6 +67,9 @@ namespace WikiFunctions.AWBSettings
         public string ImageFind = "";
         public string Replace = "";
 
+        public bool SkipIfNoCatChange = false;
+        public bool SkipIfNoImgChange = false;
+
         public bool AppendText = false;
         public bool Append = true;
         public string Text = "";
