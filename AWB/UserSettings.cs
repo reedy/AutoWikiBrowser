@@ -960,7 +960,28 @@ namespace AutoWikiBrowser
                 using (FileStream fStream = new FileStream(Path, FileMode.Create))
                 {
                     UserPrefs P = MakePrefs();
-                    XmlSerializer xs = new XmlSerializer(typeof(UserPrefs));
+                    List<System.Type> types = new List<Type>();
+
+                    try /* Find out what types the plugins are using for their settings so we can 
+                         * add them to the Serializer. The plugin author must ensure s(he) is using
+                         * serializable types.
+                         */
+                    {
+                        foreach (PluginPrefs pl in P.Plugin)
+                        {
+                            if ((pl.PluginSettings != null) && (pl.PluginSettings.Length >= 1))
+                            {
+                                foreach (object pl2 in pl.PluginSettings)
+                                {
+                                    types.Add(pl2.GetType());
+                                }
+                            }
+                        }
+                    }
+                    catch {
+                    }
+
+                    XmlSerializer xs = new XmlSerializer(typeof(UserPrefs), types.ToArray());
                     xs.Serialize(fStream, P);
                     UpdateRecentList(Path);
                 }
