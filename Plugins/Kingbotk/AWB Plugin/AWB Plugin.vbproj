@@ -48,10 +48,9 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="WikiFunctions, Version=3.0.4.1, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="WikiFunctions, Version=3.1.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\AWB\WikiFunctions.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\AWB\AWB\AWB\bin\Release\WikiFunctions.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -69,14 +68,8 @@
     <Import Include="System.Windows.Forms" />
     <Import Include="System.Xml" />
     <Import Include="WikiFunctions" />
-    <Import Include="WikiFunctions.Browser" />
-    <Import Include="WikiFunctions.DatabaseScanner" />
-    <Import Include="WikiFunctions.IRC" />
-    <Import Include="WikiFunctions.Lists" />
     <Import Include="WikiFunctions.Logging" />
     <Import Include="WikiFunctions.Logging.Uploader" />
-    <Import Include="WikiFunctions.MWB" />
-    <Import Include="WikiFunctions.Parse" />
     <Import Include="WikiFunctions.Plugin" />
   </ItemGroup>
   <ItemGroup>
@@ -185,7 +178,6 @@
     <Compile Include="PluginSettings.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Settings.vb" />
     <Compile Include="Songs.Designer.vb">
       <DependentUpon>Songs.vb</DependentUpon>
     </Compile>
