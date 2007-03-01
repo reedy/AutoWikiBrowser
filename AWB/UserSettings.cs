@@ -61,6 +61,9 @@ namespace AutoWikiBrowser
             txtNewCategory.Text = "";
             txtNewCategory2.Text = "";
 
+            chkSkipNoCatChange.Checked = false;
+            chkSkipNoImgChange.Checked = false;
+
             chkSkipIfContains.Checked = false;
             chkSkipIfNotContains.Checked = false;
             chkSkipIsRegex.Checked = false;
@@ -695,6 +698,8 @@ namespace AutoWikiBrowser
             p.Editprefs.ImageFind = txtImageReplace.Text;
             p.Editprefs.Replace = txtImageWith.Text;
 
+            p.Editprefs.SkipIfNoCatChange = chkSkipNoCatChange.Checked;
+            p.Editprefs.SkipIfNoImgChange = chkSkipNoImgChange.Checked;
 
             p.Editprefs.AppendText = chkAppend.Checked;
             p.Editprefs.Append = rdoAppend.Checked;
@@ -823,6 +828,9 @@ namespace AutoWikiBrowser
             cmboImages.SelectedIndex = p.Editprefs.ReImage;
             txtImageReplace.Text = p.Editprefs.ImageFind;
             txtImageWith.Text = p.Editprefs.Replace;
+
+            chkSkipNoCatChange.Checked = p.Editprefs.SkipIfNoCatChange;
+            chkSkipNoImgChange.Checked = p.Editprefs.SkipIfNoImgChange;
 
             chkAppend.Checked = p.Editprefs.AppendText;
             rdoAppend.Checked = p.Editprefs.Append;
