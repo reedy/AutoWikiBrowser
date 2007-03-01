@@ -162,7 +162,9 @@ namespace WikiFunctions.AWBSettings
         public object[] PluginSettings = null;
     }
 
-    // a generic serialisable settings object for plugins to use. How do I add a summary for the object browser?
+    /// <summary>
+    /// A generic serialisable settings object for plugins to use
+    /// </summary>
     [Serializable]
     public class PrefsKeyPair
     {
