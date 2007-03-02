@@ -561,14 +561,16 @@ namespace AutoWikiBrowser
                             continue;
                         }
 
-                        //foreach (IAWBPlugin a in AWBPlugins)
-                        //{
-                        //    if (reader.Name == a.Name.Replace(' ', '_') && reader.HasAttributes)
-                        //    {
-                        //        a.LoadSettings(reader);
-                        //        break;
-                        //    }
-                        //}
+                        /* The Kingbotk plugin can translate old settings to new too (and is worth the
+                         * extra code here because some settings may be very complex) */
+                        if (AWBPlugins.ContainsKey("Kingbotk Plugin"))
+                        {
+                            IAWBPlugin a = AWBPlugins["Kingbotk Plugin"];
+                            if (reader.Name == a.Name.Replace(' ', '_') && reader.HasAttributes)
+                            {
+                                a.LoadSettings(new object[]{reader});
+                            }
+                        }
 
                     }
                     stream.Close();
@@ -978,7 +980,7 @@ namespace AutoWikiBrowser
                             }
                         }
                     }
-                    catch {
+                    catch { // no error handling here as we'll surely catch an error in the next stage if anything went wrong
                     }
 
                     XmlSerializer xs = new XmlSerializer(typeof(UserPrefs), types.ToArray());
