@@ -566,7 +566,7 @@ namespace AutoWikiBrowser
                         if (AWBPlugins.ContainsKey("Kingbotk Plugin"))
                         {
                             IAWBPlugin a = AWBPlugins["Kingbotk Plugin"];
-                            if (reader.Name == a.Name.Replace(' ', '_') && reader.HasAttributes)
+                            if (reader.Name == "Kingbotk_Plugin" && reader.HasAttributes)
                             {
                                 a.LoadSettings(new object[]{reader});
                             }
