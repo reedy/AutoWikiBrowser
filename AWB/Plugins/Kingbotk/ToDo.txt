@@ -1,22 +1,3 @@
-:If my plugin isn't:
-:*expected to actually move ''existing'' templates into {{tl|WikiProjectBanners}} (other than the template type it is working with in that run)
-:*isn't expected to create {{tl|WikiProjectBanners}} templates or notice that the page needs one
-:it isn't such a problem. You have a bot to do that?
-:It would also be easier if no numbering was required, certainly.
-:I would have to modify certain behaviour, such as the placing/moving of {{tl|WPBiography}} tags at the top of a talk page if they contain living=yes (another problem with {{tl|WikiProjectBanners}}: it hides the living person warning). It's no big deal though. 
-
-
-
-
-
-
-
-
-
-
-
-
-
 Bugs:
 Logging Fault
 http://en.wikipedia.org/wiki/User_talk:Kingbotk/Plugin#New_version_-_Alpha_version_logging
