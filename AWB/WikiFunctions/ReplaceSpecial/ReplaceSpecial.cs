@@ -79,7 +79,7 @@ namespace WikiFunctions.MWB
             history_ = new RuleTreeHistory(RulesTreeView);
 
             //NewRule();
-            UpdateEnbabledStates();
+            UpdateEnabledStates();
         }
 
         private void OkButton_Click(object sender, EventArgs e)
@@ -102,7 +102,7 @@ namespace WikiFunctions.MWB
 
             SaveCurrentRule();
             RestoreSelectedRule();
-            UpdateEnbabledStates();
+            UpdateEnabledStates();
         }
 
 
@@ -156,7 +156,7 @@ namespace WikiFunctions.MWB
 
                 this.ResumeLayout();
             }
-            UpdateEnbabledStates();
+            UpdateEnabledStates();
         }
 
         private void UpButton_Click(object sender, EventArgs e)
@@ -264,7 +264,7 @@ namespace WikiFunctions.MWB
         }
 
 
-        void UpdateEnbabledStates()
+        void UpdateEnabledStates()
         {
             bool has_selection = RulesTreeView.SelectedNode != null;
 
@@ -405,7 +405,7 @@ namespace WikiFunctions.MWB
             history_.Save();
 
             clipboard_ = IRule.CloneTreeNode(s);
-            UpdateEnbabledStates();
+            UpdateEnabledStates();
         }
 
         void PasteCmd()
