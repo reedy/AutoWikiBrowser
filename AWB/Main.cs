@@ -2656,6 +2656,7 @@ namespace AutoWikiBrowser
         private void showToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Visible = true;
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
         }
 
         private void hideToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2666,6 +2667,17 @@ namespace AutoWikiBrowser
         private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void ntfyTray_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (!this.Visible)
+            {
+                this.Visible = true;
+                this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            }
+            else
+                this.Visible = false;
         }
 
 
