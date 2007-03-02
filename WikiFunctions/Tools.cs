@@ -1,6 +1,8 @@
 /*
 WikiFunctions
-Copyright (C) 2006 Martin Richards
+Copyright:
+(C) 2006 Martin Richards
+(C) 2007 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
