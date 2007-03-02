@@ -70,6 +70,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.GroupBox4 = New System.Windows.Forms.GroupBox
             Me.PluginMenuStrip = New System.Windows.Forms.MenuStrip
             Me.PluginToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.UploadUsernameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
             Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
             Me.SetAWBToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -113,7 +114,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.ClassListToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.BotTimer = New System.Windows.Forms.Timer(Me.components)
             Me.TimerStats1 = New AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.TimerStats
-            Me.UploadUsernameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.AWBGroupBox.SuspendLayout()
             Me.GroupBox2.SuspendLayout()
             Me.ArticleStatsGroupBox.SuspendLayout()
@@ -611,6 +611,12 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.PluginToolStripMenuItem.Size = New System.Drawing.Size(91, 20)
             Me.PluginToolStripMenuItem.Text = "Kingbotk Plugin"
             '
+            'UploadUsernameToolStripMenuItem
+            '
+            Me.UploadUsernameToolStripMenuItem.Name = "UploadUsernameToolStripMenuItem"
+            Me.UploadUsernameToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
+            Me.UploadUsernameToolStripMenuItem.Text = "Set username/password for uploading"
+            '
             'ToolStripMenuItem1
             '
             Me.ToolStripMenuItem1.Enabled = False
@@ -871,12 +877,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.TimerStats1.Size = New System.Drawing.Size(61, 68)
             Me.TimerStats1.TabIndex = 44
             Me.TimerStats1.Visible = False
-            '
-            'UploadUsernameToolStripMenuItem
-            '
-            Me.UploadUsernameToolStripMenuItem.Name = "UploadUsernameToolStripMenuItem"
-            Me.UploadUsernameToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
-            Me.UploadUsernameToolStripMenuItem.Text = "Set username/password for uploading"
             '
             'PluginSettingsControl
             '

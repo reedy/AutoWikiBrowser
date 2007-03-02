@@ -39,7 +39,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             PluginManager.StatusText.Text = "Started"
         End Sub
 
-        ' Properties:
+#Region "Properties"
         Private mAssessmentsAlwaysLeaveAComment As Boolean
 
         Public Property CategoryName() As String
@@ -90,8 +90,9 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 mAssessmentsAlwaysLeaveAComment = value
             End Set
         End Property
+#End Region
 
-        ' XML interface:
+#Region "XML interface"
         Public Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader)
             CategoryName = PluginManager.XMLReadString(Reader, conCategoryNameParm, CategoryName)
             ManuallyAssess = PluginManager.XMLReadBoolean(Reader, conManuallyAssessParm, ManuallyAssess)
@@ -121,8 +122,9 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Writer.WriteAttributeString(conAssessmentsAlwaysLeaveACommentParm, AssessmentsAlwaysLeaveAComment.ToString)
             LoggingSettings.WriteXML(Writer)
         End Sub
+#End Region
 
-        ' Event handlers - menu items:
+#Region "Event handlers - menu items"
         Private Sub SetAWBToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) _
         Handles SetAWBToolStripMenuItem.Click
             ' TODO: SetAWBToolStripMenuItem_Click - do AWB settings (basically turn everything off)
@@ -160,6 +162,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Private Sub UsernameToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles UploadUsernameToolStripMenuItem.Click
             LoggingSettings.LoginDetails = New LoginForm().GetFromForm
         End Sub
+#End Region
 
         ' Event handlers - our controls:
         Private Sub ManuallyAssessCheckBox_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
@@ -342,6 +345,11 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Friend Event [New](ByVal val As Integer)
             Friend Event RedLink(ByVal val As Integer)
 
+            Private Sub TrayStats()
+                PluginManager.ntfyTray.Text = "Tagged: " & mTagged.ToString & Microsoft.VisualBasic.vbCrLf & _
+                   "Skipped: " & mSkipped.ToString & Microsoft.VisualBasic.vbCrLf & "Last activity: " & _
+                   Date.Now.TimeOfDay.ToString.Substring(0, 5)
+            End Sub
             Friend Property Tagged() As Integer
                 Get
                     Return mTagged
@@ -349,6 +357,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 Set(ByVal value As Integer)
                     mTagged = value
                     RaiseEvent evTagged(value)
+                    TrayStats()
                 End Set
             End Property
             Friend Property NewArticles() As Integer
@@ -358,6 +367,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 Set(ByVal value As Integer)
                     mNewArticles = value
                     RaiseEvent [New](value)
+                    TrayStats()
                 End Set
             End Property
             Private Property Skipped() As Integer
@@ -367,6 +377,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 Set(ByVal value As Integer)
                     mSkipped = value
                     RaiseEvent SkipMisc(value)
+                    TrayStats()
                 End Set
             End Property
             Public Sub SkippedMiscellaneousIncrement()
@@ -383,6 +394,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 Set(ByVal value As Integer)
                     mRedLinks = value
                     RaiseEvent RedLink(value)
+                    TrayStats()
                 End Set
             End Property
             Public Sub SkippedRedLinkIncrement()
@@ -396,6 +408,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 Set(ByVal value As Integer)
                     mSkippedNoChange = value
                     RaiseEvent SkipNoChange(value)
+                    TrayStats()
                 End Set
             End Property
             Public Sub SkippedNoChangeIncrement()
@@ -409,6 +422,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 Set(ByVal value As Integer)
                     mSkippedBadTag = value
                     RaiseEvent SkipBadTag(value)
+                    TrayStats()
                 End Set
             End Property
             Public Sub SkippedBadTagIncrement()
@@ -422,6 +436,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 Set(ByVal value As Integer)
                     mSkippedNamespace = value
                     RaiseEvent SkipNamespace(value)
+                    TrayStats()
                 End Set
             End Property
             Public Sub SkippedNamespaceIncrement()
