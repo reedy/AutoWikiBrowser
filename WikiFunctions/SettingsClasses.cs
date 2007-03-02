@@ -136,6 +136,7 @@ namespace WikiFunctions.AWBSettings
         public bool FlashAndBeep = true;
         public bool Beep = false;
         public bool Flash = false;
+        public bool Minimize = false;
         public bool LockSummary = false;
     }
 
