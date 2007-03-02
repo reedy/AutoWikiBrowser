@@ -51,6 +51,7 @@ namespace AutoWikiBrowser
             this.chkLowPriority = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.fontDialog = new System.Windows.Forms.FontDialog();
+            this.chkMinimize = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.nudDiffFontSize)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -234,6 +235,7 @@ namespace AutoWikiBrowser
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.chkMinimize);
             this.groupBox2.Controls.Add(this.chkBeep);
             this.groupBox2.Controls.Add(this.chkFlash);
             this.groupBox2.Controls.Add(this.chkLowPriority);
@@ -293,6 +295,16 @@ namespace AutoWikiBrowser
             this.label5.TabIndex = 12;
             this.label5.Text = "%";
             // 
+            // chkMinimize
+            // 
+            this.chkMinimize.AutoSize = true;
+            this.chkMinimize.Location = new System.Drawing.Point(150, 125);
+            this.chkMinimize.Name = "chkMinimize";
+            this.chkMinimize.Size = new System.Drawing.Size(133, 17);
+            this.chkMinimize.TabIndex = 17;
+            this.chkMinimize.Text = "Minimize to system tray";
+            this.chkMinimize.UseVisualStyleBackColor = true;
+            // 
             // MyPreferences
             // 
             this.AcceptButton = this.btnApply;
@@ -340,5 +352,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.TextBox txtCustomProject;
         private System.Windows.Forms.CheckBox chkBeep;
         private System.Windows.Forms.CheckBox chkFlash;
+        private System.Windows.Forms.CheckBox chkMinimize;
     }
 }

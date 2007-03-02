@@ -150,6 +150,7 @@ namespace AutoWikiBrowser
             //tabControl1.TabPages.Remove(tpDab);
 
             //check that we are not using an old OS. 98 seems to mangled some unicode.
+            this.Resize += new EventHandler(MainForm_Resize);
 
             try
             {
@@ -173,6 +174,14 @@ namespace AutoWikiBrowser
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void MainForm_Resize(object sender, EventArgs e)
+        {
+            if ((Minimize) && (this.WindowState == FormWindowState.Minimized))
+            {
+                this.Visible = false;
             }
         }
 
@@ -253,6 +262,13 @@ namespace AutoWikiBrowser
         {
             get { return bBeep; }
             set { bBeep = value; }
+        }
+
+        bool bMinimize = false;
+        private bool Minimize
+        {
+            get { return bMinimize; }
+            set { bMinimize = value; }
         }
 
         #endregion
@@ -1469,7 +1485,7 @@ namespace AutoWikiBrowser
 
         private void selectProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MyPreferences MyPrefs = new MyPreferences(Variables.LangCode, Variables.Project, Variables.CustomProject, webBrowserEdit.EnhanceDiffEnabled, webBrowserEdit.ScrollDown, webBrowserEdit.DiffFontSize, txtEdit.Font, LowThreadPriority, Flash, Beep);
+            MyPreferences MyPrefs = new MyPreferences(Variables.LangCode, Variables.Project, Variables.CustomProject, webBrowserEdit.EnhanceDiffEnabled, webBrowserEdit.ScrollDown, webBrowserEdit.DiffFontSize, txtEdit.Font, LowThreadPriority, Flash, Beep, Minimize);
 
             if (MyPrefs.ShowDialog(this) == DialogResult.OK)
             {
@@ -1481,6 +1497,7 @@ namespace AutoWikiBrowser
                 //FlashAndBeep = MyPrefs.FlashAndBeep;
                 Flash = MyPrefs.perfFlash;
                 Beep = MyPrefs.perfBeep;
+                Minimize = MyPrefs.perfMinimize;
 
                 if (MyPrefs.Language != Variables.LangCode || MyPrefs.Project != Variables.Project || MyPrefs.CustomProject != Variables.CustomProject)
                 {

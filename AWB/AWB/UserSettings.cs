@@ -128,9 +128,9 @@ namespace AutoWikiBrowser
             FlashAndBeep = true;
             Flash = true;
             Beep = true;
+            Minimize = true;
             chkLock.Checked = false;
-
-
+            
             chkEnableDab.Checked = false;
             txtDabLink.Text = "";
             txtDabVariants.Text = "";
@@ -558,6 +558,9 @@ namespace AutoWikiBrowser
                             if (reader.MoveToAttribute("beep"))
                                 Beep = bool.Parse(reader.Value);
 
+                            if (reader.MoveToAttribute("minimize"))
+                                Minimize = bool.Parse(reader.Value);
+
                             continue;
                         }
 
@@ -777,6 +780,7 @@ namespace AutoWikiBrowser
 
             p.General.Flash = Flash;
             p.General.Beep = Beep;
+            p.General.Minimize = Minimize;
             
             p.General.LockSummary = chkLock.Checked;
 
@@ -885,7 +889,6 @@ namespace AutoWikiBrowser
             PasteMore9.Text = p.General.PasteMore[8];
             PasteMore10.Text = p.General.PasteMore[9];
 
-
             txtFind.Text = p.General.FindText;
             chkFindRegex.Checked = p.General.FindRegex;
             chkFindCaseSensitive.Checked = p.General.FindCaseSensitive;
@@ -928,6 +931,8 @@ namespace AutoWikiBrowser
             {
                 Beep = p.General.Beep;
             }
+
+            Minimize = p.General.Minimize;
             
             chkEnableDab.Checked = p.Disambiguation.Enabled;
             txtDabLink.Text = p.Disambiguation.Link;
