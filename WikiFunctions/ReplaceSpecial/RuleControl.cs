@@ -95,8 +95,11 @@ namespace WikiFunctions.MWB
         public void RestoreFromRule(Rule r)
         {
             NameTextbox.Text = r.Name;
-            ReplaceTextbox.Text = r.replace_;
-            WithTextbox.Text = r.with_;
+            //ReplaceTextbox.Text = r.replace_;
+            ReplaceTextbox.Text = Regex.Replace(r.replace_, @"
+", "\r\n");
+            WithTextbox.Text = Regex.Replace(r.with_, @"
+", "\r\n");
             RuleTypeCombobox.SelectedIndex = (int)r.ruletype_;
             RuleEnabledCheckBox.Checked = r.enabled_;
 
