@@ -382,10 +382,11 @@ namespace WikiFunctions.Lists
                 MakeList(ST, s);
                 txtSelectSource.Multiline = false;
                 txtSelectSource.Height = 20;
-                txtSelectSource.Text = listoftitles.Trim('|');
+                txtSelectSource.Location = new System.Drawing.Point(78, 30);
                 btnMakeList.Location = new System.Drawing.Point(78, 54);
                 btnMakeList.Text = "Make list";
                 btnMakeList.Size = new System.Drawing.Size(62, 23);
+                txtSelectSource.Text = listoftitles.Trim('|');
             }
             else
             {
