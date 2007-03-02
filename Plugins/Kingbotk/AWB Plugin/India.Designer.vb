@@ -31,9 +31,10 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.LinkLabel1 = New System.Windows.Forms.LinkLabel
             Me.TabControl1 = New System.Windows.Forms.TabControl
             Me.TabPage1 = New System.Windows.Forms.TabPage
+            Me.PunjabCheckbox = New System.Windows.Forms.CheckBox
             Me.HimachalCheckBox = New System.Windows.Forms.CheckBox
             Me.WBengalCheckBox = New System.Windows.Forms.CheckBox
-            Me.RegionsCheckBox = New System.Windows.Forms.CheckBox
+            Me.MapsCheckBox = New System.Windows.Forms.CheckBox
             Me.GeogCheckBox = New System.Windows.Forms.CheckBox
             Me.DistrictsCheckBox = New System.Windows.Forms.CheckBox
             Me.CitiesCheckBox = New System.Windows.Forms.CheckBox
@@ -45,16 +46,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.BengalCheckBox = New System.Windows.Forms.CheckBox
             Me.AndhraCheckBox = New System.Windows.Forms.CheckBox
             Me.TabPage2 = New System.Windows.Forms.TabPage
-            Me.AsianAmerCheckBox = New System.Windows.Forms.CheckBox
-            Me.CasteCheckBox = New System.Windows.Forms.CheckBox
-            Me.TranslationCheckBox = New System.Windows.Forms.CheckBox
-            Me.TradeCheckBox = New System.Windows.Forms.CheckBox
-            Me.ZoroCheckBox = New System.Windows.Forms.CheckBox
-            Me.SikhCheckBox = New System.Windows.Forms.CheckBox
-            Me.JainCheckBox = New System.Windows.Forms.CheckBox
-            Me.BuddCheckBox = New System.Windows.Forms.CheckBox
-            Me.HinduCheckBox = New System.Windows.Forms.CheckBox
-            Me.MilHistoryCheckBox = New System.Windows.Forms.CheckBox
             Me.ProtectedCheckBox = New System.Windows.Forms.CheckBox
             Me.LiteratureCheckBox = New System.Windows.Forms.CheckBox
             Me.TamilCheckBox = New System.Windows.Forms.CheckBox
@@ -144,15 +135,16 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.TabControl1.Location = New System.Drawing.Point(11, 14)
             Me.TabControl1.Name = "TabControl1"
             Me.TabControl1.SelectedIndex = 0
-            Me.TabControl1.Size = New System.Drawing.Size(252, 233)
+            Me.TabControl1.Size = New System.Drawing.Size(252, 236)
             Me.TabControl1.TabIndex = 10
             '
             'TabPage1
             '
             Me.TabPage1.BackColor = System.Drawing.Color.Transparent
+            Me.TabPage1.Controls.Add(Me.PunjabCheckbox)
             Me.TabPage1.Controls.Add(Me.HimachalCheckBox)
             Me.TabPage1.Controls.Add(Me.WBengalCheckBox)
-            Me.TabPage1.Controls.Add(Me.RegionsCheckBox)
+            Me.TabPage1.Controls.Add(Me.MapsCheckBox)
             Me.TabPage1.Controls.Add(Me.GeogCheckBox)
             Me.TabPage1.Controls.Add(Me.DistrictsCheckBox)
             Me.TabPage1.Controls.Add(Me.CitiesCheckBox)
@@ -167,9 +159,19 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.TabPage1.Location = New System.Drawing.Point(4, 22)
             Me.TabPage1.Name = "TabPage1"
             Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-            Me.TabPage1.Size = New System.Drawing.Size(244, 207)
+            Me.TabPage1.Size = New System.Drawing.Size(244, 210)
             Me.TabPage1.TabIndex = 0
             Me.TabPage1.Text = "India 1"
+            '
+            'PunjabCheckbox
+            '
+            Me.PunjabCheckbox.AutoSize = True
+            Me.PunjabCheckbox.Location = New System.Drawing.Point(104, 174)
+            Me.PunjabCheckbox.Name = "PunjabCheckbox"
+            Me.PunjabCheckbox.Size = New System.Drawing.Size(59, 17)
+            Me.PunjabCheckbox.TabIndex = 40
+            Me.PunjabCheckbox.Text = "Punjab"
+            Me.PunjabCheckbox.UseVisualStyleBackColor = True
             '
             'HimachalCheckBox
             '
@@ -191,15 +193,15 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.WBengalCheckBox.Text = "West Bengal"
             Me.WBengalCheckBox.UseVisualStyleBackColor = True
             '
-            'RegionsCheckBox
+            'MapsCheckBox
             '
-            Me.RegionsCheckBox.AutoSize = True
-            Me.RegionsCheckBox.Location = New System.Drawing.Point(14, 39)
-            Me.RegionsCheckBox.Name = "RegionsCheckBox"
-            Me.RegionsCheckBox.Size = New System.Drawing.Size(65, 17)
-            Me.RegionsCheckBox.TabIndex = 37
-            Me.RegionsCheckBox.Text = "Regions"
-            Me.RegionsCheckBox.UseVisualStyleBackColor = True
+            Me.MapsCheckBox.AutoSize = True
+            Me.MapsCheckBox.Location = New System.Drawing.Point(14, 39)
+            Me.MapsCheckBox.Name = "MapsCheckBox"
+            Me.MapsCheckBox.Size = New System.Drawing.Size(52, 17)
+            Me.MapsCheckBox.TabIndex = 37
+            Me.MapsCheckBox.Text = "Maps"
+            Me.MapsCheckBox.UseVisualStyleBackColor = True
             '
             'GeogCheckBox
             '
@@ -304,16 +306,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             'TabPage2
             '
             Me.TabPage2.BackColor = System.Drawing.Color.Transparent
-            Me.TabPage2.Controls.Add(Me.AsianAmerCheckBox)
-            Me.TabPage2.Controls.Add(Me.CasteCheckBox)
-            Me.TabPage2.Controls.Add(Me.TranslationCheckBox)
-            Me.TabPage2.Controls.Add(Me.TradeCheckBox)
-            Me.TabPage2.Controls.Add(Me.ZoroCheckBox)
-            Me.TabPage2.Controls.Add(Me.SikhCheckBox)
-            Me.TabPage2.Controls.Add(Me.JainCheckBox)
-            Me.TabPage2.Controls.Add(Me.BuddCheckBox)
-            Me.TabPage2.Controls.Add(Me.HinduCheckBox)
-            Me.TabPage2.Controls.Add(Me.MilHistoryCheckBox)
             Me.TabPage2.Controls.Add(Me.ProtectedCheckBox)
             Me.TabPage2.Controls.Add(Me.LiteratureCheckBox)
             Me.TabPage2.Controls.Add(Me.TamilCheckBox)
@@ -323,113 +315,9 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.TabPage2.Location = New System.Drawing.Point(4, 22)
             Me.TabPage2.Name = "TabPage2"
             Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-            Me.TabPage2.Size = New System.Drawing.Size(244, 207)
+            Me.TabPage2.Size = New System.Drawing.Size(244, 210)
             Me.TabPage2.TabIndex = 1
             Me.TabPage2.Text = "India 2"
-            '
-            'AsianAmerCheckBox
-            '
-            Me.AsianAmerCheckBox.AutoSize = True
-            Me.AsianAmerCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.AsianAmerCheckBox.Location = New System.Drawing.Point(102, 167)
-            Me.AsianAmerCheckBox.Name = "AsianAmerCheckBox"
-            Me.AsianAmerCheckBox.Size = New System.Drawing.Size(104, 17)
-            Me.AsianAmerCheckBox.TabIndex = 53
-            Me.AsianAmerCheckBox.Text = "Asian Americans"
-            Me.AsianAmerCheckBox.UseVisualStyleBackColor = True
-            '
-            'CasteCheckBox
-            '
-            Me.CasteCheckBox.AutoSize = True
-            Me.CasteCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.CasteCheckBox.Location = New System.Drawing.Point(6, 167)
-            Me.CasteCheckBox.Name = "CasteCheckBox"
-            Me.CasteCheckBox.Size = New System.Drawing.Size(90, 17)
-            Me.CasteCheckBox.TabIndex = 52
-            Me.CasteCheckBox.Text = "Caste System"
-            Me.CasteCheckBox.UseVisualStyleBackColor = True
-            '
-            'TranslationCheckBox
-            '
-            Me.TranslationCheckBox.AutoSize = True
-            Me.TranslationCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.TranslationCheckBox.Location = New System.Drawing.Point(62, 144)
-            Me.TranslationCheckBox.Name = "TranslationCheckBox"
-            Me.TranslationCheckBox.Size = New System.Drawing.Size(78, 17)
-            Me.TranslationCheckBox.TabIndex = 51
-            Me.TranslationCheckBox.Text = "Translation"
-            Me.TranslationCheckBox.UseVisualStyleBackColor = True
-            '
-            'TradeCheckBox
-            '
-            Me.TradeCheckBox.AutoSize = True
-            Me.TradeCheckBox.Location = New System.Drawing.Point(70, 121)
-            Me.TradeCheckBox.Name = "TradeCheckBox"
-            Me.TradeCheckBox.Size = New System.Drawing.Size(54, 17)
-            Me.TradeCheckBox.TabIndex = 50
-            Me.TradeCheckBox.Text = "Trade"
-            Me.TradeCheckBox.UseVisualStyleBackColor = True
-            '
-            'ZoroCheckBox
-            '
-            Me.ZoroCheckBox.AutoSize = True
-            Me.ZoroCheckBox.Location = New System.Drawing.Point(73, 98)
-            Me.ZoroCheckBox.Name = "ZoroCheckBox"
-            Me.ZoroCheckBox.Size = New System.Drawing.Size(94, 17)
-            Me.ZoroCheckBox.TabIndex = 49
-            Me.ZoroCheckBox.Text = "Zoroastrianism"
-            Me.ZoroCheckBox.UseVisualStyleBackColor = True
-            '
-            'SikhCheckBox
-            '
-            Me.SikhCheckBox.AutoSize = True
-            Me.SikhCheckBox.Location = New System.Drawing.Point(6, 98)
-            Me.SikhCheckBox.Name = "SikhCheckBox"
-            Me.SikhCheckBox.Size = New System.Drawing.Size(62, 17)
-            Me.SikhCheckBox.TabIndex = 48
-            Me.SikhCheckBox.Text = "Sikhism"
-            Me.SikhCheckBox.UseVisualStyleBackColor = True
-            '
-            'JainCheckBox
-            '
-            Me.JainCheckBox.AutoSize = True
-            Me.JainCheckBox.Location = New System.Drawing.Point(158, 75)
-            Me.JainCheckBox.Name = "JainCheckBox"
-            Me.JainCheckBox.Size = New System.Drawing.Size(60, 17)
-            Me.JainCheckBox.TabIndex = 47
-            Me.JainCheckBox.Text = "Jainism"
-            Me.JainCheckBox.UseVisualStyleBackColor = True
-            '
-            'BuddCheckBox
-            '
-            Me.BuddCheckBox.AutoSize = True
-            Me.BuddCheckBox.Location = New System.Drawing.Point(80, 75)
-            Me.BuddCheckBox.Name = "BuddCheckBox"
-            Me.BuddCheckBox.Size = New System.Drawing.Size(72, 17)
-            Me.BuddCheckBox.TabIndex = 46
-            Me.BuddCheckBox.Text = "Buddhism"
-            Me.BuddCheckBox.UseVisualStyleBackColor = True
-            '
-            'HinduCheckBox
-            '
-            Me.HinduCheckBox.AutoSize = True
-            Me.HinduCheckBox.Location = New System.Drawing.Point(5, 75)
-            Me.HinduCheckBox.Name = "HinduCheckBox"
-            Me.HinduCheckBox.Size = New System.Drawing.Size(69, 17)
-            Me.HinduCheckBox.TabIndex = 45
-            Me.HinduCheckBox.Text = "Hinduism"
-            Me.HinduCheckBox.UseVisualStyleBackColor = True
-            '
-            'MilHistoryCheckBox
-            '
-            Me.MilHistoryCheckBox.AutoSize = True
-            Me.MilHistoryCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.MilHistoryCheckBox.Location = New System.Drawing.Point(69, 52)
-            Me.MilHistoryCheckBox.Name = "MilHistoryCheckBox"
-            Me.MilHistoryCheckBox.Size = New System.Drawing.Size(93, 17)
-            Me.MilHistoryCheckBox.TabIndex = 44
-            Me.MilHistoryCheckBox.Text = "Military History"
-            Me.MilHistoryCheckBox.UseVisualStyleBackColor = True
             '
             'ProtectedCheckBox
             '
@@ -457,7 +345,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             '
             Me.TamilCheckBox.AutoSize = True
             Me.TamilCheckBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.TamilCheckBox.Location = New System.Drawing.Point(5, 144)
+            Me.TamilCheckBox.Location = New System.Drawing.Point(71, 75)
             Me.TamilCheckBox.Name = "TamilCheckBox"
             Me.TamilCheckBox.Size = New System.Drawing.Size(51, 17)
             Me.TamilCheckBox.TabIndex = 41
@@ -467,7 +355,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             'PoliticsCheckBox
             '
             Me.PoliticsCheckBox.AutoSize = True
-            Me.PoliticsCheckBox.Location = New System.Drawing.Point(5, 121)
+            Me.PoliticsCheckBox.Location = New System.Drawing.Point(6, 75)
             Me.PoliticsCheckBox.Name = "PoliticsCheckBox"
             Me.PoliticsCheckBox.Size = New System.Drawing.Size(59, 17)
             Me.PoliticsCheckBox.TabIndex = 40
@@ -501,8 +389,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
             Me.Controls.Add(Me.LinkLabel1)
-            Me.Controls.Add(Me.TabControl1)
             Me.Controls.Add(Me.ParametersGroup)
+            Me.Controls.Add(Me.TabControl1)
             Me.Controls.Add(Me.TipLabel)
             Me.MaximumSize = New System.Drawing.Size(276, 349)
             Me.MinimumSize = New System.Drawing.Size(276, 349)
@@ -543,22 +431,13 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Friend WithEvents PoliticsCheckBox As System.Windows.Forms.CheckBox
         Friend WithEvents CinemaCheckBox As System.Windows.Forms.CheckBox
         Friend WithEvents HistoryCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents RegionsCheckBox As System.Windows.Forms.CheckBox
+        Friend WithEvents MapsCheckBox As System.Windows.Forms.CheckBox
         Friend WithEvents GeogCheckBox As System.Windows.Forms.CheckBox
         Friend WithEvents HimachalCheckBox As System.Windows.Forms.CheckBox
         Friend WithEvents WBengalCheckBox As System.Windows.Forms.CheckBox
         Friend WithEvents LiteratureCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents AsianAmerCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents CasteCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents TranslationCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents TradeCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents ZoroCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents SikhCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents JainCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents BuddCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents HinduCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents MilHistoryCheckBox As System.Windows.Forms.CheckBox
         Friend WithEvents ProtectedCheckBox As System.Windows.Forms.CheckBox
+        Friend WithEvents PunjabCheckbox As System.Windows.Forms.CheckBox
 
     End Class
 End Namespace
