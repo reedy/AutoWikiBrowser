@@ -8,6 +8,9 @@ namespace WikiFunctions.Plugin
 {
     public delegate void PluginEventHandler();
 
+    /* DO NOT CHANGE. This interface is a contract with external plugins and is of sufficient vintage to be 
+     * considered non-negotiable. Any changes should be made by declaring an additional new interface which
+     * next-generation plugins may use. */
     public interface IAWBPlugin
     {
         event PluginEventHandler Start;
