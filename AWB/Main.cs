@@ -2673,13 +2673,18 @@ namespace AutoWikiBrowser
 
         private void showToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Visible = true;
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            if (!this.Visible)
+            {
+                toolStripHide();
+            }
         }
 
         private void hideToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Visible = false;
+            if (this.Visible)
+            {
+                this.Visible = false;
+            }
         }
 
         private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -2691,11 +2696,16 @@ namespace AutoWikiBrowser
         {
             if (!this.Visible)
             {
-                this.Visible = true;
-                this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+                toolStripHide();
             }
             else
                 this.Visible = false;
+        }
+
+        private void toolStripHide()
+        {
+            this.Visible = true;
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
         }
 
         // IAWBMainForm:
