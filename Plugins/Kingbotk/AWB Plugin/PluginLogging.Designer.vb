@@ -57,6 +57,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
             Me.UploadMaxLinesControl = New System.Windows.Forms.NumericUpDown
             Me.MaxLinesContextMenuStrip = New System.Windows.Forms.ContextMenuStrip(Me.components)
             Me.MaxLinesResetToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.SetToMaximumToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.GroupBox6 = New System.Windows.Forms.GroupBox
             Me.UploadJobNameTextBox = New System.Windows.Forms.TextBox
             Me.JobNameContextMenuStrip = New System.Windows.Forms.ContextMenuStrip(Me.components)
@@ -67,7 +68,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
             Me.LocationResetToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.UploadWatchlistCheckBox = New System.Windows.Forms.CheckBox
             Me.ApplyButton = New System.Windows.Forms.Button
-            Me.SetToMaximumToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.GroupBox1.SuspendLayout()
             Me.GroupBox4.SuspendLayout()
             Me.GroupBox2.SuspendLayout()
@@ -84,8 +84,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
             'VerboseCheckBox
             '
             Me.VerboseCheckBox.AutoSize = True
-            Me.VerboseCheckBox.Checked = True
-            Me.VerboseCheckBox.CheckState = System.Windows.Forms.CheckState.Checked
             Me.VerboseCheckBox.Location = New System.Drawing.Point(6, 88)
             Me.VerboseCheckBox.Name = "VerboseCheckBox"
             Me.VerboseCheckBox.Size = New System.Drawing.Size(102, 17)
@@ -442,13 +440,19 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
             '
             Me.MaxLinesContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MaxLinesResetToolStripMenuItem, Me.SetToMaximumToolStripMenuItem})
             Me.MaxLinesContextMenuStrip.Name = "MaxLinesContextMenuStrip"
-            Me.MaxLinesContextMenuStrip.Size = New System.Drawing.Size(153, 70)
+            Me.MaxLinesContextMenuStrip.Size = New System.Drawing.Size(151, 48)
             '
             'MaxLinesResetToolStripMenuItem
             '
             Me.MaxLinesResetToolStripMenuItem.Name = "MaxLinesResetToolStripMenuItem"
-            Me.MaxLinesResetToolStripMenuItem.Size = New System.Drawing.Size(102, 22)
+            Me.MaxLinesResetToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
             Me.MaxLinesResetToolStripMenuItem.Text = "Reset"
+            '
+            'SetToMaximumToolStripMenuItem
+            '
+            Me.SetToMaximumToolStripMenuItem.Name = "SetToMaximumToolStripMenuItem"
+            Me.SetToMaximumToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+            Me.SetToMaximumToolStripMenuItem.Text = "Set to maximum"
             '
             'GroupBox6
             '
@@ -536,12 +540,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
             Me.ApplyButton.TabIndex = 20
             Me.ApplyButton.Text = "Apply"
             Me.ApplyButton.UseVisualStyleBackColor = True
-            '
-            'SetToMaximumToolStripMenuItem
-            '
-            Me.SetToMaximumToolStripMenuItem.Name = "SetToMaximumToolStripMenuItem"
-            Me.SetToMaximumToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-            Me.SetToMaximumToolStripMenuItem.Text = "Set to maximum"
             '
             'PluginLogging
             '
