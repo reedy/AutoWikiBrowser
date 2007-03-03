@@ -1,6 +1,7 @@
 ﻿/*
 Autowikibrowser
 Copyright (C) 2006 Martin Richards
+(C) 2007 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -44,7 +45,7 @@ using WikiFunctions.Background;
 [assembly: CLSCompliant(true)]
 namespace AutoWikiBrowser
 {
-    public partial class MainForm : Form
+    public partial class MainForm : Form, IAWBMainForm
     {
         #region constructor etc.
 
@@ -2697,6 +2698,21 @@ namespace AutoWikiBrowser
                 this.Visible = false;
         }
 
-
+        // IAWBMainForm:
+        TabPage IAWBMainForm.MoreOptionsTab { get { return tpMoreOptions; } }
+        TabPage IAWBMainForm.OptionsTab { get { return tpSetOptions; } }
+        TabPage IAWBMainForm.StartTab { get { return tpStart; } }
+        TabPage IAWBMainForm.DabTab { get { return tpDab; } }
+        CheckBox IAWBMainForm.BotModeCheckbox { get { return chkAutoMode; } }
+        Button IAWBMainForm.PreviewButton { get { return btnPreview; } }
+        Button IAWBMainForm.SaveButton { get { return btnSave; } }
+        Button IAWBMainForm.SkipButton { get { return btnIgnore; } }
+        Button IAWBMainForm.StopButton { get { return btnStop; } }
+        Button IAWBMainForm.DiffButton { get { return btnDiff; } }
+        Button IAWBMainForm.StartButton { get { return btnStart; } }
+        ComboBox IAWBMainForm.EditSummary { get { return cmboEditSummary; } }
+        StatusStrip IAWBMainForm.StatusStrip { get { return statusStrip1; } }
+        NotifyIcon IAWBMainForm.NotifyIcon { get { return ntfyTray; } }
+        ToolStripMenuItem IAWBMainForm.HelpToolStripMenuItem { get { return helpToolStripMenuItem; } }
     }
 }
