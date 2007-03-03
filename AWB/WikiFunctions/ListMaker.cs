@@ -883,8 +883,15 @@ namespace WikiFunctions.Lists
         /// </summary>
         public void Filter()
         {
-            specialFilter SepcialFilter = new specialFilter(lbArticles);
-            SepcialFilter.ShowDialog();
+            specialFilter SpecialFilter = new specialFilter(lbArticles);
+            SpecialFilter.ShowDialog();
+            UpdateNumberOfArticles();
+        }
+
+        public void removeListDuplicates()
+        {
+            specialFilter SpecialFilter = new specialFilter(lbArticles);
+            SpecialFilter.removeDups(true);
             UpdateNumberOfArticles();
         }
 

@@ -46,18 +46,11 @@ namespace WikiFunctions.Lists
         {
             if (chkRemoveDups.Checked)
             {
-                foreach (Article a in lb)
-                {
-                    if (!list.Contains(a))
-                        list.Add(a);
-                }
+                removeDups(true);
             }
             else
             {
-                foreach (Article a in lb)
-                {
-                    list.Add(a);
-                }
+                removeDups(false);
             }
 
             bool does = (chkContains.Checked && txtContains.Text != "");
@@ -78,6 +71,30 @@ namespace WikiFunctions.Lists
                 lb.Items.Add(a);
 
             this.Close();
+        }
+
+        public void removeDups(bool check)
+        {
+            if (check)
+            {
+                foreach (Article a in lb)
+                {
+                    if (!list.Contains(a))
+                        list.Add(a);
+                }
+            }
+            else
+            {
+                foreach (Article a in lb)
+                {
+                    list.Add(a);
+                }
+            }
+
+            lb.Items.Clear();
+
+            foreach (Article a in list)
+                lb.Items.Add(a);
         }
 
         private void FilterNamespace()
