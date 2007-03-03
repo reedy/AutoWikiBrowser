@@ -29,7 +29,10 @@ namespace WikiFunctions.Plugin
         void Reset();
     }
 
-    // This interface allows plugins to manipulate AWB UI elements without (ahem) resorting to hacks.
+    /* This interface allows plugins to manipulate AWB UI elements without (ahem) resorting to hacks.
+    Plugins are not *required* to implement the interface.
+    
+    The interface isn't considered "locked" yet so more properties and methods may be added if needed. */
     public interface IAWBMainForm
     {
         TabPage MoreOptionsTab { get; }
