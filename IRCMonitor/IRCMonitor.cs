@@ -50,6 +50,7 @@ namespace IRCMonitor
         public IRCMonitor()
         {
             InitializeComponent();
+            loadIRCChannels();
             cmboEditIP.SelectedIndex = 0;
             cmboEditMinor.SelectedIndex = 0;
             cmboEditNamespace.SelectedIndex = 0;
@@ -80,6 +81,7 @@ namespace IRCMonitor
         public string VandalizedPage;
         public enum NextTaskType { None, Warn, Report, Contribs, Blacklist };
         NextTaskType NextTask = NextTaskType.None;
+        string[] IRCChannels = new String[] { "#en.wikibooks", "#en.wikinews ", "#en.wikipedia", "#en.wikiquote", "#en.wikisource", "#meta" };
         
         void webBrowser_Saved()
         {
@@ -152,13 +154,22 @@ namespace IRCMonitor
         {
             ResetStats();
             loadDefaultSettings();
-
+            
             btnWarn.DropDownItems.Clear();
             MakeMenu(Project.WarningTemplates, btnWarn.DropDownItems, new EventHandler(WarnUserClick));
             //MakeMenu(Project.StubTypes, addStubToolStripMenuItem.DropDownItems, new EventHandler(AddStubClick));
             MakeMenu(Project.PageTags, tagWithToolStripMenuItem.DropDownItems, new EventHandler(AddTagClick));
         }
 
+        private void loadIRCChannels()
+        {
+            cmboChannel.Items.Clear();
+            foreach (string c in IRCChannels)
+            {
+                cmboChannel.Items.Add(c);
+            }
+        }
+        
         private bool CheckStatus()
         {
             lblStatusText.Text = "Loading page to check if we are logged in.";
