@@ -999,6 +999,7 @@ namespace WikiFunctions.Parse
                     if (sort.TrimStart('|').TrimEnd(']') != ArticleTitle)
                     {
                         ArticleText = ArticleText + "\r\n{{DEFAULTSORT:" + sort.TrimStart('|').TrimEnd(']') + "}}";
+                        //ArticleText = ArticleText.Replace("'", ""); - Fix for Gnevins bug if anyone thinks we should implement
                     }
                 }
             }
