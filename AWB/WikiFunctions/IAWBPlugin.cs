@@ -29,6 +29,26 @@ namespace WikiFunctions.Plugin
         void Reset();
     }
 
+    // This interface allows plugins to manipulate AWB UI elements without (ahem) resorting to hacks.
+    public interface IAWBMainForm
+    {
+        TabPage MoreOptionsTab { get; }
+        TabPage OptionsTab { get; }
+        TabPage StartTab { get; }
+        TabPage DabTab { get; }
+        CheckBox BotModeCheckbox { get; }
+        Button DiffButton { get; }
+        Button PreviewButton { get; }
+        Button SaveButton { get; }
+        Button SkipButton { get; }
+        Button StartButton { get; }
+        Button StopButton { get; }
+        ComboBox EditSummary { get; }
+        StatusStrip StatusStrip { get; }
+        NotifyIcon NotifyIcon { get; }
+        ToolStripMenuItem HelpToolStripMenuItem { get; }
+    }
+
     public interface IModule
     {
         string ProcessArticle(string ArticleText, string ArticleTitle, int Namespace, out string Summary, out bool Skip);
