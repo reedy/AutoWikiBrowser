@@ -158,6 +158,8 @@ namespace AutoWikiBrowser
 
             LoadPrefs(openXML.FileName);
             settingsfilename = openXML.FileName;
+
+            listMaker1.removeListDuplicates();
         }
 
         private string settingsfilename = "settings";
@@ -663,6 +665,7 @@ namespace AutoWikiBrowser
         private void RecentSettingsClick(object sender, EventArgs e)
         {
             LoadPrefs((sender as ToolStripItem).Text);
+            listMaker1.removeListDuplicates();
         }
 
         //new methods, using serialization
