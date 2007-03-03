@@ -194,8 +194,8 @@ namespace IRCMonitor
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.pbBrowserProgess = new System.Windows.Forms.ToolStripProgressBar();
             this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblStatusText = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblUserName = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblStatusText = new System.Windows.Forms.ToolStripStatusLabel();
             this.saveXML = new System.Windows.Forms.SaveFileDialog();
             this.openXML = new System.Windows.Forms.OpenFileDialog();
             this.MainMenu = new System.Windows.Forms.MenuStrip();
@@ -632,8 +632,7 @@ namespace IRCMonitor
             this.cmboChannel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmboChannel.FormattingEnabled = true;
             this.cmboChannel.Items.AddRange(new object[] {
-            "#en.wikipedia",
-            "#meta"});
+            ""});
             this.cmboChannel.Location = new System.Drawing.Point(81, 451);
             this.cmboChannel.Name = "cmboChannel";
             this.cmboChannel.Size = new System.Drawing.Size(100, 21);
@@ -1633,6 +1632,7 @@ namespace IRCMonitor
             this.webBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.webBrowser.ArticleText = "";
             this.webBrowser.Busy = false;
             this.webBrowser.DiffFontSize = 150;
             this.webBrowser.EnhanceDiffEnabled = true;
@@ -1899,12 +1899,6 @@ namespace IRCMonitor
             this.StatusLabel.Name = "StatusLabel";
             this.StatusLabel.Size = new System.Drawing.Size(0, 17);
             // 
-            // lblStatusText
-            // 
-            this.lblStatusText.Name = "lblStatusText";
-            this.lblStatusText.Size = new System.Drawing.Size(38, 17);
-            this.lblStatusText.Text = "Status";
-            // 
             // lblUserName
             // 
             this.lblUserName.BackColor = System.Drawing.Color.Red;
@@ -1913,13 +1907,15 @@ namespace IRCMonitor
             this.lblUserName.Text = "Logged out";
             this.lblUserName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // lblStatusText
+            // 
+            this.lblStatusText.Name = "lblStatusText";
+            this.lblStatusText.Size = new System.Drawing.Size(38, 17);
+            this.lblStatusText.Text = "Status";
+            // 
             // saveXML
             // 
             this.saveXML.DefaultExt = "xml";
-            // 
-            // openXML
-            // 
-            this.openXML.FileName = "";
             // 
             // MainMenu
             // 
