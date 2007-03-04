@@ -2644,6 +2644,10 @@ namespace AutoWikiBrowser
                     txtDabVariants.Text += a.Name + "\r\n";
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
             finally
             {
             }

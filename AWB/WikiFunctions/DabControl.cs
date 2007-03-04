@@ -50,6 +50,7 @@ namespace WikiFunctions.Disambiguation
         bool StartOfSentence = false;
         string VisibleLink;
         string CurrentLink;
+        int PosInSurroundings;
 
         static Regex UnpipeRegex = new Regex(@"\[\[([^\|\]]*)\|[^\]]*\]\]", RegexOptions.Compiled);
 
@@ -126,7 +127,7 @@ namespace WikiFunctions.Disambiguation
                 }
             }
             Surroundings = ArticleText.Substring(SurroundingsStart, n - SurroundingsStart);
-
+            PosInSurroundings = Surroundings.IndexOf(Match.Value);
 
             // check if the link is at the beginning of a sentence
             for (n = Match.Index - 1; n > posStart; --n)
@@ -169,7 +170,13 @@ namespace WikiFunctions.Disambiguation
             else if (n == 2) // add {{dn}}
             {
                 CurrentLink = Match.Value + "{{dn}}";
-                txtCorrection.Text = Surroundings.Replace(Match.Value, CurrentLink);
+                if ((Surroundings.Length > PosInSurroundings + Match.Value.Length) && 
+                    (char.IsPunctuation(Surroundings[PosInSurroundings + Match.Value.Length])))
+                {
+                    txtCorrection.Text = Surroundings.Insert(PosInSurroundings + Match.Value.Length + 1, "{{dn}}");
+                }
+                else
+                    txtCorrection.Text = Surroundings.Replace(Match.Value, CurrentLink);
             }
             else
             {
