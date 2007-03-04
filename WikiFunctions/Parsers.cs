@@ -969,7 +969,6 @@ namespace WikiFunctions.Parse
                 //format categories properly
                 ArticleText = FixCategories(ArticleText);
 
-                //broken into two parts to avoid removal of newline when it's not desirable
                 string s = "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + " ?(.*?)( ?\\]\\]| ?\\|[^\\|]*?\\]\\])";
                 foreach (Match m in Regex.Matches(ArticleText, s))
                 {
@@ -992,14 +991,16 @@ namespace WikiFunctions.Parse
                 }
                 if (allsame && matches > 1)
                 {
-                    foreach (Match m in Regex.Matches(ArticleText, s))
+                    if (sort.Length > 4) // So that this doesn't get confused by sort keys of "*", " ", etc.
                     {
-                        ArticleText = Regex.Replace(ArticleText, s, "[[" + Variables.Namespaces[14] + "$1]]");
-                    }
-                    if (sort.TrimStart('|').TrimEnd(']') != ArticleTitle)
-                    {
-                        ArticleText = ArticleText + "\r\n{{DEFAULTSORT:" + sort.TrimStart('|').TrimEnd(']') + "}}";
-                        //ArticleText = ArticleText.Replace("'", ""); - Fix for Gnevins bug if anyone thinks we should implement
+                        foreach (Match m in Regex.Matches(ArticleText, s))
+                        {
+                            ArticleText = Regex.Replace(ArticleText, s, "[[" + Variables.Namespaces[14] + "$1]]");
+                        }
+                        if (sort.TrimStart('|').TrimEnd(']') != ArticleTitle)
+                        {
+                            ArticleText = ArticleText + "\r\n{{DEFAULTSORT:" + sort.TrimStart('|').TrimEnd(']') + "}}";
+                        }
                     }
                 }
             }
