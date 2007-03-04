@@ -34,7 +34,7 @@ Namespace Logging.Uploader
     ''' </summary>
     Public Class UploadableLogSettings
         Protected mLogVerbose As Boolean = True, mLogFolder As String = System.Windows.Forms.Application.StartupPath, _
-           mUploadMaxLines As Integer = 1000, mUploadYN As Boolean, mUploadOpenInBrowser As Boolean = True
+           mUploadMaxLines As Integer = 1000, mUploadYN As Boolean, mUploadOpenInBrowser As Boolean = False
 
         Public Overridable Property LogVerbose() As Boolean
             Get

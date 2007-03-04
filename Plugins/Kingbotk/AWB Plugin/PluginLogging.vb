@@ -79,15 +79,16 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
         Private Sub GetSettingsFromControls()
             DisableApplyButton()
             With Settings
-                If System.IO.Directory.Exists(FolderTextBox.Text) Then
-                    LogFolder = FolderTextBox.Text
-                Else
-                    If MessageBox.Show("Folder doesn't exist, using previous setting", "No such folder", _
-                    MessageBoxButtons.OKCancel, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1) _
-                    = Windows.Forms.DialogResult.Cancel Then
+                If Not FolderTextBox.Text.Trim = "" Then
+                    If System.IO.Directory.Exists(FolderTextBox.Text) Then
+                        LogFolder = FolderTextBox.Text
+                    Else
+                        PluginManager.NotifyBalloon( _
+                           "Folder doesn't exist, using previous setting (" & .LogFolder & ")", ToolTipIcon.Warning)
                         FolderTextBox.Text = .LogFolder
                     End If
                 End If
+
                 Dim blnJobNameHasChanged As Boolean = _
                    (Not .UploadJobName = _UploadJobNameTextBox.Text) _
                    OrElse (_UploadJobNameTextBox.Text = Props.conUploadCategoryIsJobName _
@@ -103,8 +104,10 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
                 .UploadLocation = _UploadLocationTextBox.Text
                 .UploadMaxLines = CInt(_UploadMaxLinesControl.Value)
                 .Category = mCategoryTextBox.Text
-                _UploadOpenInBrowserCheckBox.Checked = .UploadOpenInBrowser
-                _UploadWikiProjectCheckBox.Checked = .UploadToWikiProjects
+                .UploadOpenInBrowser = UploadOpenInBrowserCheckBox.Checked
+                .UploadToWikiProjects = UploadWikiProjectCheckBox.Checked
+                '_UploadOpenInBrowserCheckBox.Checked = .UploadOpenInBrowser
+                '_UploadWikiProjectCheckBox.Checked = .UploadToWikiProjects
 
                 If mInitialised Then MyTrace.PropertiesChange(blnJobNameHasChanged)
             End With
@@ -264,7 +267,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
                 Get
                     Return mUploadToWikiProjects
                 End Get
-                Private Set(ByVal value As Boolean)
+                Set(ByVal value As Boolean)
                     mUploadToWikiProjects = value
                 End Set
             End Property
