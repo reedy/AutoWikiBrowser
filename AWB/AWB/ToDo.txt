@@ -9,5 +9,3 @@ Things to do:
 * Make DB scanner hide some patterns when needed.
 * Do something about faulty plugin options serialization.
 * Do not remove underscore from links to pages that transclde {{Underscore}} and {{Lowercase and underscore}}.
-* Split options to enabled/disable flash + beep
-	- Flash & Bleep Split Reedy Boy
