@@ -492,10 +492,26 @@ namespace WikiFunctions.Parse
                     k = WikiRegexes.PipedWikiLink.Replace(n, "[[$2]]");
                     ArticleText = ArticleText.Replace(n, k);
                 }
+                /*
                 else if (a + "s" == b || Tools.TurnFirstToLower(a) + "s" == b)
                 {
                     k = WikiRegexes.PipedWikiLink.Replace(n, "$2");
                     k = "[[" + k.Substring(0, k.Length - 1) + "]]s";
+                    ArticleText = ArticleText.Replace(n, k);
+                }//*/
+                else if (Tools.TurnFirstToLower(b).StartsWith(Tools.TurnFirstToLower(a)))
+                {
+                    bool DoBreak = false;
+                    foreach (char ch in b.Remove(0, a.Length))
+                    {
+                        if (!char.IsLetterOrDigit(ch))
+                        {
+                            DoBreak = true;
+                            break;
+                        }
+                    }
+                    if (DoBreak) continue;
+                    k = "[[" + b.Substring(0, a.Length) + "]]" + b.Substring(a.Length);
                     ArticleText = ArticleText.Replace(n, k);
                 }
             }

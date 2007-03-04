@@ -184,6 +184,8 @@ namespace WikiFunctions.Disambiguation
                 if (StartOfSentence) CurrentLink += Tools.TurnFirstToUpper(Variants[n - 3]);
                 else CurrentLink += Variants[n - 3];
                 CurrentLink += "|" + VisibleLink + "]]";
+                WikiFunctions.Parse.Parsers Parse = new WikiFunctions.Parse.Parsers();
+                CurrentLink = Parse.LinkSimplifier(CurrentLink);
                 txtCorrection.Text = Surroundings.Replace(Match.Value, CurrentLink);
             }
 
