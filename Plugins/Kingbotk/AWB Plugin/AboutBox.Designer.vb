@@ -90,7 +90,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.TextBoxDescription.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
             Me.TextBoxDescription.Location = New System.Drawing.Point(10, 151)
             Me.TextBoxDescription.Name = "TextBoxDescription"
-            Me.TextBoxDescription.Size = New System.Drawing.Size(423, 112)
+            Me.TextBoxDescription.Size = New System.Drawing.Size(366, 112)
             Me.TextBoxDescription.TabIndex = 6
             Me.TextBoxDescription.Text = "Disclaimer"
             '
@@ -99,7 +99,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.Label1.AutoSize = True
             Me.Label1.BackColor = System.Drawing.Color.Transparent
             Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.Label1.Location = New System.Drawing.Point(10, 120)
+            Me.Label1.Location = New System.Drawing.Point(357, 88)
             Me.Label1.Margin = New System.Windows.Forms.Padding(7, 0, 3, 0)
             Me.Label1.MaximumSize = New System.Drawing.Size(0, 17)
             Me.Label1.Name = "Label1"
@@ -112,7 +112,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             '
             Me.linkKingboy.AutoSize = True
             Me.linkKingboy.BackColor = System.Drawing.Color.Transparent
-            Me.linkKingboy.Location = New System.Drawing.Point(81, 120)
+            Me.linkKingboy.Location = New System.Drawing.Point(343, 120)
             Me.linkKingboy.Name = "linkKingboy"
             Me.linkKingboy.Size = New System.Drawing.Size(49, 13)
             Me.linkKingboy.TabIndex = 47
@@ -124,7 +124,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.Label2.AutoSize = True
             Me.Label2.BackColor = System.Drawing.Color.Transparent
             Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.Label2.Location = New System.Drawing.Point(130, 120)
+            Me.Label2.Location = New System.Drawing.Point(394, 151)
             Me.Label2.Margin = New System.Windows.Forms.Padding(7, 0, 3, 0)
             Me.Label2.MaximumSize = New System.Drawing.Size(0, 17)
             Me.Label2.Name = "Label2"
@@ -137,7 +137,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             '
             Me.linkReedy.AutoSize = True
             Me.linkReedy.BackColor = System.Drawing.Color.Transparent
-            Me.linkReedy.Location = New System.Drawing.Point(164, 120)
+            Me.linkReedy.Location = New System.Drawing.Point(382, 177)
             Me.linkReedy.Name = "linkReedy"
             Me.linkReedy.Size = New System.Drawing.Size(40, 13)
             Me.linkReedy.TabIndex = 49
