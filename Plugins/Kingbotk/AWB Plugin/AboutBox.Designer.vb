@@ -25,8 +25,11 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.LabelProductName = New System.Windows.Forms.Label
             Me.LabelVersion = New System.Windows.Forms.Label
             Me.LabelCopyright = New System.Windows.Forms.Label
-            Me.LabelCompanyName = New System.Windows.Forms.Label
             Me.TextBoxDescription = New System.Windows.Forms.Label
+            Me.Label1 = New System.Windows.Forms.Label
+            Me.linkKingboy = New System.Windows.Forms.LinkLabel
+            Me.Label2 = New System.Windows.Forms.Label
+            Me.linkReedy = New System.Windows.Forms.LinkLabel
             Me.SuspendLayout()
             '
             'OKButton
@@ -48,9 +51,9 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.LabelProductName.Margin = New System.Windows.Forms.Padding(7, 0, 3, 0)
             Me.LabelProductName.MaximumSize = New System.Drawing.Size(0, 17)
             Me.LabelProductName.Name = "LabelProductName"
-            Me.LabelProductName.Size = New System.Drawing.Size(87, 13)
+            Me.LabelProductName.Size = New System.Drawing.Size(221, 13)
             Me.LabelProductName.TabIndex = 4
-            Me.LabelProductName.Text = "Product Name"
+            Me.LabelProductName.Text = "About the Kingbotk Templating Plugin"
             Me.LabelProductName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
             '
             'LabelVersion
@@ -76,24 +79,10 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.LabelCopyright.Margin = New System.Windows.Forms.Padding(7, 0, 3, 0)
             Me.LabelCopyright.MaximumSize = New System.Drawing.Size(0, 17)
             Me.LabelCopyright.Name = "LabelCopyright"
-            Me.LabelCopyright.Size = New System.Drawing.Size(60, 13)
+            Me.LabelCopyright.Size = New System.Drawing.Size(189, 13)
             Me.LabelCopyright.TabIndex = 2
-            Me.LabelCopyright.Text = "Copyright"
+            Me.LabelCopyright.Text = "Copyright © SDK Software 2007"
             Me.LabelCopyright.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-            '
-            'LabelCompanyName
-            '
-            Me.LabelCompanyName.AutoSize = True
-            Me.LabelCompanyName.BackColor = System.Drawing.Color.Transparent
-            Me.LabelCompanyName.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.LabelCompanyName.Location = New System.Drawing.Point(10, 119)
-            Me.LabelCompanyName.Margin = New System.Windows.Forms.Padding(7, 0, 3, 0)
-            Me.LabelCompanyName.MaximumSize = New System.Drawing.Size(0, 17)
-            Me.LabelCompanyName.Name = "LabelCompanyName"
-            Me.LabelCompanyName.Size = New System.Drawing.Size(94, 13)
-            Me.LabelCompanyName.TabIndex = 3
-            Me.LabelCompanyName.Text = "Company Name"
-            Me.LabelCompanyName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
             '
             'TextBoxDescription
             '
@@ -103,7 +92,57 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.TextBoxDescription.Name = "TextBoxDescription"
             Me.TextBoxDescription.Size = New System.Drawing.Size(423, 112)
             Me.TextBoxDescription.TabIndex = 6
-            Me.TextBoxDescription.Text = "Label1"
+            Me.TextBoxDescription.Text = "Disclaimer"
+            '
+            'Label1
+            '
+            Me.Label1.AutoSize = True
+            Me.Label1.BackColor = System.Drawing.Color.Transparent
+            Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+            Me.Label1.Location = New System.Drawing.Point(10, 120)
+            Me.Label1.Margin = New System.Windows.Forms.Padding(7, 0, 3, 0)
+            Me.Label1.MaximumSize = New System.Drawing.Size(0, 17)
+            Me.Label1.Name = "Label1"
+            Me.Label1.Size = New System.Drawing.Size(65, 13)
+            Me.Label1.TabIndex = 7
+            Me.Label1.Text = "Written by"
+            Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+            '
+            'linkKingboy
+            '
+            Me.linkKingboy.AutoSize = True
+            Me.linkKingboy.BackColor = System.Drawing.Color.Transparent
+            Me.linkKingboy.Location = New System.Drawing.Point(81, 120)
+            Me.linkKingboy.Name = "linkKingboy"
+            Me.linkKingboy.Size = New System.Drawing.Size(49, 13)
+            Me.linkKingboy.TabIndex = 47
+            Me.linkKingboy.TabStop = True
+            Me.linkKingboy.Text = "Batman"
+            '
+            'Label2
+            '
+            Me.Label2.AutoSize = True
+            Me.Label2.BackColor = System.Drawing.Color.Transparent
+            Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+            Me.Label2.Location = New System.Drawing.Point(130, 120)
+            Me.Label2.Margin = New System.Windows.Forms.Padding(7, 0, 3, 0)
+            Me.Label2.MaximumSize = New System.Drawing.Size(0, 17)
+            Me.Label2.Name = "Label2"
+            Me.Label2.Size = New System.Drawing.Size(28, 13)
+            Me.Label2.TabIndex = 48
+            Me.Label2.Text = "and"
+            Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+            '
+            'linkReedy
+            '
+            Me.linkReedy.AutoSize = True
+            Me.linkReedy.BackColor = System.Drawing.Color.Transparent
+            Me.linkReedy.Location = New System.Drawing.Point(164, 120)
+            Me.linkReedy.Name = "linkReedy"
+            Me.linkReedy.Size = New System.Drawing.Size(40, 13)
+            Me.linkReedy.TabIndex = 49
+            Me.linkReedy.TabStop = True
+            Me.linkReedy.Text = "Robin"
             '
             'AboutBox
             '
@@ -112,11 +151,14 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
             Me.BackgroundImage = Global.My.Resources.Resources.king_worship1
             Me.ClientSize = New System.Drawing.Size(448, 262)
+            Me.Controls.Add(Me.linkReedy)
+            Me.Controls.Add(Me.Label2)
+            Me.Controls.Add(Me.linkKingboy)
+            Me.Controls.Add(Me.Label1)
             Me.Controls.Add(Me.TextBoxDescription)
             Me.Controls.Add(Me.LabelProductName)
             Me.Controls.Add(Me.LabelVersion)
             Me.Controls.Add(Me.LabelCopyright)
-            Me.Controls.Add(Me.LabelCompanyName)
             Me.Controls.Add(Me.OKButton)
             Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
             Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
@@ -126,7 +168,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.Padding = New System.Windows.Forms.Padding(10, 9, 10, 9)
             Me.ShowInTaskbar = False
             Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-            Me.Text = "AboutBox"
+            Me.Text = "About the Kingbotk Templating Plugin"
             Me.ResumeLayout(False)
             Me.PerformLayout()
 
@@ -135,8 +177,11 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Friend WithEvents LabelProductName As System.Windows.Forms.Label
         Friend WithEvents LabelVersion As System.Windows.Forms.Label
         Friend WithEvents LabelCopyright As System.Windows.Forms.Label
-        Friend WithEvents LabelCompanyName As System.Windows.Forms.Label
         Friend WithEvents TextBoxDescription As System.Windows.Forms.Label
+        Friend WithEvents Label1 As System.Windows.Forms.Label
+        Private WithEvents linkKingboy As System.Windows.Forms.LinkLabel
+        Friend WithEvents Label2 As System.Windows.Forms.Label
+        Private WithEvents linkReedy As System.Windows.Forms.LinkLabel
 
     End Class
 End Namespace
