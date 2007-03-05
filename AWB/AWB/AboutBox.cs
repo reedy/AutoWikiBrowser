@@ -144,7 +144,7 @@ namespace AutoWikiBrowser
 
         private void linkReedy_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            linkMets501.LinkVisited = true;
+            linkReedy.LinkVisited = true;
             System.Diagnostics.Process.Start(WikiEN + "/User:Reedy Boy");
         }
 
