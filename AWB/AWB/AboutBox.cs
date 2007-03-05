@@ -29,6 +29,8 @@ namespace AutoWikiBrowser
 {
     partial class AboutBox : Form
     {
+        private const string WikiEN = "http://en.wikipedia.org/wiki";
+
         public AboutBox() { } //default
 
         public AboutBox(string IEVersion, TimeSpan time, int intEdits)
@@ -119,49 +121,55 @@ namespace AutoWikiBrowser
         private void linkBluemoose_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             linkBluemoose.LinkVisited = true;
-            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/User:Bluemoose");
+            System.Diagnostics.Process.Start(WikiEN + "/User:Bluemoose");
         }
 
         private void linkLigulem_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             linkLigulem.LinkVisited = true;
-            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/User:Ligulem");
+            System.Diagnostics.Process.Start(WikiEN + "/User:Ligulem");
         }
 
         private void linkMaxSem_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             linkMaxSem.LinkVisited = true;
-            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/User:MaxSem");
+            System.Diagnostics.Process.Start(WikiEN + "/User:MaxSem");
         }
 
         private void linkMets501_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             linkMets501.LinkVisited = true;
-            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/User:Mets501");
+            System.Diagnostics.Process.Start(WikiEN + "/User:Mets501");
         }
 
         private void linkReedy_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             linkMets501.LinkVisited = true;
-            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/User:Reedy Boy");
+            System.Diagnostics.Process.Start(WikiEN + "/User:Reedy Boy");
+        }
+
+        private void linkKingboy_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            linkKingboy.LinkVisited = true;
+            System.Diagnostics.Process.Start(WikiEN + "/User:Kingboyk");
         }
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             linkAWBPage.LinkVisited = true;
-            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser");
+            System.Diagnostics.Process.Start(WikiEN + "/Wikipedia:AutoWikiBrowser");
         }
         
         private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             linkBugs.LinkVisited = true;
-            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs");
+            System.Diagnostics.Process.Start(WikiEN + "/Wikipedia_talk:AutoWikiBrowser/Bugs");
         }
 
         private void linkLabel7_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             linkFeatureRequests.LinkVisited = true;
-            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests");
+            System.Diagnostics.Process.Start(WikiEN + "/Wikipedia_talk:AutoWikiBrowser/Feature_requests");
         }
     }
 }

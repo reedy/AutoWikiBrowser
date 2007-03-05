@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("AutoWikiBrowser")]
-[assembly: AssemblyDescription("AutoWikiBrowser comes with ABSOLUTELY NO WARRANTY.\r\n\r\nThis is a development version, you are responsible for what you do with this tool and use it at your own risk.\r\n\r\nAnyone is free to copy and distribute this software, only users registered on the Wikipedia:AutoWikiBrowser/CheckPage are allowed to use it. All editing done with it must be within Wikipedia policy and guidelines.")]
+[assembly: AssemblyDescription("AutoWikiBrowser (AWB) comes with ABSOLUTELY NO WARRANTY.\r\n\r\nAWB is constantly in development, and there may be bugs. YOU are responsible for what you do with this tool and use it at your own risk.\r\n\r\nAnyone is free to copy and distribute this software, only users registered on the Wikipedia:AutoWikiBrowser/CheckPage are allowed to use it. All editing done with it must be within the policy and guidelines of your wiki.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("AutoWikiBrowser")]
-[assembly: AssemblyCopyright("Copyright ©  2006 General Public License V2")]
+[assembly: AssemblyCopyright("Copyright ©  2007 General Public License V2")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

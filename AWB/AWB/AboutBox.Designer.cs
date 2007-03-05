@@ -67,6 +67,8 @@ namespace AutoWikiBrowser
             this.linkFeatureRequests = new System.Windows.Forms.LinkLabel();
             this.label6 = new System.Windows.Forms.Label();
             this.linkReedy = new System.Windows.Forms.LinkLabel();
+            this.label7 = new System.Windows.Forms.Label();
+            this.linkKingboy = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // textBoxDescription
@@ -80,7 +82,7 @@ namespace AutoWikiBrowser
             this.textBoxDescription.Size = new System.Drawing.Size(248, 77);
             this.textBoxDescription.TabIndex = 23;
             this.textBoxDescription.TabStop = false;
-            this.textBoxDescription.Text = "Development version, You are responsible for what you do with this tool. Anyo";
+            this.textBoxDescription.Text = "WarningMessage";
             // 
             // okButton
             // 
@@ -261,7 +263,7 @@ namespace AutoWikiBrowser
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(71, 89);
+            this.label6.Location = new System.Drawing.Point(32, 90);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(25, 13);
             this.label6.TabIndex = 43;
@@ -270,7 +272,7 @@ namespace AutoWikiBrowser
             // linkReedy
             // 
             this.linkReedy.AutoSize = true;
-            this.linkReedy.Location = new System.Drawing.Point(102, 89);
+            this.linkReedy.Location = new System.Drawing.Point(63, 90);
             this.linkReedy.Name = "linkReedy";
             this.linkReedy.Size = new System.Drawing.Size(84, 13);
             this.linkReedy.TabIndex = 44;
@@ -278,12 +280,34 @@ namespace AutoWikiBrowser
             this.linkReedy.Text = "User:Reedy Boy";
             this.linkReedy.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkReedy_LinkClicked);
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(145, 90);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(10, 13);
+            this.label7.TabIndex = 45;
+            this.label7.Text = ",";
+            // 
+            // linkKingboy
+            // 
+            this.linkKingboy.AutoSize = true;
+            this.linkKingboy.Location = new System.Drawing.Point(153, 90);
+            this.linkKingboy.Name = "linkKingboy";
+            this.linkKingboy.Size = new System.Drawing.Size(76, 13);
+            this.linkKingboy.TabIndex = 46;
+            this.linkKingboy.TabStop = true;
+            this.linkKingboy.Text = "User:Kingboyk";
+            this.linkKingboy.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkKingboy_LinkClicked);
+            // 
             // AboutBox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(281, 384);
+            this.Controls.Add(this.linkKingboy);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.linkReedy);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.linkFeatureRequests);
@@ -344,5 +368,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.LinkLabel linkFeatureRequests;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.LinkLabel linkReedy;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.LinkLabel linkKingboy;
     }
 }
