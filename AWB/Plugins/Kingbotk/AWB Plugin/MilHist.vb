@@ -342,7 +342,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
 
         ' Event handlers:
         Private Sub LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
-            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/Template:WPMILHIST")
+            System.Diagnostics.Process.Start(PluginManager.ENWiki + "Template:WPMILHIST")
         End Sub
         Private Sub AutoStubCheckBox_CheckedChanged(ByVal sender As System.Object, _
         ByVal e As System.EventArgs) Handles AutoStubCheckBox.CheckedChanged
