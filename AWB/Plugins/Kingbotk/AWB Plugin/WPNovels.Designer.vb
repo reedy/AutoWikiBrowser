@@ -21,21 +21,11 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         <System.Diagnostics.DebuggerStepThrough()> _
         Private Sub InitializeComponent()
             Me.components = New System.ComponentModel.Container
-            Me.ParametersGroup = New System.Windows.Forms.GroupBox
-            Me.OldPeerCheckBox = New System.Windows.Forms.CheckBox
-            Me.PeerReviewCheckBox = New System.Windows.Forms.CheckBox
-            Me.PastCollaborationCheckBox = New System.Windows.Forms.CheckBox
-            Me.CollaborationCheckBox = New System.Windows.Forms.CheckBox
-            Me.NeedsInfoCoverCheckBox = New System.Windows.Forms.CheckBox
-            Me.InCompInfoCheckBox = New System.Windows.Forms.CheckBox
-            Me.NeedInfoCheckBox = New System.Windows.Forms.CheckBox
-            Me.AttentionCheckBox = New System.Windows.Forms.CheckBox
             Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
             Me.WorkgroupsGroupBox = New System.Windows.Forms.GroupBox
             Me.SFCheckBox = New System.Windows.Forms.CheckBox
             Me.ShortStoryCheckBox = New System.Windows.Forms.CheckBox
             Me.CrimeCheckBox = New System.Windows.Forms.CheckBox
-            Me.TipLabel = New System.Windows.Forms.Label
             Me.LinkLabel1 = New System.Windows.Forms.LinkLabel
             Me.TextInsertContextMenuStrip = New System.Windows.Forms.ContextMenuStrip(Me.components)
             Me.ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -63,115 +53,13 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.CoreArticleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.NonbiographyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.AutotaggedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.ParametersGroup.SuspendLayout()
+            Me.ParametersGroup = New System.Windows.Forms.GroupBox
+            Me.StubClassCheckBox = New System.Windows.Forms.CheckBox
+            Me.AutoStubCheckBox = New System.Windows.Forms.CheckBox
             Me.WorkgroupsGroupBox.SuspendLayout()
             Me.TextInsertContextMenuStrip.SuspendLayout()
+            Me.ParametersGroup.SuspendLayout()
             Me.SuspendLayout()
-            '
-            'ParametersGroup
-            '
-            Me.ParametersGroup.Controls.Add(Me.OldPeerCheckBox)
-            Me.ParametersGroup.Controls.Add(Me.PeerReviewCheckBox)
-            Me.ParametersGroup.Controls.Add(Me.PastCollaborationCheckBox)
-            Me.ParametersGroup.Controls.Add(Me.CollaborationCheckBox)
-            Me.ParametersGroup.Controls.Add(Me.NeedsInfoCoverCheckBox)
-            Me.ParametersGroup.Controls.Add(Me.InCompInfoCheckBox)
-            Me.ParametersGroup.Controls.Add(Me.NeedInfoCheckBox)
-            Me.ParametersGroup.Controls.Add(Me.AttentionCheckBox)
-            Me.ParametersGroup.Location = New System.Drawing.Point(6, 6)
-            Me.ParametersGroup.Name = "ParametersGroup"
-            Me.ParametersGroup.Size = New System.Drawing.Size(129, 207)
-            Me.ParametersGroup.TabIndex = 1
-            Me.ParametersGroup.TabStop = False
-            Me.ParametersGroup.Text = "Template Parameters"
-            '
-            'OldPeerCheckBox
-            '
-            Me.OldPeerCheckBox.AutoSize = True
-            Me.OldPeerCheckBox.Location = New System.Drawing.Point(6, 176)
-            Me.OldPeerCheckBox.Name = "OldPeerCheckBox"
-            Me.OldPeerCheckBox.Size = New System.Drawing.Size(106, 17)
-            Me.OldPeerCheckBox.TabIndex = 8
-            Me.OldPeerCheckBox.Text = "Old Peer Review"
-            Me.ToolTip1.SetToolTip(Me.OldPeerCheckBox, "non-bio=yes")
-            Me.OldPeerCheckBox.UseVisualStyleBackColor = True
-            '
-            'PeerReviewCheckBox
-            '
-            Me.PeerReviewCheckBox.AutoSize = True
-            Me.PeerReviewCheckBox.Location = New System.Drawing.Point(6, 155)
-            Me.PeerReviewCheckBox.Name = "PeerReviewCheckBox"
-            Me.PeerReviewCheckBox.Size = New System.Drawing.Size(87, 17)
-            Me.PeerReviewCheckBox.TabIndex = 7
-            Me.PeerReviewCheckBox.Text = "Peer Review"
-            Me.ToolTip1.SetToolTip(Me.PeerReviewCheckBox, "activepol=yes")
-            Me.PeerReviewCheckBox.UseVisualStyleBackColor = True
-            '
-            'PastCollaborationCheckBox
-            '
-            Me.PastCollaborationCheckBox.AutoSize = True
-            Me.PastCollaborationCheckBox.Location = New System.Drawing.Point(6, 132)
-            Me.PastCollaborationCheckBox.Name = "PastCollaborationCheckBox"
-            Me.PastCollaborationCheckBox.Size = New System.Drawing.Size(111, 17)
-            Me.PastCollaborationCheckBox.TabIndex = 6
-            Me.PastCollaborationCheckBox.Text = "Past Collaboration"
-            Me.ToolTip1.SetToolTip(Me.PastCollaborationCheckBox, "class=Stub (not for use in bot mode; use Auto-Stub)")
-            Me.PastCollaborationCheckBox.UseVisualStyleBackColor = True
-            '
-            'CollaborationCheckBox
-            '
-            Me.CollaborationCheckBox.AutoSize = True
-            Me.CollaborationCheckBox.Location = New System.Drawing.Point(6, 109)
-            Me.CollaborationCheckBox.Name = "CollaborationCheckBox"
-            Me.CollaborationCheckBox.Size = New System.Drawing.Size(121, 17)
-            Me.CollaborationCheckBox.TabIndex = 5
-            Me.CollaborationCheckBox.Text = "Collaboration Cand?"
-            Me.ToolTip1.SetToolTip(Me.CollaborationCheckBox, "non-bio=yes")
-            Me.CollaborationCheckBox.UseVisualStyleBackColor = True
-            '
-            'NeedsInfoCoverCheckBox
-            '
-            Me.NeedsInfoCoverCheckBox.AutoSize = True
-            Me.NeedsInfoCoverCheckBox.Location = New System.Drawing.Point(6, 88)
-            Me.NeedsInfoCoverCheckBox.Name = "NeedsInfoCoverCheckBox"
-            Me.NeedsInfoCoverCheckBox.Size = New System.Drawing.Size(88, 17)
-            Me.NeedsInfoCoverCheckBox.TabIndex = 4
-            Me.NeedsInfoCoverCheckBox.Text = "Needs Cover"
-            Me.ToolTip1.SetToolTip(Me.NeedsInfoCoverCheckBox, "activepol=yes")
-            Me.NeedsInfoCoverCheckBox.UseVisualStyleBackColor = True
-            '
-            'InCompInfoCheckBox
-            '
-            Me.InCompInfoCheckBox.AutoSize = True
-            Me.InCompInfoCheckBox.Location = New System.Drawing.Point(6, 65)
-            Me.InCompInfoCheckBox.Name = "InCompInfoCheckBox"
-            Me.InCompInfoCheckBox.Size = New System.Drawing.Size(116, 17)
-            Me.InCompInfoCheckBox.TabIndex = 3
-            Me.InCompInfoCheckBox.Text = "Incomplete Infobox"
-            Me.ToolTip1.SetToolTip(Me.InCompInfoCheckBox, "class=Stub (not for use in bot mode; use Auto-Stub)")
-            Me.InCompInfoCheckBox.UseVisualStyleBackColor = True
-            '
-            'NeedInfoCheckBox
-            '
-            Me.NeedInfoCheckBox.AutoSize = True
-            Me.NeedInfoCheckBox.Location = New System.Drawing.Point(6, 42)
-            Me.NeedInfoCheckBox.Name = "NeedInfoCheckBox"
-            Me.NeedInfoCheckBox.Size = New System.Drawing.Size(95, 17)
-            Me.NeedInfoCheckBox.TabIndex = 2
-            Me.NeedInfoCheckBox.Text = "Needs Infobox"
-            Me.ToolTip1.SetToolTip(Me.NeedInfoCheckBox, "class=Stub|auto=yes")
-            Me.NeedInfoCheckBox.UseVisualStyleBackColor = True
-            '
-            'AttentionCheckBox
-            '
-            Me.AttentionCheckBox.AutoSize = True
-            Me.AttentionCheckBox.Location = New System.Drawing.Point(6, 19)
-            Me.AttentionCheckBox.Name = "AttentionCheckBox"
-            Me.AttentionCheckBox.Size = New System.Drawing.Size(68, 17)
-            Me.AttentionCheckBox.TabIndex = 1
-            Me.AttentionCheckBox.Text = "Attention"
-            Me.ToolTip1.SetToolTip(Me.AttentionCheckBox, "living=yes")
-            Me.AttentionCheckBox.UseVisualStyleBackColor = True
             '
             'WorkgroupsGroupBox
             '
@@ -219,17 +107,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.ToolTip1.SetToolTip(Me.CrimeCheckBox, "a&e-work-group=yes")
             Me.CrimeCheckBox.UseVisualStyleBackColor = True
             '
-            'TipLabel
-            '
-            Me.TipLabel.AutoSize = True
-            Me.TipLabel.Location = New System.Drawing.Point(9, 265)
-            Me.TipLabel.Name = "TipLabel"
-            Me.TipLabel.Size = New System.Drawing.Size(255, 39)
-            Me.TipLabel.TabIndex = 6
-            Me.TipLabel.Text = "Tip: The plugin also adds parameter insertion options" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "to the context menu of the" & _
-                " edit box. Just right" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "click inside the edit box to access them."
-            Me.TipLabel.Visible = False
-            '
             'LinkLabel1
             '
             Me.LinkLabel1.AutoSize = True
@@ -244,190 +121,215 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             '
             Me.TextInsertContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem})
             Me.TextInsertContextMenuStrip.Name = "TextInsertContextMenuStrip"
-            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(150, 26)
+            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(139, 26)
             '
             'ToolStripMenuItem
             '
             Me.ToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.WPBiographyToolStripMenuItem, Me.ToolStripMenuItem3, Me.ToolStripSeparator2, Me.AttentionToolStripMenuItem, Me.InfoboxToolStripMenuItem, Me.ToolStripSeparator1, Me.CollabCandidateToolStripMenuItem, Me.PastCollabToolStripMenuItem, Me.PeerReviewToolStripMenuItem, Me.OldPeerReviewToolStripMenuItem, Me.ToolStripSeparator3, Me.LivingPersonToolStripMenuItem, Me.ActivePoliticianToolStripMenuItem, Me.CoreArticleToolStripMenuItem, Me.NonbiographyToolStripMenuItem, Me.AutotaggedToolStripMenuItem})
             Me.ToolStripMenuItem.Name = "ToolStripMenuItem"
-            Me.ToolStripMenuItem.Size = New System.Drawing.Size(149, 22)
+            Me.ToolStripMenuItem.Size = New System.Drawing.Size(138, 22)
             Me.ToolStripMenuItem.Text = "WPBiography"
             '
             'WPBiographyToolStripMenuItem
             '
             Me.WPBiographyToolStripMenuItem.Name = "WPBiographyToolStripMenuItem"
-            Me.WPBiographyToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+            Me.WPBiographyToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.WPBiographyToolStripMenuItem.Text = "{{WPBiography}}"
             '
             'ToolStripMenuItem3
             '
             Me.ToolStripMenuItem3.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ArtsEntertainmentToolStripMenuItem, Me.BritishRoyaltyToolStripMenuItem, Me.MilitaryToolStripMenuItem, Me.MusiciansToolStripMenuItem, Me.PoliticsToolStripMenuItem, Me.RoyaltyToolStripMenuItem, Me.ScienceAcademiaToolStripMenuItem, Me.SportsGamesToolStripMenuItem})
             Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-            Me.ToolStripMenuItem3.Size = New System.Drawing.Size(198, 22)
+            Me.ToolStripMenuItem3.Size = New System.Drawing.Size(187, 22)
             Me.ToolStripMenuItem3.Text = "Workgroups"
             '
             'ArtsEntertainmentToolStripMenuItem
             '
             Me.ArtsEntertainmentToolStripMenuItem.Name = "ArtsEntertainmentToolStripMenuItem"
-            Me.ArtsEntertainmentToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+            Me.ArtsEntertainmentToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
             Me.ArtsEntertainmentToolStripMenuItem.Text = "Arts && Entertainment"
             '
             'BritishRoyaltyToolStripMenuItem
             '
             Me.BritishRoyaltyToolStripMenuItem.Name = "BritishRoyaltyToolStripMenuItem"
-            Me.BritishRoyaltyToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+            Me.BritishRoyaltyToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
             Me.BritishRoyaltyToolStripMenuItem.Text = "British Royalty"
             '
             'MilitaryToolStripMenuItem
             '
             Me.MilitaryToolStripMenuItem.Name = "MilitaryToolStripMenuItem"
-            Me.MilitaryToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+            Me.MilitaryToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
             Me.MilitaryToolStripMenuItem.Text = "Military"
             '
             'MusiciansToolStripMenuItem
             '
             Me.MusiciansToolStripMenuItem.Name = "MusiciansToolStripMenuItem"
-            Me.MusiciansToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+            Me.MusiciansToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
             Me.MusiciansToolStripMenuItem.Text = "Musicians"
             '
             'PoliticsToolStripMenuItem
             '
             Me.PoliticsToolStripMenuItem.Name = "PoliticsToolStripMenuItem"
-            Me.PoliticsToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+            Me.PoliticsToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
             Me.PoliticsToolStripMenuItem.Text = "Politics"
             '
             'RoyaltyToolStripMenuItem
             '
             Me.RoyaltyToolStripMenuItem.Name = "RoyaltyToolStripMenuItem"
-            Me.RoyaltyToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+            Me.RoyaltyToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
             Me.RoyaltyToolStripMenuItem.Text = "Royalty"
             '
             'ScienceAcademiaToolStripMenuItem
             '
             Me.ScienceAcademiaToolStripMenuItem.Name = "ScienceAcademiaToolStripMenuItem"
-            Me.ScienceAcademiaToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+            Me.ScienceAcademiaToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
             Me.ScienceAcademiaToolStripMenuItem.Text = "Science/Academia"
             '
             'SportsGamesToolStripMenuItem
             '
             Me.SportsGamesToolStripMenuItem.Name = "SportsGamesToolStripMenuItem"
-            Me.SportsGamesToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+            Me.SportsGamesToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
             Me.SportsGamesToolStripMenuItem.Text = "Sports/Games"
             '
             'ToolStripSeparator2
             '
             Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-            Me.ToolStripSeparator2.Size = New System.Drawing.Size(195, 6)
+            Me.ToolStripSeparator2.Size = New System.Drawing.Size(184, 6)
             '
             'AttentionToolStripMenuItem
             '
             Me.AttentionToolStripMenuItem.Name = "AttentionToolStripMenuItem"
-            Me.AttentionToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+            Me.AttentionToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.AttentionToolStripMenuItem.Text = "Needs attention"
             '
             'InfoboxToolStripMenuItem
             '
             Me.InfoboxToolStripMenuItem.Name = "InfoboxToolStripMenuItem"
-            Me.InfoboxToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+            Me.InfoboxToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.InfoboxToolStripMenuItem.Text = "Needs infobox"
             '
             'ToolStripSeparator1
             '
             Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-            Me.ToolStripSeparator1.Size = New System.Drawing.Size(195, 6)
+            Me.ToolStripSeparator1.Size = New System.Drawing.Size(184, 6)
             '
             'CollabCandidateToolStripMenuItem
             '
             Me.CollabCandidateToolStripMenuItem.Name = "CollabCandidateToolStripMenuItem"
-            Me.CollabCandidateToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+            Me.CollabCandidateToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.CollabCandidateToolStripMenuItem.Text = "Collaboration candidate"
             '
             'PastCollabToolStripMenuItem
             '
             Me.PastCollabToolStripMenuItem.Name = "PastCollabToolStripMenuItem"
-            Me.PastCollabToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+            Me.PastCollabToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.PastCollabToolStripMenuItem.Text = "Past collaboration"
             '
             'PeerReviewToolStripMenuItem
             '
             Me.PeerReviewToolStripMenuItem.Name = "PeerReviewToolStripMenuItem"
-            Me.PeerReviewToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+            Me.PeerReviewToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.PeerReviewToolStripMenuItem.Text = "Peer review"
             '
             'OldPeerReviewToolStripMenuItem
             '
             Me.OldPeerReviewToolStripMenuItem.Name = "OldPeerReviewToolStripMenuItem"
-            Me.OldPeerReviewToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+            Me.OldPeerReviewToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.OldPeerReviewToolStripMenuItem.Text = "Old peer review"
             '
             'ToolStripSeparator3
             '
             Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-            Me.ToolStripSeparator3.Size = New System.Drawing.Size(195, 6)
+            Me.ToolStripSeparator3.Size = New System.Drawing.Size(184, 6)
             '
             'LivingPersonToolStripMenuItem
             '
             Me.LivingPersonToolStripMenuItem.Name = "LivingPersonToolStripMenuItem"
-            Me.LivingPersonToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+            Me.LivingPersonToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.LivingPersonToolStripMenuItem.Text = "Living person"
             '
             'ActivePoliticianToolStripMenuItem
             '
             Me.ActivePoliticianToolStripMenuItem.Name = "ActivePoliticianToolStripMenuItem"
-            Me.ActivePoliticianToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+            Me.ActivePoliticianToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.ActivePoliticianToolStripMenuItem.Text = "Active politician"
             '
             'CoreArticleToolStripMenuItem
             '
             Me.CoreArticleToolStripMenuItem.Name = "CoreArticleToolStripMenuItem"
-            Me.CoreArticleToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+            Me.CoreArticleToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.CoreArticleToolStripMenuItem.Text = "Core article"
             '
             'NonbiographyToolStripMenuItem
             '
             Me.NonbiographyToolStripMenuItem.Name = "NonbiographyToolStripMenuItem"
-            Me.NonbiographyToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+            Me.NonbiographyToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.NonbiographyToolStripMenuItem.Text = "Non-biography"
             '
             'AutotaggedToolStripMenuItem
             '
             Me.AutotaggedToolStripMenuItem.Name = "AutotaggedToolStripMenuItem"
-            Me.AutotaggedToolStripMenuItem.Size = New System.Drawing.Size(198, 22)
+            Me.AutotaggedToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.AutotaggedToolStripMenuItem.Text = "Auto-tagged"
+            '
+            'ParametersGroup
+            '
+            Me.ParametersGroup.Controls.Add(Me.StubClassCheckBox)
+            Me.ParametersGroup.Controls.Add(Me.AutoStubCheckBox)
+            Me.ParametersGroup.Location = New System.Drawing.Point(12, 6)
+            Me.ParametersGroup.Name = "ParametersGroup"
+            Me.ParametersGroup.Size = New System.Drawing.Size(123, 74)
+            Me.ParametersGroup.TabIndex = 8
+            Me.ParametersGroup.TabStop = False
+            Me.ParametersGroup.Text = "Template Parameters"
+            '
+            'StubClassCheckBox
+            '
+            Me.StubClassCheckBox.AutoSize = True
+            Me.StubClassCheckBox.Location = New System.Drawing.Point(6, 42)
+            Me.StubClassCheckBox.Name = "StubClassCheckBox"
+            Me.StubClassCheckBox.Size = New System.Drawing.Size(76, 17)
+            Me.StubClassCheckBox.TabIndex = 3
+            Me.StubClassCheckBox.Text = "Stub-Class"
+            Me.ToolTip1.SetToolTip(Me.StubClassCheckBox, "class=Stub (not for use in bot mode; use Auto-Stub)")
+            Me.StubClassCheckBox.UseVisualStyleBackColor = True
+            '
+            'AutoStubCheckBox
+            '
+            Me.AutoStubCheckBox.AutoSize = True
+            Me.AutoStubCheckBox.Location = New System.Drawing.Point(6, 19)
+            Me.AutoStubCheckBox.Name = "AutoStubCheckBox"
+            Me.AutoStubCheckBox.Size = New System.Drawing.Size(73, 17)
+            Me.AutoStubCheckBox.TabIndex = 2
+            Me.AutoStubCheckBox.Text = "Auto-Stub"
+            Me.ToolTip1.SetToolTip(Me.AutoStubCheckBox, "class=Stub|auto=yes")
+            Me.AutoStubCheckBox.UseVisualStyleBackColor = True
             '
             'WPNovelSettings
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-            Me.Controls.Add(Me.LinkLabel1)
-            Me.Controls.Add(Me.TipLabel)
-            Me.Controls.Add(Me.WorkgroupsGroupBox)
             Me.Controls.Add(Me.ParametersGroup)
+            Me.Controls.Add(Me.LinkLabel1)
+            Me.Controls.Add(Me.WorkgroupsGroupBox)
             Me.MaximumSize = New System.Drawing.Size(276, 349)
             Me.MinimumSize = New System.Drawing.Size(276, 349)
             Me.Name = "WPNovelSettings"
             Me.Size = New System.Drawing.Size(276, 349)
-            Me.ParametersGroup.ResumeLayout(False)
-            Me.ParametersGroup.PerformLayout()
             Me.WorkgroupsGroupBox.ResumeLayout(False)
             Me.WorkgroupsGroupBox.PerformLayout()
             Me.TextInsertContextMenuStrip.ResumeLayout(False)
+            Me.ParametersGroup.ResumeLayout(False)
+            Me.ParametersGroup.PerformLayout()
             Me.ResumeLayout(False)
             Me.PerformLayout()
 
         End Sub
-        Friend WithEvents ParametersGroup As System.Windows.Forms.GroupBox
-        Friend WithEvents AttentionCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents NeedInfoCheckBox As System.Windows.Forms.CheckBox
         Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
-        Friend WithEvents InCompInfoCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents NeedsInfoCoverCheckBox As System.Windows.Forms.CheckBox
         Friend WithEvents WorkgroupsGroupBox As System.Windows.Forms.GroupBox
         Friend WithEvents CrimeCheckBox As System.Windows.Forms.CheckBox
         Friend WithEvents ShortStoryCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents TipLabel As System.Windows.Forms.Label
         Friend WithEvents LinkLabel1 As System.Windows.Forms.LinkLabel
-        Friend WithEvents CollaborationCheckBox As System.Windows.Forms.CheckBox
         Friend WithEvents TextInsertContextMenuStrip As System.Windows.Forms.ContextMenuStrip
         Friend WithEvents ToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents CoreArticleToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
@@ -455,9 +357,9 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Friend WithEvents MusiciansToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents ScienceAcademiaToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents SportsGamesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents OldPeerCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents PeerReviewCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents PastCollaborationCheckBox As System.Windows.Forms.CheckBox
+        Friend WithEvents ParametersGroup As System.Windows.Forms.GroupBox
+        Friend WithEvents StubClassCheckBox As System.Windows.Forms.CheckBox
+        Friend WithEvents AutoStubCheckBox As System.Windows.Forms.CheckBox
 
     End Class
 End Namespace
