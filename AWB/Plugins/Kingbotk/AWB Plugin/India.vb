@@ -25,6 +25,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Private Const conHimachalParm As String = "IndHimachal"
         Private Const conLiteratureParm As String = "IndLiterature"
         Private Const conProtectedAreasParm As String = "IndProtectedAreas"
+        Private Const conGujaratParm As String = "IndGujarat"
 
         ' UI:
         Private txtEdit As TextBox
@@ -45,14 +46,13 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             History = PluginManager.XMLReadBoolean(Reader, conHistoryParm, History)
             Cinema = PluginManager.XMLReadBoolean(Reader, conCinemaParm, Cinema)
             Tamil = PluginManager.XMLReadBoolean(Reader, conTamilParm, Tamil)
-
             Punjab = PluginManager.XMLReadBoolean(Reader, conPunjabParm, Punjab)
             Geography = PluginManager.XMLReadBoolean(Reader, conGeogParm, Geography)
             Maps = PluginManager.XMLReadBoolean(Reader, conMapsParm, Maps)
-            WestBengal = PluginManager.XMLReadBoolean(Reader, conWBengalParm, WestBengal)
             Himachal = PluginManager.XMLReadBoolean(Reader, conHimachalParm, Himachal)
             Literature = PluginManager.XMLReadBoolean(Reader, conLiteratureParm, Literature)
             ProtectedAreas = PluginManager.XMLReadBoolean(Reader, conProtectedAreasParm, ProtectedAreas)
+            Gujarat = PluginManager.XMLReadBoolean(Reader, conGujaratParm, Gujarat)
         End Sub
         Friend Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter) Implements IGenericSettings.WriteXML
             With Writer
@@ -74,7 +74,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 .WriteAttributeString(conPunjabParm, Punjab.ToString)
                 .WriteAttributeString(conGeogParm, Geography.ToString)
                 .WriteAttributeString(conMapsParm, Maps.ToString)
-                .WriteAttributeString(conWBengalParm, WestBengal.ToString)
+                .WriteAttributeString(conGujaratParm, Gujarat.ToString)
                 .WriteAttributeString(conHimachalParm, Himachal.ToString)
                 .WriteAttributeString(conLiteratureParm, Literature.ToString)
                 .WriteAttributeString(conProtectedAreasParm, ProtectedAreas.ToString)
@@ -227,14 +227,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 MapsCheckBox.Checked = value
             End Set
         End Property
-        Friend Property WestBengal() As Boolean
-            Get
-                Return WBengalCheckBox.Checked
-            End Get
-            Set(ByVal value As Boolean)
-                WBengalCheckBox.Checked = value
-            End Set
-        End Property
         Friend Property Himachal() As Boolean
             Get
                 Return HimachalCheckBox.Checked
@@ -257,6 +249,14 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             End Get
             Set(ByVal value As Boolean)
                 ProtectedCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Gujarat() As Boolean
+            Get
+                Return GujuratCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                GujuratCheckBox.Checked = value
             End Set
         End Property
         Friend Property StubClass() As Boolean Implements IGenericSettings.StubClass
@@ -347,12 +347,19 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 Return "Template"
             End Get
         End Property
-
         Protected Overrides ReadOnly Property PreferredTemplateNameWiki() As String
             Get
                 Return "WP India"
             End Get
         End Property
+        Friend Overrides ReadOnly Property HasReqPhotoParam() As Boolean
+            Get
+                Return True
+            End Get
+        End Property
+        Friend Overrides Sub ReqPhoto()
+            AddAndLogNewParamWithAYesValue("image-needed")
+        End Sub
 
         ' Initialisation:
         Protected Friend Sub New(ByVal Manager As PluginManager)
@@ -382,28 +389,89 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Protected Overrides Sub ProcessArticleFinish()
             StubClass()
             With OurSettingsControl
-                If .Cities Then AddAndLogNewParamWithAYesValue("cities")
-                If .Districts Then AddAndLogNewParamWithAYesValue("districts")
-                If .States Then AddAndLogNewParamWithAYesValue("states")
-                If .Andhra Then AddAndLogNewParamWithAYesValue("andhra")
-                If .Bengal Then AddAndLogNewParamWithAYesValue("bengal")
-                If .Goa Then AddAndLogNewParamWithAYesValue("goa")
-                If .Karnataka Then AddAndLogNewParamWithAYesValue("karnataka")
-                If .Kerala Then AddAndLogNewParamWithAYesValue("kerala")
-                If .Maharashtra Then AddAndLogNewParamWithAYesValue("maharashtra")
-                If .Tamilnadu Then AddAndLogNewParamWithAYesValue("tamilnadu")
-                If .Politics Then AddAndLogNewParamWithAYesValue("politics")
-                If .History Then AddAndLogNewParamWithAYesValue("history")
-                If .Cinema Then AddAndLogNewParamWithAYesValue("cinema")
-                If .Tamil Then AddAndLogNewParamWithAYesValue("tamil")
-
-                If .Punjab Then AddAndLogNewParamWithAYesValue("punjab")
-                If .Geography Then AddAndLogNewParamWithAYesValue("geography")
-                If .Maps Then AddAndLogNewParamWithAYesValue("maps")
-                If .WestBengal Then AddAndLogNewParamWithAYesValue("bengal")
-                If .Himachal Then AddAndLogNewParamWithAYesValue("himachal")
-                If .Literature Then AddAndLogNewParamWithAYesValue("literature")
-                If .ProtectedAreas Then AddAndLogNewParamWithAYesValue("protected-areas")
+                If .Cities Then
+                    AddAndLogNewParamWithAYesValue("cities")
+                    AddAndLogEmptyParam("cities-importance")
+                End If
+                If .Districts Then
+                    AddAndLogNewParamWithAYesValue("districts")
+                    AddAndLogEmptyParam("districts-importance")
+                End If
+                If .States Then
+                    AddAndLogNewParamWithAYesValue("states")
+                    AddAndLogEmptyParam("states-importance")
+                End If
+                If .Andhra Then
+                    AddAndLogNewParamWithAYesValue("andhra")
+                    AddAndLogEmptyParam("andhra-importance")
+                End If
+                If .Bengal Then
+                    AddAndLogNewParamWithAYesValue("bengal")
+                    AddAndLogEmptyParam("bengal-importance")
+                End If
+                If .Goa Then
+                    AddAndLogNewParamWithAYesValue("goa")
+                    AddAndLogEmptyParam("goa-importance")
+                End If
+                If .Karnataka Then
+                    AddAndLogNewParamWithAYesValue("karnataka")
+                    AddAndLogEmptyParam("karnataka-importance")
+                End If
+                If .Kerala Then
+                    AddAndLogNewParamWithAYesValue("kerala")
+                    AddAndLogEmptyParam("kerala-importance")
+                End If
+                If .Maharashtra Then
+                    AddAndLogNewParamWithAYesValue("maharashtra")
+                    AddAndLogEmptyParam("maharashtra-importance")
+                End If
+                If .Tamilnadu Then
+                    AddAndLogNewParamWithAYesValue("tamilnadu")
+                    AddAndLogEmptyParam("tamilnadu-importance")
+                End If
+                If .Politics Then
+                    AddAndLogNewParamWithAYesValue("politics")
+                    AddAndLogEmptyParam("politics-importance")
+                End If
+                If .History Then
+                    AddAndLogNewParamWithAYesValue("history")
+                    AddAndLogEmptyParam("history-importance")
+                End If
+                If .Cinema Then
+                    AddAndLogNewParamWithAYesValue("cinema")
+                    AddAndLogEmptyParam("cinema-importance")
+                End If
+                If .Tamil Then
+                    AddAndLogNewParamWithAYesValue("tamil")
+                    AddAndLogEmptyParam("tamil-importance")
+                End If
+                If .Punjab Then
+                    AddAndLogNewParamWithAYesValue("punjab")
+                    AddAndLogEmptyParam("punjab-importance")
+                End If
+                If .Geography Then
+                    AddAndLogNewParamWithAYesValue("geography")
+                    AddAndLogEmptyParam("geography-importance")
+                End If
+                If .Maps Then
+                    AddAndLogNewParamWithAYesValue("maps")
+                End If
+                If .Himachal Then
+                    AddAndLogNewParamWithAYesValue("himachal")
+                    AddAndLogEmptyParam("himachal-importance")
+                End If
+                If .Literature Then
+                    AddAndLogNewParamWithAYesValue("literature")
+                    AddAndLogEmptyParam("literature-importance")
+                End If
+                If .ProtectedAreas Then
+                    AddAndLogNewParamWithAYesValue("protected-areas")
+                    AddAndLogEmptyParam("protected-areas-importance")
+                End If
+                If .Gujarat Then
+                    AddAndLogNewParamWithAYesValue("gujarat")
+                    AddAndLogEmptyParam("gujarat-importance")
+                End If
             End With
         End Sub
         Protected Overrides Function TemplateFound() As Boolean

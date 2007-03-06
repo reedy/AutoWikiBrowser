@@ -12,7 +12,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("")> 
 <Assembly: AssemblyCompany("SDK Software")> 
 <Assembly: AssemblyProduct("WikiFunctions2")> 
-<Assembly: AssemblyCopyright("Copyright © SDK Software 2006")> 
+<Assembly: AssemblyCopyright("Copyright © SDK Software 2007")> 
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>

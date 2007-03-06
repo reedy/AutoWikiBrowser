@@ -623,6 +623,13 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 Return ""
             End Get
         End Property
+        Friend Overrides ReadOnly Property HasReqPhotoParam() As Boolean
+            Get
+                Return False
+            End Get
+        End Property
+        Friend Overrides Sub ReqPhoto()
+        End Sub
 
 #Region "IDisposable"
         Private disposed As Boolean = False  ' To detect redundant calls
@@ -688,6 +695,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Dispose(False, Nothing)
         End Sub
 #End Region
+
     End Class
 End Namespace
 
