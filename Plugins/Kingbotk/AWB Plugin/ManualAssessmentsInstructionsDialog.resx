@@ -132,11 +132,6 @@ in AWB's edit summary box.
 The plugin will change turn on cleanup options and change
 the edit summary to "clean up" when processing an article.
 
-*Save your settings before clicking Start otherwise you
-might accidentally save the settings with an edit summary
-of "clean up" instead of the summary you intended for
-the talk pages.
-
 *Build a list of main space articles, not talk pages.
 </value>
   </data>

@@ -414,6 +414,13 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 Return "Wikipedia:WikiProject Military history/Automation/Logs"
             End Get
         End Property
+        Friend Overrides ReadOnly Property HasReqPhotoParam() As Boolean
+            Get
+                Return False
+            End Get
+        End Property
+        Friend Overrides Sub ReqPhoto()
+        End Sub
 
         ' Initialisation:
         Protected Friend Sub New(ByVal Manager As PluginManager)

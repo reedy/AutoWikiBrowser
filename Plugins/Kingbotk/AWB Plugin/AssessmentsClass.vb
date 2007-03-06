@@ -20,7 +20,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
         Event StopAWB()
 
         ' Regex:
-        Private Shared ReqphotoRegex As New Regex("\{\{\s*(template\s*:\s*|)\s*reqphoto\s*\}\}[\s\n\r]*", _
+        Private Shared ReqphotoAnyRegex As New Regex("\{\{\s*(template\s*:\s*|)\s*reqphoto", _
            RegexOptions.IgnoreCase Or RegexOptions.Compiled Or RegexOptions.ExplicitCapture)
 
         ' New:
@@ -159,30 +159,43 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
 
                 If ProcessTalkPage Then
                     PluginManager.StatusText.Text = "Processing " & TheArticle.FullArticleTitle
+                    Dim HaveReqPhotoEnabledTemplate As Boolean
 
-                    If State.NeedsPhoto AndAlso Not ReqphotoRegex.IsMatch(TheArticle.AlteredArticleText) Then
-                        With TheArticle
-                            .AlteredArticleText = _
-                               "{{reqphoto}}" & Microsoft.VisualBasic.vbCrLf & .AlteredArticleText
-                            .ArticleHasAMajorChange()
-                        End With
-                        PluginSettingsControl.MyTrace.WriteArticleActionLine1("Added {{reqphoto}}", conMe, True)
+                    If State.NeedsPhoto Then
+                        For Each p As PluginBase In ActivePlugins
+                            If p.HasReqPhotoParam Then
+                                p.ReqPhoto()
+                                HaveReqPhotoEnabledTemplate = True
+                            End If
+                        Next
+
+                        If HaveReqPhotoEnabledTemplate Then
+
+                        ElseIf Not ReqphotoAnyRegex.IsMatch(TheArticle.AlteredArticleText) Then
+                            With TheArticle
+                                .AlteredArticleTextPrependLine("{{reqphoto}}")
+                                .ArticleHasAMajorChange()
+                            End With
+                            PluginSettingsControl.MyTrace.WriteArticleActionLine1("Added {{reqphoto}}", conMe, True)
+                        Else
+
+                        End If
                     End If
 
-                    For Each p As PluginBase In ActivePlugins
-                        p.ProcessTalkPage(TheArticle, State.Classification, State.Importance, State.NeedsInfobox, _
-                           State.NeedsAttention, True, PluginBase.ProcessTalkPageMode.ManualAssessment)
-                        If TheArticle.PluginManagerGetSkipResults = SkipResults.SkipBadTag Then
-                            MessageBox.Show("Bad tag(s), please fix manually.", "Bad tag", MessageBoxButtons.OK, _
-                               MessageBoxIcon.Exclamation)
-                            Exit Function
-                        End If
-                    Next
-                Else
-                    PluginSettings.PluginStats.SkippedMiscellaneousIncrement(False)
-                    PluginManager.StatusText.Text = "Skipping this talk page"
-                    LoadArticle()
-                End If
+                        For Each p As PluginBase In ActivePlugins
+                            p.ProcessTalkPage(TheArticle, State.Classification, State.Importance, State.NeedsInfobox, _
+                               State.NeedsAttention, True, PluginBase.ProcessTalkPageMode.ManualAssessment)
+                            If TheArticle.PluginManagerGetSkipResults = SkipResults.SkipBadTag Then
+                                MessageBox.Show("Bad tag(s), please fix manually.", "Bad tag", MessageBoxButtons.OK, _
+                                   MessageBoxIcon.Exclamation)
+                                Exit Function
+                            End If
+                        Next
+                    Else
+                        PluginSettings.PluginStats.SkippedMiscellaneousIncrement(False)
+                        PluginManager.StatusText.Text = "Skipping this talk page"
+                        LoadArticle()
+                    End If
             End If
         End Function
 

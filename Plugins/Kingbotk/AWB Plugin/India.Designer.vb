@@ -31,9 +31,9 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.LinkLabel1 = New System.Windows.Forms.LinkLabel
             Me.TabControl1 = New System.Windows.Forms.TabControl
             Me.TabPage1 = New System.Windows.Forms.TabPage
+            Me.GujuratCheckBox = New System.Windows.Forms.CheckBox
             Me.PunjabCheckbox = New System.Windows.Forms.CheckBox
             Me.HimachalCheckBox = New System.Windows.Forms.CheckBox
-            Me.WBengalCheckBox = New System.Windows.Forms.CheckBox
             Me.MapsCheckBox = New System.Windows.Forms.CheckBox
             Me.GeogCheckBox = New System.Windows.Forms.CheckBox
             Me.DistrictsCheckBox = New System.Windows.Forms.CheckBox
@@ -52,6 +52,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.PoliticsCheckBox = New System.Windows.Forms.CheckBox
             Me.CinemaCheckBox = New System.Windows.Forms.CheckBox
             Me.HistoryCheckBox = New System.Windows.Forms.CheckBox
+            Me.WBengalCheckBox = New System.Windows.Forms.CheckBox
             Me.ParametersGroup.SuspendLayout()
             Me.TabControl1.SuspendLayout()
             Me.TabPage1.SuspendLayout()
@@ -141,6 +142,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             'TabPage1
             '
             Me.TabPage1.BackColor = System.Drawing.Color.Transparent
+            Me.TabPage1.Controls.Add(Me.GujuratCheckBox)
             Me.TabPage1.Controls.Add(Me.PunjabCheckbox)
             Me.TabPage1.Controls.Add(Me.HimachalCheckBox)
             Me.TabPage1.Controls.Add(Me.WBengalCheckBox)
@@ -163,6 +165,16 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.TabPage1.TabIndex = 0
             Me.TabPage1.Text = "India 1"
             '
+            'GujuratCheckBox
+            '
+            Me.GujuratCheckBox.AutoSize = True
+            Me.GujuratCheckBox.Location = New System.Drawing.Point(14, 129)
+            Me.GujuratCheckBox.Name = "GujuratCheckBox"
+            Me.GujuratCheckBox.Size = New System.Drawing.Size(60, 17)
+            Me.GujuratCheckBox.TabIndex = 41
+            Me.GujuratCheckBox.Text = "Gujarat"
+            Me.GujuratCheckBox.UseVisualStyleBackColor = True
+            '
             'PunjabCheckbox
             '
             Me.PunjabCheckbox.AutoSize = True
@@ -182,16 +194,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.HimachalCheckBox.TabIndex = 39
             Me.HimachalCheckBox.Text = "Himachal Pradesh"
             Me.HimachalCheckBox.UseVisualStyleBackColor = True
-            '
-            'WBengalCheckBox
-            '
-            Me.WBengalCheckBox.AutoSize = True
-            Me.WBengalCheckBox.Location = New System.Drawing.Point(104, 106)
-            Me.WBengalCheckBox.Name = "WBengalCheckBox"
-            Me.WBengalCheckBox.Size = New System.Drawing.Size(87, 17)
-            Me.WBengalCheckBox.TabIndex = 38
-            Me.WBengalCheckBox.Text = "West Bengal"
-            Me.WBengalCheckBox.UseVisualStyleBackColor = True
             '
             'MapsCheckBox
             '
@@ -384,6 +386,17 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.HistoryCheckBox.Text = "History"
             Me.HistoryCheckBox.UseVisualStyleBackColor = True
             '
+            'WBengalCheckBox
+            '
+            Me.WBengalCheckBox.AutoSize = True
+            Me.WBengalCheckBox.Location = New System.Drawing.Point(104, 106)
+            Me.WBengalCheckBox.Name = "WBengalCheckBox"
+            Me.WBengalCheckBox.Size = New System.Drawing.Size(87, 17)
+            Me.WBengalCheckBox.TabIndex = 38
+            Me.WBengalCheckBox.Text = "West Bengal"
+            Me.WBengalCheckBox.UseVisualStyleBackColor = True
+            Me.WBengalCheckBox.Visible = False
+            '
             'IndiaSettings
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -407,37 +420,38 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.PerformLayout()
 
         End Sub
-        Friend WithEvents TextInsertContextMenuStrip As System.Windows.Forms.ContextMenuStrip
-        Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
-        Friend WithEvents TipLabel As System.Windows.Forms.Label
-        Friend WithEvents ParametersGroup As System.Windows.Forms.GroupBox
-        Friend WithEvents StubClassCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents AutoStubCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents LinkLabel1 As System.Windows.Forms.LinkLabel
-        Friend WithEvents TabControl1 As System.Windows.Forms.TabControl
-        Friend WithEvents TabPage1 As System.Windows.Forms.TabPage
-        Friend WithEvents DistrictsCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents CitiesCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents StatesCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents TamilnaduCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents MaharashtraCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents KeralaCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents KarnatakaCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents GoaCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents BengalCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents AndhraCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents TabPage2 As System.Windows.Forms.TabPage
-        Friend WithEvents TamilCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents PoliticsCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents CinemaCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents HistoryCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents MapsCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents GeogCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents HimachalCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents WBengalCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents LiteratureCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents ProtectedCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents PunjabCheckbox As System.Windows.Forms.CheckBox
+        Private WithEvents TextInsertContextMenuStrip As System.Windows.Forms.ContextMenuStrip
+        Private WithEvents ToolTip1 As System.Windows.Forms.ToolTip
+        Private WithEvents TipLabel As System.Windows.Forms.Label
+        Private WithEvents ParametersGroup As System.Windows.Forms.GroupBox
+        Private WithEvents StubClassCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents AutoStubCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents LinkLabel1 As System.Windows.Forms.LinkLabel
+        Private WithEvents TabControl1 As System.Windows.Forms.TabControl
+        Private WithEvents TabPage1 As System.Windows.Forms.TabPage
+        Private WithEvents DistrictsCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents CitiesCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents StatesCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents TamilnaduCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents MaharashtraCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents KeralaCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents KarnatakaCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents GoaCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents BengalCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents AndhraCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents TabPage2 As System.Windows.Forms.TabPage
+        Private WithEvents TamilCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents PoliticsCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents CinemaCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents HistoryCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents MapsCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents GeogCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents HimachalCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents LiteratureCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents ProtectedCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents PunjabCheckbox As System.Windows.Forms.CheckBox
+        Private WithEvents GujuratCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents WBengalCheckBox As System.Windows.Forms.CheckBox
 
     End Class
 End Namespace

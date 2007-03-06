@@ -198,5 +198,12 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 Return ""
             End Get
         End Property
+        Friend Overrides ReadOnly Property HasReqPhotoParam() As Boolean
+            Get
+                Return False
+            End Get
+        End Property
+        Friend Overrides Sub ReqPhoto()
+        End Sub
     End Class
 End Namespace
