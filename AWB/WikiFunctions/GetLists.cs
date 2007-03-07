@@ -83,7 +83,7 @@ namespace WikiFunctions.Lists
                 {
                     string html = Tools.GetHTML(URL);
                     if (html.Contains("<error>emptyresult</error>") && !QuietMode)
-                        MessageBox.Show("The category " + Categories[i] + " does not exist. Make sure it is spelt correctly. If you want a stub category remember to type the category name and not the stub name.");
+                        MessageBox.Show("The category " + Categories[i] + " is empty or does not exist. Make sure it is spelt correctly. If you want a stub category remember to type the category name and not the stub name.");
 
                     bool more = false;
                    
