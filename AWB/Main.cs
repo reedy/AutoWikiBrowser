@@ -2712,6 +2712,13 @@ namespace AutoWikiBrowser
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
         }
 
+        public void NotifyBalloon(string Message, ToolTipIcon Icon)
+        {
+            ntfyTray.BalloonTipText = Message;
+            ntfyTray.BalloonTipIcon = Icon;
+            ntfyTray.ShowBalloonTip(10000);
+        }
+
         // IAWBMainForm:
         TabPage IAWBMainForm.MoreOptionsTab { get { return tpMoreOptions; } }
         TabPage IAWBMainForm.OptionsTab { get { return tpSetOptions; } }
