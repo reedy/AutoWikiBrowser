@@ -479,8 +479,10 @@ namespace WikiFunctions.MWB
 
             foreach (IRule r in Rules)
             {
-                AddNewRule(r);
+                AppendRule(r);
             }
+
+            RulesTreeView.ExpandAll();
         }
 
         private void AddNewRule(IRule r)
@@ -522,6 +524,21 @@ namespace WikiFunctions.MWB
             n.Tag = r;
 
             tn.Nodes.Add(n);
+
+            if (r.Children != null && r.Children.Count > 0) foreach (IRule rnew in r.Children) AddNewRule(rnew, n);
+            else
+            {
+                RulesTreeView.SelectedNode = n;
+                RulesTreeView.Select();
+            }
+        }
+
+        private void AppendRule(IRule r)
+        {
+            TreeNode n = new TreeNode(r.Name);
+            n.Tag = r;
+
+            RulesTreeView.Nodes.Add(n);
 
             if (r.Children != null && r.Children.Count > 0) foreach (IRule rnew in r.Children) AddNewRule(rnew, n);
             else
