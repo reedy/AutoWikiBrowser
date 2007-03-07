@@ -83,7 +83,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
                     If System.IO.Directory.Exists(FolderTextBox.Text) Then
                         LogFolder = FolderTextBox.Text
                     Else
-                        PluginManager.NotifyBalloon( _
+                        PluginManager.AWBForm.NotifyBalloon( _
                            "Folder doesn't exist, using previous setting (" & .LogFolder & ")", ToolTipIcon.Warning)
                         FolderTextBox.Text = .LogFolder
                     End If
