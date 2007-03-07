@@ -50,6 +50,7 @@ namespace WikiFunctions.Plugin
         StatusStrip StatusStrip { get; }
         NotifyIcon NotifyIcon { get; }
         ToolStripMenuItem HelpToolStripMenuItem { get; }
+        void NotifyBalloon(string Message, ToolTipIcon Icon);
     }
 
     public interface IModule
