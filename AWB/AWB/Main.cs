@@ -789,9 +789,9 @@ namespace AutoWikiBrowser
 
                         articleText = parsers.SortMetaData(articleText, EdittingArticle.Name);
 
-                        articleText = RemoveText.HideMore(articleText);
+                        //articleText = RemoveText.HideMore(articleText);
                         articleText = parsers.BoldTitle(articleText, EdittingArticle.Name, out SkipArticle);
-                        articleText = RemoveText.AddBackMore(articleText);
+                        //articleText = RemoveText.AddBackMore(articleText);
                         if (Skip.SkipNoBoldTitle && SkipArticle)
                             return articleText;
 
