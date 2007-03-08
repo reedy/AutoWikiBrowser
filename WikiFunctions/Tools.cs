@@ -172,20 +172,24 @@ namespace WikiFunctions
             Name = Regex.Replace(Name, "\\(.*?\\)$", "").Trim();
 
             if (!Name.Contains(" "))
-                return OrigName;
+                return RemoveNamespaceString(OrigName);
 
             int intLast = Name.LastIndexOf(" ") + 1;
             string LastName = Name.Substring(intLast);
             Name = Name.Remove(intLast);
+            Name = RemoveNamespaceString(Name);
 
+            Name = LastName + ", " + Name.Trim();
+
+            return Name;
+        }
+        private static string RemoveNamespaceString(string Name)
+        {
             foreach (KeyValuePair<int, string> Namespace in Variables.Namespaces)
             {
                 if (Name.Contains(Namespace.Value))
                     Name = Name.Replace(Namespace.Value, "");
             }
-
-            Name = LastName + ", " + Name.Trim();
-
             return Name;
         }
 
