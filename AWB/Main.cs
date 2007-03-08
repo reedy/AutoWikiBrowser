@@ -2013,7 +2013,7 @@ namespace AutoWikiBrowser
 
         private void humanNameCategoryKeyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            txtEdit.SelectedText = Tools.MakeHumanCatKey(EdittingArticle.Name);
+            txtEdit.SelectedText = "{{DEFAULTSORT:" + Tools.MakeHumanCatKey(EdittingArticle.Name) + "}}";
         }
 
         private void birthdeathCatsToolStripMenuItem_Click(object sender, EventArgs e)
