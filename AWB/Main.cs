@@ -283,7 +283,7 @@ namespace AutoWikiBrowser
                 Tools.WriteDebug(this.Name, "Starting");
 
                 //check edit summary
-                if (cmboEditSummary.Text == "")
+                if (cmboEditSummary.Text == "" && AWBPlugins.Count == 0)
                     MessageBox.Show("Please enter an edit summary.", "Edit summary", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
                 StopDelayedRestartTimer();
