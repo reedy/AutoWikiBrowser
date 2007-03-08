@@ -1535,7 +1535,7 @@ namespace AutoWikiBrowser
                 chkAutoTagger.Checked = false;
                 chkGeneralFixes.Checked = false;
             }
-            if (Project != ProjectEnum.custom) lblProject.Text = Variables.LangCode + "." + Variables.Project;
+            if (Project != ProjectEnum.custom) lblProject.Text = Variables.LangCode.ToString().ToLower() + "." + Variables.Project;
             else lblProject.Text = Variables.URL;
         }
 
