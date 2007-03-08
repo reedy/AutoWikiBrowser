@@ -17,12 +17,12 @@ namespace AutoWikiBrowser
             InitializeComponent();
 
             foreach (LangCodeEnum l in Enum.GetValues(typeof(LangCodeEnum)))
-                cmboLang.Items.Add(l);
+                cmboLang.Items.Add(l.ToString().ToLower());
 
             foreach (ProjectEnum l in Enum.GetValues(typeof(ProjectEnum)))
                 cmboProject.Items.Add(l);
 
-            cmboLang.SelectedItem = lang;
+            cmboLang.SelectedItem = lang.ToString().ToLower();
             cmboProject.SelectedItem = proj;
 
             txtCustomProject.Text = customproj;
@@ -46,6 +46,7 @@ namespace AutoWikiBrowser
         {
             get
             {
+                if (cmboLang.SelectedItem.ToString() == "is") return LangCodeEnum.Is;
                 LangCodeEnum l = (LangCodeEnum)Enum.Parse(typeof(LangCodeEnum), cmboLang.SelectedItem.ToString());
                 return l;
             }

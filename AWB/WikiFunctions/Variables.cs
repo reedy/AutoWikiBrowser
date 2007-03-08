@@ -30,7 +30,7 @@ using System.Reflection;
 
 namespace WikiFunctions
 {
-    public enum LangCodeEnum { en, ar, ca, da, de, eo, es, fi, fr, he, hu, it, ja, nl, no, mi, pl, pt, ru, simple, sk, sl, sv, ta, tj, uk, ur, zh }
+    public enum LangCodeEnum { en, ar, ca, da, de, eo, es, fi, fr, he, hu, Is, it, ja, nl, no, mi, pl, pt, ru, simple, sk, sl, sv, ta, tj, uk, ur, zh }
     public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikiquote, wikiversity, wikibooks, wikinews, commons, meta, species, custom }
 
     /// <summary>
@@ -207,7 +207,7 @@ namespace WikiFunctions
                 URL = "http://" + CustomProject;
             }
             else
-                URL = "http://" + LangCode + "." + Project + ".org";
+                URL = "http://" + LangCode.ToString().ToLower() + "." + Project + ".org";
 
             if (projectName == ProjectEnum.wikipedia)
             {
