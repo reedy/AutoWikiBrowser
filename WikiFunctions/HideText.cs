@@ -243,6 +243,11 @@ namespace WikiFunctions.Parse
 
         public string code;
         public string text;
+
+        public string ToString()
+        {
+            return code + " --> " + text;
+        }
     }
 
 }
