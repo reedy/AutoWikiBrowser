@@ -139,7 +139,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
             State.blnNextArticleShouldBeTalk = True
         End Sub
         Friend Function ProcessTalkPage(ByVal TheArticle As Article, _
-        ByVal PluginSettings As PluginSettingsControl, ByVal ActivePlugins As List(Of PluginBase)) As Boolean
+        ByVal PluginSettings As PluginSettingsControl, ByVal ActivePlugins As List(Of PluginBase), _
+        ByVal Manager As PluginManager) As Boolean
 
             If Not State.blnNextArticleShouldBeTalk Then
                 IsThisABug("an article")
@@ -159,43 +160,41 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
 
                 If ProcessTalkPage Then
                     PluginManager.StatusText.Text = "Processing " & TheArticle.FullArticleTitle
-                    Dim HaveReqPhotoEnabledTemplate As Boolean
+
+                    For Each p As PluginBase In ActivePlugins
+                        p.ProcessTalkPage(TheArticle, State.Classification, State.Importance, State.NeedsInfobox, _
+                           State.NeedsAttention, True, PluginBase.ProcessTalkPageMode.ManualAssessment)
+                        If TheArticle.PluginManagerGetSkipResults = SkipResults.SkipBadTag Then
+                            MessageBox.Show("Bad tag(s), please fix manually.", "Bad tag", MessageBoxButtons.OK, _
+                               MessageBoxIcon.Exclamation)
+                            Exit Function
+                        End If
+                    Next
 
                     If State.NeedsPhoto Then
-                        For Each p As PluginBase In ActivePlugins
-                            If p.HasReqPhotoParam Then
-                                p.ReqPhoto()
-                                HaveReqPhotoEnabledTemplate = True
-                            End If
-                        Next
-
-                        If HaveReqPhotoEnabledTemplate Then
-
+                        If Manager.HaveReqPhotoEnabledTemplate Then
+                            TheArticle.ReplaceReqphotoWithTemplateParams(conMe)
                         ElseIf Not ReqphotoAnyRegex.IsMatch(TheArticle.AlteredArticleText) Then
-                            With TheArticle
-                                .AlteredArticleTextPrependLine("{{reqphoto}}")
-                                .ArticleHasAMajorChange()
-                            End With
-                            PluginSettingsControl.MyTrace.WriteArticleActionLine1("Added {{reqphoto}}", conMe, True)
+                            TheArticle.AddReqPhoto(conMe)
                         Else
-
+                            PluginSettingsControl.MyTrace.WriteArticleActionLine1( _
+                               "Photo needed: Template already present, no action taken", conMe, True)
                         End If
-                    End If
+                    Else
+                        If Manager.HaveReqPhotoEnabledTemplate Then
+                            ' We haven't marked that we need a photo, but there might still be a replacement to do
+                            TheArticle.ReplaceReqphotoWithTemplateParams(conMe)
+                        End If
 
                         For Each p As PluginBase In ActivePlugins
-                            p.ProcessTalkPage(TheArticle, State.Classification, State.Importance, State.NeedsInfobox, _
-                               State.NeedsAttention, True, PluginBase.ProcessTalkPageMode.ManualAssessment)
-                            If TheArticle.PluginManagerGetSkipResults = SkipResults.SkipBadTag Then
-                                MessageBox.Show("Bad tag(s), please fix manually.", "Bad tag", MessageBoxButtons.OK, _
-                                   MessageBoxIcon.Exclamation)
-                                Exit Function
-                            End If
+                            p.DisposeofArticle()
                         Next
-                    Else
-                        PluginSettings.PluginStats.SkippedMiscellaneousIncrement(False)
-                        PluginManager.StatusText.Text = "Skipping this talk page"
-                        LoadArticle()
                     End If
+                Else
+                    PluginSettings.PluginStats.SkippedMiscellaneousIncrement(False)
+                    PluginManager.StatusText.Text = "Skipping this talk page"
+                    LoadArticle()
+                End If
             End If
         End Function
 

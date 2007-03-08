@@ -55,7 +55,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 Return ManuallyAssessCheckBox.Checked
             End Get
             Set(ByVal value As Boolean)
-                Cleanup = value
+                ManuallyAssessCheckBox.Checked = value
             End Set
         End Property
         Public Property Cleanup() As Boolean
