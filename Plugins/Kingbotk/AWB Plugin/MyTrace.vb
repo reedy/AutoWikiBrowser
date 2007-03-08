@@ -243,39 +243,41 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
 
         ' Callback from Settings control:
         Friend Sub PropertiesChange(ByVal JobNameHasChanged As Boolean)
-            If LoggingSettings.Settings.LogFolder = LogFolder Then
+            With LoggingSettings.Settings
+                If .LogFolder = LogFolder Then
 
-                If LoggingSettings.Settings.LogXHTML Then
-                    If Not ContainsKey(conXHTML) Then NewXHTMLTraceListener()
-                ElseIf ContainsKey(conXHTML) Then
-                    RemoveListener(conXHTML)
-                End If
-
-                If LoggingSettings.Settings.LogWiki Then
-                    If ContainsKey(conWiki) Then
-                        DirectCast(Listeners.Item(conWiki), WikiTraceListener).UploadLog(True)
-                    Else
-                        NewWikiTraceListener()
+                    If .LogXHTML Then
+                        If Not ContainsKey(conXHTML) Then NewXHTMLTraceListener()
+                    ElseIf ContainsKey(conXHTML) Then
+                        RemoveListener(conXHTML)
                     End If
-                ElseIf ContainsKey(conWiki) Then
-                    RemoveListener(conWiki)
-                End If
 
-                If LoggingSettings.Settings.LogBadPages Then
-                    If ContainsKey(conBadPages) Then
-                        DirectCast(Listeners.Item(conBadPages), BadPagesTraceListener).UploadLog(True)
-                    Else
-                        NewBadPagesTraceListener()
+                    If .LogWiki Then
+                        If ContainsKey(conWiki) Then
+                            If .UploadYN Then DirectCast(Listeners.Item(conWiki), WikiTraceListener).UploadLog(True)
+                        Else
+                            NewWikiTraceListener()
+                        End If
+                    ElseIf ContainsKey(conWiki) Then
+                        RemoveListener(conWiki)
                     End If
-                ElseIf ContainsKey(conBadPages) Then
-                    RemoveListener(conBadPages)
-                End If
 
-            ElseIf HaveOpenFile Then ' folder has changed, close and reopen all active logs
-                If ContainsKey(conWiki) Then RemoveListenerAndReplaceWithSameType(conWiki)
-                If ContainsKey(conXHTML) Then RemoveListenerAndReplaceWithSameType(conXHTML)
-                If ContainsKey(conBadPages) Then RemoveListenerAndReplaceWithSameType(conBadPages)
-            End If
+                    If .LogBadPages Then
+                        If ContainsKey(conBadPages) Then
+                            If .UploadYN Then DirectCast(Listeners.Item(conBadPages), BadPagesTraceListener).UploadLog(True)
+                        Else
+                            NewBadPagesTraceListener()
+                        End If
+                    ElseIf ContainsKey(conBadPages) Then
+                        RemoveListener(conBadPages)
+                    End If
+
+                ElseIf HaveOpenFile Then ' folder has changed, close and reopen all active logs
+                    If ContainsKey(conWiki) Then RemoveListenerAndReplaceWithSameType(conWiki)
+                    If ContainsKey(conXHTML) Then RemoveListenerAndReplaceWithSameType(conXHTML)
+                    If ContainsKey(conBadPages) Then RemoveListenerAndReplaceWithSameType(conBadPages)
+                End If
+            End With
 
             CheckWeHaveLogInDetails()
         End Sub

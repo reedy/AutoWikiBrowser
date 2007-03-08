@@ -26,38 +26,12 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.SFCheckBox = New System.Windows.Forms.CheckBox
             Me.ShortStoryCheckBox = New System.Windows.Forms.CheckBox
             Me.CrimeCheckBox = New System.Windows.Forms.CheckBox
-            Me.LinkLabel1 = New System.Windows.Forms.LinkLabel
-            Me.TextInsertContextMenuStrip = New System.Windows.Forms.ContextMenuStrip(Me.components)
-            Me.ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.WPBiographyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem
-            Me.ArtsEntertainmentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.BritishRoyaltyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.MilitaryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.MusiciansToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.PoliticsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.RoyaltyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.ScienceAcademiaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.SportsGamesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
-            Me.AttentionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.InfoboxToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
-            Me.CollabCandidateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.PastCollabToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.PeerReviewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.OldPeerReviewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator
-            Me.LivingPersonToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.ActivePoliticianToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.CoreArticleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.NonbiographyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.AutotaggedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.ParametersGroup = New System.Windows.Forms.GroupBox
             Me.StubClassCheckBox = New System.Windows.Forms.CheckBox
             Me.AutoStubCheckBox = New System.Windows.Forms.CheckBox
+            Me.LinkLabel1 = New System.Windows.Forms.LinkLabel
+            Me.ParametersGroup = New System.Windows.Forms.GroupBox
+            Me.TextInsertContextMenuStrip = New System.Windows.Forms.ContextMenuStrip(Me.components)
             Me.WorkgroupsGroupBox.SuspendLayout()
-            Me.TextInsertContextMenuStrip.SuspendLayout()
             Me.ParametersGroup.SuspendLayout()
             Me.SuspendLayout()
             '
@@ -107,182 +81,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.ToolTip1.SetToolTip(Me.CrimeCheckBox, "a&e-work-group=yes")
             Me.CrimeCheckBox.UseVisualStyleBackColor = True
             '
-            'LinkLabel1
-            '
-            Me.LinkLabel1.AutoSize = True
-            Me.LinkLabel1.Location = New System.Drawing.Point(176, 314)
-            Me.LinkLabel1.Name = "LinkLabel1"
-            Me.LinkLabel1.Size = New System.Drawing.Size(74, 13)
-            Me.LinkLabel1.TabIndex = 7
-            Me.LinkLabel1.TabStop = True
-            Me.LinkLabel1.Text = "{{WPNovels}}"
-            '
-            'TextInsertContextMenuStrip
-            '
-            Me.TextInsertContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem})
-            Me.TextInsertContextMenuStrip.Name = "TextInsertContextMenuStrip"
-            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(139, 26)
-            '
-            'ToolStripMenuItem
-            '
-            Me.ToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.WPBiographyToolStripMenuItem, Me.ToolStripMenuItem3, Me.ToolStripSeparator2, Me.AttentionToolStripMenuItem, Me.InfoboxToolStripMenuItem, Me.ToolStripSeparator1, Me.CollabCandidateToolStripMenuItem, Me.PastCollabToolStripMenuItem, Me.PeerReviewToolStripMenuItem, Me.OldPeerReviewToolStripMenuItem, Me.ToolStripSeparator3, Me.LivingPersonToolStripMenuItem, Me.ActivePoliticianToolStripMenuItem, Me.CoreArticleToolStripMenuItem, Me.NonbiographyToolStripMenuItem, Me.AutotaggedToolStripMenuItem})
-            Me.ToolStripMenuItem.Name = "ToolStripMenuItem"
-            Me.ToolStripMenuItem.Size = New System.Drawing.Size(138, 22)
-            Me.ToolStripMenuItem.Text = "WPBiography"
-            '
-            'WPBiographyToolStripMenuItem
-            '
-            Me.WPBiographyToolStripMenuItem.Name = "WPBiographyToolStripMenuItem"
-            Me.WPBiographyToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
-            Me.WPBiographyToolStripMenuItem.Text = "{{WPBiography}}"
-            '
-            'ToolStripMenuItem3
-            '
-            Me.ToolStripMenuItem3.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ArtsEntertainmentToolStripMenuItem, Me.BritishRoyaltyToolStripMenuItem, Me.MilitaryToolStripMenuItem, Me.MusiciansToolStripMenuItem, Me.PoliticsToolStripMenuItem, Me.RoyaltyToolStripMenuItem, Me.ScienceAcademiaToolStripMenuItem, Me.SportsGamesToolStripMenuItem})
-            Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-            Me.ToolStripMenuItem3.Size = New System.Drawing.Size(187, 22)
-            Me.ToolStripMenuItem3.Text = "Workgroups"
-            '
-            'ArtsEntertainmentToolStripMenuItem
-            '
-            Me.ArtsEntertainmentToolStripMenuItem.Name = "ArtsEntertainmentToolStripMenuItem"
-            Me.ArtsEntertainmentToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
-            Me.ArtsEntertainmentToolStripMenuItem.Text = "Arts && Entertainment"
-            '
-            'BritishRoyaltyToolStripMenuItem
-            '
-            Me.BritishRoyaltyToolStripMenuItem.Name = "BritishRoyaltyToolStripMenuItem"
-            Me.BritishRoyaltyToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
-            Me.BritishRoyaltyToolStripMenuItem.Text = "British Royalty"
-            '
-            'MilitaryToolStripMenuItem
-            '
-            Me.MilitaryToolStripMenuItem.Name = "MilitaryToolStripMenuItem"
-            Me.MilitaryToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
-            Me.MilitaryToolStripMenuItem.Text = "Military"
-            '
-            'MusiciansToolStripMenuItem
-            '
-            Me.MusiciansToolStripMenuItem.Name = "MusiciansToolStripMenuItem"
-            Me.MusiciansToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
-            Me.MusiciansToolStripMenuItem.Text = "Musicians"
-            '
-            'PoliticsToolStripMenuItem
-            '
-            Me.PoliticsToolStripMenuItem.Name = "PoliticsToolStripMenuItem"
-            Me.PoliticsToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
-            Me.PoliticsToolStripMenuItem.Text = "Politics"
-            '
-            'RoyaltyToolStripMenuItem
-            '
-            Me.RoyaltyToolStripMenuItem.Name = "RoyaltyToolStripMenuItem"
-            Me.RoyaltyToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
-            Me.RoyaltyToolStripMenuItem.Text = "Royalty"
-            '
-            'ScienceAcademiaToolStripMenuItem
-            '
-            Me.ScienceAcademiaToolStripMenuItem.Name = "ScienceAcademiaToolStripMenuItem"
-            Me.ScienceAcademiaToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
-            Me.ScienceAcademiaToolStripMenuItem.Text = "Science/Academia"
-            '
-            'SportsGamesToolStripMenuItem
-            '
-            Me.SportsGamesToolStripMenuItem.Name = "SportsGamesToolStripMenuItem"
-            Me.SportsGamesToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
-            Me.SportsGamesToolStripMenuItem.Text = "Sports/Games"
-            '
-            'ToolStripSeparator2
-            '
-            Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-            Me.ToolStripSeparator2.Size = New System.Drawing.Size(184, 6)
-            '
-            'AttentionToolStripMenuItem
-            '
-            Me.AttentionToolStripMenuItem.Name = "AttentionToolStripMenuItem"
-            Me.AttentionToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
-            Me.AttentionToolStripMenuItem.Text = "Needs attention"
-            '
-            'InfoboxToolStripMenuItem
-            '
-            Me.InfoboxToolStripMenuItem.Name = "InfoboxToolStripMenuItem"
-            Me.InfoboxToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
-            Me.InfoboxToolStripMenuItem.Text = "Needs infobox"
-            '
-            'ToolStripSeparator1
-            '
-            Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-            Me.ToolStripSeparator1.Size = New System.Drawing.Size(184, 6)
-            '
-            'CollabCandidateToolStripMenuItem
-            '
-            Me.CollabCandidateToolStripMenuItem.Name = "CollabCandidateToolStripMenuItem"
-            Me.CollabCandidateToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
-            Me.CollabCandidateToolStripMenuItem.Text = "Collaboration candidate"
-            '
-            'PastCollabToolStripMenuItem
-            '
-            Me.PastCollabToolStripMenuItem.Name = "PastCollabToolStripMenuItem"
-            Me.PastCollabToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
-            Me.PastCollabToolStripMenuItem.Text = "Past collaboration"
-            '
-            'PeerReviewToolStripMenuItem
-            '
-            Me.PeerReviewToolStripMenuItem.Name = "PeerReviewToolStripMenuItem"
-            Me.PeerReviewToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
-            Me.PeerReviewToolStripMenuItem.Text = "Peer review"
-            '
-            'OldPeerReviewToolStripMenuItem
-            '
-            Me.OldPeerReviewToolStripMenuItem.Name = "OldPeerReviewToolStripMenuItem"
-            Me.OldPeerReviewToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
-            Me.OldPeerReviewToolStripMenuItem.Text = "Old peer review"
-            '
-            'ToolStripSeparator3
-            '
-            Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-            Me.ToolStripSeparator3.Size = New System.Drawing.Size(184, 6)
-            '
-            'LivingPersonToolStripMenuItem
-            '
-            Me.LivingPersonToolStripMenuItem.Name = "LivingPersonToolStripMenuItem"
-            Me.LivingPersonToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
-            Me.LivingPersonToolStripMenuItem.Text = "Living person"
-            '
-            'ActivePoliticianToolStripMenuItem
-            '
-            Me.ActivePoliticianToolStripMenuItem.Name = "ActivePoliticianToolStripMenuItem"
-            Me.ActivePoliticianToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
-            Me.ActivePoliticianToolStripMenuItem.Text = "Active politician"
-            '
-            'CoreArticleToolStripMenuItem
-            '
-            Me.CoreArticleToolStripMenuItem.Name = "CoreArticleToolStripMenuItem"
-            Me.CoreArticleToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
-            Me.CoreArticleToolStripMenuItem.Text = "Core article"
-            '
-            'NonbiographyToolStripMenuItem
-            '
-            Me.NonbiographyToolStripMenuItem.Name = "NonbiographyToolStripMenuItem"
-            Me.NonbiographyToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
-            Me.NonbiographyToolStripMenuItem.Text = "Non-biography"
-            '
-            'AutotaggedToolStripMenuItem
-            '
-            Me.AutotaggedToolStripMenuItem.Name = "AutotaggedToolStripMenuItem"
-            Me.AutotaggedToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
-            Me.AutotaggedToolStripMenuItem.Text = "Auto-tagged"
-            '
-            'ParametersGroup
-            '
-            Me.ParametersGroup.Controls.Add(Me.StubClassCheckBox)
-            Me.ParametersGroup.Controls.Add(Me.AutoStubCheckBox)
-            Me.ParametersGroup.Location = New System.Drawing.Point(12, 6)
-            Me.ParametersGroup.Name = "ParametersGroup"
-            Me.ParametersGroup.Size = New System.Drawing.Size(123, 74)
-            Me.ParametersGroup.TabIndex = 8
-            Me.ParametersGroup.TabStop = False
-            Me.ParametersGroup.Text = "Template Parameters"
-            '
             'StubClassCheckBox
             '
             Me.StubClassCheckBox.AutoSize = True
@@ -305,6 +103,32 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.ToolTip1.SetToolTip(Me.AutoStubCheckBox, "class=Stub|auto=yes")
             Me.AutoStubCheckBox.UseVisualStyleBackColor = True
             '
+            'LinkLabel1
+            '
+            Me.LinkLabel1.AutoSize = True
+            Me.LinkLabel1.Location = New System.Drawing.Point(176, 314)
+            Me.LinkLabel1.Name = "LinkLabel1"
+            Me.LinkLabel1.Size = New System.Drawing.Size(74, 13)
+            Me.LinkLabel1.TabIndex = 7
+            Me.LinkLabel1.TabStop = True
+            Me.LinkLabel1.Text = "{{WPNovels}}"
+            '
+            'ParametersGroup
+            '
+            Me.ParametersGroup.Controls.Add(Me.StubClassCheckBox)
+            Me.ParametersGroup.Controls.Add(Me.AutoStubCheckBox)
+            Me.ParametersGroup.Location = New System.Drawing.Point(12, 6)
+            Me.ParametersGroup.Name = "ParametersGroup"
+            Me.ParametersGroup.Size = New System.Drawing.Size(123, 74)
+            Me.ParametersGroup.TabIndex = 8
+            Me.ParametersGroup.TabStop = False
+            Me.ParametersGroup.Text = "Template Parameters"
+            '
+            'TextInsertContextMenuStrip
+            '
+            Me.TextInsertContextMenuStrip.Name = "TextInsertContextMenuStrip"
+            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(61, 4)
+            '
             'WPNovelSettings
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -318,7 +142,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.Size = New System.Drawing.Size(276, 349)
             Me.WorkgroupsGroupBox.ResumeLayout(False)
             Me.WorkgroupsGroupBox.PerformLayout()
-            Me.TextInsertContextMenuStrip.ResumeLayout(False)
             Me.ParametersGroup.ResumeLayout(False)
             Me.ParametersGroup.PerformLayout()
             Me.ResumeLayout(False)
@@ -330,36 +153,11 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Friend WithEvents CrimeCheckBox As System.Windows.Forms.CheckBox
         Friend WithEvents ShortStoryCheckBox As System.Windows.Forms.CheckBox
         Friend WithEvents LinkLabel1 As System.Windows.Forms.LinkLabel
-        Friend WithEvents TextInsertContextMenuStrip As System.Windows.Forms.ContextMenuStrip
-        Friend WithEvents ToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents CoreArticleToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents LivingPersonToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents ToolStripMenuItem3 As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
-        Friend WithEvents AttentionToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents InfoboxToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
-        Friend WithEvents NonbiographyToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents AutotaggedToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents ArtsEntertainmentToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents BritishRoyaltyToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents MilitaryToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents PoliticsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents RoyaltyToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents CollabCandidateToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents PastCollabToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents PeerReviewToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents OldPeerReviewToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents ToolStripSeparator3 As System.Windows.Forms.ToolStripSeparator
-        Friend WithEvents ActivePoliticianToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents WPBiographyToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents SFCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents MusiciansToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents ScienceAcademiaToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents SportsGamesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents ParametersGroup As System.Windows.Forms.GroupBox
         Friend WithEvents StubClassCheckBox As System.Windows.Forms.CheckBox
         Friend WithEvents AutoStubCheckBox As System.Windows.Forms.CheckBox
+        Friend WithEvents TextInsertContextMenuStrip As System.Windows.Forms.ContextMenuStrip
 
     End Class
 End Namespace

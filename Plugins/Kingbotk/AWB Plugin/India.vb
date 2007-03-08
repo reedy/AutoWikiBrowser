@@ -358,7 +358,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             End Get
         End Property
         Friend Overrides Sub ReqPhoto()
-            AddAndLogNewParamWithAYesValue("image-needed")
+            AddNewParamWithAYesValue("image-needed")
         End Sub
 
         ' Initialisation:
@@ -391,86 +391,86 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             With OurSettingsControl
                 If .Cities Then
                     AddAndLogNewParamWithAYesValue("cities")
-                    AddAndLogEmptyParam("cities-importance")
+                    AddEmptyParam("cities-importance")
                 End If
                 If .Districts Then
                     AddAndLogNewParamWithAYesValue("districts")
-                    AddAndLogEmptyParam("districts-importance")
+                    AddEmptyParam("districts-importance")
                 End If
                 If .States Then
                     AddAndLogNewParamWithAYesValue("states")
-                    AddAndLogEmptyParam("states-importance")
+                    AddEmptyParam("states-importance")
                 End If
                 If .Andhra Then
                     AddAndLogNewParamWithAYesValue("andhra")
-                    AddAndLogEmptyParam("andhra-importance")
+                    AddEmptyParam("andhra-importance")
                 End If
                 If .Bengal Then
                     AddAndLogNewParamWithAYesValue("bengal")
-                    AddAndLogEmptyParam("bengal-importance")
+                    AddEmptyParam("bengal-importance")
                 End If
                 If .Goa Then
                     AddAndLogNewParamWithAYesValue("goa")
-                    AddAndLogEmptyParam("goa-importance")
+                    AddEmptyParam("goa-importance")
                 End If
                 If .Karnataka Then
                     AddAndLogNewParamWithAYesValue("karnataka")
-                    AddAndLogEmptyParam("karnataka-importance")
+                    AddEmptyParam("karnataka-importance")
                 End If
                 If .Kerala Then
                     AddAndLogNewParamWithAYesValue("kerala")
-                    AddAndLogEmptyParam("kerala-importance")
+                    AddEmptyParam("kerala-importance")
                 End If
                 If .Maharashtra Then
                     AddAndLogNewParamWithAYesValue("maharashtra")
-                    AddAndLogEmptyParam("maharashtra-importance")
+                    AddEmptyParam("maharashtra-importance")
                 End If
                 If .Tamilnadu Then
                     AddAndLogNewParamWithAYesValue("tamilnadu")
-                    AddAndLogEmptyParam("tamilnadu-importance")
+                    AddEmptyParam("tamilnadu-importance")
                 End If
                 If .Politics Then
                     AddAndLogNewParamWithAYesValue("politics")
-                    AddAndLogEmptyParam("politics-importance")
+                    AddEmptyParam("politics-importance")
                 End If
                 If .History Then
                     AddAndLogNewParamWithAYesValue("history")
-                    AddAndLogEmptyParam("history-importance")
+                    AddEmptyParam("history-importance")
                 End If
                 If .Cinema Then
                     AddAndLogNewParamWithAYesValue("cinema")
-                    AddAndLogEmptyParam("cinema-importance")
+                    AddEmptyParam("cinema-importance")
                 End If
                 If .Tamil Then
                     AddAndLogNewParamWithAYesValue("tamil")
-                    AddAndLogEmptyParam("tamil-importance")
+                    AddEmptyParam("tamil-importance")
                 End If
                 If .Punjab Then
                     AddAndLogNewParamWithAYesValue("punjab")
-                    AddAndLogEmptyParam("punjab-importance")
+                    AddEmptyParam("punjab-importance")
                 End If
                 If .Geography Then
                     AddAndLogNewParamWithAYesValue("geography")
-                    AddAndLogEmptyParam("geography-importance")
+                    AddEmptyParam("geography-importance")
                 End If
                 If .Maps Then
                     AddAndLogNewParamWithAYesValue("maps")
                 End If
                 If .Himachal Then
                     AddAndLogNewParamWithAYesValue("himachal")
-                    AddAndLogEmptyParam("himachal-importance")
+                    AddEmptyParam("himachal-importance")
                 End If
                 If .Literature Then
                     AddAndLogNewParamWithAYesValue("literature")
-                    AddAndLogEmptyParam("literature-importance")
+                    AddEmptyParam("literature-importance")
                 End If
                 If .ProtectedAreas Then
                     AddAndLogNewParamWithAYesValue("protected-areas")
-                    AddAndLogEmptyParam("protected-areas-importance")
+                    AddEmptyParam("protected-areas-importance")
                 End If
                 If .Gujarat Then
                     AddAndLogNewParamWithAYesValue("gujarat")
-                    AddAndLogEmptyParam("gujarat-importance")
+                    AddEmptyParam("gujarat-importance")
                 End If
             End With
         End Sub
