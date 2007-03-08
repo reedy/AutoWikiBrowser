@@ -140,7 +140,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
         End Sub
         Friend Function ProcessTalkPage(ByVal TheArticle As Article, _
         ByVal PluginSettings As PluginSettingsControl, ByVal ActivePlugins As List(Of PluginBase), _
-        ByVal Manager As PluginManager) As Boolean
+        ByVal Manager As PluginManager, ByVal ReqPhoto As Boolean) As Boolean
 
             If Not State.blnNextArticleShouldBeTalk Then
                 IsThisABug("an article")
@@ -161,35 +161,21 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
                 If ProcessTalkPage Then
                     PluginManager.StatusText.Text = "Processing " & TheArticle.FullArticleTitle
 
+                    If State.NeedsPhoto AndAlso ReqphotoAnyRegex.IsMatch(TheArticle.AlteredArticleText) Then
+                        PluginSettingsControl.MyTrace.WriteArticleActionLine1( _
+                           "Photo needed: Template already present, no action taken", conMe, True)
+                    End If
+
                     For Each p As PluginBase In ActivePlugins
                         p.ProcessTalkPage(TheArticle, State.Classification, State.Importance, State.NeedsInfobox, _
-                           State.NeedsAttention, True, PluginBase.ProcessTalkPageMode.ManualAssessment)
+                           State.NeedsAttention, True, PluginBase.ProcessTalkPageMode.ManualAssessment, _
+                           ReqPhoto OrElse State.NeedsPhoto)
                         If TheArticle.PluginManagerGetSkipResults = SkipResults.SkipBadTag Then
                             MessageBox.Show("Bad tag(s), please fix manually.", "Bad tag", MessageBoxButtons.OK, _
                                MessageBoxIcon.Exclamation)
                             Exit Function
                         End If
                     Next
-
-                    If State.NeedsPhoto Then
-                        If Manager.HaveReqPhotoEnabledTemplate Then
-                            TheArticle.ReplaceReqphotoWithTemplateParams(conMe)
-                        ElseIf Not ReqphotoAnyRegex.IsMatch(TheArticle.AlteredArticleText) Then
-                            TheArticle.AddReqPhoto(conMe)
-                        Else
-                            PluginSettingsControl.MyTrace.WriteArticleActionLine1( _
-                               "Photo needed: Template already present, no action taken", conMe, True)
-                        End If
-                    Else
-                        If Manager.HaveReqPhotoEnabledTemplate Then
-                            ' We haven't marked that we need a photo, but there might still be a replacement to do
-                            TheArticle.ReplaceReqphotoWithTemplateParams(conMe)
-                        End If
-
-                        For Each p As PluginBase In ActivePlugins
-                            p.DisposeofArticle()
-                        Next
-                    End If
                 Else
                     PluginSettings.PluginStats.SkippedMiscellaneousIncrement(False)
                     PluginManager.StatusText.Text = "Skipping this talk page"
