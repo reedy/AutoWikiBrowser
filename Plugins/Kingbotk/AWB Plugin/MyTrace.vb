@@ -154,16 +154,19 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             MyBase.RemoveListener(Key)
         End Sub
         Public Overrides Sub Close()
-            Close(False)
-        End Sub
-        Public Overloads Sub Close(ByVal Upload As Boolean)
             Busy()
 
-            If (ContainsKey(conBadPages) OrElse ContainsKey(conWiki)) AndAlso (Upload OrElse MessageBox.Show("Upload logs?", _
+            Dim upload As Boolean
+
+            If (ContainsKey(conBadPages) OrElse ContainsKey(conWiki)) Then
+                If LoggingSettings.Settings.UploadYN AndAlso MessageBox.Show("Upload logs?", _
             "Logging", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) _
-            = DialogResult.Yes) Then
-                If ContainsKey(conBadPages) Then DirectCast(Listeners(conBadPages), BadPagesTraceListener).UploadLog()
-                If ContainsKey(conWiki) Then DirectCast(Listeners(conWiki), WikiTraceListener).UploadLog()
+            = DialogResult.Yes Then Upload = True
+
+                If Upload Then
+                    If ContainsKey(conBadPages) Then DirectCast(Listeners(conBadPages), BadPagesTraceListener).UploadLog()
+                    If ContainsKey(conWiki) Then DirectCast(Listeners(conWiki), WikiTraceListener).UploadLog()
+                End If
             End If
 
             For Each t As KeyValuePair(Of String, IMyTraceListener) In Listeners
