@@ -164,8 +164,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             = DialogResult.Yes Then Upload = True
 
                 If Upload Then
-                    If ContainsKey(conBadPages) Then DirectCast(Listeners(conBadPages), BadPagesTraceListener).UploadLog()
-                    If ContainsKey(conWiki) Then DirectCast(Listeners(conWiki), WikiTraceListener).UploadLog()
+                    UploadBadPagesLog()
+                    UploadWikiLog()
                 End If
             End If
 
@@ -178,6 +178,15 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
 
             NotBusy()
         End Sub
+
+        ' Friend:
+        Friend Sub UploadBadPagesLog()
+            If ContainsKey(conBadPages) Then DirectCast(Listeners(conBadPages), BadPagesTraceListener).UploadLog()
+        End Sub
+        Friend Sub UploadWikiLog()
+            If ContainsKey(conWiki) Then DirectCast(Listeners(conWiki), WikiTraceListener).UploadLog()
+        End Sub
+
 #Region "Generic overrides"
         Public Overrides Sub ProcessingArticle(ByVal FullArticleTitle As String, ByVal NS As WikiFunctions.Namespaces)
             Busy()
@@ -253,21 +262,13 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                     End If
 
                     If .LogWiki Then
-                        If ContainsKey(conWiki) Then
-                            If .UploadYN Then DirectCast(Listeners.Item(conWiki), WikiTraceListener).UploadLog(True)
-                        Else
-                            NewWikiTraceListener()
-                        End If
+                        If Not ContainsKey(conWiki) Then NewWikiTraceListener()
                     ElseIf ContainsKey(conWiki) Then
                         RemoveListener(conWiki)
                     End If
 
                     If .LogBadPages Then
-                        If ContainsKey(conBadPages) Then
-                            If .UploadYN Then DirectCast(Listeners.Item(conBadPages), BadPagesTraceListener).UploadLog(True)
-                        Else
-                            NewBadPagesTraceListener()
-                        End If
+                        If Not ContainsKey(conBadPages) Then NewBadPagesTraceListener()
                     ElseIf ContainsKey(conBadPages) Then
                         RemoveListener(conBadPages)
                     End If

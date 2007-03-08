@@ -34,16 +34,14 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
             Dim NewProps As New Props
 
             NewProps.ReadXML(Reader) ' ReadXML values into a new settings object
-            If Not Settings.Equals(NewProps) Then
-                ApplySettingsToControls(NewProps)
 
-                If mInitialised AndAlso (Not MyTrace.HaveOpenFile OrElse MessageBox.Show( _
-                "Apply the new logging settings immediately?", "Logging settings", MessageBoxButtons.YesNo, _
-                MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) = DialogResult.Yes) Then
-                    GetSettingsFromControls()
-                Else
-                    WeHaveUnappliedChanges()
+            If Not Settings.Equals(NewProps) Then
+                If Settings.UploadYN Then
+                    If Settings.LogWiki Then MyTrace.UploadWikiLog()
+                    If Settings.LogBadPages Then MyTrace.UploadBadPagesLog()
                 End If
+                ApplySettingsToControls(NewProps)
+                GetSettingsFromControls()
             End If
         End Sub
         Public Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter)
