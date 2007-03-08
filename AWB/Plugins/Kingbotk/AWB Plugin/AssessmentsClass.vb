@@ -11,7 +11,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
         Private WithEvents AWBSkip As Button, OurSkip As Button
         Private WithEvents AWBPreview As Button, OurPreview As Button
         Private AWBCleanupCheckboxes As New List(Of CheckBox)
-        Private EditSummaryBox As ComboBox, Status As ToolStripStatusLabel
+        Private Status As ToolStripStatusLabel
         Private listmaker As WikiFunctions.Lists.ListMaker, PluginSettings As PluginSettingsControl
         Private State As New StateClass
 
@@ -36,11 +36,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
             OurPreview = vOurPreview
             OurSave = vOurSave
             OurSkip = vOurSkip
-            EditSummaryBox = vEditSummaryBox
             listmaker = vlistmaker
             PluginSettings = vPluginSettings
-
-            State.strEditSummary = EditSummaryBox.Text
 
             ' Get a reference to the cleanup checkboxes:
             For Each ctl As Control In AWBOptionsTab.Controls("groupBox6").Controls
@@ -76,7 +73,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
             AWBSkip = Nothing
             AWBPreview = Nothing
             AWBCleanupCheckboxes = Nothing
-            EditSummaryBox = Nothing
             Status = Nothing
             listmaker = Nothing
             PluginSettings = Nothing
@@ -115,11 +111,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
 
             PreviewButtonColour(True)
             State = New StateClass
-            ResetUserEditSummary()
-        End Sub
-        Friend Sub ResetUserEditSummary()
-            ' Resets the edit summary back to what the user chose
-            EditSummaryBox.Text = State.strEditSummary
         End Sub
         Friend Sub ProcessMainSpaceArticle(ByVal ArticleTitle As String)
             If State.blnNextArticleShouldBeTalk Then
@@ -173,7 +164,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
                         If TheArticle.PluginManagerGetSkipResults = SkipResults.SkipBadTag Then
                             MessageBox.Show("Bad tag(s), please fix manually.", "Bad tag", MessageBoxButtons.OK, _
                                MessageBoxIcon.Exclamation)
-                            Exit Function
+                            GoTo exitme
                         End If
                     Next
                 Else
@@ -181,6 +172,12 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
                     PluginManager.StatusText.Text = "Skipping this talk page"
                     LoadArticle()
                 End If
+            End If
+
+ExitMe:
+            If ProcessTalkPage Then
+                TheArticle.EditSummary = "Assessing as " & State.Classification.ToString & " class, using " & _
+                   PluginManager.conWikiPlugin
             End If
         End Function
 
@@ -205,8 +202,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
             For Each chk As CheckBox In AWBCleanupCheckboxes
                 chk.Checked = Cleanup
             Next
-
-            If Not Cleanup Then EditSummaryBox.Text = State.strEditSummary
         End Sub
         Private Sub LoadTalkPage()
             'State.blnWaitingForATalkPage = True
@@ -218,13 +213,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
         End Sub
         Private Sub LoadArticle()
             ToggleAWBCleanup(PluginSettings.Cleanup)
-
-            If PluginSettings.Cleanup Then
-                With EditSummaryBox
-                    If Not (.Text = "clean up" OrElse .Text = "") Then State.strEditSummary = .Text
-                    .Text = "clean up"
-                End With
-            End If
 
             PreviewButtonColour(False)
 
@@ -287,7 +275,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
             End If
         End Sub
         'Private Sub webcontrol_Diffed() Handles webcontrol.Diffed
-        '    ' we need to find a way of determining if there are any changes or not, so that (If
+        '    ' TODO: we need to find a way of determining if there are any changes or not, so that (If
         '    ' there aren't) we can request Preview
         'End Sub
 

@@ -32,7 +32,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
             'OK_Button
             '
             Me.OK_Button.Anchor = System.Windows.Forms.AnchorStyles.None
-            Me.OK_Button.Location = New System.Drawing.Point(49, 301)
+            Me.OK_Button.Location = New System.Drawing.Point(51, 259)
             Me.OK_Button.Name = "OK_Button"
             Me.OK_Button.Size = New System.Drawing.Size(67, 23)
             Me.OK_Button.TabIndex = 0
@@ -62,14 +62,14 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
             Me.Label2.AutoSize = True
             Me.Label2.Location = New System.Drawing.Point(58, 85)
             Me.Label2.Name = "Label2"
-            Me.Label2.Size = New System.Drawing.Size(287, 195)
+            Me.Label2.Size = New System.Drawing.Size(287, 156)
             Me.Label2.TabIndex = 3
             Me.Label2.Text = resources.GetString("Label2.Text")
             '
             'CheckBox1
             '
             Me.CheckBox1.AutoSize = True
-            Me.CheckBox1.Location = New System.Drawing.Point(124, 307)
+            Me.CheckBox1.Location = New System.Drawing.Point(124, 265)
             Me.CheckBox1.Name = "CheckBox1"
             Me.CheckBox1.Size = New System.Drawing.Size(221, 17)
             Me.CheckBox1.TabIndex = 4
@@ -80,7 +80,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-            Me.ClientSize = New System.Drawing.Size(365, 339)
+            Me.ClientSize = New System.Drawing.Size(365, 296)
             Me.Controls.Add(Me.CheckBox1)
             Me.Controls.Add(Me.Label2)
             Me.Controls.Add(Me.Label1)
