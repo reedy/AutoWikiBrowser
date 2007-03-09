@@ -70,6 +70,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.GroupBox4 = New System.Windows.Forms.GroupBox
             Me.PluginMenuStrip = New System.Windows.Forms.MenuStrip
             Me.PluginToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.UploadUsernameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
             Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
             Me.SetAWBToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -106,14 +107,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.TopPriorityMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator
             Me.NAPriorityMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.WPNovelsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.NovelsWikiProjectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.NovelinfoboxneededToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.NovelinfoboxincompToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.ClassListToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.BotTimer = New System.Windows.Forms.Timer(Me.components)
             Me.TimerStats1 = New AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.TimerStats
-            Me.UploadUsernameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.AWBGroupBox.SuspendLayout()
             Me.GroupBox2.SuspendLayout()
             Me.ArticleStatsGroupBox.SuspendLayout()
@@ -611,6 +606,12 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.PluginToolStripMenuItem.Size = New System.Drawing.Size(91, 20)
             Me.PluginToolStripMenuItem.Text = "Kingbotk Plugin"
             '
+            'UploadUsernameToolStripMenuItem
+            '
+            Me.UploadUsernameToolStripMenuItem.Name = "UploadUsernameToolStripMenuItem"
+            Me.UploadUsernameToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
+            Me.UploadUsernameToolStripMenuItem.Text = "Set username/password for uploading"
+            '
             'ToolStripMenuItem1
             '
             Me.ToolStripMenuItem1.Enabled = False
@@ -655,15 +656,15 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             '
             'TextInsertContextMenuStrip
             '
-            Me.TextInsertContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UniversalToolStripMenuItem, Me.WPNovelsToolStripMenuItem})
+            Me.TextInsertContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UniversalToolStripMenuItem})
             Me.TextInsertContextMenuStrip.Name = "EditBoxContextMenuStrip"
-            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(123, 48)
+            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(153, 48)
             '
             'UniversalToolStripMenuItem
             '
             Me.UniversalToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ClassToolStripMenuItem, Me.ImportanceToolStripMenuItem, Me.PriorityToolStripMenuItem})
             Me.UniversalToolStripMenuItem.Name = "UniversalToolStripMenuItem"
-            Me.UniversalToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
+            Me.UniversalToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
             Me.UniversalToolStripMenuItem.Text = "Universal"
             '
             'ClassToolStripMenuItem
@@ -828,37 +829,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.NAPriorityMenuItem.Size = New System.Drawing.Size(141, 22)
             Me.NAPriorityMenuItem.Text = "Not applicable"
             '
-            'WPNovelsToolStripMenuItem
-            '
-            Me.WPNovelsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NovelsWikiProjectToolStripMenuItem, Me.NovelinfoboxneededToolStripMenuItem, Me.NovelinfoboxincompToolStripMenuItem, Me.ClassListToolStripMenuItem})
-            Me.WPNovelsToolStripMenuItem.Name = "WPNovelsToolStripMenuItem"
-            Me.WPNovelsToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
-            Me.WPNovelsToolStripMenuItem.Text = "WPNovels"
-            '
-            'NovelsWikiProjectToolStripMenuItem
-            '
-            Me.NovelsWikiProjectToolStripMenuItem.Name = "NovelsWikiProjectToolStripMenuItem"
-            Me.NovelsWikiProjectToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
-            Me.NovelsWikiProjectToolStripMenuItem.Text = "{{NovelsWikiProject}}"
-            '
-            'NovelinfoboxneededToolStripMenuItem
-            '
-            Me.NovelinfoboxneededToolStripMenuItem.Name = "NovelinfoboxneededToolStripMenuItem"
-            Me.NovelinfoboxneededToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
-            Me.NovelinfoboxneededToolStripMenuItem.Text = "{{Novelinfoboxneeded}}"
-            '
-            'NovelinfoboxincompToolStripMenuItem
-            '
-            Me.NovelinfoboxincompToolStripMenuItem.Name = "NovelinfoboxincompToolStripMenuItem"
-            Me.NovelinfoboxincompToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
-            Me.NovelinfoboxincompToolStripMenuItem.Text = "{{Novelinfoboxincomp}}"
-            '
-            'ClassListToolStripMenuItem
-            '
-            Me.ClassListToolStripMenuItem.Name = "ClassListToolStripMenuItem"
-            Me.ClassListToolStripMenuItem.Size = New System.Drawing.Size(193, 22)
-            Me.ClassListToolStripMenuItem.Text = "class=List"
-            '
             'BotTimer
             '
             Me.BotTimer.Interval = 600000
@@ -871,12 +841,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.TimerStats1.Size = New System.Drawing.Size(61, 68)
             Me.TimerStats1.TabIndex = 44
             Me.TimerStats1.Visible = False
-            '
-            'UploadUsernameToolStripMenuItem
-            '
-            Me.UploadUsernameToolStripMenuItem.Name = "UploadUsernameToolStripMenuItem"
-            Me.UploadUsernameToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
-            Me.UploadUsernameToolStripMenuItem.Text = "Set username/password for uploading"
             '
             'PluginSettingsControl
             '
@@ -1000,11 +964,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Friend WithEvents TopPriorityMenuItem As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents ToolStripSeparator6 As System.Windows.Forms.ToolStripSeparator
         Friend WithEvents NAPriorityMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents WPNovelsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents NovelsWikiProjectToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents NovelinfoboxneededToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents NovelinfoboxincompToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents ClassListToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents UploadUsernameToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
     End Class

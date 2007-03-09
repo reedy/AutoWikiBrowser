@@ -176,8 +176,13 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
 
 ExitMe:
             If ProcessTalkPage Then
-                TheArticle.EditSummary = "Assessing as " & State.Classification.ToString & " class, using " & _
-                   PluginManager.conWikiPlugin
+                Select Case State.Classification
+                    Case Classification.Code, Classification.Unassessed
+                        TheArticle.EditSummary = "Assessed article using " & PluginManager.conWikiPlugin
+                    Case Else
+                        TheArticle.EditSummary = "Assessing as " & State.Classification.ToString & " class, using " & _
+                           PluginManager.conWikiPlugin
+                End Select
             End If
         End Function
 

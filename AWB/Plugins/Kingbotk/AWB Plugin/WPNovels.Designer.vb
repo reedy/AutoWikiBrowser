@@ -31,8 +31,16 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.LinkLabel1 = New System.Windows.Forms.LinkLabel
             Me.ParametersGroup = New System.Windows.Forms.GroupBox
             Me.TextInsertContextMenuStrip = New System.Windows.Forms.ContextMenuStrip(Me.components)
+            Me.WPNovelsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.NovelsWikiProjectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.NovelinfoboxneededToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.NovelinfoboxincompToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.ClassListToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.CoverNeededToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.CoverNeeded1stEditionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.WorkgroupsGroupBox.SuspendLayout()
             Me.ParametersGroup.SuspendLayout()
+            Me.TextInsertContextMenuStrip.SuspendLayout()
             Me.SuspendLayout()
             '
             'WorkgroupsGroupBox
@@ -126,8 +134,52 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             '
             'TextInsertContextMenuStrip
             '
+            Me.TextInsertContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.WPNovelsToolStripMenuItem})
             Me.TextInsertContextMenuStrip.Name = "TextInsertContextMenuStrip"
-            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(61, 4)
+            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(123, 26)
+            '
+            'WPNovelsToolStripMenuItem
+            '
+            Me.WPNovelsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NovelsWikiProjectToolStripMenuItem, Me.NovelinfoboxneededToolStripMenuItem, Me.NovelinfoboxincompToolStripMenuItem, Me.ClassListToolStripMenuItem, Me.CoverNeededToolStripMenuItem, Me.CoverNeeded1stEditionToolStripMenuItem})
+            Me.WPNovelsToolStripMenuItem.Name = "WPNovelsToolStripMenuItem"
+            Me.WPNovelsToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
+            Me.WPNovelsToolStripMenuItem.Text = "WPNovels"
+            '
+            'NovelsWikiProjectToolStripMenuItem
+            '
+            Me.NovelsWikiProjectToolStripMenuItem.Name = "NovelsWikiProjectToolStripMenuItem"
+            Me.NovelsWikiProjectToolStripMenuItem.Size = New System.Drawing.Size(203, 22)
+            Me.NovelsWikiProjectToolStripMenuItem.Text = "{{NovelsWikiProject}}"
+            '
+            'NovelinfoboxneededToolStripMenuItem
+            '
+            Me.NovelinfoboxneededToolStripMenuItem.Name = "NovelinfoboxneededToolStripMenuItem"
+            Me.NovelinfoboxneededToolStripMenuItem.Size = New System.Drawing.Size(203, 22)
+            Me.NovelinfoboxneededToolStripMenuItem.Text = "Infobox needed"
+            '
+            'NovelinfoboxincompToolStripMenuItem
+            '
+            Me.NovelinfoboxincompToolStripMenuItem.Name = "NovelinfoboxincompToolStripMenuItem"
+            Me.NovelinfoboxincompToolStripMenuItem.Size = New System.Drawing.Size(203, 22)
+            Me.NovelinfoboxincompToolStripMenuItem.Text = "Infobox incomplete"
+            '
+            'ClassListToolStripMenuItem
+            '
+            Me.ClassListToolStripMenuItem.Name = "ClassListToolStripMenuItem"
+            Me.ClassListToolStripMenuItem.Size = New System.Drawing.Size(203, 22)
+            Me.ClassListToolStripMenuItem.Text = "class=List"
+            '
+            'CoverNeededToolStripMenuItem
+            '
+            Me.CoverNeededToolStripMenuItem.Name = "CoverNeededToolStripMenuItem"
+            Me.CoverNeededToolStripMenuItem.Size = New System.Drawing.Size(203, 22)
+            Me.CoverNeededToolStripMenuItem.Text = "Cover needed"
+            '
+            'CoverNeeded1stEditionToolStripMenuItem
+            '
+            Me.CoverNeeded1stEditionToolStripMenuItem.Name = "CoverNeeded1stEditionToolStripMenuItem"
+            Me.CoverNeeded1stEditionToolStripMenuItem.Size = New System.Drawing.Size(203, 22)
+            Me.CoverNeeded1stEditionToolStripMenuItem.Text = "Cover needed (1st edition)"
             '
             'WPNovelSettings
             '
@@ -144,6 +196,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.WorkgroupsGroupBox.PerformLayout()
             Me.ParametersGroup.ResumeLayout(False)
             Me.ParametersGroup.PerformLayout()
+            Me.TextInsertContextMenuStrip.ResumeLayout(False)
             Me.ResumeLayout(False)
             Me.PerformLayout()
 
@@ -158,6 +211,13 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Friend WithEvents StubClassCheckBox As System.Windows.Forms.CheckBox
         Friend WithEvents AutoStubCheckBox As System.Windows.Forms.CheckBox
         Friend WithEvents TextInsertContextMenuStrip As System.Windows.Forms.ContextMenuStrip
+        Friend WithEvents WPNovelsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+        Friend WithEvents NovelsWikiProjectToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+        Friend WithEvents NovelinfoboxneededToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+        Friend WithEvents NovelinfoboxincompToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+        Friend WithEvents ClassListToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+        Friend WithEvents CoverNeededToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+        Friend WithEvents CoverNeeded1stEditionToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
     End Class
 End Namespace
