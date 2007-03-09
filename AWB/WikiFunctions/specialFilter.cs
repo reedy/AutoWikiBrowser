@@ -298,24 +298,31 @@ namespace WikiFunctions.Lists
             string strMatch = txtContains.Text;
             string strNotMatch = txtDoesNotContain.Text;
 
-            if (!chkIsRegex.Checked)
+            try
             {
-                strMatch = Regex.Escape(strMatch);
-                strNotMatch = Regex.Escape(strNotMatch);
+                if (!chkIsRegex.Checked)
+                {
+                    strMatch = Regex.Escape(strMatch);
+                    strNotMatch = Regex.Escape(strNotMatch);
+                }
+
+                Regex match = new Regex(strMatch);
+                Regex notMatch = new Regex(strNotMatch);
+
+                int i = 0;
+                while (i < list.Count)
+                {
+                    if (does && match.IsMatch(list[i].Name))
+                        list.RemoveAt(i);
+                    else if (doesnot && !notMatch.IsMatch(list[i].Name))
+                        list.RemoveAt(i);
+                    else
+                        i++;
+                }
             }
-
-            Regex match = new Regex(strMatch);
-            Regex notMatch = new Regex(strNotMatch);
-
-            int i = 0;
-            while (i < list.Count)
+            catch (Exception ex)
             {
-                if (does && match.IsMatch(list[i].Name))
-                    list.RemoveAt(i);
-                else if (doesnot && !notMatch.IsMatch(list[i].Name))
-                    list.RemoveAt(i);
-                else
-                    i++;
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -341,12 +348,19 @@ namespace WikiFunctions.Lists
             OpenFileDialog of = new OpenFileDialog();
             List<Article> list2 = new List<Article>();
 
-            if (of.ShowDialog() == DialogResult.OK)
+            try
             {
-                list2 = GetLists.FromTextFile(of.FileName);
+                if (of.ShowDialog() == DialogResult.OK)
+                {
+                    list2 = GetLists.FromTextFile(of.FileName);
 
-                foreach (Article a in list2)
-                    lbRemove.Items.Add(a);
+                    foreach (Article a in list2)
+                        lbRemove.Items.Add(a);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
