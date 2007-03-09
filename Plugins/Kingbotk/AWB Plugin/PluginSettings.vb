@@ -315,18 +315,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Private Sub NAPriorityMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles NAPriorityMenuItem.Click
             txtEdit.SelectedText = "|priority=NA"
         End Sub
-        Private Sub NovelsWikiProjectToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles NovelsWikiProjectToolStripMenuItem.Click
-            txtEdit.SelectedText = "{{NovelsWikiProject}}"
-        End Sub
-        Private Sub NovelinfoboxneededToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles NovelinfoboxneededToolStripMenuItem.Click
-            txtEdit.SelectedText = "{{Novelinfoboxneeded}}"
-        End Sub
-        Private Sub NovelinfoboxincompToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles NovelinfoboxincompToolStripMenuItem.Click
-            txtEdit.SelectedText = "{{Novelinfoboxincomp}}"
-        End Sub
-        Private Sub NovelsClassListToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles ClassListToolStripMenuItem.Click
-            txtEdit.SelectedText = "|class=List"
-        End Sub
 #End Region
 
         ' Statistics:
