@@ -80,6 +80,7 @@ namespace WikiFunctions.MWB
 
             //NewRule();
             UpdateEnabledStates();
+            setTreeViewColours();
         }
 
         private void OkButton_Click(object sender, EventArgs e)
@@ -105,7 +106,6 @@ namespace WikiFunctions.MWB
             UpdateEnabledStates();
         }
 
-
         void SaveCurrentRule()
         {
             IRule r = currentRule_;
@@ -113,8 +113,8 @@ namespace WikiFunctions.MWB
                 return;
 
             r.Save();
+            setTreeViewColours();
         }
-
 
         void RestoreSelectedRule()
         {
@@ -157,6 +157,7 @@ namespace WikiFunctions.MWB
                 this.ResumeLayout();
             }
             UpdateEnabledStates();
+            setTreeViewColours();
         }
 
         private void UpButton_Click(object sender, EventArgs e)
@@ -231,22 +232,16 @@ namespace WikiFunctions.MWB
             RestoreSelectedRule();
         }
 
-        private void InsideWhatCombobox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void InsideCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-        }
-
         private void NewRuleButton_Click(object sender, EventArgs e)
         {
             NewRule();
+            setTreeViewColours();
         }
 
         private void NewSubruleButton_Click(object sender, EventArgs e)
         {
             NewSubrule();
+            setTreeViewColours();
         }
 
         public void NameChanged(Control rc, string name)
@@ -262,8 +257,7 @@ namespace WikiFunctions.MWB
 
             RulesTreeView.SelectedNode.Text = name;
         }
-
-
+        
         void UpdateEnabledStates()
         {
             bool has_selection = RulesTreeView.SelectedNode != null;
@@ -322,6 +316,7 @@ namespace WikiFunctions.MWB
             RulesTreeView.SelectedNode = nt;
             RulesTreeView.Select();
             RestoreSelectedRule();
+            setTreeViewColours();
         }
 
         private void ReplaceSpecial_VisibleChanged(object sender, EventArgs e)
@@ -338,8 +333,7 @@ namespace WikiFunctions.MWB
         {
             SaveCurrentRule();
         }
-
-
+        
         public string ApplyRules(string text, string title)
         {
             foreach (TreeNode tn in RulesTreeView.Nodes)
@@ -350,8 +344,7 @@ namespace WikiFunctions.MWB
 
             return text;
         }
-
-       
+               
         
         private void DeleteMenuItem_Click(object sender, EventArgs e)
         {
@@ -610,6 +603,11 @@ namespace WikiFunctions.MWB
             RulesTreeView.ExpandAll();
         }
 
+        private void refreshColoursToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            setTreeViewColours();
+        }
+
         private void ReplaceSpecial_KeyDown(object sender, KeyEventArgs e)
         {
             if (!RulesTreeView.Focused)
@@ -640,8 +638,7 @@ namespace WikiFunctions.MWB
             }
 
         }
-
-
+        
         private void RulesTreeView_ItemDrag(object sender, ItemDragEventArgs e)
         {
             DoDragDrop(e.Item, DragDropEffects.Move);
@@ -652,8 +649,7 @@ namespace WikiFunctions.MWB
         {
             e.Effect = e.AllowedEffect;
         }
-
-
+        
         private void RulesTreeView_DragOver(object sender, DragEventArgs e)
         {
             Point targetPoint = RulesTreeView.PointToClient(new Point(e.X, e.Y));
@@ -696,6 +692,25 @@ namespace WikiFunctions.MWB
 
             e.Effect = DragDropEffects.Move;
         }
-    }
 
+        private void setTreeViewColours()
+        {
+            foreach (TreeNode node in RulesTreeView.Nodes)
+            {
+                IRule temp = (IRule)node.Tag;
+
+                if (temp.enabled_)
+                {
+                    node.BackColor = Color.White;
+                }
+                else
+                    node.BackColor = Color.Red;
+            }            
+        }
+
+        private void ReplaceSpecial_Load(object sender, EventArgs e)
+        {
+            setTreeViewColours();
+        }
+    }
 }

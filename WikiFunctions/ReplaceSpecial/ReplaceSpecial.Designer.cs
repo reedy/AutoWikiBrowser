@@ -66,6 +66,8 @@ namespace WikiFunctions.MWB
         this.NewSubruleButton = new System.Windows.Forms.Button();
         this.NoRuleSelectedLabel = new System.Windows.Forms.Label();
         this.RuleControlSpace = new System.Windows.Forms.Panel();
+        this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+        this.refreshColoursToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         this.TreeViewContextMenu.SuspendLayout();
         this.menuStrip1.SuspendLayout();
         this.RuleControlSpace.SuspendLayout();
@@ -153,32 +155,32 @@ namespace WikiFunctions.MWB
             this.DeleteContextMenuItem});
         this.TreeViewContextMenu.Name = "TreeViewContextMenu";
         this.TreeViewContextMenu.ShowImageMargin = false;
-        this.TreeViewContextMenu.Size = new System.Drawing.Size(128, 164);
+        this.TreeViewContextMenu.Size = new System.Drawing.Size(126, 142);
         // 
         // NewRuleContextMenuItem
         // 
         this.NewRuleContextMenuItem.Name = "NewRuleContextMenuItem";
-        this.NewRuleContextMenuItem.Size = new System.Drawing.Size(127, 22);
+        this.NewRuleContextMenuItem.Size = new System.Drawing.Size(125, 22);
         this.NewRuleContextMenuItem.Text = "New Rule";
         this.NewRuleContextMenuItem.Click += new System.EventHandler(this.NewRuleContextMenuItem_Click);
         // 
         // NewSubruleContextMenuItem
         // 
         this.NewSubruleContextMenuItem.Name = "NewSubruleContextMenuItem";
-        this.NewSubruleContextMenuItem.Size = new System.Drawing.Size(127, 22);
+        this.NewSubruleContextMenuItem.Size = new System.Drawing.Size(125, 22);
         this.NewSubruleContextMenuItem.Text = "New Subrule";
         this.NewSubruleContextMenuItem.Click += new System.EventHandler(this.NewSubruleContextMenuItem_Click);
         // 
         // toolStripSeparator1
         // 
         this.toolStripSeparator1.Name = "toolStripSeparator1";
-        this.toolStripSeparator1.Size = new System.Drawing.Size(124, 6);
+        this.toolStripSeparator1.Size = new System.Drawing.Size(122, 6);
         // 
         // CutContextMenuItem
         // 
         this.CutContextMenuItem.Name = "CutContextMenuItem";
         this.CutContextMenuItem.ShortcutKeyDisplayString = "Ctrl+X";
-        this.CutContextMenuItem.Size = new System.Drawing.Size(127, 22);
+        this.CutContextMenuItem.Size = new System.Drawing.Size(125, 22);
         this.CutContextMenuItem.Text = "Cut";
         this.CutContextMenuItem.Click += new System.EventHandler(this.CutMenuItem_Click);
         // 
@@ -186,7 +188,7 @@ namespace WikiFunctions.MWB
         // 
         this.CopyContextMenuItem.Name = "CopyContextMenuItem";
         this.CopyContextMenuItem.ShortcutKeyDisplayString = "Ctrl+C";
-        this.CopyContextMenuItem.Size = new System.Drawing.Size(127, 22);
+        this.CopyContextMenuItem.Size = new System.Drawing.Size(125, 22);
         this.CopyContextMenuItem.Text = "Copy";
         this.CopyContextMenuItem.Click += new System.EventHandler(this.CopyMenuItem_Click);
         // 
@@ -194,7 +196,7 @@ namespace WikiFunctions.MWB
         // 
         this.PasteContextMenuItem.Name = "PasteContextMenuItem";
         this.PasteContextMenuItem.ShortcutKeyDisplayString = "Ctrl+V";
-        this.PasteContextMenuItem.Size = new System.Drawing.Size(127, 22);
+        this.PasteContextMenuItem.Size = new System.Drawing.Size(125, 22);
         this.PasteContextMenuItem.Text = "Paste";
         this.PasteContextMenuItem.Click += new System.EventHandler(this.PasteMenuItem_Click);
         // 
@@ -202,7 +204,7 @@ namespace WikiFunctions.MWB
         // 
         this.DeleteContextMenuItem.Name = "DeleteContextMenuItem";
         this.DeleteContextMenuItem.ShortcutKeyDisplayString = "Del";
-        this.DeleteContextMenuItem.Size = new System.Drawing.Size(127, 22);
+        this.DeleteContextMenuItem.Size = new System.Drawing.Size(125, 22);
         this.DeleteContextMenuItem.Text = "Delete";
         this.DeleteContextMenuItem.Click += new System.EventHandler(this.DeleteMenuItem_Click);
         // 
@@ -222,7 +224,9 @@ namespace WikiFunctions.MWB
         this.RuleMenu.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
         this.RuleMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.NewMenu,
-            this.NewSubruleMenu});
+            this.NewSubruleMenu,
+            this.toolStripSeparator3,
+            this.refreshColoursToolStripMenuItem});
         this.RuleMenu.Name = "RuleMenu";
         this.RuleMenu.Size = new System.Drawing.Size(40, 20);
         this.RuleMenu.Text = "Rule";
@@ -235,7 +239,7 @@ namespace WikiFunctions.MWB
             this.NewInTemplateRuleMenuItem,
             this.NewTemplateParameterRuleMenuItem});
         this.NewMenu.Name = "NewMenu";
-        this.NewMenu.Size = new System.Drawing.Size(145, 22);
+        this.NewMenu.Size = new System.Drawing.Size(162, 22);
         this.NewMenu.Text = "New";
         // 
         // NewRuleMenuItem
@@ -267,7 +271,7 @@ namespace WikiFunctions.MWB
             this.NewSubruleInTemplateCallMenuItem,
             this.NewSubruleTemplateParameterMenuItem});
         this.NewSubruleMenu.Name = "NewSubruleMenu";
-        this.NewSubruleMenu.Size = new System.Drawing.Size(145, 22);
+        this.NewSubruleMenu.Size = new System.Drawing.Size(162, 22);
         this.NewSubruleMenu.Text = "New Subrule";
         // 
         // NewSubruleMenuItem
@@ -397,6 +401,18 @@ namespace WikiFunctions.MWB
         this.RuleControlSpace.Size = new System.Drawing.Size(443, 419);
         this.RuleControlSpace.TabIndex = 19;
         // 
+        // toolStripSeparator3
+        // 
+        this.toolStripSeparator3.Name = "toolStripSeparator3";
+        this.toolStripSeparator3.Size = new System.Drawing.Size(159, 6);
+        // 
+        // refreshColoursToolStripMenuItem
+        // 
+        this.refreshColoursToolStripMenuItem.Name = "refreshColoursToolStripMenuItem";
+        this.refreshColoursToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+        this.refreshColoursToolStripMenuItem.Text = "Refresh Colours";
+        this.refreshColoursToolStripMenuItem.Click += new System.EventHandler(this.refreshColoursToolStripMenuItem_Click);
+        // 
         // ReplaceSpecial
         // 
         this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -428,6 +444,7 @@ namespace WikiFunctions.MWB
         this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ReplaceSpecial_FormClosing);
         this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ReplaceSpecial_KeyDown);
         this.Leave += new System.EventHandler(this.ReplaceSpecial_Leave);
+        this.Load += new System.EventHandler(this.ReplaceSpecial_Load);
         this.TreeViewContextMenu.ResumeLayout(false);
         this.menuStrip1.ResumeLayout(false);
         this.menuStrip1.PerformLayout();
@@ -476,5 +493,7 @@ namespace WikiFunctions.MWB
     private System.Windows.Forms.ToolStripMenuItem RedoMenuItem;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     private System.Windows.Forms.Panel RuleControlSpace;
+      private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+      private System.Windows.Forms.ToolStripMenuItem refreshColoursToolStripMenuItem;
   }
 }
