@@ -79,6 +79,7 @@ namespace IRCMonitor
 
         public string VandalName;
         public string VandalizedPage;
+        public string replacementText;
         public enum NextTaskType { None, Warn, Report, Contribs, Blacklist };
         NextTaskType NextTask = NextTaskType.None;
         string[] IRCChannels = new String[] { "#en.wikibooks", "#en.wikinews ", "#en.wikipedia", "#en.wikiquote", "#en.wikisource", "#meta" };
@@ -213,6 +214,7 @@ namespace IRCMonitor
                     break;
             }
 
+            txtNickname.Text = Variables.User.Name + "-IRCM";
             lblUserName.Text = Variables.User.Name;
             lblStatusText.Text = label;
 
@@ -232,6 +234,7 @@ namespace IRCMonitor
             if (btnStart.Text == "Connect")
             {
                 btnStart.Text = "Disconnect";
+                CheckStatus();
                 Start();
             }
             else
@@ -1769,20 +1772,25 @@ namespace IRCMonitor
 
             if (hist[i].User != username)
             {
-
                 summary = summary.Replace("%v", username);
                 summary = summary.Replace("%u", hist[i].User);
                 summary += Project.Using;
 
-                webBrowser.LoadEditPage(webBrowser.ArticleTitle);//, hist[i].RevisionID);
+                webBrowser.LoadEditPage(webBrowser.ArticleTitle, hist[i].RevisionID);//, hist[i].RevisionID);
                 webBrowser.Wait();
+                replacementText = webBrowser.GetArticleText();
+               
+
                 if (webBrowser.GetArticleText().Trim() == "")
                 {
                     MessageBox.Show("Cannot revert to empty revision. Probably, there is some error.");
                     NextTask = NextTaskType.None;
                     return;
                 }
+
+                webBrowser.LoadEditPage(webBrowser.ArticleTitle);
                 webBrowser.SetSummary(summary);
+                webBrowser.SetArticleText(replacementText);
                 webBrowser.SetMinor(true);
                 webBrowser.Save();
                 webBrowser.Wait();
