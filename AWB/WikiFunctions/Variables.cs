@@ -960,6 +960,7 @@ namespace WikiFunctions
         bool bLoggedIn = false;
 
         public WebControl webBrowserLogin = new WebControl();
+        internal static Boolean WeAskedAboutUpdate;
 
         /// <summary>
         /// Gets the user name
@@ -1069,11 +1070,16 @@ namespace WikiFunctions
                 }
                 else
                 {
-                    if (strText.Contains(Assembly.GetExecutingAssembly().GetName().Version.ToString() + " enabled (old)"))
+                    if (!WeAskedAboutUpdate && strText.Contains(Assembly.GetExecutingAssembly().GetName().Version.
+                        ToString() + " enabled (old)")) 
                     {
-                        if (MessageBox.Show("This version has been superceeded by a new version.  You may continue to use this version or update to the newest version.\r\n\r\nWould you like to upgrade to the newest version?", "Upgrade?", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                            System.Diagnostics.Process.Start("http://sourceforge.net/project/showfiles.php?group_id=158332");
+                        WeAskedAboutUpdate = true;
+                        if (MessageBox.Show(
+                        "This version has been superceeded by a new version.  You may continue to use this version or update to the newest version.\r\n\r\nWould you like to upgrade to the newest version?", "Upgrade?",
+                        MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        System.Diagnostics.Process.Start("http://sourceforge.net/project/showfiles.php?group_id=158332");
                     }
+
                     //load check page
                     if (Variables.LangCode != LangCodeEnum.ar)
                     {
