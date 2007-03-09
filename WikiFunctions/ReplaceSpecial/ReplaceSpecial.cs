@@ -643,8 +643,7 @@ namespace WikiFunctions.MWB
         {
             DoDragDrop(e.Item, DragDropEffects.Move);
         }
-
-
+        
         private void RulesTreeView_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = e.AllowedEffect;
@@ -697,15 +696,32 @@ namespace WikiFunctions.MWB
         {
             foreach (TreeNode node in RulesTreeView.Nodes)
             {
-                IRule temp = (IRule)node.Tag;
+                setColours(node);
+            }
+        }
 
-                if (temp.enabled_)
-                {
-                    node.BackColor = Color.White;
-                }
-                else
-                    node.BackColor = Color.Red;
-            }            
+        private void setColours(TreeNode rnode)
+        {
+            IRule temp = (IRule)rnode.Tag;
+            setNodeColour(rnode);
+
+            foreach (TreeNode node in rnode.Nodes)
+            {
+                IRule temp2 = (IRule)node.Tag;
+
+                setNodeColour(node);
+                setColours(node);
+            }
+        }
+
+        private void setNodeColour(TreeNode node)
+        {
+            if (temp.enabled_)
+            {
+                node.BackColor = Color.White;
+            }
+            else
+                node.BackColor = Color.Red;
         }
 
         private void ReplaceSpecial_Load(object sender, EventArgs e)
