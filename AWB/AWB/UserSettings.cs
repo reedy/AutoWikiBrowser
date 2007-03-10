@@ -135,6 +135,7 @@ namespace AutoWikiBrowser
             txtDabLink.Text = "";
             txtDabVariants.Text = "";
             chkSkipNoDab.Checked = false;
+            udContextChars.Value = 20;
 
             try
             {
@@ -790,6 +791,7 @@ namespace AutoWikiBrowser
             p.Disambiguation.Enabled = chkEnableDab.Checked;
             p.Disambiguation.Link = txtDabLink.Text;
             p.Disambiguation.Variants = txtDabVariants.Lines;
+            p.Disambiguation.ContextChars = (int)udContextChars.Value;
 
             p.Module.Enabled = cModule.ModuleEnabled;
             p.Module.Language = cModule.Language;
@@ -940,6 +942,7 @@ namespace AutoWikiBrowser
             chkEnableDab.Checked = p.Disambiguation.Enabled;
             txtDabLink.Text = p.Disambiguation.Link;
             txtDabVariants.Lines = p.Disambiguation.Variants;
+            udContextChars.Value = p.Disambiguation.ContextChars;
 
             cModule.ModuleEnabled = p.Module.Enabled;
             cModule.Language = p.Module.Language;

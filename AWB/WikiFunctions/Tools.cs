@@ -108,7 +108,7 @@ namespace WikiFunctions
             return m.Groups[1].Value;
         }
 
-        static string[] InvalidChars = new string[] { "[", "]", "{", "}", "|", "<",">", "%" };
+        static string[] InvalidChars = new string[] { "[", "]", "{", "}", "|", "<",">", "#" };
 
         /// <summary>
         /// Tests article title to see if it is valid
@@ -492,6 +492,11 @@ Message: {2}
             {
                 return "";
             }
+        }
+
+        public static string WikiEncode(string title)
+        {
+            return HttpUtility.UrlEncode(title.Replace(' ', '_'));
         }
     }    
 }
