@@ -107,9 +107,9 @@ namespace AutoWikiBrowser
             this.saveSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveCurrentSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.loadDefaultSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.recentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadDefaultSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.loginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -801,13 +801,6 @@ namespace AutoWikiBrowser
             this.loadSettingsToolStripMenuItem.Text = "Load settings";
             this.loadSettingsToolStripMenuItem.Click += new System.EventHandler(this.loadSettingsToolStripMenuItem_Click);
             // 
-            // loadDefaultSettingsToolStripMenuItem
-            // 
-            this.loadDefaultSettingsToolStripMenuItem.Name = "loadDefaultSettingsToolStripMenuItem";
-            this.loadDefaultSettingsToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
-            this.loadDefaultSettingsToolStripMenuItem.Text = "Reset settings";
-            this.loadDefaultSettingsToolStripMenuItem.Click += new System.EventHandler(this.loadDefaultSettingsToolStripMenuItem_Click);
-            // 
             // saveAsDefaultToolStripMenuItem
             // 
             this.saveAsDefaultToolStripMenuItem.Name = "saveAsDefaultToolStripMenuItem";
@@ -820,6 +813,13 @@ namespace AutoWikiBrowser
             this.recentToolStripMenuItem.Name = "recentToolStripMenuItem";
             this.recentToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
             this.recentToolStripMenuItem.Text = "Recent Settings";
+            // 
+            // loadDefaultSettingsToolStripMenuItem
+            // 
+            this.loadDefaultSettingsToolStripMenuItem.Name = "loadDefaultSettingsToolStripMenuItem";
+            this.loadDefaultSettingsToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.loadDefaultSettingsToolStripMenuItem.Text = "Reset settings";
+            this.loadDefaultSettingsToolStripMenuItem.Click += new System.EventHandler(this.loadDefaultSettingsToolStripMenuItem_Click);
             // 
             // toolStripSeparator8
             // 
@@ -958,6 +958,7 @@ namespace AutoWikiBrowser
             this.PreferencesToolStripMenuItem.Name = "PreferencesToolStripMenuItem";
             this.PreferencesToolStripMenuItem.Size = new System.Drawing.Size(255, 22);
             this.PreferencesToolStripMenuItem.Text = "User and project preferences";
+            this.PreferencesToolStripMenuItem.Click += new System.EventHandler(this.PreferencesToolStripMenuItem_Click);
             // 
             // toolStripSeparator14
             // 
