@@ -264,12 +264,12 @@ namespace WikiFunctions.Parse
                 oldArticleText = ArticleText;
                 ArticleText = Regex.Replace(ArticleText, match0a, "$1$2$4$3");
                 ArticleText = Regex.Replace(ArticleText, match0b, "$1$2$4$3");
-                ArticleText = Regex.Replace(ArticleText, match0c, "$2$4$3");
+                //ArticleText = Regex.Replace(ArticleText, match0c, "$2$4$3");
                 ArticleText = Regex.Replace(ArticleText, match0d, "$1$2$3");
 
                 ArticleText = Regex.Replace(ArticleText, match1a, "$1$2$6$3");
                 ArticleText = Regex.Replace(ArticleText, match1b, "$1$2$6$3");
-                ArticleText = Regex.Replace(ArticleText, match1c, "$2$6$3");
+                //ArticleText = Regex.Replace(ArticleText, match1c, "$2$6$3");
                 ArticleText = Regex.Replace(ArticleText, match1d, "$1$2$3");
             }
             return ArticleText;
