@@ -146,6 +146,7 @@ namespace WikiFunctions.AWBSettings
         public bool Enabled = false;
         public string Link = "";
         public string[] Variants = new string[0];
+        public int ContextChars = 20;
     }
 
     [Serializable]

@@ -15,12 +15,13 @@ namespace WikiFunctions.Disambiguation
             InitializeComponent();
         }
 
-        public DabControl(string articleText, string link, Match match, List<string> variants)
+        public DabControl(string articleText, string link, Match match, List<string> variants, int contextChars)
         {
             ArticleText = articleText;
             dabLink = link;
             Match = match;
             Variants = variants;
+            ContextChars = contextChars;
 
             InitializeComponent();
         }
@@ -45,6 +46,7 @@ namespace WikiFunctions.Disambiguation
         }
 
         //internal
+        int ContextChars;
         int posStart;
         int posEnd;
         bool StartOfSentence = false;
@@ -103,8 +105,8 @@ namespace WikiFunctions.Disambiguation
 
             while (posEnd < ArticleText.Length - 1 && !"\n\r".Contains(ArticleText[posEnd] + "")) posEnd++;
 
-            // find surroundings (~±20 chars from link)
-            int n = Match.Index - 20;
+            // find surroundings (~ ±ContextChars from link)
+            int n = Match.Index - ContextChars;
             if (n < posStart) n = posStart;
             for (; n > posStart; n--)
             {
@@ -116,7 +118,7 @@ namespace WikiFunctions.Disambiguation
             }
             SurroundingsStart = n;
 
-            n = Match.Index + Match.Length + 20;
+            n = Match.Index + Match.Length + ContextChars;
             if (n > posEnd) n = posEnd;
             for (; n < posEnd; n++)
             {

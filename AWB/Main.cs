@@ -829,7 +829,7 @@ namespace AutoWikiBrowser
                     SkipArticle = false;
                     DabForm df = new DabForm();
                     articleText = df.Disambiguate(articleText, EdittingArticle.Name, txtDabLink.Text.Trim(), 
-                        txtDabVariants.Lines, out SkipArticle);
+                        txtDabVariants.Lines, (int)udContextChars.Value, chkAutoMode.Checked, out SkipArticle);
 
                     Abort = df.Abort;
                     if (Abort) Stop();
