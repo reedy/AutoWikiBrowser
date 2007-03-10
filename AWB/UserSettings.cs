@@ -137,8 +137,9 @@ namespace AutoWikiBrowser
             Flash = true;
             Beep = true;
             Minimize = true;
+            SaveArticleList = true;
             chkLock.Checked = false;
-            
+                        
             chkEnableDab.Checked = false;
             txtDabLink.Text = "";
             txtDabVariants.Text = "";
@@ -559,9 +560,7 @@ namespace AutoWikiBrowser
                                 LowThreadPriority = bool.Parse(reader.Value);
 
                             if (reader.MoveToAttribute("flashandbeep"))
-                            {
-                               FlashAndBeep = bool.Parse(reader.Value);
-                            }
+                            { FlashAndBeep = bool.Parse(reader.Value); }
 
                             if (reader.MoveToAttribute("flash"))
                                 Flash = bool.Parse(reader.Value);
@@ -571,6 +570,9 @@ namespace AutoWikiBrowser
 
                             if (reader.MoveToAttribute("minimize"))
                                 Minimize = bool.Parse(reader.Value);
+
+                            if (reader.MoveToAttribute("savearticlelist"))
+                                SaveArticleList = bool.Parse(reader.Value);
 
                             continue;
                         }
@@ -701,9 +703,14 @@ namespace AutoWikiBrowser
 
             p.List.ListSource = listMaker1.SourceText;
             p.List.Source = listMaker1.SelectedSource;
-            p.List.ArticleList = listMaker1.GetArticleList();
 
+            p.General.SaveArticleList = SaveArticleList;
 
+            if (p.General.SaveArticleList)
+            { p.List.ArticleList = listMaker1.GetArticleList(); }
+            else 
+            { p.List.ArticleList = new List<Article>(); }
+            
             p.Editprefs.GeneralFixes = chkGeneralFixes.Checked;
             p.Editprefs.Tagger = chkAutoTagger.Checked;
             p.Editprefs.Unicodify = chkUnicodifyWhole.Checked;
@@ -729,8 +736,7 @@ namespace AutoWikiBrowser
             p.Editprefs.SuppressTag = chkSuppressTag.Checked;
 
             p.Editprefs.RegexTypoFix = chkRegExTypo.Checked;
-
-
+            
             p.SkipOptions.SkipNonexistent = chkSkipNonExistent.Checked;
             p.SkipOptions.SkipWhenNoChanges = chkSkipNoChanges.Checked;
 
@@ -835,7 +841,11 @@ namespace AutoWikiBrowser
 
             listMaker1.SourceText = p.List.ListSource;
             listMaker1.SelectedSource = p.List.Source;
-            listMaker1.Add(p.List.ArticleList);
+
+            SaveArticleList = p.General.SaveArticleList;
+
+            if (p.General.SaveArticleList)
+            { listMaker1.Add(p.List.ArticleList); }
             
             chkGeneralFixes.Checked = p.Editprefs.GeneralFixes;
             chkAutoTagger.Checked = p.Editprefs.Tagger;
@@ -929,22 +939,14 @@ namespace AutoWikiBrowser
             //FlashAndBeep = p.General.FlashAndBeep;
 
             if (p.General.Flash == p.General.FlashAndBeep)
-            {
-                Flash = p.General.FlashAndBeep;
-            }
+            { Flash = p.General.FlashAndBeep; }
             else
-            {
-                Flash = p.General.Flash;
-            }
+            { Flash = p.General.Flash; }
 
             if (p.General.Beep == p.General.FlashAndBeep)
-            {
-                Beep = p.General.FlashAndBeep;
-            }
+            { Beep = p.General.FlashAndBeep; }
             else
-            {
-                Beep = p.General.Beep;
-            }
+            { Beep = p.General.Beep; }
 
             Minimize = p.General.Minimize;
             

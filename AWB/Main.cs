@@ -272,6 +272,13 @@ namespace AutoWikiBrowser
             set { bMinimize = value; }
         }
 
+        bool bSaveArticleList = false;
+        private bool SaveArticleList
+        {
+            get { return bSaveArticleList; }
+            set { bSaveArticleList = value; }
+        }
+
         #endregion
 
         #region MainProcess
@@ -930,13 +937,9 @@ namespace AutoWikiBrowser
         private void panelShowHide()
         {
             if (panel2.Visible)
-            {
-                panel2.Hide();
-            }
+            { panel2.Hide(); }
             else
-            {
-                panel2.Show();
-            }
+            { panel2.Show(); }
             setBrowserSize();
         }
 
@@ -1484,9 +1487,9 @@ namespace AutoWikiBrowser
 
         #region set variables
 
-        private void selectProjectToolStripMenuItem_Click(object sender, EventArgs e)
+        private void PreferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MyPreferences MyPrefs = new MyPreferences(Variables.LangCode, Variables.Project, Variables.CustomProject, webBrowserEdit.EnhanceDiffEnabled, webBrowserEdit.ScrollDown, webBrowserEdit.DiffFontSize, txtEdit.Font, LowThreadPriority, Flash, Beep, Minimize);
+            MyPreferences MyPrefs = new MyPreferences(Variables.LangCode, Variables.Project, Variables.CustomProject, webBrowserEdit.EnhanceDiffEnabled, webBrowserEdit.ScrollDown, webBrowserEdit.DiffFontSize, txtEdit.Font, LowThreadPriority, Flash, Beep, Minimize, SaveArticleList);
 
             if (MyPrefs.ShowDialog(this) == DialogResult.OK)
             {
@@ -1499,6 +1502,7 @@ namespace AutoWikiBrowser
                 Flash = MyPrefs.perfFlash;
                 Beep = MyPrefs.perfBeep;
                 Minimize = MyPrefs.perfMinimize;
+                SaveArticleList = MyPrefs.perfSaveArticleList;
 
                 if (MyPrefs.Language != Variables.LangCode || MyPrefs.Project != Variables.Project || MyPrefs.CustomProject != Variables.CustomProject)
                 {

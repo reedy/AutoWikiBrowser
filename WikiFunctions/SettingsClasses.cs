@@ -138,6 +138,7 @@ namespace WikiFunctions.AWBSettings
         public bool Flash = false;
         public bool Minimize = false;
         public bool LockSummary = false;
+        public bool SaveArticleList = false;
     }
 
     [Serializable]
