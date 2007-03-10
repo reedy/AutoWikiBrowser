@@ -35,7 +35,15 @@ namespace AutoWikiBrowser
 
         private void loadDefaultSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ResetSettings();
+            if ((MessageBox.Show("Would you really like to reset setting to default?", "Reset Settings to Default?", MessageBoxButtons.YesNo)) == DialogResult.Yes)
+            {
+                ResetSettings();
+            }
+        }
+
+        private void saveCurrentSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SavePrefs(settingsfilename);
         }
 
         private void ResetSettings()
@@ -163,7 +171,7 @@ namespace AutoWikiBrowser
             listMaker1.removeListDuplicates();
         }
 
-        private string settingsfilename = "settings";
+        private string settingsfilename = "Default.xml";
 
         [Obsolete]
         private void loadSettings(Stream stream)
@@ -666,6 +674,7 @@ namespace AutoWikiBrowser
         private void RecentSettingsClick(object sender, EventArgs e)
         {
             LoadPrefs((sender as ToolStripItem).Text);
+            settingsfilename = (sender as ToolStripItem).Text;
             listMaker1.removeListDuplicates();
         }
 
