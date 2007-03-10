@@ -703,20 +703,20 @@ namespace WikiFunctions.MWB
         private void setColours(TreeNode rnode)
         {
             IRule temp = (IRule)rnode.Tag;
-            setNodeColour(rnode);
+            setNodeColour(rnode, temp);
 
             foreach (TreeNode node in rnode.Nodes)
             {
                 IRule temp2 = (IRule)node.Tag;
 
-                setNodeColour(node);
+                setNodeColour(node, temp);
                 setColours(node);
             }
         }
 
-        private void setNodeColour(TreeNode node)
+        private void setNodeColour(TreeNode node, IRule rule)
         {
-            if (temp.enabled_)
+            if (rule.enabled_)
             {
                 node.BackColor = Color.White;
             }
