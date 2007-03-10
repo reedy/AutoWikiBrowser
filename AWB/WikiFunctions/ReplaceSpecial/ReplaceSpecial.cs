@@ -709,7 +709,7 @@ namespace WikiFunctions.MWB
             {
                 IRule temp2 = (IRule)node.Tag;
 
-                setNodeColour(node, temp);
+                setNodeColour(node, temp2);
                 setColours(node);
             }
         }
