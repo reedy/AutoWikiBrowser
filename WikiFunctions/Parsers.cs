@@ -459,7 +459,7 @@ namespace WikiFunctions.Parse
         public string LinkSimplifier(string ArticleText, out bool NoChange)
         {
             testText = ArticleText;
-            ArticleText = LinkSimplifier(ArticleText);
+            ArticleText = SimplifyLinks(ArticleText);
 
             if (testText == ArticleText)
                 NoChange = true;
@@ -474,7 +474,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <returns>The simplified article text.</returns>
-        public string LinkSimplifier(string ArticleText)
+        public string SimplifyLinks(string ArticleText)
         {
             string n = "";
             string a = "";
@@ -513,6 +513,35 @@ namespace WikiFunctions.Parse
                     if (DoBreak) continue;
                     k = "[[" + b.Substring(0, a.Length) + "]]" + b.Substring(a.Length);
                     ArticleText = ArticleText.Replace(n, k);
+                }
+            }
+
+            return ArticleText;
+        }
+
+        /// <summary>
+        /// Joins nearby words with links
+        ///   e.g. "[[Russian literature|Russian]] literature" to "[[Russian literature]]"
+        /// </summary>
+        /// <param name="ArticleText">The wiki text of the article</param>
+        /// <returns>Processed wikitext</returns>
+        public string StickyLinks(string ArticleText)
+        {
+            foreach (Match m in WikiRegexes.PipedWikiLink.Matches(ArticleText))
+            {
+                string a = m.Groups[1].Value;
+                string b = m.Groups[2].Value;
+
+                if(Tools.TurnFirstToLower(a).StartsWith(Tools.TurnFirstToLower(b)))
+                {
+                    bool HasSpace = a[b.Length] == ' ';
+                    string search = @"\[\[" + Regex.Escape(a) + @"\|" + Regex.Escape(b) +
+                        @"\]\]" + (HasSpace ? "[ ]+" : "") + Regex.Escape(a.Remove(0, 
+                        b.Length + (HasSpace ? 1 : 0))) + @"\b";
+
+                    //first char should be capitalized like in the visible part of the link
+                    a = a.Remove(0, 1).Insert(0, b[0] + "");
+                    ArticleText = Regex.Replace(ArticleText, search, "[[" + a + @"]]");
                 }
             }
 
