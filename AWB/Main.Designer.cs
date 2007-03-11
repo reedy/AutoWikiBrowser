@@ -284,6 +284,7 @@ namespace AutoWikiBrowser
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.groupBox2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.mnuTextBox.SuspendLayout();
@@ -765,12 +766,13 @@ namespace AutoWikiBrowser
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.loadDefaultSettingsToolStripMenuItem,
+            this.loadSettingsToolStripMenuItem,
+            this.recentToolStripMenuItem,
+            this.toolStripSeparator2,
             this.saveSettingsToolStripMenuItem,
             this.saveCurrentSettingsToolStripMenuItem,
-            this.loadSettingsToolStripMenuItem,
             this.saveAsDefaultToolStripMenuItem,
-            this.recentToolStripMenuItem,
-            this.loadDefaultSettingsToolStripMenuItem,
             this.toolStripSeparator8,
             this.loginToolStripMenuItem,
             this.logOutToolStripMenuItem,
@@ -790,35 +792,35 @@ namespace AutoWikiBrowser
             // saveCurrentSettingsToolStripMenuItem
             // 
             this.saveCurrentSettingsToolStripMenuItem.Name = "saveCurrentSettingsToolStripMenuItem";
-            this.saveCurrentSettingsToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.saveCurrentSettingsToolStripMenuItem.Text = "Save current settings";
+            this.saveCurrentSettingsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.saveCurrentSettingsToolStripMenuItem.Text = "Save settings as...";
             this.saveCurrentSettingsToolStripMenuItem.Click += new System.EventHandler(this.saveCurrentSettingsToolStripMenuItem_Click);
             // 
             // loadSettingsToolStripMenuItem
             // 
             this.loadSettingsToolStripMenuItem.Name = "loadSettingsToolStripMenuItem";
             this.loadSettingsToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.loadSettingsToolStripMenuItem.Text = "Load settings";
+            this.loadSettingsToolStripMenuItem.Text = "Open settings";
             this.loadSettingsToolStripMenuItem.Click += new System.EventHandler(this.loadSettingsToolStripMenuItem_Click);
             // 
             // saveAsDefaultToolStripMenuItem
             // 
             this.saveAsDefaultToolStripMenuItem.Name = "saveAsDefaultToolStripMenuItem";
-            this.saveAsDefaultToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.saveAsDefaultToolStripMenuItem.Text = "Save as default";
+            this.saveAsDefaultToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.saveAsDefaultToolStripMenuItem.Text = "Save settings as default";
             this.saveAsDefaultToolStripMenuItem.Click += new System.EventHandler(this.saveAsDefaultToolStripMenuItem_Click);
             // 
             // recentToolStripMenuItem
             // 
             this.recentToolStripMenuItem.Name = "recentToolStripMenuItem";
             this.recentToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.recentToolStripMenuItem.Text = "Recent Settings";
+            this.recentToolStripMenuItem.Text = "Recent settings";
             // 
             // loadDefaultSettingsToolStripMenuItem
             // 
             this.loadDefaultSettingsToolStripMenuItem.Name = "loadDefaultSettingsToolStripMenuItem";
-            this.loadDefaultSettingsToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.loadDefaultSettingsToolStripMenuItem.Text = "Reset settings";
+            this.loadDefaultSettingsToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.loadDefaultSettingsToolStripMenuItem.Text = "New settings file";
             this.loadDefaultSettingsToolStripMenuItem.Click += new System.EventHandler(this.loadDefaultSettingsToolStripMenuItem_Click);
             // 
             // toolStripSeparator8
@@ -2616,6 +2618,11 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
             this.webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(174, 6);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2929,6 +2936,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem saveCurrentSettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem PreferencesToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 
 
     }

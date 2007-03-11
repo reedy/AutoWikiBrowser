@@ -35,7 +35,7 @@ namespace AutoWikiBrowser
 
         private void loadDefaultSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if ((MessageBox.Show("Would you really like to reset setting to default?", "Reset Settings to Default?", MessageBoxButtons.YesNo)) == DialogResult.Yes)
+            if ((MessageBox.Show("Would you really like to load the original default settings?", "Reset settings to default?", MessageBoxButtons.YesNo)) == DialogResult.Yes)
             {
                 ResetSettings();
             }
