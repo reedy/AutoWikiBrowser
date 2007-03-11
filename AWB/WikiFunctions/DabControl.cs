@@ -187,7 +187,7 @@ namespace WikiFunctions.Disambiguation
                 else CurrentLink += Variants[n - 3];
                 CurrentLink += "|" + VisibleLink + "]]";
                 WikiFunctions.Parse.Parsers Parse = new WikiFunctions.Parse.Parsers();
-                CurrentLink = Parse.LinkSimplifier(CurrentLink);
+                CurrentLink = Parse.StickyLinks(Parse.SimplifyLinks(CurrentLink));
                 txtCorrection.Text = Surroundings.Replace(Match.Value, CurrentLink);
             }
 
