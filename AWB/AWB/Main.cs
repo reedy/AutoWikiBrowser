@@ -340,6 +340,10 @@ namespace AutoWikiBrowser
 
                 //Navigate to edit page
                 webBrowserEdit.LoadEditPage(EdittingArticle.Name);
+
+                //Start bot timer
+                if (chkAutoMode.Checked)
+                    startDelayedAutoSaveTimer();
             }
             catch (Exception ex)
             {
@@ -430,27 +434,28 @@ namespace AutoWikiBrowser
 
             if (!Abort)
             {
-                if (chkAutoMode.Checked && chkQuickSave.Checked)
-                    startDelayedAutoSaveTimer();
-                else if (toolStripComboOnLoad.SelectedIndex == 0)
-                    GetDiff();
-                else if (toolStripComboOnLoad.SelectedIndex == 1)
-                    GetPreview();
-                else if (toolStripComboOnLoad.SelectedIndex == 2)
+                if (!chkQuickSave.Checked)
                 {
-                    if (chkAutoMode.Checked)
+                    if (toolStripComboOnLoad.SelectedIndex == 0)
+                        GetDiff();
+                    else if (toolStripComboOnLoad.SelectedIndex == 1)
+                        GetPreview();
+                    else if (toolStripComboOnLoad.SelectedIndex == 2)
                     {
-                        startDelayedAutoSaveTimer();
-                        return;
+                        if (chkAutoMode.Checked)
+                        {
+                            startDelayedAutoSaveTimer();
+                            return;
+                        }
+
+                        bleepflash();
+
+                        this.Focus();
+                        txtEdit.Focus();
+                        txtEdit.SelectionLength = 0;
+
+                        EnableButtons();
                     }
-
-                    bleepflash();
-
-                    this.Focus();
-                    txtEdit.Focus();
-                    txtEdit.SelectionLength = 0;
-
-                    EnableButtons();
                 }
             }
             else
@@ -563,7 +568,6 @@ namespace AutoWikiBrowser
 
             if (chkAutoMode.Checked)
             {
-                startDelayedAutoSaveTimer();
                 return;
             }
 
@@ -625,6 +629,8 @@ namespace AutoWikiBrowser
 
             LastArticle = "";
             listMaker1.Remove(EdittingArticle);
+            if (chkAutoMode.Checked)
+                startDelayedAutoSaveTimer();
             Start();
         }
 
@@ -1660,7 +1666,7 @@ namespace AutoWikiBrowser
         int intTimer = 0;
         private void DelayedAutoSave()
         {
-            if (intTimer < nudBotSpeed.Value)
+            if (intTimer < nudBotSpeed.Value || (webBrowserEdit.Status != "Ready to save"))
             {
                 intTimer++;
                 if (intTimer == 1)
