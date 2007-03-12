@@ -20,6 +20,8 @@ namespace WikiFunctions
 
         public Dictionary<Regex, string> Regexes = new Dictionary<Regex, string>();
 
+        WikiFunctions.Parse.HideText RemoveUnformatted = new WikiFunctions.Parse.HideText(true, false, true);
+
         public string[] TemplateList
         {
             get
@@ -80,10 +82,15 @@ namespace WikiFunctions
 
         public string SubstituteTemplates(string ArticleText)
         {
+            if (chkIgnoreUnformatted.Checked)
+                ArticleText = RemoveUnformatted.HideUnformatted(ArticleText);
             foreach (KeyValuePair<Regex, string> p in Regexes)
             {
                 ArticleText = p.Key.Replace(ArticleText, p.Value);
             }
+
+            if (chkIgnoreUnformatted.Checked)
+                ArticleText = RemoveUnformatted.AddBackUnformatted(ArticleText);
 
             return ArticleText;
         }
