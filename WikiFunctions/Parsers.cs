@@ -1005,6 +1005,7 @@ namespace WikiFunctions.Parse
         /// <returns>The article text possibly using defaultsort.</returns>
         public string ChangeToDefaultSort(string ArticleText, string ArticleTitle)
         {
+            ArticleText = Regex.Replace(ArticleText, @"{{DEFAULTSORT\|(.*?)}}", "{{DEFAULTSORT:$1}}", RegexOptions.IgnoreCase);
             if (!Regex.IsMatch(ArticleText, "defaultsort", RegexOptions.IgnoreCase))
             {
                 string sort = "";
