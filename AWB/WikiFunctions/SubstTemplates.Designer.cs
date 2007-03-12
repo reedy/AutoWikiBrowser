@@ -34,12 +34,13 @@ namespace WikiFunctions
             this.btnOk = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnReset = new System.Windows.Forms.Button();
+            this.chkIgnoreUnformatted = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(11, 0);
+            this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(119, 13);
             this.label1.TabIndex = 0;
@@ -50,17 +51,17 @@ namespace WikiFunctions
             this.textBoxTemplates.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxTemplates.Location = new System.Drawing.Point(12, 16);
+            this.textBoxTemplates.Location = new System.Drawing.Point(12, 25);
             this.textBoxTemplates.Multiline = true;
             this.textBoxTemplates.Name = "textBoxTemplates";
-            this.textBoxTemplates.Size = new System.Drawing.Size(386, 193);
+            this.textBoxTemplates.Size = new System.Drawing.Size(386, 184);
             this.textBoxTemplates.TabIndex = 1;
             // 
             // btnCancel
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(323, 215);
+            this.btnCancel.Location = new System.Drawing.Point(323, 238);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 2;
@@ -70,7 +71,7 @@ namespace WikiFunctions
             // btnOk
             // 
             this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOk.Location = new System.Drawing.Point(242, 215);
+            this.btnOk.Location = new System.Drawing.Point(242, 238);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 3;
@@ -81,7 +82,7 @@ namespace WikiFunctions
             // btnClear
             // 
             this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnClear.Location = new System.Drawing.Point(12, 215);
+            this.btnClear.Location = new System.Drawing.Point(12, 238);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(75, 23);
             this.btnClear.TabIndex = 4;
@@ -91,7 +92,8 @@ namespace WikiFunctions
             // 
             // btnReset
             // 
-            this.btnReset.Location = new System.Drawing.Point(93, 215);
+            this.btnReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnReset.Location = new System.Drawing.Point(93, 238);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(75, 23);
             this.btnReset.TabIndex = 5;
@@ -99,12 +101,22 @@ namespace WikiFunctions
             this.btnReset.UseVisualStyleBackColor = true;
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
+            // chkIgnoreUnformatted
+            // 
+            this.chkIgnoreUnformatted.AutoSize = true;
+            this.chkIgnoreUnformatted.Location = new System.Drawing.Point(15, 215);
+            this.chkIgnoreUnformatted.Name = "chkIgnoreUnformatted";
+            this.chkIgnoreUnformatted.Size = new System.Drawing.Size(321, 17);
+            this.chkIgnoreUnformatted.TabIndex = 6;
+            this.chkIgnoreUnformatted.Text = "Ignore external/interwiki links, images, nowiki, math and <!-- -->";
+            this.chkIgnoreUnformatted.UseVisualStyleBackColor = true;
+            // 
             // SubstTemplates
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(410, 250);
+            this.ClientSize = new System.Drawing.Size(410, 270);
+            this.Controls.Add(this.chkIgnoreUnformatted);
             this.Controls.Add(this.btnReset);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.btnOk);
@@ -128,5 +140,6 @@ namespace WikiFunctions
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnReset;
+        private System.Windows.Forms.CheckBox chkIgnoreUnformatted;
     }
 }

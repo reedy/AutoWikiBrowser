@@ -21,7 +21,7 @@ namespace WikiFunctions.Parse
         bool HideExternal = false;
 
         List<HideObject> NoEditList = new List<HideObject>();
-        
+        List<HideObject> NoUnformatted = new List<HideObject>();
         readonly Regex NoWikiIgnoreRegex = new Regex("<!-- ?(categories|\\{\\{.*?stub\\}\\}.*?|other languages|language links|inter ?(language|wiki)? ?links|inter ?wiki ?language ?links|inter ?wiki|The below are interlanguage links\\.?) ?-->", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         public string Hide(string ArticleText)
@@ -215,9 +215,7 @@ namespace WikiFunctions.Parse
 
             return ArticleText;
         }
-
-
-
+        
         /// <summary>
         /// Adds back hidden stuff from HideMore
         /// </summary>
@@ -231,8 +229,36 @@ namespace WikiFunctions.Parse
             MoreHide.Clear();
             return ArticleText;
         }
-    }
 
+        public string HideUnformatted(string ArticleText)
+        {
+            NoUnformatted.Clear();
+            string s = "";
+
+            int i = 0;
+            foreach (Match m in WikiRegexes.UnFormattedText.Matches(ArticleText))
+            {
+                s = "⌊⌊⌊⌊" + i.ToString() + "⌋⌋⌋⌋";
+
+                ArticleText = ArticleText.Replace(m.Value, s);
+                NoUnformatted.Add(new HideObject(s, m.Value));
+                i++;
+            }
+
+            return ArticleText;
+        }
+
+        public string AddBackUnformatted(string ArticleText)
+        {
+            NoUnformatted.Reverse();
+
+            foreach (HideObject k in NoUnformatted)
+                ArticleText = ArticleText.Replace(k.code, k.text);
+
+            NoUnformatted.Clear();
+            return ArticleText;
+        }
+    }
     struct HideObject
     {
         public HideObject(string code, string text)
