@@ -1280,7 +1280,7 @@ namespace AutoWikiBrowser
                     lblWarn.Text = "Long article with a stub tag.\r\n";
 
                 if (!(Regex.IsMatch(ArticleText, "\\[\\[" + Variables.Namespaces[14], RegexOptions.IgnoreCase)))
-                    lblWarn.Text += "No category.\r\n";
+                    lblWarn.Text += "No category (although one may be in a template)\r\n";
 
                 if (ArticleText.StartsWith("=="))
                     lblWarn.Text += "Starts with heading.";
