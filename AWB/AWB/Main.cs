@@ -1251,6 +1251,7 @@ namespace AutoWikiBrowser
                 lbDuplicateWikilinks.Items.Clear();
                 lblDuplicateWikilinks.Visible = false;
                 lbDuplicateWikilinks.Visible = false;
+                btnRemove.Visible = false;
             }
             else
             {
@@ -1311,6 +1312,7 @@ namespace AutoWikiBrowser
                 {
                     lblDuplicateWikilinks.Visible = true;
                     lbDuplicateWikilinks.Visible = true;
+                    btnRemove.Visible = true;
                 }
             }
         }
@@ -1326,10 +1328,13 @@ namespace AutoWikiBrowser
             {
                 string strLink = Regex.Escape(lbDuplicateWikilinks.SelectedItem.ToString());
                 find("\\[\\[" + strLink + "(\\|.*?)?\\]\\]", true, true);
-                
+                btnRemove.Enabled = true;
             }
             else
+            {
                 resetFind();
+                btnRemove.Enabled = false;
+            }
 
             ArticleInfo(false);
             try
@@ -2739,5 +2744,32 @@ namespace AutoWikiBrowser
         StatusStrip IAWBMainForm.StatusStrip { get { return statusStrip1; } }
         NotifyIcon IAWBMainForm.NotifyIcon { get { return ntfyTray; } }
         ToolStripMenuItem IAWBMainForm.HelpToolStripMenuItem { get { return helpToolStripMenuItem; } }
+
+        private void btnRemove_Click(object sender, EventArgs e)
+        {
+            string selectedtext = txtEdit.SelectedText;
+            if (selectedtext.StartsWith("[[") && selectedtext.EndsWith("]]"))
+            {
+                selectedtext = selectedtext.Trim('[').Trim(']');
+                if (selectedtext.EndsWith("|"))
+                {
+                    if (selectedtext.Contains("(") && selectedtext.Contains(")"))
+                        selectedtext = selectedtext.Substring(0, selectedtext.IndexOf("("));
+                    if (selectedtext.Contains(":"))
+                        selectedtext = selectedtext.Substring(selectedtext.IndexOf(":")).TrimEnd('|');
+                    if ("[[" + selectedtext + "]]" == txtEdit.SelectedText)
+                    {
+                        MessageBox.Show("The selected link could not be removed.");
+                        selectedtext = "[[" + selectedtext + "]]";
+                    }
+                }
+                else if (selectedtext.Contains("|"))
+                    selectedtext = selectedtext.Substring(selectedtext.IndexOf("|") + 1);
+                
+                txtEdit.SelectedText = selectedtext;
+            }
+            else
+                MessageBox.Show("Please select a link to remove either manually or by clicking a link in the list above.");
+        }
     }
 }
