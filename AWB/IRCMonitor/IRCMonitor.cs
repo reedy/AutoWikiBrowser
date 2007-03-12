@@ -169,6 +169,7 @@ namespace IRCMonitor
             {
                 cmboChannel.Items.Add(c);
             }
+            cmboChannel.Text = "#en.wikipedia";
         }
         
         private bool CheckStatus()
