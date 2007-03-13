@@ -210,11 +210,14 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public string FixDates(string ArticleText)
         {
+            HideText hidetext = new HideText();
+            ArticleText = hidetext.HideMore(ArticleText);
             ArticleText = regexFixDates0.Replace(ArticleText, "$1$2$3$4s$5");
             /*
             ArticleText = regexFixDates1.Replace(ArticleText, "$1 $2");
             ArticleText = regexFixDates2.Replace(ArticleText, "$1 $2");
             */
+            ArticleText = hidetext.AddBackMore(ArticleText);
             return ArticleText;
         }
 
