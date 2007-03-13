@@ -101,7 +101,7 @@ namespace WikiFunctions.Parse
             switch (Variables.LangCode)
             {
                 case LangCodeEnum.pl:
-                    ArticleText += strPersonData + strDisambig + strCategories + strInterwikis + strStub;
+                    ArticleText += strPersonData + strDisambig + strStub + strCategories + strInterwikis;
                     break;
                 case LangCodeEnum.ru:
                     ArticleText += strPersonData + strDisambig + strStub + strCategories + strInterwikis;
