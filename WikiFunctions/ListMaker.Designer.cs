@@ -29,14 +29,10 @@ namespace WikiFunctions.Lists
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.btnFilter = new System.Windows.Forms.Button();
             this.chkWLHRedirects = new System.Windows.Forms.CheckBox();
             this.txtSelectSource = new System.Windows.Forms.TextBox();
             this.lblNumberOfArticles = new System.Windows.Forms.Label();
             this.btnAdd = new System.Windows.Forms.Button();
-            this.btnRemoveArticle = new System.Windows.Forms.Button();
-            this.btnArticlesListClear = new System.Windows.Forms.Button();
-            this.btnArticlesListSave = new System.Windows.Forms.Button();
             this.txtNewArticle = new System.Windows.Forms.TextBox();
             this.lblSourceSelect = new System.Windows.Forms.Label();
             this.btnMakeList = new System.Windows.Forms.Button();
@@ -56,6 +52,7 @@ namespace WikiFunctions.Lists
             this.fromWhatlinkshereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fromLinksOnPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fromImageLinksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fromRedirectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -64,21 +61,15 @@ namespace WikiFunctions.Lists
             this.saveListDialog = new System.Windows.Forms.SaveFileDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btnFilter = new System.Windows.Forms.Button();
+            this.btnRemoveArticle = new System.Windows.Forms.Button();
+            this.btnArticlesListClear = new System.Windows.Forms.Button();
+            this.btnArticlesListSave = new System.Windows.Forms.Button();
+            this.btnRemoveDuplicates = new System.Windows.Forms.Button();
             this.lbArticles = new WikiFunctions.Lists.ListBox2();
-            this.fromRedirectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuListBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // btnFilter
-            // 
-            this.btnFilter.Location = new System.Drawing.Point(4, 211);
-            this.btnFilter.Name = "btnFilter";
-            this.btnFilter.Size = new System.Drawing.Size(58, 23);
-            this.btnFilter.TabIndex = 31;
-            this.btnFilter.Text = "Filter";
-            this.btnFilter.UseVisualStyleBackColor = true;
-            this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
             // 
             // chkWLHRedirects
             // 
@@ -93,13 +84,14 @@ namespace WikiFunctions.Lists
             // 
             // txtSelectSource
             // 
-            this.txtSelectSource.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.txtSelectSource.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSelectSource.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.txtSelectSource.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.txtSelectSource.Location = new System.Drawing.Point(78, 30);
             this.txtSelectSource.Name = "txtSelectSource";
-            this.txtSelectSource.Size = new System.Drawing.Size(112, 20);
+            this.txtSelectSource.Size = new System.Drawing.Size(99, 20);
             this.txtSelectSource.TabIndex = 18;
             this.txtSelectSource.DoubleClick += new System.EventHandler(this.txtSelectSource_DoubleClick);
             this.txtSelectSource.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSelectSource_KeyPress);
@@ -114,51 +106,23 @@ namespace WikiFunctions.Lists
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(4, 322);
+            this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAdd.Location = new System.Drawing.Point(4, 323);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(58, 23);
+            this.btnAdd.Size = new System.Drawing.Size(42, 23);
             this.btnAdd.TabIndex = 25;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
-            // btnRemoveArticle
-            // 
-            this.btnRemoveArticle.Location = new System.Drawing.Point(4, 153);
-            this.btnRemoveArticle.Name = "btnRemoveArticle";
-            this.btnRemoveArticle.Size = new System.Drawing.Size(58, 23);
-            this.btnRemoveArticle.TabIndex = 26;
-            this.btnRemoveArticle.Text = "Remove";
-            this.btnRemoveArticle.UseVisualStyleBackColor = true;
-            this.btnRemoveArticle.Click += new System.EventHandler(this.btnRemoveArticle_Click);
-            // 
-            // btnArticlesListClear
-            // 
-            this.btnArticlesListClear.Location = new System.Drawing.Point(4, 182);
-            this.btnArticlesListClear.Name = "btnArticlesListClear";
-            this.btnArticlesListClear.Size = new System.Drawing.Size(58, 23);
-            this.btnArticlesListClear.TabIndex = 27;
-            this.btnArticlesListClear.Text = "Clear";
-            this.btnArticlesListClear.UseVisualStyleBackColor = true;
-            this.btnArticlesListClear.Click += new System.EventHandler(this.btnArticlesListClear_Click);
-            // 
-            // btnArticlesListSave
-            // 
-            this.btnArticlesListSave.Location = new System.Drawing.Point(4, 240);
-            this.btnArticlesListSave.Name = "btnArticlesListSave";
-            this.btnArticlesListSave.Size = new System.Drawing.Size(58, 23);
-            this.btnArticlesListSave.TabIndex = 30;
-            this.btnArticlesListSave.Text = "Save...";
-            this.btnArticlesListSave.UseVisualStyleBackColor = true;
-            this.btnArticlesListSave.Click += new System.EventHandler(this.btnArticlesListSave_Click);
-            // 
             // txtNewArticle
             // 
             this.txtNewArticle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtNewArticle.Location = new System.Drawing.Point(68, 325);
+            this.txtNewArticle.Location = new System.Drawing.Point(52, 325);
             this.txtNewArticle.Name = "txtNewArticle";
-            this.txtNewArticle.Size = new System.Drawing.Size(141, 20);
+            this.txtNewArticle.Size = new System.Drawing.Size(144, 20);
             this.txtNewArticle.TabIndex = 24;
             this.txtNewArticle.DoubleClick += new System.EventHandler(this.txtNewArticle_DoubleClick);
             this.txtNewArticle.MouseMove += new System.Windows.Forms.MouseEventHandler(this.txtNewArticle_MouseMove);
@@ -216,7 +180,7 @@ namespace WikiFunctions.Lists
             "Wiki search"});
             this.cmboSourceSelect.Location = new System.Drawing.Point(78, 2);
             this.cmboSourceSelect.Name = "cmboSourceSelect";
-            this.cmboSourceSelect.Size = new System.Drawing.Size(134, 21);
+            this.cmboSourceSelect.Size = new System.Drawing.Size(121, 21);
             this.cmboSourceSelect.TabIndex = 19;
             this.cmboSourceSelect.Tag = "Source of pages to edit";
             this.cmboSourceSelect.SelectedIndexChanged += new System.EventHandler(this.cmboSourceSelect_SelectedIndexChanged);
@@ -238,13 +202,13 @@ namespace WikiFunctions.Lists
             this.toolStripSeparator1,
             this.openInBrowserToolStripMenuItem});
             this.mnuListBox.Name = "contextMenuStrip2";
-            this.mnuListBox.Size = new System.Drawing.Size(209, 264);
+            this.mnuListBox.Size = new System.Drawing.Size(195, 242);
             this.mnuListBox.Opening += new System.ComponentModel.CancelEventHandler(this.mnuListBox_Opening);
             // 
             // filterOutNonMainSpaceArticlesToolStripMenuItem
             // 
             this.filterOutNonMainSpaceArticlesToolStripMenuItem.Name = "filterOutNonMainSpaceArticlesToolStripMenuItem";
-            this.filterOutNonMainSpaceArticlesToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.filterOutNonMainSpaceArticlesToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.filterOutNonMainSpaceArticlesToolStripMenuItem.Text = "Filter out non main space";
             this.filterOutNonMainSpaceArticlesToolStripMenuItem.ToolTipText = "Filter out articles that are not in the main namespace";
             this.filterOutNonMainSpaceArticlesToolStripMenuItem.Click += new System.EventHandler(this.filterOutNonMainSpaceArticlesToolStripMenuItem_Click);
@@ -252,7 +216,7 @@ namespace WikiFunctions.Lists
             // specialFilterToolStripMenuItem
             // 
             this.specialFilterToolStripMenuItem.Name = "specialFilterToolStripMenuItem";
-            this.specialFilterToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.specialFilterToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.specialFilterToolStripMenuItem.Text = "Filter";
             this.specialFilterToolStripMenuItem.ToolTipText = "Filter articles by namespace";
             this.specialFilterToolStripMenuItem.Click += new System.EventHandler(this.specialFilterToolStripMenuItem_Click);
@@ -260,7 +224,7 @@ namespace WikiFunctions.Lists
             // convertToTalkPagesToolStripMenuItem
             // 
             this.convertToTalkPagesToolStripMenuItem.Name = "convertToTalkPagesToolStripMenuItem";
-            this.convertToTalkPagesToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.convertToTalkPagesToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.convertToTalkPagesToolStripMenuItem.Text = "Convert to talk pages";
             this.convertToTalkPagesToolStripMenuItem.ToolTipText = "Convert namespace to talk";
             this.convertToTalkPagesToolStripMenuItem.Click += new System.EventHandler(this.convertToTalkPagesToolStripMenuItem_Click);
@@ -268,7 +232,7 @@ namespace WikiFunctions.Lists
             // convertFromTalkPagesToolStripMenuItem
             // 
             this.convertFromTalkPagesToolStripMenuItem.Name = "convertFromTalkPagesToolStripMenuItem";
-            this.convertFromTalkPagesToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.convertFromTalkPagesToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.convertFromTalkPagesToolStripMenuItem.Text = "Convert from talk pages";
             this.convertFromTalkPagesToolStripMenuItem.ToolTipText = "Convert namespace of talk pages to associated article";
             this.convertFromTalkPagesToolStripMenuItem.Click += new System.EventHandler(this.convertFromTalkPagesToolStripMenuItem_Click);
@@ -276,7 +240,7 @@ namespace WikiFunctions.Lists
             // sortAlphebeticallyMenuItem
             // 
             this.sortAlphebeticallyMenuItem.Name = "sortAlphebeticallyMenuItem";
-            this.sortAlphebeticallyMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.sortAlphebeticallyMenuItem.Size = new System.Drawing.Size(194, 22);
             this.sortAlphebeticallyMenuItem.Text = "Sort alphabetically";
             this.sortAlphebeticallyMenuItem.ToolTipText = "Sorts the list alphabetically";
             this.sortAlphebeticallyMenuItem.Click += new System.EventHandler(this.sortAlphebeticallyMenuItem_Click);
@@ -284,7 +248,7 @@ namespace WikiFunctions.Lists
             // saveListToTextFileToolStripMenuItem1
             // 
             this.saveListToTextFileToolStripMenuItem1.Name = "saveListToTextFileToolStripMenuItem1";
-            this.saveListToTextFileToolStripMenuItem1.Size = new System.Drawing.Size(208, 22);
+            this.saveListToTextFileToolStripMenuItem1.Size = new System.Drawing.Size(194, 22);
             this.saveListToTextFileToolStripMenuItem1.Text = "Save list to file";
             this.saveListToTextFileToolStripMenuItem1.ToolTipText = "Saves list to a text file";
             this.saveListToTextFileToolStripMenuItem1.Click += new System.EventHandler(this.saveListToTextFileToolStripMenuItem1_Click);
@@ -292,7 +256,7 @@ namespace WikiFunctions.Lists
             // toolStripSeparator14
             // 
             this.toolStripSeparator14.Name = "toolStripSeparator14";
-            this.toolStripSeparator14.Size = new System.Drawing.Size(205, 6);
+            this.toolStripSeparator14.Size = new System.Drawing.Size(191, 6);
             // 
             // addSelectedToListToolStripMenuItem
             // 
@@ -304,54 +268,61 @@ namespace WikiFunctions.Lists
             this.fromImageLinksToolStripMenuItem,
             this.fromRedirectsToolStripMenuItem});
             this.addSelectedToListToolStripMenuItem.Name = "addSelectedToListToolStripMenuItem";
-            this.addSelectedToListToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.addSelectedToListToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.addSelectedToListToolStripMenuItem.Text = "Add selected to list...";
             // 
             // fromCategoryToolStripMenuItem
             // 
             this.fromCategoryToolStripMenuItem.Name = "fromCategoryToolStripMenuItem";
-            this.fromCategoryToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.fromCategoryToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.fromCategoryToolStripMenuItem.Text = "From category";
             this.fromCategoryToolStripMenuItem.Click += new System.EventHandler(this.fromCategoryToolStripMenuItem_Click);
             // 
             // fromTranscludesHereToolStripMenuItem
             // 
             this.fromTranscludesHereToolStripMenuItem.Name = "fromTranscludesHereToolStripMenuItem";
-            this.fromTranscludesHereToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.fromTranscludesHereToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.fromTranscludesHereToolStripMenuItem.Text = "From transclusions";
             this.fromTranscludesHereToolStripMenuItem.Click += new System.EventHandler(this.fromTranscludesHereToolStripMenuItem_Click);
             // 
             // fromWhatlinkshereToolStripMenuItem
             // 
             this.fromWhatlinkshereToolStripMenuItem.Name = "fromWhatlinkshereToolStripMenuItem";
-            this.fromWhatlinkshereToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.fromWhatlinkshereToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.fromWhatlinkshereToolStripMenuItem.Text = "From whatlinkshere";
             this.fromWhatlinkshereToolStripMenuItem.Click += new System.EventHandler(this.fromWhatlinkshereToolStripMenuItem_Click);
             // 
             // fromLinksOnPageToolStripMenuItem
             // 
             this.fromLinksOnPageToolStripMenuItem.Name = "fromLinksOnPageToolStripMenuItem";
-            this.fromLinksOnPageToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.fromLinksOnPageToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.fromLinksOnPageToolStripMenuItem.Text = "From links on page";
             this.fromLinksOnPageToolStripMenuItem.Click += new System.EventHandler(this.fromLinksOnPageToolStripMenuItem_Click);
             // 
             // fromImageLinksToolStripMenuItem
             // 
             this.fromImageLinksToolStripMenuItem.Name = "fromImageLinksToolStripMenuItem";
-            this.fromImageLinksToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.fromImageLinksToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.fromImageLinksToolStripMenuItem.Text = "From image links";
             this.fromImageLinksToolStripMenuItem.Click += new System.EventHandler(this.fromImageLinksToolStripMenuItem_Click);
+            // 
+            // fromRedirectsToolStripMenuItem
+            // 
+            this.fromRedirectsToolStripMenuItem.Name = "fromRedirectsToolStripMenuItem";
+            this.fromRedirectsToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.fromRedirectsToolStripMenuItem.Text = "From redirects";
+            this.fromRedirectsToolStripMenuItem.Click += new System.EventHandler(this.fromRedirectsToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(205, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(191, 6);
             // 
             // removeToolStripMenuItem
             // 
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
             this.removeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Delete)));
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.removeToolStripMenuItem.Text = "Remove";
             this.removeToolStripMenuItem.ToolTipText = "Remove the selected articles";
             this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
@@ -359,7 +330,7 @@ namespace WikiFunctions.Lists
             // clearToolStripMenuItem1
             // 
             this.clearToolStripMenuItem1.Name = "clearToolStripMenuItem1";
-            this.clearToolStripMenuItem1.Size = new System.Drawing.Size(208, 22);
+            this.clearToolStripMenuItem1.Size = new System.Drawing.Size(194, 22);
             this.clearToolStripMenuItem1.Text = "Clear";
             this.clearToolStripMenuItem1.ToolTipText = "Clear the list";
             this.clearToolStripMenuItem1.Click += new System.EventHandler(this.clearToolStripMenuItem1_Click);
@@ -367,12 +338,12 @@ namespace WikiFunctions.Lists
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(205, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(191, 6);
             // 
             // openInBrowserToolStripMenuItem
             // 
             this.openInBrowserToolStripMenuItem.Name = "openInBrowserToolStripMenuItem";
-            this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.openInBrowserToolStripMenuItem.Text = "Open article in browser";
             this.openInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem_Click);
             // 
@@ -384,58 +355,111 @@ namespace WikiFunctions.Lists
             // 
             // pictureBox1
             // 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.Image = global::WikiFunctions.MyResource.Showhide;
-            this.pictureBox1.Location = new System.Drawing.Point(183, 30);
+            this.pictureBox1.Location = new System.Drawing.Point(178, 30);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(19, 21);
+            this.pictureBox1.Size = new System.Drawing.Size(20, 21);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBox1.TabIndex = 32;
             this.pictureBox1.TabStop = false;
             this.toolTip1.SetToolTip(this.pictureBox1, "Expand to multi-line input.");
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
+            // btnFilter
+            // 
+            this.btnFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnFilter.Location = new System.Drawing.Point(114, 298);
+            this.btnFilter.Name = "btnFilter";
+            this.btnFilter.Size = new System.Drawing.Size(38, 22);
+            this.btnFilter.TabIndex = 36;
+            this.btnFilter.Text = "Filter";
+            this.btnFilter.UseVisualStyleBackColor = true;
+            // 
+            // btnRemoveArticle
+            // 
+            this.btnRemoveArticle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRemoveArticle.Location = new System.Drawing.Point(4, 271);
+            this.btnRemoveArticle.Name = "btnRemoveArticle";
+            this.btnRemoveArticle.Size = new System.Drawing.Size(120, 23);
+            this.btnRemoveArticle.TabIndex = 33;
+            this.btnRemoveArticle.Text = "Remove selected";
+            this.btnRemoveArticle.UseVisualStyleBackColor = true;
+            // 
+            // btnArticlesListClear
+            // 
+            this.btnArticlesListClear.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnArticlesListClear.Location = new System.Drawing.Point(156, 297);
+            this.btnArticlesListClear.Name = "btnArticlesListClear";
+            this.btnArticlesListClear.Size = new System.Drawing.Size(40, 23);
+            this.btnArticlesListClear.TabIndex = 34;
+            this.btnArticlesListClear.Text = "Clear";
+            this.btnArticlesListClear.UseVisualStyleBackColor = true;
+            // 
+            // btnArticlesListSave
+            // 
+            this.btnArticlesListSave.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnArticlesListSave.Location = new System.Drawing.Point(130, 271);
+            this.btnArticlesListSave.Name = "btnArticlesListSave";
+            this.btnArticlesListSave.Size = new System.Drawing.Size(66, 23);
+            this.btnArticlesListSave.TabIndex = 35;
+            this.btnArticlesListSave.Text = "Save list";
+            this.btnArticlesListSave.UseVisualStyleBackColor = true;
+            // 
+            // btnRemoveDuplicates
+            // 
+            this.btnRemoveDuplicates.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRemoveDuplicates.Location = new System.Drawing.Point(4, 297);
+            this.btnRemoveDuplicates.Name = "btnRemoveDuplicates";
+            this.btnRemoveDuplicates.Size = new System.Drawing.Size(106, 23);
+            this.btnRemoveDuplicates.TabIndex = 37;
+            this.btnRemoveDuplicates.Text = "Remove duplicates";
+            this.btnRemoveDuplicates.UseVisualStyleBackColor = true;
+            this.btnRemoveDuplicates.Click += new System.EventHandler(this.btnRemoveDuplicates_Click);
+            // 
             // lbArticles
             // 
             this.lbArticles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.lbArticles.FormattingEnabled = true;
-            this.lbArticles.Location = new System.Drawing.Point(68, 81);
+            this.lbArticles.Location = new System.Drawing.Point(4, 81);
             this.lbArticles.Name = "lbArticles";
             this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbArticles.Size = new System.Drawing.Size(141, 238);
+            this.lbArticles.Size = new System.Drawing.Size(192, 186);
             this.lbArticles.TabIndex = 22;
             this.lbArticles.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lbArticles_MouseMove);
             this.lbArticles.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbArticles_KeyDown);
-            // 
-            // fromRedirectsToolStripMenuItem
-            // 
-            this.fromRedirectsToolStripMenuItem.Name = "fromRedirectsToolStripMenuItem";
-            this.fromRedirectsToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
-            this.fromRedirectsToolStripMenuItem.Text = "From redirects";
-            this.fromRedirectsToolStripMenuItem.Click += new System.EventHandler(this.fromRedirectsToolStripMenuItem_Click);
             // 
             // ListMaker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ContextMenuStrip = this.mnuListBox;
-            this.Controls.Add(this.txtSelectSource);
-            this.Controls.Add(this.btnMakeList);
+            this.Controls.Add(this.btnRemoveDuplicates);
             this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.btnRemoveArticle);
+            this.Controls.Add(this.txtSelectSource);
+            this.Controls.Add(this.btnArticlesListSave);
+            this.Controls.Add(this.btnFilter);
+            this.Controls.Add(this.btnMakeList);
             this.Controls.Add(this.chkWLHRedirects);
             this.Controls.Add(this.lbArticles);
-            this.Controls.Add(this.btnFilter);
+            this.Controls.Add(this.btnArticlesListClear);
             this.Controls.Add(this.lblNumberOfArticles);
             this.Controls.Add(this.lblSourceSelect);
-            this.Controls.Add(this.btnRemoveArticle);
-            this.Controls.Add(this.btnAdd);
-            this.Controls.Add(this.btnArticlesListClear);
-            this.Controls.Add(this.btnArticlesListSave);
             this.Controls.Add(this.txtNewArticle);
+            this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.cmboSourceSelect);
             this.Controls.Add(this.label1);
             this.Name = "ListMaker";
-            this.Size = new System.Drawing.Size(214, 350);
+            this.Size = new System.Drawing.Size(201, 351);
             this.Click += new System.EventHandler(this.ListMaker_Click);
             this.mnuListBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -447,14 +471,10 @@ namespace WikiFunctions.Lists
         #endregion
 
         private ListBox2 lbArticles;
-        private System.Windows.Forms.Button btnFilter;
         private System.Windows.Forms.CheckBox chkWLHRedirects;
         private System.Windows.Forms.TextBox txtSelectSource;
         private System.Windows.Forms.Label lblNumberOfArticles;
         private System.Windows.Forms.Button btnAdd;
-        private System.Windows.Forms.Button btnRemoveArticle;
-        private System.Windows.Forms.Button btnArticlesListClear;
-        private System.Windows.Forms.Button btnArticlesListSave;
         private System.Windows.Forms.TextBox txtNewArticle;
         private System.Windows.Forms.Label lblSourceSelect;
         private System.Windows.Forms.Button btnMakeList;
@@ -483,5 +503,10 @@ namespace WikiFunctions.Lists
         private System.Windows.Forms.ToolStripMenuItem openInBrowserToolStripMenuItem;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ToolStripMenuItem fromRedirectsToolStripMenuItem;
+        private System.Windows.Forms.Button btnFilter;
+        private System.Windows.Forms.Button btnRemoveArticle;
+        private System.Windows.Forms.Button btnArticlesListClear;
+        private System.Windows.Forms.Button btnArticlesListSave;
+        private System.Windows.Forms.Button btnRemoveDuplicates;
     }
 }
