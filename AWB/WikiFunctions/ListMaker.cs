@@ -332,7 +332,8 @@ namespace WikiFunctions.Lists
 
         private void btnArticlesListClear_Click(object sender, EventArgs e)
         {
-            Clear();
+            if (MessageBox.Show("Are you sure you would like to clear the article list?", "Clear?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                Clear();
         }
 
         private void btnFilter_Click(object sender, EventArgs e)
@@ -1214,6 +1215,19 @@ namespace WikiFunctions.Lists
                     listoftitles = listoftitles + "|" + entry;
                 txtSelectSource.Text = listoftitles.Trim('|');
             }
+        }
+
+        private void btnRemoveDuplicates_Click(object sender, EventArgs e)
+        {
+            List<Article> newarticles = new List<Article>();
+            foreach (Article article in lbArticles)
+            {
+                if (!newarticles.Contains(article))
+                    newarticles.Add(article);
+            }
+            lbArticles.Items.Clear();
+            foreach (Article article in newarticles)
+                lbArticles.Items.Add(article);
         }
     }
 }

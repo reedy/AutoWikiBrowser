@@ -967,6 +967,5 @@ namespace WikiFunctions.Browser
             get { return timeout; }
             set { timeout = value; }
         }
-
     }
 }

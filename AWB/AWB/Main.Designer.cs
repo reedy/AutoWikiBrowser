@@ -50,7 +50,6 @@ namespace AutoWikiBrowser
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.listMaker1 = new WikiFunctions.Lists.ListMaker();
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtEdit = new System.Windows.Forms.TextBox();
             this.mnuTextBox = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -285,6 +284,7 @@ namespace AutoWikiBrowser
             this.hideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.listMaker1 = new WikiFunctions.Lists.ListMaker();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
             this.groupBox2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -329,17 +329,6 @@ namespace AutoWikiBrowser
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "(1) Make list";
-            // 
-            // listMaker1
-            // 
-            this.listMaker1.ListFile = "";
-            this.listMaker1.Location = new System.Drawing.Point(3, 15);
-            this.listMaker1.Name = "listMaker1";
-            this.listMaker1.SelectedSource = WikiFunctions.Lists.SourceType.Category;
-            this.listMaker1.Size = new System.Drawing.Size(201, 351);
-            this.listMaker1.SourceText = "";
-            this.listMaker1.TabIndex = 0;
-            this.listMaker1.WikiStatus = false;
             // 
             // panel1
             // 
@@ -2610,6 +2599,17 @@ namespace AutoWikiBrowser
             this.exitToolStripMenuItem1.Size = new System.Drawing.Size(100, 22);
             this.exitToolStripMenuItem1.Text = "Exit";
             this.exitToolStripMenuItem1.Click += new System.EventHandler(this.exitToolStripMenuItem1_Click);
+            // 
+            // listMaker1
+            // 
+            this.listMaker1.ListFile = "";
+            this.listMaker1.Location = new System.Drawing.Point(3, 15);
+            this.listMaker1.Name = "listMaker1";
+            this.listMaker1.SelectedSource = WikiFunctions.Lists.SourceType.Category;
+            this.listMaker1.Size = new System.Drawing.Size(201, 351);
+            this.listMaker1.SourceText = "";
+            this.listMaker1.TabIndex = 0;
+            this.listMaker1.WikiStatus = false;
             // 
             // webBrowserEdit
             // 
