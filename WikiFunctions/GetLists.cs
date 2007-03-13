@@ -768,7 +768,7 @@ namespace WikiFunctions.Lists
 
         #region From wiki search
         /// <summary>
-        /// Gets a list from  wiki's internal search
+        /// Gets a list from wiki's internal search
         /// </summary>
         /// <param name="terms">The terms to search for.</param>
         /// <returns>The list of the articles.</returns>
@@ -778,7 +778,7 @@ namespace WikiFunctions.Lists
         }
 
         /// <summary>
-        /// Gets a list from  wiki's internal search
+        /// Gets a list from wiki's internal search
         /// </summary>
         /// <param name="Limit">The maximum number of results resulted.</param>
         /// <param name="terms">The terms to search for.</param>
