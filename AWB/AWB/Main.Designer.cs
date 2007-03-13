@@ -1431,7 +1431,7 @@ namespace AutoWikiBrowser
             // chkSkipIfContains
             // 
             this.chkSkipIfContains.AutoSize = true;
-            this.chkSkipIfContains.Location = new System.Drawing.Point(6, 38);
+            this.chkSkipIfContains.Location = new System.Drawing.Point(6, 19);
             this.chkSkipIfContains.Name = "chkSkipIfContains";
             this.chkSkipIfContains.Size = new System.Drawing.Size(101, 17);
             this.chkSkipIfContains.TabIndex = 22;
@@ -1443,7 +1443,7 @@ namespace AutoWikiBrowser
             // txtSkipIfNotContains
             // 
             this.txtSkipIfNotContains.Enabled = false;
-            this.txtSkipIfNotContains.Location = new System.Drawing.Point(142, 60);
+            this.txtSkipIfNotContains.Location = new System.Drawing.Point(142, 41);
             this.txtSkipIfNotContains.Name = "txtSkipIfNotContains";
             this.txtSkipIfNotContains.Size = new System.Drawing.Size(117, 20);
             this.txtSkipIfNotContains.TabIndex = 6;
@@ -1452,7 +1452,7 @@ namespace AutoWikiBrowser
             // txtSkipIfContains
             // 
             this.txtSkipIfContains.Enabled = false;
-            this.txtSkipIfContains.Location = new System.Drawing.Point(142, 36);
+            this.txtSkipIfContains.Location = new System.Drawing.Point(142, 17);
             this.txtSkipIfContains.Name = "txtSkipIfContains";
             this.txtSkipIfContains.Size = new System.Drawing.Size(117, 20);
             this.txtSkipIfContains.TabIndex = 23;
@@ -1461,11 +1461,11 @@ namespace AutoWikiBrowser
             // chkSkipIfNotContains
             // 
             this.chkSkipIfNotContains.AutoSize = true;
-            this.chkSkipIfNotContains.Location = new System.Drawing.Point(6, 62);
+            this.chkSkipIfNotContains.Location = new System.Drawing.Point(6, 43);
             this.chkSkipIfNotContains.Name = "chkSkipIfNotContains";
-            this.chkSkipIfNotContains.Size = new System.Drawing.Size(130, 17);
+            this.chkSkipIfNotContains.Size = new System.Drawing.Size(133, 17);
             this.chkSkipIfNotContains.TabIndex = 4;
-            this.chkSkipIfNotContains.Text = "Skip if doesn\'t contain";
+            this.chkSkipIfNotContains.Text = "Skip if doesn\'t contain:";
             this.toolTip1.SetToolTip(this.chkSkipIfNotContains, "Skip articles that do not contain this text");
             this.chkSkipIfNotContains.UseVisualStyleBackColor = true;
             this.chkSkipIfNotContains.CheckedChanged += new System.EventHandler(this.chkOnlyIfContains_CheckedChanged);
@@ -1473,7 +1473,7 @@ namespace AutoWikiBrowser
             // chkSkipIsRegex
             // 
             this.chkSkipIsRegex.AutoSize = true;
-            this.chkSkipIsRegex.Location = new System.Drawing.Point(169, 13);
+            this.chkSkipIsRegex.Location = new System.Drawing.Point(177, 66);
             this.chkSkipIsRegex.Name = "chkSkipIsRegex";
             this.chkSkipIsRegex.Size = new System.Drawing.Size(82, 17);
             this.chkSkipIsRegex.TabIndex = 28;
@@ -1484,7 +1484,7 @@ namespace AutoWikiBrowser
             // chkSkipNoChanges
             // 
             this.chkSkipNoChanges.AutoSize = true;
-            this.chkSkipNoChanges.Location = new System.Drawing.Point(4, 86);
+            this.chkSkipNoChanges.Location = new System.Drawing.Point(5, 85);
             this.chkSkipNoChanges.Name = "chkSkipNoChanges";
             this.chkSkipNoChanges.Size = new System.Drawing.Size(195, 17);
             this.chkSkipNoChanges.TabIndex = 30;
@@ -1512,7 +1512,7 @@ namespace AutoWikiBrowser
             this.chkAutoTagger.AutoSize = true;
             this.chkAutoTagger.Checked = true;
             this.chkAutoTagger.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkAutoTagger.Location = new System.Drawing.Point(119, 16);
+            this.chkAutoTagger.Location = new System.Drawing.Point(152, 16);
             this.chkAutoTagger.Name = "chkAutoTagger";
             this.chkAutoTagger.Size = new System.Drawing.Size(66, 17);
             this.chkAutoTagger.TabIndex = 27;
@@ -1617,9 +1617,9 @@ namespace AutoWikiBrowser
             this.groupBox13.Controls.Add(this.chkSkipIfNoRegexTypo);
             this.groupBox13.Controls.Add(this.linkLabel1);
             this.groupBox13.Controls.Add(this.chkRegExTypo);
-            this.groupBox13.Location = new System.Drawing.Point(6, 146);
+            this.groupBox13.Location = new System.Drawing.Point(6, 153);
             this.groupBox13.Name = "groupBox13";
-            this.groupBox13.Size = new System.Drawing.Size(266, 59);
+            this.groupBox13.Size = new System.Drawing.Size(266, 58);
             this.groupBox13.TabIndex = 31;
             this.groupBox13.TabStop = false;
             this.groupBox13.Text = "RegexTypoFix";
@@ -1628,7 +1628,7 @@ namespace AutoWikiBrowser
             // 
             this.chkSkipIfNoRegexTypo.AutoSize = true;
             this.chkSkipIfNoRegexTypo.Enabled = false;
-            this.chkSkipIfNoRegexTypo.Location = new System.Drawing.Point(6, 38);
+            this.chkSkipIfNoRegexTypo.Location = new System.Drawing.Point(6, 36);
             this.chkSkipIfNoRegexTypo.Name = "chkSkipIfNoRegexTypo";
             this.chkSkipIfNoRegexTypo.Size = new System.Drawing.Size(170, 17);
             this.chkSkipIfNoRegexTypo.TabIndex = 30;
@@ -1638,7 +1638,7 @@ namespace AutoWikiBrowser
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(23, 19);
+            this.linkLabel1.Location = new System.Drawing.Point(23, 17);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(111, 13);
             this.linkLabel1.TabIndex = 29;
@@ -1649,7 +1649,7 @@ namespace AutoWikiBrowser
             // chkRegExTypo
             // 
             this.chkRegExTypo.AutoSize = true;
-            this.chkRegExTypo.Location = new System.Drawing.Point(6, 18);
+            this.chkRegExTypo.Location = new System.Drawing.Point(6, 17);
             this.chkRegExTypo.Name = "chkRegExTypo";
             this.chkRegExTypo.Size = new System.Drawing.Size(15, 14);
             this.chkRegExTypo.TabIndex = 28;
@@ -1663,7 +1663,7 @@ namespace AutoWikiBrowser
             this.groupBox1.Controls.Add(this.btnFindAndReplaceAdvanced);
             this.groupBox1.Controls.Add(this.btnMoreFindAndReplce);
             this.groupBox1.Controls.Add(this.chkFindandReplace);
-            this.groupBox1.Location = new System.Drawing.Point(6, 72);
+            this.groupBox1.Location = new System.Drawing.Point(6, 79);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(266, 68);
             this.groupBox1.TabIndex = 15;
@@ -1718,19 +1718,19 @@ namespace AutoWikiBrowser
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.btnMoreSkip);
             this.groupBox6.Controls.Add(this.chkUnicodifyWhole);
             this.groupBox6.Controls.Add(this.chkAutoTagger);
             this.groupBox6.Controls.Add(this.chkGeneralFixes);
             this.groupBox6.Location = new System.Drawing.Point(6, 6);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(266, 60);
+            this.groupBox6.Size = new System.Drawing.Size(266, 67);
             this.groupBox6.TabIndex = 17;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "General";
             // 
             // groupBox8
             // 
-            this.groupBox8.Controls.Add(this.btnMoreSkip);
             this.groupBox8.Controls.Add(this.chkSkipNonExistent);
             this.groupBox8.Controls.Add(this.chkSkipNoChanges);
             this.groupBox8.Controls.Add(this.chkSkipCaseSensitive);
@@ -1739,20 +1739,20 @@ namespace AutoWikiBrowser
             this.groupBox8.Controls.Add(this.txtSkipIfContains);
             this.groupBox8.Controls.Add(this.txtSkipIfNotContains);
             this.groupBox8.Controls.Add(this.chkSkipIfContains);
-            this.groupBox8.Location = new System.Drawing.Point(6, 209);
+            this.groupBox8.Location = new System.Drawing.Point(6, 217);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(266, 133);
+            this.groupBox8.Size = new System.Drawing.Size(266, 125);
             this.groupBox8.TabIndex = 27;
             this.groupBox8.TabStop = false;
-            this.groupBox8.Text = "Skip articles";
+            this.groupBox8.Text = "General article skip options";
             // 
             // btnMoreSkip
             // 
-            this.btnMoreSkip.Location = new System.Drawing.Point(196, 106);
+            this.btnMoreSkip.Location = new System.Drawing.Point(152, 35);
             this.btnMoreSkip.Name = "btnMoreSkip";
-            this.btnMoreSkip.Size = new System.Drawing.Size(55, 23);
+            this.btnMoreSkip.Size = new System.Drawing.Size(82, 23);
             this.btnMoreSkip.TabIndex = 32;
-            this.btnMoreSkip.Text = "More";
+            this.btnMoreSkip.Text = "Skip options";
             this.btnMoreSkip.UseVisualStyleBackColor = true;
             this.btnMoreSkip.Click += new System.EventHandler(this.btnMoreSkip_Click);
             // 
@@ -1761,7 +1761,7 @@ namespace AutoWikiBrowser
             this.chkSkipNonExistent.AutoSize = true;
             this.chkSkipNonExistent.Checked = true;
             this.chkSkipNonExistent.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSkipNonExistent.Location = new System.Drawing.Point(4, 110);
+            this.chkSkipNonExistent.Location = new System.Drawing.Point(5, 105);
             this.chkSkipNonExistent.Name = "chkSkipNonExistent";
             this.chkSkipNonExistent.Size = new System.Drawing.Size(138, 17);
             this.chkSkipNonExistent.TabIndex = 31;
@@ -1771,7 +1771,7 @@ namespace AutoWikiBrowser
             // chkSkipCaseSensitive
             // 
             this.chkSkipCaseSensitive.AutoSize = true;
-            this.chkSkipCaseSensitive.Location = new System.Drawing.Point(69, 13);
+            this.chkSkipCaseSensitive.Location = new System.Drawing.Point(77, 66);
             this.chkSkipCaseSensitive.Name = "chkSkipCaseSensitive";
             this.chkSkipCaseSensitive.Size = new System.Drawing.Size(94, 17);
             this.chkSkipCaseSensitive.TabIndex = 29;
@@ -2015,7 +2015,7 @@ namespace AutoWikiBrowser
             this.panelDab.Controls.Add(this.groupBox12);
             this.panelDab.Controls.Add(this.groupBox11);
             this.panelDab.Enabled = false;
-            this.panelDab.Location = new System.Drawing.Point(6, 29);
+            this.panelDab.Location = new System.Drawing.Point(6, 24);
             this.panelDab.Name = "panelDab";
             this.panelDab.Size = new System.Drawing.Size(266, 313);
             this.panelDab.TabIndex = 1;
