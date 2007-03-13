@@ -504,6 +504,7 @@ namespace WikiFunctions.Lists
                 btnRemoveArticle.Enabled = value;
                 btnArticlesListClear.Enabled = value;
                 btnArticlesListSave.Enabled = value;
+                btnRemoveDuplicates.Enabled = value;
             }
         }
 
@@ -1219,6 +1220,7 @@ namespace WikiFunctions.Lists
 
         private void btnRemoveDuplicates_Click(object sender, EventArgs e)
         {
+            lbArticles.BeginUpdate();
             List<Article> newarticles = new List<Article>();
             foreach (Article article in lbArticles)
             {
@@ -1228,6 +1230,7 @@ namespace WikiFunctions.Lists
             lbArticles.Items.Clear();
             foreach (Article article in newarticles)
                 lbArticles.Items.Add(article);
+            lbArticles.EndUpdate();
         }
     }
 }
