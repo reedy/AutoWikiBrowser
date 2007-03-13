@@ -378,6 +378,7 @@ namespace WikiFunctions.Lists
             this.btnFilter.TabIndex = 36;
             this.btnFilter.Text = "Filter";
             this.btnFilter.UseVisualStyleBackColor = true;
+            this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
             // 
             // btnRemoveArticle
             // 
@@ -389,6 +390,7 @@ namespace WikiFunctions.Lists
             this.btnRemoveArticle.TabIndex = 33;
             this.btnRemoveArticle.Text = "Remove selected";
             this.btnRemoveArticle.UseVisualStyleBackColor = true;
+            this.btnRemoveArticle.Click += new System.EventHandler(this.btnRemoveArticle_Click);
             // 
             // btnArticlesListClear
             // 
@@ -400,6 +402,7 @@ namespace WikiFunctions.Lists
             this.btnArticlesListClear.TabIndex = 34;
             this.btnArticlesListClear.Text = "Clear";
             this.btnArticlesListClear.UseVisualStyleBackColor = true;
+            this.btnArticlesListClear.Click += new System.EventHandler(this.btnArticlesListClear_Click);
             // 
             // btnArticlesListSave
             // 
@@ -411,6 +414,7 @@ namespace WikiFunctions.Lists
             this.btnArticlesListSave.TabIndex = 35;
             this.btnArticlesListSave.Text = "Save list";
             this.btnArticlesListSave.UseVisualStyleBackColor = true;
+            this.btnArticlesListSave.Click += new System.EventHandler(this.btnArticlesListSave_Click);
             // 
             // btnRemoveDuplicates
             // 
