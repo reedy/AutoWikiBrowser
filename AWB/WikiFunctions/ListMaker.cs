@@ -15,7 +15,7 @@ namespace WikiFunctions.Lists
 {
     //CategoryRecursive is enabled in debug builds only due to server load
     //it should always be the last item
-    public enum SourceType { None = -1, Category, WhatLinksHere, WhatTranscludesHere, LinksOnPage, TextFile, GoogleWikipedia, UserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist, WikiSearch, Redirects, CategoryRecursive}
+    public enum SourceType { None = -1, Category, WhatLinksHere, WhatTranscludesHere, LinksOnPage, TextFile, GoogleWikipedia, UserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist, WikiSearch, Redirects, CategoryRecursive }
 
     public delegate void ListMakerEventHandler();
 
@@ -247,68 +247,55 @@ namespace WikiFunctions.Lists
                 case SourceType.Category:
                     lblSourceSelect.Text = Variables.Namespaces[14];
                     txtSelectSource.Enabled = true;
-                    chkWLHRedirects.Visible = false;
                     break;
                 case SourceType.WhatLinksHere:
                     lblSourceSelect.Text = "What links to";
                     txtSelectSource.Enabled = true;
-                    chkWLHRedirects.Visible = false;
                     break;
                 case SourceType.WhatTranscludesHere:
                     lblSourceSelect.Text = "What embeds";
                     txtSelectSource.Enabled = true;
-                    chkWLHRedirects.Visible = false;
                     break;
                 case SourceType.LinksOnPage:
                     lblSourceSelect.Text = "Links on";
                     txtSelectSource.Enabled = true;
-                    chkWLHRedirects.Visible = false;
                     break;
                 case SourceType.TextFile:
                     lblSourceSelect.Text = "From file";
                     txtSelectSource.Enabled = false;
-                    chkWLHRedirects.Visible = false;
                     break;
                 case SourceType.GoogleWikipedia:
                     lblSourceSelect.Text = "Google search";
                     txtSelectSource.Enabled = true;
-                    chkWLHRedirects.Visible = false;
                     break;
                 case SourceType.UserContribs:
                     lblSourceSelect.Text = Variables.Namespaces[2];
                     txtSelectSource.Enabled = true;
-                    chkWLHRedirects.Visible = false;
                     break;
                 case SourceType.SpecialPage:
                     lblSourceSelect.Text = Variables.Namespaces[-1];
                     txtSelectSource.Enabled = true;
-                    chkWLHRedirects.Visible = false;
                     break;
                 case SourceType.ImageFileLinks:
                     lblSourceSelect.Text = Variables.Namespaces[6];
                     txtSelectSource.Enabled = true;
-                    chkWLHRedirects.Visible = false;
                     break;
                 case SourceType.WikiSearch:
                     lblSourceSelect.Text = "Wiki search";
                     txtSelectSource.Enabled = true;
-                    chkWLHRedirects.Visible = false;
                     break;
                 case SourceType.Redirects:
                     lblSourceSelect.Text = "Redirects to:";
                     txtSelectSource.Enabled = true;
-                    chkWLHRedirects.Visible = false;
                     break;
                 case SourceType.CategoryRecursive:
                     // debug only
                     lblSourceSelect.Text = Variables.Namespaces[14];
                     txtSelectSource.Enabled = true;
-                    chkWLHRedirects.Visible = false;
                     break;
                 default:
                     lblSourceSelect.Text = "";
                     txtSelectSource.Enabled = false;
-                    chkWLHRedirects.Visible = false;
                     break;
             }
         }
@@ -349,72 +336,29 @@ namespace WikiFunctions.Lists
         private void btnMakeList_Click(object sender, EventArgs e)
         {
             SourceType ST = SelectedSource;
-            if (txtSelectSource.Multiline)
+            txtSelectSource.Text = txtSelectSource.Text.Trim('[', ']');
+            if (ST == SourceType.Category || ST == SourceType.CategoryRecursive)
+                txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.NamespacesCaseInsensitive[14], "", RegexOptions.IgnoreCase);
+            else if (ST == SourceType.UserContribs)
+                txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[2], "", RegexOptions.IgnoreCase);
+            else if (ST == SourceType.SpecialPage)
+                txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[-1], "", RegexOptions.IgnoreCase);
+            else if (ST == SourceType.ImageFileLinks)
+                txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
+
+            txtSelectSource.Text = Tools.TurnFirstToUpper(txtSelectSource.Text);
+            txtSelectSource.AutoCompleteCustomSource.Add(txtSelectSource.Text);
+
+            //make sure there is some text.
+            if (txtSelectSource.Text.Length == 0 && txtSelectSource.Enabled)
             {
-                string listoftitles = "";
-                string[] s = new string[txtSelectSource.Lines.Length];
-                int a = 0;
-                foreach (string entry in txtSelectSource.Lines)
-                {
-                    string pagetitle = entry;
-                    pagetitle = pagetitle.Trim('[', ']');
-                    if (ST == SourceType.Category || ST == SourceType.CategoryRecursive)
-                        pagetitle = Regex.Replace(pagetitle, "^" + Variables.NamespacesCaseInsensitive[14], "", RegexOptions.IgnoreCase);
-                    else if (ST == SourceType.UserContribs)
-                        pagetitle = Regex.Replace(pagetitle, "^" + Variables.Namespaces[2], "", RegexOptions.IgnoreCase);
-                    else if (ST == SourceType.SpecialPage)
-                        pagetitle = Regex.Replace(pagetitle, "^" + Variables.Namespaces[-1], "", RegexOptions.IgnoreCase);
-                    else if (ST == SourceType.ImageFileLinks)
-                        pagetitle = Regex.Replace(pagetitle, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
-
-                    pagetitle = Tools.TurnFirstToUpper(pagetitle);
-                    txtSelectSource.AutoCompleteCustomSource.Add(pagetitle);
-
-                    //make sure there is some text.
-                    if (pagetitle.Length == 0 && txtSelectSource.Enabled)
-                    {
-                        MessageBox.Show("Please enter some text", "No text", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
-                    s[a] = pagetitle;
-                    a++;
-                    listoftitles = listoftitles + "|" + pagetitle;
-                }
-                MakeList(ST, s);
-                txtSelectSource.Multiline = false;
-                txtSelectSource.Height = 20;
-                txtSelectSource.Location = new System.Drawing.Point(78, 30);
-                btnMakeList.Location = new System.Drawing.Point(78, 54);
-                btnMakeList.Text = "Make list";
-                btnMakeList.Size = new System.Drawing.Size(62, 23);
-                txtSelectSource.Text = listoftitles.Trim('|');
+                MessageBox.Show("Please enter some text", "No text", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
-            else
-            {
-                txtSelectSource.Text = txtSelectSource.Text.Trim('[', ']');
-                if (ST == SourceType.Category || ST == SourceType.CategoryRecursive)
-                    txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.NamespacesCaseInsensitive[14], "", RegexOptions.IgnoreCase);
-                else if (ST == SourceType.UserContribs)
-                    txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[2], "", RegexOptions.IgnoreCase);
-                else if (ST == SourceType.SpecialPage)
-                    txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[-1], "", RegexOptions.IgnoreCase);
-                else if (ST == SourceType.ImageFileLinks)
-                    txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
 
-                txtSelectSource.Text = Tools.TurnFirstToUpper(txtSelectSource.Text);
-                txtSelectSource.AutoCompleteCustomSource.Add(txtSelectSource.Text);
+            string[] s = txtSelectSource.Text.Split('|');
 
-                //make sure there is some text.
-                if (txtSelectSource.Text.Length == 0 && txtSelectSource.Enabled)
-                {
-                    MessageBox.Show("Please enter some text", "No text", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                string[] s = txtSelectSource.Text.Split('|');
-
-                MakeList(ST, s);
-            }
+            MakeList(ST, s);
         }
 
         private void lbArticles_MouseMove(object sender, MouseEventArgs e)
@@ -1009,7 +953,7 @@ namespace WikiFunctions.Lists
 
         private void UpdateNumberOfArticles()
         {
-            lblNumberOfArticles.Text = lbArticles.Items.Count.ToString();
+            lblNumberOfArticles.Text = lbArticles.Items.Count.ToString() + " pages";
             if (NoOfArticlesChanged != null)
                 this.NoOfArticlesChanged();
         }
@@ -1173,50 +1117,6 @@ namespace WikiFunctions.Lists
         }
 
         #endregion
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-            if (!txtSelectSource.Multiline)
-            {
-                txtSelectSource.Multiline = true;
-                txtSelectSource.Height = 150;
-                txtSelectSource.Location = new System.Drawing.Point(78, 57);
-                btnMakeList.Location = new System.Drawing.Point(78, 30);
-                btnMakeList.Text = "Make list from all";
-                btnMakeList.Size = new System.Drawing.Size(97, 23);
-                txtSelectSource.Lines = txtSelectSource.Text.Split('|');
-            }
-            else
-            {
-                txtSelectSource.Multiline = false;
-                txtSelectSource.Height = 20;
-                txtSelectSource.Location = new System.Drawing.Point(78, 30);
-                btnMakeList.Location = new System.Drawing.Point(78, 54);
-                btnMakeList.Text = "Make list";
-                btnMakeList.Size = new System.Drawing.Size(62, 23);
-                string listoftitles = "";
-                foreach (string entry in txtSelectSource.Lines)
-                    listoftitles = listoftitles + "|" + entry;
-                txtSelectSource.Text = listoftitles.Trim('|');
-            }
-        }
-
-        private void ListMaker_Click(object sender, EventArgs e)
-        {
-            if (txtSelectSource.Multiline)
-            {
-                txtSelectSource.Multiline = false;
-                txtSelectSource.Height = 20;
-                txtSelectSource.Location = new System.Drawing.Point(78, 30);
-                btnMakeList.Location = new System.Drawing.Point(78, 54);
-                btnMakeList.Text = "Make list";
-                btnMakeList.Size = new System.Drawing.Size(62, 23);
-                string listoftitles = "";
-                foreach (string entry in txtSelectSource.Lines)
-                    listoftitles = listoftitles + "|" + entry;
-                txtSelectSource.Text = listoftitles.Trim('|');
-            }
-        }
 
         private void btnRemoveDuplicates_Click(object sender, EventArgs e)
         {
