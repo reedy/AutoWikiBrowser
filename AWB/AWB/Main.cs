@@ -2084,11 +2084,13 @@ namespace AutoWikiBrowser
             {
                 cutToolStripMenuItem.Enabled = true;
                 copyToolStripMenuItem.Enabled = true;
+                openSelectionInBrowserToolStripMenuItem.Enabled = true;
             }
             else
             {
                 cutToolStripMenuItem.Enabled = false;
                 copyToolStripMenuItem.Enabled = false;
+                openSelectionInBrowserToolStripMenuItem.Enabled = false;
             }
 
             undoToolStripMenuItem.Enabled = txtEdit.CanUndo;
@@ -2106,6 +2108,11 @@ namespace AutoWikiBrowser
         private void openHistoryMenuItem_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=" + EdittingArticle.URLEncodedName + "&action=history");
+        }
+
+        private void openSelectionInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=" + txtEdit.SelectedText);
         }
 
         private void chkGeneralParse_CheckedChanged(object sender, EventArgs e)
