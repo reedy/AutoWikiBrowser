@@ -1529,7 +1529,7 @@ namespace AutoWikiBrowser
         private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //refresh typo list
-            loadTypo();
+            loadTypos();
 
             //refresh login status, and reload check list
             if (!Variables.User.WikiStatus)
@@ -2116,7 +2116,7 @@ namespace AutoWikiBrowser
         private void btnFindAndReplaceAdvanced_Click(object sender, EventArgs e)
         {
             if (!replaceSpecial.Visible)
-                replaceSpecial.ShowDialog();
+                replaceSpecial.Show();
             else
                 replaceSpecial.Hide();
         }
