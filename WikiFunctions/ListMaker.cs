@@ -1121,15 +1121,7 @@ namespace WikiFunctions.Lists
         private void btnRemoveDuplicates_Click(object sender, EventArgs e)
         {
             lbArticles.BeginUpdate();
-            List<Article> newarticles = new List<Article>();
-            foreach (Article article in lbArticles)
-            {
-                if (!newarticles.Contains(article))
-                    newarticles.Add(article);
-            }
-            lbArticles.Items.Clear();
-            foreach (Article article in newarticles)
-                lbArticles.Items.Add(article);
+            removeListDuplicates();
             lbArticles.EndUpdate();
         }
     }
