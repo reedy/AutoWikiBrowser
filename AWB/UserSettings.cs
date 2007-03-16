@@ -21,11 +21,7 @@ namespace AutoWikiBrowser
 
         private void saveSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            saveXML.FileName = settingsfilename;
-            if (saveXML.ShowDialog() != DialogResult.OK)
-                return;
-
-            SavePrefs(saveXML.FileName);
+            SavePrefs(settingsfilename);
         }
 
         private void loadSettingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -43,7 +39,11 @@ namespace AutoWikiBrowser
 
         private void saveCurrentSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SavePrefs(settingsfilename);
+            saveXML.FileName = settingsfilename;
+            if (saveXML.ShowDialog() != DialogResult.OK)
+                return;
+
+            SavePrefs(saveXML.FileName);
         }
 
         private void ResetSettings()
