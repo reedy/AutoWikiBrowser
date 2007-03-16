@@ -836,9 +836,14 @@ namespace WikiFunctions.Lists
 
         public void removeListDuplicates()
         {
+            lbArticles.BeginUpdate();
             specialFilter SpecialFilter = new specialFilter(lbArticles);
             SpecialFilter.removeDups(true);
+
             UpdateNumberOfArticles();
+
+            SpecialFilter.Dispose();
+            lbArticles.EndUpdate();
         }
 
         /// <summary>
@@ -1120,9 +1125,7 @@ namespace WikiFunctions.Lists
 
         private void btnRemoveDuplicates_Click(object sender, EventArgs e)
         {
-            lbArticles.BeginUpdate();
             removeListDuplicates();
-            lbArticles.EndUpdate();
         }
     }
 }
