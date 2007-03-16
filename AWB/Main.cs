@@ -1526,6 +1526,19 @@ namespace AutoWikiBrowser
             listMaker1.AddRemoveRedirects();
         }
 
+        private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //refresh typo list
+            loadTypo();
+
+            //refresh login status, and reload check list
+            if (!Variables.User.WikiStatus)
+            {
+                if (!CheckStatus())
+                    return;
+            }
+        }
+
         private void SetProject(LangCodeEnum Code, ProjectEnum Project, string CustomProject)
         {
             //set namespaces
@@ -2252,7 +2265,13 @@ namespace AutoWikiBrowser
                 //return;
             }
 
-            if (chkRegExTypo.Checked)
+            loadTypos();
+            chkSkipIfNoRegexTypo.Enabled = chkRegExTypo.Checked;
+        }
+
+        private void loadTypos()
+        {
+             if (chkRegExTypo.Checked)
             {
                 lblStatusText.Text = "Loading typos";
 
@@ -2271,8 +2290,6 @@ namespace AutoWikiBrowser
                     lblStatusText.Text = RegexTypos.Typos.Count.ToString() + " typos loaded";
                 }
             }
-
-            chkSkipIfNoRegexTypo.Enabled = chkRegExTypo.Checked;
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
