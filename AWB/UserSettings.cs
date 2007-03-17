@@ -579,15 +579,9 @@ namespace AutoWikiBrowser
 
                         /* The Kingbotk plugin can translate old settings to new too (and is worth the
                          * extra code here because some settings may be very complex) */
-                        if (AWBPlugins.ContainsKey("Kingbotk Plugin"))
-                        {
-                            IAWBPlugin a = AWBPlugins["Kingbotk Plugin"];
-                            if (reader.Name == "Kingbotk_Plugin" && reader.HasAttributes)
-                            {
-                                a.LoadSettings(new object[]{reader});
-                            }
-                        }
-
+                        if (AWBPlugins.ContainsKey("Kingbotk Plugin") && reader.Name == "Kingbotk_Plugin" && 
+                        reader.HasAttributes)
+                            AWBPlugins["Kingbotk Plugin"].LoadSettings(new object[]{reader});
                     }
                     stream.Close();
                     findAndReplace.MakeList();
