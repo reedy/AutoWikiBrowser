@@ -275,6 +275,8 @@ namespace WikiFunctions.Parse
                 //ArticleText = Regex.Replace(ArticleText, match1c, "$2$6$3");
                 ArticleText = Regex.Replace(ArticleText, match1d, "$1$2$3");
             }
+
+            ArticleText = Regex.Replace(ArticleText, "(=*)?<ref", "$1\r\n<ref");
             return ArticleText;
         }
 
