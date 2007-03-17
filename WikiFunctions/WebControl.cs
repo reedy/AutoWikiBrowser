@@ -756,7 +756,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public void LoadLogOut()
         {
-            this.AllowNavigation = false;
+            this.AllowNavigation = true;
             ProcessStage = enumProcessStage.none;
             Status = "Logging Out";
             this.Navigate(Variables.URLLong + "index.php?title=Special:Userlogout");
@@ -777,7 +777,9 @@ namespace WikiFunctions.Browser
                 return;
             }
 
-            if (ProcessStage == enumProcessStage.load)
+            if (this.Url.AbsolutePath.Contains("Userlogout"))
+                this.AllowNavigation = false;
+            else if (ProcessStage == enumProcessStage.load)
             {
                 if (this.Document.Body.InnerHtml.Contains("<LI class=new id=ca-talk>") || this.Document.Body.InnerHtml.Contains("<LI class=\"selected new\" id=ca-talk>"))
                     TalkPageExists = false;
