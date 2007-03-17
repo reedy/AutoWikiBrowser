@@ -287,11 +287,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
             End Property
             Friend ReadOnly Property GlobbedUploadLocation() As String
                 Get
-                    If mUploadLocation = conUploadToUserSlashLogsToken Then
-                        Return "User:" & PluginManager.UserName & "/Logs"
-                    Else
-                        Return mUploadLocation
-                    End If
+                    Return mUploadLocation.Replace("$USER", "User:" & PluginManager.UserName)
                 End Get
             End Property
             Public Property Category() As String
@@ -309,8 +305,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
             End Property
             Public ReadOnly Property LogTitle() As String
                 Get
-                    LogTitle = mUploadJobName
-                    If LogTitle = conUploadCategoryIsJobName Then LogTitle = mCategory
+                    Return mUploadJobName.Replace(conUploadCategoryIsJobName, mCategory)
                 End Get
             End Property
 
