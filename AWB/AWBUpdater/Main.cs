@@ -18,6 +18,9 @@ namespace AWBUpdater
         public Main()
         {
             InitializeComponent();
+
+            AWBdirectory = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
+            tempDirectory = AWBdirectory + "\\temp";
         }
 
         //TODO: Functionality
@@ -28,6 +31,20 @@ namespace AWBUpdater
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            createTempDir();
+            getAWBFromInternet();
+            unzipAWB();
+            copyFiles();
+            startAWB();
+            killTempDir();
+
+            Application.Exit();
+        }
+
+        private void createTempDir()
+        {
+            if (!(System.IO.Directory.Exists(tempDirectory)))
+                System.IO.Directory.CreateDirectory(tempDirectory);
         }
 
         private void getAWBFromInternet()
@@ -69,6 +86,11 @@ namespace AWBUpdater
         private void startAWB()
         {
             System.Diagnostics.Process.Start(AWBdirectory + "AutoWikiBrowser.exe");
+        }
+
+        private void killTempDir()
+        {
+            System.IO.Directory.Delete(tempDirectory);
         }
     }
 }

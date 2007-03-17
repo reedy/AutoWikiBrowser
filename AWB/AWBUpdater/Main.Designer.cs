@@ -28,21 +28,45 @@ namespace AWBUpdater
         /// </summary>
         private void InitializeComponent()
         {
+            this.progressUpdate = new System.Windows.Forms.ProgressBar();
+            this.lblProgress = new System.Windows.Forms.Label();
             this.SuspendLayout();
+            // 
+            // progressUpdate
+            // 
+            this.progressUpdate.Location = new System.Drawing.Point(86, 12);
+            this.progressUpdate.Name = "progressUpdate";
+            this.progressUpdate.Size = new System.Drawing.Size(144, 23);
+            this.progressUpdate.TabIndex = 0;
+            // 
+            // lblProgress
+            // 
+            this.lblProgress.AutoSize = true;
+            this.lblProgress.Location = new System.Drawing.Point(29, 22);
+            this.lblProgress.Name = "lblProgress";
+            this.lblProgress.Size = new System.Drawing.Size(51, 13);
+            this.lblProgress.TabIndex = 1;
+            this.lblProgress.Text = "Progress:";
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(305, 124);
+            this.ClientSize = new System.Drawing.Size(259, 51);
+            this.Controls.Add(this.lblProgress);
+            this.Controls.Add(this.progressUpdate);
             this.Name = "Main";
             this.Text = "AWB Updater";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
+
+        private System.Windows.Forms.ProgressBar progressUpdate;
+        private System.Windows.Forms.Label lblProgress;
     }
 }
 
