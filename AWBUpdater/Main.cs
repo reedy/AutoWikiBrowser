@@ -34,14 +34,14 @@ namespace AWBUpdater
         {
             System.Net.WebClient Client = new System.Net.WebClient();
 
-            Client.DownloadFile(WebAddress, tempDirectory);
+            Client.DownloadFile(WebAddress, tempDirectory + AWBZipName);
 
             Client.Dispose();
         }
 
         private void unzipAWB()
         {
-            zipHelper.ExtractZipFile(tempDirectory + AWBZipName, tempDirectory);
+            zipHelper.ExtractZipFile(tempDirectory + AWBZipName, tempDirectory + AWBZipName.Replace(".zip", ""));
         }
 
         private void copyFiles()
@@ -50,7 +50,20 @@ namespace AWBUpdater
             System.IO.File.Copy(tempDirectory + "WikiFunctions.dll", AWBdirectory + "WikiFunctions.dll");
             System.IO.File.Copy(tempDirectory + "IRCMonitor.exe", AWBdirectory + "IRCMonitor.exe");
 
-            System.IO.File.Copy(tempDirectory + "CFD.dll", AWBdirectory + "CFD.dll");
+            if (System.IO.File.Exists(AWBdirectory + "\\CFD.dll"))
+                            System.IO.File.Copy(tempDirectory + "\\Plugins\\CFD\\CFD.dll", AWBdirectory + "CFD.dll");
+            else
+                            System.IO.File.Copy(tempDirectory + "\\Plugins\\CFD\\CFD.dll", AWBdirectory + "\\Plugins\\CFD\\CFD.dll");
+
+            if (System.IO.File.Exists(AWBdirectory + "\\Kingbotk AWB Plugin.dll"))
+                            System.IO.File.Copy(tempDirectory + "\\Plugins\\Kingbotk (WikiProject tagging)\\Kingbotk AWB Plugin.dll", AWBdirectory + "Kingbotk AWB Plugin.dll");
+            else
+                            System.IO.File.Copy(tempDirectory + "\\Plugins\\Kingbotk (WikiProject tagging)\\Kingbotk AWB Plugin.dll", AWBdirectory + "\\Plugins\\Kingbotk (WikiProject tagging)\\Kingbotk AWB Plugin.dll");
+
+            if (System.IO.File.Exists(AWBdirectory + "\\WikiFunctions2.dll"))
+                            System.IO.File.Copy(tempDirectory + "\\Plugins\\Kingbotk (WikiProject tagging)\\WikiFunctions2.dll", AWBdirectory + "WikiFunctions2.dll");
+            else
+                            System.IO.File.Copy(tempDirectory + "\\Plugins\\Kingbotk (WikiProject tagging)\\WikiFunctions2.dll", AWBdirectory + "\\Plugins\\Kingbotk (WikiProject tagging)\\WikiFunctions2.dll");
         }
 
         private void startAWB()
