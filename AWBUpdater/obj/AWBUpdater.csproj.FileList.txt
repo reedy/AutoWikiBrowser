@@ -1,0 +1,8 @@
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\AWBUpdater.Form1.resources
+obj\Debug\AWBUpdater.Properties.Resources.resources
+obj\Debug\AWBUpdater.csproj.GenerateResource.Cache
+bin\Debug\AWBUpdater.exe
+bin\Debug\AWBUpdater.pdb
+obj\Debug\AWBUpdater.exe
+obj\Debug\AWBUpdater.pdb
