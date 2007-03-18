@@ -173,8 +173,6 @@ namespace AWBUpdater
 
             if (File.Exists(AWBdirectory + "IRCMonitor.exe")) File.Delete(AWBdirectory + "IRCMonitor.exe");
 
-            if (File.Exists(AWBdirectory + "IRCMonitor.exe")) File.Delete(AWBdirectory + "IRCMonitor.exe");
-
             if (File.Exists(AWBdirectory + "CFD.dll")) File.Delete(AWBdirectory + "CFD.dll");
 
             if (File.Exists(AWBdirectory + "Plugins\\CFD\\CFD.dll")) File.Delete(AWBdirectory + "Plugins\\CFD\\CFD.dll");
