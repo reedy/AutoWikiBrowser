@@ -421,6 +421,7 @@ namespace WikiFunctions.Lists
             specialFilterToolStripMenuItem.Enabled = boolEnabled;
             selectAllToolStripMenuItem.Enabled = boolEnabled;
             selectNoneToolStripMenuItem.Enabled = boolEnabled;
+            copyToolStripMenuItem.Enabled = boolEnabled;
 
             openInBrowserToolStripMenuItem.Enabled = lbArticles.SelectedItems.Count == 1;
         }
@@ -1022,6 +1023,11 @@ namespace WikiFunctions.Lists
         private void convertFromTalkPagesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ConvertFromTalkPages();
+        }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetDataObject(lbArticles.SelectedItem.ToString(), true);
         }
 
         private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
