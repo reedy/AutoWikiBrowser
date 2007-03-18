@@ -14,14 +14,14 @@ using System.Net;
 
 namespace AWBUpdater
 {
-    public partial class Main : Form
+    public partial class Updater : Form
     {
         string AWBdirectory;
         string tempDirectory;
         string AWBZipName;
         string WebAddress;
 
-        public Main()
+        public Updater()
         {
             InitializeComponent();
 
