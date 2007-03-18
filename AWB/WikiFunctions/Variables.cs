@@ -1070,14 +1070,20 @@ namespace WikiFunctions
                 }
                 else
                 {
-                    if (!WeAskedAboutUpdate && strText.Contains(Assembly.GetExecutingAssembly().GetName().Version.
-                        ToString() + " enabled (old)")) 
+                    if (!WeAskedAboutUpdate && strText.Contains(Assembly.GetExecutingAssembly().GetName().Version.ToString() + " enabled (old)")) 
                     {
                         WeAskedAboutUpdate = true;
-                        if (MessageBox.Show(
-                        "This version has been superceeded by a new version.  You may continue to use this version or update to the newest version.\r\n\r\nWould you like to upgrade to the newest version?", "Upgrade?",
-                        MessageBoxButtons.YesNo) == DialogResult.Yes)
-                        System.Diagnostics.Process.Start("http://sourceforge.net/project/showfiles.php?group_id=158332");
+                        if (MessageBox.Show("This version has been superceeded by a new version.  You may continue to use this version or update to the newest version.\r\n\r\nWould you like to automatically upgrade to the newest version?", "Upgrade?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        {
+                            Match m_version = Regex.Match(strText, @"<!-- Current version: (.*?) -->");
+                            if (m_version.Success && m_version.Groups[1].Value.Length == 4)
+                            {
+                                System.Diagnostics.Process.Start(Path.GetDirectoryName(Application.ExecutablePath) + "\\AWBUpdater.exe");
+                            }
+                            else
+                                if (MessageBox.Show("Error automatically updating AWB.  Load the download page instead?", "Load download page?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                                    System.Diagnostics.Process.Start("http://sourceforge.net/project/showfiles.php?group_id=158332");
+                        }
                     }
 
                     //load check page

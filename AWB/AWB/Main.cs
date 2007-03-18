@@ -135,7 +135,6 @@ namespace AutoWikiBrowser
         List<string> noParse = new List<string>();
         FindandReplace findAndReplace = new FindandReplace();
         SubstTemplates substTemplates = new SubstTemplates();
-
         RegExTypoFix RegexTypos;
         SkipOptions Skip = new SkipOptions();
         WikiFunctions.MWB.ReplaceSpecial replaceSpecial = new WikiFunctions.MWB.ReplaceSpecial();
@@ -1162,8 +1161,11 @@ namespace AutoWikiBrowser
 
                 case WikiStatusResult.OldVersion:
                     lblUserName.BackColor = Color.Red;
-                    MessageBox.Show("This version is not enabled, please download the newest version. If you have the newest version, check that Wikipedia is online.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    System.Diagnostics.Process.Start("http://sourceforge.net/project/showfiles.php?group_id=158332");
+                    DialogResult yesnocancel = MessageBox.Show("This version is not enabled, please download the newest version. If you have the newest version, check that Wikipedia is online.\r\n\r\nPlease press \"Yes\" to run the AutoUpdater, \"No\" to load the download page and update manually, or \"Cancel\" to not update (but you will not be able to edit).", "Problem", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information);
+                    if (yesnocancel == DialogResult.Yes)
+                        System.Diagnostics.Process.Start(Path.GetDirectoryName(Application.ExecutablePath) + "\\AWBUpdater.exe");
+                    if (yesnocancel == DialogResult.No)
+                        System.Diagnostics.Process.Start("http://sourceforge.net/project/showfiles.php?group_id=158332");
                     break;
 
                 case WikiStatusResult.Registered:
