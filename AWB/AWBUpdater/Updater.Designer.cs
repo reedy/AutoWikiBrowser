@@ -1,6 +1,6 @@
 namespace AWBUpdater
 {
-    partial class Main
+    partial class Updater
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@ namespace AWBUpdater
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Updater));
             this.progressUpdate = new System.Windows.Forms.ProgressBar();
             this.lblProgress = new System.Windows.Forms.Label();
             this.SuspendLayout();
