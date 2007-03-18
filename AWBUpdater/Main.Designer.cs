@@ -28,6 +28,7 @@ namespace AWBUpdater
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.progressUpdate = new System.Windows.Forms.ProgressBar();
             this.lblProgress = new System.Windows.Forms.Label();
             this.SuspendLayout();
@@ -55,6 +56,7 @@ namespace AWBUpdater
             this.ClientSize = new System.Drawing.Size(259, 51);
             this.Controls.Add(this.lblProgress);
             this.Controls.Add(this.progressUpdate);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Main";
             this.Text = "AWB Updater";
             this.Load += new System.EventHandler(this.Form1_Load);
