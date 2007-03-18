@@ -419,6 +419,8 @@ namespace WikiFunctions.Lists
             sortAlphebeticallyMenuItem.Enabled = boolEnabled;
             saveListToTextFileToolStripMenuItem1.Enabled = boolEnabled;
             specialFilterToolStripMenuItem.Enabled = boolEnabled;
+            selectAllToolStripMenuItem.Enabled = boolEnabled;
+            selectNoneToolStripMenuItem.Enabled = boolEnabled;
 
             openInBrowserToolStripMenuItem.Enabled = lbArticles.SelectedItems.Count == 1;
         }
@@ -1020,6 +1022,31 @@ namespace WikiFunctions.Lists
         private void convertFromTalkPagesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ConvertFromTalkPages();
+        }
+
+        private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            lbArticles.BeginUpdate();
+
+            for (int i = 0; i != lbArticles.Items.Count; i++)
+            {
+                lbArticles.SetSelected(i, true);
+            }
+
+            lbArticles.EndUpdate();
+        }
+
+        private void selectNoneToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            lbArticles.BeginUpdate();
+
+
+            for (int i = 0; i != lbArticles.Items.Count; i++)
+            {
+                lbArticles.SetSelected(i, false);
+            }
+
+            lbArticles.EndUpdate();
         }
 
         private void fromCategoryToolStripMenuItem_Click(object sender, EventArgs e)
