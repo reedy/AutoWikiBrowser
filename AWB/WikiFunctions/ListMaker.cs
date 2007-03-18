@@ -958,7 +958,10 @@ namespace WikiFunctions.Lists
 
         private void UpdateNumberOfArticles()
         {
-            lblNumberOfArticles.Text = lbArticles.Items.Count.ToString() + " pages";
+            if (lbArticles.Items.Count != 1)
+                lblNumberOfArticles.Text = lbArticles.Items.Count.ToString() + " pages";
+            else
+                lblNumberOfArticles.Text = "1 page";
             if (NoOfArticlesChanged != null)
                 this.NoOfArticlesChanged();
         }

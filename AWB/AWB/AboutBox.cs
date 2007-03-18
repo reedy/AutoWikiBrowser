@@ -38,11 +38,11 @@ namespace AutoWikiBrowser
             InitializeComponent();
 
             lblIEVersion.Text = "IE version: " + IEVersion;
-            lblAWBVersion.Text = "Version " + AssemblyVersion;
+            lblAWBVersion.Text = "AWB Version " + AssemblyVersion;
             textBoxDescription.Text = AssemblyDescription;
             lblOSVersion.Text = "Windows version: " + Environment.OSVersion.Version.Major.ToString() + "." + Environment.OSVersion.Version.Minor.ToString();
             lblNETVersion.Text = ".NET Version: " + Environment.Version.ToString();
-            lblTimeAndEdits.Text = "You made " + intEdits.ToString() + " edits in " + time.ToString();
+            lblTimeAndEdits.Text = "You have made " + intEdits.ToString() + " edits in " + time.ToString();
         }
 
         #region Assembly Attribute Accessors
