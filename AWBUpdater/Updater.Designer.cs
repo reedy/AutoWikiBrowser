@@ -28,9 +28,11 @@ namespace AWBUpdater
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Updater));
             this.progressUpdate = new System.Windows.Forms.ProgressBar();
             this.lblProgress = new System.Windows.Forms.Label();
+            this.tmrTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // progressUpdate
@@ -49,7 +51,11 @@ namespace AWBUpdater
             this.lblProgress.TabIndex = 1;
             this.lblProgress.Text = "Progress:";
             // 
-            // Main
+            // tmrTimer
+            // 
+            this.tmrTimer.Tick += new System.EventHandler(this.tmrTimer_Tick);
+            // 
+            // Updater
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -57,7 +63,7 @@ namespace AWBUpdater
             this.Controls.Add(this.lblProgress);
             this.Controls.Add(this.progressUpdate);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Main";
+            this.Name = "Updater";
             this.Text = "AWB Updater";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
@@ -69,6 +75,7 @@ namespace AWBUpdater
 
         private System.Windows.Forms.ProgressBar progressUpdate;
         private System.Windows.Forms.Label lblProgress;
+        private System.Windows.Forms.Timer tmrTimer;
     }
 }
 

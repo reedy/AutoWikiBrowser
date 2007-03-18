@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using System.Diagnostics;
 using ICSharpCode.SharpZipLib.Zip;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip.Compression;
@@ -27,6 +28,38 @@ namespace AWBUpdater
 
             AWBdirectory = Path.GetDirectoryName(Application.ExecutablePath) + "\\";
             tempDirectory = AWBdirectory + "temp\\";
+        }
+
+        //TODO: Functionality
+        //Pass Where file to be downloaded from, and file name
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            tmrTimer.Enabled = true;
+        }
+
+        private void updateAWB()
+        {
+            AWBversion();
+            Application.DoEvents();
+            createTempDir();
+            Application.DoEvents();
+            getAWBFromInternet();
+            Application.DoEvents();
+            unzipAWB();
+            Application.DoEvents();
+            MessageBox.Show("Please save your settings (if you wish) and close AutoWikiBrowser completely before pressing OK.");
+            closeAWB();
+            deleteOldFiles();
+            Application.DoEvents();
+            copyFiles();
+            MessageBox.Show("AWB Update Successful", "Update Sucessful");
+            Application.DoEvents();
+            startAWB();
+            Application.DoEvents();
+            killTempDir();
+            Application.DoEvents();
+            Application.Exit();
         }
 
         public void AWBversion()
@@ -70,24 +103,7 @@ namespace AWBUpdater
             {
                 MessageBox.Show("Error fetching current version number.");
             }
-        }
-
-        //TODO: Functionality
-        //Pass Where file to be downloaded from, and file name
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            AWBversion();
-            createTempDir();
-            getAWBFromInternet();
-            unzipAWB();
-            MessageBox.Show("Please save your settings (if you wish) and close AutoWikiBrowser completely before pressing OK.");
-            deleteOldFiles();
-            copyFiles();
-            MessageBox.Show("AWB Update Successful", "Update Sucessful");
-            startAWB();
-            killTempDir();
-            Application.Exit();
+            progressUpdate.Value = 30;
         }
 
         private void createTempDir()
@@ -95,7 +111,7 @@ namespace AWBUpdater
             if (!(Directory.Exists(tempDirectory)))
                 Directory.CreateDirectory(tempDirectory);
 
-            progressUpdate.Value = 5;
+            progressUpdate.Value = 35;
         }
 
         private void getAWBFromInternet()
@@ -163,6 +179,26 @@ namespace AWBUpdater
                     StreamUtils.Copy(inputStream, outputStream, new byte[4096]);
                 }
             }
+        }
+
+        private void closeAWB()
+        {
+            bool AWBOpen;
+
+            do
+            {
+                AWBOpen = false;
+
+                foreach (Process p in Process.GetProcesses())
+                {
+                    if (p.ProcessName == "AutoWikiBrowser")
+                    {
+                        AWBOpen = true;
+                        MessageBox.Show("Please save your settings (if you wish) and close AutoWikiBrowser completely before pressing OK.");
+                    }
+                }
+            }
+            while (AWBOpen == true);
         }
 
         private void deleteOldFiles()
@@ -239,6 +275,12 @@ namespace AWBUpdater
             Directory.Delete(tempDirectory, true);
 
             progressUpdate.Value = 100;
+        }
+
+        private void tmrTimer_Tick(object sender, EventArgs e)
+        {
+            tmrTimer.Enabled = false;
+            updateAWB();
         }
     }
 }
