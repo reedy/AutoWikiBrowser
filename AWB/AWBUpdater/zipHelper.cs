@@ -40,6 +40,7 @@ namespace AWBUpdater
                     finally
                     {
                         s.close();
+                        zipfile.close();
                     }
                 }
             }
