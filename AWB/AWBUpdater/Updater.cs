@@ -30,9 +30,6 @@ namespace AWBUpdater
             tempDirectory = AWBdirectory + "temp\\";
         }
 
-        //TODO: Functionality
-        //Pass Where file to be downloaded from, and file name
-
         private void Form1_Load(object sender, EventArgs e)
         {
             tmrTimer.Enabled = true;
@@ -183,7 +180,7 @@ namespace AWBUpdater
 
         private void closeAWB()
         {
-            bool AWBOpen;
+            bool AWBOpen = new bool();
 
             do
             {
@@ -199,6 +196,8 @@ namespace AWBUpdater
                 }
             }
             while (AWBOpen == true);
+
+            progressUpdate.Value = 75;
         }
 
         private void deleteOldFiles()
