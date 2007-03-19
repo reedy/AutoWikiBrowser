@@ -855,7 +855,7 @@ namespace WikiFunctions
                     throw new Exception();
                 }
             }
-            catch(Exception e)
+            catch
             {
                 MessageBox.Show("An error occured while loading project information from the server. " +
                     "Please make sure that your internet connection works and such combination of project/language exist." +
