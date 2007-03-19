@@ -40,7 +40,6 @@
     <Compile Include="ICSharpCode.SharpZipLib\Checksums\Adler32.cs" />
     <Compile Include="ICSharpCode.SharpZipLib\Checksums\CRC32.cs" />
     <Compile Include="ICSharpCode.SharpZipLib\Checksums\IChecksum.cs" />
-    <Compile Include="ICSharpCode.SharpZipLib\Core\FileSystemScanner.cs" />
     <Compile Include="ICSharpCode.SharpZipLib\Core\INameTransform.cs" />
     <Compile Include="ICSharpCode.SharpZipLib\Core\IScanFilter.cs" />
     <Compile Include="ICSharpCode.SharpZipLib\Core\NameFilter.cs" />
