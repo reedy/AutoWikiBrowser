@@ -66,7 +66,9 @@
     <Compile Include="ICSharpCode.SharpZipLib\Zip\ZipException.cs" />
     <Compile Include="ICSharpCode.SharpZipLib\Zip\ZipExtraData.cs" />
     <Compile Include="ICSharpCode.SharpZipLib\Zip\ZipFile.cs" />
-    <Compile Include="ICSharpCode.SharpZipLib\Zip\ZipHelperStream.cs" />
+    <Compile Include="ICSharpCode.SharpZipLib\Zip\ZipHelperStream.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ICSharpCode.SharpZipLib\Zip\ZipInputStream.cs" />
     <Compile Include="ICSharpCode.SharpZipLib\Zip\ZipNameTransform.cs">
       <SubType>Code</SubType>
