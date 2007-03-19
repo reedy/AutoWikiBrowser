@@ -665,6 +665,13 @@ namespace AutoWikiBrowser
                 if (noParse.Contains(EdittingArticle.Name))
                     process = false;
 
+                // {{bots}}/{{nobots}}
+                if (!ignoreNoBotsToolStripMenuItem.Checked && !Parsers.CheckNoBots(articleText, Variables.User.Name))
+                {
+                    SkipArticle = true;
+                    return articleText;
+                }
+
                 if (cModule.ModuleEnabled && cModule.Module != null)
                 {
                     string tempSummary = "";

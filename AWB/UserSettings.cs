@@ -105,6 +105,7 @@ namespace AutoWikiBrowser
             doNotAutomaticallyDoAnythingToolStripMenuItem.Checked = false;
             chkSkipNoChanges.Checked = false;
             toolStripComboOnLoad.SelectedIndex = 0;
+            ignoreNoBotsToolStripMenuItem.Checked = false;
             markAllAsMinorToolStripMenuItem.Checked = false;
             addAllToWatchlistToolStripMenuItem.Checked = false;
             showTimerToolStripMenuItem.Checked = false;
@@ -704,6 +705,8 @@ namespace AutoWikiBrowser
             { p.List.ArticleList = listMaker1.GetArticleList(); }
             else 
             { p.List.ArticleList = new List<Article>(); }
+
+            p.General.IgnoreNoBots = ignoreNoBotsToolStripMenuItem.Checked;
             
             p.Editprefs.GeneralFixes = chkGeneralFixes.Checked;
             p.Editprefs.Tagger = chkAutoTagger.Checked;
@@ -837,6 +840,8 @@ namespace AutoWikiBrowser
             listMaker1.SelectedSource = p.List.Source;
 
             SaveArticleList = p.General.SaveArticleList;
+
+            ignoreNoBotsToolStripMenuItem.Checked = p.General.IgnoreNoBots;
 
             if (p.General.SaveArticleList)
             { listMaker1.Add(p.List.ArticleList); }

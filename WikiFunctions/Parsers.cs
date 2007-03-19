@@ -1257,6 +1257,53 @@ namespace WikiFunctions.Parse
                 return "";
         }
 
+        static Regex RemoveNowiki = new Regex("<nowiki>.*?</nowiki>", RegexOptions.Compiled | RegexOptions.Singleline);
+        static Regex RemoveComments = new Regex(@"<!--.*?-->", RegexOptions.Compiled | RegexOptions.Singleline);
+        static Regex Bots = new Regex(@"\{\{\s*([Bb]ots|[Nn]obots)\s*(|\|[^\}]*)\}\}", RegexOptions.Compiled);
+        static Regex Allow = new Regex(@"\|\s*allow\s*=\s*([^\|\}]*)", RegexOptions.Compiled | RegexOptions.Singleline);
+        static Regex Deny = new Regex(@"\|\s*deny\s*=\s*([^\|\}]*)", RegexOptions.Compiled | RegexOptions.Singleline);
+    
+
+        /// <summary>
+        /// checks if a user is allowed to edit this article
+        /// using {{bots}} and {{nobots}} tags
+        /// </summary>
+        /// <param name="ArticleText"></param>
+        /// <param name="Username">name of this user</param>
+        /// <returns>true if you can edit, false otherwise</returns>
+        public static bool CheckNoBots(string ArticleText, string Username)
+        {
+            bool AwbAllowed = false;
+            ArticleText = RemoveComments.Replace(ArticleText, "");
+            ArticleText = RemoveNowiki.Replace(ArticleText, "");
+            Match m = Bots.Match(ArticleText);
+            if (m.Groups[1].Value == "Nobots" || m.Groups[1].Value == "nobots") return false;
+
+            string s = Allow.Match(m.Groups[2].Value).Groups[1].Value.Trim();
+            if (s.Length > 0)
+            {
+                foreach (string u in s.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    if (u == Username) return true;
+                    
+                    //AWB bots are allowed, but this specific user may be not
+                    if(u == "AWB") AwbAllowed = true;
+                }
+            }
+
+            s = Deny.Match(m.Groups[2].Value).Groups[1].Value.Trim();
+            if (s.Length > 0)
+            {
+                foreach (string u in s.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    if (u == Username) return false;
+                    if ((u == "all" || u == "AWB") && !AwbAllowed) return false;
+                }
+            }
+
+            return true;
+        }
+
         #endregion
 
         #region unused
@@ -1265,7 +1312,7 @@ namespace WikiFunctions.Parse
         /// Bypasses all redirects in the article
         /// </summary>
         public string BypassRedirects(string ArticleText)
-        {//checks links to make them bypass redirects and (TODO) disambigs
+        {//checks links to make them bypass redirects
             string link = "";
             string article = "";
 
