@@ -40,25 +40,48 @@
     <Compile Include="ICSharpCode.SharpZipLib\Checksums\Adler32.cs" />
     <Compile Include="ICSharpCode.SharpZipLib\Checksums\CRC32.cs" />
     <Compile Include="ICSharpCode.SharpZipLib\Checksums\IChecksum.cs" />
-    <Compile Include="ICSharpCode.SharpZipLib\Core\INameTransform.cs" />
-    <Compile Include="ICSharpCode.SharpZipLib\Core\IScanFilter.cs" />
-    <Compile Include="ICSharpCode.SharpZipLib\Core\NameFilter.cs" />
-    <Compile Include="ICSharpCode.SharpZipLib\Core\PathFilter.cs" />
-    <Compile Include="ICSharpCode.SharpZipLib\Core\StreamUtils.cs" />
+    <Compile Include="ICSharpCode.SharpZipLib\Core\INameTransform.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ICSharpCode.SharpZipLib\Core\StreamUtils.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ICSharpCode.SharpZipLib\Encryption\PkzipClassic.cs" />
     <Compile Include="ICSharpCode.SharpZipLib\SharpZipBaseException.cs" />
-    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\Deflater.cs" />
-    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\DeflaterConstants.cs" />
-    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\DeflaterEngine.cs" />
-    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\DeflaterHuffman.cs" />
-    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\DeflaterPending.cs" />
-    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\Inflater.cs" />
-    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\InflaterDynHeader.cs" />
-    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\InflaterHuffmanTree.cs" />
+    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\Deflater.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\DeflaterConstants.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\DeflaterEngine.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\DeflaterHuffman.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\DeflaterPending.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\Inflater.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\InflaterDynHeader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\InflaterHuffmanTree.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\PendingBuffer.cs" />
-    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\Streams\DeflaterOutputStream.cs" />
-    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\Streams\InflaterInputStream.cs" />
-    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\Streams\OutputWindow.cs" />
+    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\Streams\DeflaterOutputStream.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\Streams\InflaterInputStream.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\Streams\OutputWindow.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\Streams\StreamManipulator.cs" />
     <Compile Include="ICSharpCode.SharpZipLib\Zip\IEntryFactory.cs" />
     <Compile Include="ICSharpCode.SharpZipLib\Zip\ZipConstants.cs" />
@@ -73,7 +96,9 @@
     <Compile Include="ICSharpCode.SharpZipLib\Zip\ZipNameTransform.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ICSharpCode.SharpZipLib\Zip\ZipOutputStream.cs" />
+    <Compile Include="ICSharpCode.SharpZipLib\Zip\ZipOutputStream.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Updater.cs">
       <SubType>Form</SubType>
     </Compile>
