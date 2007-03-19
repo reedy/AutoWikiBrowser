@@ -43,7 +43,6 @@
     <Compile Include="ICSharpCode.SharpZipLib\Core\FileSystemScanner.cs" />
     <Compile Include="ICSharpCode.SharpZipLib\Core\INameTransform.cs" />
     <Compile Include="ICSharpCode.SharpZipLib\Core\IScanFilter.cs" />
-    <Compile Include="ICSharpCode.SharpZipLib\Core\IScanner.cs" />
     <Compile Include="ICSharpCode.SharpZipLib\Core\NameFilter.cs" />
     <Compile Include="ICSharpCode.SharpZipLib\Core\PathFilter.cs" />
     <Compile Include="ICSharpCode.SharpZipLib\Core\StreamUtils.cs" />
