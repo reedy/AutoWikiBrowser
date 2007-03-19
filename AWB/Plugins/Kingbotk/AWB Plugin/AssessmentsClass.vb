@@ -41,7 +41,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
 
             ' Get a reference to the cleanup checkboxes:
             For Each ctl As Control In AWBOptionsTab.Controls("groupBox6").Controls
-                AWBCleanupCheckboxes.Add(DirectCast(ctl, CheckBox))
+                If ctl.GetType Is GetType(CheckBox) Then AWBCleanupCheckboxes.Add(DirectCast(ctl, CheckBox))
             Next
             ToggleAWBCleanup(PluginSettings.Cleanup)
 
