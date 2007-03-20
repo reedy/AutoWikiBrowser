@@ -1,0 +1,7 @@
+Extend pluginbase to include all logic, which can be read from XML (existing complicated plugins can use hard-coded settings blocks)
+
+Generic template creation wizard, step user through setting up all the params we currently hard code
+
+Add article reading with stub and infobox recognition
+
+Support the WP container templates, perhaps with a protected wiki list of templates which should be moved into the box; pages which have more than 2 such templates would get a new container
