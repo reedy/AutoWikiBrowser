@@ -843,8 +843,7 @@ namespace AutoWikiBrowser
 
             ignoreNoBotsToolStripMenuItem.Checked = p.General.IgnoreNoBots;
 
-            if (p.General.SaveArticleList)
-            { listMaker1.Add(p.List.ArticleList); }
+            listMaker1.Add(p.List.ArticleList);
             
             chkGeneralFixes.Checked = p.Editprefs.GeneralFixes;
             chkAutoTagger.Checked = p.Editprefs.Tagger;
