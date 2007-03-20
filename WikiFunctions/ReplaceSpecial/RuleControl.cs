@@ -62,8 +62,8 @@ namespace WikiFunctions.MWB
                 return;
 
             r.Name = NameTextbox.Text.Trim();
-            r.replace_ = ReplaceTextbox.Text;
-            r.with_ = WithTextbox.Text;
+            r.replace_ = ReplaceTextbox.Text.Replace("\r\n", "\n");
+            r.with_ = WithTextbox.Text.Replace("\r\n", "\n");
             r.ruletype_ = (Rule.T)RuleTypeCombobox.SelectedIndex;
             r.enabled_ = RuleEnabledCheckBox.Checked;
 
@@ -95,11 +95,11 @@ namespace WikiFunctions.MWB
         public void RestoreFromRule(Rule r)
         {
             NameTextbox.Text = r.Name;
-            ReplaceTextbox.Text = Regex.Replace(r.replace_, @"
-", "\r\n");
 
-            WithTextbox.Text = Regex.Replace(r.with_, @"
-", "\r\n");
+            ReplaceTextbox.Text = r.replace_.Replace("\n", "\r\n");
+
+            WithTextbox.Text = r.with_.Replace("\n", "\r\n");
+
             RuleTypeCombobox.SelectedIndex = (int)r.ruletype_;
             RuleEnabledCheckBox.Checked = r.enabled_;
 
