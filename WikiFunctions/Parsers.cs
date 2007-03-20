@@ -643,6 +643,7 @@ namespace WikiFunctions.Parse
             ArticleText = Regex.Replace(ArticleText, "&#151;|&#8212;|&#x2014;", "&mdash;");
             ArticleText = ArticleText.Replace(" &amp; ", " & ");
             ArticleText = ArticleText.Replace("&amp;", "&amp;amp;");
+            ArticleText = ArticleText.Replace("&#153;", "™");
 
             foreach (KeyValuePair<Regex, string> k in RegexUnicode)
             {

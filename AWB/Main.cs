@@ -808,7 +808,7 @@ namespace AutoWikiBrowser
                         if (Skip.SkipNoBoldTitle && SkipArticle)
                             return articleText;
 
-                        articleText = parsers.SimplifyLinks(articleText);
+                        articleText = parsers.StickyLinks(parsers.SimplifyLinks(articleText));
 
                         articleText = RemoveText.AddBack(articleText);
                     }
