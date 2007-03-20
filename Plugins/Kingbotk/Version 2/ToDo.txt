@@ -1,0 +1,40 @@
+Bugs:
+Logging Fault
+http://en.wikipedia.org/wiki/User_talk:Kingbotk/Plugin#New_version_-_Alpha_version_logging
+
+High Priority
+Generic templates: Don't allow extra braces in a template definition 
+Filter out illegal-in-page-names characters from upload-jobname 
+MILHIST Russian workgroup
+
+MILHIST Russian workgroup 
+Bug fix: Plange: It seems that whenever the plugin finds something to clean up on the page and I then preview it and then click Save, a popup comes up that says I need to supply an edit summary even though I'd left the edit summary at the default of "clean up" -- I hit ok and it moves on to Talk and does record a summary... this again happens if I check that I want to leave a comment (great feature, BTW!!) and I don't have any changes to the talk page template (so I hit ignore) and the edit summary warning pops up (even though nothing's changing on that page). 
+
+Implement the AWB settings menu items (waiting on Martin to make a change for me, and will then do this (see http://en.wikipedia.org/w/index.php?title=Wikipedia_talk:AutoWikiBrowser&oldid=79650311#Plugin.2FLibrary)
+
+
+Feature Requests:
+Plugin:
+Trains WikiProject
+http://en.wikipedia.org/wiki/User_talk:Kingbotk/Plugin#Trains_WikiProject
+
+Novels WikiProject
+http://en.wikipedia.org/wiki/User_talk:Kingbotk/Plugin#Novels_support
+
+http://en.wikipedia.org/wiki/User:Kingbotk/Plugin#Plugin_feature_requests
+Perhaps sanity check existing params, see Talk.
+
+It would be nice with a edit summary that states the assessed values, i.e. something like assessed to B-Class, High priority. Stefan 
+Support for "NovelWikiProject" parameters "needs-infobox" (which i think is present) and "incomp-infobox" (which I don't think is)
+
+Ability to replace one template with another using the generic templates plugin. Mike Peel 11:30, 2 December 2006 (UTC) 
+Or - rather than have all this parameter support specific to each project what about defining the parameters in the XML settings and generically coding for all of them. Indications could be made for radio button type options to group the parameters to be alternatives to each other. (i.e. like the "stub, start, a-class, b-class" etc).
+
+Bot:
+http://en.wikipedia.org/wiki/User:Kingbotk/Plugin#Plugin_feature_requests
+
+Keep a record of talk pages visited, and if on a subsequent visit the bot finds a blank page flag it as possibly vandalised. I'm not sure if this is useful, but it was requested.
+
+Build a list of pages that the plugin would change, without making any change. For checking through already-tagged categories looking for new pages to tag, where it may not be appropriate to tag them automatically. List should be in a format that can be read back into AWB to be processed. 
+ 
+Alternatively, or additionally (or some sort of mixed feature), be able to specify a blacklist of pages that should not be tagged. For checking over mixed categories (i.e. not all pages want to be tagged) for new pages. Would tie into the above by not listing articles that definitely don't want to be tagged.
