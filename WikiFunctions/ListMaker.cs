@@ -704,11 +704,18 @@ namespace WikiFunctions.Lists
             }
             else if (ST == SourceType.MyWatchlist)
             {
-                BusyStatus = true;
-                Add(GetLists.FromWatchList());
-                BusyStatus = false;
-                UpdateNumberOfArticles();
-                return;
+                try
+                {
+                    BusyStatus = true;
+                    Add(GetLists.FromWatchList());
+                    BusyStatus = false;
+                    UpdateNumberOfArticles();
+                    return;
+                }
+                catch
+                {
+                    MessageBox.Show("Please ensure you are logged in", "Log In");
+                }
             }
             else
             {
