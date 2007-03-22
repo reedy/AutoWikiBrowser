@@ -152,6 +152,15 @@ namespace AutoWikiBrowser
             //check that we are not using an old OS. 98 seems to mangled some unicode.
             this.Resize += new EventHandler(MainForm_Resize);
 
+            //Code to look if there is a AWBUpdater.exe.new (new AWBUpdater), if so, it replaces the old with the new!!
+            String tempPath = Path.GetDirectoryName(Application.ExecutablePath) + "\\";
+            if (System.IO.File.Exists(tempPath + "AWBUpdater.exe.new"))
+            {
+                System.IO.File.Delete(tempPath + "AWBUpdater.exe");
+                System.IO.File.Copy(tempPath + "AWBUpdater.exe.new", tempPath + "AWBUpdater.exe");
+                System.IO.File.Delete(tempPath + "AWBUpdater.exe.new");
+            }
+
             try
             {
                 if (Environment.OSVersion.Version.Major < 5)

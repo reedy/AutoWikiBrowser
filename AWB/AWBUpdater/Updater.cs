@@ -40,7 +40,6 @@ namespace AWBUpdater
             AWBversion();
             Application.DoEvents();
             createTempDir();
-            Application.DoEvents();
             getAWBFromInternet();
             Application.DoEvents();
             unzipAWB();
@@ -48,12 +47,10 @@ namespace AWBUpdater
             MessageBox.Show("Please save your settings (if you wish) and close AutoWikiBrowser completely before pressing OK.");
             closeAWB();
             deleteOldFiles();
-            Application.DoEvents();
             copyFiles();
             MessageBox.Show("AWB Update Successful", "Update Sucessful");
             Application.DoEvents();
             startAWB();
-            Application.DoEvents();
             killTempDir();
             Application.DoEvents();
             Application.Exit();

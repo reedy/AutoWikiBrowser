@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("AWBUpdater")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany(".")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("AWBUpdater")]
 [assembly: AssemblyCopyright("Copyright © . 2007")]
 [assembly: AssemblyTrademark("")]
