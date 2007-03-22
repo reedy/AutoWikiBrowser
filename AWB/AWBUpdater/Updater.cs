@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
+using System.Reflection;
 using ICSharpCode.SharpZipLib.Zip;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip.Compression;
@@ -20,7 +21,10 @@ namespace AWBUpdater
         string AWBdirectory;
         string tempDirectory;
         string AWBZipName;
-        string WebAddress;
+        string AWBWebAddress;
+
+        string UpdaterZipName;
+        string UpdaterWebAddress;
 
         public Updater()
         {
@@ -28,9 +32,18 @@ namespace AWBUpdater
 
             AWBdirectory = Path.GetDirectoryName(Application.ExecutablePath) + "\\";
             tempDirectory = AWBdirectory + "temp\\";
+
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        public static string AssemblyVersion
+        {
+            get
+            {
+                return Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            }
+        }
+
+        private void Updater_Load(object sender, EventArgs e)
         {
             tmrTimer.Enabled = true;
         }
@@ -82,16 +95,35 @@ namespace AWBUpdater
                 throw;
             }
 
-            Match m_version = Regex.Match(text, @"&lt;!-- Current version: (.*?) --&gt;");
+            Match m_awbversion = Regex.Match(text, @"&lt;!-- Current version: (.*?) --&gt;");
+            Match m_updversion = Regex.Match(text, @"&lt;!-- Updater version: (.*?) --&gt;");
             try
             {
-                if (m_version.Success && m_version.Groups[1].Value.Length == 4)
+                if (m_awbversion.Success && m_awbversion.Groups[1].Value.Length == 4)
                 {
-                    AWBZipName = "AutoWikiBrowser" + m_version.Groups[1].Value.Replace(".", "") + ".zip";
-                    WebAddress = "http://umn.dl.sourceforge.net/sourceforge/autowikibrowser/AutoWikiBrowser" + m_version.Groups[1].Value.Replace(".", "") + ".zip";
+                    AWBZipName = "AutoWikiBrowser" + m_awbversion.Groups[1].Value.Replace(".", "") + ".zip";
+                    AWBWebAddress = "http://umn.dl.sourceforge.net/sourceforge/autowikibrowser/" + AWBZipName;
                 }
                 else
                     throw new Exception();
+
+                if (m_updversion.Success && m_updversion.Groups[1].Value.Length == 4)
+                {
+                    if (m_updversion.Groups[1].Value != AssemblyVersion.Replace(".", ""))
+                    {
+                        UpdaterZipName = "AWBUpdater" + m_updversion.Groups[1].Value.Replace(".", "") + ".zip";
+                        UpdaterWebAddress = "http://umn.dl.sourceforge.net/sourceforge/autowikibrowser/" + UpdaterZipName;
+                    }
+                    else
+                    {
+                        UpdaterZipName = "";
+                        UpdaterWebAddress = "";
+                    }
+                }
+                else
+                {
+                    throw new Exception();
+                }
             }
             catch
             {
@@ -112,7 +144,13 @@ namespace AWBUpdater
         {
             System.Net.WebClient Client = new System.Net.WebClient();
 
-            Client.DownloadFile(WebAddress, tempDirectory + AWBZipName);
+            Client.DownloadFile(AWBWebAddress, tempDirectory + AWBZipName);
+
+            if (UpdaterWebAddress != "")
+            {
+                Client.DownloadFile(UpdaterWebAddress, tempDirectory + UpdaterZipName);
+            }
+
             Client.Dispose();
 
             progressUpdate.Value = 50;
@@ -130,6 +168,18 @@ namespace AWBUpdater
                     	ExtractFile(zf.GetInputStream(entry), entry, tempDirectory);
 				}
 			}
+
+            if (File.Exists(tempDirectory + UpdaterZipName))
+            {
+                using (ZipFile zf = new ZipFile(tempDirectory + UpdaterZipName))
+                {
+                    foreach (ZipEntry entry in zf)
+                    {
+                        if (entry.IsFile)
+                            ExtractFile(zf.GetInputStream(entry), entry, tempDirectory);
+                    }
+                }
+            }
             
             progressUpdate.Value = 70;
         }
@@ -222,6 +272,11 @@ namespace AWBUpdater
 
         private void copyFiles()
         {
+            if (File.Exists(tempDirectory + "AWBUpdater.exe"))
+            {
+                File.Copy(tempDirectory + "AWBUpdater.exe", AWBdirectory + "AWBUpdater.exe.new");
+            }
+
             File.Copy(tempDirectory + "AutoWikiBrowser.exe", AWBdirectory + "AutoWikiBrowser.exe");
             File.Copy(tempDirectory + "WikiFunctions.dll", AWBdirectory + "WikiFunctions.dll");
             File.Copy(tempDirectory + "IRCMonitor.exe", AWBdirectory + "IRCMonitor.exe");

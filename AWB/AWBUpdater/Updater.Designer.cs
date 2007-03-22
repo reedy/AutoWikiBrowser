@@ -65,7 +65,7 @@ namespace AWBUpdater
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Updater";
             this.Text = "AWB Updater";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.Updater_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
