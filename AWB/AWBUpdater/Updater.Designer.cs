@@ -33,11 +33,13 @@ namespace AWBUpdater
             this.progressUpdate = new System.Windows.Forms.ProgressBar();
             this.lblProgress = new System.Windows.Forms.Label();
             this.tmrTimer = new System.Windows.Forms.Timer(this.components);
+            this.lblCurrent = new System.Windows.Forms.Label();
+            this.lblCurrentTask = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // progressUpdate
             // 
-            this.progressUpdate.Location = new System.Drawing.Point(86, 12);
+            this.progressUpdate.Location = new System.Drawing.Point(89, 12);
             this.progressUpdate.Name = "progressUpdate";
             this.progressUpdate.Size = new System.Drawing.Size(144, 23);
             this.progressUpdate.TabIndex = 0;
@@ -45,7 +47,7 @@ namespace AWBUpdater
             // lblProgress
             // 
             this.lblProgress.AutoSize = true;
-            this.lblProgress.Location = new System.Drawing.Point(29, 22);
+            this.lblProgress.Location = new System.Drawing.Point(32, 22);
             this.lblProgress.Name = "lblProgress";
             this.lblProgress.Size = new System.Drawing.Size(51, 13);
             this.lblProgress.TabIndex = 1;
@@ -55,11 +57,31 @@ namespace AWBUpdater
             // 
             this.tmrTimer.Tick += new System.EventHandler(this.tmrTimer_Tick);
             // 
+            // lblCurrent
+            // 
+            this.lblCurrent.AutoSize = true;
+            this.lblCurrent.Location = new System.Drawing.Point(12, 45);
+            this.lblCurrent.Name = "lblCurrent";
+            this.lblCurrent.Size = new System.Drawing.Size(71, 13);
+            this.lblCurrent.TabIndex = 2;
+            this.lblCurrent.Text = "Current Task:";
+            // 
+            // lblCurrentTask
+            // 
+            this.lblCurrentTask.AutoSize = true;
+            this.lblCurrentTask.Location = new System.Drawing.Point(89, 45);
+            this.lblCurrentTask.Name = "lblCurrentTask";
+            this.lblCurrentTask.Size = new System.Drawing.Size(31, 13);
+            this.lblCurrentTask.TabIndex = 3;
+            this.lblCurrentTask.Text = "Task";
+            // 
             // Updater
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(259, 51);
+            this.ClientSize = new System.Drawing.Size(259, 74);
+            this.Controls.Add(this.lblCurrentTask);
+            this.Controls.Add(this.lblCurrent);
             this.Controls.Add(this.lblProgress);
             this.Controls.Add(this.progressUpdate);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -76,6 +98,8 @@ namespace AWBUpdater
         private System.Windows.Forms.ProgressBar progressUpdate;
         private System.Windows.Forms.Label lblProgress;
         private System.Windows.Forms.Timer tmrTimer;
+        private System.Windows.Forms.Label lblCurrent;
+        private System.Windows.Forms.Label lblCurrentTask;
     }
 }
 
