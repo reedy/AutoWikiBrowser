@@ -36,9 +36,10 @@
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoWikiBrowser, Version=3.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="AutoWikiBrowser, Version=3.1.4.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\AWB\AutoWikiBrowser.exe</HintPath>
+      <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>..\..\AWB\AutoWikiBrowser.exe</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -48,9 +49,9 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="WikiFunctions, Version=3.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="WikiFunctions, Version=3.1.4.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\AWB\WikiFunctions.dll</HintPath>
+      <HintPath>..\..\AWB\WikiFunctions.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
