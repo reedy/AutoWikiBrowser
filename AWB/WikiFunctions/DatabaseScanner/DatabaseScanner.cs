@@ -342,9 +342,10 @@ namespace WikiFunctions.DatabaseScanner
 
                 while (i < lbArticles.Items.Count)
                 {
-                    s = lbArticles.Items[i].ToString();
-
+                    Article a = lbArticles.Items[i] as Article;
+                    s = a.ToString();
                     s = s.Replace("&amp;", "&");
+                    if (a.NameSpaceKey == 6) s = ":" + s; //images should be inlined
 
                     strbList.AppendLine(strBullet + " [[" + s + "]]");
 
