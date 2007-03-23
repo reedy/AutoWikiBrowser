@@ -119,7 +119,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.LinkLabel1.Size = New System.Drawing.Size(74, 13)
             Me.LinkLabel1.TabIndex = 7
             Me.LinkLabel1.TabStop = True
-            Me.LinkLabel1.Text = "{{WPNovels}}"
+            Me.LinkLabel1.Text = "{{NovelsWikiProject}}"
             '
             'ParametersGroup
             '
