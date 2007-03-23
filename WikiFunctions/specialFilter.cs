@@ -466,6 +466,48 @@ namespace WikiFunctions.Lists
             cbOpType.SelectedIndex = 0;
         }
 
+        private void btnSelectAll_Click(object sender, EventArgs e)
+        {
+            chkArticle.Checked = true;
+            chkArticleTalk.Checked = true;
+            chkCategory.Checked = true;
+            chkCategoryTalk.Checked = true;
+            chkHelp.Checked = true;
+            chkHelpTalk.Checked = true;
+            chkImage.Checked = true;
+            chkImageTalk.Checked = true;
+            chkMediaWiki.Checked = true;
+            chkMediaWikiTalk.Checked = true;
+            chkPortal.Checked = true;
+            chkPortalTalk.Checked = true;
+            chkTemplate.Checked = true;
+            chkTemplateTalk.Checked = true;
+            chkUser.Checked = true;
+            chkUserTalk.Checked = true;
+            chkWikipedia.Checked = true;
+            chkWikipediaTalk.Checked = true;
+        }
 
+        private void btnSelectNone_Click(object sender, EventArgs e)
+        {
+            chkArticle.Checked = false;
+            chkArticleTalk.Checked = false;
+            chkCategory.Checked = false;
+            chkCategoryTalk.Checked = false;
+            chkHelp.Checked = false;
+            chkHelpTalk.Checked = false;
+            chkImage.Checked = false;
+            chkImageTalk.Checked = false;
+            chkMediaWiki.Checked = false;
+            chkMediaWikiTalk.Checked = false;
+            chkPortal.Checked = false;
+            chkPortalTalk.Checked = false;
+            chkTemplate.Checked = false;
+            chkTemplateTalk.Checked = false;
+            chkUser.Checked = false;
+            chkUserTalk.Checked = false;
+            chkWikipedia.Checked = false;
+            chkWikipediaTalk.Checked = false;
+        }
     }
 }
