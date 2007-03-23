@@ -180,6 +180,7 @@ namespace WikiFunctions.Lists
             this.btnSaveOnly1.TabIndex = 16;
             this.btnSaveOnly1.Text = "Save list";
             this.btnSaveOnly1.UseVisualStyleBackColor = true;
+            this.btnSaveOnly1.Click += new System.EventHandler(this.btnSaveOnly1_Click);
             // 
             // lblOnly1
             // 
@@ -215,6 +216,7 @@ namespace WikiFunctions.Lists
             this.btnSaveOnly2.TabIndex = 20;
             this.btnSaveOnly2.Text = "Save list";
             this.btnSaveOnly2.UseVisualStyleBackColor = true;
+            this.btnSaveOnly2.Click += new System.EventHandler(this.btnSaveOnly2_Click);
             // 
             // lblOnly2
             // 

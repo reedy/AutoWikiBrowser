@@ -131,6 +131,8 @@ namespace WikiFunctions.Lists
             SaveList(strList);
         }
 
+
+
         private void btnClear_Click(object sender, EventArgs e)
         {
             lbBoth.Items.Clear();
@@ -146,5 +148,37 @@ namespace WikiFunctions.Lists
             lblOnly1.Text = lbOnly1.Items.Count.ToString();
             lblOnly2.Text = lbOnly2.Items.Count.ToString();
         }
+
+        private void btnSaveOnly1_Click(object sender, EventArgs e)
+        {
+            int i = 0;
+            string s = "";
+            StringBuilder strList = new StringBuilder("");
+
+            while (i < lbOnly1.Items.Count)
+            {
+                s = lbOnly1.Items[i].ToString();
+                strList.AppendLine("# [[" + s + "]]");
+                i++;
+            }
+            SaveList(strList);
+        }
+
+        private void btnSaveOnly2_Click(object sender, EventArgs e)
+        {
+            int i = 0;
+            string s = "";
+            StringBuilder strList = new StringBuilder("");
+
+            while (i < lbOnly2.Items.Count)
+            {
+                s = lbOnly2.Items[i].ToString();
+                strList.AppendLine("# [[" + s + "]]");
+                i++;
+            }
+            SaveList(strList);
+        }
+
+
     }
 }
