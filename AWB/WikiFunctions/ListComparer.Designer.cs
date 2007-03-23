@@ -30,56 +30,42 @@ namespace WikiFunctions.Lists
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ListComparer));
             this.lbBoth = new System.Windows.Forms.ListBox();
-            this.btnOpen1 = new System.Windows.Forms.Button();
-            this.btnOpen2 = new System.Windows.Forms.Button();
             this.btnGo = new System.Windows.Forms.Button();
             this.openListDialog = new System.Windows.Forms.OpenFileDialog();
-            this.lblFirst = new System.Windows.Forms.Label();
-            this.lblSecond = new System.Windows.Forms.Label();
             this.lblBoth = new System.Windows.Forms.Label();
             this.saveListDialog = new System.Windows.Forms.SaveFileDialog();
-            this.btnSave = new System.Windows.Forms.Button();
+            this.btnSaveBoth = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.btnSave2 = new System.Windows.Forms.Button();
-            this.btnSave1 = new System.Windows.Forms.Button();
-            this.lbSecond = new WikiFunctions.Lists.ListBox2();
-            this.lbFirst = new WikiFunctions.Lists.ListBox2();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btnSaveOnly1 = new System.Windows.Forms.Button();
+            this.lblOnly1 = new System.Windows.Forms.Label();
+            this.lbOnly1 = new System.Windows.Forms.ListBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.btnSaveOnly2 = new System.Windows.Forms.Button();
+            this.lblOnly2 = new System.Windows.Forms.Label();
+            this.lbOnly2 = new System.Windows.Forms.ListBox();
+            this.listMaker2 = new WikiFunctions.Lists.ListMaker();
+            this.listMaker1 = new WikiFunctions.Lists.ListMaker();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // lbBoth
             // 
             this.lbBoth.FormattingEnabled = true;
-            this.lbBoth.Location = new System.Drawing.Point(396, 28);
+            this.lbBoth.Location = new System.Drawing.Point(9, 34);
             this.lbBoth.Name = "lbBoth";
-            this.lbBoth.Size = new System.Drawing.Size(130, 186);
+            this.lbBoth.Size = new System.Drawing.Size(130, 277);
             this.lbBoth.TabIndex = 2;
-            // 
-            // btnOpen1
-            // 
-            this.btnOpen1.Location = new System.Drawing.Point(9, 238);
-            this.btnOpen1.Name = "btnOpen1";
-            this.btnOpen1.Size = new System.Drawing.Size(75, 23);
-            this.btnOpen1.TabIndex = 3;
-            this.btnOpen1.Text = "Open list 1";
-            this.btnOpen1.UseVisualStyleBackColor = true;
-            this.btnOpen1.Click += new System.EventHandler(this.btnOpen1_Click);
-            // 
-            // btnOpen2
-            // 
-            this.btnOpen2.Location = new System.Drawing.Point(169, 238);
-            this.btnOpen2.Name = "btnOpen2";
-            this.btnOpen2.Size = new System.Drawing.Size(75, 23);
-            this.btnOpen2.TabIndex = 4;
-            this.btnOpen2.Text = "Open list 2";
-            this.btnOpen2.UseVisualStyleBackColor = true;
-            this.btnOpen2.Click += new System.EventHandler(this.btnOpen2_Click);
             // 
             // btnGo
             // 
-            this.btnGo.Location = new System.Drawing.Point(322, 88);
+            this.btnGo.Location = new System.Drawing.Point(486, 156);
             this.btnGo.Name = "btnGo";
             this.btnGo.Size = new System.Drawing.Size(57, 56);
             this.btnGo.TabIndex = 5;
@@ -92,28 +78,10 @@ namespace WikiFunctions.Lists
             this.openListDialog.Filter = "Text files|*.txt";
             this.openListDialog.SupportMultiDottedExtensions = true;
             // 
-            // lblFirst
-            // 
-            this.lblFirst.AutoSize = true;
-            this.lblFirst.Location = new System.Drawing.Point(12, 219);
-            this.lblFirst.Name = "lblFirst";
-            this.lblFirst.Size = new System.Drawing.Size(13, 13);
-            this.lblFirst.TabIndex = 6;
-            this.lblFirst.Text = "0";
-            // 
-            // lblSecond
-            // 
-            this.lblSecond.AutoSize = true;
-            this.lblSecond.Location = new System.Drawing.Point(169, 219);
-            this.lblSecond.Name = "lblSecond";
-            this.lblSecond.Size = new System.Drawing.Size(13, 13);
-            this.lblSecond.TabIndex = 7;
-            this.lblSecond.Text = "0";
-            // 
             // lblBoth
             // 
             this.lblBoth.AutoSize = true;
-            this.lblBoth.Location = new System.Drawing.Point(402, 219);
+            this.lblBoth.Location = new System.Drawing.Point(72, 18);
             this.lblBoth.Name = "lblBoth";
             this.lblBoth.Size = new System.Drawing.Size(13, 13);
             this.lblBoth.TabIndex = 8;
@@ -124,19 +92,19 @@ namespace WikiFunctions.Lists
             this.saveListDialog.Filter = "Text files|*.txt";
             this.saveListDialog.SupportMultiDottedExtensions = true;
             // 
-            // btnSave
+            // btnSaveBoth
             // 
-            this.btnSave.Location = new System.Drawing.Point(396, 267);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
-            this.btnSave.TabIndex = 9;
-            this.btnSave.Text = "Save list";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            this.btnSaveBoth.Location = new System.Drawing.Point(37, 317);
+            this.btnSaveBoth.Name = "btnSaveBoth";
+            this.btnSaveBoth.Size = new System.Drawing.Size(75, 23);
+            this.btnSaveBoth.TabIndex = 9;
+            this.btnSaveBoth.Text = "Save list";
+            this.btnSaveBoth.UseVisualStyleBackColor = true;
+            this.btnSaveBoth.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(396, 310);
+            this.btnClear.Location = new System.Drawing.Point(168, 346);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(75, 23);
             this.btnClear.TabIndex = 10;
@@ -144,121 +112,196 @@ namespace WikiFunctions.Lists
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(15, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(32, 13);
-            this.label1.TabIndex = 11;
-            this.label1.Text = "List 1";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(172, 8);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(32, 13);
-            this.label2.TabIndex = 12;
-            this.label2.Text = "List 2";
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(405, 7);
+            this.label3.Location = new System.Drawing.Point(6, 18);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(57, 13);
+            this.label3.Size = new System.Drawing.Size(60, 13);
             this.label3.TabIndex = 13;
-            this.label3.Text = "Duplicates";
+            this.label3.Text = "Duplicates:";
             // 
-            // btnSave2
+            // groupBox1
             // 
-            this.btnSave2.Location = new System.Drawing.Point(169, 267);
-            this.btnSave2.Name = "btnSave2";
-            this.btnSave2.Size = new System.Drawing.Size(75, 23);
-            this.btnSave2.TabIndex = 14;
-            this.btnSave2.Text = "Save list";
-            this.btnSave2.UseVisualStyleBackColor = true;
-            this.btnSave2.Click += new System.EventHandler(this.btnSave2_Click);
+            this.groupBox1.Controls.Add(this.listMaker1);
+            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(218, 377);
+            this.groupBox1.TabIndex = 16;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "List 1";
             // 
-            // btnSave1
+            // groupBox2
             // 
-            this.btnSave1.Location = new System.Drawing.Point(9, 267);
-            this.btnSave1.Name = "btnSave1";
-            this.btnSave1.Size = new System.Drawing.Size(75, 23);
-            this.btnSave1.TabIndex = 15;
-            this.btnSave1.Text = "Save list";
-            this.btnSave1.UseVisualStyleBackColor = true;
-            this.btnSave1.Click += new System.EventHandler(this.btnSave1_Click);
+            this.groupBox2.Controls.Add(this.listMaker2);
+            this.groupBox2.Location = new System.Drawing.Point(236, 12);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(218, 377);
+            this.groupBox2.TabIndex = 17;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "List 2";
             // 
-            // lbSecond
+            // groupBox3
             // 
-            this.lbSecond.FormattingEnabled = true;
-            this.lbSecond.Location = new System.Drawing.Point(169, 25);
-            this.lbSecond.Name = "lbSecond";
-            this.lbSecond.Size = new System.Drawing.Size(137, 186);
-            this.lbSecond.TabIndex = 17;
+            this.groupBox3.Controls.Add(this.label4);
+            this.groupBox3.Controls.Add(this.btnSaveOnly2);
+            this.groupBox3.Controls.Add(this.lblOnly2);
+            this.groupBox3.Controls.Add(this.lbOnly2);
+            this.groupBox3.Controls.Add(this.label1);
+            this.groupBox3.Controls.Add(this.btnSaveOnly1);
+            this.groupBox3.Controls.Add(this.lblOnly1);
+            this.groupBox3.Controls.Add(this.lbOnly1);
+            this.groupBox3.Controls.Add(this.label3);
+            this.groupBox3.Controls.Add(this.btnClear);
+            this.groupBox3.Controls.Add(this.btnSaveBoth);
+            this.groupBox3.Controls.Add(this.lblBoth);
+            this.groupBox3.Controls.Add(this.lbBoth);
+            this.groupBox3.Location = new System.Drawing.Point(569, 12);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(420, 377);
+            this.groupBox3.TabIndex = 18;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Results";
             // 
-            // lbFirst
+            // label1
             // 
-            this.lbFirst.FormattingEnabled = true;
-            this.lbFirst.Location = new System.Drawing.Point(9, 25);
-            this.lbFirst.Name = "lbFirst";
-            this.lbFirst.Size = new System.Drawing.Size(137, 186);
-            this.lbFirst.TabIndex = 16;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(142, 18);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(70, 13);
+            this.label1.TabIndex = 17;
+            this.label1.Text = "Only in List 1:";
+            // 
+            // btnSaveOnly1
+            // 
+            this.btnSaveOnly1.Location = new System.Drawing.Point(168, 317);
+            this.btnSaveOnly1.Name = "btnSaveOnly1";
+            this.btnSaveOnly1.Size = new System.Drawing.Size(75, 23);
+            this.btnSaveOnly1.TabIndex = 16;
+            this.btnSaveOnly1.Text = "Save list";
+            this.btnSaveOnly1.UseVisualStyleBackColor = true;
+            // 
+            // lblOnly1
+            // 
+            this.lblOnly1.AutoSize = true;
+            this.lblOnly1.Location = new System.Drawing.Point(218, 18);
+            this.lblOnly1.Name = "lblOnly1";
+            this.lblOnly1.Size = new System.Drawing.Size(13, 13);
+            this.lblOnly1.TabIndex = 15;
+            this.lblOnly1.Text = "0";
+            // 
+            // lbOnly1
+            // 
+            this.lbOnly1.FormattingEnabled = true;
+            this.lbOnly1.Location = new System.Drawing.Point(145, 34);
+            this.lbOnly1.Name = "lbOnly1";
+            this.lbOnly1.Size = new System.Drawing.Size(130, 277);
+            this.lbOnly1.TabIndex = 14;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(278, 18);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(70, 13);
+            this.label4.TabIndex = 21;
+            this.label4.Text = "Only in List 2:";
+            // 
+            // btnSaveOnly2
+            // 
+            this.btnSaveOnly2.Location = new System.Drawing.Point(307, 317);
+            this.btnSaveOnly2.Name = "btnSaveOnly2";
+            this.btnSaveOnly2.Size = new System.Drawing.Size(75, 23);
+            this.btnSaveOnly2.TabIndex = 20;
+            this.btnSaveOnly2.Text = "Save list";
+            this.btnSaveOnly2.UseVisualStyleBackColor = true;
+            // 
+            // lblOnly2
+            // 
+            this.lblOnly2.AutoSize = true;
+            this.lblOnly2.Location = new System.Drawing.Point(354, 18);
+            this.lblOnly2.Name = "lblOnly2";
+            this.lblOnly2.Size = new System.Drawing.Size(13, 13);
+            this.lblOnly2.TabIndex = 19;
+            this.lblOnly2.Text = "0";
+            // 
+            // lbOnly2
+            // 
+            this.lbOnly2.FormattingEnabled = true;
+            this.lbOnly2.Location = new System.Drawing.Point(281, 34);
+            this.lbOnly2.Name = "lbOnly2";
+            this.lbOnly2.Size = new System.Drawing.Size(130, 277);
+            this.lbOnly2.TabIndex = 18;
+            // 
+            // listMaker2
+            // 
+            this.listMaker2.ListFile = "";
+            this.listMaker2.Location = new System.Drawing.Point(7, 18);
+            this.listMaker2.Name = "listMaker2";
+            this.listMaker2.SelectedSource = WikiFunctions.Lists.SourceType.Category;
+            this.listMaker2.Size = new System.Drawing.Size(201, 351);
+            this.listMaker2.SourceText = "";
+            this.listMaker2.TabIndex = 14;
+            this.listMaker2.WikiStatus = true;
+            // 
+            // listMaker1
+            // 
+            this.listMaker1.ListFile = "";
+            this.listMaker1.Location = new System.Drawing.Point(7, 18);
+            this.listMaker1.Name = "listMaker1";
+            this.listMaker1.SelectedSource = WikiFunctions.Lists.SourceType.Category;
+            this.listMaker1.Size = new System.Drawing.Size(201, 351);
+            this.listMaker1.SourceText = "";
+            this.listMaker1.TabIndex = 14;
+            this.listMaker1.WikiStatus = true;
             // 
             // ListComparer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(534, 343);
-            this.Controls.Add(this.lbSecond);
-            this.Controls.Add(this.lbFirst);
-            this.Controls.Add(this.btnSave1);
-            this.Controls.Add(this.btnSave2);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.btnClear);
-            this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.lblBoth);
-            this.Controls.Add(this.lblSecond);
-            this.Controls.Add(this.lblFirst);
+            this.ClientSize = new System.Drawing.Size(1003, 401);
+            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnGo);
-            this.Controls.Add(this.btnOpen2);
-            this.Controls.Add(this.btnOpen1);
-            this.Controls.Add(this.lbBoth);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "ListComparer";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "List comparer";
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.ListBox lbBoth;
-        private System.Windows.Forms.Button btnOpen1;
-        private System.Windows.Forms.Button btnOpen2;
         private System.Windows.Forms.Button btnGo;
         private System.Windows.Forms.OpenFileDialog openListDialog;
-        private System.Windows.Forms.Label lblFirst;
-        private System.Windows.Forms.Label lblSecond;
         private System.Windows.Forms.Label lblBoth;
         private System.Windows.Forms.SaveFileDialog saveListDialog;
-        private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Button btnSaveBoth;
         private System.Windows.Forms.Button btnClear;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button btnSave2;
-        private System.Windows.Forms.Button btnSave1;
-        private ListBox2 lbFirst;
-        private ListBox2 lbSecond;
+        private ListMaker listMaker1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private ListMaker listMaker2;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button btnSaveOnly2;
+        private System.Windows.Forms.Label lblOnly2;
+        private System.Windows.Forms.ListBox lbOnly2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnSaveOnly1;
+        private System.Windows.Forms.Label lblOnly1;
+        private System.Windows.Forms.ListBox lbOnly1;
     }
 }
 

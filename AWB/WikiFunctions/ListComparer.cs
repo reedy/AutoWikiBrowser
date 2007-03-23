@@ -37,92 +37,26 @@ namespace WikiFunctions.Lists
         public ListComparer()
         {
             InitializeComponent();
+            listMaker1.MakeListEnabled = true;
+            listMaker2.MakeListEnabled = true;
         }
-
-        #region list 1
-        private void GetTextFileArticles1()
-        {
-            string ArticleText = "";
-            string FileName = "";
-            string x = "";
-
-            try
-            {
-                if (openListDialog.ShowDialog() == DialogResult.OK)
-                {
-                    FileName = openListDialog.FileName;
-
-                    StreamReader sr = new StreamReader(FileName, Encoding.UTF8);
-                    ArticleText = sr.ReadToEnd();
-                    sr.Close();
-
-                    foreach (Match m in WikiRegexes.WikiLink.Matches(ArticleText))
-                    {
-                         x = m.Groups[1].Value;
-                        lbFirst.Items.Add(TurnFirstToUpper(x));
-                    }
-                }
-            }
-            catch { }
-
-            updateCounts();
-        }
-
-        #endregion
-
-        #region list 2
-        private void GetTextFileArticles2()
-        {
-            string ArticleText = "";
-            string FileName = "";
-            string x = "";
-
-            try
-            {
-                if (openListDialog.ShowDialog() == DialogResult.OK)
-                {
-                    //user chose a file name and pressed OK
-                    //get the filename
-                    FileName = openListDialog.FileName;
-
-                    StreamReader sr = new StreamReader(FileName, Encoding.UTF8);
-                    ArticleText = sr.ReadToEnd();
-                    sr.Close();
-
-                    foreach (Match m in WikiRegexes.WikiLink.Matches(ArticleText))
-                    {
-                        x = m.Groups[1].Value;
-                        lbSecond.Items.Add(TurnFirstToUpper(x));
-                    }
-                }
-            }
-            catch { }
-
-            updateCounts();
-        }
-
-        #endregion
-
 
         private void GetDuplicates()
         {
-            int i = 0;
-            string s = "";
-
-            while (i < lbFirst.Items.Count)
+            foreach (Article article in listMaker1)
             {
-                s = lbFirst.Items[i].ToString();
-
-                if (lbSecond.Items.Contains(s))
-                {
-                    lbBoth.Items.Add(s);
-                    lbFirst.Items.Remove(s);
-                    lbSecond.Items.Remove(s);
-                }
+                if (listMaker2.Contains(article))
+                    lbBoth.Items.Add(article.Name);
                 else
-                    i++;
+                    lbOnly1.Items.Add(article.Name);
             }
 
+            foreach (Article article in listMaker2)
+            {
+                if (!listMaker1.Contains(article))
+                    lbOnly2.Items.Add(article.Name);
+            }
+        
             updateCounts();
         }
 
@@ -153,16 +87,6 @@ namespace WikiFunctions.Lists
             catch { }
         }
 
-        private void btnOpen1_Click(object sender, EventArgs e)
-        {
-            GetTextFileArticles1();
-        }
-
-        private void btnOpen2_Click(object sender, EventArgs e)
-        {
-            GetTextFileArticles2();
-        }
-
         //Regex reg = new Regex(" ?\\(.*?\\)$", RegexOptions.Compiled);
         //Regex reg3 = new Regex("^[A-Za-z]* [A-Za-z]*$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
@@ -183,11 +107,13 @@ namespace WikiFunctions.Lists
             //    i++;
             //}
             //return;
-
+            lbBoth.Items.Clear();
+            lbOnly1.Items.Clear();
+            lbOnly2.Items.Clear();
             GetDuplicates();
-            lblFirst.Text = lbFirst.Items.Count.ToString() + " only in list 1";
-            lblSecond.Text = lbSecond.Items.Count.ToString() + " only in list 2";
-            lblBoth.Text = lbBoth.Items.Count.ToString() + " in both lists";
+            lblOnly1.Text = lbOnly1.Items.Count.ToString() + " pages";
+            lblOnly2.Text = lbOnly2.Items.Count.ToString() + " pages";
+            lblBoth.Text = lbBoth.Items.Count.ToString() + " pages";
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -208,46 +134,17 @@ namespace WikiFunctions.Lists
         private void btnClear_Click(object sender, EventArgs e)
         {
             lbBoth.Items.Clear();
-            lbFirst.Items.Clear();
-            lbSecond.Items.Clear();
+            lbOnly1.Items.Clear();
+            lbOnly2.Items.Clear();
+
+            updateCounts();
         }
 
         private void updateCounts()
         {
-            lblFirst.Text = lbFirst.Items.Count.ToString();
-            lblSecond.Text = lbSecond.Items.Count.ToString();
             lblBoth.Text = lbBoth.Items.Count.ToString();
+            lblOnly1.Text = lbOnly1.Items.Count.ToString();
+            lblOnly2.Text = lbOnly2.Items.Count.ToString();
         }
-
-        private void btnSave1_Click(object sender, EventArgs e)
-        {
-            int i = 0;
-            string s = "";
-            StringBuilder strList = new StringBuilder("");
-
-            while (i < lbFirst.Items.Count)
-            {
-                s = lbFirst.Items[i].ToString();
-                strList.AppendLine("# [[" + s + "]]");
-                i++;
-            }
-            SaveList(strList);
-        }
-
-        private void btnSave2_Click(object sender, EventArgs e)
-        {
-            int i = 0;
-            string s = "";
-            StringBuilder strList = new StringBuilder("");
-
-            while (i < lbSecond.Items.Count)
-            {
-                s = lbSecond.Items[i].ToString();
-                strList.AppendLine("# [[" + s + "]]");
-                i++;
-            }
-            SaveList(strList);
-        }
-
     }
 }
