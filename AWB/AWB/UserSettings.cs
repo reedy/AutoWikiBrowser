@@ -21,7 +21,9 @@ namespace AutoWikiBrowser
 
         private void saveSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SavePrefs(settingsfilename);
+            if ((! System.IO.File.Exists(settingsfilename)) || MessageBox.Show("Replace existing file?", "File exists",
+            MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1)==DialogResult.Yes)
+                SavePrefs(settingsfilename);
         }
 
         private void loadSettingsToolStripMenuItem_Click(object sender, EventArgs e)
