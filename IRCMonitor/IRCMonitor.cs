@@ -155,11 +155,27 @@ namespace IRCMonitor
         {
             ResetStats();
             loadDefaultSettings();
+
+            updateUpdater();
             
             btnWarn.DropDownItems.Clear();
             MakeMenu(Project.WarningTemplates, btnWarn.DropDownItems, new EventHandler(WarnUserClick));
             //MakeMenu(Project.StubTypes, addStubToolStripMenuItem.DropDownItems, new EventHandler(AddStubClick));
             MakeMenu(Project.PageTags, tagWithToolStripMenuItem.DropDownItems, new EventHandler(AddTagClick));
+        }
+
+        /// <summary>
+        /// If AWBUpdater.exe.new, replace AWBUpdater.exe with it
+        /// </summary>
+        private void updateUpdater()
+        {
+            String tempPath = Path.GetDirectoryName(Application.ExecutablePath) + "\\";
+            if (System.IO.File.Exists(tempPath + "AWBUpdater.exe.new"))
+            {
+                System.IO.File.Delete(tempPath + "AWBUpdater.exe");
+                System.IO.File.Copy(tempPath + "AWBUpdater.exe.new", tempPath + "AWBUpdater.exe");
+                System.IO.File.Delete(tempPath + "AWBUpdater.exe.new");
+            }
         }
 
         private void loadIRCChannels()
