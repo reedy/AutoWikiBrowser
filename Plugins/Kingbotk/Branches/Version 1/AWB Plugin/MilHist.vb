@@ -366,7 +366,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Private WithEvents OurSettingsControl As New MilHistSettings
         Private Const conEnabled As String = "MilHistEnabled"
 
-        Protected Friend Overrides ReadOnly Property conPluginShortName() As String
+        Protected Friend Overrides ReadOnly Property PluginShortName() As String
             Get
                 Return "MilitaryHistory"
             End Get
@@ -448,7 +448,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Protected Overrides Sub InspectUnsetParameter(ByVal Param As String)
             ' We only get called if InspectUnsetParameters is True
             If String.Equals(Param, "importance", StringComparison.CurrentCultureIgnoreCase) Then
-                Article.DoneReplacement("importance=", "", True, conPluginShortName)
+                Article.DoneReplacement("importance=", "", True, PluginShortName)
             End If
         End Sub
         Protected Overrides Function SkipIfContains() As Boolean
@@ -486,7 +486,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 Template.Parameters.Remove("importance")
                 Article.ArticleHasAMajorChange()
                 PluginSettingsControl.MyTrace.WriteArticleActionLine("Removed importance parameter", _
-                   conPluginShortName)
+                   PluginShortName)
             End If
         End Sub
         Protected Overrides Function TemplateFound() As Boolean

@@ -87,7 +87,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Private OurTab As New TabPage("Songs")
         Private WithEvents OurSettingsControl As New WPSongsSettings
         Private Const conEnabled As String = "SongsEnabled"
-        Protected Friend Overrides ReadOnly Property conPluginShortName() As String
+        Protected Friend Overrides ReadOnly Property PluginShortName() As String
             Get
                 Return "Songs"
             End Get

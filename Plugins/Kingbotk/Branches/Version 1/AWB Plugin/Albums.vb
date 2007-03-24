@@ -86,7 +86,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Private OurTab As New TabPage("Albums")
         Private WithEvents OurSettingsControl As New WPAlbumsSettings
         Private Const conEnabled As String = "AlbumEnabled"
-        Protected Friend Overrides ReadOnly Property conPluginShortName() As String
+        Protected Friend Overrides ReadOnly Property PluginShortName() As String
             Get
                 Return "Albums"
             End Get

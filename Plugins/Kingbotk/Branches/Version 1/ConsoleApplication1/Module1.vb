@@ -5,7 +5,7 @@ Imports system.xml
 ''' <remarks></remarks>
 Module Module1
     Sub Main()
-        Debug.Print(WikiFunctions.Tools.MakeHumanCatKey("Talk:Dionysus (power metal band)"))
+        Debug.Print(regex.Replace("fred", "red", "ruk")
     End Sub
 
 End Module

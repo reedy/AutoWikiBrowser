@@ -27,4 +27,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
         NA
         Code = 100
     End Enum
+
+    Friend Module Constants
+        Friend Const Biography As String = "Biography"
+    End Module
 End Namespace

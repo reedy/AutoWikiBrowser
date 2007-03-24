@@ -305,7 +305,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Private WithEvents OurSettingsControl As New AustraliaSettings
         Private Const conEnabled As String = "AusEnabled"
 
-        Protected Friend Overrides ReadOnly Property conPluginShortName() As String
+        Protected Friend Overrides ReadOnly Property PluginShortName() As String
             Get
                 Return "Australia"
             End Get
