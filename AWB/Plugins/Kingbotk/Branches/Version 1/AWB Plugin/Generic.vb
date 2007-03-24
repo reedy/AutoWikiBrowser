@@ -356,12 +356,12 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         End Sub
         Protected Friend Overrides Sub Initialise(ByVal AWBPluginsMenu As ToolStripMenuItem, _
         ByVal txt As TextBox)
-            OurMenuItem = New ToolStripMenuItem(conPluginShortName)
+            OurMenuItem = New ToolStripMenuItem(PluginShortName)
             MyBase.InitialiseBase(AWBPluginsMenu, txt) ' must set menu item object first
             OurTab.UseVisualStyleBackColor = True
             OurSettingsControl.Reset()
             OurTab.Controls.Add(OurSettingsControl)
-            DeleteMeMenuItem.ToolTipText = "Delete the " & conPluginShortName & " plugin"
+            DeleteMeMenuItem.ToolTipText = "Delete the " & PluginShortName & " plugin"
             OurMenuItem.DropDownItems.Add(DeleteMeMenuItem)
         End Sub
 
@@ -380,7 +380,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 Return True
             End Get
         End Property
-        Protected Friend Overrides ReadOnly Property conPluginShortName() As String
+        Protected Friend Overrides ReadOnly Property PluginShortName() As String
             Get
                 Return "Generic (" & OurName & ")"
             End Get

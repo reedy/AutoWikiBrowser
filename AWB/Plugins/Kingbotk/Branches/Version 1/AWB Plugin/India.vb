@@ -314,7 +314,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Private WithEvents OurSettingsControl As New IndiaSettings
         Private Const conEnabled As String = "IndEnabled"
 
-        Protected Friend Overrides ReadOnly Property conPluginShortName() As String
+        Protected Friend Overrides ReadOnly Property PluginShortName() As String
             Get
                 Return "India"
             End Get
