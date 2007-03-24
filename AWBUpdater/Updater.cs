@@ -253,7 +253,7 @@ namespace AWBUpdater
                         AWBOpen = true;
                         MessageBox.Show("Please save your settings (if you wish) and close AutoWikiBrowser completely before pressing OK.");
                     }
-                    else if(p.ProcessName = "IRCMonitor")
+                    else if(p.ProcessName == "IRCMonitor")
                     {
                         AWBOpen = true;
                         MessageBox.Show("Please save your settings (if you wish) and close IRCMonitor completely before pressing OK.");
