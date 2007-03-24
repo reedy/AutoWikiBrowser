@@ -319,7 +319,9 @@ namespace WikiFunctions.Lists
 
         private void btnArticlesListClear_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure you would like to clear the article list?", "Clear?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (lbArticles.Items.Count <= 1 || (MessageBox.Show(
+            "Are you sure you want to clear the article list?", "Clear?", MessageBoxButtons.YesNo) 
+            == DialogResult.Yes))
                 Clear();
         }
 
