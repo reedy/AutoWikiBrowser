@@ -67,6 +67,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.CoreArticleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.NonbiographyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.AutotaggedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.ForceListasCheckbox = New System.Windows.Forms.CheckBox
             Me.ParametersGroup.SuspendLayout()
             Me.WorkgroupsGroupBox.SuspendLayout()
             Me.OptionsGroupBox.SuspendLayout()
@@ -262,10 +263,11 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             '
             'OptionsGroupBox
             '
+            Me.OptionsGroupBox.Controls.Add(Me.ForceListasCheckbox)
             Me.OptionsGroupBox.Controls.Add(Me.ForcePriorityParmCheckBox)
             Me.OptionsGroupBox.Location = New System.Drawing.Point(6, 202)
             Me.OptionsGroupBox.Name = "OptionsGroupBox"
-            Me.OptionsGroupBox.Size = New System.Drawing.Size(258, 43)
+            Me.OptionsGroupBox.Size = New System.Drawing.Size(258, 60)
             Me.OptionsGroupBox.TabIndex = 3
             Me.OptionsGroupBox.TabStop = False
             Me.OptionsGroupBox.Text = "Options"
@@ -446,6 +448,17 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.AutotaggedToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.AutotaggedToolStripMenuItem.Text = "Auto-tagged"
             '
+            'ForceListasCheckbox
+            '
+            Me.ForceListasCheckbox.AutoSize = True
+            Me.ForceListasCheckbox.Location = New System.Drawing.Point(6, 37)
+            Me.ForceListasCheckbox.Name = "ForceListasCheckbox"
+            Me.ForceListasCheckbox.Size = New System.Drawing.Size(112, 17)
+            Me.ForceListasCheckbox.TabIndex = 6
+            Me.ForceListasCheckbox.Text = "Always add listas="
+            Me.ToolTip1.SetToolTip(Me.ForceListasCheckbox, "Adds a listas parameter even if there are no other changes")
+            Me.ForceListasCheckbox.UseVisualStyleBackColor = True
+            '
             'WPBiographySettings
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -516,6 +529,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Friend WithEvents MusiciansToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents ScienceAcademiaToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents SportsGamesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+        Friend WithEvents ForceListasCheckbox As System.Windows.Forms.CheckBox
 
     End Class
 End Namespace
