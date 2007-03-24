@@ -49,30 +49,37 @@ namespace AWBUpdater
 
         private void updateAWB()
         {
-			lblCurrentTask.Text = "";
+            lblCurrentTask.Text = "Getting Current AWB and Updater Versions";
             AWBversion();
-			
-            Application.DoEvents();
-			
+			Application.DoEvents();
+
+            lblCurrentTask.Text = "Creating a Temporary Directory";
             createTempDir();
+            lblCurrentTask.Text = "Downloading AWB";
             getAWBFromInternet();
-			
-            Application.DoEvents();
-			
+			Application.DoEvents();
+
+            lblCurrentTask.Text = "Unzipping AWB to the Temporary Directory";
             unzipAWB();
-			
-            Application.DoEvents();
+			Application.DoEvents();
 			
             MessageBox.Show("Please save your settings (if you wish) and close AutoWikiBrowser completely before pressing OK.");
+
+            lblCurrentTask.Text = "Making Sure AWB is Closed";
             closeAWB();
+            lblCurrentTask.Text = "Deleting old AWB Files";
             deleteOldFiles();
+            lblCurrentTask.Text = "Copying AWB Files from temp. Directory to AWB Directory";
             copyFiles();
             MessageBox.Show("AWB Update Successful", "Update Sucessful");
-			
             Application.DoEvents();
+
+            lblCurrentTask.Text = "Starting AWB";
             startAWB();
+
+            lblCurrentTask.Text = "Cleaning up from Update";
             killTempDir();
-			
+
             Application.DoEvents();
             Application.Exit();
         }
@@ -148,7 +155,6 @@ namespace AWBUpdater
                 Directory.CreateDirectory(tempDirectory);
 
             progressUpdate.Value = 35;
-            lblCurrentTask.Text = "";
         }
 
         private void getAWBFromInternet()
@@ -158,20 +164,15 @@ namespace AWBUpdater
             Client.DownloadFile(AWBWebAddress, tempDirectory + AWBZipName);
 
             if (UpdaterWebAddress != "")
-            {
                 Client.DownloadFile(UpdaterWebAddress, tempDirectory + UpdaterZipName);
-            }
 
             Client.Dispose();
 
             progressUpdate.Value = 50;
-            lblCurrentTask.Text = "";
         }
 
         private void unzipAWB()
-        {            
-            //zipHelper.ExtractZipFile(tempDirectory + AWBZipName, tempDirectory);
-            
+        {                      
             using (ZipFile zf = new ZipFile(tempDirectory + AWBZipName))
 			{
 				foreach ( ZipEntry entry in zf )
@@ -194,7 +195,6 @@ namespace AWBUpdater
             }
             
             progressUpdate.Value = 70;
-            lblCurrentTask.Text = "";
         }
 
         private void ExtractFile(Stream inputStream, ZipEntry theEntry, string targetDir)
@@ -253,12 +253,16 @@ namespace AWBUpdater
                         AWBOpen = true;
                         MessageBox.Show("Please save your settings (if you wish) and close AutoWikiBrowser completely before pressing OK.");
                     }
+                    else if(p.ProcessName = "IRCMonitor")
+                    {
+                        AWBOpen = true;
+                        MessageBox.Show("Please save your settings (if you wish) and close IRCMonitor completely before pressing OK.");
+                    }
                 }
             }
             while (AWBOpen == true);
 
             progressUpdate.Value = 75;
-            lblCurrentTask.Text = "";
         }
 
         private void deleteOldFiles()
@@ -282,7 +286,6 @@ namespace AWBUpdater
             if (File.Exists(AWBdirectory + "Plugins\\Kingbotk (WikiProject tagging)\\WikiFunctions2.dll")) File.Delete(AWBdirectory + "Plugins\\Kingbotk (WikiProject tagging)\\WikiFunctions2.dll");
 
             progressUpdate.Value = 80;
-            lblCurrentTask.Text = "";
         }
 
         private void copyFiles()
@@ -327,7 +330,6 @@ namespace AWBUpdater
             }
                         
             progressUpdate.Value = 90;
-            lblCurrentTask.Text = "";
         }
 
         private void startAWB()
@@ -335,7 +337,6 @@ namespace AWBUpdater
             System.Diagnostics.Process.Start(AWBdirectory + "AutoWikiBrowser.exe");
 
             progressUpdate.Value = 95;
-            lblCurrentTask.Text = "";
         }
 
         private void killTempDir()
@@ -343,7 +344,6 @@ namespace AWBUpdater
             Directory.Delete(tempDirectory, true);
 
             progressUpdate.Value = 100;
-            lblCurrentTask.Text = "";
         }
 
         private void tmrTimer_Tick(object sender, EventArgs e)
