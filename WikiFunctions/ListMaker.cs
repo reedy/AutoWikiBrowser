@@ -400,7 +400,7 @@ namespace WikiFunctions.Lists
 
         private void txtSelectSource_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if ((e.KeyChar == '\r') && (!txtSelectSource.Multiline))
+            if (e.KeyChar == '\r')
             {
                 e.Handled = true;
                 btnMakeList.PerformClick();
