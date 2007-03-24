@@ -498,7 +498,7 @@ namespace AutoWikiBrowser
                     return false;
                 }
 
-                if (HTML.Contains("<H1 class=firstHeading>View source</H1>"))
+                if (HTML.Contains("readonly='readonly'>"))
                 {
                     if (Variables.User.IsAdmin)
                     {
