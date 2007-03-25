@@ -423,8 +423,8 @@ namespace WikiFunctions.Lists
             specialFilterToolStripMenuItem.Enabled = boolEnabled;
             selectAllToolStripMenuItem.Enabled = boolEnabled;
             selectNoneToolStripMenuItem.Enabled = boolEnabled;
-            copyToolStripMenuItem.Enabled = boolEnabled;
-            cutToolStripMenuItem.Enabled = boolEnabled;
+            copyToolStripMenuItem.Enabled = lbArticles.SelectedItems.Count == 1;
+            cutToolStripMenuItem.Enabled = lbArticles.SelectedItems.Count == 1;
 
             openInBrowserToolStripMenuItem.Enabled = lbArticles.SelectedItems.Count == 1;
         }
