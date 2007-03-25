@@ -50,6 +50,7 @@ namespace WikiFunctions.Plugin
         StatusStrip StatusStrip { get; }
         NotifyIcon NotifyIcon { get; }
         ToolStripMenuItem HelpToolStripMenuItem { get; }
+        Boolean SkipNonExistentPages { get; set; }
         void NotifyBalloon(string Message, ToolTipIcon Icon);
     }
 

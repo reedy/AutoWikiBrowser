@@ -2792,6 +2792,10 @@ namespace AutoWikiBrowser
         ComboBox IAWBMainForm.EditSummary { get { return cmboEditSummary; } }
         StatusStrip IAWBMainForm.StatusStrip { get { return statusStrip1; } }
         NotifyIcon IAWBMainForm.NotifyIcon { get { return ntfyTray; } }
+        Boolean IAWBMainForm.SkipNonExistentPages {
+            get { return chkSkipNonExistent.Checked; }
+            set { chkSkipNonExistent.Checked = value; }
+        }
         ToolStripMenuItem IAWBMainForm.HelpToolStripMenuItem { get { return helpToolStripMenuItem; } }
 
         private void btnRemove_Click(object sender, EventArgs e)
