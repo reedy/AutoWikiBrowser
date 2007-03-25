@@ -114,6 +114,7 @@ namespace AutoWikiBrowser
                 listMaker1.BusyStateChanged += SetProgressBar;
                 listMaker1.NoOfArticlesChanged += UpdateButtons;
                 listMaker1.StatusTextChanged += UpdateListStatus;
+                Text = "AutoWikiBrowser - Default.xml";
             }
             catch (Exception ex)
             {
