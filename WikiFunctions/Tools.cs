@@ -164,12 +164,23 @@ namespace WikiFunctions
 
         /// <summary>
         /// Returns Category key from article name e.g. "David Smith" returns "Smith, David".
+        /// special case: "John Doe, Jr." turns into "Doe, Jonn Jr."
         /// </summary>
         public static string MakeHumanCatKey(string Name)
         {
             string OrigName = Name;
 
-            Name = Regex.Replace(Name, "\\(.*?\\)$", "").Trim();
+            Name = Regex.Replace(Name, @"\(.*?\)$", "").Trim();
+
+            string Suffix = "";
+            int pos = Name.IndexOf(',');
+
+            // ruwiki has "Lastname, Firstname Patronymic" convention
+            if(pos >= 0 && Variables.LangCode != LangCodeEnum.ru)
+            {
+                Suffix = Name.Substring(pos + 1).Trim();
+                Name = Name.Substring(0, pos);
+            }
 
             if (!Name.Contains(" "))
                 return RemoveNamespaceString(OrigName);
@@ -179,7 +190,7 @@ namespace WikiFunctions
             Name = Name.Remove(intLast);
             Name = RemoveNamespaceString(Name);
 
-            Name = LastName + ", " + Name.Trim();
+            Name = (LastName + ", " + Name.Trim() + " " + Suffix).Trim();
 
             return Name;
         }
