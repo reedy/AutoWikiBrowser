@@ -35,6 +35,7 @@ namespace WikiFunctions
             this.btnClear = new System.Windows.Forms.Button();
             this.btnReset = new System.Windows.Forms.Button();
             this.chkIgnoreUnformatted = new System.Windows.Forms.CheckBox();
+            this.chkUseExpandTemplates = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -54,7 +55,7 @@ namespace WikiFunctions
             this.textBoxTemplates.Location = new System.Drawing.Point(12, 25);
             this.textBoxTemplates.Multiline = true;
             this.textBoxTemplates.Name = "textBoxTemplates";
-            this.textBoxTemplates.Size = new System.Drawing.Size(386, 184);
+            this.textBoxTemplates.Size = new System.Drawing.Size(386, 161);
             this.textBoxTemplates.TabIndex = 1;
             // 
             // btnCancel
@@ -104,18 +105,29 @@ namespace WikiFunctions
             // chkIgnoreUnformatted
             // 
             this.chkIgnoreUnformatted.AutoSize = true;
-            this.chkIgnoreUnformatted.Location = new System.Drawing.Point(15, 215);
+            this.chkIgnoreUnformatted.Location = new System.Drawing.Point(15, 192);
             this.chkIgnoreUnformatted.Name = "chkIgnoreUnformatted";
             this.chkIgnoreUnformatted.Size = new System.Drawing.Size(321, 17);
             this.chkIgnoreUnformatted.TabIndex = 6;
             this.chkIgnoreUnformatted.Text = "Ignore external/interwiki links, images, nowiki, math and <!-- -->";
             this.chkIgnoreUnformatted.UseVisualStyleBackColor = true;
             // 
+            // chkUseExpandTemplates
+            // 
+            this.chkUseExpandTemplates.AutoSize = true;
+            this.chkUseExpandTemplates.Location = new System.Drawing.Point(15, 215);
+            this.chkUseExpandTemplates.Name = "chkUseExpandTemplates";
+            this.chkUseExpandTemplates.Size = new System.Drawing.Size(171, 17);
+            this.chkUseExpandTemplates.TabIndex = 7;
+            this.chkUseExpandTemplates.Text = "Use Special:ExpandTemplates";
+            this.chkUseExpandTemplates.UseVisualStyleBackColor = true;
+            // 
             // SubstTemplates
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(410, 270);
+            this.Controls.Add(this.chkUseExpandTemplates);
             this.Controls.Add(this.chkIgnoreUnformatted);
             this.Controls.Add(this.btnReset);
             this.Controls.Add(this.btnClear);
@@ -141,5 +153,6 @@ namespace WikiFunctions
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.CheckBox chkIgnoreUnformatted;
+        private System.Windows.Forms.CheckBox chkUseExpandTemplates;
     }
 }

@@ -6,6 +6,9 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using System.Web;
+using System.Net;
+using System.IO;
 
 namespace WikiFunctions
 {
@@ -80,18 +83,54 @@ namespace WikiFunctions
             textBoxTemplates.Lines = TemplateList;
         }
 
-        public string SubstituteTemplates(string ArticleText)
+        private string ExpandTemplate(string ArticleText, string ArticleTitle)
+        {
+            foreach (KeyValuePair<Regex, string> p in Regexes)
+            {
+                MatchCollection uses = p.Key.Matches(ArticleText);
+                foreach (Match m in uses)
+                {
+                    string Call = m.Value;
+
+                    WebClient wc = new WebClient();
+                    Uri expandUri = new Uri("http://en.wikipedia.org/wiki/Special:ExpandTemplates?contexttitle=" + ArticleTitle + "&input=" + Call + "&removecomments=1");
+                    wc.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+                    wc.Headers.Add("User-agent", "DotNetWikiBot/1.0");
+
+                    string respStr = wc.DownloadString(expandUri);
+
+                    int resultstart = respStr.IndexOf("readonly=\"readonly\">") + 20;
+                    int resultend = respStr.IndexOf("</textarea", resultstart);
+                    string result = respStr.Substring(resultstart, resultend - resultstart);
+                    WikiFunctions.Parse.Parsers parsers = new WikiFunctions.Parse.Parsers();
+                    bool SkipArticle;
+                    result = parsers.Unicodify(result, out SkipArticle);
+
+                    ArticleText = ArticleText.Replace(Call, result);
+
+                }
+            }
+
+            return ArticleText;
+        }
+
+        public string SubstituteTemplates(string ArticleText, string ArticleTitle)
         {
             if (chkIgnoreUnformatted.Checked)
                 ArticleText = RemoveUnformatted.HideUnformatted(ArticleText);
-            foreach (KeyValuePair<Regex, string> p in Regexes)
+            if (!chkUseExpandTemplates.Checked)
             {
-                ArticleText = p.Key.Replace(ArticleText, p.Value);
+                foreach (KeyValuePair<Regex, string> p in Regexes)
+                {
+                    ArticleText = p.Key.Replace(ArticleText, p.Value);
+                }
             }
+            else
+                ArticleText = ExpandTemplate(ArticleText, ArticleTitle);
 
             if (chkIgnoreUnformatted.Checked)
                 ArticleText = RemoveUnformatted.AddBackUnformatted(ArticleText);
-
+            
             return ArticleText;
         }
     }

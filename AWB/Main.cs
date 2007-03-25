@@ -872,10 +872,11 @@ namespace AutoWikiBrowser
 
         private string PerformFindAndReplace(string articleText, out bool SkipArticle)
         {
+            string articleTitle = EdittingArticle.Name;
             string testText = articleText;
             articleText = findAndReplace.MultipleFindAndReplce(articleText, EdittingArticle.Name, ref EdittingArticle.EditSummary);
             articleText = replaceSpecial.ApplyRules(articleText, EdittingArticle.Name);
-            articleText = substTemplates.SubstituteTemplates(articleText);
+            articleText = substTemplates.SubstituteTemplates(articleText, articleTitle);
 
             if (chkSkipWhenNoFAR.Checked && (testText == articleText))
             {
