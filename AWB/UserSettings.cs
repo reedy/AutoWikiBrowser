@@ -24,6 +24,7 @@ namespace AutoWikiBrowser
             if ((! System.IO.File.Exists(settingsfilename)) || MessageBox.Show("Replace existing file?", "File exists",
             MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1)==DialogResult.Yes)
                 SavePrefs(settingsfilename);
+
         }
 
         private void loadSettingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -160,7 +161,7 @@ namespace AutoWikiBrowser
             }
 
             cModule.ModuleEnabled = false;
-
+            this.Text = "AutoWikiBrowser = Default.xml";
             lblStatusText.Text = "Default settings loaded.";
         }
 
@@ -1008,7 +1009,11 @@ namespace AutoWikiBrowser
                     XmlSerializer xs = new XmlSerializer(typeof(UserPrefs), types.ToArray());
                     xs.Serialize(fStream, P);
                     UpdateRecentList(Path);
+                    LoadPrefs(P);
+                    SettingsFile = " - " + Path.Remove(0, Path.LastIndexOf("\\") + 1);
+                    this.Text = "AutoWikiBrowser" + SettingsFile;
                 }
+                
             }
             catch (Exception ex)
             {
