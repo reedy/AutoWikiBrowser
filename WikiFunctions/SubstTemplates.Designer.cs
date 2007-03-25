@@ -115,6 +115,8 @@ namespace WikiFunctions
             // chkUseExpandTemplates
             // 
             this.chkUseExpandTemplates.AutoSize = true;
+            this.chkUseExpandTemplates.Checked = true;
+            this.chkUseExpandTemplates.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkUseExpandTemplates.Location = new System.Drawing.Point(15, 215);
             this.chkUseExpandTemplates.Name = "chkUseExpandTemplates";
             this.chkUseExpandTemplates.Size = new System.Drawing.Size(171, 17);
