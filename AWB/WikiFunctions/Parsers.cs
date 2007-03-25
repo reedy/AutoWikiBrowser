@@ -1136,7 +1136,7 @@ namespace WikiFunctions.Parse
         public string SubstUserTemplates(string TalkPageText)
         {
             TalkPageText = Regex.Replace(TalkPageText, "\\{\\{(template:)?(welcome[0-6]?|welcomeip|anon|welcome-anon)\\}\\}", "{{subst:$2}}", RegexOptions.IgnoreCase);
-            TalkPageText = Regex.Replace(TalkPageText, "\\{\\{(template:)?((~|~~~~|3RR(3|4|5|5-multi)?|Advert[1-5]?|Adw(note)?|Afd(-warn|Note|Warning)|Agf[0-3]?|Anon vandal|Article(Concern|" +
+            string legacyWarnings = "\\{\\{(template:)?((~|~~~~|3RR(3|4|5|5-multi)?|Advert[1-5]?|Adw(note)?|Afd(-warn|Note|Warning)|Agf[0-3]?|Anon vandal|Article(Concern|" +
                 "Discussion|Result)|Artc?d?r?|Attack(-warn|pg-warn)?|Autobio-warn|Bad(cat|fairuse|" +
                 "nom)|Behave|Bl(ank)?(ing)?(1|2|3|4|4alt|own)?|Blatant ?(spam|vandal(ism)?|officialpolicyvandal)?|" +
                 "Blocked ?user|BLP removal|Blp[012]|Bs(r-user)?|Bv2?|C&pmove|Canvass?|Cite sources|Comment([0-4]|" +
@@ -1148,7 +1148,7 @@ namespace WikiFunctions.Parse
                 "Fuir|Funnybut|Fwarn|General spam note|GFDL-presumed-notify|Grammar1|Horn|Idw(-cp|-multi|-noncom|-pui|-sd|-uo)?|" + 
                 "Image( copyright( request)?| source| source copyright| fairuse rationale|1|2|3|4|ow3)|Insertimage4|" + 
                 "InvalidAIV|Is|Italicize|Joke[23]?|Ladnav|Lang[0-4]|Longterm4im|Mess[12]|Minor( edits)?|Missing rationale( short)?|" + 
-                "Mos(0|2|3|dab)|Movepages|MP[1-4]|MSW|MultipleIPs?|Name your images|NC[02]?|" + 
+                "Mos([0-3]|dab)|Movepages|MP[1-4]|MSW|MultipleIPs?|Name your images|NC[02]?|" + 
                 "Needsource2?|Newvoterip|Nn-(notice|test|warn|warn-deletion|warn-reason|warn2)|No article|No fair|" + 
                 "No nonsense|No personal comments|Nocontent-(notice|warn)|Nofairuse|NoIPbots|Non-admin fwarn|Noncom-warn|Nononsense|Nonsensepages|" + 
                 "Noprotection|Nor2?|Not censored( 2)?|Notchat|Notenglish0|Nothanks(-add|-afc|" + 
@@ -1165,7 +1165,8 @@ namespace WikiFunctions.Parse
                 "y ?warning)|Username(-Warn|Allowed|Concern|Discussion|Notice)|Userpage warning|" + 
                 "Usrcvtext|Vand(3|al-? ?block|al-?only|alism-? ?only)(account)?|Vandal[12]?|Vanity2?(page)?|VCRW|Vd[12]|Verror(-m|-mn|1|2|3|4|4im)|Vww?[1-4]?|" + 
                 "Warn|WarningsUsage|Welcome(4a|5|mos|npov|Shout|spam|" + 
-                "vandal)|What-image-source|Whitelist request processed|Wrong version|Wrongsummary[123])(-n)?(\\|.*?)?)\\}\\}", "{{subst:$2}}", RegexOptions.IgnoreCase);
+                "vandal)|What-image-source|Whitelist request processed|Wrong version|Wrongsummary[123])(-n)?(\\|.*?)?)\\}\\}";
+            TalkPageText = Regex.Replace(TalkPageText, legacyWarnings.Replace(" ", "[ _]"), "{{subst:$2}}", RegexOptions.IgnoreCase);
             TalkPageText = Regex.Replace(TalkPageText, "\\{\\{(template:)?(Uw-(4|2redirect|3rr[1-4]?|advert1|afd[1-4]?|agf[1-3]?|" + 
                 "aiv|autobiography|b[1-4]|biog[1-4]?|blatantvandal|block(ed)[1-3]?|bv|chat[1-4]?|cia[1-4]|copyright[1-4]creat(e|ion)[1-4]?|d[1-4]|dblock|defamatory[1-4](im)?|" + 
                 "del(ete)[1-4]?(im)?|english|error[1-4]?|hoax|image[1-4]?(im)?|joke[1-4]?|legal[1-3]?|longterm|m1|maintenance[12]|" + 
