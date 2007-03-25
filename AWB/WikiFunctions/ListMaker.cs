@@ -1048,12 +1048,25 @@ namespace WikiFunctions.Lists
 
         private void ctrl_c()
         {
-            Clipboard.SetDataObject(lbArticles.SelectedItem.ToString(), true);
+            //Clipboard.SetDataObject(lbArticles.SelectedItem.ToString(), true);
+            string ClipboardData = "";
+            for (int i = 0; i < lbArticles.SelectedItems.Count; i++)
+            {
+                ClipboardData = ClipboardData + "\r\n" + lbArticles.SelectedItems[i];
+            }
+            ClipboardData = ClipboardData.Substring(2);
+            Clipboard.SetDataObject(ClipboardData, true);
         }
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Add(Clipboard.GetDataObject().GetData(DataFormats.Text).ToString());
+            string TextTBA = Clipboard.GetDataObject().GetData(DataFormats.Text).ToString();
+            string[] splitTextTBA = TextTBA.Split();
+            foreach (string entry in splitTextTBA)
+            {
+                if (entry != "")
+                    Add(entry);
+            }
         }
 
         private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
