@@ -1154,7 +1154,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         /// <param name="TalPageText">The wiki text of the talk page.</param>
         /// <returns>The new text.</returns>
-        public string SubstUserTemplates(string TalkPageText)
+        public string SubstUserTemplates(string TalkPageText, string TalkPageTitle)
         {
             TalkPageText = Regex.Replace(TalkPageText, "\\{\\{(template:)?(welcome[0-6]?|welcomeip|anon|welcome-anon)\\}\\}", "{{subst:$2}}", RegexOptions.IgnoreCase);
             string legacyWarnings = "\\{\\{(template:)?((~|~~~~|3RR(3|4|5|5-multi)?|Advert[1-5]?|Adw(note)?|Afd(-warn|Note|Warning)|Agf[0-3]?|Anon vandal|Article(Concern|" +
@@ -1187,14 +1187,19 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 "Usrcvtext|Vand(3|al-? ?block|al-?only|alism-? ?only)(account)?|Vandal[12]?|Vanity2?(page)?|VCRW|Vd[12]|Verror(-m|-mn|1|2|3|4|4im)|Vww?[1-4]?|" + 
                 "Warn|WarningsUsage|Welcome(4a|5|mos|npov|Shout|spam|" + 
                 "vandal)|What-image-source|Whitelist request processed|Wrong version|Wrongsummary[123])(-n)?(\\|.*?)?)\\}\\}";
-            TalkPageText = Regex.Replace(TalkPageText, legacyWarnings.Replace(" ", "[ _]"), "{{subst:$2}}", RegexOptions.IgnoreCase);
-            TalkPageText = Regex.Replace(TalkPageText, "\\{\\{(template:)?(Uw-(4|2redirect|3rr[1-4]?|advert1|afd[1-4]?|agf[1-3]?|" + 
-                "aiv|autobiography|b[1-4]|biog[1-4]?|blatantvandal|block(ed)[1-3]?|bv|chat[1-4]?|cia[1-4]|copyright[1-4]creat(e|ion)[1-4]?|d[1-4]|dblock|defamatory[1-4](im)?|" + 
-                "del(ete)[1-4]?(im)?|english|error[1-4]?|hoax|image[1-4]?(im)?|joke[1-4]?|legal[1-3]?|longterm|m1|maintenance[12]|" + 
+            //TalkPageText = Regex.Replace(TalkPageText, legacyWarnings.Replace(" ", "[ _]"), "{{subst:$2}}", RegexOptions.IgnoreCase);
+            Dictionary<Regex, string> Regexes = new Dictionary<Regex,string>();
+            string newWarnings = "\\{\\{(template:)?(Uw-(4|2redirect|3rr[1-4]?|advert1|afd[1-4]?|agf[1-3]?|" +
+                "aiv|autobiography|b[1-4]|biog[1-4]?|blatantvandal|block(ed)[1-3]?|bv|chat[1-4]?|cia[1-4]|copyright[1-4]creat(e|ion)[1-4]?|d[1-4]|dblock|defamatory[1-4](im)?|" +
+                "del(ete)[1-4]?(im)?|english|error[1-4]?|hoax|image[1-4]?(im)?|joke[1-4]?|legal[1-3]?|longterm|m1|maintenance[12]|" +
                 "mos[1-4]?|move[1-4]?|notavandal|notcensored[1-3]?|notvote|npa[1-4]?(im)?|npov[1-4]?|o[1-3]|own[1-3]?|pinfo|racism|repost|" +
-                "roads1|s[1-4](im)?|sblock1?|selfrevert|spam[1-4]?(im)?|speedy[1-4]?|srv|t[1-3]|test[1-4]?(im)?|tpv[1-4]?|unsourced[1-4]?|upv[1-4]?|v[1-4]?(im)?|vand(al)?(ism)?[1-4]?(im)?|" + 
-                "vblock|warn)(\\|.*?)?)\\}\\}", "{{subst:$2|subst=subst:}}", RegexOptions.IgnoreCase);
+                "roads1|s[1-4](im)?|sblock1?|selfrevert|spam[1-4]?(im)?|speedy[1-4]?|srv|t[1-3]|test[1-4]?(im)?|tpv[1-4]?|unsourced[1-4]?|upv[1-4]?|v[1-4]?(im)?|vand(al)?(ism)?[1-4]?(im)?|" +
+                "vblock|warn)(\\|.*?)?)\\}\\}";
 
+            Regexes.Add(new Regex(legacyWarnings, RegexOptions.Compiled | RegexOptions.IgnoreCase), "{{subst:$2}}");
+            Regexes.Add(new Regex(newWarnings, RegexOptions.Compiled | RegexOptions.IgnoreCase), "{{subst:$2|subst=subst:}}");
+
+            TalkPageText = Tools.ExpandTemplate(TalkPageText, TalkPageTitle, Regexes);
             TalkPageText = Regex.Replace(TalkPageText, "\\{\\{\\{\\{\\{subst:(subst)?\\|\\}\\}\\}?#if:\\{\\{\\{(1|diff)\\|\\}\\}\\}\\|[^\\{]*?\\}\\}", "", RegexOptions.IgnoreCase);
             TalkPageText = Regex.Replace(TalkPageText, "\\{\\{\\{\\{\\{subst:(subst)?\\|\\}\\}\\}?#if:[^\\{\\|]*\\|([^\\{\\|]*?)\\}\\}", "$2", RegexOptions.IgnoreCase);
             TalkPageText = Regex.Replace(TalkPageText, " \\{\\{\\{2\\|\\}\\}\\}", "");

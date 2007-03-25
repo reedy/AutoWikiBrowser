@@ -825,7 +825,7 @@ namespace AutoWikiBrowser
                 else if (process && chkGeneralFixes.Checked && EdittingArticle.NameSpaceKey == 3)
                 {
                     articleText = RemoveText.Hide(articleText);
-                    articleText = parsers.SubstUserTemplates(articleText);
+                    articleText = parsers.SubstUserTemplates(articleText, EdittingArticle.Name);
                     articleText = RemoveText.AddBack(articleText);
                 }
 
