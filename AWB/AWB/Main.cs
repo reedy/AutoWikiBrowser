@@ -338,7 +338,8 @@ namespace AutoWikiBrowser
                     SkipPage();
                     return;
                 }
-
+                if (chkAutoMode.Checked)
+                    SaveTimer.Start();
                 //Navigate to edit page
                 webBrowserEdit.LoadEditPage(EdittingArticle.Name);
             }
@@ -499,6 +500,7 @@ namespace AutoWikiBrowser
                     }
                     else
                     {
+                        SaveTimer.Stop();
                         SkipPage();
                         return false;
                     }
@@ -507,6 +509,7 @@ namespace AutoWikiBrowser
                 if (!webBrowserEdit.GetLogInStatus())
                 {
                     Variables.User.LoggedIn = false;
+                    SaveTimer.Stop();
                     Start();
                     return false;
                 
@@ -514,6 +517,7 @@ namespace AutoWikiBrowser
 
                 if (webBrowserEdit.NewMessage)
                 {//check if we have any messages
+                    SaveTimer.Stop();
                     Variables.User.WikiStatus = false;
                     UpdateButtons();
                     webBrowserEdit.Document.Write("");
@@ -579,7 +583,7 @@ namespace AutoWikiBrowser
 
         private bool diffChecker(string strHTML)
         {//check diff to see if it should be skipped
-
+            
             if (!skippable || !chkSkipNoChanges.Checked || toolStripComboOnLoad.SelectedIndex != 0 || doNotAutomaticallyDoAnythingToolStripMenuItem.Checked)
                 return false;
 
@@ -601,6 +605,7 @@ namespace AutoWikiBrowser
             if (webBrowserEdit.Document.Body.InnerHtml.Contains("<H1 class=firstHeading>Edit conflict: "))
             {//if session data is lost, if data is lost then save after delay with tmrAutoSaveDelay
                 MessageBox.Show("There has been an Edit Conflict. AWB will now re-apply its changes on the updated page. \n\r Please re-review the changes before saving. Any Custom edits will be lost, and have to be re-added manually.", "Edit Conflict");
+                SaveTimer.Stop();
                 Start();
                 return;
             }
@@ -626,6 +631,7 @@ namespace AutoWikiBrowser
 
             LastArticle = "";
             listMaker1.Remove(EdittingArticle);
+            SaveTimer.Stop();
             Start();
         }
 
@@ -649,6 +655,7 @@ namespace AutoWikiBrowser
                 //reset timer.
                 NumberOfIgnoredEdits++;
                 stopDelayedAutoSaveTimer();
+                SaveTimer.Stop();
                 listMaker1.Remove(EdittingArticle);
                 Start();
             }
@@ -1096,6 +1103,8 @@ namespace AutoWikiBrowser
         {
             if (chkAutoMode.Checked)
             {
+                chkNudge.Enabled = true;
+                chkNudge.Checked = true;
                 chkQuickSave.Enabled = true;
                 nudBotSpeed.Enabled = true;
                 lblAutoDelay.Enabled = true;
@@ -1106,6 +1115,7 @@ namespace AutoWikiBrowser
             }
             else
             {
+                chkNudge.Enabled = false;
                 chkQuickSave.Enabled = false;
                 nudBotSpeed.Enabled = false;
                 lblAutoDelay.Enabled = false;
@@ -2149,6 +2159,7 @@ namespace AutoWikiBrowser
 
         private void Stop()
         {
+            SaveTimer.Stop();
             UpdateButtons();
             if (intTimer > 0)
             {//stop and reset the bot timer.
@@ -2823,6 +2834,17 @@ namespace AutoWikiBrowser
             }
             else
                 MessageBox.Show("Please select a link to remove either manually or by clicking a link in the list above.");
+        }
+
+        private void SaveTimer_Tick(object sender, EventArgs e)
+        {
+            //make sure there was no error and bot mode is still enabled
+            if (chkAutoMode.Checked)
+            {
+                SaveTimer.Stop();
+                Stop();
+                Start();
+            }
         }
     }
 }
