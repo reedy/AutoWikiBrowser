@@ -1199,7 +1199,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             Regexes.Add(new Regex(legacyWarnings, RegexOptions.Compiled | RegexOptions.IgnoreCase), "{{subst:$2}}");
             Regexes.Add(new Regex(newWarnings, RegexOptions.Compiled | RegexOptions.IgnoreCase), "{{subst:$2|subst=subst:}}");
 
-            TalkPageText = Tools.ExpandTemplate(TalkPageText, TalkPageTitle, Regexes, false);
+            TalkPageText = Tools.ExpandTemplate(TalkPageText, TalkPageTitle, Regexes, true);
             TalkPageText = Regex.Replace(TalkPageText, "\\{\\{\\{\\{\\{subst:(subst)?\\|\\}\\}\\}?#if:\\{\\{\\{(1|diff)\\|\\}\\}\\}\\|[^\\{]*?\\}\\}", "", RegexOptions.IgnoreCase);
             TalkPageText = Regex.Replace(TalkPageText, "\\{\\{\\{\\{\\{subst:(subst)?\\|\\}\\}\\}?#if:[^\\{\\|]*\\|([^\\{\\|]*?)\\}\\}", "$2", RegexOptions.IgnoreCase);
             TalkPageText = Regex.Replace(TalkPageText, " \\{\\{\\{2\\|\\}\\}\\}", "");

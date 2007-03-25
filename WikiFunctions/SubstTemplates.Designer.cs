@@ -36,6 +36,7 @@ namespace WikiFunctions
             this.btnReset = new System.Windows.Forms.Button();
             this.chkIgnoreUnformatted = new System.Windows.Forms.CheckBox();
             this.chkUseExpandTemplates = new System.Windows.Forms.CheckBox();
+            this.chkIncludeComment = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -123,12 +124,24 @@ namespace WikiFunctions
             this.chkUseExpandTemplates.TabIndex = 7;
             this.chkUseExpandTemplates.Text = "Use Special:ExpandTemplates";
             this.chkUseExpandTemplates.UseVisualStyleBackColor = true;
+            this.chkUseExpandTemplates.CheckedChanged += new System.EventHandler(this.chkUseExpandTemplates_CheckedChanged);
+            // 
+            // chkIncludeComment
+            // 
+            this.chkIncludeComment.AutoSize = true;
+            this.chkIncludeComment.Location = new System.Drawing.Point(192, 215);
+            this.chkIncludeComment.Name = "chkIncludeComment";
+            this.chkIncludeComment.Size = new System.Drawing.Size(201, 17);
+            this.chkIncludeComment.TabIndex = 8;
+            this.chkIncludeComment.Text = "Include comment with template name";
+            this.chkIncludeComment.UseVisualStyleBackColor = true;
             // 
             // SubstTemplates
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(410, 270);
+            this.Controls.Add(this.chkIncludeComment);
             this.Controls.Add(this.chkUseExpandTemplates);
             this.Controls.Add(this.chkIgnoreUnformatted);
             this.Controls.Add(this.btnReset);
@@ -156,5 +169,6 @@ namespace WikiFunctions
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.CheckBox chkIgnoreUnformatted;
         private System.Windows.Forms.CheckBox chkUseExpandTemplates;
+        private System.Windows.Forms.CheckBox chkIncludeComment;
     }
 }
