@@ -202,7 +202,7 @@ namespace WikiFunctions.Lists
             this.toolStripSeparator1,
             this.openInBrowserToolStripMenuItem});
             this.mnuListBox.Name = "contextMenuStrip2";
-            this.mnuListBox.Size = new System.Drawing.Size(209, 364);
+            this.mnuListBox.Size = new System.Drawing.Size(209, 386);
             this.mnuListBox.Opening += new System.ComponentModel.CancelEventHandler(this.mnuListBox_Opening);
             // 
             // filterOutNonMainSpaceArticlesToolStripMenuItem
@@ -370,7 +370,7 @@ namespace WikiFunctions.Lists
             // removeToolStripMenuItem
             // 
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Delete)));
+            this.removeToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
             this.removeToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.removeToolStripMenuItem.Text = "Remove";
             this.removeToolStripMenuItem.ToolTipText = "Remove the selected articles";
