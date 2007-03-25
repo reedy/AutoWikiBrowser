@@ -510,32 +510,36 @@ Message: {2}
             return HttpUtility.UrlEncode(title.Replace(' ', '_'));
         }
 
-        public static string ExpandTemplate(string ArticleText, string ArticleTitle, Dictionary<Regex, string> Regexes)
+        public static string ExpandTemplate(string ArticleText, string ArticleTitle, Dictionary<Regex, string> Regexes, bool removeComments)
         {
             foreach (KeyValuePair<Regex, string> p in Regexes)
             {
                 MatchCollection uses = p.Key.Matches(ArticleText);
-                foreach (Match m in uses)
-                {
-                    string Call = m.Value;
+                string comments = "1";
+                if (!removeComments)
+                   comments = "0";
 
-                    WebClient wc = new WebClient();
-                    Uri expandUri = new Uri("http://en.wikipedia.org/wiki/Special:ExpandTemplates?contexttitle=" + ArticleTitle + "&input=" + Call + "&removecomments=1");
-                    wc.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
-                    wc.Headers.Add("User-agent", "DotNetWikiBot/1.0");
+               foreach (Match m in uses)
+               {
+                   string Call = m.Value;
 
-                    string respStr = wc.DownloadString(expandUri);
+                   WebClient wc = new WebClient();
+                   Uri expandUri = new Uri("http://en.wikipedia.org/wiki/Special:ExpandTemplates?contexttitle=" + ArticleTitle + "&input=" + Call + "&removecomments="+comments);
+                   wc.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+                   wc.Headers.Add("User-agent", "DotNetWikiBot/1.0");
 
-                    int resultstart = respStr.IndexOf("readonly=\"readonly\">") + 20;
-                    int resultend = respStr.IndexOf("</textarea", resultstart);
-                    string result = respStr.Substring(resultstart, resultend - resultstart);
-                    WikiFunctions.Parse.Parsers parsers = new WikiFunctions.Parse.Parsers();
-                    bool SkipArticle;
-                    result = parsers.Unicodify(result, out SkipArticle);
+                   string respStr = wc.DownloadString(expandUri);
 
-                    ArticleText = ArticleText.Replace(Call, result);
+                   int resultstart = respStr.IndexOf("readonly=\"readonly\">") + 20;
+                   int resultend = respStr.IndexOf("</textarea", resultstart);
+                   string result = respStr.Substring(resultstart, resultend - resultstart);
+                   WikiFunctions.Parse.Parsers parsers = new WikiFunctions.Parse.Parsers();
+                   bool SkipArticle;
+                   result = parsers.Unicodify(result, out SkipArticle);
 
-                }
+                   ArticleText = ArticleText.Replace(Call, result);
+
+               }
             }
 
             return ArticleText;
