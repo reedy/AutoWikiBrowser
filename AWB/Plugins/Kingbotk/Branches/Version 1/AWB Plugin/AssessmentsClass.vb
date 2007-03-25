@@ -130,8 +130,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
             State.blnNextArticleShouldBeTalk = True
         End Sub
         Friend Function ProcessTalkPage(ByVal TheArticle As Article, _
-        ByVal PluginSettings As PluginSettingsControl, ByVal ActivePlugins As List(Of PluginBase), _
-        ByVal Manager As PluginManager, ByVal ReqPhoto As Boolean) As Boolean
+        ByVal PluginSettings As PluginSettingsControl, ByVal Manager As PluginManager, _
+        ByVal ReqPhoto As Boolean) As Boolean
 
             If Not State.blnNextArticleShouldBeTalk Then
                 IsThisABug("an article")
@@ -157,7 +157,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
                            "Photo needed: Template already present, no action taken", conMe, True)
                     End If
 
-                    For Each p As PluginBase In ActivePlugins
+                    For Each p As PluginBase In PluginManager.ActivePlugins
                         p.ProcessTalkPage(TheArticle, State.Classification, State.Importance, State.NeedsInfobox, _
                            State.NeedsAttention, True, PluginBase.ProcessTalkPageMode.ManualAssessment, _
                            ReqPhoto OrElse State.NeedsPhoto)

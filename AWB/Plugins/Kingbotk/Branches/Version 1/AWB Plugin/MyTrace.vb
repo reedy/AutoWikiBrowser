@@ -7,7 +7,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Inherits TraceManager
 
         Private WithEvents LoggingSettings As PluginLogging
-        Private ActivePlugins As List(Of PluginBase)
         Private Shared LogFolder As String
         Private webcontrol As WikiFunctions.Browser.WebControl
         Private LoggedIn As Boolean, LoggedInUser As String
@@ -37,7 +36,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                         Uploader.LogIn(LoggingSettings.LoginDetails)
                         Application.DoEvents()
 
-                        Uploader.LogIt(Sender, .LogTitle, .WikifiedCategory, UploadTo, .LinksToLog(ActivePlugins), _
+                        Uploader.LogIt(Sender, .LogTitle, .WikifiedCategory, UploadTo, .LinksToLog(PluginManager.ActivePlugins), _
                         .UploadOpenInBrowser, .UploadAddToWatchlist, PluginManager.UserName, _
                         "*" & PluginManager.conWikiPlugin & " version " & PluginLogging.Props.PluginVersion & _
                         Microsoft.VisualBasic.vbCrLf & "*[[WP:AWB|AWB]] version " & _
@@ -429,10 +428,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             End Sub
         End Class
 
-        Public Sub New(ByVal pActivePlugins As List(Of PluginBase))
-            MyBase.new()
-            ActivePlugins = pActivePlugins
-        End Sub
         Friend WriteOnly Property LS() As PluginLogging
             Set(ByVal value As PluginLogging)
                 LoggingSettings = value
