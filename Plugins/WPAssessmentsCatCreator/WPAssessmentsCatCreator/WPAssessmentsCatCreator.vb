@@ -18,8 +18,6 @@
 ' department. It was thrown together as quickly as possible and doesn't represent
 ' the usual coding standard of the author(s)!
 
-Imports Microsoft.VisualBasic.Interaction ' yes yes I know, I said this was quick and dirty :)
-
 Namespace AutoWikiBrowser.Plugins.SDKSoftware.WPAssessmentsCatCreator
     Public NotInheritable Class WPAssessmentsCatCreator
         Implements IAWBPlugin
@@ -30,13 +28,25 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.WPAssessmentsCatCreator
 
         ' Menu item:
         Private Const conOurName As String = "WPAssessmentsCatCreator"
-        Private Shared WithEvents OurMenuItem As New ToolStripMenuItem(conOurName & "Plugin")
+        Private WithEvents OurMenuItem As New ToolStripMenuItem(conOurName & "Plugin")
 
-        ' User input:
+        ' User input and state:
         Private WikiProjectName As String, TemplateName As String, ArticleType As String, ParentCat As String
+        Private WeAreRunning As Boolean
 
         ' Regex:
         Private CatRegex As Regex
+
+        ' Enum:
+        Private Enum Mode As Byte
+            Classif
+            Importance
+            Priority
+            Comments
+            ArticlesByQ
+            ArticlesByI
+            ArticlesByP
+        End Enum
 
         ' AWB interface:
         Public Event Diff() Implements WikiFunctions.Plugin.IAWBPlugin.Diff
@@ -54,9 +64,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.WPAssessmentsCatCreator
             ' Store object references:
             AWBForm = DirectCast(frm, IAWBMainForm)
             AWBList = list
-
-            ' Get notification of the user clicking Start:
-            AddHandler AWBForm.StartButton.Click, AddressOf StartButtonClickHandler
 
             ' Add our menu item:
             With OurMenuItem
@@ -76,42 +83,98 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.WPAssessmentsCatCreator
         ByVal [Namespace] As Integer, ByRef Summary As String, ByRef Skip As Boolean) As String _
         Implements WikiFunctions.Plugin.IAWBPlugin.ProcessArticle
 
-            ' a regex with capture groups would be better
-            If OurMenuItem.Checked Then
+            If WeAreRunning Then
+                If AWBList.Count <= 1 Then WeAreRunning = False
+
                 With CatRegex.Match(ArticleTitle)
-                    If Not .Groups("class").Captures(0).ToString = "" Then
-                        MessageBox.Show(.Groups("class").Captures(0).ToString)
+                    If .Groups("class").Success Then
+                        Return CategoryText(Mode.Classif, .Groups("class").Captures(0).ToString)
+                    ElseIf .Groups("importance").Success Then
+                        If .Groups("imppri").Captures(0).ToString = "importance" Then
+                            Return CategoryText(Mode.Importance, .Groups("importance").Captures(0).ToString)
+                        Else
+                            Return CategoryText(Mode.Priority, .Groups("importance").Captures(0).ToString)
+                        End If
+                    ElseIf .Groups("art").Success Then
+                        Return CategoryText(Mode.ArticlesByQ, .Groups("art").Captures(0).ToString)
+                    ElseIf .Groups("byimp").Success Then
+                        Return CategoryText(Mode.ArticlesByI, .Groups("byimp").Captures(0).ToString)
+                    ElseIf .Groups("bypri").Success Then
+                        Return CategoryText(Mode.ArticlesByP, .Groups("bypri").Captures(0).ToString)
+                    ElseIf .Groups("comments").Success Then
+                        Return CategoryText(Mode.Comments, .Groups("comments").Captures(0).ToString)
+                    Else
+                        Throw New ApplicationException("Unexpected page title. Probable fault in plugin")
                     End If
                 End With
-
-                Throw New ApplicationException("Unexpected page title. Probable fault in plugin")
-
-                Return ArticleText
             Else : Return ArticleText
             End If
         End Function
 
         ' Private routines:
+        Private Function CategoryText(ByVal Mode As Mode, ByVal Argument As String) As String
+            CategoryText = "This category contains articles that are supported by '''[[" & WikiProjectName & _
+               "]]'''. Articles are automatically added to this category based on parameters in the {{tl|" & _
+               TemplateName & "}} template." & vbCrLf & vbCrLf & "{{WP1|" & ArticleType & "}}" & vbCrLf & _
+               "{{CategoryTOC}}" & _
+               vbCrLf & vbCrLf
+
+            Select Case Mode
+                Case WPAssessmentsCatCreator.Mode.Classif, WPAssessmentsCatCreator.Mode.Comments
+                    CategoryText = CategoryText & "[[" & ArticlesByQuality & "]]" & vbCrLf
+
+                    If Mode = WPAssessmentsCatCreator.Mode.Classif Then
+                        CategoryText = CategoryText & "[[Category:" & Argument & "-Class articles]]"
+                    End If
+
+                Case WPAssessmentsCatCreator.Mode.Importance
+                    CategoryText = CategoryText & "[[" & ArticlesByImportance & "]]" & vbCrLf & _
+                       "[[Category:" & Argument & "-importance articles]]"
+
+                Case WPAssessmentsCatCreator.Mode.Priority
+                    CategoryText = CategoryText & "[[" & ArticlesByPriority & "]]" & vbCrLf & _
+                       "[[Category:" & Argument & "-priority articles]]"
+
+                Case Else
+                    CategoryText = CategoryText & "[[Category:" & ParentCat & "|*]]" & vbCrLf & _
+                       "[[Category:Wikipedia 1.0 assessments]]"
+            End Select
+
+        End Function
         Private Sub AddImportanceCats(ByVal Importance As Boolean)
             Dim ImpPri As String
 
             If Importance Then
                 ImpPri = "importance"
-                AWBList.Add("Category:" & ArticleType & " articles by importance")
+                AWBList.Add(ArticlesByImportance)
             Else
                 ImpPri = "priority"
-                AWBList.Add("Category:" & ArticleType & " articles by priority")
+                AWBList.Add(ArticlesByPriority)
             End If
 
             For Each str2 As String In New String() {"Top", "High", "Mid", "Low", "Unknown"}
                 AWBList.Add("Category:" & str2 & "-" & ImpPri & " " & ArticleType & " articles")
             Next
         End Sub
+        Private ReadOnly Property ArticlesByQuality() As String
+            Get
+                Return "Category:" & ArticleType & " articles by quality"
+            End Get
+        End Property
+        Private ReadOnly Property ArticlesByImportance() As String
+            Get
+                Return "Category:" & ArticleType & " articles by importance"
+            End Get
+        End Property
+        Private ReadOnly Property ArticlesByPriority() As String
+            Get
+                Return "Category:" & ArticleType & " articles by priority"
+            End Get
+        End Property
 
         ' Event handlers:
-        Private Sub StartButtonClickHandler(ByVal sender As Object, ByVal e As EventArgs)
-            If Not OurMenuItem.Checked Then Exit Sub
-
+        Private Sub OurMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) _
+        Handles OurMenuItem.Click
             RaiseEvent Stop()
             AWBForm.StopButton.PerformClick()
 
@@ -120,6 +183,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.WPAssessmentsCatCreator
                 "The article list is not empty. To empty it and proceed, hit OK. Otherwise, hit Cancel", _
                 "Article list not empty", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation, _
                 MessageBoxDefaultButton.Button2) = DialogResult.OK Then
+                    WeAreRunning = True
                     AWBList.Clear()
                 Else
                     Exit Sub
@@ -132,10 +196,10 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.WPAssessmentsCatCreator
                "assessment categories. It should not be run with automated edits switched on, and all " & _
                "edits should be reviewed. Other plugins should be switched off.", "Let's start", _
                MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1) _
-               = DialogResult.Cancel Then Exit Sub
+               = DialogResult.Cancel Then GoTo ExitMeEarly
 
             WikiProjectName = InputBox("Enter the name of the WikiProject page, for example " & _
-               "Wikipedia:WikiProject The Beatles" & Microsoft.VisualBasic.vbCrLf & Microsoft.VisualBasic.vbCrLf & _
+               "Wikipedia:WikiProject The Beatles" & vbCrLf & vbCrLf & _
                "You may use a piped name if you wish", "WikiProject Name", "Wikipedia:WikiProject").Trim
 
             TemplateName = Regex.Replace(InputBox( _
@@ -143,7 +207,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.WPAssessmentsCatCreator
                "^template:", "", RegexOptions.IgnoreCase)
 
             ArticleType = InputBox("Enter the name of your article type so we can build the " & _
-               "categories" & Microsoft.VisualBasic.vbCrLf & Microsoft.VisualBasic.vbCrLf & _
+               "categories" & vbCrLf & vbCrLf & _
                "For example, to build categories like ""FA-Class biography articles"" enter ""biography""" & _
                "(without the quotes)", "Article subject type").Trim
 
@@ -151,35 +215,40 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.WPAssessmentsCatCreator
                 AWBList.Add("Category:" & str & "-Class " & ArticleType & " articles")
             Next
             AWBList.Add("Category:" & ArticleType & " articles with comments")
-            AWBList.Add("Category:" & ArticleType & " articles by quality")
+            AWBList.Add(ArticlesByQuality)
 
             If MessageBox.Show("Does your WikiProject track priority or importance?", "Priority/importance", _
             MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-                Select Case (MessageBox.Show("Do you use importance=?" & Microsoft.VisualBasic.vbCrLf & _
-                Microsoft.VisualBasic.vbCrLf & "Hit yes for importance, no for priority, cancel to exit", _
+                Select Case (MessageBox.Show("Do you use importance=?" & vbCrLf & _
+                vbCrLf & "Hit yes for importance, no for priority, cancel to exit", _
                 "Importance/priority", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question))
                     Case DialogResult.Yes
                         AddImportanceCats(True)
                     Case DialogResult.No
                         AddImportanceCats(False)
                     Case DialogResult.Cancel
-                        Exit Sub
+                        GoTo ExitMeEarly
                 End Select
             End If
 
             ParentCat = Regex.Replace(InputBox("What's the name of the parent category for the by quality/by " & _
-               "priority categories?" & Microsoft.VisualBasic.vbCrLf & Microsoft.VisualBasic.vbCrLf & _
-               "Example: Category:Military work group articles").Trim, "^category:", "", RegexOptions.IgnoreCase)
+               "priority categories?" & vbCrLf & vbCrLf & "Example: Category:Military work group articles").Trim, _
+               "^category:", "", RegexOptions.IgnoreCase)
 
-            AWBList.Add("Category:" & ParentCat)
-
-            CatRegex = New Regex("^Category:((?<class>[A-Z]*)-Class .* articles|(?<ParentCat>" & _
-               Regex.Escape(ParentCat) & ")|(?<comments>" & Regex.Escape(ArticleType) & " articles with comments)" & _
+            CatRegex = New Regex("^Category:((?<class>[A-Za-z]*)-Class .* articles|(?<comments>" & _
+               Regex.Escape(ArticleType) & " articles with comments)" & _
                "|(?<importance>[a-zA-Z]*)-(?<imppri>priority|importance)" & _
                "|(.*(?<art>by quality)|(?<byimp>by importance)|(?<bypri>by priority)$))", _
                RegexOptions.ExplicitCapture)
 
             RaiseEvent Start()
+
+ExitMe:
+            Exit Sub
+
+ExitMeEarly:
+            AWBList.Clear()
+            WeAreRunning = False
         End Sub
 
         ' Do nothing:
