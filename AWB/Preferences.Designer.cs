@@ -46,13 +46,14 @@ namespace AutoWikiBrowser
             this.label6 = new System.Windows.Forms.Label();
             this.txtCustomProject = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.chkSaveArticleList = new System.Windows.Forms.CheckBox();
             this.chkMinimize = new System.Windows.Forms.CheckBox();
             this.chkBeep = new System.Windows.Forms.CheckBox();
             this.chkFlash = new System.Windows.Forms.CheckBox();
             this.chkLowPriority = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.fontDialog = new System.Windows.Forms.FontDialog();
-            this.chkSaveArticleList = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.nudDiffFontSize)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -112,12 +113,13 @@ namespace AutoWikiBrowser
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 23);
+            this.label3.Location = new System.Drawing.Point(6, 25);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(284, 26);
+            this.label3.Size = new System.Drawing.Size(290, 26);
             this.label3.TabIndex = 5;
-            this.label3.Text = "Warning! for languages and projects other than the English\r\n wikipedia this softw" +
-                "are may not function properly.";
+            this.label3.Text = "Warning!  For languages and projects other than the English\r\n wikipedia this soft" +
+                "ware may not function properly.";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // btnTextBoxFont
             // 
@@ -236,6 +238,7 @@ namespace AutoWikiBrowser
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.chkSaveArticleList);
             this.groupBox2.Controls.Add(this.chkMinimize);
             this.groupBox2.Controls.Add(this.chkBeep);
@@ -254,10 +257,22 @@ namespace AutoWikiBrowser
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Other";
             // 
+            // chkSaveArticleList
+            // 
+            this.chkSaveArticleList.AutoSize = true;
+            this.chkSaveArticleList.Checked = true;
+            this.chkSaveArticleList.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkSaveArticleList.Location = new System.Drawing.Point(6, 125);
+            this.chkSaveArticleList.Name = "chkSaveArticleList";
+            this.chkSaveArticleList.Size = new System.Drawing.Size(177, 17);
+            this.chkSaveArticleList.TabIndex = 18;
+            this.chkSaveArticleList.Text = "Save article list on save settings";
+            this.chkSaveArticleList.UseVisualStyleBackColor = true;
+            // 
             // chkMinimize
             // 
             this.chkMinimize.AutoSize = true;
-            this.chkMinimize.Location = new System.Drawing.Point(150, 125);
+            this.chkMinimize.Location = new System.Drawing.Point(123, 102);
             this.chkMinimize.Name = "chkMinimize";
             this.chkMinimize.Size = new System.Drawing.Size(133, 17);
             this.chkMinimize.TabIndex = 17;
@@ -269,7 +284,7 @@ namespace AutoWikiBrowser
             this.chkBeep.AutoSize = true;
             this.chkBeep.Checked = true;
             this.chkBeep.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkBeep.Location = new System.Drawing.Point(63, 125);
+            this.chkBeep.Location = new System.Drawing.Point(180, 149);
             this.chkBeep.Name = "chkBeep";
             this.chkBeep.Size = new System.Drawing.Size(51, 17);
             this.chkBeep.TabIndex = 16;
@@ -281,7 +296,7 @@ namespace AutoWikiBrowser
             this.chkFlash.AutoSize = true;
             this.chkFlash.Checked = true;
             this.chkFlash.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkFlash.Location = new System.Drawing.Point(6, 125);
+            this.chkFlash.Location = new System.Drawing.Point(123, 149);
             this.chkFlash.Name = "chkFlash";
             this.chkFlash.Size = new System.Drawing.Size(51, 17);
             this.chkFlash.TabIndex = 15;
@@ -307,17 +322,14 @@ namespace AutoWikiBrowser
             this.label5.TabIndex = 12;
             this.label5.Text = "%";
             // 
-            // chkSaveArticleList
+            // label1
             // 
-            this.chkSaveArticleList.AutoSize = true;
-            this.chkSaveArticleList.Checked = true;
-            this.chkSaveArticleList.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSaveArticleList.Location = new System.Drawing.Point(6, 148);
-            this.chkSaveArticleList.Name = "chkSaveArticleList";
-            this.chkSaveArticleList.Size = new System.Drawing.Size(97, 17);
-            this.chkSaveArticleList.TabIndex = 18;
-            this.chkSaveArticleList.Text = "Save article list";
-            this.chkSaveArticleList.UseVisualStyleBackColor = true;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 150);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(106, 13);
+            this.label1.TabIndex = 19;
+            this.label1.Text = "When ready to save:";
             // 
             // MyPreferences
             // 
@@ -368,5 +380,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkFlash;
         private System.Windows.Forms.CheckBox chkMinimize;
         private System.Windows.Forms.CheckBox chkSaveArticleList;
+        private System.Windows.Forms.Label label1;
     }
 }
