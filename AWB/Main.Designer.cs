@@ -225,6 +225,7 @@ namespace AutoWikiBrowser
             this.txtImageReplace = new System.Windows.Forms.TextBox();
             this.cmboImages = new System.Windows.Forms.ComboBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.chkNudge = new System.Windows.Forms.CheckBox();
             this.chkSuppressTag = new System.Windows.Forms.CheckBox();
             this.chkAutoMode = new System.Windows.Forms.CheckBox();
             this.lblAutoDelay = new System.Windows.Forms.Label();
@@ -291,6 +292,7 @@ namespace AutoWikiBrowser
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
+            this.SaveTimer = new System.Windows.Forms.Timer(this.components);
             this.groupBox2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.mnuTextBox.SuspendLayout();
@@ -1398,11 +1400,11 @@ namespace AutoWikiBrowser
             // txtAppendMessage
             // 
             this.txtAppendMessage.Enabled = false;
-            this.txtAppendMessage.Location = new System.Drawing.Point(6, 39);
+            this.txtAppendMessage.Location = new System.Drawing.Point(6, 38);
             this.txtAppendMessage.Multiline = true;
             this.txtAppendMessage.Name = "txtAppendMessage";
             this.txtAppendMessage.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtAppendMessage.Size = new System.Drawing.Size(251, 41);
+            this.txtAppendMessage.Size = new System.Drawing.Size(251, 35);
             this.txtAppendMessage.TabIndex = 1;
             this.toolTip1.SetToolTip(this.txtAppendMessage, "Message, including title in wiki format");
             // 
@@ -1472,7 +1474,7 @@ namespace AutoWikiBrowser
             // 
             this.chkQuickSave.AutoSize = true;
             this.chkQuickSave.Enabled = false;
-            this.chkQuickSave.Location = new System.Drawing.Point(9, 44);
+            this.chkQuickSave.Location = new System.Drawing.Point(9, 40);
             this.chkQuickSave.Name = "chkQuickSave";
             this.chkQuickSave.Size = new System.Drawing.Size(80, 17);
             this.chkQuickSave.TabIndex = 27;
@@ -1896,7 +1898,7 @@ namespace AutoWikiBrowser
             this.ImageGroupBox.Controls.Add(this.txtImageWith);
             this.ImageGroupBox.Controls.Add(this.txtImageReplace);
             this.ImageGroupBox.Controls.Add(this.cmboImages);
-            this.ImageGroupBox.Location = new System.Drawing.Point(9, 176);
+            this.ImageGroupBox.Location = new System.Drawing.Point(9, 182);
             this.ImageGroupBox.Name = "ImageGroupBox";
             this.ImageGroupBox.Size = new System.Drawing.Size(263, 69);
             this.ImageGroupBox.TabIndex = 27;
@@ -1947,23 +1949,35 @@ namespace AutoWikiBrowser
             // 
             // groupBox7
             // 
+            this.groupBox7.Controls.Add(this.chkNudge);
             this.groupBox7.Controls.Add(this.chkSuppressTag);
             this.groupBox7.Controls.Add(this.chkQuickSave);
             this.groupBox7.Controls.Add(this.chkAutoMode);
             this.groupBox7.Controls.Add(this.nudBotSpeed);
             this.groupBox7.Controls.Add(this.lblAutoDelay);
-            this.groupBox7.Location = new System.Drawing.Point(9, 103);
+            this.groupBox7.Location = new System.Drawing.Point(9, 93);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(263, 67);
+            this.groupBox7.Size = new System.Drawing.Size(263, 83);
             this.groupBox7.TabIndex = 26;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Auto mode (for approved bots)";
+            // 
+            // chkNudge
+            // 
+            this.chkNudge.AutoSize = true;
+            this.chkNudge.Enabled = false;
+            this.chkNudge.Location = new System.Drawing.Point(103, 40);
+            this.chkNudge.Name = "chkNudge";
+            this.chkNudge.Size = new System.Drawing.Size(155, 17);
+            this.chkNudge.TabIndex = 29;
+            this.chkNudge.Text = "Resave after 1 min. if stuck";
+            this.chkNudge.UseVisualStyleBackColor = true;
             // 
             // chkSuppressTag
             // 
             this.chkSuppressTag.AutoSize = true;
             this.chkSuppressTag.Enabled = false;
-            this.chkSuppressTag.Location = new System.Drawing.Point(103, 44);
+            this.chkSuppressTag.Location = new System.Drawing.Point(9, 60);
             this.chkSuppressTag.Name = "chkSuppressTag";
             this.chkSuppressTag.Size = new System.Drawing.Size(136, 17);
             this.chkSuppressTag.TabIndex = 28;
@@ -2000,7 +2014,7 @@ namespace AutoWikiBrowser
             this.groupBox4.Controls.Add(this.txtAppendMessage);
             this.groupBox4.Location = new System.Drawing.Point(9, 6);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(263, 91);
+            this.groupBox4.Size = new System.Drawing.Size(263, 81);
             this.groupBox4.TabIndex = 7;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Append/Prepend text";
@@ -2011,7 +2025,7 @@ namespace AutoWikiBrowser
             this.groupBox5.Controls.Add(this.label1);
             this.groupBox5.Controls.Add(this.cmboCategorise);
             this.groupBox5.Controls.Add(this.txtNewCategory);
-            this.groupBox5.Location = new System.Drawing.Point(6, 251);
+            this.groupBox5.Location = new System.Drawing.Point(6, 255);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(266, 71);
             this.groupBox5.TabIndex = 16;
@@ -2678,6 +2692,11 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
             this.webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
             // 
+            // SaveTimer
+            // 
+            this.SaveTimer.Interval = 60000;
+            this.SaveTimer.Tick += new System.EventHandler(this.SaveTimer_Tick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2998,6 +3017,8 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator20;
         private System.Windows.Forms.ToolStripMenuItem openSelectionInBrowserToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ignoreNoBotsToolStripMenuItem;
+        private System.Windows.Forms.Timer SaveTimer;
+        private System.Windows.Forms.CheckBox chkNudge;
 
 
     }
