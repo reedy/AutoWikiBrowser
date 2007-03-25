@@ -486,32 +486,42 @@ namespace WikiFunctions.Parse
             string b = "";
             string k = "";
 
-            foreach (Match m in WikiRegexes.PipedWikiLink.Matches(ArticleText))
+            try
             {
-                n = m.Value;
-                a = m.Groups[1].Value;
-                b = m.Groups[2].Value;
+                foreach (Match m in WikiRegexes.PipedWikiLink.Matches(ArticleText))
+                {
+                    n = m.Value;
+                    a = m.Groups[1].Value;
+                    b = m.Groups[2].Value;
 
-                if (a == b || Tools.TurnFirstToLower(a) == b)
-                {
-                    k = WikiRegexes.PipedWikiLink.Replace(n, "[[$2]]");
-                    ArticleText = ArticleText.Replace(n, k);
-                }
-                else if (Tools.TurnFirstToLower(b).StartsWith(Tools.TurnFirstToLower(a), StringComparison.Ordinal))
-                {
-                    bool DoBreak = false;
-                    foreach (char ch in b.Remove(0, a.Length))
+                    if (b.Trim() == "") continue;
+
+                    if (a == b || Tools.TurnFirstToLower(a) == b)
                     {
-                        if (!char.IsLetterOrDigit(ch))
-                        {
-                            DoBreak = true;
-                            break;
-                        }
+                        k = WikiRegexes.PipedWikiLink.Replace(n, "[[$2]]");
+                        ArticleText = ArticleText.Replace(n, k);
                     }
-                    if (DoBreak) continue;
-                    k = "[[" + b.Substring(0, a.Length) + "]]" + b.Substring(a.Length);
-                    ArticleText = ArticleText.Replace(n, k);
+                    else if (Tools.TurnFirstToLower(b).StartsWith(Tools.TurnFirstToLower(a), StringComparison.Ordinal))
+                    {
+                        bool DoBreak = false;
+                        foreach (char ch in b.Remove(0, a.Length))
+                        {
+                            if (!char.IsLetterOrDigit(ch))
+                            {
+                                DoBreak = true;
+                                break;
+                            }
+                        }
+                        if (DoBreak) continue;
+                        k = "[[" + b.Substring(0, a.Length) + "]]" + b.Substring(a.Length);
+                        ArticleText = ArticleText.Replace(n, k);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message + @"
+a='" + a + "',  b='" + b + "'", "SimplifyLinks error");
             }
 
             return ArticleText;
@@ -525,22 +535,33 @@ namespace WikiFunctions.Parse
         /// <returns>Processed wikitext</returns>
         public string StickyLinks(string ArticleText)
         {
-            foreach (Match m in WikiRegexes.PipedWikiLink.Matches(ArticleText))
+            string a = "", b = "";
+            try
             {
-                string a = m.Groups[1].Value;
-                string b = m.Groups[2].Value;
-
-                if(Tools.TurnFirstToLower(a).StartsWith(Tools.TurnFirstToLower(b)))
+                foreach (Match m in WikiRegexes.PipedWikiLink.Matches(ArticleText))
                 {
-                    bool HasSpace = a[b.Length] == ' ';
-                    string search = @"\[\[" + Regex.Escape(a) + @"\|" + Regex.Escape(b) +
-                        @"\]\]" + (HasSpace ? "[ ]+" : "") + Regex.Escape(a.Remove(0, 
-                        b.Length + (HasSpace ? 1 : 0))) + @"\b";
+                    a = m.Groups[1].Value;
+                    b = m.Groups[2].Value;
 
-                    //first char should be capitalized like in the visible part of the link
-                    a = a.Remove(0, 1).Insert(0, b[0] + "");
-                    ArticleText = Regex.Replace(ArticleText, search, "[[" + a + @"]]");
+                    if (b.Trim() == "") continue;
+
+                    if (Tools.TurnFirstToLower(a).StartsWith(Tools.TurnFirstToLower(b), StringComparison.Ordinal))
+                    {
+                        bool HasSpace = a[b.Length] == ' ';
+                        string search = @"\[\[" + Regex.Escape(a) + @"\|" + Regex.Escape(b) +
+                            @"\]\]" + (HasSpace ? "[ ]+" : "") + Regex.Escape(a.Remove(0,
+                            b.Length + (HasSpace ? 1 : 0))) + @"\b";
+
+                        //first char should be capitalized like in the visible part of the link
+                        a = a.Remove(0, 1).Insert(0, b[0] + "");
+                        ArticleText = Regex.Replace(ArticleText, search, "[[" + a + @"]]");
+                    }
                 }
+            }
+            catch(Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message + @"
+a='" + a + "',  b='" + b + "'", "StickyLinks error");
             }
 
             return ArticleText;
