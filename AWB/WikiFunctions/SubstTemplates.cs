@@ -95,13 +95,20 @@ namespace WikiFunctions
                 }
             }
             else
-                ArticleText = Tools.ExpandTemplate(ArticleText, ArticleTitle, Regexes, true);
-            //Is it worth making "Remove Comments" an option for the end user?
+                ArticleText = Tools.ExpandTemplate(ArticleText, ArticleTitle, Regexes, chkIncludeComment.Checked);
 
             if (chkIgnoreUnformatted.Checked)
                 ArticleText = RemoveUnformatted.AddBackUnformatted(ArticleText);
-
+            
             return ArticleText;
+        }
+
+        private void chkUseExpandTemplates_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkUseExpandTemplates.Checked)
+                chkIncludeComment.Enabled = true;
+            else
+                chkIncludeComment.Enabled = false;
         }
     }
 }
