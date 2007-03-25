@@ -190,26 +190,16 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Private Sub CategoryTextBox_TextChanged(ByVal sender As Object, ByVal e As EventArgs) Handles CategoryTextBox.TextChanged
             LoggingSettings.WeHaveUnappliedChanges()
         End Sub
+        Private Sub btnStart_EnabledChanged(ByVal sender As Object, ByVal e As System.EventArgs) _
+        Handles btnStart.EnabledChanged
+            If DirectCast(sender, Button).Enabled Then PluginManager.TestSkipNonExistingPages()
+        End Sub
 
         ' Event handlers - AWB components (some additionally double-handled in Plugin Manager):
         Friend Sub AWBButtonsEnabledHandler(ByVal sender As Object, ByVal e As EventArgs)
             Dim btn As Button = DirectCast(sender, Button)
-            Static WeCheckedSkipNonExistingPages As Boolean = False
 
             DirectCast(Me.AWBGroupBox.Controls(btn.Name), Button).Enabled = btn.Enabled
-
-            If btn.Enabled AndAlso Not WeCheckedSkipNonExistingPages Then
-                WeCheckedSkipNonExistingPages = True
-                If PluginManager.AWBForm.SkipNonExistentPages AndAlso MessageBox.Show( _
-                "The skip non existent pages checkbox is checked. This is not optimal for WikiProject tagging " & _
-                "as AWB will skip red-link talk pages. Please note that you will not receive this warning " & _
-                "again during this session, even if you load settings which have that box checked." & _
-                Microsoft.VisualBasic.vbCrLf & Microsoft.VisualBasic.vbCrLf & _
-                "Would you like the plugin to change this setting to false?", "Skip Non Existent Pages", _
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) = DialogResult.Yes Then
-                    PluginManager.AWBForm.SkipNonExistentPages = False
-                End If
-            End If
         End Sub
         Friend Sub AWBSkipButtonClickEventHandler(ByVal sender As Object, ByVal e As EventArgs) _
         Handles btnIgnore.Click
@@ -442,7 +432,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             End Sub
         End Class
 
-        Public Sub New(ByVal txt As TextBox, ByVal chk As CheckBox, ByVal ActivePlugins As List(Of PluginBase))
+        Public Sub New(ByVal txt As TextBox, ByVal chk As CheckBox)
 
             ' This call is required by the Windows Form Designer.
             InitializeComponent()
@@ -454,7 +444,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             txtEdit = txt
             chkBotMode = chk
 
-            MyTrace = New MyTrace(ActivePlugins)
+            MyTrace = New MyTrace()
             LoggingSettings = New PluginLogging(MyTrace, CategoryTextBox)
             MyTrace.LS = LoggingSettings
         End Sub
