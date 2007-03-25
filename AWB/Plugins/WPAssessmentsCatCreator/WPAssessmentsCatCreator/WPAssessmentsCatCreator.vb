@@ -32,7 +32,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.WPAssessmentsCatCreator
 
         ' User input and state:
         Private WikiProjectName As String, TemplateName As String, ArticleType As String, ParentCat As String
-        Private WeAreRunning As Boolean
+        Private WP1 As String, WeAreRunning As Boolean
 
         ' Regex:
         Private CatRegex As Regex
@@ -88,26 +88,29 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.WPAssessmentsCatCreator
 
                 With CatRegex.Match(ArticleTitle)
                     If .Groups("class").Success Then
-                        Return CategoryText(Mode.Classif, .Groups("class").Captures(0).ToString)
+                        ProcessArticle = CategoryText(Mode.Classif, .Groups("class").Captures(0).ToString)
                     ElseIf .Groups("importance").Success Then
                         If .Groups("imppri").Captures(0).ToString = "importance" Then
-                            Return CategoryText(Mode.Importance, .Groups("importance").Captures(0).ToString)
+                            ProcessArticle = CategoryText(Mode.Importance, .Groups("importance").Captures(0).ToString)
                         Else
-                            Return CategoryText(Mode.Priority, .Groups("importance").Captures(0).ToString)
+                            ProcessArticle = CategoryText(Mode.Priority, .Groups("importance").Captures(0).ToString)
                         End If
                     ElseIf .Groups("art").Success Then
-                        Return CategoryText(Mode.ArticlesByQ, .Groups("art").Captures(0).ToString)
+                        ProcessArticle = CategoryText(Mode.ArticlesByQ, .Groups("art").Captures(0).ToString)
                     ElseIf .Groups("byimp").Success Then
-                        Return CategoryText(Mode.ArticlesByI, .Groups("byimp").Captures(0).ToString)
+                        ProcessArticle = CategoryText(Mode.ArticlesByI, .Groups("byimp").Captures(0).ToString)
                     ElseIf .Groups("bypri").Success Then
-                        Return CategoryText(Mode.ArticlesByP, .Groups("bypri").Captures(0).ToString)
+                        ProcessArticle = CategoryText(Mode.ArticlesByP, .Groups("bypri").Captures(0).ToString)
                     ElseIf .Groups("comments").Success Then
-                        Return CategoryText(Mode.Comments, .Groups("comments").Captures(0).ToString)
+                        ProcessArticle = CategoryText(Mode.Comments, .Groups("comments").Captures(0).ToString)
                     Else
                         Throw New ApplicationException("Unexpected page title. Probable fault in plugin")
                     End If
                 End With
-            Else : Return ArticleText
+
+                Summary = "Configuring WikiProject assessments category with alpha [[User:Kingboyk/CP|plugin]]"
+            Else
+                ProcessArticle = ArticleText
             End If
         End Function
 
@@ -115,8 +118,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.WPAssessmentsCatCreator
         Private Function CategoryText(ByVal Mode As Mode, ByVal Argument As String) As String
             CategoryText = "This category contains articles that are supported by '''[[" & WikiProjectName & _
                "]]'''. Articles are automatically added to this category based on parameters in the {{tl|" & _
-               TemplateName & "}} template." & vbCrLf & vbCrLf & "{{WP1|" & ArticleType & "}}" & vbCrLf & _
-               "{{CategoryTOC}}" & _
+               TemplateName & "}} template." & vbCrLf & vbCrLf & WP1 & vbCrLf & "{{CategoryTOC}}" & _
                vbCrLf & vbCrLf
 
             Select Case Mode
@@ -133,7 +135,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.WPAssessmentsCatCreator
 
                 Case WPAssessmentsCatCreator.Mode.Priority
                     CategoryText = CategoryText & "[[" & ArticlesByPriority & "]]" & vbCrLf & _
-                       "[[Category:" & Argument & "-priority articles]]"
+                       "[[Category:" & Argument & "-importance articles]]"
 
                 Case Else
                     CategoryText = CategoryText & "[[Category:" & ParentCat & "|*]]" & vbCrLf & _
@@ -171,6 +173,11 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.WPAssessmentsCatCreator
                 Return "Category:" & ArticleType & " articles by priority"
             End Get
         End Property
+        Private ReadOnly Property GetCapitalisedArticleType() As String
+            Get
+                Return ArticleType.Substring(0, 1).ToUpper & ArticleType.Substring(1)
+            End Get
+        End Property
 
         ' Event handlers:
         Private Sub OurMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) _
@@ -185,6 +192,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.WPAssessmentsCatCreator
                 MessageBoxDefaultButton.Button2) = DialogResult.OK Then
                     WeAreRunning = True
                     AWBList.Clear()
+                    AWBForm.EditSummary.Text = ""
                 Else
                     Exit Sub
                 End If
@@ -201,15 +209,20 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.WPAssessmentsCatCreator
             WikiProjectName = InputBox("Enter the name of the WikiProject page, for example " & _
                "Wikipedia:WikiProject The Beatles" & vbCrLf & vbCrLf & _
                "You may use a piped name if you wish", "WikiProject Name", "Wikipedia:WikiProject").Trim
+            If WikiProjectName = "" Then GoTo ExitMeEarly
 
             TemplateName = Regex.Replace(InputBox( _
                "Please enter the name of your project's template (without the template: prefix)", "Template").Trim, _
                "^template:", "", RegexOptions.IgnoreCase)
+            If TemplateName = "" Then GoTo ExitMeEarly
 
             ArticleType = InputBox("Enter the name of your article type so we can build the " & _
                "categories" & vbCrLf & vbCrLf & _
                "For example, to build categories like ""FA-Class biography articles"" enter ""biography""" & _
                "(without the quotes)", "Article subject type").Trim
+            If ArticleType = "" Then GoTo ExitMeEarly
+
+            WP1 = "{{WP1|" & GetCapitalisedArticleType & "}}"
 
             For Each str As String In New String() {"A", "B", "GA", "FA", "Start", "Stub", "Unassessed"}
                 AWBList.Add("Category:" & str & "-Class " & ArticleType & " articles")
@@ -235,10 +248,12 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.WPAssessmentsCatCreator
                "priority categories?" & vbCrLf & vbCrLf & "Example: Category:Military work group articles").Trim, _
                "^category:", "", RegexOptions.IgnoreCase)
 
+            If ParentCat = "" Then GoTo ExitMeEarly
+
             CatRegex = New Regex("^Category:((?<class>[A-Za-z]*)-Class .* articles|(?<comments>" & _
                Regex.Escape(ArticleType) & " articles with comments)" & _
                "|(?<importance>[a-zA-Z]*)-(?<imppri>priority|importance)" & _
-               "|(.*(?<art>by quality)|(?<byimp>by importance)|(?<bypri>by priority)$))", _
+               "|.*((?<art>by quality)|(?<byimp>by importance)|(?<bypri>by priority))$)", _
                RegexOptions.ExplicitCapture)
 
             RaiseEvent Start()
