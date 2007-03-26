@@ -91,6 +91,8 @@ namespace WikiFunctions.Browser
         /// </summary>
         private bool Watch;
 
+        private bool CanOverride;
+
         #endregion
 
         #region Properties
@@ -497,8 +499,11 @@ namespace WikiFunctions.Browser
             if (Watch1)
                 this.Document.GetElementById("wpWatchthis").SetAttribute("checked", "checked");
             else if (!Watch1)
+            {
                 this.Document.GetElementById("wpWatchthis").SetAttribute("checked", "");
-            Watch = Watch1;        
+                CanOverride = true;
+            }
+            Watch = Watch1;
         }
 
         /// <summary>
@@ -608,13 +613,11 @@ namespace WikiFunctions.Browser
 
             if (CanSave)
             {
-                AWBSettings.UserPrefs up = new WikiFunctions.AWBSettings.UserPrefs();
-
                 this.AllowNavigation = true;
                 ProcessStage = enumProcessStage.save;
                 Status = "Saving";
 
-                if (!Watch && up.Editprefs.OverrideWatchlist)
+                if (!Watch && CanOverride)
                 {
                     this.Document.GetElementById("wpWatchthis").SetAttribute("checked", "");
                 }
