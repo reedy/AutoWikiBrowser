@@ -38,6 +38,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.MilitaryCheckBox = New System.Windows.Forms.CheckBox
             Me.ArtsEntsCheckBox = New System.Windows.Forms.CheckBox
             Me.ForcePriorityParmCheckBox = New System.Windows.Forms.CheckBox
+            Me.ForceListasCheckbox = New System.Windows.Forms.CheckBox
             Me.OptionsGroupBox = New System.Windows.Forms.GroupBox
             Me.TipLabel = New System.Windows.Forms.Label
             Me.LinkLabel1 = New System.Windows.Forms.LinkLabel
@@ -67,7 +68,10 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.CoreArticleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.NonbiographyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.AutotaggedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.ForceListasCheckbox = New System.Windows.Forms.CheckBox
+            Me.BaronetsCheckBox = New System.Windows.Forms.CheckBox
+            Me.PeerageCheckBox = New System.Windows.Forms.CheckBox
+            Me.PeerageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.BaronetsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.ParametersGroup.SuspendLayout()
             Me.WorkgroupsGroupBox.SuspendLayout()
             Me.OptionsGroupBox.SuspendLayout()
@@ -145,6 +149,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             '
             'WorkgroupsGroupBox
             '
+            Me.WorkgroupsGroupBox.Controls.Add(Me.PeerageCheckBox)
+            Me.WorkgroupsGroupBox.Controls.Add(Me.BaronetsCheckBox)
             Me.WorkgroupsGroupBox.Controls.Add(Me.SportsCheckBox)
             Me.WorkgroupsGroupBox.Controls.Add(Me.MusiciansCheckBox)
             Me.WorkgroupsGroupBox.Controls.Add(Me.BritishRoyaltyCheckBox)
@@ -155,7 +161,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.WorkgroupsGroupBox.Controls.Add(Me.ArtsEntsCheckBox)
             Me.WorkgroupsGroupBox.Location = New System.Drawing.Point(135, 6)
             Me.WorkgroupsGroupBox.Name = "WorkgroupsGroupBox"
-            Me.WorkgroupsGroupBox.Size = New System.Drawing.Size(129, 192)
+            Me.WorkgroupsGroupBox.Size = New System.Drawing.Size(129, 223)
             Me.WorkgroupsGroupBox.TabIndex = 2
             Me.WorkgroupsGroupBox.TabStop = False
             Me.WorkgroupsGroupBox.Text = "Workgroups"
@@ -164,7 +170,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             'SportsCheckBox
             '
             Me.SportsCheckBox.AutoSize = True
-            Me.SportsCheckBox.Location = New System.Drawing.Point(6, 173)
+            Me.SportsCheckBox.Location = New System.Drawing.Point(6, 199)
             Me.SportsCheckBox.Name = "SportsCheckBox"
             Me.SportsCheckBox.Size = New System.Drawing.Size(94, 17)
             Me.SportsCheckBox.TabIndex = 9
@@ -175,7 +181,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             'MusiciansCheckBox
             '
             Me.MusiciansCheckBox.AutoSize = True
-            Me.MusiciansCheckBox.Location = New System.Drawing.Point(6, 63)
+            Me.MusiciansCheckBox.Location = New System.Drawing.Point(6, 79)
             Me.MusiciansCheckBox.Name = "MusiciansCheckBox"
             Me.MusiciansCheckBox.Size = New System.Drawing.Size(73, 17)
             Me.MusiciansCheckBox.TabIndex = 8
@@ -186,7 +192,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             'BritishRoyaltyCheckBox
             '
             Me.BritishRoyaltyCheckBox.AutoSize = True
-            Me.BritishRoyaltyCheckBox.Location = New System.Drawing.Point(6, 129)
+            Me.BritishRoyaltyCheckBox.Location = New System.Drawing.Point(6, 159)
             Me.BritishRoyaltyCheckBox.Name = "BritishRoyaltyCheckBox"
             Me.BritishRoyaltyCheckBox.Size = New System.Drawing.Size(92, 17)
             Me.BritishRoyaltyCheckBox.TabIndex = 6
@@ -197,7 +203,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             'PoliticianCheckBox
             '
             Me.PoliticianCheckBox.AutoSize = True
-            Me.PoliticianCheckBox.Location = New System.Drawing.Point(6, 85)
+            Me.PoliticianCheckBox.Location = New System.Drawing.Point(6, 119)
             Me.PoliticianCheckBox.Name = "PoliticianCheckBox"
             Me.PoliticianCheckBox.Size = New System.Drawing.Size(73, 17)
             Me.PoliticianCheckBox.TabIndex = 5
@@ -208,7 +214,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             'RoyaltyCheckBox
             '
             Me.RoyaltyCheckBox.AutoSize = True
-            Me.RoyaltyCheckBox.Location = New System.Drawing.Point(6, 107)
+            Me.RoyaltyCheckBox.Location = New System.Drawing.Point(6, 139)
             Me.RoyaltyCheckBox.Name = "RoyaltyCheckBox"
             Me.RoyaltyCheckBox.Size = New System.Drawing.Size(61, 17)
             Me.RoyaltyCheckBox.TabIndex = 4
@@ -219,7 +225,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             'ScienceAcademiaCheckBox
             '
             Me.ScienceAcademiaCheckBox.AutoSize = True
-            Me.ScienceAcademiaCheckBox.Location = New System.Drawing.Point(6, 151)
+            Me.ScienceAcademiaCheckBox.Location = New System.Drawing.Point(6, 179)
             Me.ScienceAcademiaCheckBox.Name = "ScienceAcademiaCheckBox"
             Me.ScienceAcademiaCheckBox.Size = New System.Drawing.Size(117, 17)
             Me.ScienceAcademiaCheckBox.TabIndex = 7
@@ -230,7 +236,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             'MilitaryCheckBox
             '
             Me.MilitaryCheckBox.AutoSize = True
-            Me.MilitaryCheckBox.Location = New System.Drawing.Point(6, 41)
+            Me.MilitaryCheckBox.Location = New System.Drawing.Point(6, 59)
             Me.MilitaryCheckBox.Name = "MilitaryCheckBox"
             Me.MilitaryCheckBox.Size = New System.Drawing.Size(58, 17)
             Me.MilitaryCheckBox.TabIndex = 3
@@ -261,11 +267,22 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                     "er changes")
             Me.ForcePriorityParmCheckBox.UseVisualStyleBackColor = True
             '
+            'ForceListasCheckbox
+            '
+            Me.ForceListasCheckbox.AutoSize = True
+            Me.ForceListasCheckbox.Location = New System.Drawing.Point(6, 37)
+            Me.ForceListasCheckbox.Name = "ForceListasCheckbox"
+            Me.ForceListasCheckbox.Size = New System.Drawing.Size(112, 17)
+            Me.ForceListasCheckbox.TabIndex = 6
+            Me.ForceListasCheckbox.Text = "Always add listas="
+            Me.ToolTip1.SetToolTip(Me.ForceListasCheckbox, "Adds a listas parameter even if there are no other changes")
+            Me.ForceListasCheckbox.UseVisualStyleBackColor = True
+            '
             'OptionsGroupBox
             '
             Me.OptionsGroupBox.Controls.Add(Me.ForceListasCheckbox)
             Me.OptionsGroupBox.Controls.Add(Me.ForcePriorityParmCheckBox)
-            Me.OptionsGroupBox.Location = New System.Drawing.Point(6, 202)
+            Me.OptionsGroupBox.Location = New System.Drawing.Point(6, 235)
             Me.OptionsGroupBox.Name = "OptionsGroupBox"
             Me.OptionsGroupBox.Size = New System.Drawing.Size(258, 60)
             Me.OptionsGroupBox.TabIndex = 3
@@ -275,7 +292,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             'TipLabel
             '
             Me.TipLabel.AutoSize = True
-            Me.TipLabel.Location = New System.Drawing.Point(9, 265)
+            Me.TipLabel.Location = New System.Drawing.Point(9, 298)
             Me.TipLabel.Name = "TipLabel"
             Me.TipLabel.Size = New System.Drawing.Size(255, 39)
             Me.TipLabel.TabIndex = 6
@@ -286,7 +303,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             'LinkLabel1
             '
             Me.LinkLabel1.AutoSize = True
-            Me.LinkLabel1.Location = New System.Drawing.Point(176, 314)
+            Me.LinkLabel1.Location = New System.Drawing.Point(9, 157)
             Me.LinkLabel1.Name = "LinkLabel1"
             Me.LinkLabel1.Size = New System.Drawing.Size(88, 13)
             Me.LinkLabel1.TabIndex = 7
@@ -297,13 +314,13 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             '
             Me.TextInsertContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem})
             Me.TextInsertContextMenuStrip.Name = "TextInsertContextMenuStrip"
-            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(139, 26)
+            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(153, 48)
             '
             'ToolStripMenuItem
             '
             Me.ToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.WPBiographyToolStripMenuItem, Me.ToolStripMenuItem3, Me.ToolStripSeparator2, Me.AttentionToolStripMenuItem, Me.InfoboxToolStripMenuItem, Me.ToolStripSeparator1, Me.CollabCandidateToolStripMenuItem, Me.PastCollabToolStripMenuItem, Me.PeerReviewToolStripMenuItem, Me.OldPeerReviewToolStripMenuItem, Me.ToolStripSeparator3, Me.LivingPersonToolStripMenuItem, Me.ActivePoliticianToolStripMenuItem, Me.CoreArticleToolStripMenuItem, Me.NonbiographyToolStripMenuItem, Me.AutotaggedToolStripMenuItem})
             Me.ToolStripMenuItem.Name = "ToolStripMenuItem"
-            Me.ToolStripMenuItem.Size = New System.Drawing.Size(138, 22)
+            Me.ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
             Me.ToolStripMenuItem.Text = "WPBiography"
             '
             'WPBiographyToolStripMenuItem
@@ -314,7 +331,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             '
             'ToolStripMenuItem3
             '
-            Me.ToolStripMenuItem3.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ArtsEntertainmentToolStripMenuItem, Me.BritishRoyaltyToolStripMenuItem, Me.MilitaryToolStripMenuItem, Me.MusiciansToolStripMenuItem, Me.PoliticsToolStripMenuItem, Me.RoyaltyToolStripMenuItem, Me.ScienceAcademiaToolStripMenuItem, Me.SportsGamesToolStripMenuItem})
+            Me.ToolStripMenuItem3.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ArtsEntertainmentToolStripMenuItem, Me.BaronetsToolStripMenuItem, Me.MilitaryToolStripMenuItem, Me.MusiciansToolStripMenuItem, Me.PeerageToolStripMenuItem, Me.PoliticsToolStripMenuItem, Me.RoyaltyToolStripMenuItem, Me.BritishRoyaltyToolStripMenuItem, Me.ScienceAcademiaToolStripMenuItem, Me.SportsGamesToolStripMenuItem})
             Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
             Me.ToolStripMenuItem3.Size = New System.Drawing.Size(187, 22)
             Me.ToolStripMenuItem3.Text = "Workgroups"
@@ -448,24 +465,47 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.AutotaggedToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.AutotaggedToolStripMenuItem.Text = "Auto-tagged"
             '
-            'ForceListasCheckbox
+            'BaronetsCheckBox
             '
-            Me.ForceListasCheckbox.AutoSize = True
-            Me.ForceListasCheckbox.Location = New System.Drawing.Point(6, 37)
-            Me.ForceListasCheckbox.Name = "ForceListasCheckbox"
-            Me.ForceListasCheckbox.Size = New System.Drawing.Size(112, 17)
-            Me.ForceListasCheckbox.TabIndex = 6
-            Me.ForceListasCheckbox.Text = "Always add listas="
-            Me.ToolTip1.SetToolTip(Me.ForceListasCheckbox, "Adds a listas parameter even if there are no other changes")
-            Me.ForceListasCheckbox.UseVisualStyleBackColor = True
+            Me.BaronetsCheckBox.AutoSize = True
+            Me.BaronetsCheckBox.Location = New System.Drawing.Point(6, 39)
+            Me.BaronetsCheckBox.Name = "BaronetsCheckBox"
+            Me.BaronetsCheckBox.Size = New System.Drawing.Size(68, 17)
+            Me.BaronetsCheckBox.TabIndex = 10
+            Me.BaronetsCheckBox.Text = "Baronets"
+            Me.ToolTip1.SetToolTip(Me.BaronetsCheckBox, "baronets-work-group=yes")
+            Me.BaronetsCheckBox.UseVisualStyleBackColor = True
+            '
+            'PeerageCheckBox
+            '
+            Me.PeerageCheckBox.AutoSize = True
+            Me.PeerageCheckBox.Location = New System.Drawing.Point(6, 99)
+            Me.PeerageCheckBox.Name = "PeerageCheckBox"
+            Me.PeerageCheckBox.Size = New System.Drawing.Size(66, 17)
+            Me.PeerageCheckBox.TabIndex = 11
+            Me.PeerageCheckBox.Text = "Peerage"
+            Me.ToolTip1.SetToolTip(Me.PeerageCheckBox, "peerage-work-group=yes")
+            Me.PeerageCheckBox.UseVisualStyleBackColor = True
+            '
+            'PeerageToolStripMenuItem
+            '
+            Me.PeerageToolStripMenuItem.Name = "PeerageToolStripMenuItem"
+            Me.PeerageToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
+            Me.PeerageToolStripMenuItem.Text = "Peerage"
+            '
+            'BaronetsToolStripMenuItem
+            '
+            Me.BaronetsToolStripMenuItem.Name = "BaronetsToolStripMenuItem"
+            Me.BaronetsToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
+            Me.BaronetsToolStripMenuItem.Text = "Baronets"
             '
             'WPBiographySettings
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-            Me.Controls.Add(Me.LinkLabel1)
-            Me.Controls.Add(Me.TipLabel)
             Me.Controls.Add(Me.WorkgroupsGroupBox)
+            Me.Controls.Add(Me.TipLabel)
+            Me.Controls.Add(Me.LinkLabel1)
             Me.Controls.Add(Me.ParametersGroup)
             Me.Controls.Add(Me.OptionsGroupBox)
             Me.MaximumSize = New System.Drawing.Size(276, 349)
@@ -530,6 +570,10 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Friend WithEvents ScienceAcademiaToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents SportsGamesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents ForceListasCheckbox As System.Windows.Forms.CheckBox
+        Friend WithEvents PeerageCheckBox As System.Windows.Forms.CheckBox
+        Friend WithEvents BaronetsCheckBox As System.Windows.Forms.CheckBox
+        Friend WithEvents BaronetsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+        Friend WithEvents PeerageToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
     End Class
 End Namespace
