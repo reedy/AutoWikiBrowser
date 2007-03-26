@@ -410,8 +410,9 @@ namespace WikiFunctions.Lists
         private void mnuListBox_Opening(object sender, CancelEventArgs e)
         {
             bool boolEnabled = lbArticles.Items.Count > 0;
+			bool boolEnabled2 = lbArticles.SelectedItems.Count > 0;
 
-            addSelectedToListToolStripMenuItem.Enabled = lbArticles.SelectedItems.Count > 0;
+            addSelectedToListToolStripMenuItem.Enabled = boolEnabled2
 
             removeToolStripMenuItem.Enabled = lbArticles.SelectedItem != null;
             clearToolStripMenuItem1.Enabled = boolEnabled;
@@ -423,8 +424,8 @@ namespace WikiFunctions.Lists
             specialFilterToolStripMenuItem.Enabled = boolEnabled;
             selectAllToolStripMenuItem.Enabled = boolEnabled;
             selectNoneToolStripMenuItem.Enabled = boolEnabled;
-            copyToolStripMenuItem.Enabled = lbArticles.SelectedItems.Count == 1;
-            cutToolStripMenuItem.Enabled = lbArticles.SelectedItems.Count == 1;
+            copyToolStripMenuItem.Enabled = boolEnabled2;
+            cutToolStripMenuItem.Enabled = boolEnabled2;
 
             openInBrowserToolStripMenuItem.Enabled = lbArticles.SelectedItems.Count == 1;
         }
