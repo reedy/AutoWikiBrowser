@@ -212,6 +212,10 @@
       <Project>{3443EC53-0B83-4356-A032-AD9693448F19}</Project>
       <Name>CFD</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Plugins\WPAssessmentsCatCreator\WPAssessmentsCatCreator\WPAssessmentsCatCreator.vbproj">
+      <Project>{EA43399D-3DCB-4A88-BE11-CBBC1438EEF6}</Project>
+      <Name>WPAssessmentsCatCreator</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WikiFunctions\WikiFunctions.csproj">
       <Project>{B5B0008C-A306-4B0D-B91E-5C03DA7014E0}</Project>
       <Name>WikiFunctions</Name>
