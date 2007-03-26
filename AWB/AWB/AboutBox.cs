@@ -171,5 +171,11 @@ namespace AutoWikiBrowser
             linkFeatureRequests.LinkVisited = true;
             System.Diagnostics.Process.Start(WikiEN + "/Wikipedia_talk:AutoWikiBrowser/Feature_requests");
         }
+
+        private void linkMartinp23_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            linkMartinp23.LinkVisited = true;
+            System.Diagnostics.Process.Start(WikiEN + "/User:Martinp23");
+        }
     }
 }

@@ -65,6 +65,7 @@ namespace AutoWikiBrowser
             this.linkFeatureRequests = new System.Windows.Forms.LinkLabel();
             this.linkReedy = new System.Windows.Forms.LinkLabel();
             this.linkKingboy = new System.Windows.Forms.LinkLabel();
+            this.linkMartinp23 = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // textBoxDescription
@@ -104,7 +105,7 @@ namespace AutoWikiBrowser
             // linkAWBPage
             // 
             this.linkAWBPage.AutoSize = true;
-            this.linkAWBPage.Location = new System.Drawing.Point(32, 192);
+            this.linkAWBPage.Location = new System.Drawing.Point(32, 210);
             this.linkAWBPage.Name = "linkAWBPage";
             this.linkAWBPage.Size = new System.Drawing.Size(115, 13);
             this.linkAWBPage.TabIndex = 26;
@@ -124,7 +125,7 @@ namespace AutoWikiBrowser
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(15, 174);
+            this.label2.Location = new System.Drawing.Point(15, 192);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(42, 13);
             this.label2.TabIndex = 28;
@@ -218,7 +219,7 @@ namespace AutoWikiBrowser
             // linkBugs
             // 
             this.linkBugs.AutoSize = true;
-            this.linkBugs.Location = new System.Drawing.Point(32, 212);
+            this.linkBugs.Location = new System.Drawing.Point(32, 230);
             this.linkBugs.Name = "linkBugs";
             this.linkBugs.Size = new System.Drawing.Size(31, 13);
             this.linkBugs.TabIndex = 40;
@@ -229,7 +230,7 @@ namespace AutoWikiBrowser
             // linkFeatureRequests
             // 
             this.linkFeatureRequests.AutoSize = true;
-            this.linkFeatureRequests.Location = new System.Drawing.Point(32, 232);
+            this.linkFeatureRequests.Location = new System.Drawing.Point(32, 250);
             this.linkFeatureRequests.Name = "linkFeatureRequests";
             this.linkFeatureRequests.Size = new System.Drawing.Size(91, 13);
             this.linkFeatureRequests.TabIndex = 42;
@@ -259,12 +260,24 @@ namespace AutoWikiBrowser
             this.linkKingboy.Text = "User:Kingboyk";
             this.linkKingboy.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkKingboy_LinkClicked);
             // 
+            // linkMartinp23
+            // 
+            this.linkMartinp23.AutoSize = true;
+            this.linkMartinp23.Location = new System.Drawing.Point(32, 169);
+            this.linkMartinp23.Name = "linkMartinp23";
+            this.linkMartinp23.Size = new System.Drawing.Size(79, 13);
+            this.linkMartinp23.TabIndex = 47;
+            this.linkMartinp23.TabStop = true;
+            this.linkMartinp23.Text = "User:Martinp23";
+            this.linkMartinp23.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkMartinp23_LinkClicked);
+            // 
             // AboutBox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(276, 524);
+            this.Controls.Add(this.linkMartinp23);
             this.Controls.Add(this.linkKingboy);
             this.Controls.Add(this.linkReedy);
             this.Controls.Add(this.linkFeatureRequests);
@@ -321,5 +334,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.LinkLabel linkFeatureRequests;
         private System.Windows.Forms.LinkLabel linkReedy;
         private System.Windows.Forms.LinkLabel linkKingboy;
+        private System.Windows.Forms.LinkLabel linkMartinp23;
     }
 }
