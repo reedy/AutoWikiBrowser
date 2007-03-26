@@ -80,7 +80,7 @@ namespace WikiFunctions.AWBSettings
         public int AutoDelay = 10;
         public bool QuickSave = false;
         public bool SuppressTag = false;
-
+        public bool OverrideWatchlist = false;
         public bool RegexTypoFix = false;
     }
 

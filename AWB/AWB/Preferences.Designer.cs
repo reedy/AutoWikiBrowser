@@ -46,6 +46,8 @@ namespace AutoWikiBrowser
             this.label6 = new System.Windows.Forms.Label();
             this.txtCustomProject = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.chkOverrideWatchlist = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.chkSaveArticleList = new System.Windows.Forms.CheckBox();
             this.chkMinimize = new System.Windows.Forms.CheckBox();
             this.chkBeep = new System.Windows.Forms.CheckBox();
@@ -53,7 +55,6 @@ namespace AutoWikiBrowser
             this.chkLowPriority = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.fontDialog = new System.Windows.Forms.FontDialog();
-            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.nudDiffFontSize)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -73,7 +74,7 @@ namespace AutoWikiBrowser
             // btnApply
             // 
             this.btnApply.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnApply.Location = new System.Drawing.Point(163, 338);
+            this.btnApply.Location = new System.Drawing.Point(163, 356);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(75, 23);
             this.btnApply.TabIndex = 1;
@@ -194,7 +195,7 @@ namespace AutoWikiBrowser
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(244, 338);
+            this.btnCancel.Location = new System.Drawing.Point(244, 356);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 12;
@@ -238,6 +239,7 @@ namespace AutoWikiBrowser
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.chkOverrideWatchlist);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.chkSaveArticleList);
             this.groupBox2.Controls.Add(this.chkMinimize);
@@ -250,19 +252,38 @@ namespace AutoWikiBrowser
             this.groupBox2.Controls.Add(this.nudDiffFontSize);
             this.groupBox2.Controls.Add(this.btnTextBoxFont);
             this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Location = new System.Drawing.Point(13, 160);
+            this.groupBox2.Location = new System.Drawing.Point(13, 159);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(306, 172);
+            this.groupBox2.Size = new System.Drawing.Size(306, 191);
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Other";
+            // 
+            // chkOverrideWatchlist
+            // 
+            this.chkOverrideWatchlist.AutoSize = true;
+            this.chkOverrideWatchlist.Location = new System.Drawing.Point(6, 126);
+            this.chkOverrideWatchlist.Name = "chkOverrideWatchlist";
+            this.chkOverrideWatchlist.Size = new System.Drawing.Size(215, 17);
+            this.chkOverrideWatchlist.TabIndex = 20;
+            this.chkOverrideWatchlist.Text = "Allow AWB to override watchlist settings";
+            this.chkOverrideWatchlist.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(2, 169);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(106, 13);
+            this.label1.TabIndex = 19;
+            this.label1.Text = "When ready to save:";
             // 
             // chkSaveArticleList
             // 
             this.chkSaveArticleList.AutoSize = true;
             this.chkSaveArticleList.Checked = true;
             this.chkSaveArticleList.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSaveArticleList.Location = new System.Drawing.Point(6, 125);
+            this.chkSaveArticleList.Location = new System.Drawing.Point(5, 149);
             this.chkSaveArticleList.Name = "chkSaveArticleList";
             this.chkSaveArticleList.Size = new System.Drawing.Size(177, 17);
             this.chkSaveArticleList.TabIndex = 18;
@@ -284,7 +305,7 @@ namespace AutoWikiBrowser
             this.chkBeep.AutoSize = true;
             this.chkBeep.Checked = true;
             this.chkBeep.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkBeep.Location = new System.Drawing.Point(180, 149);
+            this.chkBeep.Location = new System.Drawing.Point(174, 168);
             this.chkBeep.Name = "chkBeep";
             this.chkBeep.Size = new System.Drawing.Size(51, 17);
             this.chkBeep.TabIndex = 16;
@@ -296,7 +317,7 @@ namespace AutoWikiBrowser
             this.chkFlash.AutoSize = true;
             this.chkFlash.Checked = true;
             this.chkFlash.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkFlash.Location = new System.Drawing.Point(123, 149);
+            this.chkFlash.Location = new System.Drawing.Point(117, 168);
             this.chkFlash.Name = "chkFlash";
             this.chkFlash.Size = new System.Drawing.Size(51, 17);
             this.chkFlash.TabIndex = 15;
@@ -322,20 +343,9 @@ namespace AutoWikiBrowser
             this.label5.TabIndex = 12;
             this.label5.Text = "%";
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 150);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(106, 13);
-            this.label1.TabIndex = 19;
-            this.label1.Text = "When ready to save:";
-            // 
             // MyPreferences
             // 
-            this.AcceptButton = this.btnApply;
-            this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(331, 370);
+            this.ClientSize = new System.Drawing.Size(331, 391);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnCancel);
@@ -381,5 +391,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkMinimize;
         private System.Windows.Forms.CheckBox chkSaveArticleList;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox chkOverrideWatchlist;
     }
 }

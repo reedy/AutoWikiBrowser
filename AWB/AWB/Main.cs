@@ -281,6 +281,13 @@ namespace AutoWikiBrowser
             set { bSaveArticleList = value; }
         }
 
+        bool bOverrideWatchlist = false;
+        private bool OverrideWatchlist
+        {
+            get { return bOverrideWatchlist; }
+            set { bOverrideWatchlist = value; }
+        }
+
         #endregion
 
         #region MainProcess
@@ -1022,7 +1029,8 @@ namespace AutoWikiBrowser
                     webBrowserEdit.SetMinor(true);
                 if (addAllToWatchlistToolStripMenuItem.Checked)
                     webBrowserEdit.SetWatch(true);
-
+                if (!addAllToWatchlistToolStripMenuItem.Checked && bOverrideWatchlist)
+                    webBrowserEdit.SetWatch(false);
                 webBrowserEdit.SetSummary(MakeSummary());
             }
         }
@@ -1517,7 +1525,7 @@ namespace AutoWikiBrowser
 
         private void PreferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MyPreferences MyPrefs = new MyPreferences(Variables.LangCode, Variables.Project, Variables.CustomProject, webBrowserEdit.EnhanceDiffEnabled, webBrowserEdit.ScrollDown, webBrowserEdit.DiffFontSize, txtEdit.Font, LowThreadPriority, Flash, Beep, Minimize, SaveArticleList);
+            MyPreferences MyPrefs = new MyPreferences(Variables.LangCode, Variables.Project, Variables.CustomProject, webBrowserEdit.EnhanceDiffEnabled, webBrowserEdit.ScrollDown, webBrowserEdit.DiffFontSize, txtEdit.Font, LowThreadPriority, Flash, Beep, Minimize, SaveArticleList, OverrideWatchlist);
 
             if (MyPrefs.ShowDialog(this) == DialogResult.OK)
             {
@@ -1531,6 +1539,7 @@ namespace AutoWikiBrowser
                 Beep = MyPrefs.perfBeep;
                 Minimize = MyPrefs.perfMinimize;
                 SaveArticleList = MyPrefs.perfSaveArticleList;
+                OverrideWatchlist = MyPrefs.perfOverrideWatchlist;
 
                 if (MyPrefs.Language != Variables.LangCode || MyPrefs.Project != Variables.Project || MyPrefs.CustomProject != Variables.CustomProject)
                 {
