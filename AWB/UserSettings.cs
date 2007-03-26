@@ -142,6 +142,7 @@ namespace AutoWikiBrowser
             Beep = true;
             Minimize = true;
             SaveArticleList = true;
+            OverrideWatchlist = false;
             chkLock.Checked = false;
                         
             chkEnableDab.Checked = false;
@@ -578,6 +579,9 @@ namespace AutoWikiBrowser
                             if (reader.MoveToAttribute("savearticlelist"))
                                 SaveArticleList = bool.Parse(reader.Value);
 
+                            if (reader.MoveToAttribute("overridewatchlist"))
+                                OverrideWatchlist = bool.Parse(reader.Value);
+
                             continue;
                         }
 
@@ -702,6 +706,7 @@ namespace AutoWikiBrowser
             p.List.ListSource = listMaker1.SourceText;
             p.List.Source = listMaker1.SelectedSource;
 
+            
             p.General.SaveArticleList = SaveArticleList;
 
             if (p.General.SaveArticleList)
@@ -734,7 +739,7 @@ namespace AutoWikiBrowser
             p.Editprefs.AutoDelay = (int)nudBotSpeed.Value;
             p.Editprefs.QuickSave = chkQuickSave.Checked;
             p.Editprefs.SuppressTag = chkSuppressTag.Checked;
-
+            p.Editprefs.OverrideWatchlist = OverrideWatchlist;
             p.Editprefs.RegexTypoFix = chkRegExTypo.Checked;
             
             p.SkipOptions.SkipNonexistent = chkSkipNonExistent.Checked;
@@ -838,7 +843,7 @@ namespace AutoWikiBrowser
             findAndReplace.AddNew(p.FindAndReplace.Replacements);
             replaceSpecial.AddNewRule(p.FindAndReplace.AdvancedReps);
             substTemplates.TemplateList = p.FindAndReplace.SubstTemplates;
-
+            OverrideWatchlist = p.Editprefs.OverrideWatchlist;
             listMaker1.SourceText = p.List.ListSource;
             listMaker1.SelectedSource = p.List.Source;
 

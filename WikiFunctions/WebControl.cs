@@ -86,6 +86,10 @@ namespace WikiFunctions.Browser
         /// Occurs when the Busy state changes
         /// </summary>
         public event WebControlDel BusyChanged;
+        /// <summary>
+        /// Controls watchlisting, to allow AWB setting to over-ride MW user settings
+        /// </summary>
+        private bool Watch;
 
         #endregion
 
@@ -485,15 +489,16 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Sets the watch checkbox
         /// </summary>
-        public void SetWatch(bool Watch)
+        public void SetWatch(bool Watch1)
         {
             if (this.Document == null || !this.Document.Body.InnerHtml.Contains("wpWatchthis"))
                 return;
 
-            if (Watch)
+            if (Watch1)
                 this.Document.GetElementById("wpWatchthis").SetAttribute("checked", "checked");
-            else
+            else if (!Watch1)
                 this.Document.GetElementById("wpWatchthis").SetAttribute("checked", "");
+            Watch = Watch1;        
         }
 
         /// <summary>
@@ -600,11 +605,20 @@ namespace WikiFunctions.Browser
         /// </summary>
         public void Save()
         {
+
             if (CanSave)
             {
+                AWBSettings.UserPrefs up = new WikiFunctions.AWBSettings.UserPrefs();
+
                 this.AllowNavigation = true;
                 ProcessStage = enumProcessStage.save;
                 Status = "Saving";
+
+                if (!Watch && up.Editprefs.OverrideWatchlist)
+                {
+                    this.Document.GetElementById("wpWatchthis").SetAttribute("checked", "");
+                }
+
                 this.Document.GetElementById("wpSave").InvokeMember("click");
             }
         }
