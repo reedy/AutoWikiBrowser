@@ -52,6 +52,7 @@ Namespace Logging.Uploader
             Me.ControlBox = False
             Me.Controls.Add(Me.Label1)
             Me.Controls.Add(Me.PictureBox1)
+            Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
             Me.MaximizeBox = False
             Me.MinimizeBox = False
             Me.Name = "UploadingPleaseWaitForm"
