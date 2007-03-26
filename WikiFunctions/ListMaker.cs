@@ -412,7 +412,7 @@ namespace WikiFunctions.Lists
             bool boolEnabled = lbArticles.Items.Count > 0;
 			bool boolEnabled2 = lbArticles.SelectedItems.Count > 0;
 
-            addSelectedToListToolStripMenuItem.Enabled = boolEnabled2
+            addSelectedToListToolStripMenuItem.Enabled = boolEnabled2;
 
             removeToolStripMenuItem.Enabled = lbArticles.SelectedItem != null;
             clearToolStripMenuItem1.Enabled = boolEnabled;
