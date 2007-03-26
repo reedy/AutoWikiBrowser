@@ -293,10 +293,15 @@ namespace AWBUpdater
             if (File.Exists(AWBdirectory + "WikiFunctions2.dll"))
                 File.Copy(tempDirectory + "Plugins\\Kingbotk (WikiProject tagging)\\WikiFunctions2.dll", AWBdirectory + "WikiFunctions2.dll", true);
 
-            if (!(Directory.Exists(AWBdirectory + "Plugins\\Kingbotk (WikiProject tagging)")))
-                Directory.CreateDirectory(AWBdirectory + "Plugins\\Kingbotk (WikiProject tagging)");
-
             File.Copy(tempDirectory + "Plugins\\Kingbotk (WikiProject tagging)\\WikiFunctions2.dll", AWBdirectory + "Plugins\\Kingbotk (WikiProject tagging)\\WikiFunctions2.dll");
+
+            //if (File.Exists(AWBdirectory + "WPAssessmentsCatCreator.dll"))
+            //    File.Copy(tempDirectory + "Plugins\\ \\WPAssessmentsCatCreator.dll", AWBdirectory + "WPAssessmentsCatCreator.dll", true);
+
+            //if (!Directory.Exists(AWBdirectory + "Plugins\\ "))
+            //    Directory.CreateDirectory(AWBdirectory + "Plugins\\ ");
+
+            //File.Copy(tempDirectory + "Plugins\\ \\WPAssessmentsCatCreator.dll", AWBdirectory + "Plugins\\ \\WPAssessmentsCatCreator.dll", true);
                         
             progressUpdate.Value = 90;
         }
