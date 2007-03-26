@@ -1137,10 +1137,10 @@ namespace AutoWikiBrowser
 
         private void loginToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Variables.User.WikiStatus)
-            {
-                CheckStatus();
-            }
+            //if (Variables.User.WikiStatus)
+            // {
+            CheckStatus();
+            //  }
         }
 
         private void logOutToolStripMenuItem_Click(object sender, EventArgs e)
