@@ -67,8 +67,6 @@ namespace AWBUpdater
 
             lblCurrentTask.Text = "Making Sure AWB is Closed";
             closeAWB();
-            lblCurrentTask.Text = "Deleting old AWB Files";
-            deleteOldFiles();
             lblCurrentTask.Text = "Copying AWB Files from temp. Directory to AWB Directory";
             copyFiles();
             MessageBox.Show("AWB Update Successful", "Update Sucessful");
@@ -265,29 +263,6 @@ namespace AWBUpdater
             progressUpdate.Value = 75;
         }
 
-        private void deleteOldFiles()
-        {
-            if (File.Exists(AWBdirectory + "AutoWikiBrowser.exe")) File.Delete(AWBdirectory + "AutoWikiBrowser.exe");
-
-            if (File.Exists(AWBdirectory + "WikiFunctions.dll")) File.Delete(AWBdirectory + "WikiFunctions.dll");
-
-            if (File.Exists(AWBdirectory + "IRCMonitor.exe")) File.Delete(AWBdirectory + "IRCMonitor.exe");
-
-            if (File.Exists(AWBdirectory + "CFD.dll")) File.Delete(AWBdirectory + "CFD.dll");
-
-            if (File.Exists(AWBdirectory + "Plugins\\CFD\\CFD.dll")) File.Delete(AWBdirectory + "Plugins\\CFD\\CFD.dll");
-
-            if (File.Exists(AWBdirectory + "Kingbotk AWB Plugin.dll")) File.Delete(AWBdirectory + "Kingbotk AWB Plugin.dll");
-
-            if (File.Exists(AWBdirectory + "Plugins\\Kingbotk (WikiProject tagging)\\Kingbotk AWB Plugin.dll")) File.Delete(AWBdirectory + "Plugins\\Kingbotk (WikiProject tagging)\\Kingbotk AWB Plugin.dll");
-
-            if (File.Exists(AWBdirectory + "WikiFunctions2.dll")) File.Delete(AWBdirectory + "WikiFunctions2.dll");
-
-            if (File.Exists(AWBdirectory + "Plugins\\Kingbotk (WikiProject tagging)\\WikiFunctions2.dll")) File.Delete(AWBdirectory + "Plugins\\Kingbotk (WikiProject tagging)\\WikiFunctions2.dll");
-
-            progressUpdate.Value = 80;
-        }
-
         private void copyFiles()
         {
             if (File.Exists(tempDirectory + "AWBUpdater.exe"))
@@ -295,39 +270,33 @@ namespace AWBUpdater
                 File.Copy(tempDirectory + "AWBUpdater.exe", AWBdirectory + "AWBUpdater.exe.new");
             }
 
-            File.Copy(tempDirectory + "AutoWikiBrowser.exe", AWBdirectory + "AutoWikiBrowser.exe");
-            File.Copy(tempDirectory + "WikiFunctions.dll", AWBdirectory + "WikiFunctions.dll");
-            File.Copy(tempDirectory + "IRCMonitor.exe", AWBdirectory + "IRCMonitor.exe");
+            File.Copy(tempDirectory + "AutoWikiBrowser.exe", AWBdirectory + "AutoWikiBrowser.exe", true);
+            File.Copy(tempDirectory + "WikiFunctions.dll", AWBdirectory + "WikiFunctions.dll", true);
+            File.Copy(tempDirectory + "IRCMonitor.exe", AWBdirectory + "IRCMonitor.exe", true);
 
             if (File.Exists(AWBdirectory + "CFD.dll"))
-                File.Copy(tempDirectory + "Plugins\\CFD\\CFD.dll", AWBdirectory + "CFD.dll");
-            else
-            {
-                if (!(Directory.Exists(AWBdirectory + "\\Plugins\\CFD")))
-                    Directory.CreateDirectory(AWBdirectory + "\\Plugins\\CFD");
+                File.Copy(tempDirectory + "Plugins\\CFD\\CFD.dll", AWBdirectory + "CFD.dll", true);
 
-                File.Copy(tempDirectory + "Plugins\\CFD\\CFD.dll", AWBdirectory + "Plugins\\CFD\\CFD.dll");
-            }
+            if (!(Directory.Exists(AWBdirectory + "\\Plugins\\CFD")))
+                Directory.CreateDirectory(AWBdirectory + "\\Plugins\\CFD");
+
+            File.Copy(tempDirectory + "Plugins\\CFD\\CFD.dll", AWBdirectory + "Plugins\\CFD\\CFD.dll");
 
             if (File.Exists(AWBdirectory + "Kingbotk AWB Plugin.dll"))
                 File.Copy(tempDirectory + "Plugins\\Kingbotk (WikiProject tagging)\\Kingbotk AWB Plugin.dll", AWBdirectory + "Kingbotk AWB Plugin.dll");
-            else
-            {
-                if (!(Directory.Exists(AWBdirectory + "Plugins\\Kingbotk (WikiProject tagging)")))
-                    Directory.CreateDirectory(AWBdirectory + "Plugins\\Kingbotk (WikiProject tagging)");
 
-                File.Copy(tempDirectory + "Plugins\\Kingbotk (WikiProject tagging)\\Kingbotk AWB Plugin.dll", AWBdirectory + "Plugins\\Kingbotk (WikiProject tagging)\\Kingbotk AWB Plugin.dll");
-            }
+            if (!(Directory.Exists(AWBdirectory + "Plugins\\Kingbotk (WikiProject tagging)")))
+                Directory.CreateDirectory(AWBdirectory + "Plugins\\Kingbotk (WikiProject tagging)");
+
+            File.Copy(tempDirectory + "Plugins\\Kingbotk (WikiProject tagging)\\Kingbotk AWB Plugin.dll", AWBdirectory + "Plugins\\Kingbotk (WikiProject tagging)\\Kingbotk AWB Plugin.dll", true);
 
             if (File.Exists(AWBdirectory + "WikiFunctions2.dll"))
-                File.Copy(tempDirectory + "Plugins\\Kingbotk (WikiProject tagging)\\WikiFunctions2.dll", AWBdirectory + "WikiFunctions2.dll");
-            else
-            {
-                if (!(Directory.Exists(AWBdirectory + "Plugins\\Kingbotk (WikiProject tagging)")))
-                    Directory.CreateDirectory(AWBdirectory + "Plugins\\Kingbotk (WikiProject tagging)");
+                File.Copy(tempDirectory + "Plugins\\Kingbotk (WikiProject tagging)\\WikiFunctions2.dll", AWBdirectory + "WikiFunctions2.dll", true);
 
-                File.Copy(tempDirectory + "Plugins\\Kingbotk (WikiProject tagging)\\WikiFunctions2.dll", AWBdirectory + "Plugins\\Kingbotk (WikiProject tagging)\\WikiFunctions2.dll");
-            }
+            if (!(Directory.Exists(AWBdirectory + "Plugins\\Kingbotk (WikiProject tagging)")))
+                Directory.CreateDirectory(AWBdirectory + "Plugins\\Kingbotk (WikiProject tagging)");
+
+            File.Copy(tempDirectory + "Plugins\\Kingbotk (WikiProject tagging)\\WikiFunctions2.dll", AWBdirectory + "Plugins\\Kingbotk (WikiProject tagging)\\WikiFunctions2.dll");
                         
             progressUpdate.Value = 90;
         }
