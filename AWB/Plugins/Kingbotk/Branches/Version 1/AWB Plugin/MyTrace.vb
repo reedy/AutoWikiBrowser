@@ -157,20 +157,18 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
 
             Dim upload As Boolean
 
-            If (ContainsKey(conBadPages) OrElse ContainsKey(conWiki)) Then
-                If LoggingSettings.Settings.UploadYN AndAlso MessageBox.Show("Upload logs?", _
+            If (ContainsKey(conBadPages) OrElse ContainsKey(conWiki)) AndAlso (LoggingSettings.Settings.UploadYN AndAlso MessageBox.Show("Upload logs?", _
             "Logging", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) _
-            = DialogResult.Yes Then Upload = True
+            = DialogResult.Yes) Then upload = True
 
-                If Upload Then
-                    UploadBadPagesLog()
-                    UploadWikiLog()
-                End If
-            End If
+            'If upload Then
+            '    UploadBadPagesLog()
+            '    UploadWikiLog()
+            'End If
 
             For Each t As KeyValuePair(Of String, IMyTraceListener) In Listeners
                 t.Value.WriteCommentAndNewLine("closing all logs")
-                If t.Value.Uploadable Then DirectCast(t.Value, TraceListenerUploadableBase).Close(Upload) _
+                If t.Value.Uploadable Then DirectCast(t.Value, TraceListenerUploadableBase).Close(upload) _
                    Else t.Value.Close()
             Next
             Listeners.Clear()
