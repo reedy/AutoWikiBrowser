@@ -115,7 +115,7 @@ namespace AWBUpdater
                 if (m_awbversion.Success && m_awbversion.Groups[1].Value.Length == 4)
                 {
                     AWBZipName = "AutoWikiBrowser" + m_awbversion.Groups[1].Value.Replace(".", "") + ".zip";
-                    AWBWebAddress = "http://umn.dl.sourceforge.net/sourceforge/autowikibrowser/" + AWBZipName;
+                    AWBWebAddress = "http://downloads.sourceforge.net/autowikibrowser/" + AWBZipName;
                 }
                 else
                     throw new Exception();
@@ -125,7 +125,7 @@ namespace AWBUpdater
                     if (m_updversion.Groups[1].Value != AssemblyVersion.Replace(".", ""))
                     {
                         UpdaterZipName = "AWBUpdater" + m_updversion.Groups[1].Value.Replace(".", "") + ".zip";
-                        UpdaterWebAddress = "http://umn.dl.sourceforge.net/sourceforge/autowikibrowser/" + UpdaterZipName;
+                        UpdaterWebAddress = "http://downloads.sourceforge.net/autowikibrowser/" + UpdaterZipName;
                     }
                     else
                     {
@@ -266,9 +266,7 @@ namespace AWBUpdater
         private void copyFiles()
         {
             if (File.Exists(tempDirectory + "AWBUpdater.exe"))
-            {
                 File.Copy(tempDirectory + "AWBUpdater.exe", AWBdirectory + "AWBUpdater.exe.new");
-            }
 
             File.Copy(tempDirectory + "AutoWikiBrowser.exe", AWBdirectory + "AutoWikiBrowser.exe", true);
             File.Copy(tempDirectory + "WikiFunctions.dll", AWBdirectory + "WikiFunctions.dll", true);
@@ -295,13 +293,13 @@ namespace AWBUpdater
 
             File.Copy(tempDirectory + "Plugins\\Kingbotk (WikiProject tagging)\\WikiFunctions2.dll", AWBdirectory + "Plugins\\Kingbotk (WikiProject tagging)\\WikiFunctions2.dll");
 
-            //if (File.Exists(AWBdirectory + "WPAssessmentsCatCreator.dll"))
-            //    File.Copy(tempDirectory + "Plugins\\ \\WPAssessmentsCatCreator.dll", AWBdirectory + "WPAssessmentsCatCreator.dll", true);
+            if (File.Exists(AWBdirectory + "WPAssessmentsCatCreator.dll"))
+                File.Copy(tempDirectory + "Plugins\\WPAssessmentsCatCreator\\WPAssessmentsCatCreator.dll", AWBdirectory + "WPAssessmentsCatCreator.dll", true);
 
-            //if (!Directory.Exists(AWBdirectory + "Plugins\\ "))
-            //    Directory.CreateDirectory(AWBdirectory + "Plugins\\ ");
+            if (!Directory.Exists(AWBdirectory + "Plugins\\WPAssessmentsCatCreator"))
+                Directory.CreateDirectory(AWBdirectory + "Plugins\\WPAssessmentsCatCreator");
 
-            //File.Copy(tempDirectory + "Plugins\\ \\WPAssessmentsCatCreator.dll", AWBdirectory + "Plugins\\ \\WPAssessmentsCatCreator.dll", true);
+            File.Copy(tempDirectory + "Plugins\\WPAssessmentsCatCreator\\WPAssessmentsCatCreator.dll", AWBdirectory + "Plugins\\WPAssessmentsCatCreator\\WPAssessmentsCatCreator.dll", true);
                         
             progressUpdate.Value = 90;
         }
