@@ -147,7 +147,6 @@ namespace AutoWikiBrowser
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            MessageBox.Show(Tools.MakeHumanCatKey("William Monson, 1st Viscount Oxenbridge"));
             // hide this tab until it's fully written
             //tabControl1.TabPages.Remove(tpDab);
 
