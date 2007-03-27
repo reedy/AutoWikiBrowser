@@ -85,6 +85,8 @@ namespace AWBUpdater
         public void AWBversion()
         {
             string text = "";
+            bool updaterUpdate = false;
+            bool awbUpdate = false;
             try
             {
                 HttpWebRequest rq = (HttpWebRequest)WebRequest.Create("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=edit");
@@ -105,7 +107,7 @@ namespace AWBUpdater
             }
             catch
             {
-                throw;
+                MessageBox.Show("Error fetching current version number.");
             }
 
             Match m_awbversion = Regex.Match(text, @"&lt;!-- Current version: (.*?) --&gt;");
@@ -114,33 +116,59 @@ namespace AWBUpdater
             {
                 if (m_awbversion.Success && m_awbversion.Groups[1].Value.Length == 4)
                 {
-                    AWBZipName = "AutoWikiBrowser" + m_awbversion.Groups[1].Value.Replace(".", "") + ".zip";
-                    AWBWebAddress = "http://downloads.sourceforge.net/autowikibrowser/" + AWBZipName;
+                    try
+                    {
+                        FileVersionInfo versionAWB = FileVersionInfo.GetVersionInfo(AWBdirectory + "AutoWikiBrowser.exe");
+
+                        if (Convert.ToInt32(m_awbversion.Groups[1].Value) > Convert.ToInt32(versionAWB.FileVersion.Replace(".", "")))
+                        {
+                            AWBZipName = "AutoWikiBrowser" + m_awbversion.Groups[1].Value.Replace(".", "") + ".zip";
+                            AWBWebAddress = "http://downloads.sourceforge.net/autowikibrowser/" + AWBZipName;
+                            awbUpdate = true;
+                        }
+                    }
+                    catch
+                    { MessageBox.Show("Unable to find AutoWikiBrowser.exe to query Version No."); }
                 }
                 else
+                {
+                    awbUpdate = false;
+                    AWBZipName = "";
+                    AWBWebAddress = "";
+
                     throw new Exception();
+                }
 
                 if (m_updversion.Success && m_updversion.Groups[1].Value.Length == 4)
                 {
-                    if (m_updversion.Groups[1].Value != AssemblyVersion.Replace(".", ""))
+                    if (Convert.ToInt32(m_updversion.Groups[1].Value) > Convert.ToInt32(AssemblyVersion.Replace(".", "")))
                     {
                         UpdaterZipName = "AWBUpdater" + m_updversion.Groups[1].Value.Replace(".", "") + ".zip";
                         UpdaterWebAddress = "http://downloads.sourceforge.net/autowikibrowser/" + UpdaterZipName;
+                        updaterUpdate = true;
                     }
                     else
                     {
+                        updaterUpdate = false;
                         UpdaterZipName = "";
                         UpdaterWebAddress = "";
                     }
                 }
                 else
                 {
+                    updaterUpdate = false;
                     throw new Exception();
                 }
             }
             catch
             {
                 MessageBox.Show("Error fetching current version number.");
+            }
+
+            if (!updaterUpdate && !awbUpdate)
+            {
+                MessageBox.Show("Nothing to Update. The Updater will now close");
+                Application.Exit();
             }
 
             progressUpdate.Value = 30;
@@ -159,7 +187,8 @@ namespace AWBUpdater
         {
             System.Net.WebClient Client = new System.Net.WebClient();
 
-            Client.DownloadFile(AWBWebAddress, tempDirectory + AWBZipName);
+            if (AWBWebAddress != "")
+                Client.DownloadFile(AWBWebAddress, tempDirectory + AWBZipName);
 
             if (UpdaterWebAddress != "")
                 Client.DownloadFile(UpdaterWebAddress, tempDirectory + UpdaterZipName);
