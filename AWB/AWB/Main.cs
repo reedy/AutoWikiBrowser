@@ -1086,7 +1086,6 @@ namespace AutoWikiBrowser
             }
         }
 
-
         private void web4Completed(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             toolStripProgressBar1.MarqueeAnimationSpeed = 0;
@@ -1102,12 +1101,10 @@ namespace AutoWikiBrowser
         private void UpdateBotStatus(object sender, EventArgs e)
         {
             chkAutoMode.Enabled = Variables.User.IsBot;
-
         }
 
         private void UpdateAdminStatus(object sender, EventArgs e)
         {
-
         }
 
         private void chkAutoMode_CheckedChanged(object sender, EventArgs e)
@@ -1191,9 +1188,11 @@ namespace AutoWikiBrowser
 
                 case WikiStatusResult.OldVersion:
                     lblUserName.BackColor = Color.Red;
+
                     DialogResult yesnocancel = MessageBox.Show("This version is not enabled, please download the newest version. If you have the newest version, check that Wikipedia is online.\r\n\r\nPlease press \"Yes\" to run the AutoUpdater, \"No\" to load the download page and update manually, or \"Cancel\" to not update (but you will not be able to edit).", "Problem", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information);
                     if (yesnocancel == DialogResult.Yes)
-                        System.Diagnostics.Process.Start(Path.GetDirectoryName(Application.ExecutablePath) + "\\AWBUpdater.exe");
+                        runUpdater();
+
                     if (yesnocancel == DialogResult.No)
                         System.Diagnostics.Process.Start("http://sourceforge.net/project/showfiles.php?group_id=158332");
                     break;
@@ -2879,9 +2878,19 @@ namespace AutoWikiBrowser
             }
         }
 
-        private void listMaker1_Load(object sender, EventArgs e)
+        private void runUpdaterToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            runUpdater();
+        }
 
+        private void runUpdater()
+        {
+            System.Diagnostics.Process.Start(Path.GetDirectoryName(Application.ExecutablePath) + "\\AWBUpdater.exe");
+
+            DialogResult closeAWB = MessageBox.Show("AWB needs to be closed. To do this now, click 'yes'. If you need to save your settings, do this now, the updater will not complete until AWB is closed.", "Close AWB?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+
+            if (closeAWB == DialogResult.Yes)
+                Application.Exit();
         }
     }
 }
