@@ -55,6 +55,7 @@ namespace AWBUpdater
             AWBversion();
 
             if (noUpdates)
+                startAWB();
                 Application.Exit();
             else
             {
