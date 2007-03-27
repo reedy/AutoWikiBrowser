@@ -188,12 +188,20 @@ namespace WikiFunctions
             int intLast = Name.LastIndexOf(" ") + 1;
             string LastName = Name.Substring(intLast);
             Name = Name.Remove(intLast);
-            Name = RemoveNamespaceString(Name);
+            Name = RemoveNamespaceString(Name).Trim();
+            if (IsRomanNumber(LastName) && Name.Contains(" "))
+            {
+                Suffix += " " + LastName;
+                intLast = Name.LastIndexOf(" ") + 1;
+                LastName = Name.Substring(intLast);
+                Name = Name.Remove(intLast).Trim();
+            }
 
-            Name = (LastName + ", " + Name.Trim() + " " + Suffix).Trim();
+            Name = (LastName + ", " + Name + " " + Suffix).Trim();
 
             return Name;
         }
+
         private static string RemoveNamespaceString(string Name)
         {
             foreach (KeyValuePair<int, string> Namespace in Variables.Namespaces)
@@ -202,6 +210,19 @@ namespace WikiFunctions
                     Name = Name.Replace(Namespace.Value, "");
             }
             return Name;
+        }
+
+        /// <summary>
+        /// checks if given string represents a small Roman number
+        /// </summary>
+        public static bool IsRomanNumber(string s)
+        {
+            if (s.Length > 5) return false;
+            foreach (char c in s)
+            {
+                if (c != 'I' && c != 'V' && c != 'X') return false;
+            };
+            return true;
         }
 
         /// <summary>
