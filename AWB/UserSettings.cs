@@ -174,6 +174,8 @@ namespace AutoWikiBrowser
             LoadPrefs(openXML.FileName);
             settingsfilename = openXML.FileName;
 
+            
+
             listMaker1.removeListDuplicates();
         }
 
@@ -1074,6 +1076,7 @@ namespace AutoWikiBrowser
 
                 SettingsFile = " - " + Path.Remove(0, Path.LastIndexOf("\\") + 1);
                 this.Text = "AutoWikiBrowser" + SettingsFile;
+                ntfyTray.Text = "AutoWikiBrowser" + SettingsFile;
                 lblStatusText.Text = "Settings successfully loaded";
                 UpdateRecentList(Path);
             }
