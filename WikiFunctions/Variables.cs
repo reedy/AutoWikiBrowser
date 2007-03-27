@@ -63,6 +63,8 @@ namespace WikiFunctions
 
         public static UserProperties User = new UserProperties();
 
+        public static string RETFPath;
+
         #region project and language settings
 
         /// <summary>
@@ -807,6 +809,8 @@ namespace WikiFunctions
 
             WikiRegexes.MakeLangSpecificRegexes();
 
+            RETFPath = Namespaces[4] + "AutoWikiBrowser/Typos";
+
             if (ProjectName == "") ProjectName = Namespaces[4].TrimEnd(':');
 
         }
@@ -1117,6 +1121,12 @@ namespace WikiFunctions
                     if (m.Success && m.Groups[1].Value.Trim().Length > 0)
                     {
                         MessageBox.Show(m.Groups[1].Value, "Automated message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+
+                    m = Regex.Match(strText, "<!--[Tt]ypos:(.*?)-->");
+                    if (m.Success && m.Groups[1].Value.Trim().Length > 0)
+                    {
+                        Variables.RETFPath = m.Groups[1].Value.Trim();
                     }
 
                     //don't require approval if checkpage does not exist.

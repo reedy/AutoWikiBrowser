@@ -148,7 +148,11 @@ namespace WikiFunctions.Parse
                 string text = "";
                 try
                 {
-                    text = Tools.GetArticleText(Variables.Namespaces[4] + "AutoWikiBrowser/Typos");
+                    string s = Variables.RETFPath;
+
+                    if (!s.StartsWith("http:")) s = Variables.URLLong + "?title=" + Tools.WikiEncode(s) + "&action=raw&ctype=text/plain&dontcountme=s";
+
+                    text = Tools.GetHTML(s, Encoding.UTF8);
                 }
                 catch
                 {

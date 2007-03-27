@@ -2319,12 +2319,16 @@ namespace AutoWikiBrowser
             {
                 lblStatusText.Text = "Loading typos";
 
+                string s = Variables.RETFPath;
+
+                if (!s.StartsWith("http:")) s = Variables.URL + "/wiki/" + Tools.WikiEncode(s);
+
                 string message = @"1. Check each edit before you make it. Although this has been built to be very accurate there is always the possibility of an error which requires your attention.
 
 2. Optional: Select [[WP:AWB/T|Typo fixing]] as the edit summary. This lets everyone know where to bring issues with the typo correction.";
 
                 if (RegexTypos == null)
-                    message += "\r\n\r\nThe newest typos will now be downloaded from " + Variables.URL + "/wiki/" + Variables.Namespaces[4] + "AutoWikiBrowser/Typos when you press OK.";
+                    message += "\r\n\r\nThe newest typos will now be downloaded from " + s + " when you press OK.";
 
                 MessageBox.Show(message, "Attention", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
