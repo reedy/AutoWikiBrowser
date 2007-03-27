@@ -1089,7 +1089,7 @@ namespace WikiFunctions
                                     System.Diagnostics.Process.Start("http://sourceforge.net/project/showfiles.php?group_id=158332");
                         }
                     }
-
+                    
                     //load check page
                     if (Variables.LangCode != LangCodeEnum.ar)
                     {
@@ -1122,7 +1122,7 @@ namespace WikiFunctions
                     {
                         MessageBox.Show(m.Groups[1].Value, "Automated message", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-
+                    
                     m = Regex.Match(strText, "<!--[Tt]ypos:(.*?)-->");
                     if (m.Success && m.Groups[1].Value.Trim().Length > 0)
                     {
@@ -1144,41 +1144,31 @@ namespace WikiFunctions
                     }
                     else
                     {
-                        if (!m.Success)
+                    //see if we are allowed to use this softare
+                        string strBotUsers = Tools.StringBetween(strText, "<!--enabledbots-->", "<!--enabledbotsends-->");
+                        string strAdmins = Tools.StringBetween(strText, "<!--adminsbegins-->", "<!--adminsends-->");
+                        
+                        if (this.Name.Length > 0 && strText.Contains("* " + Variables.User.Name + "\r\n"))
+                        {
+                            if (strBotUsers.Contains("* " + Variables.User.Name + "\r\n"))
+                            {//enable botmode
+                                this.IsBot = true;
+                            }
+                            if (strAdmins.Contains("* " + Variables.User.Name + "\r\n"))
+                            {//enable admin features
+                                this.IsAdmin = true;
+                            }
+                            
+                            this.WikiStatus = true;
+                            
+                            return WikiStatusResult.Registered;
+                        }
+                        else
                         {
                             IsBot = false;
                             IsAdmin = false;
                             WikiStatus = false;
-                            return WikiStatusResult.Error;
-                        }
-                        //see if we are allowed to use this softare
-                        else
-                        {
-                            string strBotUsers = Tools.StringBetween(strText, "<!--enabledbots-->", "<!--enabledbotsends-->");
-                            string strAdmins = Tools.StringBetween(strText, "<!--adminsbegins-->", "<!--adminsends-->");
-
-                            if (this.Name.Length > 0 && strText.Contains("* " + Variables.User.Name + "\r\n"))
-                            {
-                                if (strBotUsers.Contains("* " + Variables.User.Name + "\r\n"))
-                                {//enable botmode
-                                    this.IsBot = true;
-                                }
-                                if (strAdmins.Contains("* " + Variables.User.Name + "\r\n"))
-                                {//enable admin features
-                                    this.IsAdmin = true;
-                                }
-
-                                this.WikiStatus = true;
-
-                                return WikiStatusResult.Registered;
-                            }
-                            else
-                            {
-                                IsBot = false;
-                                IsAdmin = false;
-                                WikiStatus = false;
-                                return WikiStatusResult.NotRegistered;
-                            }
+                            return WikiStatusResult.NotRegistered;
                         }
                     }
                 }
