@@ -501,7 +501,7 @@ namespace AutoWikiBrowser
                     return false;
                 }
 
-                if (HTML.Contains("readonly='readonly'>"))
+                if (HTML.Contains("readOnly"))
                 {
                     if (Variables.User.IsAdmin)
                     {
