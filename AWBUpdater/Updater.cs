@@ -26,6 +26,8 @@ namespace AWBUpdater
         string UpdaterZipName;
         string UpdaterWebAddress;
 
+        bool noUpdates;
+
         public Updater()
         {
             InitializeComponent();
@@ -51,35 +53,41 @@ namespace AWBUpdater
         {
             lblCurrentTask.Text = "Getting Current AWB and Updater Versions";
             AWBversion();
-			Application.DoEvents();
 
-            lblCurrentTask.Text = "Creating a Temporary Directory";
-            createTempDir();
-            lblCurrentTask.Text = "Downloading AWB";
-            getAWBFromInternet();
-			Application.DoEvents();
+            if (noUpdates)
+                Application.Exit();
+            else
+            {
+                Application.DoEvents();
 
-            lblCurrentTask.Text = "Unzipping AWB to the Temporary Directory";
-            unzipAWB();
-			Application.DoEvents();
-			
-            MessageBox.Show("Please save your settings (if you wish) and close AutoWikiBrowser completely before pressing OK.");
+                lblCurrentTask.Text = "Creating a Temporary Directory";
+                createTempDir();
+                lblCurrentTask.Text = "Downloading AWB";
+                getAWBFromInternet();
+                Application.DoEvents();
 
-            lblCurrentTask.Text = "Making Sure AWB is Closed";
-            closeAWB();
-            lblCurrentTask.Text = "Copying AWB Files from temp. Directory to AWB Directory";
-            copyFiles();
-            MessageBox.Show("AWB Update Successful", "Update Sucessful");
-            Application.DoEvents();
+                lblCurrentTask.Text = "Unzipping AWB to the Temporary Directory";
+                unzipAWB();
+                Application.DoEvents();
 
-            lblCurrentTask.Text = "Starting AWB";
-            startAWB();
+                MessageBox.Show("Please save your settings (if you wish) and close AutoWikiBrowser completely before pressing OK.");
 
-            lblCurrentTask.Text = "Cleaning up from Update";
-            killTempDir();
+                lblCurrentTask.Text = "Making Sure AWB is Closed";
+                closeAWB();
+                lblCurrentTask.Text = "Copying AWB Files from temp. Directory to AWB Directory";
+                copyFiles();
+                MessageBox.Show("AWB Update Successful", "Update Sucessful");
+                Application.DoEvents();
 
-            Application.DoEvents();
-            Application.Exit();
+                lblCurrentTask.Text = "Starting AWB";
+                startAWB();
+
+                lblCurrentTask.Text = "Cleaning up from Update";
+                killTempDir();
+
+                Application.DoEvents();
+                Application.Exit();
+            }
         }
 
         public void AWBversion()
@@ -112,6 +120,7 @@ namespace AWBUpdater
 
             Match m_awbversion = Regex.Match(text, @"&lt;!-- Current version: (.*?) --&gt;");
             Match m_updversion = Regex.Match(text, @"&lt;!-- Updater version: (.*?) --&gt;");
+
             try
             {
                 if (m_awbversion.Success && m_awbversion.Groups[1].Value.Length == 4)
@@ -126,6 +135,12 @@ namespace AWBUpdater
                             AWBWebAddress = "http://downloads.sourceforge.net/autowikibrowser/" + AWBZipName;
                             awbUpdate = true;
                         }
+                        else
+                        {
+                            awbUpdate = false;
+                            AWBZipName = "";
+                            AWBWebAddress = "";
+                        }
                     }
                     catch
                     { MessageBox.Show("Unable to find AutoWikiBrowser.exe to query Version No."); }
@@ -133,8 +148,6 @@ namespace AWBUpdater
                 else
                 {
                     awbUpdate = false;
-                    AWBZipName = "";
-                    AWBWebAddress = "";
 
                     throw new Exception();
                 }
@@ -168,11 +181,10 @@ namespace AWBUpdater
             if (!updaterUpdate && !awbUpdate)
             {
                 MessageBox.Show("Nothing to Update. The Updater will now close");
-                Application.Exit();
+                noUpdates = true;
             }
 
             progressUpdate.Value = 30;
-            lblCurrentTask.Text = "";
         }
 
         private void createTempDir()
@@ -199,17 +211,20 @@ namespace AWBUpdater
         }
 
         private void unzipAWB()
-        {                      
-            using (ZipFile zf = new ZipFile(tempDirectory + AWBZipName))
-			{
-				foreach ( ZipEntry entry in zf )
-				{
-                    if (entry.IsFile)
-                    	ExtractFile(zf.GetInputStream(entry), entry, tempDirectory);
-				}
-			}
+        {
+            if (AWBZipName != "")
+            {
+                using (ZipFile zf = new ZipFile(tempDirectory + AWBZipName))
+                {
+                    foreach (ZipEntry entry in zf)
+                    {
+                        if (entry.IsFile)
+                            ExtractFile(zf.GetInputStream(entry), entry, tempDirectory);
+                    }
+                }
+            }
 
-            if (File.Exists(tempDirectory + UpdaterZipName))
+            if (UpdaterZipName != "")
             {
                 using (ZipFile zf = new ZipFile(tempDirectory + UpdaterZipName))
                 {
