@@ -24,6 +24,8 @@ namespace WikiFunctions.Lists
         public event ListMakerEventHandler StatusTextChanged;
         public event ListMakerEventHandler BusyStateChanged;
         public event ListMakerEventHandler NoOfArticlesChanged;
+        public bool FilterNonMainAuto;
+        public bool AutoAlpha;
         /// <summary>
         /// Occurs when a list has been created
         /// </summary>
@@ -590,6 +592,8 @@ namespace WikiFunctions.Lists
             Article a = new Article(Tools.RemoveSyntax(s));
             lbArticles.Items.Add(a);
             UpdateNumberOfArticles();
+            if (FilterNonMainAuto)
+                FilterNonMainArticles();
         }
 
         private delegate void AddDel(List<Article> l);
@@ -730,6 +734,8 @@ namespace WikiFunctions.Lists
                 ListerThread.IsBackground = true;
                 ListerThread.Start();
             }
+            if(FilterNonMainAuto)
+            FilterNonMainArticles();
         }
 
         SourceType Source = SourceType.Category;
@@ -785,6 +791,7 @@ namespace WikiFunctions.Lists
                     default:
                         break;
                 }
+                
             }
             catch (ThreadAbortException)
             {
@@ -799,6 +806,8 @@ namespace WikiFunctions.Lists
             }
             finally
             {
+                if(FilterNonMainAuto)
+                FilterNonMainArticles();
                 StopProgressBar();
             }
         }
@@ -912,12 +921,23 @@ namespace WikiFunctions.Lists
             }
         }
 
+        private delegate void FilterNM();
+     
+           
+
         /// <summary>
         /// Filters out articles that are not in the main namespace
         /// </summary>
         public void FilterNonMainArticles()
         {
             //filter out non-mainspace articles
+
+             if (this.InvokeRequired)
+            {
+                this.Invoke(new FilterNM(FilterNonMainArticles));
+                return;
+            }
+
             int i = 0;
             string s = "";
 
@@ -978,6 +998,9 @@ namespace WikiFunctions.Lists
                 lblNumberOfArticles.Text = "1 page";
             if (NoOfArticlesChanged != null)
                 this.NoOfArticlesChanged();
+
+            if (AutoAlpha)
+                AlphaSortList();
         }
 
         /// <summary>
