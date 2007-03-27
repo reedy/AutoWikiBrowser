@@ -293,6 +293,8 @@ namespace AutoWikiBrowser
             this.exitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveTimer = new System.Windows.Forms.Timer(this.components);
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
+            this.toolStripSeparator21 = new System.Windows.Forms.ToolStripSeparator();
+            this.runUpdaterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.mnuTextBox.SuspendLayout();
@@ -1127,7 +1129,9 @@ namespace AutoWikiBrowser
             // 
             this.toolStripAdvanced.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.makeModuleToolStripMenuItem,
-            this.testRegexToolStripMenuItem});
+            this.testRegexToolStripMenuItem,
+            this.toolStripSeparator21,
+            this.runUpdaterToolStripMenuItem});
             this.toolStripAdvanced.Name = "toolStripAdvanced";
             this.toolStripAdvanced.Size = new System.Drawing.Size(67, 20);
             this.toolStripAdvanced.Text = "Advanced";
@@ -1135,14 +1139,14 @@ namespace AutoWikiBrowser
             // makeModuleToolStripMenuItem
             // 
             this.makeModuleToolStripMenuItem.Name = "makeModuleToolStripMenuItem";
-            this.makeModuleToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.makeModuleToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.makeModuleToolStripMenuItem.Text = "Make module";
             this.makeModuleToolStripMenuItem.Click += new System.EventHandler(this.makeModuleToolStripMenuItem_Click);
             // 
             // testRegexToolStripMenuItem
             // 
             this.testRegexToolStripMenuItem.Name = "testRegexToolStripMenuItem";
-            this.testRegexToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.testRegexToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.testRegexToolStripMenuItem.Text = "Test regex";
             this.testRegexToolStripMenuItem.Click += new System.EventHandler(this.testRegexToolStripMenuItem_Click);
             // 
@@ -2699,6 +2703,18 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
             this.webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
             // 
+            // toolStripSeparator21
+            // 
+            this.toolStripSeparator21.Name = "toolStripSeparator21";
+            this.toolStripSeparator21.Size = new System.Drawing.Size(149, 6);
+            // 
+            // runUpdaterToolStripMenuItem
+            // 
+            this.runUpdaterToolStripMenuItem.Name = "runUpdaterToolStripMenuItem";
+            this.runUpdaterToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.runUpdaterToolStripMenuItem.Text = "Run Updater";
+            this.runUpdaterToolStripMenuItem.Click += new System.EventHandler(this.runUpdaterToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3021,6 +3037,8 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem ignoreNoBotsToolStripMenuItem;
         private System.Windows.Forms.Timer SaveTimer;
         private System.Windows.Forms.CheckBox chkNudge;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator21;
+        private System.Windows.Forms.ToolStripMenuItem runUpdaterToolStripMenuItem;
 
 
     }
