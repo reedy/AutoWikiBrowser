@@ -1847,7 +1847,14 @@ namespace AutoWikiBrowser
 
         private void filterOutNonMainSpaceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            listMaker1.FilterNonMainArticles();
+            //listMaker1.FilterNonMainArticles();
+            if (filterOutNonMainSpaceToolStripMenuItem.Checked)
+            {
+                listMaker1.FilterNonMainAuto = true;
+                listMaker1.FilterNonMainArticles();
+            }
+            else
+                listMaker1.FilterNonMainAuto = false;
         }
 
         private void specialFilterToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -1867,7 +1874,14 @@ namespace AutoWikiBrowser
 
         private void sortAlphabeticallyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            listMaker1.AlphaSortList();
+            //listMaker1.AlphaSortList();
+            if (sortAlphabeticallyToolStripMenuItem.Checked)
+            {
+                listMaker1.AutoAlpha = true;
+                listMaker1.AlphaSortList();
+            }
+            else
+                listMaker1.AutoAlpha = false;
         }
 
         private void saveListToTextFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2864,6 +2878,11 @@ namespace AutoWikiBrowser
                 Stop();
                 Start();
             }
+        }
+
+        private void listMaker1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
