@@ -1517,6 +1517,8 @@ namespace AutoWikiBrowser
             dumpHTMLToolStripMenuItem.Visible = true;
             logOutDebugToolStripMenuItem.Visible = true;
             bypassAllRedirectsToolStripMenuItem.Enabled = true;
+
+            //MessageBox.Show(Tools.MakeHumanCatKey("Peter Boyle III"));
         }
 
         #endregion
