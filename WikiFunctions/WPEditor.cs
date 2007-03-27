@@ -1,3 +1,10 @@
+/*' Problems with the Editor class:
+' No login-status variable
+' Minimal or even no error handling
+' I think it has to load at least one extra page than is optimal
+' OTOH: It's simple and does the job. If anyone can fix this up to make it better, please do...
+*/
+
 using System;
 using System.Collections.Generic;
 using System.Text;
