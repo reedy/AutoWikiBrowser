@@ -2891,12 +2891,6 @@ namespace AutoWikiBrowser
                 SaveTimer.Stop();
                 Stop();
                 Start();
-
-                // Tell plugins we incremented nudge counter:
-                foreach (KeyValuePair<string, IAWBPlugin> a in AWBPlugins)
-                {
-                    a.Value.Nudged(nudges);
-                }
             }
         }
 
@@ -2924,7 +2918,7 @@ namespace AutoWikiBrowser
                 set { chkSkipNonExistent.Checked = value; }
             }
             ToolStripMenuItem IAWBMainForm.HelpToolStripMenuItem { get { return helpToolStripMenuItem; } }
-            int IAWBMainForm.NudgeCount { get { return nudges; } }
+            Label IAWBMainForm.NudgeCount { get { return lblNudges; } }
         #endregion
     }
 }
