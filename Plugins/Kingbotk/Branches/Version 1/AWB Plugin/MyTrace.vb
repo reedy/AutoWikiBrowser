@@ -11,6 +11,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Private webcontrol As WikiFunctions.Browser.WebControl
         Private LoggedIn As Boolean, LoggedInUser As String
         Private BusyCounter As Integer = 0
+        Private mIsUploading As Boolean
 
         Private Const conBadPages As String = "Bad"
         Private Const conWiki As String = "Wiki"
@@ -20,6 +21,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Private Sub Trace_Upload(ByVal Sender As TraceListenerUploadableBase, ByRef Success As Boolean)
             Dim frm As New UploadingPleaseWaitForm
             Dim Uploader As New Uploader.LogUploader
+
+            mIsUploading = True
 
             LoggingSettings.Led1.Colour = Colour.Blue
             Application.DoEvents()
@@ -63,6 +66,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             frm.Dispose()
             If BusyCounter = 0 Then LoggingSettings.Led1.Colour = Colour.Red _
                Else LoggingSettings.Led1.Colour = Colour.Green
+
+            mIsUploading = False
         End Sub
         Friend Sub Initialise()
             LoggingSettings.Initialised = True
@@ -87,6 +92,11 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Friend ReadOnly Property HaveOpenFile() As Boolean
             Get
                 Return Listeners.Count > 0
+            End Get
+        End Property
+        Friend ReadOnly Property IsUploading() As Boolean
+            Get
+                Return mIsUploading
             End Get
         End Property
 
@@ -160,11 +170,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             If (ContainsKey(conBadPages) OrElse ContainsKey(conWiki)) AndAlso (LoggingSettings.Settings.UploadYN AndAlso MessageBox.Show("Upload logs?", _
             "Logging", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) _
             = DialogResult.Yes) Then upload = True
-
-            'If upload Then
-            '    UploadBadPagesLog()
-            '    UploadWikiLog()
-            'End If
 
             For Each t As KeyValuePair(Of String, IMyTraceListener) In Listeners
                 t.Value.WriteCommentAndNewLine("closing all logs")
@@ -375,6 +380,11 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                    New TraceStatus(LS.WikiLinesLabel, LS.WikiLinesSinceUploadLabel, LS.UploadsCountLabel, _
                       LS.Settings.UploadYN, FileName, conWiki))
             End Sub
+
+            Public Overrides Sub CheckCounterForUpload()
+                ' Explicitly define to allow breakpoint
+                MyBase.CheckCounterForUpload()
+            End Sub
         End Class
 
         ''' <summary>
@@ -410,6 +420,10 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             End Sub
             Public Overrides Sub WriteCommentAndNewLine(ByVal Line As String)
                 MyBase.WriteLine("<!-- " & Line & " -->")
+            End Sub
+            Public Overrides Sub CheckCounterForUpload()
+                ' Explicitly define to allow breakpoint
+                MyBase.CheckCounterForUpload()
             End Sub
 
             ' Overrides - do nothing:
