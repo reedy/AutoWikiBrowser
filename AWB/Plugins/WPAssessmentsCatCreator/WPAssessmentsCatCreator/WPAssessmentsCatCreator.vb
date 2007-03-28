@@ -274,5 +274,7 @@ ExitMeEarly:
         End Sub
         Public Sub Reset() Implements WikiFunctions.Plugin.IAWBPlugin.Reset
         End Sub
+        Public Sub Nudge(ByRef Cancel As Boolean) Implements WikiFunctions.Plugin.IAWBPlugin.Nudge
+        End Sub
     End Class
 End Namespace
