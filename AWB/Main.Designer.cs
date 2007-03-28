@@ -52,6 +52,8 @@ namespace AutoWikiBrowser
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.listMaker1 = new WikiFunctions.Lists.ListMaker();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.tpEdit = new System.Windows.Forms.TabPage();
             this.txtEdit = new System.Windows.Forms.TextBox();
             this.mnuTextBox = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.wordWrapToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -104,6 +106,15 @@ namespace AutoWikiBrowser
             this.openSelectionInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.replaceTextWithLastEditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tpLogs = new System.Windows.Forms.TabPage();
+            this.btnClearIgnored = new System.Windows.Forms.Button();
+            this.btnSaveIgnored = new System.Windows.Forms.Button();
+            this.btnClearSaved = new System.Windows.Forms.Button();
+            this.btnSaveSaved = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.lbIgnored = new System.Windows.Forms.ListBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.lbSaved = new System.Windows.Forms.ListBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadDefaultSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -242,6 +253,7 @@ namespace AutoWikiBrowser
             this.txtDabLink = new System.Windows.Forms.TextBox();
             this.chkEnableDab = new System.Windows.Forms.CheckBox();
             this.tpBots = new System.Windows.Forms.TabPage();
+            this.lblOnlyBots = new System.Windows.Forms.Label();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
             this.btnResetNudges = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
@@ -254,7 +266,6 @@ namespace AutoWikiBrowser
             this.chkSuppressTag = new System.Windows.Forms.CheckBox();
             this.chkAutoMode = new System.Windows.Forms.CheckBox();
             this.lblAutoDelay = new System.Windows.Forms.Label();
-            this.lblOnlyBots = new System.Windows.Forms.Label();
             this.tpStart = new System.Windows.Forms.TabPage();
             this.lblSummary = new System.Windows.Forms.Label();
             this.chkLock = new System.Windows.Forms.CheckBox();
@@ -302,9 +313,13 @@ namespace AutoWikiBrowser
             this.exitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveTimer = new System.Windows.Forms.Timer(this.components);
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
+            this.strListFile = new System.Windows.Forms.SaveFileDialog();
             this.groupBox2.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.tabControl2.SuspendLayout();
+            this.tpEdit.SuspendLayout();
             this.mnuTextBox.SuspendLayout();
+            this.tpLogs.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudBotSpeed)).BeginInit();
@@ -366,11 +381,33 @@ namespace AutoWikiBrowser
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.Controls.Add(this.txtEdit);
+            this.panel1.Controls.Add(this.tabControl2);
             this.panel1.Location = new System.Drawing.Point(511, 5);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(269, 372);
             this.panel1.TabIndex = 9;
+            // 
+            // tabControl2
+            // 
+            this.tabControl2.Controls.Add(this.tpEdit);
+            this.tabControl2.Controls.Add(this.tpLogs);
+            this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl2.Location = new System.Drawing.Point(0, 0);
+            this.tabControl2.Name = "tabControl2";
+            this.tabControl2.SelectedIndex = 0;
+            this.tabControl2.Size = new System.Drawing.Size(269, 372);
+            this.tabControl2.TabIndex = 1;
+            // 
+            // tpEdit
+            // 
+            this.tpEdit.Controls.Add(this.txtEdit);
+            this.tpEdit.Location = new System.Drawing.Point(4, 22);
+            this.tpEdit.Name = "tpEdit";
+            this.tpEdit.Padding = new System.Windows.Forms.Padding(3);
+            this.tpEdit.Size = new System.Drawing.Size(261, 346);
+            this.tpEdit.TabIndex = 0;
+            this.tpEdit.Text = "Edit box";
+            this.tpEdit.UseVisualStyleBackColor = true;
             // 
             // txtEdit
             // 
@@ -379,12 +416,12 @@ namespace AutoWikiBrowser
             this.txtEdit.ContextMenuStrip = this.mnuTextBox;
             this.txtEdit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtEdit.Font = new System.Drawing.Font("Courier New", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtEdit.Location = new System.Drawing.Point(0, 0);
+            this.txtEdit.Location = new System.Drawing.Point(3, 3);
             this.txtEdit.MaxLength = 0;
             this.txtEdit.Multiline = true;
             this.txtEdit.Name = "txtEdit";
             this.txtEdit.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtEdit.Size = new System.Drawing.Size(269, 372);
+            this.txtEdit.Size = new System.Drawing.Size(255, 340);
             this.txtEdit.TabIndex = 0;
             this.txtEdit.TextChanged += new System.EventHandler(this.txtEdit_TextChanged);
             // 
@@ -782,6 +819,104 @@ namespace AutoWikiBrowser
             this.replaceTextWithLastEditToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
             this.replaceTextWithLastEditToolStripMenuItem.Text = "Replace text with last edit";
             this.replaceTextWithLastEditToolStripMenuItem.Click += new System.EventHandler(this.replaceTextWithLastEditToolStripMenuItem_Click);
+            // 
+            // tpLogs
+            // 
+            this.tpLogs.Controls.Add(this.btnClearIgnored);
+            this.tpLogs.Controls.Add(this.btnSaveIgnored);
+            this.tpLogs.Controls.Add(this.btnClearSaved);
+            this.tpLogs.Controls.Add(this.btnSaveSaved);
+            this.tpLogs.Controls.Add(this.label8);
+            this.tpLogs.Controls.Add(this.lbIgnored);
+            this.tpLogs.Controls.Add(this.label7);
+            this.tpLogs.Controls.Add(this.lbSaved);
+            this.tpLogs.Location = new System.Drawing.Point(4, 22);
+            this.tpLogs.Name = "tpLogs";
+            this.tpLogs.Padding = new System.Windows.Forms.Padding(3);
+            this.tpLogs.Size = new System.Drawing.Size(261, 346);
+            this.tpLogs.TabIndex = 1;
+            this.tpLogs.Text = "View log";
+            this.tpLogs.UseVisualStyleBackColor = true;
+            // 
+            // btnClearIgnored
+            // 
+            this.btnClearIgnored.Location = new System.Drawing.Point(103, 316);
+            this.btnClearIgnored.Name = "btnClearIgnored";
+            this.btnClearIgnored.Size = new System.Drawing.Size(91, 24);
+            this.btnClearIgnored.TabIndex = 7;
+            this.btnClearIgnored.Text = "Clear";
+            this.btnClearIgnored.UseVisualStyleBackColor = true;
+            this.btnClearIgnored.Click += new System.EventHandler(this.btnClearIgnored_Click);
+            // 
+            // btnSaveIgnored
+            // 
+            this.btnSaveIgnored.Location = new System.Drawing.Point(6, 316);
+            this.btnSaveIgnored.Name = "btnSaveIgnored";
+            this.btnSaveIgnored.Size = new System.Drawing.Size(91, 24);
+            this.btnSaveIgnored.TabIndex = 6;
+            this.btnSaveIgnored.Text = "Save log";
+            this.btnSaveIgnored.UseVisualStyleBackColor = true;
+            this.btnSaveIgnored.Click += new System.EventHandler(this.btnSaveIgnored_Click);
+            // 
+            // btnClearSaved
+            // 
+            this.btnClearSaved.Location = new System.Drawing.Point(103, 149);
+            this.btnClearSaved.Name = "btnClearSaved";
+            this.btnClearSaved.Size = new System.Drawing.Size(91, 24);
+            this.btnClearSaved.TabIndex = 5;
+            this.btnClearSaved.Text = "Clear";
+            this.btnClearSaved.UseVisualStyleBackColor = true;
+            this.btnClearSaved.Click += new System.EventHandler(this.btnClearSaved_Click);
+            // 
+            // btnSaveSaved
+            // 
+            this.btnSaveSaved.Location = new System.Drawing.Point(6, 149);
+            this.btnSaveSaved.Name = "btnSaveSaved";
+            this.btnSaveSaved.Size = new System.Drawing.Size(91, 24);
+            this.btnSaveSaved.TabIndex = 4;
+            this.btnSaveSaved.Text = "Save log";
+            this.btnSaveSaved.UseVisualStyleBackColor = true;
+            this.btnSaveSaved.Click += new System.EventHandler(this.btnSaveSaved_Click);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 186);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(49, 13);
+            this.label8.TabIndex = 3;
+            this.label8.Text = "Skipped:";
+            // 
+            // lbIgnored
+            // 
+            this.lbIgnored.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbIgnored.FormattingEnabled = true;
+            this.lbIgnored.Location = new System.Drawing.Point(6, 202);
+            this.lbIgnored.Name = "lbIgnored";
+            this.lbIgnored.SelectionMode = System.Windows.Forms.SelectionMode.None;
+            this.lbIgnored.Size = new System.Drawing.Size(249, 108);
+            this.lbIgnored.TabIndex = 2;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 6);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(101, 13);
+            this.label7.TabIndex = 1;
+            this.label7.Text = "Successfully saved:";
+            // 
+            // lbSaved
+            // 
+            this.lbSaved.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbSaved.FormattingEnabled = true;
+            this.lbSaved.Location = new System.Drawing.Point(6, 22);
+            this.lbSaved.Name = "lbSaved";
+            this.lbSaved.SelectionMode = System.Windows.Forms.SelectionMode.None;
+            this.lbSaved.Size = new System.Drawing.Size(249, 121);
+            this.lbSaved.TabIndex = 0;
             // 
             // menuStrip1
             // 
@@ -1632,7 +1767,7 @@ namespace AutoWikiBrowser
             // saveListDialog
             // 
             this.saveListDialog.DefaultExt = "txt";
-            this.saveListDialog.Filter = "Text file|*.txt";
+            this.saveListDialog.Filter = "Text file with wiki markup|*.txt|Plaintext list|*.txt";
             this.saveListDialog.Title = "Save article list";
             // 
             // saveXML
@@ -2162,6 +2297,17 @@ namespace AutoWikiBrowser
             this.tpBots.Text = "Bots";
             this.tpBots.UseVisualStyleBackColor = true;
             // 
+            // lblOnlyBots
+            // 
+            this.lblOnlyBots.BackColor = System.Drawing.SystemColors.Control;
+            this.lblOnlyBots.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
+            this.lblOnlyBots.Location = new System.Drawing.Point(1, 1);
+            this.lblOnlyBots.Name = "lblOnlyBots";
+            this.lblOnlyBots.Size = new System.Drawing.Size(276, 345);
+            this.lblOnlyBots.TabIndex = 35;
+            this.lblOnlyBots.Text = "Sorry, these options are only available for approved bots";
+            this.lblOnlyBots.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // groupBox14
             // 
             this.groupBox14.Controls.Add(this.btnResetNudges);
@@ -2305,17 +2451,6 @@ namespace AutoWikiBrowser
             this.lblAutoDelay.Size = new System.Drawing.Size(34, 13);
             this.lblAutoDelay.TabIndex = 25;
             this.lblAutoDelay.Text = "Delay";
-            // 
-            // lblOnlyBots
-            // 
-            this.lblOnlyBots.BackColor = System.Drawing.SystemColors.Control;
-            this.lblOnlyBots.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
-            this.lblOnlyBots.Location = new System.Drawing.Point(1, 1);
-            this.lblOnlyBots.Name = "lblOnlyBots";
-            this.lblOnlyBots.Size = new System.Drawing.Size(276, 345);
-            this.lblOnlyBots.TabIndex = 35;
-            this.lblOnlyBots.Text = "Sorry, these options are only available for approved bots";
-            this.lblOnlyBots.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tpStart
             // 
@@ -2814,6 +2949,12 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
             this.webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
             // 
+            // strListFile
+            // 
+            this.strListFile.DefaultExt = "txt";
+            this.strListFile.Filter = "Text file with wiki markup|*.txt|Plaintext list|*.txt";
+            this.strListFile.Title = "Save log";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2837,8 +2978,12 @@ namespace AutoWikiBrowser
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.groupBox2.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.tabControl2.ResumeLayout(false);
+            this.tpEdit.ResumeLayout(false);
+            this.tpEdit.PerformLayout();
             this.mnuTextBox.ResumeLayout(false);
+            this.tpLogs.ResumeLayout(false);
+            this.tpLogs.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
@@ -3149,6 +3294,18 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Label lblNudges;
         private System.Windows.Forms.Label lblOnlyBots;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.TabControl tabControl2;
+        private System.Windows.Forms.TabPage tpEdit;
+        private System.Windows.Forms.TabPage tpLogs;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ListBox lbIgnored;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ListBox lbSaved;
+        private System.Windows.Forms.Button btnClearIgnored;
+        private System.Windows.Forms.Button btnSaveIgnored;
+        private System.Windows.Forms.Button btnClearSaved;
+        private System.Windows.Forms.Button btnSaveSaved;
+        private System.Windows.Forms.SaveFileDialog strListFile;
 
 
     }
