@@ -639,6 +639,7 @@ namespace AutoWikiBrowser
 
             LastArticle = "";
             listMaker1.Remove(EdittingArticle);
+            lbSaved.Items.Add(EdittingArticle);
             SaveTimer.Stop();
             Start();
         }
@@ -665,6 +666,7 @@ namespace AutoWikiBrowser
                 stopDelayedAutoSaveTimer();
                 SaveTimer.Stop();
                 listMaker1.Remove(EdittingArticle);
+                lbIgnored.Items.Add(EdittingArticle);
                 Start();
             }
             catch (Exception ex)
@@ -2920,5 +2922,73 @@ namespace AutoWikiBrowser
             ToolStripMenuItem IAWBMainForm.HelpToolStripMenuItem { get { return helpToolStripMenuItem; } }
             Label IAWBMainForm.NudgeCount { get { return lblNudges; } }
         #endregion
+
+        #region Logs
+
+            private void btnClearSaved_Click(object sender, EventArgs e)
+        {
+            lbSaved.Items.Clear();
+        }
+
+        private void btnClearIgnored_Click(object sender, EventArgs e)
+        {
+            lbIgnored.Items.Clear();
+        }
+
+        public void SaveList(ListBox listbox)
+        {//Save lbArticles list to text file.
+            try
+            {
+                StringBuilder strList = new StringBuilder("");
+                StreamWriter sw;
+                string strListFile;
+                if (saveListDialog.ShowDialog() == DialogResult.OK)
+                {
+                    switch (saveListDialog.FilterIndex)
+                    {
+                        case 1: //wikitext
+                            foreach (Article a in listbox.Items)
+                            {
+                                strList.AppendLine("# [[" + a.Name + "]]");
+                            }
+                            strListFile = saveListDialog.FileName;
+                            sw = new StreamWriter(strListFile, false, Encoding.UTF8);
+                            sw.Write(strList);
+                            sw.Close();
+                            break;
+                        case 2: //plaintext
+                            foreach (Article a in listbox.Items)
+                            {
+                                strList.AppendLine(a.Name);
+                            }
+                            strListFile = saveListDialog.FileName;
+                            sw = new StreamWriter(strListFile, false, Encoding.UTF8);
+                            sw.Write(strList);
+                            sw.Close();
+                            break;
+                    }
+                }
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show(ex.Message, "File error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnSaveSaved_Click(object sender, EventArgs e)
+        {
+            SaveList(lbSaved);
+        }
+
+        private void btnSaveIgnored_Click(object sender, EventArgs e)
+        {
+            SaveList(lbIgnored);
+        }
+
+            #endregion
     }
 }
