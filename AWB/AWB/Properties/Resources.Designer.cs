@@ -59,5 +59,12 @@ namespace AutoWikiBrowser.Properties {
                 resourceCulture = value;
             }
         }
+        
+        internal static System.Drawing.Bitmap Bot_Image {
+            get {
+                object obj = ResourceManager.GetObject("Bot Image", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }
