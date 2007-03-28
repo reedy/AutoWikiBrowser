@@ -194,6 +194,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="globe.ico" />
+    <None Include="Resources\Bot Image.png" />
     <Content Include="ToDo.txt" />
   </ItemGroup>
   <ItemGroup>

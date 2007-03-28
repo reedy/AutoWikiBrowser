@@ -131,6 +131,8 @@ namespace AutoWikiBrowser
 
         int oldselection = 0;
 
+        int nudges = 0;
+
         bool boolSaved = true;
         HideText RemoveText = new HideText(false, true, false);
         List<string> noParse = new List<string>();
@@ -1068,17 +1070,10 @@ namespace AutoWikiBrowser
                     label1.Text = "";
                     txtNewCategory2.Enabled = false;
                 }
-                label2.Enabled = true;
-                label3.Enabled = true;
                 chkSkipNoCatChange.Enabled = true;
             }
             else
             {
-                if (!chkSkipNoImgChange.Enabled)
-                {
-                    label2.Enabled = false;
-                    label3.Enabled = false;
-                }
                 chkSkipNoCatChange.Enabled = false;
                 label1.Text = "";
                 txtNewCategory2.Enabled = false;
@@ -1101,6 +1096,11 @@ namespace AutoWikiBrowser
         private void UpdateBotStatus(object sender, EventArgs e)
         {
             chkAutoMode.Enabled = Variables.User.IsBot;
+            if (chkAutoMode.Checked)
+                chkAutoMode.Checked = Variables.User.IsBot;
+            if (chkQuickSave.Checked)
+                chkQuickSave.Checked = Variables.User.IsBot;
+            lblOnlyBots.Visible = !Variables.User.IsBot;
         }
 
         private void UpdateAdminStatus(object sender, EventArgs e)
@@ -1111,24 +1111,30 @@ namespace AutoWikiBrowser
         {
             if (chkAutoMode.Checked)
             {
-                chkNudge.Enabled = true;
-                chkNudge.Checked = true;
+                label2.Enabled = true;
+                chkSuppressTag.Enabled = true;
                 chkQuickSave.Enabled = true;
                 nudBotSpeed.Enabled = true;
                 lblAutoDelay.Enabled = true;
-                lblBotTimer.Enabled = true;
-                chkSkipNoChanges.Checked = true;
-                chkSuppressTag.Enabled = true;
-                chkRegExTypo.Checked = false;
+                btnResetNudges.Enabled = true;
+                label3.Enabled = true;
+                lblNudges.Enabled = true;
+                numericUpDown1.Enabled = true;
+                chkNudge.Enabled = true;
+                chkNudge.Checked = true;
             }
             else
             {
-                chkNudge.Enabled = false;
+                label2.Enabled = false;
+                chkSuppressTag.Enabled = false;
                 chkQuickSave.Enabled = false;
                 nudBotSpeed.Enabled = false;
                 lblAutoDelay.Enabled = false;
-                lblBotTimer.Enabled = false;
-                chkSuppressTag.Enabled = false;
+                btnResetNudges.Enabled = false;
+                label3.Enabled = false;
+                lblNudges.Enabled = false;
+                numericUpDown1.Enabled = false;
+                chkNudge.Enabled = false;
                 stopDelayedAutoSaveTimer();
             }
         }
@@ -1153,6 +1159,10 @@ namespace AutoWikiBrowser
         {
             if (MessageBox.Show("Would you really like to logout?", "Logout", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
+                chkAutoMode.Enabled = false;
+                chkAutoMode.Checked = false;
+                chkQuickSave.Checked = false;
+                lblOnlyBots.Visible = true;
                 webBrowserEdit.LoadLogOut();
                 Variables.User.UpdateWikiStatus();
             }
@@ -1514,6 +1524,7 @@ namespace AutoWikiBrowser
             Variables.User.IsBot = true;
             Variables.User.IsAdmin = true;
             chkQuickSave.Enabled = true;
+            lblOnlyBots.Visible = false;
             dumpHTMLToolStripMenuItem.Visible = true;
             logOutDebugToolStripMenuItem.Visible = true;
             bypassAllRedirectsToolStripMenuItem.Enabled = true;
@@ -1549,8 +1560,8 @@ namespace AutoWikiBrowser
 
                     Variables.User.WikiStatus = false;
                     chkQuickSave.Checked = false;
-                    chkQuickSave.Enabled = false;
                     chkAutoMode.Checked = false;
+                    lblOnlyBots.Visible = true;
                     Variables.User.IsBot = false;
                     Variables.User.IsAdmin = false;
                 }
@@ -2505,11 +2516,6 @@ namespace AutoWikiBrowser
 
                 txtImageReplace.Enabled = false;
                 txtImageWith.Enabled = false;
-                if (!chkSkipNoCatChange.Enabled)
-                {
-                    label2.Enabled = false;
-                    label3.Enabled = false;
-                }
                 chkSkipNoImgChange.Enabled = false;
             }
             else if (cmboImages.SelectedIndex == 1)
@@ -2518,8 +2524,6 @@ namespace AutoWikiBrowser
 
                 txtImageWith.Enabled = true;
                 txtImageReplace.Enabled = true;
-                label2.Enabled = true;
-                label3.Enabled = true;
                 chkSkipNoImgChange.Enabled = true;
             }
             else if (cmboImages.SelectedIndex == 2)
@@ -2528,8 +2532,6 @@ namespace AutoWikiBrowser
 
                 txtImageWith.Enabled = false;
                 txtImageReplace.Enabled = true;
-                label2.Enabled = true;
-                label3.Enabled = true;
                 chkSkipNoImgChange.Enabled = true;
             }
             else if (cmboImages.SelectedIndex == 3)
@@ -2538,8 +2540,6 @@ namespace AutoWikiBrowser
                 
                 txtImageWith.Enabled = true;
                 txtImageReplace.Enabled = true;
-                label2.Enabled = true;
-                label3.Enabled = true;
                 chkSkipNoImgChange.Enabled = true;
             }
         }
@@ -2872,6 +2872,8 @@ namespace AutoWikiBrowser
             //make sure there was no error and bot mode is still enabled
             if (chkAutoMode.Checked)
             {
+                nudges++;
+                lblNudges.Text = "Total nudges: " + nudges;
                 SaveTimer.Stop();
                 Stop();
                 Start();
@@ -2891,6 +2893,17 @@ namespace AutoWikiBrowser
 
             if (closeAWB == DialogResult.Yes)
                 Application.Exit();
+        }
+
+        private void btnResetNudges_Click(object sender, EventArgs e)
+        {
+            nudges = 0;
+            lblNudges.Text = "Total nudges: 0";
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            SaveTimer.Interval = (int)numericUpDown1.Value * 60000;
         }
     }
 }
