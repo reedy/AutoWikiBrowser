@@ -29,6 +29,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.LivingCheckBox = New System.Windows.Forms.CheckBox
             Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
             Me.WorkgroupsGroupBox = New System.Windows.Forms.GroupBox
+            Me.PeerageCheckBox = New System.Windows.Forms.CheckBox
+            Me.BaronetsCheckBox = New System.Windows.Forms.CheckBox
             Me.SportsCheckBox = New System.Windows.Forms.CheckBox
             Me.MusiciansCheckBox = New System.Windows.Forms.CheckBox
             Me.BritishRoyaltyCheckBox = New System.Windows.Forms.CheckBox
@@ -47,11 +49,13 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.WPBiographyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem
             Me.ArtsEntertainmentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.BritishRoyaltyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.BaronetsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.MilitaryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.MusiciansToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.PeerageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.PoliticsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.RoyaltyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.BritishRoyaltyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.ScienceAcademiaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.SportsGamesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
@@ -68,10 +72,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.CoreArticleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.NonbiographyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.AutotaggedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.BaronetsCheckBox = New System.Windows.Forms.CheckBox
-            Me.PeerageCheckBox = New System.Windows.Forms.CheckBox
-            Me.PeerageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.BaronetsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.ParametersGroup.SuspendLayout()
             Me.WorkgroupsGroupBox.SuspendLayout()
             Me.OptionsGroupBox.SuspendLayout()
@@ -166,6 +166,28 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.WorkgroupsGroupBox.TabStop = False
             Me.WorkgroupsGroupBox.Text = "Workgroups"
             Me.ToolTip1.SetToolTip(Me.WorkgroupsGroupBox, "a&e-work-group=yes")
+            '
+            'PeerageCheckBox
+            '
+            Me.PeerageCheckBox.AutoSize = True
+            Me.PeerageCheckBox.Location = New System.Drawing.Point(6, 99)
+            Me.PeerageCheckBox.Name = "PeerageCheckBox"
+            Me.PeerageCheckBox.Size = New System.Drawing.Size(66, 17)
+            Me.PeerageCheckBox.TabIndex = 11
+            Me.PeerageCheckBox.Text = "Peerage"
+            Me.ToolTip1.SetToolTip(Me.PeerageCheckBox, "peerage-work-group=yes")
+            Me.PeerageCheckBox.UseVisualStyleBackColor = True
+            '
+            'BaronetsCheckBox
+            '
+            Me.BaronetsCheckBox.AutoSize = True
+            Me.BaronetsCheckBox.Location = New System.Drawing.Point(6, 39)
+            Me.BaronetsCheckBox.Name = "BaronetsCheckBox"
+            Me.BaronetsCheckBox.Size = New System.Drawing.Size(68, 17)
+            Me.BaronetsCheckBox.TabIndex = 10
+            Me.BaronetsCheckBox.Text = "Baronets"
+            Me.ToolTip1.SetToolTip(Me.BaronetsCheckBox, "baronets-work-group=yes")
+            Me.BaronetsCheckBox.UseVisualStyleBackColor = True
             '
             'SportsCheckBox
             '
@@ -298,7 +320,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.TipLabel.TabIndex = 6
             Me.TipLabel.Text = "Tip: The plugin also adds parameter insertion options" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "to the context menu of the" & _
                 " edit box. Just right" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "click inside the edit box to access them."
-            Me.TipLabel.Visible = False
             '
             'LinkLabel1
             '
@@ -314,13 +335,13 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             '
             Me.TextInsertContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem})
             Me.TextInsertContextMenuStrip.Name = "TextInsertContextMenuStrip"
-            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(153, 48)
+            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(139, 26)
             '
             'ToolStripMenuItem
             '
             Me.ToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.WPBiographyToolStripMenuItem, Me.ToolStripMenuItem3, Me.ToolStripSeparator2, Me.AttentionToolStripMenuItem, Me.InfoboxToolStripMenuItem, Me.ToolStripSeparator1, Me.CollabCandidateToolStripMenuItem, Me.PastCollabToolStripMenuItem, Me.PeerReviewToolStripMenuItem, Me.OldPeerReviewToolStripMenuItem, Me.ToolStripSeparator3, Me.LivingPersonToolStripMenuItem, Me.ActivePoliticianToolStripMenuItem, Me.CoreArticleToolStripMenuItem, Me.NonbiographyToolStripMenuItem, Me.AutotaggedToolStripMenuItem})
             Me.ToolStripMenuItem.Name = "ToolStripMenuItem"
-            Me.ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.ToolStripMenuItem.Size = New System.Drawing.Size(138, 22)
             Me.ToolStripMenuItem.Text = "WPBiography"
             '
             'WPBiographyToolStripMenuItem
@@ -342,11 +363,11 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.ArtsEntertainmentToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
             Me.ArtsEntertainmentToolStripMenuItem.Text = "Arts && Entertainment"
             '
-            'BritishRoyaltyToolStripMenuItem
+            'BaronetsToolStripMenuItem
             '
-            Me.BritishRoyaltyToolStripMenuItem.Name = "BritishRoyaltyToolStripMenuItem"
-            Me.BritishRoyaltyToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
-            Me.BritishRoyaltyToolStripMenuItem.Text = "British Royalty"
+            Me.BaronetsToolStripMenuItem.Name = "BaronetsToolStripMenuItem"
+            Me.BaronetsToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
+            Me.BaronetsToolStripMenuItem.Text = "Baronets"
             '
             'MilitaryToolStripMenuItem
             '
@@ -360,6 +381,12 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.MusiciansToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
             Me.MusiciansToolStripMenuItem.Text = "Musicians"
             '
+            'PeerageToolStripMenuItem
+            '
+            Me.PeerageToolStripMenuItem.Name = "PeerageToolStripMenuItem"
+            Me.PeerageToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
+            Me.PeerageToolStripMenuItem.Text = "Peerage"
+            '
             'PoliticsToolStripMenuItem
             '
             Me.PoliticsToolStripMenuItem.Name = "PoliticsToolStripMenuItem"
@@ -371,6 +398,12 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.RoyaltyToolStripMenuItem.Name = "RoyaltyToolStripMenuItem"
             Me.RoyaltyToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
             Me.RoyaltyToolStripMenuItem.Text = "Royalty"
+            '
+            'BritishRoyaltyToolStripMenuItem
+            '
+            Me.BritishRoyaltyToolStripMenuItem.Name = "BritishRoyaltyToolStripMenuItem"
+            Me.BritishRoyaltyToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
+            Me.BritishRoyaltyToolStripMenuItem.Text = "British Royalty"
             '
             'ScienceAcademiaToolStripMenuItem
             '
@@ -464,40 +497,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.AutotaggedToolStripMenuItem.Name = "AutotaggedToolStripMenuItem"
             Me.AutotaggedToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.AutotaggedToolStripMenuItem.Text = "Auto-tagged"
-            '
-            'BaronetsCheckBox
-            '
-            Me.BaronetsCheckBox.AutoSize = True
-            Me.BaronetsCheckBox.Location = New System.Drawing.Point(6, 39)
-            Me.BaronetsCheckBox.Name = "BaronetsCheckBox"
-            Me.BaronetsCheckBox.Size = New System.Drawing.Size(68, 17)
-            Me.BaronetsCheckBox.TabIndex = 10
-            Me.BaronetsCheckBox.Text = "Baronets"
-            Me.ToolTip1.SetToolTip(Me.BaronetsCheckBox, "baronets-work-group=yes")
-            Me.BaronetsCheckBox.UseVisualStyleBackColor = True
-            '
-            'PeerageCheckBox
-            '
-            Me.PeerageCheckBox.AutoSize = True
-            Me.PeerageCheckBox.Location = New System.Drawing.Point(6, 99)
-            Me.PeerageCheckBox.Name = "PeerageCheckBox"
-            Me.PeerageCheckBox.Size = New System.Drawing.Size(66, 17)
-            Me.PeerageCheckBox.TabIndex = 11
-            Me.PeerageCheckBox.Text = "Peerage"
-            Me.ToolTip1.SetToolTip(Me.PeerageCheckBox, "peerage-work-group=yes")
-            Me.PeerageCheckBox.UseVisualStyleBackColor = True
-            '
-            'PeerageToolStripMenuItem
-            '
-            Me.PeerageToolStripMenuItem.Name = "PeerageToolStripMenuItem"
-            Me.PeerageToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
-            Me.PeerageToolStripMenuItem.Text = "Peerage"
-            '
-            'BaronetsToolStripMenuItem
-            '
-            Me.BaronetsToolStripMenuItem.Name = "BaronetsToolStripMenuItem"
-            Me.BaronetsToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
-            Me.BaronetsToolStripMenuItem.Text = "Baronets"
             '
             'WPBiographySettings
             '
