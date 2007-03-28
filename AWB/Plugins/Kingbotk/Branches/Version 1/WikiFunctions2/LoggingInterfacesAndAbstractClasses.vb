@@ -148,8 +148,13 @@ Namespace Logging
 
             If CheckCounter Then CheckCounterForUpload()
         End Sub
+        Protected Overridable ReadOnly Property IsReadyToUpload() As Boolean
+            Get
+                Return mTraceStatus.LinesWrittenSinceLastUpload >= mUploadSettings.UploadMaxLines
+            End Get
+        End Property
         Public Overridable Sub CheckCounterForUpload()
-            If mTraceStatus.LinesWrittenSinceLastUpload >= mUploadSettings.UploadMaxLines Then UploadLog()
+            If IsReadyToUpload Then UploadLog()
         End Sub
         Public Shadows Sub Close(ByVal Upload As Boolean)
             If Upload Then UploadLog()
