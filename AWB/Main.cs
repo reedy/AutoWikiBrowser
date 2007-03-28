@@ -317,11 +317,8 @@ namespace AutoWikiBrowser
                     webBrowserEdit.Document.Write("");
 
                 //check we are logged in
-                if (!Variables.User.WikiStatus)
-                {
-                    if (!CheckStatus())
-                        return;
-                }
+                if (!Variables.User.WikiStatus && !CheckStatus())
+                    return;
 
                 ArticleInfo(true);
 
@@ -2819,29 +2816,6 @@ namespace AutoWikiBrowser
             ntfyTray.ShowBalloonTip(10000);
         }
 
-        #region IAWBMainForm:
-            TabPage IAWBMainForm.MoreOptionsTab { get { return tpMoreOptions; } }
-            TabPage IAWBMainForm.OptionsTab { get { return tpSetOptions; } }
-            TabPage IAWBMainForm.StartTab { get { return tpStart; } }
-            TabPage IAWBMainForm.DabTab { get { return tpDab; } }
-            TabPage IAWBMainForm.BotTab { get { return tpBots; } }
-            CheckBox IAWBMainForm.BotModeCheckbox { get { return chkAutoMode; } }
-            Button IAWBMainForm.PreviewButton { get { return btnPreview; } }
-            Button IAWBMainForm.SaveButton { get { return btnSave; } }
-            Button IAWBMainForm.SkipButton { get { return btnIgnore; } }
-            Button IAWBMainForm.StopButton { get { return btnStop; } }
-            Button IAWBMainForm.DiffButton { get { return btnDiff; } }
-            Button IAWBMainForm.StartButton { get { return btnStart; } }
-            ComboBox IAWBMainForm.EditSummary { get { return cmboEditSummary; } }
-            StatusStrip IAWBMainForm.StatusStrip { get { return statusStrip1; } }
-            NotifyIcon IAWBMainForm.NotifyIcon { get { return ntfyTray; } }
-            Boolean IAWBMainForm.SkipNonExistentPages {
-                get { return chkSkipNonExistent.Checked; }
-                set { chkSkipNonExistent.Checked = value; }
-            }
-            ToolStripMenuItem IAWBMainForm.HelpToolStripMenuItem { get { return helpToolStripMenuItem; } }
-        #endregion
-
         private void btnRemove_Click(object sender, EventArgs e)
         {
             string selectedtext = txtEdit.SelectedText;
@@ -2869,19 +2843,6 @@ namespace AutoWikiBrowser
                 MessageBox.Show("Please select a link to remove either manually or by clicking a link in the list above.");
         }
 
-        private void SaveTimer_Tick(object sender, EventArgs e)
-        {
-            //make sure there was no error and bot mode is still enabled
-            if (chkAutoMode.Checked)
-            {
-                nudges++;
-                lblNudges.Text = "Total nudges: " + nudges;
-                SaveTimer.Stop();
-                Stop();
-                Start();
-            }
-        }
-
         private void runUpdaterToolStripMenuItem_Click(object sender, EventArgs e)
         {
             runUpdater();
@@ -2907,5 +2868,63 @@ namespace AutoWikiBrowser
         {
             SaveTimer.Interval = (int)numericUpDown1.Value * 60000;
         }
+
+
+        #region "Nudge timer"
+        private void SaveTimer_Tick(object sender, EventArgs e)
+        {
+            //make sure there was no error and bot mode is still enabled
+            if (chkAutoMode.Checked)
+            {
+                bool CancelNudge = false;
+
+                // Tell plugins we're about to nudge, and give them the opportunity to cancel:
+                foreach (KeyValuePair<string, IAWBPlugin> a in AWBPlugins)
+                {
+                    a.Value.Nudge(out CancelNudge);
+                    if (CancelNudge) return;
+                }
+
+                // Update stats and nudge:
+                nudges++;
+                lblNudges.Text = "Total nudges: " + nudges;
+                SaveTimer.Stop();
+                Stop();
+                Start();
+
+                // Tell plugins we incremented nudge counter:
+                foreach (KeyValuePair<string, IAWBPlugin> a in AWBPlugins)
+                {
+                    a.Value.Nudged(nudges);
+                }
+            }
+        }
+
+        #endregion
+
+        #region IAWBMainForm:
+            TabPage IAWBMainForm.MoreOptionsTab { get { return tpMoreOptions; } }
+            TabPage IAWBMainForm.OptionsTab { get { return tpSetOptions; } }
+            TabPage IAWBMainForm.StartTab { get { return tpStart; } }
+            TabPage IAWBMainForm.DabTab { get { return tpDab; } }
+            TabPage IAWBMainForm.BotTab { get { return tpBots; } }
+            CheckBox IAWBMainForm.BotModeCheckbox { get { return chkAutoMode; } }
+            Button IAWBMainForm.PreviewButton { get { return btnPreview; } }
+            Button IAWBMainForm.SaveButton { get { return btnSave; } }
+            Button IAWBMainForm.SkipButton { get { return btnIgnore; } }
+            Button IAWBMainForm.StopButton { get { return btnStop; } }
+            Button IAWBMainForm.DiffButton { get { return btnDiff; } }
+            Button IAWBMainForm.StartButton { get { return btnStart; } }
+            ComboBox IAWBMainForm.EditSummary { get { return cmboEditSummary; } }
+            StatusStrip IAWBMainForm.StatusStrip { get { return statusStrip1; } }
+            NotifyIcon IAWBMainForm.NotifyIcon { get { return ntfyTray; } }
+            Boolean IAWBMainForm.SkipNonExistentPages
+            {
+                get { return chkSkipNonExistent.Checked; }
+                set { chkSkipNonExistent.Checked = value; }
+            }
+            ToolStripMenuItem IAWBMainForm.HelpToolStripMenuItem { get { return helpToolStripMenuItem; } }
+            int IAWBMainForm.NudgeCount { get { return nudges; } }
+        #endregion
     }
 }
