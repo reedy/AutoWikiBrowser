@@ -201,7 +201,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
 
             DirectCast(Me.AWBGroupBox.Controls(btn.Name), Button).Enabled = btn.Enabled
         End Sub
-        Friend Sub AWBSkipButtonClickEventHandler(ByVal sender As Object, ByVal e As EventArgs) _
+        Private Sub AWBSkipButtonClickEventHandler(ByVal sender As Object, ByVal e As EventArgs) _
         Handles btnIgnore.Click
             If Not ManuallyAssess Then ' If ManuallyAssess is True, defer to the handler in Assessments class
                 MyTrace.SkippedArticle("User", "User clicked Ignore")
@@ -230,6 +230,10 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Private Sub chkBotMode_EnabledChanged(ByVal sender As Object, ByVal e As EventArgs) _
         Handles chkBotMode.EnabledChanged
             If DirectCast(sender, CheckBox).Enabled Then blnBotModeHasBeenOn = True
+        End Sub
+        Private Sub NudgeCountTextChangedHandler(ByVal sender As Object, ByVal e As EventArgs)
+            lblAWBNudges.Text = "Nudges: " & _
+               DirectCast(sender, Label).Text.Replace(WikiFunctions.AWBSettings.AWBConstants.NudgeTimerString, "")
         End Sub
 
         ' Event handlers - plugin stats:
@@ -438,6 +442,19 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             InitializeComponent()
 
             ' Add any initialization after the InitializeComponent() call.
+
+            With PluginManager.AWBForm
+                AddHandler .SkipButton.Click, AddressOf Me.AWBSkipButtonClickEventHandler
+                ' Get notification when AWB buttons enabled-state changes:
+                AddHandler .DiffButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
+                AddHandler .StopButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
+                AddHandler .StartButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
+                AddHandler .PreviewButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
+                AddHandler .SaveButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
+                AddHandler .SkipButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
+                AddHandler .NudgeCount.TextChanged, AddressOf Me.NudgeCountTextChangedHandler
+            End With
+
             StatLabels.AddRange(New Label() {lblTagged, lblSkipped, lblNoChange, lblBadTag, lblNamespace, lblNew, _
                lblRedlink})
 
