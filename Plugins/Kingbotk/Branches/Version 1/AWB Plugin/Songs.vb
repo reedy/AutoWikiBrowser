@@ -130,9 +130,9 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Protected Friend Sub New(ByVal Manager As PluginManager)
             MyBase.New(Manager)
             Const RegexpMiddle As String = "Songs|WikiProjectSongs"
-            MainRegex = New Regex(conRegexpLeft & RegexpMiddle & conRegexpRight, conRegexpOptions)
+            MainRegex = CreateStandardRegex(RegexpMiddle)
             PreferredTemplateNameRegex = New Regex("^[Ss]ongs$", RegexOptions.Compiled)
-            SecondChanceRegex = New Regex(conRegexpLeft & RegexpMiddle & conRegexpRightNotStrict, conRegexpOptions)
+            SecondChanceRegex = CreateSecondChanceRegex(RegexpMiddle)
         End Sub
         Protected Friend Overrides Sub Initialise(ByVal AWBPluginsMenu As ToolStripMenuItem, ByVal txt As TextBox)
             OurMenuItem = New ToolStripMenuItem("Songs Plugin")

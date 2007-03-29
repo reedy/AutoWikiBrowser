@@ -530,7 +530,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                         PreferredTemplateNameRegex = Nothing
                     End If
 
-                    MainRegex = New Regex(conRegexpLeft & RegexpMiddle & conRegexpRight, conRegexpOptions)
+                    MainRegex = CreateStandardRegex(RegexpMiddle)
                     SecondChanceRegex = New Regex(conRegexpLeft & RegexpMiddle & conRegexpRightNotStrict, _
                        conRegexpOptions)
                 End If

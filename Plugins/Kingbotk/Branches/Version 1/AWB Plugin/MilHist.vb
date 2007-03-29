@@ -428,9 +428,9 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
 
             Const RegexpMiddle As String = "WPMILHIST|WikiProject Military History|WikiProject Military history"
 
-            MainRegex = New Regex(conRegexpLeft & RegexpMiddle & conRegexpRight, conRegexpOptions)
+            MainRegex = CreateStandardRegex(RegexpMiddle)
             PreferredTemplateNameRegex = New Regex("^[Ww]PMILHIST$", RegexOptions.Compiled)
-            SecondChanceRegex = New Regex(conRegexpLeft & RegexpMiddle & conRegexpRightNotStrict, conRegexpOptions)
+            SecondChanceRegex = CreateSecondChanceRegex(RegexpMiddle)
         End Sub
         Protected Friend Overrides Sub Initialise(ByVal AWBPluginsMenu As ToolStripMenuItem, ByVal txt As TextBox)
             OurMenuItem = New ToolStripMenuItem("Military History Plugin")
