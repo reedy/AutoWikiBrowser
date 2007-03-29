@@ -98,11 +98,11 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
             Me.PerformLayout()
 
         End Sub
-        Friend WithEvents OK_Button As System.Windows.Forms.Button
-        Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
-        Friend WithEvents Label1 As System.Windows.Forms.Label
-        Friend WithEvents Label2 As System.Windows.Forms.Label
-        Friend WithEvents CheckBox1 As System.Windows.Forms.CheckBox
+        Private WithEvents OK_Button As System.Windows.Forms.Button
+        Private WithEvents PictureBox1 As System.Windows.Forms.PictureBox
+        Private WithEvents Label1 As System.Windows.Forms.Label
+        Private WithEvents Label2 As System.Windows.Forms.Label
+        Private WithEvents CheckBox1 As System.Windows.Forms.CheckBox
 
     End Class
 End Namespace

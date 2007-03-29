@@ -171,17 +171,17 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
             Me.PerformLayout()
 
         End Sub
-        Friend WithEvents TableLayoutPanel1 As System.Windows.Forms.TableLayoutPanel
-        Friend WithEvents OK_Button As System.Windows.Forms.Button
-        Friend WithEvents Cancel_Button As System.Windows.Forms.Button
-        Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
-        Friend WithEvents ClassCheckedListBox As System.Windows.Forms.CheckedListBox
-        Friend WithEvents ImportanceCheckedListBox As System.Windows.Forms.CheckedListBox
-        Friend WithEvents Label1 As System.Windows.Forms.Label
-        Friend WithEvents Label2 As System.Windows.Forms.Label
-        Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
-        Friend WithEvents SettingsCheckedListBox As System.Windows.Forms.CheckedListBox
-        Friend WithEvents Label3 As System.Windows.Forms.Label
+        Private WithEvents TableLayoutPanel1 As System.Windows.Forms.TableLayoutPanel
+        Private WithEvents OK_Button As System.Windows.Forms.Button
+        Private WithEvents Cancel_Button As System.Windows.Forms.Button
+        Private WithEvents PictureBox1 As System.Windows.Forms.PictureBox
+        Private WithEvents ClassCheckedListBox As System.Windows.Forms.CheckedListBox
+        Private WithEvents ImportanceCheckedListBox As System.Windows.Forms.CheckedListBox
+        Private WithEvents Label1 As System.Windows.Forms.Label
+        Private WithEvents Label2 As System.Windows.Forms.Label
+        Private WithEvents ToolTip1 As System.Windows.Forms.ToolTip
+        Private WithEvents SettingsCheckedListBox As System.Windows.Forms.CheckedListBox
+        Private WithEvents Label3 As System.Windows.Forms.Label
 
     End Class
 End Namespace

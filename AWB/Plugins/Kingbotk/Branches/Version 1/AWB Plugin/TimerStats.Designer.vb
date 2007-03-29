@@ -76,11 +76,11 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.PerformLayout()
 
         End Sub
-        Friend WithEvents Timer1 As System.Windows.Forms.Timer
-        Friend WithEvents TimerLabel As System.Windows.Forms.Label
-        Friend WithEvents SpeedLabel As System.Windows.Forms.Label
-        Friend WithEvents EditsLabel As System.Windows.Forms.Label
-        Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
+        Private WithEvents Timer1 As System.Windows.Forms.Timer
+        Private WithEvents TimerLabel As System.Windows.Forms.Label
+        Private WithEvents SpeedLabel As System.Windows.Forms.Label
+        Private WithEvents EditsLabel As System.Windows.Forms.Label
+        Private WithEvents ToolTip1 As System.Windows.Forms.ToolTip
 
     End Class
 End Namespace

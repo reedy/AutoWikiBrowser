@@ -173,15 +173,15 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.PerformLayout()
 
         End Sub
-        Friend WithEvents OKButton As System.Windows.Forms.Button
-        Friend WithEvents LabelProductName As System.Windows.Forms.Label
-        Friend WithEvents LabelVersion As System.Windows.Forms.Label
-        Friend WithEvents LabelCopyright As System.Windows.Forms.Label
-        Friend WithEvents TextBoxDescription As System.Windows.Forms.Label
-        Friend WithEvents Label1 As System.Windows.Forms.Label
         Private WithEvents linkKingboy As System.Windows.Forms.LinkLabel
-        Friend WithEvents Label2 As System.Windows.Forms.Label
         Private WithEvents linkReedy As System.Windows.Forms.LinkLabel
+        Private WithEvents OKButton As System.Windows.Forms.Button
+        Private WithEvents LabelProductName As System.Windows.Forms.Label
+        Private WithEvents LabelVersion As System.Windows.Forms.Label
+        Private WithEvents LabelCopyright As System.Windows.Forms.Label
+        Private WithEvents TextBoxDescription As System.Windows.Forms.Label
+        Private WithEvents Label1 As System.Windows.Forms.Label
+        Private WithEvents Label2 As System.Windows.Forms.Label
 
     End Class
 End Namespace

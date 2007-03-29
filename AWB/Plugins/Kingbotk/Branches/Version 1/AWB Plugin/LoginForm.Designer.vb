@@ -13,12 +13,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             End If
             MyBase.Dispose(disposing)
         End Sub
-        Friend WithEvents LogoPictureBox As System.Windows.Forms.PictureBox
-        Friend WithEvents UsernameLabel As System.Windows.Forms.Label
-        Friend WithEvents PasswordLabel As System.Windows.Forms.Label
-        Friend WithEvents UsernameTextBox As System.Windows.Forms.TextBox
-        Friend WithEvents PasswordTextBox As System.Windows.Forms.TextBox
-        Friend WithEvents OK As System.Windows.Forms.Button
 
         'Required by the Windows Form Designer
         Private components As System.ComponentModel.IContainer
@@ -131,8 +125,14 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.PerformLayout()
 
         End Sub
-        Friend WithEvents CheckBox1 As System.Windows.Forms.CheckBox
-        Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
+        Private WithEvents LogoPictureBox As System.Windows.Forms.PictureBox
+        Private WithEvents UsernameLabel As System.Windows.Forms.Label
+        Private WithEvents PasswordLabel As System.Windows.Forms.Label
+        Private WithEvents UsernameTextBox As System.Windows.Forms.TextBox
+        Private WithEvents PasswordTextBox As System.Windows.Forms.TextBox
+        Private WithEvents OK As System.Windows.Forms.Button
+        Private WithEvents CheckBox1 As System.Windows.Forms.CheckBox
+        Private WithEvents ToolTip1 As System.Windows.Forms.ToolTip
 
     End Class
 End Namespace
