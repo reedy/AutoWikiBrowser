@@ -64,7 +64,7 @@ Namespace Logging.Uploader
             Me.PerformLayout()
 
         End Sub
-        Public WithEvents PictureBox1 As System.Windows.Forms.PictureBox
-        Public WithEvents Label1 As System.Windows.Forms.Label
+        Protected Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
+        Protected Friend WithEvents Label1 As System.Windows.Forms.Label
     End Class
 End Namespace
