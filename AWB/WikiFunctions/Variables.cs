@@ -1190,6 +1190,14 @@ namespace WikiFunctions
             private set { strCheckPage = value; }
         }
     }
+    #endregion
+
+    namespace AWBSettings
+    {
+        public static class AWBConstants
+        {
+            public const string NudgeTimerString = "Total nudges: ";
+        }
+    }
 }
 
-        #endregion
