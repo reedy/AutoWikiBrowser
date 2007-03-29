@@ -555,7 +555,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.lblAWBNudges.Size = New System.Drawing.Size(56, 13)
             Me.lblAWBNudges.TabIndex = 48
             Me.lblAWBNudges.Text = "Nudges: 0"
-            Me.ToolTip1.SetToolTip(Me.lblAWBNudges, "Number of times AWB stopped sending articles and got nudged")
+            Me.ToolTip1.SetToolTip(Me.lblAWBNudges, "Number of times AWB got nudged")
             Me.lblAWBNudges.Visible = False
             '
             'ResetTimerButton
