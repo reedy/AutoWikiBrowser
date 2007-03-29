@@ -2349,7 +2349,7 @@ namespace AutoWikiBrowser
             this.lblNudges.Name = "lblNudges";
             this.lblNudges.Size = new System.Drawing.Size(81, 13);
             this.lblNudges.TabIndex = 33;
-            this.lblNudges.Text = "Total nudges: 0";
+            this.lblNudges.Text = WikiFunctions.AWBSettings.AWBConstants.NudgeTimerString + "0";
             // 
             // numericUpDown1
             // 

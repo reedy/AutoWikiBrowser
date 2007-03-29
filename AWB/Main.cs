@@ -2863,7 +2863,7 @@ namespace AutoWikiBrowser
         private void btnResetNudges_Click(object sender, EventArgs e)
         {
             nudges = 0;
-            lblNudges.Text = "Total nudges: 0";
+            lblNudges.Text = WikiFunctions.AWBSettings.AWBConstants.NudgeTimerString + "0";
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
@@ -2889,7 +2889,7 @@ namespace AutoWikiBrowser
 
                 // Update stats and nudge:
                 nudges++;
-                lblNudges.Text = "Total nudges: " + nudges;
+                lblNudges.Text = WikiFunctions.AWBSettings.AWBConstants.NudgeTimerString + nudges;
                 SaveTimer.Stop();
                 Stop();
                 Start();
