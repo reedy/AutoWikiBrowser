@@ -36,9 +36,9 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
             Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
             Me.LeadButton = New System.Windows.Forms.Button
             Me.SectionsButton = New System.Windows.Forms.Button
+            Me.ToneButton = New System.Windows.Forms.Button
             Me.Label2 = New System.Windows.Forms.Label
             Me.SkipButton = New System.Windows.Forms.Button
-            Me.ToneButton = New System.Windows.Forms.Button
             CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.StatusStrip1.SuspendLayout()
             Me.SuspendLayout()
@@ -46,12 +46,14 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
             'WebControl1
             '
             Me.WebControl1.AllowNavigation = False
+            Me.WebControl1.ArticleText = ""
             Me.WebControl1.Busy = False
             Me.WebControl1.DiffFontSize = 150
             Me.WebControl1.EnhanceDiffEnabled = True
             Me.WebControl1.Location = New System.Drawing.Point(0, 0)
             Me.WebControl1.MinimumSize = New System.Drawing.Size(20, 20)
             Me.WebControl1.Name = "WebControl1"
+            Me.WebControl1.ProcessStage = WikiFunctions.Browser.enumProcessStage.none
             Me.WebControl1.ScriptErrorsSuppressed = True
             Me.WebControl1.ScrollDown = True
             Me.WebControl1.Size = New System.Drawing.Size(807, 450)
@@ -186,6 +188,16 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
             Me.ToolTip1.SetToolTip(Me.SectionsButton, "Article needs sections")
             Me.SectionsButton.UseVisualStyleBackColor = True
             '
+            'ToneButton
+            '
+            Me.ToneButton.Location = New System.Drawing.Point(281, 518)
+            Me.ToneButton.Name = "ToneButton"
+            Me.ToneButton.Size = New System.Drawing.Size(75, 23)
+            Me.ToneButton.TabIndex = 37
+            Me.ToneButton.Text = "Tone"
+            Me.ToolTip1.SetToolTip(Me.ToneButton, "Article needs enyclopedic tone")
+            Me.ToneButton.UseVisualStyleBackColor = True
+            '
             'Label2
             '
             Me.Label2.AutoSize = True
@@ -205,16 +217,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
             Me.SkipButton.TabIndex = 34
             Me.SkipButton.Text = "Skip"
             Me.SkipButton.UseVisualStyleBackColor = True
-            '
-            'ToneButton
-            '
-            Me.ToneButton.Location = New System.Drawing.Point(281, 518)
-            Me.ToneButton.Name = "ToneButton"
-            Me.ToneButton.Size = New System.Drawing.Size(75, 23)
-            Me.ToneButton.TabIndex = 37
-            Me.ToneButton.Text = "Tone"
-            Me.ToolTip1.SetToolTip(Me.ToneButton, "Article needs enyclopedic tone")
-            Me.ToneButton.UseVisualStyleBackColor = True
             '
             'AssessmentComments
             '
@@ -248,23 +250,23 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
             Me.PerformLayout()
 
         End Sub
-        Friend WithEvents WebControl1 As WikiFunctions.Browser.WebControl
-        Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
-        Friend WithEvents ReferencesButton As System.Windows.Forms.Button
-        Friend WithEvents StatusStrip1 As System.Windows.Forms.StatusStrip
-        Friend WithEvents CitationsButton As System.Windows.Forms.Button
-        Friend WithEvents PhotoButton As System.Windows.Forms.Button
-        Friend WithEvents CleanupButton As System.Windows.Forms.Button
-        Friend WithEvents ExpansionButton As System.Windows.Forms.Button
-        Friend WithEvents CopyeditButton As System.Windows.Forms.Button
-        Friend WithEvents btnSave As System.Windows.Forms.Button
-        Friend WithEvents Label1 As System.Windows.Forms.Label
-        Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
-        Friend WithEvents ToolStripStatusLabel1 As System.Windows.Forms.ToolStripStatusLabel
-        Friend WithEvents Label2 As System.Windows.Forms.Label
-        Friend WithEvents SkipButton As System.Windows.Forms.Button
-        Friend WithEvents LeadButton As System.Windows.Forms.Button
-        Friend WithEvents SectionsButton As System.Windows.Forms.Button
-        Friend WithEvents ToneButton As System.Windows.Forms.Button
+        Private WithEvents WebControl1 As WikiFunctions.Browser.WebControl
+        Private WithEvents PictureBox1 As System.Windows.Forms.PictureBox
+        Private WithEvents ReferencesButton As System.Windows.Forms.Button
+        Private WithEvents StatusStrip1 As System.Windows.Forms.StatusStrip
+        Private WithEvents CitationsButton As System.Windows.Forms.Button
+        Private WithEvents PhotoButton As System.Windows.Forms.Button
+        Private WithEvents CleanupButton As System.Windows.Forms.Button
+        Private WithEvents ExpansionButton As System.Windows.Forms.Button
+        Private WithEvents CopyeditButton As System.Windows.Forms.Button
+        Private WithEvents btnSave As System.Windows.Forms.Button
+        Private WithEvents Label1 As System.Windows.Forms.Label
+        Private WithEvents ToolTip1 As System.Windows.Forms.ToolTip
+        Private WithEvents ToolStripStatusLabel1 As System.Windows.Forms.ToolStripStatusLabel
+        Private WithEvents Label2 As System.Windows.Forms.Label
+        Private WithEvents SkipButton As System.Windows.Forms.Button
+        Private WithEvents LeadButton As System.Windows.Forms.Button
+        Private WithEvents SectionsButton As System.Windows.Forms.Button
+        Private WithEvents ToneButton As System.Windows.Forms.Button
     End Class
 End Namespace

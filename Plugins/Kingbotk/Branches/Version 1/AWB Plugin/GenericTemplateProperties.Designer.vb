@@ -32,8 +32,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.Label3 = New System.Windows.Forms.Label
             Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
             Me.SecondChanceRegexTextBox = New System.Windows.Forms.TextBox
-            Me.SkipLabel = New System.Windows.Forms.Label
             Me.SkipRegexTextBox = New System.Windows.Forms.TextBox
+            Me.SkipLabel = New System.Windows.Forms.Label
             Me.ImportanceLabel = New System.Windows.Forms.Label
             Me.AutoStubLabel = New System.Windows.Forms.Label
             Me.CatsLabel = New System.Windows.Forms.Label
@@ -133,15 +133,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.SecondChanceRegexTextBox.TabIndex = 9
             Me.ToolTip1.SetToolTip(Me.SecondChanceRegexTextBox, "Looser regex used to search for bad tags")
             '
-            'SkipLabel
-            '
-            Me.SkipLabel.AutoSize = True
-            Me.SkipLabel.Location = New System.Drawing.Point(12, 191)
-            Me.SkipLabel.Name = "SkipLabel"
-            Me.SkipLabel.Size = New System.Drawing.Size(88, 13)
-            Me.SkipLabel.TabIndex = 10
-            Me.SkipLabel.Text = "Skip if contains:  "
-            '
             'SkipRegexTextBox
             '
             Me.SkipRegexTextBox.Location = New System.Drawing.Point(192, 191)
@@ -151,6 +142,15 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.SkipRegexTextBox.Size = New System.Drawing.Size(234, 36)
             Me.SkipRegexTextBox.TabIndex = 11
             Me.ToolTip1.SetToolTip(Me.SkipRegexTextBox, "We skip if the talk page contains a match for this regex")
+            '
+            'SkipLabel
+            '
+            Me.SkipLabel.AutoSize = True
+            Me.SkipLabel.Location = New System.Drawing.Point(12, 191)
+            Me.SkipLabel.Name = "SkipLabel"
+            Me.SkipLabel.Size = New System.Drawing.Size(88, 13)
+            Me.SkipLabel.TabIndex = 10
+            Me.SkipLabel.Text = "Skip if contains:  "
             '
             'ImportanceLabel
             '

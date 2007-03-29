@@ -56,7 +56,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             'TextInsertContextMenuStrip
             '
             Me.TextInsertContextMenuStrip.Name = "TextInsertContextMenuStrip"
-            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(61, 4)
+            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(153, 26)
             '
             'StubClassCheckBox
             '
@@ -367,34 +367,34 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.PerformLayout()
 
         End Sub
-        Friend WithEvents TextInsertContextMenuStrip As System.Windows.Forms.ContextMenuStrip
-        Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
-        Friend WithEvents TipLabel As System.Windows.Forms.Label
-        Friend WithEvents ParametersGroup As System.Windows.Forms.GroupBox
-        Friend WithEvents StubClassCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents AutoStubCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents AdelaideCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents BrisbaneCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents CanberraCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents GeelongCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents HobartCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents LakeMacquarieCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents MelbourneCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents PerthCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents SydneyCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents AFLCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents ALeagueCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents NRLCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents V8CheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents CrimeCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents LawCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents MilitaryCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents PlaceCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents PoliticsCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents SportCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents TopicsGroupBox As System.Windows.Forms.GroupBox
-        Friend WithEvents LinkLabel1 As System.Windows.Forms.LinkLabel
-        Friend WithEvents NBLCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents TextInsertContextMenuStrip As System.Windows.Forms.ContextMenuStrip
+        Private WithEvents ToolTip1 As System.Windows.Forms.ToolTip
+        Private WithEvents TipLabel As System.Windows.Forms.Label
+        Private WithEvents ParametersGroup As System.Windows.Forms.GroupBox
+        Private WithEvents StubClassCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents AutoStubCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents AdelaideCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents BrisbaneCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents CanberraCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents GeelongCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents HobartCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents LakeMacquarieCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents MelbourneCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents PerthCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents SydneyCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents AFLCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents ALeagueCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents NRLCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents V8CheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents CrimeCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents LawCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents MilitaryCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents PlaceCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents PoliticsCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents SportCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents TopicsGroupBox As System.Windows.Forms.GroupBox
+        Private WithEvents LinkLabel1 As System.Windows.Forms.LinkLabel
+        Private WithEvents NBLCheckBox As System.Windows.Forms.CheckBox
 
     End Class
 End Namespace

@@ -658,13 +658,13 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             '
             Me.TextInsertContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UniversalToolStripMenuItem})
             Me.TextInsertContextMenuStrip.Name = "EditBoxContextMenuStrip"
-            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(153, 48)
+            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(119, 26)
             '
             'UniversalToolStripMenuItem
             '
             Me.UniversalToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ClassToolStripMenuItem, Me.ImportanceToolStripMenuItem, Me.PriorityToolStripMenuItem})
             Me.UniversalToolStripMenuItem.Name = "UniversalToolStripMenuItem"
-            Me.UniversalToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.UniversalToolStripMenuItem.Size = New System.Drawing.Size(118, 22)
             Me.UniversalToolStripMenuItem.Text = "Universal"
             '
             'ClassToolStripMenuItem
@@ -898,12 +898,12 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Friend WithEvents lblNamespace As System.Windows.Forms.Label
         Friend WithEvents lblNew As System.Windows.Forms.Label
         Friend WithEvents lblTagged As System.Windows.Forms.Label
-        Private WithEvents ArticleStatsGroupBox As System.Windows.Forms.GroupBox
-        Private WithEvents lblWords As System.Windows.Forms.Label
-        Private WithEvents lblInterLinks As System.Windows.Forms.Label
-        Private WithEvents lblCats As System.Windows.Forms.Label
-        Private WithEvents lblImages As System.Windows.Forms.Label
-        Private WithEvents lblLinks As System.Windows.Forms.Label
+        Friend WithEvents ArticleStatsGroupBox As System.Windows.Forms.GroupBox
+        Friend WithEvents lblWords As System.Windows.Forms.Label
+        Friend WithEvents lblInterLinks As System.Windows.Forms.Label
+        Friend WithEvents lblCats As System.Windows.Forms.Label
+        Friend WithEvents lblImages As System.Windows.Forms.Label
+        Friend WithEvents lblLinks As System.Windows.Forms.Label
         Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
         Friend WithEvents CategoryTextBox As System.Windows.Forms.TextBox
         Friend WithEvents ManuallyAssessCheckBox As System.Windows.Forms.CheckBox
@@ -921,8 +921,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Friend WithEvents MenuAbout As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents ToolStripSeparator3 As System.Windows.Forms.ToolStripSeparator
         Friend WithEvents MenuHelp As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents Led1 As LED
-        Friend WithEvents TimerStats1 As TimerStats
+        Friend WithEvents Led1 As AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.LED
+        Friend WithEvents TimerStats1 As AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.TimerStats
         Friend WithEvents CutToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents CopyToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents PasteToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem

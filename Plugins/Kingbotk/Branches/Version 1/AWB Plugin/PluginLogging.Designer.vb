@@ -31,7 +31,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
             Me.UploadWikiProjectCheckBox = New System.Windows.Forms.CheckBox
             Me.UploadOpenInBrowserCheckBox = New System.Windows.Forms.CheckBox
             Me.CloseAllButton = New System.Windows.Forms.Button
-            Me.Led1 = New AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.LED
             Me.Label1 = New System.Windows.Forms.Label
             Me.FolderTextBox = New System.Windows.Forms.TextBox
             Me.FolderButton = New System.Windows.Forms.Button
@@ -68,6 +67,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
             Me.LocationResetToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.UploadWatchlistCheckBox = New System.Windows.Forms.CheckBox
             Me.ApplyButton = New System.Windows.Forms.Button
+            Me.Led1 = New AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.LED
             Me.GroupBox1.SuspendLayout()
             Me.GroupBox4.SuspendLayout()
             Me.GroupBox2.SuspendLayout()
@@ -181,15 +181,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
             Me.CloseAllButton.Text = "Close"
             Me.ToolTip2.SetToolTip(Me.CloseAllButton, "Close all logs")
             Me.CloseAllButton.UseVisualStyleBackColor = True
-            '
-            'Led1
-            '
-            Me.Led1.Colour = AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.Colour.Red
-            Me.Led1.Location = New System.Drawing.Point(231, 69)
-            Me.Led1.Name = "Led1"
-            Me.Led1.Size = New System.Drawing.Size(20, 20)
-            Me.Led1.TabIndex = 44
-            Me.ToolTip2.SetToolTip(Me.Led1, "Green when logging, blue when uploading")
             '
             'Label1
             '
@@ -541,6 +532,15 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
             Me.ApplyButton.Text = "Apply"
             Me.ApplyButton.UseVisualStyleBackColor = True
             '
+            'Led1
+            '
+            Me.Led1.Colour = AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.Colour.Red
+            Me.Led1.Location = New System.Drawing.Point(231, 69)
+            Me.Led1.Name = "Led1"
+            Me.Led1.Size = New System.Drawing.Size(20, 20)
+            Me.Led1.TabIndex = 44
+            Me.ToolTip2.SetToolTip(Me.Led1, "Green when logging, blue when uploading")
+            '
             'PluginLogging
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -576,6 +576,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
             Me.PerformLayout()
 
         End Sub
+        Private WithEvents XHTMLLinesSinceUploadLabel As System.Windows.Forms.Label
         Friend WithEvents FolderBrowserDialog1 As System.Windows.Forms.FolderBrowserDialog
         Friend WithEvents ToolTip2 As System.Windows.Forms.ToolTip
         Friend WithEvents VerboseCheckBox As System.Windows.Forms.CheckBox
@@ -614,7 +615,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
         Friend WithEvents BadTagsLinesLabel As System.Windows.Forms.Label
         Friend WithEvents WikiLinesSinceUploadLabel As System.Windows.Forms.Label
         Friend WithEvents BadTagsLinesSinceUploadLabel As System.Windows.Forms.Label
-        Private WithEvents XHTMLLinesSinceUploadLabel As System.Windows.Forms.Label
         Friend WithEvents Led1 As AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.LED
         Friend WithEvents LocationContextMenuStrip As System.Windows.Forms.ContextMenuStrip
         Friend WithEvents JobNameContextMenuStrip As System.Windows.Forms.ContextMenuStrip

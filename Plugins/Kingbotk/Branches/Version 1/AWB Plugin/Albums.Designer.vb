@@ -66,12 +66,12 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             '
             Me.TextInsertContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AlbumToolStripMenuItem})
             Me.TextInsertContextMenuStrip.Name = "TextInsertContextMenuStrip"
-            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(153, 48)
+            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(123, 26)
             '
             'AlbumToolStripMenuItem
             '
             Me.AlbumToolStripMenuItem.Name = "AlbumToolStripMenuItem"
-            Me.AlbumToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.AlbumToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
             Me.AlbumToolStripMenuItem.Text = "{{album}}"
             '
             'WPAlbumsSettings
@@ -90,12 +90,12 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.PerformLayout()
 
         End Sub
-        Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
-        Friend WithEvents StubClassCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents AutoStubCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents LinkLabel1 As System.Windows.Forms.LinkLabel
         Private WithEvents TextInsertContextMenuStrip As System.Windows.Forms.ContextMenuStrip
-        Friend WithEvents AlbumToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+        Private WithEvents ToolTip1 As System.Windows.Forms.ToolTip
+        Private WithEvents StubClassCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents AutoStubCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents LinkLabel1 As System.Windows.Forms.LinkLabel
+        Private WithEvents AlbumToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
     End Class
 End Namespace
