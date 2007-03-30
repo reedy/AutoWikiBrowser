@@ -33,11 +33,25 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.TextInsertContextMenuStrip = New System.Windows.Forms.ContextMenuStrip(Me.components)
             Me.WPNovelsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.NovelsWikiProjectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.TaskForcesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.ShortStoriesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
+            Me.CrimeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.ScienceFictionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
+            Me.NeedsAttentionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.NovelinfoboxneededToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.NovelinfoboxincompToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.ClassListToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.CoverNeededToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.CoverNeeded1stEditionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator
+            Me.CollaborationCandidateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.PastCollaborationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.PeerReviewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.OldPeerReviewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator
+            Me.AutotaggedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.ClassListToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.StCoverNeededToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.WorkgroupsGroupBox.SuspendLayout()
             Me.ParametersGroup.SuspendLayout()
             Me.TextInsertContextMenuStrip.SuspendLayout()
@@ -136,50 +150,131 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             '
             Me.TextInsertContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.WPNovelsToolStripMenuItem})
             Me.TextInsertContextMenuStrip.Name = "TextInsertContextMenuStrip"
-            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(123, 26)
+            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(153, 48)
             '
             'WPNovelsToolStripMenuItem
             '
-            Me.WPNovelsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NovelsWikiProjectToolStripMenuItem, Me.NovelinfoboxneededToolStripMenuItem, Me.NovelinfoboxincompToolStripMenuItem, Me.ClassListToolStripMenuItem, Me.CoverNeededToolStripMenuItem, Me.CoverNeeded1stEditionToolStripMenuItem})
+            Me.WPNovelsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NovelsWikiProjectToolStripMenuItem, Me.TaskForcesToolStripMenuItem, Me.ToolStripSeparator2, Me.NeedsAttentionToolStripMenuItem, Me.NovelinfoboxneededToolStripMenuItem, Me.NovelinfoboxincompToolStripMenuItem, Me.CoverNeededToolStripMenuItem, Me.StCoverNeededToolStripMenuItem, Me.ToolStripSeparator4, Me.CollaborationCandidateToolStripMenuItem, Me.PastCollaborationToolStripMenuItem, Me.PeerReviewToolStripMenuItem, Me.OldPeerReviewToolStripMenuItem, Me.ToolStripSeparator3, Me.AutotaggedToolStripMenuItem, Me.ClassListToolStripMenuItem})
             Me.WPNovelsToolStripMenuItem.Name = "WPNovelsToolStripMenuItem"
-            Me.WPNovelsToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
+            Me.WPNovelsToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
             Me.WPNovelsToolStripMenuItem.Text = "WPNovels"
             '
             'NovelsWikiProjectToolStripMenuItem
             '
             Me.NovelsWikiProjectToolStripMenuItem.Name = "NovelsWikiProjectToolStripMenuItem"
-            Me.NovelsWikiProjectToolStripMenuItem.Size = New System.Drawing.Size(203, 22)
+            Me.NovelsWikiProjectToolStripMenuItem.Size = New System.Drawing.Size(200, 22)
             Me.NovelsWikiProjectToolStripMenuItem.Text = "{{NovelsWikiProject}}"
+            '
+            'TaskForcesToolStripMenuItem
+            '
+            Me.TaskForcesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShortStoriesToolStripMenuItem, Me.ToolStripSeparator1, Me.CrimeToolStripMenuItem, Me.ScienceFictionToolStripMenuItem})
+            Me.TaskForcesToolStripMenuItem.Name = "TaskForcesToolStripMenuItem"
+            Me.TaskForcesToolStripMenuItem.Size = New System.Drawing.Size(200, 22)
+            Me.TaskForcesToolStripMenuItem.Text = "Task Forces"
+            '
+            'ShortStoriesToolStripMenuItem
+            '
+            Me.ShortStoriesToolStripMenuItem.Name = "ShortStoriesToolStripMenuItem"
+            Me.ShortStoriesToolStripMenuItem.Size = New System.Drawing.Size(155, 22)
+            Me.ShortStoriesToolStripMenuItem.Text = "Short Stories"
+            '
+            'ToolStripSeparator1
+            '
+            Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+            Me.ToolStripSeparator1.Size = New System.Drawing.Size(152, 6)
+            '
+            'CrimeToolStripMenuItem
+            '
+            Me.CrimeToolStripMenuItem.Name = "CrimeToolStripMenuItem"
+            Me.CrimeToolStripMenuItem.Size = New System.Drawing.Size(155, 22)
+            Me.CrimeToolStripMenuItem.Text = "Crime"
+            '
+            'ScienceFictionToolStripMenuItem
+            '
+            Me.ScienceFictionToolStripMenuItem.Name = "ScienceFictionToolStripMenuItem"
+            Me.ScienceFictionToolStripMenuItem.Size = New System.Drawing.Size(155, 22)
+            Me.ScienceFictionToolStripMenuItem.Text = "Science Fiction"
+            '
+            'ToolStripSeparator2
+            '
+            Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+            Me.ToolStripSeparator2.Size = New System.Drawing.Size(197, 6)
+            '
+            'NeedsAttentionToolStripMenuItem
+            '
+            Me.NeedsAttentionToolStripMenuItem.Name = "NeedsAttentionToolStripMenuItem"
+            Me.NeedsAttentionToolStripMenuItem.Size = New System.Drawing.Size(200, 22)
+            Me.NeedsAttentionToolStripMenuItem.Text = "Needs Attention"
             '
             'NovelinfoboxneededToolStripMenuItem
             '
             Me.NovelinfoboxneededToolStripMenuItem.Name = "NovelinfoboxneededToolStripMenuItem"
-            Me.NovelinfoboxneededToolStripMenuItem.Size = New System.Drawing.Size(203, 22)
-            Me.NovelinfoboxneededToolStripMenuItem.Text = "Infobox needed"
+            Me.NovelinfoboxneededToolStripMenuItem.Size = New System.Drawing.Size(200, 22)
+            Me.NovelinfoboxneededToolStripMenuItem.Text = "Needs Infobox"
             '
             'NovelinfoboxincompToolStripMenuItem
             '
             Me.NovelinfoboxincompToolStripMenuItem.Name = "NovelinfoboxincompToolStripMenuItem"
-            Me.NovelinfoboxincompToolStripMenuItem.Size = New System.Drawing.Size(203, 22)
-            Me.NovelinfoboxincompToolStripMenuItem.Text = "Infobox incomplete"
-            '
-            'ClassListToolStripMenuItem
-            '
-            Me.ClassListToolStripMenuItem.Name = "ClassListToolStripMenuItem"
-            Me.ClassListToolStripMenuItem.Size = New System.Drawing.Size(203, 22)
-            Me.ClassListToolStripMenuItem.Text = "class=List"
+            Me.NovelinfoboxincompToolStripMenuItem.Size = New System.Drawing.Size(200, 22)
+            Me.NovelinfoboxincompToolStripMenuItem.Text = "Incomplete Infobox"
             '
             'CoverNeededToolStripMenuItem
             '
             Me.CoverNeededToolStripMenuItem.Name = "CoverNeededToolStripMenuItem"
-            Me.CoverNeededToolStripMenuItem.Size = New System.Drawing.Size(203, 22)
+            Me.CoverNeededToolStripMenuItem.Size = New System.Drawing.Size(200, 22)
             Me.CoverNeededToolStripMenuItem.Text = "Cover needed"
             '
-            'CoverNeeded1stEditionToolStripMenuItem
+            'ToolStripSeparator4
             '
-            Me.CoverNeeded1stEditionToolStripMenuItem.Name = "CoverNeeded1stEditionToolStripMenuItem"
-            Me.CoverNeeded1stEditionToolStripMenuItem.Size = New System.Drawing.Size(203, 22)
-            Me.CoverNeeded1stEditionToolStripMenuItem.Text = "Cover needed (1st edition)"
+            Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
+            Me.ToolStripSeparator4.Size = New System.Drawing.Size(197, 6)
+            '
+            'CollaborationCandidateToolStripMenuItem
+            '
+            Me.CollaborationCandidateToolStripMenuItem.Name = "CollaborationCandidateToolStripMenuItem"
+            Me.CollaborationCandidateToolStripMenuItem.Size = New System.Drawing.Size(200, 22)
+            Me.CollaborationCandidateToolStripMenuItem.Text = "Collaboration Candidate"
+            '
+            'PastCollaborationToolStripMenuItem
+            '
+            Me.PastCollaborationToolStripMenuItem.Name = "PastCollaborationToolStripMenuItem"
+            Me.PastCollaborationToolStripMenuItem.Size = New System.Drawing.Size(200, 22)
+            Me.PastCollaborationToolStripMenuItem.Text = "Past Collaboration"
+            '
+            'PeerReviewToolStripMenuItem
+            '
+            Me.PeerReviewToolStripMenuItem.Name = "PeerReviewToolStripMenuItem"
+            Me.PeerReviewToolStripMenuItem.Size = New System.Drawing.Size(200, 22)
+            Me.PeerReviewToolStripMenuItem.Text = "Peer Review"
+            '
+            'OldPeerReviewToolStripMenuItem
+            '
+            Me.OldPeerReviewToolStripMenuItem.Name = "OldPeerReviewToolStripMenuItem"
+            Me.OldPeerReviewToolStripMenuItem.Size = New System.Drawing.Size(200, 22)
+            Me.OldPeerReviewToolStripMenuItem.Text = "Old Peer Review"
+            '
+            'ToolStripSeparator3
+            '
+            Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
+            Me.ToolStripSeparator3.Size = New System.Drawing.Size(197, 6)
+            '
+            'AutotaggedToolStripMenuItem
+            '
+            Me.AutotaggedToolStripMenuItem.Name = "AutotaggedToolStripMenuItem"
+            Me.AutotaggedToolStripMenuItem.Size = New System.Drawing.Size(200, 22)
+            Me.AutotaggedToolStripMenuItem.Text = "Auto-tagged"
+            '
+            'ClassListToolStripMenuItem
+            '
+            Me.ClassListToolStripMenuItem.Name = "ClassListToolStripMenuItem"
+            Me.ClassListToolStripMenuItem.Size = New System.Drawing.Size(200, 22)
+            Me.ClassListToolStripMenuItem.Text = "class=List"
+            '
+            'StCoverNeededToolStripMenuItem
+            '
+            Me.StCoverNeededToolStripMenuItem.Name = "StCoverNeededToolStripMenuItem"
+            Me.StCoverNeededToolStripMenuItem.Size = New System.Drawing.Size(200, 22)
+            Me.StCoverNeededToolStripMenuItem.Text = "1st Cover needed"
             '
             'WPNovelSettings
             '
@@ -217,7 +312,21 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Private WithEvents NovelinfoboxincompToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
         Private WithEvents ClassListToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
         Private WithEvents CoverNeededToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Private WithEvents CoverNeeded1stEditionToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+        Friend WithEvents TaskForcesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+        Friend WithEvents ShortStoriesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+        Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
+        Friend WithEvents CrimeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+        Friend WithEvents ScienceFictionToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+        Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
+        Friend WithEvents NeedsAttentionToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+        Friend WithEvents ToolStripSeparator4 As System.Windows.Forms.ToolStripSeparator
+        Friend WithEvents CollaborationCandidateToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+        Friend WithEvents PastCollaborationToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+        Friend WithEvents PeerReviewToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+        Friend WithEvents OldPeerReviewToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+        Friend WithEvents ToolStripSeparator3 As System.Windows.Forms.ToolStripSeparator
+        Friend WithEvents AutotaggedToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+        Friend WithEvents StCoverNeededToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
     End Class
 End Namespace
