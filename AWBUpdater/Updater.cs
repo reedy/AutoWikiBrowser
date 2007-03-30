@@ -54,6 +54,7 @@ namespace AWBUpdater
             try
             {
                 lblCurrentTask.Text = "Getting Current AWB and Updater Versions";
+                Application.DoEvents();
                 AWBversion();
 
                 if (noUpdates)
@@ -66,31 +67,37 @@ namespace AWBUpdater
                     Application.DoEvents();
 
                     lblCurrentTask.Text = "Creating a Temporary Directory";
-                    createTempDir();
-                    lblCurrentTask.Text = "Downloading AWB";
-                    getAWBFromInternet();
                     Application.DoEvents();
+                    createTempDir();
+
+                    lblCurrentTask.Text = "Downloading AWB";
+                    Application.DoEvents();
+                    getAWBFromInternet();
+                    
 
                     lblCurrentTask.Text = "Unzipping AWB to the Temporary Directory";
-                    unzipAWB();
                     Application.DoEvents();
+                    unzipAWB();
 
                     MessageBox.Show("Please save your settings (if you wish) and close AutoWikiBrowser completely before pressing OK.");
 
                     lblCurrentTask.Text = "Making Sure AWB is Closed";
+                    Application.DoEvents();
                     closeAWB();
+
                     lblCurrentTask.Text = "Copying AWB Files from temp. Directory to AWB Directory";
+                    Application.DoEvents();
                     copyFiles();
                     MessageBox.Show("AWB Update Successful", "Update Sucessful");
-                    Application.DoEvents();
-
+  
                     lblCurrentTask.Text = "Starting AWB";
+                    Application.DoEvents();
                     startAWB();
 
                     lblCurrentTask.Text = "Cleaning up from Update";
+                    Application.DoEvents();
                     killTempDir();
 
-                    Application.DoEvents();
                     Application.Exit();
                 }
             }
