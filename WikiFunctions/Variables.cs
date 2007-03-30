@@ -928,7 +928,7 @@ namespace WikiFunctions
         }
     }
 
-    public enum WikiStatusResult { Error, NotLoggedIn, NotRegistered, OldVersion, Registered }
+    public enum WikiStatusResult { Error, NotLoggedIn, NotRegistered, OldVersion, Registered, Null }
 
     public class UserProperties
     {
@@ -1195,15 +1195,9 @@ namespace WikiFunctions
             strText = webBrowserLogin.GetArticleText();
 
             if (!strText.Contains(Assembly.GetExecutingAssembly().GetName().Version.ToString() + " enabled"))
-            {
-                IsBot = false;
-                IsAdmin = false;
-                WikiStatus = false;
                 return WikiStatusResult.OldVersion;
-            }
             else
-                //return of un-related, as only matters if as above
-                return WikiStatusResult.Error;
+                return WikiStatusResult.Null;
         }
 
         string strCheckPage = "";
