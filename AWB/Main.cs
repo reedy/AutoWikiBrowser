@@ -131,7 +131,7 @@ namespace AutoWikiBrowser
 
         int oldselection = 0;
 
-        int nudges = 0;
+        int mnudges = 0;
         int sameArticleNudges = 0;
 
         bool boolSaved = true;
@@ -2868,7 +2868,7 @@ namespace AutoWikiBrowser
 
         private void btnResetNudges_Click(object sender, EventArgs e)
         {
-            nudges = 0;
+            Nudges = 0;
             sameArticleNudges = 0;
             lblNudges.Text = WikiFunctions.AWBSettings.AWBConstants.NudgeTimerString + "0";
         }
@@ -2880,38 +2880,46 @@ namespace AutoWikiBrowser
 
 
         #region "Nudge timer"
-        private void SaveTimer_Tick(object sender, EventArgs e)
-        {
-            //make sure there was no error and bot mode is still enabled
-            if (chkAutoMode.Checked)
+            private void SaveTimer_Tick(object sender, EventArgs e)
             {
-                bool CancelNudge = false;
+                //make sure there was no error and bot mode is still enabled
+                if (chkAutoMode.Checked)
+                {
+                    bool CancelNudge = false;
 
-                // Tell plugins we're about to nudge, and give them the opportunity to cancel:
-                foreach (KeyValuePair<string, IAWBPlugin> a in AWBPlugins)
-                {
-                    a.Value.Nudge(out CancelNudge);
-                    if (CancelNudge) return;
-                }
+                    // Tell plugins we're about to nudge, and give them the opportunity to cancel:
+                    foreach (KeyValuePair<string, IAWBPlugin> a in AWBPlugins)
+                    {
+                        a.Value.Nudge(out CancelNudge);
+                        if (CancelNudge) return;
+                    }
 
-                // Update stats and nudge:
-                nudges++;
-                lblNudges.Text = WikiFunctions.AWBSettings.AWBConstants.NudgeTimerString + nudges;
-                SaveTimer.Stop();
-                if (chkNudgeSkip.Checked && sameArticleNudges > 0)
-                {
-                    sameArticleNudges = 0;
-                    SkipPage();
-                }
-                else
-                {
-                    sameArticleNudges++;
-                    Stop();
-                    Start();
+                    // Update stats and nudge:
+                    Nudges++;
+                    lblNudges.Text = WikiFunctions.AWBSettings.AWBConstants.NudgeTimerString + Nudges;
+                    SaveTimer.Stop();
+                    if (chkNudgeSkip.Checked && sameArticleNudges > 0)
+                    {
+                        sameArticleNudges = 0;
+                        SkipPage();
+                    }
+                    else
+                    {
+                        sameArticleNudges++;
+                        Stop();
+                        Start();
+                    }
+
+                    // Inform plugins:
+                    foreach (KeyValuePair<string, IAWBPlugin> a in AWBPlugins)
+                    { a.Value.Nudged(Nudges); }
                 }
             }
-        }
 
+            public int Nudges {
+                get { return mnudges; }
+                private set { mnudges = value; }
+            }
         #endregion
 
         #region IAWBMainForm:
@@ -2936,7 +2944,6 @@ namespace AutoWikiBrowser
                 set { chkSkipNonExistent.Checked = value; }
             }
             ToolStripMenuItem IAWBMainForm.HelpToolStripMenuItem { get { return helpToolStripMenuItem; } }
-            Label IAWBMainForm.NudgeCount { get { return lblNudges; } }
         #endregion
 
         #region Logs
