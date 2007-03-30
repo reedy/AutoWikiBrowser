@@ -2881,7 +2881,7 @@ namespace AutoWikiBrowser
         {
             Nudges = 0;
             sameArticleNudges = 0;
-            lblNudges.Text = WikiFunctions.AWBSettings.AWBConstants.NudgeTimerString + "0";
+            lblNudges.Text = NudgeTimerString + "0";
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
@@ -2891,6 +2891,8 @@ namespace AutoWikiBrowser
 
 
         #region "Nudge timer"
+            private const string NudgeTimerString = "Total nudges: ";
+
             private void SaveTimer_Tick(object sender, EventArgs e)
             {
                 //make sure there was no error and bot mode is still enabled
@@ -2907,7 +2909,7 @@ namespace AutoWikiBrowser
 
                     // Update stats and nudge:
                     Nudges++;
-                    lblNudges.Text = WikiFunctions.AWBSettings.AWBConstants.NudgeTimerString + Nudges;
+                    lblNudges.Text = NudgeTimerString + Nudges;
                     SaveTimer.Stop();
                     if (chkNudgeSkip.Checked && sameArticleNudges > 0)
                     {
