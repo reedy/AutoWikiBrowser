@@ -41,7 +41,7 @@ namespace AWBUpdater
             // 
             this.progressUpdate.Location = new System.Drawing.Point(89, 12);
             this.progressUpdate.Name = "progressUpdate";
-            this.progressUpdate.Size = new System.Drawing.Size(144, 23);
+            this.progressUpdate.Size = new System.Drawing.Size(234, 23);
             this.progressUpdate.TabIndex = 0;
             // 
             // lblProgress
@@ -79,7 +79,7 @@ namespace AWBUpdater
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(259, 74);
+            this.ClientSize = new System.Drawing.Size(335, 78);
             this.Controls.Add(this.lblCurrentTask);
             this.Controls.Add(this.lblCurrent);
             this.Controls.Add(this.lblProgress);
