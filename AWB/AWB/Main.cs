@@ -159,9 +159,7 @@ namespace AutoWikiBrowser
             updateUpdater();
 
             if (Variables.User.checkEnabled() == WikiStatusResult.OldVersion)
-            {
                 oldVersion();
-            }
 
             try
             {
