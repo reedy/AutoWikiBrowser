@@ -84,7 +84,9 @@ namespace AWBUpdater
             this.Controls.Add(this.lblCurrent);
             this.Controls.Add(this.lblProgress);
             this.Controls.Add(this.progressUpdate);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "Updater";
             this.Text = "AWB Updater";
             this.Load += new System.EventHandler(this.Updater_Load);
