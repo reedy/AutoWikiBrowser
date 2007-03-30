@@ -1183,6 +1183,29 @@ namespace WikiFunctions
             }
         }
 
+        public WikiStatusResult checkEnabled()
+        {
+            string strText = String.Empty;
+
+            //load version check page
+            webBrowserLogin.Navigate("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=edit");
+            //wait to load
+            webBrowserLogin.Wait();
+
+            strText = webBrowserLogin.GetArticleText();
+
+            if (!strText.Contains(Assembly.GetExecutingAssembly().GetName().Version.ToString() + " enabled"))
+            {
+                IsBot = false;
+                IsAdmin = false;
+                WikiStatus = false;
+                return WikiStatusResult.OldVersion;
+            }
+            else
+                //return of un-related, as only matters if as above
+                return WikiStatusResult.Error;
+        }
+
         string strCheckPage = "";
         public string CheckPageText
         {
