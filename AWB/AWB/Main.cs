@@ -132,6 +132,7 @@ namespace AutoWikiBrowser
         int oldselection = 0;
 
         int nudges = 0;
+        int sameArticleNudges = 0;
 
         bool boolSaved = true;
         HideText RemoveText = new HideText(false, true, false);
@@ -641,6 +642,7 @@ namespace AutoWikiBrowser
             listMaker1.Remove(EdittingArticle);
             lbSaved.Items.Add(EdittingArticle);
             SaveTimer.Stop();
+            sameArticleNudges = 0;
             Start();
         }
 
@@ -667,6 +669,7 @@ namespace AutoWikiBrowser
                 SaveTimer.Stop();
                 listMaker1.Remove(EdittingArticle);
                 lbIgnored.Items.Add(EdittingArticle);
+                sameArticleNudges = 0;
                 Start();
             }
             catch (Exception ex)
@@ -1118,9 +1121,11 @@ namespace AutoWikiBrowser
                 btnResetNudges.Enabled = true;
                 label3.Enabled = true;
                 lblNudges.Enabled = true;
-                numericUpDown1.Enabled = true;
+                nudNudgeTime.Enabled = true;
                 chkNudge.Enabled = true;
+                chkNudgeSkip.Enabled = true;
                 chkNudge.Checked = true;
+                chkNudgeSkip.Checked = true;
             }
             else
             {
@@ -1132,8 +1137,9 @@ namespace AutoWikiBrowser
                 btnResetNudges.Enabled = false;
                 label3.Enabled = false;
                 lblNudges.Enabled = false;
-                numericUpDown1.Enabled = false;
+                nudNudgeTime.Enabled = false;
                 chkNudge.Enabled = false;
+                chkNudgeSkip.Enabled = false;
                 stopDelayedAutoSaveTimer();
             }
         }
@@ -2863,12 +2869,13 @@ namespace AutoWikiBrowser
         private void btnResetNudges_Click(object sender, EventArgs e)
         {
             nudges = 0;
+            sameArticleNudges = 0;
             lblNudges.Text = WikiFunctions.AWBSettings.AWBConstants.NudgeTimerString + "0";
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
-            SaveTimer.Interval = (int)numericUpDown1.Value * 60000;
+            SaveTimer.Interval = (int)nudNudgeTime.Value * 60000;
         }
 
 
@@ -2891,8 +2898,17 @@ namespace AutoWikiBrowser
                 nudges++;
                 lblNudges.Text = WikiFunctions.AWBSettings.AWBConstants.NudgeTimerString + nudges;
                 SaveTimer.Stop();
-                Stop();
-                Start();
+                if (chkNudgeSkip.Checked && sameArticleNudges > 0)
+                {
+                    sameArticleNudges = 0;
+                    SkipPage();
+                }
+                else
+                {
+                    sameArticleNudges++;
+                    Stop();
+                    Start();
+                }
             }
         }
 
