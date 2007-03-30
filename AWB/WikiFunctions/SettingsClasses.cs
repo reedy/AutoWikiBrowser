@@ -142,6 +142,7 @@ namespace WikiFunctions.AWBSettings
         public bool Minimize = false;
         public bool LockSummary = false;
         public bool SaveArticleList = false;
+        public decimal TimeOutLimit = 30;
         public bool IgnoreNoBots = false;
     }
 

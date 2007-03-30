@@ -280,6 +280,17 @@ namespace AutoWikiBrowser
             set { bMinimize = value; }
         }
 
+        decimal iTimeOut = 30;
+        private decimal TimeOut
+        {
+            get { return iTimeOut; }
+            set
+            {
+                iTimeOut = value;
+                webBrowserEdit.TimeoutLimit = int.Parse(value.ToString());
+            }
+        }
+
         bool bSaveArticleList = false;
         private bool SaveArticleList
         {
@@ -1552,7 +1563,7 @@ namespace AutoWikiBrowser
 
         private void PreferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MyPreferences MyPrefs = new MyPreferences(Variables.LangCode, Variables.Project, Variables.CustomProject, webBrowserEdit.EnhanceDiffEnabled, webBrowserEdit.ScrollDown, webBrowserEdit.DiffFontSize, txtEdit.Font, LowThreadPriority, Flash, Beep, Minimize, SaveArticleList, OverrideWatchlist);
+            MyPreferences MyPrefs = new MyPreferences(Variables.LangCode, Variables.Project, Variables.CustomProject, webBrowserEdit.EnhanceDiffEnabled, webBrowserEdit.ScrollDown, webBrowserEdit.DiffFontSize, txtEdit.Font, LowThreadPriority, Flash, Beep, Minimize, SaveArticleList, OverrideWatchlist, TimeOut);
 
             if (MyPrefs.ShowDialog(this) == DialogResult.OK)
             {
@@ -1567,6 +1578,7 @@ namespace AutoWikiBrowser
                 Minimize = MyPrefs.perfMinimize;
                 SaveArticleList = MyPrefs.perfSaveArticleList;
                 OverrideWatchlist = MyPrefs.perfOverrideWatchlist;
+                TimeOut = MyPrefs.perfTimeOutLimit;
 
                 if (MyPrefs.Language != Variables.LangCode || MyPrefs.Project != Variables.Project || MyPrefs.CustomProject != Variables.CustomProject)
                 {
@@ -3024,5 +3036,10 @@ namespace AutoWikiBrowser
         }
 
             #endregion
+
+        private void testToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(webBrowserEdit.TimeoutLimit.ToString());
+        }
     }
 }
