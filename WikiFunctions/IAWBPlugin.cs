@@ -29,6 +29,7 @@ namespace WikiFunctions.Plugin
         void Reset();
 
         void Nudge(out bool Cancel);
+        void Nudged(int Nudges);
     }
 
     /* This interface allows plugins to manipulate AWB UI elements without (ahem) resorting to hacks.
@@ -55,7 +56,7 @@ namespace WikiFunctions.Plugin
         ToolStripMenuItem HelpToolStripMenuItem { get; }
         Boolean SkipNonExistentPages { get; set; }
         void NotifyBalloon(string Message, ToolTipIcon Icon);
-        Label NudgeCount { get; }
+        int Nudges { get; }
     }
 
     public interface IModule

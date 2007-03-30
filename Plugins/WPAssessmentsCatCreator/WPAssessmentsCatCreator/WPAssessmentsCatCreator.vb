@@ -266,6 +266,10 @@ ExitMeEarly:
             WeAreRunning = False
         End Sub
 
+        Public Sub Nudge(ByRef Cancel As Boolean) Implements WikiFunctions.Plugin.IAWBPlugin.Nudge
+            Cancel = True
+        End Sub
+
         ' Do nothing:
         Public Function SaveSettings() As Object() Implements WikiFunctions.Plugin.IAWBPlugin.SaveSettings
             Return Nothing
@@ -274,7 +278,7 @@ ExitMeEarly:
         End Sub
         Public Sub Reset() Implements WikiFunctions.Plugin.IAWBPlugin.Reset
         End Sub
-        Public Sub Nudge(ByRef Cancel As Boolean) Implements WikiFunctions.Plugin.IAWBPlugin.Nudge
+        Public Sub Nudged(ByVal Nudges As Integer) Implements WikiFunctions.Plugin.IAWBPlugin.Nudged
         End Sub
     End Class
 End Namespace
