@@ -150,7 +150,7 @@ namespace WikiFunctions.Parse
                 {
                     string s = Variables.RETFPath;
 
-                    if (!s.StartsWith("http:")) s = Variables.URLLong + "?title=" + Tools.WikiEncode(s) + "&action=raw&ctype=text/plain&dontcountme=s";
+                    if (!s.StartsWith("http:")) s = Variables.URLLong + "index.php?title=" + Tools.WikiEncode(s) + "&action=raw&ctype=text/plain&dontcountme=s";
 
                     text = Tools.GetHTML(s, Encoding.UTF8);
                 }
