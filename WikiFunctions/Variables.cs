@@ -1214,13 +1214,5 @@ namespace WikiFunctions
         }
     }
     #endregion
-
-    namespace AWBSettings
-    {
-        public static class AWBConstants
-        {
-            public const string NudgeTimerString = "Total nudges: ";
-        }
-    }
 }
 
