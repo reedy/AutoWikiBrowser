@@ -253,12 +253,12 @@ namespace AutoWikiBrowser
             this.txtDabLink = new System.Windows.Forms.TextBox();
             this.chkEnableDab = new System.Windows.Forms.CheckBox();
             this.tpBots = new System.Windows.Forms.TabPage();
-            this.lblOnlyBots = new System.Windows.Forms.Label();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
+            this.chkNudgeSkip = new System.Windows.Forms.CheckBox();
             this.btnResetNudges = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.lblNudges = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.nudNudgeTime = new System.Windows.Forms.NumericUpDown();
             this.chkNudge = new System.Windows.Forms.CheckBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
@@ -266,6 +266,7 @@ namespace AutoWikiBrowser
             this.chkSuppressTag = new System.Windows.Forms.CheckBox();
             this.chkAutoMode = new System.Windows.Forms.CheckBox();
             this.lblAutoDelay = new System.Windows.Forms.Label();
+            this.lblOnlyBots = new System.Windows.Forms.Label();
             this.tpStart = new System.Windows.Forms.TabPage();
             this.lblSummary = new System.Windows.Forms.Label();
             this.chkLock = new System.Windows.Forms.CheckBox();
@@ -341,7 +342,7 @@ namespace AutoWikiBrowser
             this.groupBox11.SuspendLayout();
             this.tpBots.SuspendLayout();
             this.groupBox14.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudNudgeTime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox7.SuspendLayout();
             this.tpStart.SuspendLayout();
@@ -2297,30 +2298,31 @@ namespace AutoWikiBrowser
             this.tpBots.Text = "Bots";
             this.tpBots.UseVisualStyleBackColor = true;
             // 
-            // lblOnlyBots
-            // 
-            this.lblOnlyBots.BackColor = System.Drawing.SystemColors.Control;
-            this.lblOnlyBots.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
-            this.lblOnlyBots.Location = new System.Drawing.Point(1, 1);
-            this.lblOnlyBots.Name = "lblOnlyBots";
-            this.lblOnlyBots.Size = new System.Drawing.Size(276, 345);
-            this.lblOnlyBots.TabIndex = 35;
-            this.lblOnlyBots.Text = "Sorry, these options are only available for approved bots";
-            this.lblOnlyBots.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // groupBox14
             // 
+            this.groupBox14.Controls.Add(this.chkNudgeSkip);
             this.groupBox14.Controls.Add(this.btnResetNudges);
             this.groupBox14.Controls.Add(this.label3);
             this.groupBox14.Controls.Add(this.lblNudges);
-            this.groupBox14.Controls.Add(this.numericUpDown1);
+            this.groupBox14.Controls.Add(this.nudNudgeTime);
             this.groupBox14.Controls.Add(this.chkNudge);
             this.groupBox14.Location = new System.Drawing.Point(9, 112);
             this.groupBox14.Name = "groupBox14";
-            this.groupBox14.Size = new System.Drawing.Size(263, 73);
+            this.groupBox14.Size = new System.Drawing.Size(263, 97);
             this.groupBox14.TabIndex = 34;
             this.groupBox14.TabStop = false;
             this.groupBox14.Text = "\"Nudging\"";
+            // 
+            // chkNudgeSkip
+            // 
+            this.chkNudgeSkip.AutoSize = true;
+            this.chkNudgeSkip.Enabled = false;
+            this.chkNudgeSkip.Location = new System.Drawing.Point(9, 72);
+            this.chkNudgeSkip.Name = "chkNudgeSkip";
+            this.chkNudgeSkip.Size = new System.Drawing.Size(198, 17);
+            this.chkNudgeSkip.TabIndex = 35;
+            this.chkNudgeSkip.Text = "Skip article if first nudge doesn\'t help";
+            this.chkNudgeSkip.UseVisualStyleBackColor = true;
             // 
             // btnResetNudges
             // 
@@ -2345,35 +2347,35 @@ namespace AutoWikiBrowser
             // lblNudges
             // 
             this.lblNudges.AutoSize = true;
-            this.lblNudges.Location = new System.Drawing.Point(28, 49);
+            this.lblNudges.Location = new System.Drawing.Point(26, 49);
             this.lblNudges.Name = "lblNudges";
             this.lblNudges.Size = new System.Drawing.Size(81, 13);
             this.lblNudges.TabIndex = 33;
-            this.lblNudges.Text = WikiFunctions.AWBSettings.AWBConstants.NudgeTimerString + "0";
+            this.lblNudges.Text = "Total nudges: 0";
             // 
-            // numericUpDown1
+            // nudNudgeTime
             // 
-            this.numericUpDown1.Enabled = false;
-            this.numericUpDown1.Location = new System.Drawing.Point(146, 18);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
+            this.nudNudgeTime.Enabled = false;
+            this.nudNudgeTime.Location = new System.Drawing.Point(146, 18);
+            this.nudNudgeTime.Maximum = new decimal(new int[] {
             10,
             0,
             0,
             0});
-            this.numericUpDown1.Minimum = new decimal(new int[] {
+            this.nudNudgeTime.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(35, 20);
-            this.numericUpDown1.TabIndex = 30;
-            this.numericUpDown1.Value = new decimal(new int[] {
+            this.nudNudgeTime.Name = "nudNudgeTime";
+            this.nudNudgeTime.Size = new System.Drawing.Size(35, 20);
+            this.nudNudgeTime.TabIndex = 30;
+            this.nudNudgeTime.Value = new decimal(new int[] {
             2,
             0,
             0,
             0});
-            this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            this.nudNudgeTime.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
             // chkNudge
             // 
@@ -2389,7 +2391,7 @@ namespace AutoWikiBrowser
             // pictureBox1
             // 
             this.pictureBox1.Image = global::AutoWikiBrowser.Properties.Resources.Bot_Image;
-            this.pictureBox1.Location = new System.Drawing.Point(78, 200);
+            this.pictureBox1.Location = new System.Drawing.Point(87, 212);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(128, 130);
             this.pictureBox1.TabIndex = 36;
@@ -2451,6 +2453,17 @@ namespace AutoWikiBrowser
             this.lblAutoDelay.Size = new System.Drawing.Size(34, 13);
             this.lblAutoDelay.TabIndex = 25;
             this.lblAutoDelay.Text = "Delay";
+            // 
+            // lblOnlyBots
+            // 
+            this.lblOnlyBots.BackColor = System.Drawing.SystemColors.Control;
+            this.lblOnlyBots.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
+            this.lblOnlyBots.Location = new System.Drawing.Point(1, 1);
+            this.lblOnlyBots.Name = "lblOnlyBots";
+            this.lblOnlyBots.Size = new System.Drawing.Size(276, 345);
+            this.lblOnlyBots.TabIndex = 35;
+            this.lblOnlyBots.Text = "Sorry, these options are only available for approved bots";
+            this.lblOnlyBots.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tpStart
             // 
@@ -3018,7 +3031,7 @@ namespace AutoWikiBrowser
             this.tpBots.ResumeLayout(false);
             this.groupBox14.ResumeLayout(false);
             this.groupBox14.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudNudgeTime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
@@ -3280,7 +3293,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem runUpdaterToolStripMenuItem;
         private System.Windows.Forms.TabPage tpBots;
         private System.Windows.Forms.GroupBox groupBox7;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown nudNudgeTime;
         private System.Windows.Forms.CheckBox chkNudge;
         private System.Windows.Forms.CheckBox chkSuppressTag;
         private System.Windows.Forms.CheckBox chkQuickSave;
@@ -3306,6 +3319,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Button btnClearSaved;
         private System.Windows.Forms.Button btnSaveSaved;
         private System.Windows.Forms.SaveFileDialog strListFile;
+        private System.Windows.Forms.CheckBox chkNudgeSkip;
 
 
     }
