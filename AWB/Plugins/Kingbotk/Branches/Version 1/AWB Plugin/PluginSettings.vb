@@ -231,10 +231,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Handles chkBotMode.EnabledChanged
             If DirectCast(sender, CheckBox).Enabled Then blnBotModeHasBeenOn = True
         End Sub
-        Private Sub NudgeCountTextChangedHandler(ByVal sender As Object, ByVal e As EventArgs)
-            lblAWBNudges.Text = "Nudges: " & _
-               DirectCast(sender, Label).Text.Replace(WikiFunctions.AWBSettings.AWBConstants.NudgeTimerString, "")
-        End Sub
 
         ' Event handlers - plugin stats:
         Private Sub PluginStats_New(ByVal val As Integer) Handles PluginStats.New
@@ -452,7 +448,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 AddHandler .PreviewButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
                 AddHandler .SaveButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
                 AddHandler .SkipButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
-                AddHandler .NudgeCount.TextChanged, AddressOf Me.NudgeCountTextChangedHandler
             End With
 
             StatLabels.AddRange(New Label() {lblTagged, lblSkipped, lblNoChange, lblBadTag, lblNamespace, lblNew, _
