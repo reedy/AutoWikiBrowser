@@ -141,6 +141,7 @@ namespace AutoWikiBrowser
             Flash = true;
             Beep = true;
             Minimize = true;
+            TimeOut = 30;
             SaveArticleList = true;
             OverrideWatchlist = false;
             chkLock.Checked = false;
@@ -173,8 +174,6 @@ namespace AutoWikiBrowser
 
             LoadPrefs(openXML.FileName);
             settingsfilename = openXML.FileName;
-
-            
 
             listMaker1.removeListDuplicates();
         }
@@ -584,6 +583,9 @@ namespace AutoWikiBrowser
                             if (reader.MoveToAttribute("overridewatchlist"))
                                 OverrideWatchlist = bool.Parse(reader.Value);
 
+                            if (reader.MoveToAttribute("timeoutlimit"))
+                                TimeOut = int.Parse(reader.Value);
+
                             continue;
                         }
 
@@ -807,6 +809,7 @@ namespace AutoWikiBrowser
             p.General.Flash = Flash;
             p.General.Beep = Beep;
             p.General.Minimize = Minimize;
+            p.General.TimeOutLimit = TimeOut;
             
             p.General.LockSummary = chkLock.Checked;
 
@@ -957,6 +960,8 @@ namespace AutoWikiBrowser
             { Beep = p.General.Beep; }
 
             Minimize = p.General.Minimize;
+            TimeOut = p.General.TimeOutLimit;
+            webBrowserEdit.TimeoutLimit = int.Parse(TimeOut.ToString());
             
             chkEnableDab.Checked = p.Disambiguation.Enabled;
             txtDabLink.Text = p.Disambiguation.Link;

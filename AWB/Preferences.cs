@@ -12,7 +12,7 @@ namespace AutoWikiBrowser
 {
     public partial class MyPreferences : Form
     {
-        public MyPreferences(LangCodeEnum lang, ProjectEnum proj, string customproj, bool EDiff, bool SDown, int DiffSize, Font TextFont, bool LowPriority, bool Flash, bool Beep, bool Minimize, bool SaveArticleList, bool OverrideWatchlist)
+        public MyPreferences(LangCodeEnum lang, ProjectEnum proj, string customproj, bool EDiff, bool SDown, int DiffSize, Font TextFont, bool LowPriority, bool Flash, bool Beep, bool Minimize, bool SaveArticleList, bool OverrideWatchlist, decimal TimeOut)
         {
             InitializeComponent();
 
@@ -38,6 +38,7 @@ namespace AutoWikiBrowser
             perfMinimize = Minimize;
             perfSaveArticleList = SaveArticleList;
             perfOverrideWatchlist = OverrideWatchlist;
+            perfTimeOutLimit = TimeOut;
 
             cmboProject_SelectedIndexChanged(null, null);
         }
@@ -180,6 +181,12 @@ namespace AutoWikiBrowser
         {
             get { return chkOverrideWatchlist.Checked; }
             set { chkOverrideWatchlist.Checked = value; }
+        }
+
+        public decimal perfTimeOutLimit
+        {
+            get { return numTimeOutLimit.Value; }
+            set { numTimeOutLimit.Value = value; }
         }
 
         #endregion
