@@ -19,8 +19,7 @@ namespace WikiFunctions
             String tempPath = ".\\";
             if (File.Exists(tempPath + "AWBUpdater.exe.new"))
             {
-                File.Delete(tempPath + "AWBUpdater.exe");
-                File.Copy(tempPath + "AWBUpdater.exe.new", tempPath + "AWBUpdater.exe");
+                File.Copy(tempPath + "AWBUpdater.exe.new", tempPath + "AWBUpdater.exe", true);
                 File.Delete(tempPath + "AWBUpdater.exe.new");
             }
             else
