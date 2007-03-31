@@ -1085,7 +1085,10 @@ namespace WikiFunctions.Lists
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string TextTBA = Clipboard.GetDataObject().GetData(DataFormats.Text).ToString();
-            string[] splitTextTBA = TextTBA.Split();
+            string[] splitter = { "\r\n" };
+
+            string[] splitTextTBA = TextTBA.Split(splitter, StringSplitOptions.RemoveEmptyEntries);
+            
             foreach (string entry in splitTextTBA)
             {
                 if (entry != "")
