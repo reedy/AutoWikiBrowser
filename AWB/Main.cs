@@ -826,6 +826,7 @@ namespace AutoWikiBrowser
                                 return articleText;
                         }
                         articleText = parsers.FixCategories(articleText);
+                        articleText = parsers.FixImages(articleText);
                         articleText = parsers.FixSyntax(articleText);
 
                         articleText = parsers.FixLinks(articleText, out SkipArticle);
