@@ -2824,18 +2824,10 @@ namespace AutoWikiBrowser
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
         }
 
-        /// <summary>
-        /// If AWBUpdater.exe.new, replace AWBUpdater.exe with it
-        /// </summary>
         private void updateUpdater()
         {
-           String tempPath = Path.GetDirectoryName(Application.ExecutablePath) + "\\";
-            if (System.IO.File.Exists(tempPath + "AWBUpdater.exe.new"))
-            {
-                System.IO.File.Delete(tempPath + "AWBUpdater.exe");
-                System.IO.File.Copy(tempPath + "AWBUpdater.exe.new", tempPath + "AWBUpdater.exe");
-                System.IO.File.Delete(tempPath + "AWBUpdater.exe.new");
-            }
+            Updater Updater = new Updater();
+            Updater.Update();
         }
 
         public void NotifyBalloon(string Message, ToolTipIcon Icon)
@@ -3036,10 +3028,5 @@ namespace AutoWikiBrowser
         }
 
             #endregion
-
-        private void testToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show(webBrowserEdit.TimeoutLimit.ToString());
-        }
     }
 }
