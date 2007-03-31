@@ -611,9 +611,13 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
+        /// <summary>
+        /// Fix common spacing/capitalisation errors in categories
+        /// </summary>
+        /// <param name="ArticleText">The wiki text of the article.</param>
+        /// <returns>The modified article text.</returns>
         public string FixCategories(string ArticleText)
-        {//Fix common spacing/capitalisation errors in categories
-
+        {
             Regex catregex = new Regex("\\[\\[ ?" + Variables.NamespacesCaseInsensitive[14] + " ?(.*?)\\]\\]");
             string cat = "[[" + Variables.Namespaces[14];
             string x = "";
@@ -621,6 +625,26 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             foreach (Match m in catregex.Matches(ArticleText))
             {
                 x = cat + m.Groups[1].Value.Replace("_", " ") + "]]";
+                ArticleText = ArticleText.Replace(m.Value, x);
+            }
+
+            return ArticleText;
+        }
+
+        /// <summary>
+        /// Fix common spacing/capitalisation errors in images
+        /// </summary>
+        /// <param name="ArticleText">The wiki text of the article.</param>
+        /// <returns>The modified article text.</returns>
+        public string FixImages(string ArticleText)
+        {
+            Regex imgregex = new Regex("\\[\\[ ?" + Variables.NamespacesCaseInsensitive[6] + " ?(.*?)\\]\\]");
+            string img = "[[" + Variables.Namespaces[6];
+            string x = "";
+
+            foreach (Match m in imgregex.Matches(ArticleText))
+            {
+                x = img + m.Groups[1].Value.Replace("_", " ") + "]]";
                 ArticleText = ArticleText.Replace(m.Value, x);
             }
 
