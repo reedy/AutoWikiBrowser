@@ -1187,7 +1187,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 "Warn|WarningsUsage|Welcome(4a|mos|n?pov|Shout|spam|" +
                 "vandal)|What-image-source|Welcome[0-6]?|Welcomeip|Anon|Welcome-anon|Whitelist request processed|Wrong version|Wrongsummary[123])(-n)?(\\|.*?)?)\\}\\}";
             legacyWarnings = legacyWarnings.Replace(" ", "[ _]");
-            Dictionary<Regex, string> Regexes = new Dictionary<Regex,string>();
+            // Dictionary<Regex, string> Regexes = new Dictionary<Regex,string>();
             string newWarnings = "\\{\\{(template:)?(Uw-(4|2redirect|3rr[1-4]?|advert1|afd[1-4]?|agf[1-3]?|" +
                 "aiv|autobiography|b[1-4]|biog[1-4]?|blatantvandal|block(ed)[1-3]?|bv|chat[1-4]?|cia[1-4]|copyright[1-4]creat(e|ion)[1-4]?|d[1-4]|dblock|defamatory[1-4](im)?|" +
                 "del(ete)[1-4]?(im)?|english|error[1-4]?|hoax|image[1-4]?(im)?|joke[1-4]?|legal[1-3]?|longterm|m1|maintenance[12]|" +
@@ -1195,10 +1195,10 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 "roads1|s[1-4](im)?|sblock1?|selfrevert|spam[1-4]?(im)?|speedy[1-4]?|srv|t[1-3]|test[1-4]?(im)?|tpv[1-4]?|unsourced[1-4]?|upv[1-4]?|v[1-4]?(im)?|vand(al)?(ism)?[1-4]?(im)?|" +
                 "vblock|warn)(\\|.*?)?)\\}\\}";
 
-            Regexes.Add(new Regex(legacyWarnings, RegexOptions.Compiled | RegexOptions.IgnoreCase), "{{subst:$2}}");
-            Regexes.Add(new Regex(newWarnings, RegexOptions.Compiled | RegexOptions.IgnoreCase), "{{subst:$2|subst=subst:}}");
+            TalkPageText = Regex.Replace(TalkPageText, legacyWarnings, "{{subst:$2}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            TalkPageText = Regex.Replace(TalkPageText, newWarnings, "{{subst:$2|subst=subst:}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-            TalkPageText = Tools.ExpandTemplate(TalkPageText, TalkPageTitle, Regexes, true);
+            // TalkPageText = Tools.ExpandTemplate(TalkPageText, TalkPageTitle, Regexes, true);
             TalkPageText = Regex.Replace(TalkPageText, "\\{\\{\\{\\{\\{subst:(subst)?\\|\\}\\}\\}?#if:\\{\\{\\{(1|diff)\\|\\}\\}\\}\\|[^\\{]*?\\}\\}", "", RegexOptions.IgnoreCase);
             TalkPageText = Regex.Replace(TalkPageText, "\\{\\{\\{\\{\\{subst:(subst)?\\|\\}\\}\\}?#if:[^\\{\\|]*\\|([^\\{\\|]*?)\\}\\}", "$2", RegexOptions.IgnoreCase);
             TalkPageText = Regex.Replace(TalkPageText, " \\{\\{\\{2\\|\\}\\}\\}", "");
