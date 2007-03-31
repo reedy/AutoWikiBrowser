@@ -329,7 +329,7 @@ namespace AWBUpdater
             if (updaterUpdate)
             {
                 if (File.Exists(tempDirectory + "AWBUpdater.exe"))
-                    File.Copy(tempDirectory + "AWBUpdater.exe", AWBdirectory + "AWBUpdater.exe.new");
+                    File.Copy(tempDirectory + "AWBUpdater.exe", AWBdirectory + "AWBUpdater.exe.new", true);
             }
 
             if (awbUpdate)
@@ -344,10 +344,10 @@ namespace AWBUpdater
                 if (!(Directory.Exists(AWBdirectory + "\\Plugins\\CFD")))
                     Directory.CreateDirectory(AWBdirectory + "\\Plugins\\CFD");
 
-                File.Copy(tempDirectory + "Plugins\\CFD\\CFD.dll", AWBdirectory + "Plugins\\CFD\\CFD.dll");
+                File.Copy(tempDirectory + "Plugins\\CFD\\CFD.dll", AWBdirectory + "Plugins\\CFD\\CFD.dll", true);
 
                 if (File.Exists(AWBdirectory + "Kingbotk AWB Plugin.dll"))
-                    File.Copy(tempDirectory + "Plugins\\Kingbotk (WikiProject tagging)\\Kingbotk AWB Plugin.dll", AWBdirectory + "Kingbotk AWB Plugin.dll");
+                    File.Copy(tempDirectory + "Plugins\\Kingbotk (WikiProject tagging)\\Kingbotk AWB Plugin.dll", AWBdirectory + "Kingbotk AWB Plugin.dll", true);
 
                 if (!(Directory.Exists(AWBdirectory + "Plugins\\Kingbotk (WikiProject tagging)")))
                     Directory.CreateDirectory(AWBdirectory + "Plugins\\Kingbotk (WikiProject tagging)");
@@ -357,7 +357,7 @@ namespace AWBUpdater
                 if (File.Exists(AWBdirectory + "WikiFunctions2.dll"))
                     File.Copy(tempDirectory + "Plugins\\Kingbotk (WikiProject tagging)\\WikiFunctions2.dll", AWBdirectory + "WikiFunctions2.dll", true);
 
-                File.Copy(tempDirectory + "Plugins\\Kingbotk (WikiProject tagging)\\WikiFunctions2.dll", AWBdirectory + "Plugins\\Kingbotk (WikiProject tagging)\\WikiFunctions2.dll");
+                File.Copy(tempDirectory + "Plugins\\Kingbotk (WikiProject tagging)\\WikiFunctions2.dll", AWBdirectory + "Plugins\\Kingbotk (WikiProject tagging)\\WikiFunctions2.dll", true);
 
                 if (File.Exists(AWBdirectory + "WPAssessmentsCatCreator.dll"))
                     File.Copy(tempDirectory + "Plugins\\WPAssessmentsCatCreator\\WPAssessmentsCatCreator.dll", AWBdirectory + "WPAssessmentsCatCreator.dll", true);
