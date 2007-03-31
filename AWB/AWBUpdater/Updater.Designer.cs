@@ -79,7 +79,7 @@ namespace AWBUpdater
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(335, 78);
+            this.ClientSize = new System.Drawing.Size(335, 94);
             this.Controls.Add(this.lblCurrentTask);
             this.Controls.Add(this.lblCurrent);
             this.Controls.Add(this.lblProgress);

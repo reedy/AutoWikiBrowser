@@ -85,7 +85,7 @@ namespace AWBUpdater
                     Application.DoEvents();
                     closeAWB();
 
-                    lblCurrentTask.Text = "Copying AWB Files from temp. Directory to AWB Directory";
+                    lblCurrentTask.Text = "Copying AWB Files from temp to AWB Directory";
                     Application.DoEvents();
                     copyFiles();
                     MessageBox.Show("AWB Update Successful", "Update Sucessful");
