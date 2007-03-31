@@ -1286,26 +1286,26 @@ namespace AutoWikiBrowser
             // makeModuleToolStripMenuItem
             // 
             this.makeModuleToolStripMenuItem.Name = "makeModuleToolStripMenuItem";
-            this.makeModuleToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.makeModuleToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.makeModuleToolStripMenuItem.Text = "Make module";
             this.makeModuleToolStripMenuItem.Click += new System.EventHandler(this.makeModuleToolStripMenuItem_Click);
             // 
             // testRegexToolStripMenuItem
             // 
             this.testRegexToolStripMenuItem.Name = "testRegexToolStripMenuItem";
-            this.testRegexToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.testRegexToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.testRegexToolStripMenuItem.Text = "Test regex";
             this.testRegexToolStripMenuItem.Click += new System.EventHandler(this.testRegexToolStripMenuItem_Click);
             // 
             // toolStripSeparator21
             // 
             this.toolStripSeparator21.Name = "toolStripSeparator21";
-            this.toolStripSeparator21.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator21.Size = new System.Drawing.Size(144, 6);
             // 
             // runUpdaterToolStripMenuItem
             // 
             this.runUpdaterToolStripMenuItem.Name = "runUpdaterToolStripMenuItem";
-            this.runUpdaterToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.runUpdaterToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.runUpdaterToolStripMenuItem.Text = "Run Updater";
             this.runUpdaterToolStripMenuItem.Click += new System.EventHandler(this.runUpdaterToolStripMenuItem_Click);
             // 
@@ -2300,7 +2300,7 @@ namespace AutoWikiBrowser
             // 
             // lblOnlyBots
             // 
-            this.lblOnlyBots.BackColor = System.Drawing.SystemColors.Control;
+            this.lblOnlyBots.BackColor = System.Drawing.Color.Transparent;
             this.lblOnlyBots.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
             this.lblOnlyBots.Location = new System.Drawing.Point(1, 1);
             this.lblOnlyBots.Name = "lblOnlyBots";
