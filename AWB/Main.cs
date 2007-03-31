@@ -1140,6 +1140,12 @@ namespace AutoWikiBrowser
                 chkNudgeSkip.Enabled = true;
                 chkNudge.Checked = true;
                 chkNudgeSkip.Checked = true;
+
+                if (chkRegExTypo.Checked)
+                {
+                    MessageBox.Show("Auto cannot be used with RegExTypoFix.\r\nRegExTypoFix will now be turned off", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    chkRegExTypo.Checked = false;
+                }
             }
             else
             {
@@ -2353,18 +2359,17 @@ namespace AutoWikiBrowser
         {
             if (chkAutoMode.Checked && chkRegExTypo.Checked)
             {
-                MessageBox.Show("RegexTypoFix cannot be used with auto save on.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("RegexTypoFix cannot be used with auto save on.\r\nAutosave will now be turned off, and Typos loaded.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 chkAutoMode.Checked = false;
                 //return;
             }
-
-            loadTypos();
-            chkSkipIfNoRegexTypo.Enabled = chkRegExTypo.Checked;
+                loadTypos();
+                chkSkipIfNoRegexTypo.Enabled = chkRegExTypo.Checked;
         }
 
         private void loadTypos()
         {
-             if (chkRegExTypo.Checked)
+            if (chkRegExTypo.Checked)
             {
                 lblStatusText.Text = "Loading typos";
 
