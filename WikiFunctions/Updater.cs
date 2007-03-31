@@ -16,17 +16,17 @@ namespace WikiFunctions
         /// </summary>
         public void Update()
         {
-            String tempPath = ".\\";
-            if (File.Exists(tempPath + "AWBUpdater.exe.new"))
+            try
             {
-                File.Copy(tempPath + "AWBUpdater.exe.new", tempPath + "AWBUpdater.exe", true);
-                File.Delete(tempPath + "AWBUpdater.exe.new");
-            }
-            else
-            {
-                string text = "";
-                try
+                String tempPath = ".\\";
+                if (File.Exists(tempPath + "AWBUpdater.exe.new"))
                 {
+                    File.Copy(tempPath + "AWBUpdater.exe.new", tempPath + "AWBUpdater.exe", true);
+                    File.Delete(tempPath + "AWBUpdater.exe.new");
+                }
+                else
+                {
+                    string text = "";
                     HttpWebRequest rq = (HttpWebRequest)WebRequest.Create("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=edit");
 
                     rq.Proxy.Credentials = CredentialCache.DefaultCredentials;
@@ -42,16 +42,10 @@ namespace WikiFunctions
                     sr.Close();
                     stream.Close();
                     response.Close();
-                }
-                catch
-                {
-                }
 
-                Match m_updversion = Regex.Match(text, @"&lt;!-- Updater version: (.*?) --&gt;");
+                    Match m_updversion = Regex.Match(text, @"&lt;!-- Updater version: (.*?) --&gt;");
 
-                if (m_updversion.Success && m_updversion.Groups[1].Value.Length == 4)
-                {
-                    try
+                    if (m_updversion.Success && m_updversion.Groups[1].Value.Length == 4)
                     {
                         FileVersionInfo versionUpdater = FileVersionInfo.GetVersionInfo(".\\AWBUpdater.exe");
 
@@ -60,10 +54,9 @@ namespace WikiFunctions
                             System.Diagnostics.Process.Start(".\\AWBUpdater.exe");
                         }
                     }
-                    catch
-                    { }
                 }
             }
+            catch { }
         }
     }
 }
