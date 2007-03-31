@@ -124,6 +124,23 @@ namespace WikiFunctions
         }
 
         /// <summary>
+        /// Removes Invalid Characters from an Article Title
+        /// </summary>
+        /// <param name="Title">Article Title</param>
+        /// <returns>Article Title with no invalid characters</returns>
+        public static string RemoveInvalidChars(string Title)
+        {
+            foreach (string character in InvalidChars)
+            {
+                Match invalidChar = Regex.Match(Title, Regex.Escape(character));
+
+                if (invalidChar.Success)
+                    Title = Title.Replace(character, "");
+            }
+            return Title;
+        }
+
+        /// <summary>
         /// Tests title to make sure it is either main, image, category or template namespace.
         /// </summary>
         /// <param name="ArticleTitle">The title.</param>
