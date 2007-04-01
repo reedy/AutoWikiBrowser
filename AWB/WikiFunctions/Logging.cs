@@ -94,17 +94,10 @@ using System.Text;
          * Handle double click event (open article in browser)
         */
 
-        private bool mSkipped;
-
         #region AWB Interface
             public AWBLogListener(string ArticleTitle)
             {
                 Text = ArticleTitle;
-            }
-
-            public bool Skipped
-            { // strictly speaking we don't need this, as AWB knows if skipped or not. It does enhance encapsulation though.
-                get { return mSkipped; }
             }
 
             public void UserSkipped()
@@ -147,32 +140,32 @@ using System.Text;
 
             void IMyTraceListener.WriteArticleActionLine(string Line, string PluginName, bool VerboseOnly)
             {
-                
+                if (!VerboseOnly) WriteLine(Line, PluginName);
             }
 
             void IMyTraceListener.WriteArticleActionLine(string Line, string PluginName)
             {
-                
+                WriteLine(Line, PluginName);
             }
 
             void IMyTraceListener.WriteBulletedLine(string Line, bool Bold, bool VerboseOnly)
             {
-                
+                if (!VerboseOnly) Write(Line);
             }
 
             void IMyTraceListener.WriteBulletedLine(string Line, bool Bold, bool VerboseOnly, bool DateStamp)
             {
-                
+                if (!VerboseOnly) Write(Line);
             }
 
             void IMyTraceListener.WriteLine(string Line)
             {
-                
+                Write(Line);
             }
 
             void IMyTraceListener.WriteTemplateAdded(string Template, string PluginName)
             {
-                
+                WriteLine("{{" + Template + "}} added", PluginName);
             }
 
             public void Write(string Text)
@@ -183,12 +176,15 @@ using System.Text;
 
         private void Skip(string SkippedBy, string SkipReason)
         {
-            mSkipped = true;
+            //mSkipped = true;
             SubItems.Add(SkippedBy);
             SubItems.Add(SkipReason);
             Write(SkippedBy + ": " + SkipReason);
         }
-
+        private void WriteLine(string Text, string Sender)
+        {
+            Write(Sender + ": " + Text);
+        }
     }
 }
 
