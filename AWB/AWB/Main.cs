@@ -129,6 +129,7 @@ namespace AutoWikiBrowser
         string SettingsFile = "";
         string LastMove = "";
         string LastDelete = "";
+        string skipReason = "";
 
         int oldselection = 0;
 
@@ -430,6 +431,7 @@ namespace AutoWikiBrowser
 
             if (!Skip.skipIf(strText))
             {
+                //TODO: Set Skip Reason
                 SkipPage("");
                 return;
             }
@@ -449,7 +451,7 @@ namespace AutoWikiBrowser
 
             if (!Abort && skip)
             {
-                SkipPage("");
+                SkipPage(skipReason);
                 return;
             }
 
@@ -665,6 +667,9 @@ namespace AutoWikiBrowser
             lvSaved.Items.Add(DateTime.Now.ToLongTimeString() + " : " + EdittingArticle.Name);
             SaveTimer.Stop();
             sameArticleNudges = 0;
+
+            lvSaved.Items.Add(LogListener);
+
             Start();
         }
 
@@ -704,6 +709,8 @@ namespace AutoWikiBrowser
 
                         break;
                 }
+
+                lvIgnored.Items.Add(LogListener);
                 
                 Start();
             }
@@ -726,6 +733,7 @@ namespace AutoWikiBrowser
                 if (!ignoreNoBotsToolStripMenuItem.Checked && !Parsers.CheckNoBots(articleText, Variables.User.Name))
                 {
                     SkipArticle = true;
+                    skipReason = "Bot Edits not Allowed";
                     return articleText;
                 }
 
@@ -764,33 +772,48 @@ namespace AutoWikiBrowser
                 {
                     articleText = parsers.Unicodify(articleText, out SkipArticle);
                     if (Skip.SkipNoUnicode && SkipArticle)
+                    {
+                        skipReason = "No Unicodification";
                         return articleText;
+                    }
                 }
 
                 if (cmboImages.SelectedIndex == 1)
                 {
                     articleText = parsers.ReplaceImage(txtImageReplace.Text, txtImageWith.Text, articleText, out SkipArticle);
                     if (SkipArticle && chkSkipNoImgChange.Checked)
+                    {
+                        skipReason = "No Image Changed";
                         return articleText;
+                    }
                 }
                 else if (cmboImages.SelectedIndex == 2)
                 {
                     articleText = parsers.RemoveImage(txtImageReplace.Text, articleText, false, txtImageWith.Text, out SkipArticle);
                     if (SkipArticle && chkSkipNoImgChange.Checked)
+                    {
+                        skipReason = "No Image Changed";
                         return articleText;
+                    }
                 }
                 else if (cmboImages.SelectedIndex == 3)
                 {
                     articleText = parsers.RemoveImage(txtImageReplace.Text, articleText, true, txtImageWith.Text, out SkipArticle);
                     if (SkipArticle && chkSkipNoImgChange.Checked)
+                    {
+                        skipReason = "No Image Changed";
                         return articleText;
+                    }
                 }
 
                 if (cmboCategorise.SelectedIndex == 1)
                 {
                     articleText = parsers.ReCategoriser(txtNewCategory.Text, txtNewCategory2.Text, articleText, out SkipArticle);
                     if (SkipArticle && chkSkipNoCatChange.Checked)
+                    {
+                        skipReason = "No Category Changed";
                         return articleText;
+                    }
                 }
                 else if (cmboCategorise.SelectedIndex == 2 && txtNewCategory.Text.Length > 0)
                 {
@@ -800,7 +823,10 @@ namespace AutoWikiBrowser
                 {
                     articleText = parsers.RemoveCategory(txtNewCategory.Text, articleText, out SkipArticle);
                     if (SkipArticle && chkSkipNoCatChange.Checked)
+                    {
+                        skipReason = "No Category Changed";
                         return articleText;
+                    }
                 }
 
                 if (chkFindandReplace.Checked && !findAndReplace.AfterOtherFixes)
@@ -808,7 +834,10 @@ namespace AutoWikiBrowser
                     SkipArticle = false;
                     articleText = PerformFindAndReplace(articleText, out SkipArticle);
                     if (SkipArticle)
+                    {
+                        skipReason = "No Find And Replace Changes";
                         return articleText;
+                    }
                 }
 
                 if (chkRegExTypo.Checked && RegexTypos != null && !chkAutoMode.Checked && !Tools.IsTalkPage(EdittingArticle.NameSpaceKey))
@@ -816,7 +845,10 @@ namespace AutoWikiBrowser
                     string tempSummary = "";
                     articleText = RegexTypos.PerformTypoFixes(articleText, out SkipArticle, out tempSummary);
                     if (SkipArticle && chkSkipIfNoRegexTypo.Checked)
+                    {
+                        skipReason = "No Typo Fixes";
                         return articleText;
+                    }
                     else
                         EdittingArticle.EditSummary += tempSummary;
                 }
@@ -827,7 +859,10 @@ namespace AutoWikiBrowser
                     {
                         articleText = parsers.Tagger(articleText, EdittingArticle.Name, out SkipArticle, ref EdittingArticle.EditSummary);
                         if (Skip.SkipNoTag && SkipArticle)
+                        {
+                            skipReason = "No Tag changed";
                             return articleText;
+                        }
                     }
 
                     if (process && chkGeneralFixes.Checked)
@@ -844,7 +879,10 @@ namespace AutoWikiBrowser
                             articleText = parsers.ChangeToDefaultSort(articleText, EdittingArticle.Name);
                             articleText = parsers.FixHeadings(articleText, EdittingArticle.Name, out SkipArticle);
                             if (Skip.SkipNoHeaderError && SkipArticle)
+                            {
+                                skipReason = "No Header Errors";
                                 return articleText;
+                            }
                         }
                         articleText = parsers.FixCategories(articleText);
                         articleText = parsers.FixImages(articleText);
@@ -852,11 +890,17 @@ namespace AutoWikiBrowser
 
                         articleText = parsers.FixLinks(articleText, out SkipArticle);
                         if (Skip.SkipNoBadLink && SkipArticle)
+                        {
+                            skipReason = "No Bad Links";
                             return articleText;
+                        }
 
                         articleText = parsers.BulletExternalLinks(articleText, out SkipArticle);
                         if (Skip.SkipNoBulletedLink && SkipArticle)
+                        {
+                            skipReason = "No Missing Bulleted Links";
                             return articleText;
+                        }
 
                         articleText = parsers.SortMetaData(articleText, EdittingArticle.Name);
 
@@ -864,7 +908,10 @@ namespace AutoWikiBrowser
                         articleText = parsers.BoldTitle(articleText, EdittingArticle.Name, out SkipArticle);
                         //articleText = RemoveText.AddBackMore(articleText);
                         if (Skip.SkipNoBoldTitle && SkipArticle)
+                        {
+                            skipReason = "No Titles to bolden";
                             return articleText;
+                        }
 
                         articleText = parsers.StickyLinks(parsers.SimplifyLinks(articleText));
 
@@ -891,7 +938,10 @@ namespace AutoWikiBrowser
                     SkipArticle = false;
                     articleText = PerformFindAndReplace(articleText, out SkipArticle);
                     if (SkipArticle)
+                    {
+                        skipReason = "No Find And Replace Changes";
                         return articleText;
+                    }
                 }
 
                 if (chkEnableDab.Checked && txtDabLink.Text.Trim() != "" &&
@@ -905,7 +955,11 @@ namespace AutoWikiBrowser
                     Abort = df.Abort;
                     if (Abort) Stop();
 
-                    if (SkipArticle && chkSkipNoDab.Checked) return articleText;
+                    if (SkipArticle && chkSkipNoDab.Checked)
+                    {
+                        skipReason = "No Disambiguation";
+                        return articleText;
+                    }
                 }
 
                 SkipArticle = false;
@@ -915,6 +969,7 @@ namespace AutoWikiBrowser
             {
                 MessageBox.Show(ex.Message);
                 SkipArticle = false;
+                skipReason = "Error";
                 return articleText;
             }
         }
@@ -2675,6 +2730,7 @@ namespace AutoWikiBrowser
             {
                 a.Value.Start += Start;
                 a.Value.Save += Save;
+                //TODO: Fix Skip Reason
                 a.Value.Skip += SkipPage("Skipped by plugin");
                 a.Value.Stop += Stop;
                 a.Value.Diff += GetDiff;
