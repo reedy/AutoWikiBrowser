@@ -80,7 +80,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.WPAssessmentsCatCreator
             End Get
         End Property
         Public Function ProcessArticle(ByVal ArticleText As String, ByVal ArticleTitle As String, _
-        ByVal [Namespace] As Integer, ByRef Summary As String, ByRef Skip As Boolean) As String _
+        ByVal [Namespace] As Integer, ByRef Summary As String, ByRef Skip As Boolean, _
+        ByVal AWBLogItem As WikiFunctions.Logging.IMyTraceListener) As String _
         Implements WikiFunctions.Plugin.IAWBPlugin.ProcessArticle
 
             If WeAreRunning Then
