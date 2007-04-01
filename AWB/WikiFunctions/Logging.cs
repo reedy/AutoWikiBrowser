@@ -67,6 +67,7 @@ using System.Text;
         void Write(string Text);
         void WriteArticleActionLine(string Line, string PluginName);
         void WriteArticleActionLine(string Line, string PluginName, bool VerboseOnly);
+        void WriteBulletedLine(string Line, bool Bold, bool VerboseOnly);
         void WriteBulletedLine(string Line, bool Bold, bool VerboseOnly, bool DateStamp);
         void WriteComment(string Line);
         void WriteCommentAndNewLine(string Line);
@@ -96,19 +97,24 @@ using System.Text;
         private bool mSkipped;
 
         #region AWB Interface
-            public bool Skipped
-            { // strictly speaking we don't need this, as AWB knows if skipped or not. It does enhance encapsulation though.
-                get { return mSkipped; }
-            }
-
             public AWBLogListener(string ArticleTitle)
             {
                 Text = ArticleTitle;
             }
 
+            public bool Skipped
+            { // strictly speaking we don't need this, as AWB knows if skipped or not. It does enhance encapsulation though.
+                get { return mSkipped; }
+            }
+
             public void UserSkipped()
             {
                 Skip("User", "Clicked ignore");
+            }
+
+            public void AWBSKipped(string Reason)
+            {
+                Skip("AWB", Reason);
             }
         #endregion
 
@@ -145,6 +151,11 @@ using System.Text;
             }
 
             void IMyTraceListener.WriteArticleActionLine(string Line, string PluginName)
+            {
+                
+            }
+
+            void IMyTraceListener.WriteBulletedLine(string Line, bool Bold, bool VerboseOnly)
             {
                 
             }
