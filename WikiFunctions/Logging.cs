@@ -179,7 +179,10 @@ using System.Text;
 
             public void Write(string Text)
             {
-                ToolTipText = Text + System.Environment.NewLine + ToolTipText;
+                if (ToolTipText.Trim() == "")
+                { ToolTipText = Text; }
+                else
+                { ToolTipText = Text + System.Environment.NewLine + ToolTipText; }
             }
         #endregion
 
