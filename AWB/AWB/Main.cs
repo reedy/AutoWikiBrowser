@@ -687,6 +687,11 @@ namespace AutoWikiBrowser
             }
         }
 
+        private void SkipPage()
+        {
+            SkipPage("");
+        }
+
         private void SkipPage(string reason)
         {
             try
@@ -705,6 +710,11 @@ namespace AutoWikiBrowser
                         LogListener.UserSkipped();
 
                         break;
+
+                    case "":
+
+                        break;
+
                     default:
                         LogListener.AWBSKipped(reason);
 
@@ -2733,7 +2743,7 @@ namespace AutoWikiBrowser
                 a.Value.Start += Start;
                 a.Value.Save += Save;
                 //TODO: Fix Skip Reason
-                a.Value.Skip += SkipPage();
+                a.Value.Skip += SkipPage;
                 a.Value.Stop += Stop;
                 a.Value.Diff += GetDiff;
                 a.Value.Preview += GetPreview;
