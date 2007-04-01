@@ -23,7 +23,7 @@ using System.Text;
 
 #region Namespaces
     namespace WikiFunctions
-    {
+    { // This is needed by the Kingbotk plugin. It has to live here rather than in WikiFunctions2 to get a clean compile.
         public enum Namespaces
         {
             Category = 14,
@@ -94,10 +94,14 @@ using System.Text;
          * Handle double click event (open article in browser)
         */
 
+        protected string marticle; /* store this locally rather than relying on .Text in case a Plugin changes .Text
+                                   * (it shouldn', and Kingbotk doesn't, but who knows :) */
+
         #region AWB Interface
             public AWBLogListener(string ArticleTitle)
             {
                 Text = ArticleTitle;
+                marticle = ArticleTitle;
             }
 
             public void UserSkipped()
@@ -108,6 +112,11 @@ using System.Text;
             public void AWBSKipped(string Reason)
             {
                 Skip("AWB", Reason);
+            }
+
+            public void OpenInBrowser()
+            {
+                System.Diagnostics.Process.Start(Variables.URL + "/wiki/" + marticle);
             }
         #endregion
 
@@ -174,14 +183,15 @@ using System.Text;
             }
         #endregion
 
-        private void Skip(string SkippedBy, string SkipReason)
+        protected void Skip(string SkippedBy, string SkipReason)
         {
             //mSkipped = true;
             SubItems.Add(SkippedBy);
             SubItems.Add(SkipReason);
             Write(SkippedBy + ": " + SkipReason);
         }
-        private void WriteLine(string Text, string Sender)
+
+        protected void WriteLine(string Text, string Sender)
         {
             Write(Sender + ": " + Text);
         }
