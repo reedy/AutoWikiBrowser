@@ -3034,5 +3034,11 @@ namespace AutoWikiBrowser
         }
 
             #endregion
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            foreach (Article a in lbIgnored.Items)
+                listMaker1.Add(a);
+        }
     }
 }
