@@ -150,8 +150,6 @@ namespace AutoWikiBrowser
         CustomModule cModule = new CustomModule();
         public RegexTester regexTester = new RegexTester();
         AWBLogListener LogListener;
-        string strlbSavedTooltip = "";
-        string strlbIgnoredTooltip = "";
 
         private void MainForm_Load(object sender, EventArgs e)
         {
