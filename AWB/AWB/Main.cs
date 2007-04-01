@@ -3151,32 +3151,6 @@ namespace AutoWikiBrowser
                 listMaker1.Add(new Article(article.Text));
         }
 
-        private void lbSaved_MouseMove(object sender, MouseEventArgs e)
-        {
-            //string strTip = "";
-
-            //Get the item
-            //int nIdx = lvSaved.IndexFromPoint(e.Location);
-            //if ((nIdx >= 0) && (nIdx < lvSaved.Items.Count))
-            //    strTip = lvSaved.Items[nIdx].ToString();
-            //if (strTip != strlbSavedTooltip)
-            //    toolTip1.SetToolTip(lvSaved, strTip);
-            //strlbSavedTooltip = strTip;
-        }
-
-        private void lbIgnored_MouseMove(object sender, MouseEventArgs e)
-        {
-            //string strTip = "";
-
-            //Get the item
-            //int nIdx = lvIgnored.IndexFromPoint(e.Location);
-            //if ((nIdx >= 0) && (nIdx < lvIgnored.Items.Count))
-            //    strTip = lvIgnored.Items[nIdx].ToString();
-            //if (strTip != strlbIgnoredTooltip)
-            //    toolTip1.SetToolTip(lvIgnored, strTip);
-            //strlbIgnoredTooltip = strTip;
-        }
-
         private void resizeListView(ListView lstView)
         {
             int width; int width2;
@@ -3191,6 +3165,32 @@ namespace AutoWikiBrowser
                 if (width2 < width)
                     head.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
             }
+        }
+
+        private void lvSaved_MouseMove(object sender, MouseEventArgs e)
+        {
+            //string strTip = "";
+
+            //Get the item
+            //int nIdx = lvSaved.IndexFromPoint(e.Location);
+            //if ((nIdx >= 0) && (nIdx < lvSaved.Items.Count))
+            //    strTip = lvSaved.Items[nIdx].ToString();
+            //if (strTip != strlbSavedTooltip)
+            //    toolTip1.SetToolTip(lvSaved, strTip);
+            //strlbSavedTooltip = strTip;
+        }
+
+        private void lvIgnored_MouseMove(object sender, MouseEventArgs e)
+        {
+            //string strTip = "";
+
+            //Get the item
+            //int nIdx = lvSaved.IndexFromPoint(e.Location);
+            //if ((nIdx >= 0) && (nIdx < lvSaved.Items.Count))
+            //    strTip = lvSaved.Items[nIdx].ToString();
+            //if (strTip != strlbSavedTooltip)
+            //    toolTip1.SetToolTip(lvSaved, strTip);
+            //strlbSavedTooltip = strTip;
         }
     }
 }

@@ -108,7 +108,11 @@ namespace AutoWikiBrowser
             this.replaceTextWithLastEditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tpLogs = new System.Windows.Forms.TabPage();
             this.lvIgnored = new System.Windows.Forms.ListView();
+            this.colIgnoreArticle = new System.Windows.Forms.ColumnHeader();
+            this.colSkippedBy = new System.Windows.Forms.ColumnHeader();
+            this.colSkipReason = new System.Windows.Forms.ColumnHeader();
             this.lvSaved = new System.Windows.Forms.ListView();
+            this.colSuccessSave = new System.Windows.Forms.ColumnHeader();
             this.btnAddToList = new System.Windows.Forms.Button();
             this.btnClearIgnored = new System.Windows.Forms.Button();
             this.btnSaveIgnored = new System.Windows.Forms.Button();
@@ -316,10 +320,6 @@ namespace AutoWikiBrowser
             this.SaveTimer = new System.Windows.Forms.Timer(this.components);
             this.strListFile = new System.Windows.Forms.SaveFileDialog();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
-            this.colSuccessSave = new System.Windows.Forms.ColumnHeader();
-            this.colIgnoreArticle = new System.Windows.Forms.ColumnHeader();
-            this.colSkippedBy = new System.Windows.Forms.ColumnHeader();
-            this.colSkipReason = new System.Windows.Forms.ColumnHeader();
             this.groupBox2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabControl2.SuspendLayout();
@@ -859,6 +859,21 @@ namespace AutoWikiBrowser
             this.lvIgnored.TabIndex = 10;
             this.lvIgnored.UseCompatibleStateImageBehavior = false;
             this.lvIgnored.View = System.Windows.Forms.View.Details;
+            this.lvIgnored.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lvIgnored_MouseMove);
+            // 
+            // colIgnoreArticle
+            // 
+            this.colIgnoreArticle.Text = "Article";
+            // 
+            // colSkippedBy
+            // 
+            this.colSkippedBy.Text = "Skipped By";
+            this.colSkippedBy.Width = 78;
+            // 
+            // colSkipReason
+            // 
+            this.colSkipReason.Text = "Skip Reason";
+            this.colSkipReason.Width = 94;
             // 
             // lvSaved
             // 
@@ -872,6 +887,12 @@ namespace AutoWikiBrowser
             this.lvSaved.TabIndex = 9;
             this.lvSaved.UseCompatibleStateImageBehavior = false;
             this.lvSaved.View = System.Windows.Forms.View.Details;
+            this.lvSaved.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lvSaved_MouseMove);
+            // 
+            // colSuccessSave
+            // 
+            this.colSuccessSave.Text = "Article";
+            this.colSuccessSave.Width = 239;
             // 
             // btnAddToList
             // 
@@ -2989,25 +3010,6 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.WebBrowserShortcutsEnabled = false;
             this.webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
             this.webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
-            // 
-            // colSuccessSave
-            // 
-            this.colSuccessSave.Text = "Article";
-            this.colSuccessSave.Width = 239;
-            // 
-            // colIgnoreArticle
-            // 
-            this.colIgnoreArticle.Text = "Article";
-            // 
-            // colSkippedBy
-            // 
-            this.colSkippedBy.Text = "Skipped By";
-            this.colSkippedBy.Width = 78;
-            // 
-            // colSkipReason
-            // 
-            this.colSkipReason.Text = "Skip Reason";
-            this.colSkipReason.Width = 94;
             // 
             // MainForm
             // 
