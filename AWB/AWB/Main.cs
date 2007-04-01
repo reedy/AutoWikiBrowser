@@ -656,7 +656,7 @@ namespace AutoWikiBrowser
 
             LastArticle = "";
             listMaker1.Remove(EdittingArticle);
-            lbSaved.Items.Add(DateTime.Now.ToLongTimeString() + " : " + EdittingArticle.Name);
+            lvSaved.Items.Add(DateTime.Now.ToLongTimeString() + " : " + EdittingArticle.Name);
             SaveTimer.Stop();
             sameArticleNudges = 0;
             Start();
@@ -684,7 +684,7 @@ namespace AutoWikiBrowser
                 stopDelayedAutoSaveTimer();
                 SaveTimer.Stop();
                 listMaker1.Remove(EdittingArticle);
-                lbIgnored.Items.Add(DateTime.Now.ToLongTimeString() + " : " + EdittingArticle.Name);
+                lvIgnored.Items.Add(DateTime.Now.ToLongTimeString() + " : " + EdittingArticle.Name);
                 sameArticleNudges = 0;
                 Start();
             }
@@ -2979,16 +2979,20 @@ namespace AutoWikiBrowser
 
         private void btnClearSaved_Click(object sender, EventArgs e)
         {
-            lbSaved.Items.Clear();
+            lvSaved.Items.Clear();
         }
 
         private void btnClearIgnored_Click(object sender, EventArgs e)
         {
-            lbIgnored.Items.Clear();
+            lvIgnored.Items.Clear();
         }
 
+        /// <summary>
+        /// Save List Box to a text file
+        /// </summary>
+        /// <param name="listbox"></param>
         public void SaveList(ListBox listbox)
-        {//Save lbArticles list to text file.
+        {
             try
             {
                 StringBuilder strList = new StringBuilder("");
@@ -3014,48 +3018,91 @@ namespace AutoWikiBrowser
             }
         }
 
+        private void SaveListView(ListView listview)
+        {
+            try
+            {
+                StringBuilder strList = new StringBuilder("");
+                StreamWriter sw;
+                string strListFile;
+                if (saveListDialog.ShowDialog() == DialogResult.OK)
+                {
+                    foreach (String a in listview.Items)
+                        strList.AppendLine(a);
+                    strListFile = saveListDialog.FileName;
+                    sw = new StreamWriter(strListFile, false, Encoding.UTF8);
+                    sw.Write(strList);
+                    sw.Close();
+                }
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show(ex.Message, "File error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void btnSaveSaved_Click(object sender, EventArgs e)
         {
-            SaveList(lbSaved);
+            SaveListView(lvSaved);
         }
 
         private void btnSaveIgnored_Click(object sender, EventArgs e)
         {
-            SaveList(lbIgnored);
+            SaveListView(lvIgnored);
         }
 
             #endregion
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnAddtoList_Click(object sender, EventArgs e)
         {
-            foreach (String article in lbIgnored.Items)
-                listMaker1.Add(new Article(article.Substring(article.IndexOf(" : ") + 3)));
+            foreach (ListViewItem article in lvIgnored.Items)
+                listMaker1.Add(new Article(article.Text));
         }
 
         private void lbSaved_MouseMove(object sender, MouseEventArgs e)
         {
-            string strTip = "";
+            //string strTip = "";
 
             //Get the item
-            int nIdx = lbSaved.IndexFromPoint(e.Location);
-            if ((nIdx >= 0) && (nIdx < lbSaved.Items.Count))
-                strTip = lbSaved.Items[nIdx].ToString();
-            if (strTip != strlbSavedTooltip)
-                toolTip1.SetToolTip(lbSaved, strTip);
-            strlbSavedTooltip = strTip;
+            //int nIdx = lvSaved.IndexFromPoint(e.Location);
+            //if ((nIdx >= 0) && (nIdx < lvSaved.Items.Count))
+            //    strTip = lvSaved.Items[nIdx].ToString();
+            //if (strTip != strlbSavedTooltip)
+            //    toolTip1.SetToolTip(lvSaved, strTip);
+            //strlbSavedTooltip = strTip;
         }
 
         private void lbIgnored_MouseMove(object sender, MouseEventArgs e)
         {
-            string strTip = "";
+            //string strTip = "";
 
             //Get the item
-            int nIdx = lbIgnored.IndexFromPoint(e.Location);
-            if ((nIdx >= 0) && (nIdx < lbIgnored.Items.Count))
-                strTip = lbIgnored.Items[nIdx].ToString();
-            if (strTip != strlbIgnoredTooltip)
-                toolTip1.SetToolTip(lbIgnored, strTip);
-            strlbIgnoredTooltip = strTip;
+            //int nIdx = lvIgnored.IndexFromPoint(e.Location);
+            //if ((nIdx >= 0) && (nIdx < lvIgnored.Items.Count))
+            //    strTip = lvIgnored.Items[nIdx].ToString();
+            //if (strTip != strlbIgnoredTooltip)
+            //    toolTip1.SetToolTip(lvIgnored, strTip);
+            //strlbIgnoredTooltip = strTip;
+        }
+
+        private void resizeListView(ListView lstView)
+        {
+            int width; int width2;
+            foreach (ColumnHeader head in lstView.Columns)
+            {
+                head.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
+                width = head.Width;
+
+                head.AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
+                width2 = head.Width;
+
+                if (width2 < width)
+                    head.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
+            }
         }
     }
 }
