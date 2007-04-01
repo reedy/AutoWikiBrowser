@@ -17,6 +17,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 using System;
+using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Text;
 
@@ -44,7 +45,7 @@ namespace WikiFunctions.Logging
         bool Uploadable { get; }
     }
 
-    public class AWBLogListener : System.Windows.Forms.ListViewItem, IMyTraceListener
+    public class AWBLogListener : ListViewItem, IMyTraceListener
     {
         /*
         ' We need listitem subitems for, only when skipped):
@@ -138,6 +139,14 @@ namespace WikiFunctions.Logging
         void IMyTraceListener.WriteTemplateAdded(string Template, string PluginName)
         {
             
+        }
+
+        void createListViewItem(string ArticleTitle, string SkippedBy, string SkipReason)
+        {
+            ListViewItem item = new ListViewItem(ArticleTitle);
+
+                item.SubItems.Add(SkippedBy);
+                item.SubItems.Add(SkipReason);
         }
 
         #endregion
