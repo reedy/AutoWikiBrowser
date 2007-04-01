@@ -1609,7 +1609,7 @@ namespace AutoWikiBrowser
         private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //refresh typo list
-            loadTypos();
+            loadTypos(true);
 
             //refresh login status, and reload check list
             if (!Variables.User.WikiStatus)
@@ -2372,11 +2372,11 @@ namespace AutoWikiBrowser
                 chkAutoMode.Checked = false;
                 //return;
             }
-                loadTypos();
+                loadTypos(false);
                 chkSkipIfNoRegexTypo.Enabled = chkRegExTypo.Checked;
         }
 
-        private void loadTypos()
+        private void loadTypos(bool Reload)
         {
             if (chkRegExTypo.Checked)
             {
@@ -2395,7 +2395,7 @@ namespace AutoWikiBrowser
 
                 MessageBox.Show(message, "Attention", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                if (RegexTypos == null)
+                if (RegexTypos == null || Reload)
                 {
                     RegexTypos = new RegExTypoFix();
                     lblStatusText.Text = RegexTypos.Typos.Count.ToString() + " typos loaded";
