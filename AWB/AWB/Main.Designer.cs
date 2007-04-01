@@ -853,8 +853,10 @@ namespace AutoWikiBrowser
             this.colIgnoreArticle,
             this.colSkippedBy,
             this.colSkipReason});
+            this.lvIgnored.FullRowSelect = true;
             this.lvIgnored.Location = new System.Drawing.Point(3, 202);
             this.lvIgnored.Name = "lvIgnored";
+            this.lvIgnored.ShowItemToolTips = true;
             this.lvIgnored.Size = new System.Drawing.Size(249, 108);
             this.lvIgnored.TabIndex = 10;
             this.lvIgnored.UseCompatibleStateImageBehavior = false;
@@ -884,6 +886,7 @@ namespace AutoWikiBrowser
             this.colSuccessSave});
             this.lvSaved.Location = new System.Drawing.Point(6, 22);
             this.lvSaved.Name = "lvSaved";
+            this.lvSaved.ShowItemToolTips = true;
             this.lvSaved.Size = new System.Drawing.Size(249, 123);
             this.lvSaved.TabIndex = 9;
             this.lvSaved.UseCompatibleStateImageBehavior = false;
