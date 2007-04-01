@@ -451,7 +451,10 @@ namespace AutoWikiBrowser
             }
 
             webBrowserEdit.SetArticleText(strText);
+            string SavedSummary = EdittingArticle.EditSummary;
             txtEdit.Text = strText;
+            EdittingArticle.EditSummary = SavedSummary;
+
             //Update statistics and alerts
             ArticleInfo(false);
 
@@ -1439,6 +1442,7 @@ namespace AutoWikiBrowser
         private void txtEdit_TextChanged(object sender, EventArgs e)
         {
             resetFind();
+            EdittingArticle.EditSummary = "";
         }
         private void chkFindCaseSensitive_CheckedChanged(object sender, EventArgs e)
         {
