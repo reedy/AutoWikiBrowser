@@ -52,6 +52,9 @@ using System.Text;
 
     namespace WikiFunctions.Logging
 {
+    /// <summary>
+    /// This interface is implemented by all TraceListener objects
+    /// </summary>
     public interface IMyTraceListener
     {
         // This interface was moved from WikiFunctions2.dll shipped with the Kingbotk plugin
@@ -75,18 +78,15 @@ using System.Text;
         void WriteTemplateAdded(string Template, string PluginName);
 
         // Properties
+        /// <summary>
+        /// Is this trace listener an upload client?
+        /// </summary>
+        /// <returns><b>True</b> if the trace listener can upload to Wikipedia</returns>
         bool Uploadable { get; }
     }
 
     public class AWBLogListener : ListViewItem, IMyTraceListener
-    {
-        /*
-        ' We need listitem subitems for, only when skipped):
-        ' Skipped by
-        ' Skip reason
-         */
-
-        /* This class will:
+    {    /* This class will:
          * Use the Logging interface previously defined in wikifunctions2
          * Be written to by AWB during processing and passed to plugins
          * Format itself as a ListViewItem suitable (with subitems where appropriate) for adding to the skipped or processed articles list
