@@ -61,7 +61,7 @@
     <Compile Include="LogUploader.vb" />
     <Compile Include="TalkPageHeaders.vb" />
     <Compile Include="TraceManager.vb" />
-    <Compile Include="LoggingInterfacesAndAbstractClasses.vb" />
+    <Compile Include="LoggingBase.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
