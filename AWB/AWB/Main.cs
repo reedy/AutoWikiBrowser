@@ -760,7 +760,7 @@ namespace AutoWikiBrowser
                     {
                         tempSummary = "";
 
-                        articleText = a.Value.ProcessArticle(articleText, EdittingArticle.Name, EdittingArticle.NameSpaceKey, out tempSummary, out SkipArticle);
+                        articleText = a.Value.ProcessArticle(articleText, EdittingArticle.Name, EdittingArticle.NameSpaceKey, out tempSummary, out SkipArticle, LogListener);
                         if (SkipArticle)
                             return articleText;
                         else if (tempSummary.Length > 0)
@@ -2733,7 +2733,7 @@ namespace AutoWikiBrowser
                 a.Value.Start += Start;
                 a.Value.Save += Save;
                 //TODO: Fix Skip Reason
-                a.Value.Skip += SkipPage("Skipped by plugin");
+                a.Value.Skip += SkipPage();
                 a.Value.Stop += Stop;
                 a.Value.Diff += GetDiff;
                 a.Value.Preview += GetPreview;
