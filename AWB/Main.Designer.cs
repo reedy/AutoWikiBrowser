@@ -107,7 +107,7 @@ namespace AutoWikiBrowser
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.replaceTextWithLastEditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tpLogs = new System.Windows.Forms.TabPage();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnAddToList = new System.Windows.Forms.Button();
             this.btnClearIgnored = new System.Windows.Forms.Button();
             this.btnSaveIgnored = new System.Windows.Forms.Button();
             this.btnClearSaved = new System.Windows.Forms.Button();
@@ -824,7 +824,7 @@ namespace AutoWikiBrowser
             // 
             // tpLogs
             // 
-            this.tpLogs.Controls.Add(this.button1);
+            this.tpLogs.Controls.Add(this.btnAddToList);
             this.tpLogs.Controls.Add(this.btnClearIgnored);
             this.tpLogs.Controls.Add(this.btnSaveIgnored);
             this.tpLogs.Controls.Add(this.btnClearSaved);
@@ -841,15 +841,15 @@ namespace AutoWikiBrowser
             this.tpLogs.Text = "View log";
             this.tpLogs.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // btnAddToList
             // 
-            this.button1.Location = new System.Drawing.Point(143, 316);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(112, 24);
-            this.button1.TabIndex = 8;
-            this.button1.Text = "Add to article list";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnAddToList.Location = new System.Drawing.Point(143, 316);
+            this.btnAddToList.Name = "btnAddToList";
+            this.btnAddToList.Size = new System.Drawing.Size(112, 24);
+            this.btnAddToList.TabIndex = 8;
+            this.btnAddToList.Text = "Add to article list";
+            this.btnAddToList.UseVisualStyleBackColor = true;
+            this.btnAddToList.Click += new System.EventHandler(this.button1_Click);
             // 
             // btnClearIgnored
             // 
@@ -910,6 +910,7 @@ namespace AutoWikiBrowser
             this.lbIgnored.SelectionMode = System.Windows.Forms.SelectionMode.None;
             this.lbIgnored.Size = new System.Drawing.Size(249, 108);
             this.lbIgnored.TabIndex = 2;
+            this.lbIgnored.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lbIgnored_MouseMove);
             // 
             // label7
             // 
@@ -925,11 +926,14 @@ namespace AutoWikiBrowser
             this.lbSaved.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.lbSaved.FormattingEnabled = true;
+            this.lbSaved.HorizontalScrollbar = true;
             this.lbSaved.Location = new System.Drawing.Point(6, 22);
+            this.lbSaved.MultiColumn = true;
             this.lbSaved.Name = "lbSaved";
             this.lbSaved.SelectionMode = System.Windows.Forms.SelectionMode.None;
             this.lbSaved.Size = new System.Drawing.Size(249, 121);
             this.lbSaved.TabIndex = 0;
+            this.lbSaved.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lbSaved_MouseMove);
             // 
             // menuStrip1
             // 
@@ -1780,7 +1784,7 @@ namespace AutoWikiBrowser
             // saveListDialog
             // 
             this.saveListDialog.DefaultExt = "txt";
-            this.saveListDialog.Filter = "Text file with wiki markup|*.txt|Plaintext list|*.txt";
+            this.saveListDialog.Filter = "Text file|.*txt";
             this.saveListDialog.Title = "Save article list";
             // 
             // saveXML
@@ -3332,7 +3336,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Button btnSaveSaved;
         private System.Windows.Forms.SaveFileDialog strListFile;
         private System.Windows.Forms.CheckBox chkNudgeSkip;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnAddToList;
 
 
     }

@@ -147,6 +147,8 @@ namespace AutoWikiBrowser
         StringCollection RecentList = new StringCollection();
         CustomModule cModule = new CustomModule();
         public RegexTester regexTester = new RegexTester();
+        string strlbSavedTooltip = "";
+        string strlbIgnoredTooltip = "";
 
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -654,7 +656,7 @@ namespace AutoWikiBrowser
 
             LastArticle = "";
             listMaker1.Remove(EdittingArticle);
-            lbSaved.Items.Add(EdittingArticle);
+            lbSaved.Items.Add(DateTime.Now.ToLongTimeString() + " : " + EdittingArticle.Name);
             SaveTimer.Stop();
             sameArticleNudges = 0;
             Start();
@@ -682,7 +684,7 @@ namespace AutoWikiBrowser
                 stopDelayedAutoSaveTimer();
                 SaveTimer.Stop();
                 listMaker1.Remove(EdittingArticle);
-                lbIgnored.Items.Add(EdittingArticle);
+                lbIgnored.Items.Add(DateTime.Now.ToLongTimeString() + " : " + EdittingArticle.Name);
                 sameArticleNudges = 0;
                 Start();
             }
@@ -2975,7 +2977,7 @@ namespace AutoWikiBrowser
 
         #region Logs
 
-            private void btnClearSaved_Click(object sender, EventArgs e)
+        private void btnClearSaved_Click(object sender, EventArgs e)
         {
             lbSaved.Items.Clear();
         }
@@ -2994,29 +2996,12 @@ namespace AutoWikiBrowser
                 string strListFile;
                 if (saveListDialog.ShowDialog() == DialogResult.OK)
                 {
-                    switch (saveListDialog.FilterIndex)
-                    {
-                        case 1: //wikitext
-                            foreach (Article a in listbox.Items)
-                            {
-                                strList.AppendLine("# [[" + a.Name + "]]");
-                            }
-                            strListFile = saveListDialog.FileName;
-                            sw = new StreamWriter(strListFile, false, Encoding.UTF8);
-                            sw.Write(strList);
-                            sw.Close();
-                            break;
-                        case 2: //plaintext
-                            foreach (Article a in listbox.Items)
-                            {
-                                strList.AppendLine(a.Name);
-                            }
-                            strListFile = saveListDialog.FileName;
-                            sw = new StreamWriter(strListFile, false, Encoding.UTF8);
-                            sw.Write(strList);
-                            sw.Close();
-                            break;
-                    }
+                foreach (String a in listbox.Items)
+                    strList.AppendLine(a);
+                strListFile = saveListDialog.FileName;
+                sw = new StreamWriter(strListFile, false, Encoding.UTF8);
+                sw.Write(strList);
+                sw.Close();
                 }
             }
             catch (IOException ex)
@@ -3043,8 +3028,34 @@ namespace AutoWikiBrowser
 
         private void button1_Click(object sender, EventArgs e)
         {
-            foreach (Article a in lbIgnored.Items)
-                listMaker1.Add(a);
+            foreach (String article in lbIgnored.Items)
+                listMaker1.Add(new Article(article.Substring(article.IndexOf(" : ") + 3)));
+        }
+
+        private void lbSaved_MouseMove(object sender, MouseEventArgs e)
+        {
+            string strTip = "";
+
+            //Get the item
+            int nIdx = lbSaved.IndexFromPoint(e.Location);
+            if ((nIdx >= 0) && (nIdx < lbSaved.Items.Count))
+                strTip = lbSaved.Items[nIdx].ToString();
+            if (strTip != strlbSavedTooltip)
+                toolTip1.SetToolTip(lbSaved, strTip);
+            strlbSavedTooltip = strTip;
+        }
+
+        private void lbIgnored_MouseMove(object sender, MouseEventArgs e)
+        {
+            string strTip = "";
+
+            //Get the item
+            int nIdx = lbIgnored.IndexFromPoint(e.Location);
+            if ((nIdx >= 0) && (nIdx < lbIgnored.Items.Count))
+                strTip = lbIgnored.Items[nIdx].ToString();
+            if (strTip != strlbIgnoredTooltip)
+                toolTip1.SetToolTip(lbIgnored, strTip);
+            strlbIgnoredTooltip = strTip;
         }
     }
 }
