@@ -1021,7 +1021,7 @@ namespace AutoWikiBrowser
                     XmlSerializer xs = new XmlSerializer(typeof(UserPrefs), types.ToArray());
                     xs.Serialize(fStream, P);
                     UpdateRecentList(Path);
-                    LoadPrefs(P);
+                    //LoadPrefs(P); // why is this? it causes problems. commented out. --MaxSem
                     SettingsFile = " - " + Path.Remove(0, Path.LastIndexOf("\\") + 1);
                     this.Text = "AutoWikiBrowser" + SettingsFile;
                 }
