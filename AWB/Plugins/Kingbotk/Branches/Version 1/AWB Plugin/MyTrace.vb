@@ -205,9 +205,10 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             MyBase.SkippedArticleBadTag(SkippedBy, FullArticleTitle, NS)
             NotBusy()
         End Sub
-        Public Overrides Sub SkippedArticleRedlink(ByVal FullArticleTitle As String, ByVal NS As WikiFunctions.Namespaces)
+        Public Overrides Sub SkippedArticleRedlink(ByVal SkippedBy As String, ByVal FullArticleTitle As String, _
+        ByVal NS As WikiFunctions.Namespaces)
             Busy()
-            MyBase.SkippedArticleRedlink(FullArticleTitle, NS)
+            MyBase.SkippedArticleRedlink(SkippedBy, FullArticleTitle, NS)
             NotBusy()
         End Sub
         Public Overrides Sub Write(ByVal Text As String)
@@ -225,7 +226,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             MyBase.WriteArticleActionLine1(Line, PluginName, VerboseOnly)
             NotBusy()
         End Sub
-        Public Overrides Sub WriteBulletedLine(ByVal Line As String, ByVal Bold As Boolean, ByVal VerboseOnly As Boolean, Optional ByVal DateStamp As Boolean = False)
+        Public Overrides Sub WriteBulletedLine(ByVal Line As String, ByVal Bold As Boolean, _
+        ByVal VerboseOnly As Boolean, ByVal DateStamp As Boolean)
             Busy()
             MyBase.WriteBulletedLine(Line, Bold, VerboseOnly, DateStamp)
             NotBusy()
@@ -408,7 +410,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 MyBase.WriteLine(GetArticleTemplate(FullArticleTitle, NS) & " (skipped by the " & SkippedBy _
                    & " plugin; bad tag)")
             End Sub
-            Public Overrides Sub SkippedArticleRedlink(ByVal FullArticleTitle As String, ByVal NS As Namespaces)
+            Public Overrides Sub SkippedArticleRedlink(ByVal SkippedBy As String, _
+            ByVal FullArticleTitle As String, ByVal NS As Namespaces)
                 MyBase.WriteLine(GetArticleTemplate(FullArticleTitle, NS) & " (skipped by the Plugin Manager; " & _
                    "attached article doesn't exist - maybe deleted?)")
             End Sub
@@ -428,7 +431,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
 
             ' Overrides - do nothing:
             Public Overrides Sub WriteBulletedLine(ByVal Line As String, ByVal bold As Boolean, _
-               ByVal b As Boolean, Optional ByVal DateStamp As Boolean = False)
+               ByVal b As Boolean, ByVal DateStamp As Boolean)
             End Sub
             Public Overrides Sub ProcessingArticle(ByVal ArticleFullTitle As String, ByVal NS As Namespaces)
             End Sub
