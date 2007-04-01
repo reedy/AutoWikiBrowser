@@ -3191,5 +3191,10 @@ namespace AutoWikiBrowser
             //    toolTip1.SetToolTip(lvSaved, strTip);
             //strlbSavedTooltip = strTip;
         }
+
+        private void LogLists_DoubleClick(object sender, EventArgs e)
+        { // TODO: Might want some error handling here, in case anything is null
+            ((AWBLogListener)((ListView)sender).FocusedItem).OpenInBrowser();
+        }
     }
 }
