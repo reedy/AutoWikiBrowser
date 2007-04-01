@@ -218,6 +218,7 @@ namespace AutoWikiBrowser
             {
                 intEdits = value;
                 lblEditCount.Text = "Edits: " + value.ToString();
+
             }
         }
 
