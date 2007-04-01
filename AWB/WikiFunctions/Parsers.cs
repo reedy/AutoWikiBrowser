@@ -543,7 +543,7 @@ a='" + a + "',  b='" + b + "'", "SimplifyLinks error");
                     a = m.Groups[1].Value;
                     b = m.Groups[2].Value;
 
-                    if (b.Trim() == "") continue;
+                    if (b.Trim() == "" || a.Contains(",")) continue;
 
                     if (Tools.TurnFirstToLower(a).StartsWith(Tools.TurnFirstToLower(b), StringComparison.Ordinal))
                     {
