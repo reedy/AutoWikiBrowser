@@ -112,6 +112,7 @@ namespace AutoWikiBrowser
             markAllAsMinorToolStripMenuItem.Checked = false;
             addAllToWatchlistToolStripMenuItem.Checked = false;
             showTimerToolStripMenuItem.Checked = false;
+            showTimer();
             alphaSortInterwikiLinksToolStripMenuItem.Checked = true;
             addIgnoredToLogFileToolStripMenuItem.Checked = false;
 
@@ -936,6 +937,7 @@ namespace AutoWikiBrowser
             markAllAsMinorToolStripMenuItem.Checked = p.General.Minor;
             addAllToWatchlistToolStripMenuItem.Checked = p.General.Watch;
             showTimerToolStripMenuItem.Checked = p.General.TimerEnabled;
+            showTimer();
             sortAlphabeticallyToolStripMenuItem.Checked = p.General.SortInterwikiOrder;
             addIgnoredToLogFileToolStripMenuItem.Checked = p.General.AddIgnoredToLog;
 

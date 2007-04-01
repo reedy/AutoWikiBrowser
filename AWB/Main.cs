@@ -1775,9 +1775,15 @@ namespace AutoWikiBrowser
 
         private void showTimerToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            showTimer();
+        }
+
+        private void showTimer()
+        {
             lblTimer.Visible = showTimerToolStripMenuItem.Checked;
             stopSaveInterval();
         }
+
         int intStartTimer = 0;
         private void SaveInterval()
         {
