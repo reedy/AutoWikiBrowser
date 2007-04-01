@@ -15,7 +15,7 @@ Namespace Logging
 
         ' Overrides:
         Public Overrides Sub WriteBulletedLine(ByVal Line As String, ByVal Bold As Boolean, _
-        ByVal VerboseOnly As Boolean, Optional ByVal DateStamp As Boolean = False)
+        ByVal VerboseOnly As Boolean, ByVal DateStamp As Boolean)
             If VerboseOnly AndAlso Not Verbose Then Exit Sub
             If DateStamp Then Line = Date.Now.ToString(mDateFormat) & Line
             If Bold Then MyBase.WriteLine("*'''" & Line & "'''", CheckCounter:=True) _
@@ -88,7 +88,7 @@ Namespace Logging
             End Get
         End Property
         Public Overrides Sub WriteBulletedLine(ByVal Line As String, ByVal Bold As Boolean, _
-        ByVal VerboseOnly As Boolean, Optional ByVal DateStamp As Boolean = False)
+        ByVal VerboseOnly As Boolean, ByVal DateStamp As Boolean)
             If VerboseOnly AndAlso Not mVerbose Then Exit Sub
             If DateStamp Then Line = String.Format("{0:g}: {1}", Date.Now, Line)
             If Bold Then MyBase.WriteLine("<br/><li><b>" & Line & "</b></li>") Else _
@@ -127,80 +127,5 @@ Namespace Logging
                 Return False
             End Get
         End Property
-    End Class
-
-    Public Class AWBLogListener
-        Inherits ListViewItem
-        Implements IMyTraceListener
-
-        ' We need listitem subitems for, only when skipped):
-        ' Skipped by
-        ' Skip reason
-
-        Public Sub New(ByVal ArticleTitle As String)
-
-        End Sub
-
-        Private Sub Close() Implements IMyTraceListener.Close
-
-        End Sub
-
-        Private Sub Flush() Implements IMyTraceListener.Flush
-
-        End Sub
-
-        Private Sub ProcessingArticle(ByVal FullArticleTitle As String, ByVal NS As Namespaces) Implements IMyTraceListener.ProcessingArticle
-
-        End Sub
-
-        Private Sub SkippedArticle(ByVal SkippedBy As String, ByVal Reason As String) Implements IMyTraceListener.SkippedArticle
-
-        End Sub
-
-        Private Sub SkippedArticleBadTag(ByVal SkippedBy As String, ByVal FullArticleTitle As String, ByVal NS As Namespaces) Implements IMyTraceListener.SkippedArticleBadTag
-
-        End Sub
-
-        Private Sub SkippedArticleRedlink(ByVal FullArticleTitle As String, ByVal NS As Namespaces) Implements IMyTraceListener.SkippedArticleRedlink
-
-        End Sub
-
-        Private ReadOnly Property Uploadable() As Boolean Implements IMyTraceListener.Uploadable
-            Get
-
-            End Get
-        End Property
-
-        Private Sub Write(ByVal Text As String) Implements IMyTraceListener.Write
-
-        End Sub
-
-        Private Sub WriteArticleActionLine(ByVal Line As String, ByVal PluginName As String) Implements IMyTraceListener.WriteArticleActionLine
-
-        End Sub
-
-        Private Sub WriteArticleActionLine(ByVal Line As String, ByVal PluginName As String, ByVal VerboseOnly As Boolean) Implements IMyTraceListener.WriteArticleActionLine
-
-        End Sub
-
-        Private Sub WriteBulletedLine(ByVal Line As String, ByVal Bold As Boolean, ByVal VerboseOnly As Boolean, Optional ByVal DateStamp As Boolean = False) Implements IMyTraceListener.WriteBulletedLine
-
-        End Sub
-
-        Private Sub WriteComment(ByVal Line As String) Implements IMyTraceListener.WriteComment
-
-        End Sub
-
-        Private Sub WriteCommentAndNewLine(ByVal Line As String) Implements IMyTraceListener.WriteCommentAndNewLine
-
-        End Sub
-
-        Private Sub WriteLine(ByVal Line As String) Implements IMyTraceListener.WriteLine
-
-        End Sub
-
-        Private Sub WriteTemplateAdded(ByVal Template As String, ByVal PluginName As String) Implements IMyTraceListener.WriteTemplateAdded
-
-        End Sub
     End Class
 End Namespace

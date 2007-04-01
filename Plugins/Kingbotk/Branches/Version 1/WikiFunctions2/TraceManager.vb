@@ -41,11 +41,15 @@ Namespace Logging
                 t.Value.ProcessingArticle(FullArticleTitle, NS)
             Next
         End Sub
-        Public Overridable Sub WriteBulletedLine(ByVal Line As String, ByVal Bold As Boolean, ByVal VerboseOnly As Boolean, _
-        Optional ByVal DateStamp As Boolean = False) Implements IMyTraceListener.WriteBulletedLine
+        Public Overridable Sub WriteBulletedLine(ByVal Line As String, ByVal Bold As Boolean, _
+        ByVal VerboseOnly As Boolean, ByVal DateStamp As Boolean) Implements IMyTraceListener.WriteBulletedLine
             For Each t As KeyValuePair(Of String, IMyTraceListener) In Listeners
                 t.Value.WriteBulletedLine(Line, Bold, VerboseOnly, DateStamp)
             Next
+        End Sub
+        Public Overridable Sub WriteBulletedLine(ByVal Line As String, ByVal Bold As Boolean, _
+        ByVal VerboseOnly As Boolean) Implements IMyTraceListener.WriteBulletedLine
+            WriteBulletedLine(Line, Bold, VerboseOnly, False)
         End Sub
         Public Overridable Sub SkippedArticle(ByVal SkippedBy As String, ByVal Reason As String) _
         Implements IMyTraceListener.SkippedArticle
@@ -59,9 +63,10 @@ Namespace Logging
                 t.Value.SkippedArticleBadTag(SkippedBy, FullArticleTitle, NS)
             Next
         End Sub
-        Public Overridable Sub SkippedArticleRedlink(ByVal FullArticleTitle As String, ByVal NS As Namespaces) Implements IMyTraceListener.SkippedArticleRedlink
+        Public Overridable Sub SkippedArticleRedlink(ByVal SkippedBy As String, ByVal FullArticleTitle As String, _
+        ByVal NS As Namespaces) Implements IMyTraceListener.SkippedArticleRedlink
             For Each t As KeyValuePair(Of String, IMyTraceListener) In Listeners
-                t.Value.SkippedArticleRedlink(FullArticleTitle, NS)
+                t.Value.SkippedArticleRedlink(SkippedBy, FullArticleTitle, NS)
             Next
         End Sub
         Public Overridable Sub WriteArticleActionLine(ByVal Line As String, ByVal PluginName As String) _
