@@ -97,6 +97,7 @@
     <Compile Include="ListMaker.Designer.cs">
       <DependentUpon>ListMaker.cs</DependentUpon>
     </Compile>
+    <Compile Include="Logging.cs" />
     <Compile Include="MetaDataSorter.cs" />
     <Compile Include="Controls\LoginDlg.cs">
       <SubType>Form</SubType>

@@ -97,13 +97,18 @@ using System.Text;
 
         #region AWB Interface
             public bool Skipped
-            {
+            { // strictly speaking we don't need this, as AWB knows if skipped or not. It does enhance encapsulation though.
                 get { return mSkipped; }
             }
 
             public AWBLogListener(string ArticleTitle)
             {
                 Text = ArticleTitle;
+            }
+
+            public void UserSkipped()
+            {
+                Skip("User", "Clicked ignore");
             }
         #endregion
 

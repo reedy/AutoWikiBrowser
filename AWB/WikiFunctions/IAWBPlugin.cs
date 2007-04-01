@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
+using WikiFunctions.Logging;
 
 namespace WikiFunctions.Plugin
 {
@@ -22,7 +23,8 @@ namespace WikiFunctions.Plugin
 
         void Initialise(WikiFunctions.Lists.ListMaker list, WikiFunctions.Browser.WebControl web, ToolStripMenuItem tsmi, ContextMenuStrip cms, TabControl tab, Form frm, TextBox txt);
         string Name { get; }
-        string ProcessArticle(string ArticleText, string ArticleTitle, int Namespace, out string Summary, out bool Skip);
+        string ProcessArticle(string ArticleText, string ArticleTitle, int Namespace, out string Summary, 
+            out bool Skip, IMyTraceListener AWBLogItem);
 
         void LoadSettings(object[] Prefs);
         object[] SaveSettings();
