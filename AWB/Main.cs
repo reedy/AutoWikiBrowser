@@ -664,11 +664,12 @@ namespace AutoWikiBrowser
 
             LastArticle = "";
             listMaker1.Remove(EdittingArticle);
-            lvSaved.Items.Add(DateTime.Now.ToLongTimeString() + " : " + EdittingArticle.Name);
+            //lvSaved.Items.Add(DateTime.Now.ToLongTimeString() + " : " + EdittingArticle.Name);
             SaveTimer.Stop();
             sameArticleNudges = 0;
 
             lvSaved.Items.Add(LogListener);
+            resizeListView(lvSaved);
 
             Start();
         }
@@ -695,7 +696,7 @@ namespace AutoWikiBrowser
                 stopDelayedAutoSaveTimer();
                 SaveTimer.Stop();
                 listMaker1.Remove(EdittingArticle);
-                lvIgnored.Items.Add(DateTime.Now.ToLongTimeString() + " : " + EdittingArticle.Name);
+                //lvIgnored.Items.Add(DateTime.Now.ToLongTimeString() + " : " + EdittingArticle.Name);
                 sameArticleNudges = 0;
 
                 switch (reason)
@@ -711,6 +712,7 @@ namespace AutoWikiBrowser
                 }
 
                 lvIgnored.Items.Add(LogListener);
+                resizeListView(lvIgnored);
                 
                 Start();
             }
