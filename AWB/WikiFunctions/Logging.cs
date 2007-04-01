@@ -63,7 +63,7 @@ using System.Text;
         void ProcessingArticle(string FullArticleTitle, Namespaces NS);
         void SkippedArticle(string SkippedBy, string Reason);
         void SkippedArticleBadTag(string SkippedBy, string FullArticleTitle, Namespaces NS);
-        void SkippedArticleRedlink(string FullArticleTitle, Namespaces NS);
+        void SkippedArticleRedlink(string SkippedBy, string FullArticleTitle, Namespaces NS);
         void Write(string Text);
         void WriteArticleActionLine(string Line, string PluginName);
         void WriteArticleActionLine(string Line, string PluginName, bool VerboseOnly);
@@ -93,7 +93,7 @@ using System.Text;
          * Handle double click event (open article in browser)
         */
 
-        private bool mSkipped; private string mSkippedBy;
+        private bool mSkipped;
 
         #region AWB Interface
             public bool Skipped
@@ -103,7 +103,7 @@ using System.Text;
 
             public AWBLogListener(string ArticleTitle)
             {
-
+                Text = ArticleTitle;
             }
         #endregion
 
@@ -111,32 +111,27 @@ using System.Text;
             void IMyTraceListener.Close() { }
             void IMyTraceListener.Flush() { }
             void IMyTraceListener.ProcessingArticle(string FullArticleTitle, Namespaces NS) { }
+            void IMyTraceListener.WriteComment(string Line) { }
+            void IMyTraceListener.WriteCommentAndNewLine(string Line) { }
 
             void IMyTraceListener.SkippedArticle(string SkippedBy, string Reason)
             {
-                mSkipped = true;
-                mSkippedBy = Reason;
-                ToolTipText = SkippedBy + ": " + Reason + System.Environment.NewLine + ToolTipText;
+                Skip(SkippedBy, Reason);
             }
 
             void IMyTraceListener.SkippedArticleBadTag(string SkippedBy, string FullArticleTitle, Namespaces NS)
             {
-                
+                Skip(SkippedBy, "Bad tag");
             }
 
-            void IMyTraceListener.SkippedArticleRedlink(string FullArticleTitle, Namespaces NS)
+            void IMyTraceListener.SkippedArticleRedlink(string SkippedBy, string FullArticleTitle, Namespaces NS)
             {
-                
+                Skip(SkippedBy, "Red link (article deleted)");
             }
 
             bool IMyTraceListener.Uploadable
             {
                 get { return false; }
-            }
-
-            void IMyTraceListener.Write(string Text)
-            {
-                
             }
 
             void IMyTraceListener.WriteArticleActionLine(string Line, string PluginName, bool VerboseOnly)
@@ -154,16 +149,6 @@ using System.Text;
                 
             }
 
-            void IMyTraceListener.WriteComment(string Line)
-            {
-                
-            }
-
-            void IMyTraceListener.WriteCommentAndNewLine(string Line)
-            {
-                
-            }
-
             void IMyTraceListener.WriteLine(string Line)
             {
                 
@@ -173,13 +158,21 @@ using System.Text;
             {
                 
             }
+
+            public void Write(string Text)
+            {
+                ToolTipText = Text + System.Environment.NewLine + ToolTipText;
+            }
         #endregion
 
-        private void createListViewItem(string ArticleTitle, string SkippedBy, string SkipReason)
+        private void Skip(string SkippedBy, string SkipReason)
         {
-                SubItems.Add(SkippedBy);
-                SubItems.Add(SkipReason);
+            mSkipped = true;
+            SubItems.Add(SkippedBy);
+            SubItems.Add(SkipReason);
+            Write(SkippedBy + ": " + SkipReason);
         }
+
     }
 }
 
