@@ -21,10 +21,42 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Text;
 
-namespace WikiFunctions.Logging
+#region Namespaces
+    namespace WikiFunctions
+    {
+        public enum Namespaces
+        {
+            Category = 14,
+            CategoryTalk = 15,
+            Help = 12,
+            HelpTalk = 13,
+            Image = 6,
+            ImageTalk = 7,
+            Main = 0,
+            Media = -2,
+            Mediawiki = 8,
+            MediawikiTalk = 9,
+            Portal = 100,
+            PortalTalk = 0x65,
+            Project = 4,
+            ProjectTalk = 5,
+            Special = -1,
+            Talk = 1,
+            Template = 10,
+            TemplateTalk = 11,
+            User = 2,
+            UserTalk = 3
+        }
+    }
+#endregion
+
+    namespace WikiFunctions.Logging
 {
     public interface IMyTraceListener
     {
+        // This interface was moved from WikiFunctions2.dll shipped with the Kingbotk plugin
+        // Please don't alter it unless absolutely necessary
+
         // Methods
         void Close();
         void Flush();
@@ -54,129 +86,101 @@ namespace WikiFunctions.Logging
          */
 
         /* This class will:
-         * Use the Logging interface previously defined in wikifunctions2 from the Kingbotk plugin
+         * Use the Logging interface previously defined in wikifunctions2
          * Be written to by AWB during processing and passed to plugins
          * Format itself as a ListViewItem suitable (with subitems where appropriate) for adding to the skipped or processed articles list
          * Handle MouseOver event (display log entry)
          * Handle double click event (open article in browser)
         */
 
-        private bool mSkipped; private string mLogText; private string mSkippedBy;
+        private bool mSkipped; private string mSkippedBy;
 
-        public bool Skipped
-        {
-            get { return mSkipped; }
-        }
+        #region AWB Interface
+            public bool Skipped
+            {
+                get { return mSkipped; }
+            }
 
-        public AWBLogListener(string ArticleTitle)
-        {
+            public AWBLogListener(string ArticleTitle)
+            {
 
-        }
+            }
+        #endregion
 
         #region IMyTraceListener Members
+            void IMyTraceListener.Close() { }
+            void IMyTraceListener.Flush() { }
+            void IMyTraceListener.ProcessingArticle(string FullArticleTitle, Namespaces NS) { }
 
-        void IMyTraceListener.Close() { }
-        void IMyTraceListener.Flush() { }
-        void IMyTraceListener.ProcessingArticle(string FullArticleTitle, Namespaces NS) { }
+            void IMyTraceListener.SkippedArticle(string SkippedBy, string Reason)
+            {
+                mSkipped = true;
+                mSkippedBy = Reason;
+                ToolTipText = SkippedBy + ": " + Reason + System.Environment.NewLine + ToolTipText;
+            }
 
-        void IMyTraceListener.SkippedArticle(string SkippedBy, string Reason)
-        {
-            mSkipped = true;
-            mSkippedBy = Reason;
-            mLogText = "";// SkippedBy + ": " + Reason + newline + mLogText;
-        }
+            void IMyTraceListener.SkippedArticleBadTag(string SkippedBy, string FullArticleTitle, Namespaces NS)
+            {
+                
+            }
 
-        void IMyTraceListener.SkippedArticleBadTag(string SkippedBy, string FullArticleTitle, Namespaces NS)
-        {
-            
-        }
+            void IMyTraceListener.SkippedArticleRedlink(string FullArticleTitle, Namespaces NS)
+            {
+                
+            }
 
-        void IMyTraceListener.SkippedArticleRedlink(string FullArticleTitle, Namespaces NS)
-        {
-            
-        }
+            bool IMyTraceListener.Uploadable
+            {
+                get { return false; }
+            }
 
-        bool IMyTraceListener.Uploadable
-        {
-            get { return false; }
-        }
+            void IMyTraceListener.Write(string Text)
+            {
+                
+            }
 
-        void IMyTraceListener.Write(string Text)
-        {
-            
-        }
+            void IMyTraceListener.WriteArticleActionLine(string Line, string PluginName, bool VerboseOnly)
+            {
+                
+            }
 
-        void IMyTraceListener.WriteArticleActionLine(string Line, string PluginName, bool VerboseOnly)
-        {
-            
-        }
+            void IMyTraceListener.WriteArticleActionLine(string Line, string PluginName)
+            {
+                
+            }
 
-        void IMyTraceListener.WriteArticleActionLine(string Line, string PluginName)
-        {
-            
-        }
+            void IMyTraceListener.WriteBulletedLine(string Line, bool Bold, bool VerboseOnly, bool DateStamp)
+            {
+                
+            }
 
-        void IMyTraceListener.WriteBulletedLine(string Line, bool Bold, bool VerboseOnly, bool DateStamp)
-        {
-            
-        }
+            void IMyTraceListener.WriteComment(string Line)
+            {
+                
+            }
 
-        void IMyTraceListener.WriteComment(string Line)
-        {
-            
-        }
+            void IMyTraceListener.WriteCommentAndNewLine(string Line)
+            {
+                
+            }
 
-        void IMyTraceListener.WriteCommentAndNewLine(string Line)
-        {
-            
-        }
+            void IMyTraceListener.WriteLine(string Line)
+            {
+                
+            }
 
-        void IMyTraceListener.WriteLine(string Line)
-        {
-            
-        }
-
-        void IMyTraceListener.WriteTemplateAdded(string Template, string PluginName)
-        {
-            
-        }
-
-        void createListViewItem(string ArticleTitle, string SkippedBy, string SkipReason)
-        {
-            ListViewItem item = new ListViewItem(ArticleTitle);
-
-                item.SubItems.Add(SkippedBy);
-                item.SubItems.Add(SkipReason);
-        }
-
+            void IMyTraceListener.WriteTemplateAdded(string Template, string PluginName)
+            {
+                
+            }
         #endregion
+
+        private void createListViewItem(string ArticleTitle, string SkippedBy, string SkipReason)
+        {
+                SubItems.Add(SkippedBy);
+                SubItems.Add(SkipReason);
+        }
     }
 }
 
-namespace WikiFunctions
-{
-    public enum Namespaces
-    {
-        Category = 14,
-        CategoryTalk = 15,
-        Help = 12,
-        HelpTalk = 13,
-        Image = 6,
-        ImageTalk = 7,
-        Main = 0,
-        Media = -2,
-        Mediawiki = 8,
-        MediawikiTalk = 9,
-        Portal = 100,
-        PortalTalk = 0x65,
-        Project = 4,
-        ProjectTalk = 5,
-        Special = -1,
-        Talk = 1,
-        Template = 10,
-        TemplateTalk = 11,
-        User = 2,
-        UserTalk = 3
-    }
-}
 
