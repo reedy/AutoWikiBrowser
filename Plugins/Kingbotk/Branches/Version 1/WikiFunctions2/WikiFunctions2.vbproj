@@ -59,7 +59,6 @@
   <ItemGroup>
     <Compile Include="Encryption.vb" />
     <Compile Include="LogUploader.vb" />
-    <Compile Include="TalkPageHeaders.vb" />
     <Compile Include="TraceManager.vb" />
     <Compile Include="LoggingBase.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
