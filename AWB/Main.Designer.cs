@@ -107,12 +107,6 @@ namespace AutoWikiBrowser
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.replaceTextWithLastEditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tpLogs = new System.Windows.Forms.TabPage();
-            this.lvIgnored = new System.Windows.Forms.ListView();
-            this.colIgnoreArticle = new System.Windows.Forms.ColumnHeader();
-            this.colSkippedBy = new System.Windows.Forms.ColumnHeader();
-            this.colSkipReason = new System.Windows.Forms.ColumnHeader();
-            this.lvSaved = new System.Windows.Forms.ListView();
-            this.colSuccessSave = new System.Windows.Forms.ColumnHeader();
             this.btnAddToList = new System.Windows.Forms.Button();
             this.btnClearIgnored = new System.Windows.Forms.Button();
             this.btnSaveIgnored = new System.Windows.Forms.Button();
@@ -320,6 +314,12 @@ namespace AutoWikiBrowser
             this.SaveTimer = new System.Windows.Forms.Timer(this.components);
             this.strListFile = new System.Windows.Forms.SaveFileDialog();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
+            this.lvSaved = new WikiFunctions.NoFlickerListView();
+            this.colSuccessSave = new System.Windows.Forms.ColumnHeader();
+            this.lvIgnored = new WikiFunctions.NoFlickerListView();
+            this.colIgnoreArticle = new System.Windows.Forms.ColumnHeader();
+            this.colSkippedBy = new System.Windows.Forms.ColumnHeader();
+            this.colSkipReason = new System.Windows.Forms.ColumnHeader();
             this.groupBox2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabControl2.SuspendLayout();
@@ -844,60 +844,6 @@ namespace AutoWikiBrowser
             this.tpLogs.TabIndex = 1;
             this.tpLogs.Text = "View log";
             this.tpLogs.UseVisualStyleBackColor = true;
-            // 
-            // lvIgnored
-            // 
-            this.lvIgnored.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.lvIgnored.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.colIgnoreArticle,
-            this.colSkippedBy,
-            this.colSkipReason});
-            this.lvIgnored.FullRowSelect = true;
-            this.lvIgnored.Location = new System.Drawing.Point(3, 202);
-            this.lvIgnored.Name = "lvIgnored";
-            this.lvIgnored.ShowItemToolTips = true;
-            this.lvIgnored.Size = new System.Drawing.Size(249, 108);
-            this.lvIgnored.TabIndex = 10;
-            this.lvIgnored.UseCompatibleStateImageBehavior = false;
-            this.lvIgnored.View = System.Windows.Forms.View.Details;
-            this.lvIgnored.DoubleClick += new System.EventHandler(this.LogLists_DoubleClick);
-            this.lvIgnored.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lvIgnored_MouseMove);
-            // 
-            // colIgnoreArticle
-            // 
-            this.colIgnoreArticle.Text = "Article";
-            // 
-            // colSkippedBy
-            // 
-            this.colSkippedBy.Text = "Skipped By";
-            this.colSkippedBy.Width = 78;
-            // 
-            // colSkipReason
-            // 
-            this.colSkipReason.Text = "Skip Reason";
-            this.colSkipReason.Width = 94;
-            // 
-            // lvSaved
-            // 
-            this.lvSaved.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.lvSaved.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.colSuccessSave});
-            this.lvSaved.Location = new System.Drawing.Point(6, 22);
-            this.lvSaved.Name = "lvSaved";
-            this.lvSaved.ShowItemToolTips = true;
-            this.lvSaved.Size = new System.Drawing.Size(249, 123);
-            this.lvSaved.TabIndex = 9;
-            this.lvSaved.UseCompatibleStateImageBehavior = false;
-            this.lvSaved.View = System.Windows.Forms.View.Details;
-            this.lvSaved.DoubleClick += new System.EventHandler(this.LogLists_DoubleClick);
-            this.lvSaved.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lvSaved_MouseMove);
-            // 
-            // colSuccessSave
-            // 
-            this.colSuccessSave.Text = "Article";
-            this.colSuccessSave.Width = 239;
             // 
             // btnAddToList
             // 
@@ -3016,6 +2962,54 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
             this.webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
             // 
+            // lvSaved
+            // 
+            this.lvSaved.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lvSaved.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colSuccessSave});
+            this.lvSaved.Location = new System.Drawing.Point(9, 22);
+            this.lvSaved.Name = "lvSaved";
+            this.lvSaved.Size = new System.Drawing.Size(243, 115);
+            this.lvSaved.TabIndex = 11;
+            this.lvSaved.UseCompatibleStateImageBehavior = false;
+            this.lvSaved.View = System.Windows.Forms.View.Details;
+            // 
+            // colSuccessSave
+            // 
+            this.colSuccessSave.Text = "Article";
+            this.colSuccessSave.Width = 234;
+            // 
+            // lvIgnored
+            // 
+            this.lvIgnored.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lvIgnored.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colIgnoreArticle,
+            this.colSkippedBy,
+            this.colSkipReason});
+            this.lvIgnored.Location = new System.Drawing.Point(9, 202);
+            this.lvIgnored.Name = "lvIgnored";
+            this.lvIgnored.Size = new System.Drawing.Size(243, 108);
+            this.lvIgnored.TabIndex = 12;
+            this.lvIgnored.UseCompatibleStateImageBehavior = false;
+            this.lvIgnored.View = System.Windows.Forms.View.Details;
+            // 
+            // colIgnoreArticle
+            // 
+            this.colIgnoreArticle.Text = "Article";
+            this.colIgnoreArticle.Width = 66;
+            // 
+            // colSkippedBy
+            // 
+            this.colSkippedBy.Text = "Skipped By";
+            this.colSkippedBy.Width = 86;
+            // 
+            // colSkipReason
+            // 
+            this.colSkipReason.Text = "Skip Reason";
+            this.colSkipReason.Width = 81;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3367,9 +3361,9 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.SaveFileDialog strListFile;
         private System.Windows.Forms.CheckBox chkNudgeSkip;
         private System.Windows.Forms.Button btnAddToList;
-        private System.Windows.Forms.ListView lvIgnored;
-        private System.Windows.Forms.ListView lvSaved;
+        private WikiFunctions.NoFlickerListView lvSaved;
         private System.Windows.Forms.ColumnHeader colSuccessSave;
+        private WikiFunctions.NoFlickerListView lvIgnored;
         private System.Windows.Forms.ColumnHeader colIgnoreArticle;
         private System.Windows.Forms.ColumnHeader colSkippedBy;
         private System.Windows.Forms.ColumnHeader colSkipReason;
