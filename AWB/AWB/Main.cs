@@ -3114,7 +3114,10 @@ namespace AutoWikiBrowser
                         string text = a.Text;
                         if (a.SubItems.Count > 0)
                         {
-                            
+                            for (int i = 1; i < a.SubItems.Count; i++)
+                            {
+                                text += " " + a.SubItems[i].Text;
+                            }
                         }
                         strList.AppendLine(text);
                     }
