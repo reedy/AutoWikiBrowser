@@ -189,14 +189,14 @@ using System.Text;
         protected void Skip(string SkippedBy, string SkipReason)
         {
             //mSkipped = true;
-            SubItems.Add(SkippedBy);
-            SubItems.Add(SkipReason);
-            Write(SkippedBy + ": " + SkipReason);
+            SubItems.Add(SkippedBy);//.Name="SkippedBy";
+            SubItems.Add(SkipReason);//.Name="SkipReason";
+            WriteLine(SkipReason, SkippedBy);
         }
 
         protected void WriteLine(string Text, string Sender)
         {
-            Write(Sender + ": " + Text);
+            if (Text.Trim() != "") Write(Sender + ": " + Text);
         }
     }
 }

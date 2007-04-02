@@ -667,7 +667,7 @@ namespace AutoWikiBrowser
             SaveTimer.Stop();
             sameArticleNudges = 0;
 
-            lvSaved.Items.Add(LogListener);
+            lvSaved.Items.Insert(0, LogListener);
             resizeListView(lvSaved);
 
             Start();
@@ -686,9 +686,9 @@ namespace AutoWikiBrowser
             }
         }
 
-        private void SkipPage()
+        private void PluginSkipPage()
         {
-            SkipPage("");
+            SkipPage("Plugin sent skip event");
         }
 
         private void SkipPage(string reason)
@@ -720,7 +720,7 @@ namespace AutoWikiBrowser
                         break;
                 }
 
-                lvIgnored.Items.Add(LogListener);
+                lvIgnored.Items.Insert(0, LogListener);
                 resizeListView(lvIgnored);
                 
                 Start();
@@ -2741,8 +2741,7 @@ namespace AutoWikiBrowser
             {
                 a.Value.Start += Start;
                 a.Value.Save += Save;
-                //TODO: Fix Skip Reason
-                a.Value.Skip += SkipPage;
+                a.Value.Skip += PluginSkipPage;
                 a.Value.Stop += Stop;
                 a.Value.Diff += GetDiff;
                 a.Value.Preview += GetPreview;
