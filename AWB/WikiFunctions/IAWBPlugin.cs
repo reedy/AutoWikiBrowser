@@ -8,6 +8,7 @@ using WikiFunctions.Logging;
 namespace WikiFunctions.Plugin
 {
     public delegate void PluginEventHandler();
+    public delegate void PluginSkipEventHandler(string SkipReason);
 
     /* DO NOT CHANGE. This interface is a contract with external plugins and is of sufficient vintage to be 
      * considered non-negotiable. Any changes should be made by declaring an additional new interface which
@@ -16,7 +17,7 @@ namespace WikiFunctions.Plugin
     {
         event PluginEventHandler Start;
         event PluginEventHandler Save;
-        event PluginEventHandler Skip;
+        event PluginSkipEventHandler Skip;
         event PluginEventHandler Stop;
         event PluginEventHandler Diff;
         event PluginEventHandler Preview;
