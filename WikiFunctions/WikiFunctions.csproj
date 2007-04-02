@@ -172,6 +172,7 @@
     <Compile Include="SubstTemplates.Designer.cs">
       <DependentUpon>SubstTemplates.cs</DependentUpon>
     </Compile>
+    <Compile Include="TalkPageHeaders.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="ReplaceSpecial\Utility.cs" />
     <Compile Include="Updater.cs" />
