@@ -359,6 +359,8 @@ namespace AutoWikiBrowser
 
                 EdittingArticle = listMaker1.SelectedArticle();
 
+                LogListener = new AWBLogListener(EdittingArticle.Name);
+
                 if (!Tools.IsValidTitle(EdittingArticle.Name))
                 {
                     SkipPage("Invalid Title");
@@ -412,7 +414,7 @@ namespace AutoWikiBrowser
                 return;
             }
 
-            LogListener = new AWBLogListener(EdittingArticle.Name);
+            //LogListener = new AWBLogListener(EdittingArticle.Name);
 
             if (chkSkipIfContains.Checked && Skip.SkipIfContains(strText, EdittingArticle.Name,
             txtSkipIfContains.Text, chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, true))
