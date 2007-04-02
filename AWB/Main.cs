@@ -707,16 +707,12 @@ namespace AutoWikiBrowser
                 {
                     case "user":
                         LogListener.UserSkipped();
-
                         break;
 
-                    case "":
-
-                        break;
+                    case "": break;
 
                     default:
                         LogListener.AWBSKipped(reason);
-
                         break;
                 }
 
@@ -2741,7 +2737,7 @@ namespace AutoWikiBrowser
             {
                 a.Value.Start += Start;
                 a.Value.Save += Save;
-                a.Value.Skip += PluginSkipPage;
+                a.Value.Skip += SkipPage;
                 a.Value.Stop += Stop;
                 a.Value.Diff += GetDiff;
                 a.Value.Preview += GetPreview;
