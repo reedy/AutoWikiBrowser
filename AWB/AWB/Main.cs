@@ -3109,8 +3109,15 @@ namespace AutoWikiBrowser
                 string strListFile;
                 if (saveListDialog.ShowDialog() == DialogResult.OK)
                 {
-                    foreach (String a in listview.Items)
-                        strList.AppendLine(a);
+                    foreach (ListViewItem a in listview.Items)
+                    {
+                        string text = a.Text;
+                        if (a.SubItems.Count > 0)
+                        {
+                            
+                        }
+                        strList.AppendLine(text);
+                    }
                     strListFile = saveListDialog.FileName;
                     sw = new StreamWriter(strListFile, false, Encoding.UTF8);
                     sw.Write(strList);
