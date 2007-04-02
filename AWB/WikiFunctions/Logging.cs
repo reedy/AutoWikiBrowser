@@ -189,6 +189,7 @@ using System.Text;
         protected void Skip(string SkippedBy, string SkipReason)
         {
             //mSkipped = true;
+            SubItems.Add(DateTime.Now.ToString());
             SubItems.Add(SkippedBy);//.Name="SkippedBy";
             SubItems.Add(SkipReason);//.Name="SkipReason";
             WriteLine(SkipReason, SkippedBy);
