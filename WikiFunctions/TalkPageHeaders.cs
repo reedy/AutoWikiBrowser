@@ -34,26 +34,19 @@ namespace WikiFunctions.TalkPages
     public sealed class TalkPageHeaders
     {
         private static string DefaultSortKey;
-        private static Regex DefaultSortRegex = new Regex(@"\{\{\s*(template\s*:\s*)*\s*defaultsort\s*(:|\|)(?<key>[^\}]*)\}\}", RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
+        private static Regex DefaultSortRegex = new Regex( 
+           @"\{\{\s*(template\s*:\s*)*\s*defaultsort\s*(:|\|)(?<key>[^\}]*)\}\}", 
+            RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
         private static bool FoundDefaultSort;
         private static bool FoundSkipTOC;
         private static bool FoundTalkheader;
         private static Regex SkipTOCTemplateRegex = new Regex(@"\{\{\s*(template:)?(skiptotoctalk|Skiptotoc|Skiptotoc-talk)\s*\}\}[\s\n\r]*", RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
         private static Regex TalkheaderTemplateRegex = new Regex(@"\{\{\s*(template:)?talkheader\s*\}\}[\s\n\r]*", RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
 
+        // Public methods:
         public static bool ContainsDefaultSortKeywordOrTemplate(string ArticleText)
         {
             return DefaultSortRegex.IsMatch(ArticleText);
-        }
-
-        private static string DefaultSortMatchEvaluator(Match match)
-        {
-            FoundDefaultSort = true;
-            if (match.Groups["key"].Captures.Count > 0)
-            {
-                DefaultSortKey = match.Groups["key"].Captures[0].Value.Trim();
-            }
-            return "";
         }
 
         public static void ProcessTalkPage(ref string ArticleText, string PluginName)
@@ -82,7 +75,8 @@ namespace WikiFunctions.TalkPages
             }
             if (MoveDEFAULTSORT != DEFAULTSORT.NoChange)
             {
-                ArticleText = DefaultSortRegex.Replace(ArticleText, new MatchEvaluator(TalkPageHeaders.DefaultSortMatchEvaluator), 1);
+                ArticleText = DefaultSortRegex.Replace(ArticleText, 
+                    new MatchEvaluator(TalkPageHeaders.DefaultSortMatchEvaluator), 1);
                 if (FoundDefaultSort)
                 {
                     if (DefaultSortKey == "")
@@ -106,6 +100,22 @@ namespace WikiFunctions.TalkPages
             return true;
         }
 
+        public static string FormatDefaultSort(string ArticleText)
+        {
+            return DefaultSortRegex.Replace(ArticleText, "{{DEFAULTSORT:${key}}}");
+        }
+        
+        // Match evaluators:
+        private static string DefaultSortMatchEvaluator(Match match)
+        {
+            FoundDefaultSort = true;
+            if (match.Groups["key"].Captures.Count > 0)
+            {
+                DefaultSortKey = match.Groups["key"].Captures[0].Value.Trim();
+            }
+            return "";
+        }
+
         private static string SkipTOCMatchEvaluator(Match match)
         {
             FoundSkipTOC = true;
@@ -118,6 +128,7 @@ namespace WikiFunctions.TalkPages
             return "";
         }
 
+        // Helper routines:
         private static void WriteDefaultSortMagicWord(DEFAULTSORT Location, IMyTraceListener Trace, string PluginName, ref string ArticleText)
         {
             string strMovedTo;
