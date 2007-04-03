@@ -3239,13 +3239,18 @@ namespace AutoWikiBrowser
 
         private void EditBoxSaveTimer_Tick(object sender, EventArgs e)
         {
+            saveEditBoxText(Application.StartupPath + AutoSaveEditBoxFile);
+        }
+
+        private void saveEditBoxText(string path)
+        {
             try
             {
                 StringBuilder strList = new StringBuilder("");
                 StreamWriter sw;
                 string strListFile = txtEdit.Text;
 
-                strListFile = Application.StartupPath + AutoSaveEditBoxFile;
+                strListFile = path;
                 sw = new StreamWriter(strListFile, false, Encoding.UTF8);
                 sw.Write(strList);
                 sw.Close();
@@ -3258,6 +3263,12 @@ namespace AutoWikiBrowser
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void saveTextToFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (saveListDialog.ShowDialog() == DialogResult.OK)
+                saveEditBoxText(saveListDialog.FileName);
         }
     }
 }

@@ -323,6 +323,8 @@ namespace AutoWikiBrowser
             this.strListFile = new System.Windows.Forms.SaveFileDialog();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
             this.EditBoxSaveTimer = new System.Windows.Forms.Timer(this.components);
+            this.toolStripSeparator22 = new System.Windows.Forms.ToolStripSeparator();
+            this.saveTextToFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabControl2.SuspendLayout();
@@ -445,6 +447,8 @@ namespace AutoWikiBrowser
             this.pasteToolStripMenuItem,
             this.pasteMoreToolStripMenuItem,
             this.selectAllToolStripMenuItem,
+            this.toolStripSeparator22,
+            this.saveTextToFileToolStripMenuItem,
             this.toolStripSeparator10,
             this.goToLineToolStripMenuItem,
             this.toolStripSeparator3,
@@ -463,7 +467,7 @@ namespace AutoWikiBrowser
             this.toolStripSeparator9,
             this.replaceTextWithLastEditToolStripMenuItem});
             this.mnuTextBox.Name = "contextMenuStrip1";
-            this.mnuTextBox.Size = new System.Drawing.Size(233, 458);
+            this.mnuTextBox.Size = new System.Drawing.Size(233, 508);
             this.mnuTextBox.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // wordWrapToolStripMenuItem1
@@ -3034,6 +3038,18 @@ namespace AutoWikiBrowser
             this.EditBoxSaveTimer.Interval = 1000;
             this.EditBoxSaveTimer.Tick += new System.EventHandler(this.EditBoxSaveTimer_Tick);
             // 
+            // toolStripSeparator22
+            // 
+            this.toolStripSeparator22.Name = "toolStripSeparator22";
+            this.toolStripSeparator22.Size = new System.Drawing.Size(229, 6);
+            // 
+            // saveTextToFileToolStripMenuItem
+            // 
+            this.saveTextToFileToolStripMenuItem.Name = "saveTextToFileToolStripMenuItem";
+            this.saveTextToFileToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
+            this.saveTextToFileToolStripMenuItem.Text = "Save text to file";
+            this.saveTextToFileToolStripMenuItem.Click += new System.EventHandler(this.saveTextToFileToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3394,6 +3410,8 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ColumnHeader colIgnoreTime;
         private System.Windows.Forms.ColumnHeader colSuccessTime;
         private System.Windows.Forms.Timer EditBoxSaveTimer;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator22;
+        private System.Windows.Forms.ToolStripMenuItem saveTextToFileToolStripMenuItem;
 
 
     }
