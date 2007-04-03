@@ -12,7 +12,7 @@ namespace AutoWikiBrowser
 {
     public partial class MyPreferences : Form
     {
-        public MyPreferences(LangCodeEnum lang, ProjectEnum proj, string customproj, bool EDiff, bool SDown, int DiffSize, Font TextFont, bool LowPriority, bool Flash, bool Beep, bool Minimize, bool SaveArticleList, bool OverrideWatchlist, decimal TimeOut)
+        public MyPreferences(LangCodeEnum lang, ProjectEnum proj, string customproj, bool EDiff, bool SDown, int DiffSize, Font TextFont, bool LowPriority, bool Flash, bool Beep, bool Minimize, bool SaveArticleList, bool OverrideWatchlist, decimal TimeOut, bool AutoSaveEditBox, string AutoSaveEditBoxFile, decimal AutoSaveEditBoxPeriod)
         {
             InitializeComponent();
 
@@ -39,6 +39,10 @@ namespace AutoWikiBrowser
             perfSaveArticleList = SaveArticleList;
             perfOverrideWatchlist = OverrideWatchlist;
             perfTimeOutLimit = TimeOut;
+
+            perfAutoSaveEditBoxEnabled = AutoSaveEditBox;
+            perfAutoSaveEditBoxFile = AutoSaveEditBoxFile;
+            perfAutoSaveEditBoxPeriod = AutoSaveEditBoxPeriod;
 
             cmboProject_SelectedIndexChanged(null, null);
         }
@@ -189,6 +193,29 @@ namespace AutoWikiBrowser
             set { numTimeOutLimit.Value = value; }
         }
 
+        public bool perfAutoSaveEditBoxEnabled
+        {
+            get { return chkAutoSaveEdit.Checked; }
+            set { chkAutoSaveEdit.Checked = value; groupBox3.Enabled = value; }
+        }
+
+        public decimal perfAutoSaveEditBoxPeriod
+        {
+            get { return numEditBoxAutosave.Value; }
+            set { numEditBoxAutosave.Value = value; }
+        }
+
+        public string perfAutoSaveEditBoxFile
+        {
+            get { return txtAutosave.Text; }
+            set { txtAutosave.Text = value; }
+        }
         #endregion
+
+        private void chkAutoSaveEdit_CheckedChanged(object sender, EventArgs e)
+        {
+            groupBox3.Enabled = chkAutoSaveEdit.Checked;
+            perfAutoSaveEditBoxEnabled = chkAutoSaveEdit.Checked;
+        }
     }
 }

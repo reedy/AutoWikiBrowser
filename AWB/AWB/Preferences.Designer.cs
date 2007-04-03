@@ -57,10 +57,19 @@ namespace AutoWikiBrowser
             this.chkLowPriority = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.fontDialog = new System.Windows.Forms.FontDialog();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.numEditBoxAutosave = new System.Windows.Forms.NumericUpDown();
+            this.label8 = new System.Windows.Forms.Label();
+            this.chkAutoSaveEdit = new System.Windows.Forms.CheckBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.txtAutosave = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.nudDiffFontSize)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numTimeOutLimit)).BeginInit();
+            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numEditBoxAutosave)).BeginInit();
             this.SuspendLayout();
             // 
             // cmboLang
@@ -77,7 +86,7 @@ namespace AutoWikiBrowser
             // btnApply
             // 
             this.btnApply.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnApply.Location = new System.Drawing.Point(163, 390);
+            this.btnApply.Location = new System.Drawing.Point(163, 499);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(75, 23);
             this.btnApply.TabIndex = 1;
@@ -198,7 +207,7 @@ namespace AutoWikiBrowser
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(244, 390);
+            this.btnCancel.Location = new System.Drawing.Point(244, 499);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 12;
@@ -242,6 +251,7 @@ namespace AutoWikiBrowser
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.chkAutoSaveEdit);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.numTimeOutLimit);
             this.groupBox2.Controls.Add(this.chkOverrideWatchlist);
@@ -259,7 +269,7 @@ namespace AutoWikiBrowser
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Location = new System.Drawing.Point(13, 159);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(306, 225);
+            this.groupBox2.Size = new System.Drawing.Size(306, 250);
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Other";
@@ -379,9 +389,91 @@ namespace AutoWikiBrowser
             this.label5.TabIndex = 12;
             this.label5.Text = "%";
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.txtAutosave);
+            this.groupBox3.Controls.Add(this.label10);
+            this.groupBox3.Controls.Add(this.label9);
+            this.groupBox3.Controls.Add(this.numEditBoxAutosave);
+            this.groupBox3.Controls.Add(this.label8);
+            this.groupBox3.Location = new System.Drawing.Point(13, 415);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(306, 78);
+            this.groupBox3.TabIndex = 15;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "AutoSave";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(203, 16);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(53, 13);
+            this.label9.TabIndex = 28;
+            this.label9.Text = "(seconds)";
+            // 
+            // numEditBoxAutosave
+            // 
+            this.numEditBoxAutosave.Location = new System.Drawing.Point(139, 14);
+            this.numEditBoxAutosave.Maximum = new decimal(new int[] {
+            120,
+            0,
+            0,
+            0});
+            this.numEditBoxAutosave.Minimum = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            this.numEditBoxAutosave.Name = "numEditBoxAutosave";
+            this.numEditBoxAutosave.Size = new System.Drawing.Size(58, 20);
+            this.numEditBoxAutosave.TabIndex = 27;
+            this.numEditBoxAutosave.Value = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(12, 16);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(126, 13);
+            this.label8.TabIndex = 26;
+            this.label8.Text = "Autosave Edit Box every:";
+            // 
+            // chkAutoSaveEdit
+            // 
+            this.chkAutoSaveEdit.AutoSize = true;
+            this.chkAutoSaveEdit.Location = new System.Drawing.Point(11, 220);
+            this.chkAutoSaveEdit.Name = "chkAutoSaveEdit";
+            this.chkAutoSaveEdit.Size = new System.Drawing.Size(124, 17);
+            this.chkAutoSaveEdit.TabIndex = 23;
+            this.chkAutoSaveEdit.Text = "Auto Save Edit Box?";
+            this.chkAutoSaveEdit.UseVisualStyleBackColor = true;
+            this.chkAutoSaveEdit.CheckedChanged += new System.EventHandler(this.chkAutoSaveEdit_CheckedChanged);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(27, 43);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(39, 13);
+            this.label10.TabIndex = 29;
+            this.label10.Text = "To file:";
+            // 
+            // txtAutosave
+            // 
+            this.txtAutosave.Location = new System.Drawing.Point(77, 40);
+            this.txtAutosave.Name = "txtAutosave";
+            this.txtAutosave.Size = new System.Drawing.Size(179, 20);
+            this.txtAutosave.TabIndex = 30;
+            // 
             // MyPreferences
             // 
-            this.ClientSize = new System.Drawing.Size(331, 422);
+            this.ClientSize = new System.Drawing.Size(331, 534);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnCancel);
@@ -398,6 +490,9 @@ namespace AutoWikiBrowser
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numTimeOutLimit)).EndInit();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numEditBoxAutosave)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -431,5 +526,12 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkOverrideWatchlist;
         private System.Windows.Forms.NumericUpDown numTimeOutLimit;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.CheckBox chkAutoSaveEdit;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.NumericUpDown numEditBoxAutosave;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox txtAutosave;
+        private System.Windows.Forms.Label label10;
     }
 }

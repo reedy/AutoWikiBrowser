@@ -284,13 +284,13 @@ namespace AutoWikiBrowser
             set { bMinimize = value; }
         }
 
-        decimal iTimeOut = 30;
+        decimal dTimeOut = 30;
         private decimal TimeOut
         {
-            get { return iTimeOut; }
+            get { return dTimeOut; }
             set
             {
-                iTimeOut = value;
+                dTimeOut = value;
                 webBrowserEdit.TimeoutLimit = int.Parse(value.ToString());
             }
         }
@@ -307,6 +307,27 @@ namespace AutoWikiBrowser
         {
             get { return bOverrideWatchlist; }
             set { bOverrideWatchlist = value; }
+        }
+
+        bool bAutoSaveEdit = false;
+        private bool AutoSaveEditBoxEnabled
+        {
+            get { return bAutoSaveEdit; }
+            set { bAutoSaveEdit = value; }
+        }
+
+        string sAutoSaveEditFile = "Edit Box.txt";
+        private string AutoSaveEditBoxFile
+        {
+            get { return sAutoSaveEditFile; }
+            set { sAutoSaveEditFile = value; }
+        }
+
+        decimal dAutoSaveEditPeriod = 60;
+        private decimal AutoSaveEditBoxPeriod
+        {
+            get { return dAutoSaveEditPeriod; }
+            set { dAutoSaveEditPeriod = value; }
         }
 
         #endregion
@@ -1655,7 +1676,7 @@ namespace AutoWikiBrowser
 
         private void PreferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MyPreferences MyPrefs = new MyPreferences(Variables.LangCode, Variables.Project, Variables.CustomProject, webBrowserEdit.EnhanceDiffEnabled, webBrowserEdit.ScrollDown, webBrowserEdit.DiffFontSize, txtEdit.Font, LowThreadPriority, Flash, Beep, Minimize, SaveArticleList, OverrideWatchlist, TimeOut);
+            MyPreferences MyPrefs = new MyPreferences(Variables.LangCode, Variables.Project, Variables.CustomProject, webBrowserEdit.EnhanceDiffEnabled, webBrowserEdit.ScrollDown, webBrowserEdit.DiffFontSize, txtEdit.Font, LowThreadPriority, Flash, Beep, Minimize, SaveArticleList, OverrideWatchlist, TimeOut, AutoSaveEditBoxEnabled, AutoSaveEditBoxFile, AutoSaveEditBoxPeriod);
 
             if (MyPrefs.ShowDialog(this) == DialogResult.OK)
             {
