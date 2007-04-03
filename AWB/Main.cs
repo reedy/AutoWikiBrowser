@@ -363,7 +363,7 @@ namespace AutoWikiBrowser
 
                 if (!Tools.IsValidTitle(EdittingArticle.Name))
                 {
-                    SkipPage("Invalid Title");
+                    SkipPage("Invalid page title");
                     return;
                 }
                 if (chkAutoMode.Checked)
@@ -403,7 +403,7 @@ namespace AutoWikiBrowser
 
                 if (Redirect.Name == EdittingArticle.Name)
                 {//ignore recursice redirects
-                    SkipPage("Recursive Redirect");
+                    SkipPage("Recursive redirect");
                     return;
                 }
 
@@ -426,7 +426,7 @@ namespace AutoWikiBrowser
             if (chkSkipIfNotContains.Checked && Skip.SkipIfContains(strText, EdittingArticle.Name,
             txtSkipIfNotContains.Text, chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, false))
             {
-                SkipPage("Article doesnt contain: " + txtSkipIfNotContains.Text);
+                SkipPage("Article doesn not contain: " + txtSkipIfNotContains.Text);
                 return;
             }
 
@@ -535,7 +535,7 @@ namespace AutoWikiBrowser
                     else
                     {
                         SaveTimer.Stop();
-                        SkipPage("Read-Only - User not Admin");
+                        SkipPage("Page is protected");
                         return false;
                     }
                 }
@@ -580,7 +580,7 @@ namespace AutoWikiBrowser
                 }
                 if (webBrowserEdit.Document.GetElementById("wpTextbox1").InnerText == null && chkSkipNonExistent.Checked)
                 {//check if it is a non-existent page, if so then skip it automatically.
-                    SkipPage("Non-Existent Page");
+                    SkipPage("Non-existent page");
                     return false;
                 }
             }
@@ -596,7 +596,7 @@ namespace AutoWikiBrowser
         {
             if (diffChecker(webBrowserEdit.Document.Body.InnerHtml))
             {//check if there are no changes and we want to skip
-                SkipPage("No Changes");
+                SkipPage("No changes made");
                 return;
             }
 
@@ -690,7 +690,7 @@ namespace AutoWikiBrowser
 
         private void PluginSkipPage()
         {
-            SkipPage("Plugin sent skip event");
+            SkipPage("plugin");
         }
 
         private void SkipPage(string reason)
@@ -711,10 +711,14 @@ namespace AutoWikiBrowser
                         LogListener.UserSkipped();
                         break;
 
+                    case "plugin":
+                        LogListener.PluginSkipped();
+                        break;
+
                     case "": break;
 
                     default:
-                        LogListener.AWBSKipped(reason);
+                        LogListener.AWBSkipped(reason);
                         break;
                 }
 
@@ -1029,10 +1033,10 @@ namespace AutoWikiBrowser
             DisableButtons();
             if (txtEdit.Text.Length > 0)
                 SaveArticle();
-            else if (MessageBox.Show("Do you really want to save a blank page?", "Really save??", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            else if (MessageBox.Show("Do you really want to save a blank page?", "Save?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 SaveArticle();
             else
-                SkipPage("Nothing to save - Blank Page");
+                SkipPage("Nothing to save - blank page");
         }
 
         private void SaveArticle()
@@ -3014,7 +3018,7 @@ namespace AutoWikiBrowser
                     if (chkNudgeSkip.Checked && sameArticleNudges > 0)
                     {
                         sameArticleNudges = 0;
-                        SkipPage("Too many Nudges");
+                        SkipPage("There was an error saving the page twice");
                     }
                     else
                     {
