@@ -211,8 +211,9 @@ namespace WikiFunctions
                     LastName = Name.Substring(intLast);
                     Name = Name.Remove(intLast).Trim();
                 }
-                else if (Suffix != "") {
+                else { //if (Suffix != "") {
                     // We have something like "Peter" "II" "King of Spain" (first/last/suffix), so return what we started with
+                    // OR We have "Fred" "II", we don't want to return "II, Fred" so we must return "Fred II"
                     return OrigName;
                 }
             }
