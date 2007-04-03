@@ -688,11 +688,6 @@ namespace AutoWikiBrowser
             }
         }
 
-        private void PluginSkipPage()
-        {
-            SkipPage("plugin");
-        }
-
         private void SkipPage(string reason)
         {
             try
