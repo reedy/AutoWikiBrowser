@@ -3246,13 +3246,9 @@ namespace AutoWikiBrowser
         {
             try
             {
-                StringBuilder strList = new StringBuilder("");
                 StreamWriter sw;
-                string strListFile = txtEdit.Text;
-
-                strListFile = path;
-                sw = new StreamWriter(strListFile, false, Encoding.UTF8);
-                sw.Write(strList);
+                sw = new StreamWriter(path.ToString(), false, Encoding.UTF8);
+                sw.Write(txtEdit.Text);
                 sw.Close();
             }
             catch (IOException ex)
