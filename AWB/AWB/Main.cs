@@ -64,6 +64,7 @@ namespace AutoWikiBrowser
                 lblEditCount.Alignment = ToolStripItemAlignment.Right;
 
                 btntsShowHide.Image = Resources.btnshowhide_image;
+                btntsShowHideParameters.Image = Resources.btnshowhideparameters_image;
                 btntsSave.Image = Resources.btntssave_image;
                 btntsIgnore.Image = Resources.GoLtr;
                 btntsStop.Image = Resources.Stop;
@@ -1093,7 +1094,6 @@ namespace AutoWikiBrowser
 
         private void panelShowHide()
         {
-            //TODO:FIX
             if (splitContainer1.Visible)
             { splitContainer1.Hide(); }
             else
@@ -1101,7 +1101,14 @@ namespace AutoWikiBrowser
             setBrowserSize();
         }
 
-
+        private void parametersShowHide()
+        {
+            if (splitContainer1.Panel1Collapsed == false)
+                splitContainer1.Panel1Collapsed = true;
+            else
+                splitContainer1.Panel1Collapsed = false;
+        }
+        
         private void UpdateUserName(object sender, EventArgs e)
         {
             lblUserName.Text = Variables.User.Name;
@@ -2589,6 +2596,11 @@ namespace AutoWikiBrowser
             panelShowHide();
         }
 
+        private void btntsShowHideParameters_Click(object sender, EventArgs e)
+        {
+            parametersShowHide();
+        }
+
         private void btntsStart_Click(object sender, EventArgs e)
         {
             Start();
@@ -3271,5 +3283,7 @@ namespace AutoWikiBrowser
             if (saveListDialog.ShowDialog() == DialogResult.OK)
                 saveEditBoxText(saveListDialog.FileName);
         }
+
+
     }
 }

@@ -299,6 +299,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Bot Image.png" />
+    <Content Include="Resources\btnshowhideparameters.image.png" />
+    <None Include="Resources\Showhideparameters.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
