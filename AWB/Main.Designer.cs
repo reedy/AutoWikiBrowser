@@ -1881,6 +1881,7 @@ namespace AutoWikiBrowser
             this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer1.IsSplitterFixed = true;
             this.splitContainer1.Location = new System.Drawing.Point(0, 228);
             this.splitContainer1.Name = "splitContainer1";
             // 
