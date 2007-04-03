@@ -185,9 +185,9 @@ namespace WikiFunctions
         /// </summary>
         public static string MakeHumanCatKey(string Name)
         {
+            Name = RemoveNamespaceString(Regex.Replace(Name, @"\(.*?\)$", "").Trim()).Trim();
             string OrigName = Name;
-
-            Name = Regex.Replace(Name, @"\(.*?\)$", "").Trim();
+            if (!Name.Contains(" ")) return OrigName;
 
             string Suffix = "";
             int pos = Name.IndexOf(',');
@@ -199,22 +199,25 @@ namespace WikiFunctions
                 Name = Name.Substring(0, pos);
             }
 
-            if (!Name.Contains(" "))
-                return RemoveNamespaceString(OrigName);
-
             int intLast = Name.LastIndexOf(" ") + 1;
             string LastName = Name.Substring(intLast);
-            Name = Name.Remove(intLast);
-            Name = RemoveNamespaceString(Name).Trim();
-            if (IsRomanNumber(LastName) && Name.Contains(" "))
+            Name = Name.Remove(intLast).Trim();
+            if (IsRomanNumber(LastName))
             {
-                Suffix += " " + LastName;
-                intLast = Name.LastIndexOf(" ") + 1;
-                LastName = Name.Substring(intLast);
-                Name = Name.Remove(intLast).Trim();
+                if (Name.Contains(" "))
+                {
+                    Suffix += " " + LastName;
+                    intLast = Name.LastIndexOf(" ") + 1;
+                    LastName = Name.Substring(intLast);
+                    Name = Name.Remove(intLast).Trim();
+                }
+                else if (Suffix != "") {
+                    // We have something like "Peter" "II" "King of Spain" (first/last/suffix), so return what we started with
+                    return OrigName;
+                }
             }
 
-            Name = (LastName + ", " + Name + " " + Suffix).Trim();
+            Name = (LastName + ", " + Name + ", " + Suffix).Trim(" ,".ToCharArray());
 
             return Name;
         }
