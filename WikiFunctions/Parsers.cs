@@ -1180,7 +1180,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The new text.</returns>
         public string SubstUserTemplates(string TalkPageText, string TalkPageTitle)
         {
-            string legacyWarnings = "\\{\\{(template:)?((~|~~~~|3RR(3|4|5|5-multi)?|Advert[1-5]?|Adw(note)?|Afd(-warn|Note|Warning)|Agf[0-3]?|Anon vandal|Article(Concern|" +
+            string legacyWarnings = "\\{\\{(template:)?((~|~~~~|3RR(3|4|5|5-multi)?|Advert[1-5]?|Adw(note)?|Afd(-warn|Note|Warning(New)?)|Agf[0-3]?|Anon vandal|Article(Concern|" +
                 "Discussion|Result)|Artc?d?r?|Attack(-warn|pg-warn)?|Autobio-warn|Bad(cat|fairuse|" +
                 "nom)|Behave|Bl(ank)?(ing)?(1|2|3|4|4alt|own)?|Blatant ?(spam|vandal(ism)?|officialpolicyvandal)?|" +
                 "Blocked ?user|BLP removal|Blp[012]|Bs(r-user)?|Bv2?|C&pmove|Canvass?|Cite sources|Comment([0-4]|" +
