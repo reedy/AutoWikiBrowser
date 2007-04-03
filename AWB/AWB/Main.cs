@@ -156,8 +156,7 @@ namespace AutoWikiBrowser
             // hide this tab until it's fully written
             //tabControl1.TabPages.Remove(tpDab);
 
-            //check that we are not using an old OS. 98 seems to mangled some unicode.
-            this.Resize += new EventHandler(MainForm_Resize);
+            //check that we are not using an old OS. 98 seems to mangled some unicode
 
             updateUpdater();
 
@@ -198,7 +197,7 @@ namespace AutoWikiBrowser
             }
             else
             {
-                splitContainer1.Panel2Collapsed = false;
+                //splitContainer1.
             }
         }
 
