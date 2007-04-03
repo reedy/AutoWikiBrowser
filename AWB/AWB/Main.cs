@@ -161,9 +161,6 @@ namespace AutoWikiBrowser
 
             updateUpdater();
 
-            if (Variables.User.checkEnabled() == WikiStatusResult.OldVersion)
-                oldVersion();
-
             try
             {
                 if (Environment.OSVersion.Version.Major < 5)
@@ -182,6 +179,9 @@ namespace AutoWikiBrowser
                 LoadPrefs();
                 UpdateButtons();
                 LoadRecentSettingsList();
+
+                if (Variables.User.checkEnabled() == WikiStatusResult.OldVersion)
+                    oldVersion();
             }
             catch (Exception ex)
             {
