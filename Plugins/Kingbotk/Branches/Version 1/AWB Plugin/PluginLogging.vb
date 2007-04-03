@@ -305,7 +305,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
             End Property
             Public ReadOnly Property LogTitle() As String
                 Get
-                    Return mUploadJobName.Replace(conUploadCategoryIsJobName, mCategory)
+                    Return Tools.RemoveInvalidChars(mUploadJobName.Replace(conUploadCategoryIsJobName, mCategory))
                 End Get
             End Property
 
