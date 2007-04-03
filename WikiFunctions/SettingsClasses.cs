@@ -110,6 +110,8 @@ namespace WikiFunctions.AWBSettings
     [Serializable]
     public class GeneralPrefs
     {
+        public EditBoxAutoSavePrefs AutoSaveEdit = new EditBoxAutoSavePrefs();
+
         public string SelectedSummary = "Clean up";
         public List<string> Summaries = new List<string>();
 
@@ -144,6 +146,14 @@ namespace WikiFunctions.AWBSettings
         public bool SaveArticleList = false;
         public decimal TimeOutLimit = 30;
         public bool IgnoreNoBots = false;
+    }
+
+    [Serializable]
+    public class EditBoxAutoSavePrefs
+    {
+        public bool Enabled = false;
+        public decimal SavePeriod = 30;
+        public string SaveFile = "Edit Box.txt";
     }
 
     [Serializable]

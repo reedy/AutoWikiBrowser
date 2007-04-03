@@ -146,6 +146,10 @@ namespace AutoWikiBrowser
             SaveArticleList = true;
             OverrideWatchlist = false;
             chkLock.Checked = false;
+
+            AutoSaveEditBoxEnabled = false;
+            AutoSaveEditBoxFile = "Edit Box.txt";
+            AutoSaveEditBoxPeriod = 60;
                         
             chkEnableDab.Checked = false;
             txtDabLink.Text = "";
@@ -587,6 +591,15 @@ namespace AutoWikiBrowser
                             if (reader.MoveToAttribute("timeoutlimit"))
                                 TimeOut = int.Parse(reader.Value);
 
+                            if (reader.MoveToAttribute("autosaveeditboxenabled"))
+                                AutoSaveEditBoxEnabled = bool.Parse(reader.Value);
+
+                            if (reader.MoveToAttribute("autosaveeditboxfile"))
+                                AutoSaveEditBoxFile = reader.Value;
+
+                            if (reader.MoveToAttribute("autosaveeditboxperiod"))
+                                AutoSaveEditBoxPeriod = decimal.Parse(reader.Value);
+ 
                             continue;
                         }
 
@@ -811,6 +824,10 @@ namespace AutoWikiBrowser
             p.General.Beep = Beep;
             p.General.Minimize = Minimize;
             p.General.TimeOutLimit = TimeOut;
+
+            p.General.AutoSaveEdit.Enabled = AutoSaveEditBoxEnabled;
+            p.General.AutoSaveEdit.SavePeriod = AutoSaveEditBoxPeriod;
+            p.General.AutoSaveEdit.SaveFile = AutoSaveEditBoxFile;
             
             p.General.LockSummary = chkLock.Checked;
 
@@ -940,6 +957,10 @@ namespace AutoWikiBrowser
             showTimer();
             sortAlphabeticallyToolStripMenuItem.Checked = p.General.SortInterwikiOrder;
             addIgnoredToLogFileToolStripMenuItem.Checked = p.General.AddIgnoredToLog;
+
+            AutoSaveEditBoxEnabled = p.General.AutoSaveEdit.Enabled;
+            AutoSaveEditBoxPeriod = p.General.AutoSaveEdit.SavePeriod;
+            AutoSaveEditBoxFile = p.General.AutoSaveEdit.SaveFile;
 
             webBrowserEdit.EnhanceDiffEnabled = p.General.EnhancedDiff;
             webBrowserEdit.ScrollDown = p.General.ScrollDown;
