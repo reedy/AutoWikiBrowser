@@ -1103,10 +1103,7 @@ namespace AutoWikiBrowser
 
         private void parametersShowHide()
         {
-            if (splitContainer1.Panel1Collapsed == false)
-                splitContainer1.Panel1Collapsed = true;
-            else
-                splitContainer1.Panel1Collapsed = false;
+            splitContainer1.Panel1Collapsed = !(splitContainer1.Panel1Collapsed);      
         }
         
         private void UpdateUserName(object sender, EventArgs e)
@@ -2587,6 +2584,11 @@ namespace AutoWikiBrowser
             panelShowHide();
         }
 
+        private void enlargeEditAreaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            parametersShowHide();
+        }
+
         #endregion
 
         #region tool bar stuff
@@ -3283,7 +3285,5 @@ namespace AutoWikiBrowser
             if (saveListDialog.ShowDialog() == DialogResult.OK)
                 saveEditBoxText(saveListDialog.FileName);
         }
-
-
     }
 }
