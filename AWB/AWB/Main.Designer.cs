@@ -74,6 +74,8 @@ namespace AutoWikiBrowser
             this.PasteMore9 = new System.Windows.Forms.ToolStripTextBox();
             this.PasteMore10 = new System.Windows.Forms.ToolStripTextBox();
             this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator22 = new System.Windows.Forms.ToolStripSeparator();
+            this.saveTextToFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.goToLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripTextBox2 = new System.Windows.Forms.ToolStripTextBox();
@@ -323,8 +325,6 @@ namespace AutoWikiBrowser
             this.strListFile = new System.Windows.Forms.SaveFileDialog();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
             this.EditBoxSaveTimer = new System.Windows.Forms.Timer(this.components);
-            this.toolStripSeparator22 = new System.Windows.Forms.ToolStripSeparator();
-            this.saveTextToFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabControl2.SuspendLayout();
@@ -467,7 +467,7 @@ namespace AutoWikiBrowser
             this.toolStripSeparator9,
             this.replaceTextWithLastEditToolStripMenuItem});
             this.mnuTextBox.Name = "contextMenuStrip1";
-            this.mnuTextBox.Size = new System.Drawing.Size(233, 508);
+            this.mnuTextBox.Size = new System.Drawing.Size(233, 486);
             this.mnuTextBox.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // wordWrapToolStripMenuItem1
@@ -601,6 +601,18 @@ namespace AutoWikiBrowser
             this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
             this.selectAllToolStripMenuItem.Text = "Select all";
             this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.selectAllToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator22
+            // 
+            this.toolStripSeparator22.Name = "toolStripSeparator22";
+            this.toolStripSeparator22.Size = new System.Drawing.Size(229, 6);
+            // 
+            // saveTextToFileToolStripMenuItem
+            // 
+            this.saveTextToFileToolStripMenuItem.Name = "saveTextToFileToolStripMenuItem";
+            this.saveTextToFileToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
+            this.saveTextToFileToolStripMenuItem.Text = "Save text to file";
+            this.saveTextToFileToolStripMenuItem.Click += new System.EventHandler(this.saveTextToFileToolStripMenuItem_Click);
             // 
             // toolStripSeparator10
             // 
@@ -3038,18 +3050,6 @@ namespace AutoWikiBrowser
             this.EditBoxSaveTimer.Interval = 1000;
             this.EditBoxSaveTimer.Tick += new System.EventHandler(this.EditBoxSaveTimer_Tick);
             // 
-            // toolStripSeparator22
-            // 
-            this.toolStripSeparator22.Name = "toolStripSeparator22";
-            this.toolStripSeparator22.Size = new System.Drawing.Size(229, 6);
-            // 
-            // saveTextToFileToolStripMenuItem
-            // 
-            this.saveTextToFileToolStripMenuItem.Name = "saveTextToFileToolStripMenuItem";
-            this.saveTextToFileToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
-            this.saveTextToFileToolStripMenuItem.Text = "Save text to file";
-            this.saveTextToFileToolStripMenuItem.Click += new System.EventHandler(this.saveTextToFileToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3066,7 +3066,7 @@ namespace AutoWikiBrowser
             this.MinimumSize = new System.Drawing.Size(600, 482);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "v";
+            this.Text = "AutoWikiBrowser";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
