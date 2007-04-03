@@ -168,11 +168,138 @@ namespace AutoWikiBrowser
             this.lblEditsPerMin = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblTimer = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.btnIgnore = new System.Windows.Forms.Button();
+            this.btnDiff = new System.Windows.Forms.Button();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.btnPreview = new System.Windows.Forms.Button();
+            this.btnStart = new System.Windows.Forms.Button();
+            this.btnStop = new System.Windows.Forms.Button();
+            this.btnFind = new System.Windows.Forms.Button();
+            this.btnFalsePositive = new System.Windows.Forms.Button();
+            this.nudBotSpeed = new System.Windows.Forms.NumericUpDown();
+            this.chkQuickSave = new System.Windows.Forms.CheckBox();
+            this.txtNewCategory = new System.Windows.Forms.TextBox();
+            this.txtAppendMessage = new System.Windows.Forms.TextBox();
+            this.chkAppend = new System.Windows.Forms.CheckBox();
+            this.rdoAppend = new System.Windows.Forms.RadioButton();
+            this.rdoPrepend = new System.Windows.Forms.RadioButton();
+            this.chkSkipIfContains = new System.Windows.Forms.CheckBox();
+            this.txtSkipIfNotContains = new System.Windows.Forms.TextBox();
+            this.txtSkipIfContains = new System.Windows.Forms.TextBox();
+            this.chkSkipIfNotContains = new System.Windows.Forms.CheckBox();
+            this.chkSkipIsRegex = new System.Windows.Forms.CheckBox();
+            this.chkSkipNoChanges = new System.Windows.Forms.CheckBox();
+            this.chkGeneralFixes = new System.Windows.Forms.CheckBox();
+            this.chkAutoTagger = new System.Windows.Forms.CheckBox();
+            this.chkUnicodifyWhole = new System.Windows.Forms.CheckBox();
+            this.chkFindandReplace = new System.Windows.Forms.CheckBox();
             this.saveListDialog = new System.Windows.Forms.SaveFileDialog();
             this.saveXML = new System.Windows.Forms.SaveFileDialog();
             this.openXML = new System.Windows.Forms.OpenFileDialog();
             this.Timer = new System.Windows.Forms.Timer(this.components);
             this.panel2 = new System.Windows.Forms.Panel();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.listMaker1 = new WikiFunctions.Lists.ListMaker();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tpSetOptions = new System.Windows.Forms.TabPage();
+            this.groupBox13 = new System.Windows.Forms.GroupBox();
+            this.chkSkipIfNoRegexTypo = new System.Windows.Forms.CheckBox();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.chkRegExTypo = new System.Windows.Forms.CheckBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnSubst = new System.Windows.Forms.Button();
+            this.chkSkipWhenNoFAR = new System.Windows.Forms.CheckBox();
+            this.btnFindAndReplaceAdvanced = new System.Windows.Forms.Button();
+            this.btnMoreFindAndReplce = new System.Windows.Forms.Button();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.btnMoreSkip = new System.Windows.Forms.Button();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.chkSkipNonExistent = new System.Windows.Forms.CheckBox();
+            this.chkSkipCaseSensitive = new System.Windows.Forms.CheckBox();
+            this.tpMoreOptions = new System.Windows.Forms.TabPage();
+            this.ImageGroupBox = new System.Windows.Forms.GroupBox();
+            this.lblImageWith = new System.Windows.Forms.Label();
+            this.chkSkipNoImgChange = new System.Windows.Forms.CheckBox();
+            this.txtImageWith = new System.Windows.Forms.TextBox();
+            this.txtImageReplace = new System.Windows.Forms.TextBox();
+            this.cmboImages = new System.Windows.Forms.ComboBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.chkSkipNoCatChange = new System.Windows.Forms.CheckBox();
+            this.txtNewCategory2 = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cmboCategorise = new System.Windows.Forms.ComboBox();
+            this.tpDab = new System.Windows.Forms.TabPage();
+            this.panelDab = new System.Windows.Forms.Panel();
+            this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.udContextChars = new System.Windows.Forms.NumericUpDown();
+            this.label4 = new System.Windows.Forms.Label();
+            this.chkSkipNoDab = new System.Windows.Forms.CheckBox();
+            this.txtDabVariants = new System.Windows.Forms.TextBox();
+            this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.btnLoadLinks = new System.Windows.Forms.Button();
+            this.txtDabLink = new System.Windows.Forms.TextBox();
+            this.chkEnableDab = new System.Windows.Forms.CheckBox();
+            this.tpBots = new System.Windows.Forms.TabPage();
+            this.lblOnlyBots = new System.Windows.Forms.Label();
+            this.groupBox14 = new System.Windows.Forms.GroupBox();
+            this.chkNudgeSkip = new System.Windows.Forms.CheckBox();
+            this.btnResetNudges = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.lblNudges = new System.Windows.Forms.Label();
+            this.nudNudgeTime = new System.Windows.Forms.NumericUpDown();
+            this.chkNudge = new System.Windows.Forms.CheckBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.chkSuppressTag = new System.Windows.Forms.CheckBox();
+            this.chkAutoMode = new System.Windows.Forms.CheckBox();
+            this.lblAutoDelay = new System.Windows.Forms.Label();
+            this.tpStart = new System.Windows.Forms.TabPage();
+            this.lblSummary = new System.Windows.Forms.Label();
+            this.chkLock = new System.Windows.Forms.CheckBox();
+            this.btnMove = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.lblDone = new System.Windows.Forms.Label();
+            this.chkFindCaseSensitive = new System.Windows.Forms.CheckBox();
+            this.chkFindRegex = new System.Windows.Forms.CheckBox();
+            this.txtFind = new System.Windows.Forms.TextBox();
+            this.cmboEditSummary = new System.Windows.Forms.ComboBox();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.btnRemove = new System.Windows.Forms.Button();
+            this.lbDuplicateWikilinks = new System.Windows.Forms.ListBox();
+            this.lblDuplicateWikilinks = new System.Windows.Forms.Label();
+            this.lblWarn = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.lblWords = new System.Windows.Forms.Label();
+            this.lblInterLinks = new System.Windows.Forms.Label();
+            this.lblCats = new System.Windows.Forms.Label();
+            this.lblImages = new System.Windows.Forms.Label();
+            this.lblLinks = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.tpEdit = new System.Windows.Forms.TabPage();
+            this.txtEdit = new System.Windows.Forms.TextBox();
+            this.tpLogs = new System.Windows.Forms.TabPage();
+            this.lvIgnored = new WikiFunctions.NoFlickerListView();
+            this.colIgnoreArticle = new System.Windows.Forms.ColumnHeader();
+            this.colIgnoreTime = new System.Windows.Forms.ColumnHeader();
+            this.colSkippedBy = new System.Windows.Forms.ColumnHeader();
+            this.colSkipReason = new System.Windows.Forms.ColumnHeader();
+            this.lvSaved = new WikiFunctions.NoFlickerListView();
+            this.colSuccessSave = new System.Windows.Forms.ColumnHeader();
+            this.colSuccessTime = new System.Windows.Forms.ColumnHeader();
+            this.btnAddToList = new System.Windows.Forms.Button();
+            this.btnClearIgnored = new System.Windows.Forms.Button();
+            this.btnSaveIgnored = new System.Windows.Forms.Button();
+            this.btnClearSaved = new System.Windows.Forms.Button();
+            this.btnSaveSaved = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.btntsShowHide = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
@@ -199,173 +326,46 @@ namespace AutoWikiBrowser
             this.strListFile = new System.Windows.Forms.SaveFileDialog();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
             this.EditBoxSaveTimer = new System.Windows.Forms.Timer(this.components);
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.tabControl2 = new System.Windows.Forms.TabControl();
-            this.tpLogs = new System.Windows.Forms.TabPage();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.btnSaveSaved = new System.Windows.Forms.Button();
-            this.btnClearSaved = new System.Windows.Forms.Button();
-            this.btnSaveIgnored = new System.Windows.Forms.Button();
-            this.btnClearIgnored = new System.Windows.Forms.Button();
-            this.btnAddToList = new System.Windows.Forms.Button();
-            this.lvSaved = new WikiFunctions.NoFlickerListView();
-            this.colSuccessSave = new System.Windows.Forms.ColumnHeader();
-            this.colSuccessTime = new System.Windows.Forms.ColumnHeader();
-            this.lvIgnored = new WikiFunctions.NoFlickerListView();
-            this.colIgnoreArticle = new System.Windows.Forms.ColumnHeader();
-            this.colIgnoreTime = new System.Windows.Forms.ColumnHeader();
-            this.colSkippedBy = new System.Windows.Forms.ColumnHeader();
-            this.colSkipReason = new System.Windows.Forms.ColumnHeader();
-            this.tpEdit = new System.Windows.Forms.TabPage();
-            this.txtEdit = new System.Windows.Forms.TextBox();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tpStart = new System.Windows.Forms.TabPage();
-            this.btnIgnore = new System.Windows.Forms.Button();
-            this.btnDiff = new System.Windows.Forms.Button();
-            this.btnSave = new System.Windows.Forms.Button();
-            this.btnPreview = new System.Windows.Forms.Button();
-            this.btnStart = new System.Windows.Forms.Button();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.lblLinks = new System.Windows.Forms.Label();
-            this.lblImages = new System.Windows.Forms.Label();
-            this.lblCats = new System.Windows.Forms.Label();
-            this.lblInterLinks = new System.Windows.Forms.Label();
-            this.lblWords = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.groupBox9 = new System.Windows.Forms.GroupBox();
-            this.lblWarn = new System.Windows.Forms.Label();
-            this.lblDuplicateWikilinks = new System.Windows.Forms.Label();
-            this.lbDuplicateWikilinks = new System.Windows.Forms.ListBox();
-            this.btnRemove = new System.Windows.Forms.Button();
-            this.cmboEditSummary = new System.Windows.Forms.ComboBox();
-            this.btnStop = new System.Windows.Forms.Button();
-            this.groupBox10 = new System.Windows.Forms.GroupBox();
-            this.txtFind = new System.Windows.Forms.TextBox();
-            this.chkFindRegex = new System.Windows.Forms.CheckBox();
-            this.btnFind = new System.Windows.Forms.Button();
-            this.chkFindCaseSensitive = new System.Windows.Forms.CheckBox();
-            this.lblDone = new System.Windows.Forms.Label();
-            this.btnFalsePositive = new System.Windows.Forms.Button();
-            this.btnDelete = new System.Windows.Forms.Button();
-            this.btnMove = new System.Windows.Forms.Button();
-            this.chkLock = new System.Windows.Forms.CheckBox();
-            this.lblSummary = new System.Windows.Forms.Label();
-            this.tpBots = new System.Windows.Forms.TabPage();
-            this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.lblAutoDelay = new System.Windows.Forms.Label();
-            this.nudBotSpeed = new System.Windows.Forms.NumericUpDown();
-            this.chkAutoMode = new System.Windows.Forms.CheckBox();
-            this.chkQuickSave = new System.Windows.Forms.CheckBox();
-            this.chkSuppressTag = new System.Windows.Forms.CheckBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.groupBox14 = new System.Windows.Forms.GroupBox();
-            this.chkNudge = new System.Windows.Forms.CheckBox();
-            this.nudNudgeTime = new System.Windows.Forms.NumericUpDown();
-            this.lblNudges = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.btnResetNudges = new System.Windows.Forms.Button();
-            this.chkNudgeSkip = new System.Windows.Forms.CheckBox();
-            this.lblOnlyBots = new System.Windows.Forms.Label();
-            this.tpDab = new System.Windows.Forms.TabPage();
-            this.chkEnableDab = new System.Windows.Forms.CheckBox();
-            this.panelDab = new System.Windows.Forms.Panel();
-            this.groupBox11 = new System.Windows.Forms.GroupBox();
-            this.txtDabLink = new System.Windows.Forms.TextBox();
-            this.btnLoadLinks = new System.Windows.Forms.Button();
-            this.groupBox12 = new System.Windows.Forms.GroupBox();
-            this.txtDabVariants = new System.Windows.Forms.TextBox();
-            this.chkSkipNoDab = new System.Windows.Forms.CheckBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.udContextChars = new System.Windows.Forms.NumericUpDown();
-            this.label5 = new System.Windows.Forms.Label();
-            this.tpMoreOptions = new System.Windows.Forms.TabPage();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.txtNewCategory = new System.Windows.Forms.TextBox();
-            this.cmboCategorise = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtNewCategory2 = new System.Windows.Forms.TextBox();
-            this.chkSkipNoCatChange = new System.Windows.Forms.CheckBox();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.txtAppendMessage = new System.Windows.Forms.TextBox();
-            this.chkAppend = new System.Windows.Forms.CheckBox();
-            this.rdoAppend = new System.Windows.Forms.RadioButton();
-            this.rdoPrepend = new System.Windows.Forms.RadioButton();
-            this.ImageGroupBox = new System.Windows.Forms.GroupBox();
-            this.cmboImages = new System.Windows.Forms.ComboBox();
-            this.txtImageReplace = new System.Windows.Forms.TextBox();
-            this.txtImageWith = new System.Windows.Forms.TextBox();
-            this.chkSkipNoImgChange = new System.Windows.Forms.CheckBox();
-            this.lblImageWith = new System.Windows.Forms.Label();
-            this.tpSetOptions = new System.Windows.Forms.TabPage();
-            this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.chkSkipIfContains = new System.Windows.Forms.CheckBox();
-            this.txtSkipIfNotContains = new System.Windows.Forms.TextBox();
-            this.txtSkipIfContains = new System.Windows.Forms.TextBox();
-            this.chkSkipIfNotContains = new System.Windows.Forms.CheckBox();
-            this.chkSkipIsRegex = new System.Windows.Forms.CheckBox();
-            this.chkSkipCaseSensitive = new System.Windows.Forms.CheckBox();
-            this.chkSkipNoChanges = new System.Windows.Forms.CheckBox();
-            this.chkSkipNonExistent = new System.Windows.Forms.CheckBox();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.chkGeneralFixes = new System.Windows.Forms.CheckBox();
-            this.chkAutoTagger = new System.Windows.Forms.CheckBox();
-            this.chkUnicodifyWhole = new System.Windows.Forms.CheckBox();
-            this.btnMoreSkip = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.chkFindandReplace = new System.Windows.Forms.CheckBox();
-            this.btnMoreFindAndReplce = new System.Windows.Forms.Button();
-            this.btnFindAndReplaceAdvanced = new System.Windows.Forms.Button();
-            this.chkSkipWhenNoFAR = new System.Windows.Forms.CheckBox();
-            this.btnSubst = new System.Windows.Forms.Button();
-            this.groupBox13 = new System.Windows.Forms.GroupBox();
-            this.chkRegExTypo = new System.Windows.Forms.CheckBox();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.chkSkipIfNoRegexTypo = new System.Windows.Forms.CheckBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.listMaker1 = new WikiFunctions.Lists.ListMaker();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            this.panel2.SuspendLayout();
-            this.toolStrip.SuspendLayout();
-            this.mnuWebBrowser.SuspendLayout();
-            this.mnuNotify.SuspendLayout();
-            this.panel1.SuspendLayout();
-            this.tabControl2.SuspendLayout();
-            this.tpLogs.SuspendLayout();
-            this.tpEdit.SuspendLayout();
-            this.tabControl1.SuspendLayout();
-            this.tpStart.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            this.groupBox9.SuspendLayout();
-            this.groupBox10.SuspendLayout();
-            this.tpBots.SuspendLayout();
-            this.groupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudBotSpeed)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.groupBox14.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudNudgeTime)).BeginInit();
-            this.tpDab.SuspendLayout();
-            this.panelDab.SuspendLayout();
-            this.groupBox11.SuspendLayout();
-            this.groupBox12.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.udContextChars)).BeginInit();
-            this.tpMoreOptions.SuspendLayout();
-            this.groupBox5.SuspendLayout();
-            this.groupBox4.SuspendLayout();
-            this.ImageGroupBox.SuspendLayout();
-            this.tpSetOptions.SuspendLayout();
-            this.groupBox8.SuspendLayout();
-            this.groupBox6.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.groupBox13.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tpSetOptions.SuspendLayout();
+            this.groupBox13.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            this.groupBox8.SuspendLayout();
+            this.tpMoreOptions.SuspendLayout();
+            this.ImageGroupBox.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            this.tpDab.SuspendLayout();
+            this.panelDab.SuspendLayout();
+            this.groupBox12.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.udContextChars)).BeginInit();
+            this.groupBox11.SuspendLayout();
+            this.tpBots.SuspendLayout();
+            this.groupBox14.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudNudgeTime)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.groupBox7.SuspendLayout();
+            this.tpStart.SuspendLayout();
+            this.groupBox10.SuspendLayout();
+            this.groupBox9.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.tabControl2.SuspendLayout();
+            this.tpEdit.SuspendLayout();
+            this.tpLogs.SuspendLayout();
+            this.toolStrip.SuspendLayout();
+            this.mnuWebBrowser.SuspendLayout();
+            this.mnuNotify.SuspendLayout();
             this.SuspendLayout();
             // 
             // mnuTextBox
@@ -1299,6 +1299,330 @@ namespace AutoWikiBrowser
             this.lblTimer.Text = "Timer: 0";
             this.lblTimer.Visible = false;
             // 
+            // btnIgnore
+            // 
+            this.btnIgnore.Enabled = false;
+            this.btnIgnore.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnIgnore.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnIgnore.Location = new System.Drawing.Point(164, 179);
+            this.btnIgnore.Name = "btnIgnore";
+            this.btnIgnore.Size = new System.Drawing.Size(102, 32);
+            this.btnIgnore.TabIndex = 14;
+            this.btnIgnore.Text = "Ignore";
+            this.toolTip1.SetToolTip(this.btnIgnore, "Ignore the current article and move on to the next  (Shortcut ctrl + i)");
+            this.btnIgnore.UseVisualStyleBackColor = true;
+            this.btnIgnore.Click += new System.EventHandler(this.btnIgnore_Click);
+            // 
+            // btnDiff
+            // 
+            this.btnDiff.Enabled = false;
+            this.btnDiff.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnDiff.Location = new System.Drawing.Point(164, 119);
+            this.btnDiff.Name = "btnDiff";
+            this.btnDiff.Size = new System.Drawing.Size(102, 23);
+            this.btnDiff.TabIndex = 16;
+            this.btnDiff.Text = "Show changes";
+            this.toolTip1.SetToolTip(this.btnDiff, "Show/refresh the diff (Shortcut ctrl + d)");
+            this.btnDiff.UseVisualStyleBackColor = true;
+            this.btnDiff.Click += new System.EventHandler(this.btnDiff_Click);
+            // 
+            // btnSave
+            // 
+            this.btnSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(255)))), ((int)(((byte)(220)))));
+            this.btnSave.Enabled = false;
+            this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSave.Location = new System.Drawing.Point(164, 214);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(102, 32);
+            this.btnSave.TabIndex = 10;
+            this.btnSave.Tag = "Apply all the changes";
+            this.btnSave.Text = "Save";
+            this.toolTip1.SetToolTip(this.btnSave, "Save the changes and move on  (Shortcut ctrl + s)");
+            this.btnSave.UseVisualStyleBackColor = false;
+            this.btnSave.Click += new System.EventHandler(this.btnApply_Click);
+            // 
+            // btnPreview
+            // 
+            this.btnPreview.Enabled = false;
+            this.btnPreview.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnPreview.Location = new System.Drawing.Point(164, 93);
+            this.btnPreview.Name = "btnPreview";
+            this.btnPreview.Size = new System.Drawing.Size(102, 23);
+            this.btnPreview.TabIndex = 15;
+            this.btnPreview.Text = "Preview";
+            this.toolTip1.SetToolTip(this.btnPreview, "Show/refresh the preview (Shortcut ctrl + e)");
+            this.btnPreview.UseVisualStyleBackColor = true;
+            this.btnPreview.Click += new System.EventHandler(this.btnPreview_Click);
+            // 
+            // btnStart
+            // 
+            this.btnStart.BackColor = System.Drawing.Color.Transparent;
+            this.btnStart.Enabled = false;
+            this.btnStart.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnStart.Location = new System.Drawing.Point(164, 33);
+            this.btnStart.Name = "btnStart";
+            this.btnStart.Size = new System.Drawing.Size(102, 23);
+            this.btnStart.TabIndex = 6;
+            this.btnStart.Tag = "Start the process";
+            this.btnStart.Text = "Start the process (Shortcut ctrl + s)";
+            this.toolTip1.SetToolTip(this.btnStart, "Start the process!");
+            this.btnStart.UseVisualStyleBackColor = false;
+            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
+            // 
+            // btnStop
+            // 
+            this.btnStop.BackColor = System.Drawing.Color.Transparent;
+            this.btnStop.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnStop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnStop.Location = new System.Drawing.Point(217, 59);
+            this.btnStop.Name = "btnStop";
+            this.btnStop.Size = new System.Drawing.Size(49, 21);
+            this.btnStop.TabIndex = 28;
+            this.btnStop.Text = "Stop";
+            this.toolTip1.SetToolTip(this.btnStop, "Stops everything  (Shortcut escape)");
+            this.btnStop.UseVisualStyleBackColor = false;
+            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
+            // 
+            // btnFind
+            // 
+            this.btnFind.Location = new System.Drawing.Point(55, 10);
+            this.btnFind.Name = "btnFind";
+            this.btnFind.Size = new System.Drawing.Size(49, 20);
+            this.btnFind.TabIndex = 25;
+            this.btnFind.Text = "Find";
+            this.toolTip1.SetToolTip(this.btnFind, "Finds occurances in the article text (Shortcut ctrl + f)");
+            this.btnFind.UseVisualStyleBackColor = true;
+            this.btnFind.Click += new System.EventHandler(this.btnFind_Click);
+            // 
+            // btnFalsePositive
+            // 
+            this.btnFalsePositive.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnFalsePositive.Location = new System.Drawing.Point(164, 59);
+            this.btnFalsePositive.Name = "btnFalsePositive";
+            this.btnFalsePositive.Size = new System.Drawing.Size(49, 21);
+            this.btnFalsePositive.TabIndex = 29;
+            this.btnFalsePositive.Text = "False";
+            this.toolTip1.SetToolTip(this.btnFalsePositive, "Add to false positives file");
+            this.btnFalsePositive.UseVisualStyleBackColor = true;
+            this.btnFalsePositive.Visible = false;
+            this.btnFalsePositive.Click += new System.EventHandler(this.btnFalsePositive_Click);
+            // 
+            // nudBotSpeed
+            // 
+            this.nudBotSpeed.Enabled = false;
+            this.nudBotSpeed.Location = new System.Drawing.Point(46, 45);
+            this.nudBotSpeed.Maximum = new decimal(new int[] {
+            5000,
+            0,
+            0,
+            0});
+            this.nudBotSpeed.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudBotSpeed.Name = "nudBotSpeed";
+            this.nudBotSpeed.Size = new System.Drawing.Size(51, 20);
+            this.nudBotSpeed.TabIndex = 23;
+            this.toolTip1.SetToolTip(this.nudBotSpeed, "Time in seconds between saves");
+            this.nudBotSpeed.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            // 
+            // chkQuickSave
+            // 
+            this.chkQuickSave.AutoSize = true;
+            this.chkQuickSave.Enabled = false;
+            this.chkQuickSave.Location = new System.Drawing.Point(106, 21);
+            this.chkQuickSave.Name = "chkQuickSave";
+            this.chkQuickSave.Size = new System.Drawing.Size(80, 17);
+            this.chkQuickSave.TabIndex = 27;
+            this.chkQuickSave.Text = "Quick save";
+            this.toolTip1.SetToolTip(this.chkQuickSave, "Saves without loading diff first");
+            this.chkQuickSave.UseVisualStyleBackColor = true;
+            // 
+            // txtNewCategory
+            // 
+            this.txtNewCategory.Enabled = false;
+            this.txtNewCategory.Location = new System.Drawing.Point(153, 16);
+            this.txtNewCategory.Name = "txtNewCategory";
+            this.txtNewCategory.Size = new System.Drawing.Size(107, 20);
+            this.txtNewCategory.TabIndex = 1;
+            this.toolTip1.SetToolTip(this.txtNewCategory, "The new category, the old one is specified when you make the list");
+            this.txtNewCategory.DoubleClick += new System.EventHandler(this.txtNewCategory_DoubleClick);
+            this.txtNewCategory.Leave += new System.EventHandler(this.txtNewCategory_Leave);
+            // 
+            // txtAppendMessage
+            // 
+            this.txtAppendMessage.Enabled = false;
+            this.txtAppendMessage.Location = new System.Drawing.Point(6, 38);
+            this.txtAppendMessage.Multiline = true;
+            this.txtAppendMessage.Name = "txtAppendMessage";
+            this.txtAppendMessage.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtAppendMessage.Size = new System.Drawing.Size(251, 97);
+            this.txtAppendMessage.TabIndex = 1;
+            this.toolTip1.SetToolTip(this.txtAppendMessage, "Message, including title in wiki format");
+            // 
+            // chkAppend
+            // 
+            this.chkAppend.AutoSize = true;
+            this.chkAppend.Location = new System.Drawing.Point(7, 16);
+            this.chkAppend.Name = "chkAppend";
+            this.chkAppend.Size = new System.Drawing.Size(65, 17);
+            this.chkAppend.TabIndex = 0;
+            this.chkAppend.Text = "Enabled";
+            this.toolTip1.SetToolTip(this.chkAppend, "For appending a message to a user talk page for example");
+            this.chkAppend.UseVisualStyleBackColor = true;
+            this.chkAppend.CheckedChanged += new System.EventHandler(this.chkAppend_CheckedChanged);
+            // 
+            // rdoAppend
+            // 
+            this.rdoAppend.AutoSize = true;
+            this.rdoAppend.Checked = true;
+            this.rdoAppend.Enabled = false;
+            this.rdoAppend.Location = new System.Drawing.Point(124, 15);
+            this.rdoAppend.Name = "rdoAppend";
+            this.rdoAppend.Size = new System.Drawing.Size(62, 17);
+            this.rdoAppend.TabIndex = 2;
+            this.rdoAppend.TabStop = true;
+            this.rdoAppend.Text = "Append";
+            this.toolTip1.SetToolTip(this.rdoAppend, "Add text to end of talk page");
+            this.rdoAppend.UseVisualStyleBackColor = true;
+            // 
+            // rdoPrepend
+            // 
+            this.rdoPrepend.AutoSize = true;
+            this.rdoPrepend.Enabled = false;
+            this.rdoPrepend.Location = new System.Drawing.Point(192, 15);
+            this.rdoPrepend.Name = "rdoPrepend";
+            this.rdoPrepend.Size = new System.Drawing.Size(65, 17);
+            this.rdoPrepend.TabIndex = 3;
+            this.rdoPrepend.Text = "Prepend";
+            this.toolTip1.SetToolTip(this.rdoPrepend, "Add text to beginning of talk page");
+            this.rdoPrepend.UseVisualStyleBackColor = true;
+            // 
+            // chkSkipIfContains
+            // 
+            this.chkSkipIfContains.AutoSize = true;
+            this.chkSkipIfContains.Location = new System.Drawing.Point(6, 19);
+            this.chkSkipIfContains.Name = "chkSkipIfContains";
+            this.chkSkipIfContains.Size = new System.Drawing.Size(101, 17);
+            this.chkSkipIfContains.TabIndex = 22;
+            this.chkSkipIfContains.Text = "Skip if contains:";
+            this.toolTip1.SetToolTip(this.chkSkipIfContains, "Skip articles that contain this text");
+            this.chkSkipIfContains.UseVisualStyleBackColor = true;
+            this.chkSkipIfContains.CheckedChanged += new System.EventHandler(this.chkIgnoreIfContains_CheckedChanged);
+            // 
+            // txtSkipIfNotContains
+            // 
+            this.txtSkipIfNotContains.Enabled = false;
+            this.txtSkipIfNotContains.Location = new System.Drawing.Point(142, 41);
+            this.txtSkipIfNotContains.Name = "txtSkipIfNotContains";
+            this.txtSkipIfNotContains.Size = new System.Drawing.Size(117, 20);
+            this.txtSkipIfNotContains.TabIndex = 6;
+            this.toolTip1.SetToolTip(this.txtSkipIfNotContains, "Skip articles that do not contain this text");
+            // 
+            // txtSkipIfContains
+            // 
+            this.txtSkipIfContains.Enabled = false;
+            this.txtSkipIfContains.Location = new System.Drawing.Point(142, 17);
+            this.txtSkipIfContains.Name = "txtSkipIfContains";
+            this.txtSkipIfContains.Size = new System.Drawing.Size(117, 20);
+            this.txtSkipIfContains.TabIndex = 23;
+            this.toolTip1.SetToolTip(this.txtSkipIfContains, "Skip articles that contain this text");
+            // 
+            // chkSkipIfNotContains
+            // 
+            this.chkSkipIfNotContains.AutoSize = true;
+            this.chkSkipIfNotContains.Location = new System.Drawing.Point(6, 43);
+            this.chkSkipIfNotContains.Name = "chkSkipIfNotContains";
+            this.chkSkipIfNotContains.Size = new System.Drawing.Size(133, 17);
+            this.chkSkipIfNotContains.TabIndex = 4;
+            this.chkSkipIfNotContains.Text = "Skip if doesn\'t contain:";
+            this.toolTip1.SetToolTip(this.chkSkipIfNotContains, "Skip articles that do not contain this text");
+            this.chkSkipIfNotContains.UseVisualStyleBackColor = true;
+            this.chkSkipIfNotContains.CheckedChanged += new System.EventHandler(this.chkOnlyIfContains_CheckedChanged);
+            // 
+            // chkSkipIsRegex
+            // 
+            this.chkSkipIsRegex.AutoSize = true;
+            this.chkSkipIsRegex.Location = new System.Drawing.Point(177, 66);
+            this.chkSkipIsRegex.Name = "chkSkipIsRegex";
+            this.chkSkipIsRegex.Size = new System.Drawing.Size(82, 17);
+            this.chkSkipIsRegex.TabIndex = 28;
+            this.chkSkipIsRegex.Text = "Are regexes";
+            this.toolTip1.SetToolTip(this.chkSkipIsRegex, "Enables regular expressions for the \"Skip if contains\".");
+            this.chkSkipIsRegex.UseVisualStyleBackColor = true;
+            // 
+            // chkSkipNoChanges
+            // 
+            this.chkSkipNoChanges.AutoSize = true;
+            this.chkSkipNoChanges.Location = new System.Drawing.Point(5, 85);
+            this.chkSkipNoChanges.Name = "chkSkipNoChanges";
+            this.chkSkipNoChanges.Size = new System.Drawing.Size(195, 17);
+            this.chkSkipNoChanges.TabIndex = 30;
+            this.chkSkipNoChanges.Text = "Skip articles when no change made";
+            this.toolTip1.SetToolTip(this.chkSkipNoChanges, "Automatically skips articles when no changes were automatically made");
+            this.chkSkipNoChanges.UseVisualStyleBackColor = true;
+            // 
+            // chkGeneralFixes
+            // 
+            this.chkGeneralFixes.AutoSize = true;
+            this.chkGeneralFixes.Checked = true;
+            this.chkGeneralFixes.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkGeneralFixes.Location = new System.Drawing.Point(6, 16);
+            this.chkGeneralFixes.Name = "chkGeneralFixes";
+            this.chkGeneralFixes.Size = new System.Drawing.Size(114, 17);
+            this.chkGeneralFixes.TabIndex = 11;
+            this.chkGeneralFixes.Tag = "Apply general minor fixes";
+            this.chkGeneralFixes.Text = "Apply general fixes";
+            this.toolTip1.SetToolTip(this.chkGeneralFixes, "Apply general minor fixes");
+            this.chkGeneralFixes.UseVisualStyleBackColor = true;
+            this.chkGeneralFixes.CheckedChanged += new System.EventHandler(this.chkGeneralParse_CheckedChanged);
+            // 
+            // chkAutoTagger
+            // 
+            this.chkAutoTagger.AutoSize = true;
+            this.chkAutoTagger.Checked = true;
+            this.chkAutoTagger.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkAutoTagger.Location = new System.Drawing.Point(152, 16);
+            this.chkAutoTagger.Name = "chkAutoTagger";
+            this.chkAutoTagger.Size = new System.Drawing.Size(66, 17);
+            this.chkAutoTagger.TabIndex = 27;
+            this.chkAutoTagger.Text = "Auto tag";
+            this.toolTip1.SetToolTip(this.chkAutoTagger, "Automatically add {{wikify}} and {{stub}} tags when appropriate");
+            this.chkAutoTagger.UseVisualStyleBackColor = true;
+            // 
+            // chkUnicodifyWhole
+            // 
+            this.chkUnicodifyWhole.AutoSize = true;
+            this.chkUnicodifyWhole.Checked = true;
+            this.chkUnicodifyWhole.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkUnicodifyWhole.Location = new System.Drawing.Point(6, 39);
+            this.chkUnicodifyWhole.Name = "chkUnicodifyWhole";
+            this.chkUnicodifyWhole.Size = new System.Drawing.Size(132, 17);
+            this.chkUnicodifyWhole.TabIndex = 27;
+            this.chkUnicodifyWhole.Text = "Unicodify whole article";
+            this.toolTip1.SetToolTip(this.chkUnicodifyWhole, "Converts all (with a couple of exceptions) HTML and URL encoded characters to uni" +
+                    "code");
+            this.chkUnicodifyWhole.UseVisualStyleBackColor = true;
+            // 
+            // chkFindandReplace
+            // 
+            this.chkFindandReplace.AutoSize = true;
+            this.chkFindandReplace.Location = new System.Drawing.Point(6, 19);
+            this.chkFindandReplace.Name = "chkFindandReplace";
+            this.chkFindandReplace.Size = new System.Drawing.Size(65, 17);
+            this.chkFindandReplace.TabIndex = 6;
+            this.chkFindandReplace.Text = "Enabled";
+            this.toolTip1.SetToolTip(this.chkFindandReplace, "Enable text find and replace.");
+            this.chkFindandReplace.UseVisualStyleBackColor = true;
+            this.chkFindandReplace.CheckedChanged += new System.EventHandler(this.chkFindandReplace_CheckedChanged);
+            // 
             // saveListDialog
             // 
             this.saveListDialog.DefaultExt = "txt";
@@ -1331,6 +1655,1183 @@ namespace AutoWikiBrowser
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(776, 390);
             this.panel2.TabIndex = 668;
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer1.Location = new System.Drawing.Point(3, 5);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.groupBox2);
+            this.splitContainer1.Panel1.Controls.Add(this.tabControl1);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.panel1);
+            this.splitContainer1.Size = new System.Drawing.Size(780, 380);
+            this.splitContainer1.SplitterDistance = 503;
+            this.splitContainer1.TabIndex = 671;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.listMaker1);
+            this.groupBox2.Location = new System.Drawing.Point(6, 3);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(210, 372);
+            this.groupBox2.TabIndex = 0;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "(1) Make list";
+            // 
+            // listMaker1
+            // 
+            this.listMaker1.ListFile = "";
+            this.listMaker1.Location = new System.Drawing.Point(3, 15);
+            this.listMaker1.Name = "listMaker1";
+            this.listMaker1.SelectedSource = WikiFunctions.Lists.SourceType.Category;
+            this.listMaker1.Size = new System.Drawing.Size(201, 351);
+            this.listMaker1.SourceText = "";
+            this.listMaker1.TabIndex = 0;
+            this.listMaker1.WikiStatus = false;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tpSetOptions);
+            this.tabControl1.Controls.Add(this.tpMoreOptions);
+            this.tabControl1.Controls.Add(this.tpDab);
+            this.tabControl1.Controls.Add(this.tpBots);
+            this.tabControl1.Controls.Add(this.tpStart);
+            this.tabControl1.HotTrack = true;
+            this.tabControl1.Location = new System.Drawing.Point(218, 3);
+            this.tabControl1.MinimumSize = new System.Drawing.Size(276, 0);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(286, 374);
+            this.tabControl1.TabIndex = 666;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
+            // 
+            // tpSetOptions
+            // 
+            this.tpSetOptions.Controls.Add(this.groupBox13);
+            this.tpSetOptions.Controls.Add(this.groupBox1);
+            this.tpSetOptions.Controls.Add(this.groupBox6);
+            this.tpSetOptions.Controls.Add(this.groupBox8);
+            this.tpSetOptions.Location = new System.Drawing.Point(4, 22);
+            this.tpSetOptions.Name = "tpSetOptions";
+            this.tpSetOptions.Padding = new System.Windows.Forms.Padding(3);
+            this.tpSetOptions.Size = new System.Drawing.Size(278, 348);
+            this.tpSetOptions.TabIndex = 0;
+            this.tpSetOptions.Text = "(2) Set options";
+            this.tpSetOptions.UseVisualStyleBackColor = true;
+            // 
+            // groupBox13
+            // 
+            this.groupBox13.Controls.Add(this.chkSkipIfNoRegexTypo);
+            this.groupBox13.Controls.Add(this.linkLabel1);
+            this.groupBox13.Controls.Add(this.chkRegExTypo);
+            this.groupBox13.Location = new System.Drawing.Point(6, 151);
+            this.groupBox13.Name = "groupBox13";
+            this.groupBox13.Size = new System.Drawing.Size(266, 58);
+            this.groupBox13.TabIndex = 31;
+            this.groupBox13.TabStop = false;
+            this.groupBox13.Text = "RegexTypoFix";
+            // 
+            // chkSkipIfNoRegexTypo
+            // 
+            this.chkSkipIfNoRegexTypo.AutoSize = true;
+            this.chkSkipIfNoRegexTypo.Enabled = false;
+            this.chkSkipIfNoRegexTypo.Location = new System.Drawing.Point(6, 36);
+            this.chkSkipIfNoRegexTypo.Name = "chkSkipIfNoRegexTypo";
+            this.chkSkipIfNoRegexTypo.Size = new System.Drawing.Size(170, 17);
+            this.chkSkipIfNoRegexTypo.TabIndex = 30;
+            this.chkSkipIfNoRegexTypo.Text = "Skip article when no typo fixed";
+            this.chkSkipIfNoRegexTypo.UseVisualStyleBackColor = true;
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(23, 17);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(111, 13);
+            this.linkLabel1.TabIndex = 29;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "Enable RegexTypoFix";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
+            // chkRegExTypo
+            // 
+            this.chkRegExTypo.AutoSize = true;
+            this.chkRegExTypo.Location = new System.Drawing.Point(6, 17);
+            this.chkRegExTypo.Name = "chkRegExTypo";
+            this.chkRegExTypo.Size = new System.Drawing.Size(15, 14);
+            this.chkRegExTypo.TabIndex = 28;
+            this.chkRegExTypo.UseVisualStyleBackColor = true;
+            this.chkRegExTypo.CheckedChanged += new System.EventHandler(this.chkRegExTypo_CheckedChanged);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.btnSubst);
+            this.groupBox1.Controls.Add(this.chkSkipWhenNoFAR);
+            this.groupBox1.Controls.Add(this.btnFindAndReplaceAdvanced);
+            this.groupBox1.Controls.Add(this.btnMoreFindAndReplce);
+            this.groupBox1.Controls.Add(this.chkFindandReplace);
+            this.groupBox1.Location = new System.Drawing.Point(6, 77);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(266, 68);
+            this.groupBox1.TabIndex = 15;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Find and replace";
+            // 
+            // btnSubst
+            // 
+            this.btnSubst.Enabled = false;
+            this.btnSubst.Location = new System.Drawing.Point(205, 15);
+            this.btnSubst.Name = "btnSubst";
+            this.btnSubst.Size = new System.Drawing.Size(55, 23);
+            this.btnSubst.TabIndex = 11;
+            this.btnSubst.Text = "subst:";
+            this.btnSubst.UseVisualStyleBackColor = true;
+            this.btnSubst.Click += new System.EventHandler(this.btnSubst_Click);
+            // 
+            // chkSkipWhenNoFAR
+            // 
+            this.chkSkipWhenNoFAR.AutoSize = true;
+            this.chkSkipWhenNoFAR.Checked = true;
+            this.chkSkipWhenNoFAR.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkSkipWhenNoFAR.Enabled = false;
+            this.chkSkipWhenNoFAR.Location = new System.Drawing.Point(6, 43);
+            this.chkSkipWhenNoFAR.Name = "chkSkipWhenNoFAR";
+            this.chkSkipWhenNoFAR.Size = new System.Drawing.Size(212, 17);
+            this.chkSkipWhenNoFAR.TabIndex = 10;
+            this.chkSkipWhenNoFAR.Text = "Skip article when no replacement made";
+            this.chkSkipWhenNoFAR.UseVisualStyleBackColor = true;
+            // 
+            // btnFindAndReplaceAdvanced
+            // 
+            this.btnFindAndReplaceAdvanced.Enabled = false;
+            this.btnFindAndReplaceAdvanced.Location = new System.Drawing.Point(132, 15);
+            this.btnFindAndReplaceAdvanced.Name = "btnFindAndReplaceAdvanced";
+            this.btnFindAndReplaceAdvanced.Size = new System.Drawing.Size(67, 23);
+            this.btnFindAndReplaceAdvanced.TabIndex = 9;
+            this.btnFindAndReplaceAdvanced.Text = "Advanced";
+            this.btnFindAndReplaceAdvanced.UseVisualStyleBackColor = true;
+            this.btnFindAndReplaceAdvanced.Click += new System.EventHandler(this.btnFindAndReplaceAdvanced_Click);
+            // 
+            // btnMoreFindAndReplce
+            // 
+            this.btnMoreFindAndReplce.Enabled = false;
+            this.btnMoreFindAndReplce.Location = new System.Drawing.Point(69, 15);
+            this.btnMoreFindAndReplce.Name = "btnMoreFindAndReplce";
+            this.btnMoreFindAndReplce.Size = new System.Drawing.Size(57, 23);
+            this.btnMoreFindAndReplce.TabIndex = 8;
+            this.btnMoreFindAndReplce.Text = "Normal";
+            this.btnMoreFindAndReplce.UseVisualStyleBackColor = true;
+            this.btnMoreFindAndReplce.Click += new System.EventHandler(this.btnMoreFindAndReplce_Click);
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.btnMoreSkip);
+            this.groupBox6.Controls.Add(this.chkUnicodifyWhole);
+            this.groupBox6.Controls.Add(this.chkAutoTagger);
+            this.groupBox6.Controls.Add(this.chkGeneralFixes);
+            this.groupBox6.Location = new System.Drawing.Point(6, 6);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(266, 67);
+            this.groupBox6.TabIndex = 17;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "General";
+            // 
+            // btnMoreSkip
+            // 
+            this.btnMoreSkip.Location = new System.Drawing.Point(152, 35);
+            this.btnMoreSkip.Name = "btnMoreSkip";
+            this.btnMoreSkip.Size = new System.Drawing.Size(82, 23);
+            this.btnMoreSkip.TabIndex = 32;
+            this.btnMoreSkip.Text = "Skip options";
+            this.btnMoreSkip.UseVisualStyleBackColor = true;
+            this.btnMoreSkip.Click += new System.EventHandler(this.btnMoreSkip_Click);
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.chkSkipNonExistent);
+            this.groupBox8.Controls.Add(this.chkSkipNoChanges);
+            this.groupBox8.Controls.Add(this.chkSkipCaseSensitive);
+            this.groupBox8.Controls.Add(this.chkSkipIsRegex);
+            this.groupBox8.Controls.Add(this.chkSkipIfNotContains);
+            this.groupBox8.Controls.Add(this.txtSkipIfContains);
+            this.groupBox8.Controls.Add(this.txtSkipIfNotContains);
+            this.groupBox8.Controls.Add(this.chkSkipIfContains);
+            this.groupBox8.Location = new System.Drawing.Point(6, 215);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(266, 130);
+            this.groupBox8.TabIndex = 27;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "General article skip options";
+            // 
+            // chkSkipNonExistent
+            // 
+            this.chkSkipNonExistent.AutoSize = true;
+            this.chkSkipNonExistent.Checked = true;
+            this.chkSkipNonExistent.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkSkipNonExistent.Location = new System.Drawing.Point(6, 107);
+            this.chkSkipNonExistent.Name = "chkSkipNonExistent";
+            this.chkSkipNonExistent.Size = new System.Drawing.Size(138, 17);
+            this.chkSkipNonExistent.TabIndex = 31;
+            this.chkSkipNonExistent.Text = "Skip non-existing pages";
+            this.chkSkipNonExistent.UseVisualStyleBackColor = true;
+            // 
+            // chkSkipCaseSensitive
+            // 
+            this.chkSkipCaseSensitive.AutoSize = true;
+            this.chkSkipCaseSensitive.Location = new System.Drawing.Point(77, 66);
+            this.chkSkipCaseSensitive.Name = "chkSkipCaseSensitive";
+            this.chkSkipCaseSensitive.Size = new System.Drawing.Size(94, 17);
+            this.chkSkipCaseSensitive.TabIndex = 29;
+            this.chkSkipCaseSensitive.Text = "Case sensitive";
+            this.chkSkipCaseSensitive.UseVisualStyleBackColor = true;
+            // 
+            // tpMoreOptions
+            // 
+            this.tpMoreOptions.Controls.Add(this.ImageGroupBox);
+            this.tpMoreOptions.Controls.Add(this.groupBox4);
+            this.tpMoreOptions.Controls.Add(this.groupBox5);
+            this.tpMoreOptions.Location = new System.Drawing.Point(4, 22);
+            this.tpMoreOptions.Name = "tpMoreOptions";
+            this.tpMoreOptions.Padding = new System.Windows.Forms.Padding(3);
+            this.tpMoreOptions.Size = new System.Drawing.Size(278, 348);
+            this.tpMoreOptions.TabIndex = 1;
+            this.tpMoreOptions.Text = "More...";
+            this.tpMoreOptions.UseVisualStyleBackColor = true;
+            // 
+            // ImageGroupBox
+            // 
+            this.ImageGroupBox.Controls.Add(this.lblImageWith);
+            this.ImageGroupBox.Controls.Add(this.chkSkipNoImgChange);
+            this.ImageGroupBox.Controls.Add(this.txtImageWith);
+            this.ImageGroupBox.Controls.Add(this.txtImageReplace);
+            this.ImageGroupBox.Controls.Add(this.cmboImages);
+            this.ImageGroupBox.Location = new System.Drawing.Point(6, 153);
+            this.ImageGroupBox.Name = "ImageGroupBox";
+            this.ImageGroupBox.Size = new System.Drawing.Size(266, 93);
+            this.ImageGroupBox.TabIndex = 27;
+            this.ImageGroupBox.TabStop = false;
+            this.ImageGroupBox.Text = "Images";
+            // 
+            // lblImageWith
+            // 
+            this.lblImageWith.AutoSize = true;
+            this.lblImageWith.Location = new System.Drawing.Point(81, 45);
+            this.lblImageWith.Name = "lblImageWith";
+            this.lblImageWith.Size = new System.Drawing.Size(63, 13);
+            this.lblImageWith.TabIndex = 4;
+            this.lblImageWith.Text = "With image:";
+            this.lblImageWith.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // chkSkipNoImgChange
+            // 
+            this.chkSkipNoImgChange.AutoSize = true;
+            this.chkSkipNoImgChange.Enabled = false;
+            this.chkSkipNoImgChange.Location = new System.Drawing.Point(7, 68);
+            this.chkSkipNoImgChange.Name = "chkSkipNoImgChange";
+            this.chkSkipNoImgChange.Size = new System.Drawing.Size(198, 17);
+            this.chkSkipNoImgChange.TabIndex = 3;
+            this.chkSkipNoImgChange.Text = "Skip article when no image changed";
+            this.chkSkipNoImgChange.UseVisualStyleBackColor = true;
+            // 
+            // txtImageWith
+            // 
+            this.txtImageWith.Enabled = false;
+            this.txtImageWith.Location = new System.Drawing.Point(150, 42);
+            this.txtImageWith.Name = "txtImageWith";
+            this.txtImageWith.Size = new System.Drawing.Size(107, 20);
+            this.txtImageWith.TabIndex = 2;
+            this.txtImageWith.Leave += new System.EventHandler(this.txtImageWith_Leave);
+            // 
+            // txtImageReplace
+            // 
+            this.txtImageReplace.Location = new System.Drawing.Point(150, 16);
+            this.txtImageReplace.Name = "txtImageReplace";
+            this.txtImageReplace.Size = new System.Drawing.Size(107, 20);
+            this.txtImageReplace.TabIndex = 1;
+            this.txtImageReplace.Leave += new System.EventHandler(this.txtImageReplace_Leave);
+            // 
+            // cmboImages
+            // 
+            this.cmboImages.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmboImages.FormattingEnabled = true;
+            this.cmboImages.Items.AddRange(new object[] {
+            "Choose a task...",
+            "Replace image:",
+            "Remove image:",
+            "Comment out image:"});
+            this.cmboImages.Location = new System.Drawing.Point(6, 16);
+            this.cmboImages.Name = "cmboImages";
+            this.cmboImages.Size = new System.Drawing.Size(138, 21);
+            this.cmboImages.TabIndex = 0;
+            this.cmboImages.SelectedIndexChanged += new System.EventHandler(this.cmboImages_SelectedIndexChanged);
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.rdoPrepend);
+            this.groupBox4.Controls.Add(this.rdoAppend);
+            this.groupBox4.Controls.Add(this.chkAppend);
+            this.groupBox4.Controls.Add(this.txtAppendMessage);
+            this.groupBox4.Location = new System.Drawing.Point(6, 6);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(266, 141);
+            this.groupBox4.TabIndex = 7;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Append/Prepend text";
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.chkSkipNoCatChange);
+            this.groupBox5.Controls.Add(this.txtNewCategory2);
+            this.groupBox5.Controls.Add(this.label1);
+            this.groupBox5.Controls.Add(this.cmboCategorise);
+            this.groupBox5.Controls.Add(this.txtNewCategory);
+            this.groupBox5.Location = new System.Drawing.Point(6, 252);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(266, 90);
+            this.groupBox5.TabIndex = 16;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Categories";
+            // 
+            // chkSkipNoCatChange
+            // 
+            this.chkSkipNoCatChange.AutoSize = true;
+            this.chkSkipNoCatChange.Enabled = false;
+            this.chkSkipNoCatChange.Location = new System.Drawing.Point(7, 68);
+            this.chkSkipNoCatChange.Name = "chkSkipNoCatChange";
+            this.chkSkipNoCatChange.Size = new System.Drawing.Size(211, 17);
+            this.chkSkipNoCatChange.TabIndex = 3;
+            this.chkSkipNoCatChange.Text = "Skip article when no category changed";
+            this.chkSkipNoCatChange.UseVisualStyleBackColor = true;
+            // 
+            // txtNewCategory2
+            // 
+            this.txtNewCategory2.Enabled = false;
+            this.txtNewCategory2.Location = new System.Drawing.Point(153, 42);
+            this.txtNewCategory2.Name = "txtNewCategory2";
+            this.txtNewCategory2.Size = new System.Drawing.Size(107, 20);
+            this.txtNewCategory2.TabIndex = 2;
+            this.txtNewCategory2.Leave += new System.EventHandler(this.txtNewCategory2_Leave);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(73, 45);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(0, 13);
+            this.label1.TabIndex = 4;
+            // 
+            // cmboCategorise
+            // 
+            this.cmboCategorise.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmboCategorise.FormattingEnabled = true;
+            this.cmboCategorise.Items.AddRange(new object[] {
+            "Choose a task...",
+            "Replace category:",
+            "Add category:",
+            "Remove category:"});
+            this.cmboCategorise.Location = new System.Drawing.Point(7, 16);
+            this.cmboCategorise.Name = "cmboCategorise";
+            this.cmboCategorise.Size = new System.Drawing.Size(140, 21);
+            this.cmboCategorise.TabIndex = 0;
+            this.cmboCategorise.SelectedIndexChanged += new System.EventHandler(this.cmboCategorise_SelectedIndexChanged);
+            // 
+            // tpDab
+            // 
+            this.tpDab.Controls.Add(this.panelDab);
+            this.tpDab.Controls.Add(this.chkEnableDab);
+            this.tpDab.Location = new System.Drawing.Point(4, 22);
+            this.tpDab.Name = "tpDab";
+            this.tpDab.Padding = new System.Windows.Forms.Padding(3);
+            this.tpDab.Size = new System.Drawing.Size(278, 348);
+            this.tpDab.TabIndex = 4;
+            this.tpDab.Text = "Disambig";
+            this.tpDab.UseVisualStyleBackColor = true;
+            // 
+            // panelDab
+            // 
+            this.panelDab.Controls.Add(this.groupBox12);
+            this.panelDab.Controls.Add(this.groupBox11);
+            this.panelDab.Enabled = false;
+            this.panelDab.Location = new System.Drawing.Point(6, 24);
+            this.panelDab.Name = "panelDab";
+            this.panelDab.Size = new System.Drawing.Size(266, 313);
+            this.panelDab.TabIndex = 1;
+            // 
+            // groupBox12
+            // 
+            this.groupBox12.Controls.Add(this.label5);
+            this.groupBox12.Controls.Add(this.udContextChars);
+            this.groupBox12.Controls.Add(this.label4);
+            this.groupBox12.Controls.Add(this.chkSkipNoDab);
+            this.groupBox12.Controls.Add(this.txtDabVariants);
+            this.groupBox12.Location = new System.Drawing.Point(3, 50);
+            this.groupBox12.Name = "groupBox12";
+            this.groupBox12.Size = new System.Drawing.Size(260, 263);
+            this.groupBox12.TabIndex = 10;
+            this.groupBox12.TabStop = false;
+            this.groupBox12.Text = "Variants";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(98, 242);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(110, 13);
+            this.label5.TabIndex = 9;
+            this.label5.Text = "characters for context";
+            // 
+            // udContextChars
+            // 
+            this.udContextChars.Location = new System.Drawing.Point(48, 240);
+            this.udContextChars.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.udContextChars.Name = "udContextChars";
+            this.udContextChars.Size = new System.Drawing.Size(44, 20);
+            this.udContextChars.TabIndex = 8;
+            this.udContextChars.Value = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 242);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(35, 13);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "Use ±";
+            // 
+            // chkSkipNoDab
+            // 
+            this.chkSkipNoDab.AutoSize = true;
+            this.chkSkipNoDab.Location = new System.Drawing.Point(6, 217);
+            this.chkSkipNoDab.Name = "chkSkipNoDab";
+            this.chkSkipNoDab.Size = new System.Drawing.Size(229, 17);
+            this.chkSkipNoDab.TabIndex = 6;
+            this.chkSkipNoDab.Text = "Skip article when no disambiguations made";
+            this.chkSkipNoDab.UseVisualStyleBackColor = true;
+            // 
+            // txtDabVariants
+            // 
+            this.txtDabVariants.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtDabVariants.Location = new System.Drawing.Point(6, 19);
+            this.txtDabVariants.Multiline = true;
+            this.txtDabVariants.Name = "txtDabVariants";
+            this.txtDabVariants.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtDabVariants.Size = new System.Drawing.Size(248, 192);
+            this.txtDabVariants.TabIndex = 5;
+            // 
+            // groupBox11
+            // 
+            this.groupBox11.Controls.Add(this.btnLoadLinks);
+            this.groupBox11.Controls.Add(this.txtDabLink);
+            this.groupBox11.Location = new System.Drawing.Point(3, 3);
+            this.groupBox11.Name = "groupBox11";
+            this.groupBox11.Size = new System.Drawing.Size(260, 41);
+            this.groupBox11.TabIndex = 9;
+            this.groupBox11.TabStop = false;
+            this.groupBox11.Text = "Link to disambiguate";
+            // 
+            // btnLoadLinks
+            // 
+            this.btnLoadLinks.Enabled = false;
+            this.btnLoadLinks.Location = new System.Drawing.Point(179, 13);
+            this.btnLoadLinks.Name = "btnLoadLinks";
+            this.btnLoadLinks.Size = new System.Drawing.Size(75, 23);
+            this.btnLoadLinks.TabIndex = 1;
+            this.btnLoadLinks.Text = "Load links";
+            this.btnLoadLinks.UseVisualStyleBackColor = true;
+            this.btnLoadLinks.Click += new System.EventHandler(this.btnLoadLinks_Click);
+            // 
+            // txtDabLink
+            // 
+            this.txtDabLink.Location = new System.Drawing.Point(6, 15);
+            this.txtDabLink.Name = "txtDabLink";
+            this.txtDabLink.Size = new System.Drawing.Size(167, 20);
+            this.txtDabLink.TabIndex = 0;
+            this.txtDabLink.Enter += new System.EventHandler(this.txtDabLink_Enter);
+            this.txtDabLink.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDabLink_KeyPress);
+            this.txtDabLink.TextChanged += new System.EventHandler(this.txtDabLink_TextChanged);
+            // 
+            // chkEnableDab
+            // 
+            this.chkEnableDab.AutoSize = true;
+            this.chkEnableDab.Location = new System.Drawing.Point(6, 6);
+            this.chkEnableDab.Name = "chkEnableDab";
+            this.chkEnableDab.Size = new System.Drawing.Size(132, 17);
+            this.chkEnableDab.TabIndex = 0;
+            this.chkEnableDab.Text = "Enable disambiguation";
+            this.chkEnableDab.UseVisualStyleBackColor = true;
+            this.chkEnableDab.CheckedChanged += new System.EventHandler(this.chkEnableDab_CheckedChanged);
+            // 
+            // tpBots
+            // 
+            this.tpBots.Controls.Add(this.lblOnlyBots);
+            this.tpBots.Controls.Add(this.groupBox14);
+            this.tpBots.Controls.Add(this.pictureBox1);
+            this.tpBots.Controls.Add(this.groupBox7);
+            this.tpBots.Location = new System.Drawing.Point(4, 22);
+            this.tpBots.Name = "tpBots";
+            this.tpBots.Padding = new System.Windows.Forms.Padding(3);
+            this.tpBots.Size = new System.Drawing.Size(278, 348);
+            this.tpBots.TabIndex = 5;
+            this.tpBots.Text = "Bots";
+            this.tpBots.UseVisualStyleBackColor = true;
+            // 
+            // lblOnlyBots
+            // 
+            this.lblOnlyBots.BackColor = System.Drawing.Color.Transparent;
+            this.lblOnlyBots.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
+            this.lblOnlyBots.Location = new System.Drawing.Point(1, 1);
+            this.lblOnlyBots.Name = "lblOnlyBots";
+            this.lblOnlyBots.Size = new System.Drawing.Size(276, 345);
+            this.lblOnlyBots.TabIndex = 35;
+            this.lblOnlyBots.Text = "Sorry, these options are only available for approved bots";
+            this.lblOnlyBots.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // groupBox14
+            // 
+            this.groupBox14.Controls.Add(this.chkNudgeSkip);
+            this.groupBox14.Controls.Add(this.btnResetNudges);
+            this.groupBox14.Controls.Add(this.label3);
+            this.groupBox14.Controls.Add(this.lblNudges);
+            this.groupBox14.Controls.Add(this.nudNudgeTime);
+            this.groupBox14.Controls.Add(this.chkNudge);
+            this.groupBox14.Location = new System.Drawing.Point(9, 112);
+            this.groupBox14.Name = "groupBox14";
+            this.groupBox14.Size = new System.Drawing.Size(263, 97);
+            this.groupBox14.TabIndex = 34;
+            this.groupBox14.TabStop = false;
+            this.groupBox14.Text = "\"Nudging\"";
+            // 
+            // chkNudgeSkip
+            // 
+            this.chkNudgeSkip.AutoSize = true;
+            this.chkNudgeSkip.Enabled = false;
+            this.chkNudgeSkip.Location = new System.Drawing.Point(9, 72);
+            this.chkNudgeSkip.Name = "chkNudgeSkip";
+            this.chkNudgeSkip.Size = new System.Drawing.Size(198, 17);
+            this.chkNudgeSkip.TabIndex = 35;
+            this.chkNudgeSkip.Text = "Skip article if first nudge doesn\'t help";
+            this.chkNudgeSkip.UseVisualStyleBackColor = true;
+            // 
+            // btnResetNudges
+            // 
+            this.btnResetNudges.Location = new System.Drawing.Point(130, 44);
+            this.btnResetNudges.Name = "btnResetNudges";
+            this.btnResetNudges.Size = new System.Drawing.Size(104, 22);
+            this.btnResetNudges.TabIndex = 34;
+            this.btnResetNudges.Text = "Reset counter";
+            this.btnResetNudges.UseVisualStyleBackColor = true;
+            this.btnResetNudges.Click += new System.EventHandler(this.btnResetNudges_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Enabled = false;
+            this.label3.Location = new System.Drawing.Point(183, 20);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(80, 13);
+            this.label3.TabIndex = 32;
+            this.label3.Text = "minutes if stuck";
+            // 
+            // lblNudges
+            // 
+            this.lblNudges.AutoSize = true;
+            this.lblNudges.Location = new System.Drawing.Point(26, 49);
+            this.lblNudges.Name = "lblNudges";
+            this.lblNudges.Size = new System.Drawing.Size(81, 13);
+            this.lblNudges.TabIndex = 33;
+            this.lblNudges.Text = "Total nudges: 0";
+            // 
+            // nudNudgeTime
+            // 
+            this.nudNudgeTime.Enabled = false;
+            this.nudNudgeTime.Location = new System.Drawing.Point(146, 18);
+            this.nudNudgeTime.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.nudNudgeTime.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudNudgeTime.Name = "nudNudgeTime";
+            this.nudNudgeTime.Size = new System.Drawing.Size(35, 20);
+            this.nudNudgeTime.TabIndex = 30;
+            this.nudNudgeTime.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.nudNudgeTime.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            // 
+            // chkNudge
+            // 
+            this.chkNudge.AutoSize = true;
+            this.chkNudge.Enabled = false;
+            this.chkNudge.Location = new System.Drawing.Point(9, 19);
+            this.chkNudge.Name = "chkNudge";
+            this.chkNudge.Size = new System.Drawing.Size(136, 17);
+            this.chkNudge.TabIndex = 29;
+            this.chkNudge.Text = "Resave (\"nudge\") after";
+            this.chkNudge.UseVisualStyleBackColor = true;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::AutoWikiBrowser.Properties.Resources.Bot_Image;
+            this.pictureBox1.Location = new System.Drawing.Point(87, 212);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(128, 130);
+            this.pictureBox1.TabIndex = 36;
+            this.pictureBox1.TabStop = false;
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.label2);
+            this.groupBox7.Controls.Add(this.chkSuppressTag);
+            this.groupBox7.Controls.Add(this.chkQuickSave);
+            this.groupBox7.Controls.Add(this.chkAutoMode);
+            this.groupBox7.Controls.Add(this.nudBotSpeed);
+            this.groupBox7.Controls.Add(this.lblAutoDelay);
+            this.groupBox7.Location = new System.Drawing.Point(9, 6);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(263, 100);
+            this.groupBox7.TabIndex = 27;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Auto save";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Enabled = false;
+            this.label2.Location = new System.Drawing.Point(103, 47);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(119, 13);
+            this.label2.TabIndex = 31;
+            this.label2.Text = "seconds between edits:";
+            // 
+            // chkSuppressTag
+            // 
+            this.chkSuppressTag.AutoSize = true;
+            this.chkSuppressTag.Enabled = false;
+            this.chkSuppressTag.Location = new System.Drawing.Point(9, 74);
+            this.chkSuppressTag.Name = "chkSuppressTag";
+            this.chkSuppressTag.Size = new System.Drawing.Size(211, 17);
+            this.chkSuppressTag.TabIndex = 28;
+            this.chkSuppressTag.Text = "Suppress \"using AWB\" in edit summary";
+            this.chkSuppressTag.UseVisualStyleBackColor = true;
+            // 
+            // chkAutoMode
+            // 
+            this.chkAutoMode.AutoSize = true;
+            this.chkAutoMode.Location = new System.Drawing.Point(9, 21);
+            this.chkAutoMode.Name = "chkAutoMode";
+            this.chkAutoMode.Size = new System.Drawing.Size(74, 17);
+            this.chkAutoMode.TabIndex = 26;
+            this.chkAutoMode.Text = "Auto save";
+            this.chkAutoMode.UseVisualStyleBackColor = true;
+            this.chkAutoMode.CheckedChanged += new System.EventHandler(this.chkAutoMode_CheckedChanged);
+            // 
+            // lblAutoDelay
+            // 
+            this.lblAutoDelay.AutoSize = true;
+            this.lblAutoDelay.Enabled = false;
+            this.lblAutoDelay.Location = new System.Drawing.Point(6, 47);
+            this.lblAutoDelay.Name = "lblAutoDelay";
+            this.lblAutoDelay.Size = new System.Drawing.Size(34, 13);
+            this.lblAutoDelay.TabIndex = 25;
+            this.lblAutoDelay.Text = "Delay";
+            // 
+            // tpStart
+            // 
+            this.tpStart.Controls.Add(this.lblSummary);
+            this.tpStart.Controls.Add(this.chkLock);
+            this.tpStart.Controls.Add(this.btnMove);
+            this.tpStart.Controls.Add(this.btnDelete);
+            this.tpStart.Controls.Add(this.btnFalsePositive);
+            this.tpStart.Controls.Add(this.groupBox10);
+            this.tpStart.Controls.Add(this.btnStop);
+            this.tpStart.Controls.Add(this.cmboEditSummary);
+            this.tpStart.Controls.Add(this.groupBox9);
+            this.tpStart.Controls.Add(this.label6);
+            this.tpStart.Controls.Add(this.groupBox3);
+            this.tpStart.Controls.Add(this.btnStart);
+            this.tpStart.Controls.Add(this.btnPreview);
+            this.tpStart.Controls.Add(this.btnSave);
+            this.tpStart.Controls.Add(this.btnDiff);
+            this.tpStart.Controls.Add(this.btnIgnore);
+            this.tpStart.Location = new System.Drawing.Point(4, 22);
+            this.tpStart.Name = "tpStart";
+            this.tpStart.Padding = new System.Windows.Forms.Padding(3);
+            this.tpStart.Size = new System.Drawing.Size(278, 348);
+            this.tpStart.TabIndex = 3;
+            this.tpStart.Text = "(3) Start";
+            this.tpStart.UseVisualStyleBackColor = true;
+            // 
+            // lblSummary
+            // 
+            this.lblSummary.AutoEllipsis = true;
+            this.lblSummary.AutoSize = true;
+            this.lblSummary.BackColor = System.Drawing.Color.Transparent;
+            this.lblSummary.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSummary.Location = new System.Drawing.Point(56, 9);
+            this.lblSummary.MaximumSize = new System.Drawing.Size(210, 13);
+            this.lblSummary.MinimumSize = new System.Drawing.Size(210, 13);
+            this.lblSummary.Name = "lblSummary";
+            this.lblSummary.Size = new System.Drawing.Size(210, 13);
+            this.lblSummary.TabIndex = 33;
+            this.lblSummary.Visible = false;
+            // 
+            // chkLock
+            // 
+            this.chkLock.AutoSize = true;
+            this.chkLock.Location = new System.Drawing.Point(55, 33);
+            this.chkLock.Name = "chkLock";
+            this.chkLock.Size = new System.Drawing.Size(94, 17);
+            this.chkLock.TabIndex = 32;
+            this.chkLock.Text = "Lock summary";
+            this.chkLock.UseVisualStyleBackColor = true;
+            this.chkLock.CheckedChanged += new System.EventHandler(this.chkLock_CheckedChanged);
+            // 
+            // btnMove
+            // 
+            this.btnMove.Enabled = false;
+            this.btnMove.Location = new System.Drawing.Point(164, 154);
+            this.btnMove.Name = "btnMove";
+            this.btnMove.Size = new System.Drawing.Size(49, 23);
+            this.btnMove.TabIndex = 31;
+            this.btnMove.Text = "Move";
+            this.btnMove.UseVisualStyleBackColor = true;
+            this.btnMove.Click += new System.EventHandler(this.btnMove_Click);
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.Enabled = false;
+            this.btnDelete.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.btnDelete.Location = new System.Drawing.Point(217, 154);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(49, 23);
+            this.btnDelete.TabIndex = 30;
+            this.btnDelete.Text = "Delete";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
+            // groupBox10
+            // 
+            this.groupBox10.Controls.Add(this.lblDone);
+            this.groupBox10.Controls.Add(this.chkFindCaseSensitive);
+            this.groupBox10.Controls.Add(this.btnFind);
+            this.groupBox10.Controls.Add(this.chkFindRegex);
+            this.groupBox10.Controls.Add(this.txtFind);
+            this.groupBox10.Location = new System.Drawing.Point(156, 249);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(110, 96);
+            this.groupBox10.TabIndex = 16;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "Find";
+            // 
+            // lblDone
+            // 
+            this.lblDone.AutoSize = true;
+            this.lblDone.Location = new System.Drawing.Point(6, 14);
+            this.lblDone.Name = "lblDone";
+            this.lblDone.Size = new System.Drawing.Size(0, 13);
+            this.lblDone.TabIndex = 31;
+            // 
+            // chkFindCaseSensitive
+            // 
+            this.chkFindCaseSensitive.AutoSize = true;
+            this.chkFindCaseSensitive.Location = new System.Drawing.Point(6, 75);
+            this.chkFindCaseSensitive.Name = "chkFindCaseSensitive";
+            this.chkFindCaseSensitive.Size = new System.Drawing.Size(94, 17);
+            this.chkFindCaseSensitive.TabIndex = 30;
+            this.chkFindCaseSensitive.Text = "Case sensitive";
+            this.chkFindCaseSensitive.UseVisualStyleBackColor = true;
+            this.chkFindCaseSensitive.CheckedChanged += new System.EventHandler(this.chkFindCaseSensitive_CheckedChanged);
+            // 
+            // chkFindRegex
+            // 
+            this.chkFindRegex.AutoSize = true;
+            this.chkFindRegex.Location = new System.Drawing.Point(6, 56);
+            this.chkFindRegex.Name = "chkFindRegex";
+            this.chkFindRegex.Size = new System.Drawing.Size(63, 17);
+            this.chkFindRegex.TabIndex = 29;
+            this.chkFindRegex.Text = "Is regex";
+            this.chkFindRegex.UseVisualStyleBackColor = true;
+            this.chkFindRegex.CheckedChanged += new System.EventHandler(this.chkFindRegex_CheckedChanged);
+            // 
+            // txtFind
+            // 
+            this.txtFind.Location = new System.Drawing.Point(6, 30);
+            this.txtFind.Name = "txtFind";
+            this.txtFind.Size = new System.Drawing.Size(98, 20);
+            this.txtFind.TabIndex = 26;
+            this.txtFind.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFind_KeyPress);
+            this.txtFind.TextChanged += new System.EventHandler(this.txtFind_TextChanged);
+            // 
+            // cmboEditSummary
+            // 
+            this.cmboEditSummary.DropDownHeight = 198;
+            this.cmboEditSummary.DropDownWidth = 400;
+            this.cmboEditSummary.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmboEditSummary.FormattingEnabled = true;
+            this.cmboEditSummary.IntegralHeight = false;
+            this.cmboEditSummary.Items.AddRange(new object[] {
+            "clean up",
+            "re-categorisation per [[WP:CFD|CFD]]",
+            "clean up and  re-categorisation per [[WP:CFD|CFD]]",
+            "removing category per [[WP:CFD|CFD]]",
+            "[[Wikipedia:Template substitution|subst:\'ing]]",
+            "[[Wikipedia:WikiProject Stub sorting|stub sorting]]",
+            "[[WP:AWB/T|Typo fixing]]",
+            "bad link repair",
+            "Fixing [[Wikipedia:Disambiguation pages with links|links to disambiguation pages]" +
+                "]",
+            "Unicodifying"});
+            this.cmboEditSummary.Location = new System.Drawing.Point(55, 6);
+            this.cmboEditSummary.MaxLength = 155;
+            this.cmboEditSummary.Name = "cmboEditSummary";
+            this.cmboEditSummary.Size = new System.Drawing.Size(210, 21);
+            this.cmboEditSummary.TabIndex = 7;
+            this.cmboEditSummary.Text = "clean up";
+            this.cmboEditSummary.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmboEditSummary_MouseMove);
+            this.cmboEditSummary.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmbEditSummary_KeyDown);
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.btnRemove);
+            this.groupBox9.Controls.Add(this.lbDuplicateWikilinks);
+            this.groupBox9.Controls.Add(this.lblDuplicateWikilinks);
+            this.groupBox9.Controls.Add(this.lblWarn);
+            this.groupBox9.Location = new System.Drawing.Point(10, 163);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(139, 182);
+            this.groupBox9.TabIndex = 24;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "Alerts";
+            // 
+            // btnRemove
+            // 
+            this.btnRemove.Location = new System.Drawing.Point(8, 160);
+            this.btnRemove.Name = "btnRemove";
+            this.btnRemove.Size = new System.Drawing.Size(125, 22);
+            this.btnRemove.TabIndex = 29;
+            this.btnRemove.Text = "Remove link";
+            this.btnRemove.UseVisualStyleBackColor = true;
+            this.btnRemove.Visible = false;
+            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
+            // 
+            // lbDuplicateWikilinks
+            // 
+            this.lbDuplicateWikilinks.FormattingEnabled = true;
+            this.lbDuplicateWikilinks.Location = new System.Drawing.Point(7, 89);
+            this.lbDuplicateWikilinks.Name = "lbDuplicateWikilinks";
+            this.lbDuplicateWikilinks.Size = new System.Drawing.Size(127, 69);
+            this.lbDuplicateWikilinks.TabIndex = 27;
+            this.lbDuplicateWikilinks.Visible = false;
+            this.lbDuplicateWikilinks.Click += new System.EventHandler(this.lbDuplicateWikilinks_Click);
+            // 
+            // lblDuplicateWikilinks
+            // 
+            this.lblDuplicateWikilinks.AutoSize = true;
+            this.lblDuplicateWikilinks.ForeColor = System.Drawing.Color.Red;
+            this.lblDuplicateWikilinks.Location = new System.Drawing.Point(5, 73);
+            this.lblDuplicateWikilinks.Name = "lblDuplicateWikilinks";
+            this.lblDuplicateWikilinks.Size = new System.Drawing.Size(91, 13);
+            this.lblDuplicateWikilinks.TabIndex = 28;
+            this.lblDuplicateWikilinks.Text = "Multiple wiki-links:";
+            this.lblDuplicateWikilinks.Visible = false;
+            // 
+            // lblWarn
+            // 
+            this.lblWarn.ForeColor = System.Drawing.Color.Red;
+            this.lblWarn.Location = new System.Drawing.Point(6, 14);
+            this.lblWarn.Name = "lblWarn";
+            this.lblWarn.Size = new System.Drawing.Size(127, 59);
+            this.lblWarn.TabIndex = 23;
+            // 
+            // label6
+            // 
+            this.label6.Location = new System.Drawing.Point(0, 9);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(56, 18);
+            this.label6.TabIndex = 20;
+            this.label6.Text = "Summary:";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.lblWords);
+            this.groupBox3.Controls.Add(this.lblInterLinks);
+            this.groupBox3.Controls.Add(this.lblCats);
+            this.groupBox3.Controls.Add(this.lblImages);
+            this.groupBox3.Controls.Add(this.lblLinks);
+            this.groupBox3.Location = new System.Drawing.Point(10, 56);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(139, 101);
+            this.groupBox3.TabIndex = 23;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Article statistics";
+            // 
+            // lblWords
+            // 
+            this.lblWords.AutoSize = true;
+            this.lblWords.Location = new System.Drawing.Point(6, 18);
+            this.lblWords.Name = "lblWords";
+            this.lblWords.Size = new System.Drawing.Size(41, 13);
+            this.lblWords.TabIndex = 17;
+            this.lblWords.Text = "Words:";
+            // 
+            // lblInterLinks
+            // 
+            this.lblInterLinks.AutoSize = true;
+            this.lblInterLinks.Location = new System.Drawing.Point(5, 86);
+            this.lblInterLinks.Name = "lblInterLinks";
+            this.lblInterLinks.Size = new System.Drawing.Size(73, 13);
+            this.lblInterLinks.TabIndex = 22;
+            this.lblInterLinks.Text = "Interwiki links:";
+            // 
+            // lblCats
+            // 
+            this.lblCats.AutoSize = true;
+            this.lblCats.Location = new System.Drawing.Point(5, 69);
+            this.lblCats.Name = "lblCats";
+            this.lblCats.Size = new System.Drawing.Size(60, 13);
+            this.lblCats.TabIndex = 18;
+            this.lblCats.Text = "Categories:";
+            // 
+            // lblImages
+            // 
+            this.lblImages.AutoSize = true;
+            this.lblImages.Location = new System.Drawing.Point(6, 52);
+            this.lblImages.Name = "lblImages";
+            this.lblImages.Size = new System.Drawing.Size(44, 13);
+            this.lblImages.TabIndex = 19;
+            this.lblImages.Text = "Images:";
+            // 
+            // lblLinks
+            // 
+            this.lblLinks.AutoSize = true;
+            this.lblLinks.Location = new System.Drawing.Point(6, 35);
+            this.lblLinks.Name = "lblLinks";
+            this.lblLinks.Size = new System.Drawing.Size(35, 13);
+            this.lblLinks.TabIndex = 20;
+            this.lblLinks.Text = "Links:";
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.tabControl2);
+            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(269, 372);
+            this.panel1.TabIndex = 9;
+            // 
+            // tabControl2
+            // 
+            this.tabControl2.Controls.Add(this.tpEdit);
+            this.tabControl2.Controls.Add(this.tpLogs);
+            this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl2.Location = new System.Drawing.Point(0, 0);
+            this.tabControl2.Name = "tabControl2";
+            this.tabControl2.SelectedIndex = 0;
+            this.tabControl2.Size = new System.Drawing.Size(269, 372);
+            this.tabControl2.TabIndex = 1;
+            // 
+            // tpEdit
+            // 
+            this.tpEdit.Controls.Add(this.txtEdit);
+            this.tpEdit.Location = new System.Drawing.Point(4, 22);
+            this.tpEdit.Name = "tpEdit";
+            this.tpEdit.Padding = new System.Windows.Forms.Padding(3);
+            this.tpEdit.Size = new System.Drawing.Size(261, 346);
+            this.tpEdit.TabIndex = 0;
+            this.tpEdit.Text = "Edit box";
+            this.tpEdit.UseVisualStyleBackColor = true;
+            // 
+            // txtEdit
+            // 
+            this.txtEdit.AcceptsReturn = true;
+            this.txtEdit.AcceptsTab = true;
+            this.txtEdit.ContextMenuStrip = this.mnuTextBox;
+            this.txtEdit.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtEdit.Font = new System.Drawing.Font("Courier New", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtEdit.Location = new System.Drawing.Point(3, 3);
+            this.txtEdit.MaxLength = 0;
+            this.txtEdit.Multiline = true;
+            this.txtEdit.Name = "txtEdit";
+            this.txtEdit.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtEdit.Size = new System.Drawing.Size(255, 340);
+            this.txtEdit.TabIndex = 0;
+            this.txtEdit.TextChanged += new System.EventHandler(this.txtEdit_TextChanged);
+            // 
+            // tpLogs
+            // 
+            this.tpLogs.Controls.Add(this.lvIgnored);
+            this.tpLogs.Controls.Add(this.lvSaved);
+            this.tpLogs.Controls.Add(this.btnAddToList);
+            this.tpLogs.Controls.Add(this.btnClearIgnored);
+            this.tpLogs.Controls.Add(this.btnSaveIgnored);
+            this.tpLogs.Controls.Add(this.btnClearSaved);
+            this.tpLogs.Controls.Add(this.btnSaveSaved);
+            this.tpLogs.Controls.Add(this.label8);
+            this.tpLogs.Controls.Add(this.label7);
+            this.tpLogs.Location = new System.Drawing.Point(4, 22);
+            this.tpLogs.Name = "tpLogs";
+            this.tpLogs.Padding = new System.Windows.Forms.Padding(3);
+            this.tpLogs.Size = new System.Drawing.Size(261, 346);
+            this.tpLogs.TabIndex = 1;
+            this.tpLogs.Text = "View log";
+            this.tpLogs.UseVisualStyleBackColor = true;
+            // 
+            // lvIgnored
+            // 
+            this.lvIgnored.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lvIgnored.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colIgnoreArticle,
+            this.colIgnoreTime,
+            this.colSkippedBy,
+            this.colSkipReason});
+            this.lvIgnored.Location = new System.Drawing.Point(9, 202);
+            this.lvIgnored.Name = "lvIgnored";
+            this.lvIgnored.ShowItemToolTips = true;
+            this.lvIgnored.Size = new System.Drawing.Size(243, 108);
+            this.lvIgnored.TabIndex = 12;
+            this.lvIgnored.UseCompatibleStateImageBehavior = false;
+            this.lvIgnored.View = System.Windows.Forms.View.Details;
+            this.lvIgnored.DoubleClick += new System.EventHandler(this.LogLists_DoubleClick);
+            // 
+            // colIgnoreArticle
+            // 
+            this.colIgnoreArticle.Text = "Article";
+            this.colIgnoreArticle.Width = 48;
+            // 
+            // colIgnoreTime
+            // 
+            this.colIgnoreTime.Text = "Time";
+            this.colIgnoreTime.Width = 42;
+            // 
+            // colSkippedBy
+            // 
+            this.colSkippedBy.Text = "Skipped By";
+            this.colSkippedBy.Width = 70;
+            // 
+            // colSkipReason
+            // 
+            this.colSkipReason.Text = "Skip Reason";
+            this.colSkipReason.Width = 81;
+            // 
+            // lvSaved
+            // 
+            this.lvSaved.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lvSaved.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colSuccessSave,
+            this.colSuccessTime});
+            this.lvSaved.Location = new System.Drawing.Point(9, 22);
+            this.lvSaved.Name = "lvSaved";
+            this.lvSaved.ShowItemToolTips = true;
+            this.lvSaved.Size = new System.Drawing.Size(243, 115);
+            this.lvSaved.TabIndex = 11;
+            this.lvSaved.UseCompatibleStateImageBehavior = false;
+            this.lvSaved.View = System.Windows.Forms.View.Details;
+            this.lvSaved.DoubleClick += new System.EventHandler(this.LogLists_DoubleClick);
+            // 
+            // colSuccessSave
+            // 
+            this.colSuccessSave.Text = "Article";
+            this.colSuccessSave.Width = 171;
+            // 
+            // colSuccessTime
+            // 
+            this.colSuccessTime.Text = "Time";
+            // 
+            // btnAddToList
+            // 
+            this.btnAddToList.Location = new System.Drawing.Point(143, 316);
+            this.btnAddToList.Name = "btnAddToList";
+            this.btnAddToList.Size = new System.Drawing.Size(112, 24);
+            this.btnAddToList.TabIndex = 8;
+            this.btnAddToList.Text = "Add to article list";
+            this.btnAddToList.UseVisualStyleBackColor = true;
+            this.btnAddToList.Click += new System.EventHandler(this.btnAddtoList_Click);
+            // 
+            // btnClearIgnored
+            // 
+            this.btnClearIgnored.Location = new System.Drawing.Point(87, 316);
+            this.btnClearIgnored.Name = "btnClearIgnored";
+            this.btnClearIgnored.Size = new System.Drawing.Size(50, 24);
+            this.btnClearIgnored.TabIndex = 7;
+            this.btnClearIgnored.Text = "Clear";
+            this.btnClearIgnored.UseVisualStyleBackColor = true;
+            this.btnClearIgnored.Click += new System.EventHandler(this.btnClearIgnored_Click);
+            // 
+            // btnSaveIgnored
+            // 
+            this.btnSaveIgnored.Location = new System.Drawing.Point(6, 316);
+            this.btnSaveIgnored.Name = "btnSaveIgnored";
+            this.btnSaveIgnored.Size = new System.Drawing.Size(75, 24);
+            this.btnSaveIgnored.TabIndex = 6;
+            this.btnSaveIgnored.Text = "Save log";
+            this.btnSaveIgnored.UseVisualStyleBackColor = true;
+            this.btnSaveIgnored.Click += new System.EventHandler(this.btnSaveIgnored_Click);
+            // 
+            // btnClearSaved
+            // 
+            this.btnClearSaved.Location = new System.Drawing.Point(87, 149);
+            this.btnClearSaved.Name = "btnClearSaved";
+            this.btnClearSaved.Size = new System.Drawing.Size(75, 24);
+            this.btnClearSaved.TabIndex = 5;
+            this.btnClearSaved.Text = "Clear";
+            this.btnClearSaved.UseVisualStyleBackColor = true;
+            this.btnClearSaved.Click += new System.EventHandler(this.btnClearSaved_Click);
+            // 
+            // btnSaveSaved
+            // 
+            this.btnSaveSaved.Location = new System.Drawing.Point(6, 149);
+            this.btnSaveSaved.Name = "btnSaveSaved";
+            this.btnSaveSaved.Size = new System.Drawing.Size(75, 24);
+            this.btnSaveSaved.TabIndex = 4;
+            this.btnSaveSaved.Text = "Save log";
+            this.btnSaveSaved.UseVisualStyleBackColor = true;
+            this.btnSaveSaved.Click += new System.EventHandler(this.btnSaveSaved_Click);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 186);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(49, 13);
+            this.label8.TabIndex = 3;
+            this.label8.Text = "Skipped:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 6);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(101, 13);
+            this.label7.TabIndex = 1;
+            this.label7.Text = "Successfully saved:";
             // 
             // toolStrip
             // 
@@ -1537,7 +3038,8 @@ namespace AutoWikiBrowser
             // 
             // webBrowserEdit
             // 
-            this.webBrowserEdit.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.webBrowserEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.webBrowserEdit.ArticleText = "";
             this.webBrowserEdit.Busy = false;
@@ -1565,1507 +3067,6 @@ namespace AutoWikiBrowser
             this.EditBoxSaveTimer.Interval = 1000;
             this.EditBoxSaveTimer.Tick += new System.EventHandler(this.EditBoxSaveTimer_Tick);
             // 
-            // panel1
-            // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.Controls.Add(this.tabControl2);
-            this.panel1.Location = new System.Drawing.Point(3, 3);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(269, 372);
-            this.panel1.TabIndex = 9;
-            // 
-            // tabControl2
-            // 
-            this.tabControl2.Controls.Add(this.tpEdit);
-            this.tabControl2.Controls.Add(this.tpLogs);
-            this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl2.Location = new System.Drawing.Point(0, 0);
-            this.tabControl2.Name = "tabControl2";
-            this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(269, 372);
-            this.tabControl2.TabIndex = 1;
-            // 
-            // tpLogs
-            // 
-            this.tpLogs.Controls.Add(this.lvIgnored);
-            this.tpLogs.Controls.Add(this.lvSaved);
-            this.tpLogs.Controls.Add(this.btnAddToList);
-            this.tpLogs.Controls.Add(this.btnClearIgnored);
-            this.tpLogs.Controls.Add(this.btnSaveIgnored);
-            this.tpLogs.Controls.Add(this.btnClearSaved);
-            this.tpLogs.Controls.Add(this.btnSaveSaved);
-            this.tpLogs.Controls.Add(this.label8);
-            this.tpLogs.Controls.Add(this.label7);
-            this.tpLogs.Location = new System.Drawing.Point(4, 22);
-            this.tpLogs.Name = "tpLogs";
-            this.tpLogs.Padding = new System.Windows.Forms.Padding(3);
-            this.tpLogs.Size = new System.Drawing.Size(261, 346);
-            this.tpLogs.TabIndex = 1;
-            this.tpLogs.Text = "View log";
-            this.tpLogs.UseVisualStyleBackColor = true;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 6);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(101, 13);
-            this.label7.TabIndex = 1;
-            this.label7.Text = "Successfully saved:";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 186);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(49, 13);
-            this.label8.TabIndex = 3;
-            this.label8.Text = "Skipped:";
-            // 
-            // btnSaveSaved
-            // 
-            this.btnSaveSaved.Location = new System.Drawing.Point(6, 149);
-            this.btnSaveSaved.Name = "btnSaveSaved";
-            this.btnSaveSaved.Size = new System.Drawing.Size(75, 24);
-            this.btnSaveSaved.TabIndex = 4;
-            this.btnSaveSaved.Text = "Save log";
-            this.btnSaveSaved.UseVisualStyleBackColor = true;
-            this.btnSaveSaved.Click += new System.EventHandler(this.btnSaveSaved_Click);
-            // 
-            // btnClearSaved
-            // 
-            this.btnClearSaved.Location = new System.Drawing.Point(87, 149);
-            this.btnClearSaved.Name = "btnClearSaved";
-            this.btnClearSaved.Size = new System.Drawing.Size(75, 24);
-            this.btnClearSaved.TabIndex = 5;
-            this.btnClearSaved.Text = "Clear";
-            this.btnClearSaved.UseVisualStyleBackColor = true;
-            this.btnClearSaved.Click += new System.EventHandler(this.btnClearSaved_Click);
-            // 
-            // btnSaveIgnored
-            // 
-            this.btnSaveIgnored.Location = new System.Drawing.Point(6, 316);
-            this.btnSaveIgnored.Name = "btnSaveIgnored";
-            this.btnSaveIgnored.Size = new System.Drawing.Size(75, 24);
-            this.btnSaveIgnored.TabIndex = 6;
-            this.btnSaveIgnored.Text = "Save log";
-            this.btnSaveIgnored.UseVisualStyleBackColor = true;
-            this.btnSaveIgnored.Click += new System.EventHandler(this.btnSaveIgnored_Click);
-            // 
-            // btnClearIgnored
-            // 
-            this.btnClearIgnored.Location = new System.Drawing.Point(87, 316);
-            this.btnClearIgnored.Name = "btnClearIgnored";
-            this.btnClearIgnored.Size = new System.Drawing.Size(50, 24);
-            this.btnClearIgnored.TabIndex = 7;
-            this.btnClearIgnored.Text = "Clear";
-            this.btnClearIgnored.UseVisualStyleBackColor = true;
-            this.btnClearIgnored.Click += new System.EventHandler(this.btnClearIgnored_Click);
-            // 
-            // btnAddToList
-            // 
-            this.btnAddToList.Location = new System.Drawing.Point(143, 316);
-            this.btnAddToList.Name = "btnAddToList";
-            this.btnAddToList.Size = new System.Drawing.Size(112, 24);
-            this.btnAddToList.TabIndex = 8;
-            this.btnAddToList.Text = "Add to article list";
-            this.btnAddToList.UseVisualStyleBackColor = true;
-            this.btnAddToList.Click += new System.EventHandler(this.btnAddtoList_Click);
-            // 
-            // lvSaved
-            // 
-            this.lvSaved.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.lvSaved.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.colSuccessSave,
-            this.colSuccessTime});
-            this.lvSaved.Location = new System.Drawing.Point(9, 22);
-            this.lvSaved.Name = "lvSaved";
-            this.lvSaved.ShowItemToolTips = true;
-            this.lvSaved.Size = new System.Drawing.Size(243, 115);
-            this.lvSaved.TabIndex = 11;
-            this.lvSaved.UseCompatibleStateImageBehavior = false;
-            this.lvSaved.View = System.Windows.Forms.View.Details;
-            this.lvSaved.DoubleClick += new System.EventHandler(this.LogLists_DoubleClick);
-            // 
-            // colSuccessSave
-            // 
-            this.colSuccessSave.Text = "Article";
-            this.colSuccessSave.Width = 171;
-            // 
-            // colSuccessTime
-            // 
-            this.colSuccessTime.Text = "Time";
-            // 
-            // lvIgnored
-            // 
-            this.lvIgnored.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.lvIgnored.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.colIgnoreArticle,
-            this.colIgnoreTime,
-            this.colSkippedBy,
-            this.colSkipReason});
-            this.lvIgnored.Location = new System.Drawing.Point(9, 202);
-            this.lvIgnored.Name = "lvIgnored";
-            this.lvIgnored.ShowItemToolTips = true;
-            this.lvIgnored.Size = new System.Drawing.Size(243, 108);
-            this.lvIgnored.TabIndex = 12;
-            this.lvIgnored.UseCompatibleStateImageBehavior = false;
-            this.lvIgnored.View = System.Windows.Forms.View.Details;
-            this.lvIgnored.DoubleClick += new System.EventHandler(this.LogLists_DoubleClick);
-            // 
-            // colIgnoreArticle
-            // 
-            this.colIgnoreArticle.Text = "Article";
-            this.colIgnoreArticle.Width = 48;
-            // 
-            // colIgnoreTime
-            // 
-            this.colIgnoreTime.Text = "Time";
-            this.colIgnoreTime.Width = 42;
-            // 
-            // colSkippedBy
-            // 
-            this.colSkippedBy.Text = "Skipped By";
-            this.colSkippedBy.Width = 70;
-            // 
-            // colSkipReason
-            // 
-            this.colSkipReason.Text = "Skip Reason";
-            this.colSkipReason.Width = 81;
-            // 
-            // tpEdit
-            // 
-            this.tpEdit.Controls.Add(this.txtEdit);
-            this.tpEdit.Location = new System.Drawing.Point(4, 22);
-            this.tpEdit.Name = "tpEdit";
-            this.tpEdit.Padding = new System.Windows.Forms.Padding(3);
-            this.tpEdit.Size = new System.Drawing.Size(261, 346);
-            this.tpEdit.TabIndex = 0;
-            this.tpEdit.Text = "Edit box";
-            this.tpEdit.UseVisualStyleBackColor = true;
-            // 
-            // txtEdit
-            // 
-            this.txtEdit.AcceptsReturn = true;
-            this.txtEdit.AcceptsTab = true;
-            this.txtEdit.ContextMenuStrip = this.mnuTextBox;
-            this.txtEdit.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtEdit.Font = new System.Drawing.Font("Courier New", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtEdit.Location = new System.Drawing.Point(3, 3);
-            this.txtEdit.MaxLength = 0;
-            this.txtEdit.Multiline = true;
-            this.txtEdit.Name = "txtEdit";
-            this.txtEdit.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtEdit.Size = new System.Drawing.Size(255, 340);
-            this.txtEdit.TabIndex = 0;
-            this.txtEdit.TextChanged += new System.EventHandler(this.txtEdit_TextChanged);
-            // 
-            // tabControl1
-            // 
-            this.tabControl1.Controls.Add(this.tpSetOptions);
-            this.tabControl1.Controls.Add(this.tpMoreOptions);
-            this.tabControl1.Controls.Add(this.tpDab);
-            this.tabControl1.Controls.Add(this.tpBots);
-            this.tabControl1.Controls.Add(this.tpStart);
-            this.tabControl1.HotTrack = true;
-            this.tabControl1.Location = new System.Drawing.Point(218, 3);
-            this.tabControl1.MinimumSize = new System.Drawing.Size(276, 0);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(286, 374);
-            this.tabControl1.TabIndex = 666;
-            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
-            // 
-            // tpStart
-            // 
-            this.tpStart.Controls.Add(this.lblSummary);
-            this.tpStart.Controls.Add(this.chkLock);
-            this.tpStart.Controls.Add(this.btnMove);
-            this.tpStart.Controls.Add(this.btnDelete);
-            this.tpStart.Controls.Add(this.btnFalsePositive);
-            this.tpStart.Controls.Add(this.groupBox10);
-            this.tpStart.Controls.Add(this.btnStop);
-            this.tpStart.Controls.Add(this.cmboEditSummary);
-            this.tpStart.Controls.Add(this.groupBox9);
-            this.tpStart.Controls.Add(this.label6);
-            this.tpStart.Controls.Add(this.groupBox3);
-            this.tpStart.Controls.Add(this.btnStart);
-            this.tpStart.Controls.Add(this.btnPreview);
-            this.tpStart.Controls.Add(this.btnSave);
-            this.tpStart.Controls.Add(this.btnDiff);
-            this.tpStart.Controls.Add(this.btnIgnore);
-            this.tpStart.Location = new System.Drawing.Point(4, 22);
-            this.tpStart.Name = "tpStart";
-            this.tpStart.Padding = new System.Windows.Forms.Padding(3);
-            this.tpStart.Size = new System.Drawing.Size(278, 348);
-            this.tpStart.TabIndex = 3;
-            this.tpStart.Text = "(3) Start";
-            this.tpStart.UseVisualStyleBackColor = true;
-            // 
-            // btnIgnore
-            // 
-            this.btnIgnore.Enabled = false;
-            this.btnIgnore.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnIgnore.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnIgnore.Location = new System.Drawing.Point(164, 179);
-            this.btnIgnore.Name = "btnIgnore";
-            this.btnIgnore.Size = new System.Drawing.Size(102, 32);
-            this.btnIgnore.TabIndex = 14;
-            this.btnIgnore.Text = "Ignore";
-            this.toolTip1.SetToolTip(this.btnIgnore, "Ignore the current article and move on to the next  (Shortcut ctrl + i)");
-            this.btnIgnore.UseVisualStyleBackColor = true;
-            this.btnIgnore.Click += new System.EventHandler(this.btnIgnore_Click);
-            // 
-            // btnDiff
-            // 
-            this.btnDiff.Enabled = false;
-            this.btnDiff.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnDiff.Location = new System.Drawing.Point(164, 119);
-            this.btnDiff.Name = "btnDiff";
-            this.btnDiff.Size = new System.Drawing.Size(102, 23);
-            this.btnDiff.TabIndex = 16;
-            this.btnDiff.Text = "Show changes";
-            this.toolTip1.SetToolTip(this.btnDiff, "Show/refresh the diff (Shortcut ctrl + d)");
-            this.btnDiff.UseVisualStyleBackColor = true;
-            this.btnDiff.Click += new System.EventHandler(this.btnDiff_Click);
-            // 
-            // btnSave
-            // 
-            this.btnSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(255)))), ((int)(((byte)(220)))));
-            this.btnSave.Enabled = false;
-            this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSave.Location = new System.Drawing.Point(164, 214);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(102, 32);
-            this.btnSave.TabIndex = 10;
-            this.btnSave.Tag = "Apply all the changes";
-            this.btnSave.Text = "Save";
-            this.toolTip1.SetToolTip(this.btnSave, "Save the changes and move on  (Shortcut ctrl + s)");
-            this.btnSave.UseVisualStyleBackColor = false;
-            this.btnSave.Click += new System.EventHandler(this.btnApply_Click);
-            // 
-            // btnPreview
-            // 
-            this.btnPreview.Enabled = false;
-            this.btnPreview.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnPreview.Location = new System.Drawing.Point(164, 93);
-            this.btnPreview.Name = "btnPreview";
-            this.btnPreview.Size = new System.Drawing.Size(102, 23);
-            this.btnPreview.TabIndex = 15;
-            this.btnPreview.Text = "Preview";
-            this.toolTip1.SetToolTip(this.btnPreview, "Show/refresh the preview (Shortcut ctrl + e)");
-            this.btnPreview.UseVisualStyleBackColor = true;
-            this.btnPreview.Click += new System.EventHandler(this.btnPreview_Click);
-            // 
-            // btnStart
-            // 
-            this.btnStart.BackColor = System.Drawing.Color.Transparent;
-            this.btnStart.Enabled = false;
-            this.btnStart.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnStart.Location = new System.Drawing.Point(164, 33);
-            this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(102, 23);
-            this.btnStart.TabIndex = 6;
-            this.btnStart.Tag = "Start the process";
-            this.btnStart.Text = "Start the process (Shortcut ctrl + s)";
-            this.toolTip1.SetToolTip(this.btnStart, "Start the process!");
-            this.btnStart.UseVisualStyleBackColor = false;
-            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.lblWords);
-            this.groupBox3.Controls.Add(this.lblInterLinks);
-            this.groupBox3.Controls.Add(this.lblCats);
-            this.groupBox3.Controls.Add(this.lblImages);
-            this.groupBox3.Controls.Add(this.lblLinks);
-            this.groupBox3.Location = new System.Drawing.Point(10, 56);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(139, 101);
-            this.groupBox3.TabIndex = 23;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Article statistics";
-            // 
-            // lblLinks
-            // 
-            this.lblLinks.AutoSize = true;
-            this.lblLinks.Location = new System.Drawing.Point(6, 35);
-            this.lblLinks.Name = "lblLinks";
-            this.lblLinks.Size = new System.Drawing.Size(35, 13);
-            this.lblLinks.TabIndex = 20;
-            this.lblLinks.Text = "Links:";
-            // 
-            // lblImages
-            // 
-            this.lblImages.AutoSize = true;
-            this.lblImages.Location = new System.Drawing.Point(6, 52);
-            this.lblImages.Name = "lblImages";
-            this.lblImages.Size = new System.Drawing.Size(44, 13);
-            this.lblImages.TabIndex = 19;
-            this.lblImages.Text = "Images:";
-            // 
-            // lblCats
-            // 
-            this.lblCats.AutoSize = true;
-            this.lblCats.Location = new System.Drawing.Point(5, 69);
-            this.lblCats.Name = "lblCats";
-            this.lblCats.Size = new System.Drawing.Size(60, 13);
-            this.lblCats.TabIndex = 18;
-            this.lblCats.Text = "Categories:";
-            // 
-            // lblInterLinks
-            // 
-            this.lblInterLinks.AutoSize = true;
-            this.lblInterLinks.Location = new System.Drawing.Point(5, 86);
-            this.lblInterLinks.Name = "lblInterLinks";
-            this.lblInterLinks.Size = new System.Drawing.Size(73, 13);
-            this.lblInterLinks.TabIndex = 22;
-            this.lblInterLinks.Text = "Interwiki links:";
-            // 
-            // lblWords
-            // 
-            this.lblWords.AutoSize = true;
-            this.lblWords.Location = new System.Drawing.Point(6, 18);
-            this.lblWords.Name = "lblWords";
-            this.lblWords.Size = new System.Drawing.Size(41, 13);
-            this.lblWords.TabIndex = 17;
-            this.lblWords.Text = "Words:";
-            // 
-            // label6
-            // 
-            this.label6.Location = new System.Drawing.Point(0, 9);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(56, 18);
-            this.label6.TabIndex = 20;
-            this.label6.Text = "Summary:";
-            // 
-            // groupBox9
-            // 
-            this.groupBox9.Controls.Add(this.btnRemove);
-            this.groupBox9.Controls.Add(this.lbDuplicateWikilinks);
-            this.groupBox9.Controls.Add(this.lblDuplicateWikilinks);
-            this.groupBox9.Controls.Add(this.lblWarn);
-            this.groupBox9.Location = new System.Drawing.Point(10, 163);
-            this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(139, 182);
-            this.groupBox9.TabIndex = 24;
-            this.groupBox9.TabStop = false;
-            this.groupBox9.Text = "Alerts";
-            // 
-            // lblWarn
-            // 
-            this.lblWarn.ForeColor = System.Drawing.Color.Red;
-            this.lblWarn.Location = new System.Drawing.Point(6, 14);
-            this.lblWarn.Name = "lblWarn";
-            this.lblWarn.Size = new System.Drawing.Size(127, 59);
-            this.lblWarn.TabIndex = 23;
-            // 
-            // lblDuplicateWikilinks
-            // 
-            this.lblDuplicateWikilinks.AutoSize = true;
-            this.lblDuplicateWikilinks.ForeColor = System.Drawing.Color.Red;
-            this.lblDuplicateWikilinks.Location = new System.Drawing.Point(5, 73);
-            this.lblDuplicateWikilinks.Name = "lblDuplicateWikilinks";
-            this.lblDuplicateWikilinks.Size = new System.Drawing.Size(91, 13);
-            this.lblDuplicateWikilinks.TabIndex = 28;
-            this.lblDuplicateWikilinks.Text = "Multiple wiki-links:";
-            this.lblDuplicateWikilinks.Visible = false;
-            // 
-            // lbDuplicateWikilinks
-            // 
-            this.lbDuplicateWikilinks.FormattingEnabled = true;
-            this.lbDuplicateWikilinks.Location = new System.Drawing.Point(7, 89);
-            this.lbDuplicateWikilinks.Name = "lbDuplicateWikilinks";
-            this.lbDuplicateWikilinks.Size = new System.Drawing.Size(127, 69);
-            this.lbDuplicateWikilinks.TabIndex = 27;
-            this.lbDuplicateWikilinks.Visible = false;
-            this.lbDuplicateWikilinks.Click += new System.EventHandler(this.lbDuplicateWikilinks_Click);
-            // 
-            // btnRemove
-            // 
-            this.btnRemove.Location = new System.Drawing.Point(8, 160);
-            this.btnRemove.Name = "btnRemove";
-            this.btnRemove.Size = new System.Drawing.Size(125, 22);
-            this.btnRemove.TabIndex = 29;
-            this.btnRemove.Text = "Remove link";
-            this.btnRemove.UseVisualStyleBackColor = true;
-            this.btnRemove.Visible = false;
-            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
-            // 
-            // cmboEditSummary
-            // 
-            this.cmboEditSummary.DropDownHeight = 198;
-            this.cmboEditSummary.DropDownWidth = 400;
-            this.cmboEditSummary.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmboEditSummary.FormattingEnabled = true;
-            this.cmboEditSummary.IntegralHeight = false;
-            this.cmboEditSummary.Items.AddRange(new object[] {
-            "clean up",
-            "re-categorisation per [[WP:CFD|CFD]]",
-            "clean up and  re-categorisation per [[WP:CFD|CFD]]",
-            "removing category per [[WP:CFD|CFD]]",
-            "[[Wikipedia:Template substitution|subst:\'ing]]",
-            "[[Wikipedia:WikiProject Stub sorting|stub sorting]]",
-            "[[WP:AWB/T|Typo fixing]]",
-            "bad link repair",
-            "Fixing [[Wikipedia:Disambiguation pages with links|links to disambiguation pages]" +
-                "]",
-            "Unicodifying"});
-            this.cmboEditSummary.Location = new System.Drawing.Point(55, 6);
-            this.cmboEditSummary.MaxLength = 155;
-            this.cmboEditSummary.Name = "cmboEditSummary";
-            this.cmboEditSummary.Size = new System.Drawing.Size(210, 21);
-            this.cmboEditSummary.TabIndex = 7;
-            this.cmboEditSummary.Text = "clean up";
-            this.cmboEditSummary.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmboEditSummary_MouseMove);
-            this.cmboEditSummary.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmbEditSummary_KeyDown);
-            // 
-            // btnStop
-            // 
-            this.btnStop.BackColor = System.Drawing.Color.Transparent;
-            this.btnStop.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnStop.Location = new System.Drawing.Point(217, 59);
-            this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(49, 21);
-            this.btnStop.TabIndex = 28;
-            this.btnStop.Text = "Stop";
-            this.toolTip1.SetToolTip(this.btnStop, "Stops everything  (Shortcut escape)");
-            this.btnStop.UseVisualStyleBackColor = false;
-            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
-            // 
-            // groupBox10
-            // 
-            this.groupBox10.Controls.Add(this.lblDone);
-            this.groupBox10.Controls.Add(this.chkFindCaseSensitive);
-            this.groupBox10.Controls.Add(this.btnFind);
-            this.groupBox10.Controls.Add(this.chkFindRegex);
-            this.groupBox10.Controls.Add(this.txtFind);
-            this.groupBox10.Location = new System.Drawing.Point(156, 249);
-            this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(110, 96);
-            this.groupBox10.TabIndex = 16;
-            this.groupBox10.TabStop = false;
-            this.groupBox10.Text = "Find";
-            // 
-            // txtFind
-            // 
-            this.txtFind.Location = new System.Drawing.Point(6, 30);
-            this.txtFind.Name = "txtFind";
-            this.txtFind.Size = new System.Drawing.Size(98, 20);
-            this.txtFind.TabIndex = 26;
-            this.txtFind.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFind_KeyPress);
-            this.txtFind.TextChanged += new System.EventHandler(this.txtFind_TextChanged);
-            // 
-            // chkFindRegex
-            // 
-            this.chkFindRegex.AutoSize = true;
-            this.chkFindRegex.Location = new System.Drawing.Point(6, 56);
-            this.chkFindRegex.Name = "chkFindRegex";
-            this.chkFindRegex.Size = new System.Drawing.Size(63, 17);
-            this.chkFindRegex.TabIndex = 29;
-            this.chkFindRegex.Text = "Is regex";
-            this.chkFindRegex.UseVisualStyleBackColor = true;
-            this.chkFindRegex.CheckedChanged += new System.EventHandler(this.chkFindRegex_CheckedChanged);
-            // 
-            // btnFind
-            // 
-            this.btnFind.Location = new System.Drawing.Point(55, 10);
-            this.btnFind.Name = "btnFind";
-            this.btnFind.Size = new System.Drawing.Size(49, 20);
-            this.btnFind.TabIndex = 25;
-            this.btnFind.Text = "Find";
-            this.toolTip1.SetToolTip(this.btnFind, "Finds occurances in the article text (Shortcut ctrl + f)");
-            this.btnFind.UseVisualStyleBackColor = true;
-            this.btnFind.Click += new System.EventHandler(this.btnFind_Click);
-            // 
-            // chkFindCaseSensitive
-            // 
-            this.chkFindCaseSensitive.AutoSize = true;
-            this.chkFindCaseSensitive.Location = new System.Drawing.Point(6, 75);
-            this.chkFindCaseSensitive.Name = "chkFindCaseSensitive";
-            this.chkFindCaseSensitive.Size = new System.Drawing.Size(94, 17);
-            this.chkFindCaseSensitive.TabIndex = 30;
-            this.chkFindCaseSensitive.Text = "Case sensitive";
-            this.chkFindCaseSensitive.UseVisualStyleBackColor = true;
-            this.chkFindCaseSensitive.CheckedChanged += new System.EventHandler(this.chkFindCaseSensitive_CheckedChanged);
-            // 
-            // lblDone
-            // 
-            this.lblDone.AutoSize = true;
-            this.lblDone.Location = new System.Drawing.Point(6, 14);
-            this.lblDone.Name = "lblDone";
-            this.lblDone.Size = new System.Drawing.Size(0, 13);
-            this.lblDone.TabIndex = 31;
-            // 
-            // btnFalsePositive
-            // 
-            this.btnFalsePositive.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnFalsePositive.Location = new System.Drawing.Point(164, 59);
-            this.btnFalsePositive.Name = "btnFalsePositive";
-            this.btnFalsePositive.Size = new System.Drawing.Size(49, 21);
-            this.btnFalsePositive.TabIndex = 29;
-            this.btnFalsePositive.Text = "False";
-            this.toolTip1.SetToolTip(this.btnFalsePositive, "Add to false positives file");
-            this.btnFalsePositive.UseVisualStyleBackColor = true;
-            this.btnFalsePositive.Visible = false;
-            this.btnFalsePositive.Click += new System.EventHandler(this.btnFalsePositive_Click);
-            // 
-            // btnDelete
-            // 
-            this.btnDelete.Enabled = false;
-            this.btnDelete.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnDelete.Location = new System.Drawing.Point(217, 154);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(49, 23);
-            this.btnDelete.TabIndex = 30;
-            this.btnDelete.Text = "Delete";
-            this.btnDelete.UseVisualStyleBackColor = true;
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-            // 
-            // btnMove
-            // 
-            this.btnMove.Enabled = false;
-            this.btnMove.Location = new System.Drawing.Point(164, 154);
-            this.btnMove.Name = "btnMove";
-            this.btnMove.Size = new System.Drawing.Size(49, 23);
-            this.btnMove.TabIndex = 31;
-            this.btnMove.Text = "Move";
-            this.btnMove.UseVisualStyleBackColor = true;
-            this.btnMove.Click += new System.EventHandler(this.btnMove_Click);
-            // 
-            // chkLock
-            // 
-            this.chkLock.AutoSize = true;
-            this.chkLock.Location = new System.Drawing.Point(55, 33);
-            this.chkLock.Name = "chkLock";
-            this.chkLock.Size = new System.Drawing.Size(94, 17);
-            this.chkLock.TabIndex = 32;
-            this.chkLock.Text = "Lock summary";
-            this.chkLock.UseVisualStyleBackColor = true;
-            this.chkLock.CheckedChanged += new System.EventHandler(this.chkLock_CheckedChanged);
-            // 
-            // lblSummary
-            // 
-            this.lblSummary.AutoEllipsis = true;
-            this.lblSummary.AutoSize = true;
-            this.lblSummary.BackColor = System.Drawing.Color.Transparent;
-            this.lblSummary.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSummary.Location = new System.Drawing.Point(56, 9);
-            this.lblSummary.MaximumSize = new System.Drawing.Size(210, 13);
-            this.lblSummary.MinimumSize = new System.Drawing.Size(210, 13);
-            this.lblSummary.Name = "lblSummary";
-            this.lblSummary.Size = new System.Drawing.Size(210, 13);
-            this.lblSummary.TabIndex = 33;
-            this.lblSummary.Visible = false;
-            // 
-            // tpBots
-            // 
-            this.tpBots.Controls.Add(this.lblOnlyBots);
-            this.tpBots.Controls.Add(this.groupBox14);
-            this.tpBots.Controls.Add(this.pictureBox1);
-            this.tpBots.Controls.Add(this.groupBox7);
-            this.tpBots.Location = new System.Drawing.Point(4, 22);
-            this.tpBots.Name = "tpBots";
-            this.tpBots.Padding = new System.Windows.Forms.Padding(3);
-            this.tpBots.Size = new System.Drawing.Size(278, 348);
-            this.tpBots.TabIndex = 5;
-            this.tpBots.Text = "Bots";
-            this.tpBots.UseVisualStyleBackColor = true;
-            // 
-            // groupBox7
-            // 
-            this.groupBox7.Controls.Add(this.label2);
-            this.groupBox7.Controls.Add(this.chkSuppressTag);
-            this.groupBox7.Controls.Add(this.chkQuickSave);
-            this.groupBox7.Controls.Add(this.chkAutoMode);
-            this.groupBox7.Controls.Add(this.nudBotSpeed);
-            this.groupBox7.Controls.Add(this.lblAutoDelay);
-            this.groupBox7.Location = new System.Drawing.Point(9, 6);
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(263, 100);
-            this.groupBox7.TabIndex = 27;
-            this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "Auto save";
-            // 
-            // lblAutoDelay
-            // 
-            this.lblAutoDelay.AutoSize = true;
-            this.lblAutoDelay.Enabled = false;
-            this.lblAutoDelay.Location = new System.Drawing.Point(6, 47);
-            this.lblAutoDelay.Name = "lblAutoDelay";
-            this.lblAutoDelay.Size = new System.Drawing.Size(34, 13);
-            this.lblAutoDelay.TabIndex = 25;
-            this.lblAutoDelay.Text = "Delay";
-            // 
-            // nudBotSpeed
-            // 
-            this.nudBotSpeed.Enabled = false;
-            this.nudBotSpeed.Location = new System.Drawing.Point(46, 45);
-            this.nudBotSpeed.Maximum = new decimal(new int[] {
-            5000,
-            0,
-            0,
-            0});
-            this.nudBotSpeed.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nudBotSpeed.Name = "nudBotSpeed";
-            this.nudBotSpeed.Size = new System.Drawing.Size(51, 20);
-            this.nudBotSpeed.TabIndex = 23;
-            this.toolTip1.SetToolTip(this.nudBotSpeed, "Time in seconds between saves");
-            this.nudBotSpeed.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            // 
-            // chkAutoMode
-            // 
-            this.chkAutoMode.AutoSize = true;
-            this.chkAutoMode.Location = new System.Drawing.Point(9, 21);
-            this.chkAutoMode.Name = "chkAutoMode";
-            this.chkAutoMode.Size = new System.Drawing.Size(74, 17);
-            this.chkAutoMode.TabIndex = 26;
-            this.chkAutoMode.Text = "Auto save";
-            this.chkAutoMode.UseVisualStyleBackColor = true;
-            this.chkAutoMode.CheckedChanged += new System.EventHandler(this.chkAutoMode_CheckedChanged);
-            // 
-            // chkQuickSave
-            // 
-            this.chkQuickSave.AutoSize = true;
-            this.chkQuickSave.Enabled = false;
-            this.chkQuickSave.Location = new System.Drawing.Point(106, 21);
-            this.chkQuickSave.Name = "chkQuickSave";
-            this.chkQuickSave.Size = new System.Drawing.Size(80, 17);
-            this.chkQuickSave.TabIndex = 27;
-            this.chkQuickSave.Text = "Quick save";
-            this.toolTip1.SetToolTip(this.chkQuickSave, "Saves without loading diff first");
-            this.chkQuickSave.UseVisualStyleBackColor = true;
-            // 
-            // chkSuppressTag
-            // 
-            this.chkSuppressTag.AutoSize = true;
-            this.chkSuppressTag.Enabled = false;
-            this.chkSuppressTag.Location = new System.Drawing.Point(9, 74);
-            this.chkSuppressTag.Name = "chkSuppressTag";
-            this.chkSuppressTag.Size = new System.Drawing.Size(211, 17);
-            this.chkSuppressTag.TabIndex = 28;
-            this.chkSuppressTag.Text = "Suppress \"using AWB\" in edit summary";
-            this.chkSuppressTag.UseVisualStyleBackColor = true;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Enabled = false;
-            this.label2.Location = new System.Drawing.Point(103, 47);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(119, 13);
-            this.label2.TabIndex = 31;
-            this.label2.Text = "seconds between edits:";
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::AutoWikiBrowser.Properties.Resources.Bot_Image;
-            this.pictureBox1.Location = new System.Drawing.Point(87, 212);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(128, 130);
-            this.pictureBox1.TabIndex = 36;
-            this.pictureBox1.TabStop = false;
-            // 
-            // groupBox14
-            // 
-            this.groupBox14.Controls.Add(this.chkNudgeSkip);
-            this.groupBox14.Controls.Add(this.btnResetNudges);
-            this.groupBox14.Controls.Add(this.label3);
-            this.groupBox14.Controls.Add(this.lblNudges);
-            this.groupBox14.Controls.Add(this.nudNudgeTime);
-            this.groupBox14.Controls.Add(this.chkNudge);
-            this.groupBox14.Location = new System.Drawing.Point(9, 112);
-            this.groupBox14.Name = "groupBox14";
-            this.groupBox14.Size = new System.Drawing.Size(263, 97);
-            this.groupBox14.TabIndex = 34;
-            this.groupBox14.TabStop = false;
-            this.groupBox14.Text = "\"Nudging\"";
-            // 
-            // chkNudge
-            // 
-            this.chkNudge.AutoSize = true;
-            this.chkNudge.Enabled = false;
-            this.chkNudge.Location = new System.Drawing.Point(9, 19);
-            this.chkNudge.Name = "chkNudge";
-            this.chkNudge.Size = new System.Drawing.Size(136, 17);
-            this.chkNudge.TabIndex = 29;
-            this.chkNudge.Text = "Resave (\"nudge\") after";
-            this.chkNudge.UseVisualStyleBackColor = true;
-            // 
-            // nudNudgeTime
-            // 
-            this.nudNudgeTime.Enabled = false;
-            this.nudNudgeTime.Location = new System.Drawing.Point(146, 18);
-            this.nudNudgeTime.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.nudNudgeTime.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nudNudgeTime.Name = "nudNudgeTime";
-            this.nudNudgeTime.Size = new System.Drawing.Size(35, 20);
-            this.nudNudgeTime.TabIndex = 30;
-            this.nudNudgeTime.Value = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            this.nudNudgeTime.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
-            // 
-            // lblNudges
-            // 
-            this.lblNudges.AutoSize = true;
-            this.lblNudges.Location = new System.Drawing.Point(26, 49);
-            this.lblNudges.Name = "lblNudges";
-            this.lblNudges.Size = new System.Drawing.Size(81, 13);
-            this.lblNudges.TabIndex = 33;
-            this.lblNudges.Text = "Total nudges: 0";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Enabled = false;
-            this.label3.Location = new System.Drawing.Point(183, 20);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(80, 13);
-            this.label3.TabIndex = 32;
-            this.label3.Text = "minutes if stuck";
-            // 
-            // btnResetNudges
-            // 
-            this.btnResetNudges.Location = new System.Drawing.Point(130, 44);
-            this.btnResetNudges.Name = "btnResetNudges";
-            this.btnResetNudges.Size = new System.Drawing.Size(104, 22);
-            this.btnResetNudges.TabIndex = 34;
-            this.btnResetNudges.Text = "Reset counter";
-            this.btnResetNudges.UseVisualStyleBackColor = true;
-            this.btnResetNudges.Click += new System.EventHandler(this.btnResetNudges_Click);
-            // 
-            // chkNudgeSkip
-            // 
-            this.chkNudgeSkip.AutoSize = true;
-            this.chkNudgeSkip.Enabled = false;
-            this.chkNudgeSkip.Location = new System.Drawing.Point(9, 72);
-            this.chkNudgeSkip.Name = "chkNudgeSkip";
-            this.chkNudgeSkip.Size = new System.Drawing.Size(198, 17);
-            this.chkNudgeSkip.TabIndex = 35;
-            this.chkNudgeSkip.Text = "Skip article if first nudge doesn\'t help";
-            this.chkNudgeSkip.UseVisualStyleBackColor = true;
-            // 
-            // lblOnlyBots
-            // 
-            this.lblOnlyBots.BackColor = System.Drawing.Color.Transparent;
-            this.lblOnlyBots.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
-            this.lblOnlyBots.Location = new System.Drawing.Point(1, 1);
-            this.lblOnlyBots.Name = "lblOnlyBots";
-            this.lblOnlyBots.Size = new System.Drawing.Size(276, 345);
-            this.lblOnlyBots.TabIndex = 35;
-            this.lblOnlyBots.Text = "Sorry, these options are only available for approved bots";
-            this.lblOnlyBots.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // tpDab
-            // 
-            this.tpDab.Controls.Add(this.panelDab);
-            this.tpDab.Controls.Add(this.chkEnableDab);
-            this.tpDab.Location = new System.Drawing.Point(4, 22);
-            this.tpDab.Name = "tpDab";
-            this.tpDab.Padding = new System.Windows.Forms.Padding(3);
-            this.tpDab.Size = new System.Drawing.Size(278, 348);
-            this.tpDab.TabIndex = 4;
-            this.tpDab.Text = "Disambig";
-            this.tpDab.UseVisualStyleBackColor = true;
-            // 
-            // chkEnableDab
-            // 
-            this.chkEnableDab.AutoSize = true;
-            this.chkEnableDab.Location = new System.Drawing.Point(6, 6);
-            this.chkEnableDab.Name = "chkEnableDab";
-            this.chkEnableDab.Size = new System.Drawing.Size(132, 17);
-            this.chkEnableDab.TabIndex = 0;
-            this.chkEnableDab.Text = "Enable disambiguation";
-            this.chkEnableDab.UseVisualStyleBackColor = true;
-            this.chkEnableDab.CheckedChanged += new System.EventHandler(this.chkEnableDab_CheckedChanged);
-            // 
-            // panelDab
-            // 
-            this.panelDab.Controls.Add(this.groupBox12);
-            this.panelDab.Controls.Add(this.groupBox11);
-            this.panelDab.Enabled = false;
-            this.panelDab.Location = new System.Drawing.Point(6, 24);
-            this.panelDab.Name = "panelDab";
-            this.panelDab.Size = new System.Drawing.Size(266, 313);
-            this.panelDab.TabIndex = 1;
-            // 
-            // groupBox11
-            // 
-            this.groupBox11.Controls.Add(this.btnLoadLinks);
-            this.groupBox11.Controls.Add(this.txtDabLink);
-            this.groupBox11.Location = new System.Drawing.Point(3, 3);
-            this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(260, 41);
-            this.groupBox11.TabIndex = 9;
-            this.groupBox11.TabStop = false;
-            this.groupBox11.Text = "Link to disambiguate";
-            // 
-            // txtDabLink
-            // 
-            this.txtDabLink.Location = new System.Drawing.Point(6, 15);
-            this.txtDabLink.Name = "txtDabLink";
-            this.txtDabLink.Size = new System.Drawing.Size(167, 20);
-            this.txtDabLink.TabIndex = 0;
-            this.txtDabLink.Enter += new System.EventHandler(this.txtDabLink_Enter);
-            this.txtDabLink.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDabLink_KeyPress);
-            this.txtDabLink.TextChanged += new System.EventHandler(this.txtDabLink_TextChanged);
-            // 
-            // btnLoadLinks
-            // 
-            this.btnLoadLinks.Enabled = false;
-            this.btnLoadLinks.Location = new System.Drawing.Point(179, 13);
-            this.btnLoadLinks.Name = "btnLoadLinks";
-            this.btnLoadLinks.Size = new System.Drawing.Size(75, 23);
-            this.btnLoadLinks.TabIndex = 1;
-            this.btnLoadLinks.Text = "Load links";
-            this.btnLoadLinks.UseVisualStyleBackColor = true;
-            this.btnLoadLinks.Click += new System.EventHandler(this.btnLoadLinks_Click);
-            // 
-            // groupBox12
-            // 
-            this.groupBox12.Controls.Add(this.label5);
-            this.groupBox12.Controls.Add(this.udContextChars);
-            this.groupBox12.Controls.Add(this.label4);
-            this.groupBox12.Controls.Add(this.chkSkipNoDab);
-            this.groupBox12.Controls.Add(this.txtDabVariants);
-            this.groupBox12.Location = new System.Drawing.Point(3, 50);
-            this.groupBox12.Name = "groupBox12";
-            this.groupBox12.Size = new System.Drawing.Size(260, 263);
-            this.groupBox12.TabIndex = 10;
-            this.groupBox12.TabStop = false;
-            this.groupBox12.Text = "Variants";
-            // 
-            // txtDabVariants
-            // 
-            this.txtDabVariants.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDabVariants.Location = new System.Drawing.Point(6, 19);
-            this.txtDabVariants.Multiline = true;
-            this.txtDabVariants.Name = "txtDabVariants";
-            this.txtDabVariants.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtDabVariants.Size = new System.Drawing.Size(248, 192);
-            this.txtDabVariants.TabIndex = 5;
-            // 
-            // chkSkipNoDab
-            // 
-            this.chkSkipNoDab.AutoSize = true;
-            this.chkSkipNoDab.Location = new System.Drawing.Point(6, 217);
-            this.chkSkipNoDab.Name = "chkSkipNoDab";
-            this.chkSkipNoDab.Size = new System.Drawing.Size(229, 17);
-            this.chkSkipNoDab.TabIndex = 6;
-            this.chkSkipNoDab.Text = "Skip article when no disambiguations made";
-            this.chkSkipNoDab.UseVisualStyleBackColor = true;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 242);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(35, 13);
-            this.label4.TabIndex = 7;
-            this.label4.Text = "Use ±";
-            // 
-            // udContextChars
-            // 
-            this.udContextChars.Location = new System.Drawing.Point(48, 240);
-            this.udContextChars.Minimum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.udContextChars.Name = "udContextChars";
-            this.udContextChars.Size = new System.Drawing.Size(44, 20);
-            this.udContextChars.TabIndex = 8;
-            this.udContextChars.Value = new decimal(new int[] {
-            20,
-            0,
-            0,
-            0});
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(98, 242);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(110, 13);
-            this.label5.TabIndex = 9;
-            this.label5.Text = "characters for context";
-            // 
-            // tpMoreOptions
-            // 
-            this.tpMoreOptions.Controls.Add(this.ImageGroupBox);
-            this.tpMoreOptions.Controls.Add(this.groupBox4);
-            this.tpMoreOptions.Controls.Add(this.groupBox5);
-            this.tpMoreOptions.Location = new System.Drawing.Point(4, 22);
-            this.tpMoreOptions.Name = "tpMoreOptions";
-            this.tpMoreOptions.Padding = new System.Windows.Forms.Padding(3);
-            this.tpMoreOptions.Size = new System.Drawing.Size(278, 348);
-            this.tpMoreOptions.TabIndex = 1;
-            this.tpMoreOptions.Text = "More...";
-            this.tpMoreOptions.UseVisualStyleBackColor = true;
-            // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.chkSkipNoCatChange);
-            this.groupBox5.Controls.Add(this.txtNewCategory2);
-            this.groupBox5.Controls.Add(this.label1);
-            this.groupBox5.Controls.Add(this.cmboCategorise);
-            this.groupBox5.Controls.Add(this.txtNewCategory);
-            this.groupBox5.Location = new System.Drawing.Point(6, 252);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(266, 90);
-            this.groupBox5.TabIndex = 16;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Categories";
-            // 
-            // txtNewCategory
-            // 
-            this.txtNewCategory.Enabled = false;
-            this.txtNewCategory.Location = new System.Drawing.Point(153, 16);
-            this.txtNewCategory.Name = "txtNewCategory";
-            this.txtNewCategory.Size = new System.Drawing.Size(107, 20);
-            this.txtNewCategory.TabIndex = 1;
-            this.toolTip1.SetToolTip(this.txtNewCategory, "The new category, the old one is specified when you make the list");
-            this.txtNewCategory.DoubleClick += new System.EventHandler(this.txtNewCategory_DoubleClick);
-            this.txtNewCategory.Leave += new System.EventHandler(this.txtNewCategory_Leave);
-            // 
-            // cmboCategorise
-            // 
-            this.cmboCategorise.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmboCategorise.FormattingEnabled = true;
-            this.cmboCategorise.Items.AddRange(new object[] {
-            "Choose a task...",
-            "Replace category:",
-            "Add category:",
-            "Remove category:"});
-            this.cmboCategorise.Location = new System.Drawing.Point(7, 16);
-            this.cmboCategorise.Name = "cmboCategorise";
-            this.cmboCategorise.Size = new System.Drawing.Size(140, 21);
-            this.cmboCategorise.TabIndex = 0;
-            this.cmboCategorise.SelectedIndexChanged += new System.EventHandler(this.cmboCategorise_SelectedIndexChanged);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(73, 45);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(0, 13);
-            this.label1.TabIndex = 4;
-            // 
-            // txtNewCategory2
-            // 
-            this.txtNewCategory2.Enabled = false;
-            this.txtNewCategory2.Location = new System.Drawing.Point(153, 42);
-            this.txtNewCategory2.Name = "txtNewCategory2";
-            this.txtNewCategory2.Size = new System.Drawing.Size(107, 20);
-            this.txtNewCategory2.TabIndex = 2;
-            this.txtNewCategory2.Leave += new System.EventHandler(this.txtNewCategory2_Leave);
-            // 
-            // chkSkipNoCatChange
-            // 
-            this.chkSkipNoCatChange.AutoSize = true;
-            this.chkSkipNoCatChange.Enabled = false;
-            this.chkSkipNoCatChange.Location = new System.Drawing.Point(7, 68);
-            this.chkSkipNoCatChange.Name = "chkSkipNoCatChange";
-            this.chkSkipNoCatChange.Size = new System.Drawing.Size(211, 17);
-            this.chkSkipNoCatChange.TabIndex = 3;
-            this.chkSkipNoCatChange.Text = "Skip article when no category changed";
-            this.chkSkipNoCatChange.UseVisualStyleBackColor = true;
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.rdoPrepend);
-            this.groupBox4.Controls.Add(this.rdoAppend);
-            this.groupBox4.Controls.Add(this.chkAppend);
-            this.groupBox4.Controls.Add(this.txtAppendMessage);
-            this.groupBox4.Location = new System.Drawing.Point(6, 6);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(266, 141);
-            this.groupBox4.TabIndex = 7;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Append/Prepend text";
-            // 
-            // txtAppendMessage
-            // 
-            this.txtAppendMessage.Enabled = false;
-            this.txtAppendMessage.Location = new System.Drawing.Point(6, 38);
-            this.txtAppendMessage.Multiline = true;
-            this.txtAppendMessage.Name = "txtAppendMessage";
-            this.txtAppendMessage.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtAppendMessage.Size = new System.Drawing.Size(251, 97);
-            this.txtAppendMessage.TabIndex = 1;
-            this.toolTip1.SetToolTip(this.txtAppendMessage, "Message, including title in wiki format");
-            // 
-            // chkAppend
-            // 
-            this.chkAppend.AutoSize = true;
-            this.chkAppend.Location = new System.Drawing.Point(7, 16);
-            this.chkAppend.Name = "chkAppend";
-            this.chkAppend.Size = new System.Drawing.Size(65, 17);
-            this.chkAppend.TabIndex = 0;
-            this.chkAppend.Text = "Enabled";
-            this.toolTip1.SetToolTip(this.chkAppend, "For appending a message to a user talk page for example");
-            this.chkAppend.UseVisualStyleBackColor = true;
-            this.chkAppend.CheckedChanged += new System.EventHandler(this.chkAppend_CheckedChanged);
-            // 
-            // rdoAppend
-            // 
-            this.rdoAppend.AutoSize = true;
-            this.rdoAppend.Checked = true;
-            this.rdoAppend.Enabled = false;
-            this.rdoAppend.Location = new System.Drawing.Point(124, 15);
-            this.rdoAppend.Name = "rdoAppend";
-            this.rdoAppend.Size = new System.Drawing.Size(62, 17);
-            this.rdoAppend.TabIndex = 2;
-            this.rdoAppend.TabStop = true;
-            this.rdoAppend.Text = "Append";
-            this.toolTip1.SetToolTip(this.rdoAppend, "Add text to end of talk page");
-            this.rdoAppend.UseVisualStyleBackColor = true;
-            // 
-            // rdoPrepend
-            // 
-            this.rdoPrepend.AutoSize = true;
-            this.rdoPrepend.Enabled = false;
-            this.rdoPrepend.Location = new System.Drawing.Point(192, 15);
-            this.rdoPrepend.Name = "rdoPrepend";
-            this.rdoPrepend.Size = new System.Drawing.Size(65, 17);
-            this.rdoPrepend.TabIndex = 3;
-            this.rdoPrepend.Text = "Prepend";
-            this.toolTip1.SetToolTip(this.rdoPrepend, "Add text to beginning of talk page");
-            this.rdoPrepend.UseVisualStyleBackColor = true;
-            // 
-            // ImageGroupBox
-            // 
-            this.ImageGroupBox.Controls.Add(this.lblImageWith);
-            this.ImageGroupBox.Controls.Add(this.chkSkipNoImgChange);
-            this.ImageGroupBox.Controls.Add(this.txtImageWith);
-            this.ImageGroupBox.Controls.Add(this.txtImageReplace);
-            this.ImageGroupBox.Controls.Add(this.cmboImages);
-            this.ImageGroupBox.Location = new System.Drawing.Point(6, 153);
-            this.ImageGroupBox.Name = "ImageGroupBox";
-            this.ImageGroupBox.Size = new System.Drawing.Size(266, 93);
-            this.ImageGroupBox.TabIndex = 27;
-            this.ImageGroupBox.TabStop = false;
-            this.ImageGroupBox.Text = "Images";
-            // 
-            // cmboImages
-            // 
-            this.cmboImages.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmboImages.FormattingEnabled = true;
-            this.cmboImages.Items.AddRange(new object[] {
-            "Choose a task...",
-            "Replace image:",
-            "Remove image:",
-            "Comment out image:"});
-            this.cmboImages.Location = new System.Drawing.Point(6, 16);
-            this.cmboImages.Name = "cmboImages";
-            this.cmboImages.Size = new System.Drawing.Size(138, 21);
-            this.cmboImages.TabIndex = 0;
-            this.cmboImages.SelectedIndexChanged += new System.EventHandler(this.cmboImages_SelectedIndexChanged);
-            // 
-            // txtImageReplace
-            // 
-            this.txtImageReplace.Location = new System.Drawing.Point(150, 16);
-            this.txtImageReplace.Name = "txtImageReplace";
-            this.txtImageReplace.Size = new System.Drawing.Size(107, 20);
-            this.txtImageReplace.TabIndex = 1;
-            this.txtImageReplace.Leave += new System.EventHandler(this.txtImageReplace_Leave);
-            // 
-            // txtImageWith
-            // 
-            this.txtImageWith.Enabled = false;
-            this.txtImageWith.Location = new System.Drawing.Point(150, 42);
-            this.txtImageWith.Name = "txtImageWith";
-            this.txtImageWith.Size = new System.Drawing.Size(107, 20);
-            this.txtImageWith.TabIndex = 2;
-            this.txtImageWith.Leave += new System.EventHandler(this.txtImageWith_Leave);
-            // 
-            // chkSkipNoImgChange
-            // 
-            this.chkSkipNoImgChange.AutoSize = true;
-            this.chkSkipNoImgChange.Enabled = false;
-            this.chkSkipNoImgChange.Location = new System.Drawing.Point(7, 68);
-            this.chkSkipNoImgChange.Name = "chkSkipNoImgChange";
-            this.chkSkipNoImgChange.Size = new System.Drawing.Size(198, 17);
-            this.chkSkipNoImgChange.TabIndex = 3;
-            this.chkSkipNoImgChange.Text = "Skip article when no image changed";
-            this.chkSkipNoImgChange.UseVisualStyleBackColor = true;
-            // 
-            // lblImageWith
-            // 
-            this.lblImageWith.AutoSize = true;
-            this.lblImageWith.Location = new System.Drawing.Point(81, 45);
-            this.lblImageWith.Name = "lblImageWith";
-            this.lblImageWith.Size = new System.Drawing.Size(63, 13);
-            this.lblImageWith.TabIndex = 4;
-            this.lblImageWith.Text = "With image:";
-            this.lblImageWith.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // tpSetOptions
-            // 
-            this.tpSetOptions.Controls.Add(this.groupBox13);
-            this.tpSetOptions.Controls.Add(this.groupBox1);
-            this.tpSetOptions.Controls.Add(this.groupBox6);
-            this.tpSetOptions.Controls.Add(this.groupBox8);
-            this.tpSetOptions.Location = new System.Drawing.Point(4, 22);
-            this.tpSetOptions.Name = "tpSetOptions";
-            this.tpSetOptions.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSetOptions.Size = new System.Drawing.Size(278, 348);
-            this.tpSetOptions.TabIndex = 0;
-            this.tpSetOptions.Text = "(2) Set options";
-            this.tpSetOptions.UseVisualStyleBackColor = true;
-            // 
-            // groupBox8
-            // 
-            this.groupBox8.Controls.Add(this.chkSkipNonExistent);
-            this.groupBox8.Controls.Add(this.chkSkipNoChanges);
-            this.groupBox8.Controls.Add(this.chkSkipCaseSensitive);
-            this.groupBox8.Controls.Add(this.chkSkipIsRegex);
-            this.groupBox8.Controls.Add(this.chkSkipIfNotContains);
-            this.groupBox8.Controls.Add(this.txtSkipIfContains);
-            this.groupBox8.Controls.Add(this.txtSkipIfNotContains);
-            this.groupBox8.Controls.Add(this.chkSkipIfContains);
-            this.groupBox8.Location = new System.Drawing.Point(6, 215);
-            this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(266, 130);
-            this.groupBox8.TabIndex = 27;
-            this.groupBox8.TabStop = false;
-            this.groupBox8.Text = "General article skip options";
-            // 
-            // chkSkipIfContains
-            // 
-            this.chkSkipIfContains.AutoSize = true;
-            this.chkSkipIfContains.Location = new System.Drawing.Point(6, 19);
-            this.chkSkipIfContains.Name = "chkSkipIfContains";
-            this.chkSkipIfContains.Size = new System.Drawing.Size(101, 17);
-            this.chkSkipIfContains.TabIndex = 22;
-            this.chkSkipIfContains.Text = "Skip if contains:";
-            this.toolTip1.SetToolTip(this.chkSkipIfContains, "Skip articles that contain this text");
-            this.chkSkipIfContains.UseVisualStyleBackColor = true;
-            this.chkSkipIfContains.CheckedChanged += new System.EventHandler(this.chkIgnoreIfContains_CheckedChanged);
-            // 
-            // txtSkipIfNotContains
-            // 
-            this.txtSkipIfNotContains.Enabled = false;
-            this.txtSkipIfNotContains.Location = new System.Drawing.Point(142, 41);
-            this.txtSkipIfNotContains.Name = "txtSkipIfNotContains";
-            this.txtSkipIfNotContains.Size = new System.Drawing.Size(117, 20);
-            this.txtSkipIfNotContains.TabIndex = 6;
-            this.toolTip1.SetToolTip(this.txtSkipIfNotContains, "Skip articles that do not contain this text");
-            // 
-            // txtSkipIfContains
-            // 
-            this.txtSkipIfContains.Enabled = false;
-            this.txtSkipIfContains.Location = new System.Drawing.Point(142, 17);
-            this.txtSkipIfContains.Name = "txtSkipIfContains";
-            this.txtSkipIfContains.Size = new System.Drawing.Size(117, 20);
-            this.txtSkipIfContains.TabIndex = 23;
-            this.toolTip1.SetToolTip(this.txtSkipIfContains, "Skip articles that contain this text");
-            // 
-            // chkSkipIfNotContains
-            // 
-            this.chkSkipIfNotContains.AutoSize = true;
-            this.chkSkipIfNotContains.Location = new System.Drawing.Point(6, 43);
-            this.chkSkipIfNotContains.Name = "chkSkipIfNotContains";
-            this.chkSkipIfNotContains.Size = new System.Drawing.Size(133, 17);
-            this.chkSkipIfNotContains.TabIndex = 4;
-            this.chkSkipIfNotContains.Text = "Skip if doesn\'t contain:";
-            this.toolTip1.SetToolTip(this.chkSkipIfNotContains, "Skip articles that do not contain this text");
-            this.chkSkipIfNotContains.UseVisualStyleBackColor = true;
-            this.chkSkipIfNotContains.CheckedChanged += new System.EventHandler(this.chkOnlyIfContains_CheckedChanged);
-            // 
-            // chkSkipIsRegex
-            // 
-            this.chkSkipIsRegex.AutoSize = true;
-            this.chkSkipIsRegex.Location = new System.Drawing.Point(177, 66);
-            this.chkSkipIsRegex.Name = "chkSkipIsRegex";
-            this.chkSkipIsRegex.Size = new System.Drawing.Size(82, 17);
-            this.chkSkipIsRegex.TabIndex = 28;
-            this.chkSkipIsRegex.Text = "Are regexes";
-            this.toolTip1.SetToolTip(this.chkSkipIsRegex, "Enables regular expressions for the \"Skip if contains\".");
-            this.chkSkipIsRegex.UseVisualStyleBackColor = true;
-            // 
-            // chkSkipCaseSensitive
-            // 
-            this.chkSkipCaseSensitive.AutoSize = true;
-            this.chkSkipCaseSensitive.Location = new System.Drawing.Point(77, 66);
-            this.chkSkipCaseSensitive.Name = "chkSkipCaseSensitive";
-            this.chkSkipCaseSensitive.Size = new System.Drawing.Size(94, 17);
-            this.chkSkipCaseSensitive.TabIndex = 29;
-            this.chkSkipCaseSensitive.Text = "Case sensitive";
-            this.chkSkipCaseSensitive.UseVisualStyleBackColor = true;
-            // 
-            // chkSkipNoChanges
-            // 
-            this.chkSkipNoChanges.AutoSize = true;
-            this.chkSkipNoChanges.Location = new System.Drawing.Point(5, 85);
-            this.chkSkipNoChanges.Name = "chkSkipNoChanges";
-            this.chkSkipNoChanges.Size = new System.Drawing.Size(195, 17);
-            this.chkSkipNoChanges.TabIndex = 30;
-            this.chkSkipNoChanges.Text = "Skip articles when no change made";
-            this.toolTip1.SetToolTip(this.chkSkipNoChanges, "Automatically skips articles when no changes were automatically made");
-            this.chkSkipNoChanges.UseVisualStyleBackColor = true;
-            // 
-            // chkSkipNonExistent
-            // 
-            this.chkSkipNonExistent.AutoSize = true;
-            this.chkSkipNonExistent.Checked = true;
-            this.chkSkipNonExistent.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSkipNonExistent.Location = new System.Drawing.Point(6, 107);
-            this.chkSkipNonExistent.Name = "chkSkipNonExistent";
-            this.chkSkipNonExistent.Size = new System.Drawing.Size(138, 17);
-            this.chkSkipNonExistent.TabIndex = 31;
-            this.chkSkipNonExistent.Text = "Skip non-existing pages";
-            this.chkSkipNonExistent.UseVisualStyleBackColor = true;
-            // 
-            // groupBox6
-            // 
-            this.groupBox6.Controls.Add(this.btnMoreSkip);
-            this.groupBox6.Controls.Add(this.chkUnicodifyWhole);
-            this.groupBox6.Controls.Add(this.chkAutoTagger);
-            this.groupBox6.Controls.Add(this.chkGeneralFixes);
-            this.groupBox6.Location = new System.Drawing.Point(6, 6);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(266, 67);
-            this.groupBox6.TabIndex = 17;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "General";
-            // 
-            // chkGeneralFixes
-            // 
-            this.chkGeneralFixes.AutoSize = true;
-            this.chkGeneralFixes.Checked = true;
-            this.chkGeneralFixes.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkGeneralFixes.Location = new System.Drawing.Point(6, 16);
-            this.chkGeneralFixes.Name = "chkGeneralFixes";
-            this.chkGeneralFixes.Size = new System.Drawing.Size(114, 17);
-            this.chkGeneralFixes.TabIndex = 11;
-            this.chkGeneralFixes.Tag = "Apply general minor fixes";
-            this.chkGeneralFixes.Text = "Apply general fixes";
-            this.toolTip1.SetToolTip(this.chkGeneralFixes, "Apply general minor fixes");
-            this.chkGeneralFixes.UseVisualStyleBackColor = true;
-            this.chkGeneralFixes.CheckedChanged += new System.EventHandler(this.chkGeneralParse_CheckedChanged);
-            // 
-            // chkAutoTagger
-            // 
-            this.chkAutoTagger.AutoSize = true;
-            this.chkAutoTagger.Checked = true;
-            this.chkAutoTagger.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkAutoTagger.Location = new System.Drawing.Point(152, 16);
-            this.chkAutoTagger.Name = "chkAutoTagger";
-            this.chkAutoTagger.Size = new System.Drawing.Size(66, 17);
-            this.chkAutoTagger.TabIndex = 27;
-            this.chkAutoTagger.Text = "Auto tag";
-            this.toolTip1.SetToolTip(this.chkAutoTagger, "Automatically add {{wikify}} and {{stub}} tags when appropriate");
-            this.chkAutoTagger.UseVisualStyleBackColor = true;
-            // 
-            // chkUnicodifyWhole
-            // 
-            this.chkUnicodifyWhole.AutoSize = true;
-            this.chkUnicodifyWhole.Checked = true;
-            this.chkUnicodifyWhole.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkUnicodifyWhole.Location = new System.Drawing.Point(6, 39);
-            this.chkUnicodifyWhole.Name = "chkUnicodifyWhole";
-            this.chkUnicodifyWhole.Size = new System.Drawing.Size(132, 17);
-            this.chkUnicodifyWhole.TabIndex = 27;
-            this.chkUnicodifyWhole.Text = "Unicodify whole article";
-            this.toolTip1.SetToolTip(this.chkUnicodifyWhole, "Converts all (with a couple of exceptions) HTML and URL encoded characters to uni" +
-                    "code");
-            this.chkUnicodifyWhole.UseVisualStyleBackColor = true;
-            // 
-            // btnMoreSkip
-            // 
-            this.btnMoreSkip.Location = new System.Drawing.Point(152, 35);
-            this.btnMoreSkip.Name = "btnMoreSkip";
-            this.btnMoreSkip.Size = new System.Drawing.Size(82, 23);
-            this.btnMoreSkip.TabIndex = 32;
-            this.btnMoreSkip.Text = "Skip options";
-            this.btnMoreSkip.UseVisualStyleBackColor = true;
-            this.btnMoreSkip.Click += new System.EventHandler(this.btnMoreSkip_Click);
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.btnSubst);
-            this.groupBox1.Controls.Add(this.chkSkipWhenNoFAR);
-            this.groupBox1.Controls.Add(this.btnFindAndReplaceAdvanced);
-            this.groupBox1.Controls.Add(this.btnMoreFindAndReplce);
-            this.groupBox1.Controls.Add(this.chkFindandReplace);
-            this.groupBox1.Location = new System.Drawing.Point(6, 77);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(266, 68);
-            this.groupBox1.TabIndex = 15;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Find and replace";
-            // 
-            // chkFindandReplace
-            // 
-            this.chkFindandReplace.AutoSize = true;
-            this.chkFindandReplace.Location = new System.Drawing.Point(6, 19);
-            this.chkFindandReplace.Name = "chkFindandReplace";
-            this.chkFindandReplace.Size = new System.Drawing.Size(65, 17);
-            this.chkFindandReplace.TabIndex = 6;
-            this.chkFindandReplace.Text = "Enabled";
-            this.toolTip1.SetToolTip(this.chkFindandReplace, "Enable text find and replace.");
-            this.chkFindandReplace.UseVisualStyleBackColor = true;
-            this.chkFindandReplace.CheckedChanged += new System.EventHandler(this.chkFindandReplace_CheckedChanged);
-            // 
-            // btnMoreFindAndReplce
-            // 
-            this.btnMoreFindAndReplce.Enabled = false;
-            this.btnMoreFindAndReplce.Location = new System.Drawing.Point(69, 15);
-            this.btnMoreFindAndReplce.Name = "btnMoreFindAndReplce";
-            this.btnMoreFindAndReplce.Size = new System.Drawing.Size(57, 23);
-            this.btnMoreFindAndReplce.TabIndex = 8;
-            this.btnMoreFindAndReplce.Text = "Normal";
-            this.btnMoreFindAndReplce.UseVisualStyleBackColor = true;
-            this.btnMoreFindAndReplce.Click += new System.EventHandler(this.btnMoreFindAndReplce_Click);
-            // 
-            // btnFindAndReplaceAdvanced
-            // 
-            this.btnFindAndReplaceAdvanced.Enabled = false;
-            this.btnFindAndReplaceAdvanced.Location = new System.Drawing.Point(132, 15);
-            this.btnFindAndReplaceAdvanced.Name = "btnFindAndReplaceAdvanced";
-            this.btnFindAndReplaceAdvanced.Size = new System.Drawing.Size(67, 23);
-            this.btnFindAndReplaceAdvanced.TabIndex = 9;
-            this.btnFindAndReplaceAdvanced.Text = "Advanced";
-            this.btnFindAndReplaceAdvanced.UseVisualStyleBackColor = true;
-            this.btnFindAndReplaceAdvanced.Click += new System.EventHandler(this.btnFindAndReplaceAdvanced_Click);
-            // 
-            // chkSkipWhenNoFAR
-            // 
-            this.chkSkipWhenNoFAR.AutoSize = true;
-            this.chkSkipWhenNoFAR.Checked = true;
-            this.chkSkipWhenNoFAR.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSkipWhenNoFAR.Enabled = false;
-            this.chkSkipWhenNoFAR.Location = new System.Drawing.Point(6, 43);
-            this.chkSkipWhenNoFAR.Name = "chkSkipWhenNoFAR";
-            this.chkSkipWhenNoFAR.Size = new System.Drawing.Size(212, 17);
-            this.chkSkipWhenNoFAR.TabIndex = 10;
-            this.chkSkipWhenNoFAR.Text = "Skip article when no replacement made";
-            this.chkSkipWhenNoFAR.UseVisualStyleBackColor = true;
-            // 
-            // btnSubst
-            // 
-            this.btnSubst.Enabled = false;
-            this.btnSubst.Location = new System.Drawing.Point(205, 15);
-            this.btnSubst.Name = "btnSubst";
-            this.btnSubst.Size = new System.Drawing.Size(55, 23);
-            this.btnSubst.TabIndex = 11;
-            this.btnSubst.Text = "subst:";
-            this.btnSubst.UseVisualStyleBackColor = true;
-            this.btnSubst.Click += new System.EventHandler(this.btnSubst_Click);
-            // 
-            // groupBox13
-            // 
-            this.groupBox13.Controls.Add(this.chkSkipIfNoRegexTypo);
-            this.groupBox13.Controls.Add(this.linkLabel1);
-            this.groupBox13.Controls.Add(this.chkRegExTypo);
-            this.groupBox13.Location = new System.Drawing.Point(6, 151);
-            this.groupBox13.Name = "groupBox13";
-            this.groupBox13.Size = new System.Drawing.Size(266, 58);
-            this.groupBox13.TabIndex = 31;
-            this.groupBox13.TabStop = false;
-            this.groupBox13.Text = "RegexTypoFix";
-            // 
-            // chkRegExTypo
-            // 
-            this.chkRegExTypo.AutoSize = true;
-            this.chkRegExTypo.Location = new System.Drawing.Point(6, 17);
-            this.chkRegExTypo.Name = "chkRegExTypo";
-            this.chkRegExTypo.Size = new System.Drawing.Size(15, 14);
-            this.chkRegExTypo.TabIndex = 28;
-            this.chkRegExTypo.UseVisualStyleBackColor = true;
-            this.chkRegExTypo.CheckedChanged += new System.EventHandler(this.chkRegExTypo_CheckedChanged);
-            // 
-            // linkLabel1
-            // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(23, 17);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(111, 13);
-            this.linkLabel1.TabIndex = 29;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "Enable RegexTypoFix";
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
-            // 
-            // chkSkipIfNoRegexTypo
-            // 
-            this.chkSkipIfNoRegexTypo.AutoSize = true;
-            this.chkSkipIfNoRegexTypo.Enabled = false;
-            this.chkSkipIfNoRegexTypo.Location = new System.Drawing.Point(6, 36);
-            this.chkSkipIfNoRegexTypo.Name = "chkSkipIfNoRegexTypo";
-            this.chkSkipIfNoRegexTypo.Size = new System.Drawing.Size(170, 17);
-            this.chkSkipIfNoRegexTypo.TabIndex = 30;
-            this.chkSkipIfNoRegexTypo.Text = "Skip article when no typo fixed";
-            this.chkSkipIfNoRegexTypo.UseVisualStyleBackColor = true;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.listMaker1);
-            this.groupBox2.Location = new System.Drawing.Point(6, 3);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(210, 372);
-            this.groupBox2.TabIndex = 0;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "(1) Make list";
-            // 
-            // listMaker1
-            // 
-            this.listMaker1.ListFile = "";
-            this.listMaker1.Location = new System.Drawing.Point(3, 15);
-            this.listMaker1.Name = "listMaker1";
-            this.listMaker1.SelectedSource = WikiFunctions.Lists.SourceType.Category;
-            this.listMaker1.Size = new System.Drawing.Size(201, 351);
-            this.listMaker1.SourceText = "";
-            this.listMaker1.TabIndex = 0;
-            this.listMaker1.WikiStatus = false;
-            // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer1.Location = new System.Drawing.Point(3, 5);
-            this.splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.groupBox2);
-            this.splitContainer1.Panel1.Controls.Add(this.tabControl1);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.panel1);
-            this.splitContainer1.Size = new System.Drawing.Size(780, 380);
-            this.splitContainer1.SplitterDistance = 503;
-            this.splitContainer1.TabIndex = 671;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3092,62 +3093,62 @@ namespace AutoWikiBrowser
             this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudBotSpeed)).EndInit();
             this.panel2.ResumeLayout(false);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
+            this.tpSetOptions.ResumeLayout(false);
+            this.groupBox13.ResumeLayout(false);
+            this.groupBox13.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
+            this.tpMoreOptions.ResumeLayout(false);
+            this.ImageGroupBox.ResumeLayout(false);
+            this.ImageGroupBox.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            this.tpDab.ResumeLayout(false);
+            this.tpDab.PerformLayout();
+            this.panelDab.ResumeLayout(false);
+            this.groupBox12.ResumeLayout(false);
+            this.groupBox12.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.udContextChars)).EndInit();
+            this.groupBox11.ResumeLayout(false);
+            this.groupBox11.PerformLayout();
+            this.tpBots.ResumeLayout(false);
+            this.groupBox14.ResumeLayout(false);
+            this.groupBox14.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudNudgeTime)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
+            this.tpStart.ResumeLayout(false);
+            this.tpStart.PerformLayout();
+            this.groupBox10.ResumeLayout(false);
+            this.groupBox10.PerformLayout();
+            this.groupBox9.ResumeLayout(false);
+            this.groupBox9.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.tabControl2.ResumeLayout(false);
+            this.tpEdit.ResumeLayout(false);
+            this.tpEdit.PerformLayout();
+            this.tpLogs.ResumeLayout(false);
+            this.tpLogs.PerformLayout();
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
             this.mnuWebBrowser.ResumeLayout(false);
             this.mnuNotify.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.tabControl2.ResumeLayout(false);
-            this.tpLogs.ResumeLayout(false);
-            this.tpLogs.PerformLayout();
-            this.tpEdit.ResumeLayout(false);
-            this.tpEdit.PerformLayout();
-            this.tabControl1.ResumeLayout(false);
-            this.tpStart.ResumeLayout(false);
-            this.tpStart.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            this.groupBox9.ResumeLayout(false);
-            this.groupBox9.PerformLayout();
-            this.groupBox10.ResumeLayout(false);
-            this.groupBox10.PerformLayout();
-            this.tpBots.ResumeLayout(false);
-            this.groupBox7.ResumeLayout(false);
-            this.groupBox7.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudBotSpeed)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.groupBox14.ResumeLayout(false);
-            this.groupBox14.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudNudgeTime)).EndInit();
-            this.tpDab.ResumeLayout(false);
-            this.tpDab.PerformLayout();
-            this.panelDab.ResumeLayout(false);
-            this.groupBox11.ResumeLayout(false);
-            this.groupBox11.PerformLayout();
-            this.groupBox12.ResumeLayout(false);
-            this.groupBox12.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.udContextChars)).EndInit();
-            this.tpMoreOptions.ResumeLayout(false);
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
-            this.ImageGroupBox.ResumeLayout(false);
-            this.ImageGroupBox.PerformLayout();
-            this.tpSetOptions.ResumeLayout(false);
-            this.groupBox8.ResumeLayout(false);
-            this.groupBox8.PerformLayout();
-            this.groupBox6.ResumeLayout(false);
-            this.groupBox6.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox13.ResumeLayout(false);
-            this.groupBox13.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

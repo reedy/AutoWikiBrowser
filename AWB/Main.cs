@@ -195,6 +195,10 @@ namespace AutoWikiBrowser
             {
                 this.Visible = false;
             }
+            else
+            {
+                splitContainer1.Panel2Collapsed = false;
+            }
         }
 
         #endregion
