@@ -161,6 +161,7 @@ namespace AutoWikiBrowser
 
             updateUpdater();
 
+            //splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             try
             {
                 if (Environment.OSVersion.Version.Major < 5)
@@ -1093,10 +1094,11 @@ namespace AutoWikiBrowser
 
         private void panelShowHide()
         {
-            if (panel2.Visible)
-            { panel2.Hide(); }
+            //TODO:FIX
+            if (splitContainer1.Visible)
+            { splitContainer1.Hide(); }
             else
-            { panel2.Show(); }
+            { splitContainer1.Show(); }
             setBrowserSize();
         }
 
@@ -2623,8 +2625,8 @@ namespace AutoWikiBrowser
             if (toolStrip.Visible)
             {
                 webBrowserEdit.Location = new Point(webBrowserEdit.Location.X, 48);
-                if (panel2.Visible)
-                    webBrowserEdit.Height = panel2.Location.Y - 48;
+                if (splitContainer1.Visible)
+                    webBrowserEdit.Height = splitContainer1.Location.Y - 48;
                 else
                     webBrowserEdit.Height = statusStrip1.Location.Y - 48;
 
@@ -2632,8 +2634,8 @@ namespace AutoWikiBrowser
             else
             {
                 webBrowserEdit.Location = new Point(webBrowserEdit.Location.X, 25);
-                if (panel2.Visible)
-                    webBrowserEdit.Height = panel2.Location.Y - 25;
+                if (splitContainer1.Visible)
+                    webBrowserEdit.Height = splitContainer1.Location.Y - 25;
                 else
                     webBrowserEdit.Height = statusStrip1.Location.Y - 25;
             }
