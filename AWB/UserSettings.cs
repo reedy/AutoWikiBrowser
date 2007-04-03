@@ -101,7 +101,7 @@ namespace AutoWikiBrowser
             cmboEditSummary.SelectedIndex = 0;
 
             wordWrapToolStripMenuItem1.Checked = true;
-            panel2.Show();
+            splitContainer1.Show();
             enableToolBar = false;
             bypassRedirectsToolStripMenuItem.Checked = true;
             chkSkipNonExistent.Checked = true;
