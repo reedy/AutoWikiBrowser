@@ -98,92 +98,97 @@ using System.Text;
                                    * (it shouldn', and Kingbotk doesn't, but who knows :) */
 
         #region AWB Interface
-            public AWBLogListener(string ArticleTitle)
-            {
-                Text = ArticleTitle;
-                marticle = ArticleTitle;
-            }
+        public AWBLogListener(string ArticleTitle)
+        {
+            Text = ArticleTitle;
+            marticle = ArticleTitle;
+        }
 
-            public void UserSkipped()
-            {
-                Skip("User", "Clicked ignore");
-            }
+        public void UserSkipped()
+        {
+            Skip("User", "Clicked ignore");
+        }
 
-            public void AWBSKipped(string Reason)
-            {
-                Skip("AWB", Reason);
-            }
+        public void AWBSkipped(string Reason)
+        {
+            Skip("AWB", Reason);
+        }
 
-            public void OpenInBrowser()
-            {
-                System.Diagnostics.Process.Start(Variables.URL + "/wiki/" + marticle);
-            }
+        public void PluginSkipped()
+        {
+            Skip("Plugin", "Plugin sent skip event");
+        }
+
+        public void OpenInBrowser()
+        {
+            System.Diagnostics.Process.Start(Variables.URL + "/wiki/" + marticle);
+        }
         #endregion
 
         #region IMyTraceListener Members
-            void IMyTraceListener.Close() { }
-            void IMyTraceListener.Flush() { }
-            void IMyTraceListener.ProcessingArticle(string FullArticleTitle, Namespaces NS) { }
-            void IMyTraceListener.WriteComment(string Line) { }
-            void IMyTraceListener.WriteCommentAndNewLine(string Line) { }
+        void IMyTraceListener.Close() { }
+        void IMyTraceListener.Flush() { }
+        void IMyTraceListener.ProcessingArticle(string FullArticleTitle, Namespaces NS) { }
+        void IMyTraceListener.WriteComment(string Line) { }
+        void IMyTraceListener.WriteCommentAndNewLine(string Line) { }
 
-            void IMyTraceListener.SkippedArticle(string SkippedBy, string Reason)
-            {
-                Skip(SkippedBy, Reason);
-            }
+        void IMyTraceListener.SkippedArticle(string SkippedBy, string Reason)
+        {
+            Skip(SkippedBy, Reason);
+        }
 
-            void IMyTraceListener.SkippedArticleBadTag(string SkippedBy, string FullArticleTitle, Namespaces NS)
-            {
-                Skip(SkippedBy, "Bad tag");
-            }
+        void IMyTraceListener.SkippedArticleBadTag(string SkippedBy, string FullArticleTitle, Namespaces NS)
+        {
+            Skip(SkippedBy, "Bad tag");
+        }
 
-            void IMyTraceListener.SkippedArticleRedlink(string SkippedBy, string FullArticleTitle, Namespaces NS)
-            {
-                Skip(SkippedBy, "Red link (article deleted)");
-            }
+        void IMyTraceListener.SkippedArticleRedlink(string SkippedBy, string FullArticleTitle, Namespaces NS)
+        {
+            Skip(SkippedBy, "Red link (article deleted)");
+        }
 
-            bool IMyTraceListener.Uploadable
-            {
-                get { return false; }
-            }
+        bool IMyTraceListener.Uploadable
+        {
+            get { return false; }
+        }
 
-            void IMyTraceListener.WriteArticleActionLine(string Line, string PluginName, bool VerboseOnly)
-            {
-                if (!VerboseOnly) WriteLine(Line, PluginName);
-            }
+        void IMyTraceListener.WriteArticleActionLine(string Line, string PluginName, bool VerboseOnly)
+        {
+            if (!VerboseOnly) WriteLine(Line, PluginName);
+        }
 
-            void IMyTraceListener.WriteArticleActionLine(string Line, string PluginName)
-            {
-                WriteLine(Line, PluginName);
-            }
+        void IMyTraceListener.WriteArticleActionLine(string Line, string PluginName)
+        {
+            WriteLine(Line, PluginName);
+        }
 
-            void IMyTraceListener.WriteBulletedLine(string Line, bool Bold, bool VerboseOnly)
-            {
-                if (!VerboseOnly) Write(Line);
-            }
+        void IMyTraceListener.WriteBulletedLine(string Line, bool Bold, bool VerboseOnly)
+        {
+            if (!VerboseOnly) Write(Line);
+        }
 
-            void IMyTraceListener.WriteBulletedLine(string Line, bool Bold, bool VerboseOnly, bool DateStamp)
-            {
-                if (!VerboseOnly) Write(Line);
-            }
+        void IMyTraceListener.WriteBulletedLine(string Line, bool Bold, bool VerboseOnly, bool DateStamp)
+        {
+            if (!VerboseOnly) Write(Line);
+        }
 
-            void IMyTraceListener.WriteLine(string Line)
-            {
-                Write(Line);
-            }
+        void IMyTraceListener.WriteLine(string Line)
+        {
+            Write(Line);
+        }
 
-            void IMyTraceListener.WriteTemplateAdded(string Template, string PluginName)
-            {
-                WriteLine("{{" + Template + "}} added", PluginName);
-            }
+        void IMyTraceListener.WriteTemplateAdded(string Template, string PluginName)
+        {
+            WriteLine("{{" + Template + "}} added", PluginName);
+        }
 
-            public void Write(string Text)
-            {
-                if (ToolTipText.Trim() == "")
-                { ToolTipText = Text; }
-                else
-                { ToolTipText = Text + System.Environment.NewLine + ToolTipText; }
-            }
+        public void Write(string Text)
+        {
+            if (ToolTipText.Trim() == "")
+            { ToolTipText = Text; }
+            else
+            { ToolTipText = Text + System.Environment.NewLine + ToolTipText; }
+        }
         #endregion
 
         protected void Skip(string SkippedBy, string SkipReason)
