@@ -22,6 +22,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Private Sub InitializeComponent()
             Me.components = New System.ComponentModel.Container
             Me.ParametersGroup = New System.Windows.Forms.GroupBox
+            Me.DeadPersonCheckBox = New System.Windows.Forms.CheckBox
             Me.NonBiographyCheckBox = New System.Windows.Forms.CheckBox
             Me.ActivePoliticianCheckBox = New System.Windows.Forms.CheckBox
             Me.StubClassCheckBox = New System.Windows.Forms.CheckBox
@@ -68,6 +69,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.OldPeerReviewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator
             Me.LivingPersonToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.DeceasedPersonToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.ActivePoliticianToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.CoreArticleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.NonbiographyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -80,6 +82,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             '
             'ParametersGroup
             '
+            Me.ParametersGroup.Controls.Add(Me.DeadPersonCheckBox)
             Me.ParametersGroup.Controls.Add(Me.NonBiographyCheckBox)
             Me.ParametersGroup.Controls.Add(Me.ActivePoliticianCheckBox)
             Me.ParametersGroup.Controls.Add(Me.StubClassCheckBox)
@@ -87,15 +90,26 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.ParametersGroup.Controls.Add(Me.LivingCheckBox)
             Me.ParametersGroup.Location = New System.Drawing.Point(6, 6)
             Me.ParametersGroup.Name = "ParametersGroup"
-            Me.ParametersGroup.Size = New System.Drawing.Size(123, 132)
+            Me.ParametersGroup.Size = New System.Drawing.Size(123, 145)
             Me.ParametersGroup.TabIndex = 1
             Me.ParametersGroup.TabStop = False
             Me.ParametersGroup.Text = "Template Parameters"
             '
+            'DeadPersonCheckBox
+            '
+            Me.DeadPersonCheckBox.AutoSize = True
+            Me.DeadPersonCheckBox.Location = New System.Drawing.Point(6, 39)
+            Me.DeadPersonCheckBox.Name = "DeadPersonCheckBox"
+            Me.DeadPersonCheckBox.Size = New System.Drawing.Size(110, 17)
+            Me.DeadPersonCheckBox.TabIndex = 6
+            Me.DeadPersonCheckBox.Text = "Deceased person"
+            Me.ToolTip1.SetToolTip(Me.DeadPersonCheckBox, "living=no")
+            Me.DeadPersonCheckBox.UseVisualStyleBackColor = True
+            '
             'NonBiographyCheckBox
             '
             Me.NonBiographyCheckBox.AutoSize = True
-            Me.NonBiographyCheckBox.Location = New System.Drawing.Point(6, 109)
+            Me.NonBiographyCheckBox.Location = New System.Drawing.Point(6, 119)
             Me.NonBiographyCheckBox.Name = "NonBiographyCheckBox"
             Me.NonBiographyCheckBox.Size = New System.Drawing.Size(96, 17)
             Me.NonBiographyCheckBox.TabIndex = 5
@@ -106,7 +120,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             'ActivePoliticianCheckBox
             '
             Me.ActivePoliticianCheckBox.AutoSize = True
-            Me.ActivePoliticianCheckBox.Location = New System.Drawing.Point(6, 88)
+            Me.ActivePoliticianCheckBox.Location = New System.Drawing.Point(6, 99)
             Me.ActivePoliticianCheckBox.Name = "ActivePoliticianCheckBox"
             Me.ActivePoliticianCheckBox.Size = New System.Drawing.Size(101, 17)
             Me.ActivePoliticianCheckBox.TabIndex = 4
@@ -117,7 +131,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             'StubClassCheckBox
             '
             Me.StubClassCheckBox.AutoSize = True
-            Me.StubClassCheckBox.Location = New System.Drawing.Point(6, 65)
+            Me.StubClassCheckBox.Location = New System.Drawing.Point(6, 79)
             Me.StubClassCheckBox.Name = "StubClassCheckBox"
             Me.StubClassCheckBox.Size = New System.Drawing.Size(76, 17)
             Me.StubClassCheckBox.TabIndex = 3
@@ -128,7 +142,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             'AutoStubCheckBox
             '
             Me.AutoStubCheckBox.AutoSize = True
-            Me.AutoStubCheckBox.Location = New System.Drawing.Point(6, 42)
+            Me.AutoStubCheckBox.Location = New System.Drawing.Point(6, 59)
             Me.AutoStubCheckBox.Name = "AutoStubCheckBox"
             Me.AutoStubCheckBox.Size = New System.Drawing.Size(73, 17)
             Me.AutoStubCheckBox.TabIndex = 2
@@ -324,7 +338,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             'LinkLabel1
             '
             Me.LinkLabel1.AutoSize = True
-            Me.LinkLabel1.Location = New System.Drawing.Point(9, 157)
+            Me.LinkLabel1.Location = New System.Drawing.Point(9, 169)
             Me.LinkLabel1.Name = "LinkLabel1"
             Me.LinkLabel1.Size = New System.Drawing.Size(88, 13)
             Me.LinkLabel1.TabIndex = 7
@@ -339,7 +353,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             '
             'ToolStripMenuItem
             '
-            Me.ToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.WPBiographyToolStripMenuItem, Me.ToolStripMenuItem3, Me.ToolStripSeparator2, Me.AttentionToolStripMenuItem, Me.InfoboxToolStripMenuItem, Me.ToolStripSeparator1, Me.CollabCandidateToolStripMenuItem, Me.PastCollabToolStripMenuItem, Me.PeerReviewToolStripMenuItem, Me.OldPeerReviewToolStripMenuItem, Me.ToolStripSeparator3, Me.LivingPersonToolStripMenuItem, Me.ActivePoliticianToolStripMenuItem, Me.CoreArticleToolStripMenuItem, Me.NonbiographyToolStripMenuItem, Me.AutotaggedToolStripMenuItem})
+            Me.ToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.WPBiographyToolStripMenuItem, Me.ToolStripMenuItem3, Me.ToolStripSeparator2, Me.AttentionToolStripMenuItem, Me.InfoboxToolStripMenuItem, Me.ToolStripSeparator1, Me.CollabCandidateToolStripMenuItem, Me.PastCollabToolStripMenuItem, Me.PeerReviewToolStripMenuItem, Me.OldPeerReviewToolStripMenuItem, Me.ToolStripSeparator3, Me.LivingPersonToolStripMenuItem, Me.DeceasedPersonToolStripMenuItem, Me.ActivePoliticianToolStripMenuItem, Me.CoreArticleToolStripMenuItem, Me.NonbiographyToolStripMenuItem, Me.AutotaggedToolStripMenuItem})
             Me.ToolStripMenuItem.Name = "ToolStripMenuItem"
             Me.ToolStripMenuItem.Size = New System.Drawing.Size(138, 22)
             Me.ToolStripMenuItem.Text = "WPBiography"
@@ -474,6 +488,12 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.LivingPersonToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.LivingPersonToolStripMenuItem.Text = "Living person"
             '
+            'DeceasedPersonToolStripMenuItem
+            '
+            Me.DeceasedPersonToolStripMenuItem.Name = "DeceasedPersonToolStripMenuItem"
+            Me.DeceasedPersonToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
+            Me.DeceasedPersonToolStripMenuItem.Text = "Deceased person"
+            '
             'ActivePoliticianToolStripMenuItem
             '
             Me.ActivePoliticianToolStripMenuItem.Name = "ActivePoliticianToolStripMenuItem"
@@ -504,8 +524,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
             Me.Controls.Add(Me.WorkgroupsGroupBox)
             Me.Controls.Add(Me.TipLabel)
-            Me.Controls.Add(Me.LinkLabel1)
             Me.Controls.Add(Me.ParametersGroup)
+            Me.Controls.Add(Me.LinkLabel1)
             Me.Controls.Add(Me.OptionsGroupBox)
             Me.MaximumSize = New System.Drawing.Size(276, 349)
             Me.MinimumSize = New System.Drawing.Size(276, 349)
@@ -573,6 +593,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Private WithEvents BaronetsCheckBox As System.Windows.Forms.CheckBox
         Private WithEvents BaronetsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
         Private WithEvents PeerageToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+        Private WithEvents DeadPersonCheckBox As System.Windows.Forms.CheckBox
+        Friend WithEvents DeceasedPersonToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
     End Class
 End Namespace
