@@ -219,7 +219,7 @@ namespace WikiFunctions
             return Name;
         }
 
-        private static string RemoveNamespaceString(string Name)
+        public static string RemoveNamespaceString(string Name)
         {
             foreach (KeyValuePair<int, string> Namespace in Variables.Namespaces)
             {
