@@ -416,7 +416,7 @@ namespace AutoWikiBrowser
             // 
             this.numEditBoxAutosave.Location = new System.Drawing.Point(139, 14);
             this.numEditBoxAutosave.Maximum = new decimal(new int[] {
-            120,
+            300,
             0,
             0,
             0});
