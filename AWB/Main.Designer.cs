@@ -199,6 +199,7 @@ namespace AutoWikiBrowser
             this.Timer = new System.Windows.Forms.Timer(this.components);
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.btntsShowHide = new System.Windows.Forms.ToolStripButton();
+            this.btntsShowHideParameters = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
             this.btntsStart = new System.Windows.Forms.ToolStripButton();
             this.btntsStop = new System.Windows.Forms.ToolStripButton();
@@ -1646,6 +1647,7 @@ namespace AutoWikiBrowser
             // 
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btntsShowHide,
+            this.btntsShowHideParameters,
             this.toolStripSeparator12,
             this.btntsStart,
             this.btntsStop,
@@ -1673,6 +1675,15 @@ namespace AutoWikiBrowser
             this.btntsShowHide.Size = new System.Drawing.Size(23, 22);
             this.btntsShowHide.Text = "Show or hide the panel";
             this.btntsShowHide.Click += new System.EventHandler(this.btnShowHide_Click);
+            // 
+            // btntsShowHideParameters
+            // 
+            this.btntsShowHideParameters.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btntsShowHideParameters.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btntsShowHideParameters.Name = "btntsShowHideParameters";
+            this.btntsShowHideParameters.Size = new System.Drawing.Size(23, 22);
+            this.btntsShowHideParameters.Text = "Make the edit box span bottom of window";
+            this.btntsShowHideParameters.Click += new System.EventHandler(this.btntsShowHideParameters_Click);
             // 
             // toolStripSeparator12
             // 
@@ -1943,7 +1954,7 @@ namespace AutoWikiBrowser
             this.tpSetOptions.Location = new System.Drawing.Point(4, 22);
             this.tpSetOptions.Name = "tpSetOptions";
             this.tpSetOptions.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSetOptions.Size = new System.Drawing.Size(278, 348);
+            this.tpSetOptions.Size = new System.Drawing.Size(278, 351);
             this.tpSetOptions.TabIndex = 0;
             this.tpSetOptions.Text = "(2) Set options";
             this.tpSetOptions.UseVisualStyleBackColor = true;
@@ -2122,7 +2133,7 @@ namespace AutoWikiBrowser
             this.tpMoreOptions.Location = new System.Drawing.Point(4, 22);
             this.tpMoreOptions.Name = "tpMoreOptions";
             this.tpMoreOptions.Padding = new System.Windows.Forms.Padding(3);
-            this.tpMoreOptions.Size = new System.Drawing.Size(278, 348);
+            this.tpMoreOptions.Size = new System.Drawing.Size(278, 351);
             this.tpMoreOptions.TabIndex = 1;
             this.tpMoreOptions.Text = "More...";
             this.tpMoreOptions.UseVisualStyleBackColor = true;
@@ -2271,7 +2282,7 @@ namespace AutoWikiBrowser
             this.tpDab.Location = new System.Drawing.Point(4, 22);
             this.tpDab.Name = "tpDab";
             this.tpDab.Padding = new System.Windows.Forms.Padding(3);
-            this.tpDab.Size = new System.Drawing.Size(278, 348);
+            this.tpDab.Size = new System.Drawing.Size(278, 351);
             this.tpDab.TabIndex = 4;
             this.tpDab.Text = "Disambig";
             this.tpDab.UseVisualStyleBackColor = true;
@@ -2602,7 +2613,7 @@ namespace AutoWikiBrowser
             this.tpStart.Location = new System.Drawing.Point(4, 22);
             this.tpStart.Name = "tpStart";
             this.tpStart.Padding = new System.Windows.Forms.Padding(3);
-            this.tpStart.Size = new System.Drawing.Size(278, 348);
+            this.tpStart.Size = new System.Drawing.Size(278, 351);
             this.tpStart.TabIndex = 3;
             this.tpStart.Text = "(3) Start";
             this.tpStart.UseVisualStyleBackColor = true;
@@ -2909,7 +2920,7 @@ namespace AutoWikiBrowser
             this.tpLogs.Location = new System.Drawing.Point(4, 22);
             this.tpLogs.Name = "tpLogs";
             this.tpLogs.Padding = new System.Windows.Forms.Padding(3);
-            this.tpLogs.Size = new System.Drawing.Size(261, 346);
+            this.tpLogs.Size = new System.Drawing.Size(262, 351);
             this.tpLogs.TabIndex = 1;
             this.tpLogs.Text = "View log";
             this.tpLogs.UseVisualStyleBackColor = true;
@@ -3408,6 +3419,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Button btnSaveSaved;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ToolStripButton btntsShowHideParameters;
 
 
     }

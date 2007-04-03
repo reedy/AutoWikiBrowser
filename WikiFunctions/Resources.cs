@@ -14,6 +14,14 @@ namespace WikiFunctions
             }
         }
 
+        public static System.Drawing.Bitmap btnshowhideparameters_image
+        {
+            get
+            {
+                return MyResource.Showhideparameters;
+            }
+        }
+
         public static System.Drawing.Bitmap btntssave_image
         {
             get
