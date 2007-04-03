@@ -150,6 +150,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
 
         ' Overrides:
         Public Overrides Sub AddListener(ByVal Key As String, ByVal Listener As IMyTraceListener)
+            If Key = "AWB" AndAlso MyBase.ContainsKey("AWB") Then MyBase.RemoveListener("AWB")
+
             MyBase.AddListener(Key, Listener)
             If Listener.Uploadable Then _
                AddHandler (DirectCast(Listener, TraceListenerUploadableBase)).Upload, AddressOf Me.Trace_Upload
