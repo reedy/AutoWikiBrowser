@@ -327,7 +327,7 @@ namespace AutoWikiBrowser
         private decimal AutoSaveEditBoxPeriod
         {
             get { return dAutoSaveEditPeriod; }
-            set { dAutoSaveEditPeriod = value; }
+            set { dAutoSaveEditPeriod = value; EditBoxSaveTimer.Interval = int.Parse((value * 1000).ToString()); }
         }
 
         #endregion
@@ -389,6 +389,10 @@ namespace AutoWikiBrowser
                 }
                 if (chkAutoMode.Checked)
                     SaveTimer.Start();
+
+                if (AutoSaveEditBoxEnabled)
+                    EditBoxSaveTimer.Enabled = true;
+
                 //Navigate to edit page
                 webBrowserEdit.LoadEditPage(EdittingArticle.Name);
             }
@@ -2359,6 +2363,10 @@ namespace AutoWikiBrowser
                 Variables.User.webBrowserLogin.Stop();
 
             listMaker1.Stop();
+
+            if (AutoSaveEditBoxEnabled)
+                EditBoxSaveTimer.Enabled = false;
+
             lblStatusText.Text = "Stopped";
         }
 
@@ -3227,6 +3235,29 @@ namespace AutoWikiBrowser
                 ((AWBLogListener)((ListView)sender).FocusedItem).OpenInBrowser();
             }
             catch { }
+        }
+
+        private void EditBoxSaveTimer_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                StringBuilder strList = new StringBuilder("");
+                StreamWriter sw;
+                string strListFile = txtEdit.Text;
+
+                strListFile = Application.StartupPath + AutoSaveEditBoxFile;
+                sw = new StreamWriter(strListFile, false, Encoding.UTF8);
+                sw.Write(strList);
+                sw.Close();
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show(ex.Message, "File error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
