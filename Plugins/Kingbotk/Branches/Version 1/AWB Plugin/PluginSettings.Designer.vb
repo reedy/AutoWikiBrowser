@@ -67,7 +67,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.GroupBox1 = New System.Windows.Forms.GroupBox
             Me.lblAWBNudges = New System.Windows.Forms.Label
             Me.ResetTimerButton = New System.Windows.Forms.Button
-            Me.Led1 = New AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.LED
             Me.GroupBox4 = New System.Windows.Forms.GroupBox
             Me.PluginMenuStrip = New System.Windows.Forms.MenuStrip
             Me.PluginToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -109,8 +108,9 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator
             Me.NAPriorityMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.BotTimer = New System.Windows.Forms.Timer(Me.components)
-            Me.TimerStats1 = New AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.TimerStats
             Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
+            Me.TimerStats1 = New AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.TimerStats
+            Me.Led1 = New AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.LED
             Me.AWBGroupBox.SuspendLayout()
             Me.GroupBox2.SuspendLayout()
             Me.ArticleStatsGroupBox.SuspendLayout()
@@ -584,15 +584,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.ToolTip1.SetToolTip(Me.ResetTimerButton, "Reset the timer")
             Me.ResetTimerButton.UseVisualStyleBackColor = True
             '
-            'Led1
-            '
-            Me.Led1.Colour = AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.Colour.Red
-            Me.Led1.Location = New System.Drawing.Point(9, 318)
-            Me.Led1.Name = "Led1"
-            Me.Led1.Size = New System.Drawing.Size(20, 20)
-            Me.Led1.TabIndex = 43
-            Me.ToolTip1.SetToolTip(Me.Led1, "Green when the plugin is processing article text")
-            '
             'GroupBox4
             '
             Me.GroupBox4.Controls.Add(Me.ManuallyAssessCheckBox)
@@ -849,6 +840,13 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             '
             Me.BotTimer.Interval = 600000
             '
+            'SaveFileDialog1
+            '
+            Me.SaveFileDialog1.DefaultExt = "txt"
+            Me.SaveFileDialog1.Filter = "Text files|*.txt"
+            Me.SaveFileDialog1.OverwritePrompt = False
+            Me.SaveFileDialog1.Title = "Save article list"
+            '
             'TimerStats1
             '
             Me.TimerStats1.Location = New System.Drawing.Point(5, 250)
@@ -858,11 +856,14 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.TimerStats1.TabIndex = 44
             Me.TimerStats1.Visible = False
             '
-            'SaveFileDialog1
+            'Led1
             '
-            Me.SaveFileDialog1.DefaultExt = "txt"
-            Me.SaveFileDialog1.OverwritePrompt = False
-            Me.SaveFileDialog1.Title = "Save article list"
+            Me.Led1.Colour = AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.Colour.Red
+            Me.Led1.Location = New System.Drawing.Point(9, 318)
+            Me.Led1.Name = "Led1"
+            Me.Led1.Size = New System.Drawing.Size(20, 20)
+            Me.Led1.TabIndex = 43
+            Me.ToolTip1.SetToolTip(Me.Led1, "Green when the plugin is processing article text")
             '
             'PluginSettingsControl
             '

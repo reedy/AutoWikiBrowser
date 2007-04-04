@@ -2,6 +2,8 @@ Imports System.IO
 Imports System.Text.encoding
 
 Friend NotInheritable Class DryRunLog
+    ' If there comes a request to log more info in the dry run, this could maybe implement IMyTraceListener.
+    ' I think for now though this solution is perfectly adequate.
     Private Log As StreamWriter
     Private mFileName As String
     Private mPluginSettings As PluginSettingsControl
@@ -21,7 +23,18 @@ Friend NotInheritable Class DryRunLog
     Friend Sub Close()
         mPluginSettings.ManuallyAssessCheckBox.Enabled = Not PluginManager.BotMode
         mPluginSettings = Nothing
+        Log.Close()
+        Log.Dispose()
     End Sub
+    Friend Sub WriteArticleLine(ByVal Title As String, ByVal Minor As Boolean)
+        If Minor Then
+            Log.WriteLine("#[[" & Title & "]] (minor)")
+        Else
+            Log.WriteLine("#[[" & Title & "]]")
+        End If
+        Log.Flush()
+    End Sub
+
     Private Function OpenLog() As Boolean
         OpenLog = True
 
@@ -32,19 +45,4 @@ Friend NotInheritable Class DryRunLog
             OpenLog = False
         End Try
     End Function
-
-    Protected Overrides Sub Finalize()
-        MyBase.Finalize()
-        Log.Close()
-        Log.Dispose()
-    End Sub
-
-    Friend Sub WriteArticleLine(ByVal Title As String, ByVal Minor As Boolean)
-        If Minor Then
-            Log.WriteLine("#[[" & Title & "]] (minor)")
-        Else
-            Log.WriteLine("#[[" & Title & "]]")
-        End If
-        Log.Flush()
-    End Sub
 End Class

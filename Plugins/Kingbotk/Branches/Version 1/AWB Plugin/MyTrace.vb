@@ -147,6 +147,17 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             If BusyCounter = 0 AndAlso Not LoggingSettings.Led1.Colour = Colour.Blue _
                Then LoggingSettings.Led1.Colour = Colour.Red
         End Sub
+        Private ReadOnly Property BadPagesLogToUpload() As Boolean
+            Get
+                Return False
+            End Get
+        End Property
+        Private ReadOnly Property WikiLogToUpload() As Boolean
+            Get
+                If ContainsKey(conWiki) AndAlso DirectCast(Listeners(conWiki), _
+                   WikiTraceListener).TraceStatus.LinesWrittenSinceLastUpload > 1 Then Return True
+            End Get
+        End Property
 
         ' Overrides:
         Public Overrides Sub AddListener(ByVal Key As String, ByVal Listener As IMyTraceListener)
@@ -169,9 +180,9 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
 
             Dim upload As Boolean
 
-            If (ContainsKey(conBadPages) OrElse ContainsKey(conWiki)) AndAlso (LoggingSettings.Settings.UploadYN AndAlso MessageBox.Show("Upload logs?", _
-            "Logging", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) _
-            = DialogResult.Yes) Then upload = True
+            If LoggingSettings.Settings.UploadYN AndAlso (BadPagesLogToUpload OrElse WikiLogToUpload) AndAlso _
+            MessageBox.Show("Upload logs?", "Logging", MessageBoxButtons.YesNo, MessageBoxIcon.Question, _
+            MessageBoxDefaultButton.Button1) = DialogResult.Yes Then upload = True
 
             For Each t As KeyValuePair(Of String, IMyTraceListener) In Listeners
                 t.Value.WriteCommentAndNewLine("closing all logs")
