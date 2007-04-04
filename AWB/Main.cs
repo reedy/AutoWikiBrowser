@@ -155,15 +155,13 @@ namespace AutoWikiBrowser
         private void MainForm_Load(object sender, EventArgs e)
         {
             // hide this tab until it's fully written
-            //tabControl1.TabPages.Remove(tpDab);
-
-            //check that we are not using an old OS. 98 seems to mangled some unicode
+            //tabControl1.TabPages.Remove(tpDab);        
 
             updateUpdater();
 
-            //splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             try
             {
+                //check that we are not using an old OS. 98 seems to mangled some unicode
                 if (Environment.OSVersion.Version.Major < 5)
                 {
                     MessageBox.Show("You appear to be using an older operating system, this software may have trouble with some unicode fonts on operating systems older than Windows 2000, the start button has been disabled.", "Operating system", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -193,13 +191,7 @@ namespace AutoWikiBrowser
         private void MainForm_Resize(object sender, EventArgs e)
         {
             if ((Minimize) && (this.WindowState == FormWindowState.Minimized))
-            {
                 this.Visible = false;
-            }
-            else
-            {
-                //splitContainer1.
-            }
         }
 
         #endregion
@@ -379,9 +371,7 @@ namespace AutoWikiBrowser
                     return;
                 }
                 else
-                {
                     webBrowserEdit.Busy = true;
-                }
 
                 EdittingArticle = listMaker1.SelectedArticle();
 
@@ -443,8 +433,6 @@ namespace AutoWikiBrowser
                 webBrowserEdit.LoadEditPage(Redirect.Name);
                 return;
             }
-
-            //LogListener = new AWBLogListener(EdittingArticle.Name);
 
             if (chkSkipIfContains.Checked && Skip.SkipIfContains(strText, EdittingArticle.Name,
             txtSkipIfContains.Text, chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, true))
@@ -524,7 +512,6 @@ namespace AutoWikiBrowser
                 EnableButtons();
                 Abort = false;
             }
-            
         }
 
         private void bleepflash()
@@ -535,13 +522,9 @@ namespace AutoWikiBrowser
                 Tools.Beep1();
             }
             else if (!this.ContainsFocus && Flash)
-            {
                 Tools.FlashWindow(this);
-            }
             else if (!this.ContainsFocus && Beep)
-            {
                 Tools.Beep1();
-            }
         }
 
         private bool loadSuccess()
@@ -576,7 +559,6 @@ namespace AutoWikiBrowser
                     SaveTimer.Stop();
                     Start();
                     return false;
-                
                 }
 
                 if (webBrowserEdit.NewMessage)
@@ -699,7 +681,7 @@ namespace AutoWikiBrowser
             SaveTimer.Stop();
             sameArticleNudges = 0;
 
-            lvSaved.Items.Insert(0, LogListener);
+            lvSaved.Items.Insert(0, LogListener).SubItems.Add(DateTime.Now.ToString());
             resizeListView(lvSaved);
 
             Start();
@@ -712,9 +694,7 @@ namespace AutoWikiBrowser
                 lblStatusText.Text = "Signed in, now re-starting";
 
                 if (!Variables.User.WikiStatus)
-                {
                     CheckStatus();
-                }
             }
         }
 
@@ -1103,7 +1083,8 @@ namespace AutoWikiBrowser
 
         private void parametersShowHide()
         {
-            splitContainer1.Panel1Collapsed = !(splitContainer1.Panel1Collapsed);      
+            enlargeEditAreaToolStripMenuItem.Checked = !enlargeEditAreaToolStripMenuItem.Checked;
+            splitContainer1.Panel1Collapsed = !splitContainer1.Panel1Collapsed;      
         }
         
         private void UpdateUserName(object sender, EventArgs e)
@@ -1293,10 +1274,7 @@ namespace AutoWikiBrowser
 
         private void loginToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //if (Variables.User.WikiStatus)
-            // {
             CheckStatus();
-            //  }
         }
 
         private void logOutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1382,6 +1360,7 @@ namespace AutoWikiBrowser
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
+            Application.Exit();
         }
 
         private void chkAppend_CheckedChanged(object sender, EventArgs e)
@@ -1679,8 +1658,6 @@ namespace AutoWikiBrowser
             dumpHTMLToolStripMenuItem.Visible = true;
             logOutDebugToolStripMenuItem.Visible = true;
             bypassAllRedirectsToolStripMenuItem.Enabled = true;
-
-            //MessageBox.Show(Tools.MakeHumanCatKey("Peter Boyle III"));
         }
 
         #endregion
@@ -1698,7 +1675,6 @@ namespace AutoWikiBrowser
                 webBrowserEdit.DiffFontSize = MyPrefs.DiffFontSize;
                 txtEdit.Font = MyPrefs.TextBoxFont;
                 LowThreadPriority = MyPrefs.LowThreadPriority;
-                //FlashAndBeep = MyPrefs.FlashAndBeep;
                 Flash = MyPrefs.perfFlash;
                 Beep = MyPrefs.perfBeep;
                 Minimize = MyPrefs.perfMinimize;
@@ -2571,7 +2547,6 @@ namespace AutoWikiBrowser
                 foreach (string s in se.Summaries.Lines)
                 {
                     if (s.Trim() == "") continue;
-
                     cmboEditSummary.Items.Add(s.Trim());
                 }
 
@@ -2644,7 +2619,6 @@ namespace AutoWikiBrowser
                     webBrowserEdit.Height = splitContainer1.Location.Y - 48;
                 else
                     webBrowserEdit.Height = statusStrip1.Location.Y - 48;
-
             }
             else
             {
@@ -2907,9 +2881,6 @@ namespace AutoWikiBrowser
             {
                 MessageBox.Show(ex.Message);
             }
-            finally
-            {
-            }
         }
 
         private void txtDabLink_KeyPress(object sender, KeyPressEventArgs e)
@@ -2953,6 +2924,7 @@ namespace AutoWikiBrowser
         private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             this.Close();
+            Application.Exit();
         }
 
         private void ntfyTray_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -3037,7 +3009,6 @@ namespace AutoWikiBrowser
         {
             SaveTimer.Interval = (int)nudNudgeTime.Value * 60000;
         }
-
 
         #region "Nudge timer"
             private const string NudgeTimerString = "Total nudges: ";
@@ -3220,33 +3191,6 @@ namespace AutoWikiBrowser
                 if (width2 < width)
                     head.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
             }
-        }
-
-        private void lvSaved_MouseMove(object sender, MouseEventArgs e)
-        {
-            //string strTip = "";
-
-            //Get the item
-            //int nIdx = lvSaved.IndexFromPoint(e.Location);
-            //if ((nIdx >= 0) && (nIdx < lvSaved.Items.Count))
-            //    strTip = lvSaved.Items[nIdx].ToString();
-            //if (strTip != strlbSavedTooltip)
-            //    toolTip1.SetToolTip(lvSaved, strTip);
-            //strlbSavedTooltip = strTip;
-        }
-
-        private void lvIgnored_MouseMove(object sender, MouseEventArgs e)
-        {
-            //string strTip = "";
-
-            //Get the item
-            //int nIdx = lvSaved.IndexFromPoint(e.Location);
-            //if ((nIdx >= 0) && (nIdx < lvSaved.Items.Count))
-            //    strTip = lvSaved.Items[nIdx].ToString();
-            //if (strTip != strlbSavedTooltip)
-            //    toolTip1.SetToolTip(lvSaved, strTip);
-            //strlbSavedTooltip = strTip;
-
         }
 
         private void LogLists_DoubleClick(object sender, EventArgs e)
