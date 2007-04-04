@@ -1777,8 +1777,10 @@ namespace AutoWikiBrowser
 
         private void SetStartButton(bool enabled)
         {
-            btnStart.Enabled = enabled;
-            btntsStart.Enabled = enabled;
+            /* Please don't remove the If statements; otherwise the EnabledChange event fires even if the button
+             * button was already named. The Kingbotk plugin attaches to that event. */
+            if(!btnStart.Enabled) btnStart.Enabled = enabled;
+            if (!btntsStart.Enabled) btntsStart.Enabled = enabled;
         }
 
         private void DisableButtons()
