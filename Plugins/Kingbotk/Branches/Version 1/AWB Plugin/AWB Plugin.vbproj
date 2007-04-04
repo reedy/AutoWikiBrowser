@@ -105,6 +105,7 @@
     <Compile Include="Australia.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="DryRunLog.vb" />
     <Compile Include="WPNovels.Designer.vb">
       <DependentUpon>WPNovels.vb</DependentUpon>
     </Compile>
