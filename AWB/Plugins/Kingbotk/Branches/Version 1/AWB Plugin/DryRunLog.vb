@@ -25,6 +25,7 @@ Friend NotInheritable Class DryRunLog
         mPluginSettings = Nothing
         Log.Close()
         Log.Dispose()
+        System.Diagnostics.Process.Start(mFileName)
     End Sub
     Friend Sub WriteArticleLine(ByVal Title As String, ByVal Minor As Boolean)
         If Minor Then
