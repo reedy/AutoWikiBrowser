@@ -14,7 +14,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
         Private mStartingUp As Boolean
 
         ' Properties
-        Public WriteOnly Property LogFolder() As String
+        Friend WriteOnly Property LogFolder() As String
             Set(ByVal value As String)
                 Settings.LogFolder = value
                 FolderTextBox.Text = value
@@ -28,12 +28,14 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
                 mInitialised = value
             End Set
         End Property
-        Friend Sub ReReadFromProps()
-            ApplySettingsToControls(Settings)
-        End Sub
+        Friend WriteOnly Property IgnoreEvents() As Boolean
+            Set(ByVal value As Boolean)
+                mStartingUp = value
+            End Set
+        End Property
 
 #Region "XML"
-        Public Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader, ByVal MyTrace As MyTrace)
+        Friend Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader, ByVal MyTrace As MyTrace)
             Dim NewProps As New Props
 
             NewProps.ReadXML(Reader) ' ReadXML values into a new settings object
@@ -47,10 +49,10 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
                 GetSettingsFromControls()
             End If
         End Sub
-        Public Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter)
+        Friend Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter)
             Settings.WriteXML(Writer)
         End Sub
-        Public Sub Reset()
+        Friend Sub Reset()
             Dim NewProps As New Props
 
             If Not ApplyButton.Enabled AndAlso Not Settings.Equals(NewProps) Then WeHaveUnappliedChanges()
@@ -225,13 +227,13 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
             Private Shared ReadOnly mPluginVersion As String = _
                System.Reflection.Assembly.GetExecutingAssembly.GetName.Version.ToString
 
-            Public Sub New()
+            Friend Sub New()
                 MyBase.New()
                 mUploadLocation = conUploadToUserSlashLogsToken
                 mUploadJobName = conUploadCategoryIsJobName
             End Sub
 
-            Public Shadows Function Equals(ByVal Compare As Props) As Boolean
+            Friend Shadows Function Equals(ByVal Compare As Props) As Boolean
                 With Compare
                     If .LogBadPages = LogBadPages AndAlso .LogFolder = LogFolder AndAlso .LogVerbose = LogVerbose _
                     AndAlso .LogWiki = LogWiki AndAlso .LogXHTML = LogXHTML _
@@ -246,17 +248,17 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
             End Function
 
             ' Additional properties:
-            Public Shared ReadOnly Property PluginVersion() As String
+            Friend Shared ReadOnly Property PluginVersion() As String
                 Get
                     Return mPluginVersion
                 End Get
             End Property
-            Public Shared ReadOnly Property AWBVersion() As String
+            Friend Shared ReadOnly Property AWBVersion() As String
                 Get
                     Return Application.ProductVersion.ToString
                 End Get
             End Property
-            Public Property LogBadPages() As Boolean
+            Friend Property LogBadPages() As Boolean
                 Get
                     Return mLogBadPages
                 End Get
@@ -264,7 +266,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
                     mLogBadPages = value
                 End Set
             End Property
-            Public Property UploadToWikiProjects() As Boolean
+            Friend Property UploadToWikiProjects() As Boolean
                 Get
                     Return mUploadToWikiProjects
                 End Get
@@ -272,7 +274,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
                     mUploadToWikiProjects = value
                 End Set
             End Property
-            Public ReadOnly Property LinksToLog(ByVal ActivePlugins As List(Of PluginBase)) As List(Of LogEntry)
+            Friend ReadOnly Property LinksToLog(ByVal ActivePlugins As List(Of PluginBase)) As List(Of LogEntry)
                 Get
                     LinksToLog = New List(Of LogEntry)
                     LinksToLog.Add(New LogEntry(GlobbedUploadLocation, False))
@@ -293,7 +295,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
                     Return mUploadLocation.Replace("$USER", "User:" & PluginManager.UserName)
                 End Get
             End Property
-            Public Property Category() As String
+            Friend Property Category() As String
                 Get
                     Return mCategory
                 End Get
@@ -301,12 +303,12 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
                     mCategory = value
                 End Set
             End Property
-            Public ReadOnly Property WikifiedCategory() As String
+            Friend ReadOnly Property WikifiedCategory() As String
                 Get
                     If mCategory = "" Then Return "" Else Return "[[:Category:" & mCategory & "|" & mCategory & "]]"
                 End Get
             End Property
-            Public ReadOnly Property LogTitle() As String
+            Friend ReadOnly Property LogTitle() As String
                 Get
                     Return Tools.RemoveInvalidChars(mUploadJobName.Replace(conUploadCategoryIsJobName, mCategory))
                 End Get
@@ -356,7 +358,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
 #End Region
         End Class
 
-        Public Sub New(ByVal pMyTrace As MyTrace, ByVal CategoryTextBox As TextBox)
+        Friend Sub New(ByVal pMyTrace As MyTrace, ByVal CategoryTextBox As TextBox)
             mStartingUp = True
             MyTrace = pMyTrace
             mCategoryTextBox = CategoryTextBox
