@@ -28,6 +28,9 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
                 mInitialised = value
             End Set
         End Property
+        Friend Sub ReReadFromProps()
+            ApplySettingsToControls(Settings)
+        End Sub
 
 #Region "XML"
         Public Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader, ByVal MyTrace As MyTrace)

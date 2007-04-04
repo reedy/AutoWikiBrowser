@@ -1,7 +1,5 @@
 Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
     Friend NotInheritable Class PluginSettingsControl
-        ' tag categories option (where a suitable class= exists; maybe should be in template-specific options)
-
         ' XML parm-name constants:
         Private Const conCategoryNameParm As String = "CategoryName"
         Private Const conManuallyAssessParm As String = "ManuallyAssess"
@@ -171,12 +169,14 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 SkipBadTagsCheckBox.Enabled = False
                 SkipNoChangesCheckBox.Checked = False
                 SkipNoChangesCheckBox.Enabled = False
+                btnDryRun.Enabled = False
             Else
                 If blnBotModeHasBeenOn Then ' ManuallyAssessed is now unchecked, bot has been previously enabled
                     chkBotMode.Enabled = True
                 End If
                 SkipBadTagsCheckBox.Enabled = True
                 SkipNoChangesCheckBox.Enabled = True
+                btnDryRun.Enabled = btnStart.Enabled
             End If
 
             CleanupCheckBox.Checked = ManuallyAssess
@@ -196,10 +196,16 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         End Sub
 
         ' Event handlers - AWB components (some additionally double-handled in Plugin Manager):
-        Friend Sub AWBButtonsEnabledHandler(ByVal sender As Object, ByVal e As EventArgs)
+        Private Sub AWBButtonsEnabledHandler(ByVal sender As Object, ByVal e As EventArgs)
             Dim btn As Button = DirectCast(sender, Button)
 
             DirectCast(Me.AWBGroupBox.Controls(btn.Name), Button).Enabled = btn.Enabled
+        End Sub
+        Private Sub AWBStartButtonEnabledHandler(ByVal sender As Object, ByVal e As EventArgs)
+            Dim btn As Button = DirectCast(sender, Button)
+
+            btnStart.Enabled = btn.Enabled
+            btnDryRun.Enabled = btn.Enabled
         End Sub
         Private Sub AWBSkipButtonClickEventHandler(ByVal sender As Object, ByVal e As EventArgs) _
         Handles btnIgnore.Click
@@ -444,7 +450,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 ' Get notification when AWB buttons enabled-state changes:
                 AddHandler .DiffButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
                 AddHandler .StopButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
-                AddHandler .StartButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
+                AddHandler .StartButton.EnabledChanged, AddressOf Me.AWBStartButtonEnabledHandler
                 AddHandler .PreviewButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
                 AddHandler .SaveButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
                 AddHandler .SkipButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
@@ -459,6 +465,14 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             MyTrace = New MyTrace()
             LoggingSettings = New PluginLogging(MyTrace, CategoryTextBox)
             MyTrace.LS = LoggingSettings
+
+            ' Initialise enabled state of our replica buttons:
+            AWBButtonsEnabledHandler(PluginManager.AWBForm.StartTab.Controls("btnDiff"), Nothing)
+            AWBButtonsEnabledHandler(PluginManager.AWBForm.StartTab.Controls("btnStop"), Nothing)
+            AWBStartButtonEnabledHandler(PluginManager.AWBForm.StartTab.Controls("btnStart"), Nothing)
+            AWBButtonsEnabledHandler(PluginManager.AWBForm.StartTab.Controls("btnPreview"), Nothing)
+            AWBButtonsEnabledHandler(PluginManager.AWBForm.SaveButton, Nothing)
+            AWBButtonsEnabledHandler(PluginManager.AWBForm.SkipButton, Nothing)
         End Sub
     End Class
 End Namespace
