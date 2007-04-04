@@ -144,8 +144,10 @@ namespace AutoWikiBrowser
             this.addIgnoredToLogFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.summariesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator19 = new System.Windows.Forms.ToolStripSeparator();
-            this.reloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showHidePanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.enlargeEditAreaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator23 = new System.Windows.Forms.ToolStripSeparator();
+            this.reloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripAdvanced = new System.Windows.Forms.ToolStripMenuItem();
             this.makeModuleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testRegexToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -325,8 +327,6 @@ namespace AutoWikiBrowser
             this.btnSaveSaved = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.toolStripSeparator23 = new System.Windows.Forms.ToolStripSeparator();
-            this.enlargeEditAreaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -1115,20 +1115,35 @@ namespace AutoWikiBrowser
             this.toolStripSeparator19.Name = "toolStripSeparator19";
             this.toolStripSeparator19.Size = new System.Drawing.Size(252, 6);
             // 
-            // reloadToolStripMenuItem
-            // 
-            this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
-            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(255, 22);
-            this.reloadToolStripMenuItem.Text = "Refresh Status/Typos";
-            this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
-            // 
             // showHidePanelToolStripMenuItem
             // 
             this.showHidePanelToolStripMenuItem.Name = "showHidePanelToolStripMenuItem";
             this.showHidePanelToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
             this.showHidePanelToolStripMenuItem.Size = new System.Drawing.Size(255, 22);
             this.showHidePanelToolStripMenuItem.Text = "Show Hide Bottom Panel";
+            this.showHidePanelToolStripMenuItem.Visible = false;
             this.showHidePanelToolStripMenuItem.Click += new System.EventHandler(this.showHidePanelToolStripMenuItem_Click);
+            // 
+            // enlargeEditAreaToolStripMenuItem
+            // 
+            this.enlargeEditAreaToolStripMenuItem.Name = "enlargeEditAreaToolStripMenuItem";
+            this.enlargeEditAreaToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+                        | System.Windows.Forms.Keys.H)));
+            this.enlargeEditAreaToolStripMenuItem.Size = new System.Drawing.Size(255, 22);
+            this.enlargeEditAreaToolStripMenuItem.Text = "Enlarge Edit Area";
+            this.enlargeEditAreaToolStripMenuItem.Click += new System.EventHandler(this.enlargeEditAreaToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator23
+            // 
+            this.toolStripSeparator23.Name = "toolStripSeparator23";
+            this.toolStripSeparator23.Size = new System.Drawing.Size(252, 6);
+            // 
+            // reloadToolStripMenuItem
+            // 
+            this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
+            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(255, 22);
+            this.reloadToolStripMenuItem.Text = "Refresh Status/Typos";
+            this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
             // 
             // toolStripAdvanced
             // 
@@ -3058,20 +3073,6 @@ namespace AutoWikiBrowser
             this.label7.Size = new System.Drawing.Size(101, 13);
             this.label7.TabIndex = 1;
             this.label7.Text = "Successfully saved:";
-            // 
-            // toolStripSeparator23
-            // 
-            this.toolStripSeparator23.Name = "toolStripSeparator23";
-            this.toolStripSeparator23.Size = new System.Drawing.Size(252, 6);
-            // 
-            // enlargeEditAreaToolStripMenuItem
-            // 
-            this.enlargeEditAreaToolStripMenuItem.Name = "enlargeEditAreaToolStripMenuItem";
-            this.enlargeEditAreaToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
-                        | System.Windows.Forms.Keys.H)));
-            this.enlargeEditAreaToolStripMenuItem.Size = new System.Drawing.Size(255, 22);
-            this.enlargeEditAreaToolStripMenuItem.Text = "Enlarge Edit Area";
-            this.enlargeEditAreaToolStripMenuItem.Click += new System.EventHandler(this.enlargeEditAreaToolStripMenuItem_Click);
             // 
             // MainForm
             // 
