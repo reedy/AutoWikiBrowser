@@ -24,7 +24,6 @@ namespace AutoWikiBrowser
             if ((! System.IO.File.Exists(settingsfilename)) || MessageBox.Show("Replace existing file?", "File exists",
             MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1)==DialogResult.Yes)
                 SavePrefs(settingsfilename);
-
         }
 
         private void loadSettingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -47,6 +46,7 @@ namespace AutoWikiBrowser
                 return;
 
             SavePrefs(saveXML.FileName);
+            settingsfilename = saveXML.FileName;
         }
 
         private void ResetSettings()
