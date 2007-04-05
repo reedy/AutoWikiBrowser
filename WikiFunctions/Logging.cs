@@ -124,7 +124,7 @@ using System.Text;
             System.Diagnostics.Process.Start(Variables.URL + "/wiki/" + marticle);
         }
 
-        public void AddAndDateStamp(NoFlickerListView ListView)
+        public void AddAndDateStamp(ListView ListView)
         {
             ListViewSubItem DateStamp = new ListViewSubItem();
             DateStamp.Text = DateTime.Now.ToString();
@@ -201,7 +201,6 @@ using System.Text;
 
         protected void Skip(string SkippedBy, string SkipReason)
         {
-            //SubItems.Add(DateTime.Now.ToString());
             SubItems.Add(SkippedBy);
             SubItems.Add(SkipReason);
             WriteLine(SkipReason, SkippedBy);
