@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
-using System.Windows.Forms;
 using System.Text;
 
-namespace AutoWikiBrowser
+using System.Windows.Forms;
+
+namespace WikiFunctions
 {
-    //http://msdn2.microsoft.com/en-us/library/ms996467.aspx
-    class ListViewItemComparer : IComparer     {
+//http://msdn2.microsoft.com/en-us/library/ms996467.aspx
+    class ListViewItemComparer : IComparer
+    {
         private int col;
         private SortOrder order;
 

@@ -311,25 +311,7 @@ namespace AutoWikiBrowser
             this.tpEdit = new System.Windows.Forms.TabPage();
             this.txtEdit = new System.Windows.Forms.TextBox();
             this.tpLogs = new System.Windows.Forms.TabPage();
-            this.lvIgnored = new WikiFunctions.NoFlickerListView();
-            this.colIgnoreArticle = new System.Windows.Forms.ColumnHeader();
-            this.colIgnoreTime = new System.Windows.Forms.ColumnHeader();
-            this.colSkippedBy = new System.Windows.Forms.ColumnHeader();
-            this.colSkipReason = new System.Windows.Forms.ColumnHeader();
-            this.mnuLVIgnored = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.addToArticleListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator24 = new System.Windows.Forms.ToolStripSeparator();
-            this.filterByReasonOfSelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lvSaved = new WikiFunctions.NoFlickerListView();
-            this.colSuccessSave = new System.Windows.Forms.ColumnHeader();
-            this.colSuccessTime = new System.Windows.Forms.ColumnHeader();
-            this.btnAddToList = new System.Windows.Forms.Button();
-            this.btnClearIgnored = new System.Windows.Forms.Button();
-            this.btnSaveIgnored = new System.Windows.Forms.Button();
-            this.btnClearSaved = new System.Windows.Forms.Button();
-            this.btnSaveSaved = new System.Windows.Forms.Button();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
+            this.LogControl1 = new WikiFunctions.LogControl();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -369,7 +351,6 @@ namespace AutoWikiBrowser
             this.tabControl2.SuspendLayout();
             this.tpEdit.SuspendLayout();
             this.tpLogs.SuspendLayout();
-            this.mnuLVIgnored.SuspendLayout();
             this.SuspendLayout();
             // 
             // mnuTextBox
@@ -2874,7 +2855,7 @@ namespace AutoWikiBrowser
             this.tabControl2.Location = new System.Drawing.Point(0, 3);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(270, 377);
+            this.tabControl2.Size = new System.Drawing.Size(273, 377);
             this.tabControl2.TabIndex = 1;
             // 
             // tpEdit
@@ -2883,7 +2864,7 @@ namespace AutoWikiBrowser
             this.tpEdit.Location = new System.Drawing.Point(4, 22);
             this.tpEdit.Name = "tpEdit";
             this.tpEdit.Padding = new System.Windows.Forms.Padding(3);
-            this.tpEdit.Size = new System.Drawing.Size(262, 351);
+            this.tpEdit.Size = new System.Drawing.Size(265, 351);
             this.tpEdit.TabIndex = 0;
             this.tpEdit.Text = "Edit box";
             this.tpEdit.UseVisualStyleBackColor = true;
@@ -2900,193 +2881,30 @@ namespace AutoWikiBrowser
             this.txtEdit.Multiline = true;
             this.txtEdit.Name = "txtEdit";
             this.txtEdit.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtEdit.Size = new System.Drawing.Size(256, 345);
+            this.txtEdit.Size = new System.Drawing.Size(259, 345);
             this.txtEdit.TabIndex = 0;
             this.txtEdit.TextChanged += new System.EventHandler(this.txtEdit_TextChanged);
             // 
             // tpLogs
             // 
-            this.tpLogs.Controls.Add(this.lvIgnored);
-            this.tpLogs.Controls.Add(this.lvSaved);
-            this.tpLogs.Controls.Add(this.btnAddToList);
-            this.tpLogs.Controls.Add(this.btnClearIgnored);
-            this.tpLogs.Controls.Add(this.btnSaveIgnored);
-            this.tpLogs.Controls.Add(this.btnClearSaved);
-            this.tpLogs.Controls.Add(this.btnSaveSaved);
-            this.tpLogs.Controls.Add(this.label8);
-            this.tpLogs.Controls.Add(this.label7);
+            this.tpLogs.Controls.Add(this.LogControl1);
             this.tpLogs.Location = new System.Drawing.Point(4, 22);
             this.tpLogs.Name = "tpLogs";
             this.tpLogs.Padding = new System.Windows.Forms.Padding(3);
-            this.tpLogs.Size = new System.Drawing.Size(262, 351);
+            this.tpLogs.Size = new System.Drawing.Size(265, 351);
             this.tpLogs.TabIndex = 1;
             this.tpLogs.Text = "View log";
             this.tpLogs.UseVisualStyleBackColor = true;
             // 
-            // lvIgnored
+            // LogControl1
             // 
-            this.lvIgnored.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.LogControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.lvIgnored.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.colIgnoreArticle,
-            this.colIgnoreTime,
-            this.colSkippedBy,
-            this.colSkipReason});
-            this.lvIgnored.ContextMenuStrip = this.mnuLVIgnored;
-            this.lvIgnored.FullRowSelect = true;
-            this.lvIgnored.Location = new System.Drawing.Point(9, 193);
-            this.lvIgnored.Name = "lvIgnored";
-            this.lvIgnored.ShowItemToolTips = true;
-            this.lvIgnored.Size = new System.Drawing.Size(243, 117);
-            this.lvIgnored.TabIndex = 12;
-            this.lvIgnored.UseCompatibleStateImageBehavior = false;
-            this.lvIgnored.View = System.Windows.Forms.View.Details;
-            this.lvIgnored.DoubleClick += new System.EventHandler(this.LogLists_DoubleClick);
-            this.lvIgnored.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lvIgnoredColumnSort);
-            // 
-            // colIgnoreArticle
-            // 
-            this.colIgnoreArticle.Text = "Article";
-            this.colIgnoreArticle.Width = 48;
-            // 
-            // colIgnoreTime
-            // 
-            this.colIgnoreTime.Text = "Time";
-            this.colIgnoreTime.Width = 42;
-            // 
-            // colSkippedBy
-            // 
-            this.colSkippedBy.Text = "Skipped By";
-            this.colSkippedBy.Width = 70;
-            // 
-            // colSkipReason
-            // 
-            this.colSkipReason.Text = "Skip Reason";
-            this.colSkipReason.Width = 81;
-            // 
-            // mnuLVIgnored
-            // 
-            this.mnuLVIgnored.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addToArticleListToolStripMenuItem,
-            this.toolStripSeparator24,
-            this.filterByReasonOfSelectedToolStripMenuItem});
-            this.mnuLVIgnored.Name = "mnuLVIgnored";
-            this.mnuLVIgnored.Size = new System.Drawing.Size(217, 76);
-            this.mnuLVIgnored.Opening += new System.ComponentModel.CancelEventHandler(this.mnuLVIgnored_Opening);
-            // 
-            // addToArticleListToolStripMenuItem
-            // 
-            this.addToArticleListToolStripMenuItem.Name = "addToArticleListToolStripMenuItem";
-            this.addToArticleListToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
-            this.addToArticleListToolStripMenuItem.Text = "Add selected to article list";
-            this.addToArticleListToolStripMenuItem.Click += new System.EventHandler(this.addToArticleListToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator24
-            // 
-            this.toolStripSeparator24.Name = "toolStripSeparator24";
-            this.toolStripSeparator24.Size = new System.Drawing.Size(213, 6);
-            // 
-            // filterByReasonOfSelectedToolStripMenuItem
-            // 
-            this.filterByReasonOfSelectedToolStripMenuItem.Name = "filterByReasonOfSelectedToolStripMenuItem";
-            this.filterByReasonOfSelectedToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
-            this.filterByReasonOfSelectedToolStripMenuItem.Text = "Filter by reason of selected";
-            this.filterByReasonOfSelectedToolStripMenuItem.Click += new System.EventHandler(this.filterByReasonOfSelectedToolStripMenuItem_Click);
-            // 
-            // lvSaved
-            // 
-            this.lvSaved.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.lvSaved.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.colSuccessSave,
-            this.colSuccessTime});
-            this.lvSaved.FullRowSelect = true;
-            this.lvSaved.Location = new System.Drawing.Point(9, 22);
-            this.lvSaved.Name = "lvSaved";
-            this.lvSaved.ShowItemToolTips = true;
-            this.lvSaved.Size = new System.Drawing.Size(243, 115);
-            this.lvSaved.TabIndex = 11;
-            this.lvSaved.UseCompatibleStateImageBehavior = false;
-            this.lvSaved.View = System.Windows.Forms.View.Details;
-            this.lvSaved.DoubleClick += new System.EventHandler(this.LogLists_DoubleClick);
-            this.lvSaved.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lvSavedColumnSort);
-            // 
-            // colSuccessSave
-            // 
-            this.colSuccessSave.Text = "Article";
-            this.colSuccessSave.Width = 171;
-            // 
-            // colSuccessTime
-            // 
-            this.colSuccessTime.Text = "Time";
-            // 
-            // btnAddToList
-            // 
-            this.btnAddToList.Location = new System.Drawing.Point(143, 316);
-            this.btnAddToList.Name = "btnAddToList";
-            this.btnAddToList.Size = new System.Drawing.Size(112, 24);
-            this.btnAddToList.TabIndex = 8;
-            this.btnAddToList.Text = "Add to article list";
-            this.btnAddToList.UseVisualStyleBackColor = true;
-            this.btnAddToList.Click += new System.EventHandler(this.btnAddtoList_Click);
-            // 
-            // btnClearIgnored
-            // 
-            this.btnClearIgnored.Location = new System.Drawing.Point(87, 316);
-            this.btnClearIgnored.Name = "btnClearIgnored";
-            this.btnClearIgnored.Size = new System.Drawing.Size(50, 24);
-            this.btnClearIgnored.TabIndex = 7;
-            this.btnClearIgnored.Text = "Clear";
-            this.btnClearIgnored.UseVisualStyleBackColor = true;
-            this.btnClearIgnored.Click += new System.EventHandler(this.btnClearIgnored_Click);
-            // 
-            // btnSaveIgnored
-            // 
-            this.btnSaveIgnored.Location = new System.Drawing.Point(6, 316);
-            this.btnSaveIgnored.Name = "btnSaveIgnored";
-            this.btnSaveIgnored.Size = new System.Drawing.Size(75, 24);
-            this.btnSaveIgnored.TabIndex = 6;
-            this.btnSaveIgnored.Text = "Save log";
-            this.btnSaveIgnored.UseVisualStyleBackColor = true;
-            this.btnSaveIgnored.Click += new System.EventHandler(this.btnSaveIgnored_Click);
-            // 
-            // btnClearSaved
-            // 
-            this.btnClearSaved.Location = new System.Drawing.Point(87, 143);
-            this.btnClearSaved.Name = "btnClearSaved";
-            this.btnClearSaved.Size = new System.Drawing.Size(75, 24);
-            this.btnClearSaved.TabIndex = 5;
-            this.btnClearSaved.Text = "Clear";
-            this.btnClearSaved.UseVisualStyleBackColor = true;
-            this.btnClearSaved.Click += new System.EventHandler(this.btnClearSaved_Click);
-            // 
-            // btnSaveSaved
-            // 
-            this.btnSaveSaved.Location = new System.Drawing.Point(6, 143);
-            this.btnSaveSaved.Name = "btnSaveSaved";
-            this.btnSaveSaved.Size = new System.Drawing.Size(75, 24);
-            this.btnSaveSaved.TabIndex = 4;
-            this.btnSaveSaved.Text = "Save log";
-            this.btnSaveSaved.UseVisualStyleBackColor = true;
-            this.btnSaveSaved.Click += new System.EventHandler(this.btnSaveSaved_Click);
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 177);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(49, 13);
-            this.label8.TabIndex = 3;
-            this.label8.Text = "Skipped:";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 6);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(101, 13);
-            this.label7.TabIndex = 1;
-            this.label7.Text = "Successfully saved:";
+            this.LogControl1.Location = new System.Drawing.Point(0, 4);
+            this.LogControl1.Name = "LogControl1";
+            this.LogControl1.Size = new System.Drawing.Size(260, 341);
+            this.LogControl1.TabIndex = 0;
             // 
             // webBrowserEdit
             // 
@@ -3193,8 +3011,6 @@ namespace AutoWikiBrowser
             this.tpEdit.ResumeLayout(false);
             this.tpEdit.PerformLayout();
             this.tpLogs.ResumeLayout(false);
-            this.tpLogs.PerformLayout();
-            this.mnuLVIgnored.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3462,28 +3278,10 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.TabPage tpEdit;
         private System.Windows.Forms.TextBox txtEdit;
         private System.Windows.Forms.TabPage tpLogs;
-        private WikiFunctions.NoFlickerListView lvIgnored;
-        private System.Windows.Forms.ColumnHeader colIgnoreArticle;
-        private System.Windows.Forms.ColumnHeader colIgnoreTime;
-        private System.Windows.Forms.ColumnHeader colSkippedBy;
-        private System.Windows.Forms.ColumnHeader colSkipReason;
-        private WikiFunctions.NoFlickerListView lvSaved;
-        private System.Windows.Forms.ColumnHeader colSuccessSave;
-        private System.Windows.Forms.ColumnHeader colSuccessTime;
-        private System.Windows.Forms.Button btnAddToList;
-        private System.Windows.Forms.Button btnClearIgnored;
-        private System.Windows.Forms.Button btnSaveIgnored;
-        private System.Windows.Forms.Button btnClearSaved;
-        private System.Windows.Forms.Button btnSaveSaved;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ToolStripButton btntsShowHideParameters;
         private System.Windows.Forms.ToolStripMenuItem enlargeEditAreaToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator23;
-        private System.Windows.Forms.ContextMenuStrip mnuLVIgnored;
-        private System.Windows.Forms.ToolStripMenuItem addToArticleListToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator24;
-        private System.Windows.Forms.ToolStripMenuItem filterByReasonOfSelectedToolStripMenuItem;
+        private WikiFunctions.LogControl LogControl1;
 
 
     }
