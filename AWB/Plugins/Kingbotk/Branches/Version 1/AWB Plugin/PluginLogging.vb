@@ -1,6 +1,6 @@
 ' TODO: Bot mode: buttons or menu items for jobs (e.g. download living people, download tagged list, compare and save both, set settings including logging, etc)
 ' TODO: Logging: Job name/category changed - upload last page of old job, reset upload string and page number
-Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
+Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
     ''' <summary>
     ''' Logging-configuration usercontrol
     ''' </summary>
