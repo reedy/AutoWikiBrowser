@@ -1,3 +1,22 @@
+/*
+(C) 2007 Reedy Boy
+(C) 2007 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*/
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -33,29 +52,52 @@ namespace WikiFunctions
         #region lvMenu
         private void mnuListView_Opening(object sender, CancelEventArgs e)
         {
-            //TODO:Needs to distinguish between which listview the context menu was opened from
-            //Sender is context menu
-            if (sender == lvIgnored)
+            if (MenuItemOwner(sender) == lvIgnored)
             {
                 filterByReasonOfSelectedToolStripMenuItem.Enabled = (lvIgnored.SelectedItems.Count == 1);
+                filterByReasonOfSelectedToolStripMenuItem.Visible = true;
             }
             else
-                filterByReasonOfSelectedToolStripMenuItem.Enabled = false;
+                filterByReasonOfSelectedToolStripMenuItem.Visible = false;
         }
 
         private void addSelectedToArticleListToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //TODO:Needs to distinguish between which listview the context menu was opened from
-            //(ListView)sender).SelectedItems was tried, but sender is context menu
-            foreach (ListViewItem item in ((ListView)sender).SelectedItems)
+            foreach (ListViewItem item in MenuItemOwner(sender).SelectedItems)
             {
                 listMaker.Add(new Article(item.Text));
             }
         }
 
+        /// <summary>
+        /// Returns the ListView object from which the menu item was clicked
+        /// </summary>
+        private ListView MenuItemOwner(object sender)
+        {
+            /* we seem to sometimes be receiving a ToolStripMenuItem, and sometimes a ContextMenuStrip...
+             * I've no idea why, but in the meantime this version of the function handles both. */
+            try
+            {
+                return ((ListView)((ContextMenuStrip)sender).SourceControl);
+            }
+            catch
+            {
+                try
+                {
+                    return (ListView)(((ContextMenuStrip)((ToolStripMenuItem)sender).Owner).SourceControl);
+                }
+                catch
+                {
+                    throw;
+                }
+            }
+        }
+
         private void filterByReasonOfSelectedToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            //Doesnt need changing
+            /* Sam, I think it would be better if the filter menu item only appeared when the reason is
+             * clicked, and showed the actual text... is that possible? */
+
             string filterBy = lvIgnored.SelectedItems[0].SubItems[3].Text;
 
             foreach (ListViewItem item in lvIgnored.Items)
@@ -215,6 +257,6 @@ namespace WikiFunctions
             listView.ListViewItemSorter = new ListViewItemComparer(e.Column,
                                                               listView.Sorting);
         }
-        #endregion       
+        #endregion
     }
 }
