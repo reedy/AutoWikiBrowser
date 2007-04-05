@@ -3003,6 +3003,7 @@ namespace AutoWikiBrowser
             this.lvIgnored.UseCompatibleStateImageBehavior = false;
             this.lvIgnored.View = System.Windows.Forms.View.Details;
             this.lvIgnored.DoubleClick += new System.EventHandler(this.LogLists_DoubleClick);
+            this.lvIgnored.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lvIgnoredColumnSort);
             // 
             // colIgnoreArticle
             // 
@@ -3039,6 +3040,7 @@ namespace AutoWikiBrowser
             this.lvSaved.UseCompatibleStateImageBehavior = false;
             this.lvSaved.View = System.Windows.Forms.View.Details;
             this.lvSaved.DoubleClick += new System.EventHandler(this.LogLists_DoubleClick);
+            this.lvSaved.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lvSavedColumnSort);
             // 
             // colSuccessSave
             // 
