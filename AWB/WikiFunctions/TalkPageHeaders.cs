@@ -40,8 +40,14 @@ namespace WikiFunctions.TalkPages
         private static bool FoundDefaultSort;
         private static bool FoundSkipTOC;
         private static bool FoundTalkheader;
-        private static Regex SkipTOCTemplateRegex = new Regex(@"\{\{\s*(template:)?(skiptotoctalk|Skiptotoc|Skiptotoc-talk)\s*\}\}[\s\n\r]*", RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
-        private static Regex TalkheaderTemplateRegex = new Regex(@"\{\{\s*(template:)?talkheader\s*\}\}[\s\n\r]*", RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
+        private static Regex SkipTOCTemplateRegex = new Regex(
+           @"\{\{\s*(template:)?(skiptotoctalk|Skiptotoc|Skiptotoc-talk)\s*\}\}[\s\n\r]*",
+           RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
+        private static Regex TalkheaderTemplateRegex = new Regex(
+           @"\{\{\s*(template:)?(talkheader|Talkheaderlong|Comment Guidelines|Categorytalkheader|Newtalk|
+Templatetalkheader|Talkheader2|Talkheader3|Talkpagelong|Talk box|Talkpageheader|TalkHeader|
+User Talkheader)\s*\}\}[\s\n\r]*", 
+           RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
 
         // Public methods:
         public static bool ContainsDefaultSortKeywordOrTemplate(string ArticleText)
