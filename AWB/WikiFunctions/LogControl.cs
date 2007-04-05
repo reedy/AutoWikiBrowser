@@ -30,28 +30,38 @@ namespace WikiFunctions
             resizeListView(lvSaved);
         }
 
-        #region Menus
-        private void mnuLVIgnored_Opening(object sender, CancelEventArgs e)
+        #region lvMenu
+        private void mnuListView_Opening(object sender, CancelEventArgs e)
         {
-            filterByReasonOfSelectedToolStripMenuItem.Enabled = (lvIgnored.SelectedItems.Count == 1);
+            //TODO:Needs to distinguish between which listview the context menu was opened from
+            //Sender is context menu
+            if (sender == lvIgnored)
+            {
+                filterByReasonOfSelectedToolStripMenuItem.Enabled = (lvIgnored.SelectedItems.Count == 1);
+            }
+            else
+                filterByReasonOfSelectedToolStripMenuItem.Enabled = false;
         }
 
-        private void filterByReasonOfSelectedToolStripMenuItem_Click(object sender, EventArgs e)
+        private void addSelectedToArticleListToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //TODO:Needs to distinguish between which listview the context menu was opened from
+            //(ListView)sender).SelectedItems was tried, but sender is context menu
+            foreach (ListViewItem item in ((ListView)sender).SelectedItems)
+            {
+                listMaker.Add(new Article(item.Text));
+            }
+        }
+
+        private void filterByReasonOfSelectedToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            //Doesnt need changing
             string filterBy = lvIgnored.SelectedItems[0].SubItems[3].Text;
 
             foreach (ListViewItem item in lvIgnored.Items)
             {
                 if (string.CompareOrdinal(item.SubItems[3].Text, filterBy) != 0)
                     item.Remove();
-            }
-        }
-
-        private void addToArticleListToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            foreach (ListViewItem item in lvIgnored.SelectedItems)
-            {
-                listMaker.Add(new Article(item.Text));
             }
         }
         #endregion

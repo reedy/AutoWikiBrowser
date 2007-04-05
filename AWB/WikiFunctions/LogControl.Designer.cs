@@ -36,11 +36,11 @@ namespace WikiFunctions
             this.btnSaveSaved = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.mnuLVIgnored = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.addToArticleListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator24 = new System.Windows.Forms.ToolStripSeparator();
-            this.filterByReasonOfSelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveListDialog = new System.Windows.Forms.SaveFileDialog();
+            this.mnuListView = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.addSelectedToArticleListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.filterByReasonOfSelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lvIgnored = new WikiFunctions.NoFlickerListView();
             this.colIgnoreArticle = new System.Windows.Forms.ColumnHeader();
             this.colIgnoreTime = new System.Windows.Forms.ColumnHeader();
@@ -49,7 +49,7 @@ namespace WikiFunctions
             this.lvSaved = new WikiFunctions.NoFlickerListView();
             this.colSuccessSave = new System.Windows.Forms.ColumnHeader();
             this.colSuccessTime = new System.Windows.Forms.ColumnHeader();
-            this.mnuLVIgnored.SuspendLayout();
+            this.mnuListView.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnAddToList
@@ -120,40 +120,40 @@ namespace WikiFunctions
             this.label7.TabIndex = 13;
             this.label7.Text = "Successfully saved:";
             // 
-            // mnuLVIgnored
+            // saveListDialog
             // 
-            this.mnuLVIgnored.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addToArticleListToolStripMenuItem,
-            this.toolStripSeparator24,
+            this.saveListDialog.DefaultExt = "txt";
+            this.saveListDialog.Filter = "Text file|.*txt";
+            this.saveListDialog.Title = "Save article list";
+            // 
+            // mnuListView
+            // 
+            this.mnuListView.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addSelectedToArticleListToolStripMenuItem,
+            this.toolStripSeparator1,
             this.filterByReasonOfSelectedToolStripMenuItem});
-            this.mnuLVIgnored.Name = "mnuLVIgnored";
-            this.mnuLVIgnored.Size = new System.Drawing.Size(217, 54);
-            this.mnuLVIgnored.Opening += new System.ComponentModel.CancelEventHandler(this.mnuLVIgnored_Opening);
+            this.mnuListView.Name = "mnuListView";
+            this.mnuListView.Size = new System.Drawing.Size(217, 54);
+            this.mnuListView.Opening += new System.ComponentModel.CancelEventHandler(this.mnuListView_Opening);
             // 
-            // addToArticleListToolStripMenuItem
+            // addSelectedToArticleListToolStripMenuItem
             // 
-            this.addToArticleListToolStripMenuItem.Name = "addToArticleListToolStripMenuItem";
-            this.addToArticleListToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
-            this.addToArticleListToolStripMenuItem.Text = "Add selected to article list";
-            this.addToArticleListToolStripMenuItem.Click += new System.EventHandler(this.addToArticleListToolStripMenuItem_Click);
+            this.addSelectedToArticleListToolStripMenuItem.Name = "addSelectedToArticleListToolStripMenuItem";
+            this.addSelectedToArticleListToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.addSelectedToArticleListToolStripMenuItem.Text = "Add selected to article list";
+            this.addSelectedToArticleListToolStripMenuItem.Click += new System.EventHandler(this.addSelectedToArticleListToolStripMenuItem_Click);
             // 
-            // toolStripSeparator24
+            // toolStripSeparator1
             // 
-            this.toolStripSeparator24.Name = "toolStripSeparator24";
-            this.toolStripSeparator24.Size = new System.Drawing.Size(213, 6);
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(213, 6);
             // 
             // filterByReasonOfSelectedToolStripMenuItem
             // 
             this.filterByReasonOfSelectedToolStripMenuItem.Name = "filterByReasonOfSelectedToolStripMenuItem";
             this.filterByReasonOfSelectedToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
             this.filterByReasonOfSelectedToolStripMenuItem.Text = "Filter by reason of selected";
-            this.filterByReasonOfSelectedToolStripMenuItem.Click += new System.EventHandler(this.filterByReasonOfSelectedToolStripMenuItem_Click);
-            // 
-            // saveListDialog
-            // 
-            this.saveListDialog.DefaultExt = "txt";
-            this.saveListDialog.Filter = "Text file|.*txt";
-            this.saveListDialog.Title = "Save article list";
+            this.filterByReasonOfSelectedToolStripMenuItem.Click += new System.EventHandler(this.filterByReasonOfSelectedToolStripMenuItem_Click_1);
             // 
             // lvIgnored
             // 
@@ -164,7 +164,7 @@ namespace WikiFunctions
             this.colIgnoreTime,
             this.colSkippedBy,
             this.colSkipReason});
-            this.lvIgnored.ContextMenuStrip = this.mnuLVIgnored;
+            this.lvIgnored.ContextMenuStrip = this.mnuListView;
             this.lvIgnored.FullRowSelect = true;
             this.lvIgnored.Location = new System.Drawing.Point(6, 187);
             this.lvIgnored.Name = "lvIgnored";
@@ -202,6 +202,7 @@ namespace WikiFunctions
             this.lvSaved.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.colSuccessSave,
             this.colSuccessTime});
+            this.lvSaved.ContextMenuStrip = this.mnuListView;
             this.lvSaved.FullRowSelect = true;
             this.lvSaved.Location = new System.Drawing.Point(6, 16);
             this.lvSaved.Name = "lvSaved";
@@ -236,7 +237,7 @@ namespace WikiFunctions
             this.Controls.Add(this.btnSaveSaved);
             this.Name = "LogControl";
             this.Size = new System.Drawing.Size(257, 341);
-            this.mnuLVIgnored.ResumeLayout(false);
+            this.mnuListView.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -259,10 +260,10 @@ namespace WikiFunctions
         private System.Windows.Forms.Button btnSaveSaved;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.ContextMenuStrip mnuLVIgnored;
-        private System.Windows.Forms.ToolStripMenuItem addToArticleListToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator24;
-        private System.Windows.Forms.ToolStripMenuItem filterByReasonOfSelectedToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveListDialog;
+        private System.Windows.Forms.ContextMenuStrip mnuListView;
+        private System.Windows.Forms.ToolStripMenuItem addSelectedToArticleListToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem filterByReasonOfSelectedToolStripMenuItem;
     }
 }

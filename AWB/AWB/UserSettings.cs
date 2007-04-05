@@ -1046,7 +1046,7 @@ namespace AutoWikiBrowser
                     UpdateRecentList(Path);
                     //LoadPrefs(P); // why is this? it causes problems. commented out. --MaxSem
                     SettingsFile = " - " + Path.Remove(0, Path.LastIndexOf("\\") + 1);
-                    this.Text = "AutoWikiBrowser" + SettingsFile;
+                    updateSettingsFile();
                 }
                 
             }
@@ -1103,8 +1103,7 @@ namespace AutoWikiBrowser
                 }
 
                 SettingsFile = " - " + Path.Remove(0, Path.LastIndexOf("\\") + 1);
-                this.Text = "AutoWikiBrowser" + SettingsFile;
-                ntfyTray.Text = "AutoWikiBrowser" + SettingsFile;
+                updateSettingsFile();
                 lblStatusText.Text = "Settings successfully loaded";
                 UpdateRecentList(Path);
             }
@@ -1112,6 +1111,12 @@ namespace AutoWikiBrowser
             {
                 MessageBox.Show(ex.Message, "Error loading settings", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void updateSettingsFile()
+        {
+            this.Text = "AutoWikiBrowser" + SettingsFile;
+            ntfyTray.Text = "AutoWikiBrowser" + SettingsFile;
         }
     }
 }
