@@ -44,9 +44,7 @@ namespace WikiFunctions.TalkPages
            @"\{\{\s*(template:)?(skiptotoctalk|Skiptotoc|Skiptotoc-talk)\s*\}\}[\s\n\r]*",
            RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
         private static Regex TalkheaderTemplateRegex = new Regex(
-           @"\{\{\s*(template:)?(talkheader|Talkheaderlong|Comment Guidelines|Categorytalkheader|Newtalk|
-Templatetalkheader|Talkheader2|Talkheader3|Talkpagelong|Talk box|Talkpageheader|TalkHeader|
-User Talkheader)\s*\}\}[\s\n\r]*", 
+           @"\{\{\s*(template:)?(talkheader|Talkheaderlong|Comment Guidelines|Categorytalkheader|Newtalk|Templatetalkheader|Talkheader2|Talkheader3|Talkpagelong|Talk box|Talkpageheader|TalkHeader|User Talkheader)\s*\}\}[\s\n\r]*", 
            RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
 
         // Public methods:
