@@ -263,11 +263,11 @@ namespace WikiFunctions.Lists
                     txtSelectSource.Enabled = true;
                     break;
                 case SourceType.TextFile:
-                    lblSourceSelect.Text = "From file";
+                    lblSourceSelect.Text = "From file:";
                     txtSelectSource.Enabled = false;
                     break;
                 case SourceType.GoogleWikipedia:
-                    lblSourceSelect.Text = "Google search";
+                    lblSourceSelect.Text = "Google search:";
                     txtSelectSource.Enabled = true;
                     break;
                 case SourceType.UserContribs:
