@@ -224,11 +224,9 @@ namespace AutoWikiBrowser
             this.exitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveTimer = new System.Windows.Forms.Timer(this.components);
             this.strListFile = new System.Windows.Forms.SaveFileDialog();
-            this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
             this.EditBoxSaveTimer = new System.Windows.Forms.Timer(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.listMaker1 = new WikiFunctions.Lists.ListMaker();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tpSetOptions = new System.Windows.Forms.TabPage();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
@@ -312,6 +310,14 @@ namespace AutoWikiBrowser
             this.tpEdit = new System.Windows.Forms.TabPage();
             this.txtEdit = new System.Windows.Forms.TextBox();
             this.tpLogs = new System.Windows.Forms.TabPage();
+            this.btnAddToList = new System.Windows.Forms.Button();
+            this.btnClearIgnored = new System.Windows.Forms.Button();
+            this.btnSaveIgnored = new System.Windows.Forms.Button();
+            this.btnClearSaved = new System.Windows.Forms.Button();
+            this.btnSaveSaved = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.listMaker1 = new WikiFunctions.Lists.ListMaker();
             this.lvIgnored = new WikiFunctions.NoFlickerListView();
             this.colIgnoreArticle = new System.Windows.Forms.ColumnHeader();
             this.colIgnoreTime = new System.Windows.Forms.ColumnHeader();
@@ -320,13 +326,7 @@ namespace AutoWikiBrowser
             this.lvSaved = new WikiFunctions.NoFlickerListView();
             this.colSuccessSave = new System.Windows.Forms.ColumnHeader();
             this.colSuccessTime = new System.Windows.Forms.ColumnHeader();
-            this.btnAddToList = new System.Windows.Forms.Button();
-            this.btnClearIgnored = new System.Windows.Forms.Button();
-            this.btnSaveIgnored = new System.Windows.Forms.Button();
-            this.btnClearSaved = new System.Windows.Forms.Button();
-            this.btnSaveSaved = new System.Windows.Forms.Button();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
+            this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -1159,26 +1159,26 @@ namespace AutoWikiBrowser
             // makeModuleToolStripMenuItem
             // 
             this.makeModuleToolStripMenuItem.Name = "makeModuleToolStripMenuItem";
-            this.makeModuleToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.makeModuleToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.makeModuleToolStripMenuItem.Text = "Make module";
             this.makeModuleToolStripMenuItem.Click += new System.EventHandler(this.makeModuleToolStripMenuItem_Click);
             // 
             // testRegexToolStripMenuItem
             // 
             this.testRegexToolStripMenuItem.Name = "testRegexToolStripMenuItem";
-            this.testRegexToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.testRegexToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.testRegexToolStripMenuItem.Text = "Test regex";
             this.testRegexToolStripMenuItem.Click += new System.EventHandler(this.testRegexToolStripMenuItem_Click);
             // 
             // toolStripSeparator21
             // 
             this.toolStripSeparator21.Name = "toolStripSeparator21";
-            this.toolStripSeparator21.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator21.Size = new System.Drawing.Size(144, 6);
             // 
             // runUpdaterToolStripMenuItem
             // 
             this.runUpdaterToolStripMenuItem.Name = "runUpdaterToolStripMenuItem";
-            this.runUpdaterToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.runUpdaterToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.runUpdaterToolStripMenuItem.Text = "Run Updater";
             this.runUpdaterToolStripMenuItem.Click += new System.EventHandler(this.runUpdaterToolStripMenuItem_Click);
             // 
@@ -1874,31 +1874,6 @@ namespace AutoWikiBrowser
             this.strListFile.Filter = "Text file with wiki markup|*.txt|Plaintext list|*.txt";
             this.strListFile.Title = "Save log";
             // 
-            // webBrowserEdit
-            // 
-            this.webBrowserEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.webBrowserEdit.ArticleText = "";
-            this.webBrowserEdit.Busy = false;
-            this.webBrowserEdit.ContextMenuStrip = this.mnuWebBrowser;
-            this.webBrowserEdit.DiffFontSize = 120;
-            this.webBrowserEdit.EnhanceDiffEnabled = true;
-            this.webBrowserEdit.IsWebBrowserContextMenuEnabled = false;
-            this.webBrowserEdit.Location = new System.Drawing.Point(0, 25);
-            this.webBrowserEdit.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowserEdit.Name = "webBrowserEdit";
-            this.webBrowserEdit.ProcessStage = WikiFunctions.Browser.enumProcessStage.none;
-            this.webBrowserEdit.ScriptErrorsSuppressed = true;
-            this.webBrowserEdit.ScrollDown = true;
-            this.webBrowserEdit.Size = new System.Drawing.Size(780, 195);
-            this.webBrowserEdit.TabIndex = 670;
-            this.webBrowserEdit.TabStop = false;
-            this.webBrowserEdit.TimeoutLimit = 30;
-            this.webBrowserEdit.WebBrowserShortcutsEnabled = false;
-            this.webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
-            this.webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
-            // 
             // EditBoxSaveTimer
             // 
             this.EditBoxSaveTimer.Enabled = true;
@@ -1935,17 +1910,6 @@ namespace AutoWikiBrowser
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "(1) Make list";
-            // 
-            // listMaker1
-            // 
-            this.listMaker1.ListFile = "";
-            this.listMaker1.Location = new System.Drawing.Point(3, 15);
-            this.listMaker1.Name = "listMaker1";
-            this.listMaker1.SelectedSource = WikiFunctions.Lists.SourceType.Category;
-            this.listMaker1.Size = new System.Drawing.Size(201, 351);
-            this.listMaker1.SourceText = "";
-            this.listMaker1.TabIndex = 0;
-            this.listMaker1.WikiStatus = false;
             // 
             // tabControl1
             // 
@@ -2943,69 +2907,6 @@ namespace AutoWikiBrowser
             this.tpLogs.Text = "View log";
             this.tpLogs.UseVisualStyleBackColor = true;
             // 
-            // lvIgnored
-            // 
-            this.lvIgnored.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.lvIgnored.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.colIgnoreArticle,
-            this.colIgnoreTime,
-            this.colSkippedBy,
-            this.colSkipReason});
-            this.lvIgnored.Location = new System.Drawing.Point(9, 202);
-            this.lvIgnored.Name = "lvIgnored";
-            this.lvIgnored.ShowItemToolTips = true;
-            this.lvIgnored.Size = new System.Drawing.Size(243, 108);
-            this.lvIgnored.TabIndex = 12;
-            this.lvIgnored.UseCompatibleStateImageBehavior = false;
-            this.lvIgnored.View = System.Windows.Forms.View.Details;
-            this.lvIgnored.DoubleClick += new System.EventHandler(this.LogLists_DoubleClick);
-            // 
-            // colIgnoreArticle
-            // 
-            this.colIgnoreArticle.Text = "Article";
-            this.colIgnoreArticle.Width = 48;
-            // 
-            // colIgnoreTime
-            // 
-            this.colIgnoreTime.Text = "Time";
-            this.colIgnoreTime.Width = 42;
-            // 
-            // colSkippedBy
-            // 
-            this.colSkippedBy.Text = "Skipped By";
-            this.colSkippedBy.Width = 70;
-            // 
-            // colSkipReason
-            // 
-            this.colSkipReason.Text = "Skip Reason";
-            this.colSkipReason.Width = 81;
-            // 
-            // lvSaved
-            // 
-            this.lvSaved.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.lvSaved.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.colSuccessSave,
-            this.colSuccessTime});
-            this.lvSaved.Location = new System.Drawing.Point(9, 22);
-            this.lvSaved.Name = "lvSaved";
-            this.lvSaved.ShowItemToolTips = true;
-            this.lvSaved.Size = new System.Drawing.Size(243, 115);
-            this.lvSaved.TabIndex = 11;
-            this.lvSaved.UseCompatibleStateImageBehavior = false;
-            this.lvSaved.View = System.Windows.Forms.View.Details;
-            this.lvSaved.DoubleClick += new System.EventHandler(this.LogLists_DoubleClick);
-            // 
-            // colSuccessSave
-            // 
-            this.colSuccessSave.Text = "Article";
-            this.colSuccessSave.Width = 171;
-            // 
-            // colSuccessTime
-            // 
-            this.colSuccessTime.Text = "Time";
-            // 
             // btnAddToList
             // 
             this.btnAddToList.Location = new System.Drawing.Point(143, 316);
@@ -3073,6 +2974,105 @@ namespace AutoWikiBrowser
             this.label7.Size = new System.Drawing.Size(101, 13);
             this.label7.TabIndex = 1;
             this.label7.Text = "Successfully saved:";
+            // 
+            // listMaker1
+            // 
+            this.listMaker1.ListFile = "";
+            this.listMaker1.Location = new System.Drawing.Point(3, 15);
+            this.listMaker1.Name = "listMaker1";
+            this.listMaker1.SelectedSource = WikiFunctions.Lists.SourceType.Category;
+            this.listMaker1.Size = new System.Drawing.Size(201, 351);
+            this.listMaker1.SourceText = "";
+            this.listMaker1.TabIndex = 0;
+            this.listMaker1.WikiStatus = false;
+            // 
+            // lvIgnored
+            // 
+            this.lvIgnored.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lvIgnored.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colIgnoreArticle,
+            this.colIgnoreTime,
+            this.colSkippedBy,
+            this.colSkipReason});
+            this.lvIgnored.Location = new System.Drawing.Point(9, 202);
+            this.lvIgnored.Name = "lvIgnored";
+            this.lvIgnored.ShowItemToolTips = true;
+            this.lvIgnored.Size = new System.Drawing.Size(243, 108);
+            this.lvIgnored.TabIndex = 12;
+            this.lvIgnored.UseCompatibleStateImageBehavior = false;
+            this.lvIgnored.View = System.Windows.Forms.View.Details;
+            this.lvIgnored.DoubleClick += new System.EventHandler(this.LogLists_DoubleClick);
+            // 
+            // colIgnoreArticle
+            // 
+            this.colIgnoreArticle.Text = "Article";
+            this.colIgnoreArticle.Width = 48;
+            // 
+            // colIgnoreTime
+            // 
+            this.colIgnoreTime.Text = "Time";
+            this.colIgnoreTime.Width = 42;
+            // 
+            // colSkippedBy
+            // 
+            this.colSkippedBy.Text = "Skipped By";
+            this.colSkippedBy.Width = 70;
+            // 
+            // colSkipReason
+            // 
+            this.colSkipReason.Text = "Skip Reason";
+            this.colSkipReason.Width = 81;
+            // 
+            // lvSaved
+            // 
+            this.lvSaved.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lvSaved.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colSuccessSave,
+            this.colSuccessTime});
+            this.lvSaved.Location = new System.Drawing.Point(9, 22);
+            this.lvSaved.Name = "lvSaved";
+            this.lvSaved.ShowItemToolTips = true;
+            this.lvSaved.Size = new System.Drawing.Size(243, 115);
+            this.lvSaved.TabIndex = 11;
+            this.lvSaved.UseCompatibleStateImageBehavior = false;
+            this.lvSaved.View = System.Windows.Forms.View.Details;
+            this.lvSaved.DoubleClick += new System.EventHandler(this.LogLists_DoubleClick);
+            // 
+            // colSuccessSave
+            // 
+            this.colSuccessSave.Text = "Article";
+            this.colSuccessSave.Width = 171;
+            // 
+            // colSuccessTime
+            // 
+            this.colSuccessTime.Text = "Time";
+            // 
+            // webBrowserEdit
+            // 
+            this.webBrowserEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.webBrowserEdit.ArticleText = "";
+            this.webBrowserEdit.Busy = false;
+            this.webBrowserEdit.ContextMenuStrip = this.mnuWebBrowser;
+            this.webBrowserEdit.DiffFontSize = 120;
+            this.webBrowserEdit.EnhanceDiffEnabled = true;
+            this.webBrowserEdit.IsWebBrowserContextMenuEnabled = false;
+            this.webBrowserEdit.Location = new System.Drawing.Point(0, 25);
+            this.webBrowserEdit.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowserEdit.Name = "webBrowserEdit";
+            this.webBrowserEdit.ProcessStage = WikiFunctions.Browser.enumProcessStage.none;
+            this.webBrowserEdit.ScriptErrorsSuppressed = true;
+            this.webBrowserEdit.ScrollDown = true;
+            this.webBrowserEdit.Size = new System.Drawing.Size(780, 195);
+            this.webBrowserEdit.TabIndex = 670;
+            this.webBrowserEdit.TabStop = false;
+            this.webBrowserEdit.TimeoutLimit = 30;
+            this.webBrowserEdit.WebBrowserShortcutsEnabled = false;
+            this.webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
+            this.webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
             // 
             // MainForm
             // 

@@ -71,6 +71,7 @@ namespace WikiFunctions.Lists
             this.btnArticlesListClear = new System.Windows.Forms.Button();
             this.btnArticlesListSave = new System.Windows.Forms.Button();
             this.btnRemoveDuplicates = new System.Windows.Forms.Button();
+            this.btnStop = new System.Windows.Forms.Button();
             this.lbArticles = new WikiFunctions.Lists.ListBox2();
             this.mnuListBox.SuspendLayout();
             this.SuspendLayout();
@@ -82,7 +83,7 @@ namespace WikiFunctions.Lists
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSelectSource.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.txtSelectSource.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.txtSelectSource.Location = new System.Drawing.Point(78, 30);
+            this.txtSelectSource.Location = new System.Drawing.Point(71, 30);
             this.txtSelectSource.Name = "txtSelectSource";
             this.txtSelectSource.Size = new System.Drawing.Size(121, 20);
             this.txtSelectSource.TabIndex = 18;
@@ -91,7 +92,7 @@ namespace WikiFunctions.Lists
             // 
             // lblNumberOfArticles
             // 
-            this.lblNumberOfArticles.Location = new System.Drawing.Point(141, 56);
+            this.lblNumberOfArticles.Location = new System.Drawing.Point(139, 56);
             this.lblNumberOfArticles.Name = "lblNumberOfArticles";
             this.lblNumberOfArticles.Size = new System.Drawing.Size(74, 20);
             this.lblNumberOfArticles.TabIndex = 28;
@@ -132,7 +133,7 @@ namespace WikiFunctions.Lists
             // btnMakeList
             // 
             this.btnMakeList.Enabled = false;
-            this.btnMakeList.Location = new System.Drawing.Point(78, 55);
+            this.btnMakeList.Location = new System.Drawing.Point(71, 55);
             this.btnMakeList.Name = "btnMakeList";
             this.btnMakeList.Size = new System.Drawing.Size(62, 23);
             this.btnMakeList.TabIndex = 20;
@@ -144,7 +145,7 @@ namespace WikiFunctions.Lists
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(15, 5);
+            this.label1.Location = new System.Drawing.Point(8, 5);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(57, 13);
             this.label1.TabIndex = 21;
@@ -171,7 +172,7 @@ namespace WikiFunctions.Lists
             "Database dump",
             "My Watchlist",
             "Wiki search"});
-            this.cmboSourceSelect.Location = new System.Drawing.Point(78, 2);
+            this.cmboSourceSelect.Location = new System.Drawing.Point(71, 2);
             this.cmboSourceSelect.Name = "cmboSourceSelect";
             this.cmboSourceSelect.Size = new System.Drawing.Size(121, 21);
             this.cmboSourceSelect.TabIndex = 19;
@@ -463,6 +464,21 @@ namespace WikiFunctions.Lists
             this.btnRemoveDuplicates.UseVisualStyleBackColor = true;
             this.btnRemoveDuplicates.Click += new System.EventHandler(this.btnRemoveDuplicates_Click);
             // 
+            // btnStop
+            // 
+            this.btnStop.BackColor = System.Drawing.Color.Transparent;
+            this.btnStop.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnStop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnStop.Location = new System.Drawing.Point(3, 55);
+            this.btnStop.Name = "btnStop";
+            this.btnStop.Size = new System.Drawing.Size(62, 23);
+            this.btnStop.TabIndex = 38;
+            this.btnStop.Text = "Stop";
+            this.toolTip1.SetToolTip(this.btnStop, "Stop making list");
+            this.btnStop.UseVisualStyleBackColor = false;
+            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
+            // 
             // lbArticles
             // 
             this.lbArticles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
@@ -483,8 +499,9 @@ namespace WikiFunctions.Lists
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.btnRemoveDuplicates);
             this.Controls.Add(this.btnRemoveArticle);
-            this.Controls.Add(this.txtSelectSource);
             this.Controls.Add(this.btnFilter);
+            this.Controls.Add(this.btnStop);
+            this.Controls.Add(this.txtSelectSource);
             this.Controls.Add(this.btnArticlesListSave);
             this.Controls.Add(this.btnArticlesListClear);
             this.Controls.Add(this.lbArticles);
@@ -492,8 +509,8 @@ namespace WikiFunctions.Lists
             this.Controls.Add(this.txtNewArticle);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.cmboSourceSelect);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnMakeList);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.lblNumberOfArticles);
             this.Name = "ListMaker";
             this.Size = new System.Drawing.Size(201, 351);
@@ -548,5 +565,6 @@ namespace WikiFunctions.Lists
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem cutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pasteToolStripMenuItem;
+        private System.Windows.Forms.Button btnStop;
     }
 }
