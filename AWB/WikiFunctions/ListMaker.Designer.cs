@@ -61,17 +61,19 @@ namespace WikiFunctions.Lists
             this.fromRedirectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.duplicatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveListDialog = new System.Windows.Forms.SaveFileDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.btnStop = new System.Windows.Forms.Button();
             this.btnFilter = new System.Windows.Forms.Button();
             this.btnRemoveArticle = new System.Windows.Forms.Button();
             this.btnArticlesListClear = new System.Windows.Forms.Button();
             this.btnArticlesListSave = new System.Windows.Forms.Button();
             this.btnRemoveDuplicates = new System.Windows.Forms.Button();
-            this.btnStop = new System.Windows.Forms.Button();
             this.lbArticles = new WikiFunctions.Lists.ListBox2();
             this.mnuListBox.SuspendLayout();
             this.SuspendLayout();
@@ -203,7 +205,7 @@ namespace WikiFunctions.Lists
             this.toolStripSeparator1,
             this.openInBrowserToolStripMenuItem});
             this.mnuListBox.Name = "contextMenuStrip2";
-            this.mnuListBox.Size = new System.Drawing.Size(206, 364);
+            this.mnuListBox.Size = new System.Drawing.Size(206, 386);
             this.mnuListBox.Opening += new System.ComponentModel.CancelEventHandler(this.mnuListBox_Opening);
             // 
             // filterOutNonMainSpaceArticlesToolStripMenuItem
@@ -370,12 +372,28 @@ namespace WikiFunctions.Lists
             // 
             // removeToolStripMenuItem
             // 
+            this.removeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.selectedToolStripMenuItem,
+            this.duplicatesToolStripMenuItem});
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
             this.removeToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
             this.removeToolStripMenuItem.Text = "Remove";
             this.removeToolStripMenuItem.ToolTipText = "Remove the selected articles";
-            this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
+            // 
+            // selectedToolStripMenuItem
+            // 
+            this.selectedToolStripMenuItem.Name = "selectedToolStripMenuItem";
+            this.selectedToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.selectedToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.selectedToolStripMenuItem.Text = "Selected";
+            this.selectedToolStripMenuItem.Click += new System.EventHandler(this.selectedToolStripMenuItem_Click);
+            // 
+            // duplicatesToolStripMenuItem
+            // 
+            this.duplicatesToolStripMenuItem.Name = "duplicatesToolStripMenuItem";
+            this.duplicatesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.duplicatesToolStripMenuItem.Text = "Duplicates";
+            this.duplicatesToolStripMenuItem.Click += new System.EventHandler(this.duplicatesToolStripMenuItem_Click);
             // 
             // clearToolStripMenuItem1
             // 
@@ -402,6 +420,21 @@ namespace WikiFunctions.Lists
             this.saveListDialog.DefaultExt = "txt";
             this.saveListDialog.Filter = "Text file with wiki markup|*.txt|Plaintext list|*.txt";
             this.saveListDialog.Title = "Save article list";
+            // 
+            // btnStop
+            // 
+            this.btnStop.BackColor = System.Drawing.Color.Transparent;
+            this.btnStop.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnStop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnStop.Location = new System.Drawing.Point(3, 55);
+            this.btnStop.Name = "btnStop";
+            this.btnStop.Size = new System.Drawing.Size(62, 23);
+            this.btnStop.TabIndex = 38;
+            this.btnStop.Text = "Stop";
+            this.toolTip1.SetToolTip(this.btnStop, "Stop making list");
+            this.btnStop.UseVisualStyleBackColor = false;
+            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
             // btnFilter
             // 
@@ -464,21 +497,6 @@ namespace WikiFunctions.Lists
             this.btnRemoveDuplicates.UseVisualStyleBackColor = true;
             this.btnRemoveDuplicates.Click += new System.EventHandler(this.btnRemoveDuplicates_Click);
             // 
-            // btnStop
-            // 
-            this.btnStop.BackColor = System.Drawing.Color.Transparent;
-            this.btnStop.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnStop.Location = new System.Drawing.Point(3, 55);
-            this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(62, 23);
-            this.btnStop.TabIndex = 38;
-            this.btnStop.Text = "Stop";
-            this.toolTip1.SetToolTip(this.btnStop, "Stop making list");
-            this.btnStop.UseVisualStyleBackColor = false;
-            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
-            // 
             // lbArticles
             // 
             this.lbArticles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
@@ -497,14 +515,14 @@ namespace WikiFunctions.Lists
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.btnRemoveDuplicates);
             this.Controls.Add(this.btnRemoveArticle);
             this.Controls.Add(this.btnFilter);
-            this.Controls.Add(this.btnStop);
+            this.Controls.Add(this.btnRemoveDuplicates);
             this.Controls.Add(this.txtSelectSource);
-            this.Controls.Add(this.btnArticlesListSave);
             this.Controls.Add(this.btnArticlesListClear);
+            this.Controls.Add(this.btnStop);
             this.Controls.Add(this.lbArticles);
+            this.Controls.Add(this.btnArticlesListSave);
             this.Controls.Add(this.lblSourceSelect);
             this.Controls.Add(this.txtNewArticle);
             this.Controls.Add(this.btnAdd);
@@ -566,5 +584,7 @@ namespace WikiFunctions.Lists
         private System.Windows.Forms.ToolStripMenuItem cutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pasteToolStripMenuItem;
         private System.Windows.Forms.Button btnStop;
+        private System.Windows.Forms.ToolStripMenuItem selectedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem duplicatesToolStripMenuItem;
     }
 }
