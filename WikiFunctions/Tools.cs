@@ -564,9 +564,9 @@ Message: {2}
                     WebClient wc = new WebClient();
                     Uri expandUri = new Uri("http://en.wikipedia.org/wiki/Special:ExpandTemplates?contexttitle=" + ArticleTitle + "&input=" + Call + "&removecomments=1");
                     wc.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
-                    wc.Headers.Add("User-agent", "DotNetWikiBot/1.0");
+                    wc.Headers.Add("User-agent", "AutoWikiBrowser/1.0");
 
-                    string respStr = wc.DownloadString(expandUri);
+                    string respStr = HttpUtility.HtmlDecode(wc.DownloadString(expandUri));
 
                     int resultstart = respStr.IndexOf("readonly=\"readonly\">") + 20;
                     int resultend = respStr.IndexOf("</textarea", resultstart);
