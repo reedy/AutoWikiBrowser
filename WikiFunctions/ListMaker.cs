@@ -1229,5 +1229,10 @@ namespace WikiFunctions.Lists
         {
             removeListDuplicates();
         }
+
+        private void btnStop_Click(object sender, EventArgs e)
+        {
+            this.Stop();
+        }
     }
 }
