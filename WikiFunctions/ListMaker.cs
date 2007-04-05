@@ -1049,6 +1049,16 @@ namespace WikiFunctions.Lists
             SaveList();
         }
 
+        private void selectedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RemoveSelectedArticle();
+        }
+
+        private void duplicatesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            removeListDuplicates();
+        }
+
         private void convertToTalkPagesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ConvertToTalkPages();
@@ -1206,11 +1216,6 @@ namespace WikiFunctions.Lists
             }
 
             MakeList(SourceType.Redirects, c);
-        }
-
-        private void removeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            RemoveSelectedArticle();
         }
 
         private void clearToolStripMenuItem1_Click(object sender, EventArgs e)
