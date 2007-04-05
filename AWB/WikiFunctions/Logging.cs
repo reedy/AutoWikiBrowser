@@ -123,6 +123,14 @@ using System.Text;
         {
             System.Diagnostics.Process.Start(Variables.URL + "/wiki/" + marticle);
         }
+
+        public void AddAndDateStamp(NoFlickerListView ListView)
+        {
+            ListViewSubItem DateStamp = new ListViewSubItem();
+            DateStamp.Text = DateTime.Now.ToString();
+
+            ListView.Items.Insert(0, this).SubItems.Insert(1, DateStamp);
+        }
         #endregion
 
         #region IMyTraceListener Members
@@ -193,10 +201,9 @@ using System.Text;
 
         protected void Skip(string SkippedBy, string SkipReason)
         {
-            //mSkipped = true;
-            SubItems.Add(DateTime.Now.ToString());
-            SubItems.Add(SkippedBy);//.Name="SkippedBy";
-            SubItems.Add(SkipReason);//.Name="SkipReason";
+            //SubItems.Add(DateTime.Now.ToString());
+            SubItems.Add(SkippedBy);
+            SubItems.Add(SkipReason);
             WriteLine(SkipReason, SkippedBy);
         }
 
