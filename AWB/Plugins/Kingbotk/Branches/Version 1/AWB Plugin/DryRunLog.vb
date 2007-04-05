@@ -28,13 +28,15 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
             Log.Dispose()
             System.Diagnostics.Process.Start(mFileName)
         End Sub
-        Friend Sub WriteArticleLine(ByVal Title As String, ByVal Minor As Boolean)
+        Friend Sub WriteArticleLine(ByVal Title As String, ByVal Minor As Boolean, _
+        ByVal Sender As String)
             If Minor Then
                 Log.WriteLine("#[[" & Title & "]] (minor)")
             Else
                 Log.WriteLine("#[[" & Title & "]]")
             End If
             Log.Flush()
+            PluginSettingsControl.MyTrace.SkippedArticle(Sender, "Dry run")
         End Sub
 
         Private Function OpenLog() As Boolean
