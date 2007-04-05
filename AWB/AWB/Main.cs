@@ -3276,5 +3276,21 @@ namespace AutoWikiBrowser
                 listMaker1.Add(new Article(item.Text));
             }
         }
+
+        private void filterByReasonOfSelectedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string filterBy = lvIgnored.SelectedItems[0].SubItems[3].Text;
+
+            foreach (ListViewItem item in lvIgnored.Items)
+            {
+                if (string.CompareOrdinal(item.SubItems[3].Text, filterBy) != 0)
+                    item.Remove();
+            }
+        }
+
+        private void mnuLVIgnored_Opening(object sender, CancelEventArgs e)
+        {
+            filterByReasonOfSelectedToolStripMenuItem.Enabled = (lvIgnored.SelectedItems.Count == 1);
+        }
     }
 }
