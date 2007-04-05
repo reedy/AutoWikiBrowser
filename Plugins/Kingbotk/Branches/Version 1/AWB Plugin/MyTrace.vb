@@ -1,4 +1,4 @@
-Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
+Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
     ''' <summary>
     ''' Logging manager
     ''' </summary>

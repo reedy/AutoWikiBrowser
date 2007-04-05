@@ -1,4 +1,4 @@
-Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
+Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
     <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
     Partial Class PluginLogging
         Inherits System.Windows.Forms.UserControl
