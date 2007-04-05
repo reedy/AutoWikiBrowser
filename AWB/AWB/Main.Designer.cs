@@ -2443,6 +2443,7 @@ namespace AutoWikiBrowser
             this.chkNudgeSkip.TabIndex = 35;
             this.chkNudgeSkip.Text = "Skip article if first nudge doesn\'t help";
             this.chkNudgeSkip.UseVisualStyleBackColor = true;
+            this.chkNudgeSkip.Checked = false;
             // 
             // btnResetNudges
             // 
