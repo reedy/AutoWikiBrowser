@@ -3268,5 +3268,13 @@ namespace AutoWikiBrowser
         {
             lvColumnSort(lvIgnored, e);
         }
+
+        private void addToArticleListToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in lvIgnored.SelectedItems)
+            {
+                listMaker1.Add(new Article(item.Text));
+            }
+        }
     }
 }
