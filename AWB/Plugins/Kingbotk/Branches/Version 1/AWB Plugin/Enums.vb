@@ -4,7 +4,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
         'Processed = 0
         SkipNoChange = 1
         SkipBadTag
-        SkipMiscellaneous
+        SkipRegex
     End Enum
 
     Friend Enum Classification As Integer
