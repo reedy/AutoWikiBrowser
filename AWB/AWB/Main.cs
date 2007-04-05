@@ -136,6 +136,7 @@ namespace AutoWikiBrowser
 
         int mnudges = 0;
         int sameArticleNudges = 0;
+        int sortColumn = -1;
 
         bool boolSaved = true;
         HideText RemoveText = new HideText(false, true, false);
@@ -3228,6 +3229,44 @@ namespace AutoWikiBrowser
         {
             if (saveListDialog.ShowDialog() == DialogResult.OK)
                 saveEditBoxText(saveListDialog.FileName);
+        }
+
+        private void lvSavedColumnSort(object sender, System.Windows.Forms.ColumnClickEventArgs e)
+        {
+            lvColumnSort(lvSaved, e);
+        }
+
+        private void lvColumnSort(ListView listView, System.Windows.Forms.ColumnClickEventArgs e)
+        {
+            // Determine whether the column is the same as the last column clicked.
+            if (e.Column != sortColumn)
+            {
+                // Set the sort column to the new column.
+                sortColumn = e.Column;
+                // Set the sort order to ascending by default.
+                listView.Sorting = SortOrder.Ascending;
+            }
+            else
+            {
+                // Determine what the last sort order was and change it.
+                if (listView.Sorting == SortOrder.Ascending)
+                    listView.Sorting = SortOrder.Descending;
+                else
+                    listView.Sorting = SortOrder.Ascending;
+            }
+
+            // Call the sort method to manually sort.
+            listView.Sort();
+            // Set the ListViewItemSorter property to a new ListViewItemComparer
+            // object.
+            listView.ListViewItemSorter = new ListViewItemComparer(e.Column,
+                                                              listView.Sorting);
+        }
+
+
+        private void lvIgnoredColumnSort(object sender, System.Windows.Forms.ColumnClickEventArgs e)
+        {
+            lvColumnSort(lvIgnored, e);
         }
     }
 }
