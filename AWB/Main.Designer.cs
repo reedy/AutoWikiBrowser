@@ -318,6 +318,8 @@ namespace AutoWikiBrowser
             this.colSkipReason = new System.Windows.Forms.ColumnHeader();
             this.mnuLVIgnored = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addToArticleListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator24 = new System.Windows.Forms.ToolStripSeparator();
+            this.filterByReasonOfSelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lvSaved = new WikiFunctions.NoFlickerListView();
             this.colSuccessSave = new System.Windows.Forms.ColumnHeader();
             this.colSuccessTime = new System.Windows.Forms.ColumnHeader();
@@ -2932,10 +2934,10 @@ namespace AutoWikiBrowser
             this.colSkipReason});
             this.lvIgnored.ContextMenuStrip = this.mnuLVIgnored;
             this.lvIgnored.FullRowSelect = true;
-            this.lvIgnored.Location = new System.Drawing.Point(9, 202);
+            this.lvIgnored.Location = new System.Drawing.Point(9, 193);
             this.lvIgnored.Name = "lvIgnored";
             this.lvIgnored.ShowItemToolTips = true;
-            this.lvIgnored.Size = new System.Drawing.Size(243, 108);
+            this.lvIgnored.Size = new System.Drawing.Size(243, 117);
             this.lvIgnored.TabIndex = 12;
             this.lvIgnored.UseCompatibleStateImageBehavior = false;
             this.lvIgnored.View = System.Windows.Forms.View.Details;
@@ -2965,16 +2967,31 @@ namespace AutoWikiBrowser
             // mnuLVIgnored
             // 
             this.mnuLVIgnored.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addToArticleListToolStripMenuItem});
+            this.addToArticleListToolStripMenuItem,
+            this.toolStripSeparator24,
+            this.filterByReasonOfSelectedToolStripMenuItem});
             this.mnuLVIgnored.Name = "mnuLVIgnored";
-            this.mnuLVIgnored.Size = new System.Drawing.Size(209, 26);
+            this.mnuLVIgnored.Size = new System.Drawing.Size(217, 76);
+            this.mnuLVIgnored.Opening += new System.ComponentModel.CancelEventHandler(this.mnuLVIgnored_Opening);
             // 
             // addToArticleListToolStripMenuItem
             // 
             this.addToArticleListToolStripMenuItem.Name = "addToArticleListToolStripMenuItem";
-            this.addToArticleListToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.addToArticleListToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
             this.addToArticleListToolStripMenuItem.Text = "Add selected to article list";
             this.addToArticleListToolStripMenuItem.Click += new System.EventHandler(this.addToArticleListToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator24
+            // 
+            this.toolStripSeparator24.Name = "toolStripSeparator24";
+            this.toolStripSeparator24.Size = new System.Drawing.Size(213, 6);
+            // 
+            // filterByReasonOfSelectedToolStripMenuItem
+            // 
+            this.filterByReasonOfSelectedToolStripMenuItem.Name = "filterByReasonOfSelectedToolStripMenuItem";
+            this.filterByReasonOfSelectedToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.filterByReasonOfSelectedToolStripMenuItem.Text = "Filter by reason of selected";
+            this.filterByReasonOfSelectedToolStripMenuItem.Click += new System.EventHandler(this.filterByReasonOfSelectedToolStripMenuItem_Click);
             // 
             // lvSaved
             // 
@@ -3035,7 +3052,7 @@ namespace AutoWikiBrowser
             // 
             // btnClearSaved
             // 
-            this.btnClearSaved.Location = new System.Drawing.Point(87, 149);
+            this.btnClearSaved.Location = new System.Drawing.Point(87, 143);
             this.btnClearSaved.Name = "btnClearSaved";
             this.btnClearSaved.Size = new System.Drawing.Size(75, 24);
             this.btnClearSaved.TabIndex = 5;
@@ -3045,7 +3062,7 @@ namespace AutoWikiBrowser
             // 
             // btnSaveSaved
             // 
-            this.btnSaveSaved.Location = new System.Drawing.Point(6, 149);
+            this.btnSaveSaved.Location = new System.Drawing.Point(6, 143);
             this.btnSaveSaved.Name = "btnSaveSaved";
             this.btnSaveSaved.Size = new System.Drawing.Size(75, 24);
             this.btnSaveSaved.TabIndex = 4;
@@ -3056,7 +3073,7 @@ namespace AutoWikiBrowser
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 186);
+            this.label8.Location = new System.Drawing.Point(6, 177);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(49, 13);
             this.label8.TabIndex = 3;
@@ -3465,6 +3482,8 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator23;
         private System.Windows.Forms.ContextMenuStrip mnuLVIgnored;
         private System.Windows.Forms.ToolStripMenuItem addToArticleListToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator24;
+        private System.Windows.Forms.ToolStripMenuItem filterByReasonOfSelectedToolStripMenuItem;
 
 
     }
