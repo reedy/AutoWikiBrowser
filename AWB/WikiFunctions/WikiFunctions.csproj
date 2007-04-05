@@ -97,6 +97,7 @@
     <Compile Include="ListMaker.Designer.cs">
       <DependentUpon>ListMaker.cs</DependentUpon>
     </Compile>
+    <Compile Include="ListViewItemComparer.cs" />
     <Compile Include="Logging.cs" />
     <Compile Include="MetaDataSorter.cs" />
     <Compile Include="Controls\LoginDlg.cs">
@@ -176,6 +177,12 @@
     <Compile Include="Tools.cs" />
     <Compile Include="ReplaceSpecial\Utility.cs" />
     <Compile Include="Updater.cs" />
+    <Compile Include="LogControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LogControl.Designer.cs">
+      <DependentUpon>LogControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Variables.cs" />
     <Compile Include="WebControl.cs">
       <SubType>Component</SubType>
@@ -223,6 +230,10 @@
     <EmbeddedResource Include="Controls\LoginDlg.resx">
       <SubType>Designer</SubType>
       <DependentUpon>LoginDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LogControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>LogControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PleaseWait.resx">
       <SubType>Designer</SubType>

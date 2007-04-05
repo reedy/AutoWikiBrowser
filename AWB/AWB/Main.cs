@@ -136,7 +136,6 @@ namespace AutoWikiBrowser
 
         int mnudges = 0;
         int sameArticleNudges = 0;
-        int sortColumn = -1;
 
         bool boolSaved = true;
         HideText RemoveText = new HideText(false, true, false);
@@ -152,8 +151,7 @@ namespace AutoWikiBrowser
         CustomModule cModule = new CustomModule();
         public RegexTester regexTester = new RegexTester();
         AWBLogListener LogListener;
-
-        private void MainForm_Load(object sender, EventArgs e)
+                private void MainForm_Load(object sender, EventArgs e)
         {
             // hide this tab until it's fully written
             //tabControl1.TabPages.Remove(tpDab);        
@@ -173,6 +171,8 @@ namespace AutoWikiBrowser
 
                 if (AutoWikiBrowser.Properties.Settings.Default.LogInOnStart)
                     CheckStatus();
+
+                LogControl1.Initialise(listMaker1);
 
                 Debug();
                 LoadPlugins();
@@ -681,8 +681,7 @@ namespace AutoWikiBrowser
             SaveTimer.Stop();
             sameArticleNudges = 0;
 
-            LogListener.AddAndDateStamp(lvSaved);
-            resizeListView(lvSaved);
+            LogControl1.AddLog(false, LogListener);
 
             Start();
         }
@@ -726,8 +725,7 @@ namespace AutoWikiBrowser
                         break;
                 }
 
-                LogListener.AddAndDateStamp(lvIgnored);
-                resizeListView(lvIgnored);
+                LogControl1.AddLog(true, LogListener);
                 
                 Start();
             }
@@ -3078,22 +3076,10 @@ namespace AutoWikiBrowser
             ToolStripMenuItem IAWBMainForm.HelpToolStripMenuItem { get { return helpToolStripMenuItem; } }
         #endregion
 
-        #region Logs
-
-        private void btnClearSaved_Click(object sender, EventArgs e)
-        {
-            lvSaved.Items.Clear();
-        }
-
-        private void btnClearIgnored_Click(object sender, EventArgs e)
-        {
-            lvIgnored.Items.Clear();
-        }
-
-        /// <summary>
-        /// Save List Box to a text file
-        /// </summary>
-        /// <param name="listbox"></param>
+            /// <summary>
+            /// Save List Box to a text file
+            /// </summary>
+            /// <param name="listbox"></param>
         public void SaveList(ListBox listbox)
         {
             try
@@ -3103,45 +3089,8 @@ namespace AutoWikiBrowser
                 string strListFile;
                 if (saveListDialog.ShowDialog() == DialogResult.OK)
                 {
-                foreach (String a in listbox.Items)
-                    strList.AppendLine(a);
-                strListFile = saveListDialog.FileName;
-                sw = new StreamWriter(strListFile, false, Encoding.UTF8);
-                sw.Write(strList);
-                sw.Close();
-                }
-            }
-            catch (IOException ex)
-            {
-                MessageBox.Show(ex.Message, "File error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void SaveListView(ListView listview)
-        {
-            try
-            {
-                StringBuilder strList = new StringBuilder("");
-                StreamWriter sw;
-                string strListFile;
-                if (saveListDialog.ShowDialog() == DialogResult.OK)
-                {
-                    foreach (ListViewItem a in listview.Items)
-                    {
-                        string text = a.Text;
-                        if (a.SubItems.Count > 0)
-                        {
-                            for (int i = 1; i < a.SubItems.Count; i++)
-                            {
-                                text += " " + a.SubItems[i].Text;
-                            }
-                        }
-                        strList.AppendLine(text);
-                    }
+                    foreach (String a in listbox.Items)
+                        strList.AppendLine(a);
                     strListFile = saveListDialog.FileName;
                     sw = new StreamWriter(strListFile, false, Encoding.UTF8);
                     sw.Write(strList);
@@ -3156,49 +3105,6 @@ namespace AutoWikiBrowser
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private void btnSaveSaved_Click(object sender, EventArgs e)
-        {
-            SaveListView(lvSaved);
-        }
-
-        private void btnSaveIgnored_Click(object sender, EventArgs e)
-        {
-            SaveListView(lvIgnored);
-        }
-
-            #endregion
-
-        private void btnAddtoList_Click(object sender, EventArgs e)
-        {
-            foreach (ListViewItem article in lvIgnored.Items)
-                listMaker1.Add(new Article(article.Text));
-        }
-
-        private void resizeListView(ListView lstView)
-        {
-            int width; int width2;
-            foreach (ColumnHeader head in lstView.Columns)
-            {
-                head.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
-                width = head.Width;
-
-                head.AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
-                width2 = head.Width;
-
-                if (width2 < width)
-                    head.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
-            }
-        }
-
-        private void LogLists_DoubleClick(object sender, EventArgs e)
-        {
-            try
-            {
-                ((AWBLogListener)((ListView)sender).FocusedItem).OpenInBrowser();
-            }
-            catch { }
         }
 
         private void EditBoxSaveTimer_Tick(object sender, EventArgs e)
@@ -3229,68 +3135,6 @@ namespace AutoWikiBrowser
         {
             if (saveListDialog.ShowDialog() == DialogResult.OK)
                 saveEditBoxText(saveListDialog.FileName);
-        }
-
-        private void lvSavedColumnSort(object sender, System.Windows.Forms.ColumnClickEventArgs e)
-        {
-            lvColumnSort(lvSaved, e);
-        }
-
-        private void lvColumnSort(ListView listView, System.Windows.Forms.ColumnClickEventArgs e)
-        {
-            // Determine whether the column is the same as the last column clicked.
-            if (e.Column != sortColumn)
-            {
-                // Set the sort column to the new column.
-                sortColumn = e.Column;
-                // Set the sort order to ascending by default.
-                listView.Sorting = SortOrder.Ascending;
-            }
-            else
-            {
-                // Determine what the last sort order was and change it.
-                if (listView.Sorting == SortOrder.Ascending)
-                    listView.Sorting = SortOrder.Descending;
-                else
-                    listView.Sorting = SortOrder.Ascending;
-            }
-
-            // Call the sort method to manually sort.
-            listView.Sort();
-            // Set the ListViewItemSorter property to a new ListViewItemComparer
-            // object.
-            listView.ListViewItemSorter = new ListViewItemComparer(e.Column,
-                                                              listView.Sorting);
-        }
-
-
-        private void lvIgnoredColumnSort(object sender, System.Windows.Forms.ColumnClickEventArgs e)
-        {
-            lvColumnSort(lvIgnored, e);
-        }
-
-        private void addToArticleListToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            foreach (ListViewItem item in lvIgnored.SelectedItems)
-            {
-                listMaker1.Add(new Article(item.Text));
-            }
-        }
-
-        private void filterByReasonOfSelectedToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string filterBy = lvIgnored.SelectedItems[0].SubItems[3].Text;
-
-            foreach (ListViewItem item in lvIgnored.Items)
-            {
-                if (string.CompareOrdinal(item.SubItems[3].Text, filterBy) != 0)
-                    item.Remove();
-            }
-        }
-
-        private void mnuLVIgnored_Opening(object sender, CancelEventArgs e)
-        {
-            filterByReasonOfSelectedToolStripMenuItem.Enabled = (lvIgnored.SelectedItems.Count == 1);
         }
     }
 }
