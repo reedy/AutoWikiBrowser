@@ -528,7 +528,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.PeriodsConflictsGroupBox.Controls.Add(Me.AncientNearEastCheckBox)
             Me.PeriodsConflictsGroupBox.Controls.Add(Me.WWICheckBox)
             Me.PeriodsConflictsGroupBox.Controls.Add(Me.ClassicalCheckBox)
-            Me.PeriodsConflictsGroupBox.Location = New System.Drawing.Point(6, 123)
+            Me.PeriodsConflictsGroupBox.Location = New System.Drawing.Point(6, 120)
             Me.PeriodsConflictsGroupBox.Name = "PeriodsConflictsGroupBox"
             Me.PeriodsConflictsGroupBox.Size = New System.Drawing.Size(250, 115)
             Me.PeriodsConflictsGroupBox.TabIndex = 1
@@ -544,7 +544,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.GeneralGroupBox.Controls.Add(Me.AviationCheckBox)
             Me.GeneralGroupBox.Controls.Add(Me.MemorialsCheckBox)
             Me.GeneralGroupBox.Controls.Add(Me.MaritimeCheckBox)
-            Me.GeneralGroupBox.Location = New System.Drawing.Point(3, 6)
+            Me.GeneralGroupBox.Location = New System.Drawing.Point(3, 3)
             Me.GeneralGroupBox.Name = "GeneralGroupBox"
             Me.GeneralGroupBox.Size = New System.Drawing.Size(253, 111)
             Me.GeneralGroupBox.TabIndex = 0
