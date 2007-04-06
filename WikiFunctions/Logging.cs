@@ -52,6 +52,11 @@ using System.Text;
 
     namespace WikiFunctions.Logging
 {
+        public enum LogFileType
+        {
+            PlainText=1, WikiText, AnnotatedWikiText
+        }
+
     /// <summary>
     /// This interface is implemented by all TraceListener objects
     /// </summary>
@@ -89,114 +94,138 @@ using System.Text;
     {    /* This class will:
          * Use the Logging interface previously defined in wikifunctions2
          * Be written to by AWB during processing and passed to plugins
-         * Format itself as a ListViewItem suitable (with subitems where appropriate) for adding to the skipped or processed articles list
+         * Format itself as a ListViewItem suitable (with subitems where appropriate) for adding to the skipped 
+           or processed articles list
          * Handle MouseOver event (display log entry)
          * Handle double click event (open article in browser)
         */
 
-        protected string marticle; /* store this locally rather than relying on .Text in case a Plugin changes .Text
+        protected string mArticle; /* store this locally rather than relying on .Text in case a Plugin changes .Text
                                    * (it shouldn', and Kingbotk doesn't, but who knows :) */
+        private bool mSkipped;
 
         #region AWB Interface
-        public AWBLogListener(string ArticleTitle)
-        {
-            Text = ArticleTitle;
-            marticle = ArticleTitle;
-        }
+            public AWBLogListener(string ArticleTitle)
+            {
+                Text = ArticleTitle;
+                mArticle = ArticleTitle;
+            }
 
-        public void UserSkipped()
-        {
-            Skip("User", "Clicked ignore");
-        }
+            public void UserSkipped()
+            {
+                Skip("User", "Clicked ignore");
+            }
 
-        public void AWBSkipped(string Reason)
-        {
-            Skip("AWB", Reason);
-        }
+            public void AWBSkipped(string Reason)
+            {
+                Skip("AWB", Reason);
+            }
 
-        public void PluginSkipped()
-        {
-            Skip("Plugin", "Plugin sent skip event");
-        }
+            public void PluginSkipped()
+            {
+                Skip("Plugin", "Plugin sent skip event");
+            }
 
-        public void OpenInBrowser()
-        {
-            System.Diagnostics.Process.Start(Variables.URL + "/wiki/" + marticle);
-        }
+            public void OpenInBrowser()
+            {
+                System.Diagnostics.Process.Start(Variables.URL + "/wiki/" + mArticle);
+            }
 
-        public void AddAndDateStamp(ListView ListView)
-        {
-            ListViewSubItem DateStamp = new ListViewSubItem();
-            DateStamp.Text = DateTime.Now.ToString();
+            public void AddAndDateStamp(ListView ListView)
+            {
+                ListViewSubItem DateStamp = new ListViewSubItem();
+                DateStamp.Text = DateTime.Now.ToString();
 
-            ListView.Items.Insert(0, this).SubItems.Insert(1, DateStamp);
-        }
+                ListView.Items.Insert(0, this).SubItems.Insert(1, DateStamp);
+            }
+
+            public string Output(LogFileType LogFileType)
+            {
+                switch (LogFileType)
+                {
+                    case LogFileType.AnnotatedWikiText:
+                        string Output = "*" + SubItems[1].Text + ": [[" + mArticle + "]]\r\n";
+                        if (mSkipped)
+                            Output += "'''Skipped''' by: " + SubItems[2].Text + "\r\n" + "Skip reason: " +
+                                SubItems[3].Text + "\r\n";
+                        return Output + ToolTipText + "\r\n";
+
+                    case LogFileType.PlainText:
+                        return mArticle + "\r\n";
+
+                    case LogFileType.WikiText:
+                        return "#[[" + mArticle + "]]\r\n";
+
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
         #endregion
 
         #region IMyTraceListener Members
-        void IMyTraceListener.Close() { }
-        void IMyTraceListener.Flush() { }
-        void IMyTraceListener.ProcessingArticle(string FullArticleTitle, Namespaces NS) { }
-        void IMyTraceListener.WriteComment(string Line) { }
-        void IMyTraceListener.WriteCommentAndNewLine(string Line) { }
+            void IMyTraceListener.Close() { }
+            void IMyTraceListener.Flush() { }
+            void IMyTraceListener.ProcessingArticle(string FullArticleTitle, Namespaces NS) { }
+            void IMyTraceListener.WriteComment(string Line) { }
+            void IMyTraceListener.WriteCommentAndNewLine(string Line) { }
 
-        void IMyTraceListener.SkippedArticle(string SkippedBy, string Reason)
-        {
-            Skip(SkippedBy, Reason);
-        }
+            void IMyTraceListener.SkippedArticle(string SkippedBy, string Reason)
+            {
+                Skip(SkippedBy, Reason);
+            }
 
-        void IMyTraceListener.SkippedArticleBadTag(string SkippedBy, string FullArticleTitle, Namespaces NS)
-        {
-            Skip(SkippedBy, "Bad tag");
-        }
+            void IMyTraceListener.SkippedArticleBadTag(string SkippedBy, string FullArticleTitle, Namespaces NS)
+            {
+                Skip(SkippedBy, "Bad tag");
+            }
 
-        void IMyTraceListener.SkippedArticleRedlink(string SkippedBy, string FullArticleTitle, Namespaces NS)
-        {
-            Skip(SkippedBy, "Red link (article deleted)");
-        }
+            void IMyTraceListener.SkippedArticleRedlink(string SkippedBy, string FullArticleTitle, Namespaces NS)
+            {
+                Skip(SkippedBy, "Red link (article deleted)");
+            }
 
-        bool IMyTraceListener.Uploadable
-        {
-            get { return false; }
-        }
+            bool IMyTraceListener.Uploadable
+            {
+                get { return false; }
+            }
 
-        void IMyTraceListener.WriteArticleActionLine(string Line, string PluginName, bool VerboseOnly)
-        {
-            if (!VerboseOnly) WriteLine(Line, PluginName);
-        }
+            void IMyTraceListener.WriteArticleActionLine(string Line, string PluginName, bool VerboseOnly)
+            {
+                if (!VerboseOnly) WriteLine(Line, PluginName);
+            }
 
-        void IMyTraceListener.WriteArticleActionLine(string Line, string PluginName)
-        {
-            WriteLine(Line, PluginName);
-        }
+            void IMyTraceListener.WriteArticleActionLine(string Line, string PluginName)
+            {
+                WriteLine(Line, PluginName);
+            }
 
-        void IMyTraceListener.WriteBulletedLine(string Line, bool Bold, bool VerboseOnly)
-        {
-            if (!VerboseOnly) Write(Line);
-        }
+            void IMyTraceListener.WriteBulletedLine(string Line, bool Bold, bool VerboseOnly)
+            {
+                if (!VerboseOnly) Write(Line);
+            }
 
-        void IMyTraceListener.WriteBulletedLine(string Line, bool Bold, bool VerboseOnly, bool DateStamp)
-        {
-            if (!VerboseOnly) Write(Line);
-        }
+            void IMyTraceListener.WriteBulletedLine(string Line, bool Bold, bool VerboseOnly, bool DateStamp)
+            {
+                if (!VerboseOnly) Write(Line);
+            }
 
-        void IMyTraceListener.WriteLine(string Line)
-        {
-            Write(Line);
-        }
+            void IMyTraceListener.WriteLine(string Line)
+            {
+                Write(Line);
+            }
 
-        void IMyTraceListener.WriteTemplateAdded(string Template, string PluginName)
-        {
-            WriteLine("{{" + Template + "}} added", PluginName);
-        }
+            void IMyTraceListener.WriteTemplateAdded(string Template, string PluginName)
+            {
+                WriteLine("{{" + Template + "}} added", PluginName);
+            }
 
-        public void Write(string Text)
-        {
-            if (ToolTipText.Trim() == "")
-            { ToolTipText = Text; }
-            else
-            { ToolTipText = Text + System.Environment.NewLine + ToolTipText; }
-        }
+            public void Write(string Text)
+            {
+                if (ToolTipText.Trim() == "")
+                { ToolTipText = Text; }
+                else
+                { ToolTipText = Text + System.Environment.NewLine + ToolTipText; }
+            }
         #endregion
 
         protected void Skip(string SkippedBy, string SkipReason)
@@ -204,6 +233,7 @@ using System.Text;
             SubItems.Add(SkippedBy);
             SubItems.Add(SkipReason);
             WriteLine(SkipReason, SkippedBy);
+            mSkipped = true;
         }
 
         protected void WriteLine(string Text, string Sender)

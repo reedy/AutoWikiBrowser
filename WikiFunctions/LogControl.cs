@@ -30,7 +30,7 @@ using WikiFunctions;
 using WikiFunctions.Lists;
 using WikiFunctions.Logging;
 
-namespace WikiFunctions
+namespace WikiFunctions.Logging
 {
     public partial class LogControl : UserControl
     {
@@ -158,26 +158,26 @@ namespace WikiFunctions
             }
         }
 
+        private LogFileType GetFilePrefs()
+        {
+            if (saveListDialog.ShowDialog() != DialogResult.OK)
+                return 0;
+            return (LogFileType)saveListDialog.FilterIndex;
+        }
+
         private void SaveListView(ListView listview)
         {
             try
             {
-                StringBuilder strList = new StringBuilder("");
-                StreamWriter sw;
-                string strListFile;
-                if (saveListDialog.ShowDialog() == DialogResult.OK)
+                LogFileType LogFileType = GetFilePrefs();
+                if (LogFileType != 0)
                 {
-                    foreach (ListViewItem a in listview.Items)
+                    StringBuilder strList = new StringBuilder("");
+                    StreamWriter sw;
+                    string strListFile;
+                    foreach (AWBLogListener a in listview.Items)
                     {
-                        string text = a.Text;
-                        if (a.SubItems.Count > 0)
-                        {
-                            for (int i = 1; i < a.SubItems.Count; i++)
-                            {
-                                text += " " + a.SubItems[i].Text;
-                            }
-                        }
-                        strList.AppendLine(text);
+                        strList.AppendLine(a.Output(LogFileType));
                     }
                     strListFile = saveListDialog.FileName;
                     sw = new StreamWriter(strListFile, false, Encoding.UTF8);

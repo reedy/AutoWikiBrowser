@@ -311,7 +311,7 @@ namespace AutoWikiBrowser
             this.tpEdit = new System.Windows.Forms.TabPage();
             this.txtEdit = new System.Windows.Forms.TextBox();
             this.tpLogs = new System.Windows.Forms.TabPage();
-            this.LogControl1 = new WikiFunctions.LogControl();
+            this.LogControl1 = new WikiFunctions.Logging.LogControl();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -3281,7 +3281,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripButton btntsShowHideParameters;
         private System.Windows.Forms.ToolStripMenuItem enlargeEditAreaToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator23;
-        private WikiFunctions.LogControl LogControl1;
+        private WikiFunctions.Logging.LogControl LogControl1;
 
 
     }
