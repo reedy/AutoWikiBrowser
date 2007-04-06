@@ -1715,7 +1715,7 @@ namespace AutoWikiBrowser
             Variables.SetProject(Code, Project, CustomProject);
 
             //set interwikiorder
-            if (Code == LangCodeEnum.en || Code == LangCodeEnum.pl)
+            if (Code == LangCodeEnum.en || Code == LangCodeEnum.pl || Code == LangCodeEnum.simple)
                 parsers.InterWikiOrder = InterWikiOrderEnum.LocalLanguageAlpha;
             //else if (Code == "fi")
             //    parsers.InterWikiOrder = InterWikiOrderEnum.LocalLanguageFirstWord;
