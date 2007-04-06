@@ -26,6 +26,43 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.WPMILHISTToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
             Me.GeneralTaskForcesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.AviationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.HistoriographyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.MaritimeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.MemorialsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.ScienceToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.TechnologyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.WeaponryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.NationsAndRegionsTaskForcesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.AfricanToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.AustralianToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.BalkanToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.BritishToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.CanadianToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.ChineseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.DutchToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.FrenchToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.GermanToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.IndianToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.ItalianToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.JapaneseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.KoreanToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.NewZealandToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.NordicToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.OttomanToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.PolishToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.RussianToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.SpanishToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.USToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.PeriodsAndConflictsTaskForcesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.ACWToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.AncientNearEasterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.ClassicalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.MedievalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.EarlyModernToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.NapoleonicToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.WWIToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.WWIIToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
             Me.StubClassCheckBox = New System.Windows.Forms.CheckBox
             Me.NapoleonicCheckBox = New System.Windows.Forms.CheckBox
@@ -33,13 +70,13 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.AmericanCivilWarCheckBox = New System.Windows.Forms.CheckBox
             Me.AutoStubCheckBox = New System.Windows.Forms.CheckBox
             Me.RemoveImportanceCheckBox = New System.Windows.Forms.CheckBox
+            Me.MedievalCheckBox = New System.Windows.Forms.CheckBox
             Me.EarlyModernCheckBox = New System.Windows.Forms.CheckBox
             Me.WWIICheckBox = New System.Windows.Forms.CheckBox
             Me.WWICheckBox = New System.Windows.Forms.CheckBox
             Me.WeaponryCheckBox = New System.Windows.Forms.CheckBox
             Me.USCheckBox = New System.Windows.Forms.CheckBox
             Me.PolishCheckBox = New System.Windows.Forms.CheckBox
-            Me.MiddleAgesCheckBox = New System.Windows.Forms.CheckBox
             Me.MemorialsCheckBox = New System.Windows.Forms.CheckBox
             Me.MaritimeCheckBox = New System.Windows.Forms.CheckBox
             Me.JapaneseCheckBox = New System.Windows.Forms.CheckBox
@@ -72,43 +109,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.TechnologyCheckBox = New System.Windows.Forms.CheckBox
             Me.ScienceCheckBox = New System.Windows.Forms.CheckBox
             Me.HistoriographyCheckBox = New System.Windows.Forms.CheckBox
-            Me.NationsAndRegionsTaskForcesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.PeriodsAndConflictsTaskForcesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.AviationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.HistoriographyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.MaritimeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.MemorialsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.ScienceToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.TechnologyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.WeaponryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.AncientNearEasterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.ClassicalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.MedievalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.EarlyModernToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.NapoleonicToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.ACWToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.WWIToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.WWIIToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.AfricanToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.AustralianToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.BalkanToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.BritishToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.CanadianToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.ChineseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.DutchToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.FrenchToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.GermanToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.IndianToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.ItalianToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.JapaneseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.KoreanToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.NewZealandToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.NordicToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.OttomanToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.PolishToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.RussianToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.SpanishToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.USToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.TextInsertContextMenuStrip.SuspendLayout()
             Me.TabControl1.SuspendLayout()
             Me.TabPage1.SuspendLayout()
@@ -122,32 +122,256 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             '
             Me.TextInsertContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.WPMilHistToolStripMenuItem1})
             Me.TextInsertContextMenuStrip.Name = "TextInsertContextMenuStrip"
-            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(153, 48)
+            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(121, 26)
             '
             'WPMilHistToolStripMenuItem1
             '
             Me.WPMilHistToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.WPMILHISTToolStripMenuItem, Me.ToolStripSeparator1, Me.GeneralTaskForcesToolStripMenuItem, Me.NationsAndRegionsTaskForcesToolStripMenuItem, Me.PeriodsAndConflictsTaskForcesToolStripMenuItem})
             Me.WPMilHistToolStripMenuItem1.Name = "WPMilHistToolStripMenuItem1"
-            Me.WPMilHistToolStripMenuItem1.Size = New System.Drawing.Size(152, 22)
+            Me.WPMilHistToolStripMenuItem1.Size = New System.Drawing.Size(120, 22)
             Me.WPMilHistToolStripMenuItem1.Text = "WPMilHist"
             '
             'WPMILHISTToolStripMenuItem
             '
             Me.WPMILHISTToolStripMenuItem.Name = "WPMILHISTToolStripMenuItem"
-            Me.WPMILHISTToolStripMenuItem.Size = New System.Drawing.Size(245, 22)
+            Me.WPMILHISTToolStripMenuItem.Size = New System.Drawing.Size(234, 22)
             Me.WPMILHISTToolStripMenuItem.Text = "{{WPMILHIST}}"
             '
             'ToolStripSeparator1
             '
             Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-            Me.ToolStripSeparator1.Size = New System.Drawing.Size(242, 6)
+            Me.ToolStripSeparator1.Size = New System.Drawing.Size(231, 6)
             '
             'GeneralTaskForcesToolStripMenuItem
             '
             Me.GeneralTaskForcesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AviationToolStripMenuItem, Me.HistoriographyToolStripMenuItem, Me.MaritimeToolStripMenuItem, Me.MemorialsToolStripMenuItem, Me.ScienceToolStripMenuItem, Me.TechnologyToolStripMenuItem, Me.WeaponryToolStripMenuItem})
             Me.GeneralTaskForcesToolStripMenuItem.Name = "GeneralTaskForcesToolStripMenuItem"
-            Me.GeneralTaskForcesToolStripMenuItem.Size = New System.Drawing.Size(245, 22)
+            Me.GeneralTaskForcesToolStripMenuItem.Size = New System.Drawing.Size(234, 22)
             Me.GeneralTaskForcesToolStripMenuItem.Text = "General Task Forces"
+            '
+            'AviationToolStripMenuItem
+            '
+            Me.AviationToolStripMenuItem.Name = "AviationToolStripMenuItem"
+            Me.AviationToolStripMenuItem.Size = New System.Drawing.Size(144, 22)
+            Me.AviationToolStripMenuItem.Text = "Aviation"
+            '
+            'HistoriographyToolStripMenuItem
+            '
+            Me.HistoriographyToolStripMenuItem.Name = "HistoriographyToolStripMenuItem"
+            Me.HistoriographyToolStripMenuItem.Size = New System.Drawing.Size(144, 22)
+            Me.HistoriographyToolStripMenuItem.Text = "Historiography"
+            '
+            'MaritimeToolStripMenuItem
+            '
+            Me.MaritimeToolStripMenuItem.Name = "MaritimeToolStripMenuItem"
+            Me.MaritimeToolStripMenuItem.Size = New System.Drawing.Size(144, 22)
+            Me.MaritimeToolStripMenuItem.Text = "Maritime"
+            '
+            'MemorialsToolStripMenuItem
+            '
+            Me.MemorialsToolStripMenuItem.Name = "MemorialsToolStripMenuItem"
+            Me.MemorialsToolStripMenuItem.Size = New System.Drawing.Size(144, 22)
+            Me.MemorialsToolStripMenuItem.Text = "Memorials"
+            '
+            'ScienceToolStripMenuItem
+            '
+            Me.ScienceToolStripMenuItem.Name = "ScienceToolStripMenuItem"
+            Me.ScienceToolStripMenuItem.Size = New System.Drawing.Size(144, 22)
+            Me.ScienceToolStripMenuItem.Text = "Science"
+            '
+            'TechnologyToolStripMenuItem
+            '
+            Me.TechnologyToolStripMenuItem.Name = "TechnologyToolStripMenuItem"
+            Me.TechnologyToolStripMenuItem.Size = New System.Drawing.Size(144, 22)
+            Me.TechnologyToolStripMenuItem.Text = "Technology"
+            '
+            'WeaponryToolStripMenuItem
+            '
+            Me.WeaponryToolStripMenuItem.Name = "WeaponryToolStripMenuItem"
+            Me.WeaponryToolStripMenuItem.Size = New System.Drawing.Size(144, 22)
+            Me.WeaponryToolStripMenuItem.Text = "Weaponry"
+            '
+            'NationsAndRegionsTaskForcesToolStripMenuItem
+            '
+            Me.NationsAndRegionsTaskForcesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AfricanToolStripMenuItem, Me.AustralianToolStripMenuItem, Me.BalkanToolStripMenuItem, Me.BritishToolStripMenuItem, Me.CanadianToolStripMenuItem, Me.ChineseToolStripMenuItem, Me.DutchToolStripMenuItem, Me.FrenchToolStripMenuItem, Me.GermanToolStripMenuItem, Me.IndianToolStripMenuItem, Me.ItalianToolStripMenuItem, Me.JapaneseToolStripMenuItem, Me.KoreanToolStripMenuItem, Me.NewZealandToolStripMenuItem, Me.NordicToolStripMenuItem, Me.OttomanToolStripMenuItem, Me.PolishToolStripMenuItem, Me.RussianToolStripMenuItem, Me.SpanishToolStripMenuItem, Me.USToolStripMenuItem})
+            Me.NationsAndRegionsTaskForcesToolStripMenuItem.Name = "NationsAndRegionsTaskForcesToolStripMenuItem"
+            Me.NationsAndRegionsTaskForcesToolStripMenuItem.Size = New System.Drawing.Size(234, 22)
+            Me.NationsAndRegionsTaskForcesToolStripMenuItem.Text = "Nations and Regions Task Forces"
+            '
+            'AfricanToolStripMenuItem
+            '
+            Me.AfricanToolStripMenuItem.Name = "AfricanToolStripMenuItem"
+            Me.AfricanToolStripMenuItem.Size = New System.Drawing.Size(136, 22)
+            Me.AfricanToolStripMenuItem.Text = "African"
+            '
+            'AustralianToolStripMenuItem
+            '
+            Me.AustralianToolStripMenuItem.Name = "AustralianToolStripMenuItem"
+            Me.AustralianToolStripMenuItem.Size = New System.Drawing.Size(136, 22)
+            Me.AustralianToolStripMenuItem.Text = "Australian"
+            '
+            'BalkanToolStripMenuItem
+            '
+            Me.BalkanToolStripMenuItem.Name = "BalkanToolStripMenuItem"
+            Me.BalkanToolStripMenuItem.Size = New System.Drawing.Size(136, 22)
+            Me.BalkanToolStripMenuItem.Text = "Balkan"
+            '
+            'BritishToolStripMenuItem
+            '
+            Me.BritishToolStripMenuItem.Name = "BritishToolStripMenuItem"
+            Me.BritishToolStripMenuItem.Size = New System.Drawing.Size(136, 22)
+            Me.BritishToolStripMenuItem.Text = "British"
+            '
+            'CanadianToolStripMenuItem
+            '
+            Me.CanadianToolStripMenuItem.Name = "CanadianToolStripMenuItem"
+            Me.CanadianToolStripMenuItem.Size = New System.Drawing.Size(136, 22)
+            Me.CanadianToolStripMenuItem.Text = "Canadian"
+            '
+            'ChineseToolStripMenuItem
+            '
+            Me.ChineseToolStripMenuItem.Name = "ChineseToolStripMenuItem"
+            Me.ChineseToolStripMenuItem.Size = New System.Drawing.Size(136, 22)
+            Me.ChineseToolStripMenuItem.Text = "Chinese"
+            '
+            'DutchToolStripMenuItem
+            '
+            Me.DutchToolStripMenuItem.Name = "DutchToolStripMenuItem"
+            Me.DutchToolStripMenuItem.Size = New System.Drawing.Size(136, 22)
+            Me.DutchToolStripMenuItem.Text = "Dutch"
+            '
+            'FrenchToolStripMenuItem
+            '
+            Me.FrenchToolStripMenuItem.Name = "FrenchToolStripMenuItem"
+            Me.FrenchToolStripMenuItem.Size = New System.Drawing.Size(136, 22)
+            Me.FrenchToolStripMenuItem.Text = "French"
+            '
+            'GermanToolStripMenuItem
+            '
+            Me.GermanToolStripMenuItem.Name = "GermanToolStripMenuItem"
+            Me.GermanToolStripMenuItem.Size = New System.Drawing.Size(136, 22)
+            Me.GermanToolStripMenuItem.Text = "German"
+            '
+            'IndianToolStripMenuItem
+            '
+            Me.IndianToolStripMenuItem.Name = "IndianToolStripMenuItem"
+            Me.IndianToolStripMenuItem.Size = New System.Drawing.Size(136, 22)
+            Me.IndianToolStripMenuItem.Text = "Indian"
+            '
+            'ItalianToolStripMenuItem
+            '
+            Me.ItalianToolStripMenuItem.Name = "ItalianToolStripMenuItem"
+            Me.ItalianToolStripMenuItem.Size = New System.Drawing.Size(136, 22)
+            Me.ItalianToolStripMenuItem.Text = "Italian"
+            '
+            'JapaneseToolStripMenuItem
+            '
+            Me.JapaneseToolStripMenuItem.Name = "JapaneseToolStripMenuItem"
+            Me.JapaneseToolStripMenuItem.Size = New System.Drawing.Size(136, 22)
+            Me.JapaneseToolStripMenuItem.Text = "Japanese"
+            '
+            'KoreanToolStripMenuItem
+            '
+            Me.KoreanToolStripMenuItem.Name = "KoreanToolStripMenuItem"
+            Me.KoreanToolStripMenuItem.Size = New System.Drawing.Size(136, 22)
+            Me.KoreanToolStripMenuItem.Text = "Korean"
+            '
+            'NewZealandToolStripMenuItem
+            '
+            Me.NewZealandToolStripMenuItem.Name = "NewZealandToolStripMenuItem"
+            Me.NewZealandToolStripMenuItem.Size = New System.Drawing.Size(136, 22)
+            Me.NewZealandToolStripMenuItem.Text = "New Zealand"
+            '
+            'NordicToolStripMenuItem
+            '
+            Me.NordicToolStripMenuItem.Name = "NordicToolStripMenuItem"
+            Me.NordicToolStripMenuItem.Size = New System.Drawing.Size(136, 22)
+            Me.NordicToolStripMenuItem.Text = "Nordic"
+            '
+            'OttomanToolStripMenuItem
+            '
+            Me.OttomanToolStripMenuItem.Name = "OttomanToolStripMenuItem"
+            Me.OttomanToolStripMenuItem.Size = New System.Drawing.Size(136, 22)
+            Me.OttomanToolStripMenuItem.Text = "Ottoman"
+            '
+            'PolishToolStripMenuItem
+            '
+            Me.PolishToolStripMenuItem.Name = "PolishToolStripMenuItem"
+            Me.PolishToolStripMenuItem.Size = New System.Drawing.Size(136, 22)
+            Me.PolishToolStripMenuItem.Text = "Polish"
+            '
+            'RussianToolStripMenuItem
+            '
+            Me.RussianToolStripMenuItem.Name = "RussianToolStripMenuItem"
+            Me.RussianToolStripMenuItem.Size = New System.Drawing.Size(136, 22)
+            Me.RussianToolStripMenuItem.Text = "Russian"
+            '
+            'SpanishToolStripMenuItem
+            '
+            Me.SpanishToolStripMenuItem.Name = "SpanishToolStripMenuItem"
+            Me.SpanishToolStripMenuItem.Size = New System.Drawing.Size(136, 22)
+            Me.SpanishToolStripMenuItem.Text = "Spanish"
+            '
+            'USToolStripMenuItem
+            '
+            Me.USToolStripMenuItem.Name = "USToolStripMenuItem"
+            Me.USToolStripMenuItem.Size = New System.Drawing.Size(136, 22)
+            Me.USToolStripMenuItem.Text = "US"
+            '
+            'PeriodsAndConflictsTaskForcesToolStripMenuItem
+            '
+            Me.PeriodsAndConflictsTaskForcesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ACWToolStripMenuItem, Me.AncientNearEasterToolStripMenuItem, Me.ClassicalToolStripMenuItem, Me.MedievalToolStripMenuItem, Me.EarlyModernToolStripMenuItem, Me.NapoleonicToolStripMenuItem, Me.WWIToolStripMenuItem, Me.WWIIToolStripMenuItem})
+            Me.PeriodsAndConflictsTaskForcesToolStripMenuItem.Name = "PeriodsAndConflictsTaskForcesToolStripMenuItem"
+            Me.PeriodsAndConflictsTaskForcesToolStripMenuItem.Size = New System.Drawing.Size(234, 22)
+            Me.PeriodsAndConflictsTaskForcesToolStripMenuItem.Text = "Periods and Conflicts Task Forces"
+            '
+            'ACWToolStripMenuItem
+            '
+            Me.ACWToolStripMenuItem.Name = "ACWToolStripMenuItem"
+            Me.ACWToolStripMenuItem.Size = New System.Drawing.Size(176, 22)
+            Me.ACWToolStripMenuItem.Text = "ACW"
+            '
+            'AncientNearEasterToolStripMenuItem
+            '
+            Me.AncientNearEasterToolStripMenuItem.Name = "AncientNearEasterToolStripMenuItem"
+            Me.AncientNearEasterToolStripMenuItem.Size = New System.Drawing.Size(176, 22)
+            Me.AncientNearEasterToolStripMenuItem.Text = "Ancient Near Eastern"
+            '
+            'ClassicalToolStripMenuItem
+            '
+            Me.ClassicalToolStripMenuItem.Name = "ClassicalToolStripMenuItem"
+            Me.ClassicalToolStripMenuItem.Size = New System.Drawing.Size(176, 22)
+            Me.ClassicalToolStripMenuItem.Text = "Classical"
+            '
+            'MedievalToolStripMenuItem
+            '
+            Me.MedievalToolStripMenuItem.Name = "MedievalToolStripMenuItem"
+            Me.MedievalToolStripMenuItem.Size = New System.Drawing.Size(176, 22)
+            Me.MedievalToolStripMenuItem.Text = "Medieval"
+            '
+            'EarlyModernToolStripMenuItem
+            '
+            Me.EarlyModernToolStripMenuItem.Name = "EarlyModernToolStripMenuItem"
+            Me.EarlyModernToolStripMenuItem.Size = New System.Drawing.Size(176, 22)
+            Me.EarlyModernToolStripMenuItem.Text = "Early Modern"
+            '
+            'NapoleonicToolStripMenuItem
+            '
+            Me.NapoleonicToolStripMenuItem.Name = "NapoleonicToolStripMenuItem"
+            Me.NapoleonicToolStripMenuItem.Size = New System.Drawing.Size(176, 22)
+            Me.NapoleonicToolStripMenuItem.Text = "Napoleonic"
+            '
+            'WWIToolStripMenuItem
+            '
+            Me.WWIToolStripMenuItem.Name = "WWIToolStripMenuItem"
+            Me.WWIToolStripMenuItem.Size = New System.Drawing.Size(176, 22)
+            Me.WWIToolStripMenuItem.Text = "WWI"
+            '
+            'WWIIToolStripMenuItem
+            '
+            Me.WWIIToolStripMenuItem.Name = "WWIIToolStripMenuItem"
+            Me.WWIIToolStripMenuItem.Size = New System.Drawing.Size(176, 22)
+            Me.WWIIToolStripMenuItem.Text = "WWII"
             '
             'StubClassCheckBox
             '
@@ -215,6 +439,17 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.ToolTip1.SetToolTip(Me.RemoveImportanceCheckBox, "Remove importance= parameters forceably")
             Me.RemoveImportanceCheckBox.UseVisualStyleBackColor = True
             '
+            'MedievalCheckBox
+            '
+            Me.MedievalCheckBox.AutoSize = True
+            Me.MedievalCheckBox.Location = New System.Drawing.Point(115, 19)
+            Me.MedievalCheckBox.Name = "MedievalCheckBox"
+            Me.MedievalCheckBox.Size = New System.Drawing.Size(69, 17)
+            Me.MedievalCheckBox.TabIndex = 16
+            Me.MedievalCheckBox.Text = "Medieval"
+            Me.ToolTip1.SetToolTip(Me.MedievalCheckBox, "Medieval-task-force=yes")
+            Me.MedievalCheckBox.UseVisualStyleBackColor = True
+            '
             'EarlyModernCheckBox
             '
             Me.EarlyModernCheckBox.AutoSize = True
@@ -274,16 +509,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.PolishCheckBox.TabIndex = 18
             Me.PolishCheckBox.Text = "Polish"
             Me.PolishCheckBox.UseVisualStyleBackColor = True
-            '
-            'MiddleAgesCheckBox
-            '
-            Me.MiddleAgesCheckBox.AutoSize = True
-            Me.MiddleAgesCheckBox.Location = New System.Drawing.Point(115, 19)
-            Me.MiddleAgesCheckBox.Name = "MiddleAgesCheckBox"
-            Me.MiddleAgesCheckBox.Size = New System.Drawing.Size(84, 17)
-            Me.MiddleAgesCheckBox.TabIndex = 16
-            Me.MiddleAgesCheckBox.Text = "Middle Ages"
-            Me.MiddleAgesCheckBox.UseVisualStyleBackColor = True
             '
             'MemorialsCheckBox
             '
@@ -580,7 +805,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             'PeriodsConflictsGroupBox
             '
             Me.PeriodsConflictsGroupBox.Controls.Add(Me.WWIICheckBox)
-            Me.PeriodsConflictsGroupBox.Controls.Add(Me.MiddleAgesCheckBox)
+            Me.PeriodsConflictsGroupBox.Controls.Add(Me.MedievalCheckBox)
             Me.PeriodsConflictsGroupBox.Controls.Add(Me.NapoleonicCheckBox)
             Me.PeriodsConflictsGroupBox.Controls.Add(Me.EarlyModernCheckBox)
             Me.PeriodsConflictsGroupBox.Controls.Add(Me.AmericanCivilWarCheckBox)
@@ -640,230 +865,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.HistoriographyCheckBox.Text = "Historiography"
             Me.HistoriographyCheckBox.UseVisualStyleBackColor = True
             '
-            'NationsAndRegionsTaskForcesToolStripMenuItem
-            '
-            Me.NationsAndRegionsTaskForcesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AfricanToolStripMenuItem, Me.AustralianToolStripMenuItem, Me.BalkanToolStripMenuItem, Me.BritishToolStripMenuItem, Me.CanadianToolStripMenuItem, Me.ChineseToolStripMenuItem, Me.DutchToolStripMenuItem, Me.FrenchToolStripMenuItem, Me.GermanToolStripMenuItem, Me.IndianToolStripMenuItem, Me.ItalianToolStripMenuItem, Me.JapaneseToolStripMenuItem, Me.KoreanToolStripMenuItem, Me.NewZealandToolStripMenuItem, Me.NordicToolStripMenuItem, Me.OttomanToolStripMenuItem, Me.PolishToolStripMenuItem, Me.RussianToolStripMenuItem, Me.SpanishToolStripMenuItem, Me.USToolStripMenuItem})
-            Me.NationsAndRegionsTaskForcesToolStripMenuItem.Name = "NationsAndRegionsTaskForcesToolStripMenuItem"
-            Me.NationsAndRegionsTaskForcesToolStripMenuItem.Size = New System.Drawing.Size(245, 22)
-            Me.NationsAndRegionsTaskForcesToolStripMenuItem.Text = "Nations and Regions Task Forces"
-            '
-            'PeriodsAndConflictsTaskForcesToolStripMenuItem
-            '
-            Me.PeriodsAndConflictsTaskForcesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ACWToolStripMenuItem, Me.AncientNearEasterToolStripMenuItem, Me.ClassicalToolStripMenuItem, Me.MedievalToolStripMenuItem, Me.EarlyModernToolStripMenuItem, Me.NapoleonicToolStripMenuItem, Me.WWIToolStripMenuItem, Me.WWIIToolStripMenuItem})
-            Me.PeriodsAndConflictsTaskForcesToolStripMenuItem.Name = "PeriodsAndConflictsTaskForcesToolStripMenuItem"
-            Me.PeriodsAndConflictsTaskForcesToolStripMenuItem.Size = New System.Drawing.Size(245, 22)
-            Me.PeriodsAndConflictsTaskForcesToolStripMenuItem.Text = "Periods and Conflicts Task Forces"
-            '
-            'AviationToolStripMenuItem
-            '
-            Me.AviationToolStripMenuItem.Name = "AviationToolStripMenuItem"
-            Me.AviationToolStripMenuItem.Size = New System.Drawing.Size(155, 22)
-            Me.AviationToolStripMenuItem.Text = "Aviation"
-            '
-            'HistoriographyToolStripMenuItem
-            '
-            Me.HistoriographyToolStripMenuItem.Name = "HistoriographyToolStripMenuItem"
-            Me.HistoriographyToolStripMenuItem.Size = New System.Drawing.Size(155, 22)
-            Me.HistoriographyToolStripMenuItem.Text = "Historiography"
-            '
-            'MaritimeToolStripMenuItem
-            '
-            Me.MaritimeToolStripMenuItem.Name = "MaritimeToolStripMenuItem"
-            Me.MaritimeToolStripMenuItem.Size = New System.Drawing.Size(155, 22)
-            Me.MaritimeToolStripMenuItem.Text = "Maritime"
-            '
-            'MemorialsToolStripMenuItem
-            '
-            Me.MemorialsToolStripMenuItem.Name = "MemorialsToolStripMenuItem"
-            Me.MemorialsToolStripMenuItem.Size = New System.Drawing.Size(155, 22)
-            Me.MemorialsToolStripMenuItem.Text = "Memorials"
-            '
-            'ScienceToolStripMenuItem
-            '
-            Me.ScienceToolStripMenuItem.Name = "ScienceToolStripMenuItem"
-            Me.ScienceToolStripMenuItem.Size = New System.Drawing.Size(155, 22)
-            Me.ScienceToolStripMenuItem.Text = "Science"
-            '
-            'TechnologyToolStripMenuItem
-            '
-            Me.TechnologyToolStripMenuItem.Name = "TechnologyToolStripMenuItem"
-            Me.TechnologyToolStripMenuItem.Size = New System.Drawing.Size(155, 22)
-            Me.TechnologyToolStripMenuItem.Text = "Technology"
-            '
-            'WeaponryToolStripMenuItem
-            '
-            Me.WeaponryToolStripMenuItem.Name = "WeaponryToolStripMenuItem"
-            Me.WeaponryToolStripMenuItem.Size = New System.Drawing.Size(155, 22)
-            Me.WeaponryToolStripMenuItem.Text = "Weaponry"
-            '
-            'AncientNearEasterToolStripMenuItem
-            '
-            Me.AncientNearEasterToolStripMenuItem.Name = "AncientNearEasterToolStripMenuItem"
-            Me.AncientNearEasterToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
-            Me.AncientNearEasterToolStripMenuItem.Text = "Ancient Near Eastern"
-            '
-            'ClassicalToolStripMenuItem
-            '
-            Me.ClassicalToolStripMenuItem.Name = "ClassicalToolStripMenuItem"
-            Me.ClassicalToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
-            Me.ClassicalToolStripMenuItem.Text = "Classical"
-            '
-            'MedievalToolStripMenuItem
-            '
-            Me.MedievalToolStripMenuItem.Name = "MedievalToolStripMenuItem"
-            Me.MedievalToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
-            Me.MedievalToolStripMenuItem.Text = "Medieval"
-            '
-            'EarlyModernToolStripMenuItem
-            '
-            Me.EarlyModernToolStripMenuItem.Name = "EarlyModernToolStripMenuItem"
-            Me.EarlyModernToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
-            Me.EarlyModernToolStripMenuItem.Text = "Early Modern"
-            '
-            'NapoleonicToolStripMenuItem
-            '
-            Me.NapoleonicToolStripMenuItem.Name = "NapoleonicToolStripMenuItem"
-            Me.NapoleonicToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
-            Me.NapoleonicToolStripMenuItem.Text = "Napoleonic"
-            '
-            'ACWToolStripMenuItem
-            '
-            Me.ACWToolStripMenuItem.Name = "ACWToolStripMenuItem"
-            Me.ACWToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
-            Me.ACWToolStripMenuItem.Text = "ACW"
-            '
-            'WWIToolStripMenuItem
-            '
-            Me.WWIToolStripMenuItem.Name = "WWIToolStripMenuItem"
-            Me.WWIToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
-            Me.WWIToolStripMenuItem.Text = "WWI"
-            '
-            'WWIIToolStripMenuItem
-            '
-            Me.WWIIToolStripMenuItem.Name = "WWIIToolStripMenuItem"
-            Me.WWIIToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
-            Me.WWIIToolStripMenuItem.Text = "WWII"
-            '
-            'AfricanToolStripMenuItem
-            '
-            Me.AfricanToolStripMenuItem.Name = "AfricanToolStripMenuItem"
-            Me.AfricanToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-            Me.AfricanToolStripMenuItem.Text = "African"
-            '
-            'AustralianToolStripMenuItem
-            '
-            Me.AustralianToolStripMenuItem.Name = "AustralianToolStripMenuItem"
-            Me.AustralianToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-            Me.AustralianToolStripMenuItem.Text = "Australian"
-            '
-            'BalkanToolStripMenuItem
-            '
-            Me.BalkanToolStripMenuItem.Name = "BalkanToolStripMenuItem"
-            Me.BalkanToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-            Me.BalkanToolStripMenuItem.Text = "Balkan"
-            '
-            'BritishToolStripMenuItem
-            '
-            Me.BritishToolStripMenuItem.Name = "BritishToolStripMenuItem"
-            Me.BritishToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-            Me.BritishToolStripMenuItem.Text = "British"
-            '
-            'CanadianToolStripMenuItem
-            '
-            Me.CanadianToolStripMenuItem.Name = "CanadianToolStripMenuItem"
-            Me.CanadianToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-            Me.CanadianToolStripMenuItem.Text = "Canadian"
-            '
-            'ChineseToolStripMenuItem
-            '
-            Me.ChineseToolStripMenuItem.Name = "ChineseToolStripMenuItem"
-            Me.ChineseToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-            Me.ChineseToolStripMenuItem.Text = "Chinese"
-            '
-            'DutchToolStripMenuItem
-            '
-            Me.DutchToolStripMenuItem.Name = "DutchToolStripMenuItem"
-            Me.DutchToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-            Me.DutchToolStripMenuItem.Text = "Dutch"
-            '
-            'FrenchToolStripMenuItem
-            '
-            Me.FrenchToolStripMenuItem.Name = "FrenchToolStripMenuItem"
-            Me.FrenchToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-            Me.FrenchToolStripMenuItem.Text = "French"
-            '
-            'GermanToolStripMenuItem
-            '
-            Me.GermanToolStripMenuItem.Name = "GermanToolStripMenuItem"
-            Me.GermanToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-            Me.GermanToolStripMenuItem.Text = "German"
-            '
-            'IndianToolStripMenuItem
-            '
-            Me.IndianToolStripMenuItem.Name = "IndianToolStripMenuItem"
-            Me.IndianToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-            Me.IndianToolStripMenuItem.Text = "Indian"
-            '
-            'ItalianToolStripMenuItem
-            '
-            Me.ItalianToolStripMenuItem.Name = "ItalianToolStripMenuItem"
-            Me.ItalianToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-            Me.ItalianToolStripMenuItem.Text = "Italian"
-            '
-            'JapaneseToolStripMenuItem
-            '
-            Me.JapaneseToolStripMenuItem.Name = "JapaneseToolStripMenuItem"
-            Me.JapaneseToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-            Me.JapaneseToolStripMenuItem.Text = "Japanese"
-            '
-            'KoreanToolStripMenuItem
-            '
-            Me.KoreanToolStripMenuItem.Name = "KoreanToolStripMenuItem"
-            Me.KoreanToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-            Me.KoreanToolStripMenuItem.Text = "Korean"
-            '
-            'NewZealandToolStripMenuItem
-            '
-            Me.NewZealandToolStripMenuItem.Name = "NewZealandToolStripMenuItem"
-            Me.NewZealandToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-            Me.NewZealandToolStripMenuItem.Text = "New Zealand"
-            '
-            'NordicToolStripMenuItem
-            '
-            Me.NordicToolStripMenuItem.Name = "NordicToolStripMenuItem"
-            Me.NordicToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-            Me.NordicToolStripMenuItem.Text = "Nordic"
-            '
-            'OttomanToolStripMenuItem
-            '
-            Me.OttomanToolStripMenuItem.Name = "OttomanToolStripMenuItem"
-            Me.OttomanToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-            Me.OttomanToolStripMenuItem.Text = "Ottoman"
-            '
-            'PolishToolStripMenuItem
-            '
-            Me.PolishToolStripMenuItem.Name = "PolishToolStripMenuItem"
-            Me.PolishToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-            Me.PolishToolStripMenuItem.Text = "Polish"
-            '
-            'RussianToolStripMenuItem
-            '
-            Me.RussianToolStripMenuItem.Name = "RussianToolStripMenuItem"
-            Me.RussianToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-            Me.RussianToolStripMenuItem.Text = "Russian"
-            '
-            'SpanishToolStripMenuItem
-            '
-            Me.SpanishToolStripMenuItem.Name = "SpanishToolStripMenuItem"
-            Me.SpanishToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-            Me.SpanishToolStripMenuItem.Text = "Spanish"
-            '
-            'USToolStripMenuItem
-            '
-            Me.USToolStripMenuItem.Name = "USToolStripMenuItem"
-            Me.USToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-            Me.USToolStripMenuItem.Text = "US"
-            '
             'MilHistSettings
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -899,7 +900,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Private WithEvents USCheckBox As System.Windows.Forms.CheckBox
         Private WithEvents PolishCheckBox As System.Windows.Forms.CheckBox
         Private WithEvents NapoleonicCheckBox As System.Windows.Forms.CheckBox
-        Private WithEvents MiddleAgesCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents MedievalCheckBox As System.Windows.Forms.CheckBox
         Private WithEvents MemorialsCheckBox As System.Windows.Forms.CheckBox
         Private WithEvents MaritimeCheckBox As System.Windows.Forms.CheckBox
         Private WithEvents JapaneseCheckBox As System.Windows.Forms.CheckBox

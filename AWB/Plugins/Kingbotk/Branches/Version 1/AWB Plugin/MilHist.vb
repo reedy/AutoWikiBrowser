@@ -8,7 +8,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Private Const conUSWGParm As String = "MilHistUS"
         Private Const conPolishWGParm As String = "MilHistPoland"
         Private Const conNapoleonicWGParm As String = "MilHistNapol"
-        Private Const conMiddleAgesWGParm As String = "MilHistMidAges"
+        Private Const conMedievalWGParm As String = "MilHistMedieval"
         Private Const conMemorialsWGParm As String = "MilHistMemorial"
         Private Const conMaritimeWGParm As String = "MilHistMarit"
         Private Const conJapaneseWGParm As String = "MilHistJapan"
@@ -53,7 +53,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             US = PluginManager.XMLReadBoolean(Reader, conUSWGParm, US)
             Polish = PluginManager.XMLReadBoolean(Reader, conPolishWGParm, Polish)
             Napoleonic = PluginManager.XMLReadBoolean(Reader, conNapoleonicWGParm, Napoleonic)
-            MiddleAges = PluginManager.XMLReadBoolean(Reader, conMiddleAgesWGParm, MiddleAges)
+            Medieval = PluginManager.XMLReadBoolean(Reader, conMedievalWGParm, Medieval)
             Memorials = PluginManager.XMLReadBoolean(Reader, conMemorialsWGParm, Memorials)
             Maritime = PluginManager.XMLReadBoolean(Reader, conMaritimeWGParm, Maritime)
             Japanese = PluginManager.XMLReadBoolean(Reader, conJapaneseWGParm, Japanese)
@@ -96,7 +96,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 .WriteAttributeString(conUSWGParm, US.ToString)
                 .WriteAttributeString(conPolishWGParm, Polish.ToString)
                 .WriteAttributeString(conNapoleonicWGParm, Napoleonic.ToString)
-                .WriteAttributeString(conMiddleAgesWGParm, MiddleAges.ToString)
+                .WriteAttributeString(conMedievalWGParm, Medieval.ToString)
                 .WriteAttributeString(conMemorialsWGParm, Memorials.ToString)
                 .WriteAttributeString(conMaritimeWGParm, Maritime.ToString)
                 .WriteAttributeString(conJapaneseWGParm, Japanese.ToString)
@@ -191,12 +191,12 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 NapoleonicCheckBox.Checked = value
             End Set
         End Property
-        Friend Property MiddleAges() As Boolean
+        Friend Property Medieval() As Boolean
             Get
-                Return MiddleAgesCheckBox.Checked
+                Return MedievalCheckBox.Checked
             End Get
             Set(ByVal value As Boolean)
-                MiddleAgesCheckBox.Checked = value
+                MedievalCheckBox.Checked = value
             End Set
         End Property
         Friend Property Memorials() As Boolean
@@ -738,7 +738,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 If .Japanese Then AddAndLogNewParamWithAYesValue("Japanese-task-force")
                 If .Maritime Then AddAndLogNewParamWithAYesValue("Maritime-task-force")
                 If .Memorials Then AddAndLogNewParamWithAYesValue("Memorials-task-force")
-                If .MiddleAges Then AddAndLogNewParamWithAYesValue("MiddleAges-task-force")
+                If .Medieval Then AddAndLogNewParamWithAYesValue("Medieval-task-force")
                 If .Napoleonic Then AddAndLogNewParamWithAYesValue("Napoleonic-task-force")
                 If .Polish Then AddAndLogNewParamWithAYesValue("Polish-task-force")
                 If .US Then AddAndLogNewParamWithAYesValue("US-task-force")
