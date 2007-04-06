@@ -1,3 +1,5 @@
+using System.Drawing;
+
 namespace WikiFunctions.Lists
 {
     partial class ListMaker
@@ -426,7 +428,9 @@ namespace WikiFunctions.Lists
             this.btnStop.BackColor = System.Drawing.Color.Transparent;
             this.btnStop.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStop.Image = global::WikiFunctions.MyResource.Stop;
+            Bitmap bmp = new Bitmap(global::WikiFunctions.MyResource.Stop);
+            bmp.MakeTransparent(Color.Magenta);
+            this.btnStop.Image = bmp;
             this.btnStop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnStop.Location = new System.Drawing.Point(168, 56);
             this.btnStop.Name = "btnStop";
