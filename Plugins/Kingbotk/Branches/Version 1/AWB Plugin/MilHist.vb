@@ -30,6 +30,18 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Private Const conAutoStubParm As String = "MilHistAutoStub"
         Private Const conForceImportanceRemoval As String = "MilHistRmImportance"
 
+        Private Const conHistoriographyWGParm As String = "MilHistHistoriography"
+        Private Const conScienceWGParm As String = "MilHistScience"
+        Private Const conTechnologyWGParm As String = "MilHistTech"
+        Private Const conAfricanWGParm As String = "MilHistAfrican"
+        Private Const conBalkanWGParm As String = "MilHistBalkan"
+        Private Const conKoreanWGParm As String = "MilHistKorean"
+        Private Const conNewZealandWGParm As String = "MilHistNZ"
+        Private Const conNordicWGParm As String = "MilHistNordic"
+        Private Const conOttomanWGParm As String = "MilHistOttoman"
+        Private Const conRussianWGParm As String = "MilHistRussian"
+        Private Const conSpanishWGParm As String = "MilHistSpanish"
+
         ' UI:
         Private txtEdit As TextBox
 
@@ -63,6 +75,18 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             ForceImportanceRemoval = _
                PluginManager.XMLReadBoolean(Reader, conForceImportanceRemoval, ForceImportanceRemoval)
             EarlyModern = PluginManager.XMLReadBoolean(Reader, conEarlyModernWGParm, EarlyModern)
+
+            Historiography = PluginManager.XMLReadBoolean(Reader, conHistoriographyWGParm, Historiography)
+            Science = PluginManager.XMLReadBoolean(Reader, conScienceWGParm, Science)
+            Technology = PluginManager.XMLReadBoolean(Reader, conTechnologyWGParm, Technology)
+            African = PluginManager.XMLReadBoolean(Reader, conAfricanWGParm, African)
+            Balkan = PluginManager.XMLReadBoolean(Reader, conBalkanWGParm, Balkan)
+            Korean = PluginManager.XMLReadBoolean(Reader, conKoreanWGParm, Korean)
+            NewZealand = PluginManager.XMLReadBoolean(Reader, conNewZealandWGParm, NewZealand)
+            Nordic = PluginManager.XMLReadBoolean(Reader, conNordicWGParm, Nordic)
+            Ottoman = PluginManager.XMLReadBoolean(Reader, conOttomanWGParm, Ottoman)
+            Russian = PluginManager.XMLReadBoolean(Reader, conRussianWGParm, Russian)
+            Spanish = PluginManager.XMLReadBoolean(Reader, conSpanishWGParm, Spanish)
         End Sub
         Public Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter) Implements IGenericSettings.WriteXML
             With Writer
@@ -93,6 +117,18 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 .WriteAttributeString(conAutoStubParm, AutoStub.ToString)
                 .WriteAttributeString(conForceImportanceRemoval, ForceImportanceRemoval.ToString)
                 .WriteAttributeString(conEarlyModernWGParm, EarlyModern.ToString)
+
+                .WriteAttributeString(conHistoriographyWGParm, Historiography.ToString)
+                .WriteAttributeString(conScienceWGParm, Science.ToString)
+                .WriteAttributeString(conTechnologyWGParm, Technology.ToString)
+                .WriteAttributeString(conAfricanWGParm, African.ToString)
+                .WriteAttributeString(conBalkanWGParm, Balkan.ToString)
+                .WriteAttributeString(conKoreanWGParm, Korean.ToString)
+                .WriteAttributeString(conNewZealandWGParm, NewZealand.ToString)
+                .WriteAttributeString(conNordicWGParm, Nordic.ToString)
+                .WriteAttributeString(conOttomanWGParm, Ottoman.ToString)
+                .WriteAttributeString(conRussianWGParm, Russian.ToString)
+                .WriteAttributeString(conSpanishWGParm, Spanish.ToString)
             End With
         End Sub
         Public Sub Reset() Implements IGenericSettings.XMLReset
@@ -100,7 +136,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             AutoStub = False
             ForceImportanceRemoval = False
 
-            For Each ctl As Control In Me.TaskForcesGroupBox.Controls
+            For Each ctl As Control In Me.TabControl1.Controls
                 If TypeOf ctl Is CheckBox Then DirectCast(ctl, CheckBox).Checked = False
             Next
         End Sub
@@ -299,6 +335,94 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 EarlyModernCheckBox.Checked = value
             End Set
         End Property
+        Friend Property Historiography() As Boolean
+            Get
+                Return HistoriographyCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                HistoriographyCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Science() As Boolean
+            Get
+                Return ScienceCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                ScienceCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Technology() As Boolean
+            Get
+                Return TechnologyCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                TechnologyCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property African() As Boolean
+            Get
+                Return AfricanCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                AfricanCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Balkan() As Boolean
+            Get
+                Return BalkanCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                BalkanCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Korean() As Boolean
+            Get
+                Return KoreanCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                KoreanCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property NewZealand() As Boolean
+            Get
+                Return NewZealandCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                NewZealandCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Nordic() As Boolean
+            Get
+                Return NordicCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                NordicCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Ottoman() As Boolean
+            Get
+                Return OttomanCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                OttomanCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Russian() As Boolean
+            Get
+                Return RussianCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                RussianCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Spanish() As Boolean
+            Get
+                Return SpanishCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                SpanishCheckBox.Checked = value
+            End Set
+        End Property
         Friend Property StubClass() As Boolean Implements IGenericSettings.StubClass
             Get
                 Return StubClassCheckBox.Checked
@@ -481,6 +605,18 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 If .Weaponry Then AddAndLogNewParamWithAYesValue("Weaponry-task-force")
                 If .WWI Then AddAndLogNewParamWithAYesValue("WWI-task-force")
                 If .WWII Then AddAndLogNewParamWithAYesValue("WWII-task-force")
+
+                If .Historiography Then AddAndLogNewParamWithAYesValue("Historiography-task-force")
+                If .Science Then AddAndLogNewParamWithAYesValue("Science-task-force")
+                If .Technology Then AddAndLogNewParamWithAYesValue("Technology-task-force")
+                If .African Then AddAndLogNewParamWithAYesValue("African-task-force")
+                If .Balkan Then AddAndLogNewParamWithAYesValue("Balkan-task-force")
+                If .Korean Then AddAndLogNewParamWithAYesValue("Korean-task-force")
+                If .NewZealand Then AddAndLogNewParamWithAYesValue("New-Zealand-task-force")
+                If .Nordic Then AddAndLogNewParamWithAYesValue("Nordic-task-force")
+                If .Ottoman Then AddAndLogNewParamWithAYesValue("Ottoman-task-force")
+                If .Russian Then AddAndLogNewParamWithAYesValue("Russian-task-force")
+                If .Spanish Then AddAndLogNewParamWithAYesValue("Spanish-task-force")
             End With
             If Template.Parameters.ContainsKey("importance") Then
                 Template.Parameters.Remove("importance")
