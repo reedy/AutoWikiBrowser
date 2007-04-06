@@ -1236,7 +1236,7 @@ namespace AutoWikiBrowser
                 chkNudge.Enabled = true;
                 chkNudgeSkip.Enabled = true;
                 chkNudge.Checked = true;
-                chkNudgeSkip.Checked = true;
+                chkNudgeSkip.Checked = false; // default to false until such time as the settings file has this! mets! :P
 
                 if (chkRegExTypo.Checked)
                 {
