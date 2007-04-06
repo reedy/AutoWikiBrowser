@@ -133,25 +133,25 @@ namespace WikiFunctions
             this.toolStripSeparator1,
             this.filterByReasonOfSelectedToolStripMenuItem});
             this.mnuListView.Name = "mnuListView";
-            this.mnuListView.Size = new System.Drawing.Size(217, 54);
+            this.mnuListView.Size = new System.Drawing.Size(206, 54);
             this.mnuListView.Opening += new System.ComponentModel.CancelEventHandler(this.mnuListView_Opening);
             // 
             // addSelectedToArticleListToolStripMenuItem
             // 
             this.addSelectedToArticleListToolStripMenuItem.Name = "addSelectedToArticleListToolStripMenuItem";
-            this.addSelectedToArticleListToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.addSelectedToArticleListToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
             this.addSelectedToArticleListToolStripMenuItem.Text = "Add selected to article list";
             this.addSelectedToArticleListToolStripMenuItem.Click += new System.EventHandler(this.addSelectedToArticleListToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(213, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(202, 6);
             // 
             // filterByReasonOfSelectedToolStripMenuItem
             // 
             this.filterByReasonOfSelectedToolStripMenuItem.Name = "filterByReasonOfSelectedToolStripMenuItem";
-            this.filterByReasonOfSelectedToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.filterByReasonOfSelectedToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
             this.filterByReasonOfSelectedToolStripMenuItem.Text = "Filter by reason of selected";
             this.filterByReasonOfSelectedToolStripMenuItem.Click += new System.EventHandler(this.filterByReasonOfSelectedToolStripMenuItem_Click_1);
             // 
@@ -173,6 +173,7 @@ namespace WikiFunctions
             this.lvIgnored.TabIndex = 21;
             this.lvIgnored.UseCompatibleStateImageBehavior = false;
             this.lvIgnored.View = System.Windows.Forms.View.Details;
+            this.lvIgnored.DoubleClick += new System.EventHandler(this.LogLists_DoubleClick);
             this.lvIgnored.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lvIgnoredColumnSort);
             // 
             // colIgnoreArticle
@@ -211,6 +212,7 @@ namespace WikiFunctions
             this.lvSaved.TabIndex = 20;
             this.lvSaved.UseCompatibleStateImageBehavior = false;
             this.lvSaved.View = System.Windows.Forms.View.Details;
+            this.lvSaved.DoubleClick += new System.EventHandler(this.LogLists_DoubleClick);
             this.lvSaved.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lvSavedColumnSort);
             // 
             // colSuccessSave
