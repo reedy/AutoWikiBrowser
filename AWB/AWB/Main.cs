@@ -151,7 +151,9 @@ namespace AutoWikiBrowser
         CustomModule cModule = new CustomModule();
         public RegexTester regexTester = new RegexTester();
         AWBLogListener LogListener;
-                private void MainForm_Load(object sender, EventArgs e)
+
+
+        private void MainForm_Load(object sender, EventArgs e)
         {
             // hide this tab until it's fully written
             //tabControl1.TabPages.Remove(tpDab);        
@@ -386,8 +388,7 @@ namespace AutoWikiBrowser
                 if (chkAutoMode.Checked)
                     SaveTimer.Start();
 
-                if (AutoSaveEditBoxEnabled)
-                    EditBoxSaveTimer.Enabled = true;
+                    EditBoxSaveTimer.Enabled = AutoSaveEditBoxEnabled;
 
                 //Navigate to edit page
                 webBrowserEdit.LoadEditPage(EdittingArticle.Name);
@@ -3109,15 +3110,14 @@ namespace AutoWikiBrowser
 
         private void EditBoxSaveTimer_Tick(object sender, EventArgs e)
         {
-            saveEditBoxText(Application.StartupPath + AutoSaveEditBoxFile);
+            saveEditBoxText(Application.StartupPath + "\\EditBoxSaves\\" + AutoSaveEditBoxFile);
         }
 
         private void saveEditBoxText(string path)
         {
             try
             {
-                StreamWriter sw;
-                sw = new StreamWriter(path.ToString(), false, Encoding.UTF8);
+                StreamWriter sw = new StreamWriter(path.ToString(), false, Encoding.UTF8);
                 sw.Write(txtEdit.Text);
                 sw.Close();
             }
