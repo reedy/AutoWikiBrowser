@@ -1862,7 +1862,6 @@ namespace AutoWikiBrowser
             // 
             // EditBoxSaveTimer
             // 
-            this.EditBoxSaveTimer.Enabled = true;
             this.EditBoxSaveTimer.Interval = 1000;
             this.EditBoxSaveTimer.Tick += new System.EventHandler(this.EditBoxSaveTimer_Tick);
             // 

@@ -46,6 +46,7 @@ namespace AutoWikiBrowser
             this.label6 = new System.Windows.Forms.Label();
             this.txtCustomProject = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.chkAutoSaveEdit = new System.Windows.Forms.CheckBox();
             this.label7 = new System.Windows.Forms.Label();
             this.numTimeOutLimit = new System.Windows.Forms.NumericUpDown();
             this.chkOverrideWatchlist = new System.Windows.Forms.CheckBox();
@@ -58,12 +59,11 @@ namespace AutoWikiBrowser
             this.label5 = new System.Windows.Forms.Label();
             this.fontDialog = new System.Windows.Forms.FontDialog();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.txtAutosave = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.numEditBoxAutosave = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
-            this.chkAutoSaveEdit = new System.Windows.Forms.CheckBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.txtAutosave = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.nudDiffFontSize)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -274,6 +274,17 @@ namespace AutoWikiBrowser
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Other";
             // 
+            // chkAutoSaveEdit
+            // 
+            this.chkAutoSaveEdit.AutoSize = true;
+            this.chkAutoSaveEdit.Location = new System.Drawing.Point(11, 220);
+            this.chkAutoSaveEdit.Name = "chkAutoSaveEdit";
+            this.chkAutoSaveEdit.Size = new System.Drawing.Size(124, 17);
+            this.chkAutoSaveEdit.TabIndex = 23;
+            this.chkAutoSaveEdit.Text = "Auto Save Edit Box?";
+            this.chkAutoSaveEdit.UseVisualStyleBackColor = true;
+            this.chkAutoSaveEdit.CheckedChanged += new System.EventHandler(this.chkAutoSaveEdit_CheckedChanged);
+            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -401,7 +412,23 @@ namespace AutoWikiBrowser
             this.groupBox3.Size = new System.Drawing.Size(306, 78);
             this.groupBox3.TabIndex = 15;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "AutoSave";
+            this.groupBox3.Text = "AutoSave Edit Box";
+            // 
+            // txtAutosave
+            // 
+            this.txtAutosave.Location = new System.Drawing.Point(77, 40);
+            this.txtAutosave.Name = "txtAutosave";
+            this.txtAutosave.Size = new System.Drawing.Size(179, 20);
+            this.txtAutosave.TabIndex = 30;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(27, 43);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(39, 13);
+            this.label10.TabIndex = 29;
+            this.label10.Text = "To file:";
             // 
             // label9
             // 
@@ -442,33 +469,6 @@ namespace AutoWikiBrowser
             this.label8.Size = new System.Drawing.Size(126, 13);
             this.label8.TabIndex = 26;
             this.label8.Text = "Autosave Edit Box every:";
-            // 
-            // chkAutoSaveEdit
-            // 
-            this.chkAutoSaveEdit.AutoSize = true;
-            this.chkAutoSaveEdit.Location = new System.Drawing.Point(11, 220);
-            this.chkAutoSaveEdit.Name = "chkAutoSaveEdit";
-            this.chkAutoSaveEdit.Size = new System.Drawing.Size(124, 17);
-            this.chkAutoSaveEdit.TabIndex = 23;
-            this.chkAutoSaveEdit.Text = "Auto Save Edit Box?";
-            this.chkAutoSaveEdit.UseVisualStyleBackColor = true;
-            this.chkAutoSaveEdit.CheckedChanged += new System.EventHandler(this.chkAutoSaveEdit_CheckedChanged);
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(27, 43);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(39, 13);
-            this.label10.TabIndex = 29;
-            this.label10.Text = "To file:";
-            // 
-            // txtAutosave
-            // 
-            this.txtAutosave.Location = new System.Drawing.Point(77, 40);
-            this.txtAutosave.Name = "txtAutosave";
-            this.txtAutosave.Size = new System.Drawing.Size(179, 20);
-            this.txtAutosave.TabIndex = 30;
             // 
             // MyPreferences
             // 
