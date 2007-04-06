@@ -52,13 +52,14 @@ namespace WikiFunctions
         #region lvMenu
         private void mnuListView_Opening(object sender, CancelEventArgs e)
         {
-            if (MenuItemOwner(sender) == lvIgnored)
-            {
-                filterByReasonOfSelectedToolStripMenuItem.Enabled = (lvIgnored.SelectedItems.Count == 1);
-                filterByReasonOfSelectedToolStripMenuItem.Visible = true;
-            }
-            else
-                filterByReasonOfSelectedToolStripMenuItem.Visible = false;
+            bool enabled = (MenuItemOwner(sender).SelectedItems.Count == 1);
+
+            filterByReasonOfSelectedToolStripMenuItem.Enabled = ((lvIgnored.SelectedItems.Count == 1) && enabled);
+            filterByReasonOfSelectedToolStripMenuItem.Visible = enabled;
+            toolStripSeparator1.Visible = enabled;
+
+            openInBrowserToolStripMenuItem.Enabled = enabled;
+            openHistoryInBrowserToolStripMenuItem.Enabled = enabled;
         }
 
         private void addSelectedToArticleListToolStripMenuItem_Click(object sender, EventArgs e)
@@ -258,5 +259,77 @@ namespace WikiFunctions
                                                               listView.Sorting);
         }
         #endregion
+
+        private void cutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ctrl_c(sender);
+            removeselected(sender);
+        }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ctrl_c(sender);
+        }
+
+        private void ctrl_c(object sender)
+        {
+            string ClipboardData = "";
+
+            foreach (ListViewItem a in MenuItemOwner(sender).SelectedItems)
+            {
+                string text = a.Text;
+                if (a.SubItems.Count > 0)
+                {
+                    for (int i = 1; i < a.SubItems.Count; i++)
+                    {
+                        text += " " + a.SubItems[i].Text;
+                    }
+                }
+                if (ClipboardData != "") ClipboardData += "\r\n";
+                
+                ClipboardData += text;
+            }
+
+            Clipboard.SetDataObject(ClipboardData, true);
+        }
+
+        private void removeselected(object sender)
+        {
+            foreach (ListViewItem a in MenuItemOwner(sender).SelectedItems)
+            {
+                a.Remove();
+            }
+        }
+
+        private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in MenuItemOwner(sender).Items)
+            {
+                item.Selected = true;
+            }
+        }
+
+        private void selectNoneToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in MenuItemOwner(sender).Items)
+            {
+                item.Selected = false;
+            }
+        }
+
+        private void openInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(Variables.URL + "/wiki/" + MenuItemOwner(sender).SelectedItems[0].Text);
+        }
+
+        private void openHistoryInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(Variables.URL + "/wiki/" + MenuItemOwner(sender).SelectedItems[0].Text + "&action=history"); 
+        }
+
+        private void removeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            removeselected(sender);
+        }
     }
 }
