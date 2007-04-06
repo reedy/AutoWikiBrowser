@@ -106,6 +106,9 @@ namespace WikiFunctions.Parse
                 case LangCodeEnum.ru:
                     ArticleText += strPersonData + strDisambig + strStub + strCategories + strInterwikis;
                     break;
+                case LangCodeEnum.simple:
+                    ArticleText += strPersonData + strDisambig + strStub + strCategories + strInterwikis;
+                    break;
                 default:
                     ArticleText += strPersonData + strDisambig + strCategories + strStub + strInterwikis;
                     break;
