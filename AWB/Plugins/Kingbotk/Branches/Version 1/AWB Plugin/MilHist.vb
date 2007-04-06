@@ -476,9 +476,149 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         ByVal e As System.EventArgs) Handles StubClassCheckBox.CheckedChanged
             If StubClassCheckBox.Checked Then AutoStubCheckBox.Checked = False
         End Sub
-        Private Sub WPMILHISTToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) _
-        Handles WPMILHISTToolStripMenuItem.Click
+
+        Private Sub WPMILHISTToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles WPMILHISTToolStripMenuItem.Click
             txtEdit.SelectedText = "{{WPMILHIST}}"
+        End Sub
+
+        Private Sub AviationToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AviationToolStripMenuItem.Click
+            txtEdit.SelectedText = "|Aviation-task-force=yes"
+        End Sub
+
+        Private Sub HistoriographyToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HistoriographyToolStripMenuItem.Click
+            txtEdit.SelectedText = "|Historiography-task-force=yes"
+        End Sub
+
+        Private Sub MaritimeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MaritimeToolStripMenuItem.Click
+            txtEdit.SelectedText = "|Maritime-task-force=yes"
+        End Sub
+
+        Private Sub MemorialsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MemorialsToolStripMenuItem.Click
+            txtEdit.SelectedText = "|Memorials-task-force=yes"
+        End Sub
+
+        Private Sub ScienceToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ScienceToolStripMenuItem.Click
+            txtEdit.SelectedText = "|Science-task-force=yes"
+        End Sub
+
+        Private Sub TechnologyToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TechnologyToolStripMenuItem.Click
+            txtEdit.SelectedText = "|Technology-task-force=yes"
+        End Sub
+
+        Private Sub WeaponryToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles WeaponryToolStripMenuItem.Click
+            txtEdit.SelectedText = "|Weaponry-task-force=yes"
+        End Sub
+
+        Private Sub AfricanToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AfricanToolStripMenuItem.Click
+            txtEdit.SelectedText = "|African-task-force=yes"
+        End Sub
+
+        Private Sub AustralianToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AustralianToolStripMenuItem.Click
+            txtEdit.SelectedText = "|Australian-task-force=yes"
+        End Sub
+
+        Private Sub BalkanToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BalkanToolStripMenuItem.Click
+            txtEdit.SelectedText = "|Balkan-task-force=yes"
+        End Sub
+
+        Private Sub BritishToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BritishToolStripMenuItem.Click
+            txtEdit.SelectedText = "|British-task-force=yes"
+        End Sub
+
+        Private Sub CanadianToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CanadianToolStripMenuItem.Click
+            txtEdit.SelectedText = "|Canadian-task-force=yes"
+        End Sub
+
+        Private Sub ChineseToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChineseToolStripMenuItem.Click
+            txtEdit.SelectedText = "|Chinese-task-force=yes"
+        End Sub
+
+        Private Sub DutchToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DutchToolStripMenuItem.Click
+            txtEdit.SelectedText = "|Dutch-task-force=yes"
+        End Sub
+
+        Private Sub GermanToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GermanToolStripMenuItem.Click
+            txtEdit.SelectedText = "|-task-force=yes"
+        End Sub
+
+        Private Sub FrenchToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FrenchToolStripMenuItem.Click
+            txtEdit.SelectedText = "|French-task-force=yes"
+        End Sub
+
+        Private Sub IndianToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles IndianToolStripMenuItem.Click
+            txtEdit.SelectedText = "|Indian-task-force=yes"
+        End Sub
+
+        Private Sub ItalianToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ItalianToolStripMenuItem.Click
+            txtEdit.SelectedText = "|Italian-task-force=yes"
+        End Sub
+
+        Private Sub JapaneseToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles JapaneseToolStripMenuItem.Click
+            txtEdit.SelectedText = "|Japanese-task-force=yes"
+        End Sub
+
+        Private Sub KoreanToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles KoreanToolStripMenuItem.Click
+            txtEdit.SelectedText = "|Korean-task-force=yes"
+        End Sub
+
+        Private Sub NewZealandToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NewZealandToolStripMenuItem.Click
+            txtEdit.SelectedText = "|NewZealand-task-force=yes"
+        End Sub
+
+        Private Sub NordicToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NordicToolStripMenuItem.Click
+            txtEdit.SelectedText = "|Nordic-task-force=yes"
+        End Sub
+
+        Private Sub OttomanToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OttomanToolStripMenuItem.Click
+            txtEdit.SelectedText = "|Ottoman-task-force=yes"
+        End Sub
+
+        Private Sub PolishToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PolishToolStripMenuItem.Click
+            txtEdit.SelectedText = "|Polish-task-force=yes"
+        End Sub
+
+        Private Sub RussianToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RussianToolStripMenuItem.Click
+            txtEdit.SelectedText = "|Russian-task-force=yes"
+        End Sub
+
+        Private Sub SpanishToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SpanishToolStripMenuItem.Click
+            txtEdit.SelectedText = "|Spanish-task-force=yes"
+        End Sub
+
+        Private Sub USToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles USToolStripMenuItem.Click
+            txtEdit.SelectedText = "|US-task-force=yes"
+        End Sub
+
+        Private Sub ACWToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ACWToolStripMenuItem.Click
+            txtEdit.SelectedText = "|ACW-task-force=yes"
+        End Sub
+
+        Private Sub AncientNearEasterToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AncientNearEasterToolStripMenuItem.Click
+            txtEdit.SelectedText = "|Ancient-task-force=yes"
+        End Sub
+
+        Private Sub ClassicalToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ClassicalToolStripMenuItem.Click
+            txtEdit.SelectedText = "|Classical-task-force=yes"
+        End Sub
+
+        Private Sub MedievalToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MedievalToolStripMenuItem.Click
+            txtEdit.SelectedText = "|Medieval-task-force=yes"
+        End Sub
+
+        Private Sub EarlyModernToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EarlyModernToolStripMenuItem.Click
+            txtEdit.SelectedText = "|Early-Modern-task-force=yes"
+        End Sub
+
+        Private Sub NapoleonicToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NapoleonicToolStripMenuItem.Click
+            txtEdit.SelectedText = "|Napoleonic-task-force=yes"
+        End Sub
+
+        Private Sub WWIToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles WWIToolStripMenuItem.Click
+            txtEdit.SelectedText = "|WWI-task-force=yes"
+        End Sub
+
+        Private Sub WWIIToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles WWIIToolStripMenuItem.Click
+            txtEdit.SelectedText = "|WWII-task-force=yes"
         End Sub
     End Class
 
