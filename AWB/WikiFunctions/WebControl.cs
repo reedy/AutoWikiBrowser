@@ -600,9 +600,6 @@ namespace WikiFunctions.Browser
         /// </summary>
         public void Wait()
         {
-            //TODO:AWB Hangs here on early close
-            //In infinite loop, as the web control has been disposed of, and therefore readystate wont change
-            //FIX!!
             while (ReadyState != WebBrowserReadyState.Complete && !Shutdown) Application.DoEvents();
         }
 
