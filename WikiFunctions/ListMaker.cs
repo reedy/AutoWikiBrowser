@@ -675,6 +675,7 @@ namespace WikiFunctions.Lists
         }
 
         Thread ListerThread = null;
+
         /// <summary>
         /// Makes a list of pages
         /// </summary>
@@ -891,7 +892,7 @@ namespace WikiFunctions.Lists
                         case 1: //wikitext
                             foreach (Article a in lbArticles)
                             {
-                                strList.AppendLine("# [[" + a.Name + "]]");
+                                strList.AppendLine("# [[:" + a.Name + "]]");
                             }
                             strListFile = saveListDialog.FileName;
                             sw = new StreamWriter(strListFile, false, Encoding.UTF8);
