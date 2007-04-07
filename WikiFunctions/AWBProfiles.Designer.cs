@@ -166,6 +166,7 @@ namespace WikiFunctions
             this.Controls.Add(this.btnAdd);
             this.Name = "AWBProfiles";
             this.Text = "Profiles";
+            this.Load += new System.EventHandler(this.AWBProfiles_Load);
             this.mnuAccounts.ResumeLayout(false);
             this.ResumeLayout(false);
 

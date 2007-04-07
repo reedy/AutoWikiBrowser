@@ -37,6 +37,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Article.cs" />
+    <Compile Include="AWBProfileAdd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AWBProfileAdd.Designer.cs">
+      <DependentUpon>AWBProfileAdd.cs</DependentUpon>
+    </Compile>
     <Compile Include="AWBProfiles.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -201,6 +207,10 @@
     <Compile Include="WPEditor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AWBProfileAdd.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>AWBProfileAdd.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AWBProfiles.resx">
       <SubType>Designer</SubType>
       <DependentUpon>AWBProfiles.cs</DependentUpon>

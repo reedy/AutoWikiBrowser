@@ -14,5 +14,10 @@ namespace WikiFunctions
         {
             InitializeComponent();
         }
+
+        private void AWBProfiles_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
