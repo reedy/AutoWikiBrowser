@@ -54,6 +54,8 @@ namespace WikiFunctions.Browser
 
         Timer timer1 = new Timer();
 
+        public static bool Shutdown = false;
+
         /// <summary>
         /// Occurs when the edit page has finished loading
         /// </summary>
@@ -601,7 +603,7 @@ namespace WikiFunctions.Browser
             //TODO:AWB Hangs here on early close
             //In infinite loop, as the web control has been disposed of, and therefore readystate wont change
             //FIX!!
-            while (ReadyState != WebBrowserReadyState.Complete) Application.DoEvents();
+            while (ReadyState != WebBrowserReadyState.Complete && !Shutdown) Application.DoEvents();
         }
 
         #endregion
