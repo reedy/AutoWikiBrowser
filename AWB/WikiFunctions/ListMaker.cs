@@ -681,6 +681,7 @@ namespace WikiFunctions.Lists
         /// <param name="SourceValues">An array of string values to create the list with, e.g. an array of categories. Use null if not appropriate</param>
         public void MakeList(SourceType ST, string[] SourceValues)
         {
+            btnStop.Enabled = true;
             if (ST == SourceType.DatabaseDump)
             {
                 launchDumpSearcher();
@@ -734,8 +735,8 @@ namespace WikiFunctions.Lists
                 ListerThread.IsBackground = true;
                 ListerThread.Start();
             }
-            if(FilterNonMainAuto)
-            FilterNonMainArticles();
+            if (FilterNonMainAuto)
+                FilterNonMainArticles();
         }
 
         SourceType Source = SourceType.Category;
@@ -1237,6 +1238,7 @@ namespace WikiFunctions.Lists
 
         private void btnStop_Click(object sender, EventArgs e)
         {
+            btnStop.Enabled = false;
             this.Stop();
         }
     }
