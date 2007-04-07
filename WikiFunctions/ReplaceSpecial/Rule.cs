@@ -272,11 +272,9 @@ namespace WikiFunctions.MWB
             //if (r.replace_ != null && r.with_ != null && r.replace_ != "" && r.with_ != "")
             if (r.replace_ != null && r.replace_ != "")
             {
-                string replace = r.replace_.Replace("%%title%%", title);
-                string replace2 = r.replace_.Replace("%%key%%", Tools.MakeHumanCatKey(title));
+                string replace = r.replace_.Replace("%%title%%", title).Replace("%%key%%", Tools.MakeHumanCatKey(title));
 
-                string with = r.with_.Replace("%%title%%", title);
-                string with2 = r.with_.Replace("%%key%%", Tools.MakeHumanCatKey(title));
+                string with = r.with_.Replace("%%title%%", title).Replace("%%key%%", Tools.MakeHumanCatKey(title));
 
                 if (!r.regex_)
                     replace = Regex.Escape(replace);
@@ -285,7 +283,6 @@ namespace WikiFunctions.MWB
                 with = with.Replace(@"\r", "\r").Replace(@"\n", "\n");
 
                 text = Regex.Replace(text, replace, with, r.regexOptions_);
-                text = Regex.Replace(text, replace2, with2, r.regexOptions_);
             }
 
             foreach (TreeNode t in tn.Nodes)
