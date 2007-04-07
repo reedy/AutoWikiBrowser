@@ -685,6 +685,10 @@ namespace AutoWikiBrowser
 
             LogControl1.AddLog(false, LogListener);
 
+            if (listMaker1.Count() == 0)
+                if (AutoSaveEditBoxEnabled)
+                    EditBoxSaveTimer.Enabled = false;
+
             Start();
         }
 
@@ -1687,6 +1691,9 @@ namespace AutoWikiBrowser
                 SaveArticleList = MyPrefs.perfSaveArticleList;
                 OverrideWatchlist = MyPrefs.perfOverrideWatchlist;
                 TimeOut = MyPrefs.perfTimeOutLimit;
+                AutoSaveEditBoxEnabled = MyPrefs.perfAutoSaveEditBoxEnabled;
+                AutoSaveEditBoxPeriod = MyPrefs.perfAutoSaveEditBoxPeriod;
+                AutoSaveEditBoxFile = MyPrefs.perfAutoSaveEditBoxFile;
 
                 if (MyPrefs.Language != Variables.LangCode || MyPrefs.Project != Variables.Project || MyPrefs.CustomProject != Variables.CustomProject)
                 {
@@ -3121,6 +3128,9 @@ namespace AutoWikiBrowser
 
         private void EditBoxSaveTimer_Tick(object sender, EventArgs e)
         {
+            if (!System.IO.Directory.Exists(Application.StartupPath + "\\EditBoxSaves"))
+                System.IO.Directory.CreateDirectory(Application.StartupPath + "\\EditBoxSaves");
+
             saveEditBoxText(Application.StartupPath + "\\EditBoxSaves\\" + AutoSaveEditBoxFile);
         }
 
