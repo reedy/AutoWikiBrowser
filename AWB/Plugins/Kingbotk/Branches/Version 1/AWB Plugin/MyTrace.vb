@@ -50,6 +50,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
                         Success = True
                         DirectCast(Sender.TraceStatus, TraceStatus).UploadsCount += 1
                     Catch ex As Exception
+                        MessageBox.Show(ex.Message & Microsoft.VisualBasic.vbCrLf & ex.ToString())
                         Success = False
                     Finally
                         UploadTo += " " & Sender.TraceStatus.PageNumber.ToString
