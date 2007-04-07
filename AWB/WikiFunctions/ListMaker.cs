@@ -667,6 +667,7 @@ namespace WikiFunctions.Lists
             btnMakeList.Enabled = true;
             Status = "List complete!";
             BusyStatus = false;
+            btnStop.Enabled = false;
             UpdateNumberOfArticles();
 
             if (ListFinished != null)
