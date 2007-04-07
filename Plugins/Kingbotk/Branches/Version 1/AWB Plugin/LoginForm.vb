@@ -33,10 +33,10 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             End Get
         End Property
         Private Function Decrypt(ByVal Text As String) As String
-            Return WikiFunctions.Encryption.Decrypt(Text, conPassPhrase, conSalt, "SHA1", 2, conIV16Chars, 256)
+            Return WikiFunctions.Encryption.RijndaelSimple.Decrypt(Text, conPassPhrase, conSalt, "SHA1", 2, conIV16Chars, 256)
         End Function
         Private Function Encrypt(ByVal Text As String) As String
-            Return WikiFunctions.Encryption.Encrypt(Text, conPassPhrase, conSalt, "SHA1", 2, conIV16Chars, 256)
+            Return WikiFunctions.Encryption.RijndaelSimple.Encrypt(Text, conPassPhrase, conSalt, "SHA1", 2, conIV16Chars, 256)
         End Function
         Friend Function GetFromForm() As UsernamePassword
             Me.ShowDialog()
