@@ -1350,14 +1350,17 @@ namespace AutoWikiBrowser
 
         private void oldVersion()
         {
-            lblUserName.BackColor = Color.Red;
+            if (!WebControl.Shutdown)
+            {
+                lblUserName.BackColor = Color.Red;
 
-            DialogResult yesnocancel = MessageBox.Show("This version is not enabled, please download the newest version. If you have the newest version, check that Wikipedia is online.\r\n\r\nPlease press \"Yes\" to run the AutoUpdater, \"No\" to load the download page and update manually, or \"Cancel\" to not update (but you will not be able to edit).", "Problem", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information);
-            if (yesnocancel == DialogResult.Yes)
-                runUpdater();
+                DialogResult yesnocancel = MessageBox.Show("This version is not enabled, please download the newest version. If you have the newest version, check that Wikipedia is online.\r\n\r\nPlease press \"Yes\" to run the AutoUpdater, \"No\" to load the download page and update manually, or \"Cancel\" to not update (but you will not be able to edit).", "Problem", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information);
+                if (yesnocancel == DialogResult.Yes)
+                    runUpdater();
 
-            if (yesnocancel == DialogResult.No)
-                System.Diagnostics.Process.Start("http://sourceforge.net/project/showfiles.php?group_id=158332");
+                if (yesnocancel == DialogResult.No)
+                    System.Diagnostics.Process.Start("http://sourceforge.net/project/showfiles.php?group_id=158332");
+            }
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
