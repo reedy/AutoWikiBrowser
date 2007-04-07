@@ -328,7 +328,7 @@ namespace WikiFunctions.Logging
 
         private void openHistoryInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(Variables.URL + "/wiki/" + MenuItemOwner(sender).SelectedItems[0].Text + "&action=history"); 
+            System.Diagnostics.Process.Start(Variables.URL + "/w/index.php?title=" + MenuItemOwner(sender).SelectedItems[0].Text + "&action=history"); 
         }
 
         private void removeToolStripMenuItem_Click(object sender, EventArgs e)
