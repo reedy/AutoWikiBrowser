@@ -1174,59 +1174,20 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         }
 
         /// <summary>
-        /// Subst'd some user talk templates
+        /// Substitutes some user talk templates
         /// </summary>
         /// <param name="TalPageText">The wiki text of the talk page.</param>
         /// <returns>The new text.</returns>
-        public string SubstUserTemplates(string TalkPageText, string TalkPageTitle)
+        public string SubstUserTemplates(string TalkPageText, string TalkPageTitle, Regex userTalkTemplatesRegex)
         {
-            string legacyWarnings = "\\{\\{(template:)?((~|~~~~|3RR(2|3(-multi)?|4?(MrB)?|5(-multi)?|block|SV)?|Advert[1-5]?|Adw(note)?|Afd(-warn|Note|Warning(New)?)|Agf[0-3]?|Anon vandal|Article(Concern|" +
-                "Discussion|Result)|Artc?d?r?|Attack(-warn|pg-warn)?|Autobio-warn|Bad(cat|fairuse|" +
-                "nom)|Behave|Bl(ank)?(ing)?(1|2|3|4|4alt|own)?|Blatant ?(spam|vandal(ism)?|officialpolicyvandal)?|" +
-                "Blocked ?user|BLP removal|Blp[012]|Bs(r-user)?|Bv2?|C&pmove|Canvass?|Cite sources|Comment([0-4]|" +
-                "del)?|Conduct(Concern|Discussion|Notice|Result)|Copyviowarn|ConflictOfInterest|Cr(final|warn)|" +
-                "Cv(-r|3|4|-warn)?|Dabhelp|Dates[23]?|Defwarn|Deleted-spam|Disrupt[1-4]?|DJR|Dmpa|Double ?redirect|Drm[av]fd[1-4]?|" + 
-                "Drmmt[13]?|Drmspeedy[1-4]?|" + 
-                "Edit summary personal ?[34]?|" + 
-                "Edit ?summary|Empty(-notice|-warn|-warn-deletion)|Error:wrong namespace|Final warning|Firstarticle|FLW|" + 
-                "Fuir|Funnybut|Fwarn|General spam note|GFDL-presumed-notify|Grammar1|Horn|Idw(-cp|-multi|-noncom|-pui|-sd|-uo)?|" + 
-                "Image( copyright( request)?| source| source copyright| fairuse rationale|1|2|3|4|ow3|s on userboxes)|Insertimage4|" +
-                "InvalidAIV|Is|Italicize|Joke[23]?|Ladnav|Lang[0-4]|Longterm4im|Mess[12]|Minor( edits)?|Misleading edit summary|Missing rationale( short)?|" + 
-                "Mos([0-3]|dab)|Movepages|MP[0-4]|MSW|MultipleIPs?|Name your images|NC[02]?|" + 
-                "Needsource2?|Newv(oterip|andal)|Nn-?(n(otice)?|test|warn|warn-deletion|warn-reason|warn2)|No article|No fair|" + 
-                "No nonsense|No personal (comment|attack)s|Nocontent-(notice|warn)|Nofairuse|NoIPbots|Non-admin fwarn|Noncom-warn|Nononsense|Nonsensepages|" + 
-                "Noprotection|Nor2?|Not censored( 2)?|Notasocialnetwork|Notchat|Notenglish0|Nothanks(-add|-afc|" + 
-                "-drm|-personal|-sd|-web|-nn|-v(anity)?)?|Notyours|Npa(2|3|4)?(im)?|NPOV(-newuser|" + 
-                "0|0a| user2?)|Nspp|Nsvd(-4)?|Off-sandbox|Only Warning|Orphaned( short| warning| fair use)?|ORW|Page(move| ?blank)|Personal ?attack|Pinfo4?|Point[1-4]?|Please login|" +
-                "Policyalteration|Preview|PRODWarn(ing)?|Rationale short|RD removal|Recreated|Redlink|Rem|Replaceable( 2| short)?|Reported|Repost-warn|" +
-                "Resume|Revert|Rfc-(ar[cdr]|(article|conduct)(concern|discussion|notice|result)|uc[cdnr]|un[abcdn]|username(allowed|concern|discussion|notice))|Rn[234]|Rollback2?|RPA|Sandbox-head|Selftest|Seriously|Sign( request)?|Silly|SLW|Sob(lank|minor|neutral|" + 
-                "top)|Sources-warn|Spam(-agf|-i|-notice|-warn|-warn-deletion| \\(good faith\\)| note|0|1|2|2a|" + 
-                "3|4|4im|5|rplce)?|Spec(ulation)?warn(ing)?|SpellCheck|Styles[234]|Subst2?|Summar(y|ies)2?|" + 
-                "SW|Talkinarticle|T[1-4]a|Talk ?sign|Test(-?self|0|1|1a|ab|1article|2|2a|2b|2article|2m|2del|" + 
-                "3|3a|3articlev?|3b|3ip|4|4a|4aalt|4alt|" + 
-                "4article|4b|-?4-?im|4im-alt|5|7|a|article|b|blatant|g1|s|Talk|Talk-edit|Templates)?|" + 
-                "Threat[24]?|Tilde|Tp?vp?-?(0|2|3|4|4MrB)?|Trumpet|Tset|UE|uc[cdn]|ucres|u[en][abd]?|uncon|und|unref-talk|User?english||Upv2|User(-OR| reply)|Useri?f(ied( a)?|ied-nn|y|" + 
-                "y ?warning)|Username(-Warn|Allowed|Concern|Discussion|Notice)|Userpage warning|" + 
-                "Usrcvtext|Vand(3|al-? ?block(ed)?|al-?only|al(ism)?-? ?only)(account)?|Vandal[12]?|Vanity2?(page)?|VCRW|Vd[12]|Verror(-m|-mn|1|2|3|4|4im)?|Vww?[0-4]?(a(-n)?|b)?|" + 
-                "Warn|WarningsUsage|Welcome(4a|mos|n?pov|Shout|spam|" +
-                "vandal)|What-image-source|Welcome[0-6]?(-s)?|Welcomeip|Anon|Welcome-anon|Whitelist request processed|Wrong version|Wrongsummary[123])(-n)?(\\|.*?)?)\\}\\}";
-            legacyWarnings = legacyWarnings.Replace(" ", "[ _]");
+            TalkPageText = TalkPageText.Replace("{{{subst", "REPLACE_THIS_TEXT");
             Dictionary<Regex, string> Regexes = new Dictionary<Regex,string>();
-            string newWarnings = "\\{\\{(template:)?(Uw-(4|2redirect|3rr[1-4]?|advert1|afd[1-4]?|agf[1-3]?|" +
-                "aiv|autobio(graphy)?|b[1-4]|biog[1-4]?|blatantvandal|block(ed)?[1-3]?|bv|chat[1-4]?|cia[1-4]|coi1?|copyright[1-4]?|creat(e|ion)[1-4]?|date|d[1-4]|dblock|defamatory[1-4]?(im)?|" +
-                "del(ete|etion|eting)?[1-4]?(im)?|editsummary|english|error[1-4]?|hoax|image[1-4]?(im)?|joke[1-4]?|lang|legal[1-3]?|longterm|m1|maintenance[12]|" +
-                "mos[1-4]?|move[1-4]?|notavandal|notcensored[1-4]?|notvote|npa[1-4]?(im)?|npov[1-4]?|o[1-3]|own[1-3]?|pinfo|racism|repost|" +
-                "roads1|s[1-4](im)?|sblock1?|selfrevert|spam[1-4]?(im)?|speedy[1-4]?|srv|t[1-3]|test[1-4]?(im)?|tilde|tpv[1-4]?|unsourced[1-4]?|upv[1-4]?|v[1-4]?(im)?|vand(al)?(ism)?[1-4]?(im)?|" +
-                "vblock|warn)(\\|.*?)?)\\}\\}";
 
-            Regexes.Add(new Regex(legacyWarnings, RegexOptions.Compiled | RegexOptions.IgnoreCase), "{{subst:$2}}");
-            Regexes.Add(new Regex(newWarnings, RegexOptions.Compiled | RegexOptions.IgnoreCase), "{{subst:$2|subst=subst:}}");
+            Regexes.Add(userTalkTemplatesRegex, "{{subst:$2}}");
             TalkPageText = Tools.ExpandTemplate(TalkPageText, TalkPageTitle, Regexes, true);
-
-            TalkPageText = Regex.Replace(TalkPageText, "\\{\\{\\{\\{\\{subst:(subst)?\\|\\}\\}\\}?#if:\\{\\{\\{(1|diff)\\|\\}\\}\\}\\|[^\\{]*?\\}\\}", "", RegexOptions.IgnoreCase);
-            TalkPageText = Regex.Replace(TalkPageText, "\\{\\{\\{\\{\\{subst:(subst)?\\|\\}\\}\\}?#if:[^\\{\\|]*\\|([^\\{\\|]*?)\\}\\}", "$2", RegexOptions.IgnoreCase);
+            
             TalkPageText = Regex.Replace(TalkPageText, " \\{\\{\\{2\\|\\}\\}\\}", "");
-            TalkPageText = Regex.Replace(TalkPageText, "\\{\\{\\{subst:subst|\\}\\}\\}", "{{{subst|}}}", RegexOptions.IgnoreCase);
+            TalkPageText = TalkPageText.Replace("REPLACE_THIS_TEXT", "{{{subst");
             return TalkPageText;
         }              
         

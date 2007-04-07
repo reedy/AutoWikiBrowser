@@ -151,8 +151,9 @@ namespace AutoWikiBrowser
         CustomModule cModule = new CustomModule();
         public RegexTester regexTester = new RegexTester();
         AWBLogListener LogListener;
-
-
+        bool userTalkWarningsLoaded = false;
+        Regex userTalkTemplatesRegex;
+        
         private void MainForm_Load(object sender, EventArgs e)
         {
             // hide this tab until it's fully written
@@ -937,7 +938,9 @@ namespace AutoWikiBrowser
                 else if (process && chkGeneralFixes.Checked && EdittingArticle.NameSpaceKey == 3)
                 {
                     articleText = RemoveText.Hide(articleText);
-                    articleText = parsers.SubstUserTemplates(articleText, EdittingArticle.Name);
+                    if (!userTalkWarningsLoaded)
+                        loadUserTalkWarnings();
+                    articleText = parsers.SubstUserTemplates(articleText, EdittingArticle.Name, userTalkTemplatesRegex);
                     articleText = RemoveText.AddBack(articleText);
                 }
 
@@ -3135,6 +3138,41 @@ namespace AutoWikiBrowser
         {
             if (saveListDialog.ShowDialog() == DialogResult.OK)
                 saveEditBoxText(saveListDialog.FileName);
+        }
+
+        private void loadUserTalkWarnings()
+        {
+            string finalRegex = "\\{\\{ ?(template:)? ?((";
+            Regex userTalkTemplate = new Regex(@"# \[\[Template:(.*?)\]\]");
+            try
+            {
+                string text = "";
+                try
+                {
+                    text = Tools.GetHTML(Variables.URLLong + "index.php?title=Wikipedia:AutoWikiBrowser/User talk templates&action=raw&ctype=text/plain&dontcountme=s", Encoding.UTF8);
+                }
+                catch
+                {
+                }
+                foreach (Match m in userTalkTemplate.Matches(text))
+                {
+                    try
+                    {
+                        finalRegex = finalRegex + m.Groups[1].Value + "|";
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finalRegex = finalRegex.Trim('|') + ") ?(\\|.*?)?) ?\\}\\}";
+            userTalkWarningsLoaded = true;
+            userTalkTemplatesRegex = new Regex(finalRegex, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            MessageBox.Show(finalRegex);
         }
     }
 }
