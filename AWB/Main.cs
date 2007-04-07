@@ -1105,6 +1105,8 @@ namespace AutoWikiBrowser
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            WebControl.Shutdown = true;
+
             if (AutoWikiBrowser.Properties.Settings.Default.DontAskForTerminate)
             {
                 // save user persistent settings
@@ -1137,8 +1139,6 @@ namespace AutoWikiBrowser
                 webBrowserEdit.Stop2();
             if (Variables.User.webBrowserLogin.IsBusy)
                 Variables.User.webBrowserLogin.Stop();
-
-            WebControl.Shutdown = true;
 
             SaveRecentSettingsList();
         }
