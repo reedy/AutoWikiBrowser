@@ -33,6 +33,11 @@ namespace WikiFunctions
         protected bool LoggedIn;
         protected string m_indexpath = Variables.URLLong;
 
+        #region Regexes
+        static readonly Regex Edittime = new Regex("<input type='hidden' value=\"([^\"]*)\" name=\"wpEdittime\" />", RegexOptions.Compiled);
+        static readonly Regex EditToken = new Regex("<input type='hidden' value=\"([^\"]*)\" name=\"wpEditToken\" />", RegexOptions.Compiled);
+        #endregion
+
         #region Editing
         /// <summary>
         /// Gets the wikitext for a specified article.
@@ -92,27 +97,18 @@ namespace WikiFunctions
         public string EditPage(String Article, String NewText, String Summary, bool Minor, bool Watch)
         {
             HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(m_indexpath + "index.php?title=" + 
-                HttpUtility.UrlEncode(Article) + "&action=submit");
+                Tools.WikiEncode(Article) + "&action=submit");
             WebResponse resps;
             String poststring;
             String editpagestr;
 
             editpagestr = GetEditPage(Article);
 
-            Regex rx = new Regex("<input type='hidden' value=\"([^\"]*)\" name=\"wpEdittime\" />");
-            Match m;
-            string wpEdittime = "";
-            string wpEditkey = "";
+            Match m = Edittime.Match(editpagestr);
+            string wpEdittime = m.Groups[1].Value;
 
-            m = rx.Match(editpagestr);
-
-            wpEdittime = m.Value.Substring(28, m.Value.Substring(28).IndexOf("\""));
-
-            rx = new Regex("<input type='hidden' value=\"([^\"]*)\" name=\"wpEditToken\" />");
-
-            m = rx.Match(editpagestr);
-
-            wpEditkey = m.Value.Substring(28, m.Value.Substring(28).IndexOf("\""));
+            m = EditToken.Match(editpagestr);
+            string wpEditkey = m.Groups[1].Value;
 
             wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
             wr.UserAgent = "WPAutoEdit/1.0";
