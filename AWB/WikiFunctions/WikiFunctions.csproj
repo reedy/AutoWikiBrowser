@@ -83,6 +83,7 @@
     </Compile>
     <Compile Include="DatabaseScanner\Scanners.cs" />
     <Compile Include="DotNetWikiBot.cs" />
+    <Compile Include="Encryption.cs" />
     <Compile Include="FindandReplace.cs">
       <SubType>Form</SubType>
     </Compile>
