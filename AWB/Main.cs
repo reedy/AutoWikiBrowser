@@ -3177,7 +3177,6 @@ namespace AutoWikiBrowser
             finalRegex = finalRegex.Trim('|') + ") ?(\\|.*?)?) ?\\}\\}";
             userTalkWarningsLoaded = true;
             userTalkTemplatesRegex = new Regex(finalRegex, RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            MessageBox.Show(finalRegex);
         }
     }
 }
