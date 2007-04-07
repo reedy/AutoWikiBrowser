@@ -1710,6 +1710,9 @@ namespace AutoWikiBrowser
             //refresh typo list
             loadTypos(true);
 
+            //refresh talk warnings list
+            loadUserTalkWarnings();
+
             //refresh login status, and reload check list
             if (!Variables.User.WikiStatus)
             {
