@@ -1138,6 +1138,8 @@ namespace AutoWikiBrowser
             if (Variables.User.webBrowserLogin.IsBusy)
                 Variables.User.webBrowserLogin.Stop();
 
+            WebControl.Shutdown = true;
+
             SaveRecentSettingsList();
         }
 
