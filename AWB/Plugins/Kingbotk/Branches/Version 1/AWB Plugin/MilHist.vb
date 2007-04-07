@@ -142,6 +142,11 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         End Sub
 #End Region
 
+        ' TODO: Replace old param with new or at least ensure we don't add both. Should be able to use overrides or existing code to achieve this very easily.
+        '    Does the parameter for the middle ages taskforce need to be converted to medieval taskforce? Are they one and the same under different names? --kingboyk 18:06, 7 April 2007 (UTC)
+
+        'They're functionally equivalent. The medieval parameter is probably the one that should be used in the future, as it's the documented one, but the older one will still work as expected. Kirill Lokshin 21:02, 7 April 2007 (UTC) 
+
         ' Properties:
         Friend Property WWII() As Boolean
             Get
