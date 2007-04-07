@@ -685,7 +685,7 @@ namespace AutoWikiBrowser
 
             LogControl1.AddLog(false, LogListener);
 
-            if (listMaker1.Count() == 0)
+            if (listMaker1.Count == 0)
                 if (AutoSaveEditBoxEnabled)
                     EditBoxSaveTimer.Enabled = false;
 
