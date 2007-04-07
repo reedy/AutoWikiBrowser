@@ -1194,7 +1194,9 @@ namespace WikiFunctions
 
             strText = webBrowserLogin.GetArticleText();
 
-            if (!strText.Contains(Assembly.GetExecutingAssembly().GetName().Version.ToString() + " enabled"))
+            if(strText == "")
+                return WikiStatusResult.Null;
+            else if (!strText.Contains(Assembly.GetExecutingAssembly().GetName().Version.ToString() + " enabled"))
                 return WikiStatusResult.OldVersion;
             else
                 return WikiStatusResult.Null;
