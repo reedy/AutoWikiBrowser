@@ -1,0 +1,3 @@
+obj\Release\ResolveAssemblyReference.cache
+obj\Release\WikiFunctions.Logging.Uploader.UploadingPleaseWaitForm.resources
+obj\Release\WikiFunctions.Resources.resources
