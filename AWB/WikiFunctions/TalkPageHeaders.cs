@@ -148,7 +148,7 @@ namespace WikiFunctions.TalkPages
             }
             if (Trace != null)
             {
-                Trace.WriteArticleActionLine("{{DEFAULTSORT}}" + strMovedTo, PluginName, false);
+                Trace.WriteArticleActionLine("DEFAULTSORT" + strMovedTo, PluginName, false);
             }
         }
 
