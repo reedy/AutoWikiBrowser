@@ -634,6 +634,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Private OurTab As New TabPage("MilHist")
         Private WithEvents OurSettingsControl As New MilHistSettings
         Private Const conEnabled As String = "MilHistEnabled"
+        Private Const conMedievalTaskForce As String = "Medieval-task-force"
 
         Protected Friend Overrides ReadOnly Property PluginShortName() As String
             Get
@@ -771,7 +772,23 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             End If
         End Sub
         Protected Overrides Function TemplateFound() As Boolean
-            ' Nothing to do here
+            Const conMiddleAges As String = "Middle-Ages-task-force"
+
+            With Template
+                If .Parameters.ContainsKey(conMiddleAges) Then
+                    If .Parameters(conMiddleAges).Value.ToLower = "yes" Then
+                        .NewOrReplaceTemplateParm(conMedievalTaskForce, "yes", Article, False, False, False, "", _
+                           PluginShortName)
+                        Article.DoneReplacement(conMiddleAges, conMedievalTaskForce, True, PluginShortName)
+                    Else
+                        Article.EditSummary += "deprecated Middle-Ages-task-force removed"
+                        PluginSettingsControl.MyTrace.WriteArticleActionLine( _
+                           "Middle-Ages-task-force parameter removed, not set to yes", PluginShortName)
+                    End If
+                    .Parameters.Remove(conMiddleAges)
+                    Article.ArticleHasAMinorChange()
+                End If
+            End With
         End Function
         Protected Overrides Sub GotTemplateNotPreferredName(ByVal TemplateName As String)
             ' Currently only WPBio does anything here (if {{musician}} add to musician-work-group)
