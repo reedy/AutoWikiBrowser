@@ -208,7 +208,7 @@ namespace WikiFunctions.Lists
             this.toolStripSeparator1,
             this.openInBrowserToolStripMenuItem});
             this.mnuListBox.Name = "contextMenuStrip2";
-            this.mnuListBox.Size = new System.Drawing.Size(206, 364);
+            this.mnuListBox.Size = new System.Drawing.Size(206, 386);
             this.mnuListBox.Opening += new System.ComponentModel.CancelEventHandler(this.mnuListBox_Opening);
             // 
             // filterOutNonMainSpaceArticlesToolStripMenuItem
@@ -382,19 +382,20 @@ namespace WikiFunctions.Lists
             this.removeToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
             this.removeToolStripMenuItem.Text = "Remove";
             this.removeToolStripMenuItem.ToolTipText = "Remove the selected articles";
+            this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
             // 
             // selectedToolStripMenuItem
             // 
             this.selectedToolStripMenuItem.Name = "selectedToolStripMenuItem";
             this.selectedToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.selectedToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.selectedToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.selectedToolStripMenuItem.Text = "Selected";
             this.selectedToolStripMenuItem.Click += new System.EventHandler(this.selectedToolStripMenuItem_Click);
             // 
             // duplicatesToolStripMenuItem
             // 
             this.duplicatesToolStripMenuItem.Name = "duplicatesToolStripMenuItem";
-            this.duplicatesToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.duplicatesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.duplicatesToolStripMenuItem.Text = "Duplicates";
             this.duplicatesToolStripMenuItem.Click += new System.EventHandler(this.duplicatesToolStripMenuItem_Click);
             // 

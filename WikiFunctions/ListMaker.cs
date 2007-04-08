@@ -1243,5 +1243,10 @@ namespace WikiFunctions.Lists
             btnStop.Enabled = false;
             this.Stop();
         }
+
+        private void removeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RemoveSelectedArticle();
+        }
     }
 }
