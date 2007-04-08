@@ -1,0 +1,5 @@
+Some logging code is in the plugging too.
+As much as possible ought to migrate to WF.
+Then we can do profiles, improve AWB logging using some of this stuff, and look at the log-to-sql-server possibility too.
+
+Steve
