@@ -129,9 +129,9 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
             State.blnNextEventShouldBeMainSpace = True
             State.blnNextArticleShouldBeTalk = True
         End Sub
-        Friend Function ProcessTalkPage(ByVal TheArticle As Article, _
-        ByVal PluginSettings As PluginSettingsControl, ByVal Manager As PluginManager, _
-        ByVal ReqPhoto As Boolean) As Boolean
+        Friend Function ProcessTalkPage(ByVal TheArticle As Article, ByVal PluginSettings As PluginSettingsControl, _
+        ByVal Manager As PluginManager, ByRef ReqPhoto As Boolean) As Boolean
+            Dim WeAddedAReqPhotoParam As Boolean
 
             If Not State.blnNextArticleShouldBeTalk Then
                 IsThisABug("an article")
@@ -154,13 +154,14 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
 
                     If State.NeedsPhoto AndAlso ReqphotoAnyRegex.IsMatch(TheArticle.AlteredArticleText) Then
                         PluginSettingsControl.MyTrace.WriteArticleActionLine1( _
-                           "Photo needed: Template already present, no action taken", conMe, True)
+                           "Photo needed: Template already present", conMe, True)
                     End If
 
                     For Each p As PluginBase In PluginManager.ActivePlugins
-                        p.ProcessTalkPage(TheArticle, State.Classification, State.Importance, State.NeedsInfobox, _
+                        If p.ProcessTalkPage(TheArticle, State.Classification, State.Importance, State.NeedsInfobox, _
                            State.NeedsAttention, True, PluginBase.ProcessTalkPageMode.ManualAssessment, _
-                           ReqPhoto OrElse State.NeedsPhoto)
+                           ReqPhoto OrElse State.NeedsPhoto) AndAlso (ReqPhoto OrElse State.NeedsPhoto) AndAlso _
+                           p.HasReqPhotoParam Then WeAddedAReqPhotoParam = True
                         If TheArticle.PluginManagerGetSkipResults = SkipResults.SkipBadTag Then
                             MessageBox.Show("Bad tag(s), please fix manually.", "Bad tag", MessageBoxButtons.OK, _
                                MessageBoxIcon.Exclamation)
@@ -183,6 +184,10 @@ ExitMe:
                         TheArticle.EditSummary = "Assessing as " & State.Classification.ToString & " class, using " & _
                            PluginManager.conWikiPlugin
                 End Select
+
+                ReqPhoto = WeAddedAReqPhotoParam
+            Else
+                ReqPhoto = False
             End If
         End Function
 
