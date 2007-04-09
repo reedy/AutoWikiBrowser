@@ -428,8 +428,6 @@ namespace WikiFunctions.Lists
             selectNoneToolStripMenuItem.Enabled = boolEnabled;
             copyToolStripMenuItem.Enabled = boolEnabled2;
             cutToolStripMenuItem.Enabled = boolEnabled2;
-
-            openInBrowserToolStripMenuItem.Enabled = lbArticles.SelectedItems.Count == 1;
         }
 
         private void txtNewArticle_DoubleClick(object sender, EventArgs e)
@@ -862,14 +860,12 @@ namespace WikiFunctions.Lists
 
         public void removeListDuplicates()
         {
-            lbArticles.BeginUpdate();
             specialFilter SpecialFilter = new specialFilter(lbArticles);
             SpecialFilter.removeDups(true);
 
             UpdateNumberOfArticles();
 
             SpecialFilter.Dispose();
-            lbArticles.EndUpdate();
         }
 
         /// <summary>
@@ -1228,7 +1224,21 @@ namespace WikiFunctions.Lists
 
         private void openInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=" + System.Web.HttpUtility.UrlEncode(lbArticles.SelectedItem.ToString()));
+            if (lbArticles.SelectedItems.Count < 10)
+                loadArticlesInBrowser();
+            else
+            {
+                if (MessageBox.Show("Opening " + lbArticles.SelectedItems.Count + " at into your browser could cause your system to run slowly, and even stop responding./r/nAre you sure you want to continue?", "Continue?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    loadArticlesInBrowser();
+            }
+        }
+
+        private void loadArticlesInBrowser()
+        {
+            foreach (Article item in lbArticles.SelectedItems)
+            {
+                Process.Start(Variables.URLLong + "index.php?title=" + System.Web.HttpUtility.UrlEncode(item.Name));
+            }
         }
 
         #endregion
