@@ -67,6 +67,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.GroupBox1 = New System.Windows.Forms.GroupBox
             Me.lblAWBNudges = New System.Windows.Forms.Label
             Me.ResetTimerButton = New System.Windows.Forms.Button
+            Me.Led1 = New AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.LED
+            Me.ETALabel = New System.Windows.Forms.Label
             Me.GroupBox4 = New System.Windows.Forms.GroupBox
             Me.PluginMenuStrip = New System.Windows.Forms.MenuStrip
             Me.PluginToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -110,7 +112,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.BotTimer = New System.Windows.Forms.Timer(Me.components)
             Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
             Me.TimerStats1 = New AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.TimerStats
-            Me.Led1 = New AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.LED
             Me.AWBGroupBox.SuspendLayout()
             Me.GroupBox2.SuspendLayout()
             Me.ArticleStatsGroupBox.SuspendLayout()
@@ -584,11 +585,31 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.ToolTip1.SetToolTip(Me.ResetTimerButton, "Reset the timer")
             Me.ResetTimerButton.UseVisualStyleBackColor = True
             '
+            'Led1
+            '
+            Me.Led1.Colour = AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.Colour.Red
+            Me.Led1.Location = New System.Drawing.Point(9, 318)
+            Me.Led1.Name = "Led1"
+            Me.Led1.Size = New System.Drawing.Size(20, 20)
+            Me.Led1.TabIndex = 43
+            Me.ToolTip1.SetToolTip(Me.Led1, "Green when the plugin is processing article text")
+            '
+            'ETALabel
+            '
+            Me.ETALabel.AutoSize = True
+            Me.ETALabel.Location = New System.Drawing.Point(86, 335)
+            Me.ETALabel.Name = "ETALabel"
+            Me.ETALabel.Size = New System.Drawing.Size(34, 13)
+            Me.ETALabel.TabIndex = 50
+            Me.ETALabel.Text = "ETC: "
+            Me.ToolTip1.SetToolTip(Me.ETALabel, "Estimated time of completion")
+            Me.ETALabel.Visible = False
+            '
             'GroupBox4
             '
             Me.GroupBox4.Controls.Add(Me.ManuallyAssessCheckBox)
             Me.GroupBox4.Controls.Add(Me.CleanupCheckBox)
-            Me.GroupBox4.Location = New System.Drawing.Point(72, 303)
+            Me.GroupBox4.Location = New System.Drawing.Point(72, 300)
             Me.GroupBox4.Name = "GroupBox4"
             Me.GroupBox4.Size = New System.Drawing.Size(191, 35)
             Me.GroupBox4.TabIndex = 41
@@ -856,19 +877,11 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.TimerStats1.TabIndex = 44
             Me.TimerStats1.Visible = False
             '
-            'Led1
-            '
-            Me.Led1.Colour = AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.Colour.Red
-            Me.Led1.Location = New System.Drawing.Point(9, 318)
-            Me.Led1.Name = "Led1"
-            Me.Led1.Size = New System.Drawing.Size(20, 20)
-            Me.Led1.TabIndex = 43
-            Me.ToolTip1.SetToolTip(Me.Led1, "Green when the plugin is processing article text")
-            '
             'PluginSettingsControl
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+            Me.Controls.Add(Me.ETALabel)
             Me.Controls.Add(Me.ResetTimerButton)
             Me.Controls.Add(Me.GroupBox2)
             Me.Controls.Add(Me.PluginMenuStrip)
@@ -990,6 +1003,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Friend WithEvents UploadUsernameToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents btnDryRun As System.Windows.Forms.Button
         Friend WithEvents SaveFileDialog1 As System.Windows.Forms.SaveFileDialog
+        Private WithEvents ETALabel As System.Windows.Forms.Label
 
     End Class
 

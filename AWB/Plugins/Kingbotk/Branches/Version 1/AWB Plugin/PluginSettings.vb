@@ -27,7 +27,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 If lbl.Text = "" Then lbl.Text = "0"
             Next
             TimerStats1.Visible = True
-            TimerStats1.Init(webcontrol)
+            TimerStats1.Init(webcontrol, ETALabel)
 
             If MyTrace.HaveOpenFile Then
                 MyTrace.WriteBulletedLine("AWB started processing", True, True, True)
