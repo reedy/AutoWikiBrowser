@@ -58,7 +58,7 @@ namespace WikiFunctions.Logging
             filterByReasonOfSelectedToolStripMenuItem.Visible = enabled;
             toolStripSeparator1.Visible = enabled;
 
-            openInBrowserToolStripMenuItem.Enabled = enabled;
+            //openInBrowserToolStripMenuItem.Enabled = enabled;
             openHistoryInBrowserToolStripMenuItem.Enabled = enabled;
         }
 
@@ -323,7 +323,10 @@ namespace WikiFunctions.Logging
 
         private void openInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(Variables.URL + "/wiki/" + MenuItemOwner(sender).SelectedItems[0].Text);
+            foreach (ListViewItem item in MenuItemOwner(sender).SelectedItems)
+            {
+                System.Diagnostics.Process.Start(Variables.URL + "/wiki/" + item.Text);
+            }
         }
 
         private void openHistoryInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
