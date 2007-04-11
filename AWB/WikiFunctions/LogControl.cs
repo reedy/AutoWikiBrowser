@@ -34,41 +34,97 @@ namespace WikiFunctions.Logging
 {
     public partial class LogControl : UserControl
     {
-        ListMaker listMaker;
-        int sortColumn = -1;
+        protected ListMaker listMaker;
+        protected int sortColumn = -1;
+        protected List<AWBLogListener> mFilteredItems = new List<AWBLogListener>();
 
-        public LogControl()
-        {
-            InitializeComponent();
-        }
-
-        public void Initialise(ListMaker rlistMaker)
-        {
-            listMaker = rlistMaker;
-            resizeListView(lvIgnored);
-            resizeListView(lvSaved);
-        }
-
-        private void mnuListView_Opening(object sender, CancelEventArgs e)
-        {
-            bool enabled = (MenuItemOwner(sender).SelectedItems.Count == 1);
-
-            if ((lvIgnored.SelectedItems.Count == 1) && enabled)
+        #region Public
+            public LogControl()
             {
-                filterShowOnlySelectedToolStripMenuItem.Enabled = true;
-                filterShowOnlySelectedToolStripMenuItem.Text="Filter by skip reason: " + 
-                    SelectedItem(sender).SkipReason;
+                InitializeComponent();
             }
 
-            filterShowOnlySelectedToolStripMenuItem.Visible = enabled;
-            toolStripSeparator1.Visible = enabled;
-            openHistoryInBrowserToolStripMenuItem.Enabled = enabled;
-        }
+            public void Initialise(ListMaker rlistMaker)
+            {
+                listMaker = rlistMaker;
+                resizeListView(lvIgnored);
+                resizeListView(lvSaved);
+            }
 
-        private AWBLogListener SelectedItem(object sender)
-        { return ((AWBLogListener)MenuItemOwner(sender).SelectedItems[0]); }
+            public void AddLog(bool Skipped, AWBLogListener LogListener)
+            {
+                if (Skipped)
+                {
+                    LogListener.AddAndDateStamp(lvIgnored);
+                    resizeListView(lvIgnored);
+                }
+                else
+                {
+                    LogListener.AddAndDateStamp(lvSaved);
+                    resizeListView(lvSaved);
+                }
+            }
+        #endregion
 
-        private void addSelectedToArticleListToolStripMenuItem_Click(object sender, EventArgs e)
+        #region Private/Protected
+            private AWBLogListener SelectedItem(object sender)
+            { return ((AWBLogListener)MenuItemOwner(sender).SelectedItems[0]); }
+
+            /// <summary>
+            /// Returns the ListView object from which the menu item was clicked
+            /// </summary>
+            /// 
+            private ListView MenuItemOwner(object sender)
+            {
+                /* we seem to sometimes be receiving a ToolStripMenuItem, and sometimes a ContextMenuStrip...
+                 * I've no idea why, but in the meantime this version of the function handles both. */
+                try
+                {
+                    return ((ListView)((ContextMenuStrip)sender).SourceControl);
+                }
+                catch
+                {
+                    try
+                    { return (ListView)(((ContextMenuStrip)((ToolStripMenuItem)sender).Owner).SourceControl); }
+                    catch
+                    { throw; }
+                }
+            }
+
+            private LogFileType GetFilePrefs()
+            {
+                if (saveListDialog.ShowDialog() != DialogResult.OK)
+                    return 0;
+                return (LogFileType)saveListDialog.FilterIndex;
+            }
+
+            private string Filter
+            {
+                get { return ((AWBLogListener)lvIgnored.SelectedItems[0]).SkipReason; }
+            }
+        #endregion
+
+        #region Event Handlers
+            private void mnuListView_Opening(object sender, CancelEventArgs e)
+            {
+                bool enabled = ((MenuItemOwner(sender) == lvIgnored) && lvIgnored.SelectedItems.Count == 1);
+
+                if (enabled)
+                {
+                    string SkipReason = SelectedItem(sender).SkipReason;
+                    filterShowOnlySelectedToolStripMenuItem.Enabled = true;
+                    filterShowOnlySelectedToolStripMenuItem.Text = "Filter by skip reason: " + SkipReason;
+                    filterExcludeToolStripMenuItem.Enabled = true;
+                    filterExcludeToolStripMenuItem.Text = "Filter exclude skip reason: " + SkipReason;
+                }
+
+                filterShowOnlySelectedToolStripMenuItem.Visible = enabled;
+                filterExcludeToolStripMenuItem.Visible = enabled;
+                toolStripSeparator1.Visible = enabled;
+                openHistoryInBrowserToolStripMenuItem.Enabled = enabled;
+            }
+        
+            private void addSelectedToArticleListToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem item in MenuItemOwner(sender).SelectedItems)
             {
@@ -76,59 +132,7 @@ namespace WikiFunctions.Logging
             }
         }
 
-        /// <summary>
-        /// Returns the ListView object from which the menu item was clicked
-        /// </summary>
-        private ListView MenuItemOwner(object sender)
-        {
-            /* we seem to sometimes be receiving a ToolStripMenuItem, and sometimes a ContextMenuStrip...
-             * I've no idea why, but in the meantime this version of the function handles both. */
-            try
-            {
-                return ((ListView)((ContextMenuStrip)sender).SourceControl);
-            }
-            catch
-            {
-                try
-                {
-                    return (ListView)(((ContextMenuStrip)((ToolStripMenuItem)sender).Owner).SourceControl);
-                }
-                catch
-                {
-                    throw;
-                }
-            }
-        }
-
-        private void filterShowOnlySelectedToolStripMenuItem_Click_1(object sender, EventArgs e)
-        {
-            /* Sam, I think it would be better if the filter menu item only appeared when the reason is
-             * clicked, and showed the actual text... is that possible? */
-
-            string filterBy = ((AWBLogListener) lvIgnored.SelectedItems[0]).SkipReason;
-
-            foreach (AWBLogListener item in lvIgnored.Items)
-            {
-                if (string.CompareOrdinal(item.SkipReason, filterBy) != 0)
-                    item.Remove();
-            }
-        }
-
-        public void AddLog(bool Skipped, AWBLogListener LogListener)
-        {
-            if (Skipped)
-            {
-                LogListener.AddAndDateStamp(lvIgnored);
-                resizeListView(lvIgnored);
-            }
-            else
-            {
-                LogListener.AddAndDateStamp(lvSaved);
-                resizeListView(lvSaved);
-            }
-        }
-
-        private void LogLists_DoubleClick(object sender, EventArgs e)
+            private void LogLists_DoubleClick(object sender, EventArgs e)
         {
             try
             {
@@ -137,68 +141,61 @@ namespace WikiFunctions.Logging
             catch { }
         }
 
-        private void resizeIgnored()
+            private void resizeIgnored()
         {
             resizeListView(lvIgnored);
         }
 
-        private void resizeSaved()
-        {
-            resizeListView(lvSaved);
-        }
-
-        private void resizeListView(ListView lstView)
-        {
-            int width; int width2;
-            foreach (ColumnHeader head in lstView.Columns)
+            private void resizeSaved()
             {
-                head.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
-                width = head.Width;
-
-                head.AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
-                width2 = head.Width;
-
-                if (width2 < width)
-                    head.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
+                resizeListView(lvSaved);
             }
-        }
 
-        private LogFileType GetFilePrefs()
-        {
-            if (saveListDialog.ShowDialog() != DialogResult.OK)
-                return 0;
-            return (LogFileType)saveListDialog.FilterIndex;
-        }
-
-        private void SaveListView(ListView listview)
-        {
-            try
+            private void resizeListView(ListView lstView)
             {
-                LogFileType LogFileType = GetFilePrefs();
-                if (LogFileType != 0)
+                int width; int width2;
+                foreach (ColumnHeader head in lstView.Columns)
                 {
-                    StringBuilder strList = new StringBuilder("");
-                    StreamWriter sw;
-                    string strListFile;
-                    foreach (AWBLogListener a in listview.Items)
-                    {
-                        strList.AppendLine(a.Output(LogFileType));
-                    }
-                    strListFile = saveListDialog.FileName;
-                    sw = new StreamWriter(strListFile, false, Encoding.UTF8);
-                    sw.Write(strList);
-                    sw.Close();
+                    head.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
+                    width = head.Width;
+
+                    head.AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
+                    width2 = head.Width;
+
+                    if (width2 < width)
+                        head.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
                 }
             }
-            catch (IOException ex)
+
+            private void SaveListView(ListView listview)
             {
-                MessageBox.Show(ex.Message, "File error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                try
+                {
+                    LogFileType LogFileType = GetFilePrefs();
+                    if (LogFileType != 0)
+                    {
+                        StringBuilder strList = new StringBuilder("");
+                        StreamWriter sw;
+                        string strListFile;
+                        foreach (AWBLogListener a in listview.Items)
+                        {
+                            strList.AppendLine(a.Output(LogFileType));
+                        }
+                        strListFile = saveListDialog.FileName;
+                        sw = new StreamWriter(strListFile, false, Encoding.UTF8);
+                        sw.Write(strList);
+                        sw.Close();
+                    }
+                }
+                catch (IOException ex)
+                {
+                    MessageBox.Show(ex.Message, "File error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
 
         private void btnAddToList_Click(object sender, EventArgs e)
         {
@@ -224,6 +221,7 @@ namespace WikiFunctions.Logging
         private void btnClearIgnored_Click(object sender, EventArgs e)
         {
             lvIgnored.Items.Clear();
+            mFilteredItems.Clear();
         }
 
         #region ColumnSort
@@ -314,17 +312,13 @@ namespace WikiFunctions.Logging
         private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem item in MenuItemOwner(sender).Items)
-            {
-                item.Selected = true;
-            }
+            { item.Selected = true; }
         }
 
         private void selectNoneToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem item in MenuItemOwner(sender).Items)
-            {
-                item.Selected = false;
-            }
+            { item.Selected = false; }
         }
 
         private void openInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
@@ -341,20 +335,63 @@ namespace WikiFunctions.Logging
         {
             removeselected(sender);
         }
+        
+        private void filterShowOnlySelectedToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            string filterBy = Filter;
+
+            foreach (AWBLogListener item in lvIgnored.Items)
+            {
+                if (string.Compare(item.SkipReason, filterBy, true) != 0) // no match
+                {
+                    mFilteredItems.Add(item);
+                    item.Remove();
+                }
+            }
+        }
 
         private void filterExcludeToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            string filterBy = Filter;
 
+            foreach (AWBLogListener item in lvIgnored.Items)
+            {
+                if (string.Compare(item.SkipReason, filterBy, true) == 0) // match
+                {
+                    mFilteredItems.Add(item);
+                    item.Remove();
+                }
+            }
         }
 
         private void clearToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (MenuItemOwner(sender) == lvIgnored)
+            {
+                lvIgnored.Items.Clear();
+                mFilteredItems.Clear();
+            }
+            else
+            {
+                lvSaved.Items.Clear();
+            }
         }
 
         private void resetToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (MenuItemOwner(sender) == lvIgnored)
+            {
+                // TODO: Next line causes an error: ignore then filter out some pages, then click Reset to see err
+                lvIgnored.Items.AddRange(mFilteredItems.ToArray());
+                lvIgnored.Sorting = SortOrder.None;
+                mFilteredItems.Clear();
+            }
+            else
+            {
+                lvSaved.Sorting = SortOrder.None;
+            }
         }
+
+        #endregion
     }
 }
