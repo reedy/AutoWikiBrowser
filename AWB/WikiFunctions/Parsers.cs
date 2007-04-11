@@ -223,6 +223,7 @@ namespace WikiFunctions.Parse
 
         /// <summary>
         /// Footnote formatting errors per [[WP:FN]].
+        /// currently too buggy to be included into production builds
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
