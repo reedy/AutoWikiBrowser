@@ -37,6 +37,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Article.cs" />
+    <Compile Include="AWBProfile.cs" />
     <Compile Include="AWBProfileAdd.cs">
       <SubType>Form</SubType>
     </Compile>

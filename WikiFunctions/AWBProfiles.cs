@@ -6,11 +6,11 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace WikiFunctions
+namespace WikiFunctions.AWBProfiles
 {
-    public partial class AWBProfiles : Form
+    public partial class AWBProfilesForm : Form
     {
-        public AWBProfiles()
+        public AWBProfilesForm()
         {
             InitializeComponent();
         }
