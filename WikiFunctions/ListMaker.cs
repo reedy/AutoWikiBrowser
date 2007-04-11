@@ -391,23 +391,19 @@ namespace WikiFunctions.Lists
                 btnRemoveArticle.PerformClick();
         }
 
-        private void txtNewArticle_KeyPress(object sender, KeyPressEventArgs e)
+       
+        private void txtNewArticle_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyChar == '\r')
-            {
-                e.Handled = true;
+            if (e.KeyCode == Keys.Return || e.KeyCode == Keys.Enter)
                 btnAdd.PerformClick();
-            }
         }
 
-        private void txtSelectSource_KeyPress(object sender, KeyPressEventArgs e)
+        private void txtSelectSource_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyChar == '\r')
-            {
-                e.Handled = true;
+            if (e.KeyCode == Keys.Return || e.KeyCode == Keys.Enter)
                 btnMakeList.PerformClick();
-            }
         }
+
 
         private void mnuListBox_Opening(object sender, CancelEventArgs e)
         {
@@ -1258,5 +1254,6 @@ namespace WikiFunctions.Lists
         {
             RemoveSelectedArticle();
         }
+                       
     }
 }
