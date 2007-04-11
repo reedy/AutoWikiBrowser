@@ -187,7 +187,8 @@ namespace WikiFunctions
         {
             Name = RemoveNamespaceString(Regex.Replace(Name, @"\(.*?\)$", "").Trim()).Trim();
             string OrigName = Name;
-            if (!Name.Contains(" ")) return OrigName;
+            if (!Name.Contains(" ") || Variables.LangCode == LangCodeEnum.uk) return OrigName;
+            // ukwiki uses "Lastname Firstname Patronymic" convention, nothing more is needed
 
             string Suffix = "";
             int pos = Name.IndexOf(',');
