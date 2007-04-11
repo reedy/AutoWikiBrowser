@@ -49,18 +49,24 @@ namespace WikiFunctions.Logging
             resizeListView(lvSaved);
         }
 
-        #region lvMenu
         private void mnuListView_Opening(object sender, CancelEventArgs e)
         {
             bool enabled = (MenuItemOwner(sender).SelectedItems.Count == 1);
 
-            filterByReasonOfSelectedToolStripMenuItem.Enabled = ((lvIgnored.SelectedItems.Count == 1) && enabled);
-            filterByReasonOfSelectedToolStripMenuItem.Visible = enabled;
-            toolStripSeparator1.Visible = enabled;
+            if ((lvIgnored.SelectedItems.Count == 1) && enabled)
+            {
+                filterShowOnlySelectedToolStripMenuItem.Enabled = true;
+                filterShowOnlySelectedToolStripMenuItem.Text="Filter by skip reason: " + 
+                    SelectedItem(sender).SkipReason;
+            }
 
-            //openInBrowserToolStripMenuItem.Enabled = enabled;
+            filterShowOnlySelectedToolStripMenuItem.Visible = enabled;
+            toolStripSeparator1.Visible = enabled;
             openHistoryInBrowserToolStripMenuItem.Enabled = enabled;
         }
+
+        private AWBLogListener SelectedItem(object sender)
+        { return ((AWBLogListener)MenuItemOwner(sender).SelectedItems[0]); }
 
         private void addSelectedToArticleListToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -94,20 +100,19 @@ namespace WikiFunctions.Logging
             }
         }
 
-        private void filterByReasonOfSelectedToolStripMenuItem_Click_1(object sender, EventArgs e)
+        private void filterShowOnlySelectedToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             /* Sam, I think it would be better if the filter menu item only appeared when the reason is
              * clicked, and showed the actual text... is that possible? */
 
-            string filterBy = lvIgnored.SelectedItems[0].SubItems[3].Text;
+            string filterBy = ((AWBLogListener) lvIgnored.SelectedItems[0]).SkipReason;
 
-            foreach (ListViewItem item in lvIgnored.Items)
+            foreach (AWBLogListener item in lvIgnored.Items)
             {
-                if (string.CompareOrdinal(item.SubItems[3].Text, filterBy) != 0)
+                if (string.CompareOrdinal(item.SkipReason, filterBy) != 0)
                     item.Remove();
             }
         }
-        #endregion
 
         public void AddLog(bool Skipped, AWBLogListener LogListener)
         {
@@ -282,13 +287,14 @@ namespace WikiFunctions.Logging
             foreach (ListViewItem a in MenuItemOwner(sender).SelectedItems)
             {
                 string text = a.Text;
-                if (a.SubItems.Count > 0)
+                // I think we only need copy the file list
+                /* if (a.SubItems.Count > 0)
                 {
                     for (int i = 1; i < a.SubItems.Count; i++)
                     {
                         text += " " + a.SubItems[i].Text;
                     }
-                }
+                } */
                 if (ClipboardData != "") ClipboardData += "\r\n";
                 
                 ClipboardData += text;
@@ -323,20 +329,32 @@ namespace WikiFunctions.Logging
 
         private void openInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (ListViewItem item in MenuItemOwner(sender).SelectedItems)
-            {
-                System.Diagnostics.Process.Start(Variables.URL + "/wiki/" + item.Text);
-            }
+            foreach (AWBLogListener item in MenuItemOwner(sender).SelectedItems) { item.OpenInBrowser(); }
         }
 
         private void openHistoryInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(Variables.URL + "/w/index.php?title=" + MenuItemOwner(sender).SelectedItems[0].Text + "&action=history"); 
+            SelectedItem(sender).OpenHistoryInBrowser();
         }
 
         private void removeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             removeselected(sender);
+        }
+
+        private void filterExcludeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void clearToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void resetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

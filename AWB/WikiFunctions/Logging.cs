@@ -131,6 +131,11 @@ using System.Text;
                 System.Diagnostics.Process.Start(Variables.URL + "/wiki/" + mArticle);
             }
 
+            public void OpenHistoryInBrowser()
+            {
+                System.Diagnostics.Process.Start(Variables.URL + "/w/index.php?title=" + mArticle + "&action=history");
+            }
+
             public void AddAndDateStamp(ListView ListView)
             {
                 ListViewSubItem DateStamp = new ListViewSubItem();
@@ -144,10 +149,10 @@ using System.Text;
                 switch (LogFileType)
                 {
                     case LogFileType.AnnotatedWikiText:
-                        string Output = "*" + SubItems[1].Text + ": [[" + mArticle + "]]\r\n";
+                        string Output = "*" + TimeStamp + ": [[" + mArticle + "]]\r\n";
                         if (mSkipped)
-                            Output += "'''Skipped''' by: " + SubItems[2].Text + "\r\n" + "Skip reason: " +
-                                SubItems[3].Text + "\r\n";
+                            Output += "'''Skipped''' by: " + SkippedBy + "\r\n" + "Skip reason: " + 
+                                SkipReason + "\r\n";
                         return Output + ToolTipText + "\r\n";
 
                     case LogFileType.PlainText:
@@ -159,6 +164,22 @@ using System.Text;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
+            }
+
+            public string SkipReason
+            {
+                get { return GetSubItemText(3); }
+                protected set { SubItems[3].Text = value; }
+            }
+
+            public string TimeStamp
+            {
+                get { return GetSubItemText(1); }
+            }
+
+            public string SkippedBy
+            {
+                get { return GetSubItemText(2); }
             }
         #endregion
 
@@ -227,6 +248,19 @@ using System.Text;
                 { ToolTipText = Text + System.Environment.NewLine + ToolTipText; }
             }
         #endregion
+
+        protected string GetSubItemText(int SubItem)
+        {
+            try
+            {
+                return SubItems[SubItem].Text;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Error in logging object: " + ex.Message, "Error", MessageBoxButtons.OK);
+                return "";
+            }
+        }
 
         protected void Skip(string SkippedBy, string SkipReason)
         {
