@@ -249,7 +249,7 @@ using System.Text;
             }
         #endregion
 
-        protected string GetSubItemText(int SubItem)
+        private string GetSubItemText(int SubItem)
         {
             try
             {
