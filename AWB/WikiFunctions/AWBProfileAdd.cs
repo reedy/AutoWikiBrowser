@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 using System.IO;
 
-namespace WikiFunctions
+namespace WikiFunctions.AWBProfiles
 {
     public partial class AWBProfileAdd : Form
     {
