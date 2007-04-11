@@ -169,6 +169,11 @@ namespace WikiFunctions
         /// matches <cite> tags
         /// </summary>
         public static readonly Regex Cites = new Regex(@"<cite[^>]*?>[^<]*<\s*/cite\s*>", RegexOptions.Compiled | RegexOptions.Singleline);
+
+        /// <summary>
+        /// matches <nowiki> tags
+        /// </summary>
+        public static readonly Regex Nowiki = new Regex("<nowiki>.*?</nowiki>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
         
         #endregion
     

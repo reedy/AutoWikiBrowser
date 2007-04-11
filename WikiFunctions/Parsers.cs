@@ -652,6 +652,51 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
+        /// <summary>
+        /// finds first occurence of a given template in article text
+        /// handles nested templates correctly
+        /// </summary>
+        /// <param name="ArticleText">source text</param>
+        /// <param name="Template">name of template, can be regex without a group capture</param>
+        /// <returns>template with all params, enclosed in curly brackets</returns>
+        public static string RetrieveTemplate(string ArticleText, string Template)
+        {
+            ArticleText = WikiRegexes.Nowiki.Replace(ArticleText, "");
+            ArticleText = WikiRegexes.Comments.Replace(ArticleText, "");
+            Regex search = new Regex(@"(\{\{\s*" + Template + @"\s*)[\|\}]", 
+                RegexOptions.Singleline);
+
+            Match m = search.Match(ArticleText);
+
+            if (!m.Success) return "";
+
+            int i = m.Index + m.Groups[1].Length;
+
+            int brackets = 2;
+            while (i < ArticleText.Length)
+            {
+                switch (ArticleText[i])
+                {
+                     // only sequences of 2 and more brackets should be counted
+                    case '{':
+                        if ((ArticleText[i - 1] == '{') || (i + 1 < ArticleText.Length &&
+                            ArticleText[i + 1] == '{')) brackets++;
+                        break;
+                    case '}':
+                        if ((ArticleText[i - 1] == '}') || (i + 1 < ArticleText.Length &&
+                            ArticleText[i + 1] == '}'))
+                        {
+                            brackets--;
+                            if (brackets == 0) return ArticleText.Substring(m.Index, i - m.Index + 1);
+                        }
+                        break;
+                }
+                i++;
+            }
+
+            return "";
+        }
+
         #endregion
 
         #region other functions

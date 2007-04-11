@@ -148,6 +148,7 @@ namespace WikiFunctions.Parse
 
         private string removePersonData(ref string ArticleText)
         {
+            /*
             string strPersonData = "";
 
             Match m = WikiRegexes.Persondata.Match(ArticleText);
@@ -155,6 +156,16 @@ namespace WikiFunctions.Parse
             if (m.Success)
             {
                 strPersonData = m.Value;
+                ArticleText = ArticleText.Replace(strPersonData, "");
+                strPersonData = "\r\n\r\n" + strPersonData;
+            }
+
+            return strPersonData;*/
+
+            string strPersonData = Parsers.RetrieveTemplate(ArticleText, "[Pp]ersondata");
+
+            if (strPersonData != "")
+            {
                 ArticleText = ArticleText.Replace(strPersonData, "");
                 strPersonData = "\r\n\r\n" + strPersonData;
             }
