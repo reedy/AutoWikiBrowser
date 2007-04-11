@@ -41,6 +41,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         End Property
         Private Sub CalculateETA(ByVal SecondsPerPage As Double)
             Dim Count As Integer = PluginManager.listmaker.Count
+
             If Count < 1 Then
                 ETA = "Now"
             Else
