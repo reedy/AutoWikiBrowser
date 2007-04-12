@@ -653,23 +653,15 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         }
 
         /// <summary>
-        /// finds first occurence of a given template in article text
-        /// handles nested templates correctly
+        /// regex that matches every template, for GetTemplate
         /// </summary>
-        /// <param name="ArticleText">source text</param>
-        /// <param name="Template">name of template, can be regex without a group capture</param>
-        /// <returns>template with all params, enclosed in curly brackets</returns>
-        public static string RetrieveTemplate(string ArticleText, string Template)
+        public static string EveryTemplate = @"[^\|\}]*";
+
+        /// <summary>
+        /// extracts template using the given match
+        /// </summary>
+        static string ExtractTemplate(string ArticleText, Match m)
         {
-            ArticleText = WikiRegexes.Nowiki.Replace(ArticleText, "");
-            ArticleText = WikiRegexes.Comments.Replace(ArticleText, "");
-            Regex search = new Regex(@"(\{\{\s*" + Template + @"\s*)[\|\}]", 
-                RegexOptions.Singleline);
-
-            Match m = search.Match(ArticleText);
-
-            if (!m.Success) return "";
-
             int i = m.Index + m.Groups[1].Length;
 
             int brackets = 2;
@@ -677,7 +669,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             {
                 switch (ArticleText[i])
                 {
-                     // only sequences of 2 and more brackets should be counted
+                    // only sequences of 2 and more brackets should be counted
                     case '{':
                         if ((ArticleText[i - 1] == '{') || (i + 1 < ArticleText.Length &&
                             ArticleText[i + 1] == '{')) brackets++;
@@ -695,6 +687,69 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             }
 
             return "";
+        }
+
+        /// <summary>
+        /// finds first occurence of a given template in article text
+        /// handles nested templates correctly
+        /// </summary>
+        /// <param name="ArticleText">source text</param>
+        /// <param name="Template">name of template, can be regex without a group capture</param>
+        /// <returns>template with all params, enclosed in curly brackets</returns>
+        public static string GetTemplate(string ArticleText, string Template)
+        {
+            ArticleText = WikiRegexes.Nowiki.Replace(ArticleText, "");
+            ArticleText = WikiRegexes.Comments.Replace(ArticleText, "");
+            Regex search = new Regex(@"(\{\{\s*" + Template + @"\s*)(?:\||\}\]", 
+                RegexOptions.Singleline);
+
+            Match m = search.Match(ArticleText);
+
+            if (!m.Success) return "";
+
+            return ExtractTemplate(ArticleText, m);
+        }
+
+        /// <summary>
+        /// finds every occurence of a given template in article text
+        /// handles nested templates correctly
+        /// </summary>
+        /// <param name="ArticleText">source text</param>
+        /// <param name="Template">name of template, can be regex without a group capture</param>
+        /// <returns>template with all params, enclosed in curly brackets</returns>
+        public static List<Match> GetTemplates(string ArticleText, string Template)
+        {
+            MatchCollection nw = WikiRegexes.Nowiki.Matches(ArticleText);
+            MatchCollection cm = WikiRegexes.Comments.Matches(ArticleText);
+            Regex search = new Regex(@"(\{\{\s*" + Template + @"\s*)[\|\}]", 
+                RegexOptions.Singleline);
+
+            List<Match> res = new List<Match>();
+
+            int pos = 0;
+            foreach (Match m in search.Matches(ArticleText))
+            {
+                if (m.Index < pos) continue;
+                foreach (Match m2 in nw) if (m.Index > m2.Index && 
+                    m.Index < m2.Index + m2.Length) continue;
+                foreach (Match m2 in cm) if (m.Index > m2.Index && 
+                    m.Index < m2.Index + m2.Length) continue;
+
+                string s = ExtractTemplate(ArticleText, m);
+                if (s == "") break;
+                pos = m.Index + s.Length;
+                Match mres = m;
+                foreach(Match m2 in Regex.Matches(ArticleText, Regex.Escape(s)))
+                {
+                    if (m2.Index == m.Index)
+                    {
+                        mres = m2;
+                        break;
+                    }
+                }
+                res.Add(mres);
+            }
+            return res;
         }
 
         #endregion
