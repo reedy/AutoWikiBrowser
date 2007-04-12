@@ -381,8 +381,10 @@ namespace WikiFunctions.Logging
         {
             if (MenuItemOwner(sender) == lvIgnored)
             {
-                // TODO: Next line causes an error: ignore then filter out some pages, then click Reset to see err
-                lvIgnored.Items.AddRange(mFilteredItems.ToArray());
+                foreach (AWBLogListener log in mFilteredItems)
+                { // AddRange accepts only an array or a ListViewItemCollection (the latter is only creatable by passing a listview object to the creator)
+                    lvIgnored.Items.Add(log);
+                }
                 lvIgnored.Sorting = SortOrder.None;
                 mFilteredItems.Clear();
             }
