@@ -34,9 +34,6 @@ namespace WikiFunctions.TalkPages
     public sealed class TalkPageHeaders
     {
         private static string DefaultSortKey;
-        private static Regex DefaultSortRegex = new Regex( 
-           @"\{\{\s*(template\s*:\s*)*\s*defaultsort\s*(:|\|)(?<key>[^\}]*)\}\}", 
-            RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
         private static bool FoundDefaultSort;
         private static bool FoundSkipTOC;
         private static bool FoundTalkheader;
@@ -50,7 +47,7 @@ namespace WikiFunctions.TalkPages
         // Public methods:
         public static bool ContainsDefaultSortKeywordOrTemplate(string ArticleText)
         {
-            return DefaultSortRegex.IsMatch(ArticleText);
+            return WikiRegexes.Defaultsort.IsMatch(ArticleText);
         }
 
         public static void ProcessTalkPage(ref string ArticleText, string PluginName)
@@ -79,7 +76,7 @@ namespace WikiFunctions.TalkPages
             }
             if (MoveDEFAULTSORT != DEFAULTSORT.NoChange)
             {
-                ArticleText = DefaultSortRegex.Replace(ArticleText, 
+                ArticleText = WikiRegexes.Defaultsort.Replace(ArticleText, 
                     new MatchEvaluator(TalkPageHeaders.DefaultSortMatchEvaluator), 1);
                 if (FoundDefaultSort)
                 {
@@ -106,7 +103,7 @@ namespace WikiFunctions.TalkPages
 
         public static string FormatDefaultSort(string ArticleText)
         {
-            return DefaultSortRegex.Replace(ArticleText, "{{DEFAULTSORT:${key}}}");
+            return WikiRegexes.Defaultsort.Replace(ArticleText, "{{DEFAULTSORT:${key}}}");
         }
         
         // Match evaluators:

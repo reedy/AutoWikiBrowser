@@ -84,16 +84,21 @@ namespace WikiFunctions.Parse
             get
             { return order; }
         }
+
+        private string Newline(string s)
+        {
+            return s == "" ? s : "\r\n" + s;
+        }
                                
         internal string Sort(string ArticleText, string ArticleTitle)
         {
             ArticleText = Regex.Replace(ArticleText, "<!-- ?\\[\\[en:.*?\\]\\] ?-->", "");
 
-            string strPersonData = removePersonData(ref ArticleText);
-            string strDisambig = removeDisambig(ref ArticleText);
-            string strCategories = removeCats(ref ArticleText, ArticleTitle);
-            string strInterwikis = interwikis(ref ArticleText);
-            string strStub = removeStubs(ref ArticleText);
+            string strPersonData = Newline(removePersonData(ref ArticleText));
+            string strDisambig = Newline(removeDisambig(ref ArticleText));
+            string strCategories = Newline(removeCats(ref ArticleText, ArticleTitle));
+            string strInterwikis = Newline(interwikis(ref ArticleText));
+            string strStub = Newline(removeStubs(ref ArticleText));
 
             //filter out excess white space and remove "----" from end of article
             ArticleText = Parsers.RemoveWhiteSpace(ArticleText);
@@ -143,7 +148,12 @@ namespace WikiFunctions.Parse
                 CategoryList.Insert(0, catComment);
             }
 
-            return ListToString(CategoryList);
+            string defaultSort = WikiRegexes.Defaultsort.Match(ArticleText).Value;
+            ArticleText = ArticleText.Replace(defaultSort, "");
+            defaultSort = WikiRegexes.Defaultsort.Replace(defaultSort, "{{DEFAULTSORT:${key}}}");
+            if (defaultSort != "") defaultSort = "\r\n" + defaultSort + "\r\n";
+
+            return defaultSort + ListToString(CategoryList);
         }
 
         private string removePersonData(ref string ArticleText)
@@ -167,7 +177,7 @@ namespace WikiFunctions.Parse
             if (strPersonData != "")
             {
                 ArticleText = ArticleText.Replace(strPersonData, "");
-                strPersonData = "\r\n\r\n" + strPersonData;
+                strPersonData = "\r\n" + strPersonData;
             }
 
             return strPersonData;
@@ -196,7 +206,7 @@ namespace WikiFunctions.Parse
             }
 
             if (StubList.Count != 0)
-                return "\r\n" + ListToString(StubList);
+                return ListToString(StubList);
             else
                 return "";
         }
@@ -211,7 +221,7 @@ namespace WikiFunctions.Parse
             {
                 strDisambig = WikiRegexes.Disambigs.Match(ArticleText).Value;
                 ArticleText = ArticleText.Replace(strDisambig, "");
-                strDisambig = "\r\n\r\n" + strDisambig;
+                strDisambig = "\r\n" + strDisambig;
             }
 
             return strDisambig;
@@ -318,10 +328,10 @@ namespace WikiFunctions.Parse
             //add to string
             foreach (string s in uniqueItems)
             {
-                List += "\r\n" + s;
+                List += s + "\r\n";
             }
 
-            return "\r\n" + List;
+            return List;
         }
 
         private List<string> catKeyer(List<string> List, string strName)
