@@ -23,6 +23,7 @@ using System.Text;
 using System.Xml;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using WikiFunctions.Parse;
 
 
 namespace WikiFunctions.MWB
@@ -157,6 +158,19 @@ namespace WikiFunctions.MWB
 
             public void Parse(TreeNode tn)
             {
+                result_ = text_;
+                foreach(Match m in Parsers.GetTemplates(text_, Parsers.EveryTemplate))
+                {
+                    if(CheckIf(tn, m.Value))
+                    {
+                        result_ = result_.Replace(m.Value, ApplyOn(tn, m.Value, title_));
+                    }
+                }
+            }
+
+            /*
+            public void Parse(TreeNode tn)
+            {
                 for (; ; )
                 {
                     int i = text_.IndexOf("{{");
@@ -232,7 +246,7 @@ namespace WikiFunctions.MWB
                     return;
 
                 }
-            }
+            }*/
         }
 
         static string ApplyInsideTemplate(TreeNode tn, string text, string title)

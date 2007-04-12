@@ -162,7 +162,7 @@ namespace WikiFunctions.Parse
 
             return strPersonData;*/
 
-            string strPersonData = Parsers.RetrieveTemplate(ArticleText, "[Pp]ersondata");
+            string strPersonData = Parsers.GetTemplate(ArticleText, "[Pp]ersondata");
 
             if (strPersonData != "")
             {
