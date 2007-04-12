@@ -387,7 +387,7 @@ namespace AutoWikiBrowser
                     return;
                 }
                 if (chkAutoMode.Checked)
-                    SaveTimer.Start();
+                    NudgeTimer.StartMe();
 
                     EditBoxSaveTimer.Enabled = AutoSaveEditBoxEnabled;
 
@@ -550,7 +550,7 @@ namespace AutoWikiBrowser
                     }
                     else
                     {
-                        SaveTimer.Stop();
+                        NudgeTimer.Stop();
                         SkipPage("Page is protected");
                         return false;
                     }
@@ -559,14 +559,14 @@ namespace AutoWikiBrowser
                 if (!webBrowserEdit.GetLogInStatus())
                 {
                     Variables.User.LoggedIn = false;
-                    SaveTimer.Stop();
+                    NudgeTimer.Stop();
                     Start();
                     return false;
                 }
 
                 if (webBrowserEdit.NewMessage)
                 {//check if we have any messages
-                    SaveTimer.Stop();
+                    NudgeTimer.Stop();
                     Variables.User.WikiStatus = false;
                     UpdateButtons();
                     webBrowserEdit.Document.Write("");
@@ -654,7 +654,7 @@ namespace AutoWikiBrowser
             if (webBrowserEdit.Document.Body.InnerHtml.Contains("<H1 class=firstHeading>Edit conflict: "))
             {//if session data is lost, if data is lost then save after delay with tmrAutoSaveDelay
                 MessageBox.Show("There has been an Edit Conflict. AWB will now re-apply its changes on the updated page. \n\r Please re-review the changes before saving. Any Custom edits will be lost, and have to be re-added manually.", "Edit Conflict");
-                SaveTimer.Stop();
+                NudgeTimer.Stop();
                 Start();
                 return;
             }
@@ -680,7 +680,7 @@ namespace AutoWikiBrowser
 
             LastArticle = "";
             listMaker1.Remove(EdittingArticle);
-            SaveTimer.Stop();
+            NudgeTimer.Stop();
             sameArticleNudges = 0;
 
             LogControl1.AddLog(false, LogListener);
@@ -710,7 +710,7 @@ namespace AutoWikiBrowser
                 //reset timer.
                 NumberOfIgnoredEdits++;
                 stopDelayedAutoSaveTimer();
-                SaveTimer.Stop();
+                NudgeTimer.Stop();
                 listMaker1.Remove(EdittingArticle);
                 sameArticleNudges = 0;
 
@@ -1240,9 +1240,7 @@ namespace AutoWikiBrowser
                 nudBotSpeed.Enabled = true;
                 lblAutoDelay.Enabled = true;
                 btnResetNudges.Enabled = true;
-                label3.Enabled = true;
                 lblNudges.Enabled = true;
-                nudNudgeTime.Enabled = true;
                 chkNudge.Enabled = true;
                 chkNudgeSkip.Enabled = true;
                 chkNudge.Checked = true;
@@ -1262,9 +1260,7 @@ namespace AutoWikiBrowser
                 nudBotSpeed.Enabled = false;
                 lblAutoDelay.Enabled = false;
                 btnResetNudges.Enabled = false;
-                label3.Enabled = false;
                 lblNudges.Enabled = false;
-                nudNudgeTime.Enabled = false;
                 chkNudge.Enabled = false;
                 chkNudgeSkip.Enabled = false;
                 stopDelayedAutoSaveTimer();
@@ -2349,7 +2345,7 @@ namespace AutoWikiBrowser
 
         private void Stop()
         {
-            SaveTimer.Stop();
+            NudgeTimer.Stop();
             UpdateButtons();
             if (intTimer > 0)
             {//stop and reset the bot timer.
@@ -3021,32 +3017,30 @@ namespace AutoWikiBrowser
             lblNudges.Text = NudgeTimerString + "0";
         }
 
-        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
-        {
-            SaveTimer.Interval = (int)nudNudgeTime.Value * 60000;
-        }
-
         #region "Nudge timer"
             private const string NudgeTimerString = "Total nudges: ";
 
-            private void SaveTimer_Tick(object sender, EventArgs e)
+            private void NudgeTimer_Tick(object sender, NudgeTimer.NudgeTimerEventArgs e)
             {
                 //make sure there was no error and bot mode is still enabled
                 if (chkAutoMode.Checked)
                 {
-                    bool CancelNudge = false;
-
+                    bool Cancel;
                     // Tell plugins we're about to nudge, and give them the opportunity to cancel:
                     foreach (KeyValuePair<string, IAWBPlugin> a in AWBPlugins)
                     {
-                        a.Value.Nudge(out CancelNudge);
-                        if (CancelNudge) return;
+                        a.Value.Nudge(out Cancel);
+                        if (Cancel)
+                        {
+                            e.Cancel = true;
+                            return;
+                        }
                     }
 
                     // Update stats and nudge:
                     Nudges++;
                     lblNudges.Text = NudgeTimerString + Nudges;
-                    SaveTimer.Stop();
+                    NudgeTimer.Stop();
                     if (chkNudgeSkip.Checked && sameArticleNudges > 0)
                     {
                         sameArticleNudges = 0;
@@ -3190,6 +3184,73 @@ namespace AutoWikiBrowser
             finalRegex = finalRegex.Trim('|') + ") ?(\\|.*?)?) ?\\}\\}";
             userTalkWarningsLoaded = true;
             userTalkTemplatesRegex = new Regex(finalRegex, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        }
+    }
+
+    internal class NudgeTimer : System.Windows.Forms.Timer
+    {
+        // Events
+        public event TickEventHandler Tick;
+        public delegate void TickEventHandler(object sender, NudgeTimer.NudgeTimerEventArgs EventArgs);
+
+        // Methods
+        public NudgeTimer(IContainer container) : base(container)
+        {
+            base.Tick += new EventHandler(this.NudgeTimer_Tick);
+        }
+
+        public void StartMe()
+        {
+            base.Interval = 12000;
+            base.Start();
+        }
+
+        private void NudgeTimer_Tick(object sender, EventArgs EventArgs)
+        {
+            NudgeTimerEventArgs MyEventArgs = new NudgeTimerEventArgs();
+            Tick(this, MyEventArgs);  
+            if (!MyEventArgs.Cancel)
+            {
+                switch (base.Interval)
+                {
+                    case 12000:
+                        base.Interval = 24000;
+                        break;
+
+                    case 24000:
+                        base.Interval = 36000;
+                        break;
+
+                    case 36000:
+                        base.Interval = 60000;
+                        break;
+                }
+            }
+        }
+
+        // Properties
+        public override bool Enabled
+        {
+            get { return base.Enabled; }
+            set
+            {
+                base.Enabled = value;
+                base.Interval = 12000;
+            }
+        }
+
+        // Nested Types
+        public sealed class NudgeTimerEventArgs : EventArgs
+        {
+            // Fields
+            private bool mCancel;
+
+            // Properties
+            public bool Cancel
+            {
+                get { return this.mCancel; }
+                set { this.mCancel = value; }
+            }
         }
     }
 }

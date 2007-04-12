@@ -593,7 +593,7 @@
         AACAAAAAgAAAAIAAAACAAAAAgAAAAIAAAACAAAAAwAEAAOADAADwB3jG//8Z/w==
 </value>
   </data>
-  <metadata name="SaveTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="NudgeTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>350, 48</value>
   </metadata>
   <metadata name="strListFile.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
