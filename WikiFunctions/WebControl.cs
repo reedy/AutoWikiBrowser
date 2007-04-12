@@ -454,7 +454,7 @@ namespace WikiFunctions.Browser
         {
             if (HasArticleTextBox)
             {
-                string txt = this.Document.GetElementById("wpTextbox1").InnerText;
+                string txt = HttpUtility.HtmlDecode(this.Document.GetElementById("wpTextbox1").InnerHtml);
                 if (txt == null)
                     return "";
                 else
