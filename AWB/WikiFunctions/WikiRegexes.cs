@@ -43,6 +43,13 @@ namespace WikiFunctions
         public static readonly Regex UnPipedWikiLink = new Regex(@"\[\[([^\|]*?)\]\]", RegexOptions.Compiled);
 
         /// <summary>
+        /// Matches {{DEFAULTSORT}}
+        /// </summary>
+        public static readonly Regex Defaultsort = new Regex(
+            @"\{\{\s*(template\s*:\s*)*\s*defaultsort\s*(:|\|)(?<key>[^\}]*)\}\}",
+            RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
+
+        /// <summary>
         /// Matches all headings
         /// </summary>
         public static readonly Regex Heading = new Regex(@"^(=+)(.*?)(=+)", RegexOptions.Compiled | RegexOptions.Multiline);

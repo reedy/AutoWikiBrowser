@@ -700,7 +700,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         {
             ArticleText = WikiRegexes.Nowiki.Replace(ArticleText, "");
             ArticleText = WikiRegexes.Comments.Replace(ArticleText, "");
-            Regex search = new Regex(@"(\{\{\s*" + Template + @"\s*)(?:\||\}\]", 
+            Regex search = new Regex(@"(\{\{\s*" + Template + @"\s*)(?:\||\})", 
                 RegexOptions.Singleline);
 
             Match m = search.Match(ArticleText);
