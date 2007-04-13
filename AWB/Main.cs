@@ -3082,11 +3082,9 @@ namespace AutoWikiBrowser
             ComboBox IAWBMainForm.EditSummary { get { return cmboEditSummary; } }
             StatusStrip IAWBMainForm.StatusStrip { get { return statusStrip1; } }
             NotifyIcon IAWBMainForm.NotifyIcon { get { return ntfyTray; } }
-            Boolean IAWBMainForm.SkipNonExistentPages
-            {
-                get { return chkSkipNonExistent.Checked; }
-                set { chkSkipNonExistent.Checked = value; }
-            }
+            CheckBox IAWBMainForm.SkipNonExistentPagesCheckBox { get { return chkSkipNonExistent; } }
+            CheckBox IAWBMainForm.ApplyGeneralFixesCheckBox { get { return chkGeneralFixes; } }
+            CheckBox IAWBMainForm.AutoTagCheckBox { get { return chkAutoTagger; } }
             ToolStripMenuItem IAWBMainForm.HelpToolStripMenuItem { get { return helpToolStripMenuItem; } }
         #endregion
 
