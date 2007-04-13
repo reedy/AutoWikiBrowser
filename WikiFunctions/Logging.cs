@@ -169,7 +169,7 @@ using System.Text;
             public string SkipReason
             {
                 get { return GetSubItemText(3); }
-                protected set { SubItems[3].Text = value; }
+                protected set { base.SubItems[3].Text = value; }
             }
 
             public string TimeStamp
@@ -253,7 +253,7 @@ using System.Text;
         {
             try
             {
-                return SubItems[SubItem].Text;
+                return base.SubItems[SubItem].Text;
             }
             catch(Exception ex)
             {
@@ -264,8 +264,8 @@ using System.Text;
 
         protected void Skip(string SkippedBy, string SkipReason)
         {
-            SubItems.Add(SkippedBy);
-            SubItems.Add(SkipReason);
+            base.SubItems.Add(SkippedBy);
+            base.SubItems.Add(SkipReason);
             WriteLine(SkipReason, SkippedBy);
             mSkipped = true;
         }
@@ -273,6 +273,12 @@ using System.Text;
         protected void WriteLine(string Text, string Sender)
         {
             if (Text.Trim() != "") Write(Sender + ": " + Text);
+        }
+ 
+        // disable access to underlying Items property to stop Reedy Boy accessing it ;)
+        public new System.Windows.Forms.ListViewItem.ListViewSubItemCollection SubItems
+        {
+            get { throw new NotImplementedException("The SubItems property should not be accessed directly"); }
         }
     }
 }

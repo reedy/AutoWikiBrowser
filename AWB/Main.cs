@@ -603,6 +603,7 @@ namespace AutoWikiBrowser
             {
                 MessageBox.Show(ex.Message);
             }
+            NudgeTimer.Reset();
             return true;
         }
 
@@ -3189,6 +3190,9 @@ namespace AutoWikiBrowser
 
     internal class NudgeTimer : System.Windows.Forms.Timer
     {
+        /* TODO: I'm quite certain the logic isn't right here. The timer needs to be started and reset on a
+         * successful save, and it needs to increase the time until next fire if the page still doesn't get
+         * saved (e.g. wiki or net connection is down). */
         // Events
         public event TickEventHandler Tick;
         public delegate void TickEventHandler(object sender, NudgeTimer.NudgeTimerEventArgs EventArgs);
@@ -3201,8 +3205,13 @@ namespace AutoWikiBrowser
 
         public void StartMe()
         {
-            base.Interval = 12000;
+            //base.Interval = 12000;
             base.Start();
+        }
+
+        public void Reset()
+        {
+            base.Interval = 12000;
         }
 
         private void NudgeTimer_Tick(object sender, EventArgs EventArgs)
