@@ -123,7 +123,12 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         ' Event handlers - menu items:
         Private Sub SetAWBToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) _
         Handles SetAWBToolStripMenuItem.Click
-            ' TODO: SetAWBToolStripMenuItem_Click - do AWB settings (basically turn everything off)
+            With PluginManager.AWBForm
+                .SkipNonExistentPagesCheckBox.Checked = False
+                .ApplyGeneralFixesCheckBox.Checked = False
+                .AutoTagCheckBox.Checked = False
+                If .EditSummary.Text = "clean up" Then .EditSummary.Text = ""
+            End With
         End Sub
         Private Sub LivingPeopleToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) _
         Handles LivingPeopleToolStripMenuItem.Click
