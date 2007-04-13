@@ -38,7 +38,10 @@ namespace WikiFunctions.Plugin
     /* This interface allows plugins to manipulate AWB UI elements without (ahem) resorting to hacks.
     Plugins are not *required* to implement the interface.
     
-    The interface isn't considered "locked" yet so more properties and methods may be added if needed. */
+    The interface isn't considered "locked" yet so more properties and methods may be added if needed. 
+     
+    Should we be exposing controls like this, or properties and events (value changed, enabled changed, etc)?
+    Current way is certainly easier. */
     public interface IAWBMainForm
     {
         TabPage MoreOptionsTab { get; }
@@ -57,7 +60,9 @@ namespace WikiFunctions.Plugin
         StatusStrip StatusStrip { get; }
         NotifyIcon NotifyIcon { get; }
         ToolStripMenuItem HelpToolStripMenuItem { get; }
-        Boolean SkipNonExistentPages { get; set; }
+        CheckBox SkipNonExistentPagesCheckBox { get;  }
+        CheckBox ApplyGeneralFixesCheckBox { get; }
+        CheckBox AutoTagCheckBox { get; }
         void NotifyBalloon(string Message, ToolTipIcon Icon);
         int Nudges { get; }
     }
