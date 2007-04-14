@@ -133,6 +133,7 @@ namespace AutoWikiBrowser
         string skipReason = "";
 
         int oldselection = 0;
+        int retries = 0;
 
         int mnudges = 0;
         int sameArticleNudges = 0;
@@ -530,18 +531,29 @@ namespace AutoWikiBrowser
                 Tools.Beep1();
         }
 
+        
         private bool loadSuccess()
         {
             try
             {
                 string HTML = webBrowserEdit.Document.Body.InnerHtml;
-                if (HTML.Contains("The Wikipedia database is currently locked, and is not accepting any edits or other modifications."))
+                if (HTML.Contains("The Wikipedia database is temporarily in read-only mode for the following reason"))
                 {//http://en.wikipedia.org/wiki/MediaWiki:Readonlytext
-                    StartDelayedRestartTimer();
-                    Start();
-                    return false;
-                }
 
+                    if (retries < 10)
+                    {
+                        StartDelayedRestartTimer();
+                        retries++;
+                        Start();
+                        return false;
+                    }
+                    else
+                    {
+                        retries = 0;
+                        SkipPage("Database is locked, tried 10 times");
+                        return false;
+                    }
+                }
                 if (HTML.Contains("readOnly"))
                 {
                     if (Variables.User.IsAdmin)
@@ -689,7 +701,7 @@ namespace AutoWikiBrowser
             if (listMaker1.Count == 0)
                 if (AutoSaveEditBoxEnabled)
                     EditBoxSaveTimer.Enabled = false;
-
+            retries = 0;
             Start();
         }
 
@@ -733,7 +745,7 @@ namespace AutoWikiBrowser
                 }
 
                 LogControl1.AddLog(true, LogListener);
-                
+                retries = 0;
                 Start();
             }
             catch (Exception ex)
