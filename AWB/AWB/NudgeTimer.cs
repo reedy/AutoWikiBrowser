@@ -24,13 +24,13 @@ namespace AutoWikiBrowser
 
         public void StartMe()
         {
-            //base.Interval = 12000;
+            //base.Interval = 120000;
             base.Start();
         }
 
         public void Reset()
         {
-            base.Interval = 12000;
+            base.Interval = 120000;
         }
 
         private void NudgeTimer_Tick(object sender, EventArgs EventArgs)
@@ -41,16 +41,16 @@ namespace AutoWikiBrowser
             {
                 switch (base.Interval)
                 {
-                    case 12000:
-                        base.Interval = 24000;
+                    case 120000:
+                        base.Interval = 240000;
                         break;
 
-                    case 24000:
-                        base.Interval = 36000;
+                    case 240000:
+                        base.Interval = 360000;
                         break;
 
-                    case 36000:
-                        base.Interval = 60000;
+                    case 360000:
+                        base.Interval = 600000;
                         break;
                 }
             }
@@ -63,7 +63,7 @@ namespace AutoWikiBrowser
             set
             {
                 base.Enabled = value;
-                base.Interval = 12000;
+                base.Interval = 120000;
             }
         }
 
