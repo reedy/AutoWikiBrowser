@@ -861,16 +861,29 @@ namespace WikiFunctions
             }
             catch
             {
-                MessageBox.Show("An error occured while loading project information from the server. " +
-                    "Please make sure that your internet connection works and such combination of project/language exist." +
-                    "\r\nEnter the URL of the index.php file in the format \"en.wikipedia.org/w/\"",
-                    "Error loading namespaces", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (CustomProject == "")
+                {
+                    if (MessageBox.Show(@"An error occured while loading project information from the server.
+Do you want to use default settings?", "Error loading namespaces", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        Namespaces = enLangNamespaces;
+                        MonthNames = (string[])enLangMonthNames.Clone();
+                        return;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("An error occured while loading project information from the server. " +
+                        "Please make sure that your internet connection works and such combination of project/language exist." +
+                        "\r\nEnter the URL of the index.php file in the format \"en.wikipedia.org/w/\"",
+                        "Error loading namespaces", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     SetDefaults();
-
+                }
                 MessageBox.Show("Defaulting to the English Wikipedia settings.", "Project options",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                 return;
+
+
                 /*
                 ns.Clear(); // in case error was caused by XML parsing
                 foreach (KeyValuePair<int, string> p in Namespaces)
