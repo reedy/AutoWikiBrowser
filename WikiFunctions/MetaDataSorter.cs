@@ -149,7 +149,10 @@ namespace WikiFunctions.Parse
             }
 
             string defaultSort = WikiRegexes.Defaultsort.Match(ArticleText).Value;
-            ArticleText = ArticleText.Replace(defaultSort, "");
+            if (defaultSort != "")
+            {
+                ArticleText = ArticleText.Replace(defaultSort, "");
+            }
             defaultSort = WikiRegexes.Defaultsort.Replace(defaultSort, "{{DEFAULTSORT:${key}}}");
             if (defaultSort != "") defaultSort = "\r\n" + defaultSort + "\r\n";
 
