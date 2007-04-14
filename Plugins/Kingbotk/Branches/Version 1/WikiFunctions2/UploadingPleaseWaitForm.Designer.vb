@@ -54,7 +54,6 @@ Namespace Logging.Uploader
             Me.Controls.Add(Me.PictureBox1)
             Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
             Me.MaximizeBox = False
-            Me.MinimizeBox = False
             Me.Name = "UploadingPleaseWaitForm"
             Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
             Me.Text = "Uploading..."
