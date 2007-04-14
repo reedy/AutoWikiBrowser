@@ -1174,14 +1174,16 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                     //see if we are allowed to use this softare
                         string strBotUsers = Tools.StringBetween(strText, "<!--enabledbots-->", "<!--enabledbotsends-->");
                         string strAdmins = Tools.StringBetween(strText, "<!--adminsbegins-->", "<!--adminsends-->");
+                        Regex username = new Regex(@"^\*\s*" + Tools.CaseInsensitive(Regex.Escape(Variables.User.Name))
+                            + @"\s*$", RegexOptions.Multiline);
                         
-                        if (this.Name.Length > 0 && strText.Contains("* " + Variables.User.Name + "\r\n"))
+                        if (this.Name.Length > 0 && username.IsMatch(strText))
                         {
-                            if (strBotUsers.Contains("* " + Variables.User.Name + "\r\n"))
+                            if (username.IsMatch(strBotUsers))
                             {//enable botmode
                                 this.IsBot = true;
                             }
-                            if (strAdmins.Contains("* " + Variables.User.Name + "\r\n"))
+                            if (username.IsMatch(strAdmins))
                             {//enable admin features
                                 this.IsAdmin = true;
                             }
