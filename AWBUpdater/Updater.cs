@@ -372,7 +372,17 @@ namespace AWBUpdater
 
         private void startAWB()
         {
-            System.Diagnostics.Process.Start(AWBdirectory + "AutoWikiBrowser.exe");
+            bool AWBOpen = false;
+            foreach (Process p in Process.GetProcesses())
+            {
+                if (p.ProcessName == "AutoWikiBrowser")
+                    AWBOpen = true;
+            }
+
+            if (!AWBOpen)
+            {
+                System.Diagnostics.Process.Start(AWBdirectory + "AutoWikiBrowser.exe");
+            }
 
             progressUpdate.Value = 95;
         }
