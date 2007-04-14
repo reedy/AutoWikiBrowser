@@ -55,7 +55,7 @@ namespace WikiFunctions
 
         public string URLEncodedName
         {
-            get { return System.Web.HttpUtility.UrlEncode(Name); }
+            get { return Tools.WikiEncode(Name); }
         }
 
         #region Overrides
