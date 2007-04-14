@@ -939,9 +939,23 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
             strsummarytag = " using [[Project:AWB|AWB]]";
             MonthNames = enLangMonthNames;
         }
+        #endregion
+
+        #region misc
+        /// <summary>
+        /// returns URL to the given page, depends on project settings
+        /// </summary>
+        public static string GetPageURL(string name)
+        {
+            if (CustomProject == "") return URL + "/wiki/" + Tools.WikiEncode(name);
+            else return URLLong + "index.php?title=" + Tools.WikiEncode(name);
+        }
+        #endregion
     }
 
     public enum WikiStatusResult { Error, NotLoggedIn, NotRegistered, OldVersion, Registered, Null }
+
+    #region UserProperties
 
     public class UserProperties
     {

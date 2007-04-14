@@ -563,7 +563,7 @@ Message: {2}
                     string Call = m.Value;
 
                     WebClient wc = new WebClient();
-                    Uri expandUri = new Uri(Variables.URL+"/wiki/Special:ExpandTemplates?contexttitle=" + ArticleTitle + "&input=" + Call + "&removecomments=1");
+                    Uri expandUri = new Uri(Variables.URLLong + "index.php?title=Special:ExpandTemplates&contexttitle=" + Tools.WikiEncode(ArticleTitle) + "&input=" + Call + "&removecomments=1");
                     wc.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
                     wc.Headers.Add("User-agent", "AutoWikiBrowser/1.0");
 

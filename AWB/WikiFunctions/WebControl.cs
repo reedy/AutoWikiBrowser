@@ -781,7 +781,7 @@ namespace WikiFunctions.Browser
             this.Navigate(Variables.URLLong + "index.php?title=Special:Userlogout");
             Busy = false;
         }
-        
+
         Regex RegexArticleExists = new Regex("<LI (class=new|class=\"selected new\") id=ca-nstab", RegexOptions.Compiled);
         protected override void OnDocumentCompleted(WebBrowserDocumentCompletedEventArgs e)
         {
@@ -959,16 +959,16 @@ namespace WikiFunctions.Browser
         private void StartTimer()
         {
             StopTimer();
-            timer1.Tick += IncrememntTime;
+            timer1.Tick += IncrementTime;
         }
 
         private void StopTimer()
         {
-            timer1.Tick -= IncrememntTime;
+            timer1.Tick -= IncrementTime;
             LoadTime = 0;
         }
 
-        private void IncrememntTime(object sender, EventArgs e)
+        private void IncrementTime(object sender, EventArgs e)
         {
             LoadTime++;
 
