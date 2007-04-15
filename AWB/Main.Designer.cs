@@ -102,6 +102,7 @@ namespace AutoWikiBrowser
             this.openSelectionInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.replaceTextWithLastEditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.undoAllChangesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadDefaultSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -309,9 +310,9 @@ namespace AutoWikiBrowser
             this.txtEdit = new System.Windows.Forms.TextBox();
             this.tpLogs = new System.Windows.Forms.TabPage();
             this.LogControl1 = new WikiFunctions.Logging.LogControl();
+            this.webBrowserDiff = new System.Windows.Forms.WebBrowser();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
-            this.webBrowserDiff = new System.Windows.Forms.WebBrowser();
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -380,9 +381,10 @@ namespace AutoWikiBrowser
             this.toolStripSeparator20,
             this.openSelectionInBrowserToolStripMenuItem,
             this.toolStripSeparator9,
-            this.replaceTextWithLastEditToolStripMenuItem});
+            this.replaceTextWithLastEditToolStripMenuItem,
+            this.undoAllChangesToolStripMenuItem});
             this.mnuTextBox.Name = "contextMenuStrip1";
-            this.mnuTextBox.Size = new System.Drawing.Size(233, 486);
+            this.mnuTextBox.Size = new System.Drawing.Size(233, 530);
             this.mnuTextBox.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // wordWrapToolStripMenuItem1
@@ -759,6 +761,13 @@ namespace AutoWikiBrowser
             this.replaceTextWithLastEditToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
             this.replaceTextWithLastEditToolStripMenuItem.Text = "Replace text with last edit";
             this.replaceTextWithLastEditToolStripMenuItem.Click += new System.EventHandler(this.replaceTextWithLastEditToolStripMenuItem_Click);
+            // 
+            // undoAllChangesToolStripMenuItem
+            // 
+            this.undoAllChangesToolStripMenuItem.Name = "undoAllChangesToolStripMenuItem";
+            this.undoAllChangesToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
+            this.undoAllChangesToolStripMenuItem.Text = "Undo all changes";
+            this.undoAllChangesToolStripMenuItem.Click += new System.EventHandler(this.undoAllChangesToolStripMenuItem_Click);
             // 
             // menuStrip1
             // 
@@ -2867,6 +2876,17 @@ namespace AutoWikiBrowser
             this.LogControl1.Size = new System.Drawing.Size(260, 341);
             this.LogControl1.TabIndex = 0;
             // 
+            // webBrowserDiff
+            // 
+            this.webBrowserDiff.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.webBrowserDiff.Location = new System.Drawing.Point(0, 25);
+            this.webBrowserDiff.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowserDiff.Name = "webBrowserDiff";
+            this.webBrowserDiff.Size = new System.Drawing.Size(788, 195);
+            this.webBrowserDiff.TabIndex = 672;
+            // 
             // webBrowserEdit
             // 
             this.webBrowserEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -2896,17 +2916,6 @@ namespace AutoWikiBrowser
             // 
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
-            // 
-            // webBrowserDiff
-            // 
-            this.webBrowserDiff.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.webBrowserDiff.Location = new System.Drawing.Point(0, 25);
-            this.webBrowserDiff.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowserDiff.Name = "webBrowserDiff";
-            this.webBrowserDiff.Size = new System.Drawing.Size(788, 195);
-            this.webBrowserDiff.TabIndex = 672;
             // 
             // MainForm
             // 
@@ -3258,6 +3267,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator23;
         private WikiFunctions.Logging.LogControl LogControl1;
         private System.Windows.Forms.WebBrowser webBrowserDiff;
+        private System.Windows.Forms.ToolStripMenuItem undoAllChangesToolStripMenuItem;
 
 
     }
