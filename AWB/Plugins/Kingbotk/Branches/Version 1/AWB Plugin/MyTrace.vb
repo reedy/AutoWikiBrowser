@@ -24,7 +24,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
 
             mIsUploading = True
 
-            LoggingSettings.Led1.Colour = Colour.Blue
+            LoggingSettings.LEDColour = Colour.Blue
             Application.DoEvents()
             frm.Show()
 
@@ -67,8 +67,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
             End If
 
             frm.Dispose()
-            If BusyCounter = 0 Then LoggingSettings.Led1.Colour = Colour.Red _
-               Else LoggingSettings.Led1.Colour = Colour.Green
+            If BusyCounter = 0 Then LoggingSettings.LEDColour = Colour.Red _
+               Else LoggingSettings.LEDColour = Colour.Green
 
             mIsUploading = False
         End Sub
@@ -142,13 +142,13 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
         Private Sub Busy()
             If Listeners.Count = 0 Then Exit Sub
             BusyCounter += 1
-            LoggingSettings.Led1.Colour = Colour.Green
+            LoggingSettings.LEDColour = Colour.Green
         End Sub
         Private Sub NotBusy()
             If Listeners.Count = 0 Then Exit Sub
             BusyCounter -= 1
-            If BusyCounter = 0 AndAlso Not LoggingSettings.Led1.Colour = Colour.Blue _
-               Then LoggingSettings.Led1.Colour = Colour.Red
+            If BusyCounter = 0 AndAlso Not LoggingSettings.LEDColour = Colour.Blue _
+               Then LoggingSettings.LEDColour = Colour.Red
         End Sub
         Private ReadOnly Property BadPagesLogToUpload() As Boolean
             Get

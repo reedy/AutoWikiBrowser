@@ -22,6 +22,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             ResetVars()
             mETALabel = ETALabel
             TimerEnabled = True
+            mStats = Stats
         End Sub
         Friend Sub Reset()
             ResetVars()

@@ -22,7 +22,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Private Sub InitializeComponent()
             Me.components = New System.ComponentModel.Container
             Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog
-            Me.ToolTip2 = New System.Windows.Forms.ToolTip(Me.components)
+            Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
             Me.VerboseCheckBox = New System.Windows.Forms.CheckBox
             Me.XHTMLLogCheckBox = New System.Windows.Forms.CheckBox
             Me.WikiLogCheckBox = New System.Windows.Forms.CheckBox
@@ -31,6 +31,9 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.UploadWikiProjectCheckBox = New System.Windows.Forms.CheckBox
             Me.UploadOpenInBrowserCheckBox = New System.Windows.Forms.CheckBox
             Me.CloseAllButton = New System.Windows.Forms.Button
+            Me.Label3 = New System.Windows.Forms.Label
+            Me.Label4 = New System.Windows.Forms.Label
+            Me.Label5 = New System.Windows.Forms.Label
             Me.Label1 = New System.Windows.Forms.Label
             Me.FolderTextBox = New System.Windows.Forms.TextBox
             Me.FolderButton = New System.Windows.Forms.Button
@@ -46,9 +49,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.XHTMLLinesSinceUploadLabel = New System.Windows.Forms.Label
             Me.BadTagsLinesSinceUploadLabel = New System.Windows.Forms.Label
             Me.Label2 = New System.Windows.Forms.Label
-            Me.Label3 = New System.Windows.Forms.Label
-            Me.Label4 = New System.Windows.Forms.Label
-            Me.Label5 = New System.Windows.Forms.Label
             Me.Label6 = New System.Windows.Forms.Label
             Me.Label7 = New System.Windows.Forms.Label
             Me.GroupBox3 = New System.Windows.Forms.GroupBox
@@ -89,7 +89,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.VerboseCheckBox.Size = New System.Drawing.Size(102, 17)
             Me.VerboseCheckBox.TabIndex = 13
             Me.VerboseCheckBox.Text = "Verbose logging"
-            Me.ToolTip2.SetToolTip(Me.VerboseCheckBox, "Log in detail (recommended whilst plugin is still in development)")
+            Me.ToolTip1.SetToolTip(Me.VerboseCheckBox, "Log in detail (should no longer be necessary as plugin is well tested)")
             Me.VerboseCheckBox.UseVisualStyleBackColor = True
             '
             'XHTMLLogCheckBox
@@ -100,7 +100,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.XHTMLLogCheckBox.Size = New System.Drawing.Size(96, 17)
             Me.XHTMLLogCheckBox.TabIndex = 11
             Me.XHTMLLogCheckBox.Text = "Log to XHTML"
-            Me.ToolTip2.SetToolTip(Me.XHTMLLogCheckBox, "Log the articles processed and what we did with them in XHTML format")
+            Me.ToolTip1.SetToolTip(Me.XHTMLLogCheckBox, "Log the articles processed and what we did with them in XHTML format")
             Me.XHTMLLogCheckBox.UseVisualStyleBackColor = True
             '
             'WikiLogCheckBox
@@ -113,7 +113,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.WikiLogCheckBox.Size = New System.Drawing.Size(104, 17)
             Me.WikiLogCheckBox.TabIndex = 12
             Me.WikiLogCheckBox.Text = "Log to wiki code"
-            Me.ToolTip2.SetToolTip(Me.WikiLogCheckBox, "Log the articles processed and what we did with them in Mediawiki-markup format (" & _
+            Me.ToolTip1.SetToolTip(Me.WikiLogCheckBox, "Log the articles processed and what we did with them in Mediawiki-markup format (" & _
                     "recommended)")
             Me.WikiLogCheckBox.UseVisualStyleBackColor = True
             '
@@ -127,7 +127,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.LogBadTagsCheckBox.Size = New System.Drawing.Size(116, 17)
             Me.LogBadTagsCheckBox.TabIndex = 10
             Me.LogBadTagsCheckBox.Text = "Log problem pages"
-            Me.ToolTip2.SetToolTip(Me.LogBadTagsCheckBox, "If the plugin can't parse a template on a page, it can log it for manual inspecti" & _
+            Me.ToolTip1.SetToolTip(Me.LogBadTagsCheckBox, "If the plugin can't parse a template on a page, it can log it for manual inspecti" & _
                     "on or sending to the plugin author. Recommendation is to leave this checked.")
             Me.LogBadTagsCheckBox.UseVisualStyleBackColor = True
             '
@@ -139,7 +139,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.UploadCheckBox.Size = New System.Drawing.Size(60, 17)
             Me.UploadCheckBox.TabIndex = 18
             Me.UploadCheckBox.Text = "Upload"
-            Me.ToolTip2.SetToolTip(Me.UploadCheckBox, "Upload logs to Wikipedia?")
+            Me.ToolTip1.SetToolTip(Me.UploadCheckBox, "Upload logs to Wikipedia?")
             Me.UploadCheckBox.UseVisualStyleBackColor = True
             '
             'UploadWikiProjectCheckBox
@@ -153,7 +153,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.UploadWikiProjectCheckBox.Size = New System.Drawing.Size(98, 17)
             Me.UploadWikiProjectCheckBox.TabIndex = 19
             Me.UploadWikiProjectCheckBox.Text = "Upload to WPs"
-            Me.ToolTip2.SetToolTip(Me.UploadWikiProjectCheckBox, "Upload logs to the automation department of your WikiProject, if the template plu" & _
+            Me.ToolTip1.SetToolTip(Me.UploadWikiProjectCheckBox, "Upload logs to the automation department of your WikiProject, if the template plu" & _
                     "gin supports it")
             Me.UploadWikiProjectCheckBox.UseVisualStyleBackColor = True
             '
@@ -168,7 +168,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.UploadOpenInBrowserCheckBox.Size = New System.Drawing.Size(103, 17)
             Me.UploadOpenInBrowserCheckBox.TabIndex = 21
             Me.UploadOpenInBrowserCheckBox.Text = "Open in browser"
-            Me.ToolTip2.SetToolTip(Me.UploadOpenInBrowserCheckBox, "Open uploaded pages in your default web browser." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "A good way to add the logs to y" & _
+            Me.ToolTip1.SetToolTip(Me.UploadOpenInBrowserCheckBox, "Open uploaded pages in your default web browser." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "A good way to add the logs to y" & _
                     "our own watchlist if you're in bot mode!")
             Me.UploadOpenInBrowserCheckBox.UseVisualStyleBackColor = True
             '
@@ -179,8 +179,41 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.CloseAllButton.Size = New System.Drawing.Size(56, 23)
             Me.CloseAllButton.TabIndex = 21
             Me.CloseAllButton.Text = "Close"
-            Me.ToolTip2.SetToolTip(Me.CloseAllButton, "Close all logs")
+            Me.ToolTip1.SetToolTip(Me.CloseAllButton, "Close all logs")
             Me.CloseAllButton.UseVisualStyleBackColor = True
+            '
+            'Label3
+            '
+            Me.Label3.AutoSize = True
+            Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+            Me.Label3.Location = New System.Drawing.Point(9, 36)
+            Me.Label3.Name = "Label3"
+            Me.Label3.Size = New System.Drawing.Size(32, 13)
+            Me.Label3.TabIndex = 23
+            Me.Label3.Text = "Wiki"
+            Me.ToolTip1.SetToolTip(Me.Label3, "Wiki log")
+            '
+            'Label4
+            '
+            Me.Label4.AutoSize = True
+            Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+            Me.Label4.Location = New System.Drawing.Point(9, 56)
+            Me.Label4.Name = "Label4"
+            Me.Label4.Size = New System.Drawing.Size(41, 13)
+            Me.Label4.TabIndex = 24
+            Me.Label4.Text = "HMTL"
+            Me.ToolTip1.SetToolTip(Me.Label4, "XHTML log")
+            '
+            'Label5
+            '
+            Me.Label5.AutoSize = True
+            Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+            Me.Label5.Location = New System.Drawing.Point(9, 76)
+            Me.Label5.Name = "Label5"
+            Me.Label5.Size = New System.Drawing.Size(29, 13)
+            Me.Label5.TabIndex = 25
+            Me.Label5.Text = "Bad"
+            Me.ToolTip1.SetToolTip(Me.Label5, "Bad pages log")
             '
             'Label1
             '
@@ -339,36 +372,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.Label2.Size = New System.Drawing.Size(28, 13)
             Me.Label2.TabIndex = 22
             Me.Label2.Text = "Log"
-            '
-            'Label3
-            '
-            Me.Label3.AutoSize = True
-            Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.Label3.Location = New System.Drawing.Point(9, 36)
-            Me.Label3.Name = "Label3"
-            Me.Label3.Size = New System.Drawing.Size(32, 13)
-            Me.Label3.TabIndex = 23
-            Me.Label3.Text = "Wiki"
-            '
-            'Label4
-            '
-            Me.Label4.AutoSize = True
-            Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.Label4.Location = New System.Drawing.Point(9, 56)
-            Me.Label4.Name = "Label4"
-            Me.Label4.Size = New System.Drawing.Size(40, 13)
-            Me.Label4.TabIndex = 24
-            Me.Label4.Text = "XMTL"
-            '
-            'Label5
-            '
-            Me.Label5.AutoSize = True
-            Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.Label5.Location = New System.Drawing.Point(9, 76)
-            Me.Label5.Name = "Label5"
-            Me.Label5.Size = New System.Drawing.Size(29, 13)
-            Me.Label5.TabIndex = 25
-            Me.Label5.Text = "Bad"
             '
             'Label6
             '
@@ -539,7 +542,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.Led1.Name = "Led1"
             Me.Led1.Size = New System.Drawing.Size(20, 20)
             Me.Led1.TabIndex = 44
-            Me.ToolTip2.SetToolTip(Me.Led1, "Green when logging, blue when uploading")
+            Me.ToolTip1.SetToolTip(Me.Led1, "Green when logging, blue when uploading")
             '
             'PluginLogging
             '
@@ -576,53 +579,53 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.PerformLayout()
 
         End Sub
-        Private WithEvents XHTMLLinesSinceUploadLabel As System.Windows.Forms.Label
-        Friend WithEvents FolderBrowserDialog1 As System.Windows.Forms.FolderBrowserDialog
-        Friend WithEvents ToolTip2 As System.Windows.Forms.ToolTip
-        Friend WithEvents VerboseCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents XHTMLLogCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents WikiLogCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents LogBadTagsCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents Label1 As System.Windows.Forms.Label
-        Friend WithEvents FolderTextBox As System.Windows.Forms.TextBox
-        Friend WithEvents FolderButton As System.Windows.Forms.Button
-        Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
-        Friend WithEvents UploadCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
-        Friend WithEvents GroupBox3 As System.Windows.Forms.GroupBox
+        Private WithEvents Led1 As AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.LED
+        Private WithEvents FolderBrowserDialog1 As System.Windows.Forms.FolderBrowserDialog
+        Private WithEvents ToolTip1 As System.Windows.Forms.ToolTip
+        Private WithEvents VerboseCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents Label1 As System.Windows.Forms.Label
+        Private WithEvents FolderTextBox As System.Windows.Forms.TextBox
+        Private WithEvents FolderButton As System.Windows.Forms.Button
+        Private WithEvents GroupBox1 As System.Windows.Forms.GroupBox
+        Private WithEvents UploadCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents GroupBox2 As System.Windows.Forms.GroupBox
+        Private WithEvents GroupBox3 As System.Windows.Forms.GroupBox
+        Private WithEvents UploadWatchlistCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents UploadOpenInBrowserCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents GroupBox4 As System.Windows.Forms.GroupBox
+        Private WithEvents ApplyButton As System.Windows.Forms.Button
+        Private WithEvents UploadLocationTextBox As System.Windows.Forms.TextBox
+        Private WithEvents GroupBox5 As System.Windows.Forms.GroupBox
+        Private WithEvents GroupBox6 As System.Windows.Forms.GroupBox
+        Private WithEvents UploadJobNameTextBox As System.Windows.Forms.TextBox
+        Private WithEvents GroupBox7 As System.Windows.Forms.GroupBox
+        Private WithEvents UploadMaxLinesControl As System.Windows.Forms.NumericUpDown
+        Private WithEvents CloseAllButton As System.Windows.Forms.Button
+        Private WithEvents Label2 As System.Windows.Forms.Label
+        Private WithEvents Label3 As System.Windows.Forms.Label
+        Private WithEvents Label4 As System.Windows.Forms.Label
+        Private WithEvents Label5 As System.Windows.Forms.Label
+        Private WithEvents Label6 As System.Windows.Forms.Label
+        Private WithEvents Label7 As System.Windows.Forms.Label
+        Private WithEvents Label8 As System.Windows.Forms.Label
+        Private WithEvents LocationContextMenuStrip As System.Windows.Forms.ContextMenuStrip
+        Private WithEvents JobNameContextMenuStrip As System.Windows.Forms.ContextMenuStrip
+        Private WithEvents MaxLinesContextMenuStrip As System.Windows.Forms.ContextMenuStrip
+        Private WithEvents MaxLinesResetToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+        Private WithEvents JobNameResetToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+        Private WithEvents LocationResetToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+        Private WithEvents SetToMaximumToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+        Friend WithEvents XHTMLLinesSinceUploadLabel As System.Windows.Forms.Label
         Friend WithEvents UploadWikiProjectCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents UploadWatchlistCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents UploadOpenInBrowserCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents GroupBox4 As System.Windows.Forms.GroupBox
-        Friend WithEvents ApplyButton As System.Windows.Forms.Button
-        Friend WithEvents UploadLocationTextBox As System.Windows.Forms.TextBox
-        Friend WithEvents GroupBox5 As System.Windows.Forms.GroupBox
-        Friend WithEvents GroupBox6 As System.Windows.Forms.GroupBox
-        Friend WithEvents UploadJobNameTextBox As System.Windows.Forms.TextBox
-        Friend WithEvents GroupBox7 As System.Windows.Forms.GroupBox
-        Friend WithEvents UploadMaxLinesControl As System.Windows.Forms.NumericUpDown
-        Friend WithEvents CloseAllButton As System.Windows.Forms.Button
-        Friend WithEvents Label2 As System.Windows.Forms.Label
-        Friend WithEvents Label3 As System.Windows.Forms.Label
-        Friend WithEvents Label4 As System.Windows.Forms.Label
-        Friend WithEvents Label5 As System.Windows.Forms.Label
-        Friend WithEvents Label6 As System.Windows.Forms.Label
-        Friend WithEvents Label7 As System.Windows.Forms.Label
-        Friend WithEvents Label8 As System.Windows.Forms.Label
         Friend WithEvents UploadsCountLabel As System.Windows.Forms.Label
         Friend WithEvents WikiLinesLabel As System.Windows.Forms.Label
         Friend WithEvents XHTMLLinesLabel As System.Windows.Forms.Label
         Friend WithEvents BadTagsLinesLabel As System.Windows.Forms.Label
         Friend WithEvents WikiLinesSinceUploadLabel As System.Windows.Forms.Label
         Friend WithEvents BadTagsLinesSinceUploadLabel As System.Windows.Forms.Label
-        Friend WithEvents Led1 As AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.LED
-        Friend WithEvents LocationContextMenuStrip As System.Windows.Forms.ContextMenuStrip
-        Friend WithEvents JobNameContextMenuStrip As System.Windows.Forms.ContextMenuStrip
-        Friend WithEvents MaxLinesContextMenuStrip As System.Windows.Forms.ContextMenuStrip
-        Friend WithEvents MaxLinesResetToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents JobNameResetToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents LocationResetToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents SetToMaximumToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+        Friend WithEvents XHTMLLogCheckBox As System.Windows.Forms.CheckBox
+        Friend WithEvents WikiLogCheckBox As System.Windows.Forms.CheckBox
+        Friend WithEvents LogBadTagsCheckBox As System.Windows.Forms.CheckBox
 
     End Class
 End Namespace
