@@ -2883,7 +2883,7 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.ProcessStage = WikiFunctions.Browser.enumProcessStage.none;
             this.webBrowserEdit.ScriptErrorsSuppressed = true;
             this.webBrowserEdit.ScrollDown = true;
-            this.webBrowserEdit.Size = new System.Drawing.Size(780, 195);
+            this.webBrowserEdit.Size = new System.Drawing.Size(788, 195);
             this.webBrowserEdit.TabIndex = 670;
             this.webBrowserEdit.TabStop = false;
             this.webBrowserEdit.TimeoutLimit = 30;
