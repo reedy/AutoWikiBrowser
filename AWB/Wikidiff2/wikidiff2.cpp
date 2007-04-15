@@ -31,8 +31,8 @@ void print_diff(std::vector<std::string> &text1, std::vector<std::string> &text2
 		if (linediff[i].op != DiffOp<std::string>::copy && i == 0) {
 			ret += 
 				"<tr>\n"
-				"  <td colspan=\"2\" align=\"left\"><strong><!--LINE 1--></strong></td>\n"
-				"  <td colspan=\"2\" align=\"left\"><strong><!--LINE 1--></strong></td>\n"
+				"  <td colspan=\"2\" align=\"left\"><strong>Line 1</strong></td>\n"
+				"  <td colspan=\"2\" align=\"left\"><strong>Line 1</strong></td>\n"
 				"</tr>\n";
 		}
 			
@@ -64,8 +64,8 @@ void print_diff(std::vector<std::string> &text1, std::vector<std::string> &text2
 							char buf[256]; // should be plenty
 							sprintf(buf, 
 								"<tr>\n"
-								"  <td colspan=\"2\" align=\"left\"><strong><!--LINE %u--></strong></td>\n"
-								"  <td colspan=\"2\" align=\"left\"><strong><!--LINE %u--></strong></td>\n"
+								"  <td colspan=\"2\" align=\"left\"><strong>Line %u</strong></td>\n"
+								"  <td colspan=\"2\" align=\"left\"><strong>Line %u</strong></td>\n"
 								"</tr>\n",
 								from_ind, to_ind);
 							ret += buf;
@@ -75,14 +75,14 @@ void print_diff(std::vector<std::string> &text1, std::vector<std::string> &text2
 						ret += 
 							"<tr>\n"
 							"  <td> </td>\n"
-							"  <td class=\"diff-context\">";
+							"  <td class=\"diff-context\"><div class=\"d\">";
 						print_htmlspecialchars(*linediff[i].from[j], ret);
 						ret += 
-							"</td>\n"
+							"</div></td>\n"
 							"  <td> </td>\n"
-							"  <td class=\"diff-context\">";
+							"  <td class=\"diff-context\"><div class=\"d\">";
 						print_htmlspecialchars(*linediff[i].from[j], ret);
-						ret += "</td>\n</tr>\n";
+						ret += "</div></td>\n</tr>\n";
 					} else {
 						showLineNumber = true;
 					}
@@ -150,13 +150,13 @@ void print_worddiff(const std::string & text1, const std::string & text2, std::s
 	// print twice; first for left side, then for right side
 	ret += "<tr>\n"
 		"  <td>-</td>\n"
-		"  <td class=\"diff-deletedline\">\n";
+		"  <td class=\"diff-deletedline\"><div class=\"d\">\n";
 	print_worddiff_side(worddiff, false, ret);
-	ret += "\n  </td>\n"
+	ret += "\n  </div></td>\n"
 		"  <td>+</td>\n"
-		"  <td class=\"diff-addedline\">\n";
+		"  <td class=\"diff-addedline\"><div class=\"d\">\n";
 	print_worddiff_side(worddiff, true, ret);
-	ret += "\n  </td>\n"
+	ret += "\n  </div></td>\n"
 		"</tr>\n";
 }
 
