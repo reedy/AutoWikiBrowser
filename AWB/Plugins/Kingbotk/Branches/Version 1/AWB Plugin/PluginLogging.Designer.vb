@@ -34,6 +34,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.Label3 = New System.Windows.Forms.Label
             Me.Label4 = New System.Windows.Forms.Label
             Me.Label5 = New System.Windows.Forms.Label
+            Me.Led1 = New AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.LED
             Me.Label1 = New System.Windows.Forms.Label
             Me.FolderTextBox = New System.Windows.Forms.TextBox
             Me.FolderButton = New System.Windows.Forms.Button
@@ -67,7 +68,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.LocationResetToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.UploadWatchlistCheckBox = New System.Windows.Forms.CheckBox
             Me.ApplyButton = New System.Windows.Forms.Button
-            Me.Led1 = New AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.LED
             Me.GroupBox1.SuspendLayout()
             Me.GroupBox4.SuspendLayout()
             Me.GroupBox2.SuspendLayout()
@@ -214,6 +214,15 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.Label5.TabIndex = 25
             Me.Label5.Text = "Bad"
             Me.ToolTip1.SetToolTip(Me.Label5, "Bad pages log")
+            '
+            'Led1
+            '
+            Me.Led1.Colour = AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.Colour.Red
+            Me.Led1.Location = New System.Drawing.Point(231, 69)
+            Me.Led1.Name = "Led1"
+            Me.Led1.Size = New System.Drawing.Size(20, 20)
+            Me.Led1.TabIndex = 44
+            Me.ToolTip1.SetToolTip(Me.Led1, "Green when writing to log, blue when uploading, red when idle")
             '
             'Label1
             '
@@ -434,18 +443,18 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             '
             Me.MaxLinesContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MaxLinesResetToolStripMenuItem, Me.SetToMaximumToolStripMenuItem})
             Me.MaxLinesContextMenuStrip.Name = "MaxLinesContextMenuStrip"
-            Me.MaxLinesContextMenuStrip.Size = New System.Drawing.Size(151, 48)
+            Me.MaxLinesContextMenuStrip.Size = New System.Drawing.Size(162, 48)
             '
             'MaxLinesResetToolStripMenuItem
             '
             Me.MaxLinesResetToolStripMenuItem.Name = "MaxLinesResetToolStripMenuItem"
-            Me.MaxLinesResetToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+            Me.MaxLinesResetToolStripMenuItem.Size = New System.Drawing.Size(161, 22)
             Me.MaxLinesResetToolStripMenuItem.Text = "Reset"
             '
             'SetToMaximumToolStripMenuItem
             '
             Me.SetToMaximumToolStripMenuItem.Name = "SetToMaximumToolStripMenuItem"
-            Me.SetToMaximumToolStripMenuItem.Size = New System.Drawing.Size(150, 22)
+            Me.SetToMaximumToolStripMenuItem.Size = New System.Drawing.Size(161, 22)
             Me.SetToMaximumToolStripMenuItem.Text = "Set to maximum"
             '
             'GroupBox6
@@ -534,15 +543,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.ApplyButton.TabIndex = 20
             Me.ApplyButton.Text = "Apply"
             Me.ApplyButton.UseVisualStyleBackColor = True
-            '
-            'Led1
-            '
-            Me.Led1.Colour = AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.Colour.Red
-            Me.Led1.Location = New System.Drawing.Point(231, 69)
-            Me.Led1.Name = "Led1"
-            Me.Led1.Size = New System.Drawing.Size(20, 20)
-            Me.Led1.TabIndex = 44
-            Me.ToolTip1.SetToolTip(Me.Led1, "Green when logging, blue when uploading")
             '
             'PluginLogging
             '
