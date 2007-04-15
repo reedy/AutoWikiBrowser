@@ -945,10 +945,45 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
         /// <summary>
         /// returns URL to the given page, depends on project settings
         /// </summary>
-        public static string GetPageURL(string name)
+        public static string GetPageURL(string title)
         {
-            if (CustomProject == "") return URL + "/wiki/" + Tools.WikiEncode(name);
-            else return URLLong + "index.php?title=" + Tools.WikiEncode(name);
+            if (CustomProject == "") return URL + "/wiki/" + Tools.WikiEncode(title);
+            else return NonPrettifiedURL(title);
+        }
+
+        public static string NonPrettifiedURL(string title)
+        {
+            return URLLong + "index.php?title=" + Tools.WikiEncode(title);
+        }
+
+        public static string GetArticleHistoryURL(string title)
+        {
+            return (NonPrettifiedURL(title) + "&action=history");
+        }
+
+        public static string GetEditURL(string title)
+        {
+            return (NonPrettifiedURL(title) + "&action=edit");
+        }
+
+        public static string GetAddToWatchlistURL(string title)
+        {
+            return (NonPrettifiedURL(title) + "&action=watch");
+        }
+
+        public static string GetRemoveFromWatchlistURL(string title)
+        {
+            return (NonPrettifiedURL(title) + "&action=unwatch");
+        }
+
+        public static string GetUserTalkURL(string username)
+        {
+            return URLLong + "index.php?title=User_talk:" + username + "&action=purge";
+        }
+
+        public static string GetUserTalkURL()
+        {
+            return URLLong + "index.php?title=User_talk:" + User.Name + "&action=purge";
         }
         #endregion
     }

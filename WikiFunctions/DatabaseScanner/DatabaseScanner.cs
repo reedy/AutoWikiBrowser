@@ -595,7 +595,7 @@ namespace WikiFunctions.DatabaseScanner
 
         private void openInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=" + System.Web.HttpUtility.UrlEncode(lbArticles.SelectedItem.ToString()));
+            Tools.OpenArticleInBrowser(lbArticles.SelectedItem.ToString());
         }
 
         private void removeToolStripMenuItem_Click(object sender, EventArgs e)

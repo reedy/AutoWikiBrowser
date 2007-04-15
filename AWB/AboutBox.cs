@@ -24,13 +24,12 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Reflection;
 using System.Threading;
+using WikiFunctions;
 
 namespace AutoWikiBrowser
 {
     partial class AboutBox : Form
     {
-        private const string WikiEN = "http://en.wikipedia.org/wiki";
-
         public AboutBox() { } //default
 
         public AboutBox(string IEVersion, TimeSpan time, int intEdits)
@@ -121,61 +120,61 @@ namespace AutoWikiBrowser
         private void linkBluemoose_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             linkBluemoose.LinkVisited = true;
-            System.Diagnostics.Process.Start(WikiEN + "/User:Bluemoose");
+            Tools.OpenENArticleInBrowser("Bluemoose", true);
         }
 
         private void linkLigulem_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             linkLigulem.LinkVisited = true;
-            System.Diagnostics.Process.Start(WikiEN + "/User:Ligulem");
+            Tools.OpenENArticleInBrowser("Ligulem", true);
         }
 
         private void linkMaxSem_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             linkMaxSem.LinkVisited = true;
-            System.Diagnostics.Process.Start(WikiEN + "/User:MaxSem");
+            Tools.OpenENArticleInBrowser("MaxSem", true);
         }
 
         private void linkMets501_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             linkMets501.LinkVisited = true;
-            System.Diagnostics.Process.Start(WikiEN + "/User:Mets501");
+            Tools.OpenENArticleInBrowser("Mets501", true);
         }
 
         private void linkReedy_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             linkReedy.LinkVisited = true;
-            System.Diagnostics.Process.Start(WikiEN + "/User:Reedy Boy");
+            Tools.OpenENArticleInBrowser("Reedy Boy", true);
         }
 
         private void linkKingboy_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             linkKingboy.LinkVisited = true;
-            System.Diagnostics.Process.Start(WikiEN + "/User:Kingboyk");
-        }
-
-        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            linkAWBPage.LinkVisited = true;
-            System.Diagnostics.Process.Start(WikiEN + "/Wikipedia:AutoWikiBrowser");
-        }
-        
-        private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            linkBugs.LinkVisited = true;
-            System.Diagnostics.Process.Start(WikiEN + "/Wikipedia_talk:AutoWikiBrowser/Bugs");
-        }
-
-        private void linkLabel7_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            linkFeatureRequests.LinkVisited = true;
-            System.Diagnostics.Process.Start(WikiEN + "/Wikipedia_talk:AutoWikiBrowser/Feature_requests");
+            Tools.OpenENArticleInBrowser("Kingboyk", true);
         }
 
         private void linkMartinp23_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             linkMartinp23.LinkVisited = true;
-            System.Diagnostics.Process.Start(WikiEN + "/User:Martinp23");
+            Tools.OpenENArticleInBrowser("Martinp23", true);
+        }
+
+        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            linkAWBPage.LinkVisited = true;
+            Tools.OpenENArticleInBrowser("Wikipedia:AutoWikiBrowser", false);
+        }
+        
+        private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            linkBugs.LinkVisited = true;
+            Tools.OpenENArticleInBrowser("Wikipedia_talk:AutoWikiBrowser/Bugs", false);
+        }
+
+        private void linkLabel7_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            linkFeatureRequests.LinkVisited = true;
+            Tools.OpenENArticleInBrowser("Wikipedia_talk:AutoWikiBrowser/Feature_requests", false);
         }
     }
 }

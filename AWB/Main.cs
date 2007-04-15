@@ -590,9 +590,9 @@ namespace AutoWikiBrowser
 
                     dlgTalk DlgTalk = new dlgTalk();
                     if (DlgTalk.ShowDialog() == DialogResult.Yes)
-                        System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=User_talk:" + Variables.User.Name + "&action=purge");
+                        Tools.OpenUserTalkInBrowser();
                     else
-                        System.Diagnostics.Process.Start("IExplore", Variables.URLLong + "index.php?title=User_talk:" + Variables.User.Name + "&action=purge");
+                        System.Diagnostics.Process.Start("IExplore", Variables.GetUserTalkURL());
 
                     DlgTalk = null;
                     return false;

@@ -178,7 +178,7 @@ namespace WikiFunctions.Parse
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             linkLabel2.LinkVisited = true;
-            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/Regular_expression");
+            Tools.OpenENArticleInBrowser("Regular_expression", false);
         }
 
         private void btnClear_Click(object sender, EventArgs e)
