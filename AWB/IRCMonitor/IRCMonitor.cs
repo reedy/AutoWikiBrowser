@@ -205,7 +205,7 @@ namespace IRCMonitor
                 case WikiStatusResult.NotRegistered:
                     lblUserName.BackColor = Color.Red;
                     MessageBox.Show(Variables.User.Name + " is not enabled to use this.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    System.Diagnostics.Process.Start(Variables.URL + "/wiki/Project:AutoWikiBrowser/CheckPage");
+                    Tools.OpenArticleInBrowser("/wiki/Project:AutoWikiBrowser/CheckPage");
 
                     break;
 
@@ -1925,7 +1925,7 @@ namespace IRCMonitor
 
         private void iRCMonitorPageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/Wikipedia:IRCMonitor");
+            Tools.OpenENArticleInBrowser("Wikipedia:IRCMonitor", false);
         }
 
         private void blacklistToolStripMenuItem_Click(object sender, EventArgs e)

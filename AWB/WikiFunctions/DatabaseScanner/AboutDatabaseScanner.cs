@@ -118,7 +118,7 @@ namespace WikiFunctions.DatabaseScanner
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             linkLabel1.LinkVisited = true;
-            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/User:Bluemoose");
+            Tools.OpenENArticleInBrowser("Bluemoose", true);
         }
 
         private void lnkDownload_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

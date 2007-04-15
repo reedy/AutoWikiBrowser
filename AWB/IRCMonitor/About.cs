@@ -120,7 +120,7 @@ namespace WikiFunctions
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             linkLabel1.LinkVisited = true;
-            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/KOTOR");
+            Tools.OpenENArticleInBrowser("KOTOR", false);
         }
 
         private void Robot_Click(object sender, EventArgs e)

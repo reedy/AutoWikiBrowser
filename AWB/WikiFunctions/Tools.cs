@@ -548,6 +548,49 @@ Message: {2}
             }
         }
 
+        public static void OpenArticleInBrowser(string title)
+        {
+            System.Diagnostics.Process.Start(Variables.GetPageURL(title));
+        }
+
+        public static void OpenENArticleInBrowser(string title, bool userspace)
+        {
+            if(userspace)
+                System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/User:" + WikiEncode(title));
+            else
+                System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/" + WikiEncode(title));
+        }
+
+        public static void OpenArticleHistoryInBrowser(string title)
+        {
+            System.Diagnostics.Process.Start(Variables.GetArticleHistoryURL(title));
+        }
+
+        public static void OpenUserTalkInBrowser(string username)
+        {
+            System.Diagnostics.Process.Start(username);
+        }
+
+        public static void OpenUserTalkInBrowser()
+        {
+            System.Diagnostics.Process.Start(Variables.GetUserTalkURL());
+        }
+
+        public static void EditArticleInBrowser(string title)
+        {
+            System.Diagnostics.Process.Start(Variables.GetEditURL(title));
+        }
+
+        public static void WatchArticleInBrowser(string title)
+        {
+            System.Diagnostics.Process.Start(Variables.GetAddToWatchlistURL(title));
+        }
+
+        public static void UnwatchArticleInBrowser(string title)
+        {
+            System.Diagnostics.Process.Start(Variables.GetRemoveFromWatchlistURL(title));
+        }
+
         public static string WikiEncode(string title)
         {
             return HttpUtility.UrlEncode(title.Replace(' ', '_'));

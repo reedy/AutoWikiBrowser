@@ -128,12 +128,12 @@ using System.Text;
 
             public void OpenInBrowser()
             {
-                System.Diagnostics.Process.Start(Variables.URL + "/wiki/" + mArticle);
+                Tools.OpenArticleInBrowser(mArticle);
             }
 
             public void OpenHistoryInBrowser()
             {
-                System.Diagnostics.Process.Start(Variables.URL + "/w/index.php?title=" + mArticle + "&action=history");
+                Tools.OpenArticleHistoryInBrowser(mArticle);
             }
 
             public void AddAndDateStamp(ListView ListView)
