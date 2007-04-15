@@ -142,11 +142,11 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             about.Show()
         End Sub
         Private Sub MenuHelp_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles MenuHelp.Click
-            System.Diagnostics.Process.Start(PluginManager.ENWiki + "User:Kingbotk/Plugin/User guide")
+            Tools.OpenENArticleInBrowser("Kingbotk/Plugin/User guide", True)
         End Sub
         Private Sub MenuHelpReleaseNotes_Click(ByVal sender As Object, ByVal e As System.EventArgs) _
         Handles MenuHelpReleaseNotes.Click
-            System.Diagnostics.Process.Start(PluginManager.ENWiki + "User:Kingbotk/Plugin")
+            Tools.OpenENArticleInBrowser("Kingbotk/Plugin", True)
         End Sub
         Private Sub CutToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) _
         Handles CutToolStripMenuItem.Click

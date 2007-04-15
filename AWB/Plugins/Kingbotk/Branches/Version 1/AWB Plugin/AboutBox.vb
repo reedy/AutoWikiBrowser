@@ -23,12 +23,12 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Private Sub linkKingboy_LinkClicked(ByVal sender As System.Object, _
         ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles linkKingboy.LinkClicked
             linkKingboy.LinkVisited = True
-            System.Diagnostics.Process.Start(PluginManager.ENWiki + "User:Kingboyk")
+            Tools.OpenENArticleInBrowser("Kingboyk", True)
         End Sub
         Private Sub linkReedy_LinkClicked(ByVal sender As System.Object, _
         ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles linkReedy.LinkClicked
             linkReedy.LinkVisited = True
-            System.Diagnostics.Process.Start(PluginManager.ENWiki + "User:Reedy Boy")
+            Tools.OpenENArticleInBrowser("Reedy Boy", True)
         End Sub
     End Class
 End Namespace
