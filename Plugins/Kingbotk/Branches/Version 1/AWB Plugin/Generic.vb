@@ -274,8 +274,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
 #Region "Event handlers"
         Private Sub LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) _
         Handles LinkLabel1.LinkClicked
-            System.Diagnostics.Process.Start(PluginManager.ENWiki + _
-               "User:Kingbotk/Plugin/Generic_WikiProject_templates")
+            Tools.OpenENArticleInBrowser("Kingbotk/Plugin/Generic_WikiProject_templates", True)
         End Sub
         Private Sub ImportanceCheckedListBox_ItemCheck(ByVal sender As Object, ByVal e As ItemCheckEventArgs) _
         Handles ImportanceCheckedListBox.ItemCheck

@@ -64,7 +64,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         End Sub
         Private Sub LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) _
         Handles LinkLabel1.LinkClicked
-            System.Diagnostics.Process.Start(PluginManager.ENWiki + "Template:Songs")
+            Tools.OpenENArticleInBrowser("Template:Songs", False)
         End Sub
         Private Sub AutoStubCheckBox_CheckedChanged(ByVal sender As System.Object, _
         ByVal e As System.EventArgs) Handles AutoStubCheckBox.CheckedChanged
