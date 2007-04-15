@@ -18,6 +18,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -83,6 +84,7 @@
       <DependentUpon>Results.cs</DependentUpon>
     </Compile>
     <Compile Include="DatabaseScanner\Scanners.cs" />
+    <Compile Include="Diff\WikiDiff2ext.cs" />
     <Compile Include="DotNetWikiBot.cs" />
     <Compile Include="Encryption.cs">
       <SubType>Code</SubType>
