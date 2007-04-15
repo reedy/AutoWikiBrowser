@@ -15,6 +15,11 @@ namespace WikiFunctions
         [DllImport("wikidiff2.dll")]//, EntryPoint = "?wikidiff2_free@@YAXPAX@Z")]
         private static unsafe extern void wikidiff2_free(byte* p);
 
+        static unsafe WikiDiff()
+        {
+            wikidiff2_free(null);
+        }
+
         unsafe static string FromUTF8(byte* src)
         {
             Decoder d = Encoding.UTF8.GetDecoder();
