@@ -27,8 +27,8 @@
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
-				CommandLine="copy $(OutDir)\wikidiff2.dll $(SolutionDir)\AWB\bin\$(OutDir)"
-				AdditionalDependencies="wikidiff2.dll"
+				CommandLine=""
+				AdditionalDependencies=""
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -92,6 +92,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				Description="Copying Wikidiff2.dll to another destination..."
+				CommandLine="copy $(OutDir)\wikidiff2.dll $(SolutionDir)\AWB\bin\$(OutDir)"
 			/>
 		</Configuration>
 		<Configuration
@@ -108,8 +110,8 @@
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
-				CommandLine="copy $(OutDir)\wikidiff2.dll $(SolutionDir)\AWB\bin\$(OutDir)"
-				AdditionalDependencies="$(OutDir)\wikidiff2.dll"
+				CommandLine=""
+				AdditionalDependencies=""
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -170,6 +172,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				Description="Copying Wikidiff2.dll to another destination..."
+				CommandLine="copy $(OutDir)\wikidiff2.dll $(SolutionDir)\AWB\bin\$(OutDir)"
 			/>
 		</Configuration>
 	</Configurations>
