@@ -131,6 +131,7 @@ namespace AutoWikiBrowser
         string LastMove = "";
         string LastDelete = "";
         string skipReason = "";
+        string strOrigText = "";
 
         int oldselection = 0;
         int retries = 0;
@@ -186,6 +187,8 @@ namespace AutoWikiBrowser
 
                 if (Variables.User.checkEnabled() == WikiStatusResult.OldVersion)
                     oldVersion();
+
+                webBrowserDiff.Navigate("about:blank");
             }
             catch (Exception ex)
             {
@@ -343,6 +346,7 @@ namespace AutoWikiBrowser
                 Tools.WriteDebug(this.Name, "Starting");
 
                 //check edit summary
+                webBrowserEdit.BringToFront();
                 if (cmboEditSummary.Text == "" && AWBPlugins.Count == 0)
                     MessageBox.Show("Please enter an edit summary.", "Edit summary", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
@@ -462,7 +466,7 @@ namespace AutoWikiBrowser
             bool skip = false;
             if (!doNotAutomaticallyDoAnythingToolStripMenuItem.Checked)
             {
-                string strOrigText = strText;
+                strOrigText = strText;
                 strText = Process(strText, out skip);
 
                 if (!Abort && skippable && chkSkipNoChanges.Checked && strText == strOrigText)
@@ -1032,16 +1036,38 @@ namespace AutoWikiBrowser
 
         private void GetDiff()
         {
+            /*
             webBrowserEdit.SetArticleText(txtEdit.Text);
 
             DisableButtons();
             LastArticle = txtEdit.Text;
 
             webBrowserEdit.ShowDiff();
+            //*/
+
+            //*
+            try
+            {
+                webBrowserDiff.BringToFront();
+                webBrowserDiff.Document.OpenNew(false);
+                webBrowserDiff.Document.Write(@"<html><head><style type='text/css'>" +
+                    WikiDiff.DiffStyles() + @"</style></head><body>" + WikiDiff.TableHeader() +
+                    WikiDiff.GetDiff(strOrigText, txtEdit.Text, 1) +
+                    "</table></body></html>"
+                );
+
+                CaseWasDiff();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+            //*/
         }
 
         private void GetPreview()
         {
+            webBrowserEdit.BringToFront();
             webBrowserEdit.SetArticleText(txtEdit.Text);
 
             DisableButtons();
@@ -1064,6 +1090,8 @@ namespace AutoWikiBrowser
 
         private void SaveArticle()
         {
+            webBrowserEdit.BringToFront();
+
             //remember article text in case it is lost, this is set to "" again when the article title is removed
             LastArticle = txtEdit.Text;
 
@@ -2759,7 +2787,12 @@ namespace AutoWikiBrowser
 
                     string imFile = Path.GetFileName(s);
 
-                    Assembly asm = Assembly.LoadFile(path + "\\" + imFile);
+                    Assembly asm = null;
+                    try
+                    {
+                        asm = Assembly.LoadFile(path + "\\" + imFile);
+                    }
+                    catch { }
 
                     if (asm != null)
                     {
@@ -3195,6 +3228,11 @@ namespace AutoWikiBrowser
             finalRegex = finalRegex.Trim('|') + ") ?(\\|.*?)?) ?\\}\\}";
             userTalkWarningsLoaded = true;
             userTalkTemplatesRegex = new Regex(finalRegex, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        }
+
+        private void undoAllChangesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            txtEdit.Text = strOrigText;
         }
     }
 }
