@@ -93,7 +93,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Copying Wikidiff2.dll to another destination..."
-				CommandLine="copy $(OutDir)\wikidiff2.dll $(SolutionDir)\AWB\bin\$(OutDir)"
+				CommandLine="copy &quot;$(OutDir)\wikidiff2.dll&quot; &quot;$(SolutionDir)\AWB\bin\$(OutDir)&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -173,7 +173,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Copying Wikidiff2.dll to another destination..."
-				CommandLine="copy $(OutDir)\wikidiff2.dll $(SolutionDir)\AWB\bin\$(OutDir)"
+				CommandLine="copy &quot;$(OutDir)\wikidiff2.dll&quot; &quot;$(SolutionDir)\AWB\bin\$(OutDir)&quot;"
 			/>
 		</Configuration>
 	</Configurations>
