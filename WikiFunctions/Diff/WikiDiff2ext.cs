@@ -116,6 +116,10 @@ td.diff-deletedline span.diffchange {
 
 td.diff-addedline span.diffchange {
     background-color: #73E5A1; color:black;
+}
+
+.d{
+    overflow: auto;
 }";
         }
     }

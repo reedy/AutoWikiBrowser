@@ -1050,7 +1050,7 @@ namespace AutoWikiBrowser
             {
                 webBrowserDiff.BringToFront();
                 webBrowserDiff.Document.OpenNew(false);
-                webBrowserDiff.Document.Write(@"<html><head><style type='text/css'>" +
+                webBrowserDiff.Document.Write("<html><head><style type='text/css'>" +
                     WikiDiff.DiffStyles() + @"</style></head><body>" + WikiDiff.TableHeader() +
                     WikiDiff.GetDiff(strOrigText, txtEdit.Text, 1) +
                     "</table></body></html>"
