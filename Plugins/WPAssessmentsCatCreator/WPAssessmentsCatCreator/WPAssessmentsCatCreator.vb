@@ -51,7 +51,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.WPAssessmentsCatCreator
         ' AWB interface:
         Public Event Diff() Implements WikiFunctions.Plugin.IAWBPlugin.Diff
         Public Event Save() Implements WikiFunctions.Plugin.IAWBPlugin.Save
-        Public Event Skip(ByVal Reason As String) Implements WikiFunctions.Plugin.IAWBPlugin.Skip
+        Public Event Skip(ByVal SkipReason As String) Implements WikiFunctions.Plugin.IAWBPlugin.Skip
         Public Event Start() Implements WikiFunctions.Plugin.IAWBPlugin.Start
         Public Event [Stop]() Implements WikiFunctions.Plugin.IAWBPlugin.Stop
         Public Event Preview() Implements WikiFunctions.Plugin.IAWBPlugin.Preview
@@ -199,7 +199,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.WPAssessmentsCatCreator
                 End If
             End If
 
-            AWBForm.SkipNonExistentPages = False
+            AWBForm.SkipNonExistentPagesCheckBox.Checked = False
 
             If MessageBox.Show("This is a simple script - presented as a plugin - for creating article " & _
                "assessment categories. It should not be run with automated edits switched on, and all " & _
