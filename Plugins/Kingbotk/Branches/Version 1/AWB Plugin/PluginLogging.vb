@@ -33,6 +33,14 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 mStartingUp = value
             End Set
         End Property
+        Friend Property LEDColour() As Colour
+            Get
+                Return Led1.Colour
+            End Get
+            Set(ByVal value As Colour)
+                Led1.Colour = value
+            End Set
+        End Property
 
 #Region "XML"
         Friend Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader, ByVal MyTrace As MyTrace)
@@ -109,8 +117,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 .Category = mCategoryTextBox.Text
                 .UploadOpenInBrowser = UploadOpenInBrowserCheckBox.Checked
                 .UploadToWikiProjects = UploadWikiProjectCheckBox.Checked
-                '_UploadOpenInBrowserCheckBox.Checked = .UploadOpenInBrowser
-                '_UploadWikiProjectCheckBox.Checked = .UploadToWikiProjects
 
                 If mInitialised Then MyTrace.PropertiesChange(blnJobNameHasChanged)
             End With
