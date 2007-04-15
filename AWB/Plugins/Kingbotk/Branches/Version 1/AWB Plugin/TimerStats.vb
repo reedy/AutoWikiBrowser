@@ -1,9 +1,10 @@
 Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
     Friend NotInheritable Class TimerStats
         Private WithEvents webcontrol As WikiFunctions.Browser.WebControl
+        Private WithEvents mStats As PluginSettingsControl.Stats
         Private TimeSpan As TimeSpan
         Private Start As Date
-        Private mNumberOfEdits As Integer
+        Private mNumberOfEdits As Integer, mSkipped As Integer
         Private mETALabel As Label
 
         Private Property NumberOfEdits() As Integer
@@ -15,7 +16,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 EditsLabel.Text = mNumberOfEdits.ToString
             End Set
         End Property
-        Friend Sub Init(ByVal w As WikiFunctions.Browser.WebControl, ByVal ETALabel As Label)
+        Friend Sub Init(ByVal w As WikiFunctions.Browser.WebControl, ByVal ETALabel As Label, _
+        ByVal Stats As PluginSettingsControl.Stats)
             webcontrol = w
             ResetVars()
             mETALabel = ETALabel
@@ -30,6 +32,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Private Sub ResetVars()
             NumberOfEdits = 0
             Start = Date.Now
+            mSkipped = 0
         End Sub
         Private Property ETA() As String
             Get
@@ -62,6 +65,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 Timer1.Enabled = value
             End Set
         End Property
+
+        ' Event handlers
         Private Sub Timer1_Tick(ByVal sender As Object, ByVal e As EventArgs) Handles Timer1.Tick
             Static regexp As New Regex("\..*")
             Static UpdateETACount As Integer
@@ -80,7 +85,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 SpeedLabel.Text = SecondsPerPage.ToString & " s/p"
                 If UpdateETACount > 9 OrElse ETA = "-" Then
                     UpdateETACount = 0
-                    CalculateETA(SecondsPerPage)
+                    CalculateETA(TimeSpan.TotalSeconds / (NumberOfEdits + mSkipped))
                 End If
             End If
         End Sub
@@ -95,6 +100,9 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         End Sub
         Friend Sub IncrementSavedEdits() Handles webcontrol.Saved
             NumberOfEdits += 1
+        End Sub
+        Private Sub mStats_SkipMisc(ByVal val As Integer) Handles mStats.SkipMisc
+            mSkipped += 1
         End Sub
     End Class
 End Namespace

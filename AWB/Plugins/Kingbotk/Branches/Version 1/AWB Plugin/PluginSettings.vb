@@ -27,7 +27,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 If lbl.Text = "" Then lbl.Text = "0"
             Next
             TimerStats1.Visible = True
-            TimerStats1.Init(webcontrol, ETALabel)
+            TimerStats1.Init(webcontrol, ETALabel, PluginStats)
 
             If MyTrace.HaveOpenFile Then
                 MyTrace.WriteBulletedLine("AWB started processing", True, True, True)
@@ -363,11 +363,11 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                     RaiseEvent [New](value)
                 End Set
             End Property
-            Private Property Skipped() As Integer
+            Friend Property Skipped() As Integer
                 Get
                     Return mSkipped
                 End Get
-                Set(ByVal value As Integer)
+                Private Set(ByVal value As Integer)
                     mSkipped = value
                     RaiseEvent SkipMisc(value)
                 End Set
@@ -383,7 +383,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 Get
                     Return mRedLinks
                 End Get
-                Set(ByVal value As Integer)
+                Private Set(ByVal value As Integer)
                     mRedLinks = value
                     RaiseEvent RedLink(value)
                 End Set
