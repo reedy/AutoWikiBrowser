@@ -155,7 +155,7 @@ namespace AutoWikiBrowser
         AWBLogListener LogListener;
         bool userTalkWarningsLoaded = false;
         Regex userTalkTemplatesRegex;
-        
+
         private void MainForm_Load(object sender, EventArgs e)
         {
             // hide this tab until it's fully written
@@ -394,7 +394,7 @@ namespace AutoWikiBrowser
                 if (chkAutoMode.Checked)
                     NudgeTimer.StartMe();
 
-                    EditBoxSaveTimer.Enabled = AutoSaveEditBoxEnabled;
+                EditBoxSaveTimer.Enabled = AutoSaveEditBoxEnabled;
 
                 //Navigate to edit page
                 webBrowserEdit.LoadEditPage(EdittingArticle.Name);
@@ -535,7 +535,7 @@ namespace AutoWikiBrowser
                 Tools.Beep1();
         }
 
-        
+
         private bool loadSuccess()
         {
             try
@@ -640,16 +640,16 @@ namespace AutoWikiBrowser
 
             bleepflash();
 
-            this.Focus();            
+            this.Focus();
             txtEdit.Focus();
             txtEdit.SelectionLength = 0;
-            
+
             EnableButtons();
         }
 
         private bool diffChecker(string strHTML)
         {//check diff to see if it should be skipped
-            
+
             if (!skippable || !chkSkipNoChanges.Checked || toolStripComboOnLoad.SelectedIndex != 0 || doNotAutomaticallyDoAnythingToolStripMenuItem.Checked)
                 return false;
 
@@ -989,7 +989,7 @@ namespace AutoWikiBrowser
                 {
                     SkipArticle = false;
                     DabForm df = new DabForm();
-                    articleText = df.Disambiguate(articleText, EdittingArticle.Name, txtDabLink.Text.Trim(), 
+                    articleText = df.Disambiguate(articleText, EdittingArticle.Name, txtDabLink.Text.Trim(),
                         txtDabVariants.Lines, (int)udContextChars.Value, chkAutoMode.Checked, out SkipArticle);
 
                     Abort = df.Abort;
@@ -1130,9 +1130,9 @@ namespace AutoWikiBrowser
         private void parametersShowHide()
         {
             enlargeEditAreaToolStripMenuItem.Checked = !enlargeEditAreaToolStripMenuItem.Checked;
-            splitContainer1.Panel1Collapsed = !splitContainer1.Panel1Collapsed;      
+            splitContainer1.Panel1Collapsed = !splitContainer1.Panel1Collapsed;
         }
-        
+
         private void UpdateUserName(object sender, EventArgs e)
         {
             lblUserName.Text = Variables.User.Name;
@@ -1808,7 +1808,7 @@ namespace AutoWikiBrowser
         {
             /* Please don't remove the If statements; otherwise the EnabledChange event fires even if the button
              * button was already named. The Kingbotk plugin attaches to that event. */
-            if(!btnStart.Enabled) btnStart.Enabled = enabled;
+            if (!btnStart.Enabled) btnStart.Enabled = enabled;
             if (!btntsStart.Enabled) btntsStart.Enabled = enabled;
         }
 
@@ -2256,7 +2256,7 @@ namespace AutoWikiBrowser
             if (MessageBox.Show("Replacement of links to redirects with direct links is strongly discouraged, " +
                 "however it could be useful in some circumstances. Are you sure you want to continue?",
                 "Bypass redirects", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
-                
+
                 return;
 
             BackgroundRequest r = new BackgroundRequest();
@@ -2524,8 +2524,8 @@ namespace AutoWikiBrowser
                 chkAutoMode.Checked = false;
                 //return;
             }
-                loadTypos(false);
-                chkSkipIfNoRegexTypo.Enabled = chkRegExTypo.Checked;
+            loadTypos(false);
+            chkSkipIfNoRegexTypo.Enabled = chkRegExTypo.Checked;
         }
 
         private void loadTypos(bool Reload)
@@ -2737,7 +2737,7 @@ namespace AutoWikiBrowser
             else if (cmboImages.SelectedIndex == 3)
             {
                 lblImageWith.Text = "Comment:";
-                
+
                 txtImageWith.Enabled = true;
                 txtImageReplace.Enabled = true;
                 chkSkipNoImgChange.Enabled = true;
@@ -3034,7 +3034,7 @@ namespace AutoWikiBrowser
                 }
                 else if (selectedtext.Contains("|"))
                     selectedtext = selectedtext.Substring(selectedtext.IndexOf("|") + 1);
-                
+
                 txtEdit.SelectedText = selectedtext;
             }
             else
@@ -3064,79 +3064,80 @@ namespace AutoWikiBrowser
         }
 
         #region "Nudge timer"
-            private const string NudgeTimerString = "Total nudges: ";
+        private const string NudgeTimerString = "Total nudges: ";
 
-            private void NudgeTimer_Tick(object sender, NudgeTimer.NudgeTimerEventArgs e)
+        private void NudgeTimer_Tick(object sender, NudgeTimer.NudgeTimerEventArgs e)
+        {
+            //make sure there was no error and bot mode is still enabled
+            if (chkAutoMode.Checked)
             {
-                //make sure there was no error and bot mode is still enabled
-                if (chkAutoMode.Checked)
+                bool Cancel;
+                // Tell plugins we're about to nudge, and give them the opportunity to cancel:
+                foreach (KeyValuePair<string, IAWBPlugin> a in AWBPlugins)
                 {
-                    bool Cancel;
-                    // Tell plugins we're about to nudge, and give them the opportunity to cancel:
-                    foreach (KeyValuePair<string, IAWBPlugin> a in AWBPlugins)
+                    a.Value.Nudge(out Cancel);
+                    if (Cancel)
                     {
-                        a.Value.Nudge(out Cancel);
-                        if (Cancel)
-                        {
-                            e.Cancel = true;
-                            return;
-                        }
+                        e.Cancel = true;
+                        return;
                     }
-
-                    // Update stats and nudge:
-                    Nudges++;
-                    lblNudges.Text = NudgeTimerString + Nudges;
-                    NudgeTimer.Stop();
-                    if (chkNudgeSkip.Checked && sameArticleNudges > 0)
-                    {
-                        sameArticleNudges = 0;
-                        SkipPage("There was an error saving the page twice");
-                    }
-                    else
-                    {
-                        sameArticleNudges++;
-                        Stop();
-                        Start();
-                    }
-
-                    // Inform plugins:
-                    foreach (KeyValuePair<string, IAWBPlugin> a in AWBPlugins)
-                    { a.Value.Nudged(Nudges); }
                 }
-            }
 
-            public int Nudges {
-                get { return mnudges; }
-                private set { mnudges = value; }
+                // Update stats and nudge:
+                Nudges++;
+                lblNudges.Text = NudgeTimerString + Nudges;
+                NudgeTimer.Stop();
+                if (chkNudgeSkip.Checked && sameArticleNudges > 0)
+                {
+                    sameArticleNudges = 0;
+                    SkipPage("There was an error saving the page twice");
+                }
+                else
+                {
+                    sameArticleNudges++;
+                    Stop();
+                    Start();
+                }
+
+                // Inform plugins:
+                foreach (KeyValuePair<string, IAWBPlugin> a in AWBPlugins)
+                { a.Value.Nudged(Nudges); }
             }
+        }
+
+        public int Nudges
+        {
+            get { return mnudges; }
+            private set { mnudges = value; }
+        }
         #endregion
 
         #region IAWBMainForm:
-            TabPage IAWBMainForm.MoreOptionsTab { get { return tpMoreOptions; } }
-            TabPage IAWBMainForm.OptionsTab { get { return tpSetOptions; } }
-            TabPage IAWBMainForm.StartTab { get { return tpStart; } }
-            TabPage IAWBMainForm.DabTab { get { return tpDab; } }
-            TabPage IAWBMainForm.BotTab { get { return tpBots; } }
-            CheckBox IAWBMainForm.BotModeCheckbox { get { return chkAutoMode; } }
-            Button IAWBMainForm.PreviewButton { get { return btnPreview; } }
-            Button IAWBMainForm.SaveButton { get { return btnSave; } }
-            Button IAWBMainForm.SkipButton { get { return btnIgnore; } }
-            Button IAWBMainForm.StopButton { get { return btnStop; } }
-            Button IAWBMainForm.DiffButton { get { return btnDiff; } }
-            Button IAWBMainForm.StartButton { get { return btnStart; } }
-            ComboBox IAWBMainForm.EditSummary { get { return cmboEditSummary; } }
-            StatusStrip IAWBMainForm.StatusStrip { get { return statusStrip1; } }
-            NotifyIcon IAWBMainForm.NotifyIcon { get { return ntfyTray; } }
-            CheckBox IAWBMainForm.SkipNonExistentPagesCheckBox { get { return chkSkipNonExistent; } }
-            CheckBox IAWBMainForm.ApplyGeneralFixesCheckBox { get { return chkGeneralFixes; } }
-            CheckBox IAWBMainForm.AutoTagCheckBox { get { return chkAutoTagger; } }
-            ToolStripMenuItem IAWBMainForm.HelpToolStripMenuItem { get { return helpToolStripMenuItem; } }
+        TabPage IAWBMainForm.MoreOptionsTab { get { return tpMoreOptions; } }
+        TabPage IAWBMainForm.OptionsTab { get { return tpSetOptions; } }
+        TabPage IAWBMainForm.StartTab { get { return tpStart; } }
+        TabPage IAWBMainForm.DabTab { get { return tpDab; } }
+        TabPage IAWBMainForm.BotTab { get { return tpBots; } }
+        CheckBox IAWBMainForm.BotModeCheckbox { get { return chkAutoMode; } }
+        Button IAWBMainForm.PreviewButton { get { return btnPreview; } }
+        Button IAWBMainForm.SaveButton { get { return btnSave; } }
+        Button IAWBMainForm.SkipButton { get { return btnIgnore; } }
+        Button IAWBMainForm.StopButton { get { return btnStop; } }
+        Button IAWBMainForm.DiffButton { get { return btnDiff; } }
+        Button IAWBMainForm.StartButton { get { return btnStart; } }
+        ComboBox IAWBMainForm.EditSummary { get { return cmboEditSummary; } }
+        StatusStrip IAWBMainForm.StatusStrip { get { return statusStrip1; } }
+        NotifyIcon IAWBMainForm.NotifyIcon { get { return ntfyTray; } }
+        CheckBox IAWBMainForm.SkipNonExistentPagesCheckBox { get { return chkSkipNonExistent; } }
+        CheckBox IAWBMainForm.ApplyGeneralFixesCheckBox { get { return chkGeneralFixes; } }
+        CheckBox IAWBMainForm.AutoTagCheckBox { get { return chkAutoTagger; } }
+        ToolStripMenuItem IAWBMainForm.HelpToolStripMenuItem { get { return helpToolStripMenuItem; } }
         #endregion
 
-            /// <summary>
-            /// Save List Box to a text file
-            /// </summary>
-            /// <param name="listbox"></param>
+        /// <summary>
+        /// Save List Box to a text file
+        /// </summary>
+        /// <param name="listbox"></param>
         public void SaveList(ListBox listbox)
         {
             try
