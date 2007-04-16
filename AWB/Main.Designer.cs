@@ -384,7 +384,7 @@ namespace AutoWikiBrowser
             this.replaceTextWithLastEditToolStripMenuItem,
             this.undoAllChangesToolStripMenuItem});
             this.mnuTextBox.Name = "contextMenuStrip1";
-            this.mnuTextBox.Size = new System.Drawing.Size(233, 530);
+            this.mnuTextBox.Size = new System.Drawing.Size(233, 508);
             this.mnuTextBox.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // wordWrapToolStripMenuItem1
@@ -2576,6 +2576,7 @@ namespace AutoWikiBrowser
             this.lblSummary.Name = "lblSummary";
             this.lblSummary.Size = new System.Drawing.Size(210, 13);
             this.lblSummary.TabIndex = 33;
+            this.lblSummary.UseMnemonic = false;
             this.lblSummary.Visible = false;
             // 
             // chkLock
