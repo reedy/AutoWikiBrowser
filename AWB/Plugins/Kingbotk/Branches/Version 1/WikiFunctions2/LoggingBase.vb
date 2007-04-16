@@ -58,19 +58,17 @@ Namespace Logging
 
         ' Protected and public members:
         Public Shared Function GetArticleTemplate(ByVal ArticleFullTitle As String, ByVal NS As Namespaces) As String
-            Dim namesp As Integer
-            Static reg As New Regex("( talk)?:"), reg2 As New Regex("[^:].*:")
-            Dim strnamespace As String, strtitle As String, templ As String
+            Dim namesp As Integer, strnamespace As String, templ As String
+            Static reg As New Regex("( talk)?:")
 
             Select Case NS
                 Case Namespaces.Main
                     Return "#{{subst:la|" & ArticleFullTitle & "}}"
                 Case Namespaces.Talk
-                    Return "#{{subst:lat|" & reg2.Replace(ArticleFullTitle, "") & "}}"
+                    Return "#{{subst:lat|" & WikiFunctions.Tools.RemoveNamespaceString(ArticleFullTitle).Trim & "}}"
                 Case Else
                     namesp = DirectCast(NS, Integer)
                     strnamespace = reg.Replace(WikiFunctions.Variables.Namespaces.Item(NS), "")
-                    strtitle = reg2.Replace(ArticleFullTitle, "")
 
                     If namesp Mod 2 = 1 Then ' talk
                         templ = "lnt"
@@ -78,7 +76,7 @@ Namespace Logging
                         templ = "ln"
                     End If
 
-                    Return "#{{subst:" & templ & "|" & strnamespace & "|" & strtitle & "}}"
+                    Return "#{{subst:" & templ & "|" & strnamespace & "|" & WikiFunctions.Tools.RemoveNamespaceString(ArticleFullTitle).Trim & "}}"
             End Select
         End Function
         Public Shared Function GetURL(ByVal ArticleFullTitle As String) As String
