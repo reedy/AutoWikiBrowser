@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
-<Properties><Property Name="Solution" Value="WikiFunctions2">
-</Property><Property Name="Solution File" Value="D:\Work\SVN\Plugin\Branches\Version 1\WikiFunctions2\C-sharp\WikiFunctions2.sln">
-</Property><Property Name="Date" Value="09 April 2007">
-</Property><Property Name="Time" Value="00:22:36">
-</Property></Properties><Event ErrorLevel="0" Project="WikiFunctions2" Source="WikiFunctions2.csproj" Description="Project converted successfully">
-</Event><Event ErrorLevel="3" Project="WikiFunctions2" Source="WikiFunctions2.csproj" Description="Converted">
-</Event><Event ErrorLevel="0" Project="WikiFunctions2" Source="WikiFunctions2.csproj" Description="Scan complete: Upgrade not required for project files.">
-</Event></UpgradeLog>
