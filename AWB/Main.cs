@@ -2681,6 +2681,9 @@ namespace AutoWikiBrowser
                 else
                     webBrowserEdit.Height = statusStrip1.Location.Y - 25;
             }
+
+            webBrowserDiff.Location = webBrowserEdit.Location;
+            webBrowserDiff.Size = webBrowserEdit.Size;
         }
 
         private void enableTheToolbarToolStripMenuItem_Click(object sender, EventArgs e)
