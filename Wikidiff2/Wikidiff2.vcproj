@@ -143,6 +143,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="1"
+				ModuleDefinitionFile="wikidiff2.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
