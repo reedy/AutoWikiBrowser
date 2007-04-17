@@ -764,10 +764,12 @@ namespace WikiFunctions.Browser
         public void LoadLogInPage()
         {
             this.AllowNavigation = true;
+            this.BringToFront();
             ProcessStage = enumProcessStage.none;
             Status = "Loading log in page";
             this.Navigate(Variables.URLLong + "index.php?title=Special:Userlogin&returnto=Main_Page");
             Busy = false;
+
         }
 
         /// <summary>
