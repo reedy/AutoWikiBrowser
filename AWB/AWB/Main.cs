@@ -1050,12 +1050,22 @@ namespace AutoWikiBrowser
             {
                 webBrowserDiff.BringToFront();
                 webBrowserDiff.Document.OpenNew(false);
-                webBrowserDiff.Document.Write("<html><head><style type='text/css'>" +
-                    WikiDiff.DiffStyles() + @"</style></head><body>" + WikiDiff.TableHeader() +
-                    WikiDiff.GetDiff(strOrigText, txtEdit.Text, 1) +
-                    "</table></body></html>"
-                );
 
+                if (strOrigText == txtEdit.Text)
+                {
+                    webBrowserDiff.Document.Write(@"<h2 style='padding-top: .5em;
+padding-bottom: .17em;
+border-bottom: 1px solid #aaa;
+font-size: 150%;'>No changes</h2>");
+                }
+                else
+                {
+                    webBrowserDiff.Document.Write("<html><head><style type='text/css'>" +
+                        WikiDiff.DiffStyles() + @"</style></head><body>" + WikiDiff.TableHeader() +
+                        WikiDiff.GetDiff(strOrigText, txtEdit.Text, 1) +
+                        "</table></body></html>");
+                }
+                
                 CaseWasDiff();
             }
             catch (Exception e)
@@ -1330,6 +1340,7 @@ namespace AutoWikiBrowser
                 chkQuickSave.Checked = false;
                 lblOnlyBots.Visible = true;
                 webBrowserEdit.LoadLogOut();
+                webBrowserEdit.Wait();
                 Variables.User.UpdateWikiStatus();
             }
         }
@@ -2568,6 +2579,7 @@ namespace AutoWikiBrowser
 
         private void webBrowserEdit_Navigating(object sender, WebBrowserNavigatingEventArgs e)
         {
+            webBrowserEdit.BringToFront();
             toolStripProgressBar1.Style = ProgressBarStyle.Marquee;
             toolStripProgressBar1.MarqueeAnimationSpeed = 100;
         }
