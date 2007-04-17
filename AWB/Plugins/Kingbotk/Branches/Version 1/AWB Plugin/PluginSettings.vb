@@ -13,9 +13,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Private StatLabels As New List(Of Label)
 
         ' AWB objects:
-        Private txtEdit As TextBox
         Private blnBotModeHasBeenOn As Boolean
-        Private WithEvents chkBotMode As CheckBox
 
         'Tracing:
         Friend Shared WithEvents MyTrace As MyTrace
@@ -168,8 +166,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Private Sub ManuallyAssessCheckBox_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
         Handles ManuallyAssessCheckBox.CheckedChanged
             If ManuallyAssess Then
-                chkBotMode.Enabled = False
-                chkBotMode.Checked = False
+                PluginManager.AWBForm.BotModeCheckbox.Enabled = False
+                PluginManager.AWBForm.BotModeCheckbox.Checked = False
                 SkipBadTagsCheckBox.Checked = False
                 SkipBadTagsCheckBox.Enabled = False
                 SkipNoChangesCheckBox.Checked = False
@@ -177,7 +175,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 btnDryRun.Enabled = False
             Else
                 If blnBotModeHasBeenOn Then ' ManuallyAssessed is now unchecked, bot has been previously enabled
-                    chkBotMode.Enabled = True
+                    PluginManager.AWBForm.BotModeCheckbox.Enabled = True
                 End If
                 SkipBadTagsCheckBox.Enabled = True
                 SkipNoChangesCheckBox.Enabled = True
@@ -198,6 +196,10 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Private Sub btnStart_EnabledChanged(ByVal sender As Object, ByVal e As System.EventArgs) _
         Handles btnStart.EnabledChanged
             If DirectCast(sender, Button).Enabled Then PluginManager.TestSkipNonExistingPages()
+        End Sub
+        Private Sub BotCheckBox_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) _
+        Handles BotCheckBox.CheckedChanged
+            PluginManager.AWBForm.BotModeCheckbox.Checked = BotCheckBox.Checked
         End Sub
 
         ' Event handlers - AWB components (some additionally double-handled in Plugin Manager):
@@ -224,23 +226,27 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
 
             DirectCast(Me.ArticleStatsGroupBox.Controls(lbl.Name), Label).Text = lbl.Text
         End Sub
-        Private Sub chkBotMode_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
-        Handles chkBotMode.CheckedChanged
-            If DirectCast(sender, CheckBox).Checked Then
+        Private Sub AWBBotModeCheckedChanged(ByVal sender As Object, ByVal e As EventArgs)
+            If PluginManager.AWBForm.BotModeCheckbox.Checked Then
                 SkipBadTagsCheckBox.Checked = True
                 SkipBadTagsCheckBox.Enabled = False
                 SkipNoChangesCheckBox.Checked = True
                 SkipNoChangesCheckBox.Enabled = False
                 lblAWBNudges.Visible = True
+                BotCheckBox.Checked = True
             Else
                 SkipBadTagsCheckBox.Enabled = True
                 SkipNoChangesCheckBox.Enabled = True
                 lblAWBNudges.Visible = False
+                BotCheckBox.Checked = False
             End If
         End Sub
-        Private Sub chkBotMode_EnabledChanged(ByVal sender As Object, ByVal e As EventArgs) _
-        Handles chkBotMode.EnabledChanged
-            If DirectCast(sender, CheckBox).Enabled Then blnBotModeHasBeenOn = True
+        Private Sub AWBBotModeEnabledChanged(ByVal sender As Object, ByVal e As EventArgs)
+            BotCheckBox.Enabled = PluginManager.AWBForm.BotModeCheckbox.Enabled
+            If PluginManager.AWBForm.BotModeCheckbox.Enabled Then blnBotModeHasBeenOn = True
+        End Sub
+        Private Sub AWBBotModeVisibleChanged(ByVal sender As Object, ByVal e As EventArgs)
+            BotCheckBox.Visible = PluginManager.AWBForm.BotModeCheckbox.Visible
         End Sub
 
         ' Event handlers - plugin stats:
@@ -268,67 +274,67 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
 #Region "TextInsertHandlers"
         ' Event handlers: Insert-text context menu:
         Private Sub StubClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles StubClassMenuItem.Click
-            txtEdit.SelectedText = "|class=Stub"
+            PluginManager.AWBForm.EditBox.SelectedText = "|class=Stub"
         End Sub
         Private Sub StartClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles StartClassMenuItem.Click
-            txtEdit.SelectedText = "|class=Start"
+            PluginManager.AWBForm.EditBox.SelectedText = "|class=Start"
         End Sub
         Private Sub BClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles BClassMenuItem.Click
-            txtEdit.SelectedText = "|class=B"
+            PluginManager.AWBForm.EditBox.SelectedText = "|class=B"
         End Sub
         Private Sub GAClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles GAClassMenuItem.Click
-            txtEdit.SelectedText = "|class=GA"
+            PluginManager.AWBForm.EditBox.SelectedText = "|class=GA"
         End Sub
         Private Sub AClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles AClassMenuItem.Click
-            txtEdit.SelectedText = "|class=A"
+            PluginManager.AWBForm.EditBox.SelectedText = "|class=A"
         End Sub
         Private Sub FAClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles FAClassMenuItem.Click
-            txtEdit.SelectedText = "|class=FA"
+            PluginManager.AWBForm.EditBox.SelectedText = "|class=FA"
         End Sub
         Private Sub NeededClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles NeededClassMenuItem.Click
-            txtEdit.SelectedText = "|class=Needed"
+            PluginManager.AWBForm.EditBox.SelectedText = "|class=Needed"
         End Sub
         Private Sub CatClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles CatClassMenuItem.Click
-            txtEdit.SelectedText = "|class=Cat"
+            PluginManager.AWBForm.EditBox.SelectedText = "|class=Cat"
         End Sub
         Private Sub DabClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles DabClassMenuItem.Click
-            txtEdit.SelectedText = "|class=Dab"
+            PluginManager.AWBForm.EditBox.SelectedText = "|class=Dab"
         End Sub
         Private Sub TemplateClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles TemplateClassMenuItem.Click
-            txtEdit.SelectedText = "|class=Template"
+            PluginManager.AWBForm.EditBox.SelectedText = "|class=Template"
         End Sub
         Private Sub NAClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles NAClassMenuItem.Click
-            txtEdit.SelectedText = "|class=NA"
+            PluginManager.AWBForm.EditBox.SelectedText = "|class=NA"
         End Sub
         Private Sub LowImportanceMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles LowImportanceMenuItem.Click
-            txtEdit.SelectedText = "|importance=Low"
+            PluginManager.AWBForm.EditBox.SelectedText = "|importance=Low"
         End Sub
         Private Sub MidImportanceMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles MidImportanceMenuItem.Click
-            txtEdit.SelectedText = "|importance=Mid"
+            PluginManager.AWBForm.EditBox.SelectedText = "|importance=Mid"
         End Sub
         Private Sub HighImportanceMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles HighImportanceMenuItem.Click
-            txtEdit.SelectedText = "|importance=High"
+            PluginManager.AWBForm.EditBox.SelectedText = "|importance=High"
         End Sub
         Private Sub TopImportanceMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles TopImportanceMenuItem.Click
-            txtEdit.SelectedText = "|importance=Top"
+            PluginManager.AWBForm.EditBox.SelectedText = "|importance=Top"
         End Sub
         Private Sub NAImportanceMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles NAImportanceMenuItem.Click
-            txtEdit.SelectedText = "|importance=NA"
+            PluginManager.AWBForm.EditBox.SelectedText = "|importance=NA"
         End Sub
         Private Sub LowPriorityMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles LowPriorityMenuItem.Click
-            txtEdit.SelectedText = "|priority=Low"
+            PluginManager.AWBForm.EditBox.SelectedText = "|priority=Low"
         End Sub
         Private Sub MidPriorityMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles MidPriorityMenuItem.Click
-            txtEdit.SelectedText = "|priority=Mid"
+            PluginManager.AWBForm.EditBox.SelectedText = "|priority=Mid"
         End Sub
         Private Sub HighPriorityMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles HighPriorityMenuItem.Click
-            txtEdit.SelectedText = "|priority=High"
+            PluginManager.AWBForm.EditBox.SelectedText = "|priority=High"
         End Sub
         Private Sub TopPriorityMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles TopPriorityMenuItem.Click
-            txtEdit.SelectedText = "|priority=Top"
+            PluginManager.AWBForm.EditBox.SelectedText = "|priority=Top"
         End Sub
         Private Sub NAPriorityMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles NAPriorityMenuItem.Click
-            txtEdit.SelectedText = "|priority=NA"
+            PluginManager.AWBForm.EditBox.SelectedText = "|priority=NA"
         End Sub
 #End Region
 
@@ -443,8 +449,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             End Sub
         End Class
 
-        Public Sub New(ByVal txt As TextBox, ByVal chk As CheckBox)
-
+        Public Sub New()
             ' This call is required by the Windows Form Designer.
             InitializeComponent()
 
@@ -459,13 +464,13 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 AddHandler .PreviewButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
                 AddHandler .SaveButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
                 AddHandler .SkipButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
+                AddHandler .BotModeCheckbox.VisibleChanged, AddressOf Me.AWBBotModeVisibleChanged
+                AddHandler .BotModeCheckbox.EnabledChanged, AddressOf Me.AWBBotModeEnabledChanged
+                AddHandler .BotModeCheckbox.CheckedChanged, AddressOf Me.AWBBotModeCheckedChanged
             End With
 
             StatLabels.AddRange(New Label() {lblTagged, lblSkipped, lblNoChange, lblBadTag, lblNamespace, lblNew, _
                lblRedlink})
-
-            txtEdit = txt
-            chkBotMode = chk
 
             MyTrace = New MyTrace()
             LoggingSettings = New PluginLogging(MyTrace, CategoryTextBox)
@@ -478,6 +483,13 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             AWBButtonsEnabledHandler(PluginManager.AWBForm.StartTab.Controls("btnPreview"), Nothing)
             AWBButtonsEnabledHandler(PluginManager.AWBForm.SaveButton, Nothing)
             AWBButtonsEnabledHandler(PluginManager.AWBForm.SkipButton, Nothing)
+
+            ' Initialise bot checkbox:
+            With PluginManager.AWBForm.BotModeCheckbox
+                BotCheckBox.Enabled = .Enabled
+                BotCheckBox.Checked = .Checked
+                BotCheckBox.Visible = .Visible
+            End With
         End Sub
     End Class
 End Namespace
