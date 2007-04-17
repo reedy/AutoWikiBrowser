@@ -866,6 +866,8 @@ namespace AutoWikiBrowser
             findAndReplace.AddNew(p.FindAndReplace.Replacements);
             replaceSpecial.AddNewRule(p.FindAndReplace.AdvancedReps);
             substTemplates.TemplateList = p.FindAndReplace.SubstTemplates;
+            findAndReplace.MakeList();
+
             OverrideWatchlist = p.Editprefs.OverrideWatchlist;
             listMaker1.SourceText = p.List.ListSource;
             listMaker1.SelectedSource = p.List.Source;
