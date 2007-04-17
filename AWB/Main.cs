@@ -3147,6 +3147,7 @@ font-size: 150%;'>No changes</h2>");
         CheckBox IAWBMainForm.ApplyGeneralFixesCheckBox { get { return chkGeneralFixes; } }
         CheckBox IAWBMainForm.AutoTagCheckBox { get { return chkAutoTagger; } }
         ToolStripMenuItem IAWBMainForm.HelpToolStripMenuItem { get { return helpToolStripMenuItem; } }
+        TextBox IAWBMainForm.EditBox { get { return txtEdit; } }
         #endregion
 
         /// <summary>
