@@ -112,6 +112,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.BotTimer = New System.Windows.Forms.Timer(Me.components)
             Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
             Me.TimerStats1 = New AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.TimerStats
+            Me.BotCheckBox = New System.Windows.Forms.CheckBox
             Me.AWBGroupBox.SuspendLayout()
             Me.GroupBox2.SuspendLayout()
             Me.ArticleStatsGroupBox.SuspendLayout()
@@ -497,11 +498,11 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             'ManuallyAssessCheckBox
             '
             Me.ManuallyAssessCheckBox.AutoSize = True
-            Me.ManuallyAssessCheckBox.Location = New System.Drawing.Point(6, 15)
+            Me.ManuallyAssessCheckBox.Location = New System.Drawing.Point(3, 14)
             Me.ManuallyAssessCheckBox.Name = "ManuallyAssessCheckBox"
-            Me.ManuallyAssessCheckBox.Size = New System.Drawing.Size(103, 17)
+            Me.ManuallyAssessCheckBox.Size = New System.Drawing.Size(59, 17)
             Me.ManuallyAssessCheckBox.TabIndex = 38
-            Me.ManuallyAssessCheckBox.Text = "Manually assess"
+            Me.ManuallyAssessCheckBox.Text = "Assess"
             Me.ToolTip1.SetToolTip(Me.ManuallyAssessCheckBox, "Assess articles by loading an article list and having the plugin load the talk pa" & _
                     "ge after the article has been reviewed")
             Me.ManuallyAssessCheckBox.UseVisualStyleBackColor = True
@@ -510,7 +511,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             '
             Me.CleanupCheckBox.AutoSize = True
             Me.CleanupCheckBox.Enabled = False
-            Me.CleanupCheckBox.Location = New System.Drawing.Point(114, 15)
+            Me.CleanupCheckBox.Location = New System.Drawing.Point(68, 14)
             Me.CleanupCheckBox.Name = "CleanupCheckBox"
             Me.CleanupCheckBox.Size = New System.Drawing.Size(70, 17)
             Me.CleanupCheckBox.TabIndex = 39
@@ -609,9 +610,9 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             '
             Me.GroupBox4.Controls.Add(Me.ManuallyAssessCheckBox)
             Me.GroupBox4.Controls.Add(Me.CleanupCheckBox)
-            Me.GroupBox4.Location = New System.Drawing.Point(72, 300)
+            Me.GroupBox4.Location = New System.Drawing.Point(118, 300)
             Me.GroupBox4.Name = "GroupBox4"
-            Me.GroupBox4.Size = New System.Drawing.Size(191, 35)
+            Me.GroupBox4.Size = New System.Drawing.Size(145, 35)
             Me.GroupBox4.TabIndex = 41
             Me.GroupBox4.TabStop = False
             Me.GroupBox4.Text = "Wikipedia Assessments"
@@ -877,6 +878,17 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.TimerStats1.TabIndex = 44
             Me.TimerStats1.Visible = False
             '
+            'BotCheckBox
+            '
+            Me.BotCheckBox.AutoSize = True
+            Me.BotCheckBox.Location = New System.Drawing.Point(66, 303)
+            Me.BotCheckBox.Name = "BotCheckBox"
+            Me.BotCheckBox.Size = New System.Drawing.Size(42, 17)
+            Me.BotCheckBox.TabIndex = 51
+            Me.BotCheckBox.Text = "Bot"
+            Me.ToolTip1.SetToolTip(Me.BotCheckBox, "Auto-save (AWB bot mode)")
+            Me.BotCheckBox.UseVisualStyleBackColor = True
+            '
             'PluginSettingsControl
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -884,16 +896,17 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.Controls.Add(Me.ETALabel)
             Me.Controls.Add(Me.ResetTimerButton)
             Me.Controls.Add(Me.GroupBox2)
-            Me.Controls.Add(Me.PluginMenuStrip)
             Me.Controls.Add(Me.lblAWBNudges)
             Me.Controls.Add(Me.TimerStats1)
             Me.Controls.Add(Me.GroupBox4)
             Me.Controls.Add(Me.SkipNoChangesCheckBox)
             Me.Controls.Add(Me.GroupBox1)
+            Me.Controls.Add(Me.BotCheckBox)
             Me.Controls.Add(Me.Led1)
             Me.Controls.Add(Me.SkipBadTagsCheckBox)
             Me.Controls.Add(Me.AWBGroupBox)
             Me.Controls.Add(Me.Label7)
+            Me.Controls.Add(Me.PluginMenuStrip)
             Me.Name = "PluginSettingsControl"
             Me.Size = New System.Drawing.Size(276, 349)
             Me.AWBGroupBox.ResumeLayout(False)
@@ -1004,6 +1017,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Friend WithEvents btnDryRun As System.Windows.Forms.Button
         Friend WithEvents SaveFileDialog1 As System.Windows.Forms.SaveFileDialog
         Private WithEvents ETALabel As System.Windows.Forms.Label
+        Friend WithEvents BotCheckBox As System.Windows.Forms.CheckBox
 
     End Class
 
