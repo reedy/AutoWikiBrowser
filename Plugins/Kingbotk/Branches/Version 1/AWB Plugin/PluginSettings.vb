@@ -12,9 +12,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Friend WithEvents PluginStats As New Stats
         Private StatLabels As New List(Of Label)
 
-        ' AWB objects:
-        Private blnBotModeHasBeenOn As Boolean
-
         'Tracing:
         Friend Shared WithEvents MyTrace As MyTrace
         Friend LoggingSettings As PluginLogging
@@ -174,9 +171,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 SkipNoChangesCheckBox.Enabled = False
                 btnDryRun.Enabled = False
             Else
-                If blnBotModeHasBeenOn Then ' ManuallyAssessed is now unchecked, bot has been previously enabled
-                    PluginManager.AWBForm.BotModeCheckbox.Enabled = True
-                End If
+                PluginManager.AWBForm.BotModeCheckbox.Enabled = WikiFunctions.Variables.User.IsBot
+                BotCheckBox.Visible = WikiFunctions.Variables.User.IsBot
                 SkipBadTagsCheckBox.Enabled = True
                 SkipNoChangesCheckBox.Enabled = True
                 btnDryRun.Enabled = btnStart.Enabled
@@ -243,7 +239,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         End Sub
         Private Sub AWBBotModeEnabledChanged(ByVal sender As Object, ByVal e As EventArgs)
             BotCheckBox.Enabled = PluginManager.AWBForm.BotModeCheckbox.Enabled
-            If PluginManager.AWBForm.BotModeCheckbox.Enabled Then blnBotModeHasBeenOn = True
         End Sub
         Private Sub BotStatusChangedHandler(ByVal sender As Object, ByVal e As EventArgs)
             BotCheckBox.Visible = WikiFunctions.Variables.User.IsBot
