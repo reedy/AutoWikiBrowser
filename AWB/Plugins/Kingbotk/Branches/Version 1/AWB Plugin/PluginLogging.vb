@@ -49,10 +49,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             NewProps.ReadXML(Reader) ' ReadXML values into a new settings object
 
             If Not Settings.Equals(NewProps) Then
-                If Settings.UploadYN Then
-                    If Settings.LogWiki Then MyTrace.UploadWikiLog()
-                    If Settings.LogBadPages Then MyTrace.UploadBadPagesLog()
-                End If
+                If Settings.UploadYN AndAlso Settings.LogWiki Then MyTrace.UploadWikiLog()
+
                 ApplySettingsToControls(NewProps)
                 GetSettingsFromControls()
             End If
@@ -135,15 +133,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             ApplyButton.Enabled = False
             ApplyButton.BackColor = System.Drawing.Color.FromKnownColor(Drawing.KnownColor.Control)
         End Sub
-        Private Sub EnableDisableUploadCheckbox()
-            If LogBadTagsCheckBox.Checked OrElse WikiLogCheckBox.Checked AndAlso Not UploadCheckBox.Enabled Then
-                UploadCheckBox.Enabled = True
-                EnableDisableUploadControls(UploadCheckBox.Checked)
-            ElseIf Not LogBadTagsCheckBox.Checked AndAlso Not WikiLogCheckBox.Checked AndAlso UploadCheckBox.Enabled Then
-                UploadCheckBox.Enabled = False
-                EnableDisableUploadControls(False)
-            End If
-        End Sub
         Private Sub EnableDisableUploadControls(ByVal Enabled As Boolean)
             UploadJobNameTextBox.Enabled = Enabled
             UploadLocationTextBox.Enabled = Enabled
@@ -178,11 +167,18 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             MyTrace.Close()
         End Sub
         Private Sub LogBadTagsCheckBox_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles LogBadTagsCheckBox.CheckedChanged
-            EnableDisableUploadCheckbox()
             WeHaveUnappliedChanges()
         End Sub
-        Private Sub WikiLogCheckBox_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles WikiLogCheckBox.CheckedChanged
-            EnableDisableUploadCheckbox()
+        Private Sub WikiLogCheckBox_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
+        Handles WikiLogCheckBox.CheckedChanged
+            If WikiLogCheckBox.Checked AndAlso Not UploadCheckBox.Enabled Then
+                UploadCheckBox.Enabled = True
+                EnableDisableUploadControls(UploadCheckBox.Checked)
+            ElseIf Not WikiLogCheckBox.Checked AndAlso UploadCheckBox.Enabled Then
+                UploadCheckBox.Enabled = False
+                EnableDisableUploadControls(False)
+            End If
+
             WeHaveUnappliedChanges()
         End Sub
         Private Sub UploadCheckBox_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles UploadCheckBox.CheckedChanged
