@@ -28,9 +28,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
             Application.DoEvents()
             frm.Show()
 
-            If Sender.TraceStatus.LogName = conBadPages Then
-                ' TODO: BadPages upload
-            Else
+            If Sender.TraceStatus.LogName = conWiki Then
                 With LoggingSettings.Settings
                     Dim UploadTo As String = .GlobbedUploadLocation & "/" & Sender.PageName.Replace( _
                         PluginLogging.Props.conUploadCategoryIsJobName, .Category)
@@ -198,9 +196,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
         End Sub
 
         ' Friend:
-        Friend Sub UploadBadPagesLog()
-            If ContainsKey(conBadPages) Then DirectCast(Listeners(conBadPages), BadPagesTraceListener).UploadLog()
-        End Sub
         Friend Sub UploadWikiLog()
             If ContainsKey(conWiki) Then DirectCast(Listeners(conWiki), WikiTraceListener).UploadLog()
         End Sub
@@ -440,10 +435,21 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
             Public Overrides Sub WriteCommentAndNewLine(ByVal Line As String)
                 MyBase.WriteLine("<!-- " & Line & " -->")
             End Sub
+            ''HACK: Although still based on uploadable base (for now), turn off uploading:
             Public Overrides Sub CheckCounterForUpload()
-                ' Explicitly define to allow breakpoint
-                MyBase.CheckCounterForUpload()
             End Sub
+            Public Overrides ReadOnly Property Uploadable() As Boolean
+                Get
+                    Return False
+                End Get
+            End Property
+            Protected Overrides ReadOnly Property IsReadyToUpload() As Boolean
+                Get
+                    Return False
+                End Get
+            End Property
+            Public Overrides Function UploadLog(Optional ByVal NewJob As Boolean = False) As Boolean
+            End Function
 
             ' Overrides - do nothing:
             Public Overrides Sub WriteBulletedLine(ByVal Line As String, ByVal bold As Boolean, _
