@@ -245,8 +245,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             BotCheckBox.Enabled = PluginManager.AWBForm.BotModeCheckbox.Enabled
             If PluginManager.AWBForm.BotModeCheckbox.Enabled Then blnBotModeHasBeenOn = True
         End Sub
-        Private Sub AWBBotModeVisibleChanged(ByVal sender As Object, ByVal e As EventArgs)
-            BotCheckBox.Visible = PluginManager.AWBForm.BotModeCheckbox.Visible
+        Private Sub BotStatusChangedHandler(ByVal sender As Object, ByVal e As EventArgs)
+            BotCheckBox.Visible = WikiFunctions.Variables.User.IsBot
         End Sub
 
         ' Event handlers - plugin stats:
@@ -450,10 +450,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         End Class
 
         Public Sub New()
-            ' This call is required by the Windows Form Designer.
+            ' This call is required by the Windows Form Designer and must come first:
             InitializeComponent()
-
-            ' Add any initialization after the InitializeComponent() call.
 
             With PluginManager.AWBForm
                 AddHandler .SkipButton.Click, AddressOf Me.AWBSkipButtonClickEventHandler
@@ -464,7 +462,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 AddHandler .PreviewButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
                 AddHandler .SaveButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
                 AddHandler .SkipButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
-                AddHandler .BotModeCheckbox.VisibleChanged, AddressOf Me.AWBBotModeVisibleChanged
+                AddHandler WikiFunctions.Variables.User.BotStatusChanged, AddressOf Me.BotStatusChangedHandler
+                'AddHandler .BotModeCheckbox.VisibleChanged, AddressOf Me.AWBBotModeVisibleChanged
                 AddHandler .BotModeCheckbox.EnabledChanged, AddressOf Me.AWBBotModeEnabledChanged
                 AddHandler .BotModeCheckbox.CheckedChanged, AddressOf Me.AWBBotModeCheckedChanged
             End With
@@ -488,7 +487,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             With PluginManager.AWBForm.BotModeCheckbox
                 BotCheckBox.Enabled = .Enabled
                 BotCheckBox.Checked = .Checked
-                BotCheckBox.Visible = .Visible
+                BotCheckBox.Visible = WikiFunctions.Variables.User.IsBot
             End With
         End Sub
     End Class

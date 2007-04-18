@@ -1,0 +1,11 @@
+Steve has a headache!
+
+*Check the changes to BadPages log/uploading, and logic when selecting the check boxes
+*Check the changes to the BotMode checkbox and that's it's always correctly (in)visible/(en/dis)abled
+*Sam's logging error form needs to be bigger
+*Logging error form needs to keep app alive if error occurs on when-closing upload (perhaps displaying modally if app was exiting? or cancel exit?)
+*Add a Hide linklabel to the Log Upload form
+*Move and reformat the ETC label
+*Get notification of username change by handling the event in Tools.Variables. See if there's any other events in that class we could benefit from handling
+
+*Look at removing some objects from the IAWBPlugin.Initialise() routine?
