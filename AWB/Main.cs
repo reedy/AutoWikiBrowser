@@ -213,6 +213,15 @@ namespace AutoWikiBrowser
             private set { stredittingarticle = value; }
         }
 
+        private bool BotMode
+        {
+            get { return chkAutoMode.Checked; }
+            set
+            {
+                chkAutoMode.Checked = value;
+            }
+        }
+
         int intEdits = 0;
         private int NumberOfEdits
         {
@@ -391,7 +400,7 @@ namespace AutoWikiBrowser
                     SkipPage("Invalid page title");
                     return;
                 }
-                if (chkAutoMode.Checked)
+                if (BotMode)
                     NudgeTimer.StartMe();
 
                 EditBoxSaveTimer.Enabled = AutoSaveEditBoxEnabled;
@@ -420,7 +429,7 @@ namespace AutoWikiBrowser
             //check not in use
             if (Regex.IsMatch(strText, "\\{\\{[Ii]nuse"))
             {
-                if (!chkAutoMode.Checked)
+                if (!BotMode)
                     MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
             }
 
@@ -492,7 +501,7 @@ namespace AutoWikiBrowser
 
             if (!Abort)
             {
-                if (chkAutoMode.Checked && chkQuickSave.Checked)
+                if (BotMode && chkQuickSave.Checked)
                     startDelayedAutoSaveTimer();
                 else if (toolStripComboOnLoad.SelectedIndex == 0)
                     GetDiff();
@@ -500,7 +509,7 @@ namespace AutoWikiBrowser
                     GetPreview();
                 else if (toolStripComboOnLoad.SelectedIndex == 2)
                 {
-                    if (chkAutoMode.Checked)
+                    if (BotMode)
                     {
                         startDelayedAutoSaveTimer();
                         return;
@@ -599,7 +608,7 @@ namespace AutoWikiBrowser
                 }
                 if (!webBrowserEdit.HasArticleTextBox)
                 {
-                    if (!chkAutoMode.Checked)
+                    if (!BotMode)
                     {
                         MessageBox.Show("There was a problem loading the page. Re-start the process", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return false;
@@ -632,7 +641,7 @@ namespace AutoWikiBrowser
                 return;
             }
 
-            if (chkAutoMode.Checked)
+            if (BotMode)
             {
                 startDelayedAutoSaveTimer();
                 return;
@@ -675,7 +684,7 @@ namespace AutoWikiBrowser
                 Start();
                 return;
             }
-            else if (!chkAutoMode.Checked && webBrowserEdit.Document.Body.InnerHtml.Contains("<A class=extiw title=m:spam_blacklist href=\"http://meta.wikimedia.org/wiki/spam_blacklist\">"))
+            else if (!BotMode && webBrowserEdit.Document.Body.InnerHtml.Contains("<A class=extiw title=m:spam_blacklist href=\"http://meta.wikimedia.org/wiki/spam_blacklist\">"))
             {//check edit wasn't blocked due to spam filter
                 if (MessageBox.Show("Edit has been blocked by spam blacklist. Try and edit again?", "Spam blacklist", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
@@ -878,7 +887,7 @@ namespace AutoWikiBrowser
                     }
                 }
 
-                if (chkRegExTypo.Checked && RegexTypos != null && !chkAutoMode.Checked && !Tools.IsTalkPage(EdittingArticle.NameSpaceKey))
+                if (chkRegExTypo.Checked && RegexTypos != null && !BotMode && !Tools.IsTalkPage(EdittingArticle.NameSpaceKey))
                 {
                     string tempSummary = "";
                     articleText = RegexTypos.PerformTypoFixes(articleText, out SkipArticle, out tempSummary);
@@ -990,7 +999,7 @@ namespace AutoWikiBrowser
                     SkipArticle = false;
                     DabForm df = new DabForm();
                     articleText = df.Disambiguate(articleText, EdittingArticle.Name, txtDabLink.Text.Trim(),
-                        txtDabVariants.Lines, (int)udContextChars.Value, chkAutoMode.Checked, out SkipArticle);
+                        txtDabVariants.Lines, (int)udContextChars.Value, BotMode, out SkipArticle);
 
                     Abort = df.Abort;
                     if (Abort) Stop();
@@ -1215,8 +1224,7 @@ font-size: 150%;'>No changes</h2>");
         private string MakeSummary()
         {
             string tag = cmboEditSummary.Text + EdittingArticle.EditSummary;
-            if (!chkAutoMode.Checked || !chkSuppressTag.Checked)
-                tag += " " + Variables.SummaryTag;
+            if (!BotMode || !chkSuppressTag.Checked) tag += " " + Variables.SummaryTag;
 
             return tag;
         }
@@ -1270,8 +1278,8 @@ font-size: 150%;'>No changes</h2>");
         private void UpdateBotStatus(object sender, EventArgs e)
         {
             chkAutoMode.Enabled = Variables.User.IsBot;
-            if (chkAutoMode.Checked)
-                chkAutoMode.Checked = Variables.User.IsBot;
+            if (BotMode)
+                BotMode = Variables.User.IsBot;
             if (chkQuickSave.Checked)
                 chkQuickSave.Checked = Variables.User.IsBot;
             lblOnlyBots.Visible = !Variables.User.IsBot;
@@ -1283,7 +1291,7 @@ font-size: 150%;'>No changes</h2>");
 
         private void chkAutoMode_CheckedChanged(object sender, EventArgs e)
         {
-            if (chkAutoMode.Checked)
+            if (BotMode)
             {
                 label2.Enabled = true;
                 chkSuppressTag.Enabled = true;
@@ -1336,7 +1344,7 @@ font-size: 150%;'>No changes</h2>");
             if (MessageBox.Show("Would you really like to logout?", "Logout", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 chkAutoMode.Enabled = false;
-                chkAutoMode.Checked = false;
+                BotMode = false;
                 chkQuickSave.Checked = false;
                 lblOnlyBots.Visible = true;
                 webBrowserEdit.LoadLogOut();
@@ -1749,7 +1757,7 @@ font-size: 150%;'>No changes</h2>");
 
                     Variables.User.WikiStatus = false;
                     chkQuickSave.Checked = false;
-                    chkAutoMode.Checked = false;
+                    BotMode = false;
                     lblOnlyBots.Visible = true;
                     Variables.User.IsBot = false;
                     Variables.User.IsAdmin = false;
@@ -2529,10 +2537,10 @@ font-size: 150%;'>No changes</h2>");
 
         private void chkRegExTypo_CheckedChanged(object sender, EventArgs e)
         {
-            if (chkAutoMode.Checked && chkRegExTypo.Checked)
+            if (BotMode && chkRegExTypo.Checked)
             {
                 MessageBox.Show("RegexTypoFix cannot be used with auto save on.\r\nAutosave will now be turned off, and Typos loaded.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                chkAutoMode.Checked = false;
+                BotMode = false;
                 //return;
             }
             loadTypos(false);
@@ -3084,7 +3092,7 @@ font-size: 150%;'>No changes</h2>");
         private void NudgeTimer_Tick(object sender, NudgeTimer.NudgeTimerEventArgs e)
         {
             //make sure there was no error and bot mode is still enabled
-            if (chkAutoMode.Checked)
+            if (BotMode)
             {
                 bool Cancel;
                 // Tell plugins we're about to nudge, and give them the opportunity to cancel:
