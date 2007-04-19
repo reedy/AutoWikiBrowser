@@ -64,7 +64,10 @@ namespace WikiFunctions
 
         static string EnhanceDiff(string diff)
         {
-            return TdMagick.Replace(diff, "<td class=\"$1\" id=\"$2\" ondblclick=\"window.external.DiffClicked('$2');\">");
+            return TdMagick.Replace(diff, "<td class=\"$1\" id=\"$2\" " +
+                "onmouseover='document.all.$2.style.border=\"1px solid #ccccff\"' " +
+                "onmouseout='document.all.$2.style.border=\"1px solid white\"' " +
+                "ondblclick='window.external.DiffClicked(\"$2\")'>");
         }
 
         public static unsafe string GetDiff(string text1, string text2, int context)
@@ -94,9 +97,14 @@ namespace WikiFunctions
 ";
         }
 
-        public static string DiffStyles()
+        public static string DiffHead()
         {
-            return @"table.diff, td.diff-otitle, td.diff-ntitle {
+            return @"<style type='text/css'>
+td{
+    border: 1px solid white;
+}
+
+table.diff, td.diff-otitle, td.diff-ntitle {
 	background-color: white;
     border: 1px solid gray;
 }
@@ -128,7 +136,8 @@ td.diff-addedline span.diffchange {
 
 .d{
     overflow: auto;
-}";
+}
+</style>";
         }
     }
 }
