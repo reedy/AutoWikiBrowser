@@ -462,7 +462,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
 
         'User interface:
         Protected Overrides Sub ShowHideOurObjects(ByVal Visible As Boolean)
-            Manager.ShowHidePluginTab(OurTab, Visible)
+            PluginManager.ShowHidePluginTab(OurTab, Visible)
         End Sub
 
         ' XML settings:
@@ -626,7 +626,9 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Private disposed As Boolean = False  ' To detect redundant calls
 
         ' This procedure is where the actual cleanup occurs
-        Private Sub Dispose(ByVal disposing As Boolean, ByVal AWBPluginsMenu As ToolStripMenuItem)
+        Private Sub Dispose(ByVal disposing As Boolean)
+            On Error Resume Next
+
             ' Exit now if the object has already been disposed
             If disposed Then Exit Sub
 
@@ -646,7 +648,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 OurSettingsControl.Goodbye()
                 OurSettingsControl.Dispose()
 
-                If Not AWBPluginsMenu Is Nothing Then AWBPluginsMenu.DropDownItems.Remove(OurMenuItem)
+                PluginManager.AWBForm.PluginsToolStripMenuItem.DropDownItems.Remove(OurMenuItem)
             End If
 
             ' Perform cleanup that has to be executed in either case:
@@ -665,25 +667,19 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             ' Remember that this object has been disposed of:
             Me.disposed = True
         End Sub
-
-        Friend Sub Dispose(ByVal AWBPluginsMenu As ToolStripMenuItem) _
-        Implements IGenericTemplatePlugin.Goodbye
+        Public Sub Dispose() Implements IDisposable.Dispose, IGenericTemplatePlugin.Goodbye
             Debug.WriteLine("Disposing of generic plugin " & OurName)
             ' Execute the code that does the cleanup.
-            Dispose(True, AWBPluginsMenu)
+            Dispose(True)
             ' Let the CLR know that Finalize doesn't have to be called.
             GC.SuppressFinalize(Me)
-        End Sub
-
-        Public Sub Dispose() Implements IDisposable.Dispose
-            Dispose(Nothing)
         End Sub
 
         Protected Overrides Sub Finalize()
             MyBase.Finalize()
             Debug.WriteLine("Finalizing generic plugin " & OurName)
             ' Execute the code that does the cleanup.
-            Dispose(False, Nothing)
+            Dispose(False)
         End Sub
 #End Region
 
@@ -692,7 +688,7 @@ End Namespace
 
 Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
     Friend Interface IGenericTemplatePlugin
-        Sub Goodbye(ByVal AWBPluginsMenu As ToolStripMenuItem)
+        Sub Goodbye()
         ReadOnly Property GenericTemplateKey() As String
     End Interface
 End Namespace

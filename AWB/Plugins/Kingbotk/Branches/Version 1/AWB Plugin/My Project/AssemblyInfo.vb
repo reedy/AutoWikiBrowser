@@ -9,10 +9,10 @@ Imports System.Runtime.InteropServices
 ' Review the values of the assembly attributes
 
 <Assembly: AssemblyTitle("Kingbotk AWB Plugin")> 
-<Assembly: AssemblyDescription("Template-parsing/reparameterising plugin for AutoWikiBrowser")> 
+<Assembly: AssemblyDescription("WikiProject templating plugin for AutoWikiBrowser")> 
 <Assembly: AssemblyCompany("SDK Software")> 
 <Assembly: AssemblyProduct("Kingbotk AWB Plugin")> 
-<Assembly: AssemblyCopyright("Copyright © SDK Software 2006")> 
+<Assembly: AssemblyCopyright("Copyright © SDK Software 2007")> 
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.2.1.2")> 
-<Assembly: AssemblyFileVersion("1.2.1.2")> 
+<Assembly: AssemblyVersion("1.3.0.0")> 
+<Assembly: AssemblyFileVersion("1.3.0.0")> 

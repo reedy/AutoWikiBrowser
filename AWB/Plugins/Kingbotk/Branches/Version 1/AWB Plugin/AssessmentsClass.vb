@@ -6,13 +6,9 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
         Friend Const conMe As String = "Wikipedia Assessments Plugin"
 
         ' Objects:
-        Private WithEvents webcontrol As WikiFunctions.Browser.WebControl
-        Private WithEvents AWBSave As Button, OurSave As Button
-        Private WithEvents AWBSkip As Button, OurSkip As Button
-        Private WithEvents AWBPreview As Button, OurPreview As Button
         Private AWBCleanupCheckboxes As New List(Of CheckBox)
         Private Status As ToolStripStatusLabel
-        Private listmaker As WikiFunctions.Lists.ListMaker, PluginSettings As PluginSettingsControl
+        Private PluginSettings As PluginSettingsControl
         Private State As New StateClass
 
         ' Events:
@@ -24,29 +20,23 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
            RegexOptions.IgnoreCase Or RegexOptions.Compiled Or RegexOptions.ExplicitCapture)
 
         ' New:
-        Friend Sub New(ByVal web As WikiFunctions.Browser.WebControl, ByVal vAWBSave As Button, _
-        ByVal vOurSave As Button, ByVal vAWBSkip As Button, ByVal vOurSkip As Button, _
-        ByVal AWBOptionsTab As TabPage, ByVal vEditSummaryBox As ComboBox, _
-        ByVal vlistmaker As WikiFunctions.Lists.ListMaker, ByVal vPluginSettings As PluginSettingsControl, _
-        ByVal vAWBPreview As Button, ByVal vOurPreview As Button)
-            webcontrol = web
-            AWBPreview = vAWBPreview
-            AWBSave = vAWBSave
-            AWBSkip = vAWBSkip
-            OurPreview = vOurPreview
-            OurSave = vOurSave
-            OurSkip = vOurSkip
-            listmaker = vlistmaker
+        Friend Sub New(ByVal vPluginSettings As PluginSettingsControl)
             PluginSettings = vPluginSettings
 
             ' Get a reference to the cleanup checkboxes:
-            For Each ctl As Control In AWBOptionsTab.Controls("groupBox6").Controls
+            For Each ctl As Control In PluginManager.AWBForm.OptionsTab.Controls("groupBox6").Controls
                 If ctl.GetType Is GetType(CheckBox) Then AWBCleanupCheckboxes.Add(DirectCast(ctl, CheckBox))
             Next
             ToggleAWBCleanup(PluginSettings.Cleanup)
 
-            AddHandler PluginSettings.CleanupCheckBox.CheckedChanged, _
-               AddressOf Me.CleanupCheckBox_CheckedChanged
+            AddHandler PluginSettings.CleanupCheckBox.CheckedChanged, AddressOf Me.CleanupCheckBox_CheckedChanged
+            AddHandler PluginManager.AWBForm.WebControl.BusyChanged, AddressOf Me.WebControlBusyChanged
+            AddHandler PluginManager.AWBForm.PreviewButton.Click, AddressOf Me.Preview_Click
+            AddHandler PluginSettings.btnPreview.Click, AddressOf Me.Preview_Click
+            AddHandler PluginManager.AWBForm.SaveButton.Click, AddressOf Me.Save_Click
+            AddHandler PluginSettings.btnSave.Click, AddressOf Me.Save_Click
+            AddHandler PluginManager.AWBForm.SkipButton.Click, AddressOf Me.Skip_Click
+            AddHandler PluginSettings.btnIgnore.Click, AddressOf Me.Skip_Click
         End Sub
 
 #Region "IDisposable"
@@ -63,18 +53,19 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
                 ' The object is being disposed, not finalized.
                 ' It is safe to access other objects (other than the mybase object)
                 ' only from inside this block
-                RemoveHandler PluginSettings.CleanupCheckBox.CheckedChanged, _
-                   AddressOf Me.CleanupCheckBox_CheckedChanged
+                RemoveHandler PluginSettings.CleanupCheckBox.CheckedChanged, AddressOf Me.CleanupCheckBox_CheckedChanged
+                RemoveHandler PluginManager.AWBForm.WebControl.BusyChanged, AddressOf Me.WebControlBusyChanged
+                RemoveHandler PluginManager.AWBForm.PreviewButton.Click, AddressOf Me.Preview_Click
+                RemoveHandler PluginSettings.btnPreview.Click, AddressOf Me.Preview_Click
+                RemoveHandler PluginManager.AWBForm.SaveButton.Click, AddressOf Me.Save_Click
+                RemoveHandler PluginSettings.btnSave.Click, AddressOf Me.Save_Click
+                RemoveHandler PluginManager.AWBForm.SkipButton.Click, AddressOf Me.Skip_Click
+                RemoveHandler PluginSettings.btnIgnore.Click, AddressOf Me.Skip_Click
             End If
 
             ' Perform cleanup that has to be executed in either case:
-            webcontrol = Nothing
-            AWBSave = Nothing
-            AWBSkip = Nothing
-            AWBPreview = Nothing
             AWBCleanupCheckboxes = Nothing
             Status = Nothing
-            listmaker = Nothing
             PluginSettings = Nothing
             State = Nothing
 
@@ -102,12 +93,13 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
         Friend Sub Reset()
             ToggleAWBCleanup(False)
 
-            If listmaker.Count > 0 Then
-                If listmaker.Count > 1 AndAlso listmaker(1).Name = State.strNextTalkPageExpected Then _
-                   listmaker.RemoveAt(1)
+            With PluginManager.AWBForm.ListMaker
+                If .Count > 0 Then
+                    If .Count > 1 AndAlso .Item(1).Name = State.strNextTalkPageExpected Then .RemoveAt(1)
 
-                If listmaker(0).Name = State.strNextTalkPageExpected Then listmaker.RemoveAt(0)
-            End If
+                    If .Item(0).Name = State.strNextTalkPageExpected Then .RemoveAt(0)
+                End If
+            End With
 
             PreviewButtonColour(True)
             State = New StateClass
@@ -119,12 +111,13 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
 
             State.strNextTalkPageExpected = "Talk:" & ArticleTitle
 
-            If listmaker.Count < 2 Then
-                listmaker.Insert(1, State.strNextTalkPageExpected)
-            Else
-                If Not listmaker(1).Name = State.strNextTalkPageExpected Then _
-                listmaker.Insert(1, State.strNextTalkPageExpected)
-            End If
+            With PluginManager.AWBForm.ListMaker
+                If .Count < 2 Then
+                    .Insert(1, State.strNextTalkPageExpected)
+                ElseIf Not .Item(1).Name = State.strNextTalkPageExpected Then
+                    .Insert(1, State.strNextTalkPageExpected)
+                End If
+            End With
 
             State.blnNextEventShouldBeMainSpace = True
             State.blnNextArticleShouldBeTalk = True
@@ -194,11 +187,11 @@ ExitMe:
         ' Private:
         Private Sub PreviewButtonColour(ByVal Reset As Boolean)
             If Reset Then
-                AWBPreview.BackColor = Drawing.Color.Transparent
-                OurPreview.BackColor = Drawing.Color.Transparent
+                PluginManager.AWBForm.PreviewButton.BackColor = Drawing.Color.Transparent
+                PluginSettings.btnPreview.BackColor = Drawing.Color.Transparent
             Else
-                AWBPreview.BackColor = Drawing.Color.Red
-                OurPreview.BackColor = Drawing.Color.Red
+                PluginManager.AWBForm.PreviewButton.BackColor = Drawing.Color.Red
+                PluginSettings.btnPreview.BackColor = Drawing.Color.Red
             End If
         End Sub
         Private Sub IsThisABug(ByVal text As String)
@@ -237,8 +230,7 @@ ExitMe:
         End Sub
 
         ' UI event handlers:
-        Private Sub Save_Click(ByVal sender As Object, ByVal e As EventArgs) _
-        Handles AWBSave.Click, OurSave.Click
+        Private Sub Save_Click(ByVal sender As Object, ByVal e As EventArgs)
             If Not disposed Then ' TODO: this is a hack
                 If State.blnNextEventShouldBeMainSpace Then
                     LoadTalkPage()
@@ -249,8 +241,7 @@ ExitMe:
                 State.blnNextEventShouldBeMainSpace = Not State.blnNextEventShouldBeMainSpace
             End If
         End Sub
-        Private Sub Skip_Click(ByVal sender As Object, ByVal e As EventArgs) _
-        Handles AWBSkip.Click, OurSkip.Click
+        Private Sub Skip_Click(ByVal sender As Object, ByVal e As EventArgs)
             If Not disposed Then ' TODO: this is a hack
                 If State.blnNextEventShouldBeMainSpace Then
                     LoadTalkPage()
@@ -263,21 +254,21 @@ ExitMe:
                 State.blnNextEventShouldBeMainSpace = Not State.blnNextEventShouldBeMainSpace
             End If
         End Sub
-        Private Sub Preview_Click(ByVal sender As Object, ByVal e As EventArgs) _
-        Handles AWBPreview.Click, OurPreview.Click
+        Private Sub Preview_Click(ByVal sender As Object, ByVal e As EventArgs)
             If Not disposed Then ' TODO: this is a hack
                 PreviewButtonColour(True)
             End If
         End Sub
         Private Sub CleanupCheckBox_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs)
             ' TODO: this is a hack
-            If Not disposed AndAlso PluginSettings.Cleanup AndAlso Not webcontrol.Busy Then ToggleAWBCleanup(True)
+            If Not disposed AndAlso PluginSettings.Cleanup AndAlso Not PluginManager.AWBForm.WebControl.Busy Then _
+               ToggleAWBCleanup(True)
         End Sub
 
         ' Webcontrol event handlers:
-        Private Sub webcontrol_BusyChanged() Handles webcontrol.BusyChanged
+        Private Sub WebControlBusyChanged()
             If Not disposed Then ' TODO: this is a hack
-                If webcontrol.Busy Then
+                If PluginManager.AWBForm.WebControl.Busy Then
                     LoadArticle()
                 Else
                     Reset()

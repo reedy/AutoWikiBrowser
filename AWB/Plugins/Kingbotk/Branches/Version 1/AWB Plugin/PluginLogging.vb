@@ -276,25 +276,25 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                     mUploadToWikiProjects = value
                 End Set
             End Property
-            Friend ReadOnly Property LinksToLog(ByVal ActivePlugins As List(Of PluginBase)) As List(Of LogEntry)
+            Friend ReadOnly Property LinksToLog() As List(Of LogEntry)
                 Get
                     LinksToLog = New List(Of LogEntry)
                     LinksToLog.Add(New LogEntry(GlobbedUploadLocation, False))
                     If mUploadToWikiProjects Then
-                        For Each Plugin As PluginBase In ActivePlugins
+                        For Each Plugin As PluginBase In PluginManager.ActivePlugins
                             If Plugin.HasSharedLogLocation Then
                                 LinksToLog.Add(New LogEntry(Plugin.SharedLogLocation, True))
                             End If
                         Next
                     End If
-                    If LinksToLog.Count > 1 AndAlso Not PluginManager.LoggedIn Then _
+                    If LinksToLog.Count > 1 AndAlso Not WikiFunctions.Variables.User.LoggedIn Then _
                        Throw New System.Configuration.SettingsPropertyNotFoundException( _
                        "The plugin hasn't received the username from AWB")
                 End Get
             End Property
             Friend ReadOnly Property GlobbedUploadLocation() As String
                 Get
-                    Return mUploadLocation.Replace("$USER", "User:" & PluginManager.UserName)
+                    Return mUploadLocation.Replace("$USER", "User:" & WikiFunctions.Variables.User.Name)
                 End Get
             End Property
             Friend Property Category() As String
