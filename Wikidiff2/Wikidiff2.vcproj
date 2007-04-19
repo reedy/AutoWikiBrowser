@@ -17,7 +17,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)\AWB\bin\$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
 			CharacterSet="1"
@@ -92,13 +92,13 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Copying Wikidiff2.dll to another destination..."
-				CommandLine="copy &quot;$(OutDir)\wikidiff2.dll&quot; &quot;$(SolutionDir)\AWB\bin\$(OutDir)&quot;"
+				Description=""
+				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)\AWB\bin\$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
 			UseOfMFC="0"
@@ -173,8 +173,8 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				Description="Copying Wikidiff2.dll to another destination..."
-				CommandLine="copy &quot;$(OutDir)\wikidiff2.dll&quot; &quot;$(SolutionDir)\AWB\bin\$(OutDir)&quot;"
+				Description=""
+				CommandLine=""
 			/>
 		</Configuration>
 	</Configurations>
