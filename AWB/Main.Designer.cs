@@ -2879,14 +2879,17 @@ namespace AutoWikiBrowser
             // 
             // webBrowserDiff
             // 
+            this.webBrowserDiff.AllowWebBrowserDrop = false;
             this.webBrowserDiff.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.webBrowserDiff.IsWebBrowserContextMenuEnabled = false;
             this.webBrowserDiff.Location = new System.Drawing.Point(0, 25);
             this.webBrowserDiff.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowserDiff.Name = "webBrowserDiff";
             this.webBrowserDiff.Size = new System.Drawing.Size(788, 195);
             this.webBrowserDiff.TabIndex = 672;
+            this.webBrowserDiff.WebBrowserShortcutsEnabled = false;
             // 
             // webBrowserEdit
             // 
