@@ -5,9 +5,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Private Const conAutoStubParm As String = "AlbumAutoStub"
         Private Const conStubClassParm As String = "AlbumStubClass"
 
-        ' UI:
-        Private txtEdit As TextBox
-
         ' Properties:
         Public Property StubClass() As Boolean Implements IGenericSettings.StubClass
             Get
@@ -28,11 +25,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         WriteOnly Property StubClassModeAllowed() As Boolean Implements IGenericSettings.StubClassModeAllowed
             Set(ByVal value As Boolean)
                 StubClassCheckBox.Enabled = value
-            End Set
-        End Property
-        Public WriteOnly Property EditTextBox() As TextBox Implements IGenericSettings.EditTextBox
-            Set(ByVal value As TextBox)
-                txtEdit = value
             End Set
         End Property
         Friend ReadOnly Property TextInsertContextMenuStripItems() As ToolStripItemCollection _
@@ -59,7 +51,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
 
         ' Event handlers:
         Private Sub InsertTemplateCallMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles AlbumToolStripMenuItem.Click
-            txtEdit.SelectedText = "{{album}}"
+            PluginManager.EditBoxInsert("{{album}}")
         End Sub
         Private Sub LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) _
         Handles LinkLabel1.LinkClicked
@@ -133,9 +125,9 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             PreferredTemplateNameRegex = New Regex("^[Aa]lbum$", RegexOptions.Compiled)
             SecondChanceRegex = CreateSecondChanceRegex(RegexpMiddle)
         End Sub
-        Protected Friend Overrides Sub Initialise(ByVal AWBPluginsMenu As ToolStripMenuItem, ByVal txt As TextBox)
+        Protected Friend Overrides Sub Initialise()
             OurMenuItem = New ToolStripMenuItem("Albums Plugin")
-            MyBase.InitialiseBase(AWBPluginsMenu, txt) ' must set menu item object first
+            MyBase.InitialiseBase() ' must set menu item object first
             OurTab.UseVisualStyleBackColor = True
             OurTab.Controls.Add(OurSettingsControl)
         End Sub

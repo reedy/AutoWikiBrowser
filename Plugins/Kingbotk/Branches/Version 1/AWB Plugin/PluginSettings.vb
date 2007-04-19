@@ -269,67 +269,67 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
 #Region "TextInsertHandlers"
         ' Event handlers: Insert-text context menu:
         Private Sub StubClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles StubClassMenuItem.Click
-            PluginManager.AWBForm.EditBox.SelectedText = "|class=Stub"
+            PluginManager.EditBoxInsert("|class=Stub")
         End Sub
         Private Sub StartClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles StartClassMenuItem.Click
-            PluginManager.AWBForm.EditBox.SelectedText = "|class=Start"
+            PluginManager.EditBoxInsert("|class=Start")
         End Sub
         Private Sub BClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles BClassMenuItem.Click
-            PluginManager.AWBForm.EditBox.SelectedText = "|class=B"
+            PluginManager.EditBoxInsert("|class=B")
         End Sub
         Private Sub GAClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles GAClassMenuItem.Click
-            PluginManager.AWBForm.EditBox.SelectedText = "|class=GA"
+            PluginManager.EditBoxInsert("|class=GA")
         End Sub
         Private Sub AClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles AClassMenuItem.Click
-            PluginManager.AWBForm.EditBox.SelectedText = "|class=A"
+            PluginManager.EditBoxInsert("|class=A")
         End Sub
         Private Sub FAClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles FAClassMenuItem.Click
-            PluginManager.AWBForm.EditBox.SelectedText = "|class=FA"
+            PluginManager.EditBoxInsert("|class=FA")
         End Sub
         Private Sub NeededClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles NeededClassMenuItem.Click
-            PluginManager.AWBForm.EditBox.SelectedText = "|class=Needed"
+            PluginManager.EditBoxInsert("|class=Needed")
         End Sub
         Private Sub CatClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles CatClassMenuItem.Click
-            PluginManager.AWBForm.EditBox.SelectedText = "|class=Cat"
+            PluginManager.EditBoxInsert("|class=Cat")
         End Sub
         Private Sub DabClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles DabClassMenuItem.Click
-            PluginManager.AWBForm.EditBox.SelectedText = "|class=Dab"
+            PluginManager.EditBoxInsert("|class=Dab")
         End Sub
         Private Sub TemplateClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles TemplateClassMenuItem.Click
-            PluginManager.AWBForm.EditBox.SelectedText = "|class=Template"
+            PluginManager.EditBoxInsert("|class=Template")
         End Sub
         Private Sub NAClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles NAClassMenuItem.Click
-            PluginManager.AWBForm.EditBox.SelectedText = "|class=NA"
+            PluginManager.EditBoxInsert("|class=NA")
         End Sub
         Private Sub LowImportanceMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles LowImportanceMenuItem.Click
-            PluginManager.AWBForm.EditBox.SelectedText = "|importance=Low"
+            PluginManager.EditBoxInsert("|importance=Low")
         End Sub
         Private Sub MidImportanceMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles MidImportanceMenuItem.Click
-            PluginManager.AWBForm.EditBox.SelectedText = "|importance=Mid"
+            PluginManager.EditBoxInsert("|importance=Mid")
         End Sub
         Private Sub HighImportanceMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles HighImportanceMenuItem.Click
-            PluginManager.AWBForm.EditBox.SelectedText = "|importance=High"
+            PluginManager.EditBoxInsert("|importance=High")
         End Sub
         Private Sub TopImportanceMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles TopImportanceMenuItem.Click
-            PluginManager.AWBForm.EditBox.SelectedText = "|importance=Top"
+            PluginManager.EditBoxInsert("|importance=Top")
         End Sub
         Private Sub NAImportanceMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles NAImportanceMenuItem.Click
-            PluginManager.AWBForm.EditBox.SelectedText = "|importance=NA"
+            PluginManager.EditBoxInsert("|importance=NA")
         End Sub
         Private Sub LowPriorityMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles LowPriorityMenuItem.Click
-            PluginManager.AWBForm.EditBox.SelectedText = "|priority=Low"
+            PluginManager.EditBoxInsert("|priority=Low")
         End Sub
         Private Sub MidPriorityMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles MidPriorityMenuItem.Click
-            PluginManager.AWBForm.EditBox.SelectedText = "|priority=Mid"
+            PluginManager.EditBoxInsert("|priority=Mid")
         End Sub
         Private Sub HighPriorityMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles HighPriorityMenuItem.Click
-            PluginManager.AWBForm.EditBox.SelectedText = "|priority=High"
+            PluginManager.EditBoxInsert("|priority=High")
         End Sub
         Private Sub TopPriorityMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles TopPriorityMenuItem.Click
-            PluginManager.AWBForm.EditBox.SelectedText = "|priority=Top"
+            PluginManager.EditBoxInsert("|priority=Top")
         End Sub
         Private Sub NAPriorityMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles NAPriorityMenuItem.Click
-            PluginManager.AWBForm.EditBox.SelectedText = "|priority=NA"
+            PluginManager.EditBoxInsert("|priority=NA")
         End Sub
 #End Region
 

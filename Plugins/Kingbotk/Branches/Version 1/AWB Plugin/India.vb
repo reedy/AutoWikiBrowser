@@ -27,9 +27,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Private Const conProtectedAreasParm As String = "IndProtectedAreas"
         Private Const conGujaratParm As String = "IndGujarat"
 
-        ' UI:
-        Private txtEdit As TextBox
-
 #Region "XML interface:"
         Friend Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader) Implements IGenericSettings.ReadXML
             Cities = PluginManager.XMLReadBoolean(Reader, conCitiesParm, Cities)
@@ -280,11 +277,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 AutoStubCheckBox.Checked = value
             End Set
         End Property
-        Friend WriteOnly Property EditTextBox() As TextBox Implements IGenericSettings.EditTextBox
-            Set(ByVal value As TextBox)
-                txtEdit = value
-            End Set
-        End Property
         Friend ReadOnly Property TextInsertContextMenuStripItems() As ToolStripItemCollection _
         Implements IGenericSettings.TextInsertContextMenuStripItems
             Get
@@ -368,9 +360,9 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             MainRegex = CreateStandardRegex(RegexpMiddle)
             SecondChanceRegex = CreateSecondChanceRegex(RegexpMiddle)
         End Sub
-        Protected Friend Overrides Sub Initialise(ByVal AWBPluginsMenu As ToolStripMenuItem, ByVal txt As TextBox)
+        Protected Friend Overrides Sub Initialise()
             OurMenuItem = New ToolStripMenuItem("India Plugin")
-            MyBase.InitialiseBase(AWBPluginsMenu, txt) ' must set menu item object first
+            MyBase.InitialiseBase() ' must set menu item object first
             OurTab.UseVisualStyleBackColor = True
             OurTab.Controls.Add(OurSettingsControl)
         End Sub
