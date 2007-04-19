@@ -811,20 +811,24 @@ namespace AutoWikiBrowser
 
                 if (AWBPlugins.Count > 0)
                 {
-                    SkipArticle = false;
-                    string tempSummary = "";
+                    SkipArticle = false; // TODO: we probably don't need this line any more?
+                    ProcessArticleEventArgs ProcessArticleEventArgs = new ProcessArticleEventArgs(articleText,
+                        EdittingArticle.Name, EdittingArticle.NameSpaceKey, LogListener);
 
                     foreach (KeyValuePair<string, IAWBPlugin> a in AWBPlugins)
                     {
-                        tempSummary = "";
-
-                        articleText = a.Value.ProcessArticle(articleText, EdittingArticle.Name, EdittingArticle.NameSpaceKey, out tempSummary, out SkipArticle, LogListener);
+                        articleText = a.Value.ProcessArticle(this, ProcessArticleEventArgs);
+                        SkipArticle = ProcessArticleEventArgs.Skip; // TODO: nor this?
                         if (SkipArticle)
                             return articleText;
-                        else if (tempSummary.Length > 0)
+                        else if (ProcessArticleEventArgs.EditSummary.Length > 0)
                         {
-                            EdittingArticle.EditSummary += " " + tempSummary.Trim();
+                            EdittingArticle.EditSummary += " " + ProcessArticleEventArgs.EditSummary;
                         }
+                        // reset the "out" values in the ProcessArticleEventArgs object, rather than creating a new
+                        // one for each plugin:
+                        ProcessArticleEventArgs.Skip = false;
+                        ProcessArticleEventArgs.EditSummary = "";
                     }
                 }
 
@@ -2903,7 +2907,7 @@ font-size: 150%;'>No changes</h2>");
                 a.Value.Diff += GetDiff;
                 a.Value.Preview += GetPreview;
 
-                a.Value.Initialise(listMaker1, webBrowserEdit, pluginsToolStripMenuItem, mnuTextBox, tabControl1, this, txtEdit);
+                a.Value.Initialise(this);
             }
 
             pluginsToolStripMenuItem.Visible = AWBPlugins.Count > 0;
@@ -3211,6 +3215,12 @@ font-size: 150%;'>No changes</h2>");
         CheckBox IAWBMainForm.AutoTagCheckBox { get { return chkAutoTagger; } }
         ToolStripMenuItem IAWBMainForm.HelpToolStripMenuItem { get { return helpToolStripMenuItem; } }
         TextBox IAWBMainForm.EditBox { get { return txtEdit; } }
+        Form IAWBMainForm.Form { get { return this; } }
+        ToolStripMenuItem IAWBMainForm.PluginsToolStripMenuItem { get { return pluginsToolStripMenuItem; } }
+        WikiFunctions.Lists.ListMaker IAWBMainForm.ListMaker { get { return listMaker1; } }
+        WikiFunctions.Browser.WebControl IAWBMainForm.WebControl { get { return webBrowserEdit;} }
+        ContextMenuStrip IAWBMainForm.EditBoxContextMenu { get { return mnuTextBox; } }
+        TabControl IAWBMainForm.Tab { get { return tabControl1; } }
         #endregion
 
         /// <summary>

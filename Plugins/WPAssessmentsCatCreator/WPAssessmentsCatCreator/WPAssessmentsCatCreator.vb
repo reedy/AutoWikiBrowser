@@ -24,7 +24,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.WPAssessmentsCatCreator
 
         ' AWB objects:
         Private Shared AWBForm As IAWBMainForm
-        Private Shared AWBList As WikiFunctions.Lists.ListMaker
 
         ' Menu item:
         Private Const conOurName As String = "WPAssessmentsCatCreator"
@@ -49,21 +48,16 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.WPAssessmentsCatCreator
         End Enum
 
         ' AWB interface:
-        Public Event Diff() Implements WikiFunctions.Plugin.IAWBPlugin.Diff
-        Public Event Save() Implements WikiFunctions.Plugin.IAWBPlugin.Save
-        Public Event Skip(ByVal SkipReason As String) Implements WikiFunctions.Plugin.IAWBPlugin.Skip
-        Public Event Start() Implements WikiFunctions.Plugin.IAWBPlugin.Start
-        Public Event [Stop]() Implements WikiFunctions.Plugin.IAWBPlugin.Stop
-        Public Event Preview() Implements WikiFunctions.Plugin.IAWBPlugin.Preview
+        Public Event Diff() Implements IAWBPlugin.Diff
+        Public Event Save() Implements IAWBPlugin.Save
+        Public Event Skip(ByVal SkipReason As String) Implements IAWBPlugin.Skip
+        Public Event Start() Implements IAWBPlugin.Start
+        Public Event [Stop]() Implements IAWBPlugin.Stop
+        Public Event Preview() Implements IAWBPlugin.Preview
 
-        Public Sub Initialise(ByVal list As WikiFunctions.Lists.ListMaker, _
-        ByVal web As WikiFunctions.Browser.WebControl, ByVal tsmi As System.Windows.Forms.ToolStripMenuItem, _
-        ByVal cms As System.Windows.Forms.ContextMenuStrip, ByVal tab As System.Windows.Forms.TabControl, _
-        ByVal frm As System.Windows.Forms.Form, ByVal txt As System.Windows.Forms.TextBox) _
-        Implements WikiFunctions.Plugin.IAWBPlugin.Initialise
+        Public Sub Initialise(ByVal MainForm As IAWBMainForm) Implements IAWBPlugin.Initialise
             ' Store object references:
-            AWBForm = DirectCast(frm, IAWBMainForm)
-            AWBList = list
+            AWBForm = MainForm
 
             ' Add our menu item:
             With OurMenuItem
@@ -72,22 +66,21 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.WPAssessmentsCatCreator
                 .ToolTipText = "Start the " & conOurName & " plugin"
             End With
 
-            tsmi.DropDownItems.Add(OurMenuItem)
+            MainForm.PluginsToolStripMenuItem.DropDownItems.Add(OurMenuItem)
         End Sub
-        Public ReadOnly Property Name() As String Implements WikiFunctions.Plugin.IAWBPlugin.Name
+        Public ReadOnly Property Name() As String Implements IAWBPlugin.Name
             Get
                 Return conOurName
             End Get
         End Property
-        Public Function ProcessArticle(ByVal ArticleText As String, ByVal ArticleTitle As String, _
-        ByVal [Namespace] As Integer, ByRef Summary As String, ByRef Skip As Boolean, _
-        ByVal AWBLogItem As WikiFunctions.Logging.IMyTraceListener) As String _
-        Implements WikiFunctions.Plugin.IAWBPlugin.ProcessArticle
+        Public Function ProcessArticle(ByVal sender As IAWBMainForm, _
+        ByVal ProcessArticleEventArgs As ProcessArticleEventArgs) As String _
+        Implements IAWBPlugin.ProcessArticle
 
             If WeAreRunning Then
-                If AWBList.Count <= 1 Then WeAreRunning = False
+                If sender.ListMaker.Count <= 1 Then WeAreRunning = False
 
-                With CatRegex.Match(ArticleTitle)
+                With CatRegex.Match(ProcessArticleEventArgs.ArticleTitle)
                     If .Groups("class").Success Then
                         ProcessArticle = CategoryText(Mode.Classif, .Groups("class").Captures(0).ToString)
                     ElseIf .Groups("importance").Success Then
@@ -109,9 +102,10 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.WPAssessmentsCatCreator
                     End If
                 End With
 
-                Summary = "Configuring WikiProject assessments category with alpha [[User:Kingboyk/CP|plugin]]"
+                ProcessArticleEventArgs.EditSummary = _
+                   "Configuring WikiProject assessments category with alpha [[User:Kingboyk/CP|plugin]]"
             Else
-                ProcessArticle = ArticleText
+                ProcessArticle = ProcessArticleEventArgs.ArticleText
             End If
         End Function
 
@@ -149,14 +143,14 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.WPAssessmentsCatCreator
 
             If Importance Then
                 ImpPri = "importance"
-                AWBList.Add(ArticlesByImportance)
+                AWBForm.ListMaker.Add(ArticlesByImportance)
             Else
                 ImpPri = "priority"
-                AWBList.Add(ArticlesByPriority)
+                AWBForm.ListMaker.Add(ArticlesByPriority)
             End If
 
             For Each str2 As String In New String() {"Top", "High", "Mid", "Low", "Unknown"}
-                AWBList.Add("Category:" & str2 & "-" & ImpPri & " " & ArticleType & " articles")
+                AWBForm.ListMaker.Add("Category:" & str2 & "-" & ImpPri & " " & ArticleType & " articles")
             Next
         End Sub
         Private ReadOnly Property ArticlesByQuality() As String
@@ -186,13 +180,13 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.WPAssessmentsCatCreator
             RaiseEvent Stop()
             AWBForm.StopButton.PerformClick()
 
-            If AWBList.Count > 0 Then
+            If AWBForm.ListMaker.Count > 0 Then
                 If MessageBox.Show( _
                 "The article list is not empty. To empty it and proceed, hit OK. Otherwise, hit Cancel", _
                 "Article list not empty", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation, _
                 MessageBoxDefaultButton.Button2) = DialogResult.OK Then
                     WeAreRunning = True
-                    AWBList.Clear()
+                    AWBForm.ListMaker.Clear()
                     AWBForm.EditSummary.Text = ""
                 Else
                     Exit Sub
@@ -226,10 +220,10 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.WPAssessmentsCatCreator
             WP1 = "{{WP1|" & GetCapitalisedArticleType & "}}"
 
             For Each str As String In New String() {"A", "B", "GA", "FA", "Start", "Stub", "Unassessed"}
-                AWBList.Add("Category:" & str & "-Class " & ArticleType & " articles")
+                AWBForm.ListMaker.Add("Category:" & str & "-Class " & ArticleType & " articles")
             Next
-            AWBList.Add("Category:" & ArticleType & " articles with comments")
-            AWBList.Add(ArticlesByQuality)
+            AWBForm.ListMaker.Add("Category:" & ArticleType & " articles with comments")
+            AWBForm.ListMaker.Add(ArticlesByQuality)
 
             If MessageBox.Show("Does your WikiProject track priority or importance?", "Priority/importance", _
             MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
@@ -263,23 +257,23 @@ ExitMe:
             Exit Sub
 
 ExitMeEarly:
-            AWBList.Clear()
+            AWBForm.ListMaker.Clear()
             WeAreRunning = False
         End Sub
 
-        Public Sub Nudge(ByRef Cancel As Boolean) Implements WikiFunctions.Plugin.IAWBPlugin.Nudge
+        Public Sub Nudge(ByRef Cancel As Boolean) Implements IAWBPlugin.Nudge
             Cancel = True
         End Sub
 
         ' Do nothing:
-        Public Function SaveSettings() As Object() Implements WikiFunctions.Plugin.IAWBPlugin.SaveSettings
+        Public Function SaveSettings() As Object() Implements IAWBPlugin.SaveSettings
             Return Nothing
         End Function
-        Public Sub LoadSettings(ByVal Prefs() As Object) Implements WikiFunctions.Plugin.IAWBPlugin.LoadSettings
+        Public Sub LoadSettings(ByVal Prefs() As Object) Implements IAWBPlugin.LoadSettings
         End Sub
-        Public Sub Reset() Implements WikiFunctions.Plugin.IAWBPlugin.Reset
+        Public Sub Reset() Implements IAWBPlugin.Reset
         End Sub
-        Public Sub Nudged(ByVal Nudges As Integer) Implements WikiFunctions.Plugin.IAWBPlugin.Nudged
+        Public Sub Nudged(ByVal Nudges As Integer) Implements IAWBPlugin.Nudged
         End Sub
     End Class
 End Namespace
