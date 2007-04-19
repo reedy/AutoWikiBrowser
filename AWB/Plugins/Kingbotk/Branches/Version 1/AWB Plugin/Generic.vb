@@ -11,7 +11,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Event TemplateCheckedChanged()
 
         ' UI:
-        Private txtEdit As TextBox
         Private WithEvents InsertTemplateCallMenuItem As ToolStripMenuItem
 
         ' Enums:
@@ -191,12 +190,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 Return Nothing ' not used by generic template objects
             End Get
         End Property
-        Public WriteOnly Property EditTextBox() As TextBox Implements IGenericSettings.EditTextBox
-            Set(ByVal value As TextBox)
-                txtEdit = value
-                PluginManager.AddItemToTextBoxInsertionContextMenu(InsertTemplateCallMenuItem, txtEdit)
-            End Set
-        End Property
         Public WriteOnly Property StubClassModeAllowed() As Boolean _
         Implements IGenericSettings.StubClassModeAllowed
             Set(ByVal value As Boolean)
@@ -215,10 +208,10 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             mName = OurPluginName
             InsertTemplateCallMenuItem = New ToolStripMenuItem(mName & _
                " (you haven't entered a template name yet)")
+            PluginManager.AddItemToTextBoxInsertionContextMenu(InsertTemplateCallMenuItem)
         End Sub
         Friend Sub Goodbye()
-            PluginManager.RemoveItemFromTextBoxInsertionContextMenu(InsertTemplateCallMenuItem, txtEdit)
-            txtEdit = Nothing
+            PluginManager.GetTextBoxDropDownItems.Remove(InsertTemplateCallMenuItem)
             InsertTemplateCallMenuItem.Dispose()
             InsertTemplateCallMenuItem = Nothing
         End Sub
@@ -313,7 +306,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             InsertTemplateCallMenuItem.Text = "{{" & TemplateName & "}}"
         End Sub
         Private Sub InsertTemplateCallMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles InsertTemplateCallMenuItem.Click
-            txtEdit.SelectedText = "{{" & TemplateName & "}}"
+            PluginManager.EditBoxInsert("{{" & TemplateName & "}}")
         End Sub
 #End Region
     End Class
@@ -353,10 +346,9 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             AddHandler OurSettingsControl.AlternateNamesTextBox.TextChanged, AddressOf Me.TemplateNamesChanged
             AddHandler OurSettingsControl.PropertiesButton.Click, AddressOf Me.PropertiesButtonClick
         End Sub
-        Protected Friend Overrides Sub Initialise(ByVal AWBPluginsMenu As ToolStripMenuItem, _
-        ByVal txt As TextBox)
+        Protected Friend Overrides Sub Initialise()
             OurMenuItem = New ToolStripMenuItem(PluginShortName)
-            MyBase.InitialiseBase(AWBPluginsMenu, txt) ' must set menu item object first
+            MyBase.InitialiseBase() ' must set menu item object first
             OurTab.UseVisualStyleBackColor = True
             OurSettingsControl.Reset()
             OurTab.Controls.Add(OurSettingsControl)
