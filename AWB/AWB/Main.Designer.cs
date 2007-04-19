@@ -103,6 +103,7 @@ namespace AutoWikiBrowser
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.replaceTextWithLastEditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.undoAllChangesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reloadEditPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadDefaultSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -382,9 +383,10 @@ namespace AutoWikiBrowser
             this.openSelectionInBrowserToolStripMenuItem,
             this.toolStripSeparator9,
             this.replaceTextWithLastEditToolStripMenuItem,
-            this.undoAllChangesToolStripMenuItem});
+            this.undoAllChangesToolStripMenuItem,
+            this.reloadEditPageToolStripMenuItem});
             this.mnuTextBox.Name = "contextMenuStrip1";
-            this.mnuTextBox.Size = new System.Drawing.Size(233, 508);
+            this.mnuTextBox.Size = new System.Drawing.Size(233, 530);
             this.mnuTextBox.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // wordWrapToolStripMenuItem1
@@ -768,6 +770,13 @@ namespace AutoWikiBrowser
             this.undoAllChangesToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
             this.undoAllChangesToolStripMenuItem.Text = "Undo all changes";
             this.undoAllChangesToolStripMenuItem.Click += new System.EventHandler(this.undoAllChangesToolStripMenuItem_Click);
+            // 
+            // reloadEditPageToolStripMenuItem
+            // 
+            this.reloadEditPageToolStripMenuItem.Name = "reloadEditPageToolStripMenuItem";
+            this.reloadEditPageToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
+            this.reloadEditPageToolStripMenuItem.Text = "Reload edit page";
+            this.reloadEditPageToolStripMenuItem.Click += new System.EventHandler(this.reloadEditPageToolStripMenuItem_Click);
             // 
             // menuStrip1
             // 
@@ -3272,6 +3281,7 @@ namespace AutoWikiBrowser
         private WikiFunctions.Logging.LogControl LogControl1;
         private System.Windows.Forms.WebBrowser webBrowserDiff;
         private System.Windows.Forms.ToolStripMenuItem undoAllChangesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem reloadEditPageToolStripMenuItem;
 
 
     }

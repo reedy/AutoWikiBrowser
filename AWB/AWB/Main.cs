@@ -139,6 +139,8 @@ namespace AutoWikiBrowser
         int oldselection = 0;
         int retries = 0;
 
+        bool PageReload = false;
+
         int mnudges = 0;
         int sameArticleNudges = 0;
 
@@ -430,15 +432,8 @@ namespace AutoWikiBrowser
 
             this.Text = "AutoWikiBrowser" + SettingsFile + " - " + EdittingArticle.Name;
 
-            //check not in use
-            if (Regex.IsMatch(strText, "\\{\\{[Ii]nuse"))
-            {
-                if (!BotMode)
-                    MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
-            }
-
             //check for redirect
-            if (bypassRedirectsToolStripMenuItem.Checked && Tools.IsRedirect(strText))
+            if (bypassRedirectsToolStripMenuItem.Checked && Tools.IsRedirect(strText) && !PageReload)
             {
                 Article Redirect = new Article(Tools.RedirectTarget(strText));
 
@@ -453,6 +448,21 @@ namespace AutoWikiBrowser
 
                 webBrowserEdit.LoadEditPage(Redirect.Name);
                 return;
+            }
+            strOrigText = strText;
+
+            if (PageReload)
+            {
+                PageReload = false;
+                GetDiff();
+                return;
+            }
+
+            //check not in use
+            if (Regex.IsMatch(strText, "\\{\\{[Ii]nuse"))
+            {
+                if (!BotMode)
+                    MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
             }
 
             if (chkSkipIfContains.Checked && Skip.SkipIfContains(strText, EdittingArticle.Name,
@@ -479,7 +489,6 @@ namespace AutoWikiBrowser
             bool skip = false;
             if (!doNotAutomaticallyDoAnythingToolStripMenuItem.Checked)
             {
-                strOrigText = strText;
                 strText = Process(strText, out skip);
 
                 if (!Abort && skippable && chkSkipNoChanges.Checked && strText == strOrigText)
@@ -1073,10 +1082,10 @@ font-size: 150%;'>No changes</h2>");
                 }
                 else
                 {
-                    webBrowserDiff.Document.Write("<html><head><style type='text/css'>" +
-                        WikiDiff.DiffStyles() + @"</style></head><body>" + WikiDiff.TableHeader() +
+                    webBrowserDiff.Document.Write("<html><head>" +
+                        WikiDiff.DiffHead() + @"</head><body>" + WikiDiff.TableHeader() +
                         WikiDiff.GetDiff(strOrigText, txtEdit.Text, 1) +
-                        @"</table><p style='font-family: arial;'>Doubleclick on a line to undo change.</p></body></html>");
+                        @"</table><p style='font-family: arial;'>Double-click on a line to undo change.</p></body></html>");
                 }
                 
                 CaseWasDiff();
@@ -1768,6 +1777,7 @@ font-size: 150%;'>No changes</h2>");
             dumpHTMLToolStripMenuItem.Visible = true;
             logOutDebugToolStripMenuItem.Visible = true;
             bypassAllRedirectsToolStripMenuItem.Enabled = true;
+            webBrowserEdit.IsWebBrowserContextMenuEnabled = true;
         }
 
         #endregion
@@ -2449,6 +2459,7 @@ font-size: 150%;'>No changes</h2>");
 
         private void Stop()
         {
+            PageReload = false;
             NudgeTimer.Stop();
             UpdateButtons();
             if (intTimer > 0)
@@ -3302,6 +3313,13 @@ font-size: 150%;'>No changes</h2>");
         private void undoAllChangesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             txtEdit.Text = strOrigText;
+        }
+
+        private void reloadEditPageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PageReload = true;
+            webBrowserEdit.LoadEditPage(EdittingArticle.Name);
+            strOrigText = webBrowserEdit.GetArticleText();
         }
     }
 }
