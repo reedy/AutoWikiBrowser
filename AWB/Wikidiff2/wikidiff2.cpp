@@ -41,7 +41,7 @@ void print_diff(std::vector<std::string> &text1, std::vector<std::string> &text2
 				// inserted lines
 				n = linediff[i].to.size();
 				for (j=0; j<n; j++) {
-					print_add(*linediff[i].to[j], ret);
+					print_add(*linediff[i].to[j], ret, from_ind, to_ind + j);
 				}
 				to_ind += n;
 				break;
@@ -49,7 +49,7 @@ void print_diff(std::vector<std::string> &text1, std::vector<std::string> &text2
 				// deleted lines
 				n = linediff[i].from.size();
 				for (j=0; j<n; j++) {
-					print_del(*linediff[i].from[j], ret);
+					print_del(*linediff[i].from[j], ret, from_ind + j, to_ind );
 				}
 				from_ind += n;
 				break;
@@ -75,14 +75,14 @@ void print_diff(std::vector<std::string> &text1, std::vector<std::string> &text2
 						ret += 
 							"<tr>\n"
 							"  <td> </td>\n"
-							"  <td class=\"diff-context\"><div class=\"d\">";
+							"  <td class=\"diff-context\">";
 						print_htmlspecialchars(*linediff[i].from[j], ret);
 						ret += 
-							"</div></td>\n"
+							"</td>\n"
 							"  <td> </td>\n"
-							"  <td class=\"diff-context\"><div class=\"d\">";
+							"  <td class=\"diff-context\">";
 						print_htmlspecialchars(*linediff[i].from[j], ret);
-						ret += "</div></td>\n</tr>\n";
+						ret += "</td>\n</tr>\n";
 					} else {
 						showLineNumber = true;
 					}
@@ -96,17 +96,17 @@ void print_diff(std::vector<std::string> &text1, std::vector<std::string> &text2
 				n2 = linediff[i].to.size();
 				n = std::min(n1, n2);
 				for (j=0; j<n; j++) {
-					print_worddiff(*linediff[i].from[j], *linediff[i].to[j], ret);
+					print_worddiff(*linediff[i].from[j], *linediff[i].to[j], ret, from_ind, to_ind);
 				}
 				from_ind += n;
 				to_ind += n;
 				if (n1 > n2) {
 					for (j=n2; j<n1; j++) {
-						print_del(*linediff[i].from[j], ret);
+						print_del(*linediff[i].from[j], ret, j, -1);
 					}
 				} else {
 					for (j=n1; j<n2; j++) {
-						print_add(*linediff[i].to[j], ret);
+						print_add(*linediff[i].to[j], ret, -1, j);
 					}
 				}
 				break;
@@ -116,29 +116,45 @@ void print_diff(std::vector<std::string> &text1, std::vector<std::string> &text2
 	}
 }
 
-void print_add(const std::string & line, std::string & ret) 
+void print_add(const std::string & line, std::string & ret, int left_line, int right_line) 
 {
+	char buf[32];
+	sprintf(buf, " id=\"a%dx%d\"", left_line, right_line);
+
 	ret += "<tr>\n"
 		"  <td colspan=\"2\">&nbsp;</td>\n"
 		"  <td>+</td>\n"
-		"  <td class=\"diff-addedline\">";
+		"  <td class=\"diff-addedline\"";
+	ret += buf;
+	ret += ">";
 	print_htmlspecialchars(line, ret);
 	ret += "</td>\n</tr>\n";
 }
 
-void print_del(const std::string & line, std::string & ret)
+void print_del(const std::string & line, std::string & ret, int left_line, int right_line)
 {
+	char buf[32];
+	
+	sprintf(buf, " id=\"d%dx%d\"", left_line, right_line);
+
 	ret += "<tr>\n"
 		"  <td>-</td>\n"
-		"  <td class=\"diff-deletedline\">";
+		"  <td class=\"diff-deletedline\"";
+	ret += buf;
+	ret += ">";
+
 	print_htmlspecialchars(line, ret);
 	ret += "</td>\n"
 		"  <td colspan=\"2\">&nbsp;</td>\n"
 		"</tr>\n";
 }
 
-void print_worddiff(const std::string & text1, const std::string & text2, std::string &ret)
+void print_worddiff(const std::string & text1, const std::string & text2, std::string &ret, int left_line, int right_line)
 {
+	char buf[32];
+	
+	sprintf(buf, "%dx%d", left_line, right_line);
+
 	std::vector<Word> text1_words, text2_words;
 
 	split_tokens(text1, text1_words);
@@ -150,13 +166,18 @@ void print_worddiff(const std::string & text1, const std::string & text2, std::s
 	// print twice; first for left side, then for right side
 	ret += "<tr>\n"
 		"  <td>-</td>\n"
-		"  <td class=\"diff-deletedline\"><div class=\"d\">\n";
-	print_worddiff_side(worddiff, false, ret);
-	ret += "\n  </div></td>\n"
+		"  <td class=\"diff-deletedline\" id=\"r";
+	ret += buf;
+	ret += "l\">\n";
+	
+	print_worddiff_side(worddiff, false, ret, left_line, right_line);
+	ret += "\n  </td>\n"
 		"  <td>+</td>\n"
-		"  <td class=\"diff-addedline\"><div class=\"d\">\n";
-	print_worddiff_side(worddiff, true, ret);
-	ret += "\n  </div></td>\n"
+		"  <td class=\"diff-addedline\" id=\"r";
+	ret += buf;
+	ret += "r\">\n";
+	print_worddiff_side(worddiff, true, ret, left_line, right_line);
+	ret += "\n  </td>\n"
 		"</tr>\n";
 }
 
@@ -205,7 +226,7 @@ void debug_print_worddiff(Diff<Word> &worddiff, std::string &ret)
 	}
 }
 
-void print_worddiff_side(Diff<Word> &worddiff, bool added, std::string &ret)
+void print_worddiff_side(Diff<Word> &worddiff, bool added, std::string &ret, int left_line, int right_line)
 {
 	std::string word;
 	for (unsigned i = 0; i < worddiff.size(); ++i) {

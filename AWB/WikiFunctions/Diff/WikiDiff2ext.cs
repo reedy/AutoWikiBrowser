@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 
 namespace WikiFunctions
 {
@@ -59,6 +60,13 @@ namespace WikiFunctions
             return res;
         }
 
+        static readonly Regex TdMagick = new Regex("<td class=\"(.*)\" id=\"(.*)\"\\s*>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+        static string EnhanceDiff(string diff)
+        {
+            return TdMagick.Replace(diff, "<td class=\"$1\" id=\"$2\" ondblclick=\"window.external.DiffClicked('$2');\">");
+        }
+
         public static unsafe string GetDiff(string text1, string text2, int context)
         {
             byte[] buf1 = ToUTF8(text1);
@@ -73,7 +81,7 @@ namespace WikiFunctions
                 wikidiff2_free(diff);
             }
 
-            return res;
+            return EnhanceDiff(res);
         }
 
         public static string TableHeader()

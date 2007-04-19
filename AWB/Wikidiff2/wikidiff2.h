@@ -23,11 +23,11 @@ template<class T>
 std::vector<diff_op<T> > do_diff(const std::vector<T> &text1, const std::vector<T> &text2);
 
 void print_diff(std::vector<std::string> &text1, std::vector<std::string> &text2, int num_lines_context, std::string &ret);
-void print_worddiff(const std::string & text1, const std::string & text2, std::string &ret);
-void print_worddiff_side(Diff<Word> &worddiff, bool added, std::string &ret);
+void print_worddiff(const std::string & text1, const std::string & text2, std::string &ret, int left_line, int right_line);
+void print_worddiff_side(Diff<Word> &worddiff, bool added, std::string &ret, int left_line, int right_line);
 void split_tokens(const std::string & text, std::vector<Word> &tokens);
-void print_add(const std::string & line, std::string & ret);
-void print_del(const std::string & line, std::string & ret);
+void print_add(const std::string & line, std::string & ret, int left_line, int right_line);
+void print_del(const std::string & line, std::string & ret, int left_line, int right_line);
 void print_htmlspecialchars(const std::string & input, std::string & ret);
 void debug_print_worddiff(Diff<Word> &worddiff, std::string &ret);
 int next_utf8_char(std::string::const_iterator & p, std::string::const_iterator & charStart, 

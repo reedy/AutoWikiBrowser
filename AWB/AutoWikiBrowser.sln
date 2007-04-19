@@ -2,6 +2,9 @@
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WikiFunctions", "WikiFunctions\WikiFunctions.csproj", "{B5B0008C-A306-4B0D-B91E-5C03DA7014E0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{980407B1-D48C-4000-A2FB-859347379ADC} = {980407B1-D48C-4000-A2FB-859347379ADC}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IRCMonitor", "IRCMonitor\IRCMonitor.csproj", "{AB2BFB9D-ABFF-4752-B9DA-2937E4E68B71}"
 EndProject

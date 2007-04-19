@@ -42,10 +42,13 @@ using WikiFunctions.Browser;
 using WikiFunctions.Controls;
 using System.Collections.Specialized;
 using WikiFunctions.Background;
+using System.Security.Permissions;
 
 [assembly: CLSCompliant(true)]
 namespace AutoWikiBrowser
 {
+    [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+    [System.Runtime.InteropServices.ComVisibleAttribute(true)]
     public partial class MainForm : Form, IAWBMainForm
     {
         #region constructor etc.
@@ -189,6 +192,7 @@ namespace AutoWikiBrowser
                     oldVersion();
 
                 webBrowserDiff.Navigate("about:blank");
+                webBrowserDiff.ObjectForScripting = this;
             }
             catch (Exception ex)
             {
@@ -1072,7 +1076,7 @@ font-size: 150%;'>No changes</h2>");
                     webBrowserDiff.Document.Write("<html><head><style type='text/css'>" +
                         WikiDiff.DiffStyles() + @"</style></head><body>" + WikiDiff.TableHeader() +
                         WikiDiff.GetDiff(strOrigText, txtEdit.Text, 1) +
-                        "</table></body></html>");
+                        @"</table><p style='font-family: arial;'>Doubleclick on a line to undo change.</p></body></html>");
                 }
                 
                 CaseWasDiff();
@@ -1136,6 +1140,46 @@ font-size: 150%;'>No changes</h2>");
         #endregion
 
         #region extra stuff
+
+        readonly Regex DiffIdParser = new Regex(@"[a-z](\d*)x(\d*)");
+
+        public void DiffClicked(string id)
+        {
+            try
+            {
+                Match m = DiffIdParser.Match(id);
+                int SrcLine = int.Parse(m.Groups[1].Value) - 1;
+                int DestLine = int.Parse(m.Groups[2].Value) - 1;
+
+                string[] Src = strOrigText.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                string[] Dest = txtEdit.Text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+
+                List<string> Lst = new List<string>(Dest);
+                switch (id[0])
+                {
+                    case 'a':
+                        Lst.RemoveAt(DestLine);
+                        Dest = Lst.ToArray();
+                        break;
+                    case 'd':
+                        Lst.Insert(DestLine, Src[SrcLine]);
+                        Dest = Lst.ToArray();
+                        break;
+                    case 'r':
+                        Dest[DestLine] = Src[SrcLine];
+                        break;
+                    default:
+                        return;
+                }
+                txtEdit.Text = string.Join("\r\n", Dest);
+                GetDiff();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
+            }
+        }
 
         private void panelShowHide()
         {
