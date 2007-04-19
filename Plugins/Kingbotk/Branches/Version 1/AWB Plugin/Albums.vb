@@ -155,7 +155,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
 
         'User interface:
         Protected Overrides Sub ShowHideOurObjects(ByVal Visible As Boolean)
-            Manager.ShowHidePluginTab(OurTab, Visible)
+            PluginManager.ShowHidePluginTab(OurTab, Visible)
         End Sub
 
         ' XML settings:

@@ -37,8 +37,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
                         Uploader.LogIn(LoggingSettings.LoginDetails)
                         Application.DoEvents()
 
-                        Uploader.LogIt(Sender, .LogTitle, .WikifiedCategory, UploadTo, .LinksToLog(PluginManager.ActivePlugins), _
-                        .UploadOpenInBrowser, .UploadAddToWatchlist, PluginManager.UserName, _
+                        Uploader.LogIt(Sender, .LogTitle, .WikifiedCategory, UploadTo, .LinksToLog(), _
+                        .UploadOpenInBrowser, .UploadAddToWatchlist, WikiFunctions.Variables.User.Name, _
                         "*" & PluginManager.conWikiPlugin & " version " & PluginLogging.Props.PluginVersion & _
                         Microsoft.VisualBasic.vbCrLf & "*[[WP:AWB|AWB]] version " & _
                         PluginLogging.Props.AWBVersion & Microsoft.VisualBasic.vbCrLf, _
