@@ -36,10 +36,7 @@ namespace WikiFunctions.Background
                 Invoke(d, new object[] { status });
             }
             else
-            {
                 lblStatus.Text = status;
-            }
-
         }
 
         public string Status
@@ -69,11 +66,5 @@ namespace WikiFunctions.Background
                 groupBox.Text = string.Format("{0}/{1} complete", Completed, Total);
             }
         }
-
-        /*
-        public DialogResult ShowDialog()
-        {
-            
-        }*/
     }
 }

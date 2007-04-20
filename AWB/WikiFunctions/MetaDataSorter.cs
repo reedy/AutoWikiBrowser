@@ -348,9 +348,8 @@ namespace WikiFunctions.Parse
             {
                 string z = s;
                 if (!z.Contains("|"))
-                {
                     z = z.Replace("]]", "|" + strName + "]]");
-                }
+
                 newCats.Add(z);
             }
             return newCats;

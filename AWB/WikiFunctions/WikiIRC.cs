@@ -195,9 +195,7 @@ namespace WikiFunctions.IRC
             else
             {
                 if (otherMessages != null)
-                {
                     this.otherMessages(msg);
-                }
             }
         }
 

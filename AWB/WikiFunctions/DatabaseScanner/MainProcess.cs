@@ -173,14 +173,6 @@ namespace WikiFunctions.DatabaseScanner
                          
                             if (test)
                             {
-                                //links = Tools.LinkCount(ArticleText);
-                                //if (links < 2000)
-                                //    c[links]++;
-                                //else
-                                //{
-                                //    c[1999]++;
-                                //    System.Windows.Forms.MessageBox.Show(ArticleTitle);
-                                //}
                                 context.Post(SOPC, ArticleTitle);
                             }
                         }
@@ -234,24 +226,5 @@ namespace WikiFunctions.DatabaseScanner
                     ScanThread.Priority = value;
             }
         }
-
-        //System.Windows.Forms.MessageBox.Show("articles: " + articles.ToString() + " total stubs: " + stubs.ToString() + " stubbed: " + stubbedarticles.ToString());
-
-        //articles++;
-
-        //                        m = reg.Matches(ArticleText);
-
-        //                        if (m.Count > 0)
-        //                        {
-        //                            stubbedarticles++;
-        //                            stubs = stubs + m.Count;
-        //                        }
-
-        //Regex reg = new Regex("stub\\}\\}", RegexOptions.Compiled);
-        //MatchCollection m;
-
-        //int articles = 0;
-        //int stubs = 0;
-        //int stubbedarticles = 0;
     }
 }

@@ -126,13 +126,9 @@ namespace WikiFunctions.Browser
         public string ArticleText
         {
             get
-            {
-                return GetArticleText();
-            }
+            { return GetArticleText(); }
             set
-            {
-                SetArticleText(value);
-            }
+            { SetArticleText(value); }
         }
 
         /// <summary>
@@ -298,13 +294,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public bool HasArticleTextBox
         {
-            get
-            {
-                if (this.Document != null && this.Document.GetElementById("wpTextbox1") != null)
-                    return true;
-                else
-                    return false;
-            }
+            get { return (this.Document != null && this.Document.GetElementById("wpTextbox1") != null); }
         }
 
         string strStatus = "";
@@ -314,9 +304,7 @@ namespace WikiFunctions.Browser
         public string Status
         {
             get
-            {
-                return strStatus;
-            }
+            { return strStatus; }
             private set
             {
                 strStatus = value;
@@ -347,21 +335,12 @@ namespace WikiFunctions.Browser
         /// </summary>
         public bool IsDiff
         {
-            get
-            {
-                if (this.Document.Body.InnerHtml.Contains("<DIV id=wikiDiff>"))
-                    return true;
-                else
-                    return false;
-            }
+            get { return (this.Document.Body.InnerHtml.Contains("<DIV id=wikiDiff>")); }
         }
 
         public bool IsUserPage
         {
-            get
-            {
-                return ArticleTitle.StartsWith(Variables.Namespaces[2]);
-            }
+            get { return ArticleTitle.StartsWith(Variables.Namespaces[2]); }
         }
 
         /// <summary>
@@ -370,9 +349,7 @@ namespace WikiFunctions.Browser
         public bool IsUserTalk
         {
             get
-            {
-                return ArticleTitle.StartsWith(Variables.Namespaces[3]);
-            }
+            { return ArticleTitle.StartsWith(Variables.Namespaces[3]); }
         }
 
         public bool IsUserSpace
@@ -536,10 +513,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public bool IsMinor()
         {
-            if (this.Document == null || this.Document.GetElementById("wpMinoredit").GetAttribute("checked") != "True")
-                return false;
-            else
-                return true;
+            return (!(this.Document == null || this.Document.GetElementById("wpMinoredit").GetAttribute("checked") != "True"));
         }
 
         /// <summary>
@@ -547,10 +521,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public bool IsWatched()
         {
-            if (this.Document == null || this.Document.GetElementById("wpWatchthis").GetAttribute("checked") != "True")
-                return false;
-            else
-                return true;
+                return (!(this.Document == null || this.Document.GetElementById("wpWatchthis").GetAttribute("checked") != "True"));
         }
 
         /// <summary>
@@ -620,9 +591,7 @@ namespace WikiFunctions.Browser
                 Status = "Saving";
 
                 if (!Watch && CanOverride)
-                {
                     this.Document.GetElementById("wpWatchthis").SetAttribute("checked", "");
-                }
 
                 this.Document.GetElementById("wpSave").InvokeMember("click");
             }
@@ -768,7 +737,6 @@ namespace WikiFunctions.Browser
             Status = "Loading log in page";
             this.Navigate(Variables.URLLong + "index.php?title=Special:Userlogin&returnto=Main_Page");
             Busy = false;
-
         }
 
         /// <summary>

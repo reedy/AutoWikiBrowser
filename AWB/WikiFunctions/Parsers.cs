@@ -852,9 +852,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             {
                 NoChange = false;
                 if (!(ArticleText.IndexOf("Image") != 0))
-                {
                     ArticleText = regexBold.Replace(ArticleText, "$1'''$2'''$3", 1);
-                }
             }
             else
                 NoChange = true;
@@ -1055,9 +1053,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             testText = ArticleText;
 
             if (Regex.IsMatch(ArticleText, "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + Tools.CaseInsensitive(Regex.Escape(NewCategory)) + "( ?\\|| ?\\]\\])"))
-            {
                 ArticleText = RemoveCategory(OldCategory, ArticleText);
-            }
             else
             {
                 OldCategory = Regex.Escape(OldCategory);
@@ -1160,9 +1156,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                             ArticleText = Regex.Replace(ArticleText, s, "[[" + Variables.Namespaces[14] + "$1]]");
                         }
                         if (sort.TrimStart('|').TrimEnd(']') != ArticleTitle)
-                        {
                             ArticleText = ArticleText + "\r\n{{DEFAULTSORT:" + sort.TrimStart('|').TrimEnd(']') + "}}";
-                        }
                     }
                 }
             }

@@ -35,9 +35,7 @@ namespace WikiFunctions.Lists
         {
             InitializeComponent();
             if (Variables.LangCode == LangCodeEnum.en)
-            {
                 cmboSourceSelect.Items.Add("Redirects");
-            }
             OnDebug();
         }
 
@@ -229,13 +227,9 @@ namespace WikiFunctions.Lists
         public Article this[int index]
         {
             get
-            {
-                return (Article)lbArticles.Items[index];
-            }
+            { return (Article)lbArticles.Items[index]; }
             set
-            {
-                lbArticles.Items[index] = value;
-            }
+            { lbArticles.Items[index] = value; }
         }
 
         #endregion

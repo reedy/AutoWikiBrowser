@@ -68,13 +68,9 @@ namespace WikiFunctions.TalkPages
             ArticleText = TalkheaderTemplateRegex.Replace(ArticleText, new MatchEvaluator(TalkPageHeaders.TalkheaderMatchEvaluator), 1);
             ArticleText = SkipTOCTemplateRegex.Replace(ArticleText, new MatchEvaluator(TalkPageHeaders.SkipTOCMatchEvaluator), 1);
             if (FoundTalkheader)
-            {
                 WriteHeaderTemplate("talkheader", ref ArticleText, Trace, PluginName);
-            }
             if (FoundSkipTOC)
-            {
                 WriteHeaderTemplate("skiptotoctalk", ref ArticleText, Trace, PluginName);
-            }
             if (MoveDEFAULTSORT != DEFAULTSORT.NoChange)
             {
                 ArticleText = WikiRegexes.Defaultsort.Replace(ArticleText, 
@@ -84,9 +80,7 @@ namespace WikiFunctions.TalkPages
                     if (DefaultSortKey == "")
                     {
                         if (Trace != null)
-                        {
                             Trace.WriteArticleActionLine("DEFAULTSORT has no key; removed", PluginName);
-                        }
                     }
                     else
                     {
@@ -112,9 +106,7 @@ namespace WikiFunctions.TalkPages
         {
             FoundDefaultSort = true;
             if (match.Groups["key"].Captures.Count > 0)
-            {
                 DefaultSortKey = match.Groups["key"].Captures[0].Value.Trim();
-            }
             return "";
         }
 
@@ -145,18 +137,14 @@ namespace WikiFunctions.TalkPages
                 strMovedTo = " sent to the bottom";
             }
             if (Trace != null)
-            {
                 Trace.WriteArticleActionLine("DEFAULTSORT" + strMovedTo, PluginName, false);
-            }
         }
 
         private static void WriteHeaderTemplate(string Name, ref string ArticleText, IMyTraceListener Trace, string PluginName)
         {
             ArticleText = "{{" + Name + "}}\r\n" + ArticleText;
             if (Trace != null)
-            {
                 Trace.WriteArticleActionLine("{{tl|" + Name + "}} given top billing", PluginName, false);
-            }
         }
     }
 }

@@ -142,10 +142,7 @@ namespace WikiFunctions
         public static bool IsImportantNamespace(string ArticleTitle)
         {
             int i = CalculateNS(ArticleTitle);
-            if (i == 0 || i == 6 || i == 10 || i == 14)
-                return true;
-            else
-                return false;
+            return (i == 0 || i == 6 || i == 10 || i == 14);
         }
 
         /// <summary>
@@ -154,8 +151,6 @@ namespace WikiFunctions
         /// <param name="ArticleTitle">The title.</param>
         public static bool IsTalkPage(string ArticleTitle)
         {
-            //int i = CalculateNS(ArticleTitle);
-
             return (CalculateNS(ArticleTitle) % 2 == 1);
         }
 
@@ -532,9 +527,7 @@ Message: {2}
                 return source.Substring(source.IndexOf(start), source.IndexOf(end) - source.IndexOf(start));
             }
             catch
-            {
-                return "";
-            }
+            { return ""; }
         }
 
         public static void OpenArticleInBrowser(string title)
