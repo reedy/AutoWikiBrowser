@@ -37,10 +37,7 @@ namespace WikiFunctions.DatabaseScanner
     {
         public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
-            if (Tools.IsRedirect(ArticleText))
-                return false;
-            else
-                return true;
+           return (!Tools.IsRedirect(ArticleText));
         }
     }
 
@@ -97,10 +94,7 @@ namespace WikiFunctions.DatabaseScanner
 
         public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
-            if (Contains.IsMatch(ArticleTitle))
-                return true;
-            else
-                return false;
+            return (Contains.IsMatch(ArticleTitle));
         }
     }
 
@@ -115,10 +109,7 @@ namespace WikiFunctions.DatabaseScanner
 
         public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
-            if (NotContains.IsMatch(ArticleTitle))
-                return false;
-            else
-                return true;
+                return (!NotContains.IsMatch(ArticleTitle));
         }
     }
 
@@ -142,24 +133,15 @@ namespace WikiFunctions.DatabaseScanner
 
             if (M == MoreLessThan.MoreThan)
             {
-                if (actual > test)
-                    return true;
-                else
-                    return false;
+                return (actual > test);
             }
             else if (M == MoreLessThan.LessThan)
             {
-                if (actual < test)
-                    return true;
-                else
-                    return false;
+                return (actual < test);
             }
             else
             {
-                if (actual == test)
-                    return true;
-                else
-                    return false;
+                return (actual == test);
             }
         }
     }
@@ -183,24 +165,15 @@ namespace WikiFunctions.DatabaseScanner
 
             if (M == MoreLessThan.MoreThan)
             {
-                if (actual > test)
-                    return true;
-                else
-                    return false;
+                return (actual > test);
             }
             else if (M == MoreLessThan.LessThan)
             {
-                if (actual < test)
-                    return true;
-                else
-                    return false;
+                return (actual < test);
             }
             else
             {
-                if (actual == test)
-                    return true;
-                else
-                    return false;
+                return (actual == test);
             }
         }
     }
@@ -223,24 +196,15 @@ namespace WikiFunctions.DatabaseScanner
 
             if (M == MoreLessThan.MoreThan)
             {
-                if (actual > test)
-                    return true;
-                else
-                    return false;
+                return (actual > test);
             }
             else if (M == MoreLessThan.LessThan)
             {
-                if (actual < test)
-                    return true;
-                else
-                    return false;
+                return (actual < test);
             }
             else
             {
-                if (actual == test)
-                    return true;
-                else
-                    return false;
+                return (actual == test);
             }
         }
     }
@@ -400,10 +364,7 @@ namespace WikiFunctions.DatabaseScanner
         Parsers parsers;
         public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
-            if (bulletRegex.IsMatch(ArticleText))
-                return true;
-            else
-                return false;
+            return (bulletRegex.IsMatch(ArticleText));
         }
     }
 

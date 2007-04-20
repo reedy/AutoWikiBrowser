@@ -171,10 +171,7 @@ namespace WikiFunctions.Parse
             testText = ArticleText;
             ArticleText = FixHeadings(ArticleText, ArticleTitle);
 
-            if (testText == ArticleText)
-                NoChange = true;
-            else
-                NoChange = false;
+            NoChange = (testText == ArticleText);
 
             return ArticleText.Trim();
         }
@@ -343,11 +340,7 @@ namespace WikiFunctions.Parse
             testText = ArticleText;
             ArticleText = FixSyntax(ArticleText);
 
-            if (testText == ArticleText)
-                NoChange = true;
-            else
-                NoChange = false;
-
+            NoChange = (testText == ArticleText);
             return ArticleText;
         }
 
@@ -450,10 +443,7 @@ namespace WikiFunctions.Parse
                 ArticleText = ArticleText.Replace(m.Value, y);
             }
 
-            if (testText == ArticleText)
-                NoChange = true;
-            else
-                NoChange = false;
+            NoChange = (testText == ArticleText);
 
             return ArticleText;
         }
@@ -469,10 +459,7 @@ namespace WikiFunctions.Parse
             testText = ArticleText;
             ArticleText = SimplifyLinks(ArticleText);
 
-            if (testText == ArticleText)
-                NoChange = true;
-            else
-                NoChange = false;
+            NoChange = (testText == ArticleText);
 
             return ArticleText;
         }
@@ -581,10 +568,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             testText = ArticleText;
             ArticleText = BulletExternalLinks(ArticleText);
 
-            if (testText == ArticleText)
-                NoChange = true;
-            else
-                NoChange = false;
+            NoChange = (testText == ArticleText);
 
             return ArticleText;
         }
@@ -769,10 +753,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             testText = ArticleText;
             ArticleText = Unicodify(ArticleText);
 
-            if (testText == ArticleText)
-                NoChange = true;
-            else
-                NoChange = false;
+            NoChange = (testText == ArticleText);
 
             return ArticleText;
         }
@@ -897,10 +878,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             testText = ArticleText;
             ArticleText = ReplaceImage(OldImage, NewImage, ArticleText);
 
-            if (testText == ArticleText)
-                NoChange = true;
-            else
-                NoChange = false;
+            NoChange = (testText == ArticleText);
 
             return ArticleText;
         }
@@ -1011,10 +989,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             testText = ArticleText;
             ArticleText = RemoveImage(Image, ArticleText, CommentOut, Comment);
 
-            if (testText == ArticleText)
-                NoChange = true;
-            else
-                NoChange = false;
+            NoChange = (testText == ArticleText);
 
             return ArticleText;
         }
@@ -1094,10 +1069,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 ArticleText = Regex.Replace(ArticleText, OldCategory, NewCategory);
             }
 
-            if (testText == ArticleText)
-                NoChange = true;
-            else
-                NoChange = false;
+            NoChange = (testText == ArticleText);
 
             return ArticleText;
         }
@@ -1114,10 +1086,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             testText = ArticleText;
             ArticleText = RemoveCategory(strOldCat, ArticleText);
 
-            if (testText == ArticleText)
-                NoChange = true;
-            else
-                NoChange = false;
+            NoChange = (testText == ArticleText);
 
             return ArticleText;
         }
@@ -1227,10 +1196,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             ArticleText += "[[Category:Living people" + catKey;
 
-            if (testText == ArticleText)
-                NoChange = true;
-            else
-                NoChange = false;
+            NoChange = (testText == ArticleText);
 
             return ArticleText;
         }
@@ -1246,10 +1212,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             testText = ArticleText;
             ArticleText = Conversions(ArticleText);
 
-            if (testText == ArticleText)
-                NoChange = true;
-            else
-                NoChange = false;
+            NoChange = (testText == ArticleText);
 
             return ArticleText;
         }
@@ -1302,10 +1265,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             testText = ArticleText;
             ArticleText = Tagger(ArticleText, ArticleTitle, ref Summary);
 
-            if (testText == ArticleText)
-                NoChange = true;
-            else
-                NoChange = false;
+            NoChange = (testText == ArticleText);
 
             return ArticleText;
         }
