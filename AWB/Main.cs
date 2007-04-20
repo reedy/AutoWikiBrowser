@@ -133,8 +133,6 @@ namespace AutoWikiBrowser
         string SettingsFile = "";
         string LastMove = "";
         string LastDelete = "";
-        string skipReason = "";
-        string strOrigText = "";
 
         int oldselection = 0;
         int retries = 0;
@@ -362,7 +360,8 @@ namespace AutoWikiBrowser
                 //check edit summary
                 webBrowserEdit.BringToFront();
                 if (cmboEditSummary.Text == "" && AWBPlugins.Count == 0)
-                    MessageBox.Show("Please enter an edit summary.", "Edit summary", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show("Please enter an edit summary.", "Edit summary", MessageBoxButtons.OK, 
+                        MessageBoxIcon.Exclamation);
 
                 StopDelayedRestartTimer();
                 DisableButtons();
@@ -421,19 +420,17 @@ namespace AutoWikiBrowser
 
         private void CaseWasLoad()
         {
-            string strText = "";
-
             if (!loadSuccess())
                 return;
 
-            strText = webBrowserEdit.GetArticleText();
+            string strTemp = webBrowserEdit.GetArticleText();
 
             this.Text = "AutoWikiBrowser" + SettingsFile + " - " + EdittingArticle.Name;
 
             //check for redirect
-            if (bypassRedirectsToolStripMenuItem.Checked && Tools.IsRedirect(strText) && !PageReload)
+            if (bypassRedirectsToolStripMenuItem.Checked && Tools.IsRedirect(strTemp) && !PageReload)
             {
-                Article Redirect = new Article(Tools.RedirectTarget(strText));
+                Article Redirect = new Article(Tools.RedirectTarget(strTemp));
 
                 if (Redirect.Name == EdittingArticle.Name)
                 {//ignore recursice redirects
@@ -447,7 +444,7 @@ namespace AutoWikiBrowser
                 webBrowserEdit.LoadEditPage(Redirect.Name);
                 return;
             }
-            strOrigText = strText;
+            EdittingArticle.OriginalArticleText = strTemp;
 
             if (PageReload)
             {
@@ -457,27 +454,24 @@ namespace AutoWikiBrowser
             }
 
             //check not in use
-            if (Regex.IsMatch(strText, "\\{\\{[Ii]nuse"))
-            {
-                if (!BotMode)
-                    MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
-            }
+            if (EdittingArticle.IsInUse() && !BotMode)
+                MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
 
-            if (chkSkipIfContains.Checked && Skip.SkipIfContains(strText, EdittingArticle.Name,
-            txtSkipIfContains.Text, chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, true))
+            if (chkSkipIfContains.Checked && EdittingArticle.SkipIfContains(txtSkipIfContains.Text, 
+                chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, true))
             {
                 SkipPage("Article contains: " + txtSkipIfContains.Text);
                 return;
             }
 
-            if (chkSkipIfNotContains.Checked && Skip.SkipIfContains(strText, EdittingArticle.Name,
-            txtSkipIfNotContains.Text, chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, false))
+            if (chkSkipIfNotContains.Checked && EdittingArticle.SkipIfContains(txtSkipIfNotContains.Text,
+                chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, false))
             {
-                SkipPage("Article doesn not contain: " + txtSkipIfNotContains.Text);
+                SkipPage("Article does not contain: " + txtSkipIfNotContains.Text);
                 return;
             }
 
-            if (!Skip.skipIf(strText))
+            if (!Skip.skipIf(EdittingArticle.OriginalArticleText))
             {
                 //TODO: Set Skip Reason
                 SkipPage("");
@@ -487,9 +481,10 @@ namespace AutoWikiBrowser
             bool skip = false;
             if (!doNotAutomaticallyDoAnythingToolStripMenuItem.Checked)
             {
-                strText = Process(strText, out skip);
+                ProcessPage();
 
-                if (!Abort && skippable && chkSkipNoChanges.Checked && strText == strOrigText)
+                if (!Abort && skippable && chkSkipNoChanges.Checked && 
+                    EdittingArticle.ArticleText == EdittingArticle.OriginalArticleText)
                 {
                     SkipPage("No changes made");
                     return;
@@ -502,10 +497,8 @@ namespace AutoWikiBrowser
                 return;
             }
 
-            webBrowserEdit.SetArticleText(strText);
-            string SavedSummary = EdittingArticle.EditSummary;
-            txtEdit.Text = strText;
-            EdittingArticle.EditSummary = SavedSummary;
+            webBrowserEdit.SetArticleText(EdittingArticle.ArticleText);
+            txtEdit.Text = EdittingArticle.ArticleText;
 
             //Update statistics and alerts
             ArticleInfo(false);
@@ -778,7 +771,24 @@ namespace AutoWikiBrowser
             }
         }
 
-        private string Process(string articleText, out bool SkipArticle)
+        private void SendPageToCustomModule()
+        {
+            ProcessArticleEventArgs ProcessArticleEventArgs = EdittingArticle;
+            string strEditSummary = "", strTemp; bool SkipArticle;
+
+            strTemp = cModule.Module.ProcessArticle(ProcessArticleEventArgs.ArticleText,
+                ProcessArticleEventArgs.ArticleTitle, EdittingArticle.NameSpaceKey, out strEditSummary, out SkipArticle);
+
+            if (!SkipArticle)
+            {
+                ProcessArticleEventArgs.EditSummary = strEditSummary;
+                ProcessArticleEventArgs.Skip = false;
+                EdittingArticle.AWBChangeArticleText("Custom module", strTemp, true);
+                EdittingArticle.AppendPluginEditSummary();
+            }
+        }
+
+        private void ProcessPage()
         {
             bool process = true;
 
@@ -788,132 +798,57 @@ namespace AutoWikiBrowser
                     process = false;
 
                 // {{bots}}/{{nobots}}
-                if (!ignoreNoBotsToolStripMenuItem.Checked && !Parsers.CheckNoBots(articleText, Variables.User.Name))
-                {
-                    SkipArticle = true;
-                    skipReason = "Bot Edits not Allowed";
-                    return articleText;
-                }
+                if (!ignoreNoBotsToolStripMenuItem.Checked && 
+                    !Parsers.CheckNoBots(EdittingArticle.ArticleText, Variables.User.Name))
+                    EdittingArticle.AWBSkip("Bot Edits not Allowed");
 
                 if (cModule.ModuleEnabled && cModule.Module != null)
                 {
-                    string tempSummary = "";
-                    articleText = cModule.Module.ProcessArticle(articleText, EdittingArticle.Name, 
-                        EdittingArticle.NameSpaceKey, out tempSummary, out SkipArticle);
-                    if (SkipArticle)
-                        return articleText;
-                    else if (tempSummary.Length > 0)
-                    {
-                        EdittingArticle.EditSummary += " " + tempSummary.Trim();
-                    }
+                    SendPageToCustomModule();
+                    if (EdittingArticle.SkipArticle) return;
                 }
 
                 if (AWBPlugins.Count > 0)
                 {
-                    SkipArticle = false; // TODO: we probably don't need this line any more?
-                    ProcessArticleEventArgs ProcessArticleEventArgs = 
-                        EdittingArticle.GetProcessArticleEventArgs(articleText);
-
                     foreach (KeyValuePair<string, IAWBPlugin> a in AWBPlugins)
                     {
-                        articleText = a.Value.ProcessArticle(this, ProcessArticleEventArgs);
-                        SkipArticle = ProcessArticleEventArgs.Skip; // TODO: nor this?
-                        if (ProcessArticleEventArgs.Skip)
-                            return articleText;
-                        else if (ProcessArticleEventArgs.EditSummary.Length > 0)
-                        {
-                            EdittingArticle.EditSummary += " " + ProcessArticleEventArgs.EditSummary;
-                        }
-                        // reset the "out" values in the ProcessArticleEventArgs object, rather than creating a new
-                        // one for each plugin:
-                        ProcessArticleEventArgs.Skip = false;
-                        ProcessArticleEventArgs.EditSummary = "";
+                        EdittingArticle.SendPageToPlugin(a.Value, this);
+                        if (EdittingArticle.SkipArticle) return;
                     }
                 }
 
                 if (chkUnicodifyWhole.Checked && process)
                 {
-                    articleText = parsers.Unicodify(articleText, out SkipArticle);
-                    if (Skip.SkipNoUnicode && SkipArticle)
-                    {
-                        skipReason = "No Unicodification";
-                        return articleText;
-                    }
+                    EdittingArticle.Unicodify(Skip.SkipNoUnicode, parsers);
+                    if (EdittingArticle.SkipArticle) return;
                 }
 
-                if (cmboImages.SelectedIndex == 1)
+                if (cmboImages.SelectedIndex != 0)
                 {
-                    articleText = parsers.ReplaceImage(txtImageReplace.Text, txtImageWith.Text, articleText, out SkipArticle);
-                    if (SkipArticle && chkSkipNoImgChange.Checked)
-                    {
-                        skipReason = "No Image Changed";
-                        return articleText;
-                    }
-                }
-                else if (cmboImages.SelectedIndex == 2)
-                {
-                    articleText = parsers.RemoveImage(txtImageReplace.Text, articleText, false, txtImageWith.Text, out SkipArticle);
-                    if (SkipArticle && chkSkipNoImgChange.Checked)
-                    {
-                        skipReason = "No Image Changed";
-                        return articleText;
-                    }
-                }
-                else if (cmboImages.SelectedIndex == 3)
-                {
-                    articleText = parsers.RemoveImage(txtImageReplace.Text, articleText, true, txtImageWith.Text, out SkipArticle);
-                    if (SkipArticle && chkSkipNoImgChange.Checked)
-                    {
-                        skipReason = "No Image Changed";
-                        return articleText;
-                    }
+                    EdittingArticle.UpdateImages((WikiFunctions.Options.ImageReplaceOptions)cmboImages.SelectedIndex,
+                        parsers, txtImageReplace.Text, txtImageWith.Text, chkSkipNoImgChange.Checked);
+                    if (EdittingArticle.SkipArticle) return;
                 }
 
-                if (cmboCategorise.SelectedIndex == 1)
+                if (cmboCategorise.SelectedIndex != 0)
                 {
-                    articleText = parsers.ReCategoriser(txtNewCategory.Text, txtNewCategory2.Text, articleText, out SkipArticle);
-                    if (SkipArticle && chkSkipNoCatChange.Checked)
-                    {
-                        skipReason = "No Category Changed";
-                        return articleText;
-                    }
-                }
-                else if (cmboCategorise.SelectedIndex == 2 && txtNewCategory.Text.Length > 0)
-                {
-                    articleText = parsers.AddCategory(txtNewCategory.Text, articleText, EdittingArticle.Name);
-                }
-                else if (cmboCategorise.SelectedIndex == 3 && txtNewCategory.Text.Length > 0)
-                {
-                    articleText = parsers.RemoveCategory(txtNewCategory.Text, articleText, out SkipArticle);
-                    if (SkipArticle && chkSkipNoCatChange.Checked)
-                    {
-                        skipReason = "No Category Changed";
-                        return articleText;
-                    }
+                    EdittingArticle.Categorisation((WikiFunctions.Options.CategorisationOptions)
+                        cmboCategorise.SelectedIndex, parsers, chkSkipNoCatChange.Checked, txtNewCategory.Text,
+                        txtNewCategory2.Text);
+                    if (EdittingArticle.SkipArticle) return;
                 }
 
                 if (chkFindandReplace.Checked && !findAndReplace.AfterOtherFixes)
                 {
-                    SkipArticle = false;
-                    articleText = PerformFindAndReplace(articleText, out SkipArticle);
-                    if (SkipArticle)
-                    {
-                        skipReason = "No Find And Replace Changes";
-                        return articleText;
-                    }
+                    EdittingArticle.PerformFindAndReplace(findAndReplace, substTemplates, replaceSpecial,
+                        chkSkipWhenNoFAR.Checked);
+                    if (EdittingArticle.SkipArticle) return;
                 }
 
                 if (chkRegExTypo.Checked && RegexTypos != null && !BotMode && !Tools.IsTalkPage(EdittingArticle.NameSpaceKey))
                 {
-                    string tempSummary = "";
-                    articleText = RegexTypos.PerformTypoFixes(articleText, out SkipArticle, out tempSummary);
-                    if (SkipArticle && chkSkipIfNoRegexTypo.Checked)
-                    {
-                        skipReason = "No Typo Fixes";
-                        return articleText;
-                    }
-                    else
-                        EdittingArticle.EditSummary += tempSummary;
+                    EdittingArticle.PerformTypoFixes(RegexTypos, chkSkipIfNoRegexTypo.Checked);
+                    if (EdittingArticle.SkipArticle) return;
                 }
 
                 if (EdittingArticle.NameSpaceKey == 0 || EdittingArticle.NameSpaceKey == 14 || EdittingArticle.Name.Contains("Sandbox") || EdittingArticle.Name.Contains("Sandbox"))
@@ -1035,26 +970,6 @@ namespace AutoWikiBrowser
                 MessageBox.Show(ex.Message);
                 SkipArticle = false;
                 skipReason = "Error";
-                return articleText;
-            }
-        }
-
-        private string PerformFindAndReplace(string articleText, out bool SkipArticle)
-        {
-            string articleTitle = EdittingArticle.Name;
-            string testText = articleText;
-            articleText = findAndReplace.MultipleFindAndReplce(articleText, EdittingArticle.Name, ref EdittingArticle.EditSummary);
-            articleText = replaceSpecial.ApplyRules(articleText, EdittingArticle.Name);
-            articleText = substTemplates.SubstituteTemplates(articleText, articleTitle);
-
-            if (chkSkipWhenNoFAR.Checked && (testText == articleText))
-            {
-                SkipArticle = true;
-                return articleText;
-            }
-            else
-            {
-                SkipArticle = false;
                 return articleText;
             }
         }
