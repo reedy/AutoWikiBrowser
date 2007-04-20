@@ -12,7 +12,7 @@ namespace AutoWikiBrowser
          * successful save, and it needs to increase the time until next fire if the page still doesn't get
          * saved (e.g. wiki or net connection is down). */
         // Events
-        public event TickEventHandler Tick;
+        public new event TickEventHandler Tick;
         public delegate void TickEventHandler(object sender, NudgeTimer.NudgeTimerEventArgs EventArgs);
 
         // Methods

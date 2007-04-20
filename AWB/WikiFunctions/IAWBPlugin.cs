@@ -7,23 +7,13 @@ using WikiFunctions.Logging;
 
 namespace WikiFunctions.Plugin
 {
-    public delegate void PluginEventHandler();
-    public delegate void PluginSkipEventHandler(string SkipReason);
-
     /* DO NOT CHANGE without consulting plugin authors. This interface is a contract with external plugins and
      * is of sufficient vintage to be considered non-negotiable. */
     public interface IAWBPlugin
     {
-        event PluginEventHandler Start;
-        event PluginEventHandler Save;
-        event PluginSkipEventHandler Skip;
-        event PluginEventHandler Stop;
-        event PluginEventHandler Diff;
-        event PluginEventHandler Preview;
-
-        void Initialise(IAWBMainForm MainForm);
+        void Initialise(IAutoWikiBrowser MainForm);
         string Name { get; }
-        string ProcessArticle(IAWBMainForm sender, ProcessArticleEventArgs eventargs);
+        string ProcessArticle(IAutoWikiBrowser sender, ProcessArticleEventArgs eventargs);
 
         void LoadSettings(object[] Prefs);
         object[] SaveSettings();
@@ -57,7 +47,7 @@ namespace WikiFunctions.Plugin
 
     /* This interface allows plugins to manipulate AWB UI elements without (ahem) resorting to hacks.    
     The interface isn't considered "locked" yet so more properties and methods may be added if needed.  */
-    public interface IAWBMainForm
+    public interface IAutoWikiBrowser
     {
         Form Form { get; }
         TabPage MoreOptionsTab { get; }
@@ -87,6 +77,13 @@ namespace WikiFunctions.Plugin
         TabControl Tab { get; }
         void NotifyBalloon(string Message, ToolTipIcon Icon);
         int Nudges { get; }
+
+        void Start();
+        void Save();
+        void SkipPage(string reason);
+        void Stop();
+        void GetDiff();
+        void GetPreview();
     }
 
     public interface IModule

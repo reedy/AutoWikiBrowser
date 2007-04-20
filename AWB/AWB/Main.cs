@@ -49,7 +49,7 @@ namespace AutoWikiBrowser
 {
     [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
     [System.Runtime.InteropServices.ComVisibleAttribute(true)]
-    public partial class MainForm : Form, IAWBMainForm
+    public partial class MainForm : Form, IAutoWikiBrowser
     {
         #region constructor etc.
 
@@ -354,7 +354,7 @@ namespace AutoWikiBrowser
 
         #region MainProcess
 
-        private void Start()
+         private void Start()
         {
             try
             {
@@ -2900,13 +2900,6 @@ font-size: 150%;'>No changes</h2>");
 
             foreach (KeyValuePair<string, IAWBPlugin> a in AWBPlugins)
             {
-                a.Value.Start += Start;
-                a.Value.Save += Save;
-                a.Value.Skip += SkipPage;
-                a.Value.Stop += Stop;
-                a.Value.Diff += GetDiff;
-                a.Value.Preview += GetPreview;
-
                 a.Value.Initialise(this);
             }
 
@@ -3194,33 +3187,42 @@ font-size: 150%;'>No changes</h2>");
         }
         #endregion
 
-        #region IAWBMainForm:
-        TabPage IAWBMainForm.MoreOptionsTab { get { return tpMoreOptions; } }
-        TabPage IAWBMainForm.OptionsTab { get { return tpSetOptions; } }
-        TabPage IAWBMainForm.StartTab { get { return tpStart; } }
-        TabPage IAWBMainForm.DabTab { get { return tpDab; } }
-        TabPage IAWBMainForm.BotTab { get { return tpBots; } }
-        CheckBox IAWBMainForm.BotModeCheckbox { get { return chkAutoMode; } }
-        Button IAWBMainForm.PreviewButton { get { return btnPreview; } }
-        Button IAWBMainForm.SaveButton { get { return btnSave; } }
-        Button IAWBMainForm.SkipButton { get { return btnIgnore; } }
-        Button IAWBMainForm.StopButton { get { return btnStop; } }
-        Button IAWBMainForm.DiffButton { get { return btnDiff; } }
-        Button IAWBMainForm.StartButton { get { return btnStart; } }
-        ComboBox IAWBMainForm.EditSummary { get { return cmboEditSummary; } }
-        StatusStrip IAWBMainForm.StatusStrip { get { return statusStrip1; } }
-        NotifyIcon IAWBMainForm.NotifyIcon { get { return ntfyTray; } }
-        CheckBox IAWBMainForm.SkipNonExistentPagesCheckBox { get { return chkSkipNonExistent; } }
-        CheckBox IAWBMainForm.ApplyGeneralFixesCheckBox { get { return chkGeneralFixes; } }
-        CheckBox IAWBMainForm.AutoTagCheckBox { get { return chkAutoTagger; } }
-        ToolStripMenuItem IAWBMainForm.HelpToolStripMenuItem { get { return helpToolStripMenuItem; } }
-        TextBox IAWBMainForm.EditBox { get { return txtEdit; } }
-        Form IAWBMainForm.Form { get { return this; } }
-        ToolStripMenuItem IAWBMainForm.PluginsToolStripMenuItem { get { return pluginsToolStripMenuItem; } }
-        WikiFunctions.Lists.ListMaker IAWBMainForm.ListMaker { get { return listMaker1; } }
-        WikiFunctions.Browser.WebControl IAWBMainForm.WebControl { get { return webBrowserEdit;} }
-        ContextMenuStrip IAWBMainForm.EditBoxContextMenu { get { return mnuTextBox; } }
-        TabControl IAWBMainForm.Tab { get { return tabControl1; } }
+        #region IAutoWikiBrowser:
+        // Objects:
+            TabPage IAutoWikiBrowser.MoreOptionsTab { get { return tpMoreOptions; } }
+            TabPage IAutoWikiBrowser.OptionsTab { get { return tpSetOptions; } }
+            TabPage IAutoWikiBrowser.StartTab { get { return tpStart; } }
+            TabPage IAutoWikiBrowser.DabTab { get { return tpDab; } }
+            TabPage IAutoWikiBrowser.BotTab { get { return tpBots; } }
+            CheckBox IAutoWikiBrowser.BotModeCheckbox { get { return chkAutoMode; } }
+            Button IAutoWikiBrowser.PreviewButton { get { return btnPreview; } }
+            Button IAutoWikiBrowser.SaveButton { get { return btnSave; } }
+            Button IAutoWikiBrowser.SkipButton { get { return btnIgnore; } }
+            Button IAutoWikiBrowser.StopButton { get { return btnStop; } }
+            Button IAutoWikiBrowser.DiffButton { get { return btnDiff; } }
+            Button IAutoWikiBrowser.StartButton { get { return btnStart; } }
+            ComboBox IAutoWikiBrowser.EditSummary { get { return cmboEditSummary; } }
+            StatusStrip IAutoWikiBrowser.StatusStrip { get { return statusStrip1; } }
+            NotifyIcon IAutoWikiBrowser.NotifyIcon { get { return ntfyTray; } }
+            CheckBox IAutoWikiBrowser.SkipNonExistentPagesCheckBox { get { return chkSkipNonExistent; } }
+            CheckBox IAutoWikiBrowser.ApplyGeneralFixesCheckBox { get { return chkGeneralFixes; } }
+            CheckBox IAutoWikiBrowser.AutoTagCheckBox { get { return chkAutoTagger; } }
+            ToolStripMenuItem IAutoWikiBrowser.HelpToolStripMenuItem { get { return helpToolStripMenuItem; } }
+            TextBox IAutoWikiBrowser.EditBox { get { return txtEdit; } }
+            Form IAutoWikiBrowser.Form { get { return this; } }
+            ToolStripMenuItem IAutoWikiBrowser.PluginsToolStripMenuItem { get { return pluginsToolStripMenuItem; } }
+            WikiFunctions.Lists.ListMaker IAutoWikiBrowser.ListMaker { get { return listMaker1; } }
+            WikiFunctions.Browser.WebControl IAutoWikiBrowser.WebControl { get { return webBrowserEdit;} }
+            ContextMenuStrip IAutoWikiBrowser.EditBoxContextMenu { get { return mnuTextBox; } }
+            TabControl IAutoWikiBrowser.Tab { get { return tabControl1; } }
+
+        // Events:
+            void IAutoWikiBrowser.SkipPage(string reason) { SkipPage(reason); }
+            void IAutoWikiBrowser.Start() { Start(); }
+            void IAutoWikiBrowser.Stop() { Stop(); }
+            void IAutoWikiBrowser.GetDiff() { GetDiff(); }
+            void IAutoWikiBrowser.GetPreview() { GetPreview(); }
+            void IAutoWikiBrowser.Save() { Save(); }
         #endregion
 
         /// <summary>

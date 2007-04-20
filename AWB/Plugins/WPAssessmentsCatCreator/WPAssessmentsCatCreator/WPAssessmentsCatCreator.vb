@@ -23,7 +23,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.WPAssessmentsCatCreator
         Implements IAWBPlugin
 
         ' AWB objects:
-        Private Shared AWBForm As IAWBMainForm
+        Private Shared AWBForm As IAutoWikiBrowser
 
         ' Menu item:
         Private Const conOurName As String = "WPAssessmentsCatCreator"
@@ -47,15 +47,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.WPAssessmentsCatCreator
             ArticlesByP
         End Enum
 
-        ' AWB interface:
-        Public Event Diff() Implements IAWBPlugin.Diff
-        Public Event Save() Implements IAWBPlugin.Save
-        Public Event Skip(ByVal SkipReason As String) Implements IAWBPlugin.Skip
-        Public Event Start() Implements IAWBPlugin.Start
-        Public Event [Stop]() Implements IAWBPlugin.Stop
-        Public Event Preview() Implements IAWBPlugin.Preview
-
-        Public Sub Initialise(ByVal MainForm As IAWBMainForm) Implements IAWBPlugin.Initialise
+        Public Sub Initialise(ByVal MainForm As IAutoWikiBrowser) Implements IAWBPlugin.Initialise
             ' Store object references:
             AWBForm = MainForm
 
@@ -73,7 +65,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.WPAssessmentsCatCreator
                 Return conOurName
             End Get
         End Property
-        Public Function ProcessArticle(ByVal sender As IAWBMainForm, _
+        Public Function ProcessArticle(ByVal sender As IAutoWikiBrowser, _
         ByVal ProcessArticleEventArgs As ProcessArticleEventArgs) As String _
         Implements IAWBPlugin.ProcessArticle
 
@@ -177,7 +169,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.WPAssessmentsCatCreator
         ' Event handlers:
         Private Sub OurMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) _
         Handles OurMenuItem.Click
-            RaiseEvent Stop()
+            AWBForm.Stop()
             AWBForm.StopButton.PerformClick()
 
             If AWBForm.ListMaker.Count > 0 Then
@@ -251,8 +243,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.WPAssessmentsCatCreator
                "|.*((?<art>by quality)|(?<byimp>by importance)|(?<bypri>by priority))$)", _
                RegexOptions.ExplicitCapture)
 
-            RaiseEvent Start()
-
+            AWBForm.Start()
 ExitMe:
             Exit Sub
 
