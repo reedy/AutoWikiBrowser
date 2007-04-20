@@ -64,6 +64,16 @@ namespace WikiFunctions.Plugin
         void GetPreview();
     }
 
+    public interface ProcessArticleEventArgs
+    {
+        string ArticleText { get; }
+        string ArticleTitle { get; }
+        string EditSummary { get; set; }
+        int NameSpaceKey { get; }
+        IMyTraceListener AWBLogItem { get; }
+        bool Skip { get; set; }
+    }
+
     public interface IModule
     {
         string ProcessArticle(string ArticleText, string ArticleTitle, int Namespace, out string Summary, out bool Skip);

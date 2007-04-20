@@ -38,7 +38,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Article.cs" />
+    <Compile Include="Article.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="AWBProfile.cs" />
     <Compile Include="AWBProfileAdd.cs">
       <SubType>Form</SubType>
