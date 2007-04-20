@@ -686,7 +686,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
 
         ' Initialisation:
         Protected Friend Sub New(ByVal Manager As PluginManager)
-            MyBase.New(Manager)
+            MyBase.New()
 
             Const RegexpMiddle As String = "WPMILHIST|WikiProject Military History|WikiProject Military history"
 

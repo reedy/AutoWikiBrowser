@@ -119,7 +119,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
 
         ' Initialisation:
         Protected Friend Sub New(ByVal Manager As PluginManager)
-            MyBase.New(Manager)
+            MyBase.New()
             Const RegexpMiddle As String = "Album|Albums"
             MainRegex = CreateStandardRegex(RegexpMiddle)
             PreferredTemplateNameRegex = New Regex("^[Aa]lbum$", RegexOptions.Compiled)
