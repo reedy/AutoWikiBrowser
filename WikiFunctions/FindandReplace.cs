@@ -71,10 +71,7 @@ namespace WikiFunctions.Parse
 
                 rep = new Replacement();
 
-                if ((bool)dataGridRow.Cells["enabled"].FormattedValue)
-                    rep.Enabled = true;
-                else
-                    rep.Enabled = false;
+                    rep.Enabled = ((bool)dataGridRow.Cells["enabled"].FormattedValue);
 
                 if (dataGridRow.Cells["replace"].Value == null)
                     dataGridRow.Cells["replace"].Value = "";
