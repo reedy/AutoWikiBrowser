@@ -23,28 +23,6 @@ namespace WikiFunctions.Plugin
         void Nudged(int Nudges);
     }
 
-    public class ProcessArticleEventArgs
-    {
-        private string mArticleText, mArticleTitle, mEditSummary="";
-        private int mNamespace;
-        private IMyTraceListener mAWBLogItem;
-        private bool mSkip=false;
-
-        public ProcessArticleEventArgs(string ArticleText, string ArticleTitle, int Namespace, IMyTraceListener AWBLogItem)
-        {
-            mArticleText = ArticleText;
-            mArticleTitle = ArticleTitle;
-            mNamespace = Namespace;
-            mAWBLogItem = AWBLogItem;
-        }
-        public string ArticleText { get { return mArticleText; } }
-        public string ArticleTitle { get { return mArticleTitle; } }
-        public string EditSummary { get { return mEditSummary; } set { mEditSummary = value.Trim(); } }
-        public int Namespace { get { return mNamespace; } }
-        public IMyTraceListener AWBLogItem { get { return mAWBLogItem; } }
-        public bool Skip { get { return mSkip; } set { mSkip = value; } }
-    }
-
     /* This interface allows plugins to manipulate AWB UI elements without (ahem) resorting to hacks.    
     The interface isn't considered "locked" yet so more properties and methods may be added if needed.  */
     public interface IAutoWikiBrowser

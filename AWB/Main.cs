@@ -157,7 +157,6 @@ namespace AutoWikiBrowser
         StringCollection RecentList = new StringCollection();
         CustomModule cModule = new CustomModule();
         public RegexTester regexTester = new RegexTester();
-        AWBLogListener LogListener;
         bool userTalkWarningsLoaded = false;
         Regex userTalkTemplatesRegex;
 
@@ -398,8 +397,7 @@ namespace AutoWikiBrowser
                     webBrowserEdit.Busy = true;
 
                 EdittingArticle = listMaker1.SelectedArticle();
-
-                LogListener = new AWBLogListener(EdittingArticle.Name);
+                EdittingArticle.InitialiseLogListener();
 
                 if (!Tools.IsValidTitle(EdittingArticle.Name))
                 {
@@ -722,7 +720,7 @@ namespace AutoWikiBrowser
             NudgeTimer.Stop();
             sameArticleNudges = 0;
 
-            LogControl1.AddLog(false, LogListener);
+            LogControl1.AddLog(false, EdittingArticle.LogListener);
 
             if (listMaker1.Count == 0)
                 if (AutoSaveEditBoxEnabled)
@@ -756,21 +754,21 @@ namespace AutoWikiBrowser
                 switch (reason)
                 {
                     case "user":
-                        LogListener.UserSkipped();
+                        EdittingArticle.LogListener.UserSkipped();
                         break;
 
                     case "plugin":
-                        LogListener.PluginSkipped();
+                        EdittingArticle.LogListener.PluginSkipped();
                         break;
 
                     case "": break;
 
                     default:
-                        LogListener.AWBSkipped(reason);
+                        EdittingArticle.LogListener.AWBSkipped(reason);
                         break;
                 }
 
-                LogControl1.AddLog(true, LogListener);
+                LogControl1.AddLog(true, EdittingArticle.LogListener);
                 retries = 0;
                 Start();
             }
@@ -800,7 +798,8 @@ namespace AutoWikiBrowser
                 if (cModule.ModuleEnabled && cModule.Module != null)
                 {
                     string tempSummary = "";
-                    articleText = cModule.Module.ProcessArticle(articleText, EdittingArticle.Name, EdittingArticle.NameSpaceKey, out tempSummary, out SkipArticle);
+                    articleText = cModule.Module.ProcessArticle(articleText, EdittingArticle.Name, 
+                        EdittingArticle.NameSpaceKey, out tempSummary, out SkipArticle);
                     if (SkipArticle)
                         return articleText;
                     else if (tempSummary.Length > 0)
@@ -812,14 +811,14 @@ namespace AutoWikiBrowser
                 if (AWBPlugins.Count > 0)
                 {
                     SkipArticle = false; // TODO: we probably don't need this line any more?
-                    ProcessArticleEventArgs ProcessArticleEventArgs = new ProcessArticleEventArgs(articleText,
-                        EdittingArticle.Name, EdittingArticle.NameSpaceKey, LogListener);
+                    ProcessArticleEventArgs ProcessArticleEventArgs = 
+                        EdittingArticle.GetProcessArticleEventArgs(articleText);
 
                     foreach (KeyValuePair<string, IAWBPlugin> a in AWBPlugins)
                     {
                         articleText = a.Value.ProcessArticle(this, ProcessArticleEventArgs);
                         SkipArticle = ProcessArticleEventArgs.Skip; // TODO: nor this?
-                        if (SkipArticle)
+                        if (ProcessArticleEventArgs.Skip)
                             return articleText;
                         else if (ProcessArticleEventArgs.EditSummary.Length > 0)
                         {

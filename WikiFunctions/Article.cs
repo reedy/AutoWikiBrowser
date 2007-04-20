@@ -21,11 +21,14 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
+using WikiFunctions.Logging;
 
 namespace WikiFunctions
-{    
-    public class Article
+{
+    public class Article : ProcessArticleEventArgs
     {
+        protected AWBLogListener mAWBLogListener;
+
         public Article()
         { }
         
@@ -42,6 +45,15 @@ namespace WikiFunctions
             this.NameSpaceKey = NameSpaceKey;
             this.EditSummary = "";
         }
+
+        public AWBLogListener InitialiseLogListener()
+        {
+            mAWBLogListener = new Logging.AWBLogListener(this.Name);
+            return mAWBLogListener;
+        }
+
+        public AWBLogListener LogListener
+        { get { return mAWBLogListener; } set { mAWBLogListener = value; } }
 
         [XmlAttribute]
         public int NameSpaceKey;
@@ -83,5 +95,46 @@ namespace WikiFunctions
         }
 
         #endregion
+
+        #region ProcessArticleEventArgs
+        protected string mPluginArticleText; // Todo: Not sure if we can just pass the Article object's text or not
+        protected string mPluginEditSummary;
+        protected bool mPluginSkip;
+
+        IMyTraceListener ProcessArticleEventArgs.AWBLogItem
+        { get { return mAWBLogListener; } }
+
+        string ProcessArticleEventArgs.ArticleText
+        { get { return mPluginArticleText; } }
+
+        string ProcessArticleEventArgs.ArticleTitle
+        { get { return Name; } }
+
+        string ProcessArticleEventArgs.EditSummary
+        { get { return mPluginEditSummary; } set { mPluginEditSummary = value.Trim(); } }
+
+        int ProcessArticleEventArgs.Namespace
+        { get { return NameSpaceKey; } }
+
+        bool ProcessArticleEventArgs.Skip
+        { get { return mPluginSkip; } set { mPluginSkip = value; } }
+
+        public ProcessArticleEventArgs GetProcessArticleEventArgs(string articletext)
+        {
+            mPluginArticleText = articletext;
+            return this;
+        }
+
+        #endregion
+    }
+
+    public interface ProcessArticleEventArgs
+    {
+        string ArticleText { get; }
+        string ArticleTitle { get; }
+        string EditSummary { get; set; }
+        int Namespace { get; }
+        IMyTraceListener AWBLogItem { get; }
+        bool Skip { get; set; }
     }
 }
