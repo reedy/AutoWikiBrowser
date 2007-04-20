@@ -132,7 +132,7 @@ namespace WikiFunctions.Parse
                 ArticleText = RemoveLinks.AddBack(ArticleText);
 
             if (chkAddToSummary.Checked && streditsummary != "")
-                EditSummary += ", Replaced: " + summary.Trim();
+                EditSummary = ", Replaced: " + summary.Trim();
 
             return ArticleText;
         }

@@ -248,16 +248,19 @@ namespace WikiFunctions
         public void PerformFindAndReplace(FindandReplace findAndReplace, SubstTemplates substTemplates,
             WikiFunctions.MWB.ReplaceSpecial replaceSpecial, bool SkipWhenNoFAR)
         {
-            string strTemp, testText = mArticleText;
+            string strTemp, testText = mArticleText, tmpEditSummary="";
 
-            strTemp = findAndReplace.MultipleFindAndReplce(mArticleText, mName, ref mEditSummary);
+            strTemp = findAndReplace.MultipleFindAndReplce(mArticleText, mName, ref tmpEditSummary);
             strTemp = replaceSpecial.ApplyRules(strTemp, mName);
             strTemp = substTemplates.SubstituteTemplates(strTemp, mName); // TODO: Possible bug, this was "articleTitle" not "Name"
 
             if (SkipWhenNoFAR && (testText == strTemp)) // NoChange
                 mAWBLogListener.AWBSkipped("No Find And Replace Changes");
             else
-                this.AWBChangeArticleText("Find and replace", strTemp, false);
+            {
+                this.AWBChangeArticleText("Find and replace" + tmpEditSummary, strTemp, false);
+                mEditSummary += tmpEditSummary;
+            }
         }
 
         public void PerformTypoFixes(RegExTypoFix RegexTypos, bool SkipIfNoRegexTypo)
@@ -267,10 +270,77 @@ namespace WikiFunctions
 
             if (NoChange && SkipIfNoRegexTypo)
                 mAWBLogListener.AWBSkipped("No Typo Fixes");
-            else
+            else if (!NoChange)
+            {
                 this.AWBChangeArticleText(mPluginEditSummary, strTemp, false);
                 AppendPluginEditSummary();
+            }
         }
+
+        public void AutoTag(Parsers parsers, bool SkipNoAutoTag)
+        {
+            bool NoChange; string tmpEditSummary="";
+            string strTemp = parsers.Tagger(mArticleText, mName, out NoChange, ref tmpEditSummary);
+
+            if (SkipNoAutoTag && SkipArticle)
+                mAWBLogListener.AWBSkipped("No Tag changed");
+            else if (!NoChange)
+            {
+                this.AWBChangeArticleText("Auto tagger changes" + tmpEditSummary, strTemp, false);
+                mEditSummary += tmpEditSummary;
+            }
+        }
+
+        public void FixHeaderErrors(Parsers parsers, LangCodeEnum LangCode, bool SkipNoHeaderError)
+        {
+            if (LangCode == LangCodeEnum.en)
+            {
+                bool NoChange;
+                string strTemp = parsers.Conversions(mArticleText);
+                strTemp = parsers.FixDates(strTemp);
+                strTemp = parsers.LivingPeople(strTemp, out NoChange);
+                strTemp = parsers.ChangeToDefaultSort(strTemp, mName);
+                strTemp = parsers.FixHeadings(strTemp, mName, out NoChange);
+                if (SkipNoHeaderError && NoChange)
+                    mAWBLogListener.AWBSkipped("No Header Errors");
+                else if (!NoChange)
+                    this.AWBChangeArticleText("Fixed header errors", strTemp, true);
+            }
+        }
+
+        public void FixLinks(Parsers parsers, bool SkipNoBadLink)
+        {
+            bool NoChange;
+            string strTemp = parsers.FixLinks(mArticleText, out NoChange);
+            if (NoChange && SkipArticle)
+                mAWBLogListener.AWBSkipped("No Bad Links");
+            else if (!NoChange)
+                this.AWBChangeArticleText("Fixed links", strTemp, false);
+        }
+
+        public void BulletExternalLinks(Parsers parsers, bool SkipNoBulletedLink)
+        {
+            bool NoChange;
+            string strTemp = parsers.BulletExternalLinks(mArticleText, out NoChange);
+            if (SkipNoBulletedLink && NoChange)
+                mAWBLogListener.AWBSkipped("No Missing Bulleted Links");
+            else if (!NoChange)
+                this.AWBChangeArticleText("Bulleted external links", strTemp, true);
+        }
+
+        public void EmboldenTitles(Parsers parsers, bool SkipNoBoldTitle)
+        {
+            bool NoChange;
+            string strTemp = parsers.BoldTitle(mArticleText, mName, out NoChange);
+            if (SkipNoBoldTitle && NoChange)
+               mAWBLogListener.AWBSkipped("No Titles to embolden");
+            else if (!NoChange)
+                this.AWBChangeArticleText("Emboldened titles", strTemp, true);
+        }
+
+        public bool IDontKnowWhatThisDoesAndNorDoesMartin // TODO: Please rename this to describe the property it returns
+            // Sam says it's CategoryMainOrSandbox { }
+        { get { return (NameSpaceKey == 0 || NameSpaceKey == 14 || Name.Contains("Sandbox")); } }
 
         #region Overrides
 
@@ -319,15 +389,5 @@ namespace WikiFunctions
         { get { return mPluginSkip; } set { mPluginSkip = value; } }
 
         #endregion
-    }
-
-    public interface ProcessArticleEventArgs
-    {
-        string ArticleText { get; }
-        string ArticleTitle { get; }
-        string EditSummary { get; set; }
-        int NameSpaceKey { get; }
-        IMyTraceListener AWBLogItem { get; }
-        bool Skip { get; set; }
     }
 }

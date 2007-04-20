@@ -210,7 +210,7 @@ namespace AutoWikiBrowser
         #region Properties
 
         Article stredittingarticle = new Article("");
-        public Article EdittingArticle
+        public Article TheArticle
         {
             get { return stredittingarticle; }
             private set { stredittingarticle = value; }
@@ -365,7 +365,7 @@ namespace AutoWikiBrowser
 
                 StopDelayedRestartTimer();
                 DisableButtons();
-                EdittingArticle.EditSummary = "";
+                TheArticle.EditSummary = "";
                 skippable = true;
                 txtEdit.Clear();
 
@@ -395,10 +395,10 @@ namespace AutoWikiBrowser
                 else
                     webBrowserEdit.Busy = true;
 
-                EdittingArticle = listMaker1.SelectedArticle();
-                EdittingArticle.InitialiseLogListener();
+                TheArticle = listMaker1.SelectedArticle();
+                TheArticle.InitialiseLogListener();
 
-                if (!Tools.IsValidTitle(EdittingArticle.Name))
+                if (!Tools.IsValidTitle(TheArticle.Name))
                 {
                     SkipPage("Invalid page title");
                     return;
@@ -409,7 +409,7 @@ namespace AutoWikiBrowser
                 EditBoxSaveTimer.Enabled = AutoSaveEditBoxEnabled;
 
                 //Navigate to edit page
-                webBrowserEdit.LoadEditPage(EdittingArticle.Name);
+                webBrowserEdit.LoadEditPage(TheArticle.Name);
             }
             catch (Exception ex)
             {
@@ -425,26 +425,26 @@ namespace AutoWikiBrowser
 
             string strTemp = webBrowserEdit.GetArticleText();
 
-            this.Text = "AutoWikiBrowser" + SettingsFile + " - " + EdittingArticle.Name;
+            this.Text = "AutoWikiBrowser" + SettingsFile + " - " + TheArticle.Name;
 
             //check for redirect
             if (bypassRedirectsToolStripMenuItem.Checked && Tools.IsRedirect(strTemp) && !PageReload)
             {
                 Article Redirect = new Article(Tools.RedirectTarget(strTemp));
 
-                if (Redirect.Name == EdittingArticle.Name)
+                if (Redirect.Name == TheArticle.Name)
                 {//ignore recursice redirects
                     SkipPage("Recursive redirect");
                     return;
                 }
 
-                listMaker1.ReplaceArticle(EdittingArticle, Redirect);
-                EdittingArticle = Redirect;
+                listMaker1.ReplaceArticle(TheArticle, Redirect);
+                TheArticle = Redirect;
 
                 webBrowserEdit.LoadEditPage(Redirect.Name);
                 return;
             }
-            EdittingArticle.OriginalArticleText = strTemp;
+            TheArticle.OriginalArticleText = strTemp;
 
             if (PageReload)
             {
@@ -454,24 +454,24 @@ namespace AutoWikiBrowser
             }
 
             //check not in use
-            if (EdittingArticle.IsInUse() && !BotMode)
+            if (TheArticle.IsInUse() && !BotMode)
                 MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
 
-            if (chkSkipIfContains.Checked && EdittingArticle.SkipIfContains(txtSkipIfContains.Text, 
+            if (chkSkipIfContains.Checked && TheArticle.SkipIfContains(txtSkipIfContains.Text, 
                 chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, true))
             {
                 SkipPage("Article contains: " + txtSkipIfContains.Text);
                 return;
             }
 
-            if (chkSkipIfNotContains.Checked && EdittingArticle.SkipIfContains(txtSkipIfNotContains.Text,
+            if (chkSkipIfNotContains.Checked && TheArticle.SkipIfContains(txtSkipIfNotContains.Text,
                 chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, false))
             {
                 SkipPage("Article does not contain: " + txtSkipIfNotContains.Text);
                 return;
             }
 
-            if (!Skip.skipIf(EdittingArticle.OriginalArticleText))
+            if (!Skip.skipIf(TheArticle.OriginalArticleText))
             {
                 //TODO: Set Skip Reason
                 SkipPage("");
@@ -484,7 +484,7 @@ namespace AutoWikiBrowser
                 ProcessPage();
 
                 if (!Abort && skippable && chkSkipNoChanges.Checked && 
-                    EdittingArticle.ArticleText == EdittingArticle.OriginalArticleText)
+                    TheArticle.ArticleText == TheArticle.OriginalArticleText)
                 {
                     SkipPage("No changes made");
                     return;
@@ -497,8 +497,8 @@ namespace AutoWikiBrowser
                 return;
             }
 
-            webBrowserEdit.SetArticleText(EdittingArticle.ArticleText);
-            txtEdit.Text = EdittingArticle.ArticleText;
+            webBrowserEdit.SetArticleText(TheArticle.ArticleText);
+            txtEdit.Text = TheArticle.ArticleText;
 
             //Update statistics and alerts
             ArticleInfo(false);
@@ -709,11 +709,11 @@ namespace AutoWikiBrowser
             NumberOfEdits++;
 
             LastArticle = "";
-            listMaker1.Remove(EdittingArticle);
+            listMaker1.Remove(TheArticle);
             NudgeTimer.Stop();
             sameArticleNudges = 0;
 
-            LogControl1.AddLog(false, EdittingArticle.LogListener);
+            LogControl1.AddLog(false, TheArticle.LogListener);
 
             if (listMaker1.Count == 0)
                 if (AutoSaveEditBoxEnabled)
@@ -741,27 +741,27 @@ namespace AutoWikiBrowser
                 NumberOfIgnoredEdits++;
                 stopDelayedAutoSaveTimer();
                 NudgeTimer.Stop();
-                listMaker1.Remove(EdittingArticle);
+                listMaker1.Remove(TheArticle);
                 sameArticleNudges = 0;
 
                 switch (reason)
                 {
                     case "user":
-                        EdittingArticle.LogListener.UserSkipped();
+                        TheArticle.LogListener.UserSkipped();
                         break;
 
                     case "plugin":
-                        EdittingArticle.LogListener.PluginSkipped();
+                        TheArticle.LogListener.PluginSkipped();
                         break;
 
                     case "": break;
 
                     default:
-                        EdittingArticle.LogListener.AWBSkipped(reason);
+                        TheArticle.LogListener.AWBSkipped(reason);
                         break;
                 }
 
-                LogControl1.AddLog(true, EdittingArticle.LogListener);
+                LogControl1.AddLog(true, TheArticle.LogListener);
                 retries = 0;
                 Start();
             }
@@ -773,18 +773,18 @@ namespace AutoWikiBrowser
 
         private void SendPageToCustomModule()
         {
-            ProcessArticleEventArgs ProcessArticleEventArgs = EdittingArticle;
+            ProcessArticleEventArgs ProcessArticleEventArgs = TheArticle;
             string strEditSummary = "", strTemp; bool SkipArticle;
 
             strTemp = cModule.Module.ProcessArticle(ProcessArticleEventArgs.ArticleText,
-                ProcessArticleEventArgs.ArticleTitle, EdittingArticle.NameSpaceKey, out strEditSummary, out SkipArticle);
+                ProcessArticleEventArgs.ArticleTitle, TheArticle.NameSpaceKey, out strEditSummary, out SkipArticle);
 
             if (!SkipArticle)
             {
                 ProcessArticleEventArgs.EditSummary = strEditSummary;
                 ProcessArticleEventArgs.Skip = false;
-                EdittingArticle.AWBChangeArticleText("Custom module", strTemp, true);
-                EdittingArticle.AppendPluginEditSummary();
+                TheArticle.AWBChangeArticleText("Custom module", strTemp, true);
+                TheArticle.AppendPluginEditSummary();
             }
         }
 
@@ -794,134 +794,100 @@ namespace AutoWikiBrowser
 
             try
             {
-                if (noParse.Contains(EdittingArticle.Name))
+                if (noParse.Contains(TheArticle.Name))
                     process = false;
 
-                // {{bots}}/{{nobots}}
                 if (!ignoreNoBotsToolStripMenuItem.Checked && 
-                    !Parsers.CheckNoBots(EdittingArticle.ArticleText, Variables.User.Name))
-                    EdittingArticle.AWBSkip("Bot Edits not Allowed");
+                    !Parsers.CheckNoBots(TheArticle.ArticleText, Variables.User.Name))
+                    TheArticle.AWBSkip("Bot Edits not Allowed");
 
                 if (cModule.ModuleEnabled && cModule.Module != null)
                 {
                     SendPageToCustomModule();
-                    if (EdittingArticle.SkipArticle) return;
+                    if (TheArticle.SkipArticle) return;
                 }
 
                 if (AWBPlugins.Count > 0)
                 {
                     foreach (KeyValuePair<string, IAWBPlugin> a in AWBPlugins)
                     {
-                        EdittingArticle.SendPageToPlugin(a.Value, this);
-                        if (EdittingArticle.SkipArticle) return;
+                        TheArticle.SendPageToPlugin(a.Value, this);
+                        if (TheArticle.SkipArticle) return;
                     }
                 }
 
                 if (chkUnicodifyWhole.Checked && process)
                 {
-                    EdittingArticle.Unicodify(Skip.SkipNoUnicode, parsers);
-                    if (EdittingArticle.SkipArticle) return;
+                    TheArticle.Unicodify(Skip.SkipNoUnicode, parsers);
+                    if (TheArticle.SkipArticle) return;
                 }
 
                 if (cmboImages.SelectedIndex != 0)
                 {
-                    EdittingArticle.UpdateImages((WikiFunctions.Options.ImageReplaceOptions)cmboImages.SelectedIndex,
+                    TheArticle.UpdateImages((WikiFunctions.Options.ImageReplaceOptions)cmboImages.SelectedIndex,
                         parsers, txtImageReplace.Text, txtImageWith.Text, chkSkipNoImgChange.Checked);
-                    if (EdittingArticle.SkipArticle) return;
+                    if (TheArticle.SkipArticle) return;
                 }
 
                 if (cmboCategorise.SelectedIndex != 0)
                 {
-                    EdittingArticle.Categorisation((WikiFunctions.Options.CategorisationOptions)
+                    TheArticle.Categorisation((WikiFunctions.Options.CategorisationOptions)
                         cmboCategorise.SelectedIndex, parsers, chkSkipNoCatChange.Checked, txtNewCategory.Text,
                         txtNewCategory2.Text);
-                    if (EdittingArticle.SkipArticle) return;
+                    if (TheArticle.SkipArticle) return;
                 }
 
                 if (chkFindandReplace.Checked && !findAndReplace.AfterOtherFixes)
                 {
-                    EdittingArticle.PerformFindAndReplace(findAndReplace, substTemplates, replaceSpecial,
+                    TheArticle.PerformFindAndReplace(findAndReplace, substTemplates, replaceSpecial,
                         chkSkipWhenNoFAR.Checked);
-                    if (EdittingArticle.SkipArticle) return;
+                    if (TheArticle.SkipArticle) return;
                 }
 
-                if (chkRegExTypo.Checked && RegexTypos != null && !BotMode && !Tools.IsTalkPage(EdittingArticle.NameSpaceKey))
+                if (chkRegExTypo.Checked && RegexTypos != null && !BotMode && !Tools.IsTalkPage(TheArticle.NameSpaceKey))
                 {
-                    EdittingArticle.PerformTypoFixes(RegexTypos, chkSkipIfNoRegexTypo.Checked);
-                    if (EdittingArticle.SkipArticle) return;
+                    TheArticle.PerformTypoFixes(RegexTypos, chkSkipIfNoRegexTypo.Checked);
+                    if (TheArticle.SkipArticle) return;
                 }
 
-                if (EdittingArticle.NameSpaceKey == 0 || EdittingArticle.NameSpaceKey == 14 || EdittingArticle.Name.Contains("Sandbox") || EdittingArticle.Name.Contains("Sandbox"))
+                if (TheArticle.IDontKnowWhatThisDoesAndNorDoesMartin)
                 {
                     if (process && chkAutoTagger.Checked)
                     {
-                        articleText = parsers.Tagger(articleText, EdittingArticle.Name, out SkipArticle, ref EdittingArticle.EditSummary);
-                        if (Skip.SkipNoTag && SkipArticle)
-                        {
-                            skipReason = "No Tag changed";
-                            return articleText;
-                        }
+                        TheArticle.AutoTag(parsers, Skip.SkipNoTag);
+                        if (TheArticle.SkipArticle) return;
                     }
 
                     if (process && chkGeneralFixes.Checked)
                     {
-                        articleText = RemoveText.Hide(articleText);
+                        TheArticle.AWBChangeArticleText("RemoveText.Hide", 
+                            RemoveText.Hide(TheArticle.ArticleText), true);
 
-                        if (Variables.LangCode == LangCodeEnum.en)
-                        {//en only
-                            articleText = parsers.Conversions(articleText);
-                            //articleText = parsers.FixHeadings(articleText);
-                            articleText = parsers.FixDates(articleText);
-                            //articleText = parsers.FixFootnotes(articleText);
-                            articleText = parsers.LivingPeople(articleText, out SkipArticle);
-                            articleText = parsers.ChangeToDefaultSort(articleText, EdittingArticle.Name);
-                            articleText = parsers.FixHeadings(articleText, EdittingArticle.Name, out SkipArticle);
-                            if (Skip.SkipNoHeaderError && SkipArticle)
-                            {
-                                skipReason = "No Header Errors";
-                                return articleText;
-                            }
-                        }
-                        articleText = parsers.FixCategories(articleText);
-                        articleText = parsers.FixImages(articleText);
-                        articleText = parsers.FixSyntax(articleText);
+                        TheArticle.FixHeaderErrors(parsers, Variables.LangCode, Skip.SkipNoHeaderError);
 
-                        articleText = parsers.FixLinks(articleText, out SkipArticle);
-                        if (Skip.SkipNoBadLink && SkipArticle)
-                        {
-                            skipReason = "No Bad Links";
-                            return articleText;
-                        }
+                        TheArticle.AWBChangeArticleText("Fix categories", parsers.FixCategories(TheArticle.ArticleText), true);
+                        TheArticle.AWBChangeArticleText("Fix images", parsers.FixImages(TheArticle.ArticleText), true);
+                        TheArticle.AWBChangeArticleText("Fix syntax", parsers.FixSyntax(TheArticle.ArticleText), true);
 
-                        articleText = parsers.BulletExternalLinks(articleText, out SkipArticle);
-                        if (Skip.SkipNoBulletedLink && SkipArticle)
-                        {
-                            skipReason = "No Missing Bulleted Links";
-                            return articleText;
-                        }
+                        TheArticle.FixLinks(parsers, Skip.SkipNoBadLink);
+                        TheArticle.BulletExternalLinks(parsers, Skip.SkipNoBulletedLink);
 
-                        articleText = parsers.SortMetaData(articleText, EdittingArticle.Name);
+                        TheArticle.AWBChangeArticleText("Sort meta data", 
+                            parsers.SortMetaData(TheArticle.ArticleText, TheArticle.Name), true);
 
-                        //articleText = RemoveText.HideMore(articleText);
-                        articleText = parsers.BoldTitle(articleText, EdittingArticle.Name, out SkipArticle);
-                        //articleText = RemoveText.AddBackMore(articleText);
-                        if (Skip.SkipNoBoldTitle && SkipArticle)
-                        {
-                            skipReason = "No Titles to bolden";
-                            return articleText;
-                        }
+                        TheArticle.EmboldenTitles(parsers, Skip.SkipNoBoldTitle);
 
                         articleText = parsers.StickyLinks(parsers.SimplifyLinks(articleText));
 
                         articleText = RemoveText.AddBack(articleText);
                     }
                 }
-                else if (process && chkGeneralFixes.Checked && EdittingArticle.NameSpaceKey == 3)
+                else if (process && chkGeneralFixes.Checked && TheArticle.NameSpaceKey == 3)
                 {
                     articleText = RemoveText.Hide(articleText);
                     if (!userTalkWarningsLoaded)
                         loadUserTalkWarnings();
-                    articleText = parsers.SubstUserTemplates(articleText, EdittingArticle.Name, userTalkTemplatesRegex);
+                    articleText = parsers.SubstUserTemplates(articleText, TheArticle.Name, userTalkTemplatesRegex);
                     articleText = RemoveText.AddBack(articleText);
                 }
 
@@ -949,7 +915,7 @@ namespace AutoWikiBrowser
                 {
                     SkipArticle = false;
                     DabForm df = new DabForm();
-                    articleText = df.Disambiguate(articleText, EdittingArticle.Name, txtDabLink.Text.Trim(),
+                    articleText = df.Disambiguate(articleText, TheArticle.Name, txtDabLink.Text.Trim(),
                         txtDabVariants.Lines, (int)udContextChars.Value, BotMode, out SkipArticle);
 
                     Abort = df.Abort;
@@ -1194,7 +1160,7 @@ font-size: 150%;'>No changes</h2>");
 
         private string MakeSummary()
         {
-            string tag = cmboEditSummary.Text + EdittingArticle.EditSummary;
+            string tag = cmboEditSummary.Text + TheArticle.EditSummary;
             if (!BotMode || !chkSuppressTag.Checked) tag += " " + Variables.SummaryTag;
 
             return tag;
@@ -1478,7 +1444,7 @@ font-size: 150%;'>No changes</h2>");
 
                 intLinks = intLinks - intInterLinks - intImages - intCats;
 
-                if (EdittingArticle.NameSpaceKey == 0 && (WikiRegexes.Stub.IsMatch(ArticleText)) && (intWords > 500))
+                if (TheArticle.NameSpaceKey == 0 && (WikiRegexes.Stub.IsMatch(ArticleText)) && (intWords > 500))
                     lblWarn.Text = "Long article with a stub tag.\r\n";
 
                 if (!(Regex.IsMatch(ArticleText, "\\[\\[" + Variables.Namespaces[14], RegexOptions.IgnoreCase)))
@@ -1571,7 +1537,7 @@ font-size: 150%;'>No changes</h2>");
         private void txtEdit_TextChanged(object sender, EventArgs e)
         {
             resetFind();
-            EdittingArticle.EditSummary = "";
+            TheArticle.EditSummary = "";
         }
         private void chkFindCaseSensitive_CheckedChanged(object sender, EventArgs e)
         {
@@ -1602,7 +1568,7 @@ font-size: 150%;'>No changes</h2>");
             else
                 regOptions = RegexOptions.IgnoreCase;
 
-            strRegex = Tools.ApplyKeyWords(EdittingArticle.Name, strRegex);
+            strRegex = Tools.ApplyKeyWords(TheArticle.Name, strRegex);
 
             if (!isRegex)
                 strRegex = Regex.Escape(strRegex);
@@ -2000,8 +1966,8 @@ font-size: 150%;'>No changes</h2>");
 
         private void FalsePositive()
         {
-            if (EdittingArticle.Name.Length > 0)
-                Tools.WriteLog("#[[" + EdittingArticle.Name + "]]\r\n", @"False positives.txt");
+            if (TheArticle.Name.Length > 0)
+                Tools.WriteLog("#[[" + TheArticle.Name + "]]\r\n", @"False positives.txt");
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -2208,7 +2174,7 @@ font-size: 150%;'>No changes</h2>");
 
         private void humanNameDisambigTagToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            txtEdit.SelectedText = "{{Hndis|name=" + Tools.MakeHumanCatKey(EdittingArticle.Name) + "}}";
+            txtEdit.SelectedText = "{{Hndis|name=" + Tools.MakeHumanCatKey(TheArticle.Name) + "}}";
         }
 
         private void wikifyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2274,7 +2240,7 @@ font-size: 150%;'>No changes</h2>");
 
         private void humanNameCategoryKeyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            txtEdit.SelectedText = "{{DEFAULTSORT:" + Tools.MakeHumanCatKey(EdittingArticle.Name) + "}}";
+            txtEdit.SelectedText = "{{DEFAULTSORT:" + Tools.MakeHumanCatKey(TheArticle.Name) + "}}";
         }
 
         private void birthdeathCatsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2294,7 +2260,7 @@ font-size: 150%;'>No changes</h2>");
                     strDeath = m[1].Value;
 
                 //make name, surname, firstname
-                string strName = Tools.MakeHumanCatKey(EdittingArticle.Name);
+                string strName = Tools.MakeHumanCatKey(TheArticle.Name);
 
                 string Categories = "";
 
@@ -2334,19 +2300,19 @@ font-size: 150%;'>No changes</h2>");
 
             undoToolStripMenuItem.Enabled = txtEdit.CanUndo;
 
-            openPageInBrowserToolStripMenuItem.Enabled = EdittingArticle.Name.Length > 0;
-            openHistoryMenuItem.Enabled = EdittingArticle.Name.Length > 0;
+            openPageInBrowserToolStripMenuItem.Enabled = TheArticle.Name.Length > 0;
+            openHistoryMenuItem.Enabled = TheArticle.Name.Length > 0;
             replaceTextWithLastEditToolStripMenuItem.Enabled = LastArticle.Length > 0;
         }
 
         private void openPageInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=" + EdittingArticle.URLEncodedName);
+            System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName);
         }
 
         private void openHistoryMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=" + EdittingArticle.URLEncodedName + "&action=history");
+            System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName + "&action=history");
         }
 
         private void openSelectionInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2410,7 +2376,7 @@ font-size: 150%;'>No changes</h2>");
         private void reparseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             bool b = true;
-            txtEdit.Text = Process(txtEdit.Text, out b);
+            txtEdit.Text = ProcessPage(txtEdit.Text, out b);
         }
 
         private void replaceTextWithLastEditToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2497,7 +2463,7 @@ font-size: 150%;'>No changes</h2>");
 
         private void cmboEditSummary_MouseMove(object sender, MouseEventArgs e)
         {
-            if (EdittingArticle.EditSummary == "")
+            if (TheArticle.EditSummary == "")
                 toolTip1.SetToolTip(cmboEditSummary, "");
             else
                 toolTip1.SetToolTip(cmboEditSummary, MakeSummary());
@@ -2826,13 +2792,13 @@ font-size: 150%;'>No changes</h2>");
 
             try
             {
-                dlg.NewTitle = EdittingArticle.Name;
+                dlg.NewTitle = TheArticle.Name;
                 dlg.Summary = LastMove;
 
                 if (dlg.ShowDialog(this) == DialogResult.OK)
                 {
                     LastMove = dlg.Summary;
-                    webBrowserEdit.MovePage(EdittingArticle.Name, dlg.NewTitle, dlg.Summary);
+                    webBrowserEdit.MovePage(TheArticle.Name, dlg.NewTitle, dlg.Summary);
                 }
             }
             catch (Exception ex)
@@ -2856,7 +2822,7 @@ font-size: 150%;'>No changes</h2>");
                 if (dlg.ShowDialog(this) == DialogResult.OK)
                 {
                     LastDelete = dlg.Summary;
-                    webBrowserEdit.DeletePage(EdittingArticle.Name, dlg.Summary);
+                    webBrowserEdit.DeletePage(TheArticle.Name, dlg.Summary);
                 }
             }
             catch (Exception ex)
@@ -3244,7 +3210,7 @@ font-size: 150%;'>No changes</h2>");
         private void reloadEditPageToolStripMenuItem_Click(object sender, EventArgs e)
         {
             PageReload = true;
-            webBrowserEdit.LoadEditPage(EdittingArticle.Name);
+            webBrowserEdit.LoadEditPage(TheArticle.Name);
             strOrigText = webBrowserEdit.GetArticleText();
         }
     }
