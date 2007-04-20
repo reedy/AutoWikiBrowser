@@ -339,7 +339,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
 
         ' Initialisation:
         Protected Friend Sub New(ByVal Manager As PluginManager)
-            MyBase.New(Manager)
+            MyBase.New()
             Const RegexpMiddle As String = "WP Australia"
             MainRegex = CreateStandardRegex(RegexpMiddle)
             SecondChanceRegex = CreateSecondChanceRegex(RegexpMiddle)

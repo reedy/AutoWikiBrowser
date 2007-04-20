@@ -332,8 +332,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Private SkipRegex As Regex
 
         ' Initialisation:
-        Protected Friend Sub New(ByVal Manager As PluginManager, ByVal MyName As String)
-            MyBase.New(Manager)
+        Protected Friend Sub New(ByVal MyName As String)
+            MyBase.New()
             OurSettingsControl = New GenericTemplateSettings(MyName)
             OurTab = New TabPage(MyName)
             OurName = MyName
@@ -433,7 +433,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                     MessageBox.Show("Error processing skip regular expression: " & Microsoft.VisualBasic.vbCrLf & _
                        Microsoft.VisualBasic.vbCrLf & ex.ToString, "Error", MessageBoxButtons.OK, _
                        MessageBoxIcon.Error)
-                    Manager.StopAWB()
+                    PluginManager.StopAWB()
                 End Try
             End If
         End Function
@@ -592,7 +592,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Handles DeleteMeMenuItem.Click
             If MessageBox.Show("Delete the " & OurName & " plugin?", "Delete?", MessageBoxButtons.YesNo, _
             MessageBoxIcon.Question) = DialogResult.Yes Then
-                Manager.DeleteGenericPlugin(Me, Me)
+                PluginManager.DeleteGenericPlugin(Me, Me)
             End If
         End Sub
 
@@ -653,7 +653,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
 
             ' Perform cleanup that has to be executed in either case:
             OurMenuItem = Nothing
-            Manager = Nothing
             Article = Nothing
             Template = Nothing
             MainRegex = Nothing

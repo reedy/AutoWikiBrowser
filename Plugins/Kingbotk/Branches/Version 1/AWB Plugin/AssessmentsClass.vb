@@ -11,10 +11,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
         Private PluginSettings As PluginSettingsControl
         Private State As New StateClass
 
-        ' Events:
-        Event Preview()
-        Event StopAWB()
-
         ' Regex:
         Private Shared ReqphotoAnyRegex As New Regex("\{\{\s*(template\s*:\s*|)\s*reqphoto", _
            RegexOptions.IgnoreCase Or RegexOptions.Compiled Or RegexOptions.ExplicitCapture)
@@ -199,7 +195,7 @@ ExitMe:
             MessageBox.Show("The assessments plugin was expecting to receive " & text & _
                " next. Is this a bug or is your list messed up?", "Expecting " & text, _
                MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            RaiseEvent StopAWB()
+            PluginManager.StopAWB()
         End Sub
         Private Sub ToggleAWBCleanup(ByVal Cleanup As Boolean)
             For Each chk As CheckBox In AWBCleanupCheckboxes
