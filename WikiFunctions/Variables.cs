@@ -88,9 +88,7 @@ namespace WikiFunctions
         public static string URLLong
         {
             get
-            {
-                return URL + URLEnd;
-            }
+            { return URL + URLEnd; }
         }
 
         /// <summary>
@@ -115,9 +113,7 @@ namespace WikiFunctions
         public static string URL
         {
             get
-            {
-                return strURL;
-            }
+            { return strURL; }
             private set { strURL = value; }
         }
 
@@ -146,9 +142,7 @@ namespace WikiFunctions
         public static string CustomProject
         {
             get
-            {
-                return strcustomproject;
-            }
+            { return strcustomproject; }
         }
 
         static string strsummarytag = " using [[Project:AWB|AWB]]";
@@ -829,7 +823,6 @@ namespace WikiFunctions
 
             try
             {
-
                 string sr = Tools.GetHTML(url);
                 int ns_number;
                 string ns_name;
@@ -1154,13 +1147,9 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                     
                     //load check page
                     if (Variables.LangCode != LangCodeEnum.ar)
-                    {
                         webBrowserLogin.Navigate(Variables.URLLong + "index.php?title=Project:AutoWikiBrowser/CheckPage&action=edit");
-                    }
                     else
-                    {
                         webBrowserLogin.Navigate("http://ar.wikipedia.org/w/index.php?title=%D9%88%D9%8A%D9%83%D9%8A%D8%A8%D9%8A%D8%AF%D9%8A%D8%A7:%D9%82%D8%A7%D8%A6%D9%85%D8%A9_%D8%A7%D9%84%D9%88%D9%8A%D9%83%D9%8A%D8%A8%D9%8A%D8%AF%D9%8A%D9%88%D9%86_%D8%A7%D9%84%D9%85%D8%B3%D9%85%D9%88%D8%AD_%D9%84%D9%87%D9%85_%D8%A8%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85_%D8%A7%D9%84%D8%A3%D9%88%D8%AA%D9%88_%D9%88%D9%8A%D9%83%D9%8A_%D8%A8%D8%B1%D8%A7%D9%88%D8%B2%D8%B1&action=edit");
-                    }
                     //wait to load
                     webBrowserLogin.Wait();
 
@@ -1181,15 +1170,11 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                     //see if there is a message
                     Match m = Regex.Match(strText, "<!--Message:(.*?)-->");
                     if (m.Success && m.Groups[1].Value.Trim().Length > 0)
-                    {
                         MessageBox.Show(m.Groups[1].Value, "Automated message", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
                     
                     m = Regex.Match(strText, "<!--[Tt]ypos:(.*?)-->");
                     if (m.Success && m.Groups[1].Value.Trim().Length > 0)
-                    {
                         Variables.RETFPath = m.Groups[1].Value.Trim();
-                    }
 
                     //don't require approval if checkpage does not exist.
                     if (strText.Length < 1)

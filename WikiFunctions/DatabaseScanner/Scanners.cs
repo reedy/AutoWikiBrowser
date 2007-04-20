@@ -132,17 +132,11 @@ namespace WikiFunctions.DatabaseScanner
             actual = ArticleText.Length;
 
             if (M == MoreLessThan.MoreThan)
-            {
                 return (actual > test);
-            }
             else if (M == MoreLessThan.LessThan)
-            {
                 return (actual < test);
-            }
             else
-            {
                 return (actual == test);
-            }
         }
     }
 
@@ -160,21 +154,14 @@ namespace WikiFunctions.DatabaseScanner
 
         public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
-            MatchCollection m = WikiRegexes.SimpleWikiLink.Matches(ArticleText);
-            actual = m.Count;
+            actual = WikiRegexes.SimpleWikiLink.Matches(ArticleText).Count;
 
             if (M == MoreLessThan.MoreThan)
-            {
                 return (actual > test);
-            }
             else if (M == MoreLessThan.LessThan)
-            {
                 return (actual < test);
-            }
             else
-            {
                 return (actual == test);
-            }
         }
     }
 
@@ -195,17 +182,11 @@ namespace WikiFunctions.DatabaseScanner
             actual = Tools.WordCount(ArticleText);
 
             if (M == MoreLessThan.MoreThan)
-            {
                 return (actual > test);
-            }
             else if (M == MoreLessThan.LessThan)
-            {
                 return (actual < test);
-            }
             else
-            {
                 return (actual == test);
-            }
         }
     }
 
@@ -321,15 +302,10 @@ namespace WikiFunctions.DatabaseScanner
                 b = m.Groups[2].Value;
 
                 if (a == b || Tools.TurnFirstToLower(a) == b)
-                {
                     return true;
-                }
                 else if (a + "s" == b || Tools.TurnFirstToLower(a) + "s" == b)
-                {
                     return true;
-                }
             }
-
             return false;
         }
     }

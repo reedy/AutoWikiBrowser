@@ -92,21 +92,6 @@ namespace WikiFunctions.Lists
 
         private void btnGo_Click(object sender, EventArgs e)
         {
-            //int i = 0;
-            //string s = "";
-
-            //while (i < lbFirst.Items.Count)
-            //{
-            //    s = lbFirst.Items[i].ToString();
-
-            //    s = reg.Replace(s, "");
-
-            //    if (reg3.IsMatch(s))
-            //        lbBoth.Items.Add(lbFirst.Items[i].ToString());
-
-            //    i++;
-            //}
-            //return;
             lbBoth.Items.Clear();
             lbOnly1.Items.Clear();
             lbOnly2.Items.Clear();
@@ -178,7 +163,5 @@ namespace WikiFunctions.Lists
             }
             SaveList(strList);
         }
-
-
     }
 }

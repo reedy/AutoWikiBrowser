@@ -50,9 +50,7 @@ namespace WikiFunctions
                         FileVersionInfo versionUpdater = FileVersionInfo.GetVersionInfo(".\\AWBUpdater.exe");
 
                         if (Convert.ToInt32(m_updversion.Groups[1].Value) > Convert.ToInt32(versionUpdater.FileVersion.Replace(".", "")))
-                        {
                             System.Diagnostics.Process.Start(".\\AWBUpdater.exe");
-                        }
                     }
                 }
             }

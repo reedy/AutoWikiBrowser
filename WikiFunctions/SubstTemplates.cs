@@ -50,13 +50,9 @@ namespace WikiFunctions
             Regexes.Clear();
             string templ = Variables.NamespacesCaseInsensitive[10];
             if (templ[0] == '(')
-            {
                 templ = templ.Insert(templ.Length - 2, "|[Mm]sg:|");
-            }
             else
-            {
                 templ = @"(?:" + templ + "|[Mm]sg:|)";
-            }
 
             foreach (string s in TemplateList)
             {

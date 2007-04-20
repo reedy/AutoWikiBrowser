@@ -56,15 +56,6 @@ namespace WikiFunctions.Disambiguation
 
         static Regex UnpipeRegex = new Regex(@"\[\[([^\|\]]*)\|[^\]]*\]\]", RegexOptions.Compiled);
 
-        /*
-        public DabControl(IContainer container)
-        {
-            container.Add(this);
-
-            InitializeComponent();
-        }*/
-
-        //
         public bool CanSave
         {
             get

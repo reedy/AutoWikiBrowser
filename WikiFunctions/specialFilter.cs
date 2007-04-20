@@ -45,13 +45,9 @@ namespace WikiFunctions.Lists
         private void btnApply_Click(object sender, EventArgs e)
         {
             if (chkRemoveDups.Checked)
-            {
                 removeDups(true);
-            }
             else
-            {
                 removeDups(false);
-            }
 
             bool does = (chkContains.Checked && txtContains.Text != "");
             bool doesnot = (chkNotContains.Checked && txtDoesNotContain.Text != "");
@@ -75,20 +71,13 @@ namespace WikiFunctions.Lists
 
         public void removeDups(bool check)
         {
-            if (check)
+            foreach (Article a in lb)
             {
-                foreach (Article a in lb)
-                {
+                if (check)
                     if (!list.Contains(a))
                         list.Add(a);
-                }
-            }
-            else
-            {
-                foreach (Article a in lb)
-                {
-                    list.Add(a);
-                }
+                else
+                    list.Add(a);   
             }
 
             lb.Items.Clear();
@@ -329,9 +318,7 @@ namespace WikiFunctions.Lists
         private void FilterList()
         {
             if (cbOpType.SelectedIndex == 0) foreach (Article a in lbRemove)
-                {
                     list.Remove(a);
-                }
             else
             {
                 List<Article> list2 = new List<Article>();
@@ -407,14 +394,10 @@ namespace WikiFunctions.Lists
             {
                 chkPortal.Text = Variables.Namespaces[100];
                 chkPortalTalk.Text = Variables.Namespaces[101];
-                chkPortal.Visible = true;
-                chkPortalTalk.Visible = true;
             }
-            else
-            {
-                chkPortal.Visible = false;
-                chkPortalTalk.Visible = false;
-            }
+
+            chkPortal.Visible = (Variables.Namespaces.ContainsKey(100));
+            chkPortalTalk.Visible = (Variables.Namespaces.ContainsKey(100));
         }
 
         #region contextMenu

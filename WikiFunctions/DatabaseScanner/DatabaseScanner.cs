@@ -369,9 +369,7 @@ namespace WikiFunctions.DatabaseScanner
                     s = s.Replace("&amp;", "&");
 
                     if (s.Length > 1)
-                    {
                         sr = s.Remove(1);
-                    }
                     else
                         sr = s;
 
@@ -426,9 +424,7 @@ namespace WikiFunctions.DatabaseScanner
             try
             {
                 if (openXMLDialog.ShowDialog() == DialogResult.OK)
-                {
                     fileName = openXMLDialog.FileName;
-                }
             }
             catch { }
         }
@@ -475,16 +471,6 @@ namespace WikiFunctions.DatabaseScanner
                 About.Show();
             }
             catch { }
-        }
-
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            //try
-            //{
-            //    if (PThread != null && PThread.IsAlive)
-            //        PThread.Abort();
-            //}
-            //catch { }
         }
 
         private void chkRegex_CheckedChanged(object sender, EventArgs e)
@@ -935,7 +921,6 @@ namespace WikiFunctions.DatabaseScanner
                 btnStart.Text = "Start";
             }
         }
-
         #endregion
     }
 }

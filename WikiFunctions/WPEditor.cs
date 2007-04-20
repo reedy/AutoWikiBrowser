@@ -336,7 +336,6 @@ namespace WikiFunctions
         }
         #endregion
 
-
         #region Revisions and reverts
         /// <summary>
         /// Reverts an article to the specified revision.
@@ -395,7 +394,6 @@ namespace WikiFunctions
 
             if (History[i].User != User)
             {
-
                 Summary = Summary.Replace("%v", User);
                 Summary = Summary.Replace("%u", History[i].User);
 
@@ -683,27 +681,18 @@ namespace WikiFunctions
 
         public bool IsSysop
         {
-            get
-            {
-                return Groups.Contains("sysop");
-            }
+            get { return Groups.Contains("sysop"); }
         }
 
         public bool IsBot
         {
-            get
-            {
-                return Groups.Contains("bot");
-            }
+            get { return Groups.Contains("bot"); }
         }
 
         public bool IsAnon
         {
-            get
-            {
-                return Tools.IsIP(Name);
-            }
-        }   
+            get { return Tools.IsIP(Name); }
+        }
 
         public string Name;
     }
