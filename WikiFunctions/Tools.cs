@@ -66,10 +66,7 @@ namespace WikiFunctions
         /// <param name="ArticleTitle">The title.</param>
         public static bool IsMainSpace(string ArticleTitle)
         {
-            if (CalculateNS(ArticleTitle) == 0)
-                return true;
-            else
-                return false;
+            return (CalculateNS(ArticleTitle) == 0);
         }
 
         /// <summary>
@@ -132,9 +129,7 @@ namespace WikiFunctions
         {
             foreach (string character in InvalidChars)
             {
-                Match invalidChar = Regex.Match(Title, Regex.Escape(character));
-
-                if (invalidChar.Success)
+                if (Regex.Match(Title, Regex.Escape(character)).Success)
                     Title = Title.Replace(character, "");
             }
             return Title;
@@ -159,12 +154,9 @@ namespace WikiFunctions
         /// <param name="ArticleTitle">The title.</param>
         public static bool IsTalkPage(string ArticleTitle)
         {
-            int i = CalculateNS(ArticleTitle);
+            //int i = CalculateNS(ArticleTitle);
 
-            if (i % 2 == 1)
-                return true;
-            else
-                return false;
+            return (CalculateNS(ArticleTitle) % 2 == 1);
         }
 
         /// <summary>
@@ -173,10 +165,7 @@ namespace WikiFunctions
         /// <param name="Key">The namespace key</param>
         public static bool IsTalkPage(int Key)
         {
-            if (Key % 2 == 1)
-                return true;
-            else
-                return false;
+            return (Key % 2 == 1);
         }
 
         /// <summary>
