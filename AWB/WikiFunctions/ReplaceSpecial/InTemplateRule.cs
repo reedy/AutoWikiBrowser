@@ -221,9 +221,7 @@ namespace WikiFunctions.MWB
 
             return p.Result;
         }
-
-
-
+        
         static bool CheckIf(string template, TreeNode tn, string text)
         {
             string s = template;
@@ -246,8 +244,7 @@ namespace WikiFunctions.MWB
 
             return true;
         }
-
-
+        
         static string ReplaceOn(string template, TreeNode tn, string text, string title)
         {
             InTemplateRule r = (InTemplateRule)tn.Tag;
