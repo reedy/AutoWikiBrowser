@@ -131,6 +131,7 @@
     <Compile Include="NoFlickerListView.Designer.cs">
       <DependentUpon>NoFlickerListView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Options.cs" />
     <Compile Include="Parsers.cs" />
     <Compile Include="IAWBPlugin.cs" />
     <Compile Include="PleaseWait.cs">

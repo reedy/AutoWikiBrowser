@@ -204,7 +204,7 @@ End Namespace";
 
         private void guideToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(@"A module allows you to process the article text using your own C# code.
+            MessageBox.Show(@"A module allows you to process the article text using your own dotnet code.
 
 Use the ""Makes module"" button to compile and load the code.
 

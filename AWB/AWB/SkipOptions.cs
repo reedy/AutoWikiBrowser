@@ -56,32 +56,6 @@ namespace AutoWikiBrowser
         public bool skipIf(string articleText)
         {//custom code to skip articles can be added here
             return true;
-
-        }
-
-        public bool SkipIfContains(string ArticleText, string ArticleTitle, string strFind, bool Regexe, bool caseSensitive, bool DoesContain)
-        {
-            if (strFind.Length > 0)
-            {
-                RegexOptions RegOptions;
-
-                if (caseSensitive)
-                    RegOptions = RegexOptions.None;
-                else
-                    RegOptions = RegexOptions.IgnoreCase;
-
-                strFind = Tools.ApplyKeyWords(ArticleTitle, strFind);
-
-                if (!Regexe)
-                    strFind = Regex.Escape(strFind);
-
-                if (Regex.IsMatch(ArticleText, strFind, RegOptions))
-                    return DoesContain;
-                else
-                    return !DoesContain;
-            }
-            else
-                return false;
         }
 
         private void SkipOptions_FormClosing(object sender, FormClosingEventArgs e)

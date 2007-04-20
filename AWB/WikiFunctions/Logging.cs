@@ -105,6 +105,9 @@ using System.Text;
         private bool mSkipped;
 
         #region AWB Interface
+            public bool Skipped
+            { get { return mSkipped; } }
+
             public AWBLogListener(string ArticleTitle)
             {
                 Text = ArticleTitle;
@@ -247,6 +250,11 @@ using System.Text;
                 else
                 { ToolTipText = Text + System.Environment.NewLine + ToolTipText; }
             }
+
+            public void WriteLine(string Text, string Sender)
+            {
+                if (Text.Trim() != "") Write(Sender + ": " + Text);
+            }
         #endregion
 
         private string GetSubItemText(int SubItem)
@@ -268,11 +276,6 @@ using System.Text;
             base.SubItems.Add(SkipReason);
             WriteLine(SkipReason, SkippedBy);
             mSkipped = true;
-        }
-
-        protected void WriteLine(string Text, string Sender)
-        {
-            if (Text.Trim() != "") Write(Sender + ": " + Text);
         }
  
         // disable access to underlying Items property to stop Reedy Boy accessing it ;)
