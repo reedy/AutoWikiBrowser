@@ -1010,9 +1010,9 @@ font-size: 150%;'>No changes</h2>");
 
         #region extra stuff
 
-        readonly Regex DiffIdParser = new Regex(@"[a-z](\d*)x(\d*)");
+        readonly Regex DiffIdParser = new Regex(@"[a-z]-+(\d*)x-+(\d*)");
 
-        public void DiffClicked(string id)
+        public void DiffDblClicked(string id)
         {
             try
             {
@@ -1047,6 +1047,22 @@ font-size: 150%;'>No changes</h2>");
             {
                 MessageBox.Show(ex.Message);
                 return;
+            }
+        }
+
+        public void DiffClicked(string id)
+        {
+            try
+            {
+                Match m = DiffIdParser.Match(id);
+                int DestLine = int.Parse(m.Groups[2].Value) - 1;
+
+                txtEdit.Select();
+                txtEdit.Select(txtEdit.GetFirstCharIndexFromLine(DestLine), 0);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
