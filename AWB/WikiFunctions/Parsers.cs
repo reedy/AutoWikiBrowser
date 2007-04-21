@@ -156,6 +156,7 @@ namespace WikiFunctions.Parse
         readonly Regex regexHeadings6 = new Regex("(== ?)(Early|Personal|Adult|Later) Life( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex regexHeadings7 = new Regex("(== ?)(Current|Past|Prior) Members( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex regexHeadings8 = new Regex(@"^(=+)'''(.*?)'''(=+)\s*$", RegexOptions.Multiline | RegexOptions.Compiled);
+        readonly Regex regexHeadings9 = new Regex("(== ?)track listing( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex regexHeadingsCareer = new Regex("(== ?)([a-zA-Z]+) Career( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         readonly Regex RegexBadHeader = new Regex("^(={1,4} ?(about|description|overview|definition|profile|(?:general )?information|background|intro(?:duction)?|summary|bio(?:graphy)?) ?={1,4})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -197,8 +198,9 @@ namespace WikiFunctions.Parse
             ArticleText = regexHeadings6.Replace(ArticleText, "$1$2 life$3");
             ArticleText = regexHeadings7.Replace(ArticleText, "$1$2 members$3");
             ArticleText = regexHeadings8.Replace(ArticleText, "$1$2$3");
+            ArticleText = regexHeadings9.Replace(ArticleText, "$1Track listing$2");
             ArticleText = regexHeadingsCareer.Replace(ArticleText, "$1$2 career$3");
-
+            
             return ArticleText;
         }
 
