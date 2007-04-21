@@ -117,9 +117,7 @@ namespace AutoWikiBrowser
                     Type g = t.GetInterface("IModule");
 
                     if (g != null)
-                    {
                         Module = (IModule)Activator.CreateInstance(t);
-                    }
                 }
             }
             catch (Exception ex)
@@ -215,32 +213,21 @@ The int value ""Namespace"" gives you the key of the namespace, e.g. mainspace i
 
         private void chkModuleEnabled_CheckedChanged(object sender, EventArgs e)
         {
-            if (chkModuleEnabled.Checked)
-            {
-                btnDone.Enabled = true;
-                btnMake.Enabled = true;
-            }
-            else
-            {
-                btnDone.Enabled = false;
-                btnMake.Enabled = false;
-            }
+            btnDone.Enabled = (chkModuleEnabled.Checked);
+            btnMake.Enabled = (chkModuleEnabled.Checked);
         }
 
         private void chkFixedwidth_CheckedChanged(object sender, EventArgs e)
         {
+            Font a;
             if (chkFixedwidth.Checked)
-            {
-                txtCode.Font = new Font("Courier New", 9);
-                lblStart.Font = new Font("Courier New", 9);
-                lblEnd.Font = new Font("Courier New", 9);
-            }
+                a = new Font("Courier New", 9);
             else
-            {
-                txtCode.Font = new Font("Microsoft Sans Serif", 8);
-                lblStart.Font = new Font("Microsoft Sans Serif", 8);
-                lblEnd.Font = new Font("Microsoft Sans Serif", 8);
-            }
+                a = new Font("Microsoft Sans Serif", 8);
+
+            txtCode.Font = a;
+            lblStart.Font = a;
+            lblEnd.Font = a;
         }
     }
 }

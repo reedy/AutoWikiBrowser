@@ -216,10 +216,7 @@ namespace AutoWikiBrowser
         private bool BotMode
         {
             get { return chkAutoMode.Checked; }
-            set
-            {
-                chkAutoMode.Checked = value;
-            }
+            set { chkAutoMode.Checked = value; }
         }
 
         int intEdits = 0;
@@ -230,7 +227,6 @@ namespace AutoWikiBrowser
             {
                 intEdits = value;
                 lblEditCount.Text = "Edits: " + value.ToString();
-
             }
         }
 
@@ -270,10 +266,8 @@ namespace AutoWikiBrowser
             }
         }
 
-        //bool bFlashAndBeep = true;
         private bool FlashAndBeep
         {
-            //get { return bFlashAndBeep; }
             set { bFlash = value; bBeep = value; }
         }
 
@@ -544,7 +538,6 @@ namespace AutoWikiBrowser
                 Tools.Beep1();
         }
 
-
         private bool loadSuccess()
         {
             try
@@ -570,9 +563,7 @@ namespace AutoWikiBrowser
                 if (HTML.Contains("readOnly"))
                 {
                     if (Variables.User.IsAdmin)
-                    {
                         return true;
-                    }
                     else
                     {
                         NudgeTimer.Stop();
@@ -1472,9 +1463,7 @@ font-size: 150%;'>No changes</h2>");
         {
             int selection = lbDuplicateWikilinks.SelectedIndex;
             if (selection != oldselection)
-            {
                 resetFind();
-            }
             if (lbDuplicateWikilinks.SelectedIndex != -1)
             {
                 string strLink = Regex.Escape(lbDuplicateWikilinks.SelectedItem.ToString());
@@ -1887,9 +1876,7 @@ font-size: 150%;'>No changes</h2>");
         private void Timer_Tick(object sender, EventArgs e)
         {
             if (ticker != null)
-            {
                 ticker();
-            }
 
             seconds++;
             if (seconds == 60)
@@ -1980,7 +1967,6 @@ font-size: 150%;'>No changes</h2>");
 
         private void filterOutNonMainSpaceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //listMaker1.FilterNonMainArticles();
             if (filterOutNonMainSpaceToolStripMenuItem.Checked)
             {
                 listMaker1.FilterNonMainAuto = true;
@@ -2007,7 +1993,6 @@ font-size: 150%;'>No changes</h2>");
 
         private void sortAlphabeticallyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //listMaker1.AlphaSortList();
             if (sortAlphabeticallyToolStripMenuItem.Checked)
             {
                 listMaker1.AutoAlpha = true;
@@ -2426,9 +2411,7 @@ font-size: 150%;'>No changes</h2>");
 
         private void removeAllExcessWhitespaceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string text = txtEdit.Text;
-
-            text = RemoveText.Hide(text);
+            string text = RemoveText.Hide(txtEdit.Text);
             text = parsers.RemoveAllWhiteSpace(text);
             text = RemoveText.AddBack(text);
 
@@ -2908,9 +2891,7 @@ font-size: 150%;'>No changes</h2>");
         private void hideToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (this.Visible)
-            {
                 this.Visible = false;
-            }
         }
 
         private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -2922,9 +2903,7 @@ font-size: 150%;'>No changes</h2>");
         private void ntfyTray_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (!this.Visible)
-            {
                 toolStripHide();
-            }
             else
                 this.Visible = false;
         }
