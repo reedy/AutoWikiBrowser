@@ -1276,6 +1276,7 @@ font-size: 150%;'>No changes</h2>");
                 BotMode = false;
                 chkQuickSave.Checked = false;
                 lblOnlyBots.Visible = true;
+                webBrowserEdit.BringToFront();
                 webBrowserEdit.LoadLogOut();
                 webBrowserEdit.Wait();
                 Variables.User.UpdateWikiStatus();
@@ -1301,6 +1302,7 @@ font-size: 150%;'>No changes</h2>");
                     lblUserName.BackColor = Color.Red;
                     MessageBox.Show("You are not logged in. The log in screen will now load, enter your name and password, click \"Log in\", wait for it to complete, then start the process again.\r\n\r\nIn the future you can make sure this won't happen by logging in to Wikipedia using Microsoft Internet Explorer.", "Not logged in", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     webBrowserEdit.LoadLogInPage();
+                    webBrowserEdit.BringToFront();
                     break;
 
                 case WikiStatusResult.NotRegistered:
@@ -1650,6 +1652,7 @@ font-size: 150%;'>No changes</h2>");
             logOutDebugToolStripMenuItem.Visible = true;
             bypassAllRedirectsToolStripMenuItem.Enabled = true;
             webBrowserEdit.IsWebBrowserContextMenuEnabled = true;
+            recycleWebControlToolStripMenuItem.Visible = true;
         }
 
         #endregion
@@ -3191,6 +3194,52 @@ font-size: 150%;'>No changes</h2>");
             PageReload = true;
             webBrowserEdit.LoadEditPage(TheArticle.Name);
             TheArticle.OriginalArticleText = webBrowserEdit.GetArticleText();
+        }
+
+        private void recycleWebControl()
+        {
+            webBrowserEdit.Dispose();
+            webBrowserEdit = new WebControl();
+            
+            webBrowserEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            webBrowserEdit.ArticleText = "";
+            webBrowserEdit.Busy = false;
+            webBrowserEdit.ContextMenuStrip = this.mnuWebBrowser;
+            webBrowserEdit.DiffFontSize = 120;
+            webBrowserEdit.EnhanceDiffEnabled = true;
+            webBrowserEdit.IsWebBrowserContextMenuEnabled = false;
+            webBrowserEdit.Location = new System.Drawing.Point(0, 25);
+            webBrowserEdit.MinimumSize = new System.Drawing.Size(20, 20);
+            webBrowserEdit.Name = "webBrowserEdit";
+            webBrowserEdit.ProcessStage = WikiFunctions.Browser.enumProcessStage.none;
+            webBrowserEdit.ScriptErrorsSuppressed = true;
+            webBrowserEdit.ScrollDown = true;
+            webBrowserEdit.Size = new System.Drawing.Size(788, 195);
+            webBrowserEdit.TabIndex = 670;
+            webBrowserEdit.TabStop = false;
+            webBrowserEdit.TimeoutLimit = 30;
+            webBrowserEdit.WebBrowserShortcutsEnabled = false;
+            webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
+            webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
+
+            webBrowserEdit.Loaded += CaseWasLoad;
+            webBrowserEdit.Diffed += CaseWasDiff;
+            webBrowserEdit.Saved += CaseWasSaved;
+            webBrowserEdit.None += CaseWasNull;
+            webBrowserEdit.Fault += StartDelayedRestartTimer;
+            webBrowserEdit.StatusChanged += UpdateWebBrowserStatus;
+
+            webBrowserEdit.Visible = true;
+            webBrowserEdit.Show();
+            webBrowserEdit.BringToFront();
+        }
+
+        private void recycleWebControlToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            recycleWebControl();
+            Application.DoEvents();
         }
     }
 }
