@@ -41,7 +41,7 @@ namespace WikiFunctions
         protected string mArticleText = "";
         protected string mOriginalArticleText = "";
 
-        protected string mArticleTextSentToPlugin; // Todo: Not sure if we can just pass the Article object's text or not
+        //protected string mArticleTextSentToPlugin; // Todo: Not sure if we can just pass the Article object's text or not
         protected string mPluginEditSummary;
         protected bool mPluginSkip;
 
@@ -401,8 +401,8 @@ namespace WikiFunctions
         IMyTraceListener ProcessArticleEventArgs.AWBLogItem
         { get { return mAWBLogListener; } }
 
-        string ProcessArticleEventArgs.ArticleText
-        { get { return mArticleTextSentToPlugin; } }
+        //string ProcessArticleEventArgs.ArticleText
+        //{ get { return mArticleTextSentToPlugin; } }
 
         string ProcessArticleEventArgs.ArticleTitle
         { get { return mName; } }
