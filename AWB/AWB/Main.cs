@@ -2728,6 +2728,9 @@ font-size: 150%;'>No changes</h2>");
                     if (s.EndsWith("DotNetWikiBot.dll"))
                         continue;
 
+                    if (s.EndsWith("Wikidiff2.dll"))
+                        continue;
+
                     string imFile = Path.GetFileName(s);
 
                     Assembly asm = null;
