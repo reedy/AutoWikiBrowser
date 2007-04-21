@@ -342,7 +342,7 @@ namespace AutoWikiBrowser
 
         #region MainProcess
 
-         private void Start()
+        private void Start()
         {
             try
             {
@@ -424,7 +424,7 @@ namespace AutoWikiBrowser
                 Article Redirect = new Article(Tools.RedirectTarget(strTemp));
 
                 if (Redirect.Name == TheArticle.Name)
-                {//ignore recursice redirects
+                {//ignore recursive redirects
                     SkipPage("Recursive redirect");
                     return;
                 }
@@ -464,9 +464,8 @@ namespace AutoWikiBrowser
             }
 
             if (!Skip.skipIf(TheArticle.OriginalArticleText))
-            {
-                //TODO: Set Skip Reason
-                SkipPage("");
+            {                
+                SkipPage(); //TODO: Set Skip Reason
                 return;
             }
 
@@ -480,12 +479,11 @@ namespace AutoWikiBrowser
                     SkipPage("No changes made");
                     return;
                 }
-            }
-
-            if (!Abort && TheArticle.SkipArticle)
-            {
-                SkipPage(TheArticle.LogListener.SkipReason);
-                return;
+                else if (!Abort && TheArticle.SkipArticle)
+                {
+                    SkipPage(); // Don't send a reason; ProcessPage() should already have logged one
+                    return;
+                }
             }
 
             webBrowserEdit.SetArticleText(TheArticle.ArticleText);
@@ -722,7 +720,7 @@ namespace AutoWikiBrowser
             }
         }
 
-        private void SkipPage(string reason)
+        private void SkipPage()
         {
             try
             {
@@ -732,32 +730,34 @@ namespace AutoWikiBrowser
                 NudgeTimer.Stop();
                 listMaker1.Remove(TheArticle);
                 sameArticleNudges = 0;
-
-                switch (reason)
-                {
-                    case "user":
-                        TheArticle.LogListener.UserSkipped();
-                        break;
-
-                    case "plugin":
-                        TheArticle.LogListener.PluginSkipped();
-                        break;
-
-                    case "": break;
-
-                    default:
-                        TheArticle.LogListener.AWBSkipped(reason);
-                        break;
-                }
-
                 LogControl1.AddLog(true, TheArticle.LogListener);
                 retries = 0;
                 Start();
             }
             catch (Exception ex)
+            { MessageBox.Show(ex.Message); }
+        }
+
+        private void SkipPage(string reason)
+        {
+            switch (reason)
             {
-                MessageBox.Show(ex.Message);
+                case "user":
+                TheArticle.LogListener.UserSkipped();
+                break;
+
+                case "plugin":
+                TheArticle.LogListener.PluginSkipped();
+                break;
+
+                case "": break;
+
+                default:
+                TheArticle.LogListener.AWBSkipped(reason);
+                break;
             }
+
+            SkipPage();
         }
 
         private void SendPageToCustomModule()
@@ -788,7 +788,10 @@ namespace AutoWikiBrowser
 
                 if (!ignoreNoBotsToolStripMenuItem.Checked &&
                     !Parsers.CheckNoBots(TheArticle.ArticleText, Variables.User.Name))
+                {
                     TheArticle.AWBSkip("Bot Edits not Allowed");
+                    return;
+                }
 
                 if (cModule.ModuleEnabled && cModule.Module != null)
                 {
