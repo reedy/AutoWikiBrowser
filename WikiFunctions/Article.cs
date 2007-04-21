@@ -1,6 +1,7 @@
 /*
 Autowikibrowser
 Copyright (C) 2006 Martin Richards
+(C) 2007 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -40,10 +41,9 @@ namespace WikiFunctions
         protected AWBLogListener mAWBLogListener;
         protected string mArticleText = "";
         protected string mOriginalArticleText = "";
-
-        //protected string mArticleTextSentToPlugin; // Todo: Not sure if we can just pass the Article object's text or not
         protected string mPluginEditSummary;
         protected bool mPluginSkip;
+        //protected string mArticleTextSentToPlugin; // Todo: Not sure if we can just pass the Article object's text or not
 
         public Article()
         { }
@@ -68,6 +68,8 @@ namespace WikiFunctions
             return mAWBLogListener;
         }
 
+
+        [XmlIgnore]
         public AWBLogListener LogListener
         { get { return mAWBLogListener; } set { mAWBLogListener = value; } }
 
@@ -78,13 +80,16 @@ namespace WikiFunctions
 
         public string Name
         { get { return mName; } set { mName = value; } }
-
+        
+        [XmlIgnore]
         public string ArticleText
         { get { return mArticleText; } } //set { mArticleText = value; } } // set using methods
 
+        [XmlIgnore]
         public string OriginalArticleText
         { get { return mOriginalArticleText; } set { mOriginalArticleText = value; mArticleText = value; } }
 
+        [XmlIgnore]
         public string EditSummary
         { get { return mEditSummary; } set { mEditSummary = value; } }
 
@@ -366,8 +371,7 @@ namespace WikiFunctions
         public void UnHideText(HideText RemoveText)
         { mArticleText = RemoveText.AddBack(mArticleText); }
 
-        public bool IDontKnowWhatThisDoesAndNorDoesMartin // TODO: Please rename this to describe the property it returns
-            // Sam says it's CategoryMainOrSandbox { }
+        public bool CanDoGeneralFixes
         { get { return (NameSpaceKey == 0 || NameSpaceKey == 14 || Name.Contains("Sandbox")); } }
 
         #region Overrides

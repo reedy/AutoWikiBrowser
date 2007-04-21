@@ -846,7 +846,7 @@ namespace AutoWikiBrowser
                     if (TheArticle.SkipArticle) return;
                 }
 
-                if (TheArticle.IDontKnowWhatThisDoesAndNorDoesMartin)
+                if (TheArticle.CanDoGeneralFixes)
                 {
                     if (process && chkAutoTagger.Checked)
                     {
@@ -1295,12 +1295,10 @@ font-size: 150%;'>No changes</h2>");
                     lblUserName.BackColor = Color.Red;
                     MessageBox.Show(Variables.User.Name + " is not enabled to use this.", "Not enabled", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     System.Diagnostics.Process.Start(Variables.URL + "/wiki/Project:AutoWikiBrowser/CheckPage");
-
                     break;
 
                 case WikiStatusResult.OldVersion:
                     oldVersion();
-
                     break;
 
                 case WikiStatusResult.Registered:
