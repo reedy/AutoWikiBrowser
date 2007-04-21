@@ -65,9 +65,10 @@ namespace WikiFunctions
         static string EnhanceDiff(string diff)
         {
             return TdMagick.Replace(diff, "<td class=\"$1\" id=\"$2\" " +
-                "onmouseover='document.all.$2.style.border=\"1px solid #ccccff\"' " +
-                "onmouseout='document.all.$2.style.border=\"1px solid white\"' " +
-                "ondblclick='window.external.DiffClicked(\"$2\")'>");
+                //"onmouseover='document.all.$2.style.border=\"1px solid #ccccff\";' " +
+                //"onmouseout='document.all.$2.style.border=\"1px solid white\";' " +
+                "onclick='window.external.DiffClicked(\"$2\");' " +
+                "ondblclick='window.external.DiffDblClicked(\"$2\");'>");
         }
 
         public static unsafe string GetDiff(string text1, string text2, int context)
