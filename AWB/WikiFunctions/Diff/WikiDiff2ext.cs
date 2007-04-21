@@ -73,24 +73,23 @@ namespace WikiFunctions
 
         public static unsafe string GetDiff(string text1, string text2, int context)
         {
+            byte[] buf1;
             if (text1 == "")
-            {
-                byte[] buf1 = ToUTF8(text1);
-                byte[] buf2 = ToUTF8(text2);
-
-                string res;
-                fixed (byte* p1 = buf1) fixed (byte* p2 = buf2)
-                {
-                    byte* diff = wikidiff2_do_diff(p1, p2, context);
-                    if (diff == null) return "";
-                    res = FromUTF8(diff);
-                    wikidiff2_free(diff);
-                }
-
-                return EnhanceDiff(res);
-            }
+                buf1 = new byte[0];
             else
-                return EnhanceDiff("");
+                buf1 = ToUTF8(text1);
+            byte[] buf2 = ToUTF8(text2);
+
+            string res;
+            fixed (byte* p1 = buf1) fixed (byte* p2 = buf2)
+            {
+                byte* diff = wikidiff2_do_diff(p1, p2, context);
+                if (diff == null) return "";
+                res = FromUTF8(diff);
+                wikidiff2_free(diff);
+            }
+
+            return EnhanceDiff(res);
         }
 
         public static string TableHeader()
