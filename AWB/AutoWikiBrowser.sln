@@ -80,6 +80,7 @@ Global
 		{938C0EAD-3528-4F28-9069-3F90463033AC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{938C0EAD-3528-4F28-9069-3F90463033AC}.Release|Win32.ActiveCfg = Release|Any CPU
 		{980407B1-D48C-4000-A2FB-859347379ADC}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{980407B1-D48C-4000-A2FB-859347379ADC}.Debug|Any CPU.Build.0 = Debug|Win32
 		{980407B1-D48C-4000-A2FB-859347379ADC}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
 		{980407B1-D48C-4000-A2FB-859347379ADC}.Debug|Mixed Platforms.Build.0 = Debug|Win32
 		{980407B1-D48C-4000-A2FB-859347379ADC}.Debug|Win32.ActiveCfg = Debug|Win32
