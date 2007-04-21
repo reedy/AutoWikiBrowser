@@ -2723,10 +2723,7 @@ font-size: 150%;'>No changes</h2>");
 
                 foreach (string s in pluginFiles)
                 {
-                    if (s.EndsWith("DotNetWikiBot.dll"))
-                        continue;
-
-                    if (s.EndsWith("Wikidiff2.dll"))
+                    if (s.EndsWith("DotNetWikiBot.dll") || s.EndsWith("Wikidiff2.dll"))
                         continue;
 
                     string imFile = Path.GetFileName(s);
