@@ -34,9 +34,7 @@ namespace AutoWikiBrowser
         private void loadDefaultSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if ((MessageBox.Show("Would you really like to load the original default settings?", "Reset settings to default?", MessageBoxButtons.YesNo)) == DialogResult.Yes)
-            {
                 ResetSettings();
-            }
         }
 
         private void saveCurrentSettingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1092,9 +1090,7 @@ namespace AutoWikiBrowser
                 using (FileStream fStream = new FileStream(Path, FileMode.Open))
                 {
                     if (oldFile)
-                    {
                         loadSettings(fStream);
-                    }
                     else
                     {
                         UserPrefs p;

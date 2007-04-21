@@ -32,7 +32,6 @@ namespace AutoWikiBrowser
             DiffFontSize = DiffSize;
             TextBoxFont = TextFont;
             LowThreadPriority = LowPriority;
-            //FlashAndBeep = FlashBeep;
             perfFlash = Flash;
             perfBeep = Beep;
             perfMinimize = Minimize;
@@ -68,10 +67,7 @@ namespace AutoWikiBrowser
         }
         public string CustomProject
         {
-            get
-            {
-                return txtCustomProject.Text;
-            }
+            get { return txtCustomProject.Text; }
         }
 
         private void txtCustomProject_Leave(object sender, EventArgs e)
@@ -140,9 +136,7 @@ namespace AutoWikiBrowser
         {
             fontDialog.Font = TextBoxFont;
             if (fontDialog.ShowDialog() == DialogResult.OK)
-            {
                 TextBoxFont = fontDialog.Font;
-            }
         }
 
         public bool LowThreadPriority
@@ -153,7 +147,6 @@ namespace AutoWikiBrowser
 
         public bool FlashAndBeep
         {
-            //get { return chkFlashAndBeep.Checked; }
             set { chkFlash.Checked = value; chkBeep.Checked = value; }
         }
 

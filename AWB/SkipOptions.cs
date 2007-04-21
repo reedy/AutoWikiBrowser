@@ -76,9 +76,7 @@ namespace AutoWikiBrowser
                 foreach (RadioButton rd in gbOptions.Controls)
                 {
                     if (rd.Checked)
-                    {
                         return rd.Tag.ToString();
-                    }
                 }
 
                 return "0";
