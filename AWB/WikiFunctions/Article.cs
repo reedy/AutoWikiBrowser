@@ -34,14 +34,13 @@ namespace WikiFunctions
     {
         protected int mNameSpaceKey;
         protected string mName;
-
         protected string mEditSummary = "";
+        protected string mSavedSummary = "";
         protected AWBLogListener mAWBLogListener;
         protected string mArticleText = "";
         protected string mOriginalArticleText = "";
         protected string mPluginEditSummary;
         protected bool mPluginSkip;
-        //protected string mArticleTextSentToPlugin; // Todo: Not sure if we can just pass the Article object's text or not
 
         public Article()
         { }
@@ -50,14 +49,14 @@ namespace WikiFunctions
         {
             this.mName = mName;
             this.mNameSpaceKey = Tools.CalculateNS(mName);
-            this.mEditSummary = "";
+            this.EditSummary = "";
         }
 
         public Article(string mName, int mNameSpaceKey)
         {
             this.mName = mName;
             this.mNameSpaceKey = mNameSpaceKey;
-            this.mEditSummary = "";
+            this.EditSummary = "";
         }
 
         public AWBLogListener InitialiseLogListener()
@@ -90,6 +89,15 @@ namespace WikiFunctions
         [XmlIgnore]
         public string EditSummary
         { get { return mEditSummary; } set { mEditSummary = value; } }
+
+        [XmlIgnore]
+        public string SavedSummary
+        { get { return mSavedSummary; } }
+
+        public void SaveSummary()
+        { mSavedSummary = 
+            mEditSummary; // EditSummary gets reset by MainForm.txtEdit_TextChanged before it's used, I don't know why
+        }
 
         public bool IsInUse()
         { return Regex.IsMatch(mArticleText, "\\{\\{[Ii]nuse"); }
@@ -148,7 +156,7 @@ namespace WikiFunctions
         {
             if (mPluginEditSummary.Length > 0)
             {
-                mEditSummary += " " + mPluginEditSummary.Trim();
+                EditSummary += " " + mPluginEditSummary.Trim();
                 mPluginEditSummary = "";
             }
         }
@@ -262,7 +270,7 @@ namespace WikiFunctions
             else
             {
                 this.AWBChangeArticleText("Find and replace" + tmpEditSummary, strTemp, false);
-                mEditSummary += tmpEditSummary;
+                EditSummary += tmpEditSummary;
             }
         }
 
@@ -290,7 +298,7 @@ namespace WikiFunctions
             else if (!NoChange)
             {
                 this.AWBChangeArticleText("Auto tagger changes" + tmpEditSummary, strTemp, false);
-                mEditSummary += tmpEditSummary;
+                EditSummary += tmpEditSummary;
             }
         }
 

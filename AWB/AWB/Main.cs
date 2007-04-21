@@ -488,6 +488,7 @@ namespace AutoWikiBrowser
             }
 
             webBrowserEdit.SetArticleText(TheArticle.ArticleText);
+            TheArticle.SaveSummary();
             txtEdit.Text = TheArticle.ArticleText;
 
             //Update statistics and alerts
@@ -1131,7 +1132,7 @@ font-size: 150%;'>No changes</h2>");
 
         private string MakeSummary()
         {
-            string tag = cmboEditSummary.Text + TheArticle.EditSummary;
+            string tag = cmboEditSummary.Text + TheArticle.SavedSummary;
             if (!BotMode || !chkSuppressTag.Checked) tag += " " + Variables.SummaryTag;
 
             return tag;
