@@ -172,7 +172,17 @@ using System.Text;
             public string SkipReason
             {
                 get { return GetSubItemText(3); }
-                protected set { base.SubItems[3].Text = value; }
+                protected set {
+                    try
+                    {
+                        base.SubItems[3].Text = value;
+                    }
+                    catch (Exception ex)
+                    { // TODO: Remove this errhandler error doesn't get reported; it's just that we had a problem with an items[3] somewhere
+                        MessageBox.Show("Error in logging object (set_SkipReason), please report this: " + 
+                            ex.Message, "Error", MessageBoxButtons.OK);
+                    }
+                }
             }
 
             public string TimeStamp
@@ -264,8 +274,8 @@ using System.Text;
                 return base.SubItems[SubItem].Text;
             }
             catch(Exception ex)
-            {
-                MessageBox.Show("Error in logging object: " + ex.Message, "Error", MessageBoxButtons.OK);
+            { // TODO: Remove this errhandler error doesn't get reported; it's just that we had a problem with an items[3] somewhere
+                MessageBox.Show("Error in logging object (GetSubItemText), please report this: " + ex.Message, "Error", MessageBoxButtons.OK);
                 return "";
             }
         }

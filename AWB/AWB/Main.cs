@@ -478,7 +478,6 @@ namespace AutoWikiBrowser
                 return;
             }
 
-            bool skip = false;
             if (!doNotAutomaticallyDoAnythingToolStripMenuItem.Checked)
             {
                 ProcessPage();
@@ -491,9 +490,9 @@ namespace AutoWikiBrowser
                 }
             }
 
-            if (!Abort && skip)
+            if (!Abort && TheArticle.SkipArticle)
             {
-                SkipPage(skipReason);
+                SkipPage(TheArticle.LogListener.SkipReason);
                 return;
             }
 
@@ -860,8 +859,7 @@ namespace AutoWikiBrowser
 
                     if (process && chkGeneralFixes.Checked)
                     {
-                        TheArticle.AWBChangeArticleText("RemoveText.Hide", 
-                            RemoveText.Hide(TheArticle.ArticleText), true);
+                        TheArticle.HideText(RemoveText);
 
                         TheArticle.FixHeaderErrors(parsers, Variables.LangCode, Skip.SkipNoHeaderError);
 
@@ -877,26 +875,33 @@ namespace AutoWikiBrowser
 
                         TheArticle.EmboldenTitles(parsers, Skip.SkipNoBoldTitle);
 
-                        articleText = parsers.StickyLinks(parsers.SimplifyLinks(articleText));
+                        TheArticle.AWBChangeArticleText("Format sticky links", 
+                            parsers.StickyLinks(parsers.SimplifyLinks(TheArticle.ArticleText)), true);
 
-                        articleText = RemoveText.AddBack(articleText);
+                        TheArticle.UnHideText(RemoveText);
                     }
                 }
                 else if (process && chkGeneralFixes.Checked && TheArticle.NameSpaceKey == 3)
                 {
-                    articleText = RemoveText.Hide(articleText);
+                    TheArticle.HideText(RemoveText);
+                    
                     if (!userTalkWarningsLoaded)
                         loadUserTalkWarnings();
-                    articleText = parsers.SubstUserTemplates(articleText, TheArticle.Name, userTalkTemplatesRegex);
-                    articleText = RemoveText.AddBack(articleText);
+
+                    TheArticle.AWBChangeArticleText("Subst user talk warnings", 
+                        parsers.SubstUserTemplates(TheArticle.ArticleText, TheArticle.Name, userTalkTemplatesRegex), true);
+
+                    TheArticle.UnHideText(RemoveText);
                 }
 
                 if (chkAppend.Checked)
                 {
                     if (rdoAppend.Checked)
-                        articleText += "\r\n\r\n" + txtAppendMessage.Text;
+                        TheArticle.AWBChangeArticleText("Appended your message", 
+                            TheArticle.ArticleText + "\r\n\r\n" + txtAppendMessage.Text, false);
                     else
-                        articleText = txtAppendMessage.Text + "\r\n\r\n" + articleText;
+                        TheArticle.AWBChangeArticleText("Prepended your message", 
+                            txtAppendMessage.Text + "\r\n\r\n" + TheArticle.ArticleText, false);
                 }
 
                 if (chkFindandReplace.Checked && findAndReplace.AfterOtherFixes)
@@ -957,7 +962,7 @@ namespace AutoWikiBrowser
                 webBrowserDiff.BringToFront();
                 webBrowserDiff.Document.OpenNew(false);
 
-                if (strOrigText == txtEdit.Text)
+                if (TheArticle.OriginalArticleText == txtEdit.Text)
                 {
                     webBrowserDiff.Document.Write(@"<h2 style='padding-top: .5em;
 padding-bottom: .17em;
@@ -968,7 +973,7 @@ font-size: 150%;'>No changes</h2>");
                 {
                     webBrowserDiff.Document.Write("<html><head>" +
                         WikiDiff.DiffHead() + @"</head><body>" + WikiDiff.TableHeader() +
-                        WikiDiff.GetDiff(strOrigText, txtEdit.Text, 1) +
+                        WikiDiff.GetDiff(TheArticle.OriginalArticleText, txtEdit.Text, 1) +
                         @"</table><p style='font-family: arial;'>Double-click on a line to undo change.</p></body></html>");
                 }
                 
@@ -998,7 +1003,8 @@ font-size: 150%;'>No changes</h2>");
             DisableButtons();
             if (txtEdit.Text.Length > 0)
                 SaveArticle();
-            else if (MessageBox.Show("Do you really want to save a blank page?", "Save?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            else if (MessageBox.Show("Do you really want to save a blank page?", "Save?", 
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 SaveArticle();
             else
                 SkipPage("Nothing to save - blank page");
@@ -1044,7 +1050,7 @@ font-size: 150%;'>No changes</h2>");
                 int SrcLine = int.Parse(m.Groups[1].Value) - 1;
                 int DestLine = int.Parse(m.Groups[2].Value) - 1;
 
-                string[] Src = strOrigText.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                string[] Src = TheArticle.OriginalArticleText.Split(new string[] { "\r\n" }, StringSplitOptions.None);
                 string[] Dest = txtEdit.Text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
 
                 List<string> Lst = new List<string>(Dest);
@@ -3096,7 +3102,7 @@ font-size: 150%;'>No changes</h2>");
             ContextMenuStrip IAutoWikiBrowser.EditBoxContextMenu { get { return mnuTextBox; } }
             TabControl IAutoWikiBrowser.Tab { get { return tabControl1; } }
 
-        // Events:
+        // "Events":
             void IAutoWikiBrowser.SkipPage(string reason) { SkipPage(reason); }
             void IAutoWikiBrowser.Start() { Start(); }
             void IAutoWikiBrowser.Stop() { Stop(); }
@@ -3204,14 +3210,14 @@ font-size: 150%;'>No changes</h2>");
 
         private void undoAllChangesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            txtEdit.Text = strOrigText;
+            txtEdit.Text = TheArticle.OriginalArticleText;
         }
 
         private void reloadEditPageToolStripMenuItem_Click(object sender, EventArgs e)
         {
             PageReload = true;
             webBrowserEdit.LoadEditPage(TheArticle.Name);
-            strOrigText = webBrowserEdit.GetArticleText();
+            TheArticle.OriginalArticleText = webBrowserEdit.GetArticleText();
         }
     }
 }
