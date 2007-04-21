@@ -325,7 +325,7 @@ namespace WikiFunctions
             if (SkipNoBulletedLink && NoChange)
                 mAWBLogListener.AWBSkipped("No Missing Bulleted Links");
             else if (!NoChange)
-                this.AWBChangeArticleText("Bulleted external links", strTemp, true);
+                this.AWBChangeArticleText("Bulleted external links", strTemp, false);
         }
 
         public void EmboldenTitles(Parsers parsers, bool SkipNoBoldTitle)
@@ -335,7 +335,29 @@ namespace WikiFunctions
             if (SkipNoBoldTitle && NoChange)
                mAWBLogListener.AWBSkipped("No Titles to embolden");
             else if (!NoChange)
-                this.AWBChangeArticleText("Emboldened titles", strTemp, true);
+                this.AWBChangeArticleText("Emboldened titles", strTemp, false);
+        }
+
+        /// <summary>
+        /// Disambiguate
+        /// </summary>
+        /// <returns>True if OK to proceed, false to abort</returns>
+        public bool Disambiguate(string DabLinkText, string[] DabVariantsLines, bool BotMode, int ContextChar,
+            bool SkipNoDab)
+        {
+            bool NoChange;
+            AutoWikiBrowser.DabForm df = new AutoWikiBrowser.DabForm();
+            string strTemp = df.Disambiguate(mArticleText, mName, DabLinkText,
+                DabVariantsLines, ContextChar, BotMode, out NoChange);
+
+            if (df.Abort) return false;
+
+            if (NoChange && SkipNoDab)
+                mAWBLogListener.AWBSkipped("No Disambiguation");
+            else if (!NoChange)
+                this.AWBChangeArticleText("Disambiguated " + DabLinkText, strTemp, false);
+
+            return true;
         }
 
         public void HideText(HideText RemoveText)

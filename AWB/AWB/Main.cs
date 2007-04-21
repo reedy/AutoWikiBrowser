@@ -160,9 +160,6 @@ namespace AutoWikiBrowser
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            // hide this tab until it's fully written
-            //tabControl1.TabPages.Remove(tpDab);        
-
             updateUpdater();
 
             try
@@ -906,57 +903,34 @@ namespace AutoWikiBrowser
 
                 if (chkFindandReplace.Checked && findAndReplace.AfterOtherFixes)
                 {
-                    SkipArticle = false;
-                    articleText = PerformFindAndReplace(articleText, out SkipArticle);
-                    if (SkipArticle)
-                    {
-                        skipReason = "No Find And Replace Changes";
-                        return articleText;
-                    }
+                    TheArticle.PerformFindAndReplace(findAndReplace, substTemplates, replaceSpecial, true);
+                    if (TheArticle.SkipArticle) return;
                 }
 
                 if (chkEnableDab.Checked && txtDabLink.Text.Trim() != "" &&
                     txtDabVariants.Text.Trim() != "")
                 {
-                    SkipArticle = false;
-                    DabForm df = new DabForm();
-                    articleText = df.Disambiguate(articleText, TheArticle.Name, txtDabLink.Text.Trim(),
-                        txtDabVariants.Lines, (int)udContextChars.Value, BotMode, out SkipArticle);
-
-                    Abort = df.Abort;
-                    if (Abort) Stop();
-
-                    if (SkipArticle && chkSkipNoDab.Checked)
+                    if (TheArticle.Disambiguate(txtDabLink.Text.Trim(), txtDabVariants.Lines, BotMode,
+                        (int)udContextChars.Value, chkSkipNoDab.Checked))
                     {
-                        skipReason = "No Disambiguation";
-                        return articleText;
+                        if (TheArticle.SkipArticle) return;
+                    }
+                    else
+                    {
+                        Stop();
+                        return;
                     }
                 }
-
-                SkipArticle = false;
-                return articleText;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                SkipArticle = false;
-                skipReason = "Error";
-                return articleText;
+                TheArticle.LogListener.AWBSkipped("Error");
             }
         }
 
         private void GetDiff()
         {
-            /*
-            webBrowserEdit.SetArticleText(txtEdit.Text);
-
-            DisableButtons();
-            LastArticle = txtEdit.Text;
-
-            webBrowserEdit.ShowDiff();
-            //*/
-
-            //*
             try
             {
                 webBrowserDiff.BringToFront();
@@ -2381,8 +2355,9 @@ font-size: 150%;'>No changes</h2>");
 
         private void reparseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            bool b = true;
-            txtEdit.Text = ProcessPage(txtEdit.Text, out b);
+            /* bool b = true;
+            txtEdit.Text = ProcessPage(txtEdit.Text, out b); */
+            //TODO
         }
 
         private void replaceTextWithLastEditToolStripMenuItem_Click(object sender, EventArgs e)
