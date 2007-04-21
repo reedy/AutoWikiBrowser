@@ -939,6 +939,10 @@ padding-bottom: .17em;
 border-bottom: 1px solid #aaa;
 font-size: 150%;'>No changes</h2>");
                 }
+                //else if (TheArticle.OriginalArticleText == "")
+                //{
+
+                //}
                 else
                 {
                     webBrowserDiff.Document.Write("<html><head>" +
