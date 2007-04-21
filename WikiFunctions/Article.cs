@@ -80,11 +80,11 @@ namespace WikiFunctions
         
         [XmlIgnore]
         public string ArticleText
-        { get { return mArticleText; } } //set { mArticleText = value; } } // set using methods
+        { get { return mArticleText.Trim(); } } // deliberately readonly; set using methods
 
         [XmlIgnore]
         public string OriginalArticleText
-        { get { return mOriginalArticleText; } set { mOriginalArticleText = value; mArticleText = value; } }
+        { get { return mOriginalArticleText.Trim(); } set { mOriginalArticleText = value; mArticleText = value; } }
 
         [XmlIgnore]
         public string EditSummary

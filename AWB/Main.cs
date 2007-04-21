@@ -465,7 +465,7 @@ namespace AutoWikiBrowser
 
             if (!Skip.skipIf(TheArticle.OriginalArticleText))
             {                
-                SkipPage(); //TODO: Set Skip Reason
+                SkipPage("skipIf custom code"); 
                 return;
             }
 
@@ -481,7 +481,7 @@ namespace AutoWikiBrowser
                 }
                 else if (!Abort && TheArticle.SkipArticle)
                 {
-                    SkipPage(); // Don't send a reason; ProcessPage() should already have logged one
+                    SkipPageReasonAlreadyProvided(); // Don't send a reason; ProcessPage() should already have logged one
                     return;
                 }
             }
@@ -720,7 +720,7 @@ namespace AutoWikiBrowser
             }
         }
 
-        private void SkipPage()
+        private void SkipPageReasonAlreadyProvided()
         {
             try
             {
@@ -757,7 +757,7 @@ namespace AutoWikiBrowser
                 break;
             }
 
-            SkipPage();
+            SkipPageReasonAlreadyProvided();
         }
 
         private void SendPageToCustomModule()
@@ -932,7 +932,7 @@ namespace AutoWikiBrowser
                 webBrowserDiff.BringToFront();
                 webBrowserDiff.Document.OpenNew(false);
 
-                if (TheArticle.OriginalArticleText == txtEdit.Text)
+                if (TheArticle.OriginalArticleText == txtEdit.Text.Trim())
                 {
                     webBrowserDiff.Document.Write(@"<h2 style='padding-top: .5em;
 padding-bottom: .17em;
