@@ -5,6 +5,9 @@ using System.Text.RegularExpressions;
 
 namespace WikiFunctions.Parse
 {
+    /// <summary>
+    /// DOCUMENT ME PLEASE! What do I do?!
+    /// </summary>
     public class HideText
     {
         public HideText() { }

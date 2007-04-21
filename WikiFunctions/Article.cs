@@ -338,6 +338,12 @@ namespace WikiFunctions
                 this.AWBChangeArticleText("Emboldened titles", strTemp, true);
         }
 
+        public void HideText(HideText RemoveText)
+        { mArticleText = RemoveText.Hide(mArticleText); }
+
+        public void UnHideText(HideText RemoveText)
+        { mArticleText = RemoveText.AddBack(mArticleText); }
+
         public bool IDontKnowWhatThisDoesAndNorDoesMartin // TODO: Please rename this to describe the property it returns
             // Sam says it's CategoryMainOrSandbox { }
         { get { return (NameSpaceKey == 0 || NameSpaceKey == 14 || Name.Contains("Sandbox")); } }
