@@ -32,11 +32,9 @@ namespace WikiFunctions
 {
     public class Article : ProcessArticleEventArgs
     {
-        [XmlAttribute]
         protected int mNameSpaceKey;
         protected string mName;
 
-        [XmlIgnore]
         protected string mEditSummary = "";
         protected AWBLogListener mAWBLogListener;
         protected string mArticleText = "";
@@ -405,17 +403,15 @@ namespace WikiFunctions
         IMyTraceListener ProcessArticleEventArgs.AWBLogItem
         { get { return mAWBLogListener; } }
 
-        //string ProcessArticleEventArgs.ArticleText
-        //{ get { return mArticleTextSentToPlugin; } }
-
         string ProcessArticleEventArgs.ArticleTitle
         { get { return mName; } }
 
         string ProcessArticleEventArgs.EditSummary // this is temp edit summary field, sent from plugin
         { get { return mPluginEditSummary; } set { mPluginEditSummary = value.Trim(); } }
 
+        [XmlAttribute]
         public int NameSpaceKey
-        { get { return mNameSpaceKey; } }
+        { get { return mNameSpaceKey; } set { mNameSpaceKey = value; } }
 
         bool ProcessArticleEventArgs.Skip
         { get { return mPluginSkip; } set { mPluginSkip = value; } }
