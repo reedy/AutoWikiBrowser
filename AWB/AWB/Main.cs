@@ -431,6 +431,7 @@ namespace AutoWikiBrowser
 
                 listMaker1.ReplaceArticle(TheArticle, Redirect);
                 TheArticle = Redirect;
+                TheArticle.InitialiseLogListener();
 
                 webBrowserEdit.LoadEditPage(Redirect.Name);
                 return;
@@ -785,7 +786,7 @@ namespace AutoWikiBrowser
                 if (noParse.Contains(TheArticle.Name))
                     process = false;
 
-                if (!ignoreNoBotsToolStripMenuItem.Checked && 
+                if (!ignoreNoBotsToolStripMenuItem.Checked &&
                     !Parsers.CheckNoBots(TheArticle.ArticleText, Variables.User.Name))
                     TheArticle.AWBSkip("Bot Edits not Allowed");
 
@@ -859,12 +860,12 @@ namespace AutoWikiBrowser
                         TheArticle.FixLinks(parsers, Skip.SkipNoBadLink);
                         TheArticle.BulletExternalLinks(parsers, Skip.SkipNoBulletedLink);
 
-                        TheArticle.AWBChangeArticleText("Sort meta data", 
+                        TheArticle.AWBChangeArticleText("Sort meta data",
                             parsers.SortMetaData(TheArticle.ArticleText, TheArticle.Name), true);
 
                         TheArticle.EmboldenTitles(parsers, Skip.SkipNoBoldTitle);
 
-                        TheArticle.AWBChangeArticleText("Format sticky links", 
+                        TheArticle.AWBChangeArticleText("Format sticky links",
                             parsers.StickyLinks(parsers.SimplifyLinks(TheArticle.ArticleText)), true);
 
                         TheArticle.UnHideText(RemoveText);
@@ -873,11 +874,11 @@ namespace AutoWikiBrowser
                 else if (process && chkGeneralFixes.Checked && TheArticle.NameSpaceKey == 3)
                 {
                     TheArticle.HideText(RemoveText);
-                    
+
                     if (!userTalkWarningsLoaded)
                         loadUserTalkWarnings();
 
-                    TheArticle.AWBChangeArticleText("Subst user talk warnings", 
+                    TheArticle.AWBChangeArticleText("Subst user talk warnings",
                         parsers.SubstUserTemplates(TheArticle.ArticleText, TheArticle.Name, userTalkTemplatesRegex), true);
 
                     TheArticle.UnHideText(RemoveText);
@@ -886,10 +887,10 @@ namespace AutoWikiBrowser
                 if (chkAppend.Checked)
                 {
                     if (rdoAppend.Checked)
-                        TheArticle.AWBChangeArticleText("Appended your message", 
+                        TheArticle.AWBChangeArticleText("Appended your message",
                             TheArticle.ArticleText + "\r\n\r\n" + txtAppendMessage.Text, false);
                     else
-                        TheArticle.AWBChangeArticleText("Prepended your message", 
+                        TheArticle.AWBChangeArticleText("Prepended your message",
                             txtAppendMessage.Text + "\r\n\r\n" + TheArticle.ArticleText, false);
                 }
 
