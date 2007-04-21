@@ -75,7 +75,7 @@ namespace WikiFunctions
         {
             byte[] buf1;
             if (text1 == "")
-                buf1 = new byte[0];
+                buf1 = new byte[1];
             else
                 buf1 = ToUTF8(text1);
             byte[] buf2 = ToUTF8(text2);
