@@ -128,6 +128,7 @@ namespace AutoWikiBrowser
             this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
             this.launchDumpSearcherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.launchListComparerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.launchListSplitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuGeneral = new System.Windows.Forms.ToolStripMenuItem();
             this.PreferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
@@ -316,7 +317,6 @@ namespace AutoWikiBrowser
             this.webBrowserDiff = new System.Windows.Forms.WebBrowser();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
-            this.launchListSplitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -972,6 +972,13 @@ namespace AutoWikiBrowser
             this.launchListComparerToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
             this.launchListComparerToolStripMenuItem.Text = "Launch ListComparer";
             this.launchListComparerToolStripMenuItem.Click += new System.EventHandler(this.launchListComparerToolStripMenuItem_Click);
+            // 
+            // launchListSplitterToolStripMenuItem
+            // 
+            this.launchListSplitterToolStripMenuItem.Name = "launchListSplitterToolStripMenuItem";
+            this.launchListSplitterToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.launchListSplitterToolStripMenuItem.Text = "Launch ListSplitter";
+            this.launchListSplitterToolStripMenuItem.Click += new System.EventHandler(this.launchListSplitterToolStripMenuItem_Click);
             // 
             // ToolStripMenuGeneral
             // 
@@ -2949,13 +2956,6 @@ namespace AutoWikiBrowser
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
             // 
-            // launchListSplitterToolStripMenuItem
-            // 
-            this.launchListSplitterToolStripMenuItem.Name = "launchListSplitterToolStripMenuItem";
-            this.launchListSplitterToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
-            this.launchListSplitterToolStripMenuItem.Text = "Launch ListSplitter";
-            this.launchListSplitterToolStripMenuItem.Click += new System.EventHandler(this.launchListSplitterToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2967,9 +2967,11 @@ namespace AutoWikiBrowser
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.webBrowserEdit);
+            this.DataBindings.Add(new System.Windows.Forms.Binding("Location", global::AutoWikiBrowser.Properties.Settings.Default, "WindowLocation", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
+            this.Location = global::AutoWikiBrowser.Properties.Settings.Default.WindowLocation;
             this.MinimumSize = new System.Drawing.Size(600, 482);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
