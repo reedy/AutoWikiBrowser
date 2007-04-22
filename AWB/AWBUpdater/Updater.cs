@@ -106,7 +106,7 @@ namespace AWBUpdater
         public void AWBversion()
         {
             string text = "";
-           
+
             try
             {
                 HttpWebRequest rq = (HttpWebRequest)WebRequest.Create("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=edit");
@@ -134,15 +134,21 @@ namespace AWBUpdater
             Match m_awbnewest = Regex.Match(text, @"&lt;!-- Newest version: (.*?) --&gt;");
             Match m_updversion = Regex.Match(text, @"&lt;!-- Updater version: (.*?) --&gt;");
 
-            try
+            if ((m_awbversion.Success && m_awbversion.Groups[1].Value.Length == 4) || (m_awbnewest.Success && m_awbnewest.Groups[1].Value.Length == 4))
             {
-                if ((m_awbversion.Success && m_awbversion.Groups[1].Value.Length == 4) || (m_awbnewest.Success && m_awbnewest.Groups[1].Value.Length == 4))
+                try
                 {
                     try
                     {
                         FileVersionInfo versionAWB = FileVersionInfo.GetVersionInfo(AWBdirectory + "AutoWikiBrowser.exe");
 
-                        if ((Convert.ToInt32(m_awbnewest.Groups[1].Value) > Convert.ToInt32(m_awbversion.Groups[1].Value)) && (Convert.ToInt32(versionAWB.FileVersion.Replace(".", "")) < Convert.ToInt32(m_awbnewest.Groups[1].Value)))
+                        if ((Convert.ToInt32(versionAWB.FileVersion.Replace(".", ""))) < (Convert.ToInt32(m_awbversion.Groups[1].Value)))
+                        {
+                            AWBZipName = "AutoWikiBrowser" + m_awbnewest.Groups[1].Value.Replace(".", "") + ".zip";
+                            AWBWebAddress = "http://downloads.sourceforge.net/autowikibrowser/" + AWBZipName;
+                            awbUpdate = true;
+                        }
+                        else if ((Convert.ToInt32(versionAWB.FileVersion.Replace(".", "")) >= (Convert.ToInt32(m_awbversion.Groups[1].Value))) && ((Convert.ToInt32(versionAWB.FileVersion.Replace(".", "")) < (Convert.ToInt32(m_awbnewest.Groups[1].Value)))))
                         {
                             if (MessageBox.Show("There is an Optional Update to AutoWikiBrowser. Would you like to Upgrade?", "Optional Update", MessageBoxButtons.YesNo) == DialogResult.Yes)
                             {
@@ -153,62 +159,44 @@ namespace AWBUpdater
                             else
                                 awbUpdate = false;
                         }
-                        else if (Convert.ToInt32(m_awbnewest.Groups[1].Value) > Convert.ToInt32(versionAWB.FileVersion.Replace(".", "")))
+                        else
+                            awbUpdate = false;
+
+                        if (m_updversion.Success && m_updversion.Groups[1].Value.Length == 4)
                         {
-                            AWBZipName = "AutoWikiBrowser" + m_awbnewest.Groups[1].Value.Replace(".", "") + ".zip";
-                            AWBWebAddress = "http://downloads.sourceforge.net/autowikibrowser/" + AWBZipName;
-                            awbUpdate = true;
+                            if (Convert.ToInt32(m_updversion.Groups[1].Value) > Convert.ToInt32(AssemblyVersion.Replace(".", "")))
+                            {
+                                UpdaterZipName = "AWBUpdater" + m_updversion.Groups[1].Value.Replace(".", "") + ".zip";
+                                UpdaterWebAddress = "http://downloads.sourceforge.net/autowikibrowser/" + UpdaterZipName;
+                                updaterUpdate = true;
+                            }
+                            else
+                            {
+                                updaterUpdate = false;
+                                UpdaterZipName = "";
+                                UpdaterWebAddress = "";
+                            }
                         }
                         else
-                        {
-                            awbUpdate = false;
-                            AWBZipName = "";
-                            AWBWebAddress = "";
-                        }
+                            updaterUpdate = false;
                     }
                     catch
                     { MessageBox.Show("Unable to find AutoWikiBrowser.exe to query Version No."); }
                 }
-                else
+                catch
                 {
-                    awbUpdate = false;
-
-                    throw new Exception();
+                    MessageBox.Show("Error fetching current version number.");
                 }
 
-                if (m_updversion.Success && m_updversion.Groups[1].Value.Length == 4)
+                if (!updaterUpdate && !awbUpdate)
                 {
-                    if (Convert.ToInt32(m_updversion.Groups[1].Value) > Convert.ToInt32(AssemblyVersion.Replace(".", "")))
-                    {
-                        UpdaterZipName = "AWBUpdater" + m_updversion.Groups[1].Value.Replace(".", "") + ".zip";
-                        UpdaterWebAddress = "http://downloads.sourceforge.net/autowikibrowser/" + UpdaterZipName;
-                        updaterUpdate = true;
-                    }
-                    else
-                    {
-                        updaterUpdate = false;
-                        UpdaterZipName = "";
-                        UpdaterWebAddress = "";
-                    }
+                    MessageBox.Show("Nothing to Update. The Updater will now close");
+                    noUpdates = true;
                 }
-                else
-                {
-                    updaterUpdate = false;
-                    throw new Exception();
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Error fetching current version number.");
+
+                progressUpdate.Value = 30;
             }
 
-            if (!updaterUpdate && !awbUpdate)
-            {
-                MessageBox.Show("Nothing to Update. The Updater will now close");
-                noUpdates = true;
-            }
-
-            progressUpdate.Value = 30;
         }
 
         private void createTempDir()
@@ -275,9 +263,7 @@ namespace AWBUpdater
                 entryFileName = Path.Combine(Path.GetDirectoryName(workName), Path.GetFileName(theEntry.Name));
             }
             else
-            {
                 entryFileName = theEntry.Name;
-            }
 
             string targetName = Path.Combine(targetDir, entryFileName);
             string fullPath = Path.GetDirectoryName(Path.GetFullPath(targetName));
@@ -290,9 +276,7 @@ namespace AWBUpdater
                     Directory.CreateDirectory(fullPath);
                 }
                 catch
-                {
-                    MessageBox.Show("Error in updating AWB.");
-                }
+                { MessageBox.Show("Error in updating AWB."); }
             }
 
             if (entryFileName.Length > 0)
