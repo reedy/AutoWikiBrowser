@@ -316,6 +316,7 @@ namespace AutoWikiBrowser
             this.webBrowserDiff = new System.Windows.Forms.WebBrowser();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
+            this.launchListSplitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -903,7 +904,8 @@ namespace AutoWikiBrowser
             this.saveListToTextFileToolStripMenuItem,
             this.toolStripSeparator13,
             this.launchDumpSearcherToolStripMenuItem,
-            this.launchListComparerToolStripMenuItem});
+            this.launchListComparerToolStripMenuItem,
+            this.launchListSplitterToolStripMenuItem});
             this.generalToolStripMenuItem.Name = "generalToolStripMenuItem";
             this.generalToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
             this.generalToolStripMenuItem.Text = "List";
@@ -2947,6 +2949,13 @@ namespace AutoWikiBrowser
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
             // 
+            // launchListSplitterToolStripMenuItem
+            // 
+            this.launchListSplitterToolStripMenuItem.Name = "launchListSplitterToolStripMenuItem";
+            this.launchListSplitterToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.launchListSplitterToolStripMenuItem.Text = "Launch ListSplitter";
+            this.launchListSplitterToolStripMenuItem.Click += new System.EventHandler(this.launchListSplitterToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3301,6 +3310,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem reloadEditPageToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator24;
         private System.Windows.Forms.ToolStripMenuItem recycleWebControlToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem launchListSplitterToolStripMenuItem;
 
 
     }

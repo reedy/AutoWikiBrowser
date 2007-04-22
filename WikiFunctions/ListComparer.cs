@@ -117,7 +117,7 @@ namespace WikiFunctions.Lists
             updateCounts();
         }
 
-        private voic clear()
+        private void clear()
         {
             lbBoth.Items.Clear();
             lbOnly1.Items.Clear();
