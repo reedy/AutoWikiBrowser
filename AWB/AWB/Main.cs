@@ -3245,5 +3245,12 @@ font-size: 150%;'>No changes</h2>");
             recycleWebControl();
             Application.DoEvents();
         }
+
+        private void launchListSplitterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ListSplitter splitter = new ListSplitter();
+            splitter.ShowDialog();
+            splitter.Dispose();
+        }
     }
 }

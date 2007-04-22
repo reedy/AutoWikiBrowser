@@ -226,10 +226,8 @@ namespace WikiFunctions.Lists
 
         public Article this[int index]
         {
-            get
-            { return (Article)lbArticles.Items[index]; }
-            set
-            { lbArticles.Items[index] = value; }
+            get { return (Article)lbArticles.Items[index]; }
+            set { lbArticles.Items[index] = value; }
         }
 
         #endregion
@@ -1071,7 +1069,6 @@ namespace WikiFunctions.Lists
 
         private void ctrl_c()
         {
-            //Clipboard.SetDataObject(lbArticles.SelectedItem.ToString(), true);
             string ClipboardData = "";
             for (int i = 0; i < lbArticles.SelectedItems.Count; i++)
             {
@@ -1247,7 +1244,6 @@ namespace WikiFunctions.Lists
         private void removeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             RemoveSelectedArticle();
-        }
-                       
+        }             
     }
 }

@@ -38,18 +38,18 @@ namespace WikiFunctions.Lists
             this.btnClear = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.listMaker1 = new WikiFunctions.Lists.ListMaker();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.listMaker2 = new WikiFunctions.Lists.ListMaker();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.btnSaveOnly1 = new System.Windows.Forms.Button();
-            this.lblOnly1 = new System.Windows.Forms.Label();
-            this.lbOnly1 = new System.Windows.Forms.ListBox();
             this.label4 = new System.Windows.Forms.Label();
             this.btnSaveOnly2 = new System.Windows.Forms.Button();
             this.lblOnly2 = new System.Windows.Forms.Label();
             this.lbOnly2 = new System.Windows.Forms.ListBox();
-            this.listMaker2 = new WikiFunctions.Lists.ListMaker();
-            this.listMaker1 = new WikiFunctions.Lists.ListMaker();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btnSaveOnly1 = new System.Windows.Forms.Button();
+            this.lblOnly1 = new System.Windows.Forms.Label();
+            this.lbOnly1 = new System.Windows.Forms.ListBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -131,6 +131,17 @@ namespace WikiFunctions.Lists
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "List 1";
             // 
+            // listMaker1
+            // 
+            this.listMaker1.ListFile = "";
+            this.listMaker1.Location = new System.Drawing.Point(7, 18);
+            this.listMaker1.Name = "listMaker1";
+            this.listMaker1.SelectedSource = WikiFunctions.Lists.SourceType.Category;
+            this.listMaker1.Size = new System.Drawing.Size(201, 351);
+            this.listMaker1.SourceText = "";
+            this.listMaker1.TabIndex = 14;
+            this.listMaker1.WikiStatus = true;
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.listMaker2);
@@ -140,6 +151,17 @@ namespace WikiFunctions.Lists
             this.groupBox2.TabIndex = 17;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "List 2";
+            // 
+            // listMaker2
+            // 
+            this.listMaker2.ListFile = "";
+            this.listMaker2.Location = new System.Drawing.Point(7, 18);
+            this.listMaker2.Name = "listMaker2";
+            this.listMaker2.SelectedSource = WikiFunctions.Lists.SourceType.Category;
+            this.listMaker2.Size = new System.Drawing.Size(201, 351);
+            this.listMaker2.SourceText = "";
+            this.listMaker2.TabIndex = 14;
+            this.listMaker2.WikiStatus = true;
             // 
             // groupBox3
             // 
@@ -162,42 +184,6 @@ namespace WikiFunctions.Lists
             this.groupBox3.TabIndex = 18;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Results";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(142, 18);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(70, 13);
-            this.label1.TabIndex = 17;
-            this.label1.Text = "Only in List 1:";
-            // 
-            // btnSaveOnly1
-            // 
-            this.btnSaveOnly1.Location = new System.Drawing.Point(168, 317);
-            this.btnSaveOnly1.Name = "btnSaveOnly1";
-            this.btnSaveOnly1.Size = new System.Drawing.Size(75, 23);
-            this.btnSaveOnly1.TabIndex = 16;
-            this.btnSaveOnly1.Text = "Save list";
-            this.btnSaveOnly1.UseVisualStyleBackColor = true;
-            this.btnSaveOnly1.Click += new System.EventHandler(this.btnSaveOnly1_Click);
-            // 
-            // lblOnly1
-            // 
-            this.lblOnly1.AutoSize = true;
-            this.lblOnly1.Location = new System.Drawing.Point(218, 18);
-            this.lblOnly1.Name = "lblOnly1";
-            this.lblOnly1.Size = new System.Drawing.Size(13, 13);
-            this.lblOnly1.TabIndex = 15;
-            this.lblOnly1.Text = "0";
-            // 
-            // lbOnly1
-            // 
-            this.lbOnly1.FormattingEnabled = true;
-            this.lbOnly1.Location = new System.Drawing.Point(145, 34);
-            this.lbOnly1.Name = "lbOnly1";
-            this.lbOnly1.Size = new System.Drawing.Size(130, 277);
-            this.lbOnly1.TabIndex = 14;
             // 
             // label4
             // 
@@ -235,27 +221,41 @@ namespace WikiFunctions.Lists
             this.lbOnly2.Size = new System.Drawing.Size(130, 277);
             this.lbOnly2.TabIndex = 18;
             // 
-            // listMaker2
+            // label1
             // 
-            this.listMaker2.ListFile = "";
-            this.listMaker2.Location = new System.Drawing.Point(7, 18);
-            this.listMaker2.Name = "listMaker2";
-            this.listMaker2.SelectedSource = WikiFunctions.Lists.SourceType.Category;
-            this.listMaker2.Size = new System.Drawing.Size(201, 351);
-            this.listMaker2.SourceText = "";
-            this.listMaker2.TabIndex = 14;
-            this.listMaker2.WikiStatus = true;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(142, 18);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(70, 13);
+            this.label1.TabIndex = 17;
+            this.label1.Text = "Only in List 1:";
             // 
-            // listMaker1
+            // btnSaveOnly1
             // 
-            this.listMaker1.ListFile = "";
-            this.listMaker1.Location = new System.Drawing.Point(7, 18);
-            this.listMaker1.Name = "listMaker1";
-            this.listMaker1.SelectedSource = WikiFunctions.Lists.SourceType.Category;
-            this.listMaker1.Size = new System.Drawing.Size(201, 351);
-            this.listMaker1.SourceText = "";
-            this.listMaker1.TabIndex = 14;
-            this.listMaker1.WikiStatus = true;
+            this.btnSaveOnly1.Location = new System.Drawing.Point(168, 317);
+            this.btnSaveOnly1.Name = "btnSaveOnly1";
+            this.btnSaveOnly1.Size = new System.Drawing.Size(75, 23);
+            this.btnSaveOnly1.TabIndex = 16;
+            this.btnSaveOnly1.Text = "Save list";
+            this.btnSaveOnly1.UseVisualStyleBackColor = true;
+            this.btnSaveOnly1.Click += new System.EventHandler(this.btnSaveOnly1_Click);
+            // 
+            // lblOnly1
+            // 
+            this.lblOnly1.AutoSize = true;
+            this.lblOnly1.Location = new System.Drawing.Point(218, 18);
+            this.lblOnly1.Name = "lblOnly1";
+            this.lblOnly1.Size = new System.Drawing.Size(13, 13);
+            this.lblOnly1.TabIndex = 15;
+            this.lblOnly1.Text = "0";
+            // 
+            // lbOnly1
+            // 
+            this.lbOnly1.FormattingEnabled = true;
+            this.lbOnly1.Location = new System.Drawing.Point(145, 34);
+            this.lbOnly1.Name = "lbOnly1";
+            this.lbOnly1.Size = new System.Drawing.Size(130, 277);
+            this.lbOnly1.TabIndex = 14;
             // 
             // ListComparer
             // 
