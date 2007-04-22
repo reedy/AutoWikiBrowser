@@ -142,7 +142,7 @@ namespace AWBUpdater
                     {
                         FileVersionInfo versionAWB = FileVersionInfo.GetVersionInfo(AWBdirectory + "AutoWikiBrowser.exe");
 
-                        if ((Convert.ToInt32(m_awbnewest.Groups[1].Value) > Convert.ToInt32(m_awbversion.Groups[1].Value)) && (Convert.ToInt32(m_awbversion.Groups[1].Value) == Convert.ToInt32(versionAWB.FileVersion.Replace(".", ""))))
+                        if ((Convert.ToInt32(m_awbnewest.Groups[1].Value) > Convert.ToInt32(m_awbversion.Groups[1].Value)) && (Convert.ToInt32(versionAWB.FileVersion.Replace(".", "")) < Convert.ToInt32(m_awbnewest.Groups[1].Value)))
                         {
                             if (MessageBox.Show("There is an Optional Update to AutoWikiBrowser. Would you like to Upgrade?", "Optional Update", MessageBoxButtons.YesNo) == DialogResult.Yes)
                             {
@@ -386,7 +386,7 @@ namespace AWBUpdater
                     AWBOpen = true;
             }
 
-            if (!AWBOpen)
+            if (!AWBOpen && MessageBox.Show("Would you like to Start AWB?", "Start AWB?", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 System.Diagnostics.Process.Start(AWBdirectory + "AutoWikiBrowser.exe");
 
             progressUpdate.Value = 95;
