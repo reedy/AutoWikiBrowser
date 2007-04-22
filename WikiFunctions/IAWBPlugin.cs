@@ -11,7 +11,7 @@ namespace WikiFunctions.Plugin
      * is of sufficient vintage to be considered non-negotiable. */
     public interface IAWBPlugin
     {
-        void Initialise(IAutoWikiBrowser MainForm);
+        void Initialise(IAutoWikiBrowser sender);
         string Name { get; }
         string ProcessArticle(IAutoWikiBrowser sender, ProcessArticleEventArgs eventargs);
 
