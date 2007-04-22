@@ -178,6 +178,12 @@ namespace AutoWikiBrowser
 
                 LogControl1.Initialise(listMaker1);
 
+                if (Properties.Settings.Default.WindowLocation != null)
+                    this.Location = Properties.Settings.Default.WindowLocation;
+
+                if (Properties.Settings.Default.WindowSize != null)
+                    this.Size = Properties.Settings.Default.WindowSize;
+
                 Debug();
                 LoadPlugins();
                 LoadPrefs();
@@ -1103,6 +1109,15 @@ font-size: 150%;'>No changes</h2>");
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             WebControl.Shutdown = true;
+
+            Properties.Settings.Default.WindowLocation = this.Location;
+
+            if (this.WindowState == FormWindowState.Normal)
+                Properties.Settings.Default.WindowSize = this.Size;
+            else
+                Properties.Settings.Default.WindowSize = this.RestoreBounds.Size;
+
+            Properties.Settings.Default.Save();
 
             if (AutoWikiBrowser.Properties.Settings.Default.DontAskForTerminate)
             {
