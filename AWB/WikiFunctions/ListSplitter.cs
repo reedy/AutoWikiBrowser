@@ -23,6 +23,8 @@ namespace WikiFunctions.Lists
         private void btnSplitList_Click(object sender, EventArgs e)
         {
             lvSplit.Items.Clear();
+            lvSplit.BeginUpdate();
+
             listMaker1.AlphaSortList();
             int noA = listMaker1.Count;
  
@@ -48,6 +50,7 @@ namespace WikiFunctions.Lists
                         listMaker1.Remove(listMaker1.SelectedArticle());
                 }
             }
+            lvSplit.EndUpdate();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
