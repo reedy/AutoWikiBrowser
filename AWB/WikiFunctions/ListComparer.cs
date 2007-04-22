@@ -92,13 +92,8 @@ namespace WikiFunctions.Lists
 
         private void btnGo_Click(object sender, EventArgs e)
         {
-            lbBoth.Items.Clear();
-            lbOnly1.Items.Clear();
-            lbOnly2.Items.Clear();
+            clear();
             GetDuplicates();
-            lblOnly1.Text = lbOnly1.Items.Count.ToString() + " pages";
-            lblOnly2.Text = lbOnly2.Items.Count.ToString() + " pages";
-            lblBoth.Text = lbBoth.Items.Count.ToString() + " pages";
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -115,23 +110,25 @@ namespace WikiFunctions.Lists
             }
             SaveList(strList);
         }
-
-
-
+        
         private void btnClear_Click(object sender, EventArgs e)
+        {
+            clear();
+            updateCounts();
+        }
+
+        private voic clear()
         {
             lbBoth.Items.Clear();
             lbOnly1.Items.Clear();
             lbOnly2.Items.Clear();
-
-            updateCounts();
         }
 
         private void updateCounts()
         {
-            lblBoth.Text = lbBoth.Items.Count.ToString();
-            lblOnly1.Text = lbOnly1.Items.Count.ToString();
-            lblOnly2.Text = lbOnly2.Items.Count.ToString();
+            lblOnly1.Text = lbOnly1.Items.Count.ToString() + " pages";
+            lblOnly2.Text = lbOnly2.Items.Count.ToString() + " pages";
+            lblBoth.Text = lbBoth.Items.Count.ToString() + " pages";
         }
 
         private void btnSaveOnly1_Click(object sender, EventArgs e)
