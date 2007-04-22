@@ -40,10 +40,7 @@ namespace AWBUpdater
 
         public static string AssemblyVersion
         {
-            get
-            {
-                return Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            }
+            get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); }
         }
 
         private void Updater_Load(object sender, EventArgs e)
@@ -75,7 +72,7 @@ namespace AWBUpdater
                     lblCurrentTask.Text = "Downloading AWB";
                     Application.DoEvents();
                     getAWBFromInternet();
-                    
+
 
                     lblCurrentTask.Text = "Unzipping AWB to the Temporary Directory";
                     Application.DoEvents();
@@ -91,7 +88,7 @@ namespace AWBUpdater
                     Application.DoEvents();
                     copyFiles();
                     MessageBox.Show("AWB Update Successful", "Update Sucessful");
-  
+
                     lblCurrentTask.Text = "Starting AWB";
                     Application.DoEvents();
                     startAWB();
@@ -103,9 +100,7 @@ namespace AWBUpdater
                     Application.Exit();
                 }
             }
-            catch
-                {
-                }
+            catch { }
         }
 
         public void AWBversion()
@@ -136,19 +131,31 @@ namespace AWBUpdater
             }
 
             Match m_awbversion = Regex.Match(text, @"&lt;!-- Current version: (.*?) --&gt;");
+            Match m_awbnewest = Regex.Match(text, @"&lt;!-- Newest version: (.*?) --&gt;");
             Match m_updversion = Regex.Match(text, @"&lt;!-- Updater version: (.*?) --&gt;");
 
             try
             {
-                if (m_awbversion.Success && m_awbversion.Groups[1].Value.Length == 4)
+                if ((m_awbversion.Success && m_awbversion.Groups[1].Value.Length == 4) || (m_awbnewest.Success && m_awbnewest.Groups[1].Value.Length == 4))
                 {
                     try
                     {
                         FileVersionInfo versionAWB = FileVersionInfo.GetVersionInfo(AWBdirectory + "AutoWikiBrowser.exe");
 
-                        if (Convert.ToInt32(m_awbversion.Groups[1].Value) > Convert.ToInt32(versionAWB.FileVersion.Replace(".", "")))
+                        if ((Convert.ToInt32(m_awbnewest.Groups[1].Value) > Convert.ToInt32(m_awbversion.Groups[1].Value)) && (Convert.ToInt32(m_awbversion.Groups[1].Value) == Convert.ToInt32(versionAWB.FileVersion.Replace(".", ""))))
                         {
-                            AWBZipName = "AutoWikiBrowser" + m_awbversion.Groups[1].Value.Replace(".", "") + ".zip";
+                            if (MessageBox.Show("There is an Optional Update to AutoWikiBrowser. Would you like to Upgrade?", "Optional Update", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                            {
+                                AWBZipName = "AutoWikiBrowser" + m_awbnewest.Groups[1].Value.Replace(".", "") + ".zip";
+                                AWBWebAddress = "http://downloads.sourceforge.net/autowikibrowser/" + AWBZipName;
+                                awbUpdate = true;
+                            }
+                            else
+                                awbUpdate = false;
+                        }
+                        else if (Convert.ToInt32(m_awbnewest.Groups[1].Value) > Convert.ToInt32(versionAWB.FileVersion.Replace(".", "")))
+                        {
+                            AWBZipName = "AutoWikiBrowser" + m_awbnewest.Groups[1].Value.Replace(".", "") + ".zip";
                             AWBWebAddress = "http://downloads.sourceforge.net/autowikibrowser/" + AWBZipName;
                             awbUpdate = true;
                         }
@@ -380,9 +387,7 @@ namespace AWBUpdater
             }
 
             if (!AWBOpen)
-            {
                 System.Diagnostics.Process.Start(AWBdirectory + "AutoWikiBrowser.exe");
-            }
 
             progressUpdate.Value = 95;
         }
@@ -390,7 +395,6 @@ namespace AWBUpdater
         private void killTempDir()
         {
             Directory.Delete(tempDirectory, true);
-
             progressUpdate.Value = 100;
         }
 
