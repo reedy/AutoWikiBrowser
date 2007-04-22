@@ -153,6 +153,7 @@ namespace WikiFunctions.Logging
 
             private void resizeListView(ListView lstView)
             {
+                lstView.BeginUpdate();
                 int width; int width2;
                 foreach (ColumnHeader head in lstView.Columns)
                 {
@@ -165,6 +166,7 @@ namespace WikiFunctions.Logging
                     if (width2 < width)
                         head.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
                 }
+                lstView.EndUpdate();
             }
 
             private void SaveListView(ListView listview)
@@ -227,6 +229,7 @@ namespace WikiFunctions.Logging
         #region ColumnSort
         private void lvSavedColumnSort(object sender, System.Windows.Forms.ColumnClickEventArgs e)
         {
+            
             lvColumnSort(lvSaved, e);
         }
 
@@ -239,6 +242,7 @@ namespace WikiFunctions.Logging
         {
             try
             {
+                listView.BeginUpdate();
                 // Determine whether the column is the same as the last column clicked.
                 if (e.Column != sortColumn)
                 {
@@ -262,6 +266,7 @@ namespace WikiFunctions.Logging
                 // object.
                 listView.ListViewItemSorter = new ListViewItemComparer(e.Column,
                                                                   listView.Sorting);
+                listView.EndUpdate();
             }
             catch { }
         }
