@@ -55,33 +55,38 @@ namespace WikiFunctions.Lists
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            try
+            if (txtFile.Text != "")
             {
-                System.IO.StreamWriter sw;
-                foreach (ListViewGroup group in lvSplit.Groups)
+                try
                 {
-
-                    StringBuilder strList = new StringBuilder("");
-                    for (int i = 0; i < group.Items.Count; i++)
+                    System.IO.StreamWriter sw;
+                    foreach (ListViewGroup group in lvSplit.Groups)
                     {
-                        strList.AppendLine(group.Items[i].Text);
-                    }
-                    string path = Application.StartupPath + "\\" + txtFile.Text + " " + group.Name.ToString() + ".txt";
-                    sw = new System.IO.StreamWriter(path, false, Encoding.UTF8);
-                    sw.Write(strList);
-                    sw.Close();
-                }
 
-                MessageBox.Show("Lists Saved");
+                        StringBuilder strList = new StringBuilder("");
+                        for (int i = 0; i < group.Items.Count; i++)
+                        {
+                            strList.AppendLine(group.Items[i].Text);
+                        }
+                        string path = Application.StartupPath + "\\" + txtFile.Text + " " + group.Name.ToString() + ".txt";
+                        sw = new System.IO.StreamWriter(path, false, Encoding.UTF8);
+                        sw.Write(strList);
+                        sw.Close();
+                    }
+
+                    MessageBox.Show("Lists Saved");
+                }
+                catch (System.IO.IOException ex)
+                {
+                    MessageBox.Show(ex.Message, "File error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            catch (System.IO.IOException ex)
-            {
-                MessageBox.Show(ex.Message, "File error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            else
+                MessageBox.Show("File Name cannot be Blank");
         }
 
         private void clearToolStripMenuItem_Click(object sender, EventArgs e)
