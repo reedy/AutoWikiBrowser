@@ -940,7 +940,7 @@ namespace AutoWikiBrowser
                 webBrowserDiff.BringToFront();
                 webBrowserDiff.Document.OpenNew(false);
 
-                if (TheArticle.OriginalArticleText == txtEdit.Text.Trim())
+                if (TheArticle.OriginalArticleText == txtEdit.Text)
                 {
                     webBrowserDiff.Document.Write(@"<h2 style='padding-top: .5em;
 padding-bottom: .17em;
@@ -956,7 +956,7 @@ font-size: 150%;'>No changes</h2>");
                     webBrowserDiff.Document.Write("<html><head>" +
                         WikiDiff.DiffHead() + @"</head><body>" + WikiDiff.TableHeader() +
                         WikiDiff.GetDiff(TheArticle.OriginalArticleText, txtEdit.Text, 1) +
-                        @"</table><p style='font-family: arial;'>Double-click on a line to undo change.</p></body></html>");
+                        @"</table><p style='font-family: arial;'>Double-click on a line to undo change, single click focuses edit box to the needed line.</p></body></html>");
                 }
                 
                 CaseWasDiff();
@@ -1022,7 +1022,7 @@ font-size: 150%;'>No changes</h2>");
 
         #region extra stuff
 
-        readonly Regex DiffIdParser = new Regex(@"[a-z]-+(\d*)x-+(\d*)");
+        readonly Regex DiffIdParser = new Regex(@"[a-z](-?\d*)x(-?\d*)");
 
         public void DiffDblClicked(string id)
         {
@@ -1031,6 +1031,8 @@ font-size: 150%;'>No changes</h2>");
                 Match m = DiffIdParser.Match(id);
                 int SrcLine = int.Parse(m.Groups[1].Value) - 1;
                 int DestLine = int.Parse(m.Groups[2].Value) - 1;
+
+                if (SrcLine < 0 || DestLine < 0) return;
 
                 string[] Src = TheArticle.OriginalArticleText.Split(new string[] { "\r\n" }, StringSplitOptions.None);
                 string[] Dest = txtEdit.Text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
@@ -1066,11 +1068,17 @@ font-size: 150%;'>No changes</h2>");
         {
             try
             {
+                txtEdit.Select();
                 Match m = DiffIdParser.Match(id);
                 int DestLine = int.Parse(m.Groups[2].Value) - 1;
+                if (DestLine < 0) return;
 
-                txtEdit.Select();
-                txtEdit.Select(txtEdit.GetFirstCharIndexFromLine(DestLine), 0);
+                MatchCollection mc = Regex.Matches(txtEdit.Text, "\r\n");
+                if (mc.Count < DestLine) return;
+
+                if (DestLine == 0) txtEdit.Select(0, 0);
+                else
+                    txtEdit.Select(mc[DestLine - 1].Index + 2, 0);
             }
             catch (Exception ex)
             {
