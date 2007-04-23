@@ -41,6 +41,14 @@ namespace WikiFunctions.Lists
             listMaker2.MakeListEnabled = true;
         }
 
+        public ListComparer(List<Article> list)
+        {
+            InitializeComponent();
+            listMaker1.MakeListEnabled = true;
+            listMaker2.MakeListEnabled = true;
+            listMaker1.Add(list);
+        }
+
         private void GetDuplicates()
         {
             foreach (Article article in listMaker1)
