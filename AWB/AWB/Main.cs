@@ -2054,8 +2054,28 @@ font-size: 150%;'>No changes</h2>");
 
         private void launchListComparerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ListComparer lc = new ListComparer();
-            lc.Show();
+            ListComparer lc;
+
+            if (MessageBox.Show("Would you like to copy your current Article List to the ListComparer?", "Copy Article List?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                lc = new ListComparer(listMaker1.GetArticleList());
+            else
+                lc = new ListComparer();
+
+            lc.ShowDialog();
+            lc.Dispose();
+        }
+
+        private void launchListSplitterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ListSplitter splitter;
+
+            if (MessageBox.Show("Would you like to copy your current Article List to the ListSplitter?", "Copy Article List?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                splitter = new ListSplitter(listMaker1.GetArticleList());
+            else
+                splitter = new ListSplitter();
+
+            splitter.ShowDialog();
+            splitter.Dispose();
         }
 
         private void launchDumpSearcherToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3261,13 +3281,6 @@ font-size: 150%;'>No changes</h2>");
         {
             recycleWebControl();
             Application.DoEvents();
-        }
-
-        private void launchListSplitterToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ListSplitter splitter = new ListSplitter();
-            splitter.ShowDialog();
-            splitter.Dispose();
         }
     }
 }

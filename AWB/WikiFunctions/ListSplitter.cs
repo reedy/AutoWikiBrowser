@@ -15,6 +15,12 @@ namespace WikiFunctions.Lists
             InitializeComponent();
         }
 
+        public ListSplitter(List<Article> list)
+        {
+            InitializeComponent();
+            listMaker1.Add(list);
+        }
+
         private void ListSplitter_Load(object sender, EventArgs e)
         {
             listMaker1.MakeListEnabled = true;
