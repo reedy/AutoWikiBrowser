@@ -907,7 +907,8 @@ namespace AutoWikiBrowser
 
                 if (chkFindandReplace.Checked && findAndReplace.AfterOtherFixes)
                 {
-                    TheArticle.PerformFindAndReplace(findAndReplace, substTemplates, replaceSpecial, true);
+                    TheArticle.PerformFindAndReplace(findAndReplace, substTemplates, replaceSpecial, 
+                        chkSkipWhenNoFAR.Checked);
                     if (TheArticle.SkipArticle) return;
                 }
 
@@ -1045,7 +1046,7 @@ font-size: 150%;'>No changes</h2>");
                         Dest = Lst.ToArray();
                         break;
                     case 'd':
-                        Lst.Insert(DestLine, Src[SrcLine]);
+                        Lst.Insert(DestLine, Src[Math.Min(SrcLine, Src.Length - 1)]);
                         Dest = Lst.ToArray();
                         break;
                     case 'r':
