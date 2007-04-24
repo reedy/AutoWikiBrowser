@@ -57,6 +57,12 @@
     <Import Include="WikiFunctions.Logging.Uploader" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ErrorForm.designer.vb">
+      <DependentUpon>ErrorForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ErrorForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="LogUploader.vb" />
     <Compile Include="TraceManager.vb" />
     <Compile Include="LoggingBase.vb" />
@@ -85,6 +91,10 @@
     <Compile Include="WikiFunctions2.vb" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ErrorForm.resx">
+      <DependentUpon>ErrorForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>

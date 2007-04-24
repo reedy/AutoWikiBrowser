@@ -228,11 +228,13 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Friend Const conUploadCategoryIsJobName As String = "$CATEGORY"
             Private Shared ReadOnly mPluginVersion As String = _
                System.Reflection.Assembly.GetExecutingAssembly.GetName.Version.ToString
+            Private Shared mUserName As String
 
             Friend Sub New()
                 MyBase.New()
                 mUploadLocation = conUploadToUserSlashLogsToken
                 mUploadJobName = conUploadCategoryIsJobName
+                AddHandler Variables.User.UserNameChanged, AddressOf UsernameChanged
             End Sub
 
             Friend Shadows Function Equals(ByVal Compare As Props) As Boolean
@@ -249,7 +251,11 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 End With
             End Function
 
-            ' Additional properties:
+            Private Shared Sub UsernameChanged(ByVal sender As Object, ByVal e As EventArgs)
+                If Not Variables.User.Name.Trim = "" Then mUserName = Variables.User.Name
+            End Sub
+
+#Region "Additional properties:"
             Friend Shared ReadOnly Property PluginVersion() As String
                 Get
                     Return mPluginVersion
@@ -287,14 +293,19 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                             End If
                         Next
                     End If
-                    If LinksToLog.Count > 1 AndAlso Not WikiFunctions.Variables.User.LoggedIn Then _
+                    If LinksToLog.Count > 1 AndAlso UserName = "" Then _
                        Throw New System.Configuration.SettingsPropertyNotFoundException( _
                        "The plugin hasn't received the username from AWB")
                 End Get
             End Property
             Friend ReadOnly Property GlobbedUploadLocation() As String
                 Get
-                    Return mUploadLocation.Replace("$USER", "User:" & WikiFunctions.Variables.User.Name)
+                    Return mUploadLocation.Replace("$USER", "User:" & UserName)
+                End Get
+            End Property
+            Friend ReadOnly Property UserName() As String
+                Get
+                    Return mUserName
                 End Get
             End Property
             Friend Property Category() As String
@@ -315,6 +326,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                     Return Tools.RemoveInvalidChars(mUploadJobName.Replace(conUploadCategoryIsJobName, mCategory))
                 End Get
             End Property
+#End Region
 
 #Region "XML interface"
             Private Const conLogBadPages As String = "LogBadPages"
