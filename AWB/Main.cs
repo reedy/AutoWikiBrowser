@@ -3129,12 +3129,19 @@ font-size: 150%;'>No changes</h2>");
             TabControl IAutoWikiBrowser.Tab { get { return tabControl1; } }
 
         // "Events":
-            void IAutoWikiBrowser.SkipPage(string reason) { SkipPage(reason); }
-            void IAutoWikiBrowser.Start() { Start(); }
-            void IAutoWikiBrowser.Stop() { Stop(); }
-            void IAutoWikiBrowser.GetDiff() { GetDiff(); }
-            void IAutoWikiBrowser.GetPreview() { GetPreview(); }
-            void IAutoWikiBrowser.Save() { Save(); }
+            void IAutoWikiBrowser.SkipPage(IAWBPlugin sender, string reason) { SkipPage(reason); }
+            void IAutoWikiBrowser.Start(IAWBPlugin sender) { Start(); }
+            void IAutoWikiBrowser.Stop(IAWBPlugin sender) { Stop(); }
+            void IAutoWikiBrowser.GetDiff(IAWBPlugin sender) { GetDiff(); }
+            void IAutoWikiBrowser.GetPreview(IAWBPlugin sender) { GetPreview(); }
+            void IAutoWikiBrowser.Save(IAWBPlugin sender) { Save(); }
+
+            void IAutoWikiBrowser.SkipPage(string sender, string reason) { SkipPage(reason); }
+            void IAutoWikiBrowser.Start(string sender) { Start(); }
+            void IAutoWikiBrowser.Stop(string sender) { Stop(); }
+            void IAutoWikiBrowser.GetDiff(string sender) { GetDiff(); }
+            void IAutoWikiBrowser.GetPreview(string sender) { GetPreview(); }
+            void IAutoWikiBrowser.Save(string sender) { Save(); }
         #endregion
 
         /// <summary>

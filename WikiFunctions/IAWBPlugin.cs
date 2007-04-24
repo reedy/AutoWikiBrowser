@@ -7,8 +7,8 @@ using WikiFunctions.Logging;
 
 namespace WikiFunctions.Plugin
 {
-    /* DO NOT CHANGE without consulting plugin authors. This interface is a contract with external plugins and
-     * is of sufficient vintage to be considered non-negotiable. */
+    /* Please DO NOT CHANGE without consulting plugin authors, unless moving to a new AWB major version (v5, v6 etc).
+     * This interface is a contract with external plugins. */
     public interface IAWBPlugin
     {
         void Initialise(IAutoWikiBrowser sender);
@@ -23,8 +23,8 @@ namespace WikiFunctions.Plugin
         void Nudged(int Nudges);
     }
 
-    /* This interface allows plugins to manipulate AWB UI elements without (ahem) resorting to hacks.    
-    The interface isn't considered "locked" yet so more properties and methods may be added if needed.  */
+    /* This interface allows plugins to manipulate AWB UI elements. Members can be added without breaking plugins,
+     * since plugins use but don't implement the interface. Removing members is to be avoided if at all possible. */
     public interface IAutoWikiBrowser
     {
         Form Form { get; }
@@ -56,14 +56,22 @@ namespace WikiFunctions.Plugin
         void NotifyBalloon(string Message, ToolTipIcon Icon);
         int Nudges { get; }
 
-        void Start();
-        void Save();
-        void SkipPage(string reason);
-        void Stop();
-        void GetDiff();
-        void GetPreview();
+        void Start(IAWBPlugin sender);
+        void Save(IAWBPlugin sender);
+        void SkipPage(IAWBPlugin sender, string reason);
+        void Stop(IAWBPlugin sender);
+        void GetDiff(IAWBPlugin sender);
+        void GetPreview(IAWBPlugin sender);
+
+        void Start(string sender);
+        void Save(string sender);
+        void SkipPage(string sender, string reason);
+        void Stop(string sender);
+        void GetDiff(string sender);
+        void GetPreview(string sender);
     }
 
+    /* Members may be added to this interface, but not removed unless absolutely necessary. */
     public interface ProcessArticleEventArgs
     {
         string ArticleText { get; }

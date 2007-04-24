@@ -169,7 +169,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.WPAssessmentsCatCreator
         ' Event handlers:
         Private Sub OurMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) _
         Handles OurMenuItem.Click
-            AWBForm.Stop()
+            AWBForm.Stop(Me)
             AWBForm.StopButton.PerformClick()
 
             If AWBForm.ListMaker.Count > 0 Then
@@ -243,7 +243,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.WPAssessmentsCatCreator
                "|.*((?<art>by quality)|(?<byimp>by importance)|(?<bypri>by priority))$)", _
                RegexOptions.ExplicitCapture)
 
-            AWBForm.Start()
+            AWBForm.Start(Me)
 ExitMe:
             Exit Sub
 
