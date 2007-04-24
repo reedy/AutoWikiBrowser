@@ -1018,6 +1018,8 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
         bool bIsBot = false;
         bool bLoggedIn = false;
 
+        public List<string> Groups = new List<string>();
+
         public WebControl webBrowserLogin = new WebControl();
         internal static Boolean WeAskedAboutUpdate;
 
@@ -1112,6 +1114,8 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
             {
                 string strText = String.Empty;
 
+                Groups.Clear();
+
                 //load version check page
                 webBrowserLogin.Navigate("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=edit");
                 //wait to load
@@ -1176,6 +1180,15 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                     if (m.Success && m.Groups[1].Value.Trim().Length > 0)
                         Variables.RETFPath = m.Groups[1].Value.Trim();
 
+                    string strHead = webBrowserLogin.GetHead();
+
+                    Regex r = new Regex("\"([a-z]*)\"[,\\]]");
+
+                    foreach (Match m1 in r.Matches(strHead))
+                    {
+                        Groups.Add(m1.Groups[1].Value);
+                    }
+
                     //don't require approval if checkpage does not exist.
                     if (strText.Length < 1)
                     {
@@ -1185,8 +1198,9 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                     }
                     else if (strText.Contains("<!--All users enabled-->"))
                     {//see if all users enabled
-                        this.WikiStatus = true;
-                        this.IsBot = true;
+                        WikiStatus = true;
+                        IsBot = true;
+                        IsAdmin = Groups.Contains("sysop");
                         return WikiStatusResult.Registered;
                     }
                     else
@@ -1196,19 +1210,27 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                         string strAdmins = Tools.StringBetween(strText, "<!--adminsbegins-->", "<!--adminsends-->");
                         Regex username = new Regex(@"^\*\s*" + Tools.CaseInsensitive(Regex.Escape(Variables.User.Name))
                             + @"\s*$", RegexOptions.Multiline);
-                        
+
+                        if (Groups.Contains("sysop"))
+                        {
+                            WikiStatus = true;
+                            IsAdmin = true;
+                            IsBot = username.IsMatch(strBotUsers);
+                            return WikiStatusResult.Registered;
+                        }
+
                         if (this.Name.Length > 0 && username.IsMatch(strText))
                         {
                             if (username.IsMatch(strBotUsers))
                             {//enable botmode
-                                this.IsBot = true;
+                                IsBot = true;
                             }
                             if (username.IsMatch(strAdmins))
                             {//enable admin features
-                                this.IsAdmin = true;
+                                IsAdmin = true;
                             }
                             
-                            this.WikiStatus = true;
+                            WikiStatus = true;
                             
                             return WikiStatusResult.Registered;
                         }

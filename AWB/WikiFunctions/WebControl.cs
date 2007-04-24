@@ -442,6 +442,21 @@ namespace WikiFunctions.Browser
         }
 
         /// <summary>
+        /// returns head of the currently loaded document or empty string of none
+        /// </summary>
+        public string GetHead()
+        {
+            try
+            {
+                return Tools.StringBetween(DocumentText, "<head>", "</head>");
+            }
+            catch
+            {
+                return "";
+            }
+        }
+
+        /// <summary>
         /// Sets the article text
         /// </summary>
         public void SetArticleText(string ArticleText)
