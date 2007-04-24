@@ -96,7 +96,7 @@ Namespace Logging
         End Sub
         Public Overrides Sub ProcessingArticle(ByVal ArticleFullTitle As String, ByVal NS As Namespaces)
             MyBase.WriteLine("<br/>" & mArticleCount.ToString & ". <a href=""" & _
-               GetURL(ArticleFullTitle) & """>[[" & ArticleFullTitle & "]]</a>")
+               WikiFunctions.Variables.GetPageURL(ArticleFullTitle) & """>[[" & ArticleFullTitle & "]]</a>")
             mArticleCount += 1
         End Sub
         Public Overrides Sub SkippedArticle(ByVal SkippedBy As String, ByVal Reason As String)

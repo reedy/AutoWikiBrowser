@@ -79,10 +79,6 @@ Namespace Logging
                     Return "#{{subst:" & templ & "|" & strnamespace & "|" & WikiFunctions.Tools.RemoveNamespaceString(ArticleFullTitle).Trim & "}}"
             End Select
         End Function
-        Public Shared Function GetURL(ByVal ArticleFullTitle As String) As String
-            Return Variables.URL & "index.php?title=" & _
-               System.Web.HttpUtility.UrlEncode(ArticleFullTitle.Replace(" ", "_"))
-        End Function
         Public MustOverride ReadOnly Property Verbose() As Boolean
     End Class
 

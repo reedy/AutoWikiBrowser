@@ -5,6 +5,7 @@ Steve has a headache!
 *Sam's logging error form needs to be bigger. (Perhaps offer to redo failed tasks?)
 *Logging error form needs to keep app alive if error occurs on when-closing upload (perhaps displaying modally if app was exiting? or cancel exit?)
 *Add a Hide linklabel to the Log Upload form
+*Why isn't the LED blue when uploading?
 *Move and reformat the ETC label
 *Get notification of username change by handling the event in Tools.Variables. See if there's any other events in that class we could benefit from handling
 
