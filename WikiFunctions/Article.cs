@@ -180,7 +180,7 @@ namespace WikiFunctions
             if (SkipNoUnicode && NoChange)
                 mAWBLogListener.AWBSkipped("No Unicodification");
             else if (!NoChange)
-                this.AWBChangeArticleText("Unicodification", strTemp, false);
+                this.AWBChangeArticleText("Article Unicodified", strTemp, false);
         }
 
         public void UpdateImages(ImageReplaceOptions option, Parsers parsers,
@@ -212,7 +212,7 @@ namespace WikiFunctions
             if (NoChange && SkipNoImgChange)
                 mAWBLogListener.AWBSkipped("No Image Changed");
             else if (!NoChange)
-                this.AWBChangeArticleText("Image replacement", strTemp, false);
+                this.AWBChangeArticleText("Image replacement applied", strTemp, false);
         }
 
         public void Categorisation(CategorisationOptions option, Parsers parsers,
@@ -269,7 +269,7 @@ namespace WikiFunctions
                 mAWBLogListener.AWBSkipped("No Find And Replace Changes");
             else
             {
-                this.AWBChangeArticleText("Find and replace" + tmpEditSummary, strTemp, false);
+                this.AWBChangeArticleText("Find and replace applied" + tmpEditSummary, strTemp, false);
                 EditSummary += tmpEditSummary;
             }
         }
@@ -280,7 +280,7 @@ namespace WikiFunctions
             string strTemp = RegexTypos.PerformTypoFixes(mArticleText, out NoChange, out mPluginEditSummary);
 
             if (NoChange && SkipIfNoRegexTypo)
-                mAWBLogListener.AWBSkipped("No Typo Fixes");
+                mAWBLogListener.AWBSkipped("No typo fixes");
             else if (!NoChange)
             {
                 this.AWBChangeArticleText(mPluginEditSummary, strTemp, false);
@@ -297,7 +297,7 @@ namespace WikiFunctions
                 mAWBLogListener.AWBSkipped("No Tag changed");
             else if (!NoChange)
             {
-                this.AWBChangeArticleText("Auto tagger changes" + tmpEditSummary, strTemp, false);
+                this.AWBChangeArticleText("Auto tagger changes applied" + tmpEditSummary, strTemp, false);
                 EditSummary += tmpEditSummary;
             }
         }
@@ -313,7 +313,7 @@ namespace WikiFunctions
                 strTemp = parsers.ChangeToDefaultSort(strTemp, mName);
                 strTemp = parsers.FixHeadings(strTemp, mName, out NoChange);
                 if (SkipNoHeaderError && NoChange)
-                    mAWBLogListener.AWBSkipped("No Header Errors");
+                    mAWBLogListener.AWBSkipped("No header errors");
                 else if (!NoChange)
                     this.AWBChangeArticleText("Fixed header errors", strTemp, true);
             }
@@ -324,7 +324,7 @@ namespace WikiFunctions
             bool NoChange;
             string strTemp = parsers.FixLinks(mArticleText, out NoChange);
             if (NoChange && SkipArticle)
-                mAWBLogListener.AWBSkipped("No Bad Links");
+                mAWBLogListener.AWBSkipped("No bad links");
             else if (!NoChange)
                 this.AWBChangeArticleText("Fixed links", strTemp, false);
         }
@@ -334,7 +334,7 @@ namespace WikiFunctions
             bool NoChange;
             string strTemp = parsers.BulletExternalLinks(mArticleText, out NoChange);
             if (SkipNoBulletedLink && NoChange)
-                mAWBLogListener.AWBSkipped("No Missing Bulleted Links");
+                mAWBLogListener.AWBSkipped("No missing bulleted links");
             else if (!NoChange)
                 this.AWBChangeArticleText("Bulleted external links", strTemp, false);
         }
@@ -364,7 +364,7 @@ namespace WikiFunctions
             if (df.Abort) return false;
 
             if (NoChange && SkipNoDab)
-                mAWBLogListener.AWBSkipped("No Disambiguation");
+                mAWBLogListener.AWBSkipped("No disambiguation");
             else if (!NoChange)
                 this.AWBChangeArticleText("Disambiguated " + DabLinkText, strTemp, false);
 
