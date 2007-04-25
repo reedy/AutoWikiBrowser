@@ -303,7 +303,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                     Return mUploadLocation.Replace("$USER", "User:" & UserName)
                 End Get
             End Property
-            Friend ReadOnly Property UserName() As String
+            Friend Shared ReadOnly Property UserName() As String
                 Get
                     Return mUserName
                 End Get
