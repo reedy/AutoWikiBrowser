@@ -1012,16 +1012,16 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
         /// </summary>
         public event EventHandler AdminStatusChanged;
 
-        string strName = "";
+        private string strName = "";
         private bool bWikiStatus = false;
-        bool bIsAdmin = false;
-        bool bIsBot = false;
-        bool bLoggedIn = false;
+        private bool bIsAdmin = false;
+        private bool bIsBot = false;
+        private bool bLoggedIn = false;
 
         public List<string> Groups = new List<string>();
 
         public WebControl webBrowserLogin = new WebControl();
-        internal static Boolean WeAskedAboutUpdate;
+        private static Boolean WeAskedAboutUpdate;
 
         /// <summary>
         /// Gets the user name
