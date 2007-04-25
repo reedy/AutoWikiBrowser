@@ -3129,19 +3129,21 @@ font-size: 150%;'>No changes</h2>");
             TabControl IAutoWikiBrowser.Tab { get { return tabControl1; } }
 
         // "Events":
-            void IAutoWikiBrowser.SkipPage(IAWBPlugin sender, string reason) { SkipPage(reason); }
-            void IAutoWikiBrowser.Start(IAWBPlugin sender) { Start(); }
-            void IAutoWikiBrowser.Stop(IAWBPlugin sender) { Stop(); }
-            void IAutoWikiBrowser.GetDiff(IAWBPlugin sender) { GetDiff(); }
-            void IAutoWikiBrowser.GetPreview(IAWBPlugin sender) { GetPreview(); }
-            void IAutoWikiBrowser.Save(IAWBPlugin sender) { Save(); }
+            void IAutoWikiBrowser.SkipPage(IAWBPlugin sender, string reason) { SkipPage(sender.Name, reason); }
+            void IAutoWikiBrowser.Start(IAWBPlugin sender) { Start(sender.Name); }
+            void IAutoWikiBrowser.Stop(IAWBPlugin sender) { Stop(sender.Name); }
+            void IAutoWikiBrowser.GetDiff(IAWBPlugin sender) { GetDiff(sender.Name); }
+            void IAutoWikiBrowser.GetPreview(IAWBPlugin sender) { GetPreview(sender.Name); }
+            void IAutoWikiBrowser.Save(IAWBPlugin sender) { Save(sender.Name); }
 
-            void IAutoWikiBrowser.SkipPage(string sender, string reason) { SkipPage(reason); }
-            void IAutoWikiBrowser.Start(string sender) { Start(); }
-            void IAutoWikiBrowser.Stop(string sender) { Stop(); }
-            void IAutoWikiBrowser.GetDiff(string sender) { GetDiff(); }
-            void IAutoWikiBrowser.GetPreview(string sender) { GetPreview(); }
-            void IAutoWikiBrowser.Save(string sender) { Save(); }
+            /* In the (perhaps unlikely) event we need to know the name of the plugin which calls these subroutines,
+             * the code is here and ready to go. */
+            public void SkipPage(string sender, string reason) { SkipPage(reason); }
+            public void Start(string sender) { Start(); }
+            public void Stop(string sender) { Stop(); }
+            public void GetDiff(string sender) { GetDiff(); }
+            public void GetPreview(string sender) { GetPreview(); }
+            public void Save(string sender) { Save(); }
         #endregion
 
         /// <summary>
