@@ -101,7 +101,7 @@ namespace WikiFunctions.Parse
             string strStub = Newline(removeStubs(ref ArticleText));
 
             //filter out excess white space and remove "----" from end of article
-            ArticleText = Parsers.RemoveWhiteSpace(ArticleText);
+            ArticleText = Parsers.RemoveWhiteSpace(ArticleText) + "\r\n";
 
             switch (Variables.LangCode)
             {
@@ -154,7 +154,7 @@ namespace WikiFunctions.Parse
                 ArticleText = ArticleText.Replace(defaultSort, "");
             }
             defaultSort = WikiRegexes.Defaultsort.Replace(defaultSort, "{{DEFAULTSORT:${key}}}");
-            if (defaultSort != "") defaultSort = "\r\n" + defaultSort + "\r\n";
+            if (defaultSort != "") defaultSort += "\r\n";
 
             return defaultSort + ListToString(CategoryList);
         }
@@ -180,7 +180,7 @@ namespace WikiFunctions.Parse
             if (strPersonData != "")
             {
                 ArticleText = ArticleText.Replace(strPersonData, "");
-                strPersonData = "\r\n" + strPersonData;
+                strPersonData = strPersonData;
             }
 
             return strPersonData;
@@ -224,7 +224,7 @@ namespace WikiFunctions.Parse
             {
                 strDisambig = WikiRegexes.Disambigs.Match(ArticleText).Value;
                 ArticleText = ArticleText.Replace(strDisambig, "");
-                strDisambig = "\r\n" + strDisambig;
+                strDisambig = strDisambig;
             }
 
             return strDisambig;
