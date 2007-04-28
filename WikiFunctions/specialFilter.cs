@@ -44,29 +44,36 @@ namespace WikiFunctions.Lists
 
         private void btnApply_Click(object sender, EventArgs e)
         {
-            if (chkRemoveDups.Checked)
-                removeDups(true);
-            else
-                removeDups(false);
+            try
+            {
+                if (chkRemoveDups.Checked)
+                    removeDups(true);
+                else
+                    removeDups(false);
 
-            bool does = (chkContains.Checked && txtContains.Text != "");
-            bool doesnot = (chkNotContains.Checked && txtDoesNotContain.Text != "");
+                bool does = (chkContains.Checked && txtContains.Text != "");
+                bool doesnot = (chkNotContains.Checked && txtDoesNotContain.Text != "");
 
-            if (lbRemove.Items.Count > 0)
-                FilterList();
+                if (lbRemove.Items.Count > 0)
+                    FilterList();
 
-            if (does || doesnot)
-                FilterMatches(does, doesnot);
+                if (does || doesnot)
+                    FilterMatches(does, doesnot);
 
-            if (lb.Items[0] is Article)
-                FilterNamespace();
+                if (lb.Items.Count > 0 && lb.Items[0] is Article)
+                    FilterNamespace();
 
-            lb.Items.Clear();
+                lb.Items.Clear();
 
-            foreach (Article a in list)
-                lb.Items.Add(a);
+                foreach (Article a in list)
+                    lb.Items.Add(a);
 
-            this.Close();
+                Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         public void removeDups(bool check)
@@ -74,8 +81,10 @@ namespace WikiFunctions.Lists
             foreach (Article a in lb)
             {
                 if (check)
+                {
                     if (!list.Contains(a))
                         list.Add(a);
+                }
                 else
                     list.Add(a);   
             }
