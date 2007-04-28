@@ -740,6 +740,15 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return res;
         }
 
+        /// <summary>
+        /// get template name from template call, i.e. "{{template:foobar|123}}"
+        ///  to "foobar"
+        /// </summary>
+        public static string GetTemplateName(string call)
+        {
+            return WikiRegexes.TemplateCall.Match(call).Groups[1].Value;
+        }
+
         #endregion
 
         #region other functions

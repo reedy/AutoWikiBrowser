@@ -15,6 +15,10 @@ namespace WikiFunctions
             Category = new Regex("\\[\\[" + Variables.NamespacesCaseInsensitive[14] + "(.*?)\\]\\]|<[Gg]allery>[\\s\\S]*?</[Gg]allery>", RegexOptions.Compiled);
             Images = new Regex("\\[\\[" + Variables.NamespacesCaseInsensitive[6] + "(.*?)\\]\\]|<[Gg]allery>[\\s\\S]*?</[Gg]allery>", RegexOptions.Compiled);
             Stub = new Regex(@"\{\{.*?" + Variables.Stub + @"\}\}", RegexOptions.Compiled);
+            string s = Variables.NamespacesCaseInsensitive[10];
+            if (s[0] == '(') s = s.Insert(s.Length - 1, "|");
+            else s = "(?:" + s + "|)";
+            TemplateCall = new Regex(@"\{\{\s*" + s + @"\s*([^\]\|]*)\s*(.*)\}\}", RegexOptions.Compiled | RegexOptions.Singleline);
         }
 
         /// <summary>
@@ -188,6 +192,11 @@ namespace WikiFunctions
         public static readonly Regex wgUserGroups = new Regex(@"^var\s*wgUserGroups\s*=\s*\[(.*\])", RegexOptions.Compiled);
         
         #endregion
+
+        /// <summary>
+        /// matches template
+        /// </summary>
+        public static Regex TemplateCall;
     
     }
 }
