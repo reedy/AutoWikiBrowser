@@ -81,7 +81,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
 #Region "Properties"
         Public Property TemplateName() As String
             Get
-                Return TemplateNameTextBox.Text.Trim
+                Return WikiFunctions.Parse.Parsers.GetTemplateName(TemplateNameTextBox.Text).Trim
             End Get
             Set(ByVal value As String)
                 TemplateNameTextBox.Text = value

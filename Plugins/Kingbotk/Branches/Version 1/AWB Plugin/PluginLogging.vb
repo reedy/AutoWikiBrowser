@@ -228,13 +228,12 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Friend Const conUploadCategoryIsJobName As String = "$CATEGORY"
             Private Shared ReadOnly mPluginVersion As String = _
                System.Reflection.Assembly.GetExecutingAssembly.GetName.Version.ToString
-            Private Shared mUserName As String
+            Private Shared mUserName As String = ""
 
             Friend Sub New()
                 MyBase.New()
                 mUploadLocation = conUploadToUserSlashLogsToken
                 mUploadJobName = conUploadCategoryIsJobName
-                AddHandler Variables.User.UserNameChanged, AddressOf UsernameChanged
             End Sub
 
             Friend Shadows Function Equals(ByVal Compare As Props) As Boolean
@@ -250,10 +249,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                     End If
                 End With
             End Function
-
-            Private Shared Sub UsernameChanged(ByVal sender As Object, ByVal e As EventArgs)
-                If Not Variables.User.Name.Trim = "" Then mUserName = Variables.User.Name
-            End Sub
 
 #Region "Additional properties:"
             Friend Shared ReadOnly Property PluginVersion() As String
@@ -303,10 +298,13 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                     Return mUploadLocation.Replace("$USER", "User:" & UserName)
                 End Get
             End Property
-            Friend Shared ReadOnly Property UserName() As String
+            Friend Shared Property UserName() As String
                 Get
                     Return mUserName
                 End Get
+                Set(ByVal value As String)
+                    mUserName = value
+                End Set
             End Property
             Friend Property Category() As String
                 Get
