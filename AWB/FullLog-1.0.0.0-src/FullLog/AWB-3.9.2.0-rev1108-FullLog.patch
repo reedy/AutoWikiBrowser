@@ -1,0 +1,30 @@
+﻿Index: AWB/AWB/Main.cs
+===================================================================
+--- AWB/AWB/Main.cs	(revision 1108)
++++ AWB/AWB/Main.cs	(working copy)
+@@ -3127,6 +3127,10 @@
+             WikiFunctions.Browser.WebControl IAutoWikiBrowser.WebControl { get { return webBrowserEdit;} }
+             ContextMenuStrip IAutoWikiBrowser.EditBoxContextMenu { get { return mnuTextBox; } }
+             TabControl IAutoWikiBrowser.Tab { get { return tabControl1; } }
++            WikiFunctions.Parse.FindandReplace IAutoWikiBrowser.FindandReplace { get { return findAndReplace; } }
++            WikiFunctions.SubstTemplates IAutoWikiBrowser.SubstTemplates { get { return substTemplates; } }
++            String IAutoWikiBrowser.CustomModule { get { if (cModule.ModuleEnabled && cModule.Module != null) return cModule.Code; else return null; } }
++            String IAutoWikiBrowser.Version { get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); } }
+ 
+         // "Events":
+             void IAutoWikiBrowser.SkipPage(IAWBPlugin sender, string reason) { SkipPage(sender.Name, reason); }
+Index: AWB/WikiFunctions/IAWBPlugin.cs
+===================================================================
+--- AWB/WikiFunctions/IAWBPlugin.cs	(revision 1108)
++++ AWB/WikiFunctions/IAWBPlugin.cs	(working copy)
+@@ -53,6 +53,10 @@
+         WikiFunctions.Browser.WebControl WebControl { get; }
+         ContextMenuStrip EditBoxContextMenu { get; }
+         TabControl Tab { get; }
++        WikiFunctions.Parse.FindandReplace FindandReplace { get; }
++        WikiFunctions.SubstTemplates SubstTemplates { get; }
++        String CustomModule { get; }
++        String Version { get; }
+         void NotifyBalloon(string Message, ToolTipIcon Icon);
+         int Nudges { get; }
+ 
