@@ -199,6 +199,9 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         End Sub
 
         ' Event handlers - AWB components (some additionally double-handled in Plugin Manager):
+        Private Shared Sub UsernameChanged(ByVal sender As Object, ByVal e As EventArgs)
+            If Not Variables.User.Name.Trim = "" Then PluginLogging.Props.UserName = Variables.User.Name
+        End Sub
         Private Sub AWBButtonsEnabledHandler(ByVal sender As Object, ByVal e As EventArgs)
             Dim btn As Button = DirectCast(sender, Button)
 
@@ -462,6 +465,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 AddHandler .BotModeCheckbox.EnabledChanged, AddressOf Me.AWBBotModeEnabledChanged
                 AddHandler .BotModeCheckbox.CheckedChanged, AddressOf Me.AWBBotModeCheckedChanged
             End With
+            AddHandler Variables.User.UserNameChanged, AddressOf UsernameChanged
 
             StatLabels.AddRange(New Label() {lblTagged, lblSkipped, lblNoChange, lblBadTag, lblNamespace, lblNew, _
                lblRedlink})
