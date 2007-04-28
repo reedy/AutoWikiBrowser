@@ -1682,7 +1682,7 @@ namespace AutoWikiBrowser
             // saveListDialog
             // 
             this.saveListDialog.DefaultExt = "txt";
-            this.saveListDialog.Filter = "Text file|.*txt";
+            this.saveListDialog.Filter = "Text file|*.txt";
             this.saveListDialog.Title = "Save article list";
             // 
             // saveXML
