@@ -202,6 +202,8 @@ namespace AutoWikiBrowser
             {
                 MessageBox.Show(ex.Message);
             }
+
+            lblStatusText.Text = "";
         }
 
         private void MainForm_Resize(object sender, EventArgs e)
