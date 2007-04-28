@@ -842,7 +842,7 @@ namespace WikiFunctions.Lists
         public void Filter()
         {
             specialFilter SpecialFilter = new specialFilter(lbArticles);
-            SpecialFilter.ShowDialog();
+            SpecialFilter.ShowDialog(this);
             UpdateNumberOfArticles();
         }
 
