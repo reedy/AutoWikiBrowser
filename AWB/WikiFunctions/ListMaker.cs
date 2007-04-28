@@ -1069,13 +1069,17 @@ namespace WikiFunctions.Lists
 
         private void ctrl_c()
         {
-            string ClipboardData = "";
-            for (int i = 0; i < lbArticles.SelectedItems.Count; i++)
+            try
             {
-                ClipboardData = ClipboardData + "\r\n" + lbArticles.SelectedItems[i];
+                string ClipboardData = "";
+                for (int i = 0; i < lbArticles.SelectedItems.Count; i++)
+                {
+                    ClipboardData = ClipboardData + "\r\n" + lbArticles.SelectedItems[i];
+                }
+                ClipboardData = ClipboardData.Substring(2);
+                Clipboard.SetDataObject(ClipboardData, true);
             }
-            ClipboardData = ClipboardData.Substring(2);
-            Clipboard.SetDataObject(ClipboardData, true);
+            catch { }
         }
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
