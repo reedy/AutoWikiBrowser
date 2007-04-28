@@ -138,8 +138,8 @@ namespace WikiFunctions.Logging
             // saveListDialog
             // 
             this.saveListDialog.DefaultExt = "txt";
-            this.saveListDialog.Filter = "Plain text file|.*txt|Text file with wiki markup|*.txt|Text file with annotated w" +
-                "iki markup|*.txt";
+            this.saveListDialog.Filter = "Plain text file|*.txt|Text file with wiki markup|*.txt|Text file with annotated w" +
+                 "iki markup|*.txt";
             this.saveListDialog.Title = "Save article list";
             // 
             // mnuListView
