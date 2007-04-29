@@ -741,12 +741,33 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         }
 
         /// <summary>
-        /// get template name from template call, i.e. "{{template:foobar|123}}"
+        /// get template name from template call, e.g. "{{template:foobar|123}}"
         ///  to "foobar"
         /// </summary>
         public static string GetTemplateName(string call)
         {
             return WikiRegexes.TemplateCall.Match(call).Groups[1].Value;
+        }
+
+        /// <summary>
+        /// If fromsetting is true, get template name from a setting, i.e. strip formatting/template: call *if any*. If false, passes through to GetTemplateName(string call)
+        /// </summary>
+        /// <param name="setting"></param>
+        public static string GetTemplateName(string setting, bool fromsetting)
+        {
+            if (fromsetting)
+            {
+                setting = setting.Trim();
+                if (setting == "") return "";
+
+                string GTN = GetTemplateName(setting).Trim();
+                if (GTN == "")
+                    return setting;
+                else
+                    return GTN;
+            }
+            else
+                return GetTemplateName(setting);
         }
 
         #endregion

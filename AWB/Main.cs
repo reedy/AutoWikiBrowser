@@ -160,7 +160,7 @@ namespace AutoWikiBrowser
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            lblStatusText.Text = "Initialising; Please Wait...";
+            lblStatusText.Text = "Initialising...";
             Application.DoEvents();
             updateUpdater();
 
