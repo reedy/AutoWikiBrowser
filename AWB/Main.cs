@@ -3129,6 +3129,11 @@ font-size: 150%;'>No changes</h2>");
             WikiFunctions.Browser.WebControl IAutoWikiBrowser.WebControl { get { return webBrowserEdit;} }
             ContextMenuStrip IAutoWikiBrowser.EditBoxContextMenu { get { return mnuTextBox; } }
             TabControl IAutoWikiBrowser.Tab { get { return tabControl1; } }
+            WikiFunctions.Parse.FindandReplace IAutoWikiBrowser.FindandReplace { get { return findAndReplace; } }
+            WikiFunctions.SubstTemplates IAutoWikiBrowser.SubstTemplates { get { return substTemplates; } }
+            string IAutoWikiBrowser.CustomModule { get { if (cModule.ModuleEnabled && cModule.Module != null) return cModule.Code; else return null; } }
+            string IAutoWikiBrowser.AWBVersion { get { return Application.ProductVersion.ToString(); } }
+            string IAutoWikiBrowser.WikiFunctionsVersion { get { return WikiFunctions.Tools.Version.ToString(); } }
 
         // "Events":
             void IAutoWikiBrowser.SkipPage(IAWBPlugin sender, string reason) { SkipPage(sender.Name, reason); }
