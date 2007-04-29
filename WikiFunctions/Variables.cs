@@ -30,7 +30,7 @@ using System.Reflection;
 
 namespace WikiFunctions
 {
-    public enum LangCodeEnum { en, ar, ca, da, de, eo, es, fi, fr, he, hu, Is, it, ja, nl, no, mi, pl, pt, ru, simple, sk, sl, sv, ta, tj, uk, ur, zh }
+    public enum LangCodeEnum { en, ar, ca, da, de, eo, es, fi, fr, he, hu, Is, it, ja, ku, nl, no, mi, pl, pt, ru, simple, sk, sl, sv, ta, tj, uk, ur, zh }
     public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikiquote, wikiversity, wikibooks, wikinews, commons, meta, species, custom }
 
     /// <summary>
@@ -265,25 +265,23 @@ namespace WikiFunctions
                         break;
 
                     case LangCodeEnum.da:
-                        Namespaces[-2] = "Media:";
-                        Namespaces[-1] = "Speciel:";
-                        Namespaces[1] = "Diskussion:";
-                        Namespaces[2] = "Bruger:";
-                        Namespaces[3] = "Brugerdiskussion:";
-                        Namespaces[4] = "Wikipedia:";
-                        Namespaces[5] = "Wikipedia-diskussion:";
-                        Namespaces[6] = "Billede:";
-                        Namespaces[7] = "Billedediskussion:";
-                        Namespaces[8] = "MediaWiki:";
-                        Namespaces[9] = "MediaWiki-diskussion:";
-                        Namespaces[10] = "Skabelon:";
-                        Namespaces[11] = "Skabelondiskussion:";
-                        Namespaces[12] = "Hjælp:";
-                        Namespaces[13] = "Hjælp-diskussion:";
-                        Namespaces[14] = "Kategori:";
-                        Namespaces[15] = "Kategoridiskussion:";
-                        Namespaces[100] = "Portal:";
-                        Namespaces[101] = "Portal diskussion:";
+                        enLangNamespaces[-2] = "Media:";
+                        enLangNamespaces[-1] = "Special:";
+                        enLangNamespaces[1] = "Talk:";
+                        enLangNamespaces[2] = "User:";
+                        enLangNamespaces[3] = "User talk:";
+                        enLangNamespaces[4] = "Project:";
+                        enLangNamespaces[5] = "Project talk:";
+                        enLangNamespaces[6] = "Image:";
+                        enLangNamespaces[7] = "Image talk:";
+                        enLangNamespaces[8] = "MediaWiki:";
+                        enLangNamespaces[9] = "MediaWiki talk:";
+                        enLangNamespaces[10] = "Template:";
+                        enLangNamespaces[11] = "Template talk:";
+                        enLangNamespaces[12] = "Help:";
+                        enLangNamespaces[13] = "Help talk:";
+                        enLangNamespaces[14] = "Category:";
+                        enLangNamespaces[15] = "Category talk:";
 
                         strsummarytag = " ved brug af [[Wikipedia:AutoWikiBrowser|AWB]]";
                         break;
@@ -481,6 +479,28 @@ namespace WikiFunctions
 
                         strsummarytag = " [[Wikipedia:AutoWikiBrowser|AWB]]";
                         break;
+
+                    //case LangCodeEnum.ku:
+                    //    enLangNamespaces[-2] = "Media:";
+                    //    enLangNamespaces[-1] = "Special:";
+                    //    enLangNamespaces[1] = "Talk:";
+                    //    enLangNamespaces[2] = "User:";
+                    //    enLangNamespaces[3] = "User talk:";
+                    //    enLangNamespaces[4] = "Project:";
+                    //    enLangNamespaces[5] = "Project talk:";
+                    //    enLangNamespaces[6] = "Image:";
+                    //    enLangNamespaces[7] = "Image talk:";
+                    //    enLangNamespaces[8] = "MediaWiki:";
+                    //    enLangNamespaces[9] = "MediaWiki talk:";
+                    //    enLangNamespaces[10] = "Template:";
+                    //    enLangNamespaces[11] = "Template talk:";
+                    //    enLangNamespaces[12] = "Help:";
+                    //    enLangNamespaces[13] = "Help talk:";
+                    //    enLangNamespaces[14] = "Category:";
+                    //    enLangNamespaces[15] = "Category talk:";
+
+                    //    strsummarytag = " [[Wîkîpediya:AutoWikiBrowser|AWB]]";
+                    //    break;
 
                     case LangCodeEnum.mi:
                         Namespaces[-2] = "Media:";
