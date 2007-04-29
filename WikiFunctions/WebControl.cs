@@ -227,12 +227,18 @@ namespace WikiFunctions.Browser
             if (this.Document == null)
                 return false;
 
-            Match m = LoginRegex.Match(this.DocumentText);
-
-            if (!m.Success || m.Groups[1].Value == "null")
-                return false;
-            else
-                return true;
+            try
+            {
+                Match m = LoginRegex.Match(this.DocumentText);
+                if (!m.Success || m.Groups[1].Value == "null")
+                    return false;
+                else
+                    return true;
+                }
+            catch (Exception ex)
+            {
+                throw new WebBrowserOperationsException("Error getting log-in status", ex);
+            }
         }
 
         /// <summary>
@@ -972,5 +978,11 @@ namespace WikiFunctions.Browser
             get { return timeout; }
             set { timeout = value; }
         }
+    }
+
+    public class WebBrowserOperationsException : System.Exception
+    {
+        public WebBrowserOperationsException(string message, Exception inner) : 
+            base("Web browser operations exception: " + message, inner) { }
     }
 }
