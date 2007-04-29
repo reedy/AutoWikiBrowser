@@ -594,7 +594,7 @@ namespace AutoWikiBrowser
                 }
                 catch
                 {
-                    TheArticle.LogListener.WriteLine("Error getting log-in status; stopping and restarting", "AWB");
+                    // No point writing to log listener I think, as it gets destroyed when we Stop?
                     Stop();
                     Start();
                     return false;
