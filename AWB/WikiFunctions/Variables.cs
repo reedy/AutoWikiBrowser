@@ -481,23 +481,23 @@ namespace WikiFunctions
                         break;
 
                     //case LangCodeEnum.ku:
-                    //    enLangNamespaces[-2] = "Media:";
-                    //    enLangNamespaces[-1] = "Special:";
-                    //    enLangNamespaces[1] = "Talk:";
-                    //    enLangNamespaces[2] = "User:";
-                    //    enLangNamespaces[3] = "User talk:";
-                    //    enLangNamespaces[4] = "Project:";
-                    //    enLangNamespaces[5] = "Project talk:";
-                    //    enLangNamespaces[6] = "Image:";
-                    //    enLangNamespaces[7] = "Image talk:";
-                    //    enLangNamespaces[8] = "MediaWiki:";
-                    //    enLangNamespaces[9] = "MediaWiki talk:";
-                    //    enLangNamespaces[10] = "Template:";
-                    //    enLangNamespaces[11] = "Template talk:";
-                    //    enLangNamespaces[12] = "Help:";
-                    //    enLangNamespaces[13] = "Help talk:";
-                    //    enLangNamespaces[14] = "Category:";
-                    //    enLangNamespaces[15] = "Category talk:";
+                    //    Namespaces[-2] = "Media:";
+                    //    Namespaces[-1] = "Special:";
+                    //    Namespaces[1] = "Talk:";
+                    //    Namespaces[2] = "User:";
+                    //    Namespaces[3] = "User talk:";
+                    //    Namespaces[4] = "Project:";
+                    //    Namespaces[5] = "Project talk:";
+                    //    Namespaces[6] = "Image:";
+                    //    Namespaces[7] = "Image talk:";
+                    //    Namespaces[8] = "MediaWiki:";
+                    //    Namespaces[9] = "MediaWiki talk:";
+                    //    Namespaces[10] = "Template:";
+                    //    Namespaces[11] = "Template talk:";
+                    //    Namespaces[12] = "Help:";
+                    //    Namespaces[13] = "Help talk:";
+                    //    Namespaces[14] = "Category:";
+                    //    Namespaces[15] = "Category talk:";
 
                     //    strsummarytag = " [[Wîkîpediya:AutoWikiBrowser|AWB]]";
                     //    break;
