@@ -582,10 +582,20 @@ namespace AutoWikiBrowser
                     }
                 }
                 //check we are still logged in
-                if (!webBrowserEdit.GetLogInStatus())
+                try
                 {
-                    Variables.User.LoggedIn = false;
-                    NudgeTimer.Stop();
+                    if (!webBrowserEdit.GetLogInStatus())
+                    {
+                        Variables.User.LoggedIn = false;
+                        NudgeTimer.Stop();
+                        Start();
+                        return false;
+                    }
+                }
+                catch
+                {
+                    TheArticle.LogListener.WriteLine("Error getting log-in status; stopping and restarting", "AWB");
+                    Stop();
                     Start();
                     return false;
                 }
