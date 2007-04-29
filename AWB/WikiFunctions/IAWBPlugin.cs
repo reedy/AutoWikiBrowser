@@ -53,6 +53,11 @@ namespace WikiFunctions.Plugin
         WikiFunctions.Browser.WebControl WebControl { get; }
         ContextMenuStrip EditBoxContextMenu { get; }
         TabControl Tab { get; }
+        WikiFunctions.Parse.FindandReplace FindandReplace { get; }
+        WikiFunctions.SubstTemplates SubstTemplates { get; }
+        string CustomModule { get; }
+        string AWBVersion { get; }
+        string WikiFunctionsVersion { get; }
         void NotifyBalloon(string Message, ToolTipIcon Icon);
         int Nudges { get; }
 

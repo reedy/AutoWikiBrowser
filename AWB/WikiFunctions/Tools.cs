@@ -60,6 +60,9 @@ namespace WikiFunctions
             return 0;
         }
 
+        public static System.Version Version
+        { get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; } }
+
         /// <summary>
         /// Tests title to make sure it is main space
         /// </summary>
