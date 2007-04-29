@@ -1,5 +1,5 @@
 Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
-    Friend Class ErrorForm
+    Public Class ErrorForm
 
         Public Sub New(ByVal errorMessage As String)
             InitializeComponent()
