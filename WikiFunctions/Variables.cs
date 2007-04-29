@@ -480,27 +480,27 @@ namespace WikiFunctions
                         strsummarytag = " [[Wikipedia:AutoWikiBrowser|AWB]]";
                         break;
 
-                    //case LangCodeEnum.ku:
-                    //    Namespaces[-2] = "Media:";
-                    //    Namespaces[-1] = "Special:";
-                    //    Namespaces[1] = "Talk:";
-                    //    Namespaces[2] = "User:";
-                    //    Namespaces[3] = "User talk:";
-                    //    Namespaces[4] = "Project:";
-                    //    Namespaces[5] = "Project talk:";
-                    //    Namespaces[6] = "Image:";
-                    //    Namespaces[7] = "Image talk:";
-                    //    Namespaces[8] = "MediaWiki:";
-                    //    Namespaces[9] = "MediaWiki talk:";
-                    //    Namespaces[10] = "Template:";
-                    //    Namespaces[11] = "Template talk:";
-                    //    Namespaces[12] = "Help:";
-                    //    Namespaces[13] = "Help talk:";
-                    //    Namespaces[14] = "Category:";
-                    //    Namespaces[15] = "Category talk:";
+                    case LangCodeEnum.ku:
+                        Namespaces[-2] = "Medya:";
+                        Namespaces[-1] = "Taybet:";
+                        Namespaces[1] = "Nîqaş:";
+                        Namespaces[2] = "Bikarhêner:";
+                        Namespaces[3] = "Bikarhêner nîqaş:";
+                        Namespaces[4] = "Wîkîpediya:";
+                        Namespaces[5] = "Wîkîpediya nîqaş:";
+                        Namespaces[6] = "Wêne:";
+                        Namespaces[7] = "Wêne nîqaş:";
+                        Namespaces[8] = "MediaWiki:";
+                        Namespaces[9] = "MediaWiki nîqaş:";
+                        Namespaces[10] = "Şablon:";
+                        Namespaces[11] = "Şablon nîqaş:";
+                        Namespaces[12] = "Alîkarî:";
+                        Namespaces[13] = "Alîkarî nîqaş:";
+                        Namespaces[14] = "Kategorî:";
+                        Namespaces[15] = "Kategorî nîqaş:";
 
-                    //    strsummarytag = " [[Wîkîpediya:AutoWikiBrowser|AWB]]";
-                    //    break;
+                        strsummarytag = " [[Wîkîpediya:AutoWikiBrowser|AWB]]";
+                        break;
 
                     case LangCodeEnum.mi:
                         Namespaces[-2] = "Media:";
