@@ -1,4 +1,4 @@
-namespace WF2CS
+namespace WikiFunctions.Logging
 {
     partial class UploadingPleaseWaitForm
     {

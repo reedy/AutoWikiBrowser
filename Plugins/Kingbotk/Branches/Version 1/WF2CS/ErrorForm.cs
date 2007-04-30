@@ -6,13 +6,14 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace WF2CS
+namespace WikiFunctions.Logging.Uploader
 {
     public partial class ErrorForm : Form
     {
-        public ErrorForm()
+        public ErrorForm(string errorMessage)
         {
-            InitializeComponent();
+            this.InitializeComponent();
+            this.lblError.Text = errorMessage;
         }
     }
 }

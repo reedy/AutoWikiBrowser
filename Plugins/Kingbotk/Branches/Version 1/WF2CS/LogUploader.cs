@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Logging.Uploader
+namespace WikiFunctions.Logging.Uploader
 {
 	/// <summary>
 	/// Object which contains details of target pages for log entries

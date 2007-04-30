@@ -2,13 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-
 using WikiFunctions;
 using WikiFunctions.Logging;
+using WikiFunctions.Logging.Uploader;
 
-using Logging.Uploader;
-
-namespace Logging
+namespace WikiFunctions.Logging
 {
     /// <summary>
     /// This abstract class can be used to build trace listener classes, or you can build a class from scratch and implement IMyTraceListener
