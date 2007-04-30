@@ -28,11 +28,29 @@ using System.Windows.Forms;
 
 namespace WikiFunctions.Logging
 {
+    /// <summary>
+    /// A form for displaying when the application is busy uploading
+    /// </summary>
     public partial class UploadingPleaseWaitForm : Form
     {
+        Cursor oldCursor;
+
         public UploadingPleaseWaitForm()
         {
+            base.Shown += new EventHandler(this.Form_Shown);
+            base.FormClosing += new FormClosingEventHandler(this.Form_Closing);
             InitializeComponent();
+        }
+
+        private void Form_Closing(object sender, FormClosingEventArgs e)
+        {
+            this.Cursor = this.oldCursor;
+        }
+
+        private void Form_Shown(object sender, EventArgs e)
+        {
+            this.oldCursor = this.Cursor;
+            this.Cursor = Cursors.WaitCursor;
         }
     }
 }
