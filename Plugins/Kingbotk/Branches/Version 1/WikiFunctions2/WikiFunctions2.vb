@@ -4,8 +4,7 @@ Public Module WikiFunctions2
     ''' </summary>
     Public ReadOnly Property Version() As System.Version
         Get
-            Static rtn As System.Version = System.Reflection.Assembly.GetExecutingAssembly.GetName.Version
-            Return rtn
+            Return System.Reflection.Assembly.GetExecutingAssembly.GetName.Version
         End Get
     End Property
 End Module
