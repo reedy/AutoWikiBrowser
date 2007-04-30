@@ -1,3 +1,23 @@
+/*
+(C) 2007 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*/
+
+// From WikiFunctions2.dll. Converted from VB to C#
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -335,8 +355,6 @@ namespace WikiFunctions.Logging.Uploader
 			LogIt(Log, LogTitle, LogDetails, UploadTo, LinksToLog, PageNumber, StartDate, OpenInBrowser, AddToWatchlist, Username, LogHeader, true, conUploadingDefaultEditSummary, conAddingLogEntryDefaultEditSummary);
 		}
 
-//INSTANT C# NOTE: C# does not support optional parameters. Overloaded method(s) are created above.
-//ORIGINAL LINE: Public Overridable Sub LogIt(ByVal Log As String, ByVal LogTitle As String, ByVal LogDetails As String, ByVal UploadTo As String, ByVal LinksToLog As List(Of LogEntry), ByVal PageNumber As Integer, ByVal StartDate As Date, ByVal OpenInBrowser As Boolean, ByVal AddToWatchlist As Boolean, ByVal Username As String, ByVal LogHeader As String, Optional ByVal AddLogTemplate As Boolean = true, Optional ByVal EditSummary As String = conUploadingDefaultEditSummary, Optional ByVal LogSummaryEditSummary As String = conAddingLogEntryDefaultEditSummary)
 		public virtual void LogIt(string Log, string LogTitle, string LogDetails, string UploadTo, List<LogEntry> LinksToLog, int PageNumber, System.DateTime StartDate, bool OpenInBrowser, bool AddToWatchlist, string Username, string LogHeader, bool AddLogTemplate, string EditSummary, string LogSummaryEditSummary)
 		{
 			string UploadToNoSpaces = UploadTo.Replace(" ", "_");
@@ -383,9 +401,7 @@ namespace WikiFunctions.Logging.Uploader
 			LogIt(Log, LogTitle, LogDetails, UploadTo, LinkToLog, PageNumber, StartDate, OpenInBrowser, AddToWatchlist, Username, "");
 		}
 
-//INSTANT C# NOTE: C# does not support optional parameters. Overloaded method(s) are created above.
-//ORIGINAL LINE: Public Overridable Sub LogIt(ByVal Log As String, ByVal LogTitle As String, ByVal LogDetails As String, ByVal UploadTo As String, ByVal LinkToLog As LogEntry, ByVal PageNumber As Integer, ByVal StartDate As Date, ByVal OpenInBrowser As Boolean, ByVal AddToWatchlist As Boolean, ByVal Username As String, Optional ByVal LogHeader As String = "")
-		public virtual void LogIt(string Log, string LogTitle, string LogDetails, string UploadTo, LogEntry LinkToLog, int PageNumber, System.DateTime StartDate, bool OpenInBrowser, bool AddToWatchlist, string Username, string LogHeader)
+        public virtual void LogIt(string Log, string LogTitle, string LogDetails, string UploadTo, LogEntry LinkToLog, int PageNumber, System.DateTime StartDate, bool OpenInBrowser, bool AddToWatchlist, string Username, string LogHeader)
 		{
 			List<LogEntry> LinksToLog = new List<LogEntry>();
 			LinksToLog.Add(LinkToLog);
@@ -405,8 +421,6 @@ namespace WikiFunctions.Logging.Uploader
 			DoLogEntry(LogTitle, LogDetails, PageNumber, StartDate, UploadTo, Location, UserNameCell, EditSummary, "");
 		}
 
-//INSTANT C# NOTE: C# does not support optional parameters. Overloaded method(s) are created above.
-//ORIGINAL LINE: Protected Overridable Sub DoLogEntry(ByVal LogTitle As String, ByVal LogDetails As String, ByVal PageNumber As Integer, ByVal StartDate As Date, ByVal UploadTo As String, ByVal Location As String, ByVal UserNameCell As Boolean, ByVal EditSummary As String, Optional ByVal Username As String = "")
 		protected virtual void DoLogEntry(string LogTitle, string LogDetails, int PageNumber, System.DateTime StartDate, string UploadTo, string Location, bool UserNameCell, string EditSummary, string Username)
 		{
 
@@ -414,7 +428,6 @@ namespace WikiFunctions.Logging.Uploader
 
 			Application.DoEvents();
 
-//INSTANT C# WARNING: C# only evaluates the one required value of the '?' operator, while VB.NET always evaluates both values of an 'IIf' statement.
 			string TableAddition = "|-" + NewCell + "[[" + UploadTo + "|" + LogTitle + "]]" + NewCell + LogDetails + NewCell + "[[" + UploadTo + "|" + PageNumber.ToString() + "]]" + (UserNameCell ? NewCell + "[[User:" + Username + "|" + Username + "]]" : "").ToString() + NewCell + string.Format("[[{0:d MMMM}]] [[{0:yyyy}]]", StartDate) + System.Environment.NewLine + BotTag;
 
 			if (strExistingText.Contains(BotTag))
@@ -423,7 +436,6 @@ namespace WikiFunctions.Logging.Uploader
 			}
 			else
 			{
-//INSTANT C# WARNING: C# only evaluates the one required value of the '?' operator, while VB.NET always evaluates both values of an 'IIf' statement.
 				base.EditPageAppend(Location, System.Environment.NewLine + "<!--bottag-->" + System.Environment.NewLine + "{| class=\"wikitable\" width=\"100%\"" + System.Environment.NewLine + (UserNameCell ? TableHeaderUserName : TableHeaderNoUserName).ToString() + System.Environment.NewLine + TableAddition, EditSummary, false);
 			}
 		}
