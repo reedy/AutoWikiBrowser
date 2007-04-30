@@ -17,8 +17,7 @@ namespace Logging
     {
 
 		// Initialisation
-//INSTANT C# NOTE: These were formerly VB static local variables:
-private static Regex GetArticleTemplate_reg = new Regex("( talk)?:");
+private static Regex GetArticleTemplateRegex = new Regex("( talk)?:");
 
 		public TraceListenerBase(string filename) : base(filename, false, System.Text.Encoding.UTF8)
 		{
@@ -78,26 +77,18 @@ private static Regex GetArticleTemplate_reg = new Regex("( talk)?:");
 			int namesp = 0;
 			string strnamespace = null;
 			string templ = null;
-//INSTANT C# NOTE: VB local static variable moved to class level
-//			Static reg As new Regex("( talk)?:")
 
-//INSTANT C# NOTE: The following VB 'Select Case' included range-type or non-constant 'Case' expressions and was converted to C# 'if-else' logic:
-//			Select Case NS
-//ORIGINAL LINE: Case Namespaces.Main
-			if (NS == Namespaces.Main)
-			{
+            switch (NS)
+            {
+                case Namespaces.Main:
 					return "#{{subst:la|" + ArticleFullTitle + "}}";
-			}
-//ORIGINAL LINE: Case Namespaces.Talk
-			else if (NS == Namespaces.Talk)
-			{
+
+                case Namespaces.Talk:
 					return "#{{subst:lat|" + WikiFunctions.Tools.RemoveNamespaceString(ArticleFullTitle).Trim() + "}}";
-			}
-//ORIGINAL LINE: Case Else
-			else
-			{
+
+                default:
 					namesp = (int)NS;
-                    strnamespace = GetArticleTemplate_reg.Replace(WikiFunctions.Variables.Namespaces.Item(NS), "");
+                    strnamespace = GetArticleTemplateRegex.Replace(Variables.Namespaces[(int) NS], "");
 
 					if (namesp % 2 == 1) // talk
 					{
@@ -202,10 +193,15 @@ private static Regex GetArticleTemplate_reg = new Regex("( talk)?:");
 
 //INSTANT C# NOTE: C# does not support optional parameters. Overloaded method(s) are created above.
 //ORIGINAL LINE: Public Overridable Function UploadLog(Optional ByVal NewJob As Boolean = false) As Boolean
+
+        /* Kingboyk: The utility has got this WRONG. The VB code passed the return variable of the function to the Upload
+         * event ***By Reference***. This utility wrote code which always returned false.
+         * Using reflector is more sensible because that converts the actual IL code. */
 		public virtual bool UploadLog(bool NewJob)
 		{
-			if (Upload != null)
-				Upload(this, UploadLog);
+            bool retval = false;
+			if (Upload != null)	Upload(this, ref retval);
+
 			// TODO: Logging: Get result, reset TraceStatus, write success/failure to log
 			if (NewJob)
 			{
@@ -218,8 +214,7 @@ private static Regex GetArticleTemplate_reg = new Regex("( talk)?:");
 				mTraceStatus.LinesWrittenSinceLastUpload = 0;
 				mTraceStatus.LogUpload = "";
 			}
-			//INSTANT C# NOTE: Inserted the following 'return' since all code paths must return a value in C#:
-			return false;
+			return retval;
 		}
 
 		// Properties:
