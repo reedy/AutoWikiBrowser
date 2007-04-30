@@ -295,7 +295,7 @@ namespace WikiFunctions.Logging.Uploader
 			TableHeaderUserName = "! Job !! Category !! Page # !! Performed By !! Date";
 			TableHeaderNoUserName = "! Job !! Category !! Page # !! Date";
 		}
-		public virtual System.Net.CookieCollection LogIn(string Username, string Password)
+		public virtual new System.Net.CookieCollection LogIn(string Username, string Password)
 		{
 			base.LogIn(Username, Password);
 			return logincookies;

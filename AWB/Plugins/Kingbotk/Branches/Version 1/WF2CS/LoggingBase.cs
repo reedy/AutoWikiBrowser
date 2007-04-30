@@ -146,7 +146,7 @@ private static Regex GetArticleTemplateRegex = new Regex("( talk)?:");
 
 //INSTANT C# NOTE: C# does not support optional parameters. Overloaded method(s) are created above.
 //ORIGINAL LINE: Public Overridable Shadows Sub WriteLine(ByVal Line As String, Optional ByVal CheckCounter As Boolean = true)
-		public virtual new void WriteLine(string Line, bool CheckCounter)
+		public virtual void WriteLine(string Line, bool CheckCounter)
 		{
 			base.WriteLine(Line);
 
@@ -172,7 +172,7 @@ private static Regex GetArticleTemplateRegex = new Regex("( talk)?:");
 				UploadLog();
 			}
 		}
-		public new void Close(bool Upload)
+		public void Close(bool Upload)
 		{
 			if (Upload)
 			{
