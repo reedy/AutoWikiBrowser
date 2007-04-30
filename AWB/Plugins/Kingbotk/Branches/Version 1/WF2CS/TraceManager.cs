@@ -5,7 +5,7 @@ using System.Text;
 using WikiFunctions;
 using WikiFunctions.Logging;
 
-namespace Logging
+namespace WikiFunctions.Logging
 {
 	/// <summary>
 	/// An inheritable implementation of a Logging manager, built around a generic collection of IMyTraceListener objects and String keys

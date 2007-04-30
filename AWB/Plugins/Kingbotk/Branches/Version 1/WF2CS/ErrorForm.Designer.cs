@@ -1,4 +1,4 @@
-namespace WF2CS
+namespace WikiFunctions.Logging.Uploader
 {
     partial class ErrorForm
     {
@@ -28,11 +28,35 @@ namespace WF2CS
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.lblError = new System.Windows.Forms.Label();
+            this.SuspendLayout();
+            // 
+            // lblError
+            // 
+            this.lblError.AutoSize = true;
+            this.lblError.Location = new System.Drawing.Point(0, 0);
+            this.lblError.Name = "lblError";
+            this.lblError.Size = new System.Drawing.Size(35, 13);
+            this.lblError.TabIndex = 0;
+            this.lblError.Text = "label1";
+            // 
+            // ErrorForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ClientSize = new System.Drawing.Size(407, 133);
+            this.Controls.Add(this.lblError);
+            this.Name = "ErrorForm";
             this.Text = "ErrorForm";
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion
+
+        private System.Windows.Forms.Label lblError;
     }
 }

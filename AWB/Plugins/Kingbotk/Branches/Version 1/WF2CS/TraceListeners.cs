@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 using WikiFunctions;
 using WikiFunctions.Logging;
+using WikiFunctions.Logging.Uploader;
 
-using Logging.Uploader;
-
-namespace Logging
+namespace WikiFunctions.Logging
 {
 	/// <summary>
 	/// This class logs in wiki format
@@ -20,7 +18,7 @@ namespace Logging
         public WikiTraceListener(UploadableLogSettings2 UploadSettings, TraceStatus TraceStatus)
             : base(UploadSettings, TraceStatus)
 		{
-			WriteBulletedLine("Logging: [[User:Kingbotk/Plugin/WikiFunctions2|WikiFunctions2]].dll v" + WikiFunctions2.Version.ToString(), false, false);
+			WriteBulletedLine("Logging: [[User:Kingbotk/Plugin/WikiFunctions2|WikiFunctions2]].dll v" + Tools.Version.ToString(), false, false);
 		}
 
 		// Overrides:
@@ -104,7 +102,7 @@ namespace Logging
 			base.WriteLine("<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" " + "lang=\"en\" dir=\"ltr\">");
 			base.WriteLine("<head>");
 			base.WriteLine("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />");
-			base.WriteLine("<meta name=\"generator\" content=\"SDK Software WikiFunctions2" + WikiFunctions2.Version.ToString() + "\" />");
+			base.WriteLine("<meta name=\"generator\" content=\"SDK Software WikiFunctions2" + Tools.Version.ToString() + "\" />");
 			base.WriteLine("<title>AWB log</title>");
 			base.WriteLine("</head><body>");
 		}

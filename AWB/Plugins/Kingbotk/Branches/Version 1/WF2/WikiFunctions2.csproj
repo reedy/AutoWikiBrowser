@@ -1,0 +1,180 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3CAEDE1E-8094-4738-8A61-4BF761777955}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>WikiFunctions2</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <RootNamespace>WikiFunctions2</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic">
+      <Name>Microsoft.VisualBasic</Name>
+      <HintPath>Microsoft.VisualBasic.dll</HintPath>
+    </Reference>
+    <Reference Include="mscorlib">
+      <Name>mscorlib</Name>
+      <HintPath>mscorlib.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+      <HintPath>System.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+      <HintPath>System.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+      <HintPath>System.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="WikiFunctions">
+      <Name>WikiFunctions</Name>
+      <HintPath>WikiFunctions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WikiFunctions.AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components\ErrorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WikiFunctions.Logging.Uploader\ITraceStatusProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WikiFunctions.Logging.Uploader\LogEntry.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WikiFunctions.Logging.Uploader\LogUploader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WikiFunctions.Logging.Uploader\TraceStatus.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WikiFunctions.Logging.Uploader\UploadableLogSettings.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WikiFunctions.Logging.Uploader\UploadableLogSettings2.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WikiFunctions.Logging.Uploader\UploadingPleaseWaitForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WikiFunctions.Logging.Uploader\UsernamePassword.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WikiFunctions.Logging\TraceListenerBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WikiFunctions.Logging\TraceListenerUploadableBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WikiFunctions.Logging\TraceManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WikiFunctions.Logging\WikiTraceListener.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WikiFunctions.Logging\XHTMLTraceListener.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WikiFunctions.My.Resources\Resources.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WikiFunctions.My\MyApplication.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WikiFunctions.My\MyComputer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WikiFunctions.My\MyProject.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WikiFunctions.My\MySettings.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WikiFunctions.My\MySettingsProperty.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WikiFunctions\WikiFunctions2.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="WikiFunctions.AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.ErrorForm.resx" />
+    <EmbeddedResource Include="WikiFunctions.Logging.Uploader.UploadingPleaseWaitForm.resx" />
+    <EmbeddedResource Include="WikiFunctions.Resources.resx" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

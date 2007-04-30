@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace WF2CS
+namespace WikiFunctions.Logging
 {
     public partial class UploadingPleaseWaitForm : Form
     {

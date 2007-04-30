@@ -1,5 +1,3 @@
-Imports WikiFunctions.AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
-
 Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
     ''' <summary>
     ''' Logging manager
@@ -414,7 +412,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
                    New TraceStatus(LS.BadTagsLinesLabel, LS.BadTagsLinesSinceUploadLabel, LS.UploadsCountLabel, _
                    LS.Settings.UploadYN, FileName, conBadPages))
                 WriteBulletedLine("Logging: [[User:Kingbotk/Plugin/WikiFunctions2|WikiFunctions2]].dll v" & _
-                   WikiFunctions2.Version.ToString, False, False)
+                   Tools.Version.ToString, False, False)
             End Sub
 
             ' Overrides:
@@ -427,9 +425,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
             ByVal FullArticleTitle As String, ByVal NS As Namespaces)
                 MyBase.WriteLine(GetArticleTemplate(FullArticleTitle, NS) & " (skipped by the Plugin Manager; " & _
                    "attached article doesn't exist - maybe deleted?)")
-            End Sub
-            Public Overrides Sub WriteLine(ByVal value As String, Optional ByVal CheckCounter As Boolean = True)
-                MyBase.WriteLine(value, CheckCounter)
             End Sub
             Public Overrides Sub WriteComment(ByVal Line As String)
                 MyBase.Write("<!-- " & Line & " -->")
@@ -450,7 +445,9 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
                     Return False
                 End Get
             End Property
-            Public Overrides Function UploadLog(Optional ByVal NewJob As Boolean = False) As Boolean
+            Public Overrides Function UploadLog() As Boolean
+            End Function
+            Public Overrides Function UploadLog(ByVal NewJob As Boolean) As Boolean
             End Function
 
             ' Overrides - do nothing:
