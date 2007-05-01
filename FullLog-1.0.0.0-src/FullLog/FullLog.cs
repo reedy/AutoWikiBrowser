@@ -199,9 +199,7 @@ namespace FullLog
                     logLine += "automatic<br /><br />";
                     strLog.AppendLine(logLine);
 
-                    logLine = "Program used: [[Wikipedia:AutoWikiBrowser|AutoWikiBrowser]] version "
-                        + MainForm.Version
-                        + " modified by [[:fr:User:TiChou|TiChou]]<br /><br />";
+                    logLine = "Program used: [[Wikipedia:AutoWikiBrowser|AutoWikiBrowser]] version " + MainForm.AWBVersion;
                     strLog.AppendLine(logLine);
 
                     Control.ControlCollection OptionsTabControls = MainForm.OptionsTab.Controls;
