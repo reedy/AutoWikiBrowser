@@ -33,13 +33,15 @@ namespace WikiFunctions.Lists
             this.numSplitAmount = new System.Windows.Forms.NumericUpDown();
             this.lvSplit = new System.Windows.Forms.ListView();
             this.colArticleName = new System.Windows.Forms.ColumnHeader();
+            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.txtFile = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
-            this.listMaker1 = new WikiFunctions.Lists.ListMaker();
-            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label2 = new System.Windows.Forms.Label();
+            this.btnXMLSave = new System.Windows.Forms.Button();
+            this.saveXML = new System.Windows.Forms.SaveFileDialog();
+            this.listMaker1 = new WikiFunctions.Lists.ListMaker();
             ((System.ComponentModel.ISupportInitialize)(this.numSplitAmount)).BeginInit();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -88,7 +90,7 @@ namespace WikiFunctions.Lists
             this.lvSplit.ContextMenuStrip = this.contextMenuStrip;
             this.lvSplit.Location = new System.Drawing.Point(345, 12);
             this.lvSplit.Name = "lvSplit";
-            this.lvSplit.Size = new System.Drawing.Size(244, 323);
+            this.lvSplit.Size = new System.Drawing.Size(244, 292);
             this.lvSplit.TabIndex = 3;
             this.lvSplit.UseCompatibleStateImageBehavior = false;
             this.lvSplit.View = System.Windows.Forms.View.Details;
@@ -98,9 +100,23 @@ namespace WikiFunctions.Lists
             this.colArticleName.Text = "Article Name";
             this.colArticleName.Width = 228;
             // 
+            // contextMenuStrip
+            // 
+            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.clearToolStripMenuItem});
+            this.contextMenuStrip.Name = "contextMenuStrip";
+            this.contextMenuStrip.Size = new System.Drawing.Size(111, 26);
+            // 
+            // clearToolStripMenuItem
+            // 
+            this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
+            this.clearToolStripMenuItem.Text = "Clear";
+            this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
+            // 
             // txtFile
             // 
-            this.txtFile.Location = new System.Drawing.Point(384, 341);
+            this.txtFile.Location = new System.Drawing.Point(398, 346);
             this.txtFile.Name = "txtFile";
             this.txtFile.Size = new System.Drawing.Size(100, 20);
             this.txtFile.TabIndex = 4;
@@ -108,21 +124,46 @@ namespace WikiFunctions.Lists
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(352, 344);
+            this.label1.Location = new System.Drawing.Point(342, 349);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(26, 13);
+            this.label1.Size = new System.Drawing.Size(50, 13);
             this.label1.TabIndex = 5;
-            this.label1.Text = "File:";
+            this.label1.Text = "Text File:";
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(490, 341);
+            this.btnSave.Location = new System.Drawing.Point(504, 346);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 6;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(250, 156);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(53, 13);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Split Size:";
+            // 
+            // btnXMLSave
+            // 
+            this.btnXMLSave.Location = new System.Drawing.Point(411, 310);
+            this.btnXMLSave.Name = "btnXMLSave";
+            this.btnXMLSave.Size = new System.Drawing.Size(142, 27);
+            this.btnXMLSave.TabIndex = 9;
+            this.btnXMLSave.Text = "Save to XML Settings File";
+            this.btnXMLSave.UseVisualStyleBackColor = true;
+            this.btnXMLSave.Click += new System.EventHandler(this.btnXMLSave_Click);
+            // 
+            // saveXML
+            // 
+            this.saveXML.FileName = "settings";
+            this.saveXML.Filter = "XML files|*.xml";
+            this.saveXML.SupportMultiDottedExtensions = true;
             // 
             // listMaker1
             // 
@@ -135,42 +176,20 @@ namespace WikiFunctions.Lists
             this.listMaker1.TabIndex = 0;
             this.listMaker1.WikiStatus = true;
             // 
-            // contextMenuStrip
-            // 
-            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.clearToolStripMenuItem});
-            this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(111, 26);
-            // 
-            // clearToolStripMenuItem
-            // 
-            this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.clearToolStripMenuItem.Text = "Clear";
-            this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(250, 156);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 13);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "Split Size:";
-            // 
             // ListSplitter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(601, 371);
-            this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.txtFile);
+            this.Controls.Add(this.btnXMLSave);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.lvSplit);
             this.Controls.Add(this.numSplitAmount);
+            this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnSplitList);
             this.Controls.Add(this.listMaker1);
+            this.Controls.Add(this.txtFile);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "ListSplitter";
             this.Text = "List Splitter";
@@ -195,5 +214,7 @@ namespace WikiFunctions.Lists
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnXMLSave;
+        private System.Windows.Forms.SaveFileDialog saveXML;
     }
 }

@@ -4,20 +4,32 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Text;
+using System.Xml;
+using System.Xml.Serialization;
 using System.Windows.Forms;
+using System.IO;
+
+using WikiFunctions.AWBSettings;
 
 namespace WikiFunctions.Lists
 {
     public partial class ListSplitter : Form
     {
-        public ListSplitter()
+        UserPrefs P;
+        List<System.Type> Types;
+
+        public ListSplitter(UserPrefs Prefs, List<System.Type> Type)
         {
             InitializeComponent();
+            P = Prefs;
+            Types = Type;   
         }
 
-        public ListSplitter(List<Article> list)
+        public ListSplitter(UserPrefs Prefs, List<System.Type> Type, List<Article> list)
         {
             InitializeComponent();
+            P = Prefs;
+            Types = Type; 
             listMaker1.Add(list);
         }
 
@@ -61,6 +73,11 @@ namespace WikiFunctions.Lists
 
         private void btnSave_Click(object sender, EventArgs e)
         {
+            saveToText();
+        }
+
+        private void saveToText()
+        {
             if (txtFile.Text != "")
             {
                 try
@@ -68,7 +85,6 @@ namespace WikiFunctions.Lists
                     System.IO.StreamWriter sw;
                     foreach (ListViewGroup group in lvSplit.Groups)
                     {
-
                         StringBuilder strList = new StringBuilder("");
                         for (int i = 0; i < group.Items.Count; i++)
                         {
@@ -95,9 +111,44 @@ namespace WikiFunctions.Lists
                 MessageBox.Show("File Name cannot be Blank");
         }
 
+        private void saveToXML(string Path)
+        {
+            int No = 1;
+            try
+            {
+                foreach (ListViewGroup group in lvSplit.Groups)
+                {
+                    for (int i = 0; i < group.Items.Count; i++)
+                    {
+                        listMaker1.Add(group.Items[i].Text);
+                    }
+                    P.List.ArticleList = listMaker1.GetArticleList();
+
+                    using (FileStream fStream = new FileStream(Path.Replace(".xml", " " + No + ".xml"), FileMode.Create))
+                    {
+                        XmlSerializer xs = new XmlSerializer(typeof(UserPrefs), Types.ToArray());
+                        xs.Serialize(fStream, P);
+                    }
+
+                    No += 1;
+                    listMaker1.Clear();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error saving settings", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void clearToolStripMenuItem_Click(object sender, EventArgs e)
         {
             lvSplit.Items.Clear();
+        }
+
+        private void btnXMLSave_Click(object sender, EventArgs e)
+        {
+            saveXML.ShowDialog();
+            saveToXML(saveXML.FileName);
         }
     }
 }

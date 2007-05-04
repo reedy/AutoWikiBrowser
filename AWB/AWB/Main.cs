@@ -2089,11 +2089,12 @@ font-size: 150%;'>No changes</h2>");
         private void launchListSplitterToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ListSplitter splitter;
+            WikiFunctions.AWBSettings.UserPrefs P = MakePrefs();
 
             if (MessageBox.Show("Would you like to copy your current Article List to the ListSplitter?", "Copy Article List?", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                splitter = new ListSplitter(listMaker1.GetArticleList());
+                splitter = new ListSplitter(P, savePluginSettings(P), listMaker1.GetArticleList());
             else
-                splitter = new ListSplitter();
+                splitter = new ListSplitter(P, savePluginSettings(P));
 
             splitter.ShowDialog();
             splitter.Dispose();
