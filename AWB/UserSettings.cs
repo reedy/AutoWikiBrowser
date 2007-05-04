@@ -1020,27 +1020,8 @@ namespace AutoWikiBrowser
                 using (FileStream fStream = new FileStream(Path, FileMode.Create))
                 {
                     UserPrefs P = MakePrefs();
-                    List<System.Type> types = new List<Type>();
-
-                    try /* Find out what types the plugins are using for their settings so we can 
-                         * add them to the Serializer. The plugin author must ensure s(he) is using
-                         * serializable types.
-                         */
-                    {
-                        foreach (PluginPrefs pl in P.Plugin)
-                        {
-                            if ((pl.PluginSettings != null) && (pl.PluginSettings.Length >= 1))
-                            {
-                                foreach (object pl2 in pl.PluginSettings)
-                                {
-                                    types.Add(pl2.GetType());
-                                }
-                            }
-                        }
-                    }
-                    catch { // no error handling here as we'll surely catch an error in the next stage if anything went wrong
-                    }
-
+                    List<System.Type> types = savePluginSettings(P);
+                    
                     XmlSerializer xs = new XmlSerializer(typeof(UserPrefs), types.ToArray());
                     xs.Serialize(fStream, P);
                     UpdateRecentList(Path);
@@ -1054,6 +1035,27 @@ namespace AutoWikiBrowser
             {
                 MessageBox.Show(ex.Message, "Error saving settings", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private List<System.Type> savePluginSettings(UserPrefs Prefs)
+        {
+            List<System.Type> types = new List<Type>();
+            /* Find out what types the plugins are using for their settings so we can 
+                      * add them to the Serializer. The plugin author must ensure s(he) is using
+                      * serializable types.
+                      */
+
+            foreach (PluginPrefs pl in Prefs.Plugin)
+            {
+                if ((pl.PluginSettings != null) && (pl.PluginSettings.Length >= 1))
+                {
+                    foreach (object pl2 in pl.PluginSettings)
+                    {
+                        types.Add(pl2.GetType());
+                    }
+                }
+            }
+            return types;
         }
 
         /// <summary>
