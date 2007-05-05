@@ -641,6 +641,18 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         }
 
         /// <summary>
+        /// Fix bad Temperatures
+        /// </summary>
+        /// <param name="ArticleText">The wiki text of the article.</param>
+        /// <returns>The modified article text.</returns>
+        public string FixTemperatures(string ArticleText)
+        {
+            ArticleText = Regex.Replace(ArticleText, "(º|º |º&nbsp;|&ordm;|&ordm; |° |°&nbsp;|&deg; |&deg;&nbsp;)(C|c)", "&deg;C");
+            ArticleText = Regex.Replace(ArticleText, "(º|º |º&nbsp;|&ordm;|&ordm; |° |°&nbsp;|&deg; |&deg;&nbsp;)(F|f)", "&deg;F");
+            return ArticleText;
+        }
+
+        /// <summary>
         /// regex that matches every template, for GetTemplate
         /// </summary>
         public static string EveryTemplate = @"[^\|\}]*";
@@ -769,7 +781,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             else
                 return GetTemplateName(setting);
         }
-
         #endregion
 
         #region other functions
