@@ -115,7 +115,7 @@ namespace WikiFunctions.Lists
                         sw.Close();
                     }
 
-                    MessageBox.Show("Lists Saved");
+                    MessageBox.Show("Lists Saved to Text Files");
                 }
                 catch (System.IO.IOException ex)
                 {
@@ -152,6 +152,7 @@ namespace WikiFunctions.Lists
                     No += 1;
                     listMaker1.Clear();
                 }
+                MessageBox.Show("Lists Saved to AWB Settings Files");
             }
             catch (Exception ex)
             {
