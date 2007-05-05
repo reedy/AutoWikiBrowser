@@ -2352,6 +2352,7 @@ font-size: 150%;'>No changes</h2>");
             undoToolStripMenuItem.Enabled = txtEdit.CanUndo;
 
             openPageInBrowserToolStripMenuItem.Enabled = TheArticle.Name.Length > 0;
+            openTalkPageInBrowserToolStripMenuItem.Enabled = TheArticle.Name.Length > 0;
             openHistoryMenuItem.Enabled = TheArticle.Name.Length > 0;
             replaceTextWithLastEditToolStripMenuItem.Enabled = LastArticle.Length > 0;
         }
@@ -2359,6 +2360,18 @@ font-size: 150%;'>No changes</h2>");
         private void openPageInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName);
+        }
+
+        private void openTalkPageInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (TheArticle.URLEncodedName.IndexOf("%3a") != -1)
+            {
+                System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName.Replace("%3a", " talk:"));
+            }
+            else
+            {
+                System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=Talk:" + TheArticle.URLEncodedName);
+            }
         }
 
         private void openHistoryMenuItem_Click(object sender, EventArgs e)
@@ -3319,5 +3332,7 @@ font-size: 150%;'>No changes</h2>");
             recycleWebControl();
             Application.DoEvents();
         }
+
+
     }
 }
