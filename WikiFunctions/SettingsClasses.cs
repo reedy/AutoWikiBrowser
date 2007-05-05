@@ -89,6 +89,7 @@ namespace WikiFunctions.AWBSettings
     public class SkipPrefs
     {
         public bool SkipNonexistent = true;
+        public bool Skipexistent = false;
         public bool SkipWhenNoChanges = false;
 
         public bool SkipDoes = false;

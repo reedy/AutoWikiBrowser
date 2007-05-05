@@ -103,6 +103,7 @@ namespace AutoWikiBrowser
             enableToolBar = false;
             bypassRedirectsToolStripMenuItem.Checked = true;
             chkSkipNonExistent.Checked = true;
+            chkSkipExistent.Checked = false;
             doNotAutomaticallyDoAnythingToolStripMenuItem.Checked = false;
             chkSkipNoChanges.Checked = false;
             toolStripComboOnLoad.SelectedIndex = 0;
@@ -759,6 +760,7 @@ namespace AutoWikiBrowser
             p.Editprefs.RegexTypoFix = chkRegExTypo.Checked;
             
             p.SkipOptions.SkipNonexistent = chkSkipNonExistent.Checked;
+            p.SkipOptions.Skipexistent = chkSkipExistent.Checked;
             p.SkipOptions.SkipWhenNoChanges = chkSkipNoChanges.Checked;
 
             p.SkipOptions.SkipDoes = chkSkipIfContains.Checked;
@@ -903,6 +905,7 @@ namespace AutoWikiBrowser
             chkRegExTypo.Checked = p.Editprefs.RegexTypoFix;
             
             chkSkipNonExistent.Checked = p.SkipOptions.SkipNonexistent;
+            chkSkipExistent.Checked = p.SkipOptions.Skipexistent;
             chkSkipNoChanges.Checked = p.SkipOptions.SkipWhenNoChanges;
 
             chkSkipIfContains.Checked = p.SkipOptions.SkipDoes;
