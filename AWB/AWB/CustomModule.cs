@@ -173,22 +173,22 @@ namespace AutoWikiBrowser
             else
             {
                 codestart = @"Imports System.Collections.Generic
+Imports System.Text
 Imports System.Text.RegularExpressions
 Imports WikiFunctions
 
 Namespace AutoWikiBrowser
     Public Class Module1
-        Implements WikiFunctions.Plugin.IModule
+        Inherits WikiFunctions.Plugin.IModule
 ";
 
-                codeexample = @"        Public Function ProcessArticle(ByVal ArticleText As String, ByVal ArticleTitle As String, ByVal wikiNamespace As Integer, ByRef Summary As String, ByRef Skip As Boolean) As String Implements WikiFunctions.Plugin.IModule.ProcessArticle
+                codeexample = @"        Public Function ProcessArticle(ByVal ArticleText As String, ByVal ArticleTitle As String, ByVal wikiNamespace As Integer, ByRef Summary As String, ByRef Skip As Boolean) As String
             Skip = False
             Summary = ""test""
 
             ArticleText = ""test "" & VbCrLf & VbCrLf & ArticleText
             
             Return ArticleText
-
         End Function";
 
                 codeend = @"     End Class
