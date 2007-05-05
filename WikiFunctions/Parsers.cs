@@ -647,8 +647,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The modified article text.</returns>
         public string FixTemperatures(string ArticleText)
         {
-            ArticleText = Regex.Replace(ArticleText, "(º|º |º&nbsp;|&ordm;|&ordm; |° |°&nbsp;|&deg; |&deg;&nbsp;)(C|c)", "&deg;C");
-            ArticleText = Regex.Replace(ArticleText, "(º|º |º&nbsp;|&ordm;|&ordm; |° |°&nbsp;|&deg; |&deg;&nbsp;)(F|f)", "&deg;F");
+            ArticleText = Regex.Replace(ArticleText, "(º|º |º&nbsp;|&ordm;|&ordm; |&ordm;&nbsp;|° |°&nbsp;|&deg; |&deg;&nbsp;)(C|c)", "&deg;C");
+            ArticleText = Regex.Replace(ArticleText, "(º|º |º&nbsp;|&ordm;|&ordm; |&ordm;&nbsp;|° |°&nbsp;|&deg; |&deg;&nbsp;)(F|f)", "&deg;F");
             return ArticleText;
         }
 
