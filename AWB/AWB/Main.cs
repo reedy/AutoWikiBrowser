@@ -634,6 +634,11 @@ namespace AutoWikiBrowser
                     SkipPage("Non-existent page");
                     return false;
                 }
+                if (webBrowserEdit.Document.GetElementById("wpTextbox1").InnerText != null && chkSkipExistent.Checked)
+                {
+                    SkipPage("Existing page");
+                    return false;
+                }
             }
             catch (Exception ex)
             {
@@ -3327,6 +3332,16 @@ font-size: 150%;'>No changes</h2>");
             Application.DoEvents();
         }
 
+        private void chkSkipNonExistent_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkSkipNonExistent.Checked)
+                chkSkipExistent.Checked = false;
+        }
 
+        private void chkSkipExistent_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkSkipExistent.Checked)
+                chkSkipNonExistent.Checked = false;
+        }
     }
 }
