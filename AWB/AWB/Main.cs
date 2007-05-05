@@ -1092,6 +1092,7 @@ font-size: 150%;'>No changes</h2>");
                 if (DestLine == 0) txtEdit.Select(0, 0);
                 else
                     txtEdit.Select(mc[DestLine - 1].Index + 2, 0);
+                txtEdit.ScrollToCaret();
             }
             catch (Exception ex)
             {
@@ -2077,7 +2078,7 @@ font-size: 150%;'>No changes</h2>");
         {
             ListComparer lc;
 
-            if (MessageBox.Show("Would you like to copy your current Article List to the ListComparer?", "Copy Article List?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (listMaker1.Count > 0 && MessageBox.Show("Would you like to copy your current Article List to the ListComparer?", "Copy Article List?", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 lc = new ListComparer(listMaker1.GetArticleList());
             else
                 lc = new ListComparer();
@@ -2091,7 +2092,7 @@ font-size: 150%;'>No changes</h2>");
             ListSplitter splitter;
             WikiFunctions.AWBSettings.UserPrefs P = MakePrefs();
 
-            if (MessageBox.Show("Would you like to copy your current Article List to the ListSplitter?", "Copy Article List?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (listMaker1.Count > 0 && MessageBox.Show("Would you like to copy your current Article List to the ListSplitter?", "Copy Article List?", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 splitter = new ListSplitter(P, savePluginSettings(P), listMaker1.GetArticleList());
             else
                 splitter = new ListSplitter(P, savePluginSettings(P));
