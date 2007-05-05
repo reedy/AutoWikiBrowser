@@ -2365,14 +2365,7 @@ font-size: 150%;'>No changes</h2>");
 
         private void openTalkPageInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (TheArticle.URLEncodedName.IndexOf("%3a") != -1)
-            {
-                System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName.Replace("%3a", " talk:"));
-            }
-            else
-            {
-                System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=Talk:" + TheArticle.URLEncodedName);
-            }
+            System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=" + GetLists.ConvertToTalk(TheArticle));
         }
 
         private void openHistoryMenuItem_Click(object sender, EventArgs e)
