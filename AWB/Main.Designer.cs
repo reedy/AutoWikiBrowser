@@ -97,6 +97,7 @@ namespace AutoWikiBrowser
             this.reparseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.openPageInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openTalkPageInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openHistoryMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator20 = new System.Windows.Forms.ToolStripSeparator();
             this.openSelectionInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -247,6 +248,7 @@ namespace AutoWikiBrowser
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.btnMoreSkip = new System.Windows.Forms.Button();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.chkSkipExistent = new System.Windows.Forms.CheckBox();
             this.chkSkipNonExistent = new System.Windows.Forms.CheckBox();
             this.chkSkipCaseSensitive = new System.Windows.Forms.CheckBox();
             this.tpMoreOptions = new System.Windows.Forms.TabPage();
@@ -317,7 +319,6 @@ namespace AutoWikiBrowser
             this.webBrowserDiff = new System.Windows.Forms.WebBrowser();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
-            this.openTalkPageInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -391,7 +392,7 @@ namespace AutoWikiBrowser
             this.undoAllChangesToolStripMenuItem,
             this.reloadEditPageToolStripMenuItem});
             this.mnuTextBox.Name = "contextMenuStrip1";
-            this.mnuTextBox.Size = new System.Drawing.Size(233, 574);
+            this.mnuTextBox.Size = new System.Drawing.Size(233, 552);
             this.mnuTextBox.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // wordWrapToolStripMenuItem1
@@ -737,6 +738,13 @@ namespace AutoWikiBrowser
             this.openPageInBrowserToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
             this.openPageInBrowserToolStripMenuItem.Text = "Open page in browser";
             this.openPageInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openPageInBrowserToolStripMenuItem_Click);
+            // 
+            // openTalkPageInBrowserToolStripMenuItem
+            // 
+            this.openTalkPageInBrowserToolStripMenuItem.Name = "openTalkPageInBrowserToolStripMenuItem";
+            this.openTalkPageInBrowserToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
+            this.openTalkPageInBrowserToolStripMenuItem.Text = "Open talk page in browser";
+            this.openTalkPageInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openTalkPageInBrowserToolStripMenuItem_Click);
             // 
             // openHistoryMenuItem
             // 
@@ -2118,6 +2126,7 @@ namespace AutoWikiBrowser
             // 
             // groupBox8
             // 
+            this.groupBox8.Controls.Add(this.chkSkipExistent);
             this.groupBox8.Controls.Add(this.chkSkipNonExistent);
             this.groupBox8.Controls.Add(this.chkSkipNoChanges);
             this.groupBox8.Controls.Add(this.chkSkipCaseSensitive);
@@ -2133,6 +2142,17 @@ namespace AutoWikiBrowser
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "General article skip options";
             // 
+            // chkSkipExistent
+            // 
+            this.chkSkipExistent.AutoSize = true;
+            this.chkSkipExistent.Location = new System.Drawing.Point(142, 107);
+            this.chkSkipExistent.Name = "chkSkipExistent";
+            this.chkSkipExistent.Size = new System.Drawing.Size(117, 17);
+            this.chkSkipExistent.TabIndex = 32;
+            this.chkSkipExistent.Text = "Skip existing pages";
+            this.chkSkipExistent.UseVisualStyleBackColor = true;
+            this.chkSkipExistent.CheckedChanged += new System.EventHandler(this.chkSkipExistent_CheckedChanged);
+            // 
             // chkSkipNonExistent
             // 
             this.chkSkipNonExistent.AutoSize = true;
@@ -2144,6 +2164,7 @@ namespace AutoWikiBrowser
             this.chkSkipNonExistent.TabIndex = 31;
             this.chkSkipNonExistent.Text = "Skip non-existing pages";
             this.chkSkipNonExistent.UseVisualStyleBackColor = true;
+            this.chkSkipNonExistent.CheckedChanged += new System.EventHandler(this.chkSkipNonExistent_CheckedChanged);
             // 
             // chkSkipCaseSensitive
             // 
@@ -2958,13 +2979,6 @@ namespace AutoWikiBrowser
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
             // 
-            // openTalkPageInBrowserToolStripMenuItem
-            // 
-            this.openTalkPageInBrowserToolStripMenuItem.Name = "openTalkPageInBrowserToolStripMenuItem";
-            this.openTalkPageInBrowserToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
-            this.openTalkPageInBrowserToolStripMenuItem.Text = "Open talk page in browser";
-            this.openTalkPageInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openTalkPageInBrowserToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3323,6 +3337,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem recycleWebControlToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem launchListSplitterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openTalkPageInBrowserToolStripMenuItem;
+        private System.Windows.Forms.CheckBox chkSkipExistent;
 
 
     }
