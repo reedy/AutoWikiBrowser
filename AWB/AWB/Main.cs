@@ -879,6 +879,7 @@ namespace AutoWikiBrowser
                         TheArticle.AWBChangeArticleText("Fix categories", parsers.FixCategories(TheArticle.ArticleText), true);
                         TheArticle.AWBChangeArticleText("Fix images", parsers.FixImages(TheArticle.ArticleText), true);
                         TheArticle.AWBChangeArticleText("Fix syntax", parsers.FixSyntax(TheArticle.ArticleText), true);
+                        TheArticle.AWBChangeArticleText("Fix temperatures", parsers.FixTemperatures(TheArticle.ArticleText), true);
 
                         TheArticle.FixLinks(parsers, Skip.SkipNoBadLink);
                         TheArticle.BulletExternalLinks(parsers, Skip.SkipNoBulletedLink);
