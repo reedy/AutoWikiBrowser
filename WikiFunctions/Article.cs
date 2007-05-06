@@ -30,45 +30,33 @@ using WikiFunctions.Parse;
 
 namespace WikiFunctions
 {
-    public class Article : ProcessArticleEventArgs
+    public class ArticleSimple
     {
         protected int mNameSpaceKey;
         protected string mName;
         protected string mEditSummary = "";
-        protected string mSavedSummary = "";
-        protected AWBLogListener mAWBLogListener;
         protected string mArticleText = "";
-        protected string mOriginalArticleText = "";
-        protected string mPluginEditSummary;
-        protected bool mPluginSkip;
 
-        public Article()
-        { }
+        public ArticleSimple()
+        { throw new NotImplementedException(); }
         
-        public Article(string mName)
+        public ArticleSimple(string mName)
         {
             this.mName = mName;
             this.mNameSpaceKey = Tools.CalculateNS(mName);
-            this.EditSummary = "";
+            this.mEditSummary = "";
         }
 
-        public Article(string mName, int mNameSpaceKey)
+        public ArticleSimple(string mName, int mNameSpaceKey)
         {
             this.mName = mName;
             this.mNameSpaceKey = mNameSpaceKey;
-            this.EditSummary = "";
+            this.mEditSummary = "";
         }
-
-        public AWBLogListener InitialiseLogListener()
-        {
-            mAWBLogListener = new Logging.AWBLogListener(this.mName);
-            return mAWBLogListener;
-        }
-
-
+        
         [XmlIgnore]
-        public AWBLogListener LogListener
-        { get { return mAWBLogListener; } set { mAWBLogListener = value; } }
+        public string EditSummary
+        { get { return mEditSummary; } set { mEditSummary = value; } }
 
         public string URLEncodedName
         {
@@ -77,18 +65,47 @@ namespace WikiFunctions
 
         public string Name
         { get { return mName; } set { mName = value; } }
-        
+
         [XmlIgnore]
         public string ArticleText
         { get { return mArticleText.Trim(); } } // deliberately readonly; set using methods
 
         [XmlIgnore]
-        public string OriginalArticleText
-        { get { return mOriginalArticleText.Trim(); } set { mOriginalArticleText = value; mArticleText = value; } }
+        public bool IsStub
+        { get { return (mArticleText.Contains("stub}}") || mArticleText.Length < 1500); } }
+
+        public bool IsInUse()
+        { return Regex.IsMatch(mArticleText, "\\{\\{[Ii]nuse"); }
+        
+        [XmlAttribute]
+        public int NameSpaceKey
+        { get { return mNameSpaceKey; } set { mNameSpaceKey = value; } }
+    }
+
+    public class Article : ArticleSimple, ProcessArticleEventArgs
+    {
+        protected string mSavedSummary = "";
+        protected AWBLogListener mAWBLogListener;
+        protected string mOriginalArticleText = "";
+        protected string mPluginEditSummary;
+        protected bool mPluginSkip;
+
+        public Article(string mName) : base(mName) { }
+        public Article(string mName, int mNameSpaceKey) : base(mName, mNameSpaceKey) { }
+
+        public AWBLogListener InitialiseLogListener()
+        {
+            mAWBLogListener = new Logging.AWBLogListener(this.mName);
+            return mAWBLogListener;
+        }
 
         [XmlIgnore]
-        public string EditSummary
-        { get { return mEditSummary; } set { mEditSummary = value; } }
+        public AWBLogListener LogListener
+        { get { return mAWBLogListener; } set { mAWBLogListener = value; } }
+
+        [XmlIgnore]
+        public string OriginalArticleText
+        { get { return mOriginalArticleText.Trim(); } set { mOriginalArticleText = value; mArticleText = value; } }
 
         [XmlIgnore]
         public string SavedSummary
@@ -98,17 +115,6 @@ namespace WikiFunctions
         { mSavedSummary = 
             mEditSummary; // EditSummary gets reset by MainForm.txtEdit_TextChanged before it's used, I don't know why
         }
-
-        public bool IsStub()
-        {
-            if (mArticleText.Contains("stub}}") | mArticleText.Length < 1500)
-            { return true; }
-            else
-            { return false; }
-        }
-
-        public bool IsInUse()
-        { return Regex.IsMatch(mArticleText, "\\{\\{[Ii]nuse"); }
 
         public bool SkipIfContains(string strFind, bool Regexe, bool caseSensitive, bool DoesContain)
         {
@@ -424,10 +430,6 @@ namespace WikiFunctions
 
         string ProcessArticleEventArgs.EditSummary // this is temp edit summary field, sent from plugin
         { get { return mPluginEditSummary; } set { mPluginEditSummary = value.Trim(); } }
-
-        [XmlAttribute]
-        public int NameSpaceKey
-        { get { return mNameSpaceKey; } set { mNameSpaceKey = value; } }
 
         bool ProcessArticleEventArgs.Skip
         { get { return mPluginSkip; } set { mPluginSkip = value; } }
