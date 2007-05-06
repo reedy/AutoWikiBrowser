@@ -3156,8 +3156,8 @@ font-size: 150%;'>No changes</h2>");
             WikiFunctions.Parse.FindandReplace IAutoWikiBrowser.FindandReplace { get { return findAndReplace; } }
             WikiFunctions.SubstTemplates IAutoWikiBrowser.SubstTemplates { get { return substTemplates; } }
             string IAutoWikiBrowser.CustomModule { get { if (cModule.ModuleEnabled && cModule.Module != null) return cModule.Code; else return null; } }
-            string IAutoWikiBrowser.AWBVersion { get { return Application.ProductVersion.ToString(); } }
-            string IAutoWikiBrowser.WikiFunctionsVersion { get { return WikiFunctions.Tools.Version.ToString(); } }
+            System.Version IAutoWikiBrowser.AWBVersion { get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; } }
+            System.Version IAutoWikiBrowser.WikiFunctionsVersion { get { return WikiFunctions.Tools.Version; } }
 
         // "Events":
             void IAutoWikiBrowser.SkipPage(IAWBPlugin sender, string reason) { SkipPage(sender.Name, reason); }

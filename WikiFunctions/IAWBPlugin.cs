@@ -56,8 +56,8 @@ namespace WikiFunctions.Plugin
         WikiFunctions.Parse.FindandReplace FindandReplace { get; }
         WikiFunctions.SubstTemplates SubstTemplates { get; }
         string CustomModule { get; }
-        string AWBVersion { get; }
-        string WikiFunctionsVersion { get; }
+        System.Version AWBVersion { get; }
+        System.Version WikiFunctionsVersion { get; }
         void NotifyBalloon(string Message, ToolTipIcon Icon);
         int Nudges { get; }
 
