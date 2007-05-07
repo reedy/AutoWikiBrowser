@@ -301,13 +301,6 @@
   <ItemGroup>
     <None Include="Resources\king_worship.gif" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\WF2CS\WF2CS.csproj">
-      <Project>{1FD3251E-05C1-432D-B0A4-F15ED11DDEB4}</Project>
-      <Name>WF2CS</Name>
-      <Private>True</Private>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
