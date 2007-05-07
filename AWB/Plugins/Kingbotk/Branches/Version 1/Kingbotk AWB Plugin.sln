@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "AWB Plugin", "AWB Plugin\AWB Plugin.vbproj", "{70AF6097-1ED6-475C-878E-A0BAEDB705F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WF2CS", "WF2CS\WF2CS.csproj", "{1FD3251E-05C1-432D-B0A4-F15ED11DDEB4}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,10 +13,6 @@ Global
 		{70AF6097-1ED6-475C-878E-A0BAEDB705F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70AF6097-1ED6-475C-878E-A0BAEDB705F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70AF6097-1ED6-475C-878E-A0BAEDB705F6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1FD3251E-05C1-432D-B0A4-F15ED11DDEB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1FD3251E-05C1-432D-B0A4-F15ED11DDEB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1FD3251E-05C1-432D-B0A4-F15ED11DDEB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1FD3251E-05C1-432D-B0A4-F15ED11DDEB4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
