@@ -411,8 +411,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
                 MyBase.New(UploadSettings, _
                    New TraceStatus(LS.BadTagsLinesLabel, LS.BadTagsLinesSinceUploadLabel, LS.UploadsCountLabel, _
                    LS.Settings.UploadYN, FileName, conBadPages))
-                WriteBulletedLine("Logging: [[User:Kingbotk/Plugin/WikiFunctions2|WikiFunctions2]].dll v" & _
-                   Tools.Version.ToString, False, False)
             End Sub
 
             ' Overrides:
