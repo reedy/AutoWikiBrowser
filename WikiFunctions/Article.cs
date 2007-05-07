@@ -30,33 +30,45 @@ using WikiFunctions.Parse;
 
 namespace WikiFunctions
 {
-    public class ArticleSimple
+    public class Article : ProcessArticleEventArgs
     {
         protected int mNameSpaceKey;
         protected string mName;
         protected string mEditSummary = "";
+        protected string mSavedSummary = "";
+        protected AWBLogListener mAWBLogListener;
         protected string mArticleText = "";
+        protected string mOriginalArticleText = "";
+        protected string mPluginEditSummary;
+        protected bool mPluginSkip;
 
-        public ArticleSimple()
-        { throw new NotImplementedException(); }
-        
-        public ArticleSimple(string mName)
+        public Article()
+        { }
+
+        public Article(string mName)
         {
             this.mName = mName;
             this.mNameSpaceKey = Tools.CalculateNS(mName);
-            this.mEditSummary = "";
+            this.EditSummary = "";
         }
 
-        public ArticleSimple(string mName, int mNameSpaceKey)
+        public Article(string mName, int mNameSpaceKey)
         {
             this.mName = mName;
             this.mNameSpaceKey = mNameSpaceKey;
-            this.mEditSummary = "";
+            this.EditSummary = "";
         }
-        
+
+        public AWBLogListener InitialiseLogListener()
+        {
+            mAWBLogListener = new Logging.AWBLogListener(this.mName);
+            return mAWBLogListener;
+        }
+
+
         [XmlIgnore]
-        public string EditSummary
-        { get { return mEditSummary; } set { mEditSummary = value; } }
+        public AWBLogListener LogListener
+        { get { return mAWBLogListener; } set { mAWBLogListener = value; } }
 
         public string URLEncodedName
         {
@@ -71,50 +83,33 @@ namespace WikiFunctions
         { get { return mArticleText.Trim(); } } // deliberately readonly; set using methods
 
         [XmlIgnore]
-        public bool IsStub
-        { get { return (mArticleText.Contains("stub}}") || mArticleText.Length < 1500); } }
-
-        public bool IsInUse()
-        { return Regex.IsMatch(mArticleText, "\\{\\{[Ii]nuse"); }
-        
-        [XmlAttribute]
-        public int NameSpaceKey
-        { get { return mNameSpaceKey; } set { mNameSpaceKey = value; } }
-    }
-
-    public class Article : ArticleSimple, ProcessArticleEventArgs
-    {
-        protected string mSavedSummary = "";
-        protected AWBLogListener mAWBLogListener;
-        protected string mOriginalArticleText = "";
-        protected string mPluginEditSummary;
-        protected bool mPluginSkip;
-
-        public Article(string mName) : base(mName) { }
-        public Article(string mName, int mNameSpaceKey) : base(mName, mNameSpaceKey) { }
-
-        public AWBLogListener InitialiseLogListener()
-        {
-            mAWBLogListener = new Logging.AWBLogListener(this.mName);
-            return mAWBLogListener;
-        }
-
-        [XmlIgnore]
-        public AWBLogListener LogListener
-        { get { return mAWBLogListener; } set { mAWBLogListener = value; } }
-
-        [XmlIgnore]
         public string OriginalArticleText
         { get { return mOriginalArticleText.Trim(); } set { mOriginalArticleText = value; mArticleText = value; } }
+
+        [XmlIgnore]
+        public string EditSummary
+        { get { return mEditSummary; } set { mEditSummary = value; } }
 
         [XmlIgnore]
         public string SavedSummary
         { get { return mSavedSummary; } }
 
         public void SaveSummary()
-        { mSavedSummary = 
-            mEditSummary; // EditSummary gets reset by MainForm.txtEdit_TextChanged before it's used, I don't know why
+        {
+            mSavedSummary =
+              mEditSummary; // EditSummary gets reset by MainForm.txtEdit_TextChanged before it's used, I don't know why
         }
+
+        public bool IsStub()
+        {
+            if (mArticleText.Contains("stub}}") | mArticleText.Length < 1500)
+            { return true; }
+            else
+            { return false; }
+        }
+
+        public bool IsInUse()
+        { return Regex.IsMatch(mArticleText, "\\{\\{[Ii]nuse"); }
 
         public bool SkipIfContains(string strFind, bool Regexe, bool caseSensitive, bool DoesContain)
         {
@@ -152,7 +147,7 @@ namespace WikiFunctions
             if (checkIfChanged && newText == mArticleText) return;
 
             mArticleText = newText;
-            mAWBLogListener.WriteLine(reason, changedBy);  
+            mAWBLogListener.WriteLine(reason, changedBy);
         }
 
         public void AWBChangeArticleText(string reason, string newText, bool checkIfChanged)
@@ -200,9 +195,9 @@ namespace WikiFunctions
         public void UpdateImages(ImageReplaceOptions option, Parsers parsers,
             string ImageReplaceText, string ImageWithText, bool SkipNoImgChange)
         {
-            bool NoChange=false; string strTemp="";
+            bool NoChange = false; string strTemp = "";
 
-            switch(option)
+            switch (option)
             {
                 case ImageReplaceOptions.NoAction:
                     return;
@@ -212,7 +207,7 @@ namespace WikiFunctions
                     break;
 
                 case ImageReplaceOptions.Remove:
-                    strTemp  = parsers.RemoveImage(ImageReplaceText, mArticleText, false, ImageWithText, out NoChange);
+                    strTemp = parsers.RemoveImage(ImageReplaceText, mArticleText, false, ImageWithText, out NoChange);
                     break;
 
                 case ImageReplaceOptions.Comment:
@@ -273,7 +268,7 @@ namespace WikiFunctions
         public void PerformFindAndReplace(FindandReplace findAndReplace, SubstTemplates substTemplates,
             WikiFunctions.MWB.ReplaceSpecial replaceSpecial, bool SkipWhenNoFAR)
         {
-            string strTemp, testText = mArticleText, tmpEditSummary="";
+            string strTemp, testText = mArticleText, tmpEditSummary = "";
 
             strTemp = findAndReplace.MultipleFindAndReplce(mArticleText, mName, ref tmpEditSummary);
             strTemp = replaceSpecial.ApplyRules(strTemp, mName);
@@ -304,7 +299,7 @@ namespace WikiFunctions
 
         public void AutoTag(Parsers parsers, bool SkipNoAutoTag)
         {
-            bool NoChange; string tmpEditSummary="";
+            bool NoChange; string tmpEditSummary = "";
             string strTemp = parsers.Tagger(mArticleText, mName, out NoChange, ref tmpEditSummary);
 
             if (SkipNoAutoTag && SkipArticle)
@@ -358,7 +353,7 @@ namespace WikiFunctions
             bool NoChange;
             string strTemp = parsers.BoldTitle(mArticleText, mName, out NoChange);
             if (SkipNoBoldTitle && NoChange)
-               mAWBLogListener.AWBSkipped("No Titles to embolden");
+                mAWBLogListener.AWBSkipped("No Titles to embolden");
             else if (!NoChange)
                 this.AWBChangeArticleText("Emboldened titles", strTemp, false);
         }
@@ -430,6 +425,10 @@ namespace WikiFunctions
 
         string ProcessArticleEventArgs.EditSummary // this is temp edit summary field, sent from plugin
         { get { return mPluginEditSummary; } set { mPluginEditSummary = value.Trim(); } }
+
+        [XmlAttribute]
+        public int NameSpaceKey
+        { get { return mNameSpaceKey; } set { mNameSpaceKey = value; } }
 
         bool ProcessArticleEventArgs.Skip
         { get { return mPluginSkip; } set { mPluginSkip = value; } }
