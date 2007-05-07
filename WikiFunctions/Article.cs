@@ -100,12 +100,11 @@ namespace WikiFunctions
               mEditSummary; // EditSummary gets reset by MainForm.txtEdit_TextChanged before it's used, I don't know why
         }
 
-        public bool IsStub()
-        {
-            if (mArticleText.Contains("stub}}") | mArticleText.Length < 1500)
-            { return true; }
-            else
-            { return false; }
+        public bool IsStub {
+            get {
+                if (Variables.LangCode != LangCodeEnum.en) throw new NotImplementedException();
+                return (mArticleText.Contains("stub}}") | mArticleText.Length < 1500);
+            }
         }
 
         public bool IsInUse()

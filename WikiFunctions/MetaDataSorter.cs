@@ -180,7 +180,6 @@ namespace WikiFunctions.Parse
             if (strPersonData != "")
             {
                 ArticleText = ArticleText.Replace(strPersonData, "");
-                strPersonData = strPersonData;
             }
 
             return strPersonData;
@@ -224,7 +223,6 @@ namespace WikiFunctions.Parse
             {
                 strDisambig = WikiRegexes.Disambigs.Match(ArticleText).Value;
                 ArticleText = ArticleText.Replace(strDisambig, "");
-                strDisambig = strDisambig;
             }
 
             return strDisambig;
