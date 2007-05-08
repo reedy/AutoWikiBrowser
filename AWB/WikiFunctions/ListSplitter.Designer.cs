@@ -42,6 +42,7 @@ namespace WikiFunctions.Lists
             this.btnXMLSave = new System.Windows.Forms.Button();
             this.saveXML = new System.Windows.Forms.SaveFileDialog();
             this.listMaker1 = new WikiFunctions.Lists.ListMaker();
+            this.saveTXT = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.numSplitAmount)).BeginInit();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -176,6 +177,10 @@ namespace WikiFunctions.Lists
             this.listMaker1.TabIndex = 0;
             this.listMaker1.WikiStatus = true;
             // 
+            // saveTXT
+            // 
+            this.saveTXT.Filter = "Text files|*.txt";
+            // 
             // ListSplitter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -216,5 +221,6 @@ namespace WikiFunctions.Lists
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnXMLSave;
         private System.Windows.Forms.SaveFileDialog saveXML;
+        private System.Windows.Forms.SaveFileDialog saveTXT;
     }
 }

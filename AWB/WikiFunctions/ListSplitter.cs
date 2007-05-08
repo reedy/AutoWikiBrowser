@@ -92,42 +92,48 @@ namespace WikiFunctions.Lists
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            saveToText();
+            saveTXT.FileName = listMaker1.SourceText;
+            if (saveTXT.ShowDialog() == DialogResult.OK && saveTXT.FileName != "")
+                saveToText(saveTXT.FileName);
         }
 
-        private void saveToText()
+        private void saveToText(string Path)
         {
-            if (txtFile.Text != "")
+            int No = 1;
+            try
             {
-                try
+                System.IO.StreamWriter sw;
+                foreach (ListViewGroup group in lvSplit.Groups)
                 {
-                    System.IO.StreamWriter sw;
-                    foreach (ListViewGroup group in lvSplit.Groups)
+                    StringBuilder strList = new StringBuilder("");
+                    for (int i = 0; i < group.Items.Count; i++)
                     {
-                        StringBuilder strList = new StringBuilder("");
-                        for (int i = 0; i < group.Items.Count; i++)
-                        {
-                            strList.AppendLine(group.Items[i].Text);
-                        }
-                        string path = Application.StartupPath + "\\" + txtFile.Text + " " + group.Name.ToString() + ".txt";
-                        sw = new System.IO.StreamWriter(path, false, Encoding.UTF8);
-                        sw.Write(strList);
-                        sw.Close();
+                        strList.AppendLine(group.Items[i].Text);
                     }
+                    sw = new System.IO.StreamWriter(Path.Replace(".txt", " " + No + ".txt"), false, Encoding.UTF8);
+                    sw.Write(strList);
+                    sw.Close();
 
-                    MessageBox.Show("Lists Saved to Text Files");
+                    No++;
                 }
-                catch (System.IO.IOException ex)
-                {
-                    MessageBox.Show(ex.Message, "File error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+
+                MessageBox.Show("Lists Saved to Text Files");
             }
-            else
-                MessageBox.Show("File Name cannot be Blank");
+            catch (System.IO.IOException ex)
+            {
+                MessageBox.Show(ex.Message, "File error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnXMLSave_Click(object sender, EventArgs e)
+        {
+            saveXML.FileName = listMaker1.SourceText;
+            if (saveXML.ShowDialog() == DialogResult.OK && saveXML.FileName != "")
+                saveToXML(saveXML.FileName);
         }
 
         private void saveToXML(string Path)
@@ -137,11 +143,13 @@ namespace WikiFunctions.Lists
             {
                 foreach (ListViewGroup group in lvSplit.Groups)
                 {
+                    List<Article> listart = new List<Article>();
                     for (int i = 0; i < group.Items.Count; i++)
                     {
-                        listMaker1.Add(group.Items[i].Text);
+                        listart.Add(new Article(group.Items[i].Text));
                     }
-                    P.List.ArticleList = listMaker1.GetArticleList();
+                    
+                    P.List.ArticleList = listart;
 
                     using (FileStream fStream = new FileStream(Path.Replace(".xml", " " + No + ".xml"), FileMode.Create))
                     {
@@ -150,7 +158,6 @@ namespace WikiFunctions.Lists
                     }
 
                     No += 1;
-                    listMaker1.Clear();
                 }
                 MessageBox.Show("Lists Saved to AWB Settings Files");
             }
@@ -163,12 +170,6 @@ namespace WikiFunctions.Lists
         private void clearToolStripMenuItem_Click(object sender, EventArgs e)
         {
             lvSplit.Items.Clear();
-        }
-
-        private void btnXMLSave_Click(object sender, EventArgs e)
-        {
-            saveXML.ShowDialog();
-            saveToXML(saveXML.FileName);
         }
     }
 }

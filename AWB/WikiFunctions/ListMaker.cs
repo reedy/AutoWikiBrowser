@@ -1248,6 +1248,6 @@ namespace WikiFunctions.Lists
         private void removeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             RemoveSelectedArticle();
-        }             
+        }
     }
 }
