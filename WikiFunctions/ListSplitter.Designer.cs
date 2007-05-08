@@ -35,14 +35,12 @@ namespace WikiFunctions.Lists
             this.colArticleName = new System.Windows.Forms.ColumnHeader();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.txtFile = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.btnXMLSave = new System.Windows.Forms.Button();
             this.saveXML = new System.Windows.Forms.SaveFileDialog();
-            this.listMaker1 = new WikiFunctions.Lists.ListMaker();
             this.saveTXT = new System.Windows.Forms.SaveFileDialog();
+            this.listMaker1 = new WikiFunctions.Lists.ListMaker();
             ((System.ComponentModel.ISupportInitialize)(this.numSplitAmount)).BeginInit();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -66,7 +64,7 @@ namespace WikiFunctions.Lists
             0});
             this.numSplitAmount.Location = new System.Drawing.Point(219, 172);
             this.numSplitAmount.Maximum = new decimal(new int[] {
-            50000,
+            100000,
             0,
             0,
             0});
@@ -91,7 +89,7 @@ namespace WikiFunctions.Lists
             this.lvSplit.ContextMenuStrip = this.contextMenuStrip;
             this.lvSplit.Location = new System.Drawing.Point(345, 12);
             this.lvSplit.Name = "lvSplit";
-            this.lvSplit.Size = new System.Drawing.Size(244, 292);
+            this.lvSplit.Size = new System.Drawing.Size(244, 314);
             this.lvSplit.TabIndex = 3;
             this.lvSplit.UseCompatibleStateImageBehavior = false;
             this.lvSplit.View = System.Windows.Forms.View.Details;
@@ -115,29 +113,13 @@ namespace WikiFunctions.Lists
             this.clearToolStripMenuItem.Text = "Clear";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
-            // txtFile
-            // 
-            this.txtFile.Location = new System.Drawing.Point(398, 346);
-            this.txtFile.Name = "txtFile";
-            this.txtFile.Size = new System.Drawing.Size(100, 20);
-            this.txtFile.TabIndex = 4;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(342, 349);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(50, 13);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "Text File:";
-            // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(504, 346);
+            this.btnSave.Location = new System.Drawing.Point(493, 332);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.Size = new System.Drawing.Size(96, 27);
             this.btnSave.TabIndex = 6;
-            this.btnSave.Text = "Save";
+            this.btnSave.Text = "Save to TXT File";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
@@ -152,7 +134,7 @@ namespace WikiFunctions.Lists
             // 
             // btnXMLSave
             // 
-            this.btnXMLSave.Location = new System.Drawing.Point(411, 310);
+            this.btnXMLSave.Location = new System.Drawing.Point(345, 332);
             this.btnXMLSave.Name = "btnXMLSave";
             this.btnXMLSave.Size = new System.Drawing.Size(142, 27);
             this.btnXMLSave.TabIndex = 9;
@@ -166,6 +148,10 @@ namespace WikiFunctions.Lists
             this.saveXML.Filter = "XML files|*.xml";
             this.saveXML.SupportMultiDottedExtensions = true;
             // 
+            // saveTXT
+            // 
+            this.saveTXT.Filter = "Text files|*.txt";
+            // 
             // listMaker1
             // 
             this.listMaker1.ListFile = "";
@@ -177,24 +163,18 @@ namespace WikiFunctions.Lists
             this.listMaker1.TabIndex = 0;
             this.listMaker1.WikiStatus = true;
             // 
-            // saveTXT
-            // 
-            this.saveTXT.Filter = "Text files|*.txt";
-            // 
             // ListSplitter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(601, 371);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.btnXMLSave);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.lvSplit);
             this.Controls.Add(this.numSplitAmount);
-            this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnSplitList);
             this.Controls.Add(this.listMaker1);
-            this.Controls.Add(this.txtFile);
+            this.Controls.Add(this.btnXMLSave);
+            this.Controls.Add(this.btnSave);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "ListSplitter";
             this.Text = "List Splitter";
@@ -213,8 +193,6 @@ namespace WikiFunctions.Lists
         private System.Windows.Forms.NumericUpDown numSplitAmount;
         private System.Windows.Forms.ListView lvSplit;
         private System.Windows.Forms.ColumnHeader colArticleName;
-        private System.Windows.Forms.TextBox txtFile;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
