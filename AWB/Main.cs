@@ -166,6 +166,7 @@ namespace AutoWikiBrowser
 
             try
             {
+                //MessageBox.Show(WikiDiff.WikiDiffVersion.FileVersion);
                 //check that we are not using an old OS. 98 seems to mangled some unicode
                 if (Environment.OSVersion.Version.Major < 5)
                 {
