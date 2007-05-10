@@ -345,6 +345,10 @@ namespace AWBUpdater
 
                 File.Copy(tempDirectory + "Plugins\\Kingbotk (WikiProject tagging)\\Kingbotk AWB Plugin.dll", AWBdirectory + "Plugins\\Kingbotk (WikiProject tagging)\\Kingbotk AWB Plugin.dll", true);
 
+                if (File.Exists(AWBdirectory + "WikiFunctions2.dll"))
+                    File.Delete(AWBdirectory + "WikiFunctions2.dll");
+
+
                 if (File.Exists(AWBdirectory + "WPAssessmentsCatCreator.dll"))
                     File.Copy(tempDirectory + "Plugins\\WPAssessmentsCatCreator\\WPAssessmentsCatCreator.dll", AWBdirectory + "WPAssessmentsCatCreator.dll", true);
 
