@@ -535,7 +535,7 @@ Message: {2}
 
         public static void OpenArticleInBrowser(string title)
         {
-            System.Diagnostics.Process.Start(Variables.GetPageURL(title));
+            System.Diagnostics.Process.Start(Variables.NonPrettifiedURL(title));
         }
 
         public static void OpenENArticleInBrowser(string title, bool userspace)

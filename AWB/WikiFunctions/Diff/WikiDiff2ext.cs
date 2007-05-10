@@ -94,7 +94,8 @@ namespace WikiFunctions
 
         public static string TableHeader()
         {
-            return @"<table border='0' width='98%' cellpadding='0' cellspacing='4' class='diff'>
+            return @"<p style='font-family: arial; size:75%;'>Double-click on a line to undo all changes on that line, or single click to focus the edit box to that line.</p>
+<table border='0' width='98%' cellpadding='0' cellspacing='4' class='diff'>
 	<tr>
 		<td colspan='2' width='50%' align='center' class='diff-otitle'><strong>Current revision</strong></td>
 		<td colspan='2' width='50%' align='center' class='diff-ntitle'><strong>Your text</strong></td>

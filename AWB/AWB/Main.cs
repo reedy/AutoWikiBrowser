@@ -976,7 +976,7 @@ font-size: 150%;'>No changes</h2>");
                     webBrowserDiff.Document.Write("<html><head>" +
                         WikiDiff.DiffHead() + @"</head><body>" + WikiDiff.TableHeader() +
                         WikiDiff.GetDiff(TheArticle.OriginalArticleText, txtEdit.Text, 1) +
-                        @"</table><p style='font-family: arial;'>Double-click on a line to undo change, single click focuses edit box to the needed line.</p></body></html>");
+                        @"</table></body></html>");
                 }
                 
                 CaseWasDiff();
@@ -1088,6 +1088,7 @@ font-size: 150%;'>No changes</h2>");
         {
             try
             {
+                tabControl2.SelectedTab = tpEdit;
                 txtEdit.Select();
                 Match m = DiffIdParser.Match(id);
                 int DestLine = int.Parse(m.Groups[2].Value) - 1;
