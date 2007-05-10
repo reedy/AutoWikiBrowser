@@ -958,11 +958,6 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
         /// <summary>
         /// returns URL to the given page, depends on project settings
         /// </summary>
-        public static string GetPageURL(string title)
-        {
-            if (CustomProject == "") return URL + "/wiki/" + Tools.WikiEncode(title);
-            else return NonPrettifiedURL(title);
-        }
 
         public static string NonPrettifiedURL(string title)
         {

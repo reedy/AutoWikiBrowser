@@ -160,7 +160,7 @@ namespace WikiFunctions.Logging
 		}
 		public override void ProcessingArticle(string ArticleFullTitle, Namespaces NS)
 		{
-			base.WriteLine("<br/>" + mArticleCount.ToString() + ". <a href=\"" + WikiFunctions.Variables.GetPageURL(ArticleFullTitle) + "\">[[" + ArticleFullTitle + "]]</a>");
+            base.WriteLine("<br/>" + mArticleCount.ToString() + ". <a href=\"" + WikiFunctions.Variables.NonPrettifiedURL(ArticleFullTitle) + "\">[[" + ArticleFullTitle + "]]</a>");
 			mArticleCount += 1;
 		}
 		public override void SkippedArticle(string SkippedBy, string Reason)
