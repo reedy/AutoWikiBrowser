@@ -177,7 +177,7 @@ namespace AutoWikiBrowser
                     listMaker1.MakeListEnabled = true;
 
                 if (AutoWikiBrowser.Properties.Settings.Default.LogInOnStart)
-                    CheckStatus();
+                    CheckStatus(false);
 
                 LogControl1.Initialise(listMaker1);
 
@@ -385,7 +385,7 @@ namespace AutoWikiBrowser
                     webBrowserEdit.Document.Write("");
 
                 //check we are logged in
-                if (!Variables.User.WikiStatus && !CheckStatus())
+                if (!Variables.User.WikiStatus && !CheckStatus(false))
                     return;
 
                 ArticleInfo(true);
@@ -754,7 +754,7 @@ namespace AutoWikiBrowser
                 lblStatusText.Text = "Signed in, now re-starting";
 
                 if (!Variables.User.WikiStatus)
-                    CheckStatus();
+                    CheckStatus(false);
             }
         }
 
@@ -1328,7 +1328,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void loginToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CheckStatus();
+            CheckStatus(true);
         }
 
         private void logOutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1346,7 +1346,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
         }
 
-        private bool CheckStatus()
+        private bool CheckStatus(bool Login)
         {
             lblStatusText.Text = "Loading page to check if we are logged in.";
             WikiStatusResult Result = Variables.User.UpdateWikiStatus();
@@ -1363,7 +1363,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
                 case WikiStatusResult.NotLoggedIn:
                     lblUserName.BackColor = Color.Red;
-                    MessageBox.Show("You are not logged in. The log in screen will now load, enter your name and password, click \"Log in\", wait for it to complete, then start the process again.\r\n\r\nIn the future you can make sure this won't happen by logging in to Wikipedia using Microsoft Internet Explorer.", "Not logged in", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (!Login)
+                        MessageBox.Show("You are not logged in. The log in screen will now load, enter your name and password, click \"Log in\", wait for it to complete, then start the process again.\r\n\r\nIn the future you can make sure this won't happen by logging in to Wikipedia using Microsoft Internet Explorer.", "Not logged in", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     webBrowserEdit.LoadLogInPage();
                     webBrowserEdit.BringToFront();
                     break;
@@ -1772,7 +1773,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             //refresh login status, and reload check list
             if (!Variables.User.WikiStatus)
             {
-                if (!CheckStatus())
+                if (!CheckStatus(false))
                     return;
             }
         }
@@ -2592,7 +2593,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/User:Mboverload/RegExTypoFix");
+            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/Typos");
         }
 
         private void webBrowserEdit_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
