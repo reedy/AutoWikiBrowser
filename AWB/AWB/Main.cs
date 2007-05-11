@@ -676,7 +676,7 @@ namespace AutoWikiBrowser
         private bool diffChecker(string strHTML)
         {//check diff to see if it should be skipped
 
-            if (!skippable || !chkSkipNoChanges.Checked || toolStripComboOnLoad.SelectedIndex != 0 || doNotAutomaticallyDoAnythingToolStripMenuItem.Checked)
+            if (!skippable || chkSkipNoChanges.Checked || toolStripComboOnLoad.SelectedIndex != 0 || doNotAutomaticallyDoAnythingToolStripMenuItem.Checked)
                 return false;
 
             //if (!strHTML.Contains("class=diff-context") && !strHTML.Contains("class=diff-deletedline"))
