@@ -653,7 +653,7 @@ namespace WikiFunctions.Lists
             btnMakeList.Enabled = true;
             Status = "List complete!";
             BusyStatus = false;
-            btnStop.Enabled = false;
+            btnStop.Visible = false;
             UpdateNumberOfArticles();
 
             if (ListFinished != null)
@@ -669,7 +669,7 @@ namespace WikiFunctions.Lists
         /// <param name="SourceValues">An array of string values to create the list with, e.g. an array of categories. Use null if not appropriate</param>
         public void MakeList(SourceType ST, string[] SourceValues)
         {
-            btnStop.Enabled = true;
+            btnStop.Visible = true;
             if (ST == SourceType.DatabaseDump)
             {
                 launchDumpSearcher();
@@ -1241,7 +1241,7 @@ namespace WikiFunctions.Lists
 
         private void btnStop_Click(object sender, EventArgs e)
         {
-            btnStop.Enabled = false;
+            btnStop.Visible = false;
             this.Stop();
         }
 
