@@ -29,7 +29,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches only internal wiki links
         /// </summary>
-        public static readonly Regex WikiLinksOnly = new Regex("\\[\\[[^:]*?\\]\\]", RegexOptions.Compiled);
+        public static readonly Regex WikiLinksOnly = new Regex("\\[\\[[^\\]]*?\\]\\]", RegexOptions.Compiled);
 
         /// <summary>
         /// Group 1 Matches only the target of the wikilink
