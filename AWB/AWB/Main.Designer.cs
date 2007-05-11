@@ -1614,7 +1614,7 @@ namespace AutoWikiBrowser
             // chkSkipNoChanges
             // 
             this.chkSkipNoChanges.AutoSize = true;
-            this.chkSkipNoChanges.Location = new System.Drawing.Point(5, 85);
+            this.chkSkipNoChanges.Location = new System.Drawing.Point(6, 85);
             this.chkSkipNoChanges.Name = "chkSkipNoChanges";
             this.chkSkipNoChanges.Size = new System.Drawing.Size(195, 17);
             this.chkSkipNoChanges.TabIndex = 30;
@@ -2023,7 +2023,7 @@ namespace AutoWikiBrowser
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(23, 17);
+            this.linkLabel1.Location = new System.Drawing.Point(22, 17);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(111, 13);
             this.linkLabel1.TabIndex = 29;
