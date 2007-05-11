@@ -73,7 +73,6 @@ namespace WikiFunctions.DatabaseScanner
             cmboLength.SelectedIndex = 0;
             cmboLinks.SelectedIndex = 0;
             cmboWords.SelectedIndex = 0;
-            loadSettings();
 
             //chkArticleDoesContain.Checked = true;
             //chkRegex.Checked = true;
@@ -666,8 +665,6 @@ namespace WikiFunctions.DatabaseScanner
                 Main.Stop();
                 Main = null;
             }
-
-            saveSettings();
         }
 
         private void listComparerToolStripMenuItem_Click(object sender, EventArgs e)
@@ -738,114 +735,6 @@ namespace WikiFunctions.DatabaseScanner
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             resetSettings();
-        }
-
-        private void saveSettings()
-        {
-            //menu
-            //WikiDumpSearcher.Properties.Settings.Default.IgnoreRedirects = ignoreRedirectsToolStripMenuItem1.Checked;
-            //WikiDumpSearcher.Properties.Settings.Default.IgnoreComments = ignoreCommentsToolStripMenuItem.Checked;
-            //WikiDumpSearcher.Properties.Settings.Default.IgnoreDisambigs = ignoreDisambigsToolStripMenuItem.Checked;
-            //WikiDumpSearcher.Properties.Settings.Default.IgnoreImage = ignoreImagesToolStripMenuItem.Checked;
-            //WikiDumpSearcher.Properties.Settings.Default.IgnoreTemplate = ignoreTemplateNamespaceToolStripMenuItem.Checked;
-            //WikiDumpSearcher.Properties.Settings.Default.IgnoreWikipedia = ignoreWikipediaNamespaceToolStripMenuItem.Checked;
-            //WikiDumpSearcher.Properties.Settings.Default.IngoreCategory = ignoreCategoryNamespaceToolStripMenuItem.Checked;
-            //WikiDumpSearcher.Properties.Settings.Default.IgnoreMain = ignoreMainNamespaceToolStripMenuItem.Checked;
-
-            //WikiDumpSearcher.Properties.Settings.Default.ThreadPriority = Threadpriority;
-
-            ////contains
-            //WikiDumpSearcher.Properties.Settings.Default.DoesContain = txtPattern.Text;
-            //WikiDumpSearcher.Properties.Settings.Default.DoesNotContain = txtPatternNot.Text;
-            //WikiDumpSearcher.Properties.Settings.Default.DoesContainEnabled = chkDoesContain.Checked;
-            //WikiDumpSearcher.Properties.Settings.Default.DoesNotContainEnabled = chkDoesNotContain.Checked;
-
-            //WikiDumpSearcher.Properties.Settings.Default.IsRegex = chkRegex.Checked;
-            //WikiDumpSearcher.Properties.Settings.Default.IsCaseSens = chkCaseSensitive.Checked;
-            //WikiDumpSearcher.Properties.Settings.Default.IsMulti = chkMulti.Checked;
-            //WikiDumpSearcher.Properties.Settings.Default.IsSingle = chkSingle.Checked;
-
-            ////title
-            //WikiDumpSearcher.Properties.Settings.Default.TitleContains = txtTitleContains.Text;
-            //WikiDumpSearcher.Properties.Settings.Default.TitleDoesNotContain = txtTitleNotContains.Text;
-            //WikiDumpSearcher.Properties.Settings.Default.TitleContainsEnabled = chkCheckTitle.Checked;
-            //WikiDumpSearcher.Properties.Settings.Default.TitleNotContainsEnabled = chkCheckNotInTitle.Checked;
-            //WikiDumpSearcher.Properties.Settings.Default.TitleIsRegex = chkTitleRegex.Checked;
-
-            ////characters and links
-            //WikiDumpSearcher.Properties.Settings.Default.CountCharatersIndex = cmboLength.SelectedIndex;
-            //WikiDumpSearcher.Properties.Settings.Default.CountLinksIndex = cmboLinks.SelectedIndex;
-            //WikiDumpSearcher.Properties.Settings.Default.Characters = numLength.Value;
-            //WikiDumpSearcher.Properties.Settings.Default.Links = nudLinks.Value;
-
-            ////extra
-            //WikiDumpSearcher.Properties.Settings.Default.BoldTitle = chkNoBold.Checked;
-            //WikiDumpSearcher.Properties.Settings.Default.BadLinks = chkBadLinks.Checked;
-            //WikiDumpSearcher.Properties.Settings.Default.HTMLEntities = chkHTML.Checked;
-            //WikiDumpSearcher.Properties.Settings.Default.SimpleLinks = chkSimpleLinks.Checked;
-
-            ////results
-            //WikiDumpSearcher.Properties.Settings.Default.AddHeading = chkHeading.Checked;
-            //WikiDumpSearcher.Properties.Settings.Default.HeadingGap = nudHeadingSpace.Value;
-            //WikiDumpSearcher.Properties.Settings.Default.ResultsLimit = nudLimitResults.Value;
-            //WikiDumpSearcher.Properties.Settings.Default.BulletHash = rdoBullet.Checked;
-
-            //WikiDumpSearcher.Properties.Settings.Default.FileName = fileName;
-
-            //WikiDumpSearcher.Properties.Settings.Default.Save();
-        }
-
-        private void loadSettings()
-        {
-            //menu
-            //ignoreRedirectsToolStripMenuItem1.Checked = WikiDumpSearcher.Properties.Settings.Default.IgnoreRedirects;
-            //ignoreCommentsToolStripMenuItem.Checked = WikiDumpSearcher.Properties.Settings.Default.IgnoreComments;
-            //ignoreDisambigsToolStripMenuItem.Checked = WikiDumpSearcher.Properties.Settings.Default.IgnoreDisambigs;
-            //ignoreImagesToolStripMenuItem.Checked = WikiDumpSearcher.Properties.Settings.Default.IgnoreImage;
-            //ignoreTemplateNamespaceToolStripMenuItem.Checked = WikiDumpSearcher.Properties.Settings.Default.IgnoreTemplate;
-            //ignoreWikipediaNamespaceToolStripMenuItem.Checked = WikiDumpSearcher.Properties.Settings.Default.IgnoreWikipedia;
-            //ignoreCategoryNamespaceToolStripMenuItem.Checked = WikiDumpSearcher.Properties.Settings.Default.IngoreCategory;
-            //ignoreMainNamespaceToolStripMenuItem.Checked = WikiDumpSearcher.Properties.Settings.Default.IgnoreMain;
-
-            //Threadpriority = WikiDumpSearcher.Properties.Settings.Default.ThreadPriority;
-
-            ////contains
-            //txtPattern.Text = WikiDumpSearcher.Properties.Settings.Default.DoesContain;
-            //txtPatternNot.Text = WikiDumpSearcher.Properties.Settings.Default.DoesNotContain;
-            //chkDoesContain.Checked = WikiDumpSearcher.Properties.Settings.Default.DoesContainEnabled;
-            //chkDoesNotContain.Checked = WikiDumpSearcher.Properties.Settings.Default.DoesNotContainEnabled;
-
-            //chkRegex.Checked = WikiDumpSearcher.Properties.Settings.Default.IsRegex;
-            //chkCaseSensitive.Checked = WikiDumpSearcher.Properties.Settings.Default.IsCaseSens;
-            //chkMulti.Checked = WikiDumpSearcher.Properties.Settings.Default.IsMulti;
-            //chkSingle.Checked = WikiDumpSearcher.Properties.Settings.Default.IsSingle;
-
-            ////title
-            //txtTitleContains.Text = WikiDumpSearcher.Properties.Settings.Default.TitleContains;
-            //txtTitleNotContains.Text = WikiDumpSearcher.Properties.Settings.Default.TitleDoesNotContain;
-            //chkCheckTitle.Checked = WikiDumpSearcher.Properties.Settings.Default.TitleContainsEnabled;
-            //chkCheckNotInTitle.Checked = WikiDumpSearcher.Properties.Settings.Default.TitleNotContainsEnabled;
-            //chkTitleRegex.Checked = WikiDumpSearcher.Properties.Settings.Default.TitleIsRegex;
-
-            ////characters and links
-            //cmboLength.SelectedIndex = WikiDumpSearcher.Properties.Settings.Default.CountCharatersIndex;
-            //cmboLinks.SelectedIndex = WikiDumpSearcher.Properties.Settings.Default.CountLinksIndex;
-            //numLength.Value = WikiDumpSearcher.Properties.Settings.Default.Characters;
-            //nudLinks.Value = WikiDumpSearcher.Properties.Settings.Default.Links;
-
-            ////extra
-            //chkNoBold.Checked = WikiDumpSearcher.Properties.Settings.Default.BoldTitle;
-            //chkBadLinks.Checked = WikiDumpSearcher.Properties.Settings.Default.BadLinks;
-            //chkHTML.Checked = WikiDumpSearcher.Properties.Settings.Default.HTMLEntities;
-            //chkSimpleLinks.Checked = WikiDumpSearcher.Properties.Settings.Default.SimpleLinks;
-
-            ////results
-            //chkHeading.Checked = WikiDumpSearcher.Properties.Settings.Default.AddHeading;
-            //nudHeadingSpace.Value = WikiDumpSearcher.Properties.Settings.Default.HeadingGap;
-            //nudLimitResults.Value = WikiDumpSearcher.Properties.Settings.Default.ResultsLimit;
-            //rdoBullet.Checked = WikiDumpSearcher.Properties.Settings.Default.BulletHash;
-
-            //fileName = WikiDumpSearcher.Properties.Settings.Default.FileName;
         }
 
         private void resetSettings()
