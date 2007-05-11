@@ -399,6 +399,7 @@ namespace AutoWikiBrowser
 
                 TheArticle = listMaker1.SelectedArticle();
                 TheArticle.InitialiseLogListener();
+                NewHistory();                    
 
                 if (!Tools.IsValidTitle(TheArticle.Name))
                 {
@@ -728,7 +729,8 @@ namespace AutoWikiBrowser
             listMaker1.Remove(TheArticle);
             NudgeTimer.Stop();
             sameArticleNudges = 0;
-
+            if (tabControl2.SelectedTab == tpHistory)
+                tabControl2.SelectedTab = tpEdit;
             LogControl1.AddLog(false, TheArticle.LogListener);
 
             if (listMaker1.Count == 0)
@@ -3347,6 +3349,41 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         {
             if (chkSkipExistent.Checked)
                 chkSkipNonExistent.Checked = false;
+        }
+
+        private void tabControl2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            NewHistory();
+        }
+
+        private void NewHistory()
+        {
+            if (tabControl2.SelectedTab == tpHistory)
+            {
+                if (webBrowserHistory.Url != new System.Uri(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName + "&action=history&useskin=myskin") && TheArticle.URLEncodedName != "")
+                    webBrowserHistory.Navigate(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName + "&action=history&useskin=myskin");
+            }
+        }
+
+        private void webBrowserHistory_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+            string histHtml = webBrowserHistory.Document.Body.InnerHtml;
+            string startMark = "<!-- start content -->";
+            string endMark = "<!-- end content -->";
+            if (histHtml.Contains(startMark) && histHtml.Contains(endMark))
+                histHtml = histHtml.Substring(histHtml.IndexOf(startMark), histHtml.IndexOf(endMark) - histHtml.IndexOf(startMark));
+            histHtml = histHtml.Replace("<A ", "<a target=\"blank\" ");
+            webBrowserHistory.Document.Body.InnerHtml = histHtml;
+        }
+
+        private void openInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName + "&action=history");
+        }
+
+        private void refreshHistoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            webBrowserHistory.Navigate(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName + "&action=history&useskin=myskin");
         }
     }
 }
