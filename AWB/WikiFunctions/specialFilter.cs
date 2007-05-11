@@ -422,42 +422,44 @@ namespace WikiFunctions.Lists
 
         private void nonTalkOnlyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (CheckBox cb in groupBox1.Controls)
-            {
-                if (cb.Name.Contains("Talk"))
-                    cb.Checked = false;
-                else
-                    cb.Checked = true;
-
-            }
+            SetSomeChecks(false);
         }
 
         private void talkSpaceOnlyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (CheckBox cb in this.groupBox1.Controls)
-            {
-                if (cb.Name.Contains("Talk"))
-                    cb.Checked = true;
-                else
-                    cb.Checked = false;
+            SetSomeChecks(true);
+        }
 
-            }
+        private void SetSomeChecks(bool All)
+        {
+            chkArticle.Checked = !All;
+            chkArticleTalk.Checked = All;
+            chkCategory.Checked = !All;
+            chkCategoryTalk.Checked = All;
+            chkHelp.Checked = !All;
+            chkHelpTalk.Checked = All;
+            chkImage.Checked = !All;
+            chkImageTalk.Checked = All;
+            chkMediaWiki.Checked = !All;
+            chkMediaWikiTalk.Checked = All;
+            chkPortal.Checked = !All;
+            chkPortalTalk.Checked = All;
+            chkTemplate.Checked = !All;
+            chkTemplateTalk.Checked = All;
+            chkUser.Checked = !All;
+            chkUserTalk.Checked = All;
+            chkWikipedia.Checked = !All;
+            chkWikipediaTalk.Checked = All;
         }
 
         private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (CheckBox cb in this.groupBox1.Controls)
-            {
-                cb.Checked = true;
-            }
+            SetCheckBoxes(true);
         }
 
         private void deselectAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (CheckBox cb in this.groupBox1.Controls)
-            {
-                cb.Checked = false;
-            }
+            SetCheckBoxes(false);
         }
 
         #endregion
