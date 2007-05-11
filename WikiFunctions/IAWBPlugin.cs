@@ -58,6 +58,7 @@ namespace WikiFunctions.Plugin
         string CustomModule { get; }
         System.Version AWBVersion { get; }
         System.Version WikiFunctionsVersion { get; }
+        string WikiDiffVersionString { get; }
         void NotifyBalloon(string Message, ToolTipIcon Icon);
         int Nudges { get; }
         void AddLogItem(bool Skipped, AWBLogListener LogListener);
