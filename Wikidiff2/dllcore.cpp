@@ -21,4 +21,9 @@ BOOL APIENTRY DllMain( HMODULE hModule,
     return TRUE;
 }
 
+wchar_t *wikidiff2_version()
+{
+	return L"3.9.2.0";
+}
+
 
