@@ -21,6 +21,7 @@ namespace WikiFunctions.Lists
 
     public partial class ListMaker : UserControl, IEnumerable<Article>, ICollection<Article>, IList<Article>
     {
+       
         public event ListMakerEventHandler StatusTextChanged;
         public event ListMakerEventHandler BusyStateChanged;
         public event ListMakerEventHandler NoOfArticlesChanged;
@@ -841,8 +842,11 @@ namespace WikiFunctions.Lists
         /// </summary>
         public void Filter()
         {
-            specialFilter SpecialFilter = new specialFilter(lbArticles);
-            SpecialFilter.ShowDialog(this);
+            //specialFilter SpecialFilter = new specialFilter(lbArticles);
+            //SpecialFilter.ShowDialog(this);
+
+            SpecialFilter.Show(this);
+            SpecialFilter.lb = lbArticles;
             UpdateNumberOfArticles();
         }
 

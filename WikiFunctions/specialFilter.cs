@@ -32,13 +32,22 @@ namespace WikiFunctions.Lists
 {
     public partial class specialFilter : Form
     {
-        ListBox2 lb;
+        public ListBox2 lb;
+
         public specialFilter(ListBox2 listbox)
         {
             InitializeComponent();
             lb = listbox;
             UpdateText();
         }
+        public specialFilter()
+        {
+            InitializeComponent();
+            UpdateText();
+        }
+
+
+        
 
         List<Article> list = new List<Article>();
 
@@ -68,7 +77,7 @@ namespace WikiFunctions.Lists
                 foreach (Article a in list)
                     lb.Items.Add(a);
 
-                Close();
+                this.Hide();
             }
             catch (Exception ex)
             {
@@ -367,7 +376,7 @@ namespace WikiFunctions.Lists
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            this.Close();
+            this.Hide();
         }
 
         private void chkContains_CheckedChanged(object sender, EventArgs e)
