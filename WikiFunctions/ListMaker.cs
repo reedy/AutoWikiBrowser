@@ -804,8 +804,8 @@ namespace WikiFunctions.Lists
 
         private void specialFilter()
         {
-            specialFilter SepcialFilter = new specialFilter(lbArticles);
-            SepcialFilter.ShowDialog();
+            SpecialFilter.Show(this);
+            SpecialFilter.lb = lbArticles;
             UpdateNumberOfArticles();
         }
 
@@ -842,22 +842,20 @@ namespace WikiFunctions.Lists
         /// </summary>
         public void Filter()
         {
-            //specialFilter SpecialFilter = new specialFilter(lbArticles);
-            //SpecialFilter.ShowDialog(this);
-
             SpecialFilter.Show(this);
             SpecialFilter.lb = lbArticles;
             UpdateNumberOfArticles();
         }
 
+        /// <summary>
+        /// Automatically removes all duplicates from the list
+        /// </summary>
         public void removeListDuplicates()
         {
-            specialFilter SpecialFilter = new specialFilter(lbArticles);
+            SpecialFilter.lb = lbArticles;
             SpecialFilter.removeDups(true);
 
             UpdateNumberOfArticles();
-
-            SpecialFilter.Dispose();
         }
 
         /// <summary>
@@ -913,8 +911,7 @@ namespace WikiFunctions.Lists
         }
 
         private delegate void FilterNM();
-     
-           
+               
 
         /// <summary>
         /// Filters out articles that are not in the main namespace
