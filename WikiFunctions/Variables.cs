@@ -106,6 +106,8 @@ namespace WikiFunctions
 
         static string URLEnd = "/w/";
 
+        
+
         static string strURL = "http://en.wikipedia.org";
         /// <summary>
         /// Gets a URL of the site, e.g. "http://en.wikipedia.org".
@@ -156,7 +158,7 @@ namespace WikiFunctions
 
         public static string Stub;
         public static string SectStub;
-
+        public static string stubIndicator = "stub}}";
         /// <summary>
         /// Sets different language variables, such as namespaces. Default is english Wikipedia
         /// </summary>

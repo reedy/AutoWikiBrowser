@@ -103,7 +103,7 @@ namespace WikiFunctions
         public bool IsStub {
             get {
                 if (Variables.LangCode != LangCodeEnum.en) throw new NotImplementedException();
-                return (mArticleText.Contains("stub}}") | mArticleText.Length < 1500);
+                return (mArticleText.Contains(Variables.stubIndicator) | mArticleText.Length < 1500);
             }
         }
 
