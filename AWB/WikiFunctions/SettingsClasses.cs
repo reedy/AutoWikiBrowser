@@ -147,6 +147,8 @@ namespace WikiFunctions.AWBSettings
         public bool SaveArticleList = false;
         public decimal TimeOutLimit = 30;
         public bool IgnoreNoBots = false;
+
+        public List<string> CustomWikis = new List<string>();
     }
 
     [Serializable]

@@ -349,6 +349,13 @@ namespace AutoWikiBrowser
             set { dAutoSaveEditPeriod = value; EditBoxSaveTimer.Interval = int.Parse((value * 1000).ToString()); }
         }
 
+        List<String> lCustomWiki = new List<string>();
+        private List<String> customWikis
+        {
+            get { return lCustomWiki; }
+            set { lCustomWiki = value; }
+        }
+
         #endregion
 
         #region MainProcess
@@ -1735,6 +1742,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 AutoSaveEditBoxEnabled = MyPrefs.perfAutoSaveEditBoxEnabled;
                 AutoSaveEditBoxPeriod = MyPrefs.perfAutoSaveEditBoxPeriod;
                 AutoSaveEditBoxFile = MyPrefs.perfAutoSaveEditBoxFile;
+                customWikis = MyPrefs.perfCustomWikis;
 
                 if (MyPrefs.Language != Variables.LangCode || MyPrefs.Project != Variables.Project || MyPrefs.CustomProject != Variables.CustomProject)
                 {
