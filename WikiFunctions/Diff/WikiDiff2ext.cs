@@ -157,13 +157,5 @@ td.diff-addedline span.diffchange {
 }
 </style>";
         }
-
-        /// <summary>
-        /// Use WikiDiff.WikiDiffVersion.FileVersion to get File Version
-        /// </summary>
-        public static System.Diagnostics.FileVersionInfo WikiDiffVersion
-        {
-           get { return System.Diagnostics.FileVersionInfo.GetVersionInfo(System.IO.Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath) + "\\Wikidiff2.dll"); }
-        }
     }
 }
