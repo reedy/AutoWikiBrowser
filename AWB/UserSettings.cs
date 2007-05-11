@@ -828,6 +828,8 @@ namespace AutoWikiBrowser
             p.General.AutoSaveEdit.Enabled = AutoSaveEditBoxEnabled;
             p.General.AutoSaveEdit.SavePeriod = AutoSaveEditBoxPeriod;
             p.General.AutoSaveEdit.SaveFile = AutoSaveEditBoxFile;
+
+            p.General.CustomWikis = customWikis;
             
             p.General.LockSummary = chkLock.Checked;
 
@@ -964,6 +966,8 @@ namespace AutoWikiBrowser
             AutoSaveEditBoxEnabled = p.General.AutoSaveEdit.Enabled;
             AutoSaveEditBoxPeriod = p.General.AutoSaveEdit.SavePeriod;
             AutoSaveEditBoxFile = p.General.AutoSaveEdit.SaveFile;
+
+            customWikis = p.General.CustomWikis;
 
             webBrowserEdit.EnhanceDiffEnabled = p.General.EnhancedDiff;
             webBrowserEdit.ScrollDown = p.General.ScrollDown;

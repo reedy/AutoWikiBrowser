@@ -25,7 +25,7 @@ namespace AutoWikiBrowser
             cmboLang.SelectedItem = lang.ToString().ToLower();
             cmboProject.SelectedItem = proj;
 
-            txtCustomProject.Text = customproj;
+            cmboCustomProject.Text = customproj;
 
             EnhanceDiff = EDiff;
             ScrollDown = SDown;
@@ -67,14 +67,14 @@ namespace AutoWikiBrowser
         }
         public string CustomProject
         {
-            get { return txtCustomProject.Text; }
+            get { return cmboCustomProject.Text; }
         }
 
         private void txtCustomProject_Leave(object sender, EventArgs e)
         {
-            txtCustomProject.Text = Regex.Replace(txtCustomProject.Text, "^http://", "", RegexOptions.IgnoreCase);
-            txtCustomProject.Text = txtCustomProject.Text.TrimEnd('/');
-            txtCustomProject.Text = txtCustomProject.Text + "/";
+            cmboCustomProject.Text = Regex.Replace(cmboCustomProject.Text, "^http://", "", RegexOptions.IgnoreCase);
+            cmboCustomProject.Text = cmboCustomProject.Text.TrimEnd('/');
+            cmboCustomProject.Text = cmboCustomProject.Text + "/";
         }
 
         private void cmboProject_SelectedIndexChanged(object sender, EventArgs e)
@@ -84,24 +84,26 @@ namespace AutoWikiBrowser
 
             if ((ProjectEnum)Enum.Parse(typeof(ProjectEnum), cmboProject.SelectedItem.ToString()) == ProjectEnum.custom)
             {
-                txtCustomProject.Visible = true;
+                cmboCustomProject.Visible = true;
                 cmboLang.Visible = false;
                 lblLang.Text = "http://";
-                edtCustomProject_TextChanged(null, null);
+                cmboCustomProject_TextChanged(null, null);
             }
             else
             {
-                txtCustomProject.Visible = false;
+                cmboCustomProject.Visible = false;
                 cmboLang.Visible = true;
                 lblLang.Text = "Language:";
                 btnApply.Enabled = true;
             }
         }
 
-        private void edtCustomProject_TextChanged(object sender, EventArgs e)
+        private void cmboCustomProject_TextChanged(object sender, EventArgs e)
         {
-            btnApply.Enabled = txtCustomProject.Text != "";
+            btnApply.Enabled = (cmboCustomProject.Text != "");
         }
+
+
 
         #endregion
 
@@ -197,6 +199,25 @@ namespace AutoWikiBrowser
             get { return numEditBoxAutosave.Value; }
             set { numEditBoxAutosave.Value = value; }
         }
+
+        public List<String> perfCustomWikis
+        {
+            get
+            {
+                List<String> Temp = new List<String>();
+                Temp.Add(cmboCustomProject.Text);
+                foreach (object a in cmboCustomProject.Items)
+                    Temp.Add(a.ToString());
+                return Temp;
+            }
+            set
+            {
+                cmboCustomProject.Items.Clear();
+                foreach (string Temp in value)
+                    cmboCustomProject.Items.Add(Temp);
+            }
+        }
+
 
         public string perfAutoSaveEditBoxFile
         {
