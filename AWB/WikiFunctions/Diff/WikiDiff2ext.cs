@@ -13,12 +13,24 @@ namespace WikiFunctions
         private static unsafe extern byte* wikidiff2_do_diff(byte* text1, byte* text2, int num_lines_context);
 
         //void __declspec(dllexport) wikidiff2_free(void *);
-        [DllImport("wikidiff2.dll")]//, EntryPoint = "?wikidiff2_free@@YAXPAX@Z")]
+        [DllImport("wikidiff2.dll")]
         private static unsafe extern void wikidiff2_free(byte* p);
+
+        //wchar_t *wikidiff2_version()
+        [DllImport("wikidiff2.dll")]
+        private static unsafe extern char* wikidiff2_version();
 
         static unsafe WikiDiff()
         {
             wikidiff2_free(null);
+        }
+
+        public unsafe static string Version
+        {
+            get
+            {
+                return new String(wikidiff2_version());
+            }
         }
 
         unsafe static string FromUTF8(byte* src)
