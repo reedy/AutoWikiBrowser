@@ -100,7 +100,7 @@ using System.Text;
          * Handle double click event (open article in browser)
         */
 
-        protected string mArticle; /* store this locally rather than relying on .Text in case a Plugin changes .Text
+        private string mArticle; /* store this locally rather than relying on .Text in case a Plugin changes .Text
                                    * (it shouldn', and Kingbotk doesn't, but who knows :) */
         private bool mSkipped;
 

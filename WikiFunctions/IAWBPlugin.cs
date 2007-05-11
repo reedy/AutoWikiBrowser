@@ -60,6 +60,7 @@ namespace WikiFunctions.Plugin
         System.Version WikiFunctionsVersion { get; }
         void NotifyBalloon(string Message, ToolTipIcon Icon);
         int Nudges { get; }
+        void AddLogItem(bool Skipped, AWBLogListener LogListener);
 
         void Start(IAWBPlugin sender);
         void Save(IAWBPlugin sender);
