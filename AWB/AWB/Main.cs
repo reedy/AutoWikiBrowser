@@ -3173,6 +3173,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             string IAutoWikiBrowser.CustomModule { get { if (cModule.ModuleEnabled && cModule.Module != null) return cModule.Code; else return null; } }
             System.Version IAutoWikiBrowser.AWBVersion { get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; } }
             System.Version IAutoWikiBrowser.WikiFunctionsVersion { get { return WikiFunctions.Tools.Version; } }
+            void IAutoWikiBrowser.AddLogItem(bool Skipped, AWBLogListener LogListener) { LogControl1.AddLog(Skipped, LogListener); }
 
         // "Events":
             void IAutoWikiBrowser.SkipPage(IAWBPlugin sender, string reason) { SkipPage(sender.Name, reason); }
