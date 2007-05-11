@@ -44,10 +44,7 @@ namespace WikiFunctions.Lists
         {
             InitializeComponent();
             UpdateText();
-        }
-
-
-        
+        }      
 
         List<Article> list = new List<Article>();
 
