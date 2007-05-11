@@ -891,10 +891,17 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 return ArticleText;
             }
 
+            //Match TitleEmboldened = Regex.Match(ArticleText, "'''" + ArticleTitle + "'''");
+            //if (!TitleEmboldened.Success)
+            //{
+            //    ArticleText = ArticleText.Replace(ArticleTitle, "'''" + ArticleTitle + "'''");
+            //    NoChange = false;
+            //}
+
             if (regexBold.IsMatch(ArticleText))
             {
                 NoChange = false;
-                if (!(ArticleText.IndexOf("Image") != 0))
+                if (ArticleText.IndexOf(ArticleTitle) == 0)
                     ArticleText = regexBold.Replace(ArticleText, "$1'''$2'''$3", 1);
             }
             else
