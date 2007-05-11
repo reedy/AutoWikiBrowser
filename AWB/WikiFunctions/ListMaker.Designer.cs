@@ -546,6 +546,7 @@ namespace WikiFunctions.Lists
         #endregion
 
         private ListBox2 lbArticles;
+        private specialFilter SpecialFilter = new specialFilter();
         private System.Windows.Forms.TextBox txtSelectSource;
         private System.Windows.Forms.Label lblNumberOfArticles;
         private System.Windows.Forms.Button btnAdd;
