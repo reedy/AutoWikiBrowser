@@ -581,7 +581,10 @@ namespace AutoWikiBrowser
                     }
                 }
                 else if (HTML.Contains("Sorry! We could not process your edit due to a loss of session data. Please try again. If it still doesn't work, try logging out and logging back in."))
-                    //TODO:Do Something if Session Data Lost
+                {
+                    Save();
+                    return false;
+                }
 
                 if (HTML.Contains("readOnly"))
                 {
