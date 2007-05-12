@@ -18,8 +18,10 @@ namespace WikiFunctions.Controls
             {
                 label3.Visible = false;
                 label4.Visible = false;
+                label5.Visible = false;
                 lbEdit.Visible = false;
                 lbMove.Visible = false;
+                txtExpiry.Visible = false;
                 this.Text = "Move";
                 btnOk.Text = "Move";
                 string[] movemessages = new string[2];
@@ -32,8 +34,10 @@ namespace WikiFunctions.Controls
             {
                 label3.Visible = false;
                 label4.Visible = false;
+                label5.Visible = false;
                 lbEdit.Visible = false;
                 lbMove.Visible = false;
+                txtExpiry.Visible = false;
                 this.Text = "Delete";
                 btnOk.Text = "Delete";
                 this.Size = new Size(this.Width, 115);
@@ -106,6 +110,23 @@ namespace WikiFunctions.Controls
         {
             get { return lbMove.SelectedIndex; }
             set { lbMove.SelectedIndex = value; }
+        }
+
+        public string ProtectExpiry
+        {
+            get { return txtExpiry.Text; }
+            set { txtExpiry.Text = value; }
+        }
+
+        private void chkUnlock_CheckedChanged(object sender, EventArgs e)
+        {
+            lbMove.Enabled = chkUnlock.Checked;
+        }
+
+        private void lbEdit_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!chkUnlock.Checked)
+                lbMove.SelectedIndex = lbEdit.SelectedIndex;
         }
     }
 }
