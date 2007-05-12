@@ -277,7 +277,6 @@ namespace AutoWikiBrowser
             this.txtDabLink = new System.Windows.Forms.TextBox();
             this.chkEnableDab = new System.Windows.Forms.CheckBox();
             this.tpBots = new System.Windows.Forms.TabPage();
-            this.lblOnlyBots = new System.Windows.Forms.Label();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
             this.chkNudgeSkip = new System.Windows.Forms.CheckBox();
             this.btnResetNudges = new System.Windows.Forms.Button();
@@ -288,6 +287,7 @@ namespace AutoWikiBrowser
             this.chkSuppressTag = new System.Windows.Forms.CheckBox();
             this.chkAutoMode = new System.Windows.Forms.CheckBox();
             this.lblAutoDelay = new System.Windows.Forms.Label();
+            this.lblOnlyBots = new System.Windows.Forms.Label();
             this.tpStart = new System.Windows.Forms.TabPage();
             this.lblSummary = new System.Windows.Forms.Label();
             this.chkLock = new System.Windows.Forms.CheckBox();
@@ -315,14 +315,14 @@ namespace AutoWikiBrowser
             this.tpEdit = new System.Windows.Forms.TabPage();
             this.txtEdit = new System.Windows.Forms.TextBox();
             this.tpHistory = new System.Windows.Forms.TabPage();
+            this.mnuHistory = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.refreshHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.webBrowserHistory = new System.Windows.Forms.WebBrowser();
             this.tpLogs = new System.Windows.Forms.TabPage();
             this.LogControl1 = new WikiFunctions.Logging.LogControl();
             this.webBrowserDiff = new System.Windows.Forms.WebBrowser();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
-            this.mnuHistory = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.refreshHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -361,8 +361,8 @@ namespace AutoWikiBrowser
             this.tabControl2.SuspendLayout();
             this.tpEdit.SuspendLayout();
             this.tpHistory.SuspendLayout();
-            this.tpLogs.SuspendLayout();
             this.mnuHistory.SuspendLayout();
+            this.tpLogs.SuspendLayout();
             this.SuspendLayout();
             // 
             // mnuTextBox
@@ -2483,17 +2483,6 @@ namespace AutoWikiBrowser
             this.tpBots.Text = "Bots";
             this.tpBots.UseVisualStyleBackColor = true;
             // 
-            // lblOnlyBots
-            // 
-            this.lblOnlyBots.BackColor = System.Drawing.Color.Transparent;
-            this.lblOnlyBots.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
-            this.lblOnlyBots.Location = new System.Drawing.Point(3, 0);
-            this.lblOnlyBots.Name = "lblOnlyBots";
-            this.lblOnlyBots.Size = new System.Drawing.Size(276, 345);
-            this.lblOnlyBots.TabIndex = 35;
-            this.lblOnlyBots.Text = "Sorry, these options are only available for approved bots";
-            this.lblOnlyBots.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // groupBox14
             // 
             this.groupBox14.Controls.Add(this.chkNudgeSkip);
@@ -2545,6 +2534,7 @@ namespace AutoWikiBrowser
             this.pictureBox1.Size = new System.Drawing.Size(128, 130);
             this.pictureBox1.TabIndex = 36;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // groupBox7
             // 
@@ -2602,6 +2592,17 @@ namespace AutoWikiBrowser
             this.lblAutoDelay.Size = new System.Drawing.Size(34, 13);
             this.lblAutoDelay.TabIndex = 25;
             this.lblAutoDelay.Text = "Delay";
+            // 
+            // lblOnlyBots
+            // 
+            this.lblOnlyBots.BackColor = System.Drawing.Color.Transparent;
+            this.lblOnlyBots.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
+            this.lblOnlyBots.Location = new System.Drawing.Point(3, 0);
+            this.lblOnlyBots.Name = "lblOnlyBots";
+            this.lblOnlyBots.Size = new System.Drawing.Size(276, 345);
+            this.lblOnlyBots.TabIndex = 35;
+            this.lblOnlyBots.Text = "Sorry, these options are only available for approved bots";
+            this.lblOnlyBots.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tpStart
             // 
@@ -2934,6 +2935,28 @@ namespace AutoWikiBrowser
             this.tpHistory.Text = "History";
             this.tpHistory.UseVisualStyleBackColor = true;
             // 
+            // mnuHistory
+            // 
+            this.mnuHistory.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openInBrowserToolStripMenuItem,
+            this.refreshHistoryToolStripMenuItem});
+            this.mnuHistory.Name = "mnuHistory";
+            this.mnuHistory.Size = new System.Drawing.Size(201, 48);
+            // 
+            // openInBrowserToolStripMenuItem
+            // 
+            this.openInBrowserToolStripMenuItem.Name = "openInBrowserToolStripMenuItem";
+            this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.openInBrowserToolStripMenuItem.Text = "Open history in browser";
+            this.openInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem_Click);
+            // 
+            // refreshHistoryToolStripMenuItem
+            // 
+            this.refreshHistoryToolStripMenuItem.Name = "refreshHistoryToolStripMenuItem";
+            this.refreshHistoryToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.refreshHistoryToolStripMenuItem.Text = "Refresh history";
+            this.refreshHistoryToolStripMenuItem.Click += new System.EventHandler(this.refreshHistoryToolStripMenuItem_Click);
+            // 
             // webBrowserHistory
             // 
             this.webBrowserHistory.ContextMenuStrip = this.mnuHistory;
@@ -2942,7 +2965,6 @@ namespace AutoWikiBrowser
             this.webBrowserHistory.Location = new System.Drawing.Point(0, 0);
             this.webBrowserHistory.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowserHistory.Name = "webBrowserHistory";
-            this.webBrowserEdit.ScriptErrorsSuppressed = true;
             this.webBrowserHistory.Size = new System.Drawing.Size(265, 351);
             this.webBrowserHistory.TabIndex = 0;
             this.webBrowserHistory.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserHistory_DocumentCompleted);
@@ -3006,28 +3028,6 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.WebBrowserShortcutsEnabled = false;
             this.webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
             this.webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
-            // 
-            // mnuHistory
-            // 
-            this.mnuHistory.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openInBrowserToolStripMenuItem,
-            this.refreshHistoryToolStripMenuItem});
-            this.mnuHistory.Name = "mnuHistory";
-            this.mnuHistory.Size = new System.Drawing.Size(201, 48);
-            // 
-            // openInBrowserToolStripMenuItem
-            // 
-            this.openInBrowserToolStripMenuItem.Name = "openInBrowserToolStripMenuItem";
-            this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
-            this.openInBrowserToolStripMenuItem.Text = "Open history in browser";
-            this.openInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem_Click);
-            // 
-            // refreshHistoryToolStripMenuItem
-            // 
-            this.refreshHistoryToolStripMenuItem.Name = "refreshHistoryToolStripMenuItem";
-            this.refreshHistoryToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
-            this.refreshHistoryToolStripMenuItem.Text = "Refresh history";
-            this.refreshHistoryToolStripMenuItem.Click += new System.EventHandler(this.refreshHistoryToolStripMenuItem_Click);
             // 
             // NudgeTimer
             // 
@@ -3116,8 +3116,8 @@ namespace AutoWikiBrowser
             this.tpEdit.ResumeLayout(false);
             this.tpEdit.PerformLayout();
             this.tpHistory.ResumeLayout(false);
-            this.tpLogs.ResumeLayout(false);
             this.mnuHistory.ResumeLayout(false);
+            this.tpLogs.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
