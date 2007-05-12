@@ -34,6 +34,10 @@ namespace WikiFunctions.Controls
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.cmboSummary = new System.Windows.Forms.ComboBox();
+            this.lbEdit = new System.Windows.Forms.ListBox();
+            this.lbMove = new System.Windows.Forms.ListBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // txtNewTitle
@@ -54,7 +58,7 @@ namespace WikiFunctions.Controls
             // 
             // label2
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(8, 41);
             this.label2.Name = "label2";
@@ -66,18 +70,18 @@ namespace WikiFunctions.Controls
             // 
             this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOk.Location = new System.Drawing.Point(155, 73);
+            this.btnOk.Location = new System.Drawing.Point(145, 103);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 4;
-            this.btnOk.Text = "Ok";
+            this.btnOk.Text = "OK";
             this.btnOk.UseVisualStyleBackColor = true;
             // 
             // btnCancel
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(236, 73);
+            this.btnCancel.Location = new System.Drawing.Point(226, 103);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 5;
@@ -92,11 +96,57 @@ namespace WikiFunctions.Controls
             this.cmboSummary.Size = new System.Drawing.Size(339, 21);
             this.cmboSummary.TabIndex = 6;
             // 
+            // lbEdit
+            // 
+            this.lbEdit.FormattingEnabled = true;
+            this.lbEdit.Items.AddRange(new object[] {
+            "Unprotected",
+            "Semi-protected",
+            "Fully protection"});
+            this.lbEdit.Location = new System.Drawing.Point(63, 54);
+            this.lbEdit.Name = "lbEdit";
+            this.lbEdit.Size = new System.Drawing.Size(145, 43);
+            this.lbEdit.TabIndex = 8;
+            // 
+            // lbMove
+            // 
+            this.lbMove.FormattingEnabled = true;
+            this.lbMove.Items.AddRange(new object[] {
+            "Unprotected",
+            "Semi-protected",
+            "Fully protection"});
+            this.lbMove.Location = new System.Drawing.Point(214, 54);
+            this.lbMove.Name = "lbMove";
+            this.lbMove.Size = new System.Drawing.Size(145, 43);
+            this.lbMove.TabIndex = 9;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(60, 38);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(25, 13);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "Edit";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(211, 38);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(34, 13);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Move";
+            // 
             // MoveDeleteDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(413, 108);
+            this.ClientSize = new System.Drawing.Size(413, 135);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.lbMove);
+            this.Controls.Add(this.lbEdit);
             this.Controls.Add(this.cmboSummary);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
@@ -120,5 +170,9 @@ namespace WikiFunctions.Controls
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.ComboBox cmboSummary;
+        private System.Windows.Forms.ListBox lbEdit;
+        private System.Windows.Forms.ListBox lbMove;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
     }
 }

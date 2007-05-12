@@ -31,7 +31,7 @@ namespace WikiFunctions.Browser
 {
     public delegate void WebControlDel();
 
-    public enum enumProcessStage : byte { load, diff, save, delete, none }
+    public enum enumProcessStage : byte { load, diff, save, delete, protect, none }
 
     /// <summary>
     /// Provides a webBrowser component adapted and extended for use with Wikis.
@@ -213,6 +213,20 @@ namespace WikiFunctions.Browser
             get
             {
                 if (this.Document != null && this.Document.GetElementById("wpConfirmB") != null)
+                    return true;
+                else
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the page can be protected
+        /// </summary>
+        public bool CanProtect
+        {
+            get
+            {
+                if (this.Document != null && this.Document.GetElementById("mw-Protect-submit") != null)
                     return true;
                 else
                     return false;
@@ -518,7 +532,7 @@ namespace WikiFunctions.Browser
         }
 
         /// <summary>
-        /// Sets the reason given for deletion, returns true if successful
+        /// Sets the reason given for deletion or move, returns true if successful
         /// </summary>
         public bool SetReason(string Reason)
         {
@@ -526,6 +540,18 @@ namespace WikiFunctions.Browser
                 return false;
 
             this.Document.GetElementById("wpReason").InnerText = Reason;
+            return true;
+        }
+
+        /// <summary>
+        /// Sets the reason given for protection, returns true if successful
+        /// </summary>
+        public bool SetReason2(string Reason)
+        {
+            if (this.Document == null || !this.Document.Body.InnerHtml.Contains("mwProtect-reason"))
+                return false;
+
+            this.Document.GetElementById("mwProtect-reason").InnerText = Reason;
             return true;
         }
 
@@ -661,7 +687,7 @@ namespace WikiFunctions.Browser
         }
 
         /// <summary>
-        /// Loads the edit page of the given article
+        /// Loads the delete page of the given article
         /// </summary>
         public void LoadDeletePage(string Article)
         {
@@ -671,6 +697,38 @@ namespace WikiFunctions.Browser
                 ProcessStage = enumProcessStage.delete;
                 Status = "Loading delete page";
                 Navigate(Variables.URLLong + "index.php?title=" + Article + "&action=delete");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Invokes the Protect button
+        /// </summary>
+        public void Protect(int EditProtectionLevel, int MoveProtectionLevel)
+        {
+            if (CanProtect)
+            {
+                this.AllowNavigation = true;
+                ProcessStage = enumProcessStage.protect;
+                Status = "Protecting page";
+                this.Document.GetElementById("mw-Protect-submit").InvokeMember("click");
+            }
+        }
+
+        /// <summary>
+        /// Loads the protect page of the given article
+        /// </summary>
+        public void LoadProtectPage(string Article)
+        {
+            try
+            {
+                this.AllowNavigation = true;
+                ProcessStage = enumProcessStage.protect;
+                Status = "Loading protect page";
+                Navigate(Variables.URLLong + "index.php?title=" + Article + "&action=protect");
             }
             catch (Exception ex)
             {
@@ -916,7 +974,35 @@ namespace WikiFunctions.Browser
             Wait();
             AllowNavigation = false;
 
-            Status = "Deleted";
+            Status = "Protected";
+            return true;
+        }
+
+        /// <summary>
+        /// Protects an article, returns true if successful
+        /// </summary>
+        public bool ProtectPage(string Article, string Summary, int EditProtectionLevel, int MoveProtectionLevel)
+        {
+            LoadProtectPage(Article);
+            Wait();
+
+            if (this.Document == null)
+            {
+                AllowNavigation = false;
+                return false;
+            }
+
+            if (!SetReason2(Summary))
+            {
+                AllowNavigation = false;
+                return false;
+            }
+
+            Protect(EditProtectionLevel, MoveProtectionLevel);
+            Wait();
+            AllowNavigation = false;
+
+            Status = "Protected";
             return true;
         }
 

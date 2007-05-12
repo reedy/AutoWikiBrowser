@@ -471,8 +471,24 @@ namespace AutoWikiBrowser
                         if (reader.Name == "addignoredtolog" && reader.HasAttributes)
                         {
                             if (reader.MoveToAttribute("enabled"))
-                                addIgnoredToLogFileToolStripMenuItem.Checked = bool.Parse(reader.Value);
-                            btnFalsePositive.Visible = bool.Parse(reader.Value);
+                            {
+                                if (bool.Parse(reader.Value) == true)
+                                {
+                                    addIgnoredToLogFileToolStripMenuItem.Checked = true;
+                                    btnFalsePositive.Visible = true;
+                                    btntsFalsePositive.Visible = true;
+                                    btnStop.Location = new System.Drawing.Point(217, 57);
+                                    btnStop.Size = new System.Drawing.Size(49, 21);
+                                }
+                                else
+                                {
+                                    addIgnoredToLogFileToolStripMenuItem.Checked = false;
+                                    btnFalsePositive.Visible = false;
+                                    btntsFalsePositive.Visible = false;
+                                    btnStop.Location = new System.Drawing.Point(165, 57);
+                                    btnStop.Size = new System.Drawing.Size(101, 21);
+                                }
+                            }
 
                             continue;
                         }
