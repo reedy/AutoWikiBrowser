@@ -323,10 +323,10 @@ namespace AutoWikiBrowser
             this.tpLogs = new System.Windows.Forms.TabPage();
             this.LogControl1 = new WikiFunctions.Logging.LogControl();
             this.webBrowserDiff = new System.Windows.Forms.WebBrowser();
-            this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
-            this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
             this.mnuWebBrowserDiff = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
+            this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -3017,9 +3017,25 @@ namespace AutoWikiBrowser
             this.webBrowserDiff.Location = new System.Drawing.Point(0, 25);
             this.webBrowserDiff.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowserDiff.Name = "webBrowserDiff";
+            this.webBrowserDiff.ScriptErrorsSuppressed = true;
             this.webBrowserDiff.Size = new System.Drawing.Size(788, 195);
             this.webBrowserDiff.TabIndex = 672;
             this.webBrowserDiff.WebBrowserShortcutsEnabled = false;
+            // 
+            // mnuWebBrowserDiff
+            // 
+            this.mnuWebBrowserDiff.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.copyToolStripMenuItem2});
+            this.mnuWebBrowserDiff.Name = "mnuWebBrowser";
+            this.mnuWebBrowserDiff.Size = new System.Drawing.Size(150, 26);
+            // 
+            // copyToolStripMenuItem2
+            // 
+            this.copyToolStripMenuItem2.Name = "copyToolStripMenuItem2";
+            this.copyToolStripMenuItem2.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.copyToolStripMenuItem2.Size = new System.Drawing.Size(149, 22);
+            this.copyToolStripMenuItem2.Text = "Copy";
+            this.copyToolStripMenuItem2.Click += new System.EventHandler(this.copyToolStripMenuItem2_Click);
             // 
             // webBrowserEdit
             // 
@@ -3050,21 +3066,6 @@ namespace AutoWikiBrowser
             // 
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
-            // 
-            // mnuWebBrowserDiff
-            // 
-            this.mnuWebBrowserDiff.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.copyToolStripMenuItem2});
-            this.mnuWebBrowserDiff.Name = "mnuWebBrowser";
-            this.mnuWebBrowserDiff.Size = new System.Drawing.Size(150, 26);
-            // 
-            // copyToolStripMenuItem2
-            // 
-            this.copyToolStripMenuItem2.Name = "copyToolStripMenuItem2";
-            this.copyToolStripMenuItem2.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.copyToolStripMenuItem2.Size = new System.Drawing.Size(149, 22);
-            this.copyToolStripMenuItem2.Text = "Copy";
-            this.copyToolStripMenuItem2.Click += new System.EventHandler(this.copyToolStripMenuItem2_Click);
             // 
             // MainForm
             // 
