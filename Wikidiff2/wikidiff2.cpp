@@ -102,11 +102,11 @@ void print_diff(std::vector<std::string> &text1, std::vector<std::string> &text2
 				to_ind += n;
 				if (n1 > n2) {
 					for (j=n2; j<n1; j++) {
-						print_del(*linediff[i].from[j], ret, from_ind + j - n + 1, to_ind);
+						print_del(*linediff[i].from[j], ret, from_ind + j - n, to_ind);
 					}
 				} else {
 					for (j=n1; j<n2; j++) {
-						print_add(*linediff[i].to[j], ret, from_ind, to_ind + j - n + 1);
+						print_add(*linediff[i].to[j], ret, from_ind, to_ind + j - n);
 					}
 				}
 				break;
