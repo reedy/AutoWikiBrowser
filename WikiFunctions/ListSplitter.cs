@@ -57,39 +57,6 @@ namespace WikiFunctions.Lists
             listMaker1.MakeListEnabled = true;
         }
 
-        private void btnSplitList_Click(object sender, EventArgs e)
-        {
-            lvSplit.Items.Clear();
-            lvSplit.BeginUpdate();
-
-            listMaker1.AlphaSortList();
-            int noA = listMaker1.Count;
- 
-            int roundlimit = Convert.ToInt32(numSplitAmount.Value / 2);
-
-            if ((noA % numSplitAmount.Value) <= roundlimit)
-                noA += roundlimit;
-
-            int noGroups = Convert.ToInt32((Math.Round(noA / numSplitAmount.Value) * numSplitAmount.Value) / numSplitAmount.Value);
-                        
-            for (int i = 0; i < noGroups; i++)
-            {
-                ListViewGroup group = new ListViewGroup(i.ToString(), i.ToString());
-                lvSplit.Groups.Add(group);
-                
-                for(int j = 0; j < numSplitAmount.Value && listMaker1.Count != 0; j++)
-                {
-                        ListViewItem item = new ListViewItem(listMaker1.SelectedArticle().ToString());
-                        item.Group = lvSplit.Groups[i.ToString()];
-
-                        lvSplit.Items.Add(item);
-
-                        listMaker1.Remove(listMaker1.SelectedArticle());
-                }
-            }
-            lvSplit.EndUpdate();
-        }
-
         private void btnSave_Click(object sender, EventArgs e)
         {
             saveTXT.FileName = listMaker1.SourceText;
@@ -102,13 +69,26 @@ namespace WikiFunctions.Lists
             int No = 1;
             try
             {
+                listMaker1.AlphaSortList();
+                int noA = listMaker1.Count;
+
+                int roundlimit = Convert.ToInt32(numSplitAmount.Value / 2);
+
+                if ((noA % numSplitAmount.Value) <= roundlimit)
+                    noA += roundlimit;
+
+                int noGroups = Convert.ToInt32((Math.Round(noA / numSplitAmount.Value) * numSplitAmount.Value) / numSplitAmount.Value);
+
                 System.IO.StreamWriter sw;
-                foreach (ListViewGroup group in lvSplit.Groups)
+
+                for (int i = 0; i < noGroups; i++)
                 {
                     StringBuilder strList = new StringBuilder("");
-                    for (int i = 0; i < group.Items.Count; i++)
+
+                    for (int j = 0; j < numSplitAmount.Value && listMaker1.Count != 0; j++)
                     {
-                        strList.AppendLine(group.Items[i].Text);
+                        strList.AppendLine(listMaker1.SelectedArticle().ToString());
+                        listMaker1.Remove(listMaker1.SelectedArticle());
                     }
                     sw = new System.IO.StreamWriter(Path.Replace(".txt", " " + No + ".txt"), false, Encoding.UTF8);
                     sw.Write(strList);
@@ -141,14 +121,26 @@ namespace WikiFunctions.Lists
             int No = 1;
             try
             {
-                foreach (ListViewGroup group in lvSplit.Groups)
+                listMaker1.AlphaSortList();
+                int noA = listMaker1.Count;
+
+                int roundlimit = Convert.ToInt32(numSplitAmount.Value / 2);
+
+                if ((noA % numSplitAmount.Value) <= roundlimit)
+                    noA += roundlimit;
+
+                int noGroups = Convert.ToInt32((Math.Round(noA / numSplitAmount.Value) * numSplitAmount.Value) / numSplitAmount.Value);
+
+                for (int i = 0; i < noGroups; i++)
                 {
                     List<Article> listart = new List<Article>();
-                    for (int i = 0; i < group.Items.Count; i++)
+                    for (int j = 0; j < numSplitAmount.Value && listMaker1.Count != 0; j++)
                     {
-                        listart.Add(new Article(group.Items[i].Text));
+                        listart.Add(listMaker1.SelectedArticle());
+
+                        listMaker1.Remove(listMaker1.SelectedArticle());
                     }
-                    
+
                     P.List.ArticleList = listart;
 
                     using (FileStream fStream = new FileStream(Path.Replace(".xml", " " + No + ".xml"), FileMode.Create))
@@ -159,17 +151,13 @@ namespace WikiFunctions.Lists
 
                     No += 1;
                 }
+
                 MessageBox.Show("Lists Saved to AWB Settings Files");
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error saving settings", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private void clearToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            lvSplit.Items.Clear();
         }
     }
 }
