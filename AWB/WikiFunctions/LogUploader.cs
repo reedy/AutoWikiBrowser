@@ -357,38 +357,39 @@ namespace WikiFunctions.Logging.Uploader
 
 		public virtual void LogIt(string Log, string LogTitle, string LogDetails, string UploadTo, List<LogEntry> LinksToLog, int PageNumber, System.DateTime StartDate, bool OpenInBrowser, bool AddToWatchlist, string Username, string LogHeader, bool AddLogTemplate, string EditSummary, string LogSummaryEditSummary)
 		{
-			string UploadToNoSpaces = UploadTo.Replace(" ", "_");
-			string strLogText = "";
+                string UploadToNoSpaces = UploadTo.Replace(" ", "_");
+                string strLogText = "";
 
-			if (AddLogTemplate)
-			{
-				strLogText = "{{log|name=" + UploadToNoSpaces + "|page=" + PageNumber.ToString() + "}}" + NewLine;
-			}
-			strLogText += LogHeader + Log;
+                if (AddLogTemplate)
+                {
+                    strLogText = "{{log|name=" + UploadToNoSpaces + "|page=" + PageNumber.ToString() + "}}" + NewLine;
+                }
+                strLogText += LogHeader + Log;
 
-			Application.DoEvents();
+                Application.DoEvents();
 
-			if (AddToWatchlist)
-			{
-				base.EditPage(UploadToNoSpaces, strLogText, EditSummary, false, true);
-			}
-			else
-			{
-				base.EditPage(UploadToNoSpaces, strLogText, EditSummary, false);
-			}
+                if (AddToWatchlist)
+                {
+                    base.EditPage(UploadToNoSpaces, strLogText, EditSummary, false, true);
+                }
+                else
+                {
+                    base.EditPage(UploadToNoSpaces, strLogText, EditSummary, false);
+                }
+            
+                Application.DoEvents();
 
-			Application.DoEvents();
+                foreach (LogEntry LogEntry in LinksToLog)
+                {
+                    DoLogEntry(LogTitle, LogDetails, PageNumber, StartDate, UploadTo, LogEntry.Location, LogEntry.UserName, LogSummaryEditSummary, Username);
+                    Application.DoEvents();
+                }
 
-			foreach (LogEntry LogEntry in LinksToLog)
-			{
-				DoLogEntry(LogTitle, LogDetails, PageNumber, StartDate, UploadTo, LogEntry.Location, LogEntry.UserName, LogSummaryEditSummary, Username);
-				Application.DoEvents();
-			}
-
-			if (OpenInBrowser)
-			{
-				OpenLogInBrowser(UploadTo);
-			}
+                if (OpenInBrowser)
+                {
+                    OpenLogInBrowser(UploadTo);
+                }
+           
 		}
 
         		public virtual void LogIt(TraceListenerUploadableBase Sender, string LogTitle, string LogDetails, string UploadToWithoutPageNumber, List<LogEntry> LinksToLog, bool OpenInBrowser, bool AddToWatchlist, string Username, string LogHeader, string EditSummary, string LogSummaryEditSummary)

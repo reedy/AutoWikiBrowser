@@ -15,7 +15,7 @@ namespace WikiFunctions.Lists
 {
     //CategoryRecursive is enabled in debug builds only due to server load
     //it should always be the last item
-    public enum SourceType { None = -1, Category, WhatLinksHere, WhatTranscludesHere, LinksOnPage, TextFile, GoogleWikipedia, UserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist, WikiSearch, Redirects, CategoryRecursive }
+    public enum SourceType { None = -1, Category, WhatLinksHere, WhatTranscludesHere, LinksOnPage, ImagesOnPage, TextFile, GoogleWikipedia, UserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist, WikiSearch, Redirects, CategoryRecursive }
 
     public delegate void ListMakerEventHandler();
 
@@ -253,6 +253,10 @@ namespace WikiFunctions.Lists
                     break;
                 case SourceType.LinksOnPage:
                     lblSourceSelect.Text = "Links on";
+                    txtSelectSource.Enabled = true;
+                    break;
+                case SourceType.ImagesOnPage:
+                    lblSourceSelect.Text = "Images on";
                     txtSelectSource.Enabled = true;
                     break;
                 case SourceType.TextFile:
@@ -751,6 +755,9 @@ namespace WikiFunctions.Lists
                         break;
                     case SourceType.LinksOnPage:
                         Add(GetLists.FromLinksOnPage(strSource));
+                        break;
+                    case SourceType.ImagesOnPage:
+                        Add(GetLists.FromImagesOnPage(strSource));
                         break;
                     //4 from text file
                     case SourceType.GoogleWikipedia:
