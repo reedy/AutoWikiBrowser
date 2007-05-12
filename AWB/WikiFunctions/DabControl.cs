@@ -51,10 +51,11 @@ namespace WikiFunctions.Disambiguation
         int posEnd;
         bool StartOfSentence = false;
         string VisibleLink;
+        string RealLink;
         string CurrentLink;
         int PosInSurroundings;
 
-        static Regex UnpipeRegex = new Regex(@"\[\[([^\|\]]*)\|[^\]]*\]\]", RegexOptions.Compiled);
+        static Regex UnpipeRegex = new Regex(@"\[\\s*[([^\|\]]*)\s*\|\s*[^\]]*\s*\]\]", RegexOptions.Compiled);
 
         public bool CanSave
         {
@@ -90,8 +91,16 @@ namespace WikiFunctions.Disambiguation
 
             posEnd = Match.Index + Match.Value.Length;
 
-            if (Match.Groups[2].Value == "") VisibleLink = Match.Groups[1].Value;
-            else VisibleLink = Match.Groups[2].Value;
+            if (Match.Groups[2].Value == "")
+            {
+                VisibleLink = Match.Groups[1].Value.Trim();
+                RealLink = VisibleLink;
+            }
+            else
+            {
+                VisibleLink = Match.Groups[2].Value.Trim();
+                RealLink = Match.Groups[1].Value.Trim();
+            }
             VisibleLink = VisibleLink.TrimStart(new char[] { '|' });
 
             while (posEnd < ArticleText.Length - 1 && !"\n\r".Contains(ArticleText[posEnd] + "")) posEnd++;
@@ -174,7 +183,7 @@ namespace WikiFunctions.Disambiguation
             else
             {
                 CurrentLink = "[[";
-                if (StartOfSentence) CurrentLink += Tools.TurnFirstToUpper(Variants[n - 3]);
+                if (StartOfSentence || char.IsUpper(RealLink[0])) CurrentLink += Tools.TurnFirstToUpper(Variants[n - 3]);
                 else CurrentLink += Variants[n - 3];
                 CurrentLink += "|" + VisibleLink + "]]";
                 WikiFunctions.Parse.Parsers Parse = new WikiFunctions.Parse.Parsers();
