@@ -38,6 +38,9 @@ namespace WikiFunctions.Controls
             this.lbMove = new System.Windows.Forms.ListBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtExpiry = new System.Windows.Forms.TextBox();
+            this.chkUnlock = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // txtNewTitle
@@ -70,7 +73,7 @@ namespace WikiFunctions.Controls
             // 
             this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOk.Location = new System.Drawing.Point(145, 103);
+            this.btnOk.Location = new System.Drawing.Point(132, 152);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 4;
@@ -81,7 +84,7 @@ namespace WikiFunctions.Controls
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(226, 103);
+            this.btnCancel.Location = new System.Drawing.Point(213, 152);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 5;
@@ -102,20 +105,22 @@ namespace WikiFunctions.Controls
             this.lbEdit.Items.AddRange(new object[] {
             "Unprotected",
             "Semi-protected",
-            "Fully protection"});
-            this.lbEdit.Location = new System.Drawing.Point(63, 54);
+            "Fully protected"});
+            this.lbEdit.Location = new System.Drawing.Point(62, 81);
             this.lbEdit.Name = "lbEdit";
             this.lbEdit.Size = new System.Drawing.Size(145, 43);
             this.lbEdit.TabIndex = 8;
+            this.lbEdit.SelectedIndexChanged += new System.EventHandler(this.lbEdit_SelectedIndexChanged);
             // 
             // lbMove
             // 
+            this.lbMove.Enabled = false;
             this.lbMove.FormattingEnabled = true;
             this.lbMove.Items.AddRange(new object[] {
             "Unprotected",
             "Semi-protected",
-            "Fully protection"});
-            this.lbMove.Location = new System.Drawing.Point(214, 54);
+            "Fully protected"});
+            this.lbMove.Location = new System.Drawing.Point(213, 81);
             this.lbMove.Name = "lbMove";
             this.lbMove.Size = new System.Drawing.Size(145, 43);
             this.lbMove.TabIndex = 9;
@@ -123,7 +128,7 @@ namespace WikiFunctions.Controls
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(60, 38);
+            this.label3.Location = new System.Drawing.Point(59, 65);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(25, 13);
             this.label3.TabIndex = 10;
@@ -132,17 +137,47 @@ namespace WikiFunctions.Controls
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(211, 38);
+            this.label4.Location = new System.Drawing.Point(210, 65);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(34, 13);
             this.label4.TabIndex = 11;
             this.label4.Text = "Move";
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(8, 41);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(35, 13);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "Expiry";
+            // 
+            // txtExpiry
+            // 
+            this.txtExpiry.Location = new System.Drawing.Point(62, 38);
+            this.txtExpiry.Name = "txtExpiry";
+            this.txtExpiry.Size = new System.Drawing.Size(339, 20);
+            this.txtExpiry.TabIndex = 12;
+            // 
+            // chkUnlock
+            // 
+            this.chkUnlock.AutoSize = true;
+            this.chkUnlock.Location = new System.Drawing.Point(212, 130);
+            this.chkUnlock.Name = "chkUnlock";
+            this.chkUnlock.Size = new System.Drawing.Size(146, 17);
+            this.chkUnlock.TabIndex = 14;
+            this.chkUnlock.Text = "Unlock move permissions";
+            this.chkUnlock.UseVisualStyleBackColor = true;
+            this.chkUnlock.CheckedChanged += new System.EventHandler(this.chkUnlock_CheckedChanged);
+            // 
             // MoveDeleteDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(413, 135);
+            this.ClientSize = new System.Drawing.Size(413, 187);
+            this.Controls.Add(this.chkUnlock);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.txtExpiry);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.lbMove);
@@ -174,5 +209,8 @@ namespace WikiFunctions.Controls
         private System.Windows.Forms.ListBox lbMove;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txtExpiry;
+        private System.Windows.Forms.CheckBox chkUnlock;
     }
 }

@@ -546,12 +546,13 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Sets the reason given for protection, returns true if successful
         /// </summary>
-        public bool SetReason2(string Reason)
+        public bool SetReasonAndExpiry(string Reason, string Expiry)
         {
-            if (this.Document == null || !this.Document.Body.InnerHtml.Contains("mwProtect-reason"))
+            if (this.Document == null || !this.Document.Body.InnerHtml.Contains("mwProtect-reason") || !this.Document.Body.InnerHtml.Contains("mwProtect-expiry"))
                 return false;
 
             this.Document.GetElementById("mwProtect-reason").InnerText = Reason;
+            this.Document.GetElementById("mwProtect-expiry").InnerText = Expiry;
             return true;
         }
 
@@ -981,7 +982,7 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Protects an article, returns true if successful
         /// </summary>
-        public bool ProtectPage(string Article, string Summary, int EditProtectionLevel, int MoveProtectionLevel)
+        public bool ProtectPage(string Article, string Summary, int EditProtectionLevel, int MoveProtectionLevel, string ProtectExpiry)
         {
             LoadProtectPage(Article);
             Wait();
@@ -992,7 +993,7 @@ namespace WikiFunctions.Browser
                 return false;
             }
 
-            if (!SetReason2(Summary))
+            if (!SetReasonAndExpiry(Summary, ProtectExpiry))
             {
                 AllowNavigation = false;
                 return false;
