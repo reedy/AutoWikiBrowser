@@ -61,12 +61,18 @@ namespace WikiFunctions.Lists
         {
             saveTXT.FileName = listMaker1.SourceText;
             if (saveTXT.ShowDialog() == DialogResult.OK && saveTXT.FileName != "")
-                saveToText(saveTXT.FileName);
+                save(saveTXT.FileName, false);
         }
 
-        private void saveToText(string Path)
+        private void btnXMLSave_Click(object sender, EventArgs e)
         {
-            int No = 1;
+            saveXML.FileName = listMaker1.SourceText;
+            if (saveXML.ShowDialog() == DialogResult.OK && saveXML.FileName != "")
+                save(saveXML.FileName, true);
+        }
+
+        private void save(string path, bool XML)
+        {
             try
             {
                 listMaker1.AlphaSortList();
@@ -79,25 +85,46 @@ namespace WikiFunctions.Lists
 
                 int noGroups = Convert.ToInt32((Math.Round(noA / numSplitAmount.Value) * numSplitAmount.Value) / numSplitAmount.Value);
 
-                System.IO.StreamWriter sw;
-
-                for (int i = 0; i < noGroups; i++)
+                if (XML)
                 {
-                    StringBuilder strList = new StringBuilder("");
-
-                    for (int j = 0; j < numSplitAmount.Value && listMaker1.Count != 0; j++)
+                    for (int i = 0; i < noGroups; i++)
                     {
-                        strList.AppendLine(listMaker1.SelectedArticle().ToString());
-                        listMaker1.Remove(listMaker1.SelectedArticle());
+                        List<Article> listart = new List<Article>();
+                        for (int j = 0; j < numSplitAmount.Value && listMaker1.Count != 0; j++)
+                        {
+                            listart.Add(listMaker1.SelectedArticle());
+                            listMaker1.Remove(listMaker1.SelectedArticle());
+                        }
+
+                        P.List.ArticleList = listart;
+
+                        using (FileStream fStream = new FileStream(path.Replace(".xml", " " + (i + 1) + ".xml"), FileMode.Create))
+                        {
+                            XmlSerializer xs = new XmlSerializer(typeof(UserPrefs), Types.ToArray());
+                            xs.Serialize(fStream, P);
+                        }
                     }
-                    sw = new System.IO.StreamWriter(Path.Replace(".txt", " " + No + ".txt"), false, Encoding.UTF8);
-                    sw.Write(strList);
-                    sw.Close();
-
-                    No++;
+                    MessageBox.Show("Lists Saved to AWB Settings Files");
                 }
+                else
+                {
+                    System.IO.StreamWriter sw;
 
-                MessageBox.Show("Lists Saved to Text Files");
+                    for (int i = 0; i < noGroups; i++)
+                    {
+                        StringBuilder strList = new StringBuilder("");
+
+                        for (int j = 0; j < numSplitAmount.Value && listMaker1.Count != 0; j++)
+                        {
+                            strList.AppendLine(listMaker1.SelectedArticle().ToString());
+                            listMaker1.Remove(listMaker1.SelectedArticle());
+                        }
+                        sw = new System.IO.StreamWriter(path.Replace(".txt", " " + (i + 1) + ".txt"), false, Encoding.UTF8);
+                        sw.Write(strList);
+                        sw.Close();
+                    }
+                    MessageBox.Show("Lists Saved to Text Files");
+                }
             }
             catch (System.IO.IOException ex)
             {
@@ -106,57 +133,6 @@ namespace WikiFunctions.Lists
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void btnXMLSave_Click(object sender, EventArgs e)
-        {
-            saveXML.FileName = listMaker1.SourceText;
-            if (saveXML.ShowDialog() == DialogResult.OK && saveXML.FileName != "")
-                saveToXML(saveXML.FileName);
-        }
-
-        private void saveToXML(string Path)
-        {
-            int No = 1;
-            try
-            {
-                listMaker1.AlphaSortList();
-                int noA = listMaker1.Count;
-
-                int roundlimit = Convert.ToInt32(numSplitAmount.Value / 2);
-
-                if ((noA % numSplitAmount.Value) <= roundlimit)
-                    noA += roundlimit;
-
-                int noGroups = Convert.ToInt32((Math.Round(noA / numSplitAmount.Value) * numSplitAmount.Value) / numSplitAmount.Value);
-
-                for (int i = 0; i < noGroups; i++)
-                {
-                    List<Article> listart = new List<Article>();
-                    for (int j = 0; j < numSplitAmount.Value && listMaker1.Count != 0; j++)
-                    {
-                        listart.Add(listMaker1.SelectedArticle());
-
-                        listMaker1.Remove(listMaker1.SelectedArticle());
-                    }
-
-                    P.List.ArticleList = listart;
-
-                    using (FileStream fStream = new FileStream(Path.Replace(".xml", " " + No + ".xml"), FileMode.Create))
-                    {
-                        XmlSerializer xs = new XmlSerializer(typeof(UserPrefs), Types.ToArray());
-                        xs.Serialize(fStream, P);
-                    }
-
-                    No += 1;
-                }
-
-                MessageBox.Show("Lists Saved to AWB Settings Files");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error saving settings", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
