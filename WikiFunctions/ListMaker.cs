@@ -809,13 +809,6 @@ namespace WikiFunctions.Lists
             }
         }
 
-        private void specialFilter()
-        {
-            SpecialFilter.Show(this);
-            SpecialFilter.lb = lbArticles;
-            UpdateNumberOfArticles();
-        }
-
         private void RemoveSelectedArticle()
         {
             try
