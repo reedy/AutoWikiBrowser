@@ -17,11 +17,18 @@ namespace WikiFunctions.Disambiguation
 
         public DabControl(string articleText, string link, Match match, List<string> variants, int contextChars)
         {
-            ArticleText = articleText;
-            dabLink = link;
-            Match = match;
-            Variants = variants;
-            ContextChars = contextChars;
+            try
+            {
+                ArticleText = articleText;
+                dabLink = link;
+                Match = match;
+                Variants = variants;
+                ContextChars = contextChars;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "DabControl.DabControl()");
+            }
 
             InitializeComponent();
         }
@@ -55,7 +62,7 @@ namespace WikiFunctions.Disambiguation
         string CurrentLink;
         int PosInSurroundings;
 
-        static Regex UnpipeRegex = new Regex(@"\[\\s*[([^\|\]]*)\s*\|\s*[^\]]*\s*\]\]", RegexOptions.Compiled);
+        static Regex UnpipeRegex = new Regex(@"\[\[\s*([^\|\]]*)\s*\|\s*[^\]]*\s*\]\]", RegexOptions.Compiled);
 
         public bool CanSave
         {
@@ -70,129 +77,143 @@ namespace WikiFunctions.Disambiguation
         /// </summary>
         private void DabControl_Load(object sender, EventArgs e)
         {
-            Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right ;
-
-            // prepare variants
-            cmboChoice.Items.Add("[no change]");
-            cmboChoice.Items.Add("[unlink]");
-            cmboChoice.Items.Add("{{dn}}");
-
-            foreach (string s in Variants) cmboChoice.Items.Add(s);
-
-            //find our paragraph
-            for (posStart = Match.Index; posStart > 0; posStart--)
+            try
             {
-                 if("\n\r".Contains(ArticleText[posStart] + ""))
-                 {
-                     posStart++;
-                     break;
-                 }
-            }
+                Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 
-            posEnd = Match.Index + Match.Value.Length;
+                // prepare variants
+                cmboChoice.Items.Add("[no change]");
+                cmboChoice.Items.Add("[unlink]");
+                cmboChoice.Items.Add("{{dn}}");
 
-            if (Match.Groups[2].Value == "")
-            {
-                VisibleLink = Match.Groups[1].Value.Trim();
-                RealLink = VisibleLink;
-            }
-            else
-            {
-                VisibleLink = Match.Groups[2].Value.Trim();
-                RealLink = Match.Groups[1].Value.Trim();
-            }
-            VisibleLink = VisibleLink.TrimStart(new char[] { '|' });
+                foreach (string s in Variants) cmboChoice.Items.Add(s);
 
-            while (posEnd < ArticleText.Length - 1 && !"\n\r".Contains(ArticleText[posEnd] + "")) posEnd++;
-
-            // find surroundings (~ ±ContextChars from link)
-            int n = Match.Index - ContextChars;
-            if (n < posStart) n = posStart;
-            for (; n > posStart; n--)
-            {
-                if (char.IsSeparator(ArticleText[n]))
+                //find our paragraph
+                for (posStart = Match.Index; posStart > 0; posStart--)
                 {
-                    n++;
-                    break;
+                    if ("\n\r".Contains(ArticleText[posStart] + ""))
+                    {
+                        posStart++;
+                        break;
+                    }
                 }
-            }
-            SurroundingsStart = n;
 
-            n = Match.Index + Match.Length + ContextChars;
-            if (n > posEnd) n = posEnd;
-            for (; n < posEnd; n++)
-            {
-                if (char.IsSeparator(ArticleText[n]))
+                posEnd = Match.Index + Match.Value.Length;
+
+                if (Match.Groups[2].Value == "")
                 {
-                    //n--;
-                    break;
+                    VisibleLink = Match.Groups[1].Value.Trim();
+                    RealLink = VisibleLink;
                 }
-            }
-            Surroundings = ArticleText.Substring(SurroundingsStart, n - SurroundingsStart);
-            PosInSurroundings = Surroundings.IndexOf(Match.Value);
-
-            // check if the link is at the beginning of a sentence
-            for (n = Match.Index - 1; n > posStart; --n)
-            {
-                if (ArticleText[n] == '.')
+                else
                 {
-                    StartOfSentence = true;
-                    break;
+                    VisibleLink = Match.Groups[2].Value.Trim();
+                    RealLink = Match.Groups[1].Value.Trim();
                 }
-                if (!char.IsWhiteSpace(ArticleText[n])) break;
+                VisibleLink = VisibleLink.TrimStart(new char[] { '|' });
+
+                while (posEnd < ArticleText.Length - 1 && !"\n\r".Contains(ArticleText[posEnd] + "")) posEnd++;
+
+                // find surroundings (~ ±ContextChars from link)
+                int n = Match.Index - ContextChars;
+                if (n < posStart) n = posStart;
+                for (; n > posStart; n--)
+                {
+                    if (char.IsSeparator(ArticleText[n]))
+                    {
+                        n++;
+                        break;
+                    }
+                }
+                SurroundingsStart = n;
+
+                n = Match.Index + Match.Length + ContextChars;
+                if (n > posEnd) n = posEnd;
+                for (; n < posEnd; n++)
+                {
+                    if (char.IsSeparator(ArticleText[n]))
+                    {
+                        //n--;
+                        break;
+                    }
+                }
+                Surroundings = ArticleText.Substring(SurroundingsStart, n - SurroundingsStart);
+                PosInSurroundings = Surroundings.IndexOf(Match.Value);
+
+                // check if the link is at the beginning of a sentence
+                for (n = Match.Index - 1; n > posStart; --n)
+                {
+                    if (ArticleText[n] == '.')
+                    {
+                        StartOfSentence = true;
+                        break;
+                    }
+                    if (!char.IsWhiteSpace(ArticleText[n])) break;
+                }
+                if (n == posStart) StartOfSentence = true;
+
+                // prepare text boxes
+                txtCorrection.Text = Surroundings;
+
+                txtViewer.Text = ArticleText.Substring(posStart, posEnd - posStart);
+                // highlight link to disambiguate
+                txtViewer.Select(Match.Index - posStart, Match.Length);
+                txtViewer.SelectionFont = new System.Drawing.Font(txtViewer.SelectionFont.FontFamily,
+                    txtViewer.SelectionFont.Size, System.Drawing.FontStyle.Bold);
+                txtViewer.Select(0, 0);
+
+                cmboChoice.SelectedIndex = 0;
+                cmboChoice.Select();
             }
-            if(n == posStart) StartOfSentence = true;
-
-            // prepare text boxes
-            txtCorrection.Text = Surroundings;
-
-            txtViewer.Text = ArticleText.Substring(posStart, posEnd - posStart);
-            // highlight link to disambiguate
-            txtViewer.Select(Match.Index - posStart, Match.Length);
-            txtViewer.SelectionFont = new System.Drawing.Font(txtViewer.SelectionFont.FontFamily,
-                txtViewer.SelectionFont.Size, System.Drawing.FontStyle.Bold);
-            txtViewer.Select(0, 0);
-
-            cmboChoice.SelectedIndex = 0;
-            cmboChoice.Select();
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "DabControl.DabControl_Load()");
+            }
         }
 
         private void ComboBoxChanged(int n)
         {
-            if (n == 0) // no change
+            try
             {
-                txtCorrection.Text = Surroundings;
-                CurrentLink = Match.Value;
-            }
-            else if (n == 1) // unlink
-            {
-                txtCorrection.Text = Surroundings.Replace(Match.Value, VisibleLink);
-                CurrentLink = VisibleLink;
-            }
-            else if (n == 2) // add {{dn}}
-            {
-                CurrentLink = Match.Value + "{{dn}}";
-                if ((Surroundings.Length > PosInSurroundings + Match.Value.Length) && 
-                    (char.IsPunctuation(Surroundings[PosInSurroundings + Match.Value.Length])))
+                if (n == 0) // no change
                 {
-                    txtCorrection.Text = Surroundings.Insert(PosInSurroundings + Match.Value.Length + 1, "{{dn}}");
+                    txtCorrection.Text = Surroundings;
+                    CurrentLink = Match.Value;
+                }
+                else if (n == 1) // unlink
+                {
+                    txtCorrection.Text = Surroundings.Replace(Match.Value, VisibleLink);
+                    CurrentLink = VisibleLink;
+                }
+                else if (n == 2) // add {{dn}}
+                {
+                    CurrentLink = Match.Value + "{{dn}}";
+                    if ((Surroundings.Length > PosInSurroundings + Match.Value.Length) &&
+                        (char.IsPunctuation(Surroundings[PosInSurroundings + Match.Value.Length])))
+                    {
+                        txtCorrection.Text = Surroundings.Insert(PosInSurroundings + Match.Value.Length + 1, "{{dn}}");
+                    }
+                    else
+                        txtCorrection.Text = Surroundings.Replace(Match.Value, CurrentLink);
                 }
                 else
+                {
+                    CurrentLink = "[[";
+                    if (StartOfSentence || char.IsUpper(RealLink[0])) CurrentLink += Tools.TurnFirstToUpper(Variants[n - 3]);
+                    else CurrentLink += Variants[n - 3];
+                    CurrentLink += "|" + VisibleLink + "]]";
+                    WikiFunctions.Parse.Parsers Parse = new WikiFunctions.Parse.Parsers();
+                    CurrentLink = Parse.StickyLinks(Parse.SimplifyLinks(CurrentLink));
                     txtCorrection.Text = Surroundings.Replace(Match.Value, CurrentLink);
-            }
-            else
-            {
-                CurrentLink = "[[";
-                if (StartOfSentence || char.IsUpper(RealLink[0])) CurrentLink += Tools.TurnFirstToUpper(Variants[n - 3]);
-                else CurrentLink += Variants[n - 3];
-                CurrentLink += "|" + VisibleLink + "]]";
-                WikiFunctions.Parse.Parsers Parse = new WikiFunctions.Parse.Parsers();
-                CurrentLink = Parse.StickyLinks(Parse.SimplifyLinks(CurrentLink));
-                txtCorrection.Text = Surroundings.Replace(Match.Value, CurrentLink);
-            }
+                }
 
-            btnUnpipe.Enabled = CurrentLink.Contains("|");
-            if (Changed != null) Changed(this, new EventArgs());
+                btnUnpipe.Enabled = CurrentLink.Contains("|");
+                if (Changed != null) Changed(this, new EventArgs());
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "DabControl.ComboBoxChanged()");
+            }
         }
 
         private void cmboChoice_SelectedIndexChanged(object sender, EventArgs e)
