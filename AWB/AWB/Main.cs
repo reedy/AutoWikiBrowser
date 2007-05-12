@@ -1107,7 +1107,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 if (DestLine < 0) return;
 
                 MatchCollection mc = Regex.Matches(txtEdit.Text, "\r\n");
-                if (mc.Count < DestLine) return;
+                DestLine = Math.Min(mc.Count, DestLine);
 
                 if (DestLine == 0) txtEdit.Select(0, 0);
                 else
