@@ -10,24 +10,34 @@ namespace WikiFunctions.Controls
 {
     public partial class MoveDeleteDialog : Form
     {
-        public MoveDeleteDialog(bool IsMove)
+        public MoveDeleteDialog(int MoveDeleteProtect)
         {
             InitializeComponent();
 
-            if (IsMove)
+            if (MoveDeleteProtect == 1)
             {
+                label3.Visible = false;
+                label4.Visible = false;
+                lbEdit.Visible = false;
+                lbMove.Visible = false;
                 this.Text = "Move";
                 btnOk.Text = "Move";
                 string[] movemessages = new string[2];
-                movemessages[0] = "typo in page title";
-                movemessages[1] = "reverting vandalism page move";
+                movemessages[0] = "Typo in page title";
+                movemessages[1] = "Reverting vandalism page move";
                 cmboSummary.Items.AddRange(movemessages);
+                this.Size = new Size(this.Width, 123);
             }
-            else
+            else if (MoveDeleteProtect == 2)
             {
+                label3.Visible = false;
+                label4.Visible = false;
+                lbEdit.Visible = false;
+                lbMove.Visible = false;
                 this.Text = "Delete";
                 btnOk.Text = "Delete";
                 this.Size = new Size(this.Width, 115);
+                label2.Location = new System.Drawing.Point(8, 15);
                 cmboSummary.Location = new System.Drawing.Point(62, 12);
 
                 label1.Visible = false;
@@ -60,6 +70,18 @@ namespace WikiFunctions.Controls
                 deletemessages[22] = "[[WP:CSD#U2|Nonexistent user]]";
                 cmboSummary.Items.AddRange(deletemessages);
             }
+            else
+            {
+                label2.Location = new System.Drawing.Point(8, 15);
+                cmboSummary.Location = new System.Drawing.Point(62, 12);
+                label1.Visible = false;
+                txtNewTitle.Visible = false;
+                this.Text = "Protect";
+                btnOk.Text = "Protect";
+                string[] protectmessages = new string[1];
+                protectmessages[0] = "Heavy vandalism";
+                cmboSummary.Items.AddRange(protectmessages);
+            }
         }
 
         public string NewTitle
@@ -72,6 +94,18 @@ namespace WikiFunctions.Controls
         {
             get { return cmboSummary.Text; }
             set { cmboSummary.Text = value; }
+        }
+
+        public int EditProtectionLevel
+        {
+            get { return lbEdit.SelectedIndex; }
+            set { lbEdit.SelectedIndex = value; }
+        }
+
+        public int MoveProtectionLevel
+        {
+            get { return lbMove.SelectedIndex; }
+            set { lbMove.SelectedIndex = value; }
         }
     }
 }

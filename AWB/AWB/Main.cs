@@ -133,6 +133,7 @@ namespace AutoWikiBrowser
         string SettingsFile = "";
         string LastMove = "";
         string LastDelete = "";
+        string LastProtect = "";
 
         int oldselection = 0;
         int retries = 0;
@@ -1844,6 +1845,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
             btnMove.Enabled = false;
             btnDelete.Enabled = false;
+            btnProtect.Enabled = false;
 
             if (cmboEditSummary.Focused) txtEdit.Focus();
         }
@@ -1865,6 +1867,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
             btnMove.Enabled = true;
             btnDelete.Enabled = true;
+            btnProtect.Enabled = true;
         }
 
         #endregion
@@ -2054,6 +2057,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             DeleteArticle();
         }
 
+        private void btnProtect_Click(object sender, EventArgs e)
+        {
+            ProtectArticle();
+        }
+
         private void filterOutNonMainSpaceToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (filterOutNonMainSpaceToolStripMenuItem.Checked)
@@ -2137,8 +2145,20 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void addIgnoredToLogFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            btnFalsePositive.Visible = addIgnoredToLogFileToolStripMenuItem.Checked;
-            btntsFalsePositive.Visible = addIgnoredToLogFileToolStripMenuItem.Checked;
+            if (addIgnoredToLogFileToolStripMenuItem.Checked)
+            {
+                btnFalsePositive.Visible = true;
+                btntsFalsePositive.Visible = true;
+                btnStop.Location = new System.Drawing.Point(217, 57);
+                btnStop.Size = new System.Drawing.Size(49, 21);
+            }
+            else
+            {
+                btnFalsePositive.Visible = false;
+                btntsFalsePositive.Visible = false;
+                btnStop.Location = new System.Drawing.Point(165, 57);
+                btnStop.Size = new System.Drawing.Size(101, 21);
+            }
         }
 
         private void alphaSortInterwikiLinksToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
@@ -2866,7 +2886,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void MoveArticle()
         {
-            MoveDeleteDialog dlg = new MoveDeleteDialog(true);
+            MoveDeleteDialog dlg = new MoveDeleteDialog(1);
 
             try
             {
@@ -2891,7 +2911,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void DeleteArticle()
         {
-            MoveDeleteDialog dlg = new MoveDeleteDialog(false);
+            MoveDeleteDialog dlg = new MoveDeleteDialog(2);
 
             try
             {
@@ -2901,6 +2921,30 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 {
                     LastDelete = dlg.Summary;
                     webBrowserEdit.DeletePage(TheArticle.Name, dlg.Summary);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                dlg.Dispose();
+            }
+        }
+
+        private void ProtectArticle()
+        {
+            MoveDeleteDialog dlg = new MoveDeleteDialog(3);
+
+            try
+            {
+                dlg.Summary = LastProtect;
+
+                if (dlg.ShowDialog(this) == DialogResult.OK)
+                {
+                    LastProtect = dlg.Summary;
+                    webBrowserEdit.ProtectPage(TheArticle.Name, dlg.Summary, dlg.EditProtectionLevel, dlg.MoveProtectionLevel);
                 }
             }
             catch (Exception ex)
