@@ -100,15 +100,33 @@ namespace WikiFunctions
               mEditSummary; // EditSummary gets reset by MainForm.txtEdit_TextChanged before it's used, I don't know why
         }
 
+        [XmlIgnore]
         public bool IsStub {
-            get {
+            get { return (HasStubTemplate || mArticleText.Length < 1500); }
+        }
+
+        [XmlIgnore]
+        public bool HasStubTemplate
+        {
+            get
+            {                
                 if (Variables.LangCode != LangCodeEnum.en) throw new NotImplementedException();
-                return (mArticleText.Contains(Variables.stubIndicator) | mArticleText.Length < 1500);
+                return mArticleText.Contains(Variables.stubIndicator);
             }
         }
 
-        public bool IsInUse()
-        { return Regex.IsMatch(mArticleText, "\\{\\{[Ii]nuse"); }
+        // TODO: HasInfoBox
+        /*[XmlIgnore]
+        public bool HasInfoBox
+        {
+            get
+            {
+            }
+        }*/
+
+        [XmlIgnore]
+        public bool IsInUse
+        { get { return Regex.IsMatch(mArticleText, "\\{\\{[Ii]nuse"); } }
 
         public bool SkipIfContains(string strFind, bool Regexe, bool caseSensitive, bool DoesContain)
         {
