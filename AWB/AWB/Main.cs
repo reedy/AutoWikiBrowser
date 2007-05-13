@@ -166,6 +166,7 @@ namespace AutoWikiBrowser
         {
             lblStatusText.Text = "Initialising...";
             Application.DoEvents();
+            Variables.MainForm = this;
             updateUpdater();
 
             try
