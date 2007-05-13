@@ -277,6 +277,7 @@ namespace AutoWikiBrowser
             this.txtDabLink = new System.Windows.Forms.TextBox();
             this.chkEnableDab = new System.Windows.Forms.CheckBox();
             this.tpBots = new System.Windows.Forms.TabPage();
+            this.lblOnlyBots = new System.Windows.Forms.Label();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
             this.chkNudgeSkip = new System.Windows.Forms.CheckBox();
             this.btnResetNudges = new System.Windows.Forms.Button();
@@ -287,7 +288,6 @@ namespace AutoWikiBrowser
             this.chkSuppressTag = new System.Windows.Forms.CheckBox();
             this.chkAutoMode = new System.Windows.Forms.CheckBox();
             this.lblAutoDelay = new System.Windows.Forms.Label();
-            this.lblOnlyBots = new System.Windows.Forms.Label();
             this.tpStart = new System.Windows.Forms.TabPage();
             this.btnProtect = new System.Windows.Forms.Button();
             this.lblSummary = new System.Windows.Forms.Label();
@@ -295,7 +295,6 @@ namespace AutoWikiBrowser
             this.btnMove = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
-            this.lblDone = new System.Windows.Forms.Label();
             this.chkFindCaseSensitive = new System.Windows.Forms.CheckBox();
             this.chkFindRegex = new System.Windows.Forms.CheckBox();
             this.txtFind = new System.Windows.Forms.TextBox();
@@ -2487,6 +2486,17 @@ namespace AutoWikiBrowser
             this.tpBots.Text = "Bots";
             this.tpBots.UseVisualStyleBackColor = true;
             // 
+            // lblOnlyBots
+            // 
+            this.lblOnlyBots.BackColor = System.Drawing.Color.Transparent;
+            this.lblOnlyBots.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
+            this.lblOnlyBots.Location = new System.Drawing.Point(3, 0);
+            this.lblOnlyBots.Name = "lblOnlyBots";
+            this.lblOnlyBots.Size = new System.Drawing.Size(276, 345);
+            this.lblOnlyBots.TabIndex = 35;
+            this.lblOnlyBots.Text = "Sorry, these options are only available for approved bots";
+            this.lblOnlyBots.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // groupBox14
             // 
             this.groupBox14.Controls.Add(this.chkNudgeSkip);
@@ -2597,17 +2607,6 @@ namespace AutoWikiBrowser
             this.lblAutoDelay.TabIndex = 25;
             this.lblAutoDelay.Text = "Delay";
             // 
-            // lblOnlyBots
-            // 
-            this.lblOnlyBots.BackColor = System.Drawing.Color.Transparent;
-            this.lblOnlyBots.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
-            this.lblOnlyBots.Location = new System.Drawing.Point(3, 0);
-            this.lblOnlyBots.Name = "lblOnlyBots";
-            this.lblOnlyBots.Size = new System.Drawing.Size(276, 345);
-            this.lblOnlyBots.TabIndex = 35;
-            this.lblOnlyBots.Text = "Sorry, these options are only available for approved bots";
-            this.lblOnlyBots.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // tpStart
             // 
             this.tpStart.Controls.Add(this.btnStop);
@@ -2697,7 +2696,6 @@ namespace AutoWikiBrowser
             // 
             // groupBox10
             // 
-            this.groupBox10.Controls.Add(this.lblDone);
             this.groupBox10.Controls.Add(this.chkFindCaseSensitive);
             this.groupBox10.Controls.Add(this.btnFind);
             this.groupBox10.Controls.Add(this.chkFindRegex);
@@ -2708,14 +2706,6 @@ namespace AutoWikiBrowser
             this.groupBox10.TabIndex = 16;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Find";
-            // 
-            // lblDone
-            // 
-            this.lblDone.AutoSize = true;
-            this.lblDone.Location = new System.Drawing.Point(6, 14);
-            this.lblDone.Name = "lblDone";
-            this.lblDone.Size = new System.Drawing.Size(0, 13);
-            this.lblDone.TabIndex = 31;
             // 
             // chkFindCaseSensitive
             // 
@@ -2846,7 +2836,7 @@ namespace AutoWikiBrowser
             this.groupBox3.Controls.Add(this.lblLinks);
             this.groupBox3.Location = new System.Drawing.Point(10, 56);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(139, 101);
+            this.groupBox3.Size = new System.Drawing.Size(139, 104);
             this.groupBox3.TabIndex = 23;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Article statistics";
@@ -3389,7 +3379,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnFalsePositive;
         private System.Windows.Forms.GroupBox groupBox10;
-        private System.Windows.Forms.Label lblDone;
         private System.Windows.Forms.CheckBox chkFindCaseSensitive;
         private System.Windows.Forms.Button btnFind;
         private System.Windows.Forms.CheckBox chkFindRegex;

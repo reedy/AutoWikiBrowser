@@ -1529,7 +1529,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 lblCats.Text = "Categories: " + intCats.ToString();
                 lblImages.Text = "Images: " + intImages.ToString();
                 lblLinks.Text = "Links: " + intLinks.ToString();
-                lblInterLinks.Text = "Inter links: " + intInterLinks.ToString();
+                lblInterLinks.Text = "Interwiki links: " + intInterLinks.ToString();
 
                 //Find multiple links                
                 lbDuplicateWikilinks.Items.Clear();
@@ -1564,6 +1564,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void lbDuplicateWikilinks_Click(object sender, EventArgs e)
         {
+            tabControl2.SelectedTab = tpEdit;
             int selection = lbDuplicateWikilinks.SelectedIndex;
             if (selection != oldselection)
                 resetFind();
@@ -1620,7 +1621,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         }
         private void btnFind_Click(object sender, EventArgs e)
         {
-            lblDone.Text = "";
+            tabControl2.SelectedTab = tpEdit;
             find(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked);
         }
 
@@ -1667,7 +1668,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 }
                 else
                 {
-                    lblDone.Text = "Done";
                     txtEdit.SelectionStart = 0;
                     txtEdit.SelectionLength = 0;
                     txtEdit.Focus();
@@ -3109,6 +3109,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
+            tabControl2.SelectedTab = tpEdit;
             string selectedtext = txtEdit.SelectedText;
             if (selectedtext.StartsWith("[[") && selectedtext.EndsWith("]]"))
             {
@@ -3448,6 +3449,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             if (histHtml.Contains(startMark) && histHtml.Contains(endMark))
                 histHtml = histHtml.Substring(histHtml.IndexOf(startMark), histHtml.IndexOf(endMark) - histHtml.IndexOf(startMark));
             histHtml = histHtml.Replace("<A ", "<a target=\"blank\" ");
+            histHtml = histHtml.Replace("<FORM ", "<form target=\"blank\" ");
+            histHtml = histHtml.Replace("<DIV id=histlegend", "<div id=histlegend style=\"display:none;\"");
+            histHtml = "<h3>" + TheArticle.Name + "</h3>" + histHtml;
             webBrowserHistory.Document.Body.InnerHtml = histHtml;
         }
 
