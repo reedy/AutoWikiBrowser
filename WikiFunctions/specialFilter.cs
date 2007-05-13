@@ -74,6 +74,8 @@ namespace WikiFunctions.Lists
                 foreach (Article a in list)
                     lb.Items.Add(a);
 
+                (lb.Parent as ListMaker).UpdateNumberOfArticles();
+
                 this.Hide();
             }
             catch (Exception ex)
