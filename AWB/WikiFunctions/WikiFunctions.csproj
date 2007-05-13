@@ -209,12 +209,6 @@
     <Compile Include="specialFilter.Designer.cs">
       <DependentUpon>specialFilter.cs</DependentUpon>
     </Compile>
-    <Compile Include="Splash.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Splash.Designer.cs">
-      <DependentUpon>Splash.cs</DependentUpon>
-    </Compile>
     <Compile Include="SubstTemplates.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -338,10 +332,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="specialFilter.resx">
       <DependentUpon>specialFilter.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Splash.resx">
-      <DependentUpon>Splash.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="SubstTemplates.resx">

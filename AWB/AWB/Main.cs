@@ -53,7 +53,7 @@ namespace AutoWikiBrowser
     {
         #region constructor etc.
 
-        WikiFunctions.Splash splash = new WikiFunctions.Splash();
+        Splash splash = new Splash();
 
         public MainForm()
         {
