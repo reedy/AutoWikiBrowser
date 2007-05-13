@@ -158,6 +158,7 @@ namespace AutoWikiBrowser
         public RegexTester regexTester = new RegexTester();
         bool userTalkWarningsLoaded = false;
         Regex userTalkTemplatesRegex;
+        bool mErrorGettingLogInStatus;
 
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -466,7 +467,7 @@ namespace AutoWikiBrowser
             }
 
             //check not in use
-            if (TheArticle.IsInUse() && !BotMode)
+            if (TheArticle.IsInUse && !BotMode)
                 MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
 
             if (chkSkipIfContains.Checked && TheArticle.SkipIfContains(txtSkipIfContains.Text, 
@@ -611,10 +612,21 @@ namespace AutoWikiBrowser
                 catch
                 {
                     // No point writing to log listener I think, as it gets destroyed when we Stop?
-                    Stop();
-                    Start();
+                    if (mErrorGettingLogInStatus)
+                    {
+                        MessageBox.Show("Error getting login status", "Error", MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        mErrorGettingLogInStatus = true; // prevent start / error / start / error loop
+                        Stop();
+                        Start();
+                    }
                     return false;
                 }
+
+                mErrorGettingLogInStatus = false;
 
                 if (webBrowserEdit.NewMessage)
                 {//check if we have any messages

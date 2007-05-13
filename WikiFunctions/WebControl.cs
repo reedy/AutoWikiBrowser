@@ -263,15 +263,22 @@ namespace WikiFunctions.Browser
             if (this.Document == null)
                 return "";
 
-            Match m = LoginRegex.Match(this.DocumentText);
+            try
+            {
+                Match m = LoginRegex.Match(this.DocumentText);
 
-            if (m.Groups[1].Value == "null")
+                if (m.Groups[1].Value == "null")
+                    return "";
+
+                string s = m.Groups[1].Value.Trim('"');
+                s = s.Replace("\\\"", "\"").Replace("\\'", "'");
+
+                return s;
+            }
+            catch
+            {
                 return "";
-
-            string s = m.Groups[1].Value.Trim('"');
-            s = s.Replace("\\\"", "\"").Replace("\\'", "'");
-
-            return s;
+            }
         }
 
         public UserInfo GetUserInfo()
