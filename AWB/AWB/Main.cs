@@ -53,10 +53,12 @@ namespace AutoWikiBrowser
     {
         #region constructor etc.
 
+        WikiFunctions.Splash splash = new WikiFunctions.Splash();
+
         public MainForm()
         {
+            splash.Show();
             InitializeComponent();
-
             try
             {
                 lblUserName.Alignment = ToolStripItemAlignment.Right;
@@ -207,6 +209,7 @@ namespace AutoWikiBrowser
             }
 
             lblStatusText.Text = "";
+            splash.Hide();
         }
 
         private void MainForm_Resize(object sender, EventArgs e)
