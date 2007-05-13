@@ -22,7 +22,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
-using WinFormsControls;
+using WikiFunctions.Controls;
 
 namespace AutoWikiBrowser
 {
@@ -33,7 +33,7 @@ namespace AutoWikiBrowser
             InitializeComponent();
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
+        private void ClickHandler(object sender, EventArgs e)
         {
             this.Close();
         }

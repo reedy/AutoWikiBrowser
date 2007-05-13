@@ -194,9 +194,6 @@
     <Compile Include="SummaryEditor.Designer.cs">
       <DependentUpon>SummaryEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="TransparentLabel.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="UserSettings.cs">
       <SubType>Form</SubType>
     </Compile>
