@@ -133,9 +133,6 @@ namespace WikiFunctions.AWBSettings
         public bool SortInterwikiOrder = true;
         public bool AddIgnoredToLog = false;
 
-        public bool EnhancedDiff = true;
-        public bool ScrollDown = true;
-        public int DiffFontSize = 150;
         public int TextBoxSize = 10;
         public string TextBoxFont = "Courier New";
         public bool LowThreadPriority = false;

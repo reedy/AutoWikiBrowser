@@ -1746,13 +1746,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void PreferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MyPreferences MyPrefs = new MyPreferences(Variables.LangCode, Variables.Project, Variables.CustomProject, webBrowserEdit.EnhanceDiffEnabled, webBrowserEdit.ScrollDown, webBrowserEdit.DiffFontSize, txtEdit.Font, LowThreadPriority, Flash, Beep, Minimize, SaveArticleList, OverrideWatchlist, TimeOut, AutoSaveEditBoxEnabled, AutoSaveEditBoxFile, AutoSaveEditBoxPeriod);
+            MyPreferences MyPrefs = new MyPreferences(Variables.LangCode, Variables.Project, Variables.CustomProject, txtEdit.Font, LowThreadPriority, Flash, Beep, Minimize, SaveArticleList, OverrideWatchlist, TimeOut, AutoSaveEditBoxEnabled, AutoSaveEditBoxFile, AutoSaveEditBoxPeriod);
 
             if (MyPrefs.ShowDialog(this) == DialogResult.OK)
             {
-                webBrowserEdit.EnhanceDiffEnabled = MyPrefs.EnhanceDiff;
-                webBrowserEdit.ScrollDown = MyPrefs.ScrollDown;
-                webBrowserEdit.DiffFontSize = MyPrefs.DiffFontSize;
                 txtEdit.Font = MyPrefs.TextBoxFont;
                 LowThreadPriority = MyPrefs.LowThreadPriority;
                 Flash = MyPrefs.perfFlash;
@@ -3385,15 +3382,12 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             webBrowserEdit.ArticleText = "";
             webBrowserEdit.Busy = false;
             webBrowserEdit.ContextMenuStrip = this.mnuWebBrowser;
-            webBrowserEdit.DiffFontSize = 120;
-            webBrowserEdit.EnhanceDiffEnabled = true;
             webBrowserEdit.IsWebBrowserContextMenuEnabled = false;
             webBrowserEdit.Location = new System.Drawing.Point(0, 25);
             webBrowserEdit.MinimumSize = new System.Drawing.Size(20, 20);
             webBrowserEdit.Name = "webBrowserEdit";
             webBrowserEdit.ProcessStage = WikiFunctions.Browser.enumProcessStage.none;
             webBrowserEdit.ScriptErrorsSuppressed = true;
-            webBrowserEdit.ScrollDown = true;
             webBrowserEdit.Size = new System.Drawing.Size(788, 195);
             webBrowserEdit.TabIndex = 670;
             webBrowserEdit.TabStop = false;
