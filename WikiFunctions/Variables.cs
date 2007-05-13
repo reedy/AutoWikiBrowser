@@ -27,6 +27,7 @@ using System.Windows.Forms;
 using WikiFunctions.Browser;
 using System.Text.RegularExpressions;
 using System.Reflection;
+using WikiFunctions.Plugin;
 
 namespace WikiFunctions
 {
@@ -64,6 +65,8 @@ namespace WikiFunctions
         public static UserProperties User = new UserProperties();
 
         public static string RETFPath;
+
+        public static IAutoWikiBrowser MainForm;
 
         #region project and language settings
 
