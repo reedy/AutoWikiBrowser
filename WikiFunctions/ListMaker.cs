@@ -1084,16 +1084,20 @@ namespace WikiFunctions.Lists
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string TextTBA = Clipboard.GetDataObject().GetData(DataFormats.Text).ToString();
-            string[] splitter = { "\r\n" };
-
-            string[] splitTextTBA = TextTBA.Split(splitter, StringSplitOptions.RemoveEmptyEntries);
-            
-            foreach (string entry in splitTextTBA)
+            try
             {
-                if (entry != "")
-                    Add(entry);
+                string TextTBA = Clipboard.GetDataObject().GetData(DataFormats.Text).ToString();
+                string[] splitter = { "\r\n" };
+
+                string[] splitTextTBA = TextTBA.Split(splitter, StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (string entry in splitTextTBA)
+                {
+                    if (entry != "")
+                        Add(entry);
+                }
             }
+            catch { }
         }
 
         private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1101,9 +1105,7 @@ namespace WikiFunctions.Lists
             lbArticles.BeginUpdate();
 
             for (int i = 0; i != lbArticles.Items.Count; i++)
-            {
                 lbArticles.SetSelected(i, true);
-            }
 
             lbArticles.EndUpdate();
         }
@@ -1111,12 +1113,9 @@ namespace WikiFunctions.Lists
         private void selectNoneToolStripMenuItem_Click(object sender, EventArgs e)
         {
             lbArticles.BeginUpdate();
-
-
+            
             for (int i = 0; i != lbArticles.Items.Count; i++)
-            {
                 lbArticles.SetSelected(i, false);
-            }
 
             lbArticles.EndUpdate();
         }
@@ -1227,9 +1226,7 @@ namespace WikiFunctions.Lists
         private void loadArticlesInBrowser()
         {
             foreach (Article item in lbArticles.SelectedItems)
-            {
                 Process.Start(Variables.URLLong + "index.php?title=" + System.Web.HttpUtility.UrlEncode(item.Name));
-            }
         }
 
         #endregion
