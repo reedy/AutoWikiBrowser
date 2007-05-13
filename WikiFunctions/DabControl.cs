@@ -203,8 +203,8 @@ namespace WikiFunctions.Disambiguation
                     else CurrentLink += Variants[n - 3];
                     CurrentLink += "|" + VisibleLink + "]]";
                     WikiFunctions.Parse.Parsers Parse = new WikiFunctions.Parse.Parsers();
-                    CurrentLink = Parse.StickyLinks(Parse.SimplifyLinks(CurrentLink));
-                    txtCorrection.Text = Surroundings.Replace(Match.Value, CurrentLink);
+                    CurrentLink = Parse.SimplifyLinks(CurrentLink);
+                    txtCorrection.Text = Parse.StickyLinks(Surroundings.Replace(Match.Value, CurrentLink));
                 }
 
                 btnUnpipe.Enabled = CurrentLink.Contains("|");
