@@ -178,20 +178,6 @@ namespace WikiFunctions.Browser
         }
 
         /// <summary>
-        /// Gets a value indicating whether the page can be diffed
-        /// </summary>
-        public bool CanDiff
-        {
-            get
-            {
-                if (this.Document != null && this.Document.GetElementById("wpDiff") != null)
-                    return true;
-                else
-                    return false;
-            }
-        }
-
-        /// <summary>
         /// Gets a value indicating whether the page can be previewed
         /// </summary>
         public bool CanPreview
@@ -388,36 +374,6 @@ namespace WikiFunctions.Browser
             }
         }
 
-        int intDiffFontSize = 150;
-        /// <summary>
-        /// Gets or sets the font size of the diff text
-        /// </summary>
-        public int DiffFontSize
-        {
-            get { return intDiffFontSize; }
-            set { intDiffFontSize = value; }
-        }
-
-        bool bEnhanceDiff = true;
-        /// <summary>
-        /// Gets or sets a value indicating whether to use the enhanced diff
-        /// </summary>
-        public bool EnhanceDiffEnabled
-        {
-            get { return bEnhanceDiff; }
-            set { bEnhanceDiff = value; }
-        }
-
-        bool bScrollDown = true;
-        /// <summary>
-        /// Gets or sets a value indicating whether to scroll down to the diff
-        /// </summary>
-        public bool ScrollDown
-        {
-            get { return bScrollDown; }
-            set { bScrollDown = value; }
-        }
-
         bool boolTalkExists = true;
         /// <summary>
         /// Gets a value indicating if the associated talk page exists
@@ -605,23 +561,6 @@ namespace WikiFunctions.Browser
         }
 
         /// <summary>
-        /// Removes excess HTML from the document
-        /// </summary>
-        public void EnhanceDiff()
-        {
-            string html = this.Document.Body.InnerHtml;
-            html = PageHTMLSubstring(html);
-            html = html.Replace("<DIV id=wikiDiff>", "<DIV id=wikiDiff style=\"FONT-SIZE: " + DiffFontSize.ToString() + "%\">");
-            html = html.Replace("<TABLE class=diff cellSpacing=4 cellPadding=0 width=\"98%\" border=0>", "<TABLE class=diff cellSpacing=2 cellPadding=0 width=\"100%\" border=0>");
-            this.Document.Body.InnerHtml = html;
-        }
-
-        public void ScrollToContent()
-        {
-            this.Document.GetElementById("contentSub").ScrollIntoView(true);
-        }
-
-        /// <summary>
         /// wait for current operation to complete
         /// </summary>
         public void Wait()
@@ -649,20 +588,6 @@ namespace WikiFunctions.Browser
                     this.Document.GetElementById("wpWatchthis").SetAttribute("checked", "");
 
                 this.Document.GetElementById("wpSave").InvokeMember("click");
-            }
-        }
-
-        /// <summary>
-        /// Invokes the Show changes button
-        /// </summary>
-        public void ShowDiff()
-        {
-            if (CanDiff)
-            {
-                this.AllowNavigation = true;
-                ProcessStage = enumProcessStage.diff;
-                Status = "Loading changes";
-                this.Document.GetElementById("wpDiff").InvokeMember("click");
             }
         }
 
@@ -878,18 +803,9 @@ namespace WikiFunctions.Browser
             }
             else if (ProcessStage == enumProcessStage.diff)
             {
-                if (EnhanceDiffEnabled && IsDiff)
-                    EnhanceDiff();
-                else if (ScrollDown)
-                    ScrollToContent();
-
                 this.AllowNavigation = false;
                 ProcessStage = enumProcessStage.none;
                 Status = "Ready to save";
-                if (Diffed != null)
-                    this.Diffed();
-                //RemoveHTML();
-                this.Document.GetElementById("wpTextbox1").Enabled = false;
             }
             else if (ProcessStage == enumProcessStage.none)
             {

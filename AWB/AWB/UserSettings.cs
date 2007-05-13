@@ -131,9 +131,6 @@ namespace AutoWikiBrowser
             nudBotSpeed.Value = 15;
 
             //preferences
-            webBrowserEdit.EnhanceDiffEnabled = true;
-            webBrowserEdit.ScrollDown = true;
-            webBrowserEdit.DiffFontSize = 150;
             System.Drawing.Font f = new System.Drawing.Font("Courier New", 10F, System.Drawing.FontStyle.Regular);
             txtEdit.Font = f;
             LowThreadPriority = false;
@@ -564,15 +561,6 @@ namespace AutoWikiBrowser
                         }
                         if (reader.Name == "preferencevalues" && reader.HasAttributes)
                         {
-                            if (reader.MoveToAttribute("enhancediff"))
-                                webBrowserEdit.EnhanceDiffEnabled = bool.Parse(reader.Value);
-
-                            if (reader.MoveToAttribute("scrolldown"))
-                                webBrowserEdit.ScrollDown = bool.Parse(reader.Value);
-
-                            if (reader.MoveToAttribute("difffontsize"))
-                                webBrowserEdit.DiffFontSize = int.Parse(reader.Value);
-
                             float s = 10F;
                             string d = "Courier New";
                             if (reader.MoveToAttribute("textboxfontsize"))
@@ -826,10 +814,6 @@ namespace AutoWikiBrowser
             p.General.SortInterwikiOrder = sortAlphabeticallyToolStripMenuItem.Checked;
             p.General.AddIgnoredToLog = addIgnoredToLogFileToolStripMenuItem.Checked;
 
-            p.General.EnhancedDiff = webBrowserEdit.EnhanceDiffEnabled;
-            p.General.ScrollDown = webBrowserEdit.ScrollDown;
-            p.General.DiffFontSize = webBrowserEdit.DiffFontSize;
-
             p.General.TextBoxFont = txtEdit.Font.Name;
             p.General.TextBoxSize = (int)txtEdit.Font.Size;
 
@@ -984,10 +968,6 @@ namespace AutoWikiBrowser
             AutoSaveEditBoxFile = p.General.AutoSaveEdit.SaveFile;
 
             customWikis = p.General.CustomWikis;
-
-            webBrowserEdit.EnhanceDiffEnabled = p.General.EnhancedDiff;
-            webBrowserEdit.ScrollDown = p.General.ScrollDown;
-            webBrowserEdit.DiffFontSize = p.General.DiffFontSize;
 
             System.Drawing.Font f = new System.Drawing.Font(p.General.TextBoxFont, p.General.TextBoxSize);
             txtEdit.Font = f;

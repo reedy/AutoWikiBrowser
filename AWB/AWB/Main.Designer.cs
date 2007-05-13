@@ -3035,15 +3035,12 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.ArticleText = "";
             this.webBrowserEdit.Busy = false;
             this.webBrowserEdit.ContextMenuStrip = this.mnuWebBrowser;
-            this.webBrowserEdit.DiffFontSize = 120;
-            this.webBrowserEdit.EnhanceDiffEnabled = true;
             this.webBrowserEdit.IsWebBrowserContextMenuEnabled = false;
             this.webBrowserEdit.Location = new System.Drawing.Point(0, 25);
             this.webBrowserEdit.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowserEdit.Name = "webBrowserEdit";
             this.webBrowserEdit.ProcessStage = WikiFunctions.Browser.enumProcessStage.none;
             this.webBrowserEdit.ScriptErrorsSuppressed = true;
-            this.webBrowserEdit.ScrollDown = true;
             this.webBrowserEdit.Size = new System.Drawing.Size(788, 195);
             this.webBrowserEdit.TabIndex = 670;
             this.webBrowserEdit.TabStop = false;

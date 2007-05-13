@@ -1634,14 +1634,11 @@ namespace IRCMonitor
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.webBrowser.ArticleText = "";
             this.webBrowser.Busy = false;
-            this.webBrowser.DiffFontSize = 150;
-            this.webBrowser.EnhanceDiffEnabled = true;
             this.webBrowser.Location = new System.Drawing.Point(0, 31);
             this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser.Name = "webBrowser";
             this.webBrowser.ProcessStage = WikiFunctions.Browser.enumProcessStage.none;
             this.webBrowser.ScriptErrorsSuppressed = true;
-            this.webBrowser.ScrollDown = true;
             this.webBrowser.Size = new System.Drawing.Size(884, 525);
             this.webBrowser.TabIndex = 3;
             this.webBrowser.TimeoutLimit = 30;

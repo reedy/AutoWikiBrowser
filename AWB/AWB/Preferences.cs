@@ -12,7 +12,7 @@ namespace AutoWikiBrowser
 {
     public partial class MyPreferences : Form
     {
-        public MyPreferences(LangCodeEnum lang, ProjectEnum proj, string customproj, bool EDiff, bool SDown, int DiffSize, Font TextFont, bool LowPriority, bool Flash, bool Beep, bool Minimize, bool SaveArticleList, bool OverrideWatchlist, decimal TimeOut, bool AutoSaveEditBox, string AutoSaveEditBoxFile, decimal AutoSaveEditBoxPeriod)
+        public MyPreferences(LangCodeEnum lang, ProjectEnum proj, string customproj, Font TextFont, bool LowPriority, bool Flash, bool Beep, bool Minimize, bool SaveArticleList, bool OverrideWatchlist, decimal TimeOut, bool AutoSaveEditBox, string AutoSaveEditBoxFile, decimal AutoSaveEditBoxPeriod)
         {
             InitializeComponent();
 
@@ -27,9 +27,6 @@ namespace AutoWikiBrowser
 
             cmboCustomProject.Text = customproj;
 
-            EnhanceDiff = EDiff;
-            ScrollDown = SDown;
-            DiffFontSize = DiffSize;
             TextBoxFont = TextFont;
             LowThreadPriority = LowPriority;
             perfFlash = Flash;
@@ -109,24 +106,6 @@ namespace AutoWikiBrowser
 
         #region Other
 
-        public bool EnhanceDiff
-        {
-            get { return chkEnhanceDiff.Checked; }
-            set { chkEnhanceDiff.Checked = value; }
-        }
-
-        public bool ScrollDown
-        {
-            get { return chkScrollDown.Checked; }
-            set { chkScrollDown.Checked = value; }
-        }
-
-        public int DiffFontSize
-        {
-            get { return (int)nudDiffFontSize.Value; }
-            set { nudDiffFontSize.Value = value; }
-        }
-
         Font f;
         public Font TextBoxFont
         {
@@ -191,7 +170,7 @@ namespace AutoWikiBrowser
         public bool perfAutoSaveEditBoxEnabled
         {
             get { return chkAutoSaveEdit.Checked; }
-            set { chkAutoSaveEdit.Checked = value; groupBox3.Enabled = value; }
+            set { chkAutoSaveEdit.Checked = value; txtAutosave.Enabled = value; numEditBoxAutosave.Enabled = value; label8.Enabled = value; label9.Enabled = value; label10.Enabled = value; }
         }
 
         public decimal perfAutoSaveEditBoxPeriod
@@ -228,7 +207,6 @@ namespace AutoWikiBrowser
 
         private void chkAutoSaveEdit_CheckedChanged(object sender, EventArgs e)
         {
-            groupBox3.Enabled = chkAutoSaveEdit.Checked;
             perfAutoSaveEditBoxEnabled = chkAutoSaveEdit.Checked;
         }
     }
