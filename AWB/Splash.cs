@@ -31,16 +31,12 @@ namespace AutoWikiBrowser
         public Splash()
         {
             InitializeComponent();
+            lblVersion.Text = "Version " + Application.ProductVersion.ToString();
         }
 
         private void ClickHandler(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        public void setVersion(string version)
-        {
-            lblVersion.Text = "Version " + version;
         }
 
         public void setProgress(int percent)
