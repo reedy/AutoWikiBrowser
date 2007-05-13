@@ -30,7 +30,7 @@ namespace AutoWikiBrowser
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Splash));
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.lblVersion = new WinFormsControls.TransparentLabel();
+            this.lblVersion = new WikiFunctions.Controls.TransparentLabel();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -44,11 +44,11 @@ namespace AutoWikiBrowser
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.UseWaitCursor = true;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            this.pictureBox1.Click += new System.EventHandler(this.ClickHandler);
             // 
             // lblVersion
             // 
-            this.lblVersion.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
+            this.lblVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold);
             this.lblVersion.Location = new System.Drawing.Point(27, 169);
             this.lblVersion.Name = "lblVersion";
             this.lblVersion.Size = new System.Drawing.Size(182, 36);
@@ -56,6 +56,7 @@ namespace AutoWikiBrowser
             this.lblVersion.TabStop = false;
             this.lblVersion.Text = "Version 1.1.1.1";
             this.lblVersion.UseWaitCursor = true;
+            this.lblVersion.Click += new System.EventHandler(this.ClickHandler);
             // 
             // progressBar
             // 
@@ -65,12 +66,13 @@ namespace AutoWikiBrowser
             this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.progressBar.TabIndex = 3;
             this.progressBar.UseWaitCursor = true;
+            this.progressBar.Click += new System.EventHandler(this.ClickHandler);
             // 
             // Splash
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(465, 287);
+            this.ClientSize = new System.Drawing.Size(473, 295);
             this.ControlBox = false;
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.lblVersion);
@@ -86,6 +88,7 @@ namespace AutoWikiBrowser
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.TopMost = true;
             this.UseWaitCursor = true;
+            this.Click += new System.EventHandler(this.ClickHandler);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
@@ -94,7 +97,7 @@ namespace AutoWikiBrowser
         #endregion
 
         private System.Windows.Forms.PictureBox pictureBox1;
-        private WinFormsControls.TransparentLabel lblVersion;
+        private WikiFunctions.Controls.TransparentLabel lblVersion;
         private System.Windows.Forms.ProgressBar progressBar;
     }
 }
