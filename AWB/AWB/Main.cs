@@ -58,7 +58,6 @@ namespace AutoWikiBrowser
         public MainForm()
         {
             splash.Show();
-            splash.setVersion(Assembly.GetExecutingAssembly().GetName().Version.ToString());
             InitializeComponent();
             splash.setProgress(5);
             try
