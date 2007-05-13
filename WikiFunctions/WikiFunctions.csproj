@@ -209,6 +209,12 @@
     <Compile Include="specialFilter.Designer.cs">
       <DependentUpon>specialFilter.cs</DependentUpon>
     </Compile>
+    <Compile Include="Splash.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Splash.Designer.cs">
+      <DependentUpon>Splash.cs</DependentUpon>
+    </Compile>
     <Compile Include="SubstTemplates.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -334,6 +340,10 @@
       <DependentUpon>specialFilter.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Splash.resx">
+      <DependentUpon>Splash.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="SubstTemplates.resx">
       <SubType>Designer</SubType>
       <DependentUpon>SubstTemplates.cs</DependentUpon>
@@ -383,6 +393,7 @@
     <None Include="Resources\Run.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\AutoWikiBrowser2.png" />
     <Content Include="Resources\Bot Image.png" />
     <Content Include="Resources\btnshowhideparameters.image.png" />
     <None Include="Resources\Showhideparameters.bmp" />
