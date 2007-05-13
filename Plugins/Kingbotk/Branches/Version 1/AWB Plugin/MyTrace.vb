@@ -21,6 +21,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
         Private Sub Trace_Upload(ByVal Sender As TraceListenerUploadableBase, ByRef Success As Boolean)
             Dim frm As New UploadingPleaseWaitForm
             Dim Uploader As New Uploader.LogUploader
+            Const conLoggingManagerString As String = "Kingbotk Plugin logging manager"
 
             mIsUploading = True
 
@@ -32,6 +33,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
                 With LoggingSettings.Settings
                     Dim UploadTo As String = .GlobbedUploadLocation & "/" & Sender.PageName.Replace( _
                         PluginLogging.Props.conUploadCategoryIsJobName, .Category)
+                    Dim AWBLogListener As New AWBLogListener(UploadTo)
 
                     Try
                         Uploader.LogIn(LoggingSettings.LoginDetails)
@@ -52,14 +54,20 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
                         errorForm.Show()
 
                         Success = False
+                        AWBLogListener.WriteLine("Error: " & ex.Message, conLoggingManagerString)
                     Finally
                         UploadTo += " " & Sender.TraceStatus.PageNumber.ToString
+
                         If Success Then
                             Sender.WriteCommentAndNewLine("Log uploaded to " & UploadTo)
+                            AWBLogListener.WriteLine("Log uploaded", conLoggingManagerString)
                         Else
                             Sender.WriteCommentAndNewLine( _
                                "LOG UPLOADING FAILED. Please manually upload this section to " & UploadTo)
+                            AWBLogListener.WriteLine("Log upload failed", conLoggingManagerString)
                         End If
+
+                        PluginManager.AWBForm.AddLogItem(Not Success, AWBLogListener)
                     End Try
                 End With
             End If
