@@ -844,7 +844,6 @@ namespace WikiFunctions.Lists
         {
             SpecialFilter.Show(this);
             SpecialFilter.lb = lbArticles;
-            UpdateNumberOfArticles();
         }
 
         /// <summary>
@@ -978,7 +977,7 @@ namespace WikiFunctions.Lists
             StopProgressBar();
         }
 
-        private void UpdateNumberOfArticles()
+        public void UpdateNumberOfArticles()
         {
             if (lbArticles.Items.Count != 1)
                 lblNumberOfArticles.Text = lbArticles.Items.Count.ToString() + " pages";
