@@ -619,6 +619,8 @@ namespace AutoWikiBrowser
                     {
                         MessageBox.Show("Error getting login status", "Error", MessageBoxButtons.OK,
                             MessageBoxIcon.Error);
+                        // Stop AWB and reset the state variable:
+                        Stop(); mErrorGettingLogInStatus = false;
                     }
                     else
                     {
