@@ -45,16 +45,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\WikiFunctions\WikiFunctions.csproj">
-      <Project>{B5B0008C-A306-4B0D-B91E-5C03DA7014E0}</Project>
-      <Name>WikiFunctions</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="CfdOptions.resx">
       <SubType>Designer</SubType>
       <DependentUpon>CfdOptions.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\WikiFunctions\WikiFunctions.csproj">
+      <Project>{B5B0008C-A306-4B0D-B91E-5C03DA7014E0}</Project>
+      <Name>WikiFunctions</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
