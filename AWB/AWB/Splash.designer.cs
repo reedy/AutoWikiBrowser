@@ -38,7 +38,7 @@ namespace AutoWikiBrowser
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(-1, -1);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(481, 303);
+            this.pictureBox1.Size = new System.Drawing.Size(475, 298);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.UseWaitCursor = true;
@@ -50,13 +50,13 @@ namespace AutoWikiBrowser
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(486, 309);
+            this.ClientSize = new System.Drawing.Size(472, 296);
             this.ControlBox = false;
             this.Controls.Add(this.pictureBox1);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(494, 317);
+            this.MaximumSize = new System.Drawing.Size(480, 304);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(494, 317);
+            this.MinimumSize = new System.Drawing.Size(480, 304);
             this.Name = "Splash";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
