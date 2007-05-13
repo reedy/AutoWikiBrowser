@@ -58,7 +58,9 @@ namespace AutoWikiBrowser
         public MainForm()
         {
             splash.Show();
+            splash.setVersion(Assembly.GetExecutingAssembly().GetName().Version.ToString());
             InitializeComponent();
+            splash.setProgress(5);
             try
             {
                 lblUserName.Alignment = ToolStripItemAlignment.Right;
@@ -83,7 +85,7 @@ namespace AutoWikiBrowser
 
                 //btnDiff.Image = Resources.changes;
                 //btnPreview.Image = Resources.preview;
-
+                splash.setProgress(15);
                 int stubcount = 500;
                 bool catkey = false;
                 try
@@ -117,11 +119,12 @@ namespace AutoWikiBrowser
                 webBrowserEdit.None += CaseWasNull;
                 webBrowserEdit.Fault += StartDelayedRestartTimer;
                 webBrowserEdit.StatusChanged += UpdateWebBrowserStatus;
-
+                splash.setProgress(60);
                 listMaker1.BusyStateChanged += SetProgressBar;
                 listMaker1.NoOfArticlesChanged += UpdateButtons;
                 listMaker1.StatusTextChanged += UpdateListStatus;
                 Text = "AutoWikiBrowser - Default.xml";
+                splash.setProgress(25);
             }
             catch (Exception ex)
             {
@@ -141,7 +144,6 @@ namespace AutoWikiBrowser
         int retries = 0;
 
         bool PageReload = false;
-
         int mnudges = 0;
         int sameArticleNudges = 0;
 
@@ -164,6 +166,7 @@ namespace AutoWikiBrowser
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            splash.setProgress(60);
             lblStatusText.Text = "Initialising...";
             Application.DoEvents();
             Variables.MainForm = this;
@@ -181,6 +184,7 @@ namespace AutoWikiBrowser
                 else
                     listMaker1.MakeListEnabled = true;
 
+                splash.setProgress(80);
                 if (AutoWikiBrowser.Properties.Settings.Default.LogInOnStart)
                     CheckStatus(false);
 
@@ -197,7 +201,7 @@ namespace AutoWikiBrowser
                 LoadPrefs();
                 UpdateButtons();
                 LoadRecentSettingsList();
-
+                splash.setProgress(90);
                 if (Variables.User.checkEnabled() == WikiStatusResult.OldVersion)
                     oldVersion();
 

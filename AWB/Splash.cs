@@ -22,6 +22,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
+using WinFormsControls;
 
 namespace AutoWikiBrowser
 {
@@ -35,6 +36,16 @@ namespace AutoWikiBrowser
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        public void setVersion(string version)
+        {
+            lblVersion.Text = "Version " + version;
+        }
+
+        public void setProgress(int percent)
+        {
+            progressBar.Value = percent;
         }
     }
 }
