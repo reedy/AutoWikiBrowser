@@ -38,7 +38,7 @@ namespace AutoWikiBrowser
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(-1, -1);
+            this.pictureBox1.Location = new System.Drawing.Point(-7, -7);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(481, 303);
             this.pictureBox1.TabIndex = 0;
@@ -49,7 +49,7 @@ namespace AutoWikiBrowser
             // lblVersion
             // 
             this.lblVersion.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            this.lblVersion.Location = new System.Drawing.Point(36, 178);
+            this.lblVersion.Location = new System.Drawing.Point(27, 169);
             this.lblVersion.Name = "lblVersion";
             this.lblVersion.Size = new System.Drawing.Size(182, 36);
             this.lblVersion.TabIndex = 2;
@@ -59,27 +59,26 @@ namespace AutoWikiBrowser
             // 
             // progressBar
             // 
-            this.progressBar.Location = new System.Drawing.Point(36, 226);
+            this.progressBar.Location = new System.Drawing.Point(27, 220);
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(277, 23);
             this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.progressBar.TabIndex = 3;
+            this.progressBar.UseWaitCursor = true;
             // 
             // Splash
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(478, 301);
+            this.ClientSize = new System.Drawing.Size(465, 287);
             this.ControlBox = false;
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.lblVersion);
             this.Controls.Add(this.pictureBox1);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(494, 317);
+            this.MaximumSize = new System.Drawing.Size(481, 303);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(494, 317);
+            this.MinimumSize = new System.Drawing.Size(481, 303);
             this.Name = "Splash";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
