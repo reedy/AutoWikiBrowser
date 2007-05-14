@@ -26,6 +26,9 @@ using WikiFunctions;
 using WikiFunctions.Logging;
 using WikiFunctions.Logging.Uploader;
 
+// TODO: Logging may need internationalisation if other plugins (or AWB) is to use it on sites other than en.
+// It currently references Wikipedia en templates and namespaces.
+
 namespace WikiFunctions.Logging
 {
     /// <summary>
