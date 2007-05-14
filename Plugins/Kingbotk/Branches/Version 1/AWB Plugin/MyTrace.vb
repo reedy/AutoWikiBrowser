@@ -19,60 +19,30 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
 
         ' The most important stuff:
         Private Sub Trace_Upload(ByVal Sender As TraceListenerUploadableBase, ByRef Success As Boolean)
-            Dim frm As New UploadingPleaseWaitForm
-            Dim Uploader As New Uploader.LogUploader
-            Const conLoggingManagerString As String = "Kingbotk Plugin logging manager"
+
+            With LoggingSettings.Settings
+                Success = MyBase.UploadHandler(Sender, .LogTitle, .WikifiedCategory, _
+                .GlobbedUploadLocation & "/" & Sender.PageName.Replace( _
+                    PluginLogging.Props.conUploadCategoryIsJobName, .Category), .LinksToLog(), _
+                .UploadOpenInBrowser, .UploadAddToWatchlist, PluginLogging.Props.UserName, _
+                "*" & PluginManager.conWikiPlugin & " version " & PluginLogging.Props.PluginVersion & _
+                Microsoft.VisualBasic.vbCrLf & "*[[WP:AWB|AWB]] version " & _
+                PluginLogging.Props.AWBVersion & Microsoft.VisualBasic.vbCrLf, _
+                PluginManager.conWikiPluginBrackets & " " & LogUploader.conUploadingDefaultEditSummary, _
+                PluginManager.conWikiPluginBrackets & " " & LogUploader.conAddingLogEntryDefaultEditSummary, _
+                PluginManager.AWBForm, LoggingSettings.LoginDetails)
+            End With
+
+            If Success Then DirectCast(Sender.TraceStatus, TraceStatus).UploadsCount += 1
+        End Sub
+        Protected Overrides Function StartingUpload(ByVal Sender As TraceListenerUploadableBase) As Boolean
+            If Sender.TraceStatus.LogName = conWiki Then Return False
 
             mIsUploading = True
-
             LoggingSettings.LEDColour = Colour.Blue
             Application.DoEvents()
-            frm.Show()
-
-            If Sender.TraceStatus.LogName = conWiki Then
-                With LoggingSettings.Settings
-                    Dim UploadTo As String = .GlobbedUploadLocation & "/" & Sender.PageName.Replace( _
-                        PluginLogging.Props.conUploadCategoryIsJobName, .Category)
-                    Dim AWBLogListener As New AWBLogListener(UploadTo)
-
-                    Try
-                        Uploader.LogIn(LoggingSettings.LoginDetails)
-                        Application.DoEvents()
-
-                        Uploader.LogIt(Sender, .LogTitle, .WikifiedCategory, UploadTo, .LinksToLog(), _
-                        .UploadOpenInBrowser, .UploadAddToWatchlist, PluginLogging.Props.UserName, _
-                        "*" & PluginManager.conWikiPlugin & " version " & PluginLogging.Props.PluginVersion & _
-                        Microsoft.VisualBasic.vbCrLf & "*[[WP:AWB|AWB]] version " & _
-                        PluginLogging.Props.AWBVersion & Microsoft.VisualBasic.vbCrLf, _
-                        PluginManager.conWikiPluginBrackets & " " & LogUploader.conUploadingDefaultEditSummary, _
-                        PluginManager.conWikiPluginBrackets & " " & LogUploader.conAddingLogEntryDefaultEditSummary)
-
-                        Success = True
-                        DirectCast(Sender.TraceStatus, TraceStatus).UploadsCount += 1
-                    Catch ex As Exception
-                        Dim errorForm As New ErrorForm(ex.Message & Microsoft.VisualBasic.vbCrLf & ex.ToString())
-                        errorForm.Show()
-
-                        Success = False
-                        AWBLogListener.WriteLine("Error: " & ex.Message, conLoggingManagerString)
-                    Finally
-                        UploadTo += " " & Sender.TraceStatus.PageNumber.ToString
-
-                        If Success Then
-                            Sender.WriteCommentAndNewLine("Log uploaded to " & UploadTo)
-                            AWBLogListener.WriteLine("Log uploaded", conLoggingManagerString)
-                        Else
-                            Sender.WriteCommentAndNewLine( _
-                               "LOG UPLOADING FAILED. Please manually upload this section to " & UploadTo)
-                            AWBLogListener.WriteLine("Log upload failed", conLoggingManagerString)
-                        End If
-
-                        PluginManager.AWBForm.AddLogItem(Not Success, AWBLogListener)
-                    End Try
-                End With
-            End If
-
-            frm.Dispose()
+        End Function
+        Protected Overrides Sub FinishedUpload()
             If BusyCounter = 0 Then LoggingSettings.LEDColour = Colour.Red _
                Else LoggingSettings.LEDColour = Colour.Green
 
@@ -474,6 +444,12 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
             Set(ByVal value As PluginLogging)
                 LoggingSettings = value
             End Set
+        End Property
+
+        Protected Overrides ReadOnly Property ApplicationName() As String
+            Get
+                Return "Kingbotk Plugin logging manager"
+            End Get
         End Property
     End Class
 End Namespace

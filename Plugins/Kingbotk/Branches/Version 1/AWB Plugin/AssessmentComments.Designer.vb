@@ -48,14 +48,11 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
             Me.WebControl1.AllowNavigation = False
             Me.WebControl1.ArticleText = ""
             Me.WebControl1.Busy = False
-            Me.WebControl1.DiffFontSize = 150
-            Me.WebControl1.EnhanceDiffEnabled = True
             Me.WebControl1.Location = New System.Drawing.Point(0, 0)
             Me.WebControl1.MinimumSize = New System.Drawing.Size(20, 20)
             Me.WebControl1.Name = "WebControl1"
             Me.WebControl1.ProcessStage = WikiFunctions.Browser.enumProcessStage.none
             Me.WebControl1.ScriptErrorsSuppressed = True
-            Me.WebControl1.ScrollDown = True
             Me.WebControl1.Size = New System.Drawing.Size(807, 450)
             Me.WebControl1.TabIndex = 0
             Me.WebControl1.TimeoutLimit = 30
