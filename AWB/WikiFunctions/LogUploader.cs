@@ -22,22 +22,28 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
+using WikiFunctions.Plugin;
 
 namespace WikiFunctions.Logging.Uploader
 {
 	/// <summary>
 	/// Object which contains details of target pages for log entries
 	/// </summary>
-	public sealed class LogEntry
+	public class LogEntry
 	{
-		public string Location;
-		public bool UserName;
+		private string mLocation;
+		private bool mUserName;
+        private bool mSuccess = false;
 
 		public LogEntry(string pLocation, bool pUserName)
 		{
-			Location = pLocation;
-			UserName = pUserName;
+			mLocation = pLocation;
+			mUserName = pUserName;
 		}
+
+        public string Location { get { return mLocation; } }
+        public bool LogUserName { get { return mUserName; } }
+        public bool Success { get { return mSuccess; } protected internal set { mSuccess = value; } }
 	}
 
 	/// <summary>
@@ -340,34 +346,49 @@ namespace WikiFunctions.Logging.Uploader
 			}
 		}
 
-		public virtual void LogIt(string Log, string LogTitle, string LogDetails, string UploadTo, List<LogEntry> LinksToLog, int PageNumber, System.DateTime StartDate, bool OpenInBrowser, bool AddToWatchlist, string Username, string LogHeader, bool AddLogTemplate, string EditSummary)
+        /// <summary>
+        /// Upload log to the wiki, and optionally add log entries to central log pages
+        /// </summary>
+        /// <param name="Log">The log text</param>
+        /// <param name="LogTitle">The log title</param>
+        /// <param name="LogDetails">Details of the job being logged</param>
+        /// <param name="UploadTo">Which page to write the log to</param>
+        /// <param name="LinksToLog">A collection of LogEntry objects detailing pages to list the log page on. Send an empty collection if not needed.</param>
+        /// <param name="PageNumber">Log page number</param>
+        /// <param name="StartDate">When the job started</param>
+        /// <param name="OpenInBrowser">True if the log page should be opened in the web browser after uploading, otherwise false</param>
+        /// <param name="AddToWatchlist">True if the log page should be added to the user's watchlist, otherwise false</param>
+        /// <param name="Username">The user id of the user performing the task</param>
+        /// <param name="LogHeader">Header text</param>
+        /// <param name="AddLogTemplate">True if a {{log}} template should be added</param>
+        /// <param name="EditSummary">The edit summary</param>
+        /// <param name="LogSummaryEditSummary">The edit summary when listing the log page on the LogEntry pages (if applicable)</param>
+        /// <param name="AddLogArticlesToAnAWBList">True if an IAutoWikiBrowser object is being sent and the AWB log tab should be written to</param>
+        /// <param name="AWB">An IAutoWikiBrowser object, may be null</param>
+		public virtual void LogIt(string Log, string LogTitle, string LogDetails, string UploadTo, 
+            List<LogEntry> LinksToLog, int PageNumber, System.DateTime StartDate, bool OpenInBrowser, 
+            bool AddToWatchlist, string Username, string LogHeader, bool AddLogTemplate, 
+            string EditSummary, string LogSummaryEditSummary, string sender, bool AddLogArticlesToAnAWBList,
+            IAutoWikiBrowser AWB)
 		{
-			LogIt(Log, LogTitle, LogDetails, UploadTo, LinksToLog, PageNumber, StartDate, OpenInBrowser, AddToWatchlist, Username, LogHeader, AddLogTemplate, EditSummary, conAddingLogEntryDefaultEditSummary);
-		}
+            string UploadToNoSpaces = UploadTo.Replace(" ", "_");
+            string strLogText = "";
+            AWBLogListener AWBLogListener = null;
+            
+            if (DoAWBLogListener(AddLogArticlesToAnAWBList, AWB))
+                AWBLogListener = new AWBLogListener(UploadTo);
 
-		public virtual void LogIt(string Log, string LogTitle, string LogDetails, string UploadTo, List<LogEntry> LinksToLog, int PageNumber, System.DateTime StartDate, bool OpenInBrowser, bool AddToWatchlist, string Username, string LogHeader, bool AddLogTemplate)
-		{
-			LogIt(Log, LogTitle, LogDetails, UploadTo, LinksToLog, PageNumber, StartDate, OpenInBrowser, AddToWatchlist, Username, LogHeader, AddLogTemplate, conUploadingDefaultEditSummary, conAddingLogEntryDefaultEditSummary);
-		}
+            if (AddLogTemplate)
+            {
+                strLogText = "{{log|name=" + UploadToNoSpaces + "|page=" + PageNumber.ToString() 
+                    + "}}" + NewLine;
+            }
+            strLogText += LogHeader + Log;
 
-		public virtual void LogIt(string Log, string LogTitle, string LogDetails, string UploadTo, List<LogEntry> LinksToLog, int PageNumber, System.DateTime StartDate, bool OpenInBrowser, bool AddToWatchlist, string Username, string LogHeader)
-		{
-			LogIt(Log, LogTitle, LogDetails, UploadTo, LinksToLog, PageNumber, StartDate, OpenInBrowser, AddToWatchlist, Username, LogHeader, true, conUploadingDefaultEditSummary, conAddingLogEntryDefaultEditSummary);
-		}
+            Application.DoEvents();
 
-		public virtual void LogIt(string Log, string LogTitle, string LogDetails, string UploadTo, List<LogEntry> LinksToLog, int PageNumber, System.DateTime StartDate, bool OpenInBrowser, bool AddToWatchlist, string Username, string LogHeader, bool AddLogTemplate, string EditSummary, string LogSummaryEditSummary)
-		{
-                string UploadToNoSpaces = UploadTo.Replace(" ", "_");
-                string strLogText = "";
-
-                if (AddLogTemplate)
-                {
-                    strLogText = "{{log|name=" + UploadToNoSpaces + "|page=" + PageNumber.ToString() + "}}" + NewLine;
-                }
-                strLogText += LogHeader + Log;
-
-                Application.DoEvents();
-
+            try
+            {
                 if (AddToWatchlist)
                 {
                     base.EditPage(UploadToNoSpaces, strLogText, EditSummary, false, true);
@@ -376,74 +397,171 @@ namespace WikiFunctions.Logging.Uploader
                 {
                     base.EditPage(UploadToNoSpaces, strLogText, EditSummary, false);
                 }
-            
+            }
+            catch (Exception ex)
+            {
+                if (AWBLogListener != null)
+                    AWBLogListenerUploadFailed(ex, sender, AWBLogListener, AWB);
+                throw ex; // throw error and exit
+            }
+
+            if (AWBLogListener != null)
+            {
+                AWBLogListener.WriteLine("Log uploaded", sender);
+                AWB.AddLogItem(true, AWBLogListener);
+            }
+        
+            Application.DoEvents();
+
+            foreach (LogEntry LogEntry in LinksToLog)
+            {
+                DoLogEntry(LogEntry, LogTitle, LogDetails, PageNumber, StartDate, UploadTo, LogSummaryEditSummary,
+                    Username, AddLogArticlesToAnAWBList, AWB, sender);
                 Application.DoEvents();
+            }
 
-                foreach (LogEntry LogEntry in LinksToLog)
-                {
-                    DoLogEntry(LogTitle, LogDetails, PageNumber, StartDate, UploadTo, LogEntry.Location, LogEntry.UserName, LogSummaryEditSummary, Username);
-                    Application.DoEvents();
-                }
+            if (OpenInBrowser)
+            {
+                OpenLogInBrowser(UploadTo);
+            }
+        }
 
-                if (OpenInBrowser)
-                {
-                    OpenLogInBrowser(UploadTo);
-                }
-           
-		}
+        #region LogIt() overloads
+        // this messy block is because VB has "optional" parameters, and C# doesn't.
+        public virtual void LogIt(string Log, string LogTitle, string LogDetails, string UploadTo,
+            List<LogEntry> LinksToLog, int PageNumber, System.DateTime StartDate, bool OpenInBrowser,
+            bool AddToWatchlist, string Username, string LogHeader, bool AddLogTemplate, string EditSummary)
+        {
+            LogIt(Log, LogTitle, LogDetails, UploadTo, LinksToLog, PageNumber, StartDate, OpenInBrowser,
+                AddToWatchlist, Username, LogHeader, AddLogTemplate, EditSummary,
+                conAddingLogEntryDefaultEditSummary, "", false, null);
+        }
 
-        		public virtual void LogIt(TraceListenerUploadableBase Sender, string LogTitle, string LogDetails, string UploadToWithoutPageNumber, List<LogEntry> LinksToLog, bool OpenInBrowser, bool AddToWatchlist, string Username, string LogHeader, string EditSummary, string LogSummaryEditSummary)
+        public virtual void LogIt(string Log, string LogTitle, string LogDetails, string UploadTo,
+            List<LogEntry> LinksToLog, int PageNumber, System.DateTime StartDate, bool OpenInBrowser,
+            bool AddToWatchlist, string Username, string LogHeader, bool AddLogTemplate)
+        {
+            LogIt(Log, LogTitle, LogDetails, UploadTo, LinksToLog, PageNumber, StartDate, OpenInBrowser,
+                AddToWatchlist, Username, LogHeader, AddLogTemplate, conUploadingDefaultEditSummary,
+                conAddingLogEntryDefaultEditSummary, "", false, null);
+        }
+
+        public virtual void LogIt(string Log, string LogTitle, string LogDetails, string UploadTo,
+            List<LogEntry> LinksToLog, int PageNumber, System.DateTime StartDate, bool OpenInBrowser,
+            bool AddToWatchlist, string Username, string LogHeader)
+        {
+            LogIt(Log, LogTitle, LogDetails, UploadTo, LinksToLog, PageNumber, StartDate, OpenInBrowser, 
+                AddToWatchlist, Username, LogHeader, true, conUploadingDefaultEditSummary, 
+                conAddingLogEntryDefaultEditSummary, "", false, null);
+        }
+
+		public virtual void LogIt(string Log, string LogTitle, string LogDetails, string UploadTo, 
+            LogEntry LinkToLog, int PageNumber, System.DateTime StartDate, bool OpenInBrowser, 
+            bool AddToWatchlist, string Username)
 		{
-			LogIt(Sender.TraceStatus.LogUpload, LogTitle, LogDetails, UploadToWithoutPageNumber + " " + Sender.TraceStatus.PageNumber.ToString(), LinksToLog, Sender.TraceStatus.PageNumber, Sender.TraceStatus.StartDate, OpenInBrowser, AddToWatchlist, Username, "{{log|name=" + UploadToWithoutPageNumber + "|page=" + Sender.TraceStatus.PageNumber.ToString() + "}}" + System.Environment.NewLine + LogHeader, false, EditSummary, LogSummaryEditSummary);
+			LogIt(Log, LogTitle, LogDetails, UploadTo, LinkToLog, PageNumber, StartDate, OpenInBrowser, 
+                AddToWatchlist, Username, "");
 		}
 
-		public virtual void LogIt(string Log, string LogTitle, string LogDetails, string UploadTo, LogEntry LinkToLog, int PageNumber, System.DateTime StartDate, bool OpenInBrowser, bool AddToWatchlist, string Username)
-		{
-			LogIt(Log, LogTitle, LogDetails, UploadTo, LinkToLog, PageNumber, StartDate, OpenInBrowser, AddToWatchlist, Username, "");
-		}
-
-        public virtual void LogIt(string Log, string LogTitle, string LogDetails, string UploadTo, LogEntry LinkToLog, int PageNumber, System.DateTime StartDate, bool OpenInBrowser, bool AddToWatchlist, string Username, string LogHeader)
+        public virtual void LogIt(string Log, string LogTitle, string LogDetails, string UploadTo, 
+            LogEntry LinkToLog, int PageNumber, System.DateTime StartDate, bool OpenInBrowser, 
+            bool AddToWatchlist, string Username, string LogHeader)
 		{
 			List<LogEntry> LinksToLog = new List<LogEntry>();
 			LinksToLog.Add(LinkToLog);
 
-			LogIt(Log, LogTitle, LogDetails, UploadTo, LinksToLog, PageNumber, StartDate, OpenInBrowser, AddToWatchlist, Username, LogHeader);
+			LogIt(Log, LogTitle, LogDetails, UploadTo, LinksToLog, PageNumber, StartDate, OpenInBrowser, 
+                AddToWatchlist, Username, LogHeader);
 		}
-		public virtual void LogIt(string Log, string LogTitle, string LogDetails, string UploadTo, string LogEntryLocation, int PageNumber, System.DateTime StartDate)
+		public virtual void LogIt(string Log, string LogTitle, string LogDetails, string UploadTo, 
+            string LogEntryLocation, int PageNumber, System.DateTime StartDate)
 		{
 			List<LogEntry> LinksToLog = new List<LogEntry>();
 			LinksToLog.Add(new LogEntry(LogEntryLocation, false));
 
 			LogIt(Log, LogTitle, LogDetails, UploadTo, LinksToLog, PageNumber, StartDate, false, false, "", "");
-		}
+        }
+        #endregion
 
-		protected virtual void DoLogEntry(string LogTitle, string LogDetails, int PageNumber, System.DateTime StartDate, string UploadTo, string Location, bool UserNameCell, string EditSummary)
+        protected virtual void DoLogEntry(LogEntry LogEntry, string LogTitle, string LogDetails, int PageNumber,
+            System.DateTime StartDate, string UploadTo, string EditSummary, string Username, 
+            bool AddLogArticlesToAnAWBList, IAutoWikiBrowser AWB, string sender)
+        {
+            LogEntry.Success = DoLogEntry(LogTitle, LogDetails, PageNumber, StartDate, UploadTo, LogEntry.Location, 
+                LogEntry.LogUserName, EditSummary, Username, AddLogArticlesToAnAWBList, AWB, sender);
+        }
+
+        protected virtual bool DoLogEntry(string LogTitle, string LogDetails, int PageNumber, 
+            System.DateTime StartDate, string UploadTo, string Location, bool UserNameCell,
+            string EditSummary, string Username, bool AddLogArticlesToAnAWBList,
+            IAutoWikiBrowser AWB, string sender)
 		{
-			DoLogEntry(LogTitle, LogDetails, PageNumber, StartDate, UploadTo, Location, UserNameCell, EditSummary, "");
-		}
+            AWBLogListener AWBLogListener = null;
 
-		protected virtual void DoLogEntry(string LogTitle, string LogDetails, int PageNumber, System.DateTime StartDate, string UploadTo, string Location, bool UserNameCell, string EditSummary, string Username)
-		{
+            try
+            {
+                string strExistingText = WikiFunctions.Editor.GetWikiText(Location);
 
-			string strExistingText = WikiFunctions.Editor.GetWikiText(Location);
+                if (DoAWBLogListener(AddLogArticlesToAnAWBList, AWB))
+                {
+                    if (sender == "")
+                        sender = "WikiFunctions DLL";
+                    AWBLogListener = new AWBLogListener(Location);
+                }
 
-			Application.DoEvents();
+                Application.DoEvents();
 
-			string TableAddition = "|-" + NewCell + "[[" + UploadTo + "|" + LogTitle + "]]" + NewCell + LogDetails + NewCell + "[[" + UploadTo + "|" + PageNumber.ToString() + "]]" + (UserNameCell ? NewCell + "[[User:" + Username + "|" + Username + "]]" : "").ToString() + NewCell + string.Format("[[{0:d MMMM}]] [[{0:yyyy}]]", StartDate) + System.Environment.NewLine + BotTag;
+                string TableAddition = "|-" + NewCell + "[[" + UploadTo + "|" + LogTitle + "]]" + NewCell +
+                    LogDetails + NewCell + "[[" + UploadTo + "|" + PageNumber.ToString() + "]]" +
+                    (UserNameCell ? NewCell + "[[User:" + Username + "|" + Username + "]]" : "").ToString() +
+                    NewCell + string.Format("[[{0:d MMMM}]] [[{0:yyyy}]]", StartDate) +
+                    System.Environment.NewLine + BotTag;
 
-			if (strExistingText.Contains(BotTag))
-			{
-				base.EditPage(Location, strExistingText.Replace(BotTag, TableAddition), EditSummary, false, true);
-			}
-			else
-			{
-				base.EditPageAppend(Location, System.Environment.NewLine + "<!--bottag-->" + System.Environment.NewLine + "{| class=\"wikitable\" width=\"100%\"" + System.Environment.NewLine + (UserNameCell ? TableHeaderUserName : TableHeaderNoUserName).ToString() + System.Environment.NewLine + TableAddition, EditSummary, false);
-			}
+                if (strExistingText.Contains(BotTag))
+                {
+                    base.EditPage(Location, strExistingText.Replace(BotTag, TableAddition), EditSummary, false, true);
+                }
+                else
+                {
+                    base.EditPageAppend(Location, System.Environment.NewLine + "<!--bottag-->" +
+                        System.Environment.NewLine + "{| class=\"wikitable\" width=\"100%\"" +
+                        System.Environment.NewLine +
+                        (UserNameCell ? TableHeaderUserName : TableHeaderNoUserName).ToString() +
+                        System.Environment.NewLine + TableAddition, EditSummary, false);
+                }
+                try
+                {
+                    if (AWBLogListener != null)
+                    {
+                        AWBLogListener.WriteLine("Log entry uploaded", sender);
+                        AWB.AddLogItem(true, AWBLogListener);
+                    }
+                }
+                catch { } // errors shouldn't happen here, but even if they do we want to avoid entering the outer catch block
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (AWBLogListener != null)
+                    AWBLogListenerUploadFailed(ex, sender, AWBLogListener, AWB);
+                throw ex;
+            }
 		}
 		protected virtual void OpenLogInBrowser(string UploadTo)
 		{
-			System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/" + UploadTo);
+            Tools.OpenArticleInBrowser(UploadTo);
 		}
+        private bool DoAWBLogListener(bool DoIt, IAutoWikiBrowser AWB)
+        { return (DoIt && AWB != null); }
+
+        private void AWBLogListenerUploadFailed(Exception ex, string sender, AWBLogListener AWBLogListener,
+            IAutoWikiBrowser AWB)
+        {
+            AWBLogListener.WriteLine("Error: " + ex.Message, sender);
+            ((IMyTraceListener)AWBLogListener).SkippedArticle(sender, "Error");
+            AWB.AddLogItem(false, AWBLogListener);
+        }
 	}
 }
 
