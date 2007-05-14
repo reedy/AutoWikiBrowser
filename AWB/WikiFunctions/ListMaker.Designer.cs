@@ -359,7 +359,7 @@ namespace WikiFunctions.Lists
             // 
             this.fromImageLinksToolStripMenuItem.Name = "fromImageLinksToolStripMenuItem";
             this.fromImageLinksToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
-            this.fromImageLinksToolStripMenuItem.Text = "From image links";
+            this.fromImageLinksToolStripMenuItem.Text = "From image file links";
             this.fromImageLinksToolStripMenuItem.Click += new System.EventHandler(this.fromImageLinksToolStripMenuItem_Click);
             // 
             // fromRedirectsToolStripMenuItem
