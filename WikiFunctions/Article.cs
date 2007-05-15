@@ -285,9 +285,10 @@ namespace WikiFunctions
         public void PerformFindAndReplace(FindandReplace findAndReplace, SubstTemplates substTemplates,
             WikiFunctions.MWB.ReplaceSpecial replaceSpecial, bool SkipWhenNoFAR)
         {
-            string strTemp, testText = mArticleText, tmpEditSummary = "";
+            string strTemp = mArticleText.Replace("\r\n", "\n"),
+                testText = strTemp, tmpEditSummary = "";
 
-            strTemp = findAndReplace.MultipleFindAndReplce(mArticleText, mName, ref tmpEditSummary);
+            strTemp = findAndReplace.MultipleFindAndReplce(strTemp, mName, ref tmpEditSummary);
             strTemp = replaceSpecial.ApplyRules(strTemp, mName);
             strTemp = substTemplates.SubstituteTemplates(strTemp, mName); // TODO: Possible bug, this was "articleTitle" not "Name"
 
@@ -295,7 +296,8 @@ namespace WikiFunctions
                 mAWBLogListener.AWBSkipped("No Find And Replace Changes");
             else
             {
-                this.AWBChangeArticleText("Find and replace applied" + tmpEditSummary, strTemp, false);
+                this.AWBChangeArticleText("Find and replace applied" + tmpEditSummary,
+                    strTemp.Replace("\n", "\r\n"), false);
                 EditSummary += tmpEditSummary;
             }
         }
