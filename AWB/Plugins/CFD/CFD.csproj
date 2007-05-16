@@ -48,10 +48,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="About.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>About.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="CfdOptions.resx">
       <SubType>Designer</SubType>
       <DependentUpon>CfdOptions.cs</DependentUpon>
