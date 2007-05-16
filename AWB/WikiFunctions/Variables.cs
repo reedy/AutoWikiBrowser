@@ -1144,7 +1144,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                 strText = webBrowserLogin.GetArticleText();
 
                 //see if this version is enabled
-                if (!strText.Contains(Assembly.GetExecutingAssembly().GetName().Version.ToString() + " enabled"))
+                if (!strText.Contains(AWBVersion + " enabled"))
                 {
                     IsBot = false;
                     IsAdmin = false;
@@ -1153,7 +1153,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                 }
                 else
                 {
-                    if (!WeAskedAboutUpdate && strText.Contains(Assembly.GetExecutingAssembly().GetName().Version.ToString() + " enabled (old)")) 
+                    if (!WeAskedAboutUpdate && strText.Contains(AWBVersion + " enabled (old)")) 
                     {
                         WeAskedAboutUpdate = true;
                         if (MessageBox.Show("This version has been superceeded by a new version.  You may continue to use this version or update to the newest version.\r\n\r\nWould you like to automatically upgrade to the newest version?", "Upgrade?", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -1291,7 +1291,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
 
             if(strText == "")
                 return WikiStatusResult.Null;
-            else if (!strText.Contains(Assembly.GetExecutingAssembly().GetName().Version.ToString() + " enabled"))
+            else if (!strText.Contains(AWBVersion + " enabled"))
                 return WikiStatusResult.OldVersion;
             else
                 return WikiStatusResult.Null;
@@ -1303,6 +1303,9 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
             get { return strCheckPage; }
             private set { strCheckPage = value; }
         }
+
+        private string AWBVersion
+        { get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); } }
     }
     #endregion
 }

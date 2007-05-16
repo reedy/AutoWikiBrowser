@@ -63,6 +63,22 @@ namespace WikiFunctions
         public static System.Version Version
         { get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; } }
 
+        public static string VersionString
+        { get { return Version.ToString(); } }
+
+        /// <summary>
+        /// Displays the WikiFunctions About box
+        /// </summary>
+        public static void About()
+        {
+            try
+            {
+                Controls.AboutBox About = new Controls.AboutBox();
+                About.Show();
+            }
+            catch { }
+        }
+
         /// <summary>
         /// Tests title to make sure it is main space
         /// </summary>
@@ -258,7 +274,7 @@ namespace WikiFunctions
                 HttpWebRequest rq = (HttpWebRequest)WebRequest.Create(URL);
 
                 rq.Proxy.Credentials = CredentialCache.DefaultCredentials;
-                rq.UserAgent = "WikiFunctions " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                rq.UserAgent = "WikiFunctions " + Tools.VersionString;
 
                 HttpWebResponse response = (HttpWebResponse)rq.GetResponse();
 
@@ -463,7 +479,7 @@ namespace WikiFunctions
         public static void Beep1()
         {//public domain sounds from http://www.partnersinrhyme.com/soundfx/PDsoundfx/beep.shtml
             System.Media.SoundPlayer sound = new System.Media.SoundPlayer();
-            sound.Stream = MyResource.beep1;
+            sound.Stream = Properties.Resources.beep1;
             sound.Play();
         }
 
@@ -473,7 +489,7 @@ namespace WikiFunctions
         public static void Beep2()
         {
             System.Media.SoundPlayer sound = new System.Media.SoundPlayer();
-            sound.Stream = MyResource.beep2;
+            sound.Stream = Properties.Resources.beep2;
             sound.Play();
         }
 

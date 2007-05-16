@@ -6,7 +6,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 
-namespace WikiFunctions
+namespace WikiFunctions.Controls
 {
     public partial class NoFlickerListView : ListView
     {

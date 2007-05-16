@@ -464,12 +464,7 @@ namespace WikiFunctions.DatabaseScanner
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            try
-            {
-                AboutBox About = new AboutBox();
-                About.Show();
-            }
-            catch { }
+            Tools.About();
         }
 
         private void chkRegex_CheckedChanged(object sender, EventArgs e)

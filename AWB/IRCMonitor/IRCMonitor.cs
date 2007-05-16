@@ -58,10 +58,10 @@ namespace IRCMonitor
             cmboPageMoveNamespace.SelectedIndex = 0;
             cmboChannel.SelectedIndex = 0;
 
-            btnBack.Image = Resources.GoRtl;
-            btnFoward.Image = Resources.GoLtr;
-            btnStop.Image = Resources.Stop;
-            btnOpenInBrowser.Image = Resources.NewWindow;
+            btnBack.Image = WikiFunctions.Properties.Res.GoRtl;
+            btnFoward.Image = WikiFunctions.Properties.Res.GoLtr;
+            btnStop.Image = WikiFunctions.Properties.Res.Stop;
+            btnOpenInBrowser.Image = WikiFunctions.Properties.Res.NewWindow;
 
             Variables.SetProject(LangCodeEnum.en, ProjectEnum.wikipedia);
 

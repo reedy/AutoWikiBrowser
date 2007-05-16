@@ -30,7 +30,7 @@ namespace WikiFunctions
                     HttpWebRequest rq = (HttpWebRequest)WebRequest.Create("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=edit");
 
                     rq.Proxy.Credentials = CredentialCache.DefaultCredentials;
-                    rq.UserAgent = "WikiFunctions " + Tools.Version.ToString();
+                    rq.UserAgent = "WikiFunctions " + Tools.VersionString;
 
                     HttpWebResponse response = (HttpWebResponse)rq.GetResponse();
 

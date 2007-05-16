@@ -16,7 +16,7 @@ namespace WikiFunctions.AWBSettings
         public String SpacePreserve = "preserve";
 
         [XmlAttribute]
-        public string Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        public string Version = Tools.VersionString;
         public ProjectEnum Project = ProjectEnum.wikipedia;
         public LangCodeEnum LanguageCode = LangCodeEnum.en;
         public string CustomProject = "";

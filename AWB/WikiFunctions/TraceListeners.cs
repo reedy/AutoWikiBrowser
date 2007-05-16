@@ -38,7 +38,7 @@ namespace WikiFunctions.Logging
         public WikiTraceListener(UploadableLogSettings2 UploadSettings, TraceStatus TraceStatus)
             : base(UploadSettings, TraceStatus)
 		{
-			WriteBulletedLine("Logging: [[User:Kingbotk/Plugin/WikiFunctions2|WikiFunctions2]].dll v" + Tools.Version.ToString(), false, false);
+			WriteBulletedLine("Logging: WikiFunctions.dll v" + Tools.VersionString, false, false);
 		}
 
 		// Overrides:
@@ -120,7 +120,7 @@ namespace WikiFunctions.Logging
 			base.WriteLine("<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" " + "lang=\"en\" dir=\"ltr\">");
 			base.WriteLine("<head>");
 			base.WriteLine("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />");
-			base.WriteLine("<meta name=\"generator\" content=\"SDK Software WikiFunctions2" + Tools.Version.ToString() + "\" />");
+			base.WriteLine("<meta name=\"generator\" content=\"WikiFunctions" + Tools.VersionString + "\" />");
 			base.WriteLine("<title>AWB log</title>");
 			base.WriteLine("</head><body>");
 		}

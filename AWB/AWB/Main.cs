@@ -38,6 +38,7 @@ using WikiFunctions.Plugin;
 using WikiFunctions.Parse;
 using WikiFunctions.Lists;
 using WikiFunctions.Logging;
+using WikiFunctions.Properties;
 using WikiFunctions.Browser;
 using WikiFunctions.Controls;
 using System.Collections.Specialized;
@@ -69,21 +70,21 @@ namespace AutoWikiBrowser
                 lblIgnoredArticles.Alignment = ToolStripItemAlignment.Right;
                 lblEditCount.Alignment = ToolStripItemAlignment.Right;
 
-                btntsShowHide.Image = Resources.btnshowhide_image;
-                btntsShowHideParameters.Image = Resources.btnshowhideparameters_image;
-                btntsSave.Image = Resources.btntssave_image;
-                btntsIgnore.Image = Resources.GoLtr;
-                btntsStop.Image = Resources.Stop;
-                btntsPreview.Image = Resources.preview;
-                btntsChanges.Image = Resources.changes;
-                btntsFalsePositive.Image = Resources.RolledBack;
-                btntsStart.Image = Resources.Run;
+                btntsShowHide.Image = Res.btnshowhide_image;
+                btntsShowHideParameters.Image = Res.btnshowhideparameters_image;
+                btntsSave.Image = Res.btntssave_image;
+                btntsIgnore.Image = Res.GoLtr;
+                btntsStop.Image = Res.Stop;
+                btntsPreview.Image = Res.preview;
+                btntsChanges.Image = Res.changes;
+                btntsFalsePositive.Image = Res.RolledBack;
+                btntsStart.Image = Res.Run;
 
-                //btnSave.Image = Resources.btntssave_image;
-                //btnIgnore.Image = Resources.GoLtr;
+                //btnSave.Image = Res.btntssave_image;
+                //btnIgnore.Image = Res.GoLtr;
 
-                //btnDiff.Image = Resources.changes;
-                //btnPreview.Image = Resources.preview;
+                //btnDiff.Image = Res.changes;
+                //btnPreview.Image = Res.preview;
                 splash.setProgress(15);
                 int stubcount = 500;
                 bool catkey = false;
@@ -173,7 +174,6 @@ namespace AutoWikiBrowser
 
             try
             {
-                //MessageBox.Show(WikiDiff.WikiDiffVersion.FileVersion);
                 //check that we are not using an old OS. 98 seems to mangled some unicode
                 if (Environment.OSVersion.Version.Major < 5)
                 {
@@ -3243,7 +3243,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             WikiFunctions.Parse.FindandReplace IAutoWikiBrowser.FindandReplace { get { return findAndReplace; } }
             WikiFunctions.SubstTemplates IAutoWikiBrowser.SubstTemplates { get { return substTemplates; } }
             string IAutoWikiBrowser.CustomModule { get { if (cModule.ModuleEnabled && cModule.Module != null) return cModule.Code; else return null; } }
-            public System.Version AWBVersion { get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; } }
+            System.Version IAutoWikiBrowser.AWBVersion { get { return Program.Version; } }
             System.Version IAutoWikiBrowser.WikiFunctionsVersion { get { return WikiFunctions.Tools.Version; } }
             string IAutoWikiBrowser.WikiDiffVersionString { get { return WikiDiff.Version; } }
             void IAutoWikiBrowser.AddLogItem(bool Skipped, AWBLogListener LogListener) { LogControl1.AddLog(Skipped, LogListener); }
