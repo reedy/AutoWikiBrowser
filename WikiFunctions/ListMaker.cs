@@ -10,13 +10,17 @@ using System.Threading;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Diagnostics;
+using WikiFunctions.Lists;
 
 namespace WikiFunctions.Lists
 {
     //CategoryRecursive is enabled in debug builds only due to server load
     //it should always be the last item
     public enum SourceType { None = -1, Category, WhatLinksHere, WhatTranscludesHere, LinksOnPage, ImagesOnPage, TextFile, GoogleWikipedia, UserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist, WikiSearch, Redirects, CategoryRecursive }
+}
 
+namespace WikiFunctions.Controls.Lists
+{
     public delegate void ListMakerEventHandler();
 
     public partial class ListMaker : UserControl, IEnumerable<Article>, ICollection<Article>, IList<Article>

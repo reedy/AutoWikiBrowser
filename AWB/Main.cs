@@ -1,6 +1,6 @@
 ﻿/*
 Autowikibrowser
-Copyright (C) 2006 Martin Richards
+Copyright (C) 2007 Martin Richards
 (C) 2007 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 
 This program is free software; you can redistribute it and/or modify
@@ -44,6 +44,7 @@ using WikiFunctions.Controls;
 using System.Collections.Specialized;
 using WikiFunctions.Background;
 using System.Security.Permissions;
+using WikiFunctions.Controls.Lists;
 
 [assembly: CLSCompliant(true)]
 namespace AutoWikiBrowser
@@ -3236,7 +3237,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             TextBox IAutoWikiBrowser.EditBox { get { return txtEdit; } }
             Form IAutoWikiBrowser.Form { get { return this; } }
             ToolStripMenuItem IAutoWikiBrowser.PluginsToolStripMenuItem { get { return pluginsToolStripMenuItem; } }
-            WikiFunctions.Lists.ListMaker IAutoWikiBrowser.ListMaker { get { return listMaker1; } }
+            WikiFunctions.Controls.Lists.ListMaker IAutoWikiBrowser.ListMaker { get { return listMaker1; } }
             WikiFunctions.Browser.WebControl IAutoWikiBrowser.WebControl { get { return webBrowserEdit;} }
             ContextMenuStrip IAutoWikiBrowser.EditBoxContextMenu { get { return mnuTextBox; } }
             TabControl IAutoWikiBrowser.Tab { get { return tabControl1; } }
@@ -3244,7 +3245,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             WikiFunctions.SubstTemplates IAutoWikiBrowser.SubstTemplates { get { return substTemplates; } }
             string IAutoWikiBrowser.CustomModule { get { if (cModule.ModuleEnabled && cModule.Module != null) return cModule.Code; else return null; } }
             System.Version IAutoWikiBrowser.AWBVersion { get { return Program.Version; } }
-            System.Version IAutoWikiBrowser.WikiFunctionsVersion { get { return WikiFunctions.Tools.Version; } }
+            System.Version IAutoWikiBrowser.WikiFunctionsVersion { get { return Tools.Version; } }
+            string IAutoWikiBrowser.AWBVersionString { get { return Program.VersionString; } }
+            string IAutoWikiBrowser.WikiFunctionsVersionString { get { return Tools.VersionString; } }
             string IAutoWikiBrowser.WikiDiffVersionString { get { return WikiDiff.Version; } }
             void IAutoWikiBrowser.AddLogItem(bool Skipped, AWBLogListener LogListener) { LogControl1.AddLog(Skipped, LogListener); }
 

@@ -1,7 +1,6 @@
 /*
-WikiFunctions
-Copyright:
-(C) 2006 Martin Richards
+
+(C) 2007 Martin Richards
 (C) 2007 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 
 This program is free software; you can redistribute it and/or modify
@@ -71,11 +70,7 @@ namespace WikiFunctions
         /// </summary>
         public static void About()
         {
-            try
-            {
-                Controls.AboutBox About = new Controls.AboutBox();
-                About.Show();
-            }
+            try { new Controls.AboutBox().Show(); }
             catch { }
         }
 

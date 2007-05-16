@@ -1,6 +1,6 @@
 /*
 Database Scanner
-Copyright (C) 2006 Martin Richards
+Copyright (C) 2007 Martin Richards
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using WikiFunctions.Parse;
 using WikiFunctions.Lists;
+using WikiFunctions.Controls.Lists;
 
 namespace WikiFunctions.DatabaseScanner
 {

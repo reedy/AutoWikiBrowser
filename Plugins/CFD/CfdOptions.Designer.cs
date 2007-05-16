@@ -31,7 +31,6 @@ namespace AutoWikiBrowser.Plugins.CFD
             this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.chkSkip = new System.Windows.Forms.CheckBox();
-            this.chkEnabled = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.txtBacklog = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -52,7 +51,6 @@ namespace AutoWikiBrowser.Plugins.CFD
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.chkSkip);
-            this.groupBox1.Controls.Add(this.chkEnabled);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(547, 49);
@@ -63,22 +61,12 @@ namespace AutoWikiBrowser.Plugins.CFD
             // chkSkip
             // 
             this.chkSkip.AutoSize = true;
-            this.chkSkip.Location = new System.Drawing.Point(186, 19);
+            this.chkSkip.Location = new System.Drawing.Point(6, 19);
             this.chkSkip.Name = "chkSkip";
-            this.chkSkip.Size = new System.Drawing.Size(199, 17);
+            this.chkSkip.Size = new System.Drawing.Size(198, 17);
             this.chkSkip.TabIndex = 1;
             this.chkSkip.Text = "Skip when no recategorisation made";
             this.chkSkip.UseVisualStyleBackColor = true;
-            // 
-            // chkEnabled
-            // 
-            this.chkEnabled.AutoSize = true;
-            this.chkEnabled.Location = new System.Drawing.Point(6, 19);
-            this.chkEnabled.Name = "chkEnabled";
-            this.chkEnabled.Size = new System.Drawing.Size(139, 17);
-            this.chkEnabled.TabIndex = 0;
-            this.chkEnabled.Text = "Enable recategorisation";
-            this.chkEnabled.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
@@ -201,7 +189,6 @@ namespace AutoWikiBrowser.Plugins.CFD
 
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckBox chkSkip;
-        private System.Windows.Forms.CheckBox chkEnabled;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.TextBox txtBacklog;
         private System.Windows.Forms.GroupBox groupBox3;

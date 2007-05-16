@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("IRCMonitor")]
-[assembly: AssemblyDescription("IRCMonitor comes with no absolutely warrantly. It was created by en.wikipedia User:Bluemoose")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Bluemoose and the AWB team")]
 [assembly: AssemblyProduct("IRCMonitor")]
-[assembly: AssemblyCopyright("Copyright ©  2006 AutoWikiBrowser project. Distributed on terms of the GNU GPL")]
+[assembly: AssemblyCopyright("Copyright © 2007 AutoWikiBrowser team members. Distributed under the terms of the GNU General Public Licence. No warranty.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -29,5 +29,5 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("3.9.1.0")]
-[assembly: AssemblyFileVersion("3.9.1.0")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]

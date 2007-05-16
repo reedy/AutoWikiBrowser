@@ -1,4 +1,4 @@
-namespace WikiFunctions.Lists
+namespace WikiFunctions.Controls.Lists
 {
     partial class ListSplitter
     {
@@ -34,7 +34,7 @@ namespace WikiFunctions.Lists
             this.btnXMLSave = new System.Windows.Forms.Button();
             this.saveXML = new System.Windows.Forms.SaveFileDialog();
             this.saveTXT = new System.Windows.Forms.SaveFileDialog();
-            this.listMaker1 = new WikiFunctions.Lists.ListMaker();
+            this.listMaker1 = new WikiFunctions.Controls.Lists.ListMaker();
             ((System.ComponentModel.ISupportInitialize)(this.numSplitAmount)).BeginInit();
             this.SuspendLayout();
             // 

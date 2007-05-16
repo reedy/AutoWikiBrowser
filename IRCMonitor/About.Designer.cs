@@ -78,9 +78,9 @@ namespace WikiFunctions
             this.labelProductName.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelProductName.Location = new System.Drawing.Point(8, 9);
             this.labelProductName.Name = "labelProductName";
-            this.labelProductName.Size = new System.Drawing.Size(179, 24);
+            this.labelProductName.Size = new System.Drawing.Size(116, 24);
             this.labelProductName.TabIndex = 3;
-            this.labelProductName.Text = "labelProductName";
+            this.labelProductName.Text = "IRCMonitor";
             // 
             // panel1
             // 
@@ -95,10 +95,10 @@ namespace WikiFunctions
             this.labelCopyright.AutoSize = true;
             this.labelCopyright.Location = new System.Drawing.Point(13, 286);
             this.labelCopyright.Name = "labelCopyright";
-            this.labelCopyright.Size = new System.Drawing.Size(73, 13);
+            this.labelCopyright.Size = new System.Drawing.Size(51, 13);
             this.labelCopyright.TabIndex = 5;
             this.labelCopyright.TabStop = true;
-            this.labelCopyright.Text = "labelCopyright";
+            this.labelCopyright.Text = "Copyright";
             this.labelCopyright.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.labelCopyright_LinkClicked);
             // 
             // textBoxDescription
@@ -118,9 +118,9 @@ namespace WikiFunctions
             this.labelVersion.AutoSize = true;
             this.labelVersion.Location = new System.Drawing.Point(9, 52);
             this.labelVersion.Name = "labelVersion";
-            this.labelVersion.Size = new System.Drawing.Size(64, 13);
+            this.labelVersion.Size = new System.Drawing.Size(42, 13);
             this.labelVersion.TabIndex = 7;
-            this.labelVersion.Text = "labelVersion";
+            this.labelVersion.Text = "Version";
             // 
             // AboutIRCMon
             // 

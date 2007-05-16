@@ -66,7 +66,7 @@ namespace WikiFunctions.Lists
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.cbOpType = new System.Windows.Forms.ComboBox();
-            this.lbRemove = new WikiFunctions.Lists.ListBox2();
+            this.lbRemove = new WikiFunctions.Controls.Lists.ListBox2();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnGetList = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -607,7 +607,7 @@ namespace WikiFunctions.Lists
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.CheckBox chkRemoveDups;
-        private ListBox2 lbRemove;
+        private WikiFunctions.Controls.Lists.ListBox2 lbRemove;
         private System.Windows.Forms.ComboBox cbOpType;
         private System.Windows.Forms.Button btnSelectNone;
         private System.Windows.Forms.Button btnSelectAll;

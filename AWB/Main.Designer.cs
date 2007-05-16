@@ -1,6 +1,6 @@
 /*
     Autowikibrowser
-    Copyright (C) 2006 Martin Richards
+    Copyright (C) 2007 Martin Richards
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -233,7 +233,7 @@ namespace AutoWikiBrowser
             this.EditBoxSaveTimer = new System.Windows.Forms.Timer(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.listMaker1 = new WikiFunctions.Lists.ListMaker();
+            this.listMaker1 = new WikiFunctions.Controls.Lists.ListMaker();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tpSetOptions = new System.Windows.Forms.TabPage();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
@@ -3297,7 +3297,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem saveTextToFileToolStripMenuItem;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.GroupBox groupBox2;
-        private WikiFunctions.Lists.ListMaker listMaker1;
+        private WikiFunctions.Controls.Lists.ListMaker listMaker1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tpSetOptions;
         private System.Windows.Forms.GroupBox groupBox13;

@@ -43,6 +43,12 @@
     </Compile>
     <Compile Include="AWBLogListener.cs" />
     <Compile Include="Background.cs" />
+    <Compile Include="Controls\ListBox2.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ListBox2.designer.cs">
+      <DependentUpon>ListBox2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\MoveDeleteDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -106,12 +112,6 @@
     </Compile>
     <Compile Include="GetLists.cs" />
     <Compile Include="HideText.cs" />
-    <Compile Include="ListBox2.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ListBox2.Designer.cs">
-      <DependentUpon>ListBox2.cs</DependentUpon>
-    </Compile>
     <Compile Include="ListComparer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -125,9 +125,17 @@
       <DependentUpon>ListMaker.cs</DependentUpon>
     </Compile>
     <Compile Include="ListViewItemComparer.cs" />
-    <Compile Include="LoggingBase.cs" />
-    <Compile Include="LoggingInterface.cs" />
-    <Compile Include="LogUploader.cs" />
+    <Compile Include="Logging\LoggingBase.cs" />
+    <Compile Include="Logging\LoggingInterface.cs" />
+    <Compile Include="Logging\LogUploader.cs" />
+    <Compile Include="Logging\TraceListeners.cs" />
+    <Compile Include="Logging\TraceManager.cs" />
+    <Compile Include="Logging\UploadingPleaseWaitForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Logging\UploadingPleaseWaitForm.designer.cs">
+      <DependentUpon>UploadingPleaseWaitForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MetaDataSorter.cs" />
     <Compile Include="Controls\LoginDlg.cs">
       <SubType>Form</SubType>
@@ -201,8 +209,6 @@
     <Compile Include="TalkPageHeaders.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="ReplaceSpecial\Utility.cs" />
-    <Compile Include="TraceListeners.cs" />
-    <Compile Include="TraceManager.cs" />
     <Compile Include="Controls\TransparentLabel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -212,12 +218,6 @@
     </Compile>
     <Compile Include="LogControl.Designer.cs">
       <DependentUpon>LogControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UploadingPleaseWaitForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UploadingPleaseWaitForm.designer.cs">
-      <DependentUpon>UploadingPleaseWaitForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Variables.cs" />
     <Compile Include="WebControl.cs">
@@ -288,6 +288,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>LogControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Logging\UploadingPleaseWaitForm.resx">
+      <DependentUpon>UploadingPleaseWaitForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="PleaseWait.resx">
       <SubType>Designer</SubType>
       <DependentUpon>PleaseWait.cs</DependentUpon>
@@ -315,10 +319,6 @@
     <EmbeddedResource Include="SubstTemplates.resx">
       <SubType>Designer</SubType>
       <DependentUpon>SubstTemplates.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UploadingPleaseWaitForm.resx">
-      <DependentUpon>UploadingPleaseWaitForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources.resx">
       <SubType>Designer</SubType>
