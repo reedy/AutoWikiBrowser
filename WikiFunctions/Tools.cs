@@ -98,8 +98,7 @@ namespace WikiFunctions
 
             return true;
         }
-
-
+        
         /// <summary>
         /// Tests article to see if it is a redirect
         /// </summary>
@@ -259,7 +258,7 @@ namespace WikiFunctions
         /// Gets the HTML from the given web address.
         /// </summary>
         /// <param name="URL">The URL of the webpage.</param>
-        /// <param name="Enc">The ecoding to use.</param>
+        /// <param name="Enc">The encoding to use.</param>
         /// <returns>The HTML.</returns>
         public static string GetHTML(string URL, Encoding Enc)
         {
@@ -303,7 +302,7 @@ namespace WikiFunctions
             string text = "";
             try
             {
-                text = GetHTML(Variables.URLLong + "index.php?title=" + HttpUtility.UrlEncode(ArticleTitle) + "&action=raw&ctype=text/plain&dontcountme=s", Encoding.UTF8);
+                text = GetHTML(Variables.GetPlainTextURL(ArticleTitle), Encoding.UTF8);
             }
             catch
             {
@@ -320,9 +319,7 @@ namespace WikiFunctions
         /// Flashes the given form in the taskbar
         /// </summary>
         public static void FlashWindow(System.Windows.Forms.Form window)
-        {
-            FlashWindow(window.Handle, true);
-        }
+        { FlashWindow(window.Handle, true); }
 
         /// <summary>
         /// Returns a regex case insensitive version of a string for the first letter only e.g. "Category" returns "[Cc]ategory"
@@ -410,18 +407,14 @@ namespace WikiFunctions
             Text = RegexWordCountTable.Replace(Text, "");
             Text = WikiRegexes.TemplateMultiLine.Replace(Text, "");
 
-            MatchCollection m = WikiRegexes.RegexWordCount.Matches(Text);
-            return m.Count;
+            return WikiRegexes.RegexWordCount.Matches(Text).Count;
         }
 
         /// <summary>
         /// Returns the number of [[links]] in the string
         /// </summary>
         public static int LinkCount(string Text)
-        {
-            MatchCollection m = WikiRegexes.WikiLinksOnly.Matches(Text);
-            return m.Count;
-        }
+        { return WikiRegexes.WikiLinksOnly.Matches(Text).Count; }
 
         /// <summary>
         /// Removes underscores and wiki syntax from links
@@ -439,11 +432,11 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="Message">The message to write.</param>
         /// <param name="File">The name of the file, e.g. "Log.txt".</param>
-        public static void WriteLog(string Message, string File)
+        public static void WriteTextFile(string Message, string File, bool append)
         {
             try
             {
-                StreamWriter writer = new StreamWriter(Application.StartupPath + "\\" + File, true, Encoding.UTF8);
+                StreamWriter writer = new StreamWriter(Application.StartupPath + "\\" + File, append, Encoding.UTF8);
                 writer.Write(Message);
                 writer.Close();
             }
@@ -509,12 +502,12 @@ namespace WikiFunctions
             try
             {
 
-                WriteLog(string.Format(
+                WriteTextFile(string.Format(
 @"Object: {0}
 Time: {1}
 Message: {2}
 
-", Object, DateTime.Now.ToLongTimeString(), Text), "Log.txt");
+", Object, DateTime.Now.ToLongTimeString(), Text), "Log.txt", true);
             }
             catch (Exception ex)
             {

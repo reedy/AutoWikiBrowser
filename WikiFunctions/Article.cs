@@ -441,6 +441,23 @@ namespace WikiFunctions
                 else if (!NoChange)
                     this.AWBChangeArticleText("Emboldened titles", strTemp, false);
             }
+
+            public void SendPageToCustomModule(IModule Module)
+            { // TODO: Check this Skips properly if module tells us to. If not, we'll have to set the Skip property directly
+                ProcessArticleEventArgs ProcessArticleEventArgs = this;
+                string strEditSummary = "", strTemp; bool SkipArticle;
+
+                strTemp = Module.ProcessArticle(ProcessArticleEventArgs.ArticleText,
+                    ProcessArticleEventArgs.ArticleTitle, NameSpaceKey, out strEditSummary, out SkipArticle);
+
+                if (!SkipArticle)
+                {
+                    ProcessArticleEventArgs.EditSummary = strEditSummary;
+                    ProcessArticleEventArgs.Skip = false;
+                    AWBChangeArticleText("Custom module", strTemp, true);
+                    AppendPluginEditSummary();
+                }
+            }
         #endregion
 
         #region AWB worker functions
