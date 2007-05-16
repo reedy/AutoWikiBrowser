@@ -33,5 +33,29 @@ namespace AutoWikiBrowser.Plugins.CFD
             lnkDownload.Visible = false;
             Text = "CFD Plugin";
         }
+
+        private void InitializeComponent()
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutBox));
+            this.SuspendLayout();
+            // 
+            // linkLabel1
+            // 
+            this.toolTip1.SetToolTip(this.linkLabel1, "The AWB Team: Bluemoose (retired), MaxSem, Mets501, Reedy Boy, Kingboyk, Martinp2" +
+                    "3, and others");
+            // 
+            // textBoxDescription
+            // 
+            this.textBoxDescription.Text = resources.GetString("textBoxDescription.Text");
+            // 
+            // AboutBox
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.ClientSize = new System.Drawing.Size(262, 207);
+            this.Name = "AboutBox";
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
     }
 }

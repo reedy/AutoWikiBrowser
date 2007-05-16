@@ -110,9 +110,9 @@ namespace AutoWikiBrowser.Plugins.CFD
                 Enabled = false;
 
                 GetLists.QuietMode = true;
-                req.GetFromCategories(cats);
+                req.GetList(GetLists.From.Category, cats);
 
-                while (!req.Done) Application.DoEvents();
+                req.Wait();
                 GetLists.QuietMode = false;
                 Enabled = true;
 
