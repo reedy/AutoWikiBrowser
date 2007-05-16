@@ -55,7 +55,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
             If Success Then DirectCast(Sender.TraceStatus, TraceStatus).UploadsCount += 1
         End Sub
         Protected Overrides Function StartingUpload(ByVal Sender As TraceListenerUploadableBase) As Boolean
-            If Sender.TraceStatus.LogName = conWiki Then Return False
+            If Not Sender.TraceStatus.LogName = conWiki Then Return False
 
             mIsUploading = True
             LoggingSettings.LEDColour = Colour.Blue
