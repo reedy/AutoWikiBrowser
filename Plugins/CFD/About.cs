@@ -23,6 +23,10 @@ using System.Text;
 
 namespace AutoWikiBrowser.Plugins.CFD
 {
+    /* temp note: I removed some stuff to get it to compile. Any changes to the description (including reading
+     * from a (missing?) res file ought to be possible in Initialise(), which is called from the constructor.
+     * To get your name to show up, the best way is to add it to the GFDL string in WikiFunctions\Resources.resx
+     */
     internal sealed class AboutBox : WikiFunctions.Controls.AboutBox
     {
         protected override void Initialise()
@@ -32,30 +36,6 @@ namespace AutoWikiBrowser.Plugins.CFD
             textBoxDescription.Text = GFDLNotice;
             lnkDownload.Visible = false;
             Text = "CFD Plugin";
-        }
-
-        private void InitializeComponent()
-        {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutBox));
-            this.SuspendLayout();
-            // 
-            // linkLabel1
-            // 
-            this.toolTip1.SetToolTip(this.linkLabel1, "The AWB Team: Bluemoose (retired), MaxSem, Mets501, Reedy Boy, Kingboyk, Martinp2" +
-                    "3, and others");
-            // 
-            // textBoxDescription
-            // 
-            this.textBoxDescription.Text = resources.GetString("textBoxDescription.Text");
-            // 
-            // AboutBox
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.ClientSize = new System.Drawing.Size(262, 207);
-            this.Name = "AboutBox";
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
         }
     }
 }
