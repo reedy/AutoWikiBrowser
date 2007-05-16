@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace AutoWikiBrowser
 {
-    public partial class ExitQuestion : Form
+    internal sealed partial class ExitQuestion : Form
     {
         public ExitQuestion(TimeSpan time, int intEdits, string msg)
         {

@@ -10,7 +10,7 @@ using WikiFunctions;
 
 namespace AutoWikiBrowser
 {
-    public partial class MyPreferences : Form
+    internal sealed partial class MyPreferences : Form
     {
         public MyPreferences(LangCodeEnum lang, ProjectEnum proj, string customproj, Font TextFont, bool LowPriority, bool Flash, bool Beep, bool Minimize, bool SaveArticleList, bool OverrideWatchlist, decimal TimeOut, bool AutoSaveEditBox, string AutoSaveEditBoxFile, decimal AutoSaveEditBoxPeriod)
         {

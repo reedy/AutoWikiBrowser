@@ -241,7 +241,7 @@ namespace WikiFunctions.Logging
         }
 
         protected abstract string ApplicationName { get; }
-        protected virtual bool StartingUpload(TraceListenerUploadableBase Sender) { return true; }
+        protected abstract bool StartingUpload(TraceListenerUploadableBase Sender);
         protected virtual void FinishedUpload() { }
     }
 }

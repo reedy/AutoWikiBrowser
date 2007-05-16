@@ -26,7 +26,7 @@ using WikiFunctions.Controls;
 
 namespace AutoWikiBrowser
 {
-    public partial class Splash : Form
+    internal sealed partial class Splash : Form
     {
         public Splash()
         {

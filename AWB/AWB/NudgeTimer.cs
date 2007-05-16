@@ -6,7 +6,7 @@ using System.Text;
 
 namespace AutoWikiBrowser
 {
-    internal partial class NudgeTimer : System.Windows.Forms.Timer
+    internal sealed partial class NudgeTimer : System.Windows.Forms.Timer
     {
         /* TODO: I'm quite certain the logic isn't right here. The timer needs to be started and reset on a
          * successful save, and it needs to increase the time until next fire if the page still doesn't get
@@ -68,7 +68,7 @@ namespace AutoWikiBrowser
         }
 
         // Nested Types
-        public sealed class NudgeTimerEventArgs : EventArgs
+        internal sealed class NudgeTimerEventArgs : EventArgs
         {
             // Fields
             private bool mCancel;

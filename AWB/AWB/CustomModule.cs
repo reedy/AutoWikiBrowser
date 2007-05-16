@@ -12,7 +12,7 @@ using WikiFunctions.Plugin;
 
 namespace AutoWikiBrowser
 {
-    public partial class CustomModule : Form
+    internal sealed partial class CustomModule : Form
     {
         public CustomModule()
         {

@@ -49,7 +49,7 @@ namespace AutoWikiBrowser
 {
     [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
     [System.Runtime.InteropServices.ComVisibleAttribute(true)]
-    public partial class MainForm : Form, IAutoWikiBrowser
+    public sealed partial class MainForm : Form, IAutoWikiBrowser
     {
         #region constructor etc.
 
@@ -158,7 +158,7 @@ namespace AutoWikiBrowser
         TimeSpan StartTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
         StringCollection RecentList = new StringCollection();
         CustomModule cModule = new CustomModule();
-        public RegexTester regexTester = new RegexTester();
+        internal RegexTester regexTester = new RegexTester();
         bool userTalkWarningsLoaded = false;
         Regex userTalkTemplatesRegex;
         bool mErrorGettingLogInStatus;
@@ -3243,7 +3243,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             WikiFunctions.Parse.FindandReplace IAutoWikiBrowser.FindandReplace { get { return findAndReplace; } }
             WikiFunctions.SubstTemplates IAutoWikiBrowser.SubstTemplates { get { return substTemplates; } }
             string IAutoWikiBrowser.CustomModule { get { if (cModule.ModuleEnabled && cModule.Module != null) return cModule.Code; else return null; } }
-            System.Version IAutoWikiBrowser.AWBVersion { get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; } }
+            public System.Version AWBVersion { get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; } }
             System.Version IAutoWikiBrowser.WikiFunctionsVersion { get { return WikiFunctions.Tools.Version; } }
             string IAutoWikiBrowser.WikiDiffVersionString { get { return WikiDiff.Version; } }
             void IAutoWikiBrowser.AddLogItem(bool Skipped, AWBLogListener LogListener) { LogControl1.AddLog(Skipped, LogListener); }
