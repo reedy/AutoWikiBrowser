@@ -164,6 +164,7 @@ namespace AutoWikiBrowser
         bool userTalkWarningsLoaded = false;
         Regex userTalkTemplatesRegex;
         bool mErrorGettingLogInStatus;
+        bool skippable = true;
 
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -686,7 +687,6 @@ namespace AutoWikiBrowser
             return true;
         }
 
-        bool skippable = true;
         private void CaseWasDiff()
         {
             //if (diffChecker(webBrowserEdit.Document.Body.InnerHtml))
@@ -824,23 +824,6 @@ namespace AutoWikiBrowser
             SkipPageReasonAlreadyProvided();
         }
 
-        private void SendPageToCustomModule()
-        {
-            ProcessArticleEventArgs ProcessArticleEventArgs = TheArticle;
-            string strEditSummary = "", strTemp; bool SkipArticle;
-
-            strTemp = cModule.Module.ProcessArticle(ProcessArticleEventArgs.ArticleText,
-                ProcessArticleEventArgs.ArticleTitle, TheArticle.NameSpaceKey, out strEditSummary, out SkipArticle);
-
-            if (!SkipArticle)
-            {
-                ProcessArticleEventArgs.EditSummary = strEditSummary;
-                ProcessArticleEventArgs.Skip = false;
-                TheArticle.AWBChangeArticleText("Custom module", strTemp, true);
-                TheArticle.AppendPluginEditSummary();
-            }
-        }
-
         private void ProcessPage()
         {
             bool process = true;
@@ -859,7 +842,7 @@ namespace AutoWikiBrowser
 
                 if (cModule.ModuleEnabled && cModule.Module != null)
                 {
-                    SendPageToCustomModule();
+                    TheArticle.SendPageToCustomModule(cModule.Module);
                     if (TheArticle.SkipArticle) return;
                 }
 
@@ -1346,16 +1329,13 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TimeSpan Time = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-            Time = Time.Subtract(StartTime);
-            AboutBox About = new AboutBox(webBrowserEdit.Version.ToString(), Time, NumberOfEdits);
-            About.Show();
+            TimeSpan Time = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, 
+                DateTime.Now.Second).Subtract(StartTime);
+            new AboutBox(webBrowserEdit.Version.ToString(), Time, NumberOfEdits).Show();
         }
 
         private void loginToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CheckStatus(true);
-        }
+        { CheckStatus(true); }
 
         private void logOutToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1577,16 +1557,16 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             tabControl2.SelectedTab = tpEdit;
             int selection = lbDuplicateWikilinks.SelectedIndex;
             if (selection != oldselection)
-                resetFind();
+                Find.resetFind();
             if (lbDuplicateWikilinks.SelectedIndex != -1)
             {
                 string strLink = Regex.Escape(lbDuplicateWikilinks.SelectedItem.ToString());
-                find("\\[\\[" + strLink + "(\\|.*?)?\\]\\]", true, true);
+                Find.find("\\[\\[" + strLink + "(\\|.*?)?\\]\\]", true, true, txtEdit, TheArticle.Name);
                 btnRemove.Enabled = true;
             }
             else
             {
-                resetFind();
+                Find.resetFind();
                 btnRemove.Enabled = false;
             }
 
@@ -1608,84 +1588,28 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void txtFind_TextChanged(object sender, EventArgs e)
         {
-            resetFind();
+            Find.resetFind();
         }
 
         private void chkFindRegex_CheckedChanged(object sender, EventArgs e)
         {
-            resetFind();
+            Find.resetFind();
         }
         private void txtEdit_TextChanged(object sender, EventArgs e)
         {
-            resetFind();
+            Find.resetFind();
             TheArticle.EditSummary = "";
         }
         private void chkFindCaseSensitive_CheckedChanged(object sender, EventArgs e)
         {
-            resetFind();
-        }
-        private void resetFind()
-        {
-            regexObj = null;
-            matchObj = null;
+            Find.resetFind();
         }
         private void btnFind_Click(object sender, EventArgs e)
         {
             tabControl2.SelectedTab = tpEdit;
-            find(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked);
+            Find.find(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked, txtEdit, TheArticle.Name);
         }
 
-        private Regex regexObj;
-        private Match matchObj;
-
-        private void find(string strRegex, bool isRegex, bool caseSensive)
-        {
-            string ArticleText = txtEdit.Text;
-
-            RegexOptions regOptions;
-
-            if (caseSensive)
-                regOptions = RegexOptions.None;
-            else
-                regOptions = RegexOptions.IgnoreCase;
-
-            strRegex = Tools.ApplyKeyWords(TheArticle.Name, strRegex);
-
-            if (!isRegex)
-                strRegex = Regex.Escape(strRegex);
-
-            if (matchObj == null || regexObj == null)
-            {
-                int findStart = txtEdit.SelectionStart;
-
-                regexObj = new Regex(strRegex, regOptions);
-                matchObj = regexObj.Match(ArticleText, findStart);
-                txtEdit.SelectionStart = matchObj.Index;
-                txtEdit.SelectionLength = matchObj.Length;
-                txtEdit.Focus();
-                txtEdit.ScrollToCaret();
-                return;
-            }
-            else
-            {
-                if (matchObj.NextMatch().Success)
-                {
-                    matchObj = matchObj.NextMatch();
-                    txtEdit.SelectionStart = matchObj.Index;
-                    txtEdit.SelectionLength = matchObj.Length;
-                    txtEdit.Focus();
-                    txtEdit.ScrollToCaret();
-                }
-                else
-                {
-                    txtEdit.SelectionStart = 0;
-                    txtEdit.SelectionLength = 0;
-                    txtEdit.Focus();
-                    txtEdit.ScrollToCaret();
-                    resetFind();
-                }
-            }
-        }
 
         private void toolStripTextBox2_Click(object sender, EventArgs e)
         {
@@ -2033,20 +1957,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             GetDiff();
         }
 
-        private void btnFalsePositive_Click(object sender, EventArgs e)
-        {
-            FalsePositive();
-        }
-
-        private void tsbuttonFalsePositive_Click(object sender, EventArgs e)
-        {
-            FalsePositive();
-        }
-
-        private void FalsePositive()
+        private void FalsePositiveClick(object sender, EventArgs e)
         {
             if (TheArticle.Name.Length > 0)
-                Tools.WriteLog("#[[" + TheArticle.Name + "]]\r\n", @"False positives.txt");
+                Tools.WriteTextFile("#[[" + TheArticle.Name + "]]\r\n", @"False positives.txt", true);
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -2231,7 +2145,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 }
                 if (e.KeyCode == Keys.F)
                 {
-                    find(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked);
+                    Find.find(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked, 
+                        txtEdit, TheArticle.Name);
                     e.SuppressKeyPress = true;
                     return;
                 }

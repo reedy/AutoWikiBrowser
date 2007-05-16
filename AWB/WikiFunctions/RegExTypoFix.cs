@@ -148,11 +148,12 @@ namespace WikiFunctions.Parse
                 string text = "";
                 try
                 {
-                    string s = Variables.RETFPath;
+                    string typolistURL = Variables.RETFPath;
 
-                    if (!s.StartsWith("http:")) s = Variables.URLLong + "index.php?title=" + Tools.WikiEncode(s) + "&action=raw&ctype=text/plain&dontcountme=s";
+                    if (!typolistURL.StartsWith("http:"))
+                        typolistURL = Variables.GetPlainTextURL(typolistURL);
 
-                    text = Tools.GetHTML(s, Encoding.UTF8);
+                    text = Tools.GetHTML(typolistURL, Encoding.UTF8);
                 }
                 catch
                 {
