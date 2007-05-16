@@ -113,6 +113,7 @@ namespace WikiFunctions.Plugin
 
     public interface IModule
     {
-        string ProcessArticle(string ArticleText, string ArticleTitle, int Namespace, out string Summary, out bool Skip);
+        string ProcessArticle(string ArticleText, string ArticleTitle, int Namespace, out string Summary, 
+            out bool Skip);
     }
 }

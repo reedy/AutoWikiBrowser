@@ -834,7 +834,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         }
 
         /// <summary>
-        /// '''Emboldens''' the first occurence of the title, if it isnt already
+        /// '''Emboldens''' the first occurence of the article title, if not already bold
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <param name="ArticleTitle">The title of the article.</param>
