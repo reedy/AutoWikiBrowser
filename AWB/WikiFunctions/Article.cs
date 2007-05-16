@@ -171,7 +171,7 @@ namespace WikiFunctions
                 {
                     RegexOptions RegexOptions;
 
-                    if (caseSensitive)
+                    if (CaseSensitive)
                         RegexOptions = RegexOptions.None;
                     else
                         RegexOptions = RegexOptions.IgnoreCase;

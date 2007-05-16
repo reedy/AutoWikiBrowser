@@ -24,9 +24,10 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Reflection;
+using WikiFunctions;
 using WikiFunctions.Controls;
 
-namespace WikiFunctions
+namespace IRCMonitor
 {
     partial class AboutIRCMon : Form
     {

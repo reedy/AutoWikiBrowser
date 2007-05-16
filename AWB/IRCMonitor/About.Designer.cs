@@ -1,4 +1,4 @@
-namespace WikiFunctions
+namespace IRCMonitor
 {
     partial class AboutIRCMon
     {
