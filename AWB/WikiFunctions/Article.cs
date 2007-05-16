@@ -594,7 +594,7 @@ namespace WikiFunctions
             Article IArticleSimple.Article { get { return this; } }
         #endregion
 
-        public static ArticleSimple GetReadOnlyArticle(string Title)
+        public static IArticleSimple GetReadOnlyArticle(string Title)
         {
             // TODO: See Parsers.HasInfobox
             return null;
