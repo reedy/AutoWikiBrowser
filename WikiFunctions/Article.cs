@@ -30,6 +30,9 @@ using WikiFunctions.Parse;
 
 namespace WikiFunctions
 {
+    /// <summary>
+    /// A class which represents a wiki article
+    /// </summary>
     public class Article : ProcessArticleEventArgs
     {
         protected int mNameSpaceKey;
@@ -42,116 +45,151 @@ namespace WikiFunctions
         protected string mPluginEditSummary;
         protected bool mPluginSkip;
 
-        public Article()
-        { }
+        #region Constructors
+            public Article()
+            { }
 
-        public Article(string mName)
-        {
-            this.mName = mName;
-            this.mNameSpaceKey = Tools.CalculateNS(mName);
-            this.EditSummary = "";
-        }
-
-        public Article(string mName, int mNameSpaceKey)
-        {
-            this.mName = mName;
-            this.mNameSpaceKey = mNameSpaceKey;
-            this.EditSummary = "";
-        }
-
-        public AWBLogListener InitialiseLogListener()
-        {
-            mAWBLogListener = new Logging.AWBLogListener(this.mName);
-            return mAWBLogListener;
-        }
-
-
-        [XmlIgnore]
-        public AWBLogListener LogListener
-        { get { return mAWBLogListener; } set { mAWBLogListener = value; } }
-
-        public string URLEncodedName
-        {
-            get { return Tools.WikiEncode(mName); }
-        }
-
-        public string Name
-        { get { return mName; } set { mName = value; } }
-
-        [XmlIgnore]
-        public string ArticleText
-        { get { return mArticleText.Trim(); } } // deliberately readonly; set using methods
-
-        [XmlIgnore]
-        public string OriginalArticleText
-        { get { return mOriginalArticleText.Trim(); } set { mOriginalArticleText = value; mArticleText = value; } }
-
-        [XmlIgnore]
-        public string EditSummary
-        { get { return mEditSummary; } set { mEditSummary = value; } }
-
-        [XmlIgnore]
-        public string SavedSummary
-        { get { return mSavedSummary; } }
-
-        public void SaveSummary()
-        {
-            mSavedSummary =
-              mEditSummary; // EditSummary gets reset by MainForm.txtEdit_TextChanged before it's used, I don't know why
-        }
-
-        [XmlIgnore]
-        public bool IsStub {
-            get { return (HasStubTemplate || mArticleText.Length < 1500); }
-        }
-
-        [XmlIgnore]
-        public bool HasStubTemplate
-        {
-            get
-            {                
-                if (Variables.LangCode != LangCodeEnum.en) throw new NotImplementedException();
-                return mArticleText.Contains(Variables.stubIndicator);
-            }
-        }
-
-        // TODO: HasInfoBox
-        /*[XmlIgnore]
-        public bool HasInfoBox
-        {
-            get
+            public Article(string mName)
             {
+                this.mName = mName;
+                this.mNameSpaceKey = Tools.CalculateNS(mName);
+                this.EditSummary = "";
             }
-        }*/
 
-        [XmlIgnore]
-        public bool IsInUse
-        { get { return Regex.IsMatch(mArticleText, "\\{\\{[Ii]nuse"); } }
-
-        public bool SkipIfContains(string strFind, bool Regexe, bool caseSensitive, bool DoesContain)
-        {
-            if (strFind.Length > 0)
+            public Article(string mName, int mNameSpaceKey)
             {
-                RegexOptions RegOptions;
-
-                if (caseSensitive)
-                    RegOptions = RegexOptions.None;
-                else
-                    RegOptions = RegexOptions.IgnoreCase;
-
-                strFind = Tools.ApplyKeyWords(this.Name, strFind);
-
-                if (!Regexe)
-                    strFind = Regex.Escape(strFind);
-
-                if (Regex.IsMatch(this.OriginalArticleText, strFind, RegOptions))
-                    return DoesContain;
-                else
-                    return !DoesContain;
+                this.mName = mName;
+                this.mNameSpaceKey = mNameSpaceKey;
+                this.EditSummary = "";
             }
-            else
-                return false;
-        }
+
+            public AWBLogListener InitialiseLogListener()
+            {
+                mAWBLogListener = new Logging.AWBLogListener(this.mName);
+                return mAWBLogListener;
+            }
+        #endregion
+
+        #region Serialisable properties
+            /// <summary>
+            /// The full name of the article
+            /// </summary>
+            public string Name
+            { get { return mName; } set { mName = value; } }
+
+        #endregion
+
+        #region Non-serialisable properties
+            // Read-write properties should be marked with the [XmlIgnore] attribute
+
+            /// <summary>
+            /// AWBLogListener object representing a log entry for the underlying article
+            /// </summary>
+            [XmlIgnore]
+            public AWBLogListener LogListener
+            { get { return mAWBLogListener; } set { mAWBLogListener = value; } }
+
+            /// <summary>
+            /// The name of the article, encoded ready for use in a URL
+            /// </summary>
+            public string URLEncodedName
+            { get { return Tools.WikiEncode(mName); } }
+
+            /// <summary>
+            /// The text of the article. This is deliberately readonly; set using methods
+            /// </summary>
+            public string ArticleText
+            { get { return mArticleText.Trim(); } } 
+
+            /// <summary>
+            /// Article text before this program manipulated it
+            /// </summary>
+            [XmlIgnore]
+            public string OriginalArticleText
+            { get { return mOriginalArticleText.Trim(); } set { mOriginalArticleText = value; mArticleText = value; } }
+
+            /// <summary>
+            /// Edit summary proposed for article
+            /// </summary>
+            [XmlIgnore]
+            public string EditSummary
+            { get { return mEditSummary; } set { mEditSummary = value; } }
+
+            /// <summary>
+            ///  Last stored EditSummary before reset
+            /// </summary>
+            public string SavedSummary
+            { get { return mSavedSummary; } }
+
+            /// <summary>
+            /// Returns true if the article is a stub (a very short article or an article tagged with a "stub template")
+            /// </summary>
+            public bool IsStub { get { return Parsers.IsStub(mArticleText); } }
+
+            /// <summary>
+            /// Returns true if the article contains a stub template
+            /// </summary>
+            public bool HasStubTemplate
+            { get { return Parsers.HasStubTemplate(mArticleText); } }
+
+            /// <summary>
+            /// Returns true if the article contains an infobox
+            /// </summary>
+            public bool HasInfoBox
+            { get { return Parsers.HasInfobox(mArticleText); } }
+
+            /// <summary>
+            /// Returns true if the article contains a template showing it as "in use"
+            /// </summary>
+            public bool IsInUse
+            { get { return Parsers.IsInUse(mArticleText); } }
+        #endregion
+
+        #region AWB worker subroutines
+            /// <summary>
+            /// Save the contents of the EditSummary property in the SavedSummary property
+            /// </summary>
+            public void SaveSummary()
+            {
+                mSavedSummary =
+                  mEditSummary; // EditSummary gets reset by MainForm.txtEdit_TextChanged before it's used, I don't know why
+            }
+        #endregion
+
+        #region AWB worker functions
+            /// <summary>
+            /// Returns true if the article should be skipped based on the text it does or doesn't contain
+            /// </summary>
+            /// <param name="FindText">The text to find</param>
+            /// <param name="Regexe">True if FindText contains a regular expression</param>
+            /// <param name="caseSensitive">True if the search should be case sensitive</param>
+            /// <param name="DoesContain">True if the article should be skipped if it contains the text, false if it should be skipped if it does *not* contain the text</param>
+            /// <returns>A boolean value indicating whether or not the article should be skipped</returns>
+            public bool SkipIfContains(string FindText, bool RegEx, bool CaseSensitive, bool DoesContain)
+            {
+                if (FindText.Length > 0)
+                {
+                    RegexOptions RegexOptions;
+
+                    if (caseSensitive)
+                        RegexOptions = RegexOptions.None;
+                    else
+                        RegexOptions = RegexOptions.IgnoreCase;
+
+                    FindText = Tools.ApplyKeyWords(this.Name, FindText);
+
+                    if (!RegEx)
+                        FindText = Regex.Escape(FindText);
+
+                    if (Regex.IsMatch(this.OriginalArticleText, FindText, RegexOptions))
+                        return DoesContain;
+                    else
+                        return !DoesContain;
+                }
+                else
+                    return false;
+            }
+        #endregion
 
         public void AWBSkip(string reason)
         { mAWBLogListener.AWBSkipped(reason); }
