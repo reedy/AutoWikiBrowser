@@ -2716,7 +2716,7 @@ namespace AutoWikiBrowser
             this.chkFindCaseSensitive.TabIndex = 30;
             this.chkFindCaseSensitive.Text = "Case sensitive";
             this.chkFindCaseSensitive.UseVisualStyleBackColor = true;
-            this.chkFindCaseSensitive.CheckedChanged += new System.EventHandler(this.chkFindCaseSensitive_CheckedChanged);
+            this.chkFindCaseSensitive.CheckedChanged += new System.EventHandler(this.ResetFind);
             // 
             // chkFindRegex
             // 
@@ -2727,7 +2727,7 @@ namespace AutoWikiBrowser
             this.chkFindRegex.TabIndex = 29;
             this.chkFindRegex.Text = "Is regex";
             this.chkFindRegex.UseVisualStyleBackColor = true;
-            this.chkFindRegex.CheckedChanged += new System.EventHandler(this.chkFindRegex_CheckedChanged);
+            this.chkFindRegex.CheckedChanged += new System.EventHandler(this.ResetFind);
             // 
             // txtFind
             // 
@@ -2736,7 +2736,7 @@ namespace AutoWikiBrowser
             this.txtFind.Size = new System.Drawing.Size(98, 20);
             this.txtFind.TabIndex = 26;
             this.txtFind.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFind_KeyPress);
-            this.txtFind.TextChanged += new System.EventHandler(this.txtFind_TextChanged);
+            this.txtFind.TextChanged += new System.EventHandler(this.ResetFind);
             // 
             // cmboEditSummary
             // 
