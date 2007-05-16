@@ -1,4 +1,4 @@
-namespace WikiFunctions.DatabaseScanner
+namespace WikiFunctions.Controls
 {
     partial class AboutBox
     {
@@ -27,6 +27,7 @@ namespace WikiFunctions.DatabaseScanner
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutBox));
             this.label1 = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
@@ -34,6 +35,7 @@ namespace WikiFunctions.DatabaseScanner
             this.textBoxDescription = new System.Windows.Forms.TextBox();
             this.lblVersion = new System.Windows.Forms.Label();
             this.lnkDownload = new System.Windows.Forms.LinkLabel();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // label1
@@ -53,7 +55,9 @@ namespace WikiFunctions.DatabaseScanner
             this.linkLabel1.Size = new System.Drawing.Size(84, 13);
             this.linkLabel1.TabIndex = 28;
             this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "User:Bluemoose";
+            this.linkLabel1.Text = "The AWB Team";
+            this.toolTip1.SetToolTip(this.linkLabel1, "The AWB Team: Bluemoose (retired), MaxSem, Mets501, Reedy Boy, Kingboyk, Martinp2" +
+                    "3, and others");
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // okButton
@@ -119,7 +123,7 @@ namespace WikiFunctions.DatabaseScanner
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Wiki Data Dump Searcher";
+            this.Text = "WikiFunctions";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -133,6 +137,7 @@ namespace WikiFunctions.DatabaseScanner
         private System.Windows.Forms.TextBox textBoxDescription;
         private System.Windows.Forms.Label lblVersion;
         private System.Windows.Forms.LinkLabel lnkDownload;
+        private System.Windows.Forms.ToolTip toolTip1;
 
     }
 }

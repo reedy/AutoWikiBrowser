@@ -1,4 +1,4 @@
-namespace WikiFunctions
+namespace WikiFunctions.Controls
 {
     partial class LoginDlg
     {

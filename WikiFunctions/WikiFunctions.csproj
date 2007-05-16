@@ -61,11 +61,11 @@
     <Compile Include="DabForm.designer.cs">
       <DependentUpon>DabForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseScanner\AboutDatabaseScanner.cs">
+    <Compile Include="Controls\AboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DatabaseScanner\AboutDatabaseScanner.Designer.cs">
-      <DependentUpon>AboutDatabaseScanner.cs</DependentUpon>
+    <Compile Include="Controls\AboutBox.Designer.cs">
+      <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
     <Compile Include="DatabaseScanner\DatabaseScanner.cs">
       <SubType>Form</SubType>
@@ -135,10 +135,10 @@
     <Compile Include="Controls\LoginDlg.Designer.cs">
       <DependentUpon>LoginDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="NoFlickerListView.cs">
+    <Compile Include="Controls\NoFlickerListView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="NoFlickerListView.Designer.cs">
+    <Compile Include="Controls\NoFlickerListView.Designer.cs">
       <DependentUpon>NoFlickerListView.cs</DependentUpon>
     </Compile>
     <Compile Include="Options.cs" />
@@ -168,11 +168,6 @@
     <Compile Include="ReplaceSpecial\ReplaceSpecial.Designer.cs">
       <DependentUpon>ReplaceSpecial.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyResource.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MyResource.resx</DependentUpon>
-    </Compile>
     <Compile Include="ReplaceSpecial\Rule.cs" />
     <Compile Include="ReplaceSpecial\RuleControl.cs">
       <SubType>UserControl</SubType>
@@ -189,7 +184,7 @@
     <Compile Include="ReplaceSpecial\TemplateParamRuleControl.designer.cs">
       <DependentUpon>TemplateParamRuleControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Resources.cs" />
+    <Compile Include="ResourcesManager.cs" />
     <Compile Include="SettingsClasses.cs" />
     <Compile Include="specialFilter.cs">
       <SubType>Form</SubType>
@@ -208,7 +203,7 @@
     <Compile Include="ReplaceSpecial\Utility.cs" />
     <Compile Include="TraceListeners.cs" />
     <Compile Include="TraceManager.cs" />
-    <Compile Include="TransparentLabel.cs">
+    <Compile Include="Controls\TransparentLabel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Updater.cs" />
@@ -231,6 +226,11 @@
     <Compile Include="WebControl.Designer.cs">
       <DependentUpon>WebControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="WikiIRC.cs" />
     <Compile Include="WikiRegexes.cs" />
     <Compile Include="WPEditor.cs" />
@@ -248,8 +248,8 @@
       <DependentUpon>DabForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="DatabaseScanner\AboutDatabaseScanner.resx">
-      <DependentUpon>AboutDatabaseScanner.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\AboutBox.resx">
+      <DependentUpon>AboutBox.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="DatabaseScanner\DatabaseScanner.resx">
@@ -300,11 +300,6 @@
       <DependentUpon>ReplaceSpecial.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyResource.resx">
-      <SubType>Designer</SubType>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>MyResource.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="ReplaceSpecial\RuleControl.resx">
       <DependentUpon>RuleControl.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -324,6 +319,12 @@
     <EmbeddedResource Include="UploadingPleaseWaitForm.resx">
       <DependentUpon>UploadingPleaseWaitForm.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>WikiFunctions.Properties</CustomToolNamespace>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -367,8 +368,34 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\AutoWikiBrowser2.png" />
+    <None Include="Resources\beep11.wav" />
+    <None Include="Resources\beep21.wav" />
     <Content Include="Resources\Bot Image.png" />
+    <None Include="Resources\btnshowhide.image1.png" />
+    <None Include="Resources\btnshowhide.image2.png" />
     <Content Include="Resources\btnshowhideparameters.image.png" />
+    <None Include="Resources\Stop2.bmp" />
+    <None Include="Resources\btnshowhideparameters.image2.png" />
+    <None Include="Resources\btntssave.image2.png" />
+    <None Include="Resources\Run2.bmp" />
+    <None Include="Resources\RolledBack2.bmp" />
+    <None Include="Resources\GoLtr2.bmp" />
+    <None Include="Resources\preview2.bmp" />
+    <None Include="Resources\NewWindow2.bmp" />
+    <None Include="Resources\GoRtl2.bmp" />
+    <None Include="Resources\filesave2.gif" />
+    <None Include="Resources\changes2.bmp" />
+    <None Include="Resources\Stop1.bmp" />
+    <None Include="Resources\btnshowhideparameters.image1.png" />
+    <None Include="Resources\btntssave.image1.png" />
+    <None Include="Resources\Run1.bmp" />
+    <None Include="Resources\RolledBack1.bmp" />
+    <None Include="Resources\GoLtr1.bmp" />
+    <None Include="Resources\preview1.bmp" />
+    <None Include="Resources\NewWindow1.bmp" />
+    <None Include="Resources\GoRtl1.bmp" />
+    <None Include="Resources\filesave1.gif" />
+    <None Include="Resources\changes1.bmp" />
     <None Include="Resources\Showhideparameters.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

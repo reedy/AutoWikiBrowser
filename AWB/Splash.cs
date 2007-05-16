@@ -31,7 +31,7 @@ namespace AutoWikiBrowser
         public Splash()
         {
             InitializeComponent();
-            lblVersion.Text = "Version " + Application.ProductVersion.ToString();
+            lblVersion.Text = "Version " + Program.VersionString;
         }
 
         private void ClickHandler(object sender, EventArgs e)

@@ -96,20 +96,6 @@ namespace WikiFunctions
                 return ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
             }
         }
-
-        public string AssemblyCompany
-        {
-            get
-            {
-                // Get all Company attributes on this assembly
-                object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCompanyAttribute), false);
-                // If there aren't any Company attributes, return an empty string
-                if (attributes.Length == 0)
-                    return "";
-                // If there is a Company attribute, return its value
-                return ((AssemblyCompanyAttribute)attributes[0]).Company;
-            }
-        }
         #endregion
 
         private void okButton_Click(object sender, EventArgs e)

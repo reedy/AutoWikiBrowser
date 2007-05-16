@@ -56,12 +56,12 @@ namespace WikiFunctions.Logging
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lvIgnored = new WikiFunctions.NoFlickerListView();
+            this.lvIgnored = new WikiFunctions.Controls.NoFlickerListView();
             this.colIgnoreArticle = new System.Windows.Forms.ColumnHeader();
             this.colIgnoreTime = new System.Windows.Forms.ColumnHeader();
             this.colSkippedBy = new System.Windows.Forms.ColumnHeader();
             this.colSkipReason = new System.Windows.Forms.ColumnHeader();
-            this.lvSaved = new WikiFunctions.NoFlickerListView();
+            this.lvSaved = new WikiFunctions.Controls.NoFlickerListView();
             this.colSuccessSave = new System.Windows.Forms.ColumnHeader();
             this.colSuccessTime = new System.Windows.Forms.ColumnHeader();
             this.mnuListView.SuspendLayout();
@@ -373,12 +373,12 @@ namespace WikiFunctions.Logging
 
         #endregion
 
-        private NoFlickerListView lvIgnored;
+        private Controls.NoFlickerListView lvIgnored;
         private System.Windows.Forms.ColumnHeader colIgnoreArticle;
         private System.Windows.Forms.ColumnHeader colIgnoreTime;
         private System.Windows.Forms.ColumnHeader colSkippedBy;
         private System.Windows.Forms.ColumnHeader colSkipReason;
-        private NoFlickerListView lvSaved;
+        private Controls.NoFlickerListView lvSaved;
         private System.Windows.Forms.ColumnHeader colSuccessSave;
         private System.Windows.Forms.ColumnHeader colSuccessTime;
         private System.Windows.Forms.Button btnAddToList;

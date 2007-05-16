@@ -37,22 +37,11 @@ namespace AutoWikiBrowser
             InitializeComponent();
 
             lblIEVersion.Text = "IE version: " + IEVersion;
-            lblAWBVersion.Text = "AWB Version " + AssemblyVersion;
-            textBoxDescription.Text = AssemblyDescription;
+            lblAWBVersion.Text = "AWB Version " + Program.VersionString;
+            textBoxDescription.Text = AssemblyDescription + System.Environment.NewLine + System.Environment.NewLine + WikiFunctions.Controls.AboutBox.GFDLNotice;
             lblOSVersion.Text = "Windows version: " + Environment.OSVersion.Version.Major.ToString() + "." + Environment.OSVersion.Version.Minor.ToString();
             lblNETVersion.Text = ".NET Version: " + Environment.Version.ToString();
             lblTimeAndEdits.Text = "You have made " + intEdits.ToString() + " edits in " + time.ToString();
-        }
-
-        #region Assembly Attribute Accessors
-
-        
-        public static string AssemblyVersion
-        {
-            get
-            {
-                return Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            }
         }
 
         public static string AssemblyDescription
@@ -68,49 +57,6 @@ namespace AutoWikiBrowser
                 return ((AssemblyDescriptionAttribute)attributes[0]).Description;
             }
         }
-
-        public static string AssemblyProduct
-        {
-            get
-            {
-                // Get all Product attributes on this assembly
-                object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
-                // If there aren't any Product attributes, return an empty string
-                if (attributes.Length == 0)
-                    return "";
-                // If there is a Product attribute, return its value
-                return ((AssemblyProductAttribute)attributes[0]).Product;
-            }
-        }
-
-        public static string AssemblyCopyright
-        {
-            get
-            {
-                // Get all Copyright attributes on this assembly
-                object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
-                // If there aren't any Copyright attributes, return an empty string
-                if (attributes.Length == 0)
-                    return "";
-                // If there is a Copyright attribute, return its value
-                return ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
-            }
-        }
-
-        public static string AssemblyCompany
-        {
-            get
-            {
-                // Get all Company attributes on this assembly
-                object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCompanyAttribute), false);
-                // If there aren't any Company attributes, return an empty string
-                if (attributes.Length == 0)
-                    return "";
-                // If there is a Company attribute, return its value
-                return ((AssemblyCompanyAttribute)attributes[0]).Company;
-            }
-        }
-        #endregion
 
         private void okButton_Click(object sender, EventArgs e)
         {

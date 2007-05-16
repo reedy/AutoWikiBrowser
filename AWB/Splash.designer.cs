@@ -54,7 +54,7 @@ namespace AutoWikiBrowser
             this.lblVersion.Size = new System.Drawing.Size(182, 36);
             this.lblVersion.TabIndex = 2;
             this.lblVersion.TabStop = false;
-            this.lblVersion.Text = "Version 1.1.1.1";
+            this.lblVersion.Text = "Version";
             this.lblVersion.UseWaitCursor = true;
             this.lblVersion.Click += new System.EventHandler(this.ClickHandler);
             // 

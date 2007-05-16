@@ -27,6 +27,7 @@ using System.IO;
 using System.Windows.Forms;
 
 using WikiFunctions;
+using WikiFunctions.Controls;
 using WikiFunctions.Lists;
 using WikiFunctions.Logging;
 

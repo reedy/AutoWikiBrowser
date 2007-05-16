@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WikiFunctions {
+namespace WikiFunctions.Properties {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace WikiFunctions {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "2.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class MyResource {
+    internal class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal MyResource() {
+        internal Resources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace WikiFunctions {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("WikiFunctions.MyResource", typeof(MyResource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("WikiFunctions.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -72,17 +72,35 @@ namespace WikiFunctions {
             }
         }
         
-        internal static System.Drawing.Bitmap Changes {
+        internal static System.Drawing.Bitmap changes {
             get {
-                object obj = ResourceManager.GetObject("Changes", resourceCulture);
+                object obj = ResourceManager.GetObject("changes", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap Filesave {
+        internal static System.Drawing.Bitmap filesave {
             get {
-                object obj = ResourceManager.GetObject("Filesave", resourceCulture);
+                object obj = ResourceManager.GetObject("filesave", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copyright Martin Richards, Stephen Kennedy (http://www.sdk-software.com/) et al
+        ///
+        ///This program is free software; you can redistribute it and/or modify
+        ///it under the terms of the GNU General Public License as published by
+        ///the Free Software Foundation; either version 2 of the License, or
+        ///(at your option) any later version.
+        ///
+        ///This program is distributed in the hope that it will be useful,
+        ///but WITHOUT ANY WARRANTY; without even the implied warranty of
+        ///MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.   [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string GFDL {
+            get {
+                return ResourceManager.GetString("GFDL", resourceCulture);
             }
         }
         
@@ -100,9 +118,9 @@ namespace WikiFunctions {
             }
         }
         
-        internal static System.Drawing.Bitmap Preview {
+        internal static System.Drawing.Bitmap preview {
             get {
-                object obj = ResourceManager.GetObject("Preview", resourceCulture);
+                object obj = ResourceManager.GetObject("preview", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
