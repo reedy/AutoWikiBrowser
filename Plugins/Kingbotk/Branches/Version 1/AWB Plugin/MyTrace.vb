@@ -18,7 +18,26 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
         Private Const conXHTML As String = "XHTML"
 
         ' The most important stuff:
-        Private Sub Trace_Upload(ByVal Sender As TraceListenerUploadableBase, ByRef Success As Boolean)
+        Friend Sub Initialise()
+            LoggingSettings.Initialised = True
+            LogFolder = LoggingSettings.Settings.LogFolder
+
+            With LoggingSettings.Settings
+                If .LogBadPages OrElse .LogXHTML OrElse .LogWiki Then
+                    If Not IO.Directory.Exists(.LogFolder) Then LogFolder = Application.StartupPath
+
+                    If .LogBadPages Then NewBadPagesTraceListener()
+                    If .LogXHTML Then NewXHTMLTraceListener()
+                    If .LogWiki Then NewWikiTraceListener()
+                End If
+                For Each t As KeyValuePair(Of String, IMyTraceListener) In Listeners
+                    t.Value.WriteBulletedLine("Start button clicked. Initialising log.", True, False, True)
+                Next
+            End With
+            CheckWeHaveLogInDetails()
+        End Sub
+        Private Sub TraceUploadEventHandler(ByVal Sender As TraceListenerUploadableBase, _
+        ByRef Success As Boolean)
 
             With LoggingSettings.Settings
                 Success = MyBase.UploadHandler(Sender, .LogTitle, .WikifiedCategory, _
@@ -47,24 +66,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
                Else LoggingSettings.LEDColour = Colour.Green
 
             mIsUploading = False
-        End Sub
-        Friend Sub Initialise()
-            LoggingSettings.Initialised = True
-            LogFolder = LoggingSettings.Settings.LogFolder
-
-            With LoggingSettings.Settings
-                If .LogBadPages OrElse .LogXHTML OrElse .LogWiki Then
-                    If Not IO.Directory.Exists(.LogFolder) Then LogFolder = Application.StartupPath
-
-                    If .LogBadPages Then NewBadPagesTraceListener()
-                    If .LogXHTML Then NewXHTMLTraceListener()
-                    If .LogWiki Then NewWikiTraceListener()
-                End If
-                For Each t As KeyValuePair(Of String, IMyTraceListener) In Listeners
-                    t.Value.WriteBulletedLine("Start button clicked. Initialising log.", True, False, True)
-                Next
-            End With
-            CheckWeHaveLogInDetails()
         End Sub
 
         ' State:
@@ -144,13 +145,15 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
 
             MyBase.AddListener(Key, Listener)
             If Listener.Uploadable Then _
-               AddHandler (DirectCast(Listener, TraceListenerUploadableBase)).Upload, AddressOf Me.Trace_Upload
+               AddHandler (DirectCast(Listener, TraceListenerUploadableBase)).Upload, _
+                  AddressOf Me.TraceUploadEventHandler
         End Sub
         Public Overrides Sub RemoveListener(ByVal Key As String)
             Dim Listener As IMyTraceListener = Listeners(Key)
 
             If Listener.Uploadable Then _
-               RemoveHandler (DirectCast(Listener, TraceListenerUploadableBase)).Upload, AddressOf Me.Trace_Upload
+               RemoveHandler (DirectCast(Listener, TraceListenerUploadableBase)).Upload, _
+                  AddressOf Me.TraceUploadEventHandler
 
             MyBase.RemoveListener(Key)
         End Sub
