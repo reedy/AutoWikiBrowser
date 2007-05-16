@@ -16,6 +16,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+// TODO: Please clean me!
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -161,6 +163,8 @@ namespace WikiFunctions
         public static string Stub;
         public static string SectStub;
         public static string stubIndicator = "stub}}";
+        public static string inUseRegexString = "\\{\\{[Ii]nuse";
+
         /// <summary>
         /// Sets different language variables, such as namespaces. Default is english Wikipedia
         /// </summary>
@@ -958,7 +962,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
         }
         #endregion
 
-        #region misc
+        #region URL Builders
         /// <summary>
         /// returns URL to the given page, depends on project settings
         /// </summary>

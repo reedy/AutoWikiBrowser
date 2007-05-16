@@ -97,7 +97,7 @@ namespace WikiFunctions.Parse
         HideText hider = new HideText();
         MetaDataSorter metaDataSorter;
         string testText = "";
-        int StubMaxWordCount = 500;
+        public static int StubMaxWordCount = 500;
         
         /// <summary>
         /// Sort interwiki link order
@@ -907,7 +907,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         }
 
         /// <summary>
-        /// Replaces an iamge in the article.
+        /// Replaces an image in the article.
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <param name="OldImage">The old image to replace.</param>
@@ -1443,96 +1443,123 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
         #endregion
 
-        #region unused
-
-        /// <summary>
-        /// Bypasses all redirects in the article
-        /// </summary>
-        public string BypassRedirects(string ArticleText)
-        {//checks links to make them bypass redirects
-            string link = "";
-            string article = "";
-
-            MatchCollection simple = WikiRegexes.WikiLinksOnly.Matches(ArticleText);
-            MatchCollection piped = WikiRegexes.PipedWikiLink.Matches(ArticleText);
-
-            foreach (Match m in simple)
+        #region Property checkers
+            public static bool HasStubTemplate(string ArticleText)
             {
-                //make link
-                link = m.Value;
-                article = m.Groups[1].Value;
-
-                //get text
-                string text = "";
-                try
-                {
-                    text = Tools.GetArticleText(article);
-                }
-                catch
-                {
-                    continue;
-                }
-
-                //test if redirect
-                if (Tools.IsRedirect(text))
-                {
-                    string directLink = Tools.RedirectTarget(text).Replace("_"," ");
-                    directLink = "[[" + directLink + "|" + article + "]]";
-
-                    ArticleText = ArticleText.Replace(link, directLink);
-                }
-            }
-            return ArticleText;
-        }
-
-        /// <summary>
-        /// Fixes minor problems, such as abbreviations and miscapitalisations
-        /// </summary>
-        /// <param name="ArticleText">The wiki text of the article.</param>
-        /// <returns>The new article text.</returns>
-        public string MinorThings(string ArticleText)
-        {
-            ArticleText = Regex.Replace(ArticleText, "[Aa]\\.[Kk]\\.[Aa]\\.?", "also known as");
-
-            ArticleText = ArticleText.Replace("e.g.", "for example");
-            ArticleText = ArticleText.Replace("i.e.", "that is");
-
-            MatchCollection ma = Regex.Matches(ArticleText, "(monday|tuesday|wednesday|thursday|friday|saturday|sunday|january|february|april|june|july|august|september|october|november|december)");
-            if (ma.Count > 0)
-            {
-                foreach (Match m in ma)
-                    ArticleText = ArticleText.Replace(m.Groups[1].Value, Tools.TurnFirstToUpper(m.Groups[1].Value));
+                if (Variables.LangCode != LangCodeEnum.en) throw new NotImplementedException();
+                return ArticleText.Contains(Variables.stubIndicator);
             }
 
-            return ArticleText;
-        }
+            public static bool IsStub(string ArticleText)
+            {
+                return (HasStubTemplate(ArticleText) || ArticleText.Length < Parsers.StubMaxWordCount);
+            }
 
-        //[http://en.wikipedia.org/wiki/Dog] to [[Dog]]
-        //private string ExtToInternalLinks(string ArticleText)
-        //{
-        //    foreach (Match m in Regex.Matches(ArticleText, "\\[http://en\\.wikipedia\\.org/wiki/.*?\\]"))
+            public static bool HasInfobox(string ArticleText)
+            {
+                /* TODO: Code to check if an article has an infobox; code to get an article in the background 
+                 * and return an Article or simpler object so that kingbotk can tag as stub/infobox needed 
+                 * based on article contents (as promised by Martinp23 :P, please) */
+                throw new NotImplementedException();
+            }
+
+            public static bool IsInUse(string ArticleText)
+            {                
+                if (Variables.LangCode != LangCodeEnum.en) throw new NotImplementedException();
+                return Regex.IsMatch(ArticleText, Variables.inUseRegexString);
+            }
+        #endregion
+
+        //#region unused
+
+        ///// <summary>
+        ///// Bypasses all redirects in the article
+        ///// </summary>
+        //public string BypassRedirects(string ArticleText)
+        //{//checks links to make them bypass redirects
+        //    string link = "";
+        //    string article = "";
+
+        //    MatchCollection simple = WikiRegexes.WikiLinksOnly.Matches(ArticleText);
+        //    MatchCollection piped = WikiRegexes.PipedWikiLink.Matches(ArticleText);
+
+        //    foreach (Match m in simple)
         //    {
-        //        string a = HttpUtility.UrlDecode(m.ToString());
+        //        //make link
+        //        link = m.Value;
+        //        article = m.Groups[1].Value;
 
-        //        if (a.Contains(" "))
+        //        //get text
+        //        string text = "";
+        //        try
         //        {
-        //            int intP;
-        //            //string a = n;
-        //            intP = a.IndexOf(" ");
+        //            text = Tools.GetArticleText(article);
+        //        }
+        //        catch
+        //        {
+        //            continue;
+        //        }
 
-        //            string b = a.Substring(intP);
-        //            a = a.Remove(intP);
-        //            b = b.TrimStart();
-        //            a = a.Replace("_", " ");
+        //        //test if redirect
+        //        if (Tools.IsRedirect(text))
+        //        {
+        //            string directLink = Tools.RedirectTarget(text).Replace("_"," ");
+        //            directLink = "[[" + directLink + "|" + article + "]]";
 
-        //            ArticleText = ArticleText.Replace(m.ToString(), a);
+        //            ArticleText = ArticleText.Replace(link, directLink);
         //        }
         //    }
-
-        //    ArticleText = Regex.Replace(ArticleText, "\\[http://en\\.wikipedia\\.org/wiki/(.*?)\\]", "[[$1]]");
         //    return ArticleText;
         //}
 
-        #endregion
+        ///// <summary>
+        ///// Fixes minor problems, such as abbreviations and miscapitalisations
+        ///// </summary>
+        ///// <param name="ArticleText">The wiki text of the article.</param>
+        ///// <returns>The new article text.</returns>
+        //public string MinorThings(string ArticleText)
+        //{
+        //    ArticleText = Regex.Replace(ArticleText, "[Aa]\\.[Kk]\\.[Aa]\\.?", "also known as");
+
+        //    ArticleText = ArticleText.Replace("e.g.", "for example");
+        //    ArticleText = ArticleText.Replace("i.e.", "that is");
+
+        //    MatchCollection ma = Regex.Matches(ArticleText, "(monday|tuesday|wednesday|thursday|friday|saturday|sunday|january|february|april|june|july|august|september|october|november|december)");
+        //    if (ma.Count > 0)
+        //    {
+        //        foreach (Match m in ma)
+        //            ArticleText = ArticleText.Replace(m.Groups[1].Value, Tools.TurnFirstToUpper(m.Groups[1].Value));
+        //    }
+
+        //    return ArticleText;
+        //}
+
+        ////[http://en.wikipedia.org/wiki/Dog] to [[Dog]]
+        ////private string ExtToInternalLinks(string ArticleText)
+        ////{
+        ////    foreach (Match m in Regex.Matches(ArticleText, "\\[http://en\\.wikipedia\\.org/wiki/.*?\\]"))
+        ////    {
+        ////        string a = HttpUtility.UrlDecode(m.ToString());
+
+        ////        if (a.Contains(" "))
+        ////        {
+        ////            int intP;
+        ////            //string a = n;
+        ////            intP = a.IndexOf(" ");
+
+        ////            string b = a.Substring(intP);
+        ////            a = a.Remove(intP);
+        ////            b = b.TrimStart();
+        ////            a = a.Replace("_", " ");
+
+        ////            ArticleText = ArticleText.Replace(m.ToString(), a);
+        ////        }
+        ////    }
+
+        ////    ArticleText = Regex.Replace(ArticleText, "\\[http://en\\.wikipedia\\.org/wiki/(.*?)\\]", "[[$1]]");
+        ////    return ArticleText;
+        ////}
+
+        //#endregion
     }
 }
