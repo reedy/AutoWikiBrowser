@@ -1,4 +1,4 @@
-namespace CFD
+namespace AutoWikiBrowser.Plugins.CFD
 {
     partial class CfdOptions
     {
