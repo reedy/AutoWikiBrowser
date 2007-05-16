@@ -35,9 +35,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="WikiFunctions, Version=3.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="WikiFunctions, Version=3.9.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\WikiFunctions\bin\Release\WikiFunctions.dll</HintPath>
+      <HintPath>..\..\..\WikiFunctions\bin\Debug\WikiFunctions.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

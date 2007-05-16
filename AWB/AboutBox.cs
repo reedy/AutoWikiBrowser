@@ -38,24 +38,10 @@ namespace AutoWikiBrowser
 
             lblIEVersion.Text = "IE version: " + IEVersion;
             lblAWBVersion.Text = "AWB Version " + Program.VersionString;
-            textBoxDescription.Text = AssemblyDescription + System.Environment.NewLine + System.Environment.NewLine + WikiFunctions.Controls.AboutBox.GFDLNotice;
+            textBoxDescription.Text = WikiFunctions.Controls.AboutBox.GetDetailedMessage(Assembly.GetExecutingAssembly());
             lblOSVersion.Text = "Windows version: " + Environment.OSVersion.Version.Major.ToString() + "." + Environment.OSVersion.Version.Minor.ToString();
             lblNETVersion.Text = ".NET Version: " + Environment.Version.ToString();
             lblTimeAndEdits.Text = "You have made " + intEdits.ToString() + " edits in " + time.ToString();
-        }
-
-        public static string AssemblyDescription
-        {
-            get
-            {
-                // Get all Description attributes on this assembly
-                object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
-                // If there aren't any Description attributes, return an empty string
-                if (attributes.Length == 0)
-                    return "";
-                // If there is a Description attribute, return its value
-                return ((AssemblyDescriptionAttribute)attributes[0]).Description;
-            }
         }
 
         private void okButton_Click(object sender, EventArgs e)

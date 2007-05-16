@@ -11,7 +11,7 @@ using System.Text.RegularExpressions;
 using WikiFunctions.AWBSettings;
 using WikiFunctions.Background;
 
-namespace CFD
+namespace AutoWikiBrowser.Plugins.CFD
 {
     public partial class CfdOptions : Form
     {

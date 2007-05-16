@@ -131,13 +131,14 @@ namespace WikiFunctions.Controls
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.LinkLabel linkLabel1;
-        private System.Windows.Forms.Button okButton;
-        private System.Windows.Forms.TextBox textBoxDescription;
-        private System.Windows.Forms.Label lblVersion;
-        private System.Windows.Forms.LinkLabel lnkDownload;
-        private System.Windows.Forms.ToolTip toolTip1;
+        protected System.Windows.Forms.Label label1;
+        protected System.Windows.Forms.LinkLabel linkLabel1;
+        protected System.Windows.Forms.Button okButton;
+        protected System.Windows.Forms.TextBox textBoxDescription;
+        protected System.Windows.Forms.Label lblVersion;
+        protected System.Windows.Forms.LinkLabel lnkDownload;
+        protected System.Windows.Forms.ToolTip toolTip1;
+
 
     }
 }
