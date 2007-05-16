@@ -36,13 +36,13 @@ namespace WikiFunctions
     public class Article : ProcessArticleEventArgs, IArticleSimple
     {
         protected int mNameSpaceKey;
-        protected string mName;
+        protected string mName = "";
         protected string mEditSummary = "";
         protected string mSavedSummary = "";
         protected AWBLogListener mAWBLogListener;
         protected string mArticleText = "";
         protected string mOriginalArticleText = "";
-        protected string mPluginEditSummary;
+        protected string mPluginEditSummary = "";
         protected bool mPluginSkip;
 
         #region Constructors
