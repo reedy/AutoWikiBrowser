@@ -60,6 +60,14 @@ namespace WikiFunctions.Background
         {
         }
 
+        /// <summary>
+        /// Waits for request to complete
+        /// </summary>
+        public void Wait()
+        {
+            while (!Done) Application.DoEvents();
+        }
+
         protected string strParam;
         protected object objParam1;
         protected object objParam2;
@@ -236,52 +244,6 @@ namespace WikiFunctions.Background
             catch(Exception e)
             {
                 //ui.Close();
-                Error = e;
-            }
-        }
-
-
-        /// <summary>
-        /// returns list of pages from a list of categories
-        /// </summary>
-        /// <param name="categories"></param>
-        [Obsolete]
-        public void GetFromCategories(string[] categories)
-        {
-            objParam1 = categories;
-
-            if (HasUI) ui = new PleaseWait();
-
-            BgThread = new Thread(new ThreadStart(GetFromCategoriesFunc));
-            BgThread.IsBackground = true;
-            if (HasUI) ui.Show(Variables.MainForm as Form);
-            BgThread.Start();
-        }
-
-        private void GetFromCategoriesFunc()
-        {
-            List<Article> list = new List<Article>();
-            if (HasUI)
-            {
-                ui.Worker = Thread.CurrentThread;
-
-                ui.Status = "Getting category contents";
-            }
-
-            try
-            {
-                int n=0;
-                
-                foreach (string s in (string[])objParam1)
-                {
-                    if (HasUI) ui.SetProgress(n, ((string[])objParam1).Length);
-                    list.AddRange(GetLists.FromCategory(false, new string[1] {s}));
-                }
-
-                Result = list;
-            }
-            catch (Exception e)
-            {
                 Error = e;
             }
         }
