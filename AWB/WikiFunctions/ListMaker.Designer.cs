@@ -1,6 +1,7 @@
 using System.Drawing;
+using WikiFunctions.Lists;
 
-namespace WikiFunctions.Lists
+namespace WikiFunctions.Controls.Lists
 {
     partial class ListMaker
     {
@@ -77,7 +78,7 @@ namespace WikiFunctions.Lists
             this.btnArticlesListClear = new System.Windows.Forms.Button();
             this.btnArticlesListSave = new System.Windows.Forms.Button();
             this.btnRemoveDuplicates = new System.Windows.Forms.Button();
-            this.lbArticles = new WikiFunctions.Lists.ListBox2();
+            this.lbArticles = new WikiFunctions.Controls.Lists.ListBox2();
             this.mnuListBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -546,7 +547,7 @@ namespace WikiFunctions.Lists
 
         #endregion
 
-        private ListBox2 lbArticles;
+        private WikiFunctions.Controls.Lists.ListBox2 lbArticles;
         private specialFilter SpecialFilter = new specialFilter();
         private System.Windows.Forms.TextBox txtSelectSource;
         private System.Windows.Forms.Label lblNumberOfArticles;

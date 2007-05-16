@@ -1,6 +1,5 @@
 /*
-(C) 2007 Reedy Boy
-(C) 2007 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
+(C) 2007 Sam Reed, Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -28,7 +27,7 @@ using System.Windows.Forms;
 
 using WikiFunctions;
 using WikiFunctions.Controls;
-using WikiFunctions.Lists;
+using WikiFunctions.Controls.Lists;
 using WikiFunctions.Logging;
 
 namespace WikiFunctions.Logging
@@ -265,8 +264,8 @@ namespace WikiFunctions.Logging
                 listView.Sort();
                 // Set the ListViewItemSorter property to a new ListViewItemComparer
                 // object.
-                listView.ListViewItemSorter = new ListViewItemComparer(e.Column,
-                                                                  listView.Sorting);
+                listView.ListViewItemSorter = 
+                    new WikiFunctions.Lists.ListViewItemComparer(e.Column, listView.Sorting);
                 listView.EndUpdate();
             }
             catch { }

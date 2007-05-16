@@ -113,7 +113,7 @@ namespace WikiFunctions.DatabaseScanner
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.lbArticles = new WikiFunctions.Lists.ListBox2();
+            this.lbArticles = new WikiFunctions.Controls.Lists.ListBox2();
             this.btnFilter = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.rdoBullet = new System.Windows.Forms.RadioButton();
@@ -1280,7 +1280,7 @@ namespace WikiFunctions.DatabaseScanner
         private NumericUpDown nudWords;
         private Label label3;
         private Button btnFilter;
-        private WikiFunctions.Lists.ListBox2 lbArticles;
+        private WikiFunctions.Controls.Lists.ListBox2 lbArticles;
         private RadioButton rdoUnbulletedLinks;
         private RadioButton rdoHeaderError;
         private RadioButton rdoHasHTML;

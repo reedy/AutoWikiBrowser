@@ -1,4 +1,4 @@
-namespace WikiFunctions.Lists
+namespace WikiFunctions.Controls.Lists
 {
     partial class ListComparer
     {
@@ -38,9 +38,9 @@ namespace WikiFunctions.Lists
             this.btnClear = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.listMaker1 = new WikiFunctions.Lists.ListMaker();
+            this.listMaker1 = new WikiFunctions.Controls.Lists.ListMaker();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.listMaker2 = new WikiFunctions.Lists.ListMaker();
+            this.listMaker2 = new WikiFunctions.Controls.Lists.ListMaker();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
             this.btnSaveOnly2 = new System.Windows.Forms.Button();

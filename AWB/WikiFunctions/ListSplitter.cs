@@ -30,7 +30,7 @@ using System.IO;
 
 using WikiFunctions.AWBSettings;
 
-namespace WikiFunctions.Lists
+namespace WikiFunctions.Controls.Lists
 {
     public partial class ListSplitter : Form
     {

@@ -1,6 +1,6 @@
 /*
 ListComparer
-Copyright (C) 2006 Martin Richards
+Copyright (C) 2007 Martin Richards
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace WikiFunctions.Lists
+namespace WikiFunctions.Controls.Lists
 {
     /// <summary>
     /// Provides a form for comparing 2 lists, to find duplicates and/or removing one list from another.

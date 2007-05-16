@@ -1,6 +1,8 @@
+// Keep version numbers of assemblies seperate based on where they're at please. That's the whole point of seperate version numbers per assembly!
+
 /*
-WikiFunctions
-Copyright (C) 2006 Martin Richards
+
+Copyright (C) 2007 Martin Richards
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

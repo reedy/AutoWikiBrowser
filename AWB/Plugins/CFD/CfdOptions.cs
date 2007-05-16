@@ -1,3 +1,23 @@
+/*
+
+Copyright (C) 2007 Martin Richards
+(C) 2007 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*/
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,27 +33,23 @@ using WikiFunctions.Background;
 
 namespace AutoWikiBrowser.Plugins.CFD
 {
-    public partial class CfdOptions : Form
+    internal partial class CfdOptions : Form
     {
         public CfdOptions()
         {
             InitializeComponent();
         }
 
-        ListMaker listMaker;
-
         static string prevContent = "";
 
         Dictionary<string, string> ToDo = new Dictionary<string, string>();
 
-        public void Show(CfdSettings cfd, ListMaker lm)
+        public new void Show()
         {
-            listMaker = lm;
-            chkEnabled.Checked = cfd.Enabled;
-            chkSkip.Checked = cfd.Skip;
+            chkSkip.Checked = CfdCore.Settings.Skip;
 
             Grid.Rows.Clear();
-            foreach (KeyValuePair<string, string> p in cfd.Categories)
+            foreach (KeyValuePair<string, string> p in CfdCore.Settings.Categories)
             {
                 Grid.Rows.Add(new string[2] { p.Key, p.Value });
             }
@@ -42,10 +58,9 @@ namespace AutoWikiBrowser.Plugins.CFD
 
             if (ShowDialog() != DialogResult.OK) return;
 
-            cfd.Enabled = chkEnabled.Checked;
-            cfd.Skip = chkSkip.Checked;
+            CfdCore.Settings.Skip = chkSkip.Checked;
 
-            cfd.Categories = ToDo;
+            CfdCore.Settings.Categories = ToDo;
 
             prevContent = txtBacklog.Text;
         }
@@ -102,7 +117,7 @@ namespace AutoWikiBrowser.Plugins.CFD
                 Enabled = true;
 
                 if (req.Result != null && req.Result is List<Article>)
-                    listMaker.Add((List<Article>)req.Result);
+                    CfdCore.AWB.ListMaker.Add((List<Article>)req.Result);
             }
 
             DialogResult = DialogResult.OK;
