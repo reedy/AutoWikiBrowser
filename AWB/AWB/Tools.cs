@@ -23,6 +23,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using WikiFunctions;
+using WikiFunctions.Plugin;
+using System.Windows.Forms;
+using System.IO;
+using System.Reflection;
 
 namespace AutoWikiBrowser
 {
@@ -84,6 +88,65 @@ namespace AutoWikiBrowser
                     txtEdit.ScrollToCaret();
                     resetFind();
                 }
+            }
+        }
+    }
+
+    namespace Plugins
+    {
+        internal static class Plugin
+        {
+            internal static Dictionary<string, IAWBPlugin> Items = new Dictionary<string, IAWBPlugin>();
+
+            internal static bool LoadPlugins(IAutoWikiBrowser AWB)
+            {
+                try
+                {
+                    string path = Application.StartupPath;
+                    string[] pluginFiles = Directory.GetFiles(path, "*.DLL");
+
+                    foreach (string s in pluginFiles)
+                    {
+                        if (s.EndsWith("DotNetWikiBot.dll") || s.EndsWith("Wikidiff2.dll"))
+                            continue;
+
+                        string imFile = Path.GetFileName(s);
+
+                        Assembly asm = null;
+                        try
+                        {
+                            asm = Assembly.LoadFile(path + "\\" + imFile);
+                        }
+                        catch { }
+
+                        if (asm != null)
+                        {
+                            Type[] types = asm.GetTypes();
+
+                            foreach (Type t in types)
+                            {
+                                Type g = t.GetInterface("IAWBPlugin");
+
+                                if (g != null)
+                                {
+                                    IAWBPlugin plugin = (IAWBPlugin)Activator.CreateInstance(t);
+                                    Items.Add(plugin.Name, plugin);
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Problem loading plugin");
+                }
+
+                foreach (KeyValuePair<string, IAWBPlugin> a in Items)
+                {
+                    a.Value.Initialise(AWB);
+                }
+
+                return (Items.Count > 0);
             }
         }
     }

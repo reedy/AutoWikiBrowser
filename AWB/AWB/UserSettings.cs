@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using WikiFunctions;
 using WikiFunctions.Plugin;
 using WikiFunctions.AWBSettings;
+using AutoWikiBrowser.Plugins;
 
 namespace AutoWikiBrowser
 {
@@ -175,7 +176,7 @@ namespace AutoWikiBrowser
 
             try
             {
-                foreach (KeyValuePair<string, IAWBPlugin> a in AWBPlugins)
+                foreach (KeyValuePair<string, IAWBPlugin> a in Plugin.Items)
                     a.Value.Reset();
             }
             catch (Exception ex)
@@ -628,9 +629,9 @@ namespace AutoWikiBrowser
 
                         /* The Kingbotk plugin can translate old settings to new too (and is worth the
                          * extra code here because some settings may be very complex) */
-                        if (AWBPlugins.ContainsKey("Kingbotk Plugin") && reader.Name == "Kingbotk_Plugin" && 
+                        if (Plugin.Items.ContainsKey("Kingbotk Plugin") && reader.Name == "Kingbotk_Plugin" && 
                         reader.HasAttributes)
-                            AWBPlugins["Kingbotk Plugin"].LoadSettings(new object[]{reader});
+                            Plugin.Items["Kingbotk Plugin"].LoadSettings(new object[]{reader});
                     }
                     stream.Close();
                     findAndReplace.MakeList();
@@ -862,7 +863,7 @@ namespace AutoWikiBrowser
             p.Module.Language = cModule.Language;
             p.Module.Code = cModule.Code;
 
-            foreach (KeyValuePair<string, IAWBPlugin> a in AWBPlugins)
+            foreach (KeyValuePair<string, IAWBPlugin> a in Plugin.Items)
             {
                 PluginPrefs pp = new PluginPrefs();
                 pp.Name = a.Key;
@@ -1020,8 +1021,8 @@ namespace AutoWikiBrowser
 
             foreach (PluginPrefs pp in p.Plugin)
             {
-                if (AWBPlugins.ContainsKey(pp.Name))
-                    AWBPlugins[pp.Name].LoadSettings(pp.PluginSettings);
+                if (Plugin.Items.ContainsKey(pp.Name))
+                    Plugin.Items[pp.Name].LoadSettings(pp.PluginSettings);
             }
         }
 

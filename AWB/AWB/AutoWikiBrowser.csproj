@@ -88,7 +88,7 @@
     <Compile Include="dlgTalk.Designer.cs">
       <DependentUpon>dlgTalk.cs</DependentUpon>
     </Compile>
-    <Compile Include="Find.cs" />
+    <Compile Include="Tools.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -45,6 +45,7 @@ using System.Collections.Specialized;
 using WikiFunctions.Background;
 using System.Security.Permissions;
 using WikiFunctions.Controls.Lists;
+using AutoWikiBrowser.Plugins;
 
 [assembly: CLSCompliant(true)]
 namespace AutoWikiBrowser
@@ -198,7 +199,7 @@ namespace AutoWikiBrowser
                     this.Size = Properties.Settings.Default.WindowSize;
 
                 Debug();
-                LoadPlugins();
+                pluginsToolStripMenuItem.Visible = Plugin.LoadPlugins(this);
                 LoadPrefs();
                 UpdateButtons();
                 LoadRecentSettingsList();
@@ -379,7 +380,7 @@ namespace AutoWikiBrowser
 
                 //check edit summary
                 webBrowserEdit.BringToFront();
-                if (cmboEditSummary.Text == "" && AWBPlugins.Count == 0)
+                if (cmboEditSummary.Text == "" && Plugin.Items.Count == 0)
                     MessageBox.Show("Please enter an edit summary.", "Edit summary", MessageBoxButtons.OK, 
                         MessageBoxIcon.Exclamation);
 
@@ -846,9 +847,9 @@ namespace AutoWikiBrowser
                     if (TheArticle.SkipArticle) return;
                 }
 
-                if (AWBPlugins.Count > 0)
+                if (Plugin.Items.Count > 0)
                 {
-                    foreach (KeyValuePair<string, IAWBPlugin> a in AWBPlugins)
+                    foreach (KeyValuePair<string, IAWBPlugin> a in Plugin.Items)
                     {
                         TheArticle.SendPageToPlugin(a.Value, this);
                         if (TheArticle.SkipArticle) return;
@@ -1586,31 +1587,23 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             oldselection = selection;
         }
 
-        private void txtFind_TextChanged(object sender, EventArgs e)
+        private void ResetFind(object sender, EventArgs e)
         {
             Find.resetFind();
         }
 
-        private void chkFindRegex_CheckedChanged(object sender, EventArgs e)
-        {
-            Find.resetFind();
-        }
         private void txtEdit_TextChanged(object sender, EventArgs e)
         {
             Find.resetFind();
             TheArticle.EditSummary = "";
         }
-        private void chkFindCaseSensitive_CheckedChanged(object sender, EventArgs e)
-        {
-            Find.resetFind();
-        }
+
         private void btnFind_Click(object sender, EventArgs e)
         {
             tabControl2.SelectedTab = tpEdit;
             Find.find(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked, txtEdit, TheArticle.Name);
         }
-
-
+        
         private void toolStripTextBox2_Click(object sender, EventArgs e)
         {
             toolStripTextBox2.Text = "";
@@ -1654,7 +1647,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         [Conditional("DEBUG")]
         public void Debug()
-        {//stop logging in when de-bugging
+        {
             Tools.WriteDebugEnabled = true;
             listMaker1.Add("Wikipedia:AutoWikiBrowser/Sandbox");
             //Variables.User.WikiStatus = true; // Stop logging in and the username code doesn't work!
@@ -2772,60 +2765,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         #endregion
 
-        #region Plugin
-
-        Dictionary<string, IAWBPlugin> AWBPlugins = new Dictionary<string, IAWBPlugin>();
-        private void LoadPlugins()
-        {
-            try
-            {
-                string path = Application.StartupPath;
-                string[] pluginFiles = Directory.GetFiles(path, "*.DLL");
-
-                foreach (string s in pluginFiles)
-                {
-                    if (s.EndsWith("DotNetWikiBot.dll") || s.EndsWith("Wikidiff2.dll"))
-                        continue;
-
-                    string imFile = Path.GetFileName(s);
-
-                    Assembly asm = null;
-                    try
-                    {
-                        asm = Assembly.LoadFile(path + "\\" + imFile);
-                    }
-                    catch { }
-
-                    if (asm != null)
-                    {
-                        Type[] types = asm.GetTypes();
-
-                        foreach (Type t in types)
-                        {
-                            Type g = t.GetInterface("IAWBPlugin");
-
-                            if (g != null)
-                            {
-                                IAWBPlugin awb = (IAWBPlugin)Activator.CreateInstance(t);
-                                AWBPlugins.Add(awb.Name, awb);
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Problem loading plugin");
-            }
-
-            foreach (KeyValuePair<string, IAWBPlugin> a in AWBPlugins)
-            {
-                a.Value.Initialise(this);
-            }
-
-            pluginsToolStripMenuItem.Visible = AWBPlugins.Count > 0;
-        }
-
+        #region ArticleActions
         private void MoveArticle()
         {
             MoveDeleteDialog dlg = new MoveDeleteDialog(1);
@@ -3089,7 +3029,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             {
                 bool Cancel;
                 // Tell plugins we're about to nudge, and give them the opportunity to cancel:
-                foreach (KeyValuePair<string, IAWBPlugin> a in AWBPlugins)
+                foreach (KeyValuePair<string, IAWBPlugin> a in Plugin.Items)
                 {
                     a.Value.Nudge(out Cancel);
                     if (Cancel)
@@ -3116,7 +3056,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 }
 
                 // Inform plugins:
-                foreach (KeyValuePair<string, IAWBPlugin> a in AWBPlugins)
+                foreach (KeyValuePair<string, IAWBPlugin> a in Plugin.Items)
                 { a.Value.Nudged(Nudges); }
             }
         }
@@ -3378,7 +3318,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void openInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName + "&action=history");
+            Tools.OpenArticleHistoryInBrowser(TheArticle.Name);
         }
 
         private void refreshHistoryToolStripMenuItem_Click(object sender, EventArgs e)
