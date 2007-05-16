@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace AutoWikiBrowser
 {
-    public partial class SummaryEditor : Form
+    internal sealed partial class SummaryEditor : Form
     {
         public SummaryEditor()
         {

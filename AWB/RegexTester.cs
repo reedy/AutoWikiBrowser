@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 
 namespace AutoWikiBrowser
 {
-    public partial class RegexTester : Form
+    internal sealed partial class RegexTester : Form
     {
         public RegexTester()
         {

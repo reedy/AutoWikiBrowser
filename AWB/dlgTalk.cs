@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace AutoWikiBrowser
 {
-    public partial class dlgTalk : Form
+    internal sealed partial class dlgTalk : Form
     {
         public dlgTalk()
         {

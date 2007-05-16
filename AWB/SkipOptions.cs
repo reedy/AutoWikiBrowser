@@ -10,7 +10,7 @@ using WikiFunctions;
 
 namespace AutoWikiBrowser
 {
-    public partial class SkipOptions : Form
+    internal sealed partial class SkipOptions : Form
     {
         public SkipOptions()
         {

@@ -28,7 +28,7 @@ using WikiFunctions;
 
 namespace AutoWikiBrowser
 {
-    partial class AboutBox : Form
+    internal sealed partial class AboutBox : Form
     {
         public AboutBox() { } //default
 
