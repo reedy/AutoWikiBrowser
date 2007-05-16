@@ -30,12 +30,12 @@ namespace WikiFunctions.Background
 
     public class BackgroundRequest
     {
-        public object Result;
+        public object Result = null;
         public bool Done
         {
             get
             {
-                bool res=  (BgThread != null && (BgThread.ThreadState == ThreadState.Stopped ||
+                bool res = (BgThread != null && (BgThread.ThreadState == ThreadState.Stopped ||
                     BgThread.ThreadState == ThreadState.Aborted));
 
                 try
@@ -49,6 +49,8 @@ namespace WikiFunctions.Background
             }
         }
 
+        public bool HasUI = true;
+
         public Exception Error;
         PleaseWait ui;
 
@@ -59,7 +61,10 @@ namespace WikiFunctions.Background
         }
 
         protected string strParam;
-        protected object objParam;
+        protected object objParam1;
+        protected object objParam2;
+        protected object objParam3;
+        protected int intParam;
 
         public void GetHTML(string url)
         {
@@ -108,11 +113,11 @@ namespace WikiFunctions.Background
         {
             Result = strParam = Article;
 
-            ui = new PleaseWait();
+            if (HasUI) ui = new PleaseWait();
 
             BgThread = new Thread(new ThreadStart(BypassRedirectsFunc));
             BgThread.IsBackground = true;
-            ui.Show(Application.OpenForms[0]);
+            if (HasUI) ui.Show(Variables.MainForm as Form);
             BgThread.Start();
         }
 
@@ -125,18 +130,21 @@ namespace WikiFunctions.Background
 
             Dictionary<string, string> KnownLinks = new Dictionary<string, string>();
 
-            ui.Worker = Thread.CurrentThread;
+            if (HasUI) ui.Worker = Thread.CurrentThread;
 
             try
             {
-                ui.Status = "Loading links";
+                if (HasUI) ui.Status = "Loading links";
 
                 MatchCollection simple = WikiLinksOnly.Matches(strParam);
                 MatchCollection piped = WikiRegexes.PipedWikiLink.Matches(strParam);
 
-                ui.Status = "Processing links";
+                if (HasUI)
+                {
+                    ui.Status = "Processing links";
 
-                ui.SetProgress(0, simple.Count + piped.Count);
+                    ui.SetProgress(0, simple.Count + piped.Count);
+                }
                 int n = 0;
                 foreach (Match m in simple)
                 {
@@ -176,7 +184,7 @@ namespace WikiFunctions.Background
                         strParam = strParam.Replace(link, directLink);
                     }
                     n++;
-                    ui.SetProgress(n, simple.Count + piped.Count);
+                    if (HasUI) ui.SetProgress(n, simple.Count + piped.Count);
                 }
 
                 foreach (Match m in piped)
@@ -218,7 +226,7 @@ namespace WikiFunctions.Background
                         strParam = strParam.Replace(link, directLink);
                     }
                     n++;
-                    ui.SetProgress(n, simple.Count + piped.Count);
+                    if (HasUI) ui.SetProgress(n, simple.Count + piped.Count);
                 }
 
                 
@@ -237,35 +245,89 @@ namespace WikiFunctions.Background
         /// returns list of pages from a list of categories
         /// </summary>
         /// <param name="categories"></param>
+        [Obsolete]
         public void GetFromCategories(string[] categories)
         {
-            objParam = categories;
+            objParam1 = categories;
 
-            ui = new PleaseWait();
+            if (HasUI) ui = new PleaseWait();
 
             BgThread = new Thread(new ThreadStart(GetFromCategoriesFunc));
             BgThread.IsBackground = true;
-            ui.Show(Application.OpenForms[0]);
+            if (HasUI) ui.Show(Variables.MainForm as Form);
             BgThread.Start();
         }
 
         private void GetFromCategoriesFunc()
         {
             List<Article> list = new List<Article>();
-            ui.Worker = Thread.CurrentThread;
+            if (HasUI)
+            {
+                ui.Worker = Thread.CurrentThread;
 
-            ui.Status = "Getting category contents";
+                ui.Status = "Getting category contents";
+            }
+
             try
             {
                 int n=0;
                 
-                foreach (string s in (string[])objParam)
+                foreach (string s in (string[])objParam1)
                 {
-                    ui.SetProgress(n, ((string[])objParam).Length);
+                    if (HasUI) ui.SetProgress(n, ((string[])objParam1).Length);
                     list.AddRange(GetLists.FromCategory(false, new string[1] {s}));
                 }
 
                 Result = list;
+            }
+            catch (Exception e)
+            {
+                Error = e;
+            }
+        }
+
+        /// <summary>
+        /// Returns a list of articles using GetLists.FromVariant
+        /// </summary>
+        /// <param name="What">Which source to use</param>
+        /// <param name="Limit">Max. number of pages to return, -1 if no limit</param>
+        /// <param name="Params">Optional parameters, depend on source</param>
+        public void GetList(GetLists.From What, int Limit, params string[] Params)
+        {
+            objParam1 = What;
+            objParam2 = Params;
+            intParam = Limit;
+
+            if (HasUI) ui = new PleaseWait();
+            BgThread = new Thread(new ThreadStart(GetListFunc));
+
+            BgThread.IsBackground = true;
+            if (HasUI) ui.Show(Variables.MainForm as Form);
+            BgThread.Start();
+        }
+
+        /// <summary>
+        /// Returns a list of articles using GetLists.FromVariant
+        /// </summary>
+        /// <param name="What">Which source to use</param>
+        /// <param name="Params">Optional parameters, depend on source</param>
+        public void GetList(GetLists.From What, params string[] Params)
+        {
+            GetList(What, -1, Params);
+        }
+
+        private void GetListFunc()
+        {
+            if (HasUI)
+            {
+                ui.Worker = Thread.CurrentThread;
+
+                ui.Status = "Getting list of pages";
+            }
+
+            try
+            {
+                Result = GetLists.FromVariant((GetLists.From)objParam1, intParam, (string[])objParam2);
             }
             catch (Exception e)
             {
