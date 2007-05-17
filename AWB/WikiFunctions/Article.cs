@@ -65,9 +65,20 @@ namespace WikiFunctions
 
             public AWBLogListener InitialiseLogListener()
             {
-                mAWBLogListener = new Logging.AWBLogListener(this.mName);
+                InitLog();
                 return mAWBLogListener;
             }
+
+            public AWBLogListener InitialiseLogListener(string name, TraceManager TraceManager)
+            {
+                // Initialise a Log Listener and add it to a TraceManager collection
+                InitLog();
+                TraceManager.AddListener(name, mAWBLogListener);
+                return mAWBLogListener;
+            }
+
+            private void InitLog()
+            { mAWBLogListener = new Logging.AWBLogListener(this.mName); }
         #endregion
 
         #region Serialisable properties
@@ -93,7 +104,7 @@ namespace WikiFunctions
             /// </summary>
             [XmlIgnore]
             public AWBLogListener LogListener
-            { get { return mAWBLogListener; } set { mAWBLogListener = value; } }
+            { get { return mAWBLogListener; } } //set { mAWBLogListener = value; } }
 
             /// <summary>
             /// The name of the article, encoded ready for use in a URL

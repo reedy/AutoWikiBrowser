@@ -5,6 +5,7 @@ using WikiFunctions;
 using WikiFunctions.Logging;
 using WikiFunctions.Plugin;
 using System.Windows.Forms;
+using WikiFunctions.Logging.Uploader;
 
 namespace AutoWikiBrowser.Logging
 {
@@ -15,9 +16,6 @@ namespace AutoWikiBrowser.Logging
     {
         private LoggingSettings LoggingSettings;
         private static string LogFolder = "";
-        private WikiFunctions.Browser.WebControl webcontrol;
-        private bool LoggedIn;
-        private string LoggedInUser;
         private int BusyCounter = 0;
         private bool mIsUploading = false;
 
@@ -48,15 +46,22 @@ namespace AutoWikiBrowser.Logging
             }
             foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
             {
-                t.Value.WriteBulletedLine("Start button clicked. Initialising log.", true, false, true);
+                t.Value.WriteBulletedLine(Variables.LoggingStartButtonClicked, true, false, true);
             }
             CheckWeHaveLogInDetails();
         }
 
         private void TraceUploadEventHandler(TraceListenerUploadableBase Sender, ref bool Success)
         {
-
-            Success = base.UploadHandler(Sender, LoggingSettings.Settings.LogTitle, LoggingSettings.Settings.WikifiedCategory, LoggingSettings.Settings.GlobbedUploadLocation + "/" + Sender.PageName.Replace(PluginLogging.Props.conUploadCategoryIsJobName, LoggingSettings.Settings.Category), LoggingSettings.Settings.LinksToLog(), LoggingSettings.Settings.UploadOpenInBrowser, LoggingSettings.Settings.UploadAddToWatchlist, PluginLogging.Props.UserName, "*" + PluginManager.conWikiPlugin + " version " + PluginLogging.Props.PluginVersion + System.Environment.NewLine + "*[[WP:AWB|AWB]] version " + PluginLogging.Props.AWBVersion + System.Environment.NewLine, PluginManager.conWikiPluginBrackets + " " + LogUploader.conUploadingDefaultEditSummary, PluginManager.conWikiPluginBrackets + " " + LogUploader.conAddingLogEntryDefaultEditSummary, PluginManager.AWBForm, LoggingSettings.LoginDetails);
+            Success = base.UploadHandler(Sender, LoggingSettings.Settings.LogTitle, 
+                LoggingSettings.Settings.WikifiedCategory, LoggingSettings.Settings.GlobbedUploadLocation + "/" + 
+                Sender.PageName.Replace(LoggingSettings.Props.conUploadCategoryIsJobName, 
+                LoggingSettings.Settings.Category), LoggingSettings.Settings.LinksToLog(), 
+                LoggingSettings.Settings.UploadOpenInBrowser, LoggingSettings.Settings.UploadAddToWatchlist, 
+                LoggingSettings.Props.UserName, Variables.AWBVersionString(GlobalObjects.AWB.AWBVersionString) +
+                Plugins.Plugin.GetPluginsWikiTextBlock(), Variables.AWBLoggingEditSummary +
+                Variables.UploadingLogDefaultEditSummary, Variables.AWBLoggingEditSummary +
+                Variables.UploadingLogEntryDefaultEditSummary, GlobalObjects.AWB, LoggingSettings.LoginDetails);
 
             if (Success)
             {
@@ -77,9 +82,9 @@ namespace AutoWikiBrowser.Logging
         protected override void FinishedUpload()
         {
             if (BusyCounter == 0)
-                LoggingSettings.LEDColour = Colour.Red;
+                LoggingSettings.LEDColour = WikiFunctions.Controls.Colour.Red;
             else
-                LoggingSettings.LEDColour = Colour.Green;
+                LoggingSettings.LEDColour = WikiFunctions.Controls.Colour.Green;
 
             mIsUploading = false;
         }
@@ -100,7 +105,7 @@ namespace AutoWikiBrowser.Logging
         {
             if (this.Uploadable && !LoggingSettings.LoginDetails.IsSet)
             {
-                LoggingSettings.LoginDetails = new LoginForm().GetUsernamePassword;
+                /////////////////////////////////////////////////////////LoggingSettings.LoginDetails = new LoginForm().GetUsernamePassword; // TODO: This needs to be imported from plugin and fixed, but what about AWBProfiles? Encyryption? etc
                 if (!LoggingSettings.LoginDetails.IsSet)
                 {
                     throw new System.Configuration.ConfigurationErrorsException("Error getting login details");
@@ -113,11 +118,13 @@ namespace AutoWikiBrowser.Logging
         }
         private void NewXHTMLTraceListener()
         {
-            AddListener(conXHTML, new XHTMLTraceListener(GetFilePrefix(LoggingSettings.Settings.LogFolder) + " log.html", LoggingSettings));
+            AddListener(conXHTML, new XHTMLTraceListener(GetFilePrefix(LoggingSettings.Settings.LogFolder) + 
+                " log.html", LoggingSettings));
         }
         private void NewWikiTraceListener()
         {
-            AddListener(conWiki, new WikiTraceListener(GetFilePrefix(LoggingSettings.Settings.LogFolder) + " log.txt", LoggingSettings));
+            AddListener(conWiki, new WikiTraceListener(GetFilePrefix(LoggingSettings.Settings.LogFolder) + 
+                " log.txt", LoggingSettings));
         }
         private string GetFileNameFromActiveListener(string Key)
         {
@@ -144,7 +151,7 @@ namespace AutoWikiBrowser.Logging
             BusyCounter -= 1;
             if (BusyCounter == 0 && !(LoggingSettings.LEDColour == WikiFunctions.Controls.Colour.Blue))
             {
-                LoggingSettings.LEDColour = Colour.Red;
+                LoggingSettings.LEDColour = WikiFunctions.Controls.Colour.Red;
             }
         }
 
@@ -168,7 +175,9 @@ namespace AutoWikiBrowser.Logging
             base.AddListener(Key, Listener);
             if (Listener.Uploadable)
             {
-                ((TraceListenerUploadableBase)Listener).Upload += new System.EventHandler(this.TraceUploadEventHandler);
+                ((TraceListenerUploadableBase)Listener).Upload += 
+                    new WikiFunctions.Logging.TraceListenerUploadableBase.UploadEventHandler(
+                    this.TraceUploadEventHandler);
             }
         }
         public override void RemoveListener(string Key)
@@ -177,7 +186,9 @@ namespace AutoWikiBrowser.Logging
 
             if (Listener.Uploadable)
             {
-                ((TraceListenerUploadableBase)Listener).Upload -= new System.EventHandler(this.TraceUploadEventHandler);
+                ((TraceListenerUploadableBase)Listener).Upload -= 
+                    new WikiFunctions.Logging.TraceListenerUploadableBase.UploadEventHandler(
+                    this.TraceUploadEventHandler);
             }
 
             base.RemoveListener(Key);
@@ -333,8 +344,8 @@ namespace AutoWikiBrowser.Logging
             private static int mUploadCount;
 
             // Initialisation
-            public TraceStatus(Label pLinesLabel, Label pLinesSinceUploadLabel, Label pNumberOfUploadsLabel, bool Uploadable, string FileN, string LogNameIs)
-                : base(FileN, LogNameIs)
+            public TraceStatus(Label pLinesLabel, Label pLinesSinceUploadLabel, Label pNumberOfUploadsLabel, 
+                bool Uploadable, string FileN, string LogNameIs) : base(FileN, LogNameIs)
             {
                 LinesLabel = pLinesLabel;
                 LinesSinceUploadLabel = pLinesSinceUploadLabel;
@@ -394,7 +405,8 @@ namespace AutoWikiBrowser.Logging
         /// Logs in XHTML
         /// </summary>
         /// <remarks></remarks>
-        private sealed class XHTMLTraceListener : WikiFunctions.Logging.XHTMLTraceListener, WikiFunctions.Logging.Uploader.ITraceStatusProvider
+        private sealed class XHTMLTraceListener : WikiFunctions.Logging.XHTMLTraceListener, 
+            WikiFunctions.Logging.Uploader.ITraceStatusProvider
         {
             private TraceStatus mTraceStatus;
 
@@ -416,19 +428,13 @@ namespace AutoWikiBrowser.Logging
         private sealed class WikiTraceListener : WikiFunctions.Logging.WikiTraceListener
         {
             public WikiTraceListener(string FileName, LoggingSettings LS)
-                : base(LS.Settings, new TraceStatus(LS.WikiLinesLabel, LS.WikiLinesSinceUploadLabel, LS.UploadsCountLabel, LS.Settings.UploadYN, FileName, conWiki))
-            {
-            }
-
-            public override void CheckCounterForUpload()
-            {
-                // Explicitly define to allow breakpoint
-                base.CheckCounterForUpload();
-            }
+                : base(LS.Settings, new TraceStatus(LS.WikiLinesLabel, LS.WikiLinesSinceUploadLabel, 
+                LS.UploadsCountLabel, LS.Settings.UploadYN, FileName, conWiki)) { }
         }
 
         internal LoggingSettings LS
         {
+            get { return LoggingSettings; }
             set { LoggingSettings = value; }
         }
 
@@ -436,5 +442,14 @@ namespace AutoWikiBrowser.Logging
         {
             get { return "AutoWikiBrowser logging manager"; }
         }
+
+        // Allow plugins to turn off all logging:
+        public void TurnOffLogging()
+        {
+            Close(); LS.TurnOffLogging();
+        }
+
+        internal static AWBLogListener InitialiseLogListener(Article Article)
+        { return Article.InitialiseLogListener("AWB", GlobalObjects.MyTrace); }
     }
 }

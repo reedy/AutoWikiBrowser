@@ -104,7 +104,7 @@ namespace AutoWikiBrowser
                 string retval = "";
                 foreach (KeyValuePair<string, IAWBPlugin> Plugin in Items)
                 {
-                    retval += Plugin.Value.WikiName + System.Environment.NewLine;
+                    retval += "* " + Plugin.Value.WikiName + System.Environment.NewLine;
                 }
                 return retval;
             }
