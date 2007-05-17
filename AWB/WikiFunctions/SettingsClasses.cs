@@ -47,6 +47,8 @@ namespace WikiFunctions.AWBSettings
         public ModulePrefs Module = new ModulePrefs();
         public DabPrefs Disambiguation = new DabPrefs();
 
+        public LoggingPrefs Logging = new LoggingPrefs();
+
         public List<PluginPrefs> Plugin = new List<PluginPrefs>();
     }
 
@@ -172,6 +174,22 @@ namespace WikiFunctions.AWBSettings
         public bool Enabled = false;
         public decimal SavePeriod = 30;
         public string SaveFile = "Edit Box.txt";
+    }
+
+    [Serializable]
+    public class LoggingPrefs
+    {
+        public string LogFolder;
+        public bool LogVerbose;
+        public bool LogWiki;
+        public bool LogXHTML;
+        public bool UploadYN;
+        public bool UploadAddToWatchlist;
+        public string UploadJobName;
+        public string UploadLocation;
+        public int UploadMaxLines;
+        public bool UploadOpenInBrowser;
+        public bool UploadToWikiProjects;
     }
 
     [Serializable]
