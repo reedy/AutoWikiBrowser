@@ -22,7 +22,7 @@ namespace AutoWikiBrowser
         internal UsernamePassword LoginDetails = new UsernamePassword();
         private TextBox mCategoryTextBox;
         private bool mInitialised;
-        internal Props Settings = new Props();
+        //internal Props Settings = new Props();
 
         public LoggingSettings(TextBox CategoryTextBox, IAutoWikiBrowser Main)
         {
@@ -57,20 +57,41 @@ namespace AutoWikiBrowser
             set { Led1.Colour = value; }
         }
 
-        #region XML
-        internal void ReadXML(System.Xml.XmlTextReader Reader, MyTrace MyTrace)
+        #region Settings
+        public LoggingPrefs Settings
         {
-            Props NewProps = new Props();
-
-            if (!(Settings.Equals(NewProps)))
+            get
             {
-                if (Settings.UploadYN && Settings.LogWiki)
-                {
-                    MyTrace.UploadWikiLog();
-                }
+                LoggingPrefs prefs = new LoggingPrefs();
+                prefs.LogFolder = FolderTextBox.Text;
+                prefs.LogVerbose = VerboseCheckBox.Checked;
+                prefs.LogWiki = WikiLogCheckBox.Checked;
+                prefs.LogXHTML = XHTMLLogCheckBox.Checked;
+                prefs.UploadJobName = UploadJobNameTextBox.Text;
+                prefs.UploadLocation = UploadLocationTextBox.Text;
+                prefs.UploadMaxLines = UploadMaxLinesControl.Value;
+                prefs.UploadOpenInBrowser = UploadOpenInBrowserCheckBox.Checked;
+                prefs.UploadToWikiProjects = UploadWikiProjectCheckBox.Checked;
+                prefs.UploadAddToWatchlist = UploadWatchlistCheckBox.Checked;
+                prefs.UploadYN = UploadCheckBox.Checked ;
 
-                ApplySettingsToControls(NewProps);
-                GetSettingsFromControls();
+                return prefs;
+            }
+            set
+            {
+                LoggingPrefs prefs = value;
+
+                FolderTextBox.Text = prefs.LogFolder;
+                VerboseCheckBox.Checked = prefs.LogVerbose;
+                WikiLogCheckBox.Checked = prefs.LogWiki;
+                XHTMLLogCheckBox.Checked = prefs.LogXHTML;
+                UploadJobNameTextBox.Text = prefs.UploadJobName;
+                UploadLocationTextBox.Text = prefs.UploadLocation;
+                UploadMaxLinesControl.Value = prefs.UploadMaxLines;
+                UploadOpenInBrowserCheckBox.Checked = prefs.UploadOpenInBrowser;
+                UploadWikiProjectCheckBox.Checked = prefs.UploadToWikiProjects;
+                UploadWatchlistCheckBox.Checked = prefs.UploadAddToWatchlist;
+                UploadCheckBox.Checked = prefs.UploadYN;
             }
         }
         internal void Reset()
@@ -275,7 +296,6 @@ namespace AutoWikiBrowser
 
         internal sealed class Props : UploadableLogSettings2
         {
-
             private bool mLogBadPages = true;
             private bool mUploadToWikiProjects = true;
             private string mCategory = "";
@@ -371,45 +391,6 @@ namespace AutoWikiBrowser
             internal string LogTitle
             {
                 get { return Tools.RemoveInvalidChars(mUploadJobName.Replace(conUploadCategoryIsJobName, mCategory)); }
-            }
-            #endregion
-
-            #region Settings
-            public LoggingPrefs Settings
-            {
-                get
-                {
-                    LoggingPrefs prefs = new LoggingPrefs();
-                    prefs.LogFolder = LogFolder;
-                    prefs.LogVerbose = LogVerbose;
-                    prefs.LogWiki = LogWiki;
-                    prefs.LogXHTML = LogXHTML;
-                    prefs.UploadJobName = UploadJobName;
-                    prefs.UploadLocation = UploadLocation;
-                    prefs.UploadMaxLines = UploadMaxLines;
-                    prefs.UploadOpenInBrowser = UploadOpenInBrowser;
-                    prefs.UploadToWikiProjects = UploadToWikiProjects;
-                    prefs.UploadAddToWatchlist = UploadAddToWatchlist;
-                    prefs.UploadYN = UploadYN;
-
-                    return prefs;
-                }
-                set
-                {
-                    LoggingPrefs prefs = value;
-
-                    LogFolder = prefs.LogFolder;
-                    LogVerbose = prefs.LogVerbose;
-                    LogWiki = prefs.LogWiki;
-                    LogXHTML = prefs.LogXHTML;
-                    UploadJobName = prefs.UploadJobName;
-                    UploadLocation = prefs.UploadLocation;
-                    UploadMaxLines = prefs.UploadMaxLines;
-                    UploadOpenInBrowser = prefs.UploadOpenInBrowser;
-                    UploadToWikiProjects = prefs.UploadToWikiProjects;
-                    UploadAddToWatchlist = prefs.UploadAddToWatchlist;
-                    UploadYN = prefs.UploadYN;
-                }
             }
             #endregion
         }
