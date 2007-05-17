@@ -13,7 +13,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
         Private BusyCounter As Integer = 0
         Private mIsUploading As Boolean
 
-        Private Const conBadPages As String = "Bad"
         Private Const conWiki As String = "Wiki"
         Private Const conXHTML As String = "XHTML"
 
@@ -23,10 +22,9 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
             LogFolder = LoggingSettings.Settings.LogFolder
 
             With LoggingSettings.Settings
-                If .LogBadPages OrElse .LogXHTML OrElse .LogWiki Then
+                If .LogXHTML OrElse .LogWiki Then
                     If Not IO.Directory.Exists(.LogFolder) Then LogFolder = Application.StartupPath
 
-                    If .LogBadPages Then NewBadPagesTraceListener()
                     If .LogXHTML Then NewXHTMLTraceListener()
                     If .LogWiki Then NewWikiTraceListener()
                 End If
@@ -93,10 +91,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
                 Return String.Format("{1}\{0:MMM-d yyyy HHmm-ss.FF}", Date.Now, LogFolder)
             End Get
         End Property
-        Private Sub NewBadPagesTraceListener()
-            AddListener(conBadPages, New BadPagesTraceListener(FilePrefix(LoggingSettings.Settings.LogFolder) & _
-               " skipped.txt", LoggingSettings.Settings, LoggingSettings))
-        End Sub
         Private Sub NewXHTMLTraceListener()
             AddListener(conXHTML, New XHTMLTraceListener(FilePrefix(LoggingSettings.Settings.LogFolder) & _
                " log.html", LoggingSettings))
@@ -263,16 +257,9 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
                         RemoveListener(conWiki)
                     End If
 
-                    If .LogBadPages Then
-                        If Not ContainsKey(conBadPages) Then NewBadPagesTraceListener()
-                    ElseIf ContainsKey(conBadPages) Then
-                        RemoveListener(conBadPages)
-                    End If
-
                 ElseIf HaveOpenFile Then ' folder has changed, close and reopen all active logs
                     If ContainsKey(conWiki) Then RemoveListenerAndReplaceWithSameType(conWiki)
                     If ContainsKey(conXHTML) Then RemoveListenerAndReplaceWithSameType(conXHTML)
-                    If ContainsKey(conBadPages) Then RemoveListenerAndReplaceWithSameType(conBadPages)
                 End If
             End With
 
@@ -378,68 +365,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
             Public Overrides Sub CheckCounterForUpload()
                 ' Explicitly define to allow breakpoint
                 MyBase.CheckCounterForUpload()
-            End Sub
-        End Class
-
-        ''' <summary>
-        ''' Logs pages which have bad templates
-        ''' </summary>
-        ''' <remarks></remarks>
-        Private NotInheritable Class BadPagesTraceListener
-            Inherits TraceListenerUploadableBase
-
-            Public Sub New(ByVal FileName As String, ByVal UploadSettings As UploadableLogSettings2, ByVal LS As PluginLogging)
-                MyBase.New(UploadSettings, _
-                   New TraceStatus(LS.BadTagsLinesLabel, LS.BadTagsLinesSinceUploadLabel, LS.UploadsCountLabel, _
-                   LS.Settings.UploadYN, FileName, conBadPages))
-            End Sub
-
-            ' Overrides:
-            Public Overrides Sub SkippedArticleBadTag(ByVal SkippedBy As String, ByVal FullArticleTitle As String, _
-            ByVal NS As Namespaces)
-                MyBase.WriteLine(GetArticleTemplate(FullArticleTitle, NS) & " (skipped by the " & SkippedBy _
-                   & " plugin; bad tag)")
-            End Sub
-            Public Overrides Sub SkippedArticleRedlink(ByVal SkippedBy As String, _
-            ByVal FullArticleTitle As String, ByVal NS As Namespaces)
-                MyBase.WriteLine(GetArticleTemplate(FullArticleTitle, NS) & " (skipped by the Plugin Manager; " & _
-                   "attached article doesn't exist - maybe deleted?)")
-            End Sub
-            Public Overrides Sub WriteComment(ByVal Line As String)
-                MyBase.Write("<!-- " & Line & " -->")
-            End Sub
-            Public Overrides Sub WriteCommentAndNewLine(ByVal Line As String)
-                MyBase.WriteLine("<!-- " & Line & " -->")
-            End Sub
-            ''HACK: Although still based on uploadable base (for now), turn off uploading:
-            Public Overrides Sub CheckCounterForUpload()
-            End Sub
-            Public Overrides ReadOnly Property Uploadable() As Boolean
-                Get
-                    Return False
-                End Get
-            End Property
-            Protected Overrides ReadOnly Property IsReadyToUpload() As Boolean
-                Get
-                    Return False
-                End Get
-            End Property
-            Public Overrides Function UploadLog() As Boolean
-            End Function
-            Public Overrides Function UploadLog(ByVal NewJob As Boolean) As Boolean
-            End Function
-
-            ' Overrides - do nothing:
-            Public Overrides Sub WriteBulletedLine(ByVal Line As String, ByVal bold As Boolean, _
-               ByVal b As Boolean, ByVal DateStamp As Boolean)
-            End Sub
-            Public Overrides Sub ProcessingArticle(ByVal ArticleFullTitle As String, ByVal NS As Namespaces)
-            End Sub
-            Public Overrides Sub WriteArticleActionLine(ByVal Line As String, ByVal PluginName As String)
-            End Sub
-            Public Overrides Sub WriteTemplateAdded(ByVal Template As String, ByVal PluginName As String)
-            End Sub
-            Public Overrides Sub SkippedArticle(ByVal SkippedBy As String, ByVal Reason As String)
             End Sub
         End Class
 

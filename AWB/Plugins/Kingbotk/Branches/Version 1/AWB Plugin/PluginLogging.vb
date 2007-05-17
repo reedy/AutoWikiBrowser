@@ -71,7 +71,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
 #Region "Event handlers - supporting routines"
         Private Sub ApplySettingsToControls(ByVal SettingsObject As Props)
             With SettingsObject
-                LogBadTagsCheckBox.Checked = .LogBadPages
                 FolderTextBox.Text = .LogFolder
                 VerboseCheckBox.Checked = .LogVerbose
                 WikiLogCheckBox.Checked = .LogWiki
@@ -103,7 +102,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                    OrElse (_UploadJobNameTextBox.Text = Props.conUploadCategoryIsJobName _
                    AndAlso Not .Category = mCategoryTextBox.Text)
 
-                .LogBadPages = _LogBadTagsCheckBox.Checked
                 .LogVerbose = _VerboseCheckBox.Checked
                 .LogWiki = _WikiLogCheckBox.Checked
                 .LogXHTML = _XHTMLLogCheckBox.Checked
@@ -223,7 +221,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Friend NotInheritable Class Props
             Inherits UploadableLogSettings2
 
-            Private mLogBadPages As Boolean = True, mUploadToWikiProjects As Boolean = True, mCategory As String = ""
+            Private mUploadToWikiProjects As Boolean = True, mCategory As String = ""
             Friend Const conUploadToUserSlashLogsToken As String = "$USER/Logs"
             Friend Const conUploadCategoryIsJobName As String = "$CATEGORY"
             Private Shared ReadOnly mPluginVersion As String = _
@@ -238,7 +236,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
 
             Friend Shadows Function Equals(ByVal Compare As Props) As Boolean
                 With Compare
-                    If .LogBadPages = LogBadPages AndAlso .LogFolder = LogFolder AndAlso .LogVerbose = LogVerbose _
+                    If .LogFolder = LogFolder AndAlso .LogVerbose = LogVerbose _
                     AndAlso .LogWiki = LogWiki AndAlso .LogXHTML = LogXHTML _
                     AndAlso .UploadAddToWatchlist = UploadAddToWatchlist AndAlso .UploadJobName = UploadJobName _
                     AndAlso .UploadLocation = UploadLocation AndAlso .UploadMaxLines = UploadMaxLines _
@@ -260,14 +258,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 Get
                     Return Application.ProductVersion.ToString
                 End Get
-            End Property
-            Friend Property LogBadPages() As Boolean
-                Get
-                    Return mLogBadPages
-                End Get
-                Set(ByVal value As Boolean)
-                    mLogBadPages = value
-                End Set
             End Property
             Friend Property UploadToWikiProjects() As Boolean
                 Get
@@ -340,7 +330,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Private Const conLogUploadLocation As String = "LogUploadLoc"
             Private Const conLogUploadJobName As String = "LogUploadJob"
             Public Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader)
-                mLogBadPages = PluginManager.XMLReadBoolean(Reader, conLogBadPages, LogBadPages)
                 mLogFolder = PluginManager.XMLReadString(Reader, conLogFolder, LogFolder)
                 mLogVerbose = PluginManager.XMLReadBoolean(Reader, conLogVerbose, LogVerbose)
                 mLogWiki = PluginManager.XMLReadBoolean(Reader, conLogWiki, LogWiki)
@@ -354,7 +343,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 mUploadToWikiProjects = PluginManager.XMLReadBoolean(Reader, conLogUploadToWikiProjects, UploadToWikiProjects)
             End Sub
             Public Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter)
-                Writer.WriteAttributeString(conLogBadPages, LogBadPages.ToString)
                 Writer.WriteAttributeString(conLogFolder, LogFolder)
                 Writer.WriteAttributeString(conLogVerbose, LogVerbose.ToString)
                 Writer.WriteAttributeString(conLogWiki, LogWiki.ToString)

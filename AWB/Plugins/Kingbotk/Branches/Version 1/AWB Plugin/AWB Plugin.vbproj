@@ -137,13 +137,6 @@
     <Compile Include="LoginForm.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MyTrace.vb" />
-    <Compile Include="PluginLogging.Designer.vb">
-      <DependentUpon>PluginLogging.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PluginLogging.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="AssessmentsInstructionsDialog.Designer.vb">
       <DependentUpon>AssessmentsInstructionsDialog.vb</DependentUpon>
     </Compile>
@@ -244,10 +237,6 @@
     <EmbeddedResource Include="LoginForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>LoginForm.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PluginLogging.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>PluginLogging.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AssessmentsInstructionsDialog.resx">
       <SubType>Designer</SubType>
