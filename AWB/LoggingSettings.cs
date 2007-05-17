@@ -222,7 +222,7 @@ namespace AutoWikiBrowser
 		}
 		private void CloseAllButton_Click(object sender, EventArgs e)
 		{
-			MyTrace.Close();
+			GlobalObjects.MyTrace.Close();
 		}
 		private void LogBadTagsCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
@@ -340,11 +340,13 @@ namespace AutoWikiBrowser
             {
                 get
                 {
+                    // TODO: We could create a temporary AWB logs page and have alpha version upload to that?
                     List<LogEntry> tempLinksToLog = null;
                     tempLinksToLog = new List<LogEntry>();
                     tempLinksToLog.Add(new LogEntry(GlobbedUploadLocation, false));
                     if (mUploadToWikiProjects)
                     {
+                        
                         foreach (PluginBase Plugin in PluginManager.ActivePlugins)
                         {
                             if (Plugin.HasSharedLogLocation)

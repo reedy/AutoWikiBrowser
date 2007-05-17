@@ -32,7 +32,7 @@ namespace AutoWikiBrowser.Logging
 
             if (LoggingSettings.Settings.LogXHTML || LoggingSettings.Settings.LogWiki)
             {
-                if (!(IO.Directory.Exists(LoggingSettings.Settings.LogFolder)))
+                if (!(System.IO.Directory.Exists(LoggingSettings.Settings.LogFolder)))
                 {
                     LogFolder = Application.StartupPath;
                 }
@@ -394,11 +394,11 @@ namespace AutoWikiBrowser.Logging
         /// Logs in XHTML
         /// </summary>
         /// <remarks></remarks>
-        private sealed class XHTMLTraceListener : XHTMLTraceListener, WikiFunctions.Logging.Uploader.ITraceStatusProvider
+        private sealed class XHTMLTraceListener : WikiFunctions.Logging.XHTMLTraceListener, WikiFunctions.Logging.Uploader.ITraceStatusProvider
         {
             private TraceStatus mTraceStatus;
 
-            public XHTMLTraceListener(string FileName, PluginLogging LS)
+            public XHTMLTraceListener(string FileName, LoggingSettings LS)
                 : base(FileName, LS.Settings.LogVerbose)
             {
                 mTraceStatus = new TraceStatus(LS.XHTMLLinesLabel, null, null, false, FileName, conXHTML);
@@ -413,9 +413,9 @@ namespace AutoWikiBrowser.Logging
         /// Logs in wiki format
         /// </summary>
         /// <remarks></remarks>
-        private sealed class WikiTraceListener : WikiTraceListener
+        private sealed class WikiTraceListener : WikiFunctions.Logging.WikiTraceListener
         {
-            public WikiTraceListener(string FileName, PluginLogging LS)
+            public WikiTraceListener(string FileName, LoggingSettings LS)
                 : base(LS.Settings, new TraceStatus(LS.WikiLinesLabel, LS.WikiLinesSinceUploadLabel, LS.UploadsCountLabel, LS.Settings.UploadYN, FileName, conWiki))
             {
             }
@@ -427,7 +427,7 @@ namespace AutoWikiBrowser.Logging
             }
         }
 
-        internal PluginLogging LS
+        internal LoggingSettings LS
         {
             set { LoggingSettings = value; }
         }

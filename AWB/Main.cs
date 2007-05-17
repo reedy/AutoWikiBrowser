@@ -3121,6 +3121,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             void IAutoWikiBrowser.GetPreview(IAWBPlugin sender) { GetPreview(sender.Name); }
             void IAutoWikiBrowser.Save(IAWBPlugin sender) { Save(sender.Name); }
 
+            public event GetLogUploadLocationsEvent GetLogUploadLocations;
+
             /* In the (perhaps unlikely) event we need to know the name of the plugin which calls these subroutines,
              * the code is here and ready to go. */
             public void SkipPage(string sender, string reason) { SkipPage(reason); }
