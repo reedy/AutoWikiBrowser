@@ -50,6 +50,7 @@ namespace WikiFunctions.Plugin
     {
         Form Form { get; }
         TraceManager TraceManager { get; } // implements IMyTraceListener
+        WikiFunctions.Logging.Uploader.UploadableLogSettings2 LoggingSettings { get; }
         TabPage MoreOptionsTab { get; }
         TabPage OptionsTab { get; }
         TabPage StartTab { get; }
@@ -86,6 +87,7 @@ namespace WikiFunctions.Plugin
         void NotifyBalloon(string Message, ToolTipIcon Icon);
         int Nudges { get; }
         void AddLogItem(bool Skipped, AWBLogListener LogListener);
+        void TurnOffLogging();
 
         void Start(IAWBPlugin sender);
         void Save(IAWBPlugin sender);

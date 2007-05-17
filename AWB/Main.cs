@@ -420,7 +420,7 @@ namespace AutoWikiBrowser
                     webBrowserEdit.Busy = true;
 
                 TheArticle = listMaker1.SelectedArticle();
-                TheArticle.InitialiseLogListener();
+                AutoWikiBrowser.Logging.MyTrace.InitialiseLogListener(TheArticle);
                 NewHistory();                    
 
                 if (!Tools.IsValidTitle(TheArticle.Name))
@@ -470,7 +470,7 @@ namespace AutoWikiBrowser
 
                 listMaker1.ReplaceArticle(TheArticle, Redirect);
                 TheArticle = Redirect;
-                TheArticle.InitialiseLogListener();
+                AutoWikiBrowser.Logging.MyTrace.InitialiseLogListener(TheArticle);
 
                 webBrowserEdit.LoadEditPage(Redirect.Name);
                 return;
@@ -3033,6 +3033,12 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             //make sure there was no error and bot mode is still enabled
             if (BotMode)
             {
+                if (GlobalObjects.MyTrace.IsUploading)
+                {
+                    // Don't nudge when a log is uploading in the background, just wait for it
+                    e.Cancel = true; return;
+                }
+
                 bool Cancel;
                 // Tell plugins we're about to nudge, and give them the opportunity to cancel:
                 foreach (KeyValuePair<string, IAWBPlugin> a in Plugin.Items)
@@ -3040,8 +3046,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                     a.Value.Nudge(out Cancel);
                     if (Cancel)
                     {
-                        e.Cancel = true;
-                        return;
+                        e.Cancel = true; return;
                     }
                 }
 
@@ -3077,6 +3082,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         #region IAutoWikiBrowser:
         // Objects:
             TraceManager IAutoWikiBrowser.TraceManager { get { return GlobalObjects.MyTrace; } }
+            WikiFunctions.Logging.Uploader.UploadableLogSettings2 IAutoWikiBrowser.LoggingSettings { get { return GlobalObjects.MyTrace.LS.Settings; } }
             TabPage IAutoWikiBrowser.MoreOptionsTab { get { return tpMoreOptions; } }
             TabPage IAutoWikiBrowser.OptionsTab { get { return tpSetOptions; } }
             TabPage IAutoWikiBrowser.StartTab { get { return tpStart; } }
@@ -3111,7 +3117,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             string IAutoWikiBrowser.AWBVersionString { get { return Program.VersionString; } }
             string IAutoWikiBrowser.WikiFunctionsVersionString { get { return Tools.VersionString; } }
             string IAutoWikiBrowser.WikiDiffVersionString { get { return WikiDiff.Version; } }
-            void IAutoWikiBrowser.AddLogItem(bool Skipped, AWBLogListener LogListener) { LogControl1.AddLog(Skipped, LogListener); }
+            void IAutoWikiBrowser.AddLogItem(bool Skipped, AWBLogListener LogListener) 
+                { LogControl1.AddLog(Skipped, LogListener); }
+            void IAutoWikiBrowser.TurnOffLogging() { GlobalObjects.MyTrace.TurnOffLogging(); }
 
         // "Events":
             void IAutoWikiBrowser.SkipPage(IAWBPlugin sender, string reason) { SkipPage(sender.Name, reason); }
@@ -3131,6 +3139,13 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             public void GetDiff(string sender) { GetDiff(); }
             public void GetPreview(string sender) { GetPreview(); }
             public void Save(string sender) { Save(); }
+
+            // Fire GetLogUploadLocations event
+            internal void GetLogUploadLocationsEvent(List<WikiFunctions.Logging.Uploader.LogEntry> locations)
+            {
+                if (GetLogUploadLocations != null)
+                    GetLogUploadLocations(this, locations);
+            }
         #endregion
 
         /// <summary>

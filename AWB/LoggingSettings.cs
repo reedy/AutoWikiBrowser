@@ -22,7 +22,7 @@ namespace AutoWikiBrowser
         internal UsernamePassword LoginDetails = new UsernamePassword();
         private TextBox mCategoryTextBox;
         private bool mInitialised;
-        //internal Props Settings = new Props();
+        internal Props Settings = new Props();
 
         public LoggingSettings(TextBox CategoryTextBox, IAutoWikiBrowser Main)
         {
@@ -57,8 +57,19 @@ namespace AutoWikiBrowser
             set { Led1.Colour = value; }
         }
 
+        public void TurnOffLogging()
+        {
+            Settings.LogXHTML = false;
+            Settings.LogWiki = false;
+            IgnoreEvents = true;
+            WikiLogCheckBox.Checked = false;
+            XHTMLLogCheckBox.Checked = false;
+            IgnoreEvents = false;
+        }
+
         #region Settings
-        public LoggingPrefs Settings
+        // TODO: Ought to be able to serialise the Props class? Ask Max/Mets
+        public LoggingPrefs SerialisableSettings
         {
             get
             {
@@ -298,12 +309,10 @@ namespace AutoWikiBrowser
 
         internal sealed class Props : UploadableLogSettings2
         {
-            private bool mLogBadPages = true;
             private bool mUploadToWikiProjects = true;
             private string mCategory = "";
             internal const string conUploadToUserSlashLogsToken = "$USER/Logs";
             internal const string conUploadCategoryIsJobName = "$CATEGORY";
-            private static readonly string mPluginVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
             private static string mUserName = "";
 
             internal Props()
@@ -325,44 +334,28 @@ namespace AutoWikiBrowser
             }
 
             #region Additional properties:
-            internal static string PluginVersion
-            {
-                get { return mPluginVersion; }
-            }
-            internal static string AWBVersion
-            {
-                get { return Application.ProductVersion.ToString(); }
-            }
             internal bool UploadToWikiProjects
             {
                 get { return mUploadToWikiProjects; }
                 set { mUploadToWikiProjects = value; }
             }
-            internal List<LogEntry> LinksToLog
+            internal List<LogEntry> LinksToLog()
             {
-                get
+                List<LogEntry> tempLinksToLog = new List<LogEntry>();
+                // TODO: We could create a temporary AWB logs page and have alpha version upload to that?
+                tempLinksToLog.Add(new LogEntry(GlobbedUploadLocation, false));
+
+                // If "uploading to WikiProjects" (or other plugin-specified locations), get details from plugins:
+                if (mUploadToWikiProjects)
+                    ((MainForm)GlobalObjects.AWB).GetLogUploadLocationsEvent(tempLinksToLog);
+
+                if (tempLinksToLog.Count > 1 && UserName == "")
                 {
-                    // TODO: We could create a temporary AWB logs page and have alpha version upload to that?
-                    List<LogEntry> tempLinksToLog = null;
-                    tempLinksToLog = new List<LogEntry>();
-                    tempLinksToLog.Add(new LogEntry(GlobbedUploadLocation, false));
-                    if (mUploadToWikiProjects)
-                    {
-                        
-                        foreach (PluginBase Plugin in PluginManager.ActivePlugins)
-                        {
-                            if (Plugin.HasSharedLogLocation)
-                            {
-                                tempLinksToLog.Add(new LogEntry(Plugin.SharedLogLocation, true));
-                            }
-                        }
-                    }
-                    if (tempLinksToLog.Count > 1 && UserName == "")
-                    {
-                        throw new System.Configuration.SettingsPropertyNotFoundException("The plugin hasn't received the username from AWB");
-                    }
-                    return tempLinksToLog;
+                    throw new System.Configuration.SettingsPropertyNotFoundException(
+                        "We don't have a username");
+                    // TODO: Username stuff can now get better integrated with AWB, and preferably AWBProfiles
                 }
+                return tempLinksToLog;
             }
             internal string GlobbedUploadLocation
             {
