@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using WikiFunctions.Logging.Uploader;
 using AutoWikiBrowser.Logging;
 using WikiFunctions;
+using WikiFunctions.AWBSettings;
 using WikiFunctions.Plugin;
 
 namespace AutoWikiBrowser
@@ -61,8 +62,6 @@ namespace AutoWikiBrowser
         {
             Props NewProps = new Props();
 
-            NewProps.ReadXML(Reader); // ReadXML values into a new settings object
-
             if (!(Settings.Equals(NewProps)))
             {
                 if (Settings.UploadYN && Settings.LogWiki)
@@ -73,10 +72,6 @@ namespace AutoWikiBrowser
                 ApplySettingsToControls(NewProps);
                 GetSettingsFromControls();
             }
-        }
-        internal void WriteXML(System.Xml.XmlTextWriter Writer)
-        {
-            Settings.WriteXML(Writer);
         }
         internal void Reset()
         {
@@ -298,17 +293,13 @@ namespace AutoWikiBrowser
 
             internal bool Equals(Props Compare)
             {
-                return (((((Operators.CompareString(Compare.LogFolder, this.LogFolder, false) == 0) &&
-                    (Compare.LogVerbose == this.LogVerbose)) && ((Compare.LogWiki == this.LogWiki) &&
-                    (Compare.LogXHTML == this.LogXHTML))) &&
-                    (((Compare.UploadAddToWatchlist == this.UploadAddToWatchlist) &&
-                    (Operators.CompareString(Compare.UploadJobName, this.UploadJobName, false) == 0)) &&
-                    ((Operators.CompareString(Compare.UploadLocation, this.UploadLocation, false) == 0) &&
-                    (Compare.UploadMaxLines == this.UploadMaxLines)))) &&
-                    (((Compare.UploadOpenInBrowser == this.UploadOpenInBrowser) &&
-                    (Compare.UploadToWikiProjects == this.UploadToWikiProjects)) &&
-                    ((Compare.UploadYN == this.UploadYN) &&
-                    (Operators.CompareString(Compare.Category, this.Category, false) == 0))));
+                return ((Compare.LogFolder == LogFolder) && (Compare.LogVerbose == LogVerbose) 
+                    && (Compare.LogWiki == LogWiki) && (Compare.LogXHTML == LogXHTML)
+                    && (Compare.UploadAddToWatchlist == UploadAddToWatchlist) && (Compare.UploadJobName == UploadJobName)
+                    && (Compare.UploadLocation == UploadLocation) && (Compare.UploadMaxLines == UploadMaxLines)
+                    && (Compare.UploadOpenInBrowser == UploadOpenInBrowser)
+                    && (Compare.UploadToWikiProjects == UploadToWikiProjects) && (Compare.UploadYN == UploadYN)
+                    && (Compare.Category == Category));
             }
 
             #region Additional properties:
@@ -383,46 +374,42 @@ namespace AutoWikiBrowser
             }
             #endregion
 
-            #region XML interface
-            private const string conLogBadPages = "LogBadPages";
-            private const string conLogXHTML = "LogXHTML";
-            private const string conLogWiki = "LogWiki";
-            private const string conLogVerbose = "LogVerbose";
-            private const string conLogFolder = "LogFolder";
-            private const string conLogUploadMaxLines = "LogUploadMaxLines";
-            private const string conLogUploadYN = "LogUploadYN";
-            private const string conLogUploadToWikiProjects = "LogUploadWPs";
-            private const string conLogUploadWatchlist = "LogUploadWatch";
-            private const string conLogUploadOpenInBrowser = "LogUploadBrowser";
-            private const string conLogUploadLocation = "LogUploadLoc";
-            private const string conLogUploadJobName = "LogUploadJob";
-            public void ReadXML(System.Xml.XmlTextReader Reader)
+            #region Settings
+            public LoggingPrefs Settings
             {
-                mLogFolder = PluginManager.XMLReadString(Reader, conLogFolder, LogFolder);
-                mLogVerbose = PluginManager.XMLReadBoolean(Reader, conLogVerbose, LogVerbose);
-                mLogWiki = PluginManager.XMLReadBoolean(Reader, conLogWiki, LogWiki);
-                mLogXHTML = PluginManager.XMLReadBoolean(Reader, conLogXHTML, LogXHTML);
-                mUploadYN = PluginManager.XMLReadBoolean(Reader, conLogUploadYN, UploadYN);
-                mUploadAddToWatchlist = PluginManager.XMLReadBoolean(Reader, conLogUploadWatchlist, UploadAddToWatchlist);
-                mUploadJobName = PluginManager.XMLReadString(Reader, conLogUploadJobName, UploadJobName);
-                mUploadLocation = PluginManager.XMLReadString(Reader, conLogUploadLocation, UploadLocation);
-                mUploadMaxLines = PluginManager.XMLReadInteger(Reader, conLogUploadMaxLines, UploadMaxLines);
-                mUploadOpenInBrowser = PluginManager.XMLReadBoolean(Reader, conLogUploadOpenInBrowser, UploadOpenInBrowser);
-                mUploadToWikiProjects = PluginManager.XMLReadBoolean(Reader, conLogUploadToWikiProjects, UploadToWikiProjects);
-            }
-            public void WriteXML(System.Xml.XmlTextWriter Writer)
-            {
-                Writer.WriteAttributeString(conLogFolder, LogFolder);
-                Writer.WriteAttributeString(conLogVerbose, LogVerbose.ToString());
-                Writer.WriteAttributeString(conLogWiki, LogWiki.ToString());
-                Writer.WriteAttributeString(conLogXHTML, LogXHTML.ToString());
-                Writer.WriteAttributeString(conLogUploadJobName, UploadJobName);
-                Writer.WriteAttributeString(conLogUploadLocation, UploadLocation);
-                Writer.WriteAttributeString(conLogUploadMaxLines, UploadMaxLines.ToString());
-                Writer.WriteAttributeString(conLogUploadOpenInBrowser, UploadOpenInBrowser.ToString());
-                Writer.WriteAttributeString(conLogUploadToWikiProjects, UploadToWikiProjects.ToString());
-                Writer.WriteAttributeString(conLogUploadWatchlist, UploadAddToWatchlist.ToString());
-                Writer.WriteAttributeString(conLogUploadYN, UploadYN.ToString());
+                get
+                {
+                    LoggingPrefs prefs = new LoggingPrefs();
+                    prefs.LogFolder = LogFolder;
+                    prefs.LogVerbose = LogVerbose;
+                    prefs.LogWiki = LogWiki;
+                    prefs.LogXHTML = LogXHTML;
+                    prefs.UploadJobName = UploadJobName;
+                    prefs.UploadLocation = UploadLocation;
+                    prefs.UploadMaxLines = UploadMaxLines;
+                    prefs.UploadOpenInBrowser = UploadOpenInBrowser;
+                    prefs.UploadToWikiProjects = UploadToWikiProjects;
+                    prefs.UploadAddToWatchlist = UploadAddToWatchlist;
+                    prefs.UploadYN = UploadYN;
+
+                    return prefs;
+                }
+                set
+                {
+                    LoggingPrefs prefs = value;
+
+                    LogFolder = prefs.LogFolder;
+                    LogVerbose = prefs.LogVerbose;
+                    LogWiki = prefs.LogWiki;
+                    LogXHTML = prefs.LogXHTML;
+                    UploadJobName = prefs.UploadJobName;
+                    UploadLocation = prefs.UploadLocation;
+                    UploadMaxLines = prefs.UploadMaxLines;
+                    UploadOpenInBrowser = prefs.UploadOpenInBrowser;
+                    UploadToWikiProjects = prefs.UploadToWikiProjects;
+                    UploadAddToWatchlist = prefs.UploadAddToWatchlist;
+                    UploadYN = prefs.UploadYN;
+                }
             }
             #endregion
         }
