@@ -24,6 +24,11 @@ using System.Windows.Forms;
 
 namespace AutoWikiBrowser
 {
+    internal static class GlobalObjects
+    {
+        static internal WikiFunctions.Plugin.IAutoWikiBrowser AWB;
+        static internal Logging.MyTrace MyTrace;
+    }
     internal static class Program
     {
         /// <summary>
@@ -34,7 +39,9 @@ namespace AutoWikiBrowser
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            MainForm AWB = new MainForm();
+            GlobalObjects.AWB = AWB;
+            Application.Run(AWB);
         }
         
         internal static System.Version Version { get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; } }
