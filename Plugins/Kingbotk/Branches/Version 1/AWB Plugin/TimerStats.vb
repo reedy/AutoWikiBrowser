@@ -68,14 +68,14 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         End Property
 
         ' Event handlers
+        Private ReadOnly timerregexp As New Regex("\..*")
         Private Sub Timer1_Tick(ByVal sender As Object, ByVal e As EventArgs) Handles Timer1.Tick
-            Static regexp As New Regex("\..*")
             Static UpdateETACount As Integer
             Dim SecondsPerPage As Double
 
             UpdateETACount += 1
             TimeSpan = Date.Now - Start
-            TimerLabel.Text = regexp.Replace(TimeSpan.ToString, "")
+            TimerLabel.Text = timerregexp.Replace(TimeSpan.ToString, "")
             SecondsPerPage = Math.Round(TimeSpan.TotalSeconds / NumberOfEdits, 2)
 
             If Double.IsInfinity(SecondsPerPage) Then

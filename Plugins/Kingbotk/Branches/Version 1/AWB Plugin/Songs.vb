@@ -72,7 +72,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Inherits PluginBase
 
         ' Regular expressions:
-        Private InfoboxRegex As New Regex("\{\{\s*(template\s*:\s*|)\s*(sir|Single infobox request)\s*\}\}[\s\n\r]*", _
+        Private ReadOnly InfoboxRegex As New Regex("\{\{\s*(template\s*:\s*|)\s*(sir|Single infobox request)\s*\}\}[\s\n\r]*", _
            RegexOptions.IgnoreCase Or RegexOptions.Compiled Or RegexOptions.ExplicitCapture)
 
         ' Settings:

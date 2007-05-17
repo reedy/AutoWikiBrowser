@@ -12,7 +12,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
         Private State As New StateClass
 
         ' Regex:
-        Private Shared ReqphotoAnyRegex As New Regex("\{\{\s*(template\s*:\s*|)\s*reqphoto", _
+        Private Shared ReadOnly ReqphotoAnyRegex As New Regex("\{\{\s*(template\s*:\s*|)\s*reqphoto", _
            RegexOptions.IgnoreCase Or RegexOptions.Compiled Or RegexOptions.ExplicitCapture)
 
         ' New:
