@@ -308,34 +308,22 @@ namespace AutoWikiBrowser
                     (((Compare.UploadOpenInBrowser == this.UploadOpenInBrowser) &&
                     (Compare.UploadToWikiProjects == this.UploadToWikiProjects)) &&
                     ((Compare.UploadYN == this.UploadYN) &&
-                    (Operators.CompareString(Compare.Category, this.Category, false) == 0))));               
+                    (Operators.CompareString(Compare.Category, this.Category, false) == 0))));
             }
 
             #region Additional properties:
             internal static string PluginVersion
             {
-                get
-                {
-                    return mPluginVersion;
-                }
+                get { return mPluginVersion; }
             }
             internal static string AWBVersion
             {
-                get
-                {
-                    return Application.ProductVersion.ToString();
-                }
+                get { return Application.ProductVersion.ToString(); }
             }
             internal bool UploadToWikiProjects
             {
-                get
-                {
-                    return mUploadToWikiProjects;
-                }
-                set
-                {
-                    mUploadToWikiProjects = value;
-                }
+                get { return mUploadToWikiProjects; }
+                set { mUploadToWikiProjects = value; }
             }
             internal List<LogEntry> LinksToLog
             {
@@ -363,32 +351,17 @@ namespace AutoWikiBrowser
             }
             internal string GlobbedUploadLocation
             {
-                get
-                {
-                    return mUploadLocation.Replace("$USER", "User:" + UserName);
-                }
+                get { return mUploadLocation.Replace("$USER", "User:" + UserName); }
             }
             internal static string UserName
             {
-                get
-                {
-                    return mUserName;
-                }
-                set
-                {
-                    mUserName = value;
-                }
+                get { return mUserName; }
+                set { mUserName = value; }
             }
             internal string Category
             {
-                get
-                {
-                    return mCategory;
-                }
-                set
-                {
-                    mCategory = value;
-                }
+                get { return mCategory; }
+                set { mCategory = value; }
             }
             internal string WikifiedCategory
             {
@@ -406,10 +379,7 @@ namespace AutoWikiBrowser
             }
             internal string LogTitle
             {
-                get
-                {
-                    return Tools.RemoveInvalidChars(mUploadJobName.Replace(conUploadCategoryIsJobName, mCategory));
-                }
+                get { return Tools.RemoveInvalidChars(mUploadJobName.Replace(conUploadCategoryIsJobName, mCategory)); }
             }
             #endregion
 
