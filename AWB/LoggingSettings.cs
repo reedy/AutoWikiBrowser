@@ -69,11 +69,12 @@ namespace AutoWikiBrowser
                 prefs.LogXHTML = XHTMLLogCheckBox.Checked;
                 prefs.UploadJobName = UploadJobNameTextBox.Text;
                 prefs.UploadLocation = UploadLocationTextBox.Text;
-                prefs.UploadMaxLines = UploadMaxLinesControl.Value;
+                prefs.UploadMaxLines = int.Parse(UploadMaxLinesControl.Value.ToString());
                 prefs.UploadOpenInBrowser = UploadOpenInBrowserCheckBox.Checked;
                 prefs.UploadToWikiProjects = UploadWikiProjectCheckBox.Checked;
                 prefs.UploadAddToWatchlist = UploadWatchlistCheckBox.Checked;
-                prefs.UploadYN = UploadCheckBox.Checked ;
+                prefs.UploadYN = UploadCheckBox.Checked;
+                prefs.Category = UploadJobNameTextBox.Text;
 
                 return prefs;
             }
@@ -92,6 +93,7 @@ namespace AutoWikiBrowser
                 UploadWikiProjectCheckBox.Checked = prefs.UploadToWikiProjects;
                 UploadWatchlistCheckBox.Checked = prefs.UploadAddToWatchlist;
                 UploadCheckBox.Checked = prefs.UploadYN;
+                UploadJobNameTextBox.Text = prefs.Category;
             }
         }
         internal void Reset()

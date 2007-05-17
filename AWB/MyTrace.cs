@@ -135,14 +135,14 @@ namespace AutoWikiBrowser.Logging
             if (Listeners.Count == 0)
                 return;
             BusyCounter += 1;
-            LoggingSettings.LEDColour = Colour.Green;
+            LoggingSettings.LEDColour = WikiFunctions.Controls.Colour.Green;
         }
         private void NotBusy()
         {
             if (Listeners.Count == 0)
                 return;
             BusyCounter -= 1;
-            if (BusyCounter == 0 && !(LoggingSettings.LEDColour == Colour.Blue))
+            if (BusyCounter == 0 && !(LoggingSettings.LEDColour == WikiFunctions.Controls.Colour.Blue))
             {
                 LoggingSettings.LEDColour = Colour.Red;
             }
