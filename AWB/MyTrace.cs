@@ -35,7 +35,7 @@ namespace AutoWikiBrowser.Logging
                 return false;
 
             mIsUploading = true;
-            LoggingSettings.LEDColour = Colour.blue;
+            LoggingSettings.LEDColour = WikiFunctions.Controls.Colour.Blue;
             Application.DoEvents();
             return true;
         }
