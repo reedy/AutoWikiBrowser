@@ -43,6 +43,12 @@
     </Compile>
     <Compile Include="AWBLogListener.cs" />
     <Compile Include="Background.cs" />
+    <Compile Include="Controls\LED.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\LED.Designer.cs">
+      <DependentUpon>LED.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ListBox2.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -236,6 +242,10 @@
     <Compile Include="WPEditor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Controls\LED.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>LED.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\MoveDeleteDialog.resx">
       <SubType>Designer</SubType>
       <DependentUpon>MoveDeleteDialog.cs</DependentUpon>
@@ -328,52 +338,11 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\beep1.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\beep2.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\btnshowhide.image.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\btntssave.image.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\GoLtr.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\GoRtl.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\NewWindow.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Stop.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\RolledBack.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\preview.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\changes.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\filesave.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Run.bmp" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Resources\AutoWikiBrowser2.png" />
     <None Include="Resources\beep11.wav" />
     <None Include="Resources\beep21.wav" />
     <Content Include="Resources\Bot Image.png" />
-    <None Include="Resources\btnshowhide.image1.png" />
     <None Include="Resources\btnshowhide.image2.png" />
-    <Content Include="Resources\btnshowhideparameters.image.png" />
     <None Include="Resources\Stop2.bmp" />
     <None Include="Resources\btnshowhideparameters.image2.png" />
     <None Include="Resources\btntssave.image2.png" />
@@ -385,18 +354,6 @@
     <None Include="Resources\GoRtl2.bmp" />
     <None Include="Resources\filesave2.gif" />
     <None Include="Resources\changes2.bmp" />
-    <None Include="Resources\Stop1.bmp" />
-    <None Include="Resources\btnshowhideparameters.image1.png" />
-    <None Include="Resources\btntssave.image1.png" />
-    <None Include="Resources\Run1.bmp" />
-    <None Include="Resources\RolledBack1.bmp" />
-    <None Include="Resources\GoLtr1.bmp" />
-    <None Include="Resources\preview1.bmp" />
-    <None Include="Resources\NewWindow1.bmp" />
-    <None Include="Resources\GoRtl1.bmp" />
-    <None Include="Resources\filesave1.gif" />
-    <None Include="Resources\changes1.bmp" />
-    <None Include="Resources\Showhideparameters.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
