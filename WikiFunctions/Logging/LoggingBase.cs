@@ -149,17 +149,11 @@ private static Regex GetArticleTemplateRegex = new Regex("( talk)?:");
 		// Overrides & Shadowing:
 		public override bool Uploadable
 		{
-			get
-			{
-				return true;
-			}
+            get { return true; }
 		}
 		public override bool Verbose
 		{
-			get
-			{
-				return mUploadSettings.LogVerbose;
-			}
+            get { return mUploadSettings.LogVerbose; }
 		}
 
 		public virtual new void WriteLine(string Line)
@@ -236,24 +230,15 @@ private static Regex GetArticleTemplateRegex = new Regex("( talk)?:");
 		// Properties:
 		public Uploader.TraceStatus TraceStatus
 		{
-			get
-			{
-				return mTraceStatus;
-			}
+            get { return mTraceStatus; }
 		}
 		public UploadableLogSettings2 UploadSettings
 		{
-			get
-			{
-				return mUploadSettings;
-			}
+            get { return mUploadSettings; }
 		}
 		public virtual string PageName
 		{
-			get
-			{
-				return string.Format("{0:ddMMyy} {1}", mTraceStatus.StartDate, mUploadSettings.UploadJobName);
-			}
+            get { return string.Format("{0:ddMMyy} {1}", mTraceStatus.StartDate, mUploadSettings.UploadJobName); }
 		}
 	}
 }

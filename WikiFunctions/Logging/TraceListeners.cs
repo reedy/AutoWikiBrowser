@@ -32,7 +32,6 @@ namespace WikiFunctions.Logging
 	/// </summary>
 	public class WikiTraceListener : TraceListenerUploadableBase
 	{
-
 		protected const string mDateFormat = "[[d MMMM]] [[yyyy]] HH:mm ";
 
         public WikiTraceListener(UploadableLogSettings2 UploadSettings, TraceStatus TraceStatus)
@@ -65,10 +64,8 @@ namespace WikiFunctions.Logging
 		}
 		public override void SkippedArticle(string SkippedBy, string Reason)
 		{
-			if (! (Reason == ""))
-			{
-				Reason = ": " + Reason;
-			}
+            if (Reason != "")
+                Reason = ": " + Reason;
 			base.WriteLine("#*''" + SkippedBy + ": Skipped" + Reason + "''", false);
 		}
 		public override void SkippedArticleBadTag(string SkippedBy, string FullArticleTitle, Namespaces NS)
@@ -134,10 +131,7 @@ namespace WikiFunctions.Logging
 		}
 		public override bool Verbose
 		{
-			get
-			{
-				return mVerbose;
-			}
+            get { return mVerbose; }
 		}
 		public override void WriteBulletedLine(string Line, bool Bold, bool VerboseOnly, bool DateStamp)
 		{
@@ -165,10 +159,8 @@ namespace WikiFunctions.Logging
 		}
 		public override void SkippedArticle(string SkippedBy, string Reason)
 		{
-			if (! (Reason == ""))
-			{
+			if(Reason != "")
 				Reason = ": " + Reason;
-			}
 			base.WriteLine("<li><i>" + SkippedBy + ": Skipped" + Reason + "</i></li>");
 		}
 		public override void SkippedArticleBadTag(string SkippedBy, string FullArticleTitle, Namespaces NS)
@@ -197,10 +189,7 @@ namespace WikiFunctions.Logging
 		}
 		public override bool Uploadable
 		{
-			get
-			{
-				return false;
-			}
+            get { return false; }
 		}
 	}
 }
