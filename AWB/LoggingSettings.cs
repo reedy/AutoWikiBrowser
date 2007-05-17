@@ -6,24 +6,23 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 using WikiFunctions.Logging.Uploader;
+using AutoWikiBrowser.Logging;
 
 namespace AutoWikiBrowser
 {
     /// <summary>
     /// Logging-configuration usercontrol
     /// </summary>
-    internal sealed class LoggingSettings : UserControl
+    internal sealed partial class LoggingSettings : UserControl
     {
         private bool mStartingUp;
         internal UsernamePassword LoginDetails = new UsernamePassword();
         private TextBox mCategoryTextBox;
         private bool mInitialised;
-        private MyTrace MyTrace;
 
-        public LoggingSettings(MyTrace pMyTrace, TextBox CategoryTextBox)
+        public LoggingSettings(TextBox CategoryTextBox)
         {
             mStartingUp = true;
-            MyTrace = pMyTrace;
             mCategoryTextBox = CategoryTextBox;
 
             InitializeComponent();
@@ -295,17 +294,17 @@ namespace AutoWikiBrowser
 
             internal bool Equals(Props Compare)
             {
-                return (((((Operators.CompareString(Compare.LogFolder, this.LogFolder, false) == 0) && 
-                    (Compare.LogVerbose == this.LogVerbose)) && ((Compare.LogWiki == this.LogWiki) && 
-                    (Compare.LogXHTML == this.LogXHTML))) && 
-                    (((Compare.UploadAddToWatchlist == this.UploadAddToWatchlist) && 
-                    (Operators.CompareString(Compare.UploadJobName, this.UploadJobName, false) == 0)) && 
-                    ((Operators.CompareString(Compare.UploadLocation, this.UploadLocation, false) == 0) && 
-                    (Compare.UploadMaxLines == this.UploadMaxLines)))) && 
-                    (((Compare.UploadOpenInBrowser == this.UploadOpenInBrowser) && 
-                    (Compare.UploadToWikiProjects == this.UploadToWikiProjects)) && 
-                    ((Compare.UploadYN == this.UploadYN) && 
-                    (Operators.CompareString(Compare.Category, this.Category, false) == 0))))               
+                return (((((Operators.CompareString(Compare.LogFolder, this.LogFolder, false) == 0) &&
+                    (Compare.LogVerbose == this.LogVerbose)) && ((Compare.LogWiki == this.LogWiki) &&
+                    (Compare.LogXHTML == this.LogXHTML))) &&
+                    (((Compare.UploadAddToWatchlist == this.UploadAddToWatchlist) &&
+                    (Operators.CompareString(Compare.UploadJobName, this.UploadJobName, false) == 0)) &&
+                    ((Operators.CompareString(Compare.UploadLocation, this.UploadLocation, false) == 0) &&
+                    (Compare.UploadMaxLines == this.UploadMaxLines)))) &&
+                    (((Compare.UploadOpenInBrowser == this.UploadOpenInBrowser) &&
+                    (Compare.UploadToWikiProjects == this.UploadToWikiProjects)) &&
+                    ((Compare.UploadYN == this.UploadYN) &&
+                    (Operators.CompareString(Compare.Category, this.Category, false) == 0))));               
             }
 
             #region Additional properties:

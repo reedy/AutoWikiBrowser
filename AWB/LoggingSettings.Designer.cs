@@ -1,6 +1,6 @@
 namespace AutoWikiBrowser
 {
-    partial class PluginLogging
+    partial class LoggingSettings
     {
         /// <summary> 
         /// Required designer variable.
@@ -42,7 +42,7 @@ namespace AutoWikiBrowser
             this.UploadWatchlistCheckBox = new System.Windows.Forms.CheckBox();
             this.UploadOpenInBrowserCheckBox = new System.Windows.Forms.CheckBox();
             this.GroupBox2 = new System.Windows.Forms.GroupBox();
-            this.led1 = new WikiFunctions.Controls.LED();
+            this.Led1 = new WikiFunctions.Controls.LED();
             this.Label8 = new System.Windows.Forms.Label();
             this.UploadsCountLabel = new System.Windows.Forms.Label();
             this.WikiLinesLabel = new System.Windows.Forms.Label();
@@ -243,7 +243,7 @@ namespace AutoWikiBrowser
             // 
             // GroupBox2
             // 
-            this.GroupBox2.Controls.Add(this.led1);
+            this.GroupBox2.Controls.Add(this.Led1);
             this.GroupBox2.Controls.Add(this.Label8);
             this.GroupBox2.Controls.Add(this.UploadsCountLabel);
             this.GroupBox2.Controls.Add(this.WikiLinesLabel);
@@ -265,13 +265,13 @@ namespace AutoWikiBrowser
             this.GroupBox2.TabStop = false;
             this.GroupBox2.Text = "Status";
             // 
-            // led1
+            // Led1
             // 
-            this.led1.Colour = WikiFunctions.Controls.Colour.Red;
-            this.led1.Location = new System.Drawing.Point(231, 69);
-            this.led1.Name = "led1";
-            this.led1.Size = new System.Drawing.Size(20, 20);
-            this.led1.TabIndex = 31;
+            this.Led1.Colour = WikiFunctions.Controls.Colour.Red;
+            this.Led1.Location = new System.Drawing.Point(231, 69);
+            this.Led1.Name = "Led1";
+            this.Led1.Size = new System.Drawing.Size(20, 20);
+            this.Led1.TabIndex = 31;
             // 
             // Label8
             // 
@@ -617,7 +617,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox UploadWatchlistCheckBox;
         private System.Windows.Forms.CheckBox UploadOpenInBrowserCheckBox;
         private System.Windows.Forms.GroupBox GroupBox2;
-        private WikiFunctions.Controls.LED led1;
+        private WikiFunctions.Controls.LED Led1;
         private System.Windows.Forms.Label Label8;
         internal System.Windows.Forms.Label UploadsCountLabel;
         internal System.Windows.Forms.Label WikiLinesLabel;
