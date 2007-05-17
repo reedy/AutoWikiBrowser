@@ -100,7 +100,11 @@ namespace WikiFunctions.Plugin
         void Stop(string sender);
         void GetDiff(string sender);
         void GetPreview(string sender);
+
+        event GetLogUploadLocationsEvent GetLogUploadLocations;
     }
+
+    public delegate void GetLogUploadLocationsEvent(IAutoWikiBrowser Sender, List<WikiFunctions.Logging.Uploader.LogEntry> locations);
 
     /* Members may be added to this interface, but not removed unless absolutely necessary. */
     public interface ProcessArticleEventArgs
