@@ -8,8 +8,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
     Friend NotInheritable Class PluginLogging
         ' TODO: Job box might later need to get info from bot tab jobs (and have messagebox for auto-apply)
         Friend Settings As New Props
-        Friend LoginDetails As New UsernamePassword
-        Private mCategoryTextBox As TextBox, mInitialised As Boolean
+        Friend LoginDetails As New WikiFunctions.Logging.Uploader.UsernamePassword
+        Private mCategoryTextBox As Windows.Forms.TextBox, mInitialised As Boolean
         Private MyTrace As MyTrace
         Private mStartingUp As Boolean
 
@@ -33,11 +33,11 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 mStartingUp = value
             End Set
         End Property
-        Friend Property LEDColour() As Colour
+        Friend Property LEDColour() As WikiFunctions.Controls.Colour
             Get
                 Return Led1.Colour
             End Get
-            Set(ByVal value As Colour)
+            Set(ByVal value As WikiFunctions.Controls.Colour)
                 Led1.Colour = value
             End Set
         End Property

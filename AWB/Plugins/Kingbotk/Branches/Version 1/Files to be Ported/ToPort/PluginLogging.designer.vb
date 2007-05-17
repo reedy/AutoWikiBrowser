@@ -217,7 +217,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             '
             'Led1
             '
-            Me.Led1.Colour = AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.Colour.Red
+            Me.Led1.Colour = WikiFunctions.Controls.Colour.Red
             Me.Led1.Location = New System.Drawing.Point(231, 69)
             Me.Led1.Name = "Led1"
             Me.Led1.Size = New System.Drawing.Size(20, 20)
