@@ -54,177 +54,180 @@ namespace AutoWikiBrowser
     [System.Runtime.InteropServices.ComVisibleAttribute(true)]
     public sealed partial class MainForm : Form, IAutoWikiBrowser
     {
-        #region constructor etc.
+        #region Fields
+            private static Splash splash = new Splash();
+            private static bool Abort = false;
 
-        Splash splash = new Splash();
+            private static string LastArticle = "";
+            private static string SettingsFile = "";
+            private static string LastMove = "";
+            private static string LastDelete = "";
+            private static string LastProtect = "";
 
-        public MainForm()
-        {
-            splash.Show();
-            InitializeComponent();
-            splash.setProgress(5);
-            try
+            private static int oldselection = 0;
+            private static int retries = 0;
+
+            private static bool PageReload = false;
+            private static int mnudges = 0;
+            private static int sameArticleNudges = 0;
+
+            private static bool boolSaved = true;
+            private static HideText RemoveText = new HideText(false, true, false);
+            private static List<string> noParse = new List<string>();
+            private static FindandReplace findAndReplace = new FindandReplace();
+            private static SubstTemplates substTemplates = new SubstTemplates();
+            private static RegExTypoFix RegexTypos;
+            private static SkipOptions Skip = new SkipOptions();
+            private static WikiFunctions.MWB.ReplaceSpecial replaceSpecial = 
+                new WikiFunctions.MWB.ReplaceSpecial();
+            private static Parsers parsers;
+            private static TimeSpan StartTime = 
+                new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+            private static StringCollection RecentList = new StringCollection();
+            private static CustomModule cModule = new CustomModule();
+            internal static RegexTester regexTester = new RegexTester();
+            private static bool userTalkWarningsLoaded = false;
+            private static Regex userTalkTemplatesRegex;
+            private static bool mErrorGettingLogInStatus;
+            private static bool skippable = true;
+
+            private static readonly Regex DiffIdParser = new Regex(@"[a-z](-?\d*)x(-?\d*)");
+        #endregion
+
+        #region Constructor and MainForm load/resize
+            public MainForm()
             {
-                lblUserName.Alignment = ToolStripItemAlignment.Right;
-                lblProject.Alignment = ToolStripItemAlignment.Right;
-                lblTimer.Alignment = ToolStripItemAlignment.Right;
-                lblEditsPerMin.Alignment = ToolStripItemAlignment.Right;
-                lblIgnoredArticles.Alignment = ToolStripItemAlignment.Right;
-                lblEditCount.Alignment = ToolStripItemAlignment.Right;
-
-                btntsShowHide.Image = Res.btnshowhide_image;
-                btntsShowHideParameters.Image = Res.btnshowhideparameters_image;
-                btntsSave.Image = Res.btntssave_image;
-                btntsIgnore.Image = Res.GoLtr;
-                btntsStop.Image = Res.Stop;
-                btntsPreview.Image = Res.preview;
-                btntsChanges.Image = Res.changes;
-                btntsFalsePositive.Image = Res.RolledBack;
-                btntsStart.Image = Res.Run;
-
-                //btnSave.Image = Res.btntssave_image;
-                //btnIgnore.Image = Res.GoLtr;
-
-                //btnDiff.Image = Res.changes;
-                //btnPreview.Image = Res.preview;
-                splash.setProgress(15);
-                int stubcount = 500;
-                bool catkey = false;
+                splash.Show();
+                InitializeComponent();
+                splash.setProgress(5);
                 try
                 {
-                    stubcount = AutoWikiBrowser.Properties.Settings.Default.StubMaxWordCount;
-                    catkey = AutoWikiBrowser.Properties.Settings.Default.AddHummanKeyToCats;
-                    parsers = new Parsers(stubcount, catkey);
+                    lblUserName.Alignment = ToolStripItemAlignment.Right;
+                    lblProject.Alignment = ToolStripItemAlignment.Right;
+                    lblTimer.Alignment = ToolStripItemAlignment.Right;
+                    lblEditsPerMin.Alignment = ToolStripItemAlignment.Right;
+                    lblIgnoredArticles.Alignment = ToolStripItemAlignment.Right;
+                    lblEditCount.Alignment = ToolStripItemAlignment.Right;
+
+                    btntsShowHide.Image = Res.btnshowhide_image;
+                    btntsShowHideParameters.Image = Res.btnshowhideparameters_image;
+                    btntsSave.Image = Res.btntssave_image;
+                    btntsIgnore.Image = Res.GoLtr;
+                    btntsStop.Image = Res.Stop;
+                    btntsPreview.Image = Res.preview;
+                    btntsChanges.Image = Res.changes;
+                    btntsFalsePositive.Image = Res.RolledBack;
+                    btntsStart.Image = Res.Run;
+
+                    //btnSave.Image = Res.btntssave_image;
+                    //btnIgnore.Image = Res.GoLtr;
+
+                    //btnDiff.Image = Res.changes;
+                    //btnPreview.Image = Res.preview;
+                    splash.setProgress(15);
+                    int stubcount = 500;
+                    bool catkey = false;
+                    try
+                    {
+                        stubcount = AutoWikiBrowser.Properties.Settings.Default.StubMaxWordCount;
+                        catkey = AutoWikiBrowser.Properties.Settings.Default.AddHummanKeyToCats;
+                        parsers = new Parsers(stubcount, catkey);
+                    }
+                    catch (Exception ex)
+                    {
+                        parsers = new Parsers();
+                        MessageBox.Show(ex.Message);
+                    }
+
+                    toolStripComboOnLoad.SelectedIndex = 0;
+                    cmboCategorise.SelectedIndex = 0;
+                    cmboImages.SelectedIndex = 0;
+                    lblStatusText.AutoSize = true;
+                    lblBotTimer.AutoSize = true;
+
+                    Variables.User.UserNameChanged += UpdateUserName;
+                    Variables.User.BotStatusChanged += UpdateBotStatus;
+                    Variables.User.AdminStatusChanged += UpdateAdminStatus;
+
+                    Variables.User.webBrowserLogin.DocumentCompleted += web4Completed;
+                    Variables.User.webBrowserLogin.Navigating += web4Starting;
+
+                    webBrowserEdit.Loaded += CaseWasLoad;
+                    webBrowserEdit.Diffed += CaseWasDiff;
+                    webBrowserEdit.Saved += CaseWasSaved;
+                    webBrowserEdit.None += CaseWasNull;
+                    webBrowserEdit.Fault += StartDelayedRestartTimer;
+                    webBrowserEdit.StatusChanged += UpdateWebBrowserStatus;
+                    splash.setProgress(60);
+                    listMaker1.BusyStateChanged += SetProgressBar;
+                    listMaker1.NoOfArticlesChanged += UpdateButtons;
+                    listMaker1.StatusTextChanged += UpdateListStatus;
+                    Text = "AutoWikiBrowser - Default.xml";
+                    splash.setProgress(25);
                 }
                 catch (Exception ex)
                 {
-                    parsers = new Parsers();
+                    MessageBox.Show(ex.Message);
+                }
+            }
+            
+            private void MainForm_Load(object sender, EventArgs e)
+            {
+                splash.setProgress(60);
+                lblStatusText.Text = "Initialising...";
+                Application.DoEvents();
+                Variables.MainForm = this;
+                updateUpdater();
+
+                try
+                {
+                    //check that we are not using an old OS. 98 seems to mangled some unicode
+                    if (Environment.OSVersion.Version.Major < 5)
+                    {
+                        MessageBox.Show("You appear to be using an older operating system, this software may have trouble with some unicode fonts on operating systems older than Windows 2000, the start button has been disabled.", "Operating system", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        SetStartButton(false);
+                    }
+                    else
+                        listMaker1.MakeListEnabled = true;
+
+                    splash.setProgress(80);
+                    if (AutoWikiBrowser.Properties.Settings.Default.LogInOnStart)
+                        CheckStatus(false);
+
+                    LogControl1.Initialise(listMaker1);
+
+                    if (Properties.Settings.Default.WindowLocation != null)
+                        this.Location = Properties.Settings.Default.WindowLocation;
+
+                    if (Properties.Settings.Default.WindowSize != null)
+                        this.Size = Properties.Settings.Default.WindowSize;
+
+                    Debug();
+                    pluginsToolStripMenuItem.Visible = Plugin.LoadPlugins(this);
+                    LoadPrefs();
+                    UpdateButtons();
+                    LoadRecentSettingsList();
+                    splash.setProgress(90);
+                    if (Variables.User.checkEnabled() == WikiStatusResult.OldVersion)
+                        oldVersion();
+
+                    webBrowserDiff.Navigate("about:blank");
+                    webBrowserDiff.ObjectForScripting = this;
+                }
+                catch (Exception ex)
+                {
                     MessageBox.Show(ex.Message);
                 }
 
-                toolStripComboOnLoad.SelectedIndex = 0;
-                cmboCategorise.SelectedIndex = 0;
-                cmboImages.SelectedIndex = 0;
-                lblStatusText.AutoSize = true;
-                lblBotTimer.AutoSize = true;
-
-                Variables.User.UserNameChanged += UpdateUserName;
-                Variables.User.BotStatusChanged += UpdateBotStatus;
-                Variables.User.AdminStatusChanged += UpdateAdminStatus;
-
-                Variables.User.webBrowserLogin.DocumentCompleted += web4Completed;
-                Variables.User.webBrowserLogin.Navigating += web4Starting;
-
-                webBrowserEdit.Loaded += CaseWasLoad;
-                webBrowserEdit.Diffed += CaseWasDiff;
-                webBrowserEdit.Saved += CaseWasSaved;
-                webBrowserEdit.None += CaseWasNull;
-                webBrowserEdit.Fault += StartDelayedRestartTimer;
-                webBrowserEdit.StatusChanged += UpdateWebBrowserStatus;
-                splash.setProgress(60);
-                listMaker1.BusyStateChanged += SetProgressBar;
-                listMaker1.NoOfArticlesChanged += UpdateButtons;
-                listMaker1.StatusTextChanged += UpdateListStatus;
-                Text = "AutoWikiBrowser - Default.xml";
-                splash.setProgress(25);
+                lblStatusText.Text = "";
+                splash.Hide();
             }
-            catch (Exception ex)
+
+            private void MainForm_Resize(object sender, EventArgs e)
             {
-                MessageBox.Show(ex.Message);
+                if ((Minimize) && (this.WindowState == FormWindowState.Minimized))
+                    this.Visible = false;
             }
-        }
-
-        bool Abort = false;
-
-        string LastArticle = "";
-        string SettingsFile = "";
-        string LastMove = "";
-        string LastDelete = "";
-        string LastProtect = "";
-
-        int oldselection = 0;
-        int retries = 0;
-
-        bool PageReload = false;
-        int mnudges = 0;
-        int sameArticleNudges = 0;
-
-        bool boolSaved = true;
-        HideText RemoveText = new HideText(false, true, false);
-        List<string> noParse = new List<string>();
-        FindandReplace findAndReplace = new FindandReplace();
-        SubstTemplates substTemplates = new SubstTemplates();
-        RegExTypoFix RegexTypos;
-        SkipOptions Skip = new SkipOptions();
-        WikiFunctions.MWB.ReplaceSpecial replaceSpecial = new WikiFunctions.MWB.ReplaceSpecial();
-        Parsers parsers;
-        TimeSpan StartTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-        StringCollection RecentList = new StringCollection();
-        CustomModule cModule = new CustomModule();
-        internal RegexTester regexTester = new RegexTester();
-        bool userTalkWarningsLoaded = false;
-        Regex userTalkTemplatesRegex;
-        bool mErrorGettingLogInStatus;
-        bool skippable = true;
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            splash.setProgress(60);
-            lblStatusText.Text = "Initialising...";
-            Application.DoEvents();
-            Variables.MainForm = this;
-            updateUpdater();
-
-            try
-            {
-                //check that we are not using an old OS. 98 seems to mangled some unicode
-                if (Environment.OSVersion.Version.Major < 5)
-                {
-                    MessageBox.Show("You appear to be using an older operating system, this software may have trouble with some unicode fonts on operating systems older than Windows 2000, the start button has been disabled.", "Operating system", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    SetStartButton(false);
-                }
-                else
-                    listMaker1.MakeListEnabled = true;
-
-                splash.setProgress(80);
-                if (AutoWikiBrowser.Properties.Settings.Default.LogInOnStart)
-                    CheckStatus(false);
-
-                LogControl1.Initialise(listMaker1);
-
-                if (Properties.Settings.Default.WindowLocation != null)
-                    this.Location = Properties.Settings.Default.WindowLocation;
-
-                if (Properties.Settings.Default.WindowSize != null)
-                    this.Size = Properties.Settings.Default.WindowSize;
-
-                Debug();
-                pluginsToolStripMenuItem.Visible = Plugin.LoadPlugins(this);
-                LoadPrefs();
-                UpdateButtons();
-                LoadRecentSettingsList();
-                splash.setProgress(90);
-                if (Variables.User.checkEnabled() == WikiStatusResult.OldVersion)
-                    oldVersion();
-
-                webBrowserDiff.Navigate("about:blank");
-                webBrowserDiff.ObjectForScripting = this;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-
-            lblStatusText.Text = "";
-            splash.Hide();
-        }
-
-        private void MainForm_Resize(object sender, EventArgs e)
-        {
-            if ((Minimize) && (this.WindowState == FormWindowState.Minimized))
-                this.Visible = false;
-        }
-
         #endregion
 
         #region Properties
@@ -1063,8 +1066,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         #endregion
 
         #region extra stuff
-
-        readonly Regex DiffIdParser = new Regex(@"[a-z](-?\d*)x(-?\d*)");
 
         public void DiffDblClicked(string id)
         {
