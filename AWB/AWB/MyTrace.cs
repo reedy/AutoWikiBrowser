@@ -13,43 +13,13 @@ namespace AutoWikiBrowser.Logging
     /// </summary>
     internal sealed class MyTrace : TraceManager
     {
-        //private const string conWiki = "Wiki";
-
-        //private bool mIsUploading = false;
-        //private LoggingSettings LoggingSettings;
-        //private static string LogFolder = "";
-
-        //internal void Initialise()
-        //{
-        //    LoggingSettings.Initialised = true;
-        //}
-
-        //internal bool HaveOpenFile
-        //{ get { return (Listeners.Count > 0); } }
-
-        //protected override string ApplicationName
-        //{
-        //    get { return "AutoWikiBrowser logging manager"; }
-        //}
-
-        //protected override bool StartingUpload(TraceListenerUploadableBase Sender)
-        //{
-        //    if (Sender.TraceStatus.LogName != conWiki)
-        //        return false;
-
-        //    mIsUploading = true;
-        //    LoggingSettings.LEDColour = WikiFunctions.Controls.Colour.Blue;
-        //    Application.DoEvents();
-        //    return true;
-        //}
-
-        private PluginLogging LoggingSettings;
-        private static string LogFolder;
+        private LoggingSettings LoggingSettings;
+        private static string LogFolder = "";
         private WikiFunctions.Browser.WebControl webcontrol;
         private bool LoggedIn;
         private string LoggedInUser;
         private int BusyCounter = 0;
-        private bool mIsUploading;
+        private bool mIsUploading = false;
 
         private const string conWiki = "Wiki";
         private const string conXHTML = "XHTML";
@@ -96,16 +66,14 @@ namespace AutoWikiBrowser.Logging
         protected override bool StartingUpload(TraceListenerUploadableBase Sender)
         {
             if (!(Sender.TraceStatus.LogName == conWiki))
-            {
                 return false;
-            }
 
             mIsUploading = true;
-            LoggingSettings.LEDColour = Colour.Blue;
+            LoggingSettings.LEDColour = WikiFunctions.Controls.Colour.Blue;
             Application.DoEvents();
-            //INSTANT C# NOTE: Inserted the following 'return' since all code paths must return a value in C#:
-            return false;
+            return true;
         }
+
         protected override void FinishedUpload()
         {
             if (BusyCounter == 0)
@@ -165,18 +133,14 @@ namespace AutoWikiBrowser.Logging
         private void Busy()
         {
             if (Listeners.Count == 0)
-            {
                 return;
-            }
             BusyCounter += 1;
             LoggingSettings.LEDColour = Colour.Green;
         }
         private void NotBusy()
         {
             if (Listeners.Count == 0)
-            {
                 return;
-            }
             BusyCounter -= 1;
             if (BusyCounter == 0 && !(LoggingSettings.LEDColour == Colour.Blue))
             {
@@ -190,15 +154,7 @@ namespace AutoWikiBrowser.Logging
         }
         private bool WikiLogToUpload
         {
-            get
-            {
-                if (ContainsKey(conWiki) && ((WikiTraceListener)(Listeners[conWiki])).TraceStatus.LinesWrittenSinceLastUpload > 1)
-                {
-                    return true;
-                }
-                else
-                    return false;
-            }
+            get { return (ContainsKey(conWiki) && ((WikiTraceListener)(Listeners[conWiki])).TraceStatus.LinesWrittenSinceLastUpload > 1); }
         }
 
         // Overrides:
@@ -233,9 +189,7 @@ namespace AutoWikiBrowser.Logging
             bool upload = false;
 
             if (LoggingSettings.Settings.UploadYN && (BadPagesLogToUpload || WikiLogToUpload) && MessageBox.Show("Upload logs?", "Logging", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
-            {
                 upload = true;
-            }
 
             foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
             {
@@ -343,42 +297,24 @@ namespace AutoWikiBrowser.Logging
         {
             if (LoggingSettings.Settings.LogFolder == LogFolder)
             {
-
                 if (LoggingSettings.Settings.LogXHTML)
-                {
                     if (!(ContainsKey(conXHTML)))
-                    {
                         NewXHTMLTraceListener();
-                    }
-                }
                 else if (ContainsKey(conXHTML))
-                {
                     RemoveListener(conXHTML);
-                }
 
                 if (LoggingSettings.Settings.LogWiki)
-                {
                     if (!(ContainsKey(conWiki)))
-                    {
                         NewWikiTraceListener();
-                    }
-                }
                 else if (ContainsKey(conWiki))
-                {
                     RemoveListener(conWiki);
-                }
-
             }
             else if (HaveOpenFile) // folder has changed, close and reopen all active logs
             {
                 if (ContainsKey(conWiki))
-                {
                     RemoveListenerAndReplaceWithSameType(conWiki);
-                }
                 if (ContainsKey(conXHTML))
-                {
                     RemoveListenerAndReplaceWithSameType(conXHTML);
-                }
             }
 
             CheckWeHaveLogInDetails();
@@ -479,7 +415,6 @@ namespace AutoWikiBrowser.Logging
         /// <remarks></remarks>
         private sealed class WikiTraceListener : WikiTraceListener
         {
-
             public WikiTraceListener(string FileName, PluginLogging LS)
                 : base(LS.Settings, new TraceStatus(LS.WikiLinesLabel, LS.WikiLinesSinceUploadLabel, LS.UploadsCountLabel, LS.Settings.UploadYN, FileName, conWiki))
             {
@@ -499,7 +434,7 @@ namespace AutoWikiBrowser.Logging
 
         protected override string ApplicationName
         {
-            get { return "Kingbotk Plugin logging manager"; }
+            get { return "AutoWikiBrowser logging manager"; }
         }
     }
 }
