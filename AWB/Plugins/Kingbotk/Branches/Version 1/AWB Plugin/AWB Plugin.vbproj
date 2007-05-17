@@ -125,12 +125,6 @@
     <Compile Include="GenericTemplateProperties.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LED.Designer.vb">
-      <DependentUpon>LED.vb</DependentUpon>
-    </Compile>
-    <Compile Include="LED.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="LoginForm.Designer.vb">
       <DependentUpon>LoginForm.vb</DependentUpon>
     </Compile>
@@ -229,10 +223,6 @@
     <EmbeddedResource Include="GenericTemplateProperties.resx">
       <SubType>Designer</SubType>
       <DependentUpon>GenericTemplateProperties.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="LED.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>LED.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <SubType>Designer</SubType>
