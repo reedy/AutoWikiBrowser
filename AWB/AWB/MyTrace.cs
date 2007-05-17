@@ -22,8 +22,6 @@ namespace AutoWikiBrowser.Logging
         //internal void Initialise()
         //{
         //    LoggingSettings.Initialised = true;
-
-
         //}
 
         //internal bool HaveOpenFile
@@ -111,13 +109,9 @@ namespace AutoWikiBrowser.Logging
         protected override void FinishedUpload()
         {
             if (BusyCounter == 0)
-            {
                 LoggingSettings.LEDColour = Colour.Red;
-            }
             else
-            {
                 LoggingSettings.LEDColour = Colour.Green;
-            }
 
             mIsUploading = false;
         }
@@ -145,8 +139,6 @@ namespace AutoWikiBrowser.Logging
                 }
             }
         }
-        //ORIGINAL LINE: Private Shared ReadOnly Property FilePrefix(ByVal LogFolder As String) As String
-        //INSTANT C# NOTE: C# does not support parameterized properties - the following property has been rewritten as a function:
         private static string GetFilePrefix(string LogFolder)
         {
             return string.Format("{1}\\{0:MMM-d yyyy HHmm-ss.FF}", System.DateTime.Now, LogFolder);
@@ -159,8 +151,6 @@ namespace AutoWikiBrowser.Logging
         {
             AddListener(conWiki, new WikiTraceListener(GetFilePrefix(LoggingSettings.Settings.LogFolder) + " log.txt", LoggingSettings));
         }
-        //ORIGINAL LINE: Private ReadOnly Property FileNameFromActiveListener(ByVal Key As String) As String
-        //INSTANT C# NOTE: C# does not support parameterized properties - the following property has been rewritten as a function:
         private string GetFileNameFromActiveListener(string Key)
         {
             return ((ITraceStatusProvider)(Listeners[Key])).TraceStatus.FileName;
@@ -206,8 +196,8 @@ namespace AutoWikiBrowser.Logging
                 {
                     return true;
                 }
-                //INSTANT C# NOTE: Inserted the following 'return' since all code paths must return a value in C#:
-                return false;
+                else
+                    return false;
             }
         }
 
@@ -470,7 +460,6 @@ namespace AutoWikiBrowser.Logging
         /// <remarks></remarks>
         private sealed class XHTMLTraceListener : XHTMLTraceListener, WikiFunctions.Logging.Uploader.ITraceStatusProvider
         {
-
             private TraceStatus mTraceStatus;
 
             public XHTMLTraceListener(string FileName, PluginLogging LS)
@@ -510,10 +499,7 @@ namespace AutoWikiBrowser.Logging
 
         protected override string ApplicationName
         {
-            get
-            {
-                return "Kingbotk Plugin logging manager";
-            }
+            get { return "Kingbotk Plugin logging manager"; }
         }
     }
 }
