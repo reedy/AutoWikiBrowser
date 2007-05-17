@@ -187,6 +187,7 @@ namespace WikiFunctions.AWBSettings
         public bool UploadAddToWatchlist;
         public string UploadJobName;
         public string UploadLocation;
+        public string Category;
         public int UploadMaxLines;
         public bool UploadOpenInBrowser;
         public bool UploadToWikiProjects;
