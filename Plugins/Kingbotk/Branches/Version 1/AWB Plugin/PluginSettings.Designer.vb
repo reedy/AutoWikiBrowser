@@ -67,7 +67,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.GroupBox1 = New System.Windows.Forms.GroupBox
             Me.lblAWBNudges = New System.Windows.Forms.Label
             Me.ResetTimerButton = New System.Windows.Forms.Button
-            Me.Led1 = New AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.LED
+            Me.Led1 = New WikiFunctions.Controls.LED
             Me.ETALabel = New System.Windows.Forms.Label
             Me.GroupBox4 = New System.Windows.Forms.GroupBox
             Me.PluginMenuStrip = New System.Windows.Forms.MenuStrip
@@ -588,7 +588,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             '
             'Led1
             '
-            Me.Led1.Colour = AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.Colour.Red
+            Me.Led1.Colour = WikiFunctions.Controls.Colour.Red
             Me.Led1.Location = New System.Drawing.Point(9, 318)
             Me.Led1.Name = "Led1"
             Me.Led1.Size = New System.Drawing.Size(20, 20)
@@ -970,7 +970,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Friend WithEvents MenuAbout As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents ToolStripSeparator3 As System.Windows.Forms.ToolStripSeparator
         Friend WithEvents MenuHelp As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents Led1 As AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.LED
+        Friend WithEvents Led1 As WikiFunctions.Controls.LED
         Friend WithEvents TimerStats1 As AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.TimerStats
         Friend WithEvents CutToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents CopyToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem

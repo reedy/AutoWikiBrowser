@@ -84,7 +84,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             SkipWhenNoChange = PluginManager.XMLReadBoolean(Reader, conSkipWhenNoChangeParm, SkipWhenNoChange)
             AssessmentsAlwaysLeaveAComment = PluginManager.XMLReadBoolean(Reader, _
                conAssessmentsAlwaysLeaveACommentParm, AssessmentsAlwaysLeaveAComment)
-            LoggingSettings.ReadXML(Reader, MyTrace)
         End Sub
         Public Sub Reset()
             CategoryName = ""
@@ -92,9 +91,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Cleanup = False
             PluginStats = New Stats
             ' don't change logging settings
-            MyTrace.WriteBulletedLine("Reset", False, True, True)
+            PluginManager.AWBForm.TraceManager.WriteBulletedLine("Reset", False, True, True)
             AssessmentsAlwaysLeaveAComment = False
-            LoggingSettings.Reset()
         End Sub
         Public Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter)
             Writer.WriteAttributeString(conCategoryNameParm, CategoryName)
@@ -103,7 +101,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Writer.WriteAttributeString(conSkipBadTagsParm, SkipBadTags.ToString)
             Writer.WriteAttributeString(conSkipWhenNoChangeParm, SkipWhenNoChange.ToString)
             Writer.WriteAttributeString(conAssessmentsAlwaysLeaveACommentParm, AssessmentsAlwaysLeaveAComment.ToString)
-            LoggingSettings.WriteXML(Writer)
         End Sub
 
         ' Event handlers - menu items:
@@ -171,7 +168,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
 
             CleanupCheckBox.Checked = ManuallyAssess
             CleanupCheckBox.Enabled = ManuallyAssess
-            MyTrace.WriteBulletedLine(String.Format("Manual assessments mode on: {0}", _
+            PluginManager.AWBForm.TraceManager.WriteBulletedLine(String.Format("Manual assessments mode on: {0}", _
                ManuallyAssess.ToString), True, True, True)
         End Sub
         Private Sub ResetTimerButton_Click(ByVal sender As Object, ByVal e As EventArgs) Handles ResetTimerButton.Click
@@ -207,7 +204,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Private Sub AWBSkipButtonClickEventHandler(ByVal sender As Object, ByVal e As EventArgs) _
         Handles btnIgnore.Click
             If Not ManuallyAssess Then ' If ManuallyAssess is True, defer to the handler in Assessments class
-                MyTrace.SkippedArticle("User", "User clicked Ignore")
+                PluginManager.AWBForm.TraceManager.SkippedArticle("User", "User clicked Ignore")
                 PluginStats.SkippedMiscellaneousIncrement(True)
             End If
         End Sub
