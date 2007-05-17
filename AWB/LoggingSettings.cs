@@ -341,7 +341,7 @@ namespace AutoWikiBrowser
             {
                 get
                 {
-                    List tempLinksToLog = null;
+                    List<LogEntry> tempLinksToLog = null;
                     tempLinksToLog = new List<LogEntry>();
                     tempLinksToLog.Add(new LogEntry(GlobbedUploadLocation, false));
                     if (mUploadToWikiProjects)
