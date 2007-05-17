@@ -33,7 +33,7 @@ using System.Net;
 
 namespace AWBUpdater
 {
-    public partial class Updater : Form
+    internal sealed partial class Updater : Form
     {
         string AWBdirectory;
         string tempDirectory;

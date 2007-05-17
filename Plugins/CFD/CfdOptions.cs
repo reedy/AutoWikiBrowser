@@ -33,7 +33,7 @@ using WikiFunctions.Background;
 
 namespace AutoWikiBrowser.Plugins.CFD
 {
-    internal partial class CfdOptions : Form
+    internal sealed partial class CfdOptions : Form
     {
         public CfdOptions()
         {
