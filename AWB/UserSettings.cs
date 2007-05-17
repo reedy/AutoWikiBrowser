@@ -596,33 +596,6 @@ namespace AutoWikiBrowser
 
                             if (reader.MoveToAttribute("flashandbeep"))
                             { FlashAndBeep = bool.Parse(reader.Value); }
-
-                            if (reader.MoveToAttribute("flash"))
-                                Flash = bool.Parse(reader.Value);
-
-                            if (reader.MoveToAttribute("beep"))
-                                Beep = bool.Parse(reader.Value);
-
-                            if (reader.MoveToAttribute("minimize"))
-                                Minimize = bool.Parse(reader.Value);
-
-                            if (reader.MoveToAttribute("savearticlelist"))
-                                SaveArticleList = bool.Parse(reader.Value);
-
-                            if (reader.MoveToAttribute("overridewatchlist"))
-                                OverrideWatchlist = bool.Parse(reader.Value);
-
-                            if (reader.MoveToAttribute("timeoutlimit"))
-                                TimeOut = int.Parse(reader.Value);
-
-                            if (reader.MoveToAttribute("autosaveeditboxenabled"))
-                                AutoSaveEditBoxEnabled = bool.Parse(reader.Value);
-
-                            if (reader.MoveToAttribute("autosaveeditboxfile"))
-                                AutoSaveEditBoxFile = reader.Value;
-
-                            if (reader.MoveToAttribute("autosaveeditboxperiod"))
-                                AutoSaveEditBoxPeriod = decimal.Parse(reader.Value);
  
                             continue;
                         }
@@ -818,11 +791,9 @@ namespace AutoWikiBrowser
             p.General.PasteMore[8] = PasteMore9.Text;
             p.General.PasteMore[9] = PasteMore10.Text;
 
-
             p.General.FindText = txtFind.Text;
             p.General.FindRegex = chkFindRegex.Checked;
             p.General.FindCaseSensitive = chkFindCaseSensitive.Checked;
-
 
             p.General.WordWrap = wordWrapToolStripMenuItem1.Checked;
             p.General.ToolBarEnabled = enableToolBar;
@@ -862,6 +833,9 @@ namespace AutoWikiBrowser
             p.Module.Enabled = cModule.ModuleEnabled;
             p.Module.Language = cModule.Language;
             p.Module.Code = cModule.Code;
+
+            //Code For Saving Logging Settings - Uncomment when placed into AWB
+            //p.Logging = LoggingSettings1.Settings;
 
             foreach (KeyValuePair<string, IAWBPlugin> a in Plugin.Items)
             {
@@ -994,7 +968,6 @@ namespace AutoWikiBrowser
             txtEdit.Font = f;
 
             LowThreadPriority = p.General.LowThreadPriority;
-            //FlashAndBeep = p.General.FlashAndBeep;
 
             if (p.General.Flash == p.General.FlashAndBeep)
             { Flash = p.General.FlashAndBeep; }
@@ -1014,6 +987,9 @@ namespace AutoWikiBrowser
             txtDabLink.Text = p.Disambiguation.Link;
             txtDabVariants.Lines = p.Disambiguation.Variants;
             udContextChars.Value = p.Disambiguation.ContextChars;
+
+            //Code For Loading Logging Settings - Uncomment when placed into AWB
+            //LoggingSettings1.Settings = p.Logging;
 
             cModule.ModuleEnabled = p.Module.Enabled;
             cModule.Language = p.Module.Language;
