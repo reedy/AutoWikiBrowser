@@ -88,13 +88,12 @@
     <Compile Include="dlgTalk.Designer.cs">
       <DependentUpon>dlgTalk.cs</DependentUpon>
     </Compile>
-    <Compile Include="LoggingSettings.cs" />
     <Compile Include="MyTrace.cs" />
-    <Compile Include="PluginLogging.cs">
+    <Compile Include="LoggingSettings.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="PluginLogging.Designer.cs">
-      <DependentUpon>PluginLogging.cs</DependentUpon>
+    <Compile Include="LoggingSettings.Designer.cs">
+      <DependentUpon>LoggingSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="Tools.cs" />
     <Compile Include="Main.cs">
@@ -137,9 +136,9 @@
       <SubType>Designer</SubType>
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PluginLogging.resx">
+    <EmbeddedResource Include="LoggingSettings.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>PluginLogging.cs</DependentUpon>
+      <DependentUpon>LoggingSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Preferences.resx">
       <SubType>Designer</SubType>

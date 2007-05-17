@@ -11,5 +11,6 @@
     <ApplicationRevision>0</ApplicationRevision>
     <FallbackCulture>en-US</FallbackCulture>
     <VerifyUploadedFiles>true</VerifyUploadedFiles>
+    <ProjectView>ShowAllFiles</ProjectView>
   </PropertyGroup>
 </Project>
