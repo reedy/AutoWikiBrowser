@@ -124,17 +124,19 @@ namespace AutoWikiBrowser
                 }
             }
 
-            bool blnJobNameHasChanged = (!(Settings.UploadJobName == _UploadJobNameTextBox.Text)) || (_UploadJobNameTextBox.Text == Props.conUploadCategoryIsJobName && !(Settings.Category == mCategoryTextBox.Text));
+            bool blnJobNameHasChanged = (!(Settings.UploadJobName == UploadJobNameTextBox.Text)) || 
+                (UploadJobNameTextBox.Text == Props.conUploadCategoryIsJobName && 
+                !(Settings.Category == mCategoryTextBox.Text));
 
-            Settings.LogBadPages = _LogBadTagsCheckBox.Checked;
-            Settings.LogVerbose = _VerboseCheckBox.Checked;
-            Settings.LogWiki = _WikiLogCheckBox.Checked;
-            Settings.LogXHTML = _XHTMLLogCheckBox.Checked;
-            Settings.UploadYN = _UploadCheckBox.Checked;
-            Settings.UploadAddToWatchlist = _UploadWatchlistCheckBox.Checked;
-            Settings.UploadJobName = _UploadJobNameTextBox.Text;
-            Settings.UploadLocation = _UploadLocationTextBox.Text;
-            Settings.UploadMaxLines = System.Convert.ToInt32(_UploadMaxLinesControl.Value);
+            Settings.LogBadPages = LogBadTagsCheckBox.Checked;
+            Settings.LogVerbose = VerboseCheckBox.Checked;
+            Settings.LogWiki = WikiLogCheckBox.Checked;
+            Settings.LogXHTML = XHTMLLogCheckBox.Checked;
+            Settings.UploadYN = UploadCheckBox.Checked;
+            Settings.UploadAddToWatchlist = UploadWatchlistCheckBox.Checked;
+            Settings.UploadJobName = UploadJobNameTextBox.Text;
+            Settings.UploadLocation = UploadLocationTextBox.Text;
+            Settings.UploadMaxLines = System.Convert.ToInt32(UploadMaxLinesControl.Value);
             Settings.Category = mCategoryTextBox.Text;
             Settings.UploadOpenInBrowser = UploadOpenInBrowserCheckBox.Checked;
             Settings.UploadToWikiProjects = UploadWikiProjectCheckBox.Checked;

@@ -27,7 +27,7 @@ namespace AutoWikiBrowser
     internal static class GlobalObjects
     {
         static internal WikiFunctions.Plugin.IAutoWikiBrowser AWB;
-        static internal Logging.MyTrace MyTrace;
+        static internal Logging.MyTrace MyTrace = new AutoWikiBrowser.Logging.MyTrace();
     }
     internal static class Program
     {
