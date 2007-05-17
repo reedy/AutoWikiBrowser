@@ -98,6 +98,7 @@ namespace AutoWikiBrowser
         {
             internal static Dictionary<string, IAWBPlugin> Items = new Dictionary<string, IAWBPlugin>();
 
+            // TODO: Make sure this gets called when AWB initialises a log; currently kingbotk plugin creates headers itself, of course
             internal static string GetPluginsWikiTextBlock()
             {
                 string retval = "";

@@ -26,7 +26,7 @@ using System.Windows.Forms;
 
 namespace WikiFunctions.Controls
 {
-    enum Colour { Red, Green, Blue };
+    public enum Colour { Red, Green, Blue };
 
     /// <summary>
     /// A simple "LED" user control
@@ -47,7 +47,7 @@ namespace WikiFunctions.Controls
             e.Graphics.FillEllipse(br, 2, 2, this.Size.Width - 2, this.Size.Height - 2);
         }
 
-        private Colour Colour
+        public Colour Colour
         {
             get { return col; }
             set
