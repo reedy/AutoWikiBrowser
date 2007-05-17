@@ -92,8 +92,6 @@ namespace AutoWikiBrowser
             private static bool skippable = true;
 
             private static readonly Regex DiffIdParser = new Regex(@"[a-z](-?\d*)x(-?\d*)");
-
-            internal static Logging.MyTrace MyTrace;
         #endregion
 
         #region Constructor and MainForm load/resize
@@ -450,10 +448,10 @@ namespace AutoWikiBrowser
             if (!loadSuccess())
                 return;
 
-            if (MyTrace.HaveOpenFile)
-                MyTrace.WriteBulletedLine("AWB started processing", true, true, true);
+            if (GlobalObjects.MyTrace.HaveOpenFile)
+                GlobalObjects.MyTrace.WriteBulletedLine("AWB started processing", true, true, true);
             else
-                MyTrace.Initialise();
+                GlobalObjects.MyTrace.Initialise();
 
             string strTemp = webBrowserEdit.GetArticleText();
 
@@ -3078,7 +3076,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         #region IAutoWikiBrowser:
         // Objects:
-            TraceManager IAutoWikiBrowser.TraceManager { get { return MyTrace; } }
+            TraceManager IAutoWikiBrowser.TraceManager { get { return GlobalObjects.MyTrace; } }
             TabPage IAutoWikiBrowser.MoreOptionsTab { get { return tpMoreOptions; } }
             TabPage IAutoWikiBrowser.OptionsTab { get { return tpSetOptions; } }
             TabPage IAutoWikiBrowser.StartTab { get { return tpStart; } }

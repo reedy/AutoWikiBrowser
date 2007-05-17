@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using WikiFunctions.Logging.Uploader;
 using AutoWikiBrowser.Logging;
+using WikiFunctions.Plugin;
 
 namespace AutoWikiBrowser
 {
@@ -19,8 +20,9 @@ namespace AutoWikiBrowser
         internal UsernamePassword LoginDetails = new UsernamePassword();
         private TextBox mCategoryTextBox;
         private bool mInitialised;
+        internal Props Settings = new Props();
 
-        public LoggingSettings(TextBox CategoryTextBox)
+        public LoggingSettings(TextBox CategoryTextBox, IAutoWikiBrowser Main)
         {
             mStartingUp = true;
             mCategoryTextBox = CategoryTextBox;
@@ -116,7 +118,8 @@ namespace AutoWikiBrowser
                 }
                 else
                 {
-                    PluginManager.AWBForm.NotifyBalloon("Folder doesn't exist, using previous setting (" + Settings.LogFolder + ")", ToolTipIcon.Warning);
+                    GlobalObjects.AWB.NotifyBalloon("Folder doesn't exist, using previous setting (" + 
+                        Settings.LogFolder + ")", ToolTipIcon.Warning);
                     FolderTextBox.Text = Settings.LogFolder;
                 }
             }
@@ -138,17 +141,17 @@ namespace AutoWikiBrowser
 
             if (mInitialised)
             {
-                MyTrace.PropertiesChange(blnJobNameHasChanged);
+                GlobalObjects.MyTrace.PropertiesChange(blnJobNameHasChanged);
             }
         }
         internal void WeHaveUnappliedChanges()
         {
             if (!mStartingUp)
             {
-                if (MyTrace.HaveOpenFile)
+                if (GlobalObjects.MyTrace.HaveOpenFile)
                 {
                     ApplyButton.Enabled = true;
-                    ApplyButton.BackColor = Drawing.Color.Red;
+                    ApplyButton.BackColor = System.Drawing.Color.Red;
                 }
                 else
                 {
@@ -159,7 +162,7 @@ namespace AutoWikiBrowser
         private void DisableApplyButton()
         {
             ApplyButton.Enabled = false;
-            ApplyButton.BackColor = System.Drawing.Color.FromKnownColor(Drawing.KnownColor.Control);
+            ApplyButton.BackColor = System.Drawing.Color.FromKnownColor(System.Drawing.KnownColor.Control);
         }
         private void EnableDisableUploadControls(bool Enabled)
         {
@@ -242,7 +245,7 @@ namespace AutoWikiBrowser
 		}
 		private void FolderButton_Click(object sender, EventArgs e)
 		{
-			if (FolderBrowserDialog1.ShowDialog(this) == Windows.Forms.DialogResult.OK)
+			if (FolderBrowserDialog1.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
 			{
 				FolderTextBox.Text = FolderBrowserDialog1.SelectedPath;
 				WeHaveUnappliedChanges();
