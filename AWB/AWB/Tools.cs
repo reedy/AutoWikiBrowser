@@ -98,6 +98,16 @@ namespace AutoWikiBrowser
         {
             internal static Dictionary<string, IAWBPlugin> Items = new Dictionary<string, IAWBPlugin>();
 
+            internal static string GetPluginsWikiTextBlock()
+            {
+                string retval = "";
+                foreach (KeyValuePair<string, IAWBPlugin> Plugin in Items)
+                {
+                    retval += Plugin.Value.WikiName + System.Environment.NewLine;
+                }
+                return retval;
+            }
+
             internal static bool LoadPlugins(IAutoWikiBrowser AWB)
             {
                 try
