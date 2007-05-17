@@ -63,7 +63,6 @@ namespace AutoWikiBrowser
             this.FolderButton = new System.Windows.Forms.Button();
             this.UploadCheckBox = new System.Windows.Forms.CheckBox();
             this.WikiLogCheckBox = new System.Windows.Forms.CheckBox();
-            this.LogBadTagsCheckBox = new System.Windows.Forms.CheckBox();
             this.XHTMLLogCheckBox = new System.Windows.Forms.CheckBox();
             this.VerboseCheckBox = new System.Windows.Forms.CheckBox();
             this.Label1 = new System.Windows.Forms.Label();
@@ -76,6 +75,7 @@ namespace AutoWikiBrowser
             this.SetToMaximumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.FolderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.ToolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.SQLLogCheckBox = new System.Windows.Forms.CheckBox();
             this.GroupBox3.SuspendLayout();
             this.GroupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UploadMaxLinesControl)).BeginInit();
@@ -408,10 +408,10 @@ namespace AutoWikiBrowser
             // 
             // GroupBox1
             // 
+            this.GroupBox1.Controls.Add(this.SQLLogCheckBox);
             this.GroupBox1.Controls.Add(this.GroupBox4);
             this.GroupBox1.Controls.Add(this.UploadCheckBox);
             this.GroupBox1.Controls.Add(this.WikiLogCheckBox);
-            this.GroupBox1.Controls.Add(this.LogBadTagsCheckBox);
             this.GroupBox1.Controls.Add(this.XHTMLLogCheckBox);
             this.GroupBox1.Controls.Add(this.VerboseCheckBox);
             this.GroupBox1.Location = new System.Drawing.Point(8, 7);
@@ -466,7 +466,7 @@ namespace AutoWikiBrowser
             this.WikiLogCheckBox.AutoSize = true;
             this.WikiLogCheckBox.Checked = true;
             this.WikiLogCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.WikiLogCheckBox.Location = new System.Drawing.Point(6, 65);
+            this.WikiLogCheckBox.Location = new System.Drawing.Point(6, 42);
             this.WikiLogCheckBox.Name = "WikiLogCheckBox";
             this.WikiLogCheckBox.Size = new System.Drawing.Size(104, 17);
             this.WikiLogCheckBox.TabIndex = 12;
@@ -474,23 +474,10 @@ namespace AutoWikiBrowser
             this.WikiLogCheckBox.UseVisualStyleBackColor = true;
             this.WikiLogCheckBox.CheckedChanged += new System.EventHandler(this.WikiLogCheckBox_CheckedChanged);
             // 
-            // LogBadTagsCheckBox
-            // 
-            this.LogBadTagsCheckBox.AutoSize = true;
-            this.LogBadTagsCheckBox.Checked = true;
-            this.LogBadTagsCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.LogBadTagsCheckBox.Location = new System.Drawing.Point(6, 19);
-            this.LogBadTagsCheckBox.Name = "LogBadTagsCheckBox";
-            this.LogBadTagsCheckBox.Size = new System.Drawing.Size(116, 17);
-            this.LogBadTagsCheckBox.TabIndex = 10;
-            this.LogBadTagsCheckBox.Text = "Log problem pages";
-            this.LogBadTagsCheckBox.UseVisualStyleBackColor = true;
-            this.LogBadTagsCheckBox.CheckedChanged += new System.EventHandler(this.LogBadTagsCheckBox_CheckedChanged);
-            // 
             // XHTMLLogCheckBox
             // 
             this.XHTMLLogCheckBox.AutoSize = true;
-            this.XHTMLLogCheckBox.Location = new System.Drawing.Point(6, 42);
+            this.XHTMLLogCheckBox.Location = new System.Drawing.Point(6, 19);
             this.XHTMLLogCheckBox.Name = "XHTMLLogCheckBox";
             this.XHTMLLogCheckBox.Size = new System.Drawing.Size(96, 17);
             this.XHTMLLogCheckBox.TabIndex = 11;
@@ -568,7 +555,18 @@ namespace AutoWikiBrowser
             this.SetToMaximumToolStripMenuItem.Text = "Set to maximum";
             this.SetToMaximumToolStripMenuItem.Click += new System.EventHandler(this.SetLinesToMaximum);
             // 
-            // PluginLogging
+            // SQLLogCheckBox
+            // 
+            this.SQLLogCheckBox.AutoSize = true;
+            this.SQLLogCheckBox.Enabled = false;
+            this.SQLLogCheckBox.Location = new System.Drawing.Point(6, 65);
+            this.SQLLogCheckBox.Name = "SQLLogCheckBox";
+            this.SQLLogCheckBox.Size = new System.Drawing.Size(94, 17);
+            this.SQLLogCheckBox.TabIndex = 21;
+            this.SQLLogCheckBox.Text = "Log to MySQL";
+            this.SQLLogCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // LoggingSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -578,7 +576,7 @@ namespace AutoWikiBrowser
             this.Controls.Add(this.GroupBox2);
             this.Controls.Add(this.GroupBox1);
             this.Controls.Add(this.Label1);
-            this.Name = "PluginLogging";
+            this.Name = "LoggingSettings";
             this.Size = new System.Drawing.Size(276, 349);
             this.GroupBox3.ResumeLayout(false);
             this.GroupBox3.PerformLayout();
@@ -638,7 +636,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Button FolderButton;
         private System.Windows.Forms.CheckBox UploadCheckBox;
         internal System.Windows.Forms.CheckBox WikiLogCheckBox;
-        internal System.Windows.Forms.CheckBox LogBadTagsCheckBox;
         internal System.Windows.Forms.CheckBox XHTMLLogCheckBox;
         private System.Windows.Forms.CheckBox VerboseCheckBox;
         private System.Windows.Forms.Label Label1;
@@ -651,5 +648,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem SetToMaximumToolStripMenuItem;
         private System.Windows.Forms.FolderBrowserDialog FolderBrowserDialog1;
         private System.Windows.Forms.ToolTip ToolTip1;
+        private System.Windows.Forms.CheckBox SQLLogCheckBox;
     }
 }

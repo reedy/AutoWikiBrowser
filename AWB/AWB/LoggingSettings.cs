@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using WikiFunctions.Logging.Uploader;
 using AutoWikiBrowser.Logging;
+using WikiFunctions;
 using WikiFunctions.Plugin;
 
 namespace AutoWikiBrowser
@@ -94,7 +95,6 @@ namespace AutoWikiBrowser
         #region Event handlers - supporting routines
         private void ApplySettingsToControls(Props SettingsObject)
         {
-            LogBadTagsCheckBox.Checked = SettingsObject.LogBadPages;
             FolderTextBox.Text = SettingsObject.LogFolder;
             VerboseCheckBox.Checked = SettingsObject.LogVerbose;
             WikiLogCheckBox.Checked = SettingsObject.LogWiki;
@@ -128,7 +128,6 @@ namespace AutoWikiBrowser
                 (UploadJobNameTextBox.Text == Props.conUploadCategoryIsJobName && 
                 !(Settings.Category == mCategoryTextBox.Text));
 
-            Settings.LogBadPages = LogBadTagsCheckBox.Checked;
             Settings.LogVerbose = VerboseCheckBox.Checked;
             Settings.LogWiki = WikiLogCheckBox.Checked;
             Settings.LogXHTML = XHTMLLogCheckBox.Checked;
@@ -327,17 +326,6 @@ namespace AutoWikiBrowser
                     return Application.ProductVersion.ToString();
                 }
             }
-            internal bool LogBadPages
-            {
-                get
-                {
-                    return mLogBadPages;
-                }
-                set
-                {
-                    mLogBadPages = value;
-                }
-            }
             internal bool UploadToWikiProjects
             {
                 get
@@ -440,7 +428,6 @@ namespace AutoWikiBrowser
             private const string conLogUploadJobName = "LogUploadJob";
             public void ReadXML(System.Xml.XmlTextReader Reader)
             {
-                mLogBadPages = PluginManager.XMLReadBoolean(Reader, conLogBadPages, LogBadPages);
                 mLogFolder = PluginManager.XMLReadString(Reader, conLogFolder, LogFolder);
                 mLogVerbose = PluginManager.XMLReadBoolean(Reader, conLogVerbose, LogVerbose);
                 mLogWiki = PluginManager.XMLReadBoolean(Reader, conLogWiki, LogWiki);
@@ -455,7 +442,6 @@ namespace AutoWikiBrowser
             }
             public void WriteXML(System.Xml.XmlTextWriter Writer)
             {
-                Writer.WriteAttributeString(conLogBadPages, LogBadPages.ToString());
                 Writer.WriteAttributeString(conLogFolder, LogFolder);
                 Writer.WriteAttributeString(conLogVerbose, LogVerbose.ToString());
                 Writer.WriteAttributeString(conLogWiki, LogWiki.ToString());
