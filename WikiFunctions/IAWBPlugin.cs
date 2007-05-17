@@ -33,6 +33,7 @@ namespace WikiFunctions.Plugin
     {
         void Initialise(IAutoWikiBrowser sender);
         string Name { get; }
+        string WikiName { get; }
         string ProcessArticle(IAutoWikiBrowser sender, ProcessArticleEventArgs eventargs);
 
         void LoadSettings(object[] Prefs);
@@ -48,6 +49,7 @@ namespace WikiFunctions.Plugin
     public interface IAutoWikiBrowser
     {
         Form Form { get; }
+        TraceManager TraceManager { get; } // implements IMyTraceListener
         TabPage MoreOptionsTab { get; }
         TabPage OptionsTab { get; }
         TabPage StartTab { get; }
