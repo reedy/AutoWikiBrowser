@@ -13,12 +13,18 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.Close()
         End Sub
 
-        Public Sub New(ByVal Version As String)
+        Public Shared ReadOnly Property Version() As String
+            Get
+                Return System.Reflection.Assembly.GetExecutingAssembly.GetName.Version.ToString
+            End Get
+        End Property
+
+        Public Sub New()
             ' This call is required by the Windows Form Designer.
             InitializeComponent()
 
             ' Add any initialization after the InitializeComponent() call.
-            Me.LabelVersion.Text = Version
+            Me.LabelVersion.Text = String.Format("Version {0}", Version)
         End Sub
         Private Sub linkKingboy_LinkClicked(ByVal sender As System.Object, _
         ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles linkKingboy.LinkClicked

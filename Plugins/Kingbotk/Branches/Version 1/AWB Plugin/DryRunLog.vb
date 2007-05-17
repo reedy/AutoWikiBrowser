@@ -36,7 +36,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
                 Log.WriteLine("#[[" & Title & "]]")
             End If
             Log.Flush()
-            PluginSettingsControl.MyTrace.SkippedArticle(Sender, "Dry run")
+            PluginManager.AWBForm.TraceManager.SkippedArticle(Sender, "Dry run")
         End Sub
 
         Private Function OpenLog() As Boolean

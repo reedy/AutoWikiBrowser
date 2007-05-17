@@ -14,7 +14,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
             mNeedsInfobox = NeedsInfobox
             mNeedsPhoto = NeedsPhoto
             mStats = TimerStats
-            PluginSettingsControl.MyTrace.ProcessingArticle(TalkTitle & "/Comments", Namespaces.Talk)
+            PluginManager.AWBForm.TraceManager.ProcessingArticle(TalkTitle & "/Comments", Namespaces.Talk)
             Me.ShowDialog()
         End Sub
         Private Sub AddLine(ByVal Line As String)
@@ -57,7 +57,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
         Private Sub WebControl1_Saved() Handles WebControl1.Saved
             Application.UseWaitCursor = False
             mStats.IncrementSavedEdits()
-            PluginSettingsControl.MyTrace.WriteArticleActionLine("Comments page saved", Assessments.conMe)
+            PluginManager.AWBForm.TraceManager.WriteArticleActionLine("Comments page saved", Assessments.conMe)
             Me.DialogResult = Windows.Forms.DialogResult.OK
             Me.Close()
         End Sub
@@ -80,7 +80,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
         End Sub
         Private Sub SkipButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) _
         Handles SkipButton.Click
-            PluginSettingsControl.MyTrace.WriteArticleActionLine("Comments page skipped", Assessments.conMe)
+            PluginManager.AWBForm.TraceManager.WriteArticleActionLine("Comments page skipped", Assessments.conMe)
             Me.DialogResult = Windows.Forms.DialogResult.Cancel
             Me.Close()
         End Sub

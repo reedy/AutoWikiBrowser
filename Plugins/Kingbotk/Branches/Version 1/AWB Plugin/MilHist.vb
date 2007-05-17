@@ -759,7 +759,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             If Template.Parameters.ContainsKey("importance") Then
                 Template.Parameters.Remove("importance")
                 Article.ArticleHasAMajorChange()
-                PluginSettingsControl.MyTrace.WriteArticleActionLine("Removed importance parameter", _
+                PluginManager.AWBForm.TraceManager.WriteArticleActionLine("Removed importance parameter", _
                    PluginShortName)
             End If
         End Sub
@@ -774,7 +774,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                         Article.DoneReplacement(conMiddleAges, conMedievalTaskForce, True, PluginShortName)
                     Else
                         Article.EditSummary += "deprecated Middle-Ages-task-force removed"
-                        PluginSettingsControl.MyTrace.WriteArticleActionLine( _
+                        PluginManager.AWBForm.TraceManager.WriteArticleActionLine( _
                            "Middle-Ages-task-force parameter removed, not set to yes", PluginShortName)
                     End If
                     .Parameters.Remove(conMiddleAges)

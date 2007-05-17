@@ -142,7 +142,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
                     PluginManager.StatusText.Text = "Processing " & TheArticle.FullArticleTitle
 
                     If State.NeedsPhoto AndAlso ReqphotoAnyRegex.IsMatch(TheArticle.AlteredArticleText) Then
-                        PluginSettingsControl.MyTrace.WriteArticleActionLine1( _
+                        PluginManager.AWBForm.TraceManager.WriteArticleActionLine1( _
                            "Photo needed: Template already present", conMe, True)
                     End If
 
@@ -243,7 +243,7 @@ ExitMe:
                     LoadTalkPage()
                 Else
                     LoadArticle()
-                    PluginSettingsControl.MyTrace.SkippedArticle("User", "User clicked Ignore")
+                    PluginManager.AWBForm.TraceManager.SkippedArticle("User", "User clicked Ignore")
                     PluginSettings.PluginStats.SkippedMiscellaneousIncrement(True)
                 End If
 

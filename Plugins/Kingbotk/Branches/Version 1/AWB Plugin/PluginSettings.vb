@@ -12,10 +12,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Friend WithEvents PluginStats As New Stats
         Private StatLabels As New List(Of Label)
 
-        'Tracing:
-        Friend Shared WithEvents MyTrace As MyTrace
-        Friend LoggingSettings As PluginLogging
-
         ' AWB processing stopped/started:
         Friend Sub AWBProcessingStart(ByVal webcontrol As WikiFunctions.Browser.WebControl)
             For Each lbl As Label In StatLabels
@@ -24,11 +20,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             TimerStats1.Visible = True
             TimerStats1.Init(webcontrol, ETALabel, PluginStats)
 
-            If MyTrace.HaveOpenFile Then
-                MyTrace.WriteBulletedLine("AWB started processing", True, True, True)
-            Else
-                MyTrace.Initialise()
-            End If
             PluginManager.StatusText.Text = "Started"
         End Sub
 
@@ -133,7 +124,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             CategoryName = ""
         End Sub
         Private Sub MenuAbout_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles MenuAbout.Click
-            Dim about As New AboutBox(String.Format("Version {0}", PluginLogging.Props.PluginVersion))
+            Dim about As New AboutBox()
             about.Show()
         End Sub
         Private Sub MenuHelp_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles MenuHelp.Click
@@ -469,10 +460,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
 
             StatLabels.AddRange(New Label() {lblTagged, lblSkipped, lblNoChange, lblBadTag, lblNamespace, lblNew, _
                lblRedlink})
-
-            MyTrace = New MyTrace()
-            LoggingSettings = New PluginLogging(MyTrace, CategoryTextBox)
-            MyTrace.LS = LoggingSettings
 
             ' Initialise enabled state of our replica buttons:
             AWBButtonsEnabledHandler(PluginManager.AWBForm.StartTab.Controls("btnDiff"), Nothing)
