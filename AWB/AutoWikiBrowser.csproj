@@ -90,6 +90,12 @@
     </Compile>
     <Compile Include="LoggingSettings.cs" />
     <Compile Include="MyTrace.cs" />
+    <Compile Include="PluginLogging.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PluginLogging.Designer.cs">
+      <DependentUpon>PluginLogging.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tools.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
@@ -130,6 +136,10 @@
     <EmbeddedResource Include="Main.resx">
       <SubType>Designer</SubType>
       <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PluginLogging.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PluginLogging.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Preferences.resx">
       <SubType>Designer</SubType>
