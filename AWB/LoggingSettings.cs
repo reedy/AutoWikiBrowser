@@ -47,7 +47,7 @@ namespace AutoWikiBrowser
         {
             mStartingUp = true;
             InitializeComponent();
-            GlobalObjects.AWB.CategoryTextBox.TextChanged += this.WeHaveUnappliedChanges;
+            //GlobalObjects.AWB.CategoryTextBox.TextChanged += this.WeHaveUnappliedChanges;
             mStartingUp = false;
         }
 

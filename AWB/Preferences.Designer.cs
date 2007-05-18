@@ -54,11 +54,13 @@ namespace AutoWikiBrowser
             this.chkAutoSaveEdit = new System.Windows.Forms.CheckBox();
             this.fontDialog = new System.Windows.Forms.FontDialog();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnSetFile = new System.Windows.Forms.Button();
             this.txtAutosave = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.numEditBoxAutosave = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
+            this.saveFile = new System.Windows.Forms.SaveFileDialog();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numTimeOutLimit)).BeginInit();
@@ -319,6 +321,7 @@ namespace AutoWikiBrowser
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.btnSetFile);
             this.groupBox3.Controls.Add(this.chkAutoSaveEdit);
             this.groupBox3.Controls.Add(this.txtAutosave);
             this.groupBox3.Controls.Add(this.label10);
@@ -332,21 +335,33 @@ namespace AutoWikiBrowser
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Auto save edit box";
             // 
+            // btnSetFile
+            // 
+            this.btnSetFile.Enabled = false;
+            this.btnSetFile.Location = new System.Drawing.Point(8, 68);
+            this.btnSetFile.Name = "btnSetFile";
+            this.btnSetFile.Size = new System.Drawing.Size(88, 23);
+            this.btnSetFile.TabIndex = 31;
+            this.btnSetFile.Text = "Set File";
+            this.btnSetFile.UseVisualStyleBackColor = true;
+            this.btnSetFile.Click += new System.EventHandler(this.btnSetFile_Click);
+            // 
             // txtAutosave
             // 
-            this.txtAutosave.Location = new System.Drawing.Point(48, 68);
+            this.txtAutosave.Enabled = false;
+            this.txtAutosave.Location = new System.Drawing.Point(134, 70);
             this.txtAutosave.Name = "txtAutosave";
-            this.txtAutosave.Size = new System.Drawing.Size(247, 20);
+            this.txtAutosave.Size = new System.Drawing.Size(161, 20);
             this.txtAutosave.TabIndex = 30;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(3, 71);
+            this.label10.Location = new System.Drawing.Point(102, 73);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(39, 13);
+            this.label10.Size = new System.Drawing.Size(26, 13);
             this.label10.TabIndex = 29;
-            this.label10.Text = "To file:";
+            this.label10.Text = "File:";
             // 
             // label9
             // 
@@ -387,6 +402,10 @@ namespace AutoWikiBrowser
             this.label8.Size = new System.Drawing.Size(64, 13);
             this.label8.TabIndex = 26;
             this.label8.Text = "Save every:";
+            // 
+            // saveFile
+            // 
+            this.saveFile.Filter = ".txt Files|*.txt";
             // 
             // MyPreferences
             // 
@@ -447,5 +466,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.TextBox txtAutosave;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ComboBox cmboCustomProject;
+        private System.Windows.Forms.Button btnSetFile;
+        private System.Windows.Forms.SaveFileDialog saveFile;
     }
 }
