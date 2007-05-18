@@ -42,6 +42,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AWBLogListener.cs" />
+    <Compile Include="AWBProfiles\AWBProfile.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Background.cs" />
     <Compile Include="Controls\LED.cs">
       <SubType>UserControl</SubType>
@@ -354,9 +357,6 @@
     <None Include="Resources\GoRtl2.bmp" />
     <None Include="Resources\filesave2.gif" />
     <None Include="Resources\changes2.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="AWBProfiles\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
