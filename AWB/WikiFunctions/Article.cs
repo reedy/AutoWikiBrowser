@@ -45,6 +45,9 @@ namespace WikiFunctions
         protected string mPluginEditSummary = "";
         protected bool mPluginSkip;
 
+        public virtual IAWBTraceListener Trace
+        { get { return mAWBLogListener; } }
+
         #region Constructors
             public Article()
             { }
@@ -63,7 +66,7 @@ namespace WikiFunctions
                 this.EditSummary = "";
             }
 
-            public AWBLogListener InitialiseLogListener()
+            public virtual AWBLogListener InitialiseLogListener()
             {
                 InitLog();
                 return mAWBLogListener;
@@ -186,7 +189,7 @@ namespace WikiFunctions
             /// </summary>
             /// <param name="reason">The reason for skipping</param>
             public void AWBSkip(string reason)
-            { mAWBLogListener.AWBSkipped(reason); }
+            { Trace.AWBSkipped(reason); }
         
             /// <summary>
             /// Send the article to a plugin for processing
@@ -215,7 +218,7 @@ namespace WikiFunctions
                 string strTemp = parsers.Unicodify(mArticleText, out NoChange);
 
                 if (SkipIfNoChange && NoChange)
-                    mAWBLogListener.AWBSkipped("No Unicodification");
+                    Trace.AWBSkipped("No Unicodification");
                 else if (!NoChange)
                     this.AWBChangeArticleText("Article Unicodified", strTemp, false);
             }
@@ -255,7 +258,7 @@ namespace WikiFunctions
                 }
 
                 if (NoChange && SkipIfNoChange)
-                    mAWBLogListener.AWBSkipped("No Image Changed");
+                    Trace.AWBSkipped("No Image Changed");
                 else if (!NoChange)
                     this.AWBChangeArticleText("Image replacement applied", strTemp, false);
             }
@@ -300,7 +303,7 @@ namespace WikiFunctions
                 }
 
                 if (NoChange && SkipIfNoChange)
-                    mAWBLogListener.AWBSkipped("No Category Changed");
+                    Trace.AWBSkipped("No Category Changed");
                 else if (!NoChange)
                     this.AWBChangeArticleText(action, strTemp, false);
             }
@@ -338,7 +341,7 @@ namespace WikiFunctions
                 strTemp = substTemplates.SubstituteTemplates(strTemp, mName); // TODO: Possible bug, this was "articleTitle" not "Name"
 
                 if (SkipIfNoChange && (testText == strTemp)) // NoChange
-                    mAWBLogListener.AWBSkipped("No Find And Replace Changes");
+                    Trace.AWBSkipped("No Find And Replace Changes");
                 else
                 {
                     this.AWBChangeArticleText("Find and replace applied" + tmpEditSummary,
@@ -358,7 +361,7 @@ namespace WikiFunctions
                 string strTemp = RegexTypos.PerformTypoFixes(mArticleText, out NoChange, out mPluginEditSummary);
 
                 if (NoChange && SkipIfNoChange)
-                    mAWBLogListener.AWBSkipped("No typo fixes");
+                    Trace.AWBSkipped("No typo fixes");
                 else if (!NoChange)
                 {
                     this.AWBChangeArticleText(mPluginEditSummary, strTemp, false);
@@ -377,7 +380,7 @@ namespace WikiFunctions
                 string strTemp = parsers.Tagger(mArticleText, mName, out NoChange, ref tmpEditSummary);
 
                 if (SkipIfNoChange && NoChange)
-                    mAWBLogListener.AWBSkipped("No Tag changed");
+                    Trace.AWBSkipped("No Tag changed");
                 else if (!NoChange)
                 {
                     this.AWBChangeArticleText("Auto tagger changes applied" + tmpEditSummary, strTemp, false);
@@ -402,7 +405,7 @@ namespace WikiFunctions
                     strTemp = parsers.ChangeToDefaultSort(strTemp, mName);
                     strTemp = parsers.FixHeadings(strTemp, mName, out NoChange);
                     if (SkipIfNoChange && NoChange)
-                        mAWBLogListener.AWBSkipped("No header errors");
+                        Trace.AWBSkipped("No header errors");
                     else if (!NoChange)
                         this.AWBChangeArticleText("Fixed header errors", strTemp, true);
                 }
@@ -418,7 +421,7 @@ namespace WikiFunctions
                 bool NoChange;
                 string strTemp = parsers.FixLinks(mArticleText, out NoChange);
                 if (NoChange && SkipIfNoChange)
-                    mAWBLogListener.AWBSkipped("No bad links");
+                    Trace.AWBSkipped("No bad links");
                 else if (!NoChange)
                     this.AWBChangeArticleText("Fixed links", strTemp, false);
             }
@@ -433,7 +436,7 @@ namespace WikiFunctions
                 bool NoChange;
                 string strTemp = parsers.BulletExternalLinks(mArticleText, out NoChange);
                 if (SkipIfNoChange && NoChange)
-                    mAWBLogListener.AWBSkipped("No missing bulleted links");
+                    Trace.AWBSkipped("No missing bulleted links");
                 else if (!NoChange)
                     this.AWBChangeArticleText("Bulleted external links", strTemp, false);
             }
@@ -448,7 +451,7 @@ namespace WikiFunctions
                 bool NoChange;
                 string strTemp = parsers.BoldTitle(mArticleText, mName, out NoChange);
                 if (SkipIfNoChange && NoChange)
-                    mAWBLogListener.AWBSkipped("No Titles to embolden");
+                    Trace.AWBSkipped("No Titles to embolden");
                 else if (!NoChange)
                     this.AWBChangeArticleText("Emboldened titles", strTemp, false);
             }
@@ -520,7 +523,7 @@ namespace WikiFunctions
                 if (df.Abort) return false;
 
                 if (NoChange && SkipIfNoChange)
-                    mAWBLogListener.AWBSkipped("No disambiguation");
+                    Trace.AWBSkipped("No disambiguation");
                 else if (!NoChange)
                     this.AWBChangeArticleText("Disambiguated " + DabLinkText, strTemp, false);
 
@@ -605,8 +608,8 @@ namespace WikiFunctions
 
         #region Interfaces
 
-            IMyTraceListener ProcessArticleEventArgs.AWBLogItem
-            { get { return mAWBLogListener; } }
+            //IMyTraceListener ProcessArticleEventArgs.AWBLogItem
+            //{ get { return mAWBLogListener; } }
 
             string ProcessArticleEventArgs.ArticleTitle
             { get { return mName; } }

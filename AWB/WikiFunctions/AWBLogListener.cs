@@ -23,7 +23,7 @@ using System.Text;
 
 namespace WikiFunctions.Logging
 {
-    public class AWBLogListener : ListViewItem, IMyTraceListener
+    public class AWBLogListener : ListViewItem, IAWBTraceListener
     {    /* This class will:
          * Use the Logging interface previously defined in wikifunctions2
          * Be written to by AWB during processing and passed to plugins
@@ -49,7 +49,7 @@ namespace WikiFunctions.Logging
 
         public void UserSkipped()
         {
-            Skip("User", "Clicked ignore");
+            Skip(Variables.StringUser, Variables.StringUserSkipped);
         }
 
         public void AWBSkipped(string Reason)
@@ -59,7 +59,7 @@ namespace WikiFunctions.Logging
 
         public void PluginSkipped()
         {
-            Skip("Plugin", "Plugin sent skip event");
+            Skip(Variables.StringPlugin, Variables.StringPluginSkipped);
         }
 
         public void OpenInBrowser()

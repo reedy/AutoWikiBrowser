@@ -32,9 +32,11 @@ namespace AutoWikiBrowser.Logging
     /// <summary>
     /// Logging manager
     /// </summary>
-    internal sealed class MyTrace : TraceManager
+    internal sealed class MyTrace : TraceManager, IAWBTraceListener
     {
-        public LoggingSettings LoggingSettings;
+        private new Dictionary<string, IAWBTraceListener> Listeners = new Dictionary<string, IAWBTraceListener>();
+
+        private LoggingSettings LoggingSettings;
         private static string LogFolder = "";
         private int BusyCounter = 0;
         private bool mIsUploading = false;
@@ -64,7 +66,7 @@ namespace AutoWikiBrowser.Logging
                     NewWikiTraceListener();
                 }
             }
-            foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
+            foreach (KeyValuePair<string, IAWBTraceListener> t in Listeners)
             {
                 t.Value.WriteBulletedLine(Variables.LoggingStartButtonClicked, true, false, true);
             }
@@ -223,7 +225,7 @@ namespace AutoWikiBrowser.Logging
             if (LoggingSettings.Settings.UploadYN && (BadPagesLogToUpload || WikiLogToUpload) && MessageBox.Show("Upload logs?", "Logging", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                 upload = true;
 
-            foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
+            foreach (KeyValuePair<string, IAWBTraceListener> t in Listeners)
             {
                 t.Value.WriteCommentAndNewLine("closing all logs");
                 if (t.Value.Uploadable)
@@ -250,6 +252,30 @@ namespace AutoWikiBrowser.Logging
         }
 
         #region Generic overrides
+        public void AWBSkipped(string Reason)
+        {
+            Busy();
+            foreach (KeyValuePair<string, IAWBTraceListener> Listener in Listeners)
+            {
+                Listener.Value.AWBSkipped(Reason);
+            }
+        }
+        public void PluginSkipped()
+        {
+            Busy();
+            foreach (KeyValuePair<string, IAWBTraceListener> Listener in Listeners)
+            {
+                Listener.Value.PluginSkipped();
+            }
+        }
+        public void UserSkipped()
+        {
+            Busy();
+            foreach (KeyValuePair<string, IAWBTraceListener> Listener in Listeners)
+            {
+                Listener.Value.UserSkipped();
+            }
+        }
         public override void ProcessingArticle(string FullArticleTitle, WikiFunctions.Namespaces NS)
         {
             Busy();
@@ -426,8 +452,8 @@ namespace AutoWikiBrowser.Logging
         /// Logs in XHTML
         /// </summary>
         /// <remarks></remarks>
-        private sealed class XHTMLTraceListener : WikiFunctions.Logging.XHTMLTraceListener, 
-            WikiFunctions.Logging.Uploader.ITraceStatusProvider
+        private sealed class XHTMLTraceListener : WikiFunctions.Logging.XHTMLTraceListener,
+            WikiFunctions.Logging.Uploader.ITraceStatusProvider, IAWBTraceListener
         {
             private TraceStatus mTraceStatus;
 
@@ -440,17 +466,34 @@ namespace AutoWikiBrowser.Logging
             {
                 get { return mTraceStatus; }
             }
+            public void AWBSkipped(string Reason)
+            {
+                this.SkippedArticle("AWB", Reason);
+            }
+            public void UserSkipped()
+            { this.SkippedArticle(Variables.StringUser, Variables.StringUserSkipped); }
+            public void PluginSkipped()
+            { this.SkippedArticle(Variables.StringPlugin, Variables.StringPluginSkipped); }
         }
 
         /// <summary>
         /// Logs in wiki format
         /// </summary>
         /// <remarks></remarks>
-        private sealed class WikiTraceListener : WikiFunctions.Logging.WikiTraceListener
+        private sealed class WikiTraceListener : WikiFunctions.Logging.WikiTraceListener, IAWBTraceListener
         {
             public WikiTraceListener(string FileName, LoggingSettings LS)
                 : base(LS.Settings, new TraceStatus(LS.WikiLinesLabel, LS.WikiLinesSinceUploadLabel, 
                 LS.UploadsCountLabel, LS.Settings.UploadYN, FileName, conWiki)) { }
+
+            public void AWBSkipped(string Reason)
+            {
+                this.SkippedArticle("AWB", Reason);
+            }
+            public void UserSkipped()
+            { this.SkippedArticle(Variables.StringUser, Variables.StringUserSkipped); }
+            public void PluginSkipped()
+            { this.SkippedArticle(Variables.StringPlugin, Variables.StringPluginSkipped); }
         }
 
         internal LoggingSettings LS
