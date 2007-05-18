@@ -58,6 +58,7 @@ namespace WikiFunctions.Plugin
         TabPage BotTab { get; }
         TabPage LoggingTab { get; }
         TextBox EditBox { get; }
+        TextBox CategoryTextBox { get; }
         CheckBox BotModeCheckbox { get; }
         Button DiffButton { get; }
         Button PreviewButton { get; }

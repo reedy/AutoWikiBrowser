@@ -3104,6 +3104,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             CheckBox IAutoWikiBrowser.AutoTagCheckBox { get { return chkAutoTagger; } }
             ToolStripMenuItem IAutoWikiBrowser.HelpToolStripMenuItem { get { return helpToolStripMenuItem; } }
             TextBox IAutoWikiBrowser.EditBox { get { return txtEdit; } }
+            TextBox IAutoWikiBrowser.CategoryTextBox { get { return CategoryTextBox; } }
             Form IAutoWikiBrowser.Form { get { return this; } }
             ToolStripMenuItem IAutoWikiBrowser.PluginsToolStripMenuItem { get { return pluginsToolStripMenuItem; } }
             WikiFunctions.Controls.Lists.ListMaker IAutoWikiBrowser.ListMaker { get { return listMaker1; } }
@@ -3354,6 +3355,26 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("http://commons.wikimedia.org/wiki/Image:Crystal_Clear_action_run.png");
+        }
+
+        private void toolStripMenuItemCategoryCut_Click(object sender, EventArgs e)
+        {
+            CategoryTextBox.Cut();
+        }
+
+        private void toolStripMenuItemCategoryCopy_Click(object sender, EventArgs e)
+        {
+            CategoryTextBox.Copy();
+        }
+
+        private void toolStripMenuItemCategoryPaste_Click(object sender, EventArgs e)
+        {
+            CategoryTextBox.Paste();
+        }
+
+        private void toolStripMenuItemCategoryClear_Click(object sender, EventArgs e)
+        {
+            CategoryTextBox.Text = "";
         }
     }
 }
