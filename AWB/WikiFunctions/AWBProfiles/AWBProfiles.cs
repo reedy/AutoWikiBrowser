@@ -28,13 +28,16 @@ namespace WikiFunctions.AWBProfiles
         {
             foreach (Profile profile in AWBProfile.GetProfiles())
             {
-                ListViewItem item = new ListViewItem(profile.username);
+                ListViewItem item = new ListViewItem(profile.id.ToString());
+                item.SubItems.Add(profile.username);
                 if (profile.password != "")
                     item.SubItems.Add("Yes");
                 else
                     item.SubItems.Add("No");
                 item.SubItems.Add(profile.defaultsettings);
                 item.SubItems.Add(profile.notes);
+
+                lvAccounts.Items.Add(item);
             }
         }
 
@@ -44,11 +47,11 @@ namespace WikiFunctions.AWBProfiles
             {
                 if (lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text == "Yes")
                 {//Get 'Saved' Password
-                    //Browser.Login(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text, "");
+                    Browser.Login(lvAccounts.Items[lvAccounts.SelectedIndices[1]].Text, AWBProfile.GetPassword(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text)));
                 }
                 else
                 {//Get Password from User
-                    //Browser.Login(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text, "");
+                    //Browser.Login(lvAccounts.Items[lvAccounts.SelectedIndices[1]].Text, "");
                 }
             }
         }
