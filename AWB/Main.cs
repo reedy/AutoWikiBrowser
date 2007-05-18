@@ -2505,13 +2505,15 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void cmboEditSummary_MouseMove(object sender, MouseEventArgs e)
         {
+            string EditSummary = "";
+
             if (TheArticle != null)
-            {
-                if (TheArticle.EditSummary == "")
-                    toolTip1.SetToolTip(cmboEditSummary, "");
-                else
-                    toolTip1.SetToolTip(cmboEditSummary, MakeSummary());
-            }
+                EditSummary = TheArticle.EditSummary;
+
+            if (EditSummary == "")
+                toolTip1.SetToolTip(cmboEditSummary, "");
+            else
+                toolTip1.SetToolTip(cmboEditSummary, MakeSummary());
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
