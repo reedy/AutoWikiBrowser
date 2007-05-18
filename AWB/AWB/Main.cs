@@ -97,7 +97,7 @@ namespace AutoWikiBrowser
         #region Constructor and MainForm load/resize
             public MainForm()
             {
-                splash.Show();
+                splash.Show(this);
                 InitializeComponent();
                 splash.setProgress(5);
                 try
