@@ -174,6 +174,9 @@ namespace AutoWikiBrowser
             chkSkipNoDab.Checked = false;
             udContextChars.Value = 20;
 
+            CategoryTextBox.Text = "";
+            loggingSettings1.Reset();
+
             try
             {
                 foreach (KeyValuePair<string, IAWBPlugin> a in Plugin.Items)
