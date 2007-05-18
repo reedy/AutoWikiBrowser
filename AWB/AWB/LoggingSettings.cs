@@ -252,10 +252,6 @@ namespace AutoWikiBrowser
 		{
 			UploadMaxLinesControl.Value = UploadMaxLinesControl.Maximum;
 		}
-		private void CloseAllButton_Click(object sender, EventArgs e)
-		{
-			GlobalObjects.MyTrace.Close();
-		}
 		private void WikiLogCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
 			if (WikiLogCheckBox.Checked && ! UploadCheckBox.Enabled)
