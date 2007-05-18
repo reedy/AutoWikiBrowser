@@ -120,7 +120,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
 
         ' XML interface:
         Public Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader)
-            CategoryNameTextBox = PluginManager.XMLReadString(Reader, conCategoryNameParm, CategoryNameTextBox)
             ManuallyAssess = PluginManager.XMLReadBoolean(Reader, conManuallyAssessParm, ManuallyAssess)
             Cleanup = PluginManager.XMLReadBoolean(Reader, conCleanupParm, Cleanup)
             SkipBadTags = PluginManager.XMLReadBoolean(Reader, conSkipBadTagsParm, SkipBadTags)
@@ -129,7 +128,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                conAssessmentsAlwaysLeaveACommentParm, AssessmentsAlwaysLeaveAComment)
         End Sub
         Public Sub Reset()
-            CategoryNameTextBox = ""
             ManuallyAssess = False
             Cleanup = False
             PluginStats = New Stats
@@ -138,7 +136,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             AssessmentsAlwaysLeaveAComment = False
         End Sub
         Public Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter)
-            Writer.WriteAttributeString(conCategoryNameParm, CategoryNameTextBox)
             Writer.WriteAttributeString(conManuallyAssessParm, ManuallyAssess.ToString)
             Writer.WriteAttributeString(conCleanupParm, Cleanup.ToString)
             Writer.WriteAttributeString(conSkipBadTagsParm, SkipBadTags.ToString)
@@ -156,8 +153,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 If .EditSummary.Text = "clean up" Then .EditSummary.Text = ""
             End With
         End Sub
-        Private Sub LivingPeopleToolStripMenuItemClick(ByVal sender As Object, ByVal e As EventArgs) _
-        Handles LivingPeopleToolStripMenuItem.Click
+        Private Sub LivingPeopleToolStripMenuItemClick(ByVal sender As Object, ByVal e As EventArgs)
+
             CategoryName = "Living people"
         End Sub
         Private Sub MenuAbout_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles MenuAbout.Click
@@ -201,9 +198,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         End Sub
         Private Sub ResetTimerButton_Click(ByVal sender As Object, ByVal e As EventArgs) Handles ResetTimerButton.Click
             TimerStats1.Reset()
-        End Sub
-        Private Sub CategoryTextBox_TextChanged(ByVal sender As Object, ByVal e As EventArgs)
-            LoggingSettings.WeHaveUnappliedChanges()
         End Sub
         Private Sub btnStart_EnabledChanged(ByVal sender As Object, ByVal e As System.EventArgs) _
         Handles btnStart.EnabledChanged
