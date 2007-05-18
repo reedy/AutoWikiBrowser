@@ -3088,6 +3088,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             TabPage IAutoWikiBrowser.StartTab { get { return tpStart; } }
             TabPage IAutoWikiBrowser.DabTab { get { return tpDab; } }
             TabPage IAutoWikiBrowser.BotTab { get { return tpBots; } }
+            TabPage IAutoWikiBrowser.LoggingTab { get { return tpLogging; } }
             CheckBox IAutoWikiBrowser.BotModeCheckbox { get { return chkAutoMode; } }
             Button IAutoWikiBrowser.PreviewButton { get { return btnPreview; } }
             Button IAutoWikiBrowser.SaveButton { get { return btnSave; } }
