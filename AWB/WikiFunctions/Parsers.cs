@@ -431,16 +431,7 @@ namespace WikiFunctions.Parse
 
             foreach (Match m in WikiRegexes.SimpleWikiLink.Matches(ArticleText))
             {
-                if (!m.Value.StartsWith(cat) && !m.Value.StartsWith("[[Image:") && !m.Value.StartsWith("[[image:") && !m.Value.StartsWith("[[_") && !m.Value.Contains("|_"))
-                {
-                    y = m.Value.Replace("_", " ");
-                    y = Regex.Replace(y, " ?\\| ?", "|");
-                }
-                else
-                    y = m.Value;
-
-                y = y.Replace("+", "%2B");
-                y = HttpUtility.UrlDecode(y);
+                y = m.Value.Replace(m.Groups[1].Value, Article.CanonicalizeTitle(m.Groups[1].Value));
 
                 ArticleText = ArticleText.Replace(m.Value, y);
             }
@@ -448,6 +439,14 @@ namespace WikiFunctions.Parse
             NoChange = (testText == ArticleText);
 
             return ArticleText;
+        }
+
+        /// <summary>
+        /// performs URL-decoding of a page title
+        /// </summary>
+        public static string CanonicalizeTitle(string title)
+        {
+            return HttpUtility.UrlDecode(title.Replace("+", "%2B")).Replace("_", " ").Trim();
         }
 
         /// <summary>

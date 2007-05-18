@@ -33,6 +33,7 @@ using WikiFunctions.Browser;
 using System.Text.RegularExpressions;
 using System.Reflection;
 using WikiFunctions.Plugin;
+using WikiFunctions.Background;
 
 namespace WikiFunctions
 {
@@ -114,8 +115,6 @@ namespace WikiFunctions
 
         static string URLEnd = "/w/";
 
-        
-
         static string strURL = "http://en.wikipedia.org";
         /// <summary>
         /// Gets a URL of the site, e.g. "http://en.wikipedia.org".
@@ -172,6 +171,32 @@ namespace WikiFunctions
             strWPAWB = "[[Wikipedia:AutoWikiBrowser|AWB]]";
         }
 
+        #region Delayed load stuff
+        public static List<Article> UnderscoredTitles = new List<Article>();
+        public static List<BackgroundRequest> DelayedRequests = new List<BackgroundRequest>();
+
+        public static void CancelBackgroundRequests()
+        {
+            foreach (BackgroundRequest b in DelayedRequests) b.Abort();
+            DelayedRequests.Clear();
+        }
+
+        public static void LoadUnderscores(string category)
+        {
+            BackgroundRequest r = new BackgroundRequest(new BackgroundRequestComplete(UnderscoresLoaded));
+            r.HasUI = false;
+            DelayedRequests.Add(r);
+            r.GetList(WikiFunctions.Lists.GetLists.From.Category, category);
+        }
+
+        static void UnderscoresLoaded(BackgroundRequest req)
+        {
+            UnderscoredTitles = (List<Article>)req.Result;
+        }
+
+        #endregion
+
+
         // for logging, these will probably need internationalising
         public static string AWBVersionString(string Version)
         {
@@ -211,6 +236,8 @@ namespace WikiFunctions
         public static void SetProject(LangCodeEnum langCode, ProjectEnum projectName, string customProject)
         {
             Namespaces.Clear();
+            CancelBackgroundRequests();
+            UnderscoredTitles.Clear();
 
             strproject = projectName;
             strlangcode = langCode;
@@ -1248,6 +1275,11 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                     m = Regex.Match(strText, "<!--[Tt]ypos:(.*?)-->");
                     if (m.Success && m.Groups[1].Value.Trim().Length > 0)
                         Variables.RETFPath = m.Groups[1].Value.Trim();
+
+                    m = Regex.Match(strText, "<!--[Uu]nderscores:(.*?)-->");
+                    if (m.Success && m.Groups[1].Value.Trim().Length > 0)
+                        Variables.LoadUnderscores(m.Groups[1].Value.Trim());
+
 
                     string strHead = webBrowserLogin.GetHead();
 

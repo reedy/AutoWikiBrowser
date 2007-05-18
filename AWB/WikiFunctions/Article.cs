@@ -580,6 +580,22 @@ namespace WikiFunctions
 
             public void UnHideText(HideText RemoveText)
             { mArticleText = RemoveText.AddBack(mArticleText); }
+
+        /// <summary>
+        /// returns 
+        /// </summary>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        public static string CanonicalizeTitle(string title)
+        {
+            string s = Parsers.CanonicalizeTitle(title);
+            if (Variables.UnderscoredTitles.Contains(new Article(Tools.TurnFirstToUpper(s))))
+            {
+                return System.Web.HttpUtility.UrlDecode(title.Replace("+", "%2B"))
+                    .Trim(new char[] { '_' });
+            }
+            else return s;
+        }
         #endregion
 
         #region Overrides

@@ -27,6 +27,7 @@ using WikiFunctions.Lists;
 
 namespace WikiFunctions.Background
 {
+    public delegate void BackgroundRequestComplete(BackgroundRequest req);
 
     public class BackgroundRequest
     {
@@ -56,8 +57,15 @@ namespace WikiFunctions.Background
 
         Thread BgThread;
 
+        public event BackgroundRequestComplete Complete;
+
         public BackgroundRequest()
         {
+        }
+
+        public BackgroundRequest(BackgroundRequestComplete handler)
+        {
+            Complete += handler;
         }
 
         /// <summary>
@@ -68,19 +76,42 @@ namespace WikiFunctions.Background
             while (!Done) Application.DoEvents();
         }
 
+        /// <summary>
+        /// aborts processing and terminates the thread
+        /// </summary>
+        public void Abort()
+        {
+            if (ui != null) ui.Close();
+            ui = null;
+
+            if (BgThread != null) BgThread.Abort();
+            Wait();
+            Result = null;
+        }
+
         protected string strParam;
         protected object objParam1;
         protected object objParam2;
         protected object objParam3;
         protected int intParam;
 
+        private void InitThread(ThreadStart start)
+        {
+            BgThread = new Thread(start);
+            BgThread.IsBackground = true;
+            BgThread.Start();
+        }
+
+        private void InvokeOnComplete()
+        {
+            if (Complete != null) Complete(this);
+        }
+
         public void GetHTML(string url)
         {
             strParam = url;
 
-            BgThread = new Thread(new ThreadStart(GetHTMLFunc));
-            BgThread.IsBackground = true;
-            BgThread.Start();
+            InitThread(new ThreadStart(GetHTMLFunc));
         }
 
         private void GetHTMLFunc()
@@ -88,6 +119,7 @@ namespace WikiFunctions.Background
             try
             {
                 Result = Tools.GetHTML(strParam);
+                InvokeOnComplete();
             }
             catch (Exception e)
             {
@@ -107,6 +139,7 @@ namespace WikiFunctions.Background
             try
             {
                 Result = (d as Delegate).DynamicInvoke();
+                InvokeOnComplete();
             }
             catch (Exception e)
             {
@@ -123,10 +156,8 @@ namespace WikiFunctions.Background
 
             if (HasUI) ui = new PleaseWait();
 
-            BgThread = new Thread(new ThreadStart(BypassRedirectsFunc));
-            BgThread.IsBackground = true;
             if (HasUI) ui.Show(Variables.MainForm as Form);
-            BgThread.Start();
+            InitThread(new ThreadStart(BypassRedirectsFunc));
         }
 
         private void BypassRedirectsFunc()
@@ -239,6 +270,7 @@ namespace WikiFunctions.Background
 
                 
                 Result = strParam;
+                InvokeOnComplete();
                 //ui.Close();
             }
             catch(Exception e)
@@ -261,11 +293,8 @@ namespace WikiFunctions.Background
             intParam = Limit;
 
             if (HasUI) ui = new PleaseWait();
-            BgThread = new Thread(new ThreadStart(GetListFunc));
-
-            BgThread.IsBackground = true;
             if (HasUI) ui.Show(Variables.MainForm as Form);
-            BgThread.Start();
+            InitThread(new ThreadStart(GetListFunc));
         }
 
         /// <summary>
@@ -290,6 +319,7 @@ namespace WikiFunctions.Background
             try
             {
                 Result = GetLists.FromVariant((GetLists.From)objParam1, intParam, (string[])objParam2);
+                InvokeOnComplete();
             }
             catch (Exception e)
             {
