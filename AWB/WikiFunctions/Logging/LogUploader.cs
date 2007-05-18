@@ -104,6 +104,7 @@ namespace WikiFunctions.Logging.Uploader
         protected bool mLogXHTML = false;
         protected bool mLogWiki = true;
         protected bool mUploadAddToWatchlist = true;
+        protected bool mLogSQL = false;
         protected string mUploadLocation = "";
         protected string mUploadJobName = "";
 
@@ -116,6 +117,11 @@ namespace WikiFunctions.Logging.Uploader
         {
             get { return mLogWiki; }
             set { mLogWiki = value; }
+        }
+        public virtual bool LogSQL
+        {
+            get { return mLogSQL; }
+            set { mLogSQL = value; }
         }
         public virtual bool UploadAddToWatchlist
         {

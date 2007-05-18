@@ -326,6 +326,7 @@ namespace AutoWikiBrowser
             this.copyToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
+            this.tpLogging = new System.Windows.Forms.TabPage();
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -1983,6 +1984,7 @@ namespace AutoWikiBrowser
             this.tabControl1.Controls.Add(this.tpMoreOptions);
             this.tabControl1.Controls.Add(this.tpDab);
             this.tabControl1.Controls.Add(this.tpBots);
+            this.tabControl1.Controls.Add(this.tpLogging);
             this.tabControl1.Controls.Add(this.tpStart);
             this.tabControl1.HotTrack = true;
             this.tabControl1.Location = new System.Drawing.Point(218, 3);
@@ -3054,6 +3056,16 @@ namespace AutoWikiBrowser
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
             // 
+            // tpLogging
+            // 
+            this.tpLogging.Location = new System.Drawing.Point(4, 22);
+            this.tpLogging.Name = "tpLogging";
+            this.tpLogging.Padding = new System.Windows.Forms.Padding(3);
+            this.tpLogging.Size = new System.Drawing.Size(278, 351);
+            this.tpLogging.TabIndex = 6;
+            this.tpLogging.Text = "Logging";
+            this.tpLogging.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3423,6 +3435,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Button btnProtect;
         private System.Windows.Forms.ContextMenuStrip mnuWebBrowserDiff;
         private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem2;
+        private System.Windows.Forms.TabPage tpLogging;
 
 
     }

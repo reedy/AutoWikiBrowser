@@ -1,3 +1,23 @@
+/*
+(C) 2007 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*/
+
+// From the Kingbotk plugin. Converted from VB to C#
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,11 +40,11 @@ namespace AutoWikiBrowser
     {
         private bool mStartingUp;
         internal UsernamePassword LoginDetails = new UsernamePassword();
-        private TextBox mCategoryTextBox;
+        private TextBox mCategoryTextBox; // TODO: If this tab gets the category box, we'll be able to get rid of this (and in the constructor)
         private bool mInitialised;
         internal Props Settings = new Props();
 
-        public LoggingSettings(TextBox CategoryTextBox, IAutoWikiBrowser Main)
+        public LoggingSettings(TextBox CategoryTextBox)
         {
             mStartingUp = true;
             mCategoryTextBox = CategoryTextBox;
@@ -160,6 +180,7 @@ namespace AutoWikiBrowser
             Settings.LogVerbose = VerboseCheckBox.Checked;
             Settings.LogWiki = WikiLogCheckBox.Checked;
             Settings.LogXHTML = XHTMLLogCheckBox.Checked;
+            Settings.LogSQL = SQLLogCheckBox.Checked;
             Settings.UploadYN = UploadCheckBox.Checked;
             Settings.UploadAddToWatchlist = UploadWatchlistCheckBox.Checked;
             Settings.UploadJobName = UploadJobNameTextBox.Text;
@@ -189,6 +210,8 @@ namespace AutoWikiBrowser
                 }
             }
         }
+        private void WeHaveUnappliedChanges(object sender, EventArgs e)
+        { WeHaveUnappliedChanges(); }
         private void DisableApplyButton()
         {
             ApplyButton.Enabled = false;
@@ -237,10 +260,6 @@ namespace AutoWikiBrowser
 		{
 			GlobalObjects.MyTrace.Close();
 		}
-		private void LogBadTagsCheckBox_CheckedChanged(object sender, EventArgs e)
-		{
-			WeHaveUnappliedChanges();
-		}
 		private void WikiLogCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
 			if (WikiLogCheckBox.Checked && ! UploadCheckBox.Enabled)
@@ -261,18 +280,6 @@ namespace AutoWikiBrowser
 			EnableDisableUploadControls(UploadCheckBox.Checked);
 			WeHaveUnappliedChanges();
 		}
-		private void XHTMLLogCheckBox_CheckedChanged(object sender, EventArgs e)
-		{
-			WeHaveUnappliedChanges();
-		}
-		private void VerboseCheckBox_CheckedChanged(object sender, EventArgs e)
-		{
-			WeHaveUnappliedChanges();
-		}
-		private void FolderTextBox_TextChanged(object sender, EventArgs e)
-		{
-			WeHaveUnappliedChanges();
-		}
 		private void FolderButton_Click(object sender, EventArgs e)
 		{
 			if (FolderBrowserDialog1.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
@@ -280,30 +287,6 @@ namespace AutoWikiBrowser
 				FolderTextBox.Text = FolderBrowserDialog1.SelectedPath;
 				WeHaveUnappliedChanges();
 			}
-		}
-		private void UploadWikiProjectCheckBox_CheckedChanged(object sender, EventArgs e)
-		{
-			WeHaveUnappliedChanges();
-		}
-		private void UploadWatchlistCheckBox_CheckedChanged(object sender, EventArgs e)
-		{
-			WeHaveUnappliedChanges();
-		}
-		private void UploadOpenInBrowserCheckBox_CheckedChanged(object sender, EventArgs e)
-		{
-			WeHaveUnappliedChanges();
-		}
-		private void UploadLocationTextBox_TextChanged(object sender, EventArgs e)
-		{
-			WeHaveUnappliedChanges();
-		}
-		private void UploadJobNameTextBox_TextChanged(object sender, EventArgs e)
-		{
-			WeHaveUnappliedChanges();
-		}
-		private void UploadMaxLines_ValueChanged(object sender, EventArgs e)
-		{
-			WeHaveUnappliedChanges();
 		}
 #endregion
 
