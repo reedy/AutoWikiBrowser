@@ -44,12 +44,14 @@ namespace WikiFunctions.AWBProfiles
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnLogin = new System.Windows.Forms.Button();
+            this.colID = new System.Windows.Forms.ColumnHeader();
             this.mnuAccounts.SuspendLayout();
             this.SuspendLayout();
             // 
             // lvAccounts
             // 
             this.lvAccounts.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colID,
             this.colAccountName,
             this.colPasswordSaved,
             this.colProfileSettings,
@@ -57,7 +59,7 @@ namespace WikiFunctions.AWBProfiles
             this.lvAccounts.ContextMenuStrip = this.mnuAccounts;
             this.lvAccounts.Location = new System.Drawing.Point(12, 12);
             this.lvAccounts.Name = "lvAccounts";
-            this.lvAccounts.Size = new System.Drawing.Size(447, 179);
+            this.lvAccounts.Size = new System.Drawing.Size(464, 179);
             this.lvAccounts.TabIndex = 0;
             this.lvAccounts.UseCompatibleStateImageBehavior = false;
             this.lvAccounts.View = System.Windows.Forms.View.Details;
@@ -75,12 +77,12 @@ namespace WikiFunctions.AWBProfiles
             // colProfileSettings
             // 
             this.colProfileSettings.Text = "Profile Default Settings";
-            this.colProfileSettings.Width = 141;
+            this.colProfileSettings.Width = 125;
             // 
             // colNotes
             // 
             this.colNotes.Text = "Notes";
-            this.colNotes.Width = 93;
+            this.colNotes.Width = 83;
             // 
             // mnuAccounts
             // 
@@ -157,11 +159,16 @@ namespace WikiFunctions.AWBProfiles
             this.btnLogin.UseVisualStyleBackColor = true;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
             // 
+            // colID
+            // 
+            this.colID.Text = "ID";
+            this.colID.Width = 32;
+            // 
             // AWBProfilesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(471, 248);
+            this.ClientSize = new System.Drawing.Size(488, 248);
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.lvAccounts);
             this.Controls.Add(this.btnDelete);
@@ -191,5 +198,6 @@ namespace WikiFunctions.AWBProfiles
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnLogin;
         private System.Windows.Forms.ToolStripMenuItem changePasswordToolStripMenuItem;
+        private System.Windows.Forms.ColumnHeader colID;
     }
 }
