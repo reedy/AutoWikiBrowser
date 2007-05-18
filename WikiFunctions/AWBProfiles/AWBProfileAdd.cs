@@ -32,5 +32,10 @@ namespace WikiFunctions.AWBProfiles
             if (openDefaultFile.ShowDialog() == DialogResult.OK)
                 txtPath.Text = openDefaultFile.FileName;
         }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Yes;
+        }
     }
 }
