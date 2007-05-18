@@ -12,6 +12,8 @@ namespace WikiFunctions.AWBProfiles
 {
     public partial class AWBProfileAdd : Form
     {
+        AWBProfile AWBProfile = new AWBProfile();
+
         public AWBProfileAdd()
         {
             InitializeComponent();
@@ -35,6 +37,15 @@ namespace WikiFunctions.AWBProfiles
 
         private void btnSave_Click(object sender, EventArgs e)
         {
+            Profile profile = new Profile();
+
+            profile.username = txtUsername.Text;
+            profile.password = txtPassword.Text;
+            profile.defaultsettings = txtPath.Text;
+            profile.notes = txtNotes.Text;
+
+            AWBProfile.SaveProfile(profile);
+
             this.DialogResult = DialogResult.Yes;
         }
     }
