@@ -60,6 +60,13 @@ namespace WikiFunctions.Logging
         /// <returns><b>True</b> if the trace listener can upload to Wikipedia</returns>
         bool Uploadable { get; }
     }
+
+    public interface IAWBTraceListener : IMyTraceListener
+    {
+        void AWBSkipped(string Reason);
+        void UserSkipped();
+        void PluginSkipped();
+    }
 }
 
 #region Namespaces

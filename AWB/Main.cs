@@ -179,7 +179,7 @@ namespace AutoWikiBrowser
                 Variables.MainForm = this;
                 updateUpdater();
 
-                GlobalObjects.MyTrace.LoggingSettings = loggingSettings1;
+                GlobalObjects.MyTrace.LS = loggingSettings1;
 
                 try
                 {
@@ -234,8 +234,8 @@ namespace AutoWikiBrowser
 
         #region Properties
 
-        Article stredittingarticle = new Article("");
-        public Article TheArticle
+        ArticleWithLogging stredittingarticle; // = new ArticleWithLogging("");
+        internal ArticleWithLogging TheArticle
         {
             get { return stredittingarticle; }
             private set { stredittingarticle = value; }
@@ -391,7 +391,7 @@ namespace AutoWikiBrowser
 
                 StopDelayedRestartTimer();
                 DisableButtons();
-                TheArticle.EditSummary = "";
+                //TheArticle.EditSummary = "";
                 skippable = true;
                 txtEdit.Clear();
 
@@ -421,9 +421,9 @@ namespace AutoWikiBrowser
                 else
                     webBrowserEdit.Busy = true;
 
-                TheArticle = listMaker1.SelectedArticle();
-                AutoWikiBrowser.Logging.MyTrace.InitialiseLogListener(TheArticle);
-                NewHistory();                    
+                TheArticle = ArticleWithLogging.SwitchToNewArticleObject(TheArticle, 
+                    (ArticleWithLogging)listMaker1.SelectedArticle());
+                NewHistory();
 
                 if (!Tools.IsValidTitle(TheArticle.Name))
                 {
@@ -462,7 +462,7 @@ namespace AutoWikiBrowser
             //check for redirect
             if (bypassRedirectsToolStripMenuItem.Checked && Tools.IsRedirect(strTemp) && !PageReload)
             {
-                Article Redirect = new Article(Tools.RedirectTarget(strTemp));
+                ArticleWithLogging Redirect = new ArticleWithLogging(Tools.RedirectTarget(strTemp));
 
                 if (Redirect.Name == TheArticle.Name)
                 {//ignore recursive redirects
@@ -471,8 +471,7 @@ namespace AutoWikiBrowser
                 }
 
                 listMaker1.ReplaceArticle(TheArticle, Redirect);
-                TheArticle = Redirect;
-                AutoWikiBrowser.Logging.MyTrace.InitialiseLogListener(TheArticle);
+                TheArticle = ArticleWithLogging.SwitchToNewArticleObject(TheArticle, Redirect);
 
                 webBrowserEdit.LoadEditPage(Redirect.Name);
                 return;
@@ -818,18 +817,19 @@ namespace AutoWikiBrowser
             switch (reason)
             {
                 case "user":
-                TheArticle.LogListener.UserSkipped();
-                break;
+                    TheArticle.Trace.UserSkipped();
+                    break;
 
                 case "plugin":
-                TheArticle.LogListener.PluginSkipped();
-                break;
+                    TheArticle.Trace.PluginSkipped();
+                    break;
 
-                case "": break;
+                case "":
+                    break;
 
                 default:
-                TheArticle.LogListener.AWBSkipped(reason);
-                break;
+                    TheArticle.Trace.AWBSkipped(reason);
+                    break;
             }
 
             SkipPageReasonAlreadyProvided();
@@ -981,7 +981,7 @@ namespace AutoWikiBrowser
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                TheArticle.LogListener.AWBSkipped("Error");
+                TheArticle.Trace.AWBSkipped("Error");
             }
         }
 
@@ -2888,7 +2888,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             {
                 string name = txtDabLink.Text.Trim();
                 if (name.Contains("|")) name = name.Substring(0, name.IndexOf('|') - 1);
-                Article link = new Article(name);
+                Article link = new WikiFunctions.Article(name);
                 List<Article> l = GetLists.FromLinksOnPage(txtDabLink.Text);
                 txtDabVariants.Text = "";
                 foreach (Article a in l)

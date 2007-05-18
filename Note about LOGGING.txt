@@ -1,9 +1,0 @@
-This is how the kingbotk plugin currently deals with logging. Whether a new AWB solution based on the classes in WikiFunctions is written, or whether the existing VB code is ported, some or all of this will be helpful in getting all it to work:
-
-*A tabpage currently called PluginLogging. Declares and exposes an instance of a child class called Props, which inherits UploadableLogSettings2 from WikiFunctions. A similar tab page and properties class will be needed in *AWB*. Currently the settings when read from file use an XML block and code which remains in kingbot plugin; may want to change this e.g. to serialisation.
-
-*Tab also uses LED control, which will need to be in *WikiFunctions*
-
-*MyTrace log manager class, which inherits from TraceManager and implements IMyTraceListener. A management wrapper around a collection of IMyTraceLogListener objects (XHTML, wiki, bad - probably will scrap the last one). This will be needed in *AWB* and we will need to pass it to plugins in the IAutoWikiBrowser object.
-
-*Currently kingbotk plugin manages it's MyTrace object based on user settings in the tab control; and it adds the ProcessArticleEventArgs.AWBLogItem to the trace listeners collection each time it receives an article for processing. Instead, AWB will have to add the AWBLogItem to the collection each time an article is processed, and the kingbotk plugin will have to call IAutoWikiBrowser.TraceManager instead of calls to it's own MyTrace class

@@ -117,7 +117,7 @@ namespace WikiFunctions.Plugin
         string ArticleTitle { get; }
         string EditSummary { get; set; }
         int NameSpaceKey { get; }
-        IMyTraceListener AWBLogItem { get; }
+        //IMyTraceListener AWBLogItem { get; }
         bool Skip { get; set; }
     }
 
