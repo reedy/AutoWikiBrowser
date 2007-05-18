@@ -266,5 +266,11 @@ ExitMeEarly:
         End Sub
         Public Sub Nudged(ByVal Nudges As Integer) Implements IAWBPlugin.Nudged
         End Sub
+
+        Public ReadOnly Property WikiName() As String Implements WikiFunctions.Plugin.IAWBPlugin.WikiName
+            Get
+                Return Name
+            End Get
+        End Property
     End Class
 End Namespace
