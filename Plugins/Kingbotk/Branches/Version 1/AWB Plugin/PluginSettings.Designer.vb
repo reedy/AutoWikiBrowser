@@ -64,11 +64,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.GroupBox4 = New System.Windows.Forms.GroupBox
             Me.PluginMenuStrip = New System.Windows.Forms.MenuStrip
             Me.PluginToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.UploadUsernameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
-            Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
-            Me.SetAWBToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator
             Me.MenuAbout = New System.Windows.Forms.ToolStripMenuItem
             Me.MenuHelp = New System.Windows.Forms.ToolStripMenuItem
             Me.MenuHelpReleaseNotes = New System.Windows.Forms.ToolStripMenuItem
@@ -104,6 +99,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.BotTimer = New System.Windows.Forms.Timer(Me.components)
             Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
             Me.TimerStats1 = New AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.TimerStats
+            Me.SetAWBToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.AWBGroupBox.SuspendLayout()
             Me.GroupBox2.SuspendLayout()
             Me.ArticleStatsGroupBox.SuspendLayout()
@@ -557,47 +553,17 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.PluginMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PluginToolStripMenuItem, Me.MenuAbout, Me.MenuHelp, Me.MenuHelpReleaseNotes})
             Me.PluginMenuStrip.Location = New System.Drawing.Point(0, 0)
             Me.PluginMenuStrip.Name = "PluginMenuStrip"
-            Me.PluginMenuStrip.Size = New System.Drawing.Size(549, 24)
+            Me.PluginMenuStrip.Size = New System.Drawing.Size(641, 24)
             Me.PluginMenuStrip.TabIndex = 42
             Me.PluginMenuStrip.Text = "MenuStrip1"
             Me.PluginMenuStrip.Visible = False
             '
             'PluginToolStripMenuItem
             '
-            Me.PluginToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UploadUsernameToolStripMenuItem, Me.ToolStripMenuItem1, Me.ToolStripSeparator2, Me.SetAWBToolStripMenuItem, Me.ToolStripSeparator3})
+            Me.PluginToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SetAWBToolStripMenuItem})
             Me.PluginToolStripMenuItem.Name = "PluginToolStripMenuItem"
             Me.PluginToolStripMenuItem.Size = New System.Drawing.Size(91, 20)
             Me.PluginToolStripMenuItem.Text = "Kingbotk Plugin"
-            '
-            'UploadUsernameToolStripMenuItem
-            '
-            Me.UploadUsernameToolStripMenuItem.Name = "UploadUsernameToolStripMenuItem"
-            Me.UploadUsernameToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
-            Me.UploadUsernameToolStripMenuItem.Text = "Set username/password for uploading"
-            '
-            'ToolStripMenuItem1
-            '
-            Me.ToolStripMenuItem1.Enabled = False
-            Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-            Me.ToolStripMenuItem1.Size = New System.Drawing.Size(256, 22)
-            Me.ToolStripMenuItem1.Text = "Open skipped list"
-            '
-            'ToolStripSeparator2
-            '
-            Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-            Me.ToolStripSeparator2.Size = New System.Drawing.Size(253, 6)
-            '
-            'SetAWBToolStripMenuItem
-            '
-            Me.SetAWBToolStripMenuItem.Name = "SetAWBToolStripMenuItem"
-            Me.SetAWBToolStripMenuItem.Size = New System.Drawing.Size(256, 22)
-            Me.SetAWBToolStripMenuItem.Text = "Set AWB"
-            Me.SetAWBToolStripMenuItem.ToolTipText = "Reset AWB to default values suitable for use with the plugin"
-            '
-            'ToolStripSeparator3
-            '
-            Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-            Me.ToolStripSeparator3.Size = New System.Drawing.Size(253, 6)
             '
             'MenuAbout
             '
@@ -812,6 +778,13 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.TimerStats1.TabIndex = 44
             Me.TimerStats1.Visible = False
             '
+            'SetAWBToolStripMenuItem
+            '
+            Me.SetAWBToolStripMenuItem.Name = "SetAWBToolStripMenuItem"
+            Me.SetAWBToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.SetAWBToolStripMenuItem.Text = "Set AWB"
+            Me.SetAWBToolStripMenuItem.ToolTipText = "Reset AWB to default values suitable for use with the plugin"
+            '
             'PluginSettingsControl
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -877,11 +850,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Friend WithEvents GroupBox4 As System.Windows.Forms.GroupBox
         Friend WithEvents PluginMenuStrip As System.Windows.Forms.MenuStrip
         Friend WithEvents PluginToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
-        Friend WithEvents SetAWBToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents MenuAbout As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents ToolStripSeparator3 As System.Windows.Forms.ToolStripSeparator
         Friend WithEvents MenuHelp As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents Led1 As WikiFunctions.Controls.LED
         Friend WithEvents TimerStats1 As AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.TimerStats
@@ -923,11 +892,11 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Friend WithEvents TopPriorityMenuItem As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents ToolStripSeparator6 As System.Windows.Forms.ToolStripSeparator
         Friend WithEvents NAPriorityMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents UploadUsernameToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents btnDryRun As System.Windows.Forms.Button
         Friend WithEvents SaveFileDialog1 As System.Windows.Forms.SaveFileDialog
         Private WithEvents ETALabel As System.Windows.Forms.Label
         Friend WithEvents BotCheckBox As System.Windows.Forms.CheckBox
+        Friend WithEvents SetAWBToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
     End Class
 

@@ -34,7 +34,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 .CategoryTextBox.ContextMenuStrip.Items.Insert(0, LivingPeopleToolStripMenuItem)
                 .CategoryTextBox.ContextMenuStrip.Items.Insert(1, New ToolStripSeparator())
             End With
-            AddHandler Variables.User.UserNameChanged, AddressOf UsernameChanged
 
             StatLabels.AddRange(New Label() {lblTagged, lblSkipped, lblNoChange, lblBadTag, lblNamespace, lblNew, _
                lblRedlink})
@@ -168,9 +167,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Handles MenuHelpReleaseNotes.Click
             Tools.OpenENArticleInBrowser("Kingbotk/Plugin", True)
         End Sub
-        Private Sub UsernameToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles UploadUsernameToolStripMenuItem.Click
-            LoggingSettings.LoginDetails = New LoginForm().GetFromForm
-        End Sub
 
         ' Event handlers - our controls:
         Private Sub ManuallyAssessCheckBox_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
@@ -209,9 +205,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         End Sub
 
         ' Event handlers - AWB components (some additionally double-handled in Plugin Manager):
-        Private Shared Sub UsernameChanged(ByVal sender As Object, ByVal e As EventArgs)
-            If Not Variables.User.Name.Trim = "" Then PluginLogging.Props.UserName = Variables.User.Name
-        End Sub
         Private Sub AWBButtonsEnabledHandler(ByVal sender As Object, ByVal e As EventArgs)
             Dim btn As Button = DirectCast(sender, Button)
 
