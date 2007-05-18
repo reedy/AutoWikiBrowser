@@ -11,6 +11,7 @@ namespace WikiFunctions.AWBProfiles
     public partial class AWBProfilesForm : Form
     {
         private WikiFunctions.Browser.WebControl Browser;
+        AWBProfile AWBProfile = new AWBProfile();
 
         public AWBProfilesForm(WikiFunctions.Browser.WebControl browser)
         {
@@ -20,7 +21,21 @@ namespace WikiFunctions.AWBProfiles
 
         private void AWBProfiles_Load(object sender, EventArgs e)
         {
+            loadProfiles();
+        }
 
+        private void loadProfiles()
+        {
+            foreach (Profile profile in AWBProfile.GetProfiles())
+            {
+                ListViewItem item = new ListViewItem(profile.username);
+                if (profile.password != "")
+                    item.SubItems.Add("Yes");
+                else
+                    item.SubItems.Add("No");
+                item.SubItems.Add(profile.defaultsettings);
+                item.SubItems.Add(profile.notes);
+            }
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -43,6 +58,7 @@ namespace WikiFunctions.AWBProfiles
             AWBProfileAdd add = new AWBProfileAdd();
             if (add.ShowDialog() == DialogResult.Yes)
             {
+                loadProfiles();
             }
         }
     }
