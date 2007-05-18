@@ -173,7 +173,7 @@ namespace WikiFunctions.AWBSettings
     {
         public bool Enabled = false;
         public decimal SavePeriod = 30;
-        public string SaveFile = "Edit Box.txt";
+        public string SaveFile = "";
     }
 
     [Serializable]
