@@ -61,9 +61,13 @@ namespace WikiFunctions.Lists
             // as a string.
             catch
             {
-                // Compare the two items as a string.
-                returnVal = String.Compare(((ListViewItem)x).SubItems[col].Text,
-                            ((ListViewItem)y).SubItems[col].Text);
+                try
+                {
+                    // Compare the two items as a string.
+                    returnVal = String.Compare(((ListViewItem)x).SubItems[col].Text,
+                                ((ListViewItem)y).SubItems[col].Text);
+                }
+                catch { }
             }
             // Determine whether the sort order is descending.
             if (order == SortOrder.Descending)
