@@ -125,7 +125,7 @@ namespace AutoWikiBrowser.Logging
         {
             if (this.Uploadable && !LoggingSettings.LoginDetails.IsSet)
             {
-                /////////////////////////////////////////////////////////LoggingSettings.LoginDetails = new LoginForm().GetUsernamePassword; // TODO: This needs to be imported from plugin and fixed, but what about AWBProfiles? Encyryption? etc
+                LoggingSettings.LoginDetails = new LoginForm().GetUsernamePassword; // TODO: This needs to be imported from plugin and fixed, but what about AWBProfiles? Encyryption? etc
                 if (!LoggingSettings.LoginDetails.IsSet)
                 {
                     throw new System.Configuration.ConfigurationErrorsException("Error getting login details");
