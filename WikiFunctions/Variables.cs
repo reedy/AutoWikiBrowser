@@ -18,6 +18,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 // TODO: Please clean me!
 
+/* TODO: Template names and other constant strings used in Logging will need to be moved to Variables and internationalised.
+To retain it's ability for easy reuse, it might be best if the classes in WikiFunctions use constants,
+and the classes in AWB override those values and call .Variables? */
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -996,7 +1000,6 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
         /// <summary>
         /// returns URL to the given page, depends on project settings
         /// </summary>
-
         public static string NonPrettifiedURL(string title)
         {
             return URLLong + "index.php?title=" + Tools.WikiEncode(title);
