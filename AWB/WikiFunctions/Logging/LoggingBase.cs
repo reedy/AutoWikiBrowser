@@ -26,9 +26,6 @@ using WikiFunctions;
 using WikiFunctions.Logging;
 using WikiFunctions.Logging.Uploader;
 
-// TODO: Logging may need internationalisation if other plugins (or AWB) is to use it on sites other than en.
-// It currently references Wikipedia en templates and namespaces.
-
 namespace WikiFunctions.Logging
 {
     /// <summary>
@@ -38,7 +35,7 @@ namespace WikiFunctions.Logging
     {
 
 		// Initialisation
-private static Regex GetArticleTemplateRegex = new Regex("( talk)?:");
+        private static Regex GetArticleTemplateRegex = new Regex("( talk)?:");
 
 		public TraceListenerBase(string filename) : base(filename, false, System.Text.Encoding.UTF8)
 		{
@@ -120,7 +117,8 @@ private static Regex GetArticleTemplateRegex = new Regex("( talk)?:");
 						templ = "ln";
 					}
 
-					return "#{{subst:" + templ + "|" + strnamespace + "|" + WikiFunctions.Tools.RemoveNamespaceString(ArticleFullTitle).Trim() + "}}";
+					return "#{{subst:" + templ + "|" + strnamespace + "|" + 
+                        WikiFunctions.Tools.RemoveNamespaceString(ArticleFullTitle).Trim() + "}}";
 			}
 		}
 		public abstract bool Verbose {get;}
@@ -204,9 +202,6 @@ private static Regex GetArticleTemplateRegex = new Regex("( talk)?:");
 			return UploadLog(false);
 		}
 
-        /* Kingboyk: The utility had got this WRONG. The VB code passed the return variable of the function to the Upload
-         * event ***By Reference***. This utility wrote code which always returned false.
-         * Using reflector is more sensible because that converts the actual IL code. */
 		public virtual bool UploadLog(bool NewJob)
 		{
             bool retval = false;
