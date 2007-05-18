@@ -52,7 +52,7 @@ namespace WikiFunctions.Controls
             get { return col; }
             set
             {
-                switch (col)
+                switch (value)
                 {
                     case Colour.Blue:
                         br = Brushes.Blue;
