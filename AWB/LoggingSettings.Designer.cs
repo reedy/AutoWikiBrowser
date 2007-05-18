@@ -29,7 +29,6 @@ namespace AutoWikiBrowser
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.CloseAllButton = new System.Windows.Forms.Button();
             this.ApplyButton = new System.Windows.Forms.Button();
             this.GroupBox3 = new System.Windows.Forms.GroupBox();
             this.GroupBox7 = new System.Windows.Forms.GroupBox();
@@ -89,20 +88,10 @@ namespace AutoWikiBrowser
             this.MaxLinesContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
-            // CloseAllButton
-            // 
-            this.CloseAllButton.Location = new System.Drawing.Point(80, 222);
-            this.CloseAllButton.Name = "CloseAllButton";
-            this.CloseAllButton.Size = new System.Drawing.Size(56, 23);
-            this.CloseAllButton.TabIndex = 27;
-            this.CloseAllButton.Text = "Close";
-            this.CloseAllButton.UseVisualStyleBackColor = true;
-            this.CloseAllButton.Click += new System.EventHandler(this.CloseAllButton_Click);
-            // 
             // ApplyButton
             // 
             this.ApplyButton.Enabled = false;
-            this.ApplyButton.Location = new System.Drawing.Point(14, 222);
+            this.ApplyButton.Location = new System.Drawing.Point(41, 222);
             this.ApplyButton.Name = "ApplyButton";
             this.ApplyButton.Size = new System.Drawing.Size(60, 23);
             this.ApplyButton.TabIndex = 26;
@@ -439,7 +428,7 @@ namespace AutoWikiBrowser
             this.GroupBox4.Controls.Add(this.FolderButton);
             this.GroupBox4.Location = new System.Drawing.Point(6, 134);
             this.GroupBox4.Name = "GroupBox4";
-            this.GroupBox4.Size = new System.Drawing.Size(114, 73);
+            this.GroupBox4.Size = new System.Drawing.Size(119, 73);
             this.GroupBox4.TabIndex = 20;
             this.GroupBox4.TabStop = false;
             this.GroupBox4.Text = "Folder";
@@ -448,7 +437,7 @@ namespace AutoWikiBrowser
             // 
             this.FolderTextBox.Location = new System.Drawing.Point(6, 19);
             this.FolderTextBox.Name = "FolderTextBox";
-            this.FolderTextBox.Size = new System.Drawing.Size(100, 20);
+            this.FolderTextBox.Size = new System.Drawing.Size(107, 20);
             this.FolderTextBox.TabIndex = 15;
             this.FolderTextBox.TextChanged += new System.EventHandler(this.WeHaveUnappliedChanges);
             // 
@@ -522,12 +511,12 @@ namespace AutoWikiBrowser
             this.JobNameContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.JobNameResetToolStripMenuItem});
             this.JobNameContextMenuStrip.Name = "JobNameContextMenuStrip";
-            this.JobNameContextMenuStrip.Size = new System.Drawing.Size(103, 26);
+            this.JobNameContextMenuStrip.Size = new System.Drawing.Size(114, 26);
             // 
             // JobNameResetToolStripMenuItem
             // 
             this.JobNameResetToolStripMenuItem.Name = "JobNameResetToolStripMenuItem";
-            this.JobNameResetToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
+            this.JobNameResetToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
             this.JobNameResetToolStripMenuItem.Text = "Reset";
             this.JobNameResetToolStripMenuItem.Click += new System.EventHandler(this.JobNameReset);
             // 
@@ -536,12 +525,12 @@ namespace AutoWikiBrowser
             this.LocationContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.LocationResetToolStripMenuItem});
             this.LocationContextMenuStrip.Name = "LocationContextMenuStrip";
-            this.LocationContextMenuStrip.Size = new System.Drawing.Size(103, 26);
+            this.LocationContextMenuStrip.Size = new System.Drawing.Size(114, 26);
             // 
             // LocationResetToolStripMenuItem
             // 
             this.LocationResetToolStripMenuItem.Name = "LocationResetToolStripMenuItem";
-            this.LocationResetToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
+            this.LocationResetToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
             this.LocationResetToolStripMenuItem.Text = "Reset";
             this.LocationResetToolStripMenuItem.Click += new System.EventHandler(this.LocationReset);
             // 
@@ -551,19 +540,19 @@ namespace AutoWikiBrowser
             this.MaxLinesResetToolStripMenuItem,
             this.SetToMaximumToolStripMenuItem});
             this.MaxLinesContextMenuStrip.Name = "MaxLinesContextMenuStrip";
-            this.MaxLinesContextMenuStrip.Size = new System.Drawing.Size(151, 48);
+            this.MaxLinesContextMenuStrip.Size = new System.Drawing.Size(162, 48);
             // 
             // MaxLinesResetToolStripMenuItem
             // 
             this.MaxLinesResetToolStripMenuItem.Name = "MaxLinesResetToolStripMenuItem";
-            this.MaxLinesResetToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.MaxLinesResetToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.MaxLinesResetToolStripMenuItem.Text = "Reset";
             this.MaxLinesResetToolStripMenuItem.Click += new System.EventHandler(this.MaxLinesReset);
             // 
             // SetToMaximumToolStripMenuItem
             // 
             this.SetToMaximumToolStripMenuItem.Name = "SetToMaximumToolStripMenuItem";
-            this.SetToMaximumToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.SetToMaximumToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.SetToMaximumToolStripMenuItem.Text = "Set to maximum";
             this.SetToMaximumToolStripMenuItem.Click += new System.EventHandler(this.SetLinesToMaximum);
             // 
@@ -571,12 +560,11 @@ namespace AutoWikiBrowser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.CloseAllButton);
-            this.Controls.Add(this.ApplyButton);
             this.Controls.Add(this.GroupBox3);
             this.Controls.Add(this.GroupBox2);
             this.Controls.Add(this.GroupBox1);
             this.Controls.Add(this.Label1);
+            this.Controls.Add(this.ApplyButton);
             this.Name = "LoggingSettings";
             this.Size = new System.Drawing.Size(276, 349);
             this.GroupBox3.ResumeLayout(false);
@@ -603,7 +591,6 @@ namespace AutoWikiBrowser
 
         #endregion
 
-        private System.Windows.Forms.Button CloseAllButton;
         private System.Windows.Forms.Button ApplyButton;
         private System.Windows.Forms.GroupBox GroupBox3;
         private System.Windows.Forms.GroupBox GroupBox7;
