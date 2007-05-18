@@ -77,12 +77,12 @@ namespace WikiFunctions.AWBProfiles
         public void SaveProfile(Profile profile)
         {
             Microsoft.Win32.RegistryKey key = myComputer.Registry.CurrentUser.CreateSubKey(RegKey + "\\" + (CountSubKeys() + 1));
-            //profile.username = "Test";
-            //profile.password = "Test";
-            //profile.notes = "Notes";
-            //profile.defaultsettings = "Settings.xml";
+
             key.SetValue("User", Encrypt(profile.username));
-            key.SetValue("Pass", Encrypt(profile.password));
+            if (profile.password != "")
+                key.SetValue("Pass", Encrypt(profile.password));
+            else
+                key.SetValue("Pass", "");
             key.SetValue("Settings", profile.defaultsettings);
             key.SetValue("Notes", profile.notes);
         }

@@ -31,8 +31,12 @@ namespace WikiFunctions.AWBProfiles
 
         private void chkDefaultSettings_CheckedChanged(object sender, EventArgs e)
         {
-            if (openDefaultFile.ShowDialog() == DialogResult.OK)
-                txtPath.Text = openDefaultFile.FileName;
+            txtPath.Enabled = chkDefaultSettings.Checked;
+            if (chkDefaultSettings.Checked)
+            {
+                if (openDefaultFile.ShowDialog() == DialogResult.OK)
+                    txtPath.Text = openDefaultFile.FileName;
+            }
         }
 
         private void btnSave_Click(object sender, EventArgs e)

@@ -58,6 +58,12 @@
     <Compile Include="AWBProfiles\AWBProfiles.Designer.cs">
       <DependentUpon>AWBProfiles.cs</DependentUpon>
     </Compile>
+    <Compile Include="AWBProfiles\UserPassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AWBProfiles\UserPassword.Designer.cs">
+      <DependentUpon>UserPassword.cs</DependentUpon>
+    </Compile>
     <Compile Include="Background.cs" />
     <Compile Include="Controls\LED.cs">
       <SubType>UserControl</SubType>
@@ -265,6 +271,10 @@
     <EmbeddedResource Include="AWBProfiles\AWBProfiles.resx">
       <DependentUpon>AWBProfiles.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AWBProfiles\UserPassword.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>UserPassword.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\LED.resx">
       <SubType>Designer</SubType>

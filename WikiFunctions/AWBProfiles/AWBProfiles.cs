@@ -51,7 +51,10 @@ namespace WikiFunctions.AWBProfiles
                 }
                 else
                 {//Get Password from User
-                    //Browser.Login(lvAccounts.Items[lvAccounts.SelectedIndices[1]].Text, "");
+                    UserPassword password = new UserPassword();
+
+                    if (password.ShowDialog() == DialogResult.OK)
+                        Browser.Login(lvAccounts.Items[lvAccounts.SelectedIndices[1]].Text, password.GetPassword);
                 }
             }
         }
@@ -60,9 +63,7 @@ namespace WikiFunctions.AWBProfiles
         {
             AWBProfileAdd add = new AWBProfileAdd();
             if (add.ShowDialog() == DialogResult.Yes)
-            {
                 loadProfiles();
-            }
         }
     }
 }
