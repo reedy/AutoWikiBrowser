@@ -300,7 +300,9 @@ namespace AutoWikiBrowser
             this.tpLogging = new System.Windows.Forms.TabPage();
             this.loggingSettings1 = new AutoWikiBrowser.LoggingSettings();
             this.tpStart = new System.Windows.Forms.TabPage();
+            this.label3 = new System.Windows.Forms.Label();
             this.btnProtect = new System.Windows.Forms.Button();
+            this.chkLock = new System.Windows.Forms.CheckBox();
             this.lblSummary = new System.Windows.Forms.Label();
             this.btnMove = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
@@ -320,7 +322,6 @@ namespace AutoWikiBrowser
             this.lblInterLinks = new System.Windows.Forms.Label();
             this.lblCats = new System.Windows.Forms.Label();
             this.lblImages = new System.Windows.Forms.Label();
-            this.chkLock = new System.Windows.Forms.CheckBox();
             this.lblLinks = new System.Windows.Forms.Label();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tpEdit = new System.Windows.Forms.TabPage();
@@ -335,7 +336,6 @@ namespace AutoWikiBrowser
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
             this.toolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
-            this.label3 = new System.Windows.Forms.Label();
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -2742,6 +2742,14 @@ namespace AutoWikiBrowser
             this.tpStart.Text = "(3) Start";
             this.tpStart.UseVisualStyleBackColor = true;
             // 
+            // label3
+            // 
+            this.label3.Location = new System.Drawing.Point(100, 35);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(56, 18);
+            this.label3.TabIndex = 36;
+            this.label3.Text = "Category:";
+            // 
             // btnProtect
             // 
             this.btnProtect.Enabled = false;
@@ -2752,6 +2760,17 @@ namespace AutoWikiBrowser
             this.btnProtect.Text = "Protect";
             this.btnProtect.UseVisualStyleBackColor = true;
             this.btnProtect.Click += new System.EventHandler(this.btnProtect_Click);
+            // 
+            // chkLock
+            // 
+            this.chkLock.AutoSize = true;
+            this.chkLock.Location = new System.Drawing.Point(7, 34);
+            this.chkLock.Name = "chkLock";
+            this.chkLock.Size = new System.Drawing.Size(50, 17);
+            this.chkLock.TabIndex = 32;
+            this.chkLock.Text = "Lock";
+            this.chkLock.UseVisualStyleBackColor = true;
+            this.chkLock.CheckedChanged += new System.EventHandler(this.chkLock_CheckedChanged);
             // 
             // lblSummary
             // 
@@ -2974,17 +2993,6 @@ namespace AutoWikiBrowser
             this.lblImages.TabIndex = 19;
             this.lblImages.Text = "Images:";
             // 
-            // chkLock
-            // 
-            this.chkLock.AutoSize = true;
-            this.chkLock.Location = new System.Drawing.Point(7, 34);
-            this.chkLock.Name = "chkLock";
-            this.chkLock.Size = new System.Drawing.Size(50, 17);
-            this.chkLock.TabIndex = 32;
-            this.chkLock.Text = "Lock";
-            this.chkLock.UseVisualStyleBackColor = true;
-            this.chkLock.CheckedChanged += new System.EventHandler(this.chkLock_CheckedChanged);
-            // 
             // lblLinks
             // 
             this.lblLinks.AutoSize = true;
@@ -3144,14 +3152,6 @@ namespace AutoWikiBrowser
             // 
             this.toolStripSeparator25.Name = "toolStripSeparator25";
             this.toolStripSeparator25.Size = new System.Drawing.Size(149, 6);
-            // 
-            // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(100, 35);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(56, 18);
-            this.label3.TabIndex = 36;
-            this.label3.Text = "Category:";
             // 
             // MainForm
             // 

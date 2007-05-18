@@ -4,7 +4,7 @@ using System.Text;
 
 namespace WikiFunctions.AWBProfiles
 {
-    class AWBProfile
+    public class AWBProfile
     {
         protected string mUsername;
         private string mPassword; // or store in RAM encrypted

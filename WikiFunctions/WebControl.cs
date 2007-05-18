@@ -119,7 +119,6 @@ namespace WikiFunctions.Browser
             }
         }
 
-
         /// <summary>
         /// get or sets contents of edit box
         /// </summary>
@@ -168,13 +167,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public bool CanSave
         {
-            get
-            {
-                if (this.Document != null && this.Document.GetElementById("wpSave") != null)
-                    return true;
-                else
-                    return false;
-            }
+            get { return (this.Document != null && this.Document.GetElementById("wpSave") != null); }
         }
 
         /// <summary>
@@ -182,13 +175,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public bool CanPreview
         {
-            get
-            {
-                if (this.Document != null && this.Document.GetElementById("wpPreview") != null)
-                    return true;
-                else
-                    return false;
-            }
+            get { return (this.Document != null && this.Document.GetElementById("wpPreview") != null); }
         }
 
         /// <summary>
@@ -196,13 +183,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public bool CanDelete
         {
-            get
-            {
-                if (this.Document != null && this.Document.GetElementById("wpConfirmB") != null)
-                    return true;
-                else
-                    return false;
-            }
+            get { return (this.Document != null && this.Document.GetElementById("wpConfirmB") != null); }
         }
 
         /// <summary>
@@ -210,13 +191,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public bool CanProtect
         {
-            get
-            {
-                if (this.Document != null && this.Document.GetElementById("mw-Protect-submit") != null)
-                    return true;
-                else
-                    return false;
-            }
+            get { return (this.Document != null && this.Document.GetElementById("mw-Protect-submit") != null); }
         }
 
         /// <summary>
@@ -234,7 +209,7 @@ namespace WikiFunctions.Browser
                     return false;
                 else
                     return true;
-                }
+            }
             catch (Exception ex)
             {
                 throw new WebBrowserOperationsException("Error getting log-in status", ex);
@@ -265,6 +240,31 @@ namespace WikiFunctions.Browser
             {
                 return "";
             }
+        }
+
+        /// <summary>
+        /// Login Function for use in AWB Profiles
+        /// Allows username and password to be passed and then the user logged in
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        public void Login(string username, string password)
+        {
+            this.LoadLogInPage();
+
+            while(HasLoginBoxes)
+            {
+                this.Document.GetElementById("wpName1").InnerText = username;
+                this.Document.GetElementById("wpPassword1").InnerText = password;
+                this.Document.GetElementById("wpLoginattempt").InvokeMember("click");
+
+                return;
+            }
+        }
+
+        public bool HasLoginBoxes
+        {
+            get { return (this.Document != null && this.Document.Body.InnerHtml.Contains("wpName") == true && this.Document.Body.InnerHtml.Contains("wpPassword") == true); }
         }
 
         public UserInfo GetUserInfo()
@@ -532,7 +532,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public bool IsWatched()
         {
-                return (!(this.Document == null || this.Document.GetElementById("wpWatchthis").GetAttribute("checked") != "True"));
+            return (!(this.Document == null || this.Document.GetElementById("wpWatchthis").GetAttribute("checked") != "True"));
         }
 
         /// <summary>
@@ -795,7 +795,7 @@ namespace WikiFunctions.Browser
                 ProcessStage = enumProcessStage.none;
 
                 Status = "Ready to save";
-               
+
                 if (Loaded != null)
                     this.Loaded();
 
@@ -834,7 +834,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public bool MovePage(string OldTitle, string NewTitle, string Summary)
         {
-            AllowNavigation = true;            
+            AllowNavigation = true;
 
             Navigate(Variables.URL + "/wiki/Special:Movepage/" + OldTitle);
             Status = "Loading move page";
@@ -893,7 +893,7 @@ namespace WikiFunctions.Browser
                 AllowNavigation = false;
                 return false;
             }
-            
+
             Delete();
             Wait();
             AllowNavigation = false;
@@ -992,7 +992,8 @@ namespace WikiFunctions.Browser
 
     public class WebBrowserOperationsException : System.Exception
     {
-        public WebBrowserOperationsException(string message, Exception inner) : 
+        public WebBrowserOperationsException(string message, Exception inner)
+            :
             base("Web browser operations exception: " + message, inner) { }
     }
 }
