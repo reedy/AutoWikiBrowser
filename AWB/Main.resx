@@ -129,6 +129,15 @@
   <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>585, 17</value>
   </metadata>
+  <metadata name="mnuHistory.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>802, 46</value>
+  </metadata>
+  <data name="CategoryTextBox.ToolTip" xml:space="preserve">
+    <value>The name of the category being worked with here;  may be used by logging and sent to plugins (leave blank if you're not using $CATEGORY as a logging job name and not using the Kingbotk plugin or others which use this info)</value>
+  </data>
+  <metadata name="CategoryTextboxContextMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 83</value>
+  </metadata>
   <metadata name="saveListDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>682, 17</value>
   </metadata>
@@ -599,9 +608,17 @@
   <metadata name="EditBoxSaveTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>454, 48</value>
   </metadata>
-  <metadata name="mnuHistory.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>802, 46</value>
-  </metadata>
+  <data name="loggingSettings1.SerialisableSettings" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAERXaWtpRnVuY3Rpb25zLCBWZXJzaW9uPTMuOS4yLjAsIEN1bHR1
+        cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49bnVsbAUBAAAAJldpa2lGdW5jdGlvbnMuQVdCU2V0dGlu
+        Z3MuTG9nZ2luZ1ByZWZzDAAAAAlMb2dGb2xkZXIKTG9nVmVyYm9zZQdMb2dXaWtpCExvZ1hIVE1MCFVw
+        bG9hZFlOFFVwbG9hZEFkZFRvV2F0Y2hsaXN0DVVwbG9hZEpvYk5hbWUOVXBsb2FkTG9jYXRpb24IQ2F0
+        ZWdvcnkOVXBsb2FkTWF4TGluZXMTVXBsb2FkT3BlbkluQnJvd3NlchRVcGxvYWRUb1dpa2lQcm9qZWN0
+        cwEAAAAAAAEBAQAAAAEBAQEBCAEBAgAAAAYDAAAAAAABAAABBgQAAAAJJENBVEVHT1JZBgUAAAAKJFVT
+        RVIvTG9ncwkEAAAA6AMAAAEBCw==
+</value>
+  </data>
   <metadata name="mnuWebBrowserDiff.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>441, 17</value>
   </metadata>
@@ -609,7 +626,7 @@
     <value>350, 48</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>86</value>
+    <value>107</value>
   </metadata>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

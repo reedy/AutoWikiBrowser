@@ -40,17 +40,13 @@ namespace AutoWikiBrowser
     {
         private bool mStartingUp;
         internal UsernamePassword LoginDetails = new UsernamePassword();
-        private TextBox mCategoryTextBox; // TODO: If this tab gets the category box, we'll be able to get rid of this (and in the constructor)
         private bool mInitialised;
         internal Props Settings = new Props();
 
-        public LoggingSettings(TextBox CategoryTextBox)
+        public LoggingSettings() : base()
         {
             mStartingUp = true;
-            mCategoryTextBox = CategoryTextBox;
-
             InitializeComponent();
-
             mStartingUp = false;
         }
 
@@ -175,7 +171,7 @@ namespace AutoWikiBrowser
 
             bool blnJobNameHasChanged = (!(Settings.UploadJobName == UploadJobNameTextBox.Text)) || 
                 (UploadJobNameTextBox.Text == Props.conUploadCategoryIsJobName && 
-                !(Settings.Category == mCategoryTextBox.Text));
+                !(Settings.Category == GlobalObjects.AWB.CategoryTextBox.Text));
 
             Settings.LogVerbose = VerboseCheckBox.Checked;
             Settings.LogWiki = WikiLogCheckBox.Checked;
@@ -186,7 +182,7 @@ namespace AutoWikiBrowser
             Settings.UploadJobName = UploadJobNameTextBox.Text;
             Settings.UploadLocation = UploadLocationTextBox.Text;
             Settings.UploadMaxLines = System.Convert.ToInt32(UploadMaxLinesControl.Value);
-            Settings.Category = mCategoryTextBox.Text;
+            Settings.Category = GlobalObjects.AWB.CategoryTextBox.Text;
             Settings.UploadOpenInBrowser = UploadOpenInBrowserCheckBox.Checked;
             Settings.UploadToWikiProjects = UploadWikiProjectCheckBox.Checked;
 
