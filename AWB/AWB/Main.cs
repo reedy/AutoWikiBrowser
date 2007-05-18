@@ -1665,6 +1665,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             logOutDebugToolStripMenuItem.Visible = true;
             bypassAllRedirectsToolStripMenuItem.Enabled = true;
             webBrowserEdit.IsWebBrowserContextMenuEnabled = true;
+            toolStripSeparator24.Visible = true;
             recycleWebControlToolStripMenuItem.Visible = true;
         }
 
