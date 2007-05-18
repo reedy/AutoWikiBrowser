@@ -1,5 +1,7 @@
 Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
     Friend NotInheritable Class PluginSettingsControl
+        Private WithEvents LivingPeopleToolStripMenuItem As New ToolStripMenuItem("Living people")
+
         ' XML parm-name constants:
         Private Const conCategoryNameParm As String = "CategoryName"
         Private Const conManuallyAssessParm As String = "ManuallyAssess"
@@ -11,6 +13,47 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         ' Statistics:
         Friend WithEvents PluginStats As New Stats
         Private StatLabels As New List(Of Label)
+
+        Public Sub New()
+            ' This call is required by the Windows Form Designer and must come first:
+            InitializeComponent()
+
+            With PluginManager.AWBForm
+                AddHandler .SkipButton.Click, AddressOf Me.AWBSkipButtonClickEventHandler
+                ' Get notification when AWB buttons enabled-state changes:
+                AddHandler .DiffButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
+                AddHandler .StopButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
+                AddHandler .StartButton.EnabledChanged, AddressOf Me.AWBStartButtonEnabledHandler
+                AddHandler .PreviewButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
+                AddHandler .SaveButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
+                AddHandler .SkipButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
+                AddHandler WikiFunctions.Variables.User.BotStatusChanged, AddressOf Me.BotStatusChangedHandler
+                'AddHandler .BotModeCheckbox.VisibleChanged, AddressOf Me.AWBBotModeVisibleChanged
+                AddHandler .BotModeCheckbox.EnabledChanged, AddressOf Me.AWBBotModeEnabledChanged
+                AddHandler .BotModeCheckbox.CheckedChanged, AddressOf Me.AWBBotModeCheckedChanged
+                .CategoryTextBox.ContextMenuStrip.Items.Insert(0, LivingPeopleToolStripMenuItem)
+                .CategoryTextBox.ContextMenuStrip.Items.Insert(1, New ToolStripSeparator())
+            End With
+            AddHandler Variables.User.UserNameChanged, AddressOf UsernameChanged
+
+            StatLabels.AddRange(New Label() {lblTagged, lblSkipped, lblNoChange, lblBadTag, lblNamespace, lblNew, _
+               lblRedlink})
+
+            ' Initialise enabled state of our replica buttons:
+            AWBButtonsEnabledHandler(PluginManager.AWBForm.StartTab.Controls("btnDiff"), Nothing)
+            AWBButtonsEnabledHandler(PluginManager.AWBForm.StartTab.Controls("btnStop"), Nothing)
+            AWBStartButtonEnabledHandler(PluginManager.AWBForm.StartTab.Controls("btnStart"), Nothing)
+            AWBButtonsEnabledHandler(PluginManager.AWBForm.StartTab.Controls("btnPreview"), Nothing)
+            AWBButtonsEnabledHandler(PluginManager.AWBForm.SaveButton, Nothing)
+            AWBButtonsEnabledHandler(PluginManager.AWBForm.SkipButton, Nothing)
+
+            ' Initialise bot checkbox:
+            With PluginManager.AWBForm.BotModeCheckbox
+                BotCheckBox.Enabled = .Enabled
+                BotCheckBox.Checked = .Checked
+                BotCheckBox.Visible = WikiFunctions.Variables.User.IsBot
+            End With
+        End Sub
 
         ' AWB processing stopped/started:
         Friend Sub AWBProcessingStart(ByVal webcontrol As WikiFunctions.Browser.WebControl)
@@ -28,10 +71,10 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
 
         Public Property CategoryName() As String
             Get
-                Return Regex.Replace(CategoryTextBox.Text, "^category:", "", RegexOptions.IgnoreCase)
+                Return Regex.Replace(PluginManager.AWBForm.CategoryTextBox.Text, "^category:", "", RegexOptions.IgnoreCase)
             End Get
             Set(ByVal value As String)
-                CategoryTextBox.Text = value
+                PluginManager.AWBForm.CategoryTextBox.Text = value
             End Set
         End Property
         Public Property ManuallyAssess() As Boolean
@@ -77,7 +120,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
 
         ' XML interface:
         Public Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader)
-            CategoryName = PluginManager.XMLReadString(Reader, conCategoryNameParm, CategoryName)
+            CategoryNameTextBox = PluginManager.XMLReadString(Reader, conCategoryNameParm, CategoryNameTextBox)
             ManuallyAssess = PluginManager.XMLReadBoolean(Reader, conManuallyAssessParm, ManuallyAssess)
             Cleanup = PluginManager.XMLReadBoolean(Reader, conCleanupParm, Cleanup)
             SkipBadTags = PluginManager.XMLReadBoolean(Reader, conSkipBadTagsParm, SkipBadTags)
@@ -86,7 +129,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                conAssessmentsAlwaysLeaveACommentParm, AssessmentsAlwaysLeaveAComment)
         End Sub
         Public Sub Reset()
-            CategoryName = ""
+            CategoryNameTextBox = ""
             ManuallyAssess = False
             Cleanup = False
             PluginStats = New Stats
@@ -95,7 +138,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             AssessmentsAlwaysLeaveAComment = False
         End Sub
         Public Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter)
-            Writer.WriteAttributeString(conCategoryNameParm, CategoryName)
+            Writer.WriteAttributeString(conCategoryNameParm, CategoryNameTextBox)
             Writer.WriteAttributeString(conManuallyAssessParm, ManuallyAssess.ToString)
             Writer.WriteAttributeString(conCleanupParm, Cleanup.ToString)
             Writer.WriteAttributeString(conSkipBadTagsParm, SkipBadTags.ToString)
@@ -113,12 +156,9 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 If .EditSummary.Text = "clean up" Then .EditSummary.Text = ""
             End With
         End Sub
-        Private Sub LivingPeopleToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) _
+        Private Sub LivingPeopleToolStripMenuItemClick(ByVal sender As Object, ByVal e As EventArgs) _
         Handles LivingPeopleToolStripMenuItem.Click
             CategoryName = "Living people"
-        End Sub
-        Private Sub ClearMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles ClearToolStripMenuItem.Click
-            CategoryName = ""
         End Sub
         Private Sub MenuAbout_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles MenuAbout.Click
             Dim about As New AboutBox()
@@ -130,18 +170,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Private Sub MenuHelpReleaseNotes_Click(ByVal sender As Object, ByVal e As System.EventArgs) _
         Handles MenuHelpReleaseNotes.Click
             Tools.OpenENArticleInBrowser("Kingbotk/Plugin", True)
-        End Sub
-        Private Sub CutToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) _
-        Handles CutToolStripMenuItem.Click
-            CategoryTextBox.Cut()
-        End Sub
-        Private Sub PasteToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) _
-        Handles PasteToolStripMenuItem.Click
-            CategoryTextBox.Paste()
-        End Sub
-        Private Sub CopyToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) _
-        Handles CopyToolStripMenuItem.Click
-            CategoryTextBox.Copy()
         End Sub
         Private Sub UsernameToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles UploadUsernameToolStripMenuItem.Click
             LoggingSettings.LoginDetails = New LoginForm().GetFromForm
@@ -174,7 +202,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Private Sub ResetTimerButton_Click(ByVal sender As Object, ByVal e As EventArgs) Handles ResetTimerButton.Click
             TimerStats1.Reset()
         End Sub
-        Private Sub CategoryTextBox_TextChanged(ByVal sender As Object, ByVal e As EventArgs) Handles CategoryTextBox.TextChanged
+        Private Sub CategoryTextBox_TextChanged(ByVal sender As Object, ByVal e As EventArgs)
             LoggingSettings.WeHaveUnappliedChanges()
         End Sub
         Private Sub btnStart_EnabledChanged(ByVal sender As Object, ByVal e As System.EventArgs) _
@@ -434,44 +462,5 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 SkippedRedLink = 0
             End Sub
         End Class
-
-        Public Sub New()
-            ' This call is required by the Windows Form Designer and must come first:
-            InitializeComponent()
-
-            With PluginManager.AWBForm
-                AddHandler .SkipButton.Click, AddressOf Me.AWBSkipButtonClickEventHandler
-                ' Get notification when AWB buttons enabled-state changes:
-                AddHandler .DiffButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
-                AddHandler .StopButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
-                AddHandler .StartButton.EnabledChanged, AddressOf Me.AWBStartButtonEnabledHandler
-                AddHandler .PreviewButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
-                AddHandler .SaveButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
-                AddHandler .SkipButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
-                AddHandler WikiFunctions.Variables.User.BotStatusChanged, AddressOf Me.BotStatusChangedHandler
-                'AddHandler .BotModeCheckbox.VisibleChanged, AddressOf Me.AWBBotModeVisibleChanged
-                AddHandler .BotModeCheckbox.EnabledChanged, AddressOf Me.AWBBotModeEnabledChanged
-                AddHandler .BotModeCheckbox.CheckedChanged, AddressOf Me.AWBBotModeCheckedChanged
-            End With
-            AddHandler Variables.User.UserNameChanged, AddressOf UsernameChanged
-
-            StatLabels.AddRange(New Label() {lblTagged, lblSkipped, lblNoChange, lblBadTag, lblNamespace, lblNew, _
-               lblRedlink})
-
-            ' Initialise enabled state of our replica buttons:
-            AWBButtonsEnabledHandler(PluginManager.AWBForm.StartTab.Controls("btnDiff"), Nothing)
-            AWBButtonsEnabledHandler(PluginManager.AWBForm.StartTab.Controls("btnStop"), Nothing)
-            AWBStartButtonEnabledHandler(PluginManager.AWBForm.StartTab.Controls("btnStart"), Nothing)
-            AWBButtonsEnabledHandler(PluginManager.AWBForm.StartTab.Controls("btnPreview"), Nothing)
-            AWBButtonsEnabledHandler(PluginManager.AWBForm.SaveButton, Nothing)
-            AWBButtonsEnabledHandler(PluginManager.AWBForm.SkipButton, Nothing)
-
-            ' Initialise bot checkbox:
-            With PluginManager.AWBForm.BotModeCheckbox
-                BotCheckBox.Enabled = .Enabled
-                BotCheckBox.Checked = .Checked
-                BotCheckBox.Visible = WikiFunctions.Variables.User.IsBot
-            End With
-        End Sub
     End Class
 End Namespace

@@ -51,24 +51,16 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.Label3 = New System.Windows.Forms.Label
             Me.Label2 = New System.Windows.Forms.Label
             Me.Label1 = New System.Windows.Forms.Label
-            Me.CategoryTextBox = New System.Windows.Forms.TextBox
-            Me.CategoryTextboxContextMenuStrip = New System.Windows.Forms.ContextMenuStrip(Me.components)
-            Me.LivingPeopleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
-            Me.CutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.CopyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.PasteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.ClearToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.ManuallyAssessCheckBox = New System.Windows.Forms.CheckBox
             Me.CleanupCheckBox = New System.Windows.Forms.CheckBox
             Me.Label7 = New System.Windows.Forms.Label
             Me.SkipNoChangesCheckBox = New System.Windows.Forms.CheckBox
             Me.SkipBadTagsCheckBox = New System.Windows.Forms.CheckBox
-            Me.GroupBox1 = New System.Windows.Forms.GroupBox
             Me.lblAWBNudges = New System.Windows.Forms.Label
             Me.ResetTimerButton = New System.Windows.Forms.Button
             Me.Led1 = New WikiFunctions.Controls.LED
             Me.ETALabel = New System.Windows.Forms.Label
+            Me.BotCheckBox = New System.Windows.Forms.CheckBox
             Me.GroupBox4 = New System.Windows.Forms.GroupBox
             Me.PluginMenuStrip = New System.Windows.Forms.MenuStrip
             Me.PluginToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -112,12 +104,9 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.BotTimer = New System.Windows.Forms.Timer(Me.components)
             Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
             Me.TimerStats1 = New AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.TimerStats
-            Me.BotCheckBox = New System.Windows.Forms.CheckBox
             Me.AWBGroupBox.SuspendLayout()
             Me.GroupBox2.SuspendLayout()
             Me.ArticleStatsGroupBox.SuspendLayout()
-            Me.CategoryTextboxContextMenuStrip.SuspendLayout()
-            Me.GroupBox1.SuspendLayout()
             Me.GroupBox4.SuspendLayout()
             Me.PluginMenuStrip.SuspendLayout()
             Me.TextInsertContextMenuStrip.SuspendLayout()
@@ -440,61 +429,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.Label1.Text = "Tagged:"
             Me.ToolTip1.SetToolTip(Me.Label1, "Number of articles tagged")
             '
-            'CategoryTextBox
-            '
-            Me.CategoryTextBox.ContextMenuStrip = Me.CategoryTextboxContextMenuStrip
-            Me.CategoryTextBox.Location = New System.Drawing.Point(6, 19)
-            Me.CategoryTextBox.Name = "CategoryTextBox"
-            Me.CategoryTextBox.Size = New System.Drawing.Size(109, 20)
-            Me.CategoryTextBox.TabIndex = 0
-            Me.ToolTip1.SetToolTip(Me.CategoryTextBox, "Enter the name of the category you are working with here, and it will be added to" & _
-                    " the edit summary")
-            '
-            'CategoryTextboxContextMenuStrip
-            '
-            Me.CategoryTextboxContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LivingPeopleToolStripMenuItem, Me.ToolStripSeparator1, Me.CutToolStripMenuItem, Me.CopyToolStripMenuItem, Me.PasteToolStripMenuItem, Me.ClearToolStripMenuItem})
-            Me.CategoryTextboxContextMenuStrip.Name = "ContextMenuStrip1"
-            Me.CategoryTextboxContextMenuStrip.Size = New System.Drawing.Size(140, 120)
-            '
-            'LivingPeopleToolStripMenuItem
-            '
-            Me.LivingPeopleToolStripMenuItem.Name = "LivingPeopleToolStripMenuItem"
-            Me.LivingPeopleToolStripMenuItem.Size = New System.Drawing.Size(139, 22)
-            Me.LivingPeopleToolStripMenuItem.Text = "Living people"
-            '
-            'ToolStripSeparator1
-            '
-            Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-            Me.ToolStripSeparator1.Size = New System.Drawing.Size(136, 6)
-            '
-            'CutToolStripMenuItem
-            '
-            Me.CutToolStripMenuItem.Name = "CutToolStripMenuItem"
-            Me.CutToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.X), System.Windows.Forms.Keys)
-            Me.CutToolStripMenuItem.Size = New System.Drawing.Size(139, 22)
-            Me.CutToolStripMenuItem.Text = "Cut"
-            '
-            'CopyToolStripMenuItem
-            '
-            Me.CopyToolStripMenuItem.Name = "CopyToolStripMenuItem"
-            Me.CopyToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.C), System.Windows.Forms.Keys)
-            Me.CopyToolStripMenuItem.Size = New System.Drawing.Size(139, 22)
-            Me.CopyToolStripMenuItem.Text = "Copy"
-            '
-            'PasteToolStripMenuItem
-            '
-            Me.PasteToolStripMenuItem.Name = "PasteToolStripMenuItem"
-            Me.PasteToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.V), System.Windows.Forms.Keys)
-            Me.PasteToolStripMenuItem.Size = New System.Drawing.Size(139, 22)
-            Me.PasteToolStripMenuItem.Text = "Paste"
-            '
-            'ClearToolStripMenuItem
-            '
-            Me.ClearToolStripMenuItem.Name = "ClearToolStripMenuItem"
-            Me.ClearToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete
-            Me.ClearToolStripMenuItem.Size = New System.Drawing.Size(139, 22)
-            Me.ClearToolStripMenuItem.Text = "Clear"
-            '
             'ManuallyAssessCheckBox
             '
             Me.ManuallyAssessCheckBox.AutoSize = True
@@ -554,17 +488,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                     "s, NO for manual editing)")
             Me.SkipBadTagsCheckBox.UseVisualStyleBackColor = True
             '
-            'GroupBox1
-            '
-            Me.GroupBox1.Controls.Add(Me.CategoryTextBox)
-            Me.GroupBox1.Location = New System.Drawing.Point(141, 250)
-            Me.GroupBox1.Name = "GroupBox1"
-            Me.GroupBox1.Size = New System.Drawing.Size(122, 47)
-            Me.GroupBox1.TabIndex = 37
-            Me.GroupBox1.TabStop = False
-            Me.GroupBox1.Text = "Category"
-            Me.ToolTip1.SetToolTip(Me.GroupBox1, "Category (optional, for edit summary)")
-            '
             'lblAWBNudges
             '
             Me.lblAWBNudges.AutoSize = True
@@ -605,6 +528,17 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.ETALabel.Text = "ETC: "
             Me.ToolTip1.SetToolTip(Me.ETALabel, "Estimated time of completion")
             Me.ETALabel.Visible = False
+            '
+            'BotCheckBox
+            '
+            Me.BotCheckBox.AutoSize = True
+            Me.BotCheckBox.Location = New System.Drawing.Point(66, 303)
+            Me.BotCheckBox.Name = "BotCheckBox"
+            Me.BotCheckBox.Size = New System.Drawing.Size(42, 17)
+            Me.BotCheckBox.TabIndex = 51
+            Me.BotCheckBox.Text = "Bot"
+            Me.ToolTip1.SetToolTip(Me.BotCheckBox, "Auto-save (AWB bot mode)")
+            Me.BotCheckBox.UseVisualStyleBackColor = True
             '
             'GroupBox4
             '
@@ -878,17 +812,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.TimerStats1.TabIndex = 44
             Me.TimerStats1.Visible = False
             '
-            'BotCheckBox
-            '
-            Me.BotCheckBox.AutoSize = True
-            Me.BotCheckBox.Location = New System.Drawing.Point(66, 303)
-            Me.BotCheckBox.Name = "BotCheckBox"
-            Me.BotCheckBox.Size = New System.Drawing.Size(42, 17)
-            Me.BotCheckBox.TabIndex = 51
-            Me.BotCheckBox.Text = "Bot"
-            Me.ToolTip1.SetToolTip(Me.BotCheckBox, "Auto-save (AWB bot mode)")
-            Me.BotCheckBox.UseVisualStyleBackColor = True
-            '
             'PluginSettingsControl
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -900,7 +823,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.Controls.Add(Me.TimerStats1)
             Me.Controls.Add(Me.GroupBox4)
             Me.Controls.Add(Me.SkipNoChangesCheckBox)
-            Me.Controls.Add(Me.GroupBox1)
             Me.Controls.Add(Me.BotCheckBox)
             Me.Controls.Add(Me.Led1)
             Me.Controls.Add(Me.SkipBadTagsCheckBox)
@@ -914,9 +836,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.GroupBox2.PerformLayout()
             Me.ArticleStatsGroupBox.ResumeLayout(False)
             Me.ArticleStatsGroupBox.PerformLayout()
-            Me.CategoryTextboxContextMenuStrip.ResumeLayout(False)
-            Me.GroupBox1.ResumeLayout(False)
-            Me.GroupBox1.PerformLayout()
             Me.GroupBox4.ResumeLayout(False)
             Me.GroupBox4.PerformLayout()
             Me.PluginMenuStrip.ResumeLayout(False)
@@ -953,15 +872,9 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Friend WithEvents lblCats As System.Windows.Forms.Label
         Friend WithEvents lblImages As System.Windows.Forms.Label
         Friend WithEvents lblLinks As System.Windows.Forms.Label
-        Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
-        Friend WithEvents CategoryTextBox As System.Windows.Forms.TextBox
         Friend WithEvents ManuallyAssessCheckBox As System.Windows.Forms.CheckBox
         Friend WithEvents CleanupCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents CategoryTextboxContextMenuStrip As System.Windows.Forms.ContextMenuStrip
         Friend WithEvents GroupBox4 As System.Windows.Forms.GroupBox
-        Friend WithEvents LivingPeopleToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
-        Friend WithEvents ClearToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents PluginMenuStrip As System.Windows.Forms.MenuStrip
         Friend WithEvents PluginToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
@@ -972,9 +885,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Friend WithEvents MenuHelp As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents Led1 As WikiFunctions.Controls.LED
         Friend WithEvents TimerStats1 As AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.TimerStats
-        Friend WithEvents CutToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents CopyToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents PasteToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents TextInsertContextMenuStrip As System.Windows.Forms.ContextMenuStrip
         Friend WithEvents MenuHelpReleaseNotes As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents Label7 As System.Windows.Forms.Label
