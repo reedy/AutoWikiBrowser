@@ -179,6 +179,8 @@ namespace AutoWikiBrowser
                 Variables.MainForm = this;
                 updateUpdater();
 
+                GlobalObjects.MyTrace.LoggingSettings = loggingSettings1;
+
                 try
                 {
                     //check that we are not using an old OS. 98 seems to mangled some unicode

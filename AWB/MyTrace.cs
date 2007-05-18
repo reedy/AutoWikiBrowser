@@ -34,7 +34,7 @@ namespace AutoWikiBrowser.Logging
     /// </summary>
     internal sealed class MyTrace : TraceManager
     {
-        private LoggingSettings LoggingSettings;
+        public LoggingSettings LoggingSettings;
         private static string LogFolder = "";
         private int BusyCounter = 0;
         private bool mIsUploading = false;
