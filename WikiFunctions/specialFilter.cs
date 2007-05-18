@@ -53,6 +53,8 @@ namespace WikiFunctions.Lists
         {
             try
             {
+                list.Clear();
+
                 if (chkRemoveDups.Checked)
                     removeDups(true);
                 else
