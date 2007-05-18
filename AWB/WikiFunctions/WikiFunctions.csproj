@@ -45,6 +45,18 @@
     <Compile Include="AWBProfiles\AWBProfile.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AWBProfiles\AWBProfileAdd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AWBProfiles\AWBProfileAdd.Designer.cs">
+      <DependentUpon>AWBProfileAdd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AWBProfiles\AWBProfiles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AWBProfiles\AWBProfiles.Designer.cs">
+      <DependentUpon>AWBProfiles.cs</DependentUpon>
+    </Compile>
     <Compile Include="Background.cs" />
     <Compile Include="Controls\LED.cs">
       <SubType>UserControl</SubType>
@@ -245,6 +257,14 @@
     <Compile Include="WPEditor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AWBProfiles\AWBProfileAdd.resx">
+      <DependentUpon>AWBProfileAdd.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AWBProfiles\AWBProfiles.resx">
+      <DependentUpon>AWBProfiles.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\LED.resx">
       <SubType>Designer</SubType>
       <DependentUpon>LED.cs</DependentUpon>
