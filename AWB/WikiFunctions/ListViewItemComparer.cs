@@ -25,7 +25,7 @@ using System.Windows.Forms;
 
 namespace WikiFunctions.Lists
 {
-//http://msdn2.microsoft.com/en-us/library/ms996467.aspx
+    //http://msdn2.microsoft.com/en-us/library/ms996467.aspx
     class ListViewItemComparer : IComparer
     {
         private int col;
@@ -61,13 +61,9 @@ namespace WikiFunctions.Lists
             // as a string.
             catch
             {
-                try
-                {
-                    // Compare the two items as a string.
-                    returnVal = String.Compare(((ListViewItem)x).SubItems[col].Text,
-                                ((ListViewItem)y).SubItems[col].Text);
-                }
-                catch { }
+                // Compare the two items as a string.
+                returnVal = String.Compare(((ListViewItem)x).SubItems[col].Text,
+                            ((ListViewItem)y).SubItems[col].Text);
             }
             // Determine whether the sort order is descending.
             if (order == SortOrder.Descending)
