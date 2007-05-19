@@ -858,7 +858,7 @@ namespace AutoWikiBrowser
             // 
             this.loadSettingsToolStripMenuItem.Name = "loadSettingsToolStripMenuItem";
             this.loadSettingsToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-            this.loadSettingsToolStripMenuItem.Text = "Open settings";
+            this.loadSettingsToolStripMenuItem.Text = "Open settings...";
             this.loadSettingsToolStripMenuItem.Click += new System.EventHandler(this.loadSettingsToolStripMenuItem_Click);
             // 
             // recentToolStripMenuItem
@@ -954,7 +954,7 @@ namespace AutoWikiBrowser
             // 
             this.specialFilterToolStripMenuItem1.Name = "specialFilterToolStripMenuItem1";
             this.specialFilterToolStripMenuItem1.Size = new System.Drawing.Size(209, 22);
-            this.specialFilterToolStripMenuItem1.Text = "Filter";
+            this.specialFilterToolStripMenuItem1.Text = "Filter...";
             this.specialFilterToolStripMenuItem1.Click += new System.EventHandler(this.specialFilterToolStripMenuItem1_Click);
             // 
             // convertToTalkPagesToolStripMenuItem
@@ -983,7 +983,7 @@ namespace AutoWikiBrowser
             // 
             this.saveListToTextFileToolStripMenuItem.Name = "saveListToTextFileToolStripMenuItem";
             this.saveListToTextFileToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
-            this.saveListToTextFileToolStripMenuItem.Text = "Save list to text file";
+            this.saveListToTextFileToolStripMenuItem.Text = "Save list to text file...";
             this.saveListToTextFileToolStripMenuItem.Click += new System.EventHandler(this.saveListToTextFileToolStripMenuItem_Click);
             // 
             // toolStripSeparator13
