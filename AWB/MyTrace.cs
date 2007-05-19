@@ -47,30 +47,37 @@ namespace AutoWikiBrowser.Logging
         // The most important stuff:
         internal void Initialise()
         {
-            LoggingSettings.Initialised = true;
-            LogFolder = LoggingSettings.Settings.LogFolder;
-
-            if (LoggingSettings.Settings.LogXHTML || LoggingSettings.Settings.LogWiki)
+            try
             {
-                if (!(System.IO.Directory.Exists(LoggingSettings.Settings.LogFolder)))
-                {
-                    LogFolder = Application.StartupPath;
-                }
+                LoggingSettings.Initialised = true;
+                LogFolder = LoggingSettings.Settings.LogFolder;
 
-                if (LoggingSettings.Settings.LogXHTML)
+                if (LoggingSettings.Settings.LogXHTML || LoggingSettings.Settings.LogWiki)
                 {
-                    NewXHTMLTraceListener();
+                    if (!(System.IO.Directory.Exists(LoggingSettings.Settings.LogFolder)))
+                    {
+                        LogFolder = Application.StartupPath;
+                    }
+
+                    if (LoggingSettings.Settings.LogXHTML)
+                    {
+                        NewXHTMLTraceListener();
+                    }
+                    if (LoggingSettings.Settings.LogWiki)
+                    {
+                        NewWikiTraceListener();
+                    }
                 }
-                if (LoggingSettings.Settings.LogWiki)
+                foreach (KeyValuePair<string, IAWBTraceListener> t in Listeners)
                 {
-                    NewWikiTraceListener();
+                    t.Value.WriteBulletedLine(Variables.LoggingStartButtonClicked, true, false, true);
                 }
+                CheckWeHaveLogInDetails();
             }
-            foreach (KeyValuePair<string, IAWBTraceListener> t in Listeners)
+            catch (Exception ex)
             {
-                t.Value.WriteBulletedLine(Variables.LoggingStartButtonClicked, true, false, true);
+                MessageBox.Show(ex.Message);
             }
-            CheckWeHaveLogInDetails();
         }
 
         private void TraceUploadEventHandler(TraceListenerUploadableBase Sender, ref bool Success)
@@ -129,10 +136,10 @@ namespace AutoWikiBrowser.Logging
             {
                 // TODO: This needs to be imported from plugin and fixed, but what about AWBProfiles? Encyryption? etc
                 //LoggingSettings.LoginDetails = new LoginForm().GetUsernamePassword;
-                if (!LoggingSettings.LoginDetails.IsSet)
-                {
-                    throw new System.Configuration.ConfigurationErrorsException("Error getting login details");
-                }
+                //if (!LoggingSettings.LoginDetails.IsSet)
+                //{
+                //    throw new System.Configuration.ConfigurationErrorsException("Error getting login details");
+                //}
             }
         }
         private static string GetFilePrefix(string LogFolder)
@@ -190,9 +197,9 @@ namespace AutoWikiBrowser.Logging
         // Overrides:
         public override void AddListener(string Key, IMyTraceListener Listener)
         {
-            if (Key == "AWB" && base.ContainsKey("AWB"))
+            if (base.ContainsKey(Key))
             {
-                base.RemoveListener("AWB");
+                base.RemoveListener(Key);
             }
 
             base.AddListener(Key, Listener);
@@ -205,6 +212,7 @@ namespace AutoWikiBrowser.Logging
         }
         public override void RemoveListener(string Key)
         {
+            if (!Listeners.ContainsKey(Key)) return;
             IMyTraceListener Listener = Listeners[Key];
 
             if (Listener.Uploadable)
