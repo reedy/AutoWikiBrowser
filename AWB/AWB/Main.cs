@@ -2419,7 +2419,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void helpToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/User_manual");
+            Help h = new Help();
+            h.Show();
+            // System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/User_manual");
         }
 
         private void reparseToolStripMenuItem_Click(object sender, EventArgs e)
