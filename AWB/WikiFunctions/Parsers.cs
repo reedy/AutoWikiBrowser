@@ -429,7 +429,7 @@ namespace WikiFunctions.Parse
 
             string cat = "[[" + Variables.Namespaces[14];
 
-            foreach (Match m in WikiRegexes.SimpleWikiLink.Matches(ArticleText))
+            foreach (Match m in WikiRegexes.WikiLink.Matches(ArticleText))
             {
                 y = m.Value.Replace(m.Groups[1].Value, Article.CanonicalizeTitle(m.Groups[1].Value));
 
