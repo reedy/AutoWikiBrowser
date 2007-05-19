@@ -421,8 +421,8 @@ namespace AutoWikiBrowser
                 else
                     webBrowserEdit.Busy = true;
 
-                TheArticle = ArticleWithLogging.SwitchToNewArticleObject(TheArticle, 
-                    (ArticleWithLogging)listMaker1.SelectedArticle());
+                TheArticle = ArticleWithLogging.SwitchToNewArticleObject(TheArticle,
+                    new ArticleWithLogging(listMaker1.SelectedArticle().Name));
                 NewHistory();
 
                 if (!Tools.IsValidTitle(TheArticle.Name))

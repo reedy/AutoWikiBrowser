@@ -34,7 +34,7 @@ namespace AutoWikiBrowser
         internal static ArticleWithLogging SwitchToNewArticleObject(ArticleWithLogging Old, 
             ArticleWithLogging New)
         {
-            if(Old.LogListener != null)
+            if(Old != null && Old.LogListener != null)
                 Old.Close(); // remove old AWBLogListener from MyTrace collection
             New.InitialiseLogListener(); // create new listener and add to collection
             return New;
