@@ -81,7 +81,7 @@ namespace WikiFunctions.AWBProfiles
             this.chkSavePassword.Location = new System.Drawing.Point(15, 47);
             this.chkSavePassword.Name = "chkSavePassword";
             this.chkSavePassword.Size = new System.Drawing.Size(106, 17);
-            this.chkSavePassword.TabIndex = 4;
+            this.chkSavePassword.TabIndex = 1;
             this.chkSavePassword.Text = "Save Password?";
             this.chkSavePassword.UseVisualStyleBackColor = true;
             this.chkSavePassword.CheckedChanged += new System.EventHandler(this.chkSavePassword_CheckedChanged);
@@ -107,7 +107,7 @@ namespace WikiFunctions.AWBProfiles
             this.btnSave.Location = new System.Drawing.Point(78, 189);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(78, 29);
-            this.btnSave.TabIndex = 7;
+            this.btnSave.TabIndex = 6;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -118,7 +118,7 @@ namespace WikiFunctions.AWBProfiles
             this.chkDefaultSettings.Location = new System.Drawing.Point(15, 99);
             this.chkDefaultSettings.Name = "chkDefaultSettings";
             this.chkDefaultSettings.Size = new System.Drawing.Size(136, 17);
-            this.chkDefaultSettings.TabIndex = 8;
+            this.chkDefaultSettings.TabIndex = 3;
             this.chkDefaultSettings.Text = "Select default settings?";
             this.chkDefaultSettings.UseVisualStyleBackColor = true;
             this.chkDefaultSettings.CheckedChanged += new System.EventHandler(this.chkDefaultSettings_CheckedChanged);
@@ -129,7 +129,7 @@ namespace WikiFunctions.AWBProfiles
             this.txtPath.Location = new System.Drawing.Point(74, 122);
             this.txtPath.Name = "txtPath";
             this.txtPath.Size = new System.Drawing.Size(130, 20);
-            this.txtPath.TabIndex = 9;
+            this.txtPath.TabIndex = 4;
             // 
             // label4
             // 
