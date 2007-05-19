@@ -868,8 +868,12 @@ namespace AutoWikiBrowser
 
                 if (chkUnicodifyWhole.Checked && process)
                 {
+                    TheArticle.HideMoreText(RemoveText);
+
                     TheArticle.Unicodify(Skip.SkipNoUnicode, parsers);
                     if (TheArticle.SkipArticle) return;
+
+                    TheArticle.UnHideMoreText(RemoveText);
                 }
 
                 if (cmboImages.SelectedIndex != 0)
@@ -3329,10 +3333,18 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void NewHistory()
         {
-            if (tabControl2.SelectedTab == tpHistory)
+            try
             {
-                if (webBrowserHistory.Url != new System.Uri(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName + "&action=history&useskin=myskin") && TheArticle.URLEncodedName != "")
-                    webBrowserHistory.Navigate(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName + "&action=history&useskin=myskin");
+                if (tabControl2.SelectedTab == tpHistory)
+                {
+                    if (webBrowserHistory.Url != new System.Uri(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName + "&action=history&useskin=myskin") && TheArticle.URLEncodedName != "")
+                        webBrowserHistory.Navigate(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName + "&action=history&useskin=myskin");
+                }
+            }
+            catch
+            {
+                webBrowserHistory.Navigate("about:blank");
+                webBrowserHistory.Document.Write("<html><body><p>Unable to load history</p></body></html>");
             }
         }
 
@@ -3357,7 +3369,15 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void refreshHistoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            webBrowserHistory.Navigate(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName + "&action=history&useskin=myskin");
+            try
+            {
+                webBrowserHistory.Navigate(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName + "&action=history&useskin=myskin");
+            }
+            catch
+            {
+                webBrowserHistory.Navigate("about:blank");
+                webBrowserHistory.Document.Write("<html><body><p>Unable to load history</p></body></html>");
+            }
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
