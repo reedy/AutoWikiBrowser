@@ -37,7 +37,7 @@ namespace AutoWikiBrowser
 
         private void ConditionsChanged(object sender, EventArgs e)
         {
-            Go.Enabled = Find.Text.Trim() != "" && Source.Text.Trim() != "";
+            Go.Enabled = Find.Text != "" && Source.Text != "";
         }
 
         private void Go_Click(object sender, EventArgs e)
@@ -55,7 +55,7 @@ namespace AutoWikiBrowser
                 else if (!Multiline.Checked && !Casesensitive.Checked) r = new Regex(Find.Text, RegexOptions.IgnoreCase);
                 else r = new Regex(Find.Text);
 
-                ResultText.Text = r.Replace(Source.Text, Replace.Text);
+                ResultText.Text = r.Replace(Source.Text, Replace.Text.Replace("\\n", "\r\n"));
                 if (r.Matches(Source.Text).Count != 1)
                     Status.Text = r.Matches(Source.Text).Count.ToString() + " replacements performed";
                 else
