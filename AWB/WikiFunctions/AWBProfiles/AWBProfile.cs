@@ -92,6 +92,11 @@ namespace WikiFunctions.AWBProfiles
             return Decrypt(new Computer().Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Pass", "").ToString());
         }
 
+        public static void SetPassword(int id, string password)
+        {
+            //Encrypt(password);
+        }
+
         public static void SaveProfile(AWBProfile profile)
         {
             Microsoft.Win32.RegistryKey key = 
@@ -104,6 +109,11 @@ namespace WikiFunctions.AWBProfiles
                 key.SetValue("Pass", "");
             key.SetValue("Settings", profile.defaultsettings);
             key.SetValue("Notes", profile.notes);
+        }
+
+        public static void DeleteProfile(int id)
+        {
+            Microsoft.Win32.Registry.CurrentUser.DeleteSubKey(RegKey + "\\" + id.ToString());
         }
 
         private static int CountSubKeys()
