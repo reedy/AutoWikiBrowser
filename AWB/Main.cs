@@ -1031,7 +1031,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             webBrowserEdit.BringToFront();
             webBrowserEdit.SetArticleText(txtEdit.Text);
 
-            DisableButtons();
             LastArticle = txtEdit.Text;
 
             skippable = false;
