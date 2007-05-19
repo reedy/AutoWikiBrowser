@@ -24,48 +24,49 @@ using Microsoft.VisualBasic.Devices;
 
 namespace WikiFunctions.AWBProfiles
 {
-    struct Profile
+    public class AWBProfile
     {
-        public int id;
-        public string username, password, defaultsettings, notes;
+        public int id; // TODO: use properties
+        public string defaultsettings, notes;
+
+        protected string mUsername;
+        private string mPassword; // or store in RAM encrypted
+
+        public string Username
+        {
+            get { return ""; }
+            set { }
+        }
+
+        public string Password
+        {
+            internal get { return "";  }
+            set { }
+        }
     }
 
-    class AWBProfile
+    public static class AWBProfiles
     {
         private const string RegKey = "Software\\AutoWikiBrowser\\Profiles";
         private const string PassPhrase = "oi frjweopi 4r390%^($%%^$HJKJNMHJGY 2`';'[#";
         private const string Salt = "SH1ew yuhn gxe$£$%^y HNKLHWEQ JEW`b";
         private const string IV16Chars = "tnf47bgfdwlp9,.q";
 
-        protected string mUsername;
-        private string mPassword; // or store in RAM encrypted
 
-        Computer myComputer = new Computer();
-
-        public string Username
-        {
-            //get { }
-            set { }
-        }
-
-        public string Password
-        {
-            set { }
-        }
-
-        public string Encrypt(string text)
+        public static string Encrypt(string text)
         {
             return Encryption.RijndaelSimple.Encrypt(text, PassPhrase, Salt, "SHA1", 2, IV16Chars, 256);
         }
 
-        public string Decrypt(string text)
+        public static string Decrypt(string text)
         {
             return Encryption.RijndaelSimple.Decrypt(text, PassPhrase, Salt, "SHA1", 2, IV16Chars, 256);
         }
 
-        public List<Profile> GetProfiles()
+        public static List<AWBProfile> GetProfiles()
         {
-            List<Profile> profiles = new List<Profile>();
+            Computer myComputer = new Computer();
+            List<AWBProfile> profiles = new List<AWBProfile>();
 
             int upper = CountSubKeys();
 
@@ -73,10 +74,10 @@ namespace WikiFunctions.AWBProfiles
             {
                 try
                 {
-                    Profile prof = new Profile();
+                    AWBProfile prof = new AWBProfile();
                     prof.id = i;
-                    prof.username = Decrypt(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + i, "User", "").ToString());
-                    prof.password = Decrypt(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + i, "Pass", "").ToString());
+                    prof.Username = Decrypt(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + i, "User", "").ToString());
+                    prof.Password = Decrypt(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + i, "Pass", "").ToString());
                     prof.defaultsettings = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + i, "Settings", "").ToString();
                     prof.notes = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + i, "Notes", "").ToString();
 
@@ -88,27 +89,28 @@ namespace WikiFunctions.AWBProfiles
             return profiles;
         }
 
-        public string GetPassword(int id)
+        public static string GetPassword(int id)
         {
-            return Decrypt(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Pass", "").ToString());
+            return Decrypt(new Computer().Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Pass", "").ToString());
         }
 
-        public void SaveProfile(Profile profile)
+        public static void SaveProfile(AWBProfile profile)
         {
-            Microsoft.Win32.RegistryKey key = myComputer.Registry.CurrentUser.CreateSubKey(RegKey + "\\" + (CountSubKeys() + 1));
+            Microsoft.Win32.RegistryKey key = 
+                new Computer().Registry.CurrentUser.CreateSubKey(RegKey + "\\" + (CountSubKeys() + 1));
 
-            key.SetValue("User", Encrypt(profile.username));
-            if (profile.password != "")
-                key.SetValue("Pass", Encrypt(profile.password));
+            key.SetValue("User", Encrypt(profile.Username));
+            if (profile.Password != "")
+                key.SetValue("Pass", Encrypt(profile.Password));
             else
                 key.SetValue("Pass", "");
             key.SetValue("Settings", profile.defaultsettings);
             key.SetValue("Notes", profile.notes);
         }
 
-        private int CountSubKeys()
+        private static int CountSubKeys()
         {
-            Microsoft.Win32.RegistryKey baseRegistryKey = myComputer.Registry.CurrentUser;
+            Microsoft.Win32.RegistryKey baseRegistryKey = new Computer().Registry.CurrentUser;
             Microsoft.Win32.RegistryKey key2 = baseRegistryKey.OpenSubKey(RegKey);
 
             return key2.SubKeyCount;
