@@ -45,6 +45,7 @@ namespace WikiFunctions.AWBProfiles
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnLogin = new System.Windows.Forms.Button();
+            this.editThisAccountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAccounts.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -94,13 +95,14 @@ namespace WikiFunctions.AWBProfiles
             // 
             this.mnuAccounts.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loginAsThisAccountToolStripMenuItem,
+            this.editThisAccountToolStripMenuItem,
             this.changePasswordToolStripMenuItem,
             this.toolStripSeparator1,
             this.addNewAccountToolStripMenuItem,
             this.toolStripSeparator2,
             this.deleteThisSavedAccountToolStripMenuItem});
             this.mnuAccounts.Name = "mnuAccounts";
-            this.mnuAccounts.Size = new System.Drawing.Size(211, 126);
+            this.mnuAccounts.Size = new System.Drawing.Size(211, 148);
             // 
             // loginAsThisAccountToolStripMenuItem
             // 
@@ -170,6 +172,13 @@ namespace WikiFunctions.AWBProfiles
             this.btnLogin.UseVisualStyleBackColor = true;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
             // 
+            // editThisAccountToolStripMenuItem
+            // 
+            this.editThisAccountToolStripMenuItem.Name = "editThisAccountToolStripMenuItem";
+            this.editThisAccountToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.editThisAccountToolStripMenuItem.Text = "Edit this Account";
+            this.editThisAccountToolStripMenuItem.Click += new System.EventHandler(this.editThisAccountToolStripMenuItem_Click);
+            // 
             // AWBProfilesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -205,5 +214,6 @@ namespace WikiFunctions.AWBProfiles
         private System.Windows.Forms.Button btnLogin;
         private System.Windows.Forms.ToolStripMenuItem changePasswordToolStripMenuItem;
         private System.Windows.Forms.ColumnHeader colID;
+        private System.Windows.Forms.ToolStripMenuItem editThisAccountToolStripMenuItem;
     }
 }

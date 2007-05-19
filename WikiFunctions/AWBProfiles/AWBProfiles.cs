@@ -130,5 +130,12 @@ namespace WikiFunctions.AWBProfiles
             if (password.ShowDialog() == DialogResult.OK)
                 AWBProfiles.SetPassword(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text), password.GetPassword);
         }
+
+        private void editThisAccountToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AWBProfileAdd add = new AWBProfileAdd(AWBProfiles.GetProfile(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text)));
+            if (add.ShowDialog() == DialogResult.Yes)
+                loadProfiles();
+        }
     }
 }
