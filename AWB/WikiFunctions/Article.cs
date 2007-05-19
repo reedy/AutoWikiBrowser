@@ -581,6 +581,12 @@ namespace WikiFunctions
             public void UnHideText(HideText RemoveText)
             { mArticleText = RemoveText.AddBack(mArticleText); }
 
+            public void HideMoreText(HideText RemoveText)
+            { mArticleText = RemoveText.HideMore(mArticleText); }
+
+            public void UnHideMoreText(HideText RemoveText)
+            { mArticleText = RemoveText.AddBackMore(mArticleText); }
+
         /// <summary>
         /// returns 
         /// </summary>
