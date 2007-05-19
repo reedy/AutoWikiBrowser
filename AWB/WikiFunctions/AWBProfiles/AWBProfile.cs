@@ -34,14 +34,14 @@ namespace WikiFunctions.AWBProfiles
 
         public string Username
         {
-            get { return ""; }
-            set { }
+            get { return mUsername; }
+            set { mUsername = value; }
         }
 
         public string Password
         {
-            internal get { return "";  }
-            set { }
+            get { return mPassword; }
+            set { mPassword = value; }
         }
     }
 
@@ -51,8 +51,7 @@ namespace WikiFunctions.AWBProfiles
         private const string PassPhrase = "oi frjweopi 4r390%^($%%^$HJKJNMHJGY 2`';'[#";
         private const string Salt = "SH1ew yuhn gxe$£$%^y HNKLHWEQ JEW`b";
         private const string IV16Chars = "tnf47bgfdwlp9,.q";
-
-
+        
         public static string Encrypt(string text)
         {
             return Encryption.RijndaelSimple.Encrypt(text, PassPhrase, Salt, "SHA1", 2, IV16Chars, 256);
@@ -85,7 +84,6 @@ namespace WikiFunctions.AWBProfiles
                 }
                 catch { }
             }
-
             return profiles;
         }
 

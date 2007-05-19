@@ -45,6 +45,8 @@ namespace WikiFunctions.AWBProfiles
 
         private void loadProfiles()
         {
+            lvAccounts.Items.Clear();
+
             foreach (AWBProfile profile in AWBProfiles.GetProfiles())
             {
                 ListViewItem item = new ListViewItem(profile.id.ToString());
@@ -64,9 +66,9 @@ namespace WikiFunctions.AWBProfiles
         {
             if (lvAccounts.SelectedItems.Count == 1)
             {
-                if (lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text == "Yes")
+                if (lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[2].Text == "Yes")
                 {//Get 'Saved' Password
-                    Browser.Login(lvAccounts.Items[lvAccounts.SelectedIndices[1]].Text, AWBProfiles.GetPassword(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text)));
+                    Browser.Login(lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text, AWBProfiles.GetPassword(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text)));
                 }
                 else
                 {//Get Password from User

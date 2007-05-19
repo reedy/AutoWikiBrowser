@@ -30,6 +30,7 @@ namespace WikiFunctions.AWBProfiles
         {
             this.components = new System.ComponentModel.Container();
             this.lvAccounts = new System.Windows.Forms.ListView();
+            this.colID = new System.Windows.Forms.ColumnHeader();
             this.colAccountName = new System.Windows.Forms.ColumnHeader();
             this.colPasswordSaved = new System.Windows.Forms.ColumnHeader();
             this.colProfileSettings = new System.Windows.Forms.ColumnHeader();
@@ -44,7 +45,6 @@ namespace WikiFunctions.AWBProfiles
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnLogin = new System.Windows.Forms.Button();
-            this.colID = new System.Windows.Forms.ColumnHeader();
             this.mnuAccounts.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -57,12 +57,18 @@ namespace WikiFunctions.AWBProfiles
             this.colProfileSettings,
             this.colNotes});
             this.lvAccounts.ContextMenuStrip = this.mnuAccounts;
+            this.lvAccounts.FullRowSelect = true;
             this.lvAccounts.Location = new System.Drawing.Point(12, 12);
             this.lvAccounts.Name = "lvAccounts";
             this.lvAccounts.Size = new System.Drawing.Size(464, 179);
             this.lvAccounts.TabIndex = 0;
             this.lvAccounts.UseCompatibleStateImageBehavior = false;
             this.lvAccounts.View = System.Windows.Forms.View.Details;
+            // 
+            // colID
+            // 
+            this.colID.Text = "ID";
+            this.colID.Width = 32;
             // 
             // colAccountName
             // 
@@ -158,11 +164,6 @@ namespace WikiFunctions.AWBProfiles
             this.btnLogin.Text = "Login as selected";
             this.btnLogin.UseVisualStyleBackColor = true;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
-            // 
-            // colID
-            // 
-            this.colID.Text = "ID";
-            this.colID.Width = 32;
             // 
             // AWBProfilesForm
             // 
