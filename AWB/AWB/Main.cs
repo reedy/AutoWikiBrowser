@@ -384,6 +384,8 @@ namespace AutoWikiBrowser
                 Tools.WriteDebug(this.Name, "Starting");
 
                 //check edit summary
+                txtEdit.Enabled = true;
+                txtEdit.Text = "";
                 webBrowserEdit.BringToFront();
                 if (cmboEditSummary.Text == "" && Plugin.Items.Count == 0)
                     MessageBox.Show("Please enter an edit summary.", "Edit summary", MessageBoxButtons.OK, 
