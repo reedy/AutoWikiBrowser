@@ -37,7 +37,7 @@ using WikiFunctions.Background;
 
 namespace WikiFunctions
 {
-    public enum LangCodeEnum { en, ar, ca, da, de, eo, es, fi, fr, he, hu, Is, it, ja, ku, nl, no, mi, pl, pt, ru, simple, sk, sl, sv, ta, tj, uk, ur, zh }
+    public enum LangCodeEnum { en, ar, ca, da, de, eo, es, fi, fr, he, hu, Is, it, ja, ku, nl, no, mi, pl, pt, ro, ru, simple, sk, sl, sv, ta, tj, uk, ur, zh }
     public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikiquote, wikiversity, wikibooks, wikinews, commons, meta, species, custom }
 
     /// <summary>
@@ -688,6 +688,28 @@ namespace WikiFunctions
 
                         strsummarytag = " utilizando ";
                         strWPAWB = "[[Wikipedia:AutoWikiBrowser|AWB]]";
+                        break;
+
+                    case LangCodeEnum.ro:
+                        Namespaces[-2] = "Media:";
+                        Namespaces[-1] = "Special:";
+                        Namespaces[1] = "Discuţie:";
+                        Namespaces[2] = "Utilizator:";
+                        Namespaces[3] = "Discuţie Utilizator:";
+                        Namespaces[4] = "Wikipedia:";
+                        Namespaces[5] = "Discuţie Wikipedia:";
+                        Namespaces[6] = "Imagine:";
+                        Namespaces[7] = "Discuţie Imagine:";
+                        Namespaces[8] = "MediaWiki:";
+                        Namespaces[9] = "Discuţie MediaWiki:";
+                        Namespaces[10] = "Format:";
+                        Namespaces[11] = "Discuţie Format:";
+                        Namespaces[12] = "Ajutor:";
+                        Namespaces[13] = "Discuţie Ajutor:";
+                        Namespaces[14] = "Categorie:";
+                        Namespaces[15] = "Discuţie Categorie:";
+                        Namespaces[100] = "Portal:";
+                        Namespaces[101] = "Discuţie Portal:";
                         break;
 
                     case LangCodeEnum.ru:
