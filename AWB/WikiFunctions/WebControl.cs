@@ -252,19 +252,13 @@ namespace WikiFunctions.Browser
         {
             this.LoadLogInPage();
 
-            while(HasLoginBoxes)
-            {
-                this.Document.GetElementById("wpName1").InnerText = username;
-                this.Document.GetElementById("wpPassword1").InnerText = password;
-                this.Document.GetElementById("wpLoginattempt").InvokeMember("click");
+            this.Wait();
+            this.Document.GetElementById("wpName1").InnerText = username;
+            this.Document.GetElementById("wpPassword1").InnerText = password;
+            this.Document.GetElementById("wpLoginattempt").InvokeMember("click");
 
-                return;
-            }
-        }
-
-        public bool HasLoginBoxes
-        {
-            get { return (this.Document != null && this.Document.Body.InnerHtml.Contains("wpName") == true && this.Document.Body.InnerHtml.Contains("wpPassword") == true); }
+            this.Wait();
+            Variables.User.UpdateWikiStatus();
         }
 
         public UserInfo GetUserInfo()

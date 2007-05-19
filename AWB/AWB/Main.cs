@@ -3412,7 +3412,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private void profilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             WikiFunctions.AWBProfiles.AWBProfilesForm profiles = new WikiFunctions.AWBProfiles.AWBProfilesForm(webBrowserEdit);
-            profiles.Show();
+            profiles.ShowDialog();
         }
     }
 }
