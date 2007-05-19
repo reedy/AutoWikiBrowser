@@ -989,7 +989,8 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
         {
             strproject = ProjectEnum.wikipedia;
             strlangcode = LangCodeEnum.en;
-            strsummarytag = " using [[Project:AWB|AWB]]";
+            strsummarytag = " using ";
+            strWPAWB = "[[Project:AWB|AWB]]";
 
             Namespaces.Clear();
             SetToEnglish();
@@ -1022,7 +1023,8 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
             Namespaces[14] = "Category:";
             Namespaces[15] = "Category talk:";
 
-            strsummarytag = " using [[Project:AWB|AWB]]";
+            strsummarytag = " using ";
+            
             MonthNames = enLangMonthNames;
         }
         #endregion
