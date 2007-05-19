@@ -89,6 +89,12 @@
     <Compile Include="dlgTalk.Designer.cs">
       <DependentUpon>dlgTalk.cs</DependentUpon>
     </Compile>
+    <Compile Include="Help.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Help.Designer.cs">
+      <DependentUpon>Help.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyTrace.cs" />
     <Compile Include="LoggingSettings.cs">
       <SubType>UserControl</SubType>
@@ -132,6 +138,10 @@
     <EmbeddedResource Include="ExitQuestion.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ExitQuestion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Help.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Help.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <SubType>Designer</SubType>
