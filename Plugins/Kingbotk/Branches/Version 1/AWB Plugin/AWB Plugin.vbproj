@@ -125,12 +125,6 @@
     <Compile Include="GenericTemplateProperties.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LoginForm.Designer.vb">
-      <DependentUpon>LoginForm.vb</DependentUpon>
-    </Compile>
-    <Compile Include="LoginForm.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="AssessmentsInstructionsDialog.Designer.vb">
       <DependentUpon>AssessmentsInstructionsDialog.vb</DependentUpon>
     </Compile>
@@ -223,10 +217,6 @@
     <EmbeddedResource Include="GenericTemplateProperties.resx">
       <SubType>Designer</SubType>
       <DependentUpon>GenericTemplateProperties.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="LoginForm.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>LoginForm.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AssessmentsInstructionsDialog.resx">
       <SubType>Designer</SubType>
