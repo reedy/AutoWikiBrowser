@@ -100,19 +100,21 @@ namespace WikiFunctions.AWBProfiles
             this.toolStripSeparator2,
             this.deleteThisSavedAccountToolStripMenuItem});
             this.mnuAccounts.Name = "mnuAccounts";
-            this.mnuAccounts.Size = new System.Drawing.Size(211, 104);
+            this.mnuAccounts.Size = new System.Drawing.Size(211, 126);
             // 
             // loginAsThisAccountToolStripMenuItem
             // 
             this.loginAsThisAccountToolStripMenuItem.Name = "loginAsThisAccountToolStripMenuItem";
             this.loginAsThisAccountToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
             this.loginAsThisAccountToolStripMenuItem.Text = "Log-in as this Account";
+            this.loginAsThisAccountToolStripMenuItem.Click += new System.EventHandler(this.loginAsThisAccountToolStripMenuItem_Click);
             // 
             // changePasswordToolStripMenuItem
             // 
             this.changePasswordToolStripMenuItem.Name = "changePasswordToolStripMenuItem";
             this.changePasswordToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
             this.changePasswordToolStripMenuItem.Text = "Change Saved Password";
+            this.changePasswordToolStripMenuItem.Click += new System.EventHandler(this.changePasswordToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -124,6 +126,7 @@ namespace WikiFunctions.AWBProfiles
             this.addNewAccountToolStripMenuItem.Name = "addNewAccountToolStripMenuItem";
             this.addNewAccountToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
             this.addNewAccountToolStripMenuItem.Text = "Add new Account";
+            this.addNewAccountToolStripMenuItem.Click += new System.EventHandler(this.addNewAccountToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
@@ -135,6 +138,7 @@ namespace WikiFunctions.AWBProfiles
             this.deleteThisSavedAccountToolStripMenuItem.Name = "deleteThisSavedAccountToolStripMenuItem";
             this.deleteThisSavedAccountToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
             this.deleteThisSavedAccountToolStripMenuItem.Text = "Delete this saved Account";
+            this.deleteThisSavedAccountToolStripMenuItem.Click += new System.EventHandler(this.deleteThisSavedAccountToolStripMenuItem_Click);
             // 
             // btnAdd
             // 
@@ -154,6 +158,7 @@ namespace WikiFunctions.AWBProfiles
             this.btnDelete.TabIndex = 3;
             this.btnDelete.Text = "Delete selected";
             this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnLogin
             // 

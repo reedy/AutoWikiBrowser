@@ -64,6 +64,16 @@ namespace WikiFunctions.AWBProfiles
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
+            login();
+        }
+
+        private void loginAsThisAccountToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            login();
+        }
+
+        private void login()
+        {
             if (lvAccounts.SelectedItems.Count == 1)
             {
                 if (lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[2].Text == "Yes")
@@ -82,9 +92,43 @@ namespace WikiFunctions.AWBProfiles
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
+            Add();
+        }
+
+        private void addNewAccountToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Add();
+        }
+
+        private void Add()
+        {
             AWBProfileAdd add = new AWBProfileAdd();
             if (add.ShowDialog() == DialogResult.Yes)
                 loadProfiles();
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            Delete();
+        }
+
+        private void deleteThisSavedAccountToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Delete();
+        }
+
+        private void Delete()
+        {
+            AWBProfiles.DeleteProfile(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text));
+            loadProfiles();
+        }
+
+        private void changePasswordToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UserPassword password = new UserPassword();
+
+            if (password.ShowDialog() == DialogResult.OK)
+                AWBProfiles.SetPassword(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text), password.GetPassword);
         }
     }
 }
