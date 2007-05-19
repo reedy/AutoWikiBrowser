@@ -51,7 +51,7 @@ namespace WikiFunctions.AWBProfiles
         private const string PassPhrase = "oi frjweopi 4r390%^($%%^$HJKJNMHJGY 2`';'[#";
         private const string Salt = "SH1ew yuhn gxe$£$%^y HNKLHWEQ JEW`b";
         private const string IV16Chars = "tnf47bgfdwlp9,.q";
-        
+
         public static string Encrypt(string text)
         {
             return Encryption.RijndaelSimple.Encrypt(text, PassPhrase, Salt, "SHA1", 2, IV16Chars, 256);
@@ -87,6 +87,24 @@ namespace WikiFunctions.AWBProfiles
             return profiles;
         }
 
+        public static AWBProfile GetProfile(int id)
+        {
+            AWBProfile prof = new AWBProfile();
+            try
+            {
+                Computer myComputer = new Computer();
+
+                prof.id = id;
+                prof.Username = Decrypt(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "User", "").ToString());
+                prof.Password = Decrypt(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Pass", "").ToString());
+                prof.defaultsettings = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Settings", "").ToString();
+                prof.notes = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Notes", "").ToString();
+
+                return prof;
+            }
+            catch { return prof; }
+        }
+
         public static string GetPassword(int id)
         {
             return Decrypt(new Computer().Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Pass", "").ToString());
@@ -94,34 +112,77 @@ namespace WikiFunctions.AWBProfiles
 
         public static void SetPassword(int id, string password)
         {
-            //Encrypt(password);
+            if (password != "")
+                password = Encrypt(password);
+
+            SetProfilePassword(id, password);
         }
 
-        public static void SaveProfile(AWBProfile profile)
+        private static void SetProfilePassword(int id, string password)
         {
-            Microsoft.Win32.RegistryKey key = 
-                new Computer().Registry.CurrentUser.CreateSubKey(RegKey + "\\" + (CountSubKeys() + 1));
+            try
+            {
+                Microsoft.Win32.RegistryKey Key = Microsoft.Win32.Registry.Users;
+                Key = Key.OpenSubKey(RegKey + "\\" + id, true);
+                Key.SetValue("Pass", password);
+            }
+            catch { }
+        }
 
-            key.SetValue("User", Encrypt(profile.Username));
-            if (profile.Password != "")
-                key.SetValue("Pass", Encrypt(profile.Password));
-            else
-                key.SetValue("Pass", "");
-            key.SetValue("Settings", profile.defaultsettings);
-            key.SetValue("Notes", profile.notes);
+        public static void AddProfile(AWBProfile profile)
+        {
+            try
+            {
+                Microsoft.Win32.RegistryKey key =
+                    new Computer().Registry.CurrentUser.CreateSubKey(RegKey + "\\" + (CountSubKeys() + 1));
+
+                key.SetValue("User", Encrypt(profile.Username));
+                if (profile.Password != "")
+                    key.SetValue("Pass", Encrypt(profile.Password));
+                else
+                    key.SetValue("Pass", "");
+                key.SetValue("Settings", profile.defaultsettings);
+                key.SetValue("Notes", profile.notes);
+            }
+            catch { }
+        }
+
+        public static void EditProfile(AWBProfile profile)
+        {
+            try
+            {
+                Microsoft.Win32.RegistryKey Key = Microsoft.Win32.Registry.Users;
+                Key = Key.OpenSubKey(RegKey + "\\" + profile.id, true);
+
+                if (profile.Password != "")
+                    profile.Password = Encrypt(profile.Password);
+
+                Key.SetValue("User", profile.Username);
+                Key.SetValue("Pass", profile.Password);
+                Key.SetValue("Settings", profile.defaultsettings);
+                Key.SetValue("Notes", profile.notes);
+            }
+            catch { }
         }
 
         public static void DeleteProfile(int id)
         {
-            Microsoft.Win32.Registry.CurrentUser.DeleteSubKey(RegKey + "\\" + id.ToString());
+            try
+            { Microsoft.Win32.Registry.CurrentUser.DeleteSubKey(RegKey + "\\" + id.ToString()); }
+            catch { }
         }
 
         private static int CountSubKeys()
         {
-            Microsoft.Win32.RegistryKey baseRegistryKey = new Computer().Registry.CurrentUser;
-            Microsoft.Win32.RegistryKey key2 = baseRegistryKey.OpenSubKey(RegKey);
+            try
+            {
+                Microsoft.Win32.RegistryKey baseRegistryKey = new Computer().Registry.CurrentUser;
+                Microsoft.Win32.RegistryKey key2 = baseRegistryKey.OpenSubKey(RegKey);
 
-            return key2.SubKeyCount;
+                return key2.SubKeyCount;
+            }
+            catch
+            { return 0; }
         }
     }
 }

@@ -31,11 +31,28 @@ namespace WikiFunctions.AWBProfiles
 {
     public partial class AWBProfileAdd : Form
     {
-        AWBProfile AWBProfile = new AWBProfile();
+        //AWBProfile AWBProfile = new AWBProfile();
+        private int editid;
 
         public AWBProfileAdd()
         {
             InitializeComponent();
+            editid = -1;
+
+            this.Text = "Add new Profile";
+        }
+
+        public AWBProfileAdd(AWBProfile profile)
+        {
+            InitializeComponent();
+            editid = profile.id;
+
+            txtUsername.Text = AWBProfiles.Decrypt(profile.Username);
+            txtPassword.Text = AWBProfiles.Decrypt(profile.Password);
+            txtPath.Text = profile.defaultsettings;
+            txtNotes.Text = profile.notes;
+
+            this.Text = "Edit Profile";
         }
 
         private void chkSavePassword_CheckedChanged(object sender, EventArgs e)
@@ -66,10 +83,14 @@ namespace WikiFunctions.AWBProfiles
             profile.Password = txtPassword.Text;
             profile.defaultsettings = txtPath.Text;
             profile.notes = txtNotes.Text;
-
-            AWBProfiles.SaveProfile(profile);
+            
+            if (editid == -1)
+                AWBProfiles.AddProfile(profile);
+            else
+                AWBProfiles.EditProfile(profile);
 
             this.DialogResult = DialogResult.Yes;
+
         }
     }
 }
