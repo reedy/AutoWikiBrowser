@@ -60,14 +60,14 @@ namespace WikiFunctions.AWBProfiles
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            Profile profile = new Profile();
+            AWBProfile profile = new AWBProfile();
 
-            profile.username = txtUsername.Text;
-            profile.password = txtPassword.Text;
+            profile.Username = txtUsername.Text;
+            profile.Password = txtPassword.Text;
             profile.defaultsettings = txtPath.Text;
             profile.notes = txtNotes.Text;
 
-            AWBProfile.SaveProfile(profile);
+            AWBProfiles.SaveProfile(profile);
 
             this.DialogResult = DialogResult.Yes;
         }
