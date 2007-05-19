@@ -44,6 +44,7 @@ namespace AutoWikiBrowser
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.UseWaitCursor = true;
+            this.pictureBox1.WaitOnLoad = true;
             this.pictureBox1.Click += new System.EventHandler(this.ClickHandler);
             // 
             // lblVersion
@@ -72,7 +73,7 @@ namespace AutoWikiBrowser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(473, 295);
+            this.ClientSize = new System.Drawing.Size(465, 287);
             this.ControlBox = false;
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.lblVersion);
