@@ -815,6 +815,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             ArticleText = ArticleText.Replace(" &amp; ", " & ");
             ArticleText = ArticleText.Replace("&amp;", "&amp;amp;");
             ArticleText = ArticleText.Replace("&#153;", "™");
+            ArticleText = ArticleText.Replace("&#149;", "•");
 
             foreach (KeyValuePair<Regex, string> k in RegexUnicode)
             {
