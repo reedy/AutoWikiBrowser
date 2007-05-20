@@ -1748,6 +1748,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 parsers.InterWikiOrder = InterWikiOrderEnum.LocalLanguageAlpha;
             //else if (Code == "fi")
             //    parsers.InterWikiOrder = InterWikiOrderEnum.LocalLanguageFirstWord;
+            else if (Code == LangCodeEnum.he)
+                parsers.InterWikiOrder = InterWikiOrderEnum.AlphabeticalEnFirst;
             else
                 parsers.InterWikiOrder = InterWikiOrderEnum.Alphabetical;
 
