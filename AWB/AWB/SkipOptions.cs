@@ -68,6 +68,11 @@ namespace AutoWikiBrowser
             get { return rdoNoBadLink.Checked; }
         }
 
+        public bool SkipNoDefaultSortAdded
+        {
+            get { return rdoDefaultSortAdded.Checked; }
+        }
+
         #endregion
 
         #region Methods
