@@ -223,6 +223,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="globe.ico" />
+    <Content Include="Resources\AutoWikiBrowser2.png" />
     <None Include="Resources\Bot Image.png" />
   </ItemGroup>
   <ItemGroup>

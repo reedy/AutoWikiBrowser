@@ -372,7 +372,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\AutoWikiBrowser2.png" />
     <None Include="Resources\beep11.wav" />
     <None Include="Resources\beep21.wav" />
     <Content Include="Resources\Bot Image.png" />
