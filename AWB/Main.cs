@@ -1608,7 +1608,13 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private void txtEdit_TextChanged(object sender, EventArgs e)
         {
             Find.resetFind();
-            TheArticle.EditSummary = "";
+            try
+            {
+                TheArticle.EditSummary = "";
+            }
+            catch
+            {
+            }
         }
 
         private void btnFind_Click(object sender, EventArgs e)
