@@ -30,10 +30,10 @@ namespace AutoWikiBrowser
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Help));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.lbTopics = new System.Windows.Forms.ListBox();
-            this.webBrowserHelp = new System.Windows.Forms.WebBrowser();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.lbTopics = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.webBrowserHelp = new System.Windows.Forms.WebBrowser();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -59,28 +59,6 @@ namespace AutoWikiBrowser
             this.splitContainer1.SplitterDistance = 197;
             this.splitContainer1.TabIndex = 0;
             // 
-            // lbTopics
-            // 
-            this.lbTopics.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbTopics.FormattingEnabled = true;
-            this.lbTopics.Items.AddRange(new object[] {
-            "Loading..."});
-            this.lbTopics.Location = new System.Drawing.Point(3, 45);
-            this.lbTopics.Name = "lbTopics";
-            this.lbTopics.Size = new System.Drawing.Size(191, 576);
-            this.lbTopics.TabIndex = 0;
-            this.lbTopics.SelectedIndexChanged += new System.EventHandler(this.lbTopics_SelectedIndexChanged);
-            // 
-            // webBrowserHelp
-            // 
-            this.webBrowserHelp.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowserHelp.Location = new System.Drawing.Point(0, 0);
-            this.webBrowserHelp.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowserHelp.Name = "webBrowserHelp";
-            this.webBrowserHelp.Size = new System.Drawing.Size(587, 633);
-            this.webBrowserHelp.TabIndex = 0;
-            this.webBrowserHelp.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserHelp_DocumentCompleted);
-            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 1;
@@ -96,17 +74,39 @@ namespace AutoWikiBrowser
             this.tableLayoutPanel1.Size = new System.Drawing.Size(197, 633);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
+            // lbTopics
+            // 
+            this.lbTopics.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbTopics.FormattingEnabled = true;
+            this.lbTopics.Items.AddRange(new object[] {
+            "Loading..."});
+            this.lbTopics.Location = new System.Drawing.Point(3, 43);
+            this.lbTopics.Name = "lbTopics";
+            this.lbTopics.Size = new System.Drawing.Size(191, 576);
+            this.lbTopics.TabIndex = 0;
+            this.lbTopics.SelectedIndexChanged += new System.EventHandler(this.lbTopics_SelectedIndexChanged);
+            // 
             // label1
             // 
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(100, 23);
+            this.label1.Size = new System.Drawing.Size(191, 40);
             this.label1.TabIndex = 1;
             this.label1.Text = "Contents";
             this.label1.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.label1.Click += new System.EventHandler(this.label1_Click);
+            // 
+            // webBrowserHelp
+            // 
+            this.webBrowserHelp.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowserHelp.Location = new System.Drawing.Point(0, 0);
+            this.webBrowserHelp.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowserHelp.Name = "webBrowserHelp";
+            this.webBrowserHelp.Size = new System.Drawing.Size(587, 633);
+            this.webBrowserHelp.TabIndex = 0;
+            this.webBrowserHelp.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserHelp_DocumentCompleted);
             // 
             // Help
             // 
