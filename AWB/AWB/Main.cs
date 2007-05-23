@@ -3426,5 +3426,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         {
             markAllAsMinorToolStripMenuItem.Checked = chkMinor.Checked;
         }
+
+        private void markAllAsMinorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            chkMinor.Checked = markAllAsMinorToolStripMenuItem.Checked;
+        }
     }
 }

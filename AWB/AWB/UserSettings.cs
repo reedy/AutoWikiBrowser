@@ -464,7 +464,7 @@ namespace AutoWikiBrowser
                         if (reader.Name == "minor" && reader.HasAttributes)
                         {
                             if (reader.MoveToAttribute("enabled"))
-                                markAllAsMinorToolStripMenuItem.Checked = bool.Parse(reader.Value);
+                                chkMinor.Checked = bool.Parse(reader.Value);
 
                             continue;
                         }
@@ -803,7 +803,7 @@ namespace AutoWikiBrowser
             p.General.BypassRedirect = bypassRedirectsToolStripMenuItem.Checked;
             p.General.NoAutoChanges = doNotAutomaticallyDoAnythingToolStripMenuItem.Checked;
             p.General.OnLoadAction = toolStripComboOnLoad.SelectedIndex;
-            p.General.Minor = markAllAsMinorToolStripMenuItem.Checked;
+            p.General.Minor = chkMinor.Checked;
             p.General.Watch = addAllToWatchlistToolStripMenuItem.Checked;
             p.General.TimerEnabled = showTimerToolStripMenuItem.Checked;
             p.General.SortInterwikiOrder = sortAlphabeticallyToolStripMenuItem.Checked;
@@ -954,7 +954,7 @@ namespace AutoWikiBrowser
             bypassRedirectsToolStripMenuItem.Checked = p.General.BypassRedirect;
             doNotAutomaticallyDoAnythingToolStripMenuItem.Checked = p.General.NoAutoChanges;
             toolStripComboOnLoad.SelectedIndex = p.General.OnLoadAction;
-            markAllAsMinorToolStripMenuItem.Checked = p.General.Minor;
+            chkMinor.Checked = p.General.Minor;
             addAllToWatchlistToolStripMenuItem.Checked = p.General.Watch;
             showTimerToolStripMenuItem.Checked = p.General.TimerEnabled;
             showTimer();

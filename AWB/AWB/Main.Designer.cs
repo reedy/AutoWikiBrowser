@@ -1114,6 +1114,7 @@ namespace AutoWikiBrowser
             this.markAllAsMinorToolStripMenuItem.Name = "markAllAsMinorToolStripMenuItem";
             this.markAllAsMinorToolStripMenuItem.Size = new System.Drawing.Size(255, 22);
             this.markAllAsMinorToolStripMenuItem.Text = "Mark all as minor";
+            this.markAllAsMinorToolStripMenuItem.Click += new System.EventHandler(this.markAllAsMinorToolStripMenuItem_Click);
             // 
             // addAllToWatchlistToolStripMenuItem
             // 
