@@ -3421,5 +3421,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             WikiFunctions.AWBProfiles.AWBProfilesForm profiles = new WikiFunctions.AWBProfiles.AWBProfilesForm(webBrowserEdit);
             profiles.ShowDialog();
         }
+
+        private void chkMinor_CheckedChanged(object sender, EventArgs e)
+        {
+            markAllAsMinorToolStripMenuItem.Checked = chkMinor.Checked;
+        }
     }
 }

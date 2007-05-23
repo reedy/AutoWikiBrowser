@@ -207,6 +207,8 @@ namespace AutoWikiBrowser
             this.mnuHistory = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.chkLock = new System.Windows.Forms.CheckBox();
+            this.chkMinor = new System.Windows.Forms.CheckBox();
             this.CategoryTextboxContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemCategoryCut = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemCategoryCopy = new System.Windows.Forms.ToolStripMenuItem();
@@ -299,9 +301,7 @@ namespace AutoWikiBrowser
             this.chkAutoMode = new System.Windows.Forms.CheckBox();
             this.lblAutoDelay = new System.Windows.Forms.Label();
             this.tpStart = new System.Windows.Forms.TabPage();
-            this.label3 = new System.Windows.Forms.Label();
             this.btnProtect = new System.Windows.Forms.Button();
-            this.chkLock = new System.Windows.Forms.CheckBox();
             this.lblSummary = new System.Windows.Forms.Label();
             this.btnMove = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
@@ -322,6 +322,7 @@ namespace AutoWikiBrowser
             this.lblCats = new System.Windows.Forms.Label();
             this.lblImages = new System.Windows.Forms.Label();
             this.lblLinks = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tpEdit = new System.Windows.Forms.TabPage();
             this.txtEdit = new System.Windows.Forms.TextBox();
@@ -415,7 +416,7 @@ namespace AutoWikiBrowser
             this.undoAllChangesToolStripMenuItem,
             this.reloadEditPageToolStripMenuItem});
             this.mnuTextBox.Name = "contextMenuStrip1";
-            this.mnuTextBox.Size = new System.Drawing.Size(233, 574);
+            this.mnuTextBox.Size = new System.Drawing.Size(233, 552);
             this.mnuTextBox.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // wordWrapToolStripMenuItem1
@@ -1725,9 +1726,9 @@ namespace AutoWikiBrowser
             // CategoryTextBox
             // 
             this.CategoryTextBox.ContextMenuStrip = this.mnuHistory;
-            this.CategoryTextBox.Location = new System.Drawing.Point(157, 32);
+            this.CategoryTextBox.Location = new System.Drawing.Point(164, 32);
             this.CategoryTextBox.Name = "CategoryTextBox";
-            this.CategoryTextBox.Size = new System.Drawing.Size(109, 20);
+            this.CategoryTextBox.Size = new System.Drawing.Size(102, 20);
             this.CategoryTextBox.TabIndex = 35;
             this.toolTip1.SetToolTip(this.CategoryTextBox, resources.GetString("CategoryTextBox.ToolTip"));
             // 
@@ -1752,6 +1753,30 @@ namespace AutoWikiBrowser
             this.refreshHistoryToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.refreshHistoryToolStripMenuItem.Text = "Refresh history";
             this.refreshHistoryToolStripMenuItem.Click += new System.EventHandler(this.refreshHistoryToolStripMenuItem_Click);
+            // 
+            // chkLock
+            // 
+            this.chkLock.AutoSize = true;
+            this.chkLock.Location = new System.Drawing.Point(7, 32);
+            this.chkLock.Name = "chkLock";
+            this.chkLock.Size = new System.Drawing.Size(50, 17);
+            this.chkLock.TabIndex = 32;
+            this.chkLock.Text = "Lock";
+            this.toolTip1.SetToolTip(this.chkLock, "Lock the Edit Summary\r\nPrevents the Edit Summary from being Changed");
+            this.chkLock.UseVisualStyleBackColor = true;
+            this.chkLock.CheckedChanged += new System.EventHandler(this.chkLock_CheckedChanged);
+            // 
+            // chkMinor
+            // 
+            this.chkMinor.AutoSize = true;
+            this.chkMinor.Location = new System.Drawing.Point(55, 32);
+            this.chkMinor.Name = "chkMinor";
+            this.chkMinor.Size = new System.Drawing.Size(52, 17);
+            this.chkMinor.TabIndex = 37;
+            this.chkMinor.Text = "Minor";
+            this.toolTip1.SetToolTip(this.chkMinor, "Mark Edit as Minor\r\n- \"This is a Minor Edit\"");
+            this.chkMinor.UseVisualStyleBackColor = true;
+            this.chkMinor.CheckedChanged += new System.EventHandler(this.chkMinor_CheckedChanged);
             // 
             // CategoryTextboxContextMenuStrip
             // 
@@ -2705,7 +2730,7 @@ namespace AutoWikiBrowser
             // 
             // tpStart
             // 
-            this.tpStart.Controls.Add(this.label3);
+            this.tpStart.Controls.Add(this.chkMinor);
             this.tpStart.Controls.Add(this.CategoryTextBox);
             this.tpStart.Controls.Add(this.btnStart);
             this.tpStart.Controls.Add(this.btnProtect);
@@ -2724,6 +2749,7 @@ namespace AutoWikiBrowser
             this.tpStart.Controls.Add(this.btnSave);
             this.tpStart.Controls.Add(this.btnDiff);
             this.tpStart.Controls.Add(this.btnIgnore);
+            this.tpStart.Controls.Add(this.label3);
             this.tpStart.Location = new System.Drawing.Point(4, 22);
             this.tpStart.Name = "tpStart";
             this.tpStart.Padding = new System.Windows.Forms.Padding(3);
@@ -2731,14 +2757,6 @@ namespace AutoWikiBrowser
             this.tpStart.TabIndex = 3;
             this.tpStart.Text = "(3) Start";
             this.tpStart.UseVisualStyleBackColor = true;
-            // 
-            // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(100, 35);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(56, 18);
-            this.label3.TabIndex = 36;
-            this.label3.Text = "Category:";
             // 
             // btnProtect
             // 
@@ -2751,28 +2769,17 @@ namespace AutoWikiBrowser
             this.btnProtect.UseVisualStyleBackColor = true;
             this.btnProtect.Click += new System.EventHandler(this.btnProtect_Click);
             // 
-            // chkLock
-            // 
-            this.chkLock.AutoSize = true;
-            this.chkLock.Location = new System.Drawing.Point(7, 34);
-            this.chkLock.Name = "chkLock";
-            this.chkLock.Size = new System.Drawing.Size(50, 17);
-            this.chkLock.TabIndex = 32;
-            this.chkLock.Text = "Lock";
-            this.chkLock.UseVisualStyleBackColor = true;
-            this.chkLock.CheckedChanged += new System.EventHandler(this.chkLock_CheckedChanged);
-            // 
             // lblSummary
             // 
             this.lblSummary.AutoEllipsis = true;
             this.lblSummary.AutoSize = true;
             this.lblSummary.BackColor = System.Drawing.Color.Transparent;
             this.lblSummary.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSummary.Location = new System.Drawing.Point(56, 9);
-            this.lblSummary.MaximumSize = new System.Drawing.Size(210, 13);
-            this.lblSummary.MinimumSize = new System.Drawing.Size(210, 13);
+            this.lblSummary.Location = new System.Drawing.Point(60, 9);
+            this.lblSummary.MaximumSize = new System.Drawing.Size(200, 13);
+            this.lblSummary.MinimumSize = new System.Drawing.Size(200, 13);
             this.lblSummary.Name = "lblSummary";
-            this.lblSummary.Size = new System.Drawing.Size(210, 13);
+            this.lblSummary.Size = new System.Drawing.Size(200, 13);
             this.lblSummary.TabIndex = 33;
             this.lblSummary.UseMnemonic = false;
             this.lblSummary.Visible = false;
@@ -2991,6 +2998,14 @@ namespace AutoWikiBrowser
             this.lblLinks.Size = new System.Drawing.Size(35, 13);
             this.lblLinks.TabIndex = 20;
             this.lblLinks.Text = "Links:";
+            // 
+            // label3
+            // 
+            this.label3.Location = new System.Drawing.Point(111, 33);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(56, 18);
+            this.label3.TabIndex = 36;
+            this.label3.Text = "Category:";
             // 
             // tabControl2
             // 
@@ -3547,6 +3562,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TabPage tpLoggingOptions;
         private System.Windows.Forms.ToolStripMenuItem profilesToolStripMenuItem;
+        private System.Windows.Forms.CheckBox chkMinor;
 
 
     }
