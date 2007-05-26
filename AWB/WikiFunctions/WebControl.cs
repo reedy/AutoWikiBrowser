@@ -641,6 +641,40 @@ namespace WikiFunctions.Browser
                 this.AllowNavigation = true;
                 ProcessStage = enumProcessStage.protect;
                 Status = "Protecting page";
+
+                HtmlElement editProtElement = this.Document.GetElementById("mwProtect-level-edit");
+                if (EditProtectionLevel != 0)
+                {
+                    editProtElement.Children[0].SetAttribute("selected", "");
+                    switch (EditProtectionLevel)
+                    {
+                        case 1:
+                            editProtElement.Children[1].SetAttribute("selected", "selected");
+                            break;
+                        case 2:
+                            editProtElement.Children[2].SetAttribute("selected", "selected");
+                            break;
+                        default:
+                            break;
+                    }                              
+                }
+                HtmlElement moveProtElement = this.Document.GetElementById("mwProtect-level-move");
+                if (MoveProtectionLevel != 0)
+                {
+                    moveProtElement.Children[0].SetAttribute("selected", "");
+                    switch (MoveProtectionLevel)
+                    {
+                        case 1:
+                            moveProtElement.Children[1].SetAttribute("selected", "selected");
+                            break;
+                        case 2:
+                            moveProtElement.Children[2].SetAttribute("selected", "selected");
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                
                 this.Document.GetElementById("mw-Protect-submit").InvokeMember("click");
             }
         }
