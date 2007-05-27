@@ -2011,6 +2011,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private void btnProtect_Click(object sender, EventArgs e)
         {
             ProtectArticle();
+            Start();
         }
 
         private void filterOutNonMainSpaceToolStripMenuItem_Click(object sender, EventArgs e)
