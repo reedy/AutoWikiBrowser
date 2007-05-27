@@ -650,14 +650,23 @@ namespace WikiFunctions.Browser
                     {
                         case 1:
                             editProtElement.Children[1].SetAttribute("selected", "selected");
+                            editProtElement.Children[2].SetAttribute("selected", "");
                             break;
                         case 2:
+                            editProtElement.Children[1].SetAttribute("selected", "");
                             editProtElement.Children[2].SetAttribute("selected", "selected");
                             break;
                         default:
                             break;
-                    }                              
+                    }
                 }
+                else
+                {
+                    editProtElement.Children[0].SetAttribute("selected", "selected");
+                    editProtElement.Children[1].SetAttribute("selected", "");
+                    editProtElement.Children[2].SetAttribute("selected", ""); 
+                }
+
                 HtmlElement moveProtElement = this.Document.GetElementById("mwProtect-level-move");
                 if (MoveProtectionLevel != 0)
                 {
@@ -666,13 +675,21 @@ namespace WikiFunctions.Browser
                     {
                         case 1:
                             moveProtElement.Children[1].SetAttribute("selected", "selected");
+                            moveProtElement.Children[2].SetAttribute("selected", "");
                             break;
                         case 2:
+                            moveProtElement.Children[1].SetAttribute("selected", "");
                             moveProtElement.Children[2].SetAttribute("selected", "selected");
                             break;
                         default:
                             break;
                     }
+                }
+                else
+                {
+                    moveProtElement.Children[0].SetAttribute("selected", "selected");
+                    moveProtElement.Children[1].SetAttribute("selected", "");
+                    moveProtElement.Children[2].SetAttribute("selected", "");
                 }
                 
                 this.Document.GetElementById("mw-Protect-submit").InvokeMember("click");
