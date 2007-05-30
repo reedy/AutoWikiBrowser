@@ -558,7 +558,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
-        static Regex regexMainArticle = new Regex("(''|)Main article:( |)(\\[\\[)(.*?)(\\]\\])(''|)", RegexOptions.IgnoreCase);
+        static Regex regexMainArticle = new Regex("(.*?)Main article:( |)(\\[\\[)(.*?)(\\]\\])(''|)", RegexOptions.IgnoreCase);
         /// <summary>
         /// Fixes instances of ''Main Article: xxx'' to use {{main|xxx}}
         /// </summary>
@@ -566,7 +566,32 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns></returns>
         public string FixMainArticle(string ArticleText)
         {
-            return ArticleText = regexMainArticle.Replace(ArticleText, "{{main|$4}}");
+            return regexMainArticle.Replace(ArticleText, "{{main|$4}}");
+        }
+
+        /// <summary>
+        /// Removes Empty Links and Template Links
+        /// Will Cater for [[]], [[Image:]], [[:Category:]], [[Category:]] and {{}}
+        /// </summary>
+        /// <param name="ArticleText">The wiki text of the article.</param>
+        /// <returns></returns>
+        public string FixEmptyLinksAndTemplates(string ArticleText)
+        {
+            Regex EmptyLink = new Regex("\\[\\[(Category:|:Category:|Image:|)(|.*?)\\]\\]", RegexOptions.IgnoreCase);
+            Regex EmptyTemplate = new Regex("{{(|.*?)}}", RegexOptions.IgnoreCase);
+
+            foreach (Match link in EmptyLink.Matches(ArticleText))
+            {
+                if (link.Groups[2].Value.Trim() == "")
+                    ArticleText = ArticleText.Replace("[[" + link.Groups[1].Value + link.Groups[2].Value + "]]", "");
+            }
+
+            foreach (Match template in EmptyTemplate.Matches(ArticleText))
+            {
+                if (template.Groups[1].Value.Trim() == "")
+                    ArticleText = ArticleText.Replace("{{" + template.Groups[1].Value +"}}", "");
+            }
+            return ArticleText;
         }
 
         /// <summary>
