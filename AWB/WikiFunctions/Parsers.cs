@@ -577,18 +577,18 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns></returns>
         public string FixEmptyLinksAndTemplates(string ArticleText)
         {
-            Regex EmptyLink = new Regex("\\[\\[(Category:|:Category:|Image:|)(|.*?)\\]\\]", RegexOptions.IgnoreCase);
+            Regex EmptyLink = new Regex("\\[\\[(Category:|:Category:|Image:|)(|Image:|Category:|.*?)\\]\\]", RegexOptions.IgnoreCase);
             Regex EmptyTemplate = new Regex("{{(|.*?)}}", RegexOptions.IgnoreCase);
 
             foreach (Match link in EmptyLink.Matches(ArticleText))
             {
-                if (link.Groups[2].Value.Trim() == "")
+                if (link.Groups[2].Value.Trim() == "" || link.Groups[2].Value.Trim() == "|Image:" || link.Groups[2].Value.Trim() == "|Category:" || link.Groups[2].Value.Trim() == "|")
                     ArticleText = ArticleText.Replace("[[" + link.Groups[1].Value + link.Groups[2].Value + "]]", "");
             }
 
             foreach (Match template in EmptyTemplate.Matches(ArticleText))
             {
-                if (template.Groups[1].Value.Trim() == "")
+                if (template.Groups[1].Value.Trim() == "" || template.Groups[1].Value.Trim() == "|")
                     ArticleText = ArticleText.Replace("{{" + template.Groups[1].Value +"}}", "");
             }
             return ArticleText;
