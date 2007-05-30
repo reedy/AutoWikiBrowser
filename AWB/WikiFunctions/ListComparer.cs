@@ -168,5 +168,15 @@ namespace WikiFunctions.Controls.Lists
             }
             SaveList(strList);
         }
+
+        private void transferDuplicatesToList1ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            listMaker1.Clear();
+            
+            foreach (string str in lbBoth.Items)
+            {
+                listMaker1.Add(str);
+            }
+        }
     }
 }

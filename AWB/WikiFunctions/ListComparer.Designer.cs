@@ -28,6 +28,7 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ListComparer));
             this.lbBoth = new System.Windows.Forms.ListBox();
             this.btnGo = new System.Windows.Forms.Button();
@@ -38,9 +39,7 @@ namespace WikiFunctions.Controls.Lists
             this.btnClear = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.listMaker1 = new WikiFunctions.Controls.Lists.ListMaker();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.listMaker2 = new WikiFunctions.Controls.Lists.ListMaker();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
             this.btnSaveOnly2 = new System.Windows.Forms.Button();
@@ -50,13 +49,19 @@ namespace WikiFunctions.Controls.Lists
             this.btnSaveOnly1 = new System.Windows.Forms.Button();
             this.lblOnly1 = new System.Windows.Forms.Label();
             this.lbOnly1 = new System.Windows.Forms.ListBox();
+            this.mnuDuplicates = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.transferDuplicatesToList1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.listMaker2 = new WikiFunctions.Controls.Lists.ListMaker();
+            this.listMaker1 = new WikiFunctions.Controls.Lists.ListMaker();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.mnuDuplicates.SuspendLayout();
             this.SuspendLayout();
             // 
             // lbBoth
             // 
+            this.lbBoth.ContextMenuStrip = this.mnuDuplicates;
             this.lbBoth.FormattingEnabled = true;
             this.lbBoth.Location = new System.Drawing.Point(9, 34);
             this.lbBoth.Name = "lbBoth";
@@ -131,17 +136,6 @@ namespace WikiFunctions.Controls.Lists
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "List 1";
             // 
-            // listMaker1
-            // 
-            this.listMaker1.ListFile = "";
-            this.listMaker1.Location = new System.Drawing.Point(7, 18);
-            this.listMaker1.Name = "listMaker1";
-            this.listMaker1.SelectedSource = WikiFunctions.Lists.SourceType.Category;
-            this.listMaker1.Size = new System.Drawing.Size(201, 351);
-            this.listMaker1.SourceText = "";
-            this.listMaker1.TabIndex = 14;
-            this.listMaker1.WikiStatus = true;
-            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.listMaker2);
@@ -151,17 +145,6 @@ namespace WikiFunctions.Controls.Lists
             this.groupBox2.TabIndex = 17;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "List 2";
-            // 
-            // listMaker2
-            // 
-            this.listMaker2.ListFile = "";
-            this.listMaker2.Location = new System.Drawing.Point(7, 18);
-            this.listMaker2.Name = "listMaker2";
-            this.listMaker2.SelectedSource = WikiFunctions.Lists.SourceType.Category;
-            this.listMaker2.Size = new System.Drawing.Size(201, 351);
-            this.listMaker2.SourceText = "";
-            this.listMaker2.TabIndex = 14;
-            this.listMaker2.WikiStatus = true;
             // 
             // groupBox3
             // 
@@ -257,6 +240,42 @@ namespace WikiFunctions.Controls.Lists
             this.lbOnly1.Size = new System.Drawing.Size(130, 277);
             this.lbOnly1.TabIndex = 14;
             // 
+            // mnuDuplicates
+            // 
+            this.mnuDuplicates.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.transferDuplicatesToList1ToolStripMenuItem});
+            this.mnuDuplicates.Name = "mnuDuplicates";
+            this.mnuDuplicates.Size = new System.Drawing.Size(220, 26);
+            // 
+            // transferDuplicatesToList1ToolStripMenuItem
+            // 
+            this.transferDuplicatesToList1ToolStripMenuItem.Name = "transferDuplicatesToList1ToolStripMenuItem";
+            this.transferDuplicatesToList1ToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.transferDuplicatesToList1ToolStripMenuItem.Text = "Transfer Duplicates to List 1";
+            this.transferDuplicatesToList1ToolStripMenuItem.Click += new System.EventHandler(this.transferDuplicatesToList1ToolStripMenuItem_Click);
+            // 
+            // listMaker2
+            // 
+            this.listMaker2.ListFile = "";
+            this.listMaker2.Location = new System.Drawing.Point(7, 18);
+            this.listMaker2.Name = "listMaker2";
+            this.listMaker2.SelectedSource = WikiFunctions.Lists.SourceType.Category;
+            this.listMaker2.Size = new System.Drawing.Size(201, 351);
+            this.listMaker2.SourceText = "";
+            this.listMaker2.TabIndex = 14;
+            this.listMaker2.WikiStatus = true;
+            // 
+            // listMaker1
+            // 
+            this.listMaker1.ListFile = "";
+            this.listMaker1.Location = new System.Drawing.Point(7, 18);
+            this.listMaker1.Name = "listMaker1";
+            this.listMaker1.SelectedSource = WikiFunctions.Lists.SourceType.Category;
+            this.listMaker1.Size = new System.Drawing.Size(201, 351);
+            this.listMaker1.SourceText = "";
+            this.listMaker1.TabIndex = 14;
+            this.listMaker1.WikiStatus = true;
+            // 
             // ListComparer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -277,6 +296,7 @@ namespace WikiFunctions.Controls.Lists
             this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.mnuDuplicates.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -304,6 +324,8 @@ namespace WikiFunctions.Controls.Lists
         private System.Windows.Forms.Button btnSaveOnly1;
         private System.Windows.Forms.Label lblOnly1;
         private System.Windows.Forms.ListBox lbOnly1;
+        private System.Windows.Forms.ContextMenuStrip mnuDuplicates;
+        private System.Windows.Forms.ToolStripMenuItem transferDuplicatesToList1ToolStripMenuItem;
     }
 }
 
