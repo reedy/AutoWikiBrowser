@@ -925,6 +925,8 @@ namespace AutoWikiBrowser
                         TheArticle.AWBChangeArticleText("Fix syntax", parsers.FixSyntax(TheArticle.ArticleText), true);
                         TheArticle.AWBChangeArticleText("Fix temperatures", parsers.FixTemperatures(TheArticle.ArticleText), true);
 
+                        TheArticle.AWBChangeArticleText("Fix main article", parsers.FixMainArticle(TheArticle.ArticleText), true);
+
                         TheArticle.FixLinks(parsers, Skip.SkipNoBadLink);
                         TheArticle.BulletExternalLinks(parsers, Skip.SkipNoBulletedLink);
 
