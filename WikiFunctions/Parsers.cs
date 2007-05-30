@@ -558,6 +558,17 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
+        static Regex regexMainArticle = new Regex("(''|)Main article:( |)(\\[\\[)(.*?)(\\]\\])(''|)", RegexOptions.IgnoreCase);
+        /// <summary>
+        /// Fixes instances of ''Main Article: xxx'' to use {{main|xxx}}
+        /// </summary>
+        /// <param name="ArticleText">The wiki text of the article.</param>
+        /// <returns></returns>
+        public string FixMainArticle(string ArticleText)
+        {
+            return ArticleText = regexMainArticle.Replace(ArticleText, "{{main|$4}}");
+        }
+
         /// <summary>
         /// Adds bullet points to external links after "external links" header
         /// </summary>
@@ -1422,9 +1433,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 foreach (string u in s.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     if (u == Username) return true;
-                    
+
                     //AWB bots are allowed, but this specific user may be not
-                    if(u == "AWB") AwbAllowed = true;
+                    if (u == "AWB") AwbAllowed = true;
                 }
             }
 
@@ -1440,7 +1451,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             return true;
         }
-
         #endregion
 
         #region Property checkers
