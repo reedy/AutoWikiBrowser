@@ -33,11 +33,11 @@ namespace AutoWikiBrowser
             this.rdoNoUnicode = new System.Windows.Forms.RadioButton();
             this.rdoNoTag = new System.Windows.Forms.RadioButton();
             this.gbOptions = new System.Windows.Forms.GroupBox();
+            this.rdoDefaultSortAdded = new System.Windows.Forms.RadioButton();
             this.rdoNoBadLink = new System.Windows.Forms.RadioButton();
             this.rdoNoBulletedLink = new System.Windows.Forms.RadioButton();
             this.rdoNoBoldTitle = new System.Windows.Forms.RadioButton();
             this.rdoNoHeaderError = new System.Windows.Forms.RadioButton();
-            this.rdoDefaultSortAdded = new System.Windows.Forms.RadioButton();
             this.gbOptions.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -55,7 +55,7 @@ namespace AutoWikiBrowser
             // 
             this.rdoNone.AutoSize = true;
             this.rdoNone.Checked = true;
-            this.rdoNone.Location = new System.Drawing.Point(167, 135);
+            this.rdoNone.Location = new System.Drawing.Point(167, 158);
             this.rdoNone.Name = "rdoNone";
             this.rdoNone.Size = new System.Drawing.Size(51, 17);
             this.rdoNone.TabIndex = 3;
@@ -102,6 +102,18 @@ namespace AutoWikiBrowser
             this.gbOptions.TabIndex = 6;
             this.gbOptions.TabStop = false;
             this.gbOptions.Text = "Skip if no...";
+            // 
+            // rdoDefaultSortAdded
+            // 
+            this.rdoDefaultSortAdded.AutoSize = true;
+            this.rdoDefaultSortAdded.Location = new System.Drawing.Point(6, 158);
+            this.rdoDefaultSortAdded.Name = "rdoDefaultSortAdded";
+            this.rdoDefaultSortAdded.Size = new System.Drawing.Size(123, 17);
+            this.rdoDefaultSortAdded.TabIndex = 11;
+            this.rdoDefaultSortAdded.TabStop = true;
+            this.rdoDefaultSortAdded.Tag = "3";
+            this.rdoDefaultSortAdded.Text = "{{defaultsort}} added";
+            this.rdoDefaultSortAdded.UseVisualStyleBackColor = true;
             // 
             // rdoNoBadLink
             // 
@@ -150,18 +162,6 @@ namespace AutoWikiBrowser
             this.rdoNoHeaderError.Tag = "3";
             this.rdoNoHeaderError.Text = "Header error fixed";
             this.rdoNoHeaderError.UseVisualStyleBackColor = true;
-            // 
-            // rdoDefaultSortAdded
-            // 
-            this.rdoDefaultSortAdded.AutoSize = true;
-            this.rdoDefaultSortAdded.Location = new System.Drawing.Point(6, 158);
-            this.rdoDefaultSortAdded.Name = "rdoDefaultSortAdded";
-            this.rdoDefaultSortAdded.Size = new System.Drawing.Size(123, 17);
-            this.rdoDefaultSortAdded.TabIndex = 11;
-            this.rdoDefaultSortAdded.TabStop = true;
-            this.rdoDefaultSortAdded.Tag = "3";
-            this.rdoDefaultSortAdded.Text = "{{defaultsort}} added";
-            this.rdoDefaultSortAdded.UseVisualStyleBackColor = true;
             // 
             // SkipOptions
             // 

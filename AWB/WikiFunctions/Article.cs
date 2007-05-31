@@ -402,7 +402,6 @@ namespace WikiFunctions
                     string strTemp = parsers.Conversions(mArticleText);
                     strTemp = parsers.FixDates(strTemp);
                     strTemp = parsers.LivingPeople(strTemp, out NoChange);
-                    strTemp = parsers.ChangeToDefaultSort(strTemp, mName);
                     strTemp = parsers.FixHeadings(strTemp, mName, out NoChange);
                     if (SkipIfNoChange && NoChange)
                         Trace.AWBSkipped("No header errors");
@@ -410,6 +409,26 @@ namespace WikiFunctions
                         this.AWBChangeArticleText("Fixed header errors", strTemp, true);
                 }
             }
+
+        /// <summary>
+        /// Sets Default Sort on Article if Necessary
+        /// </summary>
+        /// <param name="parsers">An initialised Parsers object</param>
+        /// <param name="LangCode">The wiki's language code</param>
+        /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
+        public void SetDefaultSort(Parsers parsers, LangCodeEnum LangCode, bool SkipIfNoChange)
+        {
+            if (LangCode == LangCodeEnum.en)
+            {
+                bool NoChange;
+                string strTemp = parsers.ChangeToDefaultSort(mArticleText, mName, out NoChange);
+
+                if (SkipIfNoChange && NoChange)
+                    Trace.AWBSkipped("No DefaultSort Added");
+                else if (!NoChange)
+                    this.AWBChangeArticleText("DefaultSort Added", strTemp, true);
+            }
+        }
 
             /// <summary>
             /// Fix link syntax
