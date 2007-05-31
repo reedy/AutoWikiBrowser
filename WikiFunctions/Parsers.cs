@@ -1197,9 +1197,12 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// Changes an article to use defaultsort when all categories use the same sort field.
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
+        /// <param name="ArticleTitle">Title of the article</param>
+        /// <param name="NoChange">If there is no change (True if no Change)</param>
         /// <returns>The article text possibly using defaultsort.</returns>
-        public string ChangeToDefaultSort(string ArticleText, string ArticleTitle)
+        public string ChangeToDefaultSort(string ArticleText, string ArticleTitle, out bool NoChange)
         {
+            testText = ArticleText;
             ArticleText = TalkPages.TalkPageHeaders.FormatDefaultSort(ArticleText);
             if (!TalkPages.TalkPageHeaders.ContainsDefaultSortKeywordOrTemplate(ArticleText))
             {
@@ -1243,6 +1246,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     }
                 }
             }
+            NoChange = (TalkPages.TalkPageHeaders.ContainsDefaultSortKeywordOrTemplate(ArticleText) 
+                == TalkPages.TalkPageHeaders.ContainsDefaultSortKeywordOrTemplate(testText));
             return ArticleText;
         }
 
