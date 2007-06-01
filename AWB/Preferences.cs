@@ -83,7 +83,12 @@ namespace AutoWikiBrowser
         }
         public string CustomProject
         {
-            get { return cmboCustomProject.Text; }
+            get
+            {
+                string s = cmboCustomProject.Text.Trim();
+                if (Project == ProjectEnum.wikia) return s;
+                return s.EndsWith("/") ? s : s + "/";
+            }
         }
 
         private void txtCustomProject_Leave(object sender, EventArgs e)
@@ -96,14 +101,17 @@ namespace AutoWikiBrowser
         private void cmboProject_SelectedIndexChanged(object sender, EventArgs e)
         {
             //disable language selection for single language projects
-            cmboLang.Enabled = cmboProject.SelectedIndex <= 6;
+            cmboLang.Enabled = cmboProject.SelectedIndex <= cmboProject.Items.Count - 6;
 
-            if ((ProjectEnum)Enum.Parse(typeof(ProjectEnum), cmboProject.SelectedItem.ToString()) == ProjectEnum.custom)
+            lblPostfix.Text = "";
+            ProjectEnum prj = (ProjectEnum)Enum.Parse(typeof(ProjectEnum), cmboProject.SelectedItem.ToString());
+            if (prj == ProjectEnum.custom || prj == ProjectEnum.wikia)
             {
                 cmboCustomProject.Visible = true;
                 cmboLang.Visible = false;
                 lblLang.Text = "http://";
-                cmboCustomProject_TextChanged(null, null);
+                if (prj == ProjectEnum.wikia) lblPostfix.Text = ".wikia.com";
+                cmboCustomProjectChanged(null, null);
             }
             else
             {
@@ -114,7 +122,7 @@ namespace AutoWikiBrowser
             }
         }
 
-        private void cmboCustomProject_TextChanged(object sender, EventArgs e)
+        private void cmboCustomProjectChanged(object sender, EventArgs e)
         {
             btnApply.Enabled = (cmboCustomProject.Text != "");
         }
@@ -236,5 +244,6 @@ namespace AutoWikiBrowser
             saveFile.ShowDialog();
             txtAutosave.Text = saveFile.FileName;
         }
+
     }
 }

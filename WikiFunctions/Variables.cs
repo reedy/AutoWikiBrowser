@@ -38,7 +38,7 @@ using WikiFunctions.Background;
 namespace WikiFunctions
 {
     public enum LangCodeEnum { en, ar, ca, da, de, eo, es, fi, fr, he, hu, Is, it, ja, ku, nl, no, mi, pl, pt, ro, ru, simple, sk, sl, sv, ta, tj, uk, ur, zh }
-    public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikiquote, wikiversity, wikibooks, wikinews, commons, meta, species, custom }
+    public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikiquote, wikiversity, wikibooks, wikinews, commons, meta, species, wikia, custom }
 
     /// <summary>
     /// Holds static variables, to allow functionality on different wikis.
@@ -168,7 +168,7 @@ namespace WikiFunctions
         private static void AWBDefaultSummaryTag()
         {
             strsummarytag = " ";
-            strWPAWB = "[[Wikipedia:AutoWikiBrowser|AWB]]";
+            strWPAWB = "[[Project:AutoWikiBrowser|AWB]]";
         }
 
         #region Delayed load stuff
@@ -246,6 +246,7 @@ namespace WikiFunctions
             ProjectName = "";
             URLEnd = "/w/";
 
+            AWBDefaultSummaryTag();
             Stub = "[Ss]tub";
 
             MonthNames = enLangMonthNames;
@@ -370,8 +371,6 @@ namespace WikiFunctions
                         Namespaces[15] = "Kategorie Diskussion:";
                         Namespaces[100] = "Portal:";
                         Namespaces[101] = "Portal Diskussion:";
-
-                        AWBDefaultSummaryTag();
                         break;
 
                     case LangCodeEnum.es:
@@ -396,8 +395,6 @@ namespace WikiFunctions
                         Namespaces[101] = "Portal Discusión:";
                         Namespaces[102] = "Wikiproyecto:";
                         Namespaces[103] = "Wikiproyecto Discusión:";
-
-                        AWBDefaultSummaryTag();
                         break;
 
                     case LangCodeEnum.eo:
@@ -443,8 +440,6 @@ namespace WikiFunctions
                         Namespaces[13] = "Keskustelu ohjeesta:";
                         Namespaces[14] = "Luokka:";
                         Namespaces[15] = "Keskustelu luokasta:";
-
-                        AWBDefaultSummaryTag();
                         break;
 
                     case LangCodeEnum.fr:
@@ -471,8 +466,6 @@ namespace WikiFunctions
                         Namespaces[103] = "Discussion Projet:";
                         Namespaces[104] = "Référence:";
                         Namespaces[105] = "Discussion Référence:";
-
-                        AWBDefaultSummaryTag();
                         break;
 
                     case LangCodeEnum.hu:
@@ -518,8 +511,6 @@ namespace WikiFunctions
                         Namespaces[15] = "Discussioni categoria:";
                         Namespaces[100] = "Portale:";
                         Namespaces[101] = "Discussioni portale:";
-
-                        AWBDefaultSummaryTag();
                         break;
 
                     case LangCodeEnum.ja:
@@ -542,8 +533,6 @@ namespace WikiFunctions
                         Namespaces[15] = "Category‐ノート:";
                         Namespaces[100] = "Portal:";
                         Namespaces[101] = "Portal‐ノート:";
-
-                        AWBDefaultSummaryTag();
                         break;
 
                     case LangCodeEnum.ku:
@@ -587,8 +576,6 @@ namespace WikiFunctions
                         Namespaces[13] = "Help talk:";
                         Namespaces[14] = "Category:";
                         Namespaces[15] = "Category talk:";
-
-                        AWBDefaultSummaryTag();
                         break;
 
                     case LangCodeEnum.nl:
@@ -636,8 +623,6 @@ namespace WikiFunctions
                         Namespaces[15] = "Kategoridiskusjon:";
                         Namespaces[100] = "Portal:";
                         Namespaces[101] = "Portaldiskusjon:";
-
-                        AWBDefaultSummaryTag();
                         break;
 
                     case LangCodeEnum.pl:
@@ -661,7 +646,6 @@ namespace WikiFunctions
                         Namespaces[100] = "Portal:";
                         Namespaces[101] = "Dyskusja portalu:";
 
-                        AWBDefaultSummaryTag();
                         SectStub = @"\{\{[Ss]ek";
                         break;
 
@@ -814,8 +798,6 @@ namespace WikiFunctions
                         Namespaces[15] = "Kategoridiskussion:";
                         Namespaces[100] = "Portal:";
                         Namespaces[101] = "Portaldiskussion:";
-
-                        AWBDefaultSummaryTag();
                         break;
 
                     case LangCodeEnum.uk:
@@ -844,7 +826,6 @@ namespace WikiFunctions
 
                     default:
                         LoadProjectOptions(URLLong);
-                        AWBDefaultSummaryTag();
                         break;
                 }
             }
@@ -898,12 +879,17 @@ namespace WikiFunctions
                 SetToEnglish("Wikispecies:", "Wikispecies talk:");
                 URL = "http://species.wikimedia.org";
             }
+            else if (projectName == ProjectEnum.wikia)
+            {
+                URL = "http://" + customProject + ".wikia.com/";
+                URLEnd = "";
+                LoadProjectOptions(URL);
+            }
             else
             {
                 if (projectName == ProjectEnum.custom)
                     URLEnd = "";
                 LoadProjectOptions(URL);
-                AWBDefaultSummaryTag();
             }
 
             NamespacesCaseInsensitive.Clear();
@@ -1331,6 +1317,8 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                     else
                     {
                     //see if we are allowed to use this softare
+                        strText = Tools.StringBetween(strText, "<!--enabledusersbegins-->", "<!--enabledusersends-->");
+
                         string strBotUsers = Tools.StringBetween(strText, "<!--enabledbots-->", "<!--enabledbotsends-->");
                         string strAdmins = Tools.StringBetween(strText, "<!--adminsbegins-->", "<!--adminsends-->");
                         Regex username = new Regex(@"^\*\s*" + Tools.CaseInsensitive(Regex.Escape(Variables.User.Name))
