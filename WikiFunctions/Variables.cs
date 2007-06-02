@@ -1216,15 +1216,25 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
             {
                 string strText = String.Empty;
                 string strVersionPage;
+                WebControl webBrowserWikia = null;
+                string typoPostfix = "";
 
                 Groups.Clear();
+
+                if (Variables.Project == ProjectEnum.wikia) 
+                {
+                    webBrowserWikia = new WebControl();
+                    webBrowserWikia.Navigate(Variables.URLLong + "index.php?title=Project:AutoWikiBrowser/CheckPage&action=edit");
+                }
 
                 //load version check page
                 BackgroundRequest br = new BackgroundRequest();
                 br.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=raw");
 
                 //load check page
-                if (Variables.LangCode != LangCodeEnum.ar)
+                if (Variables.Project == ProjectEnum.wikia)
+                    webBrowserLogin.Navigate("http://www.wikia.com/index.php?title=Wikia:AutoWikiBrowser/CheckPage&action=edit");
+                else if (Variables.LangCode != LangCodeEnum.ar)
                     webBrowserLogin.Navigate(Variables.URLLong + "index.php?title=Project:AutoWikiBrowser/CheckPage&action=edit");
                 else
                     webBrowserLogin.Navigate("http://ar.wikipedia.org/w/index.php?title=%D9%88%D9%8A%D9%83%D9%8A%D8%A8%D9%8A%D8%AF%D9%8A%D8%A7:%D9%82%D8%A7%D8%A6%D9%85%D8%A9_%D8%A7%D9%84%D9%88%D9%8A%D9%83%D9%8A%D8%A8%D9%8A%D8%AF%D9%8A%D9%88%D9%86_%D8%A7%D9%84%D9%85%D8%B3%D9%85%D9%88%D8%AD_%D9%84%D9%87%D9%85_%D8%A8%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85_%D8%A7%D9%84%D8%A3%D9%88%D8%AA%D9%88_%D9%88%D9%8A%D9%83%D9%8A_%D8%A8%D8%B1%D8%A7%D9%88%D8%B2%D8%B1&action=edit");
@@ -1232,6 +1242,11 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                 //wait for both pages to load
                 webBrowserLogin.Wait();
                 br.Wait();
+                if (Variables.Project == ProjectEnum.wikia)
+                {
+                    webBrowserWikia.Wait();
+                    typoPostfix = "-" + webBrowserWikia.GetScriptingVar("wgContentLanguage");
+                }
 
                 strText = webBrowserLogin.GetArticleText();
                 strVersionPage = (string)br.Result;
@@ -1284,7 +1299,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                 if (m.Success && m.Groups[1].Value.Trim().Length > 0)
                     MessageBox.Show(m.Groups[1].Value, "Automated message", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                m = Regex.Match(strText, "<!--[Tt]ypos:(.*?)-->");
+                m = Regex.Match(strText, "<!--[Tt]ypos" + typoPostfix + ":(.*?)-->");
                 if (m.Success && m.Groups[1].Value.Trim().Length > 0)
                     Variables.RETFPath = m.Groups[1].Value.Trim();
 

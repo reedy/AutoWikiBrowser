@@ -423,9 +423,39 @@ namespace WikiFunctions.Browser
         /// </summary>
         public string GetHead()
         {
+            if (Document == null) return "";
             try
             {
                 return Tools.StringBetween(DocumentText, "<head>", "</head>");
+            }
+            catch
+            {
+                return "";
+            }
+        }
+
+        /// <summary>
+        /// returns value of one of JavaScript scripting variables set by MediaWiki
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public string GetScriptingVar(string name)
+        {
+            if (this.Document == null)
+                return "";
+
+            try
+            {
+                Regex r = new Regex("var " + name + " = (.*?);\n");
+                Match m = r.Match(GetHead());
+
+                if (!m.Groups[1].Success)
+                    return "";
+
+                string s = m.Groups[1].Value.Trim('"');
+                s = s.Replace("\\\"", "\"").Replace("\\'", "'");
+
+                return s;
             }
             catch
             {
