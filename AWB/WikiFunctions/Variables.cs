@@ -1215,145 +1215,146 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
             try
             {
                 string strText = String.Empty;
+                string strVersionPage;
 
                 Groups.Clear();
 
                 //load version check page
-                webBrowserLogin.Navigate("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=edit");
-                //wait to load
+                BackgroundRequest br = new BackgroundRequest();
+                br.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=raw");
+
+                //load check page
+                if (Variables.LangCode != LangCodeEnum.ar)
+                    webBrowserLogin.Navigate(Variables.URLLong + "index.php?title=Project:AutoWikiBrowser/CheckPage&action=edit");
+                else
+                    webBrowserLogin.Navigate("http://ar.wikipedia.org/w/index.php?title=%D9%88%D9%8A%D9%83%D9%8A%D8%A8%D9%8A%D8%AF%D9%8A%D8%A7:%D9%82%D8%A7%D8%A6%D9%85%D8%A9_%D8%A7%D9%84%D9%88%D9%8A%D9%83%D9%8A%D8%A8%D9%8A%D8%AF%D9%8A%D9%88%D9%86_%D8%A7%D9%84%D9%85%D8%B3%D9%85%D9%88%D8%AD_%D9%84%D9%87%D9%85_%D8%A8%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85_%D8%A7%D9%84%D8%A3%D9%88%D8%AA%D9%88_%D9%88%D9%8A%D9%83%D9%8A_%D8%A8%D8%B1%D8%A7%D9%88%D8%B2%D8%B1&action=edit");
+
+                //wait for both pages to load
                 webBrowserLogin.Wait();
+                br.Wait();
 
                 strText = webBrowserLogin.GetArticleText();
+                strVersionPage = (string)br.Result;
 
                 //see if this version is enabled
-                if (!strText.Contains(AWBVersion + " enabled"))
+                if (!strVersionPage.Contains(AWBVersion + " enabled"))
                 {
                     IsBot = false;
                     IsAdmin = false;
                     WikiStatus = false;
                     return WikiStatusResult.OldVersion;
                 }
+
+                // else
+                if (!WeAskedAboutUpdate && strVersionPage.Contains(AWBVersion + " enabled (old)"))
+                {
+                    WeAskedAboutUpdate = true;
+                    if (MessageBox.Show("This version has been superceeded by a new version.  You may continue to use this version or update to the newest version.\r\n\r\nWould you like to automatically upgrade to the newest version?", "Upgrade?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        Match m_version = Regex.Match(strVersionPage, @"<!-- Current version: (.*?) -->");
+                        if (m_version.Success && m_version.Groups[1].Value.Length == 4)
+                        {
+                            System.Diagnostics.Process.Start(Path.GetDirectoryName(Application.ExecutablePath) + "\\AWBUpdater.exe");
+                        }
+                        else
+                            if (MessageBox.Show("Error automatically updating AWB.  Load the download page instead?", "Load download page?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                                System.Diagnostics.Process.Start("http://sourceforge.net/project/showfiles.php?group_id=158332");
+                    }
+                }
+
+                CheckPageText = strText;
+
+                //see if we are logged in
+                this.Name = webBrowserLogin.UserName();
+                if (Name == "") // don't run GetInLogInStatus if we don't have the username, we sometimes get 2 error message boxes otherwise
+                    LoggedIn = false;
+                else
+                    LoggedIn = webBrowserLogin.GetLogInStatus();
+
+                if (!LoggedIn)
+                {
+                    IsBot = false;
+                    IsAdmin = false;
+                    WikiStatus = false;
+                    return WikiStatusResult.NotLoggedIn;
+                }
+
+                //see if there is a message
+                Match m = Regex.Match(strText, "<!--Message:(.*?)-->");
+                if (m.Success && m.Groups[1].Value.Trim().Length > 0)
+                    MessageBox.Show(m.Groups[1].Value, "Automated message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                m = Regex.Match(strText, "<!--[Tt]ypos:(.*?)-->");
+                if (m.Success && m.Groups[1].Value.Trim().Length > 0)
+                    Variables.RETFPath = m.Groups[1].Value.Trim();
+
+                m = Regex.Match(strText, "<!--[Uu]nderscores:(.*?)-->");
+                if (m.Success && m.Groups[1].Value.Trim().Length > 0)
+                    Variables.LoadUnderscores(m.Groups[1].Value.Trim());
+
+
+                string strHead = webBrowserLogin.GetHead();
+
+                Regex r = new Regex("\"([a-z]*)\"[,\\]]");
+
+                foreach (Match m1 in r.Matches(strHead))
+                {
+                    Groups.Add(m1.Groups[1].Value);
+                }
+
+                //don't require approval if checkpage does not exist.
+                if (strText.Length < 1)
+                {
+                    WikiStatus = true;
+                    IsBot = true;
+                    return WikiStatusResult.Registered;
+                }
+                else if (strText.Contains("<!--All users enabled-->"))
+                {//see if all users enabled
+                    WikiStatus = true;
+                    IsBot = true;
+                    IsAdmin = Groups.Contains("sysop");
+                    return WikiStatusResult.Registered;
+                }
                 else
                 {
-                    if (!WeAskedAboutUpdate && strText.Contains(AWBVersion + " enabled (old)")) 
+                    //see if we are allowed to use this softare
+                    strText = Tools.StringBetween(strText, "<!--enabledusersbegins-->", "<!--enabledusersends-->");
+
+                    string strBotUsers = Tools.StringBetween(strText, "<!--enabledbots-->", "<!--enabledbotsends-->");
+                    string strAdmins = Tools.StringBetween(strText, "<!--adminsbegins-->", "<!--adminsends-->");
+                    Regex username = new Regex(@"^\*\s*" + Tools.CaseInsensitive(Regex.Escape(Variables.User.Name))
+                        + @"\s*$", RegexOptions.Multiline);
+
+                    if (Groups.Contains("sysop"))
                     {
-                        WeAskedAboutUpdate = true;
-                        if (MessageBox.Show("This version has been superceeded by a new version.  You may continue to use this version or update to the newest version.\r\n\r\nWould you like to automatically upgrade to the newest version?", "Upgrade?", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                        {
-                            Match m_version = Regex.Match(strText, @"<!-- Current version: (.*?) -->");
-                            if (m_version.Success && m_version.Groups[1].Value.Length == 4)
-                            {
-                                System.Diagnostics.Process.Start(Path.GetDirectoryName(Application.ExecutablePath) + "\\AWBUpdater.exe");
-                            }
-                            else
-                                if (MessageBox.Show("Error automatically updating AWB.  Load the download page instead?", "Load download page?", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                                    System.Diagnostics.Process.Start("http://sourceforge.net/project/showfiles.php?group_id=158332");
-                        }
+                        WikiStatus = true;
+                        IsAdmin = true;
+                        IsBot = username.IsMatch(strBotUsers);
+                        return WikiStatusResult.Registered;
                     }
-                    
-                    //load check page
-                    if (Variables.LangCode != LangCodeEnum.ar)
-                        webBrowserLogin.Navigate(Variables.URLLong + "index.php?title=Project:AutoWikiBrowser/CheckPage&action=edit");
+
+                    if (this.Name.Length > 0 && username.IsMatch(strText))
+                    {
+                        if (username.IsMatch(strBotUsers))
+                        {//enable botmode
+                            IsBot = true;
+                        }
+                        if (username.IsMatch(strAdmins))
+                        {//enable admin features
+                            IsAdmin = true;
+                        }
+
+                        WikiStatus = true;
+
+                        return WikiStatusResult.Registered;
+                    }
                     else
-                        webBrowserLogin.Navigate("http://ar.wikipedia.org/w/index.php?title=%D9%88%D9%8A%D9%83%D9%8A%D8%A8%D9%8A%D8%AF%D9%8A%D8%A7:%D9%82%D8%A7%D8%A6%D9%85%D8%A9_%D8%A7%D9%84%D9%88%D9%8A%D9%83%D9%8A%D8%A8%D9%8A%D8%AF%D9%8A%D9%88%D9%86_%D8%A7%D9%84%D9%85%D8%B3%D9%85%D9%88%D8%AD_%D9%84%D9%87%D9%85_%D8%A8%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85_%D8%A7%D9%84%D8%A3%D9%88%D8%AA%D9%88_%D9%88%D9%8A%D9%83%D9%8A_%D8%A8%D8%B1%D8%A7%D9%88%D8%B2%D8%B1&action=edit");
-                    //wait to load
-                    webBrowserLogin.Wait();
-
-                    strText = webBrowserLogin.GetArticleText();
-                    CheckPageText = strText;
-
-                    //see if we are logged in
-                    this.Name = webBrowserLogin.UserName();
-                    if (Name == "") // don't run GetInLogInStatus if we don't have the username, we sometimes get 2 error message boxes otherwise
-                        LoggedIn = false;
-                    else
-                        LoggedIn = webBrowserLogin.GetLogInStatus();
-
-                    if (!LoggedIn)
                     {
                         IsBot = false;
                         IsAdmin = false;
                         WikiStatus = false;
-                        return WikiStatusResult.NotLoggedIn;
-                    }
-
-                    //see if there is a message
-                    Match m = Regex.Match(strText, "<!--Message:(.*?)-->");
-                    if (m.Success && m.Groups[1].Value.Trim().Length > 0)
-                        MessageBox.Show(m.Groups[1].Value, "Automated message", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    
-                    m = Regex.Match(strText, "<!--[Tt]ypos:(.*?)-->");
-                    if (m.Success && m.Groups[1].Value.Trim().Length > 0)
-                        Variables.RETFPath = m.Groups[1].Value.Trim();
-
-                    m = Regex.Match(strText, "<!--[Uu]nderscores:(.*?)-->");
-                    if (m.Success && m.Groups[1].Value.Trim().Length > 0)
-                        Variables.LoadUnderscores(m.Groups[1].Value.Trim());
-
-
-                    string strHead = webBrowserLogin.GetHead();
-
-                    Regex r = new Regex("\"([a-z]*)\"[,\\]]");
-
-                    foreach (Match m1 in r.Matches(strHead))
-                    {
-                        Groups.Add(m1.Groups[1].Value);
-                    }
-
-                    //don't require approval if checkpage does not exist.
-                    if (strText.Length < 1)
-                    {
-                        WikiStatus = true;
-                        IsBot = true;
-                        return WikiStatusResult.Registered;
-                    }
-                    else if (strText.Contains("<!--All users enabled-->"))
-                    {//see if all users enabled
-                        WikiStatus = true;
-                        IsBot = true;
-                        IsAdmin = Groups.Contains("sysop");
-                        return WikiStatusResult.Registered;
-                    }
-                    else
-                    {
-                    //see if we are allowed to use this softare
-                        strText = Tools.StringBetween(strText, "<!--enabledusersbegins-->", "<!--enabledusersends-->");
-
-                        string strBotUsers = Tools.StringBetween(strText, "<!--enabledbots-->", "<!--enabledbotsends-->");
-                        string strAdmins = Tools.StringBetween(strText, "<!--adminsbegins-->", "<!--adminsends-->");
-                        Regex username = new Regex(@"^\*\s*" + Tools.CaseInsensitive(Regex.Escape(Variables.User.Name))
-                            + @"\s*$", RegexOptions.Multiline);
-
-                        if (Groups.Contains("sysop"))
-                        {
-                            WikiStatus = true;
-                            IsAdmin = true;
-                            IsBot = username.IsMatch(strBotUsers);
-                            return WikiStatusResult.Registered;
-                        }
-
-                        if (this.Name.Length > 0 && username.IsMatch(strText))
-                        {
-                            if (username.IsMatch(strBotUsers))
-                            {//enable botmode
-                                IsBot = true;
-                            }
-                            if (username.IsMatch(strAdmins))
-                            {//enable admin features
-                                IsAdmin = true;
-                            }
-                            
-                            WikiStatus = true;
-                            
-                            return WikiStatusResult.Registered;
-                        }
-                        else
-                        {
-                            IsBot = false;
-                            IsAdmin = false;
-                            WikiStatus = false;
-                            return WikiStatusResult.NotRegistered;
-                        }
+                        return WikiStatusResult.NotRegistered;
                     }
                 }
             }
