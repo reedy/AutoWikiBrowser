@@ -215,6 +215,11 @@ namespace WikiFunctions
         /// matches template
         /// </summary>
         public static Regex TemplateCall;
-    
+
+        /// <summary>
+        /// for checkpage parsing
+        /// </summary>
+        public static Regex NoGeneralFixes = new Regex("<!--No general fixes:.*?-->", RegexOptions.Singleline | RegexOptions.Compiled);
+ 
     }
 }

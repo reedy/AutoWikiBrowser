@@ -1207,6 +1207,9 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
             }
         }
 
+        static Regex Message = new Regex("<!--[Mm]essage:(.*?)-->", RegexOptions.Compiled);
+        static Regex Underscores = new Regex("<!--[Uu]nderscores:(.*?)-->", RegexOptions.Compiled);
+
         /// <summary>
         /// Checks log in status, registered and version.
         /// </summary>
@@ -1218,6 +1221,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                 string strVersionPage;
                 WebControl webBrowserWikia = null;
                 string typoPostfix = "";
+                string userGroups;
 
                 Groups.Clear();
 
@@ -1241,14 +1245,26 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
 
                 //wait for both pages to load
                 webBrowserLogin.Wait();
+                strText = webBrowserLogin.GetArticleText();
                 br.Wait();
                 if (Variables.Project == ProjectEnum.wikia)
                 {
                     webBrowserWikia.Wait();
                     typoPostfix = "-" + webBrowserWikia.GetScriptingVar("wgContentLanguage");
+                    string s = webBrowserWikia.GetArticleText();
+
+                    // selectively add content of the local checkpage to the global one
+                    strText += Message.Match(s).Value
+                        + Underscores.Match(s)
+                        + WikiRegexes.NoGeneralFixes.Match(s);
+
+                    userGroups = webBrowserWikia.GetScriptingVar("wgUserGroups");
+                }
+                else
+                {
+                    userGroups = webBrowserLogin.GetScriptingVar("wgUserGroups");
                 }
 
-                strText = webBrowserLogin.GetArticleText();
                 strVersionPage = (string)br.Result;
 
                 //see if this version is enabled
@@ -1295,7 +1311,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                 }
 
                 //see if there is a message
-                Match m = Regex.Match(strText, "<!--Message:(.*?)-->");
+                Match m = Message.Match(strText);
                 if (m.Success && m.Groups[1].Value.Trim().Length > 0)
                     MessageBox.Show(m.Groups[1].Value, "Automated message", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -1303,16 +1319,13 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                 if (m.Success && m.Groups[1].Value.Trim().Length > 0)
                     Variables.RETFPath = m.Groups[1].Value.Trim();
 
-                m = Regex.Match(strText, "<!--[Uu]nderscores:(.*?)-->");
+                m = Underscores.Match(strText);
                 if (m.Success && m.Groups[1].Value.Trim().Length > 0)
                     Variables.LoadUnderscores(m.Groups[1].Value.Trim());
 
-
-                string strHead = webBrowserLogin.GetHead();
-
                 Regex r = new Regex("\"([a-z]*)\"[,\\]]");
 
-                foreach (Match m1 in r.Matches(strHead))
+                foreach (Match m1 in r.Matches(userGroups))
                 {
                     Groups.Add(m1.Groups[1].Value);
                 }
@@ -1341,7 +1354,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                     Regex username = new Regex(@"^\*\s*" + Tools.CaseInsensitive(Regex.Escape(Variables.User.Name))
                         + @"\s*$", RegexOptions.Multiline);
 
-                    if (Groups.Contains("sysop"))
+                    if (Groups.Contains("sysop") || Groups.Contains("staff"))
                     {
                         WikiStatus = true;
                         IsAdmin = true;
