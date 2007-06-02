@@ -1410,7 +1410,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                     lblUserName.BackColor = Color.LightGreen;
 
                     //Get list of articles not to apply general fixes to.
-                    Match n = Regex.Match(Variables.User.CheckPageText, "<!--No general fixes:.*?-->", RegexOptions.Singleline);
+                    Match n = WikiRegexes.NoGeneralFixes.Match(Variables.User.CheckPageText);
                     if (n.Success)
                     {
                         foreach (Match link in WikiRegexes.UnPipedWikiLink.Matches(n.Value))
