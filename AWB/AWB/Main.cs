@@ -2883,6 +2883,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void testRegexToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            regexTester = new RegexTester();
+
+            if (txtEdit.SelectionLength > 0 && MessageBox.Show("Would you like to transfer the currently selected Article Text to the Regex Tester?", "Transfer Article Text?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    regexTester.ArticleText = txtEdit.SelectedText;
+            
             regexTester.Show();
         }
 

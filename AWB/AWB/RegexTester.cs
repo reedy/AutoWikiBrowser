@@ -35,6 +35,11 @@ namespace AutoWikiBrowser
             InitializeComponent();
         }
 
+        public string ArticleText
+        {
+            set { Source.Text = value; }
+        }
+
         private void ConditionsChanged(object sender, EventArgs e)
         {
             Go.Enabled = Find.Text != "" && Source.Text != "";
