@@ -178,5 +178,23 @@ namespace WikiFunctions.Controls.Lists
                 listMaker1.Add(str);
             }
         }
+
+        private void openInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (String article in lbBoth.SelectedItems)
+                Tools.OpenArticleInBrowser(article);
+        }
+
+        private void openInBrowserToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            foreach (String article in lbOnly1.SelectedItems)
+                Tools.OpenArticleInBrowser(article);
+        }
+
+        private void openInBrowserToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            foreach (String article in lbOnly2.SelectedItems)
+                Tools.OpenArticleInBrowser(article);
+        }
     }
 }
