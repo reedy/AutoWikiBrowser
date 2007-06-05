@@ -83,7 +83,7 @@ namespace WikiFunctions.Lists
             this.btnApply.Location = new System.Drawing.Point(298, 234);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(75, 23);
-            this.btnApply.TabIndex = 0;
+            this.btnApply.TabIndex = 7;
             this.btnApply.Text = "Apply";
             this.btnApply.UseVisualStyleBackColor = true;
             this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
@@ -94,7 +94,7 @@ namespace WikiFunctions.Lists
             this.btnCancel.Location = new System.Drawing.Point(379, 234);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 1;
+            this.btnCancel.TabIndex = 8;
             this.btnCancel.Text = "Close";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -107,7 +107,7 @@ namespace WikiFunctions.Lists
             this.chkCategory.Location = new System.Drawing.Point(6, 180);
             this.chkCategory.Name = "chkCategory";
             this.chkCategory.Size = new System.Drawing.Size(71, 17);
-            this.chkCategory.TabIndex = 2;
+            this.chkCategory.TabIndex = 15;
             this.chkCategory.Text = "Category:";
             this.chkCategory.UseVisualStyleBackColor = true;
             // 
@@ -119,7 +119,7 @@ namespace WikiFunctions.Lists
             this.chkTemplate.Location = new System.Drawing.Point(6, 134);
             this.chkTemplate.Name = "chkTemplate";
             this.chkTemplate.Size = new System.Drawing.Size(73, 17);
-            this.chkTemplate.TabIndex = 3;
+            this.chkTemplate.TabIndex = 11;
             this.chkTemplate.Text = "Template:";
             this.chkTemplate.UseVisualStyleBackColor = true;
             // 
@@ -131,7 +131,7 @@ namespace WikiFunctions.Lists
             this.chkWikipedia.Location = new System.Drawing.Point(6, 65);
             this.chkWikipedia.Name = "chkWikipedia";
             this.chkWikipedia.Size = new System.Drawing.Size(76, 17);
-            this.chkWikipedia.TabIndex = 6;
+            this.chkWikipedia.TabIndex = 5;
             this.chkWikipedia.Text = "Wikipedia:";
             this.chkWikipedia.UseVisualStyleBackColor = true;
             // 
@@ -143,7 +143,7 @@ namespace WikiFunctions.Lists
             this.chkUser.Location = new System.Drawing.Point(6, 42);
             this.chkUser.Name = "chkUser";
             this.chkUser.Size = new System.Drawing.Size(51, 17);
-            this.chkUser.TabIndex = 7;
+            this.chkUser.TabIndex = 3;
             this.chkUser.Text = "User:";
             this.chkUser.UseVisualStyleBackColor = true;
             // 
@@ -155,7 +155,7 @@ namespace WikiFunctions.Lists
             this.chkImage.Location = new System.Drawing.Point(6, 88);
             this.chkImage.Name = "chkImage";
             this.chkImage.Size = new System.Drawing.Size(58, 17);
-            this.chkImage.TabIndex = 8;
+            this.chkImage.TabIndex = 7;
             this.chkImage.Text = "Image:";
             this.chkImage.UseVisualStyleBackColor = true;
             // 
@@ -165,7 +165,7 @@ namespace WikiFunctions.Lists
             this.txtContains.Location = new System.Drawing.Point(8, 49);
             this.txtContains.Name = "txtContains";
             this.txtContains.Size = new System.Drawing.Size(178, 20);
-            this.txtContains.TabIndex = 11;
+            this.txtContains.TabIndex = 2;
             // 
             // chkContains
             // 
@@ -173,7 +173,7 @@ namespace WikiFunctions.Lists
             this.chkContains.Location = new System.Drawing.Point(8, 24);
             this.chkContains.Name = "chkContains";
             this.chkContains.Size = new System.Drawing.Size(152, 17);
-            this.chkContains.TabIndex = 12;
+            this.chkContains.TabIndex = 1;
             this.chkContains.Text = "Filter out titles that contain:";
             this.chkContains.UseVisualStyleBackColor = true;
             this.chkContains.CheckedChanged += new System.EventHandler(this.chkContains_CheckedChanged);
@@ -186,7 +186,7 @@ namespace WikiFunctions.Lists
             this.chkIsRegex.Location = new System.Drawing.Point(65, 125);
             this.chkIsRegex.Name = "chkIsRegex";
             this.chkIsRegex.Size = new System.Drawing.Size(121, 17);
-            this.chkIsRegex.TabIndex = 13;
+            this.chkIsRegex.TabIndex = 4;
             this.chkIsRegex.Text = "Regular expressions";
             this.chkIsRegex.UseVisualStyleBackColor = true;
             // 
@@ -196,7 +196,7 @@ namespace WikiFunctions.Lists
             this.chkNotContains.Location = new System.Drawing.Point(8, 76);
             this.chkNotContains.Name = "chkNotContains";
             this.chkNotContains.Size = new System.Drawing.Size(178, 17);
-            this.chkNotContains.TabIndex = 15;
+            this.chkNotContains.TabIndex = 3;
             this.chkNotContains.Text = "Filter out titles that don\'t contain:";
             this.chkNotContains.UseVisualStyleBackColor = true;
             this.chkNotContains.CheckedChanged += new System.EventHandler(this.chkNotContains_CheckedChanged);
@@ -207,7 +207,7 @@ namespace WikiFunctions.Lists
             this.txtDoesNotContain.Location = new System.Drawing.Point(8, 99);
             this.txtDoesNotContain.Name = "txtDoesNotContain";
             this.txtDoesNotContain.Size = new System.Drawing.Size(178, 20);
-            this.txtDoesNotContain.TabIndex = 16;
+            this.txtDoesNotContain.TabIndex = 4;
             // 
             // chkArticle
             // 
@@ -217,7 +217,7 @@ namespace WikiFunctions.Lists
             this.chkArticle.Location = new System.Drawing.Point(6, 19);
             this.chkArticle.Name = "chkArticle";
             this.chkArticle.Size = new System.Drawing.Size(49, 17);
-            this.chkArticle.TabIndex = 17;
+            this.chkArticle.TabIndex = 1;
             this.chkArticle.Text = "Main";
             this.chkArticle.UseVisualStyleBackColor = true;
             // 
@@ -229,7 +229,7 @@ namespace WikiFunctions.Lists
             this.chkArticleTalk.Location = new System.Drawing.Point(105, 19);
             this.chkArticleTalk.Name = "chkArticleTalk";
             this.chkArticleTalk.Size = new System.Drawing.Size(75, 17);
-            this.chkArticleTalk.TabIndex = 18;
+            this.chkArticleTalk.TabIndex = 2;
             this.chkArticleTalk.Text = "Article talk";
             this.chkArticleTalk.UseVisualStyleBackColor = true;
             // 
@@ -241,7 +241,7 @@ namespace WikiFunctions.Lists
             this.chkUserTalk.Location = new System.Drawing.Point(105, 42);
             this.chkUserTalk.Name = "chkUserTalk";
             this.chkUserTalk.Size = new System.Drawing.Size(68, 17);
-            this.chkUserTalk.TabIndex = 19;
+            this.chkUserTalk.TabIndex = 4;
             this.chkUserTalk.Text = "User talk";
             this.chkUserTalk.UseVisualStyleBackColor = true;
             // 
@@ -253,7 +253,7 @@ namespace WikiFunctions.Lists
             this.chkWikipediaTalk.Location = new System.Drawing.Point(105, 65);
             this.chkWikipediaTalk.Name = "chkWikipediaTalk";
             this.chkWikipediaTalk.Size = new System.Drawing.Size(93, 17);
-            this.chkWikipediaTalk.TabIndex = 20;
+            this.chkWikipediaTalk.TabIndex = 6;
             this.chkWikipediaTalk.Text = "Wikipedia talk";
             this.chkWikipediaTalk.UseVisualStyleBackColor = true;
             // 
@@ -265,7 +265,7 @@ namespace WikiFunctions.Lists
             this.chkImageTalk.Location = new System.Drawing.Point(105, 88);
             this.chkImageTalk.Name = "chkImageTalk";
             this.chkImageTalk.Size = new System.Drawing.Size(75, 17);
-            this.chkImageTalk.TabIndex = 21;
+            this.chkImageTalk.TabIndex = 8;
             this.chkImageTalk.Text = "Image talk";
             this.chkImageTalk.UseVisualStyleBackColor = true;
             // 
@@ -275,7 +275,7 @@ namespace WikiFunctions.Lists
             this.chkMediaWiki.Location = new System.Drawing.Point(6, 111);
             this.chkMediaWiki.Name = "chkMediaWiki";
             this.chkMediaWiki.Size = new System.Drawing.Size(76, 17);
-            this.chkMediaWiki.TabIndex = 22;
+            this.chkMediaWiki.TabIndex = 9;
             this.chkMediaWiki.Text = "MediaWiki";
             this.chkMediaWiki.UseVisualStyleBackColor = true;
             // 
@@ -285,7 +285,7 @@ namespace WikiFunctions.Lists
             this.chkMediaWikiTalk.Location = new System.Drawing.Point(105, 111);
             this.chkMediaWikiTalk.Name = "chkMediaWikiTalk";
             this.chkMediaWikiTalk.Size = new System.Drawing.Size(97, 17);
-            this.chkMediaWikiTalk.TabIndex = 23;
+            this.chkMediaWikiTalk.TabIndex = 10;
             this.chkMediaWikiTalk.Text = "MediaWikiTalk";
             this.chkMediaWikiTalk.UseVisualStyleBackColor = true;
             // 
@@ -297,7 +297,7 @@ namespace WikiFunctions.Lists
             this.chkTemplateTalk.Location = new System.Drawing.Point(105, 134);
             this.chkTemplateTalk.Name = "chkTemplateTalk";
             this.chkTemplateTalk.Size = new System.Drawing.Size(90, 17);
-            this.chkTemplateTalk.TabIndex = 24;
+            this.chkTemplateTalk.TabIndex = 12;
             this.chkTemplateTalk.Text = "Template talk";
             this.chkTemplateTalk.UseVisualStyleBackColor = true;
             // 
@@ -307,7 +307,7 @@ namespace WikiFunctions.Lists
             this.chkHelp.Location = new System.Drawing.Point(6, 157);
             this.chkHelp.Name = "chkHelp";
             this.chkHelp.Size = new System.Drawing.Size(48, 17);
-            this.chkHelp.TabIndex = 25;
+            this.chkHelp.TabIndex = 13;
             this.chkHelp.Text = "Help";
             this.chkHelp.UseVisualStyleBackColor = true;
             // 
@@ -317,7 +317,7 @@ namespace WikiFunctions.Lists
             this.chkHelpTalk.Location = new System.Drawing.Point(105, 157);
             this.chkHelpTalk.Name = "chkHelpTalk";
             this.chkHelpTalk.Size = new System.Drawing.Size(68, 17);
-            this.chkHelpTalk.TabIndex = 26;
+            this.chkHelpTalk.TabIndex = 14;
             this.chkHelpTalk.Text = "Help talk";
             this.chkHelpTalk.UseVisualStyleBackColor = true;
             // 
@@ -329,7 +329,7 @@ namespace WikiFunctions.Lists
             this.chkCategoryTalk.Location = new System.Drawing.Point(105, 180);
             this.chkCategoryTalk.Name = "chkCategoryTalk";
             this.chkCategoryTalk.Size = new System.Drawing.Size(88, 17);
-            this.chkCategoryTalk.TabIndex = 27;
+            this.chkCategoryTalk.TabIndex = 16;
             this.chkCategoryTalk.Text = "Category talk";
             this.chkCategoryTalk.UseVisualStyleBackColor = true;
             // 
@@ -339,7 +339,7 @@ namespace WikiFunctions.Lists
             this.chkPortal.Location = new System.Drawing.Point(6, 203);
             this.chkPortal.Name = "chkPortal";
             this.chkPortal.Size = new System.Drawing.Size(53, 17);
-            this.chkPortal.TabIndex = 28;
+            this.chkPortal.TabIndex = 17;
             this.chkPortal.Text = "Portal";
             this.chkPortal.UseVisualStyleBackColor = true;
             // 
@@ -349,7 +349,7 @@ namespace WikiFunctions.Lists
             this.chkPortalTalk.Location = new System.Drawing.Point(105, 203);
             this.chkPortalTalk.Name = "chkPortalTalk";
             this.chkPortalTalk.Size = new System.Drawing.Size(73, 17);
-            this.chkPortalTalk.TabIndex = 29;
+            this.chkPortalTalk.TabIndex = 18;
             this.chkPortalTalk.Text = "Portal talk";
             this.chkPortalTalk.UseVisualStyleBackColor = true;
             // 
@@ -432,7 +432,7 @@ namespace WikiFunctions.Lists
             this.btnSelectNone.Location = new System.Drawing.Point(129, 222);
             this.btnSelectNone.Name = "btnSelectNone";
             this.btnSelectNone.Size = new System.Drawing.Size(75, 23);
-            this.btnSelectNone.TabIndex = 31;
+            this.btnSelectNone.TabIndex = 20;
             this.btnSelectNone.Text = "Deselect all";
             this.btnSelectNone.UseVisualStyleBackColor = true;
             this.btnSelectNone.Click += new System.EventHandler(this.btnSelectNone_Click);
@@ -442,7 +442,7 @@ namespace WikiFunctions.Lists
             this.btnSelectAll.Location = new System.Drawing.Point(48, 222);
             this.btnSelectAll.Name = "btnSelectAll";
             this.btnSelectAll.Size = new System.Drawing.Size(75, 23);
-            this.btnSelectAll.TabIndex = 30;
+            this.btnSelectAll.TabIndex = 19;
             this.btnSelectAll.Text = "Select all";
             this.btnSelectAll.UseVisualStyleBackColor = true;
             this.btnSelectAll.Click += new System.EventHandler(this.btnSelectAll_Click);
@@ -530,7 +530,7 @@ namespace WikiFunctions.Lists
             this.chkRemoveDups.Location = new System.Drawing.Point(7, 20);
             this.chkRemoveDups.Name = "chkRemoveDups";
             this.chkRemoveDups.Size = new System.Drawing.Size(119, 17);
-            this.chkRemoveDups.TabIndex = 0;
+            this.chkRemoveDups.TabIndex = 5;
             this.chkRemoveDups.Text = "Remove Duplicates";
             this.chkRemoveDups.UseVisualStyleBackColor = true;
             // 
