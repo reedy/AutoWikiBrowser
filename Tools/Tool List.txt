@@ -1,0 +1,2 @@
+TextFileDeleter - Reedy Boy
+Simple file to delete all text files from a folder, due to the current bug with the logger that creates a text file for every article. Easier than deleting manually
