@@ -1450,7 +1450,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// checks if a user is allowed to edit this article
         /// using {{bots}} and {{nobots}} tags
         /// </summary>
-        /// <param name="ArticleText"></param>
+        /// <param name="ArticleText">The wiki text of the article.</param>
         /// <param name="Username">name of this user</param>
         /// <returns>true if you can edit, false otherwise</returns>
         public static bool CheckNoBots(string ArticleText, string Username)
@@ -1485,6 +1485,23 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             return true;
         }
+
+        private static Regex dupeLinks1 = new Regex("\\[\\[([^\\]\\|]+)\\|([^\\]]*)\\]\\](.*[.\n]*)\\[\\[\\1\\|\\2\\]\\]");
+        private static Regex dupeLinks2 = new Regex("\\[\\[([^\\]]+)\\]\\](.*[.\n]*)\\[\\[\\1\\]\\]");
+
+        /// <summary>
+        /// Remove some of the duplicated wikilinks from the article text
+        /// </summary>
+        /// <param name="ArticleText">The wiki text of the article.</param>
+        /// <returns></returns>
+        public string RemoveDuplicateWikiLinks(string ArticleText)
+        {
+            ArticleText = dupeLinks1.Replace(ArticleText, "[[$1|$2]]$3$2");
+            ArticleText = dupeLinks2.Replace(ArticleText, "[[$1]]$2$1");
+
+            return ArticleText;
+        }
+
         #endregion
 
         #region Property checkers
