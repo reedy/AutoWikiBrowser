@@ -941,6 +941,8 @@ namespace AutoWikiBrowser
                         TheArticle.AWBChangeArticleText("Format sticky links",
                             parsers.StickyLinks(parsers.SimplifyLinks(TheArticle.ArticleText)), true);
 
+                        //TheArticle.AWBChangeArticleText("Remove duplicate wikilink", parsers.RemoveDuplicateWikiLinks(TheArticle.ArticleText), true);
+
                         TheArticle.UnHideText(RemoveText);
                     }
                 }
