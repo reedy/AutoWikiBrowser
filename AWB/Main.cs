@@ -930,8 +930,6 @@ namespace AutoWikiBrowser
 
                         TheArticle.AWBChangeArticleText("Fix empty links and templates", parsers.FixEmptyLinksAndTemplates(TheArticle.ArticleText), true);
 
-                        TheArticle.AWBChangeArticleText("Change external links to internal", parsers.ExternalToInternal(TheArticle.ArticleText), true);
-
                         TheArticle.FixLinks(parsers, Skip.SkipNoBadLink);
                         TheArticle.BulletExternalLinks(parsers, Skip.SkipNoBulletedLink);
 
@@ -3450,7 +3448,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(Regex.Replace("http://en.wikinews.org/wiki/Page", "\[http://en\.wikinews\.org/wiki/(*)\]", "[[n:$1]]"));
         }
     }
 }
