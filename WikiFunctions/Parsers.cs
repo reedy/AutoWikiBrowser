@@ -578,7 +578,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public string FixEmptyLinksAndTemplates(string ArticleText)
         {
             string cat = Variables.Namespaces[14];
-            string temp = Variables.Namespaces[10];
             string img = Variables.Namespaces[6];
 
             Regex EmptyLink = new Regex("\\[\\[(" + cat + "|:" + cat + "|" + img + "|)(|" + img + "|" + cat + "|.*?)\\]\\]", RegexOptions.IgnoreCase);
@@ -1086,10 +1085,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             testText = ArticleText;
             ArticleText = AddCategory(NewCategory, ArticleText, ArticleTitle);
 
-            if (testText == ArticleText)
-                NoChange = true;
-            else
-                NoChange = false;
+            NoChange = (testText == ArticleText);
 
             return ArticleText;
         }
