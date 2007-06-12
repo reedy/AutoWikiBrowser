@@ -1687,6 +1687,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             webBrowserEdit.IsWebBrowserContextMenuEnabled = true;
             toolStripSeparator24.Visible = true;
             recycleWebControlToolStripMenuItem.Visible = true;
+            testToolStripMenuItem.Visible = true;
         }
 
         #endregion
@@ -3443,6 +3444,15 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private void markAllAsMinorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             chkMinor.Checked = markAllAsMinorToolStripMenuItem.Checked;
+        }
+
+        private void testToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string temp = "";
+            foreach (Article a in Variables.UnderscoredTitles)
+                temp += a.Name + "\r\n";
+
+            MessageBox.Show(temp);
         }
     }
 }
