@@ -181,12 +181,12 @@ namespace WikiFunctions
             DelayedRequests.Clear();
         }
 
-        public static void LoadUnderscores(string category)
+        public static void LoadUnderscores(string Template)
         {
             BackgroundRequest r = new BackgroundRequest(new BackgroundRequestComplete(UnderscoresLoaded));
             r.HasUI = false;
             DelayedRequests.Add(r);
-            r.GetList(WikiFunctions.Lists.GetLists.From.Category, category);
+            r.GetList(WikiFunctions.Lists.GetLists.From.WhatTranscludesHere, Template);
         }
 
         static void UnderscoresLoaded(BackgroundRequest req)
