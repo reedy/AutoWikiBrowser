@@ -329,26 +329,28 @@ namespace WikiFunctions
                         break;
 
                     case LangCodeEnum.da:
-                        enLangNamespaces[-2] = "Media:";
-                        enLangNamespaces[-1] = "Special:";
-                        enLangNamespaces[1] = "Talk:";
-                        enLangNamespaces[2] = "User:";
-                        enLangNamespaces[3] = "User talk:";
-                        enLangNamespaces[4] = "Project:";
-                        enLangNamespaces[5] = "Project talk:";
-                        enLangNamespaces[6] = "Image:";
-                        enLangNamespaces[7] = "Image talk:";
-                        enLangNamespaces[8] = "MediaWiki:";
-                        enLangNamespaces[9] = "MediaWiki talk:";
-                        enLangNamespaces[10] = "Template:";
-                        enLangNamespaces[11] = "Template talk:";
-                        enLangNamespaces[12] = "Help:";
-                        enLangNamespaces[13] = "Help talk:";
-                        enLangNamespaces[14] = "Category:";
-                        enLangNamespaces[15] = "Category talk:";
+                        Namespaces[-2] = "Media:";
+                        Namespaces[-1] = "Speciel:";
+                        Namespaces[1] = "Diskussion:";
+                        Namespaces[2] = "Bruger:";
+                        Namespaces[3] = "Brugerdiskussion:";
+                        Namespaces[4] = "Wikipedia:";
+                        Namespaces[5] = "Wikipedia-diskussion:";
+                        Namespaces[6] = "Billede:";
+                        Namespaces[7] = "Billeddiskussion:";
+                        Namespaces[8] = "MediaWiki:";
+                        Namespaces[9] = "MediaWiki-diskussion:";
+                        Namespaces[10] = "Skabelon:";
+                        Namespaces[11] = "Skabelon-diskussion:";
+                        Namespaces[12] = "Hjælp:";
+                        Namespaces[13] = "Hjælp-diskussion:";
+                        Namespaces[14] = "Kategori:";
+                        Namespaces[15] = "Kategoridiskussion:";
+                        Namespaces[100] = "Portal:";
+                        Namespaces[101] = "Portaldiskussion:";
 
                         strsummarytag = " ved brug af ";
-                        strWPAWB = "[[Wikipedia:AutoWikiBrowser|AWB]]";
+                        strWPAWB = "[[en:Wikipedia:AutoWikiBrowser|AWB]]";
                         break;
 
                     case LangCodeEnum.de:
