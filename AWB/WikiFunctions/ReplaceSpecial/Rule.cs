@@ -286,9 +286,9 @@ namespace WikiFunctions.MWB
             //if (r.replace_ != null && r.with_ != null && r.replace_ != "" && r.with_ != "")
             if (r.replace_ != null && r.replace_ != "")
             {
-                string replace = r.replace_.Replace("%%title%%", title).Replace("%%key%%", Tools.MakeHumanCatKey(title));
+                string replace = Tools.ApplyKeyWords(title, r.replace_);
 
-                string with = r.with_.Replace("%%title%%", title).Replace("%%key%%", Tools.MakeHumanCatKey(title));
+                string with = Tools.ApplyKeyWords(title, r.with_);
 
                 if (!r.regex_)
                     replace = Regex.Escape(replace);
