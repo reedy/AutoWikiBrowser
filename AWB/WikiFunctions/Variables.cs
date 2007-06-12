@@ -37,7 +37,7 @@ using WikiFunctions.Background;
 
 namespace WikiFunctions
 {
-    public enum LangCodeEnum { en, ar, ca, da, de, eo, es, fi, fr, he, hu, Is, it, ja, ku, nl, no, mi, pl, pt, ro, ru, simple, sk, sl, sv, ta, tj, uk, ur, zh }
+    public enum LangCodeEnum { en, ar, ca, da, de, eo, es, fi, fr, he, hu, Is, it, ja, ku, nl, no, mi, pl, pt, ro, ru, simple, sk, sl, sv, ta, te, tj, uk, ur, zh }
     public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikiquote, wikiversity, wikibooks, wikinews, commons, meta, species, wikia, custom }
 
     /// <summary>
@@ -798,6 +798,26 @@ namespace WikiFunctions
                         Namespaces[15] = "Kategoridiskussion:";
                         Namespaces[100] = "Portal:";
                         Namespaces[101] = "Portaldiskussion:";
+                        break;
+
+                    case LangCodeEnum.te:
+                        Namespaces[-2] = "మీడియా:";
+                        Namespaces[-1] = "ప్రత్యేక:";
+                        Namespaces[1] = "చర్చ:";
+                        Namespaces[2] = "సభ్యుడు:";
+                        Namespaces[3] = "సభ్యులపై చర్చ:";
+                        Namespaces[4] = "వికీపీడియా:";
+                        Namespaces[5] = "వికీపీడియా చర్చ:";
+                        Namespaces[6] = "బొమ్మ:";
+                        Namespaces[7] = "బొమ్మపై చర్చ:";
+                        Namespaces[8] = "మీడియావికీ:";
+                        Namespaces[9] = "మీడియావికీ చర్చ:";
+                        Namespaces[10] = "మూస:";
+                        Namespaces[11] = "మూస చర్చ:";
+                        Namespaces[12] = "సహాయము:";
+                        Namespaces[13] = "సహాయము చర్చ:";
+                        Namespaces[14] = "వర్గం:";
+                        Namespaces[15] = "వర్గం చర్చ:";
                         break;
 
                     case LangCodeEnum.uk:
