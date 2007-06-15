@@ -497,7 +497,7 @@ namespace WikiFunctions.Parse
                         bool DoBreak = false;
                         foreach (char ch in b.Remove(0, a.Length))
                         {
-                            if (!char.IsLetterOrDigit(ch))
+                            if (!char.IsLetter(ch))
                             {
                                 DoBreak = true;
                                 break;

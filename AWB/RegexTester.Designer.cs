@@ -49,7 +49,7 @@ namespace AutoWikiBrowser
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(30, 13);
+            this.label1.Size = new System.Drawing.Size(31, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Find:";
             // 
@@ -58,7 +58,7 @@ namespace AutoWikiBrowser
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(12, 35);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(50, 13);
+            this.label2.Size = new System.Drawing.Size(49, 13);
             this.label2.TabIndex = 1;
             this.label2.Text = "Replace:";
             // 
@@ -115,7 +115,7 @@ namespace AutoWikiBrowser
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(12, 251);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(40, 13);
+            this.label3.Size = new System.Drawing.Size(41, 13);
             this.label3.TabIndex = 7;
             this.label3.Text = "Result:";
             // 
@@ -179,7 +179,7 @@ namespace AutoWikiBrowser
             this.Casesensitive.CheckState = System.Windows.Forms.CheckState.Checked;
             this.Casesensitive.Location = new System.Drawing.Point(496, 35);
             this.Casesensitive.Name = "Casesensitive";
-            this.Casesensitive.Size = new System.Drawing.Size(94, 17);
+            this.Casesensitive.Size = new System.Drawing.Size(95, 17);
             this.Casesensitive.TabIndex = 12;
             this.Casesensitive.Text = "Case sensitive";
             this.Casesensitive.UseVisualStyleBackColor = true;
@@ -205,7 +205,6 @@ namespace AutoWikiBrowser
             this.KeyPreview = true;
             this.Name = "RegexTester";
             this.ShowIcon = false;
-            this.ShowInTaskbar = false;
             this.Text = "Test regexes";
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RegexTester_KeyPress);
             this.statusStrip1.ResumeLayout(false);
