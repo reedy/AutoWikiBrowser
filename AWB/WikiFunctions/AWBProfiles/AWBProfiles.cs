@@ -60,6 +60,8 @@ namespace WikiFunctions.AWBProfiles
 
                 lvAccounts.Items.Add(item);
             }
+
+            WikiFunctions.Lists.ListViewColumnResize.resizeListView(lvAccounts);
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
