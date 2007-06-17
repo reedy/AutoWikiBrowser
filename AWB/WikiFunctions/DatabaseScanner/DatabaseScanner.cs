@@ -74,11 +74,6 @@ namespace WikiFunctions.DatabaseScanner
             cmboLength.SelectedIndex = 0;
             cmboLinks.SelectedIndex = 0;
             cmboWords.SelectedIndex = 0;
-
-            //chkArticleDoesContain.Checked = true;
-            //chkRegex.Checked = true;
-            //txtArticleDoesContain.Text = "bob|catfish";
-            //nudLimitResults.Value = 1000;
         }
 
         #region main process
@@ -94,11 +89,11 @@ namespace WikiFunctions.DatabaseScanner
                 {
                     MessageBox.Show("Please open an \"Articles\" XML data-dump file from the file menu\r\n\r\nSee the About menu for where to download this file.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
-                }                     
+                }
 
                 lbArticles.Items.Clear();
                 lblCount.Text = "";
-                                
+
                 intMatches = 0;
 
                 progressBar1.Style = ProgressBarStyle.Marquee;
@@ -112,12 +107,12 @@ namespace WikiFunctions.DatabaseScanner
                 Start();
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
         }
-        
+
         Regex TitleDoesRegex;
         Regex TitleDoesNotRegex;
         Regex ArticleDoesRegex;
@@ -131,7 +126,7 @@ namespace WikiFunctions.DatabaseScanner
 
             string strArticleDoes = "";
             string strArticleDoesNot = "";
-            RegexOptions ArticleRegOptions;            
+            RegexOptions ArticleRegOptions;
 
             strTitle = convert(txtTitleContains.Text);
             strTitleNot = convert(txtTitleNotContains.Text);
@@ -140,7 +135,7 @@ namespace WikiFunctions.DatabaseScanner
 
             ArticleRegOptions = RegexOptions.ExplicitCapture;
             TitleRegOptions = RegexOptions.ExplicitCapture;
-                        
+
             if (!chkRegex.Checked)
             {
                 strArticleDoes = Regex.Escape(strArticleDoes);
@@ -189,7 +184,7 @@ namespace WikiFunctions.DatabaseScanner
             if (ignoreMainNamespaceToolStripMenuItem.Checked)
                 namespaces.Add(0);
         }
-        
+
         private void Start()
         {
             makePatterns();
@@ -200,20 +195,20 @@ namespace WikiFunctions.DatabaseScanner
             List<Scan> s = new List<Scan>();
 
             s.Add(new CheckNamespace(namespaces));
-            
+
             if (ignoreRedirectsToolStripMenuItem1.Checked)
                 s.Add(new IsNotRedirect());
 
-            if(chkArticleDoesContain.Checked)
+            if (chkArticleDoesContain.Checked)
                 s.Add(new TextDoesContain(ArticleDoesRegex));
 
             if (chkArticleDoesNotContain.Checked)
                 s.Add(new TextDoesNotContain(ArticleDoesNotRegex));
 
-            if(chkTitleContains.Checked)
+            if (chkTitleContains.Checked)
                 s.Add(new TitleDoesContain(TitleDoesRegex));
 
-            if(chkTitleDoesNotContain.Checked)
+            if (chkTitleDoesNotContain.Checked)
                 s.Add(new TitleDoesNotContain(TitleDoesNotRegex));
 
             if (cmboLength.SelectedIndex != 0)
@@ -254,7 +249,7 @@ namespace WikiFunctions.DatabaseScanner
                 s.Add(new HasSectionError(parsers));
             else if (rdoUnbulletedLinks.Checked)
                 s.Add(new HasUnbulletedLinks(parsers));
-            else if(rdoTypo.Checked)
+            else if (rdoTypo.Checked)
                 s.Add(new Typo());
 
             Main = new MainProcess(s, fileName, Priority, ignoreCommentsToolStripMenuItem.Checked, txtStartFrom.Text);
@@ -292,7 +287,7 @@ namespace WikiFunctions.DatabaseScanner
                 progressBar1.Style = ProgressBarStyle.Continuous;
 
                 timer1.Enabled = false;
-                
+
                 if (!this.ContainsFocus)
                     Tools.FlashWindow(this);
 
@@ -523,7 +518,7 @@ namespace WikiFunctions.DatabaseScanner
             else
                 nudWords.Enabled = true;
         }
-        
+
         private void cmboLinks_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmboLinks.SelectedIndex == 0)
@@ -783,28 +778,14 @@ namespace WikiFunctions.DatabaseScanner
 
         private void UpdateControls(bool busy)
         {
-            if(busy)
-            {
-                groupBox1.Enabled = false;
-                groupBox2.Enabled = false;
-                groupBox4.Enabled = false;
-                groupBox5.Enabled = false;
-                btnFilter.Enabled = false;
-                nudLimitResults.Enabled = false;
-                txtStartFrom.Enabled = false;
-                btnStart.Text = "Stop";
-            }
-            else
-            {
-                groupBox1.Enabled = true;
-                groupBox2.Enabled = true;
-                groupBox4.Enabled = true;
-                groupBox5.Enabled = true;
-                btnFilter.Enabled = true;
-                nudLimitResults.Enabled = true;
-                txtStartFrom.Enabled = true;
-                btnStart.Text = "Start";
-            }
+            groupBox1.Enabled = !busy;
+            groupBox2.Enabled = !busy;
+            groupBox4.Enabled = !busy;
+            groupBox5.Enabled = !busy;
+            btnFilter.Enabled = !busy;
+            nudLimitResults.Enabled = !busy;
+            txtStartFrom.Enabled = !busy;
+            if (busy) { btnStart.Text = "Stop"; } else { btnStart.Text = "Start"; }
         }
         #endregion
     }
