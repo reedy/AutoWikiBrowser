@@ -120,12 +120,7 @@ namespace WikiFunctions.DatabaseScanner
             string title = "title";
             string text = "text";
 
-            bool test = true;
-
-            //int links = 0;
-            //int characters = 0;
-            //int words = 0;
-           // int[] c = new int[2000];            
+            bool test = true;        
 
             try
             {
@@ -187,15 +182,6 @@ namespace WikiFunctions.DatabaseScanner
             }
             finally
             {
-                //StringBuilder r = new StringBuilder();
-                //r.AppendLine("Links\tFrequency\r\n");
-                //for(int j = 0; j < c.Length; j++)
-                //{
-                //    r.AppendLine(j.ToString() + "\t" + c[j].ToString());                    
-                //}
-                //Results res = new Results(r.ToString());
-                //res.ShowDialog();
-
                 if (boolMessage)
                     context.Post(SOPCstopped, ArticleTitle);
             }
