@@ -1,6 +1,7 @@
 /*
 
-Copyright (C) 2007 Martin Richards
+Copyright (C) 2007 Sam Reed
+Copyright (C) Microsoft where code noted as such
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -70,6 +71,27 @@ namespace WikiFunctions.Lists
                 // Invert the value returned by String.Compare.
                 returnVal *= -1;
             return returnVal;
+        }
+    }
+
+    public class ListViewColumnResize
+    {
+        public static void resizeListView(ListView lstView)
+        {
+            lstView.BeginUpdate();
+            int width; int width2;
+            foreach (ColumnHeader head in lstView.Columns)
+            {
+                head.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
+                width = head.Width;
+
+                head.AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
+                width2 = head.Width;
+
+                if (width2 < width)
+                    head.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
+            }
+            lstView.EndUpdate();
         }
     }
 }
