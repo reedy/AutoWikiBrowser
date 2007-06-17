@@ -83,11 +83,14 @@ namespace WikiFunctions.AWBProfiles
             profile.Password = txtPassword.Text;
             profile.defaultsettings = txtPath.Text;
             profile.notes = txtNotes.Text;
-            
+
             if (editid == -1)
                 AWBProfiles.AddProfile(profile);
             else
+            {
+                profile.id = editid;
                 AWBProfiles.EditProfile(profile);
+            }
 
             this.DialogResult = DialogResult.Yes;
 
