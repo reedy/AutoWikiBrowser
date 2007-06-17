@@ -30,18 +30,19 @@ namespace WikiFunctions.AWBProfiles
         {
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.btnOk = new System.Windows.Forms.Button();
+            this.lblText = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(12, 12);
+            this.txtPassword.Location = new System.Drawing.Point(12, 28);
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(137, 20);
+            this.txtPassword.Size = new System.Drawing.Size(174, 20);
             this.txtPassword.TabIndex = 0;
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(43, 38);
+            this.btnOk.Location = new System.Drawing.Point(62, 54);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 1;
@@ -49,12 +50,21 @@ namespace WikiFunctions.AWBProfiles
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
+            // lblText
+            // 
+            this.lblText.AutoSize = true;
+            this.lblText.Location = new System.Drawing.Point(12, 9);
+            this.lblText.Name = "lblText";
+            this.lblText.Size = new System.Drawing.Size(0, 13);
+            this.lblText.TabIndex = 2;
+            // 
             // UserPassword
             // 
             this.AcceptButton = this.btnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(161, 68);
+            this.ClientSize = new System.Drawing.Size(198, 79);
+            this.Controls.Add(this.lblText);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.txtPassword);
             this.Name = "UserPassword";
@@ -68,5 +78,6 @@ namespace WikiFunctions.AWBProfiles
 
         private System.Windows.Forms.TextBox txtPassword;
         private System.Windows.Forms.Button btnOk;
+        private System.Windows.Forms.Label lblText;
     }
 }

@@ -77,23 +77,27 @@ namespace WikiFunctions.AWBProfiles
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            AWBProfile profile = new AWBProfile();
-
-            profile.Username = txtUsername.Text;
-            profile.Password = txtPassword.Text;
-            profile.defaultsettings = txtPath.Text;
-            profile.notes = txtNotes.Text;
-
-            if (editid == -1)
-                AWBProfiles.AddProfile(profile);
+            if (txtUsername.Text == "")
+                MessageBox.Show("The Username cannot be blank");
             else
             {
-                profile.id = editid;
-                AWBProfiles.EditProfile(profile);
+                AWBProfile profile = new AWBProfile();
+
+                profile.Username = txtUsername.Text;
+                profile.Password = txtPassword.Text;
+                profile.defaultsettings = txtPath.Text;
+                profile.notes = txtNotes.Text;
+
+                if (editid == -1)
+                    AWBProfiles.AddProfile(profile);
+                else
+                {
+                    profile.id = editid;
+                    AWBProfiles.EditProfile(profile);
+                }
+
+                this.DialogResult = DialogResult.Yes;
             }
-
-            this.DialogResult = DialogResult.Yes;
-
         }
     }
 }

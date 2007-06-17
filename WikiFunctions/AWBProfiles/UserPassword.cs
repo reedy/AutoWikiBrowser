@@ -34,6 +34,11 @@ namespace WikiFunctions.AWBProfiles
             InitializeComponent();
         }
 
+        public string SetText
+        {
+            set { lblText.Text = value; }
+        }
+
         public string GetPassword
         {
             get { return txtPassword.Text; }
