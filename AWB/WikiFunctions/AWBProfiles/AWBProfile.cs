@@ -52,33 +52,46 @@ namespace WikiFunctions.AWBProfiles
         private const string Salt = "SH1ew yuhn gxe$£$%^y HNKLHWEQ JEW`b";
         private const string IV16Chars = "tnf47bgfdwlp9,.q";
 
+        /// <summary>
+        /// Encrypts a string using the specified Pass Key and Salt
+        /// </summary>
+        /// <param name="text">String to be encrypted</param>
+        /// <returns>Encrypted String</returns>
         public static string Encrypt(string text)
         {
             return Encryption.RijndaelSimple.Encrypt(text, PassPhrase, Salt, "SHA1", 2, IV16Chars, 256);
         }
 
+        /// <summary>
+        /// Decrypts a string
+        /// </summary>
+        /// <param name="text">String to be decrypted</param>
+        /// <returns>Decrypted String</returns>
         public static string Decrypt(string text)
         {
             return Encryption.RijndaelSimple.Decrypt(text, PassPhrase, Salt, "SHA1", 2, IV16Chars, 256);
         }
 
+        /// <summary>
+        /// Gets all the Saved Profiles from the Registry
+        /// </summary>
+        /// <returns>List of Profiles</returns>
         public static List<AWBProfile> GetProfiles()
         {
             Computer myComputer = new Computer();
             List<AWBProfile> profiles = new List<AWBProfile>();
 
-            int upper = CountSubKeys();
-
-            for (int i = 1; i <= upper; i++)
+            List<int> ProfileIDs = GetProfileIDs();
+            foreach (int id in ProfileIDs)
             {
                 try
                 {
                     AWBProfile prof = new AWBProfile();
-                    prof.id = i;
-                    prof.Username = Decrypt(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + i, "User", "").ToString());
-                    prof.Password = Decrypt(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + i, "Pass", "").ToString());
-                    prof.defaultsettings = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + i, "Settings", "").ToString();
-                    prof.notes = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + i, "Notes", "").ToString();
+                    prof.id = id;
+                    prof.Username = Decrypt(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "User", "").ToString());
+                    prof.Password = Decrypt(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Pass", "").ToString());
+                    prof.defaultsettings = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Settings", "").ToString();
+                    prof.notes = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Notes", "").ToString();
 
                     profiles.Add(prof);
                 }
@@ -87,6 +100,11 @@ namespace WikiFunctions.AWBProfiles
             return profiles;
         }
 
+        /// <summary>
+        /// Gets a Specified Profile from the Registry
+        /// </summary>
+        /// <param name="id">Profile ID to get</param>
+        /// <returns>Specified Profile</returns>
         public static AWBProfile GetProfile(int id)
         {
             AWBProfile prof = new AWBProfile();
@@ -105,11 +123,21 @@ namespace WikiFunctions.AWBProfiles
             catch { return prof; }
         }
 
+        /// <summary>
+        /// Gets the decrypted password of a specified profile
+        /// </summary>
+        /// <param name="id">Profile ID</param>
+        /// <returns>Decrypted password</returns>
         public static string GetPassword(int id)
         {
             return Decrypt(new Computer().Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Pass", "").ToString());
         }
 
+        /// <summary>
+        /// Set/Change the password of the specified profile
+        /// </summary>
+        /// <param name="id">Profile ID</param>
+        /// <param name="password">Password</param>
         public static void SetPassword(int id, string password)
         {
             if (password != "")
@@ -118,6 +146,11 @@ namespace WikiFunctions.AWBProfiles
             SetProfilePassword(id, password);
         }
 
+        /// <summary>
+        /// Sets the Profile Password in the Registry
+        /// </summary>
+        /// <param name="id">Profile ID</param>
+        /// <param name="password">Password</param>
         private static void SetProfilePassword(int id, string password)
         {
             try
@@ -129,10 +162,15 @@ namespace WikiFunctions.AWBProfiles
             catch { }
         }
 
+        /// <summary>
+        /// Adds a new Profile to the Registry
+        /// </summary>
+        /// <param name="profile">Profile Object of User</param>
         public static void AddProfile(AWBProfile profile)
         {
             try
             {
+                //Need to check if position free & such
                 Microsoft.Win32.RegistryKey key =
                     new Computer().Registry.CurrentUser.CreateSubKey(RegKey + "\\" + (CountSubKeys() + 1));
 
@@ -147,6 +185,10 @@ namespace WikiFunctions.AWBProfiles
             catch { }
         }
 
+        /// <summary>
+        /// Edits the profile
+        /// </summary>
+        /// <param name="profile">Profile Object of User</param>
         public static void EditProfile(AWBProfile profile)
         {
             try
@@ -165,6 +207,10 @@ namespace WikiFunctions.AWBProfiles
             catch { }
         }
 
+        /// <summary>
+        /// Deletes a specific profile from the registry
+        /// </summary>
+        /// <param name="id"></param>
         public static void DeleteProfile(int id)
         {
             try
@@ -172,6 +218,10 @@ namespace WikiFunctions.AWBProfiles
             catch { }
         }
 
+        /// <summary>
+        /// Counts the number of Profiles
+        /// </summary>
+        /// <returns>Number of Profiles</returns>
         private static int CountSubKeys()
         {
             try
@@ -183,6 +233,31 @@ namespace WikiFunctions.AWBProfiles
             }
             catch
             { return 0; }
+        }
+
+        /// <summary>
+        /// Gets a List of all the Profile IDs
+        /// </summary>
+        /// <returns>A list of all Profile IDs</returns>
+        private static List<int> GetProfileIDs()
+        {
+            List<int> ProfileIDs = new List<int>();
+            try
+            {
+                Microsoft.Win32.RegistryKey baseRegistryKey = new Computer().Registry.CurrentUser;
+                Microsoft.Win32.RegistryKey key2 = baseRegistryKey.OpenSubKey(RegKey);
+
+                string[] profid = key2.GetSubKeyNames();
+
+                foreach (string id in profid)
+                {
+                    ProfileIDs.Add(int.Parse(id));
+                }
+
+                return ProfileIDs;
+            }
+            catch
+            { return ProfileIDs; }
         }
     }
 }
