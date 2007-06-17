@@ -89,9 +89,9 @@ namespace WikiFunctions.AWBProfiles
 
         public static AWBProfile GetProfile(int id)
         {
+            AWBProfile prof = new AWBProfile();
             try
             {
-                AWBProfile prof = new AWBProfile();
                 Computer myComputer = new Computer();
 
                 prof.id = id;
