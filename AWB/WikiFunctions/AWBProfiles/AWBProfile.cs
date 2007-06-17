@@ -89,9 +89,9 @@ namespace WikiFunctions.AWBProfiles
 
         public static AWBProfile GetProfile(int id)
         {
-            AWBProfile prof = new AWBProfile();
             try
             {
+                AWBProfile prof = new AWBProfile();
                 Computer myComputer = new Computer();
 
                 prof.id = id;
@@ -122,7 +122,7 @@ namespace WikiFunctions.AWBProfiles
         {
             try
             {
-                Microsoft.Win32.RegistryKey Key = Microsoft.Win32.Registry.Users;
+                Microsoft.Win32.RegistryKey Key = new Computer().Registry.CurrentUser;
                 Key = Key.OpenSubKey(RegKey + "\\" + id, true);
                 Key.SetValue("Pass", password);
             }
@@ -151,7 +151,7 @@ namespace WikiFunctions.AWBProfiles
         {
             try
             {
-                Microsoft.Win32.RegistryKey Key = Microsoft.Win32.Registry.Users;
+                Microsoft.Win32.RegistryKey Key = new Computer().Registry.CurrentUser;
                 Key = Key.OpenSubKey(RegKey + "\\" + profile.id, true);
 
                 if (profile.Password != "")
