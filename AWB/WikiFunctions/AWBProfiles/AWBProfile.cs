@@ -88,8 +88,12 @@ namespace WikiFunctions.AWBProfiles
                 {
                     AWBProfile prof = new AWBProfile();
                     prof.id = id;
-                    prof.Username = Decrypt(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "User", "").ToString());
-                    prof.Password = Decrypt(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Pass", "").ToString());
+                    prof.Username = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "User", "").ToString();
+                    if (prof.Username != "")
+                        prof.Username = Decrypt(prof.Username);
+                    prof.Password = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Pass", "").ToString();
+                    if (prof.Password != "")
+                        prof.Password = Decrypt(prof.Password);
                     prof.defaultsettings = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Settings", "").ToString();
                     prof.notes = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Notes", "").ToString();
 
@@ -170,9 +174,10 @@ namespace WikiFunctions.AWBProfiles
         {
             try
             {
-                //Need to check if position free & such
+                int id = GetFirstFreeID();
+
                 Microsoft.Win32.RegistryKey key =
-                    new Computer().Registry.CurrentUser.CreateSubKey(RegKey + "\\" + (CountSubKeys() + 1));
+                    new Computer().Registry.CurrentUser.CreateSubKey(RegKey + "\\" + id);
 
                 key.SetValue("User", Encrypt(profile.Username));
                 if (profile.Password != "")
@@ -258,6 +263,27 @@ namespace WikiFunctions.AWBProfiles
             }
             catch
             { return ProfileIDs; }
+        }
+
+        /// <summary>
+        /// Gets the ID number of the first free Profile Slot
+        /// </summary>
+        /// <returns>ID Number</returns>
+        private static int GetFirstFreeID()
+        {
+            bool FreeIDFound = false;
+            List<int> IDs = GetProfileIDs();
+            int i = 1;
+
+            do
+            {
+                if (!IDs.Contains(i))
+                    FreeIDFound = true;
+                else
+                    i++;
+            } while (FreeIDFound == false);
+
+            return i;
         }
     }
 }

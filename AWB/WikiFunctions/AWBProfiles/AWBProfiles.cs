@@ -83,6 +83,7 @@ namespace WikiFunctions.AWBProfiles
                 else
                 {//Get Password from User
                     UserPassword password = new UserPassword();
+                    password.SetText = "Enter password for: " + lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text;
 
                     if (password.ShowDialog() == DialogResult.OK)
                         Browser.Login(lvAccounts.Items[lvAccounts.SelectedIndices[1]].Text, password.GetPassword);
@@ -126,6 +127,7 @@ namespace WikiFunctions.AWBProfiles
         private void changePasswordToolStripMenuItem_Click(object sender, EventArgs e)
         {
             UserPassword password = new UserPassword();
+            password.SetText = "Set password for: " + lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text;
 
             if (password.ShowDialog() == DialogResult.OK)
                 AWBProfiles.SetPassword(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text), password.GetPassword);
