@@ -37,7 +37,7 @@ using WikiFunctions.Background;
 
 namespace WikiFunctions
 {
-    public enum LangCodeEnum { en, ar, ca, da, de, eo, es, fi, fr, he, hu, Is, it, ja, ku, nl, no, mi, pl, pt, ro, ru, simple, sk, sl, sv, ta, te, tj, uk, ur, zh }
+    public enum LangCodeEnum { en, ar, bg, ca, da, de, eo, es, fi, fr, he, hu, Is, it, ja, ku, nl, no, mi, pl, pt, ro, ru, simple, sk, sl, sv, ta, te, tj, uk, ur, zh }
     public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikiquote, wikiversity, wikibooks, wikinews, commons, meta, species, wikia, custom }
 
     /// <summary>
@@ -300,7 +300,32 @@ namespace WikiFunctions
                         strsummarytag = " ";
                         strWPAWB = "[[ويكيبيديا:AWB|الأوتوويكي براوزر]]";
                         break;
-                                             
+
+                    case LangCodeEnum.bg:
+                        Namespaces[-2] = "Медия:";
+                        Namespaces[-1] = "Специални:";
+                        Namespaces[1] = "Беседа:";
+                        Namespaces[2] = "Потребител:";
+                        Namespaces[3] = "Потребител беседа:";
+                        Namespaces[4] = "Уикипедия:";
+                        Namespaces[5] = "Уикипедия беседа:";
+                        Namespaces[6] = "Картинка:";
+                        Namespaces[7] = "Картинка беседа:";
+                        Namespaces[8] = "МедияУики:";
+                        Namespaces[9] = "МедияУики беседа:";
+                        Namespaces[10] = "Шаблон:";
+                        Namespaces[11] = "Шаблон беседа:";
+                        Namespaces[12] = "Помощ:";
+                        Namespaces[13] = "Помощ беседа:";
+                        Namespaces[14] = "Категория:";
+                        Namespaces[15] = "Категория беседа:";
+                        Namespaces[100] = "Портал:";
+                        Namespaces[101] = "Портал беседа:";
+
+                        strsummarytag = " редактирано с ";
+                        strWPAWB = "AWB";
+                        break;                                             
+
                     case LangCodeEnum.ca:
                         Namespaces[-2] = "Media:";
                         Namespaces[-1] = "Especial:";
