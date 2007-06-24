@@ -665,13 +665,13 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The modified article text.</returns>
         public string FixImages(string ArticleText)
         {
-            Regex imgregex = new Regex("\\[\\[ ?" + Variables.NamespacesCaseInsensitive[6] + " ?(.*?)\\]\\]");
+            Regex imgregex = new Regex(@"\[\[\s*?" + Variables.NamespacesCaseInsensitive[6] + @"\s*([^\|]*?)(\|.*)?\]\]");
             string img = "[[" + Variables.Namespaces[6];
             string x = "";
 
             foreach (Match m in imgregex.Matches(ArticleText))
             {
-                x = img + m.Groups[1].Value.Replace("_", " ") + "]]";
+                x = img + Article.CanonicalizeTitle(m.Groups[1].Value) + Article.CanonicalizeTitle(m.Groups[2].Value) + "]]";
                 ArticleText = ArticleText.Replace(m.Value, x);
             }
 

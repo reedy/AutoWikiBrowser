@@ -613,6 +613,10 @@ namespace WikiFunctions
         /// <returns></returns>
         public static string CanonicalizeTitle(string title)
         {
+            // visible parts of links may contain crap we shouldn't modify, such as
+            // refs and external links
+            //if (title.Contains("[") || title.Contains("{")) return title;
+
             string s = Parsers.CanonicalizeTitle(title);
             if (Variables.UnderscoredTitles.Contains(new Article(Tools.TurnFirstToUpper(s))))
             {
