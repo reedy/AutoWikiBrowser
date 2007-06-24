@@ -42,6 +42,9 @@ namespace WikiFunctions.AWBProfiles
             this.Text = "Add new Profile";
         }
 
+        /// <summary>
+        /// Loads details from an AWBProfile object for editing
+        /// </summary>
         public AWBProfileAdd(AWBProfile profile)
         {
             InitializeComponent();
