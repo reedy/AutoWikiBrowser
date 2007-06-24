@@ -671,7 +671,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             foreach (Match m in imgregex.Matches(ArticleText))
             {
-                x = img + Article.CanonicalizeTitle(m.Groups[1].Value) + Article.CanonicalizeTitle(m.Groups[2].Value) + "]]";
+                x = img + Article.CanonicalizeTitle(m.Groups[1].Value).Trim() + Article.CanonicalizeTitle(m.Groups[2].Value) + "]]";
                 ArticleText = ArticleText.Replace(m.Value, x);
             }
 
