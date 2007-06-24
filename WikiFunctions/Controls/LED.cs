@@ -56,17 +56,15 @@ namespace WikiFunctions.Controls
                 {
                     case Colour.Blue:
                         br = Brushes.Blue;
-                        col = Colour.Blue;
                         break;
                     case Colour.Green:
                         br = Brushes.Green;
-                        col = Colour.Green;
                         break;
                     case Colour.Red:
                         br = Brushes.Red;
-                        col = Colour.Red;
                         break;
                 }
+                col = value;
 
                 base.Refresh();
             }

@@ -672,6 +672,10 @@ namespace WikiFunctions
         StringCollection Groups = new StringCollection();
         StringCollection Rights = new StringCollection();
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="xml"></param>
         public UserInfo(string xml)
         {
             StringReader sr = new StringReader(xml);
@@ -696,16 +700,25 @@ namespace WikiFunctions
             }
         }
 
+        /// <summary>
+        /// Returns if the user is an Admin/Sysop
+        /// </summary>
         public bool IsSysop
         {
             get { return Groups.Contains("sysop"); }
         }
 
+        /// <summary>
+        /// Returns if the user is a Bot
+        /// </summary>
         public bool IsBot
         {
             get { return Groups.Contains("bot"); }
         }
 
+        /// <summary>
+        /// Returns if the user is anonamous
+        /// </summary>
         public bool IsAnon
         {
             get { return Tools.IsIP(Name); }

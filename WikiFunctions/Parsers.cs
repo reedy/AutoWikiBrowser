@@ -1251,6 +1251,12 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ArticleText"></param>
+        /// <param name="NoChange"></param>
+        /// <returns></returns>
         public string LivingPeople(string ArticleText, out bool NoChange)
         {
             NoChange = true;
@@ -1505,12 +1511,18 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         #endregion
 
         #region Property checkers
+        /// <summary>
+        /// Checks if the article has a stub template
+        /// </summary>
             public static bool HasStubTemplate(string ArticleText)
             {
                 if (Variables.LangCode != LangCodeEnum.en) throw new NotImplementedException();
                 return ArticleText.Contains(Variables.stubIndicator);
             }
 
+        /// <summary>
+        /// Checks if the article is classible as a 'Stub'
+        /// </summary>
             public static bool IsStub(string ArticleText)
             {
                 return (HasStubTemplate(ArticleText) || ArticleText.Length < Parsers.StubMaxWordCount);
@@ -1524,6 +1536,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 throw new NotImplementedException();
             }
 
+        /// <summary>
+        /// Check if article has an 'inusetag'
+        /// </summary>
             public static bool IsInUse(string ArticleText)
             {                
                 if (Variables.LangCode != LangCodeEnum.en) throw new NotImplementedException();
@@ -1570,28 +1585,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         //            ArticleText = ArticleText.Replace(link, directLink);
         //        }
         //    }
-        //    return ArticleText;
-        //}
-
-        ///// <summary>
-        ///// Fixes minor problems, such as abbreviations and miscapitalisations
-        ///// </summary>
-        ///// <param name="ArticleText">The wiki text of the article.</param>
-        ///// <returns>The new article text.</returns>
-        //public string MinorThings(string ArticleText)
-        //{
-        //    ArticleText = Regex.Replace(ArticleText, "[Aa]\\.[Kk]\\.[Aa]\\.?", "also known as");
-
-        //    ArticleText = ArticleText.Replace("e.g.", "for example");
-        //    ArticleText = ArticleText.Replace("i.e.", "that is");
-
-        //    MatchCollection ma = Regex.Matches(ArticleText, "(monday|tuesday|wednesday|thursday|friday|saturday|sunday|january|february|april|june|july|august|september|october|november|december)");
-        //    if (ma.Count > 0)
-        //    {
-        //        foreach (Match m in ma)
-        //            ArticleText = ArticleText.Replace(m.Groups[1].Value, Tools.TurnFirstToUpper(m.Groups[1].Value));
-        //    }
-
         //    return ArticleText;
         //}
 

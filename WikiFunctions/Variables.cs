@@ -1243,6 +1243,9 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
             }
         }
 
+        /// <summary>
+        /// Checks if the user is classed as 'logged in'
+        /// </summary>
         public bool LoggedIn
         {
             get { return bLoggedIn; }
@@ -1443,6 +1446,9 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
             }
         }
 
+        /// <summary>
+        /// Checks if the current version of AWB is enabled
+        /// </summary>
         public WikiStatusResult checkEnabled()
         {
             string strText = String.Empty;
