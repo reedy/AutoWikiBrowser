@@ -127,13 +127,16 @@ namespace WikiFunctions.Parse
                 MoreHide.Add(new HideObject(s, m.Value));
                 i++;
             }
-            foreach (Match m in WikiRegexes.ExternalLinks.Matches(ArticleText))
+            if (HideExternal)
             {
-                s = "⌊⌊⌊⌊M" + i.ToString() + "⌋⌋⌋⌋";
+                foreach (Match m in WikiRegexes.ExternalLinks.Matches(ArticleText))
+                {
+                    s = "⌊⌊⌊⌊M" + i.ToString() + "⌋⌋⌋⌋";
 
-                ArticleText = ArticleText.Replace(m.Value, s);
-                MoreHide.Add(new HideObject(s, m.Value));
-                i++;
+                    ArticleText = ArticleText.Replace(m.Value, s);
+                    MoreHide.Add(new HideObject(s, m.Value));
+                    i++;
+                }
             }
             foreach (Match m in WikiRegexes.Heading5.Matches(ArticleText))
             {
