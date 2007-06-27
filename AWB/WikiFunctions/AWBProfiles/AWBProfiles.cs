@@ -43,6 +43,39 @@ namespace WikiFunctions.AWBProfiles
             loadProfiles();
         }
 
+        int SelectedItem
+        {
+            get
+            {
+                if (lvAccounts.SelectedIndices.Count == 0) return -1;
+                else return int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text);
+            }
+        }
+
+        void UpdateUI()
+        {
+            if (lvAccounts.Items.Count > 0)
+            {
+                btnLogin.Enabled = true;
+                btnDelete.Enabled = true;
+
+                loginAsThisAccountToolStripMenuItem.Enabled = true;
+                editThisAccountToolStripMenuItem.Enabled = true;
+                changePasswordToolStripMenuItem.Enabled = true;
+                deleteThisAccountToolStripMenuItem.Enabled = true;
+            }
+            else
+            {
+                btnLogin.Enabled = false;
+                btnDelete.Enabled = false;
+
+                loginAsThisAccountToolStripMenuItem.Enabled = false;
+                editThisAccountToolStripMenuItem.Enabled = false;
+                changePasswordToolStripMenuItem.Enabled = false;
+                deleteThisAccountToolStripMenuItem.Enabled = false;
+            }
+        }
+
         private void loadProfiles()
         {
             lvAccounts.Items.Clear();
@@ -61,6 +94,8 @@ namespace WikiFunctions.AWBProfiles
                 lvAccounts.Items.Add(item);
             }
 
+            UpdateUI();
+
             WikiFunctions.Lists.ListViewColumnResize.resizeListView(lvAccounts);
         }
 
@@ -76,7 +111,7 @@ namespace WikiFunctions.AWBProfiles
 
         private void login()
         {
-            if (lvAccounts.SelectedItems.Count == 1)
+            if (SelectedItem >= 0)
             {
                 if (lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[2].Text == "Yes")
                 {//Get 'Saved' Password
@@ -85,10 +120,10 @@ namespace WikiFunctions.AWBProfiles
                 else
                 {//Get Password from User
                     UserPassword password = new UserPassword();
-                    password.SetText = "Enter password for: " + lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text;
+                    password.SetText = "Enter password for " + lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text;
 
                     if (password.ShowDialog() == DialogResult.OK)
-                        Browser.Login(lvAccounts.Items[lvAccounts.SelectedIndices[1]].Text, password.GetPassword);
+                        Browser.Login(lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text, password.GetPassword);
                 }
             }
         }
@@ -122,8 +157,16 @@ namespace WikiFunctions.AWBProfiles
 
         private void Delete()
         {
-            AWBProfiles.DeleteProfile(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text));
-            loadProfiles();
+            try
+            {
+                if (SelectedItem < 0) return;
+                AWBProfiles.DeleteProfile(SelectedItem);
+                loadProfiles();
+            }
+            finally
+            {
+                UpdateUI();
+            }
         }
 
         private void changePasswordToolStripMenuItem_Click(object sender, EventArgs e)

@@ -37,15 +37,16 @@ namespace WikiFunctions.AWBProfiles
             this.colNotes = new System.Windows.Forms.ColumnHeader();
             this.mnuAccounts = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.loginAsThisAccountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editThisAccountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changePasswordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.addNewAccountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.deleteThisSavedAccountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteThisAccountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnLogin = new System.Windows.Forms.Button();
-            this.editThisAccountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnExit = new System.Windows.Forms.Button();
             this.mnuAccounts.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -73,17 +74,17 @@ namespace WikiFunctions.AWBProfiles
             // 
             // colAccountName
             // 
-            this.colAccountName.Text = "Account Name";
+            this.colAccountName.Text = "Username";
             this.colAccountName.Width = 99;
             // 
             // colPasswordSaved
             // 
-            this.colPasswordSaved.Text = "Password Saved?";
+            this.colPasswordSaved.Text = "Password saved?";
             this.colPasswordSaved.Width = 107;
             // 
             // colProfileSettings
             // 
-            this.colProfileSettings.Text = "Profile Default Settings";
+            this.colProfileSettings.Text = "Profile default settings";
             this.colProfileSettings.Width = 125;
             // 
             // colNotes
@@ -100,61 +101,69 @@ namespace WikiFunctions.AWBProfiles
             this.toolStripSeparator1,
             this.addNewAccountToolStripMenuItem,
             this.toolStripSeparator2,
-            this.deleteThisSavedAccountToolStripMenuItem});
+            this.deleteThisAccountToolStripMenuItem});
             this.mnuAccounts.Name = "mnuAccounts";
-            this.mnuAccounts.Size = new System.Drawing.Size(211, 148);
+            this.mnuAccounts.Size = new System.Drawing.Size(190, 126);
             // 
             // loginAsThisAccountToolStripMenuItem
             // 
             this.loginAsThisAccountToolStripMenuItem.Name = "loginAsThisAccountToolStripMenuItem";
-            this.loginAsThisAccountToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
-            this.loginAsThisAccountToolStripMenuItem.Text = "Log-in as this Account";
+            this.loginAsThisAccountToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.loginAsThisAccountToolStripMenuItem.Text = "Log-in as this account";
             this.loginAsThisAccountToolStripMenuItem.Click += new System.EventHandler(this.loginAsThisAccountToolStripMenuItem_Click);
+            // 
+            // editThisAccountToolStripMenuItem
+            // 
+            this.editThisAccountToolStripMenuItem.Name = "editThisAccountToolStripMenuItem";
+            this.editThisAccountToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.editThisAccountToolStripMenuItem.Text = "Edit this account";
+            this.editThisAccountToolStripMenuItem.Click += new System.EventHandler(this.editThisAccountToolStripMenuItem_Click);
             // 
             // changePasswordToolStripMenuItem
             // 
             this.changePasswordToolStripMenuItem.Name = "changePasswordToolStripMenuItem";
-            this.changePasswordToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
-            this.changePasswordToolStripMenuItem.Text = "Change Saved Password";
+            this.changePasswordToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.changePasswordToolStripMenuItem.Text = "Change password";
             this.changePasswordToolStripMenuItem.Click += new System.EventHandler(this.changePasswordToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(207, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(186, 6);
             // 
             // addNewAccountToolStripMenuItem
             // 
             this.addNewAccountToolStripMenuItem.Name = "addNewAccountToolStripMenuItem";
-            this.addNewAccountToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
-            this.addNewAccountToolStripMenuItem.Text = "Add new Account";
+            this.addNewAccountToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.addNewAccountToolStripMenuItem.Text = "Add new account";
             this.addNewAccountToolStripMenuItem.Click += new System.EventHandler(this.addNewAccountToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(207, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(186, 6);
             // 
-            // deleteThisSavedAccountToolStripMenuItem
+            // deleteThisAccountToolStripMenuItem
             // 
-            this.deleteThisSavedAccountToolStripMenuItem.Name = "deleteThisSavedAccountToolStripMenuItem";
-            this.deleteThisSavedAccountToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
-            this.deleteThisSavedAccountToolStripMenuItem.Text = "Delete this saved Account";
-            this.deleteThisSavedAccountToolStripMenuItem.Click += new System.EventHandler(this.deleteThisSavedAccountToolStripMenuItem_Click);
+            this.deleteThisAccountToolStripMenuItem.Name = "deleteThisAccountToolStripMenuItem";
+            this.deleteThisAccountToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.deleteThisAccountToolStripMenuItem.Text = "Delete this account";
+            this.deleteThisAccountToolStripMenuItem.Click += new System.EventHandler(this.deleteThisSavedAccountToolStripMenuItem_Click);
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(12, 197);
+            this.btnAdd.Location = new System.Drawing.Point(109, 200);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(91, 36);
             this.btnAdd.TabIndex = 2;
-            this.btnAdd.Text = "Add new Account";
+            this.btnAdd.Text = "Add new account";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(206, 197);
+            this.btnDelete.Enabled = false;
+            this.btnDelete.Location = new System.Drawing.Point(206, 200);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(91, 36);
             this.btnDelete.TabIndex = 3;
@@ -164,7 +173,8 @@ namespace WikiFunctions.AWBProfiles
             // 
             // btnLogin
             // 
-            this.btnLogin.Location = new System.Drawing.Point(109, 197);
+            this.btnLogin.Enabled = false;
+            this.btnLogin.Location = new System.Drawing.Point(12, 200);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(91, 36);
             this.btnLogin.TabIndex = 4;
@@ -172,23 +182,30 @@ namespace WikiFunctions.AWBProfiles
             this.btnLogin.UseVisualStyleBackColor = true;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
             // 
-            // editThisAccountToolStripMenuItem
+            // btnExit
             // 
-            this.editThisAccountToolStripMenuItem.Name = "editThisAccountToolStripMenuItem";
-            this.editThisAccountToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
-            this.editThisAccountToolStripMenuItem.Text = "Edit this Account";
-            this.editThisAccountToolStripMenuItem.Click += new System.EventHandler(this.editThisAccountToolStripMenuItem_Click);
+            this.btnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnExit.Location = new System.Drawing.Point(385, 200);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(91, 36);
+            this.btnExit.TabIndex = 5;
+            this.btnExit.Text = "Exit";
+            this.btnExit.UseVisualStyleBackColor = true;
             // 
             // AWBProfilesForm
             // 
+            this.AcceptButton = this.btnLogin;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnExit;
             this.ClientSize = new System.Drawing.Size(488, 248);
-            this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.lvAccounts);
-            this.Controls.Add(this.btnDelete);
+            this.Controls.Add(this.btnLogin);
+            this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnAdd);
+            this.Controls.Add(this.btnDelete);
             this.Name = "AWBProfilesForm";
+            this.ShowInTaskbar = false;
             this.Text = "Profiles";
             this.Load += new System.EventHandler(this.AWBProfiles_Load);
             this.mnuAccounts.ResumeLayout(false);
@@ -208,12 +225,13 @@ namespace WikiFunctions.AWBProfiles
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem addNewAccountToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripMenuItem deleteThisSavedAccountToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteThisAccountToolStripMenuItem;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnLogin;
         private System.Windows.Forms.ToolStripMenuItem changePasswordToolStripMenuItem;
         private System.Windows.Forms.ColumnHeader colID;
         private System.Windows.Forms.ToolStripMenuItem editThisAccountToolStripMenuItem;
+        private System.Windows.Forms.Button btnExit;
     }
 }
