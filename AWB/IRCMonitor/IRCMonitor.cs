@@ -1934,5 +1934,17 @@ namespace IRCMonitor
         {
             AddToBlacklist(webBrowser.ArticleTitle.Remove(0, webBrowser.ArticleTitle.IndexOf(':') + 1));
         }
+
+        private void profilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            WikiFunctions.AWBProfiles.AWBProfilesForm profiles = new WikiFunctions.AWBProfiles.AWBProfilesForm(webBrowser);
+            profiles.Show();
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            Application.Exit();
+        }
     }
 }

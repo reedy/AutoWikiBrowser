@@ -133,12 +133,6 @@ namespace IRCMonitor
             this.addUserToBlacklistToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.addArticlefileToWatchlistToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabpage1 = new System.Windows.Forms.TabPage();
-            this.listViewEdit = new WikiFunctions.Controls.NoFlickerListView();
-            this.columnHeader19 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader20 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader21 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader22 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader23 = new System.Windows.Forms.ColumnHeader();
             this.txtEditTitleRegex = new System.Windows.Forms.TextBox();
             this.chkEditTitleRegex = new System.Windows.Forms.CheckBox();
             this.label10 = new System.Windows.Forms.Label();
@@ -164,7 +158,6 @@ namespace IRCMonitor
             this.clmType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage8 = new System.Windows.Forms.TabPage();
-            this.webBrowser = new WikiFunctions.Browser.WebControl();
             this.toolStripBrowser = new System.Windows.Forms.ToolStrip();
             this.btnBack = new System.Windows.Forms.ToolStripButton();
             this.btnFoward = new System.Windows.Forms.ToolStripButton();
@@ -212,6 +205,16 @@ namespace IRCMonitor
             this.UTCtime = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.listViewEdit = new WikiFunctions.Controls.NoFlickerListView();
+            this.columnHeader19 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader20 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader21 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader22 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader23 = new System.Windows.Forms.ColumnHeader();
+            this.webBrowser = new WikiFunctions.Browser.WebControl();
+            this.profilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.tabPage7.SuspendLayout();
             this.tabPage5.SuspendLayout();
@@ -1320,53 +1323,6 @@ namespace IRCMonitor
             this.tabpage1.Text = "Edits";
             this.tabpage1.UseVisualStyleBackColor = true;
             // 
-            // listViewEdit
-            // 
-            this.listViewEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.listViewEdit.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader19,
-            this.columnHeader20,
-            this.columnHeader21,
-            this.columnHeader22,
-            this.columnHeader23});
-            this.listViewEdit.FullRowSelect = true;
-            this.listViewEdit.GridLines = true;
-            this.listViewEdit.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.listViewEdit.Location = new System.Drawing.Point(0, 58);
-            this.listViewEdit.MultiSelect = false;
-            this.listViewEdit.Name = "listViewEdit";
-            this.listViewEdit.Size = new System.Drawing.Size(884, 501);
-            this.listViewEdit.TabIndex = 25;
-            this.listViewEdit.UseCompatibleStateImageBehavior = false;
-            this.listViewEdit.View = System.Windows.Forms.View.Details;
-            this.listViewEdit.DoubleClick += new System.EventHandler(this.listViewEdit_DoubleClick_1);
-            this.listViewEdit.MouseUp += new System.Windows.Forms.MouseEventHandler(this.listViewEdit_MouseUp_1);
-            // 
-            // columnHeader19
-            // 
-            this.columnHeader19.Text = "Article";
-            this.columnHeader19.Width = 188;
-            // 
-            // columnHeader20
-            // 
-            this.columnHeader20.Text = "User";
-            this.columnHeader20.Width = 157;
-            // 
-            // columnHeader21
-            // 
-            this.columnHeader21.Text = "Minor";
-            // 
-            // columnHeader22
-            // 
-            this.columnHeader22.Text = "+/-";
-            // 
-            // columnHeader23
-            // 
-            this.columnHeader23.Text = "Comment";
-            this.columnHeader23.Width = 416;
-            // 
             // txtEditTitleRegex
             // 
             this.txtEditTitleRegex.Enabled = false;
@@ -1626,25 +1582,6 @@ namespace IRCMonitor
             this.tabPage8.TabIndex = 8;
             this.tabPage8.Text = "Browser";
             this.tabPage8.UseVisualStyleBackColor = true;
-            // 
-            // webBrowser
-            // 
-            this.webBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.webBrowser.ArticleText = "";
-            this.webBrowser.Busy = false;
-            this.webBrowser.Location = new System.Drawing.Point(0, 31);
-            this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser.Name = "webBrowser";
-            this.webBrowser.ProcessStage = WikiFunctions.Browser.enumProcessStage.none;
-            this.webBrowser.ScriptErrorsSuppressed = true;
-            this.webBrowser.Size = new System.Drawing.Size(884, 525);
-            this.webBrowser.TabIndex = 3;
-            this.webBrowser.TimeoutLimit = 30;
-            this.webBrowser.StatusTextChanged += new System.EventHandler(this.webBrowser_StatusChanged);
-            this.webBrowser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowser_Navigating_1);
-            this.webBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser_DocumentCompleted_1);
             // 
             // toolStripBrowser
             // 
@@ -1931,7 +1868,10 @@ namespace IRCMonitor
             this.loadSettingsToolStripMenuItem,
             this.saveSettingsToolStripMenuItem,
             this.loadDefaultSettingsToolStripMenuItem,
-            this.loginToolStripMenuItem});
+            this.loginToolStripMenuItem,
+            this.profilesToolStripMenuItem,
+            this.toolStripSeparator7,
+            this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -2032,6 +1972,92 @@ namespace IRCMonitor
             this.timer1.Enabled = true;
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // listViewEdit
+            // 
+            this.listViewEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.listViewEdit.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader19,
+            this.columnHeader20,
+            this.columnHeader21,
+            this.columnHeader22,
+            this.columnHeader23});
+            this.listViewEdit.FullRowSelect = true;
+            this.listViewEdit.GridLines = true;
+            this.listViewEdit.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.listViewEdit.Location = new System.Drawing.Point(0, 58);
+            this.listViewEdit.MultiSelect = false;
+            this.listViewEdit.Name = "listViewEdit";
+            this.listViewEdit.Size = new System.Drawing.Size(884, 501);
+            this.listViewEdit.TabIndex = 25;
+            this.listViewEdit.UseCompatibleStateImageBehavior = false;
+            this.listViewEdit.View = System.Windows.Forms.View.Details;
+            this.listViewEdit.DoubleClick += new System.EventHandler(this.listViewEdit_DoubleClick_1);
+            this.listViewEdit.MouseUp += new System.Windows.Forms.MouseEventHandler(this.listViewEdit_MouseUp_1);
+            // 
+            // columnHeader19
+            // 
+            this.columnHeader19.Text = "Article";
+            this.columnHeader19.Width = 188;
+            // 
+            // columnHeader20
+            // 
+            this.columnHeader20.Text = "User";
+            this.columnHeader20.Width = 157;
+            // 
+            // columnHeader21
+            // 
+            this.columnHeader21.Text = "Minor";
+            // 
+            // columnHeader22
+            // 
+            this.columnHeader22.Text = "+/-";
+            // 
+            // columnHeader23
+            // 
+            this.columnHeader23.Text = "Comment";
+            this.columnHeader23.Width = 416;
+            // 
+            // webBrowser
+            // 
+            this.webBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.webBrowser.ArticleText = "";
+            this.webBrowser.Busy = false;
+            this.webBrowser.Location = new System.Drawing.Point(0, 31);
+            this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser.Name = "webBrowser";
+            this.webBrowser.ProcessStage = WikiFunctions.Browser.enumProcessStage.none;
+            this.webBrowser.ScriptErrorsSuppressed = true;
+            this.webBrowser.Size = new System.Drawing.Size(884, 525);
+            this.webBrowser.TabIndex = 3;
+            this.webBrowser.TimeoutLimit = 30;
+            this.webBrowser.StatusTextChanged += new System.EventHandler(this.webBrowser_StatusChanged);
+            this.webBrowser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowser_Navigating_1);
+            this.webBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser_DocumentCompleted_1);
+            // 
+            // profilesToolStripMenuItem
+            // 
+            this.profilesToolStripMenuItem.Name = "profilesToolStripMenuItem";
+            this.profilesToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.profilesToolStripMenuItem.Text = "Profiles";
+            this.profilesToolStripMenuItem.Click += new System.EventHandler(this.profilesToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(151, 6);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // IRCMonitor
             // 
@@ -2281,6 +2307,9 @@ namespace IRCMonitor
         private System.Windows.Forms.ToolStripMenuItem tagWithToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel lblStatusText;
         private System.Windows.Forms.ToolStripStatusLabel lblUserName;
+        private System.Windows.Forms.ToolStripMenuItem profilesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
     }
 }
 
