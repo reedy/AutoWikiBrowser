@@ -1346,7 +1346,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                 CheckPageText = strText;
 
                 //see if we are logged in
-                this.Name = webBrowserLogin.UserName();
+                this.Name = webBrowserLogin.UserName;
                 if (Name == "") // don't run GetInLogInStatus if we don't have the username, we sometimes get 2 error message boxes otherwise
                     LoggedIn = false;
                 else

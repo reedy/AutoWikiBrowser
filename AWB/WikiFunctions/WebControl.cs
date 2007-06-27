@@ -50,8 +50,6 @@ namespace WikiFunctions.Browser
             ProcessStage = enumProcessStage.none;
         }
 
-        Regex LoginRegex = new Regex("var wgUserName = (.*?);", RegexOptions.Compiled);
-
         Timer timer1 = new Timer();
 
         public static bool Shutdown = false;
@@ -204,8 +202,7 @@ namespace WikiFunctions.Browser
 
             try
             {
-                Match m = LoginRegex.Match(this.DocumentText);
-                if (!m.Success || m.Groups[1].Value == "null")
+                if (UserName == "")
                     return false;
                 else
                     return true;
@@ -219,26 +216,11 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Gets the user name if logged in
         /// </summary>
-        public string UserName()
+        public string UserName
         {
-            if (this.Document == null)
-                return "";
-
-            try
+            get
             {
-                Match m = LoginRegex.Match(this.DocumentText);
-
-                if (m.Groups[1].Value == "null")
-                    return "";
-
-                string s = m.Groups[1].Value.Trim('"');
-                s = s.Replace("\\\"", "\"").Replace("\\'", "'");
-
-                return s;
-            }
-            catch
-            {
-                return "";
+                return GetScriptingVar("wgUserName");
             }
         }
 

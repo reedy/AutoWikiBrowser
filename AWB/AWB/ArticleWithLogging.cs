@@ -7,18 +7,19 @@ namespace AutoWikiBrowser
 {
     // A bit of a kludge this, as Article wasn't designed to write to a Trace listener collection, 
     // and I don't want to make the underlying object too complicated.
-    internal sealed class ArticleWithLogging : WikiFunctions.Article
+    internal sealed class ArticleWithLogging : WikiFunctions.ArticleEx
     {
-        public override IAWBTraceListener Trace
+        protected override IAWBTraceListener Trace
         { get { return GlobalObjects.MyTrace; }
         }
 
+        /*
         public override AWBLogListener InitialiseLogListener()
         {
             InitialiseLogListener("AWB", GlobalObjects.MyTrace);
             GlobalObjects.MyTrace.AddListener("AWB", mAWBLogListener);
-            return mAWBLogListener;
-        }
+            return (IAWBTraceListener)mAWBLogListener;
+        }*/
 
         public ArticleWithLogging(string mName)
             : base(mName)

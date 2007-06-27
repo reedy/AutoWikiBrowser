@@ -1692,7 +1692,7 @@ namespace IRCMonitor
             btnFoward.Enabled = webBrowser.CanGoForward;
             btnStop.Enabled = false;
 
-            string LoggedInUser = webBrowser.UserName();
+            string LoggedInUser = webBrowser.UserName;
 
             if (!WikiFunctions.Variables.User.WikiStatus || !webBrowser.Url.ToString().StartsWith(Variables.URL) ||
                 WikiFunctions.Variables.User.Name != LoggedInUser)

@@ -30,76 +30,153 @@ using WikiFunctions.Parse;
 
 namespace WikiFunctions
 {
+    class FauxListener : IAWBTraceListener
+    {
+        public void Close() { }
+        public void Flush() { }
+        public void ProcessingArticle(string FullArticleTitle, Namespaces NS) { }
+        public void SkippedArticle(string SkippedBy, string Reason) { }
+        public void SkippedArticleBadTag(string SkippedBy, string FullArticleTitle, Namespaces NS) { }
+        public void SkippedArticleRedlink(string SkippedBy, string FullArticleTitle, Namespaces NS) { }
+        public void Write(string Text) { }
+        public void WriteArticleActionLine(string Line, string PluginName) { }
+        public void WriteArticleActionLine(string Line, string PluginName, bool VerboseOnly) { }
+        public void WriteBulletedLine(string Line, bool Bold, bool VerboseOnly) { }
+        public void WriteBulletedLine(string Line, bool Bold, bool VerboseOnly, bool DateStamp) { }
+        public void WriteComment(string Line) { }
+        public void WriteCommentAndNewLine(string Line) { }
+        public void WriteLine(string Line) { }
+        public void WriteTemplateAdded(string Template, string PluginName) { }
+        public bool Uploadable { get { return false; } }
+
+        public void AWBSkipped(string Reason) { }
+        public void UserSkipped() { }
+        public void PluginSkipped() { }
+    }
+
     /// <summary>
     /// A class which represents a wiki article
     /// </summary>
-    public class Article : ProcessArticleEventArgs, IArticleSimple
+    public class Article : IArticleSimple
     {
         protected int mNameSpaceKey;
         protected string mName = "";
+
+        public Article()
+        { }
+
+        public Article(string Name)
+        {
+            mName = Name;
+            mNameSpaceKey = Tools.CalculateNS(mName);
+        }
+
+        public Article(string Name, int NameSpaceKey)
+        {
+            mName = Name;
+            mNameSpaceKey = NameSpaceKey;
+        }
+
+        #region Serialisable properties
+        /// <summary>
+        /// The full name of the article
+        /// </summary>
+        public string Name
+        { get { return mName; } set { mName = value; } }
+
+        /// <summary>
+        /// The namespace of the article
+        /// </summary>
+        [XmlAttribute]
+        public int NameSpaceKey
+        { get { return mNameSpaceKey; } set { mNameSpaceKey = value; } }
+        #endregion
+
+        #region Overrides
+        public override string ToString()
+        {
+            return mName;
+        }
+
+        public override int GetHashCode()
+        {
+            return mName.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || !(obj is Article)) return false;
+            return mName == (obj as Article).mName;
+            /*
+            if (obj.GetHashCode() == this.GetHashCode())
+                return true;
+            else
+                return false;
+            */
+        }
+        #endregion
+
+#region Non-serialisable properties
+        /// <summary>
+        /// The name of the article, encoded ready for use in a URL
+        /// </summary>
+        public string URLEncodedName
+        { get { return Tools.WikiEncode(mName); } }
+#endregion
+    }
+
+    public class ArticleEx : Article, ProcessArticleEventArgs
+    {
         protected string mEditSummary = "";
         protected string mSavedSummary = "";
-        protected AWBLogListener mAWBLogListener;
+        protected IAWBTraceListener mAWBLogListener = new FauxListener();
         protected string mArticleText = "";
         protected string mOriginalArticleText = "";
         protected string mPluginEditSummary = "";
         protected bool mPluginSkip;
+        protected bool mSkip;
 
-        public virtual IAWBTraceListener Trace
+        protected virtual IAWBTraceListener Trace
         { get { return mAWBLogListener; } }
 
-        #region Constructors
-            public Article()
-            { }
+#region Constructors
+        public ArticleEx()
+            : base()
+        {
+        }
 
-            public Article(string mName)
-            {
-                this.mName = mName;
-                this.mNameSpaceKey = Tools.CalculateNS(mName);
-                this.EditSummary = "";
-            }
+        public ArticleEx(string mName)
+            : base(mName)
+        {
+            this.mName = mName;
+            mNameSpaceKey = Tools.CalculateNS(mName);
+        }
 
-            public Article(string mName, int mNameSpaceKey)
-            {
-                this.mName = mName;
-                this.mNameSpaceKey = mNameSpaceKey;
-                this.EditSummary = "";
-            }
+        public ArticleEx(string Name, int NameSpaceKey)
+            : base(Name, NameSpaceKey)
+        {
+            mName = Name;
+            mNameSpaceKey = NameSpaceKey;
+        }
 
-            public virtual AWBLogListener InitialiseLogListener()
-            {
-                InitLog();
-                return mAWBLogListener;
-            }
+        public virtual AWBLogListener InitialiseLogListener()
+        {
+            InitLog();
+            return (AWBLogListener)mAWBLogListener;
+        }
 
-            public AWBLogListener InitialiseLogListener(string name, TraceManager TraceManager)
-            {
-                // Initialise a Log Listener and add it to a TraceManager collection
-                InitLog();
-                TraceManager.AddListener(name, mAWBLogListener);
-                return mAWBLogListener;
-            }
+        public AWBLogListener InitialiseLogListener(string name, TraceManager TraceManager)
+        {
+            // Initialise a Log Listener and add it to a TraceManager collection
+            InitLog();
+            TraceManager.AddListener(name, mAWBLogListener);
+            return (AWBLogListener)mAWBLogListener;
+        }
 
-            private void InitLog()
-            { mAWBLogListener = new Logging.AWBLogListener(this.mName); }
+        private void InitLog()
+        { mAWBLogListener = new Logging.AWBLogListener(this.mName); }
         #endregion
 
-        #region Serialisable properties
-            /// <summary>
-            /// The full name of the article
-            /// </summary>
-            public string Name
-            { get { return mName; } set { mName = value; } }
-
-            /// <summary>
-            /// The namespace of the article
-            /// </summary>
-            [XmlAttribute]
-            public int NameSpaceKey
-            { get { return mNameSpaceKey; } set { mNameSpaceKey = value; } }
-        #endregion
-
-        #region Non-serialisable properties
             // Read-write properties should be marked with the [XmlIgnore] attribute
 
             /// <summary>
@@ -107,13 +184,7 @@ namespace WikiFunctions
             /// </summary>
             [XmlIgnore]
             public AWBLogListener LogListener
-            { get { return mAWBLogListener; } } //set { mAWBLogListener = value; } }
-
-            /// <summary>
-            /// The name of the article, encoded ready for use in a URL
-            /// </summary>
-            public string URLEncodedName
-            { get { return Tools.WikiEncode(mName); } }
+            { get { return (AWBLogListener)mAWBLogListener; } } //set { mAWBLogListener = value; } }
 
             /// <summary>
             /// The text of the article. This is deliberately readonly; set using methods
@@ -126,7 +197,10 @@ namespace WikiFunctions
             /// </summary>
             [XmlIgnore]
             public string OriginalArticleText
-            { get { return mOriginalArticleText.Trim(); } set { mOriginalArticleText = value; mArticleText = value; } }
+            { 
+                get { return mOriginalArticleText.Trim(); }
+                set { mOriginalArticleText = value; mArticleText = value; }
+            }
 
             /// <summary>
             /// Edit summary proposed for article
@@ -168,11 +242,10 @@ namespace WikiFunctions
             /// Returns true if the article should be skipped; check after each call to a worker member. See AWB main.cs.
             /// </summary>
             public bool SkipArticle
-            { get { return mAWBLogListener.Skipped; } }
+            { get { return mSkip; } }
         
             public bool CanDoGeneralFixes
             { get { return (NameSpaceKey == 0 || NameSpaceKey == 14 || Name.Contains("Sandbox")); } }
-        #endregion
 
         #region AWB worker subroutines
             /// <summary>
@@ -185,12 +258,32 @@ namespace WikiFunctions
             }
 
             /// <summary>
-            /// AWB skips the article; passed through to the underlying AWBLogListener object
+            /// 
             /// </summary>
-            /// <param name="reason">The reason for skipping</param>
-            public void AWBSkip(string reason)
-            { Trace.AWBSkipped(reason); }
-        
+            /// <param name="reason"></param>
+            public void Skip(string reason)
+            {
+                mSkip = true;
+                if(Trace != null) 
+                    switch (reason)
+                {
+                    case "user":
+                        Trace.UserSkipped();
+                        break;
+
+                    case "plugin":
+                        Trace.PluginSkipped();
+                        break;
+
+                    case "":
+                        break;
+
+                    default:
+                        Trace.AWBSkipped(reason);
+                        break;
+                }
+            }
+
             /// <summary>
             /// Send the article to a plugin for processing
             /// </summary>
@@ -202,8 +295,8 @@ namespace WikiFunctions
 
                 if (!mPluginSkip)
                 {
-                    this.PluginChangeArticleText(strTemp);
-                    this.AppendPluginEditSummary();
+                    PluginChangeArticleText(strTemp);
+                    AppendPluginEditSummary();
                 }
             }
 
@@ -344,7 +437,7 @@ namespace WikiFunctions
                     Trace.AWBSkipped("No Find And Replace Changes");
                 else
                 {
-                    this.AWBChangeArticleText("Find and replace applied" + tmpEditSummary,
+                    AWBChangeArticleText("Find and replace applied" + tmpEditSummary,
                         strTemp.Replace("\n", "\r\n"), false);
                     EditSummary += tmpEditSummary;
                 }
@@ -364,7 +457,7 @@ namespace WikiFunctions
                     Trace.AWBSkipped("No typo fixes");
                 else if (!NoChange)
                 {
-                    this.AWBChangeArticleText(mPluginEditSummary, strTemp, false);
+                    AWBChangeArticleText(mPluginEditSummary, strTemp, false);
                     AppendPluginEditSummary();
                 }
             }
@@ -383,7 +476,7 @@ namespace WikiFunctions
                     Trace.AWBSkipped("No Tag changed");
                 else if (!NoChange)
                 {
-                    this.AWBChangeArticleText("Auto tagger changes applied" + tmpEditSummary, strTemp, false);
+                    AWBChangeArticleText("Auto tagger changes applied" + tmpEditSummary, strTemp, false);
                     EditSummary += tmpEditSummary;
                 }
             }
@@ -406,7 +499,7 @@ namespace WikiFunctions
                     if (SkipIfNoChange && NoChange)
                         Trace.AWBSkipped("No header errors");
                     else if (!NoChange)
-                        this.AWBChangeArticleText("Fixed header errors", strTemp, true);
+                        AWBChangeArticleText("Fixed header errors", strTemp, true);
                 }
             }
 
@@ -563,7 +656,7 @@ namespace WikiFunctions
                 if (checkIfChanged && newText == mArticleText) return;
 
                 mArticleText = newText;
-                mAWBLogListener.WriteLine(reason, changedBy);
+                //mAWBLogListener.WriteLine(reason, changedBy);
             }
 
             /// <summary>
@@ -606,49 +699,6 @@ namespace WikiFunctions
             public void UnHideMoreText(HideText RemoveText)
             { mArticleText = RemoveText.AddBackMore(mArticleText); }
 
-        /// <summary>
-        /// returns 
-        /// </summary>
-        /// <param name="title"></param>
-        /// <returns></returns>
-        public static string CanonicalizeTitle(string title)
-        {
-            // visible parts of links may contain crap we shouldn't modify, such as
-            // refs and external links
-            if (title.Contains("[") || title.Contains("{")) return title;
-
-            string s = Parsers.CanonicalizeTitle(title);
-            if (Variables.UnderscoredTitles.Contains(new Article(Tools.TurnFirstToUpper(s))))
-            {
-                return System.Web.HttpUtility.UrlDecode(title.Replace("+", "%2B"))
-                    .Trim(new char[] { '_' });
-            }
-            else return s;
-        }
-        #endregion
-
-        #region Overrides
-            public override string ToString()
-            {
-                return mName;
-            }
-
-            public override int GetHashCode()
-            {
-                return mName.GetHashCode();
-            }
-
-            public override bool Equals(object obj)
-            {
-                if (obj == null || !(obj is Article)) return false;
-                return mName == (obj as Article).mName;
-                /*
-                if (obj.GetHashCode() == this.GetHashCode())
-                    return true;
-                else
-                    return false;
-                */
-            }
         #endregion
 
         #region Interfaces
@@ -665,9 +715,7 @@ namespace WikiFunctions
             bool ProcessArticleEventArgs.Skip
             { get { return mPluginSkip; } set { mPluginSkip = value; } }
 
-            // and NamespaceKey
-
-            Article IArticleSimple.Article { get { return this; } }
+            Article Article { get { return this; } }
         #endregion
 
         public static IArticleSimple GetReadOnlyArticle(string Title)
@@ -683,12 +731,12 @@ namespace WikiFunctions
     // TODO: Primarily for use with IsStub() etc, by plugin
     public interface IArticleSimple
     {
-        Article Article { get; }
+        //Article Article { get; }
         string Name { get; }
         int NameSpaceKey { get; }
-        string ArticleText { get; }
-        bool IsStub { get; }
-        bool HasStubTemplate { get; }
-        bool HasInfoBox { get; }
+        //string ArticleText { get; }
+        //bool IsStub { get; }
+        //bool HasStubTemplate { get; }
+        //bool HasInfoBox { get; }
     }
 }
