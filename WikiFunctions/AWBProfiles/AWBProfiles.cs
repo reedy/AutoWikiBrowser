@@ -55,25 +55,20 @@ namespace WikiFunctions.AWBProfiles
         void UpdateUI()
         {
             if (lvAccounts.Items.Count > 0)
-            {
-                btnLogin.Enabled = true;
-                btnDelete.Enabled = true;
-
-                loginAsThisAccountToolStripMenuItem.Enabled = true;
-                editThisAccountToolStripMenuItem.Enabled = true;
-                changePasswordToolStripMenuItem.Enabled = true;
-                deleteThisAccountToolStripMenuItem.Enabled = true;
-            }
+                updateComponents(true);
             else
-            {
-                btnLogin.Enabled = false;
-                btnDelete.Enabled = false;
+                updateComponents(false);
+        }
 
-                loginAsThisAccountToolStripMenuItem.Enabled = false;
-                editThisAccountToolStripMenuItem.Enabled = false;
-                changePasswordToolStripMenuItem.Enabled = false;
-                deleteThisAccountToolStripMenuItem.Enabled = false;
-            }
+        void updateComponents(bool Which)
+        {
+            btnLogin.Enabled = Which;
+            btnDelete.Enabled = Which;
+
+            loginAsThisAccountToolStripMenuItem.Enabled = Which;
+            editThisAccountToolStripMenuItem.Enabled = Which;
+            changePasswordToolStripMenuItem.Enabled = Which;
+            deleteThisAccountToolStripMenuItem.Enabled = Which;
         }
 
         private void loadProfiles()
@@ -115,7 +110,7 @@ namespace WikiFunctions.AWBProfiles
             {
                 if (lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[2].Text == "Yes")
                 {//Get 'Saved' Password
-                    Browser.Login(lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text, AWBProfiles.GetPassword(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text)));
+                    browserLogin(AWBProfiles.GetPassword(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text)));
                 }
                 else
                 {//Get Password from User
@@ -123,9 +118,14 @@ namespace WikiFunctions.AWBProfiles
                     password.SetText = "Enter password for " + lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text;
 
                     if (password.ShowDialog() == DialogResult.OK)
-                        Browser.Login(lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text, password.GetPassword);
+                        browserLogin(password.GetPassword);
                 }
             }
+        }
+
+        private void browserLogin(string Password)
+        {
+            Browser.Login(lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text, Password);
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
