@@ -153,8 +153,9 @@ namespace AutoWikiBrowser.Logging
         }
         private void NewWikiTraceListener()
         {
-            AddListener(conWiki, new WikiTraceListener(GetFilePrefix(LoggingSettings.Settings.LogFolder) + 
-                " log.txt", LoggingSettings));
+            // TODO: fix and uncomment this
+            //AddListener(conWiki, new WikiTraceListener(GetFilePrefix(LoggingSettings.Settings.LogFolder) + 
+            //    " log.txt", LoggingSettings));
         }
         private string GetFileNameFromActiveListener(string Key)
         {
@@ -521,7 +522,7 @@ namespace AutoWikiBrowser.Logging
             Close(); LS.TurnOffLogging();
         }
 
-        internal static AWBLogListener InitialiseLogListener(Article Article)
+        internal static AWBLogListener InitialiseLogListener(ArticleEx Article)
         { return Article.InitialiseLogListener("AWB", GlobalObjects.MyTrace); }
         // TODO: At some point we need to *remove* the listener for the article ("AWB")
         // Plugin did it at the end of ProcessArticle(). We also do it, but a bit late, in AddListener().

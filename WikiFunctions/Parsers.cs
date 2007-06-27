@@ -414,7 +414,27 @@ namespace WikiFunctions.Parse
             ArticleText = Regex.Replace(ArticleText, "ISBN: ?([0-9])", "ISBN $1");
 
             return ArticleText.Trim();
-        }        
+        }
+
+        /// <summary>
+        /// returns 
+        /// </summary>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        public static string CanonicalizeTitle(string title)
+        {
+            // visible parts of links may contain crap we shouldn't modify, such as
+            // refs and external links
+            if (title.Contains("[") || title.Contains("{")) return title;
+
+            string s = CanonicalizeTitleRaw(title);
+            if (Variables.UnderscoredTitles.Contains(new Article(Tools.TurnFirstToUpper(s))))
+            {
+                return System.Web.HttpUtility.UrlDecode(title.Replace("+", "%2B"))
+                    .Trim(new char[] { '_' });
+            }
+            else return s;
+        }
 
         /// <summary>
         /// Fixes link syntax
@@ -432,7 +452,7 @@ namespace WikiFunctions.Parse
 
             foreach (Match m in WikiRegexes.WikiLink.Matches(ArticleText))
             {
-                y = m.Value.Replace(m.Groups[1].Value, Article.CanonicalizeTitle(m.Groups[1].Value));
+                y = m.Value.Replace(m.Groups[1].Value, CanonicalizeTitle(m.Groups[1].Value));
 
                 ArticleText = ArticleText.Replace(m.Value, y);
             }
@@ -445,7 +465,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// performs URL-decoding of a page title
         /// </summary>
-        public static string CanonicalizeTitle(string title)
+        public static string CanonicalizeTitleRaw(string title)
         {
             return HttpUtility.UrlDecode(title.Replace("+", "%2B")).Replace("_", " ").Trim();
         }
@@ -675,7 +695,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             foreach (Match m in imgregex.Matches(ArticleText))
             {
-                x = img + Article.CanonicalizeTitle(m.Groups[1].Value).Trim() + Article.CanonicalizeTitle(m.Groups[2].Value) + "]]";
+                x = img + CanonicalizeTitle(m.Groups[1].Value).Trim() + CanonicalizeTitle(m.Groups[2].Value) + "]]";
                 ArticleText = ArticleText.Replace(m.Value, x);
             }
 

@@ -816,28 +816,17 @@ namespace AutoWikiBrowser
 
         private void SkipPage(string reason)
         {
-            switch (reason)
-            {
-                case "user":
-                    TheArticle.Trace.UserSkipped();
-                    break;
-
-                case "plugin":
-                    TheArticle.Trace.PluginSkipped();
-                    break;
-
-                case "":
-                    break;
-
-                default:
-                    TheArticle.Trace.AWBSkipped(reason);
-                    break;
-            }
+            TheArticle.Skip(reason);
 
             SkipPageReasonAlreadyProvided();
         }
 
         private void ProcessPage()
+        {
+            ProcessPage(TheArticle);
+        }
+
+        private void ProcessPage(ArticleEx TheArticle)
         {
             bool process = true;
 
@@ -849,7 +838,7 @@ namespace AutoWikiBrowser
                 if (!ignoreNoBotsToolStripMenuItem.Checked &&
                     !Parsers.CheckNoBots(TheArticle.ArticleText, Variables.User.Name))
                 {
-                    TheArticle.AWBSkip("Bot Edits not Allowed");
+                    TheArticle.Skip("Restricted by {{bots}}/{{nobots}}");
                     return;
                 }
 
@@ -994,7 +983,7 @@ namespace AutoWikiBrowser
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                TheArticle.Trace.AWBSkipped("Error");
+                TheArticle.Skip("Exception: " + ex.Message);
             }
         }
 
@@ -2442,9 +2431,12 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void reparseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            /* bool b = true;
-            txtEdit.Text = ProcessPage(txtEdit.Text, out b); */
-            //TODO
+            ArticleEx a = new ArticleEx();
+
+            a.OriginalArticleText = txtEdit.Text;
+            ProcessPage(a);
+            txtEdit.Text = a.ArticleText;
+            GetDiff();
         }
 
         private void replaceTextWithLastEditToolStripMenuItem_Click(object sender, EventArgs e)
