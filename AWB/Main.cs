@@ -1388,7 +1388,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 case WikiStatusResult.NotRegistered:
                     lblUserName.BackColor = Color.Red;
                     MessageBox.Show(Variables.User.Name + " is not enabled to use this.", "Not enabled", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    System.Diagnostics.Process.Start(Variables.URL + "/wiki/Wikipedia:AutoWikiBrowser/CheckPage");
+                    System.Diagnostics.Process.Start(Variables.URL + "/wiki/Project:AutoWikiBrowser/CheckPage");
                     break;
 
                 case WikiStatusResult.OldVersion:
