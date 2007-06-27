@@ -184,5 +184,11 @@ namespace WikiFunctions.AWBProfiles
             if (add.ShowDialog() == DialogResult.Yes)
                 loadProfiles();
         }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            this.Dispose();
+        }
     }
 }

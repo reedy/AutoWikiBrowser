@@ -1938,7 +1938,7 @@ namespace IRCMonitor
         private void profilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             WikiFunctions.AWBProfiles.AWBProfilesForm profiles = new WikiFunctions.AWBProfiles.AWBProfilesForm(webBrowser);
-            profiles.Show();
+            profiles.Show(this);
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
