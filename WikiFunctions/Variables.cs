@@ -181,12 +181,12 @@ namespace WikiFunctions
             DelayedRequests.Clear();
         }
 
-        public static void LoadUnderscores(string Template)
+        public static void LoadUnderscores(params string[] Templates)
         {
             BackgroundRequest r = new BackgroundRequest(new BackgroundRequestComplete(UnderscoresLoaded));
             r.HasUI = false;
             DelayedRequests.Add(r);
-            r.GetList(WikiFunctions.Lists.GetLists.From.WhatTranscludesHere, Template);
+            r.GetList(WikiFunctions.Lists.GetLists.From.WhatTranscludesHere, Templates);
         }
 
         static void UnderscoresLoaded(BackgroundRequest req)
@@ -1305,7 +1305,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
 
                     // selectively add content of the local checkpage to the global one
                     strText += Message.Match(s).Value
-                        + Underscores.Match(s)
+                        + Underscores.Match(s).Value
                         + WikiRegexes.NoGeneralFixes.Match(s);
 
                     userGroups = webBrowserWikia.GetScriptingVar("wgUserGroups");
@@ -1369,9 +1369,13 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                 if (m.Success && m.Groups[1].Value.Trim().Length > 0)
                     Variables.RETFPath = m.Groups[1].Value.Trim();
 
-                m = Underscores.Match(strText);
-                if (m.Success && m.Groups[1].Value.Trim().Length > 0)
-                    Variables.LoadUnderscores(m.Groups[1].Value.Trim());
+                List<string> us = new List<string>();
+                foreach (Match m1 in Underscores.Matches(strText))
+                {
+                    if (m1.Success && m1.Groups[1].Value.Trim().Length > 0)
+                        us.Add(m1.Groups[1].Value.Trim());
+                }
+                if(us.Count > 0) Variables.LoadUnderscores(us.ToArray());
 
                 Regex r = new Regex("\"([a-z]*)\"[,\\]]");
 
