@@ -684,7 +684,14 @@ namespace WikiFunctions.MWB
 
             RulesTreeView.Nodes.Remove(draggedNode);
 
-            targetNode.Nodes.Insert(0, draggedNode);
+            if (targetNode != null)
+            {
+                targetNode.Nodes.Insert(0, draggedNode);
+            }
+            else
+            {
+                RulesTreeView.Nodes.Add(draggedNode);
+            }
 
             RulesTreeView.SelectedNode = draggedNode;
             RestoreSelectedRule();
