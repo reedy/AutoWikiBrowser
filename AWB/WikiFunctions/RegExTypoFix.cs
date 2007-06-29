@@ -106,10 +106,7 @@ namespace WikiFunctions.Parse
                 }
             }
 
-            if (OriginalText == ArticleText)
-                NoChange = true;
-            else
-                NoChange = false;
+            NoChange = (OriginalText == ArticleText);
 
             ArticleText = RemoveText.AddBackMore(ArticleText);
 
