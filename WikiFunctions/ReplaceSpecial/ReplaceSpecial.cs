@@ -701,10 +701,12 @@ namespace WikiFunctions.MWB
 
         private void setTreeViewColours()
         {
+            RulesTreeView.BeginUpdate();
             foreach (TreeNode node in RulesTreeView.Nodes)
             {
                 setColours(node);
             }
+            RulesTreeView.EndUpdate();
         }
 
         private void setColours(TreeNode rnode)
