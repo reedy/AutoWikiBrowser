@@ -1345,6 +1345,15 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
 
                 CheckPageText = strText;
 
+                //AWB does not support any skin other than Monobook
+                if (webBrowserLogin.GetScriptingVar("skin") != "monobook")
+                {
+                    MessageBox.Show("This software does not support skins other than Monobook." +
+                        "\r\nPlease choose Monobook in your preferences and relogin.", "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    return WikiStatusResult.Null;
+                }
+
                 //see if we are logged in
                 this.Name = webBrowserLogin.UserName;
                 if (Name == "") // don't run GetInLogInStatus if we don't have the username, we sometimes get 2 error message boxes otherwise
