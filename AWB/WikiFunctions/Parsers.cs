@@ -417,10 +417,8 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// returns 
+        /// returns URL-decoded link target
         /// </summary>
-        /// <param name="title"></param>
-        /// <returns></returns>
         public static string CanonicalizeTitle(string title)
         {
             // visible parts of links may contain crap we shouldn't modify, such as
@@ -468,6 +466,33 @@ namespace WikiFunctions.Parse
         public static string CanonicalizeTitleRaw(string title)
         {
             return HttpUtility.UrlDecode(title.Replace("+", "%2B")).Replace("_", " ").Trim();
+        }
+
+        /// <summary>
+        /// returns true if given string has matching double square brackets
+        /// </summary>
+        public static bool CorrectEditSummary(string s)
+        {
+            bool res = true;
+            
+            int pos = s.IndexOf("[[");
+            while (pos >= 0)
+            {
+                if (res)
+                {
+                    res = false;
+                    s = s.Remove(0, pos);
+                    pos = s.IndexOf("]]");
+                }
+                else
+                {
+                    res = true;
+                    s = s.Remove(0, pos);
+                    pos = s.IndexOf("[[");
+                }
+            }
+
+            return res;
         }
 
         /// <summary>
