@@ -153,7 +153,8 @@ namespace WikiFunctions.Parse
             {
                 ArticleText = findRegex.Replace(ArticleText, Replace);
 
-                if (Matches[0].Value != Matches[0].Result(Replace))
+                if (Matches[0].Value != Matches[0].Result(Replace) && 
+                    Parsers.CorrectEditSummary(Matches[0].Value) && Parsers.CorrectEditSummary(Matches[0].Result(Replace)))
                 {
                     summary = Matches[0].Value + " → " + Matches[0].Result(Replace);
 
