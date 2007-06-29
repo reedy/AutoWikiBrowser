@@ -129,7 +129,8 @@ namespace WikiFunctions.MWB
             ReplaceIsSinglelineCheckbox.Enabled = enable;
 
             enable = IfIsRegexCheckBox.Checked;
-            IfIsCaseSensitiveCheckBox.Enabled = enable;
+            //now case-insensitive checks are supported
+            //IfIsCaseSensitiveCheckBox.Enabled = enable;
             IfIsMultilineCheckbox.Enabled = enable;
             IfIsSinglelineCheckBox.Enabled = enable;
         }

@@ -264,14 +264,18 @@ namespace WikiFunctions.MWB
         {
             Rule r = (Rule)tn.Tag;
 
+            StringComparison sc = (((int)r.ifRegexOptions_ & (int)RegexOptions.IgnoreCase) != 0)?StringComparison.OrdinalIgnoreCase:StringComparison.Ordinal;
+
             if (r.ifContains_ != "")
             {
-                if (!Regex.IsMatch(text, r.ifContains_, r.ifRegexOptions_))
-                    return false;
+                if ((r.ifIsRegex_ && !Regex.IsMatch(text, r.ifContains_, r.ifRegexOptions_))
+                    || (!r.ifIsRegex_ && text.IndexOf(r.ifContains_, sc)<0))
+                        return false;
             }
             if (r.ifNotContains_ != "")
             {
-                if (Regex.IsMatch(text, r.ifNotContains_, r.ifRegexOptions_))
+                if ((r.ifIsRegex_ && Regex.IsMatch(text, r.ifNotContains_, r.ifRegexOptions_))
+                    || (!r.ifIsRegex_ && text.IndexOf(r.ifNotContains_, sc) >= 0))
                     return false;
             }
 
