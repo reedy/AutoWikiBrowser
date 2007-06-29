@@ -191,7 +191,7 @@ namespace WikiFunctions.MWB
 
             RulesTreeView.SelectedNode = tn;
             RulesTreeView.Select();
-            RulesTreeView.ExpandAll();
+            //RulesTreeView.ExpandAll();
             RestoreSelectedRule();
         }
 
@@ -228,7 +228,7 @@ namespace WikiFunctions.MWB
             col.Insert(i, tn);
 
             RulesTreeView.SelectedNode = tn;
-            RulesTreeView.ExpandAll();
+            //RulesTreeView.ExpandAll();
             RestoreSelectedRule();
         }
 
@@ -592,7 +592,7 @@ namespace WikiFunctions.MWB
             SaveCurrentRule();
             history_.Undo();
             RestoreSelectedRule();
-            RulesTreeView.ExpandAll();
+            //RulesTreeView.ExpandAll();
         }
 
         private void RedoMenuItem_Click(object sender, EventArgs e)
@@ -600,7 +600,7 @@ namespace WikiFunctions.MWB
             SaveCurrentRule();
             history_.Redo();
             RestoreSelectedRule();
-            RulesTreeView.ExpandAll();
+            //RulesTreeView.ExpandAll();
         }
 
         private void refreshColoursToolStripMenuItem_Click(object sender, EventArgs e)
