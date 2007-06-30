@@ -351,33 +351,6 @@ namespace WikiFunctions.MWB
             DeleteCmd();
         }
 
-        public void ReadFromXml(XmlTextReader rd, ref bool enabled)
-        {
-            if (rd.Name == "FindAndReplaceSettings")
-            {
-                if (!rd.Read())
-                    return;
-            }
-
-            if (rd.Name != ReplaceSpecial.XmlName)
-                return;
-
-            history_.Clear();
-
-            RulesTreeView.Nodes.Clear();
-
-            if (rd.MoveToAttribute("enabled"))
-                enabled = Convert.ToBoolean(rd.Value);
-
-            if (rd.Read())
-                RuleFactory.ReadFromXml(RulesTreeView.Nodes, rd);
-
-            if (RulesTreeView.Nodes.Count != 0)
-                RulesTreeView.SelectedNode = RulesTreeView.Nodes[0];
-
-            RulesTreeView.ExpandAll();
-        }
-      
         void CutCmd()
         {
             TreeNode s = RulesTreeView.SelectedNode;

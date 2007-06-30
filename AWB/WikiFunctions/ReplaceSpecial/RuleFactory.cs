@@ -42,26 +42,6 @@ namespace WikiFunctions.MWB
         {
             return new TemplateParamRule();
         }
-
-        static public void ReadFromXml(TreeNodeCollection nodes, XmlTextReader rd)
-        {
-            while (!rd.EOF)
-            {
-                if (rd.NodeType == XmlNodeType.EndElement)
-                    break;
-                else if (rd.Name == Rule.XmlName)
-                    Rule.ReadFromXml(nodes, rd, rd.IsEmptyElement);
-                else if (rd.Name == InTemplateRule.XmlName)
-                    InTemplateRule.ReadFromXml(nodes, rd, rd.IsEmptyElement);
-                else if (rd.Name == TemplateParamRule.XmlName)
-                    TemplateParamRule.ReadFromXml(nodes, rd, rd.IsEmptyElement);
-                else
-                    break;
-                if (!rd.Read())
-                    break;
-            }
-        }
-
     }
 
 }

@@ -285,61 +285,6 @@ namespace WikiFunctions.MWB
 
             return ReplaceOn(template, tn, text, title);
         }
-
-        static public void ReadFromXml(TreeNodeCollection nodes, XmlTextReader rd, bool is_empty)
-        {
-            string name = "missing name";
-
-            if (rd.MoveToAttribute("name"))
-                name = rd.Value;
-
-            InTemplateRule r = new InTemplateRule();
-            r.Name = name;
-            TreeNode tn = new TreeNode(name);
-            tn.Tag = r;
-            nodes.Add(tn);
-
-            if (rd.MoveToAttribute("enabled"))
-                r.enabled_ = Convert.ToBoolean(rd.Value);
-
-            if (rd.MoveToAttribute("templatename"))
-            {
-                r.TemplateNames_.Add(rd.Value);
-            }
-
-            if (rd.MoveToAttribute("replacewith"))
-            {
-                r.ReplaceWith_ = rd.Value;
-                r.DoReplace_ = r.ReplaceWith_ != "";
-            }
-
-            if (is_empty)
-                return;
-
-            rd.Read();
-            while (!rd.EOF)
-            {
-                if (rd.NodeType == XmlNodeType.EndElement)
-                    break;
-                else if (rd.Name == "template")
-                {
-                    if (!rd.IsEmptyElement)
-                    {
-                        string s = rd.ReadElementContentAsString();
-                        r.TemplateNames_.Add(s);
-                        continue;
-                    }
-                }
-                else
-                {
-                    RuleFactory.ReadFromXml(tn.Nodes, rd);
-                    continue;
-                }
-                rd.Read();
-            }
-
-        }
-
     }
 
 }
