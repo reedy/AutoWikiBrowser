@@ -1369,6 +1369,16 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                     return WikiStatusResult.NotLoggedIn;
                 }
 
+                // check if username is globally blacklisted
+                foreach (Match m3 in Regex.Matches(strVersionPage, @"badname:\s*(.*)\s*(:?|#.*)$", RegexOptions.IgnoreCase))
+                {
+                    if (m3.Groups[1].Value.Trim()!= "" && Regex.IsMatch(this.Name, m3.Groups[1].Value.Trim(), RegexOptions.IgnoreCase | RegexOptions.Multiline))
+                    {
+                        return WikiStatusResult.NotRegistered;
+                    }
+                }
+
+
                 //see if there is a message
                 Match m = Message.Match(strText);
                 if (m.Success && m.Groups[1].Value.Trim().Length > 0)
