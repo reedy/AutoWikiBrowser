@@ -76,6 +76,7 @@ namespace AutoWikiBrowser
 
             listMaker1.SelectedSource = 0;
             listMaker1.SourceText = "";
+            listMaker1.Clear();
 
             chkGeneralFixes.Checked = true;
             chkAutoTagger.Checked = true;
@@ -118,6 +119,8 @@ namespace AutoWikiBrowser
             chkFindCaseSensitive.Checked = false;
 
             cmboEditSummary.SelectedIndex = 0;
+            cmboEditSummary.Items.Clear();
+            LoadDefaultEditSummaries();
 
             wordWrapToolStripMenuItem1.Checked = true;
             splitContainer1.Show();
@@ -190,6 +193,20 @@ namespace AutoWikiBrowser
             cModule.ModuleEnabled = false;
             this.Text = "AutoWikiBrowser = Default.xml";
             lblStatusText.Text = "Default settings loaded.";
+        }
+
+        private void LoadDefaultEditSummaries()
+        {
+            cmboEditSummary.Items.Add("clean up");
+            cmboEditSummary.Items.Add("re-categorisation per [[WP:CFD|CFD]]");
+            cmboEditSummary.Items.Add("clean up and re-categorisation per [[WP:CFD|CFD]]");
+            cmboEditSummary.Items.Add("removing category per [[WP:CFD|CFD]]");
+            cmboEditSummary.Items.Add("[[Wikipedia:Template substitution|subst:'ing]]");
+            cmboEditSummary.Items.Add("[[Wikipedia:WikiProject Stub sorting|stub sorting]]");
+            cmboEditSummary.Items.Add("[[WP:AWB/T|Typo fixing]]");
+            cmboEditSummary.Items.Add("bad link repair");
+            cmboEditSummary.Items.Add("Fixing [[Wikipedia:Disambiguation pages with links|links to disambiguation pages]]");
+            cmboEditSummary.Items.Add("Unicodifying");
         }
 
         private void loadSettingsDialog()
