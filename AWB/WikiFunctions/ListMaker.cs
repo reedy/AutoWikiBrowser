@@ -849,6 +849,7 @@ namespace WikiFunctions.Controls.Lists
         public void removeListDuplicates()
         {
             SpecialFilter.lb = lbArticles;
+            SpecialFilter.Clear();
             SpecialFilter.removeDups(true);
 
             UpdateNumberOfArticles();

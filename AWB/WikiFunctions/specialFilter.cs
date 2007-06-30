@@ -502,5 +502,10 @@ namespace WikiFunctions.Lists
             chkWikipedia.Checked = All;
             chkWikipediaTalk.Checked = All;
         }
+
+        internal void Clear()
+        {
+            list.Clear();
+        }
     }
 }
