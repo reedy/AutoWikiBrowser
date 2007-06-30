@@ -23,7 +23,7 @@ using System.Text.RegularExpressions;
 
 namespace WikiFunctions.MWB
 {
-
+    /*
     class RegexXml
     {
         public const string Name = "regex";
@@ -45,5 +45,6 @@ namespace WikiFunctions.MWB
             return res;
         }
     }
+     */
 
 }

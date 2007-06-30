@@ -114,37 +114,6 @@ namespace WikiFunctions.MWB
 
             return text;
         }
-
-
-        static public void ReadFromXml(TreeNodeCollection nodes, XmlTextReader rd, bool is_empty)
-        {
-            string name = "missing name";
-
-            if (rd.MoveToAttribute("name"))
-                name = rd.Value;
-
-            TemplateParamRule r = new TemplateParamRule();
-            r.Name = name;
-            TreeNode tn = new TreeNode(name);
-            tn.Tag = r;
-            nodes.Add(tn);
-
-            if (rd.MoveToAttribute("enabled"))
-                r.enabled_ = Convert.ToBoolean(rd.Value);
-
-            if (rd.MoveToAttribute("paramName"))
-                r.ParamName_ = rd.Value;
-
-            if (rd.MoveToAttribute("newParamName"))
-                r.NewParamName_ = rd.Value;
-
-            if (!is_empty)
-            {
-                if (rd.Read())
-                    RuleFactory.ReadFromXml(tn.Nodes, rd);
-            }
-        }
-
     }
 
 }
