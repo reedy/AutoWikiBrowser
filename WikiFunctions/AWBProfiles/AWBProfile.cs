@@ -47,7 +47,7 @@ namespace WikiFunctions.AWBProfiles
 
     public static class AWBProfiles
     {
-        private const string RegKey = "Software\\AutoWikiBrowser\\Profiles";
+        private const string RegKey = "Software\\Wikipedia\\AutoWikiBrowser\\Profiles";
         private const string PassPhrase = "oi frjweopi 4r390%^($%%^$HJKJNMHJGY 2`';'[#";
         private const string Salt = "SH1ew yuhn gxe$£$%^y HNKLHWEQ JEW`b";
         private const string IV16Chars = "tnf47bgfdwlp9,.q";
