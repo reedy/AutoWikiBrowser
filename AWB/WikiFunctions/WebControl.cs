@@ -242,7 +242,6 @@ namespace WikiFunctions.Browser
             this.Document.GetElementById("wpLoginattempt").InvokeMember("click");
 
             this.Wait();
-            Variables.User.UpdateWikiStatus();
         }
 
         public UserInfo GetUserInfo()

@@ -105,6 +105,8 @@ namespace WikiFunctions.Plugin
         void GetDiff(string sender);
         void GetPreview(string sender);
 
+        bool CheckStatus(bool Login);
+
         event GetLogUploadLocationsEvent GetLogUploadLocations;
     }
 
