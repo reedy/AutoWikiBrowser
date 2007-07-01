@@ -3421,8 +3421,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private void profilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             profiles = new WikiFunctions.AWBProfiles.AWBProfilesForm(webBrowserEdit);
-            profiles.Show(this);
             profiles.load += loadProfileSettings;
+            profiles.ShowDialog(this);
         }
 
         private void chkMinor_CheckedChanged(object sender, EventArgs e)
