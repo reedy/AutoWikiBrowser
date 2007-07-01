@@ -27,10 +27,14 @@ using System.Windows.Forms;
 
 namespace WikiFunctions.AWBProfiles
 {
+    public delegate void ProfileLoaded();
+
     public partial class AWBProfilesForm : Form
     {
         private WikiFunctions.Browser.WebControl Browser;
         AWBProfile AWBProfile = new AWBProfile();
+        private string CurrentSettingsProfile;
+        public event ProfileLoaded load;
 
         public AWBProfilesForm(WikiFunctions.Browser.WebControl browser)
         {
@@ -105,6 +109,11 @@ namespace WikiFunctions.AWBProfiles
         {
             if (SelectedItem >= 0)
             {
+                if (lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[3].Text != "")
+                    CurrentSettingsProfile = lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[3].Text;
+                else
+                    CurrentSettingsProfile = "";
+
                 if (lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[2].Text == "Yes")
                 {//Get 'Saved' Password
                     browserLogin(AWBProfiles.GetPassword(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text)));
@@ -116,14 +125,17 @@ namespace WikiFunctions.AWBProfiles
 
                     if (password.ShowDialog() == DialogResult.OK)
                         browserLogin(password.GetPassword);
+                    else
+                        return;
                 }
+
+                this.load();
             }
         }
 
         private void browserLogin(string Password)
         {
             Browser.Login(lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text, Password);
-            Variables.MainForm.CheckStatus(true);
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -192,6 +204,11 @@ namespace WikiFunctions.AWBProfiles
         private void lvAccounts_DoubleClick(object sender, EventArgs e)
         {
             login();
+        }
+
+        public string SettingsToLoad
+        {
+            get { return CurrentSettingsProfile; }
         }
     }
 }

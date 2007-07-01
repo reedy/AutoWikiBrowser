@@ -56,6 +56,7 @@ namespace AutoWikiBrowser
     {
         #region Fields
             private static Splash splash = new Splash();
+            private static WikiFunctions.AWBProfiles.AWBProfilesForm profiles;
             private static bool Abort = false;
 
             private static string LastArticle = "";
@@ -3419,8 +3420,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void profilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            WikiFunctions.AWBProfiles.AWBProfilesForm profiles = new WikiFunctions.AWBProfiles.AWBProfilesForm(webBrowserEdit);
+            profiles = new WikiFunctions.AWBProfiles.AWBProfilesForm(webBrowserEdit);
             profiles.Show(this);
+            profiles.load += loadProfileSettings;
         }
 
         private void chkMinor_CheckedChanged(object sender, EventArgs e)
@@ -3433,5 +3435,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             chkMinor.Checked = markAllAsMinorToolStripMenuItem.Checked;
         }
 
+        private void loadProfileSettings()
+        {
+            LoadPrefs(profiles.SettingsToLoad);
+        }
     }
 }
