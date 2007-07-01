@@ -66,6 +66,7 @@ namespace WikiFunctions.AWBProfiles
             this.lvAccounts.TabIndex = 0;
             this.lvAccounts.UseCompatibleStateImageBehavior = false;
             this.lvAccounts.View = System.Windows.Forms.View.Details;
+            this.lvAccounts.DoubleClick += new System.EventHandler(this.lvAccounts_DoubleClick);
             // 
             // colID
             // 

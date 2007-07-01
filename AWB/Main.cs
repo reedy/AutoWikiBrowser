@@ -220,7 +220,7 @@ namespace AutoWikiBrowser
                 {
                     MessageBox.Show(ex.Message);
                 }
-
+                    
                 lblStatusText.Text = "";
                 splash.Close();
             }
@@ -1357,7 +1357,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
         }
 
-        private bool CheckStatus(bool Login)
+        public bool CheckStatus(bool Login)
         {
             lblStatusText.Text = "Loading page to check if we are logged in.";
             WikiStatusResult Result = Variables.User.UpdateWikiStatus();
