@@ -1585,9 +1585,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// Check if article has an 'inusetag'
         /// </summary>
             public static bool IsInUse(string ArticleText)
-            {                
-                if (Variables.LangCode != LangCodeEnum.en) throw new NotImplementedException();
-                return Regex.IsMatch(ArticleText, Variables.inUseRegexString);
+            {
+                if (Variables.LangCode != LangCodeEnum.en) return false;
+                else return Regex.IsMatch(ArticleText, Variables.inUseRegexString);
             }
         #endregion
 

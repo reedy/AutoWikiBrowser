@@ -36,7 +36,7 @@ namespace AutoWikiBrowser
 
         private void ClickHandler(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         public void setProgress(int percent)
