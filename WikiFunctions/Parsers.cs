@@ -1561,8 +1561,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
             public static bool HasStubTemplate(string ArticleText)
             {
-                if (Variables.LangCode != LangCodeEnum.en) throw new NotImplementedException();
-                return ArticleText.Contains(Variables.stubIndicator);
+                return WikiRegexes.Stub.IsMatch(ArticleText);
             }
 
         /// <summary>
@@ -1578,7 +1577,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 /* TODO: Code to check if an article has an infobox; code to get an article in the background 
                  * and return an Article or simpler object so that kingbotk can tag as stub/infobox needed 
                  * based on article contents (as promised by Martinp23 :P, please) */
-                throw new NotImplementedException();
+                return false;
             }
 
         /// <summary>

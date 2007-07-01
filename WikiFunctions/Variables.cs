@@ -214,7 +214,6 @@ namespace WikiFunctions
 
         public static string Stub;
         public static string SectStub;
-        public static string stubIndicator = "stub}}";
         public static string inUseRegexString = "\\{\\{[Ii]nuse";
 
         /// <summary>
