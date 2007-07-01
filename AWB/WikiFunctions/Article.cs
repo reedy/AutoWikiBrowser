@@ -54,6 +54,11 @@ namespace WikiFunctions
         public void PluginSkipped() { }
     }
 
+    public enum SkippedBy
+    {
+        AWB, User, Plugin
+    };
+
     /// <summary>
     /// A class which represents a wiki article
     /// </summary>
@@ -129,15 +134,13 @@ namespace WikiFunctions
     {
         protected string mEditSummary = "";
         protected string mSavedSummary = "";
-        protected IAWBTraceListener mAWBLogListener = new FauxListener();
         protected string mArticleText = "";
         protected string mOriginalArticleText = "";
         protected string mPluginEditSummary = "";
         protected bool mPluginSkip;
         protected bool mSkip;
-
-        protected virtual IAWBTraceListener Trace
-        { get { return mAWBLogListener; } }
+        protected string mSkipReason = "";
+        protected SkippedBy mSkippedBy;  
 
 #region Constructors
         public ArticleEx()
@@ -145,107 +148,89 @@ namespace WikiFunctions
         {
         }
 
-        public ArticleEx(string mName)
-            : base(mName)
+        public ArticleEx(string Name)
+            : base(Name)
         {
-            this.mName = mName;
-            mNameSpaceKey = Tools.CalculateNS(mName);
         }
 
         public ArticleEx(string Name, int NameSpaceKey)
             : base(Name, NameSpaceKey)
         {
-            mName = Name;
-            mNameSpaceKey = NameSpaceKey;
         }
 
-        public virtual AWBLogListener InitialiseLogListener()
+        public ArticleEx(Article a)
+            :base(a.Name)
         {
-            InitLog();
-            return (AWBLogListener)mAWBLogListener;
         }
 
-        public AWBLogListener InitialiseLogListener(string name, TraceManager TraceManager)
-        {
-            // Initialise a Log Listener and add it to a TraceManager collection
-            InitLog();
-            TraceManager.AddListener(name, mAWBLogListener);
-            return (AWBLogListener)mAWBLogListener;
-        }
-
-        private void InitLog()
-        { mAWBLogListener = new Logging.AWBLogListener(this.mName); }
         #endregion
 
-            // Read-write properties should be marked with the [XmlIgnore] attribute
+        /// <summary>
+        /// The text of the article. This is deliberately readonly; set using methods
+        /// </summary>
+        public string ArticleText
+        { get { return mArticleText.Trim(); } } 
 
-            /// <summary>
-            /// AWBLogListener object representing a log entry for the underlying article
-            /// </summary>
-            [XmlIgnore]
-            public AWBLogListener LogListener
-            { get { return (AWBLogListener)mAWBLogListener; } } //set { mAWBLogListener = value; } }
+        /// <summary>
+        /// Article text before this program manipulated it
+        /// </summary>
+        [XmlIgnore]
+        public string OriginalArticleText
+        { 
+            get { return mOriginalArticleText.Trim(); }
+            set { mOriginalArticleText = value; mArticleText = value; }
+        }
 
-            /// <summary>
-            /// The text of the article. This is deliberately readonly; set using methods
-            /// </summary>
-            public string ArticleText
-            { get { return mArticleText.Trim(); } } 
+        /// <summary>
+        /// Edit summary proposed for article
+        /// </summary>
+        [XmlIgnore]
+        public string EditSummary
+        { get { return mEditSummary; } set { mEditSummary = value; } }
 
-            /// <summary>
-            /// Article text before this program manipulated it
-            /// </summary>
-            [XmlIgnore]
-            public string OriginalArticleText
-            { 
-                get { return mOriginalArticleText.Trim(); }
-                set { mOriginalArticleText = value; mArticleText = value; }
-            }
+        /// <summary>
+        ///  Last stored EditSummary before reset
+        /// </summary>
+        public string SavedSummary
+        { get { return mSavedSummary; } }
 
-            /// <summary>
-            /// Edit summary proposed for article
-            /// </summary>
-            [XmlIgnore]
-            public string EditSummary
-            { get { return mEditSummary; } set { mEditSummary = value; } }
+        /// <summary>
+        /// Returns true if the article is a stub (a very short article or an article tagged with a "stub template")
+        /// </summary>
+        public bool IsStub { get { return Parsers.IsStub(mArticleText); } }
 
-            /// <summary>
-            ///  Last stored EditSummary before reset
-            /// </summary>
-            public string SavedSummary
-            { get { return mSavedSummary; } }
+        /// <summary>
+        /// Returns true if the article contains a stub template
+        /// </summary>
+        public bool HasStubTemplate
+        { get { return Parsers.HasStubTemplate(mArticleText); } }
 
-            /// <summary>
-            /// Returns true if the article is a stub (a very short article or an article tagged with a "stub template")
-            /// </summary>
-            public bool IsStub { get { return Parsers.IsStub(mArticleText); } }
+        /// <summary>
+        /// Returns true if the article contains an infobox
+        /// </summary>
+        public bool HasInfoBox
+        { get { return Parsers.HasInfobox(mArticleText); } }
 
-            /// <summary>
-            /// Returns true if the article contains a stub template
-            /// </summary>
-            public bool HasStubTemplate
-            { get { return Parsers.HasStubTemplate(mArticleText); } }
+        /// <summary>
+        /// Returns true if the article contains a template showing it as "in use"
+        /// </summary>
+        public bool IsInUse
+        { get { return Parsers.IsInUse(mArticleText); } }
+    
+        /// <summary>
+        /// Returns true if the article should be skipped; check after each call to a worker member. See AWB main.cs.
+        /// </summary>
+        public bool SkipArticle
+        { get { return mSkip; } }
 
-            /// <summary>
-            /// Returns true if the article contains an infobox
-            /// </summary>
-            public bool HasInfoBox
-            { get { return Parsers.HasInfobox(mArticleText); } }
+        public SkippedBy SkippedBy
+        { get { return mSkippedBy; } }
 
-            /// <summary>
-            /// Returns true if the article contains a template showing it as "in use"
-            /// </summary>
-            public bool IsInUse
-            { get { return Parsers.IsInUse(mArticleText); } }
-        
-            /// <summary>
-            /// Returns true if the article should be skipped; check after each call to a worker member. See AWB main.cs.
-            /// </summary>
-            public bool SkipArticle
-            { get { return mSkip; } }
-        
-            public bool CanDoGeneralFixes
-            { get { return (NameSpaceKey == 0 || NameSpaceKey == 14 || Name.Contains("Sandbox")); } }
+        public string SkipReason
+        { get { return mSkipReason; } }
+    
+        public bool CanDoGeneralFixes
+        { get { return (NameSpaceKey == 0 || NameSpaceKey == 14 || Name.Contains("Sandbox")); } }
 
         #region AWB worker subroutines
             /// <summary>
@@ -264,22 +249,24 @@ namespace WikiFunctions
             public void Skip(string reason)
             {
                 mSkip = true;
-                if(Trace != null) 
-                    switch (reason)
+                
+                switch (reason)
                 {
                     case "user":
-                        Trace.UserSkipped();
+                        mSkippedBy = SkippedBy.User;
                         break;
 
                     case "plugin":
-                        Trace.PluginSkipped();
+                        mSkippedBy = SkippedBy.Plugin;
                         break;
 
                     case "":
-                        break;
+                        throw new Exception("Empty skip reason");
+                        //break;
 
                     default:
-                        Trace.AWBSkipped(reason);
+                        mSkippedBy = SkippedBy.AWB;
+                        mSkipReason = reason;
                         break;
                 }
             }

@@ -312,11 +312,12 @@ namespace WikiFunctions.Logging.Uploader
                 throw ex; // throw error and exit
             }
 
-            if (AWBLogListener != null)
-            {
-                AWBLogListener.WriteLine("Log uploaded", sender);
-                AWB.AddLogItem(true, AWBLogListener);
-            }
+            //HACK
+            //if (AWBLogListener != null)
+            //{
+            //    AWBLogListener.WriteLine("Log uploaded", sender);
+            //}
+            //AWB.AddLogItem(Article);
         
             Application.DoEvents();
 
@@ -441,7 +442,7 @@ namespace WikiFunctions.Logging.Uploader
                     if (AWBLogListener != null)
                     {
                         AWBLogListener.WriteLine("Log entry uploaded", sender);
-                        AWB.AddLogItem(true, AWBLogListener);
+                        //AWB.AddLogItem(true, AWBLogListener);
                     }
                 }
                 catch { } // errors shouldn't happen here, but even if they do we want to avoid entering the outer catch block
@@ -467,7 +468,7 @@ namespace WikiFunctions.Logging.Uploader
         {
             AWBLogListener.WriteLine("Error: " + ex.Message, sender);
             ((IMyTraceListener)AWBLogListener).SkippedArticle(sender, "Error");
-            AWB.AddLogItem(false, AWBLogListener);
+            //AWB.AddLogItem(false, AWBLogListener);
         }
 	}
 }

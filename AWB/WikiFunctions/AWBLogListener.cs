@@ -72,12 +72,11 @@ namespace WikiFunctions.Logging
             Tools.OpenArticleHistoryInBrowser(mArticle);
         }
 
-        public void AddAndDateStamp(ListView ListView)
+        public ListViewItem AddAndDateStamp(ListView ListView)
         {
-            ListViewSubItem DateStamp = new ListViewSubItem();
-            DateStamp.Text = DateTime.Now.ToString();
-
-            ListView.Items.Insert(0, this).SubItems.Insert(1, DateStamp);
+            ListViewItem item = ListView.Items.Insert(0, this);
+            item.SubItems.Add(DateTime.Now.ToString());
+            return item;
         }
 
         public string Output(LogFileType LogFileType)
