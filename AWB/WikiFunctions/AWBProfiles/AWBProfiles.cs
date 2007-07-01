@@ -136,6 +136,7 @@ namespace WikiFunctions.AWBProfiles
         private void browserLogin(string Password)
         {
             Browser.Login(lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text, Password);
+            Variables.MainForm.CheckStatus(true);
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
