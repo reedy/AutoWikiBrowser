@@ -51,16 +51,19 @@ namespace WikiFunctions.Logging
             resizeListView(lvSaved);
         }
 
-        public void AddLog(bool Skipped, AWBLogListener LogListener)
+        public void AddLog(ArticleEx article)
         {
-            if (Skipped)
+
+            if (article.SkipArticle)
             {
-                LogListener.AddAndDateStamp(lvIgnored);
+                ListViewItem item = new AWBLogListener(article.Name).AddAndDateStamp(lvIgnored);
+                item.SubItems.Add(article.SkippedBy.ToString());
+                item.SubItems.Add(article.SkipReason);
                 resizeListView(lvIgnored);
             }
             else
             {
-                LogListener.AddAndDateStamp(lvSaved);
+                ListViewItem item = new AWBLogListener(article.Name).AddAndDateStamp(lvSaved);
                 resizeListView(lvSaved);
             }
         }

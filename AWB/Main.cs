@@ -234,8 +234,8 @@ namespace AutoWikiBrowser
 
         #region Properties
 
-        ArticleWithLogging stredittingarticle; // = new ArticleWithLogging("");
-        internal ArticleWithLogging TheArticle
+        ArticleEx stredittingarticle; // = new ArticleWithLogging("");
+        internal ArticleEx TheArticle
         {
             get { return stredittingarticle; }
             private set { stredittingarticle = value; }
@@ -441,8 +441,7 @@ namespace AutoWikiBrowser
                 else
                     webBrowserEdit.Busy = true;
 
-                TheArticle = ArticleWithLogging.SwitchToNewArticleObject(TheArticle,
-                    new ArticleWithLogging(listMaker1.SelectedArticle().Name));
+                TheArticle = new ArticleEx(listMaker1.SelectedArticle());
                 NewHistory();
 
                 if (!Tools.IsValidTitle(TheArticle.Name))
@@ -484,7 +483,7 @@ namespace AutoWikiBrowser
             //check for redirect
             if (bypassRedirectsToolStripMenuItem.Checked && Tools.IsRedirect(strTemp) && !PageReload)
             {
-                ArticleWithLogging Redirect = new ArticleWithLogging(Tools.RedirectTarget(strTemp));
+                Article Redirect = new Article(Tools.RedirectTarget(strTemp));
 
                 if (Redirect.Name == TheArticle.Name)
                 {//ignore recursive redirects
@@ -493,7 +492,7 @@ namespace AutoWikiBrowser
                 }
 
                 listMaker1.ReplaceArticle(TheArticle, Redirect);
-                TheArticle = ArticleWithLogging.SwitchToNewArticleObject(TheArticle, Redirect);
+                TheArticle = new ArticleEx(Redirect);
 
                 webBrowserEdit.LoadEditPage(Redirect.Name);
                 return;
@@ -771,7 +770,8 @@ namespace AutoWikiBrowser
             sameArticleNudges = 0;
             if (tabControl2.SelectedTab == tpHistory)
                 tabControl2.SelectedTab = tpEdit;
-            LogControl1.AddLog(false, TheArticle.LogListener);
+            //HACK:
+            LogControl1.AddLog(TheArticle);
 
             if (listMaker1.Count == 0)
                 if (AutoSaveEditBoxEnabled)
@@ -801,7 +801,7 @@ namespace AutoWikiBrowser
                 NudgeTimer.Stop();
                 listMaker1.Remove(TheArticle);
                 sameArticleNudges = 0;
-                LogControl1.AddLog(true, TheArticle.LogListener);
+                LogControl1.AddLog(TheArticle);
                 retries = 0;
                 Start();
             }
@@ -3143,8 +3143,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             string IAutoWikiBrowser.AWBVersionString { get { return Program.VersionString; } }
             string IAutoWikiBrowser.WikiFunctionsVersionString { get { return Tools.VersionString; } }
             string IAutoWikiBrowser.WikiDiffVersionString { get { return WikiDiff.Version; } }
-            void IAutoWikiBrowser.AddLogItem(bool Skipped, AWBLogListener LogListener) 
-                { LogControl1.AddLog(Skipped, LogListener); }
+            void IAutoWikiBrowser.AddLogItem(ArticleEx article) 
+                { LogControl1.AddLog(article); }
             void IAutoWikiBrowser.TurnOffLogging() { GlobalObjects.MyTrace.TurnOffLogging(); }
 
         // "Events":
