@@ -54,10 +54,7 @@ namespace WikiFunctions.AWBProfiles
 
         void UpdateUI()
         {
-            if (lvAccounts.Items.Count > 0)
-                updateComponents(true);
-            else
-                updateComponents(false);
+            updateComponents(lvAccounts.Items.Count > 0);
         }
 
         void updateComponents(bool Which)
