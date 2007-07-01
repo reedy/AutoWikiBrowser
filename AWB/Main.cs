@@ -222,7 +222,7 @@ namespace AutoWikiBrowser
                 }
 
                 lblStatusText.Text = "";
-                splash.Hide();
+                splash.Close();
             }
 
             private void MainForm_Resize(object sender, EventArgs e)
