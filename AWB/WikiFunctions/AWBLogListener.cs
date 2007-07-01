@@ -220,11 +220,5 @@ namespace WikiFunctions.Logging
             WriteLine(SkipReason, SkippedBy);
             mSkipped = true;
         }
-
-        // disable access to underlying Items property to stop Reedy Boy accessing it ;)
-        public new System.Windows.Forms.ListViewItem.ListViewSubItemCollection SubItems
-        {
-            get { throw new NotImplementedException("The SubItems property should not be accessed directly"); }
-        }
     }
 }
