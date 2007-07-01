@@ -220,7 +220,9 @@ namespace WikiFunctions.Browser
         {
             get
             {
-                return GetScriptingVar("wgUserName");
+                string s = GetScriptingVar("wgUserName");
+                if (s == "null") return "";
+                else return s;
             }
         }
 
@@ -604,10 +606,10 @@ namespace WikiFunctions.Browser
         {
             if (CanPreview)
             {
-                this.AllowNavigation = true;
+                AllowNavigation = true;
                 ProcessStage = enumProcessStage.diff;
                 Status = "Loading preview";
-                this.Document.GetElementById("wpPreview").InvokeMember("click");
+                Document.GetElementById("wpPreview").InvokeMember("click");
             }
         }
 
