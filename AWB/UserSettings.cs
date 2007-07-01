@@ -676,6 +676,9 @@ namespace AutoWikiBrowser
         {
             try
             {
+                if (Path == "")
+                    return;
+
                 //test file to see if it is an old AWB file
                 StreamReader sr = new StreamReader(new FileStream(Path, FileMode.Open));
                 string test = sr.ReadToEnd();
