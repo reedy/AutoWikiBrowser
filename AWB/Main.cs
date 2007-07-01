@@ -377,6 +377,24 @@ namespace AutoWikiBrowser
 
         #region MainProcess
 
+        /// <summary>
+        /// checks if we are still logged in
+        /// asks to relogin if needed
+        /// </summary>
+        bool CheckLoginStatus()
+        {
+            if (webBrowserEdit.UserName != Variables.User.Name)
+            {
+                MessageBox.Show("You've been logged off, probably due to loss of session data.\r\n" +
+                    "Please relogin.", "Logged off", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                Stop();
+                CheckStatus(true);
+                return false;
+            }
+
+            return true;
+        }
+
         private void Start()
         {
             try
@@ -451,6 +469,8 @@ namespace AutoWikiBrowser
         {
             if (!loadSuccess())
                 return;
+
+            if (!CheckLoginStatus()) return;
 
             if (GlobalObjects.MyTrace.HaveOpenFile)
                 GlobalObjects.MyTrace.WriteBulletedLine("AWB started processing", true, true, true);
@@ -701,12 +721,6 @@ namespace AutoWikiBrowser
 
         private void CaseWasDiff()
         {
-            //if (diffChecker(webBrowserEdit.Document.Body.InnerHtml))
-            //{//check if there are no changes and we want to skip
-            //    SkipPage("No changes made");
-            //    return;
-            //}
-
             if (BotMode)
             {
                 startDelayedAutoSaveTimer();
@@ -721,25 +735,6 @@ namespace AutoWikiBrowser
 
             EnableButtons();
         }
-
-        //private bool diffChecker(string strHTML)
-        //{//check diff to see if it should be skipped
-
-        //    if (!skippable || chkSkipNoChanges.Checked || toolStripComboOnLoad.SelectedIndex != 0 || doNotAutomaticallyDoAnythingToolStripMenuItem.Checked)
-        //        return false;
-
-        //    //if (!strHTML.Contains("class=diff-context") && !strHTML.Contains("class=diff-deletedline"))
-        //    //    return true;
-
-        //    strHTML = strHTML.Replace("<SPAN class=diffchange></SPAN>", "");
-        //    strHTML = Regex.Match(strHTML, "<TD align=left colSpan=2.*?</DIV>", RegexOptions.Singleline).Value;
-
-        //    //check for no changes, or no new lines (that have text on the new line)
-        //    if (strHTML.Contains("<SPAN class=diffchange>") || Regex.IsMatch(strHTML, "class=diff-deletedline>[^<]") || Regex.IsMatch(strHTML, "<TD colSpan=2>&nbsp;</TD>\r\n<TD>\\+</TD>\r\n<TD class=diff-addedline>[^<]"))
-        //        return false;
-
-        //    return true;
-        //}
 
         private void CaseWasSaved()
         {
@@ -3438,8 +3433,5 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             chkMinor.Checked = markAllAsMinorToolStripMenuItem.Checked;
         }
 
-        private void testToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-        }
     }
 }
