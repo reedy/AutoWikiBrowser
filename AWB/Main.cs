@@ -92,6 +92,9 @@ namespace AutoWikiBrowser
             private static bool mErrorGettingLogInStatus;
             private static bool skippable = true;
 
+            private ListComparer lc;
+            private ListSplitter splitter;
+
             private static readonly Regex DiffIdParser = new Regex(@"[a-z](-?\d*)x(-?\d*)");
         #endregion
 
@@ -2051,20 +2054,16 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void launchListComparerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ListComparer lc;
-
             if (listMaker1.Count > 0 && MessageBox.Show("Would you like to copy your current Article List to the ListComparer?", "Copy Article List?", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 lc = new ListComparer(listMaker1.GetArticleList());
             else
                 lc = new ListComparer();
 
-            lc.ShowDialog();
-            lc.Dispose();
+            lc.Show(this);
         }
 
         private void launchListSplitterToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ListSplitter splitter;
             WikiFunctions.AWBSettings.UserPrefs P = MakePrefs();
 
             if (listMaker1.Count > 0 && MessageBox.Show("Would you like to copy your current Article List to the ListSplitter?", "Copy Article List?", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -2072,8 +2071,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             else
                 splitter = new ListSplitter(P, savePluginSettings(P));
 
-            splitter.ShowDialog();
-            splitter.Dispose();
+            splitter.Show(this);
         }
 
         private void launchDumpSearcherToolStripMenuItem_Click(object sender, EventArgs e)
