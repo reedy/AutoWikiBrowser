@@ -34,7 +34,7 @@ namespace WikiFunctions.AWBProfiles
         private WikiFunctions.Browser.WebControl Browser;
         AWBProfile AWBProfile = new AWBProfile();
         private string CurrentSettingsProfile;
-        public event ProfileLoaded load;
+        public event ProfileLoaded LoadProfile;
 
         public AWBProfilesForm(WikiFunctions.Browser.WebControl browser)
         {
@@ -129,7 +129,7 @@ namespace WikiFunctions.AWBProfiles
                         return;
                 }
 
-                this.load();
+                LoadProfile();
             }
         }
 

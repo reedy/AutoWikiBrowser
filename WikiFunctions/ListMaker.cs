@@ -344,7 +344,8 @@ namespace WikiFunctions.Controls.Lists
             else if (ST == SourceType.ImageFileLinks)
                 txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
 
-            txtSelectSource.Text = Tools.TurnFirstToUpper(txtSelectSource.Text);
+            if (ST != SourceType.GoogleWikipedia)
+                txtSelectSource.Text = Tools.TurnFirstToUpper(txtSelectSource.Text);
             txtSelectSource.AutoCompleteCustomSource.Add(txtSelectSource.Text);
 
             //make sure there is some text.
