@@ -604,7 +604,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
-        static Regex regexMainArticle = new Regex("(.*?)Main article:( |)(\\[\\[)(.*?)(\\]\\])(''|)", RegexOptions.IgnoreCase);
+        static Regex regexMainArticle = new Regex("(.*?)Main article:( |)(\\[\\[)(.*?)(\\]\\])(\\.|)(''|)", RegexOptions.IgnoreCase);
         /// <summary>
         /// Fixes instances of ''Main Article: xxx'' to use {{main|xxx}}
         /// </summary>
