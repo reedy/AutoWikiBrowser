@@ -185,10 +185,9 @@ namespace WikiFunctions.AWBSettings
         public bool LogXHTML;
         public bool UploadYN;
         public bool UploadAddToWatchlist;
-        public string UploadJobName;
-        public string UploadLocation;
-        public string Category;
-        public string LogCategoryName;
+        public string UploadJobName="";
+        public string UploadLocation="";
+        public string LogCategoryName="";
         public int UploadMaxLines;
         public bool UploadOpenInBrowser;
         public bool UploadToWikiProjects;

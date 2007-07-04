@@ -177,7 +177,7 @@ namespace AutoWikiBrowser
             chkSkipNoDab.Checked = false;
             udContextChars.Value = 20;
 
-            CategoryTextBox.Text = "";
+            LoggingCategoryTextBox.Text = "";
             loggingSettings1.Reset();
 
             try
@@ -527,6 +527,7 @@ namespace AutoWikiBrowser
 
             chkLock.Checked = p.General.LockSummary;
             cmboEditSummary.Text = p.General.SelectedSummary;
+            LoggingCategoryTextBox.Text = p.Logging.LogCategoryName;
 
             if (chkLock.Checked)
                 lblSummary.Text = p.General.SelectedSummary;
@@ -625,7 +626,6 @@ namespace AutoWikiBrowser
                     XmlSerializer xs = new XmlSerializer(typeof(UserPrefs), types.ToArray());
                     xs.Serialize(fStream, P);
                     UpdateRecentList(Path);
-                    //LoadPrefs(P); // why is this? it causes problems. commented out. --MaxSem
                     SettingsFile = " - " + Path.Remove(0, Path.LastIndexOf("\\") + 1);
                     updateSettingsFile();
                 }
