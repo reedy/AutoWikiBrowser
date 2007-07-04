@@ -85,7 +85,7 @@ namespace AutoWikiBrowser
         }
 
         #region Settings
-        // TODO: Ought to be able to serialise the Props class? Ask Max/Mets
+        [Browsable(false)]
         public LoggingPrefs SerialisableSettings
         {
             get
@@ -95,6 +95,7 @@ namespace AutoWikiBrowser
                 prefs.LogVerbose = VerboseCheckBox.Checked;
                 prefs.LogWiki = WikiLogCheckBox.Checked;
                 prefs.LogXHTML = XHTMLLogCheckBox.Checked;
+                prefs.LogCategoryName = ((MainForm)ParentForm).LoggingCategoryTextBox.Text;
                 prefs.UploadJobName = UploadJobNameTextBox.Text;
                 prefs.UploadLocation = UploadLocationTextBox.Text;
                 prefs.UploadMaxLines = int.Parse(UploadMaxLinesControl.Value.ToString());
@@ -108,6 +109,7 @@ namespace AutoWikiBrowser
             {
                 LoggingPrefs prefs = value;
 
+                ((MainForm)ParentForm).LoggingCategoryTextBox.Text = prefs.LogCategoryName;
                 FolderTextBox.Text = prefs.LogFolder;
                 VerboseCheckBox.Checked = prefs.LogVerbose;
                 WikiLogCheckBox.Checked = prefs.LogWiki;

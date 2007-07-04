@@ -304,110 +304,33 @@ namespace AutoWikiBrowser
         /// </summary>
         private UserPrefs MakePrefs()
         {
-            UserPrefs p = new UserPrefs();
-            p.Make();
-            p.FindAndReplace.Make(chkFindandReplace.Checked, findAndReplace, replaceSpecial, 
-                substTemplates.TemplateList);
-            p.List.Make(listMaker1, SaveArticleList);
-            p.General.Make(SaveArticleList, ignoreNoBotsToolStripMenuItem.Checked);
-            p.Editprefs.Make(chkGeneralFixes.Checked, chkAutoTagger.Checked, chkUnicodifyWhole.Checked,
-                cmboCategorise.SelectedIndex, txtNewCategory.Text, txtNewCategory2.Text,
-                cmboImages.SelectedIndex, txtImageReplace.Text, txtImageWith.Text, chkSkipNoCatChange.Checked,
-                chkSkipNoImgChange.Checked, chkAppend.Checked, !rdoPrepend.Checked, txtAppendMessage.Text,
-                (int)nudBotSpeed.Value, chkQuickSave.Checked, chkSuppressTag.Checked, OverrideWatchlist,
-                chkRegExTypo.Checked);
             //p.Editprefs.Append = rdoAppend.Checked;
-            
-            p.SkipOptions.SkipNonexistent = chkSkipNonExistent.Checked;
-            p.SkipOptions.Skipexistent = chkSkipExistent.Checked;
-            p.SkipOptions.SkipWhenNoChanges = chkSkipNoChanges.Checked;
 
-            p.SkipOptions.SkipDoes = chkSkipIfContains.Checked;
-            p.SkipOptions.SkipDoesNot = chkSkipIfNotContains.Checked;
-
-            p.SkipOptions.SkipDoesText = txtSkipIfContains.Text;
-            p.SkipOptions.SkipDoesNotText = txtSkipIfNotContains.Text;
-
-            p.SkipOptions.Regex = chkSkipIsRegex.Checked;
-            p.SkipOptions.CaseSensitive = chkSkipCaseSensitive.Checked;
-
-            p.SkipOptions.SkipNoFindAndReplace = chkSkipWhenNoFAR.Checked;
-            p.SkipOptions.SkipNoRegexTypoFix = chkSkipIfNoRegexTypo.Checked;
-            p.SkipOptions.GeneralSkip = Skip.SelectedItem;
-            p.SkipOptions.SkipNoDisambiguation = chkSkipNoDab.Checked;
-
-            foreach (object s in cmboEditSummary.Items)
-                p.General.Summaries.Add(s.ToString());
-
-            p.General.SelectedSummary = cmboEditSummary.Text;
-
-            p.General.PasteMore[0] = PasteMore1.Text;
-            p.General.PasteMore[1] = PasteMore2.Text;
-            p.General.PasteMore[2] = PasteMore3.Text;
-            p.General.PasteMore[3] = PasteMore4.Text;
-            p.General.PasteMore[4] = PasteMore5.Text;
-            p.General.PasteMore[5] = PasteMore6.Text;
-            p.General.PasteMore[6] = PasteMore7.Text;
-            p.General.PasteMore[7] = PasteMore8.Text;
-            p.General.PasteMore[8] = PasteMore9.Text;
-            p.General.PasteMore[9] = PasteMore10.Text;
-
-            p.General.FindText = txtFind.Text;
-            p.General.FindRegex = chkFindRegex.Checked;
-            p.General.FindCaseSensitive = chkFindCaseSensitive.Checked;
-
-            p.General.WordWrap = wordWrapToolStripMenuItem1.Checked;
-            p.General.ToolBarEnabled = enableToolBar;
-            p.General.BypassRedirect = bypassRedirectsToolStripMenuItem.Checked;
-            p.General.NoAutoChanges = doNotAutomaticallyDoAnythingToolStripMenuItem.Checked;
-            p.General.OnLoadAction = toolStripComboOnLoad.SelectedIndex;
-            p.General.Minor = chkMinor.Checked;
-            p.General.Watch = addAllToWatchlistToolStripMenuItem.Checked;
-            p.General.TimerEnabled = showTimerToolStripMenuItem.Checked;
-            p.General.SortInterwikiOrder = sortAlphabeticallyToolStripMenuItem.Checked;
-            p.General.AddIgnoredToLog = addIgnoredToLogFileToolStripMenuItem.Checked;
-
-            p.General.TextBoxFont = txtEdit.Font.Name;
-            p.General.TextBoxSize = (int)txtEdit.Font.Size;
-
-            p.General.LowThreadPriority = LowThreadPriority;
-            p.General.FlashAndBeep = false;
-
-            p.General.Flash = Flash;
-            p.General.Beep = Beep;
-            p.General.Minimize = Minimize;
-            p.General.TimeOutLimit = TimeOut;
-
-            p.General.AutoSaveEdit.Enabled = AutoSaveEditBoxEnabled;
-            p.General.AutoSaveEdit.SavePeriod = AutoSaveEditBoxPeriod;
-            p.General.AutoSaveEdit.SaveFile = AutoSaveEditBoxFile;
-
-            p.General.CustomWikis = customWikis;
-            
-            p.General.LockSummary = chkLock.Checked;
-
-            p.Disambiguation.Enabled = chkEnableDab.Checked;
-            p.Disambiguation.Link = txtDabLink.Text;
-            p.Disambiguation.Variants = txtDabVariants.Lines;
-            p.Disambiguation.ContextChars = (int)udContextChars.Value;
-
-            p.Module.Enabled = cModule.ModuleEnabled;
-            p.Module.Language = cModule.Language;
-            p.Module.Code = cModule.Code;
-
-            //Code For Saving Logging Settings - Uncomment when placed into AWB
-            //p.Logging = LoggingSettings1.Settings;
-
-            foreach (KeyValuePair<string, IAWBPlugin> a in Plugin.Items)
-            {
-                PluginPrefs pp = new PluginPrefs();
-                pp.Name = a.Key;
-                pp.PluginSettings = a.Value.SaveSettings();
-
-                p.Plugin.Add(pp);
-            }
-
-            return p;
+            return new UserPrefs(new FaRPrefs(chkFindandReplace.Checked, findAndReplace, replaceSpecial,
+                substTemplates.TemplateList), new EditPrefs(chkGeneralFixes.Checked, chkAutoTagger.Checked,
+                chkUnicodifyWhole.Checked, cmboCategorise.SelectedIndex, txtNewCategory.Text,
+                txtNewCategory2.Text, cmboImages.SelectedIndex, txtImageReplace.Text, txtImageWith.Text,
+                chkSkipNoCatChange.Checked, chkSkipNoImgChange.Checked, chkAppend.Checked, !rdoPrepend.Checked,
+                txtAppendMessage.Text, (int)nudBotSpeed.Value, chkQuickSave.Checked, chkSuppressTag.Checked,
+                OverrideWatchlist, chkRegExTypo.Checked), new ListPrefs(listMaker1, SaveArticleList),
+                new SkipPrefs(chkSkipNonExistent.Checked, chkSkipExistent.Checked, chkSkipNoChanges.Checked,
+                chkSkipIfContains.Checked, chkSkipIfNotContains.Checked, txtSkipIfContains.Text,
+                txtSkipIfNotContains.Text, chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked,
+                chkSkipWhenNoFAR.Checked, chkSkipIfNoRegexTypo.Checked, chkSkipNoDab.Checked, Skip.SelectedItem),
+                new GeneralPrefs(SaveArticleList, ignoreNoBotsToolStripMenuItem.Checked, cmboEditSummary.Items,
+                cmboEditSummary.Text, new string[10] {PasteMore1.Text, PasteMore2.Text, PasteMore3.Text, 
+                PasteMore4.Text, PasteMore5.Text, PasteMore6.Text, PasteMore7.Text, PasteMore8.Text,
+                PasteMore9.Text, PasteMore10.Text}, txtFind.Text, chkFindRegex.Checked,
+                chkFindCaseSensitive.Checked, wordWrapToolStripMenuItem1.Checked, enableToolBar,
+                bypassRedirectsToolStripMenuItem.Checked, doNotAutomaticallyDoAnythingToolStripMenuItem.Checked,
+                toolStripComboOnLoad.SelectedIndex, chkMinor.Checked, addAllToWatchlistToolStripMenuItem.Checked,
+                showTimerToolStripMenuItem.Checked, sortAlphabeticallyToolStripMenuItem.Checked,
+                addIgnoredToLogFileToolStripMenuItem.Checked, (int)txtEdit.Font.Size, txtEdit.Font.Name,
+                LowThreadPriority, Beep, Flash, Minimize, TimeOut, AutoSaveEditBoxEnabled, AutoSaveEditBoxPeriod, 
+                AutoSaveEditBoxFile, customWikis, chkLock.Checked), new DabPrefs(chkEnableDab.Checked,
+                txtDabLink.Text, txtDabVariants.Lines, (int)udContextChars.Value), new ModulePrefs(
+                cModule.ModuleEnabled, cModule.Language, cModule.Code), loggingSettings1.SerialisableSettings, 
+                Plugin.Items);
         }
 
         /// <summary>
@@ -488,7 +411,6 @@ namespace AutoWikiBrowser
 
             chkLock.Checked = p.General.LockSummary;
             cmboEditSummary.Text = p.General.SelectedSummary;
-            LoggingCategoryTextBox.Text = p.Logging.LogCategoryName;
 
             if (chkLock.Checked)
                 lblSummary.Text = p.General.SelectedSummary;
@@ -530,16 +452,8 @@ namespace AutoWikiBrowser
             txtEdit.Font = f;
 
             LowThreadPriority = p.General.LowThreadPriority;
-
-            if (p.General.Flash == p.General.FlashAndBeep)
-            { Flash = p.General.FlashAndBeep; }
-            else
-            { Flash = p.General.Flash; }
-
-            if (p.General.Beep == p.General.FlashAndBeep)
-            { Beep = p.General.FlashAndBeep; }
-            else
-            { Beep = p.General.Beep; }
+            Flash = p.General.Flash; // removed conditional references to p.General.FlashAndBeep, which was hardcoded to False
+            Beep = p.General.Beep;
 
             Minimize = p.General.Minimize;
             TimeOut = p.General.TimeOutLimit;
@@ -550,8 +464,7 @@ namespace AutoWikiBrowser
             txtDabVariants.Lines = p.Disambiguation.Variants;
             udContextChars.Value = p.Disambiguation.ContextChars;
 
-            //Code For Loading Logging Settings - Uncomment when placed into AWB
-            //LoggingSettings1.Settings = p.Logging;
+            loggingSettings1.SerialisableSettings = p.Logging;
 
             cModule.ModuleEnabled = p.Module.Enabled;
             cModule.Language = p.Module.Language;
