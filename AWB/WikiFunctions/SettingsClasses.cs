@@ -50,6 +50,16 @@ namespace WikiFunctions.AWBSettings
         public LoggingPrefs Logging = new LoggingPrefs();
 
         public List<PluginPrefs> Plugin = new List<PluginPrefs>();
+
+        /// <summary>
+        /// Fill the object with settings from UI
+        /// </summary>
+        public void Make()
+        {
+            LanguageCode = Variables.LangCode;
+            Project = Variables.Project;
+            CustomProject = Variables.CustomProject;
+        }
     }
 
     //find and replace prefs
@@ -64,6 +74,21 @@ namespace WikiFunctions.AWBSettings
 
         public List<WikiFunctions.MWB.IRule> AdvancedReps = new List<WikiFunctions.MWB.IRule>();
         public string[] SubstTemplates = new string[0];
+
+        /// <summary>
+        /// Fill the object with settings from UI
+        /// </summary>
+        public void Make(bool mEnabled, WikiFunctions.Parse.FindandReplace findAndReplace,
+            WikiFunctions.MWB.ReplaceSpecial replaceSpecial, string[] mSubstTemplates)
+        {
+            Enabled = mEnabled;
+            IgnoreSomeText = findAndReplace.ignoreLinks;
+            AppendSummary = findAndReplace.AppendToSummary;
+            AfterOtherFixes = findAndReplace.AfterOtherFixes;
+            Replacements = findAndReplace.GetList();
+            AdvancedReps = replaceSpecial.GetRules();
+            SubstTemplates = mSubstTemplates;
+        }
     }
 
     [Serializable]
@@ -72,6 +97,19 @@ namespace WikiFunctions.AWBSettings
         public string ListSource = "";
         public WikiFunctions.Lists.SourceType Source = WikiFunctions.Lists.SourceType.Category;
         public List<Article> ArticleList = new List<Article>();
+
+        /// <summary>
+        /// Fill the object with settings from UI
+        /// </summary>
+        public void Make(WikiFunctions.Controls.Lists.ListMaker listMaker, bool SaveArticleList)
+        {
+            ListSource = listMaker.SourceText;
+            Source = listMaker.SelectedSource;
+            if (SaveArticleList)
+                ArticleList = listMaker.GetArticleList();
+            else
+                ArticleList = new List<Article>();
+        }
     }
 
     //the basic settings
@@ -102,6 +140,35 @@ namespace WikiFunctions.AWBSettings
         public bool SuppressTag = false;
         public bool OverrideWatchlist = false;
         public bool RegexTypoFix = false;
+
+        /// <summary>
+        /// Fill the object with settings from UI
+        /// </summary>
+        public void Make(bool mGeneralFixes, bool mTagger, bool mUnicodify, int mRecategorisation,
+            string mNewCategory, string mNewCategory2, int mReImage, string mImageFind, string mReplace,
+            bool mSkipIfNoCatChange, bool mSkipIfNoImgChange, bool mAppendText, bool mAppend, string mText,
+            int mAutoDelay, bool mQuickSave, bool mSuppressTag, bool mOverrideWatchlist, bool mRegexTypoFix)
+        {
+            GeneralFixes = mGeneralFixes;
+            Tagger = mTagger;
+            Unicodify = mUnicodify;
+            Recategorisation = mRecategorisation;
+            NewCategory = mNewCategory;
+            NewCategory2 = mNewCategory2;
+            ReImage = mReImage;
+            ImageFind = mImageFind;
+            Replace = mReplace;
+            SkipIfNoCatChange = mSkipIfNoCatChange;
+            SkipIfNoImgChange = mSkipIfNoImgChange;
+            AppendText = mAppendText;
+            Append = mAppend;
+            Text = mText;
+            AutoDelay = mAutoDelay;
+            QuickSave = mQuickSave;
+            SuppressTag = mSuppressTag;
+            OverrideWatchlist = mOverrideWatchlist;
+            RegexTypoFix = mRegexTypoFix;
+        }
     }
 
     //skip options
@@ -166,6 +233,15 @@ namespace WikiFunctions.AWBSettings
         public bool IgnoreNoBots = false;
 
         public List<string> CustomWikis = new List<string>();
+
+        /// <summary>
+        /// Fill the object with settings from UI
+        /// </summary>
+        public void Make(bool mSaveArticleList, bool mIgnoreNoBots)
+        {
+            SaveArticleList = mSaveArticleList;
+            IgnoreNoBots = mIgnoreNoBots;
+        }
     }
 
     [Serializable]
