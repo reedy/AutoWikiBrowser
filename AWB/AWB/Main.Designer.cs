@@ -843,8 +843,8 @@ namespace AutoWikiBrowser
             this.saveAsDefaultToolStripMenuItem,
             this.toolStripSeparator8,
             this.loginToolStripMenuItem,
-            this.profilesToolStripMenuItem,
             this.logOutToolStripMenuItem,
+            this.profilesToolStripMenuItem,
             this.toolStripSeparator17,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -3122,7 +3122,6 @@ namespace AutoWikiBrowser
             // 
             this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
             this.loggingSettings1.Name = "loggingSettings1";
-            //this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
             this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
             this.loggingSettings1.TabIndex = 0;
             // 

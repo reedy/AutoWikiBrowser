@@ -1,6 +1,6 @@
 /*
 AWB Profiles
-Copyright (C) 2007 Sam Reed
+Copyright (C) 2007 Sam Reed, Stephen Kennedy
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -61,16 +61,16 @@ namespace WikiFunctions.AWBProfiles
             updateComponents(lvAccounts.Items.Count > 0);
         }
 
-        void updateComponents(bool Which)
-        {
-            btnLogin.Enabled = Which;
-            btnDelete.Enabled = Which;
+        //void updateComponents(bool Which)
+        //{
+        //    btnLogin.Enabled = Which;
+        //    btnDelete.Enabled = Which;
 
-            loginAsThisAccountToolStripMenuItem.Enabled = Which;
-            editThisAccountToolStripMenuItem.Enabled = Which;
-            changePasswordToolStripMenuItem.Enabled = Which;
-            deleteThisAccountToolStripMenuItem.Enabled = Which;
-        }
+        //    loginAsThisAccountToolStripMenuItem.Enabled = Which;
+        //    editThisAccountToolStripMenuItem.Enabled = Which;
+        //    changePasswordToolStripMenuItem.Enabled = Which;
+        //    deleteThisAccountToolStripMenuItem.Enabled = Which;
+        //}
 
         private void loadProfiles()
         {
@@ -109,6 +109,7 @@ namespace WikiFunctions.AWBProfiles
         {
             if (SelectedItem >= 0)
             {
+                Cursor = Cursors.WaitCursor;
                 if (lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[3].Text != "")
                     CurrentSettingsProfile = lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[3].Text;
                 else
@@ -126,10 +127,13 @@ namespace WikiFunctions.AWBProfiles
                     if (password.ShowDialog() == DialogResult.OK)
                         browserLogin(password.GetPassword);
                     else
-                        return;
+                        goto exit;
                 }
 
                 LoadProfile();
+
+            exit:
+                Cursor = Cursors.Default;
             }
         }
 
@@ -205,11 +209,18 @@ namespace WikiFunctions.AWBProfiles
         private void lvAccounts_DoubleClick(object sender, EventArgs e)
         {
             login();
+            Close();
+            Dispose();
         }
 
         public string SettingsToLoad
         {
             get { return CurrentSettingsProfile; }
+        }
+
+        private void lvAccounts_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            btnLogin.Enabled = btnDelete.Enabled = (lvAccounts.SelectedItems.Count > 0);
         }
     }
 }

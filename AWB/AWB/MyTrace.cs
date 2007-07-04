@@ -70,7 +70,7 @@ namespace AutoWikiBrowser.Logging
                 }
                 foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
                 {
-                    ((IAWBTraceListener)t.Value).WriteBulletedLine(Variables.LoggingStartButtonClicked, true, false, true);
+                    t.Value.WriteBulletedLine(Variables.LoggingStartButtonClicked, true, false, true);
                 }
                 CheckWeHaveLogInDetails();
             }
@@ -235,7 +235,7 @@ namespace AutoWikiBrowser.Logging
 
             foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
             {
-                ((IAWBTraceListener)t.Value).WriteCommentAndNewLine("closing all logs");
+                t.Value.WriteCommentAndNewLine("closing all logs");
                 if (t.Value.Uploadable)
                 {
                     ((TraceListenerUploadableBase)t.Value).Close(upload);
