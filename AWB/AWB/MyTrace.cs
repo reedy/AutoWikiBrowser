@@ -34,7 +34,7 @@ namespace AutoWikiBrowser.Logging
     /// </summary>
     internal sealed class MyTrace : TraceManager, IAWBTraceListener
     {
-        private new Dictionary<string, IAWBTraceListener> Listeners = new Dictionary<string, IAWBTraceListener>();
+        //private new Dictionary<string, IAWBTraceListener> Listeners = new Dictionary<string, IAWBTraceListener>();
 
         private LoggingSettings LoggingSettings;
         private static string LogFolder = "";
@@ -68,9 +68,9 @@ namespace AutoWikiBrowser.Logging
                         NewWikiTraceListener();
                     }
                 }
-                foreach (KeyValuePair<string, IAWBTraceListener> t in Listeners)
+                foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
                 {
-                    t.Value.WriteBulletedLine(Variables.LoggingStartButtonClicked, true, false, true);
+                    ((IAWBTraceListener)t.Value).WriteBulletedLine(Variables.LoggingStartButtonClicked, true, false, true);
                 }
                 CheckWeHaveLogInDetails();
             }
@@ -233,9 +233,9 @@ namespace AutoWikiBrowser.Logging
             if (LoggingSettings.Settings.UploadYN && (BadPagesLogToUpload || WikiLogToUpload) && MessageBox.Show("Upload logs?", "Logging", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                 upload = true;
 
-            foreach (KeyValuePair<string, IAWBTraceListener> t in Listeners)
+            foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
             {
-                t.Value.WriteCommentAndNewLine("closing all logs");
+                ((IAWBTraceListener)t.Value).WriteCommentAndNewLine("closing all logs");
                 if (t.Value.Uploadable)
                 {
                     ((TraceListenerUploadableBase)t.Value).Close(upload);
@@ -263,25 +263,25 @@ namespace AutoWikiBrowser.Logging
         public void AWBSkipped(string Reason)
         {
             Busy();
-            foreach (KeyValuePair<string, IAWBTraceListener> Listener in Listeners)
+            foreach (KeyValuePair<string, IMyTraceListener> Listener in Listeners)
             {
-                Listener.Value.AWBSkipped(Reason);
+                ((IAWBTraceListener)Listener.Value).AWBSkipped(Reason);
             }
         }
         public void PluginSkipped()
         {
             Busy();
-            foreach (KeyValuePair<string, IAWBTraceListener> Listener in Listeners)
+            foreach (KeyValuePair<string, IMyTraceListener> Listener in Listeners)
             {
-                Listener.Value.PluginSkipped();
+                ((IAWBTraceListener)Listener.Value).PluginSkipped();
             }
         }
         public void UserSkipped()
         {
             Busy();
-            foreach (KeyValuePair<string, IAWBTraceListener> Listener in Listeners)
+            foreach (KeyValuePair<string, IMyTraceListener> Listener in Listeners)
             {
-                Listener.Value.UserSkipped();
+                ((IAWBTraceListener)Listener.Value).UserSkipped();
             }
         }
         public override void ProcessingArticle(string FullArticleTitle, WikiFunctions.Namespaces NS)
