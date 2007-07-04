@@ -126,6 +126,7 @@ namespace AutoWikiBrowser
             // 
             // UploadMaxLinesControl
             // 
+            this.UploadMaxLinesControl.ContextMenuStrip = this.MaxLinesContextMenuStrip;
             this.UploadMaxLinesControl.Enabled = false;
             this.UploadMaxLinesControl.Location = new System.Drawing.Point(8, 17);
             this.UploadMaxLinesControl.Maximum = new decimal(new int[] {
@@ -160,6 +161,7 @@ namespace AutoWikiBrowser
             // 
             // UploadJobNameTextBox
             // 
+            this.UploadJobNameTextBox.ContextMenuStrip = this.JobNameContextMenuStrip;
             this.UploadJobNameTextBox.Enabled = false;
             this.UploadJobNameTextBox.Location = new System.Drawing.Point(8, 19);
             this.UploadJobNameTextBox.Name = "UploadJobNameTextBox";
@@ -180,6 +182,7 @@ namespace AutoWikiBrowser
             // 
             // UploadLocationTextBox
             // 
+            this.UploadLocationTextBox.ContextMenuStrip = this.LocationContextMenuStrip;
             this.UploadLocationTextBox.Enabled = false;
             this.UploadLocationTextBox.Location = new System.Drawing.Point(8, 19);
             this.UploadLocationTextBox.Name = "UploadLocationTextBox";
@@ -511,12 +514,12 @@ namespace AutoWikiBrowser
             this.JobNameContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.JobNameResetToolStripMenuItem});
             this.JobNameContextMenuStrip.Name = "JobNameContextMenuStrip";
-            this.JobNameContextMenuStrip.Size = new System.Drawing.Size(114, 26);
+            this.JobNameContextMenuStrip.Size = new System.Drawing.Size(103, 26);
             // 
             // JobNameResetToolStripMenuItem
             // 
             this.JobNameResetToolStripMenuItem.Name = "JobNameResetToolStripMenuItem";
-            this.JobNameResetToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
+            this.JobNameResetToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
             this.JobNameResetToolStripMenuItem.Text = "Reset";
             this.JobNameResetToolStripMenuItem.Click += new System.EventHandler(this.JobNameReset);
             // 
@@ -525,12 +528,12 @@ namespace AutoWikiBrowser
             this.LocationContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.LocationResetToolStripMenuItem});
             this.LocationContextMenuStrip.Name = "LocationContextMenuStrip";
-            this.LocationContextMenuStrip.Size = new System.Drawing.Size(114, 26);
+            this.LocationContextMenuStrip.Size = new System.Drawing.Size(103, 26);
             // 
             // LocationResetToolStripMenuItem
             // 
             this.LocationResetToolStripMenuItem.Name = "LocationResetToolStripMenuItem";
-            this.LocationResetToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
+            this.LocationResetToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
             this.LocationResetToolStripMenuItem.Text = "Reset";
             this.LocationResetToolStripMenuItem.Click += new System.EventHandler(this.LocationReset);
             // 
