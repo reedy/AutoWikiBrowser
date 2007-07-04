@@ -608,17 +608,6 @@
   <metadata name="EditBoxSaveTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>454, 48</value>
   </metadata>
-  <data name="loggingSettings1.SerialisableSettings" mimetype="application/x-microsoft.net.object.binary.base64">
-    <value>
-        AAEAAAD/////AQAAAAAAAAAMAgAAAERXaWtpRnVuY3Rpb25zLCBWZXJzaW9uPTMuOS4zLjIsIEN1bHR1
-        cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49bnVsbAUBAAAAJldpa2lGdW5jdGlvbnMuQVdCU2V0dGlu
-        Z3MuTG9nZ2luZ1ByZWZzCwAAAAlMb2dGb2xkZXIKTG9nVmVyYm9zZQdMb2dXaWtpCExvZ1hIVE1MCFVw
-        bG9hZFlOFFVwbG9hZEFkZFRvV2F0Y2hsaXN0DVVwbG9hZEpvYk5hbWUOVXBsb2FkTG9jYXRpb24OVXBs
-        b2FkTWF4TGluZXMTVXBsb2FkT3BlbkluQnJvd3NlchRVcGxvYWRUb1dpa2lQcm9qZWN0cwEAAAAAAAEB
-        AAAAAQEBAQEIAQECAAAABgMAAAAAAAEAAAEGBAAAAAkkQ0FURUdPUlkGBQAAAAokVVNFUi9Mb2dz6AMA
-        AAEBCw==
-</value>
-  </data>
   <metadata name="mnuWebBrowserDiff.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>441, 17</value>
   </metadata>

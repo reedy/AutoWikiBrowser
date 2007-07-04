@@ -67,6 +67,7 @@ namespace WikiFunctions.AWBProfiles
             this.lvAccounts.UseCompatibleStateImageBehavior = false;
             this.lvAccounts.View = System.Windows.Forms.View.Details;
             this.lvAccounts.DoubleClick += new System.EventHandler(this.lvAccounts_DoubleClick);
+            this.lvAccounts.SelectedIndexChanged += new System.EventHandler(this.lvAccounts_SelectedIndexChanged);
             // 
             // colID
             // 
@@ -104,50 +105,50 @@ namespace WikiFunctions.AWBProfiles
             this.toolStripSeparator2,
             this.deleteThisAccountToolStripMenuItem});
             this.mnuAccounts.Name = "mnuAccounts";
-            this.mnuAccounts.Size = new System.Drawing.Size(190, 126);
+            this.mnuAccounts.Size = new System.Drawing.Size(192, 126);
             // 
             // loginAsThisAccountToolStripMenuItem
             // 
             this.loginAsThisAccountToolStripMenuItem.Name = "loginAsThisAccountToolStripMenuItem";
-            this.loginAsThisAccountToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.loginAsThisAccountToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
             this.loginAsThisAccountToolStripMenuItem.Text = "Log-in as this account";
             this.loginAsThisAccountToolStripMenuItem.Click += new System.EventHandler(this.loginAsThisAccountToolStripMenuItem_Click);
             // 
             // editThisAccountToolStripMenuItem
             // 
             this.editThisAccountToolStripMenuItem.Name = "editThisAccountToolStripMenuItem";
-            this.editThisAccountToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.editThisAccountToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
             this.editThisAccountToolStripMenuItem.Text = "Edit this account";
             this.editThisAccountToolStripMenuItem.Click += new System.EventHandler(this.editThisAccountToolStripMenuItem_Click);
             // 
             // changePasswordToolStripMenuItem
             // 
             this.changePasswordToolStripMenuItem.Name = "changePasswordToolStripMenuItem";
-            this.changePasswordToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.changePasswordToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
             this.changePasswordToolStripMenuItem.Text = "Change password";
             this.changePasswordToolStripMenuItem.Click += new System.EventHandler(this.changePasswordToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(186, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(188, 6);
             // 
             // addNewAccountToolStripMenuItem
             // 
             this.addNewAccountToolStripMenuItem.Name = "addNewAccountToolStripMenuItem";
-            this.addNewAccountToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.addNewAccountToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
             this.addNewAccountToolStripMenuItem.Text = "Add new account";
             this.addNewAccountToolStripMenuItem.Click += new System.EventHandler(this.addNewAccountToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(186, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(188, 6);
             // 
             // deleteThisAccountToolStripMenuItem
             // 
             this.deleteThisAccountToolStripMenuItem.Name = "deleteThisAccountToolStripMenuItem";
-            this.deleteThisAccountToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.deleteThisAccountToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
             this.deleteThisAccountToolStripMenuItem.Text = "Delete this account";
             this.deleteThisAccountToolStripMenuItem.Click += new System.EventHandler(this.deleteThisSavedAccountToolStripMenuItem_Click);
             // 

@@ -41,7 +41,6 @@ namespace AutoWikiBrowser
             this.UploadWatchlistCheckBox = new System.Windows.Forms.CheckBox();
             this.UploadOpenInBrowserCheckBox = new System.Windows.Forms.CheckBox();
             this.GroupBox2 = new System.Windows.Forms.GroupBox();
-            this.Led1 = new WikiFunctions.Controls.LED();
             this.Label8 = new System.Windows.Forms.Label();
             this.UploadsCountLabel = new System.Windows.Forms.Label();
             this.WikiLinesLabel = new System.Windows.Forms.Label();
@@ -75,6 +74,7 @@ namespace AutoWikiBrowser
             this.SetToMaximumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.FolderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.ToolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.Led1 = new WikiFunctions.Controls.LED();
             this.GroupBox3.SuspendLayout();
             this.GroupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UploadMaxLinesControl)).BeginInit();
@@ -256,14 +256,6 @@ namespace AutoWikiBrowser
             this.GroupBox2.TabIndex = 24;
             this.GroupBox2.TabStop = false;
             this.GroupBox2.Text = "Status";
-            // 
-            // Led1
-            // 
-            this.Led1.Colour = WikiFunctions.Controls.Colour.Red;
-            this.Led1.Location = new System.Drawing.Point(231, 69);
-            this.Led1.Name = "Led1";
-            this.Led1.Size = new System.Drawing.Size(20, 20);
-            this.Led1.TabIndex = 31;
             // 
             // Label8
             // 
@@ -558,6 +550,15 @@ namespace AutoWikiBrowser
             this.SetToMaximumToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.SetToMaximumToolStripMenuItem.Text = "Set to maximum";
             this.SetToMaximumToolStripMenuItem.Click += new System.EventHandler(this.SetLinesToMaximum);
+            // 
+            // Led1
+            // 
+            this.Led1.Colour = WikiFunctions.Controls.Colour.Red;
+            this.Led1.Location = new System.Drawing.Point(231, 69);
+            this.Led1.Name = "Led1";
+            this.Led1.Size = new System.Drawing.Size(20, 20);
+            this.Led1.TabIndex = 31;
+            this.ToolTip1.SetToolTip(this.Led1, "Turns green when writing and blue when uploading");
             // 
             // LoggingSettings
             // 
