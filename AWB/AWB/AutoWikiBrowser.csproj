@@ -70,7 +70,6 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="ArticleWithLogging.cs" />
     <Compile Include="CustomModule.cs">
       <SubType>Form</SubType>
     </Compile>
