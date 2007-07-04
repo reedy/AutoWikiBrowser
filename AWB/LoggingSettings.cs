@@ -109,18 +109,22 @@ namespace AutoWikiBrowser
             {
                 LoggingPrefs prefs = value;
 
-                ((MainForm)ParentForm).LoggingCategoryTextBox.Text = prefs.LogCategoryName;
-                FolderTextBox.Text = prefs.LogFolder;
-                VerboseCheckBox.Checked = prefs.LogVerbose;
-                WikiLogCheckBox.Checked = prefs.LogWiki;
-                XHTMLLogCheckBox.Checked = prefs.LogXHTML;
-                UploadJobNameTextBox.Text = prefs.UploadJobName;
-                UploadLocationTextBox.Text = prefs.UploadLocation;
-                UploadMaxLinesControl.Value = prefs.UploadMaxLines;
-                UploadOpenInBrowserCheckBox.Checked = prefs.UploadOpenInBrowser;
-                UploadWikiProjectCheckBox.Checked = prefs.UploadToWikiProjects;
-                UploadWatchlistCheckBox.Checked = prefs.UploadAddToWatchlist;
-                UploadCheckBox.Checked = prefs.UploadYN;
+                try
+                {
+                    ((MainForm)ParentForm).LoggingCategoryTextBox.Text = prefs.LogCategoryName;
+                    FolderTextBox.Text = prefs.LogFolder;
+                    VerboseCheckBox.Checked = prefs.LogVerbose;
+                    WikiLogCheckBox.Checked = prefs.LogWiki;
+                    XHTMLLogCheckBox.Checked = prefs.LogXHTML;
+                    UploadJobNameTextBox.Text = prefs.UploadJobName;
+                    UploadLocationTextBox.Text = prefs.UploadLocation;
+                    UploadMaxLinesControl.Value = prefs.UploadMaxLines;
+                    UploadOpenInBrowserCheckBox.Checked = prefs.UploadOpenInBrowser;
+                    UploadWikiProjectCheckBox.Checked = prefs.UploadToWikiProjects;
+                    UploadWatchlistCheckBox.Checked = prefs.UploadAddToWatchlist;
+                    UploadCheckBox.Checked = prefs.UploadYN;
+                }
+                catch { }
             }
         }
         internal void Reset()

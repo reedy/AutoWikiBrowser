@@ -153,9 +153,8 @@ namespace AutoWikiBrowser.Logging
         }
         private void NewWikiTraceListener()
         {
-            // TODO: fix and uncomment this
-            //AddListener(conWiki, new WikiTraceListener(GetFilePrefix(LoggingSettings.Settings.LogFolder) + 
-            //    " log.txt", LoggingSettings));
+            AddListener(conWiki, new WikiTraceListener(GetFilePrefix(LoggingSettings.Settings.LogFolder) + 
+                " log.txt", LoggingSettings));
         }
         private string GetFileNameFromActiveListener(string Key)
         {
