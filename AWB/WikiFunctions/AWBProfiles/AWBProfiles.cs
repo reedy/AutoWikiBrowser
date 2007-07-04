@@ -58,19 +58,10 @@ namespace WikiFunctions.AWBProfiles
 
         void UpdateUI()
         {
-            updateComponents(lvAccounts.Items.Count > 0);
+            btnLogin.Enabled = btnDelete.Enabled = loginAsThisAccountToolStripMenuItem.Enabled = 
+                editThisAccountToolStripMenuItem.Enabled = changePasswordToolStripMenuItem.Enabled =
+                deleteThisAccountToolStripMenuItem.Enabled = (lvAccounts.SelectedItems.Count > 0);
         }
-
-        //void updateComponents(bool Which)
-        //{
-        //    btnLogin.Enabled = Which;
-        //    btnDelete.Enabled = Which;
-
-        //    loginAsThisAccountToolStripMenuItem.Enabled = Which;
-        //    editThisAccountToolStripMenuItem.Enabled = Which;
-        //    changePasswordToolStripMenuItem.Enabled = Which;
-        //    deleteThisAccountToolStripMenuItem.Enabled = Which;
-        //}
 
         private void loadProfiles()
         {
@@ -220,7 +211,7 @@ namespace WikiFunctions.AWBProfiles
 
         private void lvAccounts_SelectedIndexChanged(object sender, EventArgs e)
         {
-            btnLogin.Enabled = btnDelete.Enabled = (lvAccounts.SelectedItems.Count > 0);
+            UpdateUI();
         }
     }
 }
