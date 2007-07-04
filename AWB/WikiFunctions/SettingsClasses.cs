@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2007 Martin Richards
+Copyright (C) 2007 Martin Richards, Stephen Kennedy <steve@sdk-software.com>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -16,6 +16,16 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
+
+/*
+How to enable a new setting:
+ * Add a public serialisable field to the relevant settings class in this code file
+ * Add a parameter to the public constructor, so that the UI-value can be stored in the object when saving settings
+ * Add code to the object creation line in MakePrefs() in UserSettings.cs - this is where the UI passes it's
+   settings state to new SettingsClass objects prior to saving to XML
+ * Add code to read the deserialised value in UserSettings.cs:LoadPrefs
+*/
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -28,7 +38,46 @@ namespace WikiFunctions.AWBSettings
     [Serializable, XmlRoot("AutoWikiBrowserPreferences")]
     public class UserPrefs
     {
-        public UserPrefs() { }
+        // the internal constructors are used during deserialisation or when a blank object is required
+        internal UserPrefs()
+        {
+            FindAndReplace = new FaRPrefs();
+            Editprefs = new EditPrefs();
+            List = new ListPrefs();
+            SkipOptions = new SkipPrefs();
+            General = new GeneralPrefs();
+            Disambiguation = new DabPrefs();
+            Module = new ModulePrefs();
+            Logging = new LoggingPrefs();
+        }
+
+        // the public constructors are used to create an object with settings from the UI
+        public UserPrefs(FaRPrefs mFaRPrefs, EditPrefs mEditprefs, ListPrefs mList, SkipPrefs mSkipOptions,
+            GeneralPrefs mGeneral, DabPrefs mDisambiguation, ModulePrefs mModule, LoggingPrefs mLogging,
+            Dictionary<string, WikiFunctions.Plugin.IAWBPlugin> Plugins)
+        {
+            LanguageCode = Variables.LangCode;
+            Project = Variables.Project;
+            CustomProject = Variables.CustomProject;
+
+            FindAndReplace = mFaRPrefs;
+            Editprefs = mEditprefs;
+            List = mList;
+            SkipOptions = mSkipOptions;
+            General = mGeneral;
+            Disambiguation = mDisambiguation;
+            Module = mModule;
+            Logging = mLogging;
+
+            foreach (KeyValuePair<string, WikiFunctions.Plugin.IAWBPlugin> a in Plugins)
+            {
+                PluginPrefs pp = new PluginPrefs();
+                pp.Name = a.Key;
+                pp.PluginSettings = a.Value.SaveSettings();
+
+                Plugin.Add(pp);
+            }
+        }
 
         [XmlAttribute("xml:space")]
         public String SpacePreserve = "preserve";
@@ -39,46 +88,28 @@ namespace WikiFunctions.AWBSettings
         public LangCodeEnum LanguageCode = LangCodeEnum.en;
         public string CustomProject = "";
 
-        public ListPrefs List = new ListPrefs();
-        public FaRPrefs FindAndReplace = new FaRPrefs();
-        public EditPrefs Editprefs = new EditPrefs();
-        public GeneralPrefs General = new GeneralPrefs();
-        public SkipPrefs SkipOptions = new SkipPrefs();
-        public ModulePrefs Module = new ModulePrefs();
-        public DabPrefs Disambiguation = new DabPrefs();
-
-        public LoggingPrefs Logging = new LoggingPrefs();
+        public ListPrefs List;
+        public FaRPrefs FindAndReplace;
+        public EditPrefs Editprefs;
+        public GeneralPrefs General;
+        public SkipPrefs SkipOptions;
+        public ModulePrefs Module;
+        public DabPrefs Disambiguation;
+        public LoggingPrefs Logging;
 
         public List<PluginPrefs> Plugin = new List<PluginPrefs>();
-
-        /// <summary>
-        /// Fill the object with settings from UI
-        /// </summary>
-        public void Make()
-        {
-            LanguageCode = Variables.LangCode;
-            Project = Variables.Project;
-            CustomProject = Variables.CustomProject;
-        }
     }
 
     //find and replace prefs
     [Serializable]
     public class FaRPrefs
     {
-        public bool Enabled = false;
-        public bool IgnoreSomeText = false;
-        public bool AppendSummary = true;
-        public bool AfterOtherFixes = false;
-        public List<WikiFunctions.Parse.Replacement> Replacements = new List<WikiFunctions.Parse.Replacement>();
-
-        public List<WikiFunctions.MWB.IRule> AdvancedReps = new List<WikiFunctions.MWB.IRule>();
-        public string[] SubstTemplates = new string[0];
+        internal FaRPrefs() { }
 
         /// <summary>
         /// Fill the object with settings from UI
         /// </summary>
-        public void Make(bool mEnabled, WikiFunctions.Parse.FindandReplace findAndReplace,
+        public FaRPrefs(bool mEnabled, WikiFunctions.Parse.FindandReplace findAndReplace,
             WikiFunctions.MWB.ReplaceSpecial replaceSpecial, string[] mSubstTemplates)
         {
             Enabled = mEnabled;
@@ -89,19 +120,26 @@ namespace WikiFunctions.AWBSettings
             AdvancedReps = replaceSpecial.GetRules();
             SubstTemplates = mSubstTemplates;
         }
+
+        public bool Enabled = false;
+        public bool IgnoreSomeText = false;
+        public bool AppendSummary = true;
+        public bool AfterOtherFixes = false;
+        public List<WikiFunctions.Parse.Replacement> Replacements = new List<WikiFunctions.Parse.Replacement>();
+
+        public List<WikiFunctions.MWB.IRule> AdvancedReps = new List<WikiFunctions.MWB.IRule>();
+        public string[] SubstTemplates = new string[0];
     }
 
     [Serializable]
     public class ListPrefs
     {
-        public string ListSource = "";
-        public WikiFunctions.Lists.SourceType Source = WikiFunctions.Lists.SourceType.Category;
-        public List<Article> ArticleList = new List<Article>();
+        internal ListPrefs() { }
 
         /// <summary>
         /// Fill the object with settings from UI
         /// </summary>
-        public void Make(WikiFunctions.Controls.Lists.ListMaker listMaker, bool SaveArticleList)
+        public ListPrefs(WikiFunctions.Controls.Lists.ListMaker listMaker, bool SaveArticleList)
         {
             ListSource = listMaker.SourceText;
             Source = listMaker.SelectedSource;
@@ -110,41 +148,22 @@ namespace WikiFunctions.AWBSettings
             else
                 ArticleList = new List<Article>();
         }
+
+        public string ListSource = "";
+        public WikiFunctions.Lists.SourceType Source = WikiFunctions.Lists.SourceType.Category;
+        public List<Article> ArticleList = new List<Article>();
     }
 
     //the basic settings
     [Serializable]
     public class EditPrefs
     {
-        public bool GeneralFixes = true;
-        public bool Tagger = true;
-        public bool Unicodify = true;
-
-        public int Recategorisation = 0;
-        public string NewCategory = "";
-        public string NewCategory2 = "";
-
-        public int ReImage = 0;
-        public string ImageFind = "";
-        public string Replace = "";
-
-        public bool SkipIfNoCatChange = false;
-        public bool SkipIfNoImgChange = false;
-
-        public bool AppendText = false;
-        public bool Append = true;
-        public string Text = "";
-
-        public int AutoDelay = 10;
-        public bool QuickSave = false;
-        public bool SuppressTag = false;
-        public bool OverrideWatchlist = false;
-        public bool RegexTypoFix = false;
+        internal EditPrefs() { }
 
         /// <summary>
         /// Fill the object with settings from UI
         /// </summary>
-        public void Make(bool mGeneralFixes, bool mTagger, bool mUnicodify, int mRecategorisation,
+        public EditPrefs(bool mGeneralFixes, bool mTagger, bool mUnicodify, int mRecategorisation,
             string mNewCategory, string mNewCategory2, int mReImage, string mImageFind, string mReplace,
             bool mSkipIfNoCatChange, bool mSkipIfNoImgChange, bool mAppendText, bool mAppend, string mText,
             int mAutoDelay, bool mQuickSave, bool mSuppressTag, bool mOverrideWatchlist, bool mRegexTypoFix)
@@ -169,12 +188,58 @@ namespace WikiFunctions.AWBSettings
             OverrideWatchlist = mOverrideWatchlist;
             RegexTypoFix = mRegexTypoFix;
         }
+
+        public bool GeneralFixes = true;
+        public bool Tagger = true;
+        public bool Unicodify = true;
+
+        public int Recategorisation = 0;
+        public string NewCategory = "";
+        public string NewCategory2 = "";
+
+        public int ReImage = 0;
+        public string ImageFind = "";
+        public string Replace = "";
+
+        public bool SkipIfNoCatChange = false;
+        public bool SkipIfNoImgChange = false;
+
+        public bool AppendText = false;
+        public bool Append = true;
+        public string Text = "";
+
+        public int AutoDelay = 10;
+        public bool QuickSave = false;
+        public bool SuppressTag = false;
+        public bool OverrideWatchlist = false;
+        public bool RegexTypoFix = false;
     }
 
     //skip options
     [Serializable]
     public class SkipPrefs
     {
+        internal SkipPrefs() { }
+        public SkipPrefs(bool mSkipNonexistent, bool mSkipexistent, bool mSkipWhenNoChanges, bool mSkipDoes,
+            bool mSkipDoesNot, string mSkipDoesText, string mSkipDoesNotText, bool mRegex, bool mCaseSensitive,
+            bool mSkipNoFindAndReplace, bool mSkipNoRegexTypoFix, bool mSkipNoDisambiguation,
+            string mGeneralSkip)
+        {
+            SkipNonexistent=mSkipNonexistent;
+            Skipexistent=mSkipexistent;
+            SkipWhenNoChanges =mSkipWhenNoChanges;
+            SkipDoes=mSkipDoes;
+            SkipDoesNot=mSkipDoesNot;
+            SkipDoesText=mSkipDoesText;
+            SkipDoesNotText=mSkipDoesNotText;
+            Regex=mRegex;
+            CaseSensitive=mCaseSensitive;
+            SkipNoFindAndReplace=mSkipNoFindAndReplace;
+            SkipNoRegexTypoFix=mSkipNoRegexTypoFix;
+            SkipNoDisambiguation=mSkipNoDisambiguation;
+            GeneralSkip=mGeneralSkip;
+        }
+
         public bool SkipNonexistent = true;
         public bool Skipexistent = false;
         public bool SkipWhenNoChanges = false;
@@ -198,7 +263,58 @@ namespace WikiFunctions.AWBSettings
     [Serializable]
     public class GeneralPrefs
     {
-        public EditBoxAutoSavePrefs AutoSaveEdit = new EditBoxAutoSavePrefs();
+        internal GeneralPrefs()
+        {
+            AutoSaveEdit = new EditBoxAutoSavePrefs();
+        }
+
+        /// <summary>
+        /// Fill the object with settings from UI
+        /// </summary>
+        public GeneralPrefs(bool mSaveArticleList, bool mIgnoreNoBots,
+            System.Windows.Forms.ComboBox.ObjectCollection mSummaries, string mSelectedSummary,
+            string[] mPasteMore, string mFindText, bool mFindRegex, bool mFindCaseSensitive, bool mWordWrap,
+            bool mToolBarEnabled, bool mBypassRedirect, bool mNoAutoChanges, int mOnLoadAction, bool mMinor,
+            bool mWatch, bool mTimerEnabled, bool mSortInterwikiOrder, bool mAddIgnoredToLog, int mTextBoxSize,
+            string mTextBoxFont, bool mLowThreadPriority, bool mBeep, bool mFlash, bool mMinimize,
+            decimal mTimeOutLimit, bool AutoSaveEditBoxEnabled, decimal AutoSaveEditBoxPeriod,
+            string AutoSaveEditBoxFile, List<string> mCustomWikis, bool mLockSummary)
+        {
+            SaveArticleList = mSaveArticleList;
+            IgnoreNoBots = mIgnoreNoBots;
+
+            foreach (object s in mSummaries)
+                Summaries.Add(s.ToString());
+
+            SelectedSummary = mSelectedSummary;
+            PasteMore = mPasteMore;
+            FindText = mFindText;
+            FindRegex = mFindRegex;
+            FindCaseSensitive = mFindCaseSensitive;
+            WordWrap = mWordWrap;
+            ToolBarEnabled = mToolBarEnabled;
+            BypassRedirect = mBypassRedirect;
+            NoAutoChanges = mNoAutoChanges;
+            OnLoadAction = mOnLoadAction;
+            Minor = mMinor;
+            Watch = mWatch;
+            TimerEnabled = mTimerEnabled;
+            SortInterwikiOrder = mSortInterwikiOrder;
+            AddIgnoredToLog = mAddIgnoredToLog;
+            TextBoxSize = mTextBoxSize;
+            TextBoxFont = mTextBoxFont;
+            LowThreadPriority = mLowThreadPriority;
+            Beep = mBeep;
+            Flash = mFlash;
+            Minimize = mMinimize;
+            TimeOutLimit = mTimeOutLimit;
+            AutoSaveEdit=new EditBoxAutoSavePrefs(AutoSaveEditBoxEnabled, AutoSaveEditBoxPeriod,
+                AutoSaveEditBoxFile);
+            CustomWikis = mCustomWikis;
+            LockSummary = mLockSummary;
+        }
+
+        public EditBoxAutoSavePrefs AutoSaveEdit;
 
         public string SelectedSummary = "Clean up";
         public List<string> Summaries = new List<string>();
@@ -223,7 +339,6 @@ namespace WikiFunctions.AWBSettings
         public int TextBoxSize = 10;
         public string TextBoxFont = "Courier New";
         public bool LowThreadPriority = false;
-        public bool FlashAndBeep = true;
         public bool Beep = false;
         public bool Flash = false;
         public bool Minimize = false;
@@ -233,45 +348,77 @@ namespace WikiFunctions.AWBSettings
         public bool IgnoreNoBots = false;
 
         public List<string> CustomWikis = new List<string>();
-
-        /// <summary>
-        /// Fill the object with settings from UI
-        /// </summary>
-        public void Make(bool mSaveArticleList, bool mIgnoreNoBots)
-        {
-            SaveArticleList = mSaveArticleList;
-            IgnoreNoBots = mIgnoreNoBots;
-        }
     }
 
     [Serializable]
     public class EditBoxAutoSavePrefs
     {
+        internal EditBoxAutoSavePrefs()
+        {
+            SavePeriod = 30;
+        }
+        internal EditBoxAutoSavePrefs(bool mEnabled, decimal mPeriod, string mFile)
+        {
+            Enabled = mEnabled;
+            SavePeriod = mPeriod;
+            SaveFile = mFile;
+        }
+
         public bool Enabled = false;
-        public decimal SavePeriod = 30;
+        public decimal SavePeriod;
         public string SaveFile = "";
     }
 
     [Serializable]
     public class LoggingPrefs
     {
-        public string LogFolder;
+        //internal LoggingPrefs() { }
+        //public LoggingPrefs(string mLogFolder, bool mLogVerbose, bool mLogWiki, bool mLogXHTML, bool mUploadYN,
+        //    bool mUploadAddToWatchlist, string mUploadJobName, string mUploadLocation, string mLogCategoryName,
+        //    int mUploadMaxLines, bool mUploadOpenInBrowser, bool mUploadToWikiProjects)
+        //{ // <s>TODO</s>: This could perhaps be improved by making the LoggingSettings control directly serialisable: see below
+        //    LogFolder = mLogFolder;
+        //    LogVerbose = mLogVerbose;
+        //    LogWiki = mLogWiki;
+        //    LogXHTML = mLogXHTML;
+        //    UploadYN = mUploadYN;
+        //    UploadAddToWatchlist = mUploadAddToWatchlist;
+        //    UploadJobName = mUploadJobName;
+        //    UploadLocation = mUploadLocation;
+        //    LogCategoryName = mLogCategoryName;
+        //    UploadMaxLines = mUploadMaxLines;
+        //    UploadOpenInBrowser = mUploadOpenInBrowser;
+        //    UploadToWikiProjects = mUploadToWikiProjects;
+        //}
+
+
+        // initialised/handled in LoggingSettings.SerialisableSettings
         public bool LogVerbose;
         public bool LogWiki;
         public bool LogXHTML;
         public bool UploadYN;
         public bool UploadAddToWatchlist;
+        public bool UploadOpenInBrowser;
+        public bool UploadToWikiProjects;
+        public int UploadMaxLines = 1000;
+        public string LogFolder = "";
         public string UploadJobName="";
         public string UploadLocation="";
         public string LogCategoryName="";
-        public int UploadMaxLines;
-        public bool UploadOpenInBrowser;
-        public bool UploadToWikiProjects;
     }
 
     [Serializable]
     public class DabPrefs
     {
+        internal DabPrefs() { }
+        public DabPrefs(bool mEnabled, string mLink, string[] mVariants, int mContextChars)
+        {
+            Enabled = mEnabled;
+            Link = mLink;
+            Variants = mVariants;
+            ContextChars = mContextChars;
+        }
+
         public bool Enabled = false;
         public string Link = "";
         public string[] Variants = new string[0];
@@ -281,6 +428,14 @@ namespace WikiFunctions.AWBSettings
     [Serializable]
     public class ModulePrefs
     {
+        internal ModulePrefs() { }
+        public ModulePrefs(bool mEnabled, int mLanguage, string mCode)
+        {
+            Enabled = mEnabled;
+            Language = mLanguage;
+            Code = mCode;
+        }
+
         public bool Enabled = false;
         public int Language = 0;
         public string Code = "";
