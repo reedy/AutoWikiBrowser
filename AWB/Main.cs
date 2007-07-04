@@ -3127,7 +3127,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             CheckBox IAutoWikiBrowser.AutoTagCheckBox { get { return chkAutoTagger; } }
             ToolStripMenuItem IAutoWikiBrowser.HelpToolStripMenuItem { get { return helpToolStripMenuItem; } }
             TextBox IAutoWikiBrowser.EditBox { get { return txtEdit; } }
-            TextBox IAutoWikiBrowser.CategoryTextBox { get { return CategoryTextBox; } }
+            TextBox IAutoWikiBrowser.CategoryTextBox { get { return LoggingCategoryTextBox; } }
             Form IAutoWikiBrowser.Form { get { return this; } }
             ToolStripMenuItem IAutoWikiBrowser.PluginsToolStripMenuItem { get { return pluginsToolStripMenuItem; } }
             WikiFunctions.Controls.Lists.ListMaker IAutoWikiBrowser.ListMaker { get { return listMaker1; } }
@@ -3398,22 +3398,22 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void toolStripMenuItemCategoryCut_Click(object sender, EventArgs e)
         {
-            CategoryTextBox.Cut();
+            LoggingCategoryTextBox.Cut();
         }
 
         private void toolStripMenuItemCategoryCopy_Click(object sender, EventArgs e)
         {
-            CategoryTextBox.Copy();
+            LoggingCategoryTextBox.Copy();
         }
 
         private void toolStripMenuItemCategoryPaste_Click(object sender, EventArgs e)
         {
-            CategoryTextBox.Paste();
+            LoggingCategoryTextBox.Paste();
         }
 
         private void toolStripMenuItemCategoryClear_Click(object sender, EventArgs e)
         {
-            CategoryTextBox.Text = "";
+            LoggingCategoryTextBox.Text = "";
         }
 
         private void profilesToolStripMenuItem_Click(object sender, EventArgs e)
