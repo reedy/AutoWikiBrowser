@@ -221,7 +221,9 @@
       <DependentUpon>TemplateParamRuleControl.cs</DependentUpon>
     </Compile>
     <Compile Include="ResourcesManager.cs" />
-    <Compile Include="SettingsClasses.cs" />
+    <Compile Include="SettingsClasses.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="specialFilter.cs">
       <SubType>Form</SubType>
     </Compile>

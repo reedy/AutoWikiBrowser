@@ -305,57 +305,18 @@ namespace AutoWikiBrowser
         private UserPrefs MakePrefs()
         {
             UserPrefs p = new UserPrefs();
-
-            p.LanguageCode = Variables.LangCode;
-            p.Project = Variables.Project;
-            p.CustomProject = Variables.CustomProject;
-
-            p.FindAndReplace.Enabled = chkFindandReplace.Checked;
-            p.FindAndReplace.IgnoreSomeText = findAndReplace.ignoreLinks;
-            p.FindAndReplace.AppendSummary = findAndReplace.AppendToSummary;
-            p.FindAndReplace.AfterOtherFixes = findAndReplace.AfterOtherFixes;
-            p.FindAndReplace.Replacements = findAndReplace.GetList();
-            p.FindAndReplace.AdvancedReps = replaceSpecial.GetRules();
-            p.FindAndReplace.SubstTemplates = substTemplates.TemplateList;
-
-            p.List.ListSource = listMaker1.SourceText;
-            p.List.Source = listMaker1.SelectedSource;
-
-            
-            p.General.SaveArticleList = SaveArticleList;
-
-            if (p.General.SaveArticleList)
-            { p.List.ArticleList = listMaker1.GetArticleList(); }
-            else 
-            { p.List.ArticleList = new List<Article>(); }
-
-            p.General.IgnoreNoBots = ignoreNoBotsToolStripMenuItem.Checked;
-            
-            p.Editprefs.GeneralFixes = chkGeneralFixes.Checked;
-            p.Editprefs.Tagger = chkAutoTagger.Checked;
-            p.Editprefs.Unicodify = chkUnicodifyWhole.Checked;
-
-            p.Editprefs.Recategorisation = cmboCategorise.SelectedIndex;
-            p.Editprefs.NewCategory = txtNewCategory.Text;
-            p.Editprefs.NewCategory2 = txtNewCategory2.Text;
-
-            p.Editprefs.ReImage = cmboImages.SelectedIndex;
-            p.Editprefs.ImageFind = txtImageReplace.Text;
-            p.Editprefs.Replace = txtImageWith.Text;
-
-            p.Editprefs.SkipIfNoCatChange = chkSkipNoCatChange.Checked;
-            p.Editprefs.SkipIfNoImgChange = chkSkipNoImgChange.Checked;
-
-            p.Editprefs.AppendText = chkAppend.Checked;
-            p.Editprefs.Append = rdoAppend.Checked;
-            p.Editprefs.Append = !rdoPrepend.Checked;
-            p.Editprefs.Text = txtAppendMessage.Text;
-
-            p.Editprefs.AutoDelay = (int)nudBotSpeed.Value;
-            p.Editprefs.QuickSave = chkQuickSave.Checked;
-            p.Editprefs.SuppressTag = chkSuppressTag.Checked;
-            p.Editprefs.OverrideWatchlist = OverrideWatchlist;
-            p.Editprefs.RegexTypoFix = chkRegExTypo.Checked;
+            p.Make();
+            p.FindAndReplace.Make(chkFindandReplace.Checked, findAndReplace, replaceSpecial, 
+                substTemplates.TemplateList);
+            p.List.Make(listMaker1, SaveArticleList);
+            p.General.Make(SaveArticleList, ignoreNoBotsToolStripMenuItem.Checked);
+            p.Editprefs.Make(chkGeneralFixes.Checked, chkAutoTagger.Checked, chkUnicodifyWhole.Checked,
+                cmboCategorise.SelectedIndex, txtNewCategory.Text, txtNewCategory2.Text,
+                cmboImages.SelectedIndex, txtImageReplace.Text, txtImageWith.Text, chkSkipNoCatChange.Checked,
+                chkSkipNoImgChange.Checked, chkAppend.Checked, !rdoPrepend.Checked, txtAppendMessage.Text,
+                (int)nudBotSpeed.Value, chkQuickSave.Checked, chkSuppressTag.Checked, OverrideWatchlist,
+                chkRegExTypo.Checked);
+            //p.Editprefs.Append = rdoAppend.Checked;
             
             p.SkipOptions.SkipNonexistent = chkSkipNonExistent.Checked;
             p.SkipOptions.Skipexistent = chkSkipExistent.Checked;
