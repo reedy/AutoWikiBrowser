@@ -80,29 +80,10 @@ namespace WikiFunctions.AWBProfiles
         /// <returns>List of Profiles</returns>
         public static List<AWBProfile> GetProfiles()
         {
-            Computer myComputer = new Computer();
             List<AWBProfile> profiles = new List<AWBProfile>();
-
-            List<int> ProfileIDs = GetProfileIDs();
-            foreach (int id in ProfileIDs)
+            foreach (int id in GetProfileIDs())
             {
-                try
-                {
-                    AWBProfile prof = new AWBProfile();
-                    prof.id = id;
-                    prof.Username = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "User", "").ToString();
-                    if (prof.Username != "")
-                        prof.Username = Decrypt(prof.Username);
-                    prof.Password = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Pass", "").ToString();
-                    if (prof.Password != "")
-                        prof.Password = Decrypt(prof.Password);
-                    prof.defaultsettings = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Settings", "").ToString();
-                    prof.useforupload = bool.Parse(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "UseForUpload", "").ToString());
-                    prof.notes = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Notes", "").ToString();
-
-                    profiles.Add(prof);
-                }
-                catch { }
+                profiles.Add(GetProfile(id));
             }
             return profiles;
         }
@@ -120,7 +101,8 @@ namespace WikiFunctions.AWBProfiles
                 Computer myComputer = new Computer();
 
                 prof.id = id;
-                prof.Username = Decrypt(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "User", "").ToString());
+                if (prof.Username != "")
+                    prof.Username = Decrypt(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "User", "").ToString());
                 prof.Password = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Pass", "").ToString();
                 if (prof.Password != "")
                     prof.Password = Decrypt(prof.Password);
