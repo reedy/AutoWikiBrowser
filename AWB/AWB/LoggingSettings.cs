@@ -47,7 +47,6 @@ namespace AutoWikiBrowser
         {
             mStartingUp = true;
             InitializeComponent();
-            //GlobalObjects.AWB.CategoryTextBox.TextChanged += this.WeHaveUnappliedChanges;
             mStartingUp = false;
         }
 
@@ -210,7 +209,7 @@ namespace AutoWikiBrowser
                 }
             }
         }
-        private void WeHaveUnappliedChanges(object sender, EventArgs e)
+        internal void WeHaveUnappliedChanges(object sender, EventArgs e)
         { WeHaveUnappliedChanges(); }
         private void DisableApplyButton()
         {

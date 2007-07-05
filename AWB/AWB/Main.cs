@@ -152,6 +152,9 @@ namespace AutoWikiBrowser
                     Variables.User.UserNameChanged += UpdateUserName;
                     Variables.User.BotStatusChanged += UpdateBotStatus;
                     Variables.User.AdminStatusChanged += UpdateAdminStatus;
+                    Variables.User.WikiStatusChanged += UpdateWikiStatus;
+
+                    LoggingCategoryTextBox.TextChanged += loggingSettings1.WeHaveUnappliedChanges;
 
                     Variables.User.webBrowserLogin.DocumentCompleted += web4Completed;
                     Variables.User.webBrowserLogin.Navigating += web4Starting;
@@ -1295,8 +1298,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         }
 
         private void UpdateAdminStatus(object sender, EventArgs e)
-        {
-        }
+        { }
+
+        private void UpdateWikiStatus(object sender, EventArgs e)
+        { }
 
         private void chkAutoMode_CheckedChanged(object sender, EventArgs e)
         {
