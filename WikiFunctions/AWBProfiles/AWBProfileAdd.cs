@@ -33,6 +33,7 @@ namespace WikiFunctions.AWBProfiles
     {
         //AWBProfile AWBProfile = new AWBProfile();
         private int editid;
+        private bool justLoading;
 
         public AWBProfileAdd()
         {
@@ -48,14 +49,20 @@ namespace WikiFunctions.AWBProfiles
         public AWBProfileAdd(AWBProfile profile)
         {
             InitializeComponent();
+            justLoading = true;
+
             editid = profile.id;
 
-            txtUsername.Text = AWBProfiles.Decrypt(profile.Username);
-            txtPassword.Text = AWBProfiles.Decrypt(profile.Password);
+            txtUsername.Text = profile.Username;
+            txtPassword.Text = profile.Password;
             txtPath.Text = profile.defaultsettings;
             txtNotes.Text = profile.notes;
 
+            if (txtPath.Text != "")
+                chkDefaultSettings.Checked = true;
+
             this.Text = "Edit Profile";
+            justLoading = false;
         }
 
         private void chkSavePassword_CheckedChanged(object sender, EventArgs e)
@@ -71,12 +78,13 @@ namespace WikiFunctions.AWBProfiles
         private void chkDefaultSettings_CheckedChanged(object sender, EventArgs e)
         {
             txtPath.Enabled = chkDefaultSettings.Checked;
-            if (chkDefaultSettings.Checked)
+            if (!justLoading && chkDefaultSettings.Checked)
             {
                 if (openDefaultFile.ShowDialog() == DialogResult.OK)
                     txtPath.Text = openDefaultFile.FileName;
             }
         }
+
 
         private void btnSave_Click(object sender, EventArgs e)
         {

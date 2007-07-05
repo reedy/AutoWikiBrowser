@@ -82,7 +82,6 @@ namespace WikiFunctions.AWBProfiles
             }
 
             UpdateUI();
-
             WikiFunctions.Lists.ListViewColumnResize.resizeListView(lvAccounts);
         }
 
@@ -119,10 +118,7 @@ namespace WikiFunctions.AWBProfiles
 
                         if (password.ShowDialog() == DialogResult.OK)
                             browserLogin(password.GetPassword);
-                        else
-                            return;
 	                }
-	                LoadProfile();
 	                Cursor = Cursors.Default;
 	            }
 			}
@@ -132,7 +128,7 @@ namespace WikiFunctions.AWBProfiles
         private void browserLogin(string Password)
         {
             Browser.Login(lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text, Password);
-            Variables.MainForm.CheckStatus(true);
+            LoadProfile();
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -212,8 +208,6 @@ namespace WikiFunctions.AWBProfiles
         private void lvAccounts_DoubleClick(object sender, EventArgs e)
         {
             login();
-            Close();
-            Dispose();
         }
 
         public string SettingsToLoad
