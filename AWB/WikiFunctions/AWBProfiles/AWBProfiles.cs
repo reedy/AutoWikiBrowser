@@ -117,15 +117,12 @@ namespace WikiFunctions.AWBProfiles
 	                    UserPassword password = new UserPassword();
 	                    password.SetText = "Enter password for " + lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text;
 
-	                    if (password.ShowDialog() == DialogResult.OK)
-	                        browserLogin(password.GetPassword);
-	                    else
-	                        goto exit;
+                        if (password.ShowDialog() == DialogResult.OK)
+                            browserLogin(password.GetPassword);
+                        else
+                            return;
 	                }
-
 	                LoadProfile();
-
-	            exit;
 	                Cursor = Cursors.Default;
 	            }
 			}
