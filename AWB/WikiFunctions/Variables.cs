@@ -1182,9 +1182,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                 if (strName != value)
                 {
                     strName = value;
-
-                    if (UserNameChanged != null)
-                        UserNameChanged(null, null);
+                    UserNameChanged(null, null);
                 }
             }
         }
@@ -1376,7 +1374,6 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                         return WikiStatusResult.NotRegistered;
                     }
                 }
-
 
                 //see if there is a message
                 Match m = Message.Match(strText);
