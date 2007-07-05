@@ -98,34 +98,38 @@ namespace WikiFunctions.AWBProfiles
 
         private void login()
         {
-            if (SelectedItem >= 0)
-            {
-                Cursor = Cursors.WaitCursor;
-                if (lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[3].Text != "")
-                    CurrentSettingsProfile = lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[3].Text;
-                else
-                    CurrentSettingsProfile = "";
+			try
+			{
+	            if (SelectedItem >= 0)
+	            {
+	                Cursor = Cursors.WaitCursor;
+	                if (lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[3].Text != "")
+	                    CurrentSettingsProfile = lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[3].Text;
+	                else
+	                    CurrentSettingsProfile = "";
 
-                if (lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[2].Text == "Yes")
-                {//Get 'Saved' Password
-                    browserLogin(AWBProfiles.GetPassword(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text)));
-                }
-                else
-                {//Get Password from User
-                    UserPassword password = new UserPassword();
-                    password.SetText = "Enter password for " + lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text;
+	                if (lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[2].Text == "Yes")
+	                {//Get 'Saved' Password
+	                    browserLogin(AWBProfiles.GetPassword(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text)));
+	                }
+	                else
+	                {//Get Password from User
+	                    UserPassword password = new UserPassword();
+	                    password.SetText = "Enter password for " + lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text;
 
-                    if (password.ShowDialog() == DialogResult.OK)
-                        browserLogin(password.GetPassword);
-                    else
-                        goto exit;
-                }
+	                    if (password.ShowDialog() == DialogResult.OK)
+	                        browserLogin(password.GetPassword);
+	                    else
+	                        goto exit;
+	                }
 
-                LoadProfile();
+	                LoadProfile();
 
-            exit:
-                Cursor = Cursors.Default;
-            }
+	            exit;
+	                Cursor = Cursors.Default;
+	            }
+			}
+			catch {	}
         }
 
         private void browserLogin(string Password)
@@ -177,18 +181,29 @@ namespace WikiFunctions.AWBProfiles
 
         private void changePasswordToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UserPassword password = new UserPassword();
-            password.SetText = "Set password for: " + lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text;
+			try
+			{
+	            UserPassword password = new UserPassword();
+	            password.SetText = "Set password for: " + lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text;
 
-            if (password.ShowDialog() == DialogResult.OK)
-                AWBProfiles.SetPassword(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text), password.GetPassword);
+	            if (password.ShowDialog() == DialogResult.OK)
+	                AWBProfiles.SetPassword(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text), password.GetPassword);
+			}
+			finally
+			{
+				loadProfiles();
+			}
         }
 
         private void editThisAccountToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AWBProfileAdd add = new AWBProfileAdd(AWBProfiles.GetProfile(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text)));
-            if (add.ShowDialog() == DialogResult.Yes)
-                loadProfiles();
+			try
+			{
+	            AWBProfileAdd add = new AWBProfileAdd(AWBProfiles.GetProfile(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text)));
+	            if (add.ShowDialog() == DialogResult.Yes)
+	                loadProfiles();
+			}
+			catch { }
         }
 
         private void btnExit_Click(object sender, EventArgs e)
