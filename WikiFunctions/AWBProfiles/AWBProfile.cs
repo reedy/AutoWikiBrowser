@@ -128,6 +128,21 @@ namespace WikiFunctions.AWBProfiles
         }
 
         /// <summary>
+        /// Return (or create and return) an AWBProfile for the account used for log uploading
+        /// </summary>
+        /// <returns>The Profile. Throw an error or return null if the user declines to create a profile?</returns>
+        public static AWBProfile GetProfileForLogUploading()
+        {
+            // TODO: Log uploading:
+            // Profile form, registry - Add a property "use profile for uploading logs" [Sam]
+            // GetProfileForLogUploading() - return the unique Profile which is marked as "use for log uploading" [Sam]
+            // MyTrace.cs: CheckWeHaveLogInDetails(): enable code here and convert to using a Profile [Steve/Sam]
+            // UsernamePassword, may need to update, or add an additional class which uses Profiles [Steve]
+            // pretty much a simple glue job!
+            return null;
+        }
+
+        /// <summary>
         /// Gets the decrypted password of a specified profile
         /// </summary>
         /// <param name="id">Profile ID</param>
