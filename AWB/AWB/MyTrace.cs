@@ -132,14 +132,15 @@ namespace AutoWikiBrowser.Logging
         // Private:
         private void CheckWeHaveLogInDetails()
         {
-            if (this.Uploadable && !LoggingSettings.LoginDetails.IsSet)
+            if (this.Uploadable)
             {
-                // TODO: This needs to be imported from plugin and fixed, but what about AWBProfiles? Encyryption? etc
-                //LoggingSettings.LoginDetails = new LoginForm().GetUsernamePassword;
-                //if (!LoggingSettings.LoginDetails.IsSet)
-                //{
-                //    throw new System.Configuration.ConfigurationErrorsException("Error getting login details");
-                //}
+                LoggingSettings.LoginDetails.AWBProfile =
+                    WikiFunctions.AWBProfiles.AWBProfiles.GetProfileForLogUploading();
+
+                if (!LoggingSettings.LoginDetails.IsSet)
+                {
+                    throw new System.Configuration.ConfigurationErrorsException("Error getting login details");
+                }
             }
         }
         private static string GetFilePrefix(string LogFolder)

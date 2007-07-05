@@ -193,7 +193,8 @@ namespace WikiFunctions.Logging
         protected virtual bool UploadHandler(TraceListenerUploadableBase Sender, string LogTitle, 
             string LogDetails, string UploadToWithoutPageNumber, List<LogEntry> LinksToLog, bool OpenInBrowser,
             bool AddToWatchlist, string Username, string LogHeader, string EditSummary,
-            string LogSummaryEditSummary, WikiFunctions.Plugin.IAutoWikiBrowser AWB, UsernamePassword LoginDetails)
+            string LogSummaryEditSummary, WikiFunctions.Plugin.IAutoWikiBrowser AWB, 
+            UsernamePassword LoginDetails)
         {
             bool Success = false;
 

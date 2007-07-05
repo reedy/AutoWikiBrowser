@@ -39,7 +39,7 @@ namespace AutoWikiBrowser
     internal sealed partial class LoggingSettings : UserControl
     {
         private bool mStartingUp;
-        internal UsernamePassword LoginDetails = new UsernamePassword();
+        internal UsernamePassword2 LoginDetails = new UsernamePassword2();
         private bool mInitialised;
         internal Props Settings = new Props();
 
@@ -330,8 +330,8 @@ namespace AutoWikiBrowser
 
                 if (tempLinksToLog.Count > 1 && UserName == "")
                 {
-                    throw new System.Configuration.SettingsPropertyNotFoundException(
-                        "We don't have a username");
+                    //throw new System.Configuration.SettingsPropertyNotFoundException(
+                    //    "We don't have a username");
                     // TODO: Username stuff can now get better integrated with AWB, and preferably AWBProfiles
                 }
                 return tempLinksToLog;
