@@ -49,14 +49,44 @@ namespace WikiFunctions.Logging.Uploader
 	/// <summary>
 	/// Stores the user's login details/cookies
 	/// </summary>
-	public sealed class UsernamePassword
+	public class UsernamePassword
 	{
-		public string Username;
-		public string Password;
-		public bool IsSet;
-		public bool HaveCookies;
-		public System.Net.CookieCollection Cookies;
+        private string mUserName = "", mPassword = "";
+        private bool mHaveCookies;
+        private System.Net.CookieCollection mCookies;
+
+		public virtual string Username
+        { get { return mUserName; } set { mUserName = value; } }
+
+        public virtual string Password
+        { get { return mPassword; } set { mPassword = value; } }
+
+        public virtual bool IsSet
+        { get { return (Password != "" && Username != ""); } }
+
+        public bool HaveCookies
+        { get { return mHaveCookies; } set { mHaveCookies = value; } }
+
+        public System.Net.CookieCollection Cookies
+        { get { return mCookies; } set { mCookies = value; } }
 	}
+
+    /// <summary>
+    /// Stores the user's login Profile/cookies
+    /// </summary>
+    public sealed class UsernamePassword2 : UsernamePassword
+    {
+        private AWBProfiles.AWBProfile mAWBProfile;
+
+        public override string  Password
+        { get { return mAWBProfile.Password; } set { mAWBProfile.Password = value; } }
+
+        public override string  Username
+        { get { return mAWBProfile.Username; } set { mAWBProfile.Username = value; } }
+
+        public AWBProfiles.AWBProfile AWBProfile
+        { get { return mAWBProfile; } set { mAWBProfile = value; } }
+    }
 
 	/// <summary>
 	/// A simple settings class for logging solutions

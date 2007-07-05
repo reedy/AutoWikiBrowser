@@ -137,9 +137,9 @@ namespace WikiFunctions.AWBProfiles
         {
             // TODO: Log uploading:
             // Profile form, registry - Add a property "use profile for uploading logs" [Sam]
-            // GetProfileForLogUploading() - return the unique Profile which is marked as "use for log uploading" [Sam]
-            // MyTrace.cs: CheckWeHaveLogInDetails(): enable code here and convert to using a Profile [Steve/Sam]
-            // UsernamePassword, may need to update, or add an additional class which uses Profiles [Steve]
+            // GetProfileForLogUploading() - return the unique Profile which is marked as "use for log uploading" [Sam]; check it has a password set
+            // DONE - MyTrace.cs: CheckWeHaveLogInDetails(): enable code here and convert to using a Profile [Steve/Sam]
+            // DONE - UsernamePassword, may need to update, or add an additional class which uses Profiles [Steve]
             // pretty much a simple glue job!
             return null;
         }
