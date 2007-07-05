@@ -107,7 +107,14 @@ namespace WikiFunctions.AWBProfiles
                 if (prof.Password != "")
                     prof.Password = Decrypt(prof.Password);
                 prof.defaultsettings = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Settings", "").ToString();
-                prof.useforupload = bool.Parse(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "UseForUpload", "").ToString());
+                try
+                {
+                    prof.useforupload = bool.Parse(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "UseForUpload", "").ToString());
+                }
+                catch
+                {
+                    prof.useforupload = false;
+                }
                 prof.notes = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Notes", "").ToString();
 
                 return prof;
