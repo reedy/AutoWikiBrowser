@@ -292,7 +292,6 @@ namespace AutoWikiBrowser
             private string mCategory = "";
             internal const string conUploadToUserSlashLogsToken = "$USER/Logs";
             internal const string conUploadCategoryIsJobName = "$CATEGORY";
-            private static string mUserName = "";
 
             internal Props()
                 : base()
@@ -342,8 +341,7 @@ namespace AutoWikiBrowser
             }
             internal static string UserName
             {
-                get { return mUserName; }
-                set { mUserName = value; }
+                get { return Variables.User.Name; }
             }
             internal string Category
             {
