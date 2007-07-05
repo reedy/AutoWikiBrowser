@@ -29,17 +29,14 @@ namespace WikiFunctions.AWBProfiles
 {
     public delegate void ProfileLoaded();
 
-    public partial class AWBProfilesForm : Form
+    public partial class AWBLogUploadProfilesForm : Form
     {
-        private WikiFunctions.Browser.WebControl Browser;
         AWBProfile AWBProfile = new AWBProfile();
-        private string CurrentSettingsProfile;
-        public event ProfileLoaded LoadProfile;
+        protected string CurrentSettingsProfile;
 
-        public AWBProfilesForm(WikiFunctions.Browser.WebControl browser)
+        public AWBLogUploadProfilesForm()
         {
             InitializeComponent();
-            this.Browser = browser;
         }
 
         private void AWBProfiles_Load(object sender, EventArgs e)
@@ -47,7 +44,7 @@ namespace WikiFunctions.AWBProfiles
             loadProfiles();
         }
 
-        int SelectedItem
+        protected int SelectedItem
         {
             get
             {
@@ -87,52 +84,6 @@ namespace WikiFunctions.AWBProfiles
 
             UpdateUI();
             WikiFunctions.Lists.ListViewColumnResize.resizeListView(lvAccounts);
-        }
-
-        private void btnLogin_Click(object sender, EventArgs e)
-        {
-            login();
-        }
-
-        private void loginAsThisAccountToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            login();
-        }
-
-        private void login()
-        {
-			try
-			{
-	            if (SelectedItem >= 0)
-	            {
-	                Cursor = Cursors.WaitCursor;
-	                if (lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[3].Text != "")
-	                    CurrentSettingsProfile = lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[3].Text;
-	                else
-	                    CurrentSettingsProfile = "";
-
-	                if (lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[2].Text == "Yes")
-	                {//Get 'Saved' Password
-	                    browserLogin(AWBProfiles.GetPassword(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text)));
-	                }
-	                else
-	                {//Get Password from User
-	                    UserPassword password = new UserPassword();
-	                    password.SetText = "Enter password for " + lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text;
-
-                        if (password.ShowDialog() == DialogResult.OK)
-                            browserLogin(password.GetPassword);
-	                }
-	                Cursor = Cursors.Default;
-	            }
-			}
-			catch {	}
-        }
-
-        private void browserLogin(string Password)
-        {
-            Browser.Login(lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text, Password);
-            LoadProfile();
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -209,11 +160,6 @@ namespace WikiFunctions.AWBProfiles
             Dispose();
         }
 
-        private void lvAccounts_DoubleClick(object sender, EventArgs e)
-        {
-            login();
-        }
-
         public string SettingsToLoad
         {
             get { return CurrentSettingsProfile; }
@@ -222,6 +168,11 @@ namespace WikiFunctions.AWBProfiles
         private void lvAccounts_SelectedIndexChanged(object sender, EventArgs e)
         {
             UpdateUI();
+        }
+
+        protected virtual void lvAccounts_DoubleClick(object sender, EventArgs e)
+        {
+            editThisAccountToolStripMenuItem_Click(sender, e);
         }
     }
 }

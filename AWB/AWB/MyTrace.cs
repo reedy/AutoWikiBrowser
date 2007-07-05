@@ -40,6 +40,7 @@ namespace AutoWikiBrowser.Logging
         private static string LogFolder = "";
         private int BusyCounter = 0;
         private bool mIsUploading = false;
+        private bool mStoppedWithConfigError;
 
         private const string conWiki = "Wiki";
         private const string conXHTML = "XHTML";
@@ -72,16 +73,24 @@ namespace AutoWikiBrowser.Logging
                 {
                     t.Value.WriteBulletedLine(Variables.LoggingStartButtonClicked, true, false, true);
                 }
-                CheckWeHaveLogInDetails();
+                ValidateUploadProfile();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ConfigError(ex);
             }
+        }
+
+        internal void ConfigError(Exception ex)
+        {
+            MessageBox.Show(ex.Message);
+            mStoppedWithConfigError = true;
+            GlobalObjects.AWB.Stop(ApplicationName);
         }
 
         private void TraceUploadEventHandler(TraceListenerUploadableBase Sender, ref bool Success)
         {
+            ValidateUploadProfile();
             Success = base.UploadHandler(Sender, LoggingSettings.Settings.LogTitle, 
                 LoggingSettings.Settings.WikifiedCategory, LoggingSettings.Settings.GlobbedUploadLocation + "/" + 
                 Sender.PageName.Replace(LoggingSettings.Props.conUploadCategoryIsJobName, 
@@ -120,37 +129,36 @@ namespace AutoWikiBrowser.Logging
 
         // State:
         internal bool HaveOpenFile
-        {
-            get { return Listeners.Count > 0; }
-        }
+        { get { return Listeners.Count > 0; } }
 
         internal bool IsUploading
+        { get { return mIsUploading; } }
+
+        internal bool StoppedWithConfigError
+        { get { return mStoppedWithConfigError; } }
+
+        internal void ValidateUploadProfile()
         {
-            get { return mIsUploading; }
+            try
+            {
+                if (this.Uploadable)
+                {
+                    LoggingSettings.LoginDetails.AWBProfile =
+                        WikiFunctions.AWBProfiles.AWBProfiles.GetProfileForLogUploading(GlobalObjects.AWB.Form);
+
+                    if (!LoggingSettings.LoginDetails.IsSet)
+                        throw new System.Configuration.ConfigurationErrorsException("Error getting login details");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new System.Configuration.ConfigurationErrorsException("Logging not properly configured", ex);
+            }
+
+            mStoppedWithConfigError = false;
         }
 
         // Private:
-        private void CheckWeHaveLogInDetails()
-        {
-            if (this.Uploadable)
-            {
-                LoggingSettings.LoginDetails.AWBProfile =
-                    WikiFunctions.AWBProfiles.AWBProfiles.GetProfileForLogUploading();
-
-                if (LoggingSettings.LoginDetails.AWBProfile.Password == "")
-                {
-                    WikiFunctions.AWBProfiles.UserPassword password = new WikiFunctions.AWBProfiles.UserPassword();
-                    password.SetText = "Enter password for " + LoggingSettings.LoginDetails.AWBProfile.Username;
-                    if (password.ShowDialog() == DialogResult.OK)
-                        LoggingSettings.LoginDetails.AWBProfile.Password = password.GetPassword;
-                }
-
-                if (!LoggingSettings.LoginDetails.IsSet)
-                {
-                    throw new System.Configuration.ConfigurationErrorsException("Error getting login details");
-                }
-            }
-        }
         private static string GetFilePrefix(string LogFolder)
         {
             return string.Format("{1}\\{0:MMM-d yyyy HHmm-ss.FF}", System.DateTime.Now, LogFolder);
@@ -392,7 +400,7 @@ namespace AutoWikiBrowser.Logging
                     RemoveListenerAndReplaceWithSameType(conXHTML);
             }
 
-            CheckWeHaveLogInDetails();
+            ValidateUploadProfile();
         }
 
         // Trace listener child classes:

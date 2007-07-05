@@ -118,9 +118,9 @@ namespace AutoWikiBrowser
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(15, 11);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(61, 13);
+            this.label1.Size = new System.Drawing.Size(105, 13);
             this.label1.TabIndex = 27;
-            this.label1.Text = "Created by:";
+            this.label1.Text = "Originally created by:";
             // 
             // label2
             // 

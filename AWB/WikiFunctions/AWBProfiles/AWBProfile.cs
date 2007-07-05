@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.VisualBasic.Devices;
+using System.Windows.Forms;
 
 namespace WikiFunctions.AWBProfiles
 {
@@ -29,8 +30,8 @@ namespace WikiFunctions.AWBProfiles
         public int id;
         public string defaultsettings, notes;
 
-        private string mUsername;
-        private string mPassword;
+        private string mUsername = "";
+        private string mPassword = "";
 
         public bool useforupload;
 
@@ -59,7 +60,7 @@ namespace WikiFunctions.AWBProfiles
         /// </summary>
         /// <param name="text">String to be encrypted</param>
         /// <returns>Encrypted String</returns>
-        public static string Encrypt(string text)
+        private static string Encrypt(string text)
         {
             return Encryption.RijndaelSimple.Encrypt(text, PassPhrase, Salt, "SHA1", 2, IV16Chars, 256);
         }
@@ -69,7 +70,7 @@ namespace WikiFunctions.AWBProfiles
         /// </summary>
         /// <param name="text">String to be decrypted</param>
         /// <returns>Decrypted String</returns>
-        public static string Decrypt(string text)
+        private static string Decrypt(string text)
         {
             return Encryption.RijndaelSimple.Decrypt(text, PassPhrase, Salt, "SHA1", 2, IV16Chars, 256);
         }
@@ -101,11 +102,9 @@ namespace WikiFunctions.AWBProfiles
                 Computer myComputer = new Computer();
 
                 prof.id = id;
-                if (prof.Username != "")
-                    prof.Username = Decrypt(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "User", "").ToString());
+                prof.Username = Decrypt(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "User", "").ToString());
                 prof.Password = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Pass", "").ToString();
-                if (prof.Password != "")
-                    prof.Password = Decrypt(prof.Password);
+                prof.Password = Decrypt(prof.Password);
                 prof.defaultsettings = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Settings", "").ToString();
                 try
                 {
@@ -126,23 +125,37 @@ namespace WikiFunctions.AWBProfiles
         /// Return (or create and return) an AWBProfile for the account used for log uploading
         /// </summary>
         /// <returns>The Profile. Throw an error or return null if the user declines to create a profile?</returns>
-        public static AWBProfile GetProfileForLogUploading()
+        public static AWBProfile GetProfileForLogUploading(IWin32Window owner)
         {
-            // TODO: Log uploading:
-            // DONE - Profile form, registry - Add a property "use profile for uploading logs" [Sam]
-            // DONE - GetProfileForLogUploading() - return the unique Profile which is marked as "use for log uploading" [Sam]; check it has a password set
-            // DONE - MyTrace.cs: CheckWeHaveLogInDetails(): enable code here and convert to using a Profile [Steve/Sam]
-            // DONE - UsernamePassword, may need to update, or add an additional class which uses Profiles [Steve]
-            // pretty much a simple glue job!
+            int IDOfUploadAccount = GetIDOfUploadAccount();
+            AWBProfile retval;
+            AWBLogUploadProfilesForm profiles;
 
-            try
+            if (IDOfUploadAccount == -1)
             {
-                return GetProfile(GetIDOfUploadAccount());
+                if (MessageBox.Show("Please select or add a Profile to use for log uploading",
+                    "Log uploading", MessageBoxButtons.OKCancel, MessageBoxIcon.Information)
+                    == DialogResult.OK)
+                {
+                    profiles = new AWBLogUploadProfilesForm();
+                    profiles.ShowDialog(owner);
+                    retval = GetProfileForLogUploading(owner);
+                }
+                else
+                    throw new System.Configuration.ConfigurationErrorsException("Log upload profile: User cancelled");
             }
-            catch
+            else
+                retval = GetProfile(IDOfUploadAccount);
+
+            if (retval.Password == "")
             {
-                return null;
+                WikiFunctions.AWBProfiles.UserPassword password = new WikiFunctions.AWBProfiles.UserPassword();
+                password.SetText = "Enter password for " + retval.Username;
+                if (password.ShowDialog() == DialogResult.OK)
+                    retval.Password = password.GetPassword;
             }
+
+            return retval;
         }
 
         /// <summary>
@@ -162,7 +175,7 @@ namespace WikiFunctions.AWBProfiles
         /// <summary>
         /// Sets all current accounts as not for upload, so the new account can be the upload account
         /// </summary>
-        public static void SetOtherAccountsAsNotForUpload()
+        internal static void SetOtherAccountsAsNotForUpload()
         {
             try
             {

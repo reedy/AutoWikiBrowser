@@ -469,6 +469,14 @@ namespace AutoWikiBrowser
                 Tools.WriteDebug(this.Name, "Start() error: " + ex.Message);
                 StartDelayedRestartTimer();
             }
+            
+            if (GlobalObjects.MyTrace.StoppedWithConfigError)
+            {
+                try
+                { GlobalObjects.MyTrace.ValidateUploadProfile(); }
+                catch (Exception ex)
+                { GlobalObjects.MyTrace.ConfigError(ex); }
+            }
         }
 
         private void CaseWasLoad()
