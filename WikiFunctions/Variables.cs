@@ -69,12 +69,10 @@ namespace WikiFunctions
         }
 
         public static UserProperties User = new UserProperties();
-
-        public static string RETFPath;
+                public static string RETFPath;
 
         public static IAutoWikiBrowser MainForm;
-
-        #region project and language settings
+                #region project and language settings
 
         /// <summary>
         /// Provides access to the en namespace keys
@@ -196,7 +194,6 @@ namespace WikiFunctions
 
         #endregion
 
-
         // for logging, these will probably need internationalising
         public static string AWBVersionString(string Version)
         {
@@ -269,6 +266,7 @@ namespace WikiFunctions
 
             if (projectName == ProjectEnum.wikipedia)
             {
+                #region Interwiki Switch
                 //set language variables
                 switch (langCode)
                 {
@@ -874,6 +872,8 @@ namespace WikiFunctions
                         LoadProjectOptions(URLLong);
                         break;
                 }
+
+                #endregion
             }
             else if (projectName == ProjectEnum.commons)
             {
@@ -1022,17 +1022,6 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                 MessageBox.Show("Defaulting to the English Wikipedia settings.", "Project options",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
-
-
-                /*
-                ns.Clear(); // in case error was caused by XML parsing
-                foreach (KeyValuePair<int, string> p in Namespaces)
-                {
-                    ns.Add(p.Key, p.Value);
-                }
-
-                break;
-                 */
             }
 
             Namespaces = ns;
@@ -1198,8 +1187,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                 if (bWikiStatus != value)
                 {
                     bWikiStatus = value;
-                    if (WikiStatusChanged != null)
-                        WikiStatusChanged(null, null);
+                    WikiStatusChanged(null, null);
                 }
             }
         }
@@ -1215,9 +1203,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                 if (bIsAdmin != value)
                 {
                     bIsAdmin = value;
-
-                    if (AdminStatusChanged != null)
-                        AdminStatusChanged(null, null);
+                    AdminStatusChanged(null, null);
                 }
             }
         }
@@ -1233,9 +1219,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                 if (bIsBot != value)
                 {
                     bIsBot = value;
-
-                    if (BotStatusChanged != null)
-                        BotStatusChanged(null, null);
+                    BotStatusChanged(null, null);
                 }
             }
         }
@@ -1308,9 +1292,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                     userGroups = webBrowserWikia.GetScriptingVar("wgUserGroups");
                 }
                 else
-                {
                     userGroups = webBrowserLogin.GetScriptingVar("wgUserGroups");
-                }
 
                 strVersionPage = (string)br.Result;
 
@@ -1478,10 +1460,8 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
             webBrowserLogin.Wait();
 
             strText = webBrowserLogin.GetArticleText();
-
-            if(strText == "")
-                return WikiStatusResult.Null;
-            else if (!strText.Contains(AWBVersion + " enabled"))
+ 
+            if (!strText.Contains(AWBVersion + " enabled"))
                 return WikiStatusResult.OldVersion;
             else
                 return WikiStatusResult.Null;

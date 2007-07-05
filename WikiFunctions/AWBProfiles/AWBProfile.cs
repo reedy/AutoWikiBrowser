@@ -26,11 +26,11 @@ namespace WikiFunctions.AWBProfiles
 {
     public class AWBProfile
     {
-        public int id; // TODO: use properties
+        public int id;
         public string defaultsettings, notes;
 
         protected string mUsername;
-        private string mPassword; // or store in RAM encrypted
+        private string mPassword;
 
         public string Username
         {
