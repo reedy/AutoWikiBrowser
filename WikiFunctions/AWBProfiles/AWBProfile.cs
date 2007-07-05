@@ -29,8 +29,10 @@ namespace WikiFunctions.AWBProfiles
         public int id;
         public string defaultsettings, notes;
 
-        protected string mUsername;
+        private string mUsername;
         private string mPassword;
+
+        public bool useforupload;
 
         public string Username
         {
@@ -95,6 +97,7 @@ namespace WikiFunctions.AWBProfiles
                     if (prof.Password != "")
                         prof.Password = Decrypt(prof.Password);
                     prof.defaultsettings = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Settings", "").ToString();
+                    prof.useforupload = bool.Parse(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "UseForUpload", "").ToString());
                     prof.notes = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Notes", "").ToString();
 
                     profiles.Add(prof);
@@ -122,6 +125,7 @@ namespace WikiFunctions.AWBProfiles
                 if (prof.Password != "")
                     prof.Password = Decrypt(prof.Password);
                 prof.defaultsettings = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Settings", "").ToString();
+                prof.useforupload = bool.Parse(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "UseForUpload", "").ToString());
                 prof.notes = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Notes", "").ToString();
 
                 return prof;
@@ -136,12 +140,51 @@ namespace WikiFunctions.AWBProfiles
         public static AWBProfile GetProfileForLogUploading()
         {
             // TODO: Log uploading:
-            // Profile form, registry - Add a property "use profile for uploading logs" [Sam]
-            // GetProfileForLogUploading() - return the unique Profile which is marked as "use for log uploading" [Sam]; check it has a password set
+            // DONE - Profile form, registry - Add a property "use profile for uploading logs" [Sam]
+            // DONE - GetProfileForLogUploading() - return the unique Profile which is marked as "use for log uploading" [Sam]; check it has a password set
             // DONE - MyTrace.cs: CheckWeHaveLogInDetails(): enable code here and convert to using a Profile [Steve/Sam]
             // DONE - UsernamePassword, may need to update, or add an additional class which uses Profiles [Steve]
             // pretty much a simple glue job!
-            return null;
+
+            try
+            {
+                return GetProfile(GetIDOfUploadAccount());
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Returns the ID of the account set to be used to upload logs
+        /// </summary>
+        /// <returns>-1 if no Upload Profile found</returns>
+        public static int GetIDOfUploadAccount()
+        {
+            foreach (AWBProfile prof in GetProfiles())
+            {
+                if (prof.useforupload == true)
+                    return prof.id;
+            }
+            return -1;
+        }
+
+        /// <summary>
+        /// Sets all current accounts as not for upload, so the new account can be the upload account
+        /// </summary>
+        public static void SetOtherAccountsAsNotForUpload()
+        {
+            try
+            {
+                foreach (int id in GetProfileIDs())
+                {
+                    Microsoft.Win32.RegistryKey Key = new Computer().Registry.CurrentUser;
+                    Key = Key.OpenSubKey(RegKey + "\\" + id, true);
+                    Key.SetValue("UseForUpload", false);
+                }
+            }
+            catch { }
         }
 
         /// <summary>
@@ -202,6 +245,7 @@ namespace WikiFunctions.AWBProfiles
                 else
                     key.SetValue("Pass", "");
                 key.SetValue("Settings", profile.defaultsettings);
+                key.SetValue("UseForUpload", profile.useforupload);
                 key.SetValue("Notes", profile.notes);
             }
             catch { }
@@ -224,6 +268,7 @@ namespace WikiFunctions.AWBProfiles
                 Key.SetValue("User", profile.Username);
                 Key.SetValue("Pass", profile.Password);
                 Key.SetValue("Settings", profile.defaultsettings);
+                Key.SetValue("UseForUpload", profile.useforupload);
                 Key.SetValue("Notes", profile.notes);
             }
             catch { }

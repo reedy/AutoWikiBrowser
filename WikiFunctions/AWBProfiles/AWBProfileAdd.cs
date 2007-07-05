@@ -56,6 +56,7 @@ namespace WikiFunctions.AWBProfiles
             txtUsername.Text = profile.Username;
             txtPassword.Text = profile.Password;
             txtPath.Text = profile.defaultsettings;
+            chkUseForUpload.Checked = profile.useforupload;
             txtNotes.Text = profile.notes;
 
             if (txtPath.Text != "")
@@ -85,7 +86,6 @@ namespace WikiFunctions.AWBProfiles
             }
         }
 
-
         private void btnSave_Click(object sender, EventArgs e)
         {
             if (txtUsername.Text == "")
@@ -97,6 +97,13 @@ namespace WikiFunctions.AWBProfiles
                 profile.Username = txtUsername.Text;
                 profile.Password = txtPassword.Text;
                 profile.defaultsettings = txtPath.Text;
+
+                int idUpload = AWBProfiles.GetIDOfUploadAccount();
+
+                if (idUpload != -1 && idUpload != editid)
+                    AWBProfiles.SetOtherAccountsAsNotForUpload();
+
+                profile.useforupload = chkUseForUpload.Checked;
                 profile.notes = txtNotes.Text;
 
                 if (editid == -1)

@@ -137,6 +137,14 @@ namespace AutoWikiBrowser.Logging
                 LoggingSettings.LoginDetails.AWBProfile =
                     WikiFunctions.AWBProfiles.AWBProfiles.GetProfileForLogUploading();
 
+                if (LoggingSettings.LoginDetails.AWBProfile.Password == "")
+                {
+                    WikiFunctions.AWBProfiles.UserPassword password = new WikiFunctions.AWBProfiles.UserPassword();
+                    password.SetText = "Enter password for " + LoggingSettings.LoginDetails.AWBProfile.Username;
+                    if (password.ShowDialog() == DialogResult.OK)
+                        LoggingSettings.LoginDetails.AWBProfile.Password = password.GetPassword;
+                }
+
                 if (!LoggingSettings.LoginDetails.IsSet)
                 {
                     throw new System.Configuration.ConfigurationErrorsException("Error getting login details");
