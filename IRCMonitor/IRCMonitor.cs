@@ -58,7 +58,6 @@ namespace IRCMonitor
             cmboEditNamespace.SelectedIndex = 0;
             cmboNewStuffNamespace.SelectedIndex = 0;
             cmboPageMoveNamespace.SelectedIndex = 0;
-            cmboChannel.SelectedIndex = 0;
 
             btnBack.Image = WikiFunctions.Properties.Res.GoRtl;
             btnFoward.Image = WikiFunctions.Properties.Res.GoLtr;
@@ -74,6 +73,12 @@ namespace IRCMonitor
             btnSetWatchedColour.BackColor = WatchListColour;
             btnSetCheckedColour.BackColor = CheckedColour;
 
+            foreach (LangCodeEnum l in Enum.GetValues(typeof(LangCodeEnum)))
+                cmboLang.Items.Add(l.ToString().ToLower());
+
+            foreach (ProjectEnum l in Enum.GetValues(typeof(ProjectEnum)))
+                cmboProject.Items.Add(l);
+
             webBrowser.Saved += new WikiFunctions.Browser.WebControlDel(webBrowser_Saved);
         }
 
@@ -84,7 +89,7 @@ namespace IRCMonitor
         public string replacementText;
         public enum NextTaskType { None, Warn, Report, Contribs, Blacklist };
         NextTaskType NextTask = NextTaskType.None;
-        string[] IRCChannels = new String[] { "#en.wikibooks", "#en.wikinews ", "#en.wikipedia", "#en.wikiquote", "#en.wikisource", "#meta" };
+        //string[] IRCChannels = new String[] { "#en.wikibooks", "#en.wikinews ", "#en.wikipedia", "#en.wikiquote", "#en.wikisource", "#meta" };
         
         void webBrowser_Saved()
         {
@@ -174,12 +179,8 @@ namespace IRCMonitor
 
         private void loadIRCChannels()
         {
-            cmboChannel.Items.Clear();
-            foreach (string c in IRCChannels)
-            {
-                cmboChannel.Items.Add(c);
-            }
-            cmboChannel.Text = "#en.wikipedia";
+            cmboLang.Text = "en";
+            cmboProject.Text = "wikipedia";
         }
         
         private bool CheckStatus()
@@ -247,15 +248,25 @@ namespace IRCMonitor
         {
             if (btnStart.Text == "Connect")
             {
-                btnStart.Text = "Disconnect";
-                CheckStatus();
-                Start();
+                if (txtServer.Text != "" && cmboLang.Text != "" && cmboProject.Text != "" && txtNickname.Text != "" && txtPort.Text != "")
+                {
+                    btnStart.Text = "Disconnect";
+                    CheckStatus();
+                    Start();
+                }
+                else
+                    MessageBox.Show("The server, port, nickname, language and project cannot be blank. Please check and try again");
             }
             else
             {
                 btnStart.Text = "Connect";
                 WikiIRC.run = false;
             }
+        }
+
+        private string GetIRCChannel()
+        {
+            return "#" + cmboLang.SelectedItem.ToString() + "." + cmboProject.SelectedItem.ToString();
         }
 
         WikiIRC IrcObject;
@@ -273,7 +284,7 @@ namespace IRCMonitor
             else
                 name += txtNickname.Text;
 
-            IrcObject = new WikiIRC(txtServer.Text, int.Parse(txtPort.Text), name, cmboChannel.SelectedItem.ToString());
+            IrcObject = new WikiIRC(txtServer.Text, int.Parse(txtPort.Text), name, GetIRCChannel());
             WikiIRC.run = true;
 
             IrcObject.otherMessages += ProcessOtherMessages;
@@ -1175,7 +1186,7 @@ namespace IRCMonitor
 
             txtNickname.Text = "";
             txtServer.Text = "irc.wikimedia.org";
-            cmboChannel.SelectedIndex = 0;
+            loadIRCChannels();
             txtPort.Text = "6667";
         }
 
@@ -1317,7 +1328,15 @@ namespace IRCMonitor
                             if (reader.MoveToAttribute("server"))
                                 txtServer.Text = reader.Value;
                             if (reader.MoveToAttribute("channel"))
-                                cmboChannel.SelectedIndex = int.Parse(reader.Value);
+                            {
+                                Match channel = Regex.Match(reader.Value, "#([a-zA-z]{2}).(wiki(news|quote|books|species|source|versity|pedia)|wiktionary)");
+
+                                if (channel.Success)
+                                {
+                                    cmboLang.Text = channel.Groups[1].Value;
+                                    cmboProject.Text = channel.Groups[2].Value;
+                                }
+                            }
                             if (reader.MoveToAttribute("port"))
                                 txtPort.Text = reader.Value;
                             continue;
@@ -1436,7 +1455,7 @@ namespace IRCMonitor
                 textWriter.WriteStartElement("IRCSettings");
                 textWriter.WriteAttributeString("nickName", txtNickname.Text);
                 textWriter.WriteAttributeString("server", txtServer.Text);
-                textWriter.WriteAttributeString("channel", cmboChannel.SelectedIndex.ToString());
+                textWriter.WriteAttributeString("channel", GetIRCChannel());
                 textWriter.WriteAttributeString("port", txtPort.Text);
                 textWriter.WriteEndElement();
 
