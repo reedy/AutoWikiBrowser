@@ -118,9 +118,9 @@ namespace AutoWikiBrowser
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(15, 11);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(105, 13);
+            this.label1.Size = new System.Drawing.Size(100, 13);
             this.label1.TabIndex = 27;
-            this.label1.Text = "Originally created by:";
+            this.label1.Text = "Original developers:";
             // 
             // label2
             // 
@@ -190,9 +190,9 @@ namespace AutoWikiBrowser
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(15, 61);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(115, 13);
+            this.label4.Size = new System.Drawing.Size(174, 13);
             this.label4.TabIndex = 36;
-            this.label4.Text = "Actively maintained by:";
+            this.label4.Text = "Now developed and maintained by:";
             // 
             // linkMets501
             // 
@@ -241,7 +241,7 @@ namespace AutoWikiBrowser
             // linkReedy
             // 
             this.linkReedy.AutoSize = true;
-            this.linkReedy.Location = new System.Drawing.Point(122, 80);
+            this.linkReedy.Location = new System.Drawing.Point(32, 122);
             this.linkReedy.Name = "linkReedy";
             this.linkReedy.Size = new System.Drawing.Size(84, 13);
             this.linkReedy.TabIndex = 44;
@@ -252,7 +252,7 @@ namespace AutoWikiBrowser
             // linkKingboy
             // 
             this.linkKingboy.AutoSize = true;
-            this.linkKingboy.Location = new System.Drawing.Point(122, 100);
+            this.linkKingboy.Location = new System.Drawing.Point(114, 80);
             this.linkKingboy.Name = "linkKingboy";
             this.linkKingboy.Size = new System.Drawing.Size(76, 13);
             this.linkKingboy.TabIndex = 46;
@@ -263,7 +263,7 @@ namespace AutoWikiBrowser
             // linkMartinp23
             // 
             this.linkMartinp23.AutoSize = true;
-            this.linkMartinp23.Location = new System.Drawing.Point(32, 119);
+            this.linkMartinp23.Location = new System.Drawing.Point(114, 100);
             this.linkMartinp23.Name = "linkMartinp23";
             this.linkMartinp23.Size = new System.Drawing.Size(79, 13);
             this.linkMartinp23.TabIndex = 47;
