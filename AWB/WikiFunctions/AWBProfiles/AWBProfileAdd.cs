@@ -73,7 +73,7 @@ namespace WikiFunctions.AWBProfiles
 
         private void AWBProfileAdd_Load(object sender, EventArgs e)
         {
-            openDefaultFile.InitialDirectory = Application.StartupPath;
+            openDefaultFile.InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         }
 
         private void chkDefaultSettings_CheckedChanged(object sender, EventArgs e)
