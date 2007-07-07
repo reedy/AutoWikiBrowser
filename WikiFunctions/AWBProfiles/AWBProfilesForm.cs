@@ -17,6 +17,7 @@ namespace WikiFunctions.AWBProfiles
         {
             InitializeComponent();
             loginAsThisAccountToolStripMenuItem.Visible = true;
+            loginAsThisAccountToolStripMenuItem.Click += new System.EventHandler(this.lvAccounts_DoubleClick);
             this.Browser = browser;
         }
 
@@ -31,7 +32,7 @@ namespace WikiFunctions.AWBProfiles
         {
             login();
         }
-        
+
         private void btnLogin_Click(object sender, EventArgs e)
         {
             login();
@@ -41,7 +42,7 @@ namespace WikiFunctions.AWBProfiles
         {
             login();
         }
-        
+
         private void login()
         {
             try
