@@ -97,28 +97,35 @@ namespace WikiFunctions.AWBProfiles
         public static AWBProfile GetProfile(int id)
         {
             AWBProfile prof = new AWBProfile();
-            try
-            {
+
                 Computer myComputer = new Computer();
 
                 prof.id = id;
                 prof.Username = Decrypt(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "User", "").ToString());
-                prof.Password = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Pass", "").ToString();
-                prof.Password = Decrypt(prof.Password);
-                prof.defaultsettings = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Settings", "").ToString();
+
+                // one try...catch without a resume has the effect that all remaining code in the try block is skipped
+                // WHY are we just ignoring these errors anyway? There should be a wrapper around Registry.GetValue perhaps?
                 try
                 {
-                    prof.useforupload = bool.Parse(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "UseForUpload", "").ToString());
+                    prof.Password = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Pass", "").ToString();
+                    prof.Password = Decrypt(prof.Password);
                 }
-                catch
+                catch { }
+                finally
                 {
-                    prof.useforupload = false;
+                    prof.defaultsettings = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Settings", "").ToString();
+                    try
+                    {
+                        prof.useforupload = bool.Parse(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "UseForUpload", "").ToString());
+                    }
+                    catch
+                    {
+                        prof.useforupload = false;
+                    }
+                    prof.notes = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Notes", "").ToString();
                 }
-                prof.notes = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Notes", "").ToString();
 
-                return prof;
-            }
-            catch { return prof; }
+                return prof;                
         }
 
         /// <summary>
@@ -181,6 +188,7 @@ namespace WikiFunctions.AWBProfiles
             {
                 foreach (int id in GetProfileIDs())
                 {
+
                     Microsoft.Win32.RegistryKey Key = new Computer().Registry.CurrentUser;
                     Key = Key.OpenSubKey(RegKey + "\\" + id, true);
                     Key.SetValue("UseForUpload", false);
