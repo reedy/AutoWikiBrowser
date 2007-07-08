@@ -115,9 +115,10 @@ namespace ICSharpCode.SharpZipLib.Zip
 		long crcPatchPos = -1;
 		long sizePatchPos = -1;
 
-		// Default of off is backwards compatible and doesnt dump on
-		// XP's built in compression which cnat handle it
-		UseZip64 useZip64_ = UseZip64.Off;
+		// Default is dynamic which is not backwards compatible and can cause problems
+		// with XP's built in compression which cant read Zip64 archives.
+		// However it does avoid the situation were a large file is added and cannot be completed correctly.
+		UseZip64 useZip64_ = UseZip64.Dynamic;
 		#endregion
 
 		#region Constructors
@@ -188,7 +189,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 		/// <summary>
 		/// Get / set a value indicating how Zip64 Extension usage is determined when adding entries.
 		/// </summary>
-		UseZip64 UseZip64
+		public UseZip64 UseZip64
 		{
 			get { return useZip64_; }
 			set { useZip64_ = value; }
@@ -199,8 +200,10 @@ namespace ICSharpCode.SharpZipLib.Zip
 		/// </summary>
 		private void WriteLeShort(int value)
 		{
-			baseOutputStream.WriteByte((byte)(value & 0xff));
-			baseOutputStream.WriteByte((byte)((value >> 8) & 0xff));
+			unchecked {
+				baseOutputStream.WriteByte((byte)(value & 0xff));
+				baseOutputStream.WriteByte((byte)((value >> 8) & 0xff));
+			}
 		}
 		
 		/// <summary>
@@ -208,8 +211,10 @@ namespace ICSharpCode.SharpZipLib.Zip
 		/// </summary>
 		private void WriteLeInt(int value)
 		{
-			WriteLeShort(value);
-			WriteLeShort(value >> 16);
+			unchecked {
+				WriteLeShort(value);
+				WriteLeShort(value >> 16);
+			}
 		}
 		
 		/// <summary>
@@ -217,8 +222,10 @@ namespace ICSharpCode.SharpZipLib.Zip
 		/// </summary>
 		private void WriteLeLong(long value)
 		{
-			WriteLeInt((int)value);
-			WriteLeInt((int)(value >> 32));
+			unchecked {
+				WriteLeInt((int)value);
+				WriteLeInt((int)(value >> 32));
+			}
 		}
 		
 		/// <summary>
@@ -334,13 +341,14 @@ namespace ICSharpCode.SharpZipLib.Zip
 			entry.CompressionMethod = (CompressionMethod)method;
 			
 			curMethod = method;
+			sizePatchPos = -1;
 			
 			if ( (useZip64_ == UseZip64.On) || ((entry.Size < 0) && (useZip64_ == UseZip64.Dynamic)) ) {
 				entry.ForceZip64();
 			}
 
-            // Write the local file header
-            WriteLeInt(ZipConstants.LocalHeaderSignature);
+			// Write the local file header
+			WriteLeInt(ZipConstants.LocalHeaderSignature);
 			
 			WriteLeShort(entry.Version);
 			WriteLeShort(entry.Flags);
@@ -369,7 +377,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 				}
 
 				// For local header both sizes appear in Zip64 Extended Information
-				if ( entry.LocalHeaderRequiresZip64 ) {
+				if ( entry.LocalHeaderRequiresZip64 && patchEntryHeader ) {
 					WriteLeInt(-1);
 					WriteLeInt(-1);
 				}
@@ -387,10 +395,16 @@ namespace ICSharpCode.SharpZipLib.Zip
 
 			ZipExtraData ed = new ZipExtraData(entry.ExtraData);
 
-			if ( entry.LocalHeaderRequiresZip64 ) {
+			if (entry.LocalHeaderRequiresZip64 && (headerInfoAvailable || patchEntryHeader)) {
 				ed.StartNewEntry();
-				ed.AddLeLong(-1);
-				ed.AddLeLong(-1);
+				if (headerInfoAvailable) {
+					ed.AddLeLong(entry.Size);
+					ed.AddLeLong(entry.CompressedSize);
+				}
+				else {
+					ed.AddLeLong(-1);
+					ed.AddLeLong(-1);
+				}
 				ed.AddNewEntry(1);
 
 				if ( !ed.Find(1) ) {
@@ -462,7 +476,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 				base.Finish();
 			}
 			
-			long csize = curMethod == CompressionMethod.Deflated ? def.TotalOut : size;
+			long csize = (curMethod == CompressionMethod.Deflated) ? def.TotalOut : size;
 			
 			if (curEntry.Size < 0) {
 				curEntry.Size = size;
@@ -497,6 +511,11 @@ namespace ICSharpCode.SharpZipLib.Zip
 				WriteLeInt((int)curEntry.Crc);
 				
 				if ( curEntry.LocalHeaderRequiresZip64 ) {
+					
+					if ( sizePatchPos == -1 ) {
+						throw new ZipException("Entry requires zip64 but this has been turned off");
+					}
+					
 					baseOutputStream.Seek(sizePatchPos, SeekOrigin.Begin);
 					WriteLeLong(curEntry.Size);
 					WriteLeLong(curEntry.CompressedSize);
@@ -564,7 +583,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 			}
 			
 			if ( offset < 0 ) {
-#if COMPACT_FRAMEWORK_V10
+#if NETCF_1_0
 				throw new ArgumentOutOfRangeException("offset");
 #else
 				throw new ArgumentOutOfRangeException("offset", "Cannot be negative");
@@ -572,7 +591,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 			}
 
 			if ( count < 0 ) {
-#if COMPACT_FRAMEWORK_V10
+#if NETCF_1_0
 				throw new ArgumentOutOfRangeException("count");
 #else
 				throw new ArgumentOutOfRangeException("count", "Cannot be negative");
@@ -642,7 +661,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 				WriteLeInt((int)entry.Crc);
 
 				if ( entry.IsZip64Forced() || 
-				    (entry.CompressedSize >= uint.MaxValue) )
+					(entry.CompressedSize >= uint.MaxValue) )
 				{
 					WriteLeInt(-1);
 				}
@@ -651,7 +670,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 				}
 
 				if ( entry.IsZip64Forced() ||
-				    (entry.Size >= uint.MaxValue) )
+					(entry.Size >= uint.MaxValue) )
 				{
 					WriteLeInt(-1);
 				}

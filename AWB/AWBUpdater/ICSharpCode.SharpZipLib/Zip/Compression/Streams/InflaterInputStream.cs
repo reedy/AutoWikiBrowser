@@ -40,7 +40,7 @@
 using System;
 using System.IO;
 
-#if !COMPACT_FRAMEWORK_V10
+#if !NETCF_1_0
 using System.Security.Cryptography;
 #endif
 
@@ -166,7 +166,7 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression.Streams
 				toRead -= count;
 			}
 			
-#if !COMPACT_FRAMEWORK_V10
+#if !NETCF_1_0
 			if ( cryptoTransform != null ) {
 				clearTextLength = cryptoTransform.TransformBlock(rawData, 0, rawLength, clearText, 0);
 			}
@@ -255,7 +255,7 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression.Streams
 		}
 		
 		/// <summary>
-		/// Read a byte from the input stream.
+		/// Read a <see cref="byte"/> from the input stream.
 		/// </summary>
 		/// <returns>Returns the byte read.</returns>
 		public int ReadLeByte()
@@ -272,7 +272,7 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression.Streams
 		}
 		
 		/// <summary>
-		/// Read an unsigned short in little endian byte order.
+		/// Read an <see cref="short"/> in little endian byte order.
 		/// </summary>
 		public int ReadLeShort()
 		{
@@ -280,7 +280,7 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression.Streams
 		}
 		
 		/// <summary>
-		/// Read an int in little endian byte order.
+		/// Read an <see cref="int"/> in little endian byte order.
 		/// </summary>
 		public int ReadLeInt()
 		{
@@ -288,14 +288,14 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression.Streams
 		}
 		
 		/// <summary>
-		/// Read an int baseInputStream little endian byte order.
+		/// Read a <see cref="long"/> in little endian byte order.
 		/// </summary>
 		public long ReadLeLong()
 		{
-			return ReadLeInt() | (ReadLeInt() << 32);
+			return (uint)ReadLeInt() | ((long)ReadLeInt() << 32);
 		}
 
-#if !COMPACT_FRAMEWORK_V10
+#if !NETCF_1_0
 		/// <summary>
 		/// Get/set the <see cref="ICryptoTransform"/> to apply to any data.
 		/// </summary>
@@ -329,13 +329,13 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression.Streams
 		
 		int clearTextLength;
 		byte[] clearText;
-#if !COMPACT_FRAMEWORK_V10		
+#if !NETCF_1_0		
 		byte[] internalClearText;
 #endif
 		
 		int available;
 		
-#if !COMPACT_FRAMEWORK_V10
+#if !NETCF_1_0
 		ICryptoTransform cryptoTransform;
 #endif		
 		Stream inputStream;
@@ -472,7 +472,7 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression.Streams
 		/// </summary>		
 		protected void StopDecrypting()
 		{
-#if !COMPACT_FRAMEWORK_V10			
+#if !NETCF_1_0			
 			inputBuffer.CryptoTransform = null;
 #endif			
 		}

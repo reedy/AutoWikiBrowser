@@ -35,7 +35,7 @@
 
 using System;
 
-#if !COMPACT_FRAMEWORK_V10 && !COMPACT_FRAMEWORK_V20
+#if !NETCF_1_0 && !NETCF_2_0
 using System.Runtime.Serialization;
 #endif
 
@@ -47,12 +47,12 @@ namespace ICSharpCode.SharpZipLib
 	/// </summary>
 	/// <remarks>NOTE: Not all exceptions thrown will be derived from this class.
 	/// A variety of other exceptions are possible for example <see cref="ArgumentNullException"></see></remarks>
-#if !COMPACT_FRAMEWORK_V10 && !COMPACT_FRAMEWORK_V20
+#if !NETCF_1_0 && !NETCF_2_0
 	[Serializable]
 #endif
 	public class SharpZipBaseException : ApplicationException
 	{
-#if !COMPACT_FRAMEWORK_V10 && !COMPACT_FRAMEWORK_V20
+#if !NETCF_1_0 && !NETCF_2_0
 		/// <summary>
 		/// Deserialization constructor 
 		/// </summary>
@@ -74,8 +74,9 @@ namespace ICSharpCode.SharpZipLib
 		/// <summary>
 		/// Initializes a new instance of the SharpZipBaseException class with a specified error message.
 		/// </summary>
-		public SharpZipBaseException(string msg)
-			: base(msg)
+		/// <param name="message">A message describing the exception.</param>
+		public SharpZipBaseException(string message)
+			: base(message)
 		{
 		}
 
@@ -83,7 +84,7 @@ namespace ICSharpCode.SharpZipLib
 		/// Initializes a new instance of the SharpZipBaseException class with a specified
 		/// error message and a reference to the inner exception that is the cause of this exception.
 		/// </summary>
-		/// <param name="message">Error message string</param>
+		/// <param name="message">A message describing the exception.</param>
 		/// <param name="innerException">The inner exception</param>
 		public SharpZipBaseException(string message, Exception innerException)
 			: base(message, innerException)
