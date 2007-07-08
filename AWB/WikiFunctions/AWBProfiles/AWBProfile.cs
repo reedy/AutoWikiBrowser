@@ -111,34 +111,29 @@ namespace WikiFunctions.AWBProfiles
         public static AWBProfile GetProfile(int id)
         {
             AWBProfile prof = new AWBProfile();
-
             Computer myComputer = new Computer();
 
             prof.id = id;
-            prof.Username = Decrypt(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "User", "").ToString());
+            try { prof.Username = Decrypt(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "User", "").ToString()); }
+            catch
+            {
+                if (MessageBox.Show("Profile corrupt. Would you like to delete this profile?", "Delete corrupt profile?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    DeleteProfile(id);
+
+                return;
+            }
 
             // one try...catch without a resume has the effect that all remaining code in the try block is skipped
             // WHY are we just ignoring these errors anyway? There should be a wrapper around Registry.GetValue perhaps?
-            try
-            {
-                prof.Password = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Pass", "").ToString();
-                prof.Password = Decrypt(prof.Password);
-            }
-            catch { }
+            try { prof.Password = Decrypt(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Pass", "").ToString()); }
+            catch { prof.Password = ""; }
             finally
             {
                 prof.defaultsettings = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Settings", "").ToString();
-                try
-                {
-                    prof.useforupload = bool.Parse(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "UseForUpload", "").ToString());
-                }
-                catch
-                {
-                    prof.useforupload = false;
-                }
+                try { prof.useforupload = bool.Parse(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "UseForUpload", "").ToString()); }
+                catch { prof.useforupload = false; }
                 prof.notes = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Notes", "").ToString();
             }
-
             return prof;
         }
 
@@ -175,7 +170,6 @@ namespace WikiFunctions.AWBProfiles
                 if (password.ShowDialog() == DialogResult.OK)
                     retval.Password = password.GetPassword;
             }
-
             return retval;
         }
 
@@ -186,17 +180,15 @@ namespace WikiFunctions.AWBProfiles
         public static int GetIDOfUploadAccount()
         {
             foreach (AWBProfile prof in GetProfiles())
-            {
                 if (prof.useforupload)
                     return prof.id;
-            }
             return -1;
         }
 
         /// <summary>
         /// Sets all current accounts as not for upload, so the new account can be the upload account
         /// </summary>
-        internal static void SetOtherAccountsAsNotForUpload()
+        public internal static void SetOtherAccountsAsNotForUpload()
         {
             try
             {
@@ -284,8 +276,7 @@ namespace WikiFunctions.AWBProfiles
         /// <param name="id"></param>
         public static void DeleteProfile(int id)
         {
-            try
-            { Microsoft.Win32.Registry.CurrentUser.DeleteSubKey(RegKey + "\\" + id.ToString()); }
+            try { Microsoft.Win32.Registry.CurrentUser.DeleteSubKey(RegKey + "\\" + id.ToString()); }
             catch { }
         }
 
@@ -308,9 +299,7 @@ namespace WikiFunctions.AWBProfiles
             List<int> ProfileIDs = new List<int>();
             try
             {
-                string[] profid = new Computer().Registry.CurrentUser.OpenSubKey(RegKey).GetSubKeyNames();
-
-                foreach (string id in profid)
+                foreach (string id in new Computer().Registry.CurrentUser.OpenSubKey(RegKey).GetSubKeyNames())
                     ProfileIDs.Add(int.Parse(id));
 
                 return ProfileIDs;
