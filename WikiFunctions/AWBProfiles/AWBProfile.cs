@@ -120,7 +120,7 @@ namespace WikiFunctions.AWBProfiles
                 if (MessageBox.Show("Profile corrupt. Would you like to delete this profile?", "Delete corrupt profile?", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     DeleteProfile(id);
 
-                return;
+                throw new Exception("");
             }
 
             // one try...catch without a resume has the effect that all remaining code in the try block is skipped
@@ -188,7 +188,7 @@ namespace WikiFunctions.AWBProfiles
         /// <summary>
         /// Sets all current accounts as not for upload, so the new account can be the upload account
         /// </summary>
-        public internal static void SetOtherAccountsAsNotForUpload()
+        internal static void SetOtherAccountsAsNotForUpload()
         {
             try
             {
