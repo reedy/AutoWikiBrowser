@@ -168,7 +168,7 @@ namespace WikiFunctions.Controls.Lists
             this.cmboSourceSelect.Items.AddRange(new object[] {
             "Category",
             "What links here",
-            "What transcludes here",
+            "What transcludes page",
             "Links on page",
             "Images on page",
             "Text file",
