@@ -244,7 +244,7 @@ namespace WikiFunctions.Controls.Lists
                     lblSourceSelect.Text = "What links to";
                     txtSelectSource.Enabled = true;
                     break;
-                case SourceType.WhatTranscludesHere:
+                case SourceType.WhatTranscludesPage:
                     lblSourceSelect.Text = "What embeds";
                     txtSelectSource.Enabled = true;
                     break;
@@ -748,7 +748,7 @@ namespace WikiFunctions.Controls.Lists
                     case SourceType.WhatLinksHere:
                         Add(GetLists.FromWhatLinksHere(false, strSource));
                         break;
-                    case SourceType.WhatTranscludesHere:
+                    case SourceType.WhatTranscludesPage:
                         Add(GetLists.FromWhatLinksHere(true, strSource));
                         break;
                     case SourceType.LinksOnPage:
@@ -1161,7 +1161,7 @@ namespace WikiFunctions.Controls.Lists
                 i++;
             }
 
-            MakeList(SourceType.WhatTranscludesHere, c);
+            MakeList(SourceType.WhatTranscludesPage, c);
         }
 
         private void fromLinksOnPageToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1252,5 +1252,5 @@ namespace WikiFunctions.Lists
 {
     //CategoryRecursive is enabled in debug builds only due to server load
     //it should always be the last item
-    public enum SourceType { None = -1, Category, WhatLinksHere, WhatTranscludesHere, LinksOnPage, ImagesOnPage, TextFile, GoogleWikipedia, UserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist, WikiSearch, Redirects, CategoryRecursive }
+    public enum SourceType { None = -1, Category, WhatLinksHere, WhatTranscludesPage, LinksOnPage, ImagesOnPage, TextFile, GoogleWikipedia, UserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist, WikiSearch, Redirects, CategoryRecursive }
 }
