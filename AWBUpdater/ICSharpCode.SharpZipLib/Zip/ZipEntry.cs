@@ -458,6 +458,17 @@ namespace ICSharpCode.SharpZipLib.Zip
 		}
 
 		/// <summary>
+		/// Get a value indicating this entry is for a DOS/Windows system.
+		/// </summary>
+		public bool IsDOSEntry
+		{
+			get {
+				return ((HostSystem == ( int )HostSystemID.Msdos) ||
+					(HostSystem == ( int )HostSystemID.WindowsNT));
+			}
+		}
+
+		/// <summary>
 		/// Test the external attributes for this <see cref="ZipEntry"/> to
 		/// see if the external attributes are Dos based (including WINNT and variants)
 		/// and match the values
@@ -565,7 +576,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 				} 
 				else {
 					int result = 10;
-					if ( LocalHeaderRequiresZip64 ) {
+					if ( CentralHeaderRequiresZip64 ) {
 						result = ZipConstants.VersionZip64;	
 					}
 					else if (CompressionMethod.Deflated == method) {
@@ -635,7 +646,8 @@ namespace ICSharpCode.SharpZipLib.Zip
 
 					// TODO: A better estimation of the true limit based on compression overhead should be used
 					// to determine when an entry should use Zip64.
-					result = ((this.size >= uint.MaxValue) || (trueCompressedSize >= uint.MaxValue)) &&
+					result =
+						((this.size >= uint.MaxValue) || (trueCompressedSize >= uint.MaxValue)) &&
 						((versionToExtract == 0) || (versionToExtract >= ZipConstants.VersionZip64));
 				}
 
@@ -649,7 +661,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 		public bool CentralHeaderRequiresZip64
 		{
 			get {
-				return LocalHeaderRequiresZip64 || (offset >= 0xffffffff);
+				return LocalHeaderRequiresZip64 || (offset >= uint.MaxValue);
 			}
 		}
 		
@@ -667,7 +679,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 				}
 			}
 			set {
-				this.dosTime = (uint)value;
+				dosTime = (uint)value;
 				known |= Known.Time;
 			}
 		}
@@ -679,7 +691,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 		{
 			get {
 				// Although technically not valid some archives have dates set to zero.
-				// This mimics some archivers handling and is a good a cludge as any probably.
+				// This mimics that behaviour and is a good a cludge as any probably.
 				if ( dosTime == 0 ) {
 					return DateTime.Now;
 				}
@@ -704,10 +716,14 @@ namespace ICSharpCode.SharpZipLib.Zip
 		}
 		
 		/// <summary>
-		/// Returns the entry name.  The path components in the entry should
-		/// always separated by slashes ('/').  Dos device names like C: should also
-		/// be removed.  See the <see cref="ZipNameTransform"/> class, or <see cref="CleanName(string)"/>
+		/// Returns the entry name.
 		/// </summary>
+		/// <remarks>
+		/// The unix naming convention is followed.
+		/// Path components in the entry should always separated by forward slashes ('/').
+		/// Dos device names like C: should also be removed.
+		/// See the <see cref="ZipNameTransform"/> class, or <see cref="CleanName(string)"/>
+		///</remarks>
 		public string Name 
 		{
 			get {
@@ -854,17 +870,21 @@ namespace ICSharpCode.SharpZipLib.Zip
 				if ( localHeader || (compressedSize == uint.MaxValue) ) {
 					compressedSize = (ulong)extraData.ReadLong();
 				}
+
+				if ( !localHeader && (offset == uint.MaxValue) ) {
+					offset = extraData.ReadLong();
+				}
 			}
 			else {
 				if ( 
 					((versionToExtract & 0xff) >= ZipConstants.VersionZip64) &&
-					( (size == uint.MaxValue) ||
-					(compressedSize == uint.MaxValue) )) {
+					((size == uint.MaxValue) || (compressedSize == uint.MaxValue))
+				) {
 					throw new ZipException("Zip64 Extended information required but is missing.");
 				}
 			}
 
-/* TODO: Testing for handling of windows extra data
+/* TODO: Testing for handling of windows extra data is not yet done
 			if ( extraData.Find(10) ) {
 				// No room for any tags.
 				if ( extraData.ValueLength < 8 ) {
@@ -935,7 +955,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 				// The full test is not possible here however as the code page to apply conversions with
 				// isnt available.
 				if ( (value != null) && (value.Length > 0xffff) ) {
-#if COMPACT_FRAMEWORK_V10
+#if NETCF_1_0
 					throw new ArgumentOutOfRangeException("value");
 #else
 					throw new ArgumentOutOfRangeException("value", "cannot exceed 65535");
@@ -1002,7 +1022,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 
 			if ( extra != null ) {
 				result.extra = new byte[extra.Length];
-				Array.Copy(result.extra, 0, extra, 0, extra.Length);
+				Array.Copy(extra, 0, result.extra, 0, extra.Length);
 			}
 
 			return result;
@@ -1039,6 +1059,9 @@ namespace ICSharpCode.SharpZipLib.Zip
 		/// with the ZIP naming convention.
 		/// </summary>
 		/// <param name="name">Name to clean</param>
+		/// <remarks>
+		/// The <seealso cref="ZipNameTransform">Zip name transform</seealso> class is more flexible.
+		/// </remarks>
 		public static string CleanName(string name)
 		{
 			if (name == null) {
