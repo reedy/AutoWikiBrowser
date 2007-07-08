@@ -1077,7 +1077,7 @@ namespace WikiFunctions.Controls.Lists
                 string ClipboardData = "";
                 for (int i = 0; i < lbArticles.SelectedItems.Count; i++)
                 {
-                    ClipboardData = ClipboardData + "\r\n" + lbArticles.SelectedItems[i];
+                    ClipboardData += "\r\n" + lbArticles.SelectedItems[i];
                 }
                 ClipboardData = ClipboardData.Substring(2);
                 Clipboard.SetDataObject(ClipboardData, true);

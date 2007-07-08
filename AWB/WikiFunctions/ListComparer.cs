@@ -196,5 +196,35 @@ namespace WikiFunctions.Controls.Lists
             foreach (String article in lbOnly2.SelectedItems)
                 Tools.OpenArticleInBrowser(article);
         }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            copy(lbBoth);
+        }
+
+        private void copySelectedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            copy(lbOnly1);
+        }
+
+        private void copySelectedToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            copy(lbOnly2);
+        }
+
+        private void copy(ListBox box)
+        {
+            try
+            {
+                string ClipboardData = "";
+                for (int i = 0; i < box.SelectedItems.Count; i++)
+                {
+                    ClipboardData += "\r\n" + box.SelectedItems[i];
+                }
+                ClipboardData = ClipboardData.Substring(2);
+                Clipboard.SetDataObject(ClipboardData, true);
+            }
+            catch { }
+        }
     }
 }
