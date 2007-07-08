@@ -174,9 +174,7 @@ namespace WikiFunctions.Controls.Lists
             listMaker1.Clear();
             
             foreach (string str in lbBoth.Items)
-            {
                 listMaker1.Add(str);
-            }
         }
 
         private void openInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
@@ -187,44 +185,30 @@ namespace WikiFunctions.Controls.Lists
 
         private void openInBrowserToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            foreach (String article in lbOnly1.SelectedItems)
-                Tools.OpenArticleInBrowser(article);
-        }
-
-        private void openInBrowserToolStripMenuItem2_Click(object sender, EventArgs e)
-        {
-            foreach (String article in lbOnly2.SelectedItems)
+            foreach (String article in MenuItemOwner(sender).SelectedItems)
                 Tools.OpenArticleInBrowser(article);
         }
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            copy(lbBoth);
+            Tools.Copy(lbBoth);
         }
 
         private void copySelectedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            copy(lbOnly1);
+            Tools.Copy(MenuItemOwner(sender));
         }
 
-        private void copySelectedToolStripMenuItem1_Click(object sender, EventArgs e)
+        private ListBox MenuItemOwner(object sender)
         {
-            copy(lbOnly2);
-        }
-
-        private void copy(ListBox box)
-        {
-            try
+            try { return ((ListBox)((ContextMenuStrip)sender).SourceControl); }
+            catch
             {
-                string ClipboardData = "";
-                for (int i = 0; i < box.SelectedItems.Count; i++)
-                {
-                    ClipboardData += "\r\n" + box.SelectedItems[i];
-                }
-                ClipboardData = ClipboardData.Substring(2);
-                Clipboard.SetDataObject(ClipboardData, true);
+                try
+                { return (ListBox)(((ContextMenuStrip)((ToolStripMenuItem)sender).Owner).SourceControl); }
+                catch
+                { throw; }
             }
-            catch { }
         }
     }
 }

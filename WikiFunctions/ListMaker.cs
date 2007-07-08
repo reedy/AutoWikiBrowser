@@ -1061,28 +1061,13 @@ namespace WikiFunctions.Controls.Lists
 
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ctrl_c();
+            Tools.Copy(lbArticles);
             RemoveSelectedArticle();
         }
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ctrl_c();
-        }
-
-        private void ctrl_c()
-        {
-            try
-            {
-                string ClipboardData = "";
-                for (int i = 0; i < lbArticles.SelectedItems.Count; i++)
-                {
-                    ClipboardData += "\r\n" + lbArticles.SelectedItems[i];
-                }
-                ClipboardData = ClipboardData.Substring(2);
-                Clipboard.SetDataObject(ClipboardData, true);
-            }
-            catch { }
+            Tools.Copy(lbArticles);
         }
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)

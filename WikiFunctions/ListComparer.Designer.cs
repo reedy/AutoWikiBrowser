@@ -53,15 +53,11 @@ namespace WikiFunctions.Controls.Lists
             this.btnSaveOnly2 = new System.Windows.Forms.Button();
             this.lblOnly2 = new System.Windows.Forms.Label();
             this.lbOnly2 = new System.Windows.Forms.ListBox();
-            this.mnuList2 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.openInBrowserToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.copySelectedToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.btnSaveOnly1 = new System.Windows.Forms.Button();
             this.lblOnly1 = new System.Windows.Forms.Label();
             this.lbOnly1 = new System.Windows.Forms.ListBox();
-            this.mnuList1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnuList = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openInBrowserToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.copySelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -69,8 +65,7 @@ namespace WikiFunctions.Controls.Lists
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            this.mnuList2.SuspendLayout();
-            this.mnuList1.SuspendLayout();
+            this.mnuList.SuspendLayout();
             this.SuspendLayout();
             // 
             // lbBoth
@@ -277,41 +272,13 @@ namespace WikiFunctions.Controls.Lists
             // 
             // lbOnly2
             // 
-            this.lbOnly2.ContextMenuStrip = this.mnuList2;
+            this.lbOnly2.ContextMenuStrip = this.mnuList;
             this.lbOnly2.FormattingEnabled = true;
             this.lbOnly2.Location = new System.Drawing.Point(281, 34);
             this.lbOnly2.Name = "lbOnly2";
             this.lbOnly2.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
             this.lbOnly2.Size = new System.Drawing.Size(130, 277);
             this.lbOnly2.TabIndex = 18;
-            // 
-            // mnuList2
-            // 
-            this.mnuList2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openInBrowserToolStripMenuItem2,
-            this.toolStripSeparator4,
-            this.copySelectedToolStripMenuItem1});
-            this.mnuList2.Name = "mnuList2";
-            this.mnuList2.Size = new System.Drawing.Size(165, 76);
-            // 
-            // openInBrowserToolStripMenuItem2
-            // 
-            this.openInBrowserToolStripMenuItem2.Name = "openInBrowserToolStripMenuItem2";
-            this.openInBrowserToolStripMenuItem2.Size = new System.Drawing.Size(164, 22);
-            this.openInBrowserToolStripMenuItem2.Text = "Open in Browser";
-            this.openInBrowserToolStripMenuItem2.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem2_Click);
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(161, 6);
-            // 
-            // copySelectedToolStripMenuItem1
-            // 
-            this.copySelectedToolStripMenuItem1.Name = "copySelectedToolStripMenuItem1";
-            this.copySelectedToolStripMenuItem1.Size = new System.Drawing.Size(164, 22);
-            this.copySelectedToolStripMenuItem1.Text = "Copy Selected";
-            this.copySelectedToolStripMenuItem1.Click += new System.EventHandler(this.copySelectedToolStripMenuItem1_Click);
             // 
             // label1
             // 
@@ -343,7 +310,7 @@ namespace WikiFunctions.Controls.Lists
             // 
             // lbOnly1
             // 
-            this.lbOnly1.ContextMenuStrip = this.mnuList1;
+            this.lbOnly1.ContextMenuStrip = this.mnuList;
             this.lbOnly1.FormattingEnabled = true;
             this.lbOnly1.Location = new System.Drawing.Point(145, 34);
             this.lbOnly1.Name = "lbOnly1";
@@ -351,14 +318,14 @@ namespace WikiFunctions.Controls.Lists
             this.lbOnly1.Size = new System.Drawing.Size(130, 277);
             this.lbOnly1.TabIndex = 14;
             // 
-            // mnuList1
+            // mnuList
             // 
-            this.mnuList1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuList.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openInBrowserToolStripMenuItem1,
             this.toolStripSeparator3,
             this.copySelectedToolStripMenuItem});
-            this.mnuList1.Name = "mnuList1";
-            this.mnuList1.Size = new System.Drawing.Size(165, 54);
+            this.mnuList.Name = "mnuList1";
+            this.mnuList.Size = new System.Drawing.Size(165, 76);
             // 
             // openInBrowserToolStripMenuItem1
             // 
@@ -400,8 +367,7 @@ namespace WikiFunctions.Controls.Lists
             this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            this.mnuList2.ResumeLayout(false);
-            this.mnuList1.ResumeLayout(false);
+            this.mnuList.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -432,15 +398,11 @@ namespace WikiFunctions.Controls.Lists
         private System.Windows.Forms.ContextMenuStrip mnuDuplicates;
         private System.Windows.Forms.ToolStripMenuItem transferDuplicatesToList1ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openInBrowserToolStripMenuItem;
-        private System.Windows.Forms.ContextMenuStrip mnuList1;
+        private System.Windows.Forms.ContextMenuStrip mnuList;
         private System.Windows.Forms.ToolStripMenuItem openInBrowserToolStripMenuItem1;
-        private System.Windows.Forms.ContextMenuStrip mnuList2;
-        private System.Windows.Forms.ToolStripMenuItem openInBrowserToolStripMenuItem2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.ToolStripMenuItem copySelectedToolStripMenuItem1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem copySelectedToolStripMenuItem;
     }

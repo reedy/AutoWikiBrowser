@@ -264,29 +264,13 @@ namespace WikiFunctions.Logging
 
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ctrl_c(sender);
+            Tools.Copy(MenuItemOwner(sender));
             removeselected(sender);
         }
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ctrl_c(sender);
-        }
-
-        private void ctrl_c(object sender)
-        {
-            string ClipboardData = "";
-
-            foreach (ListViewItem a in MenuItemOwner(sender).SelectedItems)
-            {
-                string text = a.Text;
-
-                if (ClipboardData != "") ClipboardData += "\r\n";
-
-                ClipboardData += text;
-            }
-
-            Clipboard.SetDataObject(ClipboardData, true);
+            Tools.Copy(MenuItemOwner(sender));
         }
 
         private void removeselected(object sender)
