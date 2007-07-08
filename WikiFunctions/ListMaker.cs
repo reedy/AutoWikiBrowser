@@ -256,6 +256,10 @@ namespace WikiFunctions.Controls.Lists
                     lblSourceSelect.Text = "Images on";
                     txtSelectSource.Enabled = true;
                     break;
+                case SourceType.TransclusionsOnPage:
+                    lblSourceSelect.Text = "Transclusions on";
+                    txtSelectSource.Enabled = true;
+                    break;
                 case SourceType.TextFile:
                     lblSourceSelect.Text = "From file:";
                     txtSelectSource.Enabled = false;
@@ -757,7 +761,9 @@ namespace WikiFunctions.Controls.Lists
                     case SourceType.ImagesOnPage:
                         Add(GetLists.FromImagesOnPage(strSource));
                         break;
-                    //4 from text file
+                    case SourceType.TransclusionsOnPage:
+                        Add(GetLists.FromTransclusionsOnPage(strSource));
+                        break;
                     case SourceType.GoogleWikipedia:
                         Add(GetLists.FromGoogleSearch(strSource));
                         break;
@@ -770,8 +776,6 @@ namespace WikiFunctions.Controls.Lists
                     case SourceType.ImageFileLinks:
                         Add(GetLists.FromImageLinks(strSource));
                         break;
-                    //9 from datadump
-                    //10 from watchlist
                     case SourceType.WikiSearch:
                         Add(GetLists.FromWikiSearch(strSource));
                         break;
@@ -1252,5 +1256,5 @@ namespace WikiFunctions.Lists
 {
     //CategoryRecursive is enabled in debug builds only due to server load
     //it should always be the last item
-    public enum SourceType { None = -1, Category, WhatLinksHere, WhatTranscludesPage, LinksOnPage, ImagesOnPage, TextFile, GoogleWikipedia, UserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist, WikiSearch, Redirects, CategoryRecursive }
+    public enum SourceType { None = -1, Category, WhatLinksHere, WhatTranscludesPage, LinksOnPage, ImagesOnPage, TransclusionsOnPage, TextFile, GoogleWikipedia, UserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist, WikiSearch, Redirects, CategoryRecursive }
 }
