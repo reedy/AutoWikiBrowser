@@ -73,7 +73,7 @@ namespace WikiFunctions.AWBProfiles
                 else
                     item.SubItems.Add("No");
                 item.SubItems.Add(profile.defaultsettings);
-                if (profile.useforupload == true)
+                if (profile.useforupload)
                     item.SubItems.Add("Yes");
                 else
                     item.SubItems.Add("No");

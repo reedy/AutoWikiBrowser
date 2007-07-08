@@ -173,7 +173,7 @@ namespace WikiFunctions.AWBProfiles
         {
             foreach (AWBProfile prof in GetProfiles())
             {
-                if (prof.useforupload == true)
+                if (prof.useforupload)
                     return prof.id;
             }
             return -1;
@@ -275,7 +275,7 @@ namespace WikiFunctions.AWBProfiles
                 if (profile.Password != "")
                     profile.Password = Encrypt(profile.Password);
 
-                Key.SetValue("User", profile.Username);
+                Key.SetValue("User", Encrypt(profile.Username));
                 Key.SetValue("Pass", profile.Password);
                 Key.SetValue("Settings", profile.defaultsettings);
                 Key.SetValue("UseForUpload", profile.useforupload);
