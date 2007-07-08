@@ -93,14 +93,14 @@ namespace WikiFunctions.Parse
                 rep.Find = f;
                 rep.Replace = r;
 
-                rep.RegularExpressinonOptions = RegexOptions.None;
+                rep.RegularExpressionOptions = RegexOptions.None;
                 if (!(bool)dataGridRow.Cells["casesensitive"].FormattedValue)
-                    rep.RegularExpressinonOptions = rep.RegularExpressinonOptions | RegexOptions.IgnoreCase;
+                    rep.RegularExpressionOptions = rep.RegularExpressionOptions | RegexOptions.IgnoreCase;
                 if ((bool)dataGridRow.Cells["multi"].FormattedValue)
-                    rep.RegularExpressinonOptions = rep.RegularExpressinonOptions | RegexOptions.Multiline;
+                    rep.RegularExpressionOptions = rep.RegularExpressionOptions | RegexOptions.Multiline;
 
                 if ((bool)dataGridRow.Cells["single"].FormattedValue)
-                    rep.RegularExpressinonOptions = rep.RegularExpressinonOptions | RegexOptions.Singleline;
+                    rep.RegularExpressionOptions = rep.RegularExpressionOptions | RegexOptions.Singleline;
 
                 ReplacementList.Add(rep);
             }
@@ -125,7 +125,7 @@ namespace WikiFunctions.Parse
                 if (!rep.Enabled)
                     continue;
 
-                ArticleText = PerformFindAndReplace(rep.Find, rep.Replace, ArticleText, strTitle, rep.RegularExpressinonOptions);
+                ArticleText = PerformFindAndReplace(rep.Find, rep.Replace, ArticleText, strTitle, rep.RegularExpressionOptions);
             }
 
             if (chkIgnoreLinks.Checked)
@@ -222,9 +222,9 @@ namespace WikiFunctions.Parse
 
         public void AddNew(Replacement R)
         {
-            bool CaseSens = !R.RegularExpressinonOptions.ToString().Contains("IgnoreCase");
-            bool Multiine = R.RegularExpressinonOptions.ToString().Contains("Multiline");
-            bool SingleLine = R.RegularExpressinonOptions.ToString().Contains("Singleline");
+            bool CaseSens = !R.RegularExpressionOptions.ToString().Contains("IgnoreCase");
+            bool Multiine = R.RegularExpressionOptions.ToString().Contains("Multiline");
+            bool SingleLine = R.RegularExpressionOptions.ToString().Contains("Singleline");
 
             if(!R.IsRegex)
                 dataGridView1.Rows.Add(Regex.Unescape(Decode(R.Find)), Decode(R.Replace), CaseSens, R.IsRegex, Multiine, SingleLine, R.Enabled);
@@ -409,13 +409,13 @@ namespace WikiFunctions.Parse
 
     public struct Replacement
     {
-        public Replacement(string Find, string Replace, bool IsRegex, bool Enabled, RegexOptions RegularExpressinonOptions)
+        public Replacement(string Find, string Replace, bool IsRegex, bool Enabled, RegexOptions RegularExpressionOptions)
         {
             this.Find = Find;
             this.Replace = Replace;
             this.IsRegex = IsRegex;
             this.Enabled = Enabled;
-            this.RegularExpressinonOptions = RegularExpressinonOptions;
+            this.RegularExpressionOptions = RegularExpressionOptions;
         }
 
         public string Find;
@@ -424,6 +424,6 @@ namespace WikiFunctions.Parse
         public bool IsRegex;
         public bool Enabled;
 
-        public RegexOptions RegularExpressinonOptions;
+        public RegexOptions RegularExpressionOptions;
     }
 }
