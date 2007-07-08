@@ -62,7 +62,14 @@ namespace WikiFunctions.AWBProfiles
         /// <returns>Encrypted String</returns>
         private static string Encrypt(string text)
         {
-            return Encryption.RijndaelSimple.Encrypt(text, PassPhrase, Salt, "SHA1", 2, IV16Chars, 256);
+            try
+            {
+                if (text != "")
+                    return Encryption.RijndaelSimple.Encrypt(text, PassPhrase, Salt, "SHA1", 2, IV16Chars, 256);
+                else
+                    return text;
+            }
+            catch { return text; }
         }
 
         /// <summary>
@@ -72,7 +79,14 @@ namespace WikiFunctions.AWBProfiles
         /// <returns>Decrypted String</returns>
         private static string Decrypt(string text)
         {
-            return Encryption.RijndaelSimple.Decrypt(text, PassPhrase, Salt, "SHA1", 2, IV16Chars, 256);
+            try
+            {
+                if (text != "")
+                    return Encryption.RijndaelSimple.Decrypt(text, PassPhrase, Salt, "SHA1", 2, IV16Chars, 256);
+                else
+                    return text;
+            }
+            catch { return text; }
         }
 
         /// <summary>
@@ -98,34 +112,34 @@ namespace WikiFunctions.AWBProfiles
         {
             AWBProfile prof = new AWBProfile();
 
-                Computer myComputer = new Computer();
+            Computer myComputer = new Computer();
 
-                prof.id = id;
-                prof.Username = Decrypt(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "User", "").ToString());
+            prof.id = id;
+            prof.Username = Decrypt(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "User", "").ToString());
 
-                // one try...catch without a resume has the effect that all remaining code in the try block is skipped
-                // WHY are we just ignoring these errors anyway? There should be a wrapper around Registry.GetValue perhaps?
+            // one try...catch without a resume has the effect that all remaining code in the try block is skipped
+            // WHY are we just ignoring these errors anyway? There should be a wrapper around Registry.GetValue perhaps?
+            try
+            {
+                prof.Password = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Pass", "").ToString();
+                prof.Password = Decrypt(prof.Password);
+            }
+            catch { }
+            finally
+            {
+                prof.defaultsettings = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Settings", "").ToString();
                 try
                 {
-                    prof.Password = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Pass", "").ToString();
-                    prof.Password = Decrypt(prof.Password);
+                    prof.useforupload = bool.Parse(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "UseForUpload", "").ToString());
                 }
-                catch { }
-                finally
+                catch
                 {
-                    prof.defaultsettings = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Settings", "").ToString();
-                    try
-                    {
-                        prof.useforupload = bool.Parse(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "UseForUpload", "").ToString());
-                    }
-                    catch
-                    {
-                        prof.useforupload = false;
-                    }
-                    prof.notes = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Notes", "").ToString();
+                    prof.useforupload = false;
                 }
+                prof.notes = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Notes", "").ToString();
+            }
 
-                return prof;                
+            return prof;
         }
 
         /// <summary>
@@ -188,9 +202,7 @@ namespace WikiFunctions.AWBProfiles
             {
                 foreach (int id in GetProfileIDs())
                 {
-
-                    Microsoft.Win32.RegistryKey Key = new Computer().Registry.CurrentUser;
-                    Key = Key.OpenSubKey(RegKey + "\\" + id, true);
+                    Microsoft.Win32.RegistryKey Key = new Computer().Registry.CurrentUser.OpenSubKey(RegKey + "\\" + id, true);
                     Key.SetValue("UseForUpload", false);
                 }
             }
@@ -214,10 +226,7 @@ namespace WikiFunctions.AWBProfiles
         /// <param name="password">Password</param>
         public static void SetPassword(int id, string password)
         {
-            if (password != "")
-                password = Encrypt(password);
-
-            SetProfilePassword(id, password);
+            SetProfilePassword(id, Encrypt(password));
         }
 
         /// <summary>
@@ -229,8 +238,7 @@ namespace WikiFunctions.AWBProfiles
         {
             try
             {
-                Microsoft.Win32.RegistryKey Key = new Computer().Registry.CurrentUser;
-                Key = Key.OpenSubKey(RegKey + "\\" + id, true);
+                Microsoft.Win32.RegistryKey Key = new Computer().Registry.CurrentUser.OpenSubKey(RegKey + "\\" + id, true);
                 Key.SetValue("Pass", password);
             }
             catch { }
@@ -242,22 +250,7 @@ namespace WikiFunctions.AWBProfiles
         /// <param name="profile">Profile Object of User</param>
         public static void AddProfile(AWBProfile profile)
         {
-            try
-            {
-                int id = GetFirstFreeID();
-
-                Microsoft.Win32.RegistryKey key =
-                    new Computer().Registry.CurrentUser.CreateSubKey(RegKey + "\\" + id);
-
-                key.SetValue("User", Encrypt(profile.Username));
-                if (profile.Password != "")
-                    key.SetValue("Pass", Encrypt(profile.Password));
-                else
-                    key.SetValue("Pass", "");
-                key.SetValue("Settings", profile.defaultsettings);
-                key.SetValue("UseForUpload", profile.useforupload);
-                key.SetValue("Notes", profile.notes);
-            }
+            try { AddEditProfile(profile, new Computer().Registry.CurrentUser.CreateSubKey(RegKey + "\\" + GetFirstFreeID())); }
             catch { }
         }
 
@@ -267,21 +260,22 @@ namespace WikiFunctions.AWBProfiles
         /// <param name="profile">Profile Object of User</param>
         public static void EditProfile(AWBProfile profile)
         {
-            try
-            {
-                Microsoft.Win32.RegistryKey Key = new Computer().Registry.CurrentUser;
-                Key = Key.OpenSubKey(RegKey + "\\" + profile.id, true);
-
-                if (profile.Password != "")
-                    profile.Password = Encrypt(profile.Password);
-
-                Key.SetValue("User", Encrypt(profile.Username));
-                Key.SetValue("Pass", profile.Password);
-                Key.SetValue("Settings", profile.defaultsettings);
-                Key.SetValue("UseForUpload", profile.useforupload);
-                Key.SetValue("Notes", profile.notes);
-            }
+            try { AddEditProfile(profile, new Computer().Registry.CurrentUser.OpenSubKey(RegKey + "\\" + profile.id, true)); }
             catch { }
+        }
+
+        /// <summary>
+        /// Does the registry writing for add & edit profiles
+        /// </summary>
+        /// <param name="profile">Profile Object of User</param>
+        /// <param name="Key">Registry Key for Adding/Editing</param>
+        private static void AddEditProfile(AWBProfile profile, Microsoft.Win32.RegistryKey Key)
+        {
+            Key.SetValue("User", Encrypt(profile.Username));
+            Key.SetValue("Pass", Encrypt(profile.Password));
+            Key.SetValue("Settings", profile.defaultsettings);
+            Key.SetValue("UseForUpload", profile.useforupload);
+            Key.SetValue("Notes", profile.notes);
         }
 
         /// <summary>
@@ -301,15 +295,8 @@ namespace WikiFunctions.AWBProfiles
         /// <returns>Number of Profiles</returns>
         private static int CountSubKeys()
         {
-            try
-            {
-                Microsoft.Win32.RegistryKey baseRegistryKey = new Computer().Registry.CurrentUser;
-                Microsoft.Win32.RegistryKey key2 = baseRegistryKey.OpenSubKey(RegKey);
-
-                return key2.SubKeyCount;
-            }
-            catch
-            { return 0; }
+            try { return new Computer().Registry.CurrentUser.OpenSubKey(RegKey).SubKeyCount; }
+            catch { return 0; }
         }
 
         /// <summary>
@@ -321,15 +308,10 @@ namespace WikiFunctions.AWBProfiles
             List<int> ProfileIDs = new List<int>();
             try
             {
-                Microsoft.Win32.RegistryKey baseRegistryKey = new Computer().Registry.CurrentUser;
-                Microsoft.Win32.RegistryKey key2 = baseRegistryKey.OpenSubKey(RegKey);
-
-                string[] profid = key2.GetSubKeyNames();
+                string[] profid = new Computer().Registry.CurrentUser.OpenSubKey(RegKey).GetSubKeyNames();
 
                 foreach (string id in profid)
-                {
                     ProfileIDs.Add(int.Parse(id));
-                }
 
                 return ProfileIDs;
             }
