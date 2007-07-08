@@ -100,7 +100,7 @@ namespace WikiFunctions.AWBProfiles
 
                 int idUpload = AWBProfiles.GetIDOfUploadAccount();
 
-                if (idUpload != -1 && idUpload != editid)
+                if (chkUseForUpload.Checked && idUpload != -1 && idUpload != editid)
                     AWBProfiles.SetOtherAccountsAsNotForUpload();
 
                 profile.useforupload = chkUseForUpload.Checked;
