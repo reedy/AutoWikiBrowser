@@ -171,6 +171,7 @@ namespace WikiFunctions.Controls.Lists
             "What transcludes page",
             "Links on page",
             "Images on page",
+            "Transclusions on page",
             "Text file",
             "Google search",
             "User contribs",
