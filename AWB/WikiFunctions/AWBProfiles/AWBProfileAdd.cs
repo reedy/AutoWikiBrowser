@@ -79,11 +79,8 @@ namespace WikiFunctions.AWBProfiles
         private void chkDefaultSettings_CheckedChanged(object sender, EventArgs e)
         {
             txtPath.Enabled = chkDefaultSettings.Checked;
-            if (!justLoading && chkDefaultSettings.Checked)
-            {
-                if (openDefaultFile.ShowDialog() == DialogResult.OK)
-                    txtPath.Text = openDefaultFile.FileName;
-            }
+            if (!justLoading && chkDefaultSettings.Checked && (openDefaultFile.ShowDialog() == DialogResult.OK))
+                txtPath.Text = openDefaultFile.FileName;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
