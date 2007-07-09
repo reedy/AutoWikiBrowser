@@ -69,10 +69,10 @@ namespace WikiFunctions
         }
 
         public static UserProperties User = new UserProperties();
-                public static string RETFPath;
+        public static string RETFPath;
 
         public static IAutoWikiBrowser MainForm;
-                #region project and language settings
+        #region project and language settings
 
         /// <summary>
         /// Provides access to the en namespace keys
@@ -119,8 +119,7 @@ namespace WikiFunctions
         /// </summary>
         public static string URL
         {
-            get
-            { return strURL; }
+            get { return strURL; }
             private set { strURL = value; }
         }
 
@@ -129,28 +128,21 @@ namespace WikiFunctions
         /// Gets a name of the project, e.g. "wikipedia".
         /// </summary>
         public static ProjectEnum Project
-        {
-            get { return strproject; }
-        }
+        { get { return strproject; } }
 
         static LangCodeEnum strlangcode = LangCodeEnum.en;
         /// <summary>
         /// Gets the language code, e.g. "en".
         /// </summary>
         public static LangCodeEnum LangCode
-        {
-            get { return strlangcode; }
-        }
+        { get { return strlangcode; } }
 
         static string strcustomproject = "";
         /// <summary>
         /// Gets script path of a custom project or empty string if standard project
         /// </summary>
         public static string CustomProject
-        {
-            get
-            { return strcustomproject; }
-        }
+        { get { return strcustomproject; } }
 
         private static string strsummarytag = " using ";
         private static string strWPAWB = "[[Project:AWB|AWB]]";
@@ -321,7 +313,7 @@ namespace WikiFunctions
 
                         strsummarytag = " редактирано с ";
                         strWPAWB = "AWB";
-                        break;                                             
+                        break;
 
                     case LangCodeEnum.ca:
                         Namespaces[-2] = "Media:";
@@ -347,7 +339,7 @@ namespace WikiFunctions
                         Namespaces[103] = "Viquiprojecte Discussió:";
 
                         strsummarytag = " ";
-                        strWPAWB="[[Viquipèdia:AutoWikiBrowser|AWB]]";
+                        strWPAWB = "[[Viquipèdia:AutoWikiBrowser|AWB]]";
                         break;
 
                     case LangCodeEnum.da:
@@ -1067,7 +1059,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
             Namespaces[15] = "Category talk:";
 
             strsummarytag = " using ";
-            
+
             MonthNames = enLangMonthNames;
         }
         #endregion
@@ -1233,8 +1225,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
             set
             {
                 bLoggedIn = value;
-                if (bLoggedIn == false)
-                    WikiStatus = false;
+                WikiStatus = !(bLoggedIn == false);
             }
         }
 
@@ -1256,7 +1247,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
 
                 Groups.Clear();
 
-                if (Variables.Project == ProjectEnum.wikia) 
+                if (Variables.Project == ProjectEnum.wikia)
                 {
                     webBrowserWikia = new WebControl();
                     webBrowserWikia.Navigate(Variables.URLLong + "index.php?title=Project:AutoWikiBrowser/CheckPage&action=edit");
@@ -1299,9 +1290,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                 //see if this version is enabled
                 if (!strVersionPage.Contains(AWBVersion + " enabled"))
                 {
-                    IsBot = false;
-                    IsAdmin = false;
-                    WikiStatus = false;
+                    IsBot = IsAdmin = WikiStatus = false;
                     return WikiStatusResult.OldVersion;
                 }
 
@@ -1342,16 +1331,14 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
 
                 if (!LoggedIn)
                 {
-                    IsBot = false;
-                    IsAdmin = false;
-                    WikiStatus = false;
+                    IsBot = IsAdmin = WikiStatus = false;
                     return WikiStatusResult.NotLoggedIn;
                 }
 
                 // check if username is globally blacklisted
                 foreach (Match m3 in Regex.Matches(strVersionPage, @"badname:\s*(.*)\s*(:?|#.*)$", RegexOptions.IgnoreCase))
                 {
-                    if (m3.Groups[1].Value.Trim()!= "" && Regex.IsMatch(this.Name, m3.Groups[1].Value.Trim(), RegexOptions.IgnoreCase | RegexOptions.Multiline))
+                    if (m3.Groups[1].Value.Trim() != "" && Regex.IsMatch(this.Name, m3.Groups[1].Value.Trim(), RegexOptions.IgnoreCase | RegexOptions.Multiline))
                     {
                         return WikiStatusResult.NotRegistered;
                     }
@@ -1372,7 +1359,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                     if (m1.Success && m1.Groups[1].Value.Trim().Length > 0)
                         us.Add(m1.Groups[1].Value.Trim());
                 }
-                if(us.Count > 0) Variables.LoadUnderscores(us.ToArray());
+                if (us.Count > 0) Variables.LoadUnderscores(us.ToArray());
 
                 Regex r = new Regex("\"([a-z]*)\"[,\\]]");
 
@@ -1407,8 +1394,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
 
                     if (Groups.Contains("sysop") || Groups.Contains("staff"))
                     {
-                        WikiStatus = true;
-                        IsAdmin = true;
+                        WikiStatus = IsAdmin = true;
                         IsBot = username.IsMatch(strBotUsers);
                         return WikiStatusResult.Registered;
                     }
@@ -1430,18 +1416,14 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                     }
                     else
                     {
-                        IsBot = false;
-                        IsAdmin = false;
-                        WikiStatus = false;
+                        IsBot = IsAdmin = WikiStatus = false;
                         return WikiStatusResult.NotRegistered;
                     }
                 }
             }
             catch (Exception e)
             {
-                IsBot = false;
-                IsAdmin = false;
-                WikiStatus = false;
+                IsBot = IsAdmin = WikiStatus = false;
                 MessageBox.Show(e.Message);
                 return WikiStatusResult.Error;
             }
@@ -1460,7 +1442,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
             webBrowserLogin.Wait();
 
             strText = webBrowserLogin.GetArticleText();
- 
+
             if (!strText.Contains(AWBVersion + " enabled"))
                 return WikiStatusResult.OldVersion;
             else

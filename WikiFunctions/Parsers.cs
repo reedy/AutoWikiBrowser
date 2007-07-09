@@ -58,12 +58,12 @@ namespace WikiFunctions.Parse
             RegexUnicode.Add(new Regex("&(ndash|mdash|minus|times|lt|gt|nbsp|thinsp|shy|lrm|rlm|[Pp]rime);", RegexOptions.Compiled), "&amp;$1;");
             //IE6 does like these
             RegexUnicode.Add(new Regex("&#(705|803|596|620|699|700|8652|9408|9848|12288|160|61|x27|39);", RegexOptions.Compiled), "&amp;#$1;");
-            
+
             //Decoder doesn't like these
             RegexUnicode.Add(new Regex("&#(x109[0-9A-Z]{2});", RegexOptions.Compiled), "&amp;#$1;");
             RegexUnicode.Add(new Regex("&#((?:277|119|84|x1D|x100)[A-Z0-9a-z]{2,3});", RegexOptions.Compiled), "&amp;#$1;");
             RegexUnicode.Add(new Regex("&#(x12[A-Za-z0-9]{3});", RegexOptions.Compiled), "&amp;#$1;");
-            
+
             //interfere with wiki syntax
             RegexUnicode.Add(new Regex("&#(126|x5D|x5B|x7b|x7c|x7d|0?9[13]|0?12[345]|0?0?3[92]);", RegexOptions.Compiled | RegexOptions.IgnoreCase), "&amp;#$1;");
             //not entity, but still wrong
@@ -98,7 +98,7 @@ namespace WikiFunctions.Parse
         MetaDataSorter metaDataSorter;
         string testText = "";
         public static int StubMaxWordCount = 500;
-        
+
         /// <summary>
         /// Sort interwiki link order
         /// </summary>
@@ -200,7 +200,7 @@ namespace WikiFunctions.Parse
             ArticleText = regexHeadings8.Replace(ArticleText, "$1$2$3");
             ArticleText = regexHeadings9.Replace(ArticleText, "$1Track listing$2");
             ArticleText = regexHeadingsCareer.Replace(ArticleText, "$1$2 career$3");
-            
+
             return ArticleText;
         }
 
@@ -377,7 +377,7 @@ namespace WikiFunctions.Parse
                 ArticleText = SyntaxRegexBold.Replace(ArticleText, "'''$1'''");
             }
             ArticleText = Regex.Replace(ArticleText, "^<hr>|^----+", "----", RegexOptions.Multiline);
-                      
+
             //remove appearance of double line break
             ArticleText = Regex.Replace(ArticleText, "(^==?[^=]*==?)\r\n(\r\n)?----+", "$1", RegexOptions.Multiline);
 
@@ -474,7 +474,7 @@ namespace WikiFunctions.Parse
         public static bool CorrectEditSummary(string s)
         {
             bool res = true;
-            
+
             int pos = s.IndexOf("[[");
             while (pos >= 0)
             {
@@ -595,7 +595,7 @@ a='" + a + "',  b='" + b + "'", "SimplifyLinks error");
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 System.Windows.Forms.MessageBox.Show(ex.Message + @"
 a='" + a + "',  b='" + b + "'", "StickyLinks error");
@@ -638,7 +638,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             foreach (Match template in EmptyTemplate.Matches(ArticleText))
             {
                 if (template.Groups[1].Value.Trim() == "" || template.Groups[1].Value.Trim() == "|")
-                    ArticleText = ArticleText.Replace("{{" + template.Groups[1].Value +"}}", "");
+                    ArticleText = ArticleText.Replace("{{" + template.Groups[1].Value + "}}", "");
             }
             return ArticleText;
         }
@@ -787,7 +787,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         {
             ArticleText = WikiRegexes.Nowiki.Replace(ArticleText, "");
             ArticleText = WikiRegexes.Comments.Replace(ArticleText, "");
-            Regex search = new Regex(@"(\{\{\s*" + Template + @"\s*)(?:\||\})", 
+            Regex search = new Regex(@"(\{\{\s*" + Template + @"\s*)(?:\||\})",
                 RegexOptions.Singleline);
 
             Match m = search.Match(ArticleText);
@@ -808,7 +808,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         {
             MatchCollection nw = WikiRegexes.Nowiki.Matches(ArticleText);
             MatchCollection cm = WikiRegexes.Comments.Matches(ArticleText);
-            Regex search = new Regex(@"(\{\{\s*" + Template + @"\s*)[\|\}]", 
+            Regex search = new Regex(@"(\{\{\s*" + Template + @"\s*)[\|\}]",
                 RegexOptions.Singleline);
 
             List<Match> res = new List<Match>();
@@ -817,16 +817,16 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             foreach (Match m in search.Matches(ArticleText))
             {
                 if (m.Index < pos) continue;
-                foreach (Match m2 in nw) if (m.Index > m2.Index && 
+                foreach (Match m2 in nw) if (m.Index > m2.Index &&
                     m.Index < m2.Index + m2.Length) continue;
-                foreach (Match m2 in cm) if (m.Index > m2.Index && 
+                foreach (Match m2 in cm) if (m.Index > m2.Index &&
                     m.Index < m2.Index + m2.Length) continue;
 
                 string s = ExtractTemplate(ArticleText, m);
                 if (s == "") break;
                 pos = m.Index + s.Length;
                 Match mres = m;
-                foreach(Match m2 in Regex.Matches(ArticleText, Regex.Escape(s)))
+                foreach (Match m2 in Regex.Matches(ArticleText, Regex.Escape(s)))
                 {
                     if (m2.Index == m.Index)
                     {
@@ -897,7 +897,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         {
             if (Regex.IsMatch(ArticleText, "<[Mm]ath>"))
                 return ArticleText;
-            
+
             ArticleText = Regex.Replace(ArticleText, "&#150;|&#8211;|&#x2013;", "&ndash;");
             ArticleText = Regex.Replace(ArticleText, "&#151;|&#8212;|&#x2014;", "&mdash;");
             ArticleText = ArticleText.Replace(" &amp; ", " & ");
@@ -935,7 +935,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             {
                 NoChange = true;
                 return ArticleText;
-            }            
+            }
 
             string escTitle = Regex.Escape(ArticleTitle);
 
@@ -990,7 +990,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             ArticleText = ArticleText + strSecondHalf;
             ArticleText = hider.AddBackMore(ArticleText);
-            
+
             return ArticleText;
         }
 
@@ -1185,7 +1185,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             else
             {
                 OldCategory = Regex.Escape(OldCategory);
-                OldCategory = Tools.CaseInsensitive(OldCategory);                
+                OldCategory = Tools.CaseInsensitive(OldCategory);
 
                 OldCategory = Variables.Namespaces[14] + OldCategory + "( ?\\|| ?\\]\\])";
                 NewCategory = Variables.Namespaces[14] + NewCategory + "$1";
@@ -1291,7 +1291,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     }
                 }
             }
-            NoChange = (TalkPages.TalkPageHeaders.ContainsDefaultSortKeywordOrTemplate(ArticleText) 
+            NoChange = (TalkPages.TalkPageHeaders.ContainsDefaultSortKeywordOrTemplate(ArticleText)
                 == TalkPages.TalkPageHeaders.ContainsDefaultSortKeywordOrTemplate(testText));
             return ArticleText;
         }
@@ -1380,16 +1380,16 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public string SubstUserTemplates(string TalkPageText, string TalkPageTitle, Regex userTalkTemplatesRegex)
         {
             TalkPageText = TalkPageText.Replace("{{{subst", "REPLACE_THIS_TEXT");
-            Dictionary<Regex, string> Regexes = new Dictionary<Regex,string>();
+            Dictionary<Regex, string> Regexes = new Dictionary<Regex, string>();
 
             Regexes.Add(userTalkTemplatesRegex, "{{subst:$2}}");
             TalkPageText = Tools.ExpandTemplate(TalkPageText, TalkPageTitle, Regexes, true);
-            
+
             TalkPageText = Regex.Replace(TalkPageText, " \\{\\{\\{2\\|\\}\\}\\}", "");
             TalkPageText = TalkPageText.Replace("REPLACE_THIS_TEXT", "{{{subst");
             return TalkPageText;
-        }              
-        
+        }
+
         /// <summary>
         /// If necessary, adds/removes wikify or stub tag
         /// </summary>
@@ -1421,7 +1421,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             double LinkCount = 1;
             double Ratio = 0;
 
-            
+
             string CommentsStripped = WikiRegexes.Comments.Replace(ArticleText, "");
             int words = Tools.WordCount(CommentsStripped);
 
@@ -1477,7 +1477,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             {
                 ArticleText = ArticleText + "\r\n\r\n\r\n{{stub}}";
                 Summary += ", added stub tag";
-            }            
+            }
 
             return ArticleText;
         }
@@ -1495,7 +1495,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         static Regex Bots = new Regex(@"\{\{\s*([Bb]ots|[Nn]obots)\s*(|\|[^\}]*)\}\}", RegexOptions.Compiled);
         static Regex Allow = new Regex(@"\|\s*allow\s*=\s*([^\|\}]*)", RegexOptions.Compiled | RegexOptions.Singleline);
         static Regex Deny = new Regex(@"\|\s*deny\s*=\s*([^\|\}]*)", RegexOptions.Compiled | RegexOptions.Singleline);
-    
+
 
         /// <summary>
         /// checks if a user is allowed to edit this article
@@ -1559,35 +1559,35 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <summary>
         /// Checks if the article has a stub template
         /// </summary>
-            public static bool HasStubTemplate(string ArticleText)
-            {
-                return WikiRegexes.Stub.IsMatch(ArticleText);
-            }
+        public static bool HasStubTemplate(string ArticleText)
+        {
+            return WikiRegexes.Stub.IsMatch(ArticleText);
+        }
 
         /// <summary>
         /// Checks if the article is classible as a 'Stub'
         /// </summary>
-            public static bool IsStub(string ArticleText)
-            {
-                return (HasStubTemplate(ArticleText) || ArticleText.Length < Parsers.StubMaxWordCount);
-            }
+        public static bool IsStub(string ArticleText)
+        {
+            return (HasStubTemplate(ArticleText) || ArticleText.Length < Parsers.StubMaxWordCount);
+        }
 
-            public static bool HasInfobox(string ArticleText)
-            {
-                /* TODO: Code to check if an article has an infobox; code to get an article in the background 
-                 * and return an Article or simpler object so that kingbotk can tag as stub/infobox needed 
-                 * based on article contents (as promised by Martinp23 :P, please) */
-                return false;
-            }
+        public static bool HasInfobox(string ArticleText)
+        {
+            /* TODO: Code to check if an article has an infobox; code to get an article in the background 
+             * and return an Article or simpler object so that kingbotk can tag as stub/infobox needed 
+             * based on article contents (as promised by Martinp23 :P, please) */
+            return false;
+        }
 
         /// <summary>
         /// Check if article has an 'inusetag'
         /// </summary>
-            public static bool IsInUse(string ArticleText)
-            {
-                if (Variables.LangCode != LangCodeEnum.en) return false;
-                else return Regex.IsMatch(ArticleText, Variables.inUseRegexString);
-            }
+        public static bool IsInUse(string ArticleText)
+        {
+            if (Variables.LangCode != LangCodeEnum.en) return false;
+            else return Regex.IsMatch(ArticleText, Variables.inUseRegexString);
+        }
         #endregion
 
         //#region unused

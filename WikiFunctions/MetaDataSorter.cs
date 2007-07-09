@@ -110,24 +110,24 @@ namespace WikiFunctions.Parse
 
             //filter out excess white space and remove "----" from end of article
             ArticleText = Parsers.RemoveWhiteSpace(ArticleText) + "\r\n";
+            ArticleText += strDisambig + strPersonData;
 
             switch (Variables.LangCode)
             {
                 case LangCodeEnum.pl:
-                    ArticleText += strDisambig + strPersonData + strStub + strCategories + strInterwikis;
+                    ArticleText += strStub + strCategories;
                     break;
                 case LangCodeEnum.ru:
-                    ArticleText += strDisambig + strPersonData + strStub + strCategories + strInterwikis;
+                    ArticleText += strStub + strCategories;
                     break;
                 case LangCodeEnum.simple:
-                    ArticleText += strDisambig + strPersonData + strStub + strCategories + strInterwikis;
+                    ArticleText += strStub + strCategories;
                     break;
                 default:
-                    ArticleText += strDisambig + strPersonData + strCategories + strStub + strInterwikis;
+                    ArticleText += strCategories + strStub;
                     break;
             }
-
-            return ArticleText;
+            return ArticleText + strInterwikis;
         }
 
         private string removeCats(ref string ArticleText, string ArticleTitle)
@@ -158,9 +158,7 @@ namespace WikiFunctions.Parse
 
             string defaultSort = WikiRegexes.Defaultsort.Match(ArticleText).Value;
             if (defaultSort != "")
-            {
                 ArticleText = ArticleText.Replace(defaultSort, "");
-            }
             defaultSort = WikiRegexes.Defaultsort.Replace(defaultSort, "{{DEFAULTSORT:${key}}}");
             if (defaultSort != "") defaultSort += "\r\n";
 
@@ -169,35 +167,16 @@ namespace WikiFunctions.Parse
 
         private string removePersonData(ref string ArticleText)
         {
-            /*
-            string strPersonData = "";
-
-            Match m = WikiRegexes.Persondata.Match(ArticleText);
-
-            if (m.Success)
-            {
-                strPersonData = m.Value;
-                ArticleText = ArticleText.Replace(strPersonData, "");
-                strPersonData = "\r\n\r\n" + strPersonData;
-            }
-
-            return strPersonData;*/
-
             string strPersonData = Parsers.GetTemplate(ArticleText, "[Pp]ersondata");
 
             if (strPersonData != "")
-            {
                 ArticleText = ArticleText.Replace(strPersonData, "");
-            }
 
             return strPersonData;
         }
 
         private string removeStubs(ref string ArticleText)
         {
-            //if (Variables.LangCode != LangCodeEnum.en)
-            //    return "";
-
             Regex StubsRegex = new Regex("<!-- ?\\{\\{.*?" + Variables.Stub + "b\\}\\}.*?-->|:?\\{\\{.*?" + Variables.Stub + "\\}\\}");
 
             List<string> StubList = new List<string>();

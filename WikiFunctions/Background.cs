@@ -43,9 +43,7 @@ namespace WikiFunctions.Background
                 {
                     if (res && ui != null) ui.Close();
                 }
-                catch
-                {
-                }
+                catch { }
                 return res;
             }
         }
