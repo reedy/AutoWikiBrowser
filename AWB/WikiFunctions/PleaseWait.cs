@@ -58,14 +58,8 @@ namespace WikiFunctions.Background
 
         public string Status
         {
-            get
-            {
-                return lblStatus.Text;
-            }
-            set
-            {
-                SetStatus(value);
-            }
+            get { return lblStatus.Text; }
+            set { SetStatus(value); }
         }
 
         public void SetProgress(int Completed, int Total)
