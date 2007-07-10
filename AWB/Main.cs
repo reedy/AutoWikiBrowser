@@ -493,7 +493,7 @@ namespace AutoWikiBrowser
 
             string strTemp = webBrowserEdit.GetArticleText();
 
-            this.Text = "AutoWikiBrowser" + SettingsFile + " - " + TheArticle.Name;
+            this.Text = "AutoWikiBrowser " + SettingsFile + " - " + TheArticle.Name;
 
             //check for redirect
             if (bypassRedirectsToolStripMenuItem.Checked && Tools.IsRedirect(strTemp) && !PageReload)
@@ -887,9 +887,10 @@ namespace AutoWikiBrowser
                 if (cmboCategorise.SelectedIndex != 0)
                 {
                     TheArticle.Categorisation((WikiFunctions.Options.CategorisationOptions)
-                        cmboCategorise.SelectedIndex, parsers, chkSkipNoCatChange.Checked, txtNewCategory.Text,
-                        txtNewCategory2.Text);
+                        cmboCategorise.SelectedIndex, parsers, chkSkipNoCatChange.Checked, txtNewCategory.Text.Trim(),
+                        txtNewCategory2.Text.Trim());
                     if (TheArticle.SkipArticle) return;
+                    else if (!chkGeneralFixes.Checked) TheArticle.AWBChangeArticleText("Fix categories", parsers.FixCategories(TheArticle.ArticleText), true);
                 }
 
                 if (chkFindandReplace.Checked && !findAndReplace.AfterOtherFixes)
@@ -1233,10 +1234,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             if (webBrowserEdit.Document.Body.InnerHtml.Contains("wpMinoredit"))
             {
                 webBrowserEdit.SetMinor(markAllAsMinorToolStripMenuItem.Checked);
-                webBrowserEdit.SetWatch(addAllToWatchlistToolStripMenuItem.Checked);
-
-                if (!addAllToWatchlistToolStripMenuItem.Checked && bOverrideWatchlist)
-                    webBrowserEdit.SetWatch(false);
+                webBrowserEdit.SetWatch(addAllToWatchlistToolStripMenuItem.Checked, bOverrideWatchlist);
                 webBrowserEdit.SetSummary(MakeSummary());
             }
         }
