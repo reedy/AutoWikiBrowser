@@ -589,8 +589,8 @@ namespace AutoWikiBrowser
 
         private void updateSettingsFile()
         {
-            this.Text = "AutoWikiBrowser" + SettingsFile;
-            ntfyTray.Text = "AutoWikiBrowser" + SettingsFile;
+            this.Text = "AutoWikiBrowser " + SettingsFile;
+            ntfyTray.Text = "AutoWikiBrowser " + SettingsFile;
         }
     }
 }

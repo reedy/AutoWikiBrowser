@@ -91,7 +91,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         private bool Watch;
 
-        private bool CanOverride;
+        //private bool CanOverride;
 
         #endregion
 
@@ -475,18 +475,16 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Sets the watch checkbox
         /// </summary>
-        public void SetWatch(bool Watch1)
+        public void SetWatch(bool Watch1, bool Override)
         {
             if (this.Document == null || !this.Document.Body.InnerHtml.Contains("wpWatchthis"))
                 return;
 
-            if (Watch1)
+            if (this.Document.GetElementById("wpWatchthis").GetAttribute("checked") != "True" && Watch1)
                 this.Document.GetElementById("wpWatchthis").SetAttribute("checked", "checked");
-            else if (!Watch1)
-            {
+            else if(!Watch1 && Override)
                 this.Document.GetElementById("wpWatchthis").SetAttribute("checked", "");
-                CanOverride = true;
-            }
+
             Watch = Watch1;
         }
 
@@ -590,10 +588,6 @@ namespace WikiFunctions.Browser
                 this.AllowNavigation = true;
                 ProcessStage = enumProcessStage.save;
                 Status = "Saving";
-
-                if (!Watch && CanOverride)
-                    this.Document.GetElementById("wpWatchthis").SetAttribute("checked", "");
-
                 this.Document.GetElementById("wpSave").InvokeMember("click");
             }
         }
