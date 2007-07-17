@@ -129,7 +129,17 @@ namespace AutoWikiBrowser.Logging
 
         // State:
         internal bool HaveOpenFile
-        { get { return Listeners.Count > 0; } }
+        {
+            get
+            {
+                foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
+                {
+                    if (t.Key != "AWB") return true; // we're interested in open files, not AWBLogListeners...
+                }
+                return false;
+            }
+        }
+        //{ get { return Listeners.Count > 0; } }
 
         internal bool IsUploading
         { get { return mIsUploading; } }
