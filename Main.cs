@@ -823,9 +823,32 @@ namespace AutoWikiBrowser
             { MessageBox.Show(ex.Message); }
         }
 
+        //private void SkipPage(string reason)
+        //{
+        //    TheArticle.Skip(reason);
+
+        //    SkipPageReasonAlreadyProvided();
+        //}
+
         private void SkipPage(string reason)
         {
-            TheArticle.Skip(reason);
+            switch (reason)
+            {
+                case "user":
+                    TheArticle.Trace.UserSkipped();
+                    break;
+
+                case "plugin":
+                    TheArticle.Trace.PluginSkipped();
+                    break;
+
+                case "":
+                    break;
+
+                default:
+                    TheArticle.Trace.AWBSkipped(reason);
+                    break;
+            }
 
             SkipPageReasonAlreadyProvided();
         }
