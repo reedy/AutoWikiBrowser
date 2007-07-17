@@ -448,7 +448,7 @@ namespace AutoWikiBrowser
                 else
                     webBrowserEdit.Busy = true;
 
-                TheArticle = new ArticleEx(listMaker1.SelectedArticle());
+                TheArticle = new ArticleEx(listMaker1.SelectedArticle().Name);
                 NewHistory();
 
                 if (!Tools.IsValidTitle(TheArticle.Name))
@@ -507,7 +507,7 @@ namespace AutoWikiBrowser
                 }
 
                 listMaker1.ReplaceArticle(TheArticle, Redirect);
-                TheArticle = new ArticleEx(Redirect);
+                TheArticle = new ArticleEx(Redirect.Name);
 
                 webBrowserEdit.LoadEditPage(Redirect.Name);
                 return;
@@ -3153,8 +3153,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             string IAutoWikiBrowser.WikiDiffVersionString { get { return WikiDiff.Version; } }
             /* void IAutoWikiBrowser.AddLogItem(ArticleEx article) //
                 { LogControl1.AddLog(article); } */
-        void IAutoWikiBrowser.AddLogItem(bool Skipped, AWBLogListener LogListener)
-        { LogControl1.AddLog(article); }
+            void IAutoWikiBrowser.AddLogItem(bool Skipped, AWBLogListener LogListener)
+            { LogControl1.AddLog(Skipped, LogListener); }
             void IAutoWikiBrowser.TurnOffLogging() { GlobalObjects.MyTrace.TurnOffLogging(); }
 
         // "Events":
