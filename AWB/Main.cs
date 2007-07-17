@@ -870,7 +870,7 @@ namespace AutoWikiBrowser
                 if (!ignoreNoBotsToolStripMenuItem.Checked &&
                     !Parsers.CheckNoBots(TheArticle.ArticleText, Variables.User.Name))
                 {
-                    TheArticle.AWBSkip("Bot Edits not Allowed");
+                    TheArticle.AWBSkip("Restricted by {{bots}}/{{nobots}}");
                     return;
                 }
 
@@ -1016,7 +1016,7 @@ namespace AutoWikiBrowser
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                TheArticle.Trace.AWBSkipped("Error");
+                TheArticle.Trace.AWBSkipped("Exception:" + ex.Message);
             }
         }
 
