@@ -298,8 +298,8 @@ namespace WikiFunctions
                 string strTemp = parsers.Unicodify(mArticleText, out NoChange);
 
                 if (SkipIfNoChange && NoChange)
-                    Trace.AWBSkipped("No Unicodification");
-                    //Skip("No Unicodification");
+                    //Trace.AWBSkipped("No Unicodification");
+                    Skip("No Unicodification");
                 else if (!NoChange)
                     this.AWBChangeArticleText("Article Unicodified", strTemp, false);
             }
@@ -339,8 +339,8 @@ namespace WikiFunctions
                 }
 
                 if (NoChange && SkipIfNoChange)
-                    Trace.AWBSkipped("No Image Changed");
-                    //Skip("No Image Changed");
+                    //Trace.AWBSkipped("No Image Changed");
+                    Skip("No Image Changed");
                 else if (!NoChange)
                     this.AWBChangeArticleText("Image replacement applied", strTemp, false);
             }
@@ -385,8 +385,8 @@ namespace WikiFunctions
                 }
 
                 if (NoChange && SkipIfNoChange)
-                    Trace.AWBSkipped("No Category Changed");
-                    //Skip("No Category Changed");
+                    //Trace.AWBSkipped("No Category Changed");
+                    Skip("No Category Changed");
                 else if (!NoChange)
                     this.AWBChangeArticleText(action, strTemp, false);
             }
@@ -424,8 +424,8 @@ namespace WikiFunctions
                 strTemp = substTemplates.SubstituteTemplates(strTemp, mName); // TODO: Possible bug, this was "articleTitle" not "Name"
 
                 if (SkipIfNoChange && (testText == strTemp)) // NoChange
-                    Trace.AWBSkipped("No Find And Replace Changes");
-                    //Skip("No Find And Replace Changes");
+                    //Trace.AWBSkipped("No Find And Replace Changes");
+                    Skip("No Find And Replace Changes");
                 else
                 {
                     AWBChangeArticleText("Find and replace applied" + tmpEditSummary,
@@ -445,8 +445,8 @@ namespace WikiFunctions
                 string strTemp = RegexTypos.PerformTypoFixes(mArticleText, out NoChange, out mPluginEditSummary);
 
                 if (NoChange && SkipIfNoChange)
-                    Trace.AWBSkipped("No typo fixes");
-                    //Skip("No typo fixes");
+                    //Trace.AWBSkipped("No typo fixes");
+                    Skip("No typo fixes");
                 else if (!NoChange)
                 {
                     AWBChangeArticleText(mPluginEditSummary, strTemp, false);
@@ -465,8 +465,8 @@ namespace WikiFunctions
                 string strTemp = parsers.Tagger(mArticleText, mName, out NoChange, ref tmpEditSummary);
 
                 if (SkipIfNoChange && NoChange)
-                    Trace.AWBSkipped("No Tag changed");
-                    //Skip("No Tag changed");
+                    //Trace.AWBSkipped("No Tag changed");
+                    Skip("No Tag changed");
                 else if (!NoChange)
                 {
                     AWBChangeArticleText("Auto tagger changes applied" + tmpEditSummary, strTemp, false);
@@ -490,8 +490,8 @@ namespace WikiFunctions
                     strTemp = parsers.LivingPeople(strTemp, out NoChange);
                     strTemp = parsers.FixHeadings(strTemp, mName, out NoChange);
                     if (SkipIfNoChange && NoChange)
-                        Trace.AWBSkipped("No header errors");
-                        //Skip("No header errors");
+                        //Trace.AWBSkipped("No header errors");
+                        Skip("No header errors");
                     else if (!NoChange)
                         AWBChangeArticleText("Fixed header errors", strTemp, true);
                 }
@@ -511,8 +511,8 @@ namespace WikiFunctions
                 string strTemp = parsers.ChangeToDefaultSort(mArticleText, mName, out NoChange);
 
                 if (SkipIfNoChange && NoChange)
-                    Trace.AWBSkipped("No DefaultSort Added");
-                    //Skip("No DefaultSort Added");
+                    //Trace.AWBSkipped("No DefaultSort Added");
+                    Skip("No DefaultSort Added");
                 else if (!NoChange)
                     this.AWBChangeArticleText("DefaultSort Added", strTemp, true);
             }
@@ -528,8 +528,8 @@ namespace WikiFunctions
                 bool NoChange;
                 string strTemp = parsers.FixLinks(mArticleText, out NoChange);
                 if (NoChange && SkipIfNoChange)
-                    Trace.AWBSkipped("No bad links");
-                    //Skip("No bad links");
+                    //Trace.AWBSkipped("No bad links");
+                    Skip("No bad links");
                 else if (!NoChange)
                     this.AWBChangeArticleText("Fixed links", strTemp, false);
             }
@@ -544,8 +544,8 @@ namespace WikiFunctions
                 bool NoChange;
                 string strTemp = parsers.BulletExternalLinks(mArticleText, out NoChange);
                 if (SkipIfNoChange && NoChange)
-                    Trace.AWBSkipped("No missing bulleted links");
-                    //Skip("No missing bulleted links");
+                    //Trace.AWBSkipped("No missing bulleted links");
+                    Skip("No missing bulleted links");
                 else if (!NoChange)
                     this.AWBChangeArticleText("Bulleted external links", strTemp, false);
             }
@@ -560,8 +560,8 @@ namespace WikiFunctions
                 bool NoChange;
                 string strTemp = parsers.BoldTitle(mArticleText, mName, out NoChange);
                 if (SkipIfNoChange && NoChange)
-                    Trace.AWBSkipped("No Titles to embolden");
-                    //Skip("No Titles to embolden");
+                    //Trace.AWBSkipped("No Titles to embolden");
+                    Skip("No Titles to embolden");
                 else if (!NoChange)
                     this.AWBChangeArticleText("Emboldened titles", strTemp, false);
             }
@@ -633,8 +633,8 @@ namespace WikiFunctions
                 if (df.Abort) return false;
 
                 if (NoChange && SkipIfNoChange)
-                    Trace.AWBSkipped("No disambiguation");
-                    //Skip("No disambiguation");
+                    //Trace.AWBSkipped("No disambiguation");
+                    Skip("No disambiguation");
                 else if (!NoChange)
                     this.AWBChangeArticleText("Disambiguated " + DabLinkText, strTemp, false);
 
