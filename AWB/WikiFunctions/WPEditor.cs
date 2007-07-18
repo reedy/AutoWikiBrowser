@@ -50,9 +50,14 @@ namespace WikiFunctions
         protected bool LoggedIn;
         protected string m_indexpath = Variables.URLLong;
 
+        protected static void UserAgent(HttpWebRequest wr)
+        { wr.UserAgent = "WPAutoEdit/1.01"; }
+
         #region Regexes
         static readonly Regex Edittime = new Regex("<input type='hidden' value=\"([^\"]*)\" name=\"wpEdittime\" />", RegexOptions.Compiled);
-        static readonly Regex EditToken = new Regex("<input type='hidden' value=\"([^\"]*)\" name=\"wpEditToken\" />", RegexOptions.Compiled);
+        static readonly Regex EditToken = new 
+            Regex("<input type='hidden' value=\"([^\"]*)\" name=\"wpEditToken\" />", RegexOptions.Compiled);
+        
         #endregion
 
         #region Editing
@@ -78,7 +83,7 @@ namespace WikiFunctions
                 string wikitext = "";
 
                 wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
-                wr.UserAgent = "WPAutoEdit/1.0";
+                UserAgent(wr);
 
                 resps = (HttpWebResponse)wr.GetResponse();
 
@@ -102,6 +107,12 @@ namespace WikiFunctions
             }
         }
 
+        public struct EditPageRetvals
+        {
+            public string responsetext;
+            public string difflink;
+        }
+
         /// <summary>
         /// Edits the specified page.
         /// </summary>
@@ -112,6 +123,20 @@ namespace WikiFunctions
         /// <param name="Watch">Whether article should be added to your watchlist</param>
         /// <returns>A link to the diff page for the changes made.</returns>
         public string EditPage(String Article, String NewText, String Summary, bool Minor, bool Watch)
+        {
+            return EditPageEx(Article, NewText, Summary, Minor, Watch).responsetext;
+        }
+
+        /// <summary>
+        /// Edits the specified page.
+        /// </summary>
+        /// <param name="Article">The article to edit.</param>
+        /// <param name="NewText">The new wikitext for the article.</param>
+        /// <param name="Summary">The edit summary to use for this edit.</param>
+        /// <param name="Minor">Whether or not to flag the edit as minor.</param>
+        /// <param name="Watch">Whether article should be added to your watchlist</param>
+        /// <returns>A link to the diff page for the changes made.</returns>
+        public EditPageRetvals EditPageEx(String Article, String NewText, String Summary, bool Minor, bool Watch)
         {
             HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(m_indexpath + "index.php?title=" + 
                 Tools.WikiEncode(Article) + "&action=submit");
@@ -125,10 +150,13 @@ namespace WikiFunctions
             string wpEdittime = m.Groups[1].Value;
 
             m = EditToken.Match(editpagestr);
+            // for debugging:
+            //string wpEditkey = Microsoft.VisualBasic.Interaction.InputBox("Edit token", "Edit token", 
+            //    System.Uri.UnescapeDataString(m.Groups[1].Value), 0,0);
             string wpEditkey = m.Groups[1].Value;
 
             wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
-            wr.UserAgent = "WPAutoEdit/1.0";
+            UserAgent(wr);
 
             wr.CookieContainer = new CookieContainer();
 
@@ -161,23 +189,24 @@ namespace WikiFunctions
 
             resps = wr.GetResponse();
 
-            string respstext = "";
-            string difflink = "";
             Regex permalinkrx = new Regex("<li id=\"t-permalink\"><a href=\"([^\"]*)\">");
             Match permalinkmatch;
 
             StreamReader sr = new StreamReader(resps.GetResponseStream());
+            EditPageRetvals retval = new EditPageRetvals();
 
-            respstext = sr.ReadToEnd();
+            retval.responsetext = sr.ReadToEnd();
 
-            permalinkmatch = permalinkrx.Match(respstext);
+            permalinkmatch = permalinkrx.Match(retval.responsetext);
             
             //From the root directory.
-            difflink = m_indexpath.Substring(0, m_indexpath.IndexOf("/",9)) + permalinkmatch.Groups[1].Value + "&diff=prev";
+            retval.difflink = m_indexpath.Substring(0, m_indexpath.IndexOf("/",9)) + 
+                permalinkmatch.Groups[1].Value + "&diff=prev";
 
-            difflink = difflink.Replace("&amp;", "&");
+            retval.difflink = retval.difflink.Replace("&amp;", "&");
 
-            return difflink;
+            // TODO: Check our submission worked and we have a valid difflink; throw an exception if not. Also check for the sorry we could not process because of loss of session data message
+            return retval;
         }
 
         /// <summary>
@@ -208,7 +237,7 @@ namespace WikiFunctions
             string wikitext = "";
 
             wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
-            wr.UserAgent = "WPAutoEdit/1.0";
+            UserAgent(wr);
 
             wr.CookieContainer = new CookieContainer();
 
@@ -243,7 +272,7 @@ namespace WikiFunctions
             String poststring;
 
             wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
-            wr.UserAgent = "WPAutoEdit/1.0";
+            UserAgent(wr);
 
             //Create poststring
             poststring = string.Format("wpName=+{0}&wpPassword={1}&wpRemember=1&wpLoginattempt=Log+in",
@@ -435,7 +464,7 @@ namespace WikiFunctions
             string pagetext = "";
             List<Revision> History = new List<Revision>();
 
-            wr.UserAgent = "WPAutoEdit/1.0";
+            UserAgent(wr);
 
             resps = (HttpWebResponse)wr.GetResponse();
 
@@ -508,7 +537,7 @@ namespace WikiFunctions
                 WebResponse resps;
 
                 wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
-                wr.UserAgent = "WPAutoEdit/1.0";
+                UserAgent(wr);
                 wr.CookieContainer = new CookieContainer();
 
                 foreach (Cookie cook in logincookies)
@@ -560,7 +589,7 @@ namespace WikiFunctions
                 WebResponse resps;
 
                 wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
-                wr.UserAgent = "WPAutoEdit/1.0";
+                UserAgent(wr);
                 wr.CookieContainer = new CookieContainer();
 
                 foreach (Cookie cook in logincookies)
@@ -587,7 +616,7 @@ namespace WikiFunctions
                     "index.php?title=Special:Watchlist&amp;action=clear");
 
                 wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
-                wr.UserAgent = "WPAutoEdit/1.0";
+                UserAgent(wr);
                 wr.CookieContainer = new CookieContainer();
 
                 foreach (Cookie cook in logincookies)
@@ -630,7 +659,7 @@ namespace WikiFunctions
             WebResponse resps;
 
             wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
-            wr.UserAgent = "WPAutoEdit/1.0";
+            UserAgent(wr);
      
             wr.CookieContainer = new CookieContainer();
             foreach (Cookie cook in logincookies)

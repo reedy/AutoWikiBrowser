@@ -108,7 +108,7 @@ namespace AutoWikiBrowser.Logging
         }
         protected override bool StartingUpload(TraceListenerUploadableBase Sender)
         {
-            if (!(Sender.TraceStatus.LogName == conWiki))
+            if (Sender.TraceStatus.LogName != conWiki)
                 return false;
 
             mIsUploading = true;
@@ -255,10 +255,9 @@ namespace AutoWikiBrowser.Logging
         {
             Busy();
 
-            bool upload = false;
-
-            if (LoggingSettings.Settings.UploadYN && (BadPagesLogToUpload || WikiLogToUpload) && MessageBox.Show("Upload logs?", "Logging", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
-                upload = true;
+            bool upload = (LoggingSettings.Settings.UploadYN && (BadPagesLogToUpload || WikiLogToUpload) 
+                && MessageBox.Show("Upload logs?", "Logging", MessageBoxButtons.YesNo, MessageBoxIcon.Question, 
+                MessageBoxDefaultButton.Button1) == DialogResult.Yes);
 
             foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
             {
