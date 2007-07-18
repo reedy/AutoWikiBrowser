@@ -34,12 +34,13 @@ namespace WikiFunctions.Logging
         */
 
         private string mArticle; /* store this locally rather than relying on .Text in case a Plugin changes .Text
-                                   * (it shouldn', and Kingbotk doesn't, but who knows :) */
+                                   * (it shouldn't, and Kingbotk doesn't, but who knows :) ) */
         private bool mSkipped;
+        private bool Datestamped, HaveSkipInfo;
 
         #region AWB Interface
         public bool Skipped
-        { get { return mSkipped; } }
+        { get { return mSkipped; } internal set { mSkipped = value; } }
 
         public AWBLogListener(string ArticleTitle)
         {
@@ -78,6 +79,7 @@ namespace WikiFunctions.Logging
             DateStamp.Text = DateTime.Now.ToString();
 
             ListView.Items.Insert(0, this).SubItems.Insert(1, DateStamp);
+            Datestamped = true;
         }
 
         public string Output(LogFileType LogFileType)
@@ -104,29 +106,19 @@ namespace WikiFunctions.Logging
 
         public string SkipReason
         {
-            get { return GetSubItemText(3); }
-            protected set
-            {
-                try
-                {
-                    base.SubItems[3].Text = value;
-                }
-                catch (Exception ex)
-                { // TODO: Remove this errhandler if no user reports this error; it's just that we had a problem with an items[3] somewhere
-                    MessageBox.Show("Error in logging object (set_SkipReason), please report this: " +
-                        ex.Message, "Error", MessageBoxButtons.OK);
-                }
-            }
+            get { return GetSubItemText(SubItem.SkippedReason); }
+            protected set { SetSubItemText(SubItem.SkippedReason, value); }
         }
 
         public string TimeStamp
         {
-            get { return GetSubItemText(1); }
+            get { return GetSubItemText(SubItem.TimeStamp); }
         }
 
         public string SkippedBy
         {
-            get { return GetSubItemText(2); }
+            get { return GetSubItemText(SubItem.SkippedBy); }
+            protected set { SetSubItemText(SubItem.SkippedBy, value); }
         }
         #endregion
 
@@ -201,28 +193,91 @@ namespace WikiFunctions.Logging
         }
         #endregion
 
-        private string GetSubItemText(int SubItem)
+        private enum SubItem
         {
-            try
+            SkippedBy,
+            SkippedReason,
+            TimeStamp
+        };
+
+        /// <summary>
+        /// Returns the ListViewItem.SubItems number for a specified piece of information
+        /// </summary>
+        /// <param name="SubItem"></param>
+        /// <returns>-1 if the SubItem doesn't exist</returns>
+        private int GetSubItemNumber(SubItem SubItem)
+        {
+            switch (SubItem)
             {
-                return base.SubItems[SubItem].Text;
-            }
-            catch (Exception ex)
-            { // TODO: Remove this errhandler if no user reports this error; it's just that we had a problem with an items[3] somewhere
-                MessageBox.Show("Error in logging object (GetSubItemText), please report this: " + ex.Message, "Error", MessageBoxButtons.OK);
-                return "";
+                case SubItem.SkippedBy:
+                    if (Datestamped)
+                        return 2;
+                    else
+                        return 1;
+
+                case SubItem.SkippedReason:
+                    if (Datestamped)
+                        return 3;
+                    else
+                        return 2;
+
+                case SubItem.TimeStamp:
+                    if (Datestamped)
+                        return 1;
+                    else
+                        return -1;
+
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
-        protected void Skip(string SkippedBy, string SkipReason)
+        /// <summary>
+        /// Returns the Text from a ListViewItem.SubItems object
+        /// </summary>
+        private string GetSubItemText(SubItem SubItem)
         {
-            base.SubItems.Add(SkippedBy);
-            base.SubItems.Add(SkipReason);
+            switch (SubItem)
+            {
+                case SubItem.SkippedBy:
+                case SubItem.SkippedReason:
+                    if (HaveSkipInfo)
+                        return base.SubItems[GetSubItemNumber(SubItem)].Text;
+                    else
+                        return "";
+
+                case SubItem.TimeStamp:
+                    if (Datestamped)
+                        return base.SubItems[1].Text;
+                    else
+                        return "";
+
+                default:
+                    return base.SubItems[GetSubItemNumber(SubItem)].Text;
+            }
+        }
+
+        private void SetSubItemText(SubItem SubItem, string value)
+        {
+            if ((SubItem == SubItem.SkippedBy || SubItem == SubItem.SkippedReason) &! (HaveSkipInfo))
+            {
+                base.SubItems.Add("SkippedBy");
+                base.SubItems.Add("SkipReason");
+                HaveSkipInfo = true;
+            
+            }
+            base.SubItems[GetSubItemNumber(SubItem)].Text = value;
+        }
+
+        protected void Skip(string mSkippedBy, string mSkipReason)
+        {
+            SetSubItemText(SubItem.SkippedBy, mSkippedBy);
+            SetSubItemText(SubItem.SkippedReason, mSkipReason);
             WriteLine(SkipReason, SkippedBy);
             mSkipped = true;
         }
 
-        // disable access to underlying Items property to stop Reedy Boy accessing it ;)
+        // disable access to underlying Items property
         public new System.Windows.Forms.ListViewItem.ListViewSubItemCollection SubItems
         {
             get { throw new NotImplementedException("The SubItems property should not be accessed directly"); }
