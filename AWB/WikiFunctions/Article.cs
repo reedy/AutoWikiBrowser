@@ -202,6 +202,7 @@ namespace WikiFunctions
 
                 if (!mPluginSkip)
                 {
+                    LogListener.Skipped = false;  // a bit of a hack, if plugin says not to skip I'm resetting the LogListener.Skipped value to False
                     this.PluginChangeArticleText(strTemp);
                     this.AppendPluginEditSummary();
                 }

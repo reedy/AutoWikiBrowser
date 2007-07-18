@@ -885,7 +885,10 @@ namespace AutoWikiBrowser
                     foreach (KeyValuePair<string, IAWBPlugin> a in Plugin.Items)
                     {
                         TheArticle.SendPageToPlugin(a.Value, this);
-                        if (TheArticle.SkipArticle) return;
+                        //if (TheArticle.SkipArticle) return; // I've disabled this because plugin skipping
+                        // is taken care of in Article.SendPageToPlugin(). If in fact commenting this out
+                        // causes breakage we probably have a bug to fix. Please test well or report the
+                        // problem to Steve (kingboyk).
                     }
                 }
 
