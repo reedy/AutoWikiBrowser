@@ -102,6 +102,7 @@ namespace AutoWikiBrowser
                 prefs.UploadToWikiProjects = UploadWikiProjectCheckBox.Checked;
                 prefs.UploadAddToWatchlist = UploadWatchlistCheckBox.Checked;
                 prefs.UploadYN = UploadCheckBox.Checked;
+                prefs.DebugUploading = DebugUploadingCheckBox.Checked;
                 return prefs;
             }
             set
@@ -122,6 +123,7 @@ namespace AutoWikiBrowser
                     UploadWikiProjectCheckBox.Checked = prefs.UploadToWikiProjects;
                     UploadWatchlistCheckBox.Checked = prefs.UploadAddToWatchlist;
                     UploadCheckBox.Checked = prefs.UploadYN;
+                    DebugUploadingCheckBox.Checked = prefs.DebugUploading;
                 }
                 catch { }
             }
@@ -131,9 +133,7 @@ namespace AutoWikiBrowser
             Props NewProps = new Props();
 
             if (!ApplyButton.Enabled && !(Settings.Equals(NewProps)))
-            {
                 WeHaveUnappliedChanges();
-            }
 
             // Settings = NewProps ' No, that doesn't happen until the apply button is clicked
             ApplySettingsToControls(NewProps);
@@ -154,6 +154,7 @@ namespace AutoWikiBrowser
             UploadMaxLinesControl.Value = System.Convert.ToDecimal(SettingsObject.UploadMaxLines);
             UploadOpenInBrowserCheckBox.Checked = SettingsObject.UploadOpenInBrowser;
             UploadWikiProjectCheckBox.Checked = SettingsObject.UploadToWikiProjects;
+            DebugUploadingCheckBox.Checked = SettingsObject.DebugUploading;
         }
         private void GetSettingsFromControls()
         {
@@ -188,11 +189,10 @@ namespace AutoWikiBrowser
             Settings.Category = GlobalObjects.AWB.CategoryTextBox.Text;
             Settings.UploadOpenInBrowser = UploadOpenInBrowserCheckBox.Checked;
             Settings.UploadToWikiProjects = UploadWikiProjectCheckBox.Checked;
+            Settings.DebugUploading = DebugUploadingCheckBox.Checked;
 
             if (mInitialised)
-            {
                 GlobalObjects.MyTrace.PropertiesChange(blnJobNameHasChanged);
-            }
         }
         internal void WeHaveUnappliedChanges()
         {
@@ -287,7 +287,7 @@ namespace AutoWikiBrowser
 
         internal sealed class Props : UploadableLogSettings2
         {
-            private bool mUploadToWikiProjects = true;
+            private bool mUploadToWikiProjects = true, mDebugUploading = false;
             private string mCategory = "";
             internal const string conUploadToUserSlashLogsToken = "$USER/Logs";
             internal const string conUploadCategoryIsJobName = "$CATEGORY";
@@ -307,7 +307,7 @@ namespace AutoWikiBrowser
                     && (Compare.UploadLocation == UploadLocation) && (Compare.UploadMaxLines == UploadMaxLines)
                     && (Compare.UploadOpenInBrowser == UploadOpenInBrowser)
                     && (Compare.UploadToWikiProjects == UploadToWikiProjects) && (Compare.UploadYN == UploadYN)
-                    && (Compare.Category == Category));
+                    && (Compare.Category == Category) && (Compare.DebugUploading == DebugUploading));
             }
 
             #region Additional properties:
@@ -315,6 +315,11 @@ namespace AutoWikiBrowser
             {
                 get { return mUploadToWikiProjects; }
                 set { mUploadToWikiProjects = value; }
+            }
+            internal bool DebugUploading
+            {
+                get { return mDebugUploading; }
+                set { mDebugUploading = value; }
             }
             internal List<LogEntry> LinksToLog()
             {
@@ -326,12 +331,6 @@ namespace AutoWikiBrowser
                 if (mUploadToWikiProjects)
                     ((MainForm)GlobalObjects.AWB).GetLogUploadLocationsEvent(tempLinksToLog);
 
-                if (tempLinksToLog.Count > 1 && UserName == "")
-                {
-                    //throw new System.Configuration.SettingsPropertyNotFoundException(
-                    //    "We don't have a username");
-                    // TODO: Username stuff can now get better integrated with AWB, and preferably AWBProfiles
-                }
                 return tempLinksToLog;
             }
             internal string GlobbedUploadLocation

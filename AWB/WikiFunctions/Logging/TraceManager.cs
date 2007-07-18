@@ -187,16 +187,23 @@ namespace WikiFunctions.Logging
             }
         }
 
+        public struct UploadHandlerReturnVal
+        {
+            public bool Success;
+            public List<Editor.EditPageRetvals> PageRetVals;
+        }
+
         /// <summary>
-        /// A fully featured upload-event handler suitable for use by AWB plugins
+        /// A fully featured upload-event handler
         /// </summary>
-        protected virtual bool UploadHandler(TraceListenerUploadableBase Sender, string LogTitle, 
+        protected virtual UploadHandlerReturnVal UploadHandler(TraceListenerUploadableBase Sender, string LogTitle, 
             string LogDetails, string UploadToWithoutPageNumber, List<LogEntry> LinksToLog, bool OpenInBrowser,
             bool AddToWatchlist, string Username, string LogHeader, string EditSummary,
             string LogSummaryEditSummary, WikiFunctions.Plugin.IAutoWikiBrowser AWB, 
             UsernamePassword LoginDetails)
         {
-            bool Success = false;
+            UploadHandlerReturnVal retval = new UploadHandlerReturnVal();
+            retval.Success = false;
 
             if (StartingUpload(Sender))
             {
@@ -211,24 +218,24 @@ namespace WikiFunctions.Logging
                     Uploader.LogIn(LoginDetails);
                     Application.DoEvents();
 
-                    Uploader.LogIt(Sender.TraceStatus.LogUpload, LogTitle, LogDetails, PageName, LinksToLog,
+                    retval.PageRetVals = Uploader.LogIt(Sender.TraceStatus.LogUpload, LogTitle, LogDetails, PageName, LinksToLog,
                         Sender.TraceStatus.PageNumber, Sender.TraceStatus.StartDate, OpenInBrowser,
                         AddToWatchlist, Username, "{{log|name=" + UploadToWithoutPageNumber + "|page=" +
                         Sender.TraceStatus.PageNumber.ToString() + "}}" + System.Environment.NewLine + LogHeader,
                         false, EditSummary, LogSummaryEditSummary, ApplicationName, true, AWB);
 
-                    Success = true;
+                    retval.Success = true;
                 }
                 catch (Exception ex)
                 {
                     ErrorForm ErrorForm = new ErrorForm(ex.Message + System.Environment.NewLine + ex.ToString());
                     ErrorForm.Show();
 
-                    Success = false;
+                    retval.Success = false;
                 }
                 finally
                 {
-                    if (Success)                       
+                    if (retval.Success)                       
                         Sender.WriteCommentAndNewLine("Log uploaded to " + PageName);
                     else
                         Sender.WriteCommentAndNewLine(
@@ -238,7 +245,37 @@ namespace WikiFunctions.Logging
                 WaitForm.Dispose();
                 FinishedUpload();
             }
-            return Success;
+            return retval;
+        }
+
+        public virtual void WriteUploadLog(List<Editor.EditPageRetvals> PageRetVals, string LogFolder)
+        {
+            try
+            {
+                System.IO.StreamWriter IO =
+                    new System.IO.StreamWriter(LogFolder + "\\Log uploading " +
+                    DateTime.Now.Ticks.ToString() + ".txt");
+
+                foreach (Editor.EditPageRetvals EditPageRetval in PageRetVals)
+                {
+                    IO.WriteLine("***********************************************************************************");
+                    IO.WriteLine("Article: " + EditPageRetval.article);
+                    IO.WriteLine("Diff link: " + EditPageRetval.difflink);
+                    IO.WriteLine("Server response: ");
+                    IO.WriteLine(EditPageRetval.responsetext);
+                    IO.WriteLine();
+                    IO.WriteLine();
+                    IO.WriteLine();
+                    IO.WriteLine();
+                }
+
+                IO.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error creating upload log: " + ex.Message, "Error", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
 
         protected abstract string ApplicationName { get; }

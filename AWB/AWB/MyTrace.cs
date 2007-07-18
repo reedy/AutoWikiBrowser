@@ -91,7 +91,7 @@ namespace AutoWikiBrowser.Logging
         private void TraceUploadEventHandler(TraceListenerUploadableBase Sender, ref bool Success)
         {
             ValidateUploadProfile();
-            Success = base.UploadHandler(Sender, LoggingSettings.Settings.LogTitle, 
+            UploadHandlerReturnVal retval = base.UploadHandler(Sender, LoggingSettings.Settings.LogTitle, 
                 LoggingSettings.Settings.WikifiedCategory, LoggingSettings.Settings.GlobbedUploadLocation + "/" + 
                 Sender.PageName.Replace(LoggingSettings.Props.conUploadCategoryIsJobName, 
                 LoggingSettings.Settings.Category), LoggingSettings.Settings.LinksToLog(), 
@@ -100,12 +100,15 @@ namespace AutoWikiBrowser.Logging
                 Plugins.Plugin.GetPluginsWikiTextBlock(), Variables.AWBLoggingEditSummary +
                 Variables.UploadingLogDefaultEditSummary, Variables.AWBLoggingEditSummary +
                 Variables.UploadingLogEntryDefaultEditSummary, GlobalObjects.AWB, LoggingSettings.LoginDetails);
+            Success = retval.Success;
 
             if (Success)
-            {
                 ((TraceStatus)Sender.TraceStatus).UploadsCount += 1;
-            }
+
+            if (LoggingSettings.Settings.DebugUploading)
+                base.WriteUploadLog(retval.PageRetVals, LogFolder);
         }
+
         protected override bool StartingUpload(TraceListenerUploadableBase Sender)
         {
             if (Sender.TraceStatus.LogName != conWiki)
@@ -139,7 +142,6 @@ namespace AutoWikiBrowser.Logging
                 return false;
             }
         }
-        //{ get { return Listeners.Count > 0; } }
 
         internal bool IsUploading
         { get { return mIsUploading; } }

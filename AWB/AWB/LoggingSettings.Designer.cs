@@ -33,14 +33,22 @@ namespace AutoWikiBrowser
             this.GroupBox3 = new System.Windows.Forms.GroupBox();
             this.GroupBox7 = new System.Windows.Forms.GroupBox();
             this.UploadMaxLinesControl = new System.Windows.Forms.NumericUpDown();
+            this.MaxLinesContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.MaxLinesResetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SetToMaximumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GroupBox6 = new System.Windows.Forms.GroupBox();
             this.UploadJobNameTextBox = new System.Windows.Forms.TextBox();
+            this.JobNameContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.JobNameResetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GroupBox5 = new System.Windows.Forms.GroupBox();
             this.UploadLocationTextBox = new System.Windows.Forms.TextBox();
+            this.LocationContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.LocationResetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UploadWikiProjectCheckBox = new System.Windows.Forms.CheckBox();
             this.UploadWatchlistCheckBox = new System.Windows.Forms.CheckBox();
             this.UploadOpenInBrowserCheckBox = new System.Windows.Forms.CheckBox();
             this.GroupBox2 = new System.Windows.Forms.GroupBox();
+            this.Led1 = new WikiFunctions.Controls.LED();
             this.Label8 = new System.Windows.Forms.Label();
             this.UploadsCountLabel = new System.Windows.Forms.Label();
             this.WikiLinesLabel = new System.Windows.Forms.Label();
@@ -56,6 +64,7 @@ namespace AutoWikiBrowser
             this.Label6 = new System.Windows.Forms.Label();
             this.Label7 = new System.Windows.Forms.Label();
             this.GroupBox1 = new System.Windows.Forms.GroupBox();
+            this.DebugUploadingCheckBox = new System.Windows.Forms.CheckBox();
             this.SQLLogCheckBox = new System.Windows.Forms.CheckBox();
             this.GroupBox4 = new System.Windows.Forms.GroupBox();
             this.FolderTextBox = new System.Windows.Forms.TextBox();
@@ -65,27 +74,19 @@ namespace AutoWikiBrowser
             this.XHTMLLogCheckBox = new System.Windows.Forms.CheckBox();
             this.VerboseCheckBox = new System.Windows.Forms.CheckBox();
             this.Label1 = new System.Windows.Forms.Label();
-            this.JobNameContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.JobNameResetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.LocationContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.LocationResetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.MaxLinesContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.MaxLinesResetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.SetToMaximumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.FolderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.ToolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.Led1 = new WikiFunctions.Controls.LED();
             this.GroupBox3.SuspendLayout();
             this.GroupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UploadMaxLinesControl)).BeginInit();
+            this.MaxLinesContextMenuStrip.SuspendLayout();
             this.GroupBox6.SuspendLayout();
+            this.JobNameContextMenuStrip.SuspendLayout();
             this.GroupBox5.SuspendLayout();
+            this.LocationContextMenuStrip.SuspendLayout();
             this.GroupBox2.SuspendLayout();
             this.GroupBox1.SuspendLayout();
             this.GroupBox4.SuspendLayout();
-            this.JobNameContextMenuStrip.SuspendLayout();
-            this.LocationContextMenuStrip.SuspendLayout();
-            this.MaxLinesContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // ApplyButton
@@ -149,6 +150,28 @@ namespace AutoWikiBrowser
             0});
             this.UploadMaxLinesControl.ValueChanged += new System.EventHandler(this.WeHaveUnappliedChanges);
             // 
+            // MaxLinesContextMenuStrip
+            // 
+            this.MaxLinesContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MaxLinesResetToolStripMenuItem,
+            this.SetToMaximumToolStripMenuItem});
+            this.MaxLinesContextMenuStrip.Name = "MaxLinesContextMenuStrip";
+            this.MaxLinesContextMenuStrip.Size = new System.Drawing.Size(162, 48);
+            // 
+            // MaxLinesResetToolStripMenuItem
+            // 
+            this.MaxLinesResetToolStripMenuItem.Name = "MaxLinesResetToolStripMenuItem";
+            this.MaxLinesResetToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.MaxLinesResetToolStripMenuItem.Text = "Reset";
+            this.MaxLinesResetToolStripMenuItem.Click += new System.EventHandler(this.MaxLinesReset);
+            // 
+            // SetToMaximumToolStripMenuItem
+            // 
+            this.SetToMaximumToolStripMenuItem.Name = "SetToMaximumToolStripMenuItem";
+            this.SetToMaximumToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.SetToMaximumToolStripMenuItem.Text = "Set to maximum";
+            this.SetToMaximumToolStripMenuItem.Click += new System.EventHandler(this.SetLinesToMaximum);
+            // 
             // GroupBox6
             // 
             this.GroupBox6.Controls.Add(this.UploadJobNameTextBox);
@@ -170,6 +193,20 @@ namespace AutoWikiBrowser
             this.UploadJobNameTextBox.Text = "$CATEGORY";
             this.UploadJobNameTextBox.TextChanged += new System.EventHandler(this.WeHaveUnappliedChanges);
             // 
+            // JobNameContextMenuStrip
+            // 
+            this.JobNameContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.JobNameResetToolStripMenuItem});
+            this.JobNameContextMenuStrip.Name = "JobNameContextMenuStrip";
+            this.JobNameContextMenuStrip.Size = new System.Drawing.Size(103, 26);
+            // 
+            // JobNameResetToolStripMenuItem
+            // 
+            this.JobNameResetToolStripMenuItem.Name = "JobNameResetToolStripMenuItem";
+            this.JobNameResetToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
+            this.JobNameResetToolStripMenuItem.Text = "Reset";
+            this.JobNameResetToolStripMenuItem.Click += new System.EventHandler(this.JobNameReset);
+            // 
             // GroupBox5
             // 
             this.GroupBox5.Controls.Add(this.UploadLocationTextBox);
@@ -190,6 +227,20 @@ namespace AutoWikiBrowser
             this.UploadLocationTextBox.TabIndex = 21;
             this.UploadLocationTextBox.Text = "$USER/Logs";
             this.UploadLocationTextBox.TextChanged += new System.EventHandler(this.WeHaveUnappliedChanges);
+            // 
+            // LocationContextMenuStrip
+            // 
+            this.LocationContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.LocationResetToolStripMenuItem});
+            this.LocationContextMenuStrip.Name = "LocationContextMenuStrip";
+            this.LocationContextMenuStrip.Size = new System.Drawing.Size(103, 26);
+            // 
+            // LocationResetToolStripMenuItem
+            // 
+            this.LocationResetToolStripMenuItem.Name = "LocationResetToolStripMenuItem";
+            this.LocationResetToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
+            this.LocationResetToolStripMenuItem.Text = "Reset";
+            this.LocationResetToolStripMenuItem.Click += new System.EventHandler(this.LocationReset);
             // 
             // UploadWikiProjectCheckBox
             // 
@@ -256,6 +307,15 @@ namespace AutoWikiBrowser
             this.GroupBox2.TabIndex = 24;
             this.GroupBox2.TabStop = false;
             this.GroupBox2.Text = "Status";
+            // 
+            // Led1
+            // 
+            this.Led1.Colour = WikiFunctions.Controls.Colour.Red;
+            this.Led1.Location = new System.Drawing.Point(231, 69);
+            this.Led1.Name = "Led1";
+            this.Led1.Size = new System.Drawing.Size(20, 20);
+            this.Led1.TabIndex = 31;
+            this.ToolTip1.SetToolTip(this.Led1, "Turns green when writing and blue when uploading");
             // 
             // Label8
             // 
@@ -392,6 +452,7 @@ namespace AutoWikiBrowser
             // 
             // GroupBox1
             // 
+            this.GroupBox1.Controls.Add(this.DebugUploadingCheckBox);
             this.GroupBox1.Controls.Add(this.SQLLogCheckBox);
             this.GroupBox1.Controls.Add(this.GroupBox4);
             this.GroupBox1.Controls.Add(this.UploadCheckBox);
@@ -404,6 +465,17 @@ namespace AutoWikiBrowser
             this.GroupBox1.TabIndex = 23;
             this.GroupBox1.TabStop = false;
             this.GroupBox1.Text = "Options";
+            // 
+            // DebugUploadingCheckBox
+            // 
+            this.DebugUploadingCheckBox.AutoSize = true;
+            this.DebugUploadingCheckBox.Location = new System.Drawing.Point(67, 111);
+            this.DebugUploadingCheckBox.Name = "DebugUploadingCheckBox";
+            this.DebugUploadingCheckBox.Size = new System.Drawing.Size(58, 17);
+            this.DebugUploadingCheckBox.TabIndex = 27;
+            this.DebugUploadingCheckBox.Text = "Debug";
+            this.DebugUploadingCheckBox.UseVisualStyleBackColor = true;
+            this.DebugUploadingCheckBox.CheckedChanged += new System.EventHandler(this.WeHaveUnappliedChanges);
             // 
             // SQLLogCheckBox
             // 
@@ -501,65 +573,6 @@ namespace AutoWikiBrowser
             this.Label1.TabIndex = 22;
             this.Label1.Text = "Folder";
             // 
-            // JobNameContextMenuStrip
-            // 
-            this.JobNameContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.JobNameResetToolStripMenuItem});
-            this.JobNameContextMenuStrip.Name = "JobNameContextMenuStrip";
-            this.JobNameContextMenuStrip.Size = new System.Drawing.Size(103, 26);
-            // 
-            // JobNameResetToolStripMenuItem
-            // 
-            this.JobNameResetToolStripMenuItem.Name = "JobNameResetToolStripMenuItem";
-            this.JobNameResetToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
-            this.JobNameResetToolStripMenuItem.Text = "Reset";
-            this.JobNameResetToolStripMenuItem.Click += new System.EventHandler(this.JobNameReset);
-            // 
-            // LocationContextMenuStrip
-            // 
-            this.LocationContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.LocationResetToolStripMenuItem});
-            this.LocationContextMenuStrip.Name = "LocationContextMenuStrip";
-            this.LocationContextMenuStrip.Size = new System.Drawing.Size(103, 26);
-            // 
-            // LocationResetToolStripMenuItem
-            // 
-            this.LocationResetToolStripMenuItem.Name = "LocationResetToolStripMenuItem";
-            this.LocationResetToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
-            this.LocationResetToolStripMenuItem.Text = "Reset";
-            this.LocationResetToolStripMenuItem.Click += new System.EventHandler(this.LocationReset);
-            // 
-            // MaxLinesContextMenuStrip
-            // 
-            this.MaxLinesContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MaxLinesResetToolStripMenuItem,
-            this.SetToMaximumToolStripMenuItem});
-            this.MaxLinesContextMenuStrip.Name = "MaxLinesContextMenuStrip";
-            this.MaxLinesContextMenuStrip.Size = new System.Drawing.Size(162, 48);
-            // 
-            // MaxLinesResetToolStripMenuItem
-            // 
-            this.MaxLinesResetToolStripMenuItem.Name = "MaxLinesResetToolStripMenuItem";
-            this.MaxLinesResetToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
-            this.MaxLinesResetToolStripMenuItem.Text = "Reset";
-            this.MaxLinesResetToolStripMenuItem.Click += new System.EventHandler(this.MaxLinesReset);
-            // 
-            // SetToMaximumToolStripMenuItem
-            // 
-            this.SetToMaximumToolStripMenuItem.Name = "SetToMaximumToolStripMenuItem";
-            this.SetToMaximumToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
-            this.SetToMaximumToolStripMenuItem.Text = "Set to maximum";
-            this.SetToMaximumToolStripMenuItem.Click += new System.EventHandler(this.SetLinesToMaximum);
-            // 
-            // Led1
-            // 
-            this.Led1.Colour = WikiFunctions.Controls.Colour.Red;
-            this.Led1.Location = new System.Drawing.Point(231, 69);
-            this.Led1.Name = "Led1";
-            this.Led1.Size = new System.Drawing.Size(20, 20);
-            this.Led1.TabIndex = 31;
-            this.ToolTip1.SetToolTip(this.Led1, "Turns green when writing and blue when uploading");
-            // 
             // LoggingSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -575,19 +588,19 @@ namespace AutoWikiBrowser
             this.GroupBox3.PerformLayout();
             this.GroupBox7.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.UploadMaxLinesControl)).EndInit();
+            this.MaxLinesContextMenuStrip.ResumeLayout(false);
             this.GroupBox6.ResumeLayout(false);
             this.GroupBox6.PerformLayout();
+            this.JobNameContextMenuStrip.ResumeLayout(false);
             this.GroupBox5.ResumeLayout(false);
             this.GroupBox5.PerformLayout();
+            this.LocationContextMenuStrip.ResumeLayout(false);
             this.GroupBox2.ResumeLayout(false);
             this.GroupBox2.PerformLayout();
             this.GroupBox1.ResumeLayout(false);
             this.GroupBox1.PerformLayout();
             this.GroupBox4.ResumeLayout(false);
             this.GroupBox4.PerformLayout();
-            this.JobNameContextMenuStrip.ResumeLayout(false);
-            this.LocationContextMenuStrip.ResumeLayout(false);
-            this.MaxLinesContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -641,5 +654,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.FolderBrowserDialog FolderBrowserDialog1;
         private System.Windows.Forms.ToolTip ToolTip1;
         private System.Windows.Forms.CheckBox SQLLogCheckBox;
+        private System.Windows.Forms.CheckBox DebugUploadingCheckBox;
     }
 }
