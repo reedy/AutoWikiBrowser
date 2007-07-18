@@ -205,17 +205,17 @@ namespace AutoWikiBrowser
             this.chkFindandReplace = new System.Windows.Forms.CheckBox();
             this.chkNudge = new System.Windows.Forms.CheckBox();
             this.LoggingCategoryTextBox = new System.Windows.Forms.TextBox();
-            this.mnuHistory = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.refreshHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.chkLock = new System.Windows.Forms.CheckBox();
-            this.chkMinor = new System.Windows.Forms.CheckBox();
-            this.txtEdit = new System.Windows.Forms.TextBox();
             this.CategoryTextboxContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemCategoryCut = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemCategoryCopy = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemCategoryPaste = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemCategoryClear = new System.Windows.Forms.ToolStripMenuItem();
+            this.chkLock = new System.Windows.Forms.CheckBox();
+            this.chkMinor = new System.Windows.Forms.CheckBox();
+            this.txtEdit = new System.Windows.Forms.TextBox();
+            this.mnuHistory = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.refreshHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveListDialog = new System.Windows.Forms.SaveFileDialog();
             this.saveXML = new System.Windows.Forms.SaveFileDialog();
             this.openXML = new System.Windows.Forms.OpenFileDialog();
@@ -343,8 +343,8 @@ namespace AutoWikiBrowser
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudBotSpeed)).BeginInit();
-            this.mnuHistory.SuspendLayout();
             this.CategoryTextboxContextMenuStrip.SuspendLayout();
+            this.mnuHistory.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.mnuWebBrowser.SuspendLayout();
             this.mnuNotify.SuspendLayout();
@@ -1741,27 +1741,47 @@ namespace AutoWikiBrowser
             this.LoggingCategoryTextBox.TabIndex = 35;
             this.toolTip1.SetToolTip(this.LoggingCategoryTextBox, resources.GetString("LoggingCategoryTextBox.ToolTip"));
             // 
-            // mnuHistory
+            // CategoryTextboxContextMenuStrip
             // 
-            this.mnuHistory.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openInBrowserToolStripMenuItem,
-            this.refreshHistoryToolStripMenuItem});
-            this.mnuHistory.Name = "mnuHistory";
-            this.mnuHistory.Size = new System.Drawing.Size(201, 48);
+            this.CategoryTextboxContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemCategoryCut,
+            this.toolStripMenuItemCategoryCopy,
+            this.toolStripMenuItemCategoryPaste,
+            this.toolStripMenuItemCategoryClear});
+            this.CategoryTextboxContextMenuStrip.Name = "ContextMenuStrip1";
+            this.CategoryTextboxContextMenuStrip.Size = new System.Drawing.Size(145, 92);
             // 
-            // openInBrowserToolStripMenuItem
+            // toolStripMenuItemCategoryCut
             // 
-            this.openInBrowserToolStripMenuItem.Name = "openInBrowserToolStripMenuItem";
-            this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
-            this.openInBrowserToolStripMenuItem.Text = "Open history in browser";
-            this.openInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem_Click);
+            this.toolStripMenuItemCategoryCut.Name = "toolStripMenuItemCategoryCut";
+            this.toolStripMenuItemCategoryCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.toolStripMenuItemCategoryCut.Size = new System.Drawing.Size(144, 22);
+            this.toolStripMenuItemCategoryCut.Text = "Cut";
+            this.toolStripMenuItemCategoryCut.Click += new System.EventHandler(this.toolStripMenuItemCategoryCut_Click);
             // 
-            // refreshHistoryToolStripMenuItem
+            // toolStripMenuItemCategoryCopy
             // 
-            this.refreshHistoryToolStripMenuItem.Name = "refreshHistoryToolStripMenuItem";
-            this.refreshHistoryToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
-            this.refreshHistoryToolStripMenuItem.Text = "Refresh history";
-            this.refreshHistoryToolStripMenuItem.Click += new System.EventHandler(this.refreshHistoryToolStripMenuItem_Click);
+            this.toolStripMenuItemCategoryCopy.Name = "toolStripMenuItemCategoryCopy";
+            this.toolStripMenuItemCategoryCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.toolStripMenuItemCategoryCopy.Size = new System.Drawing.Size(144, 22);
+            this.toolStripMenuItemCategoryCopy.Text = "Copy";
+            this.toolStripMenuItemCategoryCopy.Click += new System.EventHandler(this.toolStripMenuItemCategoryCopy_Click);
+            // 
+            // toolStripMenuItemCategoryPaste
+            // 
+            this.toolStripMenuItemCategoryPaste.Name = "toolStripMenuItemCategoryPaste";
+            this.toolStripMenuItemCategoryPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.toolStripMenuItemCategoryPaste.Size = new System.Drawing.Size(144, 22);
+            this.toolStripMenuItemCategoryPaste.Text = "Paste";
+            this.toolStripMenuItemCategoryPaste.Click += new System.EventHandler(this.toolStripMenuItemCategoryPaste_Click);
+            // 
+            // toolStripMenuItemCategoryClear
+            // 
+            this.toolStripMenuItemCategoryClear.Name = "toolStripMenuItemCategoryClear";
+            this.toolStripMenuItemCategoryClear.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.toolStripMenuItemCategoryClear.Size = new System.Drawing.Size(144, 22);
+            this.toolStripMenuItemCategoryClear.Text = "Clear";
+            this.toolStripMenuItemCategoryClear.Click += new System.EventHandler(this.toolStripMenuItemCategoryClear_Click);
             // 
             // chkLock
             // 
@@ -1806,47 +1826,27 @@ namespace AutoWikiBrowser
             this.toolTip1.SetToolTip(this.txtEdit, "Edit the article\'s text in this box");
             this.txtEdit.TextChanged += new System.EventHandler(this.txtEdit_TextChanged);
             // 
-            // CategoryTextboxContextMenuStrip
+            // mnuHistory
             // 
-            this.CategoryTextboxContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemCategoryCut,
-            this.toolStripMenuItemCategoryCopy,
-            this.toolStripMenuItemCategoryPaste,
-            this.toolStripMenuItemCategoryClear});
-            this.CategoryTextboxContextMenuStrip.Name = "ContextMenuStrip1";
-            this.CategoryTextboxContextMenuStrip.Size = new System.Drawing.Size(145, 92);
+            this.mnuHistory.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openInBrowserToolStripMenuItem,
+            this.refreshHistoryToolStripMenuItem});
+            this.mnuHistory.Name = "mnuHistory";
+            this.mnuHistory.Size = new System.Drawing.Size(201, 48);
             // 
-            // toolStripMenuItemCategoryCut
+            // openInBrowserToolStripMenuItem
             // 
-            this.toolStripMenuItemCategoryCut.Name = "toolStripMenuItemCategoryCut";
-            this.toolStripMenuItemCategoryCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.toolStripMenuItemCategoryCut.Size = new System.Drawing.Size(144, 22);
-            this.toolStripMenuItemCategoryCut.Text = "Cut";
-            this.toolStripMenuItemCategoryCut.Click += new System.EventHandler(this.toolStripMenuItemCategoryCut_Click);
+            this.openInBrowserToolStripMenuItem.Name = "openInBrowserToolStripMenuItem";
+            this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.openInBrowserToolStripMenuItem.Text = "Open history in browser";
+            this.openInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem_Click);
             // 
-            // toolStripMenuItemCategoryCopy
+            // refreshHistoryToolStripMenuItem
             // 
-            this.toolStripMenuItemCategoryCopy.Name = "toolStripMenuItemCategoryCopy";
-            this.toolStripMenuItemCategoryCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.toolStripMenuItemCategoryCopy.Size = new System.Drawing.Size(144, 22);
-            this.toolStripMenuItemCategoryCopy.Text = "Copy";
-            this.toolStripMenuItemCategoryCopy.Click += new System.EventHandler(this.toolStripMenuItemCategoryCopy_Click);
-            // 
-            // toolStripMenuItemCategoryPaste
-            // 
-            this.toolStripMenuItemCategoryPaste.Name = "toolStripMenuItemCategoryPaste";
-            this.toolStripMenuItemCategoryPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.toolStripMenuItemCategoryPaste.Size = new System.Drawing.Size(144, 22);
-            this.toolStripMenuItemCategoryPaste.Text = "Paste";
-            this.toolStripMenuItemCategoryPaste.Click += new System.EventHandler(this.toolStripMenuItemCategoryPaste_Click);
-            // 
-            // toolStripMenuItemCategoryClear
-            // 
-            this.toolStripMenuItemCategoryClear.Name = "toolStripMenuItemCategoryClear";
-            this.toolStripMenuItemCategoryClear.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.toolStripMenuItemCategoryClear.Size = new System.Drawing.Size(144, 22);
-            this.toolStripMenuItemCategoryClear.Text = "Clear";
-            this.toolStripMenuItemCategoryClear.Click += new System.EventHandler(this.toolStripMenuItemCategoryClear_Click);
+            this.refreshHistoryToolStripMenuItem.Name = "refreshHistoryToolStripMenuItem";
+            this.refreshHistoryToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.refreshHistoryToolStripMenuItem.Text = "Refresh history";
+            this.refreshHistoryToolStripMenuItem.Click += new System.EventHandler(this.refreshHistoryToolStripMenuItem_Click);
             // 
             // saveListDialog
             // 
@@ -3115,7 +3115,7 @@ namespace AutoWikiBrowser
             this.tpLoggingOptions.Padding = new System.Windows.Forms.Padding(3);
             this.tpLoggingOptions.Size = new System.Drawing.Size(265, 351);
             this.tpLoggingOptions.TabIndex = 3;
-            this.tpLoggingOptions.Text = "Logging options";
+            this.tpLoggingOptions.Text = "Logging to file";
             this.tpLoggingOptions.UseVisualStyleBackColor = true;
             // 
             // loggingSettings1
@@ -3219,8 +3219,8 @@ namespace AutoWikiBrowser
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudBotSpeed)).EndInit();
-            this.mnuHistory.ResumeLayout(false);
             this.CategoryTextboxContextMenuStrip.ResumeLayout(false);
+            this.mnuHistory.ResumeLayout(false);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
             this.mnuWebBrowser.ResumeLayout(false);
