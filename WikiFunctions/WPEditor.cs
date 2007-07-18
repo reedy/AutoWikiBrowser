@@ -109,6 +109,7 @@ namespace WikiFunctions
 
         public struct EditPageRetvals
         {
+            public string article;
             public string responsetext;
             public string difflink;
         }
@@ -135,7 +136,7 @@ namespace WikiFunctions
         /// <param name="Summary">The edit summary to use for this edit.</param>
         /// <param name="Minor">Whether or not to flag the edit as minor.</param>
         /// <param name="Watch">Whether article should be added to your watchlist</param>
-        /// <returns>A link to the diff page for the changes made.</returns>
+        /// <returns>An EditPageRetvals object</returns>
         public EditPageRetvals EditPageEx(String Article, String NewText, String Summary, bool Minor, bool Watch)
         {
             HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(m_indexpath + "index.php?title=" + 
@@ -150,10 +151,7 @@ namespace WikiFunctions
             string wpEdittime = m.Groups[1].Value;
 
             m = EditToken.Match(editpagestr);
-            // for debugging:
-            //string wpEditkey = Microsoft.VisualBasic.Interaction.InputBox("Edit token", "Edit token", 
-            //    System.Uri.UnescapeDataString(m.Groups[1].Value), 0,0);
-            string wpEditkey = m.Groups[1].Value;
+            string wpEditkey = System.Web.HttpUtility.UrlEncode(m.Groups[1].Value);
 
             wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
             UserAgent(wr);
@@ -194,6 +192,7 @@ namespace WikiFunctions
 
             StreamReader sr = new StreamReader(resps.GetResponseStream());
             EditPageRetvals retval = new EditPageRetvals();
+            retval.article = Article;
 
             retval.responsetext = sr.ReadToEnd();
 
@@ -220,6 +219,19 @@ namespace WikiFunctions
         public string EditPage(String Article, String NewText, String Summary, bool Minor)
         {
             return EditPage(Article, NewText, Summary, Minor, false);
+        }
+
+        /// <summary>
+        /// Edits the specified page.
+        /// </summary>
+        /// <param name="Article">The article to edit.</param>
+        /// <param name="NewText">The new wikitext for the article.</param>
+        /// <param name="Summary">The edit summary to use for this edit.</param>
+        /// <param name="Minor">Whether or not to flag the edit as minor.</param>
+        /// <returns>An EditPageRetvals object</returns>
+        public EditPageRetvals EditPageEx(String Article, String NewText, String Summary, bool Minor)
+        {
+            return EditPageEx(Article, NewText, Summary, Minor, false);
         }
 
         /// <summary>
@@ -311,13 +323,26 @@ namespace WikiFunctions
         /// <returns>A link to the diff page for the changes made.</returns>
         public string EditPageAppend(string Article, string AppendText, string Summary, bool Minor)
         {
+            return EditPageAppendEx(Article, AppendText, Summary, Minor).difflink;
+        }
+
+        /// <summary>
+        /// Appends the specified text to the specified article.
+        /// </summary>
+        /// <param name="Article">The article to append text to.</param>
+        /// <param name="AppendText">The text to append.</param>
+        /// <param name="Summary">The edit summary for this edit.</param>
+        /// <param name="Minor">Whether or not to flag this edit as minor.</param>
+        /// <returns>An EditPageRetvals object</returns>
+        public EditPageRetvals EditPageAppendEx(string Article, string AppendText, string Summary, bool Minor)
+        {
             string pagetext;
 
             pagetext = GetWikiText(Article, m_indexpath, 0);
 
             pagetext += AppendText;
 
-            return EditPage(Article, pagetext, Summary, Minor);
+            return EditPageEx(Article, pagetext, Summary, Minor);
         }
 
         /// <summary>

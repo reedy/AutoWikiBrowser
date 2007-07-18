@@ -372,26 +372,6 @@ namespace WikiFunctions.AWBSettings
     [Serializable]
     public class LoggingPrefs
     {
-        //internal LoggingPrefs() { }
-        //public LoggingPrefs(string mLogFolder, bool mLogVerbose, bool mLogWiki, bool mLogXHTML, bool mUploadYN,
-        //    bool mUploadAddToWatchlist, string mUploadJobName, string mUploadLocation, string mLogCategoryName,
-        //    int mUploadMaxLines, bool mUploadOpenInBrowser, bool mUploadToWikiProjects)
-        //{ // <s>TODO</s>: This could perhaps be improved by making the LoggingSettings control directly serialisable: see below
-        //    LogFolder = mLogFolder;
-        //    LogVerbose = mLogVerbose;
-        //    LogWiki = mLogWiki;
-        //    LogXHTML = mLogXHTML;
-        //    UploadYN = mUploadYN;
-        //    UploadAddToWatchlist = mUploadAddToWatchlist;
-        //    UploadJobName = mUploadJobName;
-        //    UploadLocation = mUploadLocation;
-        //    LogCategoryName = mLogCategoryName;
-        //    UploadMaxLines = mUploadMaxLines;
-        //    UploadOpenInBrowser = mUploadOpenInBrowser;
-        //    UploadToWikiProjects = mUploadToWikiProjects;
-        //}
-
-
         // initialised/handled in LoggingSettings.SerialisableSettings
         public bool LogVerbose;
         public bool LogWiki;
@@ -400,6 +380,7 @@ namespace WikiFunctions.AWBSettings
         public bool UploadAddToWatchlist;
         public bool UploadOpenInBrowser;
         public bool UploadToWikiProjects;
+        public bool DebugUploading;
         public int UploadMaxLines = 1000;
         public string LogFolder = "";
         public string UploadJobName="";
