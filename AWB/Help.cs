@@ -34,10 +34,15 @@ namespace AutoWikiBrowser
             InitializeComponent();
         }
 
+        // TODO: convert hyperlinks to use the simple skin too. Add menu and buttons to base form.
+        // TODO: How about bug reporting using this tool, could even send exception data?
+        // TODO: After performing an update, display a message in Help browser with link to changelog
         protected override string URL
         {
-            get { return "http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/User_manual"; }
-            //get { return "http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/User_manual&printable=yes"; } // this looks nice but unfortunately zaps the hyperlinks
+            // get { return "http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/User_manual"; } // Met's version
+            get { return "http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/User_manual" +
+                "&useskin=simple&uselang=" + WikiFunctions.Variables.LangCode.ToString(); 
+            } // printable=yes looks nice but unfortunately zaps the hyperlinks
         }
     }
 }

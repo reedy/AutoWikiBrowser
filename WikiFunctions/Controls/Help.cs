@@ -79,8 +79,6 @@ namespace WikiFunctions.Controls
         }
 
         protected virtual void label1_Click(object sender, EventArgs e)
-        {
-            webBrowserHelp.Navigate(URL + "#toc");
-        }
+        { webBrowserHelp.Navigate(URL + "#toc"); }
     }
 }
