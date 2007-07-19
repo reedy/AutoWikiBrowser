@@ -103,6 +103,9 @@
       <DependentUpon>LoggingSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="MyTrace.cs" />
+    <Compile Include="Stats.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Tools.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>

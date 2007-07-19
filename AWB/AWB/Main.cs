@@ -255,38 +255,7 @@ namespace AutoWikiBrowser
             set { chkAutoMode.Checked = value; }
         }
 
-        int intEdits = 0;
-        private int NumberOfEdits
-        {
-            get { return intEdits; }
-            set
-            {
-                intEdits = value;
-                lblEditCount.Text = "Edits: " + value.ToString();
-            }
-        }
 
-        int intIgnoredEdits = 0;
-        private int NumberOfIgnoredEdits
-        {
-            get { return intIgnoredEdits; }
-            set
-            {
-                intIgnoredEdits = value;
-                lblIgnoredArticles.Text = "Ignored: " + value.ToString();
-            }
-        }
-
-        int intEditsPerMin = 0;
-        private int NumberOfEditsPerMinute
-        {
-            get { return intEditsPerMin; }
-            set
-            {
-                intEditsPerMin = value;
-                lblEditsPerMin.Text = "Edits/min: " + value.ToString();
-            }
-        }
 
         bool bLowThreadPriority = false;
         private bool LowThreadPriority
