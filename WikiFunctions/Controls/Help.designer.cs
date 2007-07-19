@@ -34,6 +34,8 @@ namespace WikiFunctions.Controls
             this.lbTopics = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.webBrowserHelp = new System.Windows.Forms.WebBrowser();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -54,7 +56,9 @@ namespace WikiFunctions.Controls
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.toolStrip1);
             this.splitContainer1.Panel2.Controls.Add(this.webBrowserHelp);
+            this.splitContainer1.Panel2.Controls.Add(this.menuStrip1);
             this.splitContainer1.Size = new System.Drawing.Size(788, 633);
             this.splitContainer1.SplitterDistance = 197;
             this.splitContainer1.TabIndex = 0;
@@ -101,12 +105,30 @@ namespace WikiFunctions.Controls
             // webBrowserHelp
             // 
             this.webBrowserHelp.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowserHelp.Location = new System.Drawing.Point(0, 0);
+            this.webBrowserHelp.Location = new System.Drawing.Point(0, 24);
             this.webBrowserHelp.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowserHelp.Name = "webBrowserHelp";
-            this.webBrowserHelp.Size = new System.Drawing.Size(587, 633);
+            this.webBrowserHelp.Size = new System.Drawing.Size(587, 609);
             this.webBrowserHelp.TabIndex = 0;
             this.webBrowserHelp.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserHelp_DocumentCompleted);
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Location = new System.Drawing.Point(0, 24);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(587, 25);
+            this.toolStrip1.TabIndex = 2;
+            this.toolStrip1.Text = "toolStrip1";
+            this.toolStrip1.Visible = false;
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(587, 24);
+            this.menuStrip1.TabIndex = 1;
+            this.menuStrip1.Text = "menuStrip1";
+            this.menuStrip1.Visible = false;
             // 
             // Help
             // 
@@ -115,12 +137,14 @@ namespace WikiFunctions.Controls
             this.ClientSize = new System.Drawing.Size(788, 633);
             this.Controls.Add(this.splitContainer1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "Help";
             this.Text = "Help";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Help_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
             this.splitContainer1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -134,6 +158,8 @@ namespace WikiFunctions.Controls
         protected System.Windows.Forms.WebBrowser webBrowserHelp;
         protected System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         protected System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.MenuStrip menuStrip1;
 
     }
 }
