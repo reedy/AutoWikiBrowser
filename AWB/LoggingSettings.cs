@@ -366,5 +366,15 @@ namespace AutoWikiBrowser
             }
             #endregion
         }
+
+        private void ResetButton_Click(object sender, EventArgs e)
+        {
+            XHTMLLogCheckBox.Checked = WikiLogCheckBox.Checked = SQLLogCheckBox.Checked =
+                VerboseCheckBox.Checked = UploadCheckBox.Checked = false;
+            LocationReset(null, null);
+            JobNameReset(null, null);
+            MaxLinesReset(null, null);
+            FolderButton_Click(null, null);
+        }
     }
 }

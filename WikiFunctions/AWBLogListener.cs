@@ -78,7 +78,8 @@ namespace WikiFunctions.Logging
             ListViewSubItem DateStamp = new ListViewSubItem();
             DateStamp.Text = DateTime.Now.ToString();
 
-            ListView.Items.Insert(0, this).SubItems.Insert(1, DateStamp);
+            base.SubItems.Insert(1, DateStamp);
+            ListView.Items.Insert(0, this);
             Datestamped = true;
         }
 
