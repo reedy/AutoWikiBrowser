@@ -161,11 +161,11 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             about.Show()
         End Sub
         Private Sub MenuHelp_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles MenuHelp.Click
-            Tools.OpenENArticleInBrowser("Kingbotk/Plugin/User guide", True)
+            PluginManager.AWBForm.ShowHelpEnWiki("User:Kingbotk/Plugin/User guide")
         End Sub
         Private Sub MenuHelpReleaseNotes_Click(ByVal sender As Object, ByVal e As System.EventArgs) _
         Handles MenuHelpReleaseNotes.Click
-            Tools.OpenENArticleInBrowser("Kingbotk/Plugin", True)
+            PluginManager.AWBForm.ShowHelpEnWiki("User:Kingbotk/Plugin")
         End Sub
 
         ' Event handlers - our controls:
