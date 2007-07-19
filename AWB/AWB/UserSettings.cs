@@ -32,7 +32,7 @@ using AutoWikiBrowser.Plugins;
 
 namespace AutoWikiBrowser
 {
-    public partial class MainForm
+    partial class MainForm
     {
         private void saveAsDefaultToolStripMenuItem_Click(object sender, EventArgs e)
         {

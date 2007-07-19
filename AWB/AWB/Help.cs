@@ -24,26 +24,51 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using WikiFunctions;
 
 namespace AutoWikiBrowser
 {
-    public partial class Help : WikiFunctions.Controls.Help
+    internal sealed partial class Help : WikiFunctions.Controls.Help
     {
         public Help()
         {
+            this.Text = "AWB Help";
             InitializeComponent();
         }
 
-        // TODO: convert hyperlinks to use the simple skin too. Add menu and buttons to base form.
+        // TODO: convert hyperlinks in the page to use the simple skin too.
         // TODO: How about bug reporting using this tool, could even send exception data?
-        // TODO: After performing an update, display a message in Help browser with link to changelog
+        // TODO: After performing an update, display a message in Help browser with link to changelog (ShowHelp();)
         protected override string URL
         {
             // get { return "http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/User_manual"; } // Met's version
-            get { return "http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/User_manual" +
-                "&useskin=simple&uselang=" + WikiFunctions.Variables.LangCode.ToString(); 
+            get { return Tools.GetENLinkWithSimpleSkinAndLocalLanguage("Wikipedia:AutoWikiBrowser/User_manual"); 
             } // printable=yes looks nice but unfortunately zaps the hyperlinks
+            // Not hardcoding URL allows some of the Wikipedia links to be displayed in user's current language
         }
+
+        public static void ShowHelp(Help h)
+        { ShowHelp(h, ""); }
+
+        public static void ShowHelpEn(Help h, string Article)
+        { ShowHelp(h, Tools.GetENLinkWithSimpleSkinAndLocalLanguage(Article)); }
+
+        public static void ShowHelp(Help h, string URL)
+        {
+            if (h == null || h.IsDisposed)
+                h = new Help();
+            h.Show();
+            if (URL == "")
+                h.Navigate();
+            else
+                h.Navigate(URL);
+        }
+
+        private void Navigate()
+        { Navigate(URL); }
+
+        protected override void Help_Load(object sender, EventArgs e)
+        { } // do nothing, we'll load URL in ShowHelp()
     }
 }
 

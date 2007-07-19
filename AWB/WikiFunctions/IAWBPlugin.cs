@@ -90,6 +90,8 @@ namespace WikiFunctions.Plugin
         int Nudges { get; }
         void AddLogItem(bool Skipped, AWBLogListener LogListener);
         void TurnOffLogging();
+        void ShowHelp(string URL);
+        void ShowHelpEnWiki(string Article);
 
         void Start(IAWBPlugin sender);
         void Save(IAWBPlugin sender);

@@ -53,7 +53,7 @@ namespace AutoWikiBrowser
     [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
     [System.Runtime.InteropServices.ComVisibleAttribute(true)]
     public sealed partial class MainForm : Form, IAutoWikiBrowser
-    {
+    { // this class needs to be public, otherwise we get an exception which recommends setting ComVisibleAttribute to true (which we've already done)
         #region Fields
             private static Splash splash = new Splash();
             private static WikiFunctions.AWBProfiles.AWBProfilesForm profiles;
@@ -96,6 +96,7 @@ namespace AutoWikiBrowser
             private ListSplitter splitter;
 
             private static readonly Regex DiffIdParser = new Regex(@"[a-z](-?\d*)x(-?\d*)");
+            private static Help h = new Help();
         #endregion
 
         #region Constructor and MainForm load/resize
@@ -2453,9 +2454,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void helpToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            Help h = new Help();
-            h.Show();
-            // System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/User_manual");
+            Help.ShowHelp(h);
         }
 
         private void reparseToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3182,6 +3181,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             void IAutoWikiBrowser.AddLogItem(bool Skipped, AWBLogListener LogListener)
             { LogControl1.AddLog(Skipped, LogListener); }
             void IAutoWikiBrowser.TurnOffLogging() { GlobalObjects.MyTrace.TurnOffLogging(); }
+            void IAutoWikiBrowser.ShowHelp(string URL) { Help.ShowHelp(h, URL); }
+            void IAutoWikiBrowser.ShowHelpEnWiki(string Article) { Help.ShowHelpEn(h, Article); }
 
         // "Events":
             void IAutoWikiBrowser.SkipPage(IAWBPlugin sender, string reason) { SkipPage(sender.Name, reason); }

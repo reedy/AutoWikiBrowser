@@ -33,6 +33,7 @@ namespace WikiFunctions.Controls
     /// </summary>
     public abstract partial class Help : Form
     {
+        // TODO: Add menu and buttons for back, forward, home (=URL property), etc
         public Help()
         {
             InitializeComponent();
@@ -40,7 +41,17 @@ namespace WikiFunctions.Controls
 
         protected virtual void Help_Load(object sender, EventArgs e)
         {
+            Navigate(URL);
+        }
+
+        public virtual void Navigate(string URL)
+        {
             webBrowserHelp.Navigate(URL);
+        }
+
+        public virtual void NavigateEn(string Article)
+        {
+            webBrowserHelp.Navigate(Tools.GetENLinkWithSimpleSkinAndLocalLanguage(Article));
         }
 
         protected internal abstract string URL { get; }
