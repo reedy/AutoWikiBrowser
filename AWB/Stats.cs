@@ -1,0 +1,75 @@
+/*
+Autowikibrowser
+Copyright (C) 2007 Martin Richards
+(C) 2007 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*/
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace AutoWikiBrowser
+{
+    partial class MainForm
+    {
+        // Unfortunately, NotifyIcon is sealed, otherwise I would inherit from that and do tooltiptext/stats management there
+        // Even more unfortunately, it seems it's tooltip is limited to 64 chars. Stinking great, Microsoft!
+        // TODO: Maybe an alternative approach using mouse events?
+        int intEdits = 0;
+        private int NumberOfEdits
+        {
+            get { return intEdits; }
+            set
+            {
+                intEdits = value;
+                lblEditCount.Text = "Edits: " + value.ToString();
+                //UpdateNotifyIconTooltip();
+            }
+        }
+
+        int intIgnoredEdits = 0;
+        private int NumberOfIgnoredEdits
+        {
+            get { return intIgnoredEdits; }
+            set
+            {
+                intIgnoredEdits = value;
+                lblIgnoredArticles.Text = "Ignored: " + value.ToString();
+                //UpdateNotifyIconTooltip();
+            }
+        }
+
+        int intEditsPerMin = 0;
+        private int NumberOfEditsPerMinute
+        {
+            get { return intEditsPerMin; }
+            set
+            {
+                intEditsPerMin = value;
+                lblEditsPerMin.Text = "Edits/min: " + value.ToString();
+                //UpdateNotifyIconTooltip();
+            }
+        }
+
+        internal void UpdateNotifyIconTooltip()
+        {
+            //ntfyTray.Text = "AutoWikiBrowser " + SettingsFile + "\r\n" + lblEditCount.Text + "\r\n" +
+            //    lblIgnoredArticles.Text + "\r\n" + lblEditsPerMin.Text; // + current article if any
+            ntfyTray.Text = ("AutoWikiBrowser " + SettingsFile).Substring(0, 63); // 64 char limit
+        }
+    }
+}
