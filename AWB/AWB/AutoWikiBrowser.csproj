@@ -54,6 +54,7 @@
     </DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -138,10 +139,6 @@
     <EmbeddedResource Include="ExitQuestion.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ExitQuestion.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Help.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>Help.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoggingSettings.resx">
       <DependentUpon>LoggingSettings.cs</DependentUpon>

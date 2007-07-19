@@ -41,7 +41,7 @@ namespace WikiFunctions.IRC
     public delegate void UnprotectDel(string Admin, string Article, string Comment);
 
     /// <summary>
-    /// Contains function to monitor IRC channels.
+    /// Contains functions to monitor IRC channels.
     /// </summary>
     public class WikiIRC
     {

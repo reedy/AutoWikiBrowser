@@ -34,7 +34,7 @@ namespace WikiFunctions.Browser
     public enum enumProcessStage : byte { load, diff, save, delete, protect, none }
 
     /// <summary>
-    /// Provides a webBrowser component adapted and extended for use with Wikis.
+    /// Provides a WebBrowser component adapted and extended for use with Wikis.
     /// </summary>
     public partial class WebControl : WebBrowser
     {

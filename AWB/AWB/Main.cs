@@ -552,7 +552,7 @@ namespace AutoWikiBrowser
                 if (!Abort && skippable && chkSkipNoChanges.Checked && 
                     TheArticle.ArticleText == TheArticle.OriginalArticleText)
                 {
-                    SkipPage("No changes made");
+                    SkipPage("No change");
                     return;
                 }
                 else if (!Abort && TheArticle.SkipArticle)

@@ -1,64 +1,44 @@
+/*
+Autowikibrowser
+Copyright (C) 2007 Mets501, Stephen Kennedy
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*/
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace AutoWikiBrowser
 {
-    public partial class Help : Form
+    public partial class Help : WikiFunctions.Controls.Help
     {
         public Help()
         {
             InitializeComponent();
         }
 
-        private void Help_Load(object sender, EventArgs e)
+        protected override string URL
         {
-            webBrowserHelp.Navigate("http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/User_manual");
-        }
-
-        Regex TOC = new Regex(@"<LI class=toclevel-([12345])><A href=""#(.*?)""><SPAN class=tocnumber>.*?</SPAN> <SPAN class=toctext>.*?</SPAN></A>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        
-        private void webBrowserHelp_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
-        {
-            if (webBrowserHelp.Url == new Uri("http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/User_manual"))
-            {
-                lbTopics.Items.Clear();
-                string HTML = webBrowserHelp.Document.Body.InnerHtml;
-                foreach (Match m in TOC.Matches(HTML))
-                {
-                    if (m.Groups[1].Value == "1")
-                        lbTopics.Items.Add(m.Groups[2].Value.Replace("_", " ").Replace(".28", "(").Replace(".29", ")"));
-                    else if (m.Groups[1].Value == "2")
-                        lbTopics.Items.Add("  • " + m.Groups[2].Value.Replace("_", " ").Replace(".28", "(").Replace(".29", ")"));
-                    else if (m.Groups[1].Value == "3")
-                        lbTopics.Items.Add("      • " + m.Groups[2].Value.Replace("_", " ").Replace(".28", "(").Replace(".29", ")"));
-                    else if (m.Groups[1].Value == "4")
-                        lbTopics.Items.Add("          • " + m.Groups[2].Value.Replace("_", " ").Replace(".28", "(").Replace(".29", ")"));
-                    else if (m.Groups[1].Value == "5")
-                        lbTopics.Items.Add("              • " + m.Groups[2].Value.Replace("_", " ").Replace(".28", "(").Replace(".29", ")"));
-                }
-            }
-        }
-
-        private void lbTopics_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                webBrowserHelp.Navigate("http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/User_manual#" + lbTopics.SelectedItem.ToString().Replace("• ", "").Trim().Replace(" ", "_").Replace("(", ".28").Replace(")", ".29"));
-            }
-            catch
-            {
-            }
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-            webBrowserHelp.Navigate("http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/User_manual#toc");
+            get { return "http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/User_manual"; }
+            //get { return "http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/User_manual&printable=yes"; } // this looks nice but unfortunately zaps the hyperlinks
         }
     }
 }
+
