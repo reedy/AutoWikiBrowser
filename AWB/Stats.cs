@@ -28,7 +28,7 @@ namespace AutoWikiBrowser
     {
         // Unfortunately, NotifyIcon is sealed, otherwise I would inherit from that and do tooltiptext/stats management there
         // Even more unfortunately, it seems it's tooltip is limited to 64 chars. Stinking great, Microsoft!
-        // TODO: Maybe an alternative approach using mouse events?
+        // TODO: Maybe an alternative approach using mouse events? - doesn't seem to be a reliable way of doing even that! see e.g. http://64.233.183.104/search?q=cache:34QVls9xRoUJ:www.experts-exchange.com/Programming/Languages/.NET/Visual_Basic.NET/Q_21161863.html+notifyicon+mouseover&hl=en&ct=clnk&cd=1&gl=uk&lr=lang_en
         int intEdits = 0;
         private int NumberOfEdits
         {
@@ -69,7 +69,11 @@ namespace AutoWikiBrowser
         {
             //ntfyTray.Text = "AutoWikiBrowser " + SettingsFile + "\r\n" + lblEditCount.Text + "\r\n" +
             //    lblIgnoredArticles.Text + "\r\n" + lblEditsPerMin.Text; // + current article if any
-            ntfyTray.Text = ("AutoWikiBrowser " + SettingsFile).Substring(0, 63); // 64 char limit
+            string Text = "AutoWikiBrowser " + SettingsFile;
+            if (Text.Length > 64)
+                ntfyTray.Text = Text.Substring(0, 63); // 64 char limit
+            else
+                ntfyTray.Text = Text;
         }
     }
 }
