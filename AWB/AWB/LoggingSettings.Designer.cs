@@ -76,6 +76,7 @@ namespace AutoWikiBrowser
             this.Label1 = new System.Windows.Forms.Label();
             this.FolderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.ToolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.ResetButton = new System.Windows.Forms.Button();
             this.GroupBox3.SuspendLayout();
             this.GroupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UploadMaxLinesControl)).BeginInit();
@@ -92,7 +93,7 @@ namespace AutoWikiBrowser
             // ApplyButton
             // 
             this.ApplyButton.Enabled = false;
-            this.ApplyButton.Location = new System.Drawing.Point(41, 222);
+            this.ApplyButton.Location = new System.Drawing.Point(8, 222);
             this.ApplyButton.Name = "ApplyButton";
             this.ApplyButton.Size = new System.Drawing.Size(60, 23);
             this.ApplyButton.TabIndex = 26;
@@ -573,10 +574,25 @@ namespace AutoWikiBrowser
             this.Label1.TabIndex = 22;
             this.Label1.Text = "Folder";
             // 
+            // FolderBrowserDialog1
+            // 
+            this.FolderBrowserDialog1.Description = "Please select the folder where log files should be stored";
+            // 
+            // ResetButton
+            // 
+            this.ResetButton.Location = new System.Drawing.Point(95, 222);
+            this.ResetButton.Name = "ResetButton";
+            this.ResetButton.Size = new System.Drawing.Size(44, 23);
+            this.ResetButton.TabIndex = 27;
+            this.ResetButton.Text = "Reset";
+            this.ResetButton.UseVisualStyleBackColor = true;
+            this.ResetButton.Click += new System.EventHandler(this.ResetButton_Click);
+            // 
             // LoggingSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.ResetButton);
             this.Controls.Add(this.GroupBox3);
             this.Controls.Add(this.GroupBox2);
             this.Controls.Add(this.GroupBox1);
@@ -655,5 +671,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolTip ToolTip1;
         private System.Windows.Forms.CheckBox SQLLogCheckBox;
         private System.Windows.Forms.CheckBox DebugUploadingCheckBox;
+        private System.Windows.Forms.Button ResetButton;
     }
 }
