@@ -67,8 +67,8 @@ namespace WikiFunctions.Parse
             //interfere with wiki syntax
             RegexUnicode.Add(new Regex("&#(126|x5D|x5B|x7b|x7c|x7d|0?9[13]|0?12[345]|0?0?3[92]);", RegexOptions.Compiled | RegexOptions.IgnoreCase), "&amp;#$1;");
             //not entity, but still wrong
-            RegexUnicode.Add(new Regex("(cm| m|mm|km|mi)<sup>2</sup>", RegexOptions.Compiled), "$1²");
-            RegexUnicode.Add(new Regex("(cm| m|mm|km|mi)<sup>3</sup>", RegexOptions.Compiled), "$1³");
+            RegexUnicode.Add(new Regex("<sup>2</sup>", RegexOptions.Compiled), "²");
+            RegexUnicode.Add(new Regex("<sup>3</sup>", RegexOptions.Compiled), "³");
 
             RegexTagger.Add(new Regex("\\{\\{(template:)?(wikify|wikify-date|wfy|wiki)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Wikify|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
             RegexTagger.Add(new Regex("\\{\\{(template:)?(Clean ?up|CU|Clean|Tidy)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Cleanup|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
