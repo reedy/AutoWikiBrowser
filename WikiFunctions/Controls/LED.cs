@@ -29,7 +29,7 @@ namespace WikiFunctions.Controls
     public enum Colour { Red, Green, Blue };
 
     /// <summary>
-    /// A simple "LED" user control
+    /// A simple "LED" control
     /// </summary>
     public partial class LED : UserControl
     {
