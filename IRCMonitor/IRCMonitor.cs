@@ -248,7 +248,7 @@ namespace IRCMonitor
         {
             if (btnStart.Text == "Connect")
             {
-                if (txtServer.Text != "" && cmboLang.Text != "" && cmboProject.Text != "" && txtNickname.Text != "" && txtPort.Text != "")
+                if (OkToConnect())
                 {
                     btnStart.Text = "Disconnect";
                     CheckStatus();
@@ -264,9 +264,23 @@ namespace IRCMonitor
             }
         }
 
+        private bool OkToConnect()
+        {
+            if(txtServer.Text != "" && txtPort.Text != "" && txtNickname.Text != "")
+                if ((cmboProject.Text == "meta" || cmboProject.Text == "commons") || (cmboProject.Text != "" && cmboLang.Text != ""))
+                    return true;
+                else
+                    return false;
+            else
+                return false;
+        }
+
         private string GetIRCChannel()
         {
-            return "#" + cmboLang.SelectedItem.ToString() + "." + cmboProject.SelectedItem.ToString();
+            if (cmboProject.Text == "meta" || cmboProject.Text == "commons")
+                return "#" + cmboProject.SelectedItem.ToString();
+            else
+                return "#" + cmboLang.SelectedItem.ToString() + "." + cmboProject.SelectedItem.ToString();
         }
 
         WikiIRC IrcObject;
@@ -1964,6 +1978,11 @@ namespace IRCMonitor
         {
             this.Close();
             Application.Exit();
+        }
+
+        private void cmboProject_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cmboLang.Enabled = !(cmboProject.Text == "meta" || cmboProject.Text == "commons");
         }
     }
 }
