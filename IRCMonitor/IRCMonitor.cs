@@ -182,8 +182,8 @@ namespace IRCMonitor
             cmboLang.Text = "en";
             cmboProject.Text = "wikipedia";
         }
-        
-        private bool CheckStatus()
+
+        private bool CheckStatus(bool Login)
         {
             lblStatusText.Text = "Loading page to check if we are logged in.";
             WikiStatusResult Result = Variables.User.UpdateWikiStatus();
@@ -200,25 +200,20 @@ namespace IRCMonitor
 
                 case WikiStatusResult.NotLoggedIn:
                     lblUserName.BackColor = Color.Red;
+                    if (!Login)
+                        MessageBox.Show("You are not logged in. The log in screen will now load, enter your name and password, click \"Log in\", wait for it to complete, then start the process again.\r\n\r\nIn the future you can make sure this won't happen by logging in to Wikipedia using Microsoft Internet Explorer.", "Not logged in", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     webBrowser.LoadLogInPage();
                     tabControl.SelectedTab = tabPage8;
-                    MessageBox.Show("You are not logged in. The log in screen will now load, enter your name and password, click \"Log in\", wait for it to complete, then start the process again.\r\n\r\nIn the future you can make sure this won't happen by logging in to Wikipedia using Microsoft Internet Explorer.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     break;
 
                 case WikiStatusResult.NotRegistered:
                     lblUserName.BackColor = Color.Red;
                     MessageBox.Show(Variables.User.Name + " is not enabled to use this.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     Tools.OpenArticleInBrowser("/wiki/Project:AutoWikiBrowser/CheckPage");
-
                     break;
 
                 case WikiStatusResult.OldVersion:
-                    lblUserName.BackColor = Color.Red;
-                    DialogResult yesnocancel = MessageBox.Show("This version is not enabled, please download the newest version. If you have the newest version, check that Wikipedia is online.\r\n\r\nPlease press \"Yes\" to run the AutoUpdater, \"No\" to load the download page and update manually, or \"Cancel\" to not update (but you will not be able to edit).", "Problem", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information);
-                    if (yesnocancel == DialogResult.Yes)
-                        System.Diagnostics.Process.Start(Path.GetDirectoryName(Application.ExecutablePath) + "\\AWBUpdater.exe");
-                    if (yesnocancel == DialogResult.No)
-                        System.Diagnostics.Process.Start("http://sourceforge.net/project/showfiles.php?group_id=158332");
+                    oldVersion();
                     break;
 
                 case WikiStatusResult.Registered:
@@ -236,6 +231,29 @@ namespace IRCMonitor
             return b;
         }
 
+        private void oldVersion()
+        {
+            if (!WebControl.Shutdown)
+            {
+                lblUserName.BackColor = Color.Red;
+
+                DialogResult yesnocancel = MessageBox.Show("This version is not enabled, please download the newest version. If you have the newest version, check that Wikipedia is online.\r\n\r\nPlease press \"Yes\" to run the AutoUpdater, \"No\" to load the download page and update manually, or \"Cancel\" to not update (but you will not be able to edit).", "Problem", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information);
+                if (yesnocancel == DialogResult.Yes)
+                    runUpdater();
+
+                if (yesnocancel == DialogResult.No)
+                    System.Diagnostics.Process.Start("http://sourceforge.net/project/showfiles.php?group_id=158332");
+            }
+        }
+
+        private void runUpdater()
+        {
+            System.Diagnostics.Process.Start(Path.GetDirectoryName(Application.ExecutablePath) + "\\AWBUpdater.exe");
+
+            if (MessageBox.Show("IRCM needs to be closed. To do this now, click 'yes'. If you need to save your settings, do this now, the updater will not complete until AWB is closed.", "Close AWB?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) == DialogResult.Yes)
+                Application.Exit();
+        }
+
         private void UpdateButtons()
         {
             btnRevert.Enabled = webBrowser.Url.ToString().Contains("&diff=");
@@ -251,7 +269,7 @@ namespace IRCMonitor
                 if (OkToConnect())
                 {
                     btnStart.Text = "Disconnect";
-                    CheckStatus();
+                    CheckStatus(false);
                     Start();
                 }
                 else
@@ -1955,7 +1973,7 @@ namespace IRCMonitor
 
         private void loginToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CheckStatus();
+            CheckStatus(true);
         }
 
         private void iRCMonitorPageToolStripMenuItem_Click(object sender, EventArgs e)
