@@ -167,6 +167,7 @@ namespace WikiFunctions.Controls.Lists
             this.cmboSourceSelect.IntegralHeight = false;
             this.cmboSourceSelect.Items.AddRange(new object[] {
             "Category",
+            "Category (recursive)",
             "What links here",
             "What transcludes page",
             "Links on page",

@@ -34,17 +34,17 @@ namespace WikiFunctions.Controls.Lists
             InitializeComponent();
             if (Variables.LangCode == LangCodeEnum.en)
                 cmboSourceSelect.Items.Add("Redirects");
-            OnDebug();
+            //OnDebug();
         }
 
         new public void Refresh()
         { }
 
-        [Conditional("DEBUG")]
-        void OnDebug()
-        {
-            cmboSourceSelect.Items.Add("Category (recursive)");
-        }
+        //[Conditional("DEBUG")]
+        //void OnDebug()
+        //{
+        //    cmboSourceSelect.Items.Add("Category (recursive)");
+        //}
 
         public string strlbArticlesTooltip = "";
         public string strtxtNewArticleTooltip = "";
