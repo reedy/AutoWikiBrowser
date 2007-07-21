@@ -283,6 +283,18 @@ namespace AutoWikiBrowser
 				WeHaveUnappliedChanges();
 			}
 		}
+        
+        private void ResetButton_Click(object sender, EventArgs e)
+        {
+            XHTMLLogCheckBox.Checked = SQLLogCheckBox.Checked =
+                VerboseCheckBox.Checked = UploadCheckBox.Checked = false;
+            WikiLogCheckBox.Checked = UploadCheckBox.Checked = UploadOpenInBrowserCheckBox.Checked =
+                UploadWatchlistCheckBox.Checked = UploadWikiProjectCheckBox.Checked = true;
+            LocationReset(null, null);
+            JobNameReset(null, null);
+            MaxLinesReset(null, null);
+            FolderButton_Click(null, null);
+        }
 #endregion
 
         internal sealed class Props : UploadableLogSettings2
@@ -365,16 +377,6 @@ namespace AutoWikiBrowser
                 get { return Tools.RemoveInvalidChars(mUploadJobName.Replace(conUploadCategoryIsJobName, mCategory)); }
             }
             #endregion
-        }
-
-        private void ResetButton_Click(object sender, EventArgs e)
-        {
-            XHTMLLogCheckBox.Checked = WikiLogCheckBox.Checked = SQLLogCheckBox.Checked =
-                VerboseCheckBox.Checked = UploadCheckBox.Checked = false;
-            LocationReset(null, null);
-            JobNameReset(null, null);
-            MaxLinesReset(null, null);
-            FolderButton_Click(null, null);
         }
     }
 }
