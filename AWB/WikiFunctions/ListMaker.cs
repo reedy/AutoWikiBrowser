@@ -1241,5 +1241,5 @@ namespace WikiFunctions.Lists
 {
     //CategoryRecursive is enabled in debug builds only due to server load
     //it should always be the last item
-    public enum SourceType { None = -1, Category, WhatLinksHere, WhatTranscludesPage, LinksOnPage, ImagesOnPage, TransclusionsOnPage, TextFile, GoogleWikipedia, UserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist, WikiSearch, Redirects, CategoryRecursive }
+    public enum SourceType { None = -1, Category, CategoryRecursive, WhatLinksHere, WhatTranscludesPage, LinksOnPage, ImagesOnPage, TransclusionsOnPage, TextFile, GoogleWikipedia, UserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist, WikiSearch, Redirects }
 }
