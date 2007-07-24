@@ -122,10 +122,10 @@ namespace AutoWikiBrowser.Logging
 
         protected override void FinishedUpload()
         {
-            if (BusyCounter == 0)
+            //if (BusyCounter == 0)
                 LoggingSettings.LEDColour = WikiFunctions.Controls.Colour.Red;
-            else
-                LoggingSettings.LEDColour = WikiFunctions.Controls.Colour.Green;
+            //else
+            //    LoggingSettings.LEDColour = WikiFunctions.Controls.Colour.Green;
 
             mIsUploading = false;
         }
