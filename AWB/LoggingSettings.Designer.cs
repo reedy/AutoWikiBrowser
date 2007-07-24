@@ -533,8 +533,6 @@ namespace AutoWikiBrowser
             // WikiLogCheckBox
             // 
             this.WikiLogCheckBox.AutoSize = true;
-            this.WikiLogCheckBox.Checked = true;
-            this.WikiLogCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.WikiLogCheckBox.Location = new System.Drawing.Point(6, 42);
             this.WikiLogCheckBox.Name = "WikiLogCheckBox";
             this.WikiLogCheckBox.Size = new System.Drawing.Size(104, 17);

@@ -93,7 +93,7 @@ namespace WikiFunctions.Logging.Uploader
 	/// </summary>
 	public class UploadableLogSettings
 	{
-		protected bool mLogVerbose = true;
+		protected bool mLogVerbose = false;
 		protected string mLogFolder = System.Windows.Forms.Application.StartupPath;
 		protected int mUploadMaxLines = 1000;
 		protected bool mUploadYN;
@@ -132,7 +132,7 @@ namespace WikiFunctions.Logging.Uploader
     public class UploadableLogSettings2 : UploadableLogSettings
     {
         protected bool mLogXHTML = false;
-        protected bool mLogWiki = true;
+        protected bool mLogWiki = false;
         protected bool mUploadAddToWatchlist = true;
         protected bool mLogSQL = false;
         protected string mUploadLocation = "";
