@@ -96,6 +96,9 @@
     <Compile Include="Help.Designer.cs">
       <DependentUpon>Help.cs</DependentUpon>
     </Compile>
+    <Compile Include="IAutoWikiBrowser.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="LoggingSettings.cs">
       <SubType>UserControl</SubType>
     </Compile>
