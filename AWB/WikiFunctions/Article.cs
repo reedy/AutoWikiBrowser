@@ -211,11 +211,11 @@ namespace WikiFunctions
 
                 if (mPluginSkip)
                 {
-                    if (!mAWBLogListener.Skipped)
-                    { // plugin has told us to skip but didn't log any info about reason
+                    if (!SkipArticle)
+                        /* plugin has told us to skip but didn't log any info about reason
+                        Calling Trace.SkippedArticle() should also result in SkipArticle becoming True
+                        and our caller - MainForm.ProcessPage() - can check this value */
                         Trace.SkippedArticle(plugin.Name, "Skipped by plugin");
-                    }
-                    SkipArticle = true;
                 }
                 else
                 {
