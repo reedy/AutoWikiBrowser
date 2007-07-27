@@ -168,7 +168,7 @@ namespace WikiFunctions
             /// Returns true if the article should be skipped; check after each call to a worker member. See AWB main.cs.
             /// </summary>
             public bool SkipArticle
-            { get { return mAWBLogListener.Skipped; } }
+            { get { return mAWBLogListener.Skipped; } private set { mAWBLogListener.Skipped = value; } }
         
             public bool CanDoGeneralFixes
             { get { return (NameSpaceKey == 0 || NameSpaceKey == 14 || Name.Contains("Sandbox")); } }
@@ -200,9 +200,19 @@ namespace WikiFunctions
             {
                 string strTemp = plugin.ProcessArticle(sender, this);
 
-                if (!mPluginSkip)
+                if (mPluginSkip)
                 {
-                    LogListener.Skipped = false;  // a bit of a hack, if plugin says not to skip I'm resetting the LogListener.Skipped value to False
+                    if (!mAWBLogListener.Skipped)
+                    { // plugin has told us to skip but didn't log any info about reason
+                        Trace.SkippedArticle(plugin.Name, "Skipped by plugin");
+                        //mAWBLogListener.SkippedBy=plugin.Name;
+                        //mAWBLogListener.
+                    }
+                    SkipArticle = true;
+                }
+                else
+                {
+                    mAWBLogListener.Skipped = false;  // a bit of a hack, if plugin says not to skip I'm resetting the LogListener.Skipped value to False
                     this.PluginChangeArticleText(strTemp);
                     this.AppendPluginEditSummary();
                 }
