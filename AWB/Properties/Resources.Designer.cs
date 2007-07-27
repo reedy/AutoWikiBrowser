@@ -66,5 +66,12 @@ namespace AutoWikiBrowser.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        internal static System.Drawing.Bitmap SplashImage {
+            get {
+                object obj = ResourceManager.GetObject("SplashImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }
