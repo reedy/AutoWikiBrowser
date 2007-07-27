@@ -28,7 +28,6 @@ namespace AutoWikiBrowser
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Splash));
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.lblVersion = new WikiFunctions.Controls.TransparentLabel();
             this.SuspendLayout();
@@ -59,7 +58,7 @@ namespace AutoWikiBrowser
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImage = global::AutoWikiBrowser.Properties.Resources.SplashImage;
             this.ClientSize = new System.Drawing.Size(478, 302);
             this.ControlBox = false;
             this.Controls.Add(this.lblVersion);

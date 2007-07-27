@@ -70,7 +70,7 @@ namespace AutoWikiBrowser
             // 
             // textBoxDescription
             // 
-            this.textBoxDescription.Location = new System.Drawing.Point(15, 334);
+            this.textBoxDescription.Location = new System.Drawing.Point(217, 88);
             this.textBoxDescription.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
             this.textBoxDescription.Multiline = true;
             this.textBoxDescription.Name = "textBoxDescription";
@@ -84,7 +84,7 @@ namespace AutoWikiBrowser
             // okButton
             // 
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.okButton.Location = new System.Drawing.Point(189, 456);
+            this.okButton.Location = new System.Drawing.Point(385, 236);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 22);
             this.okButton.TabIndex = 24;
@@ -105,6 +105,7 @@ namespace AutoWikiBrowser
             // linkAWBPage
             // 
             this.linkAWBPage.AutoSize = true;
+            this.linkAWBPage.BackColor = System.Drawing.SystemColors.Control;
             this.linkAWBPage.Location = new System.Drawing.Point(32, 171);
             this.linkAWBPage.Name = "linkAWBPage";
             this.linkAWBPage.Size = new System.Drawing.Size(115, 13);
@@ -133,7 +134,7 @@ namespace AutoWikiBrowser
             // 
             // lblAWBVersion
             // 
-            this.lblAWBVersion.Location = new System.Drawing.Point(15, 258);
+            this.lblAWBVersion.Location = new System.Drawing.Point(217, 12);
             this.lblAWBVersion.Name = "lblAWBVersion";
             this.lblAWBVersion.Size = new System.Drawing.Size(163, 13);
             this.lblAWBVersion.TabIndex = 29;
@@ -142,7 +143,7 @@ namespace AutoWikiBrowser
             // lblOSVersion
             // 
             this.lblOSVersion.AutoSize = true;
-            this.lblOSVersion.Location = new System.Drawing.Point(15, 293);
+            this.lblOSVersion.Location = new System.Drawing.Point(217, 47);
             this.lblOSVersion.Name = "lblOSVersion";
             this.lblOSVersion.Size = new System.Drawing.Size(59, 13);
             this.lblOSVersion.TabIndex = 30;
@@ -151,7 +152,7 @@ namespace AutoWikiBrowser
             // lblIEVersion
             // 
             this.lblIEVersion.AutoSize = true;
-            this.lblIEVersion.Location = new System.Drawing.Point(15, 275);
+            this.lblIEVersion.Location = new System.Drawing.Point(217, 29);
             this.lblIEVersion.Name = "lblIEVersion";
             this.lblIEVersion.Size = new System.Drawing.Size(54, 13);
             this.lblIEVersion.TabIndex = 31;
@@ -160,7 +161,7 @@ namespace AutoWikiBrowser
             // lblNETVersion
             // 
             this.lblNETVersion.AutoSize = true;
-            this.lblNETVersion.Location = new System.Drawing.Point(15, 311);
+            this.lblNETVersion.Location = new System.Drawing.Point(217, 65);
             this.lblNETVersion.Name = "lblNETVersion";
             this.lblNETVersion.Size = new System.Drawing.Size(69, 13);
             this.lblNETVersion.TabIndex = 32;
@@ -276,7 +277,8 @@ namespace AutoWikiBrowser
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(276, 489);
+            this.BackgroundImage = global::AutoWikiBrowser.Properties.Resources.SplashImage;
+            this.ClientSize = new System.Drawing.Size(472, 276);
             this.Controls.Add(this.linkMartinp23);
             this.Controls.Add(this.linkKingboy);
             this.Controls.Add(this.linkReedy);
