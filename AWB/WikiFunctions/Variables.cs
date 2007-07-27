@@ -1230,6 +1230,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
         }
 
         static Regex Message = new Regex("<!--[Mm]essage:(.*?)-->", RegexOptions.Compiled);
+        static Regex VersionMessage = new Regex("<!--VersionMessage:(.*?)\\|\\|\\|\\|(.*?)-->", RegexOptions.Compiled);
         static Regex Underscores = new Regex("<!--[Uu]nderscores:(.*?)-->", RegexOptions.Compiled);
 
         /// <summary>
@@ -1346,6 +1347,11 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                 Match m = Message.Match(strText);
                 if (m.Success && m.Groups[1].Value.Trim().Length > 0)
                     MessageBox.Show(m.Groups[1].Value, "Automated message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                //see if there is a version-specific message
+                m = VersionMessage.Match(strText);
+                if (m.Success && m.Groups[1].Value.Trim().Length > 0 && m.Groups[1].Value == AWBVersion)
+                    MessageBox.Show(m.Groups[2].Value, "Automated message", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 m = Regex.Match(strText, "<!--[Tt]ypos" + typoPostfix + ":(.*?)-->");
                 if (m.Success && m.Groups[1].Value.Trim().Length > 0)
