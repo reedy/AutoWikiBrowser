@@ -68,6 +68,11 @@ namespace WikiFunctions.Plugin
         /// Called by AWB when it is saving settings
         /// </summary>
         /// <returns>An array of deserialised setting objects belonging to your plugin</returns>
+        /// <remarks>Plugin authors have at least 4 ways of saving their settings, by returning an array of:
+       /// 1. Simple, serializable types such as Strings.
+       /// 2. AWBSettings.PrefsKeyPair objects
+       /// 3. Custom public classes with each field marked as Serializable
+       /// 4. An XML block converted to a String. (This is what the Kingbotk plugin uses).</remarks>
         object[] SaveSettings();
 
         /// <summary>
