@@ -71,7 +71,8 @@ namespace AutoWikiBrowser.Logging
                 }
                 foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
                 {
-                    t.Value.WriteBulletedLine(Variables.LoggingStartButtonClicked, true, false, true);
+                    if(t.Key != "AWB")
+                        t.Value.WriteBulletedLine(Variables.LoggingStartButtonClicked, true, false, true);
                 }
                 ValidateUploadProfile();
             }

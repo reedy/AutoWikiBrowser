@@ -195,7 +195,7 @@ namespace WikiFunctions
         { get { return "(" + WPAWB + " Logging) "; } }
         public const string UploadingLogEntryDefaultEditSummary = "Adding log entry";
         public const string UploadingLogDefaultEditSummary = "Uploading log";
-        public const string LoggingStartButtonClicked = "Start button clicked. Initialising log.";
+        public const string LoggingStartButtonClicked = "Initialising log.";
         public const string StringUser = "User";
         public const string StringUserSkipped = "Clicked ignore";
         public const string StringPlugin = "Plugin";
