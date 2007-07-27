@@ -112,12 +112,14 @@ namespace WikiFunctions
             /// <summary>
             /// The name of the article, encoded ready for use in a URL
             /// </summary>
+            [XmlIgnore]
             public string URLEncodedName
             { get { return Tools.WikiEncode(mName); } }
 
             /// <summary>
             /// The text of the article. This is deliberately readonly; set using methods
             /// </summary>
+            [XmlIgnore]
             public string ArticleText
             { get { return mArticleText.Trim(); } } 
 
@@ -138,38 +140,45 @@ namespace WikiFunctions
             /// <summary>
             ///  Last stored EditSummary before reset
             /// </summary>
+            [XmlIgnore]
             public string SavedSummary
             { get { return mSavedSummary; } }
 
             /// <summary>
             /// Returns true if the article is a stub (a very short article or an article tagged with a "stub template")
             /// </summary>
+            [XmlIgnore]
             public bool IsStub { get { return Parsers.IsStub(mArticleText); } }
 
             /// <summary>
             /// Returns true if the article contains a stub template
             /// </summary>
+            [XmlIgnore]
             public bool HasStubTemplate
             { get { return Parsers.HasStubTemplate(mArticleText); } }
 
             /// <summary>
             /// Returns true if the article contains an infobox
             /// </summary>
+            [XmlIgnore]
             public bool HasInfoBox
             { get { return Parsers.HasInfobox(mArticleText); } }
 
             /// <summary>
             /// Returns true if the article contains a template showing it as "in use"
             /// </summary>
+            [XmlIgnore]
             public bool IsInUse
             { get { return Parsers.IsInUse(mArticleText); } }
         
             /// <summary>
             /// Returns true if the article should be skipped; check after each call to a worker member. See AWB main.cs.
             /// </summary>
+            [XmlIgnore]
             public bool SkipArticle
             { get { return mAWBLogListener.Skipped; } private set { mAWBLogListener.Skipped = value; } }
-        
+
+            [XmlIgnore]
             public bool CanDoGeneralFixes
             { get { return (NameSpaceKey == 0 || NameSpaceKey == 14 || Name.Contains("Sandbox")); } }
         #endregion
@@ -205,8 +214,6 @@ namespace WikiFunctions
                     if (!mAWBLogListener.Skipped)
                     { // plugin has told us to skip but didn't log any info about reason
                         Trace.SkippedArticle(plugin.Name, "Skipped by plugin");
-                        //mAWBLogListener.SkippedBy=plugin.Name;
-                        //mAWBLogListener.
                     }
                     SkipArticle = true;
                 }
