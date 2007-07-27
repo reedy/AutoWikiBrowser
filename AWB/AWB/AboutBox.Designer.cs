@@ -50,15 +50,15 @@ namespace AutoWikiBrowser
             this.okButton = new System.Windows.Forms.Button();
             this.linkBluemoose = new System.Windows.Forms.LinkLabel();
             this.linkAWBPage = new System.Windows.Forms.LinkLabel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.lblAWBVersion = new System.Windows.Forms.Label();
-            this.lblOSVersion = new System.Windows.Forms.Label();
-            this.lblIEVersion = new System.Windows.Forms.Label();
-            this.lblNETVersion = new System.Windows.Forms.Label();
+            this.label1 = new WikiFunctions.Controls.TransparentLabel();
+            this.label2 = new WikiFunctions.Controls.TransparentLabel();
+            this.lblAWBVersion = new WikiFunctions.Controls.TransparentLabel();
+            this.lblOSVersion = new WikiFunctions.Controls.TransparentLabel();
+            this.lblIEVersion = new WikiFunctions.Controls.TransparentLabel();
+            this.lblNETVersion = new WikiFunctions.Controls.TransparentLabel();
             this.linkLigulem = new System.Windows.Forms.LinkLabel();
-            this.lblTimeAndEdits = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.lblTimeAndEdits = new WikiFunctions.Controls.TransparentLabel();
+            this.label4 = new WikiFunctions.Controls.TransparentLabel();
             this.linkMets501 = new System.Windows.Forms.LinkLabel();
             this.linkMaxSem = new System.Windows.Forms.LinkLabel();
             this.linkBugs = new System.Windows.Forms.LinkLabel();
@@ -70,7 +70,7 @@ namespace AutoWikiBrowser
             // 
             // textBoxDescription
             // 
-            this.textBoxDescription.Location = new System.Drawing.Point(217, 88);
+            this.textBoxDescription.Location = new System.Drawing.Point(212, 150);
             this.textBoxDescription.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
             this.textBoxDescription.Multiline = true;
             this.textBoxDescription.Name = "textBoxDescription";
@@ -84,7 +84,7 @@ namespace AutoWikiBrowser
             // okButton
             // 
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.okButton.Location = new System.Drawing.Point(385, 236);
+            this.okButton.Location = new System.Drawing.Point(370, 280);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 22);
             this.okButton.TabIndex = 24;
@@ -116,55 +116,56 @@ namespace AutoWikiBrowser
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(15, 11);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(100, 13);
             this.label1.TabIndex = 27;
+            this.label1.TabStop = false;
             this.label1.Text = "Original developers:";
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(15, 150);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(42, 13);
             this.label2.TabIndex = 28;
+            this.label2.TabStop = false;
             this.label2.Text = "Details:";
             // 
             // lblAWBVersion
             // 
-            this.lblAWBVersion.Location = new System.Drawing.Point(217, 12);
+            this.lblAWBVersion.Location = new System.Drawing.Point(236, 12);
             this.lblAWBVersion.Name = "lblAWBVersion";
             this.lblAWBVersion.Size = new System.Drawing.Size(163, 13);
             this.lblAWBVersion.TabIndex = 29;
+            this.lblAWBVersion.TabStop = false;
             this.lblAWBVersion.Text = "AWB version";
             // 
             // lblOSVersion
             // 
-            this.lblOSVersion.AutoSize = true;
-            this.lblOSVersion.Location = new System.Drawing.Point(217, 47);
+            this.lblOSVersion.Location = new System.Drawing.Point(275, 47);
             this.lblOSVersion.Name = "lblOSVersion";
             this.lblOSVersion.Size = new System.Drawing.Size(59, 13);
             this.lblOSVersion.TabIndex = 30;
+            this.lblOSVersion.TabStop = false;
             this.lblOSVersion.Text = "OS version";
             // 
             // lblIEVersion
             // 
-            this.lblIEVersion.AutoSize = true;
-            this.lblIEVersion.Location = new System.Drawing.Point(217, 29);
+            this.lblIEVersion.Location = new System.Drawing.Point(250, 29);
             this.lblIEVersion.Name = "lblIEVersion";
             this.lblIEVersion.Size = new System.Drawing.Size(54, 13);
             this.lblIEVersion.TabIndex = 31;
+            this.lblIEVersion.TabStop = false;
             this.lblIEVersion.Text = "IE version";
             // 
             // lblNETVersion
             // 
-            this.lblNETVersion.AutoSize = true;
-            this.lblNETVersion.Location = new System.Drawing.Point(217, 65);
+            this.lblNETVersion.Location = new System.Drawing.Point(317, 61);
             this.lblNETVersion.Name = "lblNETVersion";
             this.lblNETVersion.Size = new System.Drawing.Size(69, 13);
             this.lblNETVersion.TabIndex = 32;
+            this.lblNETVersion.TabStop = false;
             this.lblNETVersion.Text = ".NET version";
             // 
             // linkLigulem
@@ -180,19 +181,19 @@ namespace AutoWikiBrowser
             // 
             // lblTimeAndEdits
             // 
-            this.lblTimeAndEdits.AutoSize = true;
             this.lblTimeAndEdits.Location = new System.Drawing.Point(15, 241);
             this.lblTimeAndEdits.Name = "lblTimeAndEdits";
             this.lblTimeAndEdits.Size = new System.Drawing.Size(0, 13);
             this.lblTimeAndEdits.TabIndex = 34;
+            this.lblTimeAndEdits.TabStop = false;
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(15, 61);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(174, 13);
             this.label4.TabIndex = 36;
+            this.label4.TabStop = false;
             this.label4.Text = "Now developed and maintained by:";
             // 
             // linkMets501
@@ -278,7 +279,7 @@ namespace AutoWikiBrowser
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.BackgroundImage = global::AutoWikiBrowser.Properties.Resources.SplashImage;
-            this.ClientSize = new System.Drawing.Size(472, 276);
+            this.ClientSize = new System.Drawing.Size(472, 314);
             this.Controls.Add(this.linkMartinp23);
             this.Controls.Add(this.linkKingboy);
             this.Controls.Add(this.linkReedy);
@@ -321,15 +322,15 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Button okButton;
         private System.Windows.Forms.LinkLabel linkBluemoose;
         private System.Windows.Forms.LinkLabel linkAWBPage;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label lblAWBVersion;
-        private System.Windows.Forms.Label lblOSVersion;
-        private System.Windows.Forms.Label lblIEVersion;
-        private System.Windows.Forms.Label lblNETVersion;
+        private WikiFunctions.Controls.TransparentLabel label1;
+        private WikiFunctions.Controls.TransparentLabel label2;
+        private WikiFunctions.Controls.TransparentLabel lblAWBVersion;
+        private WikiFunctions.Controls.TransparentLabel lblOSVersion;
+        private WikiFunctions.Controls.TransparentLabel lblIEVersion;
+        private WikiFunctions.Controls.TransparentLabel lblNETVersion;
         private System.Windows.Forms.LinkLabel linkLigulem;
-        private System.Windows.Forms.Label lblTimeAndEdits;
-        private System.Windows.Forms.Label label4;
+        private WikiFunctions.Controls.TransparentLabel lblTimeAndEdits;
+        private WikiFunctions.Controls.TransparentLabel label4;
         private System.Windows.Forms.LinkLabel linkMets501;
         private System.Windows.Forms.LinkLabel linkMaxSem;
         private System.Windows.Forms.LinkLabel linkBugs;
