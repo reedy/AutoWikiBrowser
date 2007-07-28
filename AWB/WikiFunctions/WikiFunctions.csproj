@@ -307,6 +307,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>MoveDeleteDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TransparentLabel.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>TransparentLabel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DabControl.resx">
       <SubType>Designer</SubType>
       <DependentUpon>DabControl.cs</DependentUpon>
