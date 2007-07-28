@@ -9,6 +9,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Private Const conSkipBadTagsParm As String = "SkipBadTags"
         Private Const conSkipWhenNoChangeParm As String = "SkipWhenNoChange"
         Private Const conAssessmentsAlwaysLeaveACommentParm As String = "AlwaysLeaveAComment"
+        Private Const conOpenBadInBrowser As String = "OpenBadInBrowser"
 
         ' Statistics:
         Friend WithEvents PluginStats As New Stats
@@ -116,6 +117,14 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 mAssessmentsAlwaysLeaveAComment = value
             End Set
         End Property
+        Public Property OpenBadInBrowser() As Boolean
+            Get
+                Return OpenBadInBrowserCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                OpenBadInBrowserCheckBox.Checked = value
+            End Set
+        End Property
 
         ' XML interface:
         Public Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader)
@@ -125,6 +134,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             SkipWhenNoChange = PluginManager.XMLReadBoolean(Reader, conSkipWhenNoChangeParm, SkipWhenNoChange)
             AssessmentsAlwaysLeaveAComment = PluginManager.XMLReadBoolean(Reader, _
                conAssessmentsAlwaysLeaveACommentParm, AssessmentsAlwaysLeaveAComment)
+            OpenBadInBrowser = PluginManager.XMLReadBoolean(Reader, conOpenBadInBrowser, OpenBadInBrowser)
         End Sub
         Public Sub Reset()
             ManuallyAssess = False
@@ -133,13 +143,16 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             ' don't change logging settings
             PluginManager.AWBForm.TraceManager.WriteBulletedLine("Reset", False, True, True)
             AssessmentsAlwaysLeaveAComment = False
+            OpenBadInBrowser = False
         End Sub
         Public Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter)
             Writer.WriteAttributeString(conManuallyAssessParm, ManuallyAssess.ToString)
             Writer.WriteAttributeString(conCleanupParm, Cleanup.ToString)
             Writer.WriteAttributeString(conSkipBadTagsParm, SkipBadTags.ToString)
             Writer.WriteAttributeString(conSkipWhenNoChangeParm, SkipWhenNoChange.ToString)
-            Writer.WriteAttributeString(conAssessmentsAlwaysLeaveACommentParm, AssessmentsAlwaysLeaveAComment.ToString)
+            Writer.WriteAttributeString(conAssessmentsAlwaysLeaveACommentParm, _
+               AssessmentsAlwaysLeaveAComment.ToString)
+            Writer.WriteAttributeString(conOpenBadInBrowser, OpenBadInBrowser.ToString)
         End Sub
 
         ' Event handlers - menu items:
@@ -202,6 +215,10 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Private Sub BotCheckBox_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) _
         Handles BotCheckBox.CheckedChanged
             PluginManager.AWBForm.BotModeCheckbox.Checked = BotCheckBox.Checked
+        End Sub
+        Private Sub SkipBadTagsCheckBox_CheckedChanged(ByVal sender As System.Object, _
+        ByVal e As System.EventArgs) Handles SkipBadTagsCheckBox.CheckedChanged
+            OpenBadInBrowserCheckBox.Enabled = SkipBadTagsCheckBox.Checked
         End Sub
 
         ' Event handlers - AWB components (some additionally double-handled in Plugin Manager):

@@ -64,6 +64,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.GroupBox4 = New System.Windows.Forms.GroupBox
             Me.PluginMenuStrip = New System.Windows.Forms.MenuStrip
             Me.PluginToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.SetAWBToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.MenuAbout = New System.Windows.Forms.ToolStripMenuItem
             Me.MenuHelp = New System.Windows.Forms.ToolStripMenuItem
             Me.MenuHelpReleaseNotes = New System.Windows.Forms.ToolStripMenuItem
@@ -99,7 +100,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.BotTimer = New System.Windows.Forms.Timer(Me.components)
             Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
             Me.TimerStats1 = New AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.TimerStats
-            Me.SetAWBToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.OpenBadInBrowserCheckBox = New System.Windows.Forms.CheckBox
             Me.AWBGroupBox.SuspendLayout()
             Me.GroupBox2.SuspendLayout()
             Me.ArticleStatsGroupBox.SuspendLayout()
@@ -553,7 +554,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.PluginMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PluginToolStripMenuItem, Me.MenuAbout, Me.MenuHelp, Me.MenuHelpReleaseNotes})
             Me.PluginMenuStrip.Location = New System.Drawing.Point(0, 0)
             Me.PluginMenuStrip.Name = "PluginMenuStrip"
-            Me.PluginMenuStrip.Size = New System.Drawing.Size(641, 24)
+            Me.PluginMenuStrip.Size = New System.Drawing.Size(615, 24)
             Me.PluginMenuStrip.TabIndex = 42
             Me.PluginMenuStrip.Text = "MenuStrip1"
             Me.PluginMenuStrip.Visible = False
@@ -562,200 +563,207 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             '
             Me.PluginToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SetAWBToolStripMenuItem})
             Me.PluginToolStripMenuItem.Name = "PluginToolStripMenuItem"
-            Me.PluginToolStripMenuItem.Size = New System.Drawing.Size(91, 20)
+            Me.PluginToolStripMenuItem.Size = New System.Drawing.Size(104, 20)
             Me.PluginToolStripMenuItem.Text = "Kingbotk Plugin"
+            '
+            'SetAWBToolStripMenuItem
+            '
+            Me.SetAWBToolStripMenuItem.Name = "SetAWBToolStripMenuItem"
+            Me.SetAWBToolStripMenuItem.Size = New System.Drawing.Size(119, 22)
+            Me.SetAWBToolStripMenuItem.Text = "Set AWB"
+            Me.SetAWBToolStripMenuItem.ToolTipText = "Reset AWB to default values suitable for use with the plugin"
             '
             'MenuAbout
             '
             Me.MenuAbout.Name = "MenuAbout"
-            Me.MenuAbout.Size = New System.Drawing.Size(141, 20)
+            Me.MenuAbout.Size = New System.Drawing.Size(159, 20)
             Me.MenuAbout.Text = "About the kingbotk plugin"
             '
             'MenuHelp
             '
             Me.MenuHelp.Name = "MenuHelp"
-            Me.MenuHelp.Size = New System.Drawing.Size(150, 20)
+            Me.MenuHelp.Size = New System.Drawing.Size(169, 20)
             Me.MenuHelp.Text = "Help for the kingbotk plugin"
             '
             'MenuHelpReleaseNotes
             '
             Me.MenuHelpReleaseNotes.Name = "MenuHelpReleaseNotes"
-            Me.MenuHelpReleaseNotes.Size = New System.Drawing.Size(159, 20)
+            Me.MenuHelpReleaseNotes.Size = New System.Drawing.Size(175, 20)
             Me.MenuHelpReleaseNotes.Text = "Kingbotk plugin release notes"
             '
             'TextInsertContextMenuStrip
             '
             Me.TextInsertContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UniversalToolStripMenuItem})
             Me.TextInsertContextMenuStrip.Name = "EditBoxContextMenuStrip"
-            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(119, 26)
+            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(123, 26)
             '
             'UniversalToolStripMenuItem
             '
             Me.UniversalToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ClassToolStripMenuItem, Me.ImportanceToolStripMenuItem, Me.PriorityToolStripMenuItem})
             Me.UniversalToolStripMenuItem.Name = "UniversalToolStripMenuItem"
-            Me.UniversalToolStripMenuItem.Size = New System.Drawing.Size(118, 22)
+            Me.UniversalToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
             Me.UniversalToolStripMenuItem.Text = "Universal"
             '
             'ClassToolStripMenuItem
             '
             Me.ClassToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.StubClassMenuItem, Me.StartClassMenuItem, Me.BClassMenuItem, Me.GAClassMenuItem, Me.AClassMenuItem, Me.FAClassMenuItem, Me.ToolStripSeparator4, Me.NeededClassMenuItem, Me.CatClassMenuItem, Me.DabClassMenuItem, Me.TemplateClassMenuItem, Me.NAClassMenuItem})
             Me.ClassToolStripMenuItem.Name = "ClassToolStripMenuItem"
-            Me.ClassToolStripMenuItem.Size = New System.Drawing.Size(129, 22)
+            Me.ClassToolStripMenuItem.Size = New System.Drawing.Size(135, 22)
             Me.ClassToolStripMenuItem.Text = "Class"
             '
             'StubClassMenuItem
             '
             Me.StubClassMenuItem.Name = "StubClassMenuItem"
-            Me.StubClassMenuItem.Size = New System.Drawing.Size(173, 22)
+            Me.StubClassMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.StubClassMenuItem.Text = "Stub"
             '
             'StartClassMenuItem
             '
             Me.StartClassMenuItem.Name = "StartClassMenuItem"
-            Me.StartClassMenuItem.Size = New System.Drawing.Size(173, 22)
+            Me.StartClassMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.StartClassMenuItem.Text = "Start"
             '
             'BClassMenuItem
             '
             Me.BClassMenuItem.Name = "BClassMenuItem"
-            Me.BClassMenuItem.Size = New System.Drawing.Size(173, 22)
+            Me.BClassMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.BClassMenuItem.Text = "B"
             '
             'GAClassMenuItem
             '
             Me.GAClassMenuItem.Name = "GAClassMenuItem"
-            Me.GAClassMenuItem.Size = New System.Drawing.Size(173, 22)
+            Me.GAClassMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.GAClassMenuItem.Text = "GA"
             '
             'AClassMenuItem
             '
             Me.AClassMenuItem.Name = "AClassMenuItem"
-            Me.AClassMenuItem.Size = New System.Drawing.Size(173, 22)
+            Me.AClassMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.AClassMenuItem.Text = "A"
             '
             'FAClassMenuItem
             '
             Me.FAClassMenuItem.Name = "FAClassMenuItem"
-            Me.FAClassMenuItem.Size = New System.Drawing.Size(173, 22)
+            Me.FAClassMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.FAClassMenuItem.Text = "FA"
             '
             'ToolStripSeparator4
             '
             Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
-            Me.ToolStripSeparator4.Size = New System.Drawing.Size(170, 6)
+            Me.ToolStripSeparator4.Size = New System.Drawing.Size(184, 6)
             '
             'NeededClassMenuItem
             '
             Me.NeededClassMenuItem.Name = "NeededClassMenuItem"
-            Me.NeededClassMenuItem.Size = New System.Drawing.Size(173, 22)
+            Me.NeededClassMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.NeededClassMenuItem.Text = "Article needed"
             '
             'CatClassMenuItem
             '
             Me.CatClassMenuItem.Name = "CatClassMenuItem"
-            Me.CatClassMenuItem.Size = New System.Drawing.Size(173, 22)
+            Me.CatClassMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.CatClassMenuItem.Text = "Category"
             '
             'DabClassMenuItem
             '
             Me.DabClassMenuItem.Name = "DabClassMenuItem"
-            Me.DabClassMenuItem.Size = New System.Drawing.Size(173, 22)
+            Me.DabClassMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.DabClassMenuItem.Text = "Disambiguation page"
             '
             'TemplateClassMenuItem
             '
             Me.TemplateClassMenuItem.Name = "TemplateClassMenuItem"
-            Me.TemplateClassMenuItem.Size = New System.Drawing.Size(173, 22)
+            Me.TemplateClassMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.TemplateClassMenuItem.Text = "Template"
             '
             'NAClassMenuItem
             '
             Me.NAClassMenuItem.Name = "NAClassMenuItem"
-            Me.NAClassMenuItem.Size = New System.Drawing.Size(173, 22)
+            Me.NAClassMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.NAClassMenuItem.Text = "Not applicable"
             '
             'ImportanceToolStripMenuItem
             '
             Me.ImportanceToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LowImportanceMenuItem, Me.MidImportanceMenuItem, Me.HighImportanceMenuItem, Me.TopImportanceMenuItem, Me.ToolStripSeparator5, Me.NAImportanceMenuItem})
             Me.ImportanceToolStripMenuItem.Name = "ImportanceToolStripMenuItem"
-            Me.ImportanceToolStripMenuItem.Size = New System.Drawing.Size(129, 22)
+            Me.ImportanceToolStripMenuItem.Size = New System.Drawing.Size(135, 22)
             Me.ImportanceToolStripMenuItem.Text = "Importance"
             '
             'LowImportanceMenuItem
             '
             Me.LowImportanceMenuItem.Name = "LowImportanceMenuItem"
-            Me.LowImportanceMenuItem.Size = New System.Drawing.Size(141, 22)
+            Me.LowImportanceMenuItem.Size = New System.Drawing.Size(151, 22)
             Me.LowImportanceMenuItem.Text = "Low"
             '
             'MidImportanceMenuItem
             '
             Me.MidImportanceMenuItem.Name = "MidImportanceMenuItem"
-            Me.MidImportanceMenuItem.Size = New System.Drawing.Size(141, 22)
+            Me.MidImportanceMenuItem.Size = New System.Drawing.Size(151, 22)
             Me.MidImportanceMenuItem.Text = "Mid"
             '
             'HighImportanceMenuItem
             '
             Me.HighImportanceMenuItem.Name = "HighImportanceMenuItem"
-            Me.HighImportanceMenuItem.Size = New System.Drawing.Size(141, 22)
+            Me.HighImportanceMenuItem.Size = New System.Drawing.Size(151, 22)
             Me.HighImportanceMenuItem.Text = "High"
             '
             'TopImportanceMenuItem
             '
             Me.TopImportanceMenuItem.Name = "TopImportanceMenuItem"
-            Me.TopImportanceMenuItem.Size = New System.Drawing.Size(141, 22)
+            Me.TopImportanceMenuItem.Size = New System.Drawing.Size(151, 22)
             Me.TopImportanceMenuItem.Text = "Top"
             '
             'ToolStripSeparator5
             '
             Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
-            Me.ToolStripSeparator5.Size = New System.Drawing.Size(138, 6)
+            Me.ToolStripSeparator5.Size = New System.Drawing.Size(148, 6)
             '
             'NAImportanceMenuItem
             '
             Me.NAImportanceMenuItem.Name = "NAImportanceMenuItem"
-            Me.NAImportanceMenuItem.Size = New System.Drawing.Size(141, 22)
+            Me.NAImportanceMenuItem.Size = New System.Drawing.Size(151, 22)
             Me.NAImportanceMenuItem.Text = "Not applicable"
             '
             'PriorityToolStripMenuItem
             '
             Me.PriorityToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LowPriorityMenuItem, Me.MidPriorityMenuItem, Me.HighPriorityMenuItem, Me.TopPriorityMenuItem, Me.ToolStripSeparator6, Me.NAPriorityMenuItem})
             Me.PriorityToolStripMenuItem.Name = "PriorityToolStripMenuItem"
-            Me.PriorityToolStripMenuItem.Size = New System.Drawing.Size(129, 22)
+            Me.PriorityToolStripMenuItem.Size = New System.Drawing.Size(135, 22)
             Me.PriorityToolStripMenuItem.Text = "Priority"
             '
             'LowPriorityMenuItem
             '
             Me.LowPriorityMenuItem.Name = "LowPriorityMenuItem"
-            Me.LowPriorityMenuItem.Size = New System.Drawing.Size(141, 22)
+            Me.LowPriorityMenuItem.Size = New System.Drawing.Size(151, 22)
             Me.LowPriorityMenuItem.Text = "Low"
             '
             'MidPriorityMenuItem
             '
             Me.MidPriorityMenuItem.Name = "MidPriorityMenuItem"
-            Me.MidPriorityMenuItem.Size = New System.Drawing.Size(141, 22)
+            Me.MidPriorityMenuItem.Size = New System.Drawing.Size(151, 22)
             Me.MidPriorityMenuItem.Text = "Mid"
             '
             'HighPriorityMenuItem
             '
             Me.HighPriorityMenuItem.Name = "HighPriorityMenuItem"
-            Me.HighPriorityMenuItem.Size = New System.Drawing.Size(141, 22)
+            Me.HighPriorityMenuItem.Size = New System.Drawing.Size(151, 22)
             Me.HighPriorityMenuItem.Text = "High"
             '
             'TopPriorityMenuItem
             '
             Me.TopPriorityMenuItem.Name = "TopPriorityMenuItem"
-            Me.TopPriorityMenuItem.Size = New System.Drawing.Size(141, 22)
+            Me.TopPriorityMenuItem.Size = New System.Drawing.Size(151, 22)
             Me.TopPriorityMenuItem.Text = "Top"
             '
             'ToolStripSeparator6
             '
             Me.ToolStripSeparator6.Name = "ToolStripSeparator6"
-            Me.ToolStripSeparator6.Size = New System.Drawing.Size(138, 6)
+            Me.ToolStripSeparator6.Size = New System.Drawing.Size(148, 6)
             '
             'NAPriorityMenuItem
             '
             Me.NAPriorityMenuItem.Name = "NAPriorityMenuItem"
-            Me.NAPriorityMenuItem.Size = New System.Drawing.Size(141, 22)
+            Me.NAPriorityMenuItem.Size = New System.Drawing.Size(151, 22)
             Me.NAPriorityMenuItem.Text = "Not applicable"
             '
             'BotTimer
@@ -778,17 +786,21 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.TimerStats1.TabIndex = 44
             Me.TimerStats1.Visible = False
             '
-            'SetAWBToolStripMenuItem
+            'OpenBadInBrowserCheckBox
             '
-            Me.SetAWBToolStripMenuItem.Name = "SetAWBToolStripMenuItem"
-            Me.SetAWBToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-            Me.SetAWBToolStripMenuItem.Text = "Set AWB"
-            Me.SetAWBToolStripMenuItem.ToolTipText = "Reset AWB to default values suitable for use with the plugin"
+            Me.OpenBadInBrowserCheckBox.AutoSize = True
+            Me.OpenBadInBrowserCheckBox.Location = New System.Drawing.Point(158, 257)
+            Me.OpenBadInBrowserCheckBox.Name = "OpenBadInBrowserCheckBox"
+            Me.OpenBadInBrowserCheckBox.Size = New System.Drawing.Size(105, 30)
+            Me.OpenBadInBrowserCheckBox.TabIndex = 52
+            Me.OpenBadInBrowserCheckBox.Text = "Open bad pages" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "in browser"
+            Me.OpenBadInBrowserCheckBox.UseVisualStyleBackColor = True
             '
             'PluginSettingsControl
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+            Me.Controls.Add(Me.OpenBadInBrowserCheckBox)
             Me.Controls.Add(Me.ETALabel)
             Me.Controls.Add(Me.ResetTimerButton)
             Me.Controls.Add(Me.GroupBox2)
@@ -804,6 +816,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.Controls.Add(Me.PluginMenuStrip)
             Me.Name = "PluginSettingsControl"
             Me.Size = New System.Drawing.Size(276, 349)
+            Me.ToolTip1.SetToolTip(Me, "Open in the web browser pages skipped because they have bad tags")
             Me.AWBGroupBox.ResumeLayout(False)
             Me.GroupBox2.ResumeLayout(False)
             Me.GroupBox2.PerformLayout()
@@ -897,6 +910,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Private WithEvents ETALabel As System.Windows.Forms.Label
         Friend WithEvents BotCheckBox As System.Windows.Forms.CheckBox
         Friend WithEvents SetAWBToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+        Friend WithEvents OpenBadInBrowserCheckBox As System.Windows.Forms.CheckBox
 
     End Class
 
