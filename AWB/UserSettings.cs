@@ -191,7 +191,7 @@ namespace AutoWikiBrowser
             }
 
             cModule.ModuleEnabled = false;
-            this.Text = "AutoWikiBrowser = Default.xml";
+            this.Text = "AutoWikiBrowser - Default.xml";
             lblStatusText.Text = "Default settings loaded.";
         }
 
