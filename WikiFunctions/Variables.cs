@@ -919,7 +919,7 @@ namespace WikiFunctions
             }
             else if (projectName == ProjectEnum.wikia)
             {
-                URL = "http://" + customProject + ".wikia.com/";
+                URL = "http://" + customProject + ".wikia.com";
                 URLEnd = "";
                 LoadProjectOptions(URL);
             }
