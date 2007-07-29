@@ -161,7 +161,7 @@ namespace AutoWikiBrowser
                     Variables.User.webBrowserLogin.Navigating += web4Starting;
 
                     webBrowserEdit.Loaded += CaseWasLoad;
-                    webBrowserEdit.Diffed += CaseWasDiff;
+                    //webBrowserEdit.Diffed += CaseWasDiff;
                     webBrowserEdit.Saved += CaseWasSaved;
                     webBrowserEdit.None += CaseWasNull;
                     webBrowserEdit.Fault += StartDelayedRestartTimer;
@@ -3235,7 +3235,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
 
             webBrowserEdit.Loaded += CaseWasLoad;
-            webBrowserEdit.Diffed += CaseWasDiff;
+            //webBrowserEdit.Diffed += CaseWasDiff;
             webBrowserEdit.Saved += CaseWasSaved;
             webBrowserEdit.None += CaseWasNull;
             webBrowserEdit.Fault += StartDelayedRestartTimer;

@@ -65,7 +65,7 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Occurs when the diff or preview page has finished loading
         /// </summary>
-        public event WebControlDel Diffed;
+        //public event WebControlDel Diffed;
         /// <summary>
         /// Occurs when the page has finished deleting
         /// </summary>

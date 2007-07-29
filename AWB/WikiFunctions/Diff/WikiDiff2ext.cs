@@ -107,7 +107,12 @@ namespace WikiFunctions
                 buf1 = new byte[1];
             else
                 buf1 = ToUTF8(text1.Replace("\r\n", "\n"));
-            byte[] buf2 = ToUTF8(text2.Replace("\r\n", "\n"));
+
+            byte[] buf2;
+            if (text2 == "")
+                buf2 = new byte[1];
+            else
+                buf2 = ToUTF8(text2.Replace("\r\n", "\n"));
 
             string res;
             fixed (byte* p1 = buf1) fixed (byte* p2 = buf2)
