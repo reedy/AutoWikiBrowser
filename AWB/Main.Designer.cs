@@ -3207,7 +3207,7 @@ namespace AutoWikiBrowser
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Location = global::AutoWikiBrowser.Properties.Settings.Default.WindowLocation;
-            this.MinimumSize = new System.Drawing.Size(600, 482);
+            this.MinimumSize = new System.Drawing.Size(780, 500);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AutoWikiBrowser";
