@@ -44,10 +44,7 @@ namespace WikiFunctions
 
         public unsafe static string Version
         {
-            get
-            {
-                return new String(wikidiff2_version());
-            }
+            get { return new String(wikidiff2_version()); }
         }
 
         unsafe static string FromUTF8(byte* src)
@@ -102,17 +99,8 @@ namespace WikiFunctions
 
         public static unsafe string GetDiff(string text1, string text2, int context)
         {
-            byte[] buf1;
-            if (text1 == "")
-                buf1 = new byte[1];
-            else
-                buf1 = ToUTF8(text1.Replace("\r\n", "\n"));
-
-            byte[] buf2;
-            if (text2 == "")
-                buf2 = new byte[1];
-            else
-                buf2 = ToUTF8(text2.Replace("\r\n", "\n"));
+            byte[] buf1 = ByteAssign(text1);
+            byte[] buf2 = ByteAssign(text2);
 
             string res;
             fixed (byte* p1 = buf1) fixed (byte* p2 = buf2)
@@ -124,6 +112,16 @@ namespace WikiFunctions
             }
 
             return EnhanceDiff(res);
+        }
+
+        private static unsafe byte[] ByteAssign(string text)
+        {
+            byte[] buf;
+            if (text == "")
+                buf = new byte[1];
+            else
+                buf = ToUTF8(text.Replace("\r\n", "\n"));
+            return buf;
         }
 
         public static string TableHeader()
