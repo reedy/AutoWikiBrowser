@@ -1789,22 +1789,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         {
             SetStartButton(false);
 
+            SetButtons(false);
+
             if (listMaker1.NumberOfArticles == 0)
                 btnIgnore.Enabled = false;
-
-            btnPreview.Enabled = false;
-            btnDiff.Enabled = false;
-            btntsPreview.Enabled = false;
-            btntsChanges.Enabled = false;
-
-            listMaker1.MakeListEnabled = false;
-
-            btnSave.Enabled = false;
-            btntsSave.Enabled = false;
-
-            btnMove.Enabled = false;
-            btnDelete.Enabled = false;
-            btnProtect.Enabled = false;
 
             if (cmboEditSummary.Focused) txtEdit.Focus();
         }
@@ -1812,21 +1800,15 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private void EnableButtons()
         {
             UpdateButtons();
-            btnSave.Enabled = true;
-            btnIgnore.Enabled = true;
-            btnPreview.Enabled = true;
-            btnDiff.Enabled = true;
-            btntsPreview.Enabled = true;
-            btntsChanges.Enabled = true;
+            SetButtons(true);
+        }
 
-            listMaker1.MakeListEnabled = true;
-
-            btntsSave.Enabled = true;
-            btntsIgnore.Enabled = true;
-
-            btnMove.Enabled = true;
-            btnDelete.Enabled = true;
-            btnProtect.Enabled = true;
+        private void SetButtons(bool Enabled)
+        {
+            btnSave.Enabled = btnIgnore.Enabled = btnPreview.Enabled = btnDiff.Enabled =
+            btntsPreview.Enabled = btntsChanges.Enabled = listMaker1.MakeListEnabled =
+            btntsSave.Enabled = btntsIgnore.Enabled = btnMove.Enabled = btnDelete.Enabled =
+            btnProtect.Enabled = Enabled;
         }
 
         #endregion
@@ -2329,18 +2311,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         {
             txtEdit.Focus();
 
-            if (txtEdit.SelectedText.Length > 0)
-            {
-                cutToolStripMenuItem.Enabled = true;
-                copyToolStripMenuItem.Enabled = true;
-                openSelectionInBrowserToolStripMenuItem.Enabled = true;
-            }
-            else
-            {
-                cutToolStripMenuItem.Enabled = false;
-                copyToolStripMenuItem.Enabled = false;
-                openSelectionInBrowserToolStripMenuItem.Enabled = false;
-            }
+            cutToolStripMenuItem.Enabled = copyToolStripMenuItem.Enabled =
+                openSelectionInBrowserToolStripMenuItem.Enabled = (txtEdit.SelectedText.Length > 0);
 
             undoToolStripMenuItem.Enabled = txtEdit.CanUndo;
 
