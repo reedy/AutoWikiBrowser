@@ -100,7 +100,7 @@ namespace WikiFunctions.Parse
             try
             {
                 WikiFunctions.Browser.WebControl webBrowser = new WikiFunctions.Browser.WebControl();
-                webBrowser.Navigate("http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/IW");
+                webBrowser.Navigate("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/IW&action=edit");
                 webBrowser.Wait();
                 string text = webBrowser.GetArticleText();
 
