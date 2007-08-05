@@ -163,13 +163,17 @@ namespace WikiFunctions.AWBProfiles
             else
                 retval = GetProfile(IDOfUploadAccount);
 
-            if (retval.Password == "")
+            if (retval.Password == "" && TempPassword == "")
             {
                 WikiFunctions.AWBProfiles.UserPassword password = new WikiFunctions.AWBProfiles.UserPassword();
                 password.SetText = "Enter password for " + retval.Username;
                 if (password.ShowDialog() == DialogResult.OK)
-                    retval.Password = password.GetPassword;
+                {
+                    retval.Password = TempPassword = password.GetPassword;
+                }
             }
+            else if (TempPassword != "")
+                retval.Password = TempPassword;
             return retval;
         }
 
@@ -192,6 +196,7 @@ namespace WikiFunctions.AWBProfiles
         {
             try
             {
+                AWBProfiles.ResetTempPassword();
                 foreach (int id in GetProfileIDs())
                 {
                     Microsoft.Win32.RegistryKey Key = new Computer().Registry.CurrentUser.OpenSubKey(RegKey + "\\" + id, true);
@@ -268,6 +273,36 @@ namespace WikiFunctions.AWBProfiles
             Key.SetValue("Settings", profile.defaultsettings);
             Key.SetValue("UseForUpload", profile.useforupload);
             Key.SetValue("Notes", profile.notes);
+        }
+
+        /// <summary>
+        /// Gets/Returns the temporary password set by the user
+        /// </summary>
+        private static string TempPassword
+        {
+            get
+            {
+                try { return Decrypt(new Computer().Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey, "TempPassword", "").ToString()); }
+                catch { return ""; }
+            }
+
+            set
+            {
+                try
+                {
+                    Microsoft.Win32.RegistryKey Key = new Computer().Registry.CurrentUser.OpenSubKey(RegKey, true);
+                    Key.SetValue("TempPassword", Encrypt(value));
+                }
+                catch { }
+            }
+        }
+
+        /// <summary>
+        /// Sets the temporary password to ""
+        /// </summary>
+        public static void ResetTempPassword()
+        {
+            TempPassword = "";
         }
 
         /// <summary>

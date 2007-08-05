@@ -57,6 +57,7 @@ namespace AutoWikiBrowser
         #region Fields
             private static Splash splash = new Splash();
             private static WikiFunctions.AWBProfiles.AWBProfilesForm profiles;
+        
             private static bool Abort = false;
 
             private static string LastArticle = "";
@@ -172,6 +173,8 @@ namespace AutoWikiBrowser
                     listMaker1.StatusTextChanged += UpdateListStatus;
                     Text = "AutoWikiBrowser - Default.xml";
                     splash.setProgress(25);
+
+                    WikiFunctions.AWBProfiles.AWBProfiles.ResetTempPassword();
                 }
                 catch (Exception ex)
                 {
