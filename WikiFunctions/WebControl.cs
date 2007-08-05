@@ -122,10 +122,8 @@ namespace WikiFunctions.Browser
         /// </summary>
         public string ArticleText
         {
-            get
-            { return GetArticleText(); }
-            set
-            { SetArticleText(value); }
+            get { return GetArticleText(); }
+            set { SetArticleText(value); }
         }
 
         /// <summary>
@@ -202,10 +200,7 @@ namespace WikiFunctions.Browser
 
             try
             {
-                if (UserName == "")
-                    return false;
-                else
-                    return true;
+                return !(UserName == "");
             }
             catch (Exception ex)
             {
@@ -272,10 +267,7 @@ namespace WikiFunctions.Browser
                 else
                     HTMLsub = this.Document.Body.InnerHtml;
 
-                if (HTMLsub.Contains("<DIV class=usermessage>"))
-                    return true;
-                else
-                    return false;
+                return HTMLsub.Contains("<DIV class=usermessage>");
             }
         }
 
@@ -407,14 +399,8 @@ namespace WikiFunctions.Browser
         public string GetHead()
         {
             if (Document == null) return "";
-            try
-            {
-                return Tools.StringBetween(DocumentText, "<head>", "</head>");
-            }
-            catch
-            {
-                return "";
-            }
+            try { return Tools.StringBetween(DocumentText, "<head>", "</head>"); }
+            catch { return ""; }
         }
 
         /// <summary>
@@ -482,7 +468,7 @@ namespace WikiFunctions.Browser
 
             if (this.Document.GetElementById("wpWatchthis").GetAttribute("checked") != "True" && Watch1)
                 this.Document.GetElementById("wpWatchthis").SetAttribute("checked", "checked");
-            else if(!Watch1 && Override)
+            else if (!Watch1 && Override)
                 this.Document.GetElementById("wpWatchthis").SetAttribute("checked", "");
 
             Watch = Watch1;
@@ -582,7 +568,6 @@ namespace WikiFunctions.Browser
         /// </summary>
         public void Save()
         {
-
             if (CanSave)
             {
                 this.AllowNavigation = true;
@@ -603,6 +588,8 @@ namespace WikiFunctions.Browser
                 ProcessStage = enumProcessStage.diff;
                 Status = "Loading preview";
                 Document.GetElementById("wpPreview").InvokeMember("click");
+
+                this.Wait();
             }
         }
 
@@ -671,7 +658,7 @@ namespace WikiFunctions.Browser
                 {
                     editProtElement.Children[0].SetAttribute("selected", "selected");
                     editProtElement.Children[1].SetAttribute("selected", "");
-                    editProtElement.Children[2].SetAttribute("selected", ""); 
+                    editProtElement.Children[2].SetAttribute("selected", "");
                 }
 
                 HtmlElement moveProtElement = this.Document.GetElementById("mwProtect-level-move");
@@ -698,7 +685,7 @@ namespace WikiFunctions.Browser
                     moveProtElement.Children[1].SetAttribute("selected", "");
                     moveProtElement.Children[2].SetAttribute("selected", "");
                 }
-                
+
                 this.Document.GetElementById("mw-Protect-submit").InvokeMember("click");
             }
         }
@@ -833,15 +820,9 @@ namespace WikiFunctions.Browser
                 this.AllowNavigation = false;
             else if (ProcessStage == enumProcessStage.load)
             {
-                if (this.Document.Body.InnerHtml.Contains("<LI class=new id=ca-talk>") || this.Document.Body.InnerHtml.Contains("<LI class=\"selected new\" id=ca-talk>"))
-                    TalkPageExists = false;
-                else
-                    TalkPageExists = true;
+                TalkPageExists = !this.Document.Body.InnerHtml.Contains("<LI class=new id=ca-talk>") || this.Document.Body.InnerHtml.Contains("<LI class=\"selected new\" id=ca-talk>");
 
-                if (RegexArticleExists.IsMatch(this.Document.Body.InnerHtml))
-                    ArticlePageExists = false;
-                else
-                    ArticlePageExists = true;
+                ArticlePageExists = !RegexArticleExists.IsMatch(this.Document.Body.InnerHtml);
 
                 this.AllowNavigation = false;
                 ProcessStage = enumProcessStage.none;
