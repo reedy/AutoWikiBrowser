@@ -153,21 +153,24 @@ namespace WikiFunctions.Parse
 
             //filter out excess white space and remove "----" from end of article
             ArticleText = Parsers.RemoveWhiteSpace(ArticleText) + "\r\n";
-            ArticleText += strDisambig + strPersonData;
+            ArticleText += strDisambig;
 
             switch (Variables.LangCode)
             {
                 case LangCodeEnum.pl:
-                    ArticleText += strStub + strCategories;
+                    ArticleText += strPersonData + strStub + strCategories;
                     break;
                 case LangCodeEnum.ru:
-                    ArticleText += strStub + strCategories;
+                    ArticleText += strPersonData + strStub + strCategories;
                     break;
                 case LangCodeEnum.simple:
-                    ArticleText += strStub + strCategories;
+                    ArticleText += strPersonData + strStub + strCategories;
+                    break;
+                case LangCodeEnum.de:
+                    ArticleText += strStub + strCategories + strPersonData;
                     break;
                 default:
-                    ArticleText += strCategories + strStub;
+                    ArticleText += strPersonData + strCategories + strStub;
                     break;
             }
             return ArticleText + strInterwikis;
