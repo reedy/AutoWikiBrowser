@@ -3030,9 +3030,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             //make sure there was no error and bot mode is still enabled
             if (BotMode)
             {
-                if (GlobalObjects.MyTrace.IsUploading)
+                if (GlobalObjects.MyTrace.IsUploading || GlobalObjects.MyTrace.IsGettingPassword)
                 {
-                    // Don't nudge when a log is uploading in the background, just wait for it
+                    // Don't nudge when a log is uploading in the background or it is attempting to get a password from the user, just wait for it
                     e.Cancel = true; return;
                 }
 
