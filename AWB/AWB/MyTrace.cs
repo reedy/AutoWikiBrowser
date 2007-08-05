@@ -40,6 +40,7 @@ namespace AutoWikiBrowser.Logging
         private static string LogFolder = "";
         private int BusyCounter = 0;
         private bool mIsUploading = false;
+        private bool mIsGettingPassword = false;
         private bool mStoppedWithConfigError;
 
         private const string conWiki = "Wiki";
@@ -144,8 +145,17 @@ namespace AutoWikiBrowser.Logging
             }
         }
 
+        /// <summary>
+        /// Returns if Logging is currently uploading
+        /// </summary>
         internal bool IsUploading
         { get { return mIsUploading; } }
+
+        /// <summary>
+        /// Returns if Logging is attempting to get password
+        /// </summary>
+        internal bool IsGettingPassword
+        { get { return mIsGettingPassword; } }
 
         internal bool StoppedWithConfigError
         { get { return mStoppedWithConfigError; } }
@@ -156,15 +166,19 @@ namespace AutoWikiBrowser.Logging
             {
                 if (this.Uploadable)
                 {
+                    mIsGettingPassword = true;
                     LoggingSettings.LoginDetails.AWBProfile =
                         WikiFunctions.AWBProfiles.AWBProfiles.GetProfileForLogUploading(GlobalObjects.AWB.Form);
 
                     if (!LoggingSettings.LoginDetails.IsSet)
                         throw new System.Configuration.ConfigurationErrorsException("Error getting login details");
+
+                    mIsGettingPassword = false;
                 }
             }
             catch (Exception ex)
             {
+                mIsGettingPassword = false;
                 throw new System.Configuration.ConfigurationErrorsException("Logging not properly configured", ex);
             }
 
