@@ -106,6 +106,12 @@
       <DependentUpon>LoggingSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="MyTrace.cs" />
+    <Compile Include="ShutdownNotification.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ShutdownNotification.Designer.cs">
+      <DependentUpon>ShutdownNotification.cs</DependentUpon>
+    </Compile>
     <Compile Include="Stats.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -166,6 +172,10 @@
     <EmbeddedResource Include="RegexTester.resx">
       <DependentUpon>RegexTester.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ShutdownNotification.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ShutdownNotification.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SkipOptions.resx">
       <SubType>Designer</SubType>

@@ -1309,15 +1309,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         {
             if (BotMode)
             {
-                label2.Enabled = true;
-                chkSuppressTag.Enabled = true;
-                chkQuickSave.Enabled = true;
-                nudBotSpeed.Enabled = true;
-                lblAutoDelay.Enabled = true;
-                btnResetNudges.Enabled = true;
-                lblNudges.Enabled = true;
-                chkNudge.Enabled = true;
-                chkNudgeSkip.Enabled = true;
+                SetBotModeEnabled(true);
                 chkNudge.Checked = true;
                 chkNudgeSkip.Checked = false; // default to false until such time as the settings file has this! mets! :P
 
@@ -1329,17 +1321,16 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
             else
             {
-                label2.Enabled = false;
-                chkSuppressTag.Enabled = false;
-                chkQuickSave.Enabled = false;
-                nudBotSpeed.Enabled = false;
-                lblAutoDelay.Enabled = false;
-                btnResetNudges.Enabled = false;
-                lblNudges.Enabled = false;
-                chkNudge.Enabled = false;
-                chkNudgeSkip.Enabled = false;
+                SetBotModeEnabled(false);
                 stopDelayedAutoSaveTimer();
             }
+        }
+
+        private void SetBotModeEnabled(bool Enabled)
+        {
+            label2.Enabled = chkSuppressTag.Enabled = chkQuickSave.Enabled = nudBotSpeed.Enabled
+            = lblAutoDelay.Enabled = btnResetNudges.Enabled = lblNudges.Enabled = chkNudge.Enabled 
+            = chkNudgeSkip.Enabled = chkNudge.Checked = chkShutdown.Enabled = Enabled;
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3346,5 +3337,49 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         {
             openInBrowserToolStripMenuItem.Enabled = refreshHistoryToolStripMenuItem.Enabled = (TheArticle != null);
         }
+
+        #region shutdown
+        private void chkShutdown_CheckedChanged(object sender, EventArgs e)
+        {
+            EnableDisableShutdownControls(chkShutdown.Checked);
+        }
+
+        private void EnableDisableShutdownControls(bool Enabled)
+        {
+            radShutdown.Enabled = radStandby.Enabled = radRestart.Enabled = radHibernate.Enabled = Enabled;
+        }
+
+        private void CanShutdown()
+        {
+            if (listMaker1.Count == 0 && chkShutdown.Checked)
+            {
+                ShutdownTimer.Enabled = true;
+                ShutdownNotification shut = new ShutdownNotification();
+                DialogResult result = shut.ShowDialog(this);
+
+                if (result == DialogResult.Cancel)
+                    ShutdownTimer.Enabled = false;
+                else if (result == DialogResult.Yes)
+                    ShutdownComputer();
+            }
+        }
+
+        private void ShutdownComputer()
+        {
+            if (radHibernate.Checked)
+                System.Diagnostics.Process.Start("shutdown", "");
+            else if (radRestart.Checked)
+                System.Diagnostics.Process.Start("shutdown", "-r");
+            else if (radShutdown.Checked)
+                System.Diagnostics.Process.Start("shutdown", "-s");
+            else if (radStandby.Checked)
+                System.Diagnostics.Process.Start("shutdown", "");
+        }
+
+        private void ShutdownTimer_Tick(object sender, EventArgs e)
+        {
+            ShutdownComputer();
+        }
+        #endregion
     }
 }
