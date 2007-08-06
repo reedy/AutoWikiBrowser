@@ -130,7 +130,7 @@
     <value>585, 17</value>
   </metadata>
   <metadata name="CategoryTextboxContextMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 83</value>
+    <value>147, 83</value>
   </metadata>
   <data name="LoggingCategoryTextBox.ToolTip" xml:space="preserve">
     <value>The name of the category being worked with here;  may be used by logging and sent to plugins (leave blank if you're not using $CATEGORY as a logging job name and not using the Kingbotk plugin or others which use this info)</value>
@@ -608,11 +608,25 @@
   <metadata name="EditBoxSaveTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>454, 48</value>
   </metadata>
+  <data name="loggingSettings1.SerialisableSettings" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAERXaWtpRnVuY3Rpb25zLCBWZXJzaW9uPTQuMC4wLjEsIEN1bHR1
+        cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49bnVsbAUBAAAAJldpa2lGdW5jdGlvbnMuQVdCU2V0dGlu
+        Z3MuTG9nZ2luZ1ByZWZzDQAAAApMb2dWZXJib3NlB0xvZ1dpa2kITG9nWEhUTUwIVXBsb2FkWU4UVXBs
+        b2FkQWRkVG9XYXRjaGxpc3QTVXBsb2FkT3BlbkluQnJvd3NlchRVcGxvYWRUb1dpa2lQcm9qZWN0cw5E
+        ZWJ1Z1VwbG9hZGluZw5VcGxvYWRNYXhMaW5lcwlMb2dGb2xkZXINVXBsb2FkSm9iTmFtZQ5VcGxvYWRM
+        b2NhdGlvbg9Mb2dDYXRlZ29yeU5hbWUAAAAAAAAAAAABAQEBAQEBAQEBAQEIAgAAAAAAAAABAQEA6AMA
+        AAYDAAAAAAYEAAAACSRDQVRFR09SWQYFAAAACiRVU0VSL0xvZ3MGBgAAAAAL
+</value>
+  </data>
   <metadata name="mnuWebBrowserDiff.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>441, 17</value>
   </metadata>
   <metadata name="NudgeTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>350, 48</value>
+  </metadata>
+  <metadata name="ShutdownTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 83</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>107</value>
