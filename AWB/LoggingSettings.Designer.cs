@@ -93,7 +93,7 @@ namespace AutoWikiBrowser
             // ApplyButton
             // 
             this.ApplyButton.Enabled = false;
-            this.ApplyButton.Location = new System.Drawing.Point(8, 222);
+            this.ApplyButton.Location = new System.Drawing.Point(8, 221);
             this.ApplyButton.Name = "ApplyButton";
             this.ApplyButton.Size = new System.Drawing.Size(60, 23);
             this.ApplyButton.TabIndex = 26;
@@ -109,7 +109,7 @@ namespace AutoWikiBrowser
             this.GroupBox3.Controls.Add(this.UploadWikiProjectCheckBox);
             this.GroupBox3.Controls.Add(this.UploadWatchlistCheckBox);
             this.GroupBox3.Controls.Add(this.UploadOpenInBrowserCheckBox);
-            this.GroupBox3.Location = new System.Drawing.Point(142, 7);
+            this.GroupBox3.Location = new System.Drawing.Point(142, 3);
             this.GroupBox3.Name = "GroupBox3";
             this.GroupBox3.Size = new System.Drawing.Size(127, 244);
             this.GroupBox3.TabIndex = 25;
@@ -199,12 +199,12 @@ namespace AutoWikiBrowser
             this.JobNameContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.JobNameResetToolStripMenuItem});
             this.JobNameContextMenuStrip.Name = "JobNameContextMenuStrip";
-            this.JobNameContextMenuStrip.Size = new System.Drawing.Size(103, 26);
+            this.JobNameContextMenuStrip.Size = new System.Drawing.Size(114, 26);
             // 
             // JobNameResetToolStripMenuItem
             // 
             this.JobNameResetToolStripMenuItem.Name = "JobNameResetToolStripMenuItem";
-            this.JobNameResetToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
+            this.JobNameResetToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
             this.JobNameResetToolStripMenuItem.Text = "Reset";
             this.JobNameResetToolStripMenuItem.Click += new System.EventHandler(this.JobNameReset);
             // 
@@ -234,12 +234,12 @@ namespace AutoWikiBrowser
             this.LocationContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.LocationResetToolStripMenuItem});
             this.LocationContextMenuStrip.Name = "LocationContextMenuStrip";
-            this.LocationContextMenuStrip.Size = new System.Drawing.Size(103, 26);
+            this.LocationContextMenuStrip.Size = new System.Drawing.Size(114, 26);
             // 
             // LocationResetToolStripMenuItem
             // 
             this.LocationResetToolStripMenuItem.Name = "LocationResetToolStripMenuItem";
-            this.LocationResetToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
+            this.LocationResetToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
             this.LocationResetToolStripMenuItem.Text = "Reset";
             this.LocationResetToolStripMenuItem.Click += new System.EventHandler(this.LocationReset);
             // 
@@ -460,7 +460,7 @@ namespace AutoWikiBrowser
             this.GroupBox1.Controls.Add(this.WikiLogCheckBox);
             this.GroupBox1.Controls.Add(this.XHTMLLogCheckBox);
             this.GroupBox1.Controls.Add(this.VerboseCheckBox);
-            this.GroupBox1.Location = new System.Drawing.Point(8, 7);
+            this.GroupBox1.Location = new System.Drawing.Point(8, 3);
             this.GroupBox1.Name = "GroupBox1";
             this.GroupBox1.Size = new System.Drawing.Size(131, 212);
             this.GroupBox1.TabIndex = 23;
@@ -591,12 +591,12 @@ namespace AutoWikiBrowser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.GroupBox3);
             this.Controls.Add(this.GroupBox2);
-            this.Controls.Add(this.GroupBox1);
             this.Controls.Add(this.Label1);
-            this.Controls.Add(this.ApplyButton);
+            this.Controls.Add(this.GroupBox3);
             this.Controls.Add(this.ResetButton);
+            this.Controls.Add(this.GroupBox1);
+            this.Controls.Add(this.ApplyButton);
             this.Name = "LoggingSettings";
             this.Size = new System.Drawing.Size(276, 349);
             this.GroupBox3.ResumeLayout(false);

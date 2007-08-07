@@ -833,7 +833,7 @@ namespace AutoWikiBrowser
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(788, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(795, 24);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -1330,9 +1330,9 @@ namespace AutoWikiBrowser
             this.lblEditsPerMin,
             this.lblTimer});
             this.statusStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.statusStrip1.Location = new System.Drawing.Point(0, 611);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 610);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(788, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(795, 22);
             this.statusStrip1.TabIndex = 4;
             // 
             // toolStripProgressBar1
@@ -1827,7 +1827,7 @@ namespace AutoWikiBrowser
             this.txtEdit.Multiline = true;
             this.txtEdit.Name = "txtEdit";
             this.txtEdit.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtEdit.Size = new System.Drawing.Size(265, 351);
+            this.txtEdit.Size = new System.Drawing.Size(280, 351);
             this.txtEdit.TabIndex = 0;
             this.toolTip1.SetToolTip(this.txtEdit, "Edit the article\'s text in this box");
             this.txtEdit.TextChanged += new System.EventHandler(this.txtEdit_TextChanged);
@@ -2066,7 +2066,7 @@ namespace AutoWikiBrowser
             this.toolStripSeparator5,
             this.exitToolStripMenuItem1});
             this.mnuNotify.Name = "mnuNotify";
-            this.mnuNotify.Size = new System.Drawing.Size(153, 98);
+            this.mnuNotify.Size = new System.Drawing.Size(112, 76);
             this.mnuNotify.Opening += new System.ComponentModel.CancelEventHandler(this.mnuNotify_Opening);
             // 
             // showToolStripMenuItem
@@ -2111,7 +2111,7 @@ namespace AutoWikiBrowser
             this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 228);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 227);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -2123,7 +2123,7 @@ namespace AutoWikiBrowser
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl2);
-            this.splitContainer1.Size = new System.Drawing.Size(780, 380);
+            this.splitContainer1.Size = new System.Drawing.Size(795, 380);
             this.splitContainer1.SplitterDistance = 503;
             this.splitContainer1.TabIndex = 671;
             // 
@@ -3121,7 +3121,7 @@ namespace AutoWikiBrowser
             this.tabControl2.Location = new System.Drawing.Point(0, 3);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(273, 377);
+            this.tabControl2.Size = new System.Drawing.Size(288, 377);
             this.tabControl2.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
             this.tabControl2.TabIndex = 1;
             this.tabControl2.SelectedIndexChanged += new System.EventHandler(this.tabControl2_SelectedIndexChanged);
@@ -3132,7 +3132,7 @@ namespace AutoWikiBrowser
             this.tpEdit.Location = new System.Drawing.Point(4, 22);
             this.tpEdit.Name = "tpEdit";
             this.tpEdit.Padding = new System.Windows.Forms.Padding(3);
-            this.tpEdit.Size = new System.Drawing.Size(265, 351);
+            this.tpEdit.Size = new System.Drawing.Size(280, 351);
             this.tpEdit.TabIndex = 0;
             this.tpEdit.Text = "Edit box";
             this.tpEdit.UseVisualStyleBackColor = true;
@@ -3143,7 +3143,7 @@ namespace AutoWikiBrowser
             this.tpHistory.Controls.Add(this.webBrowserHistory);
             this.tpHistory.Location = new System.Drawing.Point(4, 22);
             this.tpHistory.Name = "tpHistory";
-            this.tpHistory.Size = new System.Drawing.Size(265, 351);
+            this.tpHistory.Size = new System.Drawing.Size(280, 351);
             this.tpHistory.TabIndex = 2;
             this.tpHistory.Text = "History";
             this.tpHistory.UseVisualStyleBackColor = true;
@@ -3156,7 +3156,7 @@ namespace AutoWikiBrowser
             this.webBrowserHistory.Location = new System.Drawing.Point(0, 0);
             this.webBrowserHistory.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowserHistory.Name = "webBrowserHistory";
-            this.webBrowserHistory.Size = new System.Drawing.Size(265, 351);
+            this.webBrowserHistory.Size = new System.Drawing.Size(280, 351);
             this.webBrowserHistory.TabIndex = 0;
             this.webBrowserHistory.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserHistory_DocumentCompleted);
             // 
@@ -3166,7 +3166,7 @@ namespace AutoWikiBrowser
             this.tpLogs.Location = new System.Drawing.Point(4, 22);
             this.tpLogs.Name = "tpLogs";
             this.tpLogs.Padding = new System.Windows.Forms.Padding(3);
-            this.tpLogs.Size = new System.Drawing.Size(265, 351);
+            this.tpLogs.Size = new System.Drawing.Size(280, 351);
             this.tpLogs.TabIndex = 1;
             this.tpLogs.Text = "Logs";
             this.tpLogs.UseVisualStyleBackColor = true;
@@ -3178,7 +3178,7 @@ namespace AutoWikiBrowser
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.LogControl1.Location = new System.Drawing.Point(0, 4);
             this.LogControl1.Name = "LogControl1";
-            this.LogControl1.Size = new System.Drawing.Size(260, 341);
+            this.LogControl1.Size = new System.Drawing.Size(275, 341);
             this.LogControl1.TabIndex = 0;
             // 
             // tpLoggingOptions
@@ -3187,7 +3187,7 @@ namespace AutoWikiBrowser
             this.tpLoggingOptions.Location = new System.Drawing.Point(4, 22);
             this.tpLoggingOptions.Name = "tpLoggingOptions";
             this.tpLoggingOptions.Padding = new System.Windows.Forms.Padding(3);
-            this.tpLoggingOptions.Size = new System.Drawing.Size(265, 351);
+            this.tpLoggingOptions.Size = new System.Drawing.Size(280, 351);
             this.tpLoggingOptions.TabIndex = 3;
             this.tpLoggingOptions.Text = "Logging to file";
             this.tpLoggingOptions.UseVisualStyleBackColor = true;
@@ -3212,7 +3212,7 @@ namespace AutoWikiBrowser
             this.webBrowserDiff.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowserDiff.Name = "webBrowserDiff";
             this.webBrowserDiff.ScriptErrorsSuppressed = true;
-            this.webBrowserDiff.Size = new System.Drawing.Size(788, 195);
+            this.webBrowserDiff.Size = new System.Drawing.Size(795, 194);
             this.webBrowserDiff.TabIndex = 672;
             this.webBrowserDiff.WebBrowserShortcutsEnabled = false;
             // 
@@ -3250,7 +3250,7 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.Name = "webBrowserEdit";
             this.webBrowserEdit.ProcessStage = WikiFunctions.Browser.enumProcessStage.none;
             this.webBrowserEdit.ScriptErrorsSuppressed = true;
-            this.webBrowserEdit.Size = new System.Drawing.Size(788, 195);
+            this.webBrowserEdit.Size = new System.Drawing.Size(795, 194);
             this.webBrowserEdit.TabIndex = 670;
             this.webBrowserEdit.TabStop = false;
             this.webBrowserEdit.TimeoutLimit = 30;
@@ -3272,7 +3272,7 @@ namespace AutoWikiBrowser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(788, 633);
+            this.ClientSize = new System.Drawing.Size(795, 632);
             this.Controls.Add(this.webBrowserDiff);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolStrip);
@@ -3652,7 +3652,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem profilesToolStripMenuItem;
         private System.Windows.Forms.CheckBox chkMinor;
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.GroupBox groupBox16;
         private System.Windows.Forms.RadioButton radStandby;
         private System.Windows.Forms.RadioButton radHibernate;
@@ -3660,9 +3659,5 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.RadioButton radShutdown;
         private System.Windows.Forms.CheckBox chkShutdown;
         private System.Windows.Forms.Timer ShutdownTimer;
-
-
     }
 }
-
-
