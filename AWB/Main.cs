@@ -2918,6 +2918,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
         }
 
+#region NotifyTray
         private void showToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!this.Visible)
@@ -2945,6 +2946,18 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             else
                 this.Visible = false;
         }
+
+        private void mnuNotify_Opening(object sender, CancelEventArgs e)
+        {
+            SetMenuVisibility(this.Visible);
+        }
+
+        private void SetMenuVisibility(bool Visible)
+        {
+            showToolStripMenuItem.Enabled = Visible;
+            hideToolStripMenuItem.Enabled = !Visible;
+        }
+#endregion
 
         private void toolStripHide()
         {

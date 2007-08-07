@@ -1822,12 +1822,12 @@ namespace AutoWikiBrowser
             this.txtEdit.ContextMenuStrip = this.mnuTextBox;
             this.txtEdit.Enabled = false;
             this.txtEdit.Font = new System.Drawing.Font("Courier New", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtEdit.Location = new System.Drawing.Point(3, 3);
+            this.txtEdit.Location = new System.Drawing.Point(0, 0);
             this.txtEdit.MaxLength = 0;
             this.txtEdit.Multiline = true;
             this.txtEdit.Name = "txtEdit";
             this.txtEdit.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtEdit.Size = new System.Drawing.Size(259, 345);
+            this.txtEdit.Size = new System.Drawing.Size(265, 351);
             this.txtEdit.TabIndex = 0;
             this.toolTip1.SetToolTip(this.txtEdit, "Edit the article\'s text in this box");
             this.txtEdit.TextChanged += new System.EventHandler(this.txtEdit_TextChanged);
@@ -2066,7 +2066,8 @@ namespace AutoWikiBrowser
             this.toolStripSeparator5,
             this.exitToolStripMenuItem1});
             this.mnuNotify.Name = "mnuNotify";
-            this.mnuNotify.Size = new System.Drawing.Size(112, 76);
+            this.mnuNotify.Size = new System.Drawing.Size(153, 98);
+            this.mnuNotify.Opening += new System.ComponentModel.CancelEventHandler(this.mnuNotify_Opening);
             // 
             // showToolStripMenuItem
             // 
