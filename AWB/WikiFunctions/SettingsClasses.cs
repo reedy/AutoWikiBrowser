@@ -166,7 +166,7 @@ namespace WikiFunctions.AWBSettings
         public EditPrefs(bool mGeneralFixes, bool mTagger, bool mUnicodify, int mRecategorisation,
             string mNewCategory, string mNewCategory2, int mReImage, string mImageFind, string mReplace,
             bool mSkipIfNoCatChange, bool mSkipIfNoImgChange, bool mAppendText, bool mAppend, string mText,
-            int mAutoDelay, bool mQuickSave, bool mSuppressTag, bool mOverrideWatchlist, bool mRegexTypoFix)
+            int mAutoDelay, bool mQuickSave, bool mSuppressTag, bool mRegexTypoFix)
         {
             GeneralFixes = mGeneralFixes;
             Tagger = mTagger;
@@ -185,7 +185,6 @@ namespace WikiFunctions.AWBSettings
             AutoDelay = mAutoDelay;
             QuickSave = mQuickSave;
             SuppressTag = mSuppressTag;
-            OverrideWatchlist = mOverrideWatchlist;
             RegexTypoFix = mRegexTypoFix;
         }
 

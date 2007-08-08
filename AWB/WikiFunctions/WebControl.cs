@@ -461,14 +461,14 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Sets the watch checkbox
         /// </summary>
-        public void SetWatch(bool Watch1, bool Override)
+        public void SetWatch(bool Watch1)
         {
             if (this.Document == null || !this.Document.Body.InnerHtml.Contains("wpWatchthis"))
                 return;
 
-            if (this.Document.GetElementById("wpWatchthis").GetAttribute("checked") != "True" && Watch1)
+            if (Watch1)
                 this.Document.GetElementById("wpWatchthis").SetAttribute("checked", "checked");
-            else if (!Watch1 && Override)
+            else if (!Watch1)
                 this.Document.GetElementById("wpWatchthis").SetAttribute("checked", "");
 
             Watch = Watch1;
