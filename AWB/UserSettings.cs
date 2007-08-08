@@ -164,7 +164,6 @@ namespace AutoWikiBrowser
             Minimize = true;
             TimeOut = 30;
             SaveArticleList = true;
-            OverrideWatchlist = false;
             chkLock.Checked = false;
 
             AutoSaveEditBoxEnabled = false;
@@ -311,7 +310,7 @@ namespace AutoWikiBrowser
                 txtNewCategory2.Text, cmboImages.SelectedIndex, txtImageReplace.Text, txtImageWith.Text,
                 chkSkipNoCatChange.Checked, chkSkipNoImgChange.Checked, chkAppend.Checked, !rdoPrepend.Checked,
                 txtAppendMessage.Text, (int)nudBotSpeed.Value, chkQuickSave.Checked, chkSuppressTag.Checked,
-                OverrideWatchlist, chkRegExTypo.Checked), new ListPrefs(listMaker1, SaveArticleList),
+                chkRegExTypo.Checked), new ListPrefs(listMaker1, SaveArticleList),
                 new SkipPrefs(chkSkipNonExistent.Checked, chkSkipExistent.Checked, chkSkipNoChanges.Checked,
                 chkSkipIfContains.Checked, chkSkipIfNotContains.Checked, txtSkipIfContains.Text,
                 txtSkipIfNotContains.Text, chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked,
@@ -348,7 +347,6 @@ namespace AutoWikiBrowser
             substTemplates.TemplateList = p.FindAndReplace.SubstTemplates;
             findAndReplace.MakeList();
 
-            OverrideWatchlist = p.Editprefs.OverrideWatchlist;
             listMaker1.SourceText = p.List.ListSource;
             listMaker1.SelectedSource = p.List.Source;
 

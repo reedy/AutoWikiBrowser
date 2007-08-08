@@ -316,13 +316,6 @@ namespace AutoWikiBrowser
             set { bSaveArticleList = value; }
         }
 
-        bool bOverrideWatchlist = false;
-        private bool OverrideWatchlist
-        {
-            get { return bOverrideWatchlist; }
-            set { bOverrideWatchlist = value; }
-        }
-
         bool bAutoSaveEdit = false;
         private bool AutoSaveEditBoxEnabled
         {
@@ -1228,7 +1221,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             if (webBrowserEdit.Document.Body.InnerHtml.Contains("wpMinoredit"))
             {
                 webBrowserEdit.SetMinor(markAllAsMinorToolStripMenuItem.Checked);
-                webBrowserEdit.SetWatch(addAllToWatchlistToolStripMenuItem.Checked, bOverrideWatchlist);
+                webBrowserEdit.SetWatch(addAllToWatchlistToolStripMenuItem.Checked);
                 webBrowserEdit.SetSummary(MakeSummary());
             }
         }
@@ -1679,7 +1672,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void PreferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MyPreferences MyPrefs = new MyPreferences(Variables.LangCode, Variables.Project, Variables.CustomProject, txtEdit.Font, LowThreadPriority, Flash, Beep, Minimize, SaveArticleList, OverrideWatchlist, TimeOut, AutoSaveEditBoxEnabled, AutoSaveEditBoxFile, AutoSaveEditBoxPeriod);
+            MyPreferences MyPrefs = new MyPreferences(Variables.LangCode, Variables.Project, Variables.CustomProject, txtEdit.Font, LowThreadPriority, Flash, Beep, Minimize, SaveArticleList, TimeOut, AutoSaveEditBoxEnabled, AutoSaveEditBoxFile, AutoSaveEditBoxPeriod);
 
             if (MyPrefs.ShowDialog(this) == DialogResult.OK)
             {
@@ -1689,7 +1682,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 Beep = MyPrefs.perfBeep;
                 Minimize = MyPrefs.perfMinimize;
                 SaveArticleList = MyPrefs.perfSaveArticleList;
-                OverrideWatchlist = MyPrefs.perfOverrideWatchlist;
                 TimeOut = MyPrefs.perfTimeOutLimit;
                 AutoSaveEditBoxEnabled = MyPrefs.perfAutoSaveEditBoxEnabled;
                 AutoSaveEditBoxPeriod = MyPrefs.perfAutoSaveEditBoxPeriod;

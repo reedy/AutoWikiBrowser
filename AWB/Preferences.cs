@@ -31,7 +31,7 @@ namespace AutoWikiBrowser
 {
     internal sealed partial class MyPreferences : Form
     {
-        public MyPreferences(LangCodeEnum lang, ProjectEnum proj, string customproj, Font TextFont, bool LowPriority, bool Flash, bool Beep, bool Minimize, bool SaveArticleList, bool OverrideWatchlist, decimal TimeOut, bool AutoSaveEditBox, string AutoSaveEditBoxFile, decimal AutoSaveEditBoxPeriod)
+        public MyPreferences(LangCodeEnum lang, ProjectEnum proj, string customproj, Font TextFont, bool LowPriority, bool Flash, bool Beep, bool Minimize, bool SaveArticleList, decimal TimeOut, bool AutoSaveEditBox, string AutoSaveEditBoxFile, decimal AutoSaveEditBoxPeriod)
         {
             InitializeComponent();
 
@@ -52,7 +52,6 @@ namespace AutoWikiBrowser
             perfBeep = Beep;
             perfMinimize = Minimize;
             perfSaveArticleList = SaveArticleList;
-            perfOverrideWatchlist = OverrideWatchlist;
             perfTimeOutLimit = TimeOut;
 
             perfAutoSaveEditBoxEnabled = AutoSaveEditBox;
@@ -180,12 +179,6 @@ namespace AutoWikiBrowser
         {
             get { return chkSaveArticleList.Checked; }
             set { chkSaveArticleList.Checked = value; }
-        }
-
-        public bool perfOverrideWatchlist
-        {
-            get { return chkOverrideWatchlist.Checked; }
-            set { chkOverrideWatchlist.Checked = value; }
         }
 
         public decimal perfTimeOutLimit
