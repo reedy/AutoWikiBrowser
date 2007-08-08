@@ -233,8 +233,7 @@ The int value ""Namespace"" gives you the key of the namespace, e.g. mainspace i
 
         private void chkModuleEnabled_CheckedChanged(object sender, EventArgs e)
         {
-            btnDone.Enabled = (chkModuleEnabled.Checked);
-            btnMake.Enabled = (chkModuleEnabled.Checked);
+            btnDone.Enabled = btnMake.Enabled = chkModuleEnabled.Checked;
         }
 
         private void chkFixedwidth_CheckedChanged(object sender, EventArgs e)
@@ -245,9 +244,7 @@ The int value ""Namespace"" gives you the key of the namespace, e.g. mainspace i
             else
                 a = new Font("Microsoft Sans Serif", 8);
 
-            txtCode.Font = a;
-            lblStart.Font = a;
-            lblEnd.Font = a;
+            txtCode.Font = lblStart.Font = lblEnd.Font = a;
         }
     }
 }
