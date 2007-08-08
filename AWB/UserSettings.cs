@@ -248,10 +248,7 @@ namespace AutoWikiBrowser
 
                 s = reg.GetValue("RecentList", "").ToString();
             }
-            catch
-            {
-                return;
-            }
+            catch { return; }
             UpdateRecentList(s.Split('|'));
         }
 
@@ -449,7 +446,7 @@ namespace AutoWikiBrowser
             txtEdit.Font = f;
 
             LowThreadPriority = p.General.LowThreadPriority;
-            Flash = p.General.Flash; // removed conditional references to p.General.FlashAndBeep, which was hardcoded to False
+            Flash = p.General.Flash;
             Beep = p.General.Beep;
 
             Minimize = p.General.Minimize;
