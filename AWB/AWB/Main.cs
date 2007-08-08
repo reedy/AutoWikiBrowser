@@ -372,6 +372,8 @@ namespace AutoWikiBrowser
             {
                 Tools.WriteDebug(this.Name, "Starting");
 
+                CanShutdown();
+
                 //check edit summary
                 txtEdit.Enabled = true;
                 txtEdit.Text = "";
@@ -3321,7 +3323,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             openInBrowserToolStripMenuItem.Enabled = refreshHistoryToolStripMenuItem.Enabled = (TheArticle != null);
         }
 
-        #region shutdown
+        #region Shutdown
         private void chkShutdown_CheckedChanged(object sender, EventArgs e)
         {
             EnableDisableShutdownControls(chkShutdown.Checked);
@@ -3329,34 +3331,57 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void EnableDisableShutdownControls(bool Enabled)
         {
-            radShutdown.Enabled = radStandby.Enabled = radRestart.Enabled = radHibernate.Enabled = Enabled;
+            radShutdown.Enabled = radStandby.Enabled = radRestart.Enabled
+            = radHibernate.Enabled = radShutdown.Checked = Enabled;
         }
 
         private void CanShutdown()
         {
-            if (listMaker1.Count == 0 && chkShutdown.Checked)
+            if (chkShutdown.Checked && listMaker1.Count == 0)
             {
                 ShutdownTimer.Enabled = true;
                 ShutdownNotification shut = new ShutdownNotification();
+                shut.ShutdownType = GetShutdownType();
+
                 DialogResult result = shut.ShowDialog(this);
 
                 if (result == DialogResult.Cancel)
+                {
                     ShutdownTimer.Enabled = false;
+                    MessageBox.Show(GetShutdownType() + " aborted!");
+                }
                 else if (result == DialogResult.Yes)
                     ShutdownComputer();
             }
         }
 
+        private string GetShutdownType()
+        {
+            if (radShutdown.Checked)
+                return "Shutdown";
+            else if (radStandby.Checked)
+                return "Standby";
+            else if (radRestart.Checked)
+                return "Restart";
+            else if (radHibernate.Checked)
+                return "Hibernate";
+            else
+                return "";
+        }
+
         private void ShutdownComputer()
         {
-            if (radHibernate.Checked)
-                System.Diagnostics.Process.Start("shutdown", "");
-            else if (radRestart.Checked)
-                System.Diagnostics.Process.Start("shutdown", "-r");
-            else if (radShutdown.Checked)
-                System.Diagnostics.Process.Start("shutdown", "-s");
-            else if (radStandby.Checked)
-                System.Diagnostics.Process.Start("shutdown", "");
+            if (Tools.WriteDebugEnabled == false)
+            {
+                if (radHibernate.Checked)
+                    System.Diagnostics.Process.Start("shutdown", "");
+                else if (radRestart.Checked)
+                    System.Diagnostics.Process.Start("shutdown", "-r");
+                else if (radShutdown.Checked)
+                    System.Diagnostics.Process.Start("shutdown", "-s");
+                else if (radStandby.Checked)
+                    System.Diagnostics.Process.Start("shutdown", "");
+            }
         }
 
         private void ShutdownTimer_Tick(object sender, EventArgs e)

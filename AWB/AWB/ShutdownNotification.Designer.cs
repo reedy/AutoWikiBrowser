@@ -28,23 +28,17 @@ namespace AutoWikiBrowser
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
+            this.components = new System.ComponentModel.Container();
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.CountdownTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 19);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(107, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "MessageGoesHere...";
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(57, 64);
+            this.btnOk.Location = new System.Drawing.Point(87, 76);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 1;
@@ -55,7 +49,7 @@ namespace AutoWikiBrowser
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(138, 64);
+            this.btnCancel.Location = new System.Drawing.Point(168, 76);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 2;
@@ -63,21 +57,49 @@ namespace AutoWikiBrowser
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
+            // textBox1
+            // 
+            this.textBox1.BackColor = System.Drawing.SystemColors.Control;
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox1.Location = new System.Drawing.Point(12, 12);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(318, 35);
+            this.textBox1.TabIndex = 3;
+            this.textBox1.Text = "AWB has finished processing all articles, and has been requested\r\nto . If you wou" +
+                "ld like to stop this, please select cancel";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(97, 50);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(46, 13);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Time til :";
+            // 
+            // CountdownTimer
+            // 
+            this.CountdownTimer.Enabled = true;
+            this.CountdownTimer.Interval = 1000;
+            this.CountdownTimer.Tick += new System.EventHandler(this.CountdownTimer_Tick);
+            // 
             // ShutdownNotification
             // 
             this.AcceptButton = this.btnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(270, 99);
+            this.ClientSize = new System.Drawing.Size(330, 118);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
-            this.Controls.Add(this.label1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ShutdownNotification";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "ShutdownNotification";
+            this.Text = "Shutdown Notification";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -85,8 +107,10 @@ namespace AutoWikiBrowser
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Timer CountdownTimer;
     }
 }
