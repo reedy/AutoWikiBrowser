@@ -10,6 +10,9 @@ namespace AutoWikiBrowser
 {
     public partial class ShutdownNotification : Form
     {
+        int Counter = 30;
+        string sShutdownType;
+
         public ShutdownNotification()
         {
             InitializeComponent();
@@ -17,8 +20,17 @@ namespace AutoWikiBrowser
 
         public string ShutdownType
         {
-            set { label1.Text = @"AWB has finished proccessing all articles, and has been requested
-to" + value + @". If you would like to stop this, please select cancel"; }
+            set {
+                sShutdownType = value;
+                textBox1.Text = @"AWB has finished processing all articles, and has been requested
+to " + value + @". If you would like to stop this, please select cancel.";
+                SetShutdownLabel(30);
+            }
+        }
+
+        private void SetShutdownLabel(int Time)
+        {
+            label1.Text = "Time until " + sShutdownType + ": " + Time.ToString();
         }
 
         private void btnOk_Click(object sender, EventArgs e)
@@ -29,6 +41,18 @@ to" + value + @". If you would like to stop this, please select cancel"; }
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
+        }
+
+        private void CountdownTimer_Tick(object sender, EventArgs e)
+        {
+            Counter--;
+            if (Counter != 0)
+            {
+                SetShutdownLabel(Counter);
+                Application.DoEvents();
+            }
+            else
+                this.Close();
         }
     }
 }
