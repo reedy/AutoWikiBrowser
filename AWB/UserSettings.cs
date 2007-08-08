@@ -177,7 +177,6 @@ namespace AutoWikiBrowser
             chkSkipNoDab.Checked = false;
             udContextChars.Value = 20;
 
-            LoggingCategoryTextBox.Text = "";
             loggingSettings1.Reset();
 
             try

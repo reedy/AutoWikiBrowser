@@ -94,7 +94,7 @@ namespace AutoWikiBrowser
                 prefs.LogVerbose = VerboseCheckBox.Checked;
                 prefs.LogWiki = WikiLogCheckBox.Checked;
                 prefs.LogXHTML = XHTMLLogCheckBox.Checked;
-                prefs.LogCategoryName = ((MainForm)ParentForm).LoggingCategoryTextBox.Text;
+                prefs.LogCategoryName = LoggingCategoryTextBox.Text;
                 prefs.UploadJobName = UploadJobNameTextBox.Text;
                 prefs.UploadLocation = UploadLocationTextBox.Text;
                 prefs.UploadMaxLines = int.Parse(UploadMaxLinesControl.Value.ToString());
@@ -111,7 +111,7 @@ namespace AutoWikiBrowser
 
                 try
                 {
-                    ((MainForm)ParentForm).LoggingCategoryTextBox.Text = prefs.LogCategoryName;
+                    LoggingCategoryTextBox.Text = prefs.LogCategoryName;
                     FolderTextBox.Text = prefs.LogFolder;
                     VerboseCheckBox.Checked = prefs.LogVerbose;
                     WikiLogCheckBox.Checked = prefs.LogWiki;
@@ -174,8 +174,8 @@ namespace AutoWikiBrowser
             }
 
             bool blnJobNameHasChanged = (!(Settings.UploadJobName == UploadJobNameTextBox.Text)) || 
-                (UploadJobNameTextBox.Text == Props.conUploadCategoryIsJobName && 
-                !(Settings.Category == GlobalObjects.AWB.CategoryTextBox.Text));
+                (UploadJobNameTextBox.Text == Props.conUploadCategoryIsJobName &&
+                !(Settings.Category == LoggingCategoryTextBox.Text));
 
             Settings.LogVerbose = VerboseCheckBox.Checked;
             Settings.LogWiki = WikiLogCheckBox.Checked;
@@ -186,7 +186,7 @@ namespace AutoWikiBrowser
             Settings.UploadJobName = UploadJobNameTextBox.Text;
             Settings.UploadLocation = UploadLocationTextBox.Text;
             Settings.UploadMaxLines = System.Convert.ToInt32(UploadMaxLinesControl.Value);
-            Settings.Category = GlobalObjects.AWB.CategoryTextBox.Text;
+            Settings.Category = LoggingCategoryTextBox.Text;
             Settings.UploadOpenInBrowser = UploadOpenInBrowserCheckBox.Checked;
             Settings.UploadToWikiProjects = UploadWikiProjectCheckBox.Checked;
             Settings.DebugUploading = DebugUploadingCheckBox.Checked;
@@ -218,6 +218,7 @@ namespace AutoWikiBrowser
         }
         private void EnableDisableUploadControls(bool Enabled)
         {
+            LoggingCategoryTextBox.Enabled = Enabled;
             UploadJobNameTextBox.Enabled = Enabled;
             UploadLocationTextBox.Enabled = Enabled;
             UploadOpenInBrowserCheckBox.Enabled = Enabled;
@@ -239,6 +240,10 @@ namespace AutoWikiBrowser
 				GetSettingsFromControls();
 			}
 		}
+        private void CategoryReset(object sender, EventArgs e)
+        {
+            UploadLocationTextBox.Text = "";
+        }
 		private void LocationReset(object sender, EventArgs e)
 		{
 			UploadLocationTextBox.Text = Props.conUploadToUserSlashLogsToken;
@@ -290,10 +295,31 @@ namespace AutoWikiBrowser
                 VerboseCheckBox.Checked = UploadCheckBox.Checked = false;
             WikiLogCheckBox.Checked = UploadCheckBox.Checked = UploadOpenInBrowserCheckBox.Checked =
                 UploadWatchlistCheckBox.Checked = UploadWikiProjectCheckBox.Checked = true;
+            CategoryReset(null, null);
             LocationReset(null, null);
             JobNameReset(null, null);
             MaxLinesReset(null, null);
             FolderButton_Click(null, null);
+        }
+
+        private void toolStripMenuItemCategoryCut_Click(object sender, EventArgs e)
+        {
+            LoggingCategoryTextBox.Cut();
+        }
+
+        private void toolStripMenuItemCategoryCopy_Click(object sender, EventArgs e)
+        {
+            LoggingCategoryTextBox.Copy();
+        }
+
+        private void toolStripMenuItemCategoryPaste_Click(object sender, EventArgs e)
+        {
+            LoggingCategoryTextBox.Paste();
+        }
+
+        private void toolStripMenuItemCategoryClear_Click(object sender, EventArgs e)
+        {
+            LoggingCategoryTextBox.Text = "";
         }
 #endregion
 
