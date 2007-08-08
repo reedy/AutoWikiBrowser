@@ -156,8 +156,6 @@ namespace AutoWikiBrowser
                     Variables.User.AdminStatusChanged += UpdateAdminStatus;
                     Variables.User.WikiStatusChanged += UpdateWikiStatus;
 
-                    LoggingCategoryTextBox.TextChanged += loggingSettings1.WeHaveUnappliedChanges;
-
                     Variables.User.webBrowserLogin.DocumentCompleted += web4Completed;
                     Variables.User.webBrowserLogin.Navigating += web4Starting;
 
@@ -3301,26 +3299,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("http://commons.wikimedia.org/wiki/Image:Crystal_Clear_action_run.png");
-        }
-
-        private void toolStripMenuItemCategoryCut_Click(object sender, EventArgs e)
-        {
-            LoggingCategoryTextBox.Cut();
-        }
-
-        private void toolStripMenuItemCategoryCopy_Click(object sender, EventArgs e)
-        {
-            LoggingCategoryTextBox.Copy();
-        }
-
-        private void toolStripMenuItemCategoryPaste_Click(object sender, EventArgs e)
-        {
-            LoggingCategoryTextBox.Paste();
-        }
-
-        private void toolStripMenuItemCategoryClear_Click(object sender, EventArgs e)
-        {
-            LoggingCategoryTextBox.Text = "";
         }
 
         private void profilesToolStripMenuItem_Click(object sender, EventArgs e)

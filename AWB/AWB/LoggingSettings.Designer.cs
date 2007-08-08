@@ -29,21 +29,24 @@ namespace AutoWikiBrowser
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoggingSettings));
             this.ApplyButton = new System.Windows.Forms.Button();
             this.GroupBox3 = new System.Windows.Forms.GroupBox();
-            this.GroupBox7 = new System.Windows.Forms.GroupBox();
+            this.label11 = new System.Windows.Forms.Label();
             this.UploadMaxLinesControl = new System.Windows.Forms.NumericUpDown();
             this.MaxLinesContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MaxLinesResetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SetToMaximumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.GroupBox6 = new System.Windows.Forms.GroupBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             this.UploadJobNameTextBox = new System.Windows.Forms.TextBox();
             this.JobNameContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.JobNameResetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.GroupBox5 = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.UploadLocationTextBox = new System.Windows.Forms.TextBox();
             this.LocationContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.LocationResetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.LoggingCategoryTextBox = new System.Windows.Forms.TextBox();
             this.UploadWikiProjectCheckBox = new System.Windows.Forms.CheckBox();
             this.UploadWatchlistCheckBox = new System.Windows.Forms.CheckBox();
             this.UploadOpenInBrowserCheckBox = new System.Windows.Forms.CheckBox();
@@ -73,21 +76,23 @@ namespace AutoWikiBrowser
             this.WikiLogCheckBox = new System.Windows.Forms.CheckBox();
             this.XHTMLLogCheckBox = new System.Windows.Forms.CheckBox();
             this.VerboseCheckBox = new System.Windows.Forms.CheckBox();
-            this.Label1 = new System.Windows.Forms.Label();
             this.FolderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.ToolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.ResetButton = new System.Windows.Forms.Button();
+            this.CategoryTextboxContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItemCategoryCut = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemCategoryCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemCategoryPaste = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemCategoryClear = new System.Windows.Forms.ToolStripMenuItem();
             this.GroupBox3.SuspendLayout();
-            this.GroupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UploadMaxLinesControl)).BeginInit();
             this.MaxLinesContextMenuStrip.SuspendLayout();
-            this.GroupBox6.SuspendLayout();
             this.JobNameContextMenuStrip.SuspendLayout();
-            this.GroupBox5.SuspendLayout();
             this.LocationContextMenuStrip.SuspendLayout();
             this.GroupBox2.SuspendLayout();
             this.GroupBox1.SuspendLayout();
             this.GroupBox4.SuspendLayout();
+            this.CategoryTextboxContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // ApplyButton
@@ -103,9 +108,14 @@ namespace AutoWikiBrowser
             // 
             // GroupBox3
             // 
-            this.GroupBox3.Controls.Add(this.GroupBox7);
-            this.GroupBox3.Controls.Add(this.GroupBox6);
-            this.GroupBox3.Controls.Add(this.GroupBox5);
+            this.GroupBox3.Controls.Add(this.label11);
+            this.GroupBox3.Controls.Add(this.UploadMaxLinesControl);
+            this.GroupBox3.Controls.Add(this.label10);
+            this.GroupBox3.Controls.Add(this.label9);
+            this.GroupBox3.Controls.Add(this.UploadJobNameTextBox);
+            this.GroupBox3.Controls.Add(this.label1);
+            this.GroupBox3.Controls.Add(this.UploadLocationTextBox);
+            this.GroupBox3.Controls.Add(this.LoggingCategoryTextBox);
             this.GroupBox3.Controls.Add(this.UploadWikiProjectCheckBox);
             this.GroupBox3.Controls.Add(this.UploadWatchlistCheckBox);
             this.GroupBox3.Controls.Add(this.UploadOpenInBrowserCheckBox);
@@ -116,21 +126,21 @@ namespace AutoWikiBrowser
             this.GroupBox3.TabStop = false;
             this.GroupBox3.Text = "Uploading";
             // 
-            // GroupBox7
+            // label11
             // 
-            this.GroupBox7.Controls.Add(this.UploadMaxLinesControl);
-            this.GroupBox7.Location = new System.Drawing.Point(6, 195);
-            this.GroupBox7.Name = "GroupBox7";
-            this.GroupBox7.Size = new System.Drawing.Size(114, 43);
-            this.GroupBox7.TabIndex = 23;
-            this.GroupBox7.TabStop = false;
-            this.GroupBox7.Text = "Maximum Lines";
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(11, 210);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(51, 26);
+            this.label11.TabIndex = 43;
+            this.label11.Text = "Maximum\r\nlines:";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // UploadMaxLinesControl
             // 
             this.UploadMaxLinesControl.ContextMenuStrip = this.MaxLinesContextMenuStrip;
             this.UploadMaxLinesControl.Enabled = false;
-            this.UploadMaxLinesControl.Location = new System.Drawing.Point(8, 17);
+            this.UploadMaxLinesControl.Location = new System.Drawing.Point(64, 215);
             this.UploadMaxLinesControl.Maximum = new decimal(new int[] {
             3000,
             0,
@@ -142,14 +152,13 @@ namespace AutoWikiBrowser
             0,
             0});
             this.UploadMaxLinesControl.Name = "UploadMaxLinesControl";
-            this.UploadMaxLinesControl.Size = new System.Drawing.Size(103, 20);
-            this.UploadMaxLinesControl.TabIndex = 0;
+            this.UploadMaxLinesControl.Size = new System.Drawing.Size(50, 20);
+            this.UploadMaxLinesControl.TabIndex = 42;
             this.UploadMaxLinesControl.Value = new decimal(new int[] {
             1000,
             0,
             0,
             0});
-            this.UploadMaxLinesControl.ValueChanged += new System.EventHandler(this.WeHaveUnappliedChanges);
             // 
             // MaxLinesContextMenuStrip
             // 
@@ -173,75 +182,89 @@ namespace AutoWikiBrowser
             this.SetToMaximumToolStripMenuItem.Text = "Set to maximum";
             this.SetToMaximumToolStripMenuItem.Click += new System.EventHandler(this.SetLinesToMaximum);
             // 
-            // GroupBox6
+            // label10
             // 
-            this.GroupBox6.Controls.Add(this.UploadJobNameTextBox);
-            this.GroupBox6.Location = new System.Drawing.Point(6, 143);
-            this.GroupBox6.Name = "GroupBox6";
-            this.GroupBox6.Size = new System.Drawing.Size(115, 45);
-            this.GroupBox6.TabIndex = 0;
-            this.GroupBox6.TabStop = false;
-            this.GroupBox6.Text = "Current Job Name";
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(11, 128);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(52, 13);
+            this.label10.TabIndex = 41;
+            this.label10.Text = "Category:";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(11, 167);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(90, 13);
+            this.label9.TabIndex = 40;
+            this.label9.Text = "Current job name:";
             // 
             // UploadJobNameTextBox
             // 
             this.UploadJobNameTextBox.ContextMenuStrip = this.JobNameContextMenuStrip;
             this.UploadJobNameTextBox.Enabled = false;
-            this.UploadJobNameTextBox.Location = new System.Drawing.Point(8, 19);
+            this.UploadJobNameTextBox.Location = new System.Drawing.Point(11, 183);
             this.UploadJobNameTextBox.Name = "UploadJobNameTextBox";
             this.UploadJobNameTextBox.Size = new System.Drawing.Size(103, 20);
-            this.UploadJobNameTextBox.TabIndex = 0;
+            this.UploadJobNameTextBox.TabIndex = 39;
             this.UploadJobNameTextBox.Text = "$CATEGORY";
-            this.UploadJobNameTextBox.TextChanged += new System.EventHandler(this.WeHaveUnappliedChanges);
             // 
             // JobNameContextMenuStrip
             // 
             this.JobNameContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.JobNameResetToolStripMenuItem});
             this.JobNameContextMenuStrip.Name = "JobNameContextMenuStrip";
-            this.JobNameContextMenuStrip.Size = new System.Drawing.Size(114, 26);
+            this.JobNameContextMenuStrip.Size = new System.Drawing.Size(103, 26);
             // 
             // JobNameResetToolStripMenuItem
             // 
             this.JobNameResetToolStripMenuItem.Name = "JobNameResetToolStripMenuItem";
-            this.JobNameResetToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
+            this.JobNameResetToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
             this.JobNameResetToolStripMenuItem.Text = "Reset";
             this.JobNameResetToolStripMenuItem.Click += new System.EventHandler(this.JobNameReset);
             // 
-            // GroupBox5
+            // label1
             // 
-            this.GroupBox5.Controls.Add(this.UploadLocationTextBox);
-            this.GroupBox5.Location = new System.Drawing.Point(6, 88);
-            this.GroupBox5.Name = "GroupBox5";
-            this.GroupBox5.Size = new System.Drawing.Size(115, 49);
-            this.GroupBox5.TabIndex = 22;
-            this.GroupBox5.TabStop = false;
-            this.GroupBox5.Text = "Upload Location";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(11, 88);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(84, 13);
+            this.label1.TabIndex = 38;
+            this.label1.Text = "Upload location:";
             // 
             // UploadLocationTextBox
             // 
             this.UploadLocationTextBox.ContextMenuStrip = this.LocationContextMenuStrip;
             this.UploadLocationTextBox.Enabled = false;
-            this.UploadLocationTextBox.Location = new System.Drawing.Point(8, 19);
+            this.UploadLocationTextBox.Location = new System.Drawing.Point(11, 104);
             this.UploadLocationTextBox.Name = "UploadLocationTextBox";
             this.UploadLocationTextBox.Size = new System.Drawing.Size(103, 20);
-            this.UploadLocationTextBox.TabIndex = 21;
+            this.UploadLocationTextBox.TabIndex = 37;
             this.UploadLocationTextBox.Text = "$USER/Logs";
-            this.UploadLocationTextBox.TextChanged += new System.EventHandler(this.WeHaveUnappliedChanges);
             // 
             // LocationContextMenuStrip
             // 
             this.LocationContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.LocationResetToolStripMenuItem});
             this.LocationContextMenuStrip.Name = "LocationContextMenuStrip";
-            this.LocationContextMenuStrip.Size = new System.Drawing.Size(114, 26);
+            this.LocationContextMenuStrip.Size = new System.Drawing.Size(103, 26);
             // 
             // LocationResetToolStripMenuItem
             // 
             this.LocationResetToolStripMenuItem.Name = "LocationResetToolStripMenuItem";
-            this.LocationResetToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
+            this.LocationResetToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
             this.LocationResetToolStripMenuItem.Text = "Reset";
             this.LocationResetToolStripMenuItem.Click += new System.EventHandler(this.LocationReset);
+            // 
+            // LoggingCategoryTextBox
+            // 
+            this.LoggingCategoryTextBox.ContextMenuStrip = this.CategoryTextboxContextMenuStrip;
+            this.LoggingCategoryTextBox.Location = new System.Drawing.Point(11, 144);
+            this.LoggingCategoryTextBox.Name = "LoggingCategoryTextBox";
+            this.LoggingCategoryTextBox.Size = new System.Drawing.Size(103, 20);
+            this.LoggingCategoryTextBox.TabIndex = 36;
+            this.ToolTip1.SetToolTip(this.LoggingCategoryTextBox, resources.GetString("LoggingCategoryTextBox.ToolTip"));
             // 
             // UploadWikiProjectCheckBox
             // 
@@ -277,7 +300,7 @@ namespace AutoWikiBrowser
             this.UploadOpenInBrowserCheckBox.Checked = true;
             this.UploadOpenInBrowserCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.UploadOpenInBrowserCheckBox.Enabled = false;
-            this.UploadOpenInBrowserCheckBox.Location = new System.Drawing.Point(11, 65);
+            this.UploadOpenInBrowserCheckBox.Location = new System.Drawing.Point(9, 65);
             this.UploadOpenInBrowserCheckBox.Name = "UploadOpenInBrowserCheckBox";
             this.UploadOpenInBrowserCheckBox.Size = new System.Drawing.Size(103, 17);
             this.UploadOpenInBrowserCheckBox.TabIndex = 21;
@@ -563,15 +586,6 @@ namespace AutoWikiBrowser
             this.VerboseCheckBox.UseVisualStyleBackColor = true;
             this.VerboseCheckBox.CheckedChanged += new System.EventHandler(this.WeHaveUnappliedChanges);
             // 
-            // Label1
-            // 
-            this.Label1.AutoSize = true;
-            this.Label1.Location = new System.Drawing.Point(20, 111);
-            this.Label1.Name = "Label1";
-            this.Label1.Size = new System.Drawing.Size(36, 13);
-            this.Label1.TabIndex = 22;
-            this.Label1.Text = "Folder";
-            // 
             // FolderBrowserDialog1
             // 
             this.FolderBrowserDialog1.Description = "Please select the folder where log files should be stored";
@@ -587,12 +601,53 @@ namespace AutoWikiBrowser
             this.ResetButton.UseVisualStyleBackColor = true;
             this.ResetButton.Click += new System.EventHandler(this.ResetButton_Click);
             // 
+            // CategoryTextboxContextMenuStrip
+            // 
+            this.CategoryTextboxContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemCategoryCut,
+            this.toolStripMenuItemCategoryCopy,
+            this.toolStripMenuItemCategoryPaste,
+            this.toolStripMenuItemCategoryClear});
+            this.CategoryTextboxContextMenuStrip.Name = "ContextMenuStrip1";
+            this.CategoryTextboxContextMenuStrip.Size = new System.Drawing.Size(145, 92);
+            // 
+            // toolStripMenuItemCategoryCut
+            // 
+            this.toolStripMenuItemCategoryCut.Name = "toolStripMenuItemCategoryCut";
+            this.toolStripMenuItemCategoryCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.toolStripMenuItemCategoryCut.Size = new System.Drawing.Size(144, 22);
+            this.toolStripMenuItemCategoryCut.Text = "Cut";
+            this.toolStripMenuItemCategoryCut.Click += new System.EventHandler(this.toolStripMenuItemCategoryCut_Click);
+            // 
+            // toolStripMenuItemCategoryCopy
+            // 
+            this.toolStripMenuItemCategoryCopy.Name = "toolStripMenuItemCategoryCopy";
+            this.toolStripMenuItemCategoryCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.toolStripMenuItemCategoryCopy.Size = new System.Drawing.Size(144, 22);
+            this.toolStripMenuItemCategoryCopy.Text = "Copy";
+            this.toolStripMenuItemCategoryCopy.Click += new System.EventHandler(this.toolStripMenuItemCategoryCut_Click);
+            // 
+            // toolStripMenuItemCategoryPaste
+            // 
+            this.toolStripMenuItemCategoryPaste.Name = "toolStripMenuItemCategoryPaste";
+            this.toolStripMenuItemCategoryPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.toolStripMenuItemCategoryPaste.Size = new System.Drawing.Size(144, 22);
+            this.toolStripMenuItemCategoryPaste.Text = "Paste";
+            this.toolStripMenuItemCategoryPaste.Click += new System.EventHandler(this.toolStripMenuItemCategoryCut_Click);
+            // 
+            // toolStripMenuItemCategoryClear
+            // 
+            this.toolStripMenuItemCategoryClear.Name = "toolStripMenuItemCategoryClear";
+            this.toolStripMenuItemCategoryClear.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.toolStripMenuItemCategoryClear.Size = new System.Drawing.Size(144, 22);
+            this.toolStripMenuItemCategoryClear.Text = "Clear";
+            this.toolStripMenuItemCategoryClear.Click += new System.EventHandler(this.toolStripMenuItemCategoryCut_Click);
+            // 
             // LoggingSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.GroupBox2);
-            this.Controls.Add(this.Label1);
             this.Controls.Add(this.GroupBox3);
             this.Controls.Add(this.ResetButton);
             this.Controls.Add(this.GroupBox1);
@@ -601,14 +656,9 @@ namespace AutoWikiBrowser
             this.Size = new System.Drawing.Size(276, 349);
             this.GroupBox3.ResumeLayout(false);
             this.GroupBox3.PerformLayout();
-            this.GroupBox7.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.UploadMaxLinesControl)).EndInit();
             this.MaxLinesContextMenuStrip.ResumeLayout(false);
-            this.GroupBox6.ResumeLayout(false);
-            this.GroupBox6.PerformLayout();
             this.JobNameContextMenuStrip.ResumeLayout(false);
-            this.GroupBox5.ResumeLayout(false);
-            this.GroupBox5.PerformLayout();
             this.LocationContextMenuStrip.ResumeLayout(false);
             this.GroupBox2.ResumeLayout(false);
             this.GroupBox2.PerformLayout();
@@ -616,8 +666,8 @@ namespace AutoWikiBrowser
             this.GroupBox1.PerformLayout();
             this.GroupBox4.ResumeLayout(false);
             this.GroupBox4.PerformLayout();
+            this.CategoryTextboxContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -625,12 +675,6 @@ namespace AutoWikiBrowser
 
         private System.Windows.Forms.Button ApplyButton;
         private System.Windows.Forms.GroupBox GroupBox3;
-        private System.Windows.Forms.GroupBox GroupBox7;
-        private System.Windows.Forms.NumericUpDown UploadMaxLinesControl;
-        private System.Windows.Forms.GroupBox GroupBox6;
-        private System.Windows.Forms.TextBox UploadJobNameTextBox;
-        private System.Windows.Forms.GroupBox GroupBox5;
-        private System.Windows.Forms.TextBox UploadLocationTextBox;
         internal System.Windows.Forms.CheckBox UploadWikiProjectCheckBox;
         private System.Windows.Forms.CheckBox UploadWatchlistCheckBox;
         private System.Windows.Forms.CheckBox UploadOpenInBrowserCheckBox;
@@ -658,7 +702,6 @@ namespace AutoWikiBrowser
         internal System.Windows.Forms.CheckBox WikiLogCheckBox;
         internal System.Windows.Forms.CheckBox XHTMLLogCheckBox;
         private System.Windows.Forms.CheckBox VerboseCheckBox;
-        private System.Windows.Forms.Label Label1;
         private System.Windows.Forms.ContextMenuStrip JobNameContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem JobNameResetToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip LocationContextMenuStrip;
@@ -671,5 +714,18 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox SQLLogCheckBox;
         private System.Windows.Forms.CheckBox DebugUploadingCheckBox;
         private System.Windows.Forms.Button ResetButton;
+        internal System.Windows.Forms.TextBox LoggingCategoryTextBox;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox UploadLocationTextBox;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.NumericUpDown UploadMaxLinesControl;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox UploadJobNameTextBox;
+        internal System.Windows.Forms.ContextMenuStrip CategoryTextboxContextMenuStrip;
+        internal System.Windows.Forms.ToolStripMenuItem toolStripMenuItemCategoryCut;
+        internal System.Windows.Forms.ToolStripMenuItem toolStripMenuItemCategoryCopy;
+        internal System.Windows.Forms.ToolStripMenuItem toolStripMenuItemCategoryPaste;
+        internal System.Windows.Forms.ToolStripMenuItem toolStripMenuItemCategoryClear;
     }
 }
