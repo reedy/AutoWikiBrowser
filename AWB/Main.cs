@@ -3351,6 +3351,12 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                     MessageBox.Show(GetShutdownType() + " aborted!");
                 }
                 else if (result == DialogResult.Yes)
+                    if (GetShutdownType() == "Standby" || GetShutdownType() == "Hibernate")
+                    {
+                        shut.Close();
+                        shut.Dispose();
+                        ShutdownTimer.Enabled = false;
+                    }
                     ShutdownComputer();
             }
         }
@@ -3374,13 +3380,13 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             if (Tools.WriteDebugEnabled == false)
             {
                 if (radHibernate.Checked)
-                    System.Diagnostics.Process.Start("shutdown", "");
+                    Application.SetSuspendState(PowerState.Hibernate, true, true);
                 else if (radRestart.Checked)
                     System.Diagnostics.Process.Start("shutdown", "-r");
                 else if (radShutdown.Checked)
                     System.Diagnostics.Process.Start("shutdown", "-s");
                 else if (radStandby.Checked)
-                    System.Diagnostics.Process.Start("shutdown", "");
+                    Application.SetSuspendState(PowerState.Suspend, true, true);
             }
         }
 
