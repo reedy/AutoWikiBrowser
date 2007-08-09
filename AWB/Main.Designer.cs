@@ -2778,7 +2778,7 @@ namespace AutoWikiBrowser
             // pictureBox1
             // 
             this.pictureBox1.ErrorImage = null;
-            this.pictureBox1.Image = global::AutoWikiBrowser.Properties.Resources.Bot_Image;
+            this.pictureBox1.Image = global::AutoWikiBrowser.Properties.Resources.BotImage;
             this.pictureBox1.InitialImage = null;
             this.pictureBox1.Location = new System.Drawing.Point(136, 215);
             this.pictureBox1.Name = "pictureBox1";
