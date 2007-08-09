@@ -727,8 +727,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
-        Regex Celcius = new Regex("(º|º |º&nbsp;|&ordm;|&ordm; |&ordm;&nbsp;|° |°&nbsp;|&deg; |&deg;&nbsp;)(C|c)", RegexOptions.Compiled);
-        Regex Farenheit = new Regex("(º|º |º&nbsp;|&ordm;|&ordm; |&ordm;&nbsp;|° |°&nbsp;|&deg; |&deg;&nbsp;)(F|f)", RegexOptions.Compiled);
+        Regex Celcius = new Regex(@"(°|º|º&nbsp;|&ordm;|&ordm;&nbsp;|°&nbsp;|&deg;|&deg;&nbsp;)\s*[Cc][^A-Za-z]", RegexOptions.Compiled);
+        Regex Farenheit = new Regex(@"(°|º|º&nbsp;|&ordm;|&ordm;&nbsp;|°&nbsp;|&deg;|&deg;&nbsp;)\s*[Ff][^A-Za-z]", RegexOptions.Compiled);
 
         /// <summary>
         /// Fix bad Temperatures
@@ -737,8 +737,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The modified article text.</returns>
         public string FixTemperatures(string ArticleText)
         {
-            ArticleText = Celcius.Replace(ArticleText, "&deg;C");
-            ArticleText = Farenheit.Replace(ArticleText, "&deg;F");
+            ArticleText = Celcius.Replace(ArticleText, "°C");
+            ArticleText = Farenheit.Replace(ArticleText, "°F");
             return ArticleText;
         }
 
