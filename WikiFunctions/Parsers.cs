@@ -727,8 +727,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
-        Regex Celcius = new Regex(@"(°|º|º&nbsp;|&ordm;|&ordm;&nbsp;|°&nbsp;|&deg;|&deg;&nbsp;)\s*[Cc][^A-Za-z]", RegexOptions.Compiled);
-        Regex Farenheit = new Regex(@"(°|º|º&nbsp;|&ordm;|&ordm;&nbsp;|°&nbsp;|&deg;|&deg;&nbsp;)\s*[Ff][^A-Za-z]", RegexOptions.Compiled);
+        Regex Celcius = new Regex(@"([º°](&nbsp;|)|(&deg;|&ordm;)(&nbsp;|))\s*[Cc][^A-Za-z]", RegexOptions.Compiled);
+        Regex Farenheit = new Regex(@"([º°](&nbsp;|)|(&deg;|&ordm;)(&nbsp;|))\s*[Ff][^A-Za-z]", RegexOptions.Compiled);
 
         /// <summary>
         /// Fix bad Temperatures
