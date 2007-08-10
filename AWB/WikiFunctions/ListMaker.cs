@@ -870,8 +870,7 @@ namespace WikiFunctions.Controls.Lists
                 StringBuilder strList = new StringBuilder("");
                 StreamWriter sw;
 
-                if (strListFile.Length > 0)
-                    saveListDialog.FileName = strListFile;
+                if (strListFile.Length > 0) saveListDialog.FileName = strListFile;
 
                 if (saveListDialog.ShowDialog() == DialogResult.OK)
                 {
@@ -879,27 +878,24 @@ namespace WikiFunctions.Controls.Lists
                     {
                         case 1: //wikitext
                             foreach (Article a in lbArticles)
-                            {
                                 strList.AppendLine("# [[:" + a.Name + "]]");
-                            }
-                            strListFile = saveListDialog.FileName;
-                            sw = new StreamWriter(strListFile, false, Encoding.UTF8);
-                            sw.Write(strList);
-                            sw.Close();
-                            Saved = true;
                             break;
                         case 2: //plaintext
                             foreach (Article a in lbArticles)
-                            {
                                 strList.AppendLine(a.Name);
-                            }
-                            strListFile = saveListDialog.FileName;
-                            sw = new StreamWriter(strListFile, false, Encoding.UTF8);
-                            sw.Write(strList);
-                            sw.Close();
-                            Saved = true;
+                            break;
+                        case 3: //CSV
+                            foreach (Article a in lbArticles)
+                                strList.Append(a.Name + ", ");
+
+                            strList = strList.Remove(strList.Length - 2, 2);
                             break;
                     }
+                    strListFile = saveListDialog.FileName;
+                    sw = new StreamWriter(strListFile, false, Encoding.UTF8);
+                    sw.Write(strList);
+                    sw.Close();
+                    Saved = true;
                 }
             }
             catch (IOException ex)
@@ -913,7 +909,6 @@ namespace WikiFunctions.Controls.Lists
         }
 
         private delegate void FilterNM();
-               
 
         /// <summary>
         /// Filters out articles that are not in the main namespace
@@ -1075,7 +1070,7 @@ namespace WikiFunctions.Controls.Lists
             try
             {
                 string TextTBA = Clipboard.GetDataObject().GetData(DataFormats.Text).ToString();
-                string[] splitter = { "\r\n" };
+                string[] splitter = { "\r\n", "," };
 
                 string[] splitTextTBA = TextTBA.Split(splitter, StringSplitOptions.RemoveEmptyEntries);
 
