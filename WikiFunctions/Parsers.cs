@@ -728,7 +728,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         }
 
         Regex Temperature = new Regex(@"([º°](&nbsp;|)|(&deg;|&ordm;)(&nbsp;|))\s*([CcFf])([^A-Za-z])", RegexOptions.Compiled);
-        //Regex Farenheit = new Regex(@"([º°](&nbsp;|)|(&deg;|&ordm;)(&nbsp;|))\s*[Ff]([^A-Za-z])", RegexOptions.Compiled);
 
         /// <summary>
         /// Fix bad Temperatures
@@ -738,11 +737,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public string FixTemperatures(string ArticleText)
         {
             foreach (Match m in Temperature.Matches(ArticleText))
-                ArticleText = ArticleText.Replace(m.ToString(), "°" + m.Groups[4].Value.ToUpper() + m.Groups[5].Value);
-
-            //foreach(Match m in Farenheit.Matches(ArticleText))
-            //    ArticleText = Farenheit.Replace(m.ToString(), "°F" + m.Groups[5].Value);
-            
+                ArticleText = ArticleText.Replace(m.ToString(), "°" + m.Groups[5].Value.ToUpper() + m.Groups[6].Value);           
             return ArticleText;
         }
 
