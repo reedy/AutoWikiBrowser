@@ -487,10 +487,6 @@ namespace AutoWikiBrowser
                 return;
             }
 
-            //check not in use
-            if (TheArticle.IsInUse && !BotMode)
-                MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
-
             if (chkSkipIfContains.Checked && TheArticle.SkipIfContains(txtSkipIfContains.Text, 
                 chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, true))
             {
@@ -510,6 +506,10 @@ namespace AutoWikiBrowser
                 SkipPage("skipIf custom code"); 
                 return;
             }
+
+            //check not in use
+            if (TheArticle.IsInUse && !BotMode)
+                MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
 
             if (!doNotAutomaticallyDoAnythingToolStripMenuItem.Checked)
             {
