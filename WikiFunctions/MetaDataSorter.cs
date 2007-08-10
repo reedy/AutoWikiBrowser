@@ -107,10 +107,9 @@ namespace WikiFunctions.Parse
 
                 string InterwikiLocalAlphaRaw = remExtra(Tools.StringBetween(text, "<!--InterwikiLocalAlphaBegins-->", "<!--InterwikiLocalAlphaEnds-->").Replace("<!--InterwikiLocalAlphaBegins-->", ""));
                 string InterwikiLocalFirstRaw = remExtra(Tools.StringBetween(text, "<!--InterwikiLocalFirstBegins-->", "<!--InterwikiLocalFirstEnds-->").Replace("<!--InterwikiLocalFirstBegins--", ""));
-                string InterwikiAlphaRaw = remExtra(Tools.StringBetween(text, "<!--InterwikiAlphaBegins-->", "<!--InterwikiAlphaEnds-->").Replace("<!--InterwikiAlphaBegins-->", ""));
-                string InterwikiAlphaEnFirstRaw = remExtra(Tools.StringBetween(text, "<!--InterwikiAlphaEnFirstBegins-->", "<!--InterwikiAlphaEnFirstEnds-->").Replace("<!--InterwikiAlphaEnFirstBegins-->", ""));
 
                 int no = 0;
+                int size = IWSplit.Matches(InterwikiLocalFirstRaw).Count + 1;
                 
                 InterwikiLocalAlpha = new string[IWSplit.Matches(InterwikiLocalAlphaRaw).Count + 1];
 
@@ -120,7 +119,7 @@ namespace WikiFunctions.Parse
                     no++;
                 }
 
-                InterwikiLocalFirst = new string[IWSplit.Matches(InterwikiLocalFirstRaw).Count + 1];
+                InterwikiLocalFirst = new string[size];
                 no = 0;
 
                 foreach (string s in InterwikiLocalFirstRaw.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries))
@@ -129,21 +128,20 @@ namespace WikiFunctions.Parse
                     no++;
                 }
 
-                InterwikiAlpha = new string[IWSplit.Matches(InterwikiAlphaRaw).Count + 1];
-                no = 0;
+                InterwikiAlpha = InterwikiLocalFirst;
+                Array.Sort(InterwikiAlpha);
 
-                foreach (string s in InterwikiAlphaRaw.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries))
+                string[] Temp = InterwikiAlpha;
+                Temp[Array.IndexOf(Temp, "en")] = "";
+
+                InterwikiAlphaEnFirst = new string[size + 1];
+                InterwikiAlphaEnFirst[0] = "en";
+                no = 1;
+
+                foreach (string s in Temp)
                 {
-                    InterwikiAlpha[no] = s.Trim();
-                    no++;
-                }
-
-                InterwikiAlphaEnFirst = new string[IWSplit.Matches(InterwikiAlphaEnFirstRaw).Count + 1];
-                no = 0;
-
-                foreach (string s in InterwikiAlphaEnFirstRaw.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries))
-                {
-                    InterwikiAlphaEnFirst[no] = s.Trim();
+                    if (s.Trim() != "")
+                        InterwikiAlphaEnFirst[no] = s;
                     no++;
                 }
             }
