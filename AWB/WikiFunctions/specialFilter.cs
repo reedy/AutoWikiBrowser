@@ -483,23 +483,10 @@ namespace WikiFunctions.Lists
 
         private void SetCheckBoxes(bool All)
         {
-            chkArticle.Checked = All;
-            chkArticleTalk.Checked = All;
-            chkCategory.Checked = All;
-            chkCategoryTalk.Checked = All;
-            chkHelp.Checked = All;
-            chkHelpTalk.Checked = All;
-            chkImage.Checked = All;
-            chkImageTalk.Checked = All;
-            chkMediaWiki.Checked = All;
-            chkMediaWikiTalk.Checked = All;
-            chkPortal.Checked = All;
-            chkPortalTalk.Checked = All;
-            chkTemplate.Checked = All;
-            chkTemplateTalk.Checked = All;
-            chkUser.Checked = All;
-            chkUserTalk.Checked = All;
-            chkWikipedia.Checked = All;
+            chkArticle.Checked = chkArticleTalk.Checked = chkCategory.Checked = chkCategoryTalk.Checked =
+            chkHelp.Checked = chkHelpTalk.Checked = chkImage.Checked = chkImageTalk.Checked = chkMediaWiki.Checked =
+            chkMediaWikiTalk.Checked = chkPortal.Checked = chkPortalTalk.Checked = chkTemplate.Checked = 
+            chkTemplateTalk.Checked = chkUser.Checked = chkUserTalk.Checked = chkWikipedia.Checked =
             chkWikipediaTalk.Checked = All;
         }
 

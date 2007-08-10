@@ -47,11 +47,12 @@ namespace WikiFunctions.Parse
         Regex InterLangRegex = new Regex("<!-- ?(other languages|language links|inter ?(language|wiki)? ?links|inter ?wiki ?language ?links|inter ?wiki|The below are interlanguage links\\.?) ?-->", RegexOptions.IgnoreCase);
         Regex CatCommentRegex = new Regex("<!-- ?categories ?-->", RegexOptions.IgnoreCase);
 
-        private string[] InterwikiLocalAlpha = new string[] { };
-        private string[] InterwikiLocalFirst = new string[] { };
-        private string[] InterwikiAlpha = new string[] { };
-        private string[] InterwikiAlphaEnFirst = new string[] { }; 
+        private string[] InterwikiLocalAlpha;
+        private string[] InterwikiLocalFirst;
+        private string[] InterwikiAlpha;
+        private string[] InterwikiAlphaEnFirst; 
         List<Regex> InterWikisList = new List<Regex>();
+        Regex IWSplit = new Regex(",", RegexOptions.Compiled);
 
         private InterWikiOrderEnum order = InterWikiOrderEnum.LocalLanguageAlpha;
         public InterWikiOrderEnum InterWikiOrder
@@ -104,36 +105,54 @@ namespace WikiFunctions.Parse
                 webBrowser.Wait();
                 string text = webBrowser.GetArticleText();
 
-                string InterwikiLocalAlphaRaw = Tools.StringBetween(text, "<!--InterwikiLocalAlphaBegins-->", "<!--InterwikiLocalAlphaEnds-->").Replace("<!--InterwikiLocalAlphaBegins-->", "");
-                string InterwikiLocalFirstRaw = Tools.StringBetween(text, "<!--InterwikiLocalFirstBegins-->", "<!--InterwikiLocalFirstEnds-->").Replace("<!--InterwikiLocalFirstBegins--", "");
-                string InterwikiAlphaRaw = Tools.StringBetween(text, "<!--InterwikiAlphaBegins-->", "<!--InterwikiAlphaEnds-->").Replace("<!--InterwikiAlphaBegins-->", "");
-                string InterwikiAlphaEnFirstRaw = Tools.StringBetween(text, "<!--InterwikiAlphaEnFirstBegins-->", "<!--InterwikiAlphaEnFirstEnds-->").Replace("<!--InterwikiAlphaEnFirstBegins-->", "");
+                string InterwikiLocalAlphaRaw = remExtra(Tools.StringBetween(text, "<!--InterwikiLocalAlphaBegins-->", "<!--InterwikiLocalAlphaEnds-->").Replace("<!--InterwikiLocalAlphaBegins-->", ""));
+                string InterwikiLocalFirstRaw = remExtra(Tools.StringBetween(text, "<!--InterwikiLocalFirstBegins-->", "<!--InterwikiLocalFirstEnds-->").Replace("<!--InterwikiLocalFirstBegins--", ""));
+                string InterwikiAlphaRaw = remExtra(Tools.StringBetween(text, "<!--InterwikiAlphaBegins-->", "<!--InterwikiAlphaEnds-->").Replace("<!--InterwikiAlphaBegins-->", ""));
+                string InterwikiAlphaEnFirstRaw = remExtra(Tools.StringBetween(text, "<!--InterwikiAlphaEnFirstBegins-->", "<!--InterwikiAlphaEnFirstEnds-->").Replace("<!--InterwikiAlphaEnFirstBegins-->", ""));
+
+                int no = 0;
+                
+                InterwikiLocalAlpha = new string[IWSplit.Matches(InterwikiLocalAlphaRaw).Count + 1];
 
                 foreach (string s in InterwikiLocalAlphaRaw.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries))
                 {
-                    Array.Resize<string>(ref InterwikiLocalAlpha, InterwikiLocalAlpha.Length + 1);
-                    InterwikiLocalAlpha[InterwikiLocalAlpha.Length - 1] = s.Trim();
+                    InterwikiLocalAlpha[no] = s.Trim();
+                    no++;
                 }
+
+                InterwikiLocalFirst = new string[IWSplit.Matches(InterwikiLocalFirstRaw).Count + 1];
+                no = 0;
 
                 foreach (string s in InterwikiLocalFirstRaw.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries))
                 {
-                    Array.Resize<string>(ref InterwikiLocalFirst, InterwikiLocalFirst.Length + 1);
-                    InterwikiLocalFirst[InterwikiLocalFirst.Length - 1] = s.Trim();
+                    InterwikiLocalFirst[no] = s.Trim();
+                    no++;
                 }
+
+                InterwikiAlpha = new string[IWSplit.Matches(InterwikiAlphaRaw).Count + 1];
+                no = 0;
 
                 foreach (string s in InterwikiAlphaRaw.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries))
                 {
-                    Array.Resize<string>(ref InterwikiAlpha, InterwikiAlpha.Length + 1);
-                    InterwikiAlpha[InterwikiAlpha.Length - 1] = s.Trim();
+                    InterwikiAlpha[no] = s.Trim();
+                    no++;
                 }
+
+                InterwikiAlphaEnFirst = new string[IWSplit.Matches(InterwikiAlphaEnFirstRaw).Count + 1];
+                no = 0;
 
                 foreach (string s in InterwikiAlphaEnFirstRaw.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries))
                 {
-                    Array.Resize<string>(ref InterwikiAlphaEnFirst, InterwikiAlphaEnFirst.Length + 1);
-                    InterwikiAlphaEnFirst[InterwikiAlphaEnFirst.Length - 1] = s.Trim();
+                    InterwikiAlphaEnFirst[no] = s.Trim();
+                    no++;
                 }
             }
             catch { }
+        }
+
+        private string remExtra(string Input)
+        {
+            return Input.Replace("\r\n", "").Replace(">", "");
         }
 
         private string Newline(string s)

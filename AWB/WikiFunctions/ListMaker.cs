@@ -18,7 +18,6 @@ namespace WikiFunctions.Controls.Lists
 
     public partial class ListMaker : UserControl, IEnumerable<Article>, ICollection<Article>, IList<Article>
     {
-       
         public event ListMakerEventHandler StatusTextChanged;
         public event ListMakerEventHandler BusyStateChanged;
         public event ListMakerEventHandler NoOfArticlesChanged;
