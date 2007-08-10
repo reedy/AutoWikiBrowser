@@ -59,13 +59,17 @@ namespace AutoWikiBrowser
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.BackgroundImage = global::AutoWikiBrowser.Properties.Resources.SplashImage;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(478, 302);
             this.ControlBox = false;
             this.Controls.Add(this.lblVersion);
             this.Controls.Add(this.progressBar);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(478, 302);
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(478, 302);
             this.Name = "Splash";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
