@@ -29,7 +29,7 @@ namespace AutoWikiBrowser
         private void InitializeComponent()
         {
             this.progressBar = new System.Windows.Forms.ProgressBar();
-            this.lblVersion = new WikiFunctions.Controls.TransparentLabel();
+            this.lblVersion = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // progressBar
@@ -84,6 +84,6 @@ namespace AutoWikiBrowser
         #endregion
 
         private System.Windows.Forms.ProgressBar progressBar;
-        private WikiFunctions.Controls.TransparentLabel lblVersion;
+        private System.Windows.Forms.Label lblVersion;
     }
 }
