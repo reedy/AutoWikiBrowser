@@ -1469,6 +1469,12 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 Summary += ", added stub tag";
             }
 
+            if (LinkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(ArticleText))
+            {
+                ArticleText = "{{deadend|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + ArticleText;
+                Summary += ", added deadend tag";
+            }
+
             return ArticleText;
         }
 
