@@ -252,9 +252,6 @@
     <Compile Include="TalkPageHeaders.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="ReplaceSpecial\Utility.cs" />
-    <Compile Include="Controls\TransparentLabel.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Updater.cs" />
     <Compile Include="LogControl.cs">
       <SubType>UserControl</SubType>

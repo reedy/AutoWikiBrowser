@@ -190,6 +190,11 @@ namespace WikiFunctions
         public static readonly Regex LinkFAs = new Regex(@"\{\{[Ll]ink FA\|.*?\}\}", RegexOptions.Compiled);
 
         /// <summary>
+        /// Matches {{Deadend|xxx}} (en only)
+        /// </summary>
+        public static readonly Regex DeadEnd = new Regex(@"\{\{[Dd]eadend\|.*?\}\}", RegexOptions.Compiled);
+
+        /// <summary>
         /// matches <!-- comments -->
         /// </summary>
         public static readonly Regex Comments = new Regex(@"<!--.*?-->", RegexOptions.Compiled | RegexOptions.Singleline);
