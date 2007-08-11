@@ -1183,7 +1183,10 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             testText = ArticleText;
 
             if (Regex.IsMatch(ArticleText, "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + Tools.CaseInsensitive(Regex.Escape(NewCategory)) + "( ?\\|| ?\\]\\])"))
-                ArticleText = RemoveCategory(OldCategory, ArticleText);
+            {
+                bool tmp;
+                ArticleText = RemoveCategory(OldCategory, ArticleText, out tmp);
+            }
             else
             {
                 OldCategory = Regex.Escape(OldCategory);
@@ -1209,24 +1212,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The article text without the old category.</returns>
         public string RemoveCategory(string strOldCat, string ArticleText, out bool NoChange)
         {
-            testText = ArticleText;
-            ArticleText = RemoveCategory(strOldCat, ArticleText);
-
-            NoChange = (testText == ArticleText);
-
-            return ArticleText;
-        }
-
-        /// <summary>
-        /// Removes a category from an article.
-        /// </summary>
-        /// <param name="ArticleText">The wiki text of the article.</param>
-        /// <param name="strOldCat">The old category to remove.</param>
-        /// <returns>The article text without the old category.</returns>
-        public string RemoveCategory(string strOldCat, string ArticleText)
-        {
-            //format categories properly
             ArticleText = FixCategories(ArticleText);
+            testText = ArticleText;
 
             strOldCat = Regex.Escape(strOldCat);
             strOldCat = Tools.CaseInsensitive(strOldCat);
@@ -1235,6 +1222,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 ArticleText = Regex.Replace(ArticleText, "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + " ?" + strOldCat + "( ?\\]\\]| ?\\|[^\\|]*?\\]\\])", "");
             else
                 ArticleText = Regex.Replace(ArticleText, "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + " ?" + strOldCat + "( ?\\]\\]| ?\\|[^\\|]*?\\]\\])\r\n", "");
+
+            NoChange = (testText == ArticleText);
+
             return ArticleText;
         }
 
