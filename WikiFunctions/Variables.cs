@@ -1251,7 +1251,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                 if (Variables.Project == ProjectEnum.wikia)
                 {
                     webBrowserWikia = new WebControl();
-                    webBrowserWikia.Navigate(Variables.URLLong + "index.php?title=Project:AutoWikiBrowser/CheckPage&action=edit");
+                    webBrowserWikia.Navigate("http://www.wikia.com/wiki/index.php?title=Wikia:AutoWikiBrowser/CheckPage&action=edit");
                 }
 
                 //load version check page
