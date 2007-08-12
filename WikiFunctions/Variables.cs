@@ -1260,7 +1260,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
 
                 //load check page
                 if (Variables.Project == ProjectEnum.wikia)
-                    webBrowserLogin.Navigate("http://www.wikia.com/index.php?title=Wikia:AutoWikiBrowser/CheckPage&action=edit");
+                    webBrowserLogin.Navigate("http://www.wikia.com/wiki/index.php?title=Wikia:AutoWikiBrowser/CheckPage&action=edit");
                 else if (Variables.LangCode != LangCodeEnum.ar)
                     webBrowserLogin.Navigate(Variables.URLLong + "index.php?title=Project:AutoWikiBrowser/CheckPage&action=edit");
                 else
