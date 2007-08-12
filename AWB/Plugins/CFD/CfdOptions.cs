@@ -77,16 +77,14 @@ namespace AutoWikiBrowser.Plugins.CFD
             foreach (string s in txtBacklog.Lines)
             {
                 Match m = CatReplace.Match(s);
-                //*
                 if (m.Success)
                 {
                     Grid.Rows.Add(new string[2] { m.Groups[1].Value.Trim().Replace("_", " "), m.Groups[2].Value.Trim().Replace("_", "") });
                     continue;
-                }//*/
-
+                }
                 m = CatRemove.Match(s);
                 if (m.Success)
-                    Grid.Rows.Add(new string[2] { m.Groups[1].Value.Trim().Replace("_", " "), " " });
+                    Grid.Rows.Add(new string[2] { m.Groups[1].Value.Trim().Replace("_", " "), "" });
             }
         }
 
