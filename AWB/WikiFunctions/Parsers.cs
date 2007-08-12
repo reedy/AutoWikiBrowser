@@ -1220,10 +1220,10 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             strOldCat = Regex.Escape(strOldCat);
             strOldCat = Tools.CaseInsensitive(strOldCat);
 
-            if (ArticleText.Contains("<includeonly>"))
-                ArticleText = Regex.Replace(ArticleText, "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + " ?" + strOldCat + "( ?\\]\\]| ?\\|[^\\|]*?\\]\\])", "");
-            else
+            if (!ArticleText.Contains("<includeonly>"))
                 ArticleText = Regex.Replace(ArticleText, "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + " ?" + strOldCat + "( ?\\]\\]| ?\\|[^\\|]*?\\]\\])\r\n", "");
+          
+            ArticleText = Regex.Replace(ArticleText, "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + " ?" + strOldCat + "( ?\\]\\]| ?\\|[^\\|]*?\\]\\])", ""); 
 
             NoChange = (testText == ArticleText);
 
