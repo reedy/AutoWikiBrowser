@@ -80,13 +80,13 @@ namespace AutoWikiBrowser.Plugins.CFD
                 //*
                 if (m.Success)
                 {
-                    Grid.Rows.Add(new string[2] { m.Groups[1].Value.Trim(), m.Groups[2].Value.Trim() });
+                    Grid.Rows.Add(new string[2] { m.Groups[1].Value.Trim().Replace("_", " "), m.Groups[2].Value.Trim().Replace("_", "") });
                     continue;
                 }//*/
 
                 m = CatRemove.Match(s);
                 if (m.Success)
-                    Grid.Rows.Add(new string[2] { m.Groups[1].Value.Trim(), "" });
+                    Grid.Rows.Add(new string[2] { m.Groups[1].Value.Trim().Replace("_", " "), " " });
             }
         }
 
@@ -94,6 +94,7 @@ namespace AutoWikiBrowser.Plugins.CFD
         {
             timer.Enabled = false;
             RefreshCats();
+            txtBacklog.Text = txtBacklog.Text.Replace("_", " ");
 
             ToDo.Clear();
             foreach (DataGridViewRow r in Grid.Rows)
