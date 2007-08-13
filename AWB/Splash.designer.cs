@@ -44,12 +44,12 @@ namespace AutoWikiBrowser
             // 
             // lblVersion
             // 
+            this.lblVersion.BackColor = System.Drawing.Color.Transparent;
             this.lblVersion.Font = new System.Drawing.Font("Georgia", 15.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblVersion.Location = new System.Drawing.Point(33, 173);
             this.lblVersion.Name = "lblVersion";
             this.lblVersion.Size = new System.Drawing.Size(179, 41);
             this.lblVersion.TabIndex = 4;
-            this.lblVersion.TabStop = false;
             this.lblVersion.Text = "Version";
             this.lblVersion.UseWaitCursor = true;
             // 
