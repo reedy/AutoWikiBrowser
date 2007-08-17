@@ -2297,17 +2297,21 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         }
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
-            txtEdit.Focus();
+            try
+            {
+                txtEdit.Focus();
 
-            cutToolStripMenuItem.Enabled = copyToolStripMenuItem.Enabled =
-                openSelectionInBrowserToolStripMenuItem.Enabled = (txtEdit.SelectedText.Length > 0);
+                cutToolStripMenuItem.Enabled = copyToolStripMenuItem.Enabled =
+                    openSelectionInBrowserToolStripMenuItem.Enabled = (txtEdit.SelectedText.Length > 0);
 
-            undoToolStripMenuItem.Enabled = txtEdit.CanUndo;
+                undoToolStripMenuItem.Enabled = txtEdit.CanUndo;
 
-            openPageInBrowserToolStripMenuItem.Enabled = TheArticle.Name.Length > 0;
-            openTalkPageInBrowserToolStripMenuItem.Enabled = TheArticle.Name.Length > 0;
-            openHistoryMenuItem.Enabled = TheArticle.Name.Length > 0;
-            replaceTextWithLastEditToolStripMenuItem.Enabled = LastArticle.Length > 0;
+                openPageInBrowserToolStripMenuItem.Enabled = TheArticle.Name.Length > 0;
+                openTalkPageInBrowserToolStripMenuItem.Enabled = TheArticle.Name.Length > 0;
+                openHistoryMenuItem.Enabled = TheArticle.Name.Length > 0;
+                replaceTextWithLastEditToolStripMenuItem.Enabled = LastArticle.Length > 0;
+            }
+            catch { }
         }
 
         private void openPageInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
