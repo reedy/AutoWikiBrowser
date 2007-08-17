@@ -1729,21 +1729,22 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             Variables.SetProject(Code, Project, CustomProject);
 
             //set interwikiorder
-            if (Code == LangCodeEnum.en || Code == LangCodeEnum.pl || Code == LangCodeEnum.simple)
+            if (Variables.LangCode == LangCodeEnum.en || Variables.LangCode == LangCodeEnum.pl ||
+                Variables.LangCode == LangCodeEnum.simple)
                 parsers.InterWikiOrder = InterWikiOrderEnum.LocalLanguageAlpha;
             //else if (Code == "fi")
             //    parsers.InterWikiOrder = InterWikiOrderEnum.LocalLanguageFirstWord;
-            else if (Code == LangCodeEnum.he)
+            else if (Variables.LangCode == LangCodeEnum.he)
                 parsers.InterWikiOrder = InterWikiOrderEnum.AlphabeticalEnFirst;
             else
                 parsers.InterWikiOrder = InterWikiOrderEnum.Alphabetical;
 
-            if (Code != LangCodeEnum.en || Project != ProjectEnum.wikipedia)
+            if (Variables.LangCode != LangCodeEnum.en || Project != ProjectEnum.wikipedia)
             {
                 chkAutoTagger.Checked = false;
                 chkGeneralFixes.Checked = false;
             }
-            if (Project != ProjectEnum.custom && Project != ProjectEnum.wikia) lblProject.Text = Variables.LangCode.ToString().ToLower() + "." + Variables.Project;
+            if (Variables.Project != ProjectEnum.custom && Variables.Project != ProjectEnum.wikia) lblProject.Text = Variables.LangCode.ToString().ToLower() + "." + Variables.Project;
             else lblProject.Text = Variables.URL;
         }
 
