@@ -1242,6 +1242,10 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
             {
                 string strText = String.Empty;
                 string strVersionPage;
+
+                //this object loads a local checkpage on Wikia
+                //it cannot be used to approve users, but it could be used to set some settings
+                //such as underscores and pages to ignore
                 WebControl webBrowserWikia = null;
                 string typoPostfix = "";
                 string userGroups;
@@ -1251,7 +1255,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                 if (Variables.Project == ProjectEnum.wikia)
                 {
                     webBrowserWikia = new WebControl();
-                    webBrowserWikia.Navigate("http://www.wikia.com/wiki/index.php?title=Wikia:AutoWikiBrowser/CheckPage&action=edit");
+                    webBrowserWikia.Navigate(Variables.URLLong + "index.php?title=Project:AutoWikiBrowser/CheckPage&action=edit");
                 }
 
                 //load version check page
@@ -1315,7 +1319,8 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                 CheckPageText = strText;
 
                 //AWB does not support any skin other than Monobook
-                if (webBrowserLogin.GetScriptingVar("skin") != "monobook")
+                string skin = webBrowserLogin.GetScriptingVar("skin");
+                if (skin != "monobook" && skin != "quartzsmoke")
                 {
                     MessageBox.Show("This software does not support skins other than Monobook." +
                         "\r\nPlease choose Monobook in your preferences and relogin.", "Error",
