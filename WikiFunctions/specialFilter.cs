@@ -337,14 +337,16 @@ namespace WikiFunctions.Lists
         private void FilterList()
         {
             // has to be sorted so binary search can work
-            lbRemove.Sorted = true;
+            List<Article> remove = new List<Article>();
+            remove.AddRange(lbRemove);
+            remove.Sort();
 
             if (cbOpType.SelectedIndex == 0)
             {
                 // find difference
                 List<Article> list2 = new List<Article>();
                 foreach (Article a in list)
-                    if (!BinarySearch(lbRemove.Items, a, 0, lbRemove.Items.Count - 1))
+                    if (!BinarySearch(remove, a, 0, remove.Count - 1))
                         list2.Add(a);
                 list = list2;
             }
@@ -353,7 +355,7 @@ namespace WikiFunctions.Lists
                 // find intersection
                 List<Article> list2 = new List<Article>();
                 foreach (Article a in list)
-                    if (BinarySearch(lbRemove.Items, a, 0, lbRemove.Items.Count - 1))
+                    if (BinarySearch(remove, a, 0, remove.Count - 1))
                         list2.Add(a);
                 list = list2;
             }
@@ -361,7 +363,7 @@ namespace WikiFunctions.Lists
 
         CompareInfo ci = CultureInfo.InvariantCulture.CompareInfo;
 
-        private bool BinarySearch(ListBox2.ObjectCollection list, Article article, int low, int high)
+        private bool BinarySearch(IList<Article> list, Article article, int low, int high)
         {
             if (high < low)
                 return false;

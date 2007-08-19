@@ -33,7 +33,7 @@ namespace WikiFunctions
     /// <summary>
     /// A class which represents a wiki article
     /// </summary>
-    public class Article : ProcessArticleEventArgs, IArticleSimple
+    public class Article : ProcessArticleEventArgs, IArticleSimple, IComparable<Article>
     {
         protected int mNameSpaceKey;
         protected string mName = "";
@@ -667,6 +667,12 @@ namespace WikiFunctions
                     return false;
                 */
             }
+
+        public int CompareTo(Article other)
+        {
+            return string.Compare(mName, other.mName, false, System.Globalization.CultureInfo.InvariantCulture);
+        }
+
         #endregion
 
         #region Interfaces
