@@ -728,10 +728,11 @@ namespace AutoWikiBrowser
             else if (!BotMode && webBrowserEdit.Document.Body.InnerHtml.Contains("<A class=extiw title=m:spam_blacklist href=\"http://meta.wikimedia.org/wiki/spam_blacklist\">"))
             {//check edit wasn't blocked due to spam filter
                 if (MessageBox.Show("Edit has been blocked by spam blacklist. Try and edit again?", "Spam blacklist", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-                {
                     Start();
-                    return;
-                }
+                else
+                    SkipPage("Edit blocked by spam protection filter");
+                    
+                return;
             }
             else if (webBrowserEdit.Document.Body.InnerHtml.Contains("<DIV CLASS=PREVIEWNOTE"))
             {//if session data is lost, if data is lost then save after delay with tmrAutoSaveDelay
