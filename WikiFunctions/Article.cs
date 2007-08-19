@@ -27,6 +27,7 @@ using System.Text.RegularExpressions;
 using WikiFunctions.Plugin;
 using WikiFunctions.Options;
 using WikiFunctions.Parse;
+using System.Globalization;
 
 namespace WikiFunctions
 {
@@ -670,7 +671,8 @@ namespace WikiFunctions
 
         public int CompareTo(Article other)
         {
-            return string.Compare(mName, other.mName, false, System.Globalization.CultureInfo.InvariantCulture);
+            CompareInfo ci = CultureInfo.InvariantCulture.CompareInfo;
+            return ci.Compare(mName, other.mName, CompareOptions.StringSort);
         }
 
         #endregion
