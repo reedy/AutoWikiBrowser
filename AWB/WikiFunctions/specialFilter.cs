@@ -26,6 +26,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.Collections;
 using System.Text.RegularExpressions;
+using System.Globalization;
+using System.Threading;
 using WikiFunctions;
 using WikiFunctions.Controls.Lists;
 
@@ -337,17 +339,42 @@ namespace WikiFunctions.Lists
 
         private void FilterList()
         {
-            if (cbOpType.SelectedIndex == 0) foreach (Article a in lbRemove)
-                    list.Remove(a);
-            else
+            // has to be sorted so binary search can work
+            lbRemove.Sorted = true;
+
+            if (cbOpType.SelectedIndex == 0)
             {
+                // find difference
                 List<Article> list2 = new List<Article>();
                 foreach (Article a in list)
-                {
-                    if (lbRemove.Items.Contains(a)) list2.Add(a);
-                }
+                    if (!BinarySearch(lbRemove.Items, a, 0, lbRemove.Items.Count - 1))
+                        list2.Add(a);
                 list = list2;
             }
+            else
+            {
+                // find intersection
+                List<Article> list2 = new List<Article>();
+                foreach (Article a in list)
+                    if (BinarySearch(lbRemove.Items, a, 0, lbRemove.Items.Count - 1))
+                        list2.Add(a);
+                list = list2;
+            }
+        }
+
+        private bool BinarySearch(ListBox2.ObjectCollection list, Article article, int low, int high)
+        {
+            if (high < low)
+                return false;
+            int mid = (low + high) / 2;
+            // using current culture
+            CompareInfo ci = new CultureInfo(Thread.CurrentThread.CurrentCulture.Name).CompareInfo;
+            if (ci.Compare(list[mid].ToString(), article.ToString(), CompareOptions.StringSort) > 0)
+                return BinarySearch(list, article, low, mid - 1);
+            else if (ci.Compare(list[mid].ToString(), article.ToString(), CompareOptions.StringSort) < 0)
+                return BinarySearch(list, article, mid + 1, high);
+            else
+                return true;
         }
 
         private void btnGetList_Click(object sender, EventArgs e)
