@@ -95,10 +95,10 @@ namespace WikiFunctions.Logging
                     return Output + ToolTipText + "\r\n";
 
                 case LogFileType.PlainText:
-                    return mArticle + "\r\n";
+                    return mArticle;
 
                 case LogFileType.WikiText:
-                    return "#[[:" + mArticle + "]]\r\n";
+                    return "#[[:" + mArticle + "]]";
 
                 default:
                     throw new ArgumentOutOfRangeException();
