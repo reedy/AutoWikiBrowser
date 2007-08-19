@@ -57,10 +57,7 @@ namespace WikiFunctions.Lists
             {
                 list.Clear();
 
-                if (chkRemoveDups.Checked)
-                    removeDups(true);
-                else
-                    removeDups(false);
+                removeDups(chkRemoveDups.Checked);
 
                 bool does = (chkContains.Checked && txtContains.Text != "");
                 bool doesnot = (chkNotContains.Checked && txtDoesNotContain.Text != "");
