@@ -98,7 +98,7 @@ namespace WikiFunctions.Logging
                     return mArticle + "\r\n";
 
                 case LogFileType.WikiText:
-                    return "#[[" + mArticle + "]]\r\n";
+                    return "#[[:" + mArticle + "]]\r\n";
 
                 default:
                     throw new ArgumentOutOfRangeException();
