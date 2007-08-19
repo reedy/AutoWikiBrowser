@@ -1745,7 +1745,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 chkAutoTagger.Checked = false;
                 chkGeneralFixes.Checked = false;
             }
-            if (Variables.Project != ProjectEnum.custom && Variables.Project != ProjectEnum.wikia) lblProject.Text = Variables.LangCode.ToString().ToLower() + "." + Variables.Project;
+            if (Variables.Project != ProjectEnum.custom && Variables.Project != ProjectEnum.wikia && Variables.Project != ProjectEnum.commons && Variables.Project != ProjectEnum.meta && Variables.Project != ProjectEnum.species)
+                lblProject.Text = Variables.LangCode.ToString().ToLower() + "." + Variables.Project;
+            else if (Variables.Project == ProjectEnum.commons || Variables.Project == ProjectEnum.meta || Variables.Project == ProjectEnum.species)
+                lblProject.Text = Variables.Project.ToString();
             else lblProject.Text = Variables.URL;
         }
 
