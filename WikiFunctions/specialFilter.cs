@@ -368,10 +368,11 @@ namespace WikiFunctions.Lists
             if (high < low)
                 return false;
             int mid = (low + high) / 2;
-            // using current culture
-            if (ci.Compare(list[mid].ToString(), article.ToString(), CompareOptions.StringSort) > 0)
+            int compare = String.Compare(list[mid].ToString(), article.ToString(), false, CultureInfo.InvariantCulture);
+
+            if (compare > 0)
                 return BinarySearch(list, article, low, mid - 1);
-            else if (ci.Compare(list[mid].ToString(), article.ToString(), CompareOptions.StringSort) < 0)
+            else if (compare < 0)
                 return BinarySearch(list, article, mid + 1, high);
             else
                 return true;
