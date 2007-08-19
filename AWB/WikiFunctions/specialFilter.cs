@@ -359,13 +359,14 @@ namespace WikiFunctions.Lists
             }
         }
 
+        CompareInfo ci = CultureInfo.InvariantCulture.CompareInfo;
+
         private bool BinarySearch(ListBox2.ObjectCollection list, Article article, int low, int high)
         {
             if (high < low)
                 return false;
             int mid = (low + high) / 2;
             // using current culture
-            CompareInfo ci = new CultureInfo(Thread.CurrentThread.CurrentCulture.Name).CompareInfo;
             if (ci.Compare(list[mid].ToString(), article.ToString(), CompareOptions.StringSort) > 0)
                 return BinarySearch(list, article, low, mid - 1);
             else if (ci.Compare(list[mid].ToString(), article.ToString(), CompareOptions.StringSort) < 0)
