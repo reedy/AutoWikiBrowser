@@ -36,7 +36,6 @@ namespace WikiFunctions.Parse
         #region constructor etc.
         public Parsers()
         {//default constructor
-            metaDataSorter = new MetaDataSorter(this);
             MakeRegexes();
         }
 
@@ -46,7 +45,6 @@ namespace WikiFunctions.Parse
         /// <param name="StubWordCount">The number of maximum number of words for a stub.</param>
         public Parsers(int StubWordCount, bool AddHumanKey)
         {
-            metaDataSorter = new MetaDataSorter(this);
             StubMaxWordCount = StubWordCount;
             addCatKey = AddHumanKey;
             MakeRegexes();
@@ -97,7 +95,6 @@ namespace WikiFunctions.Parse
         Dictionary<Regex, string> RegexTagger = new Dictionary<Regex, string>();
 
         HideText hider = new HideText();
-        MetaDataSorter metaDataSorter;
         string testText = "";
         public static int StubMaxWordCount = 500;
 
@@ -109,6 +106,7 @@ namespace WikiFunctions.Parse
             get { return boolInterwikiOrder; }
             set { boolInterwikiOrder = value; }
         }
+
         private bool boolInterwikiOrder = true;
 
         /// <summary>
@@ -116,8 +114,8 @@ namespace WikiFunctions.Parse
         /// </summary>
         public InterWikiOrderEnum InterWikiOrder
         {
-            set { metaDataSorter.InterWikiOrder = value; }
-            get { return metaDataSorter.InterWikiOrder; }
+            set { Sorter.InterWikiOrder = value; }
+            get { return Sorter.InterWikiOrder; }
         }
 
         /// <summary>
@@ -128,7 +126,20 @@ namespace WikiFunctions.Parse
             get { return boolAddCatKey; }
             set { boolAddCatKey = value; }
         }
+
         private bool boolAddCatKey = false;
+
+        // should NOT be accessed directly use Sorter
+        private MetaDataSorter metaDataSorter;
+
+        MetaDataSorter Sorter
+        {
+            get
+            {
+                if (metaDataSorter == null) metaDataSorter = new MetaDataSorter(this);
+                return metaDataSorter;
+            }
+        }
 
         #endregion
 
@@ -143,7 +154,7 @@ namespace WikiFunctions.Parse
         /// <returns>The re-organised text.</returns>
         public string SortMetaData(string ArticleText, string ArticleTitle)
         {
-            return metaDataSorter.Sort(ArticleText, ArticleTitle);
+            return Sorter.Sort(ArticleText, ArticleTitle);
         }
 
         readonly Regex regexFixDates0 = new Regex("([Tt]he |later? |early |mid-)(\\[\\[)?([12][0-9][0-9]0)(\\]\\])?'s(\\]\\])?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
