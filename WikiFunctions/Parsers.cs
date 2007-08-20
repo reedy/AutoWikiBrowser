@@ -617,7 +617,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
-        static Regex regexMainArticle = new Regex("(.*?)Main article:( |)(\\[\\[)(.*?)(\\]\\])(\\.|)(''|)", RegexOptions.IgnoreCase);
+        static Regex regexMainArticle = new Regex(@"Main article:\s?'{0,3}\[\[(.*?)\]\]'{0,3}\.?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         /// <summary>
         /// Fixes instances of ''Main Article: xxx'' to use {{main|xxx}}
         /// </summary>
@@ -625,7 +625,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns></returns>
         public string FixMainArticle(string ArticleText)
         {
-            return regexMainArticle.Replace(ArticleText, "{{main|$4}}");
+            return regexMainArticle.Replace(ArticleText, "{{main|$1}}");
         }
 
         /// <summary>
