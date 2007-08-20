@@ -87,7 +87,7 @@ namespace WikiFunctions.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Copyright Martin Richards, Sam Reed, Stephen Kennedy (http://www.sdk-software.com/) et al
+        ///   Looks up a localized string similar to Copyright Martin Richards, Max Semenik, Sam Reed, Stephen Kennedy (http://www.sdk-software.com/) et al
         ///
         ///This program is free software; you can redistribute it and/or modify
         ///it under the terms of the GNU General Public License as published by
@@ -96,7 +96,7 @@ namespace WikiFunctions.Properties {
         ///
         ///This program is distributed in the hope that it will be useful,
         ///but WITHOUT ANY WARRANTY; without even the implied warranty of
-        ///MERCHANTABILITY or FITNESS FOR A PARTICULAR  [rest of string was truncated]&quot;;.
+        ///MERCHANTABILITY or FITNESS FOR  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GFDL {
             get {

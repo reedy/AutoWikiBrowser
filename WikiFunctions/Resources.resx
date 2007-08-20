@@ -131,7 +131,7 @@
     <value>Resources\filesave2.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="GFDL" xml:space="preserve">
-    <value>Copyright Martin Richards, Sam Reed, Stephen Kennedy (http://www.sdk-software.com/) et al
+    <value>Copyright Martin Richards, Max Semenik, Sam Reed, Stephen Kennedy (http://www.sdk-software.com/) et al
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
