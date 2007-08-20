@@ -671,8 +671,7 @@ namespace WikiFunctions
 
         public int CompareTo(Article other)
         {
-            CompareInfo ci = CultureInfo.InvariantCulture.CompareInfo;
-            return ci.Compare(mName, other.mName, CompareOptions.StringSort);
+            return string.Compare(mName, other.mName, false, System.Globalization.CultureInfo.InvariantCulture);
         }
 
         #endregion
