@@ -361,8 +361,6 @@ namespace WikiFunctions.Lists
             }
         }
 
-        CompareInfo ci = CultureInfo.InvariantCulture.CompareInfo;
-
         private bool BinarySearch(IList<Article> list, Article article, int low, int high)
         {
             if (high < low)
