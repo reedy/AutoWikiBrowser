@@ -931,21 +931,29 @@ namespace AutoWikiBrowser
                         prof.Profile("HideText");
 
                         TheArticle.FixHeaderErrors(parsers, Variables.LangCode, Skip.SkipNoHeaderError);
+                        prof.Profile("FixHeaderErrors");
                         TheArticle.SetDefaultSort(parsers, Variables.LangCode, Skip.SkipNoDefaultSortAdded);
+                        prof.Profile("SetDefaultSort");
 
                         TheArticle.AWBChangeArticleText("Fix categories", parsers.FixCategories(TheArticle.ArticleText), true);
+                        prof.Profile("FixCategories");
                         TheArticle.AWBChangeArticleText("Fix images", parsers.FixImages(TheArticle.ArticleText), true);
+                        prof.Profile("FixImages");
                         TheArticle.AWBChangeArticleText("Fix syntax", parsers.FixSyntax(TheArticle.ArticleText), true);
+                        prof.Profile("FixSyntax");
                         TheArticle.AWBChangeArticleText("Fix temperatures", parsers.FixTemperatures(TheArticle.ArticleText), true);
+                        prof.Profile("FixTemperatures");
 
                         TheArticle.AWBChangeArticleText("Fix main article", parsers.FixMainArticle(TheArticle.ArticleText), true);
+                        prof.Profile("FixMainArticle");
 
                         TheArticle.AWBChangeArticleText("Fix empty links and templates", parsers.FixEmptyLinksAndTemplates(TheArticle.ArticleText), true);
-
-                        prof.Profile("minor stuff");
+                        prof.Profile("FixEmptyLinksAndTemplates");
 
                         TheArticle.FixLinks(parsers, Skip.SkipNoBadLink);
+                        prof.Profile("FixLinks");
                         TheArticle.BulletExternalLinks(parsers, Skip.SkipNoBulletedLink);
+                        prof.Profile("BulletExternalLinks");
 
                         prof.Profile("Links");
 
