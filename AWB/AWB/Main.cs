@@ -865,17 +865,23 @@ namespace AutoWikiBrowser
                 }
                 prof.Profile("Plugins");
 
-                if (chkUnicodifyWhole.Checked && process)
+                if ((chkUnicodifyWhole.Checked && process) || (TheArticle.CanDoGeneralFixes && chkGeneralFixes.Checked))
                 {
                     TheArticle.HideMoreText(RemoveText);
 
-                    TheArticle.Unicodify(Skip.SkipNoUnicode, parsers);
+                    if (chkUnicodifyWhole.Checked && process) 
+                        TheArticle.Unicodify(Skip.SkipNoUnicode, parsers);
+
+                    if (TheArticle.CanDoGeneralFixes && chkGeneralFixes.Checked)
+                        TheArticle.AWBChangeArticleText("Fix dates", parsers.FixDatesRaw(TheArticle.ArticleText), false);
+
                     if (TheArticle.SkipArticle) return;
+
 
                     TheArticle.UnHideMoreText(RemoveText);
                 }
 
-                prof.Profile("Unicodify");
+                prof.Profile("Unicodify + FixDatesRaw");
 
                 if (cmboImages.SelectedIndex != 0)
                 {
