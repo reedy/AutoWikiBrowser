@@ -50,6 +50,7 @@ namespace AutoWikiBrowser
             ResultList.Items.Clear();
             ResultText.Text = "";
             Status.Text = "";
+            Source.Text = Source.Text.Replace("\r\n", "\n");
 
             try
             {
@@ -73,6 +74,10 @@ namespace AutoWikiBrowser
                 Status.Text = "Error";
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            Source.Text = Source.Text.Replace("\n", "\r\n");
+            ResultText.Text = ResultText.Text.Replace("\r\n", "\n");
+            ResultText.Text = ResultText.Text.Replace("\n", "\r\n");
         }
 
         private void RegexTester_KeyPress(object sender, KeyPressEventArgs e)
