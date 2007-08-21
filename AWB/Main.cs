@@ -1727,7 +1727,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             webBrowserEdit.IsWebBrowserContextMenuEnabled = true;
             toolStripSeparator24.Visible = true;
             recycleWebControlToolStripMenuItem.Visible = true;
-            testToolStripMenuItem.Visible = true;
 
             prof = new Profiler("profiling.txt", true);
         }
