@@ -101,6 +101,11 @@ namespace WikiFunctions
         /// </summary>
         public static readonly Regex Heading5 = new Regex(@"^(=====)(.*?)(=====)", RegexOptions.Compiled | RegexOptions.Multiline);
 
+        /// <summary>
+        /// Matches headings of all levels
+        /// </summary>
+        public static readonly Regex Headings = new Regex(@"^={1,6}.*={1,6}\s*$", RegexOptions.Multiline | RegexOptions.Compiled);
+
 
         /// <summary>
         /// Matches text indented with a :

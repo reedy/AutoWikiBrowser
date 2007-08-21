@@ -452,7 +452,7 @@ namespace WikiFunctions.Parse
             if (title.Contains("[") || title.Contains("{")) return title;
 
             string s = CanonicalizeTitleRaw(title);
-            if (Variables.UnderscoredTitles.Contains(new Article(Tools.TurnFirstToUpper(s))))
+            if (Variables.UnderscoredTitles.Contains(Tools.TurnFirstToUpper(s)))
             {
                 return System.Web.HttpUtility.UrlDecode(title.Replace("+", "%2B"))
                     .Trim(new char[] { '_' });
@@ -468,22 +468,22 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public string FixLinks(string ArticleText, out bool NoChange)
         {
-            testText = ArticleText;
+            StringBuilder sb = new StringBuilder(ArticleText, (ArticleText.Length*11)/10);
 
             string y = "";
 
-            string cat = "[[" + Variables.Namespaces[14];
+            //string cat = "[[" + Variables.Namespaces[14];
 
             foreach (Match m in WikiRegexes.WikiLink.Matches(ArticleText))
             {
                 y = m.Value.Replace(m.Groups[1].Value, CanonicalizeTitle(m.Groups[1].Value));
 
-                ArticleText = ArticleText.Replace(m.Value, y);
+                sb = sb.Replace(m.Value, y);
             }
 
-            NoChange = (testText == ArticleText);
+            NoChange = (sb.ToString() == ArticleText);
 
-            return ArticleText;
+            return sb.ToString();
         }
 
         /// <summary>
