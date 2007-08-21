@@ -162,7 +162,7 @@ namespace WikiFunctions
         }
 
         #region Delayed load stuff
-        public static List<Article> UnderscoredTitles = new List<Article>();
+        public static List<string> UnderscoredTitles = new List<string>();
         public static List<BackgroundRequest> DelayedRequests = new List<BackgroundRequest>();
 
         public static void CancelBackgroundRequests()
@@ -181,7 +181,11 @@ namespace WikiFunctions
 
         static void UnderscoresLoaded(BackgroundRequest req)
         {
-            UnderscoredTitles = (List<Article>)req.Result;
+            UnderscoredTitles.Clear();
+            foreach (Article a in (List<Article>)req.Result)
+            {
+                UnderscoredTitles.Add(a.Name);
+            }
         }
 
         #endregion

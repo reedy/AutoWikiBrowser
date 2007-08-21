@@ -639,7 +639,7 @@ namespace WikiFunctions
             if (title.Contains("[") || title.Contains("{")) return title;
 
             string s = Parsers.CanonicalizeTitle(title);
-            if (Variables.UnderscoredTitles.Contains(new Article(Tools.TurnFirstToUpper(s))))
+            if (Variables.UnderscoredTitles.Contains(Tools.TurnFirstToUpper(s)))
             {
                 return System.Web.HttpUtility.UrlDecode(title.Replace("+", "%2B"))
                     .Trim(new char[] { '_' });

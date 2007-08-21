@@ -868,20 +868,26 @@ namespace AutoWikiBrowser
                 if ((chkUnicodifyWhole.Checked && process) || (TheArticle.CanDoGeneralFixes && chkGeneralFixes.Checked))
                 {
                     TheArticle.HideMoreText(RemoveText);
+                    prof.Profile("HideMoreText");
 
-                    if (chkUnicodifyWhole.Checked && process) 
+                    if (chkUnicodifyWhole.Checked && process)
+                    {
                         TheArticle.Unicodify(Skip.SkipNoUnicode, parsers);
+                        prof.Profile("Unicodify");
+                    }
 
                     if (TheArticle.CanDoGeneralFixes && chkGeneralFixes.Checked)
+                    {
                         TheArticle.AWBChangeArticleText("Fix dates", parsers.FixDatesRaw(TheArticle.ArticleText), false);
+                        prof.Profile("FixDatesRaw");
+                    }
 
                     if (TheArticle.SkipArticle) return;
 
 
                     TheArticle.UnHideMoreText(RemoveText);
+                    prof.Profile("UnHideMoreText");
                 }
-
-                prof.Profile("Unicodify + FixDatesRaw");
 
                 if (cmboImages.SelectedIndex != 0)
                 {
