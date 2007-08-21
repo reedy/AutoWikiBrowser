@@ -847,9 +847,9 @@ namespace WikiFunctions.Browser
             }
         }
 
-        protected override void OnProgressChanged(WebBrowserProgressChangedEventArgs e)
+        protected override void OnFileDownload(EventArgs e)
         {
-            if (this.ReadyState == WebBrowserReadyState.Interactive && ProcessStage == enumProcessStage.save)
+            if (ProcessStage == enumProcessStage.save)
             {
                 StopTimer();
                 this.OnDocumentCompleted(null);
@@ -859,7 +859,7 @@ namespace WikiFunctions.Browser
                 if (this.Saved != null)
                     this.Saved();
             }
-            base.OnProgressChanged(e);
+            base.OnFileDownload(e);
         }
 
         /// <summary>
