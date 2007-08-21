@@ -226,12 +226,22 @@ namespace WikiFunctions.Parse
         {
             HideText hidetext = new HideText();
             ArticleText = hidetext.HideMore(ArticleText);
+            ArticleText = FixDatesRaw(ArticleText);
+            ArticleText = hidetext.AddBackMore(ArticleText);
+            return ArticleText;
+        }
+
+        /// <summary>
+        /// Fixes date and decade formatting errors.
+        /// Unlike FixDates(), requires wikitext processed with HideMore()
+        /// </summary>
+        public string FixDatesRaw(string ArticleText)
+        {
             ArticleText = regexFixDates0.Replace(ArticleText, "$1$2$3$4s$5");
             /*
             ArticleText = regexFixDates1.Replace(ArticleText, "$1 $2");
             ArticleText = regexFixDates2.Replace(ArticleText, "$1 $2");
             */
-            ArticleText = hidetext.AddBackMore(ArticleText);
             return ArticleText;
         }
 
