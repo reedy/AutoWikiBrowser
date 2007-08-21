@@ -26,6 +26,37 @@ using System.Web;
 
 namespace WikiFunctions.Parse
 {
+    internal sealed class InterWikiComparer : IComparer<string>
+    {
+        Dictionary<string, int> Order = new Dictionary<string, int>();
+        public InterWikiComparer(string[] order)
+        {
+            int n = 0;
+            foreach (string s in order)
+            {
+                Order.Add("[[" + s, n);
+                n++;
+            }
+        }
+
+        string RawCode(string iw)
+        {
+            //int i = iw.IndexOf(':');
+            //string s = iw.Substring(0, i);
+            return iw.Substring(0, iw.IndexOf(':'));
+            //return s;
+        }
+
+        public int Compare(string x, string y)
+        {
+            int ix = Order[RawCode(x)], iy = Order[RawCode(y)];
+
+            if (ix < iy) return -1;
+            else if (ix == iy) return 0;
+            else return 1;
+        }
+    }
+
     public enum InterWikiOrderEnum : byte { LocalLanguageAlpha, LocalLanguageFirstWord, Alphabetical, AlphabeticalEnFirst }
     class MetaDataSorter
     {
@@ -36,10 +67,14 @@ namespace WikiFunctions.Parse
 
             LoadInterWiki();
 
-            InterWikisList.Clear();
-            foreach (string s in InterwikiLocalAlpha)
-                //InterWikisList.Add(new Regex("\\[\\[" + s + ":.*?\\]\\]", RegexOptions.Compiled));
-                InterWikisList.Add(new Regex("\\[\\[(?<site>" + s + "):(?<text>.*?)\\]\\]", RegexOptions.Compiled | RegexOptions.IgnoreCase));
+            //InterWikisList.Clear();
+            //foreach (string s in InterwikiLocalAlpha)
+            //    //InterWikisList.Add(new Regex("\\[\\[" + s + ":.*?\\]\\]", RegexOptions.Compiled));
+            //    InterWikisList.Add(new Regex("\\[\\[(?<site>" + s + "):(?<text>.*?)\\]\\]", RegexOptions.Compiled | RegexOptions.IgnoreCase));
+
+            string s = string.Join("|", InterwikiLocalAlpha);
+            s = @"\[\[\s*(" + s + @")\s*:\s*([^\]]*)\s*\]\]";
+            FastIW = new Regex(s, RegexOptions.Compiled | RegexOptions.IgnoreCase);
         }
 
         // now will be generated dynamically using Variables.Stub
@@ -51,46 +86,17 @@ namespace WikiFunctions.Parse
         private string[] InterwikiLocalFirst;
         private string[] InterwikiAlpha;
         private string[] InterwikiAlphaEnFirst; 
-        List<Regex> InterWikisList = new List<Regex>();
+        //List<Regex> InterWikisList = new List<Regex>();
         Regex IWSplit = new Regex(",", RegexOptions.Compiled);
+
+        Regex FastIW;
 
         private InterWikiOrderEnum order = InterWikiOrderEnum.LocalLanguageAlpha;
         public InterWikiOrderEnum InterWikiOrder
         {//orders from http://meta.wikimedia.org/wiki/Interwiki_sorting_order
             set
             {
-                if (order != value)
-                {
-                    order = value;
-                    if (value == InterWikiOrderEnum.LocalLanguageAlpha)
-                    {
-                        InterWikisList.Clear();
-                        foreach (string s in InterwikiLocalAlpha)
-                            //InterWikisList.Add(new Regex("\\[\\[" + s + ":.*?\\]\\]", RegexOptions.Compiled | RegexOptions.IgnoreCase));
-                            InterWikisList.Add(new Regex("\\[\\[(?<site>" + s + "):(?<text>.*?)\\]\\]", RegexOptions.Compiled | RegexOptions.IgnoreCase));
-                    }
-                    else if (value == InterWikiOrderEnum.LocalLanguageFirstWord)
-                    {
-                        InterWikisList.Clear();
-                        foreach (string s in InterwikiLocalFirst)
-                            //InterWikisList.Add(new Regex("\\[\\[" + s + ":.*?\\]\\]", RegexOptions.Compiled | RegexOptions.IgnoreCase));
-                            InterWikisList.Add(new Regex("\\[\\[(?<site>" + s + "):(?<text>.*?)\\]\\]", RegexOptions.Compiled | RegexOptions.IgnoreCase));
-                    }
-                    else if (value == InterWikiOrderEnum.Alphabetical)
-                    {
-                        InterWikisList.Clear();
-                        foreach (string s in InterwikiAlpha)
-                            //InterWikisList.Add(new Regex("\\[\\[" + s + ":.*?\\]\\]", RegexOptions.Compiled | RegexOptions.IgnoreCase));
-                            InterWikisList.Add(new Regex("\\[\\[(?<site>" + s + "):(?<text>.*?)\\]\\]", RegexOptions.Compiled | RegexOptions.IgnoreCase));
-                    }
-                    else if (value == InterWikiOrderEnum.AlphabeticalEnFirst)
-                    {
-                        InterWikisList.Clear();
-                        foreach (string s in InterwikiAlphaEnFirst)
-                            //InterWikisList.Add(new Regex("\\[\\[" + s + ":.*?\\]\\]", RegexOptions.Compiled | RegexOptions.IgnoreCase));
-                            InterWikisList.Add(new Regex("\\[\\[(?<site>" + s + "):(?<text>.*?)\\]\\]", RegexOptions.Compiled | RegexOptions.IgnoreCase));
-                    }
-                }
+                order = value;
             }
             get
             { return order; }
@@ -115,7 +121,7 @@ namespace WikiFunctions.Parse
 
                 foreach (string s in InterwikiLocalAlphaRaw.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries))
                 {
-                    InterwikiLocalAlpha[no] = s.Trim();
+                    InterwikiLocalAlpha[no] = s.Trim().ToLower();
                     no++;
                 }
 
@@ -124,7 +130,7 @@ namespace WikiFunctions.Parse
 
                 foreach (string s in InterwikiLocalFirstRaw.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries))
                 {
-                    InterwikiLocalFirst[no] = s.Trim();
+                    InterwikiLocalFirst[no] = s.Trim().ToLower();
                     no++;
                 }
 
@@ -160,20 +166,33 @@ namespace WikiFunctions.Parse
                                
         internal string Sort(string ArticleText, string ArticleTitle)
         {
+            //Profiler p = new Profiler("metadata.txt", true);
+            //p.Divisor = 1;
             ArticleText = Regex.Replace(ArticleText, "<!-- ?\\[\\[en:.*?\\]\\] ?-->", "");
 
+            //p.Start(ArticleTitle);
             string strPersonData = Newline(removePersonData(ref ArticleText));
+            //p.Profile("persondata");
             string strDisambig = Newline(removeDisambig(ref ArticleText));
+            //p.Profile("disambig");
             string strCategories = Newline(removeCats(ref ArticleText, ArticleTitle));
+            //p.Profile("categories");
             string strInterwikis = Newline(interwikis(ref ArticleText));
+            //p.Profile("interwikis");
             string strStub = Newline(removeStubs(ref ArticleText));
+            //p.Profile("stubs");
 
             //filter out excess white space and remove "----" from end of article
             ArticleText = Parsers.RemoveWhiteSpace(ArticleText) + "\r\n";
             ArticleText += strDisambig;
+            //p.Profile("whitespace");
+            //p.Flush();
 
             switch (Variables.LangCode)
             {
+                case LangCodeEnum.de:
+                    ArticleText += strStub + strCategories + strPersonData;
+                    break;
                 case LangCodeEnum.pl:
                     ArticleText += strPersonData + strStub + strCategories;
                     break;
@@ -183,13 +202,12 @@ namespace WikiFunctions.Parse
                 case LangCodeEnum.simple:
                     ArticleText += strPersonData + strStub + strCategories;
                     break;
-                case LangCodeEnum.de:
-                    ArticleText += strStub + strCategories + strPersonData;
-                    break;
                 default:
                     ArticleText += strPersonData + strCategories + strStub;
                     break;
             }
+            //p.Close();
+
             return ArticleText + strInterwikis;
         }
 
@@ -304,10 +322,9 @@ namespace WikiFunctions.Parse
             List<string> InterWikiList = new List<string>();
             //Regex interwikiregex = new Regex(@"\[\[(?<site>.*?):(?<text>.*?)\]\]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-            for (int i = 0; i != (InterWikisList.Count -1); i++)
+            foreach(Match m in FastIW.Matches(ArticleText))
             {
-                //ArticleText = interwikiregex.Replace(ArticleText, new MatchEvaluator(MetaDataSorter.IWMatchEval));
-                ArticleText = InterWikisList[i].Replace(ArticleText, new MatchEvaluator(MetaDataSorter.IWMatchEval));
+                InterWikiList.Add("[[" + m.Groups[1].Value.ToLower() + ":" + m.Groups[2].Value + "]]");
             }
 
             if (InterLangRegex.IsMatch(ArticleText))
@@ -318,37 +335,36 @@ namespace WikiFunctions.Parse
                 ArticleText = ArticleText.Replace(interWikiComment, "");
                 InterWikiList.Add(interWikiComment);
             }
-           
+
+            ArticleText = FastIW.Replace(ArticleText, "");
+
             if (parser.sortInterwikiOrder)
             {
-                string x;
-                foreach (Regex rege in InterWikisList)
+                string[] seq;
+                switch (order)
                 {
-                    //use foreach as some articles have multiple links to same wiki
-                    x = "";
-                    foreach (Match m in rege.Matches(ArticleText))
-                    {
-                        x = m.Value;
-                        ArticleText = rege.Replace(ArticleText, "", 1);
-                        x = HttpUtility.HtmlDecode(x).Replace("_", " ");
-                        InterWikiList.Add(x);
-                    }
+                    case InterWikiOrderEnum.Alphabetical:
+                        seq = InterwikiAlpha;
+                        break;
+                    case InterWikiOrderEnum.AlphabeticalEnFirst:
+                        seq = InterwikiAlphaEnFirst;
+                        break;
+                    case InterWikiOrderEnum.LocalLanguageAlpha:
+                        seq = InterwikiLocalAlpha;
+                        break;
+                    case InterWikiOrderEnum.LocalLanguageFirstWord:
+                        seq = InterwikiLocalFirst;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException("MetaDataSorter.removeInterWikis",
+                            (System.Exception)null);
                 }
+
+                InterWikiList.Sort(new InterWikiComparer(seq));
             }
             else
             {
-                string x;
                 //keeps existing order
-                if (WikiRegexes.InterWikiLinks.IsMatch(ArticleText))
-                {
-                    foreach (Match m in WikiRegexes.InterWikiLinks.Matches(ArticleText))
-                    {
-                        x = m.Value;
-                        ArticleText = ArticleText.Replace(x, "");
-                        x = HttpUtility.HtmlDecode(x).Replace("_", " ");
-                        InterWikiList.Add(x);
-                    }
-                }
             }
 
             return InterWikiList;

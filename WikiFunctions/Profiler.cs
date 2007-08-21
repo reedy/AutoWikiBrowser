@@ -78,6 +78,17 @@ namespace WikiFunctions
             if (log != null) log.Flush();
         }
 
+        /// <summary>
+        /// Closes profiling log. The profiler will continue in dummy mode
+        /// </summary>
+        public void Close()
+        {
+            if (log == null) return;
+
+            log.Close();
+            log = null;
+        }
+
         TextWriter log;
         long Ticks;
     }
