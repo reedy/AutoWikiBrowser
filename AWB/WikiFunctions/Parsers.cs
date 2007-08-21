@@ -368,13 +368,14 @@ namespace WikiFunctions.Parse
             NoChange = (testText == ArticleText);
             return ArticleText;
         }
-
+        
         readonly Regex SyntaxRegex1 = new Regex("\\[\\[http:\\/\\/([^][]*?)\\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex SyntaxRegex2fix = new Regex("\\[http:\\/\\/([^][]*?)\\]\\]\\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex SyntaxRegex2 = new Regex("\\[http:\\/\\/([^][]*?)\\]\\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex SyntaxRegex3 = new Regex("\\[\\[http:\\/\\/(.*?)\\]\\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex SyntaxRegex4 = new Regex("\\[\\[([^][]*?)\\]([^][][^\\]])", RegexOptions.Compiled);
         readonly Regex SyntaxRegex5 = new Regex("([^][])\\[([^][]*?)\\]\\]([^\\]])", RegexOptions.Compiled);
-
+        
         readonly Regex SyntaxRegex6 = new Regex("\\[?\\[image:(http:\\/\\/.*?)\\]\\]?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex SyntaxRegex7 = new Regex("\\[\\[ (.*)?\\]\\]", RegexOptions.Compiled);
         readonly Regex SyntaxRegex8 = new Regex("\\[\\[([A-Za-z]*) \\]\\]", RegexOptions.Compiled);
@@ -415,11 +416,13 @@ namespace WikiFunctions.Parse
             //ArticleText = Regex.Replace(ArticleText, "^<[Hh]3>(.*?)</[Hh]3>", "===$1===", RegexOptions.Multiline);
             //ArticleText = Regex.Replace(ArticleText, "^<[Hh]4>(.*?)</[Hh]4>", "====$1====", RegexOptions.Multiline);
 
+            
             //fix uneven bracketing on links
             ArticleText = SyntaxRegex1.Replace(ArticleText, "[http://$1]");
+            ArticleText = SyntaxRegex2fix.Replace(ArticleText, "[http://$1]]]]");
             ArticleText = SyntaxRegex2.Replace(ArticleText, "[http://$1]");
             ArticleText = SyntaxRegex3.Replace(ArticleText, "[http://$1]");
-
+            
             if (!Regex.IsMatch(ArticleText, "\\[\\[[Ii]mage:[^]]*http"))
             {
                 ArticleText = SyntaxRegex4.Replace(ArticleText, "[[$1]]$2");
@@ -428,7 +431,7 @@ namespace WikiFunctions.Parse
 
             //repair bad external links
             ArticleText = SyntaxRegex6.Replace(ArticleText, "[$1]");
-
+            
             //repair bad internal links
             ArticleText = SyntaxRegex7.Replace(ArticleText, "[[$1]]");
             ArticleText = SyntaxRegex8.Replace(ArticleText, "[[$1]]");
