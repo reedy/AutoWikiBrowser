@@ -718,7 +718,7 @@ namespace WikiFunctions.Browser
                 this.AllowNavigation = true;
                 ProcessStage = enumProcessStage.load;
                 Status = "Loading page";
-                this.Navigate(Variables.URLLong + "index.php?title=" + HttpUtility.UrlEncode(Article) + "&action=edit");
+                this.Navigate(Variables.URLLong + "index.php?title=" + HttpUtility.UrlEncode(Article) + "&action=edit&useskin=myskin");
             }
             catch (Exception ex)
             {
