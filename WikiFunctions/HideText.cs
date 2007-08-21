@@ -154,6 +154,7 @@ namespace WikiFunctions.Parse
                 MoreHide.Add(new HideObject(s, m.Value));
                 i++;
             }
+            /*
             foreach (Match m in WikiRegexes.InterWikiLinks.Matches(ArticleText))
             {
                 s = "⌊⌊⌊⌊M" + i.ToString() + "⌋⌋⌋⌋";
@@ -161,7 +162,7 @@ namespace WikiFunctions.Parse
                 ArticleText = ArticleText.Replace(m.Value, s);
                 MoreHide.Add(new HideObject(s, m.Value));
                 i++;
-            }
+            }*/
             foreach (Match m in WikiRegexes.UnFormattedText.Matches(ArticleText))
             {
                 s = "⌊⌊⌊⌊M" + i.ToString() + "⌋⌋⌋⌋";

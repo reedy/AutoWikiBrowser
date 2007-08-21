@@ -478,7 +478,7 @@ namespace WikiFunctions.Parse
             {
                 y = m.Value.Replace(m.Groups[1].Value, CanonicalizeTitle(m.Groups[1].Value));
 
-                sb = sb.Replace(m.Value, y);
+                if (y != m.Value) sb = sb.Replace(m.Value, y);
             }
 
             NoChange = (sb.ToString() == ArticleText);
@@ -1267,34 +1267,27 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             ArticleText = TalkPages.TalkPageHeaders.FormatDefaultSort(ArticleText);
             if (!TalkPages.TalkPageHeaders.ContainsDefaultSortKeywordOrTemplate(ArticleText))
             {
-                string sort = "";
-                bool allsame = false;
+                string sort = null;
+                bool allsame = true;
                 int matches = 0;
 
                 //format categories properly
                 ArticleText = FixCategories(ArticleText);
 
-                string s = "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + " ?(.*?)( ?\\]\\]| ?\\|[^\\|]*?\\]\\])";
+                string s = @"\[\[\s*" + Variables.NamespacesCaseInsensitive[14] + @"\s*(.*?)\s*(|\|[^\|\]]*)\s*\]\]";
                 foreach (Match m in Regex.Matches(ArticleText, s))
                 {
-                    if (m.Result("$2") != "]]")
+                    if (sort == null)
+                        sort = m.Groups[2].Value;
+
+                    if (sort != m.Groups[2].Value)
                     {
-                        if (sort == "")
-                            sort = m.Result("$2");
-                        if (sort == m.Result("$2"))
-                        {
-                            allsame = true;
-                            sort = m.Result("$2");
-                        }
-                        else
-                        {
-                            allsame = false;
-                            break;
-                        }
-                        matches++;
+                        allsame = false;
+                        break;
                     }
+                    matches++;
                 }
-                if (allsame && matches > 1)
+                if (allsame && matches > 1 && sort != "")
                 {
                     if (sort.Length > 4) // So that this doesn't get confused by sort keys of "*", " ", etc.
                     {
