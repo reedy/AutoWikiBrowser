@@ -1217,11 +1217,23 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             { panel1.Show(); }
             setBrowserSize();
         }
-        
+
+        Point oldPosition = new Point();
         private void parametersShowHide()
         {
             enlargeEditAreaToolStripMenuItem.Checked = !enlargeEditAreaToolStripMenuItem.Checked;
             //splitContainer1.Panel1Collapsed = !splitContainer1.Panel1Collapsed;
+            if (groupBox2.Visible)
+            { 
+                groupBox2.Visible = tabControl1.Visible = false;
+                oldPosition = tabControl2.Location;;
+                tabControl2.Location = groupBox2.Location;
+            }
+            else
+            {
+                groupBox2.Visible = tabControl1.Visible = true;
+                tabControl2.Location = oldPosition;
+            }
         }
         
         private void UpdateUserName(object sender, EventArgs e)
