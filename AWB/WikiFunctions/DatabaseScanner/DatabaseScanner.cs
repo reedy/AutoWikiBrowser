@@ -505,26 +505,17 @@ namespace WikiFunctions.DatabaseScanner
 
         private void cmboLength_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmboLength.SelectedIndex == 0)
-                nudLength.Enabled = false;
-            else
-                nudLength.Enabled = true;
+            nudLength.Enabled = !(cmboLength.SelectedIndex == 0);
         }
 
         private void cmboWords_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmboWords.SelectedIndex == 0)
-                nudWords.Enabled = false;
-            else
-                nudWords.Enabled = true;
+            nudWords.Enabled = !(cmboWords.SelectedIndex == 0);
         }
 
         private void cmboLinks_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmboLinks.SelectedIndex == 0)
-                nudLinks.Enabled = false;
-            else
-                nudLinks.Enabled = true;
+            nudLinks.Enabled = !(cmboLinks.SelectedIndex == 0);
         }
 
         private void chkHeading_CheckedChanged(object sender, EventArgs e)
@@ -594,25 +585,12 @@ namespace WikiFunctions.DatabaseScanner
 
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
-            if (lbArticles.SelectedIndex >= 0)
-            {
-                copyToolStripMenuItem.Enabled = true;
-                removeToolStripMenuItem.Enabled = true;
-                openInBrowserToolStripMenuItem.Enabled = true;
-            }
-            else
-            {
-                copyToolStripMenuItem.Enabled = false;
-                removeToolStripMenuItem.Enabled = false;
-                openInBrowserToolStripMenuItem.Enabled = false;
-            }
+            copyToolStripMenuItem.Enabled = removeToolStripMenuItem.Enabled =
+            openInBrowserToolStripMenuItem.Enabled = (lbArticles.SelectedIndex >= 0);
         }
 
         private string convert(string text)
         {
-            //text = text.Replace("&", "&amp;");
-            //text = text.Replace("<", "&lt;");
-            //text = text.Replace(">", "&gt;");
             text = text.Replace(@"\r\n", @"
 ");
             return text;
@@ -666,50 +644,40 @@ namespace WikiFunctions.DatabaseScanner
 
         private void highestToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            aboveNormalToolStripMenuItem.Checked = false;
-            normalToolStripMenuItem.Checked = false;
-            belowNormalToolStripMenuItem.Checked = false;
-            lowestToolStripMenuItem.Checked = false;
+            aboveNormalToolStripMenuItem.Checked = normalToolStripMenuItem.Checked =
+            belowNormalToolStripMenuItem.Checked = lowestToolStripMenuItem.Checked = false;
 
             Priority = ThreadPriority.Highest;
         }
 
         private void aboveNormalToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            highestToolStripMenuItem.Checked = false;
-            normalToolStripMenuItem.Checked = false;
-            belowNormalToolStripMenuItem.Checked = false;
-            lowestToolStripMenuItem.Checked = false;
+            highestToolStripMenuItem.Checked = normalToolStripMenuItem.Checked =
+            belowNormalToolStripMenuItem.Checked = lowestToolStripMenuItem.Checked = false;
 
             Priority = ThreadPriority.AboveNormal;
         }
 
         private void normalToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            highestToolStripMenuItem.Checked = false;
-            aboveNormalToolStripMenuItem.Checked = false;
-            belowNormalToolStripMenuItem.Checked = false;
-            lowestToolStripMenuItem.Checked = false;
+            highestToolStripMenuItem.Checked = normalToolStripMenuItem.Checked =
+            belowNormalToolStripMenuItem.Checked = lowestToolStripMenuItem.Checked = false;
 
             Priority = ThreadPriority.Normal;
         }
 
         private void belowNormalToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            highestToolStripMenuItem.Checked = false;
-            aboveNormalToolStripMenuItem.Checked = false;
-            normalToolStripMenuItem.Checked = false;
-            lowestToolStripMenuItem.Checked = false;
+            highestToolStripMenuItem.Checked = aboveNormalToolStripMenuItem.Checked =
+            normalToolStripMenuItem.Checked = lowestToolStripMenuItem.Checked = false;
 
             Priority = ThreadPriority.BelowNormal;
         }
 
         private void lowestToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            highestToolStripMenuItem.Checked = false;
-            aboveNormalToolStripMenuItem.Checked = false;
-            normalToolStripMenuItem.Checked = false;
-            belowNormalToolStripMenuItem.Checked = false;
+            highestToolStripMenuItem.Checked = aboveNormalToolStripMenuItem.Checked =
+            normalToolStripMenuItem.Checked = belowNormalToolStripMenuItem.Checked = false;
 
             Priority = ThreadPriority.Lowest;
         }

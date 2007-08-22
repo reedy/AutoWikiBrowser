@@ -139,7 +139,7 @@ namespace WikiFunctions.Parse
         {
             Dictionary<string, string> TypoStrings = new Dictionary<string, string>();
 
-            Regex TypoRegex = new Regex("<(?:Typo )?word=\"(.*?)\"[ \\t]find=\"(.*?)\"[ \\t]replace=\"(.*?)\" ?/?>");
+            Regex TypoRegex = new Regex("<(?:Typo )?word=\"(.*?)\"[ \\t]find=\"(.*?)\"[ \\t]replace=\"(.*?)\" ?/?>", RegexOptions.Compiled);
             try
             {
                 string text = "";

@@ -60,7 +60,7 @@ namespace WikiFunctions
                     stream.Close();
                     response.Close();
 
-                    Match m_updversion = Regex.Match(text, @"&lt;!-- Updater version: (.*?) --&gt;");
+                    Match m_updversion = Regex.Match(text, @"&lt;!-- Updater version: (.*?) --&gt;", RegexOptions.Compiled);
 
                     if (m_updversion.Success && m_updversion.Groups[1].Value.Length == 4)
                     {

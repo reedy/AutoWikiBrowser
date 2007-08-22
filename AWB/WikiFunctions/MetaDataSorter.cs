@@ -94,10 +94,7 @@ namespace WikiFunctions.Parse
         private InterWikiOrderEnum order = InterWikiOrderEnum.LocalLanguageAlpha;
         public InterWikiOrderEnum InterWikiOrder
         {//orders from http://meta.wikimedia.org/wiki/Interwiki_sorting_order
-            set
-            {
-                order = value;
-            }
+            set { order = value; }
             get
             { return order; }
         }
