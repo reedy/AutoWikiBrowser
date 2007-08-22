@@ -149,16 +149,15 @@ namespace AWBUpdater
                 MessageBox.Show("Error fetching current version number.");
             }
 
-            Match m_awbversion = Regex.Match(text, @"&lt;!-- Current version: (.*?) --&gt;");
-            Match m_awbnewest = Regex.Match(text, @"&lt;!-- Newest version: (.*?) --&gt;");
-            Match m_updversion = Regex.Match(text, @"&lt;!-- Updater version: (.*?) --&gt;");
+            Match m_awbversion = Regex.Match(text, @"&lt;!-- Current version: (.*?) --&gt;", RegexOptions.Compiled);
+            Match m_awbnewest = Regex.Match(text, @"&lt;!-- Newest version: (.*?) --&gt;", RegexOptions.Compiled);
+            Match m_updversion = Regex.Match(text, @"&lt;!-- Updater version: (.*?) --&gt;", RegexOptions.Compiled);
 
             if ((m_awbversion.Success && m_awbversion.Groups[1].Value.Length == 4) || (m_awbnewest.Success && m_awbnewest.Groups[1].Value.Length == 4))
             {
-                try
-                {
                     try
                     {
+                        awbUpdate = updaterUpdate = false;
                         FileVersionInfo versionAWB = FileVersionInfo.GetVersionInfo(AWBdirectory + "AutoWikiBrowser.exe");
 
                         if ((Convert.ToInt32(versionAWB.FileVersion.Replace(".", ""))) < (Convert.ToInt32(m_awbversion.Groups[1].Value)))
@@ -175,11 +174,7 @@ namespace AWBUpdater
                                 AWBWebAddress = "http://downloads.sourceforge.net/autowikibrowser/" + AWBZipName;
                                 awbUpdate = true;
                             }
-                            else
-                                awbUpdate = false;
                         }
-                        else
-                            awbUpdate = false;
 
                         if (m_updversion.Success && m_updversion.Groups[1].Value.Length == 4)
                         {
@@ -191,21 +186,13 @@ namespace AWBUpdater
                             }
                             else
                             {
-                                updaterUpdate = false;
                                 UpdaterZipName = "";
                                 UpdaterWebAddress = "";
                             }
                         }
-                        else
-                            updaterUpdate = false;
                     }
                     catch
                     { MessageBox.Show("Unable to find AutoWikiBrowser.exe to query Version No."); }
-                }
-                catch
-                {
-                    MessageBox.Show("Error fetching current version number.");
-                }
 
                 if (!updaterUpdate && !awbUpdate)
                 {
