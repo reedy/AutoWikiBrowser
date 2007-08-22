@@ -1434,10 +1434,10 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 IsBot = IsAdmin = WikiStatus = false;
-                MessageBox.Show(e.Message);
+                ErrorHandler.Handle(ex); 
                 return WikiStatusResult.Error;
             }
         }

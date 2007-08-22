@@ -46,7 +46,7 @@ namespace WikiFunctions.Disambiguation
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "DabControl.DabControl()");
+                ErrorHandler.Handle(ex);
             }
 
             InitializeComponent();
@@ -180,7 +180,7 @@ namespace WikiFunctions.Disambiguation
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "DabControl.DabControl_Load()");
+                ErrorHandler.Handle(ex);
             }
         }
 
@@ -225,7 +225,7 @@ namespace WikiFunctions.Disambiguation
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "DabControl.ComboBoxChanged()");
+                ErrorHandler.Handle(ex);
             }
         }
 

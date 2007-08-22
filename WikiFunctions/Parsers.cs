@@ -943,7 +943,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show(ex.ToString());
+                ErrorHandler.Handle(ex);
             }
 
             return ArticleText;

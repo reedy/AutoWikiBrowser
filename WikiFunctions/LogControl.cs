@@ -182,7 +182,7 @@ namespace WikiFunctions.Logging
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ErrorHandler.Handle(ex);
             }
         }
 

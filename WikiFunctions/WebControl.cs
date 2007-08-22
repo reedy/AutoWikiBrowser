@@ -621,7 +621,7 @@ namespace WikiFunctions.Browser
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ErrorHandler.Handle(ex);
             }
         }
 
@@ -704,7 +704,7 @@ namespace WikiFunctions.Browser
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ErrorHandler.Handle(ex);
             }
         }
 
@@ -722,7 +722,7 @@ namespace WikiFunctions.Browser
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ErrorHandler.Handle(ex);
             }
         }
 
@@ -753,7 +753,7 @@ namespace WikiFunctions.Browser
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ErrorHandler.Handle(ex);
             }
         }
 
@@ -774,7 +774,7 @@ namespace WikiFunctions.Browser
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ErrorHandler.Handle(ex);
             }
         }
 

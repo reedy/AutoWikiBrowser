@@ -109,7 +109,7 @@ namespace WikiFunctions.DatabaseScanner
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ErrorHandler.Handle(ex);
             }
         }
 
@@ -305,7 +305,7 @@ namespace WikiFunctions.DatabaseScanner
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                ErrorHandler.Handle(ex);
             }
         }
 
@@ -439,7 +439,7 @@ namespace WikiFunctions.DatabaseScanner
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message.ToString());
+                ErrorHandler.Handle(ex);
             }
         }
 

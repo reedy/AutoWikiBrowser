@@ -51,7 +51,7 @@ namespace WikiFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ErrorHandler.Handle(ex);
             }
         }
 
@@ -63,7 +63,7 @@ namespace WikiFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ErrorHandler.Handle(ex);
             }
         }
 
