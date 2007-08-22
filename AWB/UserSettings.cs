@@ -123,7 +123,7 @@ namespace AutoWikiBrowser
             LoadDefaultEditSummaries();
 
             wordWrapToolStripMenuItem1.Checked = true;
-            splitContainer1.Show();
+            panel1.Show();
             enableToolBar = false;
             bypassRedirectsToolStripMenuItem.Checked = true;
             chkSkipNonExistent.Checked = true;
