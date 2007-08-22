@@ -239,7 +239,6 @@ namespace AutoWikiBrowser
             this.exitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.strListFile = new System.Windows.Forms.SaveFileDialog();
             this.EditBoxSaveTimer = new System.Windows.Forms.Timer(this.components);
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.listMaker1 = new WikiFunctions.Controls.Lists.ListMaker();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -330,14 +329,15 @@ namespace AutoWikiBrowser
             this.tpLogs = new System.Windows.Forms.TabPage();
             this.LogControl1 = new WikiFunctions.Logging.LogControl();
             this.tpLoggingOptions = new System.Windows.Forms.TabPage();
-            this.loggingSettings1 = new AutoWikiBrowser.LoggingSettings();
             this.webBrowserDiff = new System.Windows.Forms.WebBrowser();
             this.mnuWebBrowserDiff = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
-            this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
             this.ShutdownTimer = new System.Windows.Forms.Timer(this.components);
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.loggingSettings1 = new AutoWikiBrowser.LoggingSettings();
+            this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -346,9 +346,6 @@ namespace AutoWikiBrowser
             this.toolStrip.SuspendLayout();
             this.mnuWebBrowser.SuspendLayout();
             this.mnuNotify.SuspendLayout();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tpSetOptions.SuspendLayout();
@@ -380,6 +377,7 @@ namespace AutoWikiBrowser
             this.tpLogs.SuspendLayout();
             this.tpLoggingOptions.SuspendLayout();
             this.mnuWebBrowserDiff.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // mnuTextBox
@@ -1762,7 +1760,7 @@ namespace AutoWikiBrowser
             this.txtEdit.Multiline = true;
             this.txtEdit.Name = "txtEdit";
             this.txtEdit.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtEdit.Size = new System.Drawing.Size(280, 351);
+            this.txtEdit.Size = new System.Drawing.Size(282, 351);
             this.txtEdit.TabIndex = 0;
             this.toolTip1.SetToolTip(this.txtEdit, "Edit the article\'s text in this box");
             this.txtEdit.TextChanged += new System.EventHandler(this.txtEdit_TextChanged);
@@ -2042,31 +2040,10 @@ namespace AutoWikiBrowser
             this.EditBoxSaveTimer.Interval = 1000;
             this.EditBoxSaveTimer.Tick += new System.EventHandler(this.EditBoxSaveTimer_Tick);
             // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 227);
-            this.splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.groupBox2);
-            this.splitContainer1.Panel1.Controls.Add(this.tabControl1);
-            this.splitContainer1.Panel1MinSize = 496;
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.tabControl2);
-            this.splitContainer1.Size = new System.Drawing.Size(795, 380);
-            this.splitContainer1.SplitterDistance = 503;
-            this.splitContainer1.TabIndex = 671;
-            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.listMaker1);
-            this.groupBox2.Location = new System.Drawing.Point(6, 3);
+            this.groupBox2.Location = new System.Drawing.Point(2, 7);
             this.groupBox2.MaximumSize = new System.Drawing.Size(210, 372);
             this.groupBox2.MinimumSize = new System.Drawing.Size(210, 372);
             this.groupBox2.Name = "groupBox2";
@@ -2094,7 +2071,7 @@ namespace AutoWikiBrowser
             this.tabControl1.Controls.Add(this.tpBots);
             this.tabControl1.Controls.Add(this.tpStart);
             this.tabControl1.HotTrack = true;
-            this.tabControl1.Location = new System.Drawing.Point(219, 3);
+            this.tabControl1.Location = new System.Drawing.Point(218, 2);
             this.tabControl1.MaximumSize = new System.Drawing.Size(286, 377);
             this.tabControl1.MinimumSize = new System.Drawing.Size(286, 377);
             this.tabControl1.Name = "tabControl1";
@@ -3059,10 +3036,10 @@ namespace AutoWikiBrowser
             this.tabControl2.Controls.Add(this.tpLogs);
             this.tabControl2.Controls.Add(this.tpLoggingOptions);
             this.tabControl2.HotTrack = true;
-            this.tabControl2.Location = new System.Drawing.Point(0, 3);
+            this.tabControl2.Location = new System.Drawing.Point(506, 2);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(288, 377);
+            this.tabControl2.Size = new System.Drawing.Size(290, 377);
             this.tabControl2.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
             this.tabControl2.TabIndex = 1;
             this.tabControl2.SelectedIndexChanged += new System.EventHandler(this.tabControl2_SelectedIndexChanged);
@@ -3073,7 +3050,7 @@ namespace AutoWikiBrowser
             this.tpEdit.Location = new System.Drawing.Point(4, 22);
             this.tpEdit.Name = "tpEdit";
             this.tpEdit.Padding = new System.Windows.Forms.Padding(3);
-            this.tpEdit.Size = new System.Drawing.Size(280, 351);
+            this.tpEdit.Size = new System.Drawing.Size(282, 351);
             this.tpEdit.TabIndex = 0;
             this.tpEdit.Text = "Edit box";
             this.tpEdit.UseVisualStyleBackColor = true;
@@ -3084,7 +3061,7 @@ namespace AutoWikiBrowser
             this.tpHistory.Controls.Add(this.webBrowserHistory);
             this.tpHistory.Location = new System.Drawing.Point(4, 22);
             this.tpHistory.Name = "tpHistory";
-            this.tpHistory.Size = new System.Drawing.Size(280, 351);
+            this.tpHistory.Size = new System.Drawing.Size(282, 351);
             this.tpHistory.TabIndex = 2;
             this.tpHistory.Text = "History";
             this.tpHistory.UseVisualStyleBackColor = true;
@@ -3097,7 +3074,7 @@ namespace AutoWikiBrowser
             this.webBrowserHistory.Location = new System.Drawing.Point(0, 0);
             this.webBrowserHistory.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowserHistory.Name = "webBrowserHistory";
-            this.webBrowserHistory.Size = new System.Drawing.Size(280, 351);
+            this.webBrowserHistory.Size = new System.Drawing.Size(282, 351);
             this.webBrowserHistory.TabIndex = 0;
             this.webBrowserHistory.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserHistory_DocumentCompleted);
             // 
@@ -3107,7 +3084,7 @@ namespace AutoWikiBrowser
             this.tpLogs.Location = new System.Drawing.Point(4, 22);
             this.tpLogs.Name = "tpLogs";
             this.tpLogs.Padding = new System.Windows.Forms.Padding(3);
-            this.tpLogs.Size = new System.Drawing.Size(280, 351);
+            this.tpLogs.Size = new System.Drawing.Size(282, 351);
             this.tpLogs.TabIndex = 1;
             this.tpLogs.Text = "Logs";
             this.tpLogs.UseVisualStyleBackColor = true;
@@ -3128,18 +3105,10 @@ namespace AutoWikiBrowser
             this.tpLoggingOptions.Location = new System.Drawing.Point(4, 22);
             this.tpLoggingOptions.Name = "tpLoggingOptions";
             this.tpLoggingOptions.Padding = new System.Windows.Forms.Padding(3);
-            this.tpLoggingOptions.Size = new System.Drawing.Size(280, 351);
+            this.tpLoggingOptions.Size = new System.Drawing.Size(282, 351);
             this.tpLoggingOptions.TabIndex = 3;
             this.tpLoggingOptions.Text = "Logging to file";
             this.tpLoggingOptions.UseVisualStyleBackColor = true;
-            // 
-            // loggingSettings1
-            // 
-            this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
-            this.loggingSettings1.Name = "loggingSettings1";
-            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
-            this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
-            this.loggingSettings1.TabIndex = 0;
             // 
             // webBrowserDiff
             // 
@@ -3199,15 +3168,35 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
             this.webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
             // 
-            // NudgeTimer
-            // 
-            this.NudgeTimer.Interval = 120000;
-            this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
-            // 
             // ShutdownTimer
             // 
             this.ShutdownTimer.Interval = 30000;
             this.ShutdownTimer.Tick += new System.EventHandler(this.ShutdownTimer_Tick);
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.tabControl1);
+            this.panel1.Controls.Add(this.groupBox2);
+            this.panel1.Controls.Add(this.tabControl2);
+            this.panel1.Location = new System.Drawing.Point(0, 227);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(795, 382);
+            this.panel1.TabIndex = 673;
+            // 
+            // loggingSettings1
+            // 
+            this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
+            this.loggingSettings1.Name = "loggingSettings1";
+            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
+            this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
+            this.loggingSettings1.TabIndex = 0;
+            // 
+            // NudgeTimer
+            // 
+            this.NudgeTimer.Interval = 120000;
+            this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
             // 
             // MainForm
             // 
@@ -3215,11 +3204,11 @@ namespace AutoWikiBrowser
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(795, 632);
             this.Controls.Add(this.webBrowserDiff);
-            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.webBrowserEdit);
+            this.Controls.Add(this.panel1);
             this.DataBindings.Add(new System.Windows.Forms.Binding("Location", global::AutoWikiBrowser.Properties.Settings.Default, "WindowLocation", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -3245,9 +3234,6 @@ namespace AutoWikiBrowser
             this.toolStrip.PerformLayout();
             this.mnuWebBrowser.ResumeLayout(false);
             this.mnuNotify.ResumeLayout(false);
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            this.splitContainer1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tpSetOptions.ResumeLayout(false);
@@ -3297,6 +3283,7 @@ namespace AutoWikiBrowser
             this.tpLogs.ResumeLayout(false);
             this.tpLoggingOptions.ResumeLayout(false);
             this.mnuWebBrowserDiff.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3453,7 +3440,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Timer EditBoxSaveTimer;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator22;
         private System.Windows.Forms.ToolStripMenuItem saveTextToFileToolStripMenuItem;
-        private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.GroupBox groupBox2;
         private WikiFunctions.Controls.Lists.ListMaker listMaker1;
         private System.Windows.Forms.TabControl tabControl1;
@@ -3593,5 +3579,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkShutdown;
         private System.Windows.Forms.Timer ShutdownTimer;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Panel panel1;
     }
 }

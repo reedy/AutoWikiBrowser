@@ -1209,19 +1209,19 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void panelShowHide()
         {
-            if (splitContainer1.Visible)
-            { splitContainer1.Hide(); }
+            if (panel1.Visible)
+            { panel1.Hide(); }
             else
-            { splitContainer1.Show(); }
+            { panel1.Show(); }
             setBrowserSize();
         }
-
+        
         private void parametersShowHide()
         {
             enlargeEditAreaToolStripMenuItem.Checked = !enlargeEditAreaToolStripMenuItem.Checked;
-            splitContainer1.Panel1Collapsed = !splitContainer1.Panel1Collapsed;
+            //splitContainer1.Panel1Collapsed = !splitContainer1.Panel1Collapsed;
         }
-
+        
         private void UpdateUserName(object sender, EventArgs e)
         {
             lblUserName.Text = Variables.User.Name;
@@ -2720,16 +2720,16 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             if (toolStrip.Visible)
             {
                 webBrowserEdit.Location = new Point(webBrowserEdit.Location.X, 48);
-                if (splitContainer1.Visible)
-                    webBrowserEdit.Height = splitContainer1.Location.Y - 48;
+                if (panel1.Visible)
+                    webBrowserEdit.Height = panel1.Location.Y - 48;
                 else
                     webBrowserEdit.Height = statusStrip1.Location.Y - 48;
             }
             else
             {
                 webBrowserEdit.Location = new Point(webBrowserEdit.Location.X, 25);
-                if (splitContainer1.Visible)
-                    webBrowserEdit.Height = splitContainer1.Location.Y - 25;
+                if (panel1.Visible)
+                    webBrowserEdit.Height = panel1.Location.Y - 25;
                 else
                     webBrowserEdit.Height = statusStrip1.Location.Y - 25;
             }
