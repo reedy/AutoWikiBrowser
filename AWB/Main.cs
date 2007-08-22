@@ -1219,6 +1219,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         }
 
         Point oldPosition = new Point();
+        Size oldSize = new Size();
         private void parametersShowHide()
         {
             enlargeEditAreaToolStripMenuItem.Checked = !enlargeEditAreaToolStripMenuItem.Checked;
@@ -1227,12 +1228,17 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             { 
                 groupBox2.Visible = tabControl1.Visible = false;
                 oldPosition = tabControl2.Location;;
-                tabControl2.Location = groupBox2.Location;
+                tabControl2.Location = new Point(groupBox2.Location.X, groupBox2.Location.Y - 5);
+
+                oldSize = tabControl2.Size;
+
+                tabControl2.Size = new Size((tabControl2.Size.Width + tabControl1.Size.Width + groupBox2.Size.Width + 8), tabControl2.Size.Height); 
             }
             else
             {
                 groupBox2.Visible = tabControl1.Visible = true;
                 tabControl2.Location = oldPosition;
+                tabControl2.Size = oldSize;
             }
         }
         
