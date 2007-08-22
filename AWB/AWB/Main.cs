@@ -865,25 +865,35 @@ namespace AutoWikiBrowser
                 }
                 prof.Profile("Plugins");
 
-                if ((chkUnicodifyWhole.Checked && process) || (TheArticle.CanDoGeneralFixes && chkGeneralFixes.Checked))
+                bool unicodify = chkUnicodifyWhole.Checked && process;
+                bool dates = TheArticle.CanDoGeneralFixes && chkGeneralFixes.Checked;
+                bool typos = chkRegExTypo.Checked && RegexTypos != null && !BotMode && !Tools.IsTalkPage(TheArticle.NameSpaceKey);
+
+                if (unicodify || dates)
                 {
                     TheArticle.HideMoreText(RemoveText);
                     prof.Profile("HideMoreText");
 
-                    if (chkUnicodifyWhole.Checked && process)
+                    if (unicodify)
                     {
                         TheArticle.Unicodify(Skip.SkipNoUnicode, parsers);
                         prof.Profile("Unicodify");
                     }
 
-                    if (TheArticle.CanDoGeneralFixes && chkGeneralFixes.Checked)
+                    if (dates)
                     {
                         TheArticle.AWBChangeArticleText("Fix dates", parsers.FixDatesRaw(TheArticle.ArticleText), false);
                         prof.Profile("FixDatesRaw");
+                        if (TheArticle.SkipArticle) return;
                     }
 
-                    if (TheArticle.SkipArticle) return;
 
+                    if (typos)
+                    {
+                        TheArticle.PerformTypoFixes(RegexTypos, chkSkipIfNoRegexTypo.Checked);
+                        if (TheArticle.SkipArticle) return;
+                        prof.Profile("Typos");
+                    }
 
                     TheArticle.UnHideMoreText(RemoveText);
                     prof.Profile("UnHideMoreText");
@@ -917,14 +927,6 @@ namespace AutoWikiBrowser
                 }
 
                 prof.Profile("F&R");
-
-                if (chkRegExTypo.Checked && RegexTypos != null && !BotMode && !Tools.IsTalkPage(TheArticle.NameSpaceKey))
-                {
-                    TheArticle.PerformTypoFixes(RegexTypos, chkSkipIfNoRegexTypo.Checked);
-                    if (TheArticle.SkipArticle) return;
-                }
-
-                prof.Profile("Typos");
 
                 if (TheArticle.CanDoGeneralFixes)
                 {
