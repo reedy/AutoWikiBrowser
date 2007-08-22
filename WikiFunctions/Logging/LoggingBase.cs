@@ -35,7 +35,7 @@ namespace WikiFunctions.Logging
     {
 
 		// Initialisation
-        private static Regex GetArticleTemplateRegex = new Regex("( talk)?:");
+        private static Regex GetArticleTemplateRegex = new Regex("( talk)?:", RegexOptions.Compiled);
 
 		public TraceListenerBase(string filename) : base(filename, false, System.Text.Encoding.UTF8)
 		{
