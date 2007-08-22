@@ -346,7 +346,7 @@ namespace WikiFunctions.Lists
                 // find difference
                 List<Article> list2 = new List<Article>();
                 foreach (Article a in list)
-                    if (!BinarySearch(remove, a, 0, remove.Count - 1))
+                    if (BinarySearch(remove, a, 0, remove.Count - 1) == -1)
                         list2.Add(a);
                 list = list2;
             }
@@ -355,25 +355,25 @@ namespace WikiFunctions.Lists
                 // find intersection
                 List<Article> list2 = new List<Article>();
                 foreach (Article a in list)
-                    if (BinarySearch(remove, a, 0, remove.Count - 1))
+                    if (BinarySearch(remove, a, 0, remove.Count - 1) != -1)
                         list2.Add(a);
                 list = list2;
             }
         }
 
-        private bool BinarySearch(IList<Article> list, Article article, int low, int high)
+        private int BinarySearch(IList<Article> list, Article article, int left, int right)
         {
-            if (high < low)
-                return false;
-            int mid = (low + high) / 2;
+            if (right < left)
+                return -1;
+            int mid = (left + right) / 2;
             int compare = String.Compare(list[mid].ToString(), article.ToString(), false, CultureInfo.InvariantCulture);
 
             if (compare > 0)
-                return BinarySearch(list, article, low, mid - 1);
+                return BinarySearch(list, article, left, mid - 1);
             else if (compare < 0)
-                return BinarySearch(list, article, mid + 1, high);
+                return BinarySearch(list, article, mid + 1, right);
             else
-                return true;
+                return mid;
         }
 
         private void btnGetList_Click(object sender, EventArgs e)
