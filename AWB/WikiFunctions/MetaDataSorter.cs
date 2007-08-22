@@ -75,6 +75,9 @@ namespace WikiFunctions.Parse
             string s = string.Join("|", InterwikiLocalAlpha);
             s = @"\[\[\s*(" + s + @")\s*:\s*([^\]]*)\s*\]\]";
             FastIW = new Regex(s, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+            //create a comparer
+            InterWikiOrder = InterWikiOrderEnum.LocalLanguageAlpha;
         }
 
         // now will be generated dynamically using Variables.Stub
@@ -91,12 +94,40 @@ namespace WikiFunctions.Parse
 
         Regex FastIW;
 
+
+        private InterWikiComparer Comparer;
         private InterWikiOrderEnum order = InterWikiOrderEnum.LocalLanguageAlpha;
         public InterWikiOrderEnum InterWikiOrder
         {//orders from http://meta.wikimedia.org/wiki/Interwiki_sorting_order
-            set { order = value; }
+            set
+            {
+                order = value;
+
+                string[] seq;
+                switch (order)
+                {
+                    case InterWikiOrderEnum.Alphabetical:
+                        seq = InterwikiAlpha;
+                        break;
+                    case InterWikiOrderEnum.AlphabeticalEnFirst:
+                        seq = InterwikiAlphaEnFirst;
+                        break;
+                    case InterWikiOrderEnum.LocalLanguageAlpha:
+                        seq = InterwikiLocalAlpha;
+                        break;
+                    case InterWikiOrderEnum.LocalLanguageFirstWord:
+                        seq = InterwikiLocalFirst;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException("MetaDataSorter.InterWikiOrder",
+                            (System.Exception)null);
+                }
+                Comparer = new InterWikiComparer(seq);
+            }
             get
-            { return order; }
+            {
+                return order;
+            }
         }
 
         private void LoadInterWiki()
@@ -163,27 +194,17 @@ namespace WikiFunctions.Parse
                                
         internal string Sort(string ArticleText, string ArticleTitle)
         {
-            //Profiler p = new Profiler("metadata.txt", true);
-            //p.Divisor = 1;
             ArticleText = Regex.Replace(ArticleText, "<!-- ?\\[\\[en:.*?\\]\\] ?-->", "");
 
-            //p.Start(ArticleTitle);
             string strPersonData = Newline(removePersonData(ref ArticleText));
-            //p.Profile("persondata");
             string strDisambig = Newline(removeDisambig(ref ArticleText));
-            //p.Profile("disambig");
             string strCategories = Newline(removeCats(ref ArticleText, ArticleTitle));
-            //p.Profile("categories");
             string strInterwikis = Newline(interwikis(ref ArticleText));
-            //p.Profile("interwikis");
             string strStub = Newline(removeStubs(ref ArticleText));
-            //p.Profile("stubs");
 
             //filter out excess white space and remove "----" from end of article
             ArticleText = Parsers.RemoveWhiteSpace(ArticleText) + "\r\n";
             ArticleText += strDisambig;
-            //p.Profile("whitespace");
-            //p.Flush();
 
             switch (Variables.LangCode)
             {
@@ -203,7 +224,6 @@ namespace WikiFunctions.Parse
                     ArticleText += strPersonData + strCategories + strStub;
                     break;
             }
-            //p.Close();
 
             return ArticleText + strInterwikis;
         }
@@ -213,16 +233,19 @@ namespace WikiFunctions.Parse
             List<string> CategoryList = new List<string>();
             string x = "";
 
-            foreach (Match m in Regex.Matches(ArticleText, "<!-- ? ?\\[\\[" + Variables.NamespacesCaseInsensitive[14] + ".*?(\\]\\]|\\|.*?\\]\\]).*?-->|\\[\\[" + Variables.NamespacesCaseInsensitive[14] + ".*?(\\]\\]|\\|.*?\\]\\])( {0,4}⌊⌊⌊⌊[0-9]{1,4}⌋⌋⌋⌋)?"))
+            Regex r = new Regex("<!-- ? ?\\[\\[" + Variables.NamespacesCaseInsensitive[14] + ".*?(\\]\\]|\\|.*?\\]\\]).*?-->|\\[\\[" + Variables.NamespacesCaseInsensitive[14] + ".*?(\\]\\]|\\|.*?\\]\\])( {0,4}⌊⌊⌊⌊[0-9]{1,4}⌋⌋⌋⌋)?");
+
+            foreach (Match m in r.Matches(ArticleText))
             {
                 x = m.Value;
                 //add to array, replace underscores with spaces, ignore=
                 if (!Regex.IsMatch(x, "\\[\\[Category:(Pages|Categories|Articles) for deletion\\]\\]"))
                 {
-                    ArticleText = ArticleText.Replace(x, "");
                     CategoryList.Add(x.Replace("_", " "));
                 }
             }
+
+            ArticleText = r.Replace(ArticleText, "");
 
             if (parser.addCatKey)
                 CategoryList = catKeyer(CategoryList, ArticleTitle);
@@ -337,27 +360,7 @@ namespace WikiFunctions.Parse
 
             if (parser.sortInterwikiOrder)
             {
-                string[] seq;
-                switch (order)
-                {
-                    case InterWikiOrderEnum.Alphabetical:
-                        seq = InterwikiAlpha;
-                        break;
-                    case InterWikiOrderEnum.AlphabeticalEnFirst:
-                        seq = InterwikiAlphaEnFirst;
-                        break;
-                    case InterWikiOrderEnum.LocalLanguageAlpha:
-                        seq = InterwikiLocalAlpha;
-                        break;
-                    case InterWikiOrderEnum.LocalLanguageFirstWord:
-                        seq = InterwikiLocalFirst;
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException("MetaDataSorter.removeInterWikis",
-                            (System.Exception)null);
-                }
-
-                InterWikiList.Sort(new InterWikiComparer(seq));
+                InterWikiList.Sort(Comparer);
             }
             else
             {

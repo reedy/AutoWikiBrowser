@@ -387,7 +387,11 @@ namespace WikiFunctions.Controls.Lists
         private void txtNewArticle_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return || e.KeyCode == Keys.Enter)
+            {
                 btnAdd.PerformClick();
+                e.SuppressKeyPress = true;
+                e.Handled = true;
+            }
         }
 
         private void txtSelectSource_KeyDown(object sender, KeyEventArgs e)
