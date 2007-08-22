@@ -653,7 +653,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             string img = Variables.Namespaces[6];
 
             Regex EmptyLink = new Regex("\\[\\[(" + cat + "|:" + cat + "|" + img + "|)(|" + img + "|" + cat + "|.*?)\\]\\]", RegexOptions.IgnoreCase);
-            Regex EmptyTemplate = new Regex("{{(|.*?)}}", RegexOptions.IgnoreCase);
+            Regex EmptyTemplate = new Regex("{{(|.*?)}}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
             foreach (Match link in EmptyLink.Matches(ArticleText))
             {
@@ -1552,8 +1552,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return true;
         }
 
-        private static Regex dupeLinks1 = new Regex("\\[\\[([^\\]\\|]+)\\|([^\\]]*)\\]\\](.*[.\n]*)\\[\\[\\1\\|\\2\\]\\]");
-        private static Regex dupeLinks2 = new Regex("\\[\\[([^\\]]+)\\]\\](.*[.\n]*)\\[\\[\\1\\]\\]");
+        private static Regex dupeLinks1 = new Regex("\\[\\[([^\\]\\|]+)\\|([^\\]]*)\\]\\](.*[.\n]*)\\[\\[\\1\\|\\2\\]\\]", RegexOptions.Compiled);
+        private static Regex dupeLinks2 = new Regex("\\[\\[([^\\]]+)\\]\\](.*[.\n]*)\\[\\[\\1\\]\\]", RegexOptions.Compiled);
 
         /// <summary>
         /// Remove some of the duplicated wikilinks from the article text
