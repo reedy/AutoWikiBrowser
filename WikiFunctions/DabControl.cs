@@ -65,10 +65,7 @@ namespace WikiFunctions.Disambiguation
         public int SurroundingsStart = 0;
         public string Result
         {
-            get
-            {
-                return txtCorrection.Text;
-            }
+            get { return txtCorrection.Text; }
         }
 
         //internal
@@ -85,10 +82,7 @@ namespace WikiFunctions.Disambiguation
 
         public bool CanSave
         {
-            get
-            {
-                return txtCorrection.Text.Trim() != "";
-            }
+            get { return txtCorrection.Text.Trim() != ""; }
         }
 
         /// <summary>
@@ -184,7 +178,7 @@ namespace WikiFunctions.Disambiguation
                 cmboChoice.SelectedIndex = 0;
                 cmboChoice.Select();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "DabControl.DabControl_Load()");
             }
@@ -229,7 +223,7 @@ namespace WikiFunctions.Disambiguation
                 btnUnpipe.Enabled = CurrentLink.Contains("|");
                 if (Changed != null) Changed(this, new EventArgs());
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "DabControl.ComboBoxChanged()");
             }

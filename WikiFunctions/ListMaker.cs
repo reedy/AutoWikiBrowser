@@ -39,12 +39,6 @@ namespace WikiFunctions.Controls.Lists
         new public void Refresh()
         { }
 
-        //[Conditional("DEBUG")]
-        //void OnDebug()
-        //{
-        //    cmboSourceSelect.Items.Add("Category (recursive)");
-        //}
-
         public string strlbArticlesTooltip = "";
         public string strtxtNewArticleTooltip = "";
 
@@ -405,23 +399,13 @@ namespace WikiFunctions.Controls.Lists
 
         private void mnuListBox_Opening(object sender, CancelEventArgs e)
         {
-            bool boolEnabled = lbArticles.Items.Count > 0;
-			bool boolEnabled2 = lbArticles.SelectedItems.Count > 0;
-
-            addSelectedToListToolStripMenuItem.Enabled = boolEnabled2;
+            addSelectedToListToolStripMenuItem.Enabled = copyToolStripMenuItem.Enabled = cutToolStripMenuItem.Enabled = (lbArticles.SelectedItems.Count > 0);
 
             removeToolStripMenuItem.Enabled = lbArticles.SelectedItem != null;
-            clearToolStripMenuItem1.Enabled = boolEnabled;
-            filterOutNonMainSpaceArticlesToolStripMenuItem.Enabled = boolEnabled;
-            convertToTalkPagesToolStripMenuItem.Enabled = boolEnabled;
-            convertFromTalkPagesToolStripMenuItem.Enabled = boolEnabled;
-            sortAlphebeticallyMenuItem.Enabled = boolEnabled;
-            saveListToTextFileToolStripMenuItem1.Enabled = boolEnabled;
-            specialFilterToolStripMenuItem.Enabled = boolEnabled;
-            selectAllToolStripMenuItem.Enabled = boolEnabled;
-            selectNoneToolStripMenuItem.Enabled = boolEnabled;
-            copyToolStripMenuItem.Enabled = boolEnabled2;
-            cutToolStripMenuItem.Enabled = boolEnabled2;
+            clearToolStripMenuItem1.Enabled = filterOutNonMainSpaceArticlesToolStripMenuItem.Enabled =
+            convertToTalkPagesToolStripMenuItem.Enabled = convertFromTalkPagesToolStripMenuItem.Enabled =
+            sortAlphebeticallyMenuItem.Enabled = saveListToTextFileToolStripMenuItem1.Enabled = specialFilterToolStripMenuItem.Enabled =
+            selectAllToolStripMenuItem.Enabled = selectNoneToolStripMenuItem.Enabled = (lbArticles.Items.Count > 0);
         }
 
         private void txtNewArticle_DoubleClick(object sender, EventArgs e)
