@@ -720,14 +720,14 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The modified article text.</returns>
         public string FixCategories(string ArticleText)
         {
-            Regex catregex = new Regex("\\[\\[ ?" + Variables.NamespacesCaseInsensitive[14] + " ?(.*?)\\]\\]");
+            Regex catregex = new Regex(@"\[\[[\s_]*" + Variables.NamespacesCaseInsensitive[14] + @"[\s_]*(.*?)\]\]");
             string cat = "[[" + Variables.Namespaces[14];
             string x = "";
 
             foreach (Match m in catregex.Matches(ArticleText))
             {
-                x = cat + m.Groups[1].Value.Replace("_", " ") + "]]";
-                ArticleText = ArticleText.Replace(m.Value, x);
+                x = cat + CanonicalizeTitleRaw(m.Groups[1].Value) + "]]";
+                if (x != m.Value) ArticleText = ArticleText.Replace(m.Value, x);
             }
 
             return ArticleText;
