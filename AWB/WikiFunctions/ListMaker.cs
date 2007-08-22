@@ -683,7 +683,7 @@ namespace WikiFunctions.Controls.Lists
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    ErrorHandler.Handle(ex);
                 }
 
                 return;
@@ -780,11 +780,11 @@ namespace WikiFunctions.Controls.Lists
             }
             catch (PageDoesNotExistException ex)
             {
-                MessageBox.Show(ex.Message, "Page does not exist error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Page does not exist", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Unexpected error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ErrorHandler.Handle(ex);
             }
             finally
             {
@@ -881,13 +881,9 @@ namespace WikiFunctions.Controls.Lists
                     Saved = true;
                 }
             }
-            catch (IOException ex)
-            {
-                MessageBox.Show(ex.Message, "File error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ErrorHandler.Handle(ex);
             }
         }
 

@@ -58,13 +58,13 @@ namespace WikiFunctions.Parse
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message);
+                        ErrorHandler.Handle(ex);
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ErrorHandler.Handle(ex);
             }
         }
 
@@ -177,13 +177,13 @@ namespace WikiFunctions.Parse
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("There was a problem with the word: " + m.Groups[1].Value + "\r\n\r\n" + ex.Message, "Problem");
+                        ErrorHandler.Handle(ex);
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ErrorHandler.Handle(ex);
             }
 
             return TypoStrings;

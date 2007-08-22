@@ -21,6 +21,7 @@ using System;
 using System.Xml.Serialization;
 using System.Resources;
 using System.IO;
+using WikiFunctions;
 
 
 namespace IRCMonitor
@@ -89,7 +90,10 @@ namespace IRCMonitor
                     stubs[i] = s;
                 }
             }
-            catch (Exception ex) { System.Windows.Forms.MessageBox.Show(ex.ToString()); }
+            catch (Exception ex)
+            {
+                ErrorHandler.Handle(ex);
+            }
 
             return stubs;
         }

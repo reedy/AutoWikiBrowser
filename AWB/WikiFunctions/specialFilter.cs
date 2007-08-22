@@ -82,7 +82,7 @@ namespace WikiFunctions.Lists
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ErrorHandler.Handle(ex);
             }
         }
 
@@ -330,7 +330,7 @@ namespace WikiFunctions.Lists
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ErrorHandler.Handle(ex);
             }
         }
 
@@ -393,7 +393,7 @@ namespace WikiFunctions.Lists
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ErrorHandler.Handle(ex);
             }
         }
 

@@ -123,16 +123,16 @@ namespace WikiFunctions.Controls.Lists
                         sw.Write(strList);
                         sw.Close();
                     }
-                    MessageBox.Show("Lists Saved to Text Files");
+                    MessageBox.Show("Lists saved to text files");
                 }
             }
             catch (System.IO.IOException ex)
             {
-                MessageBox.Show(ex.Message, "File error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Save error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ErrorHandler.Handle(ex);
             }
         }
     }

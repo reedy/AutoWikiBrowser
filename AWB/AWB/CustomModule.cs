@@ -29,6 +29,7 @@ using System.CodeDom.Compiler;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using WikiFunctions.Plugin;
+using WikiFunctions;
 
 namespace AutoWikiBrowser
 {
@@ -143,7 +144,7 @@ namespace AutoWikiBrowser
             catch (Exception ex)
             {
                 Module = null;
-                MessageBox.Show(ex.Message);
+                ErrorHandler.Handle(ex);
             }
         }
 

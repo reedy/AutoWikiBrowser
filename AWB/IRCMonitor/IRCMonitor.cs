@@ -1054,7 +1054,7 @@ namespace IRCMonitor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ErrorHandler.Handle(ex);
             }
             finally
             {
@@ -1081,7 +1081,7 @@ namespace IRCMonitor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ErrorHandler.Handle(ex);
             }
             finally
             {
@@ -1240,7 +1240,7 @@ namespace IRCMonitor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ErrorHandler.Handle(ex);
             }
         }
 
@@ -1406,7 +1406,7 @@ namespace IRCMonitor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ErrorHandler.Handle(ex);
             }
         }
 
@@ -1533,7 +1533,7 @@ namespace IRCMonitor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ErrorHandler.Handle(ex);
             }
         }
 

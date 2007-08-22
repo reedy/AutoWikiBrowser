@@ -25,6 +25,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using WikiFunctions;
 
 namespace AutoWikiBrowser
 {
@@ -72,7 +73,7 @@ namespace AutoWikiBrowser
             catch (Exception ex)
             {
                 Status.Text = "Error";
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ErrorHandler.Handle(ex);
             }
 
             Source.Text = Source.Text.Replace("\n", "\r\n");

@@ -144,7 +144,7 @@ namespace AutoWikiBrowser
                     catch (Exception ex)
                     {
                         parsers = new Parsers();
-                        MessageBox.Show(ex.Message);
+                        ErrorHandler.Handle(ex);
                     }
 
                     toolStripComboOnLoad.SelectedIndex = 0;
@@ -178,7 +178,7 @@ namespace AutoWikiBrowser
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    ErrorHandler.Handle(ex);
                 }
             }
             
@@ -229,7 +229,7 @@ namespace AutoWikiBrowser
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    ErrorHandler.Handle(ex);
                 }
                     
                 lblStatusText.Text = "";
@@ -695,7 +695,7 @@ namespace AutoWikiBrowser
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ErrorHandler.Handle(ex);
             }
             NudgeTimer.Reset();
             return true;
@@ -789,7 +789,9 @@ namespace AutoWikiBrowser
                 Start();
             }
             catch (Exception ex)
-            { MessageBox.Show(ex.Message); }
+            {
+                ErrorHandler.Handle(ex);
+            }
         }
 
         //private void SkipPage(string reason)
@@ -1047,7 +1049,7 @@ namespace AutoWikiBrowser
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ErrorHandler.Handle(ex); 
                 TheArticle.Trace.AWBSkipped("Exception:" + ex.Message);
             }
             finally
@@ -1084,9 +1086,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 
                 CaseWasDiff();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show(e.Message);
+                ErrorHandler.Handle(ex);
             }
             //*/
         }
@@ -1137,7 +1139,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ErrorHandler.Handle(ex);
             }
         }
 
@@ -1180,7 +1182,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ErrorHandler.Handle(ex); 
                 return;
             }
         }
@@ -1205,7 +1207,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ErrorHandler.Handle(ex);
             }
         }
 
@@ -2376,7 +2378,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ErrorHandler.Handle(ex);
             }
         }
 
@@ -2860,7 +2862,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ErrorHandler.Handle(ex);
             }
             finally
             {
@@ -2884,7 +2886,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ErrorHandler.Handle(ex);
             }
             finally
             {
@@ -2908,7 +2910,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ErrorHandler.Handle(ex);
             }
             finally
             {
@@ -2978,7 +2980,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ErrorHandler.Handle(ex);
             }
         }
 
@@ -3193,7 +3195,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ErrorHandler.Handle(ex);
             }
         }
 
@@ -3219,7 +3221,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ErrorHandler.Handle(ex);
             }
         }
 
@@ -3256,7 +3258,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ErrorHandler.Handle(ex);
             }
             finalRegex = finalRegex.Trim('|') + ") ?(\\|.*?)?) ?\\}\\}";
             userTalkWarningsLoaded = true;

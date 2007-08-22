@@ -228,8 +228,7 @@ namespace WikiFunctions.Logging
                 }
                 catch (Exception ex)
                 {
-                    ErrorForm ErrorForm = new ErrorForm(ex.Message + System.Environment.NewLine + ex.ToString());
-                    ErrorForm.Show();
+                    ErrorHandler.Handle(ex);
 
                     retval.Success = false;
                 }
