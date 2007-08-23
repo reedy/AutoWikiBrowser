@@ -324,6 +324,17 @@ namespace AutoWikiBrowser
             this.lblLinks = new System.Windows.Forms.Label();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tpEdit = new System.Windows.Forms.TabPage();
+            this.imgSub = new System.Windows.Forms.PictureBox();
+            this.imgSup = new System.Windows.Forms.PictureBox();
+            this.imgStrike = new System.Windows.Forms.PictureBox();
+            this.imgRedirect = new System.Windows.Forms.PictureBox();
+            this.imgHr = new System.Windows.Forms.PictureBox();
+            this.imgNowiki = new System.Windows.Forms.PictureBox();
+            this.imgMath = new System.Windows.Forms.PictureBox();
+            this.imgExtlink = new System.Windows.Forms.PictureBox();
+            this.imgLink = new System.Windows.Forms.PictureBox();
+            this.imgItalics = new System.Windows.Forms.PictureBox();
+            this.imgBold = new System.Windows.Forms.PictureBox();
             this.tpHistory = new System.Windows.Forms.TabPage();
             this.webBrowserHistory = new System.Windows.Forms.WebBrowser();
             this.tpLogs = new System.Windows.Forms.TabPage();
@@ -373,6 +384,17 @@ namespace AutoWikiBrowser
             this.groupBox3.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tpEdit.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imgSub)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgSup)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgStrike)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgRedirect)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgHr)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgNowiki)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgMath)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgExtlink)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgLink)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgItalics)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgBold)).BeginInit();
             this.tpHistory.SuspendLayout();
             this.tpLogs.SuspendLayout();
             this.tpLoggingOptions.SuspendLayout();
@@ -1755,12 +1777,12 @@ namespace AutoWikiBrowser
             this.txtEdit.ContextMenuStrip = this.mnuTextBox;
             this.txtEdit.Enabled = false;
             this.txtEdit.Font = new System.Drawing.Font("Courier New", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtEdit.Location = new System.Drawing.Point(0, 0);
+            this.txtEdit.Location = new System.Drawing.Point(0, 34);
             this.txtEdit.MaxLength = 0;
             this.txtEdit.Multiline = true;
             this.txtEdit.Name = "txtEdit";
             this.txtEdit.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtEdit.Size = new System.Drawing.Size(282, 351);
+            this.txtEdit.Size = new System.Drawing.Size(282, 317);
             this.txtEdit.TabIndex = 0;
             this.toolTip1.SetToolTip(this.txtEdit, "Edit the article\'s text in this box");
             this.txtEdit.TextChanged += new System.EventHandler(this.txtEdit_TextChanged);
@@ -3046,6 +3068,17 @@ namespace AutoWikiBrowser
             // 
             // tpEdit
             // 
+            this.tpEdit.Controls.Add(this.imgSub);
+            this.tpEdit.Controls.Add(this.imgSup);
+            this.tpEdit.Controls.Add(this.imgStrike);
+            this.tpEdit.Controls.Add(this.imgRedirect);
+            this.tpEdit.Controls.Add(this.imgHr);
+            this.tpEdit.Controls.Add(this.imgNowiki);
+            this.tpEdit.Controls.Add(this.imgMath);
+            this.tpEdit.Controls.Add(this.imgExtlink);
+            this.tpEdit.Controls.Add(this.imgLink);
+            this.tpEdit.Controls.Add(this.imgItalics);
+            this.tpEdit.Controls.Add(this.imgBold);
             this.tpEdit.Controls.Add(this.txtEdit);
             this.tpEdit.Location = new System.Drawing.Point(4, 22);
             this.tpEdit.Name = "tpEdit";
@@ -3054,6 +3087,127 @@ namespace AutoWikiBrowser
             this.tpEdit.TabIndex = 0;
             this.tpEdit.Text = "Edit box";
             this.tpEdit.UseVisualStyleBackColor = true;
+            // 
+            // imgSub
+            // 
+            this.imgSub.Image = global::AutoWikiBrowser.Properties.Resources.Button_lower_letter;
+            this.imgSub.Location = new System.Drawing.Point(236, 6);
+            this.imgSub.Name = "imgSub";
+            this.imgSub.Size = new System.Drawing.Size(23, 22);
+            this.imgSub.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.imgSub.TabIndex = 11;
+            this.imgSub.TabStop = false;
+            this.imgSub.Click += new System.EventHandler(this.imgSub_Click);
+            // 
+            // imgSup
+            // 
+            this.imgSup.Image = global::AutoWikiBrowser.Properties.Resources.Button_upper_letter;
+            this.imgSup.Location = new System.Drawing.Point(213, 6);
+            this.imgSup.Name = "imgSup";
+            this.imgSup.Size = new System.Drawing.Size(23, 22);
+            this.imgSup.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.imgSup.TabIndex = 10;
+            this.imgSup.TabStop = false;
+            this.imgSup.Click += new System.EventHandler(this.imgSup_Click);
+            // 
+            // imgStrike
+            // 
+            this.imgStrike.Image = global::AutoWikiBrowser.Properties.Resources.Button_strike;
+            this.imgStrike.Location = new System.Drawing.Point(190, 6);
+            this.imgStrike.Name = "imgStrike";
+            this.imgStrike.Size = new System.Drawing.Size(23, 22);
+            this.imgStrike.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.imgStrike.TabIndex = 9;
+            this.imgStrike.TabStop = false;
+            this.imgStrike.Click += new System.EventHandler(this.imgStrike_Click);
+            // 
+            // imgRedirect
+            // 
+            this.imgRedirect.Image = global::AutoWikiBrowser.Properties.Resources.Button_redirect;
+            this.imgRedirect.Location = new System.Drawing.Point(167, 6);
+            this.imgRedirect.Name = "imgRedirect";
+            this.imgRedirect.Size = new System.Drawing.Size(23, 22);
+            this.imgRedirect.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.imgRedirect.TabIndex = 8;
+            this.imgRedirect.TabStop = false;
+            this.imgRedirect.Click += new System.EventHandler(this.imgRedirect_Click);
+            // 
+            // imgHr
+            // 
+            this.imgHr.Image = global::AutoWikiBrowser.Properties.Resources.button_hr;
+            this.imgHr.Location = new System.Drawing.Point(144, 6);
+            this.imgHr.Name = "imgHr";
+            this.imgHr.Size = new System.Drawing.Size(23, 22);
+            this.imgHr.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.imgHr.TabIndex = 7;
+            this.imgHr.TabStop = false;
+            this.imgHr.Click += new System.EventHandler(this.imgHr_Click);
+            // 
+            // imgNowiki
+            // 
+            this.imgNowiki.Image = global::AutoWikiBrowser.Properties.Resources.button_nowiki;
+            this.imgNowiki.Location = new System.Drawing.Point(121, 6);
+            this.imgNowiki.Name = "imgNowiki";
+            this.imgNowiki.Size = new System.Drawing.Size(23, 22);
+            this.imgNowiki.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.imgNowiki.TabIndex = 6;
+            this.imgNowiki.TabStop = false;
+            this.imgNowiki.Click += new System.EventHandler(this.imgNowiki_Click);
+            // 
+            // imgMath
+            // 
+            this.imgMath.Image = global::AutoWikiBrowser.Properties.Resources.button_math;
+            this.imgMath.Location = new System.Drawing.Point(98, 6);
+            this.imgMath.Name = "imgMath";
+            this.imgMath.Size = new System.Drawing.Size(23, 22);
+            this.imgMath.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.imgMath.TabIndex = 5;
+            this.imgMath.TabStop = false;
+            this.imgMath.Click += new System.EventHandler(this.imgMath_Click);
+            // 
+            // imgExtlink
+            // 
+            this.imgExtlink.Image = global::AutoWikiBrowser.Properties.Resources.button_extlink;
+            this.imgExtlink.Location = new System.Drawing.Point(75, 6);
+            this.imgExtlink.Name = "imgExtlink";
+            this.imgExtlink.Size = new System.Drawing.Size(23, 22);
+            this.imgExtlink.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.imgExtlink.TabIndex = 4;
+            this.imgExtlink.TabStop = false;
+            this.imgExtlink.Click += new System.EventHandler(this.imgExtlink_Click);
+            // 
+            // imgLink
+            // 
+            this.imgLink.Image = global::AutoWikiBrowser.Properties.Resources.button_link;
+            this.imgLink.Location = new System.Drawing.Point(52, 6);
+            this.imgLink.Name = "imgLink";
+            this.imgLink.Size = new System.Drawing.Size(23, 22);
+            this.imgLink.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.imgLink.TabIndex = 3;
+            this.imgLink.TabStop = false;
+            this.imgLink.Click += new System.EventHandler(this.imgLink_Click);
+            // 
+            // imgItalics
+            // 
+            this.imgItalics.Image = global::AutoWikiBrowser.Properties.Resources.button_italic;
+            this.imgItalics.Location = new System.Drawing.Point(29, 6);
+            this.imgItalics.Name = "imgItalics";
+            this.imgItalics.Size = new System.Drawing.Size(23, 22);
+            this.imgItalics.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.imgItalics.TabIndex = 2;
+            this.imgItalics.TabStop = false;
+            this.imgItalics.Click += new System.EventHandler(this.imgItalics_Click);
+            // 
+            // imgBold
+            // 
+            this.imgBold.Image = global::AutoWikiBrowser.Properties.Resources.button_bold;
+            this.imgBold.Location = new System.Drawing.Point(6, 6);
+            this.imgBold.Name = "imgBold";
+            this.imgBold.Size = new System.Drawing.Size(23, 22);
+            this.imgBold.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.imgBold.TabIndex = 1;
+            this.imgBold.TabStop = false;
+            this.imgBold.Click += new System.EventHandler(this.imgBold_Click);
             // 
             // tpHistory
             // 
@@ -3279,6 +3433,17 @@ namespace AutoWikiBrowser
             this.tabControl2.ResumeLayout(false);
             this.tpEdit.ResumeLayout(false);
             this.tpEdit.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imgSub)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgSup)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgStrike)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgRedirect)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgHr)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgNowiki)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgMath)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgExtlink)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgLink)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgItalics)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgBold)).EndInit();
             this.tpHistory.ResumeLayout(false);
             this.tpLogs.ResumeLayout(false);
             this.tpLoggingOptions.ResumeLayout(false);
@@ -3580,5 +3745,16 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Timer ShutdownTimer;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.PictureBox imgNowiki;
+        private System.Windows.Forms.PictureBox imgMath;
+        private System.Windows.Forms.PictureBox imgExtlink;
+        private System.Windows.Forms.PictureBox imgLink;
+        private System.Windows.Forms.PictureBox imgItalics;
+        private System.Windows.Forms.PictureBox imgBold;
+        private System.Windows.Forms.PictureBox imgHr;
+        private System.Windows.Forms.PictureBox imgSub;
+        private System.Windows.Forms.PictureBox imgSup;
+        private System.Windows.Forms.PictureBox imgStrike;
+        private System.Windows.Forms.PictureBox imgRedirect;
     }
 }

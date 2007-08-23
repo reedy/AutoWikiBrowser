@@ -121,6 +121,18 @@
   <data name="BotImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Bot Image.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="button_hr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\button_hr.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="button_bold" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\button_bold.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="button_extlink" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\button_extlink.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="button_italic" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\button_italic.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="SplashImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -1992,5 +2004,26 @@
         Vd9VQ5UxVZWlf9etvluRxqpX2T4jMxupORBjlbLe8vbwupmrvNV4/xV4gwDIYB3MwTz+/wf3tJ9mQgPN
         pAAAAABJRU5ErkJggg==
 </value>
+  </data>
+  <data name="button_math" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\button_math.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="button_link" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\button_link.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="button_nowiki" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\button_nowiki.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Button_lower_letter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Button_lower_letter.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Button_redirect" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Button_redirect.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Button_strike" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Button_strike.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Button_upper_letter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Button_upper_letter.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
