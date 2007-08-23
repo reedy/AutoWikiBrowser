@@ -487,12 +487,25 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// performs URL-decoding of a page title
+        /// performs URL-decoding of a page title, trimming all whitespace
         /// </summary>
         public static string CanonicalizeTitleRaw(string title)
         {
-            return HttpUtility.UrlDecode(title.Replace("+", "%2B")).Replace("_", " ").Trim();
+            return CanonicalizeTitleRaw(title, true);
         }
+
+        /// <summary>
+        /// performs URL-decoding of a page title
+        /// </summary>
+        /// <param name="title">title to normalise</param>
+        /// <param name="trim">whether whitespace should be trimmed</param>
+        public static string CanonicalizeTitleRaw(string title, bool trim)
+        {
+            title = HttpUtility.UrlDecode(title.Replace("+", "%2B")).Replace("_", " ");
+            if (trim) return title.Trim();
+            else return title;
+        }
+
 
         /// <summary>
         /// returns true if given string has matching double square brackets
@@ -726,7 +739,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             foreach (Match m in catregex.Matches(ArticleText))
             {
-                x = cat + CanonicalizeTitleRaw(m.Groups[1].Value) + "]]";
+                x = cat + CanonicalizeTitleRaw(m.Groups[1].Value, false) + "]]";
                 if (x != m.Value) ArticleText = ArticleText.Replace(m.Value, x);
             }
 

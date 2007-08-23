@@ -867,35 +867,13 @@ namespace AutoWikiBrowser
                 }
                 prof.Profile("Plugins");
 
-                bool unicodify = chkUnicodifyWhole.Checked && process;
-                bool dates = TheArticle.CanDoGeneralFixes && chkGeneralFixes.Checked;
-                bool typos = chkRegExTypo.Checked && RegexTypos != null && !BotMode && !Tools.IsTalkPage(TheArticle.NameSpaceKey);
-
-                if (unicodify || dates)
+                if (chkUnicodifyWhole.Checked && process)
                 {
                     TheArticle.HideMoreText(RemoveText);
                     prof.Profile("HideMoreText");
 
-                    if (unicodify)
-                    {
-                        TheArticle.Unicodify(Skip.SkipNoUnicode, parsers);
-                        prof.Profile("Unicodify");
-                    }
-
-                    if (dates)
-                    {
-                        TheArticle.AWBChangeArticleText("Fix dates", parsers.FixDatesRaw(TheArticle.ArticleText), false);
-                        prof.Profile("FixDatesRaw");
-                        if (TheArticle.SkipArticle) return;
-                    }
-
-
-                    if (typos)
-                    {
-                        TheArticle.PerformTypoFixes(RegexTypos, chkSkipIfNoRegexTypo.Checked);
-                        if (TheArticle.SkipArticle) return;
-                        prof.Profile("Typos");
-                    }
+                    TheArticle.Unicodify(Skip.SkipNoUnicode, parsers);
+                    prof.Profile("Unicodify");
 
                     TheArticle.UnHideMoreText(RemoveText);
                     prof.Profile("UnHideMoreText");
@@ -929,6 +907,13 @@ namespace AutoWikiBrowser
                 }
 
                 prof.Profile("F&R");
+
+                if (chkRegExTypo.Checked && RegexTypos != null && !BotMode && !Tools.IsTalkPage(TheArticle.NameSpaceKey))
+                {
+                    TheArticle.PerformTypoFixes(RegexTypos, chkSkipIfNoRegexTypo.Checked);
+                    prof.Profile("Typos");
+                    if (TheArticle.SkipArticle) return;
+                }
 
                 if (TheArticle.CanDoGeneralFixes)
                 {
