@@ -710,5 +710,33 @@ namespace WikiFunctions.MWB
         {
             setTreeViewColours();
         }
+
+        private void expandAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Collapsed(false);
+        }
+
+        private void collapseAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Collapsed(true);
+        }
+
+        private void Collapsed(bool collapsed)
+        {
+            RulesTreeView.BeginUpdate();
+            foreach (TreeNode node in RulesTreeView.Nodes)
+            {
+                switch(collapsed)
+                {
+                    case true:
+                        node.Collapse();
+                        break;
+                    case false:
+                        node.ExpandAll();
+                        break;
+                }
+            }
+            RulesTreeView.EndUpdate();
+        }
     }
 }
