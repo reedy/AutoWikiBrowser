@@ -94,66 +94,40 @@ namespace WikiFunctions.Parse
 
         List<HideObject> MoreHide = new List<HideObject>(32);
 
+        void ReplaceMore(MatchCollection matches, ref string ArticleText)
+        {
+            string s = "";
+
+            foreach (Match m in matches)
+            {
+                s = "⌊⌊⌊⌊M" + MoreHide.Count.ToString() + "⌋⌋⌋⌋";
+
+                ArticleText = ArticleText.Replace(m.Value, s);
+                MoreHide.Add(new HideObject(s, m.Value));
+            }
+        }
+
+        static readonly Regex HiddenMore = new Regex("⌊⌊⌊⌊M(%d*)⌋⌋⌋⌋", RegexOptions.Compiled);
+
         /// <summary>
         /// Hides images, external links, templates, headings, images
         /// </summary>
         public string HideMore(string ArticleText)
         {
             MoreHide.Clear();
-            string s = "";
 
-            int i = 0;
-            foreach (Match m in WikiRegexes.Template.Matches(ArticleText))
-            {
-                s = "⌊⌊⌊⌊M" + i.ToString() + "⌋⌋⌋⌋";
+            ReplaceMore(WikiRegexes.Template.Matches(ArticleText), ref ArticleText);
 
-                ArticleText = ArticleText.Replace(m.Value, s);
-                MoreHide.Add(new HideObject(s, m.Value));
-                i++;
-            }
-            foreach (Match m in WikiRegexes.TemplateMultiLine.Matches(ArticleText))
-            {
-                s = "⌊⌊⌊⌊M" + i.ToString() + "⌋⌋⌋⌋";
+            ReplaceMore(WikiRegexes.TemplateMultiLine.Matches(ArticleText), ref ArticleText);
 
-                ArticleText = ArticleText.Replace(m.Value, s);
-                MoreHide.Add(new HideObject(s, m.Value));
-                i++;
-            }
-            foreach (Match m in WikiRegexes.Images.Matches(ArticleText))
-            {
-                s = "⌊⌊⌊⌊M" + i.ToString() + "⌋⌋⌋⌋";
+            ReplaceMore(WikiRegexes.Images.Matches(ArticleText), ref ArticleText);
 
-                ArticleText = ArticleText.Replace(m.Value, s);
-                MoreHide.Add(new HideObject(s, m.Value));
-                i++;
-            }
-            if (HideExternal)
-            {
-                foreach (Match m in WikiRegexes.ExternalLinks.Matches(ArticleText))
-                {
-                    s = "⌊⌊⌊⌊M" + i.ToString() + "⌋⌋⌋⌋";
+            if (HideExternal) ReplaceMore(WikiRegexes.ExternalLinks.Matches(ArticleText), ref ArticleText);
 
-                    ArticleText = ArticleText.Replace(m.Value, s);
-                    MoreHide.Add(new HideObject(s, m.Value));
-                    i++;
-                }
-            }
-            foreach (Match m in WikiRegexes.Headings.Matches(ArticleText))
-            {
-                s = "⌊⌊⌊⌊M" + i.ToString() + "⌋⌋⌋⌋";
+            ReplaceMore(WikiRegexes.Headings.Matches(ArticleText), ref ArticleText);
 
-                ArticleText = ArticleText.Replace(m.Value, s);
-                MoreHide.Add(new HideObject(s, m.Value));
-                i++;
-            }
-            foreach (Match m in WikiRegexes.IndentedText.Matches(ArticleText))
-            {
-                s = "⌊⌊⌊⌊M" + i.ToString() + "⌋⌋⌋⌋";
+            ReplaceMore(WikiRegexes.IndentedText.Matches(ArticleText), ref ArticleText);
 
-                ArticleText = ArticleText.Replace(m.Value, s);
-                MoreHide.Add(new HideObject(s, m.Value));
-                i++;
-            }
             /*
             foreach (Match m in WikiRegexes.InterWikiLinks.Matches(ArticleText))
             {
@@ -163,30 +137,12 @@ namespace WikiFunctions.Parse
                 MoreHide.Add(new HideObject(s, m.Value));
                 i++;
             }*/
-            foreach (Match m in WikiRegexes.UnFormattedText.Matches(ArticleText))
-            {
-                s = "⌊⌊⌊⌊M" + i.ToString() + "⌋⌋⌋⌋";
 
-                ArticleText = ArticleText.Replace(m.Value, s);
-                MoreHide.Add(new HideObject(s, m.Value));
-                i++;
-            }
-            foreach (Match m in WikiRegexes.SimpleWikiLink.Matches(ArticleText))
-            {
-                s = "⌊⌊⌊⌊M" + i.ToString() + "⌋⌋⌋⌋";
+            ReplaceMore(WikiRegexes.UnFormattedText.Matches(ArticleText), ref ArticleText);
 
-                ArticleText = ArticleText.Replace(m.Value, s);
-                MoreHide.Add(new HideObject(s, m.Value));
-                i++;
-            }
-            foreach (Match m in WikiRegexes.Cites.Matches(ArticleText))
-            {
-                s = "⌊⌊⌊⌊M" + i.ToString() + "⌋⌋⌋⌋";
+            ReplaceMore(WikiRegexes.SimpleWikiLink.Matches(ArticleText), ref ArticleText);
 
-                ArticleText = ArticleText.Replace(m.Value, s);
-                MoreHide.Add(new HideObject(s, m.Value));
-                i++;
-            }
+            ReplaceMore(WikiRegexes.Cites.Matches(ArticleText), ref ArticleText);
 
             return ArticleText;
         }
