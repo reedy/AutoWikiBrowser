@@ -255,7 +255,7 @@ namespace WikiFunctions.MWB
                     return text;
 
                 string pattern =
-                  @"^([\s]*)" + Tools.CaseInsensitive(template) + @"((?:<!--.*-->)?[\s]*(\}\}|\|))";
+                  @"^([\s]*)" + Tools.CaseInsensitive(template) + @"([\s]*(?:<!--.*-->)?[\s]*(\}\}|\|))";
 
                 pattern = pattern.Replace(" ", "[ _]+");
 
