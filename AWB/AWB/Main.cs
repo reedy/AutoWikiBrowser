@@ -1226,7 +1226,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         {
             enlargeEditAreaToolStripMenuItem.Checked = !enlargeEditAreaToolStripMenuItem.Checked;
             if (groupBox2.Visible)
-            { 
+            {
+                btntsShowHideParameters.Image = Res.btnshowhideparameters2_image;
+
                 oldPosition = tabControl2.Location;;
                 tabControl2.Location = new Point(groupBox2.Location.X, groupBox2.Location.Y - 5);
 
@@ -1234,7 +1236,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 tabControl2.Size = new Size((tabControl2.Size.Width + tabControl1.Size.Width + groupBox2.Size.Width + 8), tabControl2.Size.Height); 
             }
             else
-            {  
+            {
+                btntsShowHideParameters.Image = Res.btnshowhideparameters_image;
+
                 tabControl2.Location = oldPosition;
                 tabControl2.Size = oldSize;
             }

@@ -16,6 +16,11 @@ namespace WikiFunctions.Properties
             get { return Resources.Showhideparameters; }
         }
 
+        public static System.Drawing.Bitmap btnshowhideparameters2_image
+        {
+            get { return Resources.Showhideparameters2; }
+        }
+
         public static System.Drawing.Bitmap btntssave_image
         {
             get { return Resources.Save; }
