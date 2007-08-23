@@ -40,6 +40,8 @@ namespace WikiFunctions.Parse
         Dictionary<Regex, string> TypoRegexes = new Dictionary<Regex, string>();
         HideText RemoveText = new HideText(true, false, true);
 
+        static readonly Regex RemoveTail = new Regex(@"(:?[\s\n\r\*#:]|⌊⌊⌊⌊M?\d*⌋⌋⌋⌋)*$", RegexOptions.Compiled);
+
         private void MakeRegexes()
         {
             try
@@ -80,6 +82,13 @@ namespace WikiFunctions.Parse
             }
 
             ArticleText = RemoveText.HideMore(ArticleText);
+
+            //remove newlines, whitespace and hide tokens from bottom
+            //to avoid running 2K regexps on them
+            Match m = RemoveTail.Match(ArticleText);
+            string Tail = m.Value;
+            ArticleText = ArticleText.Remove(m.Index);
+
             string OriginalText = ArticleText;
             string Replace = "";
             string strSummary = "";
@@ -108,7 +117,7 @@ namespace WikiFunctions.Parse
 
             NoChange = (OriginalText == ArticleText);
 
-            ArticleText = RemoveText.AddBackMore(ArticleText);
+            ArticleText = RemoveText.AddBackMore(ArticleText + Tail);
 
             if (strSummary != "")
             {
