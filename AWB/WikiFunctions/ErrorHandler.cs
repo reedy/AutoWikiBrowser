@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace WikiFunctions
 {
@@ -18,7 +19,6 @@ namespace WikiFunctions
 
         private void ErrorHandler_Load(object sender, EventArgs e)
         {
-            txtError.BorderStyle = BorderStyle.None;
             Text = Application.ProductName;
         }
 
@@ -29,8 +29,8 @@ namespace WikiFunctions
             Handler.txtError.Text = ex.Message;
 
 
-            Handler.txtDetails.Text = "Exception: " + ex.GetType().Name + "\r\nMessage: " +
-                ex.Message + "\r\nCall stack:" + ex.StackTrace;
+            Handler.txtDetails.Text = "{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = Exception: " + ex.GetType().Name + "\r\nMessage: " +
+                ex.Message + "\r\nCall stack:" + ex.StackTrace + "\r\n~~~~\r\n | OS          = " + Environment.OSVersion.ToString() + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version.ToString() + "\r\n}}";
 
             /*
             foreach (StackFrame frame in ex.StackTrace.)
@@ -46,6 +46,7 @@ namespace WikiFunctions
         private void btnCopy_Click(object sender, EventArgs e)
         {
             Clipboard.Clear();
+            System.Threading.Thread.Sleep(1000);
             Clipboard.SetText(txtDetails.Text);
         }
     }
