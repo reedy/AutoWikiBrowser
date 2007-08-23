@@ -98,13 +98,21 @@ namespace WikiFunctions.Parse
         {
             string s = "";
 
+            StringBuilder sb = new StringBuilder(500000);
+            int pos = 0;
+
             foreach (Match m in matches)
             {
+                sb.Append(ArticleText, pos, m.Index - pos);
                 s = "⌊⌊⌊⌊M" + MoreHide.Count.ToString() + "⌋⌋⌋⌋";
-
-                ArticleText = ArticleText.Replace(m.Value, s);
+                sb.Append(s);
+                pos = m.Index + m.Value.Length;
                 MoreHide.Add(new HideObject(s, m.Value));
             }
+
+            sb.Append(ArticleText, pos, ArticleText.Length - pos);
+
+            ArticleText = sb.ToString();
         }
 
         static readonly Regex HiddenMoreRegex = new Regex("⌊⌊⌊⌊M(\\d*)⌋⌋⌋⌋", RegexOptions.Compiled);
