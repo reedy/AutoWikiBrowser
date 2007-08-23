@@ -207,7 +207,7 @@ namespace WikiFunctions
         /// <summary>
         /// matches <cite> tags
         /// </summary>
-        public static readonly Regex Cites = new Regex(@"<cite[^>]*?>[^<]*<\s*/cite\s*>", RegexOptions.Compiled | RegexOptions.Singleline);
+        public static readonly Regex Cites = new Regex(@"<ref[^>]*?>[^<]*<\s*/ref\s*>", RegexOptions.Compiled | RegexOptions.Singleline);
 
         /// <summary>
         /// matches <nowiki> tags
