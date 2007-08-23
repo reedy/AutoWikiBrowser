@@ -58,8 +58,12 @@ namespace WikiFunctions.Controls
         protected virtual void lnkDownload_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             lnkDownload.LinkVisited = true;
-            System.Diagnostics.Process.Start("http://download.wikimedia.org/enwiki/");
-
+            try
+            {
+                System.Diagnostics.Process.Start("http://download.wikimedia.org/enwiki/");
+            }
+            catch
+            { }
         }
 
         #region Shared

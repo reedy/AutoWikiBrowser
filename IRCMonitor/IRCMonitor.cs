@@ -242,7 +242,13 @@ namespace IRCMonitor
                     runUpdater();
 
                 if (yesnocancel == DialogResult.No)
-                    System.Diagnostics.Process.Start("http://sourceforge.net/project/showfiles.php?group_id=158332");
+                {
+                    try
+                    {
+                        System.Diagnostics.Process.Start("http://sourceforge.net/project/showfiles.php?group_id=158332");
+                    }
+                    catch { }
+                }
             }
         }
 
@@ -907,7 +913,13 @@ namespace IRCMonitor
                 tabControl.SelectedTab = tabPage8;
             }
             else
-                System.Diagnostics.Process.Start(URL);
+            {
+                try
+                {
+                    System.Diagnostics.Process.Start(URL);
+                }
+                catch { }
+            }
         }
 
         private void btnResetStats_Click(object sender, EventArgs e)
@@ -1798,7 +1810,11 @@ namespace IRCMonitor
 
         private void btnOpenInBrowser_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(webBrowser.Url.AbsoluteUri);
+            try
+            {
+                System.Diagnostics.Process.Start(webBrowser.Url.AbsoluteUri);
+            }
+            catch { }
         }
         private void btnGo_Click(object sender, EventArgs e)
         {

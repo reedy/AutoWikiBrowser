@@ -109,5 +109,11 @@ namespace AutoWikiBrowser
             linkFeatureRequests.LinkVisited = true;
             Tools.OpenENArticleInBrowser("Wikipedia_talk:AutoWikiBrowser/Feature_requests", false);
         }
+
+        private void linkJogers_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            linkJogers.LinkVisited = true;
+            Tools.OpenENArticleInBrowser("Jogers", true);
+        }
     }
 }

@@ -102,6 +102,7 @@ namespace WikiFunctions
                 "d, please visit Wikipedia_talk:AutoWikiBrowser/Bugs add the following text to th" +
                 "e page:";
             this.linkLabel1.UseCompatibleTextRendering = true;
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // label2
             // 

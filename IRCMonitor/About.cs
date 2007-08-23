@@ -54,13 +54,21 @@ namespace IRCMonitor
 
         private void Robot_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("http://commons.wikimedia.org/wiki/Image:Pomoc-nik.png");
+            try
+            {
+                System.Diagnostics.Process.Start("http://commons.wikimedia.org/wiki/Image:Pomoc-nik.png");
+            }
+            catch { }
         }
 
         private void labelCopyright_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             labelCopyright.LinkVisited = true;
-            System.Diagnostics.Process.Start("http://www.gnu.org/licenses/gpl.html");
+            try
+            {
+                System.Diagnostics.Process.Start("http://www.gnu.org/licenses/gpl.html");
+            }
+            catch { }
         }
 
     }
