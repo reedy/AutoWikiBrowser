@@ -420,8 +420,7 @@ namespace WikiFunctions
                     bool NoChange;
                     string strTemp = parsers.Conversions(mArticleText);
 
-                    //moved to another part of code
-                    //strTemp = parsers.FixDates(strTemp);
+                    strTemp = parsers.FixDates(strTemp);
                     strTemp = parsers.LivingPeople(strTemp, out NoChange);
                     strTemp = parsers.FixHeadings(strTemp, mName, out NoChange);
                     if (SkipIfNoChange && NoChange)
