@@ -665,7 +665,13 @@ namespace AutoWikiBrowser
                     if (DlgTalk.ShowDialog() == DialogResult.Yes)
                         Tools.OpenUserTalkInBrowser();
                     else
-                        System.Diagnostics.Process.Start("IExplore", Variables.GetUserTalkURL());
+                    {
+                        try
+                        {
+                            System.Diagnostics.Process.Start("IExplore", Variables.GetUserTalkURL());
+                        }
+                        catch { }
+                    }
 
                     DlgTalk = null;
                     return false;
@@ -1453,7 +1459,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 case WikiStatusResult.NotRegistered:
                     lblUserName.BackColor = Color.Red;
                     MessageBox.Show(Variables.User.Name + " is not enabled to use this.", "Not enabled", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    System.Diagnostics.Process.Start(Variables.URL + "/wiki/Project:AutoWikiBrowser/CheckPage");
+                    try
+                    {
+                        System.Diagnostics.Process.Start(Variables.URL + "/wiki/Project:AutoWikiBrowser/CheckPage");
+                    }
+                    catch { }
                     break;
 
                 case WikiStatusResult.OldVersion:
@@ -1493,7 +1503,13 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                     runUpdater();
 
                 if (yesnocancel == DialogResult.No)
-                    System.Diagnostics.Process.Start("http://sourceforge.net/project/showfiles.php?group_id=158332");
+                {
+                    try
+                    {
+                        System.Diagnostics.Process.Start("http://sourceforge.net/project/showfiles.php?group_id=158332");
+                    }
+                    catch { }
+                }
             }
         }
 
@@ -2396,22 +2412,38 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void openPageInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName);
+            try
+            {
+                System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName);
+            }
+            catch { }
         }
 
         private void openTalkPageInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=" + GetLists.ConvertToTalk(TheArticle));
+            try
+            {
+                System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=" + GetLists.ConvertToTalk(TheArticle));
+            }
+            catch { }
         }
 
         private void openHistoryMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName + "&action=history");
+            try
+            {
+                System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName + "&action=history");
+            }
+            catch { }
         }
 
         private void openSelectionInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=" + txtEdit.SelectedText);
+            try
+            {
+                System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=" + txtEdit.SelectedText);
+            }
+            catch { }
         }
 
         private void chkGeneralParse_CheckedChanged(object sender, EventArgs e)
@@ -2616,7 +2648,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/Typos");
+            try
+            {
+                System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/Typos");
+            }
+            catch { }
         }
 
         private void webBrowserEdit_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
@@ -3090,8 +3126,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void runUpdater()
         {
-            System.Diagnostics.Process.Start(Path.GetDirectoryName(Application.ExecutablePath) + "\\AWBUpdater.exe");
-
+            try
+            {
+                System.Diagnostics.Process.Start(Path.GetDirectoryName(Application.ExecutablePath) + "\\AWBUpdater.exe");
+            }
+            catch { }
             if (MessageBox.Show("AWB needs to be closed. To do this now, click 'yes'. If you need to save your settings, do this now, the updater will not complete until AWB is closed.", "Close AWB?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) == DialogResult.Yes)
                 Application.Exit();
         }
@@ -3377,7 +3416,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("http://commons.wikimedia.org/wiki/Image:Crystal_Clear_action_run.png");
+            try
+            {
+                System.Diagnostics.Process.Start("http://commons.wikimedia.org/wiki/Image:Crystal_Clear_action_run.png");
+            }
+            catch { }
         }
 
         private void profilesToolStripMenuItem_Click(object sender, EventArgs e)

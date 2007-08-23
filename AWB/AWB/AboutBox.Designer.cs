@@ -66,6 +66,7 @@ namespace AutoWikiBrowser
             this.lblAWBVersion = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.linkJogers = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // textBoxDescription
@@ -179,7 +180,7 @@ namespace AutoWikiBrowser
             // 
             this.linkReedy.AutoSize = true;
             this.linkReedy.BackColor = System.Drawing.Color.Transparent;
-            this.linkReedy.Location = new System.Drawing.Point(32, 122);
+            this.linkReedy.Location = new System.Drawing.Point(32, 120);
             this.linkReedy.Name = "linkReedy";
             this.linkReedy.Size = new System.Drawing.Size(84, 13);
             this.linkReedy.TabIndex = 44;
@@ -281,13 +282,25 @@ namespace AutoWikiBrowser
             this.label1.TabIndex = 27;
             this.label1.Text = "Original developers:";
             // 
+            // linkJogers
+            // 
+            this.linkJogers.AutoSize = true;
+            this.linkJogers.BackColor = System.Drawing.Color.Transparent;
+            this.linkJogers.Location = new System.Drawing.Point(114, 120);
+            this.linkJogers.Name = "linkJogers";
+            this.linkJogers.Size = new System.Drawing.Size(63, 13);
+            this.linkJogers.TabIndex = 48;
+            this.linkJogers.TabStop = true;
+            this.linkJogers.Text = "User:Jogers";
+            this.linkJogers.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkJogers_LinkClicked);
+            // 
             // AboutBox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Control;
-            this.BackgroundImage = global::AutoWikiBrowser.Properties.Resources.SplashImage;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.ClientSize = new System.Drawing.Size(472, 300);
+            this.Controls.Add(this.linkJogers);
             this.Controls.Add(this.linkMartinp23);
             this.Controls.Add(this.linkKingboy);
             this.Controls.Add(this.linkReedy);
@@ -308,6 +321,7 @@ namespace AutoWikiBrowser
             this.Controls.Add(this.linkBluemoose);
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.textBoxDescription);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -330,7 +344,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Button okButton;
         private System.Windows.Forms.LinkLabel linkBluemoose;
         private System.Windows.Forms.LinkLabel linkAWBPage;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lblAWBVersion;
         private System.Windows.Forms.Label lblOSVersion;
@@ -346,5 +359,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.LinkLabel linkReedy;
         private System.Windows.Forms.LinkLabel linkKingboy;
         private System.Windows.Forms.LinkLabel linkMartinp23;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.LinkLabel linkJogers;
     }
 }

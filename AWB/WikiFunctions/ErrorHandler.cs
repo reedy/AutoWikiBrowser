@@ -49,5 +49,15 @@ namespace WikiFunctions
             System.Threading.Thread.Sleep(1000);
             Clipboard.SetText(txtDetails.Text);
         }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            linkLabel1.LinkVisited = true;
+            try
+            {
+                System.Diagnostics.Process.Start("http://en.wikipedia.org/w/index.php?title=Wikipedia_talk:AutoWikiBrowser/Bugs&action=edit&section=new");
+            }
+            catch { }
+        }
     }
 }
