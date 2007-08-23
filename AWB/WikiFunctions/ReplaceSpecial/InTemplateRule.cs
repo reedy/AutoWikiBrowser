@@ -223,20 +223,15 @@ namespace WikiFunctions.MWB
         
         static bool CheckIf(string template, TreeNode tn, string text)
         {
-            string s = template;
-
-            if (s == "")
+            if (template == "")
                 return true;
 
-            string firstchar = s.Substring(0, 1);
-            string rest = s.Substring(1);
-
-            firstchar = firstchar.ToLower();
-
             string pattern =
-              "^[\\s]*" + "[" + firstchar.ToUpper() + firstchar + "]" + rest + "[\\s]*(\\}\\}|\\|)";
+              "^[\\s]*" + Tools.CaseInsensitive(template) + "[\\s]*(\\}\\}|\\|)";
 
             pattern = pattern.Replace(" ", "[ _]+");
+
+            text = WikiRegexes.Comments.Replace(text, "");
 
             if (!Regex.IsMatch(text, pattern))
                 return false;
@@ -256,18 +251,11 @@ namespace WikiFunctions.MWB
 
             if (r.DoReplace_ && r.ReplaceWith_ != "")
             {
-                string s = template;
-
-                if (s == "")
+                if (template == "")
                     return text;
 
-                string firstchar = s.Substring(0, 1);
-                string rest = s.Substring(1);
-
-                firstchar = firstchar.ToLower();
-
                 string pattern =
-                  "^([\\s]*)" + "[" + firstchar.ToUpper() + firstchar + "]" + rest + "([\\s]*(\\}\\}|\\|))";
+                  @"^([\s]*)" + Tools.CaseInsensitive(template) + @"((?:<!--.*-->)?[\s]*(\}\}|\|))";
 
                 pattern = pattern.Replace(" ", "[ _]+");
 
