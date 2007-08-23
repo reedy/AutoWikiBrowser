@@ -237,6 +237,17 @@
   <ItemGroup>
     <Content Include="globe.ico" />
     <Content Include="Resources\AutoWikiBrowser2.png" />
+    <Content Include="Resources\button_bold.png" />
+    <Content Include="Resources\button_extlink.png" />
+    <Content Include="Resources\button_hr.png" />
+    <Content Include="Resources\button_italic.png" />
+    <Content Include="Resources\button_link.png" />
+    <Content Include="Resources\Button_lower_letter.png" />
+    <Content Include="Resources\button_math.png" />
+    <Content Include="Resources\button_nowiki.png" />
+    <Content Include="Resources\Button_redirect.png" />
+    <Content Include="Resources\Button_strike.png" />
+    <Content Include="Resources\Button_upper_letter.png" />
     <None Include="Resources\Bot Image.png" />
   </ItemGroup>
   <ItemGroup>

@@ -3480,5 +3480,152 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             ShutdownComputer();
         }
         #endregion
+
+
+
+        private void imgBold_Click(object sender, EventArgs e)
+        {
+            if (txtEdit.SelectionLength == 0)
+            {
+                txtEdit.SelectedText = "'''Bold text'''";
+                txtEdit.SelectionStart = txtEdit.SelectionStart - 12;
+                txtEdit.SelectionLength = 9;
+            }
+            else
+            {
+                txtEdit.SelectedText = "'''" + txtEdit.SelectedText + "'''";
+            }
+        }
+
+        private void imgItalics_Click(object sender, EventArgs e)
+        {
+            if (txtEdit.SelectionLength == 0)
+            {
+                txtEdit.SelectedText = "''Italic text''";
+                txtEdit.SelectionStart = txtEdit.SelectionStart - 13;
+                txtEdit.SelectionLength = 11;
+            }
+            else
+            {
+                txtEdit.SelectedText = "''" + txtEdit.SelectedText + "''";
+            }
+        }
+
+        private void imgLink_Click(object sender, EventArgs e)
+        {
+            if (txtEdit.SelectionLength == 0)
+            {
+                txtEdit.SelectedText = "[[Link title]]";
+                txtEdit.SelectionStart = txtEdit.SelectionStart - 12;
+                txtEdit.SelectionLength = 10;
+            }
+            else
+            {
+                txtEdit.SelectedText = "[[" + txtEdit.SelectedText + "]]";
+            }
+        }
+
+        private void imgExtlink_Click(object sender, EventArgs e)
+        {
+            if (txtEdit.SelectionLength == 0)
+            {
+                txtEdit.SelectedText = "[http://www.example.com link title]";
+                txtEdit.SelectionStart = txtEdit.SelectionStart - 34;
+                txtEdit.SelectionLength = 33;
+            }
+            else
+            {
+                txtEdit.SelectedText = "[" + txtEdit.SelectedText + "]";
+            }
+        }
+
+        private void imgMath_Click(object sender, EventArgs e)
+        {
+            if (txtEdit.SelectionLength == 0)
+            {
+                txtEdit.SelectedText = "<math>Insert formula here</math>";
+                txtEdit.SelectionStart = txtEdit.SelectionStart - 26;
+                txtEdit.SelectionLength = 19;
+            }
+            else
+            {
+                txtEdit.SelectedText = "<math>" + txtEdit.SelectedText + "</math>";
+            }
+        }
+
+        private void imgNowiki_Click(object sender, EventArgs e)
+        {
+            if (txtEdit.SelectionLength == 0)
+            {
+                txtEdit.SelectedText = "<nowiki>Insert non-formatted text here</nowiki>";
+                txtEdit.SelectionStart = txtEdit.SelectionStart - 39;
+                txtEdit.SelectionLength = 30;
+            }
+            else
+            {
+                txtEdit.SelectedText = "<nowiki>" + txtEdit.SelectedText + "</nowiki>";
+            }
+        }
+
+        private void imgHr_Click(object sender, EventArgs e)
+        {
+            txtEdit.SelectedText = txtEdit.SelectedText + "\r\n----\r\n";
+        }
+
+        private void imgRedirect_Click(object sender, EventArgs e)
+        {
+            if (txtEdit.SelectionLength == 0)
+            {
+                txtEdit.SelectedText = "#REDIRECT [[Insert text]]";
+                txtEdit.SelectionStart = txtEdit.SelectionStart - 13;
+                txtEdit.SelectionLength = 11;
+            }
+            else
+            {
+                txtEdit.SelectedText = "#REDIRECT [[" + txtEdit.SelectedText + "]]";
+            }
+        }
+
+        private void imgStrike_Click(object sender, EventArgs e)
+        {
+            if (txtEdit.SelectionLength == 0)
+            {
+                txtEdit.SelectedText = "<s>Strike-through text</s>";
+                txtEdit.SelectionStart = txtEdit.SelectionStart - 23;
+                txtEdit.SelectionLength = 19;
+            }
+            else
+            {
+                txtEdit.SelectedText = "<s>" + txtEdit.SelectedText + "</s>";
+            }
+        }
+
+        private void imgSup_Click(object sender, EventArgs e)
+        {
+            if (txtEdit.SelectionLength == 0)
+            {
+                txtEdit.SelectedText = "<sup>Superscript text</sup>";
+                txtEdit.SelectionStart = txtEdit.SelectionStart - 22;
+                txtEdit.SelectionLength = 16;
+            }
+            else
+            {
+                txtEdit.SelectedText = "<sup>" + txtEdit.SelectedText + "</sup>";
+            }
+        }
+
+        private void imgSub_Click(object sender, EventArgs e)
+        {
+            if (txtEdit.SelectionLength == 0)
+            {
+                txtEdit.SelectedText = "<sub>Subscript text</sub>";
+                txtEdit.SelectionStart = txtEdit.SelectionStart - 20;
+                txtEdit.SelectionLength = 14;
+            }
+            else
+            {
+                txtEdit.SelectedText = "<sub>" + txtEdit.SelectedText + "</sub>";
+            }
+        }
     }
 }
