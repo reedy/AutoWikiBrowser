@@ -107,7 +107,7 @@ namespace WikiFunctions.Parse
             }
         }
 
-        static readonly Regex HiddenMore = new Regex("⌊⌊⌊⌊M(%d*)⌋⌋⌋⌋", RegexOptions.Compiled);
+        static readonly Regex HiddenMoreRegex = new Regex("⌊⌊⌊⌊M(\\d*)⌋⌋⌋⌋", RegexOptions.Compiled);
 
         /// <summary>
         /// Hides images, external links, templates, headings, images
@@ -152,10 +152,26 @@ namespace WikiFunctions.Parse
         /// </summary>
         public string AddBackMore(string ArticleText)
         {
-            MoreHide.Reverse();
+            StringBuilder sb;
 
-            foreach (HideObject k in MoreHide)
-                ArticleText = ArticleText.Replace(k.code, k.text);
+            MatchCollection mc;
+
+            while ((mc = HiddenMoreRegex.Matches(ArticleText)).Count > 0)
+            {
+                sb = new StringBuilder(500000);
+                int pos = 0;
+
+                foreach (Match m in mc)
+                {
+                    sb.Append(ArticleText, pos, m.Index - pos);
+                    sb.Append(MoreHide[int.Parse(m.Groups[1].Value)].text);
+                    pos = m.Index + m.Value.Length;
+                }
+
+                sb.Append(ArticleText, pos, ArticleText.Length - pos);
+
+                ArticleText = sb.ToString();
+            }
 
             MoreHide.Clear();
             return ArticleText;
