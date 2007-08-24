@@ -460,6 +460,8 @@ namespace WikiFunctions
                         Namespaces[13] = "Keskustelu ohjeesta:";
                         Namespaces[14] = "Luokka:";
                         Namespaces[15] = "Keskustelu luokasta:";
+                        Namespaces[100] = "Teemasivu:";
+                        Namespaces[101] = "Keskustelu teemasivusta:";
                         break;
 
                     case LangCodeEnum.fr:
