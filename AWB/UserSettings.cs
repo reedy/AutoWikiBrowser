@@ -158,7 +158,6 @@ namespace AutoWikiBrowser
             System.Drawing.Font f = new System.Drawing.Font("Courier New", 10F, System.Drawing.FontStyle.Regular);
             txtEdit.Font = f;
             LowThreadPriority = false;
-            FlashAndBeep = true;
             Flash = true;
             Beep = true;
             Minimize = true;

@@ -155,14 +155,11 @@ namespace AutoWikiBrowser
 
                     Variables.User.UserNameChanged += UpdateUserName;
                     Variables.User.BotStatusChanged += UpdateBotStatus;
-                    Variables.User.AdminStatusChanged += UpdateAdminStatus;
-                    Variables.User.WikiStatusChanged += UpdateWikiStatus;
 
                     Variables.User.webBrowserLogin.DocumentCompleted += web4Completed;
                     Variables.User.webBrowserLogin.Navigating += web4Starting;
 
                     webBrowserEdit.Loaded += CaseWasLoad;
-                    //webBrowserEdit.Diffed += CaseWasDiff;
                     webBrowserEdit.Saved += CaseWasSaved;
                     webBrowserEdit.None += CaseWasNull;
                     webBrowserEdit.Fault += StartDelayedRestartTimer;
@@ -258,8 +255,6 @@ namespace AutoWikiBrowser
             set { chkAutoMode.Checked = value; }
         }
 
-
-
         bool bLowThreadPriority = false;
         private bool LowThreadPriority
         {
@@ -272,11 +267,6 @@ namespace AutoWikiBrowser
                 else
                     Thread.CurrentThread.Priority = ThreadPriority.Normal;
             }
-        }
-
-        private bool FlashAndBeep
-        {
-            set { bFlash = value; bBeep = value; }
         }
 
         bool bFlash = false;
@@ -796,13 +786,6 @@ namespace AutoWikiBrowser
             }
         }
 
-        //private void SkipPage(string reason)
-        //{
-        //    TheArticle.Skip(reason);
-
-        //    SkipPageReasonAlreadyProvided();
-        //}
-
         private void SkipPage(string reason)
         {
             switch (reason)
@@ -1059,10 +1042,6 @@ padding-bottom: .17em;
 border-bottom: 1px solid #aaa;
 font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to the next page.</p>");
                 }
-                //else if (TheArticle.OriginalArticleText == "")
-                //{
-
-                //}
                 else
                 {
                     webBrowserDiff.Document.Write("<html><head>" +
@@ -1077,7 +1056,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             {
                 ErrorHandler.Handle(ex);
             }
-            //*/
         }
 
         private void GetPreview()
@@ -1201,10 +1179,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void panelShowHide()
         {
-            if (panel1.Visible)
-            { panel1.Hide(); }
-            else
-            { panel1.Show(); }
+            if (panel1.Visible) panel1.Hide();
+            else panel1.Show();
+
             setBrowserSize();
         }
 
@@ -1371,12 +1348,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             lblOnlyBots.Visible = !Variables.User.IsBot;
         }
 
-        private void UpdateAdminStatus(object sender, EventArgs e)
-        { }
-
-        private void UpdateWikiStatus(object sender, EventArgs e)
-        { }
-
         private void chkAutoMode_CheckedChanged(object sender, EventArgs e)
         {
             if (BotMode)
@@ -1498,8 +1469,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 DialogResult yesnocancel = MessageBox.Show("This version is not enabled, please download the newest version. If you have the newest version, check that Wikipedia is online.\r\n\r\nPlease press \"Yes\" to run the AutoUpdater, \"No\" to load the download page and update manually, or \"Cancel\" to not update (but you will not be able to edit).", "Problem", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information);
                 if (yesnocancel == DialogResult.Yes)
                     runUpdater();
-
-                if (yesnocancel == DialogResult.No)
+                else if (yesnocancel == DialogResult.No)
                 {
                     try
                     {
@@ -1686,9 +1656,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             {
                 TheArticle.EditSummary = "";
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         private void btnFind_Click(object sender, EventArgs e)
@@ -1752,8 +1720,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             logOutDebugToolStripMenuItem.Visible = true;
             bypassAllRedirectsToolStripMenuItem.Enabled = true;
             webBrowserEdit.IsWebBrowserContextMenuEnabled = true;
-            toolStripSeparator24.Visible = true;
-            recycleWebControlToolStripMenuItem.Visible = true;
 
             prof = new Profiler("profiling.txt", true);
         }
@@ -1850,9 +1816,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             bool enabled = listMaker1.NumberOfArticles > 0;
             SetStartButton(enabled);
 
-            //    btnMove.Visible = Variables.User.IsAdmin;
-            //    btnDelete.Visible = Variables.User.IsAdmin;
-
             listMaker1.ButtonsEnabled = enabled;
             lbltsNumberofItems.Text = "Articles: " + listMaker1.NumberOfArticles.ToString();
             bypassAllRedirectsToolStripMenuItem.Enabled = Variables.User.IsAdmin;
@@ -1869,7 +1832,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private void DisableButtons()
         {
             SetStartButton(false);
-
             SetButtons(false);
 
             if (listMaker1.NumberOfArticles == 0)
@@ -3032,9 +2994,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private void showToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!this.Visible)
-            {
                 toolStripHide();
-            }
         }
 
         private void hideToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3302,49 +3262,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             TheArticle.OriginalArticleText = webBrowserEdit.GetArticleText();
         }
 
-        private void recycleWebControl()
-        {
-            webBrowserEdit.Dispose();
-            webBrowserEdit = new WebControl();
-            
-            webBrowserEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
-            webBrowserEdit.ArticleText = "";
-            webBrowserEdit.Busy = false;
-            webBrowserEdit.ContextMenuStrip = this.mnuWebBrowser;
-            webBrowserEdit.IsWebBrowserContextMenuEnabled = false;
-            webBrowserEdit.Location = new System.Drawing.Point(0, 25);
-            webBrowserEdit.MinimumSize = new System.Drawing.Size(20, 20);
-            webBrowserEdit.Name = "webBrowserEdit";
-            webBrowserEdit.ProcessStage = WikiFunctions.Browser.enumProcessStage.none;
-            webBrowserEdit.ScriptErrorsSuppressed = true;
-            webBrowserEdit.Size = new System.Drawing.Size(788, 195);
-            webBrowserEdit.TabIndex = 670;
-            webBrowserEdit.TabStop = false;
-            webBrowserEdit.TimeoutLimit = 30;
-            webBrowserEdit.WebBrowserShortcutsEnabled = false;
-            webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
-            webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
-
-            webBrowserEdit.Loaded += CaseWasLoad;
-            //webBrowserEdit.Diffed += CaseWasDiff;
-            webBrowserEdit.Saved += CaseWasSaved;
-            webBrowserEdit.None += CaseWasNull;
-            webBrowserEdit.Fault += StartDelayedRestartTimer;
-            webBrowserEdit.StatusChanged += UpdateWebBrowserStatus;
-
-            webBrowserEdit.Visible = true;
-            webBrowserEdit.Show();
-            webBrowserEdit.BringToFront();
-        }
-
-        private void recycleWebControlToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            recycleWebControl();
-            Application.DoEvents();
-        }
-
         private void chkSkipNonExistent_CheckedChanged(object sender, EventArgs e)
         {
             if (chkSkipNonExistent.Checked)
@@ -3502,8 +3419,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void ShutdownComputer()
         {
-            if (Tools.WriteDebugEnabled == false)
-            {
                 if (radHibernate.Checked)
                     Application.SetSuspendState(PowerState.Hibernate, true, true);
                 else if (radRestart.Checked)
@@ -3512,7 +3427,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                     System.Diagnostics.Process.Start("shutdown", "-s");
                 else if (radStandby.Checked)
                     Application.SetSuspendState(PowerState.Suspend, true, true);
-            }
         }
 
         private void ShutdownTimer_Tick(object sender, EventArgs e)
@@ -3520,8 +3434,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             ShutdownComputer();
         }
         #endregion
-
-
 
         private void imgBold_Click(object sender, EventArgs e)
         {

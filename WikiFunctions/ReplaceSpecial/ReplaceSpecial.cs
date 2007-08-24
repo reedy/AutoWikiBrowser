@@ -726,15 +726,8 @@ namespace WikiFunctions.MWB
             RulesTreeView.BeginUpdate();
             foreach (TreeNode node in RulesTreeView.Nodes)
             {
-                switch(collapsed)
-                {
-                    case true:
-                        node.Collapse();
-                        break;
-                    case false:
-                        node.ExpandAll();
-                        break;
-                }
+                if (collapsed) node.Collapse();
+                else node.ExpandAll();
             }
             RulesTreeView.EndUpdate();
         }
