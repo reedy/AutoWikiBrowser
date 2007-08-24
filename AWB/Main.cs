@@ -571,15 +571,11 @@ namespace AutoWikiBrowser
 
         private void bleepflash()
         {
-            if (!this.ContainsFocus && (Beep && Flash))
+            if (!this.ContainsFocus)
             {
-                Tools.FlashWindow(this);
-                Tools.Beep1();
+                if (Flash) Tools.FlashWindow(this);
+                if (Beep) Tools.Beep1();
             }
-            else if (!this.ContainsFocus && Flash)
-                Tools.FlashWindow(this);
-            else if (!this.ContainsFocus && Beep)
-                Tools.Beep1();
         }
 
         private bool loadSuccess()
@@ -1094,6 +1090,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             skippable = false;
             webBrowserEdit.ShowPreview();
             EnableButtons();
+            bleepflash();
         }
 
         private void Save()
