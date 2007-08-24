@@ -155,6 +155,8 @@ namespace AutoWikiBrowser
 
                     Variables.User.UserNameChanged += UpdateUserName;
                     Variables.User.BotStatusChanged += UpdateBotStatus;
+                    Variables.User.AdminStatusChanged += UpdateAdminStatus;
+                    Variables.User.WikiStatusChanged += UpdateWikiStatus; 
 
                     Variables.User.webBrowserLogin.DocumentCompleted += web4Completed;
                     Variables.User.webBrowserLogin.Navigating += web4Starting;
@@ -1347,6 +1349,12 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 chkQuickSave.Checked = Variables.User.IsBot;
             lblOnlyBots.Visible = !Variables.User.IsBot;
         }
+
+         private void UpdateAdminStatus(object sender, EventArgs e)   
+          { }   
+     
+          private void UpdateWikiStatus(object sender, EventArgs e)   
+          { } 
 
         private void chkAutoMode_CheckedChanged(object sender, EventArgs e)
         {
