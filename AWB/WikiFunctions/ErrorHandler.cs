@@ -22,7 +22,7 @@ namespace WikiFunctions
             Text = Application.ProductName;
         }
 
-        public static void Handle(Exception ex)
+        new public static void Handle(Exception ex)
         {
             ErrorHandler Handler = new ErrorHandler();
 
