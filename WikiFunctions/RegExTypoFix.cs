@@ -87,7 +87,7 @@ namespace WikiFunctions.Parse
             //to avoid running 2K regexps on them
             Match m = RemoveTail.Match(ArticleText);
             string Tail = m.Value;
-            ArticleText = ArticleText.Remove(m.Index);
+            if (Tail != "") ArticleText = ArticleText.Remove(m.Index);
 
             string OriginalText = ArticleText;
             string Replace = "";
