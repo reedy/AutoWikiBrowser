@@ -468,8 +468,6 @@ namespace WikiFunctions.Browser
 
             if (Watch1)
                 this.Document.GetElementById("wpWatchthis").SetAttribute("checked", "checked");
-            else if (!Watch1)
-                this.Document.GetElementById("wpWatchthis").SetAttribute("checked", "");
 
             Watch = Watch1;
         }
