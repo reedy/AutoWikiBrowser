@@ -347,13 +347,12 @@ namespace WikiFunctions.Parse
                 InterWikiList.Add("[[" + m.Groups[1].Value.ToLower() + ":" + m.Groups[2].Value + "]]");
             }
 
+            string interWikiComment = "";
             if (InterLangRegex.IsMatch(ArticleText))
             {
-                string interWikiComment = "";
 
                 interWikiComment = InterLangRegex.Match(ArticleText).Value;
                 ArticleText = ArticleText.Replace(interWikiComment, "");
-                InterWikiList.Add(interWikiComment);
             }
 
             ArticleText = FastIW.Replace(ArticleText, "");
@@ -366,6 +365,8 @@ namespace WikiFunctions.Parse
             {
                 //keeps existing order
             }
+
+            if (interWikiComment != "") InterWikiList.Insert(0, interWikiComment);
 
             return InterWikiList;
         }
