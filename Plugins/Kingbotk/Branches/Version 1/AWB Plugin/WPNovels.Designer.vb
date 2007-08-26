@@ -23,6 +23,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.components = New System.ComponentModel.Container
             Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
             Me.WorkgroupsGroupBox = New System.Windows.Forms.GroupBox
+            Me.AustralianCheckBox = New System.Windows.Forms.CheckBox
             Me.SFCheckBox = New System.Windows.Forms.CheckBox
             Me.ShortStoryCheckBox = New System.Windows.Forms.CheckBox
             Me.CrimeCheckBox = New System.Windows.Forms.CheckBox
@@ -36,6 +37,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.TaskForcesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.ShortStoriesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
+            Me.AustralianToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.CrimeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.ScienceFictionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator
@@ -59,21 +61,33 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             '
             'WorkgroupsGroupBox
             '
+            Me.WorkgroupsGroupBox.Controls.Add(Me.AustralianCheckBox)
             Me.WorkgroupsGroupBox.Controls.Add(Me.SFCheckBox)
             Me.WorkgroupsGroupBox.Controls.Add(Me.ShortStoryCheckBox)
             Me.WorkgroupsGroupBox.Controls.Add(Me.CrimeCheckBox)
             Me.WorkgroupsGroupBox.Location = New System.Drawing.Point(141, 6)
             Me.WorkgroupsGroupBox.Name = "WorkgroupsGroupBox"
-            Me.WorkgroupsGroupBox.Size = New System.Drawing.Size(123, 82)
+            Me.WorkgroupsGroupBox.Size = New System.Drawing.Size(123, 113)
             Me.WorkgroupsGroupBox.TabIndex = 2
             Me.WorkgroupsGroupBox.TabStop = False
             Me.WorkgroupsGroupBox.Text = "Workgroups"
             Me.ToolTip1.SetToolTip(Me.WorkgroupsGroupBox, "a&e-work-group=yes")
             '
+            'AustralianCheckBox
+            '
+            Me.AustralianCheckBox.AutoSize = True
+            Me.AustralianCheckBox.Location = New System.Drawing.Point(6, 19)
+            Me.AustralianCheckBox.Name = "AustralianCheckBox"
+            Me.AustralianCheckBox.Size = New System.Drawing.Size(72, 17)
+            Me.AustralianCheckBox.TabIndex = 9
+            Me.AustralianCheckBox.Text = "Australian"
+            Me.ToolTip1.SetToolTip(Me.AustralianCheckBox, "military-work-group=yes")
+            Me.AustralianCheckBox.UseVisualStyleBackColor = True
+            '
             'SFCheckBox
             '
             Me.SFCheckBox.AutoSize = True
-            Me.SFCheckBox.Location = New System.Drawing.Point(6, 63)
+            Me.SFCheckBox.Location = New System.Drawing.Point(6, 87)
             Me.SFCheckBox.Name = "SFCheckBox"
             Me.SFCheckBox.Size = New System.Drawing.Size(39, 17)
             Me.SFCheckBox.TabIndex = 8
@@ -84,7 +98,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             'ShortStoryCheckBox
             '
             Me.ShortStoryCheckBox.AutoSize = True
-            Me.ShortStoryCheckBox.Location = New System.Drawing.Point(6, 41)
+            Me.ShortStoryCheckBox.Location = New System.Drawing.Point(6, 65)
             Me.ShortStoryCheckBox.Name = "ShortStoryCheckBox"
             Me.ShortStoryCheckBox.Size = New System.Drawing.Size(78, 17)
             Me.ShortStoryCheckBox.TabIndex = 3
@@ -95,7 +109,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             'CrimeCheckBox
             '
             Me.CrimeCheckBox.AutoSize = True
-            Me.CrimeCheckBox.Location = New System.Drawing.Point(6, 19)
+            Me.CrimeCheckBox.Location = New System.Drawing.Point(6, 42)
             Me.CrimeCheckBox.Name = "CrimeCheckBox"
             Me.CrimeCheckBox.Size = New System.Drawing.Size(52, 17)
             Me.CrimeCheckBox.TabIndex = 3
@@ -150,130 +164,136 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             '
             Me.TextInsertContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.WPNovelsToolStripMenuItem})
             Me.TextInsertContextMenuStrip.Name = "TextInsertContextMenuStrip"
-            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(123, 26)
+            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(153, 48)
             '
             'WPNovelsToolStripMenuItem
             '
             Me.WPNovelsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NovelsWikiProjectToolStripMenuItem, Me.TaskForcesToolStripMenuItem, Me.ToolStripSeparator2, Me.NeedsAttentionToolStripMenuItem, Me.NovelinfoboxneededToolStripMenuItem, Me.NovelinfoboxincompToolStripMenuItem, Me.CoverNeededToolStripMenuItem, Me.StCoverNeededToolStripMenuItem, Me.ToolStripSeparator4, Me.CollaborationCandidateToolStripMenuItem, Me.PastCollaborationToolStripMenuItem, Me.PeerReviewToolStripMenuItem, Me.OldPeerReviewToolStripMenuItem, Me.ToolStripSeparator3, Me.AutotaggedToolStripMenuItem, Me.ClassListToolStripMenuItem})
             Me.WPNovelsToolStripMenuItem.Name = "WPNovelsToolStripMenuItem"
-            Me.WPNovelsToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
+            Me.WPNovelsToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
             Me.WPNovelsToolStripMenuItem.Text = "WPNovels"
             '
             'NovelsWikiProjectToolStripMenuItem
             '
             Me.NovelsWikiProjectToolStripMenuItem.Name = "NovelsWikiProjectToolStripMenuItem"
-            Me.NovelsWikiProjectToolStripMenuItem.Size = New System.Drawing.Size(189, 22)
+            Me.NovelsWikiProjectToolStripMenuItem.Size = New System.Drawing.Size(200, 22)
             Me.NovelsWikiProjectToolStripMenuItem.Text = "{{NovelsWikiProject}}"
             '
             'TaskForcesToolStripMenuItem
             '
-            Me.TaskForcesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShortStoriesToolStripMenuItem, Me.ToolStripSeparator1, Me.CrimeToolStripMenuItem, Me.ScienceFictionToolStripMenuItem})
+            Me.TaskForcesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShortStoriesToolStripMenuItem, Me.ToolStripSeparator1, Me.AustralianToolStripMenuItem, Me.CrimeToolStripMenuItem, Me.ScienceFictionToolStripMenuItem})
             Me.TaskForcesToolStripMenuItem.Name = "TaskForcesToolStripMenuItem"
-            Me.TaskForcesToolStripMenuItem.Size = New System.Drawing.Size(189, 22)
+            Me.TaskForcesToolStripMenuItem.Size = New System.Drawing.Size(200, 22)
             Me.TaskForcesToolStripMenuItem.Text = "Task Forces"
             '
             'ShortStoriesToolStripMenuItem
             '
             Me.ShortStoriesToolStripMenuItem.Name = "ShortStoriesToolStripMenuItem"
-            Me.ShortStoriesToolStripMenuItem.Size = New System.Drawing.Size(144, 22)
+            Me.ShortStoriesToolStripMenuItem.Size = New System.Drawing.Size(155, 22)
             Me.ShortStoriesToolStripMenuItem.Text = "Short Stories"
             '
             'ToolStripSeparator1
             '
             Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-            Me.ToolStripSeparator1.Size = New System.Drawing.Size(141, 6)
+            Me.ToolStripSeparator1.Size = New System.Drawing.Size(152, 6)
+            '
+            'AustralianToolStripMenuItem
+            '
+            Me.AustralianToolStripMenuItem.Name = "AustralianToolStripMenuItem"
+            Me.AustralianToolStripMenuItem.Size = New System.Drawing.Size(155, 22)
+            Me.AustralianToolStripMenuItem.Text = "Australian"
             '
             'CrimeToolStripMenuItem
             '
             Me.CrimeToolStripMenuItem.Name = "CrimeToolStripMenuItem"
-            Me.CrimeToolStripMenuItem.Size = New System.Drawing.Size(144, 22)
+            Me.CrimeToolStripMenuItem.Size = New System.Drawing.Size(155, 22)
             Me.CrimeToolStripMenuItem.Text = "Crime"
             '
             'ScienceFictionToolStripMenuItem
             '
             Me.ScienceFictionToolStripMenuItem.Name = "ScienceFictionToolStripMenuItem"
-            Me.ScienceFictionToolStripMenuItem.Size = New System.Drawing.Size(144, 22)
+            Me.ScienceFictionToolStripMenuItem.Size = New System.Drawing.Size(155, 22)
             Me.ScienceFictionToolStripMenuItem.Text = "Science Fiction"
             '
             'ToolStripSeparator2
             '
             Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-            Me.ToolStripSeparator2.Size = New System.Drawing.Size(186, 6)
+            Me.ToolStripSeparator2.Size = New System.Drawing.Size(197, 6)
             '
             'NeedsAttentionToolStripMenuItem
             '
             Me.NeedsAttentionToolStripMenuItem.Name = "NeedsAttentionToolStripMenuItem"
-            Me.NeedsAttentionToolStripMenuItem.Size = New System.Drawing.Size(189, 22)
+            Me.NeedsAttentionToolStripMenuItem.Size = New System.Drawing.Size(200, 22)
             Me.NeedsAttentionToolStripMenuItem.Text = "Needs Attention"
             '
             'NovelinfoboxneededToolStripMenuItem
             '
             Me.NovelinfoboxneededToolStripMenuItem.Name = "NovelinfoboxneededToolStripMenuItem"
-            Me.NovelinfoboxneededToolStripMenuItem.Size = New System.Drawing.Size(189, 22)
+            Me.NovelinfoboxneededToolStripMenuItem.Size = New System.Drawing.Size(200, 22)
             Me.NovelinfoboxneededToolStripMenuItem.Text = "Needs Infobox"
             '
             'NovelinfoboxincompToolStripMenuItem
             '
             Me.NovelinfoboxincompToolStripMenuItem.Name = "NovelinfoboxincompToolStripMenuItem"
-            Me.NovelinfoboxincompToolStripMenuItem.Size = New System.Drawing.Size(189, 22)
+            Me.NovelinfoboxincompToolStripMenuItem.Size = New System.Drawing.Size(200, 22)
             Me.NovelinfoboxincompToolStripMenuItem.Text = "Incomplete Infobox"
             '
             'CoverNeededToolStripMenuItem
             '
             Me.CoverNeededToolStripMenuItem.Name = "CoverNeededToolStripMenuItem"
-            Me.CoverNeededToolStripMenuItem.Size = New System.Drawing.Size(189, 22)
+            Me.CoverNeededToolStripMenuItem.Size = New System.Drawing.Size(200, 22)
             Me.CoverNeededToolStripMenuItem.Text = "Cover needed"
             '
             'StCoverNeededToolStripMenuItem
             '
             Me.StCoverNeededToolStripMenuItem.Name = "StCoverNeededToolStripMenuItem"
-            Me.StCoverNeededToolStripMenuItem.Size = New System.Drawing.Size(189, 22)
+            Me.StCoverNeededToolStripMenuItem.Size = New System.Drawing.Size(200, 22)
             Me.StCoverNeededToolStripMenuItem.Text = "1st Cover needed"
             '
             'ToolStripSeparator4
             '
             Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
-            Me.ToolStripSeparator4.Size = New System.Drawing.Size(186, 6)
+            Me.ToolStripSeparator4.Size = New System.Drawing.Size(197, 6)
             '
             'CollaborationCandidateToolStripMenuItem
             '
             Me.CollaborationCandidateToolStripMenuItem.Name = "CollaborationCandidateToolStripMenuItem"
-            Me.CollaborationCandidateToolStripMenuItem.Size = New System.Drawing.Size(189, 22)
+            Me.CollaborationCandidateToolStripMenuItem.Size = New System.Drawing.Size(200, 22)
             Me.CollaborationCandidateToolStripMenuItem.Text = "Collaboration Candidate"
             '
             'PastCollaborationToolStripMenuItem
             '
             Me.PastCollaborationToolStripMenuItem.Name = "PastCollaborationToolStripMenuItem"
-            Me.PastCollaborationToolStripMenuItem.Size = New System.Drawing.Size(189, 22)
+            Me.PastCollaborationToolStripMenuItem.Size = New System.Drawing.Size(200, 22)
             Me.PastCollaborationToolStripMenuItem.Text = "Past Collaboration"
             '
             'PeerReviewToolStripMenuItem
             '
             Me.PeerReviewToolStripMenuItem.Name = "PeerReviewToolStripMenuItem"
-            Me.PeerReviewToolStripMenuItem.Size = New System.Drawing.Size(189, 22)
+            Me.PeerReviewToolStripMenuItem.Size = New System.Drawing.Size(200, 22)
             Me.PeerReviewToolStripMenuItem.Text = "Peer Review"
             '
             'OldPeerReviewToolStripMenuItem
             '
             Me.OldPeerReviewToolStripMenuItem.Name = "OldPeerReviewToolStripMenuItem"
-            Me.OldPeerReviewToolStripMenuItem.Size = New System.Drawing.Size(189, 22)
+            Me.OldPeerReviewToolStripMenuItem.Size = New System.Drawing.Size(200, 22)
             Me.OldPeerReviewToolStripMenuItem.Text = "Old Peer Review"
             '
             'ToolStripSeparator3
             '
             Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-            Me.ToolStripSeparator3.Size = New System.Drawing.Size(186, 6)
+            Me.ToolStripSeparator3.Size = New System.Drawing.Size(197, 6)
             '
             'AutotaggedToolStripMenuItem
             '
             Me.AutotaggedToolStripMenuItem.Name = "AutotaggedToolStripMenuItem"
-            Me.AutotaggedToolStripMenuItem.Size = New System.Drawing.Size(189, 22)
+            Me.AutotaggedToolStripMenuItem.Size = New System.Drawing.Size(200, 22)
             Me.AutotaggedToolStripMenuItem.Text = "Auto-tagged"
             '
             'ClassListToolStripMenuItem
             '
             Me.ClassListToolStripMenuItem.Name = "ClassListToolStripMenuItem"
-            Me.ClassListToolStripMenuItem.Size = New System.Drawing.Size(189, 22)
+            Me.ClassListToolStripMenuItem.Size = New System.Drawing.Size(200, 22)
             Me.ClassListToolStripMenuItem.Text = "class=List"
             '
             'WPNovelSettings
@@ -327,6 +347,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Private WithEvents ToolStripSeparator3 As System.Windows.Forms.ToolStripSeparator
         Private WithEvents AutotaggedToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
         Private WithEvents StCoverNeededToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+        Private WithEvents AustralianCheckBox As System.Windows.Forms.CheckBox
+        Friend WithEvents AustralianToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
     End Class
 End Namespace

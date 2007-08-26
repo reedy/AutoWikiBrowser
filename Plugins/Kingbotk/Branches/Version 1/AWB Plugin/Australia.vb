@@ -8,6 +8,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Private Const conMilitaryParm As String = "AusMilitary"
         Private Const conLawParm As String = "AusLaw"
         Private Const conCrimeParm As String = "AusCrime"
+        Private Const conMusicParm As String = "AusMusic"
         Private Const conV8Parm As String = "AusV8"
         Private Const conNRLParm As String = "AusNRL"
         Private Const conNBLParm As String = "AusNBL"
@@ -32,6 +33,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Place = PluginManager.XMLReadBoolean(Reader, conPlaceParm, Place)
             Military = PluginManager.XMLReadBoolean(Reader, conMilitaryParm, Military)
             Law = PluginManager.XMLReadBoolean(Reader, conLawParm, Law)
+            Music = PluginManager.XMLReadBoolean(Reader, conMusicParm, Music)
             Crime = PluginManager.XMLReadBoolean(Reader, conCrimeParm, Crime)
             V8 = PluginManager.XMLReadBoolean(Reader, conV8Parm, V8)
             NRL = PluginManager.XMLReadBoolean(Reader, conNRLParm, NRL)
@@ -57,6 +59,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 .WriteAttributeString(conPlaceParm, Place.ToString)
                 .WriteAttributeString(conMilitaryParm, Military.ToString)
                 .WriteAttributeString(conLawParm, Law.ToString)
+                .WriteAttributeString(conMusic, Music.ToString())
                 .WriteAttributeString(conCrimeParm, Crime.ToString)
                 .WriteAttributeString(conV8Parm, V8.ToString)
                 .WriteAttributeString(conNRLParm, NRL.ToString)
@@ -109,6 +112,14 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             End Get
             Set(ByVal value As Boolean)
                 PlaceCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Music() As Boolean
+            Get
+                Return MusicCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                MusicCheckBox.Checked = value
             End Set
         End Property
         Friend Property Military() As Boolean
@@ -384,6 +395,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 If .Military Then AddAndLogNewParamWithAYesValue("military")
                 If .Place Then AddAndLogNewParamWithAYesValue("place")
                 If .Politics Then AddAndLogNewParamWithAYesValue("politics")
+                If .Music Then AddAndLogNewParamWithAYesValue("music")
             End With
         End Sub
         Protected Overrides Function TemplateFound() As Boolean
