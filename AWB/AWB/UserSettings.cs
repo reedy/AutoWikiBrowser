@@ -130,6 +130,7 @@ namespace AutoWikiBrowser
             chkSkipExistent.Checked = false;
             doNotAutomaticallyDoAnythingToolStripMenuItem.Checked = false;
             chkSkipNoChanges.Checked = false;
+            chkSkipSpamFilter.Checked = false;
             toolStripComboOnLoad.SelectedIndex = 0;
             ignoreNoBotsToolStripMenuItem.Checked = false;
             markAllAsMinorToolStripMenuItem.Checked = false;
@@ -307,7 +308,7 @@ namespace AutoWikiBrowser
                 chkSkipNoCatChange.Checked, chkSkipNoImgChange.Checked, chkAppend.Checked, !rdoPrepend.Checked,
                 txtAppendMessage.Text, (int)nudBotSpeed.Value, chkQuickSave.Checked, chkSuppressTag.Checked,
                 chkRegExTypo.Checked), new ListPrefs(listMaker1, SaveArticleList),
-                new SkipPrefs(chkSkipNonExistent.Checked, chkSkipExistent.Checked, chkSkipNoChanges.Checked,
+                new SkipPrefs(chkSkipNonExistent.Checked, chkSkipExistent.Checked, chkSkipNoChanges.Checked, chkSkipSpamFilter.Checked,
                 chkSkipIfContains.Checked, chkSkipIfNotContains.Checked, txtSkipIfContains.Text,
                 txtSkipIfNotContains.Text, chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked,
                 chkSkipWhenNoFAR.Checked, chkSkipIfNoRegexTypo.Checked, chkSkipNoDab.Checked, Skip.SelectedItem),
@@ -381,6 +382,7 @@ namespace AutoWikiBrowser
             chkSkipNonExistent.Checked = p.SkipOptions.SkipNonexistent;
             chkSkipExistent.Checked = p.SkipOptions.Skipexistent;
             chkSkipNoChanges.Checked = p.SkipOptions.SkipWhenNoChanges;
+            chkSkipSpamFilter.Checked = p.SkipOptions.SkipSpamFilterBlocked;
 
             chkSkipIfContains.Checked = p.SkipOptions.SkipDoes;
             chkSkipIfNotContains.Checked = p.SkipOptions.SkipDoesNot;
