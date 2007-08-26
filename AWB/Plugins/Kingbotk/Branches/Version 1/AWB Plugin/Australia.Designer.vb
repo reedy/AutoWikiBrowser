@@ -49,6 +49,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.TopicsGroupBox = New System.Windows.Forms.GroupBox
             Me.NBLCheckBox = New System.Windows.Forms.CheckBox
             Me.LinkLabel1 = New System.Windows.Forms.LinkLabel
+            Me.MusicCheckBox = New System.Windows.Forms.CheckBox
             Me.ParametersGroup.SuspendLayout()
             Me.TopicsGroupBox.SuspendLayout()
             Me.SuspendLayout()
@@ -56,7 +57,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             'TextInsertContextMenuStrip
             '
             Me.TextInsertContextMenuStrip.Name = "TextInsertContextMenuStrip"
-            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(153, 26)
+            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(61, 4)
             '
             'StubClassCheckBox
             '
@@ -299,6 +300,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             '
             'TopicsGroupBox
             '
+            Me.TopicsGroupBox.Controls.Add(Me.MusicCheckBox)
             Me.TopicsGroupBox.Controls.Add(Me.NBLCheckBox)
             Me.TopicsGroupBox.Controls.Add(Me.SportCheckBox)
             Me.TopicsGroupBox.Controls.Add(Me.PoliticsCheckBox)
@@ -346,6 +348,16 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.LinkLabel1.TabIndex = 9
             Me.LinkLabel1.TabStop = True
             Me.LinkLabel1.Text = "{{WP Australia}}"
+            '
+            'MusicCheckBox
+            '
+            Me.MusicCheckBox.AutoSize = True
+            Me.MusicCheckBox.Location = New System.Drawing.Point(91, 130)
+            Me.MusicCheckBox.Name = "MusicCheckBox"
+            Me.MusicCheckBox.Size = New System.Drawing.Size(54, 17)
+            Me.MusicCheckBox.TabIndex = 23
+            Me.MusicCheckBox.Text = "Music"
+            Me.MusicCheckBox.UseVisualStyleBackColor = True
             '
             'AustraliaSettings
             '
@@ -395,6 +407,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Private WithEvents TopicsGroupBox As System.Windows.Forms.GroupBox
         Private WithEvents LinkLabel1 As System.Windows.Forms.LinkLabel
         Private WithEvents NBLCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents MusicCheckBox As System.Windows.Forms.CheckBox
 
     End Class
 End Namespace
