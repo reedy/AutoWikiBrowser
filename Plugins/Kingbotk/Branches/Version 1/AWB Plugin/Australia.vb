@@ -59,7 +59,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 .WriteAttributeString(conPlaceParm, Place.ToString)
                 .WriteAttributeString(conMilitaryParm, Military.ToString)
                 .WriteAttributeString(conLawParm, Law.ToString)
-                .WriteAttributeString(conMusic, Music.ToString())
+                .WriteAttributeString(conMusicParm, Music.ToString())
                 .WriteAttributeString(conCrimeParm, Crime.ToString)
                 .WriteAttributeString(conV8Parm, V8.ToString)
                 .WriteAttributeString(conNRLParm, NRL.ToString)
