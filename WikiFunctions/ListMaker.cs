@@ -831,8 +831,11 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public void Filter()
         {
-            SpecialFilter.Show(this);
-            SpecialFilter.lb = lbArticles;
+            if (!SpecialFilter.Visible)
+            {
+                SpecialFilter.Show(this);
+                SpecialFilter.lb = lbArticles;
+            }
         }
 
         /// <summary>
