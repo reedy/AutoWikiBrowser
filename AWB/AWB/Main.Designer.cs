@@ -3084,6 +3084,7 @@ namespace AutoWikiBrowser
             // 
             // imgSub
             // 
+            this.imgSub.Enabled = false;
             this.imgSub.Image = global::AutoWikiBrowser.Properties.Resources.Button_lower_letter;
             this.imgSub.Location = new System.Drawing.Point(236, 6);
             this.imgSub.Name = "imgSub";
@@ -3095,6 +3096,7 @@ namespace AutoWikiBrowser
             // 
             // imgSup
             // 
+            this.imgSup.Enabled = false;
             this.imgSup.Image = global::AutoWikiBrowser.Properties.Resources.Button_upper_letter;
             this.imgSup.Location = new System.Drawing.Point(213, 6);
             this.imgSup.Name = "imgSup";
@@ -3106,6 +3108,7 @@ namespace AutoWikiBrowser
             // 
             // imgStrike
             // 
+            this.imgStrike.Enabled = false;
             this.imgStrike.Image = global::AutoWikiBrowser.Properties.Resources.Button_strike;
             this.imgStrike.Location = new System.Drawing.Point(190, 6);
             this.imgStrike.Name = "imgStrike";
@@ -3117,6 +3120,7 @@ namespace AutoWikiBrowser
             // 
             // imgRedirect
             // 
+            this.imgRedirect.Enabled = false;
             this.imgRedirect.Image = global::AutoWikiBrowser.Properties.Resources.Button_redirect;
             this.imgRedirect.Location = new System.Drawing.Point(167, 6);
             this.imgRedirect.Name = "imgRedirect";
@@ -3128,6 +3132,7 @@ namespace AutoWikiBrowser
             // 
             // imgHr
             // 
+            this.imgHr.Enabled = false;
             this.imgHr.Image = global::AutoWikiBrowser.Properties.Resources.button_hr;
             this.imgHr.Location = new System.Drawing.Point(144, 6);
             this.imgHr.Name = "imgHr";
@@ -3139,6 +3144,7 @@ namespace AutoWikiBrowser
             // 
             // imgNowiki
             // 
+            this.imgNowiki.Enabled = false;
             this.imgNowiki.Image = global::AutoWikiBrowser.Properties.Resources.button_nowiki;
             this.imgNowiki.Location = new System.Drawing.Point(121, 6);
             this.imgNowiki.Name = "imgNowiki";
@@ -3150,6 +3156,7 @@ namespace AutoWikiBrowser
             // 
             // imgMath
             // 
+            this.imgMath.Enabled = false;
             this.imgMath.Image = global::AutoWikiBrowser.Properties.Resources.button_math;
             this.imgMath.Location = new System.Drawing.Point(98, 6);
             this.imgMath.Name = "imgMath";
@@ -3161,6 +3168,7 @@ namespace AutoWikiBrowser
             // 
             // imgExtlink
             // 
+            this.imgExtlink.Enabled = false;
             this.imgExtlink.Image = global::AutoWikiBrowser.Properties.Resources.button_extlink;
             this.imgExtlink.Location = new System.Drawing.Point(75, 6);
             this.imgExtlink.Name = "imgExtlink";
@@ -3172,6 +3180,7 @@ namespace AutoWikiBrowser
             // 
             // imgLink
             // 
+            this.imgLink.Enabled = false;
             this.imgLink.Image = global::AutoWikiBrowser.Properties.Resources.button_link;
             this.imgLink.Location = new System.Drawing.Point(52, 6);
             this.imgLink.Name = "imgLink";
@@ -3183,6 +3192,7 @@ namespace AutoWikiBrowser
             // 
             // imgItalics
             // 
+            this.imgItalics.Enabled = false;
             this.imgItalics.Image = global::AutoWikiBrowser.Properties.Resources.button_italic;
             this.imgItalics.Location = new System.Drawing.Point(29, 6);
             this.imgItalics.Name = "imgItalics";
@@ -3194,6 +3204,7 @@ namespace AutoWikiBrowser
             // 
             // imgBold
             // 
+            this.imgBold.Enabled = false;
             this.imgBold.Image = global::AutoWikiBrowser.Properties.Resources.button_bold;
             this.imgBold.Location = new System.Drawing.Point(6, 6);
             this.imgBold.Name = "imgBold";
