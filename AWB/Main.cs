@@ -370,6 +370,7 @@ namespace AutoWikiBrowser
 
                 //check edit summary
                 txtEdit.Enabled = true;
+                SetToolBarEnabled(true);
                 txtEdit.Text = "";
                 webBrowserEdit.BringToFront();
                 if (cmboEditSummary.Text == "" && Plugin.Items.Count == 0)
@@ -3590,6 +3591,13 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             {
                 txtEdit.SelectedText = "<sub>" + txtEdit.SelectedText + "</sub>";
             }
+        }
+
+        private void SetToolBarEnabled(bool Enabled)
+        {
+            imgBold.Enabled = imgExtlink.Enabled = imgHr.Enabled = imgItalics.Enabled = imgLink.Enabled =
+            imgMath.Enabled = imgNowiki.Enabled = imgRedirect.Enabled = imgStrike.Enabled = imgSub.Enabled =
+            imgSup.Enabled = Enabled;
         }
     }
 }
