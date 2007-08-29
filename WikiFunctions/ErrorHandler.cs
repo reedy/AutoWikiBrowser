@@ -44,7 +44,8 @@ namespace WikiFunctions
             Handler.txtDetails.Text = "{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = Exception: " + ex.GetType().Name + "\r\nMessage: " +
                 ex.Message + "\r\nCall stack:" + ex.StackTrace + "\r\n~~~~\r\n | OS          = " + Environment.OSVersion.ToString() + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-            if (CurrentArticle != null && CurrentArticle != "") Handler.txtDetails.Text +=
+            if (CurrentArticle != null && CurrentArticle != "" && 
+                ex.StackTrace.Contains("AutoWikiBrowser.MainForm.ProcessPage(")) Handler.txtDetails.Text +=
                 "\r\n | duplicate = [encountered while processing page ''[[:"+CurrentArticle+"]]'']";
 
             Handler.txtDetails.Text += "\r\n}}";
