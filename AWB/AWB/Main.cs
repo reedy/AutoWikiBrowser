@@ -410,6 +410,7 @@ namespace AutoWikiBrowser
                     webBrowserEdit.Busy = true;
 
                 TheArticle = new ArticleEx(listMaker1.SelectedArticle().Name);
+                ErrorHandler.CurrentArticle = TheArticle.Name;
                 NewHistory();
 
                 if (!Tools.IsValidTitle(TheArticle.Name))

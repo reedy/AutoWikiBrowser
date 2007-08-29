@@ -10,8 +10,16 @@ using System.Reflection;
 
 namespace WikiFunctions
 {
+    /// <summary>
+    /// This class provides helper functions for handling errors and displaying them to users
+    /// </summary>
     public partial class ErrorHandler : Form
     {
+        /// <summary>
+        /// title of the page currently being processed
+        /// </summary>
+        public static string CurrentArticle;
+
         public ErrorHandler()
         {
             InitializeComponent();
@@ -22,6 +30,10 @@ namespace WikiFunctions
             Text = Application.ProductName;
         }
 
+        /// <summary>
+        /// Displays exception information. Should be called from try...catch handlers
+        /// </summary>
+        /// <param name="ex">Exception object to handle</param>
         new public static void Handle(Exception ex)
         {
             ErrorHandler Handler = new ErrorHandler();
@@ -30,7 +42,12 @@ namespace WikiFunctions
 
 
             Handler.txtDetails.Text = "{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = Exception: " + ex.GetType().Name + "\r\nMessage: " +
-                ex.Message + "\r\nCall stack:" + ex.StackTrace + "\r\n~~~~\r\n | OS          = " + Environment.OSVersion.ToString() + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version.ToString() + "\r\n}}";
+                ex.Message + "\r\nCall stack:" + ex.StackTrace + "\r\n~~~~\r\n | OS          = " + Environment.OSVersion.ToString() + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+            if (CurrentArticle != null && CurrentArticle != "") Handler.txtDetails.Text +=
+                "\r\n | duplicate = [encountered while processing page ''[[:"+CurrentArticle+"]]'']";
+
+            Handler.txtDetails.Text += "\r\n}}";
 
             /*
             foreach (StackFrame frame in ex.StackTrace.)
