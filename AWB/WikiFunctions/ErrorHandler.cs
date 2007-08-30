@@ -16,9 +16,14 @@ namespace WikiFunctions
     public partial class ErrorHandler : Form
     {
         /// <summary>
-        /// title of the page currently being processed
+        /// Title of the page currently being processed
         /// </summary>
         public static string CurrentArticle;
+
+        /// <summary>
+        /// Revision of the page currently being processed
+        /// </summary>
+        public static int CurrentRevision;
 
         public ErrorHandler()
         {
@@ -44,9 +49,15 @@ namespace WikiFunctions
             Handler.txtDetails.Text = "{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = Exception: " + ex.GetType().Name + "\r\nMessage: " +
                 ex.Message + "\r\nCall stack:" + ex.StackTrace + "\r\n~~~~\r\n | OS          = " + Environment.OSVersion.ToString() + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-            if (CurrentArticle != null && CurrentArticle != "" && 
-                ex.StackTrace.Contains("AutoWikiBrowser.MainForm.ProcessPage(")) Handler.txtDetails.Text +=
-                "\r\n | duplicate = [encountered while processing page ''[[:"+CurrentArticle+"]]'']";
+            if (CurrentArticle != null && CurrentArticle != "" &&
+                ex.StackTrace.Contains("AutoWikiBrowser.MainForm.ProcessPage("))
+            {
+                string link;
+                if (CurrentRevision != 0) link = "{{permalink|" + CurrentArticle + "|" + CurrentRevision.ToString() + "}}";
+                else link = "[[:" + CurrentArticle + "]]";
+                Handler.txtDetails.Text +=
+                    "\r\n | duplicate = [encountered while processing page ''" + link + "'']";
+            }
 
             Handler.txtDetails.Text += "\r\n}}";
 

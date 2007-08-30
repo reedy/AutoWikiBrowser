@@ -474,7 +474,10 @@ namespace AutoWikiBrowser
                 webBrowserEdit.LoadEditPage(Redirect.Name);
                 return;
             }
+
             TheArticle.OriginalArticleText = strTemp;
+
+            int.TryParse(webBrowserEdit.GetScriptingVar("wgCurRevisionId"), out ErrorHandler.CurrentRevision);
 
             if (PageReload)
             {
