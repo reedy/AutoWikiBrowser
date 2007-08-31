@@ -3452,6 +3452,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         }
         #endregion
 
+        #region EditToolbar
         private void imgBold_Click(object sender, EventArgs e)
         {
             if (txtEdit.SelectionLength == 0)
@@ -3602,6 +3603,31 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             imgBold.Enabled = imgExtlink.Enabled = imgHr.Enabled = imgItalics.Enabled = imgLink.Enabled =
             imgMath.Enabled = imgNowiki.Enabled = imgRedirect.Enabled = imgStrike.Enabled = imgSub.Enabled =
             imgSup.Enabled = Enabled;
+        }
+
+        private void SetToolBarVisible(bool Visible)
+        {
+            if (Visible)
+            {
+                txtEdit.Location = new Point(txtEdit.Location.X, txtEdit.Location.Y + 32);
+                txtEdit.Size = new Size(txtEdit.Size.Width, txtEdit.Size.Height - 32);
+            }
+            else
+            {
+                txtEdit.Location = new Point(txtEdit.Location.X, txtEdit.Location.Y - 32);
+                txtEdit.Size = new Size(txtEdit.Size.Width, txtEdit.Size.Height + 32);
+            }
+
+            imgBold.Visible = imgExtlink.Visible = imgHr.Visible = imgItalics.Visible = imgLink.Visible =
+            imgMath.Visible = imgNowiki.Visible = imgRedirect.Visible = imgStrike.Visible = imgSub.Visible =
+            imgSup.Visible = Visible;
+        }
+#endregion
+
+        private void showHideEditToolbarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            showHideEditToolbarToolStripMenuItem.Checked = !showHideEditToolbarToolStripMenuItem.Checked;
+            SetToolBarVisible(showHideEditToolbarToolStripMenuItem.Checked);
         }
     }
 }
