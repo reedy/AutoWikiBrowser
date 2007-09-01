@@ -153,6 +153,11 @@ namespace WikiFunctions
         public static readonly Regex IPAddress = new Regex("[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}", RegexOptions.Compiled);
 
         /// <summary>
+        /// Matches <source></source> tags
+        /// </summary>
+        public static readonly Regex Source = new Regex(@"<\s*source(?:\s.*?|)>(.*?)<\s*/\s*source\s*>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+
+        /// <summary>
         /// Matches Dates like 21 January
         /// </summary>
         public static readonly Regex Dates = new Regex("^[0-9]{1,2} (January|February|March|April|May|June|July|August|September|October|November|December)$", RegexOptions.Compiled);
