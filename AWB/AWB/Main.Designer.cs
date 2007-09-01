@@ -1195,7 +1195,7 @@ namespace AutoWikiBrowser
             this.showHidePanelToolStripMenuItem.Name = "showHidePanelToolStripMenuItem";
             this.showHidePanelToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
             this.showHidePanelToolStripMenuItem.Size = new System.Drawing.Size(255, 22);
-            this.showHidePanelToolStripMenuItem.Text = "Show/Hide Bottom Panel";
+            this.showHidePanelToolStripMenuItem.Text = "Hide Bottom Panel";
             this.showHidePanelToolStripMenuItem.Click += new System.EventHandler(this.showHidePanelToolStripMenuItem_Click);
             // 
             // showHideEditToolbarToolStripMenuItem
