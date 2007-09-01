@@ -2903,7 +2903,7 @@ namespace AutoWikiBrowser
             this.txtFind.TabIndex = 26;
             this.txtFind.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFind_KeyPress);
             this.txtFind.TextChanged += new System.EventHandler(this.ResetFind);
-            this.txtFind.MouseHover += new System.EventHandler(this.FindHover);
+            this.txtFind.MouseHover += new System.EventHandler(this.txtFind_MouseHover);
             // 
             // cmboEditSummary
             // 
