@@ -41,14 +41,13 @@ namespace WikiFunctions.Parse
 
         string RawCode(string iw)
         {
-            //int i = iw.IndexOf(':');
-            //string s = iw.Substring(0, i);
             return iw.Substring(0, iw.IndexOf(':'));
-            //return s;
         }
 
         public int Compare(string x, string y)
         {
+            //should NOT be enclosed into try ... catch - I'd like to see exceptions if something goes wrong,
+            //not quiet missorting --MaxSem
             int ix = Order[RawCode(x)], iy = Order[RawCode(y)];
 
             if (ix < iy) return -1;
@@ -162,10 +161,10 @@ namespace WikiFunctions.Parse
                     no++;
                 }
 
-                InterwikiAlpha = InterwikiLocalFirst;
+                InterwikiAlpha = (string[])InterwikiLocalFirst.Clone();
                 Array.Sort(InterwikiAlpha);
 
-                string[] Temp = InterwikiAlpha;
+                string[] Temp = (string[])InterwikiAlpha.Clone();
                 Temp[Array.IndexOf(Temp, "en")] = "";
 
                 InterwikiAlphaEnFirst = new string[size + 1];
