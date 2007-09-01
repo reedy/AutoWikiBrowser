@@ -27,54 +27,44 @@ namespace WikiFunctions.Parse
         List<HideObject> NoUnformatted = new List<HideObject>();
         readonly Regex NoWikiIgnoreRegex = new Regex("<!-- ?(categories|\\{\\{.*?stub\\}\\}.*?|other languages|language links|inter ?(language|wiki)? ?links|inter ?wiki ?language ?links|inter ?wiki|The below are interlanguage links\\.?) ?-->", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
+        void Replace(MatchCollection matches, ref string ArticleText)
+        {
+            string s;
+            foreach (Match m in matches)
+            {
+                s = "⌊⌊⌊⌊" + NoEditList.Count.ToString() + "⌋⌋⌋⌋";
+                ArticleText = ArticleText.Replace(m.Value, s);
+                NoEditList.Add(new HideObject(s, m.Value));
+            }
+        }
+
         public string Hide(string ArticleText)
         {
             NoEditList.Clear();
             string s = "";
 
-            int i = 0;
+            Replace(WikiRegexes.Source.Matches(ArticleText), ref ArticleText);
+
             foreach (Match m in WikiRegexes.UnFormattedText.Matches(ArticleText))
             {
                 if (LeaveMetaHeadings && NoWikiIgnoreRegex.IsMatch(m.Value))
                     continue;
 
-                s = "⌊⌊⌊⌊" + i.ToString() + "⌋⌋⌋⌋";
+                s = "⌊⌊⌊⌊" + NoEditList.Count.ToString() + "⌋⌋⌋⌋";
 
                 ArticleText = ArticleText.Replace(m.Value, s);
                 NoEditList.Add(new HideObject(s, m.Value));
-                i++;
             }
 
             if (bHideImages)
             {
-                foreach (Match m in WikiRegexes.Images.Matches(ArticleText))
-                {
-                    s = "⌊⌊⌊⌊" + i.ToString() + "⌋⌋⌋⌋";
-
-                    ArticleText = ArticleText.Replace(m.Value, s);
-                    NoEditList.Add(new HideObject(s, m.Value));
-                    i++;
-                }
+                Replace(WikiRegexes.Images.Matches(ArticleText), ref ArticleText);
             }
 
             if (HideExternal)
             {
-                foreach (Match m in WikiRegexes.ExternalLinks.Matches(ArticleText))
-                {
-                    s = "⌊⌊⌊⌊" + i.ToString() + "⌋⌋⌋⌋";
-
-                    ArticleText = ArticleText.Replace(m.Value, s);
-                    NoEditList.Add(new HideObject(s, m.Value));
-                    i++;
-                }
-                foreach (Match m in WikiRegexes.InterWikiLinks.Matches(ArticleText))
-                {
-                    s = "⌊⌊⌊⌊" + i.ToString() + "⌋⌋⌋⌋";
-
-                    ArticleText = ArticleText.Replace(m.Value, s);
-                    NoEditList.Add(new HideObject(s, m.Value));
-                    i++;
-                }
+                Replace(WikiRegexes.ExternalLinks.Matches(ArticleText), ref ArticleText);
+                Replace(WikiRegexes.InterWikiLinks.Matches(ArticleText), ref ArticleText);
             }
 
             return ArticleText;
@@ -130,21 +120,13 @@ namespace WikiFunctions.Parse
 
             ReplaceMore(WikiRegexes.Images.Matches(ArticleText), ref ArticleText);
 
+            ReplaceMore(WikiRegexes.Source.Matches(ArticleText), ref ArticleText);
+
             if (HideExternal) ReplaceMore(WikiRegexes.ExternalLinks.Matches(ArticleText), ref ArticleText);
 
             ReplaceMore(WikiRegexes.Headings.Matches(ArticleText), ref ArticleText);
 
             ReplaceMore(WikiRegexes.IndentedText.Matches(ArticleText), ref ArticleText);
-
-            /*
-            foreach (Match m in WikiRegexes.InterWikiLinks.Matches(ArticleText))
-            {
-                s = "⌊⌊⌊⌊M" + i.ToString() + "⌋⌋⌋⌋";
-
-                ArticleText = ArticleText.Replace(m.Value, s);
-                MoreHide.Add(new HideObject(s, m.Value));
-                i++;
-            }*/
 
             ReplaceMore(WikiRegexes.UnFormattedText.Matches(ArticleText), ref ArticleText);
 
