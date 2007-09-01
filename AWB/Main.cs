@@ -106,6 +106,8 @@ namespace AutoWikiBrowser
             public MainForm()
             {
                 splash.Show(this);
+                RightToLeft = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft 
+                    ? RightToLeft.Yes : RightToLeft.No;
                 InitializeComponent();
                 splash.setProgress(5);
                 try
