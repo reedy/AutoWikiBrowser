@@ -99,6 +99,11 @@ namespace WikiFunctions
         }
 
         /// <summary>
+        /// true if current wiki uses right-to-left writing system
+        /// </summary>
+        public static bool RTL;
+
+        /// <summary>
         /// localized names of months
         /// </summary>
         public static string[] MonthNames;
@@ -1067,6 +1072,8 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
             strsummarytag = " using ";
 
             MonthNames = enLangMonthNames;
+
+            RTL = false;
         }
         #endregion
 
@@ -1240,6 +1247,11 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
         static Regex Underscores = new Regex("<!--[Uu]nderscores:(.*?)-->", RegexOptions.Compiled);
 
         /// <summary>
+        /// Matches <head> on right-to-left wikis
+        /// </summary>
+        static readonly Regex HeadRTL = new Regex("<html [^>]*? dir=\"rtl\">", RegexOptions.Compiled);
+
+        /// <summary>
         /// Checks log in status, registered and version.
         /// </summary>
         public WikiStatusResult UpdateWikiStatus()
@@ -1280,6 +1292,9 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                 webBrowserLogin.Wait();
                 strText = webBrowserLogin.GetArticleText();
                 br.Wait();
+
+                Variables.RTL = HeadRTL.IsMatch(webBrowserLogin.ToString());
+
                 if (Variables.Project == ProjectEnum.wikia)
                 {
                     webBrowserWikia.Wait();
