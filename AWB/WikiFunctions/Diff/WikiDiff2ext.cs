@@ -135,15 +135,7 @@ namespace WikiFunctions
 ";
         }
 
-        public static string DiffHead()
-        {
-            if (System.IO.File.Exists("style.css"))
-            {
-                System.IO.StreamReader reader = System.IO.File.OpenText("style.css");
-                return reader.ReadToEnd();
-            }
-            else
-                return @"<style type='text/css'>
+        public static readonly string DefaultStyle = @"
 td{
     border: 1px solid white;
 }
@@ -181,7 +173,32 @@ td.diff-addedline span.diffchange {
 .d{
     overflow: auto;
 }
-</style>";
+";
+
+        static string CustomStyle = null;
+
+        public static string DiffHead()
+        {
+            string style = DefaultStyle;
+
+            if (CustomStyle == null)
+            {
+                try
+                {
+                    System.IO.StreamReader reader = System.IO.File.OpenText("style.css");
+                    CustomStyle = reader.ReadToEnd();
+                    style = CustomStyle;
+                }
+                catch
+                {
+                    CustomStyle = "";
+                }
+            }
+            else if (CustomStyle.Length > 0)
+                style = CustomStyle;
+
+            return "<style type='text/css'>" + style + "</style>";
+
         }
     }
 }
