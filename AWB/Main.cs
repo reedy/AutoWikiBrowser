@@ -176,6 +176,8 @@ namespace AutoWikiBrowser
                     splash.setProgress(25);
 
                     WikiFunctions.AWBProfiles.AWBProfiles.ResetTempPassword();
+
+                    webBrowserDiff.IsWebBrowserContextMenuEnabled = true;
                 }
                 catch (Exception ex)
                 {
@@ -2213,16 +2215,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 e.SuppressKeyPress = true;
                 cmboEditSummary.Items.Add(cmboEditSummary.Text);
             }
-        }
-
-        private void copyToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            if ((webBrowserEdit.Document != null)) webBrowserEdit.Document.ExecCommand("Copy", false, System.DBNull.Value);
-        }
-
-        private void copyToolStripMenuItem2_Click(object sender, EventArgs e)
-        {
-            if ((webBrowserDiff.Document != null)) webBrowserDiff.Document.ExecCommand("Copy", false, System.DBNull.Value);
         }
 
         private void listToolStripMenuItem_Click(object sender, EventArgs e)

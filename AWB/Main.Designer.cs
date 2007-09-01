@@ -228,8 +228,6 @@ namespace AutoWikiBrowser
             this.toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
             this.btntsFalsePositive = new System.Windows.Forms.ToolStripButton();
             this.lbltsNumberofItems = new System.Windows.Forms.ToolStripLabel();
-            this.mnuWebBrowser = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.copyToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.ntfyTray = new System.Windows.Forms.NotifyIcon(this.components);
             this.mnuNotify = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.showToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -340,14 +338,12 @@ namespace AutoWikiBrowser
             this.tpLogs = new System.Windows.Forms.TabPage();
             this.LogControl1 = new WikiFunctions.Logging.LogControl();
             this.tpLoggingOptions = new System.Windows.Forms.TabPage();
-            this.loggingSettings1 = new AutoWikiBrowser.LoggingSettings();
             this.webBrowserDiff = new System.Windows.Forms.WebBrowser();
-            this.mnuWebBrowserDiff = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.copyToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
             this.ShutdownTimer = new System.Windows.Forms.Timer(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
+            this.loggingSettings1 = new AutoWikiBrowser.LoggingSettings();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -355,7 +351,6 @@ namespace AutoWikiBrowser
             ((System.ComponentModel.ISupportInitialize)(this.nudBotSpeed)).BeginInit();
             this.mnuHistory.SuspendLayout();
             this.toolStrip.SuspendLayout();
-            this.mnuWebBrowser.SuspendLayout();
             this.mnuNotify.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -398,7 +393,6 @@ namespace AutoWikiBrowser
             this.tpHistory.SuspendLayout();
             this.tpLogs.SuspendLayout();
             this.tpLoggingOptions.SuspendLayout();
-            this.mnuWebBrowserDiff.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -1983,21 +1977,6 @@ namespace AutoWikiBrowser
             this.lbltsNumberofItems.Size = new System.Drawing.Size(49, 22);
             this.lbltsNumberofItems.Text = "Articles: ";
             // 
-            // mnuWebBrowser
-            // 
-            this.mnuWebBrowser.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.copyToolStripMenuItem1});
-            this.mnuWebBrowser.Name = "mnuWebBrowser";
-            this.mnuWebBrowser.Size = new System.Drawing.Size(150, 26);
-            // 
-            // copyToolStripMenuItem1
-            // 
-            this.copyToolStripMenuItem1.Name = "copyToolStripMenuItem1";
-            this.copyToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.copyToolStripMenuItem1.Size = new System.Drawing.Size(149, 22);
-            this.copyToolStripMenuItem1.Text = "Copy";
-            this.copyToolStripMenuItem1.Click += new System.EventHandler(this.copyToolStripMenuItem1_Click);
-            // 
             // ntfyTray
             // 
             this.ntfyTray.ContextMenuStrip = this.mnuNotify;
@@ -2902,8 +2881,8 @@ namespace AutoWikiBrowser
             this.txtFind.Size = new System.Drawing.Size(98, 20);
             this.txtFind.TabIndex = 26;
             this.txtFind.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFind_KeyPress);
-            this.txtFind.TextChanged += new System.EventHandler(this.ResetFind);
             this.txtFind.MouseHover += new System.EventHandler(this.txtFind_MouseHover);
+            this.txtFind.TextChanged += new System.EventHandler(this.ResetFind);
             // 
             // cmboEditSummary
             // 
@@ -3279,21 +3258,12 @@ namespace AutoWikiBrowser
             this.tpLoggingOptions.Text = "Logging to file";
             this.tpLoggingOptions.UseVisualStyleBackColor = true;
             // 
-            // loggingSettings1
-            // 
-            this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
-            this.loggingSettings1.Name = "loggingSettings1";
-            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
-            this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
-            this.loggingSettings1.TabIndex = 0;
-            // 
             // webBrowserDiff
             // 
             this.webBrowserDiff.AllowWebBrowserDrop = false;
             this.webBrowserDiff.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.webBrowserDiff.ContextMenuStrip = this.mnuWebBrowserDiff;
             this.webBrowserDiff.IsWebBrowserContextMenuEnabled = false;
             this.webBrowserDiff.Location = new System.Drawing.Point(0, 25);
             this.webBrowserDiff.MinimumSize = new System.Drawing.Size(20, 20);
@@ -3302,21 +3272,6 @@ namespace AutoWikiBrowser
             this.webBrowserDiff.Size = new System.Drawing.Size(795, 194);
             this.webBrowserDiff.TabIndex = 672;
             this.webBrowserDiff.WebBrowserShortcutsEnabled = false;
-            // 
-            // mnuWebBrowserDiff
-            // 
-            this.mnuWebBrowserDiff.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.copyToolStripMenuItem2});
-            this.mnuWebBrowserDiff.Name = "mnuWebBrowser";
-            this.mnuWebBrowserDiff.Size = new System.Drawing.Size(150, 26);
-            // 
-            // copyToolStripMenuItem2
-            // 
-            this.copyToolStripMenuItem2.Name = "copyToolStripMenuItem2";
-            this.copyToolStripMenuItem2.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.copyToolStripMenuItem2.Size = new System.Drawing.Size(149, 22);
-            this.copyToolStripMenuItem2.Text = "Copy";
-            this.copyToolStripMenuItem2.Click += new System.EventHandler(this.copyToolStripMenuItem2_Click);
             // 
             // toolStripSeparator25
             // 
@@ -3330,7 +3285,6 @@ namespace AutoWikiBrowser
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.webBrowserEdit.ArticleText = "";
             this.webBrowserEdit.Busy = false;
-            this.webBrowserEdit.ContextMenuStrip = this.mnuWebBrowser;
             this.webBrowserEdit.IsWebBrowserContextMenuEnabled = false;
             this.webBrowserEdit.Location = new System.Drawing.Point(0, 25);
             this.webBrowserEdit.MinimumSize = new System.Drawing.Size(20, 20);
@@ -3361,6 +3315,14 @@ namespace AutoWikiBrowser
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(795, 382);
             this.panel1.TabIndex = 673;
+            // 
+            // loggingSettings1
+            // 
+            this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
+            this.loggingSettings1.Name = "loggingSettings1";
+            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
+            this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
+            this.loggingSettings1.TabIndex = 0;
             // 
             // NudgeTimer
             // 
@@ -3401,7 +3363,6 @@ namespace AutoWikiBrowser
             this.mnuHistory.ResumeLayout(false);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
-            this.mnuWebBrowser.ResumeLayout(false);
             this.mnuNotify.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
@@ -3462,7 +3423,6 @@ namespace AutoWikiBrowser
             this.tpHistory.ResumeLayout(false);
             this.tpLogs.ResumeLayout(false);
             this.tpLoggingOptions.ResumeLayout(false);
-            this.mnuWebBrowserDiff.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -3593,8 +3553,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripComboBox toolStripComboOnLoad;
         private System.Windows.Forms.ToolStripMenuItem summariesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem testRegexToolStripMenuItem;
-        private System.Windows.Forms.ContextMenuStrip mnuWebBrowser;
-        private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem1;
         private System.Windows.Forms.NotifyIcon ntfyTray;
         private System.Windows.Forms.ContextMenuStrip mnuNotify;
         private System.Windows.Forms.ToolStripMenuItem showToolStripMenuItem;
@@ -3740,8 +3698,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem openInBrowserToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem refreshHistoryToolStripMenuItem;
         private System.Windows.Forms.Button btnProtect;
-        private System.Windows.Forms.ContextMenuStrip mnuWebBrowserDiff;
-        private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem2;
         private LoggingSettings loggingSettings1;
         internal System.Windows.Forms.ToolStripSeparator toolStripSeparator25;
         private System.Windows.Forms.TabPage tpLoggingOptions;
