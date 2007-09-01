@@ -139,6 +139,8 @@ namespace AutoWikiBrowser
             showTimer();
             alphaSortInterwikiLinksToolStripMenuItem.Checked = true;
             addIgnoredToLogFileToolStripMenuItem.Checked = false;
+            showHideEditToolbarToolStripMenuItem.Checked = true;
+            SetToolBarVisible(true);
 
             PasteMore1.Text = "";
             PasteMore2.Text = "";
