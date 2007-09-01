@@ -137,7 +137,13 @@ namespace WikiFunctions
 
         public static string DiffHead()
         {
-            return @"<style type='text/css'>
+            if (System.IO.File.Exists("style.css"))
+            {
+                System.IO.StreamReader reader = System.IO.File.OpenText("style.css");
+                return reader.ReadToEnd();
+            }
+            else
+                return @"<style type='text/css'>
 td{
     border: 1px solid white;
 }
