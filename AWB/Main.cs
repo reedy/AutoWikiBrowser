@@ -2261,12 +2261,12 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void wikifyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            txtEdit.Text = "{{Wikify|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + txtEdit.Text;
+            txtEdit.Text = "{{Wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + txtEdit.Text;
         }
 
         private void cleanupToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            txtEdit.Text = "{{cleanup|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + txtEdit.Text;
+            txtEdit.Text = "{{cleanup|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + txtEdit.Text;
         }
 
         private void expandToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2286,7 +2286,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void uncategorisedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            txtEdit.SelectedText = "{{Uncategorized|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
+            txtEdit.SelectedText = "{{Uncategorized|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
         }
 
         private void bypassAllRedirectsToolStripMenuItem_Click(object sender, EventArgs e)
