@@ -38,6 +38,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ErrorHandler.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ErrorHandler.Designer.cs">
+      <DependentUpon>ErrorHandler.cs</DependentUpon>
+    </Compile>
     <Compile Include="ICSharpCode.SharpZipLib\Checksums\Adler32.cs" />
     <Compile Include="ICSharpCode.SharpZipLib\Checksums\CRC32.cs" />
     <Compile Include="ICSharpCode.SharpZipLib\Checksums\IChecksum.cs" />
@@ -108,6 +114,10 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ErrorHandler.resx">
+      <DependentUpon>ErrorHandler.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Updater.resx">
       <SubType>Designer</SubType>
       <DependentUpon>Updater.cs</DependentUpon>
@@ -120,6 +130,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
