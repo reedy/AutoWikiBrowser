@@ -80,6 +80,11 @@ namespace IRCMonitor
                 cmboProject.Items.Add(l);
 
             webBrowser.Saved += new WikiFunctions.Browser.WebControlDel(webBrowser_Saved);
+
+            Variables.User.UserNameChanged += UpdateUserName;
+           Variables.User.BotStatusChanged += UpdateBotStatus;
+            Variables.User.AdminStatusChanged += UpdateAdminStatus;
+            Variables.User.WikiStatusChanged += UpdateWikiStatus;  
         }
 
         public ProjectSettings Project = new EnWikipediaSettings();
@@ -251,6 +256,18 @@ namespace IRCMonitor
                 }
             }
         }
+
+        private void UpdateWikiStatus(object sender, EventArgs e)
+        { }
+
+        private void UpdateAdminStatus(object sender, EventArgs e)
+        { }
+
+        private void UpdateBotStatus(object sender, EventArgs e)
+        { }
+
+        private void UpdateUserName(object sender, EventArgs e)
+        { }
 
         private void runUpdater()
         {
