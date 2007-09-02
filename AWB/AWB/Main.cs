@@ -1359,11 +1359,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             lblOnlyBots.Visible = !Variables.User.IsBot;
         }
 
-         private void UpdateAdminStatus(object sender, EventArgs e)   
-          { }   
-     
-          private void UpdateWikiStatus(object sender, EventArgs e)   
-          { } 
+        private void UpdateAdminStatus(object sender, EventArgs e)
+        { }
+
+        private void UpdateWikiStatus(object sender, EventArgs e)
+        { }
 
         private void chkAutoMode_CheckedChanged(object sender, EventArgs e)
         {
