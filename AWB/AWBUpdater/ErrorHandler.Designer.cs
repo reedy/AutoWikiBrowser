@@ -1,4 +1,4 @@
-namespace WikiFunctions
+namespace AWBUpdater
 {
     partial class ErrorHandler
     {

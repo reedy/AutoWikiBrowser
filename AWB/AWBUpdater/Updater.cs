@@ -118,7 +118,7 @@ namespace AWBUpdater
             }
             catch (Exception ex)
             {
-                WikiFunctions.ErrorHandler.Handle(ex);
+                ErrorHandler.Handle(ex);
             }
         }
 
