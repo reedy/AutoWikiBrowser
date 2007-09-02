@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.Reflection;
 
-namespace WikiFunctions
+namespace AWBUpdater
 {
     /// <summary>
     /// This class provides helper functions for handling errors and displaying them to users
