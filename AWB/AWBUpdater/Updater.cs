@@ -92,12 +92,9 @@ namespace AWBUpdater
                     Application.DoEvents();
                     getAWBFromInternet();
 
-
                     lblCurrentTask.Text = "Unzipping AWB to the Temporary Directory";
                     Application.DoEvents();
                     unzipAWB();
-
-                    MessageBox.Show("Please save your settings (if you wish) and close AutoWikiBrowser completely before pressing OK.");
 
                     lblCurrentTask.Text = "Making Sure AWB is Closed";
                     Application.DoEvents();
@@ -119,7 +116,10 @@ namespace AWBUpdater
                     Application.Exit();
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                WikiFunctions.ErrorHandler.Handle(ex);
+            }
         }
 
         public void AWBversion()
@@ -147,6 +147,7 @@ namespace AWBUpdater
             catch
             {
                 MessageBox.Show("Error fetching current version number.");
+                Application.Exit();
             }
 
             Match m_awbversion = Regex.Match(text, @"&lt;!-- Current version: (.*?) --&gt;", RegexOptions.Compiled);
@@ -202,7 +203,6 @@ namespace AWBUpdater
 
                 progressUpdate.Value = 30;
             }
-
         }
 
         private void createTempDir()
@@ -323,17 +323,17 @@ namespace AWBUpdater
 
         private void copyFiles()
         {
-            if (updaterUpdate)
-            {
-                if (File.Exists(tempDirectory + "AWBUpdater.exe"))
-                    File.Copy(tempDirectory + "AWBUpdater.exe", AWBdirectory + "AWBUpdater.exe.new", true);
-            }
+            if (updaterUpdate && File.Exists(tempDirectory + "AWBUpdater.exe"))
+                File.Copy(tempDirectory + "AWBUpdater.exe", AWBdirectory + "AWBUpdater.exe.new", true);
 
             if (awbUpdate)
             {
                 File.Copy(tempDirectory + "AutoWikiBrowser.exe", AWBdirectory + "AutoWikiBrowser.exe", true);
                 File.Copy(tempDirectory + "WikiFunctions.dll", AWBdirectory + "WikiFunctions.dll", true);
                 File.Copy(tempDirectory + "IRCMonitor.exe", AWBdirectory + "IRCMonitor.exe", true);
+
+                File.Copy(tempDirectory + "gpl-2.0.txt", AWBdirectory + "gpl-2.0.txt", true);
+                File.Copy(tempDirectory + "gpl-3.0.txt", AWBdirectory + "gpl-3.0.txt", true);
 
                 if (File.Exists(AWBdirectory + "CFD.dll"))
                     File.Copy(tempDirectory + "Plugins\\CFD\\CFD.dll", AWBdirectory + "CFD.dll", true);
@@ -344,16 +344,15 @@ namespace AWBUpdater
                 File.Copy(tempDirectory + "Plugins\\CFD\\CFD.dll", AWBdirectory + "Plugins\\CFD\\CFD.dll", true);
 
                 if (File.Exists(AWBdirectory + "Kingbotk AWB Plugin.dll"))
-                    File.Copy(tempDirectory + "Plugins\\Kingbotk (WikiProject tagging)\\Kingbotk AWB Plugin.dll", AWBdirectory + "Kingbotk AWB Plugin.dll", true);
+                    File.Copy(tempDirectory + "Plugins\\Kingbotk\\Kingbotk AWB Plugin.dll", AWBdirectory + "Kingbotk AWB Plugin.dll", true);
 
-                if (!(Directory.Exists(AWBdirectory + "Plugins\\Kingbotk (WikiProject tagging)")))
-                    Directory.CreateDirectory(AWBdirectory + "Plugins\\Kingbotk (WikiProject tagging)");
+                if (!(Directory.Exists(AWBdirectory + "Plugins\\Kingbotk")))
+                    Directory.CreateDirectory(AWBdirectory + "Plugins\\Kingbotk");
 
-                File.Copy(tempDirectory + "Plugins\\Kingbotk (WikiProject tagging)\\Kingbotk AWB Plugin.dll", AWBdirectory + "Plugins\\Kingbotk (WikiProject tagging)\\Kingbotk AWB Plugin.dll", true);
+                File.Copy(tempDirectory + "Plugins\\Kingbotk\\Kingbotk AWB Plugin.dll", AWBdirectory + "Plugins\\Kingbotk\\Kingbotk AWB Plugin.dll", true);
 
                 if (File.Exists(AWBdirectory + "WikiFunctions2.dll"))
                     File.Delete(AWBdirectory + "WikiFunctions2.dll");
-
 
                 if (File.Exists(AWBdirectory + "WPAssessmentsCatCreator.dll"))
                     File.Copy(tempDirectory + "Plugins\\WPAssessmentsCatCreator\\WPAssessmentsCatCreator.dll", AWBdirectory + "WPAssessmentsCatCreator.dll", true);
