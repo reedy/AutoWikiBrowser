@@ -132,7 +132,14 @@ namespace WikiFunctions.Browser
         /// <returns>HTML text</returns>
         public override string ToString()
         {
-            return DocumentText;
+            try
+            {
+                return DocumentText;
+            }
+            catch
+            {
+                return "";
+            }
         }
 
         /// <summary>
