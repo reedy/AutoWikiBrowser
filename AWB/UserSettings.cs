@@ -140,7 +140,7 @@ namespace AutoWikiBrowser
             alphaSortInterwikiLinksToolStripMenuItem.Checked = true;
             addIgnoredToLogFileToolStripMenuItem.Checked = false;
             showHideEditToolbarToolStripMenuItem.Checked = true;
-            SetToolBarVisible(true);
+            if (!imgBold.Visible) SetToolBarVisible(true);
 
             PasteMore1.Text = "";
             PasteMore2.Text = "";
