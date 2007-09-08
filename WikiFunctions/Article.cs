@@ -181,7 +181,7 @@ namespace WikiFunctions
 
             [XmlIgnore]
             public bool CanDoGeneralFixes
-            { get { return (NameSpaceKey == 0 || NameSpaceKey == 14 || Name.Contains("Sandbox")); } }
+            { get { return (NameSpaceKey == 0 || NameSpaceKey == 14 || Name.Contains("Sandbox")) || Name.Contains("/doc"); } }
         #endregion
 
         #region AWB worker subroutines
