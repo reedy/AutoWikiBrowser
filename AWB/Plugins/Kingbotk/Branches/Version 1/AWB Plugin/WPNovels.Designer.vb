@@ -23,6 +23,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.components = New System.ComponentModel.Container
             Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
             Me.WorkgroupsGroupBox = New System.Windows.Forms.GroupBox
+            Me.FantasyCheckBox = New System.Windows.Forms.CheckBox
             Me.AustralianCheckBox = New System.Windows.Forms.CheckBox
             Me.SFCheckBox = New System.Windows.Forms.CheckBox
             Me.ShortStoryCheckBox = New System.Windows.Forms.CheckBox
@@ -54,6 +55,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator
             Me.AutotaggedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.ClassListToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.FantasyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.WorkgroupsGroupBox.SuspendLayout()
             Me.ParametersGroup.SuspendLayout()
             Me.TextInsertContextMenuStrip.SuspendLayout()
@@ -61,17 +63,29 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             '
             'WorkgroupsGroupBox
             '
+            Me.WorkgroupsGroupBox.Controls.Add(Me.FantasyCheckBox)
             Me.WorkgroupsGroupBox.Controls.Add(Me.AustralianCheckBox)
             Me.WorkgroupsGroupBox.Controls.Add(Me.SFCheckBox)
             Me.WorkgroupsGroupBox.Controls.Add(Me.ShortStoryCheckBox)
             Me.WorkgroupsGroupBox.Controls.Add(Me.CrimeCheckBox)
             Me.WorkgroupsGroupBox.Location = New System.Drawing.Point(141, 6)
             Me.WorkgroupsGroupBox.Name = "WorkgroupsGroupBox"
-            Me.WorkgroupsGroupBox.Size = New System.Drawing.Size(123, 113)
+            Me.WorkgroupsGroupBox.Size = New System.Drawing.Size(123, 133)
             Me.WorkgroupsGroupBox.TabIndex = 2
             Me.WorkgroupsGroupBox.TabStop = False
             Me.WorkgroupsGroupBox.Text = "Workgroups"
             Me.ToolTip1.SetToolTip(Me.WorkgroupsGroupBox, "a&e-work-group=yes")
+            '
+            'FantasyCheckBox
+            '
+            Me.FantasyCheckBox.AutoSize = True
+            Me.FantasyCheckBox.Location = New System.Drawing.Point(6, 65)
+            Me.FantasyCheckBox.Name = "FantasyCheckBox"
+            Me.FantasyCheckBox.Size = New System.Drawing.Size(63, 17)
+            Me.FantasyCheckBox.TabIndex = 10
+            Me.FantasyCheckBox.Text = "Fantasy"
+            Me.ToolTip1.SetToolTip(Me.FantasyCheckBox, "a&e-work-group=yes")
+            Me.FantasyCheckBox.UseVisualStyleBackColor = True
             '
             'AustralianCheckBox
             '
@@ -87,7 +101,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             'SFCheckBox
             '
             Me.SFCheckBox.AutoSize = True
-            Me.SFCheckBox.Location = New System.Drawing.Point(6, 87)
+            Me.SFCheckBox.Location = New System.Drawing.Point(6, 110)
             Me.SFCheckBox.Name = "SFCheckBox"
             Me.SFCheckBox.Size = New System.Drawing.Size(39, 17)
             Me.SFCheckBox.TabIndex = 8
@@ -98,7 +112,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             'ShortStoryCheckBox
             '
             Me.ShortStoryCheckBox.AutoSize = True
-            Me.ShortStoryCheckBox.Location = New System.Drawing.Point(6, 65)
+            Me.ShortStoryCheckBox.Location = New System.Drawing.Point(6, 88)
             Me.ShortStoryCheckBox.Name = "ShortStoryCheckBox"
             Me.ShortStoryCheckBox.Size = New System.Drawing.Size(78, 17)
             Me.ShortStoryCheckBox.TabIndex = 3
@@ -181,7 +195,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             '
             'TaskForcesToolStripMenuItem
             '
-            Me.TaskForcesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShortStoriesToolStripMenuItem, Me.ToolStripSeparator1, Me.AustralianToolStripMenuItem, Me.CrimeToolStripMenuItem, Me.ScienceFictionToolStripMenuItem})
+            Me.TaskForcesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShortStoriesToolStripMenuItem, Me.ToolStripSeparator1, Me.AustralianToolStripMenuItem, Me.CrimeToolStripMenuItem, Me.FantasyToolStripMenuItem, Me.ScienceFictionToolStripMenuItem})
             Me.TaskForcesToolStripMenuItem.Name = "TaskForcesToolStripMenuItem"
             Me.TaskForcesToolStripMenuItem.Size = New System.Drawing.Size(200, 22)
             Me.TaskForcesToolStripMenuItem.Text = "Task Forces"
@@ -296,6 +310,12 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.ClassListToolStripMenuItem.Size = New System.Drawing.Size(200, 22)
             Me.ClassListToolStripMenuItem.Text = "class=List"
             '
+            'FantasyToolStripMenuItem
+            '
+            Me.FantasyToolStripMenuItem.Name = "FantasyToolStripMenuItem"
+            Me.FantasyToolStripMenuItem.Size = New System.Drawing.Size(155, 22)
+            Me.FantasyToolStripMenuItem.Text = "Fantasy"
+            '
             'WPNovelSettings
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -349,6 +369,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Private WithEvents StCoverNeededToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
         Private WithEvents AustralianCheckBox As System.Windows.Forms.CheckBox
         Friend WithEvents AustralianToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+        Private WithEvents FantasyCheckBox As System.Windows.Forms.CheckBox
+        Friend WithEvents FantasyToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
     End Class
 End Namespace
