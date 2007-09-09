@@ -1,7 +1,4 @@
-// Keep version numbers of assemblies seperate based on where they're at please. That's the whole point of seperate version numbers per assembly!
-
 /*
-
 Copyright (C) 2007 Martin Richards
 
 This program is free software; you can redistribute it and/or modify
@@ -82,9 +79,9 @@ namespace IRCMonitor
             webBrowser.Saved += new WikiFunctions.Browser.WebControlDel(webBrowser_Saved);
 
             Variables.User.UserNameChanged += UpdateUserName;
-           Variables.User.BotStatusChanged += UpdateBotStatus;
+            Variables.User.BotStatusChanged += UpdateBotStatus;
             Variables.User.AdminStatusChanged += UpdateAdminStatus;
-            Variables.User.WikiStatusChanged += UpdateWikiStatus;  
+            Variables.User.WikiStatusChanged += UpdateWikiStatus;
         }
 
         public ProjectSettings Project = new EnWikipediaSettings();
@@ -95,7 +92,7 @@ namespace IRCMonitor
         public enum NextTaskType { None, Warn, Report, Contribs, Blacklist };
         NextTaskType NextTask = NextTaskType.None;
         //string[] IRCChannels = new String[] { "#en.wikibooks", "#en.wikinews ", "#en.wikipedia", "#en.wikiquote", "#en.wikisource", "#meta" };
-        
+
         void webBrowser_Saved()
         {
             webBrowser.AllowNavigation = true;
@@ -129,7 +126,7 @@ namespace IRCMonitor
                 webBrowser.GoBack();
                 return;
             }
-            webBrowser.SetArticleText(webBrowser.GetArticleText() + "\r\n*{{" + (Tools.IsIP(username)? Project.ReportAnonTemplate : Project.ReportRegisteredTemplate) + "|" + username + "}} ~~~~");
+            webBrowser.SetArticleText(webBrowser.GetArticleText() + "\r\n*{{" + (Tools.IsIP(username) ? Project.ReportAnonTemplate : Project.ReportRegisteredTemplate) + "|" + username + "}} ~~~~");
             webBrowser.SetSummary(Project.ReportSummary.Replace("%v", username) + Project.Using);
             //webBrowser.Save();
         }
@@ -169,7 +166,7 @@ namespace IRCMonitor
             loadDefaultSettings();
 
             updateUpdater();
-            
+
             btnWarn.DropDownItems.Clear();
             MakeMenu(Project.WarningTemplates, btnWarn.DropDownItems, new EventHandler(WarnUserClick));
             //MakeMenu(Project.StubTypes, addStubToolStripMenuItem.DropDownItems, new EventHandler(AddStubClick));
@@ -307,11 +304,8 @@ namespace IRCMonitor
 
         private bool OkToConnect()
         {
-            if(txtServer.Text != "" && txtPort.Text != "" && txtNickname.Text != "")
-                if ((cmboProject.Text == "meta" || cmboProject.Text == "commons") || (cmboProject.Text != "" && cmboLang.Text != ""))
-                    return true;
-                else
-                    return false;
+            if (txtServer.Text != "" && txtPort.Text != "" && txtNickname.Text != "")
+                return ((cmboProject.Text == "meta" || cmboProject.Text == "commons") || (cmboProject.Text != "" && cmboLang.Text != ""));
             else
                 return false;
         }
@@ -356,7 +350,6 @@ namespace IRCMonitor
             IrcObject.Unprotect += ProcessUnprotection;
             IrcObject.Block += ProcessBlock;
             IrcObject.Unblock += ProcessUnBlock;
-
 
             IrcObject.Start();
         }
@@ -446,15 +439,10 @@ namespace IRCMonitor
         private void btnPause_Click(object sender, EventArgs e)
         {
             if (IrcObject.Pause)
-            {
-                IrcObject.Pause = false;
                 btnPause.Text = "Pause";
-            }
             else
-            {
-                IrcObject.Pause = true;
                 btnPause.Text = "Resume";
-            }
+            IrcObject.Pause = !IrcObject.Pause;
         }
 
         private void chkEditTitleRegex_CheckedChanged(object sender, EventArgs e)
@@ -508,66 +496,42 @@ namespace IRCMonitor
         public Color ColourIP
         {
             get { return ipcolour; }
-            set
-            {
-                ipcolour = value;
-                btnIPColour.BackColor = value;
-            }
+            set { btnIPColour.BackColor = ipcolour = value; }
         }
 
         Color usercolour = Color.LightGreen;
         public Color UserColour
         {
             get { return usercolour; }
-            set
-            {
-                usercolour = value;
-                btnRegisteredUserColour.BackColor = value;
-            }
+            set { usercolour = btnRegisteredUserColour.BackColor = value; }
         }
 
         Color whitelistcolour = Color.Wheat;
         public Color WhiteListColour
         {
             get { return whitelistcolour; }
-            set
-            {
-                whitelistcolour = value;
-                btnSetWhiteListColour.BackColor = value;
-            }
+            set { whitelistcolour = btnSetWhiteListColour.BackColor = value; }
         }
 
         Color blacklistcolour = Color.Red;
         public Color BlackListColour
         {
             get { return blacklistcolour; }
-            set
-            {
-                blacklistcolour = value;
-                btnSetBlackListColour.BackColor = value;
-            }
+            set { blacklistcolour = btnSetBlackListColour.BackColor = value; }
         }
 
         Color watchlistcolour = Color.Plum;
         public Color WatchListColour
         {
             get { return watchlistcolour; }
-            set
-            {
-                watchlistcolour = value;
-                btnSetWatchedColour.BackColor = value;
-            }
+            set { watchlistcolour = btnSetWatchedColour.BackColor = value; }
         }
 
         Color checkedcolour = Color.Green;
         public Color CheckedColour
         {
             get { return checkedcolour; }
-            set
-            {
-                checkedcolour = value;
-                btnSetCheckedColour.BackColor = value;
-            }
+            set { checkedcolour = btnSetCheckedColour.BackColor = value; }
         }
 
         #endregion
@@ -876,8 +840,6 @@ namespace IRCMonitor
         #endregion
 
         #region helper functions
-
-
         private void watchedItemChanged()
         {
             if (chkFlashWatchlisted.Checked && !this.ContainsFocus)
@@ -931,10 +893,7 @@ namespace IRCMonitor
             }
             else
             {
-                try
-                {
-                    System.Diagnostics.Process.Start(URL);
-                }
+                try { System.Diagnostics.Process.Start(URL); }
                 catch { }
             }
         }
@@ -1059,8 +1018,7 @@ namespace IRCMonitor
 
         private void btnWhiteListeAddBots_Click(object sender, EventArgs e)
         {
-            btnWhiteListAddAdmins.Enabled = false;
-            btnWhiteListeAddBots.Enabled = false;
+            WhitelistEnabled(false);
 
             try
             {
@@ -1087,15 +1045,13 @@ namespace IRCMonitor
             }
             finally
             {
-                btnWhiteListAddAdmins.Enabled = true;
-                btnWhiteListeAddBots.Enabled = true;
+                WhitelistEnabled(true);
             }
         }
 
         private void btnWhiteListAddAdmins_Click(object sender, EventArgs e)
         {
-            btnWhiteListAddAdmins.Enabled = false;
-            btnWhiteListeAddBots.Enabled = false;
+            WhitelistEnabled(false);
 
             try
             {
@@ -1114,9 +1070,13 @@ namespace IRCMonitor
             }
             finally
             {
-                btnWhiteListAddAdmins.Enabled = true;
-                btnWhiteListeAddBots.Enabled = true;
+                WhitelistEnabled(true);
             }
+        }
+
+        private void WhitelistEnabled(bool Enabled)
+        {
+            btnWhiteListAddAdmins.Enabled = btnWhiteListeAddBots.Enabled = Enabled;
         }
 
         private void btnImportWatchList_Click(object sender, EventArgs e)
@@ -1565,8 +1525,6 @@ namespace IRCMonitor
                 ErrorHandler.Handle(ex);
             }
         }
-
-
         #endregion
 
         #region table click events
@@ -1631,7 +1589,7 @@ namespace IRCMonitor
 
             // for anons, display user talk instead of userpage
             if (Tools.IsIP(username)) openInBrowser(Variables.URL + "/wiki/User talk:" + username);
-                else openInBrowser(Variables.URL + "/wiki/User:" + username);
+            else openInBrowser(Variables.URL + "/wiki/User:" + username);
         }
 
         private void diffToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1827,10 +1785,7 @@ namespace IRCMonitor
 
         private void btnOpenInBrowser_Click(object sender, EventArgs e)
         {
-            try
-            {
-                System.Diagnostics.Process.Start(webBrowser.Url.AbsoluteUri);
-            }
+            try { System.Diagnostics.Process.Start(webBrowser.Url.AbsoluteUri); }
             catch { }
         }
         private void btnGo_Click(object sender, EventArgs e)
@@ -1839,7 +1794,7 @@ namespace IRCMonitor
         }
 
         #endregion
-        
+
         #region Vandalfighting
         void Revert(string summary, int badrev, out string username)
         {
@@ -1847,10 +1802,10 @@ namespace IRCMonitor
             Editor e = new Editor();
 
             username = null;
-            List < WikiFunctions.Editor.Revision > hist = e.GetHistory(webBrowser.ArticleTitle, 50);
+            List<WikiFunctions.Editor.Revision> hist = e.GetHistory(webBrowser.ArticleTitle, 50);
             foreach (WikiFunctions.Editor.Revision r in hist)
             {
-                if(r.RevisionID == badrev) 
+                if (r.RevisionID == badrev)
                 {
                     username = r.User;
                     break;
@@ -1877,7 +1832,7 @@ namespace IRCMonitor
                 webBrowser.LoadEditPage(webBrowser.ArticleTitle, hist[i].RevisionID);//, hist[i].RevisionID);
                 webBrowser.Wait();
                 replacementText = webBrowser.GetArticleText();
-               
+
 
                 if (webBrowser.GetArticleText().Trim() == "")
                 {
@@ -1893,7 +1848,6 @@ namespace IRCMonitor
                 webBrowser.Save();
                 webBrowser.Wait();
             }
-            
         }
 
         private void WarnUserClick(object sender, EventArgs e)
