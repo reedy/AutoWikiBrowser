@@ -747,11 +747,8 @@ namespace WikiFunctions
                 {
                     Rights.Add(xr.ReadString());
                 }
-                if (xr.Name == "name")
-                {
-                    Name = xr.ReadString();
-                }
             }
+            Name = Regex.Match(xml, @"<userinfo name=""(.*?)"">").Groups[1].Value;
         }
 
         /// <summary>
