@@ -645,6 +645,7 @@ namespace IRCMonitor
             this.cmboLang.Name = "cmboLang";
             this.cmboLang.Size = new System.Drawing.Size(88, 21);
             this.cmboLang.TabIndex = 34;
+            this.cmboLang.SelectedIndexChanged += new System.EventHandler(this.ComboChange);
             // 
             // lbldot
             // 
@@ -676,7 +677,7 @@ namespace IRCMonitor
             this.cmboProject.Name = "cmboProject";
             this.cmboProject.Size = new System.Drawing.Size(121, 21);
             this.cmboProject.TabIndex = 30;
-            this.cmboProject.SelectedIndexChanged += new System.EventHandler(this.cmboProject_SelectedIndexChanged);
+            this.cmboProject.SelectedIndexChanged += new System.EventHandler(this.ComboChange);
             // 
             // chkBrowser
             // 
