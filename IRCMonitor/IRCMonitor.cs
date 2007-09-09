@@ -1985,13 +1985,23 @@ namespace IRCMonitor
             Application.Exit();
         }
 
-        private void ComboChange(object sender, EventArgs e)
+        private void cmboLang_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboChange();
+        }
+
+        private void cmboProject_SelectedIndexChanged(object sender, EventArgs e)
         {
             cmboLang.Enabled = !(cmboProject.Text == "meta" || cmboProject.Text == "commons");
-            if (cmboLang.Text != "" && cmboProject.Text != "") 
+            if (!cmboLang.Enabled) cmboLang.SelectedIndex = -1;
+            ComboChange();
+        }
+
+        private void ComboChange()
+        {
+            if (cmboLang.Text != "" && cmboProject.Text != "")
                 Variables.SetProject((LangCodeEnum)Enum.Parse(typeof(LangCodeEnum), cmboLang.SelectedItem.ToString()),
                    (ProjectEnum)Enum.Parse(typeof(ProjectEnum), cmboProject.SelectedItem.ToString()));
-            ;
         }
     }
 }
