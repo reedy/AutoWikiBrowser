@@ -79,6 +79,7 @@ namespace WikiFunctions.Controls.Lists
             this.btnArticlesListSave = new System.Windows.Forms.Button();
             this.btnRemoveDuplicates = new System.Windows.Forms.Button();
             this.lbArticles = new WikiFunctions.Controls.Lists.ListBox2();
+            this.invertSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuListBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -203,6 +204,7 @@ namespace WikiFunctions.Controls.Lists
             this.pasteToolStripMenuItem,
             this.toolStripSeparator3,
             this.selectAllToolStripMenuItem,
+            this.invertSelectionToolStripMenuItem,
             this.selectNoneToolStripMenuItem,
             this.toolStripSeparator14,
             this.addSelectedToListToolStripMenuItem,
@@ -212,7 +214,7 @@ namespace WikiFunctions.Controls.Lists
             this.toolStripSeparator1,
             this.openInBrowserToolStripMenuItem});
             this.mnuListBox.Name = "contextMenuStrip2";
-            this.mnuListBox.Size = new System.Drawing.Size(206, 364);
+            this.mnuListBox.Size = new System.Drawing.Size(206, 408);
             this.mnuListBox.Opening += new System.ComponentModel.CancelEventHandler(this.mnuListBox_Opening);
             // 
             // filterOutNonMainSpaceArticlesToolStripMenuItem
@@ -521,6 +523,13 @@ namespace WikiFunctions.Controls.Lists
             this.lbArticles.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lbArticles_MouseMove);
             this.lbArticles.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbArticles_KeyDown);
             // 
+            // invertSelectionToolStripMenuItem
+            // 
+            this.invertSelectionToolStripMenuItem.Name = "invertSelectionToolStripMenuItem";
+            this.invertSelectionToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
+            this.invertSelectionToolStripMenuItem.Text = "Invert selection";
+            this.invertSelectionToolStripMenuItem.Click += new System.EventHandler(this.invertSelectionToolStripMenuItem_Click);
+            // 
             // ListMaker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -597,5 +606,6 @@ namespace WikiFunctions.Controls.Lists
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.ToolStripMenuItem selectedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem duplicatesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem invertSelectionToolStripMenuItem;
     }
 }

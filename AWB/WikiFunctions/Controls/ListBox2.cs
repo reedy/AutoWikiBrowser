@@ -55,6 +55,5 @@ namespace WikiFunctions.Controls.Lists
                 i++;
             }
         }
-
     }
 }
