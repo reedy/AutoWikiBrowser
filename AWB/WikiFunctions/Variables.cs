@@ -960,7 +960,7 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// Loads namespaces from query.php
+        /// Loads namespaces
         /// </summary>
         /// <param name="url">URL of directory where scripts reside, e.g. "http://en.wikipedia.org".</param>
         /// <returns>Dictionary int=>string containing namespaces.</returns>
