@@ -1079,6 +1079,16 @@ namespace WikiFunctions.Controls.Lists
             lbArticles.EndUpdate();
         }
 
+        private void invertSelectionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            lbArticles.BeginUpdate();
+
+            for (int i = 0; i != lbArticles.Items.Count; i++)
+                lbArticles.SetSelected(i, !lbArticles.GetSelected(i));
+
+            lbArticles.EndUpdate();
+        }
+
         private void selectNoneToolStripMenuItem_Click(object sender, EventArgs e)
         {
             lbArticles.BeginUpdate();
@@ -1198,6 +1208,10 @@ namespace WikiFunctions.Controls.Lists
                 Process.Start(Variables.URLLong + "index.php?title=" + System.Web.HttpUtility.UrlEncode(item.Name));
         }
 
+        private void removeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RemoveSelectedArticle();
+        }
         #endregion
 
         private void btnRemoveDuplicates_Click(object sender, EventArgs e)
@@ -1210,17 +1224,10 @@ namespace WikiFunctions.Controls.Lists
             btnStop.Visible = false;
             this.Stop();
         }
-
-        private void removeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            RemoveSelectedArticle();
-        }
     }
 }
 
 namespace WikiFunctions.Lists
 {
-    //CategoryRecursive is enabled in debug builds only due to server load
-    //it should always be the last item
     public enum SourceType { None = -1, Category, CategoryRecursive, WhatLinksHere, WhatTranscludesPage, LinksOnPage, ImagesOnPage, TransclusionsOnPage, TextFile, GoogleWikipedia, UserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist, WikiSearch, Redirects }
 }
