@@ -480,8 +480,9 @@ namespace WikiFunctions
         /// <returns>The history, as a generic list of Revision objects.</returns>
         public List<Revision> GetHistory(string Article, int Limit)
         {
-            string TargetURL = m_indexpath + "query.php?format=xml&what=revisions&rvcomments=1" +
-                                "&rvlimit=" + Limit + "&titles=" + HttpUtility.UrlEncode(Article);
+            string TargetURL = m_indexpath + "api.php?action=query&prop=revisions&titles=" + HttpUtility.UrlEncode(Article) +
+                "&rvlimit=" + Limit;
+
             HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(TargetURL);
             HttpWebResponse resps;
             Stream stream;
@@ -510,7 +511,7 @@ namespace WikiFunctions
 
             DocElement = Doc.DocumentElement;
 
-            foreach (XmlElement rvElement in Doc.GetElementsByTagName("rv"))
+            foreach (XmlElement rvElement in Doc.GetElementsByTagName("rev"))
             {
                 Revision rv = new Revision();
 
