@@ -339,7 +339,6 @@ namespace WikiFunctions
             string pagetext;
 
             pagetext = GetWikiText(Article, m_indexpath, 0);
-
             pagetext += AppendText;
 
             return EditPageEx(Article, pagetext, Summary, Minor);
@@ -381,7 +380,6 @@ namespace WikiFunctions
             Regex rgex = new Regex(findregex, RegexOptions.IgnoreCase);
 
             pagetext = GetWikiText(Article, m_indexpath, 0);
-
             pagetext = rgex.Replace(pagetext, replaceregex);
 
             return EditPage(Article, pagetext, Summary, Minor);
@@ -433,7 +431,6 @@ namespace WikiFunctions
             List<Revision> History;
 
             History = GetHistory(Article, 2);
-
             Summary = Summary.Replace("%u", History[0].User);
 
             RevertToRevision(Article, History[1].RevisionID, Summary, Minor);
@@ -493,9 +490,7 @@ namespace WikiFunctions
             UserAgent(wr);
 
             resps = (HttpWebResponse)wr.GetResponse();
-
             stream = resps.GetResponseStream();
-
             sr = new StreamReader(stream);
 
             pagetext = sr.ReadToEnd();
@@ -520,10 +515,7 @@ namespace WikiFunctions
                 rv.Summary = rvElement.InnerText;
                 rv.User = rvElement.Attributes["user"].Value;
 
-                if (rvElement.OuterXml.Contains("minor=\""))
-                    rv.Minor = true;
-                else
-                    rv.Minor = false;
+                rv.Minor = (rvElement.OuterXml.Contains("minor=\""));
 
                 History.Add(rv);
             }
@@ -541,7 +533,6 @@ namespace WikiFunctions
             public DateTime Time;
             public bool Minor = false;
             public string User = "";
-
         }
 
         #endregion
@@ -572,10 +563,7 @@ namespace WikiFunctions
                 resps = wr.GetResponse();
                 resps.Close();
             }
-            catch
-            {
-                return false;
-            }
+            catch { return false; }
             return true;
         }
 
@@ -609,8 +597,8 @@ namespace WikiFunctions
             {
                 Regex rx = new Regex("<input name=\"token\" type=\"hidden\" value=\"([^\"]*)\" />");
                 Match m;
-                
-                HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(m_indexpath + 
+
+                HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(m_indexpath +
                     "index.php?title=Special:Watchlist/clear");
                 WebResponse resps;
 
@@ -665,12 +653,8 @@ namespace WikiFunctions
                 sr = new StreamReader(stream);
 
                 html = sr.ReadToEnd();
-
             }
-            catch
-            {
-                return false;
-            }
+            catch { return false; }
             return true;
         }
 
@@ -716,7 +700,6 @@ namespace WikiFunctions
         }
 
         #endregion
-
     }
 
     /// <summary>
