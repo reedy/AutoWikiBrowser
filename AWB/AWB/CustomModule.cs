@@ -188,8 +188,8 @@ namespace AutoWikiBrowser
 
             return ArticleText;
         }";
-
-                codeend = "    }\r\n}";
+                codeend = @"    }
+}";
             }
             else
             {
@@ -199,8 +199,8 @@ Imports System.Text.RegularExpressions
 Imports WikiFunctions
 
 Namespace AutoWikiBrowser
-    Public Class Module1
-        Inherits WikiFunctions.Plugin.IModule
+    Class Module1
+        Implements WikiFunctions.Plugin.IModule
 ";
 
                 codeexample = @"        Public Function ProcessArticle(ByVal ArticleText As String, ByVal ArticleTitle As String, ByVal wikiNamespace As Integer, ByRef Summary As String, ByRef Skip As Boolean) As String
