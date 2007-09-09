@@ -248,12 +248,12 @@ namespace WikiFunctions.Browser
 
         public UserInfo GetUserInfo()
         {
-            Navigate(Variables.URLLong + "query.php?what=userinfo&uiextended");
+            Navigate(Variables.URLLong + "api.php?action=query&meta=userinfo&uiprop=groups|rights");
             Wait();
 
             string s = Document.Body.InnerText;
-            s = s.Remove(0, s.IndexOf("<yurik>"));
-            s = s.Remove(s.IndexOf("</yurik>") + 8, s.Length - s.IndexOf("</yurik>") - 8);
+            s = s.Remove(0, s.IndexOf("<api>"));
+            s = s.Remove(s.IndexOf("</api>") + 6, s.Length - s.IndexOf("</api>") - 6);
             return new UserInfo(s);
         }
 
