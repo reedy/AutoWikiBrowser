@@ -131,6 +131,7 @@ namespace AutoWikiBrowser
             doNotAutomaticallyDoAnythingToolStripMenuItem.Checked = false;
             chkSkipNoChanges.Checked = false;
             chkSkipSpamFilter.Checked = false;
+            chkSkipIfInuse.Checked = false;
             toolStripComboOnLoad.SelectedIndex = 0;
             ignoreNoBotsToolStripMenuItem.Checked = false;
             markAllAsMinorToolStripMenuItem.Checked = false;
@@ -311,7 +312,7 @@ namespace AutoWikiBrowser
                 txtAppendMessage.Text, (int)nudBotSpeed.Value, chkQuickSave.Checked, chkSuppressTag.Checked,
                 chkRegExTypo.Checked), new ListPrefs(listMaker1, SaveArticleList),
                 new SkipPrefs(chkSkipNonExistent.Checked, chkSkipExistent.Checked, chkSkipNoChanges.Checked, chkSkipSpamFilter.Checked,
-                chkSkipIfContains.Checked, chkSkipIfNotContains.Checked, txtSkipIfContains.Text,
+                chkSkipIfInuse.Checked, chkSkipIfContains.Checked, chkSkipIfNotContains.Checked, txtSkipIfContains.Text,
                 txtSkipIfNotContains.Text, chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked,
                 chkSkipWhenNoFAR.Checked, chkSkipIfNoRegexTypo.Checked, chkSkipNoDab.Checked, Skip.SelectedItem),
                 new GeneralPrefs(SaveArticleList, ignoreNoBotsToolStripMenuItem.Checked, cmboEditSummary.Items,
@@ -385,6 +386,7 @@ namespace AutoWikiBrowser
             chkSkipExistent.Checked = p.SkipOptions.Skipexistent;
             chkSkipNoChanges.Checked = p.SkipOptions.SkipWhenNoChanges;
             chkSkipSpamFilter.Checked = p.SkipOptions.SkipSpamFilterBlocked;
+            chkSkipIfInuse.Checked = p.SkipOptions.SkipInuse;
 
             chkSkipIfContains.Checked = p.SkipOptions.SkipDoes;
             chkSkipIfNotContains.Checked = p.SkipOptions.SkipDoesNot;

@@ -219,7 +219,7 @@ namespace WikiFunctions.AWBSettings
     public class SkipPrefs
     {
         internal SkipPrefs() { }
-        public SkipPrefs(bool mSkipNonexistent, bool mSkipexistent, bool mSkipWhenNoChanges, bool mSkipWhenSpamFilterBlocked, bool mSkipDoes,
+        public SkipPrefs(bool mSkipNonexistent, bool mSkipexistent, bool mSkipWhenNoChanges, bool mSkipWhenSpamFilterBlocked, bool mSkipInuse, bool mSkipDoes,
             bool mSkipDoesNot, string mSkipDoesText, string mSkipDoesNotText, bool mRegex, bool mCaseSensitive,
             bool mSkipNoFindAndReplace, bool mSkipNoRegexTypoFix, bool mSkipNoDisambiguation,
             string mGeneralSkip)
@@ -228,6 +228,7 @@ namespace WikiFunctions.AWBSettings
             Skipexistent=mSkipexistent;
             SkipWhenNoChanges =mSkipWhenNoChanges;
             SkipSpamFilterBlocked = mSkipWhenSpamFilterBlocked;
+            SkipInuse = mSkipInuse;
             SkipDoes=mSkipDoes;
             SkipDoesNot=mSkipDoesNot;
             SkipDoesText=mSkipDoesText;
@@ -244,6 +245,7 @@ namespace WikiFunctions.AWBSettings
         public bool Skipexistent = false;
         public bool SkipWhenNoChanges = false;
         public bool SkipSpamFilterBlocked = false;
+        public bool SkipInuse = false;
 
         public bool SkipDoes = false;
         public bool SkipDoesNot = false;
