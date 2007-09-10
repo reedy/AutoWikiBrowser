@@ -511,8 +511,14 @@ namespace AutoWikiBrowser
             }
 
             //check not in use
-            if (TheArticle.IsInUse && !BotMode)
-                MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
+            if (TheArticle.IsInUse)
+                if (chkSkipIfInuse.Checked)
+                {
+                    SkipPage("Page contains {{inuse}}");
+                    return;
+                }
+                else if (!BotMode)
+                    MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
 
             if (!doNotAutomaticallyDoAnythingToolStripMenuItem.Checked)
             {
