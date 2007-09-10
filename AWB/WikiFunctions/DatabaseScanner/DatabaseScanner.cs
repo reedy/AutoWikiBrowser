@@ -421,7 +421,7 @@ namespace WikiFunctions.DatabaseScanner
                 if (openXMLDialog.ShowDialog() == DialogResult.OK)
                     fileName = openXMLDialog.FileName;
             }
-            catch { }
+            catch (Exception ex) { ErrorHandler.Handle(ex); }
         }
 
         private void Save()
@@ -437,10 +437,7 @@ namespace WikiFunctions.DatabaseScanner
                     sw.Close();
                 }
             }
-            catch (Exception ex)
-            {
-                ErrorHandler.Handle(ex);
-            }
+            catch (Exception ex) { ErrorHandler.Handle(ex); }
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
