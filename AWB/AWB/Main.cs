@@ -412,8 +412,8 @@ namespace AutoWikiBrowser
 
                 TheArticle = new ArticleEx(listMaker1.SelectedArticle().Name);
                 ErrorHandler.CurrentArticle = TheArticle.Name;
-                ErrorHandler.LangCode = Variables.LangCode;
-                ErrorHandler.Project = Variables.Project;
+                ErrorHandler.LangCode = Variables.LangCode.ToString();
+                ErrorHandler.Project = Variables.Project.ToString();
 
                 NewHistory();
 
