@@ -176,8 +176,6 @@ namespace AutoWikiBrowser
                     splash.setProgress(25);
 
                     WikiFunctions.AWBProfiles.AWBProfiles.ResetTempPassword();
-
-                    webBrowserDiff.IsWebBrowserContextMenuEnabled = true;
                 }
                 catch (Exception ex)
                 {

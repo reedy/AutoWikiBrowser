@@ -3253,6 +3253,7 @@ namespace AutoWikiBrowser
             this.webBrowserDiff.Size = new System.Drawing.Size(795, 194);
             this.webBrowserDiff.TabIndex = 672;
             this.webBrowserDiff.WebBrowserShortcutsEnabled = false;
+            this.webBrowserDiff.IsWebBrowserContextMenuEnabled = true;
             // 
             // toolStripSeparator25
             // 
