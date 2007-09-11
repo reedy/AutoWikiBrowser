@@ -1745,7 +1745,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             dumpHTMLToolStripMenuItem.Visible = true;
             logOutDebugToolStripMenuItem.Visible = true;
             bypassAllRedirectsToolStripMenuItem.Enabled = true;
-            webBrowserEdit.IsWebBrowserContextMenuEnabled = true;
 
             prof = new Profiler("profiling.txt", true);
         }
