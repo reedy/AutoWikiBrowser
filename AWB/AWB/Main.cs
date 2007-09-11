@@ -358,7 +358,6 @@ namespace AutoWikiBrowser
                 CheckStatus(true);
                 return false;
             }
-
             return true;
         }
 
@@ -413,6 +412,9 @@ namespace AutoWikiBrowser
 
                 TheArticle = new ArticleEx(listMaker1.SelectedArticle().Name);
                 ErrorHandler.CurrentArticle = TheArticle.Name;
+                ErrorHandler.LangCode = Variables.LangCode;
+                ErrorHandler.Project = Variables.Project;
+
                 NewHistory();
 
                 if (!Tools.IsValidTitle(TheArticle.Name))
@@ -740,7 +742,7 @@ namespace AutoWikiBrowser
                     Start();
                 else
                     SkipPage("Edit blocked by spam protection filter");
-                    
+
                 return;
             }
             else if (webBrowserEdit.Document.Body.InnerHtml.Contains("<DIV CLASS=PREVIEWNOTE"))
@@ -763,9 +765,8 @@ namespace AutoWikiBrowser
                 tabControl2.SelectedTab = tpEdit;
             LogControl1.AddLog(false, TheArticle.LogListener);
 
-            if (listMaker1.Count == 0)
-                if (AutoSaveEditBoxEnabled)
-                    EditBoxSaveTimer.Enabled = false;
+            if (listMaker1.Count == 0 && AutoSaveEditBoxEnabled)
+                EditBoxSaveTimer.Enabled = false;
             retries = 0;
             Start();
         }

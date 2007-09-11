@@ -21,6 +21,16 @@ namespace WikiFunctions
         public static string CurrentArticle;
 
         /// <summary>
+        /// Language of the project of the page that is currently being processed
+        /// </summary>
+        public static string LangCode;
+
+        /// <summary>
+        /// Project of which the page is currently being processed
+        /// </summary>
+        public static string Project;
+
+        /// <summary>
         /// Revision of the page currently being processed
         /// </summary>
         public static int CurrentRevision;
@@ -45,7 +55,6 @@ namespace WikiFunctions
 
             Handler.txtError.Text = ex.Message;
 
-
             Handler.txtDetails.Text = "{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = Exception: " + ex.GetType().Name + "\r\nMessage: " +
                 ex.Message + "\r\nCall stack:" + ex.StackTrace + "\r\n~~~~\r\n | OS          = " + Environment.OSVersion.ToString() + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
@@ -53,7 +62,8 @@ namespace WikiFunctions
                 ex.StackTrace.Contains("AutoWikiBrowser.MainForm.ProcessPage("))
             {
                 string link;
-                if (CurrentRevision != 0) link = "{{permalink|" + CurrentArticle + "|" + CurrentRevision.ToString() + "}}";
+                if (CurrentRevision != 0 && LangCode != "" && Project != "")
+                    link = "[http://" + LangCode + "." + Project + ".org/w/index.php?title=" + CurrentArticle + "&oldid=" + CurrentRevision.ToString() + "]";
                 else link = "[[:" + CurrentArticle + "]]";
                 Handler.txtDetails.Text +=
                     "\r\n | duplicate = [encountered while processing page ''" + link + "'']";
