@@ -3205,17 +3205,14 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void EditBoxSaveTimer_Tick(object sender, EventArgs e)
         {
-            if (!System.IO.Directory.Exists(Application.StartupPath + "\\EditBoxSaves"))
-                System.IO.Directory.CreateDirectory(Application.StartupPath + "\\EditBoxSaves");
-
-            saveEditBoxText(Application.StartupPath + "\\EditBoxSaves\\" + AutoSaveEditBoxFile);
+            saveEditBoxText(AutoSaveEditBoxFile);
         }
 
         private void saveEditBoxText(string path)
         {
             try
             {
-                StreamWriter sw = new StreamWriter(path.ToString(), false, Encoding.UTF8);
+                StreamWriter sw = new StreamWriter(path, false, Encoding.UTF8);
                 sw.Write(txtEdit.Text);
                 sw.Close();
             }
