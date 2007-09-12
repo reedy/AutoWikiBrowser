@@ -415,8 +415,7 @@ namespace WikiFunctions.Parse
             //ArticleText = Regex.Replace(ArticleText, "^<[Hh]2>(.*?)</[Hh]2>", "==$1==", RegexOptions.Multiline);
             //ArticleText = Regex.Replace(ArticleText, "^<[Hh]3>(.*?)</[Hh]3>", "===$1===", RegexOptions.Multiline);
             //ArticleText = Regex.Replace(ArticleText, "^<[Hh]4>(.*?)</[Hh]4>", "====$1====", RegexOptions.Multiline);
-
-            
+                        
             //fix uneven bracketing on links
             ArticleText = SyntaxRegex1.Replace(ArticleText, "[http://$1]");
             ArticleText = SyntaxRegex2fix.Replace(ArticleText, "[http://$1]]]]");
@@ -477,13 +476,9 @@ namespace WikiFunctions.Parse
 
             foreach (Match m in WikiRegexes.WikiLink.Matches(ArticleText))
             {
-                try
-                {
-                    y = m.Value.Replace(m.Groups[1].Value, CanonicalizeTitle(m.Groups[1].Value));
+                y = m.Value.Replace(m.Groups[1].Value, CanonicalizeTitle(m.Groups[1].Value));
 
-                    if (y != m.Value) sb = sb.Replace(m.Value, y);
-                }
-                catch { }
+                if (y != m.Value) sb = sb.Replace(m.Value, y);
             }
 
             NoChange = (sb.ToString() == ArticleText);
@@ -535,7 +530,6 @@ namespace WikiFunctions.Parse
                     pos = s.IndexOf("[[");
                 }
             }
-
             return res;
         }
 
@@ -821,7 +815,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 }
                 i++;
             }
-
             return "";
         }
 
@@ -1132,7 +1125,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
                             break;
                         }
-
                     }
                 }
             }
@@ -1451,7 +1443,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             double LinkCount = 1;
             double Ratio = 0;
 
-
             string CommentsStripped = WikiRegexes.Comments.Replace(ArticleText, "");
             int words = Tools.WordCount(CommentsStripped);
 
@@ -1531,8 +1522,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         static Regex Bots = new Regex(@"\{\{\s*([Bb]ots|[Nn]obots)\s*(|\|[^\}]*)\}\}", RegexOptions.Compiled);
         static Regex Allow = new Regex(@"\|\s*allow\s*=\s*([^\|\}]*)", RegexOptions.Compiled | RegexOptions.Singleline);
         static Regex Deny = new Regex(@"\|\s*deny\s*=\s*([^\|\}]*)", RegexOptions.Compiled | RegexOptions.Singleline);
-
-
+        
         /// <summary>
         /// checks if a user is allowed to edit this article
         /// using {{bots}} and {{nobots}} tags
@@ -1588,7 +1578,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             return ArticleText;
         }
-
         #endregion
 
         #region Property checkers
