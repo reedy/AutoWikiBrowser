@@ -436,6 +436,7 @@ namespace WikiFunctions.Parse
             ArticleText = SyntaxRegex7.Replace(ArticleText, "[[$1]]");
             ArticleText = SyntaxRegex8.Replace(ArticleText, "[[$1]]");
             ArticleText = SyntaxRegex9.Replace(ArticleText, "[[$1#$2]]");
+            ArticleText = ArticleText.Replace("[[|", "[[");
 
             ArticleText = Regex.Replace(ArticleText, "ISBN: ?([0-9])", "ISBN $1");
 
@@ -476,9 +477,13 @@ namespace WikiFunctions.Parse
 
             foreach (Match m in WikiRegexes.WikiLink.Matches(ArticleText))
             {
-                y = m.Value.Replace(m.Groups[1].Value, CanonicalizeTitle(m.Groups[1].Value));
+                try
+                {
+                    y = m.Value.Replace(m.Groups[1].Value, CanonicalizeTitle(m.Groups[1].Value));
 
-                if (y != m.Value) sb = sb.Replace(m.Value, y);
+                    if (y != m.Value) sb = sb.Replace(m.Value, y);
+                }
+                catch { }
             }
 
             NoChange = (sb.ToString() == ArticleText);
