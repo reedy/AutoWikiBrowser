@@ -313,7 +313,7 @@ namespace IRCMonitor
         private string GetIRCChannel()
         {
             if (cmboProject.Text == "meta" || cmboProject.Text == "commons")
-                return "#" + cmboProject.SelectedItem.ToString();
+                return "#" + cmboProject.SelectedItem.ToString() + ".wikimedia";
             else
                 return "#" + cmboLang.SelectedItem.ToString() + "." + cmboProject.SelectedItem.ToString();
         }
