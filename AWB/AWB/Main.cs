@@ -900,6 +900,16 @@ namespace AutoWikiBrowser
 
                 prof.Profile("Categories");
 
+                if (chkAppend.Checked)
+                {
+                    if (rdoAppend.Checked)
+                        TheArticle.AWBChangeArticleText("Appended your message",
+                            TheArticle.ArticleText + "\r\n\r\n" + txtAppendMessage.Text, false);
+                    else
+                        TheArticle.AWBChangeArticleText("Prepended your message",
+                            txtAppendMessage.Text + "\r\n\r\n" + TheArticle.ArticleText, false);
+                }
+
                 if (chkFindandReplace.Checked && !findAndReplace.AfterOtherFixes)
                 {
                     TheArticle.PerformFindAndReplace(findAndReplace, substTemplates, replaceSpecial,
@@ -996,16 +1006,6 @@ namespace AutoWikiBrowser
                     TheArticle.UnHideText(RemoveText);
 
                     prof.Profile("UnHideText");
-                }
-
-                if (chkAppend.Checked)
-                {
-                    if (rdoAppend.Checked)
-                        TheArticle.AWBChangeArticleText("Appended your message",
-                            TheArticle.ArticleText + "\r\n\r\n" + txtAppendMessage.Text, false);
-                    else
-                        TheArticle.AWBChangeArticleText("Prepended your message",
-                            txtAppendMessage.Text + "\r\n\r\n" + TheArticle.ArticleText, false);
                 }
 
                 if (chkFindandReplace.Checked && findAndReplace.AfterOtherFixes)
