@@ -1260,6 +1260,7 @@ namespace AutoWikiBrowser
             this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
             this.reloadToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.reloadToolStripMenuItem.Text = "Refresh Status/Typos";
+            this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
             // 
             // pluginsToolStripMenuItem
             // 
