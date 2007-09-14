@@ -1503,7 +1503,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             if (LinkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(ArticleText))
             {
                 ArticleText = "{{deadend|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + ArticleText;
-                Summary += ", added deadend tag";
+                Summary += ", added [[:Category:Dead-end pages|deadend]] tag";
             }
 
             return ArticleText;
