@@ -1480,18 +1480,18 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             {
                 if (WikiRegexes.Stub.IsMatch(CommentsStripped))
                 {
-                    ArticleText += "\r\n\r\n{{Uncategorizedstub|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
+                    ArticleText += "\r\n\r\n{{Uncategorizedstub|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
                     Summary += ", added [[:Category:Uncategorized stubs|uncategorised]] tag";
                 }
                 else
                 {
-                    ArticleText += "\r\n\r\n{{Uncategorized|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
+                    ArticleText += "\r\n\r\n{{Uncategorized|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
                     Summary += ", added [[:Category:Category needed|uncategorised]] tag";
                 }
             }
             else if (LinkCount < 3 && (Ratio < 0.0025))
             {
-                ArticleText = "{{Wikify|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + ArticleText;
+                ArticleText = "{{Wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + ArticleText;
                 Summary += ", added [[:Category:Articles that need to be wikified|wikify]] tag";
             }
             else if (CommentsStripped.Length <= 300 && !WikiRegexes.Stub.IsMatch(CommentsStripped))
@@ -1502,7 +1502,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             if (LinkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(ArticleText))
             {
-                ArticleText = "{{deadend|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + ArticleText;
+                ArticleText = "{{deadend|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + ArticleText;
                 Summary += ", added deadend tag";
             }
 
