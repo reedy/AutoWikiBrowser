@@ -78,8 +78,8 @@ namespace WikiFunctions.Parse
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.chkIgnoreLinks = new System.Windows.Forms.CheckBox();
             this.chkAddToSummary = new System.Windows.Forms.CheckBox();
-            this.chkAfterOtherFixes = new System.Windows.Forms.CheckBox();
             this.chkIgnoreMore = new System.Windows.Forms.CheckBox();
+            this.chkAfterOtherFixes = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.FindAndReplaceContextMenu.SuspendLayout();
             this.SuspendLayout();
@@ -356,16 +356,6 @@ namespace WikiFunctions.Parse
             this.toolTip1.SetToolTip(this.chkAddToSummary, "Appends information about replacements made to the edit summary");
             this.chkAddToSummary.UseVisualStyleBackColor = true;
             // 
-            // chkAfterOtherFixes
-            // 
-            this.chkAfterOtherFixes.AutoSize = true;
-            this.chkAfterOtherFixes.Location = new System.Drawing.Point(363, 35);
-            this.chkAfterOtherFixes.Name = "chkAfterOtherFixes";
-            this.chkAfterOtherFixes.Size = new System.Drawing.Size(222, 17);
-            this.chkAfterOtherFixes.TabIndex = 17;
-            this.chkAfterOtherFixes.Text = "Apply after general fixes, otherwise before";
-            this.chkAfterOtherFixes.UseVisualStyleBackColor = true;
-            // 
             // chkIgnoreMore
             // 
             this.chkIgnoreMore.AutoSize = true;
@@ -377,6 +367,17 @@ namespace WikiFunctions.Parse
             this.toolTip1.SetToolTip(this.chkIgnoreMore, "Find and replacements will not be made in external/interwiki links, images, <nowi" +
                     "ki>. <math> and <!-- comments -->");
             this.chkIgnoreMore.UseVisualStyleBackColor = true;
+            this.chkIgnoreMore.CheckedChanged += new System.EventHandler(this.chkIgnoreMore_CheckedChanged);
+            // 
+            // chkAfterOtherFixes
+            // 
+            this.chkAfterOtherFixes.AutoSize = true;
+            this.chkAfterOtherFixes.Location = new System.Drawing.Point(363, 35);
+            this.chkAfterOtherFixes.Name = "chkAfterOtherFixes";
+            this.chkAfterOtherFixes.Size = new System.Drawing.Size(222, 17);
+            this.chkAfterOtherFixes.TabIndex = 17;
+            this.chkAfterOtherFixes.Text = "Apply after general fixes, otherwise before";
+            this.chkAfterOtherFixes.UseVisualStyleBackColor = true;
             // 
             // FindandReplace
             // 
