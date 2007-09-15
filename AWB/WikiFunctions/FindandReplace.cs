@@ -269,7 +269,7 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Gets or sets whether the replacements ignore external links and images
+        /// Gets or sets whether the replacements ignore headings, internal link targets, templates, and refs
         /// </summary>
         public bool ignoreMore
         {
