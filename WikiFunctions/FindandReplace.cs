@@ -40,6 +40,7 @@ namespace WikiFunctions.Parse
         string streditsummary = "";
 
         HideText RemoveLinks = new HideText(true, false, true);
+        HideText RemoveMore = new HideText(true, false, true);
 
         List<Replacement> ReplacementList = new List<Replacement>();
         bool applydefault = false;
@@ -120,6 +121,9 @@ namespace WikiFunctions.Parse
             if (chkIgnoreLinks.Checked)
                 ArticleText = RemoveLinks.Hide(ArticleText);
 
+            if (chkIgnoreMore.Checked)
+                ArticleText = RemoveMore.HideMore(ArticleText);
+
             foreach (Replacement rep in ReplacementList)
             {
                 if (!rep.Enabled)
@@ -130,6 +134,9 @@ namespace WikiFunctions.Parse
 
             if (chkIgnoreLinks.Checked)
                 ArticleText = RemoveLinks.AddBack(ArticleText);
+
+            if (chkIgnoreMore.Checked)
+                ArticleText = RemoveMore.AddBackMore(ArticleText);
 
             if (chkAddToSummary.Checked && streditsummary != "")
                 EditSummary = ", Replaced: " + summary.Trim();
@@ -259,6 +266,15 @@ namespace WikiFunctions.Parse
         {
             get { return chkIgnoreLinks.Checked; }
             set { chkIgnoreLinks.Checked = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets whether the replacements ignore external links and images
+        /// </summary>
+        public bool ignoreMore
+        {
+            get { return chkIgnoreMore.Checked; }
+            set { chkIgnoreMore.Checked = value; }
         }
 
         /// <summary>

@@ -114,6 +114,7 @@ namespace WikiFunctions.AWBSettings
         {
             Enabled = mEnabled;
             IgnoreSomeText = findAndReplace.ignoreLinks;
+            IgnoreMoreText = findAndReplace.ignoreMore;
             AppendSummary = findAndReplace.AppendToSummary;
             AfterOtherFixes = findAndReplace.AfterOtherFixes;
             Replacements = findAndReplace.GetList();
@@ -123,6 +124,7 @@ namespace WikiFunctions.AWBSettings
 
         public bool Enabled = false;
         public bool IgnoreSomeText = false;
+        public bool IgnoreMoreText = false;
         public bool AppendSummary = true;
         public bool AfterOtherFixes = false;
         public List<WikiFunctions.Parse.Replacement> Replacements = new List<WikiFunctions.Parse.Replacement>();
