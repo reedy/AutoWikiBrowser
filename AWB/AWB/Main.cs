@@ -1522,6 +1522,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             txtAppendMessage.Enabled = chkAppend.Checked;
             rdoAppend.Enabled = chkAppend.Checked;
             rdoPrepend.Enabled = chkAppend.Checked;
+            udNewlineChars.Enabled = chkAppend.Checked;
         }
 
         private void wordWrapToolStripMenuItem1_Click(object sender, EventArgs e)
