@@ -2410,6 +2410,7 @@ namespace AutoWikiBrowser
             // 
             // udNewlineChars
             // 
+            this.udNewlineChars.Enabled = false;
             this.udNewlineChars.Location = new System.Drawing.Point(38, 111);
             this.udNewlineChars.Maximum = new decimal(new int[] {
             10,
