@@ -133,8 +133,8 @@ namespace WikiFunctions.DatabaseScanner
             strArticleDoes = convert(txtArticleDoesContain.Text);
             strArticleDoesNot = convert(txtArticleDoesNotContain.Text);
 
-            ArticleRegOptions = RegexOptions.ExplicitCapture;
-            TitleRegOptions = RegexOptions.ExplicitCapture;
+            ArticleRegOptions = RegexOptions.None;
+            TitleRegOptions = RegexOptions.None;
 
             if (!chkRegex.Checked)
             {
