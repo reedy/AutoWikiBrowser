@@ -118,11 +118,11 @@ namespace WikiFunctions.Parse
         {
             streditsummary = "";
 
-            if (chkIgnoreLinks.Checked)
-                ArticleText = RemoveLinks.Hide(ArticleText);
-
             if (chkIgnoreMore.Checked)
                 ArticleText = RemoveMore.HideMore(ArticleText);
+            else if (chkIgnoreLinks.Checked)
+                ArticleText = RemoveLinks.Hide(ArticleText);
+
 
             foreach (Replacement rep in ReplacementList)
             {
@@ -132,11 +132,10 @@ namespace WikiFunctions.Parse
                 ArticleText = PerformFindAndReplace(rep.Find, rep.Replace, ArticleText, strTitle, rep.RegularExpressinonOptions);
             }
 
-            if (chkIgnoreLinks.Checked)
-                ArticleText = RemoveLinks.AddBack(ArticleText);
-
             if (chkIgnoreMore.Checked)
                 ArticleText = RemoveMore.AddBackMore(ArticleText);
+            else if (chkIgnoreLinks.Checked)
+                ArticleText = RemoveLinks.AddBack(ArticleText);
 
             if (chkAddToSummary.Checked && streditsummary != "")
                 EditSummary = ", Replaced: " + summary.Trim();
@@ -420,6 +419,12 @@ namespace WikiFunctions.Parse
         }
 
         #endregion
+
+        private void chkIgnoreMore_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkIgnoreMore.Checked)
+                chkIgnoreLinks.Checked = true;
+        }
     }
 
     public struct Replacement
