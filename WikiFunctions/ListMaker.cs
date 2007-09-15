@@ -409,7 +409,8 @@ namespace WikiFunctions.Controls.Lists
             clearToolStripMenuItem1.Enabled = filterOutNonMainSpaceArticlesToolStripMenuItem.Enabled =
             convertToTalkPagesToolStripMenuItem.Enabled = convertFromTalkPagesToolStripMenuItem.Enabled =
             sortAlphebeticallyMenuItem.Enabled = saveListToTextFileToolStripMenuItem1.Enabled = specialFilterToolStripMenuItem.Enabled =
-            selectAllToolStripMenuItem.Enabled = selectNoneToolStripMenuItem.Enabled = (lbArticles.Items.Count > 0);
+            selectAllToolStripMenuItem.Enabled = invertSelectionToolStripMenuItem.Enabled = selectNoneToolStripMenuItem.Enabled = 
+            openInBrowserToolStripMenuItem.Enabled = (lbArticles.Items.Count > 0);
         }
 
         private void txtNewArticle_DoubleClick(object sender, EventArgs e)
