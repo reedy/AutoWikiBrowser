@@ -902,12 +902,17 @@ namespace AutoWikiBrowser
 
                 if (chkAppend.Checked)
                 {
+                    // customized number of newlines
+                    String newlines = "";
+                    for (int i = 0; i < (int)udNewlineChars.Value; i++)
+                        newlines += "\r\n";
+
                     if (rdoAppend.Checked)
                         TheArticle.AWBChangeArticleText("Appended your message",
-                            TheArticle.ArticleText + "\r\n\r\n" + txtAppendMessage.Text, false);
+                            TheArticle.ArticleText + newlines + txtAppendMessage.Text, false);
                     else
                         TheArticle.AWBChangeArticleText("Prepended your message",
-                            txtAppendMessage.Text + "\r\n\r\n" + TheArticle.ArticleText, false);
+                            txtAppendMessage.Text + newlines + TheArticle.ArticleText, false);
                 }
 
                 if (chkFindandReplace.Checked && !findAndReplace.AfterOtherFixes)
