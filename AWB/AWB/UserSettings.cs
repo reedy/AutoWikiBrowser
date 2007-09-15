@@ -85,6 +85,7 @@ namespace AutoWikiBrowser
             chkFindandReplace.Checked = false;
             chkSkipWhenNoFAR.Checked = true;
             findAndReplace.ignoreLinks = false;
+            findAndReplace.ignoreMore = false;
             findAndReplace.AppendToSummary = true;
             findAndReplace.AfterOtherFixes = false;
 
@@ -340,6 +341,7 @@ namespace AutoWikiBrowser
 
             chkFindandReplace.Checked = p.FindAndReplace.Enabled;
             findAndReplace.ignoreLinks = p.FindAndReplace.IgnoreSomeText;
+            findAndReplace.ignoreMore = p.FindAndReplace.IgnoreMoreText;
             findAndReplace.AppendToSummary = p.FindAndReplace.AppendSummary;
             findAndReplace.AfterOtherFixes = p.FindAndReplace.AfterOtherFixes;
             findAndReplace.AddNew(p.FindAndReplace.Replacements);
