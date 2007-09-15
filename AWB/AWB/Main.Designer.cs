@@ -2393,6 +2393,7 @@ namespace AutoWikiBrowser
             // lblNewlineCharacters
             // 
             this.lblNewlineCharacters.AutoSize = true;
+            this.lblNewlineCharacters.Enabled = false;
             this.lblNewlineCharacters.Location = new System.Drawing.Point(78, 113);
             this.lblNewlineCharacters.Name = "lblNewlineCharacters";
             this.lblNewlineCharacters.Size = new System.Drawing.Size(96, 13);
@@ -2402,6 +2403,7 @@ namespace AutoWikiBrowser
             // lblUse
             // 
             this.lblUse.AutoSize = true;
+            this.lblUse.Enabled = false;
             this.lblUse.Location = new System.Drawing.Point(6, 113);
             this.lblUse.Name = "lblUse";
             this.lblUse.Size = new System.Drawing.Size(26, 13);
