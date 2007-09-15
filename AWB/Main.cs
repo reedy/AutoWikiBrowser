@@ -3039,8 +3039,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void SetMenuVisibility(bool Visible)
         {
-            showToolStripMenuItem.Enabled = Visible;
-            hideToolStripMenuItem.Enabled = !Visible;
+            showToolStripMenuItem.Enabled = !Visible || this.WindowState == FormWindowState.Minimized;
+            hideToolStripMenuItem.Enabled = Visible;
         }
 #endregion
 
