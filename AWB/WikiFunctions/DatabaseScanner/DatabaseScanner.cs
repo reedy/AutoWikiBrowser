@@ -96,9 +96,6 @@ namespace WikiFunctions.DatabaseScanner
 
                 intMatches = 0;
 
-                progressBar1.Style = ProgressBarStyle.Marquee;
-                progressBar1.MarqueeAnimationSpeed = 100;
-
                 timer1.Enabled = true;
 
                 UpdateControls(true);
@@ -253,6 +250,7 @@ namespace WikiFunctions.DatabaseScanner
                 s.Add(new Typo());
 
             Main = new MainProcess(s, fileName, Priority, ignoreCommentsToolStripMenuItem.Checked, txtStartFrom.Text);
+            progressBar1.Maximum = (int)(Main.stream.Length / 1024);
             Main.FoundArticle += MessageReceived;
             Main.StoppedEvent += Stopped;
             Main.Start();
@@ -267,6 +265,13 @@ namespace WikiFunctions.DatabaseScanner
                 AWBListbox.Items.Add(a);
 
             intMatches++;
+
+            // update progress bar
+            double matchesByLimit = (double)intMatches / intLimit;
+            if (matchesByLimit > (double)Main.stream.Position / Main.stream.Length)
+                progressBar1.Value = (int)(matchesByLimit * (Main.stream.Length / 1024));
+            else
+                progressBar1.Value = (int)(Main.stream.Position / 1024);
 
             if (intMatches >= intLimit)
                 Main.Run = false;
@@ -283,8 +288,7 @@ namespace WikiFunctions.DatabaseScanner
                     Main.StoppedEvent -= Stopped;
                 }
 
-                progressBar1.MarqueeAnimationSpeed = 0;
-                progressBar1.Style = ProgressBarStyle.Continuous;
+                progressBar1.Value = 0;
 
                 timer1.Enabled = false;
 

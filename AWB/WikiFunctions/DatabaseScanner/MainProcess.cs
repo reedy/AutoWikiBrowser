@@ -37,7 +37,7 @@ namespace WikiFunctions.DatabaseScanner
 
         string FileName = "";
         string From = "";
-        Stream stream;
+        internal Stream stream;
 
         SendOrPostCallback SOPC;
         SendOrPostCallback SOPCstopped;
@@ -58,6 +58,15 @@ namespace WikiFunctions.DatabaseScanner
             From = StartFrom;
 
             s = z;
+
+            try
+            {
+                stream = new FileStream(FileName, FileMode.Open);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public MainProcess(List<Scan> z, string filename, ThreadPriority tp, bool ignoreComments)
@@ -69,6 +78,15 @@ namespace WikiFunctions.DatabaseScanner
             ignore = ignoreComments;
 
             s = z;
+
+            try
+            {
+                stream = new FileStream(FileName, FileMode.Open);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         private void NewArticle(object o)
@@ -93,15 +111,6 @@ namespace WikiFunctions.DatabaseScanner
 
         public void Start()
         {
-            try
-            {
-                stream = new FileStream(FileName, FileMode.Open);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-
             context = SynchronizationContext.Current;
 
             ThreadStart thr_Process = new ThreadStart(Process);
