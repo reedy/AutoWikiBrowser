@@ -1674,7 +1674,7 @@ namespace AutoWikiBrowser
             this.chkGeneralFixes.AutoSize = true;
             this.chkGeneralFixes.Checked = true;
             this.chkGeneralFixes.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkGeneralFixes.Location = new System.Drawing.Point(6, 16);
+            this.chkGeneralFixes.Location = new System.Drawing.Point(6, 12);
             this.chkGeneralFixes.Name = "chkGeneralFixes";
             this.chkGeneralFixes.Size = new System.Drawing.Size(114, 17);
             this.chkGeneralFixes.TabIndex = 11;
@@ -1689,7 +1689,7 @@ namespace AutoWikiBrowser
             this.chkAutoTagger.AutoSize = true;
             this.chkAutoTagger.Checked = true;
             this.chkAutoTagger.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkAutoTagger.Location = new System.Drawing.Point(152, 16);
+            this.chkAutoTagger.Location = new System.Drawing.Point(142, 12);
             this.chkAutoTagger.Name = "chkAutoTagger";
             this.chkAutoTagger.Size = new System.Drawing.Size(66, 17);
             this.chkAutoTagger.TabIndex = 27;
@@ -1702,7 +1702,7 @@ namespace AutoWikiBrowser
             this.chkUnicodifyWhole.AutoSize = true;
             this.chkUnicodifyWhole.Checked = true;
             this.chkUnicodifyWhole.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkUnicodifyWhole.Location = new System.Drawing.Point(6, 39);
+            this.chkUnicodifyWhole.Location = new System.Drawing.Point(6, 35);
             this.chkUnicodifyWhole.Name = "chkUnicodifyWhole";
             this.chkUnicodifyWhole.Size = new System.Drawing.Size(132, 17);
             this.chkUnicodifyWhole.TabIndex = 27;
@@ -2213,7 +2213,7 @@ namespace AutoWikiBrowser
             // 
             // btnMoreSkip
             // 
-            this.btnMoreSkip.Location = new System.Drawing.Point(152, 35);
+            this.btnMoreSkip.Location = new System.Drawing.Point(142, 31);
             this.btnMoreSkip.Name = "btnMoreSkip";
             this.btnMoreSkip.Size = new System.Drawing.Size(82, 23);
             this.btnMoreSkip.TabIndex = 32;
