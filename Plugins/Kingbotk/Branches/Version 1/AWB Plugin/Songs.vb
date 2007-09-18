@@ -119,7 +119,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         End Property
 
         ' Initialisation:
-        Protected Friend Sub New(ByVal Manager As PluginManager)
+        Friend Sub New(ByVal Manager As PluginManager)
             MyBase.New()
             Const RegexpMiddle As String = "Songs|WikiProjectSongs"
             MainRegex = CreateStandardRegex(RegexpMiddle)
