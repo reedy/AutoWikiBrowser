@@ -319,7 +319,7 @@ namespace AutoWikiBrowser
             set { bAutoSaveEdit = value; }
         }
 
-        string sAutoSaveEditFile = "Edit Box.txt";
+        string sAutoSaveEditFile = Application.StartupPath + "\\Edit Box.txt";
         private string AutoSaveEditBoxFile
         {
             get { return sAutoSaveEditFile; }

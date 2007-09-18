@@ -190,7 +190,7 @@ namespace AutoWikiBrowser
         public bool perfAutoSaveEditBoxEnabled
         {
             get { return chkAutoSaveEdit.Checked; }
-            set { chkAutoSaveEdit.Checked = value; btnSetFile.Enabled = value; numEditBoxAutosave.Enabled = value; label8.Enabled = value; label9.Enabled = value; label10.Enabled = value; }
+            set { chkAutoSaveEdit.Checked = btnSetFile.Enabled = numEditBoxAutosave.Enabled = label8.Enabled = label9.Enabled = label10.Enabled = value; }
         }
 
         public decimal perfAutoSaveEditBoxPeriod
@@ -227,16 +227,14 @@ namespace AutoWikiBrowser
         private void chkAutoSaveEdit_CheckedChanged(object sender, EventArgs e)
         {
             perfAutoSaveEditBoxEnabled = chkAutoSaveEdit.Checked;
-            if (chkAutoSaveEdit.Checked)
-                txtAutosave.Text = "";
         }
 
         private void btnSetFile_Click(object sender, EventArgs e)
         {
             saveFile.InitialDirectory = Application.StartupPath;
             saveFile.ShowDialog();
-            txtAutosave.Text = saveFile.FileName;
+            if (saveFile.FileName != "")
+                txtAutosave.Text = saveFile.FileName;
         }
-
     }
 }
