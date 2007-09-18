@@ -900,21 +900,6 @@ namespace AutoWikiBrowser
 
                 prof.Profile("Categories");
 
-                if (chkAppend.Checked)
-                {
-                    // customized number of newlines
-                    String newlines = "";
-                    for (int i = 0; i < (int)udNewlineChars.Value; i++)
-                        newlines += "\r\n";
-
-                    if (rdoAppend.Checked)
-                        TheArticle.AWBChangeArticleText("Appended your message",
-                            TheArticle.ArticleText + newlines + txtAppendMessage.Text, false);
-                    else
-                        TheArticle.AWBChangeArticleText("Prepended your message",
-                            txtAppendMessage.Text + newlines + TheArticle.ArticleText, false);
-                }
-
                 if (chkFindandReplace.Checked && !findAndReplace.AfterOtherFixes)
                 {
                     TheArticle.PerformFindAndReplace(findAndReplace, substTemplates, replaceSpecial,
@@ -1021,6 +1006,21 @@ namespace AutoWikiBrowser
                     prof.Profile("F&R (2nd)");
 
                     if (TheArticle.SkipArticle) return;
+                }
+
+                if (chkAppend.Checked)
+                {
+                    // customized number of newlines
+                    String newlines = "";
+                    for (int i = 0; i < (int)udNewlineChars.Value; i++)
+                        newlines += "\r\n";
+
+                    if (rdoAppend.Checked)
+                        TheArticle.AWBChangeArticleText("Appended your message",
+                            TheArticle.ArticleText + newlines + txtAppendMessage.Text, false);
+                    else
+                        TheArticle.AWBChangeArticleText("Prepended your message",
+                            txtAppendMessage.Text + newlines + TheArticle.ArticleText, false);
                 }
 
                 if (chkEnableDab.Checked && txtDabLink.Text.Trim() != "" &&
