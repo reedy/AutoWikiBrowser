@@ -34,59 +34,155 @@ namespace IrcMonitor
             //SetToEnglish();
         }
 
-        public string Using;
-        public string RevertSummary;
+        private string Using; // ENCAPSULATE FIELD BY CODEIT.RIGHT
 
-        public string ReportURL;
-        public string ReportSummary;
-        public string ReportAnonTemplate;
-        public string ReportRegisteredTemplate;
+        public string Using1
+        {
+            get
+            {
+                return Using;
+            }
+            set
+            {
+                Using = value;
+            }
+        }
+        private string RevertSummary; // ENCAPSULATE FIELD BY CODEIT.RIGHT
+
+        public string RevertSummary1
+        {
+            get
+            {
+                return RevertSummary;
+            }
+            set
+            {
+                RevertSummary = value;
+            }
+        }
+
+        public string ReportUrl;
+        private string ReportSummary; // ENCAPSULATE FIELD BY CODEIT.RIGHT
+
+        public string ReportSummary1
+        {
+            get
+            {
+                return ReportSummary;
+            }
+            set
+            {
+                ReportSummary = value;
+            }
+        }
+        private string ReportAnonTemplate; // ENCAPSULATE FIELD BY CODEIT.RIGHT
+
+        public string ReportAnonTemplate1
+        {
+            get
+            {
+                return ReportAnonTemplate;
+            }
+            set
+            {
+                ReportAnonTemplate = value;
+            }
+        }
+        private string ReportRegisteredTemplate; // ENCAPSULATE FIELD BY CODEIT.RIGHT
+
+        public string ReportRegisteredTemplate1
+        {
+            get
+            {
+                return ReportRegisteredTemplate;
+            }
+            set
+            {
+                ReportRegisteredTemplate = value;
+            }
+        }
 
         public string[] WarningTemplates;
-        public string WarningSummary;
-        public string AppendedTagSummary;
-        public string PrependedTagSummary;
+        private string WarningSummary; // ENCAPSULATE FIELD BY CODEIT.RIGHT
 
-        public string[] StubTypes;
+        public string WarningSummary1
+        {
+            get
+            {
+                return WarningSummary;
+            }
+            set
+            {
+                WarningSummary = value;
+            }
+        }
+        private string AppendedTagSummary; // ENCAPSULATE FIELD BY CODEIT.RIGHT
+
+        public string AppendedTagSummary1
+        {
+            get
+            {
+                return AppendedTagSummary;
+            }
+            set
+            {
+                AppendedTagSummary = value;
+            }
+        }
+        private string PrependedTagSummary; // ENCAPSULATE FIELD BY CODEIT.RIGHT
+
+        public string PrependedTagSummary1
+        {
+            get
+            {
+                return PrependedTagSummary;
+            }
+            set
+            {
+                PrependedTagSummary = value;
+            }
+        }
+
+        private string[] StubTypes;
         public string[] PageTags;
 
 
-        public string AppendTag(string PageContent, string TagToAdd, out string Summary)
+        public string AppendTag(string pageContent, string tagToAdd, out string summary)
         {
-            PageContent += "\r\n" + TagToAdd;
-            Summary = AppendedTagSummary.Replace("%1", TagToAdd);
-            return PageContent;
+            pageContent += "\r\n" + tagToAdd;
+            summary = AppendedTagSummary.Replace("%1", tagToAdd);
+            return pageContent;
         }
 
-        public string PrependTag(string PageContent, string TagToAdd, out string Summary)
+        public string PrependTag(string pageContent, string tagToAdd, out string summary)
         {
-            PageContent = TagToAdd + "\r\n" + PageContent;
-            Summary = PrependedTagSummary.Replace("%1", TagToAdd);
-            return PageContent;
+            pageContent = tagToAdd + "\r\n" + pageContent;
+            summary = PrependedTagSummary.Replace("%1", tagToAdd);
+            return pageContent;
         }
 
-        public string[] LoadStubs(string FileName, int InitialLevel)
+        public string[] LoadStubs(string fileName, int initialLevel)
         {
             string[] stubs = new string[]{};
 
             try
             {
-                StreamReader sr = new StreamReader(FileName);
+                StreamReader sr = new StreamReader(fileName);
                 string contents = sr.ReadToEnd();
                 stubs = contents.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
 
-                int Level = InitialLevel;
+                int level = initialLevel;
                 for (int i = 0; i < stubs.Length; i++)
                 {
                     string s = stubs[i];
                     s = s.TrimEnd(new char[] { '=', ' ' });
                     if (s[0] == '=')
                     {
-                        Level = s.LastIndexOf('=') + 1;
+                        level = s.LastIndexOf('=') + 1;
                         s = s.TrimStart(new char[] { '=', ' ' });
                     }
 
-                    s = "".PadLeft(Level - InitialLevel, '*') + s;
+                    s = "".PadLeft(level - initialLevel, '*') + s;
                     stubs[i] = s;
                 }
             }
@@ -99,16 +195,16 @@ namespace IrcMonitor
         }
     }
 
-    public class EnWikipediaSettings : ProjectSettings
+    public class ENWikipediaSettings : ProjectSettings
     {
-        public EnWikipediaSettings()
+        public ENWikipediaSettings()
         {
-            Using = " using [[WP:IRCM|IRCM]]";
+            Using1 = " using [[WP:IRCM|IRCM]]";
 
-            ReportURL = "http://en.wikipedia.org/w/index.php?title=Wikipedia:Administrator_intervention_against_vandalism&action=edit&section=2";
-            ReportSummary = "Reporting [[Special:Contributions/%v|%v]] ([[User talk:%v|talk]])";
+            ReportUrl = "http://en.wikipedia.org/w/index.php?title=Wikipedia:Administrator_intervention_against_vandalism&action=edit&section=2";
+            ReportSummary1 = "Reporting [[Special:Contributions/%v|%v]] ([[User talk:%v|talk]])";
 
-            RevertSummary = "Reverted edits by [[Special:Contributions/%v|%v]] ([[User talk:%v|talk]]) to last version by %u";
+            RevertSummary1 = "Reverted edits by [[Special:Contributions/%v|%v]] ([[User talk:%v|talk]]) to last version by %u";
 
             WarningTemplates = new string[] 
             {
@@ -187,11 +283,11 @@ namespace IrcMonitor
                 "*{{drmafd5}} - You have been temporarily blocked",
             };
 
-            ReportAnonTemplate = "IPvandal";
-            ReportRegisteredTemplate = "vandal";
-            WarningSummary = "Warned user with %t";
-            AppendedTagSummary = "Added %1";
-            PrependedTagSummary = "Tagged with %1";
+            ReportAnonTemplate1 = "IPvandal";
+            ReportRegisteredTemplate1 = "vandal";
+            WarningSummary1 = "Warned user with %t";
+            AppendedTagSummary1 = "Added %1";
+            PrependedTagSummary1 = "Tagged with %1";
             
             //StubTypes = LoadStubs("enwiki.stubs.txt", 3);
 

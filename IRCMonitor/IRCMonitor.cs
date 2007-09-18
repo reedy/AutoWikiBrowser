@@ -49,7 +49,7 @@ namespace IrcMonitor
         public IRCMonitor()
         {
             InitializeComponent();
-            loadIRCChannels();
+            LoadIrcChannels();
             cmboEditIP.SelectedIndex = 0;
             cmboEditMinor.SelectedIndex = 0;
             cmboEditNamespace.SelectedIndex = 0;
@@ -76,7 +76,7 @@ namespace IrcMonitor
             foreach (ProjectEnum l in Enum.GetValues(typeof(ProjectEnum)))
                 cmboProject.Items.Add(l);
 
-            webBrowser.Saved += new WikiFunctions.Browser.WebControlDel(webBrowser_Saved);
+            webBrowser.Saved += new WikiFunctions.Browser.WebControlDel(WebBrowserSaved);
 
             Variables.User.UserNameChanged += UpdateUserName;
             Variables.User.BotStatusChanged += UpdateBotStatus;
@@ -84,16 +84,52 @@ namespace IrcMonitor
             Variables.User.WikiStatusChanged += UpdateWikiStatus;
         }
 
-        public ProjectSettings Project = new EnWikipediaSettings();
+        private ProjectSettings Project = new ENWikipediaSettings(); // ENCAPSULATE FIELD BY CODEIT.RIGHT
 
-        public string VandalName;
-        public string VandalizedPage;
-        public string replacementText;
+        public ProjectSettings Project1
+        {
+            get
+            {
+                return Project;
+            }
+            set
+            {
+                Project = value;
+            }
+        }
+
+        private string VandalName; // ENCAPSULATE FIELD BY CODEIT.RIGHT
+
+        public string VandalName1
+        {
+            get
+            {
+                return VandalName;
+            }
+            set
+            {
+                VandalName = value;
+            }
+        }
+        private string VandalizedPage; // ENCAPSULATE FIELD BY CODEIT.RIGHT
+
+        public string VandalizedPage1
+        {
+            get
+            {
+                return VandalizedPage;
+            }
+            set
+            {
+                VandalizedPage = value;
+            }
+        }
+        public string ReplacementText;
         public enum NextTaskType { None, Warn, Report, Contribs, Blacklist };
         NextTaskType NextTask = NextTaskType.None;
         //string[] IRCChannels = new String[] { "#en.wikibooks", "#en.wikinews ", "#en.wikipedia", "#en.wikiquote", "#en.wikisource", "#meta" };
 
-        void webBrowser_Saved()
+        void WebBrowserSaved()
         {
             webBrowser.AllowNavigation = true;
             switch (NextTask)
@@ -117,7 +153,7 @@ namespace IrcMonitor
 
         private void ReportVandal(string username)
         {
-            webBrowser.Navigate(Project.ReportURL);
+            webBrowser.Navigate(Project.ReportUrl);
             webBrowser.Wait();
             NextTask = NextTaskType.None;
             if (webBrowser.GetArticleText().Contains(username + "}}"))
@@ -126,36 +162,36 @@ namespace IrcMonitor
                 webBrowser.GoBack();
                 return;
             }
-            webBrowser.SetArticleText(webBrowser.GetArticleText() + "\r\n*{{" + (Tools.IsIP(username) ? Project.ReportAnonTemplate : Project.ReportRegisteredTemplate) + "|" + username + "}} ~~~~");
-            webBrowser.SetSummary(Project.ReportSummary.Replace("%v", username) + Project.Using);
+            webBrowser.SetArticleText(webBrowser.GetArticleText() + "\r\n*{{" + (Tools.IsIP(username) ? Project.ReportAnonTemplate1 : Project.ReportRegisteredTemplate1) + "|" + username + "}} ~~~~");
+            webBrowser.SetSummary(Project.ReportSummary1.Replace("%v", username) + Project.Using1);
             //webBrowser.Save();
         }
 
-        public void MakeMenu(string[] Templates, ToolStripItemCollection Items, EventHandler Handler)
+        public void MakeMenu(string[] templates, ToolStripItemCollection items, EventHandler handler)
         {
             Stack<ToolStripItemCollection> st = new Stack<ToolStripItemCollection>();
-            st.Push(Items);
-            foreach (string s in Templates)
+            st.Push(items);
+            foreach (string s in templates)
             {
-                string Title = s.TrimStart('*');
-                int Level = s.Length - Title.Length;
+                string title = s.TrimStart('*');
+                int level = s.Length - title.Length;
                 int tag;
-                if (Title == "") continue;
-                if (int.TryParse(Tools.StringBetween(Title, "[", "]"), out tag)) tag = -1;
-                if (Title[0] != '{' && Title.Contains("{")) Title = Title.Remove(0, Title.IndexOf('{'));
-                ToolStripMenuItem ts = new ToolStripMenuItem(Title);
+                if (title == "") continue;
+                if (int.TryParse(Tools.StringBetween(title, "[", "]"), out tag)) tag = -1;
+                if (title[0] != '{' && title.Contains("{")) title = title.Remove(0, title.IndexOf('{'));
+                ToolStripMenuItem ts = new ToolStripMenuItem(title);
                 ts.Tag = tag;
 
-                if (Level > st.Count - 1)
+                if (level > st.Count - 1)
                 {
                     ToolStripMenuItem parent = (ToolStripMenuItem)st.Peek()[st.Peek().Count - 1];
                     st.Push(parent.DropDownItems);
                 }
-                else if (Level < st.Count - 1)
+                else if (level < st.Count - 1)
                 {
-                    for (; Level < st.Count - 1; Level++) st.Pop();
+                    for (; level < st.Count - 1; level++) st.Pop();
                 }
-                if (Title.StartsWith("{{")) ts.Click += Handler;
+                if (title.StartsWith("{{")) ts.Click += handler;
                 st.Peek().Add(ts);
             }
         }
@@ -163,9 +199,9 @@ namespace IrcMonitor
         private void IRCMonitor_Load(object sender, EventArgs e)
         {
             ResetStats();
-            loadDefaultSettings();
+            LoadDefaultSettings();
 
-            updateUpdater();
+            UpdateUpdater();
 
             btnWarn.DropDownItems.Clear();
             MakeMenu(Project.WarningTemplates, btnWarn.DropDownItems, new EventHandler(WarnUserClick));
@@ -173,27 +209,27 @@ namespace IrcMonitor
             MakeMenu(Project.PageTags, tagWithToolStripMenuItem.DropDownItems, new EventHandler(AddTagClick));
         }
 
-        private void updateUpdater()
+        private void UpdateUpdater()
         {
-            Updater Updater = new Updater();
-            Updater.Update();
+            Updater updater = new Updater();
+            updater.Update();
         }
 
-        private void loadIRCChannels()
+        private void LoadIrcChannels()
         {
             cmboLang.Text = "en";
             cmboProject.Text = "wikipedia";
         }
 
-        private bool CheckStatus(bool Login)
+        private bool CheckStatus(bool login)
         {
             lblStatusText.Text = "Loading page to check if we are logged in.";
-            WikiStatusResult Result = Variables.User.UpdateWikiStatus();
+            WikiStatusResult result = Variables.User.UpdateWikiStatus();
 
             bool b = false;
             string label = "Software disabled";
 
-            switch (Result)
+            switch (result)
             {
                 case WikiStatusResult.Error:
                     lblUserName.BackColor = Color.Red;
@@ -202,7 +238,7 @@ namespace IrcMonitor
 
                 case WikiStatusResult.NotLoggedIn:
                     lblUserName.BackColor = Color.Red;
-                    if (!Login)
+                    if (!login)
                         MessageBox.Show("You are not logged in. The log in screen will now load, enter your name and password, click \"Log in\", wait for it to complete, then start the process again.\r\n\r\nIn the future you can make sure this won't happen by logging in to Wikipedia using Microsoft Internet Explorer.", "Not logged in", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     webBrowser.LoadLogInPage();
                     tabControl.SelectedTab = tabPage8;
@@ -215,7 +251,7 @@ namespace IrcMonitor
                     break;
 
                 case WikiStatusResult.OldVersion:
-                    oldVersion();
+                    OldVersion();
                     break;
 
                 case WikiStatusResult.Registered:
@@ -233,7 +269,7 @@ namespace IrcMonitor
             return b;
         }
 
-        private void oldVersion()
+        private void OldVersion()
         {
             if (!WebControl.Shutdown)
             {
@@ -241,7 +277,7 @@ namespace IrcMonitor
 
                 DialogResult yesnocancel = MessageBox.Show("This version is not enabled, please download the newest version. If you have the newest version, check that Wikipedia is online.\r\n\r\nPlease press \"Yes\" to run the AutoUpdater, \"No\" to load the download page and update manually, or \"Cancel\" to not update (but you will not be able to edit).", "Problem", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information);
                 if (yesnocancel == DialogResult.Yes)
-                    runUpdater();
+                    RunUpdater();
 
                 if (yesnocancel == DialogResult.No)
                 {
@@ -266,7 +302,7 @@ namespace IrcMonitor
         private void UpdateUserName(object sender, EventArgs e)
         { }
 
-        private void runUpdater()
+        private void RunUpdater()
         {
             System.Diagnostics.Process.Start(Path.GetDirectoryName(Application.ExecutablePath) + "\\AWBUpdater.exe");
 
@@ -298,7 +334,7 @@ namespace IrcMonitor
             else
             {
                 btnStart.Text = "Connect";
-                WikiIRC.run = false;
+                WikiIRC.Run = false;
             }
         }
 
@@ -310,7 +346,7 @@ namespace IrcMonitor
                 return false;
         }
 
-        private string GetIRCChannel()
+        private string GetIrcChannel()
         {
             if (cmboProject.Text == "meta" || cmboProject.Text == "commons")
                 return "#" + cmboProject.SelectedItem.ToString() + ".wikimedia";
@@ -333,12 +369,12 @@ namespace IrcMonitor
             else
                 name += txtNickname.Text;
 
-            IrcObject = new WikiIRC(txtServer.Text, int.Parse(txtPort.Text), name, GetIRCChannel());
-            WikiIRC.run = true;
+            IrcObject = new WikiIRC(txtServer.Text, int.Parse(txtPort.Text), name, GetIrcChannel());
+            WikiIRC.Run = true;
 
-            IrcObject.otherMessages += ProcessOtherMessages;
-            IrcObject.ConnectEvent += connected;
-            IrcObject.DisconnectEvent += disconnected;
+            IrcObject.OtherMessages += ProcessOtherMessages;
+            IrcObject.ConnectEvent += Connected;
+            IrcObject.DisconnectEvent += Disconnected;
             IrcObject.Edit += ProcessEdit;
             IrcObject.NewArticle += ProcessNewArticles;
             IrcObject.NewUser += ProcessNewUser;
@@ -349,7 +385,7 @@ namespace IrcMonitor
             IrcObject.Protect += ProcessProtection;
             IrcObject.Unprotect += ProcessUnprotection;
             IrcObject.Block += ProcessBlock;
-            IrcObject.Unblock += ProcessUnBlock;
+            IrcObject.Unblock += ProcessUNBlock;
 
             IrcObject.Start();
         }
@@ -358,10 +394,10 @@ namespace IrcMonitor
         {
             if (IrcObject != null)
             {
-                WikiIRC.run = false;
-                IrcObject.ConnectEvent -= connected;
-                IrcObject.DisconnectEvent -= disconnected;
-                IrcObject.otherMessages -= ProcessOtherMessages;
+                WikiIRC.Run = false;
+                IrcObject.ConnectEvent -= Connected;
+                IrcObject.DisconnectEvent -= Disconnected;
+                IrcObject.OtherMessages -= ProcessOtherMessages;
                 IrcObject.Edit -= ProcessEdit;
                 IrcObject.NewArticle -= ProcessNewArticles;
                 IrcObject.NewUser -= ProcessNewUser;
@@ -372,7 +408,7 @@ namespace IrcMonitor
                 IrcObject.Protect -= ProcessProtection;
                 IrcObject.Unprotect -= ProcessUnprotection;
                 IrcObject.Block -= ProcessBlock;
-                IrcObject.Unblock -= ProcessUnBlock;
+                IrcObject.Unblock -= ProcessUNBlock;
 
                 IrcObject = null;
             }
@@ -462,15 +498,15 @@ namespace IrcMonitor
                 Tools.Beep1();
         }
 
-        private void connected()
+        private void Connected()
         {
             lblStatusText.Text = "Connected";
         }
 
-        private void disconnected()
+        private void Disconnected()
         {
             lblStatusText.Text = "Disconnected";
-            if (WikiIRC.run)
+            if (WikiIRC.Run)
             {
                 Start();
                 textBox1.AppendText("\r\n DISCONNECTED \r\n\r\n");
@@ -479,12 +515,12 @@ namespace IrcMonitor
 
         private void btnDisconnect_Click(object sender, EventArgs e)
         {
-            WikiIRC.run = false;
+            WikiIRC.Run = false;
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AboutIRCMon about = new AboutIRCMon();
+            AboutIrcMon about = new AboutIrcMon();
             about.Show();
         }
 
@@ -543,9 +579,9 @@ namespace IrcMonitor
         string[] lviEditArray = { "", "", "", "", "" };
         private void ProcessEdit(string article, string minor, string difflink, string user, int plusminus, string comment)
         {
-            bool IPedit = false;
+            bool iPedit = false;
             if (WikiRegexes.IPAddress.IsMatch(user))
-                IPedit = true;
+                iPedit = true;
 
             bool blacklistedUser = lbBlackList.Items.Contains(user);
             bool watchedArticle = lbWatchList.Items.Contains(article);
@@ -563,9 +599,9 @@ namespace IrcMonitor
                     return;
                 if (chkIgnoreWhiteList.Checked && whiteListedUser)
                     return;
-                if (IPedit && cmboEditIP.SelectedIndex == 2)
+                if (iPedit && cmboEditIP.SelectedIndex == 2)
                     return;
-                if (!IPedit && cmboEditIP.SelectedIndex == 1)
+                if (!iPedit && cmboEditIP.SelectedIndex == 1)
                     return;
                 try
                 {
@@ -590,16 +626,16 @@ namespace IrcMonitor
             if (watchedArticle)
             {
                 lvItem.BackColor = WatchListColour;
-                watchedItemChanged();
+                WatchedItemChanged();
             }
             else if (blacklistedUser)
             {
                 lvItem.BackColor = BlackListColour;
-                blackListedEdited();
+                BlackListedEdited();
             }
             else if (whiteListedUser)
                 lvItem.BackColor = WhiteListColour;
-            else if (IPedit)
+            else if (iPedit)
                 lvItem.BackColor = ColourIP;
             else
                 lvItem.BackColor = UserColour;
@@ -609,7 +645,7 @@ namespace IrcMonitor
             listViewEdit.Items.Insert(0, lvItem);
             if (listViewEdit.Items.Count > MaxNumberOfRows)
                 listViewEdit.Items.RemoveAt(MaxNumberOfRows);
-            addEdit();
+            AddEdit();
         }
 
         string[] lviNewUserArray = { "" };
@@ -620,15 +656,15 @@ namespace IrcMonitor
             listviewNewUsers.Items.Insert(0, lvItem);
             if (listviewNewUsers.Items.Count > MaxNumberOfRows)
                 listviewNewUsers.Items.RemoveAt(MaxNumberOfRows);
-            addNewUser();
+            AddNewUser();
         }
 
         string[] lviNewArticleArray = { "", "", "", "" };
         private void ProcessNewArticles(string article, string user, int plusmin, string comment)
         {
-            bool IPedit = false;
+            bool iPedit = false;
             if (WikiRegexes.IPAddress.IsMatch(user))
-                IPedit = true;
+                iPedit = true;
 
             bool whiteListedUser = lbWhiteList.Items.Contains(user);
             bool blacklistedUser = lbBlackList.Items.Contains(user);
@@ -654,16 +690,16 @@ namespace IrcMonitor
             if (watchedArticle)
             {
                 lvItem.BackColor = WatchListColour;
-                watchedItemChanged();
+                WatchedItemChanged();
             }
             else if (blacklistedUser)
             {
                 lvItem.BackColor = BlackListColour;
-                blackListedEdited();
+                BlackListedEdited();
             }
             else if (whiteListedUser)
                 lvItem.BackColor = WhiteListColour;
-            else if (IPedit)
+            else if (iPedit)
                 lvItem.BackColor = ColourIP;
             else
                 lvItem.BackColor = UserColour;
@@ -671,7 +707,7 @@ namespace IrcMonitor
             listviewNewStuff.Items.Insert(0, lvItem);
             if (listviewNewStuff.Items.Count > MaxNumberOfRows)
                 listviewNewStuff.Items.RemoveAt(MaxNumberOfRows);
-            addNewArticle();
+            AddNewArticle();
         }
 
         string[] lviUploadArray = { "", "", "", "" };
@@ -699,12 +735,12 @@ namespace IrcMonitor
             if (watchedArticle)
             {
                 lvItem.BackColor = WatchListColour;
-                watchedItemChanged();
+                WatchedItemChanged();
             }
             else if (blacklistedUser)
             {
                 lvItem.BackColor = BlackListColour;
-                blackListedEdited();
+                BlackListedEdited();
             }
             else if (whiteListedUser)
                 lvItem.BackColor = WhiteListColour;
@@ -714,7 +750,7 @@ namespace IrcMonitor
             listviewNewStuff.Items.Insert(0, lvItem);
             if (listviewNewStuff.Items.Count > MaxNumberOfRows)
                 listviewNewStuff.Items.RemoveAt(MaxNumberOfRows);
-            addNewUpload();
+            AddNewUpload();
         }
 
         string[] lviMoveArray = { "", "", "", "" };
@@ -743,12 +779,12 @@ namespace IrcMonitor
             if (watchedArticle)
             {
                 lvItem.BackColor = WatchListColour;
-                watchedItemChanged();
+                WatchedItemChanged();
             }
             else if (blacklistedUser)
             {
                 lvItem.BackColor = blacklistcolour;
-                blackListedEdited();
+                BlackListedEdited();
             }
             else if (whiteListedUser)
                 lvItem.BackColor = WhiteListColour;
@@ -758,13 +794,13 @@ namespace IrcMonitor
             listviewPageMoves.Items.Insert(0, lvItem);
             if (listviewPageMoves.Items.Count > MaxNumberOfRows)
                 listviewPageMoves.Items.RemoveAt(MaxNumberOfRows);
-            addNewPageMove();
+            AddNewPageMove();
         }
 
         private void ProcessDelete(string admin, string article, string comment)
         {
             ProcessActions(admin, "DELETE", article, comment);
-            addNewDeletion();
+            AddNewDeletion();
         }
 
         private void ProcessRestore(string admin, string article, string comment)
@@ -775,10 +811,10 @@ namespace IrcMonitor
         private void ProcessBlock(string admin, string user, string comment, string time)
         {
             ProcessActions(admin, "BLOCK", user, time + comment);
-            addNewBlock();
+            AddNewBlock();
         }
 
-        private void ProcessUnBlock(string admin, string user, string comment)
+        private void ProcessUNBlock(string admin, string user, string comment)
         {
             ProcessActions(admin, "UNBLOCK", user, comment);
         }
@@ -786,7 +822,7 @@ namespace IrcMonitor
         private void ProcessProtection(string admin, string article, string comment)
         {
             ProcessActions(admin, "PROTECT", article, comment);
-            addNewProtection();
+            AddNewProtection();
         }
 
         private void ProcessUnprotection(string admin, string article, string comment)
@@ -815,12 +851,12 @@ namespace IrcMonitor
             if (watchedArticle)
             {
                 lvItem.BackColor = WatchListColour;
-                watchedItemChanged();
+                WatchedItemChanged();
             }
             else if (blacklistedUser)
             {
                 lvItem.BackColor = BlackListColour;
-                blackListedEdited();
+                BlackListedEdited();
             }
             else if (lbWhiteList.Items.Contains(admin))
                 lvItem.BackColor = WhiteListColour;
@@ -840,7 +876,7 @@ namespace IrcMonitor
         #endregion
 
         #region helper functions
-        private void watchedItemChanged()
+        private void WatchedItemChanged()
         {
             if (chkFlashWatchlisted.Checked && !this.ContainsFocus)
                 Tools.FlashWindow(this);
@@ -849,7 +885,7 @@ namespace IrcMonitor
                 Tools.Beep1();
         }
 
-        private void blackListedEdited()
+        private void BlackListedEdited()
         {
             if (chkFlashBlackListed.Checked)
                 Tools.FlashWindow(this);
@@ -858,7 +894,7 @@ namespace IrcMonitor
                 Tools.Beep2();
         }
 
-        private int intFromMessage(string s)
+        private int IntFromMessage(string s)
         {
             string z = s;
             int i = 0;
@@ -873,27 +909,27 @@ namespace IrcMonitor
             return i;
         }
 
-        private bool CheckNameSpace(string Article, int index)
+        private bool CheckNameSpace(string article, int index)
         {
-            if (index == 1 && !Tools.IsMainSpace(Article))
+            if (index == 1 && !Tools.IsMainSpace(article))
                 return false;
-            if (index == 2 && Tools.IsTalkPage(Article))
+            if (index == 2 && Tools.IsTalkPage(article))
                 return false;
 
             return true;
         }
 
-        private void openInBrowser(string URL)
+        private void OpenInBrowser(string url)
         {
             if (chkBrowser.Checked)
             {
                 webBrowser.AllowNavigation = true;
-                webBrowser.Navigate(URL);
+                webBrowser.Navigate(url);
                 tabControl.SelectedTab = tabPage8;
             }
             else
             {
-                try { System.Diagnostics.Process.Start(URL); }
+                try { System.Diagnostics.Process.Start(url); }
                 catch { }
             }
         }
@@ -929,56 +965,56 @@ namespace IrcMonitor
         }
 
         int intNumberofEdits = 0;
-        private void addEdit()
+        private void AddEdit()
         {
             intNumberofEdits++;
             dataGridStatistics.Rows[0].Cells[1].Value = intNumberofEdits;
         }
 
         int intNumberofNewArticle = 0;
-        private void addNewArticle()
+        private void AddNewArticle()
         {
             intNumberofNewArticle++;
             dataGridStatistics.Rows[1].Cells[1].Value = intNumberofNewArticle;
         }
 
         int intNumberofUploads = 0;
-        private void addNewUpload()
+        private void AddNewUpload()
         {
             intNumberofUploads++;
             dataGridStatistics.Rows[2].Cells[1].Value = intNumberofUploads;
         }
 
         int intNumberofPageMoves = 0;
-        private void addNewPageMove()
+        private void AddNewPageMove()
         {
             intNumberofPageMoves++;
             dataGridStatistics.Rows[3].Cells[1].Value = intNumberofPageMoves;
         }
 
         int intNumberofNewUsers = 0;
-        private void addNewUser()
+        private void AddNewUser()
         {
             intNumberofNewUsers++;
             dataGridStatistics.Rows[4].Cells[1].Value = intNumberofNewUsers;
         }
 
         int intNumberofBlocks = 0;
-        private void addNewBlock()
+        private void AddNewBlock()
         {
             intNumberofBlocks++;
             dataGridStatistics.Rows[5].Cells[1].Value = intNumberofBlocks;
         }
 
         int intNumberofDeletions = 0;
-        private void addNewDeletion()
+        private void AddNewDeletion()
         {
             intNumberofDeletions++;
             dataGridStatistics.Rows[6].Cells[1].Value = intNumberofDeletions;
         }
 
         int intNumberofProtection = 0;
-        private void addNewProtection()
+        private void AddNewProtection()
         {
             intNumberofProtection++;
             dataGridStatistics.Rows[7].Cells[1].Value = intNumberofProtection;
@@ -1074,9 +1110,9 @@ namespace IrcMonitor
             }
         }
 
-        private void WhitelistEnabled(bool Enabled)
+        private void WhitelistEnabled(bool enabled)
         {
-            btnWhiteListAddAdmins.Enabled = btnWhiteListeAddBots.Enabled = Enabled;
+            btnWhiteListAddAdmins.Enabled = btnWhiteListeAddBots.Enabled = enabled;
         }
 
         private void btnImportWatchList_Click(object sender, EventArgs e)
@@ -1145,12 +1181,12 @@ namespace IrcMonitor
 
         private void loadSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            loadSettingsDialog();
+            LoadSettingsDialog();
         }
 
         private void saveSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            saveSettings();
+            SaveSettings();
         }
 
         private void loadDefaultSettingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1207,25 +1243,25 @@ namespace IrcMonitor
 
             txtNickname.Text = "";
             txtServer.Text = "irc.wikimedia.org";
-            loadIRCChannels();
+            LoadIrcChannels();
             txtPort.Text = "6667";
         }
 
-        private void loadSettingsDialog()
+        private void LoadSettingsDialog()
         {
             if (openXML.ShowDialog() != DialogResult.OK)
                 return;
-            loadSettings(openXML.FileName);
+            LoadSettings(openXML.FileName);
         }
 
-        private void loadDefaultSettings()
+        private void LoadDefaultSettings()
         {//load Default.xml file if it exists
             try
             {
                 string filename = Environment.CurrentDirectory + "\\IRCMonitorDefault.xml";
 
                 if (File.Exists(filename))
-                    loadSettings(filename);
+                    LoadSettings(filename);
             }
             catch (Exception ex)
             {
@@ -1233,7 +1269,7 @@ namespace IrcMonitor
             }
         }
 
-        private void loadSettings(string fileName)
+        private void LoadSettings(string fileName)
         {
             try
             {
@@ -1399,7 +1435,7 @@ namespace IrcMonitor
             }
         }
 
-        private void saveSettings()
+        private void SaveSettings()
         {
             try
             {
@@ -1476,7 +1512,7 @@ namespace IrcMonitor
                 textWriter.WriteStartElement("IRCSettings");
                 textWriter.WriteAttributeString("nickName", txtNickname.Text);
                 textWriter.WriteAttributeString("server", txtServer.Text);
-                textWriter.WriteAttributeString("channel", GetIRCChannel());
+                textWriter.WriteAttributeString("channel", GetIrcChannel());
                 textWriter.WriteAttributeString("port", txtPort.Text);
                 textWriter.WriteEndElement();
 
@@ -1571,14 +1607,14 @@ namespace IrcMonitor
             if (listViewEdit.SelectedItems.Count == 0)
                 return;
 
-            openInBrowser(listViewEdit.SelectedItems[0].Tag.ToString());
+            OpenInBrowser(listViewEdit.SelectedItems[0].Tag.ToString());
             if (chkChangeCheckedColour.Checked)
                 listViewEdit.SelectedItems[0].BackColor = CheckedColour;
         }
 
         private void articleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            openInBrowser(Variables.URL + "/wiki/" + listViewEdit.SelectedItems[0].SubItems[0].Text);
+            OpenInBrowser(Variables.URL + "/wiki/" + listViewEdit.SelectedItems[0].SubItems[0].Text);
             if (chkChangeCheckedColour.Checked)
                 listViewEdit.SelectedItems[0].BackColor = CheckedColour;
         }
@@ -1588,13 +1624,13 @@ namespace IrcMonitor
             string username = listViewEdit.SelectedItems[0].SubItems[1].Text;
 
             // for anons, display user talk instead of userpage
-            if (Tools.IsIP(username)) openInBrowser(Variables.URL + "/wiki/User talk:" + username);
-            else openInBrowser(Variables.URL + "/wiki/User:" + username);
+            if (Tools.IsIP(username)) OpenInBrowser(Variables.URL + "/wiki/User talk:" + username);
+            else OpenInBrowser(Variables.URL + "/wiki/User:" + username);
         }
 
         private void diffToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            openInBrowser(listViewEdit.SelectedItems[0].Tag.ToString());
+            OpenInBrowser(listViewEdit.SelectedItems[0].Tag.ToString());
             if (chkChangeCheckedColour.Checked)
                 listViewEdit.SelectedItems[0].BackColor = CheckedColour;
         }
@@ -1622,19 +1658,19 @@ namespace IrcMonitor
         //NEW USERS
         private void listviewNewUsers_DoubleClick(object sender, EventArgs e)
         {
-            openInBrowser(Variables.URL + "/wiki/User:" + listviewNewUsers.SelectedItems[0].SubItems[0].Text);
+            OpenInBrowser(Variables.URL + "/wiki/User:" + listviewNewUsers.SelectedItems[0].SubItems[0].Text);
             if (chkChangeCheckedColour.Checked)
                 listviewNewUsers.SelectedItems[0].BackColor = CheckedColour;
         }
         private void loadUserPageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            openInBrowser(Variables.URL + "/wiki/User:" + listviewNewUsers.SelectedItems[0].SubItems[0].Text);
+            OpenInBrowser(Variables.URL + "/wiki/User:" + listviewNewUsers.SelectedItems[0].SubItems[0].Text);
             if (chkChangeCheckedColour.Checked)
                 listviewNewUsers.SelectedItems[0].BackColor = CheckedColour;
         }
         private void loadBlockPageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            openInBrowser(Variables.URL + "/wiki/Special:Blockip/" + listviewNewUsers.SelectedItems[0].SubItems[0].Text);
+            OpenInBrowser(Variables.URL + "/wiki/Special:Blockip/" + listviewNewUsers.SelectedItems[0].SubItems[0].Text);
             if (chkChangeCheckedColour.Checked)
                 listviewNewUsers.SelectedItems[0].BackColor = CheckedColour;
         }
@@ -1646,19 +1682,19 @@ namespace IrcMonitor
         //NEW STUFF
         private void listviewNewStuff_DoubleClick(object sender, EventArgs e)
         {
-            openInBrowser(Variables.URL + "/wiki/" + listviewNewStuff.SelectedItems[0].SubItems[0].Text);
+            OpenInBrowser(Variables.URL + "/wiki/" + listviewNewStuff.SelectedItems[0].SubItems[0].Text);
             if (chkChangeCheckedColour.Checked)
                 listviewNewStuff.SelectedItems[0].BackColor = CheckedColour;
         }
         private void loadArticlefileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            openInBrowser(Variables.URL + "/wiki/" + listviewNewStuff.SelectedItems[0].SubItems[0].Text);
+            OpenInBrowser(Variables.URL + "/wiki/" + listviewNewStuff.SelectedItems[0].SubItems[0].Text);
             if (chkChangeCheckedColour.Checked)
                 listviewNewStuff.SelectedItems[0].BackColor = CheckedColour;
         }
         private void loadUserPageToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            openInBrowser(Variables.URL + "/wiki/User:" + listviewNewStuff.SelectedItems[0].SubItems[1].Text);
+            OpenInBrowser(Variables.URL + "/wiki/User:" + listviewNewStuff.SelectedItems[0].SubItems[1].Text);
         }
         private void addUserToBlacklistToolStripMenuItem1_Click(object sender, EventArgs e)
         {
@@ -1672,25 +1708,25 @@ namespace IrcMonitor
         //ACTIONS
         private void listviewActions_DoubleClick(object sender, EventArgs e)
         {
-            openInBrowser(Variables.URLLong + "index.php?title=Special%3ALog&type=&user=" + listviewActions.SelectedItems[0].SubItems[0].Text + "&page=");
+            OpenInBrowser(Variables.URLLong + "index.php?title=Special%3ALog&type=&user=" + listviewActions.SelectedItems[0].SubItems[0].Text + "&page=");
             if (chkChangeCheckedColour.Checked)
                 listviewActions.SelectedItems[0].BackColor = CheckedColour;
         }
         private void loadAdminTalkPageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            openInBrowser(Variables.URL + "/wiki/User:" + listviewActions.SelectedItems[0].SubItems[0].Text);
+            OpenInBrowser(Variables.URL + "/wiki/User:" + listviewActions.SelectedItems[0].SubItems[0].Text);
             if (chkChangeCheckedColour.Checked)
                 listviewActions.SelectedItems[0].BackColor = CheckedColour;
         }
         private void loadAdminsLogToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            openInBrowser(Variables.URLLong + "index.php?title=Special%3ALog&type=&user=" + listviewActions.SelectedItems[0].SubItems[0].Text + "&page=");
+            OpenInBrowser(Variables.URLLong + "index.php?title=Special%3ALog&type=&user=" + listviewActions.SelectedItems[0].SubItems[0].Text + "&page=");
             if (chkChangeCheckedColour.Checked)
                 listviewActions.SelectedItems[0].BackColor = CheckedColour;
         }
         private void loadArticleuserPageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            openInBrowser(Variables.URL + "/wiki/" + listviewActions.SelectedItems[0].SubItems[2].Text);
+            OpenInBrowser(Variables.URL + "/wiki/" + listviewActions.SelectedItems[0].SubItems[2].Text);
             if (chkChangeCheckedColour.Checked)
                 listviewActions.SelectedItems[0].BackColor = CheckedColour;
         }
@@ -1698,13 +1734,13 @@ namespace IrcMonitor
         //PAGEMOVES
         private void listviewPageMoves_DoubleClick(object sender, EventArgs e)
         {
-            openInBrowser(Variables.URL + "/wiki/" + listviewPageMoves.SelectedItems[0].SubItems[1].Text);
+            OpenInBrowser(Variables.URL + "/wiki/" + listviewPageMoves.SelectedItems[0].SubItems[1].Text);
             if (chkChangeCheckedColour.Checked)
                 listviewPageMoves.SelectedItems[0].BackColor = CheckedColour;
         }
         private void loadNewPageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            openInBrowser(Variables.URL + "/wiki/" + listviewPageMoves.SelectedItems[0].SubItems[1].Text);
+            OpenInBrowser(Variables.URL + "/wiki/" + listviewPageMoves.SelectedItems[0].SubItems[1].Text);
             if (chkChangeCheckedColour.Checked)
                 listviewPageMoves.SelectedItems[0].BackColor = CheckedColour;
         }
@@ -1730,10 +1766,10 @@ namespace IrcMonitor
             btnFoward.Enabled = webBrowser.CanGoForward;
             btnStop.Enabled = false;
 
-            string LoggedInUser = webBrowser.UserName;
+            string loggedInUser = webBrowser.UserName;
 
             if (!WikiFunctions.Variables.User.WikiStatus || !webBrowser.Url.ToString().StartsWith(Variables.URL) ||
-                WikiFunctions.Variables.User.Name != LoggedInUser)
+                WikiFunctions.Variables.User.Name != loggedInUser)
             {
                 WikiFunctions.Variables.User.WikiStatus = false;
                 UpdateButtons();
@@ -1758,14 +1794,14 @@ namespace IrcMonitor
         {
             NextTask = NextTaskType.Warn;
             VandalizedPage = webBrowser.ArticleTitle;
-            Revert(Project.RevertSummary, webBrowser.Revid, out VandalName);
+            Revert(Project.RevertSummary1, webBrowser.Revid, out VandalName);
         }
 
         private void revertToolStripMenuItem_Click(object sender, EventArgs e)
         {
             NextTask = NextTaskType.None;
             VandalizedPage = webBrowser.ArticleTitle;
-            Revert(Project.RevertSummary, webBrowser.Revid, out VandalName);
+            Revert(Project.RevertSummary1, webBrowser.Revid, out VandalName);
         }
 
         private void btnBack_Click(object sender, EventArgs e)
@@ -1827,11 +1863,11 @@ namespace IrcMonitor
             {
                 summary = summary.Replace("%v", username);
                 summary = summary.Replace("%u", hist[i].User);
-                summary += Project.Using;
+                summary += Project.Using1;
 
                 webBrowser.LoadEditPage(webBrowser.ArticleTitle, hist[i].RevisionID);//, hist[i].RevisionID);
                 webBrowser.Wait();
-                replacementText = webBrowser.GetArticleText();
+                ReplacementText = webBrowser.GetArticleText();
 
 
                 if (webBrowser.GetArticleText().Trim() == "")
@@ -1843,7 +1879,7 @@ namespace IrcMonitor
 
                 webBrowser.LoadEditPage(webBrowser.ArticleTitle);
                 webBrowser.SetSummary(summary);
-                webBrowser.SetArticleText(replacementText);
+                webBrowser.SetArticleText(ReplacementText);
                 webBrowser.SetMinor(true);
                 webBrowser.Save();
                 webBrowser.Wait();
@@ -1869,7 +1905,7 @@ namespace IrcMonitor
             webBrowser.Wait();
             string summary;
             webBrowser.SetArticleText(Project.AppendTag(webBrowser.GetArticleText(), tag, out summary));
-            webBrowser.SetSummary(summary + Project.Using);
+            webBrowser.SetSummary(summary + Project.Using1);
             webBrowser.Save();
         }
 
@@ -1883,7 +1919,7 @@ namespace IrcMonitor
             webBrowser.Wait();
             string summary;
             webBrowser.SetArticleText(Project.PrependTag(webBrowser.GetArticleText(), tag, out summary));
-            webBrowser.SetSummary(summary + Project.Using);
+            webBrowser.SetSummary(summary + Project.Using1);
             webBrowser.Save();
         }
 
@@ -1896,7 +1932,7 @@ namespace IrcMonitor
 
             webBrowser.AllowNavigation = true;
             webBrowser.SetArticleText(webBrowser.GetArticleText() + "\r\n\r\n" + warning);
-            webBrowser.SetSummary(Project.WarningSummary.Replace("%t", template) + Project.Using);
+            webBrowser.SetSummary(Project.WarningSummary1.Replace("%t", template) + Project.Using1);
             VandalName = user;
             NextTask = NextTaskType.Blacklist;
             webBrowser.ProcessStage = WikiFunctions.Browser.enumProcessStage.save;
@@ -1906,7 +1942,7 @@ namespace IrcMonitor
         {
             NextTask = NextTaskType.Report;
             VandalizedPage = webBrowser.ArticleTitle;
-            Revert(Project.RevertSummary, webBrowser.Revid, out VandalName);
+            Revert(Project.RevertSummary1, webBrowser.Revid, out VandalName);
         }
         #endregion
 
@@ -1952,7 +1988,7 @@ namespace IrcMonitor
             switch (e.KeyChar)
             {
                 case '\r': //ENTER:
-                    openInBrowser(txtURL.Text);
+                    OpenInBrowser(txtURL.Text);
                     e.Handled = true;
                     break;
             }
