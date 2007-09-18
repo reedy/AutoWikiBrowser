@@ -34,119 +34,74 @@ namespace IrcMonitor
             //SetToEnglish();
         }
 
-        private string Using; // ENCAPSULATE FIELD BY CODEIT.RIGHT
-
-        public string Using1
+        private string Using1;
+        public string Using
         {
-            get
-            {
-                return Using;
-            }
-            set
-            {
-                Using = value;
-            }
-        }
-        private string RevertSummary; // ENCAPSULATE FIELD BY CODEIT.RIGHT
-
-        public string RevertSummary1
-        {
-            get
-            {
-                return RevertSummary;
-            }
-            set
-            {
-                RevertSummary = value;
-            }
+            get { return Using1; }
+            set { Using1 = value; }
         }
 
-        public string ReportUrl;
-        private string ReportSummary; // ENCAPSULATE FIELD BY CODEIT.RIGHT
-
-        public string ReportSummary1
+        private string RevertSummary1;
+        public string RevertSummary
         {
-            get
-            {
-                return ReportSummary;
-            }
-            set
-            {
-                ReportSummary = value;
-            }
+            get { return RevertSummary1; }
+            set { RevertSummary1 = value; }
         }
-        private string ReportAnonTemplate; // ENCAPSULATE FIELD BY CODEIT.RIGHT
 
-        public string ReportAnonTemplate1
+        private string ReportUrl1;
+        public string ReportUrl
         {
-            get
-            {
-                return ReportAnonTemplate;
-            }
-            set
-            {
-                ReportAnonTemplate = value;
-            }
+            get { return ReportUrl1; }
+            set { ReportUrl1 = value; }
         }
-        private string ReportRegisteredTemplate; // ENCAPSULATE FIELD BY CODEIT.RIGHT
 
-        public string ReportRegisteredTemplate1
+        private string ReportSummary1;
+        public string ReportSummary
         {
-            get
-            {
-                return ReportRegisteredTemplate;
-            }
-            set
-            {
-                ReportRegisteredTemplate = value;
-            }
+            get { return ReportSummary1; }
+            set { ReportSummary1 = value; }
+        }
+
+        private string ReportAnonTemplate1;
+        public string ReportAnonTemplate
+        {
+            get { return ReportAnonTemplate1; }
+            set { ReportAnonTemplate1 = value; }
+        }
+
+        private string ReportRegisteredTemplate1;
+        public string ReportRegisteredTemplate
+        {
+            get { return ReportRegisteredTemplate1; }
+            set { ReportRegisteredTemplate1 = value; }
         }
 
         public string[] WarningTemplates;
-        private string WarningSummary; // ENCAPSULATE FIELD BY CODEIT.RIGHT
 
-        public string WarningSummary1
+        private string WarningSummary1;
+        public string WarningSummary
         {
-            get
-            {
-                return WarningSummary;
-            }
-            set
-            {
-                WarningSummary = value;
-            }
+            get { return WarningSummary1; }
+            set { WarningSummary1 = value; }
         }
-        private string AppendedTagSummary; // ENCAPSULATE FIELD BY CODEIT.RIGHT
 
-        public string AppendedTagSummary1
+        private string AppendedTagSummary1;
+        public string AppendedTagSummary
         {
-            get
-            {
-                return AppendedTagSummary;
-            }
-            set
-            {
-                AppendedTagSummary = value;
-            }
+            get { return AppendedTagSummary1; }
+            set { AppendedTagSummary1 = value; }
         }
-        private string PrependedTagSummary; // ENCAPSULATE FIELD BY CODEIT.RIGHT
 
-        public string PrependedTagSummary1
+        private string PrependedTagSummary1;
+        public string PrependedTagSummary
         {
-            get
-            {
-                return PrependedTagSummary;
-            }
-            set
-            {
-                PrependedTagSummary = value;
-            }
+            get { return PrependedTagSummary1; }
+            set { PrependedTagSummary1 = value; }
         }
 
         private string[] StubTypes;
         public string[] PageTags;
-
-
+        
         public string AppendTag(string pageContent, string tagToAdd, out string summary)
         {
             pageContent += "\r\n" + tagToAdd;
@@ -163,7 +118,7 @@ namespace IrcMonitor
 
         public string[] LoadStubs(string fileName, int initialLevel)
         {
-            string[] stubs = new string[]{};
+            string[] stubs = new string[] { };
 
             try
             {
@@ -199,12 +154,12 @@ namespace IrcMonitor
     {
         public ENWikipediaSettings()
         {
-            Using1 = " using [[WP:IRCM|IRCM]]";
+            Using = " using [[WP:IRCM|IRCM]]";
 
             ReportUrl = "http://en.wikipedia.org/w/index.php?title=Wikipedia:Administrator_intervention_against_vandalism&action=edit&section=2";
-            ReportSummary1 = "Reporting [[Special:Contributions/%v|%v]] ([[User talk:%v|talk]])";
+            ReportSummary = "Reporting [[Special:Contributions/%v|%v]] ([[User talk:%v|talk]])";
 
-            RevertSummary1 = "Reverted edits by [[Special:Contributions/%v|%v]] ([[User talk:%v|talk]]) to last version by %u";
+            RevertSummary = "Reverted edits by [[Special:Contributions/%v|%v]] ([[User talk:%v|talk]]) to last version by %u";
 
             WarningTemplates = new string[] 
             {
@@ -283,12 +238,12 @@ namespace IrcMonitor
                 "*{{drmafd5}} - You have been temporarily blocked",
             };
 
-            ReportAnonTemplate1 = "IPvandal";
-            ReportRegisteredTemplate1 = "vandal";
-            WarningSummary1 = "Warned user with %t";
-            AppendedTagSummary1 = "Added %1";
-            PrependedTagSummary1 = "Tagged with %1";
-            
+            ReportAnonTemplate = "IPvandal";
+            ReportRegisteredTemplate = "vandal";
+            WarningSummary = "Warned user with %t";
+            AppendedTagSummary = "Added %1";
+            PrependedTagSummary = "Tagged with %1";
+
             //StubTypes = LoadStubs("enwiki.stubs.txt", 3);
 
             PageTags = new string[]

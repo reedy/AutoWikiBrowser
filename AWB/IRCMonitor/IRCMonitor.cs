@@ -162,8 +162,8 @@ namespace IrcMonitor
                 webBrowser.GoBack();
                 return;
             }
-            webBrowser.SetArticleText(webBrowser.GetArticleText() + "\r\n*{{" + (Tools.IsIP(username) ? Project.ReportAnonTemplate1 : Project.ReportRegisteredTemplate1) + "|" + username + "}} ~~~~");
-            webBrowser.SetSummary(Project.ReportSummary1.Replace("%v", username) + Project.Using1);
+            webBrowser.SetArticleText(webBrowser.GetArticleText() + "\r\n*{{" + (Tools.IsIP(username) ? Project.ReportAnonTemplate : Project.ReportRegisteredTemplate) + "|" + username + "}} ~~~~");
+            webBrowser.SetSummary(Project.ReportSummary.Replace("%v", username) + Project.Using);
             //webBrowser.Save();
         }
 
@@ -1794,14 +1794,14 @@ namespace IrcMonitor
         {
             NextTask = NextTaskType.Warn;
             VandalizedPage = webBrowser.ArticleTitle;
-            Revert(Project.RevertSummary1, webBrowser.Revid, out VandalName);
+            Revert(Project.RevertSummary, webBrowser.Revid, out VandalName);
         }
 
         private void revertToolStripMenuItem_Click(object sender, EventArgs e)
         {
             NextTask = NextTaskType.None;
             VandalizedPage = webBrowser.ArticleTitle;
-            Revert(Project.RevertSummary1, webBrowser.Revid, out VandalName);
+            Revert(Project.RevertSummary, webBrowser.Revid, out VandalName);
         }
 
         private void btnBack_Click(object sender, EventArgs e)
@@ -1863,7 +1863,7 @@ namespace IrcMonitor
             {
                 summary = summary.Replace("%v", username);
                 summary = summary.Replace("%u", hist[i].User);
-                summary += Project.Using1;
+                summary += Project.Using;
 
                 webBrowser.LoadEditPage(webBrowser.ArticleTitle, hist[i].RevisionID);//, hist[i].RevisionID);
                 webBrowser.Wait();
@@ -1905,7 +1905,7 @@ namespace IrcMonitor
             webBrowser.Wait();
             string summary;
             webBrowser.SetArticleText(Project.AppendTag(webBrowser.GetArticleText(), tag, out summary));
-            webBrowser.SetSummary(summary + Project.Using1);
+            webBrowser.SetSummary(summary + Project.Using);
             webBrowser.Save();
         }
 
@@ -1919,7 +1919,7 @@ namespace IrcMonitor
             webBrowser.Wait();
             string summary;
             webBrowser.SetArticleText(Project.PrependTag(webBrowser.GetArticleText(), tag, out summary));
-            webBrowser.SetSummary(summary + Project.Using1);
+            webBrowser.SetSummary(summary + Project.Using);
             webBrowser.Save();
         }
 
@@ -1932,7 +1932,7 @@ namespace IrcMonitor
 
             webBrowser.AllowNavigation = true;
             webBrowser.SetArticleText(webBrowser.GetArticleText() + "\r\n\r\n" + warning);
-            webBrowser.SetSummary(Project.WarningSummary1.Replace("%t", template) + Project.Using1);
+            webBrowser.SetSummary(Project.WarningSummary.Replace("%t", template) + Project.Using);
             VandalName = user;
             NextTask = NextTaskType.Blacklist;
             webBrowser.ProcessStage = WikiFunctions.Browser.enumProcessStage.save;
@@ -1942,7 +1942,7 @@ namespace IrcMonitor
         {
             NextTask = NextTaskType.Report;
             VandalizedPage = webBrowser.ArticleTitle;
-            Revert(Project.RevertSummary1, webBrowser.Revid, out VandalName);
+            Revert(Project.RevertSummary, webBrowser.Revid, out VandalName);
         }
         #endregion
 
