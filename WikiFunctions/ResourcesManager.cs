@@ -4,7 +4,7 @@ using System.Text;
 
 namespace WikiFunctions.Properties
 {
-    public class Res
+    public sealed class Res
     {
         public static System.Drawing.Bitmap btnshowhide_image
         {            
