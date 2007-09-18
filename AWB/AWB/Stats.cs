@@ -69,11 +69,11 @@ namespace AutoWikiBrowser
         {
             //ntfyTray.Text = "AutoWikiBrowser " + SettingsFile + "\r\n" + lblEditCount.Text + "\r\n" +
             //    lblIgnoredArticles.Text + "\r\n" + lblEditsPerMin.Text; // + current article if any
-            string Text = "AutoWikiBrowser " + SettingsFile;
-            if (Text.Length > 64)
-                ntfyTray.Text = Text.Substring(0, 63); // 64 char limit
+            string text = "AutoWikiBrowser " + SettingsFile;
+            if (text.Length > 64)
+                ntfyTray.Text = text.Substring(0, 63); // 64 char limit
             else
-                ntfyTray.Text = Text;
+                ntfyTray.Text = text;
         }
     }
 }

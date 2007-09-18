@@ -35,7 +35,7 @@ using System.Net;
 using WikiFunctions.Browser;
 using System.Reflection;
 
-namespace IRCMonitor
+namespace IrcMonitor
 {
     /// <summary>
     /// This form demonstates usage of the WikiIRC framework.

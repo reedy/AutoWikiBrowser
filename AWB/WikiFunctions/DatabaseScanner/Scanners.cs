@@ -43,9 +43,9 @@ namespace WikiFunctions.DatabaseScanner
 
     public class TextDoesContain : Scan
     {
-        public TextDoesContain(params Regex[] ContainsR)
+        public TextDoesContain(params Regex[] containsR)
         {
-            Contains = ContainsR;
+            Contains = containsR;
         }
 
         Regex[] Contains;
@@ -64,9 +64,9 @@ namespace WikiFunctions.DatabaseScanner
 
     public class TextDoesNotContain : Scan
     {
-        public TextDoesNotContain(params Regex[] NotContainsR)
+        public TextDoesNotContain(params Regex[] notContainsR)
         {
-            NotContains = NotContainsR;
+            NotContains = notContainsR;
         }
 
         Regex[] NotContains;

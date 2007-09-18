@@ -49,7 +49,7 @@ namespace AutoWikiBrowser
 
         private void loadSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            loadSettingsDialog();
+            LoadSettingsDialog();
         }
 
         private void loadDefaultSettingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -125,7 +125,7 @@ namespace AutoWikiBrowser
 
             wordWrapToolStripMenuItem1.Checked = true;
             panel1.Show();
-            enableToolBar = false;
+            EnableToolBar = false;
             bypassRedirectsToolStripMenuItem.Checked = true;
             chkSkipNonExistent.Checked = true;
             chkSkipExistent.Checked = false;
@@ -138,7 +138,7 @@ namespace AutoWikiBrowser
             markAllAsMinorToolStripMenuItem.Checked = false;
             addAllToWatchlistToolStripMenuItem.Checked = false;
             showTimerToolStripMenuItem.Checked = false;
-            showTimer();
+            ShowTimer();
             alphaSortInterwikiLinksToolStripMenuItem.Checked = true;
             addIgnoredToLogFileToolStripMenuItem.Checked = false;
             showHideEditToolbarToolStripMenuItem.Checked = true;
@@ -211,7 +211,7 @@ namespace AutoWikiBrowser
             cmboEditSummary.Items.Add("Unicodifying");
         }
 
-        private void loadSettingsDialog()
+        private void LoadSettingsDialog()
         {
             if (openXML.ShowDialog() != DialogResult.OK)
                 return;
@@ -320,13 +320,13 @@ namespace AutoWikiBrowser
                 cmboEditSummary.Text, new string[10] {PasteMore1.Text, PasteMore2.Text, PasteMore3.Text, 
                 PasteMore4.Text, PasteMore5.Text, PasteMore6.Text, PasteMore7.Text, PasteMore8.Text,
                 PasteMore9.Text, PasteMore10.Text}, txtFind.Text, chkFindRegex.Checked,
-                chkFindCaseSensitive.Checked, wordWrapToolStripMenuItem1.Checked, enableToolBar,
+                chkFindCaseSensitive.Checked, wordWrapToolStripMenuItem1.Checked, EnableToolBar,
                 bypassRedirectsToolStripMenuItem.Checked, doNotAutomaticallyDoAnythingToolStripMenuItem.Checked,
                 toolStripComboOnLoad.SelectedIndex, chkMinor.Checked, addAllToWatchlistToolStripMenuItem.Checked,
                 showTimerToolStripMenuItem.Checked, sortAlphabeticallyToolStripMenuItem.Checked,
                 addIgnoredToLogFileToolStripMenuItem.Checked, (int)txtEdit.Font.Size, txtEdit.Font.Name,
                 LowThreadPriority, Beep, Flash, Minimize, TimeOut, AutoSaveEditBoxEnabled, AutoSaveEditBoxPeriod, 
-                AutoSaveEditBoxFile, customWikis, chkLock.Checked), new DabPrefs(chkEnableDab.Checked,
+                AutoSaveEditBoxFile, CustomWikis, chkLock.Checked), new DabPrefs(chkEnableDab.Checked,
                 txtDabLink.Text, txtDabVariants.Lines, (int)udContextChars.Value), new ModulePrefs(
                 cModule.ModuleEnabled, cModule.Language, cModule.Code), loggingSettings1.SerialisableSettings, 
                 Plugin.Items);
@@ -432,14 +432,14 @@ namespace AutoWikiBrowser
             chkFindCaseSensitive.Checked = p.General.FindCaseSensitive;
 
             wordWrapToolStripMenuItem1.Checked = p.General.WordWrap;
-            enableToolBar = p.General.ToolBarEnabled;
+            EnableToolBar = p.General.ToolBarEnabled;
             bypassRedirectsToolStripMenuItem.Checked = p.General.BypassRedirect;
             doNotAutomaticallyDoAnythingToolStripMenuItem.Checked = p.General.NoAutoChanges;
             toolStripComboOnLoad.SelectedIndex = p.General.OnLoadAction;
             chkMinor.Checked = p.General.Minor;
             addAllToWatchlistToolStripMenuItem.Checked = p.General.Watch;
             showTimerToolStripMenuItem.Checked = p.General.TimerEnabled;
-            showTimer();
+            ShowTimer();
             sortAlphabeticallyToolStripMenuItem.Checked = p.General.SortInterwikiOrder;
             addIgnoredToLogFileToolStripMenuItem.Checked = p.General.AddIgnoredToLog;
 
@@ -447,7 +447,7 @@ namespace AutoWikiBrowser
             AutoSaveEditBoxPeriod = p.General.AutoSaveEdit.SavePeriod;
             AutoSaveEditBoxFile = p.General.AutoSaveEdit.SaveFile;
 
-            customWikis = p.General.CustomWikis;
+            CustomWikis = p.General.CustomWikis;
 
             System.Drawing.Font f = new System.Drawing.Font(p.General.TextBoxFont, p.General.TextBoxSize);
             txtEdit.Font = f;
@@ -489,20 +489,20 @@ namespace AutoWikiBrowser
         /// <summary>
         /// Save preferences to file
         /// </summary>
-        private void SavePrefs(string Path)
+        private void SavePrefs(string path)
         {
             try
             {
-                using (FileStream fStream = new FileStream(Path, FileMode.Create))
+                using (FileStream fStream = new FileStream(path, FileMode.Create))
                 {
-                    UserPrefs P = MakePrefs();
-                    List<System.Type> types = savePluginSettings(P);
+                    UserPrefs p = MakePrefs();
+                    List<System.Type> types = SavePluginSettings(p);
                     
                     XmlSerializer xs = new XmlSerializer(typeof(UserPrefs), types.ToArray());
-                    xs.Serialize(fStream, P);
-                    UpdateRecentList(Path);
-                    SettingsFile = " - " + Path.Remove(0, Path.LastIndexOf("\\") + 1);
-                    updateSettingsFile();
+                    xs.Serialize(fStream, p);
+                    UpdateRecentList(path);
+                    SettingsFile = " - " + path.Remove(0, path.LastIndexOf("\\") + 1);
+                    UpdateSettingsFile();
                 }
                 
             }
@@ -512,7 +512,7 @@ namespace AutoWikiBrowser
             }
         }
 
-        private List<System.Type> savePluginSettings(UserPrefs Prefs)
+        private List<System.Type> SavePluginSettings(UserPrefs Prefs)
         {
             List<System.Type> types = new List<Type>();
             /* Find out what types the plugins are using for their settings so we can 
@@ -547,15 +547,15 @@ namespace AutoWikiBrowser
         /// <summary>
         /// Load preferences from file
         /// </summary>
-        private void LoadPrefs(string Path)
+        private void LoadPrefs(string path)
         {
             try
             {
-                if (Path == "")
+                if (path == "")
                     return;
 
                 //test file to see if it is an old AWB file
-                StreamReader sr = new StreamReader(new FileStream(Path, FileMode.Open));
+                StreamReader sr = new StreamReader(new FileStream(path, FileMode.Open));
                 string test = sr.ReadToEnd();
                 sr.Close();
 
@@ -569,7 +569,7 @@ namespace AutoWikiBrowser
                 replaceSpecial.Clear();
                 substTemplates.Clear();
 
-                using (FileStream fStream = new FileStream(Path, FileMode.Open))
+                using (FileStream fStream = new FileStream(path, FileMode.Open))
                 {
                     UserPrefs p;
                     XmlSerializer xs = new XmlSerializer(typeof(UserPrefs));
@@ -577,10 +577,10 @@ namespace AutoWikiBrowser
                     LoadPrefs(p);
                 }
 
-                SettingsFile = " - " + Path.Remove(0, Path.LastIndexOf("\\") + 1);
-                updateSettingsFile();
+                SettingsFile = " - " + path.Remove(0, path.LastIndexOf("\\") + 1);
+                UpdateSettingsFile();
                 lblStatusText.Text = "Settings successfully loaded";
-                UpdateRecentList(Path);
+                UpdateRecentList(path);
             }
             catch (Exception ex)
             {
@@ -588,7 +588,7 @@ namespace AutoWikiBrowser
             }
         }
 
-        private void updateSettingsFile()
+        private void UpdateSettingsFile()
         {
             this.Text = "AutoWikiBrowser " + SettingsFile;
             UpdateNotifyIconTooltip();

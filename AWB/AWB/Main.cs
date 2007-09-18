@@ -109,7 +109,7 @@ namespace AutoWikiBrowser
                 RightToLeft = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft 
                     ? RightToLeft.Yes : RightToLeft.No;
                 InitializeComponent();
-                splash.setProgress(5);
+                splash.SetProgress(5);
                 try
                 {
                     lblUserName.Alignment = ToolStripItemAlignment.Right;
@@ -134,7 +134,7 @@ namespace AutoWikiBrowser
 
                     //btnDiff.Image = Res.changes;
                     //btnPreview.Image = Res.preview;
-                    splash.setProgress(15);
+                    splash.SetProgress(15);
                     int stubcount = 500;
                     bool catkey = false;
                     try
@@ -168,12 +168,12 @@ namespace AutoWikiBrowser
                     webBrowserEdit.None += CaseWasNull;
                     webBrowserEdit.Fault += StartDelayedRestartTimer;
                     webBrowserEdit.StatusChanged += UpdateWebBrowserStatus;
-                    splash.setProgress(60);
+                    splash.SetProgress(60);
                     listMaker1.BusyStateChanged += SetProgressBar;
                     listMaker1.NoOfArticlesChanged += UpdateButtons;
                     listMaker1.StatusTextChanged += UpdateListStatus;
                     Text = "AutoWikiBrowser - Default.xml";
-                    splash.setProgress(25);
+                    splash.SetProgress(25);
 
                     WikiFunctions.AWBProfiles.AWBProfiles.ResetTempPassword();
                 }
@@ -185,11 +185,11 @@ namespace AutoWikiBrowser
             
             private void MainForm_Load(object sender, EventArgs e)
             {
-                splash.setProgress(60);
+                splash.SetProgress(60);
                 lblStatusText.Text = "Initialising...";
                 Application.DoEvents();
                 Variables.MainForm = this;
-                updateUpdater();
+                UpdateUpdater();
 
                 GlobalObjects.MyTrace.LS = loggingSettings1;
 
@@ -204,7 +204,7 @@ namespace AutoWikiBrowser
                     else
                         listMaker1.MakeListEnabled = true;
 
-                    splash.setProgress(80);
+                    splash.SetProgress(80);
                     if (AutoWikiBrowser.Properties.Settings.Default.LogInOnStart)
                         CheckStatus(false);
 
@@ -221,9 +221,9 @@ namespace AutoWikiBrowser
                     LoadPrefs();
                     UpdateButtons();
                     LoadRecentSettingsList();
-                    splash.setProgress(90);
+                    splash.SetProgress(90);
                     if (Variables.User.checkEnabled() == WikiStatusResult.OldVersion)
-                        oldVersion();
+                        OldVersion();
 
                     webBrowserDiff.Navigate("about:blank");
                     webBrowserDiff.ObjectForScripting = this;
@@ -246,8 +246,8 @@ namespace AutoWikiBrowser
 
         #region Properties
 
-        ArticleEx stredittingarticle; // = new ArticleWithLogging(""); 
-        internal ArticleEx TheArticle
+        ArticleEX stredittingarticle; // = new ArticleWithLogging(""); 
+        internal ArticleEX TheArticle
         {
             get { return stredittingarticle; }
             private set { stredittingarticle = value; }
@@ -334,7 +334,7 @@ namespace AutoWikiBrowser
         }
 
         List<String> lCustomWiki = new List<string>();
-        private List<String> customWikis
+        private List<String> CustomWikis
         {
             get { return lCustomWiki; }
             set { lCustomWiki = value; }
@@ -399,7 +399,7 @@ namespace AutoWikiBrowser
                 if (listMaker1.NumberOfArticles < 1)
                 {
                     webBrowserEdit.Busy = false;
-                    stopSaveInterval();
+                    StopSaveInterval();
                     lblTimer.Text = "";
                     lblStatusText.Text = "No articles in list, you need to use the Make list";
                     this.Text = "AutoWikiBrowser";
@@ -410,7 +410,7 @@ namespace AutoWikiBrowser
                 else
                     webBrowserEdit.Busy = true;
 
-                TheArticle = new ArticleEx(listMaker1.SelectedArticle().Name);
+                TheArticle = new ArticleEX(listMaker1.SelectedArticle().Name);
                 ErrorHandler.CurrentArticle = TheArticle.Name;
                 ErrorHandler.LangCode = Variables.LangCode.ToString();
                 ErrorHandler.Project = Variables.Project.ToString();
@@ -447,7 +447,7 @@ namespace AutoWikiBrowser
 
         private void CaseWasLoad()
         {
-            if (!loadSuccess())
+            if (!LoadSuccess())
                 return;
 
             if (!CheckLoginStatus()) return;
@@ -464,18 +464,18 @@ namespace AutoWikiBrowser
             //check for redirect
             if (bypassRedirectsToolStripMenuItem.Checked && Tools.IsRedirect(strTemp) && !PageReload)
             {
-                ArticleEx Redirect = new ArticleEx(Tools.RedirectTarget(strTemp));
+                ArticleEX redirect = new ArticleEX(Tools.RedirectTarget(strTemp));
 
-                if (Redirect.Name == TheArticle.Name)
+                if (redirect.Name == TheArticle.Name)
                 {//ignore recursive redirects
                     SkipPage("Recursive redirect");
                     return;
                 }
 
-                listMaker1.ReplaceArticle(TheArticle, Redirect);
-                TheArticle = new ArticleEx(Redirect.Name);
+                listMaker1.ReplaceArticle(TheArticle, redirect);
+                TheArticle = new ArticleEX(redirect.Name);
 
-                webBrowserEdit.LoadEditPage(Redirect.Name);
+                webBrowserEdit.LoadEditPage(redirect.Name);
                 return;
             }
 
@@ -504,7 +504,7 @@ namespace AutoWikiBrowser
                 return;
             }
 
-            if (!Skip.skipIf(TheArticle.OriginalArticleText))
+            if (!Skip.SkipIf(TheArticle.OriginalArticleText))
             {                
                 SkipPage("skipIf custom code"); 
                 return;
@@ -547,7 +547,7 @@ namespace AutoWikiBrowser
             if (!Abort)
             {
                 if (BotMode && chkQuickSave.Checked)
-                    startDelayedAutoSaveTimer();
+                    StartDelayedAutoSaveTimer();
                 else if (toolStripComboOnLoad.SelectedIndex == 0)
                     GetDiff();
                 else if (toolStripComboOnLoad.SelectedIndex == 1)
@@ -556,11 +556,11 @@ namespace AutoWikiBrowser
                 {
                     if (BotMode)
                     {
-                        startDelayedAutoSaveTimer();
+                        StartDelayedAutoSaveTimer();
                         return;
                     }
 
-                    bleepflash();
+                    Bleepflash();
 
                     this.Focus();
                     txtEdit.Focus();
@@ -576,7 +576,7 @@ namespace AutoWikiBrowser
             }
         }
 
-        private void bleepflash()
+        private void Bleepflash()
         {
             if (!this.ContainsFocus)
             {
@@ -585,7 +585,7 @@ namespace AutoWikiBrowser
             }
         }
 
-        private bool loadSuccess()
+        private bool LoadSuccess()
         {
             try
             {
@@ -664,7 +664,7 @@ namespace AutoWikiBrowser
                     webBrowserEdit.Document.Write("");
                     this.Focus();
 
-                    dlgTalk DlgTalk = new dlgTalk();
+                    DlgTalk DlgTalk = new DlgTalk();
                     if (DlgTalk.ShowDialog() == DialogResult.Yes)
                         Tools.OpenUserTalkInBrowser();
                     else
@@ -714,11 +714,11 @@ namespace AutoWikiBrowser
         {
             if (BotMode)
             {
-                startDelayedAutoSaveTimer();
+                StartDelayedAutoSaveTimer();
                 return;
             }
 
-            bleepflash();
+            Bleepflash();
 
             this.Focus();
             txtEdit.Focus();
@@ -788,7 +788,7 @@ namespace AutoWikiBrowser
             {
                 //reset timer.
                 NumberOfIgnoredEdits++;
-                stopDelayedAutoSaveTimer();
+                StopDelayedAutoSaveTimer();
                 NudgeTimer.Stop();
                 listMaker1.Remove(TheArticle);
                 sameArticleNudges = 0;
@@ -830,21 +830,21 @@ namespace AutoWikiBrowser
             ProcessPage(TheArticle);
         }
 
-        private void ProcessPage(ArticleEx TheArticle)
+        private void ProcessPage(ArticleEX theArticle)
         {
             bool process = true;
 
             prof.AddLog("--------------------------------------");
-            prof.Start("ProcessPage(\"" + TheArticle.Name + "\")");
+            prof.Start("ProcessPage(\"" + theArticle.Name + "\")");
             try
             {
-                if (noParse.Contains(TheArticle.Name))
+                if (noParse.Contains(theArticle.Name))
                     process = false;
 
                 if (!ignoreNoBotsToolStripMenuItem.Checked &&
-                    !Parsers.CheckNoBots(TheArticle.ArticleText, Variables.User.Name))
+                    !Parsers.CheckNoBots(theArticle.ArticleText, Variables.User.Name))
                 {
-                    TheArticle.AWBSkip("Restricted by {{bots}}/{{nobots}}");
+                    theArticle.AWBSkip("Restricted by {{bots}}/{{nobots}}");
                     return;
                 }
 
@@ -852,8 +852,8 @@ namespace AutoWikiBrowser
 
                 if (cModule.ModuleEnabled && cModule.Module != null)
                 {
-                    TheArticle.SendPageToCustomModule(cModule.Module);
-                    if (TheArticle.SkipArticle) return;
+                    theArticle.SendPageToCustomModule(cModule.Module);
+                    if (theArticle.SkipArticle) return;
                 }
 
                 prof.Profile("Custom module");
@@ -862,150 +862,150 @@ namespace AutoWikiBrowser
                 {
                     foreach (KeyValuePair<string, IAWBPlugin> a in Plugin.Items)
                     {
-                        TheArticle.SendPageToPlugin(a.Value, this);
-                        if (TheArticle.SkipArticle) return;
+                        theArticle.SendPageToPlugin(a.Value, this);
+                        if (theArticle.SkipArticle) return;
                     }
                 }
                 prof.Profile("Plugins");
 
                 if (chkUnicodifyWhole.Checked && process)
                 {
-                    TheArticle.HideMoreText(RemoveText);
+                    theArticle.HideMoreText(RemoveText);
                     prof.Profile("HideMoreText");
 
-                    TheArticle.Unicodify(Skip.SkipNoUnicode, parsers);
+                    theArticle.Unicodify(Skip.SkipNoUnicode, parsers);
                     prof.Profile("Unicodify");
 
-                    TheArticle.UnHideMoreText(RemoveText);
+                    theArticle.UnHideMoreText(RemoveText);
                     prof.Profile("UnHideMoreText");
                 }
 
                 if (cmboImages.SelectedIndex != 0)
                 {
-                    TheArticle.UpdateImages((WikiFunctions.Options.ImageReplaceOptions)cmboImages.SelectedIndex,
+                    theArticle.UpdateImages((WikiFunctions.Options.ImageReplaceOptions)cmboImages.SelectedIndex,
                         parsers, txtImageReplace.Text, txtImageWith.Text, chkSkipNoImgChange.Checked);
-                    if (TheArticle.SkipArticle) return;
+                    if (theArticle.SkipArticle) return;
                 }
 
                 prof.Profile("Images");
 
                 if (cmboCategorise.SelectedIndex != 0)
                 {
-                    TheArticle.Categorisation((WikiFunctions.Options.CategorisationOptions)
+                    theArticle.Categorisation((WikiFunctions.Options.CategorisationOptions)
                         cmboCategorise.SelectedIndex, parsers, chkSkipNoCatChange.Checked, txtNewCategory.Text.Trim(),
                         txtNewCategory2.Text.Trim());
-                    if (TheArticle.SkipArticle) return;
-                    else if (!chkGeneralFixes.Checked) TheArticle.AWBChangeArticleText("Fix categories", parsers.FixCategories(TheArticle.ArticleText), true);
+                    if (theArticle.SkipArticle) return;
+                    else if (!chkGeneralFixes.Checked) theArticle.AWBChangeArticleText("Fix categories", parsers.FixCategories(theArticle.ArticleText), true);
                 }
 
                 prof.Profile("Categories");
 
                 if (chkFindandReplace.Checked && !findAndReplace.AfterOtherFixes)
                 {
-                    TheArticle.PerformFindAndReplace(findAndReplace, substTemplates, replaceSpecial,
+                    theArticle.PerformFindAndReplace(findAndReplace, substTemplates, replaceSpecial,
                         chkSkipWhenNoFAR.Checked);
-                    if (TheArticle.SkipArticle) return;
+                    if (theArticle.SkipArticle) return;
                 }
 
                 prof.Profile("F&R");
 
-                if (chkRegExTypo.Checked && RegexTypos != null && !BotMode && !Tools.IsTalkPage(TheArticle.NameSpaceKey))
+                if (chkRegExTypo.Checked && RegexTypos != null && !BotMode && !Tools.IsTalkPage(theArticle.NameSpaceKey))
                 {
-                    TheArticle.PerformTypoFixes(RegexTypos, chkSkipIfNoRegexTypo.Checked);
+                    theArticle.PerformTypoFixes(RegexTypos, chkSkipIfNoRegexTypo.Checked);
                     prof.Profile("Typos");
-                    if (TheArticle.SkipArticle) return;
+                    if (theArticle.SkipArticle) return;
                 }
 
-                if (TheArticle.CanDoGeneralFixes)
+                if (theArticle.CanDoGeneralFixes)
                 {
                     if (process && chkAutoTagger.Checked)
                     {
-                        TheArticle.AutoTag(parsers, Skip.SkipNoTag);
-                        if (TheArticle.SkipArticle) return;
+                        theArticle.AutoTag(parsers, Skip.SkipNoTag);
+                        if (theArticle.SkipArticle) return;
                     }
 
                     prof.Profile("Auto-tagger");
 
                     if (process && chkGeneralFixes.Checked)
                     {
-                        TheArticle.HideText(RemoveText);
+                        theArticle.HideText(RemoveText);
 
                         prof.Profile("HideText");
 
-                        TheArticle.FixHeaderErrors(parsers, Variables.LangCode, Skip.SkipNoHeaderError);
+                        theArticle.FixHeaderErrors(parsers, Variables.LangCode, Skip.SkipNoHeaderError);
                         prof.Profile("FixHeaderErrors");
-                        TheArticle.SetDefaultSort(parsers, Variables.LangCode, Skip.SkipNoDefaultSortAdded);
+                        theArticle.SetDefaultSort(parsers, Variables.LangCode, Skip.SkipNoDefaultSortAdded);
                         prof.Profile("SetDefaultSort");
 
-                        TheArticle.AWBChangeArticleText("Fix categories", parsers.FixCategories(TheArticle.ArticleText), true);
+                        theArticle.AWBChangeArticleText("Fix categories", parsers.FixCategories(theArticle.ArticleText), true);
                         prof.Profile("FixCategories");
-                        TheArticle.AWBChangeArticleText("Fix images", parsers.FixImages(TheArticle.ArticleText), true);
+                        theArticle.AWBChangeArticleText("Fix images", parsers.FixImages(theArticle.ArticleText), true);
                         prof.Profile("FixImages");
-                        TheArticle.AWBChangeArticleText("Fix syntax", parsers.FixSyntax(TheArticle.ArticleText), true);
+                        theArticle.AWBChangeArticleText("Fix syntax", parsers.FixSyntax(theArticle.ArticleText), true);
                         prof.Profile("FixSyntax");
-                        TheArticle.AWBChangeArticleText("Fix temperatures", parsers.FixTemperatures(TheArticle.ArticleText), true);
+                        theArticle.AWBChangeArticleText("Fix temperatures", parsers.FixTemperatures(theArticle.ArticleText), true);
                         prof.Profile("FixTemperatures");
 
-                        TheArticle.AWBChangeArticleText("Fix main article", parsers.FixMainArticle(TheArticle.ArticleText), true);
+                        theArticle.AWBChangeArticleText("Fix main article", parsers.FixMainArticle(theArticle.ArticleText), true);
                         prof.Profile("FixMainArticle");
 
-                        TheArticle.AWBChangeArticleText("Fix empty links and templates", parsers.FixEmptyLinksAndTemplates(TheArticle.ArticleText), true);
+                        theArticle.AWBChangeArticleText("Fix empty links and templates", parsers.FixEmptyLinksAndTemplates(theArticle.ArticleText), true);
                         prof.Profile("FixEmptyLinksAndTemplates");
 
-                        TheArticle.FixLinks(parsers, Skip.SkipNoBadLink);
+                        theArticle.FixLinks(parsers, Skip.SkipNoBadLink);
                         prof.Profile("FixLinks");
-                        TheArticle.BulletExternalLinks(parsers, Skip.SkipNoBulletedLink);
+                        theArticle.BulletExternalLinks(parsers, Skip.SkipNoBulletedLink);
                         prof.Profile("BulletExternalLinks");
 
                         prof.Profile("Links");
 
-                        TheArticle.AWBChangeArticleText("Sort meta data",
-                            parsers.SortMetaData(TheArticle.ArticleText, TheArticle.Name), true);
+                        theArticle.AWBChangeArticleText("Sort meta data",
+                            parsers.SortMetaData(theArticle.ArticleText, theArticle.Name), true);
 
                         prof.Profile("Metadata");
 
-                        TheArticle.EmboldenTitles(parsers, Skip.SkipNoBoldTitle);
+                        theArticle.EmboldenTitles(parsers, Skip.SkipNoBoldTitle);
 
-                        TheArticle.AWBChangeArticleText("Format sticky links",
-                            parsers.StickyLinks(parsers.SimplifyLinks(TheArticle.ArticleText)), true);
+                        theArticle.AWBChangeArticleText("Format sticky links",
+                            parsers.StickyLinks(parsers.SimplifyLinks(theArticle.ArticleText)), true);
 
                         //TheArticle.AWBChangeArticleText("Remove duplicate wikilink", parsers.RemoveDuplicateWikiLinks(TheArticle.ArticleText), true);
 
-                        TheArticle.UnHideText(RemoveText);
+                        theArticle.UnHideText(RemoveText);
 
                         prof.Profile("End of general fixes");
                     }
                 }
-                else if (process && chkGeneralFixes.Checked && TheArticle.NameSpaceKey == 3)
+                else if (process && chkGeneralFixes.Checked && theArticle.NameSpaceKey == 3)
                 {
-                    TheArticle.HideText(RemoveText);
+                    theArticle.HideText(RemoveText);
 
                     prof.Profile("HideText");
 
                     if (!userTalkWarningsLoaded)
                     {
-                        loadUserTalkWarnings();
+                        LoadUserTalkWarnings();
                         prof.Profile("loadUserTalkWarnings");
                     }
 
-                    TheArticle.AWBChangeArticleText("Subst user talk warnings",
-                        parsers.SubstUserTemplates(TheArticle.ArticleText, TheArticle.Name, userTalkTemplatesRegex), true);
+                    theArticle.AWBChangeArticleText("Subst user talk warnings",
+                        parsers.SubstUserTemplates(theArticle.ArticleText, theArticle.Name, userTalkTemplatesRegex), true);
 
                     prof.Profile("SubstUserTemplates");
 
-                    TheArticle.UnHideText(RemoveText);
+                    theArticle.UnHideText(RemoveText);
 
                     prof.Profile("UnHideText");
                 }
 
                 if (chkFindandReplace.Checked && findAndReplace.AfterOtherFixes)
                 {
-                    TheArticle.PerformFindAndReplace(findAndReplace, substTemplates, replaceSpecial,
+                    theArticle.PerformFindAndReplace(findAndReplace, substTemplates, replaceSpecial,
                         chkSkipWhenNoFAR.Checked);
 
                     prof.Profile("F&R (2nd)");
 
-                    if (TheArticle.SkipArticle) return;
+                    if (theArticle.SkipArticle) return;
                 }
 
                 if (chkAppend.Checked)
@@ -1016,20 +1016,20 @@ namespace AutoWikiBrowser
                         newlines += "\r\n";
 
                     if (rdoAppend.Checked)
-                        TheArticle.AWBChangeArticleText("Appended your message",
-                            TheArticle.ArticleText + newlines + txtAppendMessage.Text, false);
+                        theArticle.AWBChangeArticleText("Appended your message",
+                            theArticle.ArticleText + newlines + txtAppendMessage.Text, false);
                     else
-                        TheArticle.AWBChangeArticleText("Prepended your message",
-                            txtAppendMessage.Text + newlines + TheArticle.ArticleText, false);
+                        theArticle.AWBChangeArticleText("Prepended your message",
+                            txtAppendMessage.Text + newlines + theArticle.ArticleText, false);
                 }
 
                 if (chkEnableDab.Checked && txtDabLink.Text.Trim() != "" &&
                     txtDabVariants.Text.Trim() != "")
                 {
-                    if (TheArticle.Disambiguate(txtDabLink.Text.Trim(), txtDabVariants.Lines, BotMode,
+                    if (theArticle.Disambiguate(txtDabLink.Text.Trim(), txtDabVariants.Lines, BotMode,
                         (int)udContextChars.Value, chkSkipNoDab.Checked))
                     {
-                        if (TheArticle.SkipArticle) return;
+                        if (theArticle.SkipArticle) return;
                     }
                     else
                     {
@@ -1041,7 +1041,7 @@ namespace AutoWikiBrowser
             catch (Exception ex)
             {
                 ErrorHandler.Handle(ex); 
-                TheArticle.Trace.AWBSkipped("Exception:" + ex.Message);
+                theArticle.Trace.AWBSkipped("Exception:" + ex.Message);
             }
             finally
             {
@@ -1089,7 +1089,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             skippable = false;
             webBrowserEdit.ShowPreview();
             EnableButtons();
-            bleepflash();
+            Bleepflash();
         }
 
         private void Save()
@@ -1113,13 +1113,13 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
             if (showTimerToolStripMenuItem.Checked)
             {
-                stopSaveInterval();
-                ticker += SaveInterval;
+                StopSaveInterval();
+                Ticker += SaveInterval;
             }
 
             try
             {
-                setCheckBoxes();
+                SetCheckBoxes();
 
                 webBrowserEdit.SetArticleText(txtEdit.Text);
                 webBrowserEdit.Save();
@@ -1139,32 +1139,32 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             try
             {
                 Match m = DiffIdParser.Match(id);
-                int SrcLine = int.Parse(m.Groups[1].Value) - 1;
-                int DestLine = int.Parse(m.Groups[2].Value) - 1;
+                int srcLine = int.Parse(m.Groups[1].Value) - 1;
+                int destLine = int.Parse(m.Groups[2].Value) - 1;
 
-                if (SrcLine < 0 || DestLine < 0) return;
+                if (srcLine < 0 || destLine < 0) return;
 
-                string[] Src = TheArticle.OriginalArticleText.Split(new string[] { "\r\n" }, StringSplitOptions.None);
-                string[] Dest = txtEdit.Text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                string[] src = TheArticle.OriginalArticleText.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                string[] dest = txtEdit.Text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
 
-                List<string> Lst = new List<string>(Dest);
+                List<string> lst = new List<string>(dest);
                 switch (id[0])
                 {
                     case 'a':
-                        Lst.RemoveAt(DestLine);
-                        Dest = Lst.ToArray();
+                        lst.RemoveAt(destLine);
+                        dest = lst.ToArray();
                         break;
                     case 'd':
-                        Lst.Insert(DestLine, Src[Math.Min(SrcLine, Src.Length - 1)]);
-                        Dest = Lst.ToArray();
+                        lst.Insert(destLine, src[Math.Min(srcLine, src.Length - 1)]);
+                        dest = lst.ToArray();
                         break;
                     case 'r':
-                        Dest[DestLine] = Src[SrcLine];
+                        dest[destLine] = src[srcLine];
                         break;
                     default:
                         return;
                 }
-                txtEdit.Text = string.Join("\r\n", Dest);
+                txtEdit.Text = string.Join("\r\n", dest);
                 GetDiff();
             }
             catch (Exception ex)
@@ -1181,15 +1181,15 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 tabControl2.SelectedTab = tpEdit;
                 txtEdit.Select();
                 Match m = DiffIdParser.Match(id);
-                int DestLine = int.Parse(m.Groups[2].Value) - 1;
-                if (DestLine < 0) return;
+                int destLine = int.Parse(m.Groups[2].Value) - 1;
+                if (destLine < 0) return;
 
                 MatchCollection mc = Regex.Matches(txtEdit.Text, "\r\n");
-                DestLine = Math.Min(mc.Count, DestLine);
+                destLine = Math.Min(mc.Count, destLine);
 
-                if (DestLine == 0) txtEdit.Select(0, 0);
+                if (destLine == 0) txtEdit.Select(0, 0);
                 else
-                    txtEdit.Select(mc[DestLine - 1].Index + 2, 0);
+                    txtEdit.Select(mc[destLine - 1].Index + 2, 0);
                 txtEdit.ScrollToCaret();
             }
             catch (Exception ex)
@@ -1198,17 +1198,17 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
         }
 
-        private void panelShowHide()
+        private void PanelShowHide()
         {
             if (panel1.Visible) panel1.Hide();
             else panel1.Show();
 
-            setBrowserSize();
+            SetBrowserSize();
         }
 
         Point oldPosition = new Point();
         Size oldSize = new Size();
-        private void parametersShowHide()
+        private void ParametersShowHide()
         {
             enlargeEditAreaToolStripMenuItem.Checked = !enlargeEditAreaToolStripMenuItem.Checked;
             if (groupBox2.Visible)
@@ -1269,13 +1269,13 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             if (boolSaved == false)
                 msg = "You have changed the list since last saving it!\r\n";
 
-            TimeSpan Time = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-            Time = Time.Subtract(StartTime);
-            ExitQuestion dlg = new ExitQuestion(Time, NumberOfEdits, msg);
+            TimeSpan time = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+            time = time.Subtract(StartTime);
+            ExitQuestion dlg = new ExitQuestion(time, NumberOfEdits, msg);
             dlg.ShowDialog();
             if (dlg.DialogResult == DialogResult.OK)
             {
-                AutoWikiBrowser.Properties.Settings.Default.DontAskForTerminate = dlg.checkBoxDontAskAgain;
+                AutoWikiBrowser.Properties.Settings.Default.DontAskForTerminate = dlg.CheckBoxDontAskAgain;
 
                 // save user persistent settings
                 AutoWikiBrowser.Properties.Settings.Default.Save();
@@ -1295,7 +1295,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             SaveRecentSettingsList();
         }
 
-        private void setCheckBoxes()
+        private void SetCheckBoxes()
         {
             if (webBrowserEdit.Document.Body.InnerHtml.Contains("wpMinoredit"))
             {
@@ -1392,22 +1392,22 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             else
             {
                 SetBotModeEnabled(false);
-                stopDelayedAutoSaveTimer();
+                StopDelayedAutoSaveTimer();
             }
         }
 
-        private void SetBotModeEnabled(bool Enabled)
+        private void SetBotModeEnabled(bool enabled)
         {
             label2.Enabled = chkSuppressTag.Enabled = chkQuickSave.Enabled = nudBotSpeed.Enabled
             = lblAutoDelay.Enabled = btnResetNudges.Enabled = lblNudges.Enabled = chkNudge.Enabled 
-            = chkNudgeSkip.Enabled = chkNudge.Checked = chkShutdown.Enabled = Enabled;
+            = chkNudgeSkip.Enabled = chkNudge.Checked = chkShutdown.Enabled = enabled;
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TimeSpan Time = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, 
+            TimeSpan time = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, 
                 DateTime.Now.Second).Subtract(StartTime);
-            new AboutBox(webBrowserEdit.Version.ToString(), Time, NumberOfEdits).Show();
+            new AboutBox(webBrowserEdit.Version.ToString(), time, NumberOfEdits).Show();
         }
 
         private void loginToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1428,15 +1428,15 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
         }
 
-        public bool CheckStatus(bool Login)
+        public bool CheckStatus(bool login)
         {
             lblStatusText.Text = "Loading page to check if we are logged in.";
-            WikiStatusResult Result = Variables.User.UpdateWikiStatus();
+            WikiStatusResult result = Variables.User.UpdateWikiStatus();
 
             bool b = false;
             string label = "Software disabled";
 
-            switch (Result)
+            switch (result)
             {
                 case WikiStatusResult.Error:
                     lblUserName.BackColor = Color.Red;
@@ -1445,7 +1445,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
                 case WikiStatusResult.NotLoggedIn:
                     lblUserName.BackColor = Color.Red;
-                    if (!Login)
+                    if (!login)
                         MessageBox.Show("You are not logged in. The log in screen will now load, enter your name and password, click \"Log in\", wait for it to complete, then start the process again.\r\n\r\nIn the future you can make sure this won't happen by logging in to Wikipedia using Microsoft Internet Explorer.", "Not logged in", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     webBrowserEdit.LoadLogInPage();
                     webBrowserEdit.BringToFront();
@@ -1462,7 +1462,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                     break;
 
                 case WikiStatusResult.OldVersion:
-                    oldVersion();
+                    OldVersion();
                     break;
 
                 case WikiStatusResult.Registered:
@@ -1491,7 +1491,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             return b;
         }
 
-        private void oldVersion()
+        private void OldVersion()
         {
             if (!WebControl.Shutdown)
             {
@@ -1499,7 +1499,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
                 DialogResult yesnocancel = MessageBox.Show("This version is not enabled, please download the newest version. If you have the newest version, check that Wikipedia is online.\r\n\r\nPlease press \"Yes\" to run the AutoUpdater, \"No\" to load the download page and update manually, or \"Cancel\" to not update (but you will not be able to edit).", "Problem", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information);
                 if (yesnocancel == DialogResult.Yes)
-                    runUpdater();
+                    RunUpdater();
                 else if (yesnocancel == DialogResult.No)
                 {
                     try
@@ -1558,7 +1558,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void ArticleInfo(bool reset)
         {
-            string ArticleText = txtEdit.Text;
+            string articleText = txtEdit.Text;
             int intWords = 0;
             int intCats = 0;
             int intImages = 0;
@@ -1582,29 +1582,29 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
             else
             {
-                intWords = Tools.WordCount(ArticleText);
+                intWords = Tools.WordCount(articleText);
 
-                foreach (Match m in Regex.Matches(ArticleText, "\\[\\[" + Variables.Namespaces[14], RegexOptions.IgnoreCase))
+                foreach (Match m in Regex.Matches(articleText, "\\[\\[" + Variables.Namespaces[14], RegexOptions.IgnoreCase))
                     intCats++;
 
-                foreach (Match m in Regex.Matches(ArticleText, "\\[\\[" + Variables.Namespaces[6], RegexOptions.IgnoreCase))
+                foreach (Match m in Regex.Matches(articleText, "\\[\\[" + Variables.Namespaces[6], RegexOptions.IgnoreCase))
                     intImages++;
 
-                foreach (Match m in WikiRegexes.InterWikiLinks.Matches(ArticleText))
+                foreach (Match m in WikiRegexes.InterWikiLinks.Matches(articleText))
                     intInterLinks++;
 
-                foreach (Match m in WikiRegexes.WikiLinksOnly.Matches(ArticleText))
+                foreach (Match m in WikiRegexes.WikiLinksOnly.Matches(articleText))
                     intLinks++;
 
                 intLinks = intLinks - intInterLinks - intImages - intCats;
 
-                if (TheArticle.NameSpaceKey == 0 && (WikiRegexes.Stub.IsMatch(ArticleText)) && (intWords > 500))
+                if (TheArticle.NameSpaceKey == 0 && (WikiRegexes.Stub.IsMatch(articleText)) && (intWords > 500))
                     lblWarn.Text = "Long article with a stub tag.\r\n";
 
-                if (!(Regex.IsMatch(ArticleText, "\\[\\[" + Variables.Namespaces[14], RegexOptions.IgnoreCase)))
+                if (!(Regex.IsMatch(articleText, "\\[\\[" + Variables.Namespaces[14], RegexOptions.IgnoreCase)))
                     lblWarn.Text += "No category (although one may be in a template)\r\n";
 
-                if (ArticleText.StartsWith("=="))
+                if (articleText.StartsWith("=="))
                     lblWarn.Text += "Starts with heading.";
 
                 lblWords.Text = "Words: " + intWords.ToString();
@@ -1615,25 +1615,25 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
                 //Find multiple links                
                 lbDuplicateWikilinks.Items.Clear();
-                ArrayList ArrayLinks = new ArrayList();
+                ArrayList arrayLinks = new ArrayList();
                 string x = "";
                 //get all the links
-                foreach (Match m in WikiRegexes.WikiLink.Matches(ArticleText))
+                foreach (Match m in WikiRegexes.WikiLink.Matches(articleText))
                 {
                     x = m.Groups[1].Value;
                     if (!WikiRegexes.Dates.IsMatch(x) && !WikiRegexes.Dates2.IsMatch(x))
-                        ArrayLinks.Add(x);
+                        arrayLinks.Add(x);
                 }
 
                 lbDuplicateWikilinks.Sorted = true;
 
                 //add the duplicate articles to the listbox
-                foreach (string z in ArrayLinks)
+                foreach (string z in arrayLinks)
                 {
-                    if ((ArrayLinks.IndexOf(z) < ArrayLinks.LastIndexOf(z)) && (!lbDuplicateWikilinks.Items.Contains(z)))
+                    if ((arrayLinks.IndexOf(z) < arrayLinks.LastIndexOf(z)) && (!lbDuplicateWikilinks.Items.Contains(z)))
                         lbDuplicateWikilinks.Items.Add(z);
                 }
-                ArrayLinks = null;
+                arrayLinks = null;
 
                 if (lbDuplicateWikilinks.Items.Count > 0)
                 {
@@ -1649,16 +1649,16 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             tabControl2.SelectedTab = tpEdit;
             int selection = lbDuplicateWikilinks.SelectedIndex;
             if (selection != oldselection)
-                Find.resetFind();
+                Find.ResetFind();
             if (lbDuplicateWikilinks.SelectedIndex != -1)
             {
                 string strLink = Regex.Escape(lbDuplicateWikilinks.SelectedItem.ToString());
-                Find.find("\\[\\[" + strLink + "(\\|.*?)?\\]\\]", true, true, txtEdit, TheArticle.Name);
+                Find.Find1("\\[\\[" + strLink + "(\\|.*?)?\\]\\]", true, true, txtEdit, TheArticle.Name);
                 btnRemove.Enabled = true;
             }
             else
             {
-                Find.resetFind();
+                Find.ResetFind();
                 btnRemove.Enabled = false;
             }
 
@@ -1680,12 +1680,12 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void ResetFind(object sender, EventArgs e)
         {
-            Find.resetFind();
+            Find.ResetFind();
         }
 
         private void txtEdit_TextChanged(object sender, EventArgs e)
         {
-            Find.resetFind();
+            Find.ResetFind();
             try
             {
                 TheArticle.EditSummary = "";
@@ -1696,7 +1696,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private void btnFind_Click(object sender, EventArgs e)
         {
             tabControl2.SelectedTab = tpEdit;
-            Find.find(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked, txtEdit, TheArticle.Name);
+            Find.Find1(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked, txtEdit, TheArticle.Name);
         }
         
         private void toolStripTextBox2_Click(object sender, EventArgs e)
@@ -1763,25 +1763,25 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void PreferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MyPreferences MyPrefs = new MyPreferences(Variables.LangCode, Variables.Project, Variables.CustomProject, txtEdit.Font, LowThreadPriority, Flash, Beep, Minimize, SaveArticleList, TimeOut, AutoSaveEditBoxEnabled, AutoSaveEditBoxFile, AutoSaveEditBoxPeriod);
+            MyPreferences myPrefs = new MyPreferences(Variables.LangCode, Variables.Project, Variables.CustomProject, txtEdit.Font, LowThreadPriority, Flash, Beep, Minimize, SaveArticleList, TimeOut, AutoSaveEditBoxEnabled, AutoSaveEditBoxFile, AutoSaveEditBoxPeriod);
 
-            if (MyPrefs.ShowDialog(this) == DialogResult.OK)
+            if (myPrefs.ShowDialog(this) == DialogResult.OK)
             {
-                txtEdit.Font = MyPrefs.TextBoxFont;
-                LowThreadPriority = MyPrefs.LowThreadPriority;
-                Flash = MyPrefs.perfFlash;
-                Beep = MyPrefs.perfBeep;
-                Minimize = MyPrefs.perfMinimize;
-                SaveArticleList = MyPrefs.perfSaveArticleList;
-                TimeOut = MyPrefs.perfTimeOutLimit;
-                AutoSaveEditBoxEnabled = MyPrefs.perfAutoSaveEditBoxEnabled;
-                AutoSaveEditBoxPeriod = MyPrefs.perfAutoSaveEditBoxPeriod;
-                AutoSaveEditBoxFile = MyPrefs.perfAutoSaveEditBoxFile;
-                customWikis = MyPrefs.perfCustomWikis;
+                txtEdit.Font = myPrefs.TextBoxFont;
+                LowThreadPriority = myPrefs.LowThreadPriority;
+                Flash = myPrefs.PerfFlash;
+                Beep = myPrefs.PerfBeep;
+                Minimize = myPrefs.PerfMinimize;
+                SaveArticleList = myPrefs.PerfSaveArticleList;
+                TimeOut = myPrefs.PerfTimeOutLimit;
+                AutoSaveEditBoxEnabled = myPrefs.PerfAutoSaveEditBoxEnabled;
+                AutoSaveEditBoxPeriod = myPrefs.PerfAutoSaveEditBoxPeriod;
+                AutoSaveEditBoxFile = myPrefs.PerfAutoSaveEditBoxFile;
+                CustomWikis = myPrefs.PerfCustomWikis;
 
-                if (MyPrefs.Language != Variables.LangCode || MyPrefs.Project != Variables.Project || MyPrefs.CustomProject != Variables.CustomProject)
+                if (myPrefs.Language != Variables.LangCode || myPrefs.Project != Variables.Project || myPrefs.CustomProject != Variables.CustomProject)
                 {
-                    SetProject(MyPrefs.Language, MyPrefs.Project, MyPrefs.CustomProject);
+                    SetProject(myPrefs.Language, myPrefs.Project, myPrefs.CustomProject);
 
                     Variables.User.WikiStatus = false;
                     chkQuickSave.Checked = false;
@@ -1791,7 +1791,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                     Variables.User.IsAdmin = false;
                 }
             }
-            MyPrefs = null;
+            myPrefs = null;
 
             listMaker1.AddRemoveRedirects();
         }
@@ -1799,10 +1799,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //refresh typo list
-            loadTypos(true);
+            LoadTypos(true);
 
             //refresh talk warnings list
-            loadUserTalkWarnings();
+            LoadUserTalkWarnings();
 
             //refresh login status, and reload check list
             if (!Variables.User.WikiStatus)
@@ -1812,10 +1812,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
         }
 
-        private void SetProject(LangCodeEnum Code, ProjectEnum Project, string CustomProject)
+        private void SetProject(LangCodeEnum code, ProjectEnum project, string customProject)
         {
             //set namespaces
-            Variables.SetProject(Code, Project, CustomProject);
+            Variables.SetProject(code, project, customProject);
 
             //set interwikiorder
             if (Variables.LangCode == LangCodeEnum.en || Variables.LangCode == LangCodeEnum.pl ||
@@ -1828,7 +1828,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             else
                 parsers.InterWikiOrder = InterWikiOrderEnum.Alphabetical;
 
-            if (Variables.LangCode != LangCodeEnum.en || Project != ProjectEnum.wikipedia)
+            if (Variables.LangCode != LangCodeEnum.en || project != ProjectEnum.wikipedia)
             {
                 chkAutoTagger.Checked = false;
                 chkGeneralFixes.Checked = false;
@@ -1879,12 +1879,12 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             SetButtons(true);
         }
 
-        private void SetButtons(bool Enabled)
+        private void SetButtons(bool enabled)
         {
             btnSave.Enabled = btnIgnore.Enabled = btnPreview.Enabled = btnDiff.Enabled =
             btntsPreview.Enabled = btntsChanges.Enabled = listMaker1.MakeListEnabled =
             btntsSave.Enabled = btntsIgnore.Enabled = btnMove.Enabled = btnDelete.Enabled =
-            btnProtect.Enabled = Enabled;
+            btnProtect.Enabled = enabled;
         }
 
         #endregion
@@ -1895,7 +1895,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         int intStartInSeconds = 5;
         private void DelayedRestart()
         {
-            stopDelayedAutoSaveTimer();
+            StopDelayedAutoSaveTimer();
             lblStatusText.Text = "Restarting in " + intStartInSeconds.ToString();
 
             if (intStartInSeconds == 0)
@@ -1909,31 +1909,31 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private void StartDelayedRestartTimer()
         {
             intStartInSeconds = intRestartDelay;
-            ticker += DelayedRestart;
+            Ticker += DelayedRestart;
             //increase the restart delay each time, this is decreased by 1 on each successfull save
             intRestartDelay += 5;
         }
-        private void StartDelayedRestartTimer(int Delay)
+        private void StartDelayedRestartTimer(int delay)
         {
-            intStartInSeconds = Delay;
-            ticker += DelayedRestart;
+            intStartInSeconds = delay;
+            Ticker += DelayedRestart;
         }
         private void StopDelayedRestartTimer()
         {
-            ticker -= DelayedRestart;
+            Ticker -= DelayedRestart;
             intStartInSeconds = intRestartDelay;
         }
 
-        private void stopDelayedAutoSaveTimer()
+        private void StopDelayedAutoSaveTimer()
         {
-            ticker -= DelayedAutoSave;
+            Ticker -= DelayedAutoSave;
             intTimer = 0;
             lblBotTimer.Text = "Bot timer: " + intTimer.ToString();
         }
 
-        private void startDelayedAutoSaveTimer()
+        private void StartDelayedAutoSaveTimer()
         {
-            ticker += DelayedAutoSave;
+            Ticker += DelayedAutoSave;
         }
 
         int intTimer = 0;
@@ -1949,7 +1949,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
             else
             {
-                stopDelayedAutoSaveTimer();
+                StopDelayedAutoSaveTimer();
                 SaveArticle();
             }
 
@@ -1958,13 +1958,13 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void showTimerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            showTimer();
+            ShowTimer();
         }
 
-        private void showTimer()
+        private void ShowTimer()
         {
             lblTimer.Visible = showTimerToolStripMenuItem.Checked;
-            stopSaveInterval();
+            StopSaveInterval();
         }
 
         int intStartTimer = 0;
@@ -1973,19 +1973,19 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             intStartTimer++;
             lblTimer.Text = "Timer: " + intStartTimer.ToString();
         }
-        private void stopSaveInterval()
+        private void StopSaveInterval()
         {
             intStartTimer = 0;
             lblTimer.Text = "Timer: 0";
-            ticker -= SaveInterval;
+            Ticker -= SaveInterval;
         }
 
         public delegate void Tick();
-        public event Tick ticker;
+        public event Tick Ticker;
         private void Timer_Tick(object sender, EventArgs e)
         {
-            if (ticker != null)
-                ticker();
+            if (Ticker != null)
+                Ticker();
 
             seconds++;
             if (seconds == 60)
@@ -2124,22 +2124,22 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void launchListSplitterToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            WikiFunctions.AWBSettings.UserPrefs P = MakePrefs();
+            WikiFunctions.AWBSettings.UserPrefs p = MakePrefs();
 
             if (listMaker1.Count > 0 && MessageBox.Show("Would you like to copy your current Article List to the ListSplitter?", "Copy Article List?", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                splitter = new ListSplitter(P, savePluginSettings(P), listMaker1.GetArticleList());
+                splitter = new ListSplitter(p, SavePluginSettings(p), listMaker1.GetArticleList());
             else
-                splitter = new ListSplitter(P, savePluginSettings(P));
+                splitter = new ListSplitter(p, SavePluginSettings(p));
 
             splitter.Show(this);
         }
 
         private void launchDumpSearcherToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            launchDumpSearcher();
+            LaunchDumpSearcher();
         }
 
-        private void launchDumpSearcher()
+        private void LaunchDumpSearcher()
         {
             WikiFunctions.DatabaseScanner.DatabaseScanner ds = new WikiFunctions.DatabaseScanner.DatabaseScanner();
             ds.Show();
@@ -2212,7 +2212,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 }
                 if (e.KeyCode == Keys.F)
                 {
-                    Find.find(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked, 
+                    Find.Find1(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked, 
                         txtEdit, TheArticle.Name);
                     e.SuppressKeyPress = true;
                     return;
@@ -2340,11 +2340,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             //find first dates
             string strBirth = "";
             string strDeath = "";
-            Regex RegexDates = new Regex("[1-2][0-9]{3}");
+            Regex regexDates = new Regex("[1-2][0-9]{3}");
 
             try
             {
-                MatchCollection m = RegexDates.Matches(txtEdit.Text);
+                MatchCollection m = regexDates.Matches(txtEdit.Text);
 
                 if (m.Count >= 1)
                     strBirth = m[0].Value;
@@ -2354,14 +2354,14 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 //make name, surname, firstname
                 string strName = Tools.MakeHumanCatKey(TheArticle.Name);
 
-                string Categories = "";
+                string categories = "";
 
                 if (strDeath.Length == 0 || int.Parse(strDeath) < int.Parse(strBirth) + 20)
-                    Categories = "[[Category:" + strBirth + " births|" + strName + "]]";
+                    categories = "[[Category:" + strBirth + " births|" + strName + "]]";
                 else
-                    Categories = "[[Category:" + strBirth + " births|" + strName + "]]\r\n[[Category:" + strDeath + " deaths|" + strName + "]]";
+                    categories = "[[Category:" + strBirth + " births|" + strName + "]]\r\n[[Category:" + strDeath + " deaths|" + strName + "]]";
 
-                txtEdit.SelectedText = Categories;
+                txtEdit.SelectedText = categories;
             }
             catch (Exception ex)
             {
@@ -2456,12 +2456,12 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             UpdateButtons();
             if (intTimer > 0)
             {//stop and reset the bot timer.
-                stopDelayedAutoSaveTimer();
+                StopDelayedAutoSaveTimer();
                 EnableButtons();
                 return;
             }
 
-            stopSaveInterval();
+            StopSaveInterval();
             StopDelayedRestartTimer();
             if (webBrowserEdit.IsBusy)
                 webBrowserEdit.Stop2();
@@ -2483,7 +2483,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void reparseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ArticleEx a = new ArticleEx(TheArticle.Name);
+            ArticleEX a = new ArticleEX(TheArticle.Name);
 
             a.OriginalArticleText = txtEdit.Text;
             ProcessPage(a);
@@ -2573,12 +2573,12 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void cmboEditSummary_MouseMove(object sender, MouseEventArgs e)
         {
-            string EditSummary = "";
+            string editSummary = "";
 
             if (TheArticle != null)
-                EditSummary = TheArticle.EditSummary;
+                editSummary = TheArticle.EditSummary;
 
-            if (EditSummary == "")
+            if (editSummary == "")
                 toolTip1.SetToolTip(cmboEditSummary, "");
             else
                 toolTip1.SetToolTip(cmboEditSummary, MakeSummary());
@@ -2597,11 +2597,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 BotMode = false;
                 //return;
             }
-            loadTypos(false);
+            LoadTypos(false);
             chkSkipIfNoRegexTypo.Enabled = chkRegExTypo.Checked;
         }
 
-        private void loadTypos(bool Reload)
+        private void LoadTypos(bool Reload)
         {
             if (chkRegExTypo.Checked)
             {
@@ -2669,7 +2669,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             se.Summaries.Lines = summaries;
             se.Summaries.Select(0, 0);
 
-            string PrevSummary = cmboEditSummary.SelectedText;
+            string prevSummary = cmboEditSummary.SelectedText;
 
             if (se.ShowDialog() == DialogResult.OK)
             {
@@ -2681,20 +2681,20 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                     cmboEditSummary.Items.Add(s.Trim());
                 }
 
-                if (cmboEditSummary.Items.Contains(PrevSummary))
-                    cmboEditSummary.SelectedText = PrevSummary;
+                if (cmboEditSummary.Items.Contains(prevSummary))
+                    cmboEditSummary.SelectedText = prevSummary;
                 else cmboEditSummary.SelectedItem = 0;
             }
         }
 
         private void showHidePanelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            panelShowHide();
+            PanelShowHide();
         }
 
         private void enlargeEditAreaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            parametersShowHide();
+            ParametersShowHide();
         }
 
         #endregion
@@ -2703,12 +2703,12 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void btnShowHide_Click(object sender, EventArgs e)
         {
-            panelShowHide();
+            PanelShowHide();
         }
 
         private void btntsShowHideParameters_Click(object sender, EventArgs e)
         {
-            parametersShowHide();
+            ParametersShowHide();
         }
 
         private void btntsStart_Click(object sender, EventArgs e)
@@ -2741,7 +2741,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             GetDiff();
         }
 
-        private void setBrowserSize()
+        private void SetBrowserSize()
         {
             if (toolStrip.Visible)
             {
@@ -2766,11 +2766,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void enableTheToolbarToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            enableToolBar = enableTheToolbarToolStripMenuItem.Checked;
+            EnableToolBar = enableTheToolbarToolStripMenuItem.Checked;
         }
 
         private bool boolEnableToolbar = false;
-        private bool enableToolBar
+        private bool EnableToolBar
         {
             get { return boolEnableToolbar; }
             set
@@ -2779,7 +2779,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                     toolStrip.Show();
                 else
                     toolStrip.Hide();
-                setBrowserSize();
+                SetBrowserSize();
                 enableTheToolbarToolStripMenuItem.Checked = value;
                 boolEnableToolbar = value;
             }
@@ -3017,7 +3017,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private void showToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!this.Visible)
-                toolStripHide();
+                ToolStripHide();
         }
 
         private void hideToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3035,7 +3035,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private void ntfyTray_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (!this.Visible)
-                toolStripHide();
+                ToolStripHide();
             else
                 this.Visible = false;
         }
@@ -3045,29 +3045,29 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             SetMenuVisibility(this.Visible);
         }
 
-        private void SetMenuVisibility(bool Visible)
+        private void SetMenuVisibility(bool visible)
         {
-            showToolStripMenuItem.Enabled = !Visible || this.WindowState == FormWindowState.Minimized;
-            hideToolStripMenuItem.Enabled = Visible;
+            showToolStripMenuItem.Enabled = !visible || this.WindowState == FormWindowState.Minimized;
+            hideToolStripMenuItem.Enabled = visible;
         }
 #endregion
 
-        private void toolStripHide()
+        private void ToolStripHide()
         {
             this.Visible = true;
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
         }
 
-        private void updateUpdater()
+        private void UpdateUpdater()
         {
             Updater Updater = new Updater();
             Updater.Update();
         }
 
-        public void NotifyBalloon(string Message, ToolTipIcon Icon)
+        public void NotifyBalloon(string message, ToolTipIcon icon)
         {
-            ntfyTray.BalloonTipText = Message;
-            ntfyTray.BalloonTipIcon = Icon;
+            ntfyTray.BalloonTipText = message;
+            ntfyTray.BalloonTipIcon = icon;
             ntfyTray.ShowBalloonTip(10000);
         }
 
@@ -3101,10 +3101,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void runUpdaterToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            runUpdater();
+            RunUpdater();
         }
 
-        private void runUpdater()
+        private void RunUpdater()
         {
 
             if (MessageBox.Show("AWB needs to be closed. To do this now, click 'yes'. If you need to save your settings, do this now, the updater will not complete until AWB is closed.", "Close AWB?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -3140,12 +3140,12 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                     e.Cancel = true; return;
                 }
 
-                bool Cancel;
+                bool cancel;
                 // Tell plugins we're about to nudge, and give them the opportunity to cancel:
                 foreach (KeyValuePair<string, IAWBPlugin> a in Plugin.Items)
                 {
-                    a.Value.Nudge(out Cancel);
-                    if (Cancel)
+                    a.Value.Nudge(out cancel);
+                    if (cancel)
                     {
                         e.Cancel = true; return;
                     }
@@ -3213,10 +3213,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void EditBoxSaveTimer_Tick(object sender, EventArgs e)
         {
-            saveEditBoxText(AutoSaveEditBoxFile);
+            SaveEditBoxText(AutoSaveEditBoxFile);
         }
 
-        private void saveEditBoxText(string path)
+        private void SaveEditBoxText(string path)
         {
             try
             {
@@ -3237,10 +3237,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private void saveTextToFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (saveListDialog.ShowDialog() == DialogResult.OK)
-                saveEditBoxText(saveListDialog.FileName);
+                SaveEditBoxText(saveListDialog.FileName);
         }
 
-        private void loadUserTalkWarnings()
+        private void LoadUserTalkWarnings()
         {
             string finalRegex = "\\{\\{ ?(template:)? ?((";
             Regex userTalkTemplate = new Regex(@"# \[\[Template:(.*?)\]\]");
@@ -3364,7 +3364,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private void profilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             profiles = new WikiFunctions.AWBProfiles.AWBProfilesForm(webBrowserEdit);
-            profiles.LoadProfile += loadProfileSettings;
+            profiles.LoadProfile += LoadProfileSettings;
             profiles.ShowDialog(this);
         }
 
@@ -3378,7 +3378,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             chkMinor.Checked = markAllAsMinorToolStripMenuItem.Checked;
         }
 
-        private void loadProfileSettings()
+        private void LoadProfileSettings()
         {
             LoadPrefs(profiles.SettingsToLoad);
             CheckStatus(true);
@@ -3395,10 +3395,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             EnableDisableShutdownControls(chkShutdown.Checked);
         }
 
-        private void EnableDisableShutdownControls(bool Enabled)
+        private void EnableDisableShutdownControls(bool enabled)
         {
             radShutdown.Enabled = radStandby.Enabled = radRestart.Enabled
-            = radHibernate.Enabled = radShutdown.Checked = Enabled;
+            = radHibernate.Enabled = radShutdown.Checked = enabled;
         }
 
         private void CanShutdown()
@@ -3605,16 +3605,16 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
         }
 
-        private void SetToolBarEnabled(bool Enabled)
+        private void SetToolBarEnabled(bool enabled)
         {
             imgBold.Enabled = imgExtlink.Enabled = imgHr.Enabled = imgItalics.Enabled = imgLink.Enabled =
             imgMath.Enabled = imgNowiki.Enabled = imgRedirect.Enabled = imgStrike.Enabled = imgSub.Enabled =
-            imgSup.Enabled = Enabled;
+            imgSup.Enabled = enabled;
         }
 
-        private void SetToolBarVisible(bool Visible)
+        private void SetToolBarVisible(bool visible)
         {
-            if (Visible)
+            if (visible)
             {
                 txtEdit.Location = new Point(txtEdit.Location.X, txtEdit.Location.Y + 32);
                 txtEdit.Size = new Size(txtEdit.Size.Width, txtEdit.Size.Height - 32);
@@ -3627,7 +3627,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
             imgBold.Visible = imgExtlink.Visible = imgHr.Visible = imgItalics.Visible = imgLink.Visible =
             imgMath.Visible = imgNowiki.Visible = imgRedirect.Visible = imgStrike.Visible = imgSub.Visible =
-            imgSup.Visible = Visible;
+            imgSup.Visible = visible;
         }
 #endregion
 

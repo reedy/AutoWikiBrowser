@@ -39,7 +39,7 @@ namespace AutoWikiBrowser
             Close();
         }
 
-        public void setProgress(int percent)
+        public void SetProgress(int percent)
         {
             progressBar.Value = percent;
         }

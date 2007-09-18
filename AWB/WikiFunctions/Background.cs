@@ -165,9 +165,9 @@ namespace WikiFunctions.Background
             string link = "";
             string article = "";
 
-            Regex WikiLinksOnly = new Regex("\\[\\[([^:|]*?)\\]\\]", RegexOptions.Compiled);
+            Regex wikiLinksOnly = new Regex("\\[\\[([^:|]*?)\\]\\]", RegexOptions.Compiled);
 
-            Dictionary<string, string> KnownLinks = new Dictionary<string, string>();
+            Dictionary<string, string> knownLinks = new Dictionary<string, string>();
 
             if (HasUI) ui.Worker = Thread.CurrentThread;
 
@@ -175,7 +175,7 @@ namespace WikiFunctions.Background
             {
                 if (HasUI) ui.Status = "Loading links";
 
-                MatchCollection simple = WikiLinksOnly.Matches(strParam);
+                MatchCollection simple = wikiLinksOnly.Matches(strParam);
                 MatchCollection piped = WikiRegexes.PipedWikiLink.Matches(strParam);
 
                 if (HasUI)
@@ -191,7 +191,7 @@ namespace WikiFunctions.Background
                     link = m.Value;
                     article = m.Groups[1].Value;
 
-                    if(!KnownLinks.ContainsKey(Tools.TurnFirstToUpper(article)))
+                    if(!knownLinks.ContainsKey(Tools.TurnFirstToUpper(article)))
                     {
                         //get text
                         string text = "";
@@ -214,11 +214,11 @@ namespace WikiFunctions.Background
 
                             strParam = strParam.Replace(link, directLink);
                         }
-                        KnownLinks.Add(Tools.TurnFirstToUpper(article), Tools.TurnFirstToUpper(dest));
+                        knownLinks.Add(Tools.TurnFirstToUpper(article), Tools.TurnFirstToUpper(dest));
                     }
-                    else if (KnownLinks[Tools.TurnFirstToUpper(article)] != Tools.TurnFirstToUpper(article))
+                    else if (knownLinks[Tools.TurnFirstToUpper(article)] != Tools.TurnFirstToUpper(article))
                     {
-                        string directLink = "[[" + KnownLinks[Tools.TurnFirstToUpper(article)] + "|" + article + "]]";
+                        string directLink = "[[" + knownLinks[Tools.TurnFirstToUpper(article)] + "|" + article + "]]";
 
                         strParam = strParam.Replace(link, directLink);
                     }
@@ -233,7 +233,7 @@ namespace WikiFunctions.Background
                     article = m.Groups[1].Value;
                     string linkText = m.Groups[2].Value;
 
-                    if(!KnownLinks.ContainsKey(Tools.TurnFirstToUpper(article)))
+                    if(!knownLinks.ContainsKey(Tools.TurnFirstToUpper(article)))
                     {
                         //get text
                         string text = "";
@@ -256,11 +256,11 @@ namespace WikiFunctions.Background
 
                             strParam = strParam.Replace(link, directLink);
                         }
-                        KnownLinks.Add(Tools.TurnFirstToUpper(article), Tools.TurnFirstToUpper(dest));
+                        knownLinks.Add(Tools.TurnFirstToUpper(article), Tools.TurnFirstToUpper(dest));
                     }
-                    else if (KnownLinks[Tools.TurnFirstToUpper(article)] != Tools.TurnFirstToUpper(article))
+                    else if (knownLinks[Tools.TurnFirstToUpper(article)] != Tools.TurnFirstToUpper(article))
                     {
-                        string directLink = "[[" + KnownLinks[Tools.TurnFirstToUpper(article)] + "|" + linkText + "]]";
+                        string directLink = "[[" + knownLinks[Tools.TurnFirstToUpper(article)] + "|" + linkText + "]]";
 
                         strParam = strParam.Replace(link, directLink);
                     }
@@ -286,11 +286,11 @@ namespace WikiFunctions.Background
         /// <param name="What">Which source to use</param>
         /// <param name="Limit">Max. number of pages to return, -1 if no limit</param>
         /// <param name="Params">Optional parameters, depend on source</param>
-        public void GetList(GetLists.From What, int Limit, params string[] Params)
+        public void GetList(GetLists.From what, int limit, params string[] params1)
         {
-            objParam1 = What;
-            objParam2 = Params;
-            intParam = Limit;
+            objParam1 = what;
+            objParam2 = params1;
+            intParam = limit;
 
             if (HasUI) ui = new PleaseWait();
             if (HasUI) ui.Show(Variables.MainForm as Form);
@@ -302,9 +302,9 @@ namespace WikiFunctions.Background
         /// </summary>
         /// <param name="What">Which source to use</param>
         /// <param name="Params">Optional parameters, depend on source</param>
-        public void GetList(GetLists.From What, params string[] Params)
+        public void GetList(GetLists.From what, params string[] params1)
         {
-            GetList(What, -1, Params);
+            GetList(what, -1, params1);
         }
 
         private void GetListFunc()

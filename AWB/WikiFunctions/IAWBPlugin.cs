@@ -62,7 +62,7 @@ namespace WikiFunctions.Plugin
         /// Called by AWB when it loads a setting file
         /// </summary>
         /// <param name="Prefs">An array of deserialised setting objects belonging to your plugin</param>
-        void LoadSettings(object[] Prefs);
+        void LoadSettings(object[] prefs);
 
         /// <summary>
         /// Called by AWB when it is saving settings

@@ -38,7 +38,7 @@ namespace WikiFunctions
             InitializeComponent();
         }
 
-        public string[] locTemplateList = new string[0];
+        private string[] locTemplateList = new string[0];
 
         public Dictionary<Regex, string> Regexes = new Dictionary<Regex, string>();
 

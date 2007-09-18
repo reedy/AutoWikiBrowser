@@ -108,7 +108,7 @@ namespace WikiFunctions
         /// </summary>
         public static string[] MonthNames;
 
-        public static string[] enLangMonthNames = new string[12]{"January", "February", "March", "April", "May", "June",
+        public static string[] ENLangMonthNames = new string[12]{"January", "February", "March", "April", "May", "June",
                 "July", "August", "September", "October", "November", "December"};
 
         /// <summary>
@@ -176,12 +176,12 @@ namespace WikiFunctions
             DelayedRequests.Clear();
         }
 
-        public static void LoadUnderscores(params string[] Templates)
+        public static void LoadUnderscores(params string[] templates)
         {
             BackgroundRequest r = new BackgroundRequest(new BackgroundRequestComplete(UnderscoresLoaded));
             r.HasUI = false;
             DelayedRequests.Add(r);
-            r.GetList(WikiFunctions.Lists.GetLists.From.WhatTranscludesHere, Templates);
+            r.GetList(WikiFunctions.Lists.GetLists.From.WhatTranscludesHere, templates);
         }
 
         static void UnderscoresLoaded(BackgroundRequest req)
@@ -246,7 +246,7 @@ namespace WikiFunctions
             AWBDefaultSummaryTag();
             Stub = "[Ss]tub";
 
-            MonthNames = enLangMonthNames;
+            MonthNames = ENLangMonthNames;
 
             SectStub = @"\{\{[Ss]ect";
 
@@ -967,7 +967,7 @@ namespace WikiFunctions
         public static void LoadProjectOptions(string URL)
         {
             Dictionary<int, string> ns = new Dictionary<int, string>();
-            string[] months = (string[])enLangMonthNames.Clone();
+            string[] months = (string[])ENLangMonthNames.Clone();
 
             string url = URLLong + "index.php?title=Special:Contributions/Dummy_variable";
 
@@ -1010,7 +1010,7 @@ namespace WikiFunctions
 Do you want to use default settings?", "Error loading namespaces", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
                         Namespaces = enLangNamespaces;
-                        MonthNames = (string[])enLangMonthNames.Clone();
+                        MonthNames = (string[])ENLangMonthNames.Clone();
                         return;
                     }
                 }
@@ -1071,7 +1071,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
 
             strsummarytag = " using ";
 
-            MonthNames = enLangMonthNames;
+            MonthNames = ENLangMonthNames;
 
             RTL = false;
         }

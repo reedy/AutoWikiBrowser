@@ -24,7 +24,7 @@ using System.IO;
 using WikiFunctions;
 
 
-namespace IRCMonitor
+namespace IrcMonitor
 {
     [Serializable, XmlRoot("IRCMonitorPreferences")]
     public class ProjectSettings

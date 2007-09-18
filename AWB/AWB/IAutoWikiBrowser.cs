@@ -69,11 +69,11 @@ namespace AutoWikiBrowser
         string IAutoWikiBrowser.WikiDiffVersionString { get { return WikiDiff.Version; } }
         /* void IAutoWikiBrowser.AddLogItem(ArticleEx article) //
             { LogControl1.AddLog(article); } */
-        void IAutoWikiBrowser.AddLogItem(bool Skipped, AWBLogListener LogListener)
-        { LogControl1.AddLog(Skipped, LogListener); }
+        void IAutoWikiBrowser.AddLogItem(bool skipped, AWBLogListener logListener)
+        { LogControl1.AddLog(skipped, logListener); }
         void IAutoWikiBrowser.TurnOffLogging() { GlobalObjects.MyTrace.TurnOffLogging(); }
-        void IAutoWikiBrowser.ShowHelp(string URL) { Help.ShowHelp(h, URL); }
-        void IAutoWikiBrowser.ShowHelpEnWiki(string Article) { Help.ShowHelpEn(h, Article); }
+        void IAutoWikiBrowser.ShowHelp(string url) { Help.ShowHelp(h, url); }
+        void IAutoWikiBrowser.ShowHelpEnWiki(string article) { Help.ShowHelpEN(h, article); }
 
         // "Events":
         void IAutoWikiBrowser.SkipPage(IAWBPlugin sender, string reason) { ((IAutoWikiBrowser)this).SkipPage(sender.Name, reason); }

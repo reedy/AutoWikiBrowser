@@ -33,16 +33,16 @@ namespace AutoWikiBrowser
     {
         public AboutBox() { } //default
 
-        public AboutBox(string IEVersion, TimeSpan time, int intEdits)
+        public AboutBox(string ieVersion, TimeSpan time, int Edits)
         {
             InitializeComponent();
 
-            lblIEVersion.Text = "IE version: " + IEVersion;
+            lblIEVersion.Text = "IE version: " + ieVersion;
             lblAWBVersion.Text = "AWB Version " + Program.VersionString;
             textBoxDescription.Text = WikiFunctions.Controls.AboutBox.GetDetailedMessage(Assembly.GetExecutingAssembly());
             lblOSVersion.Text = "Windows version: " + Environment.OSVersion.Version.Major.ToString() + "." + Environment.OSVersion.Version.Minor.ToString();
             lblNETVersion.Text = ".NET Version: " + Environment.Version.ToString();
-            lblTimeAndEdits.Text = "You have made " + intEdits.ToString() + " edits in " + time.ToString();
+            lblTimeAndEdits.Text = "You have made " + Edits.ToString() + " edits in " + time.ToString();
         }
 
         private void okButton_Click(object sender, EventArgs e)

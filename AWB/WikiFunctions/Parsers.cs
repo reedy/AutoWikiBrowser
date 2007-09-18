@@ -264,26 +264,26 @@ namespace WikiFunctions.Parse
             ArticleText = Regex.Replace(ArticleText, "(</ref>|<ref[^>]*?/>)<sup>[ ]*[,;-]?[ ]*</sup><ref", "$1<ref");
             ArticleText = Regex.Replace(ArticleText, "(</ref>|<ref[^>]*?/>)[ ]*[,;-]?[ ]*<ref", "$1<ref");
 
-            string LacksPunctuation = "([^\\.,;:!\\?\"'’])";
-            string QuestionOrExclam = "([!\\?])";
-            string MinorPunctuation = "([\\.,;:])";
-            string AnyPunctuation = "([\\.,;:!\\?])";
-            string MajorPunctuation = "([,;:!\\?])";
-            string Period = "([\\.])";
-            string Quote = "([\"'’]*)";
-            string Space = "[ ]*";
+            string lacksPunctuation = "([^\\.,;:!\\?\"'’])";
+            string questionOrExclam = "([!\\?])";
+            string minorPunctuation = "([\\.,;:])";
+            string anyPunctuation = "([\\.,;:!\\?])";
+            string majorPunctuation = "([,;:!\\?])";
+            string period = "([\\.])";
+            string quote = "([\"'’]*)";
+            string space = "[ ]*";
 
-            string RefTag = "(<ref>([^<]|<[^/]|</[^r]|</r[^e]|</re[^f]|</ref[^>])*?</ref>" + "|<ref[^>]*?[^/]>([^<]|<[^/]|</[^r]|</r[^e]|</re[^f]" + "|</ref[^>])*?</ref>|<ref[^>]*?/>)";
+            string refTag = "(<ref>([^<]|<[^/]|</[^r]|</r[^e]|</re[^f]|</ref[^>])*?</ref>" + "|<ref[^>]*?[^/]>([^<]|<[^/]|</[^r]|</r[^e]|</re[^f]" + "|</ref[^>])*?</ref>|<ref[^>]*?/>)";
 
-            string match0a = LacksPunctuation + Quote + factTag + Space + AnyPunctuation;
-            string match0b = QuestionOrExclam + Quote + factTag + Space + MajorPunctuation;
-            string match0c = MinorPunctuation + Quote + factTag + Space + AnyPunctuation;
-            string match0d = QuestionOrExclam + Quote + factTag + Space + Period;
+            string match0a = lacksPunctuation + quote + factTag + space + anyPunctuation;
+            string match0b = questionOrExclam + quote + factTag + space + majorPunctuation;
+            string match0c = minorPunctuation + quote + factTag + space + anyPunctuation;
+            string match0d = questionOrExclam + quote + factTag + space + period;
 
-            string match1a = LacksPunctuation + Quote + RefTag + Space + AnyPunctuation;
-            string match1b = QuestionOrExclam + Quote + RefTag + Space + MajorPunctuation;
-            string match1c = MinorPunctuation + Quote + RefTag + Space + AnyPunctuation;
-            string match1d = QuestionOrExclam + Quote + RefTag + Space + Period;
+            string match1a = lacksPunctuation + quote + refTag + space + anyPunctuation;
+            string match1b = questionOrExclam + quote + refTag + space + majorPunctuation;
+            string match1c = minorPunctuation + quote + refTag + space + anyPunctuation;
+            string match1d = questionOrExclam + quote + refTag + space + period;
 
             string oldArticleText = "";
 
@@ -578,16 +578,16 @@ namespace WikiFunctions.Parse
                     }
                     else if (Tools.TurnFirstToLower(b).StartsWith(Tools.TurnFirstToLower(a), StringComparison.Ordinal))
                     {
-                        bool DoBreak = false;
+                        bool doBreak = false;
                         foreach (char ch in b.Remove(0, a.Length))
                         {
                             if (!char.IsLetter(ch))
                             {
-                                DoBreak = true;
+                                doBreak = true;
                                 break;
                             }
                         }
-                        if (DoBreak) continue;
+                        if (doBreak) continue;
                         k = "[[" + b.Substring(0, a.Length) + "]]" + b.Substring(a.Length);
                         ArticleText = ArticleText.Replace(n, k);
                     }
@@ -622,10 +622,10 @@ a='" + a + "',  b='" + b + "'", "SimplifyLinks error");
 
                     if (Tools.TurnFirstToLower(a).StartsWith(Tools.TurnFirstToLower(b), StringComparison.Ordinal))
                     {
-                        bool HasSpace = a[b.Length] == ' ';
+                        bool hasSpace = a[b.Length] == ' ';
                         string search = @"\[\[" + Regex.Escape(a) + @"\|" + Regex.Escape(b) +
-                            @"\]\]" + (HasSpace ? "[ ]+" : "") + Regex.Escape(a.Remove(0,
-                            b.Length + (HasSpace ? 1 : 0))) + @"\b";
+                            @"\]\]" + (hasSpace ? "[ ]+" : "") + Regex.Escape(a.Remove(0,
+                            b.Length + (hasSpace ? 1 : 0))) + @"\b";
 
                         //first char should be capitalized like in the visible part of the link
                         a = a.Remove(0, 1).Insert(0, b[0] + "");
@@ -667,16 +667,16 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             string cat = Variables.Namespaces[14];
             string img = Variables.Namespaces[6];
 
-            Regex EmptyLink = new Regex("\\[\\[(" + cat + "|:" + cat + "|" + img + "|)(|" + img + "|" + cat + "|.*?)\\]\\]", RegexOptions.IgnoreCase);
-            Regex EmptyTemplate = new Regex("{{(|.*?)}}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            Regex emptyLink = new Regex("\\[\\[(" + cat + "|:" + cat + "|" + img + "|)(|" + img + "|" + cat + "|.*?)\\]\\]", RegexOptions.IgnoreCase);
+            Regex emptyTemplate = new Regex("{{(|.*?)}}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-            foreach (Match link in EmptyLink.Matches(ArticleText))
+            foreach (Match link in emptyLink.Matches(ArticleText))
             {
                 if (link.Groups[2].Value.Trim() == "" || link.Groups[2].Value.Trim() == "|" + img || link.Groups[2].Value.Trim() == "|" + cat || link.Groups[2].Value.Trim() == "|")
                     ArticleText = ArticleText.Replace("[[" + link.Groups[1].Value + link.Groups[2].Value + "]]", "");
             }
 
-            foreach (Match template in EmptyTemplate.Matches(ArticleText))
+            foreach (Match template in emptyTemplate.Matches(ArticleText))
             {
                 if (template.Groups[1].Value.Trim() == "" || template.Groups[1].Value.Trim() == "|")
                     ArticleText = ArticleText.Replace("{{" + template.Groups[1].Value + "}}", "");
@@ -708,7 +708,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public string BulletExternalLinks(string ArticleText)
         {
             int intStart = 0;
-            string ArticleTextSubstring = "";
+            string articleTextSubstring = "";
 
             Match m = Regex.Match(ArticleText, "= ? ?external links? ? ?=", RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
 
@@ -717,13 +717,13 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             intStart = m.Index;
 
-            ArticleTextSubstring = ArticleText.Substring(intStart);
+            articleTextSubstring = ArticleText.Substring(intStart);
             ArticleText = ArticleText.Substring(0, intStart);
             HideText ht = new HideText(false, true, false);
-            ArticleTextSubstring = ht.HideMore(ArticleTextSubstring);
-            ArticleTextSubstring = Regex.Replace(ArticleTextSubstring, "(\r\n)?(\r\n)(\\[?http)", "$2* $3");
-            ArticleTextSubstring = ht.AddBackMore(ArticleTextSubstring);
-            ArticleText += ArticleTextSubstring;
+            articleTextSubstring = ht.HideMore(articleTextSubstring);
+            articleTextSubstring = Regex.Replace(articleTextSubstring, "(\r\n)?(\r\n)(\\[?http)", "$2* $3");
+            articleTextSubstring = ht.AddBackMore(articleTextSubstring);
+            ArticleText += articleTextSubstring;
 
             return ArticleText;
         }
@@ -901,11 +901,11 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 setting = setting.Trim();
                 if (setting == "") return "";
 
-                string GTN = GetTemplateName(setting).Trim();
-                if (GTN == "")
+                string gtn = GetTemplateName(setting).Trim();
+                if (gtn == "")
                     return setting;
                 else
-                    return GTN;
+                    return gtn;
             }
             else
                 return GetTemplateName(setting);
@@ -1402,10 +1402,10 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public string SubstUserTemplates(string TalkPageText, string TalkPageTitle, Regex userTalkTemplatesRegex)
         {
             TalkPageText = TalkPageText.Replace("{{{subst", "REPLACE_THIS_TEXT");
-            Dictionary<Regex, string> Regexes = new Dictionary<Regex, string>();
+            Dictionary<Regex, string> regexes = new Dictionary<Regex, string>();
 
-            Regexes.Add(userTalkTemplatesRegex, "{{subst:$2}}");
-            TalkPageText = Tools.ExpandTemplate(TalkPageText, TalkPageTitle, Regexes, true);
+            regexes.Add(userTalkTemplatesRegex, "{{subst:$2}}");
+            TalkPageText = Tools.ExpandTemplate(TalkPageText, TalkPageTitle, regexes, true);
 
             TalkPageText = Regex.Replace(TalkPageText, " \\{\\{\\{2\\|\\}\\}\\}", "");
             TalkPageText = TalkPageText.Replace("REPLACE_THIS_TEXT", "{{{subst");
@@ -1438,13 +1438,13 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             if (!Tools.IsMainSpace(ArticleTitle)) return ArticleText;
 
-            double Length = ArticleText.Length + 1;
+            double length = ArticleText.Length + 1;
 
-            double LinkCount = 1;
-            double Ratio = 0;
+            double linkCount = 1;
+            double ratio = 0;
 
-            string CommentsStripped = WikiRegexes.Comments.Replace(ArticleText, "");
-            int words = Tools.WordCount(CommentsStripped);
+            string commentsStripped = WikiRegexes.Comments.Replace(ArticleText, "");
+            int words = Tools.WordCount(commentsStripped);
 
             //update by-date tags
             foreach (KeyValuePair<Regex, string> k in RegexTagger)
@@ -1453,7 +1453,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             }
 
             //remove stub tags from long articles
-            if (words > StubMaxWordCount && WikiRegexes.Stub.IsMatch(CommentsStripped))
+            if (words > StubMaxWordCount && WikiRegexes.Stub.IsMatch(commentsStripped))
             {
                 MatchEvaluator stubEvaluator = new MatchEvaluator(stubChecker);
                 ArticleText = WikiRegexes.Stub.Replace(ArticleText, stubEvaluator);
@@ -1467,18 +1467,18 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     return ArticleText;
             }
 
-            LinkCount = Tools.LinkCount(CommentsStripped);
-            Ratio = LinkCount / Length;
+            linkCount = Tools.LinkCount(commentsStripped);
+            ratio = linkCount / length;
 
             string catHTML = "<div id=\"catlinks\"></div>";
-            if (!WikiRegexes.Category.IsMatch(CommentsStripped))
+            if (!WikiRegexes.Category.IsMatch(commentsStripped))
             {
                 catHTML = Tools.GetHTML(Variables.URLLong + "index.php?title=" + HttpUtility.UrlEncode(ArticleTitle));
             }
 
             if (words > 6 && (catHTML.IndexOf("<div id=\"catlinks\">") == -1) && !Regex.IsMatch(ArticleText, @"\{\{[Uu]ncategori[zs]ed"))
             {
-                if (WikiRegexes.Stub.IsMatch(CommentsStripped))
+                if (WikiRegexes.Stub.IsMatch(commentsStripped))
                 {
                     ArticleText += "\r\n\r\n{{Uncategorizedstub|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
                     Summary += ", added [[:Category:Uncategorized stubs|uncategorised]] tag";
@@ -1489,18 +1489,18 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     Summary += ", added [[:Category:Category needed|uncategorised]] tag";
                 }
             }
-            else if (LinkCount < 3 && (Ratio < 0.0025))
+            else if (linkCount < 3 && (ratio < 0.0025))
             {
                 ArticleText = "{{Wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + ArticleText;
                 Summary += ", added [[:Category:Articles that need to be wikified|wikify]] tag";
             }
-            else if (CommentsStripped.Length <= 300 && !WikiRegexes.Stub.IsMatch(CommentsStripped))
+            else if (commentsStripped.Length <= 300 && !WikiRegexes.Stub.IsMatch(commentsStripped))
             {
                 ArticleText = ArticleText + "\r\n\r\n\r\n{{stub}}";
                 Summary += ", added stub tag";
             }
 
-            if (LinkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(ArticleText))
+            if (linkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(ArticleText))
             {
                 ArticleText = "{{deadend|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + ArticleText;
                 Summary += ", added [[:Category:Dead-end pages|deadend]] tag";
@@ -1532,7 +1532,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>true if you can edit, false otherwise</returns>
         public static bool CheckNoBots(string ArticleText, string Username)
         {
-            bool AwbAllowed = false;
+            bool awbAllowed = false;
             ArticleText = RemoveComments.Replace(ArticleText, "");
             ArticleText = RemoveNowiki.Replace(ArticleText, "");
             Match m = Bots.Match(ArticleText);
@@ -1546,7 +1546,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     if (u == Username) return true;
 
                     //AWB bots are allowed, but this specific user may be not
-                    if (u == "AWB") AwbAllowed = true;
+                    if (u == "AWB") awbAllowed = true;
                 }
             }
 
@@ -1556,7 +1556,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 foreach (string u in s.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     if (u == Username) return false;
-                    if ((u == "all" || u == "AWB") && !AwbAllowed) return false;
+                    if ((u == "all" || u == "AWB") && !awbAllowed) return false;
                 }
             }
 

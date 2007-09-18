@@ -111,11 +111,11 @@ namespace WikiFunctions.Logging
 
             if (enabled)
             {
-                string SkipReason = SelectedItem(sender).SkipReason;
+                string skipReason = SelectedItem(sender).SkipReason;
                 filterShowOnlySelectedToolStripMenuItem.Enabled = true;
-                filterShowOnlySelectedToolStripMenuItem.Text = "Filter by skip reason: " + SkipReason;
+                filterShowOnlySelectedToolStripMenuItem.Text = "Filter by skip reason: " + skipReason;
                 filterExcludeToolStripMenuItem.Enabled = true;
-                filterExcludeToolStripMenuItem.Text = "Filter exclude skip reason: " + SkipReason;
+                filterExcludeToolStripMenuItem.Text = "Filter exclude skip reason: " + skipReason;
             }
 
             filterShowOnlySelectedToolStripMenuItem.Visible = enabled;
@@ -160,15 +160,15 @@ namespace WikiFunctions.Logging
         {
             try
             {
-                LogFileType LogFileType = GetFilePrefs();
-                if (LogFileType != 0)
+                LogFileType logFileType = GetFilePrefs();
+                if (logFileType != 0)
                 {
                     StringBuilder strList = new StringBuilder("");
                     StreamWriter sw;
                     string strListFile;
                     foreach (AWBLogListener a in listview.Items)
                     {
-                        strList.AppendLine(a.Output(LogFileType));
+                        strList.AppendLine(a.Output(logFileType));
                     }
                     strListFile = saveListDialog.FileName;
                     sw = new StreamWriter(strListFile, false, Encoding.UTF8);

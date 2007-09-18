@@ -75,10 +75,10 @@ namespace WikiFunctions.Logging
 
         public void AddAndDateStamp(ListView ListView)
         {
-            ListViewSubItem DateStamp = new ListViewSubItem();
-            DateStamp.Text = DateTime.Now.ToString();
+            ListViewSubItem dateStamp = new ListViewSubItem();
+            dateStamp.Text = DateTime.Now.ToString();
 
-            base.SubItems.Insert(1, DateStamp);
+            base.SubItems.Insert(1, dateStamp);
             ListView.Items.Insert(0, this);
             Datestamped = true;
         }
@@ -88,11 +88,11 @@ namespace WikiFunctions.Logging
             switch (LogFileType)
             {
                 case LogFileType.AnnotatedWikiText:
-                    string Output = "*" + TimeStamp + ": [[" + mArticle + "]]\r\n";
+                    string output = "*" + TimeStamp + ": [[" + mArticle + "]]\r\n";
                     if (mSkipped)
-                        Output += "'''Skipped''' by: " + SkippedBy + "\r\n" + "Skip reason: " +
+                        output += "'''Skipped''' by: " + SkippedBy + "\r\n" + "Skip reason: " +
                             SkipReason + "\r\n";
-                    return Output + ToolTipText + "\r\n";
+                    return output + ToolTipText + "\r\n";
 
                 case LogFileType.PlainText:
                     return mArticle;

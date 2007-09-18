@@ -207,18 +207,18 @@ namespace WikiFunctions.Logging
 
             if (StartingUpload(Sender))
             {
-                string PageName = UploadToWithoutPageNumber + " " + Sender.TraceStatus.PageNumber.ToString();
-                UploadingPleaseWaitForm WaitForm = new UploadingPleaseWaitForm();
-                LogUploader Uploader = new LogUploader();
+                string pageName = UploadToWithoutPageNumber + " " + Sender.TraceStatus.PageNumber.ToString();
+                UploadingPleaseWaitForm waitForm = new UploadingPleaseWaitForm();
+                LogUploader uploader = new LogUploader();
 
-                WaitForm.Show();
+                waitForm.Show();
 
                 try
                 {
-                    Uploader.LogIn(LoginDetails);
+                    uploader.LogIn(LoginDetails);
                     Application.DoEvents();
 
-                    retval.PageRetVals = Uploader.LogIt(Sender.TraceStatus.LogUpload, LogTitle, LogDetails, PageName, LinksToLog,
+                    retval.PageRetVals = uploader.LogIt(Sender.TraceStatus.LogUpload, LogTitle, LogDetails, pageName, LinksToLog,
                         Sender.TraceStatus.PageNumber, Sender.TraceStatus.StartDate, OpenInBrowser,
                         AddToWatchlist, Username, "{{log|name=" + UploadToWithoutPageNumber + "|page=" +
                         Sender.TraceStatus.PageNumber.ToString() + "}}" + System.Environment.NewLine + LogHeader,
@@ -235,13 +235,13 @@ namespace WikiFunctions.Logging
                 finally
                 {
                     if (retval.Success)                       
-                        Sender.WriteCommentAndNewLine("Log uploaded to " + PageName);
+                        Sender.WriteCommentAndNewLine("Log uploaded to " + pageName);
                     else
                         Sender.WriteCommentAndNewLine(
-                           "LOG UPLOADING FAILED. Please manually upload this section to " + PageName);
+                           "LOG UPLOADING FAILED. Please manually upload this section to " + pageName);
                 }
 
-                WaitForm.Dispose();
+                waitForm.Dispose();
                 FinishedUpload();
             }
             return retval;
@@ -251,24 +251,24 @@ namespace WikiFunctions.Logging
         {
             try
             {
-                System.IO.StreamWriter IO =
+                System.IO.StreamWriter io =
                     new System.IO.StreamWriter(LogFolder + "\\Log uploading " +
                     DateTime.Now.Ticks.ToString() + ".txt");
 
-                foreach (Editor.EditPageRetvals EditPageRetval in PageRetVals)
+                foreach (Editor.EditPageRetvals editPageRetval in PageRetVals)
                 {
-                    IO.WriteLine("***********************************************************************************");
-                    IO.WriteLine("Article: " + EditPageRetval.article);
-                    IO.WriteLine("Diff link: " + EditPageRetval.difflink);
-                    IO.WriteLine("Server response: ");
-                    IO.WriteLine(EditPageRetval.responsetext);
-                    IO.WriteLine();
-                    IO.WriteLine();
-                    IO.WriteLine();
-                    IO.WriteLine();
+                    io.WriteLine("***********************************************************************************");
+                    io.WriteLine("Article: " + editPageRetval.article);
+                    io.WriteLine("Diff link: " + editPageRetval.difflink);
+                    io.WriteLine("Server response: ");
+                    io.WriteLine(editPageRetval.responsetext);
+                    io.WriteLine();
+                    io.WriteLine();
+                    io.WriteLine();
+                    io.WriteLine();
                 }
 
-                IO.Close();
+                io.Close();
             }
             catch (Exception ex)
             {

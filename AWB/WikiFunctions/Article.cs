@@ -233,12 +233,12 @@ namespace WikiFunctions
             /// <param name="parsers">An initialised Parsers object</param>
             public void Unicodify(bool SkipIfNoChange, Parsers parsers)
             {
-                bool NoChange;
-                string strTemp = parsers.Unicodify(mArticleText, out NoChange);
+                bool noChange;
+                string strTemp = parsers.Unicodify(mArticleText, out noChange);
 
-                if (SkipIfNoChange && NoChange)
+                if (SkipIfNoChange && noChange)
                     Trace.AWBSkipped("No Unicodification");
-                else if (!NoChange)
+                else if (!noChange)
                     this.AWBChangeArticleText("Article Unicodified", strTemp, false);
             }
 
@@ -253,7 +253,7 @@ namespace WikiFunctions
             public void UpdateImages(ImageReplaceOptions option, Parsers parsers,
                 string ImageReplaceText, string ImageWithText, bool SkipIfNoChange)
             {
-                bool NoChange = false; string strTemp = "";
+                bool noChange = false; string strTemp = "";
 
                 switch (option)
                 {
@@ -261,24 +261,24 @@ namespace WikiFunctions
                         return;
 
                     case ImageReplaceOptions.Replace:
-                        strTemp = parsers.ReplaceImage(ImageReplaceText, ImageWithText, mArticleText, out NoChange);
+                        strTemp = parsers.ReplaceImage(ImageReplaceText, ImageWithText, mArticleText, out noChange);
                         break;
 
                     case ImageReplaceOptions.Remove:
-                        strTemp = parsers.RemoveImage(ImageReplaceText, mArticleText, false, ImageWithText, out NoChange);
+                        strTemp = parsers.RemoveImage(ImageReplaceText, mArticleText, false, ImageWithText, out noChange);
                         break;
 
                     case ImageReplaceOptions.Comment:
-                        strTemp = parsers.RemoveImage(ImageReplaceText, mArticleText, true, ImageWithText, out NoChange);
+                        strTemp = parsers.RemoveImage(ImageReplaceText, mArticleText, true, ImageWithText, out noChange);
                         break;
 
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
 
-                if (NoChange && SkipIfNoChange)
+                if (noChange && SkipIfNoChange)
                     Trace.AWBSkipped("No Image Changed");
-                else if (!NoChange)
+                else if (!noChange)
                     this.AWBChangeArticleText("Image replacement applied", strTemp, false);
             }
 
@@ -293,7 +293,7 @@ namespace WikiFunctions
             public void Categorisation(CategorisationOptions option, Parsers parsers,
                 bool SkipIfNoChange, string CategoryText, string CategoryText2)
             {
-                bool NoChange = false; string strTemp = "", action = "";
+                bool noChange = false; string strTemp = "", action = "";
 
                 switch (option)
                 {
@@ -308,12 +308,12 @@ namespace WikiFunctions
 
                     case CategorisationOptions.ReCat:
                         if (CategoryText.Length < 1 || CategoryText2.Length < 1) return;
-                        strTemp = parsers.ReCategoriser(CategoryText, CategoryText2, mArticleText, out NoChange);
+                        strTemp = parsers.ReCategoriser(CategoryText, CategoryText2, mArticleText, out noChange);
                         break;
 
                     case CategorisationOptions.RemoveCat:
                         if (CategoryText.Length < 1) return;
-                        strTemp = parsers.RemoveCategory(CategoryText, mArticleText, out NoChange);
+                        strTemp = parsers.RemoveCategory(CategoryText, mArticleText, out noChange);
                         action = "Removed " + CategoryText;
                         break;
 
@@ -321,9 +321,9 @@ namespace WikiFunctions
                         throw new ArgumentOutOfRangeException();
                 }
 
-                if (NoChange && SkipIfNoChange)
+                if (noChange && SkipIfNoChange)
                     Trace.AWBSkipped("No Category Changed");
-                else if (!NoChange)
+                else if (!noChange)
                     this.AWBChangeArticleText(action, strTemp, false);
             }
 
@@ -376,12 +376,12 @@ namespace WikiFunctions
             /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
             public void PerformTypoFixes(RegExTypoFix RegexTypos, bool SkipIfNoChange)
             {
-                bool NoChange;
-                string strTemp = RegexTypos.PerformTypoFixes(mArticleText, out NoChange, out mPluginEditSummary);
+                bool noChange;
+                string strTemp = RegexTypos.PerformTypoFixes(mArticleText, out noChange, out mPluginEditSummary);
 
-                if (NoChange && SkipIfNoChange)
+                if (noChange && SkipIfNoChange)
                     Trace.AWBSkipped("No typo fixes");
-                else if (!NoChange)
+                else if (!noChange)
                 {
                     this.AWBChangeArticleText(mPluginEditSummary, strTemp, false);
                     AppendPluginEditSummary();
@@ -395,12 +395,12 @@ namespace WikiFunctions
             /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
             public void AutoTag(Parsers parsers, bool SkipIfNoChange)
             {
-                bool NoChange; string tmpEditSummary = "";
-                string strTemp = parsers.Tagger(mArticleText, mName, out NoChange, ref tmpEditSummary);
+                bool noChange; string tmpEditSummary = "";
+                string strTemp = parsers.Tagger(mArticleText, mName, out noChange, ref tmpEditSummary);
 
-                if (SkipIfNoChange && NoChange)
+                if (SkipIfNoChange && noChange)
                     Trace.AWBSkipped("No Tag changed");
-                else if (!NoChange)
+                else if (!noChange)
                 {
                     this.AWBChangeArticleText("Auto tagger changes applied" + tmpEditSummary, strTemp, false);
                     EditSummary += tmpEditSummary;
@@ -417,15 +417,15 @@ namespace WikiFunctions
             {
                 if (LangCode == LangCodeEnum.en)
                 {
-                    bool NoChange;
+                    bool noChange;
                     string strTemp = parsers.Conversions(mArticleText);
 
                     strTemp = parsers.FixDates(strTemp);
-                    strTemp = parsers.LivingPeople(strTemp, out NoChange);
-                    strTemp = parsers.FixHeadings(strTemp, mName, out NoChange);
-                    if (SkipIfNoChange && NoChange)
+                    strTemp = parsers.LivingPeople(strTemp, out noChange);
+                    strTemp = parsers.FixHeadings(strTemp, mName, out noChange);
+                    if (SkipIfNoChange && noChange)
                         Trace.AWBSkipped("No header errors");
-                    else if (!NoChange)
+                    else if (!noChange)
                         this.AWBChangeArticleText("Fixed header errors", strTemp, true);
                 }
             }
@@ -440,12 +440,12 @@ namespace WikiFunctions
         {
             if (LangCode == LangCodeEnum.en)
             {
-                bool NoChange;
-                string strTemp = parsers.ChangeToDefaultSort(mArticleText, mName, out NoChange);
+                bool noChange;
+                string strTemp = parsers.ChangeToDefaultSort(mArticleText, mName, out noChange);
 
-                if (SkipIfNoChange && NoChange)
+                if (SkipIfNoChange && noChange)
                     Trace.AWBSkipped("No DefaultSort Added");
-                else if (!NoChange)
+                else if (!noChange)
                     this.AWBChangeArticleText("DefaultSort Added", strTemp, true);
             }
         }
@@ -457,11 +457,11 @@ namespace WikiFunctions
             /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
             public void FixLinks(Parsers parsers, bool SkipIfNoChange)
             {
-                bool NoChange;
-                string strTemp = parsers.FixLinks(mArticleText, out NoChange);
-                if (NoChange && SkipIfNoChange)
+                bool noChange;
+                string strTemp = parsers.FixLinks(mArticleText, out noChange);
+                if (noChange && SkipIfNoChange)
                     Trace.AWBSkipped("No bad links");
-                else if (!NoChange)
+                else if (!noChange)
                     this.AWBChangeArticleText("Fixed links", strTemp, false);
             }
 
@@ -472,11 +472,11 @@ namespace WikiFunctions
             /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
             public void BulletExternalLinks(Parsers parsers, bool SkipIfNoChange)
             {
-                bool NoChange;
-                string strTemp = parsers.BulletExternalLinks(mArticleText, out NoChange);
-                if (SkipIfNoChange && NoChange)
+                bool noChange;
+                string strTemp = parsers.BulletExternalLinks(mArticleText, out noChange);
+                if (SkipIfNoChange && noChange)
                     Trace.AWBSkipped("No missing bulleted links");
-                else if (!NoChange)
+                else if (!noChange)
                     this.AWBChangeArticleText("Bulleted external links", strTemp, false);
             }
 
@@ -487,26 +487,26 @@ namespace WikiFunctions
             /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
             public void EmboldenTitles(Parsers parsers, bool SkipIfNoChange)
             {
-                bool NoChange;
-                string strTemp = parsers.BoldTitle(mArticleText, mName, out NoChange);
-                if (SkipIfNoChange && NoChange)
+                bool noChange;
+                string strTemp = parsers.BoldTitle(mArticleText, mName, out noChange);
+                if (SkipIfNoChange && noChange)
                     Trace.AWBSkipped("No Titles to embolden");
-                else if (!NoChange)
+                else if (!noChange)
                     this.AWBChangeArticleText("Emboldened titles", strTemp, false);
             }
 
             public void SendPageToCustomModule(IModule Module)
             { // TODO: Check this Skips properly if module tells us to. If not, we'll have to set the Skip property directly
-                ProcessArticleEventArgs ProcessArticleEventArgs = this;
-                string strEditSummary = "", strTemp; bool SkipArticle;
+                ProcessArticleEventArgs processArticleEventArgs = this;
+                string strEditSummary = "", strTemp; bool skipArticle;
 
-                strTemp = Module.ProcessArticle(ProcessArticleEventArgs.ArticleText,
-                    ProcessArticleEventArgs.ArticleTitle, NameSpaceKey, out strEditSummary, out SkipArticle);
+                strTemp = Module.ProcessArticle(processArticleEventArgs.ArticleText,
+                    processArticleEventArgs.ArticleTitle, NameSpaceKey, out strEditSummary, out skipArticle);
 
-                if (!SkipArticle)
+                if (!skipArticle)
                 {
-                    ProcessArticleEventArgs.EditSummary = strEditSummary;
-                    ProcessArticleEventArgs.Skip = false;
+                    processArticleEventArgs.EditSummary = strEditSummary;
+                    processArticleEventArgs.Skip = false;
                     AWBChangeArticleText("Custom module", strTemp, true);
                     AppendPluginEditSummary();
                 }
@@ -526,19 +526,19 @@ namespace WikiFunctions
             {
                 if (FindText.Length > 0)
                 {
-                    RegexOptions RegexOptions;
+                    RegexOptions regexOptions;
 
                     if (CaseSensitive)
-                        RegexOptions = RegexOptions.None;
+                        regexOptions = RegexOptions.None;
                     else
-                        RegexOptions = RegexOptions.IgnoreCase;
+                        regexOptions = RegexOptions.IgnoreCase;
 
                     FindText = Tools.ApplyKeyWords(this.Name, FindText);
 
                     if (!RegEx)
                         FindText = Regex.Escape(FindText);
 
-                    if (Regex.IsMatch(this.OriginalArticleText, FindText, RegexOptions))
+                    if (Regex.IsMatch(this.OriginalArticleText, FindText, regexOptions))
                         return DoesContain;
                     else
                         return !DoesContain;
@@ -551,20 +551,20 @@ namespace WikiFunctions
             /// Disambiguate
             /// </summary>
             /// <returns>True if OK to proceed, false to abort</returns>
-            public bool Disambiguate(string DabLinkText, string[] DabVariantsLines, bool BotMode, int ContextChar,
-                bool SkipIfNoChange)
+            public bool Disambiguate(string dabLinkText, string[] dabVariantsLines, bool botMode, int Context,
+                bool skipIfNoChange)
             {
-                bool NoChange;
+                bool noChange;
                 AutoWikiBrowser.DabForm df = new AutoWikiBrowser.DabForm();
-                string strTemp = df.Disambiguate(mArticleText, mName, DabLinkText,
-                    DabVariantsLines, ContextChar, BotMode, out NoChange);
+                string strTemp = df.Disambiguate(mArticleText, mName, dabLinkText,
+                    dabVariantsLines, Context, botMode, out noChange);
 
                 if (df.Abort) return false;
 
-                if (NoChange && SkipIfNoChange)
+                if (noChange && skipIfNoChange)
                     Trace.AWBSkipped("No disambiguation");
-                else if (!NoChange)
-                    this.AWBChangeArticleText("Disambiguated " + DabLinkText, strTemp, false);
+                else if (!noChange)
+                    this.AWBChangeArticleText("Disambiguated " + dabLinkText, strTemp, false);
 
                 return true;
             }

@@ -52,11 +52,11 @@ namespace AutoWikiBrowser
             base.Interval = 120000;
         }
 
-        private void NudgeTimer_Tick(object sender, EventArgs EventArgs)
+        private void NudgeTimer_Tick(object sender, EventArgs eventArgs)
         {
-            NudgeTimerEventArgs MyEventArgs = new NudgeTimerEventArgs();
-            Tick(this, MyEventArgs);
-            if (!MyEventArgs.Cancel)
+            NudgeTimerEventArgs myEventArgs = new NudgeTimerEventArgs();
+            Tick(this, myEventArgs);
+            if (!myEventArgs.Cancel)
             {
                 switch (base.Interval)
                 {

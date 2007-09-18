@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AWBUpdater.Properties {
+namespace AwbUpdater.Properties {
     using System;
     
     

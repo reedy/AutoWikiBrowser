@@ -67,22 +67,22 @@ namespace AutoWikiBrowser.Plugins.CFD
 
         private void RefreshCats()
         {
-           Regex CatReplace = new Regex(@"\*+\s*\[\[:" + Variables.NamespacesCaseInsensitive[14] +
+           Regex catReplace = new Regex(@"\*+\s*\[\[:" + Variables.NamespacesCaseInsensitive[14] +
                 @"([^\]\|]*)(?:\|[^\]]*|)\]\][^\[]*\[\[:" + Variables.NamespacesCaseInsensitive[14] + @"([^\]\|]*)\]\]");
 
-           Regex CatRemove = new Regex(@"\*+\s*\[\[:" + Variables.NamespacesCaseInsensitive[14] +
+           Regex catRemove = new Regex(@"\*+\s*\[\[:" + Variables.NamespacesCaseInsensitive[14] +
                @"\s*([^\]\|]*)(?:\|[^\]]*|)\]\][^\[]*?$");
 
             Grid.Rows.Clear();
             foreach (string s in txtBacklog.Lines)
             {
-                Match m = CatReplace.Match(s);
+                Match m = catReplace.Match(s);
                 if (m.Success)
                 {
                     Grid.Rows.Add(new string[2] { m.Groups[1].Value.Trim().Replace("_", " "), m.Groups[2].Value.Trim().Replace("_", "") });
                     continue;
                 }
-                m = CatRemove.Match(s);
+                m = catRemove.Match(s);
                 if (m.Success)
                     Grid.Rows.Add(new string[2] { m.Groups[1].Value.Trim().Replace("_", " "), "" });
             }

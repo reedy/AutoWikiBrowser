@@ -466,14 +466,14 @@ namespace WikiFunctions.IRC
         //    if (eventServerMessage != null) { this.eventServerMessage(ServerMessage.Trim()); }
         //} /* IrcServerMessage */
 
-        private void IrcPing(string[] IrcCommand)
+        private void IrcPing(string[] ircCommand)
         {
-            string PingHash = "";
-            for (int intI = 1; intI < IrcCommand.Length; intI++)
+            string pingHash = "";
+            for (int intI = 1; intI < ircCommand.Length; intI++)
             {
-                PingHash += IrcCommand[intI] + " ";
+                pingHash += ircCommand[intI] + " ";
             }
-            IrcWriter.WriteLine("PONG " + PingHash);
+            IrcWriter.WriteLine("PONG " + pingHash);
             IrcWriter.Flush();
         } /* IrcPing */
 

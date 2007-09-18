@@ -77,7 +77,7 @@ namespace AutoWikiBrowser
 
         #region Methods
 
-        public bool skipIf(string articleText)
+        public bool SkipIf(string articleText)
         {//custom code to skip articles can be added here
             return true;
         }

@@ -122,8 +122,8 @@ namespace WikiFunctions.DatabaseScanner
 
         private void Process()
         {
-            string ArticleText = "";
-            string ArticleTitle = "";
+            string articleText = "";
+            string articleTitle = "";
 
             string page = "page";
             string title = "title";
@@ -144,9 +144,9 @@ namespace WikiFunctions.DatabaseScanner
                             if (reader.Name == page)
                             {
                                 reader.ReadToFollowing(title);
-                                ArticleTitle = reader.ReadString();
+                                articleTitle = reader.ReadString();
 
-                                if (From == ArticleTitle)
+                                if (From == articleTitle)
                                     break;
                             }
                         }
@@ -159,16 +159,16 @@ namespace WikiFunctions.DatabaseScanner
                         if (reader.Name == page)
                         {
                             reader.ReadToFollowing(title);
-                            ArticleTitle = reader.ReadString();
+                            articleTitle = reader.ReadString();
                             reader.ReadToFollowing(text);
-                            ArticleText = reader.ReadString();
+                            articleText = reader.ReadString();
 
                             if(ignore)
-                                ArticleText = regComments.Replace(ArticleText, "");
+                                articleText = regComments.Replace(articleText, "");
 
                             foreach (Scan z in s)
                             {
-                                if (!z.Check(ref ArticleText, ref ArticleTitle))
+                                if (!z.Check(ref articleText, ref articleTitle))
                                 {
                                     test = false;
                                     break;
@@ -177,7 +177,7 @@ namespace WikiFunctions.DatabaseScanner
                          
                             if (test)
                             {
-                                context.Post(SOPC, ArticleTitle);
+                                context.Post(SOPC, articleTitle);
                             }
                         }
                     }
@@ -187,12 +187,12 @@ namespace WikiFunctions.DatabaseScanner
             catch (Exception ex)
             {
                 if (boolMessage)
-                    System.Windows.Forms.MessageBox.Show("Problem on " + ArticleTitle + "\r\n\r\n" + ex.Message);
+                    System.Windows.Forms.MessageBox.Show("Problem on " + articleTitle + "\r\n\r\n" + ex.Message);
             }
             finally
             {
                 if (boolMessage)
-                    context.Post(SOPCstopped, ArticleTitle);
+                    context.Post(SOPCstopped, articleTitle);
             }
         }
 

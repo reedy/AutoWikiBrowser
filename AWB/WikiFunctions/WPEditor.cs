@@ -71,12 +71,12 @@ namespace WikiFunctions
         {
             try
             {
-                string TargetURL = indexpath + "index.php?title=" + Article + "&action=raw&ctype=text/plain&dontcountme=s";
+                string targetUrl = indexpath + "index.php?title=" + Article + "&action=raw&ctype=text/plain&dontcountme=s";
 
                 if (oldid != 0)
-                    TargetURL += "&oldid=" + oldid;
+                    targetUrl += "&oldid=" + oldid;
 
-                HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(TargetURL);
+                HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(targetUrl);
                 HttpWebResponse resps;
                 Stream stream;
                 StreamReader sr;
@@ -158,8 +158,8 @@ namespace WikiFunctions
 
             wr.CookieContainer = new CookieContainer();
 
-            foreach (Cookie Cook in logincookies)
-                wr.CookieContainer.Add(Cook);
+            foreach (Cookie cook in logincookies)
+                wr.CookieContainer.Add(cook);
 
             //Create poststring
             poststring = string.Format("wpSection=&wpStarttime={0}&wpEdittime={1}&wpScrolltop=&wpTextbox1={2}&wpSummary={3}&wpSave=Save%20Page&wpEditToken={4}",
@@ -415,9 +415,9 @@ namespace WikiFunctions
         /// <param name="Minor">Whether or not to mark this edit as minor.</param>
         public void RevertToRevision(string Article, int oldid, string Summary, bool Minor)
         {
-            string Text = GetWikiText(Article, m_indexpath, oldid);
+            string text = GetWikiText(Article, m_indexpath, oldid);
 
-            EditPage(Article, Text, Summary, Minor);
+            EditPage(Article, text, Summary, Minor);
         }
 
         /// <summary>
@@ -428,12 +428,12 @@ namespace WikiFunctions
         /// <param name="Minor">Whether or not to mark this edit as minor.</param>
         public void Revert(string Article, string Summary, bool Minor)
         {
-            List<Revision> History;
+            List<Revision> history;
 
-            History = GetHistory(Article, 2);
-            Summary = Summary.Replace("%u", History[0].User);
+            history = GetHistory(Article, 2);
+            Summary = Summary.Replace("%u", history[0].User);
 
-            RevertToRevision(Article, History[1].RevisionID, Summary, Minor);
+            RevertToRevision(Article, history[1].RevisionID, Summary, Minor);
 
         }
 
@@ -446,26 +446,26 @@ namespace WikiFunctions
         /// <param name="Minor">Whether or not to mark this edit as minor.</param>
         public void Rollback(string Article, string User, string Summary, bool Minor)
         {
-            List<Revision> History;
+            List<Revision> history;
 
-            History = GetHistory(Article, 250);
+            history = GetHistory(Article, 250);
 
             int i;
-            string HistoryUser = History[0].User;
+            string historyUser = history[0].User;
 
-            if (HistoryUser != User)
+            if (historyUser != User)
                 return;
 
-            for (i = 0; i <= 249 && History[i].User == User; i++)
+            for (i = 0; i <= 249 && history[i].User == User; i++)
             {
             }
 
-            if (History[i].User != User)
+            if (history[i].User != User)
             {
                 Summary = Summary.Replace("%v", User);
-                Summary = Summary.Replace("%u", History[i].User);
+                Summary = Summary.Replace("%u", history[i].User);
 
-                RevertToRevision(Article, History[i].RevisionID, Summary, Minor);
+                RevertToRevision(Article, history[i].RevisionID, Summary, Minor);
             }
         }
 
@@ -477,15 +477,15 @@ namespace WikiFunctions
         /// <returns>The history, as a generic list of Revision objects.</returns>
         public List<Revision> GetHistory(string Article, int Limit)
         {
-            string TargetURL = m_indexpath + "api.php?action=query&prop=revisions&titles=" + HttpUtility.UrlEncode(Article) +
+            string targetUrl = m_indexpath + "api.php?action=query&prop=revisions&titles=" + HttpUtility.UrlEncode(Article) +
                 "&rvlimit=" + Limit;
 
-            HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(TargetURL);
+            HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(targetUrl);
             HttpWebResponse resps;
             Stream stream;
             StreamReader sr;
             string pagetext = "";
-            List<Revision> History = new List<Revision>();
+            List<Revision> history = new List<Revision>();
 
             UserAgent(wr);
 
@@ -497,16 +497,16 @@ namespace WikiFunctions
 
             //Yay, XML
 
-            XmlDocument Doc;
-            XmlElement DocElement;
+            XmlDocument doc;
+            XmlElement docElement;
 
-            Doc = new XmlDocument();
+            doc = new XmlDocument();
 
-            Doc.LoadXml(pagetext);
+            doc.LoadXml(pagetext);
 
-            DocElement = Doc.DocumentElement;
+            docElement = doc.DocumentElement;
 
-            foreach (XmlElement rvElement in Doc.GetElementsByTagName("rev"))
+            foreach (XmlElement rvElement in doc.GetElementsByTagName("rev"))
             {
                 Revision rv = new Revision();
 
@@ -517,10 +517,10 @@ namespace WikiFunctions
 
                 rv.Minor = (rvElement.OuterXml.Contains("minor=\""));
 
-                History.Add(rv);
+                history.Add(rv);
             }
 
-            return History;
+            return history;
         }
 
         /// <summary>

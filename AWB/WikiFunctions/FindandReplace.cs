@@ -227,14 +227,14 @@ namespace WikiFunctions.Parse
 
         public void AddNew(Replacement R)
         {
-            bool CaseSens = !R.RegularExpressinonOptions.ToString().Contains("IgnoreCase");
-            bool Multiine = R.RegularExpressinonOptions.ToString().Contains("Multiline");
-            bool SingleLine = R.RegularExpressinonOptions.ToString().Contains("Singleline");
+            bool caseSens = !R.RegularExpressinonOptions.ToString().Contains("IgnoreCase");
+            bool multiine = R.RegularExpressinonOptions.ToString().Contains("Multiline");
+            bool singleLine = R.RegularExpressinonOptions.ToString().Contains("Singleline");
 
             if(!R.IsRegex)
-                dataGridView1.Rows.Add(Regex.Unescape(Decode(R.Find)), Decode(R.Replace), CaseSens, R.IsRegex, Multiine, SingleLine, R.Enabled);
+                dataGridView1.Rows.Add(Regex.Unescape(Decode(R.Find)), Decode(R.Replace), caseSens, R.IsRegex, multiine, singleLine, R.Enabled);
             else
-                dataGridView1.Rows.Add(Decode(R.Find), Decode(R.Replace), CaseSens, R.IsRegex, Multiine, SingleLine, R.Enabled);
+                dataGridView1.Rows.Add(Decode(R.Find), Decode(R.Replace), caseSens, R.IsRegex, multiine, singleLine, R.Enabled);
 
             if (!R.Enabled)
                 dataGridView1.Rows[dataGridView1.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightGray;
@@ -244,9 +244,9 @@ namespace WikiFunctions.Parse
 
         public void AddNew(List<Replacement> RList)
         {
-            foreach (Replacement R in RList)
+            foreach (Replacement r in RList)
             {
-                AddNew(R);
+                AddNew(r);
             }
         }
 

@@ -267,14 +267,14 @@ namespace WikiFunctions.Browser
                 if (this.Document == null)
                     return false;
 
-                string HTMLsub = "";
+                string htmLsub = "";
 
                 if (this.Document.Body.InnerHtml.Contains("<!-- start content -->"))
-                    HTMLsub = this.Document.Body.InnerHtml.Remove(this.Document.Body.InnerHtml.IndexOf("<!-- start content -->"));
+                    htmLsub = this.Document.Body.InnerHtml.Remove(this.Document.Body.InnerHtml.IndexOf("<!-- start content -->"));
                 else
-                    HTMLsub = this.Document.Body.InnerHtml;
+                    htmLsub = this.Document.Body.InnerHtml;
 
-                return HTMLsub.Contains("<DIV class=usermessage>");
+                return htmLsub.Contains("<DIV class=usermessage>");
             }
         }
 
