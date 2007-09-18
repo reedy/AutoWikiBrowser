@@ -332,7 +332,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Private SkipRegex As Regex
 
         ' Initialisation:
-        Protected Friend Sub New(ByVal MyName As String)
+        Friend Sub New(ByVal MyName As String)
             MyBase.New()
             OurSettingsControl = New GenericTemplateSettings(MyName)
             OurTab = New TabPage(MyName)
