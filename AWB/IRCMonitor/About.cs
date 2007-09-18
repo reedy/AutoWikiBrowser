@@ -29,9 +29,9 @@ using WikiFunctions.Controls;
 
 namespace IrcMonitor
 {
-    partial class AboutIRCMon : Form
+    partial class AboutIrcMon : Form
     {
-        public AboutIRCMon()
+        public AboutIrcMon()
         {
             InitializeComponent();
 

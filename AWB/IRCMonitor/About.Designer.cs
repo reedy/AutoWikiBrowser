@@ -1,6 +1,6 @@
 namespace IrcMonitor
 {
-    partial class AboutIRCMon
+    partial class AboutIrcMon
     {
         /// <summary>
         /// Required designer variable.
@@ -27,7 +27,7 @@ namespace IrcMonitor
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutIRCMon));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutIrcMon));
             this.Robot = new System.Windows.Forms.PictureBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.okButton = new System.Windows.Forms.Button();

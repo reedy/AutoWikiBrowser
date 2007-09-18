@@ -68,7 +68,7 @@ namespace WikiFunctions.IRC
         /// <summary>
         /// Listen to this event to receive the raw IRC messages.
         /// </summary>
-        public event OtherMessagesDel otherMessages;
+        public event OtherMessagesDel OtherMessages;
         public event ConnectEnabledDel ConnectEvent;
         /// <summary>
         /// IRC disconnected
@@ -194,8 +194,8 @@ namespace WikiFunctions.IRC
             }
             else
             {
-                if (otherMessages != null)
-                    this.otherMessages(msg);
+                if (OtherMessages != null)
+                    this.OtherMessages(msg);
             }
         }
 
@@ -275,7 +275,7 @@ namespace WikiFunctions.IRC
         /// Set to false to terminate the IRC connection
         /// </summary>
         private static bool boolrun = true;
-        public static bool run
+        public static bool Run
         {
             get { return boolrun; }
             set { boolrun = value; }
@@ -375,10 +375,10 @@ namespace WikiFunctions.IRC
                 this.ConnectEvent();
 
                 // Listen for commands
-                while (run)
+                while (Run)
                 {
                     string ircCommand;
-                    while (run && (ircCommand = IrcReader.ReadLine()) != null)
+                    while (Run && (ircCommand = IrcReader.ReadLine()) != null)
                     {
                         string[] commandParts = new string[ircCommand.Split(' ').Length];
                         commandParts = ircCommand.Split(' ');
