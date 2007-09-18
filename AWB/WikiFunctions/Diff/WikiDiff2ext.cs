@@ -23,7 +23,7 @@ using System.Text.RegularExpressions;
 
 namespace WikiFunctions
 {
-    public class WikiDiff
+    public sealed class WikiDiff
     {
         //char __declspec(dllexport) *wikidiff2_do_diff(const char *text1, const char *text2, int num_lines_context);
         [DllImport("wikidiff2.dll")]//, EntryPoint = "?wikidiff2_do_diff@@YAPADPBD0H@Z")]

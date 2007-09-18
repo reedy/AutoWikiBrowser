@@ -22,7 +22,7 @@ namespace WikiFunctions.Encryption
     /// this may not be the most efficient way of handling encryption, so - as
     /// soon as you feel comfortable with it - you may want to redesign this class.
     /// </summary>
-    public class RijndaelSimple
+    public sealed class RijndaelSimple
     {
         /// <summary>
         /// Encrypts specified plaintext using Rijndael symmetric key algorithm

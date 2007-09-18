@@ -20,10 +20,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-
 namespace WikiFunctions.MWB
 {
-    class Utility
+    sealed class Utility
     {
         public static string GetFilenameFromPath(string path)
         {

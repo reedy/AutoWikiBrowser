@@ -25,8 +25,7 @@ using System.Text.RegularExpressions;
 
 namespace WikiFunctions.MWB
 {
-
-    class RuleFactory
+    sealed class RuleFactory
     {
         public static Rule CreateRule()
         {
@@ -43,5 +42,4 @@ namespace WikiFunctions.MWB
             return new TemplateParamRule();
         }
     }
-
 }

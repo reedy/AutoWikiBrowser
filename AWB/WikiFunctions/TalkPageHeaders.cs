@@ -32,7 +32,7 @@ namespace WikiFunctions.TalkPages
         MoveToBottom
     }
 
-    public class TalkPageHeaders
+    public sealed class TalkPageHeaders
     {
         private static string DefaultSortKey;
         private static bool FoundDefaultSort;

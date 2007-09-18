@@ -74,7 +74,7 @@ namespace WikiFunctions.Lists
         }
     }
 
-    public class ListViewColumnResize
+    public sealed class ListViewColumnResize
     {
         /// <summary>
         /// Automatically resize all the coloum in the list view based on whether the text or the title is larger
