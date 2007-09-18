@@ -433,7 +433,6 @@ namespace AutoWikiBrowser
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numEditBoxAutosave)).EndInit();
             this.ResumeLayout(false);
-
         }
 
         #endregion
