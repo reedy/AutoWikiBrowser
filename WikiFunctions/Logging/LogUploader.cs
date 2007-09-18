@@ -309,16 +309,16 @@ namespace WikiFunctions.Logging.Uploader
             IAutoWikiBrowser AWB)
 		{
             List<Editor.EditPageRetvals> retval = new List<Editor.EditPageRetvals>();
-            string UploadToNoSpaces = UploadTo.Replace(" ", "_");
+            string uploadToNoSpaces = UploadTo.Replace(" ", "_");
             string strLogText = "";
-            AWBLogListener AWBLogListener = null;
+            AWBLogListener awbLogListener = null;
             
             if (DoAWBLogListener(AddLogArticlesToAnAWBList, AWB))
-                AWBLogListener = new AWBLogListener(UploadTo);
+                awbLogListener = new AWBLogListener(UploadTo);
 
             if (AddLogTemplate)
             {
-                strLogText = "{{log|name=" + UploadToNoSpaces + "|page=" + PageNumber.ToString() 
+                strLogText = "{{log|name=" + uploadToNoSpaces + "|page=" + PageNumber.ToString() 
                     + "}}" + NewLine;
             }
             strLogText += LogHeader + Log;
@@ -329,17 +329,17 @@ namespace WikiFunctions.Logging.Uploader
             {
                 if (AddToWatchlist)
                 {
-                    retval.Add(base.EditPageEx(UploadToNoSpaces, strLogText, EditSummary, false, true));
+                    retval.Add(base.EditPageEx(uploadToNoSpaces, strLogText, EditSummary, false, true));
                 }
                 else
                 {
-                    retval.Add(base.EditPageEx(UploadToNoSpaces, strLogText, EditSummary, false));
+                    retval.Add(base.EditPageEx(uploadToNoSpaces, strLogText, EditSummary, false));
                 }
             }
             catch (Exception ex)
             {
-                if (AWBLogListener != null)
-                    AWBLogListenerUploadFailed(ex, sender, AWBLogListener, AWB);
+                if (awbLogListener != null)
+                    AWBLogListenerUploadFailed(ex, sender, awbLogListener, AWB);
                 throw ex; // throw error and exit
             }
 
@@ -353,9 +353,9 @@ namespace WikiFunctions.Logging.Uploader
         
             Application.DoEvents();
 
-            foreach (LogEntry LogEntry in LinksToLog)
+            foreach (LogEntry logEntry in LinksToLog)
             {
-                retval.Add(DoLogEntry(LogEntry, LogTitle, LogDetails, PageNumber, StartDate, UploadTo, LogSummaryEditSummary,
+                retval.Add(DoLogEntry(logEntry, LogTitle, LogDetails, PageNumber, StartDate, UploadTo, LogSummaryEditSummary,
                     Username, AddLogArticlesToAnAWBList, AWB, sender));
                 Application.DoEvents();
             }
@@ -407,19 +407,19 @@ namespace WikiFunctions.Logging.Uploader
             LogEntry LinkToLog, int PageNumber, System.DateTime StartDate, bool OpenInBrowser, 
             bool AddToWatchlist, string Username, string LogHeader)
 		{
-			List<LogEntry> LinksToLog = new List<LogEntry>();
-			LinksToLog.Add(LinkToLog);
+			List<LogEntry> linksToLog = new List<LogEntry>();
+			linksToLog.Add(LinkToLog);
 
-			return LogIt(Log, LogTitle, LogDetails, UploadTo, LinksToLog, PageNumber, StartDate, OpenInBrowser, 
+			return LogIt(Log, LogTitle, LogDetails, UploadTo, linksToLog, PageNumber, StartDate, OpenInBrowser, 
                 AddToWatchlist, Username, LogHeader);
 		}
         public virtual List<Editor.EditPageRetvals> LogIt(string Log, string LogTitle, string LogDetails, string UploadTo, 
             string LogEntryLocation, int PageNumber, System.DateTime StartDate)
 		{
-			List<LogEntry> LinksToLog = new List<LogEntry>();
-			LinksToLog.Add(new LogEntry(LogEntryLocation, false));
+			List<LogEntry> linksToLog = new List<LogEntry>();
+			linksToLog.Add(new LogEntry(LogEntryLocation, false));
 
-			return LogIt(Log, LogTitle, LogDetails, UploadTo, LinksToLog, PageNumber, StartDate, false, 
+			return LogIt(Log, LogTitle, LogDetails, UploadTo, linksToLog, PageNumber, StartDate, false, 
                 false, "", "");
         }
         #endregion
@@ -428,7 +428,7 @@ namespace WikiFunctions.Logging.Uploader
             System.DateTime StartDate, string UploadTo, string EditSummary, string Username, 
             bool AddLogArticlesToAnAWBList, IAutoWikiBrowser AWB, string sender)
         {
-            AWBLogListener AWBLogListener = null;
+            AWBLogListener awbLogListener = null;
             Editor.EditPageRetvals retval = new Editor.EditPageRetvals();
 
             try
@@ -439,12 +439,12 @@ namespace WikiFunctions.Logging.Uploader
                 {
                     if (sender == "")
                         sender = "WikiFunctions DLL";
-                    AWBLogListener = new AWBLogListener(LogEntry.Location);
+                    awbLogListener = new AWBLogListener(LogEntry.Location);
                 }
 
                 Application.DoEvents();
 
-                string TableAddition = "|-" + NewCell + "[[" + UploadTo + "|" + LogTitle + "]]" + NewCell +
+                string tableAddition = "|-" + NewCell + "[[" + UploadTo + "|" + LogTitle + "]]" + NewCell +
                     LogDetails + NewCell + "[[" + UploadTo + "|" + PageNumber.ToString() + "]]" +
                     (LogEntry.LogUserName ? NewCell + "[[User:" + Username + "|" + Username + "]]" : "").ToString() +
                     NewCell + string.Format("[[{0:d MMMM}]] [[{0:yyyy}]]", StartDate) +
@@ -452,7 +452,7 @@ namespace WikiFunctions.Logging.Uploader
 
                 if (strExistingText.Contains(BotTag))
                 {
-                    retval = base.EditPageEx(LogEntry.Location, strExistingText.Replace(BotTag, TableAddition), EditSummary, false, true);
+                    retval = base.EditPageEx(LogEntry.Location, strExistingText.Replace(BotTag, tableAddition), EditSummary, false, true);
                 }
                 else
                 {
@@ -460,13 +460,13 @@ namespace WikiFunctions.Logging.Uploader
                         System.Environment.NewLine + "{| class=\"wikitable\" width=\"100%\"" +
                         System.Environment.NewLine +
                         (LogEntry.LogUserName ? TableHeaderUserName : TableHeaderNoUserName).ToString() +
-                        System.Environment.NewLine + TableAddition, EditSummary, false);
+                        System.Environment.NewLine + tableAddition, EditSummary, false);
                 }
                 try
                 {
-                    if (AWBLogListener != null)
+                    if (awbLogListener != null)
                     {
-                        AWBLogListener.WriteLine("Log entry uploaded", sender);
+                        awbLogListener.WriteLine("Log entry uploaded", sender);
                         //AWB.AddLogItem(true, AWBLogListener);
                     }
                 }
@@ -477,8 +477,8 @@ namespace WikiFunctions.Logging.Uploader
             }
             catch (Exception ex)
             {
-                if (AWBLogListener != null)
-                    AWBLogListenerUploadFailed(ex, sender, AWBLogListener, AWB);
+                if (awbLogListener != null)
+                    AWBLogListenerUploadFailed(ex, sender, awbLogListener, AWB);
                 throw ex;
             }
         }

@@ -32,16 +32,16 @@ namespace AutoWikiBrowser
 {
     internal static class Find
     {
-        public static Regex regexObj;
-        public static Match matchObj;
+        public static Regex RegexObj;
+        public static Match MatchObj;
 
-        public static void resetFind()
+        public static void ResetFind()
         {
-            regexObj = null;
-            matchObj = null;
+            RegexObj = null;
+            MatchObj = null;
         }
 
-        public static void find(string strRegex, bool isRegex, bool caseSensive, 
+        public static void Find1(string strRegex, bool isRegex, bool caseSensive, 
             System.Windows.Forms.TextBox txtEdit, string ArticleName)
         {
             string ArticleText = txtEdit.Text;
@@ -58,25 +58,25 @@ namespace AutoWikiBrowser
             if (!isRegex)
                 strRegex = Regex.Escape(strRegex);
 
-            if (matchObj == null || regexObj == null)
+            if (MatchObj == null || RegexObj == null)
             {
                 int findStart = txtEdit.SelectionStart;
 
-                regexObj = new Regex(strRegex, regOptions);
-                matchObj = regexObj.Match(ArticleText, findStart);
-                txtEdit.SelectionStart = matchObj.Index;
-                txtEdit.SelectionLength = matchObj.Length;
+                RegexObj = new Regex(strRegex, regOptions);
+                MatchObj = RegexObj.Match(ArticleText, findStart);
+                txtEdit.SelectionStart = MatchObj.Index;
+                txtEdit.SelectionLength = MatchObj.Length;
                 txtEdit.Focus();
                 txtEdit.ScrollToCaret();
                 return;
             }
             else
             {
-                if (matchObj.NextMatch().Success)
+                if (MatchObj.NextMatch().Success)
                 {
-                    matchObj = matchObj.NextMatch();
-                    txtEdit.SelectionStart = matchObj.Index;
-                    txtEdit.SelectionLength = matchObj.Length;
+                    MatchObj = MatchObj.NextMatch();
+                    txtEdit.SelectionStart = MatchObj.Index;
+                    txtEdit.SelectionLength = MatchObj.Length;
                     txtEdit.Focus();
                     txtEdit.ScrollToCaret();
                 }
@@ -86,7 +86,7 @@ namespace AutoWikiBrowser
                     txtEdit.SelectionLength = 0;
                     txtEdit.Focus();
                     txtEdit.ScrollToCaret();
-                    resetFind();
+                    ResetFind();
                 }
             }
         }
@@ -101,14 +101,14 @@ namespace AutoWikiBrowser
             internal static string GetPluginsWikiTextBlock()
             {
                 string retval = "";
-                foreach (KeyValuePair<string, IAWBPlugin> Plugin in Items)
+                foreach (KeyValuePair<string, IAWBPlugin> plugin in Items)
                 {
-                    retval += "* " + Plugin.Value.WikiName + System.Environment.NewLine;
+                    retval += "* " + plugin.Value.WikiName + System.Environment.NewLine;
                 }
                 return retval;
             }
 
-            internal static bool LoadPlugins(IAutoWikiBrowser AWB)
+            internal static bool LoadPlugins(IAutoWikiBrowser awb)
             {
                 try
                 {
@@ -153,7 +153,7 @@ namespace AutoWikiBrowser
 
                 foreach (KeyValuePair<string, IAWBPlugin> a in Items)
                 {
-                    a.Value.Initialise(AWB);
+                    a.Value.Initialise(awb);
                 }
 
                 return (Items.Count > 0);

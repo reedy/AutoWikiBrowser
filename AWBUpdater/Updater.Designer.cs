@@ -1,4 +1,4 @@
-namespace AWBUpdater
+namespace AwbUpdater
 {
     partial class Updater
     {

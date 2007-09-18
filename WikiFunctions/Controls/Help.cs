@@ -63,8 +63,8 @@ namespace WikiFunctions.Controls
             if (webBrowserHelp.Url == new Uri(URL))
             {
                 lbTopics.Items.Clear();
-                string HTML = webBrowserHelp.Document.Body.InnerHtml;
-                foreach (Match m in TOC.Matches(HTML))
+                string html = webBrowserHelp.Document.Body.InnerHtml;
+                foreach (Match m in TOC.Matches(html))
                 {
                     if (m.Groups[1].Value == "1")
                         lbTopics.Items.Add(m.Groups[2].Value.Replace("_", " ").Replace(".28", "(").Replace(".29", ")"));

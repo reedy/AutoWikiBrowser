@@ -19,7 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace AWBUpdater
+namespace AwbUpdater
 {
     static class Program
     {

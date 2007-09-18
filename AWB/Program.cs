@@ -39,9 +39,9 @@ namespace AutoWikiBrowser
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            MainForm AWB = new MainForm();
-            GlobalObjects.AWB = AWB;
-            Application.Run(AWB);
+            MainForm awb = new MainForm();
+            GlobalObjects.AWB = awb;
+            Application.Run(awb);
         }
         
         internal static System.Version Version { get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; } }

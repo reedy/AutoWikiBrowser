@@ -31,7 +31,7 @@ namespace AutoWikiBrowser
 {
     internal sealed partial class MyPreferences : Form
     {
-        public MyPreferences(LangCodeEnum lang, ProjectEnum proj, string customproj, Font TextFont, bool LowPriority, bool Flash, bool Beep, bool Minimize, bool SaveArticleList, decimal TimeOut, bool AutoSaveEditBox, string AutoSaveEditBoxFile, decimal AutoSaveEditBoxPeriod)
+        public MyPreferences(LangCodeEnum lang, ProjectEnum proj, string customproj, Font textFont, bool lowPriority, bool flash, bool beep, bool minimize, bool saveArticleList, decimal timeOut, bool autoSaveEditBox, string autoSaveEditBoxFile, decimal autoSaveEditBoxPeriod)
         {
             InitializeComponent();
 
@@ -46,17 +46,17 @@ namespace AutoWikiBrowser
 
             cmboCustomProject.Text = customproj;
 
-            TextBoxFont = TextFont;
-            LowThreadPriority = LowPriority;
-            perfFlash = Flash;
-            perfBeep = Beep;
-            perfMinimize = Minimize;
-            perfSaveArticleList = SaveArticleList;
-            perfTimeOutLimit = TimeOut;
+            TextBoxFont = textFont;
+            LowThreadPriority = lowPriority;
+            PerfFlash = flash;
+            PerfBeep = beep;
+            PerfMinimize = minimize;
+            PerfSaveArticleList = saveArticleList;
+            PerfTimeOutLimit = timeOut;
 
-            perfAutoSaveEditBoxEnabled = AutoSaveEditBox;
-            perfAutoSaveEditBoxFile = AutoSaveEditBoxFile;
-            perfAutoSaveEditBoxPeriod = AutoSaveEditBoxPeriod;
+            PerfAutoSaveEditBoxEnabled = autoSaveEditBox;
+            PerfAutoSaveEditBoxFile = autoSaveEditBoxFile;
+            PerfAutoSaveEditBoxPeriod = autoSaveEditBoxPeriod;
 
             cmboProject_SelectedIndexChanged(null, null);
         }
@@ -157,49 +157,49 @@ namespace AutoWikiBrowser
             set { chkFlash.Checked = value; chkBeep.Checked = value; }
         }
 
-        public bool perfFlash
+        public bool PerfFlash
         {
             get { return chkFlash.Checked; }
             set { chkFlash.Checked = value; }
         }
 
-        public bool perfBeep
+        public bool PerfBeep
         {
             get { return chkBeep.Checked; }
             set { chkBeep.Checked = value; }
         }
 
-        public bool perfMinimize
+        public bool PerfMinimize
         {
             get { return chkMinimize.Checked; }
             set { chkMinimize.Checked = value; }
         }
 
-        public bool perfSaveArticleList
+        public bool PerfSaveArticleList
         {
             get { return chkSaveArticleList.Checked; }
             set { chkSaveArticleList.Checked = value; }
         }
 
-        public decimal perfTimeOutLimit
+        public decimal PerfTimeOutLimit
         {
             get { return numTimeOutLimit.Value; }
             set { numTimeOutLimit.Value = value; }
         }
 
-        public bool perfAutoSaveEditBoxEnabled
+        public bool PerfAutoSaveEditBoxEnabled
         {
             get { return chkAutoSaveEdit.Checked; }
             set { chkAutoSaveEdit.Checked = btnSetFile.Enabled = numEditBoxAutosave.Enabled = label8.Enabled = label9.Enabled = label10.Enabled = value; }
         }
 
-        public decimal perfAutoSaveEditBoxPeriod
+        public decimal PerfAutoSaveEditBoxPeriod
         {
             get { return numEditBoxAutosave.Value; }
             set { numEditBoxAutosave.Value = value; }
         }
 
-        public List<String> perfCustomWikis
+        public List<String> PerfCustomWikis
         {
             get
             {
@@ -217,7 +217,7 @@ namespace AutoWikiBrowser
             }
         }
 
-        public string perfAutoSaveEditBoxFile
+        public string PerfAutoSaveEditBoxFile
         {
             get { return txtAutosave.Text; }
             set { txtAutosave.Text = value; }
@@ -226,7 +226,7 @@ namespace AutoWikiBrowser
 
         private void chkAutoSaveEdit_CheckedChanged(object sender, EventArgs e)
         {
-            perfAutoSaveEditBoxEnabled = chkAutoSaveEdit.Checked;
+            PerfAutoSaveEditBoxEnabled = chkAutoSaveEdit.Checked;
         }
 
         private void btnSetFile_Click(object sender, EventArgs e)

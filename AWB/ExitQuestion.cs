@@ -29,16 +29,16 @@ namespace AutoWikiBrowser
 {
     internal sealed partial class ExitQuestion : Form
     {
-        public ExitQuestion(TimeSpan time, int intEdits, string msg)
+        public ExitQuestion(TimeSpan time, int Edits, string msg)
         {
             InitializeComponent();
 
             lblMessage.Text = msg + "Are you sure you want to exit?";
 
-            lblTimeAndEdits.Text = "You made " + intEdits.ToString() + " edits in " + time.ToString();
+            lblTimeAndEdits.Text = "You made " + Edits.ToString() + " edits in " + time.ToString();
         }
 
-        public bool checkBoxDontAskAgain
+        public bool CheckBoxDontAskAgain
         {
             get { return chkDontAskAgain.Checked; }
         }

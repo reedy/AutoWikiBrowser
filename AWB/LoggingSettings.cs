@@ -67,7 +67,7 @@ namespace AutoWikiBrowser
         {
             set { mStartingUp = value; }
         }
-        internal WikiFunctions.Controls.Colour LEDColour
+        internal WikiFunctions.Controls.Colour LedColour
         {
             get { return Led1.Colour; }
             set { Led1.Colour = value; }
@@ -130,31 +130,31 @@ namespace AutoWikiBrowser
         }
         internal void Reset()
         {
-            Props NewProps = new Props();
+            Props newProps = new Props();
 
-            if (!ApplyButton.Enabled && !(Settings.Equals(NewProps)))
-                WeHaveUnappliedChanges();
+            if (!ApplyButton.Enabled && !(Settings.Equals(newProps)))
+                WEHaveUnappliedChanges();
 
             // Settings = NewProps ' No, that doesn't happen until the apply button is clicked
-            ApplySettingsToControls(NewProps);
+            ApplySettingsToControls(newProps);
         }
         #endregion
 
         #region Event handlers - supporting routines
-        private void ApplySettingsToControls(Props SettingsObject)
+        private void ApplySettingsToControls(Props settingsObject)
         {
-            FolderTextBox.Text = SettingsObject.LogFolder;
-            VerboseCheckBox.Checked = SettingsObject.LogVerbose;
-            WikiLogCheckBox.Checked = SettingsObject.LogWiki;
-            XHTMLLogCheckBox.Checked = SettingsObject.LogXHTML;
-            UploadCheckBox.Checked = SettingsObject.UploadYN;
-            UploadWatchlistCheckBox.Checked = SettingsObject.UploadAddToWatchlist;
-            UploadJobNameTextBox.Text = SettingsObject.UploadJobName;
-            UploadLocationTextBox.Text = SettingsObject.UploadLocation;
-            UploadMaxLinesControl.Value = System.Convert.ToDecimal(SettingsObject.UploadMaxLines);
-            UploadOpenInBrowserCheckBox.Checked = SettingsObject.UploadOpenInBrowser;
-            UploadWikiProjectCheckBox.Checked = SettingsObject.UploadToWikiProjects;
-            DebugUploadingCheckBox.Checked = SettingsObject.DebugUploading;
+            FolderTextBox.Text = settingsObject.LogFolder;
+            VerboseCheckBox.Checked = settingsObject.LogVerbose;
+            WikiLogCheckBox.Checked = settingsObject.LogWiki;
+            XHTMLLogCheckBox.Checked = settingsObject.LogXHTML;
+            UploadCheckBox.Checked = settingsObject.UploadYN;
+            UploadWatchlistCheckBox.Checked = settingsObject.UploadAddToWatchlist;
+            UploadJobNameTextBox.Text = settingsObject.UploadJobName;
+            UploadLocationTextBox.Text = settingsObject.UploadLocation;
+            UploadMaxLinesControl.Value = System.Convert.ToDecimal(settingsObject.UploadMaxLines);
+            UploadOpenInBrowserCheckBox.Checked = settingsObject.UploadOpenInBrowser;
+            UploadWikiProjectCheckBox.Checked = settingsObject.UploadToWikiProjects;
+            DebugUploadingCheckBox.Checked = settingsObject.DebugUploading;
         }
         private void GetSettingsFromControls()
         {
@@ -174,7 +174,7 @@ namespace AutoWikiBrowser
             }
 
             bool blnJobNameHasChanged = (!(Settings.UploadJobName == UploadJobNameTextBox.Text)) || 
-                (UploadJobNameTextBox.Text == Props.conUploadCategoryIsJobName &&
+                (UploadJobNameTextBox.Text == Props.ConUploadCategoryIsJobName &&
                 !(Settings.Category == LoggingCategoryTextBox.Text));
 
             Settings.LogVerbose = VerboseCheckBox.Checked;
@@ -194,7 +194,7 @@ namespace AutoWikiBrowser
             if (mInitialised)
                 GlobalObjects.MyTrace.PropertiesChange(blnJobNameHasChanged);
         }
-        internal void WeHaveUnappliedChanges()
+        internal void WEHaveUnappliedChanges()
         {
             if (!mStartingUp)
             {
@@ -209,22 +209,22 @@ namespace AutoWikiBrowser
                 }
             }
         }
-        internal void WeHaveUnappliedChanges(object sender, EventArgs e)
-        { WeHaveUnappliedChanges(); }
+        internal void WEHaveUnappliedChanges(object sender, EventArgs e)
+        { WEHaveUnappliedChanges(); }
         private void DisableApplyButton()
         {
             ApplyButton.Enabled = false;
             ApplyButton.BackColor = System.Drawing.Color.FromKnownColor(System.Drawing.KnownColor.Control);
         }
-        private void EnableDisableUploadControls(bool Enabled)
+        private void EnableDisableUploadControls(bool enabled)
         {
-            LoggingCategoryTextBox.Enabled = Enabled;
-            UploadJobNameTextBox.Enabled = Enabled;
-            UploadLocationTextBox.Enabled = Enabled;
-            UploadOpenInBrowserCheckBox.Enabled = Enabled;
-            UploadWatchlistCheckBox.Enabled = Enabled;
-            UploadWikiProjectCheckBox.Enabled = Enabled;
-            UploadMaxLinesControl.Enabled = Enabled;
+            LoggingCategoryTextBox.Enabled = enabled;
+            UploadJobNameTextBox.Enabled = enabled;
+            UploadLocationTextBox.Enabled = enabled;
+            UploadOpenInBrowserCheckBox.Enabled = enabled;
+            UploadWatchlistCheckBox.Enabled = enabled;
+            UploadWikiProjectCheckBox.Enabled = enabled;
+            UploadMaxLinesControl.Enabled = enabled;
         }
         #endregion
 
@@ -246,11 +246,11 @@ namespace AutoWikiBrowser
         }
 		private void LocationReset(object sender, EventArgs e)
 		{
-			UploadLocationTextBox.Text = Props.conUploadToUserSlashLogsToken;
+			UploadLocationTextBox.Text = Props.ConUploadToUserSlashLogsToken;
 		}
 		private void JobNameReset(object sender, EventArgs e)
 		{
-			UploadJobNameTextBox.Text = Props.conUploadCategoryIsJobName;
+			UploadJobNameTextBox.Text = Props.ConUploadCategoryIsJobName;
 		}
 		private void MaxLinesReset(object sender, EventArgs e)
 		{
@@ -273,19 +273,19 @@ namespace AutoWikiBrowser
 				EnableDisableUploadControls(false);
 			}
 
-			WeHaveUnappliedChanges();
+			WEHaveUnappliedChanges();
 		}
 		private void UploadCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
 			EnableDisableUploadControls(UploadCheckBox.Checked);
-			WeHaveUnappliedChanges();
+			WEHaveUnappliedChanges();
 		}
 		private void FolderButton_Click(object sender, EventArgs e)
 		{
 			if (FolderBrowserDialog1.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
 			{
 				FolderTextBox.Text = FolderBrowserDialog1.SelectedPath;
-				WeHaveUnappliedChanges();
+				WEHaveUnappliedChanges();
 			}
 		}
         
@@ -327,25 +327,25 @@ namespace AutoWikiBrowser
         {
             private bool mUploadToWikiProjects = true, mDebugUploading = false;
             private string mCategory = "";
-            internal const string conUploadToUserSlashLogsToken = "$USER/Logs";
-            internal const string conUploadCategoryIsJobName = "$CATEGORY";
+            internal const string ConUploadToUserSlashLogsToken = "$USER/Logs";
+            internal const string ConUploadCategoryIsJobName = "$CATEGORY";
 
             internal Props()
                 : base()
             {
-                mUploadLocation = conUploadToUserSlashLogsToken;
-                mUploadJobName = conUploadCategoryIsJobName;
+                mUploadLocation = ConUploadToUserSlashLogsToken;
+                mUploadJobName = ConUploadCategoryIsJobName;
             }
 
-            internal bool Equals(Props Compare)
+            internal bool Equals(Props compare)
             {
-                return ((Compare.LogFolder == LogFolder) && (Compare.LogVerbose == LogVerbose) 
-                    && (Compare.LogWiki == LogWiki) && (Compare.LogXHTML == LogXHTML)
-                    && (Compare.UploadAddToWatchlist == UploadAddToWatchlist) && (Compare.UploadJobName == UploadJobName)
-                    && (Compare.UploadLocation == UploadLocation) && (Compare.UploadMaxLines == UploadMaxLines)
-                    && (Compare.UploadOpenInBrowser == UploadOpenInBrowser)
-                    && (Compare.UploadToWikiProjects == UploadToWikiProjects) && (Compare.UploadYN == UploadYN)
-                    && (Compare.Category == Category) && (Compare.DebugUploading == DebugUploading));
+                return ((compare.LogFolder == LogFolder) && (compare.LogVerbose == LogVerbose) 
+                    && (compare.LogWiki == LogWiki) && (compare.LogXHTML == LogXHTML)
+                    && (compare.UploadAddToWatchlist == UploadAddToWatchlist) && (compare.UploadJobName == UploadJobName)
+                    && (compare.UploadLocation == UploadLocation) && (compare.UploadMaxLines == UploadMaxLines)
+                    && (compare.UploadOpenInBrowser == UploadOpenInBrowser)
+                    && (compare.UploadToWikiProjects == UploadToWikiProjects) && (compare.UploadYN == UploadYN)
+                    && (compare.Category == Category) && (compare.DebugUploading == DebugUploading));
             }
 
             #region Additional properties:
@@ -400,7 +400,7 @@ namespace AutoWikiBrowser
             }
             internal string LogTitle
             {
-                get { return Tools.RemoveInvalidChars(mUploadJobName.Replace(conUploadCategoryIsJobName, mCategory)); }
+                get { return Tools.RemoveInvalidChars(mUploadJobName.Replace(ConUploadCategoryIsJobName, mCategory)); }
             }
             #endregion
         }

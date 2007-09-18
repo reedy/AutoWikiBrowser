@@ -138,15 +138,15 @@ namespace WikiFunctions.Parse
                 webBrowser.Wait();
                 string text = webBrowser.GetArticleText();
 
-                string InterwikiLocalAlphaRaw = remExtra(Tools.StringBetween(text, "<!--InterwikiLocalAlphaBegins-->", "<!--InterwikiLocalAlphaEnds-->").Replace("<!--InterwikiLocalAlphaBegins-->", ""));
-                string InterwikiLocalFirstRaw = remExtra(Tools.StringBetween(text, "<!--InterwikiLocalFirstBegins-->", "<!--InterwikiLocalFirstEnds-->").Replace("<!--InterwikiLocalFirstBegins--", ""));
+                string interwikiLocalAlphaRaw = remExtra(Tools.StringBetween(text, "<!--InterwikiLocalAlphaBegins-->", "<!--InterwikiLocalAlphaEnds-->").Replace("<!--InterwikiLocalAlphaBegins-->", ""));
+                string interwikiLocalFirstRaw = remExtra(Tools.StringBetween(text, "<!--InterwikiLocalFirstBegins-->", "<!--InterwikiLocalFirstEnds-->").Replace("<!--InterwikiLocalFirstBegins--", ""));
 
                 int no = 0;
-                int size = IWSplit.Matches(InterwikiLocalFirstRaw).Count + 1;
+                int size = IWSplit.Matches(interwikiLocalFirstRaw).Count + 1;
                 
-                InterwikiLocalAlpha = new string[IWSplit.Matches(InterwikiLocalAlphaRaw).Count + 1];
+                InterwikiLocalAlpha = new string[IWSplit.Matches(interwikiLocalAlphaRaw).Count + 1];
 
-                foreach (string s in InterwikiLocalAlphaRaw.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries))
+                foreach (string s in interwikiLocalAlphaRaw.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     InterwikiLocalAlpha[no] = s.Trim().ToLower();
                     no++;
@@ -155,7 +155,7 @@ namespace WikiFunctions.Parse
                 InterwikiLocalFirst = new string[size];
                 no = 0;
 
-                foreach (string s in InterwikiLocalFirstRaw.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries))
+                foreach (string s in interwikiLocalFirstRaw.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     InterwikiLocalFirst[no] = s.Trim().ToLower();
                     no++;
@@ -164,14 +164,14 @@ namespace WikiFunctions.Parse
                 InterwikiAlpha = (string[])InterwikiLocalFirst.Clone();
                 Array.Sort(InterwikiAlpha);
 
-                string[] Temp = (string[])InterwikiAlpha.Clone();
-                Temp[Array.IndexOf(Temp, "en")] = "";
+                string[] temp = (string[])InterwikiAlpha.Clone();
+                temp[Array.IndexOf(temp, "en")] = "";
 
                 InterwikiAlphaEnFirst = new string[size + 1];
                 InterwikiAlphaEnFirst[0] = "en";
                 no = 1;
 
-                foreach (string s in Temp)
+                foreach (string s in temp)
                 {
                     if (s.Trim() != "")
                         InterwikiAlphaEnFirst[no] = s;
@@ -229,7 +229,7 @@ namespace WikiFunctions.Parse
 
         private string removeCats(ref string ArticleText, string ArticleTitle)
         {
-            List<string> CategoryList = new List<string>();
+            List<string> categoryList = new List<string>();
             string x = "";
 
             Regex r = new Regex("<!-- ? ?\\[\\[" + Variables.NamespacesCaseInsensitive[14] + ".*?(\\]\\]|\\|.*?\\]\\]).*?-->|\\[\\[" + Variables.NamespacesCaseInsensitive[14] + ".*?(\\]\\]|\\|.*?\\]\\])( {0,4}⌊⌊⌊⌊[0-9]{1,4}⌋⌋⌋⌋)?");
@@ -240,20 +240,20 @@ namespace WikiFunctions.Parse
                 //add to array, replace underscores with spaces, ignore=
                 if (!Regex.IsMatch(x, "\\[\\[Category:(Pages|Categories|Articles) for deletion\\]\\]"))
                 {
-                    CategoryList.Add(x.Replace("_", " "));
+                    categoryList.Add(x.Replace("_", " "));
                 }
             }
 
             ArticleText = r.Replace(ArticleText, "");
 
             if (parser.addCatKey)
-                CategoryList = catKeyer(CategoryList, ArticleTitle);
+                categoryList = catKeyer(categoryList, ArticleTitle);
 
             if (CatCommentRegex.IsMatch(ArticleText))
             {
                 string catComment = CatCommentRegex.Match(ArticleText).Value;
                 ArticleText = ArticleText.Replace(catComment, "");
-                CategoryList.Insert(0, catComment);
+                categoryList.Insert(0, catComment);
             }
 
             string defaultSort = WikiRegexes.Defaultsort.Match(ArticleText).Value;
@@ -262,7 +262,7 @@ namespace WikiFunctions.Parse
             defaultSort = WikiRegexes.Defaultsort.Replace(defaultSort, "{{DEFAULTSORT:${key}}}");
             if (defaultSort != "") defaultSort += "\r\n";
 
-            return defaultSort + ListToString(CategoryList);
+            return defaultSort + ListToString(categoryList);
         }
 
         private string removePersonData(ref string ArticleText)
@@ -277,10 +277,10 @@ namespace WikiFunctions.Parse
 
         private string removeStubs(ref string ArticleText)
         {
-            Regex StubsRegex = new Regex("<!-- ?\\{\\{.*?" + Variables.Stub + "b\\}\\}.*?-->|:?\\{\\{.*?" + Variables.Stub + "\\}\\}");
+            Regex stubsRegex = new Regex("<!-- ?\\{\\{.*?" + Variables.Stub + "b\\}\\}.*?-->|:?\\{\\{.*?" + Variables.Stub + "\\}\\}");
 
-            List<string> StubList = new List<string>();
-            MatchCollection n = StubsRegex.Matches(ArticleText);
+            List<string> stubList = new List<string>();
+            MatchCollection n = stubsRegex.Matches(ArticleText);
             string x = "";
 
             foreach (Match m in n)
@@ -288,14 +288,14 @@ namespace WikiFunctions.Parse
                 x = m.Value;
                 if (!((Regex.IsMatch(x, Variables.SectStub) || (Regex.IsMatch(x, "tl\\|")))))
                 {
-                    StubList.Add(x);
+                    stubList.Add(x);
                     //remove old stub
                     ArticleText = ArticleText.Replace(x, "");
                 }
             }
 
-            if (StubList.Count != 0)
-                return ListToString(StubList);
+            if (stubList.Count != 0)
+                return ListToString(stubList);
             else
                 return "";
         }
@@ -317,17 +317,17 @@ namespace WikiFunctions.Parse
 
         private List<string> removeLinkFAs(ref string ArticleText)
         {
-            List<string> LinkFAList = new List<string>();
+            List<string> linkFAList = new List<string>();
             string x = "";
             foreach (Match m in WikiRegexes.LinkFAs.Matches(ArticleText))
             {
                 x = m.Value;
-                LinkFAList.Add(x);
+                linkFAList.Add(x);
                 //remove old LinkFA
                 ArticleText = ArticleText.Replace(x, "");
             }
 
-            return LinkFAList;
+            return linkFAList;
         }
 
         private string interwikis(ref string ArticleText)
@@ -338,12 +338,12 @@ namespace WikiFunctions.Parse
 
         private List<string> removeInterWikis(ref string ArticleText)
         {
-            List<string> InterWikiList = new List<string>();
+            List<string> interWikiList = new List<string>();
             //Regex interwikiregex = new Regex(@"\[\[(?<site>.*?):(?<text>.*?)\]\]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
             foreach(Match m in FastIW.Matches(ArticleText))
             {
-                InterWikiList.Add("[[" + m.Groups[1].Value.ToLower() + ":" + m.Groups[2].Value + "]]");
+                interWikiList.Add("[[" + m.Groups[1].Value.ToLower() + ":" + m.Groups[2].Value + "]]");
             }
 
             string interWikiComment = "";
@@ -358,16 +358,16 @@ namespace WikiFunctions.Parse
 
             if (parser.sortInterwikiOrder)
             {
-                InterWikiList.Sort(Comparer);
+                interWikiList.Sort(Comparer);
             }
             else
             {
                 //keeps existing order
             }
 
-            if (interWikiComment != "") InterWikiList.Insert(0, interWikiComment);
+            if (interWikiComment != "") interWikiList.Insert(0, interWikiComment);
 
-            return InterWikiList;
+            return interWikiList;
         }
 
         public static string IWMatchEval(Match match)
@@ -382,7 +382,7 @@ namespace WikiFunctions.Parse
             if (items.Count == 0)
                 return "";
 
-            string List = "";
+            string list = "";
             List<string> uniqueItems = new List<string>();
 
             //remove duplicates
@@ -395,10 +395,10 @@ namespace WikiFunctions.Parse
             //add to string
             foreach (string s in uniqueItems)
             {
-                List += s + "\r\n";
+                list += s + "\r\n";
             }
 
-            return List;
+            return list;
         }
 
         private List<string> catKeyer(List<string> List, string strName)

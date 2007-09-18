@@ -33,7 +33,7 @@ using ICSharpCode.SharpZipLib.Zip.Compression;
 using System.Text.RegularExpressions;
 using System.Net;
 
-namespace AWBUpdater
+namespace AwbUpdater
 {
     internal sealed partial class Updater : Form
     {

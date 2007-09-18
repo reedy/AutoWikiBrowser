@@ -43,8 +43,8 @@ namespace AutoWikiBrowser.Logging
         private bool mIsGettingPassword = false;
         private bool mStoppedWithConfigError;
 
-        private const string conWiki = "Wiki";
-        private const string conXHTML = "XHTML";
+        private const string ConWiki = "Wiki";
+        private const string conXhtml = "XHTML";
 
         // The most important stuff:
         internal void Initialise()
@@ -63,7 +63,7 @@ namespace AutoWikiBrowser.Logging
 
                     if (LoggingSettings.Settings.LogXHTML)
                     {
-                        NewXHTMLTraceListener();
+                        NewXhtmlTraceListener();
                     }
                     if (LoggingSettings.Settings.LogWiki)
                     {
@@ -90,34 +90,34 @@ namespace AutoWikiBrowser.Logging
             GlobalObjects.AWB.Stop(ApplicationName);
         }
 
-        private void TraceUploadEventHandler(TraceListenerUploadableBase Sender, ref bool Success)
+        private void TraceUploadEventHandler(TraceListenerUploadableBase sender, ref bool success)
         {
             ValidateUploadProfile();
-            UploadHandlerReturnVal retval = base.UploadHandler(Sender, LoggingSettings.Settings.LogTitle, 
+            UploadHandlerReturnVal retval = base.UploadHandler(sender, LoggingSettings.Settings.LogTitle, 
                 LoggingSettings.Settings.WikifiedCategory, LoggingSettings.Settings.GlobbedUploadLocation + "/" + 
-                Sender.PageName.Replace(LoggingSettings.Props.conUploadCategoryIsJobName, 
+                sender.PageName.Replace(LoggingSettings.Props.ConUploadCategoryIsJobName, 
                 LoggingSettings.Settings.Category), LoggingSettings.Settings.LinksToLog(), 
                 LoggingSettings.Settings.UploadOpenInBrowser, LoggingSettings.Settings.UploadAddToWatchlist, 
                 LoggingSettings.Props.UserName, Variables.AWBVersionString(GlobalObjects.AWB.AWBVersionString) +
                 Plugins.Plugin.GetPluginsWikiTextBlock(), Variables.AWBLoggingEditSummary +
                 Variables.UploadingLogDefaultEditSummary, Variables.AWBLoggingEditSummary +
                 Variables.UploadingLogEntryDefaultEditSummary, GlobalObjects.AWB, LoggingSettings.LoginDetails);
-            Success = retval.Success;
+            success = retval.Success;
 
-            if (Success)
-                ((TraceStatus)Sender.TraceStatus).UploadsCount += 1;
+            if (success)
+                ((TraceStatus)sender.TraceStatus).UploadsCount += 1;
 
             if (LoggingSettings.Settings.DebugUploading)
                 base.WriteUploadLog(retval.PageRetVals, LogFolder);
         }
 
-        protected override bool StartingUpload(TraceListenerUploadableBase Sender)
+        protected override bool StartingUpload(TraceListenerUploadableBase sender)
         {
-            if (Sender.TraceStatus.LogName != conWiki)
+            if (sender.TraceStatus.LogName != ConWiki)
                 return false;
 
             mIsUploading = true;
-            LoggingSettings.LEDColour = WikiFunctions.Controls.Colour.Blue;
+            LoggingSettings.LedColour = WikiFunctions.Controls.Colour.Blue;
             Application.DoEvents();
             return true;
         }
@@ -125,7 +125,7 @@ namespace AutoWikiBrowser.Logging
         protected override void FinishedUpload()
         {
             //if (BusyCounter == 0)
-                LoggingSettings.LEDColour = WikiFunctions.Controls.Colour.Red;
+                LoggingSettings.LedColour = WikiFunctions.Controls.Colour.Red;
             //else
             //    LoggingSettings.LEDColour = WikiFunctions.Controls.Colour.Green;
 
@@ -186,46 +186,46 @@ namespace AutoWikiBrowser.Logging
         }
 
         // Private:
-        private static string GetFilePrefix(string LogFolder)
+        private static string GetFilePrefix(string logFolder)
         {
-            return string.Format("{1}\\{0:MMM-d yyyy HHmm-ss.FF}", System.DateTime.Now, LogFolder);
+            return string.Format("{1}\\{0:MMM-d yyyy HHmm-ss.FF}", System.DateTime.Now, logFolder);
         }
-        private void NewXHTMLTraceListener()
+        private void NewXhtmlTraceListener()
         {
-            AddListener(conXHTML, new XHTMLTraceListener(GetFilePrefix(LoggingSettings.Settings.LogFolder) + 
+            AddListener(conXhtml, new XhtmlTraceListener(GetFilePrefix(LoggingSettings.Settings.LogFolder) + 
                 " log.html", LoggingSettings));
         }
         private void NewWikiTraceListener()
         {
-            AddListener(conWiki, new WikiTraceListener(GetFilePrefix(LoggingSettings.Settings.LogFolder) + 
+            AddListener(ConWiki, new WikiTraceListener(GetFilePrefix(LoggingSettings.Settings.LogFolder) + 
                 " log.txt", LoggingSettings));
         }
-        private string GetFileNameFromActiveListener(string Key)
+        private string GetFileNameFromActiveListener(string key)
         {
-            return ((ITraceStatusProvider)(Listeners[Key])).TraceStatus.FileName;
+            return ((ITraceStatusProvider)(Listeners[key])).TraceStatus.FileName;
         }
-        private void RemoveListenerAndReplaceWithSameType(string Key)
+        private void RemoveListenerAndReplaceWithSameType(string key)
         {
-            string str = GetFileNameFromActiveListener(Key);
-            RemoveListener(Key);
+            string str = GetFileNameFromActiveListener(key);
+            RemoveListener(key);
             NewWikiTraceListener();
-            Listeners[Key].WriteCommentAndNewLine("logging continued from " + str);
+            Listeners[key].WriteCommentAndNewLine("logging continued from " + str);
         }
         private void Busy()
         {
             if (Listeners.Count == 0)
                 return;
             BusyCounter += 1;
-            LoggingSettings.LEDColour = WikiFunctions.Controls.Colour.Green;
+            LoggingSettings.LedColour = WikiFunctions.Controls.Colour.Green;
         }
         private void NotBusy()
         {
             if (Listeners.Count == 0)
                 return;
             BusyCounter -= 1;
-            if (BusyCounter == 0 && !(LoggingSettings.LEDColour == WikiFunctions.Controls.Colour.Blue))
+            if (BusyCounter == 0 && !(LoggingSettings.LedColour == WikiFunctions.Controls.Colour.Blue))
             {
-                LoggingSettings.LEDColour = WikiFunctions.Controls.Colour.Red;
+                LoggingSettings.LedColour = WikiFunctions.Controls.Colour.Red;
             }
         }
 
@@ -235,38 +235,38 @@ namespace AutoWikiBrowser.Logging
         }
         private bool WikiLogToUpload
         {
-            get { return (ContainsKey(conWiki) && ((WikiTraceListener)(Listeners[conWiki])).TraceStatus.LinesWrittenSinceLastUpload > 1); }
+            get { return (ContainsKey(ConWiki) && ((WikiTraceListener)(Listeners[ConWiki])).TraceStatus.LinesWrittenSinceLastUpload > 1); }
         }
 
         // Overrides:
-        public override void AddListener(string Key, IMyTraceListener Listener)
+        public override void AddListener(string key, IMyTraceListener listener)
         {
-            if (base.ContainsKey(Key))
+            if (base.ContainsKey(key))
             {
-                base.RemoveListener(Key);
+                base.RemoveListener(key);
             }
 
-            base.AddListener(Key, Listener);
-            if (Listener.Uploadable)
+            base.AddListener(key, listener);
+            if (listener.Uploadable)
             {
-                ((TraceListenerUploadableBase)Listener).Upload += 
+                ((TraceListenerUploadableBase)listener).Upload += 
                     new WikiFunctions.Logging.TraceListenerUploadableBase.UploadEventHandler(
                     this.TraceUploadEventHandler);
             }
         }
-        public override void RemoveListener(string Key)
+        public override void RemoveListener(string key)
         {
-            if (!Listeners.ContainsKey(Key)) return;
-            IMyTraceListener Listener = Listeners[Key];
+            if (!Listeners.ContainsKey(key)) return;
+            IMyTraceListener listener = Listeners[key];
 
-            if (Listener.Uploadable)
+            if (listener.Uploadable)
             {
-                ((TraceListenerUploadableBase)Listener).Upload -= 
+                ((TraceListenerUploadableBase)listener).Upload -= 
                     new WikiFunctions.Logging.TraceListenerUploadableBase.UploadEventHandler(
                     this.TraceUploadEventHandler);
             }
 
-            base.RemoveListener(Key);
+            base.RemoveListener(key);
         }
         public override void Close()
         {
@@ -296,134 +296,134 @@ namespace AutoWikiBrowser.Logging
         // Friend:
         internal void UploadWikiLog()
         {
-            if (ContainsKey(conWiki))
+            if (ContainsKey(ConWiki))
             {
-                ((WikiTraceListener)(Listeners[conWiki])).UploadLog();
+                ((WikiTraceListener)(Listeners[ConWiki])).UploadLog();
             }
         }
 
         #region Generic overrides
-        public void AWBSkipped(string Reason)
+        public void AWBSkipped(string reason)
         {
             Busy();
-            foreach (KeyValuePair<string, IMyTraceListener> Listener in Listeners)
+            foreach (KeyValuePair<string, IMyTraceListener> listener in Listeners)
             {
-                ((IAWBTraceListener)Listener.Value).AWBSkipped(Reason);
+                ((IAWBTraceListener)listener.Value).AWBSkipped(reason);
             }
         }
         public void PluginSkipped()
         {
             Busy();
-            foreach (KeyValuePair<string, IMyTraceListener> Listener in Listeners)
+            foreach (KeyValuePair<string, IMyTraceListener> listener in Listeners)
             {
-                ((IAWBTraceListener)Listener.Value).PluginSkipped();
+                ((IAWBTraceListener)listener.Value).PluginSkipped();
             }
         }
         public void UserSkipped()
         {
             Busy();
-            foreach (KeyValuePair<string, IMyTraceListener> Listener in Listeners)
+            foreach (KeyValuePair<string, IMyTraceListener> listener in Listeners)
             {
-                ((IAWBTraceListener)Listener.Value).UserSkipped();
+                ((IAWBTraceListener)listener.Value).UserSkipped();
             }
         }
-        public override void ProcessingArticle(string FullArticleTitle, WikiFunctions.Namespaces NS)
+        public override void ProcessingArticle(string fullArticleTitle, WikiFunctions.Namespaces ns)
         {
             Busy();
-            base.ProcessingArticle(FullArticleTitle, NS);
+            base.ProcessingArticle(fullArticleTitle, ns);
             NotBusy();
         }
-        public override void SkippedArticle(string SkippedBy, string Reason)
+        public override void SkippedArticle(string skippedBy, string reason)
         {
             Busy();
-            base.SkippedArticle(SkippedBy, Reason);
+            base.SkippedArticle(skippedBy, reason);
             NotBusy();
         }
-        public override void SkippedArticleBadTag(string SkippedBy, string FullArticleTitle, WikiFunctions.Namespaces NS)
+        public override void SkippedArticleBadTag(string skippedBy, string fullArticleTitle, WikiFunctions.Namespaces ns)
         {
             Busy();
-            base.SkippedArticleBadTag(SkippedBy, FullArticleTitle, NS);
+            base.SkippedArticleBadTag(skippedBy, fullArticleTitle, ns);
             NotBusy();
         }
-        public override void SkippedArticleRedlink(string SkippedBy, string FullArticleTitle, WikiFunctions.Namespaces NS)
+        public override void SkippedArticleRedlink(string skippedBy, string fullArticleTitle, WikiFunctions.Namespaces ns)
         {
             Busy();
-            base.SkippedArticleRedlink(SkippedBy, FullArticleTitle, NS);
+            base.SkippedArticleRedlink(skippedBy, fullArticleTitle, ns);
             NotBusy();
         }
-        public override void Write(string Text)
+        public override void Write(string text)
         {
             Busy();
-            base.Write(Text);
+            base.Write(text);
             NotBusy();
         }
-        public override void WriteArticleActionLine(string Line, string PluginName)
+        public override void WriteArticleActionLine(string line, string pluginName)
         {
             Busy();
-            base.WriteArticleActionLine(Line, PluginName);
+            base.WriteArticleActionLine(line, pluginName);
             NotBusy();
         }
-        public override void WriteArticleActionLine1(string Line, string PluginName, bool VerboseOnly)
+        public override void WriteArticleActionLine1(string line, string pluginName, bool verboseOnly)
         {
             Busy();
-            base.WriteArticleActionLine1(Line, PluginName, VerboseOnly);
+            base.WriteArticleActionLine1(line, pluginName, verboseOnly);
             NotBusy();
         }
-        public override void WriteBulletedLine(string Line, bool Bold, bool VerboseOnly, bool DateStamp)
+        public override void WriteBulletedLine(string line, bool bold, bool verboseOnly, bool dateStamp)
         {
             Busy();
-            base.WriteBulletedLine(Line, Bold, VerboseOnly, DateStamp);
+            base.WriteBulletedLine(line, bold, verboseOnly, dateStamp);
             NotBusy();
         }
-        public override void WriteComment(string Line)
+        public override void WriteComment(string line)
         {
             Busy();
-            base.WriteComment(Line);
+            base.WriteComment(line);
             NotBusy();
         }
-        public override void WriteCommentAndNewLine(string Line)
+        public override void WriteCommentAndNewLine(string line)
         {
             Busy();
-            base.WriteCommentAndNewLine(Line);
+            base.WriteCommentAndNewLine(line);
             NotBusy();
         }
-        public override void WriteLine(string Line)
+        public override void WriteLine(string line)
         {
             Busy();
-            base.WriteLine(Line);
+            base.WriteLine(line);
             NotBusy();
         }
-        public override void WriteTemplateAdded(string Template, string PluginName)
+        public override void WriteTemplateAdded(string template, string pluginName)
         {
             Busy();
-            base.WriteTemplateAdded(Template, PluginName);
+            base.WriteTemplateAdded(template, pluginName);
             NotBusy();
         }
         #endregion
 
         // Callback from Settings control:
-        internal void PropertiesChange(bool JobNameHasChanged)
+        internal void PropertiesChange(bool jobNameHasChanged)
         {
             if (LoggingSettings.Settings.LogFolder == LogFolder)
             {
                 if (LoggingSettings.Settings.LogXHTML)
-                    if (!(ContainsKey(conXHTML)))
-                        NewXHTMLTraceListener();
-                else if (ContainsKey(conXHTML))
-                    RemoveListener(conXHTML);
+                    if (!(ContainsKey(conXhtml)))
+                        NewXhtmlTraceListener();
+                else if (ContainsKey(conXhtml))
+                    RemoveListener(conXhtml);
 
                 if (LoggingSettings.Settings.LogWiki)
-                    if (!(ContainsKey(conWiki)))
+                    if (!(ContainsKey(ConWiki)))
                         NewWikiTraceListener();
-                else if (ContainsKey(conWiki))
-                    RemoveListener(conWiki);
+                else if (ContainsKey(ConWiki))
+                    RemoveListener(ConWiki);
             }
             else if (HaveOpenFile) // folder has changed, close and reopen all active logs
             {
-                if (ContainsKey(conWiki))
-                    RemoveListenerAndReplaceWithSameType(conWiki);
-                if (ContainsKey(conXHTML))
-                    RemoveListenerAndReplaceWithSameType(conXHTML);
+                if (ContainsKey(ConWiki))
+                    RemoveListenerAndReplaceWithSameType(ConWiki);
+                if (ContainsKey(conXhtml))
+                    RemoveListenerAndReplaceWithSameType(conXhtml);
             }
 
             ValidateUploadProfile();
@@ -443,7 +443,7 @@ namespace AutoWikiBrowser.Logging
 
             // Initialisation
             public TraceStatus(Label pLinesLabel, Label pLinesSinceUploadLabel, Label pNumberOfUploadsLabel, 
-                bool Uploadable, string FileN, string LogNameIs) : base(FileN, LogNameIs)
+                bool uploadable, string fileN, string logNameIs) : base(fileN, logNameIs)
             {
                 LinesLabel = pLinesLabel;
                 LinesSinceUploadLabel = pLinesSinceUploadLabel;
@@ -453,7 +453,7 @@ namespace AutoWikiBrowser.Logging
                     NumberOfUploadsLabel.Text = mUploadCount.ToString();
                 }
                 pLinesLabel.Text = "0";
-                if (Uploadable)
+                if (uploadable)
                 {
                     pLinesSinceUploadLabel.Text = "0";
                 }
@@ -503,15 +503,15 @@ namespace AutoWikiBrowser.Logging
         /// Logs in XHTML
         /// </summary>
         /// <remarks></remarks>
-        private sealed class XHTMLTraceListener : WikiFunctions.Logging.XHTMLTraceListener,
+        private sealed class XhtmlTraceListener : WikiFunctions.Logging.XHTMLTraceListener,
             WikiFunctions.Logging.Uploader.ITraceStatusProvider, IAWBTraceListener
         {
             private TraceStatus mTraceStatus;
 
-            public XHTMLTraceListener(string FileName, LoggingSettings LS)
+            public XhtmlTraceListener(string FileName, LoggingSettings LS)
                 : base(FileName, LS.Settings.LogVerbose)
             {
-                mTraceStatus = new TraceStatus(LS.XHTMLLinesLabel, null, null, false, FileName, conXHTML);
+                mTraceStatus = new TraceStatus(LS.XHTMLLinesLabel, null, null, false, FileName, conXhtml);
             }
             public WikiFunctions.Logging.Uploader.TraceStatus TraceStatus
             {
@@ -533,13 +533,13 @@ namespace AutoWikiBrowser.Logging
         /// <remarks></remarks>
         private sealed class WikiTraceListener : WikiFunctions.Logging.WikiTraceListener, IAWBTraceListener
         {
-            public WikiTraceListener(string FileName, LoggingSettings LS)
-                : base(LS.Settings, new TraceStatus(LS.WikiLinesLabel, LS.WikiLinesSinceUploadLabel, 
-                LS.UploadsCountLabel, LS.Settings.UploadYN, FileName, conWiki)) { }
+            public WikiTraceListener(string fileName, LoggingSettings ls)
+                : base(ls.Settings, new TraceStatus(ls.WikiLinesLabel, ls.WikiLinesSinceUploadLabel, 
+                ls.UploadsCountLabel, ls.Settings.UploadYN, fileName, ConWiki)) { }
 
-            public void AWBSkipped(string Reason)
+            public void AWBSkipped(string reason)
             {
-                this.SkippedArticle("AWB", Reason);
+                this.SkippedArticle("AWB", reason);
             }
             public void UserSkipped()
             { this.SkippedArticle(Variables.StringUser, Variables.StringUserSkipped); }
@@ -564,7 +564,7 @@ namespace AutoWikiBrowser.Logging
             Close(); LS.TurnOffLogging();
         }
 
-        internal static AWBLogListener InitialiseLogListener(ArticleEx Article) 
+        internal static AWBLogListener InitialiseLogListener(ArticleEX article) 
         { return null;/* Article.InitialiseLogListener("AWB", GlobalObjects.MyTrace);*/ }
         // TODO: At some point we need to *remove* the listener for the article ("AWB")
         // Plugin did it at the end of ProcessArticle(). We also do it, but a bit late, in AddListener().

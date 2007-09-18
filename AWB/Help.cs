@@ -50,18 +50,18 @@ namespace AutoWikiBrowser
         public static void ShowHelp(Help h)
         { ShowHelp(h, ""); }
 
-        public static void ShowHelpEn(Help h, string Article)
+        public static void ShowHelpEN(Help h, string Article)
         { ShowHelp(h, Tools.GetENLinkWithSimpleSkinAndLocalLanguage(Article)); }
 
-        public static void ShowHelp(Help h, string URL)
+        public static void ShowHelp(Help h, string url)
         {
             if (h == null || h.IsDisposed)
                 h = new Help();
             h.Show();
-            if (URL == "")
+            if (url == "")
                 h.Navigate();
             else
-                h.Navigate(URL);
+                h.Navigate(url);
         }
 
         private void Navigate()

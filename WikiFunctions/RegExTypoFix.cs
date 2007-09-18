@@ -145,18 +145,18 @@ namespace WikiFunctions.Parse
             {
                 Typos.Clear();
                 TyposCount = 0;
-                TypoGroup Bounded = new TypoGroup(20, "\\b", "\\b");
-                TypoGroup Other = new TypoGroup(5, "", "");
+                TypoGroup bounded = new TypoGroup(20, "\\b", "\\b");
+                TypoGroup other = new TypoGroup(5, "", "");
 
-                Typos.Add(Bounded);
-                Typos.Add(Other);
+                Typos.Add(bounded);
+                Typos.Add(other);
 
-                Dictionary<string, string> TypoStrings = LoadTypos();
+                Dictionary<string, string> typoStrings = LoadTypos();
 
-                foreach (KeyValuePair<string, string> k in TypoStrings)
+                foreach (KeyValuePair<string, string> k in typoStrings)
                 {
-                    if (Bounded.SuitableTypo(k.Key)) Bounded.Add(k.Key, k.Value);
-                    else Other.Add(k.Key, k.Value);
+                    if (bounded.SuitableTypo(k.Key)) bounded.Add(k.Key, k.Value);
+                    else other.Add(k.Key, k.Value);
                     TyposCount++;
                 }
 
@@ -182,10 +182,10 @@ namespace WikiFunctions.Parse
             //remove newlines, whitespace and hide tokens from bottom
             //to avoid running 2K regexps on them
             Match m = RemoveTail.Match(ArticleText);
-            string Tail = m.Value;
-            if (Tail != "") ArticleText = ArticleText.Remove(m.Index);
+            string tail = m.Value;
+            if (tail != "") ArticleText = ArticleText.Remove(m.Index);
 
-            string OriginalText = ArticleText;
+            string originalText = ArticleText;
             string strSummary = "";
 
             foreach (TypoGroup grp in Typos)
@@ -193,9 +193,9 @@ namespace WikiFunctions.Parse
                 grp.FixTypos(ref ArticleText, ref strSummary);
             }
 
-            NoChange = (OriginalText == ArticleText);
+            NoChange = (originalText == ArticleText);
 
-            ArticleText = RemoveText.AddBackMore(ArticleText + Tail);
+            ArticleText = RemoveText.AddBackMore(ArticleText + tail);
 
             if (strSummary != "")
             {
@@ -209,19 +209,19 @@ namespace WikiFunctions.Parse
         
         public bool DetectTypo(string ArticleText)
         {
-            bool NoChange;
+            bool noChange;
             string summary = "";
 
-            PerformTypoFixes(ArticleText, out NoChange, out summary);
+            PerformTypoFixes(ArticleText, out noChange, out summary);
 
-            return !NoChange;
+            return !noChange;
         }
 
         private Dictionary<string, string> LoadTypos()
         {
-            Dictionary<string, string> TypoStrings = new Dictionary<string, string>();
+            Dictionary<string, string> typoStrings = new Dictionary<string, string>();
 
-            Regex TypoRegex = new Regex("<(?:Typo )?word=\"(.*?)\"[ \\t]find=\"(.*?)\"[ \\t]replace=\"(.*?)\" ?/?>", RegexOptions.Compiled);
+            Regex typoRegex = new Regex("<(?:Typo )?word=\"(.*?)\"[ \\t]find=\"(.*?)\"[ \\t]replace=\"(.*?)\" ?/?>", RegexOptions.Compiled);
             try
             {
                 string text = "";
@@ -251,11 +251,11 @@ namespace WikiFunctions.Parse
                         }
                     }
                 }
-                foreach (Match m in TypoRegex.Matches(text))
+                foreach (Match m in typoRegex.Matches(text))
                 {
                     try
                     {
-                        TypoStrings.Add(m.Groups[2].Value, m.Groups[3].Value);
+                        typoStrings.Add(m.Groups[2].Value, m.Groups[3].Value);
                     }
                     catch (Exception ex)
                     {
@@ -268,7 +268,7 @@ namespace WikiFunctions.Parse
                 ErrorHandler.Handle(ex);
             }
 
-            return TypoStrings;
+            return typoStrings;
         }
     }
 }

@@ -1,4 +1,4 @@
-namespace IRCMonitor
+namespace IrcMonitor
 {
     partial class IRCMonitor
     {

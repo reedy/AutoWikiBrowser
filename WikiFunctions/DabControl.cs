@@ -215,9 +215,9 @@ namespace WikiFunctions.Disambiguation
                     if (StartOfSentence || char.IsUpper(RealLink[0])) CurrentLink += Tools.TurnFirstToUpper(Variants[n - 3]);
                     else CurrentLink += Variants[n - 3];
                     CurrentLink += "|" + VisibleLink + "]]";
-                    WikiFunctions.Parse.Parsers Parse = new WikiFunctions.Parse.Parsers();
-                    CurrentLink = Parse.SimplifyLinks(CurrentLink);
-                    txtCorrection.Text = Parse.StickyLinks(Surroundings.Replace(Match.Value, CurrentLink));
+                    WikiFunctions.Parse.Parsers parse = new WikiFunctions.Parse.Parsers();
+                    CurrentLink = parse.SimplifyLinks(CurrentLink);
+                    txtCorrection.Text = parse.StickyLinks(Surroundings.Replace(Match.Value, CurrentLink));
                 }
 
                 btnUnpipe.Enabled = CurrentLink.Contains("|");

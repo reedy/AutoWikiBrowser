@@ -278,7 +278,7 @@ namespace AutoWikiBrowser
             this.UploadWikiProjectCheckBox.TabIndex = 19;
             this.UploadWikiProjectCheckBox.Text = "Upload to WPs";
             this.UploadWikiProjectCheckBox.UseVisualStyleBackColor = true;
-            this.UploadWikiProjectCheckBox.CheckedChanged += new System.EventHandler(this.WeHaveUnappliedChanges);
+            this.UploadWikiProjectCheckBox.CheckedChanged += new System.EventHandler(this.WEHaveUnappliedChanges);
             // 
             // UploadWatchlistCheckBox
             // 
@@ -292,7 +292,7 @@ namespace AutoWikiBrowser
             this.UploadWatchlistCheckBox.TabIndex = 20;
             this.UploadWatchlistCheckBox.Text = "Add to watchlist";
             this.UploadWatchlistCheckBox.UseVisualStyleBackColor = true;
-            this.UploadWatchlistCheckBox.CheckedChanged += new System.EventHandler(this.WeHaveUnappliedChanges);
+            this.UploadWatchlistCheckBox.CheckedChanged += new System.EventHandler(this.WEHaveUnappliedChanges);
             // 
             // UploadOpenInBrowserCheckBox
             // 
@@ -306,7 +306,7 @@ namespace AutoWikiBrowser
             this.UploadOpenInBrowserCheckBox.TabIndex = 21;
             this.UploadOpenInBrowserCheckBox.Text = "Open in browser";
             this.UploadOpenInBrowserCheckBox.UseVisualStyleBackColor = true;
-            this.UploadOpenInBrowserCheckBox.CheckedChanged += new System.EventHandler(this.WeHaveUnappliedChanges);
+            this.UploadOpenInBrowserCheckBox.CheckedChanged += new System.EventHandler(this.WEHaveUnappliedChanges);
             // 
             // GroupBox2
             // 
@@ -499,7 +499,7 @@ namespace AutoWikiBrowser
             this.DebugUploadingCheckBox.TabIndex = 27;
             this.DebugUploadingCheckBox.Text = "Debug";
             this.DebugUploadingCheckBox.UseVisualStyleBackColor = true;
-            this.DebugUploadingCheckBox.CheckedChanged += new System.EventHandler(this.WeHaveUnappliedChanges);
+            this.DebugUploadingCheckBox.CheckedChanged += new System.EventHandler(this.WEHaveUnappliedChanges);
             // 
             // SQLLogCheckBox
             // 
@@ -511,7 +511,7 @@ namespace AutoWikiBrowser
             this.SQLLogCheckBox.TabIndex = 21;
             this.SQLLogCheckBox.Text = "Log to MySQL";
             this.SQLLogCheckBox.UseVisualStyleBackColor = true;
-            this.SQLLogCheckBox.CheckedChanged += new System.EventHandler(this.WeHaveUnappliedChanges);
+            this.SQLLogCheckBox.CheckedChanged += new System.EventHandler(this.WEHaveUnappliedChanges);
             // 
             // GroupBox4
             // 
@@ -530,7 +530,7 @@ namespace AutoWikiBrowser
             this.FolderTextBox.Name = "FolderTextBox";
             this.FolderTextBox.Size = new System.Drawing.Size(107, 20);
             this.FolderTextBox.TabIndex = 15;
-            this.FolderTextBox.TextChanged += new System.EventHandler(this.WeHaveUnappliedChanges);
+            this.FolderTextBox.TextChanged += new System.EventHandler(this.WEHaveUnappliedChanges);
             // 
             // FolderButton
             // 
@@ -573,7 +573,7 @@ namespace AutoWikiBrowser
             this.XHTMLLogCheckBox.TabIndex = 11;
             this.XHTMLLogCheckBox.Text = "Log to XHTML";
             this.XHTMLLogCheckBox.UseVisualStyleBackColor = true;
-            this.XHTMLLogCheckBox.CheckedChanged += new System.EventHandler(this.WeHaveUnappliedChanges);
+            this.XHTMLLogCheckBox.CheckedChanged += new System.EventHandler(this.WEHaveUnappliedChanges);
             // 
             // VerboseCheckBox
             // 
@@ -584,7 +584,7 @@ namespace AutoWikiBrowser
             this.VerboseCheckBox.TabIndex = 13;
             this.VerboseCheckBox.Text = "Verbose logging";
             this.VerboseCheckBox.UseVisualStyleBackColor = true;
-            this.VerboseCheckBox.CheckedChanged += new System.EventHandler(this.WeHaveUnappliedChanges);
+            this.VerboseCheckBox.CheckedChanged += new System.EventHandler(this.WEHaveUnappliedChanges);
             // 
             // FolderBrowserDialog1
             // 

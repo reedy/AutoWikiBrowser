@@ -330,18 +330,18 @@ namespace WikiFunctions.Controls.Lists
 
         private void btnMakeList_Click(object sender, EventArgs e)
         {
-            SourceType ST = SelectedSource;
+            SourceType st = SelectedSource;
             txtSelectSource.Text = txtSelectSource.Text.Trim('[', ']');
-            if (ST == SourceType.Category || ST == SourceType.CategoryRecursive)
+            if (st == SourceType.Category || st == SourceType.CategoryRecursive)
                 txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.NamespacesCaseInsensitive[14], "", RegexOptions.IgnoreCase);
-            else if (ST == SourceType.UserContribs)
+            else if (st == SourceType.UserContribs)
                 txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[2], "", RegexOptions.IgnoreCase);
-            else if (ST == SourceType.SpecialPage)
+            else if (st == SourceType.SpecialPage)
                 txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[-1], "", RegexOptions.IgnoreCase);
-            else if (ST == SourceType.ImageFileLinks)
+            else if (st == SourceType.ImageFileLinks)
                 txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
 
-            if (ST != SourceType.GoogleWikipedia)
+            if (st != SourceType.GoogleWikipedia)
                 txtSelectSource.Text = Tools.TurnFirstToUpper(txtSelectSource.Text);
             txtSelectSource.AutoCompleteCustomSource.Add(txtSelectSource.Text);
 
@@ -354,7 +354,7 @@ namespace WikiFunctions.Controls.Lists
 
             string[] s = txtSelectSource.Text.Split('|');
 
-            MakeList(ST, s);
+            MakeList(st, s);
         }
 
         private void lbArticles_MouseMove(object sender, MouseEventArgs e)
@@ -662,15 +662,15 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         /// <param name="ST">The type of list to create</param>
         /// <param name="SourceValues">An array of string values to create the list with, e.g. an array of categories. Use null if not appropriate</param>
-        public void MakeList(SourceType ST, string[] SourceValues)
+        public void MakeList(SourceType st, string[] sourceValues)
         {
             btnStop.Visible = true;
-            if (ST == SourceType.DatabaseDump)
+            if (st == SourceType.DatabaseDump)
             {
                 launchDumpSearcher();
                 return;
             }
-            else if (ST == SourceType.TextFile)
+            else if (st == SourceType.TextFile)
             {
                 try
                 {
@@ -693,7 +693,7 @@ namespace WikiFunctions.Controls.Lists
 
                 return;
             }
-            else if (ST == SourceType.MyWatchlist)
+            else if (st == SourceType.MyWatchlist)
             {
                 try
                 {
@@ -710,8 +710,8 @@ namespace WikiFunctions.Controls.Lists
             }
             else
             {
-                Source = ST;
-                strSource = SourceValues;
+                Source = st;
+                strSource = sourceValues;
 
                 ThreadStart thr_Process = new ThreadStart(MakeList2);
                 ListerThread = new Thread(thr_Process);
@@ -1056,10 +1056,10 @@ namespace WikiFunctions.Controls.Lists
         {
             try
             {
-                string TextTBA = Clipboard.GetDataObject().GetData(DataFormats.Text).ToString();
+                string textTba = Clipboard.GetDataObject().GetData(DataFormats.Text).ToString();
                 string[] splitter = { "\r\n", "," };
 
-                string[] splitTextTBA = TextTBA.Split(splitter, StringSplitOptions.RemoveEmptyEntries);
+                string[] splitTextTBA = textTba.Split(splitter, StringSplitOptions.RemoveEmptyEntries);
 
                 foreach (string entry in splitTextTBA)
                 {

@@ -7,7 +7,7 @@ namespace AutoWikiBrowser
 {
     // A bit of a kludge this, as Article wasn't designed to write to a Trace listener collection, 
     // and I don't want to make the underlying object too complicated.
-    internal sealed class ArticleEx : WikiFunctions.Article
+    internal sealed class ArticleEX : WikiFunctions.Article
     {
         public override IAWBTraceListener Trace
         { get { return GlobalObjects.MyTrace; }
@@ -20,7 +20,7 @@ namespace AutoWikiBrowser
             return mAWBLogListener;
         }
 
-        public ArticleEx(string mName)
+        public ArticleEX(string mName)
             : base(mName)
         { InitialiseLogListener(); }
 
@@ -31,8 +31,8 @@ namespace AutoWikiBrowser
         internal void Close()
         { GlobalObjects.MyTrace.RemoveListener("AWB"); }
 
-        internal static ArticleEx SwitchToNewArticleObject(ArticleEx Old,
-            ArticleEx New)
+        internal static ArticleEX SwitchToNewArticleObject(ArticleEX Old,
+            ArticleEX New)
         {
             if(Old != null && Old.LogListener != null)
                 Old.Close(); // remove old AWBLogListener from MyTrace collection

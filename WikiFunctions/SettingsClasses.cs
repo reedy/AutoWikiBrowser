@@ -282,8 +282,8 @@ namespace WikiFunctions.AWBSettings
             bool mToolBarEnabled, bool mBypassRedirect, bool mNoAutoChanges, int mOnLoadAction, bool mMinor,
             bool mWatch, bool mTimerEnabled, bool mSortInterwikiOrder, bool mAddIgnoredToLog, int mTextBoxSize,
             string mTextBoxFont, bool mLowThreadPriority, bool mBeep, bool mFlash, bool mMinimize,
-            decimal mTimeOutLimit, bool AutoSaveEditBoxEnabled, decimal AutoSaveEditBoxPeriod,
-            string AutoSaveEditBoxFile, List<string> mCustomWikis, bool mLockSummary)
+            decimal mTimeOutLimit, bool autoSaveEditBoxEnabled, decimal autoSaveEditBoxPeriod,
+            string autoSaveEditBoxFile, List<string> mCustomWikis, bool mLockSummary)
         {
             SaveArticleList = mSaveArticleList;
             IgnoreNoBots = mIgnoreNoBots;
@@ -313,8 +313,8 @@ namespace WikiFunctions.AWBSettings
             Flash = mFlash;
             Minimize = mMinimize;
             TimeOutLimit = mTimeOutLimit;
-            AutoSaveEdit=new EditBoxAutoSavePrefs(AutoSaveEditBoxEnabled, AutoSaveEditBoxPeriod,
-                AutoSaveEditBoxFile);
+            AutoSaveEdit=new EditBoxAutoSavePrefs(autoSaveEditBoxEnabled, autoSaveEditBoxPeriod,
+                autoSaveEditBoxFile);
             CustomWikis = mCustomWikis;
             LockSummary = mLockSummary;
         }

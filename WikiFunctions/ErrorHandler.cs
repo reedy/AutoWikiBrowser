@@ -51,11 +51,11 @@ namespace WikiFunctions
         /// <param name="ex">Exception object to handle</param>
         new public static void Handle(Exception ex)
         {
-            ErrorHandler Handler = new ErrorHandler();
+            ErrorHandler handler = new ErrorHandler();
 
-            Handler.txtError.Text = ex.Message;
+            handler.txtError.Text = ex.Message;
 
-            Handler.txtDetails.Text = "{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = <table><tr><td>Exception:<td><code>" + ex.GetType().Name + "</code><tr><td>Message:<td><code>" +
+            handler.txtDetails.Text = "{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = <table><tr><td>Exception:<td><code>" + ex.GetType().Name + "</code><tr><td>Message:<td><code>" +
                 ex.Message + "</code><tr><td>Call stack:<td><pre>" + ex.StackTrace + "</pre></table>\r\n~~~~\r\n | OS          = " + Environment.OSVersion.ToString() + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
             if (CurrentArticle != null && CurrentArticle != "" &&
@@ -65,11 +65,11 @@ namespace WikiFunctions
                 if (CurrentRevision != 0 && LangCode != "" && Project != "")
                     link = "[http://" + LangCode + "." + Project + ".org/w/index.php?title=" + CurrentArticle + "&oldid=" + CurrentRevision.ToString() + "]";
                 else link = "[[:" + CurrentArticle + "]]";
-                Handler.txtDetails.Text +=
+                handler.txtDetails.Text +=
                     "\r\n | duplicate = [encountered while processing page ''" + link + "'']";
             }
 
-            Handler.txtDetails.Text += "\r\n}}";
+            handler.txtDetails.Text += "\r\n}}";
 
             /*
             foreach (StackFrame frame in ex.StackTrace.)
@@ -79,7 +79,7 @@ namespace WikiFunctions
                 Handler.txtDetails.Text += s;
             }*/
 
-            Handler.ShowDialog();
+            handler.ShowDialog();
         }
 
         private void btnCopy_Click(object sender, EventArgs e)

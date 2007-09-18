@@ -119,19 +119,19 @@ namespace WikiFunctions.DatabaseScanner
         {
             string strTitleNot = "";
             string strTitle = "";
-            RegexOptions TitleRegOptions;
+            RegexOptions titleRegOptions;
 
             string strArticleDoes = "";
             string strArticleDoesNot = "";
-            RegexOptions ArticleRegOptions;
+            RegexOptions articleRegOptions;
 
             strTitle = convert(txtTitleContains.Text);
             strTitleNot = convert(txtTitleNotContains.Text);
             strArticleDoes = convert(txtArticleDoesContain.Text);
             strArticleDoesNot = convert(txtArticleDoesNotContain.Text);
 
-            ArticleRegOptions = RegexOptions.None;
-            TitleRegOptions = RegexOptions.None;
+            articleRegOptions = RegexOptions.None;
+            titleRegOptions = RegexOptions.None;
 
             if (!chkRegex.Checked)
             {
@@ -146,20 +146,20 @@ namespace WikiFunctions.DatabaseScanner
             }
 
             if (!chkCaseSensitive.Checked)
-                ArticleRegOptions = ArticleRegOptions | RegexOptions.IgnoreCase;
+                articleRegOptions = articleRegOptions | RegexOptions.IgnoreCase;
             if (chkMulti.Checked)
-                ArticleRegOptions = ArticleRegOptions | RegexOptions.Multiline;
+                articleRegOptions = articleRegOptions | RegexOptions.Multiline;
             if (chkSingle.Checked)
-                ArticleRegOptions = ArticleRegOptions | RegexOptions.Singleline;
+                articleRegOptions = articleRegOptions | RegexOptions.Singleline;
 
             if (!chkTitleCase.Checked)
-                TitleRegOptions = TitleRegOptions | RegexOptions.IgnoreCase;
+                titleRegOptions = titleRegOptions | RegexOptions.IgnoreCase;
 
-            ArticleDoesRegex = new Regex(strArticleDoes, ArticleRegOptions);
-            ArticleDoesNotRegex = new Regex(strArticleDoesNot, ArticleRegOptions);
+            ArticleDoesRegex = new Regex(strArticleDoes, articleRegOptions);
+            ArticleDoesNotRegex = new Regex(strArticleDoesNot, articleRegOptions);
 
-            TitleDoesRegex = new Regex(strTitle, TitleRegOptions);
-            TitleDoesNotRegex = new Regex(strTitleNot, TitleRegOptions);
+            TitleDoesRegex = new Regex(strTitle, titleRegOptions);
+            TitleDoesNotRegex = new Regex(strTitleNot, titleRegOptions);
 
             namespaces.Clear();
 
@@ -297,11 +297,11 @@ namespace WikiFunctions.DatabaseScanner
 
                 lblCount.Text = lbArticles.Items.Count.ToString() + " results";
 
-                TimeSpan EndTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond);
-                EndTime = EndTime.Subtract(StartTime);
+                TimeSpan endTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond);
+                endTime = endTime.Subtract(StartTime);
 
                 if (Main != null && Main.Message)
-                    MessageBox.Show(lbArticles.Items.Count.ToString() + " matches in " + EndTime.ToString().TrimEnd('0'));
+                    MessageBox.Show(lbArticles.Items.Count.ToString() + " matches in " + endTime.ToString().TrimEnd('0'));
 
                 Main = null;
 
@@ -540,8 +540,8 @@ namespace WikiFunctions.DatabaseScanner
 
         private void btnFilter_Click(object sender, EventArgs e)
         {
-            specialFilter SepcialFilter = new specialFilter(lbArticles);
-            SepcialFilter.ShowDialog();
+            specialFilter sepcialFilter = new specialFilter(lbArticles);
+            sepcialFilter.ShowDialog();
             lblCount.Text = lbArticles.Items.Count.ToString();
         }
 
@@ -622,9 +622,9 @@ namespace WikiFunctions.DatabaseScanner
                 Main.Stop();
                 Main = null;
             }
-            TimeSpan EndTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond);
-            EndTime = EndTime.Subtract(StartTime);
-            MessageBox.Show(lbArticles.Items.Count.ToString() + " matches in " + EndTime.ToString().TrimEnd('0'));
+            TimeSpan endTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond);
+            endTime = endTime.Subtract(StartTime);
+            MessageBox.Show(lbArticles.Items.Count.ToString() + " matches in " + endTime.ToString().TrimEnd('0'));
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -639,8 +639,8 @@ namespace WikiFunctions.DatabaseScanner
 
         private void listComparerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ListComparer LC = new ListComparer();
-            LC.Show();
+            ListComparer lc = new ListComparer();
+            lc.Show();
         }
 
         private void highestToolStripMenuItem_Click(object sender, EventArgs e)

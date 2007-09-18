@@ -28,9 +28,9 @@ to " + value + @". If you would like to stop this, please select cancel.";
             }
         }
 
-        private void SetShutdownLabel(int Time)
+        private void SetShutdownLabel(int time)
         {
-            label1.Text = "Time until " + sShutdownType + ": " + Time.ToString();
+            label1.Text = "Time until " + sShutdownType + ": " + time.ToString();
         }
 
         private void btnOk_Click(object sender, EventArgs e)

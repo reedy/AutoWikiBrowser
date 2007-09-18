@@ -18,6 +18,8 @@ namespace AutoWikiBrowser
             if (disposing && (components != null))
             {
                 components.Dispose();
+                if (f != null) f.Dispose();
+
             }
             base.Dispose(disposing);
         }

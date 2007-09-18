@@ -143,11 +143,11 @@ namespace WikiFunctions.AWBProfiles
         /// <returns>The Profile. Throw an error or return null if the user declines to create a profile?</returns>
         public static AWBProfile GetProfileForLogUploading(IWin32Window owner)
         {
-            int IDOfUploadAccount = GetIDOfUploadAccount();
+            int idOfUploadAccount = GetIDOfUploadAccount();
             AWBProfile retval;
             AWBLogUploadProfilesForm profiles;
 
-            if (IDOfUploadAccount == -1)
+            if (idOfUploadAccount == -1)
             {
                 if (MessageBox.Show("Please select or add a Profile to use for log uploading",
                     "Log uploading", MessageBoxButtons.OKCancel, MessageBoxIcon.Information)
@@ -161,7 +161,7 @@ namespace WikiFunctions.AWBProfiles
                     throw new System.Configuration.ConfigurationErrorsException("Log upload profile: User cancelled");
             }
             else
-                retval = GetProfile(IDOfUploadAccount);
+                retval = GetProfile(idOfUploadAccount);
 
             if (retval.Password == "" && TempPassword == "")
             {
@@ -199,8 +199,8 @@ namespace WikiFunctions.AWBProfiles
                 AWBProfiles.ResetTempPassword();
                 foreach (int id in GetProfileIDs())
                 {
-                    Microsoft.Win32.RegistryKey Key = new Computer().Registry.CurrentUser.OpenSubKey(RegKey + "\\" + id, true);
-                    Key.SetValue("UseForUpload", false);
+                    Microsoft.Win32.RegistryKey key = new Computer().Registry.CurrentUser.OpenSubKey(RegKey + "\\" + id, true);
+                    key.SetValue("UseForUpload", false);
                 }
             }
             catch { }
@@ -235,8 +235,8 @@ namespace WikiFunctions.AWBProfiles
         {
             try
             {
-                Microsoft.Win32.RegistryKey Key = new Computer().Registry.CurrentUser.OpenSubKey(RegKey + "\\" + id, true);
-                Key.SetValue("Pass", password);
+                Microsoft.Win32.RegistryKey key = new Computer().Registry.CurrentUser.OpenSubKey(RegKey + "\\" + id, true);
+                key.SetValue("Pass", password);
             }
             catch { }
         }
@@ -290,8 +290,8 @@ namespace WikiFunctions.AWBProfiles
             {
                 try
                 {
-                    Microsoft.Win32.RegistryKey Key = new Computer().Registry.CurrentUser.OpenSubKey(RegKey, true);
-                    Key.SetValue("TempPassword", Encrypt(value));
+                    Microsoft.Win32.RegistryKey key = new Computer().Registry.CurrentUser.OpenSubKey(RegKey, true);
+                    key.SetValue("TempPassword", Encrypt(value));
                 }
                 catch { }
             }
@@ -331,16 +331,16 @@ namespace WikiFunctions.AWBProfiles
         /// <returns>A list of all Profile IDs</returns>
         private static List<int> GetProfileIDs()
         {
-            List<int> ProfileIDs = new List<int>();
+            List<int> profileIds = new List<int>();
             try
             {
                 foreach (string id in new Computer().Registry.CurrentUser.OpenSubKey(RegKey).GetSubKeyNames())
-                    ProfileIDs.Add(int.Parse(id));
+                    profileIds.Add(int.Parse(id));
 
-                return ProfileIDs;
+                return profileIds;
             }
             catch
-            { return ProfileIDs; }
+            { return profileIds; }
         }
 
         /// <summary>
@@ -349,17 +349,17 @@ namespace WikiFunctions.AWBProfiles
         /// <returns>ID Number</returns>
         private static int GetFirstFreeID()
         {
-            bool FreeIDFound = false;
-            List<int> IDs = GetProfileIDs();
+            bool freeIdFound = false;
+            List<int> ids = GetProfileIDs();
             int i = 1;
 
             do
             {
-                if (!IDs.Contains(i))
-                    FreeIDFound = true;
+                if (!ids.Contains(i))
+                    freeIdFound = true;
                 else
                     i++;
-            } while (FreeIDFound == false);
+            } while (freeIdFound == false);
 
             return i;
         }
