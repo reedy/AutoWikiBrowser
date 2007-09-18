@@ -99,8 +99,8 @@ namespace WikiFunctions
             this.linkLabel1.TabIndex = 8;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "AWB is constantly being improved by a group of dedicated developers.  If you woul" +
-                "d, please visit Wikipedia_talk:AutoWikiBrowser/Bugs add the following text to th" +
-                "e page:";
+                "d, please visit Wikipedia_talk:AutoWikiBrowser/Bugs and add the following text t" +
+                "o the page:";
             this.linkLabel1.UseCompatibleTextRendering = true;
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
@@ -142,7 +142,7 @@ namespace WikiFunctions
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "ErrorHandler";
-            this.Text = "ErrorHandler";
+            this.Text = "Program error";
             this.Load += new System.EventHandler(this.ErrorHandler_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

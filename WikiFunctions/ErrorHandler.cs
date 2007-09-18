@@ -55,8 +55,8 @@ namespace WikiFunctions
 
             Handler.txtError.Text = ex.Message;
 
-            Handler.txtDetails.Text = "{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = Exception: " + ex.GetType().Name + "\r\nMessage: " +
-                ex.Message + "\r\nCall stack:" + ex.StackTrace + "\r\n~~~~\r\n | OS          = " + Environment.OSVersion.ToString() + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            Handler.txtDetails.Text = "{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = <table><tr><td>Exception:<td><code>" + ex.GetType().Name + "</code><tr><td>Message:<td><code>" +
+                ex.Message + "</code><tr><td>Call stack:<td><pre>" + ex.StackTrace + "</pre></table>\r\n~~~~\r\n | OS          = " + Environment.OSVersion.ToString() + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
             if (CurrentArticle != null && CurrentArticle != "" &&
                 ex.StackTrace.Contains("AutoWikiBrowser.MainForm.ProcessPage("))
