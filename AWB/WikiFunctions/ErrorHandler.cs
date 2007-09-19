@@ -53,33 +53,41 @@ namespace WikiFunctions
         {
             ErrorHandler handler = new ErrorHandler();
 
-            handler.txtError.Text = ex.Message;
-
-            handler.txtDetails.Text = "{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = <table><tr><td>Exception:<td><code>" + ex.GetType().Name + "</code><tr><td>Message:<td><code>" +
-                ex.Message + "</code><tr><td>Call stack:<td><pre>" + ex.StackTrace + "</pre></table>\r\n~~~~\r\n | OS          = " + Environment.OSVersion.ToString() + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
-
-            if (CurrentArticle != null && CurrentArticle != "" &&
-                ex.StackTrace.Contains("AutoWikiBrowser.MainForm.ProcessPage("))
+            // handle invalid regexes
+            if (ex.GetType().ToString().Equals("System.ArgumentException") && ex.StackTrace.Contains("System.Text.RegularExpressions"))
             {
-                string link;
-                if (CurrentRevision != 0 && LangCode != "" && Project != "")
-                    link = "[http://" + LangCode + "." + Project + ".org/w/index.php?title=" + CurrentArticle + "&oldid=" + CurrentRevision.ToString() + "]";
-                else link = "[[:" + CurrentArticle + "]]";
-                handler.txtDetails.Text +=
-                    "\r\n | duplicate = [encountered while processing page ''" + link + "'']";
+                MessageBox.Show(ex.Message, "Invalid regular expression");
             }
-
-            handler.txtDetails.Text += "\r\n}}";
-
-            /*
-            foreach (StackFrame frame in ex.StackTrace.)
+            else // other exceptions
             {
-                string s = "\r\n    " + frame.GetMethod();
-                if (frame.GetFileLineNumber() > 0) s += "(line " + frame.GetFileLineNumber() + ")";
-                Handler.txtDetails.Text += s;
-            }*/
+                handler.txtError.Text = ex.Message;
 
-            handler.ShowDialog();
+                handler.txtDetails.Text = "{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = <table><tr><td>Exception:<td><code>" + ex.GetType().Name + "</code><tr><td>Message:<td><code>" +
+                    ex.Message + "</code><tr><td>Call stack:<td><pre>" + ex.StackTrace + "</pre></table>\r\n~~~~\r\n | OS          = " + Environment.OSVersion.ToString() + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+                if (CurrentArticle != null && CurrentArticle != "" &&
+                    ex.StackTrace.Contains("AutoWikiBrowser.MainForm.ProcessPage("))
+                {
+                    string link;
+                    if (CurrentRevision != 0 && LangCode != "" && Project != "")
+                        link = "[http://" + LangCode + "." + Project + ".org/w/index.php?title=" + CurrentArticle + "&oldid=" + CurrentRevision.ToString() + "]";
+                    else link = "[[:" + CurrentArticle + "]]";
+                    handler.txtDetails.Text +=
+                        "\r\n | duplicate = [encountered while processing page ''" + link + "'']";
+                }
+
+                handler.txtDetails.Text += "\r\n}}";
+
+                /*
+                foreach (StackFrame frame in ex.StackTrace.)
+                {
+                    string s = "\r\n    " + frame.GetMethod();
+                    if (frame.GetFileLineNumber() > 0) s += "(line " + frame.GetFileLineNumber() + ")";
+                    Handler.txtDetails.Text += s;
+                }*/
+
+                handler.ShowDialog();
+            }
         }
 
         private void btnCopy_Click(object sender, EventArgs e)
