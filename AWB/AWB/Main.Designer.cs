@@ -2904,6 +2904,7 @@ namespace AutoWikiBrowser
             this.groupBox10.Controls.Add(this.btnFind);
             this.groupBox10.Controls.Add(this.chkFindRegex);
             this.groupBox10.Controls.Add(this.txtFind);
+            this.groupBox10.Enabled = false;
             this.groupBox10.Location = new System.Drawing.Point(156, 259);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Size = new System.Drawing.Size(110, 85);

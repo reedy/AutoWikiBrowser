@@ -1884,7 +1884,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             btnSave.Enabled = btnIgnore.Enabled = btnPreview.Enabled = btnDiff.Enabled =
             btntsPreview.Enabled = btntsChanges.Enabled = listMaker1.MakeListEnabled =
             btntsSave.Enabled = btntsIgnore.Enabled = btnMove.Enabled = btnDelete.Enabled =
-            btnProtect.Enabled = enabled;
+            btnProtect.Enabled = groupBox10.Enabled = enabled;
         }
 
         #endregion
