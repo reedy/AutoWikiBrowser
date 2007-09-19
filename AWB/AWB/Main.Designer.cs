@@ -2857,6 +2857,7 @@ namespace AutoWikiBrowser
             this.btnProtect.Size = new System.Drawing.Size(55, 23);
             this.btnProtect.TabIndex = 34;
             this.btnProtect.Text = "Protect";
+            this.toolTip1.SetToolTip(this.btnProtect, "Protect the article");
             this.btnProtect.UseVisualStyleBackColor = true;
             this.btnProtect.Click += new System.EventHandler(this.btnProtect_Click);
             // 
@@ -2883,6 +2884,7 @@ namespace AutoWikiBrowser
             this.btnMove.Size = new System.Drawing.Size(50, 23);
             this.btnMove.TabIndex = 31;
             this.btnMove.Text = "Move";
+            this.toolTip1.SetToolTip(this.btnMove, "Move the article");
             this.btnMove.UseVisualStyleBackColor = true;
             this.btnMove.Click += new System.EventHandler(this.btnMove_Click);
             // 
@@ -2895,6 +2897,7 @@ namespace AutoWikiBrowser
             this.btnDelete.Size = new System.Drawing.Size(50, 23);
             this.btnDelete.TabIndex = 30;
             this.btnDelete.Text = "Delete";
+            this.toolTip1.SetToolTip(this.btnDelete, "Delete the article");
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
