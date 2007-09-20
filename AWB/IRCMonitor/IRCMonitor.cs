@@ -84,7 +84,7 @@ namespace IrcMonitor
             Variables.User.WikiStatusChanged += UpdateWikiStatus;
         }
 
-        private ProjectSettings Project = new ENWikipediaSettings(); // ENCAPSULATE FIELD BY CODEIT.RIGHT
+        private ProjectSettings Project = new ENWikipediaSettings();
 
         public ProjectSettings Project1
         {
@@ -98,7 +98,7 @@ namespace IrcMonitor
             }
         }
 
-        private string VandalName; // ENCAPSULATE FIELD BY CODEIT.RIGHT
+        private string VandalName;
 
         public string VandalName1
         {
@@ -111,7 +111,7 @@ namespace IrcMonitor
                 VandalName = value;
             }
         }
-        private string VandalizedPage; // ENCAPSULATE FIELD BY CODEIT.RIGHT
+        private string VandalizedPage;
 
         public string VandalizedPage1
         {
