@@ -194,7 +194,7 @@ namespace AwbUpdater
                             }
                         }
                     }
-                    catch (Exception ex)
+                    catch
                     { MessageBox.Show("Unable to find AutoWikiBrowser.exe to query Version No."); }
 
                 if (!updaterUpdate && !awbUpdate)
@@ -219,10 +219,10 @@ namespace AwbUpdater
         {
             System.Net.WebClient client = new System.Net.WebClient();
 
-            if (AWBWebAddress != "")
+            if (AWBWebAddress != "" && AWBWebAddress != null)
                 client.DownloadFile(AWBWebAddress, tempDirectory + AWBZipName);
 
-            if (UpdaterWebAddress != "")
+            if (UpdaterWebAddress != "" && UpdaterWebAddress != null)
                 client.DownloadFile(UpdaterWebAddress, tempDirectory + UpdaterZipName);
 
             client.Dispose();
