@@ -425,6 +425,12 @@ namespace WikiFunctions.Parse
             if (chkIgnoreMore.Checked)
                 chkIgnoreLinks.Checked = true;
         }
+
+        private void chkIgnoreLinks_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!chkIgnoreLinks.Checked)
+                chkIgnoreMore.Checked = false;
+        }
     }
 
     public struct Replacement
