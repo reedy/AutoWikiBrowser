@@ -175,6 +175,8 @@ namespace AwbUpdater
                                 AWBWebAddress = "http://downloads.sourceforge.net/autowikibrowser/" + AWBZipName;
                                 awbUpdate = true;
                             }
+                            else
+                                noUpdates = true;
                         }
 
                         if (m_updversion.Success && m_updversion.Groups[1].Value.Length == 4)
