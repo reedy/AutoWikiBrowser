@@ -108,7 +108,7 @@ namespace WikiFunctions.Parse
         static readonly Regex HiddenMoreRegex = new Regex("⌊⌊⌊⌊M(\\d*)⌋⌋⌋⌋", RegexOptions.Compiled);
 
         /// <summary>
-        /// Hides images, external links, templates, headings, images
+        /// Hides images, external links, templates, headings
         /// </summary>
         public string HideMore(string ArticleText)
         {

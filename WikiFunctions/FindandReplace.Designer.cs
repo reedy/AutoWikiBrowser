@@ -49,7 +49,7 @@ namespace WikiFunctions.Parse
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.find = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.replace = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -122,8 +122,8 @@ namespace WikiFunctions.Parse
             // replace
             // 
             this.replace.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle1.NullValue = null;
-            this.replace.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.NullValue = null;
+            this.replace.DefaultCellStyle = dataGridViewCellStyle3;
             this.replace.FillWeight = 87.66718F;
             this.replace.HeaderText = "Replace with";
             this.replace.MinimumWidth = 45;
@@ -341,6 +341,7 @@ namespace WikiFunctions.Parse
             this.toolTip1.SetToolTip(this.chkIgnoreLinks, "Find and replacements will not be made in external/interwiki links, images, <nowi" +
                     "ki>. <math> and <!-- comments -->");
             this.chkIgnoreLinks.UseVisualStyleBackColor = true;
+            this.chkIgnoreLinks.CheckedChanged += new System.EventHandler(this.chkIgnoreLinks_CheckedChanged);
             // 
             // chkAddToSummary
             // 
@@ -364,8 +365,8 @@ namespace WikiFunctions.Parse
             this.chkIgnoreMore.Size = new System.Drawing.Size(254, 17);
             this.chkIgnoreMore.TabIndex = 18;
             this.chkIgnoreMore.Text = "Ignore templates, refs, link targets, and headings";
-            this.toolTip1.SetToolTip(this.chkIgnoreMore, "Find and replacements will not be made in external/interwiki links, images, <nowi" +
-                    "ki>. <math> and <!-- comments -->");
+            this.toolTip1.SetToolTip(this.chkIgnoreMore, "Find and replacements will not be made in templates, <source>, <cite> and heading" +
+                    "s");
             this.chkIgnoreMore.UseVisualStyleBackColor = true;
             this.chkIgnoreMore.CheckedChanged += new System.EventHandler(this.chkIgnoreMore_CheckedChanged);
             // 
