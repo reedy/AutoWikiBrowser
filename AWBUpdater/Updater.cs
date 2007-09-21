@@ -75,11 +75,8 @@ namespace AwbUpdater
                 Application.DoEvents();
                 AWBversion();
 
-                if (noUpdates)
-                {
-                    StartAwb();
-                    Application.Exit();
-                }
+                if (noUpdates && NotNullOrEmpty(AWBWebAddress))
+                    ExitEarly();
                 else
                 {
                     Application.DoEvents();
@@ -122,6 +119,17 @@ namespace AwbUpdater
             }
         }
 
+        private bool NotNullOrEmpty(string check)
+        {
+            return (check != "" && check != null);
+        }
+
+        private void ExitEarly()
+        {
+            StartAwb();
+            Application.Exit();
+        }
+
         public void AWBversion()
         {
             string text = "";
@@ -144,7 +152,7 @@ namespace AwbUpdater
                 stream.Close();
                 response.Close();
             }
-            catch (Exception ex)
+            catch
             {
                 MessageBox.Show("Error fetching current version number.");
                 Application.Exit();
@@ -219,11 +227,20 @@ namespace AwbUpdater
         {
             System.Net.WebClient client = new System.Net.WebClient();
 
-            if (AWBWebAddress != "" && AWBWebAddress != null)
-                client.DownloadFile(AWBWebAddress, tempDirectory + AWBZipName);
+            bool exit1 = false, exit2 = false;
 
-            if (UpdaterWebAddress != "" && UpdaterWebAddress != null)
+            if (NotNullOrEmpty(AWBWebAddress))
+                client.DownloadFile(AWBWebAddress, tempDirectory + AWBZipName);
+            else
+                exit1 = true;
+
+            if (NotNullOrEmpty(UpdaterWebAddress))
                 client.DownloadFile(UpdaterWebAddress, tempDirectory + UpdaterZipName);
+            else
+                exit2 = true;
+
+            if (!exit1 && !exit2)
+                ExitEarly();
 
             client.Dispose();
 
@@ -283,7 +300,7 @@ namespace AwbUpdater
                 {
                     Directory.CreateDirectory(fullPath);
                 }
-                catch (Exception ex)
+                catch
                 { MessageBox.Show("Error in updating AWB."); }
             }
 
