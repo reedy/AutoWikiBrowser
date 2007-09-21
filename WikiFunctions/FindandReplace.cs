@@ -114,7 +114,7 @@ namespace WikiFunctions.Parse
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <param name="ArticleTitle">The title of the article.</param>
         /// <returns>The modified article text.</returns>
-        public string MultipleFindAndReplce(string ArticleText, string strTitle, ref string EditSummary)
+        public string MultipleFindAndReplace(string ArticleText, string strTitle, ref string EditSummary)
         {
             streditsummary = "";
 
