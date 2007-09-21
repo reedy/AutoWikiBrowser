@@ -642,7 +642,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
-        static Regex regexMainArticle = new Regex(@"^.*Main article:\s?'{0,3}\[\[([^\|]*?)(\|(.*?))?\]\]\.?'{0,3}\.?", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
+        static Regex regexMainArticle = new Regex(@"^Main article:\s?'{0,3}\[\[([^\|]*?)(\|(.*?))?\]\]\.?'{0,3}\.?", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
         /// <summary>
         /// Fixes instances of ''Main Article: xxx'' to use {{main|xxx}}
         /// </summary>
