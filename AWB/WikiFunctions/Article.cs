@@ -355,7 +355,7 @@ namespace WikiFunctions
                 string strTemp = mArticleText.Replace("\r\n", "\n"),
                     testText = strTemp, tmpEditSummary = "";
 
-                strTemp = findAndReplace.MultipleFindAndReplce(strTemp, mName, ref tmpEditSummary);
+                strTemp = findAndReplace.MultipleFindAndReplace(strTemp, mName, ref tmpEditSummary);
                 strTemp = replaceSpecial.ApplyRules(strTemp, mName);
                 strTemp = substTemplates.SubstituteTemplates(strTemp, mName); // TODO: Possible bug, this was "articleTitle" not "Name"
 
