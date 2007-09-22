@@ -37,13 +37,13 @@ namespace AwbUpdater
 {
     internal sealed partial class Updater : Form
     {
-        string AWBdirectory;
-        string tempDirectory;
-        string AWBZipName;
-        string AWBWebAddress;
+        string AWBdirectory = "";
+        string tempDirectory = "";
+        string AWBZipName = "";
+        string AWBWebAddress = "";
 
-        string UpdaterZipName;
-        string UpdaterWebAddress;
+        string UpdaterZipName = "";
+        string UpdaterWebAddress = "";
 
         bool noUpdates = false;
         bool updaterUpdate = false;
@@ -158,9 +158,9 @@ namespace AwbUpdater
                 Application.Exit();
             }
 
-            Match m_awbversion = Regex.Match(text, @"&lt;!-- Current version: (.*?) --&gt;", RegexOptions.Compiled);
-            Match m_awbnewest = Regex.Match(text, @"&lt;!-- Newest version: (.*?) --&gt;", RegexOptions.Compiled);
-            Match m_updversion = Regex.Match(text, @"&lt;!-- Updater version: (.*?) --&gt;", RegexOptions.Compiled);
+            Match m_awbversion = Regex.Match(text, @"&lt;!-- Current version: (.*?) --&gt;");
+            Match m_awbnewest = Regex.Match(text, @"&lt;!-- Newest version: (.*?) --&gt;");
+            Match m_updversion = Regex.Match(text, @"&lt;!-- Updater version: (.*?) --&gt;");
 
             if ((m_awbversion.Success && m_awbversion.Groups[1].Value.Length == 4) || (m_awbnewest.Success && m_awbnewest.Groups[1].Value.Length == 4))
             {
@@ -195,11 +195,6 @@ namespace AwbUpdater
                                 UpdaterWebAddress = "http://downloads.sourceforge.net/autowikibrowser/" + UpdaterZipName;
                                 updaterUpdate = true;
                             }
-                            else
-                            {
-                                UpdaterZipName = "";
-                                UpdaterWebAddress = "";
-                            }
                         }
                     }
                     catch
@@ -210,14 +205,13 @@ namespace AwbUpdater
                     MessageBox.Show("Nothing to Update. The Updater will now close");
                     noUpdates = true;
                 }
-
                 progressUpdate.Value = 30;
             }
         }
 
         private void CreateTempDir()
         {
-            if (!(Directory.Exists(tempDirectory)))
+            if (!Directory.Exists(tempDirectory))
                 Directory.CreateDirectory(tempDirectory);
 
             progressUpdate.Value = 35;
@@ -285,7 +279,7 @@ namespace AwbUpdater
             string fullPath = Path.GetDirectoryName(Path.GetFullPath(targetName));
 
             // Could be an option or parameter to allow failure or try creation
-            if (Directory.Exists(fullPath) == false)
+            if (!Directory.Exists(fullPath))
             {
                 try
                 {
@@ -314,15 +308,10 @@ namespace AwbUpdater
 
                 foreach (Process p in Process.GetProcesses())
                 {
-                    if (p.ProcessName == "AutoWikiBrowser")
+                    if (p.ProcessName == "AutoWikiBrowser" || p.ProcessName == "IRCMonitor")
                     {
                         awbOpen = true;
-                        MessageBox.Show("Please save your settings (if you wish) and close AutoWikiBrowser completely before pressing OK.");
-                    }
-                    else if(p.ProcessName == "IRCMonitor")
-                    {
-                        awbOpen = true;
-                        MessageBox.Show("Please save your settings (if you wish) and close IRCMonitor completely before pressing OK.");
+                        MessageBox.Show("Please save your settings (if you wish) and close " + p.ProcessName +" completely before pressing OK.");
                     }
                 }
             }
@@ -350,7 +339,7 @@ namespace AwbUpdater
                 if (File.Exists(AWBdirectory + "CFD.dll"))
                     File.Copy(tempDirectory + "Plugins\\CFD\\CFD.dll", AWBdirectory + "CFD.dll", true);
 
-                if (!(Directory.Exists(AWBdirectory + "\\Plugins\\CFD")))
+                if (!Directory.Exists(AWBdirectory + "\\Plugins\\CFD"))
                     Directory.CreateDirectory(AWBdirectory + "\\Plugins\\CFD");
 
                 File.Copy(tempDirectory + "Plugins\\CFD\\CFD.dll", AWBdirectory + "Plugins\\CFD\\CFD.dll", true);
@@ -358,7 +347,7 @@ namespace AwbUpdater
                 if (File.Exists(AWBdirectory + "Kingbotk AWB Plugin.dll"))
                     File.Copy(tempDirectory + "Plugins\\Kingbotk\\Kingbotk AWB Plugin.dll", AWBdirectory + "Kingbotk AWB Plugin.dll", true);
 
-                if (!(Directory.Exists(AWBdirectory + "Plugins\\Kingbotk")))
+                if (!Directory.Exists(AWBdirectory + "Plugins\\Kingbotk"))
                     Directory.CreateDirectory(AWBdirectory + "Plugins\\Kingbotk");
 
                 File.Copy(tempDirectory + "Plugins\\Kingbotk\\Kingbotk AWB Plugin.dll", AWBdirectory + "Plugins\\Kingbotk\\Kingbotk AWB Plugin.dll", true);
