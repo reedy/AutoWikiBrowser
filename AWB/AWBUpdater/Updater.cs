@@ -45,7 +45,7 @@ namespace AwbUpdater
         string UpdaterZipName;
         string UpdaterWebAddress;
 
-        bool noUpdates;
+        bool noUpdates = false;
         bool updaterUpdate = false;
         bool awbUpdate = false;
 
@@ -227,20 +227,11 @@ namespace AwbUpdater
         {
             System.Net.WebClient client = new System.Net.WebClient();
 
-            bool exit1 = false, exit2 = false;
-
-            if (NotNullOrEmpty(AWBWebAddress))
+            if (NotNullOrEmpty(UpdaterWebAddress))
                 client.DownloadFile(AWBWebAddress, tempDirectory + AWBZipName);
-            else
-                exit1 = true;
 
             if (NotNullOrEmpty(UpdaterWebAddress))
                 client.DownloadFile(UpdaterWebAddress, tempDirectory + UpdaterZipName);
-            else
-                exit2 = true;
-
-            if (!exit1 && !exit2)
-                ExitEarly();
 
             client.Dispose();
 
