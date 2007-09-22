@@ -78,6 +78,8 @@ namespace WikiFunctions
 
                 handler.txtDetails.Text += "\r\n}}";
 
+                handler.textBox1.Text = "AWB encountered " + ex.GetType().Name;
+
                 /*
                 foreach (StackFrame frame in ex.StackTrace.)
                 {
