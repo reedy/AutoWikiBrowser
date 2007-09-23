@@ -134,6 +134,8 @@ namespace WikiFunctions.Parse
 
             ReplaceMore(WikiRegexes.Cites.Matches(ArticleText), ref ArticleText);
 
+            ReplaceMore(WikiRegexes.Refs.Matches(ArticleText), ref ArticleText);
+
             ReplaceMore(WikiRegexes.WikiLink.Matches(ArticleText), ref ArticleText);
 
             return ArticleText;
