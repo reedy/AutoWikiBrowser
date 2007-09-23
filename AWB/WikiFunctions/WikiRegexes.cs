@@ -210,9 +210,14 @@ namespace WikiFunctions
         public static readonly Regex Comments = new Regex(@"<!--.*?-->", RegexOptions.Compiled | RegexOptions.Singleline);
 
         /// <summary>
+        /// matches <ref> tags
+        /// </summary>
+        public static readonly Regex Refs = new Regex(@"<ref[^>]*?>[^<]*<\s*/ref\s*>", RegexOptions.Compiled | RegexOptions.Singleline);
+
+        /// <summary>
         /// matches <cite> tags
         /// </summary>
-        public static readonly Regex Cites = new Regex(@"<ref[^>]*?>[^<]*<\s*/ref\s*>", RegexOptions.Compiled | RegexOptions.Singleline);
+        public static readonly Regex Cites = new Regex(@"<cite[^>]*?>[^<]*<\s*/cite\s*>", RegexOptions.Compiled | RegexOptions.Singleline);
 
         /// <summary>
         /// matches <nowiki> tags
