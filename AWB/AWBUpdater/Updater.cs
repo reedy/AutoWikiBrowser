@@ -75,7 +75,7 @@ namespace AwbUpdater
                 Application.DoEvents();
                 AWBversion();
 
-                if (noUpdates && NotNullOrEmpty(AWBWebAddress))
+                if (noUpdates && !NotNullOrEmpty(AWBWebAddress))
                     ExitEarly();
                 else
                 {
@@ -221,10 +221,10 @@ namespace AwbUpdater
         {
             System.Net.WebClient client = new System.Net.WebClient();
 
-            if (NotNullOrEmpty(UpdaterWebAddress))
+            if (!NotNullOrEmpty(UpdaterWebAddress))
                 client.DownloadFile(AWBWebAddress, tempDirectory + AWBZipName);
 
-            if (NotNullOrEmpty(UpdaterWebAddress))
+            if (!NotNullOrEmpty(UpdaterWebAddress))
                 client.DownloadFile(UpdaterWebAddress, tempDirectory + UpdaterZipName);
 
             client.Dispose();
