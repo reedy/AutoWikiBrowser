@@ -115,12 +115,12 @@ namespace WikiFunctions
         /// <summary>
         /// Matches single line templates
         /// </summary>
-        public static readonly Regex Template = new Regex(@"{{.*?}}", RegexOptions.Compiled);
+        public static readonly Regex Template = new Regex(@"{{[^{\n]*?}}", RegexOptions.Compiled);
         
         /// <summary>
         /// Matches single and multiline templates
         /// </summary>
-        public static readonly Regex TemplateMultiLine = new Regex(@"{{.*?}}", RegexOptions.Compiled | RegexOptions.Singleline);
+        public static readonly Regex TemplateMultiLine = new Regex(@"{{[^{]*?}}", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches external links
