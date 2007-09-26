@@ -114,9 +114,20 @@ namespace WikiFunctions.Parse
         {
             MoreHide.Clear();
 
-            ReplaceMore(WikiRegexes.Template.Matches(ArticleText), ref ArticleText);
+            string ArticleTextBefore;
+            do
+            { // hide nested templates
+                ArticleTextBefore = ArticleText;
+                ReplaceMore(WikiRegexes.Template.Matches(ArticleText), ref ArticleText);
+            }
+            while (!ArticleTextBefore.Equals(ArticleText));
 
-            ReplaceMore(WikiRegexes.TemplateMultiLine.Matches(ArticleText), ref ArticleText);
+            do
+            { // hide nested templates
+                ArticleTextBefore = ArticleText;
+                ReplaceMore(WikiRegexes.TemplateMultiLine.Matches(ArticleText), ref ArticleText);
+            }
+            while (!ArticleTextBefore.Equals(ArticleText));
 
             ReplaceMore(WikiRegexes.Images.Matches(ArticleText), ref ArticleText);
 
