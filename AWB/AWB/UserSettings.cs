@@ -310,7 +310,7 @@ namespace AutoWikiBrowser
                 chkUnicodifyWhole.Checked, cmboCategorise.SelectedIndex, txtNewCategory.Text,
                 txtNewCategory2.Text, cmboImages.SelectedIndex, txtImageReplace.Text, txtImageWith.Text,
                 chkSkipNoCatChange.Checked, chkSkipNoImgChange.Checked, chkAppend.Checked, !rdoPrepend.Checked,
-                txtAppendMessage.Text, (int)nudBotSpeed.Value, chkQuickSave.Checked, chkSuppressTag.Checked,
+                txtAppendMessage.Text, (int)udNewlineChars.Value, (int)nudBotSpeed.Value, chkQuickSave.Checked, chkSuppressTag.Checked,
                 chkRegExTypo.Checked), new ListPrefs(listMaker1, SaveArticleList),
                 new SkipPrefs(chkSkipNonExistent.Checked, chkSkipExistent.Checked, chkSkipNoChanges.Checked, chkSkipSpamFilter.Checked,
                 chkSkipIfInuse.Checked, chkSkipIfContains.Checked, chkSkipIfNotContains.Checked, txtSkipIfContains.Text,
@@ -377,6 +377,7 @@ namespace AutoWikiBrowser
             rdoAppend.Checked = p.Editprefs.Append;
             rdoPrepend.Checked = !p.Editprefs.Append;
             txtAppendMessage.Text = p.Editprefs.Text;
+            udNewlineChars.Value = p.Editprefs.Newlines;
 
             nudBotSpeed.Value = p.Editprefs.AutoDelay;
             chkQuickSave.Checked = p.Editprefs.QuickSave;
