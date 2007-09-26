@@ -30,13 +30,13 @@ namespace WikiFunctions
     {
         public static void MakeLangSpecificRegexes()
         {
-            Category = new Regex("\\[\\[" + Variables.NamespacesCaseInsensitive[14] + "(.*?)\\]\\]|<[Gg]allery>[\\s\\S]*?</[Gg]allery>", RegexOptions.Compiled);
-            Images = new Regex("\\[\\[" + Variables.NamespacesCaseInsensitive[6] + "(.*?)\\]\\]|<[Gg]allery>[\\s\\S]*?</[Gg]allery>", RegexOptions.Compiled);
-            Stub = new Regex(@"\{\{.*?" + Variables.Stub + @"\}\}", RegexOptions.Compiled);
+            Category = new Regex(@"\[\[" + Variables.NamespacesCaseInsensitive[14] + @"(.*?)\]\]|<[Gg]allery>[\s\S]*?</[Gg]allery>", RegexOptions.Compiled);
+            Images = new Regex(@"\[\[" + Variables.NamespacesCaseInsensitive[6] + @"(.*?)\]\]|<[Gg]allery>[\s\S]*?</[Gg]allery>", RegexOptions.Compiled);
+            Stub = new Regex(@"{{.*?" + Variables.Stub + @"}}", RegexOptions.Compiled);
             string s = Variables.NamespacesCaseInsensitive[10];
             if (s[0] == '(') s = s.Insert(s.Length - 1, "|");
             else s = "(?:" + s + "|)";
-            TemplateCall = new Regex(@"\{\{\s*" + s + @"\s*([^\]\|]*)\s*(.*)\}\}", RegexOptions.Compiled | RegexOptions.Singleline);
+            TemplateCall = new Regex(@"{{\s*" + s + @"\s*([^\]\|]*)\s*(.*)}}", RegexOptions.Compiled | RegexOptions.Singleline);
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches only internal wiki links
         /// </summary>
-        public static readonly Regex WikiLinksOnly = new Regex("\\[\\[[^\\]]*?\\]\\]", RegexOptions.Compiled);
+        public static readonly Regex WikiLinksOnly = new Regex(@"\[\[[^\]]*?\]\]", RegexOptions.Compiled);
 
         /// <summary>
         /// Group 1 Matches only the target of the wikilink
@@ -68,7 +68,7 @@ namespace WikiFunctions
         /// Matches {{DEFAULTSORT}}
         /// </summary>
         public static readonly Regex Defaultsort = new Regex(
-            @"\{\{\s*(template\s*:\s*)*\s*defaultsort\s*(:|\|)(?<key>[^\}]*)\}\}",
+            @"{{\s*(template\s*:\s*)*\s*defaultsort\s*(:|\|)(?<key>[^\}]*)}}",
             RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
 
         /// <summary>
@@ -115,12 +115,12 @@ namespace WikiFunctions
         /// <summary>
         /// Matches single line templates
         /// </summary>
-        public static readonly Regex Template = new Regex(@"\{\{.*?\}\}", RegexOptions.Compiled);
+        public static readonly Regex Template = new Regex(@"{{.*?}}", RegexOptions.Compiled);
         
         /// <summary>
         /// Matches single and multiline templates
         /// </summary>
-        public static readonly Regex TemplateMultiLine = new Regex(@"\{\{.*?\}\}", RegexOptions.Compiled | RegexOptions.Singleline);
+        public static readonly Regex TemplateMultiLine = new Regex(@"{{.*?}}", RegexOptions.Compiled | RegexOptions.Singleline);
 
         /// <summary>
         /// Matches external links
@@ -140,7 +140,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches redirects
         /// </summary>
-        public static readonly Regex RedirectRegex = new Regex("^#redirect.*?\\[\\[(.*?)\\]\\]", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        public static readonly Regex RedirectRegex = new Regex(@"^#redirect.*?\[\[(.*?)\]\]", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
         /// Matches words
@@ -150,7 +150,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches IP addresses
         /// </summary>
-        public static readonly Regex IPAddress = new Regex("[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}", RegexOptions.Compiled);
+        public static readonly Regex IPAddress = new Regex(@"[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches <source></source> tags
@@ -175,34 +175,34 @@ namespace WikiFunctions
         /// <summary>
         /// Matches images
         /// </summary>
-        public static Regex Images = new Regex("\\[\\[[Ii]mage:.*\\]\\]|<[Gg]allery>[\\s\\S]*?</[Gg]allery>", RegexOptions.Compiled);
+        public static Regex Images = new Regex(@"\[\[[Ii]mage:.*\]\]|<[Gg]allery>[\s\S]*?</[Gg]allery>", RegexOptions.Compiled);
         
         #region en only
 
         /// <summary>
         /// Matches disambig templates (en only)
         /// </summary>
-        public static readonly Regex Disambigs = new Regex(@"\{\{([234]CC|[Dd]isambig|[Gg]eodis|[Hh]ndis|[Ss]urname|[Nn]umberdis|[Rr]oaddis)\}\}", RegexOptions.Compiled);
+        public static readonly Regex Disambigs = new Regex(@"{{([234]CC|[Dd]isambig|[Gg]eodis|[Hh]ndis|[Ss]urname|[Nn]umberdis|[Rr]oaddis)}}", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches stubs (en only)
         /// </summary>
-        public static Regex Stub = new Regex(@"\{\{.*?[Ss]tub\}\}", RegexOptions.Compiled);
+        public static Regex Stub = new Regex(@"{{.*?[Ss]tub}}", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches persondata (en only)
         /// </summary>
-        public static readonly Regex Persondata = new Regex(@"\{\{ ?[Pp]ersondata.*?\}\}", RegexOptions.Singleline | RegexOptions.Compiled);
+        public static readonly Regex Persondata = new Regex(@"{{ ?[Pp]ersondata.*?}}", RegexOptions.Singleline | RegexOptions.Compiled);
 
         /// <summary>
         /// Matches {{Link FA|xxx}} (en only)
         /// </summary>
-        public static readonly Regex LinkFAs = new Regex(@"\{\{[Ll]ink FA\|.*?\}\}", RegexOptions.Compiled);
+        public static readonly Regex LinkFAs = new Regex(@"{{[Ll]ink FA\|.*?}}", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches {{Deadend|xxx}} (en only)
         /// </summary>
-        public static readonly Regex DeadEnd = new Regex(@"\{\{[Dd]eadend\|.*?\}\}", RegexOptions.Compiled);
+        public static readonly Regex DeadEnd = new Regex(@"{{[Dd]eadend\|.*?}}", RegexOptions.Compiled);
 
         /// <summary>
         /// matches <!-- comments -->
