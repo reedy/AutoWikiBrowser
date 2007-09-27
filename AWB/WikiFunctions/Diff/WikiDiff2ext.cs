@@ -181,7 +181,9 @@ td.diff-addedline span.diffchange {
         {
             string styles = DefaultStyles;
 
-            if (CustomStyles == null && System.IO.File.Exists("style.css"))
+            if (CustomStyles != "")
+                styles = CustomStyles;
+            else if (System.IO.File.Exists("style.css") && CustomStyles == null)
             {
                 try
                 {
@@ -194,8 +196,6 @@ td.diff-addedline span.diffchange {
                     CustomStyles = "";
                 }
             }
-            else if (CustomStyles.Length > 0)
-                styles = CustomStyles;
 
             return "<style type='text/css'>" + styles + "</style>";
         }
