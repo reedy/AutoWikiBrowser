@@ -227,7 +227,9 @@ namespace AwbUpdater
 
         private void UnzipAwb()
         {
-            if (AWBZipName != "")
+            bool badUpdate = false;
+
+            if (AWBZipName != "" && File.Exists(tempDirectory + AWBZipName))
             {
                 using (ZipFile zf = new ZipFile(tempDirectory + AWBZipName))
                 {
@@ -238,8 +240,10 @@ namespace AwbUpdater
                     }
                 }
             }
+            else
+                badUpdate = true;
 
-            if (UpdaterZipName != "")
+            if (UpdaterZipName != "" && File.Exists(tempDirectory + UpdaterZipName))
             {
                 using (ZipFile zf = new ZipFile(tempDirectory + UpdaterZipName))
                 {
@@ -249,6 +253,16 @@ namespace AwbUpdater
                             ExtractFile(zf.GetInputStream(entry), entry, tempDirectory);
                     }
                 }
+            }
+            else
+                badUpdate = true;
+
+            if (badUpdate)
+            {
+                MessageBox.Show(@"Something has gone wrong with the downloading of the files. Please restart the updater to try again.
+
+AWBUpdater will now close!");
+                Application.Exit();
             }
             
             progressUpdate.Value = 70;
