@@ -181,9 +181,9 @@ td.diff-addedline span.diffchange {
         {
             string styles = DefaultStyles;
 
-            if (CustomStyles != "" && CustomStyles == null)
+            if (CustomStyles != "" && CustomStyles != null)
                 styles = CustomStyles;
-            else if (System.IO.File.Exists("style.css"))
+            else if (System.IO.File.Exists("style.css") && CustomStyles == null)
             {
                 try
                 {
