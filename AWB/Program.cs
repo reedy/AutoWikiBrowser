@@ -35,15 +35,43 @@ namespace AutoWikiBrowser
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            string fileToLoad = "";
+            int profileID = -1;
+
+            for (int i = 0; i < args.Length; i++)
+            {
+                switch (args[i])
+                {
+                    case "/s":
+                        try
+                        {
+                            if (args[i + 1].ToString().Contains(".xml") && System.IO.File.Exists(args[i + 1].ToString()))
+                                fileToLoad = args[i + 1].ToString();
+                        }
+                        catch { }
+                        break;
+                    case "/u":
+                        try { profileID = Convert.ToInt32(args[i + 1]); }
+                        catch { }
+                        break;
+                }
+            }
+
             MainForm awb = new MainForm();
+
+            awb.ProfileToLoad = profileID;
+            awb.SettingsToLoad = fileToLoad;
+
             GlobalObjects.AWB = awb;
             Application.Run(awb);
         }
-        
+
+      
         internal static System.Version Version { get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; } }
         internal static string VersionString { get { return Version.ToString(); } }
     }

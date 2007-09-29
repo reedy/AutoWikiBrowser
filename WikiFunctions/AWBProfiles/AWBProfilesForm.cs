@@ -42,10 +42,15 @@ namespace WikiFunctions.AWBProfiles
 
         private void browserLogin(string Password)
         {
-            Browser.Login(lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text, Password);
-            LoadProfile();
+            browserLogin(lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text, Password);
         }
 
+        private void browserLogin(string Username, string Password)
+        {
+            Browser.Login(Username, Password);
+            LoadProfile();
+        }
+        
         private void loginAsThisAccountToolStripMenuItem_Click(object sender, EventArgs e)
         {
             login();
@@ -88,7 +93,35 @@ namespace WikiFunctions.AWBProfiles
                     Cursor = Cursors.Default;
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                ErrorHandler.Handle(ex);
+            }
+        }
+
+        public void login(int profileID)
+        {
+            try
+            {
+                AWBProfile startupProfile = AWBProfiles.GetProfile(profileID);
+
+                if (startupProfile.Password != "")
+                {//Get 'Saved' Password
+                    browserLogin(startupProfile.Username, startupProfile.Password);
+                }
+                else
+                {//Get Password from User
+                    UserPassword password = new UserPassword();
+                    password.SetText = "Enter password for " + startupProfile.Username;
+
+                    if (password.ShowDialog() == DialogResult.OK)
+                        browserLogin(startupProfile.Username, password.GetPassword);
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorHandler.Handle(ex);
+            }
         }
     }
 }

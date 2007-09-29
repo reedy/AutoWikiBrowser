@@ -103,145 +103,165 @@ namespace AutoWikiBrowser
         #endregion
 
         #region Constructor and MainForm load/resize
-            public MainForm()
+        public MainForm()
+        {
+            splash.Show(this);
+            RightToLeft = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft
+                ? RightToLeft.Yes : RightToLeft.No;
+            InitializeComponent();
+            splash.SetProgress(5);
+            try
             {
-                splash.Show(this);
-                RightToLeft = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft 
-                    ? RightToLeft.Yes : RightToLeft.No;
-                InitializeComponent();
-                splash.SetProgress(5);
+                lblUserName.Alignment = ToolStripItemAlignment.Right;
+                lblProject.Alignment = ToolStripItemAlignment.Right;
+                lblTimer.Alignment = ToolStripItemAlignment.Right;
+                lblEditsPerMin.Alignment = ToolStripItemAlignment.Right;
+                lblIgnoredArticles.Alignment = ToolStripItemAlignment.Right;
+                lblEditCount.Alignment = ToolStripItemAlignment.Right;
+
+                btntsShowHide.Image = Res.btnshowhide_image;
+                btntsShowHideParameters.Image = Res.btnshowhideparameters_image;
+                btntsSave.Image = Res.btntssave_image;
+                btntsIgnore.Image = Res.GoLtr;
+                btntsStop.Image = Res.Stop;
+                btntsPreview.Image = Res.preview;
+                btntsChanges.Image = Res.changes;
+                btntsFalsePositive.Image = Res.RolledBack;
+                btntsStart.Image = Res.Run;
+
+                //btnSave.Image = Res.btntssave_image;
+                //btnIgnore.Image = Res.GoLtr;
+
+                //btnDiff.Image = Res.changes;
+                //btnPreview.Image = Res.preview;
+                splash.SetProgress(15);
+                int stubcount = 500;
+                bool catkey = false;
                 try
                 {
-                    lblUserName.Alignment = ToolStripItemAlignment.Right;
-                    lblProject.Alignment = ToolStripItemAlignment.Right;
-                    lblTimer.Alignment = ToolStripItemAlignment.Right;
-                    lblEditsPerMin.Alignment = ToolStripItemAlignment.Right;
-                    lblIgnoredArticles.Alignment = ToolStripItemAlignment.Right;
-                    lblEditCount.Alignment = ToolStripItemAlignment.Right;
-
-                    btntsShowHide.Image = Res.btnshowhide_image;
-                    btntsShowHideParameters.Image = Res.btnshowhideparameters_image;
-                    btntsSave.Image = Res.btntssave_image;
-                    btntsIgnore.Image = Res.GoLtr;
-                    btntsStop.Image = Res.Stop;
-                    btntsPreview.Image = Res.preview;
-                    btntsChanges.Image = Res.changes;
-                    btntsFalsePositive.Image = Res.RolledBack;
-                    btntsStart.Image = Res.Run;
-
-                    //btnSave.Image = Res.btntssave_image;
-                    //btnIgnore.Image = Res.GoLtr;
-
-                    //btnDiff.Image = Res.changes;
-                    //btnPreview.Image = Res.preview;
-                    splash.SetProgress(15);
-                    int stubcount = 500;
-                    bool catkey = false;
-                    try
-                    {
-                        stubcount = AutoWikiBrowser.Properties.Settings.Default.StubMaxWordCount;
-                        catkey = AutoWikiBrowser.Properties.Settings.Default.AddHummanKeyToCats;
-                        parsers = new Parsers(stubcount, catkey);
-                    }
-                    catch (Exception ex)
-                    {
-                        parsers = new Parsers();
-                        ErrorHandler.Handle(ex);
-                    }
-
-                    toolStripComboOnLoad.SelectedIndex = 0;
-                    cmboCategorise.SelectedIndex = 0;
-                    cmboImages.SelectedIndex = 0;
-                    lblStatusText.AutoSize = true;
-                    lblBotTimer.AutoSize = true;
-
-                    Variables.User.UserNameChanged += UpdateUserName;
-                    Variables.User.BotStatusChanged += UpdateBotStatus;
-                    Variables.User.AdminStatusChanged += UpdateAdminStatus;
-                    Variables.User.WikiStatusChanged += UpdateWikiStatus; 
-
-                    Variables.User.webBrowserLogin.DocumentCompleted += web4Completed;
-                    Variables.User.webBrowserLogin.Navigating += web4Starting;
-
-                    webBrowserEdit.Loaded += CaseWasLoad;
-                    webBrowserEdit.Saved += CaseWasSaved;
-                    webBrowserEdit.None += CaseWasNull;
-                    webBrowserEdit.Fault += StartDelayedRestartTimer;
-                    webBrowserEdit.StatusChanged += UpdateWebBrowserStatus;
-                    splash.SetProgress(60);
-                    listMaker1.BusyStateChanged += SetProgressBar;
-                    listMaker1.NoOfArticlesChanged += UpdateButtons;
-                    listMaker1.StatusTextChanged += UpdateListStatus;
-                    Text = "AutoWikiBrowser - Default.xml";
-                    splash.SetProgress(25);
-
-                    WikiFunctions.AWBProfiles.AWBProfiles.ResetTempPassword();
+                    stubcount = AutoWikiBrowser.Properties.Settings.Default.StubMaxWordCount;
+                    catkey = AutoWikiBrowser.Properties.Settings.Default.AddHummanKeyToCats;
+                    parsers = new Parsers(stubcount, catkey);
                 }
                 catch (Exception ex)
                 {
+                    parsers = new Parsers();
                     ErrorHandler.Handle(ex);
                 }
-            }
-            
-            private void MainForm_Load(object sender, EventArgs e)
-            {
+
+                toolStripComboOnLoad.SelectedIndex = 0;
+                cmboCategorise.SelectedIndex = 0;
+                cmboImages.SelectedIndex = 0;
+                lblStatusText.AutoSize = true;
+                lblBotTimer.AutoSize = true;
+
+                Variables.User.UserNameChanged += UpdateUserName;
+                Variables.User.BotStatusChanged += UpdateBotStatus;
+                Variables.User.AdminStatusChanged += UpdateAdminStatus;
+                Variables.User.WikiStatusChanged += UpdateWikiStatus;
+
+                Variables.User.webBrowserLogin.DocumentCompleted += web4Completed;
+                Variables.User.webBrowserLogin.Navigating += web4Starting;
+
+                webBrowserEdit.Loaded += CaseWasLoad;
+                webBrowserEdit.Saved += CaseWasSaved;
+                webBrowserEdit.None += CaseWasNull;
+                webBrowserEdit.Fault += StartDelayedRestartTimer;
+                webBrowserEdit.StatusChanged += UpdateWebBrowserStatus;
                 splash.SetProgress(60);
-                lblStatusText.Text = "Initialising...";
-                Application.DoEvents();
-                Variables.MainForm = this;
-                UpdateUpdater();
+                listMaker1.BusyStateChanged += SetProgressBar;
+                listMaker1.NoOfArticlesChanged += UpdateButtons;
+                listMaker1.StatusTextChanged += UpdateListStatus;
+                //Text = "AutoWikiBrowser - Default.xml";
+                splash.SetProgress(25);
 
-                GlobalObjects.MyTrace.LS = loggingSettings1;
-
-                try
-                {
-                    //check that we are not using an old OS. 98 seems to mangled some unicode
-                    if (Environment.OSVersion.Version.Major < 5)
-                    {
-                        MessageBox.Show("You appear to be using an older operating system, this software may have trouble with some unicode fonts on operating systems older than Windows 2000, the start button has been disabled.", "Operating system", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        SetStartButton(false);
-                    }
-                    else
-                        listMaker1.MakeListEnabled = true;
-
-                    splash.SetProgress(80);
-                    if (AutoWikiBrowser.Properties.Settings.Default.LogInOnStart)
-                        CheckStatus(false);
-
-                    LogControl1.Initialise(listMaker1);
-
-                    if (Properties.Settings.Default.WindowLocation != null)
-                        this.Location = Properties.Settings.Default.WindowLocation;
-
-                    if (Properties.Settings.Default.WindowSize != null)
-                        this.Size = Properties.Settings.Default.WindowSize;
-
-                    Debug();
-                    pluginsToolStripMenuItem.Visible = Plugin.LoadPlugins(this);
-                    LoadPrefs();
-                    UpdateButtons();
-                    LoadRecentSettingsList();
-                    splash.SetProgress(90);
-                    if (Variables.User.checkEnabled() == WikiStatusResult.OldVersion)
-                        OldVersion();
-
-                    webBrowserDiff.Navigate("about:blank");
-                    webBrowserDiff.ObjectForScripting = this;
-                }
-                catch (Exception ex)
-                {
-                    ErrorHandler.Handle(ex);
-                }
-                    
-                lblStatusText.Text = "";
-                splash.Close();
+                WikiFunctions.AWBProfiles.AWBProfiles.ResetTempPassword();
             }
-
-            private void MainForm_Resize(object sender, EventArgs e)
+            catch (Exception ex)
             {
-                if ((Minimize) && (this.WindowState == FormWindowState.Minimized))
-                    this.Visible = false;
+                ErrorHandler.Handle(ex);
             }
+        }
+
+        public string SettingsToLoad
+        {
+            set { SettingsFile = value; }
+        }
+
+        int userProfileToLoad = -1;
+        public int ProfileToLoad
+        {
+            set { userProfileToLoad = value; }
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            splash.SetProgress(60);
+            lblStatusText.Text = "Initialising...";
+            Application.DoEvents();
+            Variables.MainForm = this;
+            UpdateUpdater();
+
+            GlobalObjects.MyTrace.LS = loggingSettings1;
+
+            try
+            {
+                //check that we are not using an old OS. 98 seems to mangled some unicode
+                if (Environment.OSVersion.Version.Major < 5)
+                {
+                    MessageBox.Show("You appear to be using an older operating system, this software may have trouble with some unicode fonts on operating systems older than Windows 2000, the start button has been disabled.", "Operating system", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    SetStartButton(false);
+                }
+                else
+                    listMaker1.MakeListEnabled = true;
+
+                splash.SetProgress(80);
+                if (AutoWikiBrowser.Properties.Settings.Default.LogInOnStart)
+                    CheckStatus(false);
+
+                LogControl1.Initialise(listMaker1);
+
+                if (Properties.Settings.Default.WindowLocation != null)
+                    this.Location = Properties.Settings.Default.WindowLocation;
+
+                if (Properties.Settings.Default.WindowSize != null)
+                    this.Size = Properties.Settings.Default.WindowSize;
+
+                Debug();
+                pluginsToolStripMenuItem.Visible = Plugin.LoadPlugins(this);
+
+                LoadPrefs();
+
+                UpdateButtons();
+                LoadRecentSettingsList();
+                splash.SetProgress(90);
+                if (Variables.User.checkEnabled() == WikiStatusResult.OldVersion)
+                    OldVersion();
+
+                webBrowserDiff.Navigate("about:blank");
+                webBrowserDiff.ObjectForScripting = this;
+
+                if (userProfileToLoad != -1)
+                {
+                    profiles = new WikiFunctions.AWBProfiles.AWBProfilesForm(webBrowserEdit);
+                    profiles.LoadProfile += LoadProfileSettings;
+                    profiles.login(userProfileToLoad);
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorHandler.Handle(ex);
+            }
+
+            lblStatusText.Text = "";
+            splash.Close();
+        }
+
+        private void MainForm_Resize(object sender, EventArgs e)
+        {
+            if (Minimize && (this.WindowState == FormWindowState.Minimized))
+                this.Visible = false;
+        }
         #endregion
 
         #region Properties
@@ -3380,7 +3400,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void LoadProfileSettings()
         {
-            LoadPrefs(profiles.SettingsToLoad);
+            if (profiles.SettingsToLoad != null && profiles.SettingsToLoad != "")
+                LoadPrefs(profiles.SettingsToLoad);
             CheckStatus(true);
         }
 
