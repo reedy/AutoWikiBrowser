@@ -46,7 +46,6 @@ namespace WikiFunctions.DatabaseScanner
 
         List<Scan> s;
         bool ignore = false;
-        Regex regComments = new Regex("<!--.*?-->", RegexOptions.Singleline | RegexOptions.Compiled);
 
         public MainProcess(List<Scan> z, string filename, ThreadPriority tp, bool ignoreComments, string StartFrom)
         {
@@ -164,7 +163,7 @@ namespace WikiFunctions.DatabaseScanner
                             articleText = reader.ReadString();
 
                             if(ignore)
-                                articleText = regComments.Replace(articleText, "");
+                                articleText = WikiRegexes.Comments.Replace(articleText, "");
 
                             foreach (Scan z in s)
                             {
