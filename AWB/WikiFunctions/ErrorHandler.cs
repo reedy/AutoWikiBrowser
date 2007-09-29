@@ -58,6 +58,11 @@ namespace WikiFunctions
             {
                 MessageBox.Show(ex.Message, "Invalid regular expression");
             }
+            // handle WebException
+            else if (ex.GetType().ToString().Equals("System.Net.WebException")) 
+            {
+                MessageBox.Show(ex.Message, "Error");
+            }
             else // other exceptions
             {
                 handler.txtError.Text = ex.Message;
