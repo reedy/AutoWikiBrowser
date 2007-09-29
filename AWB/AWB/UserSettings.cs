@@ -42,9 +42,9 @@ namespace AutoWikiBrowser
 
         private void saveSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if ((!System.IO.File.Exists(settingsfilename)) || MessageBox.Show("Replace existing file?", "File exists - " + settingsfilename,
+            if ((!System.IO.File.Exists(SettingsFile)) || MessageBox.Show("Replace existing file?", "File exists - " + SettingsFile,
             MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1)==DialogResult.Yes)
-                SavePrefs(settingsfilename);
+                SavePrefs(SettingsFile);
         }
 
         private void loadSettingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -54,18 +54,18 @@ namespace AutoWikiBrowser
 
         private void loadDefaultSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if ((MessageBox.Show("Would you really like to load the original default settings?", "Reset settings to default?", MessageBoxButtons.YesNo)) == DialogResult.Yes)
+            if (MessageBox.Show("Would you really like to load the original default settings?", "Reset settings to default?", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 ResetSettings();
         }
 
         private void saveCurrentSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            saveXML.FileName = settingsfilename;
+            saveXML.FileName = SettingsFile;
             if (saveXML.ShowDialog() != DialogResult.OK)
                 return;
 
             SavePrefs(saveXML.FileName);
-            settingsfilename = saveXML.FileName;
+            SettingsFile = saveXML.FileName;
         }
 
         private void ResetSettings()
@@ -217,12 +217,12 @@ namespace AutoWikiBrowser
                 return;
 
             LoadPrefs(openXML.FileName);
-            settingsfilename = openXML.FileName;
+            SettingsFile = openXML.FileName;
 
             listMaker1.removeListDuplicates();
         }
 
-        private string settingsfilename = "Default.xml";
+        //private string settingsfilename = "Default.xml";
 
         public void UpdateRecentList(string[] list)
         {
@@ -292,7 +292,7 @@ namespace AutoWikiBrowser
         private void RecentSettingsClick(object sender, EventArgs e)
         {
             LoadPrefs((sender as ToolStripItem).Text);
-            settingsfilename = (sender as ToolStripItem).Text;
+            SettingsFile = (sender as ToolStripItem).Text;
             listMaker1.removeListDuplicates();
         }
 
@@ -539,10 +539,13 @@ namespace AutoWikiBrowser
         /// </summary>
         private void LoadPrefs()
         {
-            if (!File.Exists("Default.xml"))
-                return;
+            if (File.Exists("Default.xml"))
+                SettingsFile = "Default.xml";
 
-            LoadPrefs("Default.xml");
+            if (SettingsFile != "")
+                LoadPrefs(SettingsFile);
+            else
+                return;
         }
 
         /// <summary>
