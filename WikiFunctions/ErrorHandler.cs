@@ -54,16 +54,19 @@ namespace WikiFunctions
             ErrorHandler handler = new ErrorHandler();
 
             // handle invalid regexes
-            if (ex.GetType().ToString().Equals("System.ArgumentException") && ex.StackTrace.Contains("System.Text.RegularExpressions"))
+            if (ex.GetType().ToString().Equals("System.ArgumentException") 
+                && ex.StackTrace.Contains("System.Text.RegularExpressions"))
             {
-                MessageBox.Show(ex.Message, "Invalid regular expression");
+                MessageBox.Show(ex.Message, "Invalid regular expression", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            // handle WebException
+            // handle network access errors
             else if (ex.GetType().ToString().Equals("System.Net.WebException")) 
             {
-                MessageBox.Show(ex.Message, "Error");
+                MessageBox.Show(ex.Message, "Network access error", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            else // other exceptions
+            else // suggest a bug report for other exceptions
             {
                 handler.txtError.Text = ex.Message;
 
