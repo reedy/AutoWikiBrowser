@@ -56,51 +56,51 @@ namespace AutoWikiBrowser
     public sealed partial class MainForm : Form, IAutoWikiBrowser
     { // this class needs to be public, otherwise we get an exception which recommends setting ComVisibleAttribute to true (which we've already done)
         #region Fields
-            private static Splash splash = new Splash();
-            private static WikiFunctions.AWBProfiles.AWBProfilesForm profiles;
-        
-            private static bool Abort = false;
+        private static Splash splash = new Splash();
+        private static WikiFunctions.AWBProfiles.AWBProfilesForm profiles;
 
-            private Profiler prof = new Profiler();
-        
-            private static string LastArticle = "";
-            private static string SettingsFile = "";
-            private static string LastMove = "";
-            private static string LastDelete = "";
-            private static string LastProtect = "";
+        private static bool Abort = false;
 
-            private static int oldselection = 0;
-            private static int retries = 0;
+        private Profiler prof = new Profiler();
 
-            private static bool PageReload = false;
-            private static int mnudges = 0;
-            private static int sameArticleNudges = 0;
+        private static string LastArticle = "";
+        private static string SettingsFile = "";
+        private static string LastMove = "";
+        private static string LastDelete = "";
+        private static string LastProtect = "";
 
-            private static bool boolSaved = true;
-            private static HideText RemoveText = new HideText(false, true, false);
-            private static List<string> noParse = new List<string>();
-            private static FindandReplace findAndReplace = new FindandReplace();
-            private static SubstTemplates substTemplates = new SubstTemplates();
-            private static RegExTypoFix RegexTypos;
-            private static SkipOptions Skip = new SkipOptions();
-            private static WikiFunctions.MWB.ReplaceSpecial replaceSpecial = 
-                new WikiFunctions.MWB.ReplaceSpecial();
-            private static Parsers parsers;
-            private static TimeSpan StartTime = 
-                new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-            private static StringCollection RecentList = new StringCollection();
-            private static CustomModule cModule = new CustomModule();
-            internal static RegexTester regexTester = new RegexTester();
-            private static bool userTalkWarningsLoaded = false;
-            private static Regex userTalkTemplatesRegex;
-            private static bool mErrorGettingLogInStatus;
-            private static bool skippable = true;
+        private static int oldselection = 0;
+        private static int retries = 0;
 
-            private ListComparer lc;
-            private ListSplitter splitter;
+        private static bool PageReload = false;
+        private static int mnudges = 0;
+        private static int sameArticleNudges = 0;
 
-            private static readonly Regex DiffIdParser = new Regex(@"[a-z](-?\d*)x(-?\d*)");
-            private static Help h = new Help();
+        private static bool boolSaved = true;
+        private static HideText RemoveText = new HideText(false, true, false);
+        private static List<string> noParse = new List<string>();
+        private static FindandReplace findAndReplace = new FindandReplace();
+        private static SubstTemplates substTemplates = new SubstTemplates();
+        private static RegExTypoFix RegexTypos;
+        private static SkipOptions Skip = new SkipOptions();
+        private static WikiFunctions.MWB.ReplaceSpecial replaceSpecial =
+            new WikiFunctions.MWB.ReplaceSpecial();
+        private static Parsers parsers;
+        private static TimeSpan StartTime =
+            new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+        private static StringCollection RecentList = new StringCollection();
+        private static CustomModule cModule = new CustomModule();
+        internal static RegexTester regexTester = new RegexTester();
+        private static bool userTalkWarningsLoaded = false;
+        private static Regex userTalkTemplatesRegex;
+        private static bool mErrorGettingLogInStatus;
+        private static bool skippable = true;
+
+        private ListComparer lc;
+        private ListSplitter splitter;
+
+        private static readonly Regex DiffIdParser = new Regex(@"[a-z](-?\d*)x(-?\d*)");
+        private static Help h = new Help();
         #endregion
 
         #region Constructor and MainForm load/resize
@@ -396,7 +396,7 @@ namespace AutoWikiBrowser
                 txtEdit.Text = "";
                 webBrowserEdit.BringToFront();
                 if (cmboEditSummary.Text == "" && Plugin.Items.Count == 0)
-                    MessageBox.Show("Please enter an edit summary.", "Edit summary", MessageBoxButtons.OK, 
+                    MessageBox.Show("Please enter an edit summary.", "Edit summary", MessageBoxButtons.OK,
                         MessageBoxIcon.Exclamation);
 
                 StopDelayedRestartTimer();
@@ -456,7 +456,7 @@ namespace AutoWikiBrowser
                 Tools.WriteDebug(this.Name, "Start() error: " + ex.Message);
                 StartDelayedRestartTimer();
             }
-            
+
             if (GlobalObjects.MyTrace.StoppedWithConfigError)
             {
                 try
@@ -511,7 +511,7 @@ namespace AutoWikiBrowser
                 return;
             }
 
-            if (chkSkipIfContains.Checked && TheArticle.SkipIfContains(txtSkipIfContains.Text, 
+            if (chkSkipIfContains.Checked && TheArticle.SkipIfContains(txtSkipIfContains.Text,
                 chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, true))
             {
                 SkipPage("Article contains: " + txtSkipIfContains.Text);
@@ -526,8 +526,8 @@ namespace AutoWikiBrowser
             }
 
             if (!Skip.SkipIf(TheArticle.OriginalArticleText))
-            {                
-                SkipPage("skipIf custom code"); 
+            {
+                SkipPage("skipIf custom code");
                 return;
             }
 
@@ -545,7 +545,7 @@ namespace AutoWikiBrowser
             {
                 ProcessPage();
 
-                if (!Abort && skippable && chkSkipNoChanges.Checked && 
+                if (!Abort && skippable && chkSkipNoChanges.Checked &&
                     TheArticle.ArticleText == TheArticle.OriginalArticleText)
                 {
                     SkipPage("No change");
@@ -1061,7 +1061,7 @@ namespace AutoWikiBrowser
             }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex); 
+                ErrorHandler.Handle(ex);
                 theArticle.Trace.AWBSkipped("Exception:" + ex.Message);
             }
             finally
@@ -1091,7 +1091,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                         WikiDiff.GetDiff(TheArticle.OriginalArticleText, txtEdit.Text, 1) +
                         @"</table></body></html>");
                 }
-                
+
                 CaseWasDiff();
             }
             catch (Exception ex)
@@ -1118,7 +1118,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             DisableButtons();
             if (txtEdit.Text.Length > 0)
                 SaveArticle();
-            else if (MessageBox.Show("Do you really want to save a blank page?", "Save?", 
+            else if (MessageBox.Show("Do you really want to save a blank page?", "Save?",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 SaveArticle();
             else
@@ -1190,7 +1190,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex); 
+                ErrorHandler.Handle(ex);
                 return;
             }
         }
@@ -1236,11 +1236,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             {
                 btntsShowHideParameters.Image = Res.btnshowhideparameters2_image;
 
-                oldPosition = tabControl2.Location;;
+                oldPosition = tabControl2.Location; ;
                 tabControl2.Location = new Point(groupBox2.Location.X, groupBox2.Location.Y - 5);
 
                 oldSize = tabControl2.Size;
-                tabControl2.Size = new Size((tabControl2.Size.Width + tabControl1.Size.Width + groupBox2.Size.Width + 8), tabControl2.Size.Height); 
+                tabControl2.Size = new Size((tabControl2.Size.Width + tabControl1.Size.Width + groupBox2.Size.Width + 8), tabControl2.Size.Height);
             }
             else
             {
@@ -1251,7 +1251,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
             groupBox2.Visible = tabControl1.Visible = !groupBox2.Visible;
         }
-        
+
         private void UpdateUserName(object sender, EventArgs e)
         {
             lblUserName.Text = Variables.User.Name;
@@ -1420,13 +1420,13 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private void SetBotModeEnabled(bool enabled)
         {
             label2.Enabled = chkSuppressTag.Enabled = chkQuickSave.Enabled = nudBotSpeed.Enabled
-            = lblAutoDelay.Enabled = btnResetNudges.Enabled = lblNudges.Enabled = chkNudge.Enabled 
+            = lblAutoDelay.Enabled = btnResetNudges.Enabled = lblNudges.Enabled = chkNudge.Enabled
             = chkNudgeSkip.Enabled = chkNudge.Checked = chkShutdown.Enabled = enabled;
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TimeSpan time = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, 
+            TimeSpan time = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute,
                 DateTime.Now.Second).Subtract(StartTime);
             new AboutBox(webBrowserEdit.Version.ToString(), time, NumberOfEdits).Show();
         }
@@ -1504,7 +1504,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
             // detect writing system
             if (Variables.RTL) RightToLeft = RightToLeft.Yes;
-                else RightToLeft = RightToLeft.No;
+            else RightToLeft = RightToLeft.No;
 
             lblStatusText.Text = label;
             UpdateButtons();
@@ -1719,7 +1719,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             tabControl2.SelectedTab = tpEdit;
             Find.Find1(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked, txtEdit, TheArticle.Name);
         }
-        
+
         private void toolStripTextBox2_Click(object sender, EventArgs e)
         {
             toolStripTextBox2.Text = "";
@@ -2233,7 +2233,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 }
                 if (e.KeyCode == Keys.F)
                 {
-                    Find.Find1(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked, 
+                    Find.Find1(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked,
                         txtEdit, TheArticle.Name);
                     e.SuppressKeyPress = true;
                     return;
@@ -2816,17 +2816,13 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             {
                 lblImageWith.Text = "";
 
-                txtImageReplace.Enabled = false;
-                txtImageWith.Enabled = false;
-                chkSkipNoImgChange.Enabled = false;
+                txtImageReplace.Enabled = txtImageWith.Enabled = chkSkipNoImgChange.Enabled = false;
             }
             else if (cmboImages.SelectedIndex == 1)
             {
                 lblImageWith.Text = "With Image:";
 
-                txtImageWith.Enabled = true;
-                txtImageReplace.Enabled = true;
-                chkSkipNoImgChange.Enabled = true;
+                txtImageWith.Enabled = txtImageReplace.Enabled = chkSkipNoImgChange.Enabled = true;
             }
             else if (cmboImages.SelectedIndex == 2)
             {
@@ -2840,9 +2836,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             {
                 lblImageWith.Text = "Comment:";
 
-                txtImageWith.Enabled = true;
-                txtImageReplace.Enabled = true;
-                chkSkipNoImgChange.Enabled = true;
+                txtImageWith.Enabled = txtImageReplace.Enabled = chkSkipNoImgChange.Enabled = true;
             }
         }
 
@@ -2958,8 +2952,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             regexTester = new RegexTester();
 
             if (txtEdit.SelectionLength > 0 && MessageBox.Show("Would you like to transfer the currently selected Article Text to the Regex Tester?", "Transfer Article Text?", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    regexTester.ArticleText = txtEdit.SelectedText;
-            
+                regexTester.ArticleText = txtEdit.SelectedText;
+
             regexTester.Show();
         }
 
@@ -3034,7 +3028,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
         }
 
-#region NotifyTray
+        #region NotifyTray
         private void showToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!this.Visible)
@@ -3071,7 +3065,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             showToolStripMenuItem.Enabled = !visible || this.WindowState == FormWindowState.Minimized;
             hideToolStripMenuItem.Enabled = visible;
         }
-#endregion
+        #endregion
 
         private void ToolStripHide()
         {
@@ -3281,9 +3275,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                     {
                         finalRegex = finalRegex + m.Groups[1].Value + "|";
                     }
-                    catch
-                    {
-                    }
+                    catch { }
                 }
             }
             catch (Exception ex)
@@ -3445,7 +3437,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                         shut.Dispose();
                         ShutdownTimer.Enabled = false;
                     }
-                    ShutdownComputer();
+                ShutdownComputer();
             }
         }
 
@@ -3465,14 +3457,14 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void ShutdownComputer()
         {
-                if (radHibernate.Checked)
-                    Application.SetSuspendState(PowerState.Hibernate, true, true);
-                else if (radRestart.Checked)
-                    System.Diagnostics.Process.Start("shutdown", "-r");
-                else if (radShutdown.Checked)
-                    System.Diagnostics.Process.Start("shutdown", "-s");
-                else if (radStandby.Checked)
-                    Application.SetSuspendState(PowerState.Suspend, true, true);
+            if (radHibernate.Checked)
+                Application.SetSuspendState(PowerState.Hibernate, true, true);
+            else if (radRestart.Checked)
+                System.Diagnostics.Process.Start("shutdown", "-r");
+            else if (radShutdown.Checked)
+                System.Diagnostics.Process.Start("shutdown", "-s");
+            else if (radStandby.Checked)
+                Application.SetSuspendState(PowerState.Suspend, true, true);
         }
 
         private void ShutdownTimer_Tick(object sender, EventArgs e)
@@ -3655,7 +3647,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
             get { return imgSup.Visible; }
         }
-#endregion
+        #endregion
 
         private void showHideEditToolbarToolStripMenuItem_Click(object sender, EventArgs e)
         {
