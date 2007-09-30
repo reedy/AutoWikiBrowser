@@ -285,7 +285,7 @@ namespace WikiFunctions.AWBSettings
             bool mWatch, bool mTimerEnabled, bool mSortInterwikiOrder, bool mAddIgnoredToLog, int mTextBoxSize,
             string mTextBoxFont, bool mLowThreadPriority, bool mBeep, bool mFlash, bool mMinimize,
             decimal mTimeOutLimit, bool autoSaveEditBoxEnabled, decimal autoSaveEditBoxPeriod,
-            string autoSaveEditBoxFile, List<string> mCustomWikis, bool mLockSummary)
+            string autoSaveEditBoxFile, List<string> mCustomWikis, bool mLockSummary, bool mEditToolbarEnabled)
         {
             SaveArticleList = mSaveArticleList;
             IgnoreNoBots = mIgnoreNoBots;
@@ -319,6 +319,7 @@ namespace WikiFunctions.AWBSettings
                 autoSaveEditBoxFile);
             CustomWikis = mCustomWikis;
             LockSummary = mLockSummary;
+            EditToolbarEnabled = mEditToolbarEnabled;
         }
 
         public EditBoxAutoSavePrefs AutoSaveEdit;
@@ -342,6 +343,7 @@ namespace WikiFunctions.AWBSettings
         public bool TimerEnabled = false;
         public bool SortInterwikiOrder = true;
         public bool AddIgnoredToLog = false;
+        public bool EditToolbarEnabled = true;
 
         public int TextBoxSize = 10;
         public string TextBoxFont = "Courier New";
