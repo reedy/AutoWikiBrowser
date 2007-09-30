@@ -3634,29 +3634,33 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             imgSup.Enabled = enabled;
         }
 
-        private void SetToolBarVisible(bool visible)
+        private bool ToolBarVisible
         {
-            if (visible)
+            set
             {
-                txtEdit.Location = new Point(txtEdit.Location.X, txtEdit.Location.Y + 32);
-                txtEdit.Size = new Size(txtEdit.Size.Width, txtEdit.Size.Height - 32);
-            }
-            else
-            {
-                txtEdit.Location = new Point(txtEdit.Location.X, txtEdit.Location.Y - 32);
-                txtEdit.Size = new Size(txtEdit.Size.Width, txtEdit.Size.Height + 32);
-            }
+                if (value)
+                {
+                    txtEdit.Location = new Point(txtEdit.Location.X, txtEdit.Location.Y + 32);
+                    txtEdit.Size = new Size(txtEdit.Size.Width, txtEdit.Size.Height - 32);
+                }
+                else
+                {
+                    txtEdit.Location = new Point(txtEdit.Location.X, txtEdit.Location.Y - 32);
+                    txtEdit.Size = new Size(txtEdit.Size.Width, txtEdit.Size.Height + 32);
+                }
 
-            imgBold.Visible = imgExtlink.Visible = imgHr.Visible = imgItalics.Visible = imgLink.Visible =
-            imgMath.Visible = imgNowiki.Visible = imgRedirect.Visible = imgStrike.Visible = imgSub.Visible =
-            imgSup.Visible = visible;
+                imgBold.Visible = imgExtlink.Visible = imgHr.Visible = imgItalics.Visible = imgLink.Visible =
+                imgMath.Visible = imgNowiki.Visible = imgRedirect.Visible = imgStrike.Visible = imgSub.Visible =
+                imgSup.Visible = value;
+            }
+            get { return imgSup.Visible; }
         }
 #endregion
 
         private void showHideEditToolbarToolStripMenuItem_Click(object sender, EventArgs e)
         {
             showHideEditToolbarToolStripMenuItem.Checked = !showHideEditToolbarToolStripMenuItem.Checked;
-            SetToolBarVisible(showHideEditToolbarToolStripMenuItem.Checked);
+            ToolBarVisible = showHideEditToolbarToolStripMenuItem.Checked;
         }
 
         private void txtFind_MouseHover(object sender, EventArgs e)
