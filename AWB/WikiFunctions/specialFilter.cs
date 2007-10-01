@@ -37,12 +37,6 @@ namespace WikiFunctions.Lists
     {
         public ListBox2 lb;
 
-        public specialFilter(ListBox2 listbox)
-        {
-            InitializeComponent();
-            lb = listbox;
-            UpdateText();
-        }
         public specialFilter()
         {
             InitializeComponent();
