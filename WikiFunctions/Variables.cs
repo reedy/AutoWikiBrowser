@@ -1437,14 +1437,11 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
 
                     if (this.Name.Length > 0 && username.IsMatch(strText))
                     {
-                        if (username.IsMatch(strBotUsers))
-                        {//enable botmode
-                            IsBot = true;
-                        }
-                        if (username.IsMatch(strAdmins))
-                        {//enable admin features
-                            IsAdmin = true;
-                        }
+                        //enable botmode
+                        IsBot = username.IsMatch(strBotUsers);
+
+                        //enable admin features
+                        IsAdmin = username.IsMatch(strAdmins);
 
                         WikiStatus = true;
 
