@@ -540,8 +540,9 @@ namespace WikiFunctions.DatabaseScanner
 
         private void btnFilter_Click(object sender, EventArgs e)
         {
-            specialFilter sepcialFilter = new specialFilter(lbArticles);
-            sepcialFilter.ShowDialog();
+            specialFilter SpecialFilter = new specialFilter();
+            SpecialFilter.lb = lbArticles;
+            SpecialFilter.ShowDialog(this);
             lblCount.Text = lbArticles.Items.Count.ToString();
         }
 
