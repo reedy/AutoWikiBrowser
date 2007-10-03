@@ -92,6 +92,11 @@ namespace AutoWikiBrowser
 
         private void txtCustomProject_Leave(object sender, EventArgs e)
         {
+            FixCustomProject();
+        }
+
+        private void FixCustomProject()
+        {
             cmboCustomProject.Text = Regex.Replace(cmboCustomProject.Text, "^http://", "", RegexOptions.IgnoreCase);
             cmboCustomProject.Text = cmboCustomProject.Text.TrimEnd('/');
             cmboCustomProject.Text = cmboCustomProject.Text + "/";
@@ -125,8 +130,6 @@ namespace AutoWikiBrowser
         {
             btnApply.Enabled = (cmboCustomProject.Text != "");
         }
-
-
 
         #endregion
 
@@ -235,6 +238,11 @@ namespace AutoWikiBrowser
             saveFile.ShowDialog();
             if (saveFile.FileName != "")
                 txtAutosave.Text = saveFile.FileName;
+        }
+
+        private void btnApply_Click(object sender, EventArgs e)
+        {
+            if (cmboCustomProject.Visible) FixCustomProject();
         }
     }
 }

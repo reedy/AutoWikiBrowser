@@ -90,6 +90,7 @@ namespace AutoWikiBrowser
             this.btnApply.TabIndex = 1;
             this.btnApply.Text = "Apply";
             this.btnApply.UseVisualStyleBackColor = true;
+            this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
             // 
             // cmboProject
             // 
@@ -435,6 +436,7 @@ namespace AutoWikiBrowser
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numEditBoxAutosave)).EndInit();
             this.ResumeLayout(false);
+
         }
 
         #endregion
