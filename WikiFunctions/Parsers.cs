@@ -721,7 +721,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             ArticleText = ArticleText.Substring(0, intStart);
             HideText ht = new HideText(false, true, false);
             articleTextSubstring = ht.HideMore(articleTextSubstring);
-            articleTextSubstring = Regex.Replace(articleTextSubstring, "(\r\n)?(\r\n)(\\[?http)", "$2* $3");
+            articleTextSubstring = Regex.Replace(articleTextSubstring, "(\r\n|\n)?(\r\n|\n)(\\[?http)", "$2* $3");
             articleTextSubstring = ht.AddBackMore(articleTextSubstring);
             ArticleText += articleTextSubstring;
 
