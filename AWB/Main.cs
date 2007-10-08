@@ -2632,7 +2632,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
                 string s = Variables.RETFPath;
 
-                if (!s.StartsWith("http:")) s = Variables.URL + "/wiki/" + Tools.WikiEncode(s);
+                if (!s.StartsWith("http:")) s = Variables.URL + "/wiki/" + s;
 
                 string message = @"1. Check each edit before you make it. Although this has been built to be very accurate there is always the possibility of an error which requires your attention.
 
