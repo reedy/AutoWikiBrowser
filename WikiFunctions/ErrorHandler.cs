@@ -66,6 +66,11 @@ namespace WikiFunctions
                 MessageBox.Show(ex.Message, "Network access error", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+	    else if (ex.GetType().ToString().Equals("System.OutOfMemoryException"))
+            {
+                MessageBox.Show(ex.Message, "Out of Memory error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             else // suggest a bug report for other exceptions
             {
                 handler.txtError.Text = ex.Message;
