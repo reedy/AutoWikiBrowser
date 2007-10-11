@@ -52,11 +52,7 @@ namespace AutoWikiBrowser
 
         internal string LogFolder
         {
-            set
-            {
-                Settings.LogFolder = value;
-                FolderTextBox.Text = value;
-            }
+            set { Settings.LogFolder = FolderTextBox.Text = value; }
         }
         internal bool Initialised
         {

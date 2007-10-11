@@ -10,8 +10,7 @@ namespace AutoWikiBrowser
     internal sealed class ArticleEX : WikiFunctions.Article
     {
         public override IAWBTraceListener Trace
-        { get { return GlobalObjects.MyTrace; }
-        }
+        { get { return GlobalObjects.MyTrace; } }
 
         public override AWBLogListener InitialiseLogListener()
         {

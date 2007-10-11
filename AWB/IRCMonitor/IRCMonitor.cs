@@ -211,8 +211,7 @@ namespace IrcMonitor
 
         private void UpdateUpdater()
         {
-            Updater updater = new Updater();
-            updater.Update();
+            Updater.Update();
         }
 
         private void LoadIrcChannels()

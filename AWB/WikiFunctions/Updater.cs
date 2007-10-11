@@ -1,5 +1,5 @@
 /*
-
+Copyright (C) 2007 Sam Reed
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or
@@ -25,13 +25,13 @@ using System.Diagnostics;
 
 namespace WikiFunctions
 {
-    public class Updater
+    public static class Updater
     {
         /// <summary>
         /// Checks to see if AWBUpdater.exe.new exists, if it does, replace it.
         /// If not, see if the version of AWB Updater is older than the version on the checkpage, and run AWBUpdater if so
         /// </summary>
-        public void Update()
+        public static void Update()
         {
             try
             {
