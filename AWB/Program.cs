@@ -71,7 +71,6 @@ namespace AutoWikiBrowser
             Application.Run(awb);
         }
 
-      
         internal static System.Version Version { get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; } }
         internal static string VersionString { get { return Version.ToString(); } }
     }

@@ -51,28 +51,28 @@ namespace WikiFunctions
         /// <param name="ex">Exception object to handle</param>
         new public static void Handle(Exception ex)
         {
-            ErrorHandler handler = new ErrorHandler();
-
             // handle invalid regexes
-            if (ex.GetType().ToString().Equals("System.ArgumentException") 
+            if (ex.GetType().ToString().Equals("System.ArgumentException")
                 && ex.StackTrace.Contains("System.Text.RegularExpressions"))
             {
-                MessageBox.Show(ex.Message, "Invalid regular expression", 
+                MessageBox.Show(ex.Message, "Invalid regular expression",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             // handle network access errors
-            else if (ex.GetType().ToString().Equals("System.Net.WebException")) 
+            else if (ex.GetType().ToString().Equals("System.Net.WebException"))
             {
-                MessageBox.Show(ex.Message, "Network access error", 
+                MessageBox.Show(ex.Message, "Network access error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-	    else if (ex.GetType().ToString().Equals("System.OutOfMemoryException"))
+            else if (ex.GetType().ToString().Equals("System.OutOfMemoryException"))
             {
                 MessageBox.Show(ex.Message, "Out of Memory error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else // suggest a bug report for other exceptions
             {
+                ErrorHandler handler = new ErrorHandler();
+
                 handler.txtError.Text = ex.Message;
 
                 handler.txtDetails.Text = "{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = <table><tr><td>Exception:<td><code>" + ex.GetType().Name + "</code><tr><td>Message:<td><code>" +
@@ -92,14 +92,6 @@ namespace WikiFunctions
                 handler.txtDetails.Text += "\r\n}}";
 
                 handler.textBox1.Text = "AWB encountered " + ex.GetType().Name;
-
-                /*
-                foreach (StackFrame frame in ex.StackTrace.)
-                {
-                    string s = "\r\n    " + frame.GetMethod();
-                    if (frame.GetFileLineNumber() > 0) s += "(line " + frame.GetFileLineNumber() + ")";
-                    Handler.txtDetails.Text += s;
-                }*/
 
                 handler.ShowDialog();
             }
