@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 Copyright (C) 2007 Martin Richards
 
@@ -94,14 +94,14 @@ namespace WikiFunctions.Parse
                 rep.Find = f;
                 rep.Replace = r;
 
-                rep.RegularExpressinonOptions = RegexOptions.None;
+                rep.RegularExpressionOptions = RegexOptions.None;
                 if (!(bool)dataGridRow.Cells["casesensitive"].FormattedValue)
-                    rep.RegularExpressinonOptions = rep.RegularExpressinonOptions | RegexOptions.IgnoreCase;
+                    rep.RegularExpressionOptions = rep.RegularExpressionOptions | RegexOptions.IgnoreCase;
                 if ((bool)dataGridRow.Cells["multi"].FormattedValue)
-                    rep.RegularExpressinonOptions = rep.RegularExpressinonOptions | RegexOptions.Multiline;
+                    rep.RegularExpressionOptions = rep.RegularExpressionOptions | RegexOptions.Multiline;
 
                 if ((bool)dataGridRow.Cells["single"].FormattedValue)
-                    rep.RegularExpressinonOptions = rep.RegularExpressinonOptions | RegexOptions.Singleline;
+                    rep.RegularExpressionOptions = rep.RegularExpressionOptions | RegexOptions.Singleline;
 
                 ReplacementList.Add(rep);
             }
@@ -129,7 +129,7 @@ namespace WikiFunctions.Parse
                 if (!rep.Enabled)
                     continue;
 
-                ArticleText = PerformFindAndReplace(rep.Find, rep.Replace, ArticleText, strTitle, rep.RegularExpressinonOptions);
+                ArticleText = PerformFindAndReplace(rep.Find, rep.Replace, ArticleText, strTitle, rep.RegularExpressionOptions);
             }
 
             if (chkIgnoreMore.Checked)
@@ -161,7 +161,7 @@ namespace WikiFunctions.Parse
 
                 if (Matches[0].Value != Matches[0].Result(Replace))
                 {
-                    summary = Matches[0].Value + " → " + Matches[0].Result(Replace);
+                    summary = Matches[0].Value + " . " + Matches[0].Result(Replace);
 
                     if (Matches.Count > 1)
                         summary += " (" + Matches.Count.ToString() + ")";
@@ -227,9 +227,9 @@ namespace WikiFunctions.Parse
 
         public void AddNew(Replacement R)
         {
-            bool caseSens = !R.RegularExpressinonOptions.ToString().Contains("IgnoreCase");
-            bool multiine = R.RegularExpressinonOptions.ToString().Contains("Multiline");
-            bool singleLine = R.RegularExpressinonOptions.ToString().Contains("Singleline");
+            bool caseSens = !R.RegularExpressionOptions.ToString().Contains("IgnoreCase");
+            bool multiine = R.RegularExpressionOptions.ToString().Contains("Multiline");
+            bool singleLine = R.RegularExpressionOptions.ToString().Contains("Singleline");
 
             if(!R.IsRegex)
                 dataGridView1.Rows.Add(Regex.Unescape(Decode(R.Find)), Decode(R.Replace), caseSens, R.IsRegex, multiine, singleLine, R.Enabled);
@@ -441,7 +441,7 @@ namespace WikiFunctions.Parse
             this.Replace = Replace;
             this.IsRegex = IsRegex;
             this.Enabled = Enabled;
-            this.RegularExpressinonOptions = RegularExpressinonOptions;
+            this.RegularExpressionOptions = RegularExpressinonOptions;
         }
 
         public string Find;
@@ -450,6 +450,6 @@ namespace WikiFunctions.Parse
         public bool IsRegex;
         public bool Enabled;
 
-        public RegexOptions RegularExpressinonOptions;
+        public RegexOptions RegularExpressionOptions;
     }
 }
