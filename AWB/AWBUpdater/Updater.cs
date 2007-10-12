@@ -214,10 +214,10 @@ namespace AwbUpdater
         {
             System.Net.WebClient client = new System.Net.WebClient();
 
-            if (!NotNullOrEmpty(UpdaterWebAddress))
+            if (NotNullOrEmpty(AWBWebAddress))
                 client.DownloadFile(AWBWebAddress, tempDirectory + AWBZipName);
 
-            if (!NotNullOrEmpty(UpdaterWebAddress))
+            if (NotNullOrEmpty(UpdaterWebAddress))
                 client.DownloadFile(UpdaterWebAddress, tempDirectory + UpdaterZipName);
 
             client.Dispose();
@@ -231,31 +231,35 @@ namespace AwbUpdater
 
             if (AWBZipName != "" && File.Exists(tempDirectory + AWBZipName))
             {
-                using (ZipFile zf = new ZipFile(tempDirectory + AWBZipName))
+                try
                 {
-                    foreach (ZipEntry entry in zf)
+                    using (ZipFile zf = new ZipFile(tempDirectory + AWBZipName))
                     {
-                        if (entry.IsFile)
-                            ExtractFile(zf.GetInputStream(entry), entry, tempDirectory);
+                        foreach (ZipEntry entry in zf)
+                        {
+                            if (entry.IsFile)
+                                ExtractFile(zf.GetInputStream(entry), entry, tempDirectory);
+                        }
                     }
                 }
+                catch { badUpdate = true; }
             }
-            else
-                badUpdate = true;
 
             if (UpdaterZipName != "" && File.Exists(tempDirectory + UpdaterZipName))
             {
-                using (ZipFile zf = new ZipFile(tempDirectory + UpdaterZipName))
+                try
                 {
-                    foreach (ZipEntry entry in zf)
+                    using (ZipFile zf = new ZipFile(tempDirectory + UpdaterZipName))
                     {
-                        if (entry.IsFile)
-                            ExtractFile(zf.GetInputStream(entry), entry, tempDirectory);
+                        foreach (ZipEntry entry in zf)
+                        {
+                            if (entry.IsFile)
+                                ExtractFile(zf.GetInputStream(entry), entry, tempDirectory);
+                        }
                     }
                 }
+                catch { badUpdate = true; }
             }
-            else
-                badUpdate = true;
 
             if (badUpdate)
             {
@@ -288,7 +292,6 @@ AWBUpdater will now close!");
             // Could be an option or parameter to allow failure or try creation
             if (!Directory.Exists(fullPath))
                 Directory.CreateDirectory(fullPath);
-
 
             if (entryFileName.Length > 0)
             {
