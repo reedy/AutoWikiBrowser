@@ -435,13 +435,13 @@ namespace WikiFunctions.Parse
 
     public struct Replacement
     {
-        public Replacement(string Find, string Replace, bool IsRegex, bool Enabled, RegexOptions RegularExpressinonOptions)
+        public Replacement(string Find, string Replace, bool IsRegex, bool Enabled, RegexOptions RegularExpressionOptions)
         {
             this.Find = Find;
             this.Replace = Replace;
             this.IsRegex = IsRegex;
             this.Enabled = Enabled;
-            this.RegularExpressionOptions = RegularExpressinonOptions;
+            this.RegularExpressionOptions = RegularExpressionOptions;
         }
 
         public string Find;
