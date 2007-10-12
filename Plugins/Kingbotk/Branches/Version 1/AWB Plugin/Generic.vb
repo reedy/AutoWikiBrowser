@@ -345,6 +345,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             AddHandler OurSettingsControl.AlternateNamesCheckBox.CheckedChanged, AddressOf Me.TemplateNamesChanged
             AddHandler OurSettingsControl.AlternateNamesTextBox.TextChanged, AddressOf Me.TemplateNamesChanged
             AddHandler OurSettingsControl.PropertiesButton.Click, AddressOf Me.PropertiesButtonClick
+            AddHandler OurSettingsControl.ExtraParametersButton.Click, AddressOf Me.ExtraParametersButtonClick
         End Sub
         Protected Friend Overrides Sub Initialise()
             OurMenuItem = New ToolStripMenuItem(PluginShortName)
@@ -527,6 +528,27 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 End If
             End With
         End Sub
+        Structure ExtraParms
+            Dim Parameter As String
+            Dim Value, Enabled As Boolean
+        End Structure
+        Private Sub ExtraParametersButtonClick(ByVal sender As System.Object, ByVal e As System.EventArgs)
+            Dim frm As New GenericExtraParametersForm
+
+            frm.ShowDialog()
+
+            Dim listExtraParms As New List(Of ExtraParms)
+
+            For Each row As DataGridViewRow In frm.dgvParameters.Rows
+                Dim extra As New ExtraParms
+                extra.Parameter = row.Cells("colParameter").Value.ToString()
+                extra.Value = Boolean.Parse(row.Cells("colValue").FormattedValue.ToString())
+                extra.Enabled = Boolean.Parse(row.Cells("colEnabled").FormattedValue.ToString())
+                listExtraParms.Add(extra)
+            Next
+
+            frm = Nothing
+        End Sub
         Private Sub PropertiesButtonClick(ByVal sender As Object, ByVal e As EventArgs)
             Dim frm As New GenericTemplatePropertiesForm
 
@@ -644,6 +666,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 RemoveHandler OurSettingsControl.AlternateNamesCheckBox.CheckedChanged, AddressOf Me.TemplateNamesChanged
                 RemoveHandler OurSettingsControl.AlternateNamesTextBox.TextChanged, AddressOf Me.TemplateNamesChanged
                 RemoveHandler OurSettingsControl.PropertiesButton.Click, AddressOf Me.PropertiesButtonClick
+                RemoveHandler OurSettingsControl.ExtraParametersButton.Click, AddressOf Me.ExtraParametersButtonClick
                 ShowHideOurObjects(False)
                 OurSettingsControl.Goodbye()
                 OurSettingsControl.Dispose()

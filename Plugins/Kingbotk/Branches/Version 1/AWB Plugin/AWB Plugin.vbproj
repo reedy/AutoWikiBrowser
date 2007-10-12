@@ -101,6 +101,12 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="DryRunLog.vb" />
+    <Compile Include="GenericExtraParameters.Designer.vb">
+      <DependentUpon>GenericExtraParameters.vb</DependentUpon>
+    </Compile>
+    <Compile Include="GenericExtraParameters.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="WPNovels.Designer.vb">
       <DependentUpon>WPNovels.vb</DependentUpon>
     </Compile>
@@ -201,6 +207,10 @@
     <EmbeddedResource Include="Australia.resx">
       <SubType>Designer</SubType>
       <DependentUpon>Australia.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GenericExtraParameters.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>GenericExtraParameters.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WPNovels.resx">
       <DependentUpon>WPNovels.vb</DependentUpon>
