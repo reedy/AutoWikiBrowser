@@ -212,7 +212,7 @@ namespace WikiFunctions
         /// <summary>
         /// matches <ref> tags
         /// </summary>
-        public static readonly Regex Refs = new Regex(@"(<ref[^>]*?>[^<]*<\s*/ref\s*>|<ref name\s*=\s*\"".*?\""/>)", RegexOptions.Compiled | RegexOptions.Singleline);
+        public static readonly Regex Refs = new Regex(@"(<ref[^>]*?>[^<]*<\s*/ref\s*>|<ref name\s*=\s*.*?/>)", RegexOptions.Compiled | RegexOptions.Singleline);
 
         /// <summary>
         /// matches <cite> tags
