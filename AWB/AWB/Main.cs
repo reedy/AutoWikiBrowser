@@ -889,6 +889,7 @@ namespace AutoWikiBrowser
                 }
                 prof.Profile("Plugins");
 
+                // unicodify whole article
                 if (chkUnicodifyWhole.Checked && process)
                 {
                     theArticle.HideMoreText(RemoveText);
@@ -901,26 +902,7 @@ namespace AutoWikiBrowser
                     prof.Profile("UnHideMoreText");
                 }
 
-                if (cmboImages.SelectedIndex != 0)
-                {
-                    theArticle.UpdateImages((WikiFunctions.Options.ImageReplaceOptions)cmboImages.SelectedIndex,
-                        parsers, txtImageReplace.Text, txtImageWith.Text, chkSkipNoImgChange.Checked);
-                    if (theArticle.SkipArticle) return;
-                }
-
-                prof.Profile("Images");
-
-                if (cmboCategorise.SelectedIndex != 0)
-                {
-                    theArticle.Categorisation((WikiFunctions.Options.CategorisationOptions)
-                        cmboCategorise.SelectedIndex, parsers, chkSkipNoCatChange.Checked, txtNewCategory.Text.Trim(),
-                        txtNewCategory2.Text.Trim());
-                    if (theArticle.SkipArticle) return;
-                    else if (!chkGeneralFixes.Checked) theArticle.AWBChangeArticleText("Fix categories", parsers.FixCategories(theArticle.ArticleText), true);
-                }
-
-                prof.Profile("Categories");
-
+                // find and replace before general fixes
                 if (chkFindandReplace.Checked && !findAndReplace.AfterOtherFixes)
                 {
                     theArticle.PerformFindAndReplace(findAndReplace, substTemplates, replaceSpecial,
@@ -930,6 +912,7 @@ namespace AutoWikiBrowser
 
                 prof.Profile("F&R");
 
+                // RegexTypoFix
                 if (chkRegExTypo.Checked && RegexTypos != null && !BotMode && !Tools.IsTalkPage(theArticle.NameSpaceKey))
                 {
                     theArticle.PerformTypoFixes(RegexTypos, chkSkipIfNoRegexTypo.Checked);
@@ -939,6 +922,7 @@ namespace AutoWikiBrowser
 
                 if (theArticle.CanDoGeneralFixes)
                 {
+                    // auto tag
                     if (process && chkAutoTagger.Checked)
                     {
                         theArticle.AutoTag(parsers, Skip.SkipNoTag);
@@ -1019,6 +1003,7 @@ namespace AutoWikiBrowser
                     prof.Profile("UnHideText");
                 }
 
+                // find and replace after general fixes
                 if (chkFindandReplace.Checked && findAndReplace.AfterOtherFixes)
                 {
                     theArticle.PerformFindAndReplace(findAndReplace, substTemplates, replaceSpecial,
@@ -1029,6 +1014,7 @@ namespace AutoWikiBrowser
                     if (theArticle.SkipArticle) return;
                 }
 
+                // append/prepend text
                 if (chkAppend.Checked)
                 {
                     // customized number of newlines
@@ -1044,6 +1030,29 @@ namespace AutoWikiBrowser
                             txtAppendMessage.Text + newlines + theArticle.ArticleText, false);
                 }
 
+                // replace/remove/comment out images
+                if (cmboImages.SelectedIndex != 0)
+                {
+                    theArticle.UpdateImages((WikiFunctions.Options.ImageReplaceOptions)cmboImages.SelectedIndex,
+                        parsers, txtImageReplace.Text, txtImageWith.Text, chkSkipNoImgChange.Checked);
+                    if (theArticle.SkipArticle) return;
+                }
+
+                prof.Profile("Images");
+
+                // replace/add/remove categories
+                if (cmboCategorise.SelectedIndex != 0)
+                {
+                    theArticle.Categorisation((WikiFunctions.Options.CategorisationOptions)
+                        cmboCategorise.SelectedIndex, parsers, chkSkipNoCatChange.Checked, txtNewCategory.Text.Trim(),
+                        txtNewCategory2.Text.Trim());
+                    if (theArticle.SkipArticle) return;
+                    else if (!chkGeneralFixes.Checked) theArticle.AWBChangeArticleText("Fix categories", parsers.FixCategories(theArticle.ArticleText), true);
+                }
+
+                prof.Profile("Categories");
+
+                // disambiguation
                 if (chkEnableDab.Checked && txtDabLink.Text.Trim() != "" &&
                     txtDabVariants.Text.Trim() != "")
                 {
