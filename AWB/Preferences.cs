@@ -31,7 +31,10 @@ namespace AutoWikiBrowser
 {
     internal sealed partial class MyPreferences : Form
     {
-        public MyPreferences(LangCodeEnum lang, ProjectEnum proj, string customproj, Font textFont, bool lowPriority, bool flash, bool beep, bool minimize, bool saveArticleList, decimal timeOut, bool autoSaveEditBox, string autoSaveEditBoxFile, decimal autoSaveEditBoxPeriod)
+        public MyPreferences(LangCodeEnum lang, ProjectEnum proj, string customproj,
+            Font textFont, bool lowPriority, bool flash, bool beep, bool minimize,
+            bool saveArticleList, decimal timeOut, bool autoSaveEditBox,
+            string autoSaveEditBoxFile, decimal autoSaveEditBoxPeriod, bool suppressUsingAWB)
         {
             InitializeComponent();
 
@@ -58,6 +61,9 @@ namespace AutoWikiBrowser
             PerfAutoSaveEditBoxFile = autoSaveEditBoxFile;
             PerfAutoSaveEditBoxPeriod = autoSaveEditBoxPeriod;
 
+            chkSupressAWB.Enabled = (cmboProject.Text == "custom" || cmboProject.Text == "wikia");
+            chkSupressAWB.Checked = suppressUsingAWB;
+
             cmboProject_SelectedIndexChanged(null, null);
         }
 
@@ -74,11 +80,7 @@ namespace AutoWikiBrowser
         }
         public ProjectEnum Project
         {
-            get
-            {
-                ProjectEnum p = (ProjectEnum)Enum.Parse(typeof(ProjectEnum), cmboProject.SelectedItem.ToString());
-                return p;
-            }
+            get { return (ProjectEnum)Enum.Parse(typeof(ProjectEnum), cmboProject.SelectedItem.ToString()); }
         }
         public string CustomProject
         {
@@ -124,6 +126,8 @@ namespace AutoWikiBrowser
                 lblLang.Text = "Language:";
                 btnApply.Enabled = true;
             }
+
+            chkSupressAWB.Enabled = (prj == ProjectEnum.custom || prj == ProjectEnum.wikia);
         }
 
         private void cmboCustomProjectChanged(object sender, EventArgs e)
@@ -149,15 +153,16 @@ namespace AutoWikiBrowser
                 TextBoxFont = fontDialog.Font;
         }
 
+        public bool PerfSupressUsingAWB
+        {
+            get { return chkSupressAWB.Checked; }
+            set { chkSupressAWB.Checked = value; }
+        }
+
         public bool LowThreadPriority
         {
             get { return chkLowPriority.Checked; }
             set { chkLowPriority.Checked = value; }
-        }
-
-        public bool FlashAndBeep
-        {
-            set { chkFlash.Checked = value; chkBeep.Checked = value; }
         }
 
         public bool PerfFlash

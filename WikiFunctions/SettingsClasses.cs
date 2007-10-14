@@ -285,7 +285,7 @@ namespace WikiFunctions.AWBSettings
             bool mWatch, bool mTimerEnabled, bool mSortInterwikiOrder, bool mAddIgnoredToLog, int mTextBoxSize,
             string mTextBoxFont, bool mLowThreadPriority, bool mBeep, bool mFlash, bool mMinimize,
             decimal mTimeOutLimit, bool autoSaveEditBoxEnabled, decimal autoSaveEditBoxPeriod,
-            string autoSaveEditBoxFile, List<string> mCustomWikis, bool mLockSummary, bool mEditToolbarEnabled)
+            string autoSaveEditBoxFile, List<string> mCustomWikis, bool mLockSummary, bool mEditToolbarEnabled, bool mSupressUsingAWB)
         {
             SaveArticleList = mSaveArticleList;
             IgnoreNoBots = mIgnoreNoBots;
@@ -320,6 +320,7 @@ namespace WikiFunctions.AWBSettings
             CustomWikis = mCustomWikis;
             LockSummary = mLockSummary;
             EditToolbarEnabled = mEditToolbarEnabled;
+            SupressUsingAWB = mSupressUsingAWB;
         }
 
         public EditBoxAutoSavePrefs AutoSaveEdit;
@@ -353,6 +354,7 @@ namespace WikiFunctions.AWBSettings
         public bool Minimize = false;
         public bool LockSummary = false;
         public bool SaveArticleList = false;
+        public bool SupressUsingAWB = false;
         public decimal TimeOutLimit = 30;
         public bool IgnoreNoBots = false;
 

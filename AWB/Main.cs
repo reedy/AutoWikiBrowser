@@ -347,6 +347,13 @@ namespace AutoWikiBrowser
             set { sAutoSaveEditFile = value; }
         }
 
+        bool bSupressUsingAWB = false;
+        private bool SupressUsingAWB
+        {
+            get { return bSupressUsingAWB; }
+            set { bSupressUsingAWB = value; }
+        }
+
         decimal dAutoSaveEditPeriod = 60;
         private decimal AutoSaveEditBoxPeriod
         {
@@ -1338,7 +1345,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private string MakeSummary()
         {
             string tag = cmboEditSummary.Text + TheArticle.SavedSummary;
-            if (!BotMode || !chkSuppressTag.Checked) tag += " " + Variables.SummaryTag;
+            if (!BotMode || !chkSuppressTag.Checked || !SupressUsingAWB) tag += " " + Variables.SummaryTag;
 
             return tag;
         }
@@ -1795,7 +1802,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void PreferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MyPreferences myPrefs = new MyPreferences(Variables.LangCode, Variables.Project, Variables.CustomProject, txtEdit.Font, LowThreadPriority, Flash, Beep, Minimize, SaveArticleList, TimeOut, AutoSaveEditBoxEnabled, AutoSaveEditBoxFile, AutoSaveEditBoxPeriod);
+            MyPreferences myPrefs = new MyPreferences(Variables.LangCode, Variables.Project, 
+                Variables.CustomProject, txtEdit.Font, LowThreadPriority, Flash, Beep, 
+                Minimize, SaveArticleList, TimeOut, AutoSaveEditBoxEnabled, AutoSaveEditBoxFile, 
+                AutoSaveEditBoxPeriod, SupressUsingAWB);
 
             if (myPrefs.ShowDialog(this) == DialogResult.OK)
             {
@@ -1810,6 +1820,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 AutoSaveEditBoxPeriod = myPrefs.PerfAutoSaveEditBoxPeriod;
                 AutoSaveEditBoxFile = myPrefs.PerfAutoSaveEditBoxFile;
                 CustomWikis = myPrefs.PerfCustomWikis;
+                SupressUsingAWB = myPrefs.PerfSupressUsingAWB;
 
                 if (myPrefs.Language != Variables.LangCode || myPrefs.Project != Variables.Project || myPrefs.CustomProject != Variables.CustomProject)
                 {
