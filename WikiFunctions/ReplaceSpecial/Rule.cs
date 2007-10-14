@@ -110,7 +110,7 @@ namespace WikiFunctions.MWB
 
         public override string Apply(TreeNode tn, string text, string title)
         {
-            if (text == null || text == "")
+            if (string.IsNullOrEmpty(text))
                 return text;
 
             if (!enabled_)
@@ -288,7 +288,7 @@ namespace WikiFunctions.MWB
             Rule r = (Rule)tn.Tag;
 
             //if (r.replace_ != null && r.with_ != null && r.replace_ != "" && r.with_ != "")
-            if (r.replace_ != null && r.replace_ != "")
+            if (!string.IsNullOrEmpty(r.replace_))
             {
                 string replace = Tools.ApplyKeyWords(title, r.replace_);
 

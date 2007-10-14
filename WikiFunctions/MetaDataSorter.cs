@@ -173,7 +173,7 @@ namespace WikiFunctions.Parse
 
                 foreach (string s in temp)
                 {
-                    if (s.Trim() != "")
+                    if (s.Trim().Length > 0)
                         InterwikiAlphaEnFirst[no] = s;
                     no++;
                 }
@@ -188,7 +188,7 @@ namespace WikiFunctions.Parse
 
         private string Newline(string s)
         {
-            return s == "" ? s : "\r\n" + s;
+            return s.Length == 0 ? s : "\r\n" + s;
         }
                                
         internal string Sort(string ArticleText, string ArticleTitle)

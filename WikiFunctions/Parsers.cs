@@ -569,7 +569,7 @@ namespace WikiFunctions.Parse
                     a = m.Groups[1].Value;
                     b = m.Groups[2].Value;
 
-                    if (b.Trim() == "") continue;
+                    if (b.Trim().Length == 0) continue;
 
                     if (a == b || Tools.TurnFirstToLower(a) == b)
                     {
@@ -618,7 +618,7 @@ a='" + a + "',  b='" + b + "'", "SimplifyLinks error");
                     a = m.Groups[1].Value;
                     b = m.Groups[2].Value;
 
-                    if (b.Trim() == "" || a.Contains(",")) continue;
+                    if (b.Trim().Length == 0 || a.Contains(",")) continue;
 
                     if (Tools.TurnFirstToLower(a).StartsWith(Tools.TurnFirstToLower(b), StringComparison.Ordinal))
                     {
@@ -650,7 +650,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns></returns>
         public string FixMainArticle(string ArticleText)
         {
-            if (regexMainArticle.Match(ArticleText).Groups[2].Value == "")
+            if (regexMainArticle.Match(ArticleText).Groups[2].Value.Length == 0)
                 return regexMainArticle.Replace(ArticleText, "{{main|$1}}");
             else
                 return regexMainArticle.Replace(ArticleText, "{{main|$1|l1=$3}}");
