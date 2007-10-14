@@ -173,6 +173,8 @@ namespace AutoWikiBrowser
             AutoSaveEditBoxEnabled = false;
             AutoSaveEditBoxFile = "Edit Box.txt";
             AutoSaveEditBoxPeriod = 60;
+
+            SupressUsingAWB = false;
                         
             chkEnableDab.Checked = false;
             txtDabLink.Text = "";
@@ -326,7 +328,7 @@ namespace AutoWikiBrowser
                 showTimerToolStripMenuItem.Checked, sortAlphabeticallyToolStripMenuItem.Checked,
                 addIgnoredToLogFileToolStripMenuItem.Checked, (int)txtEdit.Font.Size, txtEdit.Font.Name,
                 LowThreadPriority, Beep, Flash, Minimize, TimeOut, AutoSaveEditBoxEnabled, AutoSaveEditBoxPeriod, 
-                AutoSaveEditBoxFile, CustomWikis, chkLock.Checked, ToolBarVisible), new DabPrefs(chkEnableDab.Checked,
+                AutoSaveEditBoxFile, CustomWikis, chkLock.Checked, ToolBarVisible, SupressUsingAWB), new DabPrefs(chkEnableDab.Checked,
                 txtDabLink.Text, txtDabVariants.Lines, (int)udContextChars.Value), new ModulePrefs(
                 cModule.ModuleEnabled, cModule.Language, cModule.Code), loggingSettings1.SerialisableSettings, 
                 Plugin.Items);
@@ -449,6 +451,8 @@ namespace AutoWikiBrowser
             AutoSaveEditBoxEnabled = p.General.AutoSaveEdit.Enabled;
             AutoSaveEditBoxPeriod = p.General.AutoSaveEdit.SavePeriod;
             AutoSaveEditBoxFile = p.General.AutoSaveEdit.SaveFile;
+
+            SupressUsingAWB = p.General.SupressUsingAWB;
 
             CustomWikis = p.General.CustomWikis;
 

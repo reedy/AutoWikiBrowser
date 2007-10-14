@@ -45,6 +45,7 @@ namespace AutoWikiBrowser
             this.cmboCustomProject = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.chkSupressAWB = new System.Windows.Forms.CheckBox();
             this.label7 = new System.Windows.Forms.Label();
             this.numTimeOutLimit = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
@@ -200,6 +201,7 @@ namespace AutoWikiBrowser
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.chkSupressAWB);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.numTimeOutLimit);
             this.groupBox2.Controls.Add(this.label1);
@@ -215,6 +217,17 @@ namespace AutoWikiBrowser
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Other";
+            // 
+            // chkSupressAWB
+            // 
+            this.chkSupressAWB.AutoSize = true;
+            this.chkSupressAWB.Enabled = false;
+            this.chkSupressAWB.Location = new System.Drawing.Point(124, 23);
+            this.chkSupressAWB.Name = "chkSupressAWB";
+            this.chkSupressAWB.Size = new System.Drawing.Size(132, 17);
+            this.chkSupressAWB.TabIndex = 23;
+            this.chkSupressAWB.Text = "Supress \"Using AWB\"";
+            this.chkSupressAWB.UseVisualStyleBackColor = true;
             // 
             // label7
             // 
@@ -472,5 +485,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Button btnSetFile;
         private System.Windows.Forms.SaveFileDialog saveFile;
         private System.Windows.Forms.Label lblPostfix;
+        private System.Windows.Forms.CheckBox chkSupressAWB;
     }
 }
