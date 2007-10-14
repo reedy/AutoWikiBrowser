@@ -62,7 +62,10 @@ namespace AutoWikiBrowser
             PerfAutoSaveEditBoxPeriod = autoSaveEditBoxPeriod;
 
             chkSupressAWB.Enabled = (cmboProject.Text == "custom" || cmboProject.Text == "wikia");
-            chkSupressAWB.Checked = suppressUsingAWB;
+            if (chkSupressAWB.Enabled)
+                chkSupressAWB.Checked = suppressUsingAWB;
+            else
+                chkSupressAWB.Checked = false;
 
             cmboProject_SelectedIndexChanged(null, null);
         }
