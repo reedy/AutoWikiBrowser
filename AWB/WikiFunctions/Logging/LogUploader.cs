@@ -340,7 +340,7 @@ namespace WikiFunctions.Logging.Uploader
             {
                 if (awbLogListener != null)
                     AWBLogListenerUploadFailed(ex, sender, awbLogListener, AWB);
-                throw ex; // throw error and exit
+                throw; // throw error and exit
             }
 
             //HACK
@@ -479,7 +479,7 @@ namespace WikiFunctions.Logging.Uploader
             {
                 if (awbLogListener != null)
                     AWBLogListenerUploadFailed(ex, sender, awbLogListener, AWB);
-                throw ex;
+                throw;
             }
         }
 

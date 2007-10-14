@@ -95,7 +95,7 @@ namespace WikiFunctions.MWB
 
         public override string Apply(TreeNode tn, string text, string title)
         {
-            if (text == null || text == "")
+            if (string.IsNullOrEmpty(text))
                 return text;
 
             if (!enabled_)

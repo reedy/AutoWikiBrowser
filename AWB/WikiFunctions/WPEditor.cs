@@ -103,7 +103,7 @@ namespace WikiFunctions
                 if (ex.ToString().Contains("404"))
                     return "";
                 else
-                    throw ex;
+                    throw;
             }
         }
 
