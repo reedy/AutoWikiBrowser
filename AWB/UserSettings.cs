@@ -504,7 +504,7 @@ namespace AutoWikiBrowser
                     XmlSerializer xs = new XmlSerializer(typeof(UserPrefs), types.ToArray());
                     xs.Serialize(fStream, p);
                     UpdateRecentList(path);
-                    SettingsFile = " - " + path.Remove(0, path.LastIndexOf("\\") + 1);
+                    SettingsFile = path.Remove(0, path.LastIndexOf("\\") + 1);
                     UpdateSettingsFile();
                 }
                 
@@ -583,7 +583,7 @@ namespace AutoWikiBrowser
                     LoadPrefs(p);
                 }
 
-                SettingsFile = " - " + path.Remove(0, path.LastIndexOf("\\") + 1);
+                SettingsFile = path.Remove(0, path.LastIndexOf("\\") + 1);
                 UpdateSettingsFile();
                 lblStatusText.Text = "Settings successfully loaded";
                 UpdateRecentList(path);
@@ -596,7 +596,7 @@ namespace AutoWikiBrowser
 
         private void UpdateSettingsFile()
         {
-            this.Text = "AutoWikiBrowser " + SettingsFile;
+            this.Text = "AutoWikiBrowser - " + SettingsFile;
             UpdateNotifyIconTooltip();
         }
     }
