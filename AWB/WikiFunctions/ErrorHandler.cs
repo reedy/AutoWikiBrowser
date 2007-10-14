@@ -83,7 +83,7 @@ namespace WikiFunctions
                 {
                     string link;
                     if (CurrentRevision != 0 && LangCode != "" && Project != "")
-                        link = "[http://" + LangCode + "." + Project + ".org/w/index.php?title=" + CurrentArticle + "&oldid=" + CurrentRevision.ToString() + "]";
+                        link = "[http://" + LangCode + "." + Project + ".org/w/index.php?title=" + CurrentArticle.Replace(" ", "_") + "&oldid=" + CurrentRevision.ToString() + "]";
                     else link = "[[:" + CurrentArticle + "]]";
                     handler.txtDetails.Text +=
                         "\r\n | duplicate = [encountered while processing page ''" + link + "'']";
