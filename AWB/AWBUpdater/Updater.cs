@@ -49,6 +49,7 @@ namespace AwbUpdater
         bool noUpdates = false;
         bool updaterUpdate = false;
         bool awbUpdate = false;
+        bool badUpdate = false;
 
         public Updater()
         {
@@ -76,7 +77,7 @@ namespace AwbUpdater
                 Application.DoEvents();
                 AWBversion();
 
-                if (noUpdates && !NotNullOrEmpty(AWBWebAddress))
+                if (noUpdates && string.IsNullOrEmpty(AWBWebAddress))
                     ExitEarly();
                 else
                 {
@@ -101,7 +102,7 @@ namespace AwbUpdater
                     lblCurrentTask.Text = "Copying AWB Files from temp to AWB Directory";
                     Application.DoEvents();
                     CopyFiles();
-                    MessageBox.Show("AWB Update Successful", "Update Sucessful");
+                    MessageBox.Show("AWB Update Successful", "Update Successful");
 
                     lblCurrentTask.Text = "Starting AWB";
                     Application.DoEvents();
@@ -120,11 +121,6 @@ namespace AwbUpdater
             }
         }
 
-        private bool NotNullOrEmpty(string check)
-        {
-            return (check != "" && check != null);
-        }
-
         private void ExitEarly()
         {
             MessageBox.Show("Nothing to Update. The Updater will now close");
@@ -132,7 +128,7 @@ namespace AwbUpdater
             Application.Exit();
         }
 
-        public void AWBversion()
+        private void AWBversion()
         {
             string text = "";
 
@@ -214,10 +210,10 @@ namespace AwbUpdater
         {
             System.Net.WebClient client = new System.Net.WebClient();
 
-            if (NotNullOrEmpty(AWBWebAddress))
+            if (!string.IsNullOrEmpty(AWBWebAddress))
                 client.DownloadFile(AWBWebAddress, tempDirectory + AWBZipName);
 
-            if (NotNullOrEmpty(UpdaterWebAddress))
+            if (!string.IsNullOrEmpty(UpdaterWebAddress))
                 client.DownloadFile(UpdaterWebAddress, tempDirectory + UpdaterZipName);
 
             client.Dispose();
@@ -227,39 +223,11 @@ namespace AwbUpdater
 
         private void UnzipAwb()
         {
-            bool badUpdate = false;
+            if (!string.IsNullOrEmpty(AWBZipName) && File.Exists(tempDirectory + AWBZipName))
+                Extract(AWBZipName);
 
-            if (AWBZipName != "" && File.Exists(tempDirectory + AWBZipName))
-            {
-                try
-                {
-                    using (ZipFile zf = new ZipFile(tempDirectory + AWBZipName))
-                    {
-                        foreach (ZipEntry entry in zf)
-                        {
-                            if (entry.IsFile)
-                                ExtractFile(zf.GetInputStream(entry), entry, tempDirectory);
-                        }
-                    }
-                }
-                catch { badUpdate = true; }
-            }
-
-            if (UpdaterZipName != "" && File.Exists(tempDirectory + UpdaterZipName))
-            {
-                try
-                {
-                    using (ZipFile zf = new ZipFile(tempDirectory + UpdaterZipName))
-                    {
-                        foreach (ZipEntry entry in zf)
-                        {
-                            if (entry.IsFile)
-                                ExtractFile(zf.GetInputStream(entry), entry, tempDirectory);
-                        }
-                    }
-                }
-                catch { badUpdate = true; }
-            }
+            if (!string.IsNullOrEmpty(UpdaterZipName) && File.Exists(tempDirectory + UpdaterZipName))
+                Extract(UpdaterZipName);
 
             if (badUpdate)
             {
@@ -272,7 +240,23 @@ AWBUpdater will now close!");
             progressUpdate.Value = 70;
         }
 
-        private void ExtractFile(Stream inputStream, ZipEntry theEntry, string targetDir)
+        private void Extract(string File)
+        {
+            try
+            {
+                using (ZipFile zf = new ZipFile(tempDirectory + File))
+                {
+                    foreach (ZipEntry entry in zf)
+                    {
+                        if (entry.IsFile)
+                            ExtractFile(zf.GetInputStream(entry), entry, tempDirectory);
+                    }
+                }
+            }
+            catch { badUpdate = true; }
+        }
+
+        private static void ExtractFile(Stream inputStream, ZipEntry theEntry, string targetDir)
         {
             // try and sort out the correct place to save this entry
             string entryFileName;
@@ -304,7 +288,7 @@ AWBUpdater will now close!");
 
         private void CloseAwb()
         {
-            bool awbOpen = new bool();
+            bool awbOpen;
 
             do
             {

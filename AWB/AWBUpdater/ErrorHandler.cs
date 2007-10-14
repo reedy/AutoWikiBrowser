@@ -31,16 +31,19 @@ namespace AwbUpdater
         /// <param name="ex">Exception object to handle</param>
         new public static void Handle(Exception ex)
         {
-            ErrorHandler handler = new ErrorHandler();
+            if (ex != null)
+            {
+                ErrorHandler handler = new ErrorHandler();
 
-            handler.txtError.Text = ex.Message;
+                handler.txtError.Text = ex.Message;
 
-            handler.txtDetails.Text = "{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = Exception: " + ex.GetType().Name + "\r\nMessage: " +
-                ex.Message + "\r\nCall stack:" + ex.StackTrace + "\r\n~~~~\r\n | OS          = " + Environment.OSVersion.ToString() + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                handler.txtDetails.Text = "{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = Exception: " + ex.GetType().Name + "\r\nMessage: " +
+                    ex.Message + "\r\nCall stack:" + ex.StackTrace + "\r\n~~~~\r\n | OS          = " + Environment.OSVersion.ToString() + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-            handler.txtDetails.Text += "\r\n}}";
+                handler.txtDetails.Text += "\r\n}}";
 
-            handler.ShowDialog();
+                handler.ShowDialog();
+            }
         }
 
         private void btnCopy_Click(object sender, EventArgs e)
