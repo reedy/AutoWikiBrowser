@@ -51,49 +51,52 @@ namespace WikiFunctions
         /// <param name="ex">Exception object to handle</param>
         new public static void Handle(Exception ex)
         {
-            // handle invalid regexes
-            if (ex.GetType().ToString().Equals("System.ArgumentException")
-                && ex.StackTrace.Contains("System.Text.RegularExpressions"))
+            if (ex != null)
             {
-                MessageBox.Show(ex.Message, "Invalid regular expression",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            // handle network access errors
-            else if (ex.GetType().ToString().Equals("System.Net.WebException"))
-            {
-                MessageBox.Show(ex.Message, "Network access error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else if (ex.GetType().ToString().Equals("System.OutOfMemoryException"))
-            {
-                MessageBox.Show(ex.Message, "Out of Memory error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else // suggest a bug report for other exceptions
-            {
-                ErrorHandler handler = new ErrorHandler();
-
-                handler.txtError.Text = ex.Message;
-
-                handler.txtDetails.Text = "{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = <table><tr><td>Exception:<td><code>" + ex.GetType().Name + "</code><tr><td>Message:<td><code>" +
-                    ex.Message + "</code><tr><td>Call stack:<td><pre>" + ex.StackTrace + "</pre></table>\r\n~~~~\r\n | OS          = " + Environment.OSVersion.ToString() + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
-
-                if (!string.IsNullOrEmpty(CurrentArticle) &&
-                    ex.StackTrace.Contains("AutoWikiBrowser.MainForm.ProcessPage("))
+                // handle invalid regexes
+                if (ex.GetType().ToString().Equals("System.ArgumentException")
+                    && ex.StackTrace.Contains("System.Text.RegularExpressions"))
                 {
-                    string link;
-                    if (CurrentRevision != 0 && LangCode != "" && Project != "")
-                        link = "[http://" + LangCode + "." + Project + ".org/w/index.php?title=" + CurrentArticle.Replace(" ", "_") + "&oldid=" + CurrentRevision.ToString() + "]";
-                    else link = "[[:" + CurrentArticle + "]]";
-                    handler.txtDetails.Text +=
-                        "\r\n | duplicate = [encountered while processing page ''" + link + "'']";
+                    MessageBox.Show(ex.Message, "Invalid regular expression",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                // handle network access errors
+                else if (ex.GetType().ToString().Equals("System.Net.WebException"))
+                {
+                    MessageBox.Show(ex.Message, "Network access error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else if (ex.GetType().ToString().Equals("System.OutOfMemoryException"))
+                {
+                    MessageBox.Show(ex.Message, "Out of Memory error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else // suggest a bug report for other exceptions
+                {
+                    ErrorHandler handler = new ErrorHandler();
 
-                handler.txtDetails.Text += "\r\n}}";
+                    handler.txtError.Text = ex.Message;
 
-                handler.textBox1.Text = "AWB encountered " + ex.GetType().Name;
+                    handler.txtDetails.Text = "{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = <table><tr><td>Exception:<td><code>" + ex.GetType().Name + "</code><tr><td>Message:<td><code>" +
+                        ex.Message + "</code><tr><td>Call stack:<td><pre>" + ex.StackTrace + "</pre></table>\r\n~~~~\r\n | OS          = " + Environment.OSVersion.ToString() + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-                handler.ShowDialog();
+                    if (!string.IsNullOrEmpty(CurrentArticle) &&
+                        ex.StackTrace.Contains("AutoWikiBrowser.MainForm.ProcessPage("))
+                    {
+                        string link;
+                        if (CurrentRevision != 0 && LangCode != "" && Project != "")
+                            link = "[http://" + LangCode + "." + Project + ".org/w/index.php?title=" + CurrentArticle.Replace(" ", "_") + "&oldid=" + CurrentRevision.ToString() + "]";
+                        else link = "[[:" + CurrentArticle + "]]";
+                        handler.txtDetails.Text +=
+                            "\r\n | duplicate = [encountered while processing page ''" + link + "'']";
+                    }
+
+                    handler.txtDetails.Text += "\r\n}}";
+
+                    handler.textBox1.Text = "AWB encountered " + ex.GetType().Name;
+
+                    handler.ShowDialog();
+                }
             }
         }
 
