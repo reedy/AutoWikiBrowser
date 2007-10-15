@@ -236,8 +236,17 @@ namespace AutoWikiBrowser
                 UpdateButtons();
                 LoadRecentSettingsList();
                 splash.SetProgress(90);
-                if (Variables.User.checkEnabled() == WikiStatusResult.OldVersion)
+
+                WikiStatusResult res = Variables.User.CheckEnabled();
+                if (res == WikiStatusResult.OldVersion) 
                     OldVersion();
+                else if (res == WikiStatusResult.Error)
+                {
+                    lblUserName.BackColor = Color.Red;
+                    MessageBox.Show(this, "Cannot load version check page from Wikipedia. "
+                        + "Please verify that you're connected to Internet.", "Error", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
 
                 webBrowserDiff.Navigate("about:blank");
                 webBrowserDiff.ObjectForScripting = this;
