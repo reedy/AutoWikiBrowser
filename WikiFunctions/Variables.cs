@@ -1501,21 +1501,30 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
         /// <summary>
         /// Checks if the current version of AWB is enabled
         /// </summary>
-        public WikiStatusResult checkEnabled()
+        public WikiStatusResult CheckEnabled()
         {
-            string strText = String.Empty;
+            try
+            {
+                string strText = String.Empty;
 
-            //load version check page
-            webBrowserLogin.Navigate("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=edit");
-            //wait to load
-            webBrowserLogin.Wait();
+                //load version check page
+                webBrowserLogin.Navigate("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=edit");
+                //wait to load
+                webBrowserLogin.Wait();
 
-            strText = webBrowserLogin.GetArticleText();
+                strText = webBrowserLogin.GetArticleText();
 
-            if (!strText.Contains(AWBVersion + " enabled"))
-                return WikiStatusResult.OldVersion;
-            else
-                return WikiStatusResult.Null;
+                if (strText.Length == 0) return WikiStatusResult.Error;
+
+                if (!strText.Contains(AWBVersion + " enabled"))
+                    return WikiStatusResult.OldVersion;
+                else
+                    return WikiStatusResult.Null;
+            }
+            catch
+            {
+                return WikiStatusResult.Error;
+            }
         }
 
         string strCheckPage = "";
