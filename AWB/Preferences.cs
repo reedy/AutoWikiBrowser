@@ -76,11 +76,10 @@ namespace AutoWikiBrowser
         {
             get
             {
-                if (cmboLang.SelectedItem.ToString() == "is") return LangCodeEnum.Is;
-                LangCodeEnum l = (LangCodeEnum)Enum.Parse(typeof(LangCodeEnum), cmboLang.SelectedItem.ToString());
-                return l;
+                return Variables.ParseLanguage(cmboLang.SelectedItem.ToString());
             }
         }
+
         public ProjectEnum Project
         {
             get { return (ProjectEnum)Enum.Parse(typeof(ProjectEnum), cmboProject.SelectedItem.ToString()); }
