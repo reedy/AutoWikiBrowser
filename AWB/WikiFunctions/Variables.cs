@@ -140,7 +140,10 @@ namespace WikiFunctions
         /// Gets the language code, e.g. "en".
         /// </summary>
         public static LangCodeEnum LangCode
-        { get { return strlangcode; } }
+        { 
+            get { return strlangcode; }
+            set { strlangcode = value; }
+        }
 
         static string strcustomproject = "";
         /// <summary>
@@ -252,6 +255,7 @@ namespace WikiFunctions
 
             if (Project == ProjectEnum.custom)
             {
+                strlangcode = LangCodeEnum.en;
                 int x = customProject.IndexOf('/');
 
                 if (x > 0)
@@ -885,6 +889,7 @@ namespace WikiFunctions
                 Namespaces[101] = "Creator talk:";
                 URL = "http://commons.wikimedia.org";
                 ProjectName = "Wikimedia Commons";
+                strlangcode = LangCodeEnum.en;
             }
             else if (projectName == ProjectEnum.meta)
             {
@@ -922,11 +927,13 @@ namespace WikiFunctions
                 Namespaces[130] = "Pomoč";
                 Namespaces[131] = "Pogovor o pomoči";
                 URL = "http://meta.wikimedia.org";
+                strlangcode = LangCodeEnum.en;
             }
             else if (projectName == ProjectEnum.species)
             {
                 SetToEnglish("Wikispecies:", "Wikispecies talk:");
                 URL = "http://species.wikimedia.org";
+                strlangcode = LangCodeEnum.en;
             }
             else if (projectName == ProjectEnum.wikia)
             {
@@ -1075,6 +1082,14 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
 
             RTL = false;
         }
+
+        public static LangCodeEnum ParseLanguage(string lang)
+        {
+            lang = lang.Trim().ToLower();
+            if (lang == "is") return LangCodeEnum.Is;
+            return (LangCodeEnum)Enum.Parse(typeof(LangCodeEnum), lang);
+        }
+
         #endregion
 
         #region URL Builders
@@ -1298,7 +1313,16 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                 if (Variables.Project == ProjectEnum.wikia)
                 {
                     webBrowserWikia.Wait();
-                    typoPostfix = "-" + webBrowserWikia.GetScriptingVar("wgContentLanguage");
+                    try
+                    {
+                        Variables.LangCode = Variables.ParseLanguage(webBrowserWikia.GetScriptingVar("wgContentLanguage"));
+                    }
+                    catch
+                    {
+                        // use English if language not recognized
+                        Variables.LangCode = LangCodeEnum.en;
+                    }
+                    typoPostfix = "-" + Variables.ParseLanguage(webBrowserWikia.GetScriptingVar("wgContentLanguage"));
                     string s = webBrowserWikia.GetArticleText();
 
                     // selectively add content of the local checkpage to the global one
@@ -1310,6 +1334,19 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                 }
                 else
                     userGroups = webBrowserLogin.GetScriptingVar("wgUserGroups");
+
+                if (Variables.Project == ProjectEnum.custom)
+                {
+                    try
+                    {
+                        Variables.LangCode = Variables.ParseLanguage(webBrowserLogin.GetScriptingVar("wgContentLanguage"));
+                    }
+                    catch
+                    {
+                        // use English if language not recognized
+                        Variables.LangCode = LangCodeEnum.en;
+                    }
+                }
 
                 strVersionPage = (string)br.Result;
 
@@ -1371,7 +1408,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                 // check if username is globally blacklisted
                 foreach (Match m3 in Regex.Matches(strVersionPage, @"badname:\s*(.*)\s*(:?|#.*)$", RegexOptions.IgnoreCase))
                 {
-                    if (m3.Groups[1].Value.Trim() != "" && Regex.IsMatch(this.Name, m3.Groups[1].Value.Trim(), RegexOptions.IgnoreCase | RegexOptions.Multiline)) 
+                    if (m3.Groups[1].Value.Trim() != "" && Regex.IsMatch(this.Name, m3.Groups[1].Value.Trim(), RegexOptions.IgnoreCase | RegexOptions.Multiline))
                         return WikiStatusResult.NotRegistered;
                 }
 
