@@ -193,38 +193,46 @@ namespace WikiFunctions.Parse
                                
         internal string Sort(string ArticleText, string ArticleTitle)
         {
-            ArticleText = Regex.Replace(ArticleText, "<!-- ?\\[\\[en:.*?\\]\\] ?-->", "");
-
-            string strPersonData = Newline(removePersonData(ref ArticleText));
-            string strDisambig = Newline(removeDisambig(ref ArticleText));
-            string strCategories = Newline(removeCats(ref ArticleText, ArticleTitle));
-            string strInterwikis = Newline(interwikis(ref ArticleText));
-            string strStub = Newline(removeStubs(ref ArticleText));
-
-            //filter out excess white space and remove "----" from end of article
-            ArticleText = Parsers.RemoveWhiteSpace(ArticleText) + "\r\n";
-            ArticleText += strDisambig;
-
-            switch (Variables.LangCode)
+            string strSave = ArticleText;
+            try
             {
-                case LangCodeEnum.de:
-                    ArticleText += strStub + strCategories + strPersonData;
-                    break;
-                case LangCodeEnum.pl:
-                    ArticleText += strPersonData + strStub + strCategories;
-                    break;
-                case LangCodeEnum.ru:
-                    ArticleText += strPersonData + strStub + strCategories;
-                    break;
-                case LangCodeEnum.simple:
-                    ArticleText += strPersonData + strStub + strCategories;
-                    break;
-                default:
-                    ArticleText += strPersonData + strCategories + strStub;
-                    break;
-            }
+                ArticleText = Regex.Replace(ArticleText, "<!-- ?\\[\\[en:.*?\\]\\] ?-->", "");
 
-            return ArticleText + strInterwikis;
+                string strPersonData = Newline(removePersonData(ref ArticleText));
+                string strDisambig = Newline(removeDisambig(ref ArticleText));
+                string strCategories = Newline(removeCats(ref ArticleText, ArticleTitle));
+                string strInterwikis = Newline(interwikis(ref ArticleText));
+                string strStub = Newline(removeStubs(ref ArticleText));
+
+                //filter out excess white space and remove "----" from end of article
+                ArticleText = Parsers.RemoveWhiteSpace(ArticleText) + "\r\n";
+                ArticleText += strDisambig;
+
+                switch (Variables.LangCode)
+                {
+                    case LangCodeEnum.de:
+                        ArticleText += strStub + strCategories + strPersonData;
+                        break;
+                    case LangCodeEnum.pl:
+                        ArticleText += strPersonData + strStub + strCategories;
+                        break;
+                    case LangCodeEnum.ru:
+                        ArticleText += strPersonData + strStub + strCategories;
+                        break;
+                    case LangCodeEnum.simple:
+                        ArticleText += strPersonData + strStub + strCategories;
+                        break;
+                    default:
+                        ArticleText += strPersonData + strCategories + strStub;
+                        break;
+                }
+                return ArticleText + strInterwikis;
+            }
+            catch(Exception ex)
+            {
+                if (!ex.Message.Contains("DEFAULTSORT")) ErrorHandler.Handle(ex);
+                return strSave;
+            }
         }
 
         private string removeCats(ref string ArticleText, string ArticleTitle)
@@ -256,7 +264,9 @@ namespace WikiFunctions.Parse
                 categoryList.Insert(0, catComment);
             }
 
-            string defaultSort = WikiRegexes.Defaultsort.Match(ArticleText).Value;
+            MatchCollection mc = WikiRegexes.Defaultsort.Matches(ArticleText);
+            if (mc.Count > 1) throw new ArgumentException("Page contains multiple {{DEFAULTSORTS}} tags. Metadata sorting cancelled");
+            string defaultSort = mc[0].Value;
             if (defaultSort != "")
                 ArticleText = ArticleText.Replace(defaultSort, "");
             defaultSort = WikiRegexes.Defaultsort.Replace(defaultSort, "{{DEFAULTSORT:${key}}}");

@@ -1069,8 +1069,8 @@ namespace AutoWikiBrowser
                 prof.Profile("Categories");
 
                 // disambiguation
-                if (chkEnableDab.Checked && txtDabLink.Text.Trim() != "" &&
-                    txtDabVariants.Text.Trim() != "")
+                if (chkEnableDab.Checked && txtDabLink.Text.Trim().Length > 0 &&
+                    txtDabVariants.Text.Trim().Length > 0)
                 {
                     if (theArticle.Disambiguate(txtDabLink.Text.Trim(), txtDabVariants.Lines, BotMode,
                         (int)udContextChars.Value, chkSkipNoDab.Checked))
@@ -3002,7 +3002,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void txtDabLink_Enter(object sender, EventArgs e)
         {
-            if (txtDabLink.Text == "") txtDabLink.Text = listMaker1.SourceText;
+            if (txtDabLink.Text.Length == 0) txtDabLink.Text = listMaker1.SourceText;
         }
 
         private void chkEnableDab_CheckedChanged(object sender, EventArgs e)
@@ -3423,7 +3423,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void LoadProfileSettings()
         {
-            if (profiles.SettingsToLoad != null && profiles.SettingsToLoad != "")
+            if (!string.IsNullOrEmpty(profiles.SettingsToLoad))
                 LoadPrefs(profiles.SettingsToLoad);
             CheckStatus(true);
         }

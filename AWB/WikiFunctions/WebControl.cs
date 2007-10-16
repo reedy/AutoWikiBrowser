@@ -207,7 +207,7 @@ namespace WikiFunctions.Browser
 
             try
             {
-                return !(UserName == "");
+                return !(UserName.Length == 0);
             }
             catch (Exception ex)
             {
