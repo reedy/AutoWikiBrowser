@@ -292,9 +292,6 @@ namespace WikiFunctions.DatabaseScanner
 
                 timer1.Enabled = false;
 
-                if (!this.ContainsFocus)
-                    Tools.FlashWindow(this);
-
                 lblCount.Text = lbArticles.Items.Count.ToString() + " results";
 
                 TimeSpan endTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond);
@@ -304,12 +301,14 @@ namespace WikiFunctions.DatabaseScanner
                     MessageBox.Show(lbArticles.Items.Count.ToString() + " matches in " + endTime.ToString().TrimEnd('0'));
 
                 Main = null;
-
-                UpdateControls(false);
             }
             catch (Exception ex)
             {
                 ErrorHandler.Handle(ex);
+            }
+            finally
+            {
+                UpdateControls(false);
             }
         }
 
@@ -748,13 +747,8 @@ namespace WikiFunctions.DatabaseScanner
 
         private void UpdateControls(bool busy)
         {
-            groupBox1.Enabled = !busy;
-            groupBox2.Enabled = !busy;
-            groupBox4.Enabled = !busy;
-            groupBox5.Enabled = !busy;
-            btnFilter.Enabled = !busy;
-            nudLimitResults.Enabled = !busy;
-            txtStartFrom.Enabled = !busy;
+            groupBox1.Enabled = groupBox2.Enabled = groupBox4.Enabled = groupBox5.Enabled = 
+            btnFilter.Enabled = nudLimitResults.Enabled = txtStartFrom.Enabled = !busy;
             if (busy) { btnStart.Text = "Stop"; } else { btnStart.Text = "Start"; }
         }
         #endregion
