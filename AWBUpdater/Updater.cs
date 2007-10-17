@@ -73,43 +73,33 @@ namespace AwbUpdater
         {
             try
             {
-                lblCurrentTask.Text = "Getting Current AWB and Updater Versions";
-                Application.DoEvents();
+                updateUI("Getting Current AWB and Updater Versions");
                 AWBversion();
 
                 if (noUpdates && string.IsNullOrEmpty(AWBWebAddress))
                     ExitEarly();
                 else
                 {
-                    Application.DoEvents();
-
-                    lblCurrentTask.Text = "Creating a Temporary Directory";
-                    Application.DoEvents();
+                    updateUI("Creating a Temporary Directory");
                     CreateTempDir();
 
-                    lblCurrentTask.Text = "Downloading AWB";
-                    Application.DoEvents();
+                    updateUI("Downloading AWB");
                     GetAwbFromInternet();
 
-                    lblCurrentTask.Text = "Unzipping AWB to the Temporary Directory";
-                    Application.DoEvents();
+                    updateUI("Unzipping AWB to the Temporary Directory");
                     UnzipAwb();
 
-                    lblCurrentTask.Text = "Making Sure AWB is Closed";
-                    Application.DoEvents();
+                    updateUI("Making Sure AWB is Closed");
                     CloseAwb();
 
-                    lblCurrentTask.Text = "Copying AWB Files from temp to AWB Directory";
-                    Application.DoEvents();
+                    updateUI("Copying AWB Files from temp to AWB Directory");
                     CopyFiles();
                     MessageBox.Show("AWB Update Successful", "Update Successful");
 
-                    lblCurrentTask.Text = "Starting AWB";
-                    Application.DoEvents();
+                    updateUI("Starting AWB");
                     StartAwb();
 
-                    lblCurrentTask.Text = "Cleaning up from Update";
-                    Application.DoEvents();
+                    updateUI("Cleaning up from Update");
                     KillTempDir();
 
                     Application.Exit();
@@ -119,6 +109,12 @@ namespace AwbUpdater
             {
                 ErrorHandler.Handle(ex);
             }
+        }
+
+        private void updateUI(string currentStatus)
+        {
+            lblCurrentTask.Text = currentStatus;
+            Application.DoEvents();
         }
 
         private void ExitEarly()
