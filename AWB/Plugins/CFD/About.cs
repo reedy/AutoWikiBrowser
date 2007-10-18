@@ -1,5 +1,4 @@
 /*
-
 (C) 2007 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 
 This program is free software; you can redistribute it and/or modify
@@ -23,10 +22,6 @@ using System.Text;
 
 namespace AutoWikiBrowser.Plugins.CFD
 {
-    /* temp note: I removed some stuff to get it to compile. Any changes to the description (including reading
-     * from a (missing?) res file ought to be possible in Initialise(), which is called from the constructor.
-     * To get your name to show up, the best way is to add it to the GFDL string in WikiFunctions\Resources.resx
-     */
     internal sealed class AboutBox : WikiFunctions.Controls.AboutBox
     {
         protected override void Initialise()
