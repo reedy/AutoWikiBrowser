@@ -306,6 +306,18 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
+        readonly Regex ReferenceTags = new Regex(@"(<div class=""(references-small|small)"">[\r\n\s]*)?<references[\s]*/>([\r\n\s]*</div>)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+        /// <summary>
+        /// Replaces various old reference tag formats, with the new {{reflist}}
+        /// </summary>
+        /// <param name="ArticleText">The wiki text of the article</param>
+        /// <returns></returns>
+        public string FixReferenceTags(string ArticleText)
+        {
+            return ReferenceTags.Replace(ArticleText, "{{reflist}}");
+        }
+
         /// <summary>
         /// Applies/removes some excess whitespace from the article
         /// </summary>
@@ -316,7 +328,7 @@ namespace WikiFunctions.Parse
             ArticleText = Regex.Replace(ArticleText, "\r\n(\r\n)+", "\r\n\r\n");
 
             ArticleText = Regex.Replace(ArticleText, "== ? ?\r\n\r\n==", "==\r\n==");
-            ArticleText = Regex.Replace(ArticleText, "==External links==[\r\n ]*\\*", "==External links==\r\n*");
+            ArticleText = Regex.Replace(ArticleText, @"==External links==[\r\n\s]*\\*", "==External links==\r\n*");
             ArticleText = ArticleText.Replace("\r\n\r\n(* ?\\[?http)", "\r\n$1");
 
             ArticleText = Regex.Replace(ArticleText.Trim(), "----+$", "");
@@ -341,7 +353,7 @@ namespace WikiFunctions.Parse
             ArticleText = Regex.Replace(ArticleText, " \r\n", "\r\n");
 
             ArticleText = Regex.Replace(ArticleText, "==\r\n\r\n", "==\r\n");
-            ArticleText = Regex.Replace(ArticleText, "==External links==[\r\n ]*\\*", "==External links==\r\n*");
+            ArticleText = Regex.Replace(ArticleText, @"==External links==[\r\n\s]*\\*", "==External links==\r\n*");
 
             //fix bullet points
             ArticleText = Regex.Replace(ArticleText, "^([\\*#]+) ", "$1", RegexOptions.Multiline);

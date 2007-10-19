@@ -970,6 +970,8 @@ namespace AutoWikiBrowser
                         theArticle.AWBChangeArticleText("Fix main article", parsers.FixMainArticle(theArticle.ArticleText), true);
                         prof.Profile("FixMainArticle");
 
+                        theArticle.AWBChangeArticleText("Fix reference tags", parsers.FixReferenceTags(theArticle.ArticleText), true);
+
                         theArticle.AWBChangeArticleText("Fix empty links and templates", parsers.FixEmptyLinksAndTemplates(theArticle.ArticleText), true);
                         prof.Profile("FixEmptyLinksAndTemplates");
 
