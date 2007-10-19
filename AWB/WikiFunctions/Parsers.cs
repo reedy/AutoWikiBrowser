@@ -24,6 +24,7 @@ using System.Text.RegularExpressions;
 using System.Configuration;
 using System.Collections;
 using System.Web;
+using WikiFunctions.Lists;
 
 [assembly: CLSCompliant(true)]
 namespace WikiFunctions.Parse
@@ -1433,10 +1434,13 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The article text without the old category.</returns>
         public string Tagger(string ArticleText, string ArticleTitle, ref string Summary)
         {
+            // don't tag redirects
             if (Tools.IsRedirect(ArticleText))
                 return ArticleText;
 
-            if (!Tools.IsMainSpace(ArticleTitle)) return ArticleText;
+            // don't tag outside article namespace
+            if (!Tools.IsMainSpace(ArticleTitle)) 
+                return ArticleText;
 
             double length = ArticleText.Length + 1;
 
@@ -1446,13 +1450,13 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             string commentsStripped = WikiRegexes.Comments.Replace(ArticleText, "");
             int words = Tools.WordCount(commentsStripped);
 
-            //update by-date tags
+            // update by-date tags
             foreach (KeyValuePair<Regex, string> k in RegexTagger)
             {
                 ArticleText = k.Key.Replace(ArticleText, k.Value);
             }
 
-            //remove stub tags from long articles
+            // remove stub tags from long articles
             if (words > StubMaxWordCount && WikiRegexes.Stub.IsMatch(commentsStripped))
             {
                 MatchEvaluator stubEvaluator = new MatchEvaluator(stubChecker);
@@ -1461,6 +1465,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 ArticleText = ArticleText.Trim();
             }
 
+            // skip article if contains any template except for stub templates
             foreach (Match m in WikiRegexes.Template.Matches(ArticleText))
             {
                 if (!m.Value.Contains("stub"))
@@ -1480,30 +1485,50 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             {
                 if (WikiRegexes.Stub.IsMatch(commentsStripped))
                 {
+                    // add uncategorized stub tag
                     ArticleText += "\r\n\r\n{{Uncategorizedstub|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
                     Summary += ", added [[:Category:Uncategorized stubs|uncategorised]] tag";
                 }
                 else
                 {
+                    // add uncategorized tag
                     ArticleText += "\r\n\r\n{{Uncategorized|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
                     Summary += ", added [[:Category:Category needed|uncategorised]] tag";
                 }
             }
+            // add wikify tag
             else if (linkCount < 3 && (ratio < 0.0025))
             {
                 ArticleText = "{{Wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + ArticleText;
                 Summary += ", added [[:Category:Articles that need to be wikified|wikify]] tag";
             }
+            // add stub tag
             else if (commentsStripped.Length <= 300 && !WikiRegexes.Stub.IsMatch(commentsStripped))
             {
                 ArticleText = ArticleText + "\r\n\r\n\r\n{{stub}}";
                 Summary += ", added stub tag";
             }
-
+            // add dead-end tag
             if (linkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(ArticleText))
             {
                 ArticleText = "{{deadend|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + ArticleText;
                 Summary += ", added [[:Category:Dead-end pages|deadend]] tag";
+            }
+
+            // check if not orphaned
+            bool orphaned = true;
+            List<Article> links = GetLists.FromWhatLinksHere(false, ArticleTitle);
+            foreach (Article a in links)
+                if (Tools.IsMainSpace(a.Name) && !Tools.IsRedirect(a.Name))
+                {
+                    orphaned = false;
+                    break;
+                }
+            // add orphan tag if applicable
+            if (orphaned)
+            {
+                ArticleText = "{{orphan|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + ArticleText;
+                Summary += ", added [[:Category:Orphaned articles|orphan]] tag";
             }
 
             return ArticleText;
