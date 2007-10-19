@@ -468,16 +468,17 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Sets the watch checkbox
         /// </summary>
-        public void SetWatch(bool Watch1)
+        public void SetWatch(bool watch1)
         {
             if (this.Document == null || !this.Document.Body.InnerHtml.Contains("wpWatchthis"))
                 return;
 
-            if (Watch1)
+            if (watch1)
                 this.Document.GetElementById("wpWatchthis").SetAttribute("checked", "checked");
 
-            Watch = Watch1;
+            Watch = watch1;
         }
+
 
         /// <summary>
         /// Sets the edit summary text
@@ -609,6 +610,8 @@ namespace WikiFunctions.Browser
                 ProcessStage = enumProcessStage.delete;
                 Status = "Deleting page";
                 this.Document.GetElementById("wpConfirmB").InvokeMember("click");
+
+                Deleted();
             }
         }
 
