@@ -44,6 +44,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.Label4 = New System.Windows.Forms.Label
             Me.ImportanceCheckedListBox = New System.Windows.Forms.CheckedListBox
             Me.PropertiesButton = New System.Windows.Forms.Button
+            Me.ExtraParametersButton = New System.Windows.Forms.Button
             Me.GroupBox1.SuspendLayout()
             Me.GroupBox2.SuspendLayout()
             Me.GroupBox3.SuspendLayout()
@@ -286,10 +287,20 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.PropertiesButton.Text = "Properties"
             Me.PropertiesButton.UseVisualStyleBackColor = True
             '
+            'ExtraParametersButton
+            '
+            Me.ExtraParametersButton.Location = New System.Drawing.Point(158, 323)
+            Me.ExtraParametersButton.Name = "ExtraParametersButton"
+            Me.ExtraParametersButton.Size = New System.Drawing.Size(115, 23)
+            Me.ExtraParametersButton.TabIndex = 18
+            Me.ExtraParametersButton.Text = "Extra Parameters"
+            Me.ExtraParametersButton.UseVisualStyleBackColor = True
+            '
             'GenericTemplateSettings
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+            Me.Controls.Add(Me.ExtraParametersButton)
             Me.Controls.Add(Me.PropertiesButton)
             Me.Controls.Add(Me.GroupBox3)
             Me.Controls.Add(Me.TipLabel)
@@ -332,6 +343,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Friend WithEvents SkipRegexTextBox As System.Windows.Forms.TextBox
         Friend WithEvents SkipRegexCheckBox As System.Windows.Forms.CheckBox
         Friend WithEvents PropertiesButton As System.Windows.Forms.Button
+        Friend WithEvents ExtraParametersButton As System.Windows.Forms.Button
 
     End Class
 End Namespace
