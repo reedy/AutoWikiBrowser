@@ -328,6 +328,14 @@ AWBUpdater will now close!");
 
                 File.Copy(tempDirectory + "Plugins\\CFD\\CFD.dll", AWBdirectory + "Plugins\\CFD\\CFD.dll", true);
 
+                if (File.Exists(AWBdirectory + "IFD.dll"))
+                    File.Copy(tempDirectory + "Plugins\\IFD\\IFD.dll", AWBdirectory + "IFD.dll", true);
+
+                if (!Directory.Exists(AWBdirectory + "\\Plugins\\IFD"))
+                    Directory.CreateDirectory(AWBdirectory + "\\Plugins\\IFD");
+
+                File.Copy(tempDirectory + "Plugins\\IFD\\IFD.dll", AWBdirectory + "Plugins\\IFD\\IFD.dll", true);
+
                 if (File.Exists(AWBdirectory + "Kingbotk AWB Plugin.dll"))
                     File.Copy(tempDirectory + "Plugins\\Kingbotk\\Kingbotk AWB Plugin.dll", AWBdirectory + "Kingbotk AWB Plugin.dll", true);
 
