@@ -605,6 +605,7 @@ namespace AutoWikiBrowser
 
                     EnableButtons();
                 }
+                SetWatchButton(webBrowserEdit.IsWatched());
             }
             else
             {
@@ -1348,7 +1349,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             if (webBrowserEdit.Document.Body.InnerHtml.Contains("wpMinoredit"))
             {
                 webBrowserEdit.SetMinor(markAllAsMinorToolStripMenuItem.Checked);
-                webBrowserEdit.SetWatch(addAllToWatchlistToolStripMenuItem.Checked);
+                if (addAllToWatchlistToolStripMenuItem.Checked)
+                    webBrowserEdit.SetWatch(true);
+                else
+                    webBrowserEdit.SetWatch(btnWatch.Text == "Unwatch");
                 webBrowserEdit.SetSummary(MakeSummary());
             }
         }
@@ -1937,7 +1941,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         {
             btnSave.Enabled = btnIgnore.Enabled = btnPreview.Enabled = btnDiff.Enabled =
             btntsPreview.Enabled = btntsChanges.Enabled = listMaker1.MakeListEnabled =
-            btntsSave.Enabled = btntsIgnore.Enabled = btnMove.Enabled = btnDelete.Enabled =
+            btntsSave.Enabled = btntsIgnore.Enabled = btnMove.Enabled = btnDelete.Enabled = btnWatch.Enabled =
             btnProtect.Enabled = groupBox10.Enabled = enabled;
         }
 
@@ -3692,6 +3696,23 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private void txtFind_MouseHover(object sender, EventArgs e)
         {
             toolTip1.SetToolTip(txtFind, txtFind.Text);
+        }
+
+        private void btnWatch_Click(object sender, EventArgs e)
+        {
+            SetWatchButton(btnWatch.Text == "Watch");
+        }
+
+        private void SetWatchButton(bool watch)
+        {
+            if (watch)
+            {
+                btnWatch.Text = "Unwatch";
+            }
+            else
+            {
+                btnWatch.Text = "Watch";
+            }
         }
     }
 }
