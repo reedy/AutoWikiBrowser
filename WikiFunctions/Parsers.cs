@@ -316,6 +316,7 @@ namespace WikiFunctions.Parse
             ArticleText = Regex.Replace(ArticleText, "\r\n(\r\n)+", "\r\n\r\n");
 
             ArticleText = Regex.Replace(ArticleText, "== ? ?\r\n\r\n==", "==\r\n==");
+            ArticleText = Regex.Replace(ArticleText, "==External links==[\r\n ]*\\*", "==External links==\r\n*");
             ArticleText = ArticleText.Replace("\r\n\r\n(* ?\\[?http)", "\r\n$1");
 
             ArticleText = Regex.Replace(ArticleText.Trim(), "----+$", "");
