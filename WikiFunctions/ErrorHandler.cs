@@ -53,19 +53,20 @@ namespace WikiFunctions
         {
             if (ex != null)
             {
-                // handle invalid regexes
-                if ((ex is System.ArgumentException)
+                // invalid regex - only ArgumentException, without subclasses
+                if (ex.GetType().ToString().Equals("System.ArgumentException")
                     && ex.StackTrace.Contains("System.Text.RegularExpressions"))
                 {
                     MessageBox.Show(ex.Message, "Invalid regular expression",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                // handle network access errors
+                // network access error
                 else if (ex is System.Net.WebException)
                 {
                     MessageBox.Show(ex.Message, "Network access error",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                // out of memory error
                 else if (ex is System.OutOfMemoryException)
                 {
                     MessageBox.Show(ex.Message, "Out of Memory error",
