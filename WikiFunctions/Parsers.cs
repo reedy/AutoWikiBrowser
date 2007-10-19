@@ -1079,7 +1079,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         }
 
         /// <summary>
-        /// Removes an iamge in the article.
+        /// Removes an image from the article.
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <param name="Image">The image to remove.</param>
