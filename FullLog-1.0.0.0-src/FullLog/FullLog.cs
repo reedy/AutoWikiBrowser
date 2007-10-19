@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Web;
 
+using WikiFunctions.Controls;
 using WikiFunctions.Lists;
 using WikiFunctions.Logging;
 using WikiFunctions.Parse;
@@ -93,6 +94,11 @@ namespace FullLog
             lvSaved.Columns.Add(colSuccessRevId);
 
             MainForm.WebControl.Saved += FLSaved;
+        }
+
+        public string WikiName
+        {
+            get { return "FullLog Plugin version " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(); }
         }
 
         public string Name
@@ -243,11 +249,11 @@ namespace FullLog
                                 logLine += "*s/<span style=\"color: #4C6099;\"><nowiki>" + HttpUtility.HtmlEncode(rep.Find) + "</nowiki></span>"
                                         + "/<span style=\"color: #99694C;\"><nowiki>" + HttpUtility.HtmlEncode(rep.Replace) + "</nowiki></span>/";
 
-                                if ((rep.RegularExpressinonOptions & RegexOptions.IgnoreCase) != 0)
+                                if ((rep.RegularExpressionOptions & RegexOptions.IgnoreCase) != 0)
                                     logLine += "i";
-                                if ((rep.RegularExpressinonOptions & RegexOptions.Multiline) != 0)
+                                if ((rep.RegularExpressionOptions & RegexOptions.Multiline) != 0)
                                     logLine += "m";
-                                if ((rep.RegularExpressinonOptions & RegexOptions.Singleline) != 0)
+                                if ((rep.RegularExpressionOptions & RegexOptions.Singleline) != 0)
                                     logLine += "s";
 
                                 logLine += "\r\n";
