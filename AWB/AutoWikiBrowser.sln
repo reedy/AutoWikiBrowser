@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AWBUpdater", "AWBUpdater\AW
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Wikidiff2", "Wikidiff2\Wikidiff2.vcproj", "{980407B1-D48C-4000-A2FB-859347379ADC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IFD", "Plugins\IFD\IFD.csproj", "{3843A310-3E53-40E1-8276-5ADF988CBA6C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +93,16 @@ Global
 		{980407B1-D48C-4000-A2FB-859347379ADC}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{980407B1-D48C-4000-A2FB-859347379ADC}.Release|Win32.ActiveCfg = Release|Win32
 		{980407B1-D48C-4000-A2FB-859347379ADC}.Release|Win32.Build.0 = Release|Win32
+		{3843A310-3E53-40E1-8276-5ADF988CBA6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3843A310-3E53-40E1-8276-5ADF988CBA6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3843A310-3E53-40E1-8276-5ADF988CBA6C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3843A310-3E53-40E1-8276-5ADF988CBA6C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3843A310-3E53-40E1-8276-5ADF988CBA6C}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{3843A310-3E53-40E1-8276-5ADF988CBA6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3843A310-3E53-40E1-8276-5ADF988CBA6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3843A310-3E53-40E1-8276-5ADF988CBA6C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3843A310-3E53-40E1-8276-5ADF988CBA6C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3843A310-3E53-40E1-8276-5ADF988CBA6C}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
