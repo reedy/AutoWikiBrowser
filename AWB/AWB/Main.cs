@@ -1349,10 +1349,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             if (webBrowserEdit.Document.Body.InnerHtml.Contains("wpMinoredit"))
             {
                 webBrowserEdit.SetMinor(markAllAsMinorToolStripMenuItem.Checked);
-                if (addAllToWatchlistToolStripMenuItem.Checked)
-                    webBrowserEdit.SetWatch(true);
-                else
-                    webBrowserEdit.SetWatch(btnWatch.Text == "Unwatch");
+                webBrowserEdit.SetWatch(addAllToWatchlistToolStripMenuItem.Checked);
                 webBrowserEdit.SetSummary(MakeSummary());
             }
         }
@@ -3700,19 +3697,16 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void btnWatch_Click(object sender, EventArgs e)
         {
-            SetWatchButton(btnWatch.Text == "Watch");
+            webBrowserEdit.WatchUnwatch();
+            //SetWatchButton(btnWatch.Text == "Watch");
         }
 
         private void SetWatchButton(bool watch)
         {
             if (watch)
-            {
                 btnWatch.Text = "Unwatch";
-            }
             else
-            {
                 btnWatch.Text = "Watch";
-            }
         }
     }
 }
