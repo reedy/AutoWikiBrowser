@@ -1108,7 +1108,7 @@ namespace WikiFunctions.DatabaseScanner
             // 
             // timerProgessUpdate
             // 
-            this.timerProgessUpdate.Interval = 5000;
+            this.timerProgessUpdate.Interval = 500;
             this.timerProgessUpdate.Tick += new System.EventHandler(this.timerProgessUpdate_Tick);
             // 
             // groupBox5
