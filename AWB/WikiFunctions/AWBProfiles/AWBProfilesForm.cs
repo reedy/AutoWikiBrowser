@@ -66,6 +66,9 @@ namespace WikiFunctions.AWBProfiles
             login();
         }
 
+        /// <summary>
+        /// Login based on selected item on the form
+        /// </summary>
         private void login()
         {
             try
@@ -99,8 +102,15 @@ namespace WikiFunctions.AWBProfiles
             }
         }
 
+        /// <summary>
+        /// Publically accessible login, to allow calling of login via AWB startup parameters
+        /// </summary>
+        /// <param name="profileID">Profile ID to login to</param>
         public void login(int profileID)
         {
+            if (profileID == -1)
+                return;
+
             try
             {
                 AWBProfile startupProfile = AWBProfiles.GetProfile(profileID);
