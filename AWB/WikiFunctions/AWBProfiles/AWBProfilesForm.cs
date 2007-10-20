@@ -73,28 +73,27 @@ namespace WikiFunctions.AWBProfiles
         {
             try
             {
-                if (SelectedItem >= 0)
-                {
-                    Cursor = Cursors.WaitCursor;
-                    if (lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[3].Text != "")
-                        CurrentSettingsProfile = lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[3].Text;
-                    else
-                        CurrentSettingsProfile = "";
+                if (SelectedItem < 0) return;
 
-                    if (lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[2].Text == "Yes")
-                    {//Get 'Saved' Password
-                        browserLogin(AWBProfiles.GetPassword(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text)));
-                    }
-                    else
-                    {//Get Password from User
-                        UserPassword password = new UserPassword();
-                        password.SetText = "Enter password for " + lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text;
+                Cursor = Cursors.WaitCursor;
+                if (lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[3].Text != "")
+                    CurrentSettingsProfile = lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[3].Text;
+                else
+                    CurrentSettingsProfile = "";
 
-                        if (password.ShowDialog() == DialogResult.OK)
-                            browserLogin(password.GetPassword);
-                    }
-                    Cursor = Cursors.Default;
+                if (lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[2].Text == "Yes")
+                {//Get 'Saved' Password
+                    browserLogin(AWBProfiles.GetPassword(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text)));
                 }
+                else
+                {//Get Password from User
+                    UserPassword password = new UserPassword();
+                    password.SetText = "Enter password for " + lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text;
+
+                    if (password.ShowDialog() == DialogResult.OK)
+                        browserLogin(password.GetPassword);
+                }
+                Cursor = Cursors.Default;
             }
             catch (Exception ex)
             {

@@ -51,8 +51,12 @@ namespace WikiFunctions.AWBProfiles
         {
             get
             {
-                if (lvAccounts.SelectedIndices.Count == 0) return -1;
-                else return int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text);
+                try
+                {
+                    if (lvAccounts.SelectedIndices.Count == 0) return -1;
+                    else return int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text);
+                }
+                catch { return -1; }
             }
         }
 
