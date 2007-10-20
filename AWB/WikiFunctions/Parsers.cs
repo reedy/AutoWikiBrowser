@@ -306,7 +306,7 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
-        readonly Regex ReferenceTags = new Regex(@"(<div class=""(references-small|small)"">[\r\n\s]*)?<references[\s]*/>([\r\n\s]*</div>)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        static readonly Regex ReferenceTags = new Regex(@"(<div class=""(?:references-small|small)"".*?>[\r\n\s]*)?<references[\s]*/>([\r\n\s]*</div>)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Replaces various old reference tag formats, with the new {{reflist}}
