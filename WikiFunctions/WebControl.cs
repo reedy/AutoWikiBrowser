@@ -916,6 +916,23 @@ namespace WikiFunctions.Browser
         }
 
         /// <summary>
+        /// Sets unwatched pages to watched, and watched pages to unwatched
+        /// </summary>
+        public void WatchUnwatch()
+        {
+            if (this.Document == null)
+                return;
+
+            if (IsWatched())
+                this.Document.GetElementById("ca-watch").InvokeMember("click");
+            else
+                this.Document.GetElementById("ca-un").InvokeMember("click");
+
+            Wait();
+            AllowNavigation = false;
+        }
+
+        /// <summary>
         /// Deletes an article, returns true if successful
         /// </summary>
         public bool DeletePage(string Article, string Summary)
