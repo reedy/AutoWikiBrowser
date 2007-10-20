@@ -28,7 +28,7 @@ namespace AutoWikiBrowser.Plugins.IFD
                 System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
             textBoxDescription.Text = GFDLNotice;
             lnkDownload.Visible = false;
-            Text = "CFD Plugin";
+            Text = "IFD Plugin";
         }
     }
 }
