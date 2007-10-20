@@ -96,7 +96,7 @@ namespace WikiFunctions.DatabaseScanner
 
                 intMatches = 0;
 
-                timer1.Enabled = true;
+                timerProgessUpdate.Enabled = true;
 
                 UpdateControls(true);
 
@@ -266,13 +266,6 @@ namespace WikiFunctions.DatabaseScanner
 
             intMatches++;
 
-            // update progress bar
-            double matchesByLimit = (double)intMatches / intLimit;
-            if (matchesByLimit > (double)Main.stream.Position / Main.stream.Length)
-                progressBar1.Value = (int)(matchesByLimit * (Main.stream.Length / 1024));
-            else
-                progressBar1.Value = (int)(Main.stream.Position / 1024);
-
             if (intMatches >= intLimit)
                 Main.Run = false;
             lblCount.Text = intMatches.ToString();
@@ -290,7 +283,7 @@ namespace WikiFunctions.DatabaseScanner
 
                 progressBar1.Value = 0;
 
-                timer1.Enabled = false;
+                timerProgessUpdate.Enabled = false;
 
                 lblCount.Text = lbArticles.Items.Count.ToString() + " results";
 
@@ -752,5 +745,20 @@ namespace WikiFunctions.DatabaseScanner
             if (busy) { btnStart.Text = "Stop"; } else { btnStart.Text = "Start"; }
         }
         #endregion
+
+        private void timerProgessUpdate_Tick(object sender, EventArgs e)
+        {
+            updateProgressBar();
+        }
+
+        private void updateProgressBar()
+        {
+            // update progress bar
+            double matchesByLimit = (double)intMatches / intLimit;
+            if (matchesByLimit > (double)Main.stream.Position / Main.stream.Length)
+                progressBar1.Value = (int)(matchesByLimit * (Main.stream.Length / 1024));
+            else
+                progressBar1.Value = (int)(Main.stream.Position / 1024);
+        }
     }
 }
