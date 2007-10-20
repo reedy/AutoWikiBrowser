@@ -1418,9 +1418,9 @@ namespace AutoWikiBrowser
             // 
             this.btnDiff.Enabled = false;
             this.btnDiff.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnDiff.Location = new System.Drawing.Point(216, 62);
+            this.btnDiff.Location = new System.Drawing.Point(222, 91);
             this.btnDiff.Name = "btnDiff";
-            this.btnDiff.Size = new System.Drawing.Size(50, 23);
+            this.btnDiff.Size = new System.Drawing.Size(51, 23);
             this.btnDiff.TabIndex = 16;
             this.btnDiff.Text = "Diff";
             this.toolTip1.SetToolTip(this.btnDiff, "Show/refresh the diff (Shortcut ctrl + d)");
@@ -1447,9 +1447,9 @@ namespace AutoWikiBrowser
             // 
             this.btnPreview.Enabled = false;
             this.btnPreview.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnPreview.Location = new System.Drawing.Point(155, 62);
+            this.btnPreview.Location = new System.Drawing.Point(155, 91);
             this.btnPreview.Name = "btnPreview";
-            this.btnPreview.Size = new System.Drawing.Size(55, 23);
+            this.btnPreview.Size = new System.Drawing.Size(64, 23);
             this.btnPreview.TabIndex = 15;
             this.btnPreview.Text = "Preview";
             this.toolTip1.SetToolTip(this.btnPreview, "Show/refresh the preview (Shortcut ctrl + e)");
@@ -1463,10 +1463,10 @@ namespace AutoWikiBrowser
             this.btnStart.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnStart.Location = new System.Drawing.Point(155, 33);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(56, 23);
+            this.btnStart.Size = new System.Drawing.Size(117, 23);
             this.btnStart.TabIndex = 6;
             this.btnStart.Tag = "Start the process";
-            this.btnStart.Text = "Start";
+            this.btnStart.Text = "Start the Process";
             this.toolTip1.SetToolTip(this.btnStart, "Start the process!");
             this.btnStart.UseVisualStyleBackColor = false;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
@@ -1477,11 +1477,11 @@ namespace AutoWikiBrowser
             this.btnStop.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnStop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnStop.Location = new System.Drawing.Point(216, 33);
+            this.btnStop.Location = new System.Drawing.Point(156, 62);
             this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(49, 23);
+            this.btnStop.Size = new System.Drawing.Size(117, 23);
             this.btnStop.TabIndex = 28;
-            this.btnStop.Text = "Stop";
+            this.btnStop.Text = "Stop Everything";
             this.toolTip1.SetToolTip(this.btnStop, "Stops everything  (Shortcut escape)");
             this.btnStop.UseVisualStyleBackColor = false;
             this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
@@ -1500,7 +1500,7 @@ namespace AutoWikiBrowser
             // btnFalsePositive
             // 
             this.btnFalsePositive.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnFalsePositive.Location = new System.Drawing.Point(217, 33);
+            this.btnFalsePositive.Location = new System.Drawing.Point(156, 63);
             this.btnFalsePositive.Name = "btnFalsePositive";
             this.btnFalsePositive.Size = new System.Drawing.Size(49, 21);
             this.btnFalsePositive.TabIndex = 29;
@@ -1796,9 +1796,9 @@ namespace AutoWikiBrowser
             // btnProtect
             // 
             this.btnProtect.Enabled = false;
-            this.btnProtect.Location = new System.Drawing.Point(155, 91);
+            this.btnProtect.Location = new System.Drawing.Point(155, 148);
             this.btnProtect.Name = "btnProtect";
-            this.btnProtect.Size = new System.Drawing.Size(55, 23);
+            this.btnProtect.Size = new System.Drawing.Size(64, 23);
             this.btnProtect.TabIndex = 34;
             this.btnProtect.Text = "Protect";
             this.toolTip1.SetToolTip(this.btnProtect, "Protect the article");
@@ -1808,9 +1808,9 @@ namespace AutoWikiBrowser
             // btnMove
             // 
             this.btnMove.Enabled = false;
-            this.btnMove.Location = new System.Drawing.Point(217, 91);
+            this.btnMove.Location = new System.Drawing.Point(222, 119);
             this.btnMove.Name = "btnMove";
-            this.btnMove.Size = new System.Drawing.Size(50, 23);
+            this.btnMove.Size = new System.Drawing.Size(51, 23);
             this.btnMove.TabIndex = 31;
             this.btnMove.Text = "Move";
             this.toolTip1.SetToolTip(this.btnMove, "Move the article");
@@ -1821,9 +1821,9 @@ namespace AutoWikiBrowser
             // 
             this.btnDelete.Enabled = false;
             this.btnDelete.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnDelete.Location = new System.Drawing.Point(176, 148);
+            this.btnDelete.Location = new System.Drawing.Point(222, 148);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(70, 23);
+            this.btnDelete.Size = new System.Drawing.Size(51, 23);
             this.btnDelete.TabIndex = 30;
             this.btnDelete.Text = "Delete";
             this.toolTip1.SetToolTip(this.btnDelete, "Delete the article");
@@ -2891,9 +2891,9 @@ namespace AutoWikiBrowser
             // btnWatch
             // 
             this.btnWatch.Enabled = false;
-            this.btnWatch.Location = new System.Drawing.Point(176, 120);
+            this.btnWatch.Location = new System.Drawing.Point(155, 120);
             this.btnWatch.Name = "btnWatch";
-            this.btnWatch.Size = new System.Drawing.Size(70, 23);
+            this.btnWatch.Size = new System.Drawing.Size(64, 23);
             this.btnWatch.TabIndex = 38;
             this.btnWatch.Text = "Watch";
             this.btnWatch.UseVisualStyleBackColor = true;
