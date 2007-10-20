@@ -330,6 +330,13 @@ namespace WikiFunctions.Controls.Lists
 
         private void btnMakeList_Click(object sender, EventArgs e)
         {
+            //make sure there is some text.
+            if (txtSelectSource.Text.Length == 0 && txtSelectSource.Enabled)
+            {
+                MessageBox.Show("Please enter some text", "No text", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             SourceType st = SelectedSource;
             txtSelectSource.Text = txtSelectSource.Text.Trim('[', ']');
             if (st == SourceType.Category || st == SourceType.CategoryRecursive)
@@ -344,13 +351,6 @@ namespace WikiFunctions.Controls.Lists
             if (st != SourceType.GoogleWikipedia)
                 txtSelectSource.Text = Tools.TurnFirstToUpper(txtSelectSource.Text);
             txtSelectSource.AutoCompleteCustomSource.Add(txtSelectSource.Text);
-
-            //make sure there is some text.
-            if (txtSelectSource.Text.Length == 0 && txtSelectSource.Enabled)
-            {
-                MessageBox.Show("Please enter some text", "No text", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
 
             string[] s = txtSelectSource.Text.Split('|');
 
