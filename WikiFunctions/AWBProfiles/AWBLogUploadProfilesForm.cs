@@ -44,6 +44,9 @@ namespace WikiFunctions.AWBProfiles
             loadProfiles();
         }
 
+        /// <summary>
+        /// Gets the integer of the first selected item
+        /// </summary>
         protected int SelectedItem
         {
             get
@@ -55,11 +58,14 @@ namespace WikiFunctions.AWBProfiles
 
         void UpdateUI()
         {
-            btnLogin.Enabled = btnDelete.Enabled = loginAsThisAccountToolStripMenuItem.Enabled = 
+            btnLogin.Enabled = btnDelete.Enabled = loginAsThisAccountToolStripMenuItem.Enabled =
                 editThisAccountToolStripMenuItem.Enabled = changePasswordToolStripMenuItem.Enabled =
                 deleteThisAccountToolStripMenuItem.Enabled = (lvAccounts.SelectedItems.Count > 0);
         }
 
+        /// <summary>
+        /// Loads all the profiles onto the form
+        /// </summary>
         private void loadProfiles()
         {
             lvAccounts.Items.Clear();
