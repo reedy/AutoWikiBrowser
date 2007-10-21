@@ -352,7 +352,7 @@ namespace WikiFunctions.Controls.Lists
                 txtSelectSource.Text = Tools.TurnFirstToUpper(txtSelectSource.Text);
             txtSelectSource.AutoCompleteCustomSource.Add(txtSelectSource.Text);
 
-            string[] s = txtSelectSource.Text.Split('|');
+            string[] s = txtSelectSource.Text.Trim().Trim('|').Trim().Split('|');
 
             MakeList(st, s);
         }
