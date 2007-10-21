@@ -496,7 +496,7 @@ namespace AutoWikiBrowser
 
             string strTemp = webBrowserEdit.GetArticleText();
 
-            this.Text = "AutoWikiBrowser " + SettingsFile + " - " + TheArticle.Name;
+            this.Text = "AutoWikiBrowser - " + SettingsFile.Remove(0, SettingsFile.LastIndexOf("\\") + 1) + " - " + TheArticle.Name;
 
             //check for redirect
             if (bypassRedirectsToolStripMenuItem.Checked && Tools.IsRedirect(strTemp) && !PageReload)
