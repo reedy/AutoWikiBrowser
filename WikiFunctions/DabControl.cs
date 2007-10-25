@@ -76,9 +76,10 @@ namespace WikiFunctions.Disambiguation
         string VisibleLink;
         string RealLink;
         string CurrentLink;
+        string LinkTrail;
         int PosInSurroundings;
 
-        static Regex UnpipeRegex = new Regex(@"\[\[\s*([^\|\]]*)\s*\|\s*[^\]]*\s*\]\]", RegexOptions.Compiled);
+        static Regex UnpipeRegex = new Regex(@"\[\[\s*([^\|\]]*)\s*\|\s*[^\]]*\s*\]\](.*)", RegexOptions.Compiled);
 
         public bool CanSave
         {
@@ -124,6 +125,8 @@ namespace WikiFunctions.Disambiguation
                     RealLink = Match.Groups[1].Value.Trim();
                 }
                 VisibleLink = VisibleLink.TrimStart(new char[] { '|' });
+
+                LinkTrail = Match.Groups[3].Value;
 
                 while (posEnd < ArticleText.Length - 1 && !"\n\r".Contains(ArticleText[posEnd] + "")) posEnd++;
 
@@ -195,8 +198,8 @@ namespace WikiFunctions.Disambiguation
                 }
                 else if (n == 1) // unlink
                 {
-                    txtCorrection.Text = Surroundings.Replace(Match.Value, VisibleLink);
-                    CurrentLink = VisibleLink;
+                    txtCorrection.Text = Surroundings.Replace(Match.Value, VisibleLink + LinkTrail);
+                    CurrentLink = VisibleLink + LinkTrail;
                 }
                 else if (n == 2) // add {{dn}}
                 {
@@ -214,7 +217,11 @@ namespace WikiFunctions.Disambiguation
                     CurrentLink = "[[";
                     if (StartOfSentence || char.IsUpper(RealLink[0])) CurrentLink += Tools.TurnFirstToUpper(Variants[n - 3]);
                     else CurrentLink += Variants[n - 3];
-                    CurrentLink += "|" + VisibleLink + "]]";
+                    CurrentLink += "|" + VisibleLink;
+                    if (RealLink == VisibleLink)
+                        CurrentLink += LinkTrail + "]]";
+                    else 
+                    CurrentLink += "]]" + LinkTrail;
                     WikiFunctions.Parse.Parsers parse = new WikiFunctions.Parse.Parsers();
                     CurrentLink = parse.SimplifyLinks(CurrentLink);
                     txtCorrection.Text = parse.StickyLinks(Surroundings.Replace(Match.Value, CurrentLink));
@@ -264,7 +271,7 @@ namespace WikiFunctions.Disambiguation
 
         private void btnUnpipe_Click(object sender, EventArgs e)
         {
-            string newLink = UnpipeRegex.Replace(CurrentLink, "[[$1]]");
+            string newLink = UnpipeRegex.Replace(CurrentLink, "[[$1]]$2");
             txtCorrection.Text = txtCorrection.Text.Replace(CurrentLink, newLink);
             CurrentLink = newLink;
             if (Changed != null) Changed(this, new EventArgs());
