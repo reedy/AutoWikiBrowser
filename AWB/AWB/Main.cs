@@ -335,7 +335,7 @@ namespace AutoWikiBrowser
             }
         }
 
-        bool bSaveArticleList = false;
+        bool bSaveArticleList = true;
         private bool SaveArticleList
         {
             get { return bSaveArticleList; }
