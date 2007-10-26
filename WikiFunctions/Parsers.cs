@@ -1531,13 +1531,22 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             // check if not orphaned
             bool orphaned = true;
-            List<Article> links = GetLists.FromWhatLinksHere(false, ArticleTitle);
-            foreach (Article a in links)
-                if (Tools.IsMainSpace(a.Name) && !Tools.IsRedirect(a.Name))
-                {
-                    orphaned = false;
-                    break;
-                }
+            try
+            {
+                List<Article> links = GetLists.FromWhatLinksHere(false, ArticleTitle);
+                foreach (Article a in links)
+                    if (Tools.IsMainSpace(a.Name) && !Tools.IsRedirect(a.Name))
+                    {
+                        orphaned = false;
+                        break;
+                    }
+            }
+            catch (Exception ex)
+            {
+                // don't mark as orphan in case of exception
+                orphaned = false;
+                ErrorHandler.Handle(ex);
+            }
             // add orphan tag if applicable
             if (orphaned)
             {
@@ -1655,46 +1664,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         #endregion
 
         //#region unused
-
-        ///// <summary>
-        ///// Bypasses all redirects in the article
-        ///// </summary>
-        //public string BypassRedirects(string ArticleText)
-        //{//checks links to make them bypass redirects
-        //    string link = "";
-        //    string article = "";
-
-        //    MatchCollection simple = WikiRegexes.WikiLinksOnly.Matches(ArticleText);
-        //    MatchCollection piped = WikiRegexes.PipedWikiLink.Matches(ArticleText);
-
-        //    foreach (Match m in simple)
-        //    {
-        //        //make link
-        //        link = m.Value;
-        //        article = m.Groups[1].Value;
-
-        //        //get text
-        //        string text = "";
-        //        try
-        //        {
-        //            text = Tools.GetArticleText(article);
-        //        }
-        //        catch
-        //        {
-        //            continue;
-        //        }
-
-        //        //test if redirect
-        //        if (Tools.IsRedirect(text))
-        //        {
-        //            string directLink = Tools.RedirectTarget(text).Replace("_"," ");
-        //            directLink = "[[" + directLink + "|" + article + "]]";
-
-        //            ArticleText = ArticleText.Replace(link, directLink);
-        //        }
-        //    }
-        //    return ArticleText;
-        //}
 
         ////[http://en.wikipedia.org/wiki/Dog] to [[Dog]]
         ////private string ExtToInternalLinks(string ArticleText)
