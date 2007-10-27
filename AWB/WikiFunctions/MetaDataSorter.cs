@@ -81,8 +81,8 @@ namespace WikiFunctions.Parse
 
         // now will be generated dynamically using Variables.Stub
         //Regex StubsRegex = new Regex("<!-- ?\\{\\{.*?stub\\}\\}.*?-->|:?\\{\\{.*?stub\\}\\}");
-        Regex InterLangRegex = new Regex("<!-- ?(other languages|language links|inter ?(language|wiki)? ?links|inter ?wiki ?language ?links|inter ?wiki|The below are interlanguage links\\.?) ?-->", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        Regex CatCommentRegex = new Regex("<!-- ?categories ?-->", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        Regex InterLangRegex = new Regex("<!-- ?(other languages?|language links?|inter ?(language|wiki)? ?links|inter ?wiki ?language ?links|inter ?wikis?|The below are interlanguage links\\.?) ?-->", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        Regex CatCommentRegex = new Regex("<!-- ?cat(egories)? ?-->", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         private string[] InterwikiLocalAlpha;
         private string[] InterwikiLocalFirst;
