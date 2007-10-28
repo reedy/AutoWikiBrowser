@@ -161,7 +161,7 @@ namespace WikiFunctions.Parse
 
                 if (Matches[0].Value != Matches[0].Result(Replace))
                 {
-                    summary = Matches[0].Value + " . " + Matches[0].Result(Replace);
+                    summary = Matches[0].Value + " → " + Matches[0].Result(Replace);
 
                     if (Matches.Count > 1)
                         summary += " (" + Matches.Count.ToString() + ")";
