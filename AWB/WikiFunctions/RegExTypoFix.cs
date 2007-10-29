@@ -137,7 +137,7 @@ namespace WikiFunctions.Parse
 
         List<TypoGroup> Typos = new List<TypoGroup>();
 
-        static readonly Regex RemoveTail = new Regex(@"(:?[\s\n\r\*#:]|⌊⌊⌊⌊M?\d*⌋⌋⌋⌋)*$", RegexOptions.Compiled);
+        static readonly Regex RemoveTail = new Regex(@"(\s|\n|\r|\*|#|:|⌊⌊⌊⌊M?\d*⌋⌋⌋⌋)*$", RegexOptions.Compiled);
 
         private void MakeRegexes()
         {
