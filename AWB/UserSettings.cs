@@ -42,10 +42,19 @@ namespace AutoWikiBrowser
 
         private void saveSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if ((!System.IO.File.Exists(SettingsFile)) || MessageBox.Show("Replace existing file?", "File exists - " + SettingsFile,
-            MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1)==DialogResult.Yes)
-                SavePrefs(SettingsFile);
-        }
+            if (SettingsFile != "")
+            {
+                if ((!System.IO.File.Exists(SettingsFile)) || MessageBox.Show("Replace existing file?", "File exists - " + SettingsFile,
+            MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                    SavePrefs(SettingsFile);
+            }
+            else if (MessageBox.Show("No settings file currently loaded. Save as Default?", "Save current settings as Default?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                SavePrefs();
+            else
+            {
+                saveCurrentSettingsToolStripMenuItem_Click(null, null);
+            }
+        }        
 
         private void loadSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
