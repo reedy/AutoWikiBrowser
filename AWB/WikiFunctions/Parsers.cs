@@ -303,7 +303,18 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
-        static readonly Regex ReferenceTags = new Regex(@"(<div class=""(?:references-small|small)"".*?>[\r\n\s]*)?<references[\s]*/>([\r\n\s]*</div>)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        string ReflistMatchEvaluator(Match m)
+        {
+            string s = Regex.Match(m.Value, @"[^-]column-count:[\s]*?(\d*)").Groups[1].Value;
+            if (s.Length > 0) return "{{reflist|" + s + "}}";
+
+            s = Regex.Match(m.Value, @"-moz-column-count:[\s]*?(\d*)").Groups[1].Value;
+            if (s.Length > 0) return "{{reflist|" + s + "}}";
+
+            return "{{reflist}}";
+        }
+
+        static readonly Regex ReferenceTags = new Regex(@"(<div( class=""(?:references-small|small)""|)?[^>]*?>[\r\n\s]*)?<references[\s]*/>([\r\n\s]*</div>)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Replaces various old reference tag formats, with the new {{reflist}}
@@ -312,7 +323,7 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public string FixReferenceTags(string ArticleText)
         {
-            return ReferenceTags.Replace(ArticleText, "{{reflist}}");
+            return ReferenceTags.Replace(ArticleText, new MatchEvaluator(ReflistMatchEvaluator));
         }
 
         /// <summary>
@@ -398,6 +409,8 @@ namespace WikiFunctions.Parse
 
         readonly Regex SyntaxRegexItalic = new Regex("<i>(.*?)</i>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex SyntaxRegexBold = new Regex("<b>(.*?)</b>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+        readonly Regex InOpenBrackets = new Regex(@"\[\[[^\]]{,100}", RegexOptions.RightToLeft | RegexOptions.Compiled);
 
         /// <summary>
         /// Fixes and improves syntax (such as html markup)
