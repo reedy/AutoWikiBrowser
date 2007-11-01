@@ -455,6 +455,7 @@ namespace AutoWikiBrowser
             showTimerToolStripMenuItem.Checked = p.General.TimerEnabled;
             ShowTimer();
             sortAlphabeticallyToolStripMenuItem.Checked = p.General.SortInterwikiOrder;
+            sortAlphabeticallyToolStripMenuItem_Click(null, null);
             addIgnoredToLogFileToolStripMenuItem.Checked = p.General.AddIgnoredToLog;
 
             AutoSaveEditBoxEnabled = p.General.AutoSaveEdit.Enabled;
