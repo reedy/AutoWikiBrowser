@@ -503,6 +503,12 @@ namespace AutoWikiBrowser
             {
                 ArticleEX redirect = new ArticleEX(Tools.RedirectTarget(strTemp));
 
+                if (filterOutNonMainSpaceToolStripMenuItem.Checked && (redirect.NameSpaceKey != 0))
+                {
+                    SkipPage("Article is not Mainspace");
+                    return;
+                }
+
                 if (redirect.Name == TheArticle.Name)
                 {//ignore recursive redirects
                     SkipPage("Recursive redirect");
