@@ -42,7 +42,7 @@ namespace WikiFunctions.AWBProfiles
 
         private void browserLogin(string Password)
         {
-            browserLogin(lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text, Password);
+            browserLogin(AWBProfiles.GetUsername(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text)), Password);
         }
 
         private void browserLogin(string Username, string Password)

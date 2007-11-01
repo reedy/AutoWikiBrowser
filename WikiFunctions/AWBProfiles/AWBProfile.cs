@@ -217,6 +217,16 @@ namespace WikiFunctions.AWBProfiles
         }
 
         /// <summary>
+        /// Gets the decrypted username of a specified profile
+        /// </summary>
+        /// <param name="id">Profile ID</param>
+        /// <returns>Decrypted password</returns>
+        public static string GetUsername(int id)
+        {
+            return Decrypt(new Computer().Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "User", "").ToString());
+        }
+
+        /// <summary>
         /// Set/Change the password of the specified profile
         /// </summary>
         /// <param name="id">Profile ID</param>
