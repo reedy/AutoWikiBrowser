@@ -521,6 +521,28 @@ namespace WikiFunctions
                         strsummarytag = " ";
                         strWPAWB = "[[Wikipédia:AutoWikiBrowser|AWB]]";
                         break;
+						
+					case LangCodeEnum.Is:
+                        Namespaces[-2] = "Miðill:";
+                        Namespaces[-1] = "Kerfissíða:";
+                        Namespaces[1] = "Spjall:";
+                        Namespaces[2] = "Notandi:";
+                        Namespaces[3] = "Notandaspjall:";
+                        Namespaces[4] = "Wikipedia:";
+                        Namespaces[5] = "Wikipediaspjall:";
+                        Namespaces[6] = "Mynd:";
+                        Namespaces[7] = "Myndaspjall:";
+                        Namespaces[8] = "Melding:";
+                        Namespaces[9] = "Meldingarspjall:";
+                        Namespaces[10] = "Snið:";
+                        Namespaces[11] = "Sniðaspjall:";
+                        Namespaces[12] = "Hjálp:";
+                        Namespaces[13] = "Hjálparspjall:";
+                        Namespaces[14] = "Flokkur:";
+                        Namespaces[15] = "Flokkaspjall:";
+                        Namespaces[100] = "Gátt:";
+                        Namespaces[101] = "Gáttaspjall:";
+                        break;
 
                     case LangCodeEnum.it:
                         Namespaces[-2] = "Media:";
@@ -874,6 +896,31 @@ namespace WikiFunctions
                         strsummarytag = " з допомогою ";
                         strWPAWB = "[[Вікіпедія:AutoWikiBrowser|AWB]]";
                         break;
+						
+					// case LangCodeEnum.xx:
+                        // Namespaces[-2] = ":";
+                        // Namespaces[-1] = ":";
+                        // Namespaces[1] = ":";
+                        // Namespaces[2] = ":";
+                        // Namespaces[3] = ":";
+                        // Namespaces[4] = ":";
+                        // Namespaces[5] = ":";
+                        // Namespaces[6] = ":";
+                        // Namespaces[7] = ":";
+                        // Namespaces[8] = ":";
+                        // Namespaces[9] = ":";
+                        // Namespaces[10] = ":";
+                        // Namespaces[11] = ":";
+                        // Namespaces[12] = ":";
+                        // Namespaces[13] = ":";
+                        // Namespaces[14] = ":";
+                        // Namespaces[15] = ":";
+                        // Namespaces[100] = ":";
+                        // Namespaces[101] = ":";
+						
+						// strsummarytag = " ";
+                        // strWPAWB = "";
+                        // break;
 
                     default:
                         LoadProjectOptions(URLLong);
