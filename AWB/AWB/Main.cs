@@ -956,6 +956,8 @@ namespace AutoWikiBrowser
 
                     if (process && chkGeneralFixes.Checked)
                     {
+                        theArticle.AWBChangeArticleText("Fix brackets", theArticle.ArticleText.Replace(".28", "(").Replace(".29", ")"), false);
+
                         theArticle.HideText(RemoveText);
 
                         prof.Profile("HideText");
