@@ -236,10 +236,9 @@ namespace WikiFunctions.Parse
         public string FixDatesRaw(string ArticleText)
         {
             ArticleText = regexFixDates0.Replace(ArticleText, "$1$2$3$4s$5");
-            /*
-            ArticleText = regexFixDates1.Replace(ArticleText, "$1 $2");
-            ArticleText = regexFixDates2.Replace(ArticleText, "$1 $2");
-            */
+
+            //ArticleText = regexFixDates1.Replace(ArticleText, "$1 $2");
+            //ArticleText = regexFixDates2.Replace(ArticleText, "$1 $2");
             return ArticleText;
         }
 
@@ -264,7 +263,7 @@ namespace WikiFunctions.Parse
 
             string lacksPunctuation = "([^\\.,;:!\\?\"'’])";
             string questionOrExclam = "([!\\?])";
-            string minorPunctuation = "([\\.,;:])";
+            //string minorPunctuation = "([\\.,;:])";
             string anyPunctuation = "([\\.,;:!\\?])";
             string majorPunctuation = "([,;:!\\?])";
             string period = "([\\.])";
@@ -275,12 +274,12 @@ namespace WikiFunctions.Parse
 
             string match0a = lacksPunctuation + quote + factTag + space + anyPunctuation;
             string match0b = questionOrExclam + quote + factTag + space + majorPunctuation;
-            string match0c = minorPunctuation + quote + factTag + space + anyPunctuation;
+            //string match0c = minorPunctuation + quote + factTag + space + anyPunctuation;
             string match0d = questionOrExclam + quote + factTag + space + period;
 
             string match1a = lacksPunctuation + quote + refTag + space + anyPunctuation;
             string match1b = questionOrExclam + quote + refTag + space + majorPunctuation;
-            string match1c = minorPunctuation + quote + refTag + space + anyPunctuation;
+            //string match1c = minorPunctuation + quote + refTag + space + anyPunctuation;
             string match1d = questionOrExclam + quote + refTag + space + period;
 
             string oldArticleText = "";
@@ -531,7 +530,6 @@ namespace WikiFunctions.Parse
             else return title;
         }
 
-
         /// <summary>
         /// returns true if given string has matching double square brackets
         /// </summary>
@@ -542,18 +540,14 @@ namespace WikiFunctions.Parse
             int pos = s.IndexOf("[[");
             while (pos >= 0)
             {
+                s = s.Remove(0, pos);
+
                 if (res)
-                {
-                    res = false;
-                    s = s.Remove(0, pos);
                     pos = s.IndexOf("]]");
-                }
                 else
-                {
-                    res = true;
-                    s = s.Remove(0, pos);
                     pos = s.IndexOf("[[");
-                }
+
+                res = !res;
             }
             return res;
         }
@@ -581,10 +575,7 @@ namespace WikiFunctions.Parse
         /// <returns>The simplified article text.</returns>
         public string SimplifyLinks(string ArticleText)
         {
-            string n = "";
-            string a = "";
-            string b = "";
-            string k = "";
+            string n = "", a = "", b = "", k = "";
 
             try
             {
@@ -970,7 +961,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             ArticleText = ArticleText.Replace(" &amp; ", " & ");
             ArticleText = ArticleText.Replace("&amp;", "&amp;amp;");
             ArticleText = ArticleText.Replace("&#153;", "™");
-            ArticleText = ArticleText.Replace("&#149;", "•");
 
             foreach (KeyValuePair<Regex, string> k in RegexUnicode)
             {
