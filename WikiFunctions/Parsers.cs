@@ -304,6 +304,8 @@ namespace WikiFunctions.Parse
 
         string ReflistMatchEvaluator(Match m)
         {
+            if (m.Value.Contains("references-2column")) return "{{reflist|2}}";
+                
             string s = Regex.Match(m.Value, @"[^-]column-count:[\s]*?(\d*)").Groups[1].Value;
             if (s.Length > 0) return "{{reflist|" + s + "}}";
 
@@ -313,7 +315,7 @@ namespace WikiFunctions.Parse
             return "{{reflist}}";
         }
 
-        static readonly Regex ReferenceTags = new Regex(@"(<div( class=""(?:references-small|small)""|)?[^>]*?>[\r\n\s]*)?<references[\s]*/>([\r\n\s]*</div>)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        static readonly Regex ReferenceTags = new Regex(@"(<div( class=""(?:references-small|small|references-2column)""|)?[^>]*?>[\r\n\s]*)?<references[\s]*/>([\r\n\s]*</div>)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Replaces various old reference tag formats, with the new {{reflist}}
@@ -396,7 +398,7 @@ namespace WikiFunctions.Parse
         readonly Regex SyntaxRegex2 = new Regex("\\[http:\\/\\/([^][]*?)\\]\\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex SyntaxRegex3 = new Regex("\\[\\[http:\\/\\/(.*?)\\]\\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex SyntaxRegex4 = new Regex("\\[\\[([^][]*?)\\]([^][][^\\]])", RegexOptions.Compiled);
-        readonly Regex SyntaxRegex5 = new Regex("([^][])\\[([^][]*?)\\]\\]([^\\]])", RegexOptions.Compiled);
+        readonly Regex SyntaxRegex5 = new Regex(@"([^][])\[([^][]*?)\]\]([^\]])", RegexOptions.Compiled);
         
         readonly Regex SyntaxRegex6 = new Regex("\\[?\\[image:(http:\\/\\/.*?)\\]\\]?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex SyntaxRegex7 = new Regex("\\[\\[ (.*)?\\]\\]", RegexOptions.Compiled);
