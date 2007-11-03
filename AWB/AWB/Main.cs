@@ -163,6 +163,7 @@ namespace AutoWikiBrowser
                 Variables.User.webBrowserLogin.DocumentCompleted += web4Completed;
                 Variables.User.webBrowserLogin.Navigating += web4Starting;
 
+                webBrowserEdit.Deleted += CaseWasDelete;
                 webBrowserEdit.Loaded += CaseWasLoad;
                 webBrowserEdit.Saved += CaseWasSaved;
                 webBrowserEdit.None += CaseWasNull;
@@ -479,6 +480,12 @@ namespace AutoWikiBrowser
                 catch (Exception ex)
                 { GlobalObjects.MyTrace.ConfigError(ex); }
             }
+        }
+
+        private void CaseWasDelete()
+        {
+            listMaker1.Remove(TheArticle);
+            Start();
         }
 
         private void CaseWasLoad()
