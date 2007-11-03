@@ -76,7 +76,6 @@ namespace AutoWikiBrowser
         private static int mnudges = 0;
         private static int sameArticleNudges = 0;
 
-        private static bool boolSaved = true;
         private static HideText RemoveText = new HideText(false, true, false);
         private static List<string> noParse = new List<string>();
         private static FindandReplace findAndReplace = new FindandReplace();
@@ -1323,13 +1322,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 AutoWikiBrowser.Properties.Settings.Default.Save();
                 return;
             }
-            string msg = "";
-            if (boolSaved == false)
-                msg = "You have changed the list since last saving it!\r\n";
-
             TimeSpan time = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
             time = time.Subtract(StartTime);
-            ExitQuestion dlg = new ExitQuestion(time, NumberOfEdits, msg);
+            ExitQuestion dlg = new ExitQuestion(time, NumberOfEdits, "");
             dlg.ShowDialog();
             if (dlg.DialogResult == DialogResult.OK)
             {
