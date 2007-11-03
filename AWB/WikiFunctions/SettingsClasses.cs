@@ -149,7 +149,6 @@ namespace WikiFunctions.AWBSettings
                 ArticleList = listMaker.GetArticleList();
             else
                 ArticleList = new List<Article>();
-            
         }
 
         public string ListSource = "";
@@ -286,7 +285,7 @@ namespace WikiFunctions.AWBSettings
             bool mWatch, bool mTimerEnabled, bool mSortInterwikiOrder, bool mAddIgnoredToLog, int mTextBoxSize,
             string mTextBoxFont, bool mLowThreadPriority, bool mBeep, bool mFlash, bool mMinimize,
             decimal mTimeOutLimit, bool autoSaveEditBoxEnabled, decimal autoSaveEditBoxPeriod,
-            string autoSaveEditBoxFile, List<string> mCustomWikis, bool mLockSummary, bool mEditToolbarEnabled, bool mSupressUsingAWB, bool mfilterNonMainSpace)
+            string autoSaveEditBoxFile, List<string> mCustomWikis, bool mLockSummary, bool mEditToolbarEnabled, bool mSupressUsingAWB)
         {
             SaveArticleList = mSaveArticleList;
             IgnoreNoBots = mIgnoreNoBots;
@@ -322,7 +321,6 @@ namespace WikiFunctions.AWBSettings
             LockSummary = mLockSummary;
             EditToolbarEnabled = mEditToolbarEnabled;
             SupressUsingAWB = mSupressUsingAWB;
-            filterNonMainSpace = mfilterNonMainSpace;
         }
 
         public EditBoxAutoSavePrefs AutoSaveEdit;
@@ -347,8 +345,6 @@ namespace WikiFunctions.AWBSettings
         public bool SortInterwikiOrder = true;
         public bool AddIgnoredToLog = false;
         public bool EditToolbarEnabled = true;
-
-        public bool filterNonMainSpace = false;
 
         public int TextBoxSize = 10;
         public string TextBoxFont = "Courier New";

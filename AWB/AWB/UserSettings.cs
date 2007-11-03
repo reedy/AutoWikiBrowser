@@ -337,7 +337,7 @@ namespace AutoWikiBrowser
                 showTimerToolStripMenuItem.Checked, sortAlphabeticallyToolStripMenuItem.Checked,
                 addIgnoredToLogFileToolStripMenuItem.Checked, (int)txtEdit.Font.Size, txtEdit.Font.Name,
                 LowThreadPriority, Beep, Flash, Minimize, TimeOut, AutoSaveEditBoxEnabled, AutoSaveEditBoxPeriod, 
-                AutoSaveEditBoxFile, CustomWikis, chkLock.Checked, ToolBarVisible, SupressUsingAWB, filterOutNonMainSpaceToolStripMenuItem.Checked), new DabPrefs(chkEnableDab.Checked,
+                AutoSaveEditBoxFile, CustomWikis, chkLock.Checked, ToolBarVisible, SupressUsingAWB), new DabPrefs(chkEnableDab.Checked,
                 txtDabLink.Text, txtDabVariants.Lines, (int)udContextChars.Value), new ModulePrefs(
                 cModule.ModuleEnabled, cModule.Language, cModule.Code), loggingSettings1.SerialisableSettings, 
                 Plugin.Items);
@@ -455,7 +455,6 @@ namespace AutoWikiBrowser
             showTimerToolStripMenuItem.Checked = p.General.TimerEnabled;
             ShowTimer();
             sortAlphabeticallyToolStripMenuItem.Checked = p.General.SortInterwikiOrder;
-            sortAlphabeticallyToolStripMenuItem_Click(null, null);
             addIgnoredToLogFileToolStripMenuItem.Checked = p.General.AddIgnoredToLog;
 
             AutoSaveEditBoxEnabled = p.General.AutoSaveEdit.Enabled;
@@ -463,8 +462,6 @@ namespace AutoWikiBrowser
             AutoSaveEditBoxFile = p.General.AutoSaveEdit.SaveFile;
 
             SupressUsingAWB = p.General.SupressUsingAWB;
-
-            filterOutNonMainSpaceToolStripMenuItem.Checked = p.General.filterNonMainSpace;
 
             CustomWikis = p.General.CustomWikis;
 

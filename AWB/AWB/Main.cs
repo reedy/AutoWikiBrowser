@@ -956,7 +956,8 @@ namespace AutoWikiBrowser
 
                     if (process && chkGeneralFixes.Checked)
                     {
-                        theArticle.AWBChangeArticleText("Fix brackets", theArticle.ArticleText.Replace(".28", "(").Replace(".29", ")"), false);
+                        // FIXME: this needs to be moved to Parsers.FixLinks, or it may cause problems
+                        //theArticle.AWBChangeArticleText("Fix brackets", theArticle.ArticleText.Replace(".28", "(").Replace(".29", ")"), false);
 
                         theArticle.HideText(RemoveText);
 
