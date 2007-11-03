@@ -128,6 +128,7 @@ namespace AutoWikiBrowser
                 btntsChanges.Image = Res.changes;
                 btntsFalsePositive.Image = Res.RolledBack;
                 btntsStart.Image = Res.Run;
+                btntsDelete.Image = Res.Delete;
 
                 //btnSave.Image = Res.btntssave_image;
                 //btnIgnore.Image = Res.GoLtr;
@@ -1949,8 +1950,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         {
             btnSave.Enabled = btnIgnore.Enabled = btnPreview.Enabled = btnDiff.Enabled =
             btntsPreview.Enabled = btntsChanges.Enabled = listMaker1.MakeListEnabled =
-            btntsSave.Enabled = btntsIgnore.Enabled = btnMove.Enabled = btnDelete.Enabled = btnWatch.Enabled =
-            btnProtect.Enabled = groupBox10.Enabled = enabled;
+            btntsSave.Enabled = btntsIgnore.Enabled = btnMove.Enabled = btntsDelete.Enabled = btnDelete.Enabled = 
+            btnWatch.Enabled = btnProtect.Enabled = groupBox10.Enabled = enabled;
         }
 
         #endregion
@@ -2805,6 +2806,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private void btntsChanges_Click(object sender, EventArgs e)
         {
             GetDiff();
+        }
+
+        private void btntsDelete_Click(object sender, EventArgs e)
+        {
+            DeleteArticle();
         }
 
         private void SetBrowserSize()
