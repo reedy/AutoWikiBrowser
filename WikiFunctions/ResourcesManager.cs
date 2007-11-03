@@ -70,5 +70,10 @@ namespace WikiFunctions.Properties
         {
             get { return Resources.Run; }
         }
+
+        public static System.Drawing.Bitmap Delete
+        {
+            get { return Resources.Vista_trashcan_empty; }
+        }
     }
 }
