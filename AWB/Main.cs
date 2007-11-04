@@ -239,13 +239,13 @@ namespace AutoWikiBrowser
                 splash.SetProgress(90);
 
                 WikiStatusResult res = Variables.User.CheckEnabled();
-                if (res == WikiStatusResult.OldVersion) 
+                if (res == WikiStatusResult.OldVersion)
                     OldVersion();
                 else if (res == WikiStatusResult.Error)
                 {
                     lblUserName.BackColor = Color.Red;
                     MessageBox.Show(this, "Cannot load version check page from Wikipedia. "
-                        + "Please verify that you're connected to Internet.", "Error", 
+                        + "Please verify that you're connected to Internet.", "Error",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
@@ -1199,6 +1199,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         #region extra stuff
 
+        #region Diff
         public void DiffDblClicked(string id)
         {
             try
@@ -1262,6 +1263,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 ErrorHandler.Handle(ex);
             }
         }
+        #endregion
 
         private void PanelShowHide()
         {
@@ -1430,11 +1432,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             lblOnlyBots.Visible = !Variables.User.IsBot;
         }
 
-        private void UpdateAdminStatus(object sender, EventArgs e)
-        { }
+        private void UpdateAdminStatus(object sender, EventArgs e) { }
 
-        private void UpdateWikiStatus(object sender, EventArgs e)
-        { }
+        private void UpdateWikiStatus(object sender, EventArgs e) { }
 
         private void chkAutoMode_CheckedChanged(object sender, EventArgs e)
         {
@@ -1582,12 +1582,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void chkAppend_CheckedChanged(object sender, EventArgs e)
         {
-            txtAppendMessage.Enabled = chkAppend.Checked;
-            rdoAppend.Enabled = chkAppend.Checked;
-            rdoPrepend.Enabled = chkAppend.Checked;
-            udNewlineChars.Enabled = chkAppend.Checked;
-            lblUse.Enabled = chkAppend.Checked;
-            lblNewlineCharacters.Enabled = chkAppend.Checked;
+            txtAppendMessage.Enabled = rdoAppend.Enabled = rdoPrepend.Enabled =
+            udNewlineChars.Enabled = lblUse.Enabled = lblNewlineCharacters.Enabled = chkAppend.Checked;
         }
 
         private void wordWrapToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -1826,9 +1822,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void PreferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MyPreferences myPrefs = new MyPreferences(Variables.LangCode, Variables.Project, 
-                Variables.CustomProject, txtEdit.Font, LowThreadPriority, Flash, Beep, 
-                Minimize, SaveArticleList, TimeOut, AutoSaveEditBoxEnabled, AutoSaveEditBoxFile, 
+            MyPreferences myPrefs = new MyPreferences(Variables.LangCode, Variables.Project,
+                Variables.CustomProject, txtEdit.Font, LowThreadPriority, Flash, Beep,
+                Minimize, SaveArticleList, TimeOut, AutoSaveEditBoxEnabled, AutoSaveEditBoxFile,
                 AutoSaveEditBoxPeriod, SupressUsingAWB);
 
             if (myPrefs.ShowDialog(this) == DialogResult.OK)
@@ -1950,13 +1946,13 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         {
             btnSave.Enabled = btnIgnore.Enabled = btnPreview.Enabled = btnDiff.Enabled =
             btntsPreview.Enabled = btntsChanges.Enabled = listMaker1.MakeListEnabled =
-            btntsSave.Enabled = btntsIgnore.Enabled = btnMove.Enabled = btntsDelete.Enabled = btnDelete.Enabled = 
+            btntsSave.Enabled = btntsIgnore.Enabled = btnMove.Enabled = btntsDelete.Enabled = btnDelete.Enabled =
             btnWatch.Enabled = btnProtect.Enabled = groupBox10.Enabled = enabled;
         }
 
         #endregion
 
-        #region timers
+        #region Timers
 
         int intRestartDelay = 5;
         int intStartInSeconds = 5;
@@ -2548,6 +2544,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             Help.ShowHelp(h);
         }
 
+        #region Edit Box Menu
         private void reparseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ArticleEX a = new ArticleEX(TheArticle.Name);
@@ -2564,6 +2561,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 txtEdit.Text = LastArticle;
         }
 
+        #region PasteMore
         private void PasteMore1_DoubleClick(object sender, EventArgs e)
         {
             txtEdit.SelectedText = PasteMore1.Text;
@@ -2623,6 +2621,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             txtEdit.SelectedText = PasteMore10.Text;
             mnuTextBox.Hide();
         }
+        #endregion
 
         private void removeAllExcessWhitespaceToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2632,6 +2631,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
             txtEdit.Text = text;
         }
+        #endregion
 
         private void txtNewCategory_DoubleClick(object sender, EventArgs e)
         {
@@ -2847,7 +2847,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             get { return boolEnableToolbar; }
             set
             {
-                if (value == true)
+                if (value)
                     toolStrip.Show();
                 else
                     toolStrip.Hide();
@@ -3079,7 +3079,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
         }
 
-        #region NotifyTray
+        #region Notify Tray
         private void showToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!this.Visible)
@@ -3116,7 +3116,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             showToolStripMenuItem.Enabled = !visible || this.WindowState == FormWindowState.Minimized;
             hideToolStripMenuItem.Enabled = visible;
         }
-        #endregion
 
         private void ToolStripHide()
         {
@@ -3124,16 +3123,17 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
         }
 
-        private void UpdateUpdater()
-        {
-            Updater.Update();
-        }
-
         public void NotifyBalloon(string message, ToolTipIcon icon)
         {
             ntfyTray.BalloonTipText = message;
             ntfyTray.BalloonTipIcon = icon;
             ntfyTray.ShowBalloonTip(10000);
+        }
+        #endregion
+
+        private void UpdateUpdater()
+        {
+            Updater.Update();
         }
 
         private void btnRemove_Click(object sender, EventArgs e)
@@ -3276,6 +3276,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
         }
 
+        #region Edit Box Saver
         private void EditBoxSaveTimer_Tick(object sender, EventArgs e)
         {
             SaveEditBoxText(AutoSaveEditBoxFile);
@@ -3298,6 +3299,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 ErrorHandler.Handle(ex);
             }
         }
+        #endregion
 
         private void saveTextToFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -3361,6 +3363,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 chkSkipNonExistent.Checked = false;
         }
 
+        #region History
         private void tabControl2_SelectedIndexChanged(object sender, EventArgs e)
         {
             NewHistory();
@@ -3415,6 +3418,12 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
         }
 
+        private void mnuHistory_Opening(object sender, CancelEventArgs e)
+        {
+            openInBrowserToolStripMenuItem.Enabled = refreshHistoryToolStripMenuItem.Enabled = (TheArticle != null);
+        }
+        #endregion
+
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             try
@@ -3431,6 +3440,13 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             profiles.ShowDialog(this);
         }
 
+        private void LoadProfileSettings()
+        {
+            if (!string.IsNullOrEmpty(profiles.SettingsToLoad))
+                LoadPrefs(profiles.SettingsToLoad);
+            CheckStatus(true);
+        }
+
         private void chkMinor_CheckedChanged(object sender, EventArgs e)
         {
             markAllAsMinorToolStripMenuItem.Checked = chkMinor.Checked;
@@ -3439,18 +3455,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private void markAllAsMinorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             chkMinor.Checked = markAllAsMinorToolStripMenuItem.Checked;
-        }
-
-        private void LoadProfileSettings()
-        {
-            if (!string.IsNullOrEmpty(profiles.SettingsToLoad))
-                LoadPrefs(profiles.SettingsToLoad);
-            CheckStatus(true);
-        }
-
-        private void mnuHistory_Opening(object sender, CancelEventArgs e)
-        {
-            openInBrowserToolStripMenuItem.Enabled = refreshHistoryToolStripMenuItem.Enabled = (TheArticle != null);
         }
 
         #region Shutdown
@@ -3701,13 +3705,13 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
             get { return imgBold.Visible; }
         }
-        #endregion
 
         private void showHideEditToolbarToolStripMenuItem_Click(object sender, EventArgs e)
         {
             showHideEditToolbarToolStripMenuItem.Checked = !showHideEditToolbarToolStripMenuItem.Checked;
             EditToolBarVisible = showHideEditToolbarToolStripMenuItem.Checked;
         }
+        #endregion
 
         private void txtFind_MouseHover(object sender, EventArgs e)
         {
