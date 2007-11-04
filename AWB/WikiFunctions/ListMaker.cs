@@ -1206,7 +1206,11 @@ namespace WikiFunctions.Controls.Lists
         private void loadArticlesInBrowser()
         {
             foreach (Article item in lbArticles.SelectedItems)
-                Process.Start(Variables.URLLong + "index.php?title=" + System.Web.HttpUtility.UrlEncode(item.Name));
+                try
+                {
+                    Process.Start(Variables.URLLong + "index.php?title=" + System.Web.HttpUtility.UrlEncode(item.Name));
+                }
+                catch { }
         }
 
         private void removeToolStripMenuItem_Click(object sender, EventArgs e)
