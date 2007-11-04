@@ -233,7 +233,20 @@ namespace AutoWikiBrowser
             listMaker1.removeListDuplicates();
         }
 
-        //private string settingsfilename = "Default.xml";
+        public void LoadRecentSettingsList()
+        {
+            string s;
+
+            try
+            {
+                Microsoft.Win32.RegistryKey reg = Microsoft.Win32.Registry.CurrentUser.
+                    OpenSubKey("Software\\Wikipedia\\AutoWikiBrowser");
+
+                s = reg.GetValue("RecentList", "").ToString();
+            }
+            catch { return; }
+            UpdateRecentList(s.Split('|'));
+        }
 
         public void UpdateRecentList(string[] list)
         {
@@ -252,21 +265,6 @@ namespace AutoWikiBrowser
             UpdateRecentSettingsMenu();
         }
 
-        public void LoadRecentSettingsList()
-        {
-            string s;
-
-            try
-            {
-                Microsoft.Win32.RegistryKey reg = Microsoft.Win32.Registry.CurrentUser.
-                    OpenSubKey("Software\\Wikipedia\\AutoWikiBrowser");
-
-                s = reg.GetValue("RecentList", "").ToString();
-            }
-            catch { return; }
-            UpdateRecentList(s.Split('|'));
-        }
-
         private void UpdateRecentSettingsMenu()
         {
             while (RecentList.Count > 5)
@@ -278,7 +276,7 @@ namespace AutoWikiBrowser
             {
                 if (i != RecentList.Count)
                 {
-                    i ++;
+                    i++;
                     ToolStripItem item = recentToolStripMenuItem.DropDownItems.Add(filename);
                     item.Click += RecentSettingsClick;
                 }
