@@ -409,7 +409,7 @@ namespace AutoWikiBrowser
 
                 //check edit summary
                 txtEdit.Enabled = true;
-                SetToolBarEnabled(true);
+                SetEditToolBarEnabled(true);
                 txtEdit.Text = "";
                 webBrowserEdit.BringToFront();
                 if (cmboEditSummary.Text == "" && Plugin.Items.Count == 0)
@@ -3669,42 +3669,44 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
         }
 
-        private void SetToolBarEnabled(bool enabled)
+        private void SetEditToolBarEnabled(bool enabled)
         {
             imgBold.Enabled = imgExtlink.Enabled = imgHr.Enabled = imgItalics.Enabled = imgLink.Enabled =
             imgMath.Enabled = imgNowiki.Enabled = imgRedirect.Enabled = imgStrike.Enabled = imgSub.Enabled =
             imgSup.Enabled = enabled;
         }
 
-        private bool ToolBarVisible
+        private bool EditToolBarVisible
         {
             set
             {
-                if (value)
+                if (imgBold.Visible != value)
                 {
-                    txtEdit.Location = new Point(txtEdit.Location.X, txtEdit.Location.Y + 32);
-                    txtEdit.Size = new Size(txtEdit.Size.Width, txtEdit.Size.Height - 32);
-                }
-                else
-                {
-                    txtEdit.Location = new Point(txtEdit.Location.X, txtEdit.Location.Y - 32);
-                    txtEdit.Size = new Size(txtEdit.Size.Width, txtEdit.Size.Height + 32);
-                }
+                    if (value)
+                    {
+                        txtEdit.Location = new Point(txtEdit.Location.X, txtEdit.Location.Y + 32);
+                        txtEdit.Size = new Size(txtEdit.Size.Width, txtEdit.Size.Height - 32);
+                    }
+                    else
+                    {
+                        txtEdit.Location = new Point(txtEdit.Location.X, txtEdit.Location.Y - 32);
+                        txtEdit.Size = new Size(txtEdit.Size.Width, txtEdit.Size.Height + 32);
+                    }
 
-                imgBold.Visible = imgExtlink.Visible = imgHr.Visible = imgItalics.Visible = imgLink.Visible =
-                imgMath.Visible = imgNowiki.Visible = imgRedirect.Visible = imgStrike.Visible = imgSub.Visible =
-                imgSup.Visible = value;
-
+                    imgBold.Visible = imgExtlink.Visible = imgHr.Visible = imgItalics.Visible = imgLink.Visible =
+                    imgMath.Visible = imgNowiki.Visible = imgRedirect.Visible = imgStrike.Visible = imgSub.Visible =
+                    imgSup.Visible = value;
+                }
                 showHideEditToolbarToolStripMenuItem.Checked = value;
             }
-            get { return imgSup.Visible; }
+            get { return imgBold.Visible; }
         }
         #endregion
 
         private void showHideEditToolbarToolStripMenuItem_Click(object sender, EventArgs e)
         {
             showHideEditToolbarToolStripMenuItem.Checked = !showHideEditToolbarToolStripMenuItem.Checked;
-            ToolBarVisible = showHideEditToolbarToolStripMenuItem.Checked;
+            EditToolBarVisible = showHideEditToolbarToolStripMenuItem.Checked;
         }
 
         private void txtFind_MouseHover(object sender, EventArgs e)

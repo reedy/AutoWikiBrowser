@@ -151,7 +151,7 @@ namespace AutoWikiBrowser
             alphaSortInterwikiLinksToolStripMenuItem.Checked = true;
             addIgnoredToLogFileToolStripMenuItem.Checked = false;
             showHideEditToolbarToolStripMenuItem.Checked = true;
-            ToolBarVisible = true;
+            EditToolBarVisible = true;
 
             PasteMore1.Text = "";
             PasteMore2.Text = "";
@@ -337,7 +337,7 @@ namespace AutoWikiBrowser
                 showTimerToolStripMenuItem.Checked, sortAlphabeticallyToolStripMenuItem.Checked,
                 addIgnoredToLogFileToolStripMenuItem.Checked, (int)txtEdit.Font.Size, txtEdit.Font.Name,
                 LowThreadPriority, Beep, Flash, Minimize, TimeOut, AutoSaveEditBoxEnabled, AutoSaveEditBoxPeriod,
-                AutoSaveEditBoxFile, CustomWikis, chkLock.Checked, ToolBarVisible, SupressUsingAWB, filterOutNonMainSpaceToolStripMenuItem.Checked), new DabPrefs(chkEnableDab.Checked,
+                AutoSaveEditBoxFile, CustomWikis, chkLock.Checked, EditToolBarVisible, SupressUsingAWB, filterOutNonMainSpaceToolStripMenuItem.Checked), new DabPrefs(chkEnableDab.Checked,
                 txtDabLink.Text, txtDabVariants.Lines, (int)udContextChars.Value), new ModulePrefs(
                 cModule.ModuleEnabled, cModule.Language, cModule.Code), loggingSettings1.SerialisableSettings, 
                 Plugin.Items);
@@ -423,7 +423,7 @@ namespace AutoWikiBrowser
             }
 
             chkLock.Checked = p.General.LockSummary;
-            ToolBarVisible = p.General.ToolBarEnabled;
+            EditToolBarVisible = p.General.EditToolbarEnabled;
 
             cmboEditSummary.Text = p.General.SelectedSummary;
 
