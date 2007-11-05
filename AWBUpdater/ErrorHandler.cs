@@ -33,6 +33,13 @@ namespace AwbUpdater
         {
             if (ex != null)
             {
+                if (ex is System.Net.WebException)
+                {
+                    MessageBox.Show(ex.Message, "Network access error. Please try again later",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
                 ErrorHandler handler = new ErrorHandler();
 
                 handler.txtError.Text = ex.Message;
@@ -43,6 +50,7 @@ namespace AwbUpdater
                 handler.txtDetails.Text += "\r\n}}";
 
                 handler.ShowDialog();
+                }
             }
         }
 
