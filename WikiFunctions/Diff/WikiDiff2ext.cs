@@ -39,7 +39,11 @@ namespace WikiFunctions
 
         static unsafe WikiDiff()
         {
-            wikidiff2_free(null);
+            try
+            {
+                wikidiff2_free(null);
+            }
+            catch { }
         }
 
         public unsafe static string Version
@@ -181,7 +185,7 @@ td.diff-addedline span.diffchange {
         {
             string styles = DefaultStyles;
 
-            if (CustomStyles != "" && CustomStyles != null)
+            if (!string.IsNullOrEmpty(CustomStyles))
                 styles = CustomStyles;
             else if (System.IO.File.Exists("style.css") && CustomStyles == null)
             {

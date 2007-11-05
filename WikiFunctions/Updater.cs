@@ -23,6 +23,8 @@ using System.IO;
 using System.Net;
 using System.Diagnostics;
 
+using System.Windows.Forms;
+
 namespace WikiFunctions
 {
     public static class Updater
@@ -66,7 +68,7 @@ namespace WikiFunctions
                     {
                         FileVersionInfo versionUpdater = FileVersionInfo.GetVersionInfo(".\\AWBUpdater.exe");
 
-                        if (Convert.ToInt32(m_updversion.Groups[1].Value) > Convert.ToInt32(versionUpdater.FileVersion.Replace(".", "")))
+                        if ((Convert.ToInt32(m_updversion.Groups[1].Value) > Convert.ToInt32(versionUpdater.FileVersion.Replace(".", ""))) && (MessageBox.Show("There is an update for the updater. Run teh updater now?", "Update Updater?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes))
                             System.Diagnostics.Process.Start(".\\AWBUpdater.exe");
                     }
                 }
