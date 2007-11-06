@@ -2011,7 +2011,13 @@ namespace IrcMonitor
         private void profilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             WikiFunctions.AWBProfiles.AWBProfilesForm profiles = new WikiFunctions.AWBProfiles.AWBProfilesForm(webBrowser);
+            profiles.LoadProfile += LoadProfileSettings;
             profiles.Show(this);
+        }
+
+        private void LoadProfileSettings()
+        {
+            CheckStatus(true);
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
