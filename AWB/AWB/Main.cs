@@ -950,6 +950,18 @@ namespace AutoWikiBrowser
                     if (theArticle.SkipArticle) return;
                 }
 
+                // replace/add/remove categories
+                if (cmboCategorise.SelectedIndex != 0)
+                {
+                    theArticle.Categorisation((WikiFunctions.Options.CategorisationOptions)
+                        cmboCategorise.SelectedIndex, parsers, chkSkipNoCatChange.Checked, txtNewCategory.Text.Trim(),
+                        txtNewCategory2.Text.Trim());
+                    if (theArticle.SkipArticle) return;
+                    else if (!chkGeneralFixes.Checked) theArticle.AWBChangeArticleText("Fix categories", parsers.FixCategories(theArticle.ArticleText), true);
+                }
+
+                prof.Profile("Categories");
+
                 if (theArticle.CanDoGeneralFixes)
                 {
                     // auto tag
@@ -1074,18 +1086,6 @@ namespace AutoWikiBrowser
                 }
 
                 prof.Profile("Images");
-
-                // replace/add/remove categories
-                if (cmboCategorise.SelectedIndex != 0)
-                {
-                    theArticle.Categorisation((WikiFunctions.Options.CategorisationOptions)
-                        cmboCategorise.SelectedIndex, parsers, chkSkipNoCatChange.Checked, txtNewCategory.Text.Trim(),
-                        txtNewCategory2.Text.Trim());
-                    if (theArticle.SkipArticle) return;
-                    else if (!chkGeneralFixes.Checked) theArticle.AWBChangeArticleText("Fix categories", parsers.FixCategories(theArticle.ArticleText), true);
-                }
-
-                prof.Profile("Categories");
 
                 // disambiguation
                 if (chkEnableDab.Checked && txtDabLink.Text.Trim().Length > 0 &&
