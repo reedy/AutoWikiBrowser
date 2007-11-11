@@ -352,8 +352,8 @@ namespace WikiFunctions.Controls.Lists
                 txtSelectSource.Text = Tools.TurnFirstToUpper(txtSelectSource.Text);
             txtSelectSource.AutoCompleteCustomSource.Add(txtSelectSource.Text);
 
-            string[] s = txtSelectSource.Text.Trim().Trim('|').Trim().Split('|');
-            MakeList(st, s);
+            txtSelectSource.Text = txtSelectSource.Text.Trim(); 
+            MakeList(st, txtSelectSource.Text.Split(new char[] {'|'}, StringSplitOptions.RemoveEmptyEntries));
         }
 
         private void lbArticles_MouseMove(object sender, MouseEventArgs e)
@@ -1056,7 +1056,7 @@ namespace WikiFunctions.Controls.Lists
             try
             {
                 string textTba = Clipboard.GetDataObject().GetData(DataFormats.Text).ToString();
-                string[] splitter = { "\r\n", "," };
+                string[] splitter = { "\r\n", "|" };
 
                 string[] splitTextTBA = textTba.Split(splitter, StringSplitOptions.RemoveEmptyEntries);
 
