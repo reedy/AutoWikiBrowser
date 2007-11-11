@@ -353,7 +353,6 @@ namespace WikiFunctions.Controls.Lists
             txtSelectSource.AutoCompleteCustomSource.Add(txtSelectSource.Text);
 
             string[] s = txtSelectSource.Text.Trim().Trim('|').Trim().Split('|');
-
             MakeList(st, s);
         }
 
@@ -1063,7 +1062,7 @@ namespace WikiFunctions.Controls.Lists
 
                 foreach (string entry in splitTextTBA)
                 {
-                    if (entry != "")
+                    if (entry.Trim() != "")
                         Add(entry);
                 }
             }
