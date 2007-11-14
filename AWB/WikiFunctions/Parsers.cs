@@ -475,6 +475,9 @@ namespace WikiFunctions.Parse
         {
             // visible parts of links may contain crap we shouldn't modify, such as
             // refs and external links
+
+            AnchorDecode(ref title);
+
             if (title.Contains("[") || title.Contains("{")) return title;
 
             string s = CanonicalizeTitleRaw(title);
@@ -484,6 +487,47 @@ namespace WikiFunctions.Parse
                     .Trim(new char[] { '_' });
             }
             else return s;
+        }
+
+        static bool IsHex(byte b)
+        {
+            return ((b >= '0' && b <= '9') || (b >= 'A' && b <= 'F'));
+        }
+
+        static byte DecodeHex(byte a, byte b)
+        {
+            string s = new string(new char[] { (char)a, (char)b });
+
+            return byte.Parse(s, System.Globalization.NumberStyles.HexNumber);
+        }
+
+        public static void AnchorDecode(ref string link)
+        {
+            Match m = WikiRegexes.AnchorEncodedLink.Match(link);
+            if (!m.Success) return;
+
+            string anchor = m.Value.Replace('_', ' ');
+            byte[] src = Encoding.UTF8.GetBytes(anchor);
+            byte[] dest = (byte[])src.Clone();
+
+            int SrcCount, DestCount = 0;
+
+            for (SrcCount = 0; SrcCount < src.Length; SrcCount++)
+            {
+                if (src[SrcCount] != '.' || !(SrcCount + 3 <= src.Length && 
+                    IsHex(src[SrcCount + 1]) && IsHex(src[SrcCount+2])))
+                        // then
+                        dest[DestCount] = src[SrcCount];
+                else
+                {
+                    dest[DestCount] = DecodeHex(src[SrcCount + 1], src[SrcCount + 2]);
+                    SrcCount += 2;
+                }
+                
+                DestCount++;
+            }
+
+            link = link.Replace(m.Value, Encoding.UTF8.GetString(dest, 0, DestCount));
         }
 
         /// <summary>
