@@ -770,8 +770,8 @@ namespace WikiFunctions
                         Namespaces[100] = "Портал:";
                         Namespaces[101] = "Обсуждение портала:";
 
-                        strsummarytag = " при помощи ";
-                        strWPAWB = "[[Википедия:AutoWikiBrowser|AWB]]";
+                        strsummarytag = " с помощью ";
+                        strWPAWB = "[[WP:AWB|AWB]]";
                         Stub = "(?:[Ss]tub|[Зз]аготовка)";
                         MonthNames = new string[12] { "января", "февраля", "марта", "апреля",
                             "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"};

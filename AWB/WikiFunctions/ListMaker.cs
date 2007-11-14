@@ -338,7 +338,9 @@ namespace WikiFunctions.Controls.Lists
             }
 
             SourceType st = SelectedSource;
-            txtSelectSource.Text = txtSelectSource.Text.Trim('[', ']');
+            if (st != SourceType.WikiSearch && st != SourceType.GoogleWikipedia) 
+                txtSelectSource.Text = txtSelectSource.Text.Trim('[', ']');
+
             if (st == SourceType.Category || st == SourceType.CategoryRecursive)
                 txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.NamespacesCaseInsensitive[14], "", RegexOptions.IgnoreCase);
             else if (st == SourceType.UserContribs)
@@ -348,7 +350,7 @@ namespace WikiFunctions.Controls.Lists
             else if (st == SourceType.ImageFileLinks)
                 txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
 
-            if (st != SourceType.GoogleWikipedia)
+            if (st != SourceType.GoogleWikipedia && st != SourceType.WikiSearch)
                 txtSelectSource.Text = Tools.TurnFirstToUpper(txtSelectSource.Text);
             txtSelectSource.AutoCompleteCustomSource.Add(txtSelectSource.Text);
 
