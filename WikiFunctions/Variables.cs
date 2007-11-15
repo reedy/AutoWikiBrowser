@@ -1431,10 +1431,10 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
 
                 //AWB does not support any skin other than Monobook
                 string skin = webBrowserLogin.GetScriptingVar("skin");
-                if (skin != "monobook" && skin != "quartzsmoke")
+                if (skin == "cologneblue")
                 {
-                    MessageBox.Show("This software does not support skins other than Monobook." +
-                        "\r\nPlease choose Monobook in your preferences and relogin.", "Error",
+                    MessageBox.Show("This software does not support the Cologne Blue skin." +
+                        "\r\nPlease choose another skin in your preferences and relogin.", "Error",
                         MessageBoxButtons.OK, MessageBoxIcon.Stop);
                     return WikiStatusResult.Null;
                 }
