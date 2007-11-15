@@ -103,9 +103,13 @@ namespace WikiFunctions
 
         private void btnCopy_Click(object sender, EventArgs e)
         {
-            Clipboard.Clear();
-            System.Threading.Thread.Sleep(1000);
-            Clipboard.SetText(txtDetails.Text);
+            try
+            {
+                Clipboard.Clear();
+                System.Threading.Thread.Sleep(1000);
+                Clipboard.SetText(txtDetails.Text);
+            }
+            catch { }
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
