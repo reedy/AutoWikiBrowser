@@ -397,8 +397,8 @@ namespace WikiFunctions.Parse
         readonly Regex SyntaxRegex2fix = new Regex("\\[http:\\/\\/([^][]*?)\\]\\]\\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex SyntaxRegex2 = new Regex("\\[http:\\/\\/([^][]*?)\\]\\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex SyntaxRegex3 = new Regex("\\[\\[http:\\/\\/(.*?)\\]\\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        readonly Regex SyntaxRegex4 = new Regex("\\[\\[([^][]*?)\\]([^][][^\\]])", RegexOptions.Compiled);
-        readonly Regex SyntaxRegex5 = new Regex(@"([^][])\[([^][]*?)\]\]([^\]])", RegexOptions.Compiled);
+        readonly Regex SyntaxRegex4 = new Regex(@"\[\[([^][]*?)\](?=[^\]]*?(?:$|\[|\n))", RegexOptions.Compiled);
+        readonly Regex SyntaxRegex5 = new Regex(@"(?<=(?:^|\]|\n)[^\[]*?)\[([^][]*?)\]\](?!\])", RegexOptions.Compiled);
         
         readonly Regex SyntaxRegex6 = new Regex("\\[?\\[image:(http:\\/\\/.*?)\\]\\]?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex SyntaxRegex7 = new Regex("\\[\\[ (.*)?\\]\\]", RegexOptions.Compiled);
@@ -450,8 +450,8 @@ namespace WikiFunctions.Parse
             
             if (!Regex.IsMatch(ArticleText, "\\[\\[[Ii]mage:[^]]*http"))
             {
-                ArticleText = SyntaxRegex4.Replace(ArticleText, "[[$1]]$2");
-                ArticleText = SyntaxRegex5.Replace(ArticleText, "$1[[$2]]$3");
+                ArticleText = SyntaxRegex4.Replace(ArticleText, "[[$1]]");
+                ArticleText = SyntaxRegex5.Replace(ArticleText, "[[$1]]");
             }
 
             //repair bad external links
