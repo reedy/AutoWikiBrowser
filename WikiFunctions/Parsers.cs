@@ -546,7 +546,8 @@ namespace WikiFunctions.Parse
 
             foreach (Match m in WikiRegexes.WikiLink.Matches(ArticleText))
             {
-                y = m.Value.Replace(m.Groups[1].Value, CanonicalizeTitle(m.Groups[1].Value));
+                if (m.Groups[1].Value.Length > 0) y = m.Value.Replace(m.Groups[1].Value, CanonicalizeTitle(m.Groups[1].Value));
+                else continue;
 
                 if (y != m.Value) sb = sb.Replace(m.Value, y);
             }
