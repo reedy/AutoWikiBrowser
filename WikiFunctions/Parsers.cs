@@ -730,18 +730,22 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             string cat = Variables.Namespaces[14];
             string img = Variables.Namespaces[6];
 
-            Regex emptyLink = new Regex("\\[\\[(" + cat + "|:" + cat + "|" + img + "|)(|" + img + "|" + cat + "|.*?)\\]\\]", RegexOptions.IgnoreCase);
+            Regex emptyLink = new Regex("\\[\\[(:?" + cat + "|" + img + "|)(|" + img + "|" + cat + "|.*?)\\]\\]", RegexOptions.IgnoreCase);
             Regex emptyTemplate = new Regex("{{(|.*?)}}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+            string trim;
 
             foreach (Match link in emptyLink.Matches(ArticleText))
             {
-                if (link.Groups[2].Value.Trim() == "" || link.Groups[2].Value.Trim() == "|" + img || link.Groups[2].Value.Trim() == "|" + cat || link.Groups[2].Value.Trim() == "|")
+                trim = link.Groups[2].Value.Trim();
+                if (trim == "" || trim == "|" + img || trim == "|" + cat || trim == "|")
                     ArticleText = ArticleText.Replace("[[" + link.Groups[1].Value + link.Groups[2].Value + "]]", "");
             }
 
             foreach (Match template in emptyTemplate.Matches(ArticleText))
             {
-                if (template.Groups[1].Value.Trim() == "" || template.Groups[1].Value.Trim() == "|")
+                trim = template.Groups[1].Value.Trim();
+                if (trim == "" || trim == "|")
                     ArticleText = ArticleText.Replace("{{" + template.Groups[1].Value + "}}", "");
             }
             return ArticleText;
