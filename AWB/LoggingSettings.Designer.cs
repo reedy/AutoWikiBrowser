@@ -510,11 +510,11 @@ namespace AutoWikiBrowser
             // 
             this.Label7.AutoSize = true;
             this.Label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label7.Location = new System.Drawing.Point(103, 16);
+            this.Label7.Location = new System.Drawing.Point(99, 16);
             this.Label7.Name = "Label7";
-            this.Label7.Size = new System.Drawing.Size(65, 13);
+            this.Label7.Size = new System.Drawing.Size(83, 13);
             this.Label7.TabIndex = 27;
-            this.Label7.Text = "Since U/L";
+            this.Label7.Text = "Since Upload";
             // 
             // GroupBox1
             // 

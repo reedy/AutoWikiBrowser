@@ -846,7 +846,7 @@ namespace AutoWikiBrowser
             this.toolStripAdvanced,
             this.pluginsToolStripMenuItem,
             this.helpToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 25);
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(795, 24);
             this.menuStrip1.TabIndex = 3;
@@ -2699,7 +2699,7 @@ namespace AutoWikiBrowser
             this.lblOnlyBots.Name = "lblOnlyBots";
             this.lblOnlyBots.Size = new System.Drawing.Size(277, 348);
             this.lblOnlyBots.TabIndex = 35;
-            this.lblOnlyBots.Text = "Sorry, these options are only available for approved bots";
+            this.lblOnlyBots.Text = "Sorry, these options\r\nare available only\r\nfor approved bots.";
             this.lblOnlyBots.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // groupBox16
