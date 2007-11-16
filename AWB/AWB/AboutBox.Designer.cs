@@ -71,25 +71,27 @@ namespace AutoWikiBrowser
             // 
             // textBoxDescription
             // 
-            this.textBoxDescription.Location = new System.Drawing.Point(212, 138);
+            this.textBoxDescription.Location = new System.Drawing.Point(212, 89);
             this.textBoxDescription.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
             this.textBoxDescription.Multiline = true;
             this.textBoxDescription.Name = "textBoxDescription";
             this.textBoxDescription.ReadOnly = true;
             this.textBoxDescription.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxDescription.Size = new System.Drawing.Size(248, 116);
+            this.textBoxDescription.Size = new System.Drawing.Size(248, 109);
             this.textBoxDescription.TabIndex = 23;
             this.textBoxDescription.TabStop = false;
             this.textBoxDescription.Text = "WarningMessage";
             // 
             // okButton
             // 
+            this.okButton.BackColor = System.Drawing.SystemColors.Control;
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.okButton.Location = new System.Drawing.Point(385, 266);
+            this.okButton.Location = new System.Drawing.Point(385, 204);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 22);
             this.okButton.TabIndex = 24;
             this.okButton.Text = "&OK";
+            this.okButton.UseVisualStyleBackColor = false;
             this.okButton.Click += new System.EventHandler(this.okButton_Click);
             // 
             // linkBluemoose
@@ -108,12 +110,12 @@ namespace AutoWikiBrowser
             // 
             this.linkAWBPage.AutoSize = true;
             this.linkAWBPage.BackColor = System.Drawing.Color.Transparent;
-            this.linkAWBPage.Location = new System.Drawing.Point(32, 201);
+            this.linkAWBPage.Location = new System.Drawing.Point(32, 169);
             this.linkAWBPage.Name = "linkAWBPage";
-            this.linkAWBPage.Size = new System.Drawing.Size(115, 13);
+            this.linkAWBPage.Size = new System.Drawing.Size(140, 13);
             this.linkAWBPage.TabIndex = 26;
             this.linkAWBPage.TabStop = true;
-            this.linkAWBPage.Text = "AutoWikiBrowser page";
+            this.linkAWBPage.Text = "AutoWikiBrowser main page";
             this.linkAWBPage.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
             // 
             // linkLigulem
@@ -156,7 +158,7 @@ namespace AutoWikiBrowser
             // 
             this.linkBugs.AutoSize = true;
             this.linkBugs.BackColor = System.Drawing.Color.Transparent;
-            this.linkBugs.Location = new System.Drawing.Point(32, 221);
+            this.linkBugs.Location = new System.Drawing.Point(32, 189);
             this.linkBugs.Name = "linkBugs";
             this.linkBugs.Size = new System.Drawing.Size(31, 13);
             this.linkBugs.TabIndex = 40;
@@ -168,7 +170,7 @@ namespace AutoWikiBrowser
             // 
             this.linkFeatureRequests.AutoSize = true;
             this.linkFeatureRequests.BackColor = System.Drawing.Color.Transparent;
-            this.linkFeatureRequests.Location = new System.Drawing.Point(32, 241);
+            this.linkFeatureRequests.Location = new System.Drawing.Point(32, 209);
             this.linkFeatureRequests.Name = "linkFeatureRequests";
             this.linkFeatureRequests.Size = new System.Drawing.Size(91, 13);
             this.linkFeatureRequests.TabIndex = 42;
@@ -192,7 +194,7 @@ namespace AutoWikiBrowser
             // 
             this.linkKingboy.AutoSize = true;
             this.linkKingboy.BackColor = System.Drawing.Color.Transparent;
-            this.linkKingboy.Location = new System.Drawing.Point(114, 80);
+            this.linkKingboy.Location = new System.Drawing.Point(122, 80);
             this.linkKingboy.Name = "linkKingboy";
             this.linkKingboy.Size = new System.Drawing.Size(76, 13);
             this.linkKingboy.TabIndex = 46;
@@ -204,7 +206,7 @@ namespace AutoWikiBrowser
             // 
             this.linkMartinp23.AutoSize = true;
             this.linkMartinp23.BackColor = System.Drawing.Color.Transparent;
-            this.linkMartinp23.Location = new System.Drawing.Point(114, 100);
+            this.linkMartinp23.Location = new System.Drawing.Point(122, 100);
             this.linkMartinp23.Name = "linkMartinp23";
             this.linkMartinp23.Size = new System.Drawing.Size(79, 13);
             this.linkMartinp23.TabIndex = 47;
@@ -231,7 +233,7 @@ namespace AutoWikiBrowser
             // lblNETVersion
             // 
             this.lblNETVersion.BackColor = System.Drawing.Color.Transparent;
-            this.lblNETVersion.Location = new System.Drawing.Point(249, 49);
+            this.lblNETVersion.Location = new System.Drawing.Point(209, 49);
             this.lblNETVersion.Name = "lblNETVersion";
             this.lblNETVersion.Size = new System.Drawing.Size(149, 13);
             this.lblNETVersion.TabIndex = 32;
@@ -240,7 +242,7 @@ namespace AutoWikiBrowser
             // lblIEVersion
             // 
             this.lblIEVersion.BackColor = System.Drawing.Color.Transparent;
-            this.lblIEVersion.Location = new System.Drawing.Point(249, 68);
+            this.lblIEVersion.Location = new System.Drawing.Point(212, 68);
             this.lblIEVersion.Name = "lblIEVersion";
             this.lblIEVersion.Size = new System.Drawing.Size(149, 13);
             this.lblIEVersion.TabIndex = 31;
@@ -249,7 +251,7 @@ namespace AutoWikiBrowser
             // lblOSVersion
             // 
             this.lblOSVersion.BackColor = System.Drawing.Color.Transparent;
-            this.lblOSVersion.Location = new System.Drawing.Point(249, 30);
+            this.lblOSVersion.Location = new System.Drawing.Point(212, 30);
             this.lblOSVersion.Name = "lblOSVersion";
             this.lblOSVersion.Size = new System.Drawing.Size(149, 13);
             this.lblOSVersion.TabIndex = 30;
@@ -258,7 +260,7 @@ namespace AutoWikiBrowser
             // lblAWBVersion
             // 
             this.lblAWBVersion.BackColor = System.Drawing.Color.Transparent;
-            this.lblAWBVersion.Location = new System.Drawing.Point(235, 11);
+            this.lblAWBVersion.Location = new System.Drawing.Point(212, 11);
             this.lblAWBVersion.Name = "lblAWBVersion";
             this.lblAWBVersion.Size = new System.Drawing.Size(163, 13);
             this.lblAWBVersion.TabIndex = 29;
@@ -267,7 +269,7 @@ namespace AutoWikiBrowser
             // label2
             // 
             this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.Location = new System.Drawing.Point(15, 180);
+            this.label2.Location = new System.Drawing.Point(15, 148);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(42, 13);
             this.label2.TabIndex = 28;
@@ -286,7 +288,7 @@ namespace AutoWikiBrowser
             // 
             this.linkJogers.AutoSize = true;
             this.linkJogers.BackColor = System.Drawing.Color.Transparent;
-            this.linkJogers.Location = new System.Drawing.Point(114, 120);
+            this.linkJogers.Location = new System.Drawing.Point(122, 120);
             this.linkJogers.Name = "linkJogers";
             this.linkJogers.Size = new System.Drawing.Size(63, 13);
             this.linkJogers.TabIndex = 48;
@@ -298,8 +300,8 @@ namespace AutoWikiBrowser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.ClientSize = new System.Drawing.Size(472, 300);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(255)))), ((int)(((byte)(200)))));
+            this.ClientSize = new System.Drawing.Size(472, 236);
             this.Controls.Add(this.linkJogers);
             this.Controls.Add(this.linkMartinp23);
             this.Controls.Add(this.linkKingboy);
