@@ -587,13 +587,21 @@ namespace AutoWikiBrowser
                 replaceSpecial.Clear();
                 substTemplates.Clear();
 
-                using (FileStream fStream = new FileStream(path, FileMode.Open))
+                string settings;
+
+                using (StreamReader f = new StreamReader(path, Encoding.UTF8))
                 {
-                    UserPrefs p;
-                    XmlSerializer xs = new XmlSerializer(typeof(UserPrefs));
-                    p = (UserPrefs)xs.Deserialize(fStream);
-                    LoadPrefs(p);
+                    settings = f.ReadToEnd();
                 }
+
+                // fix for format regression
+                settings = settings.Replace("RegularExpressinonOptions>", "RegularExpressionOptions>");
+
+                UserPrefs p;
+                XmlSerializer xs = new XmlSerializer(typeof(UserPrefs));
+                p = (UserPrefs)xs.Deserialize(new StringReader(settings));
+                LoadPrefs(p);
+
 
                 SettingsFile = path.Remove(0, path.LastIndexOf("\\") + 1);
                 UpdateSettingsFile();
