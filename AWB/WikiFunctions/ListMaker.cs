@@ -338,8 +338,10 @@ namespace WikiFunctions.Controls.Lists
             }
 
             SourceType st = SelectedSource;
-            if (st != SourceType.WikiSearch && st != SourceType.GoogleWikipedia) 
-                txtSelectSource.Text = txtSelectSource.Text.Trim('[', ']');
+            if (st != SourceType.WikiSearch && st != SourceType.GoogleWikipedia)
+            {
+                txtSelectSource.Text = Regex.Replace(txtSelectSource.Text.Trim('[', ']'), "#.*", "");
+            }
 
             if (st == SourceType.Category || st == SourceType.CategoryRecursive)
                 txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.NamespacesCaseInsensitive[14], "", RegexOptions.IgnoreCase);
