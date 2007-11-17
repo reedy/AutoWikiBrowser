@@ -510,6 +510,7 @@ namespace WikiFunctions
                 AWBChangeArticleText("Custom module", strTemp, true);
                 AppendPluginEditSummary();
             }
+            else Trace.AWBSkipped("Skipped by custom module");
         }
         #endregion
 
