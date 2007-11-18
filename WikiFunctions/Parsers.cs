@@ -1255,7 +1255,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The article text.</returns>
         public string AddCategory(string NewCategory, string ArticleText, string ArticleTitle)
         {
-            if (Regex.IsMatch(ArticleText, "\\[\\[ ?[Cc]ategory ?: ?" + Regex.Escape(NewCategory)))
+            if (Regex.IsMatch(ArticleText, "\\[\\[ ?[Cc]ategory ?: ?" + Regex.Escape(NewCategory) + @"\s*[\|\]]"))
                 return ArticleText;
 
             string cat = "\r\n[[" + Variables.Namespaces[14] + NewCategory + "]]";
