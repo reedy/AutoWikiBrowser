@@ -431,6 +431,38 @@ namespace WikiFunctions.Parse
             if (!chkIgnoreLinks.Checked)
                 chkIgnoreMore.Checked = false;
         }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            btnSearch.Enabled = txtSearch.Text.Length > 0;
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < 2; i++)
+                for (int j = 0; j < dataGridView1.Rows.Count; j++)
+                {
+                    DataGridViewCell c = dataGridView1.Rows[j].Cells[i];
+                    if (c.Value != null && c.Value.ToString().Contains(txtSearch.Text))
+                    {
+                        dataGridView1.ClearSelection();
+                        dataGridView1.EndEdit();
+                        dataGridView1.CurrentCell = c;
+                        if (!c.Displayed) dataGridView1.FirstDisplayedScrollingRowIndex = c.RowIndex;
+                        dataGridView1.Focus();
+                        dataGridView1.BeginEdit(false);
+                    }
+                }
+        }
+
+        private void txtSearch_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 13)
+            {
+                e.Handled = true;
+                btnSearch_Click(null, null);
+            }
+        }
     }
 
     public struct Replacement
