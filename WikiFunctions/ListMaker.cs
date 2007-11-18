@@ -1055,10 +1055,13 @@ namespace WikiFunctions.Controls.Lists
             Tools.Copy(lbArticles);
         }
 
+
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
+                Regex url = new Regex(Variables.URL + "/wiki");
+
                 string textTba = Clipboard.GetDataObject().GetData(DataFormats.Text).ToString();
                 string[] splitter = { "\r\n", "|" };
 
@@ -1066,7 +1069,9 @@ namespace WikiFunctions.Controls.Lists
 
                 foreach (string entry in splitTextTBA)
                 {
-                    if (entry.Trim() != "")
+                    if (url.Match(entry).Success)
+                        Add(entry.Replace(Variables.URL + "/wiki/", ""));
+                    else if (entry.Trim() != "")
                         Add(entry);
                 }
             }
