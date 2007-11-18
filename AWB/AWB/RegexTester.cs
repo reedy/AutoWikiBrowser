@@ -43,31 +43,38 @@ namespace AutoWikiBrowser
 
         private void ConditionsChanged(object sender, EventArgs e)
         {
-            Go.Enabled = Find.Text != "" && Source.Text != "";
+            FindBtn.Enabled = ReplaceBtn.Enabled = Find.Text != "" && Source.Text != "";
         }
 
-        private void Go_Click(object sender, EventArgs e)
+        private RegexOptions Options
         {
-            ResultList.Items.Clear();
+            get
+            {
+                RegexOptions res = RegexOptions.None;
+                if (Multiline.Checked) res |= RegexOptions.Singleline;
+                if (!Casesensitive.Checked) res |= RegexOptions.IgnoreCase;
+
+                return res;
+            }
+        }
+
+        private void Replace_Click(object sender, EventArgs e)
+        {
+            Captures.Nodes.Clear();
             ResultText.Text = "";
             Status.Text = "";
             Source.Text = Source.Text.Replace("\r\n", "\n");
 
             try
             {
-                Regex r;
-                if (Multiline.Checked && Casesensitive.Checked) r = new Regex(Find.Text, RegexOptions.Singleline);
-                else if (!Multiline.Checked && Casesensitive.Checked) r = new Regex(Find.Text);
-                else if (Multiline.Checked && !Casesensitive.Checked) r = new Regex(Find.Text, RegexOptions.Singleline | RegexOptions.IgnoreCase);
-                else if (!Multiline.Checked && !Casesensitive.Checked) r = new Regex(Find.Text, RegexOptions.IgnoreCase);
-                else r = new Regex(Find.Text);
+                Regex r = new Regex(Find.Text, Options);
 
                 ResultText.Text = r.Replace(Source.Text, Replace.Text.Replace("\\n", "\r\n"));
                 if (r.Matches(Source.Text).Count != 1)
                     Status.Text = r.Matches(Source.Text).Count.ToString() + " replacements performed";
                 else
-                    Status.Text = "1 replacements performed";
-                ResultList.Visible = false;
+                    Status.Text = "1 replacement performed";
+                Captures.Visible = false;
                 ResultText.Visible = true;
             }
             catch (Exception ex)
@@ -88,6 +95,32 @@ namespace AutoWikiBrowser
                 e.Handled = true;
                 Close();
             }
+        }
+
+        private void FindBtn_Click(object sender, EventArgs e)
+        {
+            Captures.Nodes.Clear();
+            Captures.Visible = true;
+            ResultText.Text = "";
+            ResultText.Visible = false;
+            Status.Text = "";
+
+            Regex r = new Regex(Find.Text, Options);
+            MatchCollection matches = r.Matches(Source.Text.Replace("\r\n", "\n"));
+            foreach (Match m in matches)
+            {
+                TreeNode n = Captures.Nodes.Add(m.Value);
+                for (int i = 1; i < m.Groups.Count; i++) n.Nodes.Add(m.Groups[i].Value);
+            }
+            if (matches.Count == 0)
+                Status.Text = "No matches";
+            else if (matches.Count == 1)
+                Status.Text = "1 match found";
+            else
+                Status.Text = matches.Count.ToString() + " matches found";
+
+
+            Captures.ExpandAll();
         }
     }
 }

@@ -32,15 +32,16 @@ namespace AutoWikiBrowser
             this.label2 = new System.Windows.Forms.Label();
             this.Find = new System.Windows.Forms.TextBox();
             this.Replace = new System.Windows.Forms.TextBox();
-            this.Go = new System.Windows.Forms.Button();
+            this.ReplaceBtn = new System.Windows.Forms.Button();
             this.Source = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.ResultList = new System.Windows.Forms.ListBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.Status = new System.Windows.Forms.ToolStripStatusLabel();
             this.ResultText = new System.Windows.Forms.TextBox();
             this.Multiline = new System.Windows.Forms.CheckBox();
             this.Casesensitive = new System.Windows.Forms.CheckBox();
+            this.Captures = new System.Windows.Forms.TreeView();
+            this.FindBtn = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -84,16 +85,16 @@ namespace AutoWikiBrowser
             this.Replace.TabIndex = 3;
             this.Replace.TextChanged += new System.EventHandler(this.ConditionsChanged);
             // 
-            // Go
+            // ReplaceBtn
             // 
-            this.Go.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.Go.Location = new System.Drawing.Point(596, 19);
-            this.Go.Name = "Go";
-            this.Go.Size = new System.Drawing.Size(75, 23);
-            this.Go.TabIndex = 4;
-            this.Go.Text = "Go!";
-            this.Go.UseVisualStyleBackColor = true;
-            this.Go.Click += new System.EventHandler(this.Go_Click);
+            this.ReplaceBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ReplaceBtn.Location = new System.Drawing.Point(597, 31);
+            this.ReplaceBtn.Name = "ReplaceBtn";
+            this.ReplaceBtn.Size = new System.Drawing.Size(75, 23);
+            this.ReplaceBtn.TabIndex = 4;
+            this.ReplaceBtn.Text = "Replace";
+            this.ReplaceBtn.UseVisualStyleBackColor = true;
+            this.ReplaceBtn.Click += new System.EventHandler(this.Replace_Click);
             // 
             // Source
             // 
@@ -118,18 +119,6 @@ namespace AutoWikiBrowser
             this.label3.Size = new System.Drawing.Size(41, 13);
             this.label3.TabIndex = 7;
             this.label3.Text = "Result:";
-            // 
-            // ResultList
-            // 
-            this.ResultList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.ResultList.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ResultList.FormattingEnabled = true;
-            this.ResultList.ItemHeight = 16;
-            this.ResultList.Location = new System.Drawing.Point(12, 274);
-            this.ResultList.Name = "ResultList";
-            this.ResultList.Size = new System.Drawing.Size(659, 164);
-            this.ResultList.TabIndex = 8;
             // 
             // statusStrip1
             // 
@@ -184,23 +173,44 @@ namespace AutoWikiBrowser
             this.Casesensitive.Text = "Case sensitive";
             this.Casesensitive.UseVisualStyleBackColor = true;
             // 
+            // Captures
+            // 
+            this.Captures.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.Captures.Location = new System.Drawing.Point(12, 274);
+            this.Captures.Name = "Captures";
+            this.Captures.Size = new System.Drawing.Size(659, 164);
+            this.Captures.TabIndex = 13;
+            // 
+            // FindBtn
+            // 
+            this.FindBtn.Location = new System.Drawing.Point(597, 6);
+            this.FindBtn.Name = "FindBtn";
+            this.FindBtn.Size = new System.Drawing.Size(75, 23);
+            this.FindBtn.TabIndex = 14;
+            this.FindBtn.Text = "Find";
+            this.FindBtn.UseVisualStyleBackColor = true;
+            this.FindBtn.Click += new System.EventHandler(this.FindBtn_Click);
+            // 
             // RegexTester
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(683, 479);
+            this.Controls.Add(this.FindBtn);
+            this.Controls.Add(this.Captures);
             this.Controls.Add(this.Casesensitive);
             this.Controls.Add(this.Multiline);
-            this.Controls.Add(this.ResultText);
             this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.ResultList);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.Source);
-            this.Controls.Add(this.Go);
+            this.Controls.Add(this.ReplaceBtn);
             this.Controls.Add(this.Replace);
             this.Controls.Add(this.Find);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.ResultText);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.KeyPreview = true;
             this.Name = "RegexTester";
@@ -220,15 +230,16 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox Find;
         private System.Windows.Forms.TextBox Replace;
-        private System.Windows.Forms.Button Go;
+        private System.Windows.Forms.Button ReplaceBtn;
         private System.Windows.Forms.TextBox Source;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ListBox ResultList;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel Status;
         private System.Windows.Forms.TextBox ResultText;
         private System.Windows.Forms.CheckBox Multiline;
         private System.Windows.Forms.CheckBox Casesensitive;
+        private System.Windows.Forms.TreeView Captures;
+        private System.Windows.Forms.Button FindBtn;
     }
 }
 
