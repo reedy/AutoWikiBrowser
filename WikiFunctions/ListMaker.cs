@@ -1060,7 +1060,7 @@ namespace WikiFunctions.Controls.Lists
         {
             try
             {
-                Regex url = new Regex(Variables.URL + "/wiki");
+                string url = Variables.URL + "/wiki/";
 
                 string textTba = Clipboard.GetDataObject().GetData(DataFormats.Text).ToString();
                 string[] splitter = { "\r\n", "|" };
@@ -1069,8 +1069,8 @@ namespace WikiFunctions.Controls.Lists
 
                 foreach (string entry in splitTextTBA)
                 {
-                    if (url.Match(entry).Success)
-                        Add(entry.Replace(Variables.URL + "/wiki/", ""));
+                    if (Regex.Match(entry, url).Success)
+                        Add(entry.Replace(url, ""));
                     else if (entry.Trim() != "")
                         Add(entry);
                 }
