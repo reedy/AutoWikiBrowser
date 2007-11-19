@@ -751,12 +751,13 @@ namespace WikiFunctions
             return text;
         }
 
+        static System.Media.SoundPlayer sound = new System.Media.SoundPlayer();
+
         /// <summary>
         /// Beeps
         /// </summary>
         public static void Beep1()
         {//public domain sounds from http://www.partnersinrhyme.com/soundfx/PDsoundfx/beep.shtml
-            System.Media.SoundPlayer sound = new System.Media.SoundPlayer();
             sound.Stream = Properties.Resources.beep1;
             sound.Play();
         }
@@ -766,7 +767,6 @@ namespace WikiFunctions
         /// </summary>
         public static void Beep2()
         {
-            System.Media.SoundPlayer sound = new System.Media.SoundPlayer();
             sound.Stream = Properties.Resources.beep2;
             sound.Play();
         }
