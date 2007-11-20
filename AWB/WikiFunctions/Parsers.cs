@@ -334,14 +334,14 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string RemoveWhiteSpace(string ArticleText)
         {
+            ArticleText = Regex.Replace(ArticleText.Trim(), "<br ?/?>\r\n", "\r\n", RegexOptions.IgnoreCase);
             ArticleText = Regex.Replace(ArticleText, "\r\n(\r\n)+", "\r\n\r\n");
 
             ArticleText = Regex.Replace(ArticleText, "== ? ?\r\n\r\n==", "==\r\n==");
             ArticleText = Regex.Replace(ArticleText, @"==External links==[\r\n\s]*\*", "==External links==\r\n*");
-            ArticleText = ArticleText.Replace("\r\n\r\n(* ?\\[?http)", "\r\n$1");
+            ArticleText = Regex.Replace(ArticleText, @"\r\n\r\n(\* ?\[?http)", "\r\n$1");
 
             ArticleText = Regex.Replace(ArticleText.Trim(), "----+$", "");
-            ArticleText = Regex.Replace(ArticleText.Trim(), "<br ?/?>$", "", RegexOptions.IgnoreCase);
 
             return ArticleText.Trim();
         }
@@ -777,7 +777,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             int intStart = 0;
             string articleTextSubstring = "";
 
-            Match m = Regex.Match(ArticleText, "= ? ?external links? ? ?=", RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
+            Match m = Regex.Match(ArticleText, @"=\s*(?:external)?\s*links\s*=", RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
 
             if (!m.Success)
                 return ArticleText;
