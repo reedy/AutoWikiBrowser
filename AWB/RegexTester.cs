@@ -109,8 +109,8 @@ namespace AutoWikiBrowser
             MatchCollection matches = r.Matches(Source.Text.Replace("\r\n", "\n"));
             foreach (Match m in matches)
             {
-                TreeNode n = Captures.Nodes.Add(m.Value);
-                for (int i = 1; i < m.Groups.Count; i++) n.Nodes.Add(m.Groups[i].Value);
+                TreeNode n = Captures.Nodes.Add("{" + m.Value + "}");
+                for (int i = 1; i < m.Groups.Count; i++) n.Nodes.Add("{" + m.Groups[i].Value + "}");
             }
             if (matches.Count == 0)
                 Status.Text = "No matches";
