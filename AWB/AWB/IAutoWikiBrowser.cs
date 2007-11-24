@@ -66,7 +66,7 @@ namespace AutoWikiBrowser
         System.Version IAutoWikiBrowser.WikiFunctionsVersion { get { return Tools.Version; } }
         string IAutoWikiBrowser.AWBVersionString { get { return Program.VersionString; } }
         string IAutoWikiBrowser.WikiFunctionsVersionString { get { return Tools.VersionString; } }
-        string IAutoWikiBrowser.WikiDiffVersionString { get { return WikiDiff.Version; } }
+        string IAutoWikiBrowser.WikiDiffVersionString { get { return "(internal)"; } }
         /* void IAutoWikiBrowser.AddLogItem(ArticleEx article) //
             { LogControl1.AddLog(article); } */
         void IAutoWikiBrowser.AddLogItem(bool skipped, AWBLogListener logListener)

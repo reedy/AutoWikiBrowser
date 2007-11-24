@@ -98,8 +98,10 @@ namespace AutoWikiBrowser
         private ListComparer lc;
         private ListSplitter splitter;
 
-        private static readonly Regex DiffIdParser = new Regex(@"[a-z](-?\d*)x(-?\d*)");
         private static Help h = new Help();
+
+        private WikiDiff diff = new WikiDiff();
+
         #endregion
 
         #region Constructor and MainForm load/resize
@@ -1131,8 +1133,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 else
                 {
                     webBrowserDiff.Document.Write("<html><head>" +
-                        WikiDiff.DiffHead() + @"</head><body>" + WikiDiff.TableHeader() +
-                        WikiDiff.GetDiff(TheArticle.OriginalArticleText, txtEdit.Text, 1) +
+                        WikiDiff.DiffHead() + @"</head><body>" + WikiDiff.TableHeader +
+                        diff.GetDiff(TheArticle.OriginalArticleText, txtEdit.Text, 2) +
                         @"</table></body></html>");
                 }
 
@@ -1200,37 +1202,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         #region extra stuff
 
         #region Diff
-        public void DiffDblClicked(string id)
+        public void UndoChange(int left, int right)
         {
             try
             {
-                Match m = DiffIdParser.Match(id);
-                int srcLine = int.Parse(m.Groups[1].Value) - 1;
-                int destLine = int.Parse(m.Groups[2].Value) - 1;
-
-                if (srcLine < 0 || destLine < 0) return;
-
-                string[] src = TheArticle.OriginalArticleText.Split(new string[] { "\r\n" }, StringSplitOptions.None);
-                string[] dest = txtEdit.Text.Split(new string[] { "\r\n" }, StringSplitOptions.None);
-
-                List<string> lst = new List<string>(dest);
-                switch (id[0])
-                {
-                    case 'a':
-                        lst.RemoveAt(destLine);
-                        dest = lst.ToArray();
-                        break;
-                    case 'd':
-                        lst.Insert(destLine, src[Math.Min(srcLine, src.Length - 1)]);
-                        dest = lst.ToArray();
-                        break;
-                    case 'r':
-                        dest[destLine] = src[srcLine];
-                        break;
-                    default:
-                        return;
-                }
-                txtEdit.Text = string.Join("\r\n", dest);
+                txtEdit.Text = diff.UndoChange(left, right);
                 GetDiff();
             }
             catch (Exception ex)
@@ -1240,14 +1216,40 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
         }
 
-        public void DiffClicked(string id)
+        public void UndoDeletion(int left, int right)
+        {
+            try
+            {
+                txtEdit.Text = diff.UndoDeletion(left, right);
+                GetDiff();
+            }
+            catch (Exception ex)
+            {
+                ErrorHandler.Handle(ex);
+                return;
+            }
+        }
+
+        public void UndoAddition(int right)
+        {
+            try
+            {
+                txtEdit.Text = diff.UndoAddition(right);
+                GetDiff();
+            }
+            catch (Exception ex)
+            {
+                ErrorHandler.Handle(ex);
+                return;
+            }
+        }
+
+        public void GoTo(int destLine)
         {
             try
             {
                 tabControl2.SelectedTab = tpEdit;
                 txtEdit.Select();
-                Match m = DiffIdParser.Match(id);
-                int destLine = int.Parse(m.Groups[2].Value) - 1;
                 if (destLine < 0) return;
 
                 MatchCollection mc = Regex.Matches(txtEdit.Text, "\r\n");
