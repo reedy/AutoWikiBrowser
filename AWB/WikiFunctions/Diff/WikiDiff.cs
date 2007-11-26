@@ -76,7 +76,7 @@ namespace WikiFunctions
             }
 
             int toDisplay = Math.Min(right.Count - displayed, ContextLines);
-            if (right.End < RightLines.Length - 1 && toDisplay > 0)
+            if ((left.End < LeftLines.Length - 1 || right.End < RightLines.Length - 1) && toDisplay > 0)
             // not the last hunk, adding context for next change
             {
                 if (right.Count > displayed + toDisplay) ContextHeader(left.End - toDisplay + 1, right.End - toDisplay + 1);
@@ -228,11 +228,11 @@ namespace WikiFunctions
         {
             StringBuilder s = new StringBuilder();
 
-            for(int i = 0;i<RightLines.Length; i++)
+            for (int i = 0; i < RightLines.Length; i++)
                 if (i != right)
                 {
-                    if (i>0) s.Append("\r\n");
-                    s.Append(RightLines[i]);
+                    if (s.Length > 0) s.Append("\r\n");
+                        s.Append(RightLines[i]);
                 }
 
             //s.Remove("
@@ -248,11 +248,17 @@ namespace WikiFunctions
             {
                 if (i == right)
                 {
+                    if (s.Length > 0) s.Append("\r\n");
                     s.Append(LeftLines[left]);
-                    s.Append("\r\n");
                 }
+                if (s.Length > 0) s.Append("\r\n");
                 s.Append(RightLines[i]);
-                s.Append("\r\n");
+            }
+
+            if (left >= RightLines.Length)
+            {
+                if (s.Length > 0) s.Append("\r\n");
+                s.Append(LeftLines[left]);
             }
 
             return s.ToString();
@@ -378,7 +384,7 @@ td.diff-addedline span.diffchange {
         /// </summary>
         /// <param name="all">Word with whitespace</param>
         public Word(string all)
-            :this(Regex.Match(all, @"\S*").Value, Regex.Match(all, @"\s*").Value)
+            : this(Regex.Match(all, @"\S*").Value, Regex.Match(all, @"\s*").Value)
         {
         }
 
