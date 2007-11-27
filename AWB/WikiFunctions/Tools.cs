@@ -941,7 +941,7 @@ Message: {2}
             return HttpUtility.UrlEncode(title.Replace(' ', '_'));
         }
 
-        static readonly Regex ExpandTemplatesRegex = new Regex("<textarea id=\"output\".*>([^<]*)</\\s*textarea>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        static readonly Regex ExpandTemplatesRegex = new Regex("<expandtemplates>(.*?)</expandtemplates>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// 
@@ -962,7 +962,7 @@ Message: {2}
                 {
                     string call = m.Value;
 
-                    string expandUri = Variables.URLLong + "index.php?title=Special:ExpandTemplates&contexttitle=" + Tools.WikiEncode(ArticleTitle) + "&input=" + HttpUtility.UrlEncode(call) + "&removecomments=1";
+                    string expandUri = Variables.URLLong + "api.php?action=expandtemplates&format=xml&title=" + Tools.WikiEncode(ArticleTitle) + "&text=" + HttpUtility.UrlEncode(call);
                     string result;
 
                     try
