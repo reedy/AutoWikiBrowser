@@ -44,7 +44,7 @@ namespace WikiFunctions
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(119, 13);
+            this.label1.Size = new System.Drawing.Size(124, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Templates to substitute:";
             // 
@@ -108,7 +108,7 @@ namespace WikiFunctions
             this.chkIgnoreUnformatted.AutoSize = true;
             this.chkIgnoreUnformatted.Location = new System.Drawing.Point(15, 192);
             this.chkIgnoreUnformatted.Name = "chkIgnoreUnformatted";
-            this.chkIgnoreUnformatted.Size = new System.Drawing.Size(321, 17);
+            this.chkIgnoreUnformatted.Size = new System.Drawing.Size(337, 17);
             this.chkIgnoreUnformatted.TabIndex = 6;
             this.chkIgnoreUnformatted.Text = "Ignore external/interwiki links, images, nowiki, math and <!-- -->";
             this.chkIgnoreUnformatted.UseVisualStyleBackColor = true;
@@ -120,9 +120,9 @@ namespace WikiFunctions
             this.chkUseExpandTemplates.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkUseExpandTemplates.Location = new System.Drawing.Point(15, 215);
             this.chkUseExpandTemplates.Name = "chkUseExpandTemplates";
-            this.chkUseExpandTemplates.Size = new System.Drawing.Size(171, 17);
+            this.chkUseExpandTemplates.Size = new System.Drawing.Size(117, 17);
             this.chkUseExpandTemplates.TabIndex = 7;
-            this.chkUseExpandTemplates.Text = "Use Special:ExpandTemplates";
+            this.chkUseExpandTemplates.Text = "Expand recursively";
             this.chkUseExpandTemplates.UseVisualStyleBackColor = true;
             this.chkUseExpandTemplates.CheckedChanged += new System.EventHandler(this.chkUseExpandTemplates_CheckedChanged);
             // 
@@ -131,7 +131,7 @@ namespace WikiFunctions
             this.chkIncludeComment.AutoSize = true;
             this.chkIncludeComment.Location = new System.Drawing.Point(192, 215);
             this.chkIncludeComment.Name = "chkIncludeComment";
-            this.chkIncludeComment.Size = new System.Drawing.Size(201, 17);
+            this.chkIncludeComment.Size = new System.Drawing.Size(204, 17);
             this.chkIncludeComment.TabIndex = 8;
             this.chkIncludeComment.Text = "Include comment with template name";
             this.chkIncludeComment.UseVisualStyleBackColor = true;
