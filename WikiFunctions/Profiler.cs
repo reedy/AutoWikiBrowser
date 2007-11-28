@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Diagnostics;
 
 namespace WikiFunctions
 {
@@ -20,6 +21,8 @@ namespace WikiFunctions
             log = new StreamWriter(filename, append, Encoding.Unicode);
         }
 
+        Stopwatch Watch = new Stopwatch();
+
         /// <summary>
         /// Dummy constructor when no profiling is needed
         /// </summary>
@@ -28,17 +31,11 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// Specifies precision of profiler output
-        /// defaults to milliseconds
-        /// </summary>
-        public int Divisor = 10000;
-
-        /// <summary>
         /// Starts measuring time
         /// </summary>
         public void Start()
         {
-            Ticks = DateTime.Now.Ticks;
+            Watch = Stopwatch.StartNew();
         }
 
         /// <summary>
@@ -57,8 +54,8 @@ namespace WikiFunctions
         /// <param name="message">description of the time interval</param>
         public void Profile(string message)
         {
-            AddLog("   " + message + ": " + ((DateTime.Now.Ticks - Ticks) / Divisor).ToString());
-            Ticks = DateTime.Now.Ticks;
+            AddLog("   " + message + ": " + Watch.ElapsedMilliseconds.ToString());
+            Watch = Stopwatch.StartNew();
         }
 
         /// <summary>
