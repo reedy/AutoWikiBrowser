@@ -88,7 +88,7 @@ namespace WikiFunctions.Parse
         {
             string s = "";
 
-            StringBuilder sb = new StringBuilder(500000);
+            StringBuilder sb = new StringBuilder((int)(ArticleText.Length * 1.1));
             int pos = 0;
 
             foreach (Match m in matches)
