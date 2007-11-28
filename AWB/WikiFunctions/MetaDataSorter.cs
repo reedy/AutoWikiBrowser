@@ -133,10 +133,7 @@ namespace WikiFunctions.Parse
         {
             try
             {
-                WikiFunctions.Browser.WebControl webBrowser = new WikiFunctions.Browser.WebControl();
-                webBrowser.Navigate("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/IW&action=edit");
-                webBrowser.Wait();
-                string text = webBrowser.GetArticleText();
+                string text = Tools.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/IW&action=raw");
 
                 string interwikiLocalAlphaRaw = remExtra(Tools.StringBetween(text, "<!--InterwikiLocalAlphaBegins-->", "<!--InterwikiLocalAlphaEnds-->").Replace("<!--InterwikiLocalAlphaBegins-->", ""));
                 string interwikiLocalFirstRaw = remExtra(Tools.StringBetween(text, "<!--InterwikiLocalFirstBegins-->", "<!--InterwikiLocalFirstEnds-->").Replace("<!--InterwikiLocalFirstBegins--", ""));

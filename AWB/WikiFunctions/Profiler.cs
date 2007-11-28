@@ -87,6 +87,5 @@ namespace WikiFunctions
         }
 
         TextWriter log;
-        long Ticks;
     }
 }
