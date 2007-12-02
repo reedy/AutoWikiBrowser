@@ -473,6 +473,14 @@ namespace WikiFunctions.Parse
                 btnSearch_Click(null, null);
             }
         }
+
+        private void addRowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count > 0)
+                dataGridView1.Rows.Insert(dataGridView1.SelectedRows[0].Index, 1);
+            else
+                dataGridView1.Rows.Add();
+        }
     }
 
     public struct Replacement
