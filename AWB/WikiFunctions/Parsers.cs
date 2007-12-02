@@ -572,7 +572,10 @@ namespace WikiFunctions.Parse
         /// <param name="trim">whether whitespace should be trimmed</param>
         public static string CanonicalizeTitleRaw(string title, bool trim)
         {
-            title = HttpUtility.UrlDecode(title.Replace("+", "%2B")).Replace("_", " ");
+            StringBuilder sb = new StringBuilder(title);//, (int)(title.Length * 1.1
+            sb.Replace("+", "%2B");
+            sb.Replace('_', ' ');
+            title = HttpUtility.UrlDecode(sb.ToString());
             if (trim) return title.Trim();
             else return title;
         }

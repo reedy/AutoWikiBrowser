@@ -278,12 +278,14 @@ namespace WikiFunctions.Browser
             }
         }
 
+        static readonly Regex wpTextbox1 = new Regex(@"<textarea [^>]*?name=""wpTextbox1""", RegexOptions.Compiled);
+
         /// <summary>
         /// Gets a value indicating whether the textbox is present
         /// </summary>
         public bool HasArticleTextBox
         {
-            get { return (this.Document != null && this.Document.GetElementById("wpTextbox1") != null); }
+            get { return wpTextbox1.IsMatch(DocumentText); }
         }
 
         string strStatus = "";
