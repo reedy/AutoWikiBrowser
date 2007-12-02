@@ -278,7 +278,7 @@ namespace WikiFunctions.Browser
             }
         }
 
-        static readonly Regex wpTextbox1 = new Regex(@"<textarea [^>]*?name=""wpTextbox1""", RegexOptions.Compiled);
+        static readonly Regex wpTextbox1 = new Regex(@"<textarea [^>]*?name=[""']wpTextbox1[""']", RegexOptions.Compiled);
 
         /// <summary>
         /// Gets a value indicating whether the textbox is present

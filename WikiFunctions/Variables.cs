@@ -1028,6 +1028,9 @@ namespace WikiFunctions
             try
             {
                 string sr = Tools.GetHTML(url);
+
+                sr = Regex.Match(sr, @"<select id=[""']namespace[""'](.*?)</select>",
+                    RegexOptions.Singleline).Groups[1].Value;
                 int ns_number;
                 string ns_name;
 
@@ -1043,7 +1046,7 @@ namespace WikiFunctions
 
                     for (int a = 0; a < 12; a++)
                     {
-                        url = URLLong + "index.php?title=MediaWiki:" + months[a];
+                        url = URLLong + "index.php?title=MediaWiki:" + months[a] + "-gen";
                         sr = Tools.GetHTML(url);
                         foreach (Match m in Regex.Matches(sr, @">.*?</textarea>"))
                         {
