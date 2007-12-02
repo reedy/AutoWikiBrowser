@@ -163,7 +163,7 @@ namespace WikiFunctions.Parse
 
             while ((mc = HiddenMoreRegex.Matches(ArticleText)).Count > 0)
             {
-                sb = new StringBuilder(500000);
+                sb = new StringBuilder(ArticleText.Length * 2);
                 int pos = 0;
 
                 foreach (Match m in mc)
