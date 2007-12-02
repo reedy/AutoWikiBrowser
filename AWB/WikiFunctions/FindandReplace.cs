@@ -481,6 +481,34 @@ namespace WikiFunctions.Parse
             else
                 dataGridView1.Rows.Add();
         }
+
+        private void moveUpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in dataGridView1.SelectedRows)
+            {
+                if (row.Index > 0)
+                {
+                    int index = row.Index;
+                    DataGridViewRow tmp = row;
+                    dataGridView1.Rows.Remove(row);
+                    dataGridView1.Rows.Insert(index - 1, tmp);
+                }
+            }
+        }
+
+        private void moveDownToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in dataGridView1.SelectedRows)
+            {
+                if (row.Index != (dataGridView1.Rows.Count - 2))
+                {
+                    int index = row.Index;
+                    DataGridViewRow tmp = row;
+                    dataGridView1.Rows.Remove(row);
+                    dataGridView1.Rows.Insert(index + 1, tmp);
+                }
+            }
+        }
     }
 
     public struct Replacement
