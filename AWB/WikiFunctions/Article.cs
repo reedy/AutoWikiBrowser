@@ -253,28 +253,32 @@ namespace WikiFunctions
         public void UpdateImages(ImageReplaceOptions option, Parsers parsers,
             string ImageReplaceText, string ImageWithText, bool SkipIfNoChange)
         {
-            bool noChange = false; string strTemp = "";
+            bool noChange = true; string strTemp = "";
 
-            switch (option)
-            {
-                case ImageReplaceOptions.NoAction:
-                    return;
+            ImageReplaceText = ImageReplaceText.Trim();
+            ImageWithText = ImageWithText.Trim();
 
-                case ImageReplaceOptions.Replace:
-                    strTemp = parsers.ReplaceImage(ImageReplaceText, ImageWithText, mArticleText, out noChange);
-                    break;
+            if (ImageReplaceText.Length > 0)
+                switch (option)
+                {
+                    case ImageReplaceOptions.NoAction:
+                        return;
 
-                case ImageReplaceOptions.Remove:
-                    strTemp = parsers.RemoveImage(ImageReplaceText, mArticleText, false, ImageWithText, out noChange);
-                    break;
+                    case ImageReplaceOptions.Replace:
+                        if (ImageWithText.Length > 0) strTemp = parsers.ReplaceImage(ImageReplaceText, ImageWithText, mArticleText, out noChange);
+                        break;
 
-                case ImageReplaceOptions.Comment:
-                    strTemp = parsers.RemoveImage(ImageReplaceText, mArticleText, true, ImageWithText, out noChange);
-                    break;
+                    case ImageReplaceOptions.Remove:
+                        strTemp = parsers.RemoveImage(ImageReplaceText, mArticleText, false, ImageWithText, out noChange);
+                        break;
 
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+                    case ImageReplaceOptions.Comment:
+                        strTemp = parsers.RemoveImage(ImageReplaceText, mArticleText, true, ImageWithText, out noChange);
+                        break;
+
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
 
             if (noChange && SkipIfNoChange)
                 Trace.AWBSkipped("No Image Changed");
