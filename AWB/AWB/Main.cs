@@ -1814,6 +1814,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             dumpHTMLToolStripMenuItem.Visible = true;
             logOutDebugToolStripMenuItem.Visible = true;
             bypassAllRedirectsToolStripMenuItem.Enabled = true;
+            profileTyposToolStripMenuItem.Visible = true;
 
             prof = new Profiler("profiling.txt", true);
         }
@@ -3732,6 +3733,59 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 btnWatch.Text = "Unwatch";
             else
                 btnWatch.Text = "Watch";
+        }
+
+        private static int CompareRegexPairs(KeyValuePair<int, string> x, KeyValuePair<int, string> y)
+        {
+            return x.Key.CompareTo(y.Key);
+        }
+
+        private void profileTyposToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<KeyValuePair<Regex, string>> typos = RegexTypos.GetTypos();
+            if (typos.Count == 0)
+            {
+                MessageBox.Show("No typos loaded", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string text = txtEdit.Text;
+            if (!txtEdit.Enabled || text.Length == 0)
+            {
+                MessageBox.Show("No article text", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (MessageBox.Show("Test typo rules for performance (this may take considerable time)?",
+                "Test typos", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                return;
+
+            int iterations = 1000000 / text.Length;
+            if (iterations > 500) iterations = 500;
+
+            List<KeyValuePair<int, string>> times = new List<KeyValuePair<int, string>>();
+
+            foreach (KeyValuePair<Regex, string> p in typos)
+            {
+                Stopwatch watch = new Stopwatch();
+                watch.Start();
+                for (int i = 0; i < 100; i++)
+                {
+                    p.Key.IsMatch(text);
+                }
+                times.Add(new KeyValuePair<int, string>((int)watch.ElapsedMilliseconds,
+                    p.Key.ToString() + " > " + p.Value));
+            }
+
+            times.Sort(new Comparison<KeyValuePair<int, string>>(CompareRegexPairs));
+
+            using(StreamWriter sw = new StreamWriter("typos.txt", false, Encoding.UTF8))
+            {
+                foreach (KeyValuePair<int, string> p in times) sw.WriteLine(p);
+            }
+
+            MessageBox.Show("Results are saved in the file 'typos.txt'", "Profiling complete", 
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

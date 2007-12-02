@@ -45,7 +45,7 @@ namespace WikiFunctions.Parse
         string Prefix;
         string Postfix;
 
-        List<KeyValuePair<Regex, string>> Typos = new List<KeyValuePair<Regex, string>>(20);
+        public List<KeyValuePair<Regex, string>> Typos = new List<KeyValuePair<Regex, string>>(20);
         List<Regex> Groups = new List<Regex>(5);
 
         public bool SuitableTypo(string typo)
@@ -79,7 +79,7 @@ namespace WikiFunctions.Parse
                 string s = "";
                 for (int i = 0; i < Math.Min(GroupSize, Typos.Count - n * GroupSize); i++)
                 {
-                    string typo = Typos[n*GroupSize+i].Key.ToString();
+                    string typo = Typos[n * GroupSize + i].Key.ToString();
                     if (Prefix.Length > 0) typo = typo.Remove(0, Prefix.Length);
                     if (Postfix.Length > 0) typo = typo.Remove(typo.Length - Postfix.Length);
                     s += (s.Length == 0 ? "" : "|") + typo;
@@ -206,7 +206,6 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
-        
         public bool DetectTypo(string ArticleText)
         {
             bool noChange;
@@ -269,6 +268,18 @@ namespace WikiFunctions.Parse
             }
 
             return typoStrings;
+        }
+
+        public List<KeyValuePair<Regex, string>> GetTypos()
+        {
+            List<KeyValuePair<Regex, string>> lst = new List<KeyValuePair<Regex, string>>();
+
+            foreach (TypoGroup grp in Typos)
+            {
+                lst.AddRange(grp.Typos);
+            }
+
+            return lst;
         }
     }
 }
