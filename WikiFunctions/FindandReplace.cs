@@ -107,6 +107,16 @@ namespace WikiFunctions.Parse
             }
         }
 
+        static readonly Regex NewlineRegex = new Regex(@"(?<!\\)\\n", RegexOptions.Compiled);
+        static readonly Regex TabulationRegex = new Regex(@"(?<!\\)\\t", RegexOptions.Compiled);
+        string PrepareReplacePart(string replace)
+        {
+            replace = NewlineRegex.Replace(replace, "\n");
+            replace = TabulationRegex.Replace(replace, "\t");
+
+            return replace;
+        }
+
 
         /// <summary>
         /// Applies a series of defined find and replacements to the supplied article text.
@@ -150,7 +160,7 @@ namespace WikiFunctions.Parse
         private string PerformFindAndReplace(string Find, string Replace, string ArticleText, string ArticleTitle, RegexOptions ROptions)
         {
             Find = Tools.ApplyKeyWords(ArticleTitle, Find);
-            Replace = Tools.ApplyKeyWords(ArticleTitle, Replace);
+            Replace = Tools.ApplyKeyWords(ArticleTitle, PrepareReplacePart(Replace));
 
             findRegex = new Regex(Find, ROptions);
             Matches = findRegex.Matches(ArticleText);
