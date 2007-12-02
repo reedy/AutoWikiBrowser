@@ -155,6 +155,7 @@ namespace AutoWikiBrowser
             this.toolStripAdvanced = new System.Windows.Forms.ToolStripMenuItem();
             this.makeModuleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testRegexToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.profileTyposToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator24 = new System.Windows.Forms.ToolStripSeparator();
             this.runUpdaterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator21 = new System.Windows.Forms.ToolStripSeparator();
@@ -1223,6 +1224,7 @@ namespace AutoWikiBrowser
             this.toolStripAdvanced.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.makeModuleToolStripMenuItem,
             this.testRegexToolStripMenuItem,
+            this.profileTyposToolStripMenuItem,
             this.toolStripSeparator24,
             this.runUpdaterToolStripMenuItem,
             this.toolStripSeparator21,
@@ -1244,6 +1246,14 @@ namespace AutoWikiBrowser
             this.testRegexToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.testRegexToolStripMenuItem.Text = "Test regex";
             this.testRegexToolStripMenuItem.Click += new System.EventHandler(this.testRegexToolStripMenuItem_Click);
+            // 
+            // profileTyposToolStripMenuItem
+            // 
+            this.profileTyposToolStripMenuItem.Name = "profileTyposToolStripMenuItem";
+            this.profileTyposToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.profileTyposToolStripMenuItem.Text = "Profile typos";
+            this.profileTyposToolStripMenuItem.Visible = false;
+            this.profileTyposToolStripMenuItem.Click += new System.EventHandler(this.profileTyposToolStripMenuItem_Click);
             // 
             // toolStripSeparator24
             // 
@@ -3826,5 +3836,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Button btnWatch;
         private System.Windows.Forms.ToolStripButton btntsDelete;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator23;
+        private System.Windows.Forms.ToolStripMenuItem profileTyposToolStripMenuItem;
     }
 }
