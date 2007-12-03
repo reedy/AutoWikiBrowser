@@ -1,6 +1,6 @@
 ﻿/*
 
-Copyright (C) 2007 Martin Richards
+Copyright (C) 2007 Martin Richards, Max Semenik et al.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -23,9 +23,83 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections;
 using System.Web;
+using System.Xml;
 
 namespace WikiFunctions.Parse
 {
+    public static class SiteMatrix
+    {
+        public static List<string> Languages = new List<string>();
+        public static List<string> WikipediaLanguages = new List<string>();
+        public static List<string> WiktionaryLanguages = new List<string>();
+        public static List<string> WikibooksLanguages = new List<string>();
+        public static List<string> WikinewsLanguages = new List<string>();
+        public static List<string> WikisourceLanguages = new List<string>();
+        public static List<string> WikiquoteLanguages = new List<string>();
+        public static List<string> WikiversityLanguages = new List<string>();
+        public static Dictionary<string, string> LanguageNames = new Dictionary<string, string>();
+
+        static SiteMatrix()
+        {
+            string strMatrix = Tools.GetHTML("http://en.wikipedia.org/w/api.php?action=sitematrix&format=xml");
+
+            XmlDocument matrix = new XmlDocument();
+            matrix.LoadXml(strMatrix);
+
+            string langCode;
+            string langName;
+
+            foreach (XmlNode lang in matrix.GetElementsByTagName("language"))
+            {
+                langCode = lang.Attributes["code"].Value;
+                langName = lang.Attributes["name"].Value;
+                Languages.Add(langCode);
+                LanguageNames[langCode] = langName;
+                
+                foreach (XmlNode site in lang.ChildNodes[0].ChildNodes)
+                {
+                    if (site.Name != "site") continue;
+
+                    switch (site.Attributes["code"].Value)
+                    {
+                        case "wiki":
+                            WikipediaLanguages.Add(langCode);
+                            break;
+                        case "wiktionary":
+                            WiktionaryLanguages.Add(langCode);
+                            break;
+                        case "wikibooks":
+                            WikibooksLanguages.Add(langCode);
+                            break;
+                        case "wikinews":
+                            WikinewsLanguages.Add(langCode);
+                            break;
+                        case "wikisource":
+                            WikisourceLanguages.Add(langCode);
+                            break;
+                        case "wikiquote":
+                            WikiquoteLanguages.Add(langCode);
+                            break;
+                        case "wikiversity":
+                            WikiversityLanguages.Add(langCode);
+                            break;
+                    }
+                }
+            }
+
+            //should already be sorted, but we must be sure
+            Languages.Sort();
+            WikipediaLanguages.Sort();
+            WiktionaryLanguages.Sort();
+            WikibooksLanguages.Sort();
+            WikinewsLanguages.Sort();
+            WikisourceLanguages.Sort();
+            WikiquoteLanguages.Sort();
+            WikiversityLanguages.Sort();
+        }
+    }
+
+
     internal sealed class InterWikiComparer : IComparer<string>
     {
         Dictionary<string, int> Order = new Dictionary<string, int>();
