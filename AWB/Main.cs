@@ -3742,6 +3742,12 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void profileTyposToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (RegexTypos == null)
+            {
+                MessageBox.Show("No typos loaded", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             List<KeyValuePair<Regex, string>> typos = RegexTypos.GetTypos();
             if (typos.Count == 0)
             {
