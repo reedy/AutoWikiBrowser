@@ -137,7 +137,7 @@ namespace AutoWikiBrowser
 
                 //btnDiff.Image = Res.changes;
                 //btnPreview.Image = Res.preview;
-                splash.SetProgress(15);
+                splash.SetProgress(10);
                 int stubcount = 500;
                 bool catkey = false;
                 try
@@ -172,7 +172,7 @@ namespace AutoWikiBrowser
                 webBrowserEdit.None += CaseWasNull;
                 webBrowserEdit.Fault += StartDelayedRestartTimer;
                 webBrowserEdit.StatusChanged += UpdateWebBrowserStatus;
-                splash.SetProgress(60);
+                splash.SetProgress(20);
                 listMaker1.BusyStateChanged += SetProgressBar;
                 listMaker1.NoOfArticlesChanged += UpdateButtons;
                 listMaker1.StatusTextChanged += UpdateListStatus;
@@ -200,7 +200,7 @@ namespace AutoWikiBrowser
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            splash.SetProgress(60);
+            splash.SetProgress(40);
             lblStatusText.Text = "Initialising...";
             Application.DoEvents();
             Variables.MainForm = this;
@@ -219,7 +219,7 @@ namespace AutoWikiBrowser
                 else
                     listMaker1.MakeListEnabled = true;
 
-                splash.SetProgress(80);
+                splash.SetProgress(70);
                 if (AutoWikiBrowser.Properties.Settings.Default.LogInOnStart)
                     CheckStatus(false);
 
@@ -238,7 +238,7 @@ namespace AutoWikiBrowser
 
                 UpdateButtons();
                 LoadRecentSettingsList();
-                splash.SetProgress(90);
+                splash.SetProgress(80);
 
                 WikiStatusResult res = Variables.User.CheckEnabled();
                 if (res == WikiStatusResult.OldVersion)
