@@ -54,6 +54,19 @@ namespace WikiFunctions.Parse
             }
         }
 
+        /// <summary>
+        /// Returns proper direction arrow depending on locale
+        /// Currently returns only LTR arrow due to direction conflict
+        /// demonstrated by http://ar.wikipedia.org/w/index.php?diff=1192871
+        /// </summary>
+        public static string Arrow
+        {
+            get
+            {
+                return " → ";//Variables.RTL ? " ← " : " → ";
+            }
+        }
+
         public void MakeList()
         {
             ReplacementList.Clear();
@@ -171,7 +184,7 @@ namespace WikiFunctions.Parse
 
                 if (Matches[0].Value != Matches[0].Result(Replace))
                 {
-                    summary = Matches[0].Value + " → " + Matches[0].Result(Replace);
+                    summary = Matches[0].Value + Arrow + Matches[0].Result(Replace);
 
                     if (Matches.Count > 1)
                         summary += " (" + Matches.Count.ToString() + ")";

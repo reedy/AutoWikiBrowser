@@ -111,7 +111,7 @@ namespace WikiFunctions.Parse
                                 if (res != m.Value)
                                 {
                                     count++;
-                                    if (1 == count) summary += (summary.Length > 0 ? ", " : "") + m.Value + " → " + res;
+                                    if (1 == count) summary += (summary.Length > 0 ? ", " : "") + m.Value + FindandReplace.Arrow + res;
                                 }
                             }
                             if (count > 1) summary += " (" + count.ToString() + ")";
