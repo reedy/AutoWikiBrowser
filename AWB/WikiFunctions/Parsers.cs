@@ -155,7 +155,7 @@ namespace WikiFunctions.Parse
             return Sorter.Sort(ArticleText, ArticleTitle);
         }
 
-        readonly Regex regexFixDates0 = new Regex("([Tt]he |later? |early |mid-)(\\[\\[)?([12][0-9][0-9]0)(\\]\\])?'s(\\]\\])?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex regexFixDates0 = new Regex(@"(the |later? |early |mid-)(\[?\[?[12][0-9][0-9]0\]?\]?)'s(\]\])?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         //readonly Regex regexFixDates1 = new Regex("(January|February|March|April|May|June|July|August|September|October|November|December) ([1-9][0-9]?)(?:st|nd|rd|th)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         //readonly Regex regexFixDates2 = new Regex("([1-9][0-9]?)(?:st|nd|rd|th) (January|February|March|April|May|June|July|August|September|October|November|December)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex regexHeadings0 = new Regex("(== ?)(see also:?|related topics:?|related articles:?|internal links:?|also see:?)( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -235,7 +235,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         public string FixDatesRaw(string ArticleText)
         {
-            ArticleText = regexFixDates0.Replace(ArticleText, "$1$2$3$4s$5");
+            ArticleText = regexFixDates0.Replace(ArticleText, "$1$2s$3");
 
             //ArticleText = regexFixDates1.Replace(ArticleText, "$1 $2");
             //ArticleText = regexFixDates2.Replace(ArticleText, "$1 $2");

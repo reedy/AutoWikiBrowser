@@ -257,6 +257,9 @@ namespace WikiFunctions.Browser
             return new UserInfo(s);
         }
 
+        static readonly Regex NewMessagesRegex = new Regex("(?<!<!-- start content -->.*)(<div class=['\"]usermessage['\"])", 
+            RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
         /// <summary>
         /// Gets a value indicating whether there is a new message
         /// </summary>
@@ -264,17 +267,7 @@ namespace WikiFunctions.Browser
         {
             get
             {
-                if (this.Document == null)
-                    return false;
-
-                string htmLsub = "";
-
-                if (this.Document.Body.InnerHtml.Contains("<!-- start content -->"))
-                    htmLsub = this.Document.Body.InnerHtml.Remove(this.Document.Body.InnerHtml.IndexOf("<!-- start content -->"));
-                else
-                    htmLsub = this.Document.Body.InnerHtml;
-
-                return htmLsub.Contains("<DIV class=usermessage>");
+                return NewMessagesRegex.IsMatch(DocumentText);
             }
         }
 
