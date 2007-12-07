@@ -1555,14 +1555,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
         {
             try
             {
-                string strText = String.Empty;
-
-                //load version check page
-                webBrowserLogin.Navigate("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=edit");
-                //wait to load
-                webBrowserLogin.Wait();
-
-                strText = webBrowserLogin.GetArticleText();
+                string strText = Tools.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=raw");
 
                 if (strText.Length == 0) return WikiStatusResult.Error;
 
