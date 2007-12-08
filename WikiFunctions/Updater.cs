@@ -24,16 +24,13 @@ using System.Net;
 using System.Diagnostics;
 
 using System.Windows.Forms;
+using WikiFunctions.Background;
 
 namespace WikiFunctions
 {
     public static class Updater
     {
-        /// <summary>
-        /// Checks to see if AWBUpdater.exe.new exists, if it does, replace it.
-        /// If not, see if the version of AWB Updater is older than the version on the checkpage, and run AWBUpdater if so
-        /// </summary>
-        public static void Update()
+        private static void UpdateFunc()
         {
             try
             {
@@ -59,6 +56,30 @@ namespace WikiFunctions
                 }
             }
             catch { }
+        }
+
+        static BackgroundRequest request;
+
+        /// <summary>
+        /// Checks to see if AWBUpdater.exe.new exists, if it does, replace it.
+        /// If not, see if the version of AWB Updater is older than the version on the checkpage, and run AWBUpdater if so
+        /// </summary>
+        public static void Update()
+        {
+            request = new BackgroundRequest();
+            request.Execute(new ExecuteFunctionDelegate(UpdateFunc));
+        }
+
+        /// <summary>
+        /// Waits for background AWBUpdater.exe update to complete
+        /// </summary>
+        public static void WaitForCompletion()
+        {
+            if (request != null)
+            {
+                request.Wait();
+                request = null;
+            }
         }
     }
 }
