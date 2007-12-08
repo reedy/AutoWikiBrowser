@@ -437,11 +437,8 @@ namespace WikiFunctions.Controls.Lists
         {
             set
             {
-                btnFilter.Enabled = value;
-                btnRemoveArticle.Enabled = value;
-                btnArticlesListClear.Enabled = value;
-                btnArticlesListSave.Enabled = value;
-                btnRemoveDuplicates.Enabled = value;
+                btnFilter.Enabled = btnRemoveArticle.Enabled = btnArticlesListClear.Enabled = 
+                btnArticlesListSave.Enabled = btnRemoveDuplicates.Enabled = value;
             }
         }
 
@@ -497,7 +494,7 @@ namespace WikiFunctions.Controls.Lists
             set { bWikiStatus = value; }
         }
 
-        string strStatus = "";
+        string strStatus;
         /// <summary>
         /// The status of the process
         /// </summary>        
@@ -512,7 +509,7 @@ namespace WikiFunctions.Controls.Lists
             }
         }
 
-        bool bBusyStatus = false;
+        bool bBusyStatus;
         /// <summary>
         /// Gets a value indicating whether the process is busy
         /// </summary>
@@ -1071,7 +1068,7 @@ namespace WikiFunctions.Controls.Lists
                 {
                     if (Regex.Match(entry, url).Success)
                         Add(entry.Replace(url, ""));
-                    else if (entry.Trim() != "")
+                    else if (!string.IsNullOrEmpty(entry.Trim()))
                         Add(entry);
                 }
             }

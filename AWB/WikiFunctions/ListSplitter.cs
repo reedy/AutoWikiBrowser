@@ -60,14 +60,14 @@ namespace WikiFunctions.Controls.Lists
         private void btnSave_Click(object sender, EventArgs e)
         {
             saveTXT.FileName = listMaker1.SourceText;
-            if (saveTXT.ShowDialog() == DialogResult.OK && saveTXT.FileName != "")
+            if (saveTXT.ShowDialog() == DialogResult.OK && !string.IsNullOrEmpty(saveTXT.FileName))
                 save(saveTXT.FileName, false);
         }
 
         private void btnXMLSave_Click(object sender, EventArgs e)
         {
             saveXML.FileName = listMaker1.SourceText;
-            if (saveXML.ShowDialog() == DialogResult.OK && saveXML.FileName != "")
+            if (saveXML.ShowDialog() == DialogResult.OK && !string.IsNullOrEmpty(saveXML.FileName))
                 save(saveXML.FileName, true);
         }
 

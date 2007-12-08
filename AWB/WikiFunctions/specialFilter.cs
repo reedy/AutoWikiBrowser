@@ -53,8 +53,8 @@ namespace WikiFunctions.Lists
 
                 removeDups(chkRemoveDups.Checked);
 
-                bool does = (chkContains.Checked && txtContains.Text != "");
-                bool doesnot = (chkNotContains.Checked && txtDoesNotContain.Text != "");
+                bool does = (chkContains.Checked && !string.IsNullOrEmpty(txtContains.Text));
+                bool doesnot = (chkNotContains.Checked && !string.IsNullOrEmpty(txtDoesNotContain.Text));
 
                 if (lbRemove.Items.Count > 0)
                     FilterList();

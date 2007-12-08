@@ -55,7 +55,7 @@ namespace WikiFunctions.DatabaseScanner
             }
         }
 
-        int intMatches = 0;
+        int intMatches;
         int intLimit = 100000;
 
         public DatabaseScanner()

@@ -134,7 +134,7 @@ namespace AutoWikiBrowser
 
         private void cmboCustomProjectChanged(object sender, EventArgs e)
         {
-            btnApply.Enabled = (cmboCustomProject.Text != "");
+            btnApply.Enabled = (!string.IsNullOrEmpty(cmboCustomProject.Text));
         }
 
         #endregion
@@ -243,7 +243,7 @@ namespace AutoWikiBrowser
         {
             saveFile.InitialDirectory = Application.StartupPath;
             saveFile.ShowDialog();
-            if (saveFile.FileName != "")
+            if (!string.IsNullOrEmpty(saveFile.FileName))
                 txtAutosave.Text = saveFile.FileName;
         }
 

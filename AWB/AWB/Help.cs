@@ -58,7 +58,7 @@ namespace AutoWikiBrowser
             if (h == null || h.IsDisposed)
                 h = new Help();
             h.Show();
-            if (url == "")
+            if (string.IsNullOrEmpty(url))
                 h.Navigate();
             else
                 h.Navigate(url);

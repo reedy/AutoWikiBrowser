@@ -52,7 +52,7 @@ namespace WikiFunctions.Browser
 
         Timer timer1 = new Timer();
 
-        public static bool Shutdown = false;
+        public static bool Shutdown;
 
         /// <summary>
         /// Occurs when the edit page has finished loading
@@ -281,7 +281,7 @@ namespace WikiFunctions.Browser
             get { return wpTextbox1.IsMatch(DocumentText); }
         }
 
-        string strStatus = "";
+        string strStatus;
         /// <summary>
         /// Gets a string indicating the current status
         /// </summary>
@@ -298,7 +298,7 @@ namespace WikiFunctions.Browser
             }
         }
 
-        bool boolBusy = false;
+        bool boolBusy;
         /// <summary>
         /// Gets a value indicating whether articles are still being processed
         /// </summary>
@@ -1008,7 +1008,7 @@ namespace WikiFunctions.Browser
             StartTimer();
         }
 
-        int LoadTime = 0;
+        int LoadTime;
         private void StartTimer()
         {
             StopTimer();

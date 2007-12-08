@@ -78,7 +78,7 @@ namespace WikiFunctions.AWBProfiles
             {
                 ListViewItem item = new ListViewItem(profile.id.ToString());
                 item.SubItems.Add(profile.Username);
-                if (profile.Password != "")
+                if (!string.IsNullOrEmpty(profile.Password))
                     item.SubItems.Add("Yes");
                 else
                     item.SubItems.Add("No");

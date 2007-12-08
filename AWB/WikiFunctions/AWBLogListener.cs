@@ -182,7 +182,7 @@ namespace WikiFunctions.Logging
 
         public void Write(string Text)
         {
-            if (ToolTipText.Trim() == "")
+            if (string.IsNullOrEmpty(ToolTipText.Trim()))
             { ToolTipText = Text; }
             else
             { ToolTipText = Text + System.Environment.NewLine + ToolTipText; }
@@ -190,7 +190,7 @@ namespace WikiFunctions.Logging
 
         public void WriteLine(string Text, string Sender)
         {
-            if (Text.Trim() != "") Write(Sender + ": " + Text);
+            if (!string.IsNullOrEmpty(Text.Trim())) Write(Sender + ": " + Text);
         }
         #endregion
 

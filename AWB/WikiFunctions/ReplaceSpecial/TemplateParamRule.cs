@@ -29,10 +29,10 @@ namespace WikiFunctions.MWB
     {
         public const string XmlName = "TemplateParamRule";
 
-        public string ParamName_ = "";
-        public string NewParamName_ = "";
+        public string ParamName_;
+        public string NewParamName_;
 
-        TemplateParamRuleControl ruleControl_ = null;
+        TemplateParamRuleControl ruleControl_;
 
         public override Object Clone()
         {

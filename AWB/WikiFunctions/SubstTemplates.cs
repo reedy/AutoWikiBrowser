@@ -75,7 +75,7 @@ namespace WikiFunctions
 
             foreach (string s in TemplateList)
             {
-                if (s.Trim() == "") continue;
+                if (string.IsNullOrEmpty(s.Trim())) continue;
                 Regexes.Add(new Regex(@"\{\{\s*" + templ + Tools.CaseInsensitive(s) + @"\s*(\|[^\}]*|)\}\}", 
                     RegexOptions.Singleline | RegexOptions.Compiled), 
                     @"{{subst:"+s+"$1}}");

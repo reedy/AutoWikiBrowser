@@ -34,7 +34,6 @@ namespace WikiFunctions.Lists
 
         public ListViewItemComparer()
         {
-            col = 0;
             order = SortOrder.Ascending;
         }
 

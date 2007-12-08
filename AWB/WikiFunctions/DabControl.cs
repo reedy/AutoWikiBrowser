@@ -62,7 +62,7 @@ namespace WikiFunctions.Disambiguation
 
         // output data
         public string Surroundings;
-        public int SurroundingsStart = 0;
+        public int SurroundingsStart;
         public string Result
         {
             get { return txtCorrection.Text; }
@@ -72,7 +72,7 @@ namespace WikiFunctions.Disambiguation
         int ContextChars;
         int posStart;
         int posEnd;
-        bool StartOfSentence = false;
+        bool StartOfSentence;
         string VisibleLink;
         string RealLink;
         string CurrentLink;
@@ -83,7 +83,7 @@ namespace WikiFunctions.Disambiguation
 
         public bool CanSave
         {
-            get { return txtCorrection.Text.Trim() != ""; }
+            get { return !string.IsNullOrEmpty(txtCorrection.Text.Trim()); }
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace WikiFunctions.Disambiguation
 
                 posEnd = Match.Index + Match.Value.Length;
 
-                if (Match.Groups[2].Value == "")
+                if (string.IsNullOrEmpty(Match.Groups[2].Value))
                 {
                     VisibleLink = Match.Groups[1].Value.Trim();
                     RealLink = VisibleLink;

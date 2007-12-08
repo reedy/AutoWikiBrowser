@@ -1009,7 +1009,7 @@ namespace WikiFunctions
 
             RETFPath = Namespaces[4] + "AutoWikiBrowser/Typos";
 
-            if (ProjectName == "") ProjectName = Namespaces[4].TrimEnd(':');
+            if (string.IsNullOrEmpty(ProjectName)) ProjectName = Namespaces[4].TrimEnd(':');
 
         }
 
@@ -1061,7 +1061,7 @@ namespace WikiFunctions
             }
             catch
             {
-                if (CustomProject == "")
+                if (string.IsNullOrEmpty(CustomProject))
                 {
                     if (MessageBox.Show(@"An error occured while loading project information from the server.
 Do you want to use default settings?", "Error loading namespaces", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -1219,11 +1219,11 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
         /// </summary>
         public event EventHandler AdminStatusChanged;
 
-        private string strName = "";
-        private bool bWikiStatus = false;
-        private bool bIsAdmin = false;
-        private bool bIsBot = false;
-        private bool bLoggedIn = false;
+        private string strName;
+        private bool bWikiStatus;
+        private bool bIsAdmin;
+        private bool bIsBot;
+        private bool bLoggedIn;
 
         public List<string> Groups = new List<string>();
 
@@ -1444,7 +1444,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
 
                 //see if we are logged in
                 this.Name = webBrowserLogin.UserName;
-                if (Name == "") // don't run GetInLogInStatus if we don't have the username, we sometimes get 2 error message boxes otherwise
+                if (string.IsNullOrEmpty(Name)) // don't run GetInLogInStatus if we don't have the username, we sometimes get 2 error message boxes otherwise
                     LoggedIn = false;
                 else
                     LoggedIn = webBrowserLogin.GetLogInStatus();
@@ -1458,7 +1458,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                 // check if username is globally blacklisted
                 foreach (Match m3 in Regex.Matches(strVersionPage, @"badname:\s*(.*)\s*(:?|#.*)$", RegexOptions.IgnoreCase))
                 {
-                    if (m3.Groups[1].Value.Trim() != "" && Regex.IsMatch(this.Name, m3.Groups[1].Value.Trim(), RegexOptions.IgnoreCase | RegexOptions.Multiline))
+                    if (!string.IsNullOrEmpty(m3.Groups[1].Value.Trim()) && Regex.IsMatch(this.Name, m3.Groups[1].Value.Trim(), RegexOptions.IgnoreCase | RegexOptions.Multiline))
                         return WikiStatusResult.NotRegistered;
                 }
 

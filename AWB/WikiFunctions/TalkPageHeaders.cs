@@ -77,7 +77,7 @@ namespace WikiFunctions.TalkPages
                     new MatchEvaluator(TalkPageHeaders.DefaultSortMatchEvaluator), 1);
                 if (FoundDefaultSort)
                 {
-                    if (DefaultSortKey == "")
+                    if (string.IsNullOrEmpty(DefaultSortKey))
                     {
                         if (Trace != null)
                             Trace.WriteArticleActionLine("DEFAULTSORT has no key; removed", PluginName);

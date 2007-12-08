@@ -76,7 +76,7 @@ namespace WikiFunctions.AWBProfiles
                 if (SelectedItem < 0) return;
 
                 Cursor = Cursors.WaitCursor;
-                if (lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[3].Text != "")
+                if (!string.IsNullOrEmpty(lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[3].Text))
                     CurrentSettingsProfile = lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[3].Text;
                 else
                     CurrentSettingsProfile = "";
@@ -114,7 +114,7 @@ namespace WikiFunctions.AWBProfiles
             {
                 AWBProfile startupProfile = AWBProfiles.GetProfile(profileID);
 
-                if (startupProfile.Password != "")
+                if (!string.IsNullOrEmpty(startupProfile.Password))
                 {//Get 'Saved' Password
                     browserLogin(startupProfile.Username, startupProfile.Password);
                 }

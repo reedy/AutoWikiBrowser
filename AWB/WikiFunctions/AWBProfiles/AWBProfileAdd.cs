@@ -59,7 +59,7 @@ namespace WikiFunctions.AWBProfiles
             chkUseForUpload.Checked = profile.useforupload;
             txtNotes.Text = profile.notes;
 
-            if (txtPath.Text != "")
+            if (!string.IsNullOrEmpty(txtPath.Text))
                 chkDefaultSettings.Checked = true;
 
             this.Text = "Edit Profile";
@@ -85,7 +85,7 @@ namespace WikiFunctions.AWBProfiles
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if (txtUsername.Text == "")
+            if (string.IsNullOrEmpty(txtUsername.Text))
                 MessageBox.Show("The Username cannot be blank");
             else
             {

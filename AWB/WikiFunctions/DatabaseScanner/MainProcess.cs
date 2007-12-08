@@ -42,7 +42,7 @@ namespace WikiFunctions.DatabaseScanner
         SendOrPostCallback SOPC;
         SendOrPostCallback SOPCstopped;
         private SynchronizationContext context;
-        Thread ScanThread = null;
+        Thread ScanThread;
 
         List<Scan> s;
         bool ignore = false;

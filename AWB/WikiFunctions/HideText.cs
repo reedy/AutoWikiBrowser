@@ -19,9 +19,9 @@ namespace WikiFunctions.Parse
             this.LeaveMetaHeadings = LeaveMetaHeadings;
         }
 
-        bool LeaveMetaHeadings = false;
-        bool bHideImages = false;
-        bool HideExternal = false;
+        bool LeaveMetaHeadings;
+        bool bHideImages;
+        bool HideExternal;
 
         List<HideObject> NoEditList = new List<HideObject>();
         List<HideObject> NoUnformatted = new List<HideObject>();

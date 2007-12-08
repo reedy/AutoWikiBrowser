@@ -64,7 +64,7 @@ namespace WikiFunctions.AWBProfiles
         {
             try
             {
-                if (text != "")
+                if (!string.IsNullOrEmpty(text))
                     return Encryption.RijndaelSimple.Encrypt(text, PassPhrase, Salt, "SHA1", 2, IV16Chars, 256);
                 else
                     return text;
@@ -81,7 +81,7 @@ namespace WikiFunctions.AWBProfiles
         {
             try
             {
-                if (text != "")
+                if (!string.IsNullOrEmpty(text))
                     return Encryption.RijndaelSimple.Decrypt(text, PassPhrase, Salt, "SHA1", 2, IV16Chars, 256);
                 else
                     return text;
@@ -163,7 +163,7 @@ namespace WikiFunctions.AWBProfiles
             else
                 retval = GetProfile(idOfUploadAccount);
 
-            if (retval.Password == "" && TempPassword == "")
+            if (string.IsNullOrEmpty(retval.Password) && string.IsNullOrEmpty(TempPassword))
             {
                 WikiFunctions.AWBProfiles.UserPassword password = new WikiFunctions.AWBProfiles.UserPassword();
                 password.SetText = "Enter password for " + retval.Username;
@@ -172,7 +172,7 @@ namespace WikiFunctions.AWBProfiles
                     retval.Password = TempPassword = password.GetPassword;
                 }
             }
-            else if (TempPassword != "")
+            else if (!string.IsNullOrEmpty(TempPassword))
                 retval.Password = TempPassword;
             return retval;
         }

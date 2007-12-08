@@ -85,7 +85,7 @@ namespace WikiFunctions
                         ex.StackTrace.Contains("AutoWikiBrowser.MainForm.ProcessPage("))
                     {
                         string link;
-                        if (CurrentRevision != 0 && LangCode != "" && Project != "")
+                        if (CurrentRevision != 0 && !string.IsNullOrEmpty(LangCode) && !string.IsNullOrEmpty(Project))
                             link = "[http://" + LangCode + "." + Project + ".org/w/index.php?title=" + CurrentArticle.Replace(" ", "_") + "&oldid=" + CurrentRevision.ToString() + "]";
                         else link = "[[:" + CurrentArticle + "]]";
                         handler.txtDetails.Text +=
