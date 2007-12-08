@@ -389,6 +389,7 @@
   <ItemGroup>
     <None Include="Resources\beep11.wav" />
     <None Include="Resources\beep21.wav" />
+    <Content Include="Diff\Diff.dll" />
     <Content Include="Resources\Bot Image.png" />
     <None Include="Resources\Vista-trashcan_empty.png" />
     <None Include="Resources\btnshowhideparameters2.image2.png" />
