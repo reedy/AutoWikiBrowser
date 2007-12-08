@@ -888,7 +888,7 @@ namespace IrcMonitor
                 Tools.Beep2();
         }
 
-        private int IntFromMessage(string s)
+        private static int IntFromMessage(string s)
         {
             string z = s;
             int i = 0;
@@ -958,56 +958,56 @@ namespace IrcMonitor
             dataGridStatistics.Rows[7].Cells[1].Value = 0;
         }
 
-        int intNumberofEdits = 0;
+        int intNumberofEdits;
         private void AddEdit()
         {
             intNumberofEdits++;
             dataGridStatistics.Rows[0].Cells[1].Value = intNumberofEdits;
         }
 
-        int intNumberofNewArticle = 0;
+        int intNumberofNewArticle;
         private void AddNewArticle()
         {
             intNumberofNewArticle++;
             dataGridStatistics.Rows[1].Cells[1].Value = intNumberofNewArticle;
         }
 
-        int intNumberofUploads = 0;
+        int intNumberofUploads;
         private void AddNewUpload()
         {
             intNumberofUploads++;
             dataGridStatistics.Rows[2].Cells[1].Value = intNumberofUploads;
         }
 
-        int intNumberofPageMoves = 0;
+        int intNumberofPageMoves;
         private void AddNewPageMove()
         {
             intNumberofPageMoves++;
             dataGridStatistics.Rows[3].Cells[1].Value = intNumberofPageMoves;
         }
 
-        int intNumberofNewUsers = 0;
+        int intNumberofNewUsers;
         private void AddNewUser()
         {
             intNumberofNewUsers++;
             dataGridStatistics.Rows[4].Cells[1].Value = intNumberofNewUsers;
         }
 
-        int intNumberofBlocks = 0;
+        int intNumberofBlocks;
         private void AddNewBlock()
         {
             intNumberofBlocks++;
             dataGridStatistics.Rows[5].Cells[1].Value = intNumberofBlocks;
         }
 
-        int intNumberofDeletions = 0;
+        int intNumberofDeletions;
         private void AddNewDeletion()
         {
             intNumberofDeletions++;
             dataGridStatistics.Rows[6].Cells[1].Value = intNumberofDeletions;
         }
 
-        int intNumberofProtection = 0;
+        int intNumberofProtection;
         private void AddNewProtection()
         {
             intNumberofProtection++;
@@ -1028,7 +1028,7 @@ namespace IrcMonitor
 
         private void btnWhiteListAdd_Click(object sender, EventArgs e)
         {
-            if (txtList.Text == "")
+            if (string.IsNullOrEmpty(txtList.Text))
                 return;
 
             lbWhiteList.Items.Add(Tools.TurnFirstToUpper(txtList.Text));
@@ -2035,7 +2035,7 @@ namespace IrcMonitor
 
         private void ComboChange()
         {
-            if (cmboLang.Text != "" && cmboProject.Text != "")
+            if (!string.IsNullOrEmpty(cmboLang.Text) && !string.IsNullOrEmpty(cmboProject.Text))
                 Variables.SetProject((LangCodeEnum)Enum.Parse(typeof(LangCodeEnum), cmboLang.SelectedItem.ToString()),
                    (ProjectEnum)Enum.Parse(typeof(ProjectEnum), cmboProject.SelectedItem.ToString()));
         }
