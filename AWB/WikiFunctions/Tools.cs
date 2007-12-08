@@ -99,10 +99,7 @@ namespace WikiFunctions
                 return false;
 
             int i = CalculateNS(ArticleTitle);
-            if (i < 0 || i > 99 || i == 7 || i == 8)
-                return false;
-
-            return true;
+            return !(i < 0 || i > 99 || i == 7 || i == 8);
         }
         
         /// <summary>
@@ -119,12 +116,10 @@ namespace WikiFunctions
         /// </summary>
         public static bool IsWikimediaProject(ProjectEnum p)
         {
-            if (p == ProjectEnum.commons || p == ProjectEnum.meta || p == ProjectEnum.species
+            return (p == ProjectEnum.commons || p == ProjectEnum.meta || p == ProjectEnum.species
                 || p == ProjectEnum.wikibooks || p == ProjectEnum.wikinews || p == ProjectEnum.wikipedia
                 || p == ProjectEnum.wikiquote || p == ProjectEnum.wikisource || p == ProjectEnum.wikiversity
-                || p == ProjectEnum.wiktionary)
-                return true;
-            else return false;
+                || p == ProjectEnum.wiktionary);
         }
 
         /// <summary>
