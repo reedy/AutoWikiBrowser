@@ -204,7 +204,7 @@ namespace AutoWikiBrowser
             lblStatusText.Text = "Initialising...";
             Application.DoEvents();
             Variables.MainForm = this;
-            UpdateUpdater();
+            Updater.Update();
 
             GlobalObjects.MyTrace.LS = loggingSettings1;
 
@@ -3131,11 +3131,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             ntfyTray.ShowBalloonTip(10000);
         }
         #endregion
-
-        private void UpdateUpdater()
-        {
-            Updater.Update();
-        }
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
