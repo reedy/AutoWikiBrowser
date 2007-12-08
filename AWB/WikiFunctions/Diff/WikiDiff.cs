@@ -33,7 +33,7 @@ namespace WikiFunctions
             RightLines = rightText.Split(new string[] { "\r\n" }, StringSplitOptions.None);
             ContextLines = contextLines;
 
-            diff = new Diff(LeftLines, RightLines, false, true);
+            diff = new Diff(LeftLines, RightLines, true, true);
             foreach (Diff.Hunk h in diff)
             {
                 if (h.Same) RenderContext(h);
