@@ -35,19 +35,19 @@ namespace WikiFunctions.MWB
         public enum T { OnWholePage = 0, InsideTemplate };
 
         public T ruletype_ = T.OnWholePage;
-        public string replace_ = "";
-        public string with_ = "";
-        public bool regex_ = false;
+        public string replace_;
+        public string with_;
+        public bool regex_;
         public RegexOptions regexOptions_ = RegexOptions.None;
         public int numoftimes_ = 1;
 
-        public string ifContains_ = "";
-        public string ifNotContains_ = "";
-        public bool ifIsRegex_ = false;
+        public string ifContains_;
+        public string ifNotContains_;
+        public bool ifIsRegex_;
         public RegexOptions ifRegexOptions_ = RegexOptions.None;
 
 
-        RuleControl ruleControl_ = null;
+        RuleControl ruleControl_;
 
         public override Object Clone()
         {
@@ -266,13 +266,13 @@ namespace WikiFunctions.MWB
 
             StringComparison sc = (((int)r.ifRegexOptions_ & (int)RegexOptions.IgnoreCase) != 0)?StringComparison.OrdinalIgnoreCase:StringComparison.Ordinal;
 
-            if (r.ifContains_ != "")
+            if (!string.IsNullOrEmpty(r.ifContains_))
             {
                 if ((r.ifIsRegex_ && !Regex.IsMatch(text, r.ifContains_, r.ifRegexOptions_))
                     || (!r.ifIsRegex_ && text.IndexOf(r.ifContains_, sc)<0))
                         return false;
             }
-            if (r.ifNotContains_ != "")
+            if (!string.IsNullOrEmpty(r.ifNotContains_))
             {
                 if ((r.ifIsRegex_ && Regex.IsMatch(text, r.ifNotContains_, r.ifRegexOptions_))
                     || (!r.ifIsRegex_ && text.IndexOf(r.ifNotContains_, sc) >= 0))
@@ -287,7 +287,6 @@ namespace WikiFunctions.MWB
         {
             Rule r = (Rule)tn.Tag;
 
-            //if (r.replace_ != null && r.with_ != null && r.replace_ != "" && r.with_ != "")
             if (!string.IsNullOrEmpty(r.replace_))
             {
                 string replace = Tools.ApplyKeyWords(title, r.replace_);

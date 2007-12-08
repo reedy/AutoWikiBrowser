@@ -106,7 +106,7 @@ namespace WikiFunctions.IRC
         
         SendOrPostCallback SOPC;
         private SynchronizationContext context;
-        Thread IRCThread = null;
+        Thread IRCThread;
 
         private void Process(object s)
         {//process messages here, fire off events
@@ -264,7 +264,7 @@ namespace WikiFunctions.IRC
         /// <summary>
         /// Stops the event from firing.
         /// </summary>
-        private bool boolpause = false;
+        private bool boolpause;
         public bool Pause
         {
             get { return boolpause; }

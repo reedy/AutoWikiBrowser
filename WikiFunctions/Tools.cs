@@ -359,7 +359,7 @@ namespace WikiFunctions
         /// </summary>
         public static string CaseInsensitive(string input)
         {
-            if (input != "" && char.IsLetter(input[0]))
+            if (!string.IsNullOrEmpty(input) && char.IsLetter(input[0]))
             {
                 input = input.Trim();
                 return "[" + char.ToUpper(input[0]) + char.ToLower(input[0]) + "]" + input.Remove(0, 1);
@@ -373,7 +373,7 @@ namespace WikiFunctions
         /// </summary>
         public static string AllCaseInsensitive(string input)
         {
-            if (input != "")
+            if (!string.IsNullOrEmpty(input))
             {
                 input = input.Trim();
                 string result = "";
@@ -766,7 +766,7 @@ namespace WikiFunctions
             sound.Play();
         }
 
-        static bool bWriteDebug = false;
+        static bool bWriteDebug;
         /// <summary>
         /// Gets or sets value whether debug is enabled
         /// </summary>

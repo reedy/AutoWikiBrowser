@@ -37,13 +37,13 @@ namespace WikiFunctions.Parse
         {
             InitializeComponent();
         }
-        string streditsummary = "";
+        string streditsummary;
 
         HideText RemoveLinks = new HideText(true, false, true);
         HideText RemoveMore = new HideText(true, false, true);
 
         List<Replacement> ReplacementList = new List<Replacement>();
-        bool applydefault = false;
+        bool applydefault;
         private bool ApplyDefaultFormatting
         {
             get { return applydefault; }
@@ -160,7 +160,7 @@ namespace WikiFunctions.Parse
             else if (chkIgnoreLinks.Checked)
                 ArticleText = RemoveLinks.AddBack(ArticleText);
 
-            if (chkAddToSummary.Checked && streditsummary != "")
+            if (chkAddToSummary.Checked && !string.IsNullOrEmpty(streditsummary))
                 EditSummary = ", Replaced: " + summary.Trim();
 
             return ArticleText;

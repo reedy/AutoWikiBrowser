@@ -43,7 +43,7 @@ namespace AutoWikiBrowser
 
         private void ConditionsChanged(object sender, EventArgs e)
         {
-            FindBtn.Enabled = ReplaceBtn.Enabled = Find.Text != "" && Source.Text != "";
+            FindBtn.Enabled = ReplaceBtn.Enabled = (!string.IsNullOrEmpty(Find.Text) && !string.IsNullOrEmpty(Source.Text));
         }
 
         private RegexOptions Options

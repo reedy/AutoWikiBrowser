@@ -38,9 +38,9 @@ namespace AutoWikiBrowser.Logging
 
         private LoggingSettings LoggingSettings;
         private static string LogFolder = "";
-        private int BusyCounter = 0;
-        private bool mIsUploading = false;
-        private bool mIsGettingPassword = false;
+        private int BusyCounter;
+        private bool mIsUploading;
+        private bool mIsGettingPassword;
         private bool mStoppedWithConfigError;
 
         private const string ConWiki = "Wiki";
@@ -229,7 +229,7 @@ namespace AutoWikiBrowser.Logging
             }
         }
 
-        private bool BadPagesLogToUpload
+        private static bool BadPagesLogToUpload
         {
             get { return false; }
         }

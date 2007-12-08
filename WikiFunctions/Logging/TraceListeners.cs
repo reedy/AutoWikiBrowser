@@ -64,7 +64,7 @@ namespace WikiFunctions.Logging
         }
         public override void SkippedArticle(string SkippedBy, string Reason)
         {
-            if (Reason != "")
+            if (!string.IsNullOrEmpty(Reason))
                 Reason = ": " + Reason;
             base.WriteLine("#*''" + SkippedBy + ": Skipped" + Reason + "''", false);
         }
@@ -160,7 +160,7 @@ namespace WikiFunctions.Logging
         }
         public override void SkippedArticle(string SkippedBy, string Reason)
         {
-            if (Reason != "")
+            if (!string.IsNullOrEmpty(Reason))
                 Reason = ": " + Reason;
             base.WriteLine("<li><i>" + SkippedBy + ": Skipped" + Reason + "</i></li>");
         }

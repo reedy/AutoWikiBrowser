@@ -249,7 +249,7 @@ namespace WikiFunctions.MWB
             if (RulesTreeView.SelectedNode == null)
                 return;
 
-            if (name == "")
+            if (string.IsNullOrEmpty(name))
                 return;
 
             if (RulesTreeView.SelectedNode.Text == name)

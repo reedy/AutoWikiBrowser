@@ -183,7 +183,7 @@ namespace WikiFunctions.Parse
             //to avoid running 2K regexps on them
             Match m = RemoveTail.Match(ArticleText);
             string tail = m.Value;
-            if (tail != "") ArticleText = ArticleText.Remove(m.Index);
+            if (!string.IsNullOrEmpty(tail)) ArticleText = ArticleText.Remove(m.Index);
 
             string originalText = ArticleText;
             string strSummary = "";
@@ -197,7 +197,7 @@ namespace WikiFunctions.Parse
 
             ArticleText = RemoveText.AddBackMore(ArticleText + tail);
 
-            if (strSummary != "")
+            if (!string.IsNullOrEmpty(strSummary))
             {
                 strSummary = ", typos fixed: " + strSummary.Trim();
                 Summary = strSummary;
@@ -235,7 +235,7 @@ namespace WikiFunctions.Parse
                 }
                 catch
                 {
-                    if (text == "")
+                    if (string.IsNullOrEmpty(text))
                     {
                         if (MessageBox.Show("No list of typos was found.  Would you like to use the list of typos from the English Wikipedia?\r\nOnly choose OK if this is an English wiki.", "Load from English Wikipedia?", MessageBoxButtons.YesNo) == DialogResult.Yes)
                         {

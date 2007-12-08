@@ -65,7 +65,7 @@ namespace AutoWikiBrowser
             }
         }
 
-        IModule m = null;
+        IModule m;
         public IModule Module
         {
             get { return m; }

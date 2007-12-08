@@ -42,7 +42,7 @@ namespace AutoWikiBrowser
 
         private void saveSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (SettingsFile != "")
+            if (!string.IsNullOrEmpty(SettingsFile))
             {
                 if ((!System.IO.File.Exists(SettingsFile)) || MessageBox.Show("Replace existing file?", "File exists - " + SettingsFile,
             MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
@@ -291,7 +291,7 @@ namespace AutoWikiBrowser
             string list = "";
             foreach (string s in RecentList)
             {
-                if (list != "") list += "|";
+                if (!string.IsNullOrEmpty(list)) list += "|";
                 list += s;
             }
 
@@ -557,7 +557,7 @@ namespace AutoWikiBrowser
             if (File.Exists("Default.xml"))
                 SettingsFile = "Default.xml";
 
-            if (SettingsFile != "")
+            if (!string.IsNullOrEmpty(SettingsFile))
                 LoadPrefs(SettingsFile);
             else
                 return;
@@ -570,7 +570,7 @@ namespace AutoWikiBrowser
         {
             try
             {
-                if (path == "")
+                if (string.IsNullOrEmpty(path))
                     return;
 
                 //test file to see if it is an old AWB file

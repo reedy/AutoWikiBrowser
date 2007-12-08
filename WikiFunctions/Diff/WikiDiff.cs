@@ -333,7 +333,7 @@ td.diff-addedline span.diffchange {
             }
         }
 
-        static string CustomStyles = null;
+        static string CustomStyles;
 
         public static string DiffHead()
         {

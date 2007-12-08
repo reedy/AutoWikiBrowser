@@ -124,8 +124,8 @@ namespace WikiFunctions.DatabaseScanner
         }
 
         MoreLessThan M;
-        int test = 0;
-        int actual = 0;
+        int test;
+        int actual;
 
         public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
@@ -149,8 +149,8 @@ namespace WikiFunctions.DatabaseScanner
         }
 
         MoreLessThan M;
-        int test = 0;
-        int actual = 0;
+        int test;
+        int actual;
 
         public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
@@ -174,8 +174,8 @@ namespace WikiFunctions.DatabaseScanner
         }
 
         MoreLessThan M;
-        int test = 0;
-        int actual = 0;
+        int test;
+        int actual;
 
         public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
@@ -198,8 +198,8 @@ namespace WikiFunctions.DatabaseScanner
         }
 
         List<int> namespaces = new List<int>();
-        int i = 0;
-        int NamespaceIndex = 0;
+        int i;
+        int NamespaceIndex;
 
         public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {

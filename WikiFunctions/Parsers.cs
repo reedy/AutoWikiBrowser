@@ -125,7 +125,7 @@ namespace WikiFunctions.Parse
             set { boolAddCatKey = value; }
         }
 
-        private bool boolAddCatKey = false;
+        private bool boolAddCatKey;
 
         // should NOT be accessed directly use Sorter
         private MetaDataSorter metaDataSorter;
@@ -741,14 +741,14 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             foreach (Match link in emptyLink.Matches(ArticleText))
             {
                 trim = link.Groups[2].Value.Trim();
-                if (trim == "" || trim == "|" + img || trim == "|" + cat || trim == "|")
+                if (string.IsNullOrEmpty(trim) || trim == "|" + img || trim == "|" + cat || trim == "|")
                     ArticleText = ArticleText.Replace("[[" + link.Groups[1].Value + link.Groups[2].Value + "]]", "");
             }
 
             foreach (Match template in emptyTemplate.Matches(ArticleText))
             {
                 trim = template.Groups[1].Value.Trim();
-                if (trim == "" || trim == "|")
+                if (string.IsNullOrEmpty(trim) || trim == "|")
                     ArticleText = ArticleText.Replace("{{" + template.Groups[1].Value + "}}", "");
             }
             return ArticleText;
@@ -935,7 +935,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     m.Index < m2.Index + m2.Length) continue;
 
                 string s = ExtractTemplate(ArticleText, m);
-                if (s == "") break;
+                if (string.IsNullOrEmpty(s)) break;
                 pos = m.Index + s.Length;
                 Match mres = m;
                 foreach (Match m2 in Regex.Matches(ArticleText, Regex.Escape(s)))
@@ -969,10 +969,10 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             if (fromsetting)
             {
                 setting = setting.Trim();
-                if (setting == "") return "";
+                if (string.IsNullOrEmpty(setting)) return "";
 
                 string gtn = GetTemplateName(setting).Trim();
-                if (gtn == "")
+                if (string.IsNullOrEmpty(gtn))
                     return setting;
                 else
                     return gtn;
@@ -1370,7 +1370,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     }
                     matches++;
                 }
-                if (allsame && matches > 1 && sort != "")
+                if (allsame && matches > 1 && !string.IsNullOrEmpty(sort))
                 {
                     if (sort.Length > 4) // So that this doesn't get confused by sort keys of "*", " ", etc.
                     {

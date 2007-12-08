@@ -32,7 +32,7 @@ namespace WikiFunctions.Background
 
     public class BackgroundRequest
     {
-        public object Result = null;
+        public object Result;
         public bool Done
         {
             get

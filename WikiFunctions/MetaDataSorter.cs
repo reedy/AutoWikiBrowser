@@ -341,10 +341,10 @@ namespace WikiFunctions.Parse
             string defaultSort = "";
             try { defaultSort = mc[0].Value; }
             catch { }
-            if (defaultSort != "")
+            if (!string.IsNullOrEmpty(defaultSort))
                 ArticleText = ArticleText.Replace(defaultSort, "");
             defaultSort = WikiRegexes.Defaultsort.Replace(defaultSort, "{{DEFAULTSORT:${key}}}");
-            if (defaultSort != "") defaultSort += "\r\n";
+            if (!string.IsNullOrEmpty(defaultSort)) defaultSort += "\r\n";
 
             return defaultSort + ListToString(categoryList);
         }
@@ -353,7 +353,7 @@ namespace WikiFunctions.Parse
         {
             string strPersonData = Parsers.GetTemplate(ArticleText, "[Pp]ersondata");
 
-            if (strPersonData != "")
+            if (!string.IsNullOrEmpty(strPersonData))
                 ArticleText = ArticleText.Replace(strPersonData, "");
 
             return strPersonData;
@@ -447,12 +447,8 @@ namespace WikiFunctions.Parse
             {
                 interWikiList.Sort(Comparer);
             }
-            else
-            {
-                //keeps existing order
-            }
 
-            if (interWikiComment != "") interWikiList.Insert(0, interWikiComment);
+            if (!string.IsNullOrEmpty(interWikiComment)) interWikiList.Insert(0, interWikiComment);
 
             return interWikiList;
         }

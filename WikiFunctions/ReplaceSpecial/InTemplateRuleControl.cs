@@ -115,7 +115,7 @@ namespace WikiFunctions.MWB
         private void AddButton_Click(object sender, EventArgs e)
         {
             string alias = AliasTextBox.Text;
-            if (alias == "")
+            if (string.IsNullOrEmpty(alias))
                 return;
             if (!AliasesListBox.Items.Contains(alias))
             {

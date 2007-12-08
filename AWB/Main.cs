@@ -90,7 +90,7 @@ namespace AutoWikiBrowser
         private static StringCollection RecentList = new StringCollection();
         private static CustomModule cModule = new CustomModule();
         internal static RegexTester regexTester = new RegexTester();
-        private static bool userTalkWarningsLoaded = false;
+        private static bool userTalkWarningsLoaded;
         private static Regex userTalkTemplatesRegex;
         private static bool mErrorGettingLogInStatus;
         private static bool skippable = true;
@@ -414,7 +414,7 @@ namespace AutoWikiBrowser
                 SetEditToolBarEnabled(true);
                 txtEdit.Text = "";
                 webBrowserEdit.BringToFront();
-                if (cmboEditSummary.Text == "" && Plugin.Items.Count == 0)
+                if (string.IsNullOrEmpty(cmboEditSummary.Text) && Plugin.Items.Count == 0)
                     MessageBox.Show("Please enter an edit summary.", "Edit summary", MessageBoxButtons.OK,
                         MessageBoxIcon.Exclamation);
 
@@ -2646,7 +2646,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             if (TheArticle != null)
                 editSummary = TheArticle.EditSummary;
 
-            if (editSummary == "")
+            if (string.IsNullOrEmpty(editSummary))
                 toolTip1.SetToolTip(cmboEditSummary, "");
             else
                 toolTip1.SetToolTip(cmboEditSummary, MakeSummary());
@@ -2745,7 +2745,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
                 foreach (string s in se.Summaries.Lines)
                 {
-                    if (s.Trim() == "") continue;
+                    if (!string.IsNullOrEmpty(s.Trim())) continue;
                     cmboEditSummary.Items.Add(s.Trim());
                 }
 
@@ -3018,7 +3018,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void txtDabLink_TextChanged(object sender, EventArgs e)
         {
-            btnLoadLinks.Enabled = txtDabLink.Text.Trim() != "";
+            btnLoadLinks.Enabled = !string.IsNullOrEmpty(txtDabLink.Text.Trim());
         }
 
         private void txtDabLink_Enter(object sender, EventArgs e)
@@ -3371,7 +3371,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             {
                 if (tabControl2.SelectedTab == tpHistory)
                 {
-                    if (webBrowserHistory.Url != new System.Uri(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName + "&action=history&useskin=myskin") && TheArticle.URLEncodedName != "")
+                    if (webBrowserHistory.Url != new System.Uri(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName + "&action=history&useskin=myskin") && !string.IsNullOrEmpty(TheArticle.URLEncodedName))
                         webBrowserHistory.Navigate(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName + "&action=history&useskin=myskin");
                 }
             }

@@ -30,10 +30,10 @@ namespace WikiFunctions.MWB
         public const string XmlName = "InTemplateRule";
 
         public List<string> TemplateNames_ = new List<string>();
-        public string ReplaceWith_ = "";
-        public bool DoReplace_ = false;
+        public string ReplaceWith_;
+        public bool DoReplace_;
 
-        InTemplateRuleControl ruleControl_ = null;
+        InTemplateRuleControl ruleControl_;
 
         public override Object Clone()
         {
@@ -96,7 +96,7 @@ namespace WikiFunctions.MWB
 
         public override string Apply(TreeNode tn, string text, string title)
         {
-            if (text == null || text == "")
+            if (string.IsNullOrEmpty(text))
                 return text;
 
             if (!enabled_)
@@ -223,7 +223,7 @@ namespace WikiFunctions.MWB
         
         static bool CheckIf(string template, TreeNode tn, string text)
         {
-            if (template == "")
+            if (string.IsNullOrEmpty(template))
                 return true;
 
             string pattern =
@@ -249,9 +249,9 @@ namespace WikiFunctions.MWB
                 text = sr.Apply(t, text, title);
             }
 
-            if (r.DoReplace_ && r.ReplaceWith_ != "")
+            if (r.DoReplace_ && !string.IsNullOrEmpty(r.ReplaceWith_))
             {
-                if (template == "")
+                if (string.IsNullOrEmpty(template))
                     return text;
 
                 string pattern =

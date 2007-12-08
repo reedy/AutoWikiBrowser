@@ -155,7 +155,7 @@ namespace AutoWikiBrowser
         private void GetSettingsFromControls()
         {
             DisableApplyButton();
-            if (!(FolderTextBox.Text.Trim() == ""))
+            if (!string.IsNullOrEmpty(FolderTextBox.Text.Trim()))
             {
                 if (System.IO.Directory.Exists(FolderTextBox.Text))
                 {
@@ -227,7 +227,7 @@ namespace AutoWikiBrowser
         #region Event Handlers
 		private void ApplyButton_Click(object sender, EventArgs e)
 		{
-			if (UploadJobNameTextBox.Text.Trim() == "")
+			if (string.IsNullOrEmpty(UploadJobNameTextBox.Text.Trim()))
 			{
 				MessageBox.Show("Please enter a job name", "Job name missing", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
@@ -321,7 +321,7 @@ namespace AutoWikiBrowser
 
         internal sealed class Props : UploadableLogSettings2
         {
-            private bool mUploadToWikiProjects = true, mDebugUploading = false;
+            private bool mUploadToWikiProjects = true, mDebugUploading;
             private string mCategory = "";
             internal const string ConUploadToUserSlashLogsToken = "$USER/Logs";
             internal const string ConUploadCategoryIsJobName = "$CATEGORY";
@@ -384,7 +384,7 @@ namespace AutoWikiBrowser
             {
                 get
                 {
-                    if (mCategory == "")
+                    if (string.IsNullOrEmpty(mCategory))
                     {
                         return "";
                     }

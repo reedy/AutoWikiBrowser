@@ -33,7 +33,7 @@ namespace WikiFunctions.Logging.Uploader
 	{
 		private string mLocation;
 		private bool mUserName;
-        private bool mSuccess = false;
+        private bool mSuccess;
 
 		public LogEntry(string pLocation, bool pUserName)
 		{
@@ -62,7 +62,7 @@ namespace WikiFunctions.Logging.Uploader
         { get { return mPassword; } set { mPassword = value; } }
 
         public virtual bool IsSet
-        { get { return (Password != "" && Username != ""); } }
+        { get { return (!string.IsNullOrEmpty(Password) && !string.IsNullOrEmpty(Username)); } }
 
         public bool HaveCookies
         { get { return mHaveCookies; } set { mHaveCookies = value; } }
@@ -93,11 +93,11 @@ namespace WikiFunctions.Logging.Uploader
 	/// </summary>
 	public class UploadableLogSettings
 	{
-		protected bool mLogVerbose = false;
+		protected bool mLogVerbose;
 		protected string mLogFolder = System.Windows.Forms.Application.StartupPath;
 		protected int mUploadMaxLines = 1000;
 		protected bool mUploadYN;
-		protected bool mUploadOpenInBrowser = false;
+		protected bool mUploadOpenInBrowser;
 
         public virtual bool LogVerbose
         {
@@ -131,12 +131,12 @@ namespace WikiFunctions.Logging.Uploader
 	/// </summary>
     public class UploadableLogSettings2 : UploadableLogSettings
     {
-        protected bool mLogXHTML = false;
-        protected bool mLogWiki = false;
+        protected bool mLogXHTML;
+        protected bool mLogWiki;
         protected bool mUploadAddToWatchlist = true;
-        protected bool mLogSQL = false;
-        protected string mUploadLocation = "";
-        protected string mUploadJobName = "";
+        protected bool mLogSQL;
+        protected string mUploadLocation;
+        protected string mUploadJobName;
 
         public virtual bool LogXHTML
         {
@@ -437,7 +437,7 @@ namespace WikiFunctions.Logging.Uploader
 
                 if (DoAWBLogListener(AddLogArticlesToAnAWBList, AWB))
                 {
-                    if (sender == "")
+                    if (string.IsNullOrEmpty(sender))
                         sender = "WikiFunctions DLL";
                     awbLogListener = new AWBLogListener(LogEntry.Location);
                 }
