@@ -45,24 +45,9 @@ namespace WikiFunctions
                 }
                 else
                 {
-                    string text = "";
-                    HttpWebRequest rq = (HttpWebRequest)WebRequest.Create("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=edit");
+                    string text = Tools.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=raw");
 
-                    rq.Proxy.Credentials = CredentialCache.DefaultCredentials;
-                    rq.UserAgent = "WikiFunctions " + Tools.VersionString;
-
-                    HttpWebResponse response = (HttpWebResponse)rq.GetResponse();
-
-                    Stream stream = response.GetResponseStream();
-                    StreamReader sr = new StreamReader(stream, Encoding.UTF8);
-
-                    text = sr.ReadToEnd();
-
-                    sr.Close();
-                    stream.Close();
-                    response.Close();
-
-                    Match m_updversion = Regex.Match(text, @"&lt;!-- Updater version: (.*?) --&gt;", RegexOptions.Compiled);
+                    Match m_updversion = Regex.Match(text, @"<!-- Updater version: (.*?) -->", RegexOptions.IgnoreCase);
 
                     if (m_updversion.Success && m_updversion.Groups[1].Value.Length == 4)
                     {

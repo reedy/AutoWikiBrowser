@@ -3735,7 +3735,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private static int CompareRegexPairs(KeyValuePair<int, string> x, KeyValuePair<int, string> y)
         {
-            return x.Key.CompareTo(y.Key);
+            return x.Key.CompareTo(y.Key) * -1;
         }
 
         private void profileTyposToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3773,7 +3773,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             {
                 Stopwatch watch = new Stopwatch();
                 watch.Start();
-                for (int i = 0; i < 100; i++)
+                for (int i = 0; i < iterations; i++)
                 {
                     p.Key.IsMatch(text);
                 }
