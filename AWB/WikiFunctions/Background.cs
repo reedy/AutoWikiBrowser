@@ -28,6 +28,7 @@ using WikiFunctions.Lists;
 namespace WikiFunctions.Background
 {
     public delegate void BackgroundRequestComplete(BackgroundRequest req);
+    public delegate void ExecuteFunctionDelegate();
 
     public class BackgroundRequest
     {
@@ -127,7 +128,7 @@ namespace WikiFunctions.Background
             }
         }
 
-        public void Execute(Delegate d)
+        public void Execute(ExecuteFunctionDelegate d)
         {
             BgThread = new Thread(new ParameterizedThreadStart(ExecuteFunc));
             BgThread.IsBackground = true;
@@ -138,7 +139,7 @@ namespace WikiFunctions.Background
         {
             try
             {
-                Result = (d as Delegate).DynamicInvoke();
+                ((ExecuteFunctionDelegate)d)();
                 InvokeOnComplete();
             }
             catch (Exception e)

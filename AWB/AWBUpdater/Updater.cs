@@ -314,7 +314,7 @@ AWBUpdater will now close!");
                 File.Copy(tempDirectory + "AutoWikiBrowser.exe", AWBdirectory + "AutoWikiBrowser.exe", true);
                 File.Copy(tempDirectory + "WikiFunctions.dll", AWBdirectory + "WikiFunctions.dll", true);
                 File.Copy(tempDirectory + "IRCMonitor.exe", AWBdirectory + "IRCMonitor.exe", true);
-                File.Copy(tempDirectory + "Wikidiff2.dll", AWBdirectory + "Wikidiff2.dll", true);
+                File.Copy(tempDirectory + "Diff.dll", AWBdirectory + "Diff.dll", true);
                 File.Copy(tempDirectory + "AutoWikiBrowser.exe.config", AWBdirectory + "AutoWikiBrowser.exe.config", true);
 
                 File.Copy(tempDirectory + "gpl-2.0.txt", AWBdirectory + "gpl-2.0.txt", true);
