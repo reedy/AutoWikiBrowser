@@ -130,7 +130,7 @@ namespace AwbUpdater
 
             try
             {
-                HttpWebRequest rq = (HttpWebRequest)WebRequest.Create("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=edit");
+                HttpWebRequest rq = (HttpWebRequest)WebRequest.Create("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=raw");
 
                 rq.Proxy.Credentials = CredentialCache.DefaultCredentials;
                 rq.UserAgent = "AWBUpdater " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
@@ -152,9 +152,9 @@ namespace AwbUpdater
                 Application.Exit();
             }
 
-            Match m_awbversion = Regex.Match(text, @"&lt;!-- Current version: (.*?) --&gt;");
-            Match m_awbnewest = Regex.Match(text, @"&lt;!-- Newest version: (.*?) --&gt;");
-            Match m_updversion = Regex.Match(text, @"&lt;!-- Updater version: (.*?) --&gt;");
+            Match m_awbversion = Regex.Match(text, @"<!-- Current version: (.*?) -->");
+            Match m_awbnewest = Regex.Match(text, @"<!-- Newest version: (.*?) -->");
+            Match m_updversion = Regex.Match(text, @"<!-- Updater version: (.*?) -->");
 
             if ((m_awbversion.Success && m_awbversion.Groups[1].Value.Length == 4) || (m_awbnewest.Success && m_awbnewest.Groups[1].Value.Length == 4))
             {
