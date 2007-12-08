@@ -201,17 +201,12 @@ namespace IrcMonitor
             ResetStats();
             LoadDefaultSettings();
 
-            UpdateUpdater();
+            Updater.Update();
 
             btnWarn.DropDownItems.Clear();
             MakeMenu(Project.WarningTemplates, btnWarn.DropDownItems, new EventHandler(WarnUserClick));
             //MakeMenu(Project.StubTypes, addStubToolStripMenuItem.DropDownItems, new EventHandler(AddStubClick));
             MakeMenu(Project.PageTags, tagWithToolStripMenuItem.DropDownItems, new EventHandler(AddTagClick));
-        }
-
-        private void UpdateUpdater()
-        {
-            Updater.Update();
         }
 
         private void LoadIrcChannels()
