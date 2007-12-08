@@ -528,10 +528,10 @@ namespace WikiFunctions
         /// </summary>
         public class Revision
         {
-            public int RevisionID = 0;
+            public int RevisionID;
             public string Summary = "";
             public DateTime Time;
-            public bool Minor = false;
+            public bool Minor;
             public string User = "";
         }
 

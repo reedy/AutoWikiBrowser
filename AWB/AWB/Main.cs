@@ -59,7 +59,7 @@ namespace AutoWikiBrowser
         private static Splash splash = new Splash();
         private static WikiFunctions.AWBProfiles.AWBProfilesForm profiles;
 
-        private static bool Abort = false;
+        private static bool Abort;
 
         private Profiler prof = new Profiler();
 
@@ -69,12 +69,12 @@ namespace AutoWikiBrowser
         private static string LastDelete = "";
         private static string LastProtect = "";
 
-        private static int oldselection = 0;
-        private static int retries = 0;
+        private static int oldselection;
+        private static int retries;
 
-        private static bool PageReload = false;
-        private static int mnudges = 0;
-        private static int sameArticleNudges = 0;
+        private static bool PageReload;
+        private static int mnudges;
+        private static int sameArticleNudges;
 
         private static HideText RemoveText = new HideText(false, true, false);
         private static List<string> noParse = new List<string>();
@@ -292,7 +292,7 @@ namespace AutoWikiBrowser
             set { chkAutoMode.Checked = value; }
         }
 
-        bool bLowThreadPriority = false;
+        bool bLowThreadPriority;
         private bool LowThreadPriority
         {
             get { return bLowThreadPriority; }
@@ -306,21 +306,21 @@ namespace AutoWikiBrowser
             }
         }
 
-        bool bFlash = false;
+        bool bFlash;
         private bool Flash
         {
             get { return bFlash; }
             set { bFlash = value; }
         }
 
-        bool bBeep = false;
+        bool bBeep;
         private bool Beep
         {
             get { return bBeep; }
             set { bBeep = value; }
         }
 
-        bool bMinimize = false;
+        bool bMinimize;
         private bool Minimize
         {
             get { return bMinimize; }
@@ -345,7 +345,7 @@ namespace AutoWikiBrowser
             set { bSaveArticleList = value; }
         }
 
-        bool bAutoSaveEdit = false;
+        bool bAutoSaveEdit;
         private bool AutoSaveEditBoxEnabled
         {
             get { return bAutoSaveEdit; }
@@ -359,7 +359,7 @@ namespace AutoWikiBrowser
             set { sAutoSaveEditFile = value; }
         }
 
-        bool bSupressUsingAWB = false;
+        bool bSupressUsingAWB;
         private bool SupressUsingAWB
         {
             get { return bSupressUsingAWB; }
@@ -2000,7 +2000,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             Ticker += DelayedAutoSave;
         }
 
-        int intTimer = 0;
+        int intTimer;
         private void DelayedAutoSave()
         {
             if (intTimer < nudBotSpeed.Value)
@@ -2031,7 +2031,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             StopSaveInterval();
         }
 
-        int intStartTimer = 0;
+        int intStartTimer;
         private void SaveInterval()
         {
             intStartTimer++;
@@ -2059,8 +2059,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
         }
 
-        int seconds = 0;
-        int lastTotal = 0;
+        int seconds;
+        int lastTotal;
         private void EditsPerMin()
         {
             int editsInLastMin = NumberOfEdits - lastTotal;
@@ -2842,7 +2842,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             EnableToolBar = enableTheToolbarToolStripMenuItem.Checked;
         }
 
-        private bool boolEnableToolbar = false;
+        private bool boolEnableToolbar;
         private bool EnableToolBar
         {
             get { return boolEnableToolbar; }

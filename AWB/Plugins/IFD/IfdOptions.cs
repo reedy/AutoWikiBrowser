@@ -97,7 +97,7 @@ namespace AutoWikiBrowser.Plugins.IFD
             ToDo.Clear();
             foreach (DataGridViewRow r in Grid.Rows)
             {
-                if (!r.IsNewRow && (string)r.Cells[0].Value != "")
+                if (!r.IsNewRow && !string.IsNullOrEmpty((string)r.Cells[0].Value))
                     ToDo.Add((string)r.Cells[0].Value, (string)r.Cells[1].Value);
             }
 
