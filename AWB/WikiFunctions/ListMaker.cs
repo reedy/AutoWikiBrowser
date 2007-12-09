@@ -494,7 +494,7 @@ namespace WikiFunctions.Controls.Lists
             set { bWikiStatus = value; }
         }
 
-        string strStatus;
+        string strStatus = "";
         /// <summary>
         /// The status of the process
         /// </summary>        

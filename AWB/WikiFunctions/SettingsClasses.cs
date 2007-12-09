@@ -86,7 +86,7 @@ namespace WikiFunctions.AWBSettings
         public string Version = Tools.VersionString;
         public ProjectEnum Project = ProjectEnum.wikipedia;
         public LangCodeEnum LanguageCode = LangCodeEnum.en;
-        public string CustomProject;
+        public string CustomProject = "";
 
         public ListPrefs List;
         public FaRPrefs FindAndReplace;
@@ -122,11 +122,11 @@ namespace WikiFunctions.AWBSettings
             SubstTemplates = mSubstTemplates;
         }
 
-        public bool Enabled;
-        public bool IgnoreSomeText;
-        public bool IgnoreMoreText;
+        public bool Enabled = false;
+        public bool IgnoreSomeText = false;
+        public bool IgnoreMoreText = false;
         public bool AppendSummary = true;
-        public bool AfterOtherFixes;
+        public bool AfterOtherFixes = false;
         public List<WikiFunctions.Parse.Replacement> Replacements = new List<WikiFunctions.Parse.Replacement>();
 
         public List<WikiFunctions.MWB.IRule> AdvancedReps = new List<WikiFunctions.MWB.IRule>();
@@ -151,7 +151,7 @@ namespace WikiFunctions.AWBSettings
                 ArticleList = new List<Article>();
         }
 
-        public string ListSource;
+        public string ListSource = "";
         public WikiFunctions.Lists.SourceType Source = WikiFunctions.Lists.SourceType.Category;
         public List<Article> ArticleList = new List<Article>();
     }
@@ -195,27 +195,27 @@ namespace WikiFunctions.AWBSettings
         public bool Tagger = true;
         public bool Unicodify = true;
 
-        public int Recategorisation;
-        public string NewCategory;
-        public string NewCategory2;
+        public int Recategorisation = 0;
+        public string NewCategory = "";
+        public string NewCategory2 = "";
 
-        public int ReImage;
-        public string ImageFind;
-        public string Replace;
+        public int ReImage = 0;
+        public string ImageFind = "";
+        public string Replace = "";
 
-        public bool SkipIfNoCatChange;
-        public bool SkipIfNoImgChange;
+        public bool SkipIfNoCatChange = false;
+        public bool SkipIfNoImgChange = false;
 
-        public bool AppendText;
+        public bool AppendText = false;
         public bool Append = true;
-        public string Text;
+        public string Text = "";
         public int Newlines = 2;
 
         public int AutoDelay = 10;
-        public bool QuickSave;
-        public bool SuppressTag;
-        public bool OverrideWatchlist;
-        public bool RegexTypoFix;
+        public bool QuickSave = false;
+        public bool SuppressTag = false;
+        public bool OverrideWatchlist = false;
+        public bool RegexTypoFix = false;
     }
 
     //skip options
@@ -228,43 +228,43 @@ namespace WikiFunctions.AWBSettings
             bool mSkipNoFindAndReplace, bool mSkipNoRegexTypoFix, bool mSkipNoDisambiguation,
             string mGeneralSkip)
         {
-            SkipNonexistent = mSkipNonexistent;
-            Skipexistent = mSkipexistent;
-            SkipWhenNoChanges = mSkipWhenNoChanges;
+            SkipNonexistent=mSkipNonexistent;
+            Skipexistent=mSkipexistent;
+            SkipWhenNoChanges =mSkipWhenNoChanges;
             SkipSpamFilterBlocked = mSkipWhenSpamFilterBlocked;
             SkipInuse = mSkipInuse;
-            SkipDoes = mSkipDoes;
-            SkipDoesNot = mSkipDoesNot;
-            SkipDoesText = mSkipDoesText;
-            SkipDoesNotText = mSkipDoesNotText;
-            Regex = mRegex;
-            CaseSensitive = mCaseSensitive;
-            SkipNoFindAndReplace = mSkipNoFindAndReplace;
-            SkipNoRegexTypoFix = mSkipNoRegexTypoFix;
-            SkipNoDisambiguation = mSkipNoDisambiguation;
-            GeneralSkip = mGeneralSkip;
+            SkipDoes=mSkipDoes;
+            SkipDoesNot=mSkipDoesNot;
+            SkipDoesText=mSkipDoesText;
+            SkipDoesNotText=mSkipDoesNotText;
+            Regex=mRegex;
+            CaseSensitive=mCaseSensitive;
+            SkipNoFindAndReplace=mSkipNoFindAndReplace;
+            SkipNoRegexTypoFix=mSkipNoRegexTypoFix;
+            SkipNoDisambiguation=mSkipNoDisambiguation;
+            GeneralSkip=mGeneralSkip;
         }
 
         public bool SkipNonexistent = true;
-        public bool Skipexistent;
-        public bool SkipWhenNoChanges;
-        public bool SkipSpamFilterBlocked;
-        public bool SkipInuse;
+        public bool Skipexistent = false;
+        public bool SkipWhenNoChanges = false;
+        public bool SkipSpamFilterBlocked = false;
+        public bool SkipInuse = false;
 
-        public bool SkipDoes;
-        public bool SkipDoesNot;
+        public bool SkipDoes = false;
+        public bool SkipDoesNot = false;
 
-        public string SkipDoesText;
-        public string SkipDoesNotText;
+        public string SkipDoesText = "";
+        public string SkipDoesNotText = "";
 
-        public bool Regex;
-        public bool CaseSensitive;
+        public bool Regex = false;
+        public bool CaseSensitive = false;
 
-        public bool SkipNoFindAndReplace;
-        public bool SkipNoRegexTypoFix;
-        public bool SkipNoDisambiguation;
+        public bool SkipNoFindAndReplace = false;
+        public bool SkipNoRegexTypoFix = false;
+        public bool SkipNoDisambiguation = false;
 
-        public string GeneralSkip;
+        public string GeneralSkip = "";
     }
 
     [Serializable]
@@ -315,7 +315,7 @@ namespace WikiFunctions.AWBSettings
             Flash = mFlash;
             Minimize = mMinimize;
             TimeOutLimit = mTimeOutLimit;
-            AutoSaveEdit = new EditBoxAutoSavePrefs(autoSaveEditBoxEnabled, autoSaveEditBoxPeriod,
+            AutoSaveEdit=new EditBoxAutoSavePrefs(autoSaveEditBoxEnabled, autoSaveEditBoxPeriod,
                 autoSaveEditBoxFile);
             CustomWikis = mCustomWikis;
             LockSummary = mLockSummary;
@@ -331,34 +331,34 @@ namespace WikiFunctions.AWBSettings
 
         public string[] PasteMore = new string[10] { "", "", "", "", "", "", "", "", "", "" };
 
-        public string FindText;
-        public bool FindRegex;
-        public bool FindCaseSensitive;
+        public string FindText = "";
+        public bool FindRegex = false;
+        public bool FindCaseSensitive = false;
 
         public bool WordWrap = true;
-        public bool ToolBarEnabled;
+        public bool ToolBarEnabled = false;
         public bool BypassRedirect = true;
-        public bool NoAutoChanges;
-        public int OnLoadAction;
-        public bool Minor;
-        public bool Watch;
-        public bool TimerEnabled;
+        public bool NoAutoChanges = false;
+        public int OnLoadAction = 0;
+        public bool Minor = false;
+        public bool Watch = false;
+        public bool TimerEnabled = false;
         public bool SortInterwikiOrder = true;
-        public bool AddIgnoredToLog;
+        public bool AddIgnoredToLog = false;
         public bool EditToolbarEnabled = true;
-        public bool filterNonMainSpace;
+        public bool filterNonMainSpace = false;
 
         public int TextBoxSize = 10;
         public string TextBoxFont = "Courier New";
-        public bool LowThreadPriority;
-        public bool Beep;
-        public bool Flash;
-        public bool Minimize;
-        public bool LockSummary;
+        public bool LowThreadPriority = false;
+        public bool Beep = false;
+        public bool Flash = false;
+        public bool Minimize = false;
+        public bool LockSummary = false;
         public bool SaveArticleList = true;
-        public bool SupressUsingAWB;
+        public bool SupressUsingAWB = false;
         public decimal TimeOutLimit = 30;
-        public bool IgnoreNoBots;
+        public bool IgnoreNoBots = false;
 
         public List<string> CustomWikis = new List<string>();
     }
@@ -377,9 +377,9 @@ namespace WikiFunctions.AWBSettings
             SaveFile = mFile;
         }
 
-        public bool Enabled;
+        public bool Enabled = false;
         public decimal SavePeriod;
-        public string SaveFile;
+        public string SaveFile = "";
     }
 
     [Serializable]
@@ -395,10 +395,10 @@ namespace WikiFunctions.AWBSettings
         public bool UploadToWikiProjects;
         public bool DebugUploading;
         public int UploadMaxLines = 1000;
-        public string LogFolder;
-        public string UploadJobName;
-        public string UploadLocation;
-        public string LogCategoryName;
+        public string LogFolder = "";
+        public string UploadJobName="";
+        public string UploadLocation="";
+        public string LogCategoryName="";
     }
 
     [Serializable]
@@ -413,8 +413,8 @@ namespace WikiFunctions.AWBSettings
             ContextChars = mContextChars;
         }
 
-        public bool Enabled;
-        public string Link;
+        public bool Enabled = false;
+        public string Link = "";
         public string[] Variants = new string[0];
         public int ContextChars = 20;
     }
@@ -430,16 +430,16 @@ namespace WikiFunctions.AWBSettings
             Code = mCode;
         }
 
-        public bool Enabled;
-        public int Language;
-        public string Code;
+        public bool Enabled = false;
+        public int Language = 0;
+        public string Code = "";
     }
 
     [Serializable]
     public class PluginPrefs
     {
-        public string Name;
-        public object[] PluginSettings;
+        public string Name = "";
+        public object[] PluginSettings = null;
     }
 
     /// <summary>
@@ -448,7 +448,7 @@ namespace WikiFunctions.AWBSettings
     [Serializable]
     public class PrefsKeyPair
     {
-        public string Name;
-        public object Setting;
+        public string Name = "";
+        public object Setting = null;
     }
 }

@@ -29,8 +29,8 @@ namespace WikiFunctions.MWB
     {
         public const string XmlName = "TemplateParamRule";
 
-        public string ParamName_;
-        public string NewParamName_;
+        public string ParamName_ = "";
+        public string NewParamName_ = "";
 
         TemplateParamRuleControl ruleControl_;
 

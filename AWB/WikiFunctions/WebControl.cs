@@ -281,7 +281,7 @@ namespace WikiFunctions.Browser
             get { return wpTextbox1.IsMatch(DocumentText); }
         }
 
-        string strStatus;
+        string strStatus = "";
         /// <summary>
         /// Gets a string indicating the current status
         /// </summary>

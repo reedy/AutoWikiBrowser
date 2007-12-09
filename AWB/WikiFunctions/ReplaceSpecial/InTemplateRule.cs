@@ -30,7 +30,7 @@ namespace WikiFunctions.MWB
         public const string XmlName = "InTemplateRule";
 
         public List<string> TemplateNames_ = new List<string>();
-        public string ReplaceWith_;
+        public string ReplaceWith_ = "";
         public bool DoReplace_;
 
         InTemplateRuleControl ruleControl_;

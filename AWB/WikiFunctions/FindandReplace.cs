@@ -37,7 +37,7 @@ namespace WikiFunctions.Parse
         {
             InitializeComponent();
         }
-        string streditsummary;
+        string streditsummary = "";
 
         HideText RemoveLinks = new HideText(true, false, true);
         HideText RemoveMore = new HideText(true, false, true);
