@@ -35,7 +35,7 @@ namespace AwbUpdater
             {
                 if (ex is System.Net.WebException)
                 {
-                    MessageBox.Show(ex.Message, "Network access error. Please try again later", "Network/Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "Network access error. Please try again later", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {
