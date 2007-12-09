@@ -50,7 +50,7 @@ namespace WikiFunctions
                     {
                         FileVersionInfo versionUpdater = FileVersionInfo.GetVersionInfo(".\\AWBUpdater.exe");
 
-                        if ((Convert.ToInt32(m_updversion.Groups[1].Value) > Convert.ToInt32(versionUpdater.FileVersion.Replace(".", ""))) && (MessageBox.Show("There is an update for the updater. Run teh updater now?", "Update Updater?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes))
+                        if ((Convert.ToInt32(m_updversion.Groups[1].Value) > Convert.ToInt32(versionUpdater.FileVersion.Replace(".", ""))) && (MessageBox.Show("There is an update for the updater. Run the updater now?", "Update Updater?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes))
                             System.Diagnostics.Process.Start(".\\AWBUpdater.exe");
                     }
                 }

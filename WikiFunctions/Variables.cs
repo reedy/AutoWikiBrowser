@@ -1219,7 +1219,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
         /// </summary>
         public event EventHandler AdminStatusChanged;
 
-        private string strName;
+        private string strName = "";
         private bool bWikiStatus;
         private bool bIsAdmin;
         private bool bIsBot;

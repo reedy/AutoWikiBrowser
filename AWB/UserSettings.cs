@@ -573,17 +573,6 @@ namespace AutoWikiBrowser
                 if (string.IsNullOrEmpty(path))
                     return;
 
-                //test file to see if it is an old AWB file
-                StreamReader sr = new StreamReader(new FileStream(path, FileMode.Open));
-                string test = sr.ReadToEnd();
-                sr.Close();
-
-                if (test.Contains("<projectlang proj="))
-                {
-                    MessageBox.Show("This file uses old settings format unsupported by this version of AWB.");
-                    return;
-                }
-
                 findAndReplace.Clear();
                 replaceSpecial.Clear();
                 substTemplates.Clear();
@@ -593,6 +582,13 @@ namespace AutoWikiBrowser
                 using (StreamReader f = new StreamReader(path, Encoding.UTF8))
                 {
                     settings = f.ReadToEnd();
+                }
+
+                //test to see if it is an old AWB file
+                if (settings.Contains("<projectlang proj="))
+                {
+                    MessageBox.Show("This file uses old settings format unsupported by this version of AWB.");
+                    return;
                 }
 
                 // fix for format regression
