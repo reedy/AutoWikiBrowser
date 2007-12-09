@@ -35,21 +35,20 @@ namespace AwbUpdater
             {
                 if (ex is System.Net.WebException)
                 {
-                    MessageBox.Show(ex.Message, "Network access error. Please try again later",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "Network access error. Please try again later", "Network/Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {
-                ErrorHandler handler = new ErrorHandler();
+                    ErrorHandler handler = new ErrorHandler();
 
-                handler.txtError.Text = ex.Message;
+                    handler.txtError.Text = ex.Message;
 
-                handler.txtDetails.Text = "{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = Exception: " + ex.GetType().Name + "\r\nMessage: " +
-                    ex.Message + "\r\nCall stack:" + ex.StackTrace + "\r\n~~~~\r\n | OS          = " + Environment.OSVersion.ToString() + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                    handler.txtDetails.Text = "{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = Exception: " + ex.GetType().Name + "\r\nMessage: " +
+                        ex.Message + "\r\nCall stack:" + ex.StackTrace + "\r\n~~~~\r\n | OS          = " + Environment.OSVersion.ToString() + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-                handler.txtDetails.Text += "\r\n}}";
+                    handler.txtDetails.Text += "\r\n}}";
 
-                handler.ShowDialog();
+                    handler.ShowDialog();
                 }
             }
         }
