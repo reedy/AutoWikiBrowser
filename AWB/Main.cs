@@ -172,12 +172,11 @@ namespace AutoWikiBrowser
                 webBrowserEdit.None += CaseWasNull;
                 webBrowserEdit.Fault += StartDelayedRestartTimer;
                 webBrowserEdit.StatusChanged += UpdateWebBrowserStatus;
-                splash.SetProgress(20);
                 listMaker1.BusyStateChanged += SetProgressBar;
                 listMaker1.NoOfArticlesChanged += UpdateButtons;
                 listMaker1.StatusTextChanged += UpdateListStatus;
                 //Text = "AutoWikiBrowser - Default.xml";
-                splash.SetProgress(25);
+                splash.SetProgress(15);
 
                 WikiFunctions.AWBProfiles.AWBProfiles.ResetTempPassword();
             }
@@ -200,7 +199,7 @@ namespace AutoWikiBrowser
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            splash.SetProgress(40);
+            splash.SetProgress(30);
             lblStatusText.Text = "Initialising...";
             Application.DoEvents();
             Variables.MainForm = this;
@@ -219,7 +218,7 @@ namespace AutoWikiBrowser
                 else
                     listMaker1.MakeListEnabled = true;
 
-                splash.SetProgress(70);
+                splash.SetProgress(35);
                 if (AutoWikiBrowser.Properties.Settings.Default.LogInOnStart)
                     CheckStatus(false);
 
@@ -238,7 +237,7 @@ namespace AutoWikiBrowser
 
                 UpdateButtons();
                 LoadRecentSettingsList();
-                splash.SetProgress(80);
+                splash.SetProgress(90);
 
                 WikiStatusResult res = Variables.User.CheckEnabled();
                 if (res == WikiStatusResult.OldVersion)
