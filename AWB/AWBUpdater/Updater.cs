@@ -187,7 +187,7 @@ namespace AwbUpdater
                 catch
                 { MessageBox.Show("Unable to find AutoWikiBrowser.exe to query Version No."); }
 
-                if (!updaterUpdate && !awbUpdate)                   
+                if (!updaterUpdate && !awbUpdate)
                     noUpdates = true;
 
                 progressUpdate.Value = 30;
@@ -232,7 +232,7 @@ namespace AwbUpdater
 AWBUpdater will now close!");
                 Application.Exit();
             }
-            
+
             progressUpdate.Value = 70;
         }
 
@@ -284,22 +284,21 @@ AWBUpdater will now close!");
 
         private void CloseAwb()
         {
-            bool awbOpen;
+            bool awbOpen = false;
 
             do
             {
-                awbOpen = false;
-
                 foreach (Process p in Process.GetProcesses())
                 {
-                    if (p.ProcessName == "AutoWikiBrowser" || p.ProcessName == "IRCMonitor")
+                    awbOpen = (p.ProcessName == "AutoWikiBrowser" || p.ProcessName == "IRCMonitor");
+                    if (awbOpen)
                     {
-                        awbOpen = true;
-                        MessageBox.Show("Please save your settings (if you wish) and close " + p.ProcessName +" completely before pressing OK.");
+                        MessageBox.Show("Please save your settings (if you wish) and close " + p.ProcessName + " completely before pressing OK.");
+                        break;
                     }
                 }
             }
-            while (awbOpen == true);
+            while (awbOpen);
 
             progressUpdate.Value = 75;
         }
@@ -316,7 +315,7 @@ AWBUpdater will now close!");
 
                 File.Copy(tempDirectory + "WikiFunctions.dll", AWBdirectory + "WikiFunctions.dll", true);
                 File.Copy(tempDirectory + "IRCMonitor.exe", AWBdirectory + "IRCMonitor.exe", true);
-                
+
                 if (File.Exists(tempDirectory + "Diff.dll"))
                     File.Copy(tempDirectory + "Diff.dll", AWBdirectory + "Diff.dll", true);
 
@@ -378,8 +377,10 @@ AWBUpdater will now close!");
             bool awbOpen = false;
             foreach (Process p in Process.GetProcesses())
             {
-                if (p.ProcessName == "AutoWikiBrowser")
-                    awbOpen = true;
+                awbOpen = (p.ProcessName == "AutoWikiBrowser");
+
+                if (awbOpen)
+                    break;
             }
 
             if (!awbOpen && MessageBox.Show("Would you like to Start AWB?", "Start AWB?", MessageBoxButtons.YesNo) == DialogResult.Yes)
