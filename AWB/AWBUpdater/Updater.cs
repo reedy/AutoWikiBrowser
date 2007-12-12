@@ -316,6 +316,7 @@ AWBUpdater will now close!");
 
                 File.Copy(tempDirectory + "WikiFunctions.dll", AWBdirectory + "WikiFunctions.dll", true);
                 File.Copy(tempDirectory + "IRCMonitor.exe", AWBdirectory + "IRCMonitor.exe", true);
+                
                 if (File.Exists(tempDirectory + "Diff.dll"))
                     File.Copy(tempDirectory + "Diff.dll", AWBdirectory + "Diff.dll", true);
 
@@ -323,8 +324,16 @@ AWBUpdater will now close!");
                     File.Copy(tempDirectory + "Wikidiff2.dll", AWBdirectory + "Wikidiff2.dll", true);
                 //File.Delete(AWBdirectory + "Wikidiff2.dll");
 
-                File.Copy(tempDirectory + "gpl-2.0.txt", AWBdirectory + "gpl-2.0.txt", true);
-                File.Copy(tempDirectory + "gpl-3.0.txt", AWBdirectory + "gpl-3.0.txt", true);
+                if (File.Exists(tempDirectory + "gpl-2.0.txt"))
+                    File.Copy(tempDirectory + "gpl-2.0.txt", AWBdirectory + "gpl-2.0.txt", true);
+                //File.Delete(AWBdirectory + "gpl-2.0.txt");
+
+                if (File.Exists(tempDirectory + "gpl-3.0.txt"))
+                    File.Copy(tempDirectory + "gpl-3.0.txt", AWBdirectory + "gpl-3.0.txt", true);
+                //File.Delete(AWBdirectory + "gpl-3.0.txt");
+
+                if (File.Exists(tempDirectory + "COPYING"))
+                    File.Copy(tempDirectory + "COPYING", AWBdirectory + "COPYING", true);
 
                 if (File.Exists(AWBdirectory + "CFD.dll"))
                     File.Copy(tempDirectory + "Plugins\\CFD\\CFD.dll", AWBdirectory + "CFD.dll", true);
