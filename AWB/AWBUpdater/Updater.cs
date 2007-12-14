@@ -46,11 +46,13 @@ namespace AwbUpdater
         string UpdaterZipName = "";
         string UpdaterWebAddress = "";
 
-        bool noUpdates = false;
         bool updaterUpdate = false;
         bool awbUpdate = false;
         bool badUpdate = false;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public Updater()
         {
             InitializeComponent();
@@ -59,6 +61,9 @@ namespace AwbUpdater
             tempDirectory = AWBdirectory + "temp\\";
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public static string AssemblyVersion
         {
             get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); }
@@ -69,6 +74,9 @@ namespace AwbUpdater
             tmrTimer.Enabled = true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void UpdateAwb()
         {
             try
@@ -76,7 +84,7 @@ namespace AwbUpdater
                 updateUI("Getting Current AWB and Updater Versions");
                 AWBversion();
 
-                if (noUpdates && string.IsNullOrEmpty(AWBWebAddress))
+                if ((!updaterUpdate && !awbUpdate) && string.IsNullOrEmpty(AWBWebAddress))
                     ExitEarly();
                 else
                 {
@@ -111,12 +119,19 @@ namespace AwbUpdater
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="currentStatus"></param>
         private void updateUI(string currentStatus)
         {
             lblCurrentTask.Text = currentStatus;
             Application.DoEvents();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void ExitEarly()
         {
             MessageBox.Show("Nothing to Update. The Updater will now close");
@@ -124,6 +139,9 @@ namespace AwbUpdater
             Application.Exit();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void AWBversion()
         {
             string text = "";
@@ -187,13 +205,13 @@ namespace AwbUpdater
                 catch
                 { MessageBox.Show("Unable to find AutoWikiBrowser.exe to query Version No."); }
 
-                if (!updaterUpdate && !awbUpdate)
-                    noUpdates = true;
-
                 progressUpdate.Value = 30;
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void CreateTempDir()
         {
             if (!Directory.Exists(tempDirectory))
@@ -202,6 +220,9 @@ namespace AwbUpdater
             progressUpdate.Value = 35;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void GetAwbFromInternet()
         {
             System.Net.WebClient client = new System.Net.WebClient();
@@ -217,6 +238,9 @@ namespace AwbUpdater
             progressUpdate.Value = 50;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void UnzipAwb()
         {
             if (!string.IsNullOrEmpty(AWBZipName) && File.Exists(tempDirectory + AWBZipName))
@@ -236,6 +260,10 @@ AWBUpdater will now close!");
             progressUpdate.Value = 70;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="File"></param>
         private void Extract(string File)
         {
             try
@@ -252,6 +280,12 @@ AWBUpdater will now close!");
             catch { badUpdate = true; }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="inputStream"></param>
+        /// <param name="theEntry"></param>
+        /// <param name="targetDir"></param>
         private static void ExtractFile(Stream inputStream, ZipEntry theEntry, string targetDir)
         {
             // try and sort out the correct place to save this entry
@@ -282,6 +316,9 @@ AWBUpdater will now close!");
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void CloseAwb()
         {
             bool awbOpen = false;
@@ -303,6 +340,9 @@ AWBUpdater will now close!");
             progressUpdate.Value = 75;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void CopyFiles()
         {
             if (updaterUpdate && File.Exists(tempDirectory + "AWBUpdater.exe"))
@@ -372,6 +412,9 @@ AWBUpdater will now close!");
             progressUpdate.Value = 90;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void StartAwb()
         {
             bool awbOpen = false;
@@ -389,6 +432,9 @@ AWBUpdater will now close!");
             progressUpdate.Value = 95;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void KillTempDir()
         {
             Directory.Delete(tempDirectory, true);
