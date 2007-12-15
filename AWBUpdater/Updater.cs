@@ -426,7 +426,7 @@ AWBUpdater will now close!");
                     break;
             }
 
-            if (!awbOpen && MessageBox.Show("Would you like to Start AWB?", "Start AWB?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (!awbOpen && System.IO.File.Exists(AWBdirectory + "AutoWikiBrowser.exe") && MessageBox.Show("Would you like to Start AWB?", "Start AWB?", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 System.Diagnostics.Process.Start(AWBdirectory + "AutoWikiBrowser.exe");
 
             progressUpdate.Value = 95;
