@@ -38,7 +38,7 @@ using WikiFunctions.Background;
 namespace WikiFunctions
 {
     public enum LangCodeEnum { en, ar, bg, ca, da, de, eo, es, fi, fr, he, hu, Is, it, ja, ku, nl, no, mi, pl, pt, ro, ru, simple, sk, sl, sv, ta, te, tj, uk, ur, zh }
-    public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikiquote, wikiversity, wikibooks, wikinews, commons, meta, species, wikia, custom }
+    public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikiquote, wikiversity, wikibooks, wikinews, commons, meta, species, lastWMF = species, wikia, custom }
 
     /// <summary>
     /// Holds static variables, to allow functionality on different wikis.
@@ -143,6 +143,14 @@ namespace WikiFunctions
         { 
             get { return strlangcode; }
             set { strlangcode = value; }
+        }
+
+        /// <summary>
+        /// Returns true if we are currently editing a WMF wiki
+        /// </summary>
+        public static bool IsWikimediaProject
+        {
+            get { return strproject <= ProjectEnum.lastWMF; }
         }
 
         static string strcustomproject = "";
