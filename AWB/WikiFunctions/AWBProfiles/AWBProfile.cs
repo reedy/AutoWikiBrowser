@@ -369,7 +369,7 @@ namespace WikiFunctions.AWBProfiles
                     freeIdFound = true;
                 else
                     i++;
-            } while (freeIdFound == false);
+            } while (!freeIdFound);
 
             return i;
         }
