@@ -48,6 +48,8 @@ namespace AwbUpdater
 
                     handler.txtDetails.Text += "\r\n}}";
 
+                    handler.textBox1.Text = "AWB Updater encountered " + ex.GetType().Name;
+
                     handler.ShowDialog();
                 }
             }
