@@ -47,6 +47,9 @@ namespace WikiFunctions.AWBProfiles
 
         private void browserLogin(string Username, string Password)
         {
+            if (Browser == null)
+                Browser = new WikiFunctions.Browser.WebControl();
+
             Browser.Login(Username, Password);
             LoadProfile();
         }
