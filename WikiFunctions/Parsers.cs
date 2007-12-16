@@ -327,6 +327,24 @@ namespace WikiFunctions.Parse
             return ReferenceTags.Replace(ArticleText, new MatchEvaluator(ReflistMatchEvaluator));
         }
 
+        static Regex EmptyReferences = new Regex(@"<ref name=[""]?(.*?)[""]?>[\s\n\r]*</ref>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+        /// <summary>
+        /// Replaces reference tags in the form <ref name="blah"></ref> with <ref name="blah" />
+        /// Removes some of the MW errors that occur from the prior
+        /// </summary>
+        /// <param name="ArticleText">The wiki text of the article</param>
+        /// <returns></returns>
+        public string SimplifyReferenceTags(string ArticleText)
+        {
+            if(EmptyReferences.Match(ArticleText).Success)
+            {
+                ArticleText = EmptyReferences.Replace(ArticleText, @"<ref name=""$1"" />");
+            }
+
+            return ArticleText;
+        }
+
         /// <summary>
         /// Applies/removes some excess whitespace from the article
         /// </summary>
@@ -734,7 +752,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             string img = Variables.Namespaces[6];
 
             Regex emptyLink = new Regex("\\[\\[(:?" + cat + "|" + img + "|)(|" + img + "|" + cat + "|.*?)\\]\\]", RegexOptions.IgnoreCase);
-            Regex emptyTemplate = new Regex("{{(|.*?)}}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            Regex emptyTemplate = new Regex(@"{{[|\s]*}}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
             string trim;
 
@@ -745,11 +763,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     ArticleText = ArticleText.Replace("[[" + link.Groups[1].Value + link.Groups[2].Value + "]]", "");
             }
 
-            foreach (Match template in emptyTemplate.Matches(ArticleText))
+            if (emptyTemplate.Match(ArticleText).Success)
             {
-                trim = template.Groups[1].Value.Trim();
-                if (string.IsNullOrEmpty(trim) || trim == "|")
-                    ArticleText = ArticleText.Replace("{{" + template.Groups[1].Value + "}}", "");
+                ArticleText = emptyTemplate.Replace(ArticleText, "");
             }
             return ArticleText;
         }

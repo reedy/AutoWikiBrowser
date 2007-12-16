@@ -1003,6 +1003,9 @@ namespace AutoWikiBrowser
                         theArticle.AWBChangeArticleText("Fix empty links and templates", parsers.FixEmptyLinksAndTemplates(theArticle.ArticleText), true);
                         prof.Profile("FixEmptyLinksAndTemplates");
 
+                        theArticle.AWBChangeArticleText("Fix empty references", parsers.SimplifyReferenceTags(theArticle.ArticleText), true);
+                        prof.Profile("FixEmptyReferences");
+
                         theArticle.FixLinks(parsers, Skip.SkipNoBadLink);
                         prof.Profile("FixLinks");
                         theArticle.BulletExternalLinks(parsers, Skip.SkipNoBulletedLink);
