@@ -46,13 +46,10 @@ namespace AwbUpdater
         string UpdaterZipName = "";
         string UpdaterWebAddress = "";
 
-        bool updaterUpdate = false;
-        bool awbUpdate = false;
-        bool badUpdate = false;
+        bool updaterUpdate;
+        bool awbUpdate;
+        bool badUpdate;
 
-        /// <summary>
-        /// 
-        /// </summary>
         public Updater()
         {
             InitializeComponent();
@@ -62,7 +59,7 @@ namespace AwbUpdater
         }
 
         /// <summary>
-        /// 
+        /// Version of the Updater
         /// </summary>
         public static string AssemblyVersion
         {
@@ -75,7 +72,7 @@ namespace AwbUpdater
         }
 
         /// <summary>
-        /// 
+        /// Main program function
         /// </summary>
         private void UpdateAwb()
         {
@@ -120,9 +117,9 @@ namespace AwbUpdater
         }
 
         /// <summary>
-        /// 
+        /// Multiple use function to update the GUI items
         /// </summary>
-        /// <param name="currentStatus"></param>
+        /// <param name="currentStatus">What the updater is currently doing</param>
         private void updateUI(string currentStatus)
         {
             lblCurrentTask.Text = currentStatus;
@@ -130,7 +127,7 @@ namespace AwbUpdater
         }
 
         /// <summary>
-        /// 
+        /// Close the updater early due to lack of updates
         /// </summary>
         private void ExitEarly()
         {
@@ -140,7 +137,7 @@ namespace AwbUpdater
         }
 
         /// <summary>
-        /// 
+        /// Checks and compares the current AWB version with the version listed on the checkpage
         /// </summary>
         private void AWBversion()
         {
@@ -210,7 +207,7 @@ namespace AwbUpdater
         }
 
         /// <summary>
-        /// 
+        /// Creates the temporary folder if it doesnt already exist
         /// </summary>
         private void CreateTempDir()
         {
@@ -221,7 +218,7 @@ namespace AwbUpdater
         }
 
         /// <summary>
-        /// 
+        /// Check the addresses for the files are valid (not null or empty), and downloads the files from the internet
         /// </summary>
         private void GetAwbFromInternet()
         {
@@ -239,7 +236,7 @@ namespace AwbUpdater
         }
 
         /// <summary>
-        /// 
+        /// Checks the zip files exist and calls the functions to unzip them
         /// </summary>
         private void UnzipAwb()
         {
@@ -261,7 +258,7 @@ AWBUpdater will now close!");
         }
 
         /// <summary>
-        /// 
+        /// Code used to unzip the zip files to the temporary directory
         /// </summary>
         /// <param name="File"></param>
         private void Extract(string File)
@@ -280,12 +277,6 @@ AWBUpdater will now close!");
             catch { badUpdate = true; }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="inputStream"></param>
-        /// <param name="theEntry"></param>
-        /// <param name="targetDir"></param>
         private static void ExtractFile(Stream inputStream, ZipEntry theEntry, string targetDir)
         {
             // try and sort out the correct place to save this entry
@@ -317,7 +308,7 @@ AWBUpdater will now close!");
         }
 
         /// <summary>
-        /// 
+        /// Looks if AWB or IRCM are open. If they are, tell the user
         /// </summary>
         private void CloseAwb()
         {
@@ -341,7 +332,7 @@ AWBUpdater will now close!");
         }
 
         /// <summary>
-        /// 
+        /// Copies files from the temporary to the working directory
         /// </summary>
         private void CopyFiles()
         {
@@ -413,7 +404,7 @@ AWBUpdater will now close!");
         }
 
         /// <summary>
-        /// 
+        /// Starts AWB if exists and is not already running
         /// </summary>
         private void StartAwb()
         {
@@ -433,7 +424,7 @@ AWBUpdater will now close!");
         }
 
         /// <summary>
-        /// 
+        /// Deletes the temporary directory
         /// </summary>
         private void KillTempDir()
         {
