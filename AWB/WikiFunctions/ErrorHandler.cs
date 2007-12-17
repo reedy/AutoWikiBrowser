@@ -35,6 +35,11 @@ namespace WikiFunctions
         /// </summary>
         public static int CurrentRevision;
 
+        /// <summary>
+        /// Current text that the list is being made from in ListMaker
+        /// </summary>
+        public static string ListMakerText;
+
         public ErrorHandler()
         {
             InitializeComponent();
@@ -91,6 +96,10 @@ namespace WikiFunctions
                         handler.txtDetails.Text +=
                             "\r\n | duplicate = [encountered while processing page ''" + link + "'']";
                     }
+                    
+                    if (!string.IsNullOrEmpty(ListMakerText))
+                        handler.txtDetails.Text +=
+                            "\r\n | duplicate = ListMaker Text: " + ListMakerText;
 
                     handler.txtDetails.Text += "\r\n}}";
 
