@@ -313,7 +313,7 @@ namespace WikiFunctions.Controls.Lists
         private void btnArticlesListClear_Click(object sender, EventArgs e)
         {
             if (lbArticles.Items.Count <= 1 || (MessageBox.Show(
-            "Are you sure you want to clear the article list?", "Clear?", MessageBoxButtons.YesNo) 
+            "Are you sure you want to clear the article list?", "Clear?", MessageBoxButtons.YesNo)
             == DialogResult.Yes))
                 Clear();
         }
@@ -356,8 +356,8 @@ namespace WikiFunctions.Controls.Lists
                 txtSelectSource.Text = Tools.TurnFirstToUpper(txtSelectSource.Text);
             txtSelectSource.AutoCompleteCustomSource.Add(txtSelectSource.Text);
 
-            txtSelectSource.Text = txtSelectSource.Text.Trim(); 
-            MakeList(st, txtSelectSource.Text.Split(new char[] {'|'}, StringSplitOptions.RemoveEmptyEntries));
+            txtSelectSource.Text = txtSelectSource.Text.Trim();
+            MakeList(st, txtSelectSource.Text.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
         }
 
         private void lbArticles_MouseMove(object sender, MouseEventArgs e)
@@ -386,7 +386,7 @@ namespace WikiFunctions.Controls.Lists
                 btnRemoveArticle.PerformClick();
         }
 
-       
+
         private void txtNewArticle_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return || e.KeyCode == Keys.Enter)
@@ -412,7 +412,7 @@ namespace WikiFunctions.Controls.Lists
             clearToolStripMenuItem1.Enabled = filterOutNonMainSpaceArticlesToolStripMenuItem.Enabled =
             convertToTalkPagesToolStripMenuItem.Enabled = convertFromTalkPagesToolStripMenuItem.Enabled =
             sortAlphebeticallyMenuItem.Enabled = saveListToTextFileToolStripMenuItem1.Enabled = specialFilterToolStripMenuItem.Enabled =
-            selectAllToolStripMenuItem.Enabled = invertSelectionToolStripMenuItem.Enabled = selectNoneToolStripMenuItem.Enabled = 
+            selectAllToolStripMenuItem.Enabled = invertSelectionToolStripMenuItem.Enabled = selectNoneToolStripMenuItem.Enabled =
             openInBrowserToolStripMenuItem.Enabled = (lbArticles.Items.Count > 0);
         }
 
@@ -437,7 +437,7 @@ namespace WikiFunctions.Controls.Lists
         {
             set
             {
-                btnFilter.Enabled = btnRemoveArticle.Enabled = btnArticlesListClear.Enabled = 
+                btnFilter.Enabled = btnRemoveArticle.Enabled = btnArticlesListClear.Enabled =
                 btnArticlesListSave.Enabled = btnRemoveDuplicates.Enabled = value;
             }
         }
@@ -778,7 +778,7 @@ namespace WikiFunctions.Controls.Lists
                     default:
                         break;
                 }
-                
+
             }
             catch (ThreadAbortException)
             {
@@ -794,8 +794,8 @@ namespace WikiFunctions.Controls.Lists
             }
             finally
             {
-                if(FilterNonMainAuto)
-                FilterNonMainArticles();
+                if (FilterNonMainAuto)
+                    FilterNonMainArticles();
                 StopProgressBar();
             }
         }
@@ -905,7 +905,7 @@ namespace WikiFunctions.Controls.Lists
         {
             //filter out non-mainspace articles
 
-             if (this.InvokeRequired)
+            if (this.InvokeRequired)
             {
                 this.Invoke(new FilterNM(FilterNonMainArticles));
                 return;
@@ -1099,7 +1099,7 @@ namespace WikiFunctions.Controls.Lists
         private void selectNoneToolStripMenuItem_Click(object sender, EventArgs e)
         {
             lbArticles.BeginUpdate();
-            
+
             for (int i = 0; i != lbArticles.Items.Count; i++)
                 lbArticles.SetSelected(i, false);
 
