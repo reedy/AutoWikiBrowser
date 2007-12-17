@@ -1616,6 +1616,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             {
                 // don't mark as orphan in case of exception
                 orphaned = false;
+                ErrorHandler.CurrentArticle = ArticleTitle;
                 ErrorHandler.Handle(ex);
             }
             // add orphan tag if applicable
