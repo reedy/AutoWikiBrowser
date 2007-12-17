@@ -380,7 +380,7 @@ namespace WikiFunctions.Parse
             ArticleText = Regex.Replace(ArticleText, " \r\n", "\r\n");
 
             ArticleText = Regex.Replace(ArticleText, "==\r\n\r\n", "==\r\n");
-            ArticleText = Regex.Replace(ArticleText, @"==External links==[\r\n\s]*\\*", "==External links==\r\n*");
+            ArticleText = Regex.Replace(ArticleText, @"==External links==[\r\n\s]*\*", "==External links==\r\n*");
 
             //fix bullet points
             ArticleText = Regex.Replace(ArticleText, "^([\\*#]+) ", "$1", RegexOptions.Multiline);
