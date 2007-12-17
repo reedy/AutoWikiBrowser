@@ -789,6 +789,7 @@ namespace WikiFunctions.Controls.Lists
             }
             catch (Exception ex)
             {
+                ErrorHandler.ListMakerText = txtSelectSource.Text;
                 ErrorHandler.Handle(ex);
             }
             finally
