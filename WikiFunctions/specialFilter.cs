@@ -70,7 +70,8 @@ namespace WikiFunctions.Lists
                 foreach (Article a in list)
                     lb.Items.Add(a);
 
-                (lb.Parent as ListMaker).UpdateNumberOfArticles();
+                if (lb.Parent is ListMaker)
+                    (lb.Parent as ListMaker).UpdateNumberOfArticles();
 
                 this.Hide();
             }
