@@ -69,7 +69,9 @@ namespace WikiFunctions.Lists
 
                 foreach (Article a in list)
                     lb.Items.Add(a);
-
+                
+                //Only try to update number of articles using listmaker method IF the parent is indeed a listmaker
+                //Causes exception on DBScanner otherwise
                 if (lb.Parent is ListMaker)
                     (lb.Parent as ListMaker).UpdateNumberOfArticles();
 

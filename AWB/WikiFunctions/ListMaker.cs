@@ -963,12 +963,14 @@ namespace WikiFunctions.Controls.Lists
             StopProgressBar();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void UpdateNumberOfArticles()
         {
+            lblNumberOfArticles.Text = lbArticles.Items.Count.ToString() + " page";
             if (lbArticles.Items.Count != 1)
-                lblNumberOfArticles.Text = lbArticles.Items.Count.ToString() + " pages";
-            else
-                lblNumberOfArticles.Text = "1 page";
+                lblNumberOfArticles.Text += "s";
             if (NoOfArticlesChanged != null)
                 this.NoOfArticlesChanged();
 
