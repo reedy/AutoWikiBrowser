@@ -50,8 +50,9 @@ namespace WikiFunctions.Lists
             try
             {
                 list.Clear();
-
-                removeDups(chkRemoveDups.Checked);
+                
+                if(chkRemoveDups.Checked)
+                    removeDups();
 
                 bool does = (chkContains.Checked && !string.IsNullOrEmpty(txtContains.Text));
                 bool doesnot = (chkNotContains.Checked && !string.IsNullOrEmpty(txtDoesNotContain.Text));
@@ -83,19 +84,13 @@ namespace WikiFunctions.Lists
             }
         }
 
-        public void removeDups(bool check)
+        public void removeDups()
         {
             foreach (Article a in lb)
             {
-                if (check)
-                {
-                    if (!list.Contains(a))
-                        list.Add(a);
-                }
-                else
-                    list.Add(a);   
+                if (!list.Contains(a))
+                    list.Add(a);
             }
-
             lb.Items.Clear();
 
             foreach (Article a in list)
@@ -111,180 +106,126 @@ namespace WikiFunctions.Lists
                 if (list[i].NameSpaceKey == 0)
                 {
                     if (chkArticle.Checked)
-                    {
                         i++;
-                        continue;
-                    }
                     else
                         list.RemoveAt(i);
                 }
                 else if (list[i].NameSpaceKey == 1)
                 {
                     if (chkArticleTalk.Checked)
-                    {
                         i++;
-                        continue;
-                    }
                     else
                         list.RemoveAt(i);
                 }
                 else if (list[i].NameSpaceKey == 2)
                 {
                     if (chkUser.Checked)
-                    {
                         i++;
-                        continue;
-                    }
                     else
                         list.RemoveAt(i);
                 }
                 else if (list[i].NameSpaceKey == 3)
                 {
                     if (chkUserTalk.Checked)
-                    {
                         i++;
-                        continue;
-                    }
                     else
                         list.RemoveAt(i);
                 }
                 else if (list[i].NameSpaceKey == 4)
                 {
                     if (chkWikipedia.Checked)
-                    {
                         i++;
-                        continue;
-                    }
                     else
                         list.RemoveAt(i);
                 }
                 else if (list[i].NameSpaceKey == 5)
                 {
                     if (chkWikipediaTalk.Checked)
-                    {
                         i++;
-                        continue;
-                    }
                     else
                         list.RemoveAt(i);
                 }
                 else if (list[i].NameSpaceKey == 6)
                 {
                     if (chkImage.Checked)
-                    {
                         i++;
-                        continue;
-                    }
                     else
                         list.RemoveAt(i);
                 }
                 else if (list[i].NameSpaceKey == 7)
                 {
                     if (chkImageTalk.Checked)
-                    {
                         i++;
-                        continue;
-                    }
                     else
                         list.RemoveAt(i);
                 }
                 else if (list[i].NameSpaceKey == 8)
                 {
                     if (chkMediaWiki.Checked)
-                    {
                         i++;
-                        continue;
-                    }
                     else
                         list.RemoveAt(i);
                 }
                 else if (list[i].NameSpaceKey == 9)
                 {
                     if (chkMediaWikiTalk.Checked)
-                    {
                         i++;
-                        continue;
-                    }
                     else
                         list.RemoveAt(i);
                 }
                 else if (list[i].NameSpaceKey == 10)
                 {
                     if (chkTemplate.Checked)
-                    {
                         i++;
-                        continue;
-                    }
                     else
                         list.RemoveAt(i);
                 }
                 else if (list[i].NameSpaceKey == 11)
                 {
                     if (chkTemplateTalk.Checked)
-                    {
                         i++;
-                        continue;
-                    }
                     else
                         list.RemoveAt(i);
                 }
                 else if (list[i].NameSpaceKey == 12)
                 {
                     if (chkHelp.Checked)
-                    {
                         i++;
-                        continue;
-                    }
                     else
                         list.RemoveAt(i);
                 }
                 else if (list[i].NameSpaceKey == 13)
                 {
                     if (chkHelpTalk.Checked)
-                    {
                         i++;
-                        continue;
-                    }
                     else
                         list.RemoveAt(i);
                 }
                 else if (list[i].NameSpaceKey == 14)
                 {
                     if (chkCategory.Checked)
-                    {
                         i++;
-                        continue;
-                    }
                     else
                         list.RemoveAt(i);
                 }
                 else if (list[i].NameSpaceKey == 15)
                 {
                     if (chkCategoryTalk.Checked)
-                    {
                         i++;
-                        continue;
-                    }
                     else
                         list.RemoveAt(i);
                 }
                 else if (list[i].NameSpaceKey == 100)
                 {
                     if (chkPortal.Checked)
-                    {
                         i++;
-                        continue;
-                    }
                     else
                         list.RemoveAt(i);
                 }
                 else if (list[i].NameSpaceKey == 101)
                 {
                     if (chkPortalTalk.Checked)
-                    {
                         i++;
-                        continue;
-                    }
                     else
                         list.RemoveAt(i);
                 }
