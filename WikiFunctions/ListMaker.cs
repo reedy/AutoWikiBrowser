@@ -847,7 +847,7 @@ namespace WikiFunctions.Controls.Lists
         {
             SpecialFilter.lb = lbArticles;
             SpecialFilter.Clear();
-            SpecialFilter.removeDups(true);
+            SpecialFilter.removeDups();
 
             UpdateNumberOfArticles();
         }
