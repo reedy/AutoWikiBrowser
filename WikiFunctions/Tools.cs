@@ -303,7 +303,8 @@ namespace WikiFunctions
             {
                 HttpWebRequest rq = (HttpWebRequest)WebRequest.Create(URL);
 
-                rq.Proxy.Credentials = CredentialCache.DefaultCredentials;
+                rq.Proxy = WebRequest.GetSystemWebProxy();
+                //rq.Proxy.Credentials = CredentialCache.DefaultCredentials;
                 rq.UserAgent = "WikiFunctions " + Tools.VersionString;
 
                 HttpWebResponse response = (HttpWebResponse)rq.GetResponse();

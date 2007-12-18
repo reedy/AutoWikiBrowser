@@ -82,7 +82,8 @@ namespace WikiFunctions
                 StreamReader sr;
                 string wikitext = "";
 
-                wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
+                wr.Proxy = WebRequest.GetSystemWebProxy();
+                //wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
                 UserAgent(wr);
 
                 resps = (HttpWebResponse)wr.GetResponse();
@@ -153,7 +154,8 @@ namespace WikiFunctions
             m = EditToken.Match(editpagestr);
             string wpEditkey = System.Web.HttpUtility.UrlEncode(m.Groups[1].Value);
 
-            wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
+            wr.Proxy = WebRequest.GetSystemWebProxy();
+            //wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
             UserAgent(wr);
 
             wr.CookieContainer = new CookieContainer();
@@ -248,7 +250,8 @@ namespace WikiFunctions
             StreamReader sr;
             string wikitext = "";
 
-            wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
+            wr.Proxy = WebRequest.GetSystemWebProxy();
+            //wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
             UserAgent(wr);
 
             wr.CookieContainer = new CookieContainer();
@@ -283,7 +286,8 @@ namespace WikiFunctions
             HttpWebResponse resps;
             String poststring;
 
-            wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
+            wr.Proxy = WebRequest.GetSystemWebProxy();
+            //wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
             UserAgent(wr);
 
             //Create poststring
@@ -553,7 +557,8 @@ namespace WikiFunctions
                     HttpUtility.UrlEncode(Page) + "&action=" + (Watch ? "watch" : "unwatch"));
                 WebResponse resps;
 
-                wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
+                wr.Proxy = WebRequest.GetSystemWebProxy();
+                //wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
                 UserAgent(wr);
                 wr.CookieContainer = new CookieContainer();
 
@@ -602,7 +607,8 @@ namespace WikiFunctions
                     "index.php?title=Special:Watchlist/clear");
                 WebResponse resps;
 
-                wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
+                wr.Proxy = WebRequest.GetSystemWebProxy();
+                //wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
                 UserAgent(wr);
                 wr.CookieContainer = new CookieContainer();
 
@@ -629,7 +635,8 @@ namespace WikiFunctions
                 wr = (HttpWebRequest)WebRequest.Create(m_indexpath +
                     "index.php?title=Special:Watchlist&amp;action=clear");
 
-                wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
+                wr.Proxy = WebRequest.GetSystemWebProxy();
+                //wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
                 UserAgent(wr);
                 wr.CookieContainer = new CookieContainer();
 
@@ -668,7 +675,8 @@ namespace WikiFunctions
                "index.php?title=Special:Watchlist/edit");
             WebResponse resps;
 
-            wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
+            wr.Proxy = WebRequest.GetSystemWebProxy();
+            //wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
             UserAgent(wr);
      
             wr.CookieContainer = new CookieContainer();
