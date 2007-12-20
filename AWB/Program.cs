@@ -42,7 +42,6 @@ namespace AutoWikiBrowser
 
             string fileToLoad = "";
             int profileID = -1;
-            string tmp;
 
             for (int i = 0; i < args.Length; i++)
             {
@@ -51,7 +50,7 @@ namespace AutoWikiBrowser
                     case "/s":
                         try
                         {
-                            tmp = args[i + 1].ToString();
+                            string tmp = args[i + 1].ToString();
                             if (tmp.Contains(".xml") && System.IO.File.Exists(tmp))
                                 fileToLoad = tmp;
                         }
