@@ -116,7 +116,6 @@ namespace AutoWikiBrowser
                     Microsoft.VisualBasic.VBCodeProvider codeProvider = new Microsoft.VisualBasic.VBCodeProvider();
                     results = codeProvider.CompileAssemblyFromSource(cp, code);
                 }
-
                 if (results.Errors.Count > 0)
                 {
                     string errors = "Compilation failed:\r\n";

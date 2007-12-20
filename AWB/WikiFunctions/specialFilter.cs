@@ -49,10 +49,13 @@ namespace WikiFunctions.Lists
         {
             try
             {
-                list.Clear();
-                
-                if(chkRemoveDups.Checked)
+                if (chkRemoveDups.Checked)
                     removeDups();
+
+                list.Clear();
+
+                foreach (Article a in lb)
+                        list.Add(a);
 
                 bool does = (chkContains.Checked && !string.IsNullOrEmpty(txtContains.Text));
                 bool doesnot = (chkNotContains.Checked && !string.IsNullOrEmpty(txtDoesNotContain.Text));
@@ -86,6 +89,8 @@ namespace WikiFunctions.Lists
 
         public void removeDups()
         {
+            list.Clear();
+
             foreach (Article a in lb)
             {
                 if (!list.Contains(a))
