@@ -55,7 +55,7 @@ namespace WikiFunctions.Lists
                 list.Clear();
 
                 foreach (Article a in lb)
-                        list.Add(a);
+                    list.Add(a);
 
                 bool does = (chkContains.Checked && !string.IsNullOrEmpty(txtContains.Text));
                 bool doesnot = (chkNotContains.Checked && !string.IsNullOrEmpty(txtDoesNotContain.Text));
@@ -73,7 +73,7 @@ namespace WikiFunctions.Lists
 
                 foreach (Article a in list)
                     lb.Items.Add(a);
-                
+
                 //Only try to update number of articles using listmaker method IF the parent is indeed a listmaker
                 //Causes exception on DBScanner otherwise
                 if (lb.Parent is ListMaker)
