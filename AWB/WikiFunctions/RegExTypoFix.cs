@@ -58,14 +58,23 @@ namespace WikiFunctions.Parse
         /// </summary>
         public void Add(string typo, string replacement)
         {
-            //*
             if (!SuitableTypo(typo))
             {
                 throw new ArgumentException("Typo \"" + typo + "\" does not start with \"" + Prefix +
                     "\" or end with \"" + Postfix + "\"");
             }
-            //*/
-            Typos.Add(new KeyValuePair<Regex, string>(new Regex(typo, RegexOptions.Compiled), replacement));
+            Regex r;
+            try
+            {
+                r = new Regex(typo, RegexOptions.Compiled);
+            }
+            catch(Exception ex)
+            {
+                RegExTypoFix.TypoError("Error in typo '" + typo + "': " + ex.Message);
+                throw new TypoException();
+            }
+
+            Typos.Add(new KeyValuePair<Regex, string>(r, replacement));
 
         }
 
@@ -139,6 +148,13 @@ namespace WikiFunctions.Parse
 
         static readonly Regex RemoveTail = new Regex(@"(\s|\n|\r|\*|#|:|⌊⌊⌊⌊M?\d*⌋⌋⌋⌋)*$", RegexOptions.Compiled);
 
+        internal static void TypoError(string error)
+        {
+            MessageBox.Show(error + "\r\n\r\nPlease visit the typo page at " + Variables.RETFPath +
+                " and fix this error, then click 'Advanced --> Refresh status/typos' menu item to reload typos.",
+                "RegexTypoFix error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
         private void MakeRegexes()
         {
             try
@@ -162,6 +178,11 @@ namespace WikiFunctions.Parse
 
                 foreach (TypoGroup grp in Typos) grp.MakeGroups();
             }
+            catch (TypoException)
+            {
+                Typos.Clear();
+                TyposCount = 0;
+            }
             catch (Exception ex)
             {
                 ErrorHandler.Handle(ex);
@@ -170,6 +191,12 @@ namespace WikiFunctions.Parse
 
         public string PerformTypoFixes(string ArticleText, out bool NoChange, out string Summary)
         {
+            if (TyposCount == 0)
+            {
+                NoChange = true;
+                Summary = "";
+                return ArticleText;
+            }
             Summary = "";
             if (IgnoreRegex.IsMatch(ArticleText))
             {
@@ -256,15 +283,19 @@ namespace WikiFunctions.Parse
                     {
                         typoStrings.Add(m.Groups[2].Value, m.Groups[3].Value);
                     }
-                    catch (Exception ex)
+                    catch (ArgumentException)
                     {
-                        ErrorHandler.Handle(ex);
+                        TypoError("Duplicate typo rule '" + m.Groups[2].Value + "' found.");
+                        return new Dictionary<string, string>();
                     }
                 }
             }
+
             catch (Exception ex)
             {
                 ErrorHandler.Handle(ex);
+                // refuse to accept malformed typo lists to encourage people to correct errors
+                return new Dictionary<string, string>();
             }
 
             return typoStrings;
@@ -281,5 +312,9 @@ namespace WikiFunctions.Parse
 
             return lst;
         }
+    }
+
+    internal class TypoException : Exception
+    {
     }
 }
