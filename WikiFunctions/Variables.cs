@@ -308,7 +308,7 @@ namespace WikiFunctions
                         Namespaces[100] = "بوابة:";
                         Namespaces[101] = "نقاش البوابة:";
                         strsummarytag = " ";
-                        strWPAWB = "[[ويكيبيديا:AWB|الأوتوويكي براوزر]]";
+                        strWPAWB = "باستخدام [[ويكيبيديا:أوب|الأوتوويكي براوزر]]";
                         break;
 
                     case LangCodeEnum.bg:
