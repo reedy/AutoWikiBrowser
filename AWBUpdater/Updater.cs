@@ -190,8 +190,7 @@ namespace AwbUpdater
                         AWBZipName = "AutoWikiBrowser" + m_awbnewest.Groups[1].Value.Replace(".", "") + ".zip";
                         AWBWebAddress = "http://downloads.sourceforge.net/autowikibrowser/" + AWBZipName;
                     }
-
-                    if (m_updversion.Success && m_updversion.Groups[1].Value.Length == 4 &&
+                    else if (m_updversion.Success && m_updversion.Groups[1].Value.Length == 4 &&
                         Convert.ToInt32(m_updversion.Groups[1].Value) > Convert.ToInt32(AssemblyVersion.Replace(".", "")))
                     {
                         UpdaterZipName = "AWBUpdater" + m_updversion.Groups[1].Value.Replace(".", "") + ".zip";
@@ -226,8 +225,7 @@ namespace AwbUpdater
 
             if (!string.IsNullOrEmpty(AWBWebAddress))
                 client.DownloadFile(AWBWebAddress, tempDirectory + AWBZipName);
-
-            if (!string.IsNullOrEmpty(UpdaterWebAddress))
+            else if (!string.IsNullOrEmpty(UpdaterWebAddress))
                 client.DownloadFile(UpdaterWebAddress, tempDirectory + UpdaterZipName);
 
             client.Dispose();
@@ -336,7 +334,7 @@ AWBUpdater will now close!");
         /// </summary>
         private void CopyFiles()
         {
-            if (updaterUpdate && File.Exists(tempDirectory + "AWBUpdater.exe"))
+            if (File.Exists(tempDirectory + "AWBUpdater.exe"))
                 File.Copy(tempDirectory + "AWBUpdater.exe", AWBdirectory + "AWBUpdater.exe.new", true);
 
             if (awbUpdate)
@@ -350,23 +348,14 @@ AWBUpdater will now close!");
                 if (File.Exists(tempDirectory + "Diff.dll"))
                     File.Copy(tempDirectory + "Diff.dll", AWBdirectory + "Diff.dll", true);
 
-                if (File.Exists(tempDirectory + "Wikidiff2.dll"))
-                    File.Copy(tempDirectory + "Wikidiff2.dll", AWBdirectory + "Wikidiff2.dll", true);
+                if (File.Exists(AWBdirectory + "Wikidiff2.dll"))
+                    File.Delete(AWBdirectory + "Wikidiff2.dll");
 
-                //if (File.Exists(AWBdirectory + "Wikidiff2.dll"))
-                //    File.Delete(AWBdirectory + "Wikidiff2.dll");
+                if (File.Exists(AWBdirectory + "gpl-2.0.txt"))
+                    File.Delete(AWBdirectory + "gpl-2.0.txt");
 
-                if (File.Exists(tempDirectory + "gpl-2.0.txt"))
-                    File.Copy(tempDirectory + "gpl-2.0.txt", AWBdirectory + "gpl-2.0.txt", true);
-
-                //if (File.Exists(AWBdirectory + "gpl-2.0.txt"))
-                //    File.Delete(AWBdirectory + "gpl-2.0.txt");
-
-                if (File.Exists(tempDirectory + "gpl-3.0.txt"))
-                    File.Copy(tempDirectory + "gpl-3.0.txt", AWBdirectory + "gpl-3.0.txt", true);
-
-                //if (File.Exists(AWBdirectory + "gpl-3.0.txt"))
-                //    File.Delete(AWBdirectory + "gpl-3.0.txt");
+                if (File.Exists(AWBdirectory + "gpl-3.0.txt"))
+                    File.Delete(AWBdirectory + "gpl-3.0.txt");
 
                 if (File.Exists(tempDirectory + "COPYING"))
                     File.Copy(tempDirectory + "COPYING", AWBdirectory + "COPYING", true);
