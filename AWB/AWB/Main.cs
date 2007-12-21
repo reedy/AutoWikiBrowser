@@ -788,7 +788,7 @@ namespace AutoWikiBrowser
                 Start();
                 return;
             }
-            else if (!BotMode && webBrowserEdit.Document.Body.InnerHtml.Contains("<A class=extiw title=m:spam_blacklist href=\"http://meta.wikimedia.org/wiki/spam_blacklist\">"))
+            else if (!BotMode && webBrowserEdit.Document.Body.OuterHtml.Contains("m:Talk:Spam blacklist") || webBrowserEdit.Document.Body.OuterHtml.Contains("MediaWiki_talk:Spam-blacklist"))
             {//check edit wasn't blocked due to spam filter
                 if (!chkSkipSpamFilter.Checked && MessageBox.Show("Edit has been blocked by spam blacklist. Try and edit again?", "Spam blacklist", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                     Start();
