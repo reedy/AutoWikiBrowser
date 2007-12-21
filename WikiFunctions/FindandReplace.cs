@@ -39,8 +39,7 @@ namespace WikiFunctions.Parse
         }
         string streditsummary = "";
 
-        HideText RemoveLinks = new HideText(true, false, true);
-        HideText RemoveMore = new HideText(true, false, true);
+        HideText Remove = new HideText(true, false, true);
 
         List<Replacement> ReplacementList = new List<Replacement>();
         bool applydefault;
@@ -142,10 +141,9 @@ namespace WikiFunctions.Parse
             streditsummary = "";
 
             if (chkIgnoreMore.Checked)
-                ArticleText = RemoveMore.HideMore(ArticleText);
+                ArticleText = Remove.HideMore(ArticleText);
             else if (chkIgnoreLinks.Checked)
-                ArticleText = RemoveLinks.Hide(ArticleText);
-
+                ArticleText = Remove.Hide(ArticleText);
 
             foreach (Replacement rep in ReplacementList)
             {
@@ -156,9 +154,9 @@ namespace WikiFunctions.Parse
             }
 
             if (chkIgnoreMore.Checked)
-                ArticleText = RemoveMore.AddBackMore(ArticleText);
+                ArticleText = Remove.AddBackMore(ArticleText);
             else if (chkIgnoreLinks.Checked)
-                ArticleText = RemoveLinks.AddBack(ArticleText);
+                ArticleText = Remove.AddBack(ArticleText);
 
             if (chkAddToSummary.Checked && !string.IsNullOrEmpty(streditsummary))
                 EditSummary = ", Replaced: " + summary.Trim();
