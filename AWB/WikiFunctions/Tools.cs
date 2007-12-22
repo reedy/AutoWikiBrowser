@@ -350,7 +350,7 @@ namespace WikiFunctions
         /// <summary>
         /// Flashes the given form in the taskbar
         /// </summary>
-        public static void FlashWindow(System.Windows.Forms.Form window)
+        public static void FlashWindow(System.Windows.Forms.Control window)
         { FlashWindow(window.Handle, true); }
 
         /// <summary>
