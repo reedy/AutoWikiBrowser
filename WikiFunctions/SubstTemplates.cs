@@ -58,6 +58,24 @@ namespace WikiFunctions
             }
         }
 
+        public bool ExpandRecursively
+        {
+            get { return chkUseExpandTemplates.Checked; }
+            set { chkUseExpandTemplates.Checked = value; }
+        }
+
+        public bool IgnoreUnformatted
+        {
+            get { return chkIgnoreUnformatted.Checked; }
+            set { chkIgnoreUnformatted.Checked = value; }
+        }
+
+        public bool IncludeComment
+        {
+            get { return chkIncludeComment.Checked; }
+            set { chkIncludeComment.Checked = value; }
+        }
+
         public void Clear()
         {
             locTemplateList = new string[0];
