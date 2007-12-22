@@ -247,6 +247,13 @@ namespace WikiFunctions
             CancelBackgroundRequests();
             UnderscoredTitles.Clear();
 
+            if (customProject.Contains("traditio.") || customProject.Contains("volgota.com")
+                || customProject.Contains("encyclopediadramatica"))
+            {
+                MessageBox.Show("This software does not work on attack sites.");
+                Application.Exit();
+            }
+
             strproject = projectName;
             strlangcode = langCode;
             strcustomproject = customProject;

@@ -1466,11 +1466,13 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public string Conversions(string ArticleText)
         {
             //Use proper codes
-            ArticleText = ArticleText.Replace("[[zh-tw:", "[[zh:");
-            ArticleText = ArticleText.Replace("[[nb:", "[[no:");
-            ArticleText = ArticleText.Replace("[[dk:", "[[da:");
+            //checking first instead of substituting blindly saves some
+            //time due to low occurence rate
+            if (ArticleText.Contains("[[zh-tw:")) ArticleText = ArticleText.Replace("[[zh-tw:", "[[zh:");
+            if (ArticleText.Contains("[[nb:")) ArticleText = ArticleText.Replace("[[nb:", "[[no:");
+            if (ArticleText.Contains("[[dk:")) ArticleText = ArticleText.Replace("[[dk:", "[[da:");
 
-            ArticleText = ArticleText.Replace("{{msg:", "{{");
+            if (ArticleText.Contains("{{msg:")) ArticleText = ArticleText.Replace("{{msg:", "{{");
 
             foreach (KeyValuePair<Regex, string> k in RegexConversion)
             {
