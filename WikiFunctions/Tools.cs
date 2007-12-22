@@ -301,10 +301,8 @@ namespace WikiFunctions
             string text = "";
             try
             {
-                HttpWebRequest rq = (HttpWebRequest)WebRequest.Create(URL);
+                HttpWebRequest rq = Variables.PrepareWebRequest(URL);
 
-                rq.Proxy = SystemProxy;
-                //rq.Proxy.Credentials = CredentialCache.DefaultCredentials;
                 rq.UserAgent = "WikiFunctions " + Tools.VersionString;
 
                 HttpWebResponse response = (HttpWebResponse)rq.GetResponse();
@@ -322,8 +320,6 @@ namespace WikiFunctions
             }
             catch { throw; }
         }
-
-        public static readonly IWebProxy SystemProxy = WebRequest.GetSystemWebProxy();
 
         /// <summary>
         /// Gets the wiki text of the given article.
