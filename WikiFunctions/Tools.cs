@@ -101,7 +101,7 @@ namespace WikiFunctions
             int i = CalculateNS(ArticleTitle);
             return !(i < 0 || i > 99 || i == 7 || i == 8);
         }
-        
+
         /// <summary>
         /// Tests article to see if it is a redirect
         /// </summary>
@@ -132,7 +132,7 @@ namespace WikiFunctions
             return m.Groups[1].Value;
         }
 
-        static string[] InvalidChars = new string[] { "[", "]", "{", "}", "|", "<",">", "#" };
+        static string[] InvalidChars = new string[] { "[", "]", "{", "}", "|", "<", ">", "#" };
 
         /// <summary>
         /// Tests article title to see if it is valid
@@ -140,8 +140,8 @@ namespace WikiFunctions
         /// <param name="Text">The title.</param>
         public static bool IsValidTitle(string ArticleTitle)
         {
-            foreach(string s in InvalidChars)
-                if(ArticleTitle.Contains(s))
+            foreach (string s in InvalidChars)
+                if (ArticleTitle.Contains(s))
                     return false;
 
             return true;
@@ -205,7 +205,7 @@ namespace WikiFunctions
             int pos = Name.IndexOf(',');
 
             // ruwiki has "Lastname, Firstname Patronymic" convention
-            if(pos >= 0 && Variables.LangCode != LangCodeEnum.ru)
+            if (pos >= 0 && Variables.LangCode != LangCodeEnum.ru)
             {
                 suffix = Name.Substring(pos + 1).Trim();
                 Name = Name.Substring(0, pos).Trim();
@@ -223,7 +223,8 @@ namespace WikiFunctions
                     lastName = Name.Substring(intLast);
                     Name = Name.Remove(intLast).Trim();
                 }
-                else { //if (Suffix != "") {
+                else
+                { //if (Suffix != "") {
                     // We have something like "Peter" "II" "King of Spain" (first/last/suffix), so return what we started with
                     // OR We have "Fred" "II", we don't want to return "II, Fred" so we must return "Fred II"
                     return origName;
@@ -416,7 +417,7 @@ namespace WikiFunctions
             input = char.ToUpper(input[0]) + input.Remove(0, 1);
 
             return input;
-        }        
+        }
 
         /// <summary>
         /// Returns lowercase version of the string
@@ -430,7 +431,7 @@ namespace WikiFunctions
             input = char.ToLower(input[0]) + input.Remove(0, 1);
 
             return input;
-        }        
+        }
 
         static readonly Regex RegexWordCountTable = new Regex("\\{\\|.*?\\|\\}", RegexOptions.Compiled | RegexOptions.Singleline);
 
@@ -812,12 +813,12 @@ Message: {2}
         /// </summary>
         public static string StringBetween(string source, string start, string end)
         {
-            try
-            {
-                return source.Substring(source.IndexOf(start), source.IndexOf(end) - source.IndexOf(start));
-            }
-            catch
-            { return ""; }
+            int startPos = source.IndexOf(start);
+            int endPos = source.IndexOf(end);
+
+            if (startPos >= 0 && endPos >= 0 && startPos <= endPos)
+                return source.Substring(startPos, endPos - startPos);
+            else return "";
         }
 
         /// <summary>
@@ -850,8 +851,10 @@ Message: {2}
         }
 
         public static string GetENLinkWithSimpleSkinAndLocalLanguage(string Article)
-        { return "http://en.wikipedia.org/w/index.php?title=" + Article + "&useskin=simple&uselang=" +
-            WikiFunctions.Variables.LangCode.ToString(); }
+        {
+            return "http://en.wikipedia.org/w/index.php?title=" + Article + "&useskin=simple&uselang=" +
+              WikiFunctions.Variables.LangCode.ToString();
+        }
 
         /// <summary>
         /// Opens the specified articles history in the browser
@@ -1023,5 +1026,5 @@ Message: {2}
             catch { }
         }
         #endregion
-    }    
+    }
 }
