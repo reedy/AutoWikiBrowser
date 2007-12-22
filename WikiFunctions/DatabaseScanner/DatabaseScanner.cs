@@ -239,13 +239,13 @@ namespace WikiFunctions.DatabaseScanner
             else if (rdoNoBold.Checked)
                 s.Add(new HasNoBoldTitle(parsers));
             else if (rdoSimpleLinks.Checked)
-                s.Add(new HasSimpleLinks(parsers));
+                s.Add(new HasSimpleLinks());
             else if (rdoHasHTML.Checked)
                 s.Add(new HasHTMLEntities(parsers));
             else if (rdoHeaderError.Checked)
                 s.Add(new HasSectionError(parsers));
             else if (rdoUnbulletedLinks.Checked)
-                s.Add(new HasUnbulletedLinks(parsers));
+                s.Add(new HasUnbulletedLinks());
             else if (rdoTypo.Checked)
                 s.Add(new Typo());
 

@@ -499,16 +499,9 @@ namespace WikiFunctions
 
             pagetext = sr.ReadToEnd();
 
-            //Yay, XML
-
-            XmlDocument doc;
-            XmlElement docElement;
-
-            doc = new XmlDocument();
+            XmlDocument doc = new XmlDocument();
 
             doc.LoadXml(pagetext);
-
-            docElement = doc.DocumentElement;
 
             foreach (XmlElement rvElement in doc.GetElementsByTagName("rev"))
             {

@@ -121,8 +121,8 @@
   <data name="UpButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALEwAA
-        CxMBAJqcGAAAAr1JREFUOE+Nk38s1HEYx587Ev2BO6VNrKPbmqaYIea31taQ0M5dGjLl/Cj9EEpOttTS
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAALEgAA
+        CxIB0t1+/AAAAr1JREFUOE+Nk38s1HEYx587Ev2BO6VNrKPbmqaYIea31taQ0M5dGjLl/Cj9EEpOttTS
         xtZ20rApjBpdM+Vy3IVbR1FpJNPuVKKQVH7+Ie++Ki1G69k+f3w+z/N6fT7b53lYtFIY0mayIDv2OvZG
         Jo35ifkPNELdNEPvV6z/c8glF7MIs0rfAq/R6HuRSGgUI7ExDlG1EfCWeg5zRJxSMiGHlSVOdMKz1A0Z
         bWm40JoBifo08p/lIbf9IjLUychulSC9NQWuxU5zZE+xSyXOlOxf44ez6uPI0qTinCYJ6kElFmJ2bhYl
@@ -155,14 +155,11 @@
         v/I0Lj7lMa4dg62zdVqO+BcM3PWohVKGNwAAAABJRU5ErkJggg==
 </value>
   </data>
-  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>-1, 1</value>
-  </metadata>
   <metadata name="TreeViewContextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>91, 1</value>
+    <value>2, -2</value>
   </metadata>
   <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>254, 1</value>
+    <value>165, -2</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>25</value>
