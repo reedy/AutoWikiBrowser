@@ -315,7 +315,8 @@ namespace AutoWikiBrowser
             //p.Editprefs.Append = rdoAppend.Checked;
 
             return new UserPrefs(new FaRPrefs(chkFindandReplace.Checked, findAndReplace, replaceSpecial,
-                substTemplates.TemplateList), new EditPrefs(chkGeneralFixes.Checked, chkAutoTagger.Checked,
+                substTemplates.TemplateList, substTemplates.ExpandRecursively, substTemplates.IgnoreUnformatted
+                p.FindAndReplace.IncludeComments), new EditPrefs(chkGeneralFixes.Checked, chkAutoTagger.Checked,
                 chkUnicodifyWhole.Checked, cmboCategorise.SelectedIndex, txtNewCategory.Text,
                 txtNewCategory2.Text, cmboImages.SelectedIndex, txtImageReplace.Text, txtImageWith.Text,
                 chkSkipNoCatChange.Checked, chkSkipNoImgChange.Checked, chkAppend.Checked, !rdoPrepend.Checked,
@@ -355,7 +356,12 @@ namespace AutoWikiBrowser
             findAndReplace.AfterOtherFixes = p.FindAndReplace.AfterOtherFixes;
             findAndReplace.AddNew(p.FindAndReplace.Replacements);
             replaceSpecial.AddNewRule(p.FindAndReplace.AdvancedReps);
+
             substTemplates.TemplateList = p.FindAndReplace.SubstTemplates;
+            substTemplates.ExpandRecursively = p.FindAndReplace.ExpandRecursively;
+            substTemplates.IgnoreUnformatted = p.FindAndReplace.IgnoreUnformatted;
+            substTemplates.IncludeComment = p.FindAndReplace.IncludeComments;
+
             findAndReplace.MakeList();
 
             listMaker1.SourceText = p.List.ListSource;
@@ -464,8 +470,7 @@ namespace AutoWikiBrowser
 
             CustomWikis = p.General.CustomWikis;
 
-            System.Drawing.Font f = new System.Drawing.Font(p.General.TextBoxFont, p.General.TextBoxSize);
-            txtEdit.Font = f;
+            txtEdit.Font = new System.Drawing.Font(p.General.TextBoxFont, p.General.TextBoxSize);
 
             LowThreadPriority = p.General.LowThreadPriority;
             Flash = p.General.Flash;

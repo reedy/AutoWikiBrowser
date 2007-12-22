@@ -110,7 +110,8 @@ namespace WikiFunctions.AWBSettings
         /// Fill the object with settings from UI
         /// </summary>
         public FaRPrefs(bool mEnabled, WikiFunctions.Parse.FindandReplace findAndReplace,
-            WikiFunctions.MWB.ReplaceSpecial replaceSpecial, string[] mSubstTemplates)
+            WikiFunctions.MWB.ReplaceSpecial replaceSpecial, string[] mSubstTemplates,
+            bool mIncludeComments, bool mExpandRecursively, bool mIgnoreUnformatted)
         {
             Enabled = mEnabled;
             IgnoreSomeText = findAndReplace.ignoreLinks;
@@ -119,7 +120,11 @@ namespace WikiFunctions.AWBSettings
             AfterOtherFixes = findAndReplace.AfterOtherFixes;
             Replacements = findAndReplace.GetList();
             AdvancedReps = replaceSpecial.GetRules();
+            
             SubstTemplates = mSubstTemplates;
+            IncludeComments = mIncludeComments;
+            ExpandRecursively = mExpandRecursively;
+            IgnoreUnformatted = mIgnoreUnformatted;
         }
 
         public bool Enabled = false;
@@ -130,7 +135,11 @@ namespace WikiFunctions.AWBSettings
         public List<WikiFunctions.Parse.Replacement> Replacements = new List<WikiFunctions.Parse.Replacement>();
 
         public List<WikiFunctions.MWB.IRule> AdvancedReps = new List<WikiFunctions.MWB.IRule>();
+        
         public string[] SubstTemplates = new string[0];
+        public bool IncludeComments = false;
+        public bool ExpandRecursively = true;
+        public bool IgnoreUnformatted = false;
     }
 
     [Serializable]
