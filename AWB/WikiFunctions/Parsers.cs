@@ -429,7 +429,7 @@ namespace WikiFunctions.Parse
         readonly Regex SyntaxRegexItalic = new Regex("<i>(.*?)</i>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex SyntaxRegexBold = new Regex("<b>(.*?)</b>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        readonly Regex InOpenBrackets = new Regex(@"\[\[[^\]]{,100}", RegexOptions.RightToLeft | RegexOptions.Compiled);
+        //readonly Regex InOpenBrackets = new Regex(@"\[\[[^\]]{,100}", RegexOptions.RightToLeft | RegexOptions.Compiled);
 
         /// <summary>
         /// Fixes and improves syntax (such as html markup)

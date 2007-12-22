@@ -31,7 +31,6 @@ namespace WikiFunctions.AWBProfiles
 
     public partial class AWBLogUploadProfilesForm : Form
     {
-        AWBProfile AWBProfile = new AWBProfile();
         protected string CurrentSettingsProfile;
 
         public AWBLogUploadProfilesForm()

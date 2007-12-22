@@ -1150,8 +1150,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
 
         public static LangCodeEnum ParseLanguage(string lang)
         {
-            lang = lang.Trim().ToLower();
-            if (lang == "is") return LangCodeEnum.Is;
+            if (string.Compare(lang, "is", true) == 0) return LangCodeEnum.Is;
             return (LangCodeEnum)Enum.Parse(typeof(LangCodeEnum), lang);
         }
 

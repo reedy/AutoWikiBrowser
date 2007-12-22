@@ -218,9 +218,7 @@ namespace WikiFunctions.DatabaseScanner
 
     public class HasBadLinks : Scan
     {
-        public HasBadLinks()
-        {
-        }
+        public HasBadLinks() { }
 
         public bool FixLinks(string ArticleText)
         {
@@ -283,12 +281,8 @@ namespace WikiFunctions.DatabaseScanner
 
     public class HasSimpleLinks : Scan
     {
-        public HasSimpleLinks(Parsers p)
-        {
-            parsers = p;
-        }
+        public HasSimpleLinks() { }
 
-        Parsers parsers;
         public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
             string n = "";
@@ -329,15 +323,11 @@ namespace WikiFunctions.DatabaseScanner
 
     public class HasUnbulletedLinks : Scan
     {
-        public HasUnbulletedLinks(Parsers p)
-        {
-            parsers = p;
-        }
+        public HasUnbulletedLinks() { }
 
         Regex bulletRegex = new Regex(@"External [Ll]inks? ? ?={1,4} ? ?(
 ){0,3}\[?http", RegexOptions.Compiled);
 
-        Parsers parsers;
         public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
             return (bulletRegex.IsMatch(ArticleText));

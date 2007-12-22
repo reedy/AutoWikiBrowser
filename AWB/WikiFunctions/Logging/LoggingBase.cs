@@ -33,7 +33,6 @@ namespace WikiFunctions.Logging
     /// </summary>
     public abstract class TraceListenerBase : System.IO.StreamWriter, WikiFunctions.Logging.IMyTraceListener
     {
-
 		// Initialisation
         private static Regex GetArticleTemplateRegex = new Regex("( talk)?:", RegexOptions.Compiled);
 
