@@ -667,12 +667,6 @@ namespace WikiFunctions
         {
             if (obj == null || !(obj is Article)) return false;
             return mName == (obj as Article).mName;
-            /*
-            if (obj.GetHashCode() == this.GetHashCode())
-                return true;
-            else
-                return false;
-            */
         }
 
         public int CompareTo(Article other)
