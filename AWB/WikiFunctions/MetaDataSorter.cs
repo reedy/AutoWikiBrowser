@@ -339,8 +339,8 @@ namespace WikiFunctions.Parse
             if (mc.Count > 1) throw new ArgumentException("Page contains multiple {{DEFAULTSORTS}} tags. Metadata sorting cancelled");
 
             string defaultSort = "";
-            try { defaultSort = mc[0].Value; }
-            catch { }
+            if (mc.Count > 0) defaultSort = mc[0].Value;
+
             if (!string.IsNullOrEmpty(defaultSort))
                 ArticleText = ArticleText.Replace(defaultSort, "");
             defaultSort = WikiRegexes.Defaultsort.Replace(defaultSort, "{{DEFAULTSORT:${key}}}");

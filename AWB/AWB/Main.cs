@@ -576,7 +576,12 @@ namespace AutoWikiBrowser
 
             if (!doNotAutomaticallyDoAnythingToolStripMenuItem.Checked)
             {
+                lblStatusText.Text = "Processing page";
+                Application.DoEvents();
+
                 ProcessPage();
+
+                UpdateWebBrowserStatus();
 
                 if (!Abort && skippable && chkSkipNoChanges.Checked &&
                     TheArticle.ArticleText == TheArticle.OriginalArticleText)
