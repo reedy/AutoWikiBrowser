@@ -76,13 +76,12 @@ namespace WikiFunctions
                 if (oldid != 0)
                     targetUrl += "&oldid=" + oldid;
 
-                HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(targetUrl);
+                HttpWebRequest wr = Variables.PrepareWebRequest(targetUrl);
                 HttpWebResponse resps;
                 Stream stream;
                 StreamReader sr;
                 string wikitext = "";
 
-                wr.Proxy = Tools.SystemProxy;
                 //wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
                 UserAgent(wr);
 
@@ -140,7 +139,7 @@ namespace WikiFunctions
         /// <returns>An EditPageRetvals object</returns>
         public EditPageRetvals EditPageEx(String Article, String NewText, String Summary, bool Minor, bool Watch)
         {
-            HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(m_indexpath + "index.php?title=" + 
+            HttpWebRequest wr = Variables.PrepareWebRequest(m_indexpath + "index.php?title=" + 
                 Tools.WikiEncode(Article) + "&action=submit");
             WebResponse resps;
             String poststring;
@@ -154,8 +153,6 @@ namespace WikiFunctions
             m = EditToken.Match(editpagestr);
             string wpEditkey = System.Web.HttpUtility.UrlEncode(m.Groups[1].Value);
 
-            wr.Proxy = Tools.SystemProxy;
-            //wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
             UserAgent(wr);
 
             wr.CookieContainer = new CookieContainer();
@@ -243,15 +240,13 @@ namespace WikiFunctions
         /// <returns>The full HTML source of the edit page for the specified article.</returns>
         public string GetEditPage(String Article)
         {
-            HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(m_indexpath + "index.php?title=" + 
+            HttpWebRequest wr = Variables.PrepareWebRequest(m_indexpath + "index.php?title=" + 
                 HttpUtility.UrlEncode(Article) + "&action=edit");
             HttpWebResponse resps;
             Stream stream;
             StreamReader sr;
             string wikitext = "";
 
-            wr.Proxy = Tools.SystemProxy;
-            //wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
             UserAgent(wr);
 
             wr.CookieContainer = new CookieContainer();
@@ -282,12 +277,10 @@ namespace WikiFunctions
         /// <param name="password">The password to log in with.</param>
         public void LogIn(string Username, string password)
         {
-            HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(m_indexpath + "index.php?title=Special:Userlogin&action=submitlogin&type=login");
+            HttpWebRequest wr = Variables.PrepareWebRequest(m_indexpath + "index.php?title=Special:Userlogin&action=submitlogin&type=login");
             HttpWebResponse resps;
             String poststring;
 
-            wr.Proxy = Tools.SystemProxy;
-            //wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
             UserAgent(wr);
 
             //Create poststring
@@ -484,7 +477,7 @@ namespace WikiFunctions
             string targetUrl = m_indexpath + "api.php?action=query&prop=revisions&titles=" + HttpUtility.UrlEncode(Article) +
                 "&rvlimit=" + Limit;
 
-            HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(targetUrl);
+            HttpWebRequest wr = Variables.PrepareWebRequest(targetUrl);
             HttpWebResponse resps;
             Stream stream;
             StreamReader sr;
@@ -546,12 +539,10 @@ namespace WikiFunctions
         {
             try
             {
-                HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(m_indexpath + "index.php?title=" +
+                HttpWebRequest wr = Variables.PrepareWebRequest(m_indexpath + "index.php?title=" +
                     HttpUtility.UrlEncode(Page) + "&action=" + (Watch ? "watch" : "unwatch"));
                 WebResponse resps;
 
-                wr.Proxy = Tools.SystemProxy;
-                //wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
                 UserAgent(wr);
                 wr.CookieContainer = new CookieContainer();
 
@@ -596,12 +587,10 @@ namespace WikiFunctions
                 Regex rx = new Regex("<input name=\"token\" type=\"hidden\" value=\"([^\"]*)\" />");
                 Match m;
 
-                HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(m_indexpath +
+                HttpWebRequest wr = Variables.PrepareWebRequest(m_indexpath +
                     "index.php?title=Special:Watchlist/clear");
                 WebResponse resps;
 
-                wr.Proxy = Tools.SystemProxy;
-                //wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
                 UserAgent(wr);
                 wr.CookieContainer = new CookieContainer();
 
@@ -625,11 +614,9 @@ namespace WikiFunctions
                 int index = m.Value.IndexOf("value=\"") + 7;
                 string token = m.Value.Substring(index, m.Value.Substring(index).IndexOf("\""));
 
-                wr = (HttpWebRequest)WebRequest.Create(m_indexpath +
+                wr = Variables.PrepareWebRequest(m_indexpath +
                     "index.php?title=Special:Watchlist&amp;action=clear");
 
-                wr.Proxy = Tools.SystemProxy;
-                //wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
                 UserAgent(wr);
                 wr.CookieContainer = new CookieContainer();
 
@@ -664,12 +651,10 @@ namespace WikiFunctions
         /// <returns>StringCollection with page titles</returns>
         public StringCollection GetWatchlist()
         {
-            HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(m_indexpath +
+            HttpWebRequest wr = Variables.PrepareWebRequest(m_indexpath +
                "index.php?title=Special:Watchlist/edit");
             WebResponse resps;
 
-            wr.Proxy = Tools.SystemProxy;
-            //wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
             UserAgent(wr);
      
             wr.CookieContainer = new CookieContainer();

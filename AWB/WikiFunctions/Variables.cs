@@ -34,6 +34,7 @@ using System.Text.RegularExpressions;
 using System.Reflection;
 using WikiFunctions.Plugin;
 using WikiFunctions.Background;
+using System.Net;
 
 namespace WikiFunctions
 {
@@ -206,6 +207,28 @@ namespace WikiFunctions
 
         #endregion
 
+        #region Proxy support
+        static IWebProxy SystemProxy;
+
+        public static HttpWebRequest PrepareWebRequest(string url)
+        {
+            HttpWebRequest r = (HttpWebRequest)WebRequest.Create(url);
+
+            if (SystemProxy != null) r.Proxy = SystemProxy;
+
+            return r;
+        }
+
+        public static void RefreshProxy()
+        {
+            SystemProxy = WebRequest.GetSystemWebProxy();
+            if (SystemProxy.IsBypassed(new Uri(URL)))
+            {
+                SystemProxy = null;
+            }
+        }
+        #endregion
+
         // for logging, these will probably need internationalising
         public static string AWBVersionString(string Version)
         {
@@ -257,6 +280,8 @@ namespace WikiFunctions
             strproject = projectName;
             strlangcode = langCode;
             strcustomproject = customProject;
+
+            RefreshProxy();
 
             ProjectName = "";
             URLEnd = "/w/";
@@ -1009,6 +1034,10 @@ namespace WikiFunctions
                     URLEnd = "";
                 LoadProjectOptions(URL);
             }
+
+            //refresh once more in case project settings were reset due to
+            //error with loading
+            RefreshProxy();
 
             NamespacesCaseInsensitive.Clear();
             foreach (KeyValuePair<int, string> k in Namespaces)
