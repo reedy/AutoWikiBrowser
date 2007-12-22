@@ -285,6 +285,9 @@ namespace AutoWikiBrowser
             private set { stredittingarticle = value; }
         }
 
+        /// <summary>
+        /// Is AWB running in Bot Mode
+        /// </summary>
         private bool BotMode
         {
             get { return chkAutoMode.Checked; }
@@ -788,7 +791,7 @@ namespace AutoWikiBrowser
                 Start();
                 return;
             }
-            else if (!BotMode && webBrowserEdit.Document.Body.OuterHtml.Contains("m:Talk:Spam blacklist") || webBrowserEdit.Document.Body.OuterHtml.Contains("MediaWiki_talk:Spam-blacklist"))
+            else if (!BotMode && webBrowserEdit.Document.Body.OuterHtml.Contains("<div id=\"spamprotected\">") || webBrowserEdit.Document.Body.OuterHtml.Contains("m:Talk:Spam blacklist") || webBrowserEdit.Document.Body.OuterHtml.Contains("MediaWiki_talk:Spam-blacklist"))
             {//check edit wasn't blocked due to spam filter
                 if (!chkSkipSpamFilter.Checked && MessageBox.Show("Edit has been blocked by spam blacklist. Try and edit again?", "Spam blacklist", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                     Start();
@@ -1302,7 +1305,16 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void UpdateUserName(object sender, EventArgs e)
         {
-            lblUserName.Text = Variables.User.Name;
+            if (string.IsNullOrEmpty(Variables.User.Name))
+            {
+                lblUserName.BackColor = Color.Red;
+                lblUserName.Text = "User:";
+            }
+            else
+            {
+                lblUserName.BackColor = Color.Green;
+                lblUserName.Text = Variables.User.Name;
+            }
         }
 
         private void UpdateWebBrowserStatus()
@@ -1504,13 +1516,13 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             {
                 case WikiStatusResult.Error:
                     lblUserName.BackColor = Color.Red;
-                    lblUserName.Text = "";
+                    lblUserName.Text = "User:";
                     MessageBox.Show("Check page failed to load.\r\n\r\nCheck your Internet Explorer is working and that the Wikipedia servers are online, also try clearing Internet Explorer cache.", "User check problem", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
 
                 case WikiStatusResult.NotLoggedIn:
                     lblUserName.BackColor = Color.Red;
-                    lblUserName.Text = "";
+                    lblUserName.Text = "User:";
                     if (!login)
                         MessageBox.Show("You are not logged in. The log in screen will now load, enter your name and password, click \"Log in\", wait for it to complete, then start the process again.\r\n\r\nIn the future you can make sure this won't happen by logging in to Wikipedia using Microsoft Internet Explorer.", "Not logged in", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     webBrowserEdit.LoadLogInPage();
