@@ -315,8 +315,8 @@ namespace AutoWikiBrowser
             //p.Editprefs.Append = rdoAppend.Checked;
 
             return new UserPrefs(new FaRPrefs(chkFindandReplace.Checked, findAndReplace, replaceSpecial,
-                substTemplates.TemplateList, substTemplates.ExpandRecursively, substTemplates.IgnoreUnformatted
-                p.FindAndReplace.IncludeComments), new EditPrefs(chkGeneralFixes.Checked, chkAutoTagger.Checked,
+                substTemplates.TemplateList, substTemplates.ExpandRecursively, substTemplates.IgnoreUnformatted,
+                substTemplates.IncludeComment), new EditPrefs(chkGeneralFixes.Checked, chkAutoTagger.Checked,
                 chkUnicodifyWhole.Checked, cmboCategorise.SelectedIndex, txtNewCategory.Text,
                 txtNewCategory2.Text, cmboImages.SelectedIndex, txtImageReplace.Text, txtImageWith.Text,
                 chkSkipNoCatChange.Checked, chkSkipNoImgChange.Checked, chkAppend.Checked, !rdoPrepend.Checked,
