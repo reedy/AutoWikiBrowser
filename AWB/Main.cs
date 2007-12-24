@@ -796,6 +796,7 @@ namespace AutoWikiBrowser
                 Start();
                 return;
             }
+            //TODO: Simplify below to keep only webBrowserEdit.Document.Body.OuterHtml.Contains("<div id=\"spamprotected\">") when it is known to have gone live on WP and such
             else if (!BotMode && webBrowserEdit.Document.Body.OuterHtml.Contains("<div id=\"spamprotected\">") || webBrowserEdit.Document.Body.OuterHtml.Contains("m:Talk:Spam blacklist") || webBrowserEdit.Document.Body.OuterHtml.Contains("MediaWiki_talk:Spam-blacklist"))
             {//check edit wasn't blocked due to spam filter
                 if (!chkSkipSpamFilter.Checked && MessageBox.Show("Edit has been blocked by spam blacklist. Try and edit again?", "Spam blacklist", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
