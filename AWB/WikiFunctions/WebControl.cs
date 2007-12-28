@@ -232,8 +232,6 @@ namespace WikiFunctions.Browser
         /// Login Function for use in AWB Profiles
         /// Allows username and password to be passed and then the user logged in
         /// </summary>
-        /// <param name="username"></param>
-        /// <param name="password"></param>
         public void Login(string username, string password)
         {
             this.LoadLogInPage();
@@ -241,6 +239,7 @@ namespace WikiFunctions.Browser
             this.Wait();
             this.Document.GetElementById("wpName1").InnerText = username;
             this.Document.GetElementById("wpPassword1").InnerText = password;
+            this.Document.GetElementById("wpRemember").SetAttribute("value", "1");
             this.Document.GetElementById("wpLoginattempt").InvokeMember("click");
 
             this.Wait();
