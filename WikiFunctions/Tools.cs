@@ -826,11 +826,7 @@ Message: {2}
         /// </summary>
         public static void OpenArticleInBrowser(string title)
         {
-            try
-            {
-                System.Diagnostics.Process.Start(Variables.NonPrettifiedURL(title));
-            }
-            catch { }
+            OpenURLInBrowser(Variables.NonPrettifiedURL(title));
         }
 
         /// <summary>
@@ -851,15 +847,10 @@ Message: {2}
         /// </summary>
         public static void OpenENArticleInBrowser(string title, bool userspace)
         {
-            try
-            {
-                if (userspace)
-                    System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/User:" + WikiEncode(title));
-                else
-                    System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/" + WikiEncode(title));
-            }
-            catch
-            { }
+            if (userspace)
+                OpenURLInBrowser("http://en.wikipedia.org/wiki/User:" + WikiEncode(title));
+            else
+                OpenURLInBrowser("http://en.wikipedia.org/wiki/" + WikiEncode(title));
         }
 
         public static string GetENLinkWithSimpleSkinAndLocalLanguage(string Article)
@@ -873,11 +864,7 @@ Message: {2}
         /// </summary>
         public static void OpenArticleHistoryInBrowser(string title)
         {
-            try
-            {
-                System.Diagnostics.Process.Start(Variables.GetArticleHistoryURL(title));
-            }
-            catch { }
+            OpenURLInBrowser(Variables.GetArticleHistoryURL(title));
         }
 
         /// <summary>
@@ -885,11 +872,7 @@ Message: {2}
         /// </summary>
         public static void OpenUserTalkInBrowser(string username)
         {
-            try
-            {
-                System.Diagnostics.Process.Start(Variables.GetUserTalkURL(username));
-            }
-            catch { }
+            OpenURLInBrowser(Variables.GetUserTalkURL(username));
         }
 
         /// <summary>
@@ -897,11 +880,7 @@ Message: {2}
         /// </summary>
         public static void OpenUserTalkInBrowser()
         {
-            try
-            {
-                System.Diagnostics.Process.Start(Variables.GetUserTalkURL());
-            }
-            catch { }
+            OpenURLInBrowser(Variables.GetUserTalkURL());
         }
 
         /// <summary>
@@ -909,11 +888,7 @@ Message: {2}
         /// </summary>
         public static void EditArticleInBrowser(string title)
         {
-            try
-            {
-                System.Diagnostics.Process.Start(Variables.GetEditURL(title));
-            }
-            catch { }
+            OpenURLInBrowser(Variables.GetEditURL(title));
         }
 
         /// <summary>
@@ -921,11 +896,7 @@ Message: {2}
         /// </summary>
         public static void WatchArticleInBrowser(string title)
         {
-            try
-            {
-                System.Diagnostics.Process.Start(Variables.GetAddToWatchlistURL(title));
-            }
-            catch { }
+            OpenURLInBrowser(Variables.GetAddToWatchlistURL(title));
         }
 
         /// <summary>
@@ -933,11 +904,7 @@ Message: {2}
         /// </summary>
         public static void UnwatchArticleInBrowser(string title)
         {
-            try
-            {
-                System.Diagnostics.Process.Start(Variables.GetRemoveFromWatchlistURL(title));
-            }
-            catch { }
+            OpenURLInBrowser(Variables.GetRemoveFromWatchlistURL(title));
         }
 
         /// <summary>
