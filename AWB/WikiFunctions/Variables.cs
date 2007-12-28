@@ -332,7 +332,7 @@ namespace WikiFunctions
                         Namespaces[8] = "ميدياويكي:";
                         Namespaces[9] = "نقاش ميدياويكي:";
                         Namespaces[10] = "قالب:";
-                        Namespaces[11] = "نقاش قالب:";
+                        Namespaces[11] = "نقاش القالب:";
                         Namespaces[12] = "مساعدة:";
                         Namespaces[13] = "نقاش المساعدة:";
                         Namespaces[14] = "تصنيف:";
