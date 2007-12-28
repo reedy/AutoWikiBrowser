@@ -35,7 +35,7 @@ namespace IrcMonitor
         {
             InitializeComponent();
 
-            labelVersion.Text = String.Format("Version {0}", 
+            labelVersion.Text = String.Format("Version {0}",
                 Assembly.GetExecutingAssembly().GetName().Version.ToString());
             labelCopyright.Text = AboutBox.AssemblyCopyright(Assembly.GetExecutingAssembly());
             textBoxDescription.Text = AboutBox.GetDetailedMessage(Assembly.GetExecutingAssembly());
@@ -54,22 +54,13 @@ namespace IrcMonitor
 
         private void Robot_Click(object sender, EventArgs e)
         {
-            try
-            {
-                System.Diagnostics.Process.Start("http://commons.wikimedia.org/wiki/Image:Pomoc-nik.png");
-            }
-            catch { }
+            Tools.OpenURLInBrowser("http://commons.wikimedia.org/wiki/Image:Pomoc-nik.png");
         }
 
         private void labelCopyright_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             labelCopyright.LinkVisited = true;
-            try
-            {
-                System.Diagnostics.Process.Start("http://www.gnu.org/licenses/gpl.html");
-            }
-            catch { }
+            Tools.OpenURLInBrowser("http://www.gnu.org/licenses/gpl.html");
         }
-
     }
 }

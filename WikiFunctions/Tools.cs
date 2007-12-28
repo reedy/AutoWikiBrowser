@@ -834,6 +834,18 @@ Message: {2}
         }
 
         /// <summary>
+        /// Error supressed URL opener in default browser
+        /// </summary>
+        public static void OpenURLInBrowser(string url)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start(url);
+            }
+            catch { }
+        }
+
+        /// <summary>
         /// Forces the loading of a page in En.Wiki
         /// Used for 'static' links to the english wikipedia
         /// </summary>
@@ -875,7 +887,7 @@ Message: {2}
         {
             try
             {
-                System.Diagnostics.Process.Start(username);
+                System.Diagnostics.Process.Start(Variables.GetUserTalkURL(username));
             }
             catch { }
         }
