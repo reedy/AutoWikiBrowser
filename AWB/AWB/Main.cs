@@ -1388,8 +1388,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private string MakeSummary()
         {
             string tag = cmboEditSummary.Text + TheArticle.SavedSummary;
-            if (!BotMode || !chkSuppressTag.Checked || 
-                (!Variables.IsWikimediaProject &&!SupressUsingAWB)) tag += " " + Variables.SummaryTag;
+            if (!BotMode || !chkSuppressTag.Checked ||
+                (!Variables.IsWikimediaProject && !SupressUsingAWB)) tag += " " + Variables.SummaryTag;
 
             return tag;
         }
@@ -1535,11 +1535,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 case WikiStatusResult.NotRegistered:
                     lblUserName.BackColor = Color.Red;
                     MessageBox.Show(Variables.User.Name + " is not enabled to use this.", "Not enabled", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    try
-                    {
-                        System.Diagnostics.Process.Start(Variables.URL + "/wiki/Project:AutoWikiBrowser/CheckPage");
-                    }
-                    catch { }
+                    Tools.OpenURLInBrowser(Variables.URL + "/wiki/Project:AutoWikiBrowser/CheckPage");
                     break;
 
                 case WikiStatusResult.OldVersion:
@@ -1583,11 +1579,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                     RunUpdater();
                 else if (yesnocancel == DialogResult.No)
                 {
-                    try
-                    {
-                        System.Diagnostics.Process.Start("http://sourceforge.net/project/showfiles.php?group_id=158332");
-                    }
-                    catch { }
+                    Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=158332");
                 }
             }
         }
@@ -2476,38 +2468,23 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void openPageInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            try
-            {
-                System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName);
-            }
-            catch { }
+            Tools.OpenURLInBrowser(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName);
+
         }
 
         private void openTalkPageInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            try
-            {
-                System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=" + GetLists.ConvertToTalk(TheArticle));
-            }
-            catch { }
+            Tools.OpenURLInBrowser(Variables.URLLong + "index.php?title=" + GetLists.ConvertToTalk(TheArticle));
         }
 
         private void openHistoryMenuItem_Click(object sender, EventArgs e)
         {
-            try
-            {
-                System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName + "&action=history");
-            }
-            catch { }
+            Tools.OpenURLInBrowser(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName + "&action=history");
         }
 
         private void openSelectionInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            try
-            {
-                System.Diagnostics.Process.Start(Variables.URLLong + "index.php?title=" + txtEdit.SelectedText);
-            }
-            catch { }
+            Tools.OpenURLInBrowser(Variables.URLLong + "index.php?title=" + txtEdit.SelectedText);
         }
 
         private void chkGeneralParse_CheckedChanged(object sender, EventArgs e)
@@ -2716,11 +2693,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            try
-            {
-                System.Diagnostics.Process.Start("http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/Typos");
-            }
-            catch { }
+            Tools.OpenURLInBrowser("http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/Typos");
         }
 
         private void webBrowserEdit_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
@@ -3440,11 +3413,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            try
-            {
-                System.Diagnostics.Process.Start("http://commons.wikimedia.org/wiki/Image:Crystal_Clear_action_run.png");
-            }
-            catch { }
+            Tools.OpenURLInBrowser("http://commons.wikimedia.org/wiki/Image:Crystal_Clear_action_run.png");
         }
 
         private void profilesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3795,12 +3764,12 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
             times.Sort(new Comparison<KeyValuePair<int, string>>(CompareRegexPairs));
 
-            using(StreamWriter sw = new StreamWriter("typos.txt", false, Encoding.UTF8))
+            using (StreamWriter sw = new StreamWriter("typos.txt", false, Encoding.UTF8))
             {
                 foreach (KeyValuePair<int, string> p in times) sw.WriteLine(p);
             }
 
-            MessageBox.Show("Results are saved in the file 'typos.txt'", "Profiling complete", 
+            MessageBox.Show("Results are saved in the file 'typos.txt'", "Profiling complete",
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }

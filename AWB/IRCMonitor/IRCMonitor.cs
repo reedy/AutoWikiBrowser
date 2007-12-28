@@ -275,11 +275,7 @@ namespace IrcMonitor
 
                 if (yesnocancel == DialogResult.No)
                 {
-                    try
-                    {
-                        System.Diagnostics.Process.Start("http://sourceforge.net/project/showfiles.php?group_id=158332");
-                    }
-                    catch { }
+Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=158332");
                 }
             }
         }
@@ -923,8 +919,7 @@ namespace IrcMonitor
             }
             else
             {
-                try { System.Diagnostics.Process.Start(url); }
-                catch { }
+                Tools.OpenURLInBrowser(url);
             }
         }
 
@@ -1815,9 +1810,9 @@ namespace IrcMonitor
 
         private void btnOpenInBrowser_Click(object sender, EventArgs e)
         {
-            try { System.Diagnostics.Process.Start(webBrowser.Url.AbsoluteUri); }
-            catch { }
+            Tools.OpenURLInBrowser(webBrowser.Url.AbsoluteUri);
         }
+
         private void btnGo_Click(object sender, EventArgs e)
         {
             webBrowser.Navigate(txtURL.Text);

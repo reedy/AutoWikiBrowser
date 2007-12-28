@@ -1464,11 +1464,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                         else
                             if (MessageBox.Show("Error automatically updating AWB.  Load the download page instead?", "Load download page?", MessageBoxButtons.YesNo) == DialogResult.Yes)
                             {
-                                try
-                                {
-                                    System.Diagnostics.Process.Start("http://sourceforge.net/project/showfiles.php?group_id=158332");
-                                }
-                                catch { }
+                                Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=158332");
                             }
                     }
                 }
