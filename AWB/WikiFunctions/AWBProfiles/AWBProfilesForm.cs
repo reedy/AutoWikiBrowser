@@ -29,15 +29,15 @@ namespace WikiFunctions.AWBProfiles
 {
     public partial class AWBProfilesForm : WikiFunctions.AWBProfiles.AWBLogUploadProfilesForm
     {
-        private WikiFunctions.Browser.WebControl Browser;
+        private WikiFunctions.Browser.WebControl webBrowser;
         public event ProfileLoaded LoadProfile;
 
-        public AWBProfilesForm(WikiFunctions.Browser.WebControl browser)
+        public AWBProfilesForm(WikiFunctions.Browser.WebControl Browser)
         {
             InitializeComponent();
             loginAsThisAccountToolStripMenuItem.Visible = true;
             loginAsThisAccountToolStripMenuItem.Click += new System.EventHandler(this.lvAccounts_DoubleClick);
-            this.Browser = browser;
+            this.webBrowser = Browser;
         }
 
         private void browserLogin(string Password)
@@ -47,11 +47,12 @@ namespace WikiFunctions.AWBProfiles
 
         private void browserLogin(string Username, string Password)
         {
-            if (Browser == null)
-                Browser = new WikiFunctions.Browser.WebControl();
+            if (webBrowser == null)
+                webBrowser = new WikiFunctions.Browser.WebControl();
 
-            Browser.Login(Username, Password);
+            webBrowser.Login(Username, Password);
             LoadProfile();
+            Variables.User.UpdateWikiStatus();
         }
         
         private void loginAsThisAccountToolStripMenuItem_Click(object sender, EventArgs e)

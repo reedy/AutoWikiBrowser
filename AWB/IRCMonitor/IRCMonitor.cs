@@ -2012,7 +2012,6 @@ namespace IrcMonitor
 
         private void LoadProfileSettings()
         {
-            CheckStatus(true);
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
