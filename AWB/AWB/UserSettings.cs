@@ -46,7 +46,11 @@ namespace AutoWikiBrowser
             {
                 if ((!System.IO.File.Exists(SettingsFile)) || MessageBox.Show("Replace existing file?", "File exists - " + SettingsFile,
             MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                {
+                    //Make an "old"/backup copy of a file. Old settings are still there if something goes wrong
+                    File.Copy(SettingsFile, SettingsFile + ".old");
                     SavePrefs(SettingsFile);
+                }
             }
             else if (MessageBox.Show("No settings file currently loaded. Save as Default?", "Save current settings as Default?", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 SavePrefs();
@@ -525,7 +529,10 @@ namespace AutoWikiBrowser
                     SettingsFile = path.Remove(0, path.LastIndexOf("\\") + 1);
                     UpdateSettingsFile();
                 }
-                
+
+                //Delete temporary/old file if exists when code reaches here
+                if (File.Exists(SettingsFile + ".old"))
+                    File.Delete(SettingsFile + ".old");
             }
             catch (Exception ex)
             {
