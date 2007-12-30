@@ -376,7 +376,7 @@ td.diff-addedline span.diffchange {
         {
             TheWord = word;
             Whitespace = white;
-            HashCode = (TheWord + Whitespace).GetHashCode();
+            HashCode = (TheWord/* + Whitespace*/).GetHashCode();
         }
 
         /// <summary>
@@ -390,7 +390,9 @@ td.diff-addedline span.diffchange {
 
         public static WordComparer Comparer = new WordComparer();
 
-        static readonly Regex Splitter = new Regex(@"(\p{P}|[^\s\p{P}]*)(\s*)", RegexOptions.Compiled);
+        static readonly Regex Splitter = new Regex(//@"([\p{Sm}\p{P}]+|[^\s\p{P}\p{Sm}]*)(\s*)",
+            @"([\p{Sm}\p{P}]+|[^\s\p{P}\p{Sm}]*)(\s*)", 
+            RegexOptions.Compiled);
 
         public static List<Word> SplitString(string s)
         {
