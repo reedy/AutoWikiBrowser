@@ -107,21 +107,15 @@ namespace WikiFunctions
                 {
                     for (int i = 0; i < h.Left.Count; i++)
                     {
-                        WordDiff(left, rightList[h.Right.Start + i], leftList[h.Left.Start + i]);
-                        WordDiff(right, leftList[h.Left.Start + i], rightList[h.Right.Start + i]);
+                        WhitespaceDiff(left, rightList[h.Right.Start + i], leftList[h.Left.Start + i]);
+                        WhitespaceDiff(right, leftList[h.Left.Start + i], rightList[h.Right.Start + i]);
                     }
                 }
                 else
                 {
-                    left.Append("<span class='diffchange'>");
-                    for (int i = h.Left.Start; i <= h.Left.End; i++)
-                        left.Append(HttpUtility.HtmlEncode(leftList[i].ToString()));
-                    left.Append("</span>");
+                    WordDiff(left, h.Left, h.Right, leftList, rightList);
 
-                    right.Append("<span class='diffchange'>");
-                    for (int i = h.Right.Start; i <= h.Right.End; i++)
-                        right.Append(HttpUtility.HtmlEncode(rightList[i].ToString()));
-                    right.Append("</span>");
+                    WordDiff(right, h.Right, h.Left, rightList, leftList);
                 }
             }
 
@@ -137,7 +131,29 @@ namespace WikiFunctions
 		</tr>");
         }
 
-        void WordDiff(StringBuilder res, Word left, Word right)
+        void WordDiff(StringBuilder res, Range range, Range otherRange, IList<Word> words, IList<Word> otherWords)
+        {
+            bool open = false;
+
+            for (int i = 0; i < range.Count; i++)
+            {
+                if (i >= otherRange.Count || words[range.Start + i].ToString() != otherWords[otherRange.Start + i].ToString())
+                {
+                    if (!open) res.Append("<span class='diffchange'>");
+                    open = true;
+                }
+                else
+                {
+                    if (open) res.Append("</span>");
+                    open = false;
+                }
+                res.Append(HttpUtility.HtmlEncode(words[range.Start + i].ToString()));
+            }
+
+            if (open) res.Append("</span>");
+        }
+
+        void WhitespaceDiff(StringBuilder res, Word left, Word right)
         {
             if (left.Whitespace == right.Whitespace) res.Append(HttpUtility.HtmlEncode(right.ToString()));
             else
@@ -391,7 +407,7 @@ td.diff-addedline span.diffchange {
         public static WordComparer Comparer = new WordComparer();
 
         static readonly Regex Splitter = new Regex(//@"([\p{Sm}\p{P}]+|[^\s\p{P}\p{Sm}]*)(\s*)",
-            @"([\p{Sm}\p{P}]+|[^\s\p{P}\p{Sm}]*)(\s*)", 
+            @"([\p{Sm}\p{P}]|[^\s\p{P}\p{Sm}]*)(\s*)", 
             RegexOptions.Compiled);
 
         public static List<Word> SplitString(string s)
