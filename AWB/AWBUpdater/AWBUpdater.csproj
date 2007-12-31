@@ -44,62 +44,78 @@
     <Compile Include="ErrorHandler.Designer.cs">
       <DependentUpon>ErrorHandler.cs</DependentUpon>
     </Compile>
-    <Compile Include="ICSharpCode.SharpZipLib\Checksums\Adler32.cs" />
+    <Compile Include="ICSharpCode.SharpZipLib\Checksums\Adler32.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ICSharpCode.SharpZipLib\Checksums\CRC32.cs" />
-    <Compile Include="ICSharpCode.SharpZipLib\Checksums\IChecksum.cs" />
+    <Compile Include="ICSharpCode.SharpZipLib\Checksums\IChecksum.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ICSharpCode.SharpZipLib\Core\FileSystemScanner.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ICSharpCode.SharpZipLib\Core\INameTransform.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ICSharpCode.SharpZipLib\Core\IScanFilter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ICSharpCode.SharpZipLib\Core\NameFilter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ICSharpCode.SharpZipLib\Core\PathFilter.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ICSharpCode.SharpZipLib\Core\StreamUtils.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ICSharpCode.SharpZipLib\Encryption\PkzipClassic.cs" />
-    <Compile Include="ICSharpCode.SharpZipLib\SharpZipBaseException.cs" />
-    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\Deflater.cs">
+    <Compile Include="ICSharpCode.SharpZipLib\SharpZipBaseException.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\DeflaterConstants.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\DeflaterEngine.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\DeflaterHuffman.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\DeflaterPending.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\Inflater.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\InflaterDynHeader.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\InflaterHuffmanTree.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\Deflater.cs" />
+    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\DeflaterConstants.cs" />
+    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\DeflaterEngine.cs" />
+    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\DeflaterHuffman.cs" />
+    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\DeflaterPending.cs" />
+    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\Inflater.cs" />
+    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\InflaterDynHeader.cs" />
+    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\InflaterHuffmanTree.cs" />
     <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\PendingBuffer.cs" />
-    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\Streams\DeflaterOutputStream.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\Streams\InflaterInputStream.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\Streams\OutputWindow.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\Streams\DeflaterOutputStream.cs" />
+    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\Streams\InflaterInputStream.cs" />
+    <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\Streams\OutputWindow.cs" />
     <Compile Include="ICSharpCode.SharpZipLib\Zip\Compression\Streams\StreamManipulator.cs" />
-    <Compile Include="ICSharpCode.SharpZipLib\Zip\IEntryFactory.cs" />
-    <Compile Include="ICSharpCode.SharpZipLib\Zip\ZipConstants.cs" />
-    <Compile Include="ICSharpCode.SharpZipLib\Zip\ZipEntry.cs" />
-    <Compile Include="ICSharpCode.SharpZipLib\Zip\ZipException.cs" />
-    <Compile Include="ICSharpCode.SharpZipLib\Zip\ZipExtraData.cs" />
-    <Compile Include="ICSharpCode.SharpZipLib\Zip\ZipFile.cs" />
+    <Compile Include="ICSharpCode.SharpZipLib\Zip\FastZip.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ICSharpCode.SharpZipLib\Zip\IEntryFactory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ICSharpCode.SharpZipLib\Zip\ZipConstants.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ICSharpCode.SharpZipLib\Zip\ZipEntry.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ICSharpCode.SharpZipLib\Zip\ZipEntryFactory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ICSharpCode.SharpZipLib\Zip\ZipException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ICSharpCode.SharpZipLib\Zip\ZipExtraData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ICSharpCode.SharpZipLib\Zip\ZipFile.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ICSharpCode.SharpZipLib\Zip\ZipHelperStream.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ICSharpCode.SharpZipLib\Zip\ZipInputStream.cs" />
+    <Compile Include="ICSharpCode.SharpZipLib\Zip\ZipInputStream.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ICSharpCode.SharpZipLib\Zip\ZipNameTransform.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -28,8 +28,7 @@ using System.IO;
 using System.Diagnostics;
 using System.Reflection;
 using ICSharpCode.SharpZipLib.Zip;
-using ICSharpCode.SharpZipLib.Core;
-using ICSharpCode.SharpZipLib.Zip.Compression;
+
 using System.Text.RegularExpressions;
 using System.Net;
 
@@ -263,46 +262,11 @@ AWBUpdater will now close!");
         {
             try
             {
-                using (ZipFile zf = new ZipFile(tempDirectory + File))
-                {
-                    foreach (ZipEntry entry in zf)
-                    {
-                        if (entry.IsFile)
-                            ExtractFile(zf.GetInputStream(entry), entry, tempDirectory);
-                    }
-                }
+                FastZip zip = new FastZip();
+
+                zip.ExtractZip(File, tempDirectory, null);
             }
             catch { badUpdate = true; }
-        }
-
-        private static void ExtractFile(Stream inputStream, ZipEntry theEntry, string targetDir)
-        {
-            // try and sort out the correct place to save this entry
-            string entryFileName;
-
-            if (Path.IsPathRooted(theEntry.Name))
-            {
-                string workName = Path.GetPathRoot(theEntry.Name);
-                workName = theEntry.Name.Substring(workName.Length);
-                entryFileName = Path.Combine(Path.GetDirectoryName(workName), Path.GetFileName(theEntry.Name));
-            }
-            else
-                entryFileName = theEntry.Name;
-
-            string targetName = Path.Combine(targetDir, entryFileName);
-            string fullPath = Path.GetDirectoryName(Path.GetFullPath(targetName));
-
-            // Could be an option or parameter to allow failure or try creation
-            if (!Directory.Exists(fullPath))
-                Directory.CreateDirectory(fullPath);
-
-            if (entryFileName.Length > 0)
-            {
-                using (FileStream outputStream = File.Create(targetName))
-                {
-                    StreamUtils.Copy(inputStream, outputStream, new byte[4096]);
-                }
-            }
         }
 
         /// <summary>
