@@ -35,13 +35,13 @@ namespace AutoWikiBrowser
             this.ReplaceBtn = new System.Windows.Forms.Button();
             this.Source = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.Status = new System.Windows.Forms.ToolStripStatusLabel();
             this.ResultText = new System.Windows.Forms.TextBox();
             this.Multiline = new System.Windows.Forms.CheckBox();
             this.Casesensitive = new System.Windows.Forms.CheckBox();
             this.Captures = new System.Windows.Forms.TreeView();
             this.FindBtn = new System.Windows.Forms.Button();
+            this.Status = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -50,7 +50,7 @@ namespace AutoWikiBrowser
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(31, 13);
+            this.label1.Size = new System.Drawing.Size(30, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Find:";
             // 
@@ -59,7 +59,7 @@ namespace AutoWikiBrowser
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(12, 35);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(49, 13);
+            this.label2.Size = new System.Drawing.Size(50, 13);
             this.label2.TabIndex = 1;
             this.label2.Text = "Replace:";
             // 
@@ -116,24 +116,9 @@ namespace AutoWikiBrowser
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(12, 251);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(41, 13);
+            this.label3.Size = new System.Drawing.Size(40, 13);
             this.label3.TabIndex = 7;
             this.label3.Text = "Result:";
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Status});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 457);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(683, 22);
-            this.statusStrip1.TabIndex = 9;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // Status
-            // 
-            this.Status.Name = "Status";
-            this.Status.Size = new System.Drawing.Size(0, 17);
             // 
             // ResultText
             // 
@@ -151,6 +136,7 @@ namespace AutoWikiBrowser
             // 
             // Multiline
             // 
+            this.Multiline.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.Multiline.AutoSize = true;
             this.Multiline.Checked = true;
             this.Multiline.CheckState = System.Windows.Forms.CheckState.Checked;
@@ -163,20 +149,20 @@ namespace AutoWikiBrowser
             // 
             // Casesensitive
             // 
+            this.Casesensitive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.Casesensitive.AutoSize = true;
             this.Casesensitive.Checked = true;
             this.Casesensitive.CheckState = System.Windows.Forms.CheckState.Checked;
             this.Casesensitive.Location = new System.Drawing.Point(496, 35);
             this.Casesensitive.Name = "Casesensitive";
-            this.Casesensitive.Size = new System.Drawing.Size(95, 17);
+            this.Casesensitive.Size = new System.Drawing.Size(94, 17);
             this.Casesensitive.TabIndex = 12;
             this.Casesensitive.Text = "Case sensitive";
             this.Casesensitive.UseVisualStyleBackColor = true;
             // 
             // Captures
             // 
-            this.Captures.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
+            this.Captures.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.Captures.Location = new System.Drawing.Point(12, 274);
             this.Captures.Name = "Captures";
@@ -185,6 +171,7 @@ namespace AutoWikiBrowser
             // 
             // FindBtn
             // 
+            this.FindBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.FindBtn.Location = new System.Drawing.Point(597, 6);
             this.FindBtn.Name = "FindBtn";
             this.FindBtn.Size = new System.Drawing.Size(75, 23);
@@ -192,6 +179,21 @@ namespace AutoWikiBrowser
             this.FindBtn.Text = "Find";
             this.FindBtn.UseVisualStyleBackColor = true;
             this.FindBtn.Click += new System.EventHandler(this.FindBtn_Click);
+            // 
+            // Status
+            // 
+            this.Status.Name = "Status";
+            this.Status.Size = new System.Drawing.Size(0, 17);
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Status});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 457);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(683, 22);
+            this.statusStrip1.TabIndex = 9;
+            this.statusStrip1.Text = "statusStrip1";
             // 
             // RegexTester
             // 
@@ -211,8 +213,9 @@ namespace AutoWikiBrowser
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.ResultText);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.KeyPreview = true;
+            this.MinimumSize = new System.Drawing.Size(699, 513);
             this.Name = "RegexTester";
             this.ShowIcon = false;
             this.Text = "Test regexes";
@@ -233,13 +236,13 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Button ReplaceBtn;
         private System.Windows.Forms.TextBox Source;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel Status;
         private System.Windows.Forms.TextBox ResultText;
         private System.Windows.Forms.CheckBox Multiline;
         private System.Windows.Forms.CheckBox Casesensitive;
         private System.Windows.Forms.TreeView Captures;
         private System.Windows.Forms.Button FindBtn;
+        private System.Windows.Forms.ToolStripStatusLabel Status;
+        private System.Windows.Forms.StatusStrip statusStrip1;
     }
 }
 
