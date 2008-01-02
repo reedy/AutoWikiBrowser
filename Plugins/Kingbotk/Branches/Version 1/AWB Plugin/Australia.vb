@@ -333,7 +333,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         End Property
         Protected Overrides ReadOnly Property CategoryTalkClassParm() As String
             Get
-                Return "NA"
+                Return "cat"
             End Get
         End Property
         Protected Overrides ReadOnly Property TemplateTalkClassParm() As String
