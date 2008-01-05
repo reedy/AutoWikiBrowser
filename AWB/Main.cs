@@ -2146,13 +2146,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void filterOutNonMainSpaceToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            listMaker1.FilterNonMainAuto = filterOutNonMainSpaceToolStripMenuItem.Checked;
+            
             if (filterOutNonMainSpaceToolStripMenuItem.Checked)
-            {
-                listMaker1.FilterNonMainAuto = true;
                 listMaker1.FilterNonMainArticles();
-            }
-            else
-                listMaker1.FilterNonMainAuto = false;
         }
 
         private void specialFilterToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -2172,13 +2169,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void sortAlphabeticallyToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            listMaker1.AutoAlpha = sortAlphabeticallyToolStripMenuItem.Checked;
+
             if (sortAlphabeticallyToolStripMenuItem.Checked)
-            {
-                listMaker1.AutoAlpha = true;
                 listMaker1.AlphaSortList();
-            }
-            else
-                listMaker1.AutoAlpha = false;
         }
 
         private void saveListToTextFileToolStripMenuItem_Click(object sender, EventArgs e)

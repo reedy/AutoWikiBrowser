@@ -291,7 +291,7 @@ namespace WikiFunctions.AWBSettings
             System.Windows.Forms.ComboBox.ObjectCollection mSummaries, string mSelectedSummary,
             string[] mPasteMore, string mFindText, bool mFindRegex, bool mFindCaseSensitive, bool mWordWrap,
             bool mToolBarEnabled, bool mBypassRedirect, bool mNoAutoChanges, int mOnLoadAction, bool mMinor,
-            bool mWatch, bool mTimerEnabled, bool mSortInterwikiOrder, bool mAddIgnoredToLog, int mTextBoxSize,
+            bool mWatch, bool mTimerEnabled, bool mSortListAlphabetically, bool mAddIgnoredToLog, int mTextBoxSize,
             string mTextBoxFont, bool mLowThreadPriority, bool mBeep, bool mFlash, bool mMinimize,
             decimal mTimeOutLimit, bool autoSaveEditBoxEnabled, decimal autoSaveEditBoxPeriod,
             string autoSaveEditBoxFile, List<string> mCustomWikis, bool mLockSummary, bool mEditToolbarEnabled, bool mSupressUsingAWB, bool mfilterNonMainSpace)
@@ -315,7 +315,7 @@ namespace WikiFunctions.AWBSettings
             Minor = mMinor;
             Watch = mWatch;
             TimerEnabled = mTimerEnabled;
-            SortInterwikiOrder = mSortInterwikiOrder;
+            SortListAlphabetically = mSortListAlphabetically;
             AddIgnoredToLog = mAddIgnoredToLog;
             TextBoxSize = mTextBoxSize;
             TextBoxFont = mTextBoxFont;
@@ -352,7 +352,7 @@ namespace WikiFunctions.AWBSettings
         public bool Minor = false;
         public bool Watch = false;
         public bool TimerEnabled = false;
-        public bool SortInterwikiOrder = true;
+        public bool SortListAlphabetically = true;
         public bool AddIgnoredToLog = false;
         public bool EditToolbarEnabled = true;
         public bool filterNonMainSpace = false;

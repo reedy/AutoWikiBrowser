@@ -462,7 +462,10 @@ namespace AutoWikiBrowser
             addAllToWatchlistToolStripMenuItem.Checked = p.General.Watch;
             showTimerToolStripMenuItem.Checked = p.General.TimerEnabled;
             ShowTimer();
-            sortAlphabeticallyToolStripMenuItem.Checked = p.General.SortInterwikiOrder;
+
+            sortAlphabeticallyToolStripMenuItem.Checked = p.General.SortListAlphabetically;
+            sortAlphabeticallyToolStripMenuItem_Click(null, null);
+
             addIgnoredToLogFileToolStripMenuItem.Checked = p.General.AddIgnoredToLog;
 
             AutoSaveEditBoxEnabled = p.General.AutoSaveEdit.Enabled;
@@ -470,7 +473,9 @@ namespace AutoWikiBrowser
             AutoSaveEditBoxFile = p.General.AutoSaveEdit.SaveFile;
 
             SupressUsingAWB = p.General.SupressUsingAWB;
+
             filterOutNonMainSpaceToolStripMenuItem.Checked = p.General.filterNonMainSpace;
+            filterOutNonMainSpaceToolStripMenuItem_Click(null, null);
 
             CustomWikis = p.General.CustomWikis;
 
