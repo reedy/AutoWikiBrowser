@@ -352,7 +352,7 @@ namespace WikiFunctions.AWBSettings
         public bool Minor = false;
         public bool Watch = false;
         public bool TimerEnabled = false;
-        public bool SortListAlphabetically = true;
+        public bool SortListAlphabetically = false;
         public bool AddIgnoredToLog = false;
         public bool EditToolbarEnabled = true;
         public bool filterNonMainSpace = false;
