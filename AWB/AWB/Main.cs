@@ -1653,17 +1653,13 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             {
                 intWords = Tools.WordCount(articleText);
 
-                foreach (Match m in Regex.Matches(articleText, "\\[\\[" + Variables.Namespaces[14], RegexOptions.IgnoreCase))
-                    intCats++;
+                intCats = Regex.Matches(articleText, "\\[\\[" + Variables.Namespaces[14], RegexOptions.IgnoreCase).Count;
 
-                foreach (Match m in Regex.Matches(articleText, "\\[\\[" + Variables.Namespaces[6], RegexOptions.IgnoreCase))
-                    intImages++;
+                intImages = Regex.Matches(articleText, "\\[\\[" + Variables.Namespaces[6], RegexOptions.IgnoreCase).Count;
 
-                foreach (Match m in WikiRegexes.InterWikiLinks.Matches(articleText))
-                    intInterLinks++;
+                intInterLinks = WikiRegexes.InterWikiLinks.Matches(articleText).Count;
 
-                foreach (Match m in WikiRegexes.WikiLinksOnly.Matches(articleText))
-                    intLinks++;
+                intLinks = WikiRegexes.WikiLinksOnly.Matches(articleText).Count;
 
                 intLinks = intLinks - intInterLinks - intImages - intCats;
 
