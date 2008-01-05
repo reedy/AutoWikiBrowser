@@ -1062,7 +1062,7 @@ namespace WikiFunctions.Controls.Lists
             {
                 string url = Variables.URL + "/wiki/";
 
-                string textTba = Clipboard.GetDataObject().GetData(DataFormats.Text).ToString();
+                string textTba = Clipboard.GetDataObject().GetData(DataFormats.UnicodeText).ToString();
                 string[] splitter = { "\r\n", "|" };
 
                 string[] splitTextTBA = textTba.Split(splitter, StringSplitOptions.RemoveEmptyEntries);
