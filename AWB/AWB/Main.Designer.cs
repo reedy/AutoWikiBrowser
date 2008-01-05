@@ -982,6 +982,7 @@ namespace AutoWikiBrowser
             this.filterOutNonMainSpaceToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
             this.filterOutNonMainSpaceToolStripMenuItem.Text = "Filter out non main space";
             this.filterOutNonMainSpaceToolStripMenuItem.Click += new System.EventHandler(this.filterOutNonMainSpaceToolStripMenuItem_Click);
+            this.filterOutNonMainSpaceToolStripMenuItem.CheckedChanged += new System.EventHandler(filterOutNonMainSpaceToolStripMenuItem_Click);
             // 
             // specialFilterToolStripMenuItem1
             // 
@@ -1011,6 +1012,7 @@ namespace AutoWikiBrowser
             this.sortAlphabeticallyToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
             this.sortAlphabeticallyToolStripMenuItem.Text = "Sort alphabetically";
             this.sortAlphabeticallyToolStripMenuItem.Click += new System.EventHandler(this.sortAlphabeticallyToolStripMenuItem_Click);
+            this.sortAlphabeticallyToolStripMenuItem.CheckedChanged += new System.EventHandler(this.sortAlphabeticallyToolStripMenuItem_Click);
             // 
             // saveListToTextFileToolStripMenuItem
             // 

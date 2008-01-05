@@ -153,8 +153,13 @@ namespace AutoWikiBrowser
             showTimerToolStripMenuItem.Checked = false;
             ShowTimer();
             alphaSortInterwikiLinksToolStripMenuItem.Checked = true;
+
             addIgnoredToLogFileToolStripMenuItem.Checked = false;
             showHideEditToolbarToolStripMenuItem.Checked = true;
+
+            filterOutNonMainSpaceToolStripMenuItem.Checked = false;
+            sortAlphabeticallyToolStripMenuItem.Checked = false;
+
             EditToolBarVisible = true;
 
             PasteMore1.Text = "";
@@ -464,7 +469,6 @@ namespace AutoWikiBrowser
             ShowTimer();
 
             sortAlphabeticallyToolStripMenuItem.Checked = p.General.SortListAlphabetically;
-            sortAlphabeticallyToolStripMenuItem_Click(null, null);
 
             addIgnoredToLogFileToolStripMenuItem.Checked = p.General.AddIgnoredToLog;
 
@@ -475,7 +479,6 @@ namespace AutoWikiBrowser
             SupressUsingAWB = p.General.SupressUsingAWB;
 
             filterOutNonMainSpaceToolStripMenuItem.Checked = p.General.filterNonMainSpace;
-            filterOutNonMainSpaceToolStripMenuItem_Click(null, null);
 
             CustomWikis = p.General.CustomWikis;
 
