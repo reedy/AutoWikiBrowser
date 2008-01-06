@@ -108,6 +108,10 @@ namespace AutoWikiBrowser
                 return retval;
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <returns></returns>
             internal static int Count()
             {
                 return Items.Count;
