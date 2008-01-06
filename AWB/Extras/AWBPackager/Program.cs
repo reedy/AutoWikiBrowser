@@ -38,7 +38,7 @@ namespace AWBPackager
                 string currFolder;
                 Directory.CreateDirectory(Tmp);
 
-                File.Copy(AWBDir + "COPYING", Tmp + "COPYING", true);
+                //File.Copy(AWBDir + "COPYING", Tmp + "COPYING", true);
 
                 currFolder = AWBDir + "AWB\\bin\\Release\\";
 

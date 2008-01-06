@@ -109,6 +109,12 @@
       <DependentUpon>LoggingSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="MyTrace.cs" />
+    <Compile Include="PluginManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PluginManager.Designer.cs">
+      <DependentUpon>PluginManager.cs</DependentUpon>
+    </Compile>
     <Compile Include="ShutdownNotification.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -162,6 +168,10 @@
     <EmbeddedResource Include="Main.resx">
       <SubType>Designer</SubType>
       <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PluginManager.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PluginManager.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Preferences.resx">
       <SubType>Designer</SubType>

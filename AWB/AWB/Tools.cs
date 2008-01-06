@@ -41,7 +41,7 @@ namespace AutoWikiBrowser
             MatchObj = null;
         }
 
-        public static void Find1(string strRegex, bool isRegex, bool caseSensive, 
+        public static void Find1(string strRegex, bool isRegex, bool caseSensive,
             System.Windows.Forms.TextBox txtEdit, string ArticleName)
         {
             string ArticleText = txtEdit.Text;
@@ -108,24 +108,64 @@ namespace AutoWikiBrowser
                 return retval;
             }
 
-            internal static bool LoadPlugins(IAutoWikiBrowser awb)
+            internal static int Count()
+            {
+                return Items.Count;
+            }
+
+            internal static List<string> GetPluginList()
+            {
+                List<string> plugins = new List<string>();
+
+                foreach (KeyValuePair<string, IAWBPlugin> a in Items)
+                {
+                    plugins.Add(a.Key);
+                }
+
+                return plugins;
+            }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="awb"></param>
+            /// <returns></returns>
+            internal static void LoadPlugins(IAutoWikiBrowser awb)
+            {
+                string path = Application.StartupPath;
+                string[] pluginFiles = Directory.GetFiles(path, "*.DLL");
+
+                LoadPlugins(awb, pluginFiles, false);
+            }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="awb"></param>
+            /// <param name="Plugin"></param>
+            internal static void LoadPlugin(IAutoWikiBrowser awb, string Plugin)
+            {
+                LoadPlugins(awb, new string[] { Plugin }, true);
+            }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="awb"></param>
+            /// <param name="Plugins"></param>
+            internal static void LoadPlugins(IAutoWikiBrowser awb, string[] Plugins, bool afterStartup)
             {
                 try
                 {
-                    string path = Application.StartupPath;
-                    string[] pluginFiles = Directory.GetFiles(path, "*.DLL");
-
-                    foreach (string s in pluginFiles)
+                    foreach (string Plugin in Plugins)
                     {
-                        if (s.EndsWith("DotNetWikiBot.dll") || s.EndsWith("Diff.dll"))
+                        if (Plugin.EndsWith("DotNetWikiBot.dll") || Plugin.EndsWith("Diff.dll"))
                             continue;
-
-                        string imFile = Path.GetFileName(s);
 
                         Assembly asm = null;
                         try
                         {
-                            asm = Assembly.LoadFile(path + "\\" + imFile);
+                            asm = Assembly.LoadFile(Plugin);
                         }
                         catch { }
 
@@ -135,12 +175,14 @@ namespace AutoWikiBrowser
 
                             foreach (Type t in types)
                             {
-                                Type g = t.GetInterface("IAWBPlugin");
-
-                                if (g != null)
+                                if (t.GetInterface("IAWBPlugin") != null)
                                 {
                                     IAWBPlugin plugin = (IAWBPlugin)Activator.CreateInstance(t);
                                     Items.Add(plugin.Name, plugin);
+
+                                    //Load Plugin one off if not loading at startup
+                                    if (afterStartup)
+                                        Items[plugin.Name].Initialise(awb);
                                 }
                             }
                         }
@@ -151,12 +193,14 @@ namespace AutoWikiBrowser
                     MessageBox.Show(ex.Message, "Problem loading plugin");
                 }
 
-                foreach (KeyValuePair<string, IAWBPlugin> a in Items)
+                //Load all Plugins as loading at startup
+                if (!afterStartup)
                 {
-                    a.Value.Initialise(awb);
+                    foreach (KeyValuePair<string, IAWBPlugin> a in Items)
+                    {
+                        a.Value.Initialise(awb);
+                    }
                 }
-
-                return (Items.Count > 0);
             }
         }
     }
