@@ -231,7 +231,7 @@ namespace AutoWikiBrowser
                     this.Size = Properties.Settings.Default.WindowSize;
 
                 Debug();
-                pluginsToolStripMenuItem.Visible = Plugin.LoadPlugins(this);
+                Plugin.LoadPlugins(this);
 
                 LoadPrefs();
 
@@ -3761,6 +3761,17 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
             MessageBox.Show("Results are saved in the file 'typos.txt'", "Profiling complete",
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void loadPluginToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PluginManager.LoadNewPlugin(this);
+        }
+
+        private void managePluginsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PluginManager manager = new PluginManager(this);
+            manager.ShowDialog(this);
         }
     }
 }
