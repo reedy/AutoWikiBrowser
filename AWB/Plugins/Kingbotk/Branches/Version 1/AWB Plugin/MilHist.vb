@@ -688,7 +688,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Friend Sub New(ByVal Manager As PluginManager)
             MyBase.New()
 
-            Const RegexpMiddle As String = "WPMILHIST|WikiProject Military History|WikiProject Military history"
+            Const RegexpMiddle As String = "WPMILHIST|WikiProject Military History"
 
             MainRegex = CreateStandardRegex(RegexpMiddle)
             PreferredTemplateNameRegex = New Regex("^[Ww]PMILHIST$", RegexOptions.Compiled)
