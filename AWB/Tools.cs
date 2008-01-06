@@ -117,7 +117,7 @@ namespace AutoWikiBrowser
 
                     foreach (string s in pluginFiles)
                     {
-                        if (s.EndsWith("DotNetWikiBot.dll") || s.EndsWith("Wikidiff2.dll"))
+                        if (s.EndsWith("DotNetWikiBot.dll") || s.EndsWith("Diff.dll"))
                             continue;
 
                         string imFile = Path.GetFileName(s);
