@@ -1206,7 +1206,7 @@ namespace WikiFunctions.Controls.Lists
                 loadArticlesInBrowser();
             else
             {
-                if (MessageBox.Show("Opening " + lbArticles.SelectedItems.Count + " at once could cause your system to run slowly, and even stop responding.\r\nAre you sure you want to continue?", "Continue?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (MessageBox.Show("Opening " + lbArticles.SelectedItems.Count + " articles in your browser at once could cause your system to run slowly, and even stop responding.\r\nAre you sure you want to continue?", "Continue?", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     loadArticlesInBrowser();
             }
         }
