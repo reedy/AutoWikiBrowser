@@ -274,13 +274,13 @@ namespace AutoWikiBrowser
             this.toolStripMenuItemCategoryPaste,
             this.toolStripMenuItemCategoryClear});
             this.CategoryTextboxContextMenuStrip.Name = "ContextMenuStrip1";
-            this.CategoryTextboxContextMenuStrip.Size = new System.Drawing.Size(145, 92);
+            this.CategoryTextboxContextMenuStrip.Size = new System.Drawing.Size(153, 114);
             // 
             // toolStripMenuItemCategoryCut
             // 
             this.toolStripMenuItemCategoryCut.Name = "toolStripMenuItemCategoryCut";
             this.toolStripMenuItemCategoryCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.toolStripMenuItemCategoryCut.Size = new System.Drawing.Size(144, 22);
+            this.toolStripMenuItemCategoryCut.Size = new System.Drawing.Size(152, 22);
             this.toolStripMenuItemCategoryCut.Text = "Cut";
             this.toolStripMenuItemCategoryCut.Click += new System.EventHandler(this.toolStripMenuItemCategoryCut_Click);
             // 
@@ -288,25 +288,25 @@ namespace AutoWikiBrowser
             // 
             this.toolStripMenuItemCategoryCopy.Name = "toolStripMenuItemCategoryCopy";
             this.toolStripMenuItemCategoryCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.toolStripMenuItemCategoryCopy.Size = new System.Drawing.Size(144, 22);
+            this.toolStripMenuItemCategoryCopy.Size = new System.Drawing.Size(152, 22);
             this.toolStripMenuItemCategoryCopy.Text = "Copy";
-            this.toolStripMenuItemCategoryCopy.Click += new System.EventHandler(this.toolStripMenuItemCategoryCut_Click);
+            this.toolStripMenuItemCategoryCopy.Click += new System.EventHandler(this.toolStripMenuItemCategoryCopy_Click);
             // 
             // toolStripMenuItemCategoryPaste
             // 
             this.toolStripMenuItemCategoryPaste.Name = "toolStripMenuItemCategoryPaste";
             this.toolStripMenuItemCategoryPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.toolStripMenuItemCategoryPaste.Size = new System.Drawing.Size(144, 22);
+            this.toolStripMenuItemCategoryPaste.Size = new System.Drawing.Size(152, 22);
             this.toolStripMenuItemCategoryPaste.Text = "Paste";
-            this.toolStripMenuItemCategoryPaste.Click += new System.EventHandler(this.toolStripMenuItemCategoryCut_Click);
+            this.toolStripMenuItemCategoryPaste.Click += new System.EventHandler(this.toolStripMenuItemCategoryPaste_Click);
             // 
             // toolStripMenuItemCategoryClear
             // 
             this.toolStripMenuItemCategoryClear.Name = "toolStripMenuItemCategoryClear";
             this.toolStripMenuItemCategoryClear.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.toolStripMenuItemCategoryClear.Size = new System.Drawing.Size(144, 22);
+            this.toolStripMenuItemCategoryClear.Size = new System.Drawing.Size(152, 22);
             this.toolStripMenuItemCategoryClear.Text = "Clear";
-            this.toolStripMenuItemCategoryClear.Click += new System.EventHandler(this.toolStripMenuItemCategoryCut_Click);
+            this.toolStripMenuItemCategoryClear.Click += new System.EventHandler(this.toolStripMenuItemCategoryClear_Click);
             // 
             // UploadWikiProjectCheckBox
             // 
