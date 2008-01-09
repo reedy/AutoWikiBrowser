@@ -39,7 +39,7 @@ namespace WikiFunctions.AWBSettings
     public class UserPrefs
     {
         // the internal constructors are used during deserialisation or when a blank object is required
-        internal UserPrefs()
+        public UserPrefs()
         {
             FindAndReplace = new FaRPrefs();
             Editprefs = new EditPrefs();

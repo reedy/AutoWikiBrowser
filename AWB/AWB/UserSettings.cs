@@ -213,7 +213,7 @@ namespace AutoWikiBrowser
             }
 
             cModule.ModuleEnabled = false;
-            this.Text = "AutoWikiBrowser - Default.xml";
+            this.Text = "AutoWikiBrowser";
             lblStatusText.Text = "Default settings loaded.";
         }
 
@@ -580,7 +580,7 @@ namespace AutoWikiBrowser
             if (!string.IsNullOrEmpty(SettingsFile))
                 LoadPrefs(SettingsFile);
             else
-                return;
+                LoadPrefs(new UserPrefs());
         }
 
         /// <summary>
