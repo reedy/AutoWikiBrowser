@@ -813,7 +813,7 @@ Message: {2}
         /// </summary>
         public static string StringBetween(string source, string start, string end)
         {
-            int startPos = source.IndexOf(start);
+            int startPos = source.IndexOf(start) + start.Length;
             int endPos = source.IndexOf(end);
 
             if (startPos >= 0 && endPos >= 0 && startPos <= endPos)
