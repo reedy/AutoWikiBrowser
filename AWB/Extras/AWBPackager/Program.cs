@@ -28,13 +28,16 @@ namespace AWBPackager
 {
     class Program
     {
-        const string AWBDir = "D:\\Programming\\SVN\\AWB\\AWB\\";
-        const string Tmp = "temp\\";
+        static string AWBDir = "";
+        static string Tmp = "temp\\";
 
         static void Main()
         {
             try
             {
+                AWBDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase).Replace("file:\\", "");
+                Tmp = AWBDir + "\\" + Tmp;
+                AWBDir = AWBDir.Remove(AWBDir.IndexOf("\\Extras")) + "\\";
                 string currFolder;
                 Directory.CreateDirectory(Tmp);
 

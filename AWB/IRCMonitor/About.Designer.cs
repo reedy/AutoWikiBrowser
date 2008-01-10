@@ -93,7 +93,7 @@ namespace IrcMonitor
             // labelCopyright
             // 
             this.labelCopyright.AutoSize = true;
-            this.labelCopyright.Location = new System.Drawing.Point(13, 286);
+            this.labelCopyright.Location = new System.Drawing.Point(12, 309);
             this.labelCopyright.Name = "labelCopyright";
             this.labelCopyright.Size = new System.Drawing.Size(51, 13);
             this.labelCopyright.TabIndex = 5;
@@ -122,12 +122,12 @@ namespace IrcMonitor
             this.labelVersion.TabIndex = 7;
             this.labelVersion.Text = "Version";
             // 
-            // AboutIRCMon
+            // AboutIrcMon
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(550, 311);
+            this.ClientSize = new System.Drawing.Size(550, 331);
             this.Controls.Add(this.labelVersion);
             this.Controls.Add(this.textBoxDescription);
             this.Controls.Add(this.labelCopyright);
@@ -141,7 +141,7 @@ namespace IrcMonitor
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "AboutIRCMon";
+            this.Name = "AboutIrcMon";
             this.Padding = new System.Windows.Forms.Padding(9);
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
