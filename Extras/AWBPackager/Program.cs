@@ -37,7 +37,7 @@ namespace AWBPackager
             {
                 AWBDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase).Replace("file:\\", "");
                 Tmp = AWBDir + "\\" + Tmp;
-                AWBDir = AWBDir.Remove(AWBDir.IndexOf("\\Extras")) + "\\";
+                AWBDir = AWBDir.Remove(AWBDir.IndexOf("Extras"));
                 string currFolder;
                 Directory.CreateDirectory(Tmp);
 
