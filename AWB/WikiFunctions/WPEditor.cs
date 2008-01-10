@@ -15,11 +15,11 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-/*' Problems with the Editor class:
-' No login-status variable
-' Minimal or even no error handling
-' I think it has to load at least one extra page than is optimal
-' OTOH: It's simple and does the job. If anyone can fix this up to make it better, please do...
+/*Problems with the Editor class:
+No login-status variable
+Minimal or even no error handling
+I think it has to load at least one extra page than is optimal
+OTOH: It's simple and does the job. If anyone can fix this up to make it better, please do...
 */
 
 using System;

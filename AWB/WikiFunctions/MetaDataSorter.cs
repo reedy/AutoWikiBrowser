@@ -209,8 +209,8 @@ namespace WikiFunctions.Parse
             {
                 string text = Tools.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/IW&action=raw");
 
-                string interwikiLocalAlphaRaw = remExtra(Tools.StringBetween(text, "<!--InterwikiLocalAlphaBegins-->", "<!--InterwikiLocalAlphaEnds-->").Replace("<!--InterwikiLocalAlphaBegins-->", ""));
-                string interwikiLocalFirstRaw = remExtra(Tools.StringBetween(text, "<!--InterwikiLocalFirstBegins-->", "<!--InterwikiLocalFirstEnds-->").Replace("<!--InterwikiLocalFirstBegins--", ""));
+                string interwikiLocalAlphaRaw = remExtra(Tools.StringBetween(text, "<!--InterwikiLocalAlphaBegins-->", "<!--InterwikiLocalAlphaEnds-->"));
+                string interwikiLocalFirstRaw = remExtra(Tools.StringBetween(text, "<!--InterwikiLocalFirstBegins-->", "<!--InterwikiLocalFirstEnds-->"));
 
                 int no = 0;
                 int size = IWSplit.Matches(interwikiLocalFirstRaw).Count + 1;
@@ -254,7 +254,7 @@ namespace WikiFunctions.Parse
 
         private string remExtra(string Input)
         {
-            return Input.Replace("\r\n", "").Replace(">", "");
+            return Input.Replace("\r\n", "").Replace(">", "").Replace("\n", "");
         }
 
         private string Newline(string s)
