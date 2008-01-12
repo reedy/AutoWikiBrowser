@@ -161,6 +161,7 @@ namespace AutoWikiBrowser
             this.toolStripSeparator21 = new System.Windows.Forms.ToolStripSeparator();
             this.reloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.managePluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadPluginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator26 = new System.Windows.Forms.ToolStripSeparator();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -355,7 +356,6 @@ namespace AutoWikiBrowser
             this.panel1 = new System.Windows.Forms.Panel();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
-            this.managePluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -1294,6 +1294,13 @@ namespace AutoWikiBrowser
             this.pluginsToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
             this.pluginsToolStripMenuItem.Text = "Plugins";
             // 
+            // managePluginsToolStripMenuItem
+            // 
+            this.managePluginsToolStripMenuItem.Name = "managePluginsToolStripMenuItem";
+            this.managePluginsToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.managePluginsToolStripMenuItem.Text = "Manage Plugins";
+            this.managePluginsToolStripMenuItem.Click += new System.EventHandler(this.managePluginsToolStripMenuItem_Click);
+            // 
             // loadPluginToolStripMenuItem
             // 
             this.loadPluginToolStripMenuItem.Name = "loadPluginToolStripMenuItem";
@@ -1498,7 +1505,7 @@ namespace AutoWikiBrowser
             this.btnStart.Size = new System.Drawing.Size(117, 23);
             this.btnStart.TabIndex = 6;
             this.btnStart.Tag = "Start the process";
-            this.btnStart.Text = "Start the Process";
+            this.btnStart.Text = "Start";
             this.toolTip1.SetToolTip(this.btnStart, "Start the process!");
             this.btnStart.UseVisualStyleBackColor = false;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
@@ -1513,7 +1520,7 @@ namespace AutoWikiBrowser
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(117, 23);
             this.btnStop.TabIndex = 28;
-            this.btnStop.Text = "Stop Everything";
+            this.btnStop.Text = "Stop";
             this.toolTip1.SetToolTip(this.btnStop, "Stops everything  (Shortcut escape)");
             this.btnStop.UseVisualStyleBackColor = false;
             this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
@@ -2944,6 +2951,7 @@ namespace AutoWikiBrowser
             this.btnWatch.TabIndex = 38;
             this.btnWatch.Text = "Watch";
             this.btnWatch.UseVisualStyleBackColor = true;
+            this.btnWatch.Visible = false;
             this.btnWatch.Click += new System.EventHandler(this.btnWatch_Click);
             // 
             // lblSummary
@@ -3451,13 +3459,6 @@ namespace AutoWikiBrowser
             // 
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
-            // 
-            // managePluginsToolStripMenuItem
-            // 
-            this.managePluginsToolStripMenuItem.Name = "managePluginsToolStripMenuItem";
-            this.managePluginsToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
-            this.managePluginsToolStripMenuItem.Text = "Manage Plugins";
-            this.managePluginsToolStripMenuItem.Click += new System.EventHandler(this.managePluginsToolStripMenuItem_Click);
             // 
             // MainForm
             // 
