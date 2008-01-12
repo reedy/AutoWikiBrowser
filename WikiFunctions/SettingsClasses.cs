@@ -294,7 +294,8 @@ namespace WikiFunctions.AWBSettings
             bool mWatch, bool mTimerEnabled, bool mSortListAlphabetically, bool mAddIgnoredToLog, int mTextBoxSize,
             string mTextBoxFont, bool mLowThreadPriority, bool mBeep, bool mFlash, bool mMinimize,
             decimal mTimeOutLimit, bool autoSaveEditBoxEnabled, decimal autoSaveEditBoxPeriod,
-            string autoSaveEditBoxFile, List<string> mCustomWikis, bool mLockSummary, bool mEditToolbarEnabled, bool mSupressUsingAWB, bool mfilterNonMainSpace)
+            string autoSaveEditBoxFile, List<string> mCustomWikis, bool mLockSummary, bool mEditToolbarEnabled, bool mSupressUsingAWB, bool mfilterNonMainSpace,
+            bool mSortInterWikiOrder, bool mReplaceReferenceTags)
         {
             SaveArticleList = mSaveArticleList;
             IgnoreNoBots = mIgnoreNoBots;
@@ -331,6 +332,9 @@ namespace WikiFunctions.AWBSettings
             EditToolbarEnabled = mEditToolbarEnabled;
             SupressUsingAWB = mSupressUsingAWB;
             filterNonMainSpace = mfilterNonMainSpace;
+
+            SortInterWikiOrder = mSortInterWikiOrder;
+            ReplaceReferenceTags = mReplaceReferenceTags;
         }
 
         public EditBoxAutoSavePrefs AutoSaveEdit;
@@ -368,6 +372,9 @@ namespace WikiFunctions.AWBSettings
         public bool SupressUsingAWB = false;
         public decimal TimeOutLimit = 30;
         public bool IgnoreNoBots = false;
+
+        public bool SortInterWikiOrder = true;
+        public bool ReplaceReferenceTags = true;
 
         public List<string> CustomWikis = new List<string>();
     }

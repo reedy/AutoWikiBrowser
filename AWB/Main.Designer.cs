@@ -145,6 +145,7 @@ namespace AutoWikiBrowser
             this.showTimerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.alphaSortInterwikiLinksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.replaceReferenceTagsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.addIgnoredToLogFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.summariesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1066,6 +1067,7 @@ namespace AutoWikiBrowser
             this.showTimerToolStripMenuItem,
             this.toolStripSeparator7,
             this.alphaSortInterwikiLinksToolStripMenuItem,
+            this.replaceReferenceTagsToolStripMenuItem,
             this.toolStripSeparator11,
             this.addIgnoredToLogFileToolStripMenuItem,
             this.summariesToolStripMenuItem,
@@ -1172,6 +1174,15 @@ namespace AutoWikiBrowser
             this.alphaSortInterwikiLinksToolStripMenuItem.Size = new System.Drawing.Size(264, 22);
             this.alphaSortInterwikiLinksToolStripMenuItem.Text = "Sort interwiki link order";
             this.alphaSortInterwikiLinksToolStripMenuItem.CheckStateChanged += new System.EventHandler(this.alphaSortInterwikiLinksToolStripMenuItem_CheckStateChanged);
+            // 
+            // replaceReferenceTagsToolStripMenuItem
+            // 
+            this.replaceReferenceTagsToolStripMenuItem.Checked = true;
+            this.replaceReferenceTagsToolStripMenuItem.CheckOnClick = true;
+            this.replaceReferenceTagsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.replaceReferenceTagsToolStripMenuItem.Name = "replaceReferenceTagsToolStripMenuItem";
+            this.replaceReferenceTagsToolStripMenuItem.Size = new System.Drawing.Size(264, 22);
+            this.replaceReferenceTagsToolStripMenuItem.Text = "Replace Reference Tags";
             // 
             // toolStripSeparator11
             // 
@@ -3869,5 +3880,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem loadPluginToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator26;
         private System.Windows.Forms.ToolStripMenuItem managePluginsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem replaceReferenceTagsToolStripMenuItem;
     }
 }

@@ -231,7 +231,8 @@ namespace AutoWikiBrowser
                 showTimerToolStripMenuItem.Checked, sortAlphabeticallyToolStripMenuItem.Checked,
                 addIgnoredToLogFileToolStripMenuItem.Checked, (int)txtEdit.Font.Size, txtEdit.Font.Name,
                 LowThreadPriority, Beep, Flash, Minimize, TimeOut, AutoSaveEditBoxEnabled, AutoSaveEditBoxPeriod,
-                AutoSaveEditBoxFile, CustomWikis, chkLock.Checked, EditToolBarVisible, SupressUsingAWB, filterOutNonMainSpaceToolStripMenuItem.Checked), new DabPrefs(chkEnableDab.Checked,
+                AutoSaveEditBoxFile, CustomWikis, chkLock.Checked, EditToolBarVisible, SupressUsingAWB, filterOutNonMainSpaceToolStripMenuItem.Checked,
+                alphaSortInterwikiLinksToolStripMenuItem.Checked,replaceReferenceTagsToolStripMenuItem.Checked), new DabPrefs(chkEnableDab.Checked,
                 txtDabLink.Text, txtDabVariants.Lines, (int)udContextChars.Value), new ModulePrefs(
                 cModule.ModuleEnabled, cModule.Language, cModule.Code), loggingSettings1.SerialisableSettings, 
                 Plugin.Items);
@@ -365,6 +366,9 @@ namespace AutoWikiBrowser
             SupressUsingAWB = p.General.SupressUsingAWB;
 
             filterOutNonMainSpaceToolStripMenuItem.Checked = p.General.filterNonMainSpace;
+
+            alphaSortInterwikiLinksToolStripMenuItem.Checked = p.General.SortInterWikiOrder;
+            replaceReferenceTagsToolStripMenuItem.Checked = p.General.ReplaceReferenceTags;
 
             CustomWikis = p.General.CustomWikis;
 
