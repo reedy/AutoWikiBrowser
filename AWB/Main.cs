@@ -61,7 +61,11 @@ namespace AutoWikiBrowser
 
         private static bool Abort;
 
-        private Profiler prof = new Profiler();
+        #if DEBUG
+            private Profiler prof;
+        #else
+            private Profiler prof = new Profiler();
+        #endif
 
         private static string LastArticle = "";
         private static string SettingsFile = "";
@@ -895,8 +899,10 @@ namespace AutoWikiBrowser
         {
             bool process = true;
 
-            prof.AddLog("--------------------------------------");
-            prof.Start("ProcessPage(\"" + theArticle.Name + "\")");
+            #if DEBUG
+                prof.Start("ProcessPage(\"" + theArticle.Name + "\")");
+            #endif
+
             try
             {
                 if (noParse.Contains(theArticle.Name))
@@ -1826,7 +1832,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             bypassAllRedirectsToolStripMenuItem.Enabled = true;
             profileTyposToolStripMenuItem.Visible = true;
 
-            prof = new Profiler("profiling.txt", true);
+            #if DEBUG
+                prof = new Profiler("profiling.txt", true);
+            #endif
         }
 
         #endregion
