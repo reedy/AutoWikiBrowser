@@ -824,7 +824,7 @@ namespace WikiFunctions.Browser
                 this.AllowNavigation = false;
             else if (ProcessStage == enumProcessStage.load)
             {
-                TalkPageExists = RegexArticleTalkExists.IsMatch(this.Document.Body.InnerHtml);
+                TalkPageExists = !RegexArticleTalkExists.IsMatch(this.Document.Body.InnerHtml);
 
                 ArticlePageExists = !RegexArticleExists.IsMatch(this.Document.Body.InnerHtml);
 
