@@ -226,7 +226,7 @@ namespace WikiFunctions.Parse
 
             if (!string.IsNullOrEmpty(strSummary))
             {
-                strSummary = ", typos fixed: " + strSummary.Trim();
+                strSummary = Variables.TypoSummaryTag + strSummary.Trim();
                 Summary = strSummary;
             }
 
