@@ -2682,7 +2682,15 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 if (RegexTypos == null || Reload)
                 {
                     RegexTypos = new RegExTypoFix();
-                    lblStatusText.Text = RegexTypos.TyposCount.ToString() + " typos loaded";
+                    if (RegexTypos.TyposLoaded)
+                    {
+                        lblStatusText.Text = RegexTypos.TyposCount.ToString() + " typos loaded";
+                    }
+                    else
+                    {
+                        chkRegExTypo.Checked = chkSkipIfNoRegexTypo.Enabled = false;
+                        RegexTypos = null;
+                    }
                 }
             }
         }
