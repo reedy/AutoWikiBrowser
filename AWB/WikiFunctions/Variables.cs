@@ -163,6 +163,12 @@ namespace WikiFunctions
 
         private static string strsummarytag = " using ";
         private static string strWPAWB = "[[Project:AWB|AWB]]";
+
+        private static string strTypoSummaryTag = ", typos fixed: ";
+
+        public static string TypoSummaryTag
+        { get { return strTypoSummaryTag; } }
+
         /// <summary>
         /// Gets the tag to add to the edit summary, e.g. " using [[Wikipedia:AutoWikiBrowser|AWB]]".
         /// </summary>
@@ -440,6 +446,8 @@ namespace WikiFunctions
                         Namespaces[15] = "Kategorie Diskussion:";
                         Namespaces[100] = "Portal:";
                         Namespaces[101] = "Portal Diskussion:";
+
+                        //strTypoSummaryTag = "auf deustche, bitte!";
                         break;
 
                     case LangCodeEnum.es:
