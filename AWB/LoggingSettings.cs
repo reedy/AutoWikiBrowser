@@ -163,7 +163,7 @@ namespace AutoWikiBrowser
                 }
                 else
                 {
-                    GlobalObjects.AWB.NotifyBalloon("Folder doesn't exist, using previous setting (" + 
+                    Program.AWB.NotifyBalloon("Folder doesn't exist, using previous setting (" + 
                         Settings.LogFolder + ")", ToolTipIcon.Warning);
                     FolderTextBox.Text = Settings.LogFolder;
                 }
@@ -188,13 +188,13 @@ namespace AutoWikiBrowser
             Settings.DebugUploading = DebugUploadingCheckBox.Checked;
 
             if (mInitialised)
-                GlobalObjects.MyTrace.PropertiesChange(blnJobNameHasChanged);
+                Program.MyTrace.PropertiesChange(blnJobNameHasChanged);
         }
         internal void WEHaveUnappliedChanges()
         {
             if (!mStartingUp)
             {
-                if (GlobalObjects.MyTrace.HaveOpenFile)
+                if (Program.MyTrace.HaveOpenFile)
                 {
                     ApplyButton.Enabled = true;
                     ApplyButton.BackColor = System.Drawing.Color.Red;
@@ -363,7 +363,7 @@ namespace AutoWikiBrowser
 
                 // If "uploading to WikiProjects" (or other plugin-specified locations), get details from plugins:
                 if (mUploadToWikiProjects)
-                    ((MainForm)GlobalObjects.AWB).GetLogUploadLocationsEvent(tempLinksToLog);
+                    ((MainForm)Program.AWB).GetLogUploadLocationsEvent(tempLinksToLog);
 
                 return tempLinksToLog;
             }

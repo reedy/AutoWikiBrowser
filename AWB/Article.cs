@@ -10,12 +10,12 @@ namespace AutoWikiBrowser
     internal sealed class ArticleEX : WikiFunctions.Article
     {
         public override IAWBTraceListener Trace
-        { get { return GlobalObjects.MyTrace; } }
+        { get { return Program.MyTrace; } }
 
         public override AWBLogListener InitialiseLogListener()
         {
-            InitialiseLogListener("AWB", GlobalObjects.MyTrace);
-            GlobalObjects.MyTrace.AddListener("AWB", mAWBLogListener);
+            InitialiseLogListener("AWB", Program.MyTrace);
+            Program.MyTrace.AddListener("AWB", mAWBLogListener);
             return mAWBLogListener;
         }
 
@@ -28,7 +28,7 @@ namespace AutoWikiBrowser
         // gets added to either the saved or skipped list. We can be fairly sure it will always get called
         // at the right time then.
         internal void Close()
-        { GlobalObjects.MyTrace.RemoveListener("AWB"); }
+        { Program.MyTrace.RemoveListener("AWB"); }
 
         internal static ArticleEX SwitchToNewArticleObject(ArticleEX Old,
             ArticleEX New)

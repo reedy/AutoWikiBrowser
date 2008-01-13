@@ -29,8 +29,8 @@ namespace AutoWikiBrowser
     partial class MainForm
     {
         // Objects:
-        TraceManager IAutoWikiBrowser.TraceManager { get { return GlobalObjects.MyTrace; } }
-        WikiFunctions.Logging.Uploader.UploadableLogSettings2 IAutoWikiBrowser.LoggingSettings { get { return GlobalObjects.MyTrace.LS.Settings; } }
+        TraceManager IAutoWikiBrowser.TraceManager { get { return Program.MyTrace; } }
+        WikiFunctions.Logging.Uploader.UploadableLogSettings2 IAutoWikiBrowser.LoggingSettings { get { return Program.MyTrace.LS.Settings; } }
         TabPage IAutoWikiBrowser.MoreOptionsTab { get { return tpMoreOptions; } }
         TabPage IAutoWikiBrowser.OptionsTab { get { return tpSetOptions; } }
         TabPage IAutoWikiBrowser.StartTab { get { return tpStart; } }
@@ -71,7 +71,7 @@ namespace AutoWikiBrowser
             { LogControl1.AddLog(article); } */
         void IAutoWikiBrowser.AddLogItem(bool skipped, AWBLogListener logListener)
         { LogControl1.AddLog(skipped, logListener); }
-        void IAutoWikiBrowser.TurnOffLogging() { GlobalObjects.MyTrace.TurnOffLogging(); }
+        void IAutoWikiBrowser.TurnOffLogging() { Program.MyTrace.TurnOffLogging(); }
         void IAutoWikiBrowser.ShowHelp(string url) { Help.ShowHelp(h, url); }
         void IAutoWikiBrowser.ShowHelpEnWiki(string article) { Help.ShowHelpEN(h, article); }
 
