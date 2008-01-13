@@ -805,6 +805,8 @@ namespace WikiFunctions.Browser
         }
 
         Regex RegexArticleExists = new Regex("<LI (class=new|class=\"selected new\") id=ca-nstab", RegexOptions.Compiled);
+        Regex RegexArticleTalkExists = new Regex("<LI (class=new|class=\"selected new\") id=ca-talk", RegexOptions.Compiled);
+
         protected override void OnDocumentCompleted(WebBrowserDocumentCompletedEventArgs e)
         {
             base.OnDocumentCompleted(e);
@@ -822,7 +824,7 @@ namespace WikiFunctions.Browser
                 this.AllowNavigation = false;
             else if (ProcessStage == enumProcessStage.load)
             {
-                TalkPageExists = !this.Document.Body.InnerHtml.Contains("<LI class=new id=ca-talk>") || this.Document.Body.InnerHtml.Contains("<LI class=\"selected new\" id=ca-talk>");
+                TalkPageExists = RegexArticleTalkExists.IsMatch(this.Document.Body.InnerHtml);
 
                 ArticlePageExists = !RegexArticleExists.IsMatch(this.Document.Body.InnerHtml);
 
