@@ -141,6 +141,8 @@ namespace WikiFunctions.Parse
 
         public int TyposCount;
 
+        public bool TyposLoaded;
+
         Regex IgnoreRegex = new Regex("133t|-ology|\\(sic\\)|\\[sic\\]|\\[''sic''\\]|\\{\\{sic\\}\\}|spellfixno", RegexOptions.Compiled);
         HideText RemoveText = new HideText(true, false, true);
 
@@ -169,22 +171,28 @@ namespace WikiFunctions.Parse
 
                 Dictionary<string, string> typoStrings = LoadTypos();
 
-                foreach (KeyValuePair<string, string> k in typoStrings)
+                if (!TyposLoaded)
                 {
-                    if (bounded.SuitableTypo(k.Key)) bounded.Add(k.Key, k.Value);
-                    else other.Add(k.Key, k.Value);
-                    TyposCount++;
-                }
+                    foreach (KeyValuePair<string, string> k in typoStrings)
+                    {
+                        if (bounded.SuitableTypo(k.Key)) bounded.Add(k.Key, k.Value);
+                        else other.Add(k.Key, k.Value);
+                        TyposCount++;
+                    }
 
-                foreach (TypoGroup grp in Typos) grp.MakeGroups();
+                    foreach (TypoGroup grp in Typos) grp.MakeGroups();
+                    TyposLoaded = true;
+                }
             }
             catch (TypoException)
             {
                 Typos.Clear();
                 TyposCount = 0;
+                TyposLoaded = false;
             }
             catch (Exception ex)
             {
+                TyposLoaded = false;
                 ErrorHandler.Handle(ex);
             }
         }
@@ -264,7 +272,7 @@ namespace WikiFunctions.Parse
                 {
                     if (string.IsNullOrEmpty(text))
                     {
-                        if (MessageBox.Show("No list of typos was found.  Would you like to use the list of typos from the English Wikipedia?\r\nOnly choose OK if this is an English wiki.", "Load from English Wikipedia?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        if (MessageBox.Show("No list of typos was found.  Would you like to use the list of typos from the English Wikipedia?\r\nOnly choose 'Yes' if this is an English wiki.", "Load from English Wikipedia?", MessageBoxButtons.YesNo) == DialogResult.Yes)
                         {
                             try
                             {
@@ -275,6 +283,8 @@ namespace WikiFunctions.Parse
                                 MessageBox.Show("There was a problem loading the list of typos.");
                             }
                         }
+                        else
+                            TyposLoaded = false;
                     }
                 }
                 foreach (Match m in typoRegex.Matches(text))
