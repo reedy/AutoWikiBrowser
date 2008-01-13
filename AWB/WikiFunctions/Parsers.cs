@@ -447,6 +447,9 @@ namespace WikiFunctions.Parse
             if (Regex.IsMatch(ArticleText, "</?b>", RegexOptions.IgnoreCase))
                 ArticleText = SyntaxRegexBold.Replace(ArticleText, "'''$1'''");
 
+            if (Regex.IsMatch(ArticleText, "</?p>", RegexOptions.IgnoreCase))
+                ArticleText = Regex.Replace(ArticleText, "</?p>", "", RegexOptions.IgnoreCase);
+
             ArticleText = Regex.Replace(ArticleText, "^<hr>|^----+", "----", RegexOptions.Multiline);
 
             //remove appearance of double line break
