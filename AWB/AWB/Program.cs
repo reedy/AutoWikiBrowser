@@ -24,11 +24,6 @@ using System.Windows.Forms;
 
 namespace AutoWikiBrowser
 {
-    internal static class GlobalObjects
-    {
-        static internal WikiFunctions.Plugin.IAutoWikiBrowser AWB;
-        static internal Logging.MyTrace MyTrace = new AutoWikiBrowser.Logging.MyTrace();
-    }
     internal static class Program
     {
         /// <summary>
@@ -68,11 +63,13 @@ namespace AutoWikiBrowser
             awb.ProfileToLoad = profileID;
             awb.SettingsToLoad = fileToLoad;
 
-            GlobalObjects.AWB = awb;
+            Program.AWB = awb;
             Application.Run(awb);
         }
 
         internal static System.Version Version { get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; } }
         internal static string VersionString { get { return Version.ToString(); } }
+        static internal WikiFunctions.Plugin.IAutoWikiBrowser AWB;
+        static internal Logging.MyTrace MyTrace = new AutoWikiBrowser.Logging.MyTrace();
     }
 }

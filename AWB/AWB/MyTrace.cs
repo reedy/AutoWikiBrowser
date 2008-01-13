@@ -87,7 +87,7 @@ namespace AutoWikiBrowser.Logging
         {
             MessageBox.Show(ex.Message);
             mStoppedWithConfigError = true;
-            GlobalObjects.AWB.Stop(ApplicationName);
+            Program.AWB.Stop(ApplicationName);
         }
 
         private void TraceUploadEventHandler(TraceListenerUploadableBase sender, ref bool success)
@@ -98,10 +98,10 @@ namespace AutoWikiBrowser.Logging
                 sender.PageName.Replace(LoggingSettings.Props.ConUploadCategoryIsJobName, 
                 LoggingSettings.Settings.Category), LoggingSettings.Settings.LinksToLog(), 
                 LoggingSettings.Settings.UploadOpenInBrowser, LoggingSettings.Settings.UploadAddToWatchlist, 
-                LoggingSettings.Props.UserName, Variables.AWBVersionString(GlobalObjects.AWB.AWBVersionString) +
+                LoggingSettings.Props.UserName, Variables.AWBVersionString(Program.AWB.AWBVersionString) +
                 Plugins.Plugin.GetPluginsWikiTextBlock(), Variables.AWBLoggingEditSummary +
                 Variables.UploadingLogDefaultEditSummary, Variables.AWBLoggingEditSummary +
-                Variables.UploadingLogEntryDefaultEditSummary, GlobalObjects.AWB, LoggingSettings.LoginDetails);
+                Variables.UploadingLogEntryDefaultEditSummary, Program.AWB, LoggingSettings.LoginDetails);
             success = retval.Success;
 
             if (success)
@@ -168,7 +168,7 @@ namespace AutoWikiBrowser.Logging
                 {
                     mIsGettingPassword = true;
                     LoggingSettings.LoginDetails.AWBProfile =
-                        WikiFunctions.AWBProfiles.AWBProfiles.GetProfileForLogUploading(GlobalObjects.AWB.Form);
+                        WikiFunctions.AWBProfiles.AWBProfiles.GetProfileForLogUploading(Program.AWB.Form);
 
                     if (!LoggingSettings.LoginDetails.IsSet)
                         throw new System.Configuration.ConfigurationErrorsException("Error getting login details");
@@ -565,7 +565,7 @@ namespace AutoWikiBrowser.Logging
         }
 
         internal static AWBLogListener InitialiseLogListener(ArticleEX article) 
-        { return null;/* Article.InitialiseLogListener("AWB", GlobalObjects.MyTrace);*/ }
+        { return null;/* Article.InitialiseLogListener("AWB", Program.MyTrace);*/ }
         // TODO: At some point we need to *remove* the listener for the article ("AWB")
         // Plugin did it at the end of ProcessArticle(). We also do it, but a bit late, in AddListener().
     }

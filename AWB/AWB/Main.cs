@@ -205,7 +205,7 @@ namespace AutoWikiBrowser
             Variables.MainForm = this;
             Updater.Update();
 
-            GlobalObjects.MyTrace.LS = loggingSettings1;
+            Program.MyTrace.LS = loggingSettings1;
 
             try
             {
@@ -478,12 +478,12 @@ namespace AutoWikiBrowser
                 StartDelayedRestartTimer();
             }
 
-            if (GlobalObjects.MyTrace.StoppedWithConfigError)
+            if (Program.MyTrace.StoppedWithConfigError)
             {
                 try
-                { GlobalObjects.MyTrace.ValidateUploadProfile(); }
+                { Program.MyTrace.ValidateUploadProfile(); }
                 catch (Exception ex)
-                { GlobalObjects.MyTrace.ConfigError(ex); }
+                { Program.MyTrace.ConfigError(ex); }
             }
         }
 
@@ -500,10 +500,10 @@ namespace AutoWikiBrowser
 
             if (!CheckLoginStatus()) return;
 
-            if (GlobalObjects.MyTrace.HaveOpenFile)
-                GlobalObjects.MyTrace.WriteBulletedLine("AWB started processing", true, true, true);
+            if (Program.MyTrace.HaveOpenFile)
+                Program.MyTrace.WriteBulletedLine("AWB started processing", true, true, true);
             else
-                GlobalObjects.MyTrace.Initialise();
+                Program.MyTrace.Initialise();
 
             string strTemp = webBrowserEdit.GetArticleText();
 
@@ -3182,7 +3182,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             //make sure there was no error and bot mode is still enabled
             if (BotMode)
             {
-                if (GlobalObjects.MyTrace.IsUploading || GlobalObjects.MyTrace.IsGettingPassword)
+                if (Program.MyTrace.IsUploading || Program.MyTrace.IsGettingPassword)
                 {
                     // Don't nudge when a log is uploading in the background or it is attempting to get a password from the user, just wait for it
                     e.Cancel = true; return;
