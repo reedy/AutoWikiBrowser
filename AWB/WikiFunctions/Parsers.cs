@@ -347,6 +347,8 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
+        static Regex BulletedNumberedLineEndingWithBR = new Regex("[*#](.*?)<br ?/?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
         /// <summary>
         /// Applies/removes some excess whitespace from the article
         /// </summary>
@@ -354,7 +356,15 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string RemoveWhiteSpace(string ArticleText)
         {
-            ArticleText = Regex.Replace(ArticleText.Trim(), "<br ?/?>\r\n", "\r\n", RegexOptions.IgnoreCase);
+            //Remove <br /> if followed by double newline
+            ArticleText = Regex.Replace(ArticleText.Trim(), "<br ?/?>\r\n\r\n", "\r\n\r\n", RegexOptions.IgnoreCase);
+
+            //Remove <br /> if line starts with * or #
+            foreach (Match m in BulletedNumberedLineEndingWithBR.Matches(ArticleText))
+            {
+                ArticleText = ArticleText.Replace(m.ToString(), Regex.Replace(m.ToString(), "<br ?/?>", ""));
+            }
+
             ArticleText = Regex.Replace(ArticleText, "\r\n(\r\n)+", "\r\n\r\n");
 
             ArticleText = Regex.Replace(ArticleText, "== ? ?\r\n\r\n==", "==\r\n==");
