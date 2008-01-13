@@ -315,7 +315,7 @@ namespace WikiFunctions.Parse
             return "{{reflist}}";
         }
 
-        static readonly Regex ReferenceTags = new Regex(@"<(span|div)( class=""(references-small|small|references-2column)|)?"">[\r\n\s]*<references/></(span|div)>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        static readonly Regex ReferenceTags = new Regex(@"<(span|div)( class=""(references-small|small|references-2column)|)?"">[\r\n\s]*<references[\s]?/>[\r\n\s]*</(span|div)>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Replaces various old reference tag formats, with the new {{reflist}}
