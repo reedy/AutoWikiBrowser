@@ -441,11 +441,12 @@ namespace WikiFunctions.Parse
         public string FixSyntax(string ArticleText)
         {
             //replace html with wiki syntax
-            if (!Regex.IsMatch(ArticleText, "'</?[ib]>|</?[ib]>'", RegexOptions.IgnoreCase))
-            {
+            if (Regex.IsMatch(ArticleText, "</?i>", RegexOptions.IgnoreCase))
                 ArticleText = SyntaxRegexItalic.Replace(ArticleText, "''$1''");
+
+            if (Regex.IsMatch(ArticleText, "</?b>", RegexOptions.IgnoreCase))
                 ArticleText = SyntaxRegexBold.Replace(ArticleText, "'''$1'''");
-            }
+
             ArticleText = Regex.Replace(ArticleText, "^<hr>|^----+", "----", RegexOptions.Multiline);
 
             //remove appearance of double line break

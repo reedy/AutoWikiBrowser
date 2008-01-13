@@ -171,7 +171,7 @@ namespace WikiFunctions.Parse
 
                 Dictionary<string, string> typoStrings = LoadTypos();
 
-                    if (TyposLoaded)
+                if (TyposLoaded)
                 {
                     foreach (KeyValuePair<string, string> k in typoStrings)
                     {
