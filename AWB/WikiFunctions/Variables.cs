@@ -345,8 +345,10 @@ namespace WikiFunctions
                         Namespaces[15] = "نقاش التصنيف:";
                         Namespaces[100] = "بوابة:";
                         Namespaces[101] = "نقاش البوابة:";
+
                         strsummarytag = " ";
                         strWPAWB = "باستخدام [[ويكيبيديا:أوب|الأوتوويكي براوزر]]";
+                        strTypoSummaryTag = ".الأخطاء المصححة: ";
                         break;
 
                     case LangCodeEnum.bg:
