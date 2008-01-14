@@ -267,6 +267,7 @@ namespace WikiFunctions.Parse
                         typolistURL = Variables.GetPlainTextURL(typolistURL);
 
                     text = Tools.GetHTML(typolistURL, Encoding.UTF8);
+                    TyposLoaded = true;
                 }
                 catch
                 {
@@ -277,6 +278,7 @@ namespace WikiFunctions.Parse
                             try
                             {
                                 text = Tools.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/Typos&action=raw&ctype=text/plain&dontcountme=s", Encoding.UTF8);
+                                TyposLoaded = true;
                             }
                             catch
                             {
