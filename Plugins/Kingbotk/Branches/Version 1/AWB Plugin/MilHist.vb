@@ -688,11 +688,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         '        Return "^[Ww]PMILHIST$"
         '    End Get
         'End Property
-        Protected Overrides ReadOnly Property RedirectsParm() As String
-            Get
-
-            End Get
-        End Property
 
         ' Initialisation:
         Friend Sub New(ByVal Manager As PluginManager)

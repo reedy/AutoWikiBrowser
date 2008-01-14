@@ -425,7 +425,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         End Property
         Protected Overrides ReadOnly Property RedirectsParm() As String
             Get
-
+                Return OurName & "Redir"
             End Get
         End Property
 
