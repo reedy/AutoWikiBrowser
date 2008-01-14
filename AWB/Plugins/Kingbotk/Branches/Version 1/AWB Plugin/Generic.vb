@@ -333,7 +333,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
 
         ' Initialisation:
         Friend Sub New(ByVal MyName As String)
-            MyBase.New()
+            MyBase.New(True)
             OurSettingsControl = New GenericTemplateSettings(MyName)
             OurTab = New TabPage(MyName)
             OurName = MyName
@@ -363,7 +363,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 If MainRegex Is Nothing Then Return False
                 If SecondChanceRegex Is Nothing Then Return False
                 ' else:
-                Return True
+                Return MyBase.IAmReady
             End Get
         End Property
         Protected Friend Overrides ReadOnly Property IAmGeneric() As Boolean
@@ -376,7 +376,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 Return "Generic (" & OurName & ")"
             End Get
         End Property
-        Protected Overrides ReadOnly Property PreferredTemplateNameWiki() As String
+        Protected Overrides ReadOnly Property PreferredTemplateName() As String
             Get
                 Return OurSettingsControl.TemplateName
             End Get
@@ -423,6 +423,11 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 Return ""
             End Get
         End Property
+        Protected Overrides ReadOnly Property RedirectsParm() As String
+            Get
+
+            End Get
+        End Property
 
         ' Article processing:
         Protected Overrides Function SkipIfContains() As Boolean
@@ -443,7 +448,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Protected Overrides Sub GotTemplateNotPreferredName(ByVal TemplateName As String)
         End Sub
         Protected Overrides Function WriteTemplateHeader(ByRef PutTemplateAtTop As Boolean) As String
-            WriteTemplateHeader = "{{" & PreferredTemplateNameWiki & WriteOutParameterToHeader("class")
+            WriteTemplateHeader = "{{" & PreferredTemplateName & WriteOutParameterToHeader("class")
 
             Select Case OurSettingsControl.ImportanceSetting
                 Case GenericTemplateSettings.ImportanceSettingEnum.Imp
@@ -455,10 +460,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Protected Overrides Sub ProcessArticleFinish()
             StubClass()
         End Sub
-        Private Function PreferredTemplateNameWikiMatchEvaluator(ByVal match As Match) As String
-            Return "^[" & match.Groups("first").Value.ToUpper & match.Groups("first").Value.ToLower & "]" & _
-               match.Groups("second").Value & "$"
-        End Function
 
         'User interface:
         Protected Overrides Sub ShowHideOurObjects(ByVal Visible As Boolean)
@@ -501,9 +502,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
 
             Dim RegexpMiddle As String
 
-            Static PreferredTemplateNameRegexCreator As _
-               New Regex("^(?<first>[a-zA-Z]{1})(?<second>.*)", RegexOptions.Compiled)
-
             With OurSettingsControl
                 If .TemplateName = "" Then
                     MainRegex = Nothing
@@ -512,13 +510,10 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 Else
                     If .HasAlternateNames AndAlso Not .AlternateNames = "" Then
                         RegexpMiddle = .TemplateName & "|" & .AlternateNames
-                        PreferredTemplateNameRegex = New Regex( _
-                           PreferredTemplateNameRegexCreator.Replace(PreferredTemplateNameWiki, _
-                           AddressOf Me.PreferredTemplateNameWikiMatchEvaluator), _
-                           RegexOptions.Compiled)
+                        BuildPreferredTemplateNameRegex(True)
                     Else
                         RegexpMiddle = .TemplateName
-                        PreferredTemplateNameRegex = Nothing
+                        BuildPreferredTemplateNameRegex(False)
                     End If
 
                     MainRegex = CreateStandardRegex(RegexpMiddle)
