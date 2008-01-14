@@ -561,14 +561,12 @@ namespace WikiFunctions.Controls.Lists
 
         private WikiFunctions.Controls.Lists.ListBox2 lbArticles;
         private specialFilter SpecialFilter = new specialFilter();
-        private System.Windows.Forms.TextBox txtSelectSource;
         private System.Windows.Forms.Label lblNumberOfArticles;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.TextBox txtNewArticle;
         private System.Windows.Forms.Label lblSourceSelect;
         private System.Windows.Forms.Button btnMakeList;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox cmboSourceSelect;
         private System.Windows.Forms.ToolStripMenuItem filterOutNonMainSpaceArticlesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem specialFilterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem convertToTalkPagesToolStripMenuItem;
@@ -607,5 +605,7 @@ namespace WikiFunctions.Controls.Lists
         private System.Windows.Forms.ToolStripMenuItem selectedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem duplicatesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem invertSelectionToolStripMenuItem;
+        public System.Windows.Forms.TextBox txtSelectSource;
+        public System.Windows.Forms.ComboBox cmboSourceSelect;
     }
 }

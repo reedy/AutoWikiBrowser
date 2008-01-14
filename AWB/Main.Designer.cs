@@ -357,6 +357,14 @@ namespace AutoWikiBrowser
             this.panel1 = new System.Windows.Forms.Panel();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
+            this.mnuMakeFromTextBox = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.menuitemMakeFromTextBoxUndo = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuitemMakeFromTextBoxCut = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuitemMakeFromTextBoxCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuitemMakeFromTextBoxPaste = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparatorMakeFromTextBox = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuCopyToCategoryLog = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator27 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -407,6 +415,7 @@ namespace AutoWikiBrowser
             this.tpLogs.SuspendLayout();
             this.tpLoggingOptions.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.mnuMakeFromTextBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // mnuTextBox
@@ -3471,6 +3480,68 @@ namespace AutoWikiBrowser
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
             // 
+            // mnuMakeFromTextBox
+            // 
+            this.mnuMakeFromTextBox.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuitemMakeFromTextBoxUndo,
+            this.toolStripSeparator27,
+            this.menuitemMakeFromTextBoxCut,
+            this.menuitemMakeFromTextBoxCopy,
+            this.menuitemMakeFromTextBoxPaste,
+            this.toolStripSeparatorMakeFromTextBox,
+            this.mnuCopyToCategoryLog});
+            this.mnuMakeFromTextBox.Name = "mnuMakeFromTextBox";
+            this.mnuMakeFromTextBox.Size = new System.Drawing.Size(424, 148);
+            // 
+            // menuitemMakeFromTextBoxUndo
+            // 
+            this.menuitemMakeFromTextBoxUndo.Name = "menuitemMakeFromTextBoxUndo";
+            this.menuitemMakeFromTextBoxUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.menuitemMakeFromTextBoxUndo.Size = new System.Drawing.Size(423, 22);
+            this.menuitemMakeFromTextBoxUndo.Text = "Undo";
+            this.menuitemMakeFromTextBoxUndo.Click += new System.EventHandler(this.menuitemMakeFromTextBoxUndo_Click);
+            // 
+            // menuitemMakeFromTextBoxCut
+            // 
+            this.menuitemMakeFromTextBoxCut.Name = "menuitemMakeFromTextBoxCut";
+            this.menuitemMakeFromTextBoxCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.menuitemMakeFromTextBoxCut.Size = new System.Drawing.Size(423, 22);
+            this.menuitemMakeFromTextBoxCut.Text = "Cut";
+            this.menuitemMakeFromTextBoxCut.Click += new System.EventHandler(this.menuitemMakeFromTextBoxCut_Click);
+            // 
+            // menuitemMakeFromTextBoxCopy
+            // 
+            this.menuitemMakeFromTextBoxCopy.Name = "menuitemMakeFromTextBoxCopy";
+            this.menuitemMakeFromTextBoxCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.menuitemMakeFromTextBoxCopy.Size = new System.Drawing.Size(423, 22);
+            this.menuitemMakeFromTextBoxCopy.Text = "Copy";
+            this.menuitemMakeFromTextBoxCopy.Click += new System.EventHandler(this.menuitemMakeFromTextBoxCopy_Click);
+            // 
+            // menuitemMakeFromTextBoxPaste
+            // 
+            this.menuitemMakeFromTextBoxPaste.Name = "menuitemMakeFromTextBoxPaste";
+            this.menuitemMakeFromTextBoxPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.menuitemMakeFromTextBoxPaste.Size = new System.Drawing.Size(423, 22);
+            this.menuitemMakeFromTextBoxPaste.Text = "Paste";
+            this.menuitemMakeFromTextBoxPaste.Click += new System.EventHandler(this.menuitemMakeFromTextBoxPaste_Click);
+            // 
+            // toolStripSeparatorMakeFromTextBox
+            // 
+            this.toolStripSeparatorMakeFromTextBox.Name = "toolStripSeparatorMakeFromTextBox";
+            this.toolStripSeparatorMakeFromTextBox.Size = new System.Drawing.Size(420, 6);
+            // 
+            // mnuCopyToCategoryLog
+            // 
+            this.mnuCopyToCategoryLog.Name = "mnuCopyToCategoryLog";
+            this.mnuCopyToCategoryLog.Size = new System.Drawing.Size(423, 22);
+            this.mnuCopyToCategoryLog.Text = "Copy to Category box on log tab (for edit summaries and logging)";
+            this.mnuCopyToCategoryLog.Click += new System.EventHandler(this.mnuCopyToCategoryLog_Click);
+            // 
+            // toolStripSeparator27
+            // 
+            this.toolStripSeparator27.Name = "toolStripSeparator27";
+            this.toolStripSeparator27.Size = new System.Drawing.Size(420, 6);
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -3566,6 +3637,7 @@ namespace AutoWikiBrowser
             this.tpLogs.ResumeLayout(false);
             this.tpLoggingOptions.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.mnuMakeFromTextBox.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3881,5 +3953,13 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator26;
         private System.Windows.Forms.ToolStripMenuItem managePluginsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem replaceReferenceTagsToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip mnuMakeFromTextBox;
+        private System.Windows.Forms.ToolStripMenuItem menuitemMakeFromTextBoxUndo;
+        private System.Windows.Forms.ToolStripMenuItem menuitemMakeFromTextBoxCut;
+        private System.Windows.Forms.ToolStripMenuItem menuitemMakeFromTextBoxCopy;
+        private System.Windows.Forms.ToolStripMenuItem menuitemMakeFromTextBoxPaste;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparatorMakeFromTextBox;
+        private System.Windows.Forms.ToolStripMenuItem mnuCopyToCategoryLog;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator27;
     }
 }
