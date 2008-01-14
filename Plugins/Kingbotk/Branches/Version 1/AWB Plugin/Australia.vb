@@ -342,18 +342,25 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             End Get
         End Property
 
-        Protected Overrides ReadOnly Property PreferredTemplateNameWiki() As String
+        Protected Overrides ReadOnly Property PreferredTemplateName() As String
             Get
                 Return "WP Australia"
+            End Get
+        End Property
+        'Protected Overrides ReadOnly Property PreferredTemplateNameRegexString() As String
+        '    Get
+        '        Return "^[Ww]P Australia$"
+        '    End Get
+        'End Property
+        Protected Overrides ReadOnly Property RedirectsParm() As String
+            Get
+
             End Get
         End Property
 
         ' Initialisation:
         Friend Sub New(ByVal Manager As PluginManager)
-            MyBase.New()
-            Const RegexpMiddle As String = "WP Australia"
-            MainRegex = CreateStandardRegex(RegexpMiddle)
-            SecondChanceRegex = CreateSecondChanceRegex(RegexpMiddle)
+            MyBase.New("WP Australia", False)
         End Sub
         Protected Friend Overrides Sub Initialise()
             OurMenuItem = New ToolStripMenuItem("Australia Plugin")

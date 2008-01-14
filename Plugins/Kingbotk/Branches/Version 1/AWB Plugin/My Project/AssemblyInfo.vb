@@ -1,4 +1,6 @@
-﻿Imports System
+﻿Imports System.Resources
+
+Imports System
 Imports System.Reflection
 Imports System.Runtime.InteropServices
 
@@ -12,10 +14,10 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("WikiProject templating plugin for AutoWikiBrowser")> 
 <Assembly: AssemblyCompany("SDK Software")> 
 <Assembly: AssemblyProduct("Kingbotk AWB Plugin")> 
-<Assembly: AssemblyCopyright("Copyright © SDK Software 2007")> 
+<Assembly: AssemblyCopyright("Copyright © SDK Software 2008")> 
 <Assembly: AssemblyTrademark("")> 
 
-<Assembly: ComVisible(False)>
+<Assembly: ComVisible(False)> 
 
 'The following GUID is for the ID of the typelib if this project is exposed to COM
 <Assembly: Guid("49dc017c-cd39-40cf-a5fe-95394dc29715")> 
@@ -31,5 +33,7 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.4.0.4")> 
-<Assembly: AssemblyFileVersion("1.4.0.4")> 
+<Assembly: AssemblyVersion("1.5.0.0")> 
+<Assembly: AssemblyFileVersion("1.5.0.0")> 
+
+<Assembly: NeutralResourcesLanguageAttribute("")> 

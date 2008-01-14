@@ -633,7 +633,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 Return "MilitaryHistory"
             End Get
         End Property
-        Protected Overrides ReadOnly Property PreferredTemplateNameWiki() As String
+        Protected Overrides ReadOnly Property PreferredTemplateName() As String
             Get
                 Return "WPMILHIST"
             End Get
@@ -683,16 +683,20 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         End Property
         Friend Overrides Sub ReqPhoto()
         End Sub
+        'Protected Overrides ReadOnly Property PreferredTemplateNameRegexString() As String
+        '    Get
+        '        Return "^[Ww]PMILHIST$"
+        '    End Get
+        'End Property
+        Protected Overrides ReadOnly Property RedirectsParm() As String
+            Get
+
+            End Get
+        End Property
 
         ' Initialisation:
         Friend Sub New(ByVal Manager As PluginManager)
-            MyBase.New()
-
-            Const RegexpMiddle As String = "WPMILHIST|WikiProject Military History"
-
-            MainRegex = CreateStandardRegex(RegexpMiddle)
-            PreferredTemplateNameRegex = New Regex("^[Ww]PMILHIST$", RegexOptions.Compiled)
-            SecondChanceRegex = CreateSecondChanceRegex(RegexpMiddle)
+            MyBase.New("WPMILHIST|WikiProject Military History", True)
         End Sub
         Protected Friend Overrides Sub Initialise()
             OurMenuItem = New ToolStripMenuItem("Military History Plugin")

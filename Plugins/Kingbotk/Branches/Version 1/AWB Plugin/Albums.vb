@@ -83,7 +83,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 Return "Albums"
             End Get
         End Property
-        Protected Overrides ReadOnly Property PreferredTemplateNameWiki() As String
+        Protected Overrides ReadOnly Property PreferredTemplateName() As String
             Get
                 Return "Album"
             End Get
@@ -116,14 +116,21 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 Return "NA"
             End Get
         End Property
+        'Protected Overrides ReadOnly Property PreferredTemplateNameRegexString() As String
+        '    Get
+        '        Return "^[Aa]lbum$"
+        '    End Get
+        'End Property
+
+        Protected Overrides ReadOnly Property RedirectsParm() As String
+            Get
+
+            End Get
+        End Property
 
         ' Initialisation:
         Friend Sub New(ByVal Manager As PluginManager)
-            MyBase.New()
-            Const RegexpMiddle As String = "Album[s]?"
-            MainRegex = CreateStandardRegex(RegexpMiddle)
-            PreferredTemplateNameRegex = New Regex("^[Aa]lbum$", RegexOptions.Compiled)
-            SecondChanceRegex = CreateSecondChanceRegex(RegexpMiddle)
+            MyBase.New("Album[s]?", True)
         End Sub
         Protected Friend Overrides Sub Initialise()
             OurMenuItem = New ToolStripMenuItem("Albums Plugin")
