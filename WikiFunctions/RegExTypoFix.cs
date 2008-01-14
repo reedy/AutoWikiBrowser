@@ -181,7 +181,6 @@ namespace WikiFunctions.Parse
                     }
 
                     foreach (TypoGroup grp in Typos) grp.MakeGroups();
-                    TyposLoaded = true;
                 }
             }
             catch (TypoException)
