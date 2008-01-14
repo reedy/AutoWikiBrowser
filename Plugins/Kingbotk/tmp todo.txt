@@ -1,0 +1,20 @@
+TODO:
+Copy from cat box to logging cat box
+Check templates with _ instead of space
+Add get redirects button to generic template setup form
+Ensure that generic template redirect box converts _ and \s to space, and likewise ReadXML - otherwise we could end up getting [\s_] converted to [\s[\s_]]
+Don't move templates if a banner container is on page
+
+AFunction as boolean ()
+Try
+ Throw
+Catch
+ print a
+ return true
+Finally
+ print b
+End Try
+
+print c
+
+End Function
