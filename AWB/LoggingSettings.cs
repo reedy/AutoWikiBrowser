@@ -227,7 +227,7 @@ namespace AutoWikiBrowser
         #region Event Handlers
 		private void ApplyButton_Click(object sender, EventArgs e)
 		{
-			if (string.IsNullOrEmpty(UploadJobNameTextBox.Text.Trim()))
+			if (UploadCheckBox.Checked && string.IsNullOrEmpty(UploadJobNameTextBox.Text.Trim()))
 			{
 				MessageBox.Show("Please enter a job name", "Job name missing", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
