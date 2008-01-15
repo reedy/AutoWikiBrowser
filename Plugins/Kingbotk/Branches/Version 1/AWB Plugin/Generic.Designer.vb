@@ -33,6 +33,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.SkipRegexTextBox = New System.Windows.Forms.TextBox
             Me.SkipRegexCheckBox = New System.Windows.Forms.CheckBox
             Me.GroupBox1 = New System.Windows.Forms.GroupBox
+            Me.GetRedirectsButton = New System.Windows.Forms.Button
             Me.AlternateNamesCheckBox = New System.Windows.Forms.CheckBox
             Me.Label2 = New System.Windows.Forms.Label
             Me.Label1 = New System.Windows.Forms.Label
@@ -45,7 +46,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.ImportanceCheckedListBox = New System.Windows.Forms.CheckedListBox
             Me.PropertiesButton = New System.Windows.Forms.Button
             Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
-            Me.GetRedirectsButton = New System.Windows.Forms.Button
             Me.GroupBox1.SuspendLayout()
             Me.GroupBox2.SuspendLayout()
             Me.GroupBox3.SuspendLayout()
@@ -174,6 +174,16 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.GroupBox1.TabStop = False
             Me.GroupBox1.Text = "Template Name"
             '
+            'GetRedirectsButton
+            '
+            Me.GetRedirectsButton.Enabled = False
+            Me.GetRedirectsButton.Location = New System.Drawing.Point(213, 66)
+            Me.GetRedirectsButton.Name = "GetRedirectsButton"
+            Me.GetRedirectsButton.Size = New System.Drawing.Size(33, 23)
+            Me.GetRedirectsButton.TabIndex = 5
+            Me.GetRedirectsButton.Text = "Get"
+            Me.GetRedirectsButton.UseVisualStyleBackColor = True
+            '
             'AlternateNamesCheckBox
             '
             Me.AlternateNamesCheckBox.AutoSize = True
@@ -288,15 +298,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.PropertiesButton.TabIndex = 17
             Me.PropertiesButton.Text = "Properties"
             Me.PropertiesButton.UseVisualStyleBackColor = True
-            '
-            'GetRedirectsButton
-            '
-            Me.GetRedirectsButton.Location = New System.Drawing.Point(213, 66)
-            Me.GetRedirectsButton.Name = "GetRedirectsButton"
-            Me.GetRedirectsButton.Size = New System.Drawing.Size(33, 23)
-            Me.GetRedirectsButton.TabIndex = 5
-            Me.GetRedirectsButton.Text = "Get"
-            Me.GetRedirectsButton.UseVisualStyleBackColor = True
             '
             'GenericTemplateSettings
             '
