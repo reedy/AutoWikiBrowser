@@ -99,7 +99,7 @@ namespace IrcMonitor
             set { PrependedTagSummary1 = value; }
         }
 
-        private string[] StubTypes;
+        //private string[] StubTypes;
         public string[] PageTags;
         
         public string AppendTag(string pageContent, string tagToAdd, out string summary)
