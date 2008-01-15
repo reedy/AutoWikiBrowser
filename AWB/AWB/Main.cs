@@ -3092,14 +3092,12 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         #region Notify Tray
         private void showToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!this.Visible)
-                ToolStripHide();
+            this.Visible = true;
         }
 
         private void hideToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (this.Visible)
-                this.Visible = false;
+            this.Visible = false;
         }
 
         private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -3110,10 +3108,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void ntfyTray_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if (!this.Visible)
-                ToolStripHide();
-            else
-                this.Visible = false;
+            this.Visible = !this.Visible;
         }
 
         private void mnuNotify_Opening(object sender, CancelEventArgs e)
@@ -3125,12 +3120,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         {
             showToolStripMenuItem.Enabled = !visible || this.WindowState == FormWindowState.Minimized;
             hideToolStripMenuItem.Enabled = visible;
-        }
-
-        private void ToolStripHide()
-        {
-            this.Visible = true;
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
         }
 
         public void NotifyBalloon(string message, ToolTipIcon icon)

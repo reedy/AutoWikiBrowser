@@ -186,7 +186,8 @@ namespace AutoWikiBrowser
             string list = "";
             foreach (string s in RecentList)
             {
-                if (!string.IsNullOrEmpty(list)) list += "|";
+                if (!string.IsNullOrEmpty(list))
+                    list += "|";
                 list += s;
             }
 
@@ -199,8 +200,6 @@ namespace AutoWikiBrowser
             SettingsFile = (sender as ToolStripItem).Text;
             listMaker1.removeListDuplicates();
         }
-
-        //new methods, using serialization
 
         /// <summary>
         /// Make preferences object from current settings
