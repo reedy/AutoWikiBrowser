@@ -1026,6 +1026,10 @@ namespace AutoWikiBrowser
                         theArticle.AWBChangeArticleText("Fix empty references", parsers.SimplifyReferenceTags(theArticle.ArticleText), true);
                         prof.Profile("FixEmptyReferences");
 
+                        //TODO:Remove from release if broken
+                        theArticle.AWBChangeArticleText("Fix Footnotes", parsers.FixFootnotes(theArticle.ArticleText), true);
+                        prof.Profile("FixFootnotes");
+
                         theArticle.FixLinks(parsers, Skip.SkipNoBadLink);
                         prof.Profile("FixLinks");
                         theArticle.BulletExternalLinks(parsers, Skip.SkipNoBulletedLink);

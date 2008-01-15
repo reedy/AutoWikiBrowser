@@ -248,61 +248,68 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
-        #if DEBUG
-            public string FixFootnotes(string ArticleText)
-            {
-                const string factTag = "({{[ ]*fact[ ]*}}|{{[ ]*fact[ ]*[\\|][^}]*}}|{{[ ]*facts[ ]*}}|{{[ ]*citequote[ ]*}}|{{[ ]*citation needed[ ]*}}|{{[ ]*cn[ ]*}}|{{[ ]*verification needed[ ]*}}|{{[ ]*verify source[ ]*}}|{{[ ]*verify credibility[ ]*}}|{{[ ]*who[ ]*}}|{{[ ]*failed verification[ ]*}}|{{[ ]*nonspecific[ ]*}}|{{[ ]*dubious[ ]*}}|{{[ ]*or[ ]*}}|{{[ ]*lopsided[ ]*}}|{{[ ]*GR[ ]*[\\|][ ]*[^ ]+[ ]*}}|{{[ ]*[c]?r[e]?f[ ]*[\\|][^}]*}}|{{[ ]*ref[ _]label[ ]*[\\|][^}]*}}|{{[ ]*ref[ _]num[ ]*[\\|][^}]*}})";
-                ArticleText = Regex.Replace(ArticleText, "[\\n\\r\\f\\t ]+?" + factTag, "$1");
+        public string FixFootnotes(string ArticleText)
+        {
+            // One space/linefeed
+            ArticleText = Regex.Replace(ArticleText, "[\\n\\r\\f\\t ]+?<ref([ >])", "<ref$1");
+            // remove trailing spaces from named refs
+            ArticleText = Regex.Replace(ArticleText, "<ref ([^>]*[^>])[ ]*>", "<ref $1>");
+            // removed superscripted punctuation between refs
+            ArticleText = Regex.Replace(ArticleText, "(</ref>|<ref[^>]*?/>)<sup>[ ]*[,;-]?[ ]*</sup><ref", "$1<ref");
+            ArticleText = Regex.Replace(ArticleText, "(</ref>|<ref[^>]*?/>)[ ]*[,;-]?[ ]*<ref", "$1<ref");
 
-                // One space/linefeed
-                ArticleText = Regex.Replace(ArticleText, "[\\n\\r\\f\\t ]+?<ref([ >])", "<ref$1");
-                // remove trailing spaces from named refs
-                ArticleText = Regex.Replace(ArticleText, "<ref ([^>]*[^>])[ ]*>", "<ref $1>");
-                // removed superscripted punctuation between refs
-                ArticleText = Regex.Replace(ArticleText, "(</ref>|<ref[^>]*?/>)<sup>[ ]*[,;-]?[ ]*</sup><ref", "$1<ref");
-                ArticleText = Regex.Replace(ArticleText, "(</ref>|<ref[^>]*?/>)[ ]*[,;-]?[ ]*<ref", "$1<ref");
+            ArticleText = Regex.Replace(ArticleText, "(==*)<ref", "$1\r\n<ref");
 
-                const string lacksPunctuation = "([^\\.,;:!\\?\"'’])";
-                const string questionOrExclam = "([!\\?])";
-                //string minorPunctuation = "([\\.,;:])";
-                const string anyPunctuation = "([\\.,;:!\\?])";
-                const string majorPunctuation = "([,;:!\\?])";
-                const string period = "([\\.])";
-                const string quote = "([\"'’]*)";
-                const string space = "[ ]*";
+            //ArticleText = FixFootNotesPunctuation(ArticleText);
 
-                const string refTag = "(<ref>([^<]|<[^/]|</[^r]|</r[^e]|</re[^f]|</ref[^>])*?</ref>" + "|<ref[^>]*?[^/]>([^<]|<[^/]|</[^r]|</r[^e]|</re[^f]" + "|</ref[^>])*?</ref>|<ref[^>]*?/>)";
+            return ArticleText;
+        }
 
-                const string match0a = lacksPunctuation + quote + factTag + space + anyPunctuation;
-                const string match0b = questionOrExclam + quote + factTag + space + majorPunctuation;
-                //string match0c = minorPunctuation + quote + factTag + space + anyPunctuation;
-                const string match0d = questionOrExclam + quote + factTag + space + period;
+        //string FixFootNotesPunctuation(string ArticleText)
+        //{
+        //    const string factTag = "({{[ ]*fact[ ]*}}|{{[ ]*fact[ ]*[\\|][^}]*}}|{{[ ]*facts[ ]*}}|{{[ ]*citequote[ ]*}}|{{[ ]*citation needed[ ]*}}|{{[ ]*cn[ ]*}}|{{[ ]*verification needed[ ]*}}|{{[ ]*verify source[ ]*}}|{{[ ]*verify credibility[ ]*}}|{{[ ]*who[ ]*}}|{{[ ]*failed verification[ ]*}}|{{[ ]*nonspecific[ ]*}}|{{[ ]*dubious[ ]*}}|{{[ ]*or[ ]*}}|{{[ ]*lopsided[ ]*}}|{{[ ]*GR[ ]*[\\|][ ]*[^ ]+[ ]*}}|{{[ ]*[c]?r[e]?f[ ]*[\\|][^}]*}}|{{[ ]*ref[ _]label[ ]*[\\|][^}]*}}|{{[ ]*ref[ _]num[ ]*[\\|][^}]*}})";
+        //    ArticleText = Regex.Replace(ArticleText, "[\\n\\r\\f\\t ]+?" + factTag, "$1");
 
-                const string match1a = lacksPunctuation + quote + refTag + space + anyPunctuation;
-                const string match1b = questionOrExclam + quote + refTag + space + majorPunctuation;
-                //string match1c = minorPunctuation + quote + refTag + space + anyPunctuation;
-                const string match1d = questionOrExclam + quote + refTag + space + period;
+        //    const string lacksPunctuation = "([^\\.,;:!\\?\"'’])";
+        //    const string questionOrExclam = "([!\\?])";
+        //    //string minorPunctuation = "([\\.,;:])";
+        //    const string anyPunctuation = "([\\.,;:!\\?])";
+        //    const string majorPunctuation = "([,;:!\\?])";
+        //    const string period = "([\\.])";
+        //    const string quote = "([\"'’]*)";
+        //    const string space = "[ ]*";
 
-                string oldArticleText = "";
+        //    const string refTag = "(<ref>([^<]|<[^/]|</[^r]|</r[^e]|</re[^f]|</ref[^>])*?</ref>" + "|<ref[^>]*?[^/]>([^<]|<[^/]|</[^r]|</r[^e]|</re[^f]" + "|</ref[^>])*?</ref>|<ref[^>]*?/>)";
 
-                while (oldArticleText != ArticleText)
-                { // repeat for multiple refs together
-                    oldArticleText = ArticleText;
-                    ArticleText = Regex.Replace(ArticleText, match0a, "$1$2$4$3");
-                    ArticleText = Regex.Replace(ArticleText, match0b, "$1$2$4$3");
-                    //ArticleText = Regex.Replace(ArticleText, match0c, "$2$4$3");
-                    ArticleText = Regex.Replace(ArticleText, match0d, "$1$2$3");
+        //    const string match0a = lacksPunctuation + quote + factTag + space + anyPunctuation;
+        //    const string match0b = questionOrExclam + quote + factTag + space + majorPunctuation;
+        //    //string match0c = minorPunctuation + quote + factTag + space + anyPunctuation;
+        //    const string match0d = questionOrExclam + quote + factTag + space + period;
 
-                    ArticleText = Regex.Replace(ArticleText, match1a, "$1$2$6$3");
-                    ArticleText = Regex.Replace(ArticleText, match1b, "$1$2$6$3");
-                    //ArticleText = Regex.Replace(ArticleText, match1c, "$2$6$3");
-                    ArticleText = Regex.Replace(ArticleText, match1d, "$1$2$3");
-                }
+        //    const string match1a = lacksPunctuation + quote + refTag + space + anyPunctuation;
+        //    const string match1b = questionOrExclam + quote + refTag + space + majorPunctuation;
+        //    //string match1c = minorPunctuation + quote + refTag + space + anyPunctuation;
+        //    const string match1d = questionOrExclam + quote + refTag + space + period;
 
-                ArticleText = Regex.Replace(ArticleText, "(==*)<ref", "$1\r\n<ref");
-                return ArticleText;
-            }
-        #endif
+        //    string oldArticleText = "";
+
+        //    while (oldArticleText != ArticleText)
+        //    { // repeat for multiple refs together
+        //        oldArticleText = ArticleText;
+        //        ArticleText = Regex.Replace(ArticleText, match0a, "$1$2$4$3");
+        //        ArticleText = Regex.Replace(ArticleText, match0b, "$1$2$4$3");
+        //        //ArticleText = Regex.Replace(ArticleText, match0c, "$2$4$3");
+        //        ArticleText = Regex.Replace(ArticleText, match0d, "$1$2$3");
+
+        //        ArticleText = Regex.Replace(ArticleText, match1a, "$1$2$6$3");
+        //        ArticleText = Regex.Replace(ArticleText, match1b, "$1$2$6$3");
+        //        //ArticleText = Regex.Replace(ArticleText, match1c, "$2$6$3");
+        //        ArticleText = Regex.Replace(ArticleText, match1d, "$1$2$3");
+        //    }
+
+        //    ArticleText = Regex.Replace(ArticleText, "(==*)<ref", "$1\r\n<ref");
+        //    return ArticleText;
+        //}
 
         string ReflistMatchEvaluator(Match m)
         {
