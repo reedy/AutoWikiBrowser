@@ -423,7 +423,7 @@ namespace AutoWikiBrowser
                     XmlSerializer xs = new XmlSerializer(typeof(UserPrefs), types.ToArray());
                     xs.Serialize(fStream, p);
                     UpdateRecentList(path);
-                    UpdateSettingsFileDisplay(path);
+                    SettingsFile = path;
                 }
 
                 //Delete temporary/old file if exists when code reaches here
@@ -507,7 +507,7 @@ namespace AutoWikiBrowser
                 p = (UserPrefs)xs.Deserialize(new StringReader(settings));
                 LoadPrefs(p);
 
-                UpdateSettingsFileDisplay(path);
+                SettingsFile = path;
                 lblStatusText.Text = "Settings successfully loaded";
                 UpdateRecentList(path);
             }
@@ -515,18 +515,6 @@ namespace AutoWikiBrowser
             {
                 MessageBox.Show(ex.Message, "Error loading settings", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private void UpdateSettingsFileDisplay(string path)
-        {
-            string SettingsFileDisplayText = "AutoWikiBrowser - " + path.Remove(0, path.LastIndexOf("\\") + 1);
-            SettingsFile = path;
-            this.Text = SettingsFileDisplayText;
-
-            if (SettingsFileDisplayText.Length > 64)
-                ntfyTray.Text = SettingsFileDisplayText.Substring(0, 63); // 64 char limit
-            else
-                ntfyTray.Text = SettingsFileDisplayText;
         }
     }
 }

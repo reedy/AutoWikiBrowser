@@ -68,7 +68,8 @@ namespace AutoWikiBrowser
         #endif
 
         private static string LastArticle = "";
-        private static string SettingsFile = "";
+        private static string mSettingsFile = "";
+        private static string mSettingsFileDisplay = "";
         private static string LastMove = "";
         private static string LastDelete = "";
         private static string LastProtect = "";
@@ -192,9 +193,26 @@ namespace AutoWikiBrowser
             }
         }
 
-        public string SettingsToLoad
+        internal string SettingsFile
         {
-            set { SettingsFile = value; }
+            set
+            {
+                mSettingsFile = value;
+                mSettingsFileDisplay = "AutoWikiBrowser";
+                if (value != "") mSettingsFileDisplay += " - " + value.Remove(0, value.LastIndexOf("\\") + 1);
+                this.Text = SettingsFileDisplay;
+
+                if (SettingsFileDisplay.Length > 64)
+                    ntfyTray.Text = SettingsFileDisplay.Substring(0, 63); // 64 char limit
+                else
+                    ntfyTray.Text = SettingsFileDisplay;
+            }
+            get { return mSettingsFile; }
+        }
+
+        private string SettingsFileDisplay
+        {
+            get { return mSettingsFileDisplay; }
         }
 
         int userProfileToLoad = -1;
@@ -513,7 +531,7 @@ namespace AutoWikiBrowser
 
             string strTemp = webBrowserEdit.GetArticleText();
 
-            this.Text = "AutoWikiBrowser - " + SettingsFile.Remove(0, SettingsFile.LastIndexOf("\\") + 1) + " - " + TheArticle.Name;
+            this.Text = SettingsFileDisplay + TheArticle.Name;
 
             //check for redirect
             if (bypassRedirectsToolStripMenuItem.Checked && Tools.IsRedirect(strTemp) && !PageReload)
