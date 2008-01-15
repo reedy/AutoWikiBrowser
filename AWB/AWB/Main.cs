@@ -3127,6 +3127,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private void ntfyTray_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             this.Visible = !this.Visible;
+            this.WindowState = System.Windows.Forms.FormWindowState.Normal;
         }
 
         private void mnuNotify_Opening(object sender, CancelEventArgs e)
