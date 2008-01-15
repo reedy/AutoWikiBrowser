@@ -48,7 +48,7 @@ namespace AutoWikiBrowser
             MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                 {
                     //Make an "old"/backup copy of a file. Old settings are still there if something goes wrong
-                    File.Copy(SettingsFile, SettingsFile + ".old");
+                    File.Copy(SettingsFile, SettingsFile + ".old", true);
                     SavePrefs(SettingsFile);
                 }
             }
