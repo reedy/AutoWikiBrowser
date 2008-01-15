@@ -45,6 +45,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.ImportanceCheckedListBox = New System.Windows.Forms.CheckedListBox
             Me.PropertiesButton = New System.Windows.Forms.Button
             Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
+            Me.GetRedirectsButton = New System.Windows.Forms.Button
             Me.GroupBox1.SuspendLayout()
             Me.GroupBox2.SuspendLayout()
             Me.GroupBox3.SuspendLayout()
@@ -86,7 +87,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.AlternateNamesTextBox.Enabled = False
             Me.AlternateNamesTextBox.Location = New System.Drawing.Point(71, 68)
             Me.AlternateNamesTextBox.Name = "AlternateNamesTextBox"
-            Me.AlternateNamesTextBox.Size = New System.Drawing.Size(175, 20)
+            Me.AlternateNamesTextBox.Size = New System.Drawing.Size(136, 20)
             Me.AlternateNamesTextBox.TabIndex = 2
             Me.ToolTip1.SetToolTip(Me.AlternateNamesTextBox, "Enter the alternate names of the template. If there is more than one alternate na" & _
                     "me seperate them with a vertical bar | and NO SPACES, e.g. WikiProjectBiography|" & _
@@ -159,6 +160,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             '
             'GroupBox1
             '
+            Me.GroupBox1.Controls.Add(Me.GetRedirectsButton)
             Me.GroupBox1.Controls.Add(Me.AlternateNamesCheckBox)
             Me.GroupBox1.Controls.Add(Me.Label2)
             Me.GroupBox1.Controls.Add(Me.AlternateNamesTextBox)
@@ -175,7 +177,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             'AlternateNamesCheckBox
             '
             Me.AlternateNamesCheckBox.AutoSize = True
-            Me.AlternateNamesCheckBox.Location = New System.Drawing.Point(19, 45)
+            Me.AlternateNamesCheckBox.Location = New System.Drawing.Point(8, 45)
             Me.AlternateNamesCheckBox.Name = "AlternateNamesCheckBox"
             Me.AlternateNamesCheckBox.Size = New System.Drawing.Size(217, 17)
             Me.AlternateNamesCheckBox.TabIndex = 4
@@ -185,7 +187,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             'Label2
             '
             Me.Label2.AutoSize = True
-            Me.Label2.Location = New System.Drawing.Point(16, 68)
+            Me.Label2.Location = New System.Drawing.Point(5, 68)
             Me.Label2.Name = "Label2"
             Me.Label2.Size = New System.Drawing.Size(49, 26)
             Me.Label2.TabIndex = 3
@@ -287,6 +289,15 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.PropertiesButton.Text = "Properties"
             Me.PropertiesButton.UseVisualStyleBackColor = True
             '
+            'GetRedirectsButton
+            '
+            Me.GetRedirectsButton.Location = New System.Drawing.Point(213, 66)
+            Me.GetRedirectsButton.Name = "GetRedirectsButton"
+            Me.GetRedirectsButton.Size = New System.Drawing.Size(33, 23)
+            Me.GetRedirectsButton.TabIndex = 5
+            Me.GetRedirectsButton.Text = "Get"
+            Me.GetRedirectsButton.UseVisualStyleBackColor = True
+            '
             'GenericTemplateSettings
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -334,6 +345,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Friend WithEvents SkipRegexCheckBox As System.Windows.Forms.CheckBox
         Friend WithEvents PropertiesButton As System.Windows.Forms.Button
         Friend WithEvents Timer1 As System.Windows.Forms.Timer
+        Friend WithEvents GetRedirectsButton As System.Windows.Forms.Button
 
     End Class
 End Namespace
