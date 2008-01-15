@@ -177,6 +177,7 @@ namespace WikiFunctions.Controls.Lists
             "Text file",
             "Google search",
             "User contribs",
+            "User contribs (all)",
             "Special page",
             "Image file links",
             "Database dump",

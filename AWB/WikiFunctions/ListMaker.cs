@@ -283,6 +283,10 @@ namespace WikiFunctions.Controls.Lists
                     lblSourceSelect.Text = Variables.Namespaces[2];
                     txtSelectSource.Enabled = true;
                     break;
+                case SourceType.AllUserContribs:
+                    lblSourceSelect.Text = Variables.Namespaces[2];
+                    txtSelectSource.Enabled = true;
+                    break;
                 case SourceType.SpecialPage:
                     lblSourceSelect.Text = Variables.Namespaces[-1];
                     txtSelectSource.Enabled = true;
@@ -300,7 +304,6 @@ namespace WikiFunctions.Controls.Lists
                     txtSelectSource.Enabled = true;
                     break;
                 case SourceType.CategoryRecursive:
-                    // debug only
                     lblSourceSelect.Text = Variables.Namespaces[14];
                     txtSelectSource.Enabled = true;
                     break;
@@ -775,6 +778,9 @@ namespace WikiFunctions.Controls.Lists
                         break;
                     case SourceType.UserContribs:
                         Add(GetLists.FromUserContribs(strSource));
+                        break;
+                    case SourceType.AllUserContribs:
+                        Add(GetLists.FromUserContribs(true, strSource));
                         break;
                     case SourceType.SpecialPage:
                         Add(GetLists.FromSpecialPage(strSource));
@@ -1256,5 +1262,5 @@ namespace WikiFunctions.Controls.Lists
 
 namespace WikiFunctions.Lists
 {
-    public enum SourceType { None = -1, Category, CategoryRecursive, WhatLinksHere, WhatTranscludesPage, LinksOnPage, ImagesOnPage, TransclusionsOnPage, TextFile, GoogleWikipedia, UserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist, WikiSearch, Redirects }
+    public enum SourceType { None = -1, Category, CategoryRecursive, WhatLinksHere, WhatTranscludesPage, LinksOnPage, ImagesOnPage, TransclusionsOnPage, TextFile, GoogleWikipedia, UserContribs, AllUserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist, WikiSearch, Redirects }
 }
