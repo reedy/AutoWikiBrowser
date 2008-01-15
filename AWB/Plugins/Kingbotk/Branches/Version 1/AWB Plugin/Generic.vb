@@ -304,9 +304,13 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Private Sub TemplateNameTextBox_TextChanged(ByVal sender As Object, ByVal e As EventArgs) _
         Handles TemplateNameTextBox.TextChanged
             InsertTemplateCallMenuItem.Text = "{{" & TemplateName & "}}"
+            GetRedirectsButton.Enabled = Not (TemplateName = "")
         End Sub
         Private Sub InsertTemplateCallMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles InsertTemplateCallMenuItem.Click
             PluginManager.EditBoxInsert("{{" & TemplateName & "}}")
+        End Sub
+        Private Sub AlternateNamesTextBox_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AlternateNamesTextBox.TextChanged
+            AlternateNames = PluginManager.StripOutSpaceSymbols(AlternateNames)
         End Sub
 #End Region
     End Class
@@ -345,6 +349,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             AddHandler OurSettingsControl.AlternateNamesCheckBox.CheckedChanged, AddressOf Me.TemplateNamesChanged
             AddHandler OurSettingsControl.AlternateNamesTextBox.TextChanged, AddressOf Me.TemplateNamesChanged
             AddHandler OurSettingsControl.PropertiesButton.Click, AddressOf Me.PropertiesButtonClick
+            AddHandler OurSettingsControl.GetRedirectsButton.Click, AddressOf Me.GetRedirectsButtonClick
         End Sub
         Protected Friend Overrides Sub Initialise()
             OurMenuItem = New ToolStripMenuItem(PluginShortName)
@@ -590,6 +595,21 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 PluginManager.DeleteGenericPlugin(Me, Me)
             End If
         End Sub
+        Private Sub GetRedirectsButtonClick(ByVal sender As System.Object, ByVal e As System.EventArgs)
+            If MessageBox.Show("Get the redirects from Wikipedia? Note: This may take a short while.", "Get from Wikipedia?", _
+               MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) = DialogResult.Yes Then
+                Try
+                    OurSettingsControl.AlternateNames = ConvertRedirectsToString(GetRedirects(OurSettingsControl.TemplateName))
+                    OurSettingsControl.AlternateNamesCheckBox.Checked = Not (OurSettingsControl.AlternateNames = "")
+                    CheckedRedirects = True
+                Catch ex As Exception
+                    MessageBox.Show("Whoops, we caught an error when trying to get the redirects from Wikipedia." & _
+                       Microsoft.VisualBasic.vbCrLf & Microsoft.VisualBasic.vbCrLf & "The error was:" & ex.Message & _
+                       Microsoft.VisualBasic.vbCrLf & Microsoft.VisualBasic.vbCrLf & "Depending on the error you might want to " & _
+                       "try again by repressing Get. If this shouldn't have happened please report it to the authors.")
+                End Try
+            End If
+        End Sub
 
         ' Misc:
         Protected Overrides ReadOnly Property InspectUnsetParameters() As Boolean
@@ -616,6 +636,12 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         End Property
         Friend Overrides Sub ReqPhoto()
         End Sub
+        Protected Overrides WriteOnly Property Regexpmiddle() As String
+            Set(ByVal value As String)
+                OurSettingsControl.AlternateNamesTextBox.Text = value
+                MyBase.Regexpmiddle = value
+            End Set
+        End Property
 
 #Region "IDisposable"
         Private disposed As Boolean = False  ' To detect redundant calls
