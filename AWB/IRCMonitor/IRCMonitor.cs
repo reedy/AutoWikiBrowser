@@ -1050,7 +1050,7 @@ Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=15
                 List<Article> bots = new List<Article>();
                 string item = "";
                 //HACK:
-                bots = GetLists.FromListusers("bot", "", 0);//FromCategory(false, "Wikipedia bots");
+                bots = GetLists.FromListUsers("bot", "", 0);//FromCategory(false, "Wikipedia bots");
 
                 foreach (Article a in bots)
                 {
@@ -1080,7 +1080,7 @@ Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=15
 
             try
             {
-                foreach (Article a in GetLists.FromListusers("sysop", "", 0))
+                foreach (Article a in GetLists.FromListUsers("sysop", "", 0))
                 {
                     string name = a.Name.Replace(Variables.Namespaces[2], "");
                     if (!lbWhiteList.Items.Contains(name))
