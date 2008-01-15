@@ -61,7 +61,7 @@ namespace AutoWikiBrowser
             MainForm awb = new MainForm();
 
             awb.ProfileToLoad = profileID;
-            awb.SettingsToLoad = fileToLoad;
+            awb.SettingsFile = fileToLoad;
 
             Program.AWB = awb;
             Application.Run(awb);
