@@ -520,9 +520,14 @@ namespace AutoWikiBrowser
 
         private void UpdateSettingsFileDisplay(string path)
         {
+            string SettingsFileDisplayText = "AutoWikiBrowser - " + path.Remove(0, path.LastIndexOf("\\") + 1);
             SettingsFile = path;
-            this.Text = "AutoWikiBrowser - " + SettingsFile.Remove(0, SettingsFile.LastIndexOf("\\") + 1); ;
-            UpdateNotifyIconTooltip();
+            this.Text = SettingsFileDisplayText;
+
+            if (SettingsFileDisplayText.Length > 64)
+                ntfyTray.Text = SettingsFileDisplayText.Substring(0, 63); // 64 char limit
+            else
+                ntfyTray.Text = SettingsFileDisplayText;
         }
     }
 }

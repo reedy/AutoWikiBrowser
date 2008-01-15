@@ -64,16 +64,5 @@ namespace AutoWikiBrowser
                 //UpdateNotifyIconTooltip();
             }
         }
-
-        internal void UpdateNotifyIconTooltip()
-        {
-            //ntfyTray.Text = "AutoWikiBrowser " + SettingsFile + "\r\n" + lblEditCount.Text + "\r\n" +
-            //    lblIgnoredArticles.Text + "\r\n" + lblEditsPerMin.Text; // + current article if any
-            string text = "AutoWikiBrowser - " + SettingsFile;
-            if (text.Length > 64)
-                ntfyTray.Text = text.Substring(0, 63); // 64 char limit
-            else
-                ntfyTray.Text = text;
-        }
     }
 }
