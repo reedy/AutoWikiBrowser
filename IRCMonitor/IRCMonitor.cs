@@ -1258,6 +1258,7 @@ Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=15
             }
         }
 
+        //TODO:Use AWB Style Serialisation
         private void LoadSettings(string fileName)
         {
             try
@@ -1424,6 +1425,7 @@ Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=15
             }
         }
 
+        //TODO:Use AWB Style Serialisation
         private void SaveSettings()
         {
             try

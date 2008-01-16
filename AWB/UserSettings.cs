@@ -415,16 +415,10 @@ namespace AutoWikiBrowser
         {
             try
             {
-                using (FileStream fStream = new FileStream(path, FileMode.Create))
-                {
-                    UserPrefs p = MakePrefs();
-                    List<System.Type> types = SavePluginSettings(p);
-                    
-                    XmlSerializer xs = new XmlSerializer(typeof(UserPrefs), types.ToArray());
-                    xs.Serialize(fStream, p);
-                    UpdateRecentList(path);
-                    SettingsFile = path;
-                }
+                UserPrefs.SavePrefs(MakePrefs(), path);
+
+                UpdateRecentList(path);
+                SettingsFile = path;
 
                 //Delete temporary/old file if exists when code reaches here
                 if (File.Exists(SettingsFile + ".old"))
@@ -434,27 +428,6 @@ namespace AutoWikiBrowser
             {
                 MessageBox.Show(ex.Message, "Error saving settings", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private List<System.Type> SavePluginSettings(UserPrefs Prefs)
-        {
-            List<System.Type> types = new List<Type>();
-            /* Find out what types the plugins are using for their settings so we can 
-                      * add them to the Serializer. The plugin author must ensure s(he) is using
-                      * serializable types.
-                      */
-
-            foreach (PluginPrefs pl in Prefs.Plugin)
-            {
-                if ((pl.PluginSettings != null) && (pl.PluginSettings.Length >= 1))
-                {
-                    foreach (object pl2 in pl.PluginSettings)
-                    {
-                        types.Add(pl2.GetType());
-                    }
-                }
-            }
-            return types;
         }
 
         /// <summary>
@@ -485,27 +458,7 @@ namespace AutoWikiBrowser
                 replaceSpecial.Clear();
                 substTemplates.Clear();
 
-                string settings;
-
-                using (StreamReader f = new StreamReader(path, Encoding.UTF8))
-                {
-                    settings = f.ReadToEnd();
-                }
-
-                //test to see if it is an old AWB file
-                if (settings.Contains("<projectlang proj="))
-                {
-                    MessageBox.Show("This file uses old settings format unsupported by this version of AWB.");
-                    return;
-                }
-
-                // fix for format regression
-                settings = settings.Replace("RegularExpressinonOptions>", "RegularExpressionOptions>");
-
-                UserPrefs p;
-                XmlSerializer xs = new XmlSerializer(typeof(UserPrefs));
-                p = (UserPrefs)xs.Deserialize(new StringReader(settings));
-                LoadPrefs(p);
+                LoadPrefs(UserPrefs.LoadPrefs(path));
 
                 SettingsFile = path;
                 lblStatusText.Text = "Settings successfully loaded";

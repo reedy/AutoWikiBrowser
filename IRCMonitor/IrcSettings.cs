@@ -101,7 +101,7 @@ namespace IrcMonitor
 
         //private string[] StubTypes;
         public string[] PageTags;
-        
+
         public string AppendTag(string pageContent, string tagToAdd, out string summary)
         {
             pageContent += "\r\n" + tagToAdd;
@@ -147,6 +147,32 @@ namespace IrcMonitor
             }
 
             return stubs;
+        }
+
+        public static ProjectSettings LoadPrefs(string file)
+        {
+            try
+            {
+                using (FileStream fStream = new FileStream(file, FileMode.Create))
+                {
+                    XmlSerializer xs = new XmlSerializer(typeof(ProjectSettings));
+                    return (ProjectSettings)xs.Deserialize(new StringReader(file));
+                }
+            }
+            catch { throw; }
+        }
+
+        public static void SavePrefs(ProjectSettings prefs, string file)
+        {
+            try
+            {
+                using (FileStream fStream = new FileStream(file, FileMode.Create))
+                {
+                    XmlSerializer xs = new XmlSerializer(typeof(ProjectSettings));
+                    xs.Serialize(fStream, prefs);
+                }
+            }
+            catch { throw; }
         }
     }
 
