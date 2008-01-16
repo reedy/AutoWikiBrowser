@@ -2229,9 +2229,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             WikiFunctions.AWBSettings.UserPrefs p = MakePrefs();
 
             if (listMaker1.Count > 0 && MessageBox.Show("Would you like to copy your current Article List to the ListSplitter?", "Copy Article List?", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                splitter = new ListSplitter(p, SavePluginSettings(p), listMaker1.GetArticleList());
+                splitter = new ListSplitter(p, WikiFunctions.AWBSettings.UserPrefs.SavePluginSettings(p), listMaker1.GetArticleList());
             else
-                splitter = new ListSplitter(p, SavePluginSettings(p));
+                splitter = new ListSplitter(p, WikiFunctions.AWBSettings.UserPrefs.SavePluginSettings(p));
 
             splitter.Show(this);
         }

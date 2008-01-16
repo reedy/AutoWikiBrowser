@@ -31,9 +31,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
 
+using System.IO;
+
 namespace WikiFunctions.AWBSettings
 {
-
     //mother class
     [Serializable, XmlRoot("AutoWikiBrowserPreferences")]
     public class UserPrefs
@@ -98,6 +99,71 @@ namespace WikiFunctions.AWBSettings
         public LoggingPrefs Logging;
 
         public List<PluginPrefs> Plugin = new List<PluginPrefs>();
+
+        public static UserPrefs LoadPrefs(string file)
+        {
+            try
+            {
+                string settings;
+                using (StreamReader f = new StreamReader(file, Encoding.UTF8))
+                {
+                    settings = f.ReadToEnd();
+                }
+
+                //test to see if it is an old AWB file
+                if (settings.Contains("<projectlang proj="))
+                    throw new Exception("This file uses old settings format unsupported by this version of AWB.");
+
+                // fix for format regression
+                settings = settings.Replace("RegularExpressinonOptions>", "RegularExpressionOptions>");
+
+                XmlSerializer xs = new XmlSerializer(typeof(UserPrefs));
+                return (UserPrefs)xs.Deserialize(new StringReader(settings));
+
+                //using (FileStream fStream = new FileStream(file, FileMode.Create))
+                //{
+                //    XmlSerializer xs = new XmlSerializer(typeof(UserPrefs));
+                //    return (UserPrefs)xs.Deserialize(new StringReader(file));
+                //}
+            }
+            catch { throw; }
+        }
+
+        public static void SavePrefs(UserPrefs prefs, string file)
+        {
+            try
+            {
+                using (FileStream fStream = new FileStream(file, FileMode.Create))
+                {
+                    List<System.Type> types = SavePluginSettings(prefs);
+
+                    XmlSerializer xs = new XmlSerializer(typeof(UserPrefs), types.ToArray());
+                    xs.Serialize(fStream, prefs);
+                }
+            }
+            catch { throw; }
+        }
+
+        public static List<System.Type> SavePluginSettings(UserPrefs Prefs)
+        {
+            List<System.Type> types = new List<Type>();
+            /* Find out what types the plugins are using for their settings so we can 
+                      * add them to the Serializer. The plugin author must ensure s(he) is using
+                      * serializable types.
+                      */
+
+            foreach (PluginPrefs pl in Prefs.Plugin)
+            {
+                if ((pl.PluginSettings != null) && (pl.PluginSettings.Length >= 1))
+                {
+                    foreach (object pl2 in pl.PluginSettings)
+                    {
+                        types.Add(pl2.GetType());
+                    }
+                }
+            }
+            return types;
+        }
     }
 
     //find and replace prefs
