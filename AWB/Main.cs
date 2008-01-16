@@ -1415,8 +1415,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         {
             if (webBrowserEdit.Document.Body.InnerHtml.Contains("wpMinoredit"))
             {
-                webBrowserEdit.SetMinor(markAllAsMinorToolStripMenuItem.Checked);
-                webBrowserEdit.SetWatch(addAllToWatchlistToolStripMenuItem.Checked);
+                // Warning: Plugins can call SetMinor and SetWatch, so only turn these *on* not off
+                if (markAllAsMinorToolStripMenuItem.Checked) webBrowserEdit.SetMinor(true);
+                if (addAllToWatchlistToolStripMenuItem.Checked) webBrowserEdit.SetWatch(true);
                 webBrowserEdit.SetSummary(MakeSummary());
             }
         }
