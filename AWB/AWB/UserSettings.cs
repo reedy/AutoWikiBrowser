@@ -86,25 +86,34 @@ namespace AutoWikiBrowser
        /// </summary>
         private void ResetSettings()
         {
-            LoadPrefs(new UserPrefs());
-
             try
             {
-                foreach (KeyValuePair<string, IAWBPlugin> a in Plugin.Items)
-                    a.Value.Reset();
+                LoadPrefs(new UserPrefs());
+                LoadDefaultEditSummaries();
+
+                try
+                {
+                    foreach (KeyValuePair<string, IAWBPlugin> a in Plugin.Items)
+                        a.Value.Reset();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Problem reseting plugin\r\n\r\n" + ex.Message);
+                }
+
+                cModule.ModuleEnabled = false;
+                this.Text = "AutoWikiBrowser";
+                lblStatusText.Text = "Default settings loaded.";
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Problem reseting plugin\r\n\r\n" + ex.Message);
+                MessageBox.Show(ex.Message, "Error loading settings", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            cModule.ModuleEnabled = false;
-            this.Text = "AutoWikiBrowser";
-            lblStatusText.Text = "Default settings loaded.";
         }
 
         private void LoadDefaultEditSummaries()
         {
+            //cmboEditSummary.Items.Clear();
             cmboEditSummary.Items.Add("clean up");
             cmboEditSummary.Items.Add("re-categorisation per [[WP:CFD|CFD]]");
             cmboEditSummary.Items.Add("clean up and re-categorisation per [[WP:CFD|CFD]]");
@@ -202,13 +211,41 @@ namespace AutoWikiBrowser
         }
 
         /// <summary>
+        /// Save preferences as default
+        /// </summary>
+        private void SavePrefs()
+        {
+            SavePrefs("Default.xml");
+        }
+
+        /// <summary>
+        /// Save preferences to file
+        /// </summary>
+        private void SavePrefs(string path)
+        {
+            try
+            {
+                UserPrefs.SavePrefs(MakePrefs(), path);
+
+                UpdateRecentList(path);
+                SettingsFile = path;
+
+                //Delete temporary/old file if exists when code reaches here
+                if (File.Exists(SettingsFile + ".old"))
+                    File.Delete(SettingsFile + ".old");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error saving settings", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
         /// Make preferences object from current settings
         /// </summary>
         private UserPrefs MakePrefs()
         {
-            //p.Editprefs.Append = rdoAppend.Checked;
-
-            return new UserPrefs(new FaRPrefs(chkFindandReplace.Checked, findAndReplace, replaceSpecial,
+             return new UserPrefs(new FaRPrefs(chkFindandReplace.Checked, findAndReplace, replaceSpecial,
                 substTemplates.TemplateList, substTemplates.ExpandRecursively, substTemplates.IgnoreUnformatted,
                 substTemplates.IncludeComment), new EditPrefs(chkGeneralFixes.Checked, chkAutoTagger.Checked,
                 chkUnicodifyWhole.Checked, cmboCategorise.SelectedIndex, txtNewCategory.Text,
@@ -235,6 +272,46 @@ namespace AutoWikiBrowser
                 txtDabLink.Text, txtDabVariants.Lines, (int)udContextChars.Value), new ModulePrefs(
                 cModule.ModuleEnabled, cModule.Language, cModule.Code), loggingSettings1.SerialisableSettings, 
                 Plugin.Items);
+        }
+
+        /// <summary>
+        /// Load default preferences
+        /// </summary>
+        private void LoadPrefs()
+        {
+            if (File.Exists("Default.xml"))
+                SettingsFile = "Default.xml";
+
+            if (!string.IsNullOrEmpty(SettingsFile))
+                LoadPrefs(SettingsFile);
+            else
+                LoadPrefs(new UserPrefs());
+        }
+
+        /// <summary>
+        /// Load preferences from file
+        /// </summary>
+        private void LoadPrefs(string path)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(path))
+                    return;
+
+                findAndReplace.Clear();
+                replaceSpecial.Clear();
+                substTemplates.Clear();
+
+                LoadPrefs(UserPrefs.LoadPrefs(path));
+
+                SettingsFile = path;
+                lblStatusText.Text = "Settings successfully loaded";
+                UpdateRecentList(path);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error loading settings", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         /// <summary>
@@ -316,10 +393,14 @@ namespace AutoWikiBrowser
             chkSkipNoDab.Checked = p.SkipOptions.SkipNoDisambiguation;
 
             cmboEditSummary.Items.Clear();
-            foreach (string s in p.General.Summaries)
-            {
-                cmboEditSummary.Items.Add(s);
-            }
+
+            if (p.General.Summaries.Count == 0)
+                LoadDefaultEditSummaries();
+            else
+                foreach (string s in p.General.Summaries)
+                {
+                    cmboEditSummary.Items.Add(s);
+                }
 
             chkLock.Checked = p.General.LockSummary;
             EditToolBarVisible = p.General.EditToolbarEnabled;
@@ -397,76 +478,6 @@ namespace AutoWikiBrowser
             {
                 if (Plugin.Items.ContainsKey(pp.Name))
                     Plugin.Items[pp.Name].LoadSettings(pp.PluginSettings);
-            }
-        }
-
-        /// <summary>
-        /// Save preferences as default
-        /// </summary>
-        private void SavePrefs()
-        {
-            SavePrefs("Default.xml");
-        }
-
-        /// <summary>
-        /// Save preferences to file
-        /// </summary>
-        private void SavePrefs(string path)
-        {
-            try
-            {
-                UserPrefs.SavePrefs(MakePrefs(), path);
-
-                UpdateRecentList(path);
-                SettingsFile = path;
-
-                //Delete temporary/old file if exists when code reaches here
-                if (File.Exists(SettingsFile + ".old"))
-                    File.Delete(SettingsFile + ".old");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error saving settings", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        /// <summary>
-        /// Load default preferences
-        /// </summary>
-        private void LoadPrefs()
-        {
-            if (File.Exists("Default.xml"))
-                SettingsFile = "Default.xml";
-
-            if (!string.IsNullOrEmpty(SettingsFile))
-                LoadPrefs(SettingsFile);
-            else
-                LoadPrefs(new UserPrefs());
-        }
-
-        /// <summary>
-        /// Load preferences from file
-        /// </summary>
-        private void LoadPrefs(string path)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(path))
-                    return;
-
-                findAndReplace.Clear();
-                replaceSpecial.Clear();
-                substTemplates.Clear();
-
-                LoadPrefs(UserPrefs.LoadPrefs(path));
-
-                SettingsFile = path;
-                lblStatusText.Text = "Settings successfully loaded";
-                UpdateRecentList(path);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error loading settings", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
