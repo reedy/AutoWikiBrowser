@@ -250,12 +250,12 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 SkipBadTagsCheckBox.Checked = True
                 SkipBadTagsCheckBox.Enabled = False
                 SkipNoChangesCheckBox.Checked = True
-                SkipNoChangesCheckBox.Enabled = False
+                'SkipNoChangesCheckBox.Enabled = False
                 lblAWBNudges.Visible = True
                 BotCheckBox.Checked = True
             Else
                 SkipBadTagsCheckBox.Enabled = True
-                SkipNoChangesCheckBox.Enabled = True
+                'SkipNoChangesCheckBox.Enabled = True
                 lblAWBNudges.Visible = False
                 BotCheckBox.Checked = False
             End If
