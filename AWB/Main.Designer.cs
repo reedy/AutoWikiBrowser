@@ -359,12 +359,12 @@ namespace AutoWikiBrowser
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
             this.mnuMakeFromTextBox = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menuitemMakeFromTextBoxUndo = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator27 = new System.Windows.Forms.ToolStripSeparator();
             this.menuitemMakeFromTextBoxCut = new System.Windows.Forms.ToolStripMenuItem();
             this.menuitemMakeFromTextBoxCopy = new System.Windows.Forms.ToolStripMenuItem();
             this.menuitemMakeFromTextBoxPaste = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparatorMakeFromTextBox = new System.Windows.Forms.ToolStripSeparator();
             this.mnuCopyToCategoryLog = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator27 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -2100,7 +2100,7 @@ namespace AutoWikiBrowser
             this.ntfyTray.Icon = ((System.Drawing.Icon)(resources.GetObject("ntfyTray.Icon")));
             this.ntfyTray.Text = "AutoWikiBrowser";
             this.ntfyTray.Visible = true;
-            this.ntfyTray.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ntfyTray_MouseDoubleClick);
+            this.ntfyTray.DoubleClick += new System.EventHandler(this.showToolStripMenuItem_Click);
             // 
             // mnuNotify
             // 
@@ -3491,7 +3491,7 @@ namespace AutoWikiBrowser
             this.toolStripSeparatorMakeFromTextBox,
             this.mnuCopyToCategoryLog});
             this.mnuMakeFromTextBox.Name = "mnuMakeFromTextBox";
-            this.mnuMakeFromTextBox.Size = new System.Drawing.Size(424, 148);
+            this.mnuMakeFromTextBox.Size = new System.Drawing.Size(424, 126);
             // 
             // menuitemMakeFromTextBoxUndo
             // 
@@ -3500,6 +3500,11 @@ namespace AutoWikiBrowser
             this.menuitemMakeFromTextBoxUndo.Size = new System.Drawing.Size(423, 22);
             this.menuitemMakeFromTextBoxUndo.Text = "Undo";
             this.menuitemMakeFromTextBoxUndo.Click += new System.EventHandler(this.menuitemMakeFromTextBoxUndo_Click);
+            // 
+            // toolStripSeparator27
+            // 
+            this.toolStripSeparator27.Name = "toolStripSeparator27";
+            this.toolStripSeparator27.Size = new System.Drawing.Size(420, 6);
             // 
             // menuitemMakeFromTextBoxCut
             // 
@@ -3536,11 +3541,6 @@ namespace AutoWikiBrowser
             this.mnuCopyToCategoryLog.Size = new System.Drawing.Size(423, 22);
             this.mnuCopyToCategoryLog.Text = "Copy to Category box on log tab (for edit summaries and logging)";
             this.mnuCopyToCategoryLog.Click += new System.EventHandler(this.mnuCopyToCategoryLog_Click);
-            // 
-            // toolStripSeparator27
-            // 
-            this.toolStripSeparator27.Name = "toolStripSeparator27";
-            this.toolStripSeparator27.Size = new System.Drawing.Size(420, 6);
             // 
             // MainForm
             // 

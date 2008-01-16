@@ -99,6 +99,7 @@ namespace AutoWikiBrowser
         private static Regex userTalkTemplatesRegex;
         private static bool mErrorGettingLogInStatus;
         private static bool skippable = true;
+        private static FormWindowState LastState = FormWindowState.Normal;
 
         private ListComparer lc;
         private ListSplitter splitter;
@@ -295,8 +296,12 @@ namespace AutoWikiBrowser
 
         private void MainForm_Resize(object sender, EventArgs e)
         {
-            if (Minimize && (this.WindowState == FormWindowState.Minimized))
-                this.Visible = false;
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                if (Minimize) this.Visible = false;
+            }
+            else
+                LastState = this.WindowState; // remember if maximised or normal so can restore same when dbl click tray icon
         }
         #endregion
 
@@ -347,6 +352,9 @@ namespace AutoWikiBrowser
         }
 
         bool bMinimize;
+        /// <summary>
+        /// Returns True if AWB should be minimised to the system tray; False if it should minimise to the taskbar
+        /// </summary>
         private bool Minimize
         {
             get { return bMinimize; }
@@ -531,7 +539,7 @@ namespace AutoWikiBrowser
 
             string strTemp = webBrowserEdit.GetArticleText();
 
-            this.Text = SettingsFileDisplay + TheArticle.Name;
+            this.Text = SettingsFileDisplay + " - " + TheArticle.Name;
 
             //check for redirect
             if (bypassRedirectsToolStripMenuItem.Checked && Tools.IsRedirect(strTemp) && !PageReload)
@@ -3110,8 +3118,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         #region Notify Tray
         private void showToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        { // also handles double click of the tray icon
             this.Visible = true;
+            this.WindowState = LastState;
         }
 
         private void hideToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3123,12 +3132,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         {
             this.Close();
             Application.Exit();
-        }
-
-        private void ntfyTray_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            this.Visible = !this.Visible;
-            this.WindowState = System.Windows.Forms.FormWindowState.Normal;
         }
 
         private void mnuNotify_Opening(object sender, CancelEventArgs e)
