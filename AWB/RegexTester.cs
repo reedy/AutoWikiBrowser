@@ -1,6 +1,6 @@
 /*
 Autowikibrowser
-Copyright (C) 2007 Max Semenik
+Copyright (C) 2008 Max Semenik, Stephen Kennedy
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -50,9 +50,12 @@ namespace AutoWikiBrowser
         {
             get
             {
+                // this was a bit confusing (Multiline box turns on Singleline!), much better to have boxes which correspond directly to the dotnet RegexOptions see e.g. http://www.regexlib.com/RETester.aspx
                 RegexOptions res = RegexOptions.None;
-                if (Multiline.Checked) res |= RegexOptions.Singleline;
-                if (!Casesensitive.Checked) res |= RegexOptions.IgnoreCase;
+                if (Multiline.Checked) res |= RegexOptions.Multiline;
+                if (Singleline.Checked) res |= RegexOptions.Singleline; 
+                if (Ignorecase.Checked) res |= RegexOptions.IgnoreCase;
+                if (explicitcapture.Checked) res |= RegexOptions.ExplicitCapture;
 
                 return res;
             }
@@ -109,8 +112,18 @@ namespace AutoWikiBrowser
             MatchCollection matches = r.Matches(Source.Text.Replace("\r\n", "\n"));
             foreach (Match m in matches)
             {
-                TreeNode n = Captures.Nodes.Add("{" + m.Value + "}");
-                for (int i = 1; i < m.Groups.Count; i++) n.Nodes.Add("{" + m.Groups[i].Value + "}");
+                TreeNode n = Captures.Nodes.Add(m.Value);
+                foreach (Group g in m.Groups)
+                { // TODO: Is there any way to get the name of the group when explicit capture is on?
+                    if (g.Captures.Count > 1)
+                    {
+                        TreeNode nn = n.Nodes.Add("...");
+                        foreach (Capture c in g.Captures)
+                            nn.Nodes.Add(c.Value);
+                    }
+                    else if (g.Captures.Count == 1)
+                        n.Nodes.Add(g.Captures[0].Value);
+                }
             }
             if (matches.Count == 0)
                 Status.Text = "No matches";
