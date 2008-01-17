@@ -15,25 +15,32 @@
         Private SearchedForLivingInShell As Boolean, SearchedForActivePolInShell As Boolean
 
         ' Regexes:
-        Private Shared ReadOnly WikiProjectBannerShellRegex As New Regex(PluginBase.conRegexpLeft & PluginBase.WikiProjectBannerShell & _
+        Private Shared ReadOnly WikiProjectBannerShellRegex As New Regex(PluginBase.conRegexpLeft & WikiProjectBannerShell & _
            ")\b[\s\n\r]*\|[\s\n\r]*1[\s\n\r]*=[\s\n\r]*(?<body>.*}}[^{]*?)(?<end>\|[^{]*)?}}", RegexOptions.Compiled _
            Or RegexOptions.IgnoreCase Or RegexOptions.Singleline Or RegexOptions.ExplicitCapture) '")\b[\s\n\r]*\|[\s\n\r]*1[\s\n\r]*=[\s\n\r]*(?<body>.*}}[^{]*?)(?<end>\|[^{|]*)*?}}"
-        Private Shared ReadOnly WikiProjectBannersRegex As New Regex("")
+        Private Shared ReadOnly WikiProjectBannersRegex As New Regex(PluginBase.conRegexpLeft & WikiProjectBanners & _
+           ")\b([\s\n\r]*\|[\s\n\r]*[0-9]+[\s\n\r]*=[\s\n\r]*(?<body>\{\{[\s\n\r]*[^{]*}}[^{]*?))*}}", RegexOptions.Compiled _
+           Or RegexOptions.IgnoreCase Or RegexOptions.Singleline Or RegexOptions.ExplicitCapture)
         Private Shared ReadOnly BlpWikiProjectBannerShellRegex As New Regex("[\s\n\r]*\|[\s\n\r]*blp[\s\n\r]*=[\s\n\r]*[Yy]es", _
            RegexOptions.Compiled Or RegexOptions.Singleline)
         Private Shared ReadOnly ActivePolWikiProjectBannerShellRegex As New  _
            Regex("[\s\n\r]*\|[\s\n\r]*activepol[\s\n\r]*=[\s\n\r]*[Yy]es", RegexOptions.Compiled Or RegexOptions.Singleline)
+        Private Shared ReadOnly ShellRegex As New Regex(PluginBase.conRegexpLeft & WikiProjectBannerShell & "|" & _
+           WikiProjectBanners & ")\b[\s\n\r]*\|", RegexOptions.Singleline Or RegexOptions.Compiled Or RegexOptions.IgnoreCase _
+           Or RegexOptions.ExplicitCapture)
+
+        ' Regex constant strings:
+        Private Const WikiProjectBannerShell As String = "WikiProject[\s]?Banner[\s]?Shell|WPBS" ' IGNORE CASE '|Wikiprojectbannershell|WikiProject Banner Shell"
+        'Private Const BannerShell As String = "BannerShell" ' BannerShell is a subcontainer for {{WikiProjectBannerShell}}
+        Private Const WikiProjectBanners As String = "WikiProject[\s]?Banners|WPB|Shell" ' IGNORE CASE ' |WikiProject Banners|Wpb
 
         ' Match evaluators:
         Private Function WPBSRegexMatchEvaluator(ByVal match As Match) As String
             Const templatename As String = "WikiProjectBannerShell"
             Dim Ending As String = match.Groups("end").Value
 
-            ' Does the shell contain template: ?
-            PluginCheckTemplateCall(match.Groups("tl").Value, templatename)
-            ' Does the template have it's primary name:
-            If Not match.Groups("tlname").Value = templatename Then RenamedATemplate(match.Groups("tlname").Value, _
-               templatename, templatename)
+            ShellTemplateMatchEvaluatorsCommonTasks(templatename, match)
+
             ' Do we need to add blp or activepol?
             If mActivePol AndAlso Not SearchedForActivePolInShell Then
                 SearchedForActivePolInShell = True
@@ -56,8 +63,26 @@
                match.Groups("body").Value & Ending & "}}"
         End Function
         Private Function WikiProjectBannersRegexMatchEvaluator(ByVal match As Match) As String
+            Const templatename As String = "WikiProjectBanners"
+            Dim i As Integer = 1
 
+            ShellTemplateMatchEvaluatorsCommonTasks(templatename, match)
+
+            WikiProjectBannersRegexMatchEvaluator = "{{" & templatename
+
+            For Each c As Capture In match.Groups("body").Captures
+                WikiProjectBannersRegexMatchEvaluator += Microsoft.VisualBasic.vbCrLf + "|" + i.ToString + "=" + c.Value
+                i += 1
+            Next
+            WikiProjectBannersRegexMatchEvaluator += "|" + i.ToString + "=" + MatchEvaluatorString + "}}"
         End Function
+        Private Sub ShellTemplateMatchEvaluatorsCommonTasks(ByVal templatename As String, ByVal match As Match)
+            ' Does the shell contain template: ?
+            PluginCheckTemplateCall(Match.Groups("tl").Value, templatename)
+            ' Does the template have it's primary name:
+            If Not Match.Groups("tlname").Value = templatename Then RenamedATemplate(Match.Groups("tlname").Value, _
+               templatename, templatename)
+        End Sub
 
         ' Where we (possibly) add our template to an existing shell:
         Friend Sub PrependTemplateOrWriteIntoShell(ByVal Template As Templating, ByVal ParameterBreak As String, _
@@ -65,8 +90,8 @@
             If WeFoundBannerShells = BannerShellsEnum.NotChecked Then
                 If WikiProjectBannerShellRegex.IsMatch(AlteredArticleText) Then
                     WeFoundBannerShells = BannerShellsEnum.FoundWikiProjectBannerShell
-                    'ElseIf WikiProjectBannersRegex.IsMatch(AlteredArticleText) Then
-                    '    WeFoundBannerShells = BannerShellsEnum.FoundWikiProjectBanners
+                ElseIf WikiProjectBannersRegex.IsMatch(AlteredArticleText) Then
+                    WeFoundBannerShells = BannerShellsEnum.FoundWikiProjectBanners
                 Else
                     WeFoundBannerShells = BannerShellsEnum.NoneFound
                 End If
@@ -108,5 +133,11 @@
                    AddressOf Me.WPBSRegexMatchEvaluator, 1)
             End If
         End Sub
+        Friend Function PageContainsShellTemplate() As Boolean
+            ' Currently only WPBio can possibly call this, so it's ok to just run the regex and not cache the results
+            ' Later on we want to have dynamic redirects and management of these templates (or it maybe should be in
+            ' WikiFunctions.TalkPages
+            Return ShellRegex.IsMatch(AlteredArticleText)
+        End Function
     End Class
 End Namespace
