@@ -1226,13 +1226,8 @@ namespace WikiFunctions.Controls.Lists
 
         private void openInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (lbArticles.SelectedItems.Count < 10)
+            if ((lbArticles.SelectedItems.Count < 10) || (MessageBox.Show("Opening " + lbArticles.SelectedItems.Count + " articles in your browser at once could cause your system to run slowly, and even stop responding.\r\nAre you sure you want to continue?", "Continue?", MessageBoxButtons.YesNo) == DialogResult.Yes))
                 loadArticlesInBrowser();
-            else
-            {
-                if (MessageBox.Show("Opening " + lbArticles.SelectedItems.Count + " articles in your browser at once could cause your system to run slowly, and even stop responding.\r\nAre you sure you want to continue?", "Continue?", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    loadArticlesInBrowser();
-            }
         }
 
         private void loadArticlesInBrowser()
@@ -1256,6 +1251,23 @@ namespace WikiFunctions.Controls.Lists
         {
             btnStop.Visible = false;
             this.Stop();
+        }
+
+        private void openHistoryInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if ((lbArticles.SelectedItems.Count < 10) || (MessageBox.Show("Opening " + lbArticles.SelectedItems.Count + " articles in your browser at once could cause your system to run slowly, and even stop responding.\r\nAre you sure you want to continue?", "Continue?", MessageBoxButtons.YesNo) == DialogResult.Yes))
+                loadArticleHistoryInBrowser();
+        }
+
+        private void loadArticleHistoryInBrowser()
+        {
+            foreach (Article item in lbArticles.SelectedItems)
+                Tools.OpenArticleHistoryInBrowser(item.Name);
+        }
+
+        private void lbArticles_DoubleClick(object sender, System.EventArgs e)
+        {
+            loadArticlesInBrowser();
         }
     }
 }

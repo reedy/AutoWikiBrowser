@@ -61,11 +61,11 @@ namespace AutoWikiBrowser
 
         private static bool Abort;
 
-        #if DEBUG
-            private Profiler prof;
-        #else
+#if DEBUG
+        private Profiler prof;
+#else
             private Profiler prof = new Profiler();
-        #endif
+#endif
 
         private static string LastArticle = "";
         private static string mSettingsFile = "";
@@ -927,9 +927,9 @@ namespace AutoWikiBrowser
         {
             bool process = true;
 
-            #if DEBUG
-                prof.Start("ProcessPage(\"" + theArticle.Name + "\")");
-            #endif
+#if DEBUG
+            prof.Start("ProcessPage(\"" + theArticle.Name + "\")");
+#endif
 
             try
             {
@@ -1865,9 +1865,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             bypassAllRedirectsToolStripMenuItem.Enabled = true;
             profileTyposToolStripMenuItem.Visible = true;
 
-            #if DEBUG
-                prof = new Profiler("profiling.txt", true);
-            #endif
+#if DEBUG
+            prof = new Profiler("profiling.txt", true);
+#endif
         }
 
         #endregion
@@ -2190,7 +2190,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private void filterOutNonMainSpaceToolStripMenuItem_Click(object sender, EventArgs e)
         {
             listMaker1.FilterNonMainAuto = filterOutNonMainSpaceToolStripMenuItem.Checked;
-            
+
             if (filterOutNonMainSpaceToolStripMenuItem.Checked)
                 listMaker1.FilterNonMainArticles();
         }
@@ -3726,129 +3726,129 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         #endregion
 
         #region various menus and event handlers
-            private void txtFind_MouseHover(object sender, EventArgs e)
-            {
-                toolTip1.SetToolTip(txtFind, txtFind.Text);
-            }
-
-            private void btnWatch_Click(object sender, EventArgs e)
-            {
-                //webBrowserEdit.WatchUnwatch();
-                //SetWatchButton(btnWatch.Text == "Watch");
-            }
-
-            private void SetWatchButton(bool watch)
-            {
-                if (watch)
-                    btnWatch.Text = "Unwatch";
-                else
-                    btnWatch.Text = "Watch";
-            }
-
-            private static int CompareRegexPairs(KeyValuePair<int, string> x, KeyValuePair<int, string> y)
-            {
-                return x.Key.CompareTo(y.Key) * -1;
-            }
-
-            private void profileTyposToolStripMenuItem_Click(object sender, EventArgs e)
-            {
-                if (RegexTypos == null)
-                {
-                    MessageBox.Show("No typos loaded", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                List<KeyValuePair<Regex, string>> typos = RegexTypos.GetTypos();
-                if (typos.Count == 0)
-                {
-                    MessageBox.Show("No typos loaded", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                string text = txtEdit.Text;
-                if (!txtEdit.Enabled || text.Length == 0)
-                {
-                    MessageBox.Show("No article text", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                if (MessageBox.Show("Test typo rules for performance (this may take considerable time)?",
-                    "Test typos", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
-                    return;
-
-                int iterations = 1000000 / text.Length;
-                if (iterations > 500) iterations = 500;
-
-                List<KeyValuePair<int, string>> times = new List<KeyValuePair<int, string>>();
-
-                foreach (KeyValuePair<Regex, string> p in typos)
-                {
-                    Stopwatch watch = new Stopwatch();
-                    watch.Start();
-                    for (int i = 0; i < iterations; i++)
-                    {
-                        p.Key.IsMatch(text);
-                    }
-                    times.Add(new KeyValuePair<int, string>((int)watch.ElapsedMilliseconds,
-                        p.Key.ToString() + " > " + p.Value));
-                }
-
-                times.Sort(new Comparison<KeyValuePair<int, string>>(CompareRegexPairs));
-
-                using (StreamWriter sw = new StreamWriter("typos.txt", false, Encoding.UTF8))
-                {
-                    foreach (KeyValuePair<int, string> p in times) sw.WriteLine(p);
-                }
-
-                MessageBox.Show("Results are saved in the file 'typos.txt'", "Profiling complete",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-
-            private void loadPluginToolStripMenuItem_Click(object sender, EventArgs e)
-            {
-                PluginManager.LoadNewPlugin(this);
-            }
-
-            private void managePluginsToolStripMenuItem_Click(object sender, EventArgs e)
-            {
-                PluginManager manager = new PluginManager(this);
-                manager.ShowDialog(this);
-            }
-
-            private void menuitemMakeFromTextBoxUndo_Click(object sender, EventArgs e)
-            {
-                listMaker1.txtSelectSource.Undo();
-            }
-
-            private void menuitemMakeFromTextBoxCut_Click(object sender, EventArgs e)
-            {
-                listMaker1.txtSelectSource.Cut();
-            }
-
-            private void menuitemMakeFromTextBoxCopy_Click(object sender, EventArgs e)
-            {
-                listMaker1.txtSelectSource.Copy();
-            }
-
-            private void menuitemMakeFromTextBoxPaste_Click(object sender, EventArgs e)
-            {
-                listMaker1.txtSelectSource.Paste();
-            }
-
-            private void mnuCopyToCategoryLog_Click(object sender, EventArgs e)
-            {
-                if (listMaker1.txtSelectSource.SelectionLength > 0)
-                    loggingSettings1.LoggingCategoryTextBox.Text = listMaker1.txtSelectSource.SelectedText;
-                else
-                    loggingSettings1.LoggingCategoryTextBox.Text = listMaker1.txtSelectSource.Text;
-            }
-
-            private void ListMakerSourceSelectHandler(object sender, EventArgs e)
-            {
-                bool cats = (listMaker1.SelectedSource == SourceType.Category || listMaker1.SelectedSource == SourceType.CategoryRecursive);
-                toolStripSeparatorMakeFromTextBox.Visible = cats;
-                mnuCopyToCategoryLog.Visible = cats;
-            }
+        private void txtFind_MouseHover(object sender, EventArgs e)
+        {
+            toolTip1.SetToolTip(txtFind, txtFind.Text);
         }
-    #endregion
+
+        private void btnWatch_Click(object sender, EventArgs e)
+        {
+            //webBrowserEdit.WatchUnwatch();
+            //SetWatchButton(btnWatch.Text == "Watch");
+        }
+
+        private void SetWatchButton(bool watch)
+        {
+            if (watch)
+                btnWatch.Text = "Unwatch";
+            else
+                btnWatch.Text = "Watch";
+        }
+
+        private static int CompareRegexPairs(KeyValuePair<int, string> x, KeyValuePair<int, string> y)
+        {
+            return x.Key.CompareTo(y.Key) * -1;
+        }
+
+        private void profileTyposToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (RegexTypos == null)
+            {
+                MessageBox.Show("No typos loaded", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            List<KeyValuePair<Regex, string>> typos = RegexTypos.GetTypos();
+            if (typos.Count == 0)
+            {
+                MessageBox.Show("No typos loaded", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string text = txtEdit.Text;
+            if (!txtEdit.Enabled || text.Length == 0)
+            {
+                MessageBox.Show("No article text", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (MessageBox.Show("Test typo rules for performance (this may take considerable time)?",
+                "Test typos", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                return;
+
+            int iterations = 1000000 / text.Length;
+            if (iterations > 500) iterations = 500;
+
+            List<KeyValuePair<int, string>> times = new List<KeyValuePair<int, string>>();
+
+            foreach (KeyValuePair<Regex, string> p in typos)
+            {
+                Stopwatch watch = new Stopwatch();
+                watch.Start();
+                for (int i = 0; i < iterations; i++)
+                {
+                    p.Key.IsMatch(text);
+                }
+                times.Add(new KeyValuePair<int, string>((int)watch.ElapsedMilliseconds,
+                    p.Key.ToString() + " > " + p.Value));
+            }
+
+            times.Sort(new Comparison<KeyValuePair<int, string>>(CompareRegexPairs));
+
+            using (StreamWriter sw = new StreamWriter("typos.txt", false, Encoding.UTF8))
+            {
+                foreach (KeyValuePair<int, string> p in times) sw.WriteLine(p);
+            }
+
+            MessageBox.Show("Results are saved in the file 'typos.txt'", "Profiling complete",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void loadPluginToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PluginManager.LoadNewPlugin(this);
+        }
+
+        private void managePluginsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PluginManager manager = new PluginManager(this);
+            manager.ShowDialog(this);
+        }
+
+        private void menuitemMakeFromTextBoxUndo_Click(object sender, EventArgs e)
+        {
+            listMaker1.txtSelectSource.Undo();
+        }
+
+        private void menuitemMakeFromTextBoxCut_Click(object sender, EventArgs e)
+        {
+            listMaker1.txtSelectSource.Cut();
+        }
+
+        private void menuitemMakeFromTextBoxCopy_Click(object sender, EventArgs e)
+        {
+            listMaker1.txtSelectSource.Copy();
+        }
+
+        private void menuitemMakeFromTextBoxPaste_Click(object sender, EventArgs e)
+        {
+            listMaker1.txtSelectSource.Paste();
+        }
+
+        private void mnuCopyToCategoryLog_Click(object sender, EventArgs e)
+        {
+            if (listMaker1.txtSelectSource.SelectionLength > 0)
+                loggingSettings1.LoggingCategoryTextBox.Text = listMaker1.txtSelectSource.SelectedText;
+            else
+                loggingSettings1.LoggingCategoryTextBox.Text = listMaker1.txtSelectSource.Text;
+        }
+
+        private void ListMakerSourceSelectHandler(object sender, EventArgs e)
+        {
+            bool cats = (listMaker1.SelectedSource == SourceType.Category || listMaker1.SelectedSource == SourceType.CategoryRecursive);
+            toolStripSeparatorMakeFromTextBox.Visible = cats;
+            mnuCopyToCategoryLog.Visible = cats;
+        }
+    }
+        #endregion
 }

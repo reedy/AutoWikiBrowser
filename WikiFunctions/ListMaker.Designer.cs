@@ -80,6 +80,7 @@ namespace WikiFunctions.Controls.Lists
             this.btnArticlesListSave = new System.Windows.Forms.Button();
             this.btnRemoveDuplicates = new System.Windows.Forms.Button();
             this.lbArticles = new WikiFunctions.Controls.Lists.ListBox2();
+            this.openHistoryInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuListBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -213,9 +214,10 @@ namespace WikiFunctions.Controls.Lists
             this.removeToolStripMenuItem,
             this.clearToolStripMenuItem1,
             this.toolStripSeparator1,
-            this.openInBrowserToolStripMenuItem});
+            this.openInBrowserToolStripMenuItem,
+            this.openHistoryInBrowserToolStripMenuItem});
             this.mnuListBox.Name = "contextMenuStrip2";
-            this.mnuListBox.Size = new System.Drawing.Size(209, 386);
+            this.mnuListBox.Size = new System.Drawing.Size(209, 430);
             this.mnuListBox.Opening += new System.ComponentModel.CancelEventHandler(this.mnuListBox_Opening);
             // 
             // filterOutNonMainSpaceArticlesToolStripMenuItem
@@ -530,6 +532,14 @@ namespace WikiFunctions.Controls.Lists
             this.lbArticles.TabIndex = 5;
             this.lbArticles.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lbArticles_MouseMove);
             this.lbArticles.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbArticles_KeyDown);
+            this.lbArticles.DoubleClick += new System.EventHandler(lbArticles_DoubleClick);
+            // 
+            // openHistoryInBrowserToolStripMenuItem
+            // 
+            this.openHistoryInBrowserToolStripMenuItem.Name = "openHistoryInBrowserToolStripMenuItem";
+            this.openHistoryInBrowserToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.openHistoryInBrowserToolStripMenuItem.Text = "Open history in browser";
+            this.openHistoryInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openHistoryInBrowserToolStripMenuItem_Click);
             // 
             // ListMaker
             // 
@@ -608,5 +618,6 @@ namespace WikiFunctions.Controls.Lists
         private System.Windows.Forms.ToolStripMenuItem invertSelectionToolStripMenuItem;
         public System.Windows.Forms.TextBox txtSelectSource;
         public System.Windows.Forms.ComboBox cmboSourceSelect;
+        private System.Windows.Forms.ToolStripMenuItem openHistoryInBrowserToolStripMenuItem;
     }
 }
