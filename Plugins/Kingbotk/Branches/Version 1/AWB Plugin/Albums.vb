@@ -149,8 +149,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Protected Overrides Sub GotTemplateNotPreferredName(ByVal TemplateName As String)
             ' Currently only WPBio does anything here (if {{musician}} add to musician-work-group)
         End Sub
-        Protected Overrides Function WriteTemplateHeader(ByRef PutTemplateAtTop As Boolean, ByRef Living As Boolean, _
-           ByRef ActivePol As Boolean) As String
+        Protected Overrides Function WriteTemplateHeader(ByRef PutTemplateAtTop As Boolean) As String
             WriteTemplateHeader = "{{album" & WriteOutParameterToHeader("class") & _
                WriteOutParameterToHeader("importance")
         End Function
