@@ -102,6 +102,7 @@ namespace AutoWikiBrowser
             // ReplaceBtn
             // 
             this.ReplaceBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ReplaceBtn.Enabled = false;
             this.ReplaceBtn.Location = new System.Drawing.Point(577, 90);
             this.ReplaceBtn.Name = "ReplaceBtn";
             this.ReplaceBtn.Size = new System.Drawing.Size(75, 23);
@@ -164,6 +165,7 @@ namespace AutoWikiBrowser
             // FindBtn
             // 
             this.FindBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.FindBtn.Enabled = false;
             this.FindBtn.Location = new System.Drawing.Point(496, 90);
             this.FindBtn.Name = "FindBtn";
             this.FindBtn.Size = new System.Drawing.Size(75, 23);
