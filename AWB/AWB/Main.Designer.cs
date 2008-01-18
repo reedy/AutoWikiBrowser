@@ -356,7 +356,6 @@ namespace AutoWikiBrowser
             this.ShutdownTimer = new System.Windows.Forms.Timer(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
-            this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
             this.mnuMakeFromTextBox = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menuitemMakeFromTextBoxUndo = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator27 = new System.Windows.Forms.ToolStripSeparator();
@@ -365,6 +364,7 @@ namespace AutoWikiBrowser
             this.menuitemMakeFromTextBoxPaste = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparatorMakeFromTextBox = new System.Windows.Forms.ToolStripSeparator();
             this.mnuCopyToCategoryLog = new System.Windows.Forms.ToolStripMenuItem();
+            this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -3475,11 +3475,6 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
             this.webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
             // 
-            // NudgeTimer
-            // 
-            this.NudgeTimer.Interval = 120000;
-            this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
-            // 
             // mnuMakeFromTextBox
             // 
             this.mnuMakeFromTextBox.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -3542,6 +3537,11 @@ namespace AutoWikiBrowser
             this.mnuCopyToCategoryLog.Text = "Copy to Category box on log tab (for edit summaries and logging)";
             this.mnuCopyToCategoryLog.Click += new System.EventHandler(this.mnuCopyToCategoryLog_Click);
             // 
+            // NudgeTimer
+            // 
+            this.NudgeTimer.Interval = 120000;
+            this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -3561,7 +3561,6 @@ namespace AutoWikiBrowser
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AutoWikiBrowser";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Resize += new System.EventHandler(this.MainForm_Resize);

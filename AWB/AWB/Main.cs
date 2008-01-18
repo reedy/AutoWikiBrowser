@@ -255,6 +255,8 @@ namespace AutoWikiBrowser
                 if (Properties.Settings.Default.WindowSize != null)
                     this.Size = Properties.Settings.Default.WindowSize;
 
+                this.WindowState = Properties.Settings.Default.WindowState;
+
                 Debug();
                 Plugin.LoadPlugins(this);
 
@@ -1378,12 +1380,18 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         {
             WebControl.Shutdown = true;
 
-            Properties.Settings.Default.WindowLocation = this.Location;
+            Properties.Settings.Default.WindowState = this.WindowState;
 
             if (this.WindowState == FormWindowState.Normal)
+            {
                 Properties.Settings.Default.WindowSize = this.Size;
+                Properties.Settings.Default.WindowLocation = this.Location;
+            }
             else
+            {
                 Properties.Settings.Default.WindowSize = this.RestoreBounds.Size;
+                Properties.Settings.Default.WindowLocation = this.RestoreBounds.Location;
+            }
 
             Properties.Settings.Default.Save();
 
