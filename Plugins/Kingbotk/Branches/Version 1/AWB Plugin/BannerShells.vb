@@ -21,7 +21,7 @@
            RegexOptions.Compiled Or RegexOptions.IgnoreCase Or RegexOptions.Singleline Or RegexOptions.ExplicitCapture)
         ' last known reasonably good version (no catching blp= etc at the start of regex): '")\b[\s\n\r]*\|[\s\n\r]*1[\s\n\r]*=[\s\n\r]*(?<body>.*}}[^{]*?)(?<end>\|[^{]*)?}}"
         Private Shared ReadOnly WikiProjectBannersRegex As New Regex(PluginBase.conRegexpLeft & WikiProjectBanners & _
-           ")\b([\s\n\r]*\|[\s\n\r]*[0-9]+[\s\n\r]*=[\s\n\r]*(?<body>(\{\{[\s\n\r]*[^{]*}}[^{]*?)|[\s\n\r]*))*}}", RegexOptions.Compiled _
+           ")\b([\s\n\r]*\|[\s\n\r]*[0-9]+[\s\n\r]*=[\s\n\r]*(?<body>(\{\{[\s\n\r]*[^{]*}}[^{]*?)|[\s\n\r]*))*[\s\n\r]*}}", RegexOptions.Compiled _
            Or RegexOptions.IgnoreCase Or RegexOptions.Singleline Or RegexOptions.ExplicitCapture)
         ' last known reasonably good version: no catching of empty numbered params: ")\b([\s\n\r]*\|[\s\n\r]*[0-9]+[\s\n\r]*=[\s\n\r]*(?<body>\{\{[\s\n\r]*[^{]*}}[^{]*?))*}}"
         Private Shared ReadOnly BlpWikiProjectBannerShellRegex As New Regex("[\s\n\r]*\|[\s\n\r]*blp[\s\n\r]*=[\s\n\r]*[Yy]es", _
