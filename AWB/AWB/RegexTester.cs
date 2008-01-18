@@ -45,7 +45,9 @@ namespace AutoWikiBrowser
 
         private void ConditionsChanged(object sender, EventArgs e)
         {
-            FindBtn.Enabled = ReplaceBtn.Enabled = (!string.IsNullOrEmpty(Find.Text) && !string.IsNullOrEmpty(Source.Text));
+            bool enabled = (!string.IsNullOrEmpty(Find.Text) && !string.IsNullOrEmpty(Source.Text));
+            ReplaceBtn.Enabled = (!string.IsNullOrEmpty(Replace.Text) && enabled);
+            FindBtn.Enabled = enabled;
         }
         
         private void KeyPressHandler(object sender, KeyPressEventArgs e)
@@ -120,7 +122,9 @@ namespace AutoWikiBrowser
                 Regex r = new Regex(Find.Text, Options);
                 MatchCollection matches = r.Matches(Source.Text.Replace("\r\n", "\n"));
                 foreach (Match m in matches)
+                //for(int i = 0; i < matches.Count; i++)
                 {
+                    //Match m = matches[i];
                     TreeNode n = Captures.Nodes.Add(ReplaceNewLines(m.Value));
                     foreach (Group g in m.Groups)
                     { // TODO: Is there any way to get the name of the group when explicit capture is on?
