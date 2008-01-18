@@ -17,7 +17,7 @@
         ' Regexes:
         ' These could probably be simplified significantly (and extra logic doing things like removing linebreaks) if I learnt more of the magic characters
         Private Shared ReadOnly WikiProjectBannerShellRegex As New Regex(PluginBase.conRegexpLeft & WikiProjectBannerShell & _
-           ")\b[\s\n\r]*(?<start>\|[^1]*=.*)*[\s\n\r]*\|[\s\n\r]*1[\s\n\r]*=[\s\n\r]*(?<body>.*}}[^{]*?)(?<end>\|[^{]*)?[\s\n\r]*}}", _
+           ")\b[\s\n\r]*(?<start>\|[^1]*=.*)*[\s\n\r]*\|[\s\n\r]*1[\s\n\r]*=[\s\n\r]*(?<body>.*}}[^{]*?)[\s\n\r]*(?<end>\|[^{]*)?[\s\n\r]*}}", _
            RegexOptions.Compiled Or RegexOptions.IgnoreCase Or RegexOptions.Singleline Or RegexOptions.ExplicitCapture)
         ' last known reasonably good version (no catching blp= etc at the start of regex): '")\b[\s\n\r]*\|[\s\n\r]*1[\s\n\r]*=[\s\n\r]*(?<body>.*}}[^{]*?)(?<end>\|[^{]*)?}}"
         Private Shared ReadOnly WikiProjectBannersRegex As New Regex(PluginBase.conRegexpLeft & WikiProjectBanners & _
@@ -31,7 +31,7 @@
         Private Shared ReadOnly ShellRegex As New Regex(PluginBase.conRegexpLeft & WikiProjectBannerShell & "|" & _
            WikiProjectBanners & ")\b[\s\n\r]*\|", RegexOptions.Singleline Or RegexOptions.Compiled Or RegexOptions.IgnoreCase _
            Or RegexOptions.ExplicitCapture)
-        Private Shared ReadOnly LineBreakRegex As New Regex("[\n\r]*")
+        Friend Shared ReadOnly LineBreakRegex As New Regex("[\n\r]*")
 
         ' Regex constant strings:
         Private Const WikiProjectBannerShell As String = "WikiProject[\s]?Banner[\s]?Shell|WPBS" ' IGNORE CASE '|Wikiprojectbannershell|WikiProject Banner Shell"
@@ -82,7 +82,8 @@
                     i += 1
                 End If
             Next
-            WikiProjectBannersRegexMatchEvaluator += "|" + i.ToString + "=" + LineBreakRegex.Replace(MatchEvaluatorString, "") + "}}"
+            WikiProjectBannersRegexMatchEvaluator += Microsoft.VisualBasic.vbCrLf + "|" + i.ToString + "=" + _
+               LineBreakRegex.Replace(MatchEvaluatorString, "") + Microsoft.VisualBasic.vbCrLf + "}}"
         End Function
         Private Sub ShellTemplateMatchEvaluatorsCommonTasks(ByVal templatename As String, ByVal match As Match)
             ' Does the shell contain template: ?
@@ -137,6 +138,7 @@
             ' We're writing our template to an existing shell, but we might be able to be good citizens and add blp or activepol
             ' TODO: Unfortunately, if we've already decided we have no substantial changes and are skipping the article we'll never get here (e.g. WPBio is present and already has all required params including living=yes, but blp=yes is missing)
             If (mLiving OrElse mActivePol) AndAlso WikiProjectBannerShellRegex.IsMatch(AlteredArticleText) Then
+                MatchEvaluatorString = ""
                 AlteredArticleText = WikiProjectBannerShellRegex.Replace(AlteredArticleText, _
                    AddressOf Me.WPBSRegexMatchEvaluator, 1)
             End If
