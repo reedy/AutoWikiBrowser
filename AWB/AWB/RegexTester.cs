@@ -31,6 +31,8 @@ namespace AutoWikiBrowser
 {
     internal sealed partial class RegexTester : Form
     {
+        private Regex NewLineRegex = new Regex("\n");
+
         public RegexTester()
         {
             InitializeComponent();
@@ -119,17 +121,17 @@ namespace AutoWikiBrowser
                 MatchCollection matches = r.Matches(Source.Text.Replace("\r\n", "\n"));
                 foreach (Match m in matches)
                 {
-                    TreeNode n = Captures.Nodes.Add(m.Value);
+                    TreeNode n = Captures.Nodes.Add(ReplaceNewLines(m.Value));
                     foreach (Group g in m.Groups)
                     { // TODO: Is there any way to get the name of the group when explicit capture is on?
                         if (g.Captures.Count > 1)
                         {
                             TreeNode nn = n.Nodes.Add("...");
                             foreach (Capture c in g.Captures)
-                                nn.Nodes.Add(c.Value);
+                                nn.Nodes.Add(ReplaceNewLines(c.Value));
                         }
                         else if (g.Captures.Count == 1)
-                            n.Nodes.Add(g.Captures[0].Value);
+                            n.Nodes.Add(ReplaceNewLines(g.Captures[0].Value));
                     }
                 }
                 if (matches.Count == 0)
@@ -148,7 +150,12 @@ namespace AutoWikiBrowser
             }
         }
 
-        void ErrorHandler(Exception ex)
+        private string ReplaceNewLines(string str)
+        { // Display line breaks as \n in the results tree so that they're clear
+            return NewLineRegex.Replace(str, "\\n");
+        }
+
+        private void ErrorHandler(Exception ex)
         {
             MessageBox.Show(ex.Message, "Whoops!", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
