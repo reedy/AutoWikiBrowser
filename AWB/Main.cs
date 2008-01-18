@@ -99,7 +99,7 @@ namespace AutoWikiBrowser
         private static Regex userTalkTemplatesRegex;
         private static bool mErrorGettingLogInStatus;
         private static bool skippable = true;
-        private static FormWindowState LastState = FormWindowState.Normal;
+        private static FormWindowState LastState = FormWindowState.Normal; // doesn't look like we can use RestoreBounds for this - any other built in way?
 
         private ListComparer lc;
         private ListSplitter splitter;
