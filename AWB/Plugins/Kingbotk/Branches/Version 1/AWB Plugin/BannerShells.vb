@@ -15,12 +15,15 @@
         Private SearchedForLivingInShell As Boolean, SearchedForActivePolInShell As Boolean
 
         ' Regexes:
+        ' These could probably be simplified significantly (and extra logic doing things like removing linebreaks) if I learnt more of the magic characters
         Private Shared ReadOnly WikiProjectBannerShellRegex As New Regex(PluginBase.conRegexpLeft & WikiProjectBannerShell & _
-           ")\b[\s\n\r]*\|[\s\n\r]*1[\s\n\r]*=[\s\n\r]*(?<body>.*}}[^{]*?)(?<end>\|[^{]*)?}}", RegexOptions.Compiled _
-           Or RegexOptions.IgnoreCase Or RegexOptions.Singleline Or RegexOptions.ExplicitCapture) '")\b[\s\n\r]*\|[\s\n\r]*1[\s\n\r]*=[\s\n\r]*(?<body>.*}}[^{]*?)(?<end>\|[^{|]*)*?}}"
+           ")\b[\s\n\r]*(?<start>\|[^1]*=.*)*[\s\n\r]*\|[\s\n\r]*1[\s\n\r]*=[\s\n\r]*(?<body>.*}}[^{]*?)(?<end>\|[^{]*)?[\s\n\r]*}}", _
+           RegexOptions.Compiled Or RegexOptions.IgnoreCase Or RegexOptions.Singleline Or RegexOptions.ExplicitCapture)
+        ' last known reasonably good version (no catching blp= etc at the start of regex): '")\b[\s\n\r]*\|[\s\n\r]*1[\s\n\r]*=[\s\n\r]*(?<body>.*}}[^{]*?)(?<end>\|[^{]*)?}}"
         Private Shared ReadOnly WikiProjectBannersRegex As New Regex(PluginBase.conRegexpLeft & WikiProjectBanners & _
-           ")\b([\s\n\r]*\|[\s\n\r]*[0-9]+[\s\n\r]*=[\s\n\r]*(?<body>\{\{[\s\n\r]*[^{]*}}[^{]*?))*}}", RegexOptions.Compiled _
+           ")\b([\s\n\r]*\|[\s\n\r]*[0-9]+[\s\n\r]*=[\s\n\r]*(?<body>(\{\{[\s\n\r]*[^{]*}}[^{]*?)|[\s\n\r]*))*}}", RegexOptions.Compiled _
            Or RegexOptions.IgnoreCase Or RegexOptions.Singleline Or RegexOptions.ExplicitCapture)
+        ' last known reasonably good version: no catching of empty numbered params: ")\b([\s\n\r]*\|[\s\n\r]*[0-9]+[\s\n\r]*=[\s\n\r]*(?<body>\{\{[\s\n\r]*[^{]*}}[^{]*?))*}}"
         Private Shared ReadOnly BlpWikiProjectBannerShellRegex As New Regex("[\s\n\r]*\|[\s\n\r]*blp[\s\n\r]*=[\s\n\r]*[Yy]es", _
            RegexOptions.Compiled Or RegexOptions.Singleline)
         Private Shared ReadOnly ActivePolWikiProjectBannerShellRegex As New  _
@@ -28,6 +31,7 @@
         Private Shared ReadOnly ShellRegex As New Regex(PluginBase.conRegexpLeft & WikiProjectBannerShell & "|" & _
            WikiProjectBanners & ")\b[\s\n\r]*\|", RegexOptions.Singleline Or RegexOptions.Compiled Or RegexOptions.IgnoreCase _
            Or RegexOptions.ExplicitCapture)
+        Private Shared ReadOnly LineBreakRegex As New Regex("[\n\r]*")
 
         ' Regex constant strings:
         Private Const WikiProjectBannerShell As String = "WikiProject[\s]?Banner[\s]?Shell|WPBS" ' IGNORE CASE '|Wikiprojectbannershell|WikiProject Banner Shell"
@@ -37,7 +41,7 @@
         ' Match evaluators:
         Private Function WPBSRegexMatchEvaluator(ByVal match As Match) As String
             Const templatename As String = "WikiProjectBannerShell"
-            Dim Ending As String = match.Groups("end").Value
+            Dim Ending As String = match.Groups("start").Value & match.Groups("end").Value
 
             ShellTemplateMatchEvaluatorsCommonTasks(templatename, match)
 
@@ -45,7 +49,7 @@
             If mActivePol AndAlso Not SearchedForActivePolInShell Then
                 SearchedForActivePolInShell = True
                 If Not ActivePolWikiProjectBannerShellRegex.IsMatch(Ending) Then
-                    Ending = Microsoft.VisualBasic.vbCrLf & "|activepol=yes" & Ending
+                    Ending += "|activepol=yes"
                     ArticleHasAMajorChange()
                     BannerShellParameterAdded("activepol")
                 End If
@@ -53,14 +57,16 @@
             If mLiving AndAlso Not SearchedForLivingInShell Then
                 SearchedForLivingInShell = True
                 If Not BlpWikiProjectBannerShellRegex.IsMatch(Ending) Then
-                    Ending = Microsoft.VisualBasic.vbCrLf & "|blp=yes" & Ending
+                    Ending += "|blp=yes"
                     ArticleHasAMajorChange()
                     BannerShellParameterAdded("blp")
                 End If
             End If
 
-            Return "{{" & templatename & "|1=" & Microsoft.VisualBasic.vbCrLf & MatchEvaluatorString & _
-               match.Groups("body").Value & Ending & "}}"
+            If Not Ending = "" Then Ending = Microsoft.VisualBasic.vbCrLf + Ending
+
+            Return "{{" & templatename & "|1=" & Microsoft.VisualBasic.vbCrLf & LineBreakRegex.Replace(MatchEvaluatorString, "") & _
+               Microsoft.VisualBasic.vbCrLf & match.Groups("body").Value & Ending & "}}"
         End Function
         Private Function WikiProjectBannersRegexMatchEvaluator(ByVal match As Match) As String
             Const templatename As String = "WikiProjectBanners"
@@ -71,10 +77,12 @@
             WikiProjectBannersRegexMatchEvaluator = "{{" & templatename
 
             For Each c As Capture In match.Groups("body").Captures
-                WikiProjectBannersRegexMatchEvaluator += Microsoft.VisualBasic.vbCrLf + "|" + i.ToString + "=" + c.Value
-                i += 1
+                If Not c.Value.Trim = "" Then
+                    WikiProjectBannersRegexMatchEvaluator += Microsoft.VisualBasic.vbCrLf + "|" + i.ToString + "=" + c.Value
+                    i += 1
+                End If
             Next
-            WikiProjectBannersRegexMatchEvaluator += "|" + i.ToString + "=" + MatchEvaluatorString + "}}"
+            WikiProjectBannersRegexMatchEvaluator += "|" + i.ToString + "=" + LineBreakRegex.Replace(MatchEvaluatorString, "") + "}}"
         End Function
         Private Sub ShellTemplateMatchEvaluatorsCommonTasks(ByVal templatename As String, ByVal match As Match)
             ' Does the shell contain template: ?
