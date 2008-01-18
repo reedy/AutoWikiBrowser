@@ -45,6 +45,12 @@ namespace AutoWikiBrowser
         {
             FindBtn.Enabled = ReplaceBtn.Enabled = (!string.IsNullOrEmpty(Find.Text) && !string.IsNullOrEmpty(Source.Text));
         }
+        
+        private void KeyPressHandler(object sender, KeyPressEventArgs e)
+        { // all this to to "select all" <rolls eyes>
+            if (e.KeyChar == (char)1) // 1 = CTRL+A
+                ((TextBox)sender).SelectAll();
+        }
 
         private RegexOptions Options
         {
@@ -82,8 +88,7 @@ namespace AutoWikiBrowser
             }
             catch (Exception ex)
             {
-                Status.Text = "Error";
-                ErrorHandler.Handle(ex);
+                ErrorHandler(ex);
             }
 
             Source.Text = Source.Text.Replace("\n", "\r\n");
@@ -93,7 +98,7 @@ namespace AutoWikiBrowser
 
         private void RegexTester_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == 27)
+            if (e.KeyChar == 27) // Escape key
             {
                 e.Handled = true;
                 Close();
@@ -102,38 +107,50 @@ namespace AutoWikiBrowser
 
         private void FindBtn_Click(object sender, EventArgs e)
         {
-            Captures.Nodes.Clear();
-            Captures.Visible = true;
-            ResultText.Text = "";
-            ResultText.Visible = false;
-            Status.Text = "";
-
-            Regex r = new Regex(Find.Text, Options);
-            MatchCollection matches = r.Matches(Source.Text.Replace("\r\n", "\n"));
-            foreach (Match m in matches)
+            try
             {
-                TreeNode n = Captures.Nodes.Add(m.Value);
-                foreach (Group g in m.Groups)
-                { // TODO: Is there any way to get the name of the group when explicit capture is on?
-                    if (g.Captures.Count > 1)
-                    {
-                        TreeNode nn = n.Nodes.Add("...");
-                        foreach (Capture c in g.Captures)
-                            nn.Nodes.Add(c.Value);
+                Captures.Nodes.Clear();
+                Captures.Visible = true;
+                ResultText.Text = "";
+                ResultText.Visible = false;
+                Status.Text = "";
+
+                Regex r = new Regex(Find.Text, Options);
+                MatchCollection matches = r.Matches(Source.Text.Replace("\r\n", "\n"));
+                foreach (Match m in matches)
+                {
+                    TreeNode n = Captures.Nodes.Add(m.Value);
+                    foreach (Group g in m.Groups)
+                    { // TODO: Is there any way to get the name of the group when explicit capture is on?
+                        if (g.Captures.Count > 1)
+                        {
+                            TreeNode nn = n.Nodes.Add("...");
+                            foreach (Capture c in g.Captures)
+                                nn.Nodes.Add(c.Value);
+                        }
+                        else if (g.Captures.Count == 1)
+                            n.Nodes.Add(g.Captures[0].Value);
                     }
-                    else if (g.Captures.Count == 1)
-                        n.Nodes.Add(g.Captures[0].Value);
                 }
+                if (matches.Count == 0)
+                    Status.Text = "No matches";
+                else if (matches.Count == 1)
+                    Status.Text = "1 match found";
+                else
+                    Status.Text = matches.Count.ToString() + " matches found";
+
+
+                Captures.ExpandAll();
             }
-            if (matches.Count == 0)
-                Status.Text = "No matches";
-            else if (matches.Count == 1)
-                Status.Text = "1 match found";
-            else
-                Status.Text = matches.Count.ToString() + " matches found";
+            catch (Exception ex)
+            {
+                ErrorHandler(ex);
+            }
+        }
 
-
-            Captures.ExpandAll();
+        void ErrorHandler(Exception ex)
+        {
+            MessageBox.Show(ex.Message, "Whoops!", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }
