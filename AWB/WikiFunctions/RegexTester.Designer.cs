@@ -1,4 +1,4 @@
-namespace AutoWikiBrowser
+namespace WikiFunctions.Controls
 {
     partial class RegexTester
     {
