@@ -67,7 +67,7 @@
             If Not Ending = "" Then Ending = Microsoft.VisualBasic.vbCrLf + Ending
 
             Return DoubleLineBreakRegex.Replace("{{" & templatename & "|1=" & Microsoft.VisualBasic.vbCrLf & LineBreakRegex.Replace(MatchEvaluatorString, "") & _
-               Microsoft.VisualBasic.vbCrLf & match.Groups("body").Value & Ending & "}}", Microsoft.VisualBasic.vbCr) ' TODO: or may be better to filter these extra breaks out in the shell regex
+               Microsoft.VisualBasic.vbCrLf & match.Groups("body").Value & Ending & "}}", Microsoft.VisualBasic.vbCrLf) ' TODO: or may be better to filter these extra breaks out in the shell regex
         End Function
         Private Function WikiProjectBannersRegexMatchEvaluator(ByVal match As Match) As String
             Const templatename As String = "WikiProjectBanners"

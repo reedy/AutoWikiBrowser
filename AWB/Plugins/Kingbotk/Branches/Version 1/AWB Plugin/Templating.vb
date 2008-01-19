@@ -55,7 +55,7 @@
         ByVal TheArticle As Article, ByVal LogItAndUpdateEditSummary As Boolean, ByVal DontChangeIfSet As Boolean, _
         ByVal PluginName As String) As Boolean
             Dim ExistingValue As String = _
-               WikiFunctions.WikiRegexes.Comments.Replace(Parameters(ParameterName).Value, "").Trim
+               WikiFunctions.WikiRegexes.Comments.Replace(Parameters(ParameterName).Value, "") '.Trim ' trim shouldn't be needed now, regex tightened
 
             If Not ExistingValue = ParameterValue Then ' Contains parameter with a different value
                 If ExistingValue = "" OrElse Not DontChangeIfSet _
