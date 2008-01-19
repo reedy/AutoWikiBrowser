@@ -79,6 +79,14 @@ namespace AutoWikiBrowser
             IgnoreEvents = false;
         }
 
+        /// <summary>
+        /// Returns whether the Upload checkbox is checked
+        /// </summary>
+        public bool Upload
+        {
+            get { return UploadCheckBox.Checked; }
+        }
+
         #region Settings
         [Browsable(false)]
         public LoggingPrefs SerialisableSettings
@@ -284,18 +292,19 @@ namespace AutoWikiBrowser
 				WEHaveUnappliedChanges();
 			}
 		}
-        
+
         private void ResetButton_Click(object sender, EventArgs e)
         {
             XHTMLLogCheckBox.Checked = SQLLogCheckBox.Checked =
                 VerboseCheckBox.Checked = UploadCheckBox.Checked = false;
-            WikiLogCheckBox.Checked = UploadCheckBox.Checked = UploadOpenInBrowserCheckBox.Checked =
+            WikiLogCheckBox.Checked = UploadOpenInBrowserCheckBox.Checked =
                 UploadWatchlistCheckBox.Checked = UploadWikiProjectCheckBox.Checked = true;
             CategoryReset(null, null);
             LocationReset(null, null);
             JobNameReset(null, null);
             MaxLinesReset(null, null);
-            FolderButton_Click(null, null);
+            if(string.IsNullOrEmpty(FolderTextBox.Text))
+                FolderButton_Click(null, null);
         }
 
         private void toolStripMenuItemCategoryCut_Click(object sender, EventArgs e)
