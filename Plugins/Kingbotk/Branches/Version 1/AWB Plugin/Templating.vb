@@ -55,7 +55,7 @@
         ByVal TheArticle As Article, ByVal LogItAndUpdateEditSummary As Boolean, ByVal DontChangeIfSet As Boolean, _
         ByVal PluginName As String) As Boolean
             Dim ExistingValue As String = _
-               WikiFunctions.WikiRegexes.Comments.Replace(Parameters(ParameterName).Value, "") '.Trim ' trim shouldn't be needed now, regex tightened
+               WikiFunctions.WikiRegexes.Comments.Replace(Parameters(ParameterName).Value, "").Trim ' trim still needed because altho main regex shouldn't give us spaces at the end of vals any more, the .Replace here might
 
             If Not ExistingValue = ParameterValue Then ' Contains parameter with a different value
                 If ExistingValue = "" OrElse Not DontChangeIfSet _
@@ -103,7 +103,7 @@
                 End With
             Next
 
-            ParametersToString += "}}" + Microsoft.VisualBasic.vbCrLf
+            ParametersToString += "}}" '+ Microsoft.VisualBasic.vbCrLf ' before uncommenting this understand that we were getting added and ugly line breaks; if some caller needs this caller or regex is probably broken
         End Function
         Friend Function HasYesParam(ByVal ParamName As String) As Boolean
             Return (Parameters.ContainsKey(ParamName) AndAlso Parameters(ParamName).Value = "yes")
