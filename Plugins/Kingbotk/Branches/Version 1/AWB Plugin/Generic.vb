@@ -310,7 +310,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             PluginManager.EditBoxInsert("{{" & TemplateName & "}}")
         End Sub
         Private Sub AlternateNamesTextBox_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AlternateNamesTextBox.TextChanged
-            AlternateNames = PluginManager.StripOutSpaceSymbols(AlternateNames)
+            AlternateNames = PluginBase.ConvertSpacesToUnderscores(AlternateNames)
         End Sub
 #End Region
     End Class
