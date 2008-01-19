@@ -917,7 +917,7 @@ Message: {2}
             return HttpUtility.UrlEncode(title.Replace(' ', '_'));
         }
 
-        static readonly Regex ExpandTemplatesRegex = new Regex("<expandtemplates>(.*?)</expandtemplates>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        static readonly Regex ExpandTemplatesRegex = new Regex("<expandtemplates>(.*?)</expandtemplates>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
         /// 
@@ -955,10 +955,10 @@ Message: {2}
 
                     bool skipArticle;
                     result = parsers.Unicodify(result, out skipArticle);
-                    if (!includeComment)
+                    if (includeComment)
+                        result = result + "<!-- " + call + " -->";
+
                         ArticleText = ArticleText.Replace(call, result);
-                    else
-                        ArticleText = ArticleText.Replace(call, result + "<!-- " + call + " -->");
                 }
             }
 

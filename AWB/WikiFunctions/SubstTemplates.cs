@@ -138,10 +138,7 @@ namespace WikiFunctions
 
         private void chkUseExpandTemplates_CheckedChanged(object sender, EventArgs e)
         {
-            if (chkUseExpandTemplates.Checked)
-                chkIncludeComment.Enabled = true;
-            else
-                chkIncludeComment.Enabled = false;
+            chkIncludeComment.Enabled = chkUseExpandTemplates.Checked;
         }
     }
 }
