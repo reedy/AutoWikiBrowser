@@ -27,9 +27,9 @@ using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using WikiFunctions;
 
-namespace AutoWikiBrowser
+namespace WikiFunctions.Controls
 {
-    internal sealed partial class RegexTester : Form
+    public sealed partial class RegexTester : Form
     {
         private Regex NewLineRegex = new Regex("\n");
 
