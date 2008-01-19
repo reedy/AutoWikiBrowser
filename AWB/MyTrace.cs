@@ -164,7 +164,7 @@ namespace AutoWikiBrowser.Logging
         {
             try
             {
-                if (this.Uploadable)
+                if (LoggingSettings.Upload && this.Uploadable)
                 {
                     mIsGettingPassword = true;
                     LoggingSettings.LoginDetails.AWBProfile =
@@ -179,7 +179,10 @@ namespace AutoWikiBrowser.Logging
             catch (Exception ex)
             {
                 mIsGettingPassword = false;
-                throw new System.Configuration.ConfigurationErrorsException("Logging not properly configured", ex);
+                if (!(ex.Message == "Log upload profile: User cancelled"))
+                {
+                    ErrorHandler.Handle(ex);
+                }
             }
 
             mStoppedWithConfigError = false;
