@@ -521,7 +521,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                         BuildPreferredTemplateNameRegex(False)
                     End If
 
-                    MainRegex = CreateStandardRegex(RegexpMiddle)
+                    MainRegex = BuildStandardRegex(RegexpMiddle)
                     SecondChanceRegex = New Regex(conRegexpLeft & RegexpMiddle & conRegexpRightNotStrict, _
                        conRegexpOptions)
                 End If
