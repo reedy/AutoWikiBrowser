@@ -16,11 +16,11 @@
 
         ' Regexes:
         ' These could probably be simplified significantly (and extra logic doing things like removing linebreaks) if I learnt more of the magic characters
-        Private Shared ReadOnly WikiProjectBannerShellRegex As New Regex(PluginBase.conRegexpLeft & WikiProjectBannerShell & _
+        Private Shared ReadOnly WikiProjectBannerShellRegex As New Regex(conRegexpLeft & WikiProjectBannerShell & _
            ")\b\s*(?<start>\|[^1]*=.*)*\s*\|\s*1\s*=\s*(?<body>.*}}[^{]*?)\s*(?<end>\|[^{]*)?\s*}}", _
            RegexOptions.Compiled Or RegexOptions.IgnoreCase Or RegexOptions.Singleline Or RegexOptions.ExplicitCapture)
         ' last known reasonably good version (no catching blp= etc at the start of regex): '")\b\s*\|\s*1\s*=\s*(?<body>.*}}[^{]*?)(?<end>\|[^{]*)?}}"
-        Private Shared ReadOnly WikiProjectBannersRegex As New Regex(PluginBase.conRegexpLeft & WikiProjectBanners & _
+        Private Shared ReadOnly WikiProjectBannersRegex As New Regex(conRegexpLeft & WikiProjectBanners & _
            ")\b(\s*\|\s*[0-9]+\s*=\s*(?<body>(\{\{\s*[^{]*}}[^{]*?)|\s*))*\s*}}", RegexOptions.Compiled _
            Or RegexOptions.IgnoreCase Or RegexOptions.Singleline Or RegexOptions.ExplicitCapture)
         ' last known reasonably good version: no catching of empty numbered params: ")\b(\s*\|\s*[0-9]+\s*=\s*(?<body>\{\{\s*[^{]*}}[^{]*?))*}}"
@@ -28,16 +28,16 @@
            RegexOptions.Compiled Or RegexOptions.Singleline)
         Private Shared ReadOnly ActivePolWikiProjectBannerShellRegex As New  _
            Regex("\s*\|\s*activepol\s*=\s*[Yy]es", RegexOptions.Compiled Or RegexOptions.Singleline)
-        Private Shared ReadOnly ShellRegex As New Regex(PluginBase.conRegexpLeft & WikiProjectBannerShell & "|" & _
+        Private Shared ReadOnly ShellRegex As New Regex(conRegexpLeft & WikiProjectBannerShell & "|" & _
            WikiProjectBanners & ")\b\s*\|", RegexOptions.Singleline Or RegexOptions.Compiled Or RegexOptions.IgnoreCase _
            Or RegexOptions.ExplicitCapture)
         Friend Shared ReadOnly LineBreakRegex As New Regex("[\n\r]*")
         Private Shared ReadOnly DoubleLineBreakRegex As New Regex("[\n\r]{2,}")
 
         ' Regex constant strings:
-        Private Const WikiProjectBannerShell As String = "WikiProject[ ]?Banner[ ]?Shell|WPBS" ' IGNORE CASE '|Wikiprojectbannershell|WikiProject Banner Shell"
+        Private Const WikiProjectBannerShell As String = "WikiProject ?Banner ?Shell|WPBS" ' IGNORE CASE '|Wikiprojectbannershell|WikiProject Banner Shell"
         'Private Const BannerShell As String = "BannerShell" ' BannerShell is a subcontainer for {{WikiProjectBannerShell}}
-        Private Const WikiProjectBanners As String = "WikiProject[ ]?Banners|WPB|Shell" ' IGNORE CASE ' |WikiProject Banners|Wpb
+        Private Const WikiProjectBanners As String = "WikiProject ?Banners|WPB|Shell" ' IGNORE CASE ' |WikiProject Banners|Wpb
 
         ' Match evaluators:
         Private Function WPBSRegexMatchEvaluator(ByVal match As Match) As String

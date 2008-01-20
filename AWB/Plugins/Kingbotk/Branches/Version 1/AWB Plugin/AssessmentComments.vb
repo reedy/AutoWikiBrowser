@@ -75,7 +75,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
 
             WebControl1.SetArticleText(WebControl1.GetArticleText.Replace( _
                Microsoft.VisualBasic.vbCrLf & conPlaceholder, ""))
-            WebControl1.SetSummary(PluginManager.conWikiPluginBrackets & "Article assessment comments")
+            WebControl1.SetSummary(conWikiPluginBrackets & "Article assessment comments")
             WebControl1.Save()
         End Sub
         Private Sub SkipButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) _

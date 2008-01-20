@@ -138,7 +138,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Article.vb" />
-    <Compile Include="Enums.vb" />
+    <Compile Include="EnumsAndConstants.vb" />
     <Compile Include="MilHist.Designer.vb">
       <DependentUpon>MilHist.vb</DependentUpon>
     </Compile>

@@ -12,7 +12,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
         Private State As New StateClass
 
         ' Regex:
-        Private Shared ReadOnly ReqphotoAnyRegex As New Regex("\{\{\s*(template *:|)\s*reqphoto", _
+        Private Shared ReadOnly ReqphotoAnyRegex As New Regex(TemplatePrefix & "reqphoto", _
            RegexOptions.IgnoreCase Or RegexOptions.Compiled Or RegexOptions.ExplicitCapture)
 
         ' New:
@@ -148,7 +148,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
 
                     For Each p As PluginBase In PluginManager.ActivePlugins
                         If p.ProcessTalkPage(TheArticle, State.Classification, State.Importance, State.NeedsInfobox, _
-                           State.NeedsAttention, True, PluginBase.ProcessTalkPageMode.ManualAssessment, _
+                           State.NeedsAttention, True, ProcessTalkPageMode.ManualAssessment, _
                            ReqPhoto OrElse State.NeedsPhoto) AndAlso (ReqPhoto OrElse State.NeedsPhoto) AndAlso _
                            p.HasReqPhotoParam Then WeAddedAReqPhotoParam = True
                         If TheArticle.PluginManagerGetSkipResults = SkipResults.SkipBadTag Then
@@ -168,10 +168,10 @@ ExitMe:
             If ProcessTalkPage Then
                 Select Case State.Classification
                     Case Classification.Code, Classification.Unassessed
-                        TheArticle.EditSummary = "Assessed article using " & PluginManager.conWikiPlugin
+                        TheArticle.EditSummary = "Assessed article using " & conWikiPlugin
                     Case Else
                         TheArticle.EditSummary = "Assessing as " & State.Classification.ToString & " class, using " & _
-                           PluginManager.conWikiPlugin
+                           conWikiPlugin
                 End Select
 
                 ReqPhoto = WeAddedAReqPhotoParam
