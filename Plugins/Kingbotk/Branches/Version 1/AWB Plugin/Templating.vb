@@ -103,7 +103,7 @@
                 End With
             Next
 
-            ParametersToString += "}}" '+ Microsoft.VisualBasic.vbCrLf ' before uncommenting this understand that we were getting added and ugly line breaks; if some caller needs this caller or regex is probably broken
+            ParametersToString += "}}" + Microsoft.VisualBasic.vbCrLf
         End Function
         Friend Function HasYesParam(ByVal ParamName As String) As Boolean
             Return (Parameters.ContainsKey(ParamName) AndAlso Parameters(ParamName).Value = "yes")

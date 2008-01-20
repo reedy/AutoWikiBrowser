@@ -218,7 +218,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         End Sub
         Private Sub SkipBadTagsCheckBox_CheckedChanged(ByVal sender As System.Object, _
         ByVal e As System.EventArgs) Handles SkipBadTagsCheckBox.CheckedChanged
-            OpenBadInBrowserCheckBox.Enabled = SkipBadTagsCheckBox.Checked
+            OpenBadInBrowserCheckBox.Visible = SkipBadTagsCheckBox.Checked
         End Sub
 
         ' Event handlers - AWB components (some additionally double-handled in Plugin Manager):
