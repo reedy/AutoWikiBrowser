@@ -45,6 +45,8 @@ namespace AwbUpdater
         string UpdaterZipName = "";
         string UpdaterWebAddress = "";
 
+        IWebProxy proxy;
+
         bool updaterUpdate;
         bool awbUpdate;
         bool badUpdate;
@@ -77,6 +79,11 @@ namespace AwbUpdater
         {
             try
             {
+                proxy = WebRequest.GetSystemWebProxy();
+
+                if (proxy.IsBypassed(new Uri("http://en.wikipedia.org")))
+                    proxy = null;
+
                 updateUI("Getting Current AWB and Updater Versions");
                 AWBversion();
 
@@ -146,7 +153,8 @@ namespace AwbUpdater
             {
                 HttpWebRequest rq = (HttpWebRequest)WebRequest.Create("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=raw");
 
-                rq.Proxy.Credentials = CredentialCache.DefaultCredentials;
+                rq.Proxy = proxy;
+
                 rq.UserAgent = "AWBUpdater " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
                 HttpWebResponse response = (HttpWebResponse)rq.GetResponse();
@@ -221,6 +229,7 @@ namespace AwbUpdater
         private void GetAwbFromInternet()
         {
             System.Net.WebClient client = new System.Net.WebClient();
+            client.Proxy = proxy;
 
             if (!string.IsNullOrEmpty(AWBWebAddress))
                 client.DownloadFile(AWBWebAddress, tempDirectory + AWBZipName);
