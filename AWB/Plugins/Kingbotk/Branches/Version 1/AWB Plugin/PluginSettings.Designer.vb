@@ -795,6 +795,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.OpenBadInBrowserCheckBox.TabIndex = 52
             Me.OpenBadInBrowserCheckBox.Text = "Open bad pages" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "in browser"
             Me.OpenBadInBrowserCheckBox.UseVisualStyleBackColor = True
+            Me.OpenBadInBrowserCheckBox.Visible = False
             '
             'PluginSettingsControl
             '

@@ -125,7 +125,7 @@
                        AddressOf Me.WPBSRegexMatchEvaluator, 1)
                     MatchEvaluatorString = Nothing
                 Case BannerShellsEnum.NoneFound
-                    AlteredArticleText = Text + Microsoft.VisualBasic.vbCrLf + AlteredArticleText
+                    AlteredArticleText = Text + AlteredArticleText
                 Case Else
                     Throw New ArgumentException
             End Select
