@@ -640,6 +640,21 @@ namespace WikiFunctions.Controls.Lists
             return list;
         }
 
+        /// <summary>
+        /// Returns the list of selected articles
+        /// </summary>
+        public List<Article> GetSelectedArticleList()
+        {
+            List<Article> list = new List<Article>();
+
+            foreach (Article a in lbArticles.SelectedItems)
+            {
+                list.Add(a);
+            }
+
+            return list;
+        }
+
         private delegate void StartProgBarDelegate();
         private void StartProgressBar()
         {
@@ -1268,6 +1283,36 @@ namespace WikiFunctions.Controls.Lists
         private void lbArticles_DoubleClick(object sender, System.EventArgs e)
         {
             loadArticlesInBrowser();
+        }
+
+        private void moveToTopToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MoveSelectedItems(0);
+        }
+
+        private void moveToBottomToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MoveSelectedItems(lbArticles.Items.Count - 1);
+        }
+
+        /// <summary>
+        /// Moves the currently selected items in the listbox to the position selected
+        /// </summary>
+        /// <param name="toIndex">Index to move items to</param>
+        private void MoveSelectedItems(int toIndex)
+        {
+            bool toTop = (toIndex == 0);
+            lbArticles.BeginUpdate();
+
+            foreach (Article a in GetSelectedArticleList())
+            {
+                lbArticles.Items.Remove(a);
+                lbArticles.Items.Insert(toIndex, a);
+
+                if (toTop)
+                    toIndex++;
+            }
+            lbArticles.EndUpdate();
         }
     }
 }
