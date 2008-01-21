@@ -142,7 +142,7 @@
                 Select Case MessageBox.Show("We caught an error when attempting to get the incoming redirects for Template:" & _
                 PreferredTemplateName & "." & Microsoft.VisualBasic.vbCrLf & Microsoft.VisualBasic.vbCrLf & "* Press Abort to stop AWB" & _
                 Microsoft.VisualBasic.vbCrLf & "* Press Retry to try again" & Microsoft.VisualBasic.vbCrLf & _
-                "* Press Ignore to use the default redirects list. This may be dangerous if the list is out of date. The list is:" & _
+                "* Press Ignore to use the default redirects list. This may be dangerous if the list is out of date but is perfectly fine if you know or suspect it's up to date. The list is:" & _
                 Microsoft.VisualBasic.vbCrLf & mLastKnownGoodRedirects & Microsoft.VisualBasic.vbCrLf & Microsoft.VisualBasic.vbCrLf & _
                 "The error was:" & Microsoft.VisualBasic.vbCrLf & ex.Message, "Error", MessageBoxButtons.AbortRetryIgnore, _
                 MessageBoxIcon.Error, MessageBoxDefaultButton.Button3)
