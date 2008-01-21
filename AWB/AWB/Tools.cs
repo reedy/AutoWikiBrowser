@@ -183,6 +183,9 @@ namespace AutoWikiBrowser
                                 {
                                     IAWBPlugin plugin = (IAWBPlugin)Activator.CreateInstance(t);
                                     Items.Add(plugin.Name, plugin);
+                                    if (plugin.Name == "Kingbotk Plugin" && t.Assembly.GetName().Version.Major < 2)
+                                        MessageBox.Show("You are using an out of date version of the Kingbotk Plugin. Please upgrade.",
+                                            "Kingbotk Plugin", MessageBoxButtons.OK, MessageBoxIcon.Exclamation );
 
                                     //Load Plugin one off if not loading at startup
                                     if (afterStartup)
