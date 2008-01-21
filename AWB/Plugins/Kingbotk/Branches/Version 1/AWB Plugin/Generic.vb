@@ -557,7 +557,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             End If
         End Sub
         Private Sub GetRedirectsButtonClick(ByVal sender As System.Object, ByVal e As System.EventArgs)
-            If MessageBox.Show("Get the redirects from Wikipedia? Note: This may take a short while.", "Get from Wikipedia?", _
+            If MessageBox.Show("Get the redirects from Wikipedia? Note: This may take a while.", "Get from Wikipedia?", _
                MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) = DialogResult.Yes Then
                 Try
                     OurSettingsControl.AlternateNames = ConvertRedirectsToString(GetRedirects(OurSettingsControl.TemplateName))
