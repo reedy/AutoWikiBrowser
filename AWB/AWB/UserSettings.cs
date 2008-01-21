@@ -398,9 +398,7 @@ namespace AutoWikiBrowser
                 LoadDefaultEditSummaries();
             else
                 foreach (string s in p.General.Summaries)
-                {
                     cmboEditSummary.Items.Add(s);
-                }
 
             chkLock.Checked = p.General.LockSummary;
             EditToolBarVisible = p.General.EditToolbarEnabled;

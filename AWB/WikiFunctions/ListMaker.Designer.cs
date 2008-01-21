@@ -70,7 +70,11 @@ namespace WikiFunctions.Controls.Lists
             this.duplicatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.moveToTopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.moveToBottomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openHistoryInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveListDialog = new System.Windows.Forms.SaveFileDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.btnStop = new System.Windows.Forms.Button();
@@ -80,7 +84,6 @@ namespace WikiFunctions.Controls.Lists
             this.btnArticlesListSave = new System.Windows.Forms.Button();
             this.btnRemoveDuplicates = new System.Windows.Forms.Button();
             this.lbArticles = new WikiFunctions.Controls.Lists.ListBox2();
-            this.openHistoryInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuListBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -214,10 +217,13 @@ namespace WikiFunctions.Controls.Lists
             this.removeToolStripMenuItem,
             this.clearToolStripMenuItem1,
             this.toolStripSeparator1,
+            this.moveToTopToolStripMenuItem,
+            this.moveToBottomToolStripMenuItem,
+            this.toolStripSeparator4,
             this.openInBrowserToolStripMenuItem,
             this.openHistoryInBrowserToolStripMenuItem});
             this.mnuListBox.Name = "contextMenuStrip2";
-            this.mnuListBox.Size = new System.Drawing.Size(209, 430);
+            this.mnuListBox.Size = new System.Drawing.Size(209, 480);
             this.mnuListBox.Opening += new System.ComponentModel.CancelEventHandler(this.mnuListBox_Opening);
             // 
             // filterOutNonMainSpaceArticlesToolStripMenuItem
@@ -428,12 +434,38 @@ namespace WikiFunctions.Controls.Lists
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(205, 6);
             // 
+            // moveToTopToolStripMenuItem
+            // 
+            this.moveToTopToolStripMenuItem.Name = "moveToTopToolStripMenuItem";
+            this.moveToTopToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.moveToTopToolStripMenuItem.Text = "Move to top";
+            this.moveToTopToolStripMenuItem.Click += new System.EventHandler(this.moveToTopToolStripMenuItem_Click);
+            // 
+            // moveToBottomToolStripMenuItem
+            // 
+            this.moveToBottomToolStripMenuItem.Name = "moveToBottomToolStripMenuItem";
+            this.moveToBottomToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.moveToBottomToolStripMenuItem.Text = "Move to bottom";
+            this.moveToBottomToolStripMenuItem.Click += new System.EventHandler(this.moveToBottomToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(205, 6);
+            // 
             // openInBrowserToolStripMenuItem
             // 
             this.openInBrowserToolStripMenuItem.Name = "openInBrowserToolStripMenuItem";
             this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.openInBrowserToolStripMenuItem.Text = "Open article in browser";
             this.openInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem_Click);
+            // 
+            // openHistoryInBrowserToolStripMenuItem
+            // 
+            this.openHistoryInBrowserToolStripMenuItem.Name = "openHistoryInBrowserToolStripMenuItem";
+            this.openHistoryInBrowserToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.openHistoryInBrowserToolStripMenuItem.Text = "Open history in browser";
+            this.openHistoryInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openHistoryInBrowserToolStripMenuItem_Click);
             // 
             // saveListDialog
             // 
@@ -530,16 +562,9 @@ namespace WikiFunctions.Controls.Lists
             this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.lbArticles.Size = new System.Drawing.Size(195, 186);
             this.lbArticles.TabIndex = 5;
+            this.lbArticles.DoubleClick += new System.EventHandler(this.lbArticles_DoubleClick);
             this.lbArticles.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lbArticles_MouseMove);
             this.lbArticles.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbArticles_KeyDown);
-            this.lbArticles.DoubleClick += new System.EventHandler(lbArticles_DoubleClick);
-            // 
-            // openHistoryInBrowserToolStripMenuItem
-            // 
-            this.openHistoryInBrowserToolStripMenuItem.Name = "openHistoryInBrowserToolStripMenuItem";
-            this.openHistoryInBrowserToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
-            this.openHistoryInBrowserToolStripMenuItem.Text = "Open history in browser";
-            this.openHistoryInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openHistoryInBrowserToolStripMenuItem_Click);
             // 
             // ListMaker
             // 
@@ -619,5 +644,8 @@ namespace WikiFunctions.Controls.Lists
         public System.Windows.Forms.TextBox txtSelectSource;
         public System.Windows.Forms.ComboBox cmboSourceSelect;
         private System.Windows.Forms.ToolStripMenuItem openHistoryInBrowserToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem moveToTopToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem moveToBottomToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
     }
 }
