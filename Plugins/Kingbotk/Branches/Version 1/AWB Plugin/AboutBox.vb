@@ -13,13 +13,13 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.Close()
         End Sub
 
-        Public Shared ReadOnly Property Version() As String
+        Friend Shared ReadOnly Property Version() As String
             Get
                 Return System.Reflection.Assembly.GetExecutingAssembly.GetName.Version.ToString
             End Get
         End Property
 
-        Public Sub New()
+        Friend Sub New()
             ' This call is required by the Windows Form Designer.
             InitializeComponent()
 

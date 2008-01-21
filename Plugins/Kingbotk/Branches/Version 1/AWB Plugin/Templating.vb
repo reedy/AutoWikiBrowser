@@ -7,9 +7,22 @@
         Friend FoundTemplate As Boolean = False, BadTemplate As Boolean = False
         Friend Parameters As New Dictionary(Of String, TemplateParametersObject)
 
+        ''' <summary>
+        ''' Store a parameter from the exploded on-page template into the Parameters collectiom
+        ''' </summary>
         Friend Sub AddTemplateParmFromExistingTemplate(ByVal ParameterName As String, ByVal ParameterValue As String)
-            If Parameters.ContainsKey(ParameterName) Then
-                If Not Parameters.Item(ParameterName).Value = ParameterValue Then BadTemplate = True
+            If Parameters.ContainsKey(ParameterName) Then ' v2.0: Let's merge duplicates when one or both is empty:
+                ' This code is very similar to ReplaceTemplateParm(), but that is for programmatic changes (i.e. not
+                ' from template), needs an Article object, doesn't understand empty new values, and doesn't report
+                ' bad tags. Turned out to be easier to rewrite here than to modify it.
+                If Not Parameters.Item(ParameterName).Value = ParameterValue Then
+                    If Parameters.Item(ParameterName).Value = "" Then ' existing value is empty, overwrite with new
+                        Parameters.Item(ParameterName).Value = ParameterValue
+                    ElseIf ParameterValue = "" Then ' new value is empty, keep existing
+                    Else ' 2 different non-empty values, template is bad
+                        BadTemplate = True
+                    End If
+                End If ' Else: 2 values the same, do nothing
             Else
                 Parameters.Add(ParameterName, New TemplateParametersObject(ParameterName, ParameterValue))
             End If
@@ -130,8 +143,8 @@
         ''' </summary>
         ''' <remarks></remarks>
         Friend NotInheritable Class TemplateParametersObject
-            Public Name As String
-            Public Value As String
+            Friend Name As String
+            Friend Value As String
 
             Friend Sub New(ByVal ParameterName As String, ByVal ParameterValue As String)
                 Name = ParameterName

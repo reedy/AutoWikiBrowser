@@ -1,6 +1,6 @@
 Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
     <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-    Partial Class IndiaSettings
+    Partial Class WPIndiaSettings
         Inherits System.Windows.Forms.UserControl
 
         'UserControl overrides dispose to clean up the component list.
@@ -34,6 +34,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.GujuratCheckBox = New System.Windows.Forms.CheckBox
             Me.PunjabCheckbox = New System.Windows.Forms.CheckBox
             Me.HimachalCheckBox = New System.Windows.Forms.CheckBox
+            Me.WBengalCheckBox = New System.Windows.Forms.CheckBox
             Me.MapsCheckBox = New System.Windows.Forms.CheckBox
             Me.GeogCheckBox = New System.Windows.Forms.CheckBox
             Me.DistrictsCheckBox = New System.Windows.Forms.CheckBox
@@ -52,7 +53,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.PoliticsCheckBox = New System.Windows.Forms.CheckBox
             Me.CinemaCheckBox = New System.Windows.Forms.CheckBox
             Me.HistoryCheckBox = New System.Windows.Forms.CheckBox
-            Me.WBengalCheckBox = New System.Windows.Forms.CheckBox
             Me.ParametersGroup.SuspendLayout()
             Me.TabControl1.SuspendLayout()
             Me.TabPage1.SuspendLayout()
@@ -194,6 +194,17 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.HimachalCheckBox.TabIndex = 39
             Me.HimachalCheckBox.Text = "Himachal Pradesh"
             Me.HimachalCheckBox.UseVisualStyleBackColor = True
+            '
+            'WBengalCheckBox
+            '
+            Me.WBengalCheckBox.AutoSize = True
+            Me.WBengalCheckBox.Location = New System.Drawing.Point(104, 106)
+            Me.WBengalCheckBox.Name = "WBengalCheckBox"
+            Me.WBengalCheckBox.Size = New System.Drawing.Size(87, 17)
+            Me.WBengalCheckBox.TabIndex = 38
+            Me.WBengalCheckBox.Text = "West Bengal"
+            Me.WBengalCheckBox.UseVisualStyleBackColor = True
+            Me.WBengalCheckBox.Visible = False
             '
             'MapsCheckBox
             '
@@ -386,18 +397,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.HistoryCheckBox.Text = "History"
             Me.HistoryCheckBox.UseVisualStyleBackColor = True
             '
-            'WBengalCheckBox
-            '
-            Me.WBengalCheckBox.AutoSize = True
-            Me.WBengalCheckBox.Location = New System.Drawing.Point(104, 106)
-            Me.WBengalCheckBox.Name = "WBengalCheckBox"
-            Me.WBengalCheckBox.Size = New System.Drawing.Size(87, 17)
-            Me.WBengalCheckBox.TabIndex = 38
-            Me.WBengalCheckBox.Text = "West Bengal"
-            Me.WBengalCheckBox.UseVisualStyleBackColor = True
-            Me.WBengalCheckBox.Visible = False
-            '
-            'IndiaSettings
+            'WPIndiaSettings
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -407,7 +407,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.Controls.Add(Me.TipLabel)
             Me.MaximumSize = New System.Drawing.Size(276, 349)
             Me.MinimumSize = New System.Drawing.Size(276, 349)
-            Me.Name = "IndiaSettings"
+            Me.Name = "WPIndiaSettings"
             Me.Size = New System.Drawing.Size(276, 349)
             Me.ParametersGroup.ResumeLayout(False)
             Me.ParametersGroup.PerformLayout()

@@ -37,9 +37,9 @@ Namespace My
 #End If
 #End Region
         
-        Public Shared ReadOnly Property [Default]() As MySettings
+        Friend Shared ReadOnly Property [Default]() As MySettings
             Get
-                
+
 #If _MyType = "WindowsForms" Then
                If Not addedHandler Then
                     SyncLock addedHandlerLockObject

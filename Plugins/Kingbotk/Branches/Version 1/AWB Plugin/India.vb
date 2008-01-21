@@ -1,6 +1,6 @@
 ' By Reedy Boy, based on the Australia plugin
 Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
-    Friend NotInheritable Class IndiaSettings
+    Friend NotInheritable Class WPIndiaSettings
         Implements IGenericSettings
 
         Private Const conCitiesParm As String = "IndCities"
@@ -303,7 +303,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
 
         ' Settings:
         Private OurTab As New TabPage("India")
-        Private WithEvents OurSettingsControl As New IndiaSettings
+        Private WithEvents OurSettingsControl As New WPIndiaSettings
         Private Const conEnabled As String = "IndEnabled"
 
         Protected Friend Overrides ReadOnly Property PluginShortName() As String
@@ -319,11 +319,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Protected Overrides Sub ImportanceParameter(ByVal Importance As Importance)
             Template.NewOrReplaceTemplateParm("importance", Importance.ToString, Me.Article, False, False)
         End Sub
-        Protected Overrides ReadOnly Property OurTemplateHasAlternateNames() As Boolean
-            Get
-                Return False
-            End Get
-        End Property
         Protected Friend Overrides ReadOnly Property GenericSettings() As IGenericSettings
             Get
                 Return OurSettingsControl
@@ -360,7 +355,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
 
         ' Initialisation:
         Friend Sub New(ByVal Manager As PluginManager)
-            MyBase.New("WP India", False)
+            MyBase.New("") ' Specify alternate names only
         End Sub
         Protected Friend Overrides Sub Initialise()
             OurMenuItem = New ToolStripMenuItem("India Plugin")

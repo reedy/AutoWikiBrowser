@@ -1,5 +1,5 @@
 Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
-    Friend NotInheritable Class AustraliaSettings
+    Friend NotInheritable Class WPAustraliaSettings
         Implements IGenericSettings
 
         Private Const conSportParm As String = "AusSport"
@@ -305,7 +305,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
 
         ' Settings:
         Private OurTab As New TabPage("Australia")
-        Private WithEvents OurSettingsControl As New AustraliaSettings
+        Private WithEvents OurSettingsControl As New WPAustraliaSettings
         Private Const conEnabled As String = "AusEnabled"
 
         Protected Friend Overrides ReadOnly Property PluginShortName() As String
@@ -321,11 +321,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Protected Overrides Sub ImportanceParameter(ByVal Importance As Importance)
             Template.NewOrReplaceTemplateParm("importance", Importance.ToString, Me.Article, False, False)
         End Sub
-        Protected Overrides ReadOnly Property OurTemplateHasAlternateNames() As Boolean
-            Get
-                Return False
-            End Get
-        End Property
         Protected Friend Overrides ReadOnly Property GenericSettings() As IGenericSettings
             Get
                 Return OurSettingsControl
@@ -355,7 +350,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
 
         ' Initialisation:
         Friend Sub New(ByVal Manager As PluginManager)
-            MyBase.New("WP Australia", False)
+            MyBase.New("") ' Specify alternate names only
         End Sub
         Protected Friend Overrides Sub Initialise()
             OurMenuItem = New ToolStripMenuItem("Australia Plugin")

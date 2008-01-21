@@ -69,7 +69,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
             Me.disposed = True
         End Sub
 
-        Public Sub Dispose() Implements IDisposable.Dispose
+        Friend Sub Dispose() Implements IDisposable.Dispose
             Debug.WriteLine("Disposing of AssessmentClass object")
             ' Execute the code that does the cleanup.
             Dispose(True)
