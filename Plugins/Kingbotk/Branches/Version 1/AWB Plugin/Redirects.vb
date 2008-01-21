@@ -55,16 +55,16 @@
             Debug.Print("SecondChanceRegex: " & SecondChanceRegex.ToString)
 #End If
 
-            If HasAlternateNames Then
+            If mHasAlternateNames Then
                 PreferredTemplateNameRegex = New Regex(PreferredTemplateNameRegexCreator.Replace(PreferredTemplateName, _
                    AddressOf Me.PreferredTemplateNameWikiMatchEvaluator), RegexOptions.Compiled)
 #If DEBUG Then
-            Debug.Print("PreferredTemplateNameRegex: " & PreferredTemplateNameRegex.ToString)
+                Debug.Print("PreferredTemplateNameRegex: " & PreferredTemplateNameRegex.ToString)
 #End If
             Else
                 PreferredTemplateNameRegex = Nothing
 #If DEBUG Then
-            Debug.Print("PreferredTemplateNameRegex: Null")
+                Debug.Print("PreferredTemplateNameRegex: Null")
 #End If
             End If
         End Sub
@@ -84,16 +84,16 @@
             ' In compiled templates, this is where we check if we've got an up-to-date redirects list from Wikipedia
             ' In generic templates, we also check whether the generic template has enough configuration to start tagging
             Get
-                '#If DEBUG Then
-                '                Return True
-                '#Else
+#If DEBUG Then
+                Return True
+#Else
                 If Not mGotRedirectsFromWikipedia Then ' we've not checked redirects
                     CheckRedirects() ' check them, and check the variable again
                     If mGotRedirectsFromWikipedia Then Return True Else Throw New RedirectsException
                 Else
                     Return True
                 End If
-                '#End If
+#End If
             End Get
         End Property
         Private Sub CheckNoUnderscores(ByVal text As String)
@@ -151,6 +151,7 @@
                     Case DialogResult.Retry
                         CheckRedirects()
                     Case DialogResult.Ignore
+                        GotNewAlternateNamesString(mLastKnownGoodRedirects) ' This may be different to default if we loaded from settings
                         mGotRedirectsFromWikipedia = True
                 End Select
             End Try
