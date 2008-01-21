@@ -34,7 +34,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.SkipRegexCheckBox = New System.Windows.Forms.CheckBox
             Me.GroupBox1 = New System.Windows.Forms.GroupBox
             Me.GetRedirectsButton = New System.Windows.Forms.Button
-            Me.AlternateNamesCheckBox = New System.Windows.Forms.CheckBox
+            Me.HasAlternateNamesCheckBox = New System.Windows.Forms.CheckBox
             Me.Label2 = New System.Windows.Forms.Label
             Me.Label1 = New System.Windows.Forms.Label
             Me.LinkLabel1 = New System.Windows.Forms.LinkLabel
@@ -161,7 +161,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             'GroupBox1
             '
             Me.GroupBox1.Controls.Add(Me.GetRedirectsButton)
-            Me.GroupBox1.Controls.Add(Me.AlternateNamesCheckBox)
+            Me.GroupBox1.Controls.Add(Me.HasAlternateNamesCheckBox)
             Me.GroupBox1.Controls.Add(Me.Label2)
             Me.GroupBox1.Controls.Add(Me.AlternateNamesTextBox)
             Me.GroupBox1.Controls.Add(Me.Label1)
@@ -184,15 +184,15 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.GetRedirectsButton.Text = "Get"
             Me.GetRedirectsButton.UseVisualStyleBackColor = True
             '
-            'AlternateNamesCheckBox
+            'HasAlternateNamesCheckBox
             '
-            Me.AlternateNamesCheckBox.AutoSize = True
-            Me.AlternateNamesCheckBox.Location = New System.Drawing.Point(8, 45)
-            Me.AlternateNamesCheckBox.Name = "AlternateNamesCheckBox"
-            Me.AlternateNamesCheckBox.Size = New System.Drawing.Size(217, 17)
-            Me.AlternateNamesCheckBox.TabIndex = 4
-            Me.AlternateNamesCheckBox.Text = "Template has alternate names (redirects)"
-            Me.AlternateNamesCheckBox.UseVisualStyleBackColor = True
+            Me.HasAlternateNamesCheckBox.AutoSize = True
+            Me.HasAlternateNamesCheckBox.Location = New System.Drawing.Point(8, 45)
+            Me.HasAlternateNamesCheckBox.Name = "HasAlternateNamesCheckBox"
+            Me.HasAlternateNamesCheckBox.Size = New System.Drawing.Size(217, 17)
+            Me.HasAlternateNamesCheckBox.TabIndex = 4
+            Me.HasAlternateNamesCheckBox.Text = "Template has alternate names (redirects)"
+            Me.HasAlternateNamesCheckBox.UseVisualStyleBackColor = True
             '
             'Label2
             '
@@ -333,7 +333,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Friend WithEvents LinkLabel1 As System.Windows.Forms.LinkLabel
         Friend WithEvents Label2 As System.Windows.Forms.Label
         Friend WithEvents AlternateNamesTextBox As System.Windows.Forms.TextBox
-        Friend WithEvents AlternateNamesCheckBox As System.Windows.Forms.CheckBox
+        Friend WithEvents HasAlternateNamesCheckBox As System.Windows.Forms.CheckBox
         Friend WithEvents GroupBox3 As System.Windows.Forms.GroupBox
         Friend WithEvents Label3 As System.Windows.Forms.Label
         Friend WithEvents CatsCheckedListBox As System.Windows.Forms.CheckedListBox

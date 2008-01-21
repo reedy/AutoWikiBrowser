@@ -1,5 +1,5 @@
 Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
-    Friend NotInheritable Class MilHistSettings
+    Friend NotInheritable Class WPMilHistSettings
         Implements IGenericSettings
 
         Private Const conWWIIWGParm As String = "MilHistWWII"
@@ -43,7 +43,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Private Const conSpanishWGParm As String = "MilHistSpanish"
 
 #Region "XML interface"
-        Public Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader) Implements IGenericSettings.ReadXML
+        Friend Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader) Implements IGenericSettings.ReadXML
             WWII = PluginManager.XMLReadBoolean(Reader, conWWIIWGParm, WWII)
             WWI = PluginManager.XMLReadBoolean(Reader, conWWIWGParm, WWI)
             Weaponry = PluginManager.XMLReadBoolean(Reader, conWeaponryWGParm, Weaponry)
@@ -85,7 +85,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Russian = PluginManager.XMLReadBoolean(Reader, conRussianWGParm, Russian)
             Spanish = PluginManager.XMLReadBoolean(Reader, conSpanishWGParm, Spanish)
         End Sub
-        Public Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter) Implements IGenericSettings.WriteXML
+        Friend Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter) Implements IGenericSettings.WriteXML
             With Writer
                 .WriteAttributeString(conWWIIWGParm, WWII.ToString)
                 .WriteAttributeString(conWWIWGParm, WWI.ToString)
@@ -128,7 +128,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 .WriteAttributeString(conSpanishWGParm, Spanish.ToString)
             End With
         End Sub
-        Public Sub Reset() Implements IGenericSettings.XMLReset
+        Friend Sub Reset() Implements IGenericSettings.XMLReset
             StubClass = False
             AutoStub = False
             ForceImportanceRemoval = False
@@ -438,7 +438,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 StubClassCheckBox.Enabled = value
             End Set
         End Property
-        Public Property AutoStub() As Boolean Implements IGenericSettings.AutoStub
+        Friend Property AutoStub() As Boolean Implements IGenericSettings.AutoStub
             Get
                 Return AutoStubCheckBox.Checked
             End Get
@@ -446,7 +446,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 AutoStubCheckBox.Checked = value
             End Set
         End Property
-        Public Property ForceImportanceRemoval() As Boolean
+        Friend Property ForceImportanceRemoval() As Boolean
             Get
                 Return RemoveImportanceCheckBox.Checked
             End Get
@@ -624,7 +624,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
 
         ' Settings:
         Private OurTab As New TabPage("MilHist")
-        Private WithEvents OurSettingsControl As New MilHistSettings
+        Private WithEvents OurSettingsControl As New WPMilHistSettings
         Private Const conEnabled As String = "MilHistEnabled"
         Private Const conMedievalTaskForce As String = "Medieval-task-force"
 
@@ -646,11 +646,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Protected Overrides Sub ImportanceParameter(ByVal Importance As Importance)
             ' WPMILHIST doesn't do importance
         End Sub
-        Protected Overrides ReadOnly Property OurTemplateHasAlternateNames() As Boolean
-            Get
-                Return True
-            End Get
-        End Property
         Protected Friend Overrides ReadOnly Property GenericSettings() As IGenericSettings
             Get
                 Return OurSettingsControl
@@ -691,7 +686,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
 
         ' Initialisation:
         Friend Sub New(ByVal Manager As PluginManager)
-            MyBase.New("WPMILHIST|WikiProject Military History", True)
+            MyBase.New("WikiProject Military History") ' Specify alternate names only
         End Sub
         Protected Friend Overrides Sub Initialise()
             OurMenuItem = New ToolStripMenuItem("Military History Plugin")

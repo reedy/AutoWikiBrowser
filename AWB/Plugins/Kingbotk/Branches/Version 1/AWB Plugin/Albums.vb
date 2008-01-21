@@ -6,7 +6,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Private Const conStubClassParm As String = "AlbumStubClass"
 
         ' Properties:
-        Public Property StubClass() As Boolean Implements IGenericSettings.StubClass
+        Friend Property StubClass() As Boolean Implements IGenericSettings.StubClass
             Get
                 Return StubClassCheckBox.Checked
             End Get
@@ -14,7 +14,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 StubClassCheckBox.Checked = value
             End Set
         End Property
-        Public Property AutoStub() As Boolean Implements IGenericSettings.AutoStub
+        Friend Property AutoStub() As Boolean Implements IGenericSettings.AutoStub
             Get
                 Return AutoStubCheckBox.Checked
             End Get
@@ -35,15 +35,15 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         End Property
 
 #Region "XML interface"
-        Public Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader) Implements IGenericSettings.ReadXML
+        Friend Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader) Implements IGenericSettings.ReadXML
             AutoStub = PluginManager.XMLReadBoolean(Reader, conAutoStubParm, AutoStub)
             StubClass = PluginManager.XMLReadBoolean(Reader, conStubClassParm, StubClass)
         End Sub
-        Public Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter) Implements IGenericSettings.WriteXML
+        Friend Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter) Implements IGenericSettings.WriteXML
             Writer.WriteAttributeString(conAutoStubParm, AutoStub.ToString)
             Writer.WriteAttributeString(conStubClassParm, StubClass.ToString)
         End Sub
-        Public Sub Reset() Implements IGenericSettings.XMLReset
+        Friend Sub Reset() Implements IGenericSettings.XMLReset
             AutoStub = False
             StubClass = False
         End Sub
@@ -96,11 +96,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Protected Overrides Sub ImportanceParameter(ByVal Importance As Importance)
             Template.NewOrReplaceTemplateParm("importance", Importance.ToString, Me.Article, False, False)
         End Sub
-        Protected Overrides ReadOnly Property OurTemplateHasAlternateNames() As Boolean
-            Get
-                Return True
-            End Get
-        End Property
         Protected Friend Overrides ReadOnly Property GenericSettings() As IGenericSettings
             Get
                 Return OurSettingsControl
@@ -124,7 +119,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
 
         ' Initialisation:
         Friend Sub New(ByVal Manager As PluginManager)
-            MyBase.New("Album[s]?", True)
+            MyBase.New("Albums") ' Specify alternate names only
         End Sub
         Protected Friend Overrides Sub Initialise()
             OurMenuItem = New ToolStripMenuItem("Albums Plugin")

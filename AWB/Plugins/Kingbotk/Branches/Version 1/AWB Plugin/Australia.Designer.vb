@@ -1,6 +1,6 @@
 Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
     <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-    Partial Class AustraliaSettings
+    Partial Class WPAustraliaSettings
         Inherits System.Windows.Forms.UserControl
 
         'UserControl overrides dispose to clean up the component list.
@@ -47,9 +47,9 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.PoliticsCheckBox = New System.Windows.Forms.CheckBox
             Me.SportCheckBox = New System.Windows.Forms.CheckBox
             Me.TopicsGroupBox = New System.Windows.Forms.GroupBox
+            Me.MusicCheckBox = New System.Windows.Forms.CheckBox
             Me.NBLCheckBox = New System.Windows.Forms.CheckBox
             Me.LinkLabel1 = New System.Windows.Forms.LinkLabel
-            Me.MusicCheckBox = New System.Windows.Forms.CheckBox
             Me.ParametersGroup.SuspendLayout()
             Me.TopicsGroupBox.SuspendLayout()
             Me.SuspendLayout()
@@ -328,6 +328,16 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.TopicsGroupBox.TabStop = False
             Me.TopicsGroupBox.Text = "Cities && Topics"
             '
+            'MusicCheckBox
+            '
+            Me.MusicCheckBox.AutoSize = True
+            Me.MusicCheckBox.Location = New System.Drawing.Point(91, 130)
+            Me.MusicCheckBox.Name = "MusicCheckBox"
+            Me.MusicCheckBox.Size = New System.Drawing.Size(54, 17)
+            Me.MusicCheckBox.TabIndex = 23
+            Me.MusicCheckBox.Text = "Music"
+            Me.MusicCheckBox.UseVisualStyleBackColor = True
+            '
             'NBLCheckBox
             '
             Me.NBLCheckBox.AutoSize = True
@@ -349,17 +359,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.LinkLabel1.TabStop = True
             Me.LinkLabel1.Text = "{{WP Australia}}"
             '
-            'MusicCheckBox
-            '
-            Me.MusicCheckBox.AutoSize = True
-            Me.MusicCheckBox.Location = New System.Drawing.Point(91, 130)
-            Me.MusicCheckBox.Name = "MusicCheckBox"
-            Me.MusicCheckBox.Size = New System.Drawing.Size(54, 17)
-            Me.MusicCheckBox.TabIndex = 23
-            Me.MusicCheckBox.Text = "Music"
-            Me.MusicCheckBox.UseVisualStyleBackColor = True
-            '
-            'AustraliaSettings
+            'WPAustraliaSettings
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -369,7 +369,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.Controls.Add(Me.TopicsGroupBox)
             Me.MaximumSize = New System.Drawing.Size(276, 349)
             Me.MinimumSize = New System.Drawing.Size(276, 349)
-            Me.Name = "AustraliaSettings"
+            Me.Name = "WPAustraliaSettings"
             Me.Size = New System.Drawing.Size(276, 349)
             Me.ParametersGroup.ResumeLayout(False)
             Me.ParametersGroup.PerformLayout()

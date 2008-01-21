@@ -5,11 +5,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         ' Our name:
         Private mName As String
 
-        ' Events:
-        Event ImportanceCheckedChanged()
-        Event CatsCheckedChanged()
-        Event TemplateCheckedChanged()
-
         ' UI:
         Private WithEvents InsertTemplateCallMenuItem As ToolStripMenuItem
 
@@ -79,7 +74,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
 #End Region
 
 #Region "Properties"
-        Public Property TemplateName() As String
+        Friend Property TemplateName() As String
             Get
                 Return WikiFunctions.Parse.Parsers.GetTemplateName(TemplateNameTextBox.Text, True)
             End Get
@@ -87,15 +82,15 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 TemplateNameTextBox.Text = value
             End Set
         End Property
-        Public Property HasAlternateNames() As Boolean
+        Friend Property HasAlternateNames() As Boolean
             Get
-                Return AlternateNamesCheckBox.Checked
+                Return HasAlternateNamesCheckBox.Checked
             End Get
             Set(ByVal value As Boolean)
-                AlternateNamesCheckBox.Checked = value
+                HasAlternateNamesCheckBox.Checked = value
             End Set
         End Property
-        Public Property AlternateNames() As String
+        Friend Property AlternateNames() As String
             Get
                 Return AlternateNamesTextBox.Text.Trim
             End Get
@@ -103,7 +98,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 AlternateNamesTextBox.Text = value
             End Set
         End Property
-        Public Property ImportanceSetting() As ImportanceSettingEnum
+        Friend Property ImportanceSetting() As ImportanceSettingEnum
             Get
                 If ImportanceCheckedListBox.CheckedIndices.Count = 0 Then
                     Return ImportanceSettingEnum.None
@@ -115,7 +110,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 ImportanceCheckedListBox.SetItemChecked(DirectCast(value, Integer), True)
             End Set
         End Property
-        Public Property HasCategoryClass() As Boolean
+        Friend Property HasCategoryClass() As Boolean
             Get
                 If CatsCheckedListBox.CheckedIndices.Count = 0 Then
                     Return False
@@ -127,7 +122,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 If value Then CatsCheckedListBox.SetItemChecked(0, True) Else CatsCheckedListBox.SetItemChecked(1, True)
             End Set
         End Property
-        Public Property HasTemplateClass() As Boolean
+        Friend Property HasTemplateClass() As Boolean
             Get
                 If TemplatesCheckedListBox.CheckedIndices.Count = 0 Then
                     Return False
@@ -140,7 +135,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                    Else TemplatesCheckedListBox.SetItemChecked(1, True)
             End Set
         End Property
-        Public Property SkipRegex() As String
+        Friend Property SkipRegex() As String
             Get
                 Return SkipRegexTextBox.Text.Trim
             End Get
@@ -148,7 +143,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 SkipRegexTextBox.Text = value
             End Set
         End Property
-        Public Property SkipRegexYN() As Boolean
+        Friend Property SkipRegexYN() As Boolean
             Get
                 Return SkipRegexCheckBox.Checked
             End Get
@@ -156,7 +151,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 SkipRegexCheckBox.Checked = value
             End Set
         End Property
-        Public Property AutoStubYN() As Boolean
+        Friend Property AutoStubYN() As Boolean
             Get
                 Return AutoStubSupportYNCheckBox.Checked
             End Get
@@ -164,7 +159,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 AutoStubSupportYNCheckBox.Checked = value
             End Set
         End Property
-        Public Property StubClass() As Boolean Implements IGenericSettings.StubClass
+        Friend Property StubClass() As Boolean Implements IGenericSettings.StubClass
             Get
                 Return StubClassCheckBox.Checked
             End Get
@@ -172,7 +167,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 StubClassCheckBox.Checked = value
             End Set
         End Property
-        Public Property AutoStub() As Boolean Implements IGenericSettings.AutoStub
+        Friend Property AutoStub() As Boolean Implements IGenericSettings.AutoStub
             Get
                 Return (AutoStubCheckBox.Checked And AutoStubSupportYNCheckBox.Checked)
             End Get
@@ -184,13 +179,13 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 End If
             End Set
         End Property
-        Public ReadOnly Property TextInsertContextMenuStripItems() As ToolStripItemCollection _
+        Friend ReadOnly Property TextInsertContextMenuStripItems() As ToolStripItemCollection _
         Implements IGenericSettings.TextInsertContextMenuStripItems
             Get
                 Return Nothing ' not used by generic template objects
             End Get
         End Property
-        Public WriteOnly Property StubClassModeAllowed() As Boolean _
+        Friend WriteOnly Property StubClassModeAllowed() As Boolean _
         Implements IGenericSettings.StubClassModeAllowed
             Set(ByVal value As Boolean)
                 StubClassCheckBox.Enabled = value
@@ -217,7 +212,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         End Sub
 
 #Region "XML interface"
-        Public Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader) Implements IGenericSettings.ReadXML
+        Friend Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader) Implements IGenericSettings.ReadXML
             AutoStub = PluginManager.XMLReadBoolean(Reader, conAutoStubParm, AutoStub)
             StubClass = PluginManager.XMLReadBoolean(Reader, conStubClassParm, StubClass)
             TemplateName = PluginManager.XMLReadString(Reader, conTemplateNameParm, TemplateName)
@@ -226,7 +221,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             AlternateNames = PluginManager.XMLReadString( _
                Reader, conTemplateAlternateNamesParm, AlternateNames)
             ImportanceSetting = CType(ImportanceSettingEnum.Parse(GetType(ImportanceSettingEnum), _
-               PluginManager.XMLReadString(Reader, conTemplateImportanceParm, ImportanceSetting.ToString), True), _
+               PluginManager.XMLReadString(Reader, conTemplateImportanceParm, ImportanceSetting.ToString), True),  _
                ImportanceSettingEnum)
             HasCategoryClass = PluginManager.XMLReadBoolean(Reader, conTemplateCatsParm, HasCategoryClass)
             HasTemplateClass = PluginManager.XMLReadBoolean(Reader, conTemplateTemplatesParm, HasTemplateClass)
@@ -234,7 +229,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             SkipRegexYN = PluginManager.XMLReadBoolean(Reader, conSkipRegexYN, SkipRegexYN)
             SkipRegex = PluginManager.XMLReadString(Reader, conSkipRegex, SkipRegex)
         End Sub
-        Public Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter) Implements IGenericSettings.WriteXML
+        Friend Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter) Implements IGenericSettings.WriteXML
             With Writer
                 .WriteAttributeString(conTemplateNameParm, TemplateName)
                 .WriteAttributeString(conAutoStubParm, AutoStub.ToString)
@@ -249,7 +244,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 .WriteAttributeString(conSkipRegex, SkipRegex)
             End With
         End Sub
-        Public Sub Reset() Implements IGenericSettings.XMLReset
+        Friend Sub Reset() Implements IGenericSettings.XMLReset
             TemplateName = ""
             AutoStub = False
             StubClass = False
@@ -272,21 +267,18 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Private Sub ImportanceCheckedListBox_ItemCheck(ByVal sender As Object, ByVal e As ItemCheckEventArgs) _
         Handles ImportanceCheckedListBox.ItemCheck
             AssessmentForm.AllowOnlyOneCheckedItem(sender, e)
-            RaiseEvent ImportanceCheckedChanged()
         End Sub
         Private Sub CatsCheckedListBox_ItemCheck(ByVal sender As Object, ByVal e As ItemCheckEventArgs) _
         Handles CatsCheckedListBox.ItemCheck
             AssessmentForm.AllowOnlyOneCheckedItem(sender, e)
-            RaiseEvent CatsCheckedChanged()
         End Sub
         Private Sub TemplatesCheckedListBox_ItemCheck(ByVal sender As Object, ByVal e As ItemCheckEventArgs) _
         Handles TemplatesCheckedListBox.ItemCheck
             AssessmentForm.AllowOnlyOneCheckedItem(sender, e)
-            RaiseEvent TemplateCheckedChanged()
         End Sub
-        Private Sub AlternateNamesCheckBox_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
-        Handles AlternateNamesCheckBox.CheckedChanged
-            AlternateNamesTextBox.Enabled = AlternateNamesCheckBox.Checked
+        Private Sub HasAlternateNamesCheckBox_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
+        Handles HasAlternateNamesCheckBox.CheckedChanged
+            AlternateNamesTextBox.Enabled = HasAlternateNamesCheckBox.Checked
         End Sub
         Private Sub AutoStubSupportYNCheckBox_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
         Handles AutoStubSupportYNCheckBox.CheckedChanged
@@ -308,9 +300,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         End Sub
         Private Sub InsertTemplateCallMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles InsertTemplateCallMenuItem.Click
             PluginManager.EditBoxInsert("{{" & TemplateName & "}}")
-        End Sub
-        Private Sub AlternateNamesTextBox_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AlternateNamesTextBox.TextChanged
-            AlternateNames = PluginBase.ConvertSpacesToUnderscores(AlternateNames)
         End Sub
 #End Region
     End Class
@@ -346,8 +335,9 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             AddHandler OurSettingsControl.SkipRegexCheckBox.CheckedChanged, AddressOf Me.SkipRegexChanged
             AddHandler OurSettingsControl.SkipRegexTextBox.TextChanged, AddressOf Me.SkipRegexChanged
             AddHandler OurSettingsControl.TemplateNameTextBox.TextChanged, AddressOf Me.TemplateNamesChanged
-            AddHandler OurSettingsControl.AlternateNamesCheckBox.CheckedChanged, AddressOf Me.TemplateNamesChanged
+            AddHandler OurSettingsControl.HasAlternateNamesCheckBox.CheckedChanged, AddressOf Me.TemplateNamesChanged
             AddHandler OurSettingsControl.AlternateNamesTextBox.TextChanged, AddressOf Me.TemplateNamesChanged
+            'AddHandler OurSettingsControl.AlternateNamesTextBox.EnabledChanged, AddressOf Me.TemplateNamesChanged ' CheckedChanged should covert this
             AddHandler OurSettingsControl.PropertiesButton.Click, AddressOf Me.PropertiesButtonClick
             AddHandler OurSettingsControl.GetRedirectsButton.Click, AddressOf Me.GetRedirectsButtonClick
         End Sub
@@ -413,11 +403,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 End If
             End Get
         End Property
-        Protected Overrides ReadOnly Property OurTemplateHasAlternateNames() As Boolean
-            Get
-                Return (Not PreferredTemplateNameRegex Is Nothing)
-            End Get
-        End Property
         Protected Friend Overrides ReadOnly Property GenericSettings() As IGenericSettings
             Get
                 Return OurSettingsControl
@@ -426,11 +411,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Protected Overrides ReadOnly Property ParameterBreak() As String
             Get
                 Return ""
-            End Get
-        End Property
-        Protected Overrides ReadOnly Property RedirectsParm() As String
-            Get
-                Return OurName & "Redir"
             End Get
         End Property
 
@@ -484,6 +464,11 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Writer.WriteAttributeString(conEnabled, Enabled.ToString)
             OurSettingsControl.WriteXML(Writer)
         End Sub
+        '' These do nothing because generic templates already have a AlternateNames XML property
+        Friend Overrides Sub ReadXMLRedirects(ByVal Reader As System.Xml.XmlTextReader)
+        End Sub
+        Friend Overrides Sub WriteXMLRedirects(ByVal Writer As System.Xml.XmlTextWriter)
+        End Sub
 
         ' Our interface:
         Friend ReadOnly Property GenericTemplateKey() As String _
@@ -503,30 +488,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 End If
             End With
         End Sub
-        Private Sub TemplateNamesChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-            Dim RegexpMiddle As String
-
-            With OurSettingsControl
-                If .TemplateName = "" Then
-                    MainRegex = Nothing
-                    PreferredTemplateNameRegex = Nothing
-                    SecondChanceRegex = Nothing
-                Else
-                    If .HasAlternateNames AndAlso Not .AlternateNames = "" Then
-                        RegexpMiddle = .TemplateName & "|" & .AlternateNames
-                        BuildPreferredTemplateNameRegex(True)
-                    Else
-                        RegexpMiddle = .TemplateName
-                        BuildPreferredTemplateNameRegex(False)
-                    End If
-
-                    MainRegex = BuildStandardRegex(RegexpMiddle)
-                    SecondChanceRegex = New Regex(conRegexpLeft & RegexpMiddle & conRegexpRightNotStrict, _
-                       conRegexpOptions)
-                End If
-            End With
-        End Sub
         Private Sub PropertiesButtonClick(ByVal sender As Object, ByVal e As EventArgs)
             Dim frm As New GenericTemplatePropertiesForm
 
@@ -542,7 +503,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             GenericTemplatePropertiesForm.DoRegexTextBox(frm.SecondChanceRegexTextBox, SecondChanceRegex)
             GenericTemplatePropertiesForm.DoRegexTextBox(frm.SkipRegexTextBox, SkipRegex)
 
-            frm.HasAltNamesLabel.Text += OurTemplateHasAlternateNames.ToString
+            frm.HasAltNamesLabel.Text += HasAlternateNames.ToString
 
             With OurSettingsControl
                 frm.NameLabel.Text += .TemplateName
@@ -600,8 +561,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) = DialogResult.Yes Then
                 Try
                     OurSettingsControl.AlternateNames = ConvertRedirectsToString(GetRedirects(OurSettingsControl.TemplateName))
-                    OurSettingsControl.AlternateNamesCheckBox.Checked = Not (OurSettingsControl.AlternateNames = "")
-                    CheckedRedirects = True
+                    OurSettingsControl.HasAlternateNamesCheckBox.Checked = Not (OurSettingsControl.AlternateNames = "")
+                    mGotRedirectsFromWikipedia = True
                 Catch ex As Exception
                     MessageBox.Show("Whoops, we caught an error when trying to get the redirects from Wikipedia." & _
                        Microsoft.VisualBasic.vbCrLf & Microsoft.VisualBasic.vbCrLf & "The error was:" & ex.Message & _
@@ -636,12 +597,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         End Property
         Friend Overrides Sub ReqPhoto()
         End Sub
-        Protected Overrides WriteOnly Property Regexpmiddle() As String
-            Set(ByVal value As String)
-                OurSettingsControl.AlternateNamesTextBox.Text = value
-                MyBase.Regexpmiddle = value
-            End Set
-        End Property
 
 #Region "IDisposable"
         Private disposed As Boolean = False  ' To detect redundant calls
@@ -662,7 +617,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
                 RemoveHandler OurSettingsControl.SkipRegexCheckBox.CheckedChanged, AddressOf Me.SkipRegexChanged
                 RemoveHandler OurSettingsControl.SkipRegexTextBox.TextChanged, AddressOf Me.SkipRegexChanged
                 RemoveHandler OurSettingsControl.TemplateNameTextBox.TextChanged, AddressOf Me.TemplateNamesChanged
-                RemoveHandler OurSettingsControl.AlternateNamesCheckBox.CheckedChanged, AddressOf Me.TemplateNamesChanged
+                RemoveHandler OurSettingsControl.HasAlternateNamesCheckBox.CheckedChanged, AddressOf Me.TemplateNamesChanged
                 RemoveHandler OurSettingsControl.AlternateNamesTextBox.TextChanged, AddressOf Me.TemplateNamesChanged
                 RemoveHandler OurSettingsControl.PropertiesButton.Click, AddressOf Me.PropertiesButtonClick
                 ShowHideOurObjects(False)
@@ -687,7 +642,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             ' Remember that this object has been disposed of:
             Me.disposed = True
         End Sub
-        Public Sub Dispose() Implements IDisposable.Dispose, IGenericTemplatePlugin.Goodbye
+        Friend Sub Dispose() Implements IDisposable.Dispose, IGenericTemplatePlugin.Goodbye
             Debug.WriteLine("Disposing of generic plugin " & OurName)
             ' Execute the code that does the cleanup.
             Dispose(True)

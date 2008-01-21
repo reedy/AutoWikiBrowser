@@ -15,7 +15,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Friend WithEvents PluginStats As New Stats
         Private StatLabels As New List(Of Label)
 
-        Public Sub New()
+        Friend Sub New()
             ' This call is required by the Windows Form Designer and must come first:
             InitializeComponent()
 
@@ -69,7 +69,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         ' Properties:
         Private mAssessmentsAlwaysLeaveAComment As Boolean
 
-        Public Property CategoryName() As String
+        Friend Property CategoryName() As String
             Get
                 Return Regex.Replace(PluginManager.AWBForm.CategoryTextBox.Text, "^category:", "", RegexOptions.IgnoreCase)
             End Get
@@ -77,7 +77,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 PluginManager.AWBForm.CategoryTextBox.Text = value
             End Set
         End Property
-        Public Property ManuallyAssess() As Boolean
+        Friend Property ManuallyAssess() As Boolean
             Get
                 Return ManuallyAssessCheckBox.Checked
             End Get
@@ -85,7 +85,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 ManuallyAssessCheckBox.Checked = value
             End Set
         End Property
-        Public Property Cleanup() As Boolean
+        Friend Property Cleanup() As Boolean
             Get
                 Return CleanupCheckBox.Checked
             End Get
@@ -93,7 +93,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 CleanupCheckBox.Checked = value
             End Set
         End Property
-        Public Property SkipBadTags() As Boolean
+        Friend Property SkipBadTags() As Boolean
             Get
                 Return SkipBadTagsCheckBox.Checked
             End Get
@@ -101,7 +101,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 SkipBadTagsCheckBox.Checked = value
             End Set
         End Property
-        Public Property SkipWhenNoChange() As Boolean
+        Friend Property SkipWhenNoChange() As Boolean
             Get
                 Return SkipNoChangesCheckBox.Checked
             End Get
@@ -109,7 +109,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 SkipNoChangesCheckBox.Checked = value
             End Set
         End Property
-        Public Property AssessmentsAlwaysLeaveAComment() As Boolean
+        Friend Property AssessmentsAlwaysLeaveAComment() As Boolean
             Get
                 Return mAssessmentsAlwaysLeaveAComment
             End Get
@@ -117,7 +117,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 mAssessmentsAlwaysLeaveAComment = value
             End Set
         End Property
-        Public Property OpenBadInBrowser() As Boolean
+        Friend Property OpenBadInBrowser() As Boolean
             Get
                 Return OpenBadInBrowserCheckBox.Checked
             End Get
@@ -127,7 +127,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         End Property
 
         ' XML interface:
-        Public Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader)
+        Friend Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader)
             ManuallyAssess = PluginManager.XMLReadBoolean(Reader, conManuallyAssessParm, ManuallyAssess)
             Cleanup = PluginManager.XMLReadBoolean(Reader, conCleanupParm, Cleanup)
             SkipBadTags = PluginManager.XMLReadBoolean(Reader, conSkipBadTagsParm, SkipBadTags)
@@ -136,7 +136,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                conAssessmentsAlwaysLeaveACommentParm, AssessmentsAlwaysLeaveAComment)
             OpenBadInBrowser = PluginManager.XMLReadBoolean(Reader, conOpenBadInBrowser, OpenBadInBrowser)
         End Sub
-        Public Sub Reset()
+        Friend Sub Reset()
             ManuallyAssess = False
             Cleanup = False
             PluginStats = New Stats
@@ -145,7 +145,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             AssessmentsAlwaysLeaveAComment = False
             OpenBadInBrowser = False
         End Sub
-        Public Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter)
+        Friend Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter)
             Writer.WriteAttributeString(conManuallyAssessParm, ManuallyAssess.ToString)
             Writer.WriteAttributeString(conCleanupParm, Cleanup.ToString)
             Writer.WriteAttributeString(conSkipBadTagsParm, SkipBadTags.ToString)
@@ -396,10 +396,10 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                     RaiseEvent SkipMisc(value)
                 End Set
             End Property
-            Public Sub SkippedMiscellaneousIncrement()
+            Friend Sub SkippedMiscellaneousIncrement()
                 Skipped += 1
             End Sub
-            Public Sub SkippedMiscellaneousIncrement(ByVal DeincrementTagged As Boolean)
+            Friend Sub SkippedMiscellaneousIncrement(ByVal DeincrementTagged As Boolean)
                 Skipped += 1
                 If DeincrementTagged Then Tagged -= 1
             End Sub
@@ -412,7 +412,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                     RaiseEvent RedLink(value)
                 End Set
             End Property
-            Public Sub SkippedRedLinkIncrement()
+            Friend Sub SkippedRedLinkIncrement()
                 Skipped += 1
                 SkippedRedLink += 1
             End Sub
@@ -425,7 +425,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                     RaiseEvent SkipNoChange(value)
                 End Set
             End Property
-            Public Sub SkippedNoChangeIncrement()
+            Friend Sub SkippedNoChangeIncrement()
                 SkippedNoChange += 1
                 Skipped += 1
             End Sub
@@ -438,7 +438,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                     RaiseEvent SkipBadTag(value)
                 End Set
             End Property
-            Public Sub SkippedBadTagIncrement()
+            Friend Sub SkippedBadTagIncrement()
                 SkippedBadTag += 1
                 Skipped += 1
             End Sub
@@ -451,12 +451,12 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                     RaiseEvent SkipNamespace(value)
                 End Set
             End Property
-            Public Sub SkippedNamespaceIncrement()
+            Friend Sub SkippedNamespaceIncrement()
                 SkippedNamespace += 1
                 Skipped += 1
             End Sub
 
-            Public Sub New()
+            Friend Sub New()
                 Skipped = 0
                 SkippedBadTag = 0
                 SkippedNamespace = 0

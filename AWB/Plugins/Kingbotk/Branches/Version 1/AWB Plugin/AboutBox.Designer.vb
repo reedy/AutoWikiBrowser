@@ -81,7 +81,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.LabelCopyright.Name = "LabelCopyright"
             Me.LabelCopyright.Size = New System.Drawing.Size(189, 13)
             Me.LabelCopyright.TabIndex = 2
-            Me.LabelCopyright.Text = "Copyright © SDK Software 2007"
+            Me.LabelCopyright.Text = "Copyright © SDK Software 2008"
             Me.LabelCopyright.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
             '
             'TextBoxDescription
@@ -114,23 +114,23 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.linkKingboy.BackColor = System.Drawing.Color.Transparent
             Me.linkKingboy.Location = New System.Drawing.Point(343, 120)
             Me.linkKingboy.Name = "linkKingboy"
-            Me.linkKingboy.Size = New System.Drawing.Size(49, 13)
+            Me.linkKingboy.Size = New System.Drawing.Size(40, 13)
             Me.linkKingboy.TabIndex = 47
             Me.linkKingboy.TabStop = True
-            Me.linkKingboy.Text = "Batman"
+            Me.linkKingboy.Text = "Steve"
             '
             'Label2
             '
             Me.Label2.AutoSize = True
             Me.Label2.BackColor = System.Drawing.Color.Transparent
             Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.Label2.Location = New System.Drawing.Point(394, 151)
+            Me.Label2.Location = New System.Drawing.Point(349, 151)
             Me.Label2.Margin = New System.Windows.Forms.Padding(7, 0, 3, 0)
             Me.Label2.MaximumSize = New System.Drawing.Size(0, 17)
             Me.Label2.Name = "Label2"
-            Me.Label2.Size = New System.Drawing.Size(28, 13)
+            Me.Label2.Size = New System.Drawing.Size(86, 13)
             Me.Label2.TabIndex = 48
-            Me.Label2.Text = "and"
+            Me.Label2.Text = "with help from"
             Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
             '
             'linkReedy
@@ -139,10 +139,10 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.linkReedy.BackColor = System.Drawing.Color.Transparent
             Me.linkReedy.Location = New System.Drawing.Point(382, 177)
             Me.linkReedy.Name = "linkReedy"
-            Me.linkReedy.Size = New System.Drawing.Size(40, 13)
+            Me.linkReedy.Size = New System.Drawing.Size(31, 13)
             Me.linkReedy.TabIndex = 49
             Me.linkReedy.TabStop = True
-            Me.linkReedy.Text = "Robin"
+            Me.linkReedy.Text = "Sam"
             '
             'AboutBox
             '
