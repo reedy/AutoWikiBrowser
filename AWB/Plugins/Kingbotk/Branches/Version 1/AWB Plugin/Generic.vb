@@ -92,7 +92,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         End Property
         Friend Property AlternateNames() As String
             Get
-                Return AlternateNamesTextBox.Text.Trim
+                Return AlternateNamesTextBox.Text.Trim(New Char() {CChar("|"), CChar(" ")})
             End Get
             Set(ByVal value As String)
                 AlternateNamesTextBox.Text = value
