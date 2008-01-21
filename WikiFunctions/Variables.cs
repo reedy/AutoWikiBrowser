@@ -38,7 +38,7 @@ using System.Net;
 
 namespace WikiFunctions
 {
-    public enum LangCodeEnum { en, ar, bg, ca, da, de, eo, es, fi, fr, he, hu, Is, it, ja, ku, nl, no, mi, pl, pt, ro, ru, simple, sk, sl, sv, ta, te, tj, uk, ur, zh }
+    public enum LangCodeEnum { en, ar, bg, ca, da, de, dsb, eo, es, fi, fr, he, hu, Is, it, ja, ku, nl, no, mi, pl, pt, ro, ru, simple, sk, sl, sv, ta, te, tj, uk, ur, zh }
     public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikiquote, wikiversity, wikibooks, wikinews, commons, meta, species, lastWMF = species, wikia, custom }
 
     /// <summary>
@@ -448,8 +448,28 @@ namespace WikiFunctions
                         Namespaces[15] = "Kategorie Diskussion:";
                         Namespaces[100] = "Portal:";
                         Namespaces[101] = "Portal Diskussion:";
+                        break;
 
-                        //strTypoSummaryTag = "auf deustche, bitte!";
+                    case LangCodeEnum.dsb:
+                        Namespaces[-2] = "Medija:";
+                        Namespaces[-1] = "Specialne:";
+                        Namespaces[1] = "Diskusija:";
+                        Namespaces[2] = "Wužywaŕ:";
+                        Namespaces[3] = "Diskusija wužywarja:";
+                        Namespaces[4] = "Wikipedija:";
+                        Namespaces[5] = "Wikipedija diskusija:";
+                        Namespaces[6] = "Wobraz:";
+                        Namespaces[7] = "Diskusija wó wobrazu:";
+                        Namespaces[8] = "MediaWiki:";
+                        Namespaces[9] = "MediaWiki diskusija:";
+                        Namespaces[10] = "Pśedłoga:";
+                        Namespaces[11] = "Diskusija wó pśedłoze:";
+                        Namespaces[12] = "Pomoc:";
+                        Namespaces[13] = "Diskusija wó pomocy:";
+                        Namespaces[14] = "Kategorija:";
+                        Namespaces[15] = "Diskusija wó kategoriji:";
+                        //Namespaces[100] = ":";
+                        //Namespaces[101] = ":";
                         break;
 
                     case LangCodeEnum.es:
