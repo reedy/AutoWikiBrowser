@@ -63,7 +63,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
 
         ' Identifiers:
         Friend Const Biography As String = "Biography"
-        Friend Const conWikiPlugin As String = "[[User:Kingbotk/P|Kingbotk Plugin++]]"
+        Friend Const conWikiPlugin As String = "[[User:Kingbotk/P|Plugin++]]"
         Friend Const conWikiPluginBrackets As String = "(" & conWikiPlugin & ") "
         Friend Const conAWBPluginName As String = "Kingbotk Plugin"
         'Placeholders:
