@@ -50,6 +50,8 @@ namespace AutoWikiBrowser
             groupBox1.Enabled = chkSkip.Enabled = chkEnabled.Checked;
         }
 
+        const string file = "article.txt";
+
         public string ProcessArticle(string ArticleText, string ArticleTitle, int wikiNamespace, out string Summary, out bool Skip)
         {
             string OrigText = ArticleText;
@@ -66,7 +68,7 @@ namespace AutoWikiBrowser
 
                 if (radFile.Checked)
                 {
-                    System.IO.StreamWriter writer = new System.IO.StreamWriter("input.txt");
+                    System.IO.StreamWriter writer = new System.IO.StreamWriter(file);
                     writer.Write(ArticleText);
 
                     writer.Close();
@@ -77,9 +79,9 @@ namespace AutoWikiBrowser
                 System.Diagnostics.Process p = System.Diagnostics.Process.Start(psi);
                 p.WaitForExit();
 
-                if (System.IO.File.Exists(psi.WorkingDirectory + "\\output.txt"))
+                if (System.IO.File.Exists(psi.WorkingDirectory + "\\" + file))
                 {
-                    System.IO.StreamReader reader = System.IO.File.OpenText(psi.WorkingDirectory + "\\output.txt");
+                    System.IO.StreamReader reader = System.IO.File.OpenText(psi.WorkingDirectory + +"\\" + file);
 
                     ArticleText = reader.ReadToEnd();
 
