@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{42769674-70BD-4F11-9718-C5DA36578228}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -100,6 +100,12 @@
     <Compile Include="dlgTalk.Designer.cs">
       <DependentUpon>dlgTalk.cs</DependentUpon>
     </Compile>
+    <Compile Include="ExternalProgram.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExternalProgram.Designer.cs">
+      <DependentUpon>ExternalProgram.cs</DependentUpon>
+    </Compile>
     <Compile Include="Help.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -167,6 +173,10 @@
     <EmbeddedResource Include="ExitQuestion.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ExitQuestion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExternalProgram.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ExternalProgram.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoggingSettings.resx">
       <DependentUpon>LoggingSettings.cs</DependentUpon>

@@ -94,6 +94,7 @@ namespace AutoWikiBrowser
             new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
         private static StringCollection RecentList = new StringCollection();
         private static CustomModule cModule = new CustomModule();
+        private static ExternalProgram extProgram = new ExternalProgram();
         internal static RegexTester regexTester = new RegexTester();
         private static bool userTalkWarningsLoaded;
         private static Regex userTalkTemplatesRegex;
@@ -950,6 +951,14 @@ namespace AutoWikiBrowser
                 if (cModule.ModuleEnabled && cModule.Module != null)
                 {
                     theArticle.SendPageToCustomModule(cModule.Module);
+                    if (theArticle.SkipArticle) return;
+                }
+
+                prof.Profile("Custom module");
+
+                if (extProgram.ModuleEnabled)
+                {
+                    theArticle.SendPageToCustomModule(extProgram);
                     if (theArticle.SkipArticle) return;
                 }
 
@@ -3856,6 +3865,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             bool cats = (listMaker1.SelectedSource == SourceType.Category || listMaker1.SelectedSource == SourceType.CategoryRecursive);
             toolStripSeparatorMakeFromTextBox.Visible = cats;
             mnuCopyToCategoryLog.Visible = cats;
+        }
+
+        private void externalProcessingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            extProgram.Show();
         }
     }
         #endregion

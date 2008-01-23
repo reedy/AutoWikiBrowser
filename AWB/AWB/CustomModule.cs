@@ -152,7 +152,7 @@ namespace AutoWikiBrowser
             this.Close();
         }
 
-        private void CSParser_FormClosing(object sender, FormClosingEventArgs e)
+        private void CustomModule_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = true;
             this.Hide();

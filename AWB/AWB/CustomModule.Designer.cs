@@ -205,7 +205,7 @@ namespace AutoWikiBrowser
             this.Name = "CustomModule";
             this.ShowIcon = false;
             this.Text = "Module";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CSParser_FormClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CustomModule_FormClosing);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);

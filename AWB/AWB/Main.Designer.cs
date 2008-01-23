@@ -365,6 +365,8 @@ namespace AutoWikiBrowser
             this.toolStripSeparatorMakeFromTextBox = new System.Windows.Forms.ToolStripSeparator();
             this.mnuCopyToCategoryLog = new System.Windows.Forms.ToolStripMenuItem();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
+            this.externalProcessingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator28 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -1248,6 +1250,8 @@ namespace AutoWikiBrowser
             // 
             this.toolStripAdvanced.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.makeModuleToolStripMenuItem,
+            this.externalProcessingToolStripMenuItem,
+            this.toolStripSeparator28,
             this.testRegexToolStripMenuItem,
             this.profileTyposToolStripMenuItem,
             this.toolStripSeparator24,
@@ -3542,6 +3546,18 @@ namespace AutoWikiBrowser
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
             // 
+            // externalProcessingToolStripMenuItem
+            // 
+            this.externalProcessingToolStripMenuItem.Name = "externalProcessingToolStripMenuItem";
+            this.externalProcessingToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.externalProcessingToolStripMenuItem.Text = "External Processing";
+            this.externalProcessingToolStripMenuItem.Click += new System.EventHandler(this.externalProcessingToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator28
+            // 
+            this.toolStripSeparator28.Name = "toolStripSeparator28";
+            this.toolStripSeparator28.Size = new System.Drawing.Size(178, 6);
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -3960,5 +3976,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripSeparator toolStripSeparatorMakeFromTextBox;
         private System.Windows.Forms.ToolStripMenuItem mnuCopyToCategoryLog;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator27;
+        private System.Windows.Forms.ToolStripMenuItem externalProcessingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator28;
     }
 }
