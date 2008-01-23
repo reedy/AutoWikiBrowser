@@ -38,7 +38,7 @@ using System.Net;
 
 namespace WikiFunctions
 {
-    public enum LangCodeEnum { en, ar, bg, ca, da, de, dsb, eo, es, fi, fr, he, hu, Is, it, ja, ku, nl, no, mi, pl, pt, ro, ru, simple, sk, sl, sv, ta, te, tj, uk, ur, zh }
+    public enum LangCodeEnum { en, ar, bg, ca, da, de, dsb, eo, es, fi, fr, he, hu, Is, it, ja, ku, nl, no, mi, pl, pt, ro, ru, simple, sk, sl, sr, sv, ta, te, tj, uk, ur, zh }
     public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikiquote, wikiversity, wikibooks, wikinews, commons, meta, species, lastWMF = species, wikia, custom }
 
     /// <summary>
@@ -899,6 +899,28 @@ namespace WikiFunctions
                         strsummarytag = " ";
                         strWPAWB = "[[Wikipedija:AutoWikiBrowser|AWB]]";
                         Stub = "(?:[Ss]tub|[Šš]krbina)";
+                        break;
+
+                    case LangCodeEnum.sr:
+                        Namespaces[-2] = "Медија:";
+                        Namespaces[-1] = "Посебно:";
+                        Namespaces[1] = "Разговор:";
+                        Namespaces[2] = "Корисник:";
+                        Namespaces[3] = "Разговор са корисником:";
+                        Namespaces[4] = "Википедија:";
+                        Namespaces[5] = "Разговор о Википедији:";
+                        Namespaces[6] = "Слика:";
+                        Namespaces[7] = "Разговор о слици:";
+                        Namespaces[8] = "МедијаВики:";
+                        Namespaces[9] = "Разговор о МедијаВикију:";
+                        Namespaces[10] = "Шаблон:";
+                        Namespaces[11] = "Разговор о шаблону:";
+                        Namespaces[12] = "Помоћ:";
+                        Namespaces[13] = "Разговор о помоћи:";
+                        Namespaces[14] = "Категорија:";
+                        Namespaces[15] = "Разговор о категорији:";
+                        Namespaces[100] = "Портал:";
+                        Namespaces[101] = "Разговор о порталу:";
                         break;
 
                     case LangCodeEnum.sv:
