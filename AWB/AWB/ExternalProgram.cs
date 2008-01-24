@@ -81,7 +81,7 @@ namespace AutoWikiBrowser
 
                 if (System.IO.File.Exists(psi.WorkingDirectory + "\\" + file))
                 {
-                    System.IO.StreamReader reader = System.IO.File.OpenText(psi.WorkingDirectory + +"\\" + file);
+                    System.IO.StreamReader reader = System.IO.File.OpenText(psi.WorkingDirectory + "\\" + file);
 
                     ArticleText = reader.ReadToEnd();
 
