@@ -579,6 +579,9 @@ namespace AutoWikiBrowser
                 return;
             }
 
+            if (dlg.AutoProtectAll)
+                webBrowserEdit.ProtectPage(TheArticle.Name, dlg.Summary, dlg.EditProtectionLevel, dlg.MoveProtectionLevel, dlg.ProtectExpiry);
+
             if (chkSkipIfContains.Checked && TheArticle.SkipIfContains(txtSkipIfContains.Text,
                 chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, true))
             {
@@ -3020,10 +3023,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 dlg.Dispose();
             }
         }
+        static MoveDeleteDialog dlg = new MoveDeleteDialog(1);
 
         private void ProtectArticle()
         {
-            MoveDeleteDialog dlg = new MoveDeleteDialog(3);
+            dlg = new MoveDeleteDialog(3);
 
             try
             {
@@ -3038,10 +3042,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             catch (Exception ex)
             {
                 ErrorHandler.Handle(ex);
-            }
-            finally
-            {
-                dlg.Dispose();
             }
         }
 
