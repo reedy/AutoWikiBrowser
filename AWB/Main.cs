@@ -504,6 +504,9 @@ namespace AutoWikiBrowser
 
                 EditBoxSaveTimer.Enabled = AutoSaveEditBoxEnabled;
 
+                if (dlg.AutoProtectAll)
+                    webBrowserEdit.ProtectPage(TheArticle.Name, dlg.Summary, dlg.EditProtectionLevel, dlg.MoveProtectionLevel, dlg.ProtectExpiry);
+
                 //Navigate to edit page
                 webBrowserEdit.LoadEditPage(TheArticle.Name);
             }
@@ -578,9 +581,6 @@ namespace AutoWikiBrowser
                 GetDiff();
                 return;
             }
-
-            if (dlg.AutoProtectAll)
-                webBrowserEdit.ProtectPage(TheArticle.Name, dlg.Summary, dlg.EditProtectionLevel, dlg.MoveProtectionLevel, dlg.ProtectExpiry);
 
             if (chkSkipIfContains.Checked && TheArticle.SkipIfContains(txtSkipIfContains.Text,
                 chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, true))
