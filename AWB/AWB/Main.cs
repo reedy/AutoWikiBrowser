@@ -504,7 +504,7 @@ namespace AutoWikiBrowser
 
                 EditBoxSaveTimer.Enabled = AutoSaveEditBoxEnabled;
 
-                if (dlg.AutoProtectAll)
+                if (dlg != null && dlg.AutoProtectAll)
                     webBrowserEdit.ProtectPage(TheArticle.Name, dlg.Summary, dlg.EditProtectionLevel, dlg.MoveProtectionLevel, dlg.ProtectExpiry);
 
                 //Navigate to edit page
@@ -2204,7 +2204,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private void btnProtect_Click(object sender, EventArgs e)
         {
             ProtectArticle();
-            Start();
+            //Start();
         }
 
         private void filterOutNonMainSpaceToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3023,11 +3023,12 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 dlg.Dispose();
             }
         }
-        static MoveDeleteDialog dlg = new MoveDeleteDialog(1);
+        static MoveDeleteDialog dlg;
 
         private void ProtectArticle()
         {
-            dlg = new MoveDeleteDialog(3);
+            if (dlg == null)
+                dlg = new MoveDeleteDialog(3);
 
             try
             {
