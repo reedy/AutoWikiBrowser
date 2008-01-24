@@ -107,6 +107,11 @@ namespace WikiFunctions.Controls
             }
         }
 
+        public bool AutoProtectAll
+        {
+            get { return chkAutoProtect.Checked; }
+        }
+
         public string NewTitle
         {
             get { return txtNewTitle.Text; }

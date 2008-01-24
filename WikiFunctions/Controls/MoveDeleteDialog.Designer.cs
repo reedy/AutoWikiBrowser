@@ -41,6 +41,7 @@ namespace WikiFunctions.Controls
             this.label5 = new System.Windows.Forms.Label();
             this.txtExpiry = new System.Windows.Forms.TextBox();
             this.chkUnlock = new System.Windows.Forms.CheckBox();
+            this.chkAutoProtect = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // txtNewTitle
@@ -170,11 +171,22 @@ namespace WikiFunctions.Controls
             this.chkUnlock.UseVisualStyleBackColor = true;
             this.chkUnlock.CheckedChanged += new System.EventHandler(this.chkUnlock_CheckedChanged);
             // 
+            // chkAutoProtect
+            // 
+            this.chkAutoProtect.AutoSize = true;
+            this.chkAutoProtect.Location = new System.Drawing.Point(62, 130);
+            this.chkAutoProtect.Name = "chkAutoProtect";
+            this.chkAutoProtect.Size = new System.Drawing.Size(99, 17);
+            this.chkAutoProtect.TabIndex = 15;
+            this.chkAutoProtect.Text = "Auto Protect All";
+            this.chkAutoProtect.UseVisualStyleBackColor = true;
+            // 
             // MoveDeleteDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(413, 187);
+            this.Controls.Add(this.chkAutoProtect);
             this.Controls.Add(this.chkUnlock);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.txtExpiry);
@@ -212,5 +224,6 @@ namespace WikiFunctions.Controls
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtExpiry;
         private System.Windows.Forms.CheckBox chkUnlock;
+        private System.Windows.Forms.CheckBox chkAutoProtect;
     }
 }
