@@ -42,6 +42,7 @@ namespace WikiFunctions
                 }
                 else
                 {
+                    //TODO:Tweak to check for optional AWB Updates
                     string text = Tools.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=raw");
 
                     Match m_updversion = Regex.Match(text, @"<!-- Updater version: (.*?) -->", RegexOptions.IgnoreCase);

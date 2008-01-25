@@ -1940,7 +1940,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             LoadTypos(true);
 
             //refresh talk warnings list
-            LoadUserTalkWarnings();
+            if (userTalkWarningsLoaded)
+                LoadUserTalkWarnings();
 
             //refresh login status, and reload check list
             if (!Variables.User.WikiStatus)

@@ -270,7 +270,7 @@ namespace AutoWikiBrowser
                 AutoSaveEditBoxFile, CustomWikis, chkLock.Checked, EditToolBarVisible, SupressUsingAWB, filterOutNonMainSpaceToolStripMenuItem.Checked,
                 alphaSortInterwikiLinksToolStripMenuItem.Checked,replaceReferenceTagsToolStripMenuItem.Checked), new DabPrefs(chkEnableDab.Checked,
                 txtDabLink.Text, txtDabVariants.Lines, (int)udContextChars.Value), new ModulePrefs(
-                cModule.ModuleEnabled, cModule.Language, cModule.Code), loggingSettings1.SerialisableSettings, 
+                cModule.ModuleEnabled, cModule.Language, cModule.Code), extProgram.Settings, loggingSettings1.SerialisableSettings, 
                 Plugin.Items);
         }
 
