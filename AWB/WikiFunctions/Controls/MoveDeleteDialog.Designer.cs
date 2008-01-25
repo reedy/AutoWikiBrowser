@@ -180,6 +180,7 @@ namespace WikiFunctions.Controls
             this.chkAutoProtect.TabIndex = 15;
             this.chkAutoProtect.Text = "Auto Protect All";
             this.chkAutoProtect.UseVisualStyleBackColor = true;
+            this.chkAutoProtect.Visible = false;
             // 
             // MoveDeleteDialog
             // 
