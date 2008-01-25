@@ -120,17 +120,6 @@ namespace AutoWikiBrowser
             this.profilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator17 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.generalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.filterOutNonMainSpaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.specialFilterToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.convertToTalkPagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.convertFromTalkPagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.sortAlphabeticallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveListToTextFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
-            this.launchDumpSearcherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.launchListComparerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.launchListSplitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuGeneral = new System.Windows.Forms.ToolStripMenuItem();
             this.PreferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
@@ -153,23 +142,31 @@ namespace AutoWikiBrowser
             this.showHidePanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showHideEditToolbarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.enlargeEditAreaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripAdvanced = new System.Windows.Forms.ToolStripMenuItem();
+            this.generalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.filterOutNonMainSpaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.specialFilterToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.convertToTalkPagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.convertFromTalkPagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sortAlphabeticallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveListToTextFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.makeModuleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.externalProcessingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
             this.testRegexToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.profileTyposToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator24 = new System.Windows.Forms.ToolStripSeparator();
-            this.runUpdaterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator21 = new System.Windows.Forms.ToolStripSeparator();
-            this.reloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.launchDumpSearcherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.launchListComparerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.launchListSplitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.managePluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadPluginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator26 = new System.Windows.Forms.ToolStripSeparator();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dumpHTMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.logOutDebugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator29 = new System.Windows.Forms.ToolStripSeparator();
+            this.dumpHTMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.logOutDebugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.lblStatusText = new System.Windows.Forms.ToolStripStatusLabel();
@@ -350,7 +347,6 @@ namespace AutoWikiBrowser
             this.tpLogs = new System.Windows.Forms.TabPage();
             this.LogControl1 = new WikiFunctions.Logging.LogControl();
             this.tpLoggingOptions = new System.Windows.Forms.TabPage();
-            this.loggingSettings1 = new AutoWikiBrowser.LoggingSettings();
             this.webBrowserDiff = new System.Windows.Forms.WebBrowser();
             this.toolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
             this.ShutdownTimer = new System.Windows.Forms.Timer(this.components);
@@ -364,9 +360,12 @@ namespace AutoWikiBrowser
             this.menuitemMakeFromTextBoxPaste = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparatorMakeFromTextBox = new System.Windows.Forms.ToolStripSeparator();
             this.mnuCopyToCategoryLog = new System.Windows.Forms.ToolStripMenuItem();
+            this.runUpdaterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loggingSettings1 = new AutoWikiBrowser.LoggingSettings();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
-            this.externalProcessingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator28 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator21 = new System.Windows.Forms.ToolStripSeparator();
+            this.reloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.profileTyposToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -857,9 +856,9 @@ namespace AutoWikiBrowser
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.generalToolStripMenuItem,
             this.ToolStripMenuGeneral,
-            this.toolStripAdvanced,
+            this.generalToolStripMenuItem,
+            this.toolsToolStripMenuItem,
             this.pluginsToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -882,6 +881,9 @@ namespace AutoWikiBrowser
             this.loginToolStripMenuItem,
             this.logOutToolStripMenuItem,
             this.profilesToolStripMenuItem,
+            this.toolStripSeparator21,
+            this.reloadToolStripMenuItem,
+            this.profileTyposToolStripMenuItem,
             this.toolStripSeparator17,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -973,95 +975,6 @@ namespace AutoWikiBrowser
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
-            // generalToolStripMenuItem
-            // 
-            this.generalToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.filterOutNonMainSpaceToolStripMenuItem,
-            this.specialFilterToolStripMenuItem1,
-            this.convertToTalkPagesToolStripMenuItem,
-            this.convertFromTalkPagesToolStripMenuItem,
-            this.sortAlphabeticallyToolStripMenuItem,
-            this.saveListToTextFileToolStripMenuItem,
-            this.toolStripSeparator13,
-            this.launchDumpSearcherToolStripMenuItem,
-            this.launchListComparerToolStripMenuItem,
-            this.launchListSplitterToolStripMenuItem});
-            this.generalToolStripMenuItem.Name = "generalToolStripMenuItem";
-            this.generalToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.generalToolStripMenuItem.Text = "List";
-            // 
-            // filterOutNonMainSpaceToolStripMenuItem
-            // 
-            this.filterOutNonMainSpaceToolStripMenuItem.CheckOnClick = true;
-            this.filterOutNonMainSpaceToolStripMenuItem.Name = "filterOutNonMainSpaceToolStripMenuItem";
-            this.filterOutNonMainSpaceToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
-            this.filterOutNonMainSpaceToolStripMenuItem.Text = "Filter out non main space";
-            this.filterOutNonMainSpaceToolStripMenuItem.CheckedChanged += new System.EventHandler(this.filterOutNonMainSpaceToolStripMenuItem_Click);
-            this.filterOutNonMainSpaceToolStripMenuItem.Click += new System.EventHandler(this.filterOutNonMainSpaceToolStripMenuItem_Click);
-            // 
-            // specialFilterToolStripMenuItem1
-            // 
-            this.specialFilterToolStripMenuItem1.Name = "specialFilterToolStripMenuItem1";
-            this.specialFilterToolStripMenuItem1.Size = new System.Drawing.Size(209, 22);
-            this.specialFilterToolStripMenuItem1.Text = "Filter...";
-            this.specialFilterToolStripMenuItem1.Click += new System.EventHandler(this.specialFilterToolStripMenuItem1_Click);
-            // 
-            // convertToTalkPagesToolStripMenuItem
-            // 
-            this.convertToTalkPagesToolStripMenuItem.Name = "convertToTalkPagesToolStripMenuItem";
-            this.convertToTalkPagesToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
-            this.convertToTalkPagesToolStripMenuItem.Text = "Convert to talk pages";
-            this.convertToTalkPagesToolStripMenuItem.Click += new System.EventHandler(this.convertToTalkPagesToolStripMenuItem_Click);
-            // 
-            // convertFromTalkPagesToolStripMenuItem
-            // 
-            this.convertFromTalkPagesToolStripMenuItem.Name = "convertFromTalkPagesToolStripMenuItem";
-            this.convertFromTalkPagesToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
-            this.convertFromTalkPagesToolStripMenuItem.Text = "Convert from talk pages";
-            this.convertFromTalkPagesToolStripMenuItem.Click += new System.EventHandler(this.convertFromTalkPagesToolStripMenuItem_Click);
-            // 
-            // sortAlphabeticallyToolStripMenuItem
-            // 
-            this.sortAlphabeticallyToolStripMenuItem.CheckOnClick = true;
-            this.sortAlphabeticallyToolStripMenuItem.Name = "sortAlphabeticallyToolStripMenuItem";
-            this.sortAlphabeticallyToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
-            this.sortAlphabeticallyToolStripMenuItem.Text = "Sort alphabetically";
-            this.sortAlphabeticallyToolStripMenuItem.CheckedChanged += new System.EventHandler(this.sortAlphabeticallyToolStripMenuItem_Click);
-            this.sortAlphabeticallyToolStripMenuItem.Click += new System.EventHandler(this.sortAlphabeticallyToolStripMenuItem_Click);
-            // 
-            // saveListToTextFileToolStripMenuItem
-            // 
-            this.saveListToTextFileToolStripMenuItem.Name = "saveListToTextFileToolStripMenuItem";
-            this.saveListToTextFileToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
-            this.saveListToTextFileToolStripMenuItem.Text = "Save list to text file...";
-            this.saveListToTextFileToolStripMenuItem.Click += new System.EventHandler(this.saveListToTextFileToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator13
-            // 
-            this.toolStripSeparator13.Name = "toolStripSeparator13";
-            this.toolStripSeparator13.Size = new System.Drawing.Size(206, 6);
-            // 
-            // launchDumpSearcherToolStripMenuItem
-            // 
-            this.launchDumpSearcherToolStripMenuItem.Name = "launchDumpSearcherToolStripMenuItem";
-            this.launchDumpSearcherToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
-            this.launchDumpSearcherToolStripMenuItem.Text = "Launch Database Scanner";
-            this.launchDumpSearcherToolStripMenuItem.Click += new System.EventHandler(this.launchDumpSearcherToolStripMenuItem_Click);
-            // 
-            // launchListComparerToolStripMenuItem
-            // 
-            this.launchListComparerToolStripMenuItem.Name = "launchListComparerToolStripMenuItem";
-            this.launchListComparerToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
-            this.launchListComparerToolStripMenuItem.Text = "Launch ListComparer";
-            this.launchListComparerToolStripMenuItem.Click += new System.EventHandler(this.launchListComparerToolStripMenuItem_Click);
-            // 
-            // launchListSplitterToolStripMenuItem
-            // 
-            this.launchListSplitterToolStripMenuItem.Name = "launchListSplitterToolStripMenuItem";
-            this.launchListSplitterToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
-            this.launchListSplitterToolStripMenuItem.Text = "Launch ListSplitter";
-            this.launchListSplitterToolStripMenuItem.Click += new System.EventHandler(this.launchListSplitterToolStripMenuItem_Click);
-            // 
             // ToolStripMenuGeneral
             // 
             this.ToolStripMenuGeneral.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1087,8 +1000,8 @@ namespace AutoWikiBrowser
             this.showHideEditToolbarToolStripMenuItem,
             this.enlargeEditAreaToolStripMenuItem});
             this.ToolStripMenuGeneral.Name = "ToolStripMenuGeneral";
-            this.ToolStripMenuGeneral.Size = new System.Drawing.Size(59, 20);
-            this.ToolStripMenuGeneral.Text = "General";
+            this.ToolStripMenuGeneral.Size = new System.Drawing.Size(61, 20);
+            this.ToolStripMenuGeneral.Text = "Options";
             // 
             // PreferencesToolStripMenuItem
             // 
@@ -1246,67 +1159,125 @@ namespace AutoWikiBrowser
             this.enlargeEditAreaToolStripMenuItem.Text = "Enlarge Edit Area";
             this.enlargeEditAreaToolStripMenuItem.Click += new System.EventHandler(this.enlargeEditAreaToolStripMenuItem_Click);
             // 
-            // toolStripAdvanced
+            // generalToolStripMenuItem
             // 
-            this.toolStripAdvanced.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.generalToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.filterOutNonMainSpaceToolStripMenuItem,
+            this.specialFilterToolStripMenuItem1,
+            this.convertToTalkPagesToolStripMenuItem,
+            this.convertFromTalkPagesToolStripMenuItem,
+            this.sortAlphabeticallyToolStripMenuItem,
+            this.saveListToTextFileToolStripMenuItem});
+            this.generalToolStripMenuItem.Name = "generalToolStripMenuItem";
+            this.generalToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.generalToolStripMenuItem.Text = "List";
+            // 
+            // filterOutNonMainSpaceToolStripMenuItem
+            // 
+            this.filterOutNonMainSpaceToolStripMenuItem.CheckOnClick = true;
+            this.filterOutNonMainSpaceToolStripMenuItem.Name = "filterOutNonMainSpaceToolStripMenuItem";
+            this.filterOutNonMainSpaceToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.filterOutNonMainSpaceToolStripMenuItem.Text = "Filter out non main space";
+            this.filterOutNonMainSpaceToolStripMenuItem.CheckedChanged += new System.EventHandler(this.filterOutNonMainSpaceToolStripMenuItem_Click);
+            this.filterOutNonMainSpaceToolStripMenuItem.Click += new System.EventHandler(this.filterOutNonMainSpaceToolStripMenuItem_Click);
+            // 
+            // specialFilterToolStripMenuItem1
+            // 
+            this.specialFilterToolStripMenuItem1.Name = "specialFilterToolStripMenuItem1";
+            this.specialFilterToolStripMenuItem1.Size = new System.Drawing.Size(208, 22);
+            this.specialFilterToolStripMenuItem1.Text = "Filter...";
+            this.specialFilterToolStripMenuItem1.Click += new System.EventHandler(this.specialFilterToolStripMenuItem1_Click);
+            // 
+            // convertToTalkPagesToolStripMenuItem
+            // 
+            this.convertToTalkPagesToolStripMenuItem.Name = "convertToTalkPagesToolStripMenuItem";
+            this.convertToTalkPagesToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.convertToTalkPagesToolStripMenuItem.Text = "Convert to talk pages";
+            this.convertToTalkPagesToolStripMenuItem.Click += new System.EventHandler(this.convertToTalkPagesToolStripMenuItem_Click);
+            // 
+            // convertFromTalkPagesToolStripMenuItem
+            // 
+            this.convertFromTalkPagesToolStripMenuItem.Name = "convertFromTalkPagesToolStripMenuItem";
+            this.convertFromTalkPagesToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.convertFromTalkPagesToolStripMenuItem.Text = "Convert from talk pages";
+            this.convertFromTalkPagesToolStripMenuItem.Click += new System.EventHandler(this.convertFromTalkPagesToolStripMenuItem_Click);
+            // 
+            // sortAlphabeticallyToolStripMenuItem
+            // 
+            this.sortAlphabeticallyToolStripMenuItem.CheckOnClick = true;
+            this.sortAlphabeticallyToolStripMenuItem.Name = "sortAlphabeticallyToolStripMenuItem";
+            this.sortAlphabeticallyToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.sortAlphabeticallyToolStripMenuItem.Text = "Sort alphabetically";
+            this.sortAlphabeticallyToolStripMenuItem.CheckedChanged += new System.EventHandler(this.sortAlphabeticallyToolStripMenuItem_Click);
+            this.sortAlphabeticallyToolStripMenuItem.Click += new System.EventHandler(this.sortAlphabeticallyToolStripMenuItem_Click);
+            // 
+            // saveListToTextFileToolStripMenuItem
+            // 
+            this.saveListToTextFileToolStripMenuItem.Name = "saveListToTextFileToolStripMenuItem";
+            this.saveListToTextFileToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.saveListToTextFileToolStripMenuItem.Text = "Save list to text file...";
+            this.saveListToTextFileToolStripMenuItem.Click += new System.EventHandler(this.saveListToTextFileToolStripMenuItem_Click);
+            // 
+            // toolsToolStripMenuItem
+            // 
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.makeModuleToolStripMenuItem,
             this.externalProcessingToolStripMenuItem,
-            this.toolStripSeparator28,
+            this.toolStripSeparator13,
             this.testRegexToolStripMenuItem,
-            this.profileTyposToolStripMenuItem,
-            this.toolStripSeparator24,
-            this.runUpdaterToolStripMenuItem,
-            this.toolStripSeparator21,
-            this.reloadToolStripMenuItem});
-            this.toolStripAdvanced.Name = "toolStripAdvanced";
-            this.toolStripAdvanced.Size = new System.Drawing.Size(72, 20);
-            this.toolStripAdvanced.Text = "Advanced";
+            this.launchDumpSearcherToolStripMenuItem,
+            this.launchListComparerToolStripMenuItem,
+            this.launchListSplitterToolStripMenuItem});
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.toolsToolStripMenuItem.Text = "Tools";
             // 
             // makeModuleToolStripMenuItem
             // 
             this.makeModuleToolStripMenuItem.Name = "makeModuleToolStripMenuItem";
-            this.makeModuleToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.makeModuleToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.makeModuleToolStripMenuItem.Text = "Make module";
             this.makeModuleToolStripMenuItem.Click += new System.EventHandler(this.makeModuleToolStripMenuItem_Click);
+            // 
+            // externalProcessingToolStripMenuItem
+            // 
+            this.externalProcessingToolStripMenuItem.Name = "externalProcessingToolStripMenuItem";
+            this.externalProcessingToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.externalProcessingToolStripMenuItem.Text = "External processing";
+            this.externalProcessingToolStripMenuItem.Click += new System.EventHandler(this.externalProcessingToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator13
+            // 
+            this.toolStripSeparator13.Name = "toolStripSeparator13";
+            this.toolStripSeparator13.Size = new System.Drawing.Size(172, 6);
             // 
             // testRegexToolStripMenuItem
             // 
             this.testRegexToolStripMenuItem.Name = "testRegexToolStripMenuItem";
-            this.testRegexToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-            this.testRegexToolStripMenuItem.Text = "Test regex";
-            this.testRegexToolStripMenuItem.Click += new System.EventHandler(this.testRegexToolStripMenuItem_Click);
+            this.testRegexToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.testRegexToolStripMenuItem.Text = "Regex tester";
+            this.testRegexToolStripMenuItem.Click += new System.EventHandler(this.launchRegexTester);
             // 
-            // profileTyposToolStripMenuItem
+            // launchDumpSearcherToolStripMenuItem
             // 
-            this.profileTyposToolStripMenuItem.Name = "profileTyposToolStripMenuItem";
-            this.profileTyposToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-            this.profileTyposToolStripMenuItem.Text = "Profile typos";
-            this.profileTyposToolStripMenuItem.Visible = false;
-            this.profileTyposToolStripMenuItem.Click += new System.EventHandler(this.profileTyposToolStripMenuItem_Click);
+            this.launchDumpSearcherToolStripMenuItem.Name = "launchDumpSearcherToolStripMenuItem";
+            this.launchDumpSearcherToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.launchDumpSearcherToolStripMenuItem.Text = "Database scanner";
+            this.launchDumpSearcherToolStripMenuItem.Click += new System.EventHandler(this.launchDumpSearcherToolStripMenuItem_Click);
             // 
-            // toolStripSeparator24
+            // launchListComparerToolStripMenuItem
             // 
-            this.toolStripSeparator24.Name = "toolStripSeparator24";
-            this.toolStripSeparator24.Size = new System.Drawing.Size(178, 6);
+            this.launchListComparerToolStripMenuItem.Name = "launchListComparerToolStripMenuItem";
+            this.launchListComparerToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.launchListComparerToolStripMenuItem.Text = "List comparer";
+            this.launchListComparerToolStripMenuItem.Click += new System.EventHandler(this.launchListComparerToolStripMenuItem_Click);
             // 
-            // runUpdaterToolStripMenuItem
+            // launchListSplitterToolStripMenuItem
             // 
-            this.runUpdaterToolStripMenuItem.Name = "runUpdaterToolStripMenuItem";
-            this.runUpdaterToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-            this.runUpdaterToolStripMenuItem.Text = "Run Updater";
-            this.runUpdaterToolStripMenuItem.Click += new System.EventHandler(this.runUpdaterToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator21
-            // 
-            this.toolStripSeparator21.Name = "toolStripSeparator21";
-            this.toolStripSeparator21.Size = new System.Drawing.Size(178, 6);
-            // 
-            // reloadToolStripMenuItem
-            // 
-            this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
-            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-            this.reloadToolStripMenuItem.Text = "Refresh status/typos";
-            this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
+            this.launchListSplitterToolStripMenuItem.Name = "launchListSplitterToolStripMenuItem";
+            this.launchListSplitterToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.launchListSplitterToolStripMenuItem.Text = "List splitter";
+            this.launchListSplitterToolStripMenuItem.Click += new System.EventHandler(this.launchListSplitterToolStripMenuItem_Click);
             // 
             // pluginsToolStripMenuItem
             // 
@@ -1340,13 +1311,35 @@ namespace AutoWikiBrowser
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.dumpHTMLToolStripMenuItem,
-            this.logOutDebugToolStripMenuItem,
             this.helpToolStripMenuItem1,
-            this.aboutToolStripMenuItem});
+            this.aboutToolStripMenuItem,
+            this.runUpdaterToolStripMenuItem,
+            this.toolStripSeparator29,
+            this.dumpHTMLToolStripMenuItem,
+            this.logOutDebugToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
+            // 
+            // helpToolStripMenuItem1
+            // 
+            this.helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
+            this.helpToolStripMenuItem1.ShortcutKeys = System.Windows.Forms.Keys.F1;
+            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(189, 22);
+            this.helpToolStripMenuItem1.Text = "Help";
+            this.helpToolStripMenuItem1.Click += new System.EventHandler(this.helpToolStripMenuItem1_Click);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.aboutToolStripMenuItem.Text = "About...";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator29
+            // 
+            this.toolStripSeparator29.Name = "toolStripSeparator29";
+            this.toolStripSeparator29.Size = new System.Drawing.Size(186, 6);
             // 
             // dumpHTMLToolStripMenuItem
             // 
@@ -1363,21 +1356,6 @@ namespace AutoWikiBrowser
             this.logOutDebugToolStripMenuItem.Text = "Log out (Debug)";
             this.logOutDebugToolStripMenuItem.Visible = false;
             this.logOutDebugToolStripMenuItem.Click += new System.EventHandler(this.logOutDebugToolStripMenuItem_Click);
-            // 
-            // helpToolStripMenuItem1
-            // 
-            this.helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
-            this.helpToolStripMenuItem1.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(189, 22);
-            this.helpToolStripMenuItem1.Text = "Help";
-            this.helpToolStripMenuItem1.Click += new System.EventHandler(this.helpToolStripMenuItem1_Click);
-            // 
-            // aboutToolStripMenuItem
-            // 
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
-            this.aboutToolStripMenuItem.Text = "About...";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // statusStrip1
             // 
@@ -3414,15 +3392,6 @@ namespace AutoWikiBrowser
             this.tpLoggingOptions.Text = "Logging to file";
             this.tpLoggingOptions.UseVisualStyleBackColor = true;
             // 
-            // loggingSettings1
-            // 
-            this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
-            this.loggingSettings1.Margin = new System.Windows.Forms.Padding(4);
-            this.loggingSettings1.Name = "loggingSettings1";
-            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
-            this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
-            this.loggingSettings1.TabIndex = 0;
-            // 
             // webBrowserDiff
             // 
             this.webBrowserDiff.AllowWebBrowserDrop = false;
@@ -3541,22 +3510,46 @@ namespace AutoWikiBrowser
             this.mnuCopyToCategoryLog.Text = "Copy to Category box on log tab (for edit summaries and logging)";
             this.mnuCopyToCategoryLog.Click += new System.EventHandler(this.mnuCopyToCategoryLog_Click);
             // 
+            // runUpdaterToolStripMenuItem
+            // 
+            this.runUpdaterToolStripMenuItem.Name = "runUpdaterToolStripMenuItem";
+            this.runUpdaterToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.runUpdaterToolStripMenuItem.Text = "Check for updates";
+            this.runUpdaterToolStripMenuItem.Click += new System.EventHandler(this.runUpdaterToolStripMenuItem_Click);
+            // 
+            // loggingSettings1
+            // 
+            this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
+            this.loggingSettings1.Margin = new System.Windows.Forms.Padding(4);
+            this.loggingSettings1.Name = "loggingSettings1";
+            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
+            this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
+            this.loggingSettings1.TabIndex = 0;
+            // 
             // NudgeTimer
             // 
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
             // 
-            // externalProcessingToolStripMenuItem
+            // toolStripSeparator21
             // 
-            this.externalProcessingToolStripMenuItem.Name = "externalProcessingToolStripMenuItem";
-            this.externalProcessingToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-            this.externalProcessingToolStripMenuItem.Text = "External Processing";
-            this.externalProcessingToolStripMenuItem.Click += new System.EventHandler(this.externalProcessingToolStripMenuItem_Click);
+            this.toolStripSeparator21.Name = "toolStripSeparator21";
+            this.toolStripSeparator21.Size = new System.Drawing.Size(193, 6);
             // 
-            // toolStripSeparator28
+            // reloadToolStripMenuItem
             // 
-            this.toolStripSeparator28.Name = "toolStripSeparator28";
-            this.toolStripSeparator28.Size = new System.Drawing.Size(178, 6);
+            this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
+            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.reloadToolStripMenuItem.Text = "Refresh status/typos";
+            this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
+            // 
+            // profileTyposToolStripMenuItem
+            // 
+            this.profileTyposToolStripMenuItem.Name = "profileTyposToolStripMenuItem";
+            this.profileTyposToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
+            this.profileTyposToolStripMenuItem.Text = "Profile typos";
+            this.profileTyposToolStripMenuItem.Visible = false;
+            this.profileTyposToolStripMenuItem.Click += new System.EventHandler(this.profileTyposToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -3746,9 +3739,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripButton btntsIgnore;
         private System.Windows.Forms.ToolStripButton btntsStop;
         private System.Windows.Forms.ToolStripMenuItem enableTheToolbarToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
-        private System.Windows.Forms.ToolStripMenuItem launchDumpSearcherToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem launchListComparerToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator15;
         private System.Windows.Forms.ToolStripButton btntsPreview;
         private System.Windows.Forms.ToolStripButton btntsChanges;
@@ -3774,14 +3764,11 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem recentToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem convertToTalkPagesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem convertFromTalkPagesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toolStripAdvanced;
-        private System.Windows.Forms.ToolStripMenuItem makeModuleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem bypassAllRedirectsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem logOutDebugToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openHistoryMenuItem;
         private System.Windows.Forms.ToolStripComboBox toolStripComboOnLoad;
         private System.Windows.Forms.ToolStripMenuItem summariesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem testRegexToolStripMenuItem;
         private System.Windows.Forms.NotifyIcon ntfyTray;
         private System.Windows.Forms.ContextMenuStrip mnuNotify;
         private System.Windows.Forms.ToolStripMenuItem showToolStripMenuItem;
@@ -3800,8 +3787,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem openSelectionInBrowserToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ignoreNoBotsToolStripMenuItem;
         private NudgeTimer NudgeTimer;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator21;
-        private System.Windows.Forms.ToolStripMenuItem runUpdaterToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog strListFile;
         private System.Windows.Forms.Timer EditBoxSaveTimer;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator22;
@@ -3918,7 +3903,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.WebBrowser webBrowserDiff;
         private System.Windows.Forms.ToolStripMenuItem undoAllChangesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reloadEditPageToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem launchListSplitterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openTalkPageInBrowserToolStripMenuItem;
         private System.Windows.Forms.CheckBox chkSkipExistent;
         private System.Windows.Forms.TabPage tpHistory;
@@ -3954,8 +3938,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.PictureBox imgRedirect;
         private System.Windows.Forms.CheckBox chkSkipSpamFilter;
         private System.Windows.Forms.ToolStripMenuItem showHideEditToolbarToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator24;
-        private System.Windows.Forms.ToolStripMenuItem reloadToolStripMenuItem;
         private System.Windows.Forms.CheckBox chkSkipIfInuse;
         private System.Windows.Forms.Label lblUse;
         private System.Windows.Forms.NumericUpDown udNewlineChars;
@@ -3963,7 +3945,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Button btnWatch;
         private System.Windows.Forms.ToolStripButton btntsDelete;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator23;
-        private System.Windows.Forms.ToolStripMenuItem profileTyposToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadPluginToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator26;
         private System.Windows.Forms.ToolStripMenuItem managePluginsToolStripMenuItem;
@@ -3976,7 +3957,18 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripSeparator toolStripSeparatorMakeFromTextBox;
         private System.Windows.Forms.ToolStripMenuItem mnuCopyToCategoryLog;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator27;
+        private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem testRegexToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem launchDumpSearcherToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem launchListComparerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem launchListSplitterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem makeModuleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem externalProcessingToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator28;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator29;
+        private System.Windows.Forms.ToolStripMenuItem runUpdaterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator21;
+        private System.Windows.Forms.ToolStripMenuItem reloadToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem profileTyposToolStripMenuItem;
     }
 }
