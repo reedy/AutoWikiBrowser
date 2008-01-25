@@ -1884,6 +1884,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             logOutDebugToolStripMenuItem.Visible = true;
             bypassAllRedirectsToolStripMenuItem.Enabled = true;
             profileTyposToolStripMenuItem.Visible = true;
+            toolStripSeparator29.Visible = true;
 
 #if DEBUG
             prof = new Profiler("profiling.txt", true);
@@ -3053,7 +3054,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             substTemplates.ShowDialog();
         }
 
-        private void testRegexToolStripMenuItem_Click(object sender, EventArgs e)
+        private void launchRegexTester(object sender, EventArgs e)
         {
             regexTester = new RegexTester();
 
