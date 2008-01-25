@@ -54,7 +54,7 @@ namespace WikiFunctions.AWBSettings
 
         // the public constructors are used to create an object with settings from the UI
         public UserPrefs(FaRPrefs mFaRPrefs, EditPrefs mEditprefs, ListPrefs mList, SkipPrefs mSkipOptions,
-            GeneralPrefs mGeneral, DabPrefs mDisambiguation, ModulePrefs mModule, LoggingPrefs mLogging,
+            GeneralPrefs mGeneral, DabPrefs mDisambiguation, ModulePrefs mModule, ExternalProgramPrefs mExternalProgram, LoggingPrefs mLogging,
             Dictionary<string, WikiFunctions.Plugin.IAWBPlugin> Plugins)
         {
             LanguageCode = Variables.LangCode;
@@ -68,6 +68,7 @@ namespace WikiFunctions.AWBSettings
             General = mGeneral;
             Disambiguation = mDisambiguation;
             Module = mModule;
+            ExternalProgram = mExternalProgram;
             Logging = mLogging;
 
             foreach (KeyValuePair<string, WikiFunctions.Plugin.IAWBPlugin> a in Plugins)
@@ -95,6 +96,7 @@ namespace WikiFunctions.AWBSettings
         public GeneralPrefs General;
         public SkipPrefs SkipOptions;
         public ModulePrefs Module;
+        public ExternalProgramPrefs ExternalProgram;
         public DabPrefs Disambiguation;
         public LoggingPrefs Logging;
 
@@ -514,7 +516,44 @@ namespace WikiFunctions.AWBSettings
 
         public bool Enabled = false;
         public int Language = 0;
-        public string Code = "";
+        public string Code = @"        public string ProcessArticle(string ArticleText, string ArticleTitle, int wikiNamespace, out string Summary, out bool Skip)
+        {
+            Skip = false;
+            Summary = ""test"";
+
+            ArticleText = ""test \r\n\r\n"" + ArticleText;
+
+            return ArticleText;
+        }";
+    }
+
+    [Serializable]
+    public class ExternalProgramPrefs
+    {
+        internal ExternalProgramPrefs() { }
+        public ExternalProgramPrefs(bool mEnabled, bool mSkip, string mWorkingDir, string mProgram, string mParameters,
+            bool mPassAsFile, string mOutputFile)
+        {
+            Enabled = mEnabled;
+            Skip = mSkip;
+
+            WorkingDir = mWorkingDir;
+            Program = mProgram;
+            Parameters = mParameters;
+
+            PassAsFile = mPassAsFile;
+            OutputFile = mOutputFile;
+        }
+
+        public bool Enabled = false;
+        public bool Skip = false;
+
+        public string WorkingDir = "";
+        public string Program = "";
+        public string Parameters = "";
+
+        public bool PassAsFile = true;
+        public string OutputFile = "";
     }
 
     [Serializable]

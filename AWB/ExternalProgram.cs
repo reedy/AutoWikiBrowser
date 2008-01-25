@@ -29,6 +29,8 @@ namespace AutoWikiBrowser
 {
     public partial class ExternalProgram : Form, WikiFunctions.Plugin.IModule
     {
+        private WikiFunctions.AWBSettings.ExternalProgramPrefs settings;
+
         public ExternalProgram()
         {
             InitializeComponent();
@@ -40,9 +42,37 @@ namespace AutoWikiBrowser
             set { chkEnabled.Checked = value; }
         }
 
-        private void radio_CheckedChanged(object sender, EventArgs e)
+        public WikiFunctions.AWBSettings.ExternalProgramPrefs Settings
         {
-            groupBox2.Enabled = radFile.Checked;
+            get
+            {
+                settings.Enabled = chkEnabled.Checked;
+                settings.Skip = chkSkip.Checked;
+
+                settings.WorkingDir = txtWorkingDir.Text;
+                settings.Program = txtProgram.Text;
+                settings.Parameters = txtParameters.Text;
+
+                settings.PassAsFile = radFile.Checked;
+                settings.OutputFile = txtFile.Text;
+
+                return settings;
+            }
+            set
+            {
+                settings = value;
+
+                chkEnabled.Checked = settings.Enabled;
+                chkSkip.Checked = settings.Skip;
+
+                txtWorkingDir.Text = settings.WorkingDir;
+                txtProgram.Text = settings.Program;
+                txtParameters.Text = settings.Parameters;
+
+                radFile.Checked = settings.PassAsFile;
+                radParameter.Checked = !settings.PassAsFile;
+                txtFile.Text = settings.OutputFile;
+            }
         }
 
         private void chkEnabled_CheckedChanged(object sender, EventArgs e)
@@ -50,44 +80,48 @@ namespace AutoWikiBrowser
             groupBox1.Enabled = chkSkip.Enabled = chkEnabled.Checked;
         }
 
-        const string file = "article.txt";
-
         public string ProcessArticle(string ArticleText, string ArticleTitle, int wikiNamespace, out string Summary, out bool Skip)
         {
             string OrigText = ArticleText;
             Skip = false;
             Summary = "";
 
+            string IOFile = txtWorkingDir.Text + "\\" + txtFile.Text;
+
             try
             {
                 System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo();
                 psi.WorkingDirectory = txtWorkingDir.Text;
                 psi.FileName = txtProgram.Text;
-
                 psi.Arguments = txtParameters.Text;
+                
 
                 if (radFile.Checked)
                 {
-                    System.IO.StreamWriter writer = new System.IO.StreamWriter(file);
+                    System.IO.StreamWriter writer = new System.IO.StreamWriter(IOFile);
                     writer.Write(ArticleText);
 
                     writer.Close();
                 }
                 else
                     psi.Arguments = psi.Arguments.Replace("%%articletext%%", ArticleText);
+                
+                psi.Arguments = psi.Arguments.Replace("%%file%%", txtFile.Text);
 
                 System.Diagnostics.Process p = System.Diagnostics.Process.Start(psi);
                 p.WaitForExit();
 
-                if (System.IO.File.Exists(psi.WorkingDirectory + "\\" + file))
+                if (System.IO.File.Exists(IOFile))
                 {
-                    System.IO.StreamReader reader = System.IO.File.OpenText(psi.WorkingDirectory + "\\" + file);
+                    System.IO.StreamReader reader = System.IO.File.OpenText(IOFile);
 
                     ArticleText = reader.ReadToEnd();
 
                     reader.Close();
 
                     Skip = (chkSkip.Checked && (ArticleText == OrigText));
+
+                    System.IO.File.Delete(IOFile);
                 }
                 return ArticleText;
             }
@@ -101,15 +135,19 @@ namespace AutoWikiBrowser
         {
             groupBox1.Enabled = chkSkip.Enabled = chkEnabled.Checked;
             ToolTip tip = new ToolTip();
-            string tooltip = "If you need a paramter of the actual article text, please use \"%%articletext%%\"";
 
+            string tooltip = "If you need a paramter of the actual article text, please use \"%%articletext%%\". If you want to use the value of the Input/Output file, please use \"%%file%%\"";
             tip.SetToolTip(txtParameters, tooltip);
             tip.SetToolTip(radParameter, tooltip);
+
+            tooltip = "This is the file that AWB will output to if necessary, and also the file it will try and read back in";
+            tip.SetToolTip(txtFile, tooltip);
+            tip.SetToolTip(label4, tooltip);
         }
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            if (!chkEnabled.Checked || !string.IsNullOrEmpty(txtWorkingDir.Text) && !string.IsNullOrEmpty(txtProgram.Text) && (radFile.Checked & !string.IsNullOrEmpty(txtFile.Text)) || (radParameter.Checked && !string.IsNullOrEmpty(txtParameters.Text)))
+            if (!chkEnabled.Checked || !string.IsNullOrEmpty(txtWorkingDir.Text) && !string.IsNullOrEmpty(txtProgram.Text) && !string.IsNullOrEmpty(txtFile.Text) || (radParameter.Checked && !string.IsNullOrEmpty(txtParameters.Text)))
                 this.Close();
             else
                 MessageBox.Show("Please make sure all relevant fields are completed");
