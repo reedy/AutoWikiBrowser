@@ -504,8 +504,8 @@ namespace AutoWikiBrowser
 
                 EditBoxSaveTimer.Enabled = AutoSaveEditBoxEnabled;
 
-                if (dlg != null && dlg.AutoProtectAll)
-                    webBrowserEdit.ProtectPage(TheArticle.Name, dlg.Summary, dlg.EditProtectionLevel, dlg.MoveProtectionLevel, dlg.ProtectExpiry);
+                //if (dlg != null && dlg.AutoProtectAll)
+                //    webBrowserEdit.ProtectPage(TheArticle.Name, dlg.Summary, dlg.EditProtectionLevel, dlg.MoveProtectionLevel, dlg.ProtectExpiry);
 
                 //Navigate to edit page
                 webBrowserEdit.LoadEditPage(TheArticle.Name);
