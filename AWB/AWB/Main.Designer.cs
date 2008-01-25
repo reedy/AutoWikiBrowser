@@ -361,11 +361,11 @@ namespace AutoWikiBrowser
             this.toolStripSeparatorMakeFromTextBox = new System.Windows.Forms.ToolStripSeparator();
             this.mnuCopyToCategoryLog = new System.Windows.Forms.ToolStripMenuItem();
             this.runUpdaterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.loggingSettings1 = new AutoWikiBrowser.LoggingSettings();
-            this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
             this.toolStripSeparator21 = new System.Windows.Forms.ToolStripSeparator();
             this.reloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.profileTyposToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loggingSettings1 = new AutoWikiBrowser.LoggingSettings();
+            this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -858,8 +858,8 @@ namespace AutoWikiBrowser
             this.fileToolStripMenuItem,
             this.ToolStripMenuGeneral,
             this.generalToolStripMenuItem,
-            this.toolsToolStripMenuItem,
             this.pluginsToolStripMenuItem,
+            this.toolsToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -3517,20 +3517,6 @@ namespace AutoWikiBrowser
             this.runUpdaterToolStripMenuItem.Text = "Check for updates";
             this.runUpdaterToolStripMenuItem.Click += new System.EventHandler(this.runUpdaterToolStripMenuItem_Click);
             // 
-            // loggingSettings1
-            // 
-            this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
-            this.loggingSettings1.Margin = new System.Windows.Forms.Padding(4);
-            this.loggingSettings1.Name = "loggingSettings1";
-            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
-            this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
-            this.loggingSettings1.TabIndex = 0;
-            // 
-            // NudgeTimer
-            // 
-            this.NudgeTimer.Interval = 120000;
-            this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
-            // 
             // toolStripSeparator21
             // 
             this.toolStripSeparator21.Name = "toolStripSeparator21";
@@ -3550,6 +3536,20 @@ namespace AutoWikiBrowser
             this.profileTyposToolStripMenuItem.Text = "Profile typos";
             this.profileTyposToolStripMenuItem.Visible = false;
             this.profileTyposToolStripMenuItem.Click += new System.EventHandler(this.profileTyposToolStripMenuItem_Click);
+            // 
+            // loggingSettings1
+            // 
+            this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
+            this.loggingSettings1.Margin = new System.Windows.Forms.Padding(4);
+            this.loggingSettings1.Name = "loggingSettings1";
+            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
+            this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
+            this.loggingSettings1.TabIndex = 0;
+            // 
+            // NudgeTimer
+            // 
+            this.NudgeTimer.Interval = 120000;
+            this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
             // 
             // MainForm
             // 
