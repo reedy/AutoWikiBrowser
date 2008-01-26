@@ -472,6 +472,8 @@ namespace AutoWikiBrowser
             cModule.Code = p.Module.Code.Replace("\n", "\r\n");
             if (cModule.ModuleEnabled) cModule.MakeModule();
 
+            extProgram.Settings = p.ExternalProgram;
+
             foreach (PluginPrefs pp in p.Plugin)
             {
                 if (Plugin.Items.ContainsKey(pp.Name))
