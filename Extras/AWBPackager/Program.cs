@@ -89,7 +89,7 @@ namespace AWBPackager
                     case 2:
                         Console.Write("Please enter the version: ");
                         string Ver = Console.ReadLine();
-                        filename = "AutoWikiBrowser_rev" + Ver.Replace(".", "") + ".zip";
+                        filename = "AutoWikiBrowser" + Ver.Replace(".", "") + ".zip";
                         break;
                 }
 
