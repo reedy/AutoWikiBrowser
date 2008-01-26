@@ -96,7 +96,7 @@ namespace WikiFunctions.AWBSettings
         public GeneralPrefs General;
         public SkipPrefs SkipOptions;
         public ModulePrefs Module;
-        public ExternalProgramPrefs ExternalProgram;
+        public ExternalProgramPrefs ExternalProgram = new ExternalProgramPrefs();
         public DabPrefs Disambiguation;
         public LoggingPrefs Logging;
 
