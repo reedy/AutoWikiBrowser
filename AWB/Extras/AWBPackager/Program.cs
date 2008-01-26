@@ -46,6 +46,7 @@ namespace AWBPackager
                 currFolder = AWBDir + "AWB\\bin\\Release\\";
 
                 File.Copy(currFolder + "AutoWikiBrowser.exe", Tmp + "AutoWikiBrowser.exe", true);
+                File.Copy(currFolder + "AutoWikiBrowser.exe.config", Tmp + "AutoWikiBrowser.exe.config", true);
                 File.Copy(currFolder + "WikiFunctions.dll", Tmp + "WikiFunctions.dll", true);
                 File.Copy(currFolder + "AWBUpdater.exe", Tmp + "AWBUpdater.exe", true);
                 File.Copy(currFolder + "Diff.dll", Tmp + "Diff.dll", true);

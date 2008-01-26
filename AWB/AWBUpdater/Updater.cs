@@ -314,12 +314,9 @@ AWBUpdater will now close!");
             {
                 File.Copy(tempDirectory + "AutoWikiBrowser.exe", AWBdirectory + "AutoWikiBrowser.exe", true);
                 File.Copy(tempDirectory + "AutoWikiBrowser.exe.config", AWBdirectory + "AutoWikiBrowser.exe.config", true);
-
                 File.Copy(tempDirectory + "WikiFunctions.dll", AWBdirectory + "WikiFunctions.dll", true);
                 File.Copy(tempDirectory + "IRCMonitor.exe", AWBdirectory + "IRCMonitor.exe", true);
-
-                if (File.Exists(tempDirectory + "Diff.dll"))
-                    File.Copy(tempDirectory + "Diff.dll", AWBdirectory + "Diff.dll", true);
+                File.Copy(tempDirectory + "Diff.dll", AWBdirectory + "Diff.dll", true);
 
                 if (File.Exists(AWBdirectory + "Wikidiff2.dll"))
                     File.Delete(AWBdirectory + "Wikidiff2.dll");
