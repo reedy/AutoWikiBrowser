@@ -2900,19 +2900,14 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             EnableToolBar = enableTheToolbarToolStripMenuItem.Checked;
         }
 
-        private bool boolEnableToolbar;
         private bool EnableToolBar
         {
-            get { return boolEnableToolbar; }
+            get { return toolStrip.Visible; }
             set
             {
-                if (value)
-                    toolStrip.Show();
-                else
-                    toolStrip.Hide();
+                toolStrip.Visible = value;
                 SetBrowserSize();
                 enableTheToolbarToolStripMenuItem.Checked = value;
-                boolEnableToolbar = value;
             }
         }
 
