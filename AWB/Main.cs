@@ -2917,9 +2917,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             get { return toolStrip.Visible; }
             set
             {
-                toolStrip.Visible = value;
+                toolStrip.Visible = enableTheToolbarToolStripMenuItem.Checked = value;
                 SetBrowserSize();
-                enableTheToolbarToolStripMenuItem.Checked = value;
             }
         }
 
