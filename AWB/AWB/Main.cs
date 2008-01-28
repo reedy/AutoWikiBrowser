@@ -1953,30 +1953,38 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void SetProject(LangCodeEnum code, ProjectEnum project, string customProject)
         {
-            //set namespaces
-            Variables.SetProject(code, project, customProject);
-
-            //set interwikiorder
-            if (Variables.LangCode == LangCodeEnum.en || Variables.LangCode == LangCodeEnum.pl ||
-                Variables.LangCode == LangCodeEnum.simple)
-                parsers.InterWikiOrder = InterWikiOrderEnum.LocalLanguageAlpha;
-            //else if (Code == "fi")
-            //    parsers.InterWikiOrder = InterWikiOrderEnum.LocalLanguageFirstWord;
-            else if (Variables.LangCode == LangCodeEnum.he)
-                parsers.InterWikiOrder = InterWikiOrderEnum.AlphabeticalEnFirst;
-            else
-                parsers.InterWikiOrder = InterWikiOrderEnum.Alphabetical;
-
-            if (Variables.LangCode != LangCodeEnum.en || project != ProjectEnum.wikipedia)
+            try
             {
-                chkAutoTagger.Checked = false;
-                chkGeneralFixes.Checked = false;
+                //set namespaces
+                Variables.SetProject(code, project, customProject);
+
+                //set interwikiorder
+                if (Variables.LangCode == LangCodeEnum.en || Variables.LangCode == LangCodeEnum.pl ||
+                    Variables.LangCode == LangCodeEnum.simple)
+                    parsers.InterWikiOrder = InterWikiOrderEnum.LocalLanguageAlpha;
+                //else if (Code == "fi")
+                //    parsers.InterWikiOrder = InterWikiOrderEnum.LocalLanguageFirstWord;
+                else if (Variables.LangCode == LangCodeEnum.he)
+                    parsers.InterWikiOrder = InterWikiOrderEnum.AlphabeticalEnFirst;
+                else
+                    parsers.InterWikiOrder = InterWikiOrderEnum.Alphabetical;
+
+                if (Variables.LangCode != LangCodeEnum.en || project != ProjectEnum.wikipedia)
+                {
+                    chkAutoTagger.Checked = false;
+                    chkGeneralFixes.Checked = false;
+                }
+                if (Variables.Project != ProjectEnum.custom && Variables.Project != ProjectEnum.wikia && Variables.Project != ProjectEnum.commons && Variables.Project != ProjectEnum.meta && Variables.Project != ProjectEnum.species)
+                    lblProject.Text = Variables.LangCode.ToString().ToLower() + "." + Variables.Project;
+                else if (Variables.Project == ProjectEnum.commons || Variables.Project == ProjectEnum.meta || Variables.Project == ProjectEnum.species)
+                    lblProject.Text = Variables.Project.ToString();
+                else lblProject.Text = Variables.URL;
             }
-            if (Variables.Project != ProjectEnum.custom && Variables.Project != ProjectEnum.wikia && Variables.Project != ProjectEnum.commons && Variables.Project != ProjectEnum.meta && Variables.Project != ProjectEnum.species)
-                lblProject.Text = Variables.LangCode.ToString().ToLower() + "." + Variables.Project;
-            else if (Variables.Project == ProjectEnum.commons || Variables.Project == ProjectEnum.meta || Variables.Project == ProjectEnum.species)
-                lblProject.Text = Variables.Project.ToString();
-            else lblProject.Text = Variables.URL;
+            catch (Exception ex)
+            {
+                if (ex is ArgumentNullException)
+                    MessageBox.Show("The interwiki's haven't loaded correctly. Please check your internet connection, and then restart AWB");
+            }
         }
 
         #endregion

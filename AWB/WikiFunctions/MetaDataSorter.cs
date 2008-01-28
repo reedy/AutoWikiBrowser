@@ -98,8 +98,7 @@ namespace WikiFunctions.Parse
             WikiversityLanguages.Sort();
         }
     }
-
-
+    
     internal sealed class InterWikiComparer : IComparer<string>
     {
         Dictionary<string, int> Order = new Dictionary<string, int>();
@@ -140,10 +139,8 @@ namespace WikiFunctions.Parse
 
             LoadInterWiki();
 
-            //InterWikisList.Clear();
-            //foreach (string s in InterwikiLocalAlpha)
-            //    //InterWikisList.Add(new Regex("\\[\\[" + s + ":.*?\\]\\]", RegexOptions.Compiled));
-            //    InterWikisList.Add(new Regex("\\[\\[(?<site>" + s + "):(?<text>.*?)\\]\\]", RegexOptions.Compiled | RegexOptions.IgnoreCase));
+            if (InterwikiLocalAlpha == null)
+                throw new ArgumentNullException();
 
             string s = string.Join("|", InterwikiLocalAlpha);
             s = @"\[\[\s*(" + s + @")\s*:\s*([^\]]*)\s*\]\]";
