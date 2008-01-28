@@ -2419,7 +2419,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void speedyDeleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            txtEdit.Text = "{{Delete}}\r\n\r\n" + txtEdit.Text;
+            // TODO: When saving, if this code has been called, we could check we're not saving a db tag with no reason provided (this would be most useful if this code is used as part of a bigger AFD/prod/db solution)
+            // TODO: This and many other handlers like it are EN only; controls should be invisible when not on EN or the code internationalised/strings moved elsewhere
+            Rectangle scrn = Screen.GetWorkingArea(this);
+            txtEdit.Text = "{{db|" + Microsoft.VisualBasic.Interaction.InputBox("Enter a reason. Leave blank if you'll edit " + 
+            "the reason in the AWB text box", "Speedy deletion", "", scrn.Width / 2, scrn.Height / 3) + "}}\r\n\r\n" + txtEdit.Text;
         }
 
         private void clearToolStripMenuItem_Click(object sender, EventArgs e)
