@@ -39,6 +39,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.TaskForcesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.ShortStoriesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
+            Me.ThCenturyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.AustralianToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.CrimeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.FantasyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -57,7 +58,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator
             Me.AutotaggedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.ClassListToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.ThCenturyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator
             Me.WorkgroupsGroupBox.SuspendLayout()
             Me.ParametersGroup.SuspendLayout()
             Me.TextInsertContextMenuStrip.SuspendLayout()
@@ -209,7 +210,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             '
             'TaskForcesToolStripMenuItem
             '
-            Me.TaskForcesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShortStoriesToolStripMenuItem, Me.ToolStripSeparator1, Me.ThCenturyToolStripMenuItem, Me.AustralianToolStripMenuItem, Me.CrimeToolStripMenuItem, Me.FantasyToolStripMenuItem, Me.ScienceFictionToolStripMenuItem})
+            Me.TaskForcesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ThCenturyToolStripMenuItem, Me.ToolStripSeparator1, Me.ShortStoriesToolStripMenuItem, Me.ToolStripSeparator5, Me.AustralianToolStripMenuItem, Me.CrimeToolStripMenuItem, Me.FantasyToolStripMenuItem, Me.ScienceFictionToolStripMenuItem})
             Me.TaskForcesToolStripMenuItem.Name = "TaskForcesToolStripMenuItem"
             Me.TaskForcesToolStripMenuItem.Size = New System.Drawing.Size(203, 22)
             Me.TaskForcesToolStripMenuItem.Text = "Task Forces"
@@ -224,6 +225,12 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             '
             Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
             Me.ToolStripSeparator1.Size = New System.Drawing.Size(150, 6)
+            '
+            'ThCenturyToolStripMenuItem
+            '
+            Me.ThCenturyToolStripMenuItem.Name = "ThCenturyToolStripMenuItem"
+            Me.ThCenturyToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+            Me.ThCenturyToolStripMenuItem.Text = "19th Century"
             '
             'AustralianToolStripMenuItem
             '
@@ -330,11 +337,10 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
             Me.ClassListToolStripMenuItem.Size = New System.Drawing.Size(203, 22)
             Me.ClassListToolStripMenuItem.Text = "class=List"
             '
-            'ThCenturyToolStripMenuItem
+            'ToolStripSeparator5
             '
-            Me.ThCenturyToolStripMenuItem.Name = "ThCenturyToolStripMenuItem"
-            Me.ThCenturyToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
-            Me.ThCenturyToolStripMenuItem.Text = "19th Century"
+            Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
+            Me.ToolStripSeparator5.Size = New System.Drawing.Size(150, 6)
             '
             'WPNovelSettings
             '
@@ -393,6 +399,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         Friend WithEvents FantasyToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
         Private WithEvents NineteenthCheckBox As System.Windows.Forms.CheckBox
         Friend WithEvents ThCenturyToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+        Friend WithEvents ToolStripSeparator5 As System.Windows.Forms.ToolStripSeparator
 
     End Class
 End Namespace
