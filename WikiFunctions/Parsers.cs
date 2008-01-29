@@ -327,7 +327,7 @@ namespace WikiFunctions.Parse
             return ReferenceTags.Replace(ArticleText, new MatchEvaluator(ReflistMatchEvaluator));
         }
 
-        static Regex EmptyReferences = new Regex(@"<ref name=[""]?(.*?)[""]?>[\s\n\r]*</ref>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        static Regex EmptyReferences = new Regex(@"<ref name=[""]?([^<>""]*)[""]?>[\s]*</ref>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         /// <summary>
         /// Replaces reference tags in the form <ref name="blah"></ref> with <ref name="blah" />
