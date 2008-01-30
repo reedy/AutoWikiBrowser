@@ -37,6 +37,7 @@ namespace WikiFunctions.Logging
         public WikiTraceListener(UploadableLogSettings2 UploadSettings, TraceStatus TraceStatus)
             : base(UploadSettings, TraceStatus)
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
             WriteBulletedLine("Logging: WikiFunctions.dll v" + Tools.VersionString, false, false);
         }
 
@@ -137,21 +138,15 @@ namespace WikiFunctions.Logging
         public override void WriteBulletedLine(string Line, bool Bold, bool VerboseOnly, bool DateStamp)
         {
             if (VerboseOnly && !mVerbose)
-            {
                 return;
-            }
+            
             if (DateStamp)
-            {
                 Line = string.Format("{0:g}: {1}", System.DateTime.Now, Line);
-            }
+            
             if (Bold)
-            {
                 base.WriteLine("<br/><li><b>" + Line + "</b></li>");
-            }
             else
-            {
                 base.WriteLine("<li>" + Line + "</li>");
-            }
         }
         public override void ProcessingArticle(string ArticleFullTitle, Namespaces NS)
         {
