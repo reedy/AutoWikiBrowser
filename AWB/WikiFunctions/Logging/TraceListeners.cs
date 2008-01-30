@@ -47,7 +47,7 @@ namespace WikiFunctions.Logging
         /// </summary>
         protected virtual string DateStamp()
         {
-            if (Variables.Project == ProjectEnum.wikipedia && Variables.LangCode == LangCodeEnum.en)
+            if (Variables.IsWikipediaEN)
                 return WikiDateStamp();
             else
                 return NonWikiDateStamp();

@@ -133,6 +133,8 @@ namespace WikiFunctions.Plugin
         TabControl Tab { get; }
         WikiFunctions.Parse.FindandReplace FindandReplace { get; }
         WikiFunctions.SubstTemplates SubstTemplates { get; }
+        ProjectEnum Project { get; }
+        LangCodeEnum LangCode { get; }
         string CustomModule { get; }
         System.Version AWBVersion { get; }
         System.Version WikiFunctionsVersion { get; }

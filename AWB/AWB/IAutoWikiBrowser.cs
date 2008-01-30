@@ -62,6 +62,8 @@ namespace AutoWikiBrowser
         WikiFunctions.Parse.FindandReplace IAutoWikiBrowser.FindandReplace { get { return findAndReplace; } }
         WikiFunctions.SubstTemplates IAutoWikiBrowser.SubstTemplates { get { return substTemplates; } }
         string IAutoWikiBrowser.CustomModule { get { if (cModule.ModuleEnabled && cModule.Module != null) return cModule.Code; else return null; } }
+
+        // Settings & misc:
         System.Version IAutoWikiBrowser.AWBVersion { get { return Program.Version; } }
         System.Version IAutoWikiBrowser.WikiFunctionsVersion { get { return Tools.Version; } }
         string IAutoWikiBrowser.AWBVersionString { get { return Program.VersionString; } }
@@ -74,6 +76,8 @@ namespace AutoWikiBrowser
         void IAutoWikiBrowser.TurnOffLogging() { Program.MyTrace.TurnOffLogging(); }
         void IAutoWikiBrowser.ShowHelp(string url) { Help.ShowHelp(h, url); }
         void IAutoWikiBrowser.ShowHelpEnWiki(string article) { Help.ShowHelpEN(h, article); }
+        LangCodeEnum IAutoWikiBrowser.LangCode { get { return Variables.LangCode; } }
+        ProjectEnum IAutoWikiBrowser.Project { get { return Variables.Project; } }
 
         // "Events":
         void IAutoWikiBrowser.SkipPage(IAWBPlugin sender, string reason) { ((IAutoWikiBrowser)this).SkipPage(sender.Name, reason); }

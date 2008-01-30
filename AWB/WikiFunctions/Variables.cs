@@ -94,10 +94,7 @@ namespace WikiFunctions
         /// Gets a URL of the site, e.g. "http://en.wikipedia.org/w/".
         /// </summary>
         public static string URLLong
-        {
-            get
-            { return URL + URLEnd; }
-        }
+        { get { return URL + URLEnd; } }
 
         /// <summary>
         /// true if current wiki uses right-to-left writing system
@@ -117,7 +114,7 @@ namespace WikiFunctions
         /// </summary>
         public static string ProjectName;
 
-        static string URLEnd = "/w/";
+        private static string URLEnd = "/w/";
 
         static string strURL = "http://en.wikipedia.org";
         /// <summary>
@@ -129,21 +126,21 @@ namespace WikiFunctions
             private set { strURL = value; }
         }
 
-        static ProjectEnum strproject = ProjectEnum.wikipedia;
+        private static ProjectEnum mProject = ProjectEnum.wikipedia;
         /// <summary>
         /// Gets a name of the project, e.g. "wikipedia".
         /// </summary>
         public static ProjectEnum Project
-        { get { return strproject; } }
+        { get { return mProject; } }
 
-        static LangCodeEnum strlangcode = LangCodeEnum.en;
+        private static LangCodeEnum mLangCode = LangCodeEnum.en;
         /// <summary>
         /// Gets the language code, e.g. "en".
         /// </summary>
         public static LangCodeEnum LangCode
         { 
-            get { return strlangcode; }
-            set { strlangcode = value; }
+            get { return mLangCode; }
+            internal set { mLangCode = value; }
         }
 
         /// <summary>
@@ -151,17 +148,25 @@ namespace WikiFunctions
         /// </summary>
         public static bool IsWikimediaProject
         {
-            get { return strproject <= ProjectEnum.lastWMF; }
+            get { return mProject <= ProjectEnum.lastWMF; }
         }
 
-        static string strcustomproject = "";
+        /// <summary>
+        /// Returns true if we are currently editing the English Wikipedia
+        /// </summary>
+        public static bool IsWikipediaEN
+        {
+            get { return (Project == ProjectEnum.wikipedia && LangCode == LangCodeEnum.en); }
+        }
+
+        private static string strcustomproject = "";
         /// <summary>
         /// Gets script path of a custom project or empty string if standard project
         /// </summary>
         public static string CustomProject
         { get { return strcustomproject; } }
 
-        private static string strsummarytag = " using ";
+        private static string mSummaryTag = " using ";
         private static string strWPAWB = "[[Project:AWB|AWB]]";
 
         private static string strTypoSummaryTag = ", typos fixed: ";
@@ -173,14 +178,14 @@ namespace WikiFunctions
         /// Gets the tag to add to the edit summary, e.g. " using [[Wikipedia:AutoWikiBrowser|AWB]]".
         /// </summary>
         public static string SummaryTag
-        { get { return strsummarytag + strWPAWB; } }
+        { get { return mSummaryTag + strWPAWB; } }
 
         public static string WPAWB
         { get { return strWPAWB; } }
 
         private static void AWBDefaultSummaryTag()
         {
-            strsummarytag = " ";
+            mSummaryTag = " ";
             strWPAWB = "[[Project:AutoWikiBrowser|AWB]]";
         }
 
@@ -283,8 +288,8 @@ namespace WikiFunctions
                 Application.Exit();
             }
 
-            strproject = projectName;
-            strlangcode = langCode;
+            mProject = projectName;
+            mLangCode = langCode;
             strcustomproject = customProject;
 
             RefreshProxy();
@@ -301,7 +306,7 @@ namespace WikiFunctions
 
             if (Project == ProjectEnum.custom)
             {
-                strlangcode = LangCodeEnum.en;
+                mLangCode = LangCodeEnum.en;
                 int x = customProject.IndexOf('/');
 
                 if (x > 0)
@@ -346,7 +351,7 @@ namespace WikiFunctions
                         Namespaces[100] = "بوابة:";
                         Namespaces[101] = "نقاش البوابة:";
 
-                        strsummarytag = " ";
+                        mSummaryTag = " ";
                         strWPAWB = "باستخدام [[ويكيبيديا:أوب|الأوتوويكي براوزر]]";
                         strTypoSummaryTag = ".الأخطاء المصححة: ";
                         break;
@@ -372,7 +377,7 @@ namespace WikiFunctions
                         Namespaces[100] = "Портал:";
                         Namespaces[101] = "Портал беседа:";
 
-                        strsummarytag = " редактирано с ";
+                        mSummaryTag = " редактирано с ";
                         strWPAWB = "AWB";
                         break;
 
@@ -399,7 +404,7 @@ namespace WikiFunctions
                         Namespaces[102] = "Viquiprojecte:";
                         Namespaces[103] = "Viquiprojecte Discussió:";
 
-                        strsummarytag = " ";
+                        mSummaryTag = " ";
                         strWPAWB = "[[Viquipèdia:AutoWikiBrowser|AWB]]";
                         break;
 
@@ -424,7 +429,7 @@ namespace WikiFunctions
                         Namespaces[100] = "Portal:";
                         Namespaces[101] = "Portaldiskussion:";
 
-                        strsummarytag = " ved brug af ";
+                        mSummaryTag = " ved brug af ";
                         strWPAWB = "[[en:Wikipedia:AutoWikiBrowser|AWB]]";
                         break;
 
@@ -517,7 +522,7 @@ namespace WikiFunctions
                         Namespaces[100] = "Portalo:";
                         Namespaces[101] = "Portala diskuto:";
 
-                        strsummarytag = " ";
+                        mSummaryTag = " ";
                         strWPAWB = "[[Vikipedio:AutoWikiBrowser|AWB]]";
                         break;
 
@@ -588,7 +593,7 @@ namespace WikiFunctions
                         Namespaces[14] = "Kategória:";
                         Namespaces[15] = "Kategória vita:";
 
-                        strsummarytag = " ";
+                        mSummaryTag = " ";
                         strWPAWB = "[[Wikipédia:AutoWikiBrowser|AWB]]";
                         break;
 						
@@ -677,7 +682,7 @@ namespace WikiFunctions
                         Namespaces[14] = "Kategorî:";
                         Namespaces[15] = "Kategorî nîqaş:";
 
-                        strsummarytag = " ";
+                        mSummaryTag = " ";
                         strWPAWB = "[[Wîkîpediya:AutoWikiBrowser|AWB]]";
                         break;
 
@@ -722,7 +727,7 @@ namespace WikiFunctions
                         Namespaces[100] = "Portaal:";
                         Namespaces[101] = "Overleg portaal:";
 
-                        strsummarytag = " met ";
+                        mSummaryTag = " met ";
                         strWPAWB = "[[Wikipedia:AutoWikiBrowser|AWB]]";
                         break;
 
@@ -793,7 +798,7 @@ namespace WikiFunctions
                         Namespaces[100] = "Portal:";
                         Namespaces[101] = "Discussão Portal:";
 
-                        strsummarytag = " utilizando ";
+                        mSummaryTag = " utilizando ";
                         strWPAWB = "[[Wikipedia:AutoWikiBrowser|AWB]]";
                         break;
 
@@ -840,7 +845,7 @@ namespace WikiFunctions
                         Namespaces[100] = "Портал:";
                         Namespaces[101] = "Обсуждение портала:";
 
-                        strsummarytag = " с помощью ";
+                        mSummaryTag = " с помощью ";
                         strWPAWB = "[[WP:AWB|AWB]]";
                         Stub = "(?:[Ss]tub|[Зз]аготовка)";
                         MonthNames = new string[12] { "января", "февраля", "марта", "апреля",
@@ -873,7 +878,7 @@ namespace WikiFunctions
                         Namespaces[100] = "Portál:";
                         Namespaces[101] = "Diskusia k portálu:";
 
-                        strsummarytag = " ";
+                        mSummaryTag = " ";
                         strWPAWB = "[[Wikipédia:AutoWikiBrowser|AWB]]";
                         break;
 
@@ -896,7 +901,7 @@ namespace WikiFunctions
                         Namespaces[14] = "Kategorija:";
                         Namespaces[15] = "Pogovor o kategoriji:";
 
-                        strsummarytag = " ";
+                        mSummaryTag = " ";
                         strWPAWB = "[[Wikipedija:AutoWikiBrowser|AWB]]";
                         Stub = "(?:[Ss]tub|[Šš]krbina)";
                         break;
@@ -985,7 +990,7 @@ namespace WikiFunctions
                         Namespaces[15] = "Обговорення категорії:";
 
                         Stub = "(?:[Ss]tub|[Дд]оробити)";
-                        strsummarytag = " з допомогою ";
+                        mSummaryTag = " з допомогою ";
                         strWPAWB = "[[Вікіпедія:AutoWikiBrowser|AWB]]";
                         break;
 						
@@ -1028,7 +1033,7 @@ namespace WikiFunctions
                 Namespaces[101] = "Creator talk:";
                 URL = "http://commons.wikimedia.org";
                 ProjectName = "Wikimedia Commons";
-                strlangcode = LangCodeEnum.en;
+                mLangCode = LangCodeEnum.en;
             }
             else if (projectName == ProjectEnum.meta)
             {
@@ -1066,13 +1071,13 @@ namespace WikiFunctions
                 Namespaces[130] = "Pomoč";
                 Namespaces[131] = "Pogovor o pomoči";
                 URL = "http://meta.wikimedia.org";
-                strlangcode = LangCodeEnum.en;
+                mLangCode = LangCodeEnum.en;
             }
             else if (projectName == ProjectEnum.species)
             {
                 SetToEnglish("Wikispecies:", "Wikispecies talk:");
                 URL = "http://species.wikimedia.org";
-                strlangcode = LangCodeEnum.en;
+                mLangCode = LangCodeEnum.en;
             }
             else if (projectName == ProjectEnum.wikia)
             {
@@ -1186,9 +1191,9 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
 
         private static void SetDefaults()
         {
-            strproject = ProjectEnum.wikipedia;
-            strlangcode = LangCodeEnum.en;
-            strsummarytag = " using ";
+            mProject = ProjectEnum.wikipedia;
+            mLangCode = LangCodeEnum.en;
+            mSummaryTag = " using ";
             strWPAWB = "[[Project:AWB|AWB]]";
 
             Namespaces.Clear();
@@ -1222,7 +1227,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
             Namespaces[14] = "Category:";
             Namespaces[15] = "Category talk:";
 
-            strsummarytag = " using ";
+            mSummaryTag = " using ";
 
             MonthNames = ENLangMonthNames;
 
