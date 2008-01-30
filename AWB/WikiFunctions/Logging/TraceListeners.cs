@@ -32,31 +32,57 @@ namespace WikiFunctions.Logging
     /// </summary>
     public class WikiTraceListener : TraceListenerUploadableBase
     {
-        protected const string mDateFormat = "[[d MMMM]] [[yyyy]] HH:mm ";
+        protected readonly System.Globalization.CultureInfo DateFormat = 
+            new System.Globalization.CultureInfo("en-US", false); // override user's culture when writing to English Wikipedia; applied only as a formatter so won't affect localisation/UI
 
         public WikiTraceListener(UploadableLogSettings2 UploadSettings, TraceStatus TraceStatus)
             : base(UploadSettings, TraceStatus)
         {
-            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
             WriteBulletedLine("Logging: WikiFunctions.dll v" + Tools.VersionString, false, false);
+        }
+
+        // Formatting:
+        /// <summary>
+        /// Return a datestamp for the current time
+        /// </summary>
+        protected virtual string DateStamp()
+        {
+            if (Variables.Project == ProjectEnum.wikipedia && Variables.LangCode == LangCodeEnum.en)
+                return WikiDateStamp();
+            else
+                return NonWikiDateStamp();
+        }
+
+        /// <summary>
+        /// Return a plain text datestamp, for non-EN wikis where we don't know the format for date articles/there aren't such articles
+        /// </summary>
+        protected virtual string NonWikiDateStamp()
+        {
+            return System.DateTime.Now.ToString("d MMMM yyyy HH:mm ");
+        }
+
+        /// <summary>
+        /// Return a current date stamp in EN Wiki format.
+        /// </summary>
+        /// <remarks>Function and the formatter are overrideable so inherited classes can easily change format.</remarks>
+        protected virtual string WikiDateStamp()
+        {
+            return System.DateTime.Now.ToString("[[d MMMM]] [[yyyy]] HH:mm ", DateFormat);
         }
 
         // Overrides:
         public override void WriteBulletedLine(string Line, bool Bold, bool VerboseOnly, bool DateStamp)
         {
             if (VerboseOnly && !Verbose)
-            {
                 return;
-            }
+
             if (DateStamp)
-            {
-                Line = System.DateTime.Now.ToString(mDateFormat) + Line;
-            }
+                Line = this.DateStamp() + Line;
+
             if (Bold)
-            {
                 base.WriteLine("*'''" + Line + "'''", true);
-            }
-            else base.WriteLine("*" + Line, true);
+            else
+                base.WriteLine("*" + Line, true);
         }
         public override void ProcessingArticle(string ArticleFullTitle, Namespaces NS)
         {
