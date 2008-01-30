@@ -32,7 +32,7 @@ namespace WikiFunctions.Logging
     /// </summary>
     public class WikiTraceListener : TraceListenerUploadableBase
     {
-        protected readonly System.Globalization.CultureInfo DateFormat = 
+        protected static readonly System.Globalization.CultureInfo DateFormat = 
             new System.Globalization.CultureInfo("en-US", false); // override user's culture when writing to English Wikipedia; applied only as a formatter so won't affect localisation/UI
 
         public WikiTraceListener(UploadableLogSettings2 UploadSettings, TraceStatus TraceStatus)
@@ -64,7 +64,7 @@ namespace WikiFunctions.Logging
         /// <summary>
         /// Return a current date stamp in EN Wiki format.
         /// </summary>
-        /// <remarks>Function and the formatter are overrideable so inherited classes can easily change format.</remarks>
+        /// <remarks>Overrideable (virtual) so inherited classes can easily change format.</remarks>
         protected virtual string WikiDateStamp()
         {
             return System.DateTime.Now.ToString("[[d MMMM]] [[yyyy]] HH:mm ", DateFormat);
