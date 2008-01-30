@@ -1966,28 +1966,32 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 if (Variables.LangCode == LangCodeEnum.en || Variables.LangCode == LangCodeEnum.pl ||
                     Variables.LangCode == LangCodeEnum.simple)
                     parsers.InterWikiOrder = InterWikiOrderEnum.LocalLanguageAlpha;
-                //else if (Code == "fi")
-                //    parsers.InterWikiOrder = InterWikiOrderEnum.LocalLanguageFirstWord;
                 else if (Variables.LangCode == LangCodeEnum.he)
                     parsers.InterWikiOrder = InterWikiOrderEnum.AlphabeticalEnFirst;
                 else
                     parsers.InterWikiOrder = InterWikiOrderEnum.Alphabetical;
 
-                if (Variables.LangCode != LangCodeEnum.en || project != ProjectEnum.wikipedia)
+                //user interface
+                if (!Variables.IsWikipediaEN)
                 {
+                    // TODO: Hide or disable some of the text box context menu stuff, which is likely WP-EN only (and do the opposite for WP-EN)
                     chkAutoTagger.Checked = false;
                     chkGeneralFixes.Checked = false;
                 }
+
+
                 if (Variables.Project != ProjectEnum.custom && Variables.Project != ProjectEnum.wikia && Variables.Project != ProjectEnum.commons && Variables.Project != ProjectEnum.meta && Variables.Project != ProjectEnum.species)
                     lblProject.Text = Variables.LangCode.ToString().ToLower() + "." + Variables.Project;
                 else if (Variables.Project == ProjectEnum.commons || Variables.Project == ProjectEnum.meta || Variables.Project == ProjectEnum.species)
                     lblProject.Text = Variables.Project.ToString();
                 else lblProject.Text = Variables.URL;
             }
-            catch (Exception ex)
+            catch (ArgumentNullException ex)
             {
                 if (ex is ArgumentNullException)
-                    MessageBox.Show("The interwiki's haven't loaded correctly. Please check your internet connection, and then restart AWB");
+                    MessageBox.Show("The interwiki list didn't load correctly. Please check your internet connection, and then restart AWB");
+                else
+                    throw;
             }
         }
 
