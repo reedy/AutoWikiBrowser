@@ -270,7 +270,7 @@ namespace AutoWikiBrowser
                 AutoSaveEditBoxFile, CustomWikis, chkLock.Checked, EditToolBarVisible, SupressUsingAWB, filterOutNonMainSpaceToolStripMenuItem.Checked,
                 alphaSortInterwikiLinksToolStripMenuItem.Checked,replaceReferenceTagsToolStripMenuItem.Checked), new DabPrefs(chkEnableDab.Checked,
                 txtDabLink.Text, txtDabVariants.Lines, (int)udContextChars.Value), new ModulePrefs(
-                cModule.ModuleEnabled, cModule.Language, cModule.Code), extProgram.Settings, loggingSettings1.SerialisableSettings, 
+                cModule.ModuleEnabled, cModule.Language, cModule.Code), externalProgram.Settings, loggingSettings1.SerialisableSettings, 
                 Plugin.Items);
         }
 
@@ -472,7 +472,7 @@ namespace AutoWikiBrowser
             cModule.Code = p.Module.Code.Replace("\n", "\r\n");
             if (cModule.ModuleEnabled) cModule.MakeModule();
 
-            extProgram.Settings = p.ExternalProgram;
+            externalProgram.Settings = p.ExternalProgram;
 
             foreach (PluginPrefs pp in p.Plugin)
             {
