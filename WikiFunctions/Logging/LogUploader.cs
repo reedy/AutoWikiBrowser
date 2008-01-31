@@ -1,5 +1,5 @@
 /*
-(C) 2007 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
+(C) 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -251,6 +251,12 @@ namespace WikiFunctions.Logging.Uploader
 		protected const string NewCell = "\r\n|";
 		public const string conAddingLogEntryDefaultEditSummary = "Adding log entry";
 		public const string conUploadingDefaultEditSummary = "Uploading log";
+
+        protected override string UserAgent
+        { get { 
+            return Tools.DefaultUserAgentString;
+            //return "WikiFunctionsLogUploader/" + Tools.VersionString; 
+        } }
 
 		public LogUploader() : base()
 		{

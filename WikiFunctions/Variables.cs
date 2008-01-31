@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (C) 2007 Martin Richards
+Copyright (C) 2007 Martin Richards, 2008 Stephen Kennedy
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -221,14 +221,22 @@ namespace WikiFunctions
         #region Proxy support
         static IWebProxy SystemProxy;
 
-        public static HttpWebRequest PrepareWebRequest(string url)
+        public static HttpWebRequest PrepareWebRequest(string url, string UserAgent)
         {
             HttpWebRequest r = (HttpWebRequest)WebRequest.Create(url);
 
             if (SystemProxy != null) r.Proxy = SystemProxy;
 
+            if (UserAgent == "")
+                r.UserAgent = Tools.DefaultUserAgentString;
+            else
+                r.UserAgent = UserAgent;
+
             return r;
         }
+
+        public static HttpWebRequest PrepareWebRequest(string url)
+        { return PrepareWebRequest(url, ""); }
 
         public static void RefreshProxy()
         {

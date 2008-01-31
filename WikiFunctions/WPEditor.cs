@@ -1,4 +1,7 @@
 /*
+ * 
+(c) Original author?
+(c) 2008 Stephen Kennedy
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -49,9 +52,10 @@ namespace WikiFunctions
         protected CookieCollection logincookies;
         protected bool LoggedIn;
         protected string m_indexpath = Variables.URLLong;
+        private static string mUserAgent = "WPAutoEdit/1.02";
 
-        protected static void UserAgent(HttpWebRequest wr)
-        { wr.UserAgent = "WPAutoEdit/1.01"; }
+        protected virtual string UserAgent
+        { get { return mUserAgent; } }
 
         #region Regexes
         static readonly Regex Edittime = new Regex("<input type='hidden' value=\"([^\"]*)\" name=\"wpEdittime\" />", RegexOptions.Compiled);
@@ -76,14 +80,13 @@ namespace WikiFunctions
                 if (oldid != 0)
                     targetUrl += "&oldid=" + oldid;
 
-                HttpWebRequest wr = Variables.PrepareWebRequest(targetUrl);
+                HttpWebRequest wr = Variables.PrepareWebRequest(targetUrl, mUserAgent);
                 HttpWebResponse resps;
                 Stream stream;
                 StreamReader sr;
                 string wikitext = "";
 
                 //wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
-                UserAgent(wr);
 
                 resps = (HttpWebResponse)wr.GetResponse();
 
@@ -140,7 +143,7 @@ namespace WikiFunctions
         public EditPageRetvals EditPageEx(String Article, String NewText, String Summary, bool Minor, bool Watch)
         {
             HttpWebRequest wr = Variables.PrepareWebRequest(m_indexpath + "index.php?title=" + 
-                Tools.WikiEncode(Article) + "&action=submit");
+                Tools.WikiEncode(Article) + "&action=submit", UserAgent);
             WebResponse resps;
             String poststring;
             String editpagestr;
@@ -152,8 +155,6 @@ namespace WikiFunctions
 
             m = EditToken.Match(editpagestr);
             string wpEditkey = System.Web.HttpUtility.UrlEncode(m.Groups[1].Value);
-
-            UserAgent(wr);
 
             wr.CookieContainer = new CookieContainer();
 
@@ -241,13 +242,11 @@ namespace WikiFunctions
         public string GetEditPage(String Article)
         {
             HttpWebRequest wr = Variables.PrepareWebRequest(m_indexpath + "index.php?title=" + 
-                HttpUtility.UrlEncode(Article) + "&action=edit");
+                HttpUtility.UrlEncode(Article) + "&action=edit", UserAgent);
             HttpWebResponse resps;
             Stream stream;
             StreamReader sr;
             string wikitext = "";
-
-            UserAgent(wr);
 
             wr.CookieContainer = new CookieContainer();
 
@@ -277,11 +276,9 @@ namespace WikiFunctions
         /// <param name="password">The password to log in with.</param>
         public void LogIn(string Username, string password)
         {
-            HttpWebRequest wr = Variables.PrepareWebRequest(m_indexpath + "index.php?title=Special:Userlogin&action=submitlogin&type=login");
+            HttpWebRequest wr = Variables.PrepareWebRequest(m_indexpath + "index.php?title=Special:Userlogin&action=submitlogin&type=login", UserAgent);
             HttpWebResponse resps;
             String poststring;
-
-            UserAgent(wr);
 
             //Create poststring
             poststring = string.Format("wpName=+{0}&wpPassword={1}&wpRemember=1&wpLoginattempt=Log+in",
@@ -477,14 +474,12 @@ namespace WikiFunctions
             string targetUrl = m_indexpath + "api.php?action=query&prop=revisions&titles=" + HttpUtility.UrlEncode(Article) +
                 "&rvlimit=" + Limit;
 
-            HttpWebRequest wr = Variables.PrepareWebRequest(targetUrl);
+            HttpWebRequest wr = Variables.PrepareWebRequest(targetUrl, UserAgent);
             HttpWebResponse resps;
             Stream stream;
             StreamReader sr;
             string pagetext = "";
             List<Revision> history = new List<Revision>();
-
-            UserAgent(wr);
 
             resps = (HttpWebResponse)wr.GetResponse();
             stream = resps.GetResponseStream();
@@ -540,10 +535,9 @@ namespace WikiFunctions
             try
             {
                 HttpWebRequest wr = Variables.PrepareWebRequest(m_indexpath + "index.php?title=" +
-                    HttpUtility.UrlEncode(Page) + "&action=" + (Watch ? "watch" : "unwatch"));
+                    HttpUtility.UrlEncode(Page) + "&action=" + (Watch ? "watch" : "unwatch"), UserAgent);
                 WebResponse resps;
 
-                UserAgent(wr);
                 wr.CookieContainer = new CookieContainer();
 
                 foreach (Cookie cook in logincookies)
@@ -588,10 +582,9 @@ namespace WikiFunctions
                 Match m;
 
                 HttpWebRequest wr = Variables.PrepareWebRequest(m_indexpath +
-                    "index.php?title=Special:Watchlist/clear");
+                    "index.php?title=Special:Watchlist/clear", UserAgent);
                 WebResponse resps;
 
-                UserAgent(wr);
                 wr.CookieContainer = new CookieContainer();
 
                 foreach (Cookie cook in logincookies)
@@ -615,9 +608,8 @@ namespace WikiFunctions
                 string token = m.Value.Substring(index, m.Value.Substring(index).IndexOf("\""));
 
                 wr = Variables.PrepareWebRequest(m_indexpath +
-                    "index.php?title=Special:Watchlist&amp;action=clear");
+                    "index.php?title=Special:Watchlist&amp;action=clear", UserAgent);
 
-                UserAgent(wr);
                 wr.CookieContainer = new CookieContainer();
 
                 foreach (Cookie cook in logincookies)
@@ -652,10 +644,8 @@ namespace WikiFunctions
         public StringCollection GetWatchlist()
         {
             HttpWebRequest wr = Variables.PrepareWebRequest(m_indexpath +
-               "index.php?title=Special:Watchlist/edit");
+               "index.php?title=Special:Watchlist/edit", UserAgent);
             WebResponse resps;
-
-            UserAgent(wr);
      
             wr.CookieContainer = new CookieContainer();
             foreach (Cookie cook in logincookies)
