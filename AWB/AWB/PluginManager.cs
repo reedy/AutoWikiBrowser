@@ -1,6 +1,9 @@
 /*
 AWB Plugin Manager
-Copyright (C) 2008 Sam Reed
+Copyright
+(C) 2007 Martin Richards
+(C) 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
+(C) 2008 Sam Reed
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -24,7 +27,8 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-
+using System.Reflection;
+using System.IO;
 using AutoWikiBrowser.Plugins;
 using WikiFunctions.Plugin;
 
@@ -117,6 +121,103 @@ namespace AutoWikiBrowser
             }
 
             Plugin.LoadPlugins(AWB, plugins, true);
+        }
+    }
+
+    namespace Plugins
+    {
+        internal static class Plugin
+        // TODO: Document me
+        {
+            internal static Dictionary<string, IAWBPlugin> Items = new Dictionary<string, IAWBPlugin>();
+
+            internal static string GetPluginsWikiTextBlock()
+            {
+                string retval = "";
+                foreach (KeyValuePair<string, IAWBPlugin> plugin in Items)
+                {
+                    retval += "* " + plugin.Value.WikiName + System.Environment.NewLine;
+                }
+                return retval;
+            }
+
+            internal static int Count()
+            {
+                return Items.Count;
+            }
+
+            internal static List<string> GetPluginList()
+            {
+                List<string> plugins = new List<string>();
+
+                foreach (KeyValuePair<string, IAWBPlugin> a in Items)
+                {
+                    plugins.Add(a.Key);
+                }
+
+                return plugins;
+            }
+
+            internal static void LoadPlugins(IAutoWikiBrowser awb)
+            {
+                string path = Application.StartupPath;
+                string[] pluginFiles = Directory.GetFiles(path, "*.DLL");
+
+                LoadPlugins(awb, pluginFiles, false);
+            }
+
+            internal static void LoadPlugins(IAutoWikiBrowser awb, string[] Plugins, bool afterStartup)
+            {
+                try
+                {
+                    foreach (string Plugin in Plugins)
+                    {
+                        if (Plugin.EndsWith("DotNetWikiBot.dll") || Plugin.EndsWith("Diff.dll"))
+                            continue;
+
+                        Assembly asm = null;
+                        try
+                        {
+                            asm = Assembly.LoadFile(Plugin);
+                        }
+                        catch { }
+
+                        if (asm != null)
+                        {
+                            Type[] types = asm.GetTypes();
+
+                            foreach (Type t in types)
+                            {
+                                if (t.GetInterface("IAWBPlugin") != null)
+                                {
+                                    IAWBPlugin plugin = (IAWBPlugin)Activator.CreateInstance(t);
+                                    Items.Add(plugin.Name, plugin);
+                                    if (plugin.Name == "Kingbotk Plugin" && t.Assembly.GetName().Version.Major < 2)
+                                        MessageBox.Show("You are using an out of date version of the Kingbotk Plugin. Please upgrade.",
+                                            "Kingbotk Plugin", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+                                    //Load Plugin one off if not loading at startup
+                                    if (afterStartup)
+                                        Items[plugin.Name].Initialise(awb);
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Problem loading plugin");
+                }
+
+                //Load all Plugins as loading at startup
+                if (!afterStartup)
+                {
+                    foreach (KeyValuePair<string, IAWBPlugin> a in Items)
+                    {
+                        a.Value.Initialise(awb);
+                    }
+                }
+            }
         }
     }
 }
