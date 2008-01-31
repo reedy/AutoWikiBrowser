@@ -94,7 +94,7 @@ namespace AutoWikiBrowser
             new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
         private static StringCollection RecentList = new StringCollection();
         private static CustomModule cModule = new CustomModule();
-        private static ExternalProgram extProgram = new ExternalProgram();
+        private static ExternalProgram externalProgram = new ExternalProgram();
         internal static RegexTester regexTester = new RegexTester();
         private static bool userTalkWarningsLoaded;
         private static Regex userTalkTemplatesRegex;
@@ -963,9 +963,9 @@ namespace AutoWikiBrowser
 
                 prof.Profile("Custom module");
 
-                if (extProgram.ModuleEnabled)
+                if (externalProgram.ModuleEnabled)
                 {
-                    theArticle.SendPageToCustomModule(extProgram);
+                    theArticle.SendPageToCustomModule(externalProgram);
                     if (theArticle.SkipArticle) return;
                 }
 
@@ -1392,8 +1392,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             lblStatusText.Text = listMaker1.Status;
         }
 
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        private void MainFormClosing(object sender, FormClosingEventArgs e)
         {
+            ExitQuestion dlg = null;
+
             WebControl.Shutdown = true;
 
             Properties.Settings.Default.WindowState = this.WindowState;
@@ -1411,22 +1413,27 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
             Properties.Settings.Default.Save();
 
-            if (AutoWikiBrowser.Properties.Settings.Default.DontAskForTerminate)
+            if (!AutoWikiBrowser.Properties.Settings.Default.DontAskForTerminate)
             {
-                // save user persistent settings
-                AutoWikiBrowser.Properties.Settings.Default.Save();
-                return;
-            }
-            TimeSpan time = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-            time = time.Subtract(StartTime);
-            ExitQuestion dlg = new ExitQuestion(time, NumberOfEdits, "");
-            dlg.ShowDialog();
-            if (dlg.DialogResult == DialogResult.OK)
-            {
+                TimeSpan time = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+                time = time.Subtract(StartTime);
+                dlg = new ExitQuestion(time, NumberOfEdits, "");
+                dlg.ShowDialog();
                 AutoWikiBrowser.Properties.Settings.Default.DontAskForTerminate = dlg.CheckBoxDontAskAgain;
+            }
+
+            if (AutoWikiBrowser.Properties.Settings.Default.DontAskForTerminate || dlg.DialogResult == DialogResult.OK)
+            {
 
                 // save user persistent settings
                 AutoWikiBrowser.Properties.Settings.Default.Save();
+
+                if (webBrowserEdit.IsBusy)
+                    webBrowserEdit.Stop2();
+                if (Variables.User.webBrowserLogin.IsBusy)
+                    Variables.User.webBrowserLogin.Stop();
+
+                SaveRecentSettingsList();
             }
             else
             {
@@ -1434,13 +1441,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 dlg = null;
                 return;
             }
-
-            if (webBrowserEdit.IsBusy)
-                webBrowserEdit.Stop2();
-            if (Variables.User.webBrowserLogin.IsBusy)
-                Variables.User.webBrowserLogin.Stop();
-
-            SaveRecentSettingsList();
         }
 
         private void SetCheckBoxes()
@@ -3886,7 +3886,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void externalProcessingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            extProgram.Show();
+            externalProgram.Show();
         }
     }
         #endregion

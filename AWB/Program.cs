@@ -1,7 +1,7 @@
 /*
 Autowikibrowser
 Copyright (C) 2007 Martin Richards
-(C) 2007 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
+(C) 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -69,6 +69,7 @@ namespace AutoWikiBrowser
 
         internal static System.Version Version { get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; } }
         internal static string VersionString { get { return Version.ToString(); } }
+        static internal string UserAgentString { get { return "AutoWikiBrowser" + VersionString; } }
         static internal WikiFunctions.Plugin.IAutoWikiBrowser AWB;
         static internal Logging.MyTrace MyTrace = new AutoWikiBrowser.Logging.MyTrace();
     }
