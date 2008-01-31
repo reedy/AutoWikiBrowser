@@ -68,6 +68,8 @@ namespace AutoWikiBrowser
                 chkSupressAWB.Checked = false;
 
             cmboProject_SelectedIndexChanged(null, null);
+
+            chkAlwaysConfirmExit.Checked = AutoWikiBrowser.Properties.Settings.Default.DontAskForTerminate;
         }
 
         #region Language and project
@@ -250,6 +252,12 @@ namespace AutoWikiBrowser
         private void btnApply_Click(object sender, EventArgs e)
         {
             if (cmboCustomProject.Visible) FixCustomProject();
+
+            if (AutoWikiBrowser.Properties.Settings.Default.DontAskForTerminate != chkAlwaysConfirmExit.Checked)
+            {
+                AutoWikiBrowser.Properties.Settings.Default.DontAskForTerminate = chkAlwaysConfirmExit.Checked;
+                AutoWikiBrowser.Properties.Settings.Default.Save();
+            }
         }
     }
 }

@@ -64,6 +64,7 @@ namespace AutoWikiBrowser
             this.numEditBoxAutosave = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
             this.saveFile = new System.Windows.Forms.SaveFileDialog();
+            this.chkAlwaysConfirmExit = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numTimeOutLimit)).BeginInit();
@@ -85,7 +86,7 @@ namespace AutoWikiBrowser
             // btnApply
             // 
             this.btnApply.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnApply.Location = new System.Drawing.Point(163, 441);
+            this.btnApply.Location = new System.Drawing.Point(163, 463);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(75, 23);
             this.btnApply.TabIndex = 1;
@@ -147,7 +148,7 @@ namespace AutoWikiBrowser
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(244, 441);
+            this.btnCancel.Location = new System.Drawing.Point(244, 463);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 12;
@@ -201,6 +202,7 @@ namespace AutoWikiBrowser
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.chkAlwaysConfirmExit);
             this.groupBox2.Controls.Add(this.chkSupressAWB);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.numTimeOutLimit);
@@ -213,7 +215,7 @@ namespace AutoWikiBrowser
             this.groupBox2.Controls.Add(this.btnTextBoxFont);
             this.groupBox2.Location = new System.Drawing.Point(13, 159);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(306, 168);
+            this.groupBox2.Size = new System.Drawing.Size(306, 190);
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Other";
@@ -345,7 +347,7 @@ namespace AutoWikiBrowser
             this.groupBox3.Controls.Add(this.label9);
             this.groupBox3.Controls.Add(this.numEditBoxAutosave);
             this.groupBox3.Controls.Add(this.label8);
-            this.groupBox3.Location = new System.Drawing.Point(13, 333);
+            this.groupBox3.Location = new System.Drawing.Point(13, 355);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(306, 102);
             this.groupBox3.TabIndex = 15;
@@ -424,11 +426,23 @@ namespace AutoWikiBrowser
             // 
             this.saveFile.Filter = ".txt Files|*.txt";
             // 
+            // chkAlwaysConfirmExit
+            // 
+            this.chkAlwaysConfirmExit.AutoSize = true;
+            this.chkAlwaysConfirmExit.Checked = true;
+            this.chkAlwaysConfirmExit.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkAlwaysConfirmExit.Location = new System.Drawing.Point(8, 158);
+            this.chkAlwaysConfirmExit.Name = "chkAlwaysConfirmExit";
+            this.chkAlwaysConfirmExit.Size = new System.Drawing.Size(122, 17);
+            this.chkAlwaysConfirmExit.TabIndex = 24;
+            this.chkAlwaysConfirmExit.Text = "Always confirm Exit?";
+            this.chkAlwaysConfirmExit.UseVisualStyleBackColor = true;
+            // 
             // MyPreferences
             // 
             this.AcceptButton = this.btnApply;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(331, 472);
+            this.ClientSize = new System.Drawing.Size(331, 498);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -486,5 +500,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.SaveFileDialog saveFile;
         private System.Windows.Forms.Label lblPostfix;
         private System.Windows.Forms.CheckBox chkSupressAWB;
+        private System.Windows.Forms.CheckBox chkAlwaysConfirmExit;
     }
 }
