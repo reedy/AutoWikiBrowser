@@ -31,6 +31,7 @@ using System.Reflection;
 using System.IO;
 using AutoWikiBrowser.Plugins;
 using WikiFunctions.Plugin;
+using WikiFunctions;
 
 namespace AutoWikiBrowser
 {
@@ -196,9 +197,9 @@ namespace AutoWikiBrowser
                                         MessageBox.Show("You are using an out of date version of the Kingbotk Plugin. Please upgrade.",
                                             "Kingbotk Plugin", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
-                                    //Load Plugin one off if not loading at startup
-                                    if (afterStartup)
-                                        Items[plugin.Name].Initialise(awb);
+                                    InitialisePlugin(plugin, awb);
+
+                                    //UsageStats.LoadedPlugin(plugin.Name, t.Assembly.GetName().Version);
                                 }
                             }
                         }
@@ -206,16 +207,19 @@ namespace AutoWikiBrowser
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Problem loading plugin");
+                    MessageBox.Show(ex.Message, "Problem loading plugins");
                 }
+            }
 
-                //Load all Plugins as loading at startup
-                if (!afterStartup)
+            private static void InitialisePlugin(IAWBPlugin plugin, IAutoWikiBrowser awb)
+            {
+                try
                 {
-                    foreach (KeyValuePair<string, IAWBPlugin> a in Items)
-                    {
-                        a.Value.Initialise(awb);
-                    }
+                    plugin.Initialise(awb);
+                }
+                catch (Exception ex)
+                {
+                    ErrorHandler.Handle(ex);
                 }
             }
         }
