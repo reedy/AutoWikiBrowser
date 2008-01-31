@@ -71,6 +71,9 @@ namespace WikiFunctions
         public static string VersionString
         { get { return Version.ToString(); } }
 
+        public static string DefaultUserAgentString
+        { get { return "WikiFunctions/" + VersionString; } }
+
         /// <summary>
         /// Displays the WikiFunctions About box
         /// </summary>
@@ -302,9 +305,7 @@ namespace WikiFunctions
             string text = "";
             try
             {
-                HttpWebRequest rq = Variables.PrepareWebRequest(URL);
-
-                rq.UserAgent = "WikiFunctions " + Tools.VersionString;
+                HttpWebRequest rq = Variables.PrepareWebRequest(URL); // Uses WikiFunctions' default UserAgent string
 
                 HttpWebResponse response = (HttpWebResponse)rq.GetResponse();
 
