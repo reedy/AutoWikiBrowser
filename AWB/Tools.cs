@@ -23,10 +23,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using WikiFunctions;
-using WikiFunctions.Plugin;
 using System.Windows.Forms;
-using System.IO;
-using System.Reflection;
 
 namespace AutoWikiBrowser
 {
@@ -91,124 +88,5 @@ namespace AutoWikiBrowser
             }
         }
     }
-
-    namespace Plugins
-    {
-        internal static class Plugin
-        {
-            internal static Dictionary<string, IAWBPlugin> Items = new Dictionary<string, IAWBPlugin>();
-
-            internal static string GetPluginsWikiTextBlock()
-            {
-                string retval = "";
-                foreach (KeyValuePair<string, IAWBPlugin> plugin in Items)
-                {
-                    retval += "* " + plugin.Value.WikiName + System.Environment.NewLine;
-                }
-                return retval;
-            }
-
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <returns></returns>
-            internal static int Count()
-            {
-                return Items.Count;
-            }
-
-            internal static List<string> GetPluginList()
-            {
-                List<string> plugins = new List<string>();
-
-                foreach (KeyValuePair<string, IAWBPlugin> a in Items)
-                {
-                    plugins.Add(a.Key);
-                }
-
-                return plugins;
-            }
-
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="awb"></param>
-            /// <returns></returns>
-            internal static void LoadPlugins(IAutoWikiBrowser awb)
-            {
-                string path = Application.StartupPath;
-                string[] pluginFiles = Directory.GetFiles(path, "*.DLL");
-
-                LoadPlugins(awb, pluginFiles, false);
-            }
-
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="awb"></param>
-            /// <param name="Plugin"></param>
-            internal static void LoadPlugin(IAutoWikiBrowser awb, string Plugin)
-            {
-                LoadPlugins(awb, new string[] { Plugin }, true);
-            }
-
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="awb"></param>
-            /// <param name="Plugins"></param>
-            internal static void LoadPlugins(IAutoWikiBrowser awb, string[] Plugins, bool afterStartup)
-            {
-                try
-                {
-                    foreach (string Plugin in Plugins)
-                    {
-                        if (Plugin.EndsWith("DotNetWikiBot.dll") || Plugin.EndsWith("Diff.dll"))
-                            continue;
-
-                        Assembly asm = null;
-                        try
-                        {
-                            asm = Assembly.LoadFile(Plugin);
-                        }
-                        catch { }
-
-                        if (asm != null)
-                        {
-                            Type[] types = asm.GetTypes();
-
-                            foreach (Type t in types)
-                            {
-                                if (t.GetInterface("IAWBPlugin") != null)
-                                {
-                                    IAWBPlugin plugin = (IAWBPlugin)Activator.CreateInstance(t);
-                                    Items.Add(plugin.Name, plugin);
-                                    if (plugin.Name == "Kingbotk Plugin" && t.Assembly.GetName().Version.Major < 2)
-                                        MessageBox.Show("You are using an out of date version of the Kingbotk Plugin. Please upgrade.",
-                                            "Kingbotk Plugin", MessageBoxButtons.OK, MessageBoxIcon.Exclamation );
-
-                                    //Load Plugin one off if not loading at startup
-                                    if (afterStartup)
-                                        Items[plugin.Name].Initialise(awb);
-                                }
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Problem loading plugin");
-                }
-
-                //Load all Plugins as loading at startup
-                if (!afterStartup)
-                {
-                    foreach (KeyValuePair<string, IAWBPlugin> a in Items)
-                    {
-                        a.Value.Initialise(awb);
-                    }
-                }
-            }
-        }
-    }
 }
+
