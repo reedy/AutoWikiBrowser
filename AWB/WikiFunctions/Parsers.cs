@@ -848,7 +848,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The modified article text.</returns>
         public string FixImages(string ArticleText)
         {
-            Regex imgregex = new Regex(@"\[\[\s*?" + Variables.NamespacesCaseInsensitive[6] + @"\s*([^\|]*?)(\|.*)?\]\]");
+            Regex imgregex = new Regex(@"\[\[\s*?" + Variables.NamespacesCaseInsensitive[6] + @"\s*([^\|\]]*?)(\|.*?)*?\]\]"); 
             string img = "[[" + Variables.Namespaces[6];
             string x = "";
 
