@@ -52,6 +52,7 @@ namespace AutoWikiBrowser
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCode.Font = new System.Drawing.Font("Courier New", 9F);
             this.txtCode.Location = new System.Drawing.Point(12, 231);
+            this.txtCode.MaxLength = 0;
             this.txtCode.Multiline = true;
             this.txtCode.Name = "txtCode";
             this.txtCode.ScrollBars = System.Windows.Forms.ScrollBars.Both;
@@ -162,13 +163,13 @@ namespace AutoWikiBrowser
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.guideToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // guideToolStripMenuItem
             // 
             this.guideToolStripMenuItem.Name = "guideToolStripMenuItem";
-            this.guideToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.guideToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
             this.guideToolStripMenuItem.Text = "Guide";
             this.guideToolStripMenuItem.Click += new System.EventHandler(this.guideToolStripMenuItem_Click);
             // 
