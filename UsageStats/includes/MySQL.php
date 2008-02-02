@@ -77,10 +77,6 @@ class DB {
 		$OSID = $this->get_or_add_lookup_record('lkpOS', 'OSID', "OS=\"{$_POST['OS']}\"", 
 			'OS', "\"{$_POST['OS']}\"");
 			
-		// Framework:
-		$frameworkid=$this->get_or_add_lookup_record('lkpFramework', 'FrameworkID', "Framework=\"{$_POST['Framework']}\"",
-			'Framework', "\"{$_POST['Framework']}\"");
-			
 		// Debug:
 		switch($_POST['Debug']) {
 			case 'Y':
@@ -113,9 +109,14 @@ class DB {
 		$retval = $mysqli->insert_id;
 		//$result->free(); // threw an error (and yes I had $result=), perhaps because we added a record and therefore don't actually have a recordset to clear?
 		
-		// TODO: Plugins
+		// Plugins:
+		
 		
 		return $retval;
+	}
+	
+	private function add_plugins_records() {
+		
 	}
 	
 	private function get_or_add_lookup_record($table, $autoid, $lookupquery, $insertfields, $insertvalues) {

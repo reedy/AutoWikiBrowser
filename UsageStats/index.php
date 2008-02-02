@@ -80,7 +80,7 @@ function FirstContact() {
 	Setup();
 	
 	$time=localtime(time(), true);
-	$VerifyID=$time['tm_min'];//TODO perhaps add seconds to it to make it at least *slightly* obscure!
+	$VerifyID=$time['tm_min']+$time['tm_sec'];
 	
 	global $db;	
 	$RecordID=$db->add_usage_record($VerifyID);

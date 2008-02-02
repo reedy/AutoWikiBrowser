@@ -1,6 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 
 <project version="5.5" encoding="default">
+	<project_entity ID="SourceControl">
+		<encodingStyle value="CVS"/>
+	</project_entity>
 	<project_entity ID="debugger">
 		<connectionInfo use_defaults="true" tempFilesLocation="F:\Work\Windows" debug_mode="local" serverHost="http://Server_Address/" port="10000"/>
 		<breakpoints/>
@@ -8,9 +11,37 @@
 	</project_entity>
 	<project_entity ID="project_roots">
 		<vfile name="F:\Work\Programming\AWB\UsageStats"/>
+		<vfile name="F:\Work\Programming\AWB\UsageStats\includes\MySQL.php"/>
+	</project_entity>
+	<project_entity ID="bookmarks">
+		<bookmark fileName="F:\Work\Programming\AWB\UsageStats\index.php" lineNumber="85" description="$RecordID=$db-&gt;get_or_add_lookup_record();"/>
 	</project_entity>
 	<project_entity ID="javaBridge" JRE_Name="1.5.0_06"/>
-	<project_entity ID="editor_component" selectedEditor="0">
-		<openEditors/>
+	<project_entity ID="Subversion">
+		<svnCmdArguments>
+			<SubversionCommand commandType="update"/>
+			<SubversionCommand commandType="commit"/>
+			<SubversionCommand commandType="add"/>
+			<SubversionCommand commandType="status"/>
+			<SubversionCommand commandType="diff"/>
+			<SubversionCommand commandType="delete"/>
+			<SubversionCommand commandType="revert"/>
+			<SubversionCommand commandType="resolve"/>
+		</svnCmdArguments>
+	</project_entity>
+	<project_entity ID="editor_component" selectedEditor="1">
+		<openEditors>
+			<editor fileName="F:\Work\Programming\AWB\UsageStats\index.php" caretPosition="2607" clone="false" encoding="default"/>
+			<editor fileName="F:\Work\Programming\AWB\UsageStats\includes\MySQL.php" caretPosition="3044" clone="false" encoding="default"/>
+		</openEditors>
+	</project_entity>
+	<project_entity ID="CVS">
+		<lastArguments>
+			<CVSCommand commandType="update"/>
+			<CVSCommand commandType="commit"/>
+			<CVSCommand commandType="add"/>
+			<CVSCommand commandType="status"/>
+			<CVSCommand commandType="diff"/>
+		</lastArguments>
 	</project_entity>
 </project>
