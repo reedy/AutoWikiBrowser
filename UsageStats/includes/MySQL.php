@@ -58,21 +58,12 @@ class DB {
 			"{$versionarray[0]}, {$versionarray[1]}, {$versionarray[2]}, {$versionarray[3]}");
 		
 		// Wiki and langcode
-		switch ($_POST['Wiki']) {
-			case "":
-				dead("Received an empty sitename string");				
-			case "custom":
-				$langcode="CUS";
-				break;				
-			default:
-				$langcode=$_POST['Language'];
-				break;
-		}
-		
-		// TODO: Here and AWB: Record the custom sitename, if that's considered acceptable to collect
-			// we maybe ought to cache some of this stuff, e.g. Wikipedia EN, current AWB version, etc
+		if ($_POST['Wiki'] == "")
+				dead("Received an empty sitename string");		
+
+		// we maybe ought to cache some of this stuff, e.g. Wikipedia EN, current AWB version, etc
 		$wikiid=$this->get_or_add_lookup_record('lkpWikis', 'SiteID', "Site=\"{$_POST['Wiki']}\" AND ".
-			"LangCode=\"{$langcode}\"", 'Site, LangCode', "\"{$_POST['Wiki']}\", \"{$langcode}\"");
+			"LangCode=\"{$_POST['Language']}\"", 'Site, LangCode', "\"{$_POST['Wiki']}\", \"{$_POST['Language']}\"");
 		
 		// Culture
 		$culturearray=explode("-", $_POST['Culture']);
