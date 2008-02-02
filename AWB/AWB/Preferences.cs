@@ -70,7 +70,8 @@ namespace AutoWikiBrowser
 
             cmboProject_SelectedIndexChanged(null, null);
 
-            chkAlwaysConfirmExit.Checked = AutoWikiBrowser.Properties.Settings.Default.DontAskForTerminate;
+            chkAlwaysConfirmExit.Checked = Properties.Settings.Default.DontAskForTerminate;
+            PrivacyCheckBox.Checked = Properties.Settings.Default.Privacy;
         }
 
         #region Language and project
@@ -252,13 +253,22 @@ namespace AutoWikiBrowser
 
         private void btnApply_Click(object sender, EventArgs e)
         {
+            bool save = false;
+
             if (cmboCustomProject.Visible) FixCustomProject();
 
-            if (AutoWikiBrowser.Properties.Settings.Default.DontAskForTerminate != chkAlwaysConfirmExit.Checked)
+            if (Properties.Settings.Default.DontAskForTerminate != chkAlwaysConfirmExit.Checked)
             {
-                AutoWikiBrowser.Properties.Settings.Default.DontAskForTerminate = chkAlwaysConfirmExit.Checked;
-                AutoWikiBrowser.Properties.Settings.Default.Save();
+                Properties.Settings.Default.DontAskForTerminate = chkAlwaysConfirmExit.Checked;
+                save = true;
             }
+            if (Properties.Settings.Default.Privacy != PrivacyCheckBox.Checked)
+            {
+                Properties.Settings.Default.Privacy = PrivacyCheckBox.Checked;
+                save = true;
+            }
+
+            if (save) Properties.Settings.Default.Save();
         }
     }
 }

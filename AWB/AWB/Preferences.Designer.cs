@@ -245,9 +245,9 @@ namespace AutoWikiBrowser
             this.chkSupressAWB.Enabled = false;
             this.chkSupressAWB.Location = new System.Drawing.Point(124, 23);
             this.chkSupressAWB.Name = "chkSupressAWB";
-            this.chkSupressAWB.Size = new System.Drawing.Size(132, 17);
+            this.chkSupressAWB.Size = new System.Drawing.Size(138, 17);
             this.chkSupressAWB.TabIndex = 23;
-            this.chkSupressAWB.Text = "Supress \"Using AWB\"";
+            this.chkSupressAWB.Text = "Suppress \"Using AWB\"";
             this.chkSupressAWB.UseVisualStyleBackColor = true;
             // 
             // label7
