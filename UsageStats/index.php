@@ -49,7 +49,11 @@ complex it seemed easiest to use POST and create/return some simple XML ourselve
 require_once("config.php");
 
 ob_start(); // buffering allows us to create headers deep into the script and also to get rid of warning/error messages
-header("Cache-Control: no-cache, must-revalidate");
+
+// we don't want proxy servers caching anything:
+header('Cache-Control: no-cache, no-store, must-revalidate'); //HTTP/1.1
+header('Expires: Sun, 01 Jul 2005 00:00:00 GMT');
+header('Pragma: no-cache'); //HTTP/1.0 
 
 switch ($_POST["Action"]) {
 case "Hello":
@@ -74,6 +78,9 @@ function Setup() {
 
 function FirstContact() {
 	Setup();
+	
+	$time=localtime(time(), true);
+	$VerifyID=$time['tm_min'];//TODO perhaps add seconds to it to make it at least *slightly* obscure!
 	
 	global $db;	
 	$RecordID=$db->add_usage_record($VerifyID);
@@ -100,14 +107,14 @@ function FinishUp($outputtype, $output) {
 	$db->db_disconnect();
 	
 	header("Content-type: text/{$outputtype}");
-	ob_end_clean(); // gets rid of warning messages etc; uncomment if want to see those
+	ob_end_clean(); // gets rid of warning messages etc; comment out if want to see those
 	print $output;
 }
 
 // Call this rather than die() directly, so that AWB can always parse for "Error: "
 function dead($msg) {
 	header("Barf", true, 500);
-	ob_end_clean(); // gets rid of warning messages etc; uncomment if want to see those
+	ob_end_clean(); // gets rid of warning messages etc; comment out if want to see those
 	die("Error: $msg");
 }
 ?>

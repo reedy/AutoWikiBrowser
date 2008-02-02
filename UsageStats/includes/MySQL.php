@@ -22,7 +22,7 @@ class DB {
 	
 	function db_connect() {
 		// DEBUG MODE:
-		mysqli_report(MYSQLI_REPORT_ALL);
+		//mysqli_report(MYSQLI_REPORT_ALL);
 		
 		global $GlobalConfig, $mysqli;
 		
@@ -40,8 +40,9 @@ class DB {
 	
 	function db_mysql_query($query, $caller, $module = 'MySQL') {
 		# by doing it in one routine, is easier to slot in debugging/logging later if need be
-		global $mysqli;		
-		return $mysqli->query("/* $module:$caller */ $query");
+		global $mysqli;
+		($retval = $mysqli->query("/* $module:$caller */ $query")) || dead("Query error: ".$query."\r\n");
+		return $retval;
 	}
 	
 	function add_usage_record($VerifyID) {
@@ -105,20 +106,25 @@ class DB {
 		if ($_POST['Saves'] == "") dead("No edit counter received");
 		
 		// Query string:
-		$query = "INSERT INTO sessions (DateTime, Version, Debug, Saves, Site, Culture, OS, Framework";
+		$query = "INSERT INTO sessions (DateTime, Version, Debug, Saves, Site, Culture, OS, Framework, TempKey";
 		$query2 = ') SELECT "' . self::get_mysql_utc_stamp() . "\",  {$versionid}, {$debug}, {$_POST['Saves']}, {$wikiid}, ".
-			"{$cultureid}, {$OSID}, {$frameworkid}";
+			"{$cultureid}, {$OSID}, {$frameworkid}, {$VerifyID}";
 			
 		// User (may be null):
 		if ($_POST['User'] != "") {
 			$userid = $this->get_or_add_lookup_record('lkpUsers', 'UserID', "User=\"{$_POST['User']}\"",
 				'User', "\"{$_POST['User']}\"");
-			$query+=", User"; $query2+=$_POST['User'];
+			$query.=", User"; $query2.=", $userid";
 		}
 
-		$result = $this->db_mysql_query($query.$query2, 'add_usage_record') || dead("Query error");
+		$this->db_mysql_query($query.$query2, 'add_usage_record');
+		global $mysqli;
+		$retval = $mysqli->insert_id;
+		//$result->free(); // threw an error (and yes I had $result=), perhaps because we added a record and therefore don't actually have a recordset to clear?
 		
 		// TODO: Plugins
+		
+		return $retval;
 	}
 	
 	private function get_or_add_lookup_record($table, $autoid, $lookupquery, $insertfields, $insertvalues) {
