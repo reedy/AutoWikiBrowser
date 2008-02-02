@@ -37,6 +37,7 @@ namespace AutoWikiBrowser
             string autoSaveEditBoxFile, decimal autoSaveEditBoxPeriod, bool suppressUsingAWB)
         {
             InitializeComponent();
+            toolTip1.SetToolTip(PrivacyCheckBox, toolTip1.GetToolTip(PrivacyLabel));
 
             foreach (LangCodeEnum l in Enum.GetValues(typeof(LangCodeEnum)))
                 cmboLang.Items.Add(l.ToString().ToLower());
@@ -128,7 +129,7 @@ namespace AutoWikiBrowser
                 cmboCustomProject.Visible = false;
                 cmboLang.Visible = true;
                 lblLang.Text = "Language:";
-                btnApply.Enabled = true;
+                btnOK.Enabled = true;
             }
 
             chkSupressAWB.Enabled = (prj == ProjectEnum.custom || prj == ProjectEnum.wikia);
@@ -136,7 +137,7 @@ namespace AutoWikiBrowser
 
         private void cmboCustomProjectChanged(object sender, EventArgs e)
         {
-            btnApply.Enabled = (!string.IsNullOrEmpty(cmboCustomProject.Text));
+            btnOK.Enabled = (!string.IsNullOrEmpty(cmboCustomProject.Text));
         }
 
         #endregion
