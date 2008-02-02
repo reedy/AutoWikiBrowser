@@ -32,8 +32,10 @@ namespace AutoWikiBrowser
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MyPreferences));
             this.cmboLang = new System.Windows.Forms.ComboBox();
-            this.btnApply = new System.Windows.Forms.Button();
+            this.btnOK = new System.Windows.Forms.Button();
             this.cmboProject = new System.Windows.Forms.ComboBox();
             this.lblLang = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -45,6 +47,7 @@ namespace AutoWikiBrowser
             this.cmboCustomProject = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.chkAlwaysConfirmExit = new System.Windows.Forms.CheckBox();
             this.chkSupressAWB = new System.Windows.Forms.CheckBox();
             this.label7 = new System.Windows.Forms.Label();
             this.numTimeOutLimit = new System.Windows.Forms.NumericUpDown();
@@ -64,12 +67,16 @@ namespace AutoWikiBrowser
             this.numEditBoxAutosave = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
             this.saveFile = new System.Windows.Forms.SaveFileDialog();
-            this.chkAlwaysConfirmExit = new System.Windows.Forms.CheckBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.PrivacyCheckBox = new System.Windows.Forms.CheckBox();
+            this.PrivacyLabel = new System.Windows.Forms.Label();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numTimeOutLimit)).BeginInit();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numEditBoxAutosave)).BeginInit();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmboLang
@@ -83,16 +90,16 @@ namespace AutoWikiBrowser
             this.cmboLang.Size = new System.Drawing.Size(121, 21);
             this.cmboLang.TabIndex = 0;
             // 
-            // btnApply
+            // btnOK
             // 
-            this.btnApply.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnApply.Location = new System.Drawing.Point(163, 463);
-            this.btnApply.Name = "btnApply";
-            this.btnApply.Size = new System.Drawing.Size(75, 23);
-            this.btnApply.TabIndex = 1;
-            this.btnApply.Text = "Apply";
-            this.btnApply.UseVisualStyleBackColor = true;
-            this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
+            this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.btnOK.Location = new System.Drawing.Point(475, 301);
+            this.btnOK.Name = "btnOK";
+            this.btnOK.Size = new System.Drawing.Size(75, 23);
+            this.btnOK.TabIndex = 1;
+            this.btnOK.Text = "OK";
+            this.btnOK.UseVisualStyleBackColor = true;
+            this.btnOK.Click += new System.EventHandler(this.btnApply_Click);
             // 
             // cmboProject
             // 
@@ -148,7 +155,7 @@ namespace AutoWikiBrowser
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(244, 463);
+            this.btnCancel.Location = new System.Drawing.Point(556, 301);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 12;
@@ -215,10 +222,22 @@ namespace AutoWikiBrowser
             this.groupBox2.Controls.Add(this.btnTextBoxFont);
             this.groupBox2.Location = new System.Drawing.Point(13, 159);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(306, 190);
+            this.groupBox2.Size = new System.Drawing.Size(306, 181);
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Other";
+            // 
+            // chkAlwaysConfirmExit
+            // 
+            this.chkAlwaysConfirmExit.AutoSize = true;
+            this.chkAlwaysConfirmExit.Checked = true;
+            this.chkAlwaysConfirmExit.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkAlwaysConfirmExit.Location = new System.Drawing.Point(8, 158);
+            this.chkAlwaysConfirmExit.Name = "chkAlwaysConfirmExit";
+            this.chkAlwaysConfirmExit.Size = new System.Drawing.Size(122, 17);
+            this.chkAlwaysConfirmExit.TabIndex = 24;
+            this.chkAlwaysConfirmExit.Text = "Always confirm Exit?";
+            this.chkAlwaysConfirmExit.UseVisualStyleBackColor = true;
             // 
             // chkSupressAWB
             // 
@@ -347,7 +366,7 @@ namespace AutoWikiBrowser
             this.groupBox3.Controls.Add(this.label9);
             this.groupBox3.Controls.Add(this.numEditBoxAutosave);
             this.groupBox3.Controls.Add(this.label8);
-            this.groupBox3.Location = new System.Drawing.Point(13, 355);
+            this.groupBox3.Location = new System.Drawing.Point(325, 12);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(306, 102);
             this.groupBox3.TabIndex = 15;
@@ -426,28 +445,47 @@ namespace AutoWikiBrowser
             // 
             this.saveFile.Filter = ".txt Files|*.txt";
             // 
-            // chkAlwaysConfirmExit
+            // groupBox4
             // 
-            this.chkAlwaysConfirmExit.AutoSize = true;
-            this.chkAlwaysConfirmExit.Checked = true;
-            this.chkAlwaysConfirmExit.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkAlwaysConfirmExit.Location = new System.Drawing.Point(8, 158);
-            this.chkAlwaysConfirmExit.Name = "chkAlwaysConfirmExit";
-            this.chkAlwaysConfirmExit.Size = new System.Drawing.Size(122, 17);
-            this.chkAlwaysConfirmExit.TabIndex = 24;
-            this.chkAlwaysConfirmExit.Text = "Always confirm Exit?";
-            this.chkAlwaysConfirmExit.UseVisualStyleBackColor = true;
+            this.groupBox4.Controls.Add(this.PrivacyCheckBox);
+            this.groupBox4.Controls.Add(this.PrivacyLabel);
+            this.groupBox4.Location = new System.Drawing.Point(325, 120);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(306, 158);
+            this.groupBox4.TabIndex = 16;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Privacy";
+            // 
+            // PrivacyCheckBox
+            // 
+            this.PrivacyCheckBox.AutoSize = true;
+            this.PrivacyCheckBox.Location = new System.Drawing.Point(8, 119);
+            this.PrivacyCheckBox.Name = "PrivacyCheckBox";
+            this.PrivacyCheckBox.Size = new System.Drawing.Size(226, 17);
+            this.PrivacyCheckBox.TabIndex = 18;
+            this.PrivacyCheckBox.Text = "Prevent AWB from recording my username";
+            this.PrivacyCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // PrivacyLabel
+            // 
+            this.PrivacyLabel.Location = new System.Drawing.Point(5, 16);
+            this.PrivacyLabel.Name = "PrivacyLabel";
+            this.PrivacyLabel.Size = new System.Drawing.Size(296, 100);
+            this.PrivacyLabel.TabIndex = 17;
+            this.PrivacyLabel.Text = resources.GetString("PrivacyLabel.Text");
+            this.toolTip1.SetToolTip(this.PrivacyLabel, resources.GetString("PrivacyLabel.ToolTip"));
             // 
             // MyPreferences
             // 
-            this.AcceptButton = this.btnApply;
+            this.AcceptButton = this.btnOK;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(331, 498);
+            this.ClientSize = new System.Drawing.Size(650, 348);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnApply);
+            this.Controls.Add(this.btnOK);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "MyPreferences";
             this.ShowIcon = false;
@@ -462,6 +500,8 @@ namespace AutoWikiBrowser
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numEditBoxAutosave)).EndInit();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -469,7 +509,7 @@ namespace AutoWikiBrowser
         #endregion
 
         private System.Windows.Forms.ComboBox cmboLang;
-        private System.Windows.Forms.Button btnApply;
+        private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.ComboBox cmboProject;
         private System.Windows.Forms.Label lblLang;
         private System.Windows.Forms.Label label2;
@@ -501,5 +541,9 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Label lblPostfix;
         private System.Windows.Forms.CheckBox chkSupressAWB;
         private System.Windows.Forms.CheckBox chkAlwaysConfirmExit;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Label PrivacyLabel;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.CheckBox PrivacyCheckBox;
     }
 }

@@ -123,4 +123,33 @@
   <metadata name="saveFile.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>119, 17</value>
   </metadata>
+  <data name="PrivacyLabel.Text" xml:space="preserve">
+    <value>Usage statistics: AWB collects anonymous usage data and
+sends it to our private database. Unless you tell us not to we
+will also store your username (but no IP address, MAC or
+computer name or passwords).
+
+To prevent AWB from sending your username check this
+box. For more info hold the mouse over this label.</value>
+  </data>
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>213, 17</value>
+  </metadata>
+  <data name="PrivacyLabel.ToolTip" xml:space="preserve">
+    <value>AWB sends some generic usage information to a private
+database in order to help the developers track usage and
+prioritise development tasks. The client and server code
+is available for public inspection in our Sourceforge
+repository.
+
+We do not record IP addresses, computer identifiers or
+passwords. However, allowing us to track usernames helps
+us get a rough idea of how many people are using the
+software.
+
+We will publish aggregrate statistics but only approved
+AWB developers may access the individual records in the
+database. However, if you wish you may prevent AWB
+from sending your username.</value>
+  </data>
 </root>

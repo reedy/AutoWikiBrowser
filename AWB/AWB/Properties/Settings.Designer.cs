@@ -106,5 +106,17 @@ namespace AutoWikiBrowser.Properties {
                 this["WindowState"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Privacy {
+            get {
+                return ((bool)(this["Privacy"]));
+            }
+            set {
+                this["Privacy"] = value;
+            }
+        }
     }
 }
