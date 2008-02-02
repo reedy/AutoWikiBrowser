@@ -298,14 +298,14 @@ namespace WikiFunctions.Parse
                 ArticleText = Regex.Replace(ArticleText, match1d, "$1$2$3");
             }
 
-            ArticleText = Regex.Replace(ArticleText, "(==*)<ref", "$1\r\n<ref");
+            //ArticleText = Regex.Replace(ArticleText, "(==*)<ref", "$1\r\n<ref");
             return ArticleText;
         }
 
         string ReflistMatchEvaluator(Match m)
         {
             if (m.Value.Contains("references-2column")) return "{{reflist|2}}";
-                
+
             string s = Regex.Match(m.Value, @"[^-]column-count:[\s]*?(\d*)").Groups[1].Value;
             if (s.Length > 0) return "{{reflist|" + s + "}}";
 
@@ -413,14 +413,14 @@ namespace WikiFunctions.Parse
             NoChange = (testText == ArticleText);
             return ArticleText;
         }
-        
+
         readonly Regex SyntaxRegex1 = new Regex("\\[\\[http:\\/\\/([^][]*?)\\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex SyntaxRegex2fix = new Regex("\\[http:\\/\\/([^][]*?)\\]\\]\\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex SyntaxRegex2 = new Regex("\\[http:\\/\\/([^][]*?)\\]\\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex SyntaxRegex3 = new Regex("\\[\\[http:\\/\\/(.*?)\\]\\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex SyntaxRegex4 = new Regex(@"\[\[([^][]*?)\](?=[^\]]*?(?:$|\[|\n))", RegexOptions.Compiled);
         readonly Regex SyntaxRegex5 = new Regex(@"(?<=(?:^|\]|\n)[^\[]*?)\[([^][]*?)\]\](?!\])", RegexOptions.Compiled);
-        
+
         readonly Regex SyntaxRegex6 = new Regex("\\[?\\[image:(http:\\/\\/.*?)\\]\\]?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex SyntaxRegex7 = new Regex("\\[\\[ (.*)?\\]\\]", RegexOptions.Compiled);
         readonly Regex SyntaxRegex8 = new Regex("\\[\\[([A-Za-z]*) \\]\\]", RegexOptions.Compiled);
@@ -466,13 +466,13 @@ namespace WikiFunctions.Parse
             //ArticleText = Regex.Replace(ArticleText, "^<[Hh]2>(.*?)</[Hh]2>", "==$1==", RegexOptions.Multiline);
             //ArticleText = Regex.Replace(ArticleText, "^<[Hh]3>(.*?)</[Hh]3>", "===$1===", RegexOptions.Multiline);
             //ArticleText = Regex.Replace(ArticleText, "^<[Hh]4>(.*?)</[Hh]4>", "====$1====", RegexOptions.Multiline);
-                        
+
             //fix uneven bracketing on links
             ArticleText = SyntaxRegex1.Replace(ArticleText, "[http://$1]");
             ArticleText = SyntaxRegex2fix.Replace(ArticleText, "[http://$1]]]]");
             ArticleText = SyntaxRegex2.Replace(ArticleText, "[http://$1]");
             ArticleText = SyntaxRegex3.Replace(ArticleText, "[http://$1]");
-            
+
             if (!Regex.IsMatch(ArticleText, "\\[\\[[Ii]mage:[^]]*http"))
             {
                 ArticleText = SyntaxRegex4.Replace(ArticleText, "[[$1]]");
@@ -481,7 +481,7 @@ namespace WikiFunctions.Parse
 
             //repair bad external links
             ArticleText = SyntaxRegex6.Replace(ArticleText, "[$1]");
-            
+
             //repair bad internal links
             ArticleText = SyntaxRegex7.Replace(ArticleText, "[[$1]]");
             ArticleText = SyntaxRegex8.Replace(ArticleText, "[[$1]]");
@@ -539,16 +539,16 @@ namespace WikiFunctions.Parse
 
             for (SrcCount = 0; SrcCount < src.Length; SrcCount++)
             {
-                if (src[SrcCount] != '.' || !(SrcCount + 3 <= src.Length && 
-                    IsHex(src[SrcCount + 1]) && IsHex(src[SrcCount+2])))
-                        // then
-                        dest[DestCount] = src[SrcCount];
+                if (src[SrcCount] != '.' || !(SrcCount + 3 <= src.Length &&
+                    IsHex(src[SrcCount + 1]) && IsHex(src[SrcCount + 2])))
+                    // then
+                    dest[DestCount] = src[SrcCount];
                 else
                 {
                     dest[DestCount] = DecodeHex(src[SrcCount + 1], src[SrcCount + 2]);
                     SrcCount += 2;
                 }
-                
+
                 DestCount++;
             }
 
@@ -563,7 +563,7 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public string FixLinks(string ArticleText, out bool NoChange)
         {
-            StringBuilder sb = new StringBuilder(ArticleText, (ArticleText.Length*11)/10);
+            StringBuilder sb = new StringBuilder(ArticleText, (ArticleText.Length * 11) / 10);
 
             string y = "";
 
@@ -848,7 +848,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The modified article text.</returns>
         public string FixImages(string ArticleText)
         {
-            Regex imgregex = new Regex(@"\[\[\s*?" + Variables.NamespacesCaseInsensitive[6] + @"\s*([^\|\]]*?)(\|.*?)*?\]\]"); 
+            Regex imgregex = new Regex(@"\[\[\s*?" + Variables.NamespacesCaseInsensitive[6] + @"\s*([^\|\]]*?)(\|.*?)*?\]\]");
             string img = "[[" + Variables.Namespaces[6];
             string x = "";
 
@@ -871,7 +871,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public string FixTemperatures(string ArticleText)
         {
             foreach (Match m in Temperature.Matches(ArticleText))
-                ArticleText = ArticleText.Replace(m.ToString(), "°" + m.Groups[5].Value.ToUpper() + m.Groups[6].Value);           
+                ArticleText = ArticleText.Replace(m.ToString(), "°" + m.Groups[5].Value.ToUpper() + m.Groups[6].Value);
             return ArticleText;
         }
 
@@ -1352,8 +1352,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             if (!ArticleText.Contains("<includeonly>"))
                 ArticleText = Regex.Replace(ArticleText, "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + " ?" + strOldCat + "( ?\\]\\]| ?\\|[^\\|]*?\\]\\])\r\n", "");
-          
-            ArticleText = Regex.Replace(ArticleText, "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + " ?" + strOldCat + "( ?\\]\\]| ?\\|[^\\|]*?\\]\\])", ""); 
+
+            ArticleText = Regex.Replace(ArticleText, "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + " ?" + strOldCat + "( ?\\]\\]| ?\\|[^\\|]*?\\]\\])", "");
 
             NoChange = (testText == ArticleText);
 
@@ -1533,7 +1533,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 return ArticleText;
 
             // don't tag outside article namespace
-            if (!Tools.IsMainSpace(ArticleTitle)) 
+            if (!Tools.IsMainSpace(ArticleTitle))
                 return ArticleText;
 
             double length = ArticleText.Length + 1;
@@ -1651,7 +1651,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         static Regex Bots = new Regex(@"\{\{\s*([Bb]ots|[Nn]obots)\s*(|\|[^\}]*)\}\}", RegexOptions.Compiled);
         static Regex Allow = new Regex(@"\|\s*allow\s*=\s*([^\|\}]*)", RegexOptions.Compiled | RegexOptions.Singleline);
         static Regex Deny = new Regex(@"\|\s*deny\s*=\s*([^\|\}]*)", RegexOptions.Compiled | RegexOptions.Singleline);
-        
+
         /// <summary>
         /// checks if a user is allowed to edit this article
         /// using {{bots}} and {{nobots}} tags
