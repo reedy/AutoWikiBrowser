@@ -64,7 +64,12 @@ case "Update":
 	SubsequentContact();
 	break;
 	
+case "Stats":
+	// return some stats in wiki code? (plain txt)
+	break;
+	
 default:
+	// return some stats in a HTML table?
 	dead("Unknown action");
 }
 

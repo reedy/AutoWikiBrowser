@@ -1,22 +1,29 @@
 <?xml version='1.0' encoding='UTF-8'?>
 
 <project version="5.5" encoding="default">
-	<project_entity ID="SourceControl">
-		<encodingStyle value="CVS"/>
-	</project_entity>
 	<project_entity ID="debugger">
 		<connectionInfo use_defaults="true" tempFilesLocation="F:\Work\Windows" debug_mode="local" serverHost="http://Server_Address/" port="10000"/>
 		<breakpoints/>
 		<watches/>
 	</project_entity>
+	<project_entity ID="SourceControl">
+		<encodingStyle value="Subversion"/>
+	</project_entity>
 	<project_entity ID="project_roots">
 		<vfile name="F:\Work\Programming\AWB\UsageStats"/>
 		<vfile name="F:\Work\Programming\AWB\UsageStats\includes\MySQL.php"/>
 	</project_entity>
-	<project_entity ID="bookmarks">
-		<bookmark fileName="F:\Work\Programming\AWB\UsageStats\index.php" lineNumber="85" description="$RecordID=$db-&gt;get_or_add_lookup_record();"/>
-	</project_entity>
 	<project_entity ID="javaBridge" JRE_Name="1.5.0_06"/>
+	<project_entity ID="bookmarks">
+		<bookmark fileName="F:\Work\Programming\AWB\UsageStats\index.php" lineNumber="90" description="$RecordID=$db-&gt;get_or_add_lookup_record();"/>
+	</project_entity>
+	<project_entity ID="editor_component" selectedEditor="2">
+		<openEditors>
+			<editor fileName="F:\Work\Programming\AWB\UsageStats\index.php" caretPosition="2467" clone="false" encoding="default"/>
+			<editor fileName="F:\Work\Programming\AWB\UsageStats\includes\MySQL.php" caretPosition="3139" clone="false" encoding="default"/>
+			<editor fileName="F:\Work\Programming\AWB\UsageStats\includes\Stats.php" caretPosition="304" clone="false" encoding="default"/>
+		</openEditors>
+	</project_entity>
 	<project_entity ID="Subversion">
 		<svnCmdArguments>
 			<SubversionCommand commandType="update"/>
@@ -28,12 +35,6 @@
 			<SubversionCommand commandType="revert"/>
 			<SubversionCommand commandType="resolve"/>
 		</svnCmdArguments>
-	</project_entity>
-	<project_entity ID="editor_component" selectedEditor="1">
-		<openEditors>
-			<editor fileName="F:\Work\Programming\AWB\UsageStats\index.php" caretPosition="2607" clone="false" encoding="default"/>
-			<editor fileName="F:\Work\Programming\AWB\UsageStats\includes\MySQL.php" caretPosition="3044" clone="false" encoding="default"/>
-		</openEditors>
 	</project_entity>
 	<project_entity ID="CVS">
 		<lastArguments>
