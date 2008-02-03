@@ -619,7 +619,7 @@ namespace WikiFunctions.Browser
                 this.AllowNavigation = true;
                 ProcessStage = enumProcessStage.delete;
                 Status = "Loading delete page";
-                Navigate(Variables.URLLong + "index.php?title=" + Article + "&action=delete");
+                Navigate(Variables.URLLong + "index.php?title=" + HttpUtility.UrlEncode(Article) + "&action=delete");
             }
             catch (Exception ex)
             {
@@ -702,7 +702,7 @@ namespace WikiFunctions.Browser
                 this.AllowNavigation = true;
                 ProcessStage = enumProcessStage.protect;
                 Status = "Loading protect page";
-                Navigate(Variables.URLLong + "index.php?title=" + Article + "&action=protect");
+                Navigate(Variables.URLLong + "index.php?title=" + HttpUtility.UrlEncode(Article) + "&action=protect");
             }
             catch (Exception ex)
             {
