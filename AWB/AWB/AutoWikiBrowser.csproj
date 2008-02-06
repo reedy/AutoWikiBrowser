@@ -106,6 +106,12 @@
     <Compile Include="ExternalProgram.Designer.cs">
       <DependentUpon>ExternalProgram.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmCategoryName.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCategoryName.Designer.cs">
+      <DependentUpon>frmCategoryName.cs</DependentUpon>
+    </Compile>
     <Compile Include="Help.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -177,6 +183,10 @@
     <EmbeddedResource Include="ExternalProgram.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ExternalProgram.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCategoryName.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmCategoryName.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoggingSettings.resx">
       <DependentUpon>LoggingSettings.cs</DependentUpon>

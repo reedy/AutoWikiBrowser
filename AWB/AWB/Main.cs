@@ -2622,6 +2622,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         #region Edit Box Menu
         private void reparseToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            reparseEditBox();
+        }
+
+        private void reparseEditBox()
+        {
             ArticleEX a = new ArticleEX(TheArticle.Name);
 
             a.OriginalArticleText = txtEdit.Text;
@@ -3887,6 +3892,19 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private void externalProcessingToolStripMenuItem_Click(object sender, EventArgs e)
         {
             externalProgram.Show();
+        }
+
+        frmCategoryName CatName = new frmCategoryName();
+
+        private void categoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CatName.ShowDialog();
+
+            if (!string.IsNullOrEmpty(CatName.CategoryName))
+            {
+                txtEdit.Text += "\r\n\r\n[[" + CatName.CategoryName + "]]";
+                reparseEditBox();
+            }
         }
     }
         #endregion

@@ -77,6 +77,8 @@ namespace AutoWikiBrowser
             this.insertToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.birthdeathCatsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.metadataTemplateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator24 = new System.Windows.Forms.ToolStripSeparator();
+            this.categoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insertTagToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.humanNameCategoryKeyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.humanNameDisambigTagToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -453,7 +455,7 @@ namespace AutoWikiBrowser
             this.undoAllChangesToolStripMenuItem,
             this.reloadEditPageToolStripMenuItem});
             this.mnuTextBox.Name = "contextMenuStrip1";
-            this.mnuTextBox.Size = new System.Drawing.Size(234, 552);
+            this.mnuTextBox.Size = new System.Drawing.Size(234, 574);
             this.mnuTextBox.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // wordWrapToolStripMenuItem1
@@ -631,7 +633,9 @@ namespace AutoWikiBrowser
             // 
             this.insertToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.birthdeathCatsToolStripMenuItem,
-            this.metadataTemplateToolStripMenuItem});
+            this.metadataTemplateToolStripMenuItem,
+            this.toolStripSeparator24,
+            this.categoryToolStripMenuItem});
             this.insertToolStripMenuItem.Name = "insertToolStripMenuItem";
             this.insertToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
             this.insertToolStripMenuItem.Text = "Insert...";
@@ -649,6 +653,19 @@ namespace AutoWikiBrowser
             this.metadataTemplateToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
             this.metadataTemplateToolStripMenuItem.Text = "Meta-data template";
             this.metadataTemplateToolStripMenuItem.Click += new System.EventHandler(this.metadataTemplateToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator24
+            // 
+            this.toolStripSeparator24.Name = "toolStripSeparator24";
+            this.toolStripSeparator24.Size = new System.Drawing.Size(189, 6);
+            // 
+            // categoryToolStripMenuItem
+            // 
+            this.categoryToolStripMenuItem.Name = "categoryToolStripMenuItem";
+            this.categoryToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
+            this.categoryToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.categoryToolStripMenuItem.Text = "Category";
+            this.categoryToolStripMenuItem.Click += new System.EventHandler(this.categoryToolStripMenuItem_Click);
             // 
             // insertTagToolStripMenuItem
             // 
@@ -3970,5 +3987,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator21;
         private System.Windows.Forms.ToolStripMenuItem reloadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem profileTyposToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem categoryToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator24;
     }
 }

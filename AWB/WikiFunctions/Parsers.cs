@@ -1524,8 +1524,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// adds/removes
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
-        /// <param name="ArticleTitle">The old category to remove.</param>
-        /// <returns>The article text without the old category.</returns>
+        /// <param name="ArticleTitle">The article title.</param>
+        /// <returns>The tagged article.</returns>
         public string Tagger(string ArticleText, string ArticleTitle, ref string Summary)
         {
             // don't tag redirects
