@@ -35,16 +35,16 @@ namespace WikiFunctions.Controls.Lists
     public partial class ListComparer : Form
     {
         public ListComparer()
-            : this(null)
-        { }
-
-        public ListComparer(List<Article> list)
         {
             InitializeComponent();
             listMaker1.MakeListEnabled = true;
             listMaker2.MakeListEnabled = true;
-            if (list != null)
-                listMaker1.Add(list);
+        }
+
+        public ListComparer(List<Article> list)
+            : this()
+        {
+            listMaker1.Add(list);
         }
 
         private void GetDuplicates()
