@@ -51,20 +51,19 @@ namespace WikiFunctions
 
         #region Constructors
         public Article()
-        { }
-
-        public Article(string mName)
         {
-            this.mName = mName;
-            this.mNameSpaceKey = Tools.CalculateNS(mName);
             this.EditSummary = "";
         }
 
+        public Article(string mName)
+            : this(mName, Tools.CalculateNS(mName))
+        { }
+
         public Article(string mName, int mNameSpaceKey)
+            : this()
         {
             this.mName = mName;
             this.mNameSpaceKey = mNameSpaceKey;
-            this.EditSummary = "";
         }
 
         public virtual AWBLogListener InitialiseLogListener()
