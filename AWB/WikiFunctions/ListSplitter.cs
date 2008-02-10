@@ -38,18 +38,16 @@ namespace WikiFunctions.Controls.Lists
         List<System.Type> Types;
 
         public ListSplitter(UserPrefs Prefs, List<System.Type> Type)
-        {
-            InitializeComponent();
-            P = Prefs;
-            Types = Type;   
-        }
+            : this(Prefs, Type, null)
+        { }
 
         public ListSplitter(UserPrefs Prefs, List<System.Type> Type, List<Article> list)
         {
             InitializeComponent();
             P = Prefs;
-            Types = Type; 
-            listMaker1.Add(list);
+            Types = Type;
+            if (list != null)
+                listMaker1.Add(list);
         }
 
         private void ListSplitter_Load(object sender, EventArgs e)
