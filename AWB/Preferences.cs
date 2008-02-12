@@ -253,6 +253,9 @@ namespace AutoWikiBrowser
 
         private void btnApply_Click(object sender, EventArgs e)
         {
+            if (chkAutoSaveEdit.Checked && string.IsNullOrEmpty(txtAutosave.Text))
+                chkAutoSaveEdit.Checked = false;
+    
             bool save = false;
 
             if (cmboCustomProject.Visible) FixCustomProject();
