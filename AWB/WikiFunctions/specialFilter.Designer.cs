@@ -106,9 +106,9 @@ namespace WikiFunctions.Lists
             this.chkCategory.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkCategory.Location = new System.Drawing.Point(6, 180);
             this.chkCategory.Name = "chkCategory";
-            this.chkCategory.Size = new System.Drawing.Size(71, 17);
+            this.chkCategory.Size = new System.Drawing.Size(68, 17);
             this.chkCategory.TabIndex = 15;
-            this.chkCategory.Text = "Category:";
+            this.chkCategory.Text = "Category";
             this.chkCategory.UseVisualStyleBackColor = true;
             // 
             // chkTemplate
@@ -118,9 +118,9 @@ namespace WikiFunctions.Lists
             this.chkTemplate.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkTemplate.Location = new System.Drawing.Point(6, 134);
             this.chkTemplate.Name = "chkTemplate";
-            this.chkTemplate.Size = new System.Drawing.Size(73, 17);
+            this.chkTemplate.Size = new System.Drawing.Size(70, 17);
             this.chkTemplate.TabIndex = 11;
-            this.chkTemplate.Text = "Template:";
+            this.chkTemplate.Text = "Template";
             this.chkTemplate.UseVisualStyleBackColor = true;
             // 
             // chkWikipedia
@@ -130,9 +130,9 @@ namespace WikiFunctions.Lists
             this.chkWikipedia.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkWikipedia.Location = new System.Drawing.Point(6, 65);
             this.chkWikipedia.Name = "chkWikipedia";
-            this.chkWikipedia.Size = new System.Drawing.Size(76, 17);
+            this.chkWikipedia.Size = new System.Drawing.Size(73, 17);
             this.chkWikipedia.TabIndex = 5;
-            this.chkWikipedia.Text = "Wikipedia:";
+            this.chkWikipedia.Text = "Wikipedia";
             this.chkWikipedia.UseVisualStyleBackColor = true;
             // 
             // chkUser
@@ -142,9 +142,9 @@ namespace WikiFunctions.Lists
             this.chkUser.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkUser.Location = new System.Drawing.Point(6, 42);
             this.chkUser.Name = "chkUser";
-            this.chkUser.Size = new System.Drawing.Size(51, 17);
+            this.chkUser.Size = new System.Drawing.Size(48, 17);
             this.chkUser.TabIndex = 3;
-            this.chkUser.Text = "User:";
+            this.chkUser.Text = "User";
             this.chkUser.UseVisualStyleBackColor = true;
             // 
             // chkImage
