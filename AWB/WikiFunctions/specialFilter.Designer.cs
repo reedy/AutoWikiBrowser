@@ -485,16 +485,16 @@ namespace WikiFunctions.Lists
             this.cbOpType.Items.AddRange(new object[] {
             "Find difference",
             "Find intersection"});
-            this.cbOpType.Location = new System.Drawing.Point(9, 19);
+            this.cbOpType.Location = new System.Drawing.Point(8, 19);
             this.cbOpType.Name = "cbOpType";
             this.cbOpType.Size = new System.Drawing.Size(169, 21);
             this.cbOpType.TabIndex = 6;
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(91, 251);
+            this.btnClear.Location = new System.Drawing.Point(95, 250);
             this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(53, 23);
+            this.btnClear.Size = new System.Drawing.Size(75, 23);
             this.btnClear.TabIndex = 2;
             this.btnClear.Text = "Clear";
             this.btnClear.UseVisualStyleBackColor = true;
@@ -502,7 +502,7 @@ namespace WikiFunctions.Lists
             // 
             // btnGetList
             // 
-            this.btnGetList.Location = new System.Drawing.Point(9, 251);
+            this.btnGetList.Location = new System.Drawing.Point(14, 251);
             this.btnGetList.Name = "btnGetList";
             this.btnGetList.Size = new System.Drawing.Size(75, 23);
             this.btnGetList.TabIndex = 1;
@@ -553,7 +553,7 @@ namespace WikiFunctions.Lists
             // lbRemove
             // 
             this.lbRemove.FormattingEnabled = true;
-            this.lbRemove.Location = new System.Drawing.Point(9, 45);
+            this.lbRemove.Location = new System.Drawing.Point(8, 45);
             this.lbRemove.Name = "lbRemove";
             this.lbRemove.Size = new System.Drawing.Size(169, 199);
             this.lbRemove.TabIndex = 5;
