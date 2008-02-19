@@ -463,5 +463,15 @@ namespace WikiFunctions.Lists
         {
             list.Clear();
         }
+
+        private void btnTalkOnly_Click(object sender, EventArgs e)
+        {
+            SetSomeChecks(true);
+        }
+
+        private void btnNonTalk_Click(object sender, EventArgs e)
+        {
+            SetSomeChecks(false);
+        }
     }
 }

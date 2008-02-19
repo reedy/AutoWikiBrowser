@@ -66,11 +66,13 @@ namespace WikiFunctions.Lists
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.cbOpType = new System.Windows.Forms.ComboBox();
-            this.lbRemove = new WikiFunctions.Controls.Lists.ListBox2();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnGetList = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.chkRemoveDups = new System.Windows.Forms.CheckBox();
+            this.btnTalkOnly = new System.Windows.Forms.Button();
+            this.btnNonTalk = new System.Windows.Forms.Button();
+            this.lbRemove = new WikiFunctions.Controls.Lists.ListBox2();
             this.contextmenuFilter.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -80,7 +82,7 @@ namespace WikiFunctions.Lists
             // 
             // btnApply
             // 
-            this.btnApply.Location = new System.Drawing.Point(298, 234);
+            this.btnApply.Location = new System.Drawing.Point(258, 263);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(75, 23);
             this.btnApply.TabIndex = 7;
@@ -91,7 +93,7 @@ namespace WikiFunctions.Lists
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(379, 234);
+            this.btnCancel.Location = new System.Drawing.Point(339, 263);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 8;
@@ -104,7 +106,7 @@ namespace WikiFunctions.Lists
             this.chkCategory.AutoSize = true;
             this.chkCategory.Checked = true;
             this.chkCategory.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkCategory.Location = new System.Drawing.Point(6, 180);
+            this.chkCategory.Location = new System.Drawing.Point(12, 180);
             this.chkCategory.Name = "chkCategory";
             this.chkCategory.Size = new System.Drawing.Size(68, 17);
             this.chkCategory.TabIndex = 15;
@@ -116,7 +118,7 @@ namespace WikiFunctions.Lists
             this.chkTemplate.AutoSize = true;
             this.chkTemplate.Checked = true;
             this.chkTemplate.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkTemplate.Location = new System.Drawing.Point(6, 134);
+            this.chkTemplate.Location = new System.Drawing.Point(12, 134);
             this.chkTemplate.Name = "chkTemplate";
             this.chkTemplate.Size = new System.Drawing.Size(70, 17);
             this.chkTemplate.TabIndex = 11;
@@ -128,7 +130,7 @@ namespace WikiFunctions.Lists
             this.chkWikipedia.AutoSize = true;
             this.chkWikipedia.Checked = true;
             this.chkWikipedia.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkWikipedia.Location = new System.Drawing.Point(6, 65);
+            this.chkWikipedia.Location = new System.Drawing.Point(12, 65);
             this.chkWikipedia.Name = "chkWikipedia";
             this.chkWikipedia.Size = new System.Drawing.Size(73, 17);
             this.chkWikipedia.TabIndex = 5;
@@ -140,7 +142,7 @@ namespace WikiFunctions.Lists
             this.chkUser.AutoSize = true;
             this.chkUser.Checked = true;
             this.chkUser.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkUser.Location = new System.Drawing.Point(6, 42);
+            this.chkUser.Location = new System.Drawing.Point(12, 42);
             this.chkUser.Name = "chkUser";
             this.chkUser.Size = new System.Drawing.Size(48, 17);
             this.chkUser.TabIndex = 3;
@@ -152,7 +154,7 @@ namespace WikiFunctions.Lists
             this.chkImage.AutoSize = true;
             this.chkImage.Checked = true;
             this.chkImage.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkImage.Location = new System.Drawing.Point(6, 88);
+            this.chkImage.Location = new System.Drawing.Point(12, 88);
             this.chkImage.Name = "chkImage";
             this.chkImage.Size = new System.Drawing.Size(58, 17);
             this.chkImage.TabIndex = 7;
@@ -214,7 +216,7 @@ namespace WikiFunctions.Lists
             this.chkArticle.AutoSize = true;
             this.chkArticle.Checked = true;
             this.chkArticle.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkArticle.Location = new System.Drawing.Point(6, 19);
+            this.chkArticle.Location = new System.Drawing.Point(12, 19);
             this.chkArticle.Name = "chkArticle";
             this.chkArticle.Size = new System.Drawing.Size(49, 17);
             this.chkArticle.TabIndex = 1;
@@ -226,7 +228,7 @@ namespace WikiFunctions.Lists
             this.chkArticleTalk.AutoSize = true;
             this.chkArticleTalk.Checked = true;
             this.chkArticleTalk.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkArticleTalk.Location = new System.Drawing.Point(105, 19);
+            this.chkArticleTalk.Location = new System.Drawing.Point(111, 19);
             this.chkArticleTalk.Name = "chkArticleTalk";
             this.chkArticleTalk.Size = new System.Drawing.Size(75, 17);
             this.chkArticleTalk.TabIndex = 2;
@@ -238,7 +240,7 @@ namespace WikiFunctions.Lists
             this.chkUserTalk.AutoSize = true;
             this.chkUserTalk.Checked = true;
             this.chkUserTalk.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkUserTalk.Location = new System.Drawing.Point(105, 42);
+            this.chkUserTalk.Location = new System.Drawing.Point(111, 42);
             this.chkUserTalk.Name = "chkUserTalk";
             this.chkUserTalk.Size = new System.Drawing.Size(68, 17);
             this.chkUserTalk.TabIndex = 4;
@@ -250,7 +252,7 @@ namespace WikiFunctions.Lists
             this.chkWikipediaTalk.AutoSize = true;
             this.chkWikipediaTalk.Checked = true;
             this.chkWikipediaTalk.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkWikipediaTalk.Location = new System.Drawing.Point(105, 65);
+            this.chkWikipediaTalk.Location = new System.Drawing.Point(111, 65);
             this.chkWikipediaTalk.Name = "chkWikipediaTalk";
             this.chkWikipediaTalk.Size = new System.Drawing.Size(93, 17);
             this.chkWikipediaTalk.TabIndex = 6;
@@ -262,7 +264,7 @@ namespace WikiFunctions.Lists
             this.chkImageTalk.AutoSize = true;
             this.chkImageTalk.Checked = true;
             this.chkImageTalk.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkImageTalk.Location = new System.Drawing.Point(105, 88);
+            this.chkImageTalk.Location = new System.Drawing.Point(111, 88);
             this.chkImageTalk.Name = "chkImageTalk";
             this.chkImageTalk.Size = new System.Drawing.Size(75, 17);
             this.chkImageTalk.TabIndex = 8;
@@ -272,7 +274,7 @@ namespace WikiFunctions.Lists
             // chkMediaWiki
             // 
             this.chkMediaWiki.AutoSize = true;
-            this.chkMediaWiki.Location = new System.Drawing.Point(6, 111);
+            this.chkMediaWiki.Location = new System.Drawing.Point(12, 111);
             this.chkMediaWiki.Name = "chkMediaWiki";
             this.chkMediaWiki.Size = new System.Drawing.Size(76, 17);
             this.chkMediaWiki.TabIndex = 9;
@@ -282,7 +284,7 @@ namespace WikiFunctions.Lists
             // chkMediaWikiTalk
             // 
             this.chkMediaWikiTalk.AutoSize = true;
-            this.chkMediaWikiTalk.Location = new System.Drawing.Point(105, 111);
+            this.chkMediaWikiTalk.Location = new System.Drawing.Point(111, 111);
             this.chkMediaWikiTalk.Name = "chkMediaWikiTalk";
             this.chkMediaWikiTalk.Size = new System.Drawing.Size(97, 17);
             this.chkMediaWikiTalk.TabIndex = 10;
@@ -294,7 +296,7 @@ namespace WikiFunctions.Lists
             this.chkTemplateTalk.AutoSize = true;
             this.chkTemplateTalk.Checked = true;
             this.chkTemplateTalk.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkTemplateTalk.Location = new System.Drawing.Point(105, 134);
+            this.chkTemplateTalk.Location = new System.Drawing.Point(111, 134);
             this.chkTemplateTalk.Name = "chkTemplateTalk";
             this.chkTemplateTalk.Size = new System.Drawing.Size(90, 17);
             this.chkTemplateTalk.TabIndex = 12;
@@ -304,7 +306,7 @@ namespace WikiFunctions.Lists
             // chkHelp
             // 
             this.chkHelp.AutoSize = true;
-            this.chkHelp.Location = new System.Drawing.Point(6, 157);
+            this.chkHelp.Location = new System.Drawing.Point(12, 157);
             this.chkHelp.Name = "chkHelp";
             this.chkHelp.Size = new System.Drawing.Size(48, 17);
             this.chkHelp.TabIndex = 13;
@@ -314,7 +316,7 @@ namespace WikiFunctions.Lists
             // chkHelpTalk
             // 
             this.chkHelpTalk.AutoSize = true;
-            this.chkHelpTalk.Location = new System.Drawing.Point(105, 157);
+            this.chkHelpTalk.Location = new System.Drawing.Point(111, 157);
             this.chkHelpTalk.Name = "chkHelpTalk";
             this.chkHelpTalk.Size = new System.Drawing.Size(68, 17);
             this.chkHelpTalk.TabIndex = 14;
@@ -326,7 +328,7 @@ namespace WikiFunctions.Lists
             this.chkCategoryTalk.AutoSize = true;
             this.chkCategoryTalk.Checked = true;
             this.chkCategoryTalk.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkCategoryTalk.Location = new System.Drawing.Point(105, 180);
+            this.chkCategoryTalk.Location = new System.Drawing.Point(111, 180);
             this.chkCategoryTalk.Name = "chkCategoryTalk";
             this.chkCategoryTalk.Size = new System.Drawing.Size(88, 17);
             this.chkCategoryTalk.TabIndex = 16;
@@ -336,7 +338,7 @@ namespace WikiFunctions.Lists
             // chkPortal
             // 
             this.chkPortal.AutoSize = true;
-            this.chkPortal.Location = new System.Drawing.Point(6, 203);
+            this.chkPortal.Location = new System.Drawing.Point(12, 203);
             this.chkPortal.Name = "chkPortal";
             this.chkPortal.Size = new System.Drawing.Size(53, 17);
             this.chkPortal.TabIndex = 17;
@@ -346,7 +348,7 @@ namespace WikiFunctions.Lists
             // chkPortalTalk
             // 
             this.chkPortalTalk.AutoSize = true;
-            this.chkPortalTalk.Location = new System.Drawing.Point(105, 203);
+            this.chkPortalTalk.Location = new System.Drawing.Point(111, 203);
             this.chkPortalTalk.Name = "chkPortalTalk";
             this.chkPortalTalk.Size = new System.Drawing.Size(73, 17);
             this.chkPortalTalk.TabIndex = 18;
@@ -400,6 +402,8 @@ namespace WikiFunctions.Lists
             // groupBox1
             // 
             this.groupBox1.ContextMenuStrip = this.contextmenuFilter;
+            this.groupBox1.Controls.Add(this.btnNonTalk);
+            this.groupBox1.Controls.Add(this.btnTalkOnly);
             this.groupBox1.Controls.Add(this.btnSelectNone);
             this.groupBox1.Controls.Add(this.btnSelectAll);
             this.groupBox1.Controls.Add(this.chkArticle);
@@ -422,16 +426,16 @@ namespace WikiFunctions.Lists
             this.groupBox1.Controls.Add(this.chkImageTalk);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(261, 251);
+            this.groupBox1.Size = new System.Drawing.Size(220, 285);
             this.groupBox1.TabIndex = 32;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Namespaces to keep";
             // 
             // btnSelectNone
             // 
-            this.btnSelectNone.Location = new System.Drawing.Point(129, 222);
+            this.btnSelectNone.Location = new System.Drawing.Point(113, 222);
             this.btnSelectNone.Name = "btnSelectNone";
-            this.btnSelectNone.Size = new System.Drawing.Size(75, 23);
+            this.btnSelectNone.Size = new System.Drawing.Size(92, 23);
             this.btnSelectNone.TabIndex = 20;
             this.btnSelectNone.Text = "Deselect all";
             this.btnSelectNone.UseVisualStyleBackColor = true;
@@ -439,9 +443,9 @@ namespace WikiFunctions.Lists
             // 
             // btnSelectAll
             // 
-            this.btnSelectAll.Location = new System.Drawing.Point(48, 222);
+            this.btnSelectAll.Location = new System.Drawing.Point(15, 222);
             this.btnSelectAll.Name = "btnSelectAll";
-            this.btnSelectAll.Size = new System.Drawing.Size(75, 23);
+            this.btnSelectAll.Size = new System.Drawing.Size(92, 23);
             this.btnSelectAll.TabIndex = 19;
             this.btnSelectAll.Text = "Select all";
             this.btnSelectAll.UseVisualStyleBackColor = true;
@@ -454,7 +458,7 @@ namespace WikiFunctions.Lists
             this.groupBox2.Controls.Add(this.txtContains);
             this.groupBox2.Controls.Add(this.chkContains);
             this.groupBox2.Controls.Add(this.chkNotContains);
-            this.groupBox2.Location = new System.Drawing.Point(279, 12);
+            this.groupBox2.Location = new System.Drawing.Point(238, 12);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(192, 151);
             this.groupBox2.TabIndex = 33;
@@ -467,9 +471,9 @@ namespace WikiFunctions.Lists
             this.groupBox3.Controls.Add(this.lbRemove);
             this.groupBox3.Controls.Add(this.btnClear);
             this.groupBox3.Controls.Add(this.btnGetList);
-            this.groupBox3.Location = new System.Drawing.Point(478, 13);
+            this.groupBox3.Location = new System.Drawing.Point(437, 12);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(184, 250);
+            this.groupBox3.Size = new System.Drawing.Size(184, 285);
             this.groupBox3.TabIndex = 34;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Set operations";
@@ -486,17 +490,9 @@ namespace WikiFunctions.Lists
             this.cbOpType.Size = new System.Drawing.Size(169, 21);
             this.cbOpType.TabIndex = 6;
             // 
-            // lbRemove
-            // 
-            this.lbRemove.FormattingEnabled = true;
-            this.lbRemove.Location = new System.Drawing.Point(9, 45);
-            this.lbRemove.Name = "lbRemove";
-            this.lbRemove.Size = new System.Drawing.Size(169, 173);
-            this.lbRemove.TabIndex = 5;
-            // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(91, 221);
+            this.btnClear.Location = new System.Drawing.Point(91, 251);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(53, 23);
             this.btnClear.TabIndex = 2;
@@ -506,7 +502,7 @@ namespace WikiFunctions.Lists
             // 
             // btnGetList
             // 
-            this.btnGetList.Location = new System.Drawing.Point(9, 221);
+            this.btnGetList.Location = new System.Drawing.Point(9, 251);
             this.btnGetList.Name = "btnGetList";
             this.btnGetList.Size = new System.Drawing.Size(75, 23);
             this.btnGetList.TabIndex = 1;
@@ -517,7 +513,7 @@ namespace WikiFunctions.Lists
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.chkRemoveDups);
-            this.groupBox4.Location = new System.Drawing.Point(280, 169);
+            this.groupBox4.Location = new System.Drawing.Point(239, 169);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(192, 55);
             this.groupBox4.TabIndex = 35;
@@ -534,19 +530,47 @@ namespace WikiFunctions.Lists
             this.chkRemoveDups.Text = "Remove Duplicates";
             this.chkRemoveDups.UseVisualStyleBackColor = true;
             // 
+            // btnTalkOnly
+            // 
+            this.btnTalkOnly.Location = new System.Drawing.Point(15, 251);
+            this.btnTalkOnly.Name = "btnTalkOnly";
+            this.btnTalkOnly.Size = new System.Drawing.Size(92, 23);
+            this.btnTalkOnly.TabIndex = 21;
+            this.btnTalkOnly.Text = "Talk Only";
+            this.btnTalkOnly.UseVisualStyleBackColor = true;
+            this.btnTalkOnly.Click += new System.EventHandler(this.btnTalkOnly_Click);
+            // 
+            // btnNonTalk
+            // 
+            this.btnNonTalk.Location = new System.Drawing.Point(113, 251);
+            this.btnNonTalk.Name = "btnNonTalk";
+            this.btnNonTalk.Size = new System.Drawing.Size(92, 23);
+            this.btnNonTalk.TabIndex = 22;
+            this.btnNonTalk.Text = "Non-Talk Only";
+            this.btnNonTalk.UseVisualStyleBackColor = true;
+            this.btnNonTalk.Click += new System.EventHandler(this.btnNonTalk_Click);
+            // 
+            // lbRemove
+            // 
+            this.lbRemove.FormattingEnabled = true;
+            this.lbRemove.Location = new System.Drawing.Point(9, 45);
+            this.lbRemove.Name = "lbRemove";
+            this.lbRemove.Size = new System.Drawing.Size(169, 199);
+            this.lbRemove.TabIndex = 5;
+            // 
             // specialFilter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(669, 275);
+            this.ClientSize = new System.Drawing.Size(631, 309);
             this.ControlBox = false;
-            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox4);
-            this.Controls.Add(this.btnApply);
             this.Controls.Add(this.btnCancel);
+            this.Controls.Add(this.btnApply);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "specialFilter";
             this.ShowIcon = false;
@@ -611,5 +635,7 @@ namespace WikiFunctions.Lists
         private System.Windows.Forms.ComboBox cbOpType;
         private System.Windows.Forms.Button btnSelectNone;
         private System.Windows.Forms.Button btnSelectAll;
+        private System.Windows.Forms.Button btnNonTalk;
+        private System.Windows.Forms.Button btnTalkOnly;
     }
 }
