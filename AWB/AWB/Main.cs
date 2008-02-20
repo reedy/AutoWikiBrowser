@@ -631,6 +631,11 @@ namespace AutoWikiBrowser
                     SkipPage("No change");
                     return;
                 }
+                else if (chkSkipWhitespace.Checked && (Regex.Replace(TheArticle.OriginalArticleText, @"\s+", @"") == Regex.Replace(TheArticle.ArticleText, @"\s+", @"")))
+                {
+                    SkipPage("Only whitespace changed");
+                    return;
+                }
                 else if (!Abort && TheArticle.SkipArticle)
                 {
                     SkipPageReasonAlreadyProvided(); // Don't send a reason; ProcessPage() should already have logged one
@@ -969,7 +974,7 @@ namespace AutoWikiBrowser
                     if (theArticle.SkipArticle) return;
                 }
 
-                prof.Profile("Custom module");
+                prof.Profile("External Program");
 
                 if (Plugin.Items.Count > 0)
                 {

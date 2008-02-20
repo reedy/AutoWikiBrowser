@@ -303,7 +303,7 @@ namespace WikiFunctions.AWBSettings
         public SkipPrefs(bool mSkipNonexistent, bool mSkipexistent, bool mSkipWhenNoChanges, bool mSkipWhenSpamFilterBlocked, bool mSkipInuse, bool mSkipDoes,
             bool mSkipDoesNot, string mSkipDoesText, string mSkipDoesNotText, bool mRegex, bool mCaseSensitive,
             bool mSkipNoFindAndReplace, bool mSkipNoRegexTypoFix, bool mSkipNoDisambiguation,
-            string mGeneralSkip)
+            bool mSkipWhitespaceOnly, string mGeneralSkip)
         {
             SkipNonexistent=mSkipNonexistent;
             Skipexistent=mSkipexistent;
@@ -320,6 +320,7 @@ namespace WikiFunctions.AWBSettings
             SkipNoRegexTypoFix=mSkipNoRegexTypoFix;
             SkipNoDisambiguation=mSkipNoDisambiguation;
             GeneralSkip=mGeneralSkip;
+            SkipWhenOnlyWhitespaceChanged = mSkipWhitespaceOnly;
         }
 
         public bool SkipNonexistent = true;
@@ -327,6 +328,7 @@ namespace WikiFunctions.AWBSettings
         public bool SkipWhenNoChanges = false;
         public bool SkipSpamFilterBlocked = false;
         public bool SkipInuse = false;
+        public bool SkipWhenOnlyWhitespaceChanged = true;
 
         public bool SkipDoes = false;
         public bool SkipDoesNot = false;

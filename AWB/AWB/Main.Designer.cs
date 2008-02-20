@@ -368,6 +368,7 @@ namespace AutoWikiBrowser
             this.toolStripSeparatorMakeFromTextBox = new System.Windows.Forms.ToolStripSeparator();
             this.mnuCopyToCategoryLog = new System.Windows.Forms.ToolStripMenuItem();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
+            this.chkSkipWhitespace = new System.Windows.Forms.CheckBox();
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -455,7 +456,7 @@ namespace AutoWikiBrowser
             this.undoAllChangesToolStripMenuItem,
             this.reloadEditPageToolStripMenuItem});
             this.mnuTextBox.Name = "contextMenuStrip1";
-            this.mnuTextBox.Size = new System.Drawing.Size(234, 574);
+            this.mnuTextBox.Size = new System.Drawing.Size(234, 552);
             this.mnuTextBox.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // wordWrapToolStripMenuItem1
@@ -2360,6 +2361,7 @@ namespace AutoWikiBrowser
             // 
             // groupBox8
             // 
+            this.groupBox8.Controls.Add(this.chkSkipWhitespace);
             this.groupBox8.Controls.Add(this.chkSkipIfInuse);
             this.groupBox8.Controls.Add(this.chkSkipSpamFilter);
             this.groupBox8.Controls.Add(this.chkSkipExistent);
@@ -3568,6 +3570,18 @@ namespace AutoWikiBrowser
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
             // 
+            // chkSkipWhitespace
+            // 
+            this.chkSkipWhitespace.AutoSize = true;
+            this.chkSkipWhitespace.Location = new System.Drawing.Point(162, 113);
+            this.chkSkipWhitespace.Name = "chkSkipWhitespace";
+            this.chkSkipWhitespace.Size = new System.Drawing.Size(104, 17);
+            this.chkSkipWhitespace.TabIndex = 35;
+            this.chkSkipWhitespace.Text = "Skip whitespace";
+            this.toolTip1.SetToolTip(this.chkSkipWhitespace, "Automatically skips articles when only whitespace changes were automatically made" +
+                    "");
+            this.chkSkipWhitespace.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -3989,5 +4003,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem profileTyposToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem categoryToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator24;
+        private System.Windows.Forms.CheckBox chkSkipWhitespace;
     }
 }
