@@ -539,6 +539,12 @@
   <metadata name="EditBoxSaveTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>224, 50</value>
   </metadata>
+  <metadata name="ShutdownTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>682, 48</value>
+  </metadata>
+  <metadata name="mnuMakeFromTextBox.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>820, 48</value>
+  </metadata>
   <data name="loggingSettings1.SerialisableSettings" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAERXaWtpRnVuY3Rpb25zLCBWZXJzaW9uPTQuMi4xLjEsIEN1bHR1
@@ -547,15 +553,9 @@
         b2FkQWRkVG9XYXRjaGxpc3QTVXBsb2FkT3BlbkluQnJvd3NlchRVcGxvYWRUb1dpa2lQcm9qZWN0cw5E
         ZWJ1Z1VwbG9hZGluZw5VcGxvYWRNYXhMaW5lcwlMb2dGb2xkZXINVXBsb2FkSm9iTmFtZQ5VcGxvYWRM
         b2NhdGlvbg9Mb2dDYXRlZ29yeU5hbWUAAAAAAAAAAAABAQEBAQEBAQEBAQEIAgAAAAAAAAABAQEA6AMA
-        AAYDAAAAAAYEAAAACSRDQVRFR09SWQYFAAAACiRVU0VSL0xvZ3MGBgAAAAAL
+        AAYDAAAAAAYEAAAACSRDQVRFR09SWQYFAAAACiRVU0VSL0xvZ3MJAwAAAAs=
 </value>
   </data>
-  <metadata name="ShutdownTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>682, 48</value>
-  </metadata>
-  <metadata name="mnuMakeFromTextBox.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>820, 48</value>
-  </metadata>
   <metadata name="NudgeTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>120, 50</value>
   </metadata>
