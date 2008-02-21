@@ -631,7 +631,8 @@ namespace AutoWikiBrowser
                     SkipPage("No change");
                     return;
                 }
-                else if (chkSkipWhitespace.Checked && (Regex.Replace(TheArticle.OriginalArticleText, @"\s+", @"") == Regex.Replace(TheArticle.ArticleText, @"\s+", @"")))
+                else if (chkSkipWhitespace.Checked &&
+                    (string.Compare(Regex.Replace(TheArticle.OriginalArticleText, @"\s+", @""), Regex.Replace(TheArticle.ArticleText, @"\s+", @"")) == 0))
                 {
                     SkipPage("Only whitespace changed");
                     return;
