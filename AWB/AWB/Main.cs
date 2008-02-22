@@ -1070,6 +1070,9 @@ namespace AutoWikiBrowser
                             prof.Profile("FixReferenceTags");
                         }
 
+                        theArticle.AWBChangeArticleText("Fix whitespace in links", parsers.FixLinkWhitespace(theArticle.ArticleText), true);
+                        prof.Profile("FixLinkWhitespace");
+
                         theArticle.AWBChangeArticleText("Fix empty links and templates", parsers.FixEmptyLinksAndTemplates(theArticle.ArticleText), true);
                         prof.Profile("FixEmptyLinksAndTemplates");
 
