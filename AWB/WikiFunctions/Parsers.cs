@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 Copyright (C) 2007 Martin Richards
 
@@ -567,7 +567,7 @@ namespace WikiFunctions.Parse
             //remove undesirable space from end of wikilink and move it outside link (up to 30 characters in wikilink)
             ArticleText = Regex.Replace(ArticleText, @"\[\[([^\]]{1,30}) \]\]", "$1 ");
             //remove undesirable double space from middle of wikilink (up to 61 characters in wikilink)
-            ArticleText = Regex.Replace(ArticleText, @"\[\[([^\]]{1,30})  ([^\]]{1,30})\]\]", "$1 $2 ");
+	    ArticleText = Regex.Replace(ArticleText, @"\[\[([^\]]{1,30})  ([^\]]{1,30})\]\]", "$1 $2");
 
             //remove undesirable double space between links in date (day first)
             ArticleText = Regex.Replace(ArticleText, @"(?i)(\[\[\d\d? (?:January|February|March|April|May|June|July|August|September|October|November|December)\]\]),? ? ?(\[\[\d{1,4}\]\])", "$1 $2");
