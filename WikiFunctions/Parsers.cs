@@ -556,6 +556,28 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
+        /// Fix leading, trailing and middle spaces in Wikilinks
+        /// </summary>
+        /// <param name="ArticleText">The wiki text of the article</param>
+        /// <returns>The modified article text.</returns>
+        public string FixLinkWhitespace(string ArticleText)
+        {
+            //remove undesirable space from beginning of wikilink and move it outside link (up to 30 characters in wikilink)
+            ArticleText = Regex.Replace(ArticleText, @"\[\[ ([^\]]{1,30})\]\]", " $1");
+            //remove undesirable space from end of wikilink and move it outside link (up to 30 characters in wikilink)
+            ArticleText = Regex.Replace(ArticleText, @"\[\[([^\]]{1,30}) \]\]", "$1 ");
+            //remove undesirable double space from middle of wikilink (up to 61 characters in wikilink)
+            ArticleText = Regex.Replace(ArticleText, @"\[\[([^\]]{1,30})  ([^\]]{1,30})\]\]", "$1 $2 ");
+
+            //remove undesirable double space between links in date (day first)
+            ArticleText = Regex.Replace(ArticleText, @"(?i)(\[\[\d\d? (?:January|February|March|April|May|June|July|August|September|October|November|December)\]\]),? ? ?(\[\[\d{1,4}\]\])", "$1 $2");
+            //remove undesirable double space between links in date (day second)
+            ArticleText = Regex.Replace(ArticleText, @"(?i)(\[\[(?:January|February|March|April|May|June|July|August|September|October|November|December) \d\d?\]\]),? ? ?(\[\[\d{1,4}\]\])", "$1 $2");
+
+            return ArticleText;
+        }
+
+        /// <summary>
         /// Fixes link syntax
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
