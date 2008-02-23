@@ -393,8 +393,7 @@ namespace WikiFunctions.Parse
             ArticleText = Regex.Replace(ArticleText, "^(={1,4}) ?(.*?) ?(={1,4})$", "$1$2$3", RegexOptions.Multiline);
 
             //fix dash spacing
-            ArticleText = Regex.Replace(ArticleText, " ?(–|—|&#15[01];|&[nm]dash;|&#821[12];|&#x201[34];) ?", "$1");
-            ArticleText = Regex.Replace(ArticleText, "(—|&#151;|&mdash;|&#8212;|&#x2014;|–|&#150;|&ndash;|&#8211;|&#x2013;)", " $1 ");
+            ArticleText = Regex.Replace(ArticleText, " (–|—|&#15[01];|&[nm]dash;|&#821[12];|&#x201[34];) ", "$1");
 
             return ArticleText.Trim();
         }
