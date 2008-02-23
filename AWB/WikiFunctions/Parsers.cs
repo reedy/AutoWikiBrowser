@@ -159,8 +159,8 @@ namespace WikiFunctions.Parse
         //readonly Regex regexFixDates1 = new Regex("(January|February|March|April|May|June|July|August|September|October|November|December) ([1-9][0-9]?)(?:st|nd|rd|th)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         //readonly Regex regexFixDates2 = new Regex("([1-9][0-9]?)(?:st|nd|rd|th) (January|February|March|April|May|June|July|August|September|October|November|December)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex regexHeadings0 = new Regex("(== ?)(see also:?|related topics:?|related articles:?|internal links:?|also see:?)( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        readonly Regex regexHeadings1 = new Regex("(== ?)(external links:?|external sites:?|outside links|web ?links:?|exterior links:?)( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        readonly Regex regexHeadings2 = new Regex("(== ?)(external link:?|external site:?|web ?link:?|exterior link:?)( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex regexHeadings1 = new Regex("(== ?)(external link[s]?:?|external site[s]?:?|outside link[s]?|web ?link[s]?:?|exterior link[s]?:?)( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        //readonly Regex regexHeadings2 = new Regex("(== ?)(external link:?|external site:?|web ?link:?|exterior link:?)( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex regexHeadings3 = new Regex("(== ?)(referen[sc]e:?)(s? ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex regexHeadings4 = new Regex("(== ?)(source:?)(s? ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex regexHeadings5 = new Regex("(== ?)(further readings?:?)( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -202,7 +202,7 @@ namespace WikiFunctions.Parse
                 ArticleText = regexHeadings0.Replace(ArticleText, "$1See also$3");
 
             ArticleText = regexHeadings1.Replace(ArticleText, "$1External links$3");
-            ArticleText = regexHeadings2.Replace(ArticleText, "$1External link$3");
+            //ArticleText = regexHeadings2.Replace(ArticleText, "$1External link$3");
             ArticleText = regexHeadings3.Replace(ArticleText, "$1Reference$3");
             ArticleText = regexHeadings4.Replace(ArticleText, "$1Source$3");
             ArticleText = regexHeadings5.Replace(ArticleText, "$1Further reading$3");
