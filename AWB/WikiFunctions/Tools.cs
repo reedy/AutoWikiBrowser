@@ -377,14 +377,14 @@ namespace WikiFunctions
             if (!string.IsNullOrEmpty(input))
             {
                 input = input.Trim();
-                string result = "";
+                StringBuilder builder = new StringBuilder();
                 for (int i = 0; i <= input.Length - 1; i++)
                 {
                     if (char.IsLetter(input[i]))
-                        result = result + "[" + char.ToUpper(input[i]) + char.ToLower(input[i]) + "]";
-                    else result = result + input[i];
+                        builder.Append("[" + char.ToUpper(input[i]) + char.ToLower(input[i]) + "]");
+                    else builder.Append(input[i]);
                 }
-                return result;
+                return builder.ToString();
             }
             else
                 return input;
@@ -959,7 +959,7 @@ Message: {2}
                     if (includeComment)
                         result = result + "<!-- " + call + " -->";
 
-                        ArticleText = ArticleText.Replace(call, result);
+                    ArticleText = ArticleText.Replace(call, result);
                 }
             }
 
@@ -975,13 +975,12 @@ Message: {2}
         {
             try
             {
-                string clipboardData = "";
+                StringBuilder builder = new StringBuilder();
                 for (int i = 0; i < box.SelectedItems.Count; i++)
                 {
-                    clipboardData += "\r\n" + box.SelectedItems[i];
+                    builder.AppendLine(box.SelectedItems[i].ToString());
                 }
-                clipboardData = clipboardData.Substring(2);
-                Clipboard.SetDataObject(clipboardData, true);
+                Clipboard.SetDataObject(builder.ToString().Trim(), true);
             }
             catch { }
         }
@@ -994,14 +993,12 @@ Message: {2}
         {
             try
             {
-                string clipboardData = "";
+                StringBuilder builder = new StringBuilder();
                 foreach (ListViewItem a in view.SelectedItems)
                 {
-                    string text = a.Text;
-                    if (clipboardData.Length > 0) clipboardData += "\r\n";
-                    clipboardData += text;
+                    builder.AppendLine(a.Text);
                 }
-                Clipboard.SetDataObject(clipboardData, true);
+                Clipboard.SetDataObject(builder.ToString().Trim(), true);
             }
             catch { }
         }

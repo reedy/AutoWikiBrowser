@@ -192,15 +192,14 @@ namespace AutoWikiBrowser
             Microsoft.Win32.RegistryKey reg = Microsoft.Win32.Registry.CurrentUser.
                     CreateSubKey("Software\\Wikipedia\\AutoWikiBrowser");
 
-            string list = "";
+            StringBuilder builder = new StringBuilder();
             foreach (string s in RecentList)
             {
-                if (!string.IsNullOrEmpty(list))
-                    list += "|";
-                list += s;
+                if (!string.IsNullOrEmpty(s))
+                    builder.Append(s + "|");
             }
-
-            reg.SetValue("RecentList", list);
+            string str = builder.ToString();
+            reg.SetValue("RecentList", str.Substring(0, (str.Length - 1)));
         }
 
         private void RecentSettingsClick(object sender, EventArgs e)
