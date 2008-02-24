@@ -227,7 +227,7 @@ namespace WikiFunctions.Disambiguation
                     txtCorrection.Text = parse.StickyLinks(Surroundings.Replace(Match.Value, CurrentLink));
                 }
 
-                btnUnpipe.Enabled = CurrentLink.Contains("|");
+                btnUnpipe.Enabled = btnFlip.Enabled = CurrentLink.Contains("|");
                 if (Changed != null) Changed(this, new EventArgs());
             }
             catch (Exception ex)
@@ -279,6 +279,14 @@ namespace WikiFunctions.Disambiguation
 
         private void txtCorrection_TextChanged(object sender, EventArgs e)
         {
+            if (Changed != null) Changed(this, new EventArgs());
+        }
+
+        private void btnFlip_Click(object sender, EventArgs e)
+        {
+            string newLink = Regex.Replace(CurrentLink, @"\[\[(.*)\|(.*)\]\]", "[[$2|$1]]");
+            txtCorrection.Text = txtCorrection.Text.Replace(CurrentLink, newLink);
+            CurrentLink = newLink;
             if (Changed != null) Changed(this, new EventArgs());
         }
     }
