@@ -554,9 +554,12 @@ namespace WikiFunctions.Parse
             link = link.Replace(m.Value, Encoding.UTF8.GetString(dest, 0, DestCount));
         }
 
-        readonly Regex LinkWhitespace1 = new Regex(@"\[\[ ([^\]]{1,30})\]\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        readonly Regex LinkWhitespace2 = new Regex(@"\[\[([^\]]{1,30}) \]\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex LinkWhitespace1 = new Regex(@" \[\[ ([^\]]{1,30})\]\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex LinkWhitespace2 = new Regex(@"\[\[ ([^\]]{1,30})\]\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex LinkWhitespace3 = new Regex(@"\[\[([^\]]{1,30})  ([^\]]{1,30})\]\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex LinkWhitespace4 = new Regex(@"\[\[([^\]]{1,30}) \]\] ", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex LinkWhitespace5 = new Regex(@"\[\[([^\]]{1,30}) \]\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
         readonly Regex DateLinkWhitespace1 = new Regex(@"(?i)(\[\[\d\d? (?:January|February|March|April|May|June|July|August|September|October|November|December)\]\]),? ? ?(\[\[\d{1,4}\]\])", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex DateLinkWhitespace2 = new Regex(@"(?i)(\[\[(?:January|February|March|April|May|June|July|August|September|October|November|December) \d\d?\]\]),? ? ?(\[\[\d{1,4}\]\])", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
@@ -567,17 +570,25 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public string FixLinkWhitespace(string ArticleText)
         {
-            //remove undesirable space from beginning of wikilink and move it outside link (up to 30 characters in wikilink)
+            //remove undesirable space from beginning of wikilink (space before wikilink) - parse this line first
             if (LinkWhitespace1.Match(ArticleText).Success)
                 ArticleText = LinkWhitespace1.Replace(ArticleText, " [[$1]]");
 
-            //remove undesirable space from end of wikilink and move it outside link (up to 30 characters in wikilink)
+            //remove undesirable space from beginning of wikilink and move it outside link - parse this line second
             if (LinkWhitespace2.Match(ArticleText).Success)
-                ArticleText = LinkWhitespace2.Replace(ArticleText, "[[$1]] ");
+                ArticleText = LinkWhitespace2.Replace(ArticleText, " [[$1]]");
 
             //remove undesirable double space from middle of wikilink (up to 61 characters in wikilink)
             if (LinkWhitespace3.Match(ArticleText).Success)
                 ArticleText = LinkWhitespace3.Replace(ArticleText, "[[$1 $2]]");
+
+            //remove undesirable space from end of wikilink (space after wikilink) - parse this line first
+            if (LinkWhitespace3.Match(ArticleText).Success)
+                ArticleText = LinkWhitespace3.Replace(ArticleText, "[[$1]] ");
+
+            //remove undesirable space from end of wikilink and move it outside link - parse this line second
+            if (LinkWhitespace4.Match(ArticleText).Success)
+                ArticleText = LinkWhitespace4.Replace(ArticleText, "[[$1]] ");
 
             //remove undesirable double space between links in date (day first)
             if (DateLinkWhitespace1.Match(ArticleText).Success)
