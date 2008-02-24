@@ -34,6 +34,7 @@ namespace WikiFunctions.Disambiguation
             this.btnReset = new System.Windows.Forms.Button();
             this.btnUndo = new System.Windows.Forms.Button();
             this.btnUnpipe = new System.Windows.Forms.Button();
+            this.btnFlip = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtViewer
@@ -75,9 +76,9 @@ namespace WikiFunctions.Disambiguation
             // btnReset
             // 
             this.btnReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnReset.Location = new System.Drawing.Point(441, 104);
+            this.btnReset.Location = new System.Drawing.Point(482, 104);
             this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(75, 23);
+            this.btnReset.Size = new System.Drawing.Size(55, 23);
             this.btnReset.TabIndex = 3;
             this.btnReset.Text = "&Reset";
             this.btnReset.UseVisualStyleBackColor = true;
@@ -86,9 +87,9 @@ namespace WikiFunctions.Disambiguation
             // btnUndo
             // 
             this.btnUndo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnUndo.Location = new System.Drawing.Point(522, 104);
+            this.btnUndo.Location = new System.Drawing.Point(543, 104);
             this.btnUndo.Name = "btnUndo";
-            this.btnUndo.Size = new System.Drawing.Size(75, 23);
+            this.btnUndo.Size = new System.Drawing.Size(55, 23);
             this.btnUndo.TabIndex = 4;
             this.btnUndo.Text = "&Undo";
             this.btnUndo.UseVisualStyleBackColor = true;
@@ -99,14 +100,26 @@ namespace WikiFunctions.Disambiguation
             this.btnUnpipe.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnUnpipe.Location = new System.Drawing.Point(360, 104);
             this.btnUnpipe.Name = "btnUnpipe";
-            this.btnUnpipe.Size = new System.Drawing.Size(75, 23);
+            this.btnUnpipe.Size = new System.Drawing.Size(55, 23);
             this.btnUnpipe.TabIndex = 2;
             this.btnUnpipe.Text = "Un&pipe";
             this.btnUnpipe.UseVisualStyleBackColor = true;
             this.btnUnpipe.Click += new System.EventHandler(this.btnUnpipe_Click);
             // 
+            // btnFlip
+            // 
+            this.btnFlip.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnFlip.Location = new System.Drawing.Point(421, 104);
+            this.btnFlip.Name = "btnFlip";
+            this.btnFlip.Size = new System.Drawing.Size(55, 23);
+            this.btnFlip.TabIndex = 6;
+            this.btnFlip.Text = "&Flip";
+            this.btnFlip.UseVisualStyleBackColor = true;
+            this.btnFlip.Click += new System.EventHandler(this.btnFlip_Click);
+            // 
             // DabControl
             // 
+            this.Controls.Add(this.btnFlip);
             this.Controls.Add(this.btnUnpipe);
             this.Controls.Add(this.btnUndo);
             this.Controls.Add(this.btnReset);
@@ -132,6 +145,7 @@ namespace WikiFunctions.Disambiguation
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.Button btnUndo;
         private System.Windows.Forms.Button btnUnpipe;
+        private System.Windows.Forms.Button btnFlip;
 
     }
 }
