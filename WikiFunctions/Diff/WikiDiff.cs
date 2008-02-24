@@ -131,7 +131,7 @@ namespace WikiFunctions
 		</tr>");
         }
 
-        void WordDiff(StringBuilder res, Range range, Range otherRange, IList<Word> words, IList<Word> otherWords)
+        static void WordDiff(StringBuilder res, Range range, Range otherRange, IList<Word> words, IList<Word> otherWords)
         {
             bool open = false;
 
@@ -153,7 +153,7 @@ namespace WikiFunctions
             if (open) res.Append("</span>");
         }
 
-        void WhitespaceDiff(StringBuilder res, Word left, Word right)
+        static void WhitespaceDiff(StringBuilder res, Word left, Word right)
         {
             if (left.Whitespace == right.Whitespace) res.Append(HttpUtility.HtmlEncode(right.ToString()));
             else
@@ -399,10 +399,10 @@ td.diff-addedline span.diffchange {
         /// Too slow, don't use
         /// </summary>
         /// <param name="all">Word with whitespace</param>
-        public Word(string all)
-            : this(Regex.Match(all, @"\S*").Value, Regex.Match(all, @"\s*").Value)
-        {
-        }
+        //public Word(string all)
+        //    : this(Regex.Match(all, @"\S*").Value, Regex.Match(all, @"\s*").Value)
+        //{
+        //}
 
         public static WordComparer Comparer = new WordComparer();
 

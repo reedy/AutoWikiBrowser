@@ -468,12 +468,12 @@ namespace WikiFunctions.IRC
 
         private void IrcPing(string[] ircCommand)
         {
-            string pingHash = "";
+            System.Text.StringBuilder builder = new System.Text.StringBuilder();
             for (int intI = 1; intI < ircCommand.Length; intI++)
             {
-                pingHash += ircCommand[intI] + " ";
+                builder.Append(ircCommand[intI] + " ");
             }
-            IrcWriter.WriteLine("PONG " + pingHash);
+            IrcWriter.WriteLine("PONG " + builder.ToString());
             IrcWriter.Flush();
         } /* IrcPing */
 

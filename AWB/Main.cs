@@ -201,7 +201,8 @@ namespace AutoWikiBrowser
             {
                 mSettingsFile = value;
                 mSettingsFileDisplay = "AutoWikiBrowser";
-                if (value != "") mSettingsFileDisplay += " - " + value.Remove(0, value.LastIndexOf("\\") + 1);
+                if (!string.IsNullOrEmpty(value))
+                    mSettingsFileDisplay += " - " + value.Remove(0, value.LastIndexOf("\\") + 1);
                 this.Text = SettingsFileDisplay;
 
                 if (SettingsFileDisplay.Length > 64)
@@ -3374,7 +3375,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void LoadUserTalkWarnings()
         {
-            string finalRegex = "\\{\\{ ?(template:)? ?((";
+            StringBuilder builder = new StringBuilder("\\{\\{ ?(template:)? ?((");
             Regex userTalkTemplate = new Regex(@"# \[\[Template:(.*?)\]\]");
             try
             {
@@ -3390,7 +3391,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 {
                     try
                     {
-                        finalRegex = finalRegex + m.Groups[1].Value + "|";
+                        builder.Append(m.Groups[1].Value + "|");
                     }
                     catch { }
                 }
@@ -3399,9 +3400,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             {
                 ErrorHandler.Handle(ex);
             }
-            finalRegex = finalRegex.Trim('|') + ") ?(\\|.*?)?) ?\\}\\}";
+            builder.Remove((builder.Length - 1), 1);
+            builder.Append(") ?(\\|.*?)?) ?\\}\\}");
             userTalkWarningsLoaded = true;
-            userTalkTemplatesRegex = new Regex(finalRegex, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            userTalkTemplatesRegex = new Regex(builder.ToString(), RegexOptions.Compiled | RegexOptions.IgnoreCase);
         }
 
         private void undoAllChangesToolStripMenuItem_Click(object sender, EventArgs e)

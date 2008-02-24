@@ -1681,7 +1681,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
             private set { strCheckPage = value; }
         }
 
-        private string AWBVersion
+        private static string AWBVersion
         { get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); } }
     }
     #endregion
