@@ -118,10 +118,10 @@ namespace AutoWikiBrowser
                 }
                 if (results.Errors.Count > 0)
                 {
-                    StringBuilder builder = new StringBuilder("Compilation failed:\r\n");
+                    StringBuilder builder = new StringBuilder("Compilation failed:");
                     foreach (CompilerError err in results.Errors)
                     {
-                        builder.Append(String.Format("Error: {0}\r\nLine: {1}\r\nNumber: {2}\r\n\r\n", err.ErrorText, err.Line, err.ErrorNumber));
+                        builder.AppendLine(String.Format("Error: {0}\r\nLine: {1}\r\nNumber: {2}\r\n", err.ErrorText, err.Line, err.ErrorNumber));
                     }
 
                     MessageBox.Show(this, builder.ToString(), "There were compilation errors");
