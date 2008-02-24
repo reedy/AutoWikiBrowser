@@ -569,7 +569,7 @@ namespace WikiFunctions.Parse
         {
             //remove undesirable space from beginning of wikilink and move it outside link (up to 30 characters in wikilink)
             if (LinkWhitespace1.Match(ArticleText).Success)
-                ArticleText = LinkWhitespace1.Replace(ArticleText, "[[$1]]");
+                ArticleText = LinkWhitespace1.Replace(ArticleText, " [[$1]]");
 
             //remove undesirable space from end of wikilink and move it outside link (up to 30 characters in wikilink)
             if (LinkWhitespace2.Match(ArticleText).Success)
@@ -581,11 +581,11 @@ namespace WikiFunctions.Parse
 
             //remove undesirable double space between links in date (day first)
             if (DateLinkWhitespace1.Match(ArticleText).Success)
-                ArticleText = DateLinkWhitespace1.Replace(ArticleText, "[[$1 $2]]");
+                ArticleText = DateLinkWhitespace1.Replace(ArticleText, "$1 $2");
 
             //remove undesirable double space between links in date (day second)
             if (DateLinkWhitespace2.Match(ArticleText).Success)
-                ArticleText = DateLinkWhitespace2.Replace(ArticleText, "[[$1 $2]]");
+                ArticleText = DateLinkWhitespace2.Replace(ArticleText, "$1 $2");
 
             return ArticleText;
         }
