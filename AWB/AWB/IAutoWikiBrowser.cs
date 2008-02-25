@@ -33,6 +33,7 @@ namespace AutoWikiBrowser
         WikiFunctions.Logging.Uploader.UploadableLogSettings2 IAutoWikiBrowser.LoggingSettings { get { return Program.MyTrace.LS.Settings; } }
         TabPage IAutoWikiBrowser.MoreOptionsTab { get { return tpMoreOptions; } }
         TabPage IAutoWikiBrowser.OptionsTab { get { return tpSetOptions; } }
+        TabPage IAutoWikiBrowser.SkipTab { get { return tpSkip; } }
         TabPage IAutoWikiBrowser.StartTab { get { return tpStart; } }
         TabPage IAutoWikiBrowser.DabTab { get { return tpDab; } }
         TabPage IAutoWikiBrowser.BotTab { get { return tpBots; } }

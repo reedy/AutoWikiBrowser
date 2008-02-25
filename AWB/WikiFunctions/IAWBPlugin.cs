@@ -107,6 +107,7 @@ namespace WikiFunctions.Plugin
         TabPage MoreOptionsTab { get; }
         TabPage OptionsTab { get; }
         TabPage StartTab { get; }
+        TabPage SkipTab { get; }
         TabPage DabTab { get; }
         TabPage BotTab { get; }
         TabPage LoggingTab { get; }
