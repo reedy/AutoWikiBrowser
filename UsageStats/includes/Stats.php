@@ -12,4 +12,5 @@ Some queries we might want on a stats page:
 * Number of saves by language (culture)
 */
 
+// TODO: Queries. Web-viewable stats when no data is POSTed. Posting from AWB debug builds or cron to Wikipedia.
 ?>

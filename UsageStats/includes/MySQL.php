@@ -93,9 +93,9 @@ class DB {
 		if ($_POST['Saves'] == "") dead("No edit counter received");
 		
 		// Query string:
-		$query = "INSERT INTO sessions (DateTime, Version, Debug, Saves, Site, Culture, OS, Framework, TempKey";
+		$query = "INSERT INTO sessions (DateTime, Version, Debug, Saves, Site, Culture, OS, TempKey";
 		$query2 = ') SELECT "' . self::get_mysql_utc_stamp() . "\",  {$versionid}, {$debug}, {$_POST['Saves']}, {$wikiid}, ".
-			"{$cultureid}, {$OSID}, {$frameworkid}, {$VerifyID}";
+			"{$cultureid}, {$OSID}, {$VerifyID}";
 			
 		// User (may be null):
 		if ($_POST['User'] != "") {
@@ -110,13 +110,22 @@ class DB {
 		//$result->free(); // threw an error (and yes I had $result=), perhaps because we added a record and therefore don't actually have a recordset to clear?
 		
 		// Plugins:
-		
+		if ($_POST['PluginCount'] == "") dead("No PluginCount received");
+		for ($i = 1; $i <= $_POST['PluginCount']; $i++) { // 1-based
+			$pluginname=$_POST["PN$i"];
+			$pluginid=$this->get_or_add_lookup_record('lkpPlugins', 'PluginID', "Plugin={$pluginname}", 
+			   'Plugin', $pluginname);
+			
+			$versionarray=explode(".", $_POST["PV$i"]);		
+			if (count($versionarray) != 4)
+				dead("Didn't receive a valid AWB version identifier");
+				
+			$this->db_mysql_query('INSERT INTO plugins (SessionID, PluginID, Major, Minor, Build, Revision) SELECT ' .
+			   "{$retval}, {$pluginid}, {$versionarray[0]}, {$versionarray[1]}, {$versionarray[2]}, {$versionarray[3]}",
+			   'add_usage_record');
+		}
 		
 		return $retval;
-	}
-	
-	private function add_plugins_records() {
-		
 	}
 	
 	private function get_or_add_lookup_record($table, $autoid, $lookupquery, $insertfields, $insertvalues) {
