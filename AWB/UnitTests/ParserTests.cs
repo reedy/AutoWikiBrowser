@@ -82,8 +82,8 @@ namespace UnitTests
                 p.FixImages("[[ image : foo.jpg|thumb|200px|Bar]]"));
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#URL_underscore_regression
-            Assert.AreEqual("[[Image:Apple I.jpg|thumb]] # [http://www.atariarchives.org/deli/homebrew_and_how_the_apple.php Apple Came] [[link]]",
-                p.FixImages("[[Image:Apple I.jpg|thumb]] # [http://www.atariarchives.org/deli/homebrew_and_how_the_apple.php Apple Came] [[link]]"));
+            Assert.AreEqual("[[Image:foo|thumb]] # [http://a_b c] [[link]]",
+                p.FixImages("[[Image:foo|thumb]] # [http://a_b c] [[link]]"));
         }
     }
 }
