@@ -10,6 +10,12 @@ namespace UnitTests
     [TestFixture]
     public class ToolsTests
     {
+        [SetUp]
+        public void SetUp()
+        {
+            Globals.UnitTestMode = true;
+        }
+
         [Test]
         public void TestInvalidChars()
         {
@@ -82,6 +88,23 @@ namespace UnitTests
             r = new Regex(Tools.CaseInsensitive("[test}"));
             Assert.IsTrue(r.IsMatch("[test}"));
             Assert.IsFalse(r.IsMatch("[Test}"));
+            Assert.IsFalse(r.IsMatch("test"));
+        }
+
+        [Test]
+        public void TestAllCaseInsensitive()
+        {
+            Assert.AreEqual("", Tools.AllCaseInsensitive(""));
+            Assert.AreEqual("123", Tools.AllCaseInsensitive("123"));
+            Assert.AreEqual("-", Tools.AllCaseInsensitive("-"));
+
+            Regex r = new Regex(Tools.AllCaseInsensitive("tEsT"));
+            Assert.IsTrue(r.IsMatch("Test 123"));
+            Assert.AreEqual("Test", r.Match("Test").Value);
+            Assert.IsFalse(r.IsMatch("teZt"));
+
+            r = new Regex(Tools.AllCaseInsensitive("[test}"));
+            Assert.IsTrue(r.IsMatch("?(Test["));
             Assert.IsFalse(r.IsMatch("test"));
         }
     }

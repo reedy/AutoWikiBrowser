@@ -1,4 +1,5 @@
-This project uses NUnit testing framework, which comes under the following license:
+This project uses NUnit testing framework (http://nunit.org), which
+comes under the following license:
 
 Copyright © 2002-2007 Charlie Poole
 Copyright © 2002-2004 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov

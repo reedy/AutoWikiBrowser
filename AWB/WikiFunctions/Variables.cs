@@ -42,6 +42,15 @@ namespace WikiFunctions
     public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikiquote, wikiversity, wikibooks, wikinews, commons, meta, species, lastWMF = species, wikia, custom }
 
     /// <summary>
+    /// Holds some deepest-level things to be initialised prior to most other static classes,
+    /// including Variables
+    /// </summary>
+    public static class Globals
+    {
+        public static bool UnitTestMode = false;
+    }
+
+    /// <summary>
     /// Holds static variables, to allow functionality on different wikis.
     /// </summary>
     public static class Variables
@@ -66,7 +75,14 @@ namespace WikiFunctions
             enLangNamespaces[14] = "Category:";
             enLangNamespaces[15] = "Category talk:";
 
-            SetProject(LangCodeEnum.en, ProjectEnum.wikipedia);
+            if (!Globals.UnitTestMode)
+                SetProject(LangCodeEnum.en, ProjectEnum.wikipedia);
+            else
+            {
+                SetToEnglish("Wikipedia:", "Wikipedia talk:");
+                Stub = "stub";
+                RegenerateRegexes();
+            }
         }
 
         public static UserProperties User = new UserProperties();
@@ -1104,22 +1120,27 @@ namespace WikiFunctions
             //error with loading
             RefreshProxy();
 
+            RegenerateRegexes();
+
+            RETFPath = Namespaces[4] + "AutoWikiBrowser/Typos";
+
+            if (string.IsNullOrEmpty(ProjectName)) ProjectName = Namespaces[4].TrimEnd(':');
+
+        }
+
+        private static void RegenerateRegexes()
+        {
             NamespacesCaseInsensitive.Clear();
             foreach (KeyValuePair<int, string> k in Namespaces)
             {
                 //other languages can use the english syntax
-                if (langCode != LangCodeEnum.en && enLangNamespaces.ContainsKey(k.Key))
+                if (LangCode != LangCodeEnum.en && enLangNamespaces.ContainsKey(k.Key))
                     NamespacesCaseInsensitive.Add(k.Key, "(?:" + Tools.AllCaseInsensitive(k.Value) + "|" + Tools.AllCaseInsensitive(enLangNamespaces[k.Key]).Replace(":", " ?:") + ")");
                 else
                     NamespacesCaseInsensitive.Add(k.Key, Tools.AllCaseInsensitive(k.Value).Replace(":", " ?:"));
             }
 
             WikiRegexes.MakeLangSpecificRegexes();
-
-            RETFPath = Namespaces[4] + "AutoWikiBrowser/Typos";
-
-            if (string.IsNullOrEmpty(ProjectName)) ProjectName = Namespaces[4].TrimEnd(':');
-
         }
 
         /// <summary>
@@ -1304,7 +1325,11 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
     {
         public UserProperties()
         {
-            webBrowserLogin.ScriptErrorsSuppressed = true;
+            if (!Globals.UnitTestMode)
+            {
+                webBrowserLogin = new WebControl();
+                webBrowserLogin.ScriptErrorsSuppressed = true;
+            }
         }
 
         /// <summary>
@@ -1335,7 +1360,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
 
         public List<string> Groups = new List<string>();
 
-        public WebControl webBrowserLogin = new WebControl();
+        public WebControl webBrowserLogin;
         private static Boolean WeAskedAboutUpdate;
 
         /// <summary>

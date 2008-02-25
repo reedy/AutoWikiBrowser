@@ -47,6 +47,12 @@ namespace UnitTests
     [TestFixture]
     public class LinkTests
     {
+        [SetUp]
+        public void SetUp()
+        {
+            Globals.UnitTestMode = true;
+        }
+
         Parsers parser = new Parsers();
 
         [Test]
@@ -54,7 +60,6 @@ namespace UnitTests
         {
             bool dummy;
 
-            //System.Threading.Thread.CurrentThread.SetApartmentState(System.Threading.ApartmentState.STA);
             Assert.AreEqual(parser.FixLinks("[[a ]]b", out dummy), "[[a ]]b");
         }
     }
