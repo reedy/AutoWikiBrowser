@@ -24,6 +24,8 @@ namespace WikiFunctions.MWB
 {
     sealed class Utility
     {
+        private Utility() { }
+
         public static string GetFilenameFromPath(string path)
         {
             string res = path;
