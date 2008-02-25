@@ -14,7 +14,7 @@ namespace DBScanner
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new WikiFunctions.DatabaseScanner.DatabaseScanner());
+            Application.Run(new WikiFunctions.DBScanner.DatabaseScanner());
         }
     }
 }

@@ -325,7 +325,5 @@ namespace WikiFunctions.Parse
         }
     }
 
-    internal class TypoException : Exception
-    {
-    }
+    public class TypoException : Exception { }
 }

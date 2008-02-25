@@ -76,7 +76,7 @@ namespace WikiFunctions.Logging.Uploader
     /// </summary>
     public sealed class UsernamePassword2 : UsernamePassword
     {
-        private AWBProfiles.AWBProfile mAWBProfile;
+        private Profiles.AWBProfile mAWBProfile;
 
         public override string  Password
         { get { return mAWBProfile.Password; } set { mAWBProfile.Password = value; } }
@@ -84,7 +84,7 @@ namespace WikiFunctions.Logging.Uploader
         public override string  Username
         { get { return mAWBProfile.Username; } set { mAWBProfile.Username = value; } }
 
-        public AWBProfiles.AWBProfile AWBProfile
+        public Profiles.AWBProfile AWBProfile
         { get { return mAWBProfile; } set { mAWBProfile = value; } }
     }
 

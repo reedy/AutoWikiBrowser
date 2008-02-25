@@ -1,6 +1,6 @@
 using System.Windows.Forms;
 
-namespace WikiFunctions.DatabaseScanner
+namespace WikiFunctions.DBScanner
 {
     partial class DatabaseScanner
     {

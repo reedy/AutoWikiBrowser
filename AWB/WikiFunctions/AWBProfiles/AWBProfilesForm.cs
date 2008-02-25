@@ -25,9 +25,9 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace WikiFunctions.AWBProfiles
+namespace WikiFunctions.Profiles
 {
-    public partial class AWBProfilesForm : WikiFunctions.AWBProfiles.AWBLogUploadProfilesForm
+    public partial class AWBProfilesForm : WikiFunctions.Profiles.AWBLogUploadProfilesForm
     {
         private WikiFunctions.Browser.WebControl webBrowser;
         public event ProfileLoaded LoadProfile;

@@ -572,7 +572,7 @@ namespace WikiFunctions.Controls.Lists
 
         private void launchDumpSearcher()
         {
-            WikiFunctions.DatabaseScanner.DatabaseScanner ds = new WikiFunctions.DatabaseScanner.DatabaseScanner(lbArticles);
+            WikiFunctions.DBScanner.DatabaseScanner ds = new WikiFunctions.DBScanner.DatabaseScanner(lbArticles);
             ds.Show();
             UpdateNumberOfArticles();
         }

@@ -32,7 +32,7 @@ using WikiFunctions.Parse;
 using WikiFunctions.Lists;
 using WikiFunctions.Controls.Lists;
 
-namespace WikiFunctions.DatabaseScanner
+namespace WikiFunctions.DBScanner
 {
     /// <summary>
     /// Provides a form and functions for searching XML data dumps

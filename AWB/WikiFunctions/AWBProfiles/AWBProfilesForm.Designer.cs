@@ -1,4 +1,4 @@
-namespace WikiFunctions.AWBProfiles
+namespace WikiFunctions.Profiles
 {
     partial class AWBProfilesForm
     {

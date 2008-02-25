@@ -302,8 +302,6 @@ namespace WikiFunctions
 
             resps = (HttpWebResponse)wr.GetResponse();
 
-            foreach (Cookie cook in resps.Cookies) { }
-
             logincookies = resps.Cookies;
         }
 

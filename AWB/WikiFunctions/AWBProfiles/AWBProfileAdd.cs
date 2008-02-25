@@ -27,7 +27,7 @@ using System.Windows.Forms;
 
 using System.IO;
 
-namespace WikiFunctions.AWBProfiles
+namespace WikiFunctions.Profiles
 {
     public partial class AWBProfileAdd : Form
     {

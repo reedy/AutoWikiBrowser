@@ -57,7 +57,7 @@ namespace AutoWikiBrowser
     { // this class needs to be public, otherwise we get an exception which recommends setting ComVisibleAttribute to true (which we've already done)
         #region Fields
         private static Splash splash = new Splash();
-        private static WikiFunctions.AWBProfiles.AWBProfilesForm profiles;
+        private static WikiFunctions.Profiles.AWBProfilesForm profiles;
 
         private static bool Abort;
 
@@ -187,7 +187,7 @@ namespace AutoWikiBrowser
                 //Text = "AutoWikiBrowser - Default.xml";
                 splash.SetProgress(15);
 
-                WikiFunctions.AWBProfiles.AWBProfiles.ResetTempPassword();
+                WikiFunctions.Profiles.AWBProfiles.ResetTempPassword();
             }
             catch (Exception ex)
             {
@@ -284,7 +284,7 @@ namespace AutoWikiBrowser
 
                 if (userProfileToLoad != -1)
                 {
-                    profiles = new WikiFunctions.AWBProfiles.AWBProfilesForm(webBrowserEdit);
+                    profiles = new WikiFunctions.Profiles.AWBProfilesForm(webBrowserEdit);
                     profiles.LoadProfile += LoadProfileSettings;
                     profiles.login(userProfileToLoad);
                 }
@@ -2291,7 +2291,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void LaunchDumpSearcher()
         {
-            WikiFunctions.DatabaseScanner.DatabaseScanner ds = new WikiFunctions.DatabaseScanner.DatabaseScanner();
+            WikiFunctions.DBScanner.DatabaseScanner ds = new WikiFunctions.DBScanner.DatabaseScanner();
             ds.Show();
             UpdateButtons();
         }
@@ -3489,7 +3489,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void profilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            profiles = new WikiFunctions.AWBProfiles.AWBProfilesForm(webBrowserEdit);
+            profiles = new WikiFunctions.Profiles.AWBProfilesForm(webBrowserEdit);
             profiles.LoadProfile += LoadProfileSettings;
             profiles.ShowDialog(this);
         }

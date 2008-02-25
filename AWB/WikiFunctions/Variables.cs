@@ -243,7 +243,7 @@ namespace WikiFunctions
 
             if (SystemProxy != null) r.Proxy = SystemProxy;
 
-            if (UserAgent == "")
+            if (string.IsNullOrEmpty(UserAgent))
                 r.UserAgent = Tools.DefaultUserAgentString;
             else
                 r.UserAgent = UserAgent;
