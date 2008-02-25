@@ -328,7 +328,7 @@ namespace WikiFunctions.AWBSettings
         public bool SkipWhenNoChanges = false;
         public bool SkipSpamFilterBlocked = false;
         public bool SkipInuse = false;
-        public bool SkipWhenOnlyWhitespaceChanged = true;
+        public bool SkipWhenOnlyWhitespaceChanged = false;
 
         public bool SkipDoes = false;
         public bool SkipDoesNot = false;
