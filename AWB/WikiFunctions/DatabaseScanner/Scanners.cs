@@ -198,7 +198,6 @@ namespace WikiFunctions.DBScanner
         }
 
         List<int> namespaces = new List<int>();
-        int i;
         int NamespaceIndex;
 
         public override bool Check(ref string ArticleText, ref string ArticleTitle)
