@@ -204,8 +204,9 @@ namespace AutoWikiBrowser
 
         private void RecentSettingsClick(object sender, EventArgs e)
         {
-            LoadPrefs((sender as ToolStripItem).Text);
-            SettingsFile = (sender as ToolStripItem).Text;
+            ToolStripItem item = sender as ToolStripItem;
+            LoadPrefs(item.Text);
+            SettingsFile = item.Text;
             listMaker1.removeListDuplicates();
         }
 
