@@ -41,7 +41,7 @@ class DB {
 	function db_mysql_query($query, $caller, $module = 'MySQL') {
 		# by doing it in one routine, is easier to slot in debugging/logging later if need be
 		global $mysqli;
-		($retval = $mysqli->query("/* $module:$caller */ $query")) || dead("Query error: ".$query."\r\n");
+		($retval = $mysqli->query("/* $module:$caller */ $query")) || dead("Query error: {$query}\n");
 		return $retval;
 	}
 	
@@ -112,11 +112,12 @@ class DB {
 		// Plugins:
 		if ($_POST['PluginCount'] == "") dead("No PluginCount received");
 		for ($i = 1; $i <= $_POST['PluginCount']; $i++) { // 1-based
-			$pluginname=$_POST["PN$i"];
-			$pluginid=$this->get_or_add_lookup_record('lkpPlugins', 'PluginID', "Plugin={$pluginname}", 
-			   'Plugin', $pluginname);
+			$pluginname=$_POST["P{$i}N"];
+			//echo "P1N: {$_POST["P1N"]}\npluginname var: {$pluginname}\n";
+			$pluginid=$this->get_or_add_lookup_record('lkpPlugins', 'PluginID', "Plugin=\"{$pluginname}\"", 
+			   'Plugin', "\"{$pluginname}\"");
 			
-			$versionarray=explode(".", $_POST["PV$i"]);		
+			$versionarray=explode(".", $_POST["P{$i}V"]);		
 			if (count($versionarray) != 4)
 				dead("Didn't receive a valid AWB version identifier");
 				

@@ -125,10 +125,15 @@ namespace WikiFunctions
         public static string[] ENLangMonthNames = new string[12]{"January", "February", "March", "April", "May", "June",
                 "July", "August", "September", "October", "November", "December"};
 
+        private static string strProjectName;
         /// <summary>
         /// Full project name, e.g. "Wikimedia Commons"
         /// </summary>
-        public static string ProjectName;
+        public static string FullProjectName
+        {
+            get { return strProjectName; }
+            private set { strProjectName = value; }
+        }
 
         private static string URLEnd = "/w/";
 
@@ -318,7 +323,7 @@ namespace WikiFunctions
 
             RefreshProxy();
 
-            ProjectName = "";
+            FullProjectName = "";
             URLEnd = "/w/";
 
             AWBDefaultSummaryTag();
@@ -878,7 +883,7 @@ namespace WikiFunctions
 
                     case LangCodeEnum.simple:
                         SetToEnglish("Wikipedia:", "Wikipedia talk:");
-                        ProjectName = "Simple English Wikipedia";
+                        FullProjectName = "Simple English Wikipedia";
                         break;
 
                     case LangCodeEnum.sk:
@@ -1056,7 +1061,7 @@ namespace WikiFunctions
                 Namespaces[100] = "Creator:";
                 Namespaces[101] = "Creator talk:";
                 URL = "http://commons.wikimedia.org";
-                ProjectName = "Wikimedia Commons";
+                FullProjectName = "Wikimedia Commons";
                 mLangCode = LangCodeEnum.en;
             }
             else if (projectName == ProjectEnum.meta)
@@ -1124,8 +1129,7 @@ namespace WikiFunctions
 
             RETFPath = Namespaces[4] + "AutoWikiBrowser/Typos";
 
-            if (string.IsNullOrEmpty(ProjectName)) ProjectName = Namespaces[4].TrimEnd(':');
-
+            if (string.IsNullOrEmpty(FullProjectName)) FullProjectName = Namespaces[4].TrimEnd(':');
         }
 
         private static void RegenerateRegexes()

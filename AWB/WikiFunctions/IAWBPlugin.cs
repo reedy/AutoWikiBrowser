@@ -142,6 +142,9 @@ namespace WikiFunctions.Plugin
         string AWBVersionString { get; }
         string WikiFunctionsVersionString { get; }
         string WikiDiffVersionString { get; }
+        int NumberOfEdits { get; }
+        int NumberOfIgnoredEdits { get; }
+        int NumberOfEditsPerMinute { get; }
 
         /// <summary>
         /// Display a message balloon above AWB's system tray icon

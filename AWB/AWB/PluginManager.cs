@@ -35,7 +35,7 @@ using WikiFunctions;
 
 namespace AutoWikiBrowser
 {
-    public partial class PluginManager : Form
+    internal sealed partial class PluginManager : Form
     {
         IAutoWikiBrowser AWB;
         //List<string> prevPlugins;
@@ -199,7 +199,7 @@ namespace AutoWikiBrowser
 
                                     InitialisePlugin(plugin, awb);
 
-                                    //UsageStats.LoadedPlugin(plugin.Name, t.Assembly.GetName().Version);
+                                    if (afterStartup) UsageStats.AddedPlugin(plugin);
                                 }
                             }
                         }
@@ -222,6 +222,9 @@ namespace AutoWikiBrowser
                     ErrorHandler.Handle(ex);
                 }
             }
+
+            internal static string GetPluginVersionString(IAWBPlugin plugin)
+            { return System.Reflection.Assembly.GetAssembly(plugin.GetType()).GetName().Version.ToString(); }
         }
     }
 }
