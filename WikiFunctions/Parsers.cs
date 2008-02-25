@@ -583,12 +583,12 @@ namespace WikiFunctions.Parse
                 ArticleText = LinkWhitespace3.Replace(ArticleText, "[[$1 $2]]");
 
             //remove undesirable space from end of wikilink (space after wikilink) - parse this line first
-            if (LinkWhitespace3.Match(ArticleText).Success)
-                ArticleText = LinkWhitespace3.Replace(ArticleText, "[[$1]] ");
-
-            //remove undesirable space from end of wikilink and move it outside link - parse this line second
             if (LinkWhitespace4.Match(ArticleText).Success)
                 ArticleText = LinkWhitespace4.Replace(ArticleText, "[[$1]] ");
+
+            //remove undesirable space from end of wikilink and move it outside link - parse this line second
+            if (LinkWhitespace5.Match(ArticleText).Success)
+                ArticleText = LinkWhitespace5.Replace(ArticleText, "[[$1]] ");
 
             //remove undesirable double space between links in date (day first)
             if (DateLinkWhitespace1.Match(ArticleText).Success)

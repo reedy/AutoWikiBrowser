@@ -48,24 +48,9 @@ namespace WikiFunctions.DBScanner
         bool ignore = false;
 
         public MainProcess(List<Scan> z, string filename, ThreadPriority tp, bool ignoreComments, string StartFrom)
+            : this(z, filename, tp, ignoreComments)
         {
-            FileName = filename;
-            SOPC = new SendOrPostCallback(NewArticle);
-            SOPCstopped = new SendOrPostCallback(Stopped);
-            Priority = tp;
-            ignore = ignoreComments;
             From = StartFrom;
-
-            s = z;
-
-            try
-            {
-                stream = new FileStream(FileName, FileMode.Open);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
         }
 
         public MainProcess(List<Scan> z, string filename, ThreadPriority tp, bool ignoreComments)
