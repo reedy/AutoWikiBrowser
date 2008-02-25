@@ -23,7 +23,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using WikiFunctions.Parse;
 
-namespace WikiFunctions.DatabaseScanner
+namespace WikiFunctions.DBScanner
 {
     public abstract class Scan
     {
@@ -203,13 +203,11 @@ namespace WikiFunctions.DatabaseScanner
 
         public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
-            i = 0;
             NamespaceIndex = Tools.CalculateNS(ArticleTitle);
-            foreach (int j in namespaces)
+            for (int i = 0; i < namespaces.Count; i++)
             {
                 if (NamespaceIndex == namespaces[i])
                     return false;
-                i++;
             }
 
             return true;
@@ -223,7 +221,6 @@ namespace WikiFunctions.DatabaseScanner
         public bool FixLinks(string ArticleText)
         {
             string y = "";
-            string cat = "[[" + Variables.Namespaces[14];
 
             foreach (Match m in WikiRegexes.SimpleWikiLink.Matches(ArticleText))
             {
@@ -232,8 +229,7 @@ namespace WikiFunctions.DatabaseScanner
                 y = System.Web.HttpUtility.UrlDecode(y);
 
                 if (m.Value != y)
-                    return
-                        false;
+                    return false;
             }
 
             return true;
@@ -285,13 +281,11 @@ namespace WikiFunctions.DatabaseScanner
 
         public override bool Check(ref string ArticleText, ref string ArticleTitle)
         {
-            string n = "";
             string a = "";
             string b = "";
 
             foreach (Match m in WikiRegexes.PipedWikiLink.Matches(ArticleText))
             {
-                n = m.Value;
                 a = m.Groups[1].Value;
                 b = m.Groups[2].Value;
 

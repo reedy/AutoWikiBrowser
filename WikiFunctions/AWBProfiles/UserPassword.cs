@@ -25,7 +25,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace WikiFunctions.AWBProfiles
+namespace WikiFunctions.Profiles
 {
     public partial class UserPassword : Form
     {

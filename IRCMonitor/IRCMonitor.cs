@@ -2002,7 +2002,7 @@ Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=15
 
         private void profilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            WikiFunctions.AWBProfiles.AWBProfilesForm profiles = new WikiFunctions.AWBProfiles.AWBProfilesForm(webBrowser);
+            WikiFunctions.Profiles.AWBProfilesForm profiles = new WikiFunctions.Profiles.AWBProfilesForm(webBrowser);
             profiles.LoadProfile += LoadProfileSettings;
             profiles.Show(this);
         }

@@ -168,7 +168,7 @@ namespace AutoWikiBrowser.Logging
                 {
                     mIsGettingPassword = true;
                     LoggingSettings.LoginDetails.AWBProfile =
-                        WikiFunctions.AWBProfiles.AWBProfiles.GetProfileForLogUploading(Program.AWB.Form);
+                        WikiFunctions.Profiles.AWBProfiles.GetProfileForLogUploading(Program.AWB.Form);
 
                     if (!LoggingSettings.LoginDetails.IsSet)
                         throw new System.Configuration.ConfigurationErrorsException("Error getting login details");

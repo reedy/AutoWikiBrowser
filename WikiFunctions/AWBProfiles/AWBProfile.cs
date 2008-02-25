@@ -23,7 +23,7 @@ using System.Text;
 using Microsoft.VisualBasic.Devices;
 using System.Windows.Forms;
 
-namespace WikiFunctions.AWBProfiles
+namespace WikiFunctions.Profiles
 {
     public class AWBProfile
     {
@@ -165,7 +165,7 @@ namespace WikiFunctions.AWBProfiles
 
             if (string.IsNullOrEmpty(retval.Password) && string.IsNullOrEmpty(TempPassword))
             {
-                WikiFunctions.AWBProfiles.UserPassword password = new WikiFunctions.AWBProfiles.UserPassword();
+                WikiFunctions.Profiles.UserPassword password = new WikiFunctions.Profiles.UserPassword();
                 password.SetText = "Enter password for " + retval.Username;
                 if (password.ShowDialog() == DialogResult.OK)
                 {
