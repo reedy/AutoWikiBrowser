@@ -63,4 +63,23 @@ namespace UnitTests
             Assert.AreEqual(parser.FixLinks("[[a ]]b", out dummy), "[[a ]]b");
         }
     }
+
+    [TestFixture]
+    public class ImageTests
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            Globals.UnitTestMode = true;
+        }
+
+        [Test]
+        public void BasicImprovements()
+        {
+            Parsers p = new Parsers();
+
+            Assert.AreEqual("[[Image:foo.jpg|thumb|200px|Bar]]",
+                p.FixImages("[[ image : foo.jpg|thumb|200px|Bar]]"));
+        }
+    }
 }
