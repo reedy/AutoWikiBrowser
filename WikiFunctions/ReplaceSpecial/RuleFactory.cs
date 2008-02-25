@@ -27,6 +27,8 @@ namespace WikiFunctions.MWB
 {
     sealed class RuleFactory
     {
+        private RuleFactory() { }
+
         public static Rule CreateRule()
         {
             return new Rule();

@@ -2007,7 +2007,7 @@ Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=15
             profiles.Show(this);
         }
 
-        private void LoadProfileSettings()
+        private void LoadProfileSettings(object sender)
         {
         }
 
