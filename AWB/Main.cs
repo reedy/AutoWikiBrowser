@@ -19,6 +19,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 */
 
+#undef INSTASTATS // turn on here and in stats.cs to make AWB log (empty) stats at startup
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -246,7 +248,7 @@ namespace AutoWikiBrowser
                     listMaker1.MakeListEnabled = true;
 
                 splash.SetProgress(35);
-                if (AutoWikiBrowser.Properties.Settings.Default.LogInOnStart)
+                if (Properties.Settings.Default.LogInOnStart)
                     CheckStatus(false);
 
                 LogControl1.Initialise(listMaker1);
@@ -296,6 +298,12 @@ namespace AutoWikiBrowser
 
             lblStatusText.Text = "";
             splash.Close();
+
+            UsageStats.Initialise();
+
+#if DEBUG && INSTASTATS
+            UsageStats.Do();
+#endif
         }
 
         private void MainForm_Resize(object sender, EventArgs e)
@@ -1436,6 +1444,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                     Variables.User.webBrowserLogin.Stop();
 
                 SaveRecentSettingsList();
+                UsageStats.Do(true);
             }
             else
             {

@@ -123,7 +123,7 @@ namespace AutoWikiBrowser.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::System.Collections.Specialized.StringCollection CustomWikis {
             get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["CustomWikis"]));
+                return ((System.Collections.Specialized.StringCollection)(this["CustomWikis"]));
             }
             set {
                 this["CustomWikis"] = value;
