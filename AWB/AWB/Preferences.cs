@@ -54,7 +54,8 @@ namespace AutoWikiBrowser
             cmboCustomProject.Items.Clear();
             foreach (string s in Properties.Settings.Default.CustomWikis)
             {
-                cmboCustomProject.Items.Add(s);
+                if (!cmboCustomProject.Items.Contains(s))
+                    cmboCustomProject.Items.Add(s);
             }
 
             cmboCustomProject.Text = customproj;
@@ -262,6 +263,8 @@ namespace AutoWikiBrowser
 
         private void btnApply_Click(object sender, EventArgs e)
         {
+            bool save = false;
+
             if (chkAutoSaveEdit.Checked && string.IsNullOrEmpty(txtAutosave.Text))
                 chkAutoSaveEdit.Checked = false;
  
@@ -274,10 +277,12 @@ namespace AutoWikiBrowser
             Properties.Settings.Default.CustomWikis.Clear();
             foreach (string s in cmboCustomProject.Items)
             {
-                Properties.Settings.Default.CustomWikis.Add(s);
+                if (!Properties.Settings.Default.CustomWikis.Contains(s))
+                    Properties.Settings.Default.CustomWikis.Add(s);
             }
 
-            bool save = false;
+            if (Properties.Settings.Default.CustomWikis.Count > 0)
+                save = true;
 
             if (Properties.Settings.Default.DontAskForTerminate != chkAlwaysConfirmExit.Checked)
             {
