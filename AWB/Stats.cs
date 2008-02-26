@@ -78,6 +78,9 @@ namespace AutoWikiBrowser
 
     /// <summary>
     /// A class to collect and submit some non-invasive usage stats, to help AWB developers track usage and plan development
+    /// Stats can be viewed at http://awb.kingboyk.com/
+    /// SQL and FTP access is available to Sourceforge-registered AWB developers only: please ask Reedy Boy or Kingboyk for
+    /// the login details.
     /// </summary>
     internal static class UsageStats
     {
