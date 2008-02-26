@@ -3413,7 +3413,7 @@ namespace AutoWikiBrowser
             this.tpHistory.Controls.Add(this.webBrowserHistory);
             this.tpHistory.Location = new System.Drawing.Point(4, 22);
             this.tpHistory.Name = "tpHistory";
-            this.tpHistory.Size = new System.Drawing.Size(282, 351);
+            this.tpHistory.Size = new System.Drawing.Size(285, 351);
             this.tpHistory.TabIndex = 2;
             this.tpHistory.Text = "History";
             this.tpHistory.UseVisualStyleBackColor = true;
@@ -3426,7 +3426,7 @@ namespace AutoWikiBrowser
             this.webBrowserHistory.Location = new System.Drawing.Point(0, 0);
             this.webBrowserHistory.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowserHistory.Name = "webBrowserHistory";
-            this.webBrowserHistory.Size = new System.Drawing.Size(282, 351);
+            this.webBrowserHistory.Size = new System.Drawing.Size(285, 351);
             this.webBrowserHistory.TabIndex = 0;
             this.webBrowserHistory.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserHistory_DocumentCompleted);
             // 
@@ -3436,7 +3436,7 @@ namespace AutoWikiBrowser
             this.tpLogs.Location = new System.Drawing.Point(4, 22);
             this.tpLogs.Name = "tpLogs";
             this.tpLogs.Padding = new System.Windows.Forms.Padding(3);
-            this.tpLogs.Size = new System.Drawing.Size(282, 351);
+            this.tpLogs.Size = new System.Drawing.Size(285, 351);
             this.tpLogs.TabIndex = 1;
             this.tpLogs.Text = "Logs";
             this.tpLogs.UseVisualStyleBackColor = true;
@@ -3449,7 +3449,7 @@ namespace AutoWikiBrowser
             this.LogControl1.Location = new System.Drawing.Point(0, 4);
             this.LogControl1.Margin = new System.Windows.Forms.Padding(4);
             this.LogControl1.Name = "LogControl1";
-            this.LogControl1.Size = new System.Drawing.Size(275, 341);
+            this.LogControl1.Size = new System.Drawing.Size(278, 341);
             this.LogControl1.TabIndex = 0;
             // 
             // tpLoggingOptions
@@ -3458,7 +3458,7 @@ namespace AutoWikiBrowser
             this.tpLoggingOptions.Location = new System.Drawing.Point(4, 22);
             this.tpLoggingOptions.Name = "tpLoggingOptions";
             this.tpLoggingOptions.Padding = new System.Windows.Forms.Padding(3);
-            this.tpLoggingOptions.Size = new System.Drawing.Size(282, 351);
+            this.tpLoggingOptions.Size = new System.Drawing.Size(285, 351);
             this.tpLoggingOptions.TabIndex = 3;
             this.tpLoggingOptions.Text = "Logging to file";
             this.tpLoggingOptions.UseVisualStyleBackColor = true;

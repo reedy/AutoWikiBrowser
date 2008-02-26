@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{42769674-70BD-4F11-9718-C5DA36578228}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -58,7 +58,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <DocumentationFile>
     </DocumentationFile>
     <PlatformTarget>x86</PlatformTarget>
@@ -323,27 +323,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
- <!-- http://www.kiwidude.com/blog/archives/2007_02_01_archive.html - this bodge is necessary as Microsoft screwed up the xml serializer
-    generation by limiting it to only web proxy classes.
-    The one line change from the equivalent
-    target in Microsoft.Common.targets is to set UseProxyTypes to false.
-    -->
-  <Target Name="GenerateSerializationAssembliesForAllTypes"
-DependsOnTargets="AssignTargetPaths;Compile;ResolveKeySource"
-Inputs="$(MSBuildAllProjects);@(IntermediateAssembly)"
-Outputs="$(OutputPath)$(_SGenDllName)">
-    <SGen BuildAssemblyName="$(TargetFileName)"
-BuildAssemblyPath="$(OutputPath)" References="@(ReferencePath)"
-ShouldGenerateSerializer="true" UseProxyTypes="false"
-KeyContainer="$(KeyContainerName)" KeyFile="$(KeyOriginatorFile)"
-DelaySign="$(DelaySign)" ToolPath="$(SGenToolPath)">
-      <Output TaskParameter="SerializationAssembly"
-ItemName="SerializationAssembly" />
-    </SGen>
-  </Target>
-  <!-- <Target Name="BeforeBuild">
-    </Target> -->
-  <Target Name="AfterBuild"
-DependsOnTargets="GenerateSerializationAssembliesForAllTypes">
-  </Target>
 </Project>
