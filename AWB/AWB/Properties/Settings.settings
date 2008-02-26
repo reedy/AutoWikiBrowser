@@ -26,7 +26,7 @@
     <Setting Name="Privacy" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="CustomWikis" Type="System.Collections.Specialized.StringCollection" Scope="User">
+    <Setting Name="CustomWikis" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>
