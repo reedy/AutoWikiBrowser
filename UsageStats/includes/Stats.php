@@ -47,13 +47,22 @@ function stats(){
 	}*/
 		
 	//Sessions per sites
-	/*$query = "";
+	$query = "SELECT COUNT(SessionID) as sessions, CONCAT(l.langcode, '.', l.site) as combinedsite FROM sessions s, lkpWikis l WHERE (s.site = l.siteid) GROUP BY s.site";
 	$retval = $db->db_mysql_query($query, 'stats', 'STATS') ;
 
+		echo "<table width='25%' border=1>
+  <tr>
+    <td>Site</td>
+    <td>Sessions</td>
+  </tr>";
+	
 	while($row = mysqli_fetch_array($retval, MYSQL_ASSOC))
 	{
-		echo "No of : {$row['']}<br />";
-	}*/
+	  echo "<tr>
+    <td>{$row['combinedsite']}</td>
+    <td>{$row['sessions']}</td>
+  </tr>";
+	}
 	
 	//Saves per sites
 	$query = "SELECT CONCAT(l.langcode, '.', l.site) as combinedsite, SUM(s.saves) as nosaves FROM sessions s, lkpWikis l WHERE (s.site = l.siteid) GROUP BY s.site";
@@ -85,7 +94,7 @@ function stats(){
 	}*/
 	
 	//Number of plugins known
-	$query = "SELECT COUNT(PluginID) as pluginno FROM plugins";
+	$query = "SELECT COUNT(DISTINCT PluginID) as pluginno FROM plugins";
 	$retval = $db->db_mysql_query($query, 'stats', 'STATS') ;
 
 	while($row = mysqli_fetch_array($retval, MYSQL_ASSOC))
