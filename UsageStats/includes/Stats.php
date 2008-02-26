@@ -46,40 +46,36 @@ function stats(){
 		echo "No of : {$row['']}<br />";
 	}*/
 		
-	//Sessions per sites
-	$query = "SELECT COUNT(SessionID) as sessions, CONCAT(l.langcode, '.', l.site) as combinedsite FROM sessions s, lkpWikis l WHERE (s.site = l.siteid) GROUP BY s.site";
+	//Sessions & Saves per sites
+	$query = "SELECT COUNT(SessionID) as sessions, l.langcode, l.site, SUM(s.saves) as nosaves FROM sessions s, lkpWikis l WHERE (s.site = l.siteid) GROUP BY s.site";
 	$retval = $db->db_mysql_query($query, 'stats', 'STATS') ;
 
 		echo "<table width='25%' border=1>
   <tr>
     <td>Site</td>
     <td>Sessions</td>
+	<td>No of Saves</td>
   </tr>";
 	
 	while($row = mysqli_fetch_array($retval, MYSQL_ASSOC))
 	{
-	  echo "<tr>
-    <td>{$row['combinedsite']}</td>
-    <td>{$row['sessions']}</td>
-  </tr>";
-	}
-	
-	//Saves per sites
-	$query = "SELECT CONCAT(l.langcode, '.', l.site) as combinedsite, SUM(s.saves) as nosaves FROM sessions s, lkpWikis l WHERE (s.site = l.siteid) GROUP BY s.site";
-	$retval = $db->db_mysql_query($query, 'stats', 'STATS') ;
-
-	echo "<table width='25%' border=1>
-  <tr>
-    <td>Site</td>
-    <td>No of Saves</td>
-  </tr>";
-	
-	while($row = mysqli_fetch_array($retval, MYSQL_ASSOC))
-	{
-	  echo "<tr>
-    <td>{$row['combinedsite']}</td>
-    <td>{$row['nosaves']}</td>
-  </tr>";
+		$lang = "{$row['langcode']}";
+		$site = "";
+		
+		if ($lang != "WIKI" && $lang != "CUS")
+		{
+			$site = $lang.".{$row['site']}";
+		}
+		else
+		{
+		$site = "{$row['site']}";
+		}
+		
+		  echo "<tr>
+	    <td>$site</td>
+	    <td>{$row['sessions']}</td>.
+		<td>{$row['nosaves']}</td>
+	  </tr>";
 	}
 	
 	echo "</table>";
