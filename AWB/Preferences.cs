@@ -275,7 +275,8 @@ namespace AutoWikiBrowser
             StringBuilder customs = new StringBuilder();
             foreach (string s in cmboCustomProject.Items)
             {
-                customs.Append(s + "|");
+                if (!string.IsNullOrEmpty(s.Trim()))
+                    customs.Append(s + "|");
             }
             string tmp = customs.ToString();
             Properties.Settings.Default.CustomWikis = tmp.Substring(0, tmp.LastIndexOf('|'));

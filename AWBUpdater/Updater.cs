@@ -356,14 +356,6 @@ AWBUpdater will now close!");
 
                 if (File.Exists(AWBdirectory + "WikiFunctions2.dll"))
                     File.Delete(AWBdirectory + "WikiFunctions2.dll");
-
-                if (File.Exists(AWBdirectory + "WPAssessmentsCatCreator.dll"))
-                    File.Copy(tempDirectory + "Plugins\\WPAssessmentsCatCreator\\WPAssessmentsCatCreator.dll", AWBdirectory + "WPAssessmentsCatCreator.dll", true);
-
-                if (!Directory.Exists(AWBdirectory + "Plugins\\WPAssessmentsCatCreator"))
-                    Directory.CreateDirectory(AWBdirectory + "Plugins\\WPAssessmentsCatCreator");
-
-                File.Copy(tempDirectory + "Plugins\\WPAssessmentsCatCreator\\WPAssessmentsCatCreator.dll", AWBdirectory + "Plugins\\WPAssessmentsCatCreator\\WPAssessmentsCatCreator.dll", true);
             }
             progressUpdate.Value = 90;
         }
