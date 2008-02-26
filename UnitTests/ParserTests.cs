@@ -60,7 +60,7 @@ namespace UnitTests
         {
             bool dummy;
 
-            Assert.AreEqual(parser.FixLinks("[[a ]]b", out dummy), "[[a ]]b");
+            Assert.AreEqual("[[a ]]b", parser.FixLinks("[[a ]]b", out dummy));
         }
     }
 

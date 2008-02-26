@@ -25,14 +25,14 @@ namespace UnitTests
             Assert.IsTrue(Tools.IsValidTitle("А & Б сидели на трубе! ة日?"));
 
             Assert.IsFalse(Tools.IsValidTitle(""), "Empty strings are not supposed to be valid titles");
-            Assert.IsFalse(Tools.IsValidTitle("["));
-            Assert.IsFalse(Tools.IsValidTitle("]"));
-            Assert.IsFalse(Tools.IsValidTitle("{"));
-            Assert.IsFalse(Tools.IsValidTitle("}"));
-            Assert.IsFalse(Tools.IsValidTitle("|"));
-            Assert.IsFalse(Tools.IsValidTitle("<"));
-            Assert.IsFalse(Tools.IsValidTitle(">"));
-            Assert.IsFalse(Tools.IsValidTitle("#"));
+            Assert.IsFalse(Tools.IsValidTitle("[xxx"));
+            Assert.IsFalse(Tools.IsValidTitle("]abc"));
+            Assert.IsFalse(Tools.IsValidTitle("{duh!"));
+            Assert.IsFalse(Tools.IsValidTitle("}yoyo"));
+            Assert.IsFalse(Tools.IsValidTitle("|pwn3d"));
+            Assert.IsFalse(Tools.IsValidTitle("<1337"));
+            Assert.IsFalse(Tools.IsValidTitle(">nooooo"));
+            Assert.IsFalse(Tools.IsValidTitle("#yeee-hooo"));
 
             //Complex titles
             Assert.IsFalse(Tools.IsValidTitle("[test]#1"));
@@ -106,6 +106,20 @@ namespace UnitTests
             r = new Regex(Tools.AllCaseInsensitive("[test}"));
             Assert.IsTrue(r.IsMatch("?(Test["));
             Assert.IsFalse(r.IsMatch("test"));
+        }
+
+        //[Test]
+        public void TestTurnFirstToUpper()
+        {
+            Assert.AreEqual("", Tools.TurnFirstToUpper(""));
+            Assert.AreEqual("ASDA", Tools.TurnFirstToUpper("ASDA"));
+            Assert.AreEqual("ASDA", Tools.TurnFirstToUpper("aSDA"));
+            Assert.AreEqual("%test", Tools.TurnFirstToUpper("%test"));
+            Assert.AreEqual("Ыыыы", Tools.TurnFirstToUpper("ыыыы"));
+
+            Variables.SetProject(LangCodeEnum.en, ProjectEnum.wiktionary);
+            Assert.AreEqual("test", Tools.TurnFirstToUpper("test"));
+            Assert.AreEqual("Test", Tools.TurnFirstToUpper("Test"));
         }
     }
 }

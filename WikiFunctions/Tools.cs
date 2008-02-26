@@ -143,6 +143,9 @@ namespace WikiFunctions
         /// <param name="Text">The title.</param>
         public static bool IsValidTitle(string ArticleTitle)
         {
+            ArticleTitle = WikiDecode(ArticleTitle).Trim();
+            if (ArticleTitle.Length == 0) return false;
+
             foreach (string s in InvalidChars)
                 if (ArticleTitle.Contains(s))
                     return false;
@@ -360,13 +363,13 @@ namespace WikiFunctions
         /// </summary>
         public static string CaseInsensitive(string input)
         {
-            if (!string.IsNullOrEmpty(input) && char.IsLetter(input[0]))
+            if (!string.IsNullOrEmpty(input) && char.IsLetter(input[0]) && (char.ToUpper(input[0]) != char.ToLower(input[0])))
             {
                 input = input.Trim();
-                return "[" + char.ToUpper(input[0]) + char.ToLower(input[0]) + "]" + input.Remove(0, 1);
+                return "[" + char.ToUpper(input[0]) + char.ToLower(input[0]) + "]" + Regex.Escape(input.Remove(0, 1));
             }
             else
-                return input;
+                return Regex.Escape(input);
         }
 
         /// <summary>
@@ -912,10 +915,18 @@ Message: {2}
         /// Replaces spaces with underscores for article title names
         /// </summary>
         /// <param name="title"></param>
-        /// <returns></returns>
         public static string WikiEncode(string title)
         {
             return HttpUtility.UrlEncode(title.Replace(' ', '_'));
+        }
+
+        /// <summary>
+        /// Decodes URL-encoded page titles into a normal string
+        /// </summary>
+        /// <param name="title">Page title to decode</param>
+        public static string WikiDecode(string title)
+        {
+            return HttpUtility.UrlDecode(title).Replace('_', ' ');
         }
 
         static readonly Regex ExpandTemplatesRegex = new Regex("<expandtemplates>(.*?)</expandtemplates>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
