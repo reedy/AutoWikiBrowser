@@ -12,7 +12,7 @@ namespace AutoWikiBrowser.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "8.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "9.0.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -85,7 +85,7 @@ namespace AutoWikiBrowser.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("600, 482")]
+        [global::System.Configuration.DefaultSettingValueAttribute("925, 717")]
         public global::System.Drawing.Size WindowSize {
             get {
                 return ((global::System.Drawing.Size)(this["WindowSize"]));
@@ -123,7 +123,7 @@ namespace AutoWikiBrowser.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::System.Collections.Specialized.StringCollection CustomWikis {
             get {
-                return ((System.Collections.Specialized.StringCollection)(this["CustomWikis"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["CustomWikis"]));
             }
             set {
                 this["CustomWikis"] = value;
