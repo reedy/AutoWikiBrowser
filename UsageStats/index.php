@@ -65,7 +65,7 @@ case "Stats":
 	
 default:
 	require_once("includes/Stats.php");
-	stats();
+	htmlstats();
 }
 
 function Setup() {

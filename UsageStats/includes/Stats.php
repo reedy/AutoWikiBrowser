@@ -15,7 +15,7 @@ Some queries we might want on a stats page:
 // TODO: Queries. Web-viewable stats when no data is POSTed. Posting from AWB debug builds or cron to Wikipedia.
 	require_once("MySQL.php");
 
-function stats(){
+function htmlstats(){
 	$db=new DB();
 	$db->db_connect();
 	
@@ -73,21 +73,31 @@ function stats(){
 		
 		  echo "<tr>
 	    <td>$site</td>
-	    <td>{$row['sessions']}</td>.
+	    <td>{$row['sessions']}</td>
 		<td>{$row['nosaves']}</td>
 	  </tr>";
 	}
 	
 	echo "</table>";
 	
-	//Most popular OS of last x days (unique users)
-	/*$query = "";
+	//OS Stats
+	$query = "SELECT o.OS, COUNT(s.os) AS nousers FROM sessions s, lkpOS o WHERE (s.os = o.osid) GROUP BY s.os;";
 	$retval = $db->db_mysql_query($query, 'stats', 'STATS') ;
+	
+			echo "<table width='25%' border=1>
+  <tr>
+    <td>OS</td>
+    <td>Number of Users</td>
+  </tr>";
 
 	while($row = mysqli_fetch_array($retval, MYSQL_ASSOC))
 	{
-		echo "No of : {$row['']}<br />";
-	}*/
+	    echo "<td>{$row['OS']}</td>
+		<td>{$row['nousers']}</td>
+	  </tr>";
+	}
+	
+	echo "</table>";
 	
 	//Number of plugins known
 	$query = "SELECT COUNT(DISTINCT PluginID) as pluginno FROM plugins";
@@ -99,12 +109,25 @@ function stats(){
 	}
 	
 	//Number of saves by language (culture)
-	/*$query = "";
+	$query = "SELECT language, country, COUNT(culture) AS nocultures FROM sessions s, lkpCultures c WHERE (s.culture = c.CultureID) GROUP BY s.culture";
 	$retval = $db->db_mysql_query($query, 'stats', 'STATS') ;
 
+			echo "<table width='25%' border=1>
+  <tr>
+    <td>Country</td>
+    <td>Language</td>
+	<td>Number</td>
+  </tr>";
+	
 	while($row = mysqli_fetch_array($retval, MYSQL_ASSOC))
 	{
-		echo "No of : {$row['']}<br />";
-	}*/
+		  echo "<tr>
+	    <td>{$row['country']}</td>
+	    <td>{$row['language']}</td>
+		<td>{$row['nocultures']}</td>
+	  </tr>";
+	}
+	
+		echo "</table>";
 }
 ?>
