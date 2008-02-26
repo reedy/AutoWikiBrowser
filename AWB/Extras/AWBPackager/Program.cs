@@ -70,10 +70,6 @@ namespace AWBPackager
                 File.Copy(currFolder + "Film generic template.xml", Tmp + "Plugins\\Kingbotk\\Film generic template.xml", true);
                 File.Copy(currFolder + "Readme.txt", Tmp + "Plugins\\Kingbotk\\Readme.txt", true);
 
-                currFolder = AWBDir + "Plugins\\";
-                Directory.CreateDirectory(Tmp + "Plugins\\WPAssessmentsCatCreator\\");
-                File.Copy(currFolder + "WPAssessmentsCatCreator\\WPAssessmentsCatCreator\\bin\\Release\\WPAssessmentsCatCreator.dll", Tmp + "Plugins\\WPAssessmentsCatCreator\\WPAssessmentsCatCreator.dll", true);
-
                 Console.WriteLine("Files copied to temporary directory");
 
                 string filename = "AWB.zip";
