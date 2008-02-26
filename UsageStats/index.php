@@ -64,8 +64,8 @@ case "Stats":
 	break;
 	
 default:
-	// return some stats in a HTML table?
-	dead("Unknown action");
+	require_once("includes/Stats.php");
+	stats();
 }
 
 function Setup() {
