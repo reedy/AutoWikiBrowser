@@ -49,11 +49,8 @@ namespace AutoWikiBrowser
             cmboLang.SelectedItem = lang.ToString().ToLower();
             cmboProject.SelectedItem = proj;
 
-            if (Properties.Settings.Default.CustomWikis == null)
-                Properties.Settings.Default.CustomWikis = new System.Collections.Specialized.StringCollection();
-
             cmboCustomProject.Items.Clear();
-            foreach (string s in Properties.Settings.Default.CustomWikis)
+            foreach (string s in Properties.Settings.Default.CustomWikis.Split('|'))
             {
                 if (!cmboCustomProject.Items.Contains(s))
                     cmboCustomProject.Items.Add(s);
@@ -275,14 +272,15 @@ namespace AutoWikiBrowser
                 cmboCustomProject.Items.Add(cmboCustomProject.Text);
             }
 
-            Properties.Settings.Default.CustomWikis.Clear();
+            StringBuilder customs = new StringBuilder();
             foreach (string s in cmboCustomProject.Items)
             {
-                if (!Properties.Settings.Default.CustomWikis.Contains(s))
-                    Properties.Settings.Default.CustomWikis.Add(s);
+                customs.Append(s + "|");
             }
+            string tmp = customs.ToString();
+            Properties.Settings.Default.CustomWikis = tmp.Substring(0, tmp.LastIndexOf('|'));
 
-            if (Properties.Settings.Default.CustomWikis.Count > 0)
+            if (Properties.Settings.Default.CustomWikis.Length > 0)
                 save = true;
 
             if (Properties.Settings.Default.DontAskForTerminate != chkAlwaysConfirmExit.Checked)
