@@ -1044,6 +1044,7 @@ namespace WikiFunctions.Browser
         }
     }
 
+    [Serializable]
     public class WebBrowserOperationsException : System.Exception
     {
         public WebBrowserOperationsException(string message, Exception inner)
@@ -1051,5 +1052,8 @@ namespace WikiFunctions.Browser
 
         public WebBrowserOperationsException()
             : base("Web browser operations exception") { }
+
+        public WebBrowserOperationsException(string message)
+            : base(message) { }
     }
 }

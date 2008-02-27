@@ -258,16 +258,16 @@ namespace AutoWikiBrowser
 #region Helper routines
         private static string BuildPostDataString(NameValueCollection postvars)
         {
-            string tmp = string.Empty;
+            StringBuilder ret = new StringBuilder();
             for (int i = 0; i < postvars.Keys.Count; i++)
             {
                 if (i > 0)
-                    tmp += "&";
+                    ret.Append("&");
 
-                tmp += postvars.Keys[i] + "=" + postvars[postvars.Keys[i]];
+                ret.Append(postvars.Keys[i] + "=" + postvars[postvars.Keys[i]]);
             }
 
-            return tmp;
+            return ret.ToString();
         }
 
         private static void EnumeratePlugins(NameValueCollection postvars, ICollection<IAWBPlugin> plugins)

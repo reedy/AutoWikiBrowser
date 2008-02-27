@@ -325,5 +325,12 @@ namespace WikiFunctions.Parse
         }
     }
 
-    public class TypoException : Exception { }
+    [Serializable]
+    public class TypoException : Exception
+    {
+        public TypoException()
+            : base() { }
+        public TypoException(string message)
+            : base(message) { }
+    }
 }

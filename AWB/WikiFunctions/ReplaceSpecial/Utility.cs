@@ -26,43 +26,15 @@ namespace WikiFunctions.MWB
     {
         private Utility() { }
 
-        public static string GetFilenameFromPath(string path)
-        {
-            string res = path;
-            res = res.Remove(0, res.LastIndexOf("\\") + 1);
-            return res;
-        }
-
         // returns true if testnode is the same or a subnode of refnode
-        public static bool IsSubnodeOf(
-          System.Windows.Forms.TreeNode refnode,
-          System.Windows.Forms.TreeNode testnode)
+        public static bool IsSubnodeOf(System.Windows.Forms.TreeNode refnode, System.Windows.Forms.TreeNode testnode)
         {
-            for (
-              System.Windows.Forms.TreeNode t = testnode;
-              t != null; t = t.Parent)
+            for (System.Windows.Forms.TreeNode t = testnode; t != null; t = t.Parent)
             {
                 if (ReferenceEquals(refnode, t))
                     return true;
             }
             return false;
-        }
-
-        public static string ReadAllElementContent(ref System.Xml.XmlTextReader r)
-        {
-            System.Xml.WhitespaceHandling saved_handling = r.WhitespaceHandling;
-            try
-            {
-                r.WhitespaceHandling = System.Xml.WhitespaceHandling.All;
-                string res = r.ReadElementContentAsString();
-                if (r.NodeType == System.Xml.XmlNodeType.Whitespace)
-                    r.Read();
-                return res;
-            }
-            finally
-            {
-                r.WhitespaceHandling = saved_handling;
-            }
         }
     }
 }
