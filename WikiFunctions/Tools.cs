@@ -36,6 +36,8 @@ namespace WikiFunctions
     /// </summary>
     public static class Tools
     {
+        public delegate void SetProgress(int percent);
+
         /// <summary>
         /// Calculates the namespace index.
         /// </summary>

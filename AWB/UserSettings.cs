@@ -137,10 +137,11 @@ namespace AutoWikiBrowser
             listMaker1.removeListDuplicates();
         }
 
-        public void LoadRecentSettingsList()
+        private void LoadRecentSettingsList()
         {
             string s;
 
+            splash.SetProgress(89);
             try
             {
                 Microsoft.Win32.RegistryKey reg = Microsoft.Win32.Registry.CurrentUser.
@@ -150,6 +151,7 @@ namespace AutoWikiBrowser
             }
             catch { return; }
             UpdateRecentList(s.Split('|'));
+            splash.SetProgress(94);
         }
 
         public void UpdateRecentList(string[] list)
@@ -279,6 +281,8 @@ namespace AutoWikiBrowser
         /// </summary>
         private void LoadPrefs()
         {
+            splash.SetProgress(80);
+
             if (File.Exists("Default.xml"))
                 SettingsFile = "Default.xml";
 
@@ -286,6 +290,8 @@ namespace AutoWikiBrowser
                 LoadPrefs(SettingsFile);
             else
                 LoadPrefs(new UserPrefs());
+
+            splash.SetProgress(85);
         }
 
         /// <summary>

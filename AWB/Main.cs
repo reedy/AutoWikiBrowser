@@ -228,11 +228,12 @@ namespace AutoWikiBrowser
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            splash.SetProgress(30);
+            splash.SetProgress(20);
             lblStatusText.Text = "Initialising...";
             Application.DoEvents();
             Variables.MainForm = this;
-            Updater.Update();
+            Updater.UpdateAWB(new Tools.SetProgress(splash.SetProgress)); // progress 22-29 in UpdateAWB()
+            splash.SetProgress(30);
 
             Program.MyTrace.LS = loggingSettings1;
 
@@ -262,13 +263,15 @@ namespace AutoWikiBrowser
                 this.WindowState = Properties.Settings.Default.WindowState;
 
                 Debug();
-                Plugin.LoadPlugins(this);
+                Plugin.LoadPluginsStartup(this, splash); // progress 65-79 in LoadPlugins()
 
-                LoadPrefs();
+                LoadPrefs(); // progress 80-85 in LoadPrefs()
 
+                splash.SetProgress(86);
                 UpdateButtons();
-                LoadRecentSettingsList();
-                splash.SetProgress(90);
+                splash.SetProgress(88);
+                LoadRecentSettingsList(); // progress 89-94 in LoadRecentSettingsList()
+                splash.SetProgress(95);
 
                 WikiStatusResult res = Variables.User.CheckEnabled();
                 if (res == WikiStatusResult.OldVersion)
@@ -295,11 +298,12 @@ namespace AutoWikiBrowser
             {
                 ErrorHandler.Handle(ex);
             }
+            
+            UsageStats.Initialise();
 
             lblStatusText.Text = "";
+            splash.SetProgress(100);
             splash.Close();
-
-            UsageStats.Initialise();
 
 #if DEBUG && INSTASTATS
             UsageStats.Do();

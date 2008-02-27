@@ -159,12 +159,14 @@ namespace AutoWikiBrowser
                 return plugins;
             }
 
-            internal static void LoadPlugins(IAutoWikiBrowser awb)
+            internal static void LoadPluginsStartup(IAutoWikiBrowser awb, Splash splash)
             {
+                splash.SetProgress(75);
                 string path = Application.StartupPath;
                 string[] pluginFiles = Directory.GetFiles(path, "*.DLL");
 
                 LoadPlugins(awb, pluginFiles, false);
+                splash.SetProgress(89);
             }
 
             internal static void LoadPlugins(IAutoWikiBrowser awb, string[] Plugins, bool afterStartup)
