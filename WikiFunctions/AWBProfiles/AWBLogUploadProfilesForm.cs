@@ -27,7 +27,7 @@ using System.Windows.Forms;
 
 namespace WikiFunctions.Profiles
 {
-    public delegate void ProfileLoaded(object sender);
+    public delegate void ProfileLoaded(object sender, EventArgs e);
 
     public partial class AWBLogUploadProfilesForm : Form
     {

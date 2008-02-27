@@ -405,7 +405,7 @@ namespace AutoWikiBrowser.Logging
         #endregion
 
         // Callback from Settings control:
-        internal void PropertiesChange(bool jobNameHasChanged)
+        internal void PropertiesChange()
         {
             if (LoggingSettings.Settings.LogFolder == LogFolder)
             {

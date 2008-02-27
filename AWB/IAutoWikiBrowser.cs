@@ -100,7 +100,7 @@ namespace AutoWikiBrowser
         void IAutoWikiBrowser.Save(string sender) { Save(); }
 
         // Fire GetLogUploadLocations event
-        internal void GetLogUploadLocationsEvent(List<WikiFunctions.Logging.Uploader.LogEntry> locations)
+        internal void GetLogUploadLocationsEvent(object sender, List<WikiFunctions.Logging.Uploader.LogEntry> locations)
         {
             if (GetLogUploadLocations != null)
                 GetLogUploadLocations(this, locations);

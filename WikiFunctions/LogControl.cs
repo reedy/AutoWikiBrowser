@@ -141,16 +141,6 @@ namespace WikiFunctions.Logging
             catch { }
         }
 
-        private void resizeIgnored()
-        {
-            resizeListView(lvIgnored);
-        }
-
-        private void resizeSaved()
-        {
-            resizeListView(lvSaved);
-        }
-
         private void resizeListView(ListView lstView)
         {
             WikiFunctions.Lists.ListViewColumnResize.resizeListView(lstView);

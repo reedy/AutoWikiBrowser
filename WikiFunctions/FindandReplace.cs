@@ -237,9 +237,9 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="Find">The string to find.</param>
         /// <param name="ReplaceWith">The replacement string.</param>
-        public void AddNew(string Find, string ReplaceWith, bool CaseSensitive, bool IsRegex, bool MultiLine, bool SingleLine, int Times, bool enabled)
+        public void AddNew(string Find, string ReplaceWith, bool CaseSensitive, bool IsRegex, bool Multiline, bool Singleline, int Times, bool enabled)
         {
-            dataGridView1.Rows.Add(Find, ReplaceWith, CaseSensitive, IsRegex, MultiLine, SingleLine, enabled);
+            dataGridView1.Rows.Add(Find, ReplaceWith, CaseSensitive, IsRegex, Multiline, Singleline, enabled);
             if (!enabled)
                 dataGridView1.Rows[dataGridView1.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightGray;
 

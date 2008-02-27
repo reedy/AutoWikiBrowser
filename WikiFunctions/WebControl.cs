@@ -29,7 +29,7 @@ using System.Web;
 
 namespace WikiFunctions.Browser
 {
-    public delegate void WebControlDel();
+    public delegate void WebControlDel(object sender, EventArgs e);
 
     public enum enumProcessStage : byte { load, diff, save, delete, protect, none }
 
@@ -293,7 +293,7 @@ namespace WikiFunctions.Browser
                 strStatus = value;
 
                 if (this.StatusChanged != null)
-                    this.StatusChanged();
+                    this.StatusChanged(null, null);
             }
         }
 
@@ -309,7 +309,7 @@ namespace WikiFunctions.Browser
                 bool b = boolBusy;
                 boolBusy = value;
                 if (b != boolBusy && BusyChanged != null)
-                    BusyChanged();
+                    BusyChanged(null, null);
             }
         }
 
@@ -605,7 +605,7 @@ namespace WikiFunctions.Browser
                 Status = "Deleting page";
                 this.Document.GetElementById("wpConfirmB").InvokeMember("click");
 
-                Deleted();
+                Deleted(null, null);
             }
         }
 
@@ -816,7 +816,7 @@ namespace WikiFunctions.Browser
             {
                 ProcessStage = enumProcessStage.none;
                 if (Fault != null)
-                    this.Fault();
+                    this.Fault(null, null);
                 return;
             }
 
@@ -834,7 +834,7 @@ namespace WikiFunctions.Browser
                 Status = "Ready to save";
 
                 if (Loaded != null)
-                    this.Loaded();
+                    this.Loaded(null, null);
 
                 this.Document.GetElementById("wpTextbox1").Enabled = false;
             }
@@ -847,7 +847,7 @@ namespace WikiFunctions.Browser
             else if (ProcessStage == enumProcessStage.none)
             {
                 if (None != null)
-                    this.None();
+                    this.None(null, null);
             }
         }
 
@@ -861,7 +861,7 @@ namespace WikiFunctions.Browser
                 ProcessStage = enumProcessStage.none;
                 this.Stop();
                 if (this.Saved != null)
-                    this.Saved();
+                    this.Saved(null, null);
             }
             base.OnProgressChanged(e);
         }
@@ -1032,7 +1032,7 @@ namespace WikiFunctions.Browser
                 Stop2();
                 Status = "Timed out";
                 if (this.Fault != null)
-                    this.Fault();
+                    this.Fault(null, null);
             }
         }
 

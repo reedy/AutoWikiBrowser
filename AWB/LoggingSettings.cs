@@ -196,7 +196,7 @@ namespace AutoWikiBrowser
             Settings.DebugUploading = DebugUploadingCheckBox.Checked;
 
             if (mInitialised)
-                Program.MyTrace.PropertiesChange(blnJobNameHasChanged);
+                Program.MyTrace.PropertiesChange();
         }
         internal void WEHaveUnappliedChanges()
         {
@@ -372,7 +372,7 @@ namespace AutoWikiBrowser
 
                 // If "uploading to WikiProjects" (or other plugin-specified locations), get details from plugins:
                 if (mUploadToWikiProjects)
-                    ((MainForm)Program.AWB).GetLogUploadLocationsEvent(tempLinksToLog);
+                    ((MainForm)Program.AWB).GetLogUploadLocationsEvent(this, tempLinksToLog);
 
                 return tempLinksToLog;
             }
