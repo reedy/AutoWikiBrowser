@@ -62,6 +62,26 @@ namespace UnitTests
 
             Assert.AreEqual("[[a ]]b", parser.FixLinks("[[a ]]b", out dummy));
         }
+
+        [Test]
+        public void TestStickyLinks()
+        {
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_1#Link_de-piping_false_positive
+            Assert.AreEqual("[[Sacramento, California|Sacramento]], California's [[capital city]]",
+                parser.StickyLinks("[[Sacramento, California|Sacramento]], California's [[capital city]]"));
+        }
+
+        [Test]
+        public void FixDates()
+        {
+            Assert.AreEqual("the later 1990s", parser.FixDates("the later 1990's"));
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_1#Title_bolding
+            Assert.AreEqual("the later A1990's", parser.FixDates("the later A1990's"));
+
+            //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_1#Breaking_a_template
+            Assert.AreEqual("{{the later 1990's}}", parser.FixDates("{{the later 1990's}}"));
+        }
     }
 
     [TestFixture]
@@ -76,14 +96,41 @@ namespace UnitTests
         [Test]
         public void BasicImprovements()
         {
-            Parsers p = new Parsers();
+            Parsers parser = new Parsers();
 
             Assert.AreEqual("[[Image:foo.jpg|thumb|200px|Bar]]",
-                p.FixImages("[[ image : foo.jpg|thumb|200px|Bar]]"));
+                parser.FixImages("[[ image : foo.jpg|thumb|200px|Bar]]"));
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#URL_underscore_regression
             Assert.AreEqual("[[Image:foo|thumb]] # [http://a_b c] [[link]]",
-                p.FixImages("[[Image:foo|thumb]] # [http://a_b c] [[link]]"));
+                parser.FixImages("[[Image:foo|thumb]] # [http://a_b c] [[link]]"));
+        }
+    }
+
+    [TestFixture]
+    public class BoldTitleTests
+    {
+        Parsers p = new Parsers();
+
+        [Test]
+        //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_1#Title_bolding
+        public void DontEmboldenImages()
+        {
+            bool dummy;
+            Assert.That(p.BoldTitle("[[Image:Foo.jpg]]", "Foo", out dummy), Is.Not.Contains("'''Foo'''"));
+        }
+    }
+
+    [TestFixture]
+    public class UnicodifyTests
+    {
+        Parsers parser = new Parsers();
+
+        [Test]
+        public void PreserveTM()
+        {
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_1#AWB_corrupts_the_trademark_.28TM.29_special_character_.
+            Assert.AreEqual("test™", parser.Unicodify("test™"));
         }
     }
 }
