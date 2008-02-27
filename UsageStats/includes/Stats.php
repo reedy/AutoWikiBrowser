@@ -35,6 +35,7 @@ Some queries we might want on a stats page:
 
 /* TODO: this is a fucking mess! remember encapsulation: put all the queries into functions in the mysql object, so we
 can more easily modify them, so that wiki/XML can reuse them, and to make this more of an output-only routine */
+// TODO: CSS?
 
 function htmlstats(){
 	global $db;
@@ -45,7 +46,7 @@ function htmlstats(){
 <head>
 	<title>AutoWikiBrowser Usage Stats</title>
 	<meta name="generator" content="AWB UsageStats PHP app" />
-	<meta name="copyright" content="<?php utf8_encode('©'); // TODO: How the fuck do you get a (c) symbol in UTF8?! ?> 2008 Stephen Kennedy, Sam Reed" />
+	<meta name="copyright" content="<?php echo "\xC2\xA9"; ?> 2008 Stephen Kennedy, Sam Reed" />
 </head>
 <body>
 <h2><a href="http://en.wikipedia.org/wiki/WP:AWB">AutoWikiBrowser</a></h2>
@@ -81,14 +82,16 @@ function htmlstats(){
 	//Sessions & Saves per sites
 	$query = "SELECT COUNT(SessionID) as sessions, l.langcode, l.site, SUM(s.saves) as nosaves FROM sessions s, lkpWikis l WHERE (s.site = l.siteid) GROUP BY s.site";
 	$retval = $db->db_mysql_query($query, 'stats', 'STATS') ;
-
-		echo "<table width='25%' border=1>
+	
+?>
+<table width='25%' border='1'>
   <tr>
     <td>Site</td>
     <td>Sessions</td>
 	<td>No of Saves</td>
-  </tr>";
-	
+  </tr>
+<?php
+
 	while($row = mysqli_fetch_array($retval, MYSQL_ASSOC))
 	{
 		$lang = "{$row['langcode']}";
@@ -116,7 +119,7 @@ function htmlstats(){
 	$query = "SELECT o.OS, COUNT(s.os) AS nousers FROM sessions s, lkpOS o WHERE (s.os = o.osid) GROUP BY s.os;";
 	$retval = $db->db_mysql_query($query, 'stats', 'STATS') ;
 	
-			echo "<table width='25%' border=1>
+			echo "<table width='25%' border='1'>
   <tr>
     <td>OS</td>
     <td>Number of Users</td>
@@ -144,7 +147,7 @@ function htmlstats(){
 	$query = "SELECT language, country, COUNT(culture) AS nocultures FROM sessions s, lkpCultures c WHERE (s.culture = c.CultureID) GROUP BY s.culture";
 	$retval = $db->db_mysql_query($query, 'stats', 'STATS') ;
 
-			echo "<table width='25%' border=1>
+			echo "<table width='25%' border='1'>
   <tr>
     <td>Country</td>
     <td>Language</td>
