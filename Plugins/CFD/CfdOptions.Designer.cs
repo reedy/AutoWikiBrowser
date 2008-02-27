@@ -156,7 +156,7 @@ namespace AutoWikiBrowser.Plugins.CFD
             // 
             // timer
             // 
-            this.timer.Interval = 400;
+            this.timer.Interval = 1000;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
             // CfdOptions

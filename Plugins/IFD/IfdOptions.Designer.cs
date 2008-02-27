@@ -30,6 +30,7 @@ namespace AutoWikiBrowser.Plugins.IFD
         {
             this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chkComment = new System.Windows.Forms.CheckBox();
             this.chkSkip = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.txtBacklog = new System.Windows.Forms.TextBox();
@@ -40,7 +41,6 @@ namespace AutoWikiBrowser.Plugins.IFD
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOk = new System.Windows.Forms.Button();
             this.timer = new System.Windows.Forms.Timer(this.components);
-            this.chkComment = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -59,6 +59,16 @@ namespace AutoWikiBrowser.Plugins.IFD
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Options";
+            // 
+            // chkComment
+            // 
+            this.chkComment.AutoSize = true;
+            this.chkComment.Location = new System.Drawing.Point(218, 19);
+            this.chkComment.Name = "chkComment";
+            this.chkComment.Size = new System.Drawing.Size(212, 17);
+            this.chkComment.TabIndex = 2;
+            this.chkComment.Text = "Comment out rather than delete Image?";
+            this.chkComment.UseVisualStyleBackColor = true;
             // 
             // chkSkip
             // 
@@ -158,18 +168,8 @@ namespace AutoWikiBrowser.Plugins.IFD
             // 
             // timer
             // 
-            this.timer.Interval = 400;
+            this.timer.Interval = 1000;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
-            // 
-            // chkComment
-            // 
-            this.chkComment.AutoSize = true;
-            this.chkComment.Location = new System.Drawing.Point(218, 19);
-            this.chkComment.Name = "chkComment";
-            this.chkComment.Size = new System.Drawing.Size(212, 17);
-            this.chkComment.TabIndex = 2;
-            this.chkComment.Text = "Comment out rather than delete Image?";
-            this.chkComment.UseVisualStyleBackColor = true;
             // 
             // IfdOptions
             // 

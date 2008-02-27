@@ -36,7 +36,7 @@ namespace WikiFunctions.Logging
 		// Initialisation
         private static Regex GetArticleTemplateRegex = new Regex("( talk)?:", RegexOptions.Compiled);
 
-		public TraceListenerBase(string filename) : base(filename, false, System.Text.Encoding.UTF8)
+		protected TraceListenerBase(string filename) : base(filename, false, System.Text.Encoding.UTF8)
 		{
 		}
 
@@ -128,7 +128,6 @@ namespace WikiFunctions.Logging
 	/// </summary>
     public abstract class TraceListenerUploadableBase : TraceListenerBase, ITraceStatusProvider
 	{
-
         protected TraceStatus mTraceStatus;
         protected UploadableLogSettings2 mUploadSettings;
 
@@ -136,7 +135,7 @@ namespace WikiFunctions.Logging
 		public event UploadEventHandler Upload;
 
 		// Initialisation:
-        public TraceListenerUploadableBase(UploadableLogSettings2 UploadSettings, TraceStatus TraceStatus)
+        protected TraceListenerUploadableBase(UploadableLogSettings2 UploadSettings, TraceStatus TraceStatus)
             : base(TraceStatus.FileName)
 		{
 			mTraceStatus = TraceStatus;
