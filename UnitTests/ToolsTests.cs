@@ -121,5 +121,38 @@ namespace UnitTests
             Assert.AreEqual("test", Tools.TurnFirstToUpper("test"));
             Assert.AreEqual("Test", Tools.TurnFirstToUpper("Test"));
         }
+
+        //[Test]
+        public void TestTurnFirstToLower()
+        {
+        }
+
+        [Test]
+        public void TestWordCount()
+        {
+            Assert.AreEqual(0, Tools.WordCount(""));
+            Assert.AreEqual(0, Tools.WordCount("    "));
+            Assert.AreEqual(1, Tools.WordCount("foo"));
+            Assert.AreEqual(2, Tools.WordCount("Превед медвед"));
+
+            Assert.AreEqual(1, Tools.WordCount("0"));
+        }
     }
+
+    [TestFixture]
+    public class HumanCatKeyTests
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            Globals.UnitTestMode = true;
+        }
+
+        [Test]
+        public void WithRomanNumbers()
+        {
+            Assert.AreEqual("Doe, John III", Tools.MakeHumanCatKey("John Doe III"));
+        }
+    }
+
 }
