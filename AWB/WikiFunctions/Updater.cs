@@ -65,6 +65,16 @@ namespace WikiFunctions
         /// Checks to see if AWBUpdater.exe.new exists, if it does, replace it.
         /// If not, see if the version of AWB Updater is older than the version on the checkpage, and run AWBUpdater if so
         /// </summary>
+        public static void UpdateAWB(Tools.SetProgress SetProgress)
+        {
+            SetProgress(22);
+            Update();
+            SetProgress(29);
+        }
+        /// <summary>
+        /// Checks to see if AWBUpdater.exe.new exists, if it does, replace it.
+        /// If not, see if the version of AWB Updater is older than the version on the checkpage, and run AWBUpdater if so
+        /// </summary>
         public static void Update()
         {
             request = new BackgroundRequest();

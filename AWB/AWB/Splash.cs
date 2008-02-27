@@ -32,6 +32,7 @@ namespace AutoWikiBrowser
         {
             InitializeComponent();
             lblVersion.Text = "Version " + Program.VersionString;
+            SetProgress(0);
         }
 
         private void ClickHandler(object sender, EventArgs e)
@@ -41,6 +42,8 @@ namespace AutoWikiBrowser
 
         public void SetProgress(int percent)
         {
+            System.Reflection.MethodBase method = new System.Diagnostics.StackFrame(1).GetMethod();
+            MethodLabel.Text = method.DeclaringType.Name + "." + method.Name + "()";
             progressBar.Value = percent;
         }
     }

@@ -30,6 +30,7 @@ namespace AutoWikiBrowser
         {
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.lblVersion = new System.Windows.Forms.Label();
+            this.MethodLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // progressBar
@@ -53,6 +54,16 @@ namespace AutoWikiBrowser
             this.lblVersion.Text = "Version";
             this.lblVersion.UseWaitCursor = true;
             // 
+            // MethodLabel
+            // 
+            this.MethodLabel.AutoSize = true;
+            this.MethodLabel.BackColor = System.Drawing.Color.Transparent;
+            this.MethodLabel.Location = new System.Drawing.Point(35, 248);
+            this.MethodLabel.Name = "MethodLabel";
+            this.MethodLabel.Size = new System.Drawing.Size(35, 13);
+            this.MethodLabel.TabIndex = 5;
+            this.MethodLabel.Text = "label1";
+            // 
             // Splash
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -62,6 +73,7 @@ namespace AutoWikiBrowser
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(478, 302);
             this.ControlBox = false;
+            this.Controls.Add(this.MethodLabel);
             this.Controls.Add(this.lblVersion);
             this.Controls.Add(this.progressBar);
             this.DoubleBuffered = true;
@@ -78,6 +90,7 @@ namespace AutoWikiBrowser
             this.UseWaitCursor = true;
             this.Click += new System.EventHandler(this.ClickHandler);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -85,5 +98,6 @@ namespace AutoWikiBrowser
 
         private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.Label lblVersion;
+        private System.Windows.Forms.Label MethodLabel;
     }
 }

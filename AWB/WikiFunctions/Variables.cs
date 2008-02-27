@@ -88,7 +88,12 @@ namespace WikiFunctions
         public static UserProperties User = new UserProperties();
         public static string RETFPath;
 
-        public static IAutoWikiBrowser MainForm;
+        private static IAutoWikiBrowser mMainForm;
+        public static IAutoWikiBrowser MainForm
+        {
+            get { return Variables.mMainForm; }
+            set { Variables.mMainForm = value; }
+        }
         #region project and language settings
 
         /// <summary>
