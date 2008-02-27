@@ -129,6 +129,21 @@ class DB {
 		return $retval;
 	}
 	
+	function no_of_sessions_and_saves ()	{
+		$retval = $this->db_mysql_query("SELECT COUNT(s.sessionid) AS nosessions, SUM(s.saves) AS totalsaves FROM sessions s", 'stats', 'STATS');
+		return mysqli_fetch_array($retval, MYSQL_ASSOC);
+	}
+	
+	function unique_username_count() {
+		$retval = $this->db_mysql_query("SELECT COUNT(DISTINCT u.User) AS usercount FROM lkpUsers u", 'stats', 'STATS') ;
+		return mysqli_fetch_array($retval, MYSQL_ASSOC);
+	}
+	
+	function plugin_count() {
+		$retval = $this->db_mysql_query("SELECT COUNT(DISTINCT PluginID) as pluginno FROM plugins", 'stats', 'STATS') ;
+		return mysqli_fetch_array($retval, MYSQL_ASSOC);
+	}
+	
 	private function get_or_add_lookup_record($table, $autoid, $lookupquery, $insertfields, $insertvalues) {
 		$query = "SELECT {$autoid} FROM {$table} WHERE {$lookupquery}";
 	

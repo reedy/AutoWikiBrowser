@@ -53,17 +53,13 @@ function htmlstats(){
 <?php
 	
 	//Number of sessions, Number of saves,
-	$retval = $db->db_mysql_query("SELECT COUNT(s.sessionid) AS nosessions, SUM(s.saves) AS totalsaves FROM sessions s", 'stats', 'STATS');
-	$row = mysqli_fetch_array($retval, MYSQL_ASSOC);
-	
-	echo "No of Sessions: {$row['nosessions']}<br />";
-	echo "No of Saves: {$row['totalsaves']}<br />";
+	$return = $db->no_of_sessions_and_saves();
+	echo "No of Sessions: {$return['nosessions']}<br />";
+	echo "No of Saves: {$return['totalsaves']}<br />";
 
 	//Unique username count
-	$retval = $db->db_mysql_query("SELECT COUNT(DISTINCT u.User) AS usercount FROM lkpUsers u", 'stats', 'STATS') ;
-	$row = mysqli_fetch_array($retval, MYSQL_ASSOC);
-
-	echo "No of Unique Users: {$row['usercount']}<br />";
+	$return = $db->unique_username_count();
+	echo "No of Unique Users: {$return['usercount']}<br />";
 	
 	//Unique users count (username/wiki)
 	/*$query = "";
@@ -75,8 +71,6 @@ function htmlstats(){
 	}*/
 		
 	//Sessions & Saves per sites
-	$retval = $db->db_mysql_query("SELECT COUNT(SessionID) as sessions, l.langcode, l.site, SUM(s.saves) as nosaves FROM sessions s, lkpWikis l WHERE (s.site = l.siteid) GROUP BY s.site", 'stats', 'STATS') ;
-	
 ?>
 <table width='25%' border='1'>
   <tr>
@@ -85,6 +79,8 @@ function htmlstats(){
 	<td>No of Saves</td>
   </tr>
 <?php
+
+	$retval = $db->db_mysql_query("SELECT COUNT(SessionID) as sessions, l.langcode, l.site, SUM(s.saves) as nosaves FROM sessions s, lkpWikis l WHERE (s.site = l.siteid) GROUP BY s.site", 'stats', 'STATS');
 
 	while($row = mysqli_fetch_array($retval, MYSQL_ASSOC))
 	{
@@ -97,7 +93,7 @@ function htmlstats(){
 		}
 		else
 		{
-		$site = "{$row['site']}";
+			$site = "{$row['site']}";
 		}
 		
 		  echo "<tr>
@@ -110,7 +106,7 @@ function htmlstats(){
 	echo "</table>";
 	
 	//OS Stats
-	$retval = $db->db_mysql_query("SELECT o.OS, COUNT(s.os) AS nousers FROM sessions s, lkpOS o WHERE (s.os = o.osid) GROUP BY s.os;", 'stats', 'STATS') ;
+	$retval = $db->db_mysql_query("SELECT o.OS, COUNT(s.os) AS nousers FROM sessions s, lkpOS o WHERE (s.os = o.osid) GROUP BY s.os;", 'stats', 'STATS');
 	
 			echo "<table width='25%' border='1'>
   <tr>
@@ -128,14 +124,11 @@ function htmlstats(){
 	echo "</table>";
 	
 	//Number of plugins known
-	$retval = $db->db_mysql_query("SELECT COUNT(DISTINCT PluginID) as pluginno FROM plugins", 'stats', 'STATS') ;
-
-	$row = mysqli_fetch_array($retval, MYSQL_ASSOC);
-
-	echo "No of known Plugins: {$row['pluginno']}<br />";
+	$return = $db->plugin_count();
+	echo "No of known Plugins: {$return['pluginno']}<br />";
 	
 	//Number of saves by language (culture)
-	$retval = $db->db_mysql_query("SELECT language, country, COUNT(culture) AS nocultures FROM sessions s, lkpCultures c WHERE (s.culture = c.CultureID) GROUP BY s.culture", 'stats', 'STATS') ;
+	$retval = $db->db_mysql_query("SELECT language, country, COUNT(culture) AS nocultures FROM sessions s, lkpCultures c WHERE (s.culture = c.CultureID) GROUP BY s.culture", 'stats', 'STATS');
 
 			echo "<table width='25%' border='1'>
   <tr>
@@ -152,7 +145,6 @@ function htmlstats(){
 		<td>{$row['nocultures']}</td>
 	  </tr>";
 	}
-	
 ?>
 </table>
 </body>
