@@ -228,9 +228,8 @@ namespace AutoWikiBrowser
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            splash.SetProgress(20);
             lblStatusText.Text = "Initialising...";
-            Application.DoEvents();
+            splash.SetProgress(20);
             Variables.MainForm = this;
             Updater.UpdateAWB(new Tools.SetProgress(splash.SetProgress)); // progress 22-29 in UpdateAWB()
             splash.SetProgress(30);
