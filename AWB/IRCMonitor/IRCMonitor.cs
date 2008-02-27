@@ -129,7 +129,7 @@ namespace IrcMonitor
         NextTaskType NextTask = NextTaskType.None;
         //string[] IRCChannels = new String[] { "#en.wikibooks", "#en.wikinews ", "#en.wikipedia", "#en.wikiquote", "#en.wikisource", "#meta" };
 
-        void WebBrowserSaved()
+        void WebBrowserSaved(object sender, EventArgs e)
         {
             webBrowser.AllowNavigation = true;
             switch (NextTask)
@@ -2007,9 +2007,8 @@ Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=15
             profiles.Show(this);
         }
 
-        private void LoadProfileSettings(object sender)
-        {
-        }
+        private void LoadProfileSettings(object sender, EventArgs e)
+        { }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {

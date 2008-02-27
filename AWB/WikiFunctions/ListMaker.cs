@@ -32,7 +32,7 @@ using WikiFunctions.Lists;
 
 namespace WikiFunctions.Controls.Lists
 {
-    public delegate void ListMakerEventHandler();
+    public delegate void ListMakerEventHandler(object sender, EventArgs e);
 
     public partial class ListMaker : UserControl, IEnumerable<Article>, ICollection<Article>, IList<Article>
     {
@@ -526,7 +526,7 @@ namespace WikiFunctions.Controls.Lists
             {
                 strStatus = value;
                 if (StatusTextChanged != null)
-                    this.StatusTextChanged();
+                    this.StatusTextChanged(null, null);
             }
         }
 
@@ -541,7 +541,7 @@ namespace WikiFunctions.Controls.Lists
             {
                 bBusyStatus = value;
                 if (BusyStateChanged != null)
-                    this.BusyStateChanged();
+                    this.BusyStateChanged(null, null);
             }
         }
 
@@ -688,7 +688,7 @@ namespace WikiFunctions.Controls.Lists
             UpdateNumberOfArticles();
 
             if (ListFinished != null)
-                ListFinished();
+                ListFinished(null, null);
         }
 
         Thread ListerThread = null;
@@ -1011,7 +1011,7 @@ namespace WikiFunctions.Controls.Lists
             if (lbArticles.Items.Count != 1)
                 lblNumberOfArticles.Text += "s";
             if (NoOfArticlesChanged != null)
-                this.NoOfArticlesChanged();
+                this.NoOfArticlesChanged(null, null);
 
             if (AutoAlpha)
                 AlphaSortList();

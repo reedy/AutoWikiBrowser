@@ -267,7 +267,7 @@ namespace AutoWikiBrowser
                 LoadPrefs(); // progress 80-85 in LoadPrefs()
 
                 splash.SetProgress(86);
-                UpdateButtons();
+                UpdateButtons(null, null);
                 splash.SetProgress(88);
                 LoadRecentSettingsList(); // progress 89-94 in LoadRecentSettingsList()
                 splash.SetProgress(95);
@@ -517,7 +517,7 @@ namespace AutoWikiBrowser
             catch (Exception ex)
             {
                 Tools.WriteDebug(this.Name, "Start() error: " + ex.Message);
-                StartDelayedRestartTimer();
+                StartDelayedRestartTimer(null, null);
             }
 
             if (Program.MyTrace.StoppedWithConfigError)
@@ -529,13 +529,13 @@ namespace AutoWikiBrowser
             }
         }
 
-        private void CaseWasDelete()
+        private void CaseWasDelete(object sender, EventArgs e)
         {
             listMaker1.Remove(TheArticle);
             Start();
         }
 
-        private void CaseWasLoad()
+        private void CaseWasLoad(object sender, EventArgs e)
         {
             if (!LoadSuccess())
                 return;
@@ -627,7 +627,7 @@ namespace AutoWikiBrowser
 
                 ProcessPage();
 
-                UpdateWebBrowserStatus();
+                UpdateWebBrowserStatus(null, null);
 
                 if (!Abort && skippable && chkSkipNoChanges.Checked &&
                     TheArticle.ArticleText == TheArticle.OriginalArticleText)
@@ -707,7 +707,7 @@ namespace AutoWikiBrowser
 
                     if (retries < 10)
                     {
-                        StartDelayedRestartTimer();
+                        StartDelayedRestartTimer(null, null);
                         retries++;
                         Start();
                         return false;
@@ -772,7 +772,7 @@ namespace AutoWikiBrowser
                 {//check if we have any messages
                     NudgeTimer.Stop();
                     Variables.User.WikiStatus = false;
-                    UpdateButtons();
+                    UpdateButtons(null, null);
                     webBrowserEdit.Document.Write("");
                     this.Focus();
 
@@ -800,7 +800,7 @@ namespace AutoWikiBrowser
                     }
 
                     lblStatusText.Text = "There was a problem loading the page. Re-starting.";
-                    StartDelayedRestartTimer();
+                    StartDelayedRestartTimer(null, null);
                     return false;
                 }
                 if (webBrowserEdit.Document.GetElementById("wpTextbox1").InnerText == null && chkSkipNonExistent.Checked)
@@ -839,7 +839,7 @@ namespace AutoWikiBrowser
             EnableButtons();
         }
 
-        private void CaseWasSaved()
+        private void CaseWasSaved(object sender, EventArgs e)
         {
             if (webBrowserEdit.Document.Body.InnerHtml.Contains("<H1 class=firstHeading>Edit conflict: "))
             {//if session data is lost, if data is lost then save after delay with tmrAutoSaveDelay
@@ -860,7 +860,7 @@ namespace AutoWikiBrowser
             }
             else if (webBrowserEdit.Document.Body.InnerHtml.Contains("<DIV CLASS=PREVIEWNOTE"))
             {//if session data is lost, if data is lost then save after delay with tmrAutoSaveDelay
-                StartDelayedRestartTimer();
+                StartDelayedRestartTimer(null, null);
                 return;
             }
 
@@ -884,7 +884,7 @@ namespace AutoWikiBrowser
             Start();
         }
 
-        private void CaseWasNull()
+        private void CaseWasNull(object sender, EventArgs e)
         {
             if (webBrowserEdit.Document.Body.InnerHtml.Contains("<B>You have successfully signed in to Wikipedia as"))
             {
@@ -1395,12 +1395,12 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
         }
 
-        private void UpdateWebBrowserStatus()
+        private void UpdateWebBrowserStatus(object sender, EventArgs e)
         {
             lblStatusText.Text = webBrowserEdit.Status;
         }
 
-        private void UpdateListStatus()
+        private void UpdateListStatus(object sender, EventArgs e)
         {
             lblStatusText.Text = listMaker1.Status;
         }
@@ -1646,7 +1646,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             else RightToLeft = RightToLeft.No;
 
             lblStatusText.Text = label;
-            UpdateButtons();
+            UpdateButtons(null, null);
 
             return b;
         }
@@ -2012,7 +2012,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         #region Enabling/Disabling of buttons
 
-        private void UpdateButtons()
+        private void UpdateButtons(object sender, EventArgs e)
         {
             bool enabled = listMaker1.NumberOfArticles > 0;
             SetStartButton(enabled);
@@ -2043,7 +2043,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void EnableButtons()
         {
-            UpdateButtons();
+            UpdateButtons(null, null);
             SetButtons(true);
         }
 
@@ -2074,14 +2074,14 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             else
                 intStartInSeconds--;
         }
-        private void StartDelayedRestartTimer()
+        private void StartDelayedRestartTimer(object sender, EventArgs e)
         {
             intStartInSeconds = intRestartDelay;
             Ticker += DelayedRestart;
             //increase the restart delay each time, this is decreased by 1 on each successfull save
             intRestartDelay += 5;
         }
-        private void StartDelayedRestartTimer(int delay)
+        private void StartDelayedRestartTimer(object sender, EventArgs e, int delay)
         {
             intStartInSeconds = delay;
             Ticker += DelayedRestart;
@@ -2305,7 +2305,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         {
             WikiFunctions.DBScanner.DatabaseScanner ds = new WikiFunctions.DBScanner.DatabaseScanner();
             ds.Show();
-            UpdateButtons();
+            UpdateButtons(null, null);
         }
 
         private void addIgnoredToLogFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2604,7 +2604,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         {
             PageReload = false;
             NudgeTimer.Stop();
-            UpdateButtons();
+            UpdateButtons(null, null);
             if (intTimer > 0)
             {//stop and reset the bot timer.
                 StopDelayedAutoSaveTimer();
@@ -2746,7 +2746,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            UpdateButtons();
+            UpdateButtons(null, null);
         }
 
         private void chkRegExTypo_CheckedChanged(object sender, EventArgs e)
@@ -2992,7 +2992,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             txtImageWith.Text = Regex.Replace(txtImageWith.Text, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
         }
 
-        private void SetProgressBar()
+        private void SetProgressBar(object sender, EventArgs e)
         {
             if (listMaker1.BusyStatus)
             {
@@ -3506,7 +3506,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             profiles.ShowDialog(this);
         }
 
-        private void LoadProfileSettings(object sender)
+        private void LoadProfileSettings(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(profiles.SettingsToLoad))
                 LoadPrefs(profiles.SettingsToLoad);
