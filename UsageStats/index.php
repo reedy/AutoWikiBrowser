@@ -42,20 +42,25 @@ complex it seemed easiest to use POST and create/return some simple XML ourselve
 
 /* @var $db DB */ // Hint for Zend Studio autocomplete, don't delete
 require_once("config.php");
-
-ob_start(); // buffering allows us to create headers deep into the script and also to get rid of warning/error messages
+require_once("includes/MySQL.php");
 
 // we don't want proxy servers caching anything:
 header('Cache-Control: no-cache, no-store, must-revalidate'); //HTTP/1.1
 header('Expires: Sun, 01 Jul 2005 00:00:00 GMT');
-header('Pragma: no-cache'); //HTTP/1.0 
+header('Pragma: no-cache'); //HTTP/1.0
+
+global $db;
+$db=new DB();
+$db->db_connect();
 
 switch ($_POST["Action"]) {
 case "Hello":
+	ob_start(); // buffering allows us to create headers deep into the script and also to get rid of warning/error messages
 	FirstContact();
 	break;
 	
 case "Update":
+	ob_start();
 	SubsequentContact();
 	break;
 	
@@ -64,20 +69,19 @@ case "Stats":
 	break;
 	
 default:
+	//header('Content-Type: text/html; charset=utf-8');
+	ob_start('ob');
 	require_once("includes/Stats.php");
 	htmlstats();
+	FinishUp("html", ob_get_contents());
 }
 
-function Setup() {
-	require_once("includes/MySQL.php");
-	
-	global $db;
-	$db=new DB();
-	$db->db_connect();
+function ob($buffer)
+{
+    return str_replace("\xef\xbb\xbf", '', $buffer); // a hack from the PHP manual for UTF-8
 }
 
 function FirstContact() {
-	Setup();
 	
 	$time=localtime(time(), true);
 	$VerifyID=$time['tm_min']+$time['tm_sec'];
@@ -96,9 +100,7 @@ function FirstContact() {
 	FinishUp("xml", xmlwriter_output_memory($memory, true));
 }
 
-function SubsequentContact() {
-	Setup();
-	
+function SubsequentContact() {	
 	// TODO!
 	
 	FinishUp("html", "OK");	
@@ -108,7 +110,11 @@ function FinishUp($outputtype, $output) {
 	global $db;
 	$db->db_disconnect();
 	
-	header("Content-type: text/{$outputtype}");
+	header("Content-type: text/{$outputtype}; charset: utf-8"); /* TODO: With output buffering on, setting a header
+	this deep into the script should not be a problem. However, my tests with the validator at
+	http://validator.w3.org/check?uri=http%3A%2F%2Fawb.kingboyk.com%2F&charset=(detect+automatically)&doctype=Inline&group=0
+	show this isn't working (for HTML stats output at the very least). We need to find out why. Setting the header
+	within the switch block does work, which is a decent alternative... but I'd prefer to discover the reason :) */
 	ob_end_clean(); // gets rid of warning messages etc; comment out if want to see those
 	print $output;
 }
