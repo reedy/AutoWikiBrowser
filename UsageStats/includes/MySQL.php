@@ -1,6 +1,7 @@
 <?php
 /*
 (C) 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
+(C) 2008 Sam Reed
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
