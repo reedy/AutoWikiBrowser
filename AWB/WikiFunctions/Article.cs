@@ -758,10 +758,13 @@ namespace WikiFunctions
 
             Variables.Profiler.Profile("Links");
 
-            AWBChangeArticleText("Sort meta data",
-                parsers.SortMetaData(ArticleText, Name), true);
+            if (!Globals.UnitTestMode) // disable to avoid ssslow network requests
+            {
+                AWBChangeArticleText("Sort meta data",
+                    parsers.SortMetaData(ArticleText, Name), true);
 
-            Variables.Profiler.Profile("Metadata");
+                Variables.Profiler.Profile("Metadata");
+            }
 
             EmboldenTitles(parsers, skip.SkipNoBoldTitle);
 
