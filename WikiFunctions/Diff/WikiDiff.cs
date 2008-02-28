@@ -438,6 +438,7 @@ td.diff-addedline span.diffchange {
         #endregion
     }
 
+#pragma warning disable 0618
     internal class WordComparer : IComparer, IHashCodeProvider
     {
         public int GetHashCode(object obj)

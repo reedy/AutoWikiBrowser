@@ -26,10 +26,11 @@ using System.Text;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using WikiFunctions;
+using WikiFunctions.Plugin;
 
 namespace AutoWikiBrowser
 {
-    internal sealed partial class SkipOptions : Form
+    internal sealed partial class SkipOptions : Form, ISkipOptions
     {
         public SkipOptions()
         {

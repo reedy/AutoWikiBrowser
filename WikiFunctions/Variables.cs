@@ -94,6 +94,12 @@ namespace WikiFunctions
             get { return Variables.mMainForm; }
             set { Variables.mMainForm = value; }
         }
+        public static Profiler Profiler = new Profiler(
+#if DEBUG
+            "profiling.txt", true
+#endif
+            );
+
         #region project and language settings
 
         /// <summary>

@@ -249,4 +249,28 @@ namespace WikiFunctions.Plugin
         string ProcessArticle(string ArticleText, string ArticleTitle, int Namespace, out string Summary, 
             out bool Skip);
     }
+
+    public interface ISkipOptions
+    {
+        bool SkipNoUnicode
+        { get; }
+
+        bool SkipNoTag
+        { get; }
+
+        bool SkipNoHeaderError
+        { get; }
+
+        bool SkipNoBoldTitle
+        { get; }
+
+        bool SkipNoBulletedLink
+        { get; }
+
+        bool SkipNoBadLink
+        { get; }
+
+        bool SkipNoDefaultSortAdded
+        { get; }
+    }
 }

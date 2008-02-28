@@ -699,6 +699,82 @@ namespace WikiFunctions
             // TODO: See Parsers.HasInfobox
             return null;
         }
+
+        #region General fixes
+        /// <summary>
+        /// Performs numerous minor improvements to the page text
+        /// </summary>
+        /// <param name="parsers">A parser object</param>
+        /// <param name="removeText"></param>
+        /// <param name="skip">Skip options</param>
+        /// <param name="replaceReferenceTags">If true, <div class="references-small"><references/></div> and so on
+        /// will be replaced with {{reflist}}</param>
+        public void PerformGeneralFixes(Parsers parsers, HideText removeText, ISkipOptions skip, bool replaceReferenceTags)
+        {
+            HideText(removeText);
+
+            Variables.Profiler.Profile("HideText");
+
+            FixHeaderErrors(parsers, Variables.LangCode, skip.SkipNoHeaderError);
+            Variables.Profiler.Profile("FixHeaderErrors");
+            SetDefaultSort(parsers, Variables.LangCode, skip.SkipNoDefaultSortAdded);
+            Variables.Profiler.Profile("SetDefaultSort");
+
+            AWBChangeArticleText("Fix categories", parsers.FixCategories(ArticleText), true);
+            Variables.Profiler.Profile("FixCategories");
+            AWBChangeArticleText("Fix images", parsers.FixImages(ArticleText), true);
+            Variables.Profiler.Profile("FixImages");
+            AWBChangeArticleText("Fix syntax", parsers.FixSyntax(ArticleText), true);
+            Variables.Profiler.Profile("FixSyntax");
+            AWBChangeArticleText("Fix temperatures", parsers.FixTemperatures(ArticleText), true);
+            Variables.Profiler.Profile("FixTemperatures");
+
+            AWBChangeArticleText("Fix main article", parsers.FixMainArticle(ArticleText), true);
+            Variables.Profiler.Profile("FixMainArticle");
+
+            if (replaceReferenceTags)
+            {
+                AWBChangeArticleText("Fix reference tags", parsers.FixReferenceTags(ArticleText), true);
+                Variables.Profiler.Profile("FixReferenceTags");
+            }
+
+            AWBChangeArticleText("Fix whitespace in links", parsers.FixLinkWhitespace(ArticleText), true);
+            Variables.Profiler.Profile("FixLinkWhitespace");
+
+            AWBChangeArticleText("Fix empty links and templates", parsers.FixEmptyLinksAndTemplates(ArticleText), true);
+            Variables.Profiler.Profile("FixEmptyLinksAndTemplates");
+
+            AWBChangeArticleText("Fix empty references", parsers.SimplifyReferenceTags(ArticleText), true);
+            Variables.Profiler.Profile("FixEmptyReferences");
+
+            //TODO:Remove from release if broken
+            AWBChangeArticleText("Fix Footnotes", parsers.FixFootnotes(ArticleText), true);
+            Variables.Profiler.Profile("FixFootnotes");
+
+            FixLinks(parsers, skip.SkipNoBadLink);
+            Variables.Profiler.Profile("FixLinks");
+            BulletExternalLinks(parsers, skip.SkipNoBulletedLink);
+            Variables.Profiler.Profile("BulletExternalLinks");
+
+            Variables.Profiler.Profile("Links");
+
+            AWBChangeArticleText("Sort meta data",
+                parsers.SortMetaData(ArticleText, Name), true);
+
+            Variables.Profiler.Profile("Metadata");
+
+            EmboldenTitles(parsers, skip.SkipNoBoldTitle);
+
+            AWBChangeArticleText("Format sticky links",
+                parsers.StickyLinks(parsers.SimplifyLinks(ArticleText)), true);
+
+            //AWBChangeArticleText("Remove duplicate wikilink", parsers.RemoveDuplicateWikiLinks(ArticleText), true);
+
+            UnHideText(removeText);
+
+            Variables.Profiler.Profile("End of general fixes");
+        }
+        #endregion
     }
 
     /// <summary>
