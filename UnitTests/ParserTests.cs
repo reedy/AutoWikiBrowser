@@ -72,6 +72,15 @@ namespace UnitTests
         }
 
         [Test]
+        public void TestSimplifyLinks()
+        {
+            Assert.AreEqual("[[dog]]s", parser.SimplifyLinks("[[dog|dogs]]"));
+
+            //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_2#Inappropriate_link_compression
+            Assert.AreEqual("[[foo|foo3]]", parser.SimplifyLinks("[[foo|foo3]]"));
+        }
+
+        [Test]
         public void FixDates()
         {
             Assert.AreEqual("the later 1990s", parser.FixDates("the later 1990's"));
@@ -81,6 +90,30 @@ namespace UnitTests
 
             //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_1#Breaking_a_template
             Assert.AreEqual("{{the later 1990's}}", parser.FixDates("{{the later 1990's}}"));
+        }
+
+        [Test]
+        //TODO: unfinished
+        public void TestLinkRepairs()
+        {
+            Assert.AreEqual("[http://example.com]", parser.FixSyntax("[http://example.com]"));
+            Assert.AreEqual("[http://example.com]", parser.FixSyntax("[[http://example.com]"));
+            Assert.AreEqual("[http://example.com]", parser.FixSyntax("[http://example.com]]"));
+            Assert.AreEqual("[http://example.com]", parser.FixSyntax("[[http://example.com]]"));
+
+            Assert.AreEqual("[[somelink]]", parser.FixSyntax("[somelink]]"));
+            Assert.AreEqual("[[somelink]]", parser.FixSyntax("[[somelink]"));
+            Assert.AreNotEqual("[[somelink]]", parser.FixSyntax("[somelink]"));
+
+            Assert.AreEqual("'''foo''' bar", parser.FixSyntax("<b>foo</b> bar"));
+            Assert.AreEqual("'''foo''' bar", parser.FixSyntax("< b >foo</b> bar"));
+            Assert.AreEqual("'''foo''' bar", parser.FixSyntax("<b>foo< /b > bar"));
+            Assert.AreEqual("<b>foo<b> bar", parser.FixSyntax("<b>foo<b> bar"));
+
+            Assert.AreEqual("''foo'' bar", parser.FixSyntax("<i>foo</i> bar"));
+            Assert.AreEqual("''foo'' bar", parser.FixSyntax("< i >foo</i> bar"));
+            Assert.AreEqual("''foo'' bar", parser.FixSyntax("<i>foo< /i > bar"));
+            Assert.AreEqual("<i>foo<i> bar", parser.FixSyntax("<i>foo<i> bar"));
         }
     }
 
@@ -131,6 +164,12 @@ namespace UnitTests
         {
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_1#AWB_corrupts_the_trademark_.28TM.29_special_character_.
             Assert.AreEqual("test™", parser.Unicodify("test™"));
+        }
+
+        [Test]
+        public void IgnoreMath()
+        {
+            Assert.AreEqual("<math>&laquo;</math>", parser.Unicodify("<math>&laquo;</math>"));
         }
     }
 }
