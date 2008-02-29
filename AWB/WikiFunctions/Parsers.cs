@@ -413,7 +413,7 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
-        readonly Regex SyntaxRegex1 = new Regex("\\[\\[http:\\/\\/([^][]*?)\\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex SyntaxRegex1 = new Regex(@"\[\[http:\/\/([^][]*?)\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex SyntaxRegex2fix = new Regex("\\[http:\\/\\/([^][]*?)\\]\\]\\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex SyntaxRegex2 = new Regex("\\[http:\\/\\/([^][]*?)\\]\\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex SyntaxRegex3 = new Regex("\\[\\[http:\\/\\/(.*?)\\]\\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -502,7 +502,7 @@ namespace WikiFunctions.Parse
 
             AnchorDecode(ref title);
 
-            if (title.Contains("[") || title.Contains("{")) return title;
+            if (!Tools.IsValidTitle(title) || title.Contains(":/")) return title;
 
             string s = CanonicalizeTitleRaw(title);
             if (Variables.UnderscoredTitles.Contains(Tools.TurnFirstToUpper(s)))
@@ -900,7 +900,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             foreach (Match m in imgregex.Matches(ArticleText))
             {
-                x = img + CanonicalizeTitle(m.Groups[1].Value).Trim() + CanonicalizeTitle(m.Groups[2].Value) + "]]";
+                x = img + CanonicalizeTitle(m.Groups[1].Value).Trim() + m.Groups[2].Value.Trim() + "]]";
                 ArticleText = ArticleText.Replace(m.Value, x);
             }
 

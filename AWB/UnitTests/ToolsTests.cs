@@ -149,9 +149,22 @@ namespace UnitTests
         }
 
         [Test]
+        public void OneWordNames()
+        {
+            Assert.AreEqual("OneWordName", Tools.MakeHumanCatKey("OneWordName"));
+        }
+
+        [Test]
         public void WithRomanNumbers()
         {
             Assert.AreEqual("Doe, John III", Tools.MakeHumanCatKey("John Doe III"));
+        }
+
+        [Test]
+        public void WithJrSr()
+        {
+            Assert.AreEqual("Doe, John Jr.", Tools.MakeHumanCatKey("John Doe, Jr."));
+            Assert.AreEqual("Doe, John Sr.", Tools.MakeHumanCatKey("John Doe, Sr."));
         }
     }
 
