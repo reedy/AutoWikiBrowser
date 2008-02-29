@@ -18,7 +18,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#undef INSTASTATS // turn on here and in Main.cs to make AWB log (empty) stats at startup
+#undef INSTASTATS // turn on here and in Main.cs to make AWB log (empty) stats at startup (The scope of a symbol created by using #define is the file in which it was defined)
 
 using System;
 using System.Collections.Specialized;
@@ -289,6 +289,7 @@ namespace AutoWikiBrowser
         {
             try
             {
+                // we don't *need* these IDs if we're exiting, but I think it does no harm to check we received a valid response
                 XmlDocument doc = new XmlDocument();
                 doc.LoadXml(xml);
                 XmlNodeList nodes = doc.GetElementsByTagName("DB");
