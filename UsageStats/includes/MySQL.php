@@ -77,7 +77,7 @@ class DB {
 		return $retval;
 	}
 	
-	// add usage stats
+	// add/update usage stats
 	function add_usage_record($VerifyID) {
 		global $mysqli;
 		
@@ -138,28 +138,23 @@ class DB {
 		}
 
 		$this->db_mysql_query($query.$query2, 'add_usage_record');
-		$retval = $mysqli->insert_id;
+		$sessionid = $mysqli->insert_id;
 		//$result->free(); // threw an error (and yes I had $result=), perhaps because we added a record and therefore don't actually have a recordset to clear?
 		
 		// Plugins:
-		if ($_POST['PluginCount'] == "") dead("No PluginCount received");
-		for ($i = 1; $i <= $_POST['PluginCount']; $i++) { // 1-based
-			$pluginname=$_POST["P{$i}N"];
-			//echo "P1N: {$_POST["P1N"]}\npluginname var: {$pluginname}\n";
-			$pluginid=$this->get_or_add_lookup_record('lkpPlugins', 'PluginID', "Plugin=\"{$pluginname}\"", 
-			   'Plugin', "\"{$pluginname}\"");
-			
-			$versionarray=explode(".", $_POST["P{$i}V"]);		
-			if (count($versionarray) != 4)
-				dead("Didn't receive a valid AWB version identifier");
+		$this->GetPluginsData($sessionid);
 				
-			$this->db_mysql_query('INSERT INTO plugins (SessionID, PluginID, Major, Minor, Build, Revision) SELECT ' .
-			   "{$retval}, {$pluginid}, {$versionarray[0]}, {$versionarray[1]}, {$versionarray[2]}, {$versionarray[3]}",
-			   'add_usage_record');
-		}
-				
-		$this->log_success($retval);
-		return $retval;
+		$this->log_success($sessionid);
+		return $sessionid;
+	}
+	
+	function update_usage_record() {
+		// TODO: NOT YET TESTED!!!
+		$this->init_log(2);
+		$this->verify_repeat_caller();
+		$this->db_mysql_query("UPDATE sessions SET Saves = {$_POST['Saves']} WHERE sessions.SessionID = {$_POST['RecordID']} LIMIT 1",
+			'update_usage_record');
+		$this->GetPluginsData($_POST['RecordID']);
 	}
 	
 	// helper routines
@@ -182,7 +177,32 @@ class DB {
 		return $retval;
 	}
 	
-	static function get_mysql_utc_stamp() {
+	private function GetPluginsData($session) {
+		if ($_POST['PluginCount'] == "") dead("No PluginCount received");
+		
+		for ($i = 1; $i <= $_POST['PluginCount']; $i++) { // 1-based
+			$pluginname=$_POST["P{$i}N"];
+			$pluginid=$this->get_or_add_lookup_record('lkpPlugins', 'PluginID', "Plugin=\"{$pluginname}\"", 
+			   'Plugin', "\"{$pluginname}\"");
+			
+			$versionarray=explode(".", $_POST["P{$i}V"]);		
+			if (count($versionarray) != 4)
+				dead("Didn't receive a valid AWB version identifier");
+				
+			$this->db_mysql_query('INSERT INTO plugins (SessionID, PluginID, Major, Minor, Build, Revision) SELECT ' .
+			   "{$session}, {$pluginid}, {$versionarray[0]}, {$versionarray[1]}, {$versionarray[2]}, {$versionarray[3]}",
+			   'add_usage_record');
+		}		
+	}
+	
+	private function verify_repeat_caller() {
+		$row = $this->db_mysql_query_single_row("SELECT Count(sessions.SessionID) AS Count FROM sessions GROUP BY 
+			sessions.SessionID, sessions.TempKey HAVING (((sessions.SessionID)={$_POST['RecordID']}) AND
+			((sessions.TempKey)={$_POST['Verify']}))", 'verify_repeat_caller');
+		($row['Count'] == '1') || dead("Client verification failed!");
+	}
+	
+	private static function get_mysql_utc_stamp() {
 		return gmdate("Y-m-d H:i:s", time());
 	}	
 	

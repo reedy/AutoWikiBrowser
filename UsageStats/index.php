@@ -56,16 +56,14 @@ $db->db_connect();
 
 switch ($_POST["Action"]) {
 case "Hello":
-	$db->init_log(1);
 	header('Content-Type: text/xml');
 	FirstContact();
 	FinishUp($xmlout);
 	break;
 	
 case "Update":
-	$db->init_log(2);
 	header('Content-Type: text/html; charset=utf-8');
-	SubsequentContact();
+	$db->update_usage_record();
 	FinishUp("OK");
 	break;
 	
@@ -80,12 +78,12 @@ default:
 	FinishUp(ob_get_contents());
 }
 
-
-function FirstContact() {
+function FirstContact() {	
+	global $db, $xmlout;		
+	$db->init_log(1);
+	
 	$time=localtime(time(), true);
 	$VerifyID=$time['tm_min']+$time['tm_sec'];
-	
-	global $db, $xmlout;	
 	$RecordID=$db->add_usage_record($VerifyID);
 	
 	$memory = xmlwriter_open_memory();
@@ -96,10 +94,6 @@ function FirstContact() {
 	xmlwriter_write_attribute($memory, "Verify", $VerifyID);
 	xmlwriter_end_element($memory);	
 	$xmlout=xmlwriter_output_memory($memory, true);
-}
-
-function SubsequentContact() {	
-	// TODO!
 }
 
 function FinishUp($output) {	
