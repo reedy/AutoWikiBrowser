@@ -162,6 +162,7 @@ class DB {
 	
 	
 	// reusable queries:
+	// TODO: There seems to an absence of sort order in most of these queries :)
 	function no_of_sessions_and_saves ()	{
 		return $this->db_mysql_query_single_row('SELECT COUNT(s.sessionid) AS nosessions, SUM(s.saves) AS totalsaves FROM sessions s', 'no_of_sessions_and_saves');
 	}
@@ -182,11 +183,21 @@ GROUP BY lkpWikis.Site, lkpWikis.LangCode, sessions.User) AS UniqueUsers', 'uniq
 	}
 	
 	function sites() {
-		return $this->db_mysql_query("SELECT COUNT(SessionID) as sessions, l.langcode, l.site, SUM(s.saves) as nosaves FROM sessions s, lkpWikis l WHERE (s.site = l.siteid) GROUP BY s.site", 'stats', 'STATS');
+		return $this->db_mysql_query('SELECT COUNT(SessionID) as sessions, l.langcode, l.site, SUM(s.saves) as nosaves FROM sessions s, lkpWikis l WHERE (s.site = l.siteid) GROUP BY s.site', 'sites');
 	}
 	
 	function OSs() {
-		return $this->db_mysql_query("SELECT o.OS, COUNT(s.os) AS nousers FROM sessions s, lkpOS o WHERE (s.os = o.osid) GROUP BY s.os;", 'stats', 'STATS');
+		return $this->db_mysql_query('SELECT o.OS, COUNT(s.os) AS nousers FROM sessions s, lkpOS o WHERE (s.os = o.osid) GROUP BY s.os', 'OSs');
+	}
+	
+	function cultures() {
+		return $this->db_mysql_query('SELECT lkpCultures.Language, lkpCultures.Country, Sum(sessions.Saves) AS SumOfSaves
+FROM sessions INNER JOIN lkpCultures ON sessions.Culture = lkpCultures.CultureID
+GROUP BY lkpCultures.Language, lkpCultures.Country', 'cultures');
+	}
+		
+	function plugins() {
+		return $this->db_mysql_query('SELECT lkpPlugins.Plugin FROM lkpPlugins GROUP BY lkpPlugins.Plugin ORDER BY lkpPlugins.Plugin', 'plugins');
 	}
 	
 	function busiest_user() {

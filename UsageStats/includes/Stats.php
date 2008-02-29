@@ -95,22 +95,33 @@ EOF;
 	// Username count
 	$row = $db->username_count();	
 	echo <<<EOF
+	
 	<tr>
 		<th align="left">Number of Usernames Known</th><td>{$row['usercount']}</td>
 	</tr>
 EOF;
-	
+
 	//Unique users count (username/wiki)
 	$row = $db->unique_username_count();	
 	echo <<<EOF
+	
 	<tr>
 		<th align="left">Number of Unique Users<sup><a href="#1">1</a></sup></th><td>{$row['UniqueUsersCount']}</td>
 	</tr>
 EOF;
+	
+	//Number of plugins known
+	$row = $db->plugin_count();
+	echo <<<EOF
+	
+	<tr>
+		<th align="left">Number of Known Plugins</th><td>{$row['pluginno']}</td>
+	</tr>
+EOF;
 
 	//Sessions & Saves per sites
-	// TODO: URL for site
 	echo <<< EOF
+
 </table>
 <p/>
 <table border="1">
@@ -132,14 +143,14 @@ EOF;
 		$site = "";
 		
 		if ($lang != "WIKI" && $lang != "CUS")
-			$site = $lang.".{$row['site']}";
+			$site = "{$lang}.{$row['site']}.org";
 		else
 			$site = "{$row['site']}";
 		
 		  echo <<<EOF
-		  
+
 	<tr>
-		<td>{$site}</td>
+		<td><a href="http://{$site}/">{$site}</a></td>
 		<td>{$row['sessions']}</td>
 		<td>{$row['nosaves']}</td>
 	</tr>
@@ -148,9 +159,10 @@ EOF;
 		  
 	$result->close();
 			
-	//OS Stats	
+	//OS Stats
+	// TODO: Maybe this would be better as saves than users?
 	echo <<< EOF
-	
+
   <tr>
   	<th colspan="3" align="center">Operating Systems</th>
   </tr>
@@ -165,6 +177,7 @@ EOF;
 	while($row = $result->fetch_assoc())
 	{
 		echo <<< EOF
+
 	<tr>
 		<td colspan="2">{$row['OS']}</td>
 		<td>{$row['nousers']}</td>
@@ -174,48 +187,74 @@ EOF;
 	
 	$result->close();
 	
+	//Number of saves by language (culture)
+	echo <<< EOF
+
+  <tr>
+  	<th colspan="3" align="center">UI Cultures</th>
+  </tr>
+	<tr>
+		<th>Country</th>
+		<th>Language</th>
+		<th>Number of Saves</th>
+	</tr>
+EOF;
+	$result = $db->cultures();
+	
+	while($row = $result->fetch_assoc()) {
+		  echo <<< EOF
+
+	<tr>
+		<td>{$row['Country']}</td>
+		<td>{$row['Language']}</td>
+		<td>{$row['SumOfSaves']}</td>
+	</tr>
+EOF;
+	}
+	
+	$result->close();
+	
 	//User with the most saves
 	$row = $db->busiest_user();
 	echo <<< EOF
-  <tr>
-  	<th colspan="3" align="center">User with the most saves<sup><a href="#3">3</a></sup></th>
-  </tr>
-  <tr>
-    <th>Site</th>
-    <th>LangCode</th>
-	<th>No of Saves</th>
-  </tr>
-  <tr>
-  	<td>{$row['Site']}</td>
-  	<td>{$row['LangCode']}</td>
-  	<td>{$row['SumOfSaves']}</td>
-  </tr>
-</table>
-EOF;
-	
-	//Number of plugins known
-	$return = $db->plugin_count();
-	echo "No of known Plugins: {$return['pluginno']}<br />";
-	
-	//Number of saves by language (culture)
-	$retval = $db->db_mysql_query("SELECT language, country, COUNT(culture) AS nocultures FROM sessions s, lkpCultures c WHERE (s.culture = c.CultureID) GROUP BY s.culture", 'stats', 'STATS');
 
-			echo "<table width='25%' border='1'>
-  <tr>
-    <td>Country</td>
-    <td>Language</td>
-	<td>Number</td>
-  </tr>";
+	<tr>
+		<th colspan="3" align="center">User with the most saves<sup><a href="#3">3</a></sup></th>
+	</tr>
+	<tr>
+		<th>Site</th>
+		<th>LangCode</th>
+		<th>Number of Saves</th>
+	</tr>
+	<tr>
+		<td>{$row['Site']}</td>
+		<td>{$row['LangCode']}</td>
+		<td>{$row['SumOfSaves']}</td>
+	</tr>
+EOF;
+
+	// List of plugins
+	echo <<< EOF
+
+	<tr>
+		<th colspan="3" align="center">Known Plugins</th>
+	</tr>
+EOF;
+
+	$result = $db->plugins();
 	
-	while($row = mysqli_fetch_array($retval, MYSQL_ASSOC))
-	{
-		  echo "<tr>
-	    <td>{$row['country']}</td>
-	    <td>{$row['language']}</td>
-		<td>{$row['nocultures']}</td>
-	  </tr>";
+	while ($row = $result->fetch_assoc()) {
+		echo <<< EOF
+
+	<tr>
+		<td colspan="3" align="left">{$row['Plugin']}</td>
+	</tr>
+EOF;
 	}
+	
+	$result->close();
 ?>
+
 </table>
 <p/>
 <small>
@@ -223,17 +262,14 @@ EOF;
 <sup><a name="2">2</a></sup>Note that this is not <i>unique users</i> just <i>unique usernames</i>. If, for example, WikiSysop on site A and a different WikiSysop on site B were to use the same OS they would count here as one user only.<br/>
 <sup><a name="3">3</a></sup>Anonymous
 </small>
-
 <br/>
 <hr/>
 <p>
 <a href="http://validator.w3.org/check?uri=referer"><img
     src="http://www.w3.org/Icons/valid-xhtml10"
     alt="Valid XHTML 1.0 Transitional" height="31" width="88" /></a>
-
 <a href="http://www.php.net/"><img src="/res/php5-power-micro.png" alt="Powered by PHP 5" height="15" width="80" /></a>
 </p>
-
 </body>
 </html>
 <?php
