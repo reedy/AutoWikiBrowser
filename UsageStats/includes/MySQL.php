@@ -20,7 +20,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 class DB {	
 	private $mysqli; /* @var $mysqli mysqli */ // Hint for Zend Studio autocomplete, don't delete
+	private $logID = 0;
 	
+	// database connection
 	function db_connect() {
 		// DEBUG MODE:
 		//mysqli_report(MYSQLI_REPORT_ALL);
@@ -39,6 +41,28 @@ class DB {
 		$mysqli->close();
 	}
 	
+	// logging	
+	function init_log($operation) {
+		global $mysqli, $logID;
+		
+		$this->db_mysql_query('INSERT INTO log (DateTime, Operation) SELECT "' . self::get_mysql_utc_stamp() .
+			"\", {$operation}", 'init_log');
+		$logID = $mysqli->insert_id;
+	}
+	
+	private function log_success($sessionID) {
+		global $logID;		
+		($logID != 0) && $this->db_mysql_query("UPDATE awb.log SET SuccessYN=1, SessionID={$sessionID} 
+		WHERE log.LogID={$logID} LIMIT 1", 'log_success');
+	}
+	
+	function log_error($msg) {	
+		global $logID;
+		($logID != 0) &&
+			$this->db_mysql_query("UPDATE awb.log SET SuccessYN=0, Message='{$msg}' WHERE log.LogID={$logID} LIMIT 1", 'log_error');
+	}
+	
+	// querying
 	function db_mysql_query($query, $caller, $module = 'MySQL') {
 		# by doing it in one routine, is easier to slot in debugging/logging later if need be
 		global $mysqli;
@@ -53,8 +77,9 @@ class DB {
 		return $retval;
 	}
 	
+	// add usage stats
 	function add_usage_record($VerifyID) {
-		// TODO: We should do a log also in case the code is fucked up?
+		global $mysqli;
 		
 		// AWB version
 		$versionarray=explode(".", $_POST['Version']);		
@@ -101,7 +126,7 @@ class DB {
 		if ($_POST['Saves'] == "") dead("No edit counter received");
 		
 		// Query string:
-		$query = "INSERT INTO sessions (DateTime, Version, Debug, Saves, Site, Culture, OS, TempKey";
+		$query = 'INSERT INTO sessions (DateTime, Version, Debug, Saves, Site, Culture, OS, TempKey';
 		$query2 = ') SELECT "' . self::get_mysql_utc_stamp() . "\",  {$versionid}, {$debug}, {$_POST['Saves']}, {$wikiid}, ".
 			"{$cultureid}, {$OSID}, {$VerifyID}";
 			
@@ -113,7 +138,6 @@ class DB {
 		}
 
 		$this->db_mysql_query($query.$query2, 'add_usage_record');
-		global $mysqli;
 		$retval = $mysqli->insert_id;
 		//$result->free(); // threw an error (and yes I had $result=), perhaps because we added a record and therefore don't actually have a recordset to clear?
 		
@@ -133,10 +157,12 @@ class DB {
 			   "{$retval}, {$pluginid}, {$versionarray[0]}, {$versionarray[1]}, {$versionarray[2]}, {$versionarray[3]}",
 			   'add_usage_record');
 		}
-		
+				
+		$this->log_success($retval);
 		return $retval;
 	}
 	
+	// helper routines
 	private function get_or_add_lookup_record($table, $autoid, $lookupquery, $insertfields, $insertvalues) {
 		$query = "SELECT {$autoid} FROM {$table} WHERE {$lookupquery}";
 	
@@ -158,8 +184,7 @@ class DB {
 	
 	static function get_mysql_utc_stamp() {
 		return gmdate("Y-m-d H:i:s", time());
-	}
-	
+	}	
 	
 	// reusable queries:
 	// TODO: There seems to an absence of sort order in most of these queries :)

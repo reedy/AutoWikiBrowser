@@ -119,6 +119,15 @@ EOF;
 	</tr>
 EOF;
 
+	// Number of log entries
+	$row = $db->db_mysql_query_single_row('SELECT COUNT(DISTINCT LogID) as LogIDCount FROM log', 'htmlstats', 'Stats'); // note: we'll only display this on this web page, hence doing it here
+	echo <<<EOF
+	
+	<tr>
+		<th align="left">Number of Log Entries</th><td>{$row['LogIDCount']}</td>
+	</tr>
+EOF;
+
 	//Sessions & Saves per sites
 	echo <<< EOF
 
@@ -160,7 +169,7 @@ EOF;
 	$result->close();
 			
 	//OS Stats
-	// TODO: Maybe this would be better as saves than users?
+	// TODO: Maybe this would be better as saves than users? ... or how about both?
 	echo <<< EOF
 
   <tr>

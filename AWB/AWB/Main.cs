@@ -299,7 +299,7 @@ namespace AutoWikiBrowser
             splash.Close();
 
 #if DEBUG && INSTASTATS
-            UsageStats.Do();
+            UsageStats.Do(false);
 #endif
         }
 

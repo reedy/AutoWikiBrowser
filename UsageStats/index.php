@@ -56,12 +56,14 @@ $db->db_connect();
 
 switch ($_POST["Action"]) {
 case "Hello":
+	$db->init_log(1);
 	header('Content-Type: text/xml');
 	FirstContact();
-	FinishUp(xmlwriter_output_memory($memory, true));
+	FinishUp($xmlout);
 	break;
 	
 case "Update":
+	$db->init_log(2);
 	header('Content-Type: text/html; charset=utf-8');
 	SubsequentContact();
 	FinishUp("OK");
@@ -79,11 +81,11 @@ default:
 }
 
 
-function FirstContact() {	
+function FirstContact() {
 	$time=localtime(time(), true);
 	$VerifyID=$time['tm_min']+$time['tm_sec'];
 	
-	global $db;	
+	global $db, $xmlout;	
 	$RecordID=$db->add_usage_record($VerifyID);
 	
 	$memory = xmlwriter_open_memory();
@@ -92,7 +94,8 @@ function FirstContact() {
 	xmlwriter_start_element ($memory, "DB");
 	xmlwriter_write_attribute($memory, "Record", $RecordID);
 	xmlwriter_write_attribute($memory, "Verify", $VerifyID);
-	xmlwriter_end_element($memory);
+	xmlwriter_end_element($memory);	
+	$xmlout=xmlwriter_output_memory($memory, true);
 }
 
 function SubsequentContact() {	
@@ -110,6 +113,7 @@ function FinishUp($output) {
 // Call this rather than die() directly, so that AWB can always parse for "Error: "
 function dead($msg) {	
 	global $db;
+	$db->log_error($msg);
 	$db->db_disconnect();
 	
 	header("Barf", true, 500); // comment out for in-browser debugging
