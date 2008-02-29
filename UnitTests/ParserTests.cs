@@ -101,6 +101,10 @@ namespace UnitTests
             Assert.AreEqual("[http://example.com]", parser.FixSyntax("[http://example.com]]"));
             Assert.AreEqual("[http://example.com]", parser.FixSyntax("[[http://example.com]]"));
 
+            Assert.AreEqual("[[Image:foo.jpg|Some [http://some_crap.com]]]",
+                parser.FixSyntax("[[Image:foo.jpg|Some [[http://some_crap.com]]]]"));
+
+
             Assert.AreEqual("[[somelink]]", parser.FixSyntax("[somelink]]"));
             Assert.AreEqual("[[somelink]]", parser.FixSyntax("[[somelink]"));
             Assert.AreNotEqual("[[somelink]]", parser.FixSyntax("[somelink]"));
