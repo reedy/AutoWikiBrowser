@@ -46,6 +46,13 @@ class DB {
 		return $retval;
 	}
 	
+	function db_mysql_query_single_row($query, $caller, $module = 'MySQL') {
+		$result = $this->db_mysql_query($query, $caller, $module);
+		$retval = $result->fetch_assoc();
+		$result->close();
+		return $retval;
+	}
+	
 	function add_usage_record($VerifyID) {
 		// TODO: We should do a log also in case the code is fucked up?
 		
@@ -130,21 +137,6 @@ class DB {
 		return $retval;
 	}
 	
-	function no_of_sessions_and_saves ()	{
-		$retval = $this->db_mysql_query("SELECT COUNT(s.sessionid) AS nosessions, SUM(s.saves) AS totalsaves FROM sessions s", 'stats', 'STATS');
-		return mysqli_fetch_array($retval, MYSQL_ASSOC);
-	}
-	
-	function unique_username_count() {
-		$retval = $this->db_mysql_query("SELECT COUNT(DISTINCT u.User) AS usercount FROM lkpUsers u", 'stats', 'STATS') ;
-		return mysqli_fetch_array($retval, MYSQL_ASSOC);
-	}
-	
-	function plugin_count() {
-		$retval = $this->db_mysql_query("SELECT COUNT(DISTINCT PluginID) as pluginno FROM plugins", 'stats', 'STATS') ;
-		return mysqli_fetch_array($retval, MYSQL_ASSOC);
-	}
-	
 	private function get_or_add_lookup_record($table, $autoid, $lookupquery, $insertfields, $insertvalues) {
 		$query = "SELECT {$autoid} FROM {$table} WHERE {$lookupquery}";
 	
@@ -166,6 +158,27 @@ class DB {
 	
 	static function get_mysql_utc_stamp() {
 		return gmdate("Y-m-d H:i:s", time());
+	}
+	
+	
+	// reusable queries:
+	function no_of_sessions_and_saves ()	{
+		return $this->db_mysql_query_single_row("SELECT COUNT(s.sessionid) AS nosessions, SUM(s.saves) AS totalsaves FROM sessions s", 'no_of_sessions_and_saves');
+	}
+	
+	function unique_username_count() {
+		return $this->db_mysql_query_single_row("SELECT COUNT(DISTINCT u.User) AS usercount FROM lkpUsers u", 'unique_username_count') ;
+	}
+	
+	function plugin_count() {
+		return $this->db_mysql_query_single_row("SELECT COUNT(DISTINCT PluginID) as pluginno FROM plugins", 'plugin_count') ;
+	}
+	
+	function busiest_user() {
+		return $this->db_mysql_query_single_row("SELECT lkpWikis.Site, lkpWikis.LangCode, Sum(sessions.Saves) AS SumOfSaves
+FROM (sessions INNER JOIN lkpUsers ON sessions.User = lkpUsers.UserID) INNER JOIN lkpWikis ON sessions.Site = lkpWikis.SiteID
+GROUP BY sessions.User, lkpWikis.Site, lkpWikis.LangCode
+ORDER BY Sum(sessions.Saves) DESC LIMIT 1", 'busiest_user');
 	}
 }
 

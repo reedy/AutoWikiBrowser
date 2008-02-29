@@ -32,10 +32,7 @@ Some queries we might want on a stats page:
 */
 
 // TODO: Posting from AWB debug builds or cron to Wikipedia.
-
-/* TODO: this is a fucking mess! remember encapsulation: put all the queries into functions in the mysql object, so we
-can more easily modify them, so that wiki/XML can reuse them, and to make this more of an output-only routine */
-// TODO: CSS?
+// TODO: Let's get this into a single table or use CSS?
 
 function htmlstats(){
 	global $db;
@@ -62,13 +59,24 @@ function htmlstats(){
 	echo "No of Unique Users: {$return['usercount']}<br />";
 	
 	//Unique users count (username/wiki)
-	/*$query = "";
-	$retval = $db->db_mysql_query($query, 'stats', 'STATS') ;
-
-	while($row = mysqli_fetch_array($retval, MYSQL_ASSOC))
-	{
-		echo "No of : {$row['']}<br />";
-	}*/
+	$row = $db->busiest_user();
+	echo <<< EOF
+<table width='25%' border='1'>
+  <tr>
+  	<th colspan="3" align="center">User with the most saves</th>
+  </tr>
+  <tr>
+    <th>Site</th>
+    <th>LangCode</th>
+	<th>No of Saves</th>
+  </tr>
+  <tr>
+  	<td>{$row['Site']}</td>
+  	<td>{$row['LangCode']}</td>
+  	<td>{$row['SumOfSaves']}</td>
+  </tr>
+</table>
+EOF
 		
 	//Sessions & Saves per sites
 ?>
