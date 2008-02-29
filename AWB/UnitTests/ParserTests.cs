@@ -115,6 +115,23 @@ namespace UnitTests
             Assert.AreEqual("''foo'' bar", parser.FixSyntax("<i>foo< /i > bar"));
             Assert.AreEqual("<i>foo<i> bar", parser.FixSyntax("<i>foo<i> bar"));
         }
+
+        [Test]
+        public void TestBulletExternalLinks()
+        {
+            string s = parser.BulletExternalLinks(@"==External links==
+http://example.com/foo
+[http://example.com foo]
+{{aTemplate|url=
+http://example.com }}");
+
+            StringAssert.Contains("* http://example.com/foo", s);
+            StringAssert.Contains("* [http://example.com foo]", s);
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_2#Incorrect_bulleting
+            StringAssert.Contains("\r\nhttp://example.com }}", s);
+            //StringAssert.
+        }
     }
 
     [TestFixture]
@@ -126,7 +143,7 @@ namespace UnitTests
             Globals.UnitTestMode = true;
         }
 
-        [Test]
+        [Test, Category("Incomplete")]
         public void BasicImprovements()
         {
             Parsers parser = new Parsers();
@@ -137,6 +154,10 @@ namespace UnitTests
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#URL_underscore_regression
             Assert.AreEqual("[[Image:foo|thumb]] # [http://a_b c] [[link]]",
                 parser.FixImages("[[Image:foo|thumb]] # [http://a_b c] [[link]]"));
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_2#Removing_underscore_in_URL_in_Ref_in_Description_in_Image....
+            //Assert.AreEqual("[[Image:foo_bar|[http://some_link]]]",
+            //    parser.FixImages("[[image:foo_bar|http://some_link]]"));
         }
     }
 

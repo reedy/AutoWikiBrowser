@@ -100,6 +100,7 @@ namespace UnitTests
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_2#Incorrect_Underscore_removal_in_URL.27s_in_wikilinks
         public void UndersoreRemovalInExternalLink()
         {
+            // just in case...
             ArticleText = "test http://some_link test";
             GenFixes();
 
@@ -133,7 +134,7 @@ namespace UnitTests
             ArticleText = "[[Image:foo.jpg|Some [[http://some_crap.com]]]]";
             GenFixes();
 
-            Assert.AreEqual(a.OriginalArticleText, ArticleText);
+            Assert.AreEqual("[[Image:foo.jpg|Some [http://some_crap.com]]]", ArticleText);
 
         }
     }
