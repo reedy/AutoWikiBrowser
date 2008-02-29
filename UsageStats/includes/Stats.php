@@ -23,7 +23,7 @@ Some queries we might want on a stats page:
 * Number of sessions
 * Number of saves
 * Unique users count (username/wiki)
-* Unique username count
+* Username count
 * Sessions per site
 * Saves per sites
 * Most popular OS of last x days (unique users)
@@ -44,23 +44,74 @@ function htmlstats(){
 	<title>AutoWikiBrowser Usage Stats</title>
 	<meta name="generator" content="AWB UsageStats PHP app" />
 	<meta name="copyright" content="<?php echo "\xC2\xA9"; ?> 2008 Stephen Kennedy, Sam Reed" />
+	<style type="text/css">
+		BODY  {
+			font-size : 12pt;
+			font-family : Arial, Courier, Helvetica;
+			color : Black;
+		}
+		
+		.default  {
+			font-size : 12pt;
+			font-family : Arial, Courier, Helvetica;
+			color : Black;
+		}
+		
+		a:link  {
+			color : blue;
+			text-decoration : none;
+		}
+		
+		A:visited {
+			color: purple;
+			text-decoration : none;
+		}
+		
+		a:hover  {
+			color : #D79C02;
+			text-decoration : underline;
+		}
+	</style>
 </head>
 <body>
-<h2><a href="http://en.wikipedia.org/wiki/WP:AWB">AutoWikiBrowser</a></h2>
+<h2><a href="http://en.wikipedia.org/wiki/WP:AWB">AutoWikiBrowser</a> Usage Stats</h2>
+For more information about the AutoWikiBrowser wiki editor, please see our <a href="http://en.wikipedia.org/wiki/WP:AWB">Wikipedia page</a>.
+<p/>
+<table border="1">
 <?php
 	
 	//Number of sessions, Number of saves,
-	$return = $db->no_of_sessions_and_saves();
-	echo "No of Sessions: {$return['nosessions']}<br />";
-	echo "No of Saves: {$return['totalsaves']}<br />";
+	$row = $db->no_of_sessions_and_saves();	
+	echo <<<EOF
+	<tr>
+		<th align="left">Number of Sessions:</th><td>{$row['nosessions']}</td>
+	</tr>
+	<tr>
+		<th align="left">Total number of Saves:</th><td>{$row['totalsaves']}</td>
+	</tr>
+EOF;
 
-	//Unique username count
-	$return = $db->unique_username_count();
-	echo "No of Unique Users: {$return['usercount']}<br />";
+	// Username count
+	$row = $db->username_count();	
+	echo <<<EOF
+	<tr>
+		<th align="left">Number of Usernames Known:</th><td>{$row['usercount']}</td>
+	</tr>
+EOF;
 	
 	//Unique users count (username/wiki)
+	$row = $db->unique_username_count();	
+	echo <<<EOF
+	<tr>
+		<th align="left">Number of Unique Users<sup><a href="#1">1</a></sup>:</th><td>{$row['UniqueUsersCount']}</td>
+	</tr>
+EOF;
+	
+	//User with the most saves
 	$row = $db->busiest_user();
 	echo <<< EOF
+</table>
+<p/>
 <table width='25%' border='1'>
   <tr>
   	<th colspan="3" align="center">User with the most saves</th>
@@ -155,6 +206,8 @@ EOF
 	}
 ?>
 </table>
+<p/>
+<sup><a name="1">1</a></sup>Unique username/wiki/language code
 </body>
 </html>
 <?php

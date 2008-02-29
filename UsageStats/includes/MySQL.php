@@ -163,22 +163,29 @@ class DB {
 	
 	// reusable queries:
 	function no_of_sessions_and_saves ()	{
-		return $this->db_mysql_query_single_row("SELECT COUNT(s.sessionid) AS nosessions, SUM(s.saves) AS totalsaves FROM sessions s", 'no_of_sessions_and_saves');
+		return $this->db_mysql_query_single_row('SELECT COUNT(s.sessionid) AS nosessions, SUM(s.saves) AS totalsaves FROM sessions s', 'no_of_sessions_and_saves');
+	}
+	
+	function username_count() {
+		return $this->db_mysql_query_single_row("SELECT COUNT(DISTINCT u.User) AS usercount FROM lkpUsers u", 'username_count') ;
 	}
 	
 	function unique_username_count() {
-		return $this->db_mysql_query_single_row("SELECT COUNT(DISTINCT u.User) AS usercount FROM lkpUsers u", 'unique_username_count') ;
+		return $this->db_mysql_query_single_row('SELECT Count(*) AS UniqueUsersCount
+FROM (SELECT sessions.User
+FROM (sessions INNER JOIN lkpUsers ON sessions.User = lkpUsers.UserID) INNER JOIN lkpWikis ON sessions.Site = lkpWikis.SiteID
+GROUP BY lkpWikis.Site, lkpWikis.LangCode, sessions.User) AS UniqueUsers', 'unique_username_count');
 	}
 	
 	function plugin_count() {
-		return $this->db_mysql_query_single_row("SELECT COUNT(DISTINCT PluginID) as pluginno FROM plugins", 'plugin_count') ;
+		return $this->db_mysql_query_single_row('SELECT COUNT(DISTINCT PluginID) as pluginno FROM plugins', 'plugin_count') ;
 	}
 	
 	function busiest_user() {
-		return $this->db_mysql_query_single_row("SELECT lkpWikis.Site, lkpWikis.LangCode, Sum(sessions.Saves) AS SumOfSaves
+		return $this->db_mysql_query_single_row('SELECT lkpWikis.Site, lkpWikis.LangCode, Sum(sessions.Saves) AS SumOfSaves
 FROM (sessions INNER JOIN lkpUsers ON sessions.User = lkpUsers.UserID) INNER JOIN lkpWikis ON sessions.Site = lkpWikis.SiteID
 GROUP BY sessions.User, lkpWikis.Site, lkpWikis.LangCode
-ORDER BY Sum(sessions.Saves) DESC LIMIT 1", 'busiest_user');
+ORDER BY Sum(sessions.Saves) DESC LIMIT 1', 'busiest_user');
 	}
 }
 
