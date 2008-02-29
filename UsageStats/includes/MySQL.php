@@ -181,6 +181,14 @@ GROUP BY lkpWikis.Site, lkpWikis.LangCode, sessions.User) AS UniqueUsers', 'uniq
 		return $this->db_mysql_query_single_row('SELECT COUNT(DISTINCT PluginID) as pluginno FROM plugins', 'plugin_count') ;
 	}
 	
+	function sites() {
+		return $this->db_mysql_query("SELECT COUNT(SessionID) as sessions, l.langcode, l.site, SUM(s.saves) as nosaves FROM sessions s, lkpWikis l WHERE (s.site = l.siteid) GROUP BY s.site", 'stats', 'STATS');
+	}
+	
+	function OSs() {
+		return $this->db_mysql_query("SELECT o.OS, COUNT(s.os) AS nousers FROM sessions s, lkpOS o WHERE (s.os = o.osid) GROUP BY s.os;", 'stats', 'STATS');
+	}
+	
 	function busiest_user() {
 		return $this->db_mysql_query_single_row('SELECT lkpWikis.Site, lkpWikis.LangCode, Sum(sessions.Saves) AS SumOfSaves
 FROM (sessions INNER JOIN lkpUsers ON sessions.User = lkpUsers.UserID) INNER JOIN lkpWikis ON sessions.Site = lkpWikis.SiteID
