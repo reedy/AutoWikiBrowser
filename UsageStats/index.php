@@ -108,7 +108,10 @@ function FinishUp($output) {
 }
 
 // Call this rather than die() directly, so that AWB can always parse for "Error: "
-function dead($msg) {
+function dead($msg) {	
+	global $db;
+	$db->db_disconnect();
+	
 	header("Barf", true, 500); // comment out for in-browser debugging
 	ob_end_clean(); // gets rid of warning messages etc; comment out if want to see those
 	die("Error: $msg");
