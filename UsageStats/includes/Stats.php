@@ -128,6 +128,15 @@ EOF;
 	</tr>
 EOF;
 
+	// Record count
+	$row = $db->record_count();
+	echo <<< EOF
+
+	<tr>
+		<th align="left">Total Number of Records in Database</th><td>{$row['RecordCount']}</td>
+	</tr>
+EOF;
+
 	//Sessions & Saves per sites
 	echo <<< EOF
 

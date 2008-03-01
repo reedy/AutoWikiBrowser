@@ -259,6 +259,20 @@ FROM (sessions INNER JOIN lkpUsers ON sessions.User = lkpUsers.UserID) INNER JOI
 GROUP BY sessions.User, lkpWikis.Site, lkpWikis.LangCode
 ORDER BY Sum(sessions.Saves) DESC LIMIT 1', 'busiest_user');
 	}
+	
+	function record_count() {
+		return $this->db_mysql_query_single_row('SELECT SUM(Counts.Count) AS RecordCount FROM(
+			SELECT COUNT(*) AS Count FROM sessions
+			UNION ALL SELECT COUNT(*) FROM log
+			UNION ALL SELECT COUNT(*) FROM plugins
+			UNION ALL SELECT COUNT(*) FROM lkpCultures
+			UNION ALL SELECT COUNT(*) FROM lkpOS
+			UNION ALL SELECT COUNT(*) FROM lkpPlugins
+			UNION ALL SELECT COUNT(*) FROM lkpUsers
+			UNION ALL SELECT COUNT(*) FROM lkpVersions
+			UNION ALL SELECT COUNT(*) FROM lkpWikis
+		) AS Counts', 'record_count');
+	}
 }
 
 ?>
