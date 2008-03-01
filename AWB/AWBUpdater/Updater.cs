@@ -254,7 +254,7 @@ namespace AwbUpdater
 
             if (badUpdate)
             {
-                MessageBox.Show(@"Something has gone wrong with the downloading of the files. Please restart the updater to try again.
+                MessageBox.Show(@"Something has gone wrong with the unzipping of the files. Please restart the updater to try again.
 
 AWBUpdater will now close!");
                 Application.Exit();
