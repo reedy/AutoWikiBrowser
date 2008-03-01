@@ -115,5 +115,8 @@ namespace AutoWikiBrowser
             linkJogers.LinkVisited = true;
             Tools.OpenENArticleInBrowser("Jogers", true);
         }
+
+        private void UsageStatsLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        { UsageStats.OpenUsageStatsURL(); }
     }
 }

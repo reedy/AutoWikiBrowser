@@ -67,6 +67,7 @@ namespace AutoWikiBrowser
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.linkJogers = new System.Windows.Forms.LinkLabel();
+            this.UsageStatsLabel = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // textBoxDescription
@@ -296,12 +297,25 @@ namespace AutoWikiBrowser
             this.linkJogers.Text = "User:Jogers";
             this.linkJogers.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkJogers_LinkClicked);
             // 
+            // UsageStatsLabel
+            // 
+            this.UsageStatsLabel.AutoSize = true;
+            this.UsageStatsLabel.BackColor = System.Drawing.Color.Transparent;
+            this.UsageStatsLabel.Location = new System.Drawing.Point(138, 209);
+            this.UsageStatsLabel.Name = "UsageStatsLabel";
+            this.UsageStatsLabel.Size = new System.Drawing.Size(83, 13);
+            this.UsageStatsLabel.TabIndex = 49;
+            this.UsageStatsLabel.TabStop = true;
+            this.UsageStatsLabel.Text = "Usage Statistics";
+            this.UsageStatsLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.UsageStatsLabel_LinkClicked);
+            // 
             // AboutBox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(255)))), ((int)(((byte)(200)))));
             this.ClientSize = new System.Drawing.Size(472, 236);
+            this.Controls.Add(this.UsageStatsLabel);
             this.Controls.Add(this.linkJogers);
             this.Controls.Add(this.linkMartinp23);
             this.Controls.Add(this.linkKingboy);
@@ -363,5 +377,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.LinkLabel linkMartinp23;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.LinkLabel linkJogers;
+        private System.Windows.Forms.LinkLabel UsageStatsLabel;
     }
 }
