@@ -355,7 +355,6 @@ namespace AutoWikiBrowser
             this.tpLogs = new System.Windows.Forms.TabPage();
             this.LogControl1 = new WikiFunctions.Logging.LogControl();
             this.tpLoggingOptions = new System.Windows.Forms.TabPage();
-            this.loggingSettings1 = new AutoWikiBrowser.LoggingSettings();
             this.webBrowserDiff = new System.Windows.Forms.WebBrowser();
             this.toolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
             this.ShutdownTimer = new System.Windows.Forms.Timer(this.components);
@@ -369,7 +368,9 @@ namespace AutoWikiBrowser
             this.menuitemMakeFromTextBoxPaste = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparatorMakeFromTextBox = new System.Windows.Forms.ToolStripSeparator();
             this.mnuCopyToCategoryLog = new System.Windows.Forms.ToolStripMenuItem();
+            this.loggingSettings1 = new AutoWikiBrowser.LoggingSettings();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
+            this.UsageStatsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -1353,6 +1354,7 @@ namespace AutoWikiBrowser
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.helpToolStripMenuItem1,
             this.aboutToolStripMenuItem,
+            this.UsageStatsMenuItem,
             this.runUpdaterToolStripMenuItem,
             this.toolStripSeparator29,
             this.dumpHTMLToolStripMenuItem,
@@ -3413,7 +3415,7 @@ namespace AutoWikiBrowser
             this.tpHistory.Controls.Add(this.webBrowserHistory);
             this.tpHistory.Location = new System.Drawing.Point(4, 22);
             this.tpHistory.Name = "tpHistory";
-            this.tpHistory.Size = new System.Drawing.Size(285, 351);
+            this.tpHistory.Size = new System.Drawing.Size(396, 351);
             this.tpHistory.TabIndex = 2;
             this.tpHistory.Text = "History";
             this.tpHistory.UseVisualStyleBackColor = true;
@@ -3426,7 +3428,7 @@ namespace AutoWikiBrowser
             this.webBrowserHistory.Location = new System.Drawing.Point(0, 0);
             this.webBrowserHistory.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowserHistory.Name = "webBrowserHistory";
-            this.webBrowserHistory.Size = new System.Drawing.Size(285, 351);
+            this.webBrowserHistory.Size = new System.Drawing.Size(396, 351);
             this.webBrowserHistory.TabIndex = 0;
             this.webBrowserHistory.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserHistory_DocumentCompleted);
             // 
@@ -3436,7 +3438,7 @@ namespace AutoWikiBrowser
             this.tpLogs.Location = new System.Drawing.Point(4, 22);
             this.tpLogs.Name = "tpLogs";
             this.tpLogs.Padding = new System.Windows.Forms.Padding(3);
-            this.tpLogs.Size = new System.Drawing.Size(285, 351);
+            this.tpLogs.Size = new System.Drawing.Size(396, 351);
             this.tpLogs.TabIndex = 1;
             this.tpLogs.Text = "Logs";
             this.tpLogs.UseVisualStyleBackColor = true;
@@ -3449,7 +3451,7 @@ namespace AutoWikiBrowser
             this.LogControl1.Location = new System.Drawing.Point(0, 4);
             this.LogControl1.Margin = new System.Windows.Forms.Padding(4);
             this.LogControl1.Name = "LogControl1";
-            this.LogControl1.Size = new System.Drawing.Size(278, 341);
+            this.LogControl1.Size = new System.Drawing.Size(389, 341);
             this.LogControl1.TabIndex = 0;
             // 
             // tpLoggingOptions
@@ -3458,19 +3460,10 @@ namespace AutoWikiBrowser
             this.tpLoggingOptions.Location = new System.Drawing.Point(4, 22);
             this.tpLoggingOptions.Name = "tpLoggingOptions";
             this.tpLoggingOptions.Padding = new System.Windows.Forms.Padding(3);
-            this.tpLoggingOptions.Size = new System.Drawing.Size(285, 351);
+            this.tpLoggingOptions.Size = new System.Drawing.Size(396, 351);
             this.tpLoggingOptions.TabIndex = 3;
             this.tpLoggingOptions.Text = "Logging to file";
             this.tpLoggingOptions.UseVisualStyleBackColor = true;
-            // 
-            // loggingSettings1
-            // 
-            this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
-            this.loggingSettings1.Margin = new System.Windows.Forms.Padding(4);
-            this.loggingSettings1.Name = "loggingSettings1";
-            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
-            this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
-            this.loggingSettings1.TabIndex = 0;
             // 
             // webBrowserDiff
             // 
@@ -3590,10 +3583,26 @@ namespace AutoWikiBrowser
             this.mnuCopyToCategoryLog.Text = "Copy to Category box on log tab (for edit summaries and logging)";
             this.mnuCopyToCategoryLog.Click += new System.EventHandler(this.mnuCopyToCategoryLog_Click);
             // 
+            // loggingSettings1
+            // 
+            this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
+            this.loggingSettings1.Margin = new System.Windows.Forms.Padding(4);
+            this.loggingSettings1.Name = "loggingSettings1";
+            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
+            this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
+            this.loggingSettings1.TabIndex = 0;
+            // 
             // NudgeTimer
             // 
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
+            // 
+            // UsageStatsMenuItem
+            // 
+            this.UsageStatsMenuItem.Name = "UsageStatsMenuItem";
+            this.UsageStatsMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.UsageStatsMenuItem.Text = "Usage statistics";
+            this.UsageStatsMenuItem.Click += new System.EventHandler(this.UsageStatsMenuItem_Click);
             // 
             // MainForm
             // 
@@ -4019,5 +4028,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.TextBox txtSkipIfContains;
         private System.Windows.Forms.TextBox txtSkipIfNotContains;
         private System.Windows.Forms.CheckBox chkSkipIfContains;
+        private System.Windows.Forms.ToolStripMenuItem UsageStatsMenuItem;
     }
 }

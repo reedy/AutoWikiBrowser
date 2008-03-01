@@ -86,6 +86,7 @@ namespace AutoWikiBrowser
     {
         // TODO: Add other stuff we'd like to track. e.g. I'd quite like to know if anybody is using log to file.
 
+        private const string StatsURL = "http://awb.kingboyk.com/";
         private static int RecordId = 0;
         private static int SecretNumber = 0;
         private static int LastEditCount = 0;
@@ -233,12 +234,11 @@ namespace AutoWikiBrowser
         /// <returns></returns>
         private static string PostData(NameValueCollection postvars)
         {
-            const string url = "http://awb.kingboyk.com/";
             // echo scripts which just print out the POST vars, handy for early stages of testing:
             //const string url = "http://www.cs.tut.fi/cgi-bin/run/~jkorpela/echo.cgi";
             //const string url = "http://www.tipjar.com/cgi-bin/test";
 
-            HttpWebRequest rq = Variables.PrepareWebRequest(url, Program.UserAgentString);
+            HttpWebRequest rq = Variables.PrepareWebRequest(StatsURL, Program.UserAgentString);
             rq.Method = "POST";
             rq.ContentType = "application/x-www-form-urlencoded";
 
@@ -319,5 +319,8 @@ namespace AutoWikiBrowser
                 mUserName = Variables.User.Name;
         }
 #endregion
+
+        internal static void OpenUsageStatsURL()
+        { Tools.OpenURLInBrowser(StatsURL); }
     }
 }
