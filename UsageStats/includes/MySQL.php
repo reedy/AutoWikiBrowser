@@ -228,7 +228,10 @@ GROUP BY lkpWikis.Site, lkpWikis.LangCode, sessions.User) AS UniqueUsers', 'uniq
 	}
 	
 	function sites() {
-		return $this->db_mysql_query('SELECT COUNT(SessionID) as sessions, l.langcode, l.site, SUM(s.saves) as nosaves FROM sessions s, lkpWikis l WHERE (s.site = l.siteid) GROUP BY s.site', 'sites');
+		return $this->db_mysql_query('SELECT Count(s.SessionID) AS CountOfSessionID, Sum(s.Saves) AS SumOfSaves, l.Site, l.LangCode
+			FROM sessions s INNER JOIN lkpWikis l ON s.Site = l.SiteID
+			GROUP BY s.Site
+			ORDER BY Sum( s.Saves ) DESC , l.Site, l.LangCode', 'sites');
 	}
 	
 	function OSs($timelimited = false) {
@@ -242,7 +245,8 @@ GROUP BY lkpWikis.Site, lkpWikis.LangCode, sessions.User) AS UniqueUsers', 'uniq
 	function cultures() {
 		return $this->db_mysql_query('SELECT lkpCultures.Language, lkpCultures.Country, Sum(sessions.Saves) AS SumOfSaves
 FROM sessions INNER JOIN lkpCultures ON sessions.Culture = lkpCultures.CultureID
-GROUP BY lkpCultures.Language, lkpCultures.Country', 'cultures');
+GROUP BY lkpCultures.Language, lkpCultures.Country
+ORDER BY lkpCultures.Language, lkpCultures.Country', 'cultures');
 	}
 		
 	function plugins() {

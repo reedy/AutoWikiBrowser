@@ -148,20 +148,20 @@ EOF;
 	
 	while($row = $result->fetch_assoc())
 	{
-		$lang = "{$row['langcode']}";
+		$lang = "{$row['LangCode']}";
 		$site = "";
 		
 		if ($lang != "WIKI" && $lang != "CUS")
-			$site = "{$lang}.{$row['site']}.org";
+			$site = "{$lang}.{$row['Site']}.org";
 		else
-			$site = "{$row['site']}";
+			$site = "{$row['Site']}";
 		
 		  echo <<<EOF
 
 	<tr>
 		<td><a href="http://{$site}/">{$site}</a></td>
-		<td>{$row['sessions']}</td>
-		<td>{$row['nosaves']}</td>
+		<td>{$row['CountOfSessionID']}</td>
+		<td>{$row['SumOfSaves']}</td>
 	</tr>
 EOF;
 	}
@@ -179,8 +179,8 @@ EOF;
   	<th colspan="3" align="center">UI Cultures</th>
   </tr>
 	<tr>
-		<th>Country</th>
 		<th>Language</th>
+		<th>Country</th>
 		<th>Number of Saves</th>
 	</tr>
 EOF;
@@ -190,8 +190,8 @@ EOF;
 		  echo <<< EOF
 
 	<tr>
-		<td>{$row['Country']}</td>
 		<td>{$row['Language']}</td>
+		<td>{$row['Country']}</td>
 		<td>{$row['SumOfSaves']}</td>
 	</tr>
 EOF;
