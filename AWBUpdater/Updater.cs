@@ -1,6 +1,6 @@
 /*
 AWBUpdater
-Copyright (C) 2007 Sam Reed
+Copyright (C) 2008 Sam Reed
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -36,20 +36,13 @@ namespace AwbUpdater
 {
     internal sealed partial class Updater : Form
     {
-        string AWBdirectory = "";
-        string tempDirectory = "";
-
-        string AWBZipName = "";
-        string AWBWebAddress = "";
-
-        string UpdaterZipName = "";
-        string UpdaterWebAddress = "";
+        string AWBdirectory = "", tempDirectory = "";
+        string AWBZipName = "", AWBWebAddress = "";
+        string UpdaterZipName = "", UpdaterWebAddress = "";
 
         IWebProxy proxy;
 
-        bool updaterUpdate;
-        bool awbUpdate;
-        bool badUpdate;
+        bool updaterUpdate, awbUpdate, badUpdate;
 
         public Updater()
         {
@@ -317,18 +310,6 @@ AWBUpdater will now close!");
                 File.Copy(tempDirectory + "WikiFunctions.dll", AWBdirectory + "WikiFunctions.dll", true);
                 File.Copy(tempDirectory + "IRCMonitor.exe", AWBdirectory + "IRCMonitor.exe", true);
                 File.Copy(tempDirectory + "Diff.dll", AWBdirectory + "Diff.dll", true);
-
-                if (File.Exists(AWBdirectory + "Wikidiff2.dll"))
-                    File.Delete(AWBdirectory + "Wikidiff2.dll");
-
-                if (File.Exists(AWBdirectory + "gpl-2.0.txt"))
-                    File.Delete(AWBdirectory + "gpl-2.0.txt");
-
-                if (File.Exists(AWBdirectory + "gpl-3.0.txt"))
-                    File.Delete(AWBdirectory + "gpl-3.0.txt");
-
-                if (File.Exists(tempDirectory + "COPYING"))
-                    File.Copy(tempDirectory + "COPYING", AWBdirectory + "COPYING", true);
 
                 if (File.Exists(AWBdirectory + "CFD.dll"))
                     File.Copy(tempDirectory + "Plugins\\CFD\\CFD.dll", AWBdirectory + "CFD.dll", true);
