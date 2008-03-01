@@ -13,16 +13,8 @@
 		<vfile name="F:\Work\Programming\AWB\UsageStats"/>
 		<vfile name="F:\Work\Programming\AWB\UsageStats\includes\MySQL.php"/>
 	</project_entity>
-	<project_entity ID="javaBridge" JRE_Name="1.5.0_06"/>
 	<project_entity ID="bookmarks"/>
-	<project_entity ID="editor_component" selectedEditor="0">
-		<openEditors>
-			<editor fileName="F:\Work\Programming\AWB\UsageStats\index.php" caretPosition="2262" clone="false" encoding="default"/>
-			<editor fileName="F:\Work\Programming\AWB\UsageStats\includes\MySQL.php" caretPosition="5202" clone="false" encoding="default"/>
-			<editor fileName="F:\Work\Programming\AWB\UsageStats\includes\Stats.php" caretPosition="3542" clone="false" encoding="default"/>
-			<editor fileName="F:\Work\Programming\AWB\UsageStats\config.php" caretPosition="0" clone="false" encoding="default"/>
-		</openEditors>
-	</project_entity>
+	<project_entity ID="javaBridge" JRE_Name="1.5.0_06"/>
 	<project_entity ID="Subversion">
 		<svnCmdArguments>
 			<SubversionCommand commandType="update"/>
@@ -34,6 +26,14 @@
 			<SubversionCommand commandType="revert"/>
 			<SubversionCommand commandType="resolve"/>
 		</svnCmdArguments>
+	</project_entity>
+	<project_entity ID="editor_component" selectedEditor="1">
+		<openEditors>
+			<editor fileName="F:\Work\Programming\AWB\UsageStats\index.php" caretPosition="2297" clone="false" encoding="default"/>
+			<editor fileName="F:\Work\Programming\AWB\UsageStats\includes\MySQL.php" caretPosition="8823" clone="false" encoding="default"/>
+			<editor fileName="F:\Work\Programming\AWB\UsageStats\includes\Stats.php" caretPosition="3542" clone="false" encoding="default"/>
+			<editor fileName="F:\Work\Programming\AWB\UsageStats\config.php" caretPosition="0" clone="false" encoding="default"/>
+		</openEditors>
 	</project_entity>
 	<project_entity ID="CVS">
 		<lastArguments>

@@ -231,22 +231,12 @@ GROUP BY lkpWikis.Site, lkpWikis.LangCode, sessions.User) AS UniqueUsers', 'uniq
 		return $this->db_mysql_query('SELECT COUNT(SessionID) as sessions, l.langcode, l.site, SUM(s.saves) as nosaves FROM sessions s, lkpWikis l WHERE (s.site = l.siteid) GROUP BY s.site', 'sites');
 	}
 	
-	function OSs() {
-		return $this->db_mysql_query('SELECT lkpOS.OS, Query1.SumOfSaves, Query2.CountOfSessionID
-FROM (
-lkpOS
-INNER JOIN (
-	SELECT sessions.OS, Sum( sessions.Saves ) AS SumOfSaves
-	FROM sessions
-	GROUP BY sessions.OS
-	) AS Query1 ON lkpOS.OSID = Query1.OS
-)
-INNER JOIN (
-	SELECT Count( sessions.SessionID ) AS CountOfSessionID, sessions.OS
-	FROM sessions
-	GROUP BY sessions.OS
-	) AS Query2 ON lkpOS.OSID = Query2.OS
-ORDER BY lkpOS.OS', 'OSs');
+	function OSs($timelimited = false) {
+		$query='SELECT lkpOS.OS, Sum( sessions.Saves ) AS SumOfSaves, Count( sessions.SessionID ) AS CountOfSessionID
+			FROM sessions INNER JOIN lkpOS ON sessions.OS = lkpOS.OSID ';
+		($timelimited) && $query .= 'WHERE DATE_SUB( CURDATE( ) , INTERVAL 30 DAY ) <= sessions.DateTime ';
+		$query .= 'GROUP BY sessions.OS, lkpOS.OS	ORDER BY lkpOS.OS';
+		return $this->db_mysql_query($query, 'OSs');
 	}
 	
 	function cultures() {

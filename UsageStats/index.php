@@ -73,6 +73,7 @@ case "Stats":
 	
 default:
 	header('Content-Type: text/html; charset=utf-8');
+	//$db->init_log(3); // uncomment if something is broken and need to log error messages (note that will always be logged as failing unless the Log_Success method is modified and called)
 	require_once("includes/Stats.php");
 	htmlstats();
 	FinishUp(ob_get_contents());

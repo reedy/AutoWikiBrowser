@@ -169,32 +169,8 @@ EOF;
 	$result->close();
 			
 	//OS Stats
-	// TODO: Maybe this would be better as saves than users? ... or how about both?
-	echo <<< EOF
-
-  <tr>
-  	<th colspan="3" align="center">Operating Systems</th>
-  </tr>
-	<tr>
-		<th colspan="2">OS</th>
-		<th>Number of Users<sup><a href="#2">2</a></sup></th>
-	</tr>
-EOF;
-			
-	$result = $db->OSs();
-
-	while($row = $result->fetch_assoc())
-	{
-		echo <<< EOF
-
-	<tr>
-		<td colspan="2">{$row['OS']}</td>
-		<td>{$row['nousers']}</td>
-	</tr>
-EOF;
-	}
-	
-	$result->close();
+	OS_XHTML($db->OSs(), '');
+	OS_XHTML($db->OSs(true), ' (last 30 days)');
 	
 	//Number of saves by language (culture)
 	echo <<< EOF
@@ -228,7 +204,7 @@ EOF;
 	echo <<< EOF
 
 	<tr>
-		<th colspan="3" align="center">User with the most saves<sup><a href="#3">3</a></sup></th>
+		<th colspan="3" align="center">User with the most saves<sup><a href="#2">2</a></sup></th>
 	</tr>
 	<tr>
 		<th>Site</th>
@@ -268,8 +244,7 @@ EOF;
 <p/>
 <small>
 <sup><a name="1">1</a></sup>Unique username/wiki/language code<br/>
-<sup><a name="2">2</a></sup>Note that this is not <i>unique users</i> just <i>unique usernames</i>. If, for example, WikiSysop on site A and a different WikiSysop on site B were to use the same OS they would count here as one user only.<br/>
-<sup><a name="3">3</a></sup>Anonymous
+<sup><a name="2">2</a></sup>Anonymous (usernames are not revealed)
 </small>
 <br/>
 <hr/>
@@ -283,4 +258,31 @@ EOF;
 </html>
 <?php
 }
+
+function OS_XHTML($result, $headersuffix) {
+	echo <<< EOF
+
+  <tr>
+  	<th colspan="3" align="center">Operating Systems{$headersuffix}</th>
+  </tr>
+	<tr>
+		<th>OS</th>
+		<th>Number of Saves</th>
+		<th>Number of Sessions</th>
+	</tr>
+EOF;
+
+	while($row = $result->fetch_assoc())
+	{
+		echo <<< EOF
+
+	<tr>
+		<td>{$row['OS']}</td>
+		<td>{$row['SumOfSaves']}</td>
+		<td>{$row['CountOfSessionID']}</td>
+	</tr>
+EOF;
+	}
+	
+	$result->close();}
 ?>
