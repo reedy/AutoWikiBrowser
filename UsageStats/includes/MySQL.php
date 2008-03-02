@@ -149,12 +149,13 @@ class DB {
 	}
 	
 	function update_usage_record() {
-		// TODO: NOT YET TESTED!!!
 		$this->init_log(2);
 		$this->verify_repeat_caller();
-		$this->db_mysql_query("UPDATE sessions SET Saves = {$_POST['Saves']} WHERE sessions.SessionID = {$_POST['RecordID']} LIMIT 1",
-			'update_usage_record');
+		($_POST['Saves'] > 0) && 
+			$this->db_mysql_query("UPDATE sessions SET Saves = {$_POST['Saves']} WHERE sessions.SessionID = {$_POST['RecordID']} LIMIT 1",
+			'update_usage_record'); // Saves can be empty if the only change was loading a new plugin
 		$this->GetPluginsData($_POST['RecordID']);
+		$this->log_success($_POST['RecordID']);
 	}
 	
 	// helper routines
