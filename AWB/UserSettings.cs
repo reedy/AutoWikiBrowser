@@ -161,13 +161,13 @@ namespace AutoWikiBrowser
             UpdateRecentSettingsMenu();
         }
 
-        public void UpdateRecentList(string s)
+        public void UpdateRecentList(string path)
         {
-            int i = RecentList.IndexOf(s);
+            int i = RecentList.IndexOf(path);
 
             if (i >= 0) RecentList.RemoveAt(i);
 
-            RecentList.Insert(0, s);
+            RecentList.Insert(0, path);
             UpdateRecentSettingsMenu();
         }
 

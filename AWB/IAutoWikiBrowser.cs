@@ -72,11 +72,11 @@ namespace AutoWikiBrowser
         string IAutoWikiBrowser.WikiDiffVersionString { get { return "(internal)"; } }
         /* void IAutoWikiBrowser.AddLogItem(ArticleEx article) //
             { LogControl1.AddLog(article); } */
-        void IAutoWikiBrowser.AddLogItem(bool skipped, AWBLogListener logListener)
-        { LogControl1.AddLog(skipped, logListener); }
+        void IAutoWikiBrowser.AddLogItem(bool Skipped, AWBLogListener LogListener)
+        { LogControl1.AddLog(Skipped, LogListener); }
         void IAutoWikiBrowser.TurnOffLogging() { Program.MyTrace.TurnOffLogging(); }
-        void IAutoWikiBrowser.ShowHelp(string url) { Help.ShowHelp(h, url); }
-        void IAutoWikiBrowser.ShowHelpEnWiki(string article) { Help.ShowHelpEN(h, article); }
+        void IAutoWikiBrowser.ShowHelp(string URL) { Help.ShowHelp(h, URL); }
+        void IAutoWikiBrowser.ShowHelpEnWiki(string Article) { Help.ShowHelpEN(h, Article); }
         LangCodeEnum IAutoWikiBrowser.LangCode { get { return Variables.LangCode; } }
         ProjectEnum IAutoWikiBrowser.Project { get { return Variables.Project; } }
 
