@@ -45,8 +45,8 @@ class DB {
 	function init_log($operation) {
 		global $mysqli, $logID;
 		
-		$this->db_mysql_query('INSERT INTO log (DateTime, Operation) SELECT "' . self::get_mysql_utc_stamp() .
-			"\", {$operation}", 'init_log');
+		$this->db_mysql_query('INSERT INTO log (DateTime, Operation, POST) SELECT "' . self::get_mysql_utc_stamp() .
+			"\", {$operation}, \"".print_r($_POST, true).'"', 'init_log');
 		$logID = $mysqli->insert_id;
 	}
 	
@@ -207,7 +207,6 @@ class DB {
 	}	
 	
 	// reusable queries:
-	// TODO: There seems to an absence of sort order in most of these queries :)
 	function no_of_sessions_and_saves ()	{
 		return $this->db_mysql_query_single_row('SELECT COUNT(s.sessionid) AS nosessions, SUM(s.saves) AS totalsaves FROM sessions s', 'no_of_sessions_and_saves');
 	}
