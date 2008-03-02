@@ -554,14 +554,14 @@ namespace WikiFunctions.Parse
             link = link.Replace(m.Value, Encoding.UTF8.GetString(dest, 0, DestCount));
         }
 
-        readonly Regex LinkWhitespace1 = new Regex(@" \[\[ ([^\]]{1,30})\]\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        readonly Regex LinkWhitespace2 = new Regex(@"\[\[ ([^\]]{1,30})\]\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        readonly Regex LinkWhitespace3 = new Regex(@"\[\[([^\]]{1,30})  ([^\]]{1,30})\]\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        readonly Regex LinkWhitespace4 = new Regex(@"\[\[([^\]]{1,30}) \]\] ", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        readonly Regex LinkWhitespace5 = new Regex(@"\[\[([^\]]{1,30}) \]\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex LinkWhitespace1 = new Regex(@"\b \[\[ ([^\]]{1,30})\]\]\b", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex LinkWhitespace2 = new Regex(@"\b\[\[ ([^\]]{1,30})\]\]\b", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex LinkWhitespace3 = new Regex(@"\b\[\[([^\]]{1,30})  ([^\]]{1,30})\]\]\b", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex LinkWhitespace4 = new Regex(@"\b\[\[([^\]]{1,30}) \]\] \b", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex LinkWhitespace5 = new Regex(@"\b\[\[([^\]]{1,30}) \]\]\b", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        readonly Regex DateLinkWhitespace1 = new Regex(@"(?i)(\[\[\d\d? (?:January|February|March|April|May|June|July|August|September|October|November|December)\]\]),? ? ?(\[\[\d{1,4}\]\])", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        readonly Regex DateLinkWhitespace2 = new Regex(@"(?i)(\[\[(?:January|February|March|April|May|June|July|August|September|October|November|December) \d\d?\]\]),? ? ?(\[\[\d{1,4}\]\])", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex DateLinkWhitespace1 = new Regex(@"\b(\[\[\d\d? (?:January|February|March|April|May|June|July|August|September|October|November|December)\]\]),? {0,2}(\[\[\d{1,4}\]\])\b", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex DateLinkWhitespace2 = new Regex(@"\b(\[\[(?:January|February|March|April|May|June|July|August|September|October|November|December) \d\d?\]\]),? {0,2}(\[\[\d{1,4}\]\])\b", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         /// <summary>
         /// Fix leading, trailing and middle spaces in Wikilinks
