@@ -23,6 +23,7 @@ using System.Text;
 
 namespace WikiFunctions.Logging
 {
+    [Serializable]
     public class AWBLogListener : ListViewItem, IAWBTraceListener
     {    /* This class will:
          * Use the Logging interface previously defined in wikifunctions2

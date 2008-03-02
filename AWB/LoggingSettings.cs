@@ -177,10 +177,6 @@ namespace AutoWikiBrowser
                 }
             }
 
-            bool blnJobNameHasChanged = (!(Settings.UploadJobName == UploadJobNameTextBox.Text)) || 
-                (UploadJobNameTextBox.Text == Props.ConUploadCategoryIsJobName &&
-                !(Settings.Category == LoggingCategoryTextBox.Text));
-
             Settings.LogVerbose = VerboseCheckBox.Checked;
             Settings.LogWiki = WikiLogCheckBox.Checked;
             Settings.LogXHTML = XHTMLLogCheckBox.Checked;

@@ -1060,7 +1060,7 @@ namespace WikiFunctions
                         // break;
 
                     default:
-                        LoadProjectOptions(URLLong);
+                        LoadProjectOptions();
                         break;
                 }
 
@@ -1123,13 +1123,13 @@ namespace WikiFunctions
             {
                 URL = "http://" + customProject + ".wikia.com";
                 URLEnd = "/";
-                LoadProjectOptions(URL);
+                LoadProjectOptions();
             }
             else
             {
                 if (projectName == ProjectEnum.custom)
                     URLEnd = "";
-                LoadProjectOptions(URL);
+                LoadProjectOptions();
             }
 
             //refresh once more in case project settings were reset due to
@@ -1161,9 +1161,8 @@ namespace WikiFunctions
         /// <summary>
         /// Loads namespaces
         /// </summary>
-        /// <param name="url">URL of directory where scripts reside, e.g. "http://en.wikipedia.org".</param>
         /// <returns>Dictionary int=>string containing namespaces.</returns>
-        public static void LoadProjectOptions(string URL)
+        public static void LoadProjectOptions()
         {
             Dictionary<int, string> ns = new Dictionary<int, string>();
             string[] months = (string[])ENLangMonthNames.Clone();
