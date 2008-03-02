@@ -38,7 +38,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
 #Region "IDisposable"
         ' TODO: Why is this object getting events after setting to nothing? Why is Finalize() not running until app closes?!
 
-        Private disposed As Boolean = False        ' To detect redundant calls
+        Private disposed As Boolean        ' To detect redundant calls
 
         ' This procedure is where the actual cleanup occurs
         Private Sub Dispose(ByVal disposing As Boolean)
@@ -262,7 +262,7 @@ ExitMe:
         End Sub
 
         ' Webcontrol event handlers:
-        Private Sub WebControlBusyChanged()
+        Private Sub WebControlBusyChanged(ByVal sender As Object, ByVal e As System.EventArgs)
             If Not disposed Then ' TODO: this is a hack
                 If PluginManager.AWBForm.WebControl.Busy Then
                     LoadArticle()

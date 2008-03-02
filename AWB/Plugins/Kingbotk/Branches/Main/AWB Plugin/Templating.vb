@@ -4,7 +4,7 @@
     ''' </summary>
     ''' <remarks></remarks>
     Friend NotInheritable Class Templating
-        Friend FoundTemplate As Boolean = False, BadTemplate As Boolean = False
+        Friend FoundTemplate As Boolean, BadTemplate As Boolean
         Friend Parameters As New Dictionary(Of String, TemplateParametersObject)
 
         ''' <summary>
