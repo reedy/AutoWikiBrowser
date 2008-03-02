@@ -734,7 +734,7 @@ namespace WikiFunctions
 
             if (replaceReferenceTags)
             {
-                AWBChangeArticleText("Fix reference tags", parsers.FixReferenceTags(ArticleText), true);
+                AWBChangeArticleText("Fix reference tags", parsers.FixReferenceListTags(ArticleText), true);
                 Variables.Profiler.Profile("FixReferenceTags");
             }
 

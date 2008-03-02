@@ -315,16 +315,16 @@ namespace WikiFunctions.Parse
             return "{{reflist}}";
         }
 
-        static readonly Regex ReferenceTags = new Regex(@"<(span|div)( class=""(references-small|small|references-2column)|)?"">[\r\n\s]*<references[\s]?/>[\r\n\s]*</(span|div)>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        static readonly Regex ReferenceListTags = new Regex(@"<(span|div)( class=""(references-small|small|references-2column)|)?"">[\r\n\s]*<references[\s]?/>[\r\n\s]*</(span|div)>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Replaces various old reference tag formats, with the new {{reflist}}
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article</param>
         /// <returns></returns>
-        public string FixReferenceTags(string ArticleText)
+        public string FixReferenceListTags(string ArticleText)
         {
-            return ReferenceTags.Replace(ArticleText, new MatchEvaluator(ReflistMatchEvaluator));
+            return ReferenceListTags.Replace(ArticleText, new MatchEvaluator(ReflistMatchEvaluator));
         }
 
         static Regex EmptyReferences = new Regex(@"<ref name=[""]?([^<>""]*)[""]?>[\s]*</ref>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
