@@ -2241,17 +2241,15 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         {
             if (addIgnoredToLogFileToolStripMenuItem.Checked)
             {
-                btnFalsePositive.Visible = true;
-                btntsFalsePositive.Visible = true;
-                btnStop.Location = new System.Drawing.Point(217, 57);
-                btnStop.Size = new System.Drawing.Size(49, 21);
+                btnFalsePositive.Visible = btntsFalsePositive.Visible = true;
+                btnStop.Location = new System.Drawing.Point(220, 62);
+                btnStop.Size = new System.Drawing.Size(51, 23);
             }
             else
             {
-                btnFalsePositive.Visible = false;
-                btntsFalsePositive.Visible = false;
-                btnStop.Location = new System.Drawing.Point(165, 57);
-                btnStop.Size = new System.Drawing.Size(101, 21);
+                btnFalsePositive.Visible = btntsFalsePositive.Visible = false;
+                btnStop.Location = new System.Drawing.Point(156, 62);
+                btnStop.Size = new System.Drawing.Size(117, 23);
             }
         }
 
