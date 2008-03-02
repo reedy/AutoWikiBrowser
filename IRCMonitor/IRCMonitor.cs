@@ -35,7 +35,8 @@ using System.Net;
 using WikiFunctions.Browser;
 using System.Reflection;
 
-namespace IrcMonitor
+[assembly: CLSCompliant(true)]
+namespace IRCM
 {
     /// <summary>
     /// This form demonstates usage of the WikiIRC framework.
@@ -167,7 +168,7 @@ namespace IrcMonitor
             //webBrowser.Save();
         }
 
-        public void MakeMenu(string[] templates, ToolStripItemCollection items, EventHandler handler)
+        public static void MakeMenu(string[] templates, ToolStripItemCollection items, EventHandler handler)
         {
             Stack<ToolStripItemCollection> st = new Stack<ToolStripItemCollection>();
             st.Push(items);
@@ -176,7 +177,7 @@ namespace IrcMonitor
                 string title = s.TrimStart('*');
                 int level = s.Length - title.Length;
                 int tag;
-                if (title == "") continue;
+                if (string.IsNullOrEmpty(title)) continue;
                 if (int.TryParse(Tools.StringBetween(title, "[", "]"), out tag)) tag = -1;
                 if (title[0] != '{' && title.Contains("{")) title = title.Remove(0, title.IndexOf('{'));
                 ToolStripMenuItem ts = new ToolStripMenuItem(title);
@@ -292,7 +293,7 @@ Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=15
         private void UpdateUserName(object sender, EventArgs e)
         { }
 
-        private void RunUpdater()
+        private static void RunUpdater()
         {
             System.Diagnostics.Process.Start(Path.GetDirectoryName(Application.ExecutablePath) + "\\AWBUpdater.exe");
 
@@ -330,8 +331,8 @@ Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=15
 
         private bool OkToConnect()
         {
-            if (txtServer.Text != "" && txtPort.Text != "" && txtNickname.Text != "")
-                return ((cmboProject.Text == "meta" || cmboProject.Text == "commons") || (cmboProject.Text != "" && cmboLang.Text != ""));
+            if (!string.IsNullOrEmpty(txtServer.Text) && !string.IsNullOrEmpty(txtPort.Text) && !string.IsNullOrEmpty(txtNickname.Text))
+                return ((cmboProject.Text == "meta" || cmboProject.Text == "commons") || (!string.IsNullOrEmpty(cmboProject.Text) && !string.IsNullOrEmpty(cmboLang.Text)));
             else
                 return false;
         }
@@ -354,7 +355,7 @@ Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=15
             Random n = new Random();
 
             string name = "ircM";
-            if (txtNickname.Text == "")
+            if (string.IsNullOrEmpty(txtNickname.Text))
                 name += n.Next(1000, 100000).ToString();
             else
                 name += txtNickname.Text;
@@ -899,7 +900,7 @@ Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=15
             return i;
         }
 
-        private bool CheckNameSpace(string article, int index)
+        private static bool CheckNameSpace(string article, int index)
         {
             if (index == 1 && !Tools.IsMainSpace(article))
                 return false;
@@ -1034,7 +1035,7 @@ Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=15
 
         private void btnBlackListAdd_Click(object sender, EventArgs e)
         {
-            if (txtList.Text == "")
+            if (string.IsNullOrEmpty(txtList.Text))
                 return;
 
             AddToBlacklist(txtList.Text);
@@ -1861,7 +1862,7 @@ Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=15
                 ReplacementText = webBrowser.GetArticleText();
 
 
-                if (webBrowser.GetArticleText().Trim() == "")
+                if (string.IsNullOrEmpty(webBrowser.GetArticleText().Trim()))
                 {
                     MessageBox.Show("Cannot revert to empty revision. Probably, there is some error.");
                     NextTask = NextTaskType.None;
