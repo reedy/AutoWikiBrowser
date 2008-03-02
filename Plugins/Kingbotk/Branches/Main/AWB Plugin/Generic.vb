@@ -599,7 +599,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
         End Sub
 
 #Region "IDisposable"
-        Private disposed As Boolean = False  ' To detect redundant calls
+        Private disposed As Boolean ' To detect redundant calls
 
         ' This procedure is where the actual cleanup occurs
         Private Sub Dispose(ByVal disposing As Boolean)
