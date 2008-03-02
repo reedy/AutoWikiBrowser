@@ -489,12 +489,12 @@ Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=15
                 Tools.Beep1();
         }
 
-        private void Connected()
+        private void Connected(object sender, EventArgs e)
         {
             lblStatusText.Text = "Connected";
         }
 
-        private void Disconnected()
+        private void Disconnected(object sender, EventArgs e)
         {
             lblStatusText.Text = "Disconnected";
             if (WikiIRC.Run)
@@ -568,7 +568,7 @@ Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=15
 
         ListViewItem lvItem;
         string[] lviEditArray = { "", "", "", "", "" };
-        private void ProcessEdit(string article, string minor, string difflink, string user, int plusminus, string comment)
+        private void ProcessEdit(object sender, EventArgs e, string article, string minor, string difflink, string user, int plusminus, string comment)
         {
             bool iPedit = false;
             if (WikiRegexes.IPAddress.IsMatch(user))
@@ -640,7 +640,7 @@ Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=15
         }
 
         string[] lviNewUserArray = { "" };
-        private void ProcessNewUser(string name)
+        private void ProcessNewUser(object sender, EventArgs e, string name)
         {
             lvItem = new ListViewItem(name);
 
@@ -651,7 +651,7 @@ Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=15
         }
 
         string[] lviNewArticleArray = { "", "", "", "" };
-        private void ProcessNewArticles(string article, string user, int plusmin, string comment)
+        private void ProcessNewArticles(object sender, EventArgs e, string article, string user, int plusmin, string comment)
         {
             bool iPedit = false;
             if (WikiRegexes.IPAddress.IsMatch(user))
@@ -702,7 +702,7 @@ Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=15
         }
 
         string[] lviUploadArray = { "", "", "", "" };
-        private void ProcessUpload(string file, string user, string comment)
+        private void ProcessUpload(object sender, EventArgs e, string file, string user, string comment)
         {
             bool whiteListedUser = lbWhiteList.Items.Contains(user);
             bool blacklistedUser = lbBlackList.Items.Contains(user);
@@ -745,7 +745,7 @@ Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=15
         }
 
         string[] lviMoveArray = { "", "", "", "" };
-        private void ProcessMove(string oldName, string newName, string user, string comment)
+        private void ProcessMove(object sender, EventArgs e, string oldName, string newName, string user, string comment)
         {
             bool whiteListedUser = lbWhiteList.Items.Contains(user);
             bool blacklistedUser = lbBlackList.Items.Contains(user);
@@ -788,35 +788,35 @@ Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=15
             AddNewPageMove();
         }
 
-        private void ProcessDelete(string admin, string article, string comment)
+        private void ProcessDelete(object sender, EventArgs e, string admin, string article, string comment)
         {
             ProcessActions(admin, "DELETE", article, comment);
             AddNewDeletion();
         }
 
-        private void ProcessRestore(string admin, string article, string comment)
+        private void ProcessRestore(object sender, EventArgs e, string admin, string article, string comment)
         {
             ProcessActions(admin, "RESTORE", article, comment);
         }
 
-        private void ProcessBlock(string admin, string user, string comment, string time)
+        private void ProcessBlock(object sender, EventArgs e, string admin, string user, string comment, string time)
         {
             ProcessActions(admin, "BLOCK", user, time + comment);
             AddNewBlock();
         }
 
-        private void ProcessUNBlock(string admin, string user, string comment)
+        private void ProcessUNBlock(object sender, EventArgs e, string admin, string user, string comment)
         {
             ProcessActions(admin, "UNBLOCK", user, comment);
         }
 
-        private void ProcessProtection(string admin, string article, string comment)
+        private void ProcessProtection(object sender, EventArgs e, string admin, string article, string comment)
         {
             ProcessActions(admin, "PROTECT", article, comment);
             AddNewProtection();
         }
 
-        private void ProcessUnprotection(string admin, string article, string comment)
+        private void ProcessUnprotection(object sender, EventArgs e, string admin, string article, string comment)
         {
             ProcessActions(admin, "UNPROTECT", article, comment);
         }
@@ -859,7 +859,7 @@ Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=15
                 listviewActions.Items.RemoveAt(MaxNumberOfRows);
         }
 
-        private void ProcessOtherMessages(string msg)
+        private void ProcessOtherMessages(object sender, EventArgs e, string msg)
         {
             textBox1.AppendText(msg + "\r\n\r\n");
         }

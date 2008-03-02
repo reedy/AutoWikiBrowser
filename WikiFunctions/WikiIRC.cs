@@ -25,20 +25,20 @@ using System.Text.RegularExpressions;
 
 namespace WikiFunctions.IRC
 {
-    public delegate void OtherMessagesDel(string IrcCommand);
-    public delegate void ConnectEnabledDel();
-    public delegate void DisconnectDel();
-    public delegate void EditDel(string Article, string Minor, string DiffLink, string User, int plusminus, string comment);
-    public delegate void NewArticleDel(string Artice, string User, int PlusMinus, string Comment);
-    public delegate void NewUserDel(string User);
-    public delegate void PageMoveDel(string OldName, string NewName, string User, string Comment);
-    public delegate void UploadDel(string File, string User, string Comment);
-    public delegate void DeleteDel(string Admin, string Article, string Comment);
-    public delegate void RestoreDel(string Admin, string Article, string Comment);
-    public delegate void BlockDel(string Admin, string Article, string Comment, string time);
-    public delegate void UnblockDel(string Admin, string Article, string Comment);
-    public delegate void ProtectDel(string Admin, string Article, string Comment);
-    public delegate void UnprotectDel(string Admin, string Article, string Comment);
+    public delegate void OtherMessagesDel(object sender, EventArgs e, string IrcCommand);
+    public delegate void ConnectEnabledDel(object sender, EventArgs e);
+    public delegate void DisconnectDel(object sender, EventArgs e);
+    public delegate void EditDel(object sender, EventArgs e, string Article, string Minor, string DiffLink, string User, int plusminus, string comment);
+    public delegate void NewArticleDel(object sender, EventArgs e, string Artice, string User, int PlusMinus, string Comment);
+    public delegate void NewUserDel(object sender, EventArgs e, string User);
+    public delegate void PageMoveDel(object sender, EventArgs e, string OldName, string NewName, string User, string Comment);
+    public delegate void UploadDel(object sender, EventArgs e, string File, string User, string Comment);
+    public delegate void DeleteDel(object sender, EventArgs e, string Admin, string Article, string Comment);
+    public delegate void RestoreDel(object sender, EventArgs e, string Admin, string Article, string Comment);
+    public delegate void BlockDel(object sender, EventArgs e, string Admin, string Article, string Comment, string time);
+    public delegate void UnblockDel(object sender, EventArgs e, string Admin, string Article, string Comment);
+    public delegate void ProtectDel(object sender, EventArgs e, string Admin, string Article, string Comment);
+    public delegate void UnprotectDel(object sender, EventArgs e, string Admin, string Article, string Comment);
 
     /// <summary>
     /// Contains functions to monitor IRC channels.
@@ -103,7 +103,6 @@ namespace WikiFunctions.IRC
         readonly Regex protectRegex = new Regex(":14\\[\\[07Special:Log/protect14\\]\\]4 protect10 02 5\\* 03(.*?) 5\\*  10protected 02(.*?)10:(.*?\\[(edit=.*?):(move=.*?)\\])$", RegexOptions.Compiled);
         readonly Regex unprotectRegex = new Regex(":14\\[\\[07Special:Log/protect14\\]\\]4 unprotect10 02 5\\* 03(.*?) 5\\*  10unprotected 02(.*?)10:(.*?)$", RegexOptions.Compiled);
 
-        
         SendOrPostCallback SOPC;
         private SynchronizationContext context;
         Thread IRCThread;
@@ -117,7 +116,7 @@ namespace WikiFunctions.IRC
 
             if (msg == "DISCONNECTED")//disconnected
             {
-                this.DisconnectEvent();
+                this.DisconnectEvent(null, null);
                 return;
             }
      
@@ -127,20 +126,20 @@ namespace WikiFunctions.IRC
 
                 int plusminus = intFromMessage(m.Groups[5].Value);
 
-                this.Edit(m.Groups[1].Value, m.Groups[2].Value, m.Groups[3].Value, m.Groups[4].Value, plusminus, m.Groups[6].Value);
+                this.Edit(null, null, m.Groups[1].Value, m.Groups[2].Value, m.Groups[3].Value, m.Groups[4].Value, plusminus, m.Groups[6].Value);
             }
             else if (newArticleRegex.IsMatch(msg))//new article
             {
                 Match m = newArticleRegex.Match(msg);
                 int plusmin = intFromMessage(m.Groups[4].Value);
 
-                this.NewArticle(m.Groups[1].Value, m.Groups[3].Value, plusmin, m.Groups[5].Value);
+                this.NewArticle(null, null, m.Groups[1].Value, m.Groups[3].Value, plusmin, m.Groups[5].Value);
             }
             else if (newUserRegex.IsMatch(msg))//new user
             {
                 Match m = newUserRegex.Match(msg);
 
-                this.NewUser(m.Groups[1].Value);
+                this.NewUser(null, null, m.Groups[1].Value);
             }
             else if (movePageRegex.IsMatch(msg))//move
             {
@@ -148,54 +147,54 @@ namespace WikiFunctions.IRC
 
                 string newName = removeSyntax(m.Groups[4].Value);
 
-                this.PageMove(m.Groups[3].Value, newName, m.Groups[2].Value, m.Groups[5].Value);
+                this.PageMove(null, null, m.Groups[3].Value, newName, m.Groups[2].Value, m.Groups[5].Value);
             }
             else if (uploadRegex.IsMatch(msg))//upload
             {
                 Match m = uploadRegex.Match(msg);
 
-                this.Upload(m.Groups[2].Value, m.Groups[1].Value, m.Groups[3].Value);
+                this.Upload(null, null, m.Groups[2].Value, m.Groups[1].Value, m.Groups[3].Value);
             }
             else if (deleteRegex.IsMatch(msg))//delete
             {
                 Match m = deleteRegex.Match(msg);
 
-                this.Delete(m.Groups[1].Value, m.Groups[2].Value, m.Groups[3].Value);
+                this.Delete(null, null, m.Groups[1].Value, m.Groups[2].Value, m.Groups[3].Value);
             }
             else if (restoreRegex.IsMatch(msg))//delete
             {
                 Match m = restoreRegex.Match(msg);
 
-                this.Restore(m.Groups[1].Value, m.Groups[2].Value, m.Groups[3].Value);
+                this.Restore(null, null, m.Groups[1].Value, m.Groups[2].Value, m.Groups[3].Value);
             }
             else if (blockRegex.IsMatch(msg))//block
             {
                 Match m = blockRegex.Match(msg);
 
-                this.Block(m.Groups[1].Value, m.Groups[2].Value, m.Groups[4].Value, m.Groups[3].Value);
+                this.Block(null, null, m.Groups[1].Value, m.Groups[2].Value, m.Groups[4].Value, m.Groups[3].Value);
             }
             else if (unblockRegex.IsMatch(msg))//block
             {
                 Match m = unblockRegex.Match(msg);
 
-                this.Unblock(m.Groups[1].Value, m.Groups[2].Value, m.Groups[3].Value);
+                this.Unblock(null, null, m.Groups[1].Value, m.Groups[2].Value, m.Groups[3].Value);
             }            
             else if (protectRegex.IsMatch(msg))//protection
             {
                 Match m = protectRegex.Match(msg);
 
-                this.Protect(m.Groups[1].Value, m.Groups[2].Value, m.Groups[3].Value);
+                this.Protect(null, null, m.Groups[1].Value, m.Groups[2].Value, m.Groups[3].Value);
             }
             else if (unprotectRegex.IsMatch(msg))//unprotection
             {
                 Match m = unprotectRegex.Match(msg);
 
-                this.Unprotect(m.Groups[1].Value, m.Groups[2].Value, m.Groups[3].Value);
+                this.Unprotect(null, null, m.Groups[1].Value, m.Groups[2].Value, m.Groups[3].Value);
             }
             else
             {
                 if (OtherMessages != null)
-                    this.OtherMessages(msg);
+                    this.OtherMessages(null, null, msg);
             }
         }
 
@@ -372,7 +371,7 @@ namespace WikiFunctions.IRC
                 IrcWriter.WriteLine(String.Format("JOIN {0}", IrcChannel));
                 IrcWriter.Flush();
 
-                this.ConnectEvent();
+                this.ConnectEvent(null, null);
 
                 // Listen for commands
                 while (Run)
