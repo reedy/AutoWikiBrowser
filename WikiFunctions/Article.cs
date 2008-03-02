@@ -665,7 +665,7 @@ namespace WikiFunctions
         public override bool Equals(object obj)
         {
             Article a = obj as Article;
-            if (obj == null)
+            if (a == null)
                 return false;
             return (mName == a.mName);
         }
