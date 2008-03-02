@@ -747,9 +747,9 @@ namespace WikiFunctions
             AWBChangeArticleText("Fix empty references", parsers.SimplifyReferenceTags(ArticleText), true);
             Variables.Profiler.Profile("FixEmptyReferences");
 
-            //TODO:Remove from release if broken
-            AWBChangeArticleText("Fix Footnotes", parsers.FixFootnotes(ArticleText), true);
-            Variables.Profiler.Profile("FixFootnotes");
+            //Just a bit broken/Some unwanted fixes (moving of <ref> tags around)
+            //AWBChangeArticleText("Fix Footnotes", parsers.FixFootnotes(ArticleText), true);
+            //Variables.Profiler.Profile("FixFootnotes");
 
             FixLinks(parsers, skip.SkipNoBadLink);
             Variables.Profiler.Profile("FixLinks");
