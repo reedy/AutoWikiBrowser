@@ -27,7 +27,7 @@ using System.Windows.Forms;
 namespace WikiFunctions.Lists
 {
     //http://msdn2.microsoft.com/en-us/library/ms996467.aspx
-    class ListViewItemComparer : IComparer
+    sealed class ListViewItemComparer : IComparer
     {
         private int col;
         private SortOrder order;
