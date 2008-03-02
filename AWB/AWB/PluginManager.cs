@@ -41,6 +41,8 @@ namespace AutoWikiBrowser
         //List<string> prevPlugins;
         ListViewItem lvi;
 
+        static string LastPluginLoadedLocation;
+
         public PluginManager(IAutoWikiBrowser iAWB) //, List<string> previousPlugins)
         {
             InitializeComponent();
@@ -51,15 +53,56 @@ namespace AutoWikiBrowser
         public static void LoadNewPlugin(IAutoWikiBrowser awb)
         {
             OpenFileDialog pluginOpen = new OpenFileDialog();
-            pluginOpen.InitialDirectory = Application.StartupPath;
+            if (string.IsNullOrEmpty(LastPluginLoadedLocation))
+                LoadLastPluginLoadedLocation();
+
+            if (string.IsNullOrEmpty(LastPluginLoadedLocation))
+                pluginOpen.InitialDirectory = Application.StartupPath;
+            else
+                pluginOpen.InitialDirectory = LastPluginLoadedLocation;
+            
             pluginOpen.DefaultExt = "dll";
             pluginOpen.Filter = "DLL files|*.dll";
-            pluginOpen.CheckFileExists = true;
-            pluginOpen.Multiselect = true;
+            pluginOpen.CheckFileExists = pluginOpen.Multiselect = pluginOpen.AutoUpgradeEnabled = true;
 
             pluginOpen.ShowDialog();
+            
+            string newPath = "";
+            if (!string.IsNullOrEmpty(pluginOpen.FileName))
+            {
+                newPath = Path.GetDirectoryName(pluginOpen.FileName);
+                if (LastPluginLoadedLocation != newPath)
+                {
+                    LastPluginLoadedLocation = newPath;
+                    SaveLastPluginLoadedLocation();
+                }
+            }
 
             Plugin.LoadPlugins(awb, pluginOpen.FileNames, true);
+        }
+
+        static void LoadLastPluginLoadedLocation()
+        {
+            try
+            {
+                Microsoft.Win32.RegistryKey reg = Microsoft.Win32.Registry.CurrentUser.
+                    OpenSubKey("Software\\Wikipedia\\AutoWikiBrowser");
+
+                LastPluginLoadedLocation = reg.GetValue("RecentPluginLoadedLocation", "").ToString();
+            }
+            catch { }
+        }
+
+        static void SaveLastPluginLoadedLocation()
+        {
+            try
+            {
+                Microsoft.Win32.RegistryKey reg = Microsoft.Win32.Registry.CurrentUser.
+            CreateSubKey("Software\\Wikipedia\\AutoWikiBrowser");
+
+                reg.SetValue("RecentPluginLoadedLocation", LastPluginLoadedLocation);
+            }
+            catch { }
         }
 
         private void PluginManager_Load(object sender, EventArgs e)
