@@ -205,7 +205,7 @@ namespace WikiFunctions.Plugin
         event GetLogUploadLocationsEvent GetLogUploadLocations;
     }
 
-    public delegate void GetLogUploadLocationsEvent(IAutoWikiBrowser Sender, List<WikiFunctions.Logging.Uploader.LogEntry> locations);
+    public delegate void GetLogUploadLocationsEvent(IAutoWikiBrowser sender, List<WikiFunctions.Logging.Uploader.LogEntry> locations);
 
     /* Members may be added to this interface, but not removed unless absolutely necessary. */
     /// <summary>

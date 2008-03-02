@@ -209,7 +209,7 @@ namespace AutoWikiBrowser
             get { return mSettingsFile; }
         }
 
-        private string SettingsFileDisplay
+        private static string SettingsFileDisplay
         {
             get { return mSettingsFileDisplay; }
         }
@@ -474,7 +474,7 @@ namespace AutoWikiBrowser
                 if (listMaker1.NumberOfArticles < 1)
                 {
                     webBrowserEdit.Busy = false;
-                    StopSaveInterval();
+                    StopSaveInterval(null, null);
                     lblTimer.Text = "";
                     lblStatusText.Text = "No articles in list, you need to use the Make list";
                     this.Text = "AutoWikiBrowser";
@@ -921,11 +921,9 @@ namespace AutoWikiBrowser
                     TheArticle.Trace.PluginSkipped();
                     break;
 
-                case "":
-                    break;
-
                 default:
-                    TheArticle.Trace.AWBSkipped(reason);
+                    if (!string.IsNullOrEmpty(reason))
+                        TheArticle.Trace.AWBSkipped(reason);
                     break;
             }
 
@@ -1194,7 +1192,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
             if (showTimerToolStripMenuItem.Checked)
             {
-                StopSaveInterval();
+                StopSaveInterval(null, null);
                 Ticker += SaveInterval;
             }
 
@@ -1523,7 +1521,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
         }
 
-        public bool CheckStatus(bool login)
+        public bool CheckStatus(bool Login)
         {
             lblStatusText.Text = "Loading page to check if we are logged in.";
             WikiStatusResult result = Variables.User.UpdateWikiStatus();
@@ -1542,7 +1540,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 case WikiStatusResult.NotLoggedIn:
                     lblUserName.BackColor = Color.Red;
                     lblUserName.Text = "User:";
-                    if (!login)
+                    if (!Login)
                         MessageBox.Show("You are not logged in. The log in screen will now load, enter your name and password, click \"Log in\", wait for it to complete, then start the process again.\r\n\r\nIn the future you can make sure this won't happen by logging in to Wikipedia using Microsoft Internet Explorer.", "Not logged in", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     webBrowserEdit.LoadLogInPage();
                     webBrowserEdit.BringToFront();
@@ -1990,7 +1988,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         int intRestartDelay = 5;
         int intStartInSeconds = 5;
-        private void DelayedRestart()
+        private void DelayedRestart(object sender, EventArgs e)
         {
             StopDelayedAutoSaveTimer();
             lblStatusText.Text = "Restarting in " + intStartInSeconds.ToString();
@@ -2034,7 +2032,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         }
 
         int intTimer;
-        private void DelayedAutoSave()
+        private void DelayedAutoSave(object sender, EventArgs e)
         {
             if (intTimer < nudBotSpeed.Value)
             {
@@ -2061,28 +2059,28 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private void ShowTimer()
         {
             lblTimer.Visible = showTimerToolStripMenuItem.Checked;
-            StopSaveInterval();
+            StopSaveInterval(null, null);
         }
 
         int intStartTimer;
-        private void SaveInterval()
+        private void SaveInterval(object sender, EventArgs e)
         {
             intStartTimer++;
             lblTimer.Text = "Timer: " + intStartTimer.ToString();
         }
-        private void StopSaveInterval()
+        private void StopSaveInterval(object sender, EventArgs e)
         {
             intStartTimer = 0;
             lblTimer.Text = "Timer: 0";
             Ticker -= SaveInterval;
         }
 
-        public delegate void Tick();
+        public delegate void Tick(object sender, EventArgs e);
         public event Tick Ticker;
         private void Timer_Tick(object sender, EventArgs e)
         {
             if (Ticker != null)
-                Ticker();
+                Ticker(null, null);
 
             seconds++;
             if (seconds == 60)
@@ -2539,7 +2537,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 return;
             }
 
-            StopSaveInterval();
+            StopSaveInterval(null, null);
             StopDelayedRestartTimer();
             if (webBrowserEdit.IsBusy)
                 webBrowserEdit.Stop2();
@@ -3124,10 +3122,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             hideToolStripMenuItem.Enabled = visible;
         }
 
-        public void NotifyBalloon(string message, ToolTipIcon icon)
+        public void NotifyBalloon(string Message, ToolTipIcon Icon)
         {
-            ntfyTray.BalloonTipText = message;
-            ntfyTray.BalloonTipIcon = icon;
+            ntfyTray.BalloonTipText = Message;
+            ntfyTray.BalloonTipIcon = Icon;
             ntfyTray.ShowBalloonTip(10000);
         }
         #endregion
@@ -3303,7 +3301,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 SaveEditBoxText(saveListDialog.FileName);
         }
 
-        private void LoadUserTalkWarnings()
+        private static void LoadUserTalkWarnings()
         {
             StringBuilder builder = new StringBuilder("\\{\\{ ?(template:)? ?((");
             Regex userTalkTemplate = new Regex(@"# \[\[Template:(.*?)\]\]");

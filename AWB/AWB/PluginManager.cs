@@ -84,6 +84,7 @@ namespace AutoWikiBrowser
                 lvi.Group = lvPlugin.Groups["groupLoaded"];
                 lvPlugin.Items.Add(lvi);
             }
+            UpdatePluginCount();
         }
 
         //private void LoadPreviouslyLoadedPluginList()
@@ -122,6 +123,11 @@ namespace AutoWikiBrowser
             }
 
             Plugin.LoadPlugins(AWB, plugins, true);
+        }
+
+        private void UpdatePluginCount()
+        {
+            lblPluginCount.Text = Plugin.Count().ToString();
         }
     }
 

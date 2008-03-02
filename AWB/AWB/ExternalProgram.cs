@@ -80,7 +80,7 @@ namespace AutoWikiBrowser
             groupBox1.Enabled = chkSkip.Enabled = chkEnabled.Checked;
         }
 
-        public string ProcessArticle(string ArticleText, string ArticleTitle, int wikiNamespace, out string Summary, out bool Skip)
+        public string ProcessArticle(string ArticleText, string ArticleTitle, int Namespace, out string Summary, out bool Skip)
         {
             string OrigText = ArticleText;
             Skip = false;

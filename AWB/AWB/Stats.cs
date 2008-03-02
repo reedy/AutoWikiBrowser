@@ -87,9 +87,9 @@ namespace AutoWikiBrowser
         // TODO: Add other stuff we'd like to track. e.g. I'd quite like to know if anybody is using log to file.
 
         private const string StatsURL = "http://awb.kingboyk.com/";
-        private static int RecordId = 0;
-        private static int SecretNumber = 0;
-        private static int LastEditCount = 0;
+        private static int RecordId;
+        private static int SecretNumber;
+        private static int LastEditCount;
         private static string mUserName = "";
         private static List<IAWBPlugin> newplugins = new List<IAWBPlugin>();
 
@@ -315,7 +315,7 @@ namespace AutoWikiBrowser
 
         private static void UserNameChanged(object sender, EventArgs e)
         {
-            if (Variables.User.Name != "")
+            if (!string.IsNullOrEmpty(Variables.User.Name))
                 mUserName = Variables.User.Name;
         }
 #endregion
