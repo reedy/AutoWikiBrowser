@@ -1655,7 +1655,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
 
                     string strBotUsers = Tools.StringBetween(strText, "<!--enabledbots-->", "<!--enabledbotsends-->");
                     string strAdmins = Tools.StringBetween(strText, "<!--adminsbegins-->", "<!--adminsends-->");
-                    Regex username = new Regex(@"^\*\s*" + Tools.CaseInsensitive(Regex.Escape(Variables.User.Name))
+                    Regex username = new Regex(@"^\*\s*" + Tools.CaseInsensitive(Variables.User.Name)
                         + @"\s*$", RegexOptions.Multiline);
 
                     if (Groups.Contains("sysop") || Groups.Contains("staff"))
