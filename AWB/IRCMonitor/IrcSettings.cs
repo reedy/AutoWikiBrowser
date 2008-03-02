@@ -24,7 +24,7 @@ using System.IO;
 using WikiFunctions;
 
 
-namespace IrcMonitor
+namespace IRCM
 {
     [Serializable, XmlRoot("IRCMonitorPreferences")]
     public class ProjectSettings
@@ -116,7 +116,7 @@ namespace IrcMonitor
             return pageContent;
         }
 
-        public string[] LoadStubs(string fileName, int initialLevel)
+        public static string[] LoadStubs(string fileName, int initialLevel)
         {
             string[] stubs = new string[] { };
 

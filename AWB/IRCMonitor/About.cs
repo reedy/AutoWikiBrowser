@@ -27,7 +27,7 @@ using System.Reflection;
 using WikiFunctions;
 using WikiFunctions.Controls;
 
-namespace IrcMonitor
+namespace IRCM
 {
     partial class AboutIrcMon : Form
     {

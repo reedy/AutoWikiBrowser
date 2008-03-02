@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using WikiFunctions;
 
-namespace IrcMonitor
+namespace IRCM
 {
     static class Program
     {
