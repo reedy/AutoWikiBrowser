@@ -32,6 +32,7 @@ using ICSharpCode.SharpZipLib.Zip;
 using System.Text.RegularExpressions;
 using System.Net;
 
+[assembly: CLSCompliant(true)]
 namespace AwbUpdater
 {
     internal sealed partial class Updater : Form
@@ -42,7 +43,7 @@ namespace AwbUpdater
 
         IWebProxy proxy;
 
-        bool updaterUpdate, awbUpdate, badUpdate;
+        bool updaterUpdate, awbUpdate;
 
         public Updater()
         {
@@ -243,15 +244,7 @@ namespace AwbUpdater
                 Extract(AWBZipName);
 
             if (!string.IsNullOrEmpty(UpdaterZipName) && File.Exists(tempDirectory + UpdaterZipName))
-                Extract(UpdaterZipName);
-
-            if (badUpdate)
-            {
-                MessageBox.Show(@"Something has gone wrong with the unzipping of the files. Please restart the updater to try again.
-
-AWBUpdater will now close!");
-                Application.Exit();
-            }
+                Extract(UpdaterZipName);              
 
             progressUpdate.Value = 70;
         }
@@ -268,7 +261,11 @@ AWBUpdater will now close!");
 
                 zip.ExtractZip(File, tempDirectory, null);
             }
-            catch { badUpdate = true; }
+            catch (Exception ex)
+            {
+                ErrorHandler.Handle(ex);
+                Application.Exit();
+            }
         }
 
         /// <summary>
