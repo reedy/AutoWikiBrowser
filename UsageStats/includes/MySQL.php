@@ -19,7 +19,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 /* TODO: We might want to refine "most active user", and perhaps other queries which count users
-to be aware of the special 'username' "<Withheld>". */
+to be aware of the special 'usernames' "<Withheld>" and "<Not recorded>".
+Also, it might not be a coincidence that our first log entry from Russia had an empty username
+string - Sam is investigating whether AWB correctly sends Cyrillic... */
 
 class DB {	
 	private $mysqli; /* @var $mysqli mysqli */ // Hint for Zend Studio autocomplete, don't delete
