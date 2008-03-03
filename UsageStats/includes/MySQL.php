@@ -18,6 +18,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+/* TODO: We might want to refine "most active user", and perhaps other queries which count users
+to be aware of the special 'username' "<Withheld>". */
+
 class DB {	
 	private $mysqli; /* @var $mysqli mysqli */ // Hint for Zend Studio autocomplete, don't delete
 	private $logID = 0;
