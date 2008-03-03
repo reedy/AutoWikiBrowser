@@ -3264,6 +3264,7 @@ namespace AutoWikiBrowser
             // 
             // tpEdit
             // 
+            this.tpEdit.BackColor = System.Drawing.Color.White;
             this.tpEdit.Controls.Add(this.imgSub);
             this.tpEdit.Controls.Add(this.imgSup);
             this.tpEdit.Controls.Add(this.imgStrike);
@@ -3282,7 +3283,6 @@ namespace AutoWikiBrowser
             this.tpEdit.Size = new System.Drawing.Size(396, 351);
             this.tpEdit.TabIndex = 0;
             this.tpEdit.Text = "Edit box";
-            this.tpEdit.UseVisualStyleBackColor = true;
             // 
             // imgSub
             // 
