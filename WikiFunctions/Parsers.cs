@@ -654,7 +654,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// returns true if given string has matching double square brackets
         /// </summary>
-        public static bool CorrectEditSummary(string s)
+        public static bool IsCorrectEditSummary(string s)
         {
             bool res = true;
 
@@ -779,7 +779,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
-        static Regex regexMainArticle = new Regex(@"^Main article:\s?'{0,3}\[\[([^\|]*?)(\|(.*?))?\]\]\.?'{0,3}\.?", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
+        static Regex regexMainArticle = new Regex(@"^:?'{0,5}Main article:\s?'{0,5}\[\[([^\|]*?)(\|(.*?))?\]\]\.?'{0,5}\.?\s*$", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
         /// <summary>
         /// Fixes instances of ''Main Article: xxx'' to use {{main|xxx}}
         /// </summary>
