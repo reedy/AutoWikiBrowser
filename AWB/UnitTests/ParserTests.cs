@@ -121,6 +121,10 @@ namespace UnitTests
             Assert.AreEqual("''foo'' bar", parser.FixSyntax("< i >foo</i> bar"));
             Assert.AreEqual("''foo'' bar", parser.FixSyntax("<i>foo< /i > bar"));
             Assert.AreEqual("<i>foo<i> bar", parser.FixSyntax("<i>foo<i> bar"));
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_4#Bug_encountered_when_perusing_Sonorous_Susurrus
+            Assert.AreEqual("[[foo]]", parser.FixSyntax("[[|foo]]"));
+            Parsers.CanonicalizeTitle("[[|foo]]"); // shouldn't throw exceptions
         }
 
         [Test]
@@ -234,7 +238,7 @@ http://example.com }}");
         }
 
         [Test]
-        //TODO: find bug report
+        // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_4#Problem_with_reverse_subst_of_.7B.7Bmain.7D.7D
         public void DontEatTooMuch()
         {
             Assert.AreEqual("Foo is a bar, see main article: [[Foo]]",
