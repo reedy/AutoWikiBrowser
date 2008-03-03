@@ -220,13 +220,13 @@ namespace WikiFunctions
             }
 
             int intLast = Name.LastIndexOf(" ") + 1;
-            string lastName = Name.Substring(intLast);
+            string lastName = Name.Substring(intLast).Trim();
             Name = Name.Remove(intLast).Trim();
             if (IsRomanNumber(lastName))
             {
                 if (Name.Contains(" "))
                 {
-                    suffix += " " + lastName;
+                    suffix += lastName;
                     intLast = Name.LastIndexOf(" ") + 1;
                     lastName = Name.Substring(intLast);
                     Name = Name.Remove(intLast).Trim();

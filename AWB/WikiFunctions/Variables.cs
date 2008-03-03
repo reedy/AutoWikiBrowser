@@ -1243,7 +1243,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
             SetToEnglish();
         }
 
-        private static void SetToEnglish()
+        public static void SetToEnglish()
         {
             SetToEnglish("Wikipedia:", "Wikipedia talk:");
             Namespaces[100] = "Portal:";
