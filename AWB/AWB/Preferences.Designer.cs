@@ -307,9 +307,9 @@ namespace AutoWikiBrowser
             this.chkMinimize.AutoSize = true;
             this.chkMinimize.Location = new System.Drawing.Point(6, 71);
             this.chkMinimize.Name = "chkMinimize";
-            this.chkMinimize.Size = new System.Drawing.Size(190, 17);
+            this.chkMinimize.Size = new System.Drawing.Size(133, 17);
             this.chkMinimize.TabIndex = 17;
-            this.chkMinimize.Text = "Minimize to system tray on minimize";
+            this.chkMinimize.Text = "Minimize to system tray";
             this.chkMinimize.UseVisualStyleBackColor = true;
             // 
             // chkBeep
