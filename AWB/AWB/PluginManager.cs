@@ -63,7 +63,7 @@ namespace AutoWikiBrowser
             
             pluginOpen.DefaultExt = "dll";
             pluginOpen.Filter = "DLL files|*.dll";
-            pluginOpen.CheckFileExists = pluginOpen.Multiselect = pluginOpen.AutoUpgradeEnabled = true;
+            pluginOpen.CheckFileExists = pluginOpen.Multiselect = /*pluginOpen.AutoUpgradeEnabled =*/ true;
 
             pluginOpen.ShowDialog();
             
