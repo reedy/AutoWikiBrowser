@@ -75,7 +75,7 @@ function htmlstats(){
 </head>
 <body>
 <h2><a href="http://en.wikipedia.org/wiki/WP:AWB">AutoWikiBrowser</a> Usage Stats</h2>
-Statistics on AWB usage since March 2008.
+Statistics on AWB usage since 3 March 2008.
 <p/>For more information about the AutoWikiBrowser wiki editor, please see our <a href="http://en.wikipedia.org/wiki/WP:AWB">Wikipedia page</a>.
 <p/>
 <table border="1">

@@ -209,7 +209,7 @@ class DB {
 	
 	// reusable queries:
 	function no_of_sessions_and_saves ()	{
-		return $this->db_mysql_query_single_row('SELECT COUNT(s.sessionid) AS nosessions, SUM(s.saves) AS totalsaves FROM sessions s', 'no_of_sessions_and_saves');
+		return $this->db_mysql_query_single_row('SELECT COUNT(s.sessionid) AS nosessions, IFNULL(SUM(s.saves),0) AS totalsaves FROM sessions s', 'no_of_sessions_and_saves');
 	}
 	
 	function username_count() {

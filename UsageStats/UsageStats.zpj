@@ -15,11 +15,11 @@
 	</project_entity>
 	<project_entity ID="javaBridge" JRE_Name="1.5.0_06"/>
 	<project_entity ID="bookmarks"/>
-	<project_entity ID="editor_component" selectedEditor="0">
+	<project_entity ID="editor_component" selectedEditor="1">
 		<openEditors>
-			<editor fileName="F:\Work\Programming\AWB\UsageStats\index.php" caretPosition="840" clone="false" encoding="default"/>
-			<editor fileName="F:\Work\Programming\AWB\UsageStats\includes\MySQL.php" caretPosition="10064" clone="false" encoding="default"/>
-			<editor fileName="F:\Work\Programming\AWB\UsageStats\includes\Stats.php" caretPosition="3691" clone="false" encoding="default"/>
+			<editor fileName="F:\Work\Programming\AWB\UsageStats\index.php" caretPosition="2349" clone="false" encoding="default"/>
+			<editor fileName="F:\Work\Programming\AWB\UsageStats\includes\MySQL.php" caretPosition="7675" clone="false" encoding="default"/>
+			<editor fileName="F:\Work\Programming\AWB\UsageStats\includes\Stats.php" caretPosition="2208" clone="false" encoding="default"/>
 			<editor fileName="F:\Work\Programming\AWB\UsageStats\config.php" caretPosition="0" clone="false" encoding="default"/>
 		</openEditors>
 	</project_entity>
