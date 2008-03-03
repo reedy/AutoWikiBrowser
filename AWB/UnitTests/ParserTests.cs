@@ -104,6 +104,9 @@ namespace UnitTests
             Assert.AreEqual("[[Image:foo.jpg|Some [http://some_crap.com]]]",
                 parser.FixSyntax("[[Image:foo.jpg|Some [[http://some_crap.com]]]]"));
 
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#NEsted_square_brackets_again.
+            Assert.AreEqual("[[Image:foo.jpg|Some [http://some_crap.com]]]",
+                parser.FixSyntax("[[Image:foo.jpg|Some [http://some_crap.com]]]"));
 
             Assert.AreEqual("[[somelink]]", parser.FixSyntax("[somelink]]"));
             Assert.AreEqual("[[somelink]]", parser.FixSyntax("[[somelink]"));
@@ -134,7 +137,6 @@ http://example.com }}");
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_2#Incorrect_bulleting
             StringAssert.Contains("\r\nhttp://example.com }}", s);
-            //StringAssert.
         }
     }
 
@@ -180,6 +182,68 @@ http://example.com }}");
     }
 
     [TestFixture]
+    public class FixMainArticleTests
+    {
+        Parsers p = new Parsers();
+
+        [Test]
+        public void BasicBehaviour()
+        {
+            Assert.AreEqual("{{main|Foo}}", p.FixMainArticle("Main article: [[Foo]]"));
+            Assert.AreEqual("{{main|Foo}}", p.FixMainArticle("Main article: [[Foo]]."));
+            Assert.AreEqual("Main article:\r\n [[Foo]]", p.FixMainArticle("Main article:\r\n [[Foo]]"));
+        }
+
+        [Test]
+        // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_3#Fixing_Main_Article_to_.7B.7Bmain.7D.7D
+        public void PipedLinks()
+        {
+            Assert.AreEqual("{{main|Foo|l1=Bar}}", p.FixMainArticle("Main article: [[Foo|Bar]]"));
+        }
+
+        [Test]
+        public void SupportIndenting()
+        {
+            Assert.AreEqual("{{main|Foo}}", p.FixMainArticle(":Main article: [[Foo]]"));
+            Assert.AreEqual("{{main|Foo}}", p.FixMainArticle(":Main article: [[Foo]]."));
+            Assert.AreEqual("{{main|Foo}}", p.FixMainArticle(":''Main article: [[Foo]]''"));
+            Assert.AreEqual("'':Main article: [[Foo]]''", p.FixMainArticle("'':Main article: [[Foo]]''"));
+        }
+
+        [Test]
+        public void SupportBoldAndItalic()
+        {
+            Assert.AreEqual("{{main|Foo}}", p.FixMainArticle("Main article: '[[Foo]]'"));
+            Assert.AreEqual("{{main|Foo}}", p.FixMainArticle("Main article: ''[[Foo]]''"));
+            Assert.AreEqual("{{main|Foo}}", p.FixMainArticle("Main article: '''[[Foo]]'''"));
+            Assert.AreEqual("{{main|Foo}}", p.FixMainArticle("Main article: '''''[[Foo]]'''''"));
+
+            Assert.AreEqual("{{main|Foo}}", p.FixMainArticle("'Main article: [[Foo]]'"));
+            Assert.AreEqual("{{main|Foo}}", p.FixMainArticle("''Main article: [[Foo]]''"));
+            Assert.AreEqual("{{main|Foo}}", p.FixMainArticle("'''Main article: [[Foo]]'''"));
+            Assert.AreEqual("{{main|Foo}}", p.FixMainArticle("'''''Main article: [[Foo]]'''''"));
+
+            Assert.AreEqual("{{main|Foo}}", p.FixMainArticle("''Main article: '''[[Foo]]'''''"));
+            Assert.AreEqual("{{main|Foo}}", p.FixMainArticle("'''Main article: ''[[Foo]]'''''"));
+        }
+
+        [Test]
+        public void CaseInsensitivity()
+        {
+            Assert.AreEqual("{{main|foo}}", p.FixMainArticle("main Article: [[foo]]"));
+        }
+
+        [Test]
+        //TODO: find bug report
+        public void DontEatTooMuch()
+        {
+            Assert.AreEqual("Foo is a bar, see main article: [[Foo]]",
+                p.FixMainArticle("Foo is a bar, see main article: [[Foo]]"));
+            Assert.AreEqual("Main article: [[Foo]], bar", p.FixMainArticle("Main article: [[Foo]], bar"));
+        }
+    }
+
+    [TestFixture]
     public class UnicodifyTests
     {
         Parsers parser = new Parsers();
@@ -192,9 +256,44 @@ http://example.com }}");
         }
 
         [Test]
+        public void DontChangeCertainEntities()
+        {
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_3#.26emsp.3B
+            Assert.AreEqual("&emsp;", parser.Unicodify("&emsp;"));
+        }
+
+        [Test]
         public void IgnoreMath()
         {
             Assert.AreEqual("<math>&laquo;</math>", parser.Unicodify("<math>&laquo;</math>"));
+        }
+    }
+
+    [TestFixture]
+    public class UtilityFunctionTests
+    {
+        [Test]
+        public void TestIsCorrectEditSummary()
+        {
+            // no wikilinks
+            Assert.IsTrue(Parsers.IsCorrectEditSummary(""));
+            Assert.IsTrue(Parsers.IsCorrectEditSummary("test"));
+            Assert.IsTrue(Parsers.IsCorrectEditSummary("["));
+            Assert.IsTrue(Parsers.IsCorrectEditSummary("]"));
+            Assert.IsTrue(Parsers.IsCorrectEditSummary("[test]"));
+            Assert.IsTrue(Parsers.IsCorrectEditSummary("[test]]"));
+            Assert.IsTrue(Parsers.IsCorrectEditSummary("[[]]"));
+
+            // correctly (sort of..) terminated wikilinks
+            Assert.IsTrue(Parsers.IsCorrectEditSummary("[[test]]"));
+            Assert.IsTrue(Parsers.IsCorrectEditSummary("[[test]] [[foo]]"));
+            Assert.IsTrue(Parsers.IsCorrectEditSummary("[[foo[[]]]"));
+
+            //broken wikilinks, should be found to be invalid
+            Assert.IsFalse(Parsers.IsCorrectEditSummary("[["));
+            Assert.IsFalse(Parsers.IsCorrectEditSummary("[[["));
+            Assert.IsFalse(Parsers.IsCorrectEditSummary("[[test]"));
+            Assert.IsFalse(Parsers.IsCorrectEditSummary("[[test]] [["));
         }
     }
 }
