@@ -4,6 +4,7 @@ using System.Text;
 using NUnit.Framework;
 using WikiFunctions;
 using System.Text.RegularExpressions;
+using System.Diagnostics;
 
 namespace UnitTests
 {
@@ -146,6 +147,7 @@ namespace UnitTests
         public void SetUp()
         {
             Globals.UnitTestMode = true;
+            Variables.SetToEnglish();
         }
 
         [Test]
@@ -165,6 +167,35 @@ namespace UnitTests
         {
             Assert.AreEqual("Doe, John Jr.", Tools.MakeHumanCatKey("John Doe, Jr."));
             Assert.AreEqual("Doe, John Sr.", Tools.MakeHumanCatKey("John Doe, Sr."));
+        }
+
+        [Test]
+        public void RemoveNamespace()
+        {
+            Assert.AreEqual("Doe, John", Tools.MakeHumanCatKey("Wikipedia:John Doe"));
+        }
+
+        [Test]
+        public void FuzzTest()
+        {
+            string allowedChars = "abcdefghijklmnopqrstuvwxyzйцукенфывапролдж              ,,,,,";
+
+            Random rnd = new Random();
+
+            for (int i = 0; i < 10000; i++)
+            {
+                string name = "";
+
+                for (int j = 0; j < rnd.Next(45); j++) name += allowedChars[rnd.Next(allowedChars.Length)];
+                name = Regex.Replace(name, @"\s{2,}", " ").Trim(new char[] { ' ', ',' });
+
+                //System.Diagnostics.Trace.WriteLine(name);
+                name = Tools.MakeHumanCatKey(name);
+
+                Assert.IsFalse(name.Contains("  "), "Sorting key shouldn't contain consecutive spaces - it breaks the sorting ({0})", name);
+                Assert.IsFalse(name.StartsWith(" "), "Sorting key shouldn't start with spaces");
+                Assert.IsFalse(name.EndsWith(" "), "Sorting key shouldn't cend with spaces");
+            }
         }
     }
 
