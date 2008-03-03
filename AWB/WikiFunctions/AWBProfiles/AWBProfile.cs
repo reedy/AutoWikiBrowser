@@ -301,7 +301,7 @@ namespace WikiFunctions.Profiles
                 try
                 {
                     Microsoft.Win32.RegistryKey key = new Computer().Registry.CurrentUser.OpenSubKey(RegKey, true);
-                    key.SetValue("TempPassword", Encrypt(value));
+                    if (key != null) key.SetValue("TempPassword", Encrypt(value));
                 }
                 catch { }
             }
