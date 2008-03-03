@@ -129,6 +129,8 @@ namespace WikiFunctions.Plugin
         CheckBox AutoTagCheckBox { get; }
         bool SkipNoChanges { get; set; }
         ToolStripMenuItem PluginsToolStripMenuItem { get; }
+        ToolStripMenuItem InsertTagToolStripMenuItem { get; }
+        ToolStripMenuItem ToolStripMenuGeneral { get; }
         WikiFunctions.Controls.Lists.ListMaker ListMaker { get; }
         WikiFunctions.Browser.WebControl WebControl { get; }
         ContextMenuStrip EditBoxContextMenu { get; }
