@@ -51,6 +51,7 @@ namespace AutoWikiBrowser
         CheckBox IAutoWikiBrowser.SkipNonExistentPagesCheckBox { get { return chkSkipNonExistent; } }
         CheckBox IAutoWikiBrowser.ApplyGeneralFixesCheckBox { get { return chkGeneralFixes; } }
         CheckBox IAutoWikiBrowser.AutoTagCheckBox { get { return chkAutoTagger; } }
+        bool IAutoWikiBrowser.SkipNoChanges { get { return chkSkipNoChanges.Checked; } set { chkSkipNoChanges.Checked = value; } }
         ToolStripMenuItem IAutoWikiBrowser.HelpToolStripMenuItem { get { return helpToolStripMenuItem; } }
         TextBox IAutoWikiBrowser.EditBox { get { return txtEdit; } }
         TextBox IAutoWikiBrowser.CategoryTextBox { get { return loggingSettings1.LoggingCategoryTextBox; } }

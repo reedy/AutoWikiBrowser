@@ -127,6 +127,7 @@ namespace WikiFunctions.Plugin
         CheckBox SkipNonExistentPagesCheckBox { get;  }
         CheckBox ApplyGeneralFixesCheckBox { get; }
         CheckBox AutoTagCheckBox { get; }
+        bool SkipNoChanges { get; set; }
         ToolStripMenuItem PluginsToolStripMenuItem { get; }
         WikiFunctions.Controls.Lists.ListMaker ListMaker { get; }
         WikiFunctions.Browser.WebControl WebControl { get; }
