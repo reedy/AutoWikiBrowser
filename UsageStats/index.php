@@ -19,6 +19,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 // If adding a new table to the database don't forget to update MySQL::record_count!
 
+/* Changelog:
+1.0: First production version in support of AWB 4.3
+1.1: Database collation fixed
+*/
+define(MAJOR, 1); define(MINOR, 1); // TINYINTS
+
 /* Variables:
 Action: Hello, Update
 Version: AWB version

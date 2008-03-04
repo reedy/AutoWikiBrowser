@@ -32,7 +32,7 @@ Some queries we might want on a stats page:
 */
 
 // TODO: Posting from AWB debug builds or cron to Wikipedia.
-// TODO: Let's get this into a single table or use CSS?
+// TODO: Add count of wikis
 
 function htmlstats(){
 	global $db;

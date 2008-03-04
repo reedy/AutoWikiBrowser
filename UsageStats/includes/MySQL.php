@@ -20,8 +20,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 /* TODO: We might want to refine "most active user", and perhaps other queries which count users
 to be aware of the special 'usernames' "<Withheld>" and "<Not recorded>".
-Also, it might not be a coincidence that our first log entry from Russia had an empty username
-string - Sam is investigating whether AWB correctly sends Cyrillic... */
+Cyrillic usernames are stored as garbage: have to work out where the problem is (C#, PHP or SQL) */
+// TODO: Meta & commons URLs are incorrect. Meta is en only. Check other sites in C#.
+// TODO: Set a script version number and log it
+// TODO: Exclude from sites/saves sites with < 10 edits
 
 class DB {	
 	private $mysqli; /* @var $mysqli mysqli */ // Hint for Zend Studio autocomplete, don't delete
@@ -38,6 +40,8 @@ class DB {
 	
 		if (!$mysqli) {
 		    dead("Connect failed: " . $mysqli->connect_error());
+		} else {
+			$this->db_mysql_query('SET NAMES utf8', 'db_connect');
 		}
 	}
 	
@@ -50,8 +54,8 @@ class DB {
 	function init_log($operation) {
 		global $mysqli, $logID;
 		
-		$this->db_mysql_query('INSERT INTO log (DateTime, Operation, POST) SELECT "' . self::get_mysql_utc_stamp() .
-			"\", {$operation}, \"".print_r($_POST, true).'"', 'init_log');
+		$this->db_mysql_query('INSERT INTO log (DateTime, Operation, POST, ScriptMajor, ScriptMinor) SELECT "' . self::get_mysql_utc_stamp() .
+			"\", {$operation}, \"".print_r($_POST, true).'", '.MAJOR.', '.MINOR, 'init_log');
 		$logID = $mysqli->insert_id;
 	}
 	
