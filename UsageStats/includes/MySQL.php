@@ -152,8 +152,7 @@ class DB {
 			
 		// User (may be null):
 		if ($_POST['User'] != "") {
-			$userid = $this->get_or_add_lookup_record('lkpUsers', 'UserID', "User=\"{$_POST['User']}\"",
-				'User', "\"{$_POST['User']}\"");
+			$userid = $this->get_or_add_userid();
 			$query.=", User"; $query2.=", $userid";
 		}
 
@@ -171,6 +170,14 @@ class DB {
 	function update_usage_record() {
 		$this->init_log(2);
 		$this->verify_repeat_caller();
+		
+		// User (will usually be null):
+		if ($_POST['User'] != "") {
+			$userid = $this->get_or_add_userid();
+			$this->db_mysql_query("UPDATE sessions SET User={$userid} WHERE sessions.SessionID = {$_POST['RecordID']} LIMIT 1",
+				'update_usage_record');
+		}
+		
 		($_POST['Saves'] > 0) && 
 			$this->db_mysql_query("UPDATE sessions SET Saves = {$_POST['Saves']} WHERE sessions.SessionID = {$_POST['RecordID']} LIMIT 1",
 			'update_usage_record'); // Saves can be empty if the only change was loading a new plugin
@@ -179,6 +186,10 @@ class DB {
 	}
 	
 	// helper routines
+	private function get_or_add_userid() {
+		return $this->get_or_add_lookup_record('lkpUsers', 'UserID', "User=\"{$_POST['User']}\"", 'User', "\"{$_POST['User']}\"");
+	}
+	
 	private function get_or_add_lookup_record($table, $autoid, $lookupquery, $insertfields, $insertvalues) {
 		$query = "SELECT {$autoid} FROM {$table} WHERE {$lookupquery}";
 	

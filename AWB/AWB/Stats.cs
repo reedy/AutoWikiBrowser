@@ -91,6 +91,7 @@ namespace AutoWikiBrowser
         private static int SecretNumber;
         private static int LastEditCount;
         private static string mUserName = "";
+        private static bool SentUserName;
         private static List<IAWBPlugin> newplugins = new List<IAWBPlugin>();
 
  #region Public
@@ -110,10 +111,12 @@ namespace AutoWikiBrowser
             {
                 if (EstablishedContact)
                 {
-                    if (Program.AWB.NumberOfEdits > LastEditCount || newplugins.Count > 0)
+                    if (Program.AWB.NumberOfEdits > LastEditCount || newplugins.Count > 0 || HaveUserNameToSend)
+                    {
                         SubsequentContact();
                         // success:
-                        newplugins.Clear();    
+                        newplugins.Clear();
+                    }
                 }
                 else
                     FirstContact();
@@ -178,10 +181,7 @@ namespace AutoWikiBrowser
                 postvars.Add("Culture", System.Threading.Thread.CurrentThread.CurrentCulture.ToString());
 
                 // Username:
-                if (Properties.Settings.Default.Privacy)
-                    postvars.Add("User", "<Withheld>");
-                else
-                    postvars.Add("User", mUserName);
+                ProcessUsername(postvars);
                 
                 // Other details:
                 postvars.Add("Saves", Program.AWB.NumberOfEdits.ToString());
@@ -208,7 +208,6 @@ namespace AutoWikiBrowser
         {
             try
             {
-                // TODO: If we sent an empty username at first contact and now have a username, send it
                 NameValueCollection postvars = new NameValueCollection();
 
                 postvars.Add("Action", "Update");
@@ -216,6 +215,7 @@ namespace AutoWikiBrowser
                 postvars.Add("Verify", SecretNumber.ToString());
 
                 EnumeratePlugins(postvars, newplugins);
+                ProcessUsername(postvars);
 
                 if (Program.AWB.NumberOfEdits > LastEditCount)
                     postvars.Add("Saves", Program.AWB.NumberOfEdits.ToString());
@@ -319,6 +319,27 @@ namespace AutoWikiBrowser
                 throw new XmlException("Error parsing XML returned from UsageStats server", ex);
             }
         }
+
+        private static void ProcessUsername(NameValueCollection postvars)
+        {
+            if (!SentUserName)
+            {
+                if (Properties.Settings.Default.Privacy)
+                {
+                    postvars.Add("User", "<Withheld>");
+                    SentUserName = true;
+                }
+                else if (!string.IsNullOrEmpty(mUserName))
+                {
+                    postvars.Add("User", mUserName);
+                    SentUserName = true;
+                }
+            }
+        }
+
+        private static bool HaveUserNameToSend
+        { get { return (!SentUserName &&
+            (Properties.Settings.Default.Privacy || !string.IsNullOrEmpty(mUserName))); } }
 
         private static void UserNameChanged(object sender, EventArgs e)
         {

@@ -244,6 +244,9 @@ EOF;
 ?>
 
 </table>
+<p/>Note: These statistics are designed to help AWB developers better understand how the program is being used and to prioritise
+development tasks. They are <i>indicative only</i> - for example, we don't currently take any account of a user changing
+their username or switching to a different wiki mid-session.
 <p/>
 <small>
 <sup><a name="1">1</a></sup>Unique username/wiki/language code<br/>
