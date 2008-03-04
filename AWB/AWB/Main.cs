@@ -1823,7 +1823,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         public void Debug()
         {
             Tools.WriteDebugEnabled = true;
-            listMaker1.Add("Wikipedia:AutoWikiBrowser/Sandbox");
+            listMaker1.Add("Project:AutoWikiBrowser/Sandbox");
             //Variables.User.WikiStatus = true; // Stop logging in and the username code doesn't work!
             Variables.User.IsBot = true;
             Variables.User.IsAdmin = true;
