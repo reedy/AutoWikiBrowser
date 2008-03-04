@@ -246,6 +246,7 @@
     <Compile Include="SettingsClasses.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SiteInfo.cs" />
     <Compile Include="specialFilter.cs">
       <SubType>Form</SubType>
     </Compile>

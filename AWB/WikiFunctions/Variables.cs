@@ -170,7 +170,7 @@ namespace WikiFunctions
         /// Gets the language code, e.g. "en".
         /// </summary>
         public static LangCodeEnum LangCode
-        { 
+        {
             get { return mLangCode; }
             internal set { mLangCode = value; }
         }
@@ -636,8 +636,8 @@ namespace WikiFunctions
                         mSummaryTag = " ";
                         strWPAWB = "[[Wikipédia:AutoWikiBrowser|AWB]]";
                         break;
-						
-					case LangCodeEnum.Is:
+
+                    case LangCodeEnum.Is:
                         Namespaces[-2] = "Miðill:";
                         Namespaces[-1] = "Kerfissíða:";
                         Namespaces[1] = "Spjall:";
@@ -1161,47 +1161,25 @@ namespace WikiFunctions
         /// <summary>
         /// Loads namespaces
         /// </summary>
-        /// <returns>Dictionary int=>string containing namespaces.</returns>
         public static void LoadProjectOptions()
         {
-            Dictionary<int, string> ns = new Dictionary<int, string>();
             string[] months = (string[])ENLangMonthNames.Clone();
 
-            string url = URLLong + "index.php?title=Special:Contributions/Dummy_variable";
+            SiteInfo si = new SiteInfo(URLLong);
+
 
             try
             {
-                string sr = Tools.GetHTML(url);
-
-                sr = Regex.Match(sr, @"<select id=[""']namespace[""'](.*?)</select>",
-                    RegexOptions.Singleline).Groups[1].Value;
-                int ns_number;
-                string ns_name;
-
-                if (Regex.IsMatch(sr, "<option value=\"([0-9]+)\">(.*?)</option>"))
+                for (int i = 0; i < months.Length; i++) months[i] += "-gen";
+                Dictionary<string, string> messages = si.GetMessages(months);
+                for (int i = 0; i < months.Length; i++)
                 {
-                    foreach (Match m in Regex.Matches(sr, @"<option value=""([0-9]+)"">(.*?)</option>"))
-                    {
-                        ns_number = int.Parse(Regex.Replace(m.ToString(), @"<option value=""([0-9]+)"">(.*?)</option>", "$1"));
-                        ns_name = Regex.Replace(m.ToString(), @"<option value=""([0-9]+)"">(.*?)</option>", "$2");
-                        ns[ns_number] = ns_name + ":";
-                    }
-                    ns[-1] = "Special:";
+                    months[i] = messages[months[i]];
+                }
 
-                    for (int a = 0; a < 12; a++)
-                    {
-                        url = URLLong + "index.php?title=MediaWiki:" + months[a] + "-gen";
-                        sr = Tools.GetHTML(url);
-                        foreach (Match m in Regex.Matches(sr, @">.*?</textarea>"))
-                        {
-                            months[a] = Regex.Replace(m.ToString(), @">(.*?)</textarea>", "$1");
-                        }
-                    }
-                }
-                else
-                {
-                    throw new Exception();
-                }
+                MonthNames = months;
+
+                Namespaces = si.Namespaces;
             }
             catch
             {
@@ -1227,9 +1205,6 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-
-            Namespaces = ns;
-            MonthNames = months;
         }
 
         private static void SetDefaults()
