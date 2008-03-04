@@ -58,7 +58,7 @@ namespace AutoWikiBrowser
             {
                 saveCurrentSettingsToolStripMenuItem_Click(null, null);
             }
-        }        
+        }
 
         private void loadSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -81,9 +81,9 @@ namespace AutoWikiBrowser
             SettingsFile = saveXML.FileName;
         }
 
-       /// <summary>
-       /// Resets settings to Setting Class defaults
-       /// </summary>
+        /// <summary>
+        /// Resets settings to Setting Class defaults
+        /// </summary>
         private void ResetSettings()
         {
             try
@@ -157,7 +157,10 @@ namespace AutoWikiBrowser
         public void UpdateRecentList(string[] list)
         {
             RecentList.Clear();
-            RecentList.AddRange(list);
+            foreach (string s in list)
+            {
+                if (s.Trim().Length > 0) RecentList.Add(s);
+            }
             UpdateRecentSettingsMenu();
         }
 
@@ -177,16 +180,15 @@ namespace AutoWikiBrowser
                 RecentList.RemoveAt(5);
 
             recentToolStripMenuItem.DropDown.Items.Clear();
-            int i = 1;
+            int i = 0;
             foreach (string filename in RecentList)
             {
-                if (i != RecentList.Count)
-                {
-                    i++;
-                    ToolStripItem item = recentToolStripMenuItem.DropDownItems.Add(filename);
-                    item.Click += RecentSettingsClick;
-                }
+
+                ToolStripItem item = recentToolStripMenuItem.DropDownItems.Add(filename);
+                item.Click += RecentSettingsClick;
             }
+
+            recentToolStripMenuItem.Visible = RecentList.Count > 0;
         }
 
         public void SaveRecentSettingsList()
@@ -194,14 +196,8 @@ namespace AutoWikiBrowser
             Microsoft.Win32.RegistryKey reg = Microsoft.Win32.Registry.CurrentUser.
                     CreateSubKey("Software\\Wikipedia\\AutoWikiBrowser");
 
-            StringBuilder builder = new StringBuilder();
-            foreach (string s in RecentList)
-            {
-                if (!string.IsNullOrEmpty(s))
-                    builder.Append(s + "|");
-            }
-            string str = builder.ToString();
-            reg.SetValue("RecentList", str.Substring(0, (str.Length - 1)));
+            string s = string.Join("|", RecentList.ToArray());
+            reg.SetValue("RecentList", s);
         }
 
         private void RecentSettingsClick(object sender, EventArgs e)
@@ -247,33 +243,33 @@ namespace AutoWikiBrowser
         /// </summary>
         private UserPrefs MakePrefs()
         {
-             return new UserPrefs(new FaRPrefs(chkFindandReplace.Checked, findAndReplace, replaceSpecial,
-                substTemplates.TemplateList, substTemplates.ExpandRecursively, substTemplates.IgnoreUnformatted,
-                substTemplates.IncludeComment), new EditPrefs(chkGeneralFixes.Checked, chkAutoTagger.Checked,
-                chkUnicodifyWhole.Checked, cmboCategorise.SelectedIndex, txtNewCategory.Text,
-                txtNewCategory2.Text, cmboImages.SelectedIndex, txtImageReplace.Text, txtImageWith.Text,
-                chkSkipNoCatChange.Checked, chkSkipNoImgChange.Checked, chkAppend.Checked, !rdoPrepend.Checked,
-                txtAppendMessage.Text, (int)udNewlineChars.Value, (int)nudBotSpeed.Value, chkQuickSave.Checked, chkSuppressTag.Checked,
-                chkRegExTypo.Checked), new ListPrefs(listMaker1, SaveArticleList),
-                new SkipPrefs(chkSkipNonExistent.Checked, chkSkipExistent.Checked, chkSkipNoChanges.Checked, chkSkipSpamFilter.Checked,
-                chkSkipIfInuse.Checked, chkSkipIfContains.Checked, chkSkipIfNotContains.Checked, txtSkipIfContains.Text,
-                txtSkipIfNotContains.Text, chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked,
-                chkSkipWhenNoFAR.Checked, chkSkipIfNoRegexTypo.Checked, chkSkipNoDab.Checked, chkSkipWhitespace.Checked, Skip.SelectedItem),
-                new GeneralPrefs(SaveArticleList, ignoreNoBotsToolStripMenuItem.Checked, cmboEditSummary.Items,
-                cmboEditSummary.Text, new string[10] {PasteMore1.Text, PasteMore2.Text, PasteMore3.Text, 
+            return new UserPrefs(new FaRPrefs(chkFindandReplace.Checked, findAndReplace, replaceSpecial,
+               substTemplates.TemplateList, substTemplates.ExpandRecursively, substTemplates.IgnoreUnformatted,
+               substTemplates.IncludeComment), new EditPrefs(chkGeneralFixes.Checked, chkAutoTagger.Checked,
+               chkUnicodifyWhole.Checked, cmboCategorise.SelectedIndex, txtNewCategory.Text,
+               txtNewCategory2.Text, cmboImages.SelectedIndex, txtImageReplace.Text, txtImageWith.Text,
+               chkSkipNoCatChange.Checked, chkSkipNoImgChange.Checked, chkAppend.Checked, !rdoPrepend.Checked,
+               txtAppendMessage.Text, (int)udNewlineChars.Value, (int)nudBotSpeed.Value, chkQuickSave.Checked, chkSuppressTag.Checked,
+               chkRegExTypo.Checked), new ListPrefs(listMaker1, SaveArticleList),
+               new SkipPrefs(chkSkipNonExistent.Checked, chkSkipExistent.Checked, chkSkipNoChanges.Checked, chkSkipSpamFilter.Checked,
+               chkSkipIfInuse.Checked, chkSkipIfContains.Checked, chkSkipIfNotContains.Checked, txtSkipIfContains.Text,
+               txtSkipIfNotContains.Text, chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked,
+               chkSkipWhenNoFAR.Checked, chkSkipIfNoRegexTypo.Checked, chkSkipNoDab.Checked, chkSkipWhitespace.Checked, Skip.SelectedItem),
+               new GeneralPrefs(SaveArticleList, ignoreNoBotsToolStripMenuItem.Checked, cmboEditSummary.Items,
+               cmboEditSummary.Text, new string[10] {PasteMore1.Text, PasteMore2.Text, PasteMore3.Text, 
                 PasteMore4.Text, PasteMore5.Text, PasteMore6.Text, PasteMore7.Text, PasteMore8.Text,
                 PasteMore9.Text, PasteMore10.Text}, txtFind.Text, chkFindRegex.Checked,
-                chkFindCaseSensitive.Checked, wordWrapToolStripMenuItem1.Checked, EnableToolBar,
-                bypassRedirectsToolStripMenuItem.Checked, doNotAutomaticallyDoAnythingToolStripMenuItem.Checked,
-                toolStripComboOnLoad.SelectedIndex, chkMinor.Checked, addAllToWatchlistToolStripMenuItem.Checked,
-                showTimerToolStripMenuItem.Checked, sortAlphabeticallyToolStripMenuItem.Checked,
-                addIgnoredToLogFileToolStripMenuItem.Checked, (int)txtEdit.Font.Size, txtEdit.Font.Name,
-                LowThreadPriority, Beep, Flash, Minimize, TimeOut, AutoSaveEditBoxEnabled, AutoSaveEditBoxPeriod,
-                AutoSaveEditBoxFile, chkLock.Checked, EditToolBarVisible, SupressUsingAWB, filterOutNonMainSpaceToolStripMenuItem.Checked,
-                alphaSortInterwikiLinksToolStripMenuItem.Checked,replaceReferenceTagsToolStripMenuItem.Checked), new DabPrefs(chkEnableDab.Checked,
-                txtDabLink.Text, txtDabVariants.Lines, (int)udContextChars.Value), new ModulePrefs(
-                cModule.ModuleEnabled, cModule.Language, cModule.Code), externalProgram.Settings, loggingSettings1.SerialisableSettings, 
-                Plugin.Items);
+               chkFindCaseSensitive.Checked, wordWrapToolStripMenuItem1.Checked, EnableToolBar,
+               bypassRedirectsToolStripMenuItem.Checked, doNotAutomaticallyDoAnythingToolStripMenuItem.Checked,
+               toolStripComboOnLoad.SelectedIndex, chkMinor.Checked, addAllToWatchlistToolStripMenuItem.Checked,
+               showTimerToolStripMenuItem.Checked, sortAlphabeticallyToolStripMenuItem.Checked,
+               addIgnoredToLogFileToolStripMenuItem.Checked, (int)txtEdit.Font.Size, txtEdit.Font.Name,
+               LowThreadPriority, Beep, Flash, Minimize, TimeOut, AutoSaveEditBoxEnabled, AutoSaveEditBoxPeriod,
+               AutoSaveEditBoxFile, chkLock.Checked, EditToolBarVisible, SupressUsingAWB, filterOutNonMainSpaceToolStripMenuItem.Checked,
+               alphaSortInterwikiLinksToolStripMenuItem.Checked, replaceReferenceTagsToolStripMenuItem.Checked), new DabPrefs(chkEnableDab.Checked,
+               txtDabLink.Text, txtDabVariants.Lines, (int)udContextChars.Value), new ModulePrefs(
+               cModule.ModuleEnabled, cModule.Language, cModule.Code), externalProgram.Settings, loggingSettings1.SerialisableSettings,
+               Plugin.Items);
         }
 
         /// <summary>
@@ -350,7 +346,7 @@ namespace AutoWikiBrowser
             ignoreNoBotsToolStripMenuItem.Checked = p.General.IgnoreNoBots;
 
             listMaker1.Add(p.List.ArticleList);
-            
+
             chkGeneralFixes.Checked = p.Editprefs.GeneralFixes;
             chkAutoTagger.Checked = p.Editprefs.Tagger;
             chkUnicodifyWhole.Checked = p.Editprefs.Unicodify;
@@ -358,7 +354,7 @@ namespace AutoWikiBrowser
             cmboCategorise.SelectedIndex = p.Editprefs.Recategorisation;
             txtNewCategory.Text = p.Editprefs.NewCategory;
             txtNewCategory2.Text = p.Editprefs.NewCategory2;
-            
+
             cmboImages.SelectedIndex = p.Editprefs.ReImage;
             txtImageReplace.Text = p.Editprefs.ImageFind;
             txtImageWith.Text = p.Editprefs.Replace;
@@ -377,7 +373,7 @@ namespace AutoWikiBrowser
             chkSuppressTag.Checked = p.Editprefs.SuppressTag;
 
             chkRegExTypo.Checked = p.Editprefs.RegexTypoFix;
-            
+
             chkSkipNonExistent.Checked = p.SkipOptions.SkipNonexistent;
             chkSkipExistent.Checked = p.SkipOptions.Skipexistent;
             chkSkipNoChanges.Checked = p.SkipOptions.SkipWhenNoChanges;
@@ -464,7 +460,7 @@ namespace AutoWikiBrowser
             Minimize = p.General.Minimize;
             TimeOut = p.General.TimeOutLimit;
             webBrowserEdit.TimeoutLimit = int.Parse(TimeOut.ToString());
-            
+
             chkEnableDab.Checked = p.Disambiguation.Enabled;
             txtDabLink.Text = p.Disambiguation.Link;
             txtDabVariants.Lines = p.Disambiguation.Variants;

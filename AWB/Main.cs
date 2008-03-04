@@ -88,7 +88,7 @@ namespace AutoWikiBrowser
         private static Parsers parsers;
         private static TimeSpan StartTime =
             new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-        private static StringCollection RecentList = new StringCollection();
+        private static List<string> RecentList = new List<string>();
         private static CustomModule cModule = new CustomModule();
         private static ExternalProgram externalProgram = new ExternalProgram();
         internal static RegexTester regexTester = new RegexTester();
