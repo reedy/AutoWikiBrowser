@@ -18,11 +18,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-/* TODO: We might want to refine "most active user", and perhaps other queries which count users
-to be aware of the special 'usernames' "<Withheld>" and "<Not recorded>". */
-// TODO: Meta & commons URLs are incorrect.
-// TODO: Set a script version number and log it
-// TODO: Exclude from sites/saves sites with < 10 edits
+// TODO: Add "troubleshoot" stats (usernames not recorded, errors)
 
 class DB {	
 	private $mysqli; /* @var $mysqli mysqli */ // Hint for Zend Studio autocomplete, don't delete
@@ -244,25 +240,31 @@ class DB {
 	}
 	
 	function username_count() {
-		return $this->db_mysql_query_single_row("SELECT COUNT(DISTINCT u.User) AS usercount FROM lkpUsers u", 'username_count') ;
+		return $this->db_mysql_query_single_row('SELECT Count(*) AS usercount FROM lkpUsers WHERE ((Not (lkpUsers.User)="<Withheld>"))', 'username_count') ;
 	}
 	
 	function unique_username_count() {
 		return $this->db_mysql_query_single_row('SELECT Count(*) AS UniqueUsersCount
 FROM (SELECT sessions.User
 FROM (sessions INNER JOIN lkpUsers ON sessions.User = lkpUsers.UserID) INNER JOIN lkpWikis ON sessions.Site = lkpWikis.SiteID
-GROUP BY lkpWikis.Site, lkpWikis.LangCode, sessions.User) AS UniqueUsers', 'unique_username_count');
+WHERE ((Not (lkpUsers.User)="<Withheld>"))
+GROUP BY sessions.User, lkpWikis.Site, lkpWikis.LangCode) AS UniqueUsers', 'unique_username_count');
 	}
 	
 	function plugin_count() {
-		return $this->db_mysql_query_single_row('SELECT COUNT(DISTINCT PluginID) as pluginno FROM plugins', 'plugin_count') ;
+		return $this->db_mysql_query_single_row(' SELECT COUNT( * ) AS Plugins FROM lkpPlugins', 'plugin_count') ;
+	}
+	
+	function wiki_count() {
+		return $this->db_mysql_query_single_row(' SELECT COUNT( * ) AS Wikis FROM lkpWikis', 'wiki_count') ;
 	}
 	
 	function sites() {
-		return $this->db_mysql_query('SELECT Count(s.SessionID) AS CountOfSessionID, Sum(s.Saves) AS SumOfSaves, l.Site, l.LangCode
-			FROM sessions s INNER JOIN lkpWikis l ON s.Site = l.SiteID
-			GROUP BY s.Site
-			ORDER BY Sum( s.Saves ) DESC , l.Site, l.LangCode', 'sites');
+		return $this->db_mysql_query('SELECT Count(sessions.SessionID) AS CountOfSessionID, Sum(sessions.Saves) AS SumOfSaves, lkpWikis.Site, lkpWikis.LangCode
+FROM sessions INNER JOIN lkpWikis ON sessions.Site = lkpWikis.SiteID
+GROUP BY lkpWikis.Site, lkpWikis.LangCode
+HAVING (((Sum(sessions.Saves))>49))
+ORDER BY Sum(sessions.Saves) DESC , lkpWikis.Site, lkpWikis.LangCode', 'sites');
 	}
 	
 	function OSs($timelimited = false) {
@@ -285,11 +287,11 @@ ORDER BY lkpCultures.Language, lkpCultures.Country', 'cultures');
 	}
 	
 	function busiest_user() {
-		return $this->db_mysql_query_single_row('SELECT lkpWikis.Site, lkpWikis.LangCode, Sum(sessions.Saves) AS SumOfSaves, lkpUsers.User
+		return $this->db_mysql_query_single_row('SELECT lkpWikis.Site, lkpWikis.LangCode, Sum(sessions.Saves) AS SumOfSaves
 FROM (sessions INNER JOIN lkpUsers ON sessions.User = lkpUsers.UserID) INNER JOIN lkpWikis ON sessions.Site = lkpWikis.SiteID
-GROUP BY lkpWikis.Site, lkpWikis.LangCode, sessions.User, lkpUsers.User
-HAVING ((Not (lkpUsers.User)="<Withheld>"))
-ORDER BY Sum(sessions.Saves) DESC LIMIT 1;', 'busiest_user');
+WHERE ((Not (lkpUsers.User)="<Withheld>"))
+GROUP BY lkpWikis.Site, lkpWikis.LangCode, sessions.User
+ORDER BY Sum(sessions.Saves) DESC LIMIT 1', 'busiest_user');
 	}
 	
 	function record_count() {

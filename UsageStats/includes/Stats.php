@@ -32,7 +32,6 @@ Some queries we might want on a stats page:
 */
 
 // TODO: Posting from AWB debug builds or cron to Wikipedia.
-// TODO: Add count of wikis
 
 // Return a web page showing stats:
 function htmlstats(){
@@ -93,6 +92,15 @@ Statistics on AWB usage since 3 March 2008.
 	</tr>
 EOF;
 
+	// Number of wikis
+	$row = $db->wiki_count();
+	echo <<<EOF
+	
+	<tr>
+		<th align="left">Number of Wiki Sites</th><td>{$row['Wikis']}</td>
+	</tr>
+EOF;
+
 	// Username count
 	$row = $db->username_count();	
 	echo <<<EOF
@@ -116,7 +124,7 @@ EOF;
 	echo <<<EOF
 	
 	<tr>
-		<th align="left">Number of Known Plugins</th><td>{$row['pluginno']}</td>
+		<th align="left">Number of Plugins Known</th><td>{$row['Plugins']}</td>
 	</tr>
 EOF;
 
@@ -145,7 +153,7 @@ EOF;
 <p/>
 <table border="1">
   <tr>
-  	<th colspan="3" align="center">Sessions &amp; saves per site</th>
+  	<th colspan="3" align="center">Sessions &amp; saves per site<sup><a href="#2">2</a></sup></th>
   </tr>
   <tr>
     <th>Site</th>
@@ -207,7 +215,7 @@ EOF;
 	echo <<< EOF
 
 	<tr>
-		<th colspan="3" align="center">User with the most saves<sup><a href="#2">2</a></sup></th>
+		<th colspan="3" align="center">User with the most saves<sup><a href="#3">3</a></sup></th>
 	</tr>
 	<tr>
 		<th>Site</th>
@@ -250,7 +258,8 @@ their username or switching to a different wiki mid-session.
 <p/>
 <small>
 <sup><a name="1">1</a></sup>Unique username/wiki/language code<br/>
-<sup><a name="2">2</a></sup>Anonymous (usernames are not revealed)
+<sup><a name="2">2</a></sup>Only sites at which AWB has logged 50 or more saves are shown<br/>
+<sup><a name="3">3</a></sup>Anonymous (usernames are not revealed)
 </small>
 <br/>
 <hr/>
