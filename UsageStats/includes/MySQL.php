@@ -19,9 +19,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 /* TODO: We might want to refine "most active user", and perhaps other queries which count users
-to be aware of the special 'usernames' "<Withheld>" and "<Not recorded>".
-Cyrillic usernames are stored as garbage: have to work out where the problem is (C#, PHP or SQL) */
-// TODO: Meta & commons URLs are incorrect. Meta is en only. Check other sites in C#.
+to be aware of the special 'usernames' "<Withheld>" and "<Not recorded>". */
+// TODO: Meta & commons URLs are incorrect.
 // TODO: Set a script version number and log it
 // TODO: Exclude from sites/saves sites with < 10 edits
 
@@ -100,12 +99,24 @@ class DB {
 			"{$versionarray[0]}, {$versionarray[1]}, {$versionarray[2]}, {$versionarray[3]}");
 		
 		// Wiki and langcode
-		if ($_POST['Wiki'] == "")
-				dead("Received an empty sitename string");		
+		if ($_POST['Wiki'] == "") dead("Received an empty sitename string");
+				
+		/* HACK! TODO: Once the next compulsory AWB release after 4.3 is out, this can be replaced with $_POST['Language'],
+		as AWB has been fixed to send "CUS" for these sites */
+		switch ($_POST['Wiki'])
+		{
+			case 'species':
+			case 'commons':
+			case 'meta':
+				$langcode='CUS';
+				break;				
+			default:
+				$langcode = $_POST['Language'];
+		}
 
 		// we maybe ought to cache some of this stuff, e.g. Wikipedia EN, current AWB version, etc
 		$wikiid=$this->get_or_add_lookup_record('lkpWikis', 'SiteID', "Site=\"{$_POST['Wiki']}\" AND ".
-			"LangCode=\"{$_POST['Language']}\"", 'Site, LangCode', "\"{$_POST['Wiki']}\", \"{$_POST['Language']}\"");
+			"LangCode=\"{$_POST['Language']}\"", 'Site, LangCode', "\"{$_POST['Wiki']}\", \"{$langcode}\"");
 		
 		// Culture
 		$culturearray=explode("-", $_POST['Culture']);
@@ -263,10 +274,11 @@ ORDER BY lkpCultures.Language, lkpCultures.Country', 'cultures');
 	}
 	
 	function busiest_user() {
-		return $this->db_mysql_query_single_row('SELECT lkpWikis.Site, lkpWikis.LangCode, Sum(sessions.Saves) AS SumOfSaves
+		return $this->db_mysql_query_single_row('SELECT lkpWikis.Site, lkpWikis.LangCode, Sum(sessions.Saves) AS SumOfSaves, lkpUsers.User
 FROM (sessions INNER JOIN lkpUsers ON sessions.User = lkpUsers.UserID) INNER JOIN lkpWikis ON sessions.Site = lkpWikis.SiteID
-GROUP BY sessions.User, lkpWikis.Site, lkpWikis.LangCode
-ORDER BY Sum(sessions.Saves) DESC LIMIT 1', 'busiest_user');
+GROUP BY lkpWikis.Site, lkpWikis.LangCode, sessions.User, lkpUsers.User
+HAVING ((Not (lkpUsers.User)="<Withheld>"))
+ORDER BY Sum(sessions.Saves) DESC LIMIT 1;', 'busiest_user');
 	}
 	
 	function record_count() {

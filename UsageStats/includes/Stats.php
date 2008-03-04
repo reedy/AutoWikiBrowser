@@ -34,6 +34,7 @@ Some queries we might want on a stats page:
 // TODO: Posting from AWB debug builds or cron to Wikipedia.
 // TODO: Add count of wikis
 
+// Return a web page showing stats:
 function htmlstats(){
 	global $db;
 	
@@ -157,15 +158,8 @@ EOF;
 	
 	while($row = $result->fetch_assoc())
 	{
-		$lang = "{$row['LangCode']}";
-		$site = "";
-		
-		if ($lang != "WIKI" && $lang != "CUS")
-			$site = "{$lang}.{$row['Site']}.org";
-		else
-			$site = "{$row['Site']}";
-		
-		  echo <<<EOF
+		$site=BuildWikiHostname($row['LangCode'], $row['Site']);		
+		echo <<<EOF
 
 	<tr>
 		<td><a href="http://{$site}/">{$site}</a></td>
@@ -268,6 +262,7 @@ EOF;
 <?php
 }
 
+// Helper routines:
 function OS_XHTML($result, $headersuffix) {
 	echo <<< EOF
 
@@ -293,5 +288,25 @@ EOF;
 EOF;
 	}
 	
-	$result->close();}
+	$result->close();
+}
+
+function BuildWikiHostname($lang, $site) {
+	switch ($lang)
+	{
+		case 'WIK':
+			return $site;
+		case 'CUS':
+			switch ($site)
+			{
+				case 'meta':
+				case 'species':
+				case 'commons':
+					$site .= ".wikimedia.org";
+			}
+			return $site;
+		default:
+			return "{$lang}.{$site}.org";
+	}	
+}
 ?>

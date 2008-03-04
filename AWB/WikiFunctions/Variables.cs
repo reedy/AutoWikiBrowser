@@ -179,17 +179,33 @@ namespace WikiFunctions
         /// Returns true if we are currently editing a WMF wiki
         /// </summary>
         public static bool IsWikimediaProject
-        {
-            get { return mProject <= ProjectEnum.lastWMF; }
-        }
+        { get { return Project <= ProjectEnum.lastWMF; } }
 
         /// <summary>
         /// Returns true if we are currently editing the English Wikipedia
         /// </summary>
         public static bool IsWikipediaEN
+        { get { return (Project == ProjectEnum.wikipedia && LangCode == LangCodeEnum.en); } }
+
+        /// <summary>
+        /// Returns true if we are currently a monolingual Wikimedia project
+        /// </summary>
+        public static bool IsWikimediaMonolingualProject
         {
-            get { return (Project == ProjectEnum.wikipedia && LangCode == LangCodeEnum.en); }
-        }
+            get { return (Project == ProjectEnum.commons || Project == ProjectEnum.meta
+                    || Project == ProjectEnum.species); } }
+
+        /// <summary>
+        /// Returns true if we are currently editing a "custom" wiki
+        /// </summary>
+        public static bool IsCustomProject
+        { get { return Project == ProjectEnum.custom; } }
+
+        /// <summary>
+        /// Returns true if we are currently editing a Wikia site
+        /// </summary>
+        public static bool IsWikia
+        { get { return Project == ProjectEnum.wikia; } }
 
         private static string strcustomproject = "";
         /// <summary>
@@ -344,7 +360,7 @@ namespace WikiFunctions
 
             SectStub = @"\{\{[Ss]ect";
 
-            if (Project == ProjectEnum.custom)
+            if (IsCustomProject)
             {
                 mLangCode = LangCodeEnum.en;
                 int x = customProject.IndexOf('/');
@@ -1457,7 +1473,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
 
                 Groups.Clear();
 
-                if (Variables.Project == ProjectEnum.wikia)
+                if (Variables.IsWikia)
                 {
                     webBrowserWikia = new WebControl();
                     webBrowserWikia.Navigate(Variables.URLLong + "index.php?title=Project:AutoWikiBrowser/CheckPage&action=edit");
@@ -1468,7 +1484,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                 br.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=raw");
 
                 //load check page
-                if (Variables.Project == ProjectEnum.wikia)
+                if (Variables.IsWikia)
                     webBrowserLogin.Navigate("http://www.wikia.com/wiki/index.php?title=Wikia:AutoWikiBrowser/CheckPage&action=edit");
                 else if (Variables.LangCode != LangCodeEnum.ar)
                     webBrowserLogin.Navigate(Variables.URLLong + "index.php?title=Project:AutoWikiBrowser/CheckPage&action=edit");
@@ -1482,7 +1498,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
 
                 Variables.RTL = HeadRTL.IsMatch(webBrowserLogin.ToString());
 
-                if (Variables.Project == ProjectEnum.wikia)
+                if (Variables.IsWikia)
                 {
                     webBrowserWikia.Wait();
                     try
@@ -1507,7 +1523,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                 else
                     userGroups = webBrowserLogin.GetScriptingVar("wgUserGroups");
 
-                if (Variables.Project == ProjectEnum.custom)
+                if (Variables.IsCustomProject)
                 {
                     try
                     {
