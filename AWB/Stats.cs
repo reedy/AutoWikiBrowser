@@ -151,33 +151,39 @@ namespace AutoWikiBrowser
             {
                 NameValueCollection postvars = new NameValueCollection();
 
+                // Greetings and AWB version:
                 postvars.Add("Action", "Hello");
                 postvars.Add("Version", Program.VersionString);
 
-                switch (Variables.Project)
-                {
-                    case ProjectEnum.wikia:
-                    case ProjectEnum.custom:
-                        postvars.Add("Wiki", new Uri(Variables.URL).Host);
+                // Site/project name:
+                if (Variables.IsCustomProject || Variables.IsWikia)
+                    postvars.Add("Wiki", new Uri(Variables.URL).Host);
+                else
+                    postvars.Add("Wiki", Variables.Project.ToString()); // This returns a short string such as "wikipedia"; may want to convert to int and then to string so we store less in the db
 
-                        if (Variables.Project == ProjectEnum.custom)
-                            postvars.Add("Language", "CUS");
-                        else
-                            postvars.Add("Language", "WIK");
-                        break;
-                    default:
-                        postvars.Add("Wiki", Variables.Project.ToString()); // This returns a short string such as "wikipedia"; may want to convert to int and then to string so we store less in the db
-                        postvars.Add("Language", Variables.LangCode.ToString());
-                        break;
+                // Language code:
+                if (Variables.IsWikia) {
+                    postvars.Add("Language", "WIK");
+                }
+                else if (Variables.IsCustomProject || Variables.IsWikimediaMonolingualProject)
+                {
+                    postvars.Add("Language", "CUS");
+                }
+                else
+                {
+                    postvars.Add("Language", Variables.LangCode.ToString());
                 }
 
+                // UI culture:
                 postvars.Add("Culture", System.Threading.Thread.CurrentThread.CurrentCulture.ToString());
 
+                // Username:
                 if (Properties.Settings.Default.Privacy)
                     postvars.Add("User", "<Withheld>");
                 else
                     postvars.Add("User", mUserName);
-
+                
+                // Other details:
                 postvars.Add("Saves", Program.AWB.NumberOfEdits.ToString());
                 postvars.Add("OS", Environment.OSVersion.VersionString);
 #if DEBUG
