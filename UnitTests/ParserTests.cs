@@ -37,10 +37,32 @@ namespace UnitTests
     {
         Parsers parser = new Parsers();
 
+        public FootnotesTests()
+        {
+            Globals.UnitTestMode = true;
+        }
+
         [Test]
         public void PrecededByEqualSign()
         {
             Assert.That(parser.FixFootnotes("a=<ref>b</ref>"), Text.DoesNotContain("\n"));
+        }
+
+        [Test]
+        // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#Unexpected_modification
+        public void TestTagBoundaries()
+        {
+            Assert.AreEqual("<ref name=\"foo\"><br></ref>", parser.SimplifyReferenceTags("<ref name=\"foo\"><br></ref>"));
+        }
+
+        [Test]
+        public void TestSimplifyReferenceTags()
+        {
+            Assert.AreEqual("<ref name=\"foo\" />", parser.SimplifyReferenceTags("<ref name=\"foo\"></ref>"));
+            Assert.AreEqual("<ref name=\"foo\" />", parser.SimplifyReferenceTags("<ref name=\"foo\" >< / ref >"));
+            Assert.AreEqual("<ref name=\"foo\" />", parser.SimplifyReferenceTags("<ref name=\"foo\" ></ref>"));
+            Assert.AreEqual("<ref name=\"foo\" />", parser.SimplifyReferenceTags("<ref name=\"foo\"></ref>"));
+            Assert.AreEqual("<ref name=\"foo\" />", parser.SimplifyReferenceTags("<ref name=\"foo\"></ref>"));
         }
     }
 
@@ -298,6 +320,51 @@ http://example.com }}");
             Assert.IsFalse(Parsers.IsCorrectEditSummary("[[["));
             Assert.IsFalse(Parsers.IsCorrectEditSummary("[[test]"));
             Assert.IsFalse(Parsers.IsCorrectEditSummary("[[test]] [["));
+        }
+    }
+
+    [TestFixture]
+    public class RecategorizerTests
+    {
+        Parsers p = new Parsers();
+
+        public RecategorizerTests()
+        {
+            Globals.UnitTestMode = true;
+        }
+
+        [Test]
+        public void Replacement()
+        {
+            bool noChange;
+
+            Assert.AreEqual("[[Category:Bar]]", p.ReCategoriser("Foo", "Bar", "[[Category:Foo]]", out noChange));
+            Assert.IsFalse(noChange);
+
+            Assert.AreEqual("[[Category:Bar]]", p.ReCategoriser("Foo", "Bar", "[[ catEgory: Foo]]", out noChange));
+            Assert.IsFalse(noChange);
+
+            Assert.AreEqual("[[Category:Bar]]", p.ReCategoriser("Foo", "Bar", "[[Category:foo]]", out noChange));
+            Assert.IsFalse(noChange);
+
+            Assert.AreEqual("[[Category:Bar|boz]]", p.ReCategoriser("Foo", "Bar", "[[Category:Foo|boz]]", out noChange));
+            Assert.IsFalse(noChange);
+
+            Assert.AreEqual("[[Category:Bar| boz]]", p.ReCategoriser("Foo", "Bar", "[[Category:Foo| boz]]", out noChange));
+            Assert.IsFalse(noChange);
+
+            Assert.AreEqual(@"[[Category:Boz]]
+[[Category:Bar]]
+[[Category:Quux]]", p.ReCategoriser("Foo", "Bar", @"[[Category:Boz]]
+[[Category:foo]]
+[[Category:Quux]]", out noChange));
+            Assert.IsFalse(noChange);
+
+            Assert.AreEqual("test[[Category:Bar]]test", p.ReCategoriser("Foo", "Bar", "test[[Category:Foo]]test", out noChange));
+            Assert.IsFalse(noChange);
+
+            Assert.AreEqual("[[Category:Fooo]]", p.ReCategoriser("Foo", "Bar", "[[Category:Fooo]]", out noChange));
+            Assert.IsTrue(noChange);
         }
     }
 }

@@ -1352,8 +1352,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public string ReCategoriser(string OldCategory, string NewCategory, string ArticleText, out bool NoChange)
         {
             //remove category prefix
-            OldCategory = Regex.Replace(OldCategory, "^" + Variables.Namespaces[14], "", RegexOptions.IgnoreCase);
-            NewCategory = Regex.Replace(NewCategory, "^" + Variables.Namespaces[14], "", RegexOptions.IgnoreCase);
+            OldCategory = Regex.Replace(OldCategory, "^" + Variables.NamespacesCaseInsensitive[14], "", RegexOptions.IgnoreCase);
+            NewCategory = Regex.Replace(NewCategory, "^" + Variables.NamespacesCaseInsensitive[14], "", RegexOptions.IgnoreCase);
 
             //format categories properly
             ArticleText = FixCategories(ArticleText);

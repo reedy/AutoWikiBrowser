@@ -368,7 +368,8 @@ namespace WikiFunctions
             if (!string.IsNullOrEmpty(input) && char.IsLetter(input[0]) && (char.ToUpper(input[0]) != char.ToLower(input[0])))
             {
                 input = input.Trim();
-                return "[" + char.ToUpper(input[0]) + char.ToLower(input[0]) + "]" + Regex.Escape(input.Remove(0, 1));
+                // escaping breaks many places that alredy escape their data
+                return "[" + char.ToUpper(input[0]) + char.ToLower(input[0]) + "]" + /*Regex.Escape(*/input.Remove(0, 1)/*)*/;
             }
             else
                 return Regex.Escape(input);
