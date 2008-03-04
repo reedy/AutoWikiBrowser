@@ -305,6 +305,8 @@ function BuildWikiHostname($lang, $site) {
 					$site .= ".wikimedia.org";
 			}
 			return $site;
+		case 'sim': // "simple" truncated
+			return BuildWikiHostname('simple', $site);
 		default:
 			return "{$lang}.{$site}.org";
 	}	
