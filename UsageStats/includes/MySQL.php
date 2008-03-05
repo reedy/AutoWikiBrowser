@@ -287,7 +287,8 @@ ORDER BY lkpCultures.Language, lkpCultures.Country', 'cultures');
 	}
 	
 	function busiest_user() {
-		return $this->db_mysql_query_single_row('SELECT lkpWikis.Site, lkpWikis.LangCode, Sum(sessions.Saves) AS SumOfSaves
+		return $this->db_mysql_query_single_row('SELECT lkpWikis.Site, Sum(sessions.Saves) AS SumOfSaves,
+(CASE lkpWikis.LangCode WHEN "CUS" THEN "N/A" WHEN "WIK" THEN "N/A" ELSE lkpWikis.LangCode END) AS LangCode
 FROM (sessions INNER JOIN lkpUsers ON sessions.User = lkpUsers.UserID) INNER JOIN lkpWikis ON sessions.Site = lkpWikis.SiteID
 WHERE ((Not (lkpUsers.User)="<Withheld>"))
 GROUP BY lkpWikis.Site, lkpWikis.LangCode, sessions.User
@@ -306,6 +307,15 @@ ORDER BY Sum(sessions.Saves) DESC LIMIT 1', 'busiest_user');
 			UNION ALL SELECT COUNT(*) FROM lkpVersions
 			UNION ALL SELECT COUNT(*) FROM lkpWikis
 		) AS Counts', 'record_count');
+	}
+	
+	function errors() {
+		return $this->db_mysql_query_single_row('SELECT Count(*) AS Errors FROM log WHERE (((log.SuccessYN)=0))', 'errors');
+	}
+	
+	function missing_usernames_count() {
+		return $this->db_mysql_query_single_row('SELECT Count(sessions.SessionID) AS MissingUsernames 
+		FROM sessions WHERE (((sessions.User) Is Null))', 'missing_usernames_count');
 	}
 }
 
