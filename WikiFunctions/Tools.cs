@@ -201,10 +201,11 @@ namespace WikiFunctions
         /// <summary>
         /// Returns Category key from article name e.g. "David Smith" returns "Smith, David".
         /// special case: "John Doe, Jr." turns into "Doe, Jonn Jr."
+        /// http://en.wikipedia.org/wiki/Wikipedia:Categorization_of_people
         /// </summary>
         public static string MakeHumanCatKey(string Name)
         {
-            Name = RemoveNamespaceString(Regex.Replace(Name, @"\(.*?\)$", "").Trim()).Trim();
+            Name = RemoveNamespaceString(Regex.Replace(Name, @"\(.*?\)$", "").Replace("'", "").Trim()).Trim();
             string origName = Name;
             if (!Name.Contains(" ") || Variables.LangCode == LangCodeEnum.uk) return origName;
             // ukwiki uses "Lastname Firstname Patronymic" convention, nothing more is needed
@@ -238,6 +239,7 @@ namespace WikiFunctions
                     return origName;
                 }
             }
+            lastName = Tools.TurnFirstToUpper(lastName.ToLower());
 
             Name = (lastName + ", " + Name + ", " + suffix).Trim(" ,".ToCharArray());
 

@@ -159,14 +159,32 @@ namespace UnitTests
         [Test]
         public void WithRomanNumbers()
         {
-            Assert.AreEqual("Doe, John III", Tools.MakeHumanCatKey("John Doe III"));
+            Assert.AreEqual("Doe, John, III", Tools.MakeHumanCatKey("John Doe III"));
         }
 
         [Test]
         public void WithJrSr()
         {
-            Assert.AreEqual("Doe, John Jr.", Tools.MakeHumanCatKey("John Doe, Jr."));
-            Assert.AreEqual("Doe, John Sr.", Tools.MakeHumanCatKey("John Doe, Sr."));
+            Assert.AreEqual("Doe, John, Jr.", Tools.MakeHumanCatKey("John Doe, Jr."));
+            Assert.AreEqual("Doe, John, Sr.", Tools.MakeHumanCatKey("John Doe, Sr."));
+        }
+
+        [Test]
+        public void WithApostrophes()
+        {
+            Assert.AreEqual("Ddoe, John", Tools.MakeHumanCatKey("J'ohn D'Doe"));
+        }
+
+        [Test]
+        public void WithPrefixes()
+        {
+            Assert.AreEqual("Doe, John de", Tools.MakeHumanCatKey("John de Doe"));
+        }
+
+        [Test]
+        public void RemoveDiacritics()
+        {
+            Assert.AreEqual("Doe, John", Tools.MakeHumanCatKey("Ĵǒħń Ďöê"));
         }
 
         [Test]
