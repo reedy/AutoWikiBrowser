@@ -23,8 +23,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 1.0: First production version in support of AWB 4.3
 1.1: Database collation fixed
 1.2: New and improved output queries; fix for Wikimedia Foundation monolingual projects (meta, commons, species)
+1.3: Bug fix for Simple English Wikipedia; add script version to output stats
 */
-define(MAJOR, 1); define(MINOR, 2); // TINYINTS
+define(MAJOR, 1); define(MINOR, 3); // TINYINTS
 
 /* Variables:
 Action: Hello, Update

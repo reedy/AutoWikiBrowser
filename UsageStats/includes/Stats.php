@@ -79,11 +79,16 @@ Statistics on AWB usage since 3 March 2008.
 <p/>For more information about the AutoWikiBrowser wiki editor, please see our <a href="http://en.wikipedia.org/wiki/WP:AWB">Wikipedia page</a>.
 <p/>
 <table border="1">
+	<tr>
 <?php
+	// Script version
+	echo "\t\t<th align=\"left\">Script version</th><td>".MAJOR.'.'.MINOR.'</td>
+	</tr>';
 	
 	//Number of sessions, Number of saves,
 	$row = $db->no_of_sessions_and_saves();	
 	echo <<<EOF
+	
 	<tr>
 		<th align="left">Number of Sessions</th><td>{$row['nosessions']}</td>
 	</tr>

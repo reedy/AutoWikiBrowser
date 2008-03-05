@@ -97,17 +97,19 @@ class DB {
 		// Wiki and langcode
 		if ($_POST['Wiki'] == "") dead("Received an empty sitename string");
 				
-		/* HACK! TODO: Once the next compulsory AWB release after 4.3 is out, this can be replaced with $_POST['Language'],
-		as AWB has been fixed to send "CUS" for these sites */
 		switch ($_POST['Wiki'])
 		{
 			case 'species':
 			case 'commons':
 			case 'meta':
-				$langcode='CUS';
-				break;				
+				$langcode='CUS'; /* HACK! TODO: Once the next compulsory AWB release after 4.3 is out, this can be replaced with $_POST['Language'],
+		as AWB has been fixed to send "CUS" for these sites */
+				break;		
 			default:
-				$langcode = $_POST['Language'];
+				if ($_POST['Language'] == "simple")
+					$langcode = "sim";
+				else		
+					$langcode = $_POST['Language'];
 		}
 
 		// we maybe ought to cache some of this stuff, e.g. Wikipedia EN, current AWB version, etc
