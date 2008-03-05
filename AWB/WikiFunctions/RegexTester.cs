@@ -43,10 +43,44 @@ namespace WikiFunctions.Controls
             set { Source.Text = value; }
         }
 
+        public string Find
+        {
+            get { return txtFind.Text; }
+            set { txtFind.Text = value; }
+        }
+
+        public string Replace
+        {
+            get { return txtReplace.Text; }
+            set { txtReplace.Text = value; }
+        }
+
+        public RegexOptions RegexOptions
+        {
+            get
+            {
+                RegexOptions res = RegexOptions.None;
+                if (Multiline.Checked) res |= RegexOptions.Multiline;
+                if (Singleline.Checked) res |= RegexOptions.Singleline;
+                if (Ignorecase.Checked) res |= RegexOptions.IgnoreCase;
+
+                return res;
+            }
+
+            set
+            {
+                Multiline.Checked = (value & RegexOptions.Multiline) != 0;
+                Singleline.Checked = (value & RegexOptions.Singleline) != 0;
+                Ignorecase.Checked = (value & RegexOptions.IgnoreCase) != 0;
+            }
+        }
+
+        public bool AskToApply = false;
+
         private void ConditionsChanged(object sender, EventArgs e)
         {
-            bool enabled = (!string.IsNullOrEmpty(Find.Text) && !string.IsNullOrEmpty(Source.Text));
-            ReplaceBtn.Enabled = (!string.IsNullOrEmpty(Replace.Text) && enabled);
+            bool enabled = (!string.IsNullOrEmpty(txtFind.Text) && !string.IsNullOrEmpty(Source.Text));
+            ReplaceBtn.Enabled = (!string.IsNullOrEmpty(txtReplace.Text) && enabled);
             FindBtn.Enabled = enabled;
         }
         
@@ -80,9 +114,9 @@ namespace WikiFunctions.Controls
 
             try
             {
-                Regex r = new Regex(Find.Text, Options);
+                Regex r = new Regex(txtFind.Text, Options);
 
-                ResultText.Text = r.Replace(Source.Text, Replace.Text.Replace("\\n", "\r\n"));
+                ResultText.Text = r.Replace(Source.Text, txtReplace.Text.Replace("\\n", "\r\n"));
                 if (r.Matches(Source.Text).Count != 1)
                     Status.Text = r.Matches(Source.Text).Count.ToString() + " replacements performed";
                 else
@@ -119,7 +153,7 @@ namespace WikiFunctions.Controls
                 ResultText.Visible = false;
                 Status.Text = "";
 
-                Regex r = new Regex(Find.Text, Options);
+                Regex r = new Regex(txtFind.Text, Options);
                 MatchCollection matches = r.Matches(Source.Text.Replace("\r\n", "\n"));
                 foreach (Match m in matches)
                 {
@@ -171,6 +205,25 @@ namespace WikiFunctions.Controls
         private void RegexTester_HelpRequested(object sender, object hlpevent)
         {
             Tools.OpenURLInBrowser("http://msdn2.microsoft.com/en-us/library/az24scfc.aspx");
+        }
+
+        private void RegexTester_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if(e.CloseReason != CloseReason.UserClosing || !AskToApply) return;
+
+            switch (MessageBox.Show(this, "Do you want to apply your changes?", Text, MessageBoxButtons.YesNoCancel,
+                MessageBoxIcon.Question))
+            {
+                case DialogResult.Yes:
+                    DialogResult = DialogResult.OK;
+                    break;
+                case DialogResult.No:
+                    DialogResult = DialogResult.Cancel;
+                    break;
+                case DialogResult.Cancel:
+                    e.Cancel = true;
+                    break;
+            }
         }
     }
 }

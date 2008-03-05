@@ -25,6 +25,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 using System.Drawing;
+using WikiFunctions.Controls;
 
 namespace WikiFunctions.Parse
 {
@@ -66,13 +67,49 @@ namespace WikiFunctions.Parse
             }
         }
 
+        private Replacement RowToReplacement(DataGridViewRow dataGridRow)
+        {
+            Replacement rep = new Replacement();
+            string f = "";
+            string r = "";
+
+            rep.Enabled = ((bool)dataGridRow.Cells["enabled"].FormattedValue);
+
+            if (dataGridRow.Cells["replace"].Value == null)
+                dataGridRow.Cells["replace"].Value = "";
+
+            f = dataGridRow.Cells["find"].Value.ToString();
+            r = dataGridRow.Cells["replace"].Value.ToString();
+
+            f = Encode(f);
+            r = Encode(r);
+
+            if (!(bool)dataGridRow.Cells["regex"].FormattedValue)
+            {
+                f = Regex.Escape(f);
+                rep.IsRegex = false;
+            }
+            else
+                rep.IsRegex = true;
+
+            rep.Find = f;
+            rep.Replace = r;
+
+            rep.RegularExpressionOptions = RegexOptions.None;
+            if (!(bool)dataGridRow.Cells["casesensitive"].FormattedValue)
+                rep.RegularExpressionOptions = rep.RegularExpressionOptions | RegexOptions.IgnoreCase;
+            if ((bool)dataGridRow.Cells["multi"].FormattedValue)
+                rep.RegularExpressionOptions = rep.RegularExpressionOptions | RegexOptions.Multiline;
+
+            if ((bool)dataGridRow.Cells["single"].FormattedValue)
+                rep.RegularExpressionOptions = rep.RegularExpressionOptions | RegexOptions.Singleline;
+
+            return rep;
+        }
+
         public void MakeList()
         {
             ReplacementList.Clear();
-
-            string f = "";
-            string r = "";
-            Replacement rep;
 
             foreach (DataGridViewRow dataGridRow in dataGridView1.Rows)
             {
@@ -82,40 +119,7 @@ namespace WikiFunctions.Parse
                 if (dataGridRow.Cells["find"].Value == null)
                     continue;
 
-                rep = new Replacement();
-
-                    rep.Enabled = ((bool)dataGridRow.Cells["enabled"].FormattedValue);
-
-                if (dataGridRow.Cells["replace"].Value == null)
-                    dataGridRow.Cells["replace"].Value = "";
-
-                f = dataGridRow.Cells["find"].Value.ToString();
-                r = dataGridRow.Cells["replace"].Value.ToString();
-
-                f = Encode(f);
-                r = Encode(r);
-
-                if (!(bool)dataGridRow.Cells["regex"].FormattedValue)
-                {
-                    f = Regex.Escape(f);
-                    rep.IsRegex = false;
-                }
-                else
-                    rep.IsRegex = true;
-
-                rep.Find = f;
-                rep.Replace = r;
-
-                rep.RegularExpressionOptions = RegexOptions.None;
-                if (!(bool)dataGridRow.Cells["casesensitive"].FormattedValue)
-                    rep.RegularExpressionOptions = rep.RegularExpressionOptions | RegexOptions.IgnoreCase;
-                if ((bool)dataGridRow.Cells["multi"].FormattedValue)
-                    rep.RegularExpressionOptions = rep.RegularExpressionOptions | RegexOptions.Multiline;
-
-                if ((bool)dataGridRow.Cells["single"].FormattedValue)
-                    rep.RegularExpressionOptions = rep.RegularExpressionOptions | RegexOptions.Singleline;
-
-                ReplacementList.Add(rep);
+                ReplacementList.Add(RowToReplacement(dataGridRow));
             }
         }
 
@@ -437,7 +441,40 @@ namespace WikiFunctions.Parse
         private void FindAndReplaceContextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             deleteRowToolStripMenuItem.Enabled = dataGridView1.SelectedRows.Count > 0;
+
+            dataGridView1.EndEdit();
+            testRegexToolStripMenuItem.Enabled = dataGridView1.CurrentRow != null &&
+                (string)dataGridView1.CurrentRow.Cells["regex"].Value == "1";
         }
+
+        private void testRegexToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RegexTester t = new RegexTester();
+            DataGridViewRow row = dataGridView1.CurrentRow;
+
+            if (row == null) return;
+
+            Replacement rep = RowToReplacement(row);
+
+            t.Find = (string)row.Cells["find"].Value;
+            t.Replace = (string)row.Cells["replace"].Value;
+            t.RegexOptions = rep.RegularExpressionOptions;
+
+            if (Variables.MainForm != null && Variables.MainForm.EditBox.Enabled)
+                t.ArticleText = Variables.MainForm.EditBox.Text;
+
+            if (t.ShowDialog(this) == DialogResult.OK)
+            {
+                row.Cells["find"].Value = t.Find;
+                row.Cells["replace"].Value = t.Replace;
+                RegexOptions ro = t.RegexOptions;
+
+                row.Cells["multi"].Value = (ro & RegexOptions.Multiline) != 0;
+                row.Cells["single"].Value = (ro & RegexOptions.Singleline) != 0;
+                row.Cells["casesensitive"].Value = (ro & RegexOptions.IgnoreCase) == 0;
+            }
+        }
+
 
         #endregion
 

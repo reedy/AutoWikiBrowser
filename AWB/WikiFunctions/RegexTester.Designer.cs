@@ -32,8 +32,8 @@ namespace WikiFunctions.Controls
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RegexTester));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.Find = new System.Windows.Forms.TextBox();
-            this.Replace = new System.Windows.Forms.TextBox();
+            this.txtFind = new System.Windows.Forms.TextBox();
+            this.txtReplace = new System.Windows.Forms.TextBox();
             this.ReplaceBtn = new System.Windows.Forms.Button();
             this.Source = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -72,32 +72,32 @@ namespace WikiFunctions.Controls
             this.label2.TabIndex = 1;
             this.label2.Text = "Replace:";
             // 
-            // Find
+            // txtFind
             // 
-            this.Find.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.txtFind.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.Find.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Find.Location = new System.Drawing.Point(75, 6);
-            this.Find.Multiline = true;
-            this.Find.Name = "Find";
-            this.Find.Size = new System.Drawing.Size(401, 78);
-            this.Find.TabIndex = 2;
-            this.toolTip1.SetToolTip(this.Find, "The regular expression to find");
-            this.Find.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.KeyPressHandler);
-            this.Find.TextChanged += new System.EventHandler(this.ConditionsChanged);
+            this.txtFind.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtFind.Location = new System.Drawing.Point(75, 6);
+            this.txtFind.Multiline = true;
+            this.txtFind.Name = "txtFind";
+            this.txtFind.Size = new System.Drawing.Size(401, 78);
+            this.txtFind.TabIndex = 2;
+            this.toolTip1.SetToolTip(this.txtFind, "The regular expression to find");
+            this.txtFind.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.KeyPressHandler);
+            this.txtFind.TextChanged += new System.EventHandler(this.ConditionsChanged);
             // 
-            // Replace
+            // txtReplace
             // 
-            this.Replace.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.txtReplace.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.Replace.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Replace.Location = new System.Drawing.Point(75, 90);
-            this.Replace.Name = "Replace";
-            this.Replace.Size = new System.Drawing.Size(401, 22);
-            this.Replace.TabIndex = 3;
-            this.toolTip1.SetToolTip(this.Replace, "The expression for doing replacements");
-            this.Replace.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.KeyPressHandler);
-            this.Replace.TextChanged += new System.EventHandler(this.ConditionsChanged);
+            this.txtReplace.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtReplace.Location = new System.Drawing.Point(75, 90);
+            this.txtReplace.Name = "txtReplace";
+            this.txtReplace.Size = new System.Drawing.Size(401, 22);
+            this.txtReplace.TabIndex = 3;
+            this.toolTip1.SetToolTip(this.txtReplace, "The expression for doing replacements");
+            this.txtReplace.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.KeyPressHandler);
+            this.txtReplace.TextChanged += new System.EventHandler(this.ConditionsChanged);
             // 
             // ReplaceBtn
             // 
@@ -277,8 +277,8 @@ namespace WikiFunctions.Controls
             this.Controls.Add(this.label3);
             this.Controls.Add(this.Source);
             this.Controls.Add(this.ReplaceBtn);
-            this.Controls.Add(this.Replace);
-            this.Controls.Add(this.Find);
+            this.Controls.Add(this.txtReplace);
+            this.Controls.Add(this.txtFind);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.ResultText);
@@ -294,6 +294,7 @@ namespace WikiFunctions.Controls
             this.toolTip1.SetToolTip(this, "The expression for doing replacements");
             this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.RegexTester_HelpButtonClicked);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RegexTester_KeyPress);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RegexTester_FormClosing);
             this.HelpRequested += new System.Windows.Forms.HelpEventHandler(this.RegexTester_HelpRequested);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
@@ -308,8 +309,8 @@ namespace WikiFunctions.Controls
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox Find;
-        private System.Windows.Forms.TextBox Replace;
+        private System.Windows.Forms.TextBox txtFind;
+        private System.Windows.Forms.TextBox txtReplace;
         private System.Windows.Forms.Button ReplaceBtn;
         private System.Windows.Forms.TextBox Source;
         private System.Windows.Forms.Label label3;
