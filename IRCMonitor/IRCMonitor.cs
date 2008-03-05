@@ -218,7 +218,7 @@ namespace IRCM
 
         private bool CheckStatus(bool login)
         {
-            lblStatusText.Text = "Loading page to check if we are logged in.";
+            StatusLabelText = "Loading page to check if we are logged in.";
             WikiStatusResult result = Variables.User.UpdateWikiStatus();
 
             bool b = false;
@@ -259,7 +259,7 @@ namespace IRCM
 
             txtNickname.Text = Variables.User.Name + "-IRCM";
             lblUserName.Text = Variables.User.Name;
-            lblStatusText.Text = label;
+            StatusLabelText = label;
 
             return b;
         }
@@ -351,7 +351,7 @@ Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=15
         {
             Stop();
 
-            lblStatusText.Text = "Connecting";
+            StatusLabelText = "Connecting";
             Random n = new Random();
 
             string name = "ircM";
@@ -491,12 +491,12 @@ Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=15
 
         private void Connected(object sender, EventArgs e)
         {
-            lblStatusText.Text = "Connected";
+            StatusLabelText = "Connected";
         }
 
         private void Disconnected(object sender, EventArgs e)
         {
-            lblStatusText.Text = "Disconnected";
+            StatusLabelText = "Disconnected";
             if (WikiIRC.Run)
             {
                 Start();
@@ -519,46 +519,52 @@ Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=15
 
         #region Properties
 
-        Color ipcolour = Color.LightSkyBlue;
+        private Color ipcolour = Color.LightSkyBlue;
         public Color ColourIP
         {
             get { return ipcolour; }
             set { btnIPColour.BackColor = ipcolour = value; }
         }
 
-        Color usercolour = Color.LightGreen;
+        private Color usercolour = Color.LightGreen;
         public Color UserColour
         {
             get { return usercolour; }
             set { usercolour = btnRegisteredUserColour.BackColor = value; }
         }
 
-        Color whitelistcolour = Color.Wheat;
+        private Color whitelistcolour = Color.Wheat;
         public Color WhiteListColour
         {
             get { return whitelistcolour; }
             set { whitelistcolour = btnSetWhiteListColour.BackColor = value; }
         }
 
-        Color blacklistcolour = Color.Red;
+        private Color blacklistcolour = Color.Red;
         public Color BlackListColour
         {
             get { return blacklistcolour; }
             set { blacklistcolour = btnSetBlackListColour.BackColor = value; }
         }
 
-        Color watchlistcolour = Color.Plum;
+        private Color watchlistcolour = Color.Plum;
         public Color WatchListColour
         {
             get { return watchlistcolour; }
             set { watchlistcolour = btnSetWatchedColour.BackColor = value; }
         }
 
-        Color checkedcolour = Color.Green;
+        private Color checkedcolour = Color.Green;
         public Color CheckedColour
         {
             get { return checkedcolour; }
             set { checkedcolour = btnSetCheckedColour.BackColor = value; }
+        }
+
+        private string StatusLabelText
+        {
+            get { return lblStatusText.Text; }
+            set { lblStatusText.Text = value; }
         }
 
         #endregion
@@ -1958,7 +1964,7 @@ Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=15
 
         private void webBrowser_StatusChanged(object sender, EventArgs e)
         {
-            lblStatusText.Text = webBrowser.StatusText;
+            StatusLabelText = webBrowser.StatusText;
         }
 
         private void logsToolStripMenuItem_Click(object sender, EventArgs e)

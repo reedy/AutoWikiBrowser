@@ -102,8 +102,8 @@ namespace AutoWikiBrowser
                 }
 
                 cModule.ModuleEnabled = false;
-                this.Text = "AutoWikiBrowser";
-                lblStatusText.Text = "Default settings loaded.";
+                this.Text = Program.Name;
+                StatusLabelText = "Default settings loaded.";
             }
             catch (Exception ex)
             {
@@ -180,7 +180,6 @@ namespace AutoWikiBrowser
                 RecentList.RemoveAt(5);
 
             recentToolStripMenuItem.DropDown.Items.Clear();
-            int i = 0;
             foreach (string filename in RecentList)
             {
 
@@ -307,7 +306,7 @@ namespace AutoWikiBrowser
                 LoadPrefs(UserPrefs.LoadPrefs(path));
 
                 SettingsFile = path;
-                lblStatusText.Text = "Settings successfully loaded";
+                StatusLabelText = "Settings successfully loaded";
                 UpdateRecentList(path);
             }
             catch (Exception ex)

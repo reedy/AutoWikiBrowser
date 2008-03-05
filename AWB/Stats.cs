@@ -245,6 +245,8 @@ namespace AutoWikiBrowser
             //const string url = "http://www.cs.tut.fi/cgi-bin/run/~jkorpela/echo.cgi";
             //const string url = "http://www.tipjar.com/cgi-bin/test";
 
+            StatusLabelText = "Contacting stats server...";
+            Program.AWB.Form.Cursor = System.Windows.Forms.Cursors.WaitCursor;
             HttpWebRequest rq = Variables.PrepareWebRequest(StatsURL, Program.UserAgentString);
             rq.Method = "POST";
             rq.ContentType = "application/x-www-form-urlencoded";
@@ -255,6 +257,8 @@ namespace AutoWikiBrowser
             RequestStream.Close();
 
             HttpWebResponse rs = (HttpWebResponse)rq.GetResponse();
+            StatusLabelText = "";
+            Program.AWB.Form.Cursor = System.Windows.Forms.Cursors.Default;
             if (rs.StatusCode == HttpStatusCode.OK)
                 return new StreamReader(rs.GetResponseStream()).ReadToEnd();
             else
@@ -263,6 +267,10 @@ namespace AutoWikiBrowser
 #endregion
 
 #region Helper routines
+        private static string StatusLabelText {
+            set { ((MainForm)Program.AWB).StatusLabelText = value; }
+        }
+
         private static string BuildPostDataString(NameValueCollection postvars)
         {
             StringBuilder ret = new StringBuilder();
