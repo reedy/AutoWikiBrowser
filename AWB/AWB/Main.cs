@@ -196,7 +196,7 @@ namespace AutoWikiBrowser
             set
             {
                 mSettingsFile = value;
-                mSettingsFileDisplay = "AutoWikiBrowser";
+                mSettingsFileDisplay = Program.Name;
                 if (!string.IsNullOrEmpty(value))
                     mSettingsFileDisplay += " - " + value.Remove(0, value.LastIndexOf("\\") + 1);
                 this.Text = SettingsFileDisplay;
@@ -222,7 +222,7 @@ namespace AutoWikiBrowser
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            lblStatusText.Text = "Initialising...";
+            StatusLabelText = "Initialising...";
             splash.SetProgress(20);
             Variables.MainForm = this;
             Updater.UpdateAWB(new Tools.SetProgress(splash.SetProgress)); // progress 22-29 in UpdateAWB()
@@ -294,7 +294,7 @@ namespace AutoWikiBrowser
             
             UsageStats.Initialise();
 
-            lblStatusText.Text = "";
+            StatusLabelText = "";
             splash.SetProgress(100);
             splash.Close();
 
@@ -316,7 +316,7 @@ namespace AutoWikiBrowser
 
         #region Properties
 
-        ArticleEX stredittingarticle; // = new ArticleWithLogging(""); 
+        private ArticleEX stredittingarticle; // = new ArticleWithLogging(""); 
         internal ArticleEX TheArticle
         {
             get { return stredittingarticle; }
@@ -332,7 +332,7 @@ namespace AutoWikiBrowser
             set { chkAutoMode.Checked = value; }
         }
 
-        bool bLowThreadPriority;
+        private bool bLowThreadPriority;
         private bool LowThreadPriority
         {
             get { return bLowThreadPriority; }
@@ -346,21 +346,21 @@ namespace AutoWikiBrowser
             }
         }
 
-        bool bFlash;
+        private bool bFlash;
         private bool Flash
         {
             get { return bFlash; }
             set { bFlash = value; }
         }
 
-        bool bBeep;
+        private bool bBeep;
         private bool Beep
         {
             get { return bBeep; }
             set { bBeep = value; }
         }
 
-        bool bMinimize;
+        private bool bMinimize;
         /// <summary>
         /// Returns True if AWB should be minimised to the system tray; False if it should minimise to the taskbar
         /// </summary>
@@ -370,7 +370,7 @@ namespace AutoWikiBrowser
             set { bMinimize = value; }
         }
 
-        decimal dTimeOut = 30;
+        private decimal dTimeOut = 30;
         private decimal TimeOut
         {
             get { return dTimeOut; }
@@ -381,39 +381,51 @@ namespace AutoWikiBrowser
             }
         }
 
-        bool bSaveArticleList = true;
+        private bool bSaveArticleList = true;
         private bool SaveArticleList
         {
             get { return bSaveArticleList; }
             set { bSaveArticleList = value; }
         }
 
-        bool bAutoSaveEdit;
+        private bool bAutoSaveEdit;
         private bool AutoSaveEditBoxEnabled
         {
             get { return bAutoSaveEdit; }
             set { bAutoSaveEdit = value; }
         }
 
-        string sAutoSaveEditFile = Application.StartupPath + "\\Edit Box.txt";
+        private string sAutoSaveEditFile = Application.StartupPath + "\\Edit Box.txt";
         private string AutoSaveEditBoxFile
         {
             get { return sAutoSaveEditFile; }
             set { sAutoSaveEditFile = value; }
         }
 
-        bool bSupressUsingAWB;
+        private bool bSupressUsingAWB;
         private bool SupressUsingAWB
         {
             get { return bSupressUsingAWB; }
             set { bSupressUsingAWB = value; }
         }
 
-        decimal dAutoSaveEditPeriod = 60;
+        private decimal dAutoSaveEditPeriod = 60;
         private decimal AutoSaveEditBoxPeriod
         {
             get { return dAutoSaveEditPeriod; }
             set { dAutoSaveEditPeriod = value; EditBoxSaveTimer.Interval = int.Parse((value * 1000).ToString()); }
+        }
+
+        internal string StatusLabelText
+        {
+            get { return lblStatusText.Text; }
+            set {
+                if (string.IsNullOrEmpty(value))
+                    lblStatusText.Text = Program.Name + " " + Program.VersionString;
+                else
+                    lblStatusText.Text = value;
+                Application.DoEvents(); 
+            }
         }
         #endregion
 
@@ -423,7 +435,7 @@ namespace AutoWikiBrowser
         /// checks if we are still logged in
         /// asks to relogin if needed
         /// </summary>
-        bool CheckLoginStatus()
+        private bool CheckLoginStatus()
         {
             if (webBrowserEdit.UserName != Variables.User.Name)
             {
@@ -476,8 +488,8 @@ namespace AutoWikiBrowser
                     webBrowserEdit.Busy = false;
                     StopSaveInterval(null, null);
                     lblTimer.Text = "";
-                    lblStatusText.Text = "No articles in list, you need to use the Make list";
-                    this.Text = "AutoWikiBrowser";
+                    StatusLabelText = "No articles in list, you need to use the Make list";
+                    this.Text = Program.Name;
                     webBrowserEdit.Document.Write("");
                     listMaker1.MakeListEnabled = true;
                     return;
@@ -616,7 +628,7 @@ namespace AutoWikiBrowser
 
             if (!doNotAutomaticallyDoAnythingToolStripMenuItem.Checked)
             {
-                lblStatusText.Text = "Processing page";
+                StatusLabelText = "Processing page";
                 Application.DoEvents();
 
                 ProcessPage();
@@ -793,7 +805,7 @@ namespace AutoWikiBrowser
                         return false;
                     }
 
-                    lblStatusText.Text = "There was a problem loading the page. Re-starting.";
+                    StatusLabelText = "There was a problem loading the page. Re-starting.";
                     StartDelayedRestartTimer(null, null);
                     return false;
                 }
@@ -882,7 +894,7 @@ namespace AutoWikiBrowser
         {
             if (webBrowserEdit.Document.Body.InnerHtml.Contains("<B>You have successfully signed in to Wikipedia as"))
             {
-                lblStatusText.Text = "Signed in, now re-starting";
+                StatusLabelText = "Signed in, now re-starting";
 
                 if (!Variables.User.WikiStatus)
                     CheckStatus(false);
@@ -1328,12 +1340,12 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void UpdateWebBrowserStatus(object sender, EventArgs e)
         {
-            lblStatusText.Text = webBrowserEdit.Status;
+            StatusLabelText = webBrowserEdit.Status;
         }
 
         private void UpdateListStatus(object sender, EventArgs e)
         {
-            lblStatusText.Text = listMaker1.Status;
+            StatusLabelText = listMaker1.Status;
         }
 
         private void MainFormClosing(object sender, FormClosingEventArgs e)
@@ -1523,7 +1535,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         public bool CheckStatus(bool Login)
         {
-            lblStatusText.Text = "Loading page to check if we are logged in.";
+            StatusLabelText = "Loading page to check if we are logged in.";
             WikiStatusResult result = Variables.User.UpdateWikiStatus();
 
             bool b = false;
@@ -1576,7 +1588,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             if (Variables.RTL) RightToLeft = RightToLeft.Yes;
             else RightToLeft = RightToLeft.No;
 
-            lblStatusText.Text = label;
+            StatusLabelText = label;
             UpdateButtons(null, null);
 
             return b;
@@ -1991,7 +2003,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private void DelayedRestart(object sender, EventArgs e)
         {
             StopDelayedAutoSaveTimer();
-            lblStatusText.Text = "Restarting in " + intStartInSeconds.ToString();
+            StatusLabelText = "Restarting in " + intStartInSeconds.ToString();
 
             if (intStartInSeconds == 0)
             {
@@ -2549,7 +2561,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             if (AutoSaveEditBoxEnabled)
                 EditBoxSaveTimer.Enabled = false;
 
-            lblStatusText.Text = "Stopped";
+            StatusLabelText = "Stopped";
         }
 
         private void helpToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -2690,7 +2702,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         {
             if (chkRegExTypo.Checked)
             {
-                lblStatusText.Text = "Loading typos";
+                StatusLabelText = "Loading typos";
 
                 string s = Variables.RETFPath;
 
@@ -2710,7 +2722,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                     RegexTypos = new RegExTypoFix();
                     if (RegexTypos.TyposLoaded)
                     {
-                        lblStatusText.Text = RegexTypos.TyposCount.ToString() + " typos loaded";
+                        StatusLabelText = RegexTypos.TyposCount.ToString() + " typos loaded";
                     }
                     else
                     {
