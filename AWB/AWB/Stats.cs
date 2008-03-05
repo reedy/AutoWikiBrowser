@@ -111,12 +111,8 @@ namespace AutoWikiBrowser
             {
                 if (EstablishedContact)
                 {
-                    if (Program.AWB.NumberOfEdits > LastEditCount || newplugins.Count > 0 || HaveUserNameToSend)
-                    {
-                        SubsequentContact();
-                        // success:
-                        newplugins.Clear();
-                    }
+                    if (Program.AWB.NumberOfEdits > LastEditCount || newplugins.Count > 0
+                        || HaveUserNameToSend) SubsequentContact();
                 }
                 else
                     FirstContact();
@@ -221,6 +217,7 @@ namespace AutoWikiBrowser
                     postvars.Add("Saves", Program.AWB.NumberOfEdits.ToString());
 
                 PostData(postvars);
+                newplugins.Clear();
             }
             catch
             {
