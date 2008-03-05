@@ -161,5 +161,21 @@ namespace WikiFunctions.Controls
         {
             MessageBox.Show(ex.Message, "Whoops!", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
+
+        private void RegexTester_HelpButtonClicked(object sender, CancelEventArgs e)
+        {
+            e.Cancel = true;
+            Help();
+        }
+
+        private void RegexTester_HelpRequested(object sender, HelpEventArgs hlpevent)
+        {
+            Help();
+        }
+
+        private void Help()
+        {
+            System.Diagnostics.Process.Start("http://msdn2.microsoft.com/en-us/library/az24scfc.aspx");
+        }
     }
 }

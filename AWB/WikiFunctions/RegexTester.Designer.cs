@@ -83,8 +83,8 @@ namespace WikiFunctions.Controls
             this.Find.Size = new System.Drawing.Size(401, 78);
             this.Find.TabIndex = 2;
             this.toolTip1.SetToolTip(this.Find, "The regular expression to find");
-            this.Find.TextChanged += new System.EventHandler(this.ConditionsChanged);
             this.Find.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.KeyPressHandler);
+            this.Find.TextChanged += new System.EventHandler(this.ConditionsChanged);
             // 
             // Replace
             // 
@@ -96,8 +96,8 @@ namespace WikiFunctions.Controls
             this.Replace.Size = new System.Drawing.Size(401, 22);
             this.Replace.TabIndex = 3;
             this.toolTip1.SetToolTip(this.Replace, "The expression for doing replacements");
-            this.Replace.TextChanged += new System.EventHandler(this.ConditionsChanged);
             this.Replace.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.KeyPressHandler);
+            this.Replace.TextChanged += new System.EventHandler(this.ConditionsChanged);
             // 
             // ReplaceBtn
             // 
@@ -124,8 +124,8 @@ namespace WikiFunctions.Controls
             this.Source.Size = new System.Drawing.Size(596, 160);
             this.Source.TabIndex = 5;
             this.toolTip1.SetToolTip(this.Source, "Enter or paste in the text to be searched here");
-            this.Source.TextChanged += new System.EventHandler(this.ConditionsChanged);
             this.Source.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.KeyPressHandler);
+            this.Source.TextChanged += new System.EventHandler(this.ConditionsChanged);
             // 
             // label3
             // 
@@ -183,9 +183,9 @@ namespace WikiFunctions.Controls
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Status});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 457);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 465);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(683, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(691, 22);
             this.statusStrip1.TabIndex = 9;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -268,7 +268,7 @@ namespace WikiFunctions.Controls
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(683, 479);
+            this.ClientSize = new System.Drawing.Size(691, 487);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.FindBtn);
@@ -282,15 +282,19 @@ namespace WikiFunctions.Controls
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.ResultText);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            this.HelpButton = true;
             this.KeyPreview = true;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(699, 513);
             this.Name = "RegexTester";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AWB Regex Tester";
             this.toolTip1.SetToolTip(this, "The expression for doing replacements");
+            this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.RegexTester_HelpButtonClicked);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RegexTester_KeyPress);
+            this.HelpRequested += new System.Windows.Forms.HelpEventHandler(this.RegexTester_HelpRequested);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
