@@ -18,7 +18,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-// TODO: Add "troubleshoot" stats (usernames not recorded, errors)
+// TODO: Add "troubleshoot" stats (usernames not recorded, errors) -- queries written; may want to exclude log entries with errors where the error was fixed?
 
 class DB {	
 	private $mysqli; /* @var $mysqli mysqli */ // Hint for Zend Studio autocomplete, don't delete
@@ -114,7 +114,7 @@ class DB {
 
 		// we maybe ought to cache some of this stuff, e.g. Wikipedia EN, current AWB version, etc
 		$wikiid=$this->get_or_add_lookup_record('lkpWikis', 'SiteID', "Site=\"{$_POST['Wiki']}\" AND ".
-			"LangCode=\"{$_POST['Language']}\"", 'Site, LangCode', "\"{$_POST['Wiki']}\", \"{$langcode}\"");
+			"LangCode=\"{$langcode}\"", 'Site, LangCode', "\"{$_POST['Wiki']}\", \"{$langcode}\"");
 		
 		// Culture
 		$culturearray=explode("-", $_POST['Culture']);

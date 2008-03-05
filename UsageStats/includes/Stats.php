@@ -42,7 +42,7 @@ function htmlstats(){
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
 <head>
 	<title>AutoWikiBrowser Usage Stats</title>
-	<meta name="generator" content="AWB UsageStats PHP app" />
+	<meta name="generator" content="AWB UsageStats PHP app v<?php echo MAJOR.'.'.MINOR; ?>" />
 	<meta name="copyright" content="<?php echo "\xC2\xA9"; ?> 2008 Stephen Kennedy, Sam Reed" />
 	<style type="text/css">
 		BODY  {
