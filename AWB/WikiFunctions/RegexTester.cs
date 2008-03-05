@@ -165,17 +165,12 @@ namespace WikiFunctions.Controls
         private void RegexTester_HelpButtonClicked(object sender, CancelEventArgs e)
         {
             e.Cancel = true;
-            Help();
+            RegexTester_HelpRequested(sender, null);
         }
 
-        private void RegexTester_HelpRequested(object sender, HelpEventArgs hlpevent)
+        private void RegexTester_HelpRequested(object sender, object hlpevent)
         {
-            Help();
-        }
-
-        private void Help()
-        {
-            System.Diagnostics.Process.Start("http://msdn2.microsoft.com/en-us/library/az24scfc.aspx");
+            Tools.OpenURLInBrowser("http://msdn2.microsoft.com/en-us/library/az24scfc.aspx");
         }
     }
 }
