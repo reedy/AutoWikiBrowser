@@ -18,8 +18,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-// TODO: Add "troubleshoot" stats (usernames not recorded, errors) -- queries written; may want to exclude log entries with errors where the error was fixed?
-
 class DB {	
 	private $mysqli; /* @var $mysqli mysqli */ // Hint for Zend Studio autocomplete, don't delete
 	private $logID = 0;
@@ -313,6 +311,10 @@ ORDER BY Sum(sessions.Saves) DESC LIMIT 1', 'busiest_user');
 	
 	function errors() {
 		return $this->db_mysql_query_single_row('SELECT Count(*) AS Errors FROM log WHERE (((log.SuccessYN)=0))', 'errors');
+	}
+	
+	function errors_fixed() {
+		return $this->db_mysql_query_single_row('SELECT Count(*) AS Errors FROM log WHERE (((log.SuccessYN)=0) AND (log.ErrorFixed=0))', 'errors_fixed');
 	}
 	
 	function missing_usernames_count() {

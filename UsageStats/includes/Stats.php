@@ -31,7 +31,7 @@ Some queries we might want on a stats page:
 * Number of saves by language (culture)
 */
 
-// TODO: Posting from AWB debug builds or cron to Wikipedia.
+// TODO: Posting from AWB debug builds or cron to Wikipedia?
 
 // Return a web page showing stats:
 function htmlstats(){
@@ -79,77 +79,36 @@ Statistics on AWB usage since 3 March 2008.
 <p/>For more information about the AutoWikiBrowser wiki editor, please see our <a href="http://en.wikipedia.org/wiki/WP:AWB">Wikipedia page</a>.
 <p/>
 <table border="1">
-	<tr>
 <?php
-	// Script version
-	echo "\t\t<th align=\"left\">Script version</th><td>".MAJOR.'.'.MINOR.'</td>
-	</tr>';
 	
 	//Number of sessions, Number of saves,
-	$row = $db->no_of_sessions_and_saves();	
-	echo <<<EOF
-	
-	<tr>
-		<th align="left">Number of Sessions</th><td>{$row['nosessions']}</td>
-	</tr>
-	<tr>
-		<th align="left">Total Number of Saves</th><td>{$row['totalsaves']}</td>
-	</tr>
-EOF;
+	$row = $db->no_of_sessions_and_saves();
+	PrintTableRow('Number of Sessions', $row['nosessions']);
+	PrintTableRow('Total Number of Saves', $row['totalsaves']);
 
 	// Number of wikis
 	$row = $db->wiki_count();
-	echo <<<EOF
-	
-	<tr>
-		<th align="left">Number of Wiki Sites</th><td>{$row['Wikis']}</td>
-	</tr>
-EOF;
+	PrintTableRow('Number of Wiki Sites', $row['Wikis']);
 
 	// Username count
-	$row = $db->username_count();	
-	echo <<<EOF
-	
-	<tr>
-		<th align="left">Number of Usernames Known</th><td>{$row['usercount']}</td>
-	</tr>
-EOF;
+	$row = $db->username_count();
+	PrintTableRow('Number of Usernames Known', $row['usercount']);
 
 	//Unique users count (username/wiki)
-	$row = $db->unique_username_count();	
-	echo <<<EOF
-	
-	<tr>
-		<th align="left">Number of Unique Users<sup><a href="#1">1</a></sup></th><td>{$row['UniqueUsersCount']}</td>
-	</tr>
-EOF;
+	$row = $db->unique_username_count();
+	PrintTableRow('Number of Unique Users<sup><a href="#1">1</a></sup>', $row['UniqueUsersCount']);
 	
 	//Number of plugins known
 	$row = $db->plugin_count();
-	echo <<<EOF
-	
-	<tr>
-		<th align="left">Number of Plugins Known</th><td>{$row['Plugins']}</td>
-	</tr>
-EOF;
+	PrintTableRow('Number of Plugins Known', $row['Plugins']);
 
 	// Number of log entries
 	$row = $db->db_mysql_query_single_row('SELECT COUNT(DISTINCT LogID) as LogIDCount FROM log', 'htmlstats', 'Stats'); // note: we'll only display this on this web page, hence doing it here
-	echo <<<EOF
-	
-	<tr>
-		<th align="left">Number of Log Entries</th><td>{$row['LogIDCount']}</td>
-	</tr>
-EOF;
+	PrintTableRow('Number of Log Entries', $row['LogIDCount']);
 
 	// Record count
 	$row = $db->record_count();
-	echo <<< EOF
-
-	<tr>
-		<th align="left">Total Number of Records in Database</th><td>{$row['RecordCount']}</td>
-	</tr>
-EOF;
+	PrintTableRow('Total Number of Records in Database', $row['RecordCount']);
 
 	//Sessions & Saves per sites
 	echo <<< EOF
@@ -254,6 +213,28 @@ EOF;
 	}
 	
 	$result->close();
+	
+?>
+</table>
+<p/>
+<table border="1">
+	<tr>
+		<th colspan="2">Diagnostics</th>
+	</tr>
+	<tr>
+		<th align="left">Script version</th><td><?php echo MAJOR.'.'.MINOR; ?></td>
+	</tr>	
+<?php
+
+	// Script errors
+	$row = $db->errors();
+	PrintTableRow('Submission errors', $row['Errors']);
+	$row = $db->errors_fixed();
+	PrintTableRow('Submission errors (fixed)', $row['Errors']);
+	
+	// Username not recorded
+	$row = $db->missing_usernames_count();
+	PrintTableRow('Number of sessions where username not recorded', $row['MissingUsernames']);	
 ?>
 
 </table>
@@ -327,5 +308,14 @@ function BuildWikiHostname($lang, $site) {
 		default:
 			return "{$lang}.{$site}.org";
 	}	
+}
+
+function PrintTableRow($header, $data) {
+	echo <<<EOF
+	
+	<tr>
+		<th align="left">{$header}</th><td>{$data}</td>
+	</tr>
+EOF;
 }
 ?>
