@@ -98,8 +98,20 @@ namespace UnitTests
         {
             Assert.AreEqual("[[dog]]s", parser.SimplifyLinks("[[dog|dogs]]"));
 
+            // case insensitivity of the first char
+            Assert.AreEqual("[[dog]]s", parser.SimplifyLinks("[[Dog|dogs]]"));
+            Assert.AreEqual("[[Dog]]s", parser.SimplifyLinks("[[dog|Dogs]]"));
+
+            // ...and sensitivity of others
+            Assert.AreEqual("[[dog|dOgs]]", parser.SimplifyLinks("[[dog|dOgs]]"));
+
             //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_2#Inappropriate_link_compression
             Assert.AreEqual("[[foo|foo3]]", parser.SimplifyLinks("[[foo|foo3]]"));
+
+            // don't touch suffices with caps to avoid funky results like
+            // http://en.wikipedia.org/w/index.php?diff=195760456
+            Assert.AreEqual("[[FOO|FOOBAR]]", parser.SimplifyLinks("[[FOO|FOOBAR]]"));
+            Assert.AreEqual("[[foo|fooBAR]]", parser.SimplifyLinks("[[foo|fooBAR]]"));
         }
 
         [Test]
@@ -350,7 +362,7 @@ http://example.com }}");
             Assert.AreEqual("[[Category:Bar|boz]]", p.ReCategoriser("Foo", "Bar", "[[Category:Foo|boz]]", out noChange));
             Assert.IsFalse(noChange);
 
-            Assert.AreEqual("[[Category:Bar| boz]]", p.ReCategoriser("Foo", "Bar", "[[Category:Foo| boz]]", out noChange));
+            Assert.AreEqual("[[Category:Bar| boz]]", p.ReCategoriser("foo? Bar!", "Bar", "[[ category:Foo? Bar! | boz]]", out noChange));
             Assert.IsFalse(noChange);
 
             Assert.AreEqual(@"[[Category:Boz]]
@@ -365,6 +377,33 @@ http://example.com }}");
 
             Assert.AreEqual("[[Category:Fooo]]", p.ReCategoriser("Foo", "Bar", "[[Category:Fooo]]", out noChange));
             Assert.IsTrue(noChange);
+        }
+
+        [Test]
+        public void Removal()
+        {
+            bool noChange;
+
+            Assert.AreEqual("", p.RemoveCategory("Foo", "[[Category:Foo]]", out noChange));
+            Assert.IsFalse(noChange);
+
+            Assert.AreEqual("", p.RemoveCategory("Foo", "[[ category: foo | bar]]", out noChange));
+            Assert.IsFalse(noChange);
+
+            Assert.AreEqual("", p.RemoveCategory("Foo", "[[Category:Foo|]]", out noChange));
+            Assert.IsFalse(noChange);
+
+            Assert.AreEqual("  ", p.RemoveCategory("Foo", " [[Category:Foo]] ", out noChange));
+            Assert.IsFalse(noChange);
+
+            Assert.AreEqual("", p.RemoveCategory("Foo", "[[Category:Foo]]\r\n", out noChange));
+            Assert.IsFalse(noChange);
+
+            Assert.AreEqual("\r\n", p.RemoveCategory("Foo", "[[Category:Foo]]\r\n\r\n", out noChange));
+            Assert.IsFalse(noChange);
+
+            Assert.AreEqual("", p.RemoveCategory("Foo? Bar!", "[[Category:Foo? Bar!|boz]]", out noChange));
+            Assert.IsFalse(noChange);
         }
     }
 }
