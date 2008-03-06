@@ -449,16 +449,17 @@ namespace WikiFunctions.Parse
 
         private void testRegexToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RegexTester t = new RegexTester();
             DataGridViewRow row = dataGridView1.CurrentRow;
 
             if (row == null) return;
 
-            Replacement rep = RowToReplacement(row);
+            RegexTester t = new RegexTester(true);
 
             t.Find = (string)row.Cells["find"].Value;
             t.Replace = (string)row.Cells["replace"].Value;
-            t.RegexOptions = rep.RegularExpressionOptions;
+            t.Multiline = (bool)row.Cells["multi"].FormattedValue;
+            t.Singleline = (bool)row.Cells["single"].FormattedValue;
+            t.IgnoreCase = !(bool)row.Cells["casesensitive"].FormattedValue;
 
             if (Variables.MainForm != null && Variables.MainForm.EditBox.Enabled)
                 t.ArticleText = Variables.MainForm.EditBox.Text;
@@ -467,11 +468,9 @@ namespace WikiFunctions.Parse
             {
                 row.Cells["find"].Value = t.Find;
                 row.Cells["replace"].Value = t.Replace;
-                RegexOptions ro = t.RegexOptions;
-
-                row.Cells["multi"].Value = (ro & RegexOptions.Multiline) != 0;
-                row.Cells["single"].Value = (ro & RegexOptions.Singleline) != 0;
-                row.Cells["casesensitive"].Value = (ro & RegexOptions.IgnoreCase) == 0;
+                row.Cells["multi"].Value = t.Multiline;
+                row.Cells["single"].Value = t.Singleline;
+                row.Cells["casesensitive"].Value = !t.IgnoreCase;
             }
         }
 
