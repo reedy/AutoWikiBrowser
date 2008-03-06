@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 1.4: Whoops, try again for Simple English (and I'll test it this time!)
 1.5: Layout standardisation. URL check for WowWiki.
 */
-define(MAJOR, 1); define(MINOR, 4); // TINYINTS; 10 is higher than (0)9
+define(MAJOR, 1); define(MINOR, 5); // TINYINTS; 10 is higher than (0)9
 
 /* Variables:
 Action: Hello, Update

@@ -230,7 +230,7 @@ EOF;
 	$row = $db->errors();
 	PrintTableRow('Submission errors', $row['Errors']);
 	$row = $db->errors_fixed();
-	PrintTableRow('Submission errors (fixed)', $row['Errors']);
+	PrintTableRow('Submission errors (not fixed)', $row['Errors']);
 	
 	// Username not recorded
 	$row = $db->missing_usernames_count();
