@@ -718,7 +718,7 @@ namespace WikiFunctions.Parse
                         bool doBreak = false;
                         foreach (char ch in b.Remove(0, a.Length))
                         {
-                            if (!char.IsLetter(ch))
+                            if (!char.IsLower(ch))
                             {
                                 doBreak = true;
                                 break;
@@ -1360,7 +1360,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             testText = ArticleText;
 
-            if (Regex.IsMatch(ArticleText, "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + Tools.CaseInsensitive(Regex.Escape(NewCategory)) + "( ?\\|| ?\\]\\])"))
+            if (Regex.IsMatch(ArticleText, "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + Tools.CaseInsensitive(Regex.Escape(NewCategory)) + @"\s*(\||\]\])"))
             {
                 bool tmp;
                 ArticleText = RemoveCategory(OldCategory, ArticleText, out tmp);
@@ -1370,7 +1370,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 OldCategory = Regex.Escape(OldCategory);
                 OldCategory = Tools.CaseInsensitive(OldCategory);
 
-                OldCategory = Variables.Namespaces[14] + OldCategory + "( ?\\|| ?\\]\\])";
+                OldCategory = Variables.Namespaces[14] + OldCategory + @"\s*(\||\]\])";
                 NewCategory = Variables.Namespaces[14] + NewCategory + "$1";
 
                 ArticleText = Regex.Replace(ArticleText, OldCategory, NewCategory);

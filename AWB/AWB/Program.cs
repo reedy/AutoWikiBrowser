@@ -34,6 +34,8 @@ namespace AutoWikiBrowser
         {
             try
             {
+                Control.CheckForIllegalCrossThreadCalls = true;
+                System.Threading.Thread.CurrentThread.Name = "Main thread";
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
