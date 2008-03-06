@@ -93,9 +93,18 @@ class DB {
 			"{$versionarray[0]}, {$versionarray[1]}, {$versionarray[2]}, {$versionarray[3]}");
 		
 		// Wiki and langcode
-		if ($_POST['Wiki'] == "") dead("Received an empty sitename string");
-				
 		switch ($_POST['Wiki'])
+		{
+			case '':
+				dead("Received an empty sitename string");
+			case 'wowwiki.com':
+				$wiki='www.wowwiki.com';
+				break;
+			default:
+				$wiki=$_POST['Wiki'];
+		}
+				
+		switch ($wiki)
 		{
 			case 'species':
 			case 'commons':
@@ -111,8 +120,8 @@ class DB {
 		}
 
 		// we maybe ought to cache some of this stuff, e.g. Wikipedia EN, current AWB version, etc
-		$wikiid=$this->get_or_add_lookup_record('lkpWikis', 'SiteID', "Site=\"{$_POST['Wiki']}\" AND ".
-			"LangCode=\"{$langcode}\"", 'Site, LangCode', "\"{$_POST['Wiki']}\", \"{$langcode}\"");
+		$wikiid=$this->get_or_add_lookup_record('lkpWikis', 'SiteID', "Site=\"{$wiki}\" AND ".
+			"LangCode=\"{$langcode}\"", 'Site, LangCode', "\"{$wiki}\", \"{$langcode}\"");
 		
 		// Culture
 		$culturearray=explode("-", $_POST['Culture']);

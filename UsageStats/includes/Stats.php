@@ -121,8 +121,8 @@ Statistics on AWB usage since 3 March 2008.
   </tr>
   <tr>
     <th>Site</th>
-    <th>Sessions</th>
-	<th>No of Saves</th>
+    <th>Number of Sessions</th>
+	<th>Number of Saves</th>
   </tr>
 EOF;
 
@@ -234,7 +234,8 @@ EOF;
 	
 	// Username not recorded
 	$row = $db->missing_usernames_count();
-	PrintTableRow('Number of sessions where username not recorded', $row['MissingUsernames']);	
+	PrintTableRow('Number of sessions where username not recorded', $row['MissingUsernames']);
+	echo '<!-- kingboyk: Not sure what\'s happening here, seems to be RU wiki only possibly just one user... do we still have a bug in username gathering or did he perhaps alter the AWB source code? Hmm... -->';
 ?>
 
 </table>
@@ -269,8 +270,8 @@ function OS_XHTML($result, $headersuffix) {
   </tr>
 	<tr>
 		<th>OS</th>
-		<th>Number of Saves</th>
 		<th>Number of Sessions</th>
+		<th>Number of Saves</th>
 	</tr>
 EOF;
 
@@ -280,8 +281,8 @@ EOF;
 
 	<tr>
 		<td>{$row['OS']}</td>
-		<td>{$row['SumOfSaves']}</td>
 		<td>{$row['CountOfSessionID']}</td>
+		<td>{$row['SumOfSaves']}</td>
 	</tr>
 EOF;
 	}
