@@ -44,10 +44,10 @@ namespace WikiFunctions.Controls
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.label4 = new System.Windows.Forms.Label();
-            this.Singleline = new System.Windows.Forms.CheckBox();
-            this.explicitcapture = new System.Windows.Forms.CheckBox();
-            this.Ignorecase = new System.Windows.Forms.CheckBox();
-            this.Multiline = new System.Windows.Forms.CheckBox();
+            this.chkSingleline = new System.Windows.Forms.CheckBox();
+            this.chkExplicitCapture = new System.Windows.Forms.CheckBox();
+            this.chkIgnoreCase = new System.Windows.Forms.CheckBox();
+            this.chkMultiline = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -201,62 +201,62 @@ namespace WikiFunctions.Controls
             // 
             // Singleline
             // 
-            this.Singleline.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.Singleline.AutoSize = true;
-            this.Singleline.Location = new System.Drawing.Point(90, 20);
-            this.Singleline.Name = "Singleline";
-            this.Singleline.Size = new System.Drawing.Size(75, 17);
-            this.Singleline.TabIndex = 22;
-            this.Singleline.Text = "SingleLine";
-            this.toolTip1.SetToolTip(this.Singleline, "Specifies single-line mode. Changes the meaning of the dot (.) so it matches ever" +
+            this.chkSingleline.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.chkSingleline.AutoSize = true;
+            this.chkSingleline.Location = new System.Drawing.Point(90, 20);
+            this.chkSingleline.Name = "Singleline";
+            this.chkSingleline.Size = new System.Drawing.Size(75, 17);
+            this.chkSingleline.TabIndex = 22;
+            this.chkSingleline.Text = "SingleLine";
+            this.toolTip1.SetToolTip(this.chkSingleline, "Specifies single-line mode. Changes the meaning of the dot (.) so it matches ever" +
                     "y character (instead of every character except \\n)");
-            this.Singleline.UseVisualStyleBackColor = true;
+            this.chkSingleline.UseVisualStyleBackColor = true;
             // 
             // explicitcapture
             // 
-            this.explicitcapture.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.explicitcapture.AutoSize = true;
-            this.explicitcapture.Location = new System.Drawing.Point(90, 43);
-            this.explicitcapture.Name = "explicitcapture";
-            this.explicitcapture.Size = new System.Drawing.Size(96, 17);
-            this.explicitcapture.TabIndex = 21;
-            this.explicitcapture.Text = "ExplicitCapture";
-            this.toolTip1.SetToolTip(this.explicitcapture, resources.GetString("explicitcapture.ToolTip"));
-            this.explicitcapture.UseVisualStyleBackColor = true;
+            this.chkExplicitCapture.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.chkExplicitCapture.AutoSize = true;
+            this.chkExplicitCapture.Location = new System.Drawing.Point(90, 43);
+            this.chkExplicitCapture.Name = "explicitcapture";
+            this.chkExplicitCapture.Size = new System.Drawing.Size(96, 17);
+            this.chkExplicitCapture.TabIndex = 21;
+            this.chkExplicitCapture.Text = "ExplicitCapture";
+            this.toolTip1.SetToolTip(this.chkExplicitCapture, resources.GetString("explicitcapture.ToolTip"));
+            this.chkExplicitCapture.UseVisualStyleBackColor = true;
             // 
             // Ignorecase
             // 
-            this.Ignorecase.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.Ignorecase.AutoSize = true;
-            this.Ignorecase.Location = new System.Drawing.Point(6, 43);
-            this.Ignorecase.Name = "Ignorecase";
-            this.Ignorecase.Size = new System.Drawing.Size(80, 17);
-            this.Ignorecase.TabIndex = 20;
-            this.Ignorecase.Text = "IgnoreCase";
-            this.toolTip1.SetToolTip(this.Ignorecase, "Specifies case-insensitive matching");
-            this.Ignorecase.UseVisualStyleBackColor = true;
+            this.chkIgnoreCase.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.chkIgnoreCase.AutoSize = true;
+            this.chkIgnoreCase.Location = new System.Drawing.Point(6, 43);
+            this.chkIgnoreCase.Name = "Ignorecase";
+            this.chkIgnoreCase.Size = new System.Drawing.Size(80, 17);
+            this.chkIgnoreCase.TabIndex = 20;
+            this.chkIgnoreCase.Text = "IgnoreCase";
+            this.toolTip1.SetToolTip(this.chkIgnoreCase, "Specifies case-insensitive matching");
+            this.chkIgnoreCase.UseVisualStyleBackColor = true;
             // 
             // Multiline
             // 
-            this.Multiline.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.Multiline.AutoSize = true;
-            this.Multiline.Location = new System.Drawing.Point(6, 20);
-            this.Multiline.Name = "Multiline";
-            this.Multiline.Size = new System.Drawing.Size(68, 17);
-            this.Multiline.TabIndex = 19;
-            this.Multiline.Text = "MultiLine";
-            this.toolTip1.SetToolTip(this.Multiline, "Multiline mode. Changes the meaning of ^ and $ so they match at the beginning and" +
+            this.chkMultiline.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.chkMultiline.AutoSize = true;
+            this.chkMultiline.Location = new System.Drawing.Point(6, 20);
+            this.chkMultiline.Name = "Multiline";
+            this.chkMultiline.Size = new System.Drawing.Size(68, 17);
+            this.chkMultiline.TabIndex = 19;
+            this.chkMultiline.Text = "MultiLine";
+            this.toolTip1.SetToolTip(this.chkMultiline, "Multiline mode. Changes the meaning of ^ and $ so they match at the beginning and" +
                     " end, respectively, of any line, and not just the beginning and end of the entir" +
                     "e string");
-            this.Multiline.UseVisualStyleBackColor = true;
+            this.chkMultiline.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.Singleline);
-            this.groupBox1.Controls.Add(this.explicitcapture);
-            this.groupBox1.Controls.Add(this.Ignorecase);
-            this.groupBox1.Controls.Add(this.Multiline);
+            this.groupBox1.Controls.Add(this.chkSingleline);
+            this.groupBox1.Controls.Add(this.chkExplicitCapture);
+            this.groupBox1.Controls.Add(this.chkIgnoreCase);
+            this.groupBox1.Controls.Add(this.chkMultiline);
             this.groupBox1.Location = new System.Drawing.Point(482, 6);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(189, 69);
@@ -322,10 +322,10 @@ namespace WikiFunctions.Controls
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.CheckBox Singleline;
-        private System.Windows.Forms.CheckBox explicitcapture;
-        private System.Windows.Forms.CheckBox Ignorecase;
-        private System.Windows.Forms.CheckBox Multiline;
+        private System.Windows.Forms.CheckBox chkSingleline;
+        private System.Windows.Forms.CheckBox chkExplicitCapture;
+        private System.Windows.Forms.CheckBox chkIgnoreCase;
+        private System.Windows.Forms.CheckBox chkMultiline;
     }
 }
 

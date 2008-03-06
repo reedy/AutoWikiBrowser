@@ -38,6 +38,14 @@ namespace WikiFunctions.Controls
             InitializeComponent();
         }
 
+        public RegexTester(bool ask)
+            :this()
+        {
+            AskToApply = ask;
+        }
+
+        #region Properties
+
         public string ArticleText
         {
             set { Source.Text = value; }
@@ -60,22 +68,49 @@ namespace WikiFunctions.Controls
             get
             {
                 RegexOptions res = RegexOptions.None;
-                if (Multiline.Checked) res |= RegexOptions.Multiline;
-                if (Singleline.Checked) res |= RegexOptions.Singleline;
-                if (Ignorecase.Checked) res |= RegexOptions.IgnoreCase;
+                if (chkMultiline.Checked) res |= RegexOptions.Multiline;
+                if (chkSingleline.Checked) res |= RegexOptions.Singleline;
+                if (chkIgnoreCase.Checked) res |= RegexOptions.IgnoreCase;
+                if (chkExplicitCapture.Checked) res |= RegexOptions.ExplicitCapture;
 
                 return res;
             }
 
             set
             {
-                Multiline.Checked = (value & RegexOptions.Multiline) != 0;
-                Singleline.Checked = (value & RegexOptions.Singleline) != 0;
-                Ignorecase.Checked = (value & RegexOptions.IgnoreCase) != 0;
+                chkMultiline.Checked = (value & RegexOptions.Multiline) != 0;
+                chkSingleline.Checked = (value & RegexOptions.Singleline) != 0;
+                chkIgnoreCase.Checked = (value & RegexOptions.IgnoreCase) != 0;
+                chkExplicitCapture.Checked = (value & RegexOptions.ExplicitCapture) != 0;
             }
         }
 
+        public bool Multiline
+        {
+            get { return chkMultiline.Checked; }
+            set { chkMultiline.Checked = value; }
+        }
+
+        public bool Singleline
+        {
+            get { return chkSingleline.Checked; }
+            set { chkSingleline.Checked = value; }
+        }
+
+        public bool IgnoreCase
+        {
+            get { return chkIgnoreCase.Checked; }
+            set { chkIgnoreCase.Checked = value; }
+        }
+
+        public bool ExplicitCapture
+        {
+            get { return chkExplicitCapture.Checked; }
+            set { chkExplicitCapture.Checked = value; }
+        }
+
         public bool AskToApply = false;
+        #endregion
 
         private void ConditionsChanged(object sender, EventArgs e)
         {
@@ -96,10 +131,10 @@ namespace WikiFunctions.Controls
             {
                 // this was a bit confusing (Multiline box turns on Singleline!), much better to have boxes which correspond directly to the dotnet RegexOptions see e.g. http://www.regexlib.com/RETester.aspx
                 RegexOptions res = RegexOptions.None;
-                if (Multiline.Checked) res |= RegexOptions.Multiline;
-                if (Singleline.Checked) res |= RegexOptions.Singleline; 
-                if (Ignorecase.Checked) res |= RegexOptions.IgnoreCase;
-                if (explicitcapture.Checked) res |= RegexOptions.ExplicitCapture;
+                if (chkMultiline.Checked) res |= RegexOptions.Multiline;
+                if (chkSingleline.Checked) res |= RegexOptions.Singleline; 
+                if (chkIgnoreCase.Checked) res |= RegexOptions.IgnoreCase;
+                if (chkExplicitCapture.Checked) res |= RegexOptions.ExplicitCapture;
 
                 return res;
             }
