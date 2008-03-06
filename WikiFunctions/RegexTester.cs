@@ -129,7 +129,6 @@ namespace WikiFunctions.Controls
         {
             get
             {
-                // this was a bit confusing (Multiline box turns on Singleline!), much better to have boxes which correspond directly to the dotnet RegexOptions see e.g. http://www.regexlib.com/RETester.aspx
                 RegexOptions res = RegexOptions.None;
                 if (chkMultiline.Checked) res |= RegexOptions.Multiline;
                 if (chkSingleline.Checked) res |= RegexOptions.Singleline; 
