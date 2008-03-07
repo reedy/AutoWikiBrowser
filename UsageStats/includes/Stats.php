@@ -80,6 +80,7 @@ function htmlstats(){
 			font-weight: bold;
 		}
 	</style>
+	<script src="/res/sorttable.js" language="javascript" type="text/javascript"></script>
 </head>
 <body>
 <h2><a href="http://en.wikipedia.org/wiki/WP:AWB">AutoWikiBrowser</a> Usage Stats</h2>
@@ -116,13 +117,15 @@ Statistics on AWB usage since 3 March 2008.
 
 </table>
 <p/>
-<table>
-  <caption>Sessions &amp; saves per site<sup><a href="#2">2</a></sup></caption>
-  <tr>
-    <th scope="col">Site</th>
-    <th scope="col">Number of Sessions</th>
-	<th scope="col">Number of Saves</th>
-  </tr>
+<table class="sortable">
+	<caption>Sessions &amp; saves per site<sup><a href="#2">2</a></sup></caption>
+<thead>
+	<tr>
+		<th scope="col">Site</th>
+		<th scope="col">Number of Sessions</th>
+		<th scope="col">Number of Saves</th>
+	</tr>
+</thead>
 EOF;
 
 	$result = $db->sites();
@@ -151,13 +154,15 @@ EOF;
 
 </table>
 <p/>
-<table>
-  <caption>UI Cultures</caption>
+<table class="sortable">
+	<caption>UI Cultures</caption>
+<thead>
 	<tr>
 		<th scope="col">Language</th>
 		<th scope="col">Country</th>
 		<th scope="col">Number of Saves</th>
 	</tr>
+</thead>
 EOF;
 	$result = $db->cultures();
 	
@@ -182,11 +187,13 @@ EOF;
 <p/>
 <table>
 	<caption>User with the most saves<sup><a href="#3">3</a></sup></caption>
+<thead>
 	<tr>
 		<th scope="col">Site</th>
 		<th scope="col">LangCode</th>
 		<th scope="col">Number of Saves</th>
 	</tr>
+</thead>
 	<tr>
 		<td>{$row['Site']}</td>
 		<td>{$row['LangCode']}</td>
@@ -199,7 +206,7 @@ EOF;
 
 </table>
 <p/>
-<table>
+<table class="sortable">
 	<caption>Known Plugins</caption>
 EOF;
 
@@ -275,13 +282,15 @@ function OS_XHTML($result, $headersuffix) {
 
 </table>
 <p/>
-<table>
-  <caption>Operating Systems{$headersuffix}</caption>
+<table class="sortable">
+<caption>Operating Systems{$headersuffix}</caption>
+<thead>
 	<tr>
 		<th scope="row">OS</th>
 		<th scope="row">Number of Sessions</th>
 		<th scope="row">Number of Saves</th>
 	</tr>
+</thead>
 EOF;
 
 	while($row = $result->fetch_assoc())
