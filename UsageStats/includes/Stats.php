@@ -112,6 +112,14 @@ Statistics on AWB usage since 3 March 2008.
 	$row = $db->plugin_count();
 	PrintTableRow('Number of Plugins Known', $row['Plugins']);
 
+	// Number of log entries
+	$row = $db->db_mysql_query_single_row('SELECT COUNT(DISTINCT LogID) as LogIDCount FROM log', 'htmlstats', 'Stats'); // note: we'll only display this on this web page, hence doing it here
+	PrintTableRow('Number of Log Entries', $row['LogIDCount']);
+
+	// Record count
+	$row = $db->record_count();
+	PrintTableRow('Total Number of Records in Database', $row['RecordCount']);
+
 	//Sessions & Saves per sites
 	echo <<< EOF
 
@@ -243,14 +251,6 @@ EOF;
 	$row = $db->missing_usernames_count();
 	PrintTableRow('Number of sessions where username not recorded', $row['MissingUsernames']);
 	echo '<!-- kingboyk: Not sure what\'s happening here, seems to be RU wiki only possibly just one user... do we still have a bug in username gathering or did he perhaps alter the AWB source code? Hmm... -->';
-
-	// Number of log entries
-	$row = $db->db_mysql_query_single_row('SELECT COUNT(DISTINCT LogID) as LogIDCount FROM log', 'htmlstats', 'Stats'); // note: we'll only display this on this web page, hence doing it here
-	PrintTableRow('Number of Log Entries', $row['LogIDCount']);
-
-	// Record count
-	$row = $db->record_count();
-	PrintTableRow('Total Number of Records in Database', $row['RecordCount']);
 ?>
 
 </table>
