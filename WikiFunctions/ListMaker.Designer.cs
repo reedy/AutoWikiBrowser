@@ -103,7 +103,7 @@ namespace WikiFunctions.Controls.Lists
             // 
             // lblNumberOfArticles
             // 
-            this.lblNumberOfArticles.Location = new System.Drawing.Point(3, 56);
+            this.lblNumberOfArticles.Location = new System.Drawing.Point(3, 57);
             this.lblNumberOfArticles.Name = "lblNumberOfArticles";
             this.lblNumberOfArticles.Size = new System.Drawing.Size(74, 20);
             this.lblNumberOfArticles.TabIndex = 28;
@@ -144,7 +144,7 @@ namespace WikiFunctions.Controls.Lists
             // btnMakeList
             // 
             this.btnMakeList.Enabled = false;
-            this.btnMakeList.Location = new System.Drawing.Point(83, 56);
+            this.btnMakeList.Location = new System.Drawing.Point(90, 56);
             this.btnMakeList.Name = "btnMakeList";
             this.btnMakeList.Size = new System.Drawing.Size(62, 23);
             this.btnMakeList.TabIndex = 3;
@@ -223,7 +223,7 @@ namespace WikiFunctions.Controls.Lists
             this.openInBrowserToolStripMenuItem,
             this.openHistoryInBrowserToolStripMenuItem});
             this.mnuListBox.Name = "contextMenuStrip2";
-            this.mnuListBox.Size = new System.Drawing.Size(209, 480);
+            this.mnuListBox.Size = new System.Drawing.Size(209, 458);
             this.mnuListBox.Opening += new System.ComponentModel.CancelEventHandler(this.mnuListBox_Opening);
             // 
             // filterOutNonMainSpaceArticlesToolStripMenuItem
@@ -583,8 +583,8 @@ namespace WikiFunctions.Controls.Lists
             this.Controls.Add(this.cmboSourceSelect);
             this.Controls.Add(this.lblSourceSelect);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.btnMakeList);
             this.Controls.Add(this.lblNumberOfArticles);
+            this.Controls.Add(this.btnMakeList);
             this.Name = "ListMaker";
             this.Size = new System.Drawing.Size(201, 351);
             this.mnuListBox.ResumeLayout(false);
