@@ -26,8 +26,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 1.3: Bug fix for Simple English Wikipedia; add script version to output stats
 1.4: Whoops, try again for Simple English (and I'll test it this time!)
 1.5: Layout standardisation. URL check for WowWiki. Make table cells sortable. Extend use of CSS.
+1.6: Add 127.0.0.1 to table as 'localhost'. Display sites without a dot in the domain name string as '<intranet>'.
 */
-define(MAJOR, 1); define(MINOR, 5); // TINYINTS; 10 is higher than (0)9
+define(MAJOR, 1); define(MINOR, 6); // TINYINTS; 10 is higher than (0)9
 
 /* Variables:
 Action: Hello, Update

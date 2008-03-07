@@ -144,7 +144,7 @@ EOF;
 		echo <<<EOF
 
 	<tr>
-		<td><a href="http://{$site}/">{$site}</a></td>
+		<td>{$site}</td>
 		<td>{$row['CountOfSessionID']}</td>
 		<td>{$row['SumOfSaves']}</td>
 	</tr>
@@ -189,6 +189,7 @@ EOF;
 	
 	//User with the most saves
 	$row = $db->busiest_user();
+	$site=BuildWikiHostname($row['LangCode'], $row['Site']);
 	echo <<< EOF
 
 </table>
@@ -203,7 +204,7 @@ EOF;
 	</tr>
 </thead>
 	<tr>
-		<td>{$row['Site']}</td>
+		<td>{$site}</td>
 		<td>{$row['LangCode']}</td>
 		<td>{$row['SumOfSaves']}</td>
 	</tr>
@@ -311,22 +312,27 @@ EOF;
 function BuildWikiHostname($lang, $site) {
 	switch ($lang)
 	{
-		case 'WIK':
-			return $site;
-		case 'CUS':
+		case 'WIK': // Wikia
+			break; // should be correct already, just needs A HREF
+		case 'CUS': // Custom site, meta, species, or commons
 			switch ($site)
 			{
 				case 'meta':
 				case 'species':
 				case 'commons':
-					$site .= ".wikimedia.org";
+					$site .= '.wikimedia.org';
+				default:
+					if (strpos($site, '.') === false) // use of === false per PHP docs
+						return "&lt;intranet site&gt;<!--{$site}-->";
+					// else already correct domain name
 			}
-			return $site;
-		case 'sim': // "simple" truncated
+			break;
+		case 'sim': // Simple English Wikipedia: "simple" truncated
 			return BuildWikiHostname('simple', $site);
-		default:
-			return "{$lang}.{$site}.org";
-	}	
+		default: // Other Wikimedia sites
+			$site = "{$lang}.{$site}.org";
+	}
+	return "<a href=\"http://{$site}/\">{$site}</a>";
 }
 
 function PrintTableRow($header, $data) {

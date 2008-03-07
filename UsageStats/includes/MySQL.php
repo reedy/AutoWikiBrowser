@@ -100,6 +100,10 @@ class DB {
 			case 'wowwiki.com':
 				$wiki='www.wowwiki.com';
 				break;
+			case 'localhost':
+			case '127.0.0.1':
+				$wiki='localhost';
+				break;
 			default:
 				$wiki=$_POST['Wiki'];
 		}
