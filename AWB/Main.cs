@@ -1928,8 +1928,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 {
                     // TODO: Hide or disable some of the text box context menu stuff, which is likely WP-EN only (and do the opposite for WP-EN)
                     chkAutoTagger.Checked = false;
-                    chkGeneralFixes.Checked = false;
+                    //chkGeneralFixes.Checked = false; // helluva works everywhere.. more or less
                 }
+
+                userTalkWarningsLoaded = false; // force reload
 
                 if (!Variables.IsCustomProject && !Variables.IsWikia && !Variables.IsWikimediaMonolingualProject )
                     lblProject.Text = Variables.LangCode.ToString().ToLower() + "." + Variables.Project;
@@ -3315,8 +3317,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private static void LoadUserTalkWarnings()
         {
-            StringBuilder builder = new StringBuilder("\\{\\{ ?(template:)? ?((");
-            Regex userTalkTemplate = new Regex(@"# \[\[Template:(.*?)\]\]");
+            Regex userTalkTemplate = new Regex(@"# \[\[" + Variables.NamespacesCaseInsensitive[10] + @"(.*?)\]\]");
+            StringBuilder builder = new StringBuilder("(");
+            userTalkTemplatesRegex = null;
+
+            userTalkWarningsLoaded = true; // or it will retry on each page load
             try
             {
                 string text = "";
@@ -3326,24 +3331,23 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 }
                 catch
                 {
+                    return;
                 }
                 foreach (Match m in userTalkTemplate.Matches(text))
                 {
-                    try
-                    {
-                        builder.Append(m.Groups[1].Value + "|");
-                    }
-                    catch { }
+                    builder.Append(m.Groups[1].Value + "|");
                 }
             }
             catch (Exception ex)
             {
                 ErrorHandler.Handle(ex);
             }
-            builder.Remove((builder.Length - 1), 1);
-            builder.Append(") ?(\\|.*?)?) ?\\}\\}");
-            userTalkWarningsLoaded = true;
-            userTalkTemplatesRegex = new Regex(builder.ToString(), RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            if (builder.Length > 1)
+            {
+                builder.Remove((builder.Length - 1), 1);
+                builder.Append(") ?(\\|.*?)?) ?\\}\\}");
+                userTalkTemplatesRegex = new Regex(builder.ToString(), RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            }
         }
 
         private void undoAllChangesToolStripMenuItem_Click(object sender, EventArgs e)
