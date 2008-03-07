@@ -1545,6 +1545,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The new text.</returns>
         public string SubstUserTemplates(string TalkPageText, string TalkPageTitle, Regex userTalkTemplatesRegex)
         {
+            if (userTalkTemplatesRegex == null) return TalkPageText;
+
             TalkPageText = TalkPageText.Replace("{{{subst", "REPLACE_THIS_TEXT");
             Dictionary<Regex, string> regexes = new Dictionary<Regex, string>();
 
