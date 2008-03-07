@@ -85,19 +85,19 @@ namespace AwbUpdater
                     ExitEarly();
                 else
                 {
-                    updateUI("Creating a Temporary Directory");
+                    updateUI("Creating a temporary directory");
                     CreateTempDir();
 
                     updateUI("Downloading AWB");
                     GetAwbFromInternet();
 
-                    updateUI("Unzipping AWB to the Temporary Directory");
+                    updateUI("Unzipping AWB to the temporary directory");
                     UnzipAwb();
 
-                    updateUI("Making Sure AWB is Closed");
+                    updateUI("Making sure AWB is closed");
                     CloseAwb();
 
-                    updateUI("Copying AWB Files from temp to AWB Directory");
+                    updateUI("Copying AWB files from temp to AWB directory");
                     CopyFiles();
                     MessageBox.Show("AWB Update Successful", "Update Successful");
 
@@ -131,7 +131,7 @@ namespace AwbUpdater
         /// </summary>
         private void ExitEarly()
         {
-            MessageBox.Show("Nothing to Update. The Updater will now close");
+            MessageBox.Show("Nothing to update. The Updater will now close");
             StartAwb();
             Application.Exit();
         }
@@ -183,7 +183,7 @@ namespace AwbUpdater
                         awbUpdate = true;
                     else if ((Convert.ToInt32(versionAWB.FileVersion.Replace(".", "")) >= (Convert.ToInt32(m_awbversion.Groups[1].Value))) &&
                         ((Convert.ToInt32(versionAWB.FileVersion.Replace(".", "")) < (Convert.ToInt32(m_awbnewest.Groups[1].Value)))) &&
-                        MessageBox.Show("There is an Optional Update to AutoWikiBrowser. Would you like to Upgrade?", "Optional Update", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        MessageBox.Show("There is an optional update to AutoWikiBrowser. Would you like to upgrade?", "Optional Update", MessageBoxButtons.YesNo) == DialogResult.Yes)
                         awbUpdate = true;
 
                     if (awbUpdate)
@@ -200,7 +200,7 @@ namespace AwbUpdater
                     }
                 }
                 catch
-                { MessageBox.Show("Unable to find AutoWikiBrowser.exe to query Version No."); }
+                { MessageBox.Show("Unable to find AutoWikiBrowser.exe to query its version."); }
 
                 progressUpdate.Value = 30;
             }
@@ -292,45 +292,74 @@ namespace AwbUpdater
             progressUpdate.Value = 75;
         }
 
+        void CopyFile(string source, string destination)
+        {
+            do
+            {
+                try
+                {
+                    File.Copy(source, destination, true);
+                    break;
+                }
+                catch (IOException ex)
+                {
+                    if (MessageBox.Show(
+                        this,
+                        "Problem replacing file:\r\n   " + ex.Message + "\r\n\r\n" +
+                            "Please close all applications that may use it and press 'Retry' to try again " +
+                            "or 'Cancel' to cancel the upgrade.",
+                        "Error",
+                        MessageBoxButtons.RetryCancel,
+                        MessageBoxIcon.Error) != DialogResult.Retry)
+                    {
+                        MessageBox.Show(this, "Update aborted. AutoWikiBrowser may be unfunctional.", "AWB Updater");
+                        KillTempDir();
+                        Close();
+                    }
+                }
+            }
+            while (true);
+        }
+
         /// <summary>
         /// Copies files from the temporary to the working directory
         /// </summary>
         private void CopyFiles()
         {
             if (File.Exists(tempDirectory + "AWBUpdater.exe"))
-                File.Copy(tempDirectory + "AWBUpdater.exe", AWBdirectory + "AWBUpdater.exe.new", true);
+                CopyFile(tempDirectory + "AWBUpdater.exe", AWBdirectory + "AWBUpdater.exe.new");
 
             if (awbUpdate)
             {
-                File.Copy(tempDirectory + "AutoWikiBrowser.exe", AWBdirectory + "AutoWikiBrowser.exe", true);
-                File.Copy(tempDirectory + "AutoWikiBrowser.exe.config", AWBdirectory + "AutoWikiBrowser.exe.config", true);
-                File.Copy(tempDirectory + "WikiFunctions.dll", AWBdirectory + "WikiFunctions.dll", true);
-                File.Copy(tempDirectory + "IRCMonitor.exe", AWBdirectory + "IRCMonitor.exe", true);
-                File.Copy(tempDirectory + "Diff.dll", AWBdirectory + "Diff.dll", true);
+                CopyFile(tempDirectory + "AutoWikiBrowser.exe", AWBdirectory + "AutoWikiBrowser.exe");
+                CopyFile(tempDirectory + "AutoWikiBrowser.exe.config", AWBdirectory + "AutoWikiBrowser.exe.config");
+                CopyFile(tempDirectory + "WikiFunctions.dll", AWBdirectory + "WikiFunctions.dll");
+                CopyFile(tempDirectory + "IRCMonitor.exe", AWBdirectory + "IRCMonitor.exe");
+                CopyFile(tempDirectory + "Diff.dll", AWBdirectory + "Diff.dll");
 
                 if (File.Exists(AWBdirectory + "CFD.dll"))
-                    File.Copy(tempDirectory + "Plugins\\CFD\\CFD.dll", AWBdirectory + "CFD.dll", true);
+                    CopyFile(tempDirectory + "Plugins\\CFD\\CFD.dll", AWBdirectory + "CFD.dll");
 
                 if (!Directory.Exists(AWBdirectory + "\\Plugins\\CFD"))
                     Directory.CreateDirectory(AWBdirectory + "\\Plugins\\CFD");
 
-                File.Copy(tempDirectory + "Plugins\\CFD\\CFD.dll", AWBdirectory + "Plugins\\CFD\\CFD.dll", true);
+                CopyFile(tempDirectory + "Plugins\\CFD\\CFD.dll", AWBdirectory + "Plugins\\CFD\\CFD.dll");
 
                 if (File.Exists(AWBdirectory + "IFD.dll"))
-                    File.Copy(tempDirectory + "Plugins\\IFD\\IFD.dll", AWBdirectory + "IFD.dll", true);
+                    CopyFile(tempDirectory + "Plugins\\IFD\\IFD.dll", AWBdirectory + "IFD.dll");
 
                 if (!Directory.Exists(AWBdirectory + "\\Plugins\\IFD"))
                     Directory.CreateDirectory(AWBdirectory + "\\Plugins\\IFD");
 
-                File.Copy(tempDirectory + "Plugins\\IFD\\IFD.dll", AWBdirectory + "Plugins\\IFD\\IFD.dll", true);
+                CopyFile(tempDirectory + "Plugins\\IFD\\IFD.dll", AWBdirectory + "Plugins\\IFD\\IFD.dll");
 
                 if (File.Exists(AWBdirectory + "Kingbotk AWB Plugin.dll"))
-                    File.Copy(tempDirectory + "Plugins\\Kingbotk\\Kingbotk AWB Plugin.dll", AWBdirectory + "Kingbotk AWB Plugin.dll", true);
+                    CopyFile(tempDirectory + "Plugins\\Kingbotk\\Kingbotk AWB Plugin.dll", AWBdirectory + "Kingbotk AWB Plugin.dll");
 
                 if (!Directory.Exists(AWBdirectory + "Plugins\\Kingbotk"))
                     Directory.CreateDirectory(AWBdirectory + "Plugins\\Kingbotk");
 
-                File.Copy(tempDirectory + "Plugins\\Kingbotk\\Kingbotk AWB Plugin.dll", AWBdirectory + "Plugins\\Kingbotk\\Kingbotk AWB Plugin.dll", true);
+                CopyFile(tempDirectory + "Plugins\\Kingbotk\\Kingbotk AWB Plugin.dll", AWBdirectory + "Plugins\\Kingbotk\\Kingbotk AWB Plugin.dll");
 
                 if (File.Exists(AWBdirectory + "WikiFunctions2.dll"))
                     File.Delete(AWBdirectory + "WikiFunctions2.dll");
