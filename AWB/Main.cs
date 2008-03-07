@@ -3318,9 +3318,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private static void LoadUserTalkWarnings()
         {
             Regex userTalkTemplate = new Regex(@"# \[\[" + Variables.NamespacesCaseInsensitive[10] + @"(.*?)\]\]");
-            StringBuilder builder = new StringBuilder("(");
+            StringBuilder builder = new StringBuilder(@"\{\{ ?("+Variables.NamespacesCaseInsensitive[10]+")? ?(("); 
+            
             userTalkTemplatesRegex = null;
-
             userTalkWarningsLoaded = true; // or it will retry on each page load
             try
             {
@@ -3335,7 +3335,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 }
                 foreach (Match m in userTalkTemplate.Matches(text))
                 {
-                    builder.Append(m.Groups[1].Value + "|");
+                    builder.Append(Regex.Escape(m.Groups[1].Value) + "|");
                 }
             }
             catch (Exception ex)
