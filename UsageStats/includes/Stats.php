@@ -45,13 +45,7 @@ function htmlstats(){
 	<meta name="generator" content="AWB UsageStats PHP app v<?php echo MAJOR.'.'.MINOR; ?>" />
 	<meta name="copyright" content="<?php echo "\xC2\xA9"; ?> 2008 Stephen Kennedy, Sam Reed" />
 	<style type="text/css">
-		BODY  {
-			font-size : 12pt;
-			font-family : Arial, Courier, Helvetica;
-			color : Black;
-		}
-		
-		.default  {
+		BODY, .default  {
 			font-size : 12pt;
 			font-family : Arial, Courier, Helvetica;
 			color : Black;
@@ -63,13 +57,27 @@ function htmlstats(){
 		}
 		
 		A:visited {
-			color: purple;
+			color : purple;
 			text-decoration : none;
 		}
 		
 		a:hover  {
 			color : #D79C02;
 			text-decoration : underline;
+		}
+		
+		table, caption {
+			width : 700px;
+		}
+		
+		table, caption, th, td {
+			border-width : 1px;
+			border-style : solid;		
+		}
+		
+		caption {
+			border-bottom-width: 0px;
+			font-weight: bold;
 		}
 	</style>
 </head>
@@ -78,7 +86,8 @@ function htmlstats(){
 Statistics on AWB usage since 3 March 2008.
 <p/>For more information about the AutoWikiBrowser wiki editor, please see our <a href="http://en.wikipedia.org/wiki/WP:AWB">Wikipedia page</a>.
 <p/>
-<table border="1">
+<table>
+	<caption>Overview</caption>
 <?php
 	
 	//Number of sessions, Number of saves,
@@ -102,27 +111,17 @@ Statistics on AWB usage since 3 March 2008.
 	$row = $db->plugin_count();
 	PrintTableRow('Number of Plugins Known', $row['Plugins']);
 
-	// Number of log entries
-	$row = $db->db_mysql_query_single_row('SELECT COUNT(DISTINCT LogID) as LogIDCount FROM log', 'htmlstats', 'Stats'); // note: we'll only display this on this web page, hence doing it here
-	PrintTableRow('Number of Log Entries', $row['LogIDCount']);
-
-	// Record count
-	$row = $db->record_count();
-	PrintTableRow('Total Number of Records in Database', $row['RecordCount']);
-
 	//Sessions & Saves per sites
 	echo <<< EOF
 
 </table>
 <p/>
-<table border="1">
+<table>
+  <caption>Sessions &amp; saves per site<sup><a href="#2">2</a></sup></caption>
   <tr>
-  	<th colspan="3" align="center">Sessions &amp; saves per site<sup><a href="#2">2</a></sup></th>
-  </tr>
-  <tr>
-    <th>Site</th>
-    <th>Number of Sessions</th>
-	<th>Number of Saves</th>
+    <th scope="col">Site</th>
+    <th scope="col">Number of Sessions</th>
+	<th scope="col">Number of Saves</th>
   </tr>
 EOF;
 
@@ -150,13 +149,14 @@ EOF;
 	//Number of saves by language (culture)
 	echo <<< EOF
 
-  <tr>
-  	<th colspan="3" align="center">UI Cultures</th>
-  </tr>
+</table>
+<p/>
+<table>
+  <caption>UI Cultures</caption>
 	<tr>
-		<th>Language</th>
-		<th>Country</th>
-		<th>Number of Saves</th>
+		<th scope="col">Language</th>
+		<th scope="col">Country</th>
+		<th scope="col">Number of Saves</th>
 	</tr>
 EOF;
 	$result = $db->cultures();
@@ -178,13 +178,14 @@ EOF;
 	$row = $db->busiest_user();
 	echo <<< EOF
 
+</table>
+<p/>
+<table>
+	<caption>User with the most saves<sup><a href="#3">3</a></sup></caption>
 	<tr>
-		<th colspan="3" align="center">User with the most saves<sup><a href="#3">3</a></sup></th>
-	</tr>
-	<tr>
-		<th>Site</th>
-		<th>LangCode</th>
-		<th>Number of Saves</th>
+		<th scope="col">Site</th>
+		<th scope="col">LangCode</th>
+		<th scope="col">Number of Saves</th>
 	</tr>
 	<tr>
 		<td>{$row['Site']}</td>
@@ -196,9 +197,10 @@ EOF;
 	// List of plugins
 	echo <<< EOF
 
-	<tr>
-		<th colspan="3" align="center">Known Plugins</th>
-	</tr>
+</table>
+<p/>
+<table>
+	<caption>Known Plugins</caption>
 EOF;
 
 	$result = $db->plugins();
@@ -217,12 +219,10 @@ EOF;
 ?>
 </table>
 <p/>
-<table border="1">
+<table>
+	<caption>Diagnostics</caption>
 	<tr>
-		<th colspan="2">Diagnostics</th>
-	</tr>
-	<tr>
-		<th align="left">Script version</th><td><?php echo MAJOR.'.'.MINOR; ?></td>
+		<th align="left" scope="row">Script version</th><td><?php echo MAJOR.'.'.MINOR; ?></td>
 	</tr>	
 <?php
 
@@ -236,6 +236,14 @@ EOF;
 	$row = $db->missing_usernames_count();
 	PrintTableRow('Number of sessions where username not recorded', $row['MissingUsernames']);
 	echo '<!-- kingboyk: Not sure what\'s happening here, seems to be RU wiki only possibly just one user... do we still have a bug in username gathering or did he perhaps alter the AWB source code? Hmm... -->';
+
+	// Number of log entries
+	$row = $db->db_mysql_query_single_row('SELECT COUNT(DISTINCT LogID) as LogIDCount FROM log', 'htmlstats', 'Stats'); // note: we'll only display this on this web page, hence doing it here
+	PrintTableRow('Number of Log Entries', $row['LogIDCount']);
+
+	// Record count
+	$row = $db->record_count();
+	PrintTableRow('Total Number of Records in Database', $row['RecordCount']);
 ?>
 
 </table>
@@ -265,13 +273,14 @@ their username or switching to a different wiki mid-session.
 function OS_XHTML($result, $headersuffix) {
 	echo <<< EOF
 
-  <tr>
-  	<th colspan="3" align="center">Operating Systems{$headersuffix}</th>
-  </tr>
+</table>
+<p/>
+<table>
+  <caption>Operating Systems{$headersuffix}</caption>
 	<tr>
-		<th>OS</th>
-		<th>Number of Sessions</th>
-		<th>Number of Saves</th>
+		<th scope="row">OS</th>
+		<th scope="row">Number of Sessions</th>
+		<th scope="row">Number of Saves</th>
 	</tr>
 EOF;
 
@@ -315,7 +324,7 @@ function PrintTableRow($header, $data) {
 	echo <<<EOF
 	
 	<tr>
-		<th align="left">{$header}</th><td>{$data}</td>
+		<th align="left" scope="row">{$header}</th><td>{$data}</td>
 	</tr>
 EOF;
 }
