@@ -152,7 +152,10 @@ namespace WikiFunctions.Parse
         /// <returns>The re-organised text.</returns>
         public string SortMetaData(string ArticleText, string ArticleTitle)
         {
-            return Sorter.Sort(ArticleText, ArticleTitle);
+            if (Variables.Project <= ProjectEnum.lastWMF)
+                return Sorter.Sort(ArticleText, ArticleTitle);
+            else
+                return ArticleText;
         }
 
         readonly Regex regexFixDates0 = new Regex(@"(the |later? |early |mid-)(\[?\[?[12][0-9][0-9]0\]?\]?)'s(\]\])?", RegexOptions.IgnoreCase | RegexOptions.Compiled);

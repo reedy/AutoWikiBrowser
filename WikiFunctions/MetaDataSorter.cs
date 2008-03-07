@@ -97,15 +97,77 @@ namespace WikiFunctions.Parse
             WikiquoteLanguages.Sort();
             WikiversityLanguages.Sort();
         }
+
+        public static List<string> GetProjectLanguages(ProjectEnum project)
+        {
+            switch (project)
+            {
+                case ProjectEnum.wikipedia:
+                case ProjectEnum.meta:
+                case ProjectEnum.commons:
+                case ProjectEnum.species:
+                    return WikipediaLanguages;
+
+                case ProjectEnum.wiktionary:
+                    return WiktionaryLanguages;
+
+                case ProjectEnum.wikisource:
+                    return WikisourceLanguages;
+
+                case ProjectEnum.wikibooks:
+                    return WikibooksLanguages;
+
+                case ProjectEnum.wikinews:
+                    return WikinewsLanguages;
+
+                case ProjectEnum.wikiquote:
+                    return WikiquoteLanguages;
+
+                case ProjectEnum.wikiversity:
+                    return WikiversityLanguages;
+
+                default:
+                    return new List<string>();
+            }
+        }
     }
     
     internal sealed class InterWikiComparer : IComparer<string>
     {
         Dictionary<string, int> Order = new Dictionary<string, int>();
-        public InterWikiComparer(string[] order)
+        public InterWikiComparer(List<string> order, List<string> languages)
         {
+            languages = new List<string>(languages); // make a copy
+            List<string> unordered = new List<string>();
+            List<string> output = new List<string>();
+
+            // remove unneeded languages from order
+            for (int i = 0; i < order.Count; )
+            {
+                if (languages.Contains(order[i])) i++;
+                else order.RemoveAt(i);
+            }
+
+            foreach(string s in languages)
+                if (!order.Contains(s)) unordered.Add(s);
+
+            if(unordered.Count == 0) output = order;
+            else for (int i = 0; i < languages.Count; i++)
+            {
+                if (unordered.Contains(languages[i]))
+                {
+                    output.Add(languages[i]);
+                    unordered.RemoveAt(0);
+                }
+                else
+                {
+                    output.Add(order[0]);
+                    order.RemoveAt(0);
+                }
+            }
+
             int n = 0;
-            foreach (string s in order)
+            foreach (string s in languages)
             {
                 Order.Add("[[" + s, n);
                 n++;
@@ -142,8 +204,8 @@ namespace WikiFunctions.Parse
             if (InterwikiLocalAlpha == null)
                 throw new ArgumentNullException();
 
-            string s = string.Join("|", InterwikiLocalAlpha);
-            s = @"\[\[\s*(" + s + @")\s*:\s*([^\]]*)\s*\]\]";
+            string s = string.Join("|", SiteMatrix.WikipediaLanguages.ToArray());
+            s = @"\[\[\s?(" + s + @")\s?:\s?([^\]]*)\s?\]\]";
             FastIW = new Regex(s, RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
             //create a comparer
@@ -192,7 +254,7 @@ namespace WikiFunctions.Parse
                         throw new ArgumentOutOfRangeException("MetaDataSorter.InterWikiOrder",
                             (System.Exception)null);
                 }
-                Comparer = new InterWikiComparer(seq);
+                Comparer = new InterWikiComparer(new List<string>(seq), SiteMatrix.GetProjectLanguages(Variables.Project));
             }
             get
             {
