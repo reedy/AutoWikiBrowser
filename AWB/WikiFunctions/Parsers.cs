@@ -502,10 +502,9 @@ namespace WikiFunctions.Parse
         {
             // visible parts of links may contain crap we shouldn't modify, such as
             // refs and external links
-
-            AnchorDecode(ref title);
-
             if (!Tools.IsValidTitle(title) || title.Contains(":/")) return title;
+
+            //AnchorDecode(ref title); // disabled, breaks things such as [[Windows#Version_3.11]]
 
             string s = CanonicalizeTitleRaw(title);
             if (Variables.UnderscoredTitles.Contains(Tools.TurnFirstToUpper(s)))
