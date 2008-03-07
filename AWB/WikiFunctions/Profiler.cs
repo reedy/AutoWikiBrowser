@@ -30,7 +30,7 @@ namespace WikiFunctions
     public class Profiler
     {
         #if DEBUG
-            Stopwatch Watch = new Stopwatch();
+            Stopwatch Watch;
             TextWriter log;
 
             /// <summary>
