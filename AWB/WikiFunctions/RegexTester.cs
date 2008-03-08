@@ -45,14 +45,14 @@ namespace WikiFunctions.Controls
         }
 
         public static void Test(Form parent, TextBox find, TextBox replace, 
-            CheckBox multiline, CheckBox singleleine, CheckBox caseSensitive)
+            CheckBox multiline, CheckBox singleline, CheckBox caseSensitive)
         {
             using (RegexTester t = new RegexTester(true))
             {
                 t.Find = find.Text;
                 if (replace != null) t.Replace = replace.Text;
                 t.Multiline = multiline.Checked;
-                t.Singleline = singleleine.Checked;
+                t.Singleline = singleline.Checked;
                 t.IgnoreCase = !caseSensitive.Checked;
 
                 if (Variables.MainForm != null && Variables.MainForm.EditBox.Enabled)
@@ -63,7 +63,7 @@ namespace WikiFunctions.Controls
                     find.Text = t.Find;
                     if (replace != null) replace.Text = t.Replace;
                     multiline.Checked = t.Multiline;
-                    singleleine.Checked = t.Singleline;
+                    singleline.Checked = t.Singleline;
                     caseSensitive.Checked = !t.IgnoreCase;
                 }
             }
