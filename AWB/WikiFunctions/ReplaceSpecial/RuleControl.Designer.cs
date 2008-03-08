@@ -28,9 +28,11 @@ namespace WikiFunctions.MWB
     /// </summary>
     private void InitializeComponent()
     {
+        this.components = new System.ComponentModel.Container();
         this.RuleGroupBox = new System.Windows.Forms.GroupBox();
         this.RuleTabControl = new System.Windows.Forms.TabControl();
         this.ReplaceTabPage = new System.Windows.Forms.TabPage();
+        this.TestFind = new System.Windows.Forms.Button();
         this.NumberOfTimesUpDown = new System.Windows.Forms.NumericUpDown();
         this.label5 = new System.Windows.Forms.Label();
         this.ReplaceTextbox = new System.Windows.Forms.TextBox();
@@ -41,6 +43,7 @@ namespace WikiFunctions.MWB
         this.ReplaceIsCaseSensitiveCheckBox = new System.Windows.Forms.CheckBox();
         this.ReplaceIsRegexCheckbox = new System.Windows.Forms.CheckBox();
         this.IfTabPage = new System.Windows.Forms.TabPage();
+        this.TestIf = new System.Windows.Forms.Button();
         this.IfIsSinglelineCheckBox = new System.Windows.Forms.CheckBox();
         this.IfIsMultilineCheckbox = new System.Windows.Forms.CheckBox();
         this.IfIsCaseSensitiveCheckBox = new System.Windows.Forms.CheckBox();
@@ -54,11 +57,15 @@ namespace WikiFunctions.MWB
         this.label1 = new System.Windows.Forms.Label();
         this.NameTextbox = new System.Windows.Forms.TextBox();
         this.RuleTypeCombobox = new System.Windows.Forms.ComboBox();
+        this.contextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+        this.testIfContainsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+        this.testIfNotContainsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         this.RuleGroupBox.SuspendLayout();
         this.RuleTabControl.SuspendLayout();
         this.ReplaceTabPage.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)(this.NumberOfTimesUpDown)).BeginInit();
         this.IfTabPage.SuspendLayout();
+        this.contextMenu.SuspendLayout();
         this.SuspendLayout();
         // 
         // RuleGroupBox
@@ -96,6 +103,7 @@ namespace WikiFunctions.MWB
         // 
         // ReplaceTabPage
         // 
+        this.ReplaceTabPage.Controls.Add(this.TestFind);
         this.ReplaceTabPage.Controls.Add(this.NumberOfTimesUpDown);
         this.ReplaceTabPage.Controls.Add(this.label5);
         this.ReplaceTabPage.Controls.Add(this.ReplaceTextbox);
@@ -113,10 +121,20 @@ namespace WikiFunctions.MWB
         this.ReplaceTabPage.Text = "Find";
         this.ReplaceTabPage.UseVisualStyleBackColor = true;
         // 
+        // TestFind
+        // 
+        this.TestFind.Location = new System.Drawing.Point(320, 263);
+        this.TestFind.Name = "TestFind";
+        this.TestFind.Size = new System.Drawing.Size(75, 23);
+        this.TestFind.TabIndex = 18;
+        this.TestFind.Text = "Test...";
+        this.TestFind.UseVisualStyleBackColor = true;
+        this.TestFind.Click += new System.EventHandler(this.TestFind_Click);
+        // 
         // NumberOfTimesUpDown
         // 
         this.NumberOfTimesUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-        this.NumberOfTimesUpDown.Location = new System.Drawing.Point(247, 267);
+        this.NumberOfTimesUpDown.Location = new System.Drawing.Point(212, 266);
         this.NumberOfTimesUpDown.Name = "NumberOfTimesUpDown";
         this.NumberOfTimesUpDown.Size = new System.Drawing.Size(79, 20);
         this.NumberOfTimesUpDown.TabIndex = 17;
@@ -130,7 +148,7 @@ namespace WikiFunctions.MWB
         // 
         this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
         this.label5.AutoSize = true;
-        this.label5.Location = new System.Drawing.Point(244, 245);
+        this.label5.Location = new System.Drawing.Point(209, 245);
         this.label5.Name = "label5";
         this.label5.Size = new System.Drawing.Size(82, 13);
         this.label5.TabIndex = 16;
@@ -219,6 +237,7 @@ namespace WikiFunctions.MWB
         // 
         // IfTabPage
         // 
+        this.IfTabPage.Controls.Add(this.TestIf);
         this.IfTabPage.Controls.Add(this.IfIsSinglelineCheckBox);
         this.IfTabPage.Controls.Add(this.IfIsMultilineCheckbox);
         this.IfTabPage.Controls.Add(this.IfIsCaseSensitiveCheckBox);
@@ -234,6 +253,16 @@ namespace WikiFunctions.MWB
         this.IfTabPage.TabIndex = 1;
         this.IfTabPage.Text = "If";
         this.IfTabPage.UseVisualStyleBackColor = true;
+        // 
+        // TestIf
+        // 
+        this.TestIf.Location = new System.Drawing.Point(310, 263);
+        this.TestIf.Name = "TestIf";
+        this.TestIf.Size = new System.Drawing.Size(75, 23);
+        this.TestIf.TabIndex = 16;
+        this.TestIf.Text = "Test...";
+        this.TestIf.UseVisualStyleBackColor = true;
+        this.TestIf.Click += new System.EventHandler(this.TestIf_Click);
         // 
         // IfIsSinglelineCheckBox
         // 
@@ -379,6 +408,28 @@ namespace WikiFunctions.MWB
         this.RuleTypeCombobox.Size = new System.Drawing.Size(302, 21);
         this.RuleTypeCombobox.TabIndex = 5;
         // 
+        // contextMenu
+        // 
+        this.contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.testIfContainsToolStripMenuItem,
+            this.testIfNotContainsToolStripMenuItem});
+        this.contextMenu.Name = "contextMenu";
+        this.contextMenu.Size = new System.Drawing.Size(186, 70);
+        // 
+        // testIfContainsToolStripMenuItem
+        // 
+        this.testIfContainsToolStripMenuItem.Name = "testIfContainsToolStripMenuItem";
+        this.testIfContainsToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+        this.testIfContainsToolStripMenuItem.Text = "Test if contains...";
+        this.testIfContainsToolStripMenuItem.Click += new System.EventHandler(this.testIfContainsToolStripMenuItem_Click);
+        // 
+        // testIfNotContainsToolStripMenuItem
+        // 
+        this.testIfNotContainsToolStripMenuItem.Name = "testIfNotContainsToolStripMenuItem";
+        this.testIfNotContainsToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+        this.testIfNotContainsToolStripMenuItem.Text = "Test if not contains..";
+        this.testIfNotContainsToolStripMenuItem.Click += new System.EventHandler(this.testIfNotContainsToolStripMenuItem_Click);
+        // 
         // RuleControl
         // 
         this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -396,6 +447,7 @@ namespace WikiFunctions.MWB
         ((System.ComponentModel.ISupportInitialize)(this.NumberOfTimesUpDown)).EndInit();
         this.IfTabPage.ResumeLayout(false);
         this.IfTabPage.PerformLayout();
+        this.contextMenu.ResumeLayout(false);
         this.ResumeLayout(false);
 
     }
@@ -428,5 +480,10 @@ namespace WikiFunctions.MWB
     private System.Windows.Forms.Label label1;
     private System.Windows.Forms.TextBox NameTextbox;
     private System.Windows.Forms.ComboBox RuleTypeCombobox;
+      private System.Windows.Forms.Button TestFind;
+      private System.Windows.Forms.Button TestIf;
+      private System.Windows.Forms.ContextMenuStrip contextMenu;
+      private System.Windows.Forms.ToolStripMenuItem testIfContainsToolStripMenuItem;
+      private System.Windows.Forms.ToolStripMenuItem testIfNotContainsToolStripMenuItem;
   }
 }
