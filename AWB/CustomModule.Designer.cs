@@ -58,6 +58,7 @@ namespace AutoWikiBrowser
             this.txtCode.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.txtCode.Size = new System.Drawing.Size(640, 184);
             this.txtCode.TabIndex = 0;
+            this.txtCode.TabStop = false;
             this.txtCode.Text = resources.GetString("txtCode.Text");
             this.txtCode.WordWrap = false;
             // 
@@ -85,6 +86,7 @@ namespace AutoWikiBrowser
             // 
             // cmboLang
             // 
+            this.cmboLang.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmboLang.FormattingEnabled = true;
             this.cmboLang.Items.AddRange(new object[] {
             "C# 2.0",
@@ -163,13 +165,13 @@ namespace AutoWikiBrowser
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.guideToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // guideToolStripMenuItem
             // 
             this.guideToolStripMenuItem.Name = "guideToolStripMenuItem";
-            this.guideToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
+            this.guideToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.guideToolStripMenuItem.Text = "Guide";
             this.guideToolStripMenuItem.Click += new System.EventHandler(this.guideToolStripMenuItem_Click);
             // 
