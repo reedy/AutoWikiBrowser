@@ -38,7 +38,7 @@ function htmlstats(){
 	global $db;
 	
 	php?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
 <head>
 	<title>AutoWikiBrowser Usage Stats</title>
@@ -80,13 +80,12 @@ function htmlstats(){
 			font-weight: bold;
 		}
 	</style>
-	<script src="/res/sorttable.js" language="javascript" type="text/javascript"></script>
+	<script src="/res/sorttable.js" type="text/javascript"></script>
 </head>
 <body>
 <h2><a href="http://en.wikipedia.org/wiki/WP:AWB">AutoWikiBrowser</a> Usage Stats</h2>
-Statistics on AWB usage since 3 March 2008.
-<p/>For more information about the AutoWikiBrowser wiki editor, please see our <a href="http://en.wikipedia.org/wiki/WP:AWB">Wikipedia page</a>.
-<p/>
+<p>Statistics on AWB usage since 3 March 2008.</p>
+<p>For more information about the AutoWikiBrowser wiki editor, please see our <a href="http://en.wikipedia.org/wiki/WP:AWB">Wikipedia page</a>.</p>
 <table>
 	<caption>Overview</caption>
 <?php
@@ -255,16 +254,15 @@ EOF;
 ?>
 
 </table>
-<p/>Note: These statistics are designed to help AWB developers better understand how the program is being used and to prioritise
+<p>Note: These statistics are designed to help AWB developers better understand how the program is being used and to prioritise
 development tasks. They are <i>indicative only</i> - for example, we don't currently take any account of a user changing
-their username or switching to a different wiki mid-session.
-<p/>
-<small>
+their username or switching to a different wiki mid-session.</p>
+<div><small>
 <sup><a name="1">1</a></sup>Unique username/wiki/language code<br/>
 <sup><a name="2">2</a></sup>Only sites at which AWB has logged 50 or more saves are shown<br/>
 <sup><a name="3">3</a></sup>Anonymous (usernames are not revealed)
 </small>
-<br/>
+<br/></div>
 <hr/>
 <p>
 <a href="http://validator.w3.org/check?uri=referer"><img
@@ -287,9 +285,9 @@ function OS_XHTML($result, $headersuffix) {
 <caption>Operating Systems{$headersuffix}</caption>
 <thead>
 	<tr>
-		<th scope="row">OS</th>
-		<th scope="row">Number of Sessions</th>
-		<th scope="row">Number of Saves</th>
+		<th scope="col">OS</th>
+		<th scope="col">Number of Sessions</th>
+		<th scope="col">Number of Saves</th>
 	</tr>
 </thead>
 EOF;
