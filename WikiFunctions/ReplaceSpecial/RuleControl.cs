@@ -24,11 +24,11 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using WikiFunctions.Controls;
 
 
 namespace WikiFunctions.MWB
 {
-
     public partial class RuleControl : UserControl
     {
         IRuleControlOwner owner_ = null;
@@ -127,12 +127,14 @@ namespace WikiFunctions.MWB
             ReplaceIsCaseSensitiveCheckBox.Enabled = enable;
             ReplaceIsMultilineCheckBox.Enabled = enable;
             ReplaceIsSinglelineCheckbox.Enabled = enable;
+            TestFind.Enabled = enable;
 
             enable = IfIsRegexCheckBox.Checked;
             //now case-insensitive checks are supported
             //IfIsCaseSensitiveCheckBox.Enabled = enable;
             IfIsMultilineCheckbox.Enabled = enable;
             IfIsSinglelineCheckBox.Enabled = enable;
+            TestIf.Enabled = enable;
         }
 
 
@@ -155,6 +157,29 @@ namespace WikiFunctions.MWB
         private void NameTextbox_DoubleClick(object sender, EventArgs e)
         {
             NameTextbox.SelectAll();
+        }
+
+        private void TestIf_Click(object sender, EventArgs e)
+        {
+            contextMenu.Show(TestIf, 0, TestIf.Height);
+        }
+
+        private void TestFind_Click(object sender, EventArgs e)
+        {
+            RegexTester.Test(ParentForm, ReplaceTextbox, WithTextbox, ReplaceIsMultilineCheckBox,
+                ReplaceIsSinglelineCheckbox, ReplaceIsCaseSensitiveCheckBox);
+        }
+
+        private void testIfContainsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RegexTester.Test(ParentForm, IfContainsTextBox, null, IfIsMultilineCheckbox,
+                IfIsSinglelineCheckBox, IfIsCaseSensitiveCheckBox);
+        }
+
+        private void testIfNotContainsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RegexTester.Test(ParentForm, IfNotContainsTextBox, null, IfIsMultilineCheckbox,
+                IfIsSinglelineCheckBox, IfIsCaseSensitiveCheckBox);
         }
     }
 

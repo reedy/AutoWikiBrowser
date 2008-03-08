@@ -44,6 +44,32 @@ namespace WikiFunctions.Controls
             AskToApply = ask;
         }
 
+        public static void Test(Form parent, TextBox find, TextBox replace, 
+            CheckBox multiline, CheckBox singleleine, CheckBox caseSensitive)
+        {
+            using (RegexTester t = new RegexTester(true))
+            {
+                t.Find = find.Text;
+                if (replace != null) t.Replace = replace.Text;
+                t.Multiline = multiline.Checked;
+                t.Singleline = singleleine.Checked;
+                t.IgnoreCase = !caseSensitive.Checked;
+
+                if (Variables.MainForm != null && Variables.MainForm.EditBox.Enabled)
+                    t.ArticleText = Variables.MainForm.EditBox.Text;
+
+                if (t.ShowDialog(parent) == DialogResult.OK)
+                {
+                    find.Text = t.Find;
+                    if (replace != null) replace.Text = t.Replace;
+                    multiline.Checked = t.Multiline;
+                    singleleine.Checked = t.Singleline;
+                    caseSensitive.Checked = !t.IgnoreCase;
+                }
+            }
+        }
+
+
         #region Properties
 
         public string ArticleText
