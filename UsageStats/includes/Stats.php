@@ -125,7 +125,7 @@ function htmlstats(){
 </table>
 <p/>
 <table class="sortable">
-	<caption>Sessions &amp; saves per site<sup><a href="#2">2</a></sup></caption>
+	<caption><a name="sites"></a>Sessions &amp; saves per site<sup><a href="#2">2</a></sup></caption>
 <thead>
 	<tr>
 		<th scope="col">Site</th>
@@ -235,7 +235,7 @@ EOF;
 </table>
 <p/>
 <table>
-	<caption>Diagnostics</caption>
+	<caption><a name="Diagnostics"></a>Diagnostics</caption>
 	<tr>
 		<th align="left" scope="row">Script version</th><td><?php echo MAJOR.'.'.MINOR; ?></td>
 	</tr>	
