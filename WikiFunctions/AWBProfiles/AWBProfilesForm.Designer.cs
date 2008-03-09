@@ -69,7 +69,7 @@ namespace WikiFunctions.Profiles
             this.ClientSize = new System.Drawing.Size(518, 248);
             this.Name = "AWBProfilesForm";
             this.Controls.SetChildIndex(this.btnDelete, 0);
-            this.Controls.SetChildIndex(this.btnExit, 0);
+            this.Controls.SetChildIndex(this.btnClose, 0);
             this.Controls.SetChildIndex(this.btnAdd, 0);
             this.Controls.SetChildIndex(this.lvAccounts, 0);
             this.Controls.SetChildIndex(this.btnLogin, 0);
