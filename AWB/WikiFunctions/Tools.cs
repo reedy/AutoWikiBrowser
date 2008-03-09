@@ -831,6 +831,19 @@ Message: {2}
         }
 
         /// <summary>
+        /// For disambiguation - replaces part of a string with another string
+        /// </summary>
+        /// <param name="source">String</param>
+        /// <param name="position"></param>
+        /// <param name="length"></param>
+        /// <param name="replace"></param>
+        /// <returns></returns>
+        public static string ReplacePartOfString(string source, int position, int length, string replace)
+        {
+            return source.Substring(0, position) + replace + source.Substring(position + length);
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         public static void OpenArticleInBrowser(string title)
