@@ -43,10 +43,10 @@ namespace AutoWikiBrowser
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(161, 204);
+            this.btnClose.Location = new System.Drawing.Point(101, 221);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
-            this.btnClose.TabIndex = 2;
+            this.btnClose.TabIndex = 1;
             this.btnClose.Text = "Close";
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
@@ -55,10 +55,10 @@ namespace AutoWikiBrowser
             // 
             this.rdoNone.AutoSize = true;
             this.rdoNone.Checked = true;
-            this.rdoNone.Location = new System.Drawing.Point(167, 158);
+            this.rdoNone.Location = new System.Drawing.Point(6, 19);
             this.rdoNone.Name = "rdoNone";
             this.rdoNone.Size = new System.Drawing.Size(51, 17);
-            this.rdoNone.TabIndex = 3;
+            this.rdoNone.TabIndex = 0;
             this.rdoNone.TabStop = true;
             this.rdoNone.Tag = "0";
             this.rdoNone.Text = "None";
@@ -67,7 +67,7 @@ namespace AutoWikiBrowser
             // rdoNoUnicode
             // 
             this.rdoNoUnicode.AutoSize = true;
-            this.rdoNoUnicode.Location = new System.Drawing.Point(6, 88);
+            this.rdoNoUnicode.Location = new System.Drawing.Point(6, 111);
             this.rdoNoUnicode.Name = "rdoNoUnicode";
             this.rdoNoUnicode.Size = new System.Drawing.Size(95, 17);
             this.rdoNoUnicode.TabIndex = 4;
@@ -78,7 +78,7 @@ namespace AutoWikiBrowser
             // rdoNoTag
             // 
             this.rdoNoTag.AutoSize = true;
-            this.rdoNoTag.Location = new System.Drawing.Point(6, 112);
+            this.rdoNoTag.Location = new System.Drawing.Point(6, 134);
             this.rdoNoTag.Name = "rdoNoTag";
             this.rdoNoTag.Size = new System.Drawing.Size(89, 17);
             this.rdoNoTag.TabIndex = 5;
@@ -98,18 +98,18 @@ namespace AutoWikiBrowser
             this.gbOptions.Controls.Add(this.rdoNoUnicode);
             this.gbOptions.Location = new System.Drawing.Point(12, 12);
             this.gbOptions.Name = "gbOptions";
-            this.gbOptions.Size = new System.Drawing.Size(224, 186);
-            this.gbOptions.TabIndex = 6;
+            this.gbOptions.Size = new System.Drawing.Size(164, 203);
+            this.gbOptions.TabIndex = 0;
             this.gbOptions.TabStop = false;
             this.gbOptions.Text = "Skip if no...";
             // 
             // rdoDefaultSortAdded
             // 
             this.rdoDefaultSortAdded.AutoSize = true;
-            this.rdoDefaultSortAdded.Location = new System.Drawing.Point(6, 158);
+            this.rdoDefaultSortAdded.Location = new System.Drawing.Point(6, 180);
             this.rdoDefaultSortAdded.Name = "rdoDefaultSortAdded";
             this.rdoDefaultSortAdded.Size = new System.Drawing.Size(123, 17);
-            this.rdoDefaultSortAdded.TabIndex = 11;
+            this.rdoDefaultSortAdded.TabIndex = 7;
             this.rdoDefaultSortAdded.TabStop = true;
             this.rdoDefaultSortAdded.Tag = "3";
             this.rdoDefaultSortAdded.Text = "{{defaultsort}} added";
@@ -118,10 +118,10 @@ namespace AutoWikiBrowser
             // rdoNoBadLink
             // 
             this.rdoNoBadLink.AutoSize = true;
-            this.rdoNoBadLink.Location = new System.Drawing.Point(6, 65);
+            this.rdoNoBadLink.Location = new System.Drawing.Point(6, 88);
             this.rdoNoBadLink.Name = "rdoNoBadLink";
             this.rdoNoBadLink.Size = new System.Drawing.Size(93, 17);
-            this.rdoNoBadLink.TabIndex = 10;
+            this.rdoNoBadLink.TabIndex = 3;
             this.rdoNoBadLink.TabStop = true;
             this.rdoNoBadLink.Tag = "6";
             this.rdoNoBadLink.Text = "Bad links fixed";
@@ -130,10 +130,10 @@ namespace AutoWikiBrowser
             // rdoNoBulletedLink
             // 
             this.rdoNoBulletedLink.AutoSize = true;
-            this.rdoNoBulletedLink.Location = new System.Drawing.Point(6, 42);
+            this.rdoNoBulletedLink.Location = new System.Drawing.Point(6, 65);
             this.rdoNoBulletedLink.Name = "rdoNoBulletedLink";
             this.rdoNoBulletedLink.Size = new System.Drawing.Size(122, 17);
-            this.rdoNoBulletedLink.TabIndex = 9;
+            this.rdoNoBulletedLink.TabIndex = 2;
             this.rdoNoBulletedLink.TabStop = true;
             this.rdoNoBulletedLink.Tag = "5";
             this.rdoNoBulletedLink.Text = "External link bulleted";
@@ -142,10 +142,10 @@ namespace AutoWikiBrowser
             // rdoNoBoldTitle
             // 
             this.rdoNoBoldTitle.AutoSize = true;
-            this.rdoNoBoldTitle.Location = new System.Drawing.Point(6, 19);
+            this.rdoNoBoldTitle.Location = new System.Drawing.Point(6, 42);
             this.rdoNoBoldTitle.Name = "rdoNoBoldTitle";
             this.rdoNoBoldTitle.Size = new System.Drawing.Size(92, 17);
-            this.rdoNoBoldTitle.TabIndex = 7;
+            this.rdoNoBoldTitle.TabIndex = 1;
             this.rdoNoBoldTitle.TabStop = true;
             this.rdoNoBoldTitle.Tag = "4";
             this.rdoNoBoldTitle.Text = "Title boldened";
@@ -154,7 +154,7 @@ namespace AutoWikiBrowser
             // rdoNoHeaderError
             // 
             this.rdoNoHeaderError.AutoSize = true;
-            this.rdoNoHeaderError.Location = new System.Drawing.Point(6, 135);
+            this.rdoNoHeaderError.Location = new System.Drawing.Point(6, 157);
             this.rdoNoHeaderError.Name = "rdoNoHeaderError";
             this.rdoNoHeaderError.Size = new System.Drawing.Size(109, 17);
             this.rdoNoHeaderError.TabIndex = 6;
@@ -167,7 +167,7 @@ namespace AutoWikiBrowser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(246, 239);
+            this.ClientSize = new System.Drawing.Size(188, 256);
             this.Controls.Add(this.gbOptions);
             this.Controls.Add(this.btnClose);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;

@@ -54,7 +54,7 @@ namespace AutoWikiBrowser
             // btnOK
             // 
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(442, 330);
+            this.btnOK.Location = new System.Drawing.Point(465, 330);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 2;
