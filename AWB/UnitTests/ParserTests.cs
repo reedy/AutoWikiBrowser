@@ -126,8 +126,7 @@ namespace UnitTests
             Assert.AreEqual("{{the later 1990's}}", parser.FixDates("{{the later 1990's}}"));
         }
 
-        [Test]
-        //TODO: unfinished
+        [Test, Category("Incomplete")]
         public void TestLinkRepairs()
         {
             Assert.AreEqual("[http://example.com]", parser.FixSyntax("[http://example.com]"));
@@ -175,6 +174,12 @@ http://example.com }}");
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_2#Incorrect_bulleting
             StringAssert.Contains("\r\nhttp://example.com }}", s);
+        }
+
+        [Test]
+        public void TestFixLinkWhitespace()
+        {
+            Assert.AreEqual("[[a]] b", parser.FixLinkWhitespace("[[a ]]b"));
         }
     }
 
