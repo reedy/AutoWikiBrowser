@@ -167,7 +167,7 @@ namespace WikiFunctions.Parse
             }
 
             int n = 0;
-            foreach (string s in languages)
+            foreach (string s in output)
             {
                 Order.Add("[[" + s, n);
                 n++;
