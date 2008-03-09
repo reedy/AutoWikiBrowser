@@ -1958,7 +1958,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             bool enabled = listMaker1.NumberOfArticles > 0;
             SetStartButton(enabled);
 
-            listMaker1.ButtonsEnabled = enabled;
+            //listMaker1.ButtonsEnabled = enabled;
             lbltsNumberofItems.Text = "Articles: " + listMaker1.NumberOfArticles.ToString();
             bypassAllRedirectsToolStripMenuItem.Enabled = Variables.User.IsAdmin;
         }
