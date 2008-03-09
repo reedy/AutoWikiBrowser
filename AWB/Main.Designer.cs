@@ -2839,7 +2839,7 @@ namespace AutoWikiBrowser
             // 
             this.radStandby.AutoSize = true;
             this.radStandby.Enabled = false;
-            this.radStandby.Location = new System.Drawing.Point(7, 65);
+            this.radStandby.Location = new System.Drawing.Point(9, 65);
             this.radStandby.Name = "radStandby";
             this.radStandby.Size = new System.Drawing.Size(64, 17);
             this.radStandby.TabIndex = 4;
@@ -2851,7 +2851,7 @@ namespace AutoWikiBrowser
             // 
             this.radHibernate.AutoSize = true;
             this.radHibernate.Enabled = false;
-            this.radHibernate.Location = new System.Drawing.Point(7, 107);
+            this.radHibernate.Location = new System.Drawing.Point(9, 111);
             this.radHibernate.Name = "radHibernate";
             this.radHibernate.Size = new System.Drawing.Size(71, 17);
             this.radHibernate.TabIndex = 3;
@@ -2863,7 +2863,7 @@ namespace AutoWikiBrowser
             // 
             this.radRestart.AutoSize = true;
             this.radRestart.Enabled = false;
-            this.radRestart.Location = new System.Drawing.Point(7, 88);
+            this.radRestart.Location = new System.Drawing.Point(9, 88);
             this.radRestart.Name = "radRestart";
             this.radRestart.Size = new System.Drawing.Size(59, 17);
             this.radRestart.TabIndex = 2;
@@ -2875,7 +2875,7 @@ namespace AutoWikiBrowser
             // 
             this.radShutdown.AutoSize = true;
             this.radShutdown.Enabled = false;
-            this.radShutdown.Location = new System.Drawing.Point(7, 42);
+            this.radShutdown.Location = new System.Drawing.Point(9, 42);
             this.radShutdown.Name = "radShutdown";
             this.radShutdown.Size = new System.Drawing.Size(73, 17);
             this.radShutdown.TabIndex = 1;
