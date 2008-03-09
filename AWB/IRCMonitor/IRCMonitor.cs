@@ -236,7 +236,7 @@ namespace IRCM
                     if (!login)
                         MessageBox.Show("You are not logged in. The log in screen will now load, enter your name and password, click \"Log in\", wait for it to complete, then start the process again.\r\n\r\nIn the future you can make sure this won't happen by logging in to Wikipedia using Microsoft Internet Explorer.", "Not logged in", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     webBrowser.LoadLogInPage();
-                    tabControl.SelectedTab = tabPage8;
+                    tabControl.SelectedTab = BrowserTab;
                     break;
 
                 case WikiStatusResult.NotRegistered:
@@ -922,7 +922,7 @@ Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=15
             {
                 webBrowser.AllowNavigation = true;
                 webBrowser.Navigate(url);
-                tabControl.SelectedTab = tabPage8;
+                tabControl.SelectedTab = BrowserTab;
             }
             else
             {
