@@ -210,6 +210,11 @@ http://example.com }}");
     {
         Parsers p = new Parsers();
 
+        public BoldTitleTests()
+        {
+            Globals.UnitTestMode = true;
+        }
+
         [Test]
         //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_1#Title_bolding
         public void DontEmboldenImages()
@@ -310,6 +315,14 @@ http://example.com }}");
     [TestFixture]
     public class UtilityFunctionTests
     {
+        Parsers p = new Parsers();
+
+        public UtilityFunctionTests()
+        {
+            Globals.UnitTestMode = true;
+            Variables.SetToEnglish();
+        }
+
         [Test]
         public void TestIsCorrectEditSummary()
         {
@@ -332,6 +345,32 @@ http://example.com }}");
             Assert.IsFalse(Parsers.IsCorrectEditSummary("[[["));
             Assert.IsFalse(Parsers.IsCorrectEditSummary("[[test]"));
             Assert.IsFalse(Parsers.IsCorrectEditSummary("[[test]] [["));
+        }
+
+        [Test]
+        public void TestChangeToDefaultSort()
+        {
+            bool noChange;
+
+            // don't change sorting for single categories
+            Assert.AreEqual("[[Category:Test1|Foooo]]",
+                p.ChangeToDefaultSort("[[Category:Test1|Foooo]]", "Foo", out noChange));
+            Assert.IsTrue(noChange);
+
+            // should work
+            Assert.AreEqual("[[Category:Test1]][[Category:Test2]]\r\n{{DEFAULTSORT:Foooo}}",
+                p.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2|Foooo]]", "Bar", out noChange));
+            Assert.IsFalse(noChange);
+
+            // ...but not if the key equals page title
+            Assert.AreEqual("[[Category:Test1|Foooo]][[Category:Test2|Foooo]]",
+                p.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2|Foooo]]", "Foooo", out noChange));
+            Assert.IsFalse(noChange);
+
+            // don't change if key is 3 chars or less
+            Assert.AreEqual("[[Category:Test1|Foo]][[Category:Test2|Foo]]",
+                p.ChangeToDefaultSort("[[Category:Test1|Foo]][[Category:Test2|Foo]]", "Bar", out noChange));
+            Assert.IsTrue(noChange);
         }
     }
 

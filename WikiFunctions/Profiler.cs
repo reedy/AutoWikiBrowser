@@ -30,7 +30,7 @@ namespace WikiFunctions
     public class Profiler
     {
         #if DEBUG
-            Stopwatch Watch;
+            Stopwatch Watch = new Stopwatch(); // fail-safe in case Start() wasn't called for some reason
             TextWriter log;
 
             /// <summary>
@@ -42,6 +42,8 @@ namespace WikiFunctions
             {
                 log = new StreamWriter(filename, append, Encoding.Unicode);
             }
+
+            public Profiler() { }
 
             /// <summary>
             /// Starts measuring time

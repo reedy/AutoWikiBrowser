@@ -76,7 +76,12 @@ namespace WikiFunctions
             enLangNamespaces[15] = "Category talk:";
 
             if (!Globals.UnitTestMode)
+            {
                 SetProject(LangCodeEnum.en, ProjectEnum.wikipedia);
+#if DEBUG
+                Profiler = new Profiler("profiling.txt", true);
+#endif
+            }
             else
             {
                 SetToEnglish("Wikipedia:", "Wikipedia talk:");
@@ -94,11 +99,7 @@ namespace WikiFunctions
             get { return Variables.mMainForm; }
             set { Variables.mMainForm = value; }
         }
-        public static Profiler Profiler = new Profiler(
-#if DEBUG
-            "profiling.txt", true
-#endif
-            );
+        public static Profiler Profiler = new Profiler();
 
         #region project and language settings
 

@@ -109,7 +109,7 @@ namespace UnitTests
             Assert.IsFalse(r.IsMatch("test"));
         }
 
-        //[Test]
+        [Test, Ignore("Too slow")]
         public void TestTurnFirstToUpper()
         {
             Assert.AreEqual("", Tools.TurnFirstToUpper(""));
@@ -137,6 +137,16 @@ namespace UnitTests
             Assert.AreEqual(2, Tools.WordCount("Превед медвед"));
 
             Assert.AreEqual(1, Tools.WordCount("0"));
+        }
+
+        [Test]
+        public void TestReplacePartOfString()
+        {
+            Assert.AreEqual("abc123ef", Tools.ReplacePartOfString("abcdef", 3, 1, "123"));
+            Assert.AreEqual("123abc", Tools.ReplacePartOfString("abc", 0, 0, "123"));
+            Assert.AreEqual("abc123", Tools.ReplacePartOfString("abc", 3, 0, "123"));
+            Assert.AreEqual("123", Tools.ReplacePartOfString("", 0, 0, "123"));
+            Assert.AreEqual("abc", Tools.ReplacePartOfString("abc", 1, 0, ""));
         }
     }
 
