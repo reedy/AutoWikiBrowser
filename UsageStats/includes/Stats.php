@@ -76,8 +76,12 @@ function htmlstats(){
 		}
 		
 		caption {
-			border-bottom-width: 0px;
-			font-weight: bold;
+			border-bottom-width : 0px;
+			font-weight : bold;
+		}
+		
+		TH.sortable {
+			cursor : pointer;
 		}
 	</style>
 	<script src="/res/sorttable.js" type="text/javascript"></script>
@@ -128,9 +132,9 @@ function htmlstats(){
 	<caption><a name="sites"></a>Sessions &amp; saves per site<sup><a href="#2">2</a></sup></caption>
 <thead>
 	<tr>
-		<th scope="col">Site</th>
-		<th scope="col">Number of Sessions</th>
-		<th scope="col">Number of Saves</th>
+		<th scope="col" class="sortable">Site</th>
+		<th scope="col" class="sortable">Number of Sessions</th>
+		<th scope="col" class="sortable">Number of Saves</th>
 	</tr>
 </thead>
 EOF;
@@ -165,9 +169,9 @@ EOF;
 	<caption>UI Cultures</caption>
 <thead>
 	<tr>
-		<th scope="col">Language</th>
-		<th scope="col">Country</th>
-		<th scope="col">Number of Saves</th>
+		<th scope="col" class="sortable">Language</th>
+		<th scope="col" class="sortable">Country</th>
+		<th scope="col" class="sortable">Number of Saves</th>
 	</tr>
 </thead>
 EOF;
@@ -216,6 +220,11 @@ EOF;
 <p/>
 <table class="sortable">
 	<caption>Known Plugins</caption>
+<thead>
+	<tr>
+		<th colspan="3" scope="col" class="sortable">Plugin</th>
+	</tr>
+</thead>
 EOF;
 
 	$result = $db->plugins();
@@ -285,9 +294,9 @@ function OS_XHTML($result, $headersuffix) {
 <caption>Operating Systems{$headersuffix}</caption>
 <thead>
 	<tr>
-		<th scope="col">OS</th>
-		<th scope="col">Number of Sessions</th>
-		<th scope="col">Number of Saves</th>
+		<th scope="col" class="sortable">OS</th>
+		<th scope="col" class="sortable">Number of Sessions</th>
+		<th scope="col" class="sortable">Number of Saves</th>
 	</tr>
 </thead>
 EOF;
