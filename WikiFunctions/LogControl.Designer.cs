@@ -69,19 +69,20 @@ namespace WikiFunctions.Logging
             // 
             // btnAddToList
             // 
-            this.btnAddToList.Location = new System.Drawing.Point(140, 310);
+            this.btnAddToList.Location = new System.Drawing.Point(87, 310);
             this.btnAddToList.Name = "btnAddToList";
-            this.btnAddToList.Size = new System.Drawing.Size(112, 24);
+            this.btnAddToList.Size = new System.Drawing.Size(78, 24);
             this.btnAddToList.TabIndex = 19;
-            this.btnAddToList.Text = "Add all to article list";
+            this.btnAddToList.Text = "Add all to list";
             this.btnAddToList.UseVisualStyleBackColor = true;
             this.btnAddToList.Click += new System.EventHandler(this.btnAddToList_Click);
             // 
             // btnClearIgnored
             // 
-            this.btnClearIgnored.Location = new System.Drawing.Point(87, 310);
+            this.btnClearIgnored.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClearIgnored.Location = new System.Drawing.Point(177, 310);
             this.btnClearIgnored.Name = "btnClearIgnored";
-            this.btnClearIgnored.Size = new System.Drawing.Size(50, 24);
+            this.btnClearIgnored.Size = new System.Drawing.Size(75, 24);
             this.btnClearIgnored.TabIndex = 18;
             this.btnClearIgnored.Text = "Clear";
             this.btnClearIgnored.UseVisualStyleBackColor = true;
@@ -99,7 +100,8 @@ namespace WikiFunctions.Logging
             // 
             // btnClearSaved
             // 
-            this.btnClearSaved.Location = new System.Drawing.Point(87, 137);
+            this.btnClearSaved.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClearSaved.Location = new System.Drawing.Point(177, 137);
             this.btnClearSaved.Name = "btnClearSaved";
             this.btnClearSaved.Size = new System.Drawing.Size(75, 24);
             this.btnClearSaved.TabIndex = 16;
@@ -357,12 +359,12 @@ namespace WikiFunctions.Logging
             this.Controls.Add(this.label7);
             this.Controls.Add(this.lvIgnored);
             this.Controls.Add(this.lvSaved);
-            this.Controls.Add(this.btnAddToList);
             this.Controls.Add(this.label8);
-            this.Controls.Add(this.btnClearIgnored);
             this.Controls.Add(this.btnSaveIgnored);
-            this.Controls.Add(this.btnClearSaved);
             this.Controls.Add(this.btnSaveSaved);
+            this.Controls.Add(this.btnClearIgnored);
+            this.Controls.Add(this.btnAddToList);
+            this.Controls.Add(this.btnClearSaved);
             this.Name = "LogControl";
             this.Size = new System.Drawing.Size(257, 341);
             this.mnuListView.ResumeLayout(false);
