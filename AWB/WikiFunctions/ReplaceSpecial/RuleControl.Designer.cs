@@ -123,7 +123,7 @@ namespace WikiFunctions.MWB
         // 
         // TestFind
         // 
-        this.TestFind.Location = new System.Drawing.Point(320, 263);
+        this.TestFind.Location = new System.Drawing.Point(320, 272);
         this.TestFind.Name = "TestFind";
         this.TestFind.Size = new System.Drawing.Size(75, 23);
         this.TestFind.TabIndex = 18;
@@ -134,7 +134,7 @@ namespace WikiFunctions.MWB
         // NumberOfTimesUpDown
         // 
         this.NumberOfTimesUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-        this.NumberOfTimesUpDown.Location = new System.Drawing.Point(212, 266);
+        this.NumberOfTimesUpDown.Location = new System.Drawing.Point(212, 275);
         this.NumberOfTimesUpDown.Name = "NumberOfTimesUpDown";
         this.NumberOfTimesUpDown.Size = new System.Drawing.Size(79, 20);
         this.NumberOfTimesUpDown.TabIndex = 17;
@@ -148,7 +148,7 @@ namespace WikiFunctions.MWB
         // 
         this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
         this.label5.AutoSize = true;
-        this.label5.Location = new System.Drawing.Point(209, 245);
+        this.label5.Location = new System.Drawing.Point(209, 256);
         this.label5.Name = "label5";
         this.label5.Size = new System.Drawing.Size(82, 13);
         this.label5.TabIndex = 16;
@@ -160,11 +160,11 @@ namespace WikiFunctions.MWB
                     | System.Windows.Forms.AnchorStyles.Left)
                     | System.Windows.Forms.AnchorStyles.Right)));
         this.ReplaceTextbox.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        this.ReplaceTextbox.Location = new System.Drawing.Point(6, 6);
+        this.ReplaceTextbox.Location = new System.Drawing.Point(3, 6);
         this.ReplaceTextbox.Multiline = true;
         this.ReplaceTextbox.Name = "ReplaceTextbox";
         this.ReplaceTextbox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-        this.ReplaceTextbox.Size = new System.Drawing.Size(392, 109);
+        this.ReplaceTextbox.Size = new System.Drawing.Size(392, 120);
         this.ReplaceTextbox.TabIndex = 6;
         this.ReplaceTextbox.WordWrap = false;
         // 
@@ -172,7 +172,7 @@ namespace WikiFunctions.MWB
         // 
         this.ReplaceIsSinglelineCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
         this.ReplaceIsSinglelineCheckbox.AutoSize = true;
-        this.ReplaceIsSinglelineCheckbox.Location = new System.Drawing.Point(128, 267);
+        this.ReplaceIsSinglelineCheckbox.Location = new System.Drawing.Point(125, 278);
         this.ReplaceIsSinglelineCheckbox.Name = "ReplaceIsSinglelineCheckbox";
         this.ReplaceIsSinglelineCheckbox.Size = new System.Drawing.Size(71, 17);
         this.ReplaceIsSinglelineCheckbox.TabIndex = 14;
@@ -184,7 +184,7 @@ namespace WikiFunctions.MWB
         this.WithTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                     | System.Windows.Forms.AnchorStyles.Right)));
         this.WithTextbox.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        this.WithTextbox.Location = new System.Drawing.Point(5, 134);
+        this.WithTextbox.Location = new System.Drawing.Point(3, 145);
         this.WithTextbox.Multiline = true;
         this.WithTextbox.Name = "WithTextbox";
         this.WithTextbox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
@@ -196,7 +196,7 @@ namespace WikiFunctions.MWB
         // 
         this.ReplaceIsMultilineCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
         this.ReplaceIsMultilineCheckBox.AutoSize = true;
-        this.ReplaceIsMultilineCheckBox.Location = new System.Drawing.Point(128, 244);
+        this.ReplaceIsMultilineCheckBox.Location = new System.Drawing.Point(125, 255);
         this.ReplaceIsMultilineCheckBox.Name = "ReplaceIsMultilineCheckBox";
         this.ReplaceIsMultilineCheckBox.Size = new System.Drawing.Size(64, 17);
         this.ReplaceIsMultilineCheckBox.TabIndex = 13;
@@ -206,7 +206,7 @@ namespace WikiFunctions.MWB
         // label3
         // 
         this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-        this.label3.Location = new System.Drawing.Point(6, 118);
+        this.label3.Location = new System.Drawing.Point(6, 129);
         this.label3.Name = "label3";
         this.label3.Size = new System.Drawing.Size(78, 13);
         this.label3.TabIndex = 8;
@@ -216,7 +216,7 @@ namespace WikiFunctions.MWB
         // 
         this.ReplaceIsCaseSensitiveCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
         this.ReplaceIsCaseSensitiveCheckBox.AutoSize = true;
-        this.ReplaceIsCaseSensitiveCheckBox.Location = new System.Drawing.Point(6, 267);
+        this.ReplaceIsCaseSensitiveCheckBox.Location = new System.Drawing.Point(3, 278);
         this.ReplaceIsCaseSensitiveCheckBox.Name = "ReplaceIsCaseSensitiveCheckBox";
         this.ReplaceIsCaseSensitiveCheckBox.Size = new System.Drawing.Size(94, 17);
         this.ReplaceIsCaseSensitiveCheckBox.TabIndex = 12;
@@ -227,7 +227,7 @@ namespace WikiFunctions.MWB
         // 
         this.ReplaceIsRegexCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
         this.ReplaceIsRegexCheckbox.AutoSize = true;
-        this.ReplaceIsRegexCheckbox.Location = new System.Drawing.Point(6, 244);
+        this.ReplaceIsRegexCheckbox.Location = new System.Drawing.Point(3, 255);
         this.ReplaceIsRegexCheckbox.Name = "ReplaceIsRegexCheckbox";
         this.ReplaceIsRegexCheckbox.Size = new System.Drawing.Size(116, 17);
         this.ReplaceIsRegexCheckbox.TabIndex = 11;
@@ -268,7 +268,7 @@ namespace WikiFunctions.MWB
         // 
         this.IfIsSinglelineCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
         this.IfIsSinglelineCheckBox.AutoSize = true;
-        this.IfIsSinglelineCheckBox.Location = new System.Drawing.Point(128, 278);
+        this.IfIsSinglelineCheckBox.Location = new System.Drawing.Point(125, 278);
         this.IfIsSinglelineCheckBox.Name = "IfIsSinglelineCheckBox";
         this.IfIsSinglelineCheckBox.Size = new System.Drawing.Size(71, 17);
         this.IfIsSinglelineCheckBox.TabIndex = 15;
@@ -279,7 +279,7 @@ namespace WikiFunctions.MWB
         // 
         this.IfIsMultilineCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
         this.IfIsMultilineCheckbox.AutoSize = true;
-        this.IfIsMultilineCheckbox.Location = new System.Drawing.Point(128, 255);
+        this.IfIsMultilineCheckbox.Location = new System.Drawing.Point(125, 255);
         this.IfIsMultilineCheckbox.Name = "IfIsMultilineCheckbox";
         this.IfIsMultilineCheckbox.Size = new System.Drawing.Size(64, 17);
         this.IfIsMultilineCheckbox.TabIndex = 14;
@@ -290,7 +290,7 @@ namespace WikiFunctions.MWB
         // 
         this.IfIsCaseSensitiveCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
         this.IfIsCaseSensitiveCheckBox.AutoSize = true;
-        this.IfIsCaseSensitiveCheckBox.Location = new System.Drawing.Point(6, 278);
+        this.IfIsCaseSensitiveCheckBox.Location = new System.Drawing.Point(3, 278);
         this.IfIsCaseSensitiveCheckBox.Name = "IfIsCaseSensitiveCheckBox";
         this.IfIsCaseSensitiveCheckBox.Size = new System.Drawing.Size(94, 17);
         this.IfIsCaseSensitiveCheckBox.TabIndex = 13;
@@ -301,7 +301,7 @@ namespace WikiFunctions.MWB
         // 
         this.IfIsRegexCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
         this.IfIsRegexCheckBox.AutoSize = true;
-        this.IfIsRegexCheckBox.Location = new System.Drawing.Point(6, 255);
+        this.IfIsRegexCheckBox.Location = new System.Drawing.Point(3, 255);
         this.IfIsRegexCheckBox.Name = "IfIsRegexCheckBox";
         this.IfIsRegexCheckBox.Size = new System.Drawing.Size(116, 17);
         this.IfIsRegexCheckBox.TabIndex = 12;
@@ -312,9 +312,9 @@ namespace WikiFunctions.MWB
         // IfNotContainsLabel
         // 
         this.IfNotContainsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-        this.IfNotContainsLabel.Location = new System.Drawing.Point(6, 139);
+        this.IfNotContainsLabel.Location = new System.Drawing.Point(3, 136);
         this.IfNotContainsLabel.Name = "IfNotContainsLabel";
-        this.IfNotContainsLabel.Size = new System.Drawing.Size(48, 31);
+        this.IfNotContainsLabel.Size = new System.Drawing.Size(94, 17);
         this.IfNotContainsLabel.TabIndex = 3;
         this.IfNotContainsLabel.Text = "Not contains";
         // 
@@ -323,18 +323,18 @@ namespace WikiFunctions.MWB
         this.IfNotContainsTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                     | System.Windows.Forms.AnchorStyles.Right)));
         this.IfNotContainsTextBox.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        this.IfNotContainsTextBox.Location = new System.Drawing.Point(60, 139);
+        this.IfNotContainsTextBox.Location = new System.Drawing.Point(3, 152);
         this.IfNotContainsTextBox.Multiline = true;
         this.IfNotContainsTextBox.Name = "IfNotContainsTextBox";
         this.IfNotContainsTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-        this.IfNotContainsTextBox.Size = new System.Drawing.Size(335, 110);
+        this.IfNotContainsTextBox.Size = new System.Drawing.Size(392, 97);
         this.IfNotContainsTextBox.TabIndex = 2;
         this.IfNotContainsTextBox.WordWrap = false;
         // 
         // HasMatchLabel
         // 
         this.HasMatchLabel.AutoSize = true;
-        this.HasMatchLabel.Location = new System.Drawing.Point(6, 12);
+        this.HasMatchLabel.Location = new System.Drawing.Point(6, 3);
         this.HasMatchLabel.Name = "HasMatchLabel";
         this.HasMatchLabel.Size = new System.Drawing.Size(48, 13);
         this.HasMatchLabel.TabIndex = 1;
@@ -346,11 +346,11 @@ namespace WikiFunctions.MWB
                     | System.Windows.Forms.AnchorStyles.Left)
                     | System.Windows.Forms.AnchorStyles.Right)));
         this.IfContainsTextBox.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-        this.IfContainsTextBox.Location = new System.Drawing.Point(60, 12);
+        this.IfContainsTextBox.Location = new System.Drawing.Point(3, 19);
         this.IfContainsTextBox.Multiline = true;
         this.IfContainsTextBox.Name = "IfContainsTextBox";
         this.IfContainsTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-        this.IfContainsTextBox.Size = new System.Drawing.Size(335, 121);
+        this.IfContainsTextBox.Size = new System.Drawing.Size(392, 114);
         this.IfContainsTextBox.TabIndex = 0;
         this.IfContainsTextBox.WordWrap = false;
         // 
@@ -368,20 +368,22 @@ namespace WikiFunctions.MWB
         // label4
         // 
         this.label4.AutoSize = true;
-        this.label4.Location = new System.Drawing.Point(7, 49);
+        this.label4.Location = new System.Drawing.Point(10, 48);
         this.label4.Name = "label4";
         this.label4.Size = new System.Drawing.Size(31, 13);
         this.label4.TabIndex = 9;
         this.label4.Text = "Type";
+        this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
         // 
         // label1
         // 
         this.label1.AutoSize = true;
-        this.label1.Location = new System.Drawing.Point(3, 22);
+        this.label1.Location = new System.Drawing.Point(6, 22);
         this.label1.Name = "label1";
         this.label1.Size = new System.Drawing.Size(35, 13);
         this.label1.TabIndex = 2;
         this.label1.Text = "Name";
+        this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
         // 
         // NameTextbox
         // 
@@ -414,19 +416,19 @@ namespace WikiFunctions.MWB
             this.testIfContainsToolStripMenuItem,
             this.testIfNotContainsToolStripMenuItem});
         this.contextMenu.Name = "contextMenu";
-        this.contextMenu.Size = new System.Drawing.Size(186, 70);
+        this.contextMenu.Size = new System.Drawing.Size(174, 48);
         // 
         // testIfContainsToolStripMenuItem
         // 
         this.testIfContainsToolStripMenuItem.Name = "testIfContainsToolStripMenuItem";
-        this.testIfContainsToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+        this.testIfContainsToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
         this.testIfContainsToolStripMenuItem.Text = "Test if contains...";
         this.testIfContainsToolStripMenuItem.Click += new System.EventHandler(this.testIfContainsToolStripMenuItem_Click);
         // 
         // testIfNotContainsToolStripMenuItem
         // 
         this.testIfNotContainsToolStripMenuItem.Name = "testIfNotContainsToolStripMenuItem";
-        this.testIfNotContainsToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+        this.testIfNotContainsToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
         this.testIfNotContainsToolStripMenuItem.Text = "Test if not contains..";
         this.testIfNotContainsToolStripMenuItem.Click += new System.EventHandler(this.testIfNotContainsToolStripMenuItem_Click);
         // 
