@@ -38,7 +38,6 @@ namespace AutoWikiBrowser
             string autoSaveEditBoxFile, decimal autoSaveEditBoxPeriod, bool suppressUsingAWB)
         {
             InitializeComponent();
-            toolTip1.SetToolTip(PrivacyCheckBox, toolTip1.GetToolTip(PrivacyLabel));
 
             foreach (LangCodeEnum l in Enum.GetValues(typeof(LangCodeEnum)))
                 cmboLang.Items.Add(l.ToString().ToLower());
@@ -79,7 +78,7 @@ namespace AutoWikiBrowser
             cmboProject_SelectedIndexChanged(null, null);
 
             chkAlwaysConfirmExit.Checked = Properties.Settings.Default.DontAskForTerminate;
-            PrivacyCheckBox.Checked = Properties.Settings.Default.Privacy;
+            PrivacyCheckBox.Checked = !Properties.Settings.Default.Privacy;
         }
 
         #region Language and project
@@ -212,7 +211,7 @@ namespace AutoWikiBrowser
         public bool PerfAutoSaveEditBoxEnabled
         {
             get { return chkAutoSaveEdit.Checked; }
-            set { chkAutoSaveEdit.Checked = btnSetFile.Enabled = numEditBoxAutosave.Enabled = label8.Enabled = label9.Enabled = label10.Enabled = value; }
+            set { chkAutoSaveEdit.Checked = btnSetFile.Enabled = numEditBoxAutosave.Enabled = label9.Enabled = label10.Enabled = value; }
         }
 
         public decimal PerfAutoSaveEditBoxPeriod
@@ -294,7 +293,7 @@ namespace AutoWikiBrowser
             }
             if (Properties.Settings.Default.Privacy != PrivacyCheckBox.Checked)
             {
-                Properties.Settings.Default.Privacy = PrivacyCheckBox.Checked;
+                Properties.Settings.Default.Privacy = !PrivacyCheckBox.Checked;
                 save = true;
             }
 
