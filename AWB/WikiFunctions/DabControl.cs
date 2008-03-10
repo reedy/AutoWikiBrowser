@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2007 Martin Richards
+Copyright (C) 2007 Max Semenik
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -176,6 +176,7 @@ namespace WikiFunctions.Disambiguation
                 txtViewer.Select(Match.Index - posStart, Match.Length);
                 txtViewer.SelectionFont = new System.Drawing.Font(txtViewer.SelectionFont.FontFamily,
                     txtViewer.SelectionFont.Size, System.Drawing.FontStyle.Bold);
+                txtViewer.SelectionBackColor = System.Drawing.Color.FromArgb(0xFFD754);
                 txtViewer.Select(0, 0);
 
                 cmboChoice.SelectedIndex = 0;
