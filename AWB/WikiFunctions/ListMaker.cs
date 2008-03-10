@@ -46,12 +46,13 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public event ListMakerEventHandler ListFinished;
 
+        SpecialFilter SpecialFilter = new SpecialFilter();
+
         public ListMaker()
         {
             InitializeComponent();
-            if (Variables.LangCode == LangCodeEnum.en)
-                cmboSourceSelect.Items.Add("Redirects");
-            //OnDebug();
+            //if (Variables.LangCode == LangCodeEnum.en)
+            //    cmboSourceSelect.Items.Add("Redirects");
         }
 
         new public void Refresh()
@@ -872,11 +873,9 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public void Filter()
         {
-            if (!SpecialFilter.Visible)
-            {
-                SpecialFilter.Show(this);
-                SpecialFilter.lb = lbArticles;
-            }
+
+            SpecialFilter.lb = lbArticles;
+            SpecialFilter.ShowDialog(this);
         }
 
         /// <summary>
@@ -886,7 +885,7 @@ namespace WikiFunctions.Controls.Lists
         {
             SpecialFilter.lb = lbArticles;
             SpecialFilter.Clear();
-            SpecialFilter.removeDups();
+            SpecialFilter.RemoveDuplicates();
 
             UpdateNumberOfArticles();
         }

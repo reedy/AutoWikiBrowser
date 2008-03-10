@@ -33,14 +33,14 @@ using WikiFunctions.Controls.Lists;
 
 namespace WikiFunctions.Lists
 {
-    public partial class specialFilter : Form
+    public partial class SpecialFilter : Form
     {
         public ListBox2 lb;
 
-        public specialFilter()
+        public SpecialFilter()
         {
             InitializeComponent();
-            UpdateText();
+            //UpdateText();
         }      
 
         List<Article> list = new List<Article>();
@@ -50,7 +50,7 @@ namespace WikiFunctions.Lists
             try
             {
                 if (chkRemoveDups.Checked)
-                    removeDups();
+                    RemoveDuplicates();
 
                 list.Clear();
 
@@ -78,16 +78,15 @@ namespace WikiFunctions.Lists
                 //Causes exception on DBScanner otherwise
                 if (lb.Parent is ListMaker)
                     (lb.Parent as ListMaker).UpdateNumberOfArticles();
-
-                this.Hide();
             }
             catch (Exception ex)
             {
                 ErrorHandler.Handle(ex);
             }
+            DialogResult = DialogResult.OK;
         }
 
-        public void removeDups()
+        public void RemoveDuplicates()
         {
             list.Clear();
 
@@ -347,7 +346,7 @@ namespace WikiFunctions.Lists
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            DialogResult = DialogResult.Cancel;
         }
 
         private void chkContains_CheckedChanged(object sender, EventArgs e)
@@ -472,6 +471,11 @@ namespace WikiFunctions.Lists
         private void btnNonTalk_Click(object sender, EventArgs e)
         {
             SetSomeChecks(false);
+        }
+
+        private void SpecialFilter_VisibleChanged(object sender, EventArgs e)
+        {
+            if (Visible) UpdateText();
         }
     }
 }

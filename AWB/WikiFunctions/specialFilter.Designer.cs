@@ -1,6 +1,6 @@
 namespace WikiFunctions.Lists
 {
-    partial class specialFilter
+    partial class SpecialFilter
     {
         /// <summary>
         /// Required designer variable.
@@ -61,6 +61,8 @@ namespace WikiFunctions.Lists
             this.nonTalkOnlyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.talkSpaceOnlyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnNonTalk = new System.Windows.Forms.Button();
+            this.btnTalkOnly = new System.Windows.Forms.Button();
             this.btnSelectNone = new System.Windows.Forms.Button();
             this.btnSelectAll = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -70,8 +72,6 @@ namespace WikiFunctions.Lists
             this.btnGetList = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.chkRemoveDups = new System.Windows.Forms.CheckBox();
-            this.btnTalkOnly = new System.Windows.Forms.Button();
-            this.btnNonTalk = new System.Windows.Forms.Button();
             this.lbRemove = new WikiFunctions.Controls.Lists.ListBox2();
             this.contextmenuFilter.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -431,6 +431,26 @@ namespace WikiFunctions.Lists
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Namespaces to keep";
             // 
+            // btnNonTalk
+            // 
+            this.btnNonTalk.Location = new System.Drawing.Point(15, 250);
+            this.btnNonTalk.Name = "btnNonTalk";
+            this.btnNonTalk.Size = new System.Drawing.Size(92, 23);
+            this.btnNonTalk.TabIndex = 22;
+            this.btnNonTalk.Text = "Non-Talk Only";
+            this.btnNonTalk.UseVisualStyleBackColor = true;
+            this.btnNonTalk.Click += new System.EventHandler(this.btnNonTalk_Click);
+            // 
+            // btnTalkOnly
+            // 
+            this.btnTalkOnly.Location = new System.Drawing.Point(113, 250);
+            this.btnTalkOnly.Name = "btnTalkOnly";
+            this.btnTalkOnly.Size = new System.Drawing.Size(92, 23);
+            this.btnTalkOnly.TabIndex = 21;
+            this.btnTalkOnly.Text = "Talk Only";
+            this.btnTalkOnly.UseVisualStyleBackColor = true;
+            this.btnTalkOnly.Click += new System.EventHandler(this.btnTalkOnly_Click);
+            // 
             // btnSelectNone
             // 
             this.btnSelectNone.Location = new System.Drawing.Point(113, 222);
@@ -530,26 +550,6 @@ namespace WikiFunctions.Lists
             this.chkRemoveDups.Text = "Remove Duplicates";
             this.chkRemoveDups.UseVisualStyleBackColor = true;
             // 
-            // btnTalkOnly
-            // 
-            this.btnTalkOnly.Location = new System.Drawing.Point(15, 251);
-            this.btnTalkOnly.Name = "btnTalkOnly";
-            this.btnTalkOnly.Size = new System.Drawing.Size(92, 23);
-            this.btnTalkOnly.TabIndex = 21;
-            this.btnTalkOnly.Text = "Talk Only";
-            this.btnTalkOnly.UseVisualStyleBackColor = true;
-            this.btnTalkOnly.Click += new System.EventHandler(this.btnTalkOnly_Click);
-            // 
-            // btnNonTalk
-            // 
-            this.btnNonTalk.Location = new System.Drawing.Point(113, 251);
-            this.btnNonTalk.Name = "btnNonTalk";
-            this.btnNonTalk.Size = new System.Drawing.Size(92, 23);
-            this.btnNonTalk.TabIndex = 22;
-            this.btnNonTalk.Text = "Non-Talk Only";
-            this.btnNonTalk.UseVisualStyleBackColor = true;
-            this.btnNonTalk.Click += new System.EventHandler(this.btnNonTalk_Click);
-            // 
             // lbRemove
             // 
             this.lbRemove.FormattingEnabled = true;
@@ -558,11 +558,10 @@ namespace WikiFunctions.Lists
             this.lbRemove.Size = new System.Drawing.Size(169, 199);
             this.lbRemove.TabIndex = 5;
             // 
-            // specialFilter
+            // SpecialFilter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(631, 309);
             this.ControlBox = false;
             this.Controls.Add(this.groupBox1);
@@ -572,12 +571,13 @@ namespace WikiFunctions.Lists
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnApply);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "specialFilter";
+            this.Name = "SpecialFilter";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Special filter";
+            this.VisibleChanged += new System.EventHandler(this.SpecialFilter_VisibleChanged);
             this.Load += new System.EventHandler(this.specialFilter_Load);
             this.contextmenuFilter.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
