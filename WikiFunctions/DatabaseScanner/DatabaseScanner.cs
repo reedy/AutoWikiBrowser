@@ -531,7 +531,7 @@ namespace WikiFunctions.DBScanner
 
         private void btnFilter_Click(object sender, EventArgs e)
         {
-            specialFilter SpecialFilter = new specialFilter();
+            SpecialFilter SpecialFilter = new SpecialFilter();
             SpecialFilter.lb = lbArticles;
             SpecialFilter.ShowDialog(this);
             lblCount.Text = lbArticles.Items.Count.ToString();

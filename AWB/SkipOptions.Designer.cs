@@ -43,6 +43,7 @@ namespace AutoWikiBrowser
             // 
             // btnClose
             // 
+            this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnClose.Location = new System.Drawing.Point(101, 221);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
@@ -165,8 +166,10 @@ namespace AutoWikiBrowser
             // 
             // SkipOptions
             // 
+            this.AcceptButton = this.btnClose;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnClose;
             this.ClientSize = new System.Drawing.Size(188, 256);
             this.Controls.Add(this.gbOptions);
             this.Controls.Add(this.btnClose);

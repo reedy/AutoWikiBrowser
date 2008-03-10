@@ -200,7 +200,7 @@ namespace WikiFunctions.Parse
 
         private void btnDone_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            DialogResult = DialogResult.OK;
         }
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
