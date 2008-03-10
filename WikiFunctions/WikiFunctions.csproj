@@ -131,7 +131,6 @@
     <Compile Include="DatabaseScanner\MainProcess.cs" />
     <Compile Include="DatabaseScanner\Scanners.cs" />
     <Compile Include="Diff\WikiDiff.cs" />
-    <Compile Include="DotNetWikiBot.cs" />
     <Compile Include="Encryption.cs">
       <SubType>Code</SubType>
     </Compile>
