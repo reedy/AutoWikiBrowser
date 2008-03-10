@@ -1402,7 +1402,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void SetCheckBoxes()
         {
-            if (webBrowserEdit.Document.Body.InnerHtml.Contains("wpMinoredit"))
+            if (webBrowserEdit.Document != null &&webBrowserEdit.Document.Body.InnerHtml.Contains("wpMinoredit"))
             {
                 // Warning: Plugins can call SetMinor and SetWatch, so only turn these *on* not off
                 if (markAllAsMinorToolStripMenuItem.Checked) webBrowserEdit.SetMinor(true);
