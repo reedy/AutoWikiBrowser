@@ -125,9 +125,8 @@
   </metadata>
   <data name="PrivacyLabel.Text" xml:space="preserve">
     <value>We collect anonymous usage data and store it to our private database to help the developers track use and prioritise development tasks. We publish aggregrate statistics, but only approved AWB developers may access the individual records. However, if you wish you may prevent AWB from sending your username. The client and server code is available for public inspection in our Sourceforge repository.
-
-We do not collect IP (did we turn off logging on the server?) or MAC addresses, computer name, or passwords.
-</value>
+	
+	We do not collect IP or MAC addresses, computer name, or passwords.</value>
   </data>
   <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>213, 17</value>
