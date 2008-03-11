@@ -615,11 +615,12 @@ namespace WikiFunctions.Controls.Lists
 
             lbArticles.BeginUpdate();
 
-            foreach (Article a in l)
-            {
-                //if (!lbArticles.Items.Contains(a))
-                lbArticles.Items.Add(a);
-            }
+            //foreach (Article a in l)
+            //{
+            //    //if (!lbArticles.Items.Contains(a))
+            //    lbArticles.Items.Add(a);
+            //}
+            lbArticles.Items.AddRange(l.ToArray());
 
             lbArticles.EndUpdate();
 

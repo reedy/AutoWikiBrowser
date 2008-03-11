@@ -46,12 +46,12 @@ namespace UnitTests
         [Test]
         public void RemoveInvalidChars()
         {
-            Assert.AreEqual(Tools.RemoveInvalidChars("tesT 123!"), "tesT 123!");
-            Assert.AreEqual(Tools.RemoveInvalidChars("тест, ёпта"), "тест, ёпта");
-            Assert.AreEqual(Tools.RemoveInvalidChars(""), "");
-            Assert.AreEqual(Tools.RemoveInvalidChars("{<[test]>}"), "test");
-            Assert.AreEqual(Tools.RemoveInvalidChars("#|#"), "");
-            Assert.AreEqual(Tools.RemoveInvalidChars("http://www.wikipedia.org"), "http://www.wikipedia.org");
+            Assert.AreEqual("tesT 123!", Tools.RemoveInvalidChars("tesT 123!"));
+            Assert.AreEqual("тест, ёпта", Tools.RemoveInvalidChars("тест, ёпта"));
+            Assert.AreEqual("", Tools.RemoveInvalidChars(""));
+            Assert.AreEqual("test", Tools.RemoveInvalidChars("{<[test]>}"));
+            Assert.AreEqual("", Tools.RemoveInvalidChars("#|#"));
+            Assert.AreEqual("http://www.wikipedia.org", Tools.RemoveInvalidChars("http://www.wikipedia.org"));
         }
 
         [Test]
