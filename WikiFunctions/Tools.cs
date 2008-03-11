@@ -137,7 +137,7 @@ namespace WikiFunctions
             return m.Groups[1].Value;
         }
 
-        static string[] InvalidChars = new string[] { "[", "]", "{", "}", "|", "<", ">", "#" };
+        static char[] InvalidChars = new char[] { '[', ']', '{', '}', '|', '<', '>', '#' };
 
         /// <summary>
         /// Tests article title to see if it is valid
@@ -148,11 +148,12 @@ namespace WikiFunctions
             ArticleTitle = WikiDecode(ArticleTitle).Trim();
             if (ArticleTitle.Length == 0) return false;
 
-            foreach (string s in InvalidChars)
-                if (ArticleTitle.Contains(s))
-                    return false;
+            //foreach (string s in InvalidChars)
+            //    if (ArticleTitle.Contains(s))
+            //        return false;
+            return ArticleTitle.IndexOfAny(InvalidChars) < 0;
 
-            return true;
+            //return true;
         }
 
         /// <summary>
@@ -162,11 +163,15 @@ namespace WikiFunctions
         /// <returns>Article Title with no invalid characters</returns>
         public static string RemoveInvalidChars(string Title)
         {
-            foreach (string character in InvalidChars)
-            {
-                if (Regex.Match(Title, Regex.Escape(character)).Success)
-                    Title = Title.Replace(character, "");
-            }
+            int pos = 0;
+            while ((pos = Title.IndexOfAny(InvalidChars)) >= 0)
+                Title = Title.Remove(pos, 1);
+
+            //foreach (string character in InvalidChars)
+            //{
+            //    if (Regex.Match(Title, Regex.Escape(character)).Success)
+            //        Title = Title.Replace(character, "");
+            //}
             return Title;
         }
 
