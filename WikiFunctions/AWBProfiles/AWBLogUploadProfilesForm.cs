@@ -61,7 +61,7 @@ namespace WikiFunctions.Profiles
 
         void UpdateUI()
         {
-            btnLogin.Enabled = btnDelete.Enabled = loginAsThisAccountToolStripMenuItem.Enabled =
+            btnLogin.Enabled = btnDelete.Enabled = BtnEdit.Enabled = loginAsThisAccountToolStripMenuItem.Enabled =
                 editThisAccountToolStripMenuItem.Enabled = changePasswordToolStripMenuItem.Enabled =
                 deleteThisAccountToolStripMenuItem.Enabled = (lvAccounts.SelectedItems.Count > 0);
         }
@@ -154,13 +154,18 @@ namespace WikiFunctions.Profiles
 
         private void editThisAccountToolStripMenuItem_Click(object sender, EventArgs e)
         {
-			try
-			{
-	            AWBProfileAdd add = new AWBProfileAdd(AWBProfiles.GetProfile(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text)));
-	            if (add.ShowDialog() == DialogResult.Yes)
-	                loadProfiles();
-			}
-			catch { }
+            edit();
+        }
+
+        private void edit()
+        {
+            try
+            {
+                AWBProfileAdd add = new AWBProfileAdd(AWBProfiles.GetProfile(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text)));
+                if (add.ShowDialog() == DialogResult.Yes)
+                    loadProfiles();
+            }
+            catch { }
         }
 
         private void btnExit_Click(object sender, EventArgs e)
@@ -182,6 +187,11 @@ namespace WikiFunctions.Profiles
         protected virtual void lvAccounts_DoubleClick(object sender, EventArgs e)
         {
             editThisAccountToolStripMenuItem_Click(sender, e);
+        }
+
+        private void BtnEdit_Click(object sender, EventArgs e)
+        {
+            edit();
         }
     }
 }

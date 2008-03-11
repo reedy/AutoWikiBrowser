@@ -28,10 +28,28 @@ namespace WikiFunctions.Profiles
         /// </summary>
         protected void InitializeComponent()
         {
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+            "1",
+            "Reedy Boy",
+            "No",
+            "",
+            "No",
+            ""}, -1);
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+            "2",
+            "Reedy Bot",
+            "No",
+            "",
+            "No",
+            ""}, -1);
             this.SuspendLayout();
             // 
             // lvAccounts
             // 
+            this.lvAccounts.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+            listViewItem1,
+            listViewItem2});
+            this.lvAccounts.Size = new System.Drawing.Size(494, 170);
             this.lvAccounts.DoubleClick += new System.EventHandler(this.lvAccounts_DoubleClick);
             // 
             // colAccountName
@@ -50,9 +68,21 @@ namespace WikiFunctions.Profiles
             // 
             this.colNotes.Width = 51;
             // 
+            // btnAdd
+            // 
+            this.btnAdd.Location = new System.Drawing.Point(93, 188);
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.Location = new System.Drawing.Point(255, 188);
+            // 
             // colID
             // 
             this.colID.Width = 27;
+            // 
+            // btnClose
+            // 
+            this.btnClose.Location = new System.Drawing.Point(431, 188);
             // 
             // colUsedForUpload
             // 
@@ -60,19 +90,25 @@ namespace WikiFunctions.Profiles
             // 
             // btnLogin
             // 
+            this.btnLogin.Location = new System.Drawing.Point(12, 188);
             this.btnLogin.Visible = true;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
+            // 
+            // BtnEdit
+            // 
+            this.BtnEdit.Location = new System.Drawing.Point(174, 188);
             // 
             // AWBProfilesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.ClientSize = new System.Drawing.Size(518, 248);
+            this.ClientSize = new System.Drawing.Size(518, 223);
             this.Name = "AWBProfilesForm";
-            this.Controls.SetChildIndex(this.btnDelete, 0);
-            this.Controls.SetChildIndex(this.btnClose, 0);
             this.Controls.SetChildIndex(this.btnAdd, 0);
-            this.Controls.SetChildIndex(this.lvAccounts, 0);
+            this.Controls.SetChildIndex(this.btnClose, 0);
+            this.Controls.SetChildIndex(this.btnDelete, 0);
+            this.Controls.SetChildIndex(this.BtnEdit, 0);
             this.Controls.SetChildIndex(this.btnLogin, 0);
+            this.Controls.SetChildIndex(this.lvAccounts, 0);
             this.ResumeLayout(false);
 
         }
