@@ -2187,6 +2187,14 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 listMaker1.FilterNonMainArticles();
         }
 
+        private void removeDuplicatesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            listMaker1.FilterDuplicates = removeDuplicatesToolStripMenuItem.Checked;
+
+            if (removeDuplicatesToolStripMenuItem.Checked)
+                listMaker1.removeListDuplicates();
+        }
+
         private void specialFilterToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             listMaker1.Filter();
@@ -3861,6 +3869,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void UsageStatsMenuItem_Click(object sender, EventArgs e)
         { UsageStats.OpenUsageStatsURL(); }
+
+
     }
         #endregion
 }

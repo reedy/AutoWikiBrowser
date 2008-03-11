@@ -371,6 +371,8 @@ namespace AutoWikiBrowser
             this.toolStripSeparatorMakeFromTextBox = new System.Windows.Forms.ToolStripSeparator();
             this.mnuCopyToCategoryLog = new System.Windows.Forms.ToolStripMenuItem();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
+            this.removeDuplicatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator28 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -1204,7 +1206,9 @@ namespace AutoWikiBrowser
             // 
             this.generalToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.filterOutNonMainSpaceToolStripMenuItem,
+            this.removeDuplicatesToolStripMenuItem,
             this.specialFilterToolStripMenuItem1,
+            this.toolStripSeparator28,
             this.convertToTalkPagesToolStripMenuItem,
             this.convertFromTalkPagesToolStripMenuItem,
             this.sortAlphabeticallyToolStripMenuItem,
@@ -3602,6 +3606,19 @@ namespace AutoWikiBrowser
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
             // 
+            // removeDuplicatesToolStripMenuItem
+            // 
+            this.removeDuplicatesToolStripMenuItem.CheckOnClick = true;
+            this.removeDuplicatesToolStripMenuItem.Name = "removeDuplicatesToolStripMenuItem";
+            this.removeDuplicatesToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.removeDuplicatesToolStripMenuItem.Text = "Remove duplicates";
+            this.removeDuplicatesToolStripMenuItem.Click += new System.EventHandler(this.removeDuplicatesToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator28
+            // 
+            this.toolStripSeparator28.Name = "toolStripSeparator28";
+            this.toolStripSeparator28.Size = new System.Drawing.Size(205, 6);
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -4027,5 +4044,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkSkipIfContains;
         private System.Windows.Forms.ToolStripMenuItem UsageStatsMenuItem;
         private System.Windows.Forms.ToolStripMenuItem filterOutNonMainSpaceToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeDuplicatesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator28;
     }
 }

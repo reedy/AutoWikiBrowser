@@ -41,6 +41,7 @@ namespace WikiFunctions.Controls.Lists
         public event ListMakerEventHandler NoOfArticlesChanged;
         public bool FilterNonMainAuto;
         public bool AutoAlpha;
+        public bool FilterDuplicates;
         /// <summary>
         /// Occurs when a list has been created
         /// </summary>
@@ -597,6 +598,8 @@ namespace WikiFunctions.Controls.Lists
             UpdateNumberOfArticles();
             if (FilterNonMainAuto)
                 FilterNonMainArticles();
+            if (FilterDuplicates)
+                removeListDuplicates();
         }
 
         private delegate void AddDel(List<Article> l);
@@ -758,6 +761,8 @@ namespace WikiFunctions.Controls.Lists
             }
             if (FilterNonMainAuto)
                 FilterNonMainArticles();
+            if (FilterDuplicates)
+                removeListDuplicates();
         }
 
         SourceType Source = SourceType.Category;
@@ -837,6 +842,8 @@ namespace WikiFunctions.Controls.Lists
             {
                 if (FilterNonMainAuto)
                     FilterNonMainArticles();
+                if (FilterDuplicates)
+                    removeListDuplicates();
                 StopProgressBar();
             }
         }
