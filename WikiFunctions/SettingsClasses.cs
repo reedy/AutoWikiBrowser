@@ -365,7 +365,8 @@ namespace WikiFunctions.AWBSettings
             string mTextBoxFont, bool mLowThreadPriority, bool mBeep, bool mFlash, bool mMinimize,
             decimal mTimeOutLimit, bool autoSaveEditBoxEnabled, decimal autoSaveEditBoxPeriod,
             string autoSaveEditBoxFile, bool mLockSummary, bool mEditToolbarEnabled, bool mSupressUsingAWB,
-            bool mfilterNonMainSpace, bool mAutoFilterDupes, bool mSortInterWikiOrder, bool mReplaceReferenceTags)
+            bool mfilterNonMainSpace, bool mAutoFilterDupes, bool mSortInterWikiOrder, bool mReplaceReferenceTags,
+            bool mFocusAtEndOfEditBox)
         {
             SaveArticleList = mSaveArticleList;
             IgnoreNoBots = mIgnoreNoBots;
@@ -402,6 +403,7 @@ namespace WikiFunctions.AWBSettings
             SupressUsingAWB = mSupressUsingAWB;
             filterNonMainSpace = mfilterNonMainSpace;
             AutoFilterDuplicates = mAutoFilterDupes;
+            FocusAtEndOfEditBox = mFocusAtEndOfEditBox;
 
             SortInterWikiOrder = mSortInterWikiOrder;
             ReplaceReferenceTags = mReplaceReferenceTags;
@@ -431,6 +433,7 @@ namespace WikiFunctions.AWBSettings
         public bool EditToolbarEnabled = true;
         public bool filterNonMainSpace = false;
         public bool AutoFilterDuplicates = false;
+        public bool FocusAtEndOfEditBox = false;
 
         public int TextBoxSize = 10;
         public string TextBoxFont = "Courier New";

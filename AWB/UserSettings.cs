@@ -265,7 +265,8 @@ namespace AutoWikiBrowser
                addIgnoredToLogFileToolStripMenuItem.Checked, (int)txtEdit.Font.Size, txtEdit.Font.Name,
                LowThreadPriority, Beep, Flash, Minimize, TimeOut, AutoSaveEditBoxEnabled, AutoSaveEditBoxPeriod,
                AutoSaveEditBoxFile, chkLock.Checked, EditToolBarVisible, SupressUsingAWB, filterOutNonMainSpaceToolStripMenuItem.Checked,
-               removeDuplicatesToolStripMenuItem.Checked, alphaSortInterwikiLinksToolStripMenuItem.Checked, replaceReferenceTagsToolStripMenuItem.Checked), new DabPrefs(chkEnableDab.Checked,
+               removeDuplicatesToolStripMenuItem.Checked, alphaSortInterwikiLinksToolStripMenuItem.Checked, replaceReferenceTagsToolStripMenuItem.Checked,
+               focusAtEndOfEditTextBoxToolStripMenuItem.Checked), new DabPrefs(chkEnableDab.Checked,
                txtDabLink.Text, txtDabVariants.Lines, (int)udContextChars.Value), new ModulePrefs(
                cModule.ModuleEnabled, cModule.Language, cModule.Code), externalProgram.Settings, loggingSettings1.SerialisableSettings,
                Plugin.Items);
@@ -436,7 +437,6 @@ namespace AutoWikiBrowser
             ShowTimer();
 
             sortAlphabeticallyToolStripMenuItem.Checked = p.General.SortListAlphabetically;
-
             addIgnoredToLogFileToolStripMenuItem.Checked = p.General.AddIgnoredToLog;
 
             AutoSaveEditBoxEnabled = p.General.AutoSaveEdit.Enabled;
@@ -450,6 +450,7 @@ namespace AutoWikiBrowser
 
             alphaSortInterwikiLinksToolStripMenuItem.Checked = p.General.SortInterWikiOrder;
             replaceReferenceTagsToolStripMenuItem.Checked = p.General.ReplaceReferenceTags;
+            focusAtEndOfEditTextBoxToolStripMenuItem.Checked = p.General.FocusAtEndOfEditBox;
 
             txtEdit.Font = new System.Drawing.Font(p.General.TextBoxFont, p.General.TextBoxSize);
 
