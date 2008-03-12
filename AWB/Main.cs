@@ -686,6 +686,12 @@ namespace AutoWikiBrowser
                     EnableButtons();
                 }
                 SetWatchButton(webBrowserEdit.IsWatched());
+
+                if (focusAtEndOfEditTextBoxToolStripMenuItem.Checked)
+                {
+                    txtEdit.Select(txtEdit.Text.Length, 0);
+                    txtEdit.ScrollToCaret();
+                }
             }
             else
             {
