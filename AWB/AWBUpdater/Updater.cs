@@ -241,10 +241,10 @@ namespace AwbUpdater
         private void UnzipAwb()
         {
             if (!string.IsNullOrEmpty(AWBZipName) && File.Exists(tempDirectory + AWBZipName))
-                Extract(AWBZipName);
+                Extract(tempDirectory + AWBZipName);
 
             if (!string.IsNullOrEmpty(UpdaterZipName) && File.Exists(tempDirectory + UpdaterZipName))
-                Extract(UpdaterZipName);              
+                Extract(tempDirectory + UpdaterZipName);              
 
             progressUpdate.Value = 70;
         }
