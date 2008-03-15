@@ -440,11 +440,11 @@ namespace WikiFunctions.Parse
 
         private void FindAndReplaceContextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            deleteRowToolStripMenuItem.Enabled = dataGridView1.SelectedRows.Count > 0;
+            deleteRowToolStripMenuItem.Enabled = (dataGridView1.SelectedRows.Count > 0);
 
             dataGridView1.EndEdit();
-            testRegexToolStripMenuItem.Enabled = dataGridView1.CurrentRow != null &&
-                (string)dataGridView1.CurrentRow.Cells["regex"].Value == "1";
+            testRegexToolStripMenuItem.Enabled = ((dataGridView1.CurrentRow != null) &&
+                ((string)dataGridView1.CurrentRow.Cells["regex"].Value == "1"));
         }
 
         private void testRegexToolStripMenuItem_Click(object sender, EventArgs e)
