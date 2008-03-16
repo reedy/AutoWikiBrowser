@@ -194,7 +194,9 @@ namespace UnitTests
         [Test]
         public void RemoveDiacritics()
         {
+            Assert.AreEqual("Doe", Tools.MakeHumanCatKey("Ďöê"));
             Assert.AreEqual("Doe, John", Tools.MakeHumanCatKey("Ĵǒħń Ďöê"));
+            Assert.AreEqual("Епрст", Tools.MakeHumanCatKey("Ёпрст"));
         }
 
         [Test]

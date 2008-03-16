@@ -54,7 +54,7 @@ namespace WikiFunctions
             {
                 int id = int.Parse(xn.Attributes["id"].Value);
 
-                m_Namespaces[id] = xn.InnerText;
+                if (id != 0) m_Namespaces[id] = xn.InnerText;
             }
         }
 

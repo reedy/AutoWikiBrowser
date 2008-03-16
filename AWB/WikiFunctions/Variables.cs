@@ -1034,7 +1034,7 @@ namespace WikiFunctions
                         Namespaces[2] = "Користувач:";
                         Namespaces[3] = "Обговорення користувача:";
                         Namespaces[4] = "Вікіпедія:";
-                        Namespaces[5] = "Обговорення Вікіпедія:";
+                        Namespaces[5] = "Обговорення Вікіпедії:";
                         Namespaces[6] = "Зображення:";
                         Namespaces[7] = "Обговорення зображення:";
                         Namespaces[8] = "MediaWiki:";

@@ -28,6 +28,7 @@ using System.Text.RegularExpressions;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Collections;
+using System.Globalization;
 
 namespace WikiFunctions
 {
@@ -724,6 +725,15 @@ namespace WikiFunctions
                 s = s.Replace(p.Key, p.Value);
             }
             return s;
+
+            //StringBuilder sb = new StringBuilder(s.Length);
+            //foreach (char c in s.Normalize(NormalizationForm.FormKD))
+            //{
+            //    UnicodeCategory category = char.GetUnicodeCategory(c);
+            //    if (category != UnicodeCategory.Surrogate && category != UnicodeCategory.NonSpacingMark)
+            //        sb.Append(c);
+            //}
+            //return sb.ToString().Normalize(NormalizationForm.FormC);
         }
 
         /// <summary>
