@@ -410,7 +410,11 @@ namespace WikiFunctions.Parse
 
         private string removePersonData(ref string ArticleText)
         {
-            string strPersonData = Parsers.GetTemplate(ArticleText, "[Pp]ersondata");
+            string strPersonData;
+            if (Variables.LangCode == LangCodeEnum.de)
+                strPersonData = Parsers.GetTemplate(ArticleText, "[Pp]ersonendaten");
+            else
+                strPersonData = Parsers.GetTemplate(ArticleText, "[Pp]ersondata");
 
             if (!string.IsNullOrEmpty(strPersonData))
                 ArticleText = ArticleText.Replace(strPersonData, "");
