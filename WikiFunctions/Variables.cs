@@ -78,9 +78,6 @@ namespace WikiFunctions
             if (!Globals.UnitTestMode)
             {
                 SetProject(LangCodeEnum.en, ProjectEnum.wikipedia);
-#if DEBUG
-                Profiler = new Profiler("profiling.txt", true);
-#endif
             }
             else
             {

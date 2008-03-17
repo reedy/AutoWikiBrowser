@@ -97,7 +97,8 @@ namespace WikiFunctions.Browser
 
         #region Properties
 
-        public enumProcessStage pStage = new enumProcessStage();
+        enumProcessStage pStage = enumProcessStage.none;
+        [Browsable(false)]
         public enumProcessStage ProcessStage
         {
             get { return pStage; }
@@ -107,6 +108,7 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Returns title of currently loaded page
         /// </summary>
+        [Browsable(false)]
         public string ArticleTitle
         {
             get
@@ -120,6 +122,7 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// get or sets contents of edit box
         /// </summary>
+        [Browsable(false)]
         public string ArticleText
         {
             get { return GetArticleText(); }
@@ -145,6 +148,7 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Returns revision ID of currently loaded page
         /// </summary>
+        [Browsable(false)]
         public int Revid
         {
             get
@@ -168,6 +172,7 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Gets a value indicating whether the page can be saved
         /// </summary>
+        [Browsable(false)]
         public bool CanSave
         {
             get { return (this.Document != null && this.Document.GetElementById("wpSave") != null); }
@@ -176,6 +181,7 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Gets a value indicating whether the page can be previewed
         /// </summary>
+        [Browsable(false)]
         public bool CanPreview
         {
             get { return (this.Document != null && this.Document.GetElementById("wpPreview") != null); }
@@ -184,6 +190,7 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Gets a value indicating whether the page can be deleted
         /// </summary>
+        [Browsable(false)]
         public bool CanDelete
         {
             get { return (this.Document != null && this.Document.GetElementById("wpConfirmB") != null); }
@@ -192,6 +199,7 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Gets a value indicating whether the page can be protected
         /// </summary>
+        [Browsable(false)]
         public bool CanProtect
         {
             get { return (this.Document != null && this.Document.GetElementById("mw-Protect-submit") != null); }
@@ -218,6 +226,7 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Gets the user name if logged in
         /// </summary>
+        [Browsable(false)]
         public string UserName
         {
             get
@@ -262,6 +271,7 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Gets a value indicating whether there is a new message
         /// </summary>
+        [Browsable(false)]
         public bool NewMessage
         {
             get
@@ -275,6 +285,7 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Gets a value indicating whether the textbox is present
         /// </summary>
+        [Browsable(false)]
         public bool HasArticleTextBox
         {
             get { return wpTextbox1.IsMatch(DocumentText); }
@@ -284,6 +295,7 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Gets a string indicating the current status
         /// </summary>
+        [Browsable(false)]
         public string Status
         {
             get
@@ -298,9 +310,11 @@ namespace WikiFunctions.Browser
         }
 
         bool boolBusy;
+
         /// <summary>
         /// Gets a value indicating whether articles are still being processed
         /// </summary>
+        [Browsable(false)]
         public bool Busy
         {
             get { return boolBusy; }
@@ -316,11 +330,13 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Gets a bool indicating if the current page is a diff
         /// </summary>
+        [Browsable(false)]
         public bool IsDiff
         {
             get { return (this.Document.Body.InnerHtml.Contains("<DIV id=wikiDiff>")); }
         }
 
+        [Browsable(false)]
         public bool IsUserPage
         {
             get { return ArticleTitle.StartsWith(Variables.Namespaces[2]); }
@@ -329,12 +345,14 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// returns true if current page is a userpage
         /// </summary>
+        [Browsable(false)]
         public bool IsUserTalk
         {
             get
             { return ArticleTitle.StartsWith(Variables.Namespaces[3]); }
         }
 
+        [Browsable(false)]
         public bool IsUserSpace
         {
             get
@@ -348,6 +366,7 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Gets a value indicating if the associated talk page exists
         /// </summary>
+        [Browsable(false)]
         public bool TalkPageExists
         {
             get { return boolTalkExists; }
@@ -359,6 +378,7 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Gets a value indicating if the associated article page exists
         /// </summary>
+        [Browsable(false)]
         public bool ArticlePageExists
         {
             get { return boolArticlePageExists; }
@@ -987,6 +1007,7 @@ namespace WikiFunctions.Browser
         #endregion
 
         #region IRCMonitor-related
+        [Browsable(false)]
         public string AdminRollbackUrl
         {
             get

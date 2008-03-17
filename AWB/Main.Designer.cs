@@ -3539,12 +3539,9 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.webBrowserEdit.ArticleText = "";
-            this.webBrowserEdit.Busy = false;
             this.webBrowserEdit.Location = new System.Drawing.Point(0, 25);
             this.webBrowserEdit.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowserEdit.Name = "webBrowserEdit";
-            this.webBrowserEdit.ProcessStage = WikiFunctions.Browser.enumProcessStage.none;
             this.webBrowserEdit.ScriptErrorsSuppressed = true;
             this.webBrowserEdit.Size = new System.Drawing.Size(909, 239);
             this.webBrowserEdit.TabIndex = 670;
