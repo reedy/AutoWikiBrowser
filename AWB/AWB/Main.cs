@@ -1852,6 +1852,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             bypassAllRedirectsToolStripMenuItem.Enabled = true;
             profileTyposToolStripMenuItem.Visible = true;
             toolStripSeparator29.Visible = true;
+
+            Variables.Profiler = new Profiler("profiling.txt", true);
         }
 
         #endregion
