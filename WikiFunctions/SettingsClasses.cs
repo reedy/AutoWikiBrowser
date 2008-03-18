@@ -73,11 +73,7 @@ namespace WikiFunctions.AWBSettings
 
             foreach (KeyValuePair<string, WikiFunctions.Plugin.IAWBPlugin> a in Plugins)
             {
-                PluginPrefs pp = new PluginPrefs();
-                pp.Name = a.Key;
-                pp.PluginSettings = a.Value.SaveSettings();
-
-                Plugin.Add(pp);
+                Plugin.Add(new PluginPrefs(a.Key, a.Value.SaveSettings()));
             }
         }
 
@@ -143,7 +139,7 @@ namespace WikiFunctions.AWBSettings
                     xs.Serialize(fStream, prefs);
                 }
             }
-            catch { throw; }
+            catch (Exception ex) { ErrorHandler.Handle(ex); }
         }
 
         public static List<System.Type> SavePluginSettings(UserPrefs Prefs)
@@ -563,6 +559,14 @@ namespace WikiFunctions.AWBSettings
     [Serializable, ]
     public class PluginPrefs
     {
+        internal PluginPrefs() { }
+
+        public PluginPrefs(string aName, object[] aPluginSettings)
+        {
+            Name = aName;
+            PluginSettings = aPluginSettings;
+        }
+
         public string Name = "";
         public object[] PluginSettings = null;
     }
@@ -576,7 +580,7 @@ namespace WikiFunctions.AWBSettings
         public string Name = "";
         public object Setting = null;
 
-        public PrefsKeyPair() { }
+        internal PrefsKeyPair() { }
 
         public PrefsKeyPair(string aName, object aSetting)
         {
