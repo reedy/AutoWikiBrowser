@@ -119,7 +119,7 @@ namespace WikiFunctions.AWBSettings
                 // fix for format regression
                 settings = settings.Replace("RegularExpressinonOptions>", "RegularExpressionOptions>");
 
-                XmlSerializer xs = new XmlSerializer(typeof(UserPrefs));
+                XmlSerializer xs = new XmlSerializer(typeof(UserPrefs), new Type[] { typeof(PrefsKeyPair) });
                 return (UserPrefs)xs.Deserialize(new StringReader(settings));
 
                 //using (FileStream fStream = new FileStream(file, FileMode.Create))
@@ -560,7 +560,7 @@ namespace WikiFunctions.AWBSettings
         public string OutputFile = "";
     }
 
-    [Serializable]
+    [Serializable, ]
     public class PluginPrefs
     {
         public string Name = "";
@@ -575,5 +575,13 @@ namespace WikiFunctions.AWBSettings
     {
         public string Name = "";
         public object Setting = null;
+
+        public PrefsKeyPair() { }
+
+        public PrefsKeyPair(string aName, object aSetting)
+        {
+            Name = aName;
+            Setting = aSetting;
+        }
     }
 }
