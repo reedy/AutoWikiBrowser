@@ -1853,7 +1853,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             profileTyposToolStripMenuItem.Visible = true;
             toolStripSeparator29.Visible = true;
 
+#if DEBUG
             Variables.Profiler = new Profiler("profiling.txt", true);
+#endif
         }
 
         #endregion
