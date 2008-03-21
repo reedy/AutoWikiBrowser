@@ -1039,7 +1039,7 @@ namespace AutoWikiBrowser
                         cmboCategorise.SelectedIndex, parsers, chkSkipNoCatChange.Checked, txtNewCategory.Text.Trim(),
                         txtNewCategory2.Text.Trim());
                     if (theArticle.SkipArticle) return;
-                    else if (!chkGeneralFixes.Checked) theArticle.AWBChangeArticleText("Fix categories", parsers.FixCategories(theArticle.ArticleText), true);
+                    else if (!chkGeneralFixes.Checked) theArticle.AWBChangeArticleText("Fix categories", Parsers.FixCategories(theArticle.ArticleText), true);
                 }
 
                 Variables.Profiler.Profile("Categories");
@@ -1073,7 +1073,7 @@ namespace AutoWikiBrowser
                     }
 
                     theArticle.AWBChangeArticleText("Subst user talk warnings",
-                        parsers.SubstUserTemplates(theArticle.ArticleText, theArticle.Name, userTalkTemplatesRegex), true);
+                        Parsers.SubstUserTemplates(theArticle.ArticleText, theArticle.Name, userTalkTemplatesRegex), true);
 
                     Variables.Profiler.Profile("SubstUserTemplates");
 
@@ -2673,7 +2673,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private void removeAllExcessWhitespaceToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string text = RemoveText.Hide(txtEdit.Text);
-            text = parsers.RemoveAllWhiteSpace(text);
+            text = Parsers.RemoveAllWhiteSpace(text);
             text = RemoveText.AddBack(text);
 
             txtEdit.Text = text;

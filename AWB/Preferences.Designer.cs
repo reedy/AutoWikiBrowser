@@ -32,7 +32,6 @@ namespace AutoWikiBrowser
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MyPreferences));
             this.cmboLang = new System.Windows.Forms.ComboBox();
             this.btnOK = new System.Windows.Forms.Button();
@@ -70,7 +69,6 @@ namespace AutoWikiBrowser
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.PrivacyCheckBox = new System.Windows.Forms.CheckBox();
             this.PrivacyLabel = new System.Windows.Forms.Label();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numTimeOutLimit)).BeginInit();
@@ -541,7 +539,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkAlwaysConfirmExit;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label PrivacyLabel;
-        private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.CheckBox PrivacyCheckBox;
         private System.Windows.Forms.Label label4;
     }

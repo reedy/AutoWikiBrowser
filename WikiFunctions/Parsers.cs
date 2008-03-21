@@ -251,7 +251,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
-        public string FixFootnotes(string ArticleText)
+        public static string FixFootnotes(string ArticleText)
         {
             // One space/linefeed
             ArticleText = Regex.Replace(ArticleText, "[\\n\\r\\f\\t ]+?<ref([ >])", "<ref$1");
@@ -338,7 +338,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article</param>
         /// <returns></returns>
-        public string SimplifyReferenceTags(string ArticleText)
+        public static string SimplifyReferenceTags(string ArticleText)
         {
             if (EmptyReferences.Match(ArticleText).Success)
                 ArticleText = EmptyReferences.Replace(ArticleText, @"<ref name=""$1"" />");
@@ -375,7 +375,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
-        public string RemoveAllWhiteSpace(string ArticleText)
+        public static string RemoveAllWhiteSpace(string ArticleText)
         {//removes all whitespace
             ArticleText = ArticleText.Replace("\t", " ");
             ArticleText = RemoveWhiteSpace(ArticleText);
@@ -609,7 +609,7 @@ namespace WikiFunctions.Parse
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <param name="NoChange">Value that indicated whether no change was made.</param>
         /// <returns>The modified article text.</returns>
-        public string FixLinks(string ArticleText, out bool NoChange)
+        public static string FixLinks(string ArticleText, out bool NoChange)
         {
             StringBuilder sb = new StringBuilder(ArticleText, (ArticleText.Length * 11) / 10);
 
@@ -696,7 +696,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <returns>The simplified article text.</returns>
-        public string SimplifyLinks(string ArticleText)
+        public static string SimplifyLinks(string ArticleText)
         {
             string n = "", a = "", b = "", k = "";
 
@@ -747,7 +747,7 @@ a='" + a + "',  b='" + b + "'", "SimplifyLinks error");
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article</param>
         /// <returns>Processed wikitext</returns>
-        public string StickyLinks(string ArticleText)
+        public static string StickyLinks(string ArticleText)
         {
             string a = "", b = "";
             try
@@ -787,7 +787,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <returns></returns>
-        public string FixMainArticle(string ArticleText)
+        public static string FixMainArticle(string ArticleText)
         {
             if (regexMainArticle.Match(ArticleText).Groups[2].Value.Length == 0)
                 return regexMainArticle.Replace(ArticleText, "{{main|$1}}");
@@ -801,7 +801,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <returns></returns>
-        public string FixEmptyLinksAndTemplates(string ArticleText)
+        public static string FixEmptyLinksAndTemplates(string ArticleText)
         {
             string cat = Variables.Namespaces[14];
             string img = Variables.Namespaces[6];
@@ -846,7 +846,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
-        public string BulletExternalLinks(string ArticleText)
+        public static string BulletExternalLinks(string ArticleText)
         {
             int intStart = 0;
             string articleTextSubstring = "";
@@ -874,7 +874,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
-        public string FixCategories(string ArticleText)
+        public static string FixCategories(string ArticleText)
         {
             Regex catregex = new Regex(@"\[\[[\s_]*" + Variables.NamespacesCaseInsensitive[14] + @"[\s_]*(.*?)\]\]");
             string cat = "[[" + Variables.Namespaces[14];
@@ -894,7 +894,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
-        public string FixImages(string ArticleText)
+        public static string FixImages(string ArticleText)
         {
             Regex imgregex = new Regex(@"\[\[\s*?" + Variables.NamespacesCaseInsensitive[6] + @"\s*([^\|\]]*?)(.*?)\]\]");
             string img = "[[" + Variables.Namespaces[6];
@@ -1202,7 +1202,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <param name="OldImage">The old image to replace.</param>
         /// <param name="NewImage">The new image.</param>
         /// <returns>The new article text.</returns>
-        public string ReplaceImage(string OldImage, string NewImage, string ArticleText)
+        public static string ReplaceImage(string OldImage, string NewImage, string ArticleText)
         {
             //remove image prefix
             OldImage = Regex.Replace(OldImage, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase).Replace("_", " ");
@@ -1224,7 +1224,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <param name="Image">The image to remove.</param>
         /// <returns>The new article text.</returns>
-        public string RemoveImage(string Image, string ArticleText, bool CommentOut, string Comment)
+        public static string RemoveImage(string Image, string ArticleText, bool CommentOut, string Comment)
         {
             //remove image prefix
             Image = Regex.Replace(Image, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase).Replace("_", " ");
@@ -1327,7 +1327,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <param name="NewCategory">The new category.</param>
         /// <returns>The article text.</returns>
-        public string AddCategory(string NewCategory, string ArticleText, string ArticleTitle)
+        public static string AddCategory(string NewCategory, string ArticleText, string ArticleTitle)
         {
             if (Regex.IsMatch(ArticleText, "\\[\\[ ?[Cc]ategory ?: ?" + Regex.Escape(NewCategory) + @"\s*[\|\]]"))
                 return ArticleText;
@@ -1542,7 +1542,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         /// <param name="TalPageText">The wiki text of the talk page.</param>
         /// <returns>The new text.</returns>
-        public string SubstUserTemplates(string TalkPageText, string TalkPageTitle, Regex userTalkTemplatesRegex)
+        public static string SubstUserTemplates(string TalkPageText, string TalkPageTitle, Regex userTalkTemplatesRegex)
         {
             if (userTalkTemplatesRegex == null) return TalkPageText;
 
@@ -1750,7 +1750,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <returns></returns>
-        public string RemoveDuplicateWikiLinks(string ArticleText)
+        public static string RemoveDuplicateWikiLinks(string ArticleText)
         {
             ArticleText = dupeLinks1.Replace(ArticleText, "[[$1|$2]]$3$2");
             ArticleText = dupeLinks2.Replace(ArticleText, "[[$1]]$2$1");

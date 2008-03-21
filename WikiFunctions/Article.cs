@@ -305,7 +305,7 @@ namespace WikiFunctions
 
                 case CategorisationOptions.AddCat:
                     if (CategoryText.Length < 1) return;
-                    strTemp = parsers.AddCategory(CategoryText, mArticleText, mName);
+                    strTemp = Parsers.AddCategory(CategoryText, mArticleText, mName);
                     action = "Added " + CategoryText;
                     break;
 
@@ -461,7 +461,7 @@ namespace WikiFunctions
         public void FixLinks(Parsers parsers, bool SkipIfNoChange)
         {
             bool noChange;
-            string strTemp = parsers.FixLinks(mArticleText, out noChange);
+            string strTemp = Parsers.FixLinks(mArticleText, out noChange);
             if (noChange && SkipIfNoChange)
                 Trace.AWBSkipped("No bad links");
             else if (!noChange)
@@ -722,16 +722,16 @@ namespace WikiFunctions
             SetDefaultSort(parsers, Variables.LangCode, skip.SkipNoDefaultSortAdded);
             Variables.Profiler.Profile("SetDefaultSort");
 
-            AWBChangeArticleText("Fix categories", parsers.FixCategories(ArticleText), true);
+            AWBChangeArticleText("Fix categories", Parsers.FixCategories(ArticleText), true);
             Variables.Profiler.Profile("FixCategories");
-            AWBChangeArticleText("Fix images", parsers.FixImages(ArticleText), true);
+            AWBChangeArticleText("Fix images", Parsers.FixImages(ArticleText), true);
             Variables.Profiler.Profile("FixImages");
             AWBChangeArticleText("Fix syntax", parsers.FixSyntax(ArticleText), true);
             Variables.Profiler.Profile("FixSyntax");
             AWBChangeArticleText("Fix temperatures", parsers.FixTemperatures(ArticleText), true);
             Variables.Profiler.Profile("FixTemperatures");
 
-            AWBChangeArticleText("Fix main article", parsers.FixMainArticle(ArticleText), true);
+            AWBChangeArticleText("Fix main article", Parsers.FixMainArticle(ArticleText), true);
             Variables.Profiler.Profile("FixMainArticle");
 
             if (replaceReferenceTags)
@@ -743,10 +743,10 @@ namespace WikiFunctions
             AWBChangeArticleText("Fix whitespace in links", parsers.FixLinkWhitespace(ArticleText), true);
             Variables.Profiler.Profile("FixLinkWhitespace");
 
-            AWBChangeArticleText("Fix empty links and templates", parsers.FixEmptyLinksAndTemplates(ArticleText), true);
+            AWBChangeArticleText("Fix empty links and templates", Parsers.FixEmptyLinksAndTemplates(ArticleText), true);
             Variables.Profiler.Profile("FixEmptyLinksAndTemplates");
 
-            AWBChangeArticleText("Fix empty references", parsers.SimplifyReferenceTags(ArticleText), true);
+            AWBChangeArticleText("Fix empty references", Parsers.SimplifyReferenceTags(ArticleText), true);
             Variables.Profiler.Profile("FixEmptyReferences");
 
             //Just a bit broken/Some unwanted fixes (moving of <ref> tags around)
@@ -771,7 +771,7 @@ namespace WikiFunctions
             EmboldenTitles(parsers, skip.SkipNoBoldTitle);
 
             AWBChangeArticleText("Format sticky links",
-                parsers.StickyLinks(parsers.SimplifyLinks(ArticleText)), true);
+                Parsers.StickyLinks(Parsers.SimplifyLinks(ArticleText)), true);
 
             //AWBChangeArticleText("Remove duplicate wikilink", parsers.RemoveDuplicateWikiLinks(ArticleText), true);
 

@@ -221,11 +221,10 @@ namespace WikiFunctions.Disambiguation
                     CurrentLink += "|" + VisibleLink;
                     if (RealLink == VisibleLink)
                         CurrentLink += LinkTrail + "]]";
-                    else 
-                    CurrentLink += "]]" + LinkTrail;
-                    WikiFunctions.Parse.Parsers parse = new WikiFunctions.Parse.Parsers();
-                    CurrentLink = parse.SimplifyLinks(CurrentLink);
-                    txtCorrection.Text = parse.StickyLinks(Surroundings.Replace(Match.Value, CurrentLink));
+                    else
+                        CurrentLink += "]]" + LinkTrail;
+                    CurrentLink = WikiFunctions.Parse.Parsers.SimplifyLinks(CurrentLink);
+                    txtCorrection.Text = WikiFunctions.Parse.Parsers.StickyLinks(Surroundings.Replace(Match.Value, CurrentLink));
                 }
 
                 btnUnpipe.Enabled = btnFlip.Enabled = CurrentLink.Contains("|");

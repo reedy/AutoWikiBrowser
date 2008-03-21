@@ -1380,7 +1380,6 @@ namespace IRCM
             this.webBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.webBrowser.ArticleText = "";
             this.webBrowser.Busy = false;
             this.webBrowser.Location = new System.Drawing.Point(0, 31);
             this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);

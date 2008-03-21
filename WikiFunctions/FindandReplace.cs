@@ -125,7 +125,7 @@ namespace WikiFunctions.Parse
 
         static readonly Regex NewlineRegex = new Regex(@"(?<!\\)\\n", RegexOptions.Compiled);
         static readonly Regex TabulationRegex = new Regex(@"(?<!\\)\\t", RegexOptions.Compiled);
-        string PrepareReplacePart(string replace)
+        static string PrepareReplacePart(string replace)
         {
             replace = NewlineRegex.Replace(replace, "\n");
             replace = TabulationRegex.Replace(replace, "\t");
@@ -224,12 +224,12 @@ namespace WikiFunctions.Parse
             dataGridView1.Rows.Clear();
         }
 
-        private string Encode(string Text)
+        private static string Encode(string Text)
         {
            return Text.Replace("\\r\\n", "\r\n");
         }
 
-        private string Decode(string Text)
+        private static string Decode(string Text)
         {
             return Text.Replace("\n", "\\r\\n");
         }

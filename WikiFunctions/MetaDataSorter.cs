@@ -174,7 +174,7 @@ namespace WikiFunctions.Parse
             }
         }
 
-        string RawCode(string iw)
+        static string RawCode(string iw)
         {
             return iw.Substring(0, iw.IndexOf(':'));
         }
@@ -311,12 +311,12 @@ namespace WikiFunctions.Parse
             catch { }
         }
 
-        private string remExtra(string Input)
+        private static string remExtra(string Input)
         {
             return Input.Replace("\r\n", "").Replace(">", "").Replace("\n", "");
         }
 
-        private string Newline(string s)
+        private static string Newline(string s)
         {
             return s.Length == 0 ? s : "\r\n" + s;
         }
@@ -408,7 +408,7 @@ namespace WikiFunctions.Parse
             return defaultSort + ListToString(categoryList);
         }
 
-        private string removePersonData(ref string ArticleText)
+        private static string removePersonData(ref string ArticleText)
         {
             string strPersonData;
             if (Variables.LangCode == LangCodeEnum.de)
@@ -422,7 +422,7 @@ namespace WikiFunctions.Parse
             return strPersonData;
         }
 
-        private string removeStubs(ref string ArticleText)
+        private static string removeStubs(ref string ArticleText)
         {
             Regex stubsRegex = new Regex("<!-- ?\\{\\{.*?" + Variables.Stub + "b\\}\\}.*?-->|:?\\{\\{.*?" + Variables.Stub + "\\}\\}");
 
@@ -447,7 +447,7 @@ namespace WikiFunctions.Parse
                 return "";
         }
 
-        private string removeDisambig(ref string ArticleText)
+        private static string removeDisambig(ref string ArticleText)
         {
             if (Variables.LangCode != LangCodeEnum.en)
                 return "";
@@ -462,7 +462,7 @@ namespace WikiFunctions.Parse
             return strDisambig;
         }
 
-        private List<string> removeLinkFAs(ref string ArticleText)
+        private static List<string> removeLinkFAs(ref string ArticleText)
         {
             List<string> linkFAList = new List<string>();
             string x = "";
@@ -522,7 +522,7 @@ namespace WikiFunctions.Parse
             return string.Concat(textArray);
         }
 
-        private string ListToString(List<string> items)
+        private static string ListToString(List<string> items)
         {//remove duplicates, and return List as string.
 
             if (items.Count == 0)
@@ -547,7 +547,7 @@ namespace WikiFunctions.Parse
             return list;
         }
 
-        private List<string> catKeyer(List<string> List, string strName)
+        private static List<string> catKeyer(List<string> List, string strName)
         {
             // make key
             strName = Tools.MakeHumanCatKey(strName);
