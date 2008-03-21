@@ -24,6 +24,8 @@ namespace WikiFunctions.Encryption
     /// </summary>
     public sealed class RijndaelSimple
     {
+        private RijndaelSimple() { }
+
         /// <summary>
         /// Encrypts specified plaintext using Rijndael symmetric key algorithm
         /// and returns a base64-encoded result.

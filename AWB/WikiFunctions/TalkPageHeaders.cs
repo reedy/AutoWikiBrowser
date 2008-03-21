@@ -34,6 +34,8 @@ namespace WikiFunctions.TalkPages
 
     public sealed class TalkPageHeaders
     {
+        private TalkPageHeaders() { }
+
         private static string DefaultSortKey;
         private static bool FoundDefaultSort;
         private static bool FoundSkipTOC;

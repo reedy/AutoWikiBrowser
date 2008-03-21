@@ -6,6 +6,8 @@ namespace WikiFunctions.Properties
 {
     public sealed class Res
     {
+        private Res() { }
+
         public static System.Drawing.Bitmap btnshowhide_image
         {            
             get { return Resources.Showhide; }
