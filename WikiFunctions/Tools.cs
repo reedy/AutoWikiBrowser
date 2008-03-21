@@ -885,9 +885,9 @@ Message: {2}
         public static void OpenENArticleInBrowser(string title, bool userspace)
         {
             if (userspace)
-                OpenURLInBrowser("http://en.wikipedia.org/wiki/User:" + WikiEncode(title));
+                OpenURLInBrowser("http://en.wikipedia.org/wiki/User:" + title.Replace(' ', '_'));
             else
-                OpenURLInBrowser("http://en.wikipedia.org/wiki/" + WikiEncode(title));
+                OpenURLInBrowser("http://en.wikipedia.org/wiki/" + title.Replace(' ', '_'));
         }
 
         public static string GetENLinkWithSimpleSkinAndLocalLanguage(string Article)
