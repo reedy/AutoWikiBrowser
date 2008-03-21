@@ -53,7 +53,7 @@ namespace AutoWikiBrowser
             this.ButtonOK.Name = "ButtonOK";
             this.ButtonOK.Size = new System.Drawing.Size(75, 23);
             this.ButtonOK.TabIndex = 1;
-            this.ButtonOK.Text = "Yes";
+            this.ButtonOK.Text = "&Yes";
             this.ButtonOK.UseVisualStyleBackColor = true;
             // 
             // buttonCancel
@@ -63,7 +63,7 @@ namespace AutoWikiBrowser
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 2;
-            this.buttonCancel.Text = "No";
+            this.buttonCancel.Text = "&No";
             this.buttonCancel.UseVisualStyleBackColor = true;
             // 
             // chkDontAskAgain
@@ -73,7 +73,7 @@ namespace AutoWikiBrowser
             this.chkDontAskAgain.Name = "chkDontAskAgain";
             this.chkDontAskAgain.Size = new System.Drawing.Size(100, 17);
             this.chkDontAskAgain.TabIndex = 3;
-            this.chkDontAskAgain.Text = "Don\'t ask again";
+            this.chkDontAskAgain.Text = "&Don\'t ask again";
             this.chkDontAskAgain.UseVisualStyleBackColor = true;
             // 
             // lblTimeAndEdits
