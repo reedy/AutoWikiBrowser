@@ -1305,12 +1305,12 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
 
         public static string GetUserTalkURL(string username)
         {
-            return URLLong + "index.php?title=User_talk:" + username + "&action=purge";
+            return URLLong + "index.php?title=User_talk:" + Tools.WikiEncode(username) + "&action=purge";
         }
 
         public static string GetUserTalkURL()
         {
-            return URLLong + "index.php?title=User_talk:" + User.Name + "&action=purge";
+            return URLLong + "index.php?title=User_talk:" + Tools.WikiEncode(User.Name) + "&action=purge";
         }
 
         public static string GetPlainTextURL(string title)
