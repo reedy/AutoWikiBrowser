@@ -34,7 +34,6 @@ namespace WikiFunctions.DBScanner
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DatabaseScanner));
             this.txtList = new System.Windows.Forms.TextBox();
             this.openXMLDialog = new System.Windows.Forms.OpenFileDialog();
-            this.btnStart = new System.Windows.Forms.Button();
             this.saveFileDialog2 = new System.Windows.Forms.SaveFileDialog();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,16 +47,15 @@ namespace WikiFunctions.DBScanner
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.optionsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.ignoreRedirectsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ignoreImagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ignoreWikipediaNamespaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ignoreCategoryNamespaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ignoreTemplateNamespaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ignoreMainNamespaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.ignoreRedirectsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.ignoreCommentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.otherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.threadPriorityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.highestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboveNormalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -89,8 +87,6 @@ namespace WikiFunctions.DBScanner
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.chkTitleCase = new System.Windows.Forms.CheckBox();
             this.chkTitleRegex = new System.Windows.Forms.CheckBox();
-            this.nudLimitResults = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
             this.nudHeadingSpace = new System.Windows.Forms.NumericUpDown();
             this.chkHeading = new System.Windows.Forms.CheckBox();
             this.btnClear = new System.Windows.Forms.Button();
@@ -115,7 +111,11 @@ namespace WikiFunctions.DBScanner
             this.label5 = new System.Windows.Forms.Label();
             this.lbArticles = new WikiFunctions.Controls.Lists.ListBox2();
             this.btnFilter = new System.Windows.Forms.Button();
+            this.btnStart = new System.Windows.Forms.Button();
+            this.nudLimitResults = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.rdoBullet = new System.Windows.Forms.RadioButton();
             this.rdoHash = new System.Windows.Forms.RadioButton();
             this.btnSave = new System.Windows.Forms.Button();
@@ -126,16 +126,18 @@ namespace WikiFunctions.DBScanner
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.rdoTypo = new System.Windows.Forms.RadioButton();
             this.rdoNone = new System.Windows.Forms.RadioButton();
+            this.en_wikipDumpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dumpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudWords)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudLength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudLinks)).BeginInit();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudLimitResults)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudHeadingSpace)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudLimitResults)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -146,13 +148,13 @@ namespace WikiFunctions.DBScanner
             this.txtList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtList.Location = new System.Drawing.Point(10, 70);
+            this.txtList.Location = new System.Drawing.Point(6, 68);
             this.txtList.MaxLength = 0;
             this.txtList.Multiline = true;
             this.txtList.Name = "txtList";
             this.txtList.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtList.Size = new System.Drawing.Size(266, 229);
-            this.txtList.TabIndex = 0;
+            this.txtList.Size = new System.Drawing.Size(274, 234);
+            this.txtList.TabIndex = 7;
             this.txtList.WordWrap = false;
             // 
             // openXMLDialog
@@ -160,17 +162,6 @@ namespace WikiFunctions.DBScanner
             this.openXMLDialog.FileName = "current or articles XML file";
             this.openXMLDialog.Filter = "XML file|*.xml";
             this.openXMLDialog.Title = "Open \"current\" or \"articles\" XML file";
-            // 
-            // btnStart
-            // 
-            this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnStart.Location = new System.Drawing.Point(11, 19);
-            this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(99, 23);
-            this.btnStart.TabIndex = 2;
-            this.btnStart.Text = "Start";
-            this.btnStart.UseVisualStyleBackColor = true;
-            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // saveFileDialog2
             // 
@@ -218,7 +209,7 @@ namespace WikiFunctions.DBScanner
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(202, 22);
-            this.toolStripMenuItem1.Text = "Reset settings";
+            this.toolStripMenuItem1.Text = "&Reset settings";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // toolStripSeparator4
@@ -236,6 +227,8 @@ namespace WikiFunctions.DBScanner
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dumpToolStripMenuItem,
+            this.en_wikipDumpToolStripMenuItem,
             this.toolStripSeparator6,
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
@@ -245,12 +238,12 @@ namespace WikiFunctions.DBScanner
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(123, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(264, 6);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
             this.aboutToolStripMenuItem.Text = "&About...";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -259,43 +252,29 @@ namespace WikiFunctions.DBScanner
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.optionsToolStripMenuItem1,
-            this.otherToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(613, 24);
-            this.menuStrip1.TabIndex = 15;
+            this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // optionsToolStripMenuItem1
             // 
             this.optionsToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ignoreRedirectsToolStripMenuItem1,
-            this.toolStripSeparator1,
             this.ignoreImagesToolStripMenuItem,
             this.ignoreWikipediaNamespaceToolStripMenuItem,
             this.ignoreCategoryNamespaceToolStripMenuItem,
             this.ignoreTemplateNamespaceToolStripMenuItem,
             this.ignoreMainNamespaceToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.ignoreRedirectsToolStripMenuItem1,
+            this.ignoreCommentsToolStripMenuItem,
             this.toolStripSeparator2,
-            this.ignoreCommentsToolStripMenuItem});
+            this.threadPriorityToolStripMenuItem});
             this.optionsToolStripMenuItem1.Name = "optionsToolStripMenuItem1";
             this.optionsToolStripMenuItem1.Size = new System.Drawing.Size(56, 20);
-            this.optionsToolStripMenuItem1.Text = "Options";
-            // 
-            // ignoreRedirectsToolStripMenuItem1
-            // 
-            this.ignoreRedirectsToolStripMenuItem1.Checked = true;
-            this.ignoreRedirectsToolStripMenuItem1.CheckOnClick = true;
-            this.ignoreRedirectsToolStripMenuItem1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ignoreRedirectsToolStripMenuItem1.Name = "ignoreRedirectsToolStripMenuItem1";
-            this.ignoreRedirectsToolStripMenuItem1.Size = new System.Drawing.Size(259, 22);
-            this.ignoreRedirectsToolStripMenuItem1.Text = "Ignore redirects";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(256, 6);
+            this.optionsToolStripMenuItem1.Text = "&Options";
             // 
             // ignoreImagesToolStripMenuItem
             // 
@@ -304,7 +283,7 @@ namespace WikiFunctions.DBScanner
             this.ignoreImagesToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ignoreImagesToolStripMenuItem.Name = "ignoreImagesToolStripMenuItem";
             this.ignoreImagesToolStripMenuItem.Size = new System.Drawing.Size(259, 22);
-            this.ignoreImagesToolStripMenuItem.Text = "Ignore image namespace";
+            this.ignoreImagesToolStripMenuItem.Text = "Ignore &Image namespace";
             // 
             // ignoreWikipediaNamespaceToolStripMenuItem
             // 
@@ -313,7 +292,7 @@ namespace WikiFunctions.DBScanner
             this.ignoreWikipediaNamespaceToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ignoreWikipediaNamespaceToolStripMenuItem.Name = "ignoreWikipediaNamespaceToolStripMenuItem";
             this.ignoreWikipediaNamespaceToolStripMenuItem.Size = new System.Drawing.Size(259, 22);
-            this.ignoreWikipediaNamespaceToolStripMenuItem.Text = "Ignore Wikipedia namespace";
+            this.ignoreWikipediaNamespaceToolStripMenuItem.Text = "Ignore &Wikipedia namespace";
             // 
             // ignoreCategoryNamespaceToolStripMenuItem
             // 
@@ -322,7 +301,7 @@ namespace WikiFunctions.DBScanner
             this.ignoreCategoryNamespaceToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ignoreCategoryNamespaceToolStripMenuItem.Name = "ignoreCategoryNamespaceToolStripMenuItem";
             this.ignoreCategoryNamespaceToolStripMenuItem.Size = new System.Drawing.Size(259, 22);
-            this.ignoreCategoryNamespaceToolStripMenuItem.Text = "Ignore Category namespace";
+            this.ignoreCategoryNamespaceToolStripMenuItem.Text = "Ignore &Category namespace";
             // 
             // ignoreTemplateNamespaceToolStripMenuItem
             // 
@@ -331,34 +310,40 @@ namespace WikiFunctions.DBScanner
             this.ignoreTemplateNamespaceToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ignoreTemplateNamespaceToolStripMenuItem.Name = "ignoreTemplateNamespaceToolStripMenuItem";
             this.ignoreTemplateNamespaceToolStripMenuItem.Size = new System.Drawing.Size(259, 22);
-            this.ignoreTemplateNamespaceToolStripMenuItem.Text = "Ignore Template namespace";
+            this.ignoreTemplateNamespaceToolStripMenuItem.Text = "Ignore &Template namespace";
             // 
             // ignoreMainNamespaceToolStripMenuItem
             // 
             this.ignoreMainNamespaceToolStripMenuItem.CheckOnClick = true;
             this.ignoreMainNamespaceToolStripMenuItem.Name = "ignoreMainNamespaceToolStripMenuItem";
             this.ignoreMainNamespaceToolStripMenuItem.Size = new System.Drawing.Size(259, 22);
-            this.ignoreMainNamespaceToolStripMenuItem.Text = "Ignore Main namespace";
+            this.ignoreMainNamespaceToolStripMenuItem.Text = "Ignore &main namespace";
             // 
-            // toolStripSeparator2
+            // toolStripSeparator1
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(256, 6);
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(256, 6);
+            // 
+            // ignoreRedirectsToolStripMenuItem1
+            // 
+            this.ignoreRedirectsToolStripMenuItem1.Checked = true;
+            this.ignoreRedirectsToolStripMenuItem1.CheckOnClick = true;
+            this.ignoreRedirectsToolStripMenuItem1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ignoreRedirectsToolStripMenuItem1.Name = "ignoreRedirectsToolStripMenuItem1";
+            this.ignoreRedirectsToolStripMenuItem1.Size = new System.Drawing.Size(259, 22);
+            this.ignoreRedirectsToolStripMenuItem1.Text = "Ignore &redirects";
             // 
             // ignoreCommentsToolStripMenuItem
             // 
             this.ignoreCommentsToolStripMenuItem.CheckOnClick = true;
             this.ignoreCommentsToolStripMenuItem.Name = "ignoreCommentsToolStripMenuItem";
             this.ignoreCommentsToolStripMenuItem.Size = new System.Drawing.Size(259, 22);
-            this.ignoreCommentsToolStripMenuItem.Text = "Ignore <!-- commented out text -->";
+            this.ignoreCommentsToolStripMenuItem.Text = "&Ignore <!-- commented out text -->";
             // 
-            // otherToolStripMenuItem
+            // toolStripSeparator2
             // 
-            this.otherToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.threadPriorityToolStripMenuItem});
-            this.otherToolStripMenuItem.Name = "otherToolStripMenuItem";
-            this.otherToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
-            this.otherToolStripMenuItem.Text = "Other";
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(256, 6);
             // 
             // threadPriorityToolStripMenuItem
             // 
@@ -369,15 +354,15 @@ namespace WikiFunctions.DBScanner
             this.belowNormalToolStripMenuItem,
             this.lowestToolStripMenuItem});
             this.threadPriorityToolStripMenuItem.Name = "threadPriorityToolStripMenuItem";
-            this.threadPriorityToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
-            this.threadPriorityToolStripMenuItem.Text = "Thread priority";
+            this.threadPriorityToolStripMenuItem.Size = new System.Drawing.Size(259, 22);
+            this.threadPriorityToolStripMenuItem.Text = "Thread &priority";
             // 
             // highestToolStripMenuItem
             // 
             this.highestToolStripMenuItem.CheckOnClick = true;
             this.highestToolStripMenuItem.Name = "highestToolStripMenuItem";
             this.highestToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
-            this.highestToolStripMenuItem.Text = "Highest";
+            this.highestToolStripMenuItem.Text = "&Highest";
             this.highestToolStripMenuItem.Click += new System.EventHandler(this.highestToolStripMenuItem_Click);
             // 
             // aboveNormalToolStripMenuItem
@@ -385,7 +370,7 @@ namespace WikiFunctions.DBScanner
             this.aboveNormalToolStripMenuItem.CheckOnClick = true;
             this.aboveNormalToolStripMenuItem.Name = "aboveNormalToolStripMenuItem";
             this.aboveNormalToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
-            this.aboveNormalToolStripMenuItem.Text = "Above normal";
+            this.aboveNormalToolStripMenuItem.Text = "&Above normal";
             this.aboveNormalToolStripMenuItem.Click += new System.EventHandler(this.aboveNormalToolStripMenuItem_Click);
             // 
             // normalToolStripMenuItem
@@ -393,7 +378,7 @@ namespace WikiFunctions.DBScanner
             this.normalToolStripMenuItem.CheckOnClick = true;
             this.normalToolStripMenuItem.Name = "normalToolStripMenuItem";
             this.normalToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
-            this.normalToolStripMenuItem.Text = "Normal";
+            this.normalToolStripMenuItem.Text = "&Normal";
             this.normalToolStripMenuItem.Click += new System.EventHandler(this.normalToolStripMenuItem_Click);
             // 
             // belowNormalToolStripMenuItem
@@ -403,7 +388,7 @@ namespace WikiFunctions.DBScanner
             this.belowNormalToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.belowNormalToolStripMenuItem.Name = "belowNormalToolStripMenuItem";
             this.belowNormalToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
-            this.belowNormalToolStripMenuItem.Text = "Below normal";
+            this.belowNormalToolStripMenuItem.Text = "&Below normal";
             this.belowNormalToolStripMenuItem.Click += new System.EventHandler(this.belowNormalToolStripMenuItem_Click);
             // 
             // lowestToolStripMenuItem
@@ -411,53 +396,53 @@ namespace WikiFunctions.DBScanner
             this.lowestToolStripMenuItem.CheckOnClick = true;
             this.lowestToolStripMenuItem.Name = "lowestToolStripMenuItem";
             this.lowestToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
-            this.lowestToolStripMenuItem.Text = "Lowest";
+            this.lowestToolStripMenuItem.Text = "&Lowest";
             this.lowestToolStripMenuItem.Click += new System.EventHandler(this.lowestToolStripMenuItem_Click);
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.cmboWords);
-            this.groupBox1.Controls.Add(this.nudWords);
-            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.chkArticleDoesContain);
+            this.groupBox1.Controls.Add(this.txtArticleDoesContain);
+            this.groupBox1.Controls.Add(this.chkArticleDoesNotContain);
+            this.groupBox1.Controls.Add(this.txtArticleDoesNotContain);
             this.groupBox1.Controls.Add(this.chkSingle);
             this.groupBox1.Controls.Add(this.chkMulti);
             this.groupBox1.Controls.Add(this.chkCaseSensitive);
             this.groupBox1.Controls.Add(this.chkRegex);
-            this.groupBox1.Controls.Add(this.cmboLinks);
-            this.groupBox1.Controls.Add(this.nudLength);
-            this.groupBox1.Controls.Add(this.chkArticleDoesNotContain);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.chkArticleDoesContain);
-            this.groupBox1.Controls.Add(this.nudLinks);
-            this.groupBox1.Controls.Add(this.cmboLength);
-            this.groupBox1.Controls.Add(this.txtArticleDoesNotContain);
-            this.groupBox1.Controls.Add(this.txtArticleDoesContain);
             this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.nudLength);
+            this.groupBox1.Controls.Add(this.cmboLength);
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.cmboLinks);
+            this.groupBox1.Controls.Add(this.nudLinks);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.cmboWords);
+            this.groupBox1.Controls.Add(this.nudWords);
             this.groupBox1.Location = new System.Drawing.Point(12, 33);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(304, 187);
-            this.groupBox1.TabIndex = 16;
+            this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Text matches";
+            this.groupBox1.Text = "Te&xt matching";
             // 
             // cmboWords
             // 
             this.cmboWords.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmboWords.FormattingEnabled = true;
             this.cmboWords.Items.AddRange(new object[] {
-            "Don\'t count words",
-            "Greater than:",
-            "Less than:"});
-            this.cmboWords.Location = new System.Drawing.Point(90, 159);
+            "not counted",
+            "at most",
+            "at least"});
+            this.cmboWords.Location = new System.Drawing.Point(73, 159);
             this.cmboWords.Name = "cmboWords";
-            this.cmboWords.Size = new System.Drawing.Size(113, 21);
-            this.cmboWords.TabIndex = 25;
+            this.cmboWords.Size = new System.Drawing.Size(146, 21);
+            this.cmboWords.TabIndex = 15;
             this.cmboWords.SelectedIndexChanged += new System.EventHandler(this.cmboWords_SelectedIndexChanged);
             // 
             // nudWords
             // 
             this.nudWords.Enabled = false;
-            this.nudWords.Location = new System.Drawing.Point(209, 159);
+            this.nudWords.Location = new System.Drawing.Point(225, 159);
             this.nudWords.Maximum = new decimal(new int[] {
             1000000,
             0,
@@ -465,7 +450,7 @@ namespace WikiFunctions.DBScanner
             0});
             this.nudWords.Name = "nudWords";
             this.nudWords.Size = new System.Drawing.Size(73, 20);
-            this.nudWords.TabIndex = 24;
+            this.nudWords.TabIndex = 16;
             this.nudWords.Value = new decimal(new int[] {
             200,
             0,
@@ -475,58 +460,55 @@ namespace WikiFunctions.DBScanner
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(29, 162);
+            this.label3.Location = new System.Drawing.Point(29, 161);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(55, 13);
-            this.label3.TabIndex = 23;
-            this.label3.Text = "No. words";
+            this.label3.Size = new System.Drawing.Size(38, 13);
+            this.label3.TabIndex = 14;
+            this.label3.Text = "Words";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // chkSingle
             // 
             this.chkSingle.AutoSize = true;
             this.chkSingle.Enabled = false;
-            this.chkSingle.Location = new System.Drawing.Point(209, 17);
+            this.chkSingle.Location = new System.Drawing.Point(227, 69);
             this.chkSingle.Name = "chkSingle";
             this.chkSingle.Size = new System.Drawing.Size(71, 17);
-            this.chkSingle.TabIndex = 22;
-            this.chkSingle.Text = "Singleline";
+            this.chkSingle.TabIndex = 6;
+            this.chkSingle.Text = "&Singleline";
             this.toolTip1.SetToolTip(this.chkSingle, "Changes meaing of \".\"  so it matches all characters, as opposed to all apart from" +
                     " newlines");
-            this.chkSingle.UseVisualStyleBackColor = true;
             // 
             // chkMulti
             // 
             this.chkMulti.AutoSize = true;
             this.chkMulti.Enabled = false;
-            this.chkMulti.Location = new System.Drawing.Point(209, 34);
+            this.chkMulti.Location = new System.Drawing.Point(227, 89);
             this.chkMulti.Name = "chkMulti";
             this.chkMulti.Size = new System.Drawing.Size(64, 17);
-            this.chkMulti.TabIndex = 21;
-            this.chkMulti.Text = "Multiline";
+            this.chkMulti.TabIndex = 7;
+            this.chkMulti.Text = "&Multiline";
             this.toolTip1.SetToolTip(this.chkMulti, "Changes meaning of \"^\" and \"$\" so they represent the beginning and end respective" +
                     "ly of every line, rather just of the entire string");
-            this.chkMulti.UseVisualStyleBackColor = true;
             // 
             // chkCaseSensitive
             // 
             this.chkCaseSensitive.AutoSize = true;
-            this.chkCaseSensitive.Location = new System.Drawing.Point(99, 17);
+            this.chkCaseSensitive.Location = new System.Drawing.Point(113, 89);
             this.chkCaseSensitive.Name = "chkCaseSensitive";
             this.chkCaseSensitive.Size = new System.Drawing.Size(94, 17);
-            this.chkCaseSensitive.TabIndex = 20;
-            this.chkCaseSensitive.Text = "Case sensitive";
+            this.chkCaseSensitive.TabIndex = 5;
+            this.chkCaseSensitive.Text = "Case sens&itive";
             this.toolTip1.SetToolTip(this.chkCaseSensitive, "Changes case sensitivity");
-            this.chkCaseSensitive.UseVisualStyleBackColor = true;
             // 
             // chkRegex
             // 
             this.chkRegex.AutoSize = true;
-            this.chkRegex.Location = new System.Drawing.Point(11, 17);
+            this.chkRegex.Location = new System.Drawing.Point(113, 69);
             this.chkRegex.Name = "chkRegex";
-            this.chkRegex.Size = new System.Drawing.Size(82, 17);
-            this.chkRegex.TabIndex = 19;
-            this.chkRegex.Text = "Are regexes";
-            this.chkRegex.UseVisualStyleBackColor = true;
+            this.chkRegex.Size = new System.Drawing.Size(57, 17);
+            this.chkRegex.TabIndex = 4;
+            this.chkRegex.Text = "&Regex";
             this.chkRegex.CheckedChanged += new System.EventHandler(this.chkRegex_CheckedChanged);
             // 
             // cmboLinks
@@ -534,13 +516,13 @@ namespace WikiFunctions.DBScanner
             this.cmboLinks.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmboLinks.FormattingEnabled = true;
             this.cmboLinks.Items.AddRange(new object[] {
-            "Don\'t count links",
-            "Greater than:",
-            "Less than:"});
-            this.cmboLinks.Location = new System.Drawing.Point(90, 132);
+            "not counted",
+            "at most",
+            "at least"});
+            this.cmboLinks.Location = new System.Drawing.Point(73, 132);
             this.cmboLinks.Name = "cmboLinks";
-            this.cmboLinks.Size = new System.Drawing.Size(113, 21);
-            this.cmboLinks.TabIndex = 16;
+            this.cmboLinks.Size = new System.Drawing.Size(147, 21);
+            this.cmboLinks.TabIndex = 12;
             this.cmboLinks.SelectedIndexChanged += new System.EventHandler(this.cmboLinks_SelectedIndexChanged);
             // 
             // nudLength
@@ -551,7 +533,7 @@ namespace WikiFunctions.DBScanner
             0,
             0,
             0});
-            this.nudLength.Location = new System.Drawing.Point(209, 107);
+            this.nudLength.Location = new System.Drawing.Point(225, 107);
             this.nudLength.Maximum = new decimal(new int[] {
             10000000,
             0,
@@ -575,38 +557,37 @@ namespace WikiFunctions.DBScanner
             // chkArticleDoesNotContain
             // 
             this.chkArticleDoesNotContain.AutoSize = true;
-            this.chkArticleDoesNotContain.Location = new System.Drawing.Point(12, 81);
+            this.chkArticleDoesNotContain.Location = new System.Drawing.Point(6, 45);
             this.chkArticleDoesNotContain.Name = "chkArticleDoesNotContain";
-            this.chkArticleDoesNotContain.Size = new System.Drawing.Size(110, 17);
-            this.chkArticleDoesNotContain.TabIndex = 13;
-            this.chkArticleDoesNotContain.Text = "Does not contain:";
-            this.chkArticleDoesNotContain.UseVisualStyleBackColor = true;
+            this.chkArticleDoesNotContain.Size = new System.Drawing.Size(89, 17);
+            this.chkArticleDoesNotContain.TabIndex = 2;
+            this.chkArticleDoesNotContain.Text = "&Not contains:";
             this.chkArticleDoesNotContain.CheckedChanged += new System.EventHandler(this.chkDoesNotContain_CheckedChanged);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(24, 135);
+            this.label4.Location = new System.Drawing.Point(35, 135);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(60, 13);
-            this.label4.TabIndex = 18;
-            this.label4.Text = "No. of links";
+            this.label4.Size = new System.Drawing.Size(32, 13);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Links";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // chkArticleDoesContain
             // 
             this.chkArticleDoesContain.AutoSize = true;
-            this.chkArticleDoesContain.Location = new System.Drawing.Point(12, 55);
+            this.chkArticleDoesContain.Location = new System.Drawing.Point(6, 19);
             this.chkArticleDoesContain.Name = "chkArticleDoesContain";
-            this.chkArticleDoesContain.Size = new System.Drawing.Size(122, 17);
-            this.chkArticleDoesContain.TabIndex = 12;
-            this.chkArticleDoesContain.Text = "Article does contain:";
-            this.chkArticleDoesContain.UseVisualStyleBackColor = true;
+            this.chkArticleDoesContain.Size = new System.Drawing.Size(101, 17);
+            this.chkArticleDoesContain.TabIndex = 0;
+            this.chkArticleDoesContain.Text = "Article &contains:";
             this.chkArticleDoesContain.CheckedChanged += new System.EventHandler(this.chkDoesContain_CheckedChanged);
             // 
             // nudLinks
             // 
             this.nudLinks.Enabled = false;
-            this.nudLinks.Location = new System.Drawing.Point(210, 133);
+            this.nudLinks.Location = new System.Drawing.Point(226, 133);
             this.nudLinks.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -619,7 +600,7 @@ namespace WikiFunctions.DBScanner
             0});
             this.nudLinks.Name = "nudLinks";
             this.nudLinks.Size = new System.Drawing.Size(72, 20);
-            this.nudLinks.TabIndex = 17;
+            this.nudLinks.TabIndex = 13;
             this.nudLinks.Value = new decimal(new int[] {
             5,
             0,
@@ -631,78 +612,77 @@ namespace WikiFunctions.DBScanner
             this.cmboLength.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmboLength.FormattingEnabled = true;
             this.cmboLength.Items.AddRange(new object[] {
-            "Don\'t check length",
-            "Greater than:",
-            "Less than:"});
-            this.cmboLength.Location = new System.Drawing.Point(90, 106);
+            "not counted",
+            "at most",
+            "at least"});
+            this.cmboLength.Location = new System.Drawing.Point(73, 106);
             this.cmboLength.Name = "cmboLength";
-            this.cmboLength.Size = new System.Drawing.Size(113, 21);
-            this.cmboLength.TabIndex = 11;
+            this.cmboLength.Size = new System.Drawing.Size(146, 21);
+            this.cmboLength.TabIndex = 9;
             this.cmboLength.SelectedIndexChanged += new System.EventHandler(this.cmboLength_SelectedIndexChanged);
             // 
             // txtArticleDoesNotContain
             // 
             this.txtArticleDoesNotContain.Enabled = false;
-            this.txtArticleDoesNotContain.Location = new System.Drawing.Point(141, 81);
+            this.txtArticleDoesNotContain.Location = new System.Drawing.Point(113, 43);
             this.txtArticleDoesNotContain.Name = "txtArticleDoesNotContain";
-            this.txtArticleDoesNotContain.Size = new System.Drawing.Size(142, 20);
-            this.txtArticleDoesNotContain.TabIndex = 14;
+            this.txtArticleDoesNotContain.Size = new System.Drawing.Size(185, 20);
+            this.txtArticleDoesNotContain.TabIndex = 3;
             // 
             // txtArticleDoesContain
             // 
             this.txtArticleDoesContain.Enabled = false;
-            this.txtArticleDoesContain.Location = new System.Drawing.Point(141, 55);
+            this.txtArticleDoesContain.Location = new System.Drawing.Point(113, 17);
             this.txtArticleDoesContain.Name = "txtArticleDoesContain";
-            this.txtArticleDoesContain.Size = new System.Drawing.Size(142, 20);
+            this.txtArticleDoesContain.Size = new System.Drawing.Size(185, 20);
             this.txtArticleDoesContain.TabIndex = 1;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(27, 109);
+            this.label2.Location = new System.Drawing.Point(9, 109);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(58, 13);
-            this.label2.TabIndex = 14;
+            this.label2.TabIndex = 8;
             this.label2.Text = "Characters";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // txtTitleNotContains
             // 
             this.txtTitleNotContains.Enabled = false;
-            this.txtTitleNotContains.Location = new System.Drawing.Point(139, 66);
+            this.txtTitleNotContains.Location = new System.Drawing.Point(105, 43);
             this.txtTitleNotContains.Name = "txtTitleNotContains";
-            this.txtTitleNotContains.Size = new System.Drawing.Size(137, 20);
-            this.txtTitleNotContains.TabIndex = 27;
+            this.txtTitleNotContains.Size = new System.Drawing.Size(175, 20);
+            this.txtTitleNotContains.TabIndex = 3;
             this.txtTitleNotContains.Leave += new System.EventHandler(this.txtTitleNotContains_Leave);
             // 
             // chkTitleDoesNotContain
             // 
             this.chkTitleDoesNotContain.AutoSize = true;
-            this.chkTitleDoesNotContain.Location = new System.Drawing.Point(10, 66);
+            this.chkTitleDoesNotContain.Location = new System.Drawing.Point(6, 45);
             this.chkTitleDoesNotContain.Name = "chkTitleDoesNotContain";
-            this.chkTitleDoesNotContain.Size = new System.Drawing.Size(128, 17);
-            this.chkTitleDoesNotContain.TabIndex = 26;
-            this.chkTitleDoesNotContain.Text = "Title does not contain";
-            this.chkTitleDoesNotContain.UseVisualStyleBackColor = true;
+            this.chkTitleDoesNotContain.Size = new System.Drawing.Size(89, 17);
+            this.chkTitleDoesNotContain.TabIndex = 2;
+            this.chkTitleDoesNotContain.Text = "Not contains:";
             this.chkTitleDoesNotContain.CheckedChanged += new System.EventHandler(this.chkCheckNotInTitle_CheckedChanged);
             // 
             // txtTitleContains
             // 
             this.txtTitleContains.Enabled = false;
-            this.txtTitleContains.Location = new System.Drawing.Point(139, 40);
+            this.txtTitleContains.Location = new System.Drawing.Point(104, 17);
             this.txtTitleContains.Name = "txtTitleContains";
-            this.txtTitleContains.Size = new System.Drawing.Size(137, 20);
-            this.txtTitleContains.TabIndex = 22;
+            this.txtTitleContains.Size = new System.Drawing.Size(176, 20);
+            this.txtTitleContains.TabIndex = 1;
             this.txtTitleContains.Leave += new System.EventHandler(this.txtTitleContains_Leave);
             // 
             // chkTitleContains
             // 
             this.chkTitleContains.AutoSize = true;
-            this.chkTitleContains.Location = new System.Drawing.Point(10, 40);
+            this.chkTitleContains.Location = new System.Drawing.Point(6, 19);
             this.chkTitleContains.Name = "chkTitleContains";
-            this.chkTitleContains.Size = new System.Drawing.Size(113, 17);
-            this.chkTitleContains.TabIndex = 23;
-            this.chkTitleContains.Text = "Title does contain:";
-            this.chkTitleContains.UseVisualStyleBackColor = true;
+            this.chkTitleContains.Size = new System.Drawing.Size(92, 17);
+            this.chkTitleContains.TabIndex = 0;
+            this.chkTitleContains.Text = "Title contains:";
             this.chkTitleContains.CheckedChanged += new System.EventHandler(this.chkCheckTitle_CheckedChanged);
             // 
             // groupBox2
@@ -716,69 +696,35 @@ namespace WikiFunctions.DBScanner
             this.groupBox2.Location = new System.Drawing.Point(322, 33);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(286, 98);
-            this.groupBox2.TabIndex = 17;
+            this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Title";
+            this.groupBox2.Text = "&Title matching";
             // 
             // chkTitleCase
             // 
             this.chkTitleCase.AutoSize = true;
             this.chkTitleCase.Checked = true;
             this.chkTitleCase.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkTitleCase.Location = new System.Drawing.Point(182, 17);
+            this.chkTitleCase.Location = new System.Drawing.Point(186, 69);
             this.chkTitleCase.Name = "chkTitleCase";
             this.chkTitleCase.Size = new System.Drawing.Size(94, 17);
-            this.chkTitleCase.TabIndex = 29;
+            this.chkTitleCase.TabIndex = 5;
             this.chkTitleCase.Text = "Case sensitive";
-            this.chkTitleCase.UseVisualStyleBackColor = true;
             // 
             // chkTitleRegex
             // 
             this.chkTitleRegex.AutoSize = true;
-            this.chkTitleRegex.Location = new System.Drawing.Point(94, 17);
+            this.chkTitleRegex.Location = new System.Drawing.Point(105, 69);
             this.chkTitleRegex.Name = "chkTitleRegex";
-            this.chkTitleRegex.Size = new System.Drawing.Size(82, 17);
-            this.chkTitleRegex.TabIndex = 28;
-            this.chkTitleRegex.Text = "Are regexes";
-            this.chkTitleRegex.UseVisualStyleBackColor = true;
-            // 
-            // nudLimitResults
-            // 
-            this.nudLimitResults.Increment = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.nudLimitResults.Location = new System.Drawing.Point(213, 22);
-            this.nudLimitResults.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-            this.nudLimitResults.Name = "nudLimitResults";
-            this.nudLimitResults.Size = new System.Drawing.Size(84, 20);
-            this.nudLimitResults.TabIndex = 13;
-            this.nudLimitResults.Value = new decimal(new int[] {
-            30000,
-            0,
-            0,
-            0});
-            this.nudLimitResults.ValueChanged += new System.EventHandler(this.nudLimitResults_ValueChanged);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(116, 25);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(91, 13);
-            this.label1.TabIndex = 12;
-            this.label1.Text = "Limit no. of results";
+            this.chkTitleRegex.Size = new System.Drawing.Size(57, 17);
+            this.chkTitleRegex.TabIndex = 4;
+            this.chkTitleRegex.Text = "Regex";
             // 
             // nudHeadingSpace
             // 
             this.nudHeadingSpace.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.nudHeadingSpace.Enabled = false;
-            this.nudHeadingSpace.Location = new System.Drawing.Point(133, 18);
+            this.nudHeadingSpace.Location = new System.Drawing.Point(127, 18);
             this.nudHeadingSpace.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -791,7 +737,7 @@ namespace WikiFunctions.DBScanner
             0});
             this.nudHeadingSpace.Name = "nudHeadingSpace";
             this.nudHeadingSpace.Size = new System.Drawing.Size(43, 20);
-            this.nudHeadingSpace.TabIndex = 20;
+            this.nudHeadingSpace.TabIndex = 1;
             this.nudHeadingSpace.Value = new decimal(new int[] {
             25,
             0,
@@ -802,70 +748,64 @@ namespace WikiFunctions.DBScanner
             // 
             this.chkHeading.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkHeading.AutoSize = true;
-            this.chkHeading.Location = new System.Drawing.Point(16, 18);
+            this.chkHeading.Location = new System.Drawing.Point(6, 19);
             this.chkHeading.Name = "chkHeading";
             this.chkHeading.Size = new System.Drawing.Size(115, 17);
-            this.chkHeading.TabIndex = 19;
+            this.chkHeading.TabIndex = 0;
             this.chkHeading.Text = "Add heading every";
             this.toolTip1.SetToolTip(this.chkHeading, "Add numbered heading");
-            this.chkHeading.UseVisualStyleBackColor = true;
             this.chkHeading.CheckedChanged += new System.EventHandler(this.chkHeading_CheckedChanged);
             // 
             // btnClear
             // 
             this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClear.Location = new System.Drawing.Point(168, 308);
+            this.btnClear.Location = new System.Drawing.Point(235, 308);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(45, 23);
-            this.btnClear.TabIndex = 18;
+            this.btnClear.TabIndex = 10;
             this.btnClear.Text = "Clear";
             this.toolTip1.SetToolTip(this.btnClear, "Clear");
-            this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // btnCopy
             // 
             this.btnCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCopy.Location = new System.Drawing.Point(10, 308);
+            this.btnCopy.Location = new System.Drawing.Point(6, 308);
             this.btnCopy.Name = "btnCopy";
             this.btnCopy.Size = new System.Drawing.Size(100, 23);
-            this.btnCopy.TabIndex = 19;
+            this.btnCopy.TabIndex = 8;
             this.btnCopy.Text = "Copy to clipboard";
             this.toolTip1.SetToolTip(this.btnCopy, "Copy to clipboard");
-            this.btnCopy.UseVisualStyleBackColor = true;
             this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
             // 
             // btnTransfer
             // 
-            this.btnTransfer.Location = new System.Drawing.Point(168, 44);
+            this.btnTransfer.Location = new System.Drawing.Point(179, 15);
             this.btnTransfer.Name = "btnTransfer";
-            this.btnTransfer.Size = new System.Drawing.Size(108, 22);
-            this.btnTransfer.TabIndex = 23;
+            this.btnTransfer.Size = new System.Drawing.Size(100, 23);
+            this.btnTransfer.TabIndex = 6;
             this.btnTransfer.Text = "Make";
             this.toolTip1.SetToolTip(this.btnTransfer, "Turn list into wiki formatted text, which can be saved or copied.");
-            this.btnTransfer.UseVisualStyleBackColor = true;
             this.btnTransfer.Click += new System.EventHandler(this.button1_Click);
             // 
             // btnAlphaList
             // 
-            this.btnAlphaList.Location = new System.Drawing.Point(11, 308);
+            this.btnAlphaList.Location = new System.Drawing.Point(65, 308);
             this.btnAlphaList.Name = "btnAlphaList";
             this.btnAlphaList.Size = new System.Drawing.Size(47, 23);
-            this.btnAlphaList.TabIndex = 24;
+            this.btnAlphaList.TabIndex = 7;
             this.btnAlphaList.Text = "Sort";
             this.toolTip1.SetToolTip(this.btnAlphaList, "Alphabetize the list");
-            this.btnAlphaList.UseVisualStyleBackColor = true;
             this.btnAlphaList.Click += new System.EventHandler(this.AlphaList_Click);
             // 
             // btnClearList
             // 
-            this.btnClearList.Location = new System.Drawing.Point(123, 308);
+            this.btnClearList.Location = new System.Drawing.Point(252, 308);
             this.btnClearList.Name = "btnClearList";
             this.btnClearList.Size = new System.Drawing.Size(45, 23);
-            this.btnClearList.TabIndex = 25;
+            this.btnClearList.TabIndex = 8;
             this.btnClearList.Text = "Clear";
             this.toolTip1.SetToolTip(this.btnClearList, "Clear the list");
-            this.btnClearList.UseVisualStyleBackColor = true;
             this.btnClearList.Click += new System.EventHandler(this.lbClear_Click);
             // 
             // rdoNoBold
@@ -877,7 +817,6 @@ namespace WikiFunctions.DBScanner
             this.rdoNoBold.TabIndex = 0;
             this.rdoNoBold.Text = "Has title AWB will embolden";
             this.toolTip1.SetToolTip(this.rdoNoBold, "AWB \'\'\'emboldens\'\'\' the title when appropriate");
-            this.rdoNoBold.UseVisualStyleBackColor = true;
             // 
             // rdoSimpleLinks
             // 
@@ -888,7 +827,6 @@ namespace WikiFunctions.DBScanner
             this.rdoSimpleLinks.TabIndex = 1;
             this.rdoSimpleLinks.Text = "Has links AWB will simplify";
             this.toolTip1.SetToolTip(this.rdoSimpleLinks, "AWB simplifies some links");
-            this.rdoSimpleLinks.UseVisualStyleBackColor = true;
             // 
             // rdoBadLinks
             // 
@@ -899,7 +837,6 @@ namespace WikiFunctions.DBScanner
             this.rdoBadLinks.TabIndex = 2;
             this.rdoBadLinks.Text = "Has bad links AWB will fix";
             this.toolTip1.SetToolTip(this.rdoBadLinks, "AWB fixes bad links, such as wrong syntax and URL coding");
-            this.rdoBadLinks.UseVisualStyleBackColor = true;
             // 
             // rdoHasHTML
             // 
@@ -910,7 +847,6 @@ namespace WikiFunctions.DBScanner
             this.rdoHasHTML.TabIndex = 3;
             this.rdoHasHTML.Text = "Has HTML entities";
             this.toolTip1.SetToolTip(this.rdoHasHTML, "AWB replaces HTML entities with unicode");
-            this.rdoHasHTML.UseVisualStyleBackColor = true;
             // 
             // rdoHeaderError
             // 
@@ -921,7 +857,6 @@ namespace WikiFunctions.DBScanner
             this.rdoHeaderError.TabIndex = 4;
             this.rdoHeaderError.Text = "Section error";
             this.toolTip1.SetToolTip(this.rdoHeaderError, "AWB fixes common mis-capitalisation in headings");
-            this.rdoHeaderError.UseVisualStyleBackColor = true;
             // 
             // rdoUnbulletedLinks
             // 
@@ -932,26 +867,24 @@ namespace WikiFunctions.DBScanner
             this.rdoUnbulletedLinks.TabIndex = 5;
             this.rdoUnbulletedLinks.Text = "Unbulleted links";
             this.toolTip1.SetToolTip(this.rdoUnbulletedLinks, "AWB bullets links in external links sections");
-            this.rdoUnbulletedLinks.UseVisualStyleBackColor = true;
             // 
             // chkABCHeader
             // 
             this.chkABCHeader.AutoSize = true;
-            this.chkABCHeader.Location = new System.Drawing.Point(16, 40);
+            this.chkABCHeader.Location = new System.Drawing.Point(6, 44);
             this.chkABCHeader.Name = "chkABCHeader";
-            this.chkABCHeader.Size = new System.Drawing.Size(108, 17);
-            this.chkABCHeader.TabIndex = 27;
-            this.chkABCHeader.Text = "A B C... headings";
+            this.chkABCHeader.Size = new System.Drawing.Size(133, 17);
+            this.chkABCHeader.TabIndex = 2;
+            this.chkABCHeader.Text = "Alpha&betised headings";
             this.toolTip1.SetToolTip(this.chkABCHeader, "Add alphabetised heading, list must be alphabetised first");
-            this.chkABCHeader.UseVisualStyleBackColor = true;
             this.chkABCHeader.CheckedChanged += new System.EventHandler(this.chkABCHeader_CheckedChanged);
             // 
             // txtStartFrom
             // 
-            this.txtStartFrom.Location = new System.Drawing.Point(213, 48);
+            this.txtStartFrom.Location = new System.Drawing.Point(105, 17);
             this.txtStartFrom.Name = "txtStartFrom";
-            this.txtStartFrom.Size = new System.Drawing.Size(84, 20);
-            this.txtStartFrom.TabIndex = 35;
+            this.txtStartFrom.Size = new System.Drawing.Size(192, 20);
+            this.txtStartFrom.TabIndex = 3;
             this.toolTip1.SetToolTip(this.txtStartFrom, "Article to start scanning from, leave blank to start at beginning");
             // 
             // contextMenuStrip1
@@ -968,72 +901,114 @@ namespace WikiFunctions.DBScanner
             // 
             this.openInBrowserToolStripMenuItem.Name = "openInBrowserToolStripMenuItem";
             this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
-            this.openInBrowserToolStripMenuItem.Text = "Open in browser";
+            this.openInBrowserToolStripMenuItem.Text = "&Open in browser";
             this.openInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem_Click);
             // 
             // copyToolStripMenuItem
             // 
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
             this.copyToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
-            this.copyToolStripMenuItem.Text = "Copy";
+            this.copyToolStripMenuItem.Text = "&Copy";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
             // removeToolStripMenuItem
             // 
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
             this.removeToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
-            this.removeToolStripMenuItem.Text = "Remove";
+            this.removeToolStripMenuItem.Text = "&Remove";
             this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
             // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.label5);
             this.groupBox3.Controls.Add(this.txtStartFrom);
+            this.groupBox3.Controls.Add(this.label1);
+            this.groupBox3.Controls.Add(this.nudLimitResults);
+            this.groupBox3.Controls.Add(this.btnStart);
             this.groupBox3.Controls.Add(this.lbArticles);
             this.groupBox3.Controls.Add(this.btnFilter);
-            this.groupBox3.Controls.Add(this.btnStart);
             this.groupBox3.Controls.Add(this.btnClearList);
             this.groupBox3.Controls.Add(this.btnAlphaList);
-            this.groupBox3.Controls.Add(this.nudLimitResults);
-            this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Location = new System.Drawing.Point(13, 226);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(303, 337);
-            this.groupBox3.TabIndex = 27;
+            this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Get results";
+            this.groupBox3.Text = "&Generate results";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(120, 51);
+            this.label5.Location = new System.Drawing.Point(13, 20);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(86, 13);
-            this.label5.TabIndex = 36;
-            this.label5.Text = "Start from article:";
+            this.label5.TabIndex = 2;
+            this.label5.Text = "Start from &article:";
             // 
             // lbArticles
             // 
             this.lbArticles.ContextMenuStrip = this.contextMenuStrip1;
             this.lbArticles.FormattingEnabled = true;
-            this.lbArticles.Location = new System.Drawing.Point(6, 74);
+            this.lbArticles.Location = new System.Drawing.Point(6, 69);
             this.lbArticles.Name = "lbArticles";
             this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbArticles.Size = new System.Drawing.Size(291, 225);
-            this.lbArticles.TabIndex = 34;
+            this.lbArticles.Size = new System.Drawing.Size(291, 238);
+            this.lbArticles.TabIndex = 5;
             // 
             // btnFilter
             // 
-            this.btnFilter.Location = new System.Drawing.Point(64, 308);
+            this.btnFilter.Location = new System.Drawing.Point(6, 308);
             this.btnFilter.Name = "btnFilter";
             this.btnFilter.Size = new System.Drawing.Size(53, 23);
-            this.btnFilter.TabIndex = 33;
+            this.btnFilter.TabIndex = 6;
             this.btnFilter.Text = "Filter";
-            this.btnFilter.UseVisualStyleBackColor = true;
             this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
+            // 
+            // btnStart
+            // 
+            this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnStart.Location = new System.Drawing.Point(197, 43);
+            this.btnStart.Name = "btnStart";
+            this.btnStart.Size = new System.Drawing.Size(100, 23);
+            this.btnStart.TabIndex = 4;
+            this.btnStart.Text = "Start";
+            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
+            // 
+            // nudLimitResults
+            // 
+            this.nudLimitResults.Increment = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.nudLimitResults.Location = new System.Drawing.Point(105, 43);
+            this.nudLimitResults.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.nudLimitResults.Name = "nudLimitResults";
+            this.nudLimitResults.Size = new System.Drawing.Size(84, 20);
+            this.nudLimitResults.TabIndex = 1;
+            this.nudLimitResults.Value = new decimal(new int[] {
+            30000,
+            0,
+            0,
+            0});
+            this.nudLimitResults.ValueChanged += new System.EventHandler(this.nudLimitResults_ValueChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(26, 45);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(73, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Limit results to";
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.label6);
             this.groupBox4.Controls.Add(this.chkABCHeader);
             this.groupBox4.Controls.Add(this.rdoBullet);
             this.groupBox4.Controls.Add(this.rdoHash);
@@ -1048,40 +1023,46 @@ namespace WikiFunctions.DBScanner
             this.groupBox4.Location = new System.Drawing.Point(322, 226);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(286, 337);
-            this.groupBox4.TabIndex = 28;
+            this.groupBox4.TabIndex = 5;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Make wikified list from results";
+            this.groupBox4.Text = "Convert results into &list";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(160, 45);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(46, 13);
+            this.label6.TabIndex = 3;
+            this.label6.Text = "List type";
             // 
             // rdoBullet
             // 
             this.rdoBullet.AutoSize = true;
-            this.rdoBullet.Location = new System.Drawing.Point(247, 17);
+            this.rdoBullet.Location = new System.Drawing.Point(250, 43);
             this.rdoBullet.Name = "rdoBullet";
             this.rdoBullet.Size = new System.Drawing.Size(29, 17);
-            this.rdoBullet.TabIndex = 26;
+            this.rdoBullet.TabIndex = 5;
             this.rdoBullet.Text = "*";
-            this.rdoBullet.UseVisualStyleBackColor = true;
             // 
             // rdoHash
             // 
             this.rdoHash.AutoSize = true;
             this.rdoHash.Checked = true;
-            this.rdoHash.Location = new System.Drawing.Point(212, 17);
+            this.rdoHash.Location = new System.Drawing.Point(212, 43);
             this.rdoHash.Name = "rdoHash";
             this.rdoHash.Size = new System.Drawing.Size(32, 17);
-            this.rdoHash.TabIndex = 25;
+            this.rdoHash.TabIndex = 4;
             this.rdoHash.TabStop = true;
             this.rdoHash.Text = "#";
-            this.rdoHash.UseVisualStyleBackColor = true;
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(116, 308);
+            this.btnSave.Location = new System.Drawing.Point(182, 308);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(47, 23);
-            this.btnSave.TabIndex = 24;
+            this.btnSave.TabIndex = 9;
             this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // statusStrip1
@@ -1114,19 +1095,19 @@ namespace WikiFunctions.DBScanner
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.rdoTypo);
-            this.groupBox5.Controls.Add(this.rdoNone);
             this.groupBox5.Controls.Add(this.rdoUnbulletedLinks);
             this.groupBox5.Controls.Add(this.rdoHeaderError);
             this.groupBox5.Controls.Add(this.rdoHasHTML);
             this.groupBox5.Controls.Add(this.rdoBadLinks);
             this.groupBox5.Controls.Add(this.rdoSimpleLinks);
             this.groupBox5.Controls.Add(this.rdoNoBold);
+            this.groupBox5.Controls.Add(this.rdoNone);
             this.groupBox5.Location = new System.Drawing.Point(322, 136);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(286, 84);
-            this.groupBox5.TabIndex = 32;
+            this.groupBox5.TabIndex = 3;
             this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "AWB specific";
+            this.groupBox5.Text = "A&WB specific";
             // 
             // rdoTypo
             // 
@@ -1137,7 +1118,6 @@ namespace WikiFunctions.DBScanner
             this.rdoTypo.TabIndex = 7;
             this.rdoTypo.TabStop = true;
             this.rdoTypo.Text = "Typo";
-            this.rdoTypo.UseVisualStyleBackColor = true;
             // 
             // rdoNone
             // 
@@ -1149,19 +1129,31 @@ namespace WikiFunctions.DBScanner
             this.rdoNone.TabIndex = 6;
             this.rdoNone.TabStop = true;
             this.rdoNone.Text = "None";
-            this.rdoNone.UseVisualStyleBackColor = true;
+            // 
+            // en_wikipDumpToolStripMenuItem
+            // 
+            this.en_wikipDumpToolStripMenuItem.Name = "en_wikipDumpToolStripMenuItem";
+            this.en_wikipDumpToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.en_wikipDumpToolStripMenuItem.Text = "Download English Wikipedia XML dump";
+            // 
+            // dumpToolStripMenuItem
+            // 
+            this.dumpToolStripMenuItem.Name = "dumpToolStripMenuItem";
+            this.dumpToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.dumpToolStripMenuItem.Text = "Download XML dumps";
             // 
             // DatabaseScanner
             // 
+            this.AcceptButton = this.btnStart;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(613, 590);
-            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox4);
-            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1181,11 +1173,11 @@ namespace WikiFunctions.DBScanner
             ((System.ComponentModel.ISupportInitialize)(this.nudLinks)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudLimitResults)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudHeadingSpace)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudLimitResults)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
@@ -1201,7 +1193,6 @@ namespace WikiFunctions.DBScanner
 
         private System.Windows.Forms.TextBox txtList;
         private System.Windows.Forms.OpenFileDialog openXMLDialog;
-        private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.SaveFileDialog saveFileDialog2;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
@@ -1216,8 +1207,6 @@ namespace WikiFunctions.DBScanner
         private System.Windows.Forms.ToolStripMenuItem ignoreRedirectsToolStripMenuItem1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.NumericUpDown nudLimitResults;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripMenuItem ignoreImagesToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem ignoreWikipediaNamespaceToolStripMenuItem;
@@ -1250,13 +1239,6 @@ namespace WikiFunctions.DBScanner
         private CheckBox chkTitleDoesNotContain;
         private CheckBox chkTitleRegex;
         private CheckBox chkTitleCase;
-        private ToolStripMenuItem otherToolStripMenuItem;
-        private ToolStripMenuItem threadPriorityToolStripMenuItem;
-        private ToolStripMenuItem highestToolStripMenuItem;
-        private ToolStripMenuItem aboveNormalToolStripMenuItem;
-        private ToolStripMenuItem normalToolStripMenuItem;
-        private ToolStripMenuItem belowNormalToolStripMenuItem;
-        private ToolStripMenuItem lowestToolStripMenuItem;
         private GroupBox groupBox5;
         private CheckBox chkCaseSensitive;
         private CheckBox chkRegex;
@@ -1293,6 +1275,19 @@ namespace WikiFunctions.DBScanner
         private CheckBox chkABCHeader;
         private Label label5;
         private TextBox txtStartFrom;
+        private Label label6;
+        private ToolStripMenuItem threadPriorityToolStripMenuItem;
+        private ToolStripMenuItem highestToolStripMenuItem;
+        private ToolStripMenuItem aboveNormalToolStripMenuItem;
+        private ToolStripMenuItem normalToolStripMenuItem;
+        private ToolStripMenuItem belowNormalToolStripMenuItem;
+        private ToolStripMenuItem lowestToolStripMenuItem;
+        private Button btnStart;
+        private NumericUpDown nudLimitResults;
+        private Label label1;
+        private ToolStripMenuItem dumpToolStripMenuItem;
+        private ToolStripMenuItem en_wikipDumpToolStripMenuItem;
     }
 }
+
 
