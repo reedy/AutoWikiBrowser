@@ -74,7 +74,7 @@ namespace WikiFunctions.Logging
         /// Returns the ListView object from which the menu item was clicked
         /// </summary>
         /// 
-        private ListView MenuItemOwner(object sender)
+        private static ListView MenuItemOwner(object sender)
         {
             /* we seem to sometimes be receiving a ToolStripMenuItem, and sometimes a ContextMenuStrip...
              * I've no idea why, but in the meantime this version of the function handles both. */
@@ -141,7 +141,7 @@ namespace WikiFunctions.Logging
             catch { }
         }
 
-        private void resizeListView(ListView lstView)
+        private static void resizeListView(ListView lstView)
         {
             WikiFunctions.Lists.ListViewColumnResize.resizeListView(lstView);
         }

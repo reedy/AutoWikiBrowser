@@ -251,7 +251,7 @@ namespace WikiFunctions.Controls
             return NewLineRegex.Replace(str, "\\n");
         }
 
-        private void ErrorHandler(Exception ex)
+        private static void ErrorHandler(Exception ex)
         {
             MessageBox.Show(ex.Message, "Whoops!", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }

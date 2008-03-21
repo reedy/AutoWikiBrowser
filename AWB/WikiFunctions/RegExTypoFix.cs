@@ -116,7 +116,7 @@ namespace WikiFunctions.Parse
             }
         }
 
-        public void FixTypo(ref string ArticleText, ref string summary, KeyValuePair<Regex, string> typo)
+        public static void FixTypo(ref string ArticleText, ref string summary, KeyValuePair<Regex, string> typo)
         {
             MatchCollection matches = typo.Key.Matches(ArticleText);
             if (matches.Count > 0)

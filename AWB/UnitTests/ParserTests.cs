@@ -45,24 +45,24 @@ namespace UnitTests
         [Test]
         public void PrecededByEqualSign()
         {
-            Assert.That(parser.FixFootnotes("a=<ref>b</ref>"), Text.DoesNotContain("\n"));
+            Assert.That(Parsers.FixFootnotes("a=<ref>b</ref>"), Text.DoesNotContain("\n"));
         }
 
         [Test]
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#Unexpected_modification
         public void TestTagBoundaries()
         {
-            Assert.AreEqual("<ref name=\"foo\"><br></ref>", parser.SimplifyReferenceTags("<ref name=\"foo\"><br></ref>"));
+            Assert.AreEqual("<ref name=\"foo\"><br></ref>", Parsers.SimplifyReferenceTags("<ref name=\"foo\"><br></ref>"));
         }
 
         [Test]
         public void TestSimplifyReferenceTags()
         {
-            Assert.AreEqual("<ref name=\"foo\" />", parser.SimplifyReferenceTags("<ref name=\"foo\"></ref>"));
-            Assert.AreEqual("<ref name=\"foo\" />", parser.SimplifyReferenceTags("<ref name=\"foo\" >< / ref >"));
-            Assert.AreEqual("<ref name=\"foo\" />", parser.SimplifyReferenceTags("<ref name=\"foo\" ></ref>"));
-            Assert.AreEqual("<ref name=\"foo\" />", parser.SimplifyReferenceTags("<ref name=\"foo\"></ref>"));
-            Assert.AreEqual("<ref name=\"foo\" />", parser.SimplifyReferenceTags("<ref name=\"foo\"></ref>"));
+            Assert.AreEqual("<ref name=\"foo\" />", Parsers.SimplifyReferenceTags("<ref name=\"foo\"></ref>"));
+            Assert.AreEqual("<ref name=\"foo\" />", Parsers.SimplifyReferenceTags("<ref name=\"foo\" >< / ref >"));
+            Assert.AreEqual("<ref name=\"foo\" />", Parsers.SimplifyReferenceTags("<ref name=\"foo\" ></ref>"));
+            Assert.AreEqual("<ref name=\"foo\" />", Parsers.SimplifyReferenceTags("<ref name=\"foo\"></ref>"));
+            Assert.AreEqual("<ref name=\"foo\" />", Parsers.SimplifyReferenceTags("<ref name=\"foo\"></ref>"));
         }
     }
 
@@ -82,7 +82,7 @@ namespace UnitTests
         {
             bool dummy;
 
-            Assert.AreEqual("[[a ]]b", parser.FixLinks("[[a ]]b", out dummy));
+            Assert.AreEqual("[[a ]]b", Parsers.FixLinks("[[a ]]b", out dummy));
         }
 
         [Test]
@@ -90,28 +90,28 @@ namespace UnitTests
         {
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_1#Link_de-piping_false_positive
             Assert.AreEqual("[[Sacramento, California|Sacramento]], California's [[capital city]]",
-                parser.StickyLinks("[[Sacramento, California|Sacramento]], California's [[capital city]]"));
+                Parsers.StickyLinks("[[Sacramento, California|Sacramento]], California's [[capital city]]"));
         }
 
         [Test]
         public void TestSimplifyLinks()
         {
-            Assert.AreEqual("[[dog]]s", parser.SimplifyLinks("[[dog|dogs]]"));
+            Assert.AreEqual("[[dog]]s", Parsers.SimplifyLinks("[[dog|dogs]]"));
 
             // case insensitivity of the first char
-            Assert.AreEqual("[[dog]]s", parser.SimplifyLinks("[[Dog|dogs]]"));
-            Assert.AreEqual("[[Dog]]s", parser.SimplifyLinks("[[dog|Dogs]]"));
+            Assert.AreEqual("[[dog]]s", Parsers.SimplifyLinks("[[Dog|dogs]]"));
+            Assert.AreEqual("[[Dog]]s", Parsers.SimplifyLinks("[[dog|Dogs]]"));
 
             // ...and sensitivity of others
-            Assert.AreEqual("[[dog|dOgs]]", parser.SimplifyLinks("[[dog|dOgs]]"));
+            Assert.AreEqual("[[dog|dOgs]]", Parsers.SimplifyLinks("[[dog|dOgs]]"));
 
             //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_2#Inappropriate_link_compression
-            Assert.AreEqual("[[foo|foo3]]", parser.SimplifyLinks("[[foo|foo3]]"));
+            Assert.AreEqual("[[foo|foo3]]", Parsers.SimplifyLinks("[[foo|foo3]]"));
 
             // don't touch suffices with caps to avoid funky results like
             // http://en.wikipedia.org/w/index.php?diff=195760456
-            Assert.AreEqual("[[FOO|FOOBAR]]", parser.SimplifyLinks("[[FOO|FOOBAR]]"));
-            Assert.AreEqual("[[foo|fooBAR]]", parser.SimplifyLinks("[[foo|fooBAR]]"));
+            Assert.AreEqual("[[FOO|FOOBAR]]", Parsers.SimplifyLinks("[[FOO|FOOBAR]]"));
+            Assert.AreEqual("[[foo|fooBAR]]", Parsers.SimplifyLinks("[[foo|fooBAR]]"));
         }
 
         [Test]
@@ -163,7 +163,7 @@ namespace UnitTests
         [Test]
         public void TestBulletExternalLinks()
         {
-            string s = parser.BulletExternalLinks(@"==External links==
+            string s = Parsers.BulletExternalLinks(@"==External links==
 http://example.com/foo
 [http://example.com foo]
 {{aTemplate|url=
@@ -198,11 +198,11 @@ http://example.com }}");
             Parsers parser = new Parsers();
 
             Assert.AreEqual("[[Image:foo.jpg|thumb|200px|Bar]]",
-                parser.FixImages("[[ image : foo.jpg|thumb|200px|Bar]]"));
+                Parsers.FixImages("[[ image : foo.jpg|thumb|200px|Bar]]"));
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#URL_underscore_regression
             Assert.AreEqual("[[Image:foo|thumb]] # [http://a_b c] [[link]]",
-                parser.FixImages("[[Image:foo|thumb]] # [http://a_b c] [[link]]"));
+            Parsers.FixImages("[[Image:foo|thumb]] # [http://a_b c] [[link]]"));
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_2#Removing_underscore_in_URL_in_Ref_in_Description_in_Image....
             //Assert.AreEqual("[[Image:foo_bar|[http://some_link]]]",
@@ -232,53 +232,51 @@ http://example.com }}");
     [TestFixture]
     public class FixMainArticleTests
     {
-        Parsers p = new Parsers();
-
         [Test]
         public void BasicBehaviour()
         {
-            Assert.AreEqual("{{main|Foo}}", p.FixMainArticle("Main article: [[Foo]]"));
-            Assert.AreEqual("{{main|Foo}}", p.FixMainArticle("Main article: [[Foo]]."));
-            Assert.AreEqual("Main article:\r\n [[Foo]]", p.FixMainArticle("Main article:\r\n [[Foo]]"));
+            Assert.AreEqual("{{main|Foo}}", Parsers.FixMainArticle("Main article: [[Foo]]"));
+            Assert.AreEqual("{{main|Foo}}", Parsers.FixMainArticle("Main article: [[Foo]]."));
+            Assert.AreEqual("Main article:\r\n [[Foo]]", Parsers.FixMainArticle("Main article:\r\n [[Foo]]"));
         }
 
         [Test]
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_3#Fixing_Main_Article_to_.7B.7Bmain.7D.7D
         public void PipedLinks()
         {
-            Assert.AreEqual("{{main|Foo|l1=Bar}}", p.FixMainArticle("Main article: [[Foo|Bar]]"));
+            Assert.AreEqual("{{main|Foo|l1=Bar}}", Parsers.FixMainArticle("Main article: [[Foo|Bar]]"));
         }
 
         [Test]
         public void SupportIndenting()
         {
-            Assert.AreEqual("{{main|Foo}}", p.FixMainArticle(":Main article: [[Foo]]"));
-            Assert.AreEqual("{{main|Foo}}", p.FixMainArticle(":Main article: [[Foo]]."));
-            Assert.AreEqual("{{main|Foo}}", p.FixMainArticle(":''Main article: [[Foo]]''"));
-            Assert.AreEqual("'':Main article: [[Foo]]''", p.FixMainArticle("'':Main article: [[Foo]]''"));
+            Assert.AreEqual("{{main|Foo}}", Parsers.FixMainArticle(":Main article: [[Foo]]"));
+            Assert.AreEqual("{{main|Foo}}", Parsers.FixMainArticle(":Main article: [[Foo]]."));
+            Assert.AreEqual("{{main|Foo}}", Parsers.FixMainArticle(":''Main article: [[Foo]]''"));
+            Assert.AreEqual("'':Main article: [[Foo]]''", Parsers.FixMainArticle("'':Main article: [[Foo]]''"));
         }
 
         [Test]
         public void SupportBoldAndItalic()
         {
-            Assert.AreEqual("{{main|Foo}}", p.FixMainArticle("Main article: '[[Foo]]'"));
-            Assert.AreEqual("{{main|Foo}}", p.FixMainArticle("Main article: ''[[Foo]]''"));
-            Assert.AreEqual("{{main|Foo}}", p.FixMainArticle("Main article: '''[[Foo]]'''"));
-            Assert.AreEqual("{{main|Foo}}", p.FixMainArticle("Main article: '''''[[Foo]]'''''"));
+            Assert.AreEqual("{{main|Foo}}", Parsers.FixMainArticle("Main article: '[[Foo]]'"));
+            Assert.AreEqual("{{main|Foo}}", Parsers.FixMainArticle("Main article: ''[[Foo]]''"));
+            Assert.AreEqual("{{main|Foo}}", Parsers.FixMainArticle("Main article: '''[[Foo]]'''"));
+            Assert.AreEqual("{{main|Foo}}", Parsers.FixMainArticle("Main article: '''''[[Foo]]'''''"));
 
-            Assert.AreEqual("{{main|Foo}}", p.FixMainArticle("'Main article: [[Foo]]'"));
-            Assert.AreEqual("{{main|Foo}}", p.FixMainArticle("''Main article: [[Foo]]''"));
-            Assert.AreEqual("{{main|Foo}}", p.FixMainArticle("'''Main article: [[Foo]]'''"));
-            Assert.AreEqual("{{main|Foo}}", p.FixMainArticle("'''''Main article: [[Foo]]'''''"));
+            Assert.AreEqual("{{main|Foo}}", Parsers.FixMainArticle("'Main article: [[Foo]]'"));
+            Assert.AreEqual("{{main|Foo}}", Parsers.FixMainArticle("''Main article: [[Foo]]''"));
+            Assert.AreEqual("{{main|Foo}}", Parsers.FixMainArticle("'''Main article: [[Foo]]'''"));
+            Assert.AreEqual("{{main|Foo}}", Parsers.FixMainArticle("'''''Main article: [[Foo]]'''''"));
 
-            Assert.AreEqual("{{main|Foo}}", p.FixMainArticle("''Main article: '''[[Foo]]'''''"));
-            Assert.AreEqual("{{main|Foo}}", p.FixMainArticle("'''Main article: ''[[Foo]]'''''"));
+            Assert.AreEqual("{{main|Foo}}", Parsers.FixMainArticle("''Main article: '''[[Foo]]'''''"));
+            Assert.AreEqual("{{main|Foo}}", Parsers.FixMainArticle("'''Main article: ''[[Foo]]'''''"));
         }
 
         [Test]
         public void CaseInsensitivity()
         {
-            Assert.AreEqual("{{main|foo}}", p.FixMainArticle("main Article: [[foo]]"));
+            Assert.AreEqual("{{main|foo}}", Parsers.FixMainArticle("main Article: [[foo]]"));
         }
 
         [Test]
@@ -286,8 +284,8 @@ http://example.com }}");
         public void DontEatTooMuch()
         {
             Assert.AreEqual("Foo is a bar, see main article: [[Foo]]",
-                p.FixMainArticle("Foo is a bar, see main article: [[Foo]]"));
-            Assert.AreEqual("Main article: [[Foo]], bar", p.FixMainArticle("Main article: [[Foo]], bar"));
+                Parsers.FixMainArticle("Foo is a bar, see main article: [[Foo]]"));
+            Assert.AreEqual("Main article: [[Foo]], bar", Parsers.FixMainArticle("Main article: [[Foo]], bar"));
         }
     }
 

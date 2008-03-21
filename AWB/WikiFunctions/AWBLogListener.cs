@@ -280,7 +280,7 @@ namespace WikiFunctions.Logging
         }
 
         // disable access to underlying Items property
-        public new System.Windows.Forms.ListViewItem.ListViewSubItemCollection SubItems
+        public static new System.Windows.Forms.ListViewItem.ListViewSubItemCollection SubItems
         {
             get { throw new NotImplementedException("The SubItems property should not be accessed directly"); }
         }
