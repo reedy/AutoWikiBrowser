@@ -84,10 +84,10 @@ namespace WikiFunctions.Logging
             else
                 base.WriteLine("*" + Line, true);
         }
-        public override void ProcessingArticle(string ArticleFullTitle, Namespaces NS)
+        public override void ProcessingArticle(string FullArticleTitle, Namespaces NS)
         {
             CheckCounterForUpload(); // Check counter *before* starting a new article section
-            base.WriteLine(GetArticleTemplate(ArticleFullTitle, NS), false);
+            base.WriteLine(GetArticleTemplate(FullArticleTitle, NS), false);
         }
         public override void SkippedArticle(string SkippedBy, string Reason)
         {
@@ -108,14 +108,14 @@ namespace WikiFunctions.Logging
             base.WriteLine(string.Format("#*{1}: [[Template:{0}|{0}]] added", Template, PluginName), false);
         }
 
-        public override void WriteLine(string value)
+        public override void WriteLine(string Line)
         {
-            WriteLine(value, true);
+            WriteLine(Line, true);
         }
 
-        public override void WriteLine(string value, bool CheckCounter)
+        public override void WriteLine(string Line, bool CheckCounter)
         {
-            base.WriteLine(value, CheckCounter);
+            base.WriteLine(Line, CheckCounter);
         }
         public override void WriteComment(string Line)
         {
@@ -174,9 +174,9 @@ namespace WikiFunctions.Logging
             else
                 base.WriteLine("<li>" + Line + "</li>");
         }
-        public override void ProcessingArticle(string ArticleFullTitle, Namespaces NS)
+        public override void ProcessingArticle(string FullArticleTitle, Namespaces NS)
         {
-            base.WriteLine("<br/>" + mArticleCount.ToString() + ". <a href=\"" + WikiFunctions.Variables.NonPrettifiedURL(ArticleFullTitle) + "\">[[" + ArticleFullTitle + "]]</a>");
+            base.WriteLine("<br/>" + mArticleCount.ToString() + ". <a href=\"" + WikiFunctions.Variables.NonPrettifiedURL(FullArticleTitle) + "\">[[" + FullArticleTitle + "]]</a>");
             mArticleCount += 1;
         }
         public override void SkippedArticle(string SkippedBy, string Reason)
