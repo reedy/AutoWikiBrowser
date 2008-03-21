@@ -100,6 +100,8 @@ namespace WikiFunctions.Background
         {
             BgThread = new Thread(start);
             BgThread.IsBackground = true;
+            BgThread.Name = string.Format("BackgroundRequest (strParam = {0}, objParam1 = {1}, objParam2 = {2}, objParam3 = {3}, intParam = {4})",
+                strParam, objParam1, objParam2, objParam3, intParam);
             BgThread.Start();
         }
 
