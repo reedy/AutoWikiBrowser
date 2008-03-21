@@ -247,6 +247,8 @@ namespace WikiFunctions.Controls.Lists
 
         private void cmboSourceSelect_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (DesignMode) return; // avoid calling Variables constructor
+
             switch (SelectedSource)
             {
                 case SourceType.Category:
