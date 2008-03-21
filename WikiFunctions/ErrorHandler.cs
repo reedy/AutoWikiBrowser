@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Reflection;
+using System.Threading;
 
 namespace WikiFunctions
 {
@@ -84,7 +85,7 @@ namespace WikiFunctions
                     handler.txtError.Text = ex.Message;
 
                     handler.txtDetails.Text = "{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = <table><tr><td>Exception:<td><code>" + ex.GetType().Name + "</code><tr><td>Message:<td><code>" +
-                        ex.Message + "</code><tr><td>Call stack:<td><pre>" + ex.StackTrace + "</pre></table>\r\n~~~~\r\n | OS          = " + Environment.OSVersion.ToString() + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                        ex.Message + "</code><tr><td>Call stack:<td><pre>" + ex.StackTrace + "</pre>\r\nThread:" + Thread.CurrentThread.Name + "</table>\r\n~~~~\r\n | OS          = " + Environment.OSVersion.ToString() + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
                     if (!string.IsNullOrEmpty(CurrentArticle) &&
                         ex.StackTrace.Contains("AutoWikiBrowser.MainForm.ProcessPage("))
