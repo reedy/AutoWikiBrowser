@@ -105,7 +105,8 @@ namespace UnitTests
             Assert.IsFalse(r.IsMatch("teZt"));
 
             r = new Regex(Tools.AllCaseInsensitive("[test}"));
-            Assert.IsTrue(r.IsMatch("?(Test["));
+            Assert.IsTrue(r.IsMatch("[test}"));
+            Assert.IsTrue(r.IsMatch("[tEsT}"));
             Assert.IsFalse(r.IsMatch("test"));
         }
 
@@ -133,10 +134,48 @@ namespace UnitTests
         {
             Assert.AreEqual(0, Tools.WordCount(""));
             Assert.AreEqual(0, Tools.WordCount("    "));
+            Assert.AreEqual(0, Tools.WordCount("."));
+
             Assert.AreEqual(1, Tools.WordCount("foo"));
             Assert.AreEqual(2, Tools.WordCount("Превед медвед"));
+            Assert.AreEqual(1, Tools.WordCount("123"));
+            Assert.AreEqual(3, Tools.WordCount("foo\nbar\r\nboz"));
+            Assert.AreEqual(2, Tools.WordCount("foo.bar"));
 
-            Assert.AreEqual(1, Tools.WordCount("0"));
+            Assert.AreEqual(1, Tools.WordCount("foo<!-- bar boz -->"));
+            Assert.AreEqual(1, Tools.WordCount("foo<!--bar-->quux"));
+            Assert.AreEqual(2, Tools.WordCount("foo <!--\r\nbar--> quux"));
+
+            Assert.AreEqual(2, Tools.WordCount("foo {{template| bar boz box}} quux"));
+            Assert.AreEqual(2, Tools.WordCount("foo{{template\r\n|boz = quux}}bar"));
+
+            Assert.AreEqual(2, Tools.WordCount(@"foo
+{|
+! test !! test
+|-
+| test
+| test || test
+|-
+|}bar"));
+
+            Assert.AreEqual(2, Tools.WordCount(@"foo
+{|
+! test !! test
+|-
+| test
+| test || test
+|-
+|}
+bar"));
+
+            Assert.AreEqual(1, Tools.WordCount(@"foo
+{| class=""wikitable""
+! test !! test
+|- style=""color:red""
+| test
+| test || test
+|-
+|}"));
         }
 
         [Test]
