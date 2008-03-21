@@ -83,7 +83,7 @@ namespace WikiFunctions.Lists
         public static void resizeListView(ListView lstView)
         {
             lstView.BeginUpdate();
-            int width; int width2;
+            int width, width2;
             foreach (ColumnHeader head in lstView.Columns)
             {
                 head.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);

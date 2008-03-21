@@ -465,6 +465,9 @@ namespace AutoWikiBrowser
                     MessageBox.Show("Please enter an edit summary.", "Edit summary", MessageBoxButtons.OK,
                         MessageBoxIcon.Exclamation);
 
+                if (!cmboEditSummary.Items.Contains(cmboEditSummary.Text))
+                    cmboEditSummary.Items.Add(cmboEditSummary.Text);
+
                 StopDelayedRestartTimer();
                 DisableButtons();
                 //TheArticle.EditSummary = "";
