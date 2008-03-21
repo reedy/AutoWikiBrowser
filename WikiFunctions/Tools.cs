@@ -423,13 +423,10 @@ namespace WikiFunctions
         /// </summary>
         public static string TurnFirstToUpper(string input)
         {   //other projects don't always start with capital
-            if (Variables.Project == ProjectEnum.wiktionary)
+            if (Variables.Project == ProjectEnum.wiktionary || string.IsNullOrEmpty(input))
                 return input;
 
-            if (input.Length == 0)
-                return "";
-
-            return char.ToUpper(input[0]) + input.Remove(0, 1);
+            return (char.ToUpper(input[0]) + input.Remove(0, 1));
         }
 
         /// <summary>
@@ -437,13 +434,10 @@ namespace WikiFunctions
         /// </summary>
         public static string TurnFirstToLower(string input)
         {
-            //turns first character to lowercase
-            if (input.Length == 0)
+            if (string.IsNullOrEmpty(input))
                 return "";
 
-            input = char.ToLower(input[0]) + input.Remove(0, 1);
-
-            return input;
+            return (char.ToLower(input[0]) + input.Remove(0, 1));
         }
 
         static readonly Regex RegexWordCountTable = new Regex("\\{\\|.*?\\|\\}", RegexOptions.Compiled | RegexOptions.Singleline);

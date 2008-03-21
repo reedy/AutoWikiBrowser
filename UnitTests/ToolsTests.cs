@@ -124,9 +124,16 @@ namespace UnitTests
             Assert.AreEqual("Test", Tools.TurnFirstToUpper("Test"));
         }
 
-        //[Test]
+        [Test]
         public void TestTurnFirstToLower()
         {
+            Assert.AreEqual("", Tools.TurnFirstToLower(""));
+            Assert.AreEqual("test", Tools.TurnFirstToLower("test"));
+            Assert.AreEqual("%test", Tools.TurnFirstToLower("%test"));
+            Assert.AreEqual("ыыыы", Tools.TurnFirstToLower("Ыыыы"));
+
+            Assert.AreEqual("tEST", Tools.TurnFirstToLower("TEST"));
+            Assert.AreEqual("test", Tools.TurnFirstToLower("Test"));
         }
 
         [Test]
