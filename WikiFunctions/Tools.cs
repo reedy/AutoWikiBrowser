@@ -211,7 +211,7 @@ namespace WikiFunctions
         /// </summary>
         public static string MakeHumanCatKey(string Name)
         {
-            Name = RemoveNamespaceString(Regex.Replace(Name, @"\(.*?\)$", "").Replace("'", "").Trim()).Trim();
+            Name = RemoveNamespaceString(Regex.Replace(RemoveDiacritics(Name), @"\(.*?\)$", "").Replace("'", "").Trim()).Trim();
             string origName = Name;
             if (!Name.Contains(" ") || Variables.LangCode == LangCodeEnum.uk) return origName;
             // ukwiki uses "Lastname Firstname Patronymic" convention, nothing more is needed
@@ -249,7 +249,7 @@ namespace WikiFunctions
 
             Name = (lastName + ", " + Name + ", " + suffix).Trim(" ,".ToCharArray());
 
-            return RemoveDiacritics(Name);
+            return Name;
         }
 
         /// <summary>
