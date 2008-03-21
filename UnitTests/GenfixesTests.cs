@@ -12,53 +12,6 @@ using WikiFunctions.Logging;
 
 namespace UnitTests
 {
-    #region Mock objects
-    class MockSkipOptions : ISkipOptions
-    {
-        public bool m_SkipNoUnicode = false;
-        public bool SkipNoUnicode
-        {
-            get { return m_SkipNoUnicode; }
-        }
-
-        public bool m_SkipNoTag = false;
-        public bool SkipNoTag
-        {
-            get { return m_SkipNoTag; }
-        }
-
-        public bool m_SkipNoHeaderError = false;
-        public bool SkipNoHeaderError
-        {
-            get { return m_SkipNoHeaderError; }
-        }
-
-        public bool m_SkipNoBoldTitle = false;
-        public bool SkipNoBoldTitle
-        {
-            get { return m_SkipNoBoldTitle; }
-        }
-
-        public bool m_SkipNoBulletedLink = false;
-        public bool SkipNoBulletedLink
-        {
-            get { return m_SkipNoBulletedLink; }
-        }
-
-        public bool m_SkipNoBadLink = false;
-        public bool SkipNoBadLink
-        {
-            get { return m_SkipNoBadLink; }
-        }
-
-        public bool m_SkipNoDefaultSortAdded = false;
-        public bool SkipNoDefaultSortAdded
-        {
-            get { return m_SkipNoDefaultSortAdded; }
-        }
-    }
-    #endregion
-
     [TestFixture]
     public class GenfixesTests
     {
@@ -137,6 +90,15 @@ namespace UnitTests
 
             // not performing a full comparison due to a bug that should be tested elsewhere
             StringAssert.StartsWith("[[Image:foo.jpg|Some [http://some_crap.com]]]", ArticleText);
+        }
+
+        [Test]
+        // superset of LinkTests.TestFixLinkWhitespace() and others, tests in complex
+        public void LinkWhitespace()
+        {
+            ArticleText = "[[a ]]b";
+            GenFixes();
+            Assert.AreEqual("[[a]] b", ArticleText);
         }
     }
 }

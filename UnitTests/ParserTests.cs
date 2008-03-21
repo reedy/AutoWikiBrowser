@@ -81,14 +81,6 @@ namespace UnitTests
         Parsers parser = new Parsers();
 
         [Test]
-        public void DontFixTrailedLinks()
-        {
-            bool dummy;
-
-            Assert.AreEqual("[[a ]]b", Parsers.FixLinks("[[a ]]b", out dummy));
-        }
-
-        [Test]
         public void TestStickyLinks()
         {
             Assert.AreEqual("[[Russian literature]]", Parsers.StickyLinks("[[Russian literature|Russian]] literature"));
@@ -188,10 +180,16 @@ http://example.com }}");
             StringAssert.Contains("\r\nhttp://example.com }}", s);
         }
 
-        [Test]
+        [Test, Category("Incomplete")]
         public void TestFixLinkWhitespace()
         {
+            Assert.AreEqual("b [[a]] c", parser.FixLinkWhitespace("b[[ a ]]c")); // regexes 1 & 2
+            Assert.AreEqual("b   [[a]]  c", parser.FixLinkWhitespace("b   [[ a ]]  c")); // 4 & 5
+            
             Assert.AreEqual("[[a]] b", parser.FixLinkWhitespace("[[a ]]b"));
+
+            // shouldn't fix - not enough information
+            Assert.AreEqual("[[ a ]]", parser.FixLinkWhitespace("[[ a ]]"));
         }
     }
 
