@@ -46,7 +46,6 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
             'WebControl1
             '
             Me.WebControl1.AllowNavigation = False
-            Me.WebControl1.ArticleText = ""
             Me.WebControl1.Busy = False
             Me.WebControl1.Location = New System.Drawing.Point(0, 0)
             Me.WebControl1.MinimumSize = New System.Drawing.Size(20, 20)

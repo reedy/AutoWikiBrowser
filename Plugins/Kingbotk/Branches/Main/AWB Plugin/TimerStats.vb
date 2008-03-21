@@ -90,7 +90,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 End If
             End If
         End Sub
-        Private Sub webcontrol_BusyChanged() Handles webcontrol.BusyChanged
+        Private Sub webcontrol_BusyChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles webcontrol.BusyChanged
             If webcontrol.Busy Then
                 mETALabel.Visible = True
             Else
@@ -99,7 +99,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
                 webcontrol = Nothing
             End If
         End Sub
-        Friend Sub IncrementSavedEdits() Handles webcontrol.Saved
+        Friend Sub IncrementSavedEdits(ByVal sender As Object, ByVal e As System.EventArgs) Handles webcontrol.Saved
             NumberOfEdits += 1
         End Sub
         Private Sub mStats_SkipMisc(ByVal val As Integer) Handles mStats.SkipMisc
