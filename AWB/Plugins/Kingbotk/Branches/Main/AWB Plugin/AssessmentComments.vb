@@ -29,7 +29,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
         End Sub
 
         ' Webcontrol events:
-        Private Sub WebControl1_Loaded() Handles WebControl1.Loaded
+        Private Sub WebControl1_Loaded(ByVal sender As Object, ByVal e As System.EventArgs) Handles WebControl1.Loaded
             Dim str As String
 
             Application.UseWaitCursor = False
@@ -54,14 +54,14 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
 
             btnSave.Enabled = True
         End Sub
-        Private Sub WebControl1_Saved() Handles WebControl1.Saved
+        Private Sub WebControl1_Saved(ByVal sender As Object, ByVal e As System.EventArgs) Handles WebControl1.Saved
             Application.UseWaitCursor = False
-            mStats.IncrementSavedEdits()
+            mStats.IncrementSavedEdits(sender, e)
             PluginManager.AWBForm.TraceManager.WriteArticleActionLine("Comments page saved", Assessments.conMe)
             Me.DialogResult = Windows.Forms.DialogResult.OK
             Me.Close()
         End Sub
-        Private Sub WebControl1_StatusChanged() Handles WebControl1.StatusChanged
+        Private Sub WebControl1_StatusChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles WebControl1.StatusChanged
             ToolStripStatusLabel1.Text = WebControl1.Status
         End Sub
 
