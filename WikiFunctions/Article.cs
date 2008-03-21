@@ -726,8 +726,12 @@ namespace WikiFunctions
             Variables.Profiler.Profile("FixCategories");
             AWBChangeArticleText("Fix images", Parsers.FixImages(ArticleText), true);
             Variables.Profiler.Profile("FixImages");
+
+            AWBChangeArticleText("Fix whitespace in links", Parsers.FixLinkWhitespace(ArticleText), true);
+            Variables.Profiler.Profile("FixLinkWhitespace");
             AWBChangeArticleText("Fix syntax", parsers.FixSyntax(ArticleText), true);
             Variables.Profiler.Profile("FixSyntax");
+
             AWBChangeArticleText("Fix temperatures", parsers.FixTemperatures(ArticleText), true);
             Variables.Profiler.Profile("FixTemperatures");
 
@@ -739,9 +743,6 @@ namespace WikiFunctions
                 AWBChangeArticleText("Fix reference tags", parsers.FixReferenceListTags(ArticleText), true);
                 Variables.Profiler.Profile("FixReferenceTags");
             }
-
-            AWBChangeArticleText("Fix whitespace in links", Parsers.FixLinkWhitespace(ArticleText), true);
-            Variables.Profiler.Profile("FixLinkWhitespace");
 
             AWBChangeArticleText("Fix empty links and templates", Parsers.FixEmptyLinksAndTemplates(ArticleText), true);
             Variables.Profiler.Profile("FixEmptyLinksAndTemplates");
