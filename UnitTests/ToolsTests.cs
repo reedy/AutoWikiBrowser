@@ -147,6 +147,22 @@ namespace UnitTests
             Assert.AreEqual("abc123", Tools.ReplacePartOfString("abc", 3, 0, "123"));
             Assert.AreEqual("123", Tools.ReplacePartOfString("", 0, 0, "123"));
             Assert.AreEqual("abc", Tools.ReplacePartOfString("abc", 1, 0, ""));
+            Assert.AreEqual("123", Tools.ReplacePartOfString("abc", 0, 3, "123"));
+            Assert.AreEqual("1bc", Tools.ReplacePartOfString("abc", 0, 1, "1"));
+            Assert.AreEqual("ab3", Tools.ReplacePartOfString("abc", 2, 1, "3"));
+        }
+
+        [Test]
+        public void TestWikiEncode()
+        {
+            Assert.AreEqual("foo", Tools.WikiEncode("foo"));
+            Assert.AreEqual("Foo", Tools.WikiEncode("Foo"));
+            Assert.AreEqual("foo_bar", Tools.WikiEncode("foo bar"));
+            Assert.AreEqual("foo_bar", Tools.WikiEncode("foo_bar"));
+            Assert.AreEqual("foo/bar", Tools.WikiEncode("foo/bar"));
+            Assert.AreEqual("foo:bar", Tools.WikiEncode("foo:bar"));
+            StringAssert.AreEqualIgnoringCase("Caf%C3%A9", Tools.WikiEncode("Café"));
+            StringAssert.AreEqualIgnoringCase("%D1%82%D0%B5%D1%81%D1%82:%D1%82%D0%B5%D1%81%D1%82", Tools.WikiEncode("тест:тест"));
         }
     }
 

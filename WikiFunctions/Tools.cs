@@ -289,7 +289,7 @@ namespace WikiFunctions
         /// </summary>
         public static bool IsRomanNumber(string s)
         {
-            if (s.Length > 5) return false;
+            if (string.IsNullOrEmpty(s) || s.Length > 5) return false;
             foreach (char c in s)
             {
                 if (c != 'I' && c != 'V' && c != 'X') return false;
@@ -885,14 +885,14 @@ Message: {2}
         public static void OpenENArticleInBrowser(string title, bool userspace)
         {
             if (userspace)
-                OpenURLInBrowser("http://en.wikipedia.org/wiki/User:" + title.Replace(' ', '_'));
+                OpenURLInBrowser("http://en.wikipedia.org/wiki/User:" + Tools.WikiEncode(title));
             else
-                OpenURLInBrowser("http://en.wikipedia.org/wiki/" + title.Replace(' ', '_'));
+                OpenURLInBrowser("http://en.wikipedia.org/wiki/" + Tools.WikiEncode(title));
         }
 
         public static string GetENLinkWithSimpleSkinAndLocalLanguage(string Article)
         {
-            return "http://en.wikipedia.org/w/index.php?title=" + Article + "&useskin=simple&uselang=" +
+            return "http://en.wikipedia.org/w/index.php?title=" + Tools.WikiEncode(Article) + "&useskin=simple&uselang=" +
               WikiFunctions.Variables.LangCode.ToString();
         }
 
@@ -950,7 +950,7 @@ Message: {2}
         /// <param name="title"></param>
         public static string WikiEncode(string title)
         {
-            return HttpUtility.UrlEncode(title.Replace(' ', '_'));
+            return HttpUtility.UrlEncode(title.Replace(' ', '_')).Replace("%2f", "/").Replace("%3a", ":");
         }
 
         /// <summary>
