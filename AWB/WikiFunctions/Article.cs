@@ -740,7 +740,7 @@ namespace WikiFunctions
                 Variables.Profiler.Profile("FixReferenceTags");
             }
 
-            AWBChangeArticleText("Fix whitespace in links", parsers.FixLinkWhitespace(ArticleText), true);
+            AWBChangeArticleText("Fix whitespace in links", Parsers.FixLinkWhitespace(ArticleText), true);
             Variables.Profiler.Profile("FixLinkWhitespace");
 
             AWBChangeArticleText("Fix empty links and templates", Parsers.FixEmptyLinksAndTemplates(ArticleText), true);

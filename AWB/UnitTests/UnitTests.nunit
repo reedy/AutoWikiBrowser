@@ -3,5 +3,7 @@
   <Config name="Debug" binpathtype="Auto">
     <assembly path="bin\Debug\UnitTests.dll" />
   </Config>
-  <Config name="Release" binpathtype="Auto" />
+  <Config name="Release" binpathtype="Auto">
+    <assembly path="bin\Release\UnitTests.dll" />
+  </Config>
 </NUnitProject>
