@@ -429,9 +429,7 @@ namespace WikiFunctions
             if (input.Length == 0)
                 return "";
 
-            input = char.ToUpper(input[0]) + input.Remove(0, 1);
-
-            return input;
+            return char.ToUpper(input[0]) + input.Remove(0, 1);
         }
 
         /// <summary>
