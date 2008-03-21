@@ -183,13 +183,13 @@ http://example.com }}");
         [Test, Category("Incomplete")]
         public void TestFixLinkWhitespace()
         {
-            Assert.AreEqual("b [[a]] c", parser.FixLinkWhitespace("b[[ a ]]c")); // regexes 1 & 2
-            Assert.AreEqual("b   [[a]]  c", parser.FixLinkWhitespace("b   [[ a ]]  c")); // 4 & 5
-            
-            Assert.AreEqual("[[a]] b", parser.FixLinkWhitespace("[[a ]]b"));
+            Assert.AreEqual("b [[a]] c", Parsers.FixLinkWhitespace("b[[ a ]]c")); // regexes 1 & 2
+            Assert.AreEqual("b   [[a]]  c", Parsers.FixLinkWhitespace("b   [[ a ]]  c")); // 4 & 5
+
+            Assert.AreEqual("[[a]] b", Parsers.FixLinkWhitespace("[[a ]]b"));
 
             // shouldn't fix - not enough information
-            Assert.AreEqual("[[ a ]]", parser.FixLinkWhitespace("[[ a ]]"));
+            Assert.AreEqual("[[ a ]]", Parsers.FixLinkWhitespace("[[ a ]]"));
         }
     }
 
