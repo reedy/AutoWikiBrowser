@@ -854,6 +854,8 @@ namespace AutoWikiBrowser
             EnableButtons();
         }
 
+        static readonly Regex spamUrlRegex = new Regex("<p>The following link has triggered our spam protection filter:<strong>(.*?)</strong><br/?>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
         private void CaseWasSaved(object sender, EventArgs e)
         {
             if (webBrowserEdit.Document.Body.InnerHtml.Contains("<H1 class=firstHeading>Edit conflict: "))
@@ -863,10 +865,22 @@ namespace AutoWikiBrowser
                 Start();
                 return;
             }
-            else if (!BotMode && webBrowserEdit.Document.Body.OuterHtml.Contains("<div id=\"spamprotected\">"))
+            else if (!BotMode && webBrowserEdit.Document.Body.InnerHtml.Contains("<DIV id=spamprotected>"))
             {//check edit wasn't blocked due to spam filter
-                if (!chkSkipSpamFilter.Checked && MessageBox.Show("Edit has been blocked by spam blacklist. Try and edit again?", "Spam blacklist", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-                    Start();
+                if (!chkSkipSpamFilter.Checked)
+                {
+                    Match m = spamUrlRegex.Match(webBrowserEdit.Document.Body.InnerHtml);
+
+                    string messageBoxText = "Edit has been blocked by spam blacklist.\r\n";
+
+                    if (m.Success)
+                        messageBoxText += "Spam URL: " + m.Groups[1].Value.Trim() + "\r\n";
+                    
+                    if (MessageBox.Show(messageBoxText += "Try and edit again?", "Spam blacklist", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                        Start();
+                    else
+                        SkipPage("Edit blocked by spam protection filter");
+                }
                 else
                     SkipPage("Edit blocked by spam protection filter");
 
