@@ -210,6 +210,42 @@ bar"));
             StringAssert.AreEqualIgnoringCase("Caf%C3%A9", Tools.WikiEncode("Café"));
             StringAssert.AreEqualIgnoringCase("%D1%82%D0%B5%D1%81%D1%82:%D1%82%D0%B5%D1%81%D1%82", Tools.WikiEncode("тест:тест"));
         }
+
+        [Test]
+        public void TestSplitToSections()
+        {
+            string[] sections = Tools.SplitToSections("foo\r\n==bar=\r\nboo\r\n\r\n= boz =\r\n==quux==");
+            CollectionAssert.AreEqual(new string[]
+            {
+                "foo\r\n",
+                "==bar=\r\nboo\r\n\r\n",
+                "= boz =\r\n",
+                "==quux==\r\n"
+            }, sections);
+
+            sections = Tools.SplitToSections("==bar=\r\nboo\r\n\r\n= boz =\r\n==quux==");
+            CollectionAssert.AreEqual(new string[]
+            {
+                "==bar=\r\nboo\r\n\r\n",
+                "= boz =\r\n",
+                "==quux==\r\n"
+            }, sections);
+
+            sections = Tools.SplitToSections("\r\n==bar=\r\nboo\r\n\r\n= boz =\r\n==quux==");
+            CollectionAssert.AreEqual(new string[]
+            {
+                "\r\n",
+                "==bar=\r\nboo\r\n\r\n",
+                "= boz =\r\n",
+                "==quux==\r\n"
+            }, sections);
+
+            sections = Tools.SplitToSections("");
+            CollectionAssert.AreEqual(new string[] { "\r\n" }, sections);
+
+            sections = Tools.SplitToSections("==foo==");
+            CollectionAssert.AreEqual(new string[] { "==foo==\r\n" }, sections);
+        }
     }
 
     [TestFixture]
