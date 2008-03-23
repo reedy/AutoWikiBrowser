@@ -471,6 +471,36 @@ namespace WikiFunctions
             return Text;
         }
 
+        /// <summary>
+        /// Splits wikitext to sections
+        /// </summary>
+        /// <param name="ArticleText">Page text</param>
+        /// <returns>Array of strings, each represents a section with its heading (if any)</returns>
+        public static string[] SplitToSections(string ArticleText)
+        {
+            string[] lines = ArticleText.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+
+            List<string> sections = new List<string>();
+            StringBuilder section = new StringBuilder();
+
+            foreach (string s in lines)
+            {
+                if (WikiRegexes.Heading.IsMatch(s))
+                {
+                    if (section.Length > 0)
+                    {
+                        sections.Add(section.ToString());
+                        section.Length = 0;
+                    }
+                }
+                section.Append(s);
+                section.Append("\r\n");
+            }
+            if (section.Length > 0) sections.Add(section.ToString());
+
+            return sections.ToArray();
+        }
+
         #region boring chars
         static readonly KeyValuePair<string, string>[] Diacritics = new KeyValuePair<string, string>[]
             {

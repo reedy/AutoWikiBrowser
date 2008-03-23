@@ -127,10 +127,10 @@ namespace WikiFunctions.Parse
 
         private bool boolAddCatKey;
 
-        // should NOT be accessed directly use Sorter
+        // should NOT be accessed directly, use Sorter
         private MetaDataSorter metaDataSorter;
 
-        MetaDataSorter Sorter
+        public MetaDataSorter Sorter
         {
             get
             {

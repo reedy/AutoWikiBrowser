@@ -192,7 +192,8 @@ namespace WikiFunctions.Parse
     }
 
     public enum InterWikiOrderEnum : byte { LocalLanguageAlpha, LocalLanguageFirstWord, Alphabetical, AlphabeticalEnFirst }
-    class MetaDataSorter
+    
+    public class MetaDataSorter
     {
         Parsers parser;
         public MetaDataSorter(Parsers p)
@@ -365,7 +366,7 @@ namespace WikiFunctions.Parse
             }
         }
 
-        private string removeCats(ref string ArticleText, string ArticleTitle)
+        public string removeCats(ref string ArticleText, string ArticleTitle)
         {
             List<string> categoryList = new List<string>();
             string x = "";
@@ -408,7 +409,7 @@ namespace WikiFunctions.Parse
             return defaultSort + ListToString(categoryList);
         }
 
-        private static string removePersonData(ref string ArticleText)
+        public static string removePersonData(ref string ArticleText)
         {
             string strPersonData;
             if (Variables.LangCode == LangCodeEnum.de)
@@ -422,7 +423,7 @@ namespace WikiFunctions.Parse
             return strPersonData;
         }
 
-        private static string removeStubs(ref string ArticleText)
+        public static string removeStubs(ref string ArticleText)
         {
             Regex stubsRegex = new Regex("<!-- ?\\{\\{.*?" + Variables.Stub + "b\\}\\}.*?-->|:?\\{\\{.*?" + Variables.Stub + "\\}\\}");
 
@@ -447,7 +448,7 @@ namespace WikiFunctions.Parse
                 return "";
         }
 
-        private static string removeDisambig(ref string ArticleText)
+        public static string removeDisambig(ref string ArticleText)
         {
             if (Variables.LangCode != LangCodeEnum.en)
                 return "";
@@ -477,7 +478,7 @@ namespace WikiFunctions.Parse
             return linkFAList;
         }
 
-        private string interwikis(ref string ArticleText)
+        public string interwikis(ref string ArticleText)
         {
             string interwikis = ListToString(removeLinkFAs(ref ArticleText)) + ListToString(removeInterWikis(ref ArticleText));
             return interwikis;
