@@ -1154,6 +1154,14 @@ namespace WikiFunctions
 
             RETFPath = Namespaces[4] + "AutoWikiBrowser/Typos";
 
+            foreach(string s in Namespaces.Values)
+            {
+                System.Diagnostics.Trace.Assert(s.EndsWith(":"), "Internal error: namespace does not end with ':'.",
+                    "Please contact a developer.");
+            }
+            System.Diagnostics.Trace.Assert(!Namespaces.ContainsKey(0), "Internal error: key exists for namespace 0.",
+                    "Please contact a developer.");
+
             if (string.IsNullOrEmpty(FullProjectName)) FullProjectName = Namespaces[4].TrimEnd(':');
         }
 
