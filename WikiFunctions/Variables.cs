@@ -1168,10 +1168,11 @@ namespace WikiFunctions
         private static void RegenerateRegexes()
         {
             NamespacesCaseInsensitive.Clear();
+            bool LangNotEnglish = (LangCode != LangCodeEnum.en);
             foreach (KeyValuePair<int, string> k in Namespaces)
             {
                 //other languages can use the english syntax
-                if (LangCode != LangCodeEnum.en && enLangNamespaces.ContainsKey(k.Key))
+                if (LangNotEnglish && enLangNamespaces.ContainsKey(k.Key))
                     NamespacesCaseInsensitive.Add(k.Key, "(?:" + Tools.AllCaseInsensitive(k.Value) + "|" + Tools.AllCaseInsensitive(enLangNamespaces[k.Key]).Replace(":", " ?:") + ")");
                 else
                     NamespacesCaseInsensitive.Add(k.Key, Tools.AllCaseInsensitive(k.Value).Replace(":", " ?:"));
@@ -1189,11 +1190,11 @@ namespace WikiFunctions
 
             SiteInfo si = new SiteInfo(URLLong);
 
-
             try
             {
                 for (int i = 0; i < months.Length; i++) months[i] += "-gen";
                 Dictionary<string, string> messages = si.GetMessages(months);
+
                 for (int i = 0; i < months.Length; i++)
                 {
                     months[i] = messages[months[i]];
@@ -1205,17 +1206,14 @@ namespace WikiFunctions
             }
             catch
             {
-                if (string.IsNullOrEmpty(CustomProject))
-                {
-                    if (MessageBox.Show(@"An error occured while loading project information from the server.
+                if (MessageBox.Show(@"An error occured while loading project information from the server.
 Do you want to use default settings?", "Error loading namespaces", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    {
-                        Namespaces = enLangNamespaces;
-                        MonthNames = (string[])ENLangMonthNames.Clone();
-                        return;
-                    }
+                {
+                    Namespaces = enLangNamespaces;
+                    MonthNames = (string[])ENLangMonthNames.Clone();
+                    return;
                 }
-                else
+                else if (!string.IsNullOrEmpty(CustomProject))
                 {
                     MessageBox.Show("An error occured while loading project information from the server. " +
                         "Please make sure that your internet connection works and such combination of project/language exist." +
