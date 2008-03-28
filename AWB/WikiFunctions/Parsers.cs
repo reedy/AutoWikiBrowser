@@ -353,9 +353,6 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string RemoveWhiteSpace(string ArticleText)
         {
-            //Remove 2 or more <br />'s
-            ArticleText = Regex.Replace(ArticleText.Trim(), @"(<br[\s/]*> *){2,}", "\r\n", RegexOptions.IgnoreCase);
-
             //Remove <br /> if followed by double newline
             ArticleText = Regex.Replace(ArticleText.Trim(), "<br ?/?>\r\n\r\n", "\r\n\r\n", RegexOptions.IgnoreCase);
 
@@ -454,6 +451,9 @@ namespace WikiFunctions.Parse
                 ArticleText = Regex.Replace(ArticleText, "</?p>", "", RegexOptions.IgnoreCase);
 
             ArticleText = Regex.Replace(ArticleText, "^<hr>|^----+", "----", RegexOptions.Multiline);
+
+            //Remove 2 or more <br />'s
+            ArticleText = Regex.Replace(ArticleText.Trim(), @"(<br[\s/]*> *){2,}", "\r\n", RegexOptions.IgnoreCase);
 
             //remove appearance of double line break
             ArticleText = Regex.Replace(ArticleText, "(^==?[^=]*==?)\r\n(\r\n)?----+", "$1", RegexOptions.Multiline);

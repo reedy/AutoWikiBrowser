@@ -487,10 +487,11 @@ namespace WikiFunctions.Parse
         private List<string> removeInterWikis(ref string ArticleText)
         {
             List<string> interWikiList = new List<string>();
-            //Regex interwikiregex = new Regex(@"\[\[(?<site>.*?):(?<text>.*?)\]\]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
             string site;
-            foreach(Match m in FastIW.Matches(ArticleText))
+
+            MatchCollection mc  = FastIW.Matches(ArticleText);
+            foreach(Match m in mc)
             {
                 site = m.Groups[1].Value.ToLower();
                 if (site != "ru-sib") // remove links to Zolotaryovpedia now that it has been closed
@@ -505,7 +506,16 @@ namespace WikiFunctions.Parse
                 ArticleText = ArticleText.Replace(interWikiComment, "");
             }
 
-            ArticleText = FastIW.Replace(ArticleText, "");
+            //ArticleText = FastIW.Replace(ArticleText, "");
+            if (mc.Count > 0)
+            {
+                StringBuilder sb = new StringBuilder(ArticleText);
+                for (int i = mc.Count - 1; i >= 0; i--)
+                {
+                    sb.Remove(mc[i].Index, mc[i].Value.Length);
+                }
+                ArticleText = sb.ToString();
+            }
 
             if (parser.sortInterwikiOrder)
             {

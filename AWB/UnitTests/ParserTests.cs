@@ -204,9 +204,20 @@ http://example.com }}");
             Globals.UnitTestMode = true;
         }
 
-        [Test]
+        [Test, Category("Unarchived bugs")]
         public void TestBrConverter()
         {
+            Assert.AreEqual("", p.FixSyntax("<br><br>")); // dooes not return \r\n due to Trim()
+            Assert.AreEqual("a\r\nb", p.FixSyntax("a<br/><br>b"));
+            Assert.AreEqual("a\r\nb", p.FixSyntax("a<br><br />b"));
+            Assert.AreEqual("a\r\nb", p.FixSyntax("a<br/> <br>b"));
+
+            Assert.AreEqual("a<br/br>b", p.FixSyntax("a<br/br>b"));
+            Assert.AreEqual("a<br/>\r\n<br>b", p.FixSyntax("a<br/>\r\n<br>b"));
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#General_fixes_problem:_br_tags_inside_templates
+            Assert.AreEqual("{{foo|a<br><br>b}}", p.FixSyntax("{{foo|a<br><br>b}}"));
+
             Assert.AreEqual("#a\r\n#b", p.FixSyntax("#a<br>\r\n#b"));
             Assert.AreEqual("# a\r\n# b", p.FixSyntax("# a<br>\r\n# b"));
             Assert.AreEqual("#a\r\n#b", p.FixSyntax("#a<br/>#b"));
@@ -481,6 +492,9 @@ http://example.com }}");
 
             Assert.AreEqual("", p.RemoveCategory("Foo? Bar!", "[[Category:Foo? Bar!|boz]]", out noChange));
             Assert.IsFalse(noChange);
+
+            Assert.AreEqual("[[Category:Fooo]]", p.RemoveCategory("Foo", "[[Category:Fooo]]", out noChange));
+            Assert.IsTrue(noChange);
         }
     }
 }
