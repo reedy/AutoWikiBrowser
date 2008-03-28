@@ -588,6 +588,16 @@ namespace AutoWikiBrowser
                 return;
             }
 
+            if (webBrowserEdit.Document.Body.InnerHtml.Contains("readOnly"))
+            {
+                if (!Variables.User.IsAdmin)
+                {
+                    NudgeTimer.Stop();
+                    SkipPage("Page is protected");
+                    return;
+                }
+            }
+
             TheArticle.OriginalArticleText = strTemp;
 
             int.TryParse(webBrowserEdit.GetScriptingVar("wgCurRevisionId"), out ErrorHandler.CurrentRevision);
@@ -740,17 +750,6 @@ namespace AutoWikiBrowser
                     return false;
                 }
 
-                if (HTML.Contains("readOnly"))
-                {
-                    if (Variables.User.IsAdmin)
-                        return true;
-                    else
-                    {
-                        NudgeTimer.Stop();
-                        SkipPage("Page is protected");
-                        return false;
-                    }
-                }
                 //check we are still logged in
                 try
                 {
