@@ -246,6 +246,24 @@ bar"));
             sections = Tools.SplitToSections("==foo==");
             CollectionAssert.AreEqual(new string[] { "==foo==\r\n" }, sections);
         }
+
+        [Test]
+        public void TestRemoveMatches()
+        {
+            MatchCollection matches = Regex.Matches("abc bce cde def", "[ce]");
+            Assert.AreEqual("ab b d df", Tools.RemoveMatches("abc bce cde def", matches));
+
+            matches = Regex.Matches("", "test");
+            Assert.AreEqual("test", Tools.RemoveMatches("test", matches));
+            Assert.AreEqual("abc", Tools.RemoveMatches("abc", matches));
+            Assert.AreEqual("", Tools.RemoveMatches("", matches));
+
+            matches = Regex.Matches("abc123", "(123|abc)");
+            Assert.AreEqual("", Tools.RemoveMatches("abc123", matches));
+
+            matches = Regex.Matches("test", "[Tt]est");
+            Assert.AreEqual("", Tools.RemoveMatches("test", matches));
+        }
     }
 
     [TestFixture]

@@ -373,7 +373,8 @@ namespace WikiFunctions.Parse
 
             Regex r = new Regex("<!-- ? ?\\[\\[" + Variables.NamespacesCaseInsensitive[14] + ".*?(\\]\\]|\\|.*?\\]\\]).*?-->|\\[\\[" + Variables.NamespacesCaseInsensitive[14] + ".*?(\\]\\]|\\|.*?\\]\\])( {0,4}⌊⌊⌊⌊[0-9]{1,4}⌋⌋⌋⌋)?");
 
-            foreach (Match m in r.Matches(ArticleText))
+            MatchCollection matches = r.Matches(ArticleText);
+            foreach (Match m in matches)
             {
                 x = m.Value;
                 //add to array, replace underscores with spaces, ignore=
@@ -383,7 +384,7 @@ namespace WikiFunctions.Parse
                 }
             }
 
-            ArticleText = r.Replace(ArticleText, "");
+            ArticleText = Tools.RemoveMatches(ArticleText, matches);
 
             if (parser.addCatKey)
                 categoryList = catKeyer(categoryList, ArticleTitle);
@@ -490,8 +491,8 @@ namespace WikiFunctions.Parse
 
             string site;
 
-            MatchCollection mc  = FastIW.Matches(ArticleText);
-            foreach(Match m in mc)
+            MatchCollection matches  = FastIW.Matches(ArticleText);
+            foreach(Match m in matches)
             {
                 site = m.Groups[1].Value.ToLower();
                 if (site != "ru-sib") // remove links to Zolotaryovpedia now that it has been closed
@@ -506,16 +507,7 @@ namespace WikiFunctions.Parse
                 ArticleText = ArticleText.Replace(interWikiComment, "");
             }
 
-            //ArticleText = FastIW.Replace(ArticleText, "");
-            if (mc.Count > 0)
-            {
-                StringBuilder sb = new StringBuilder(ArticleText);
-                for (int i = mc.Count - 1; i >= 0; i--)
-                {
-                    sb.Remove(mc[i].Index, mc[i].Value.Length);
-                }
-                ArticleText = sb.ToString();
-            }
+            ArticleText = Tools.RemoveMatches(ArticleText, matches);
 
             if (parser.sortInterwikiOrder)
             {
