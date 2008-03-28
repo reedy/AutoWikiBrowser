@@ -426,22 +426,20 @@ namespace WikiFunctions.Parse
 
         public static string removeStubs(ref string ArticleText)
         {
-            Regex stubsRegex = new Regex("<!-- ?\\{\\{.*?" + Variables.Stub + "b\\}\\}.*?-->|:?\\{\\{.*?" + Variables.Stub + "\\}\\}");
-
             List<string> stubList = new List<string>();
-            MatchCollection n = stubsRegex.Matches(ArticleText);
+            MatchCollection matches = WikiRegexes.PossiblyCommentedStub.Matches(ArticleText);
             string x = "";
 
-            foreach (Match m in n)
+            foreach (Match m in matches)
             {
                 x = m.Value;
-                if (!((Regex.IsMatch(x, Variables.SectStub) || (Regex.IsMatch(x, "tl\\|")))))
+                if (!Regex.IsMatch(x, Variables.SectStub) || x.Contains("|"))
                 {
                     stubList.Add(x);
-                    //remove old stub
-                    ArticleText = ArticleText.Replace(x, "");
                 }
             }
+
+            ArticleText = Tools.RemoveMatches(ArticleText, matches);
 
             if (stubList.Count != 0)
                 return ListToString(stubList);
