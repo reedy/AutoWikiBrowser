@@ -501,6 +501,26 @@ namespace WikiFunctions
             return sections.ToArray();
         }
 
+        /// <summary>
+        /// Removes every matched pattern. To be used only if MatchCollection is needed for something else,
+        /// otherwise Regex.Replace(foo, "") will be faster
+        /// </summary>
+        /// <param name="str">String to process</param>
+        /// <param name="matches">Matches of a regex on this string</param>
+        public static string RemoveMatches(string str, MatchCollection matches)
+        {
+            if (matches.Count == 0) return str;
+
+            StringBuilder sb = new StringBuilder(str);
+
+            for (int i = matches.Count - 1; i >= 0; i--)
+            {
+                sb.Remove(matches[i].Index, matches[i].Value.Length);
+            }
+
+            return sb.ToString();
+        }
+
         #region boring chars
         static readonly KeyValuePair<string, string>[] Diacritics = new KeyValuePair<string, string>[]
             {
