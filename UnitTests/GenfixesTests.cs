@@ -12,35 +12,31 @@ using WikiFunctions.Logging;
 
 namespace UnitTests
 {
-    [TestFixture]
-    public class GenfixesTests
+    public class GenfixesTestsBase
     {
-        #region Preparations
         Article a = new Article("Test");
         Parsers p = new Parsers();
         HideText h = new HideText();
         MockSkipOptions s = new MockSkipOptions();
 
-        void GenFixes(bool replaceReferenceTags)
+        public void GenFixes(bool replaceReferenceTags)
         {
             a.PerformGeneralFixes(p, h, s, replaceReferenceTags);
         }
 
-        void GenFixes()
+        public void GenFixes()
         {
             GenFixes(true);
         }
 
-        [SetUp]
-        public void SetUp()
+        public GenfixesTestsBase()
         {
             Globals.UnitTestMode = true;
             WikiRegexes.MakeLangSpecificRegexes();
             a.InitialiseLogListener();
         }
-        #endregion
 
-        string ArticleText
+        public string ArticleText
         {
             get { return a.ArticleText; }
             set
@@ -50,44 +46,46 @@ namespace UnitTests
             }
         }
 
+        public void AssertChange(string text, string expected)
+        {
+            ArticleText = text;
+            GenFixes();
+            Assert.AreEqual(expected, ArticleText);
+        }
+
+        public void AssertNotChanged(string text)
+        {
+            ArticleText = text;
+            GenFixes();
+            Assert.AreEqual(text, ArticleText);
+        }
+    }
+
+    [TestFixture]
+    public class GenfixesTests : GenfixesTestsBase
+    {
         [Test]
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_2#Incorrect_Underscore_removal_in_URL.27s_in_wikilinks
         public void UndersoreRemovalInExternalLink()
         {
             // just in case...
-            ArticleText = "test http://some_link test";
-            GenFixes();
+            AssertNotChanged("test http://some_link test");
 
-            Assert.AreEqual(a.OriginalArticleText, ArticleText);
-            
-            ArticleText = "[http://some_link]";
-            GenFixes();
+            AssertNotChanged("[http://some_link]");
 
-            Assert.AreEqual(a.OriginalArticleText, ArticleText);
-
-            ArticleText = "[[http://some_link]]";
-            GenFixes();
-
-            Assert.AreEqual("[http://some_link]", ArticleText);
+            AssertChange("[[http://some_link]]", "[http://some_link]");
         }
 
         [Test]
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_2#Incorrect_Underscore_removal_in_URL.27s_in_wikilinks
         public void ExternalLinksInImageCaptions()
         {
-            ArticleText = "[[Image:foo.jpg|Some http://some_crap.com]]";
-            GenFixes();
+            AssertNotChanged("[[Image:foo.jpg|Some http://some_crap.com]]");
 
-            Assert.AreEqual(a.OriginalArticleText, ArticleText);
-
-            ArticleText = "[[Image:foo.jpg|Some [http://some_crap.com]]]";
-            GenFixes();
-
-            Assert.AreEqual(a.OriginalArticleText, ArticleText);
+            AssertNotChanged("[[Image:foo.jpg|Some [http://some_crap.com]]]");
 
             ArticleText = "[[Image:foo.jpg|Some [[http://some_crap.com]]]]";
             GenFixes();
-
             // not performing a full comparison due to a bug that should be tested elsewhere
             StringAssert.StartsWith("[[Image:foo.jpg|Some [http://some_crap.com]]]", ArticleText);
         }
@@ -96,9 +94,23 @@ namespace UnitTests
         // superset of LinkTests.TestFixLinkWhitespace() and others, tests in complex
         public void LinkWhitespace()
         {
-            ArticleText = "[[a ]]b";
-            GenFixes();
-            Assert.AreEqual("[[a]] b", ArticleText);
+            AssertChange("[[a ]]b", "[[a]] b");
+        }
+
+        [Test, Category("Unarchived bugs")]
+        // this transformation is currently at Parsers.FixDates()
+        public void DoubleBr()
+        {
+            AssertChange("a<br><br>b", "a\r\nb");
+            AssertChange("a<br /><bR>b", "a\r\nb");
+            AssertChange("a<BR> <Br/>b", "a\r\nb");
+            AssertChange("<br><br>", ""); // \r\n removed as extra whitespace
+
+            AssertNotChanged("a<br/br>b");
+            AssertNotChanged("a<br/>\r\n<br>b");
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#General_fixes_problem:_br_tags_inside_templates
+            AssertChange("{{foo|bar=a<br><br>b}}<br><br>quux", "{{foo|bar=a<br><br>b}}\r\nquux");
         }
     }
 }

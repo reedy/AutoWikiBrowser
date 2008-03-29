@@ -421,15 +421,29 @@ namespace WikiFunctions
             if (LangCode == LangCodeEnum.en)
             {
                 bool noChange;
+
                 string strTemp = parsers.Conversions(mArticleText);
 
                 strTemp = parsers.FixDates(strTemp);
                 strTemp = parsers.LivingPeople(strTemp, out noChange);
                 strTemp = parsers.FixHeadings(strTemp, mName, out noChange);
-                if (SkipIfNoChange && noChange)
-                    Trace.AWBSkipped("No header errors");
-                else if (!noChange)
-                    this.AWBChangeArticleText("Fixed header errors", strTemp, true);
+
+                if (mArticleText == strTemp)
+                {
+                    if (SkipIfNoChange)
+                        Trace.AWBSkipped("No header errors");
+                }
+                else
+                {
+                    if (!noChange)
+                        AWBChangeArticleText("Fixed header errors", strTemp, true);
+                    else
+                    {
+                        AWBChangeArticleText("Fixed minor formatting issues", strTemp, true);
+                        if (SkipIfNoChange) Trace.AWBSkipped("No header errors");
+                    }
+
+                }
             }
         }
 

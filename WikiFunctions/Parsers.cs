@@ -227,7 +227,14 @@ namespace WikiFunctions.Parse
         {
             HideText hidetext = new HideText();
             ArticleText = hidetext.HideMore(ArticleText);
-            ArticleText = FixDatesRaw(ArticleText);
+            {
+                ArticleText = FixDatesRaw(ArticleText);
+
+                //Remove 2 or more <br />'s
+                //This piece's existance here is counter-intuitive, but it requires HideMore()
+                //and I don't want to call this slow function yet another time --MaxSem
+                ArticleText = Regex.Replace(ArticleText.Trim(), @"(<br[\s/]*> *){2,}", "\r\n", RegexOptions.IgnoreCase);
+            }
             ArticleText = hidetext.AddBackMore(ArticleText);
             return ArticleText;
         }
@@ -451,9 +458,6 @@ namespace WikiFunctions.Parse
                 ArticleText = Regex.Replace(ArticleText, "</?p>", "", RegexOptions.IgnoreCase);
 
             ArticleText = Regex.Replace(ArticleText, "^<hr>|^----+", "----", RegexOptions.Multiline);
-
-            //Remove 2 or more <br />'s
-            ArticleText = Regex.Replace(ArticleText.Trim(), @"(<br[\s/]*> *){2,}", "\r\n", RegexOptions.IgnoreCase);
 
             //remove appearance of double line break
             ArticleText = Regex.Replace(ArticleText, "(^==?[^=]*==?)\r\n(\r\n)?----+", "$1", RegexOptions.Multiline);
@@ -1459,16 +1463,20 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ArticleText"></param>
-        /// <param name="NoChange"></param>
-        /// <returns></returns>
         public string LivingPeople(string ArticleText, out bool NoChange)
         {
             NoChange = true;
             testText = ArticleText;
+
+            ArticleText = LivingPeople(ArticleText);
+
+            NoChange = (testText == ArticleText);
+
+            return ArticleText;
+        }
+
+        public string LivingPeople(string ArticleText)
+        {
 
             if (Regex.IsMatch(ArticleText, "\\[\\[ ?Category ?:[ _]?([0-9]{1,2}[ _]century[ _]deaths|[0-9s]{4,5}[ _]deaths|Disappeared[ _]people|Living[ _]people|Year[ _]of[ _]death[ _]missing|Possibly[ _]living[ _]people)", RegexOptions.IgnoreCase))
                 return ArticleText;
@@ -1491,8 +1499,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 catKey = "]]";
 
             ArticleText += "[[Category:Living people" + catKey;
-
-            NoChange = (testText == ArticleText);
 
             return ArticleText;
         }

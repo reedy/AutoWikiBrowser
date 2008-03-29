@@ -204,28 +204,13 @@ http://example.com }}");
             Globals.UnitTestMode = true;
         }
 
-        [Test, Category("Unarchived bugs")]
+        [Test]
         public void TestBrConverter()
         {
-            Assert.AreEqual("", p.FixSyntax("<br><br>")); // dooes not return \r\n due to Trim()
-            Assert.AreEqual("a\r\nb", p.FixSyntax("a<br/><br>b"));
-            Assert.AreEqual("a\r\nb", p.FixSyntax("a<br><br />b"));
-            Assert.AreEqual("a\r\nb", p.FixSyntax("a<br/> <br>b"));
-
-            Assert.AreEqual("a<br/br>b", p.FixSyntax("a<br/br>b"));
-            Assert.AreEqual("a<br/>\r\n<br>b", p.FixSyntax("a<br/>\r\n<br>b"));
-
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#General_fixes_problem:_br_tags_inside_templates
-            Assert.AreEqual("{{foo|a<br><br>b}}", p.FixSyntax("{{foo|a<br><br>b}}"));
-
             Assert.AreEqual("#a\r\n#b", p.FixSyntax("#a<br>\r\n#b"));
             Assert.AreEqual("# a\r\n# b", p.FixSyntax("# a<br>\r\n# b"));
             Assert.AreEqual("#a\r\n#b", p.FixSyntax("#a<br/>#b"));
             Assert.AreEqual("#a\r\n#b", p.FixSyntax("#a<br />#b"));
-
-            StringAssert.Contains("<br>", p.FixSyntax("{{template|years=2007<br>2008}}"));
-
-            Assert.AreEqual("a<br clear=\"all\"/>b", p.FixSyntax("a<br clear=\"all\"/>b"));
         }
     }
 
