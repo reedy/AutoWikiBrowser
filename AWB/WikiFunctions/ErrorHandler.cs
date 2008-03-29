@@ -84,13 +84,13 @@ namespace WikiFunctions
 
                     handler.txtError.Text = ex.Message;
 
-                    string errorMessage = "{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = <table><tr><td>Exception:<td><code>" + ex.GetType().Name + "</code><tr><td>Message:<td><code>" +
-                        ex.Message + "</code><tr><td>Call stack:<td><pre>" + ex.StackTrace + "</pre>";
+                    StringBuilder errorMessage = new StringBuilder("{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = <table><tr><td>Exception:<td><code>" + ex.GetType().Name + "</code><tr><td>Message:<td><code>" +
+                        ex.Message + "</code><tr><td>Call stack:<td><pre>" + ex.StackTrace + "</pre>");
 
                     if (Thread.CurrentThread.Name != "Main thread")
-                        errorMessage += "\r\nThread: " + Thread.CurrentThread.Name;
+                        errorMessage.Append("\r\nThread: " + Thread.CurrentThread.Name);
                     
-                    errorMessage += "</table>\r\n~~~~\r\n | OS          = " + Environment.OSVersion.ToString() + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                    errorMessage.Append("</table>\r\n~~~~\r\n | OS          = " + Environment.OSVersion.ToString() + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version.ToString());
 
                     if (!string.IsNullOrEmpty(CurrentArticle) &&
                         ex.StackTrace.Contains("AutoWikiBrowser.MainForm.ProcessPage("))
@@ -99,17 +99,16 @@ namespace WikiFunctions
                         if (CurrentRevision != 0 && !string.IsNullOrEmpty(LangCode) && !string.IsNullOrEmpty(Project))
                             link = "[http://" + LangCode + "." + Project + ".org/w/index.php?title=" + CurrentArticle.Replace(" ", "_") + "&oldid=" + CurrentRevision.ToString() + "]";
                         else link = "[[:" + CurrentArticle + "]]";
-                        errorMessage +=
-                            "\r\n | duplicate = [encountered while processing page ''" + link + "'']";
+
+                        errorMessage.Append("\r\n | duplicate = [encountered while processing page ''" + link + "'']");
                     }
 
                     if (!string.IsNullOrEmpty(ListMakerText))
-                        errorMessage +=
-                            "\r\n | duplicate = '''ListMaker Text:''' " + ListMakerText;
+                        errorMessage.Append("\r\n | duplicate = '''ListMaker Text:''' " + ListMakerText);
 
-                    errorMessage += "\r\n}}";
+                    errorMessage.Append("\r\n}}");
 
-                    handler.txtDetails.Text = errorMessage;
+                    handler.txtDetails.Text = errorMessage.ToString();
 
                     handler.textBox1.Text = "AWB encountered " + ex.GetType().Name;
 
