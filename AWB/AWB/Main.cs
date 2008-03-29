@@ -291,7 +291,7 @@ namespace AutoWikiBrowser
             {
                 ErrorHandler.Handle(ex);
             }
-            
+
             UsageStats.Initialise();
 
             StatusLabelText = "";
@@ -419,12 +419,13 @@ namespace AutoWikiBrowser
         internal string StatusLabelText
         {
             get { return lblStatusText.Text; }
-            set {
+            set
+            {
                 if (string.IsNullOrEmpty(value))
                     lblStatusText.Text = Program.Name + " " + Program.VersionString;
                 else
                     lblStatusText.Text = value;
-                Application.DoEvents(); 
+                Application.DoEvents();
             }
         }
         #endregion
@@ -790,19 +791,13 @@ namespace AutoWikiBrowser
                     webBrowserEdit.Document.Write("");
                     this.Focus();
 
-                    DlgTalk DlgTalk = new DlgTalk();
-                    if (DlgTalk.ShowDialog() == DialogResult.Yes)
-                        Tools.OpenUserTalkInBrowser();
-                    else
+                    using (DlgTalk DlgTalk = new DlgTalk())
                     {
-                        try
-                        {
-                            System.Diagnostics.Process.Start("IExplore", Variables.GetUserTalkURL());
-                        }
-                        catch { }
+                        if (DlgTalk.ShowDialog() == DialogResult.Yes)
+                            Tools.OpenUserTalkInBrowser();
+                        else
+                            Tools.OpenURLInBrowser(Variables.GetUserTalkURL());
                     }
-
-                    DlgTalk = null;
                     return false;
                 }
                 if (!webBrowserEdit.HasArticleTextBox)
@@ -877,7 +872,7 @@ namespace AutoWikiBrowser
 
                     if (m.Success)
                         messageBoxText += "Spam URL: " + m.Groups[1].Value.Trim() + "\r\n";
-                    
+
                     if (MessageBox.Show(messageBoxText += "Try and edit again?", "Spam blacklist", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                         Start();
                     else
@@ -1375,7 +1370,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private void MainFormClosing(object sender, FormClosingEventArgs e)
         {
             ExitQuestion dlg = null;
-
             WebControl.Shutdown = true;
 
             Properties.Settings.Default.WindowState = this.WindowState;
@@ -1404,7 +1398,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
             if (AutoWikiBrowser.Properties.Settings.Default.DontAskForTerminate || dlg.DialogResult == DialogResult.OK)
             {
-
                 // save user persistent settings
                 AutoWikiBrowser.Properties.Settings.Default.Save();
 
@@ -1419,14 +1412,13 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             else
             {
                 e.Cancel = true;
-                dlg = null;
                 return;
             }
         }
 
         private void SetCheckBoxes()
         {
-            if (webBrowserEdit.Document != null &&webBrowserEdit.Document.Body.InnerHtml.Contains("wpMinoredit"))
+            if (webBrowserEdit.Document != null && webBrowserEdit.Document.Body.InnerHtml.Contains("wpMinoredit"))
             {
                 // Warning: Plugins can call SetMinor and SetWatch, so only turn these *on* not off
                 if (markAllAsMinorToolStripMenuItem.Checked) webBrowserEdit.SetMinor(true);
@@ -1961,7 +1953,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
                 userTalkWarningsLoaded = false; // force reload
 
-                if (!Variables.IsCustomProject && !Variables.IsWikia && !Variables.IsWikimediaMonolingualProject )
+                if (!Variables.IsCustomProject && !Variables.IsWikia && !Variables.IsWikimediaMonolingualProject)
                     lblProject.Text = Variables.LangCode.ToString().ToLower() + "." + Variables.Project;
                 else if (Variables.IsWikimediaMonolingualProject)
                     lblProject.Text = Variables.Project.ToString();
@@ -2426,7 +2418,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             // TODO: When saving, if this code has been called, we could check we're not saving a db tag with no reason provided (this would be most useful if this code is used as part of a bigger AFD/prod/db solution)
             // TODO: This and many other handlers like it are EN only; controls should be invisible when not on EN or the code internationalised/strings moved elsewhere
             Rectangle scrn = Screen.GetWorkingArea(this);
-            txtEdit.Text = "{{db|" + Microsoft.VisualBasic.Interaction.InputBox("Enter a reason. Leave blank if you'll edit " + 
+            txtEdit.Text = "{{db|" + Microsoft.VisualBasic.Interaction.InputBox("Enter a reason. Leave blank if you'll edit " +
             "the reason in the AWB text box", "Speedy deletion", "", scrn.Width / 2, scrn.Height / 3) + "}}\r\n\r\n" + txtEdit.Text;
         }
 
@@ -3351,8 +3343,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private static void LoadUserTalkWarnings()
         {
             Regex userTalkTemplate = new Regex(@"# \[\[" + Variables.NamespacesCaseInsensitive[10] + @"(.*?)\]\]");
-            StringBuilder builder = new StringBuilder(@"\{\{ ?("+Variables.NamespacesCaseInsensitive[10]+")? ?(("); 
-            
+            StringBuilder builder = new StringBuilder(@"\{\{ ?(" + Variables.NamespacesCaseInsensitive[10] + ")? ?((");
+
             userTalkTemplatesRegex = null;
             userTalkWarningsLoaded = true; // or it will retry on each page load
             try
