@@ -817,12 +817,15 @@ namespace AutoWikiBrowser
                     StartDelayedRestartTimer(null, null);
                     return false;
                 }
-                if (webBrowserEdit.Document.GetElementById("wpTextbox1").InnerText == null && chkSkipNonExistent.Checked)
+
+                bool wpTextbox1IsNull = (webBrowserEdit.Document.GetElementById("wpTextbox1").InnerText == null);
+
+                if (wpTextbox1IsNull && chkSkipNonExistent.Checked)
                 {//check if it is a non-existent page, if so then skip it automatically.
                     SkipPage("Non-existent page");
                     return false;
                 }
-                if (webBrowserEdit.Document.GetElementById("wpTextbox1").InnerText != null && chkSkipExistent.Checked)
+                if (!wpTextbox1IsNull && chkSkipExistent.Checked)
                 {
                     SkipPage("Existing page");
                     return false;
