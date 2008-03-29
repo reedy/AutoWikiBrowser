@@ -497,6 +497,8 @@ namespace WikiFunctions.Parse
                     interWikiList.Add("[[" + site + ":" + m.Groups[2].Value + "]]");
             }
 
+            ArticleText = Tools.RemoveMatches(ArticleText, matches);
+
             string interWikiComment = "";
             if (InterLangRegex.IsMatch(ArticleText))
             {
@@ -504,8 +506,6 @@ namespace WikiFunctions.Parse
                 interWikiComment = InterLangRegex.Match(ArticleText).Value;
                 ArticleText = ArticleText.Replace(interWikiComment, "");
             }
-
-            ArticleText = Tools.RemoveMatches(ArticleText, matches);
 
             if (parser.sortInterwikiOrder)
             {
