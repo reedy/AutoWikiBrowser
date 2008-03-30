@@ -503,8 +503,6 @@ namespace AutoWikiBrowser
 
                 TheArticle = new ArticleEX(listMaker1.SelectedArticle().Name);
                 ErrorHandler.CurrentArticle = TheArticle.Name;
-                ErrorHandler.LangCode = Variables.LangCode.ToString();
-                ErrorHandler.Project = Variables.Project.ToString();
 
                 NewHistory();
 
@@ -646,6 +644,8 @@ namespace AutoWikiBrowser
                 Application.DoEvents();
 
                 ProcessPage();
+
+                ErrorHandler.CurrentArticle = "";
 
                 UpdateWebBrowserStatus(null, null);
 
@@ -2607,7 +2607,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             ArticleEX a = new ArticleEX(TheArticle.Name);
 
             a.OriginalArticleText = txtEdit.Text;
+            ErrorHandler.CurrentArticle = TheArticle.Name;
             ProcessPage(a);
+            ErrorHandler.CurrentArticle = "";
             txtEdit.Text = a.ArticleText;
             GetDiff();
         }

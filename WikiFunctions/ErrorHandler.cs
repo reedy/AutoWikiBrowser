@@ -22,16 +22,6 @@ namespace WikiFunctions
         public static string CurrentArticle;
 
         /// <summary>
-        /// Language of the project of the page that is currently being processed
-        /// </summary>
-        public static string LangCode;
-
-        /// <summary>
-        /// Project of which the page is currently being processed
-        /// </summary>
-        public static string Project;
-
-        /// <summary>
         /// Revision of the page currently being processed
         /// </summary>
         public static int CurrentRevision;
@@ -92,13 +82,9 @@ namespace WikiFunctions
                     
                     errorMessage.Append("</table>\r\n~~~~\r\n | OS          = " + Environment.OSVersion.ToString() + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version.ToString());
 
-                    if (!string.IsNullOrEmpty(CurrentArticle) &&
-                        ex.StackTrace.Contains("AutoWikiBrowser.MainForm.ProcessPage("))
+                    if (!string.IsNullOrEmpty(CurrentArticle))
                     {
-                        string link;
-                        if (CurrentRevision != 0 && !string.IsNullOrEmpty(LangCode) && !string.IsNullOrEmpty(Project))
-                            link = "[http://" + LangCode + "." + Project + ".org/w/index.php?title=" + CurrentArticle.Replace(" ", "_") + "&oldid=" + CurrentRevision.ToString() + "]";
-                        else link = "[[:" + CurrentArticle + "]]";
+                        string link = "[" + Variables.URLLong + "index.php?title=" + Tools.WikiEncode(CurrentArticle) + "&oldid=" + CurrentRevision.ToString() + "]";
 
                         errorMessage.Append("\r\n | duplicate = [encountered while processing page ''" + link + "'']");
                     }
