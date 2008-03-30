@@ -1423,7 +1423,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         {
             testText = ArticleText;
             ArticleText = TalkPages.TalkPageHeaders.FormatDefaultSort(ArticleText);
-            if (!TalkPages.TalkPageHeaders.ContainsDefaultSortKeywordOrTemplate(ArticleText))
+
+            Match match = WikiRegexes.Defaultsort.Match(ArticleText);
+            if (!match.Success)
             {
                 string sort = null;
                 bool allsame = true;
@@ -1431,14 +1433,21 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
                 //format categories properly
                 ArticleText = FixCategories(ArticleText);
+                testText = ArticleText;
 
-                string s = @"\[\[\s*" + Variables.NamespacesCaseInsensitive[14] + @"\s*(.*?)\s*(|\|[^\|\]]*)\s*\]\]";
-                foreach (Match m in Regex.Matches(ArticleText, s))
+                string s = @"\[\[\s*" + Variables.NamespacesCaseInsensitive[14] + @"\s*(.*?)\s*(?:|\|([^\|\]]*))\s*\]\]";
+
+                MatchCollection cats = Regex.Matches(ArticleText, s);
+
+                foreach (Match m in cats)
                 {
-                    if (sort == null)
-                        sort = m.Groups[2].Value;
+                    string explicitKey = m.Groups[2].Value;
+                    if (explicitKey.Length == 0) explicitKey = ArticleTitle;
 
-                    if (sort != m.Groups[2].Value)
+                    if (string.IsNullOrEmpty(sort))
+                        sort = explicitKey;
+
+                    if (sort != explicitKey && explicitKey != "")
                     {
                         allsame = false;
                         break;
@@ -1449,17 +1458,22 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 {
                     if (sort.Length > 4) // So that this doesn't get confused by sort keys of "*", " ", etc.
                     {
-                        foreach (Match m in Regex.Matches(ArticleText, s))
+                        foreach (Match m in cats)
                         {
                             ArticleText = Regex.Replace(ArticleText, s, "[[" + Variables.Namespaces[14] + "$1]]");
                         }
-                        if (sort.TrimStart('|').TrimEnd(']') != ArticleTitle)
-                            ArticleText = ArticleText + "\r\n{{DEFAULTSORT:" + sort.TrimStart('|').TrimEnd(']') + "}}";
+                        if (sort != ArticleTitle)
+                            ArticleText = ArticleText + "\r\n{{DEFAULTSORT:" + Tools.RemoveDiacritics(sort) + "}}";
                     }
                 }
             }
-            NoChange = (TalkPages.TalkPageHeaders.ContainsDefaultSortKeywordOrTemplate(ArticleText)
-                == TalkPages.TalkPageHeaders.ContainsDefaultSortKeywordOrTemplate(testText));
+            else // already has DEFAULTSORT
+            {
+                string s = Tools.RemoveDiacritics(match.Value);
+                if (s != match.Value) ArticleText = ArticleText.Replace(match.Value, s);
+            }
+
+            NoChange = (testText == ArticleText);
             return ArticleText;
         }
 
