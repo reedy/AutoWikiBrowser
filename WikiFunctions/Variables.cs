@@ -1195,12 +1195,14 @@ namespace WikiFunctions
                 for (int i = 0; i < months.Length; i++) months[i] += "-gen";
                 Dictionary<string, string> messages = si.GetMessages(months);
 
-                for (int i = 0; i < months.Length; i++)
+                if (messages.Count == 12)
                 {
-                    months[i] = messages[months[i]];
+                    for (int i = 0; i < months.Length; i++)
+                    {
+                        months[i] = messages[months[i]];
+                    }
+                    MonthNames = months;
                 }
-
-                MonthNames = months;
 
                 Namespaces = si.Namespaces;
             }
