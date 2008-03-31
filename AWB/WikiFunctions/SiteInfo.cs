@@ -45,7 +45,7 @@ namespace WikiFunctions
 
         public void Load()
         {
-            string output = Tools.GetHTML(m_ScriptPath + "api.php?action=query&meta=siteinfo&siprop=general|namespaces|namespacealiases|statistics&format=xml");
+            string output = Tools.GetHTML(m_ScriptPath + "api.php?action=query&meta=siteinfo&siprop=general|namespaces|statistics&format=xml");
 
             XmlDocument xd = new XmlDocument();
             xd.LoadXml(output);
