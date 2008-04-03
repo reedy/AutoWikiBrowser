@@ -441,8 +441,8 @@ namespace WikiFunctions.Parse
         private void FindAndReplaceContextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             deleteRowToolStripMenuItem.Enabled = (dataGridView1.SelectedRows.Count > 0);
-            testRegexToolStripMenuItem.Enabled = ((dataGridView1.CurrentRow != null) &&
-    ((string)dataGridView1.CurrentRow.Cells["regex"].Value == "1"));
+            testRegexToolStripMenuItem.Enabled = ((dataGridView1.CurrentRow != null)
+                && ((bool)dataGridView1.CurrentRow.Cells["regex"].FormattedValue));
             dataGridView1.EndEdit();
         }
 
