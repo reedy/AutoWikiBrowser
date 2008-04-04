@@ -274,7 +274,6 @@ namespace AutoWikiBrowser
             this.strListFile = new System.Windows.Forms.SaveFileDialog();
             this.EditBoxSaveTimer = new System.Windows.Forms.Timer(this.components);
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.listMaker1 = new WikiFunctions.Controls.Lists.ListMaker();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tpSetOptions = new System.Windows.Forms.TabPage();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
@@ -357,14 +356,11 @@ namespace AutoWikiBrowser
             this.tpHistory = new System.Windows.Forms.TabPage();
             this.webBrowserHistory = new System.Windows.Forms.WebBrowser();
             this.tpLogs = new System.Windows.Forms.TabPage();
-            this.LogControl1 = new WikiFunctions.Logging.LogControl();
             this.tpLoggingOptions = new System.Windows.Forms.TabPage();
-            this.loggingSettings1 = new AutoWikiBrowser.LoggingSettings();
             this.webBrowserDiff = new System.Windows.Forms.WebBrowser();
             this.toolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
             this.ShutdownTimer = new System.Windows.Forms.Timer(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
-            this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
             this.mnuMakeFromTextBox = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menuitemMakeFromTextBoxUndo = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator27 = new System.Windows.Forms.ToolStripSeparator();
@@ -373,6 +369,10 @@ namespace AutoWikiBrowser
             this.menuitemMakeFromTextBoxPaste = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparatorMakeFromTextBox = new System.Windows.Forms.ToolStripSeparator();
             this.mnuCopyToCategoryLog = new System.Windows.Forms.ToolStripMenuItem();
+            this.listMaker1 = new WikiFunctions.Controls.Lists.ListMaker();
+            this.LogControl1 = new WikiFunctions.Logging.LogControl();
+            this.loggingSettings1 = new AutoWikiBrowser.LoggingSettings();
+            this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -1650,11 +1650,6 @@ namespace AutoWikiBrowser
             0,
             0,
             0});
-            this.nudBotSpeed.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
             this.nudBotSpeed.Name = "nudBotSpeed";
             this.nudBotSpeed.Size = new System.Drawing.Size(51, 20);
             this.nudBotSpeed.TabIndex = 3;
@@ -2460,18 +2455,6 @@ namespace AutoWikiBrowser
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Make list";
-            // 
-            // listMaker1
-            // 
-            this.listMaker1.ListFile = "";
-            this.listMaker1.Location = new System.Drawing.Point(7, 15);
-            this.listMaker1.Margin = new System.Windows.Forms.Padding(4);
-            this.listMaker1.Name = "listMaker1";
-            this.listMaker1.SelectedSource = WikiFunctions.Lists.SourceType.Category;
-            this.listMaker1.Size = new System.Drawing.Size(196, 350);
-            this.listMaker1.SourceText = "";
-            this.listMaker1.TabIndex = 0;
-            this.listMaker1.WikiStatus = false;
             // 
             // tabControl1
             // 
@@ -3464,17 +3447,6 @@ namespace AutoWikiBrowser
             this.tpLogs.Text = "Logs";
             this.tpLogs.UseVisualStyleBackColor = true;
             // 
-            // LogControl1
-            // 
-            this.LogControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.LogControl1.Location = new System.Drawing.Point(0, 4);
-            this.LogControl1.Margin = new System.Windows.Forms.Padding(4);
-            this.LogControl1.Name = "LogControl1";
-            this.LogControl1.Size = new System.Drawing.Size(387, 341);
-            this.LogControl1.TabIndex = 0;
-            // 
             // tpLoggingOptions
             // 
             this.tpLoggingOptions.Controls.Add(this.loggingSettings1);
@@ -3485,15 +3457,6 @@ namespace AutoWikiBrowser
             this.tpLoggingOptions.TabIndex = 3;
             this.tpLoggingOptions.Text = "Logging to file";
             this.tpLoggingOptions.UseVisualStyleBackColor = true;
-            // 
-            // loggingSettings1
-            // 
-            this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
-            this.loggingSettings1.Margin = new System.Windows.Forms.Padding(4);
-            this.loggingSettings1.Name = "loggingSettings1";
-            //this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
-            this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
-            this.loggingSettings1.TabIndex = 0;
             // 
             // webBrowserDiff
             // 
@@ -3530,25 +3493,6 @@ namespace AutoWikiBrowser
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(907, 386);
             this.panel1.TabIndex = 1;
-            // 
-            // webBrowserEdit
-            // 
-            this.webBrowserEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.webBrowserEdit.Busy = false;
-            this.webBrowserEdit.Location = new System.Drawing.Point(0, 25);
-            this.webBrowserEdit.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowserEdit.Name = "webBrowserEdit";
-            this.webBrowserEdit.ProcessStage = WikiFunctions.Browser.enumProcessStage.none;
-            this.webBrowserEdit.ScriptErrorsSuppressed = true;
-            this.webBrowserEdit.Size = new System.Drawing.Size(907, 237);
-            this.webBrowserEdit.TabIndex = 670;
-            this.webBrowserEdit.TabStop = false;
-            this.webBrowserEdit.TimeoutLimit = 30;
-            this.webBrowserEdit.WebBrowserShortcutsEnabled = false;
-            this.webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
-            this.webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
             // 
             // mnuMakeFromTextBox
             // 
@@ -3611,6 +3555,57 @@ namespace AutoWikiBrowser
             this.mnuCopyToCategoryLog.Size = new System.Drawing.Size(423, 22);
             this.mnuCopyToCategoryLog.Text = "Copy to Category box on &log tab (for edit summaries and logging)";
             this.mnuCopyToCategoryLog.Click += new System.EventHandler(this.mnuCopyToCategoryLog_Click);
+            // 
+            // listMaker1
+            // 
+            this.listMaker1.ListFile = "";
+            this.listMaker1.Location = new System.Drawing.Point(7, 15);
+            this.listMaker1.Margin = new System.Windows.Forms.Padding(4);
+            this.listMaker1.Name = "listMaker1";
+            this.listMaker1.SelectedSource = WikiFunctions.Lists.SourceType.Category;
+            this.listMaker1.Size = new System.Drawing.Size(196, 350);
+            this.listMaker1.SourceText = "";
+            this.listMaker1.TabIndex = 0;
+            this.listMaker1.WikiStatus = false;
+            // 
+            // LogControl1
+            // 
+            this.LogControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.LogControl1.Location = new System.Drawing.Point(0, 4);
+            this.LogControl1.Margin = new System.Windows.Forms.Padding(4);
+            this.LogControl1.Name = "LogControl1";
+            this.LogControl1.Size = new System.Drawing.Size(387, 341);
+            this.LogControl1.TabIndex = 0;
+            // 
+            // loggingSettings1
+            // 
+            this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
+            this.loggingSettings1.Margin = new System.Windows.Forms.Padding(4);
+            this.loggingSettings1.Name = "loggingSettings1";
+            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
+            this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
+            this.loggingSettings1.TabIndex = 0;
+            // 
+            // webBrowserEdit
+            // 
+            this.webBrowserEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.webBrowserEdit.Busy = false;
+            this.webBrowserEdit.Location = new System.Drawing.Point(0, 25);
+            this.webBrowserEdit.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowserEdit.Name = "webBrowserEdit";
+            this.webBrowserEdit.ProcessStage = WikiFunctions.Browser.enumProcessStage.none;
+            this.webBrowserEdit.ScriptErrorsSuppressed = true;
+            this.webBrowserEdit.Size = new System.Drawing.Size(907, 237);
+            this.webBrowserEdit.TabIndex = 670;
+            this.webBrowserEdit.TabStop = false;
+            this.webBrowserEdit.TimeoutLimit = 30;
+            this.webBrowserEdit.WebBrowserShortcutsEnabled = false;
+            this.webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
+            this.webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
             // 
             // NudgeTimer
             // 
