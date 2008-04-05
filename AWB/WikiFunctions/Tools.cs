@@ -1005,6 +1005,19 @@ Message: {2}
             return HttpUtility.UrlDecode(title).Replace('_', ' ');
         }
 
+        /// <summary>
+        /// Removes the # and text after from a page title. Some redirects redirect to sections, the API doesnt like this
+        /// </summary>
+        /// <param name="title">Page Title</param>
+        /// <returns>Title without # and proceeding, if appropriate</returns>
+        public static string RemoveHashFromPageTitle(string title)
+        {
+            if (!title.Contains("#"))
+                return title;
+
+            return (title.Substring(0, title.IndexOf('#')));
+        }
+
         static readonly Regex ExpandTemplatesRegex = new Regex("<expandtemplates>(.*?)</expandtemplates>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
