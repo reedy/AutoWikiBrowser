@@ -43,6 +43,8 @@ namespace WikiFunctions.DBScanner
         TimeSpan StartTime;
         ListBox AWBListbox;
 
+        SpecialFilter SpecialFilter = new SpecialFilter();
+
         ThreadPriority priority = ThreadPriority.Normal;
         ThreadPriority Priority
         {
@@ -531,7 +533,6 @@ namespace WikiFunctions.DBScanner
 
         private void btnFilter_Click(object sender, EventArgs e)
         {
-            SpecialFilter SpecialFilter = new SpecialFilter();
             SpecialFilter.lb = lbArticles;
             SpecialFilter.ShowDialog(this);
             lblCount.Text = lbArticles.Items.Count.ToString();

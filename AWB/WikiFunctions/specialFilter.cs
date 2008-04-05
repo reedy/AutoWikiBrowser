@@ -40,10 +40,13 @@ namespace WikiFunctions.Lists
         public SpecialFilter()
         {
             InitializeComponent();
+            if (prefs != null)
+                Settings = SpecialFilter.prefs;
             //UpdateText();
         }      
 
         List<Article> list = new List<Article>();
+        static WikiFunctions.AWBSettings.SpecialFilterPrefs prefs;
 
         private void btnApply_Click(object sender, EventArgs e)
         {
@@ -476,6 +479,86 @@ namespace WikiFunctions.Lists
         private void SpecialFilter_VisibleChanged(object sender, EventArgs e)
         {
             if (Visible) UpdateText();
+        }
+
+        public WikiFunctions.AWBSettings.SpecialFilterPrefs Settings
+        {
+            get
+            {
+                prefs = new WikiFunctions.AWBSettings.SpecialFilterPrefs();
+
+                //CheckBox tmp;
+                //foreach (Control chk in groupBox1.Controls)
+                //{
+                //    tmp = (chk as CheckBox);
+
+                //    if (tmp == null)
+                //        continue;
+                //    try
+                //    {
+                //        string name = chk.Text;
+
+                //        if (name.Contains("Article"))
+                //            name = name.Replace("Article", "");
+
+                //        prefs.namespaceValues.Add(Tools.CalculateNS(name + ":"), tmp.Checked);
+                //    }
+                //    catch
+                //    {
+                //    }
+                //}
+
+                prefs.filterTitlesThatContain = chkContains.Checked;
+                prefs.filterTitlesThatContainText = txtContains.Text;
+                prefs.filterTitlesThatDontContain = chkNotContains.Checked;
+                prefs.filterTitlesThatDontContainText = txtDoesNotContain.Text;
+                prefs.areRegex = chkIsRegex.Checked;
+
+                prefs.remDupes = chkRemoveDups.Checked;
+
+                prefs.opType = cbOpType.SelectedIndex;
+
+                foreach (string s in lbRemove.Items)
+                    prefs.remove.Add(s);
+
+                return prefs;
+            }
+            set
+            {
+                prefs = value;
+
+                //if (prefs.namespaceValues.Count > 0)
+                //{
+                //    CheckBox tmp;
+                //    foreach (Control chk in groupBox1.Controls)
+                //    {
+                //        tmp = chk as CheckBox;
+
+                //        if (tmp == null)
+                //            continue;
+
+                //        string name = chk.Text;
+
+                //        if (name.Contains("Article"))
+                //            name = name.Replace("Article", "").Trim();
+
+                //        prefs.namespaceValues.Add(Tools.CalculateNS(name + ":"), tmp.Checked);
+                //    }
+                //}
+
+                chkContains.Checked = prefs.filterTitlesThatContain;
+                txtContains.Text = prefs.filterTitlesThatContainText;
+                chkNotContains.Checked = prefs.filterTitlesThatDontContain;
+                txtDoesNotContain.Text = prefs.filterTitlesThatDontContainText;
+                chkIsRegex.Checked = prefs.areRegex;
+
+                chkRemoveDups.Checked = prefs.remDupes;
+
+                cbOpType.SelectedIndex = prefs.opType;
+
+                foreach (string s in prefs.remove)
+                    lbRemove.Items.Add(s);
+            }
         }
     }
 }

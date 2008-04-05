@@ -54,7 +54,7 @@ namespace WikiFunctions.AWBSettings
 
         // the public constructors are used to create an object with settings from the UI
         public UserPrefs(FaRPrefs mFaRPrefs, EditPrefs mEditprefs, ListPrefs mList, SkipPrefs mSkipOptions,
-            GeneralPrefs mGeneral, DabPrefs mDisambiguation, ModulePrefs mModule, ExternalProgramPrefs mExternalProgram, LoggingPrefs mLogging,
+            GeneralPrefs mGeneral, DabPrefs mDisambiguation, ModulePrefs mModule, ExternalProgramPrefs mExternalProgram, LoggingPrefs mLogging, SpecialFilterPrefs mSpecial,
             Dictionary<string, WikiFunctions.Plugin.IAWBPlugin> Plugins)
         {
             LanguageCode = Variables.LangCode;
@@ -70,6 +70,7 @@ namespace WikiFunctions.AWBSettings
             Module = mModule;
             ExternalProgram = mExternalProgram;
             Logging = mLogging;
+            Special = mSpecial;
 
             foreach (KeyValuePair<string, WikiFunctions.Plugin.IAWBPlugin> a in Plugins)
             {
@@ -95,6 +96,7 @@ namespace WikiFunctions.AWBSettings
         public ExternalProgramPrefs ExternalProgram = new ExternalProgramPrefs();
         public DabPrefs Disambiguation;
         public LoggingPrefs Logging;
+        public SpecialFilterPrefs Special = new SpecialFilterPrefs();
 
         public List<PluginPrefs> Plugin = new List<PluginPrefs>();
 
@@ -554,6 +556,40 @@ namespace WikiFunctions.AWBSettings
 
         public bool PassAsFile = true;
         public string OutputFile = "";
+    }
+
+    [Serializable]
+    public class SpecialFilterPrefs
+    {
+        internal SpecialFilterPrefs() { }
+        public SpecialFilterPrefs(/*Dictionary<int, bool> nameValues, */bool RemoveDupes, 
+            bool FilterTitlesThatContain, bool FilterTitlesThatDontContain, bool AreRegex,
+            int OpType, List<string> Remove)
+        {
+            //namespaceValues = nameValues;
+
+            remDupes = RemoveDupes;
+            filterTitlesThatContain = FilterTitlesThatContain;
+            filterTitlesThatDontContain = FilterTitlesThatDontContain;
+            areRegex = AreRegex;
+
+            opType = OpType;
+
+            remove = Remove;
+        }
+
+        //public Dictionary<int, bool> namespaceValues = new Dictionary<int,bool>();
+
+        public bool remDupes = false;
+
+        public bool filterTitlesThatContain = false;
+        public string filterTitlesThatContainText = "";
+        public bool filterTitlesThatDontContain = false;
+        public string filterTitlesThatDontContainText = "";
+        public bool areRegex = false;
+
+        public int opType = -1;
+        public List<string> remove = new List<string>();
     }
 
     [Serializable, ]

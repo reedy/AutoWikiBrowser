@@ -1323,6 +1323,12 @@ namespace WikiFunctions.Controls.Lists
             }
             lbArticles.EndUpdate();
         }
+
+        public AWBSettings.SpecialFilterPrefs SpecialFilterSettings
+        {
+            get { return SpecialFilter.Settings; }
+            set { SpecialFilter.Settings = value; }
+        }
     }
 }
 
