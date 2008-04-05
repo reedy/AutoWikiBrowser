@@ -365,7 +365,7 @@ namespace WikiFunctions.Controls.Lists
             SourceType st = SelectedSource;
             if (st != SourceType.WikiSearch && st != SourceType.GoogleWikipedia)
             {
-                txtSelectSource.Text = Regex.Replace(txtSelectSource.Text.Trim('[', ']'), "#.*", "");
+                txtSelectSource.Text = Tools.RemoveHashFromPageTitle(txtSelectSource.Text.Trim('[', ']'));
             }
 
             if (st == SourceType.Category || st == SourceType.CategoryRecursive)
