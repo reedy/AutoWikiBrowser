@@ -95,6 +95,7 @@ namespace UnitTests
         public void LinkWhitespace()
         {
             AssertChange("[[a ]]b", "[[a]] b");
+            AssertChange("a[[ b]]", "a [[b]]");
         }
 
         [Test, Category("Unarchived bugs")]
@@ -111,6 +112,8 @@ namespace UnitTests
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#General_fixes_problem:_br_tags_inside_templates
             AssertChange("{{foo|bar=a<br><br>b}}<br><br>quux", "{{foo|bar=a<br><br>b}}\r\nquux");
+
+            AssertNotChanged("<blockquote>\r\n<br><br></blockquote>");
         }
     }
 }
