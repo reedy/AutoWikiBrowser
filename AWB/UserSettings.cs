@@ -268,7 +268,7 @@ namespace AutoWikiBrowser
                removeDuplicatesToolStripMenuItem.Checked, alphaSortInterwikiLinksToolStripMenuItem.Checked, replaceReferenceTagsToolStripMenuItem.Checked,
                focusAtEndOfEditTextBoxToolStripMenuItem.Checked), new DabPrefs(chkEnableDab.Checked,
                txtDabLink.Text, txtDabVariants.Lines, (int)udContextChars.Value), new ModulePrefs(
-               cModule.ModuleEnabled, cModule.Language, cModule.Code), externalProgram.Settings, loggingSettings1.SerialisableSettings,
+               cModule.ModuleEnabled, cModule.Language, cModule.Code), externalProgram.Settings, loggingSettings1.SerialisableSettings, listMaker1.SpecialFilterSettings,
                Plugin.Items);
         }
 
@@ -466,6 +466,8 @@ namespace AutoWikiBrowser
             txtDabLink.Text = p.Disambiguation.Link;
             txtDabVariants.Lines = p.Disambiguation.Variants;
             udContextChars.Value = p.Disambiguation.ContextChars;
+
+            listMaker1.SpecialFilterSettings = p.Special;
 
             loggingSettings1.SerialisableSettings = p.Logging;
 
