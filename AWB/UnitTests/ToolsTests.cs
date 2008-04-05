@@ -11,8 +11,7 @@ namespace UnitTests
     [TestFixture]
     public class ToolsTests
     {
-        [SetUp]
-        public void SetUp()
+        public ToolsTests()
         {
             Globals.UnitTestMode = true;
         }
@@ -263,6 +262,17 @@ bar"));
 
             matches = Regex.Matches("test", "[Tt]est");
             Assert.AreEqual("", Tools.RemoveMatches("test", matches));
+        }
+
+        [Test]
+        public void TestRemoveHashFromPageTitle()
+        {
+            Assert.AreEqual("ab c", Tools.RemoveHashFromPageTitle("ab c"));
+            Assert.AreEqual("foo", Tools.RemoveHashFromPageTitle("foo#bar"));
+            Assert.AreEqual("foo", Tools.RemoveHashFromPageTitle("foo##bar#"));
+            Assert.AreEqual("foo", Tools.RemoveHashFromPageTitle("foo#"));
+            Assert.AreEqual("", Tools.RemoveHashFromPageTitle("#"));
+            Assert.AreEqual("", Tools.RemoveHashFromPageTitle(""));
         }
     }
 
