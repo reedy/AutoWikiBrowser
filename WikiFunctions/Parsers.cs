@@ -564,7 +564,7 @@ namespace WikiFunctions.Parse
 
         static readonly Regex LinkWhitespace1 = new Regex(@" \[\[ ([^\]]{1,30})\]\]", RegexOptions.Compiled);
         static readonly Regex LinkWhitespace2 = new Regex(@"(?<=\w)\[\[ ([^\]]{1,30})\]\]", RegexOptions.Compiled);
-        static readonly Regex LinkWhitespace3 = new Regex(@"\b\[\[([^\]]{1,30})  ([^\]]{1,30})\]\]\b", RegexOptions.Compiled);
+        static readonly Regex LinkWhitespace3 = new Regex(@"\[\[([^\]]{1,30}?) {2,10}([^\]]{1,30})\]\]", RegexOptions.Compiled);
         static readonly Regex LinkWhitespace4 = new Regex(@"\[\[([^\]]{1,30}) \]\] ", RegexOptions.Compiled);
         static readonly Regex LinkWhitespace5 = new Regex(@"\[\[([^\]]{1,30}) \]\](?=\w)", RegexOptions.Compiled);
 
