@@ -1435,6 +1435,7 @@ namespace AutoWikiBrowser
             // 
             this.toolStripSeparator29.Name = "toolStripSeparator29";
             this.toolStripSeparator29.Size = new System.Drawing.Size(186, 6);
+            this.toolStripSeparator29.Visible = false;
             // 
             // dumpHTMLToolStripMenuItem
             // 
