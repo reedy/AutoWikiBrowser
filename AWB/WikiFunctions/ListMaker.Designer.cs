@@ -548,7 +548,7 @@ namespace WikiFunctions.Controls.Lists
             this.btnRemoveDuplicates.Name = "btnRemoveDuplicates";
             this.btnRemoveDuplicates.Size = new System.Drawing.Size(91, 23);
             this.btnRemoveDuplicates.TabIndex = 8;
-            this.btnRemoveDuplicates.Text = "Remove duplicates";
+            this.btnRemoveDuplicates.Text = "Remove dupes";
             this.btnRemoveDuplicates.UseVisualStyleBackColor = true;
             this.btnRemoveDuplicates.Click += new System.EventHandler(this.btnRemoveDuplicates_Click);
             // 
@@ -574,10 +574,10 @@ namespace WikiFunctions.Controls.Lists
             this.Controls.Add(this.btnRemoveArticle);
             this.Controls.Add(this.btnRemoveDuplicates);
             this.Controls.Add(this.txtSelectSource);
-            this.Controls.Add(this.btnFilter);
             this.Controls.Add(this.lbArticles);
             this.Controls.Add(this.btnArticlesListClear);
             this.Controls.Add(this.btnArticlesListSave);
+            this.Controls.Add(this.btnFilter);
             this.Controls.Add(this.txtNewArticle);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.cmboSourceSelect);
