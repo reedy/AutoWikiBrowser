@@ -1430,8 +1430,14 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private string MakeSummary()
         {
             string tag = cmboEditSummary.Text + TheArticle.SavedSummary;
-            if (!BotMode || !chkSuppressTag.Checked ||
-                (!Variables.IsWikimediaProject && !SupressUsingAWB)) tag += " " + Variables.SummaryTag;
+            if (!BotMode || !chkSuppressTag.Checked || 
+                (!Variables.IsWikimediaProject && !SupressUsingAWB))
+            {
+                if (tag.Length >= 255)
+                    tag = tag.Substring(0, (255 - (Variables.SummaryTag.Length + 1)));
+
+                tag += " " + Variables.SummaryTag;
+            }
 
             return tag;
         }
