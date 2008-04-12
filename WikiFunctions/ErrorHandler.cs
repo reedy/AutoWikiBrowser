@@ -87,9 +87,7 @@ namespace WikiFunctions
                         string link = "[" + Variables.URLLong + "index.php?title=" + Tools.WikiEncode(CurrentArticle) + "&oldid=" + CurrentRevision.ToString() + "]";
 
                         errorMessage.Append("\r\n | duplicate = [encountered while processing page ''" + link + "'']");
-                    }
-
-                    if (!string.IsNullOrEmpty(ListMakerText))
+                    } else if (!string.IsNullOrEmpty(ListMakerText))
                         errorMessage.Append("\r\n | duplicate = '''ListMaker Text:''' " + ListMakerText);
 
                     errorMessage.Append("\r\n}}");
