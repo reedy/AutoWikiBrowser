@@ -34,7 +34,10 @@ namespace IRCM
             this.cmboEditNamespace = new System.Windows.Forms.ComboBox();
             this.colorDialog = new System.Windows.Forms.ColorDialog();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.txtNickname = new System.Windows.Forms.TextBox();
             this.ListsTab = new System.Windows.Forms.TabPage();
+            this.chkOnlyBlackAndWatched = new System.Windows.Forms.CheckBox();
+            this.chkIgnoreWhiteList = new System.Windows.Forms.CheckBox();
             this.chkFlashBlackListed = new System.Windows.Forms.CheckBox();
             this.label13 = new System.Windows.Forms.Label();
             this.chkBlackListSound = new System.Windows.Forms.CheckBox();
@@ -57,6 +60,14 @@ namespace IRCM
             this.label6 = new System.Windows.Forms.Label();
             this.btnWhiteListAdd = new System.Windows.Forms.Button();
             this.btnWhiteListAddAdmins = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnIPColour = new System.Windows.Forms.Button();
+            this.btnSetWatchedColour = new System.Windows.Forms.Button();
+            this.btnRegisteredUserColour = new System.Windows.Forms.Button();
+            this.chkChangeCheckedColour = new System.Windows.Forms.CheckBox();
+            this.btnSetWhiteListColour = new System.Windows.Forms.Button();
+            this.btnSetCheckedColour = new System.Windows.Forms.Button();
+            this.btnSetBlackListColour = new System.Windows.Forms.Button();
             this.chkBrowser = new System.Windows.Forms.CheckBox();
             this.listviewPageMoves = new System.Windows.Forms.ListView();
             this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
@@ -137,6 +148,25 @@ namespace IRCM
             this.unblacklistUserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.FeedTab = new System.Windows.Forms.TabPage();
+            this.label19 = new System.Windows.Forms.Label();
+            this.cmboProject = new System.Windows.Forms.ComboBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.cmboLang = new System.Windows.Forms.ComboBox();
+            this.lbldot = new System.Windows.Forms.Label();
+            this.lblHash = new System.Windows.Forms.Label();
+            this.btnCopy = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtServer = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtPort = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.btnResetStats = new System.Windows.Forms.Button();
+            this.dataGridStatistics = new System.Windows.Forms.DataGridView();
+            this.clmType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BrowserTab = new System.Windows.Forms.TabPage();
             this.webBrowser = new WikiFunctions.Browser.WebControl();
             this.toolStripBrowser = new System.Windows.Forms.ToolStrip();
@@ -189,37 +219,8 @@ namespace IRCM
             this.UTCtime = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.clmCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clmType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridStatistics = new System.Windows.Forms.DataGridView();
-            this.btnResetStats = new System.Windows.Forms.Button();
-            this.label14 = new System.Windows.Forms.Label();
-            this.cmboLang = new System.Windows.Forms.ComboBox();
-            this.lbldot = new System.Windows.Forms.Label();
-            this.lblHash = new System.Windows.Forms.Label();
-            this.cmboProject = new System.Windows.Forms.ComboBox();
-            this.btnCopy = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.txtNickname = new System.Windows.Forms.TextBox();
-            this.txtServer = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.txtPort = new System.Windows.Forms.TextBox();
-            this.chkOnlyBlackAndWatched = new System.Windows.Forms.CheckBox();
-            this.chkIgnoreWhiteList = new System.Windows.Forms.CheckBox();
-            this.btnSetWatchedColour = new System.Windows.Forms.Button();
-            this.chkChangeCheckedColour = new System.Windows.Forms.CheckBox();
-            this.btnSetCheckedColour = new System.Windows.Forms.Button();
-            this.btnSetBlackListColour = new System.Windows.Forms.Button();
-            this.btnSetWhiteListColour = new System.Windows.Forms.Button();
-            this.btnRegisteredUserColour = new System.Windows.Forms.Button();
-            this.btnIPColour = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
             this.ListsTab.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.contextMenuPageMoves.SuspendLayout();
             this.ActionTab.SuspendLayout();
             this.splitContainer2.Panel1.SuspendLayout();
@@ -238,13 +239,12 @@ namespace IRCM
             this.contextMenuEdit.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.FeedTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridStatistics)).BeginInit();
             this.BrowserTab.SuspendLayout();
             this.toolStripBrowser.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.MainMenu.SuspendLayout();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridStatistics)).BeginInit();
-            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnStart
@@ -273,6 +273,15 @@ namespace IRCM
             // colorDialog
             // 
             this.colorDialog.FullOpen = true;
+            // 
+            // txtNickname
+            // 
+            this.txtNickname.Enabled = false;
+            this.txtNickname.Location = new System.Drawing.Point(76, 30);
+            this.txtNickname.Name = "txtNickname";
+            this.txtNickname.Size = new System.Drawing.Size(250, 20);
+            this.txtNickname.TabIndex = 2;
+            this.toolTip.SetToolTip(this.txtNickname, "Leave blank for random name");
             // 
             // ListsTab
             // 
@@ -307,6 +316,28 @@ namespace IRCM
             this.ListsTab.TabIndex = 6;
             this.ListsTab.Text = "Lists";
             this.ListsTab.UseVisualStyleBackColor = true;
+            // 
+            // chkOnlyBlackAndWatched
+            // 
+            this.chkOnlyBlackAndWatched.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkOnlyBlackAndWatched.AutoSize = true;
+            this.chkOnlyBlackAndWatched.Location = new System.Drawing.Point(677, 9);
+            this.chkOnlyBlackAndWatched.Name = "chkOnlyBlackAndWatched";
+            this.chkOnlyBlackAndWatched.Size = new System.Drawing.Size(199, 17);
+            this.chkOnlyBlackAndWatched.TabIndex = 17;
+            this.chkOnlyBlackAndWatched.Text = "Show &only black and watch list items";
+            this.chkOnlyBlackAndWatched.UseVisualStyleBackColor = true;
+            // 
+            // chkIgnoreWhiteList
+            // 
+            this.chkIgnoreWhiteList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.chkIgnoreWhiteList.AutoSize = true;
+            this.chkIgnoreWhiteList.Location = new System.Drawing.Point(11, 510);
+            this.chkIgnoreWhiteList.Name = "chkIgnoreWhiteList";
+            this.chkIgnoreWhiteList.Size = new System.Drawing.Size(139, 17);
+            this.chkIgnoreWhiteList.TabIndex = 10;
+            this.chkIgnoreWhiteList.Text = "I&gnore white listed users";
+            this.chkIgnoreWhiteList.UseVisualStyleBackColor = true;
             // 
             // chkFlashBlackListed
             // 
@@ -543,6 +574,94 @@ namespace IRCM
             this.btnWhiteListAddAdmins.UseVisualStyleBackColor = true;
             this.btnWhiteListAddAdmins.Click += new System.EventHandler(this.btnWhiteListAddAdmins_Click);
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.btnIPColour);
+            this.groupBox2.Controls.Add(this.btnSetWatchedColour);
+            this.groupBox2.Controls.Add(this.btnRegisteredUserColour);
+            this.groupBox2.Controls.Add(this.chkChangeCheckedColour);
+            this.groupBox2.Controls.Add(this.btnSetWhiteListColour);
+            this.groupBox2.Controls.Add(this.btnSetCheckedColour);
+            this.groupBox2.Controls.Add(this.btnSetBlackListColour);
+            this.groupBox2.Location = new System.Drawing.Point(370, 46);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(140, 219);
+            this.groupBox2.TabIndex = 16;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Colours";
+            // 
+            // btnIPColour
+            // 
+            this.btnIPColour.Location = new System.Drawing.Point(6, 19);
+            this.btnIPColour.Name = "btnIPColour";
+            this.btnIPColour.Size = new System.Drawing.Size(127, 23);
+            this.btnIPColour.TabIndex = 0;
+            this.btnIPColour.Text = "&IP address user colour";
+            this.btnIPColour.UseVisualStyleBackColor = true;
+            this.btnIPColour.Click += new System.EventHandler(this.btnIPColour_Click);
+            // 
+            // btnSetWatchedColour
+            // 
+            this.btnSetWatchedColour.Location = new System.Drawing.Point(6, 138);
+            this.btnSetWatchedColour.Name = "btnSetWatchedColour";
+            this.btnSetWatchedColour.Size = new System.Drawing.Size(127, 23);
+            this.btnSetWatchedColour.TabIndex = 4;
+            this.btnSetWatchedColour.Text = "Watched item colour";
+            this.btnSetWatchedColour.UseVisualStyleBackColor = true;
+            this.btnSetWatchedColour.Click += new System.EventHandler(this.btnSetWatchedColour_Click);
+            // 
+            // btnRegisteredUserColour
+            // 
+            this.btnRegisteredUserColour.Location = new System.Drawing.Point(6, 49);
+            this.btnRegisteredUserColour.Name = "btnRegisteredUserColour";
+            this.btnRegisteredUserColour.Size = new System.Drawing.Size(127, 23);
+            this.btnRegisteredUserColour.TabIndex = 1;
+            this.btnRegisteredUserColour.Text = "R&egistered user colour";
+            this.btnRegisteredUserColour.UseVisualStyleBackColor = true;
+            this.btnRegisteredUserColour.Click += new System.EventHandler(this.btnRegisteredUserColour_Click);
+            // 
+            // chkChangeCheckedColour
+            // 
+            this.chkChangeCheckedColour.AutoSize = true;
+            this.chkChangeCheckedColour.Checked = true;
+            this.chkChangeCheckedColour.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkChangeCheckedColour.Location = new System.Drawing.Point(6, 167);
+            this.chkChangeCheckedColour.Name = "chkChangeCheckedColour";
+            this.chkChangeCheckedColour.Size = new System.Drawing.Size(127, 17);
+            this.chkChangeCheckedColour.TabIndex = 5;
+            this.chkChangeCheckedColour.Text = "Colour after &checking";
+            this.chkChangeCheckedColour.UseVisualStyleBackColor = true;
+            // 
+            // btnSetWhiteListColour
+            // 
+            this.btnSetWhiteListColour.Location = new System.Drawing.Point(6, 79);
+            this.btnSetWhiteListColour.Name = "btnSetWhiteListColour";
+            this.btnSetWhiteListColour.Size = new System.Drawing.Size(127, 23);
+            this.btnSetWhiteListColour.TabIndex = 2;
+            this.btnSetWhiteListColour.Text = "W&hite listed user colour";
+            this.btnSetWhiteListColour.UseVisualStyleBackColor = true;
+            this.btnSetWhiteListColour.Click += new System.EventHandler(this.btnSetWhiteListColour_Click);
+            // 
+            // btnSetCheckedColour
+            // 
+            this.btnSetCheckedColour.Location = new System.Drawing.Point(6, 190);
+            this.btnSetCheckedColour.Name = "btnSetCheckedColour";
+            this.btnSetCheckedColour.Size = new System.Drawing.Size(127, 23);
+            this.btnSetCheckedColour.TabIndex = 6;
+            this.btnSetCheckedColour.Text = "C&hecked edit colour";
+            this.btnSetCheckedColour.UseVisualStyleBackColor = true;
+            this.btnSetCheckedColour.Click += new System.EventHandler(this.btnSetCheckedColour_Click);
+            // 
+            // btnSetBlackListColour
+            // 
+            this.btnSetBlackListColour.Location = new System.Drawing.Point(6, 109);
+            this.btnSetBlackListColour.Name = "btnSetBlackListColour";
+            this.btnSetBlackListColour.Size = new System.Drawing.Size(127, 23);
+            this.btnSetBlackListColour.TabIndex = 3;
+            this.btnSetBlackListColour.Text = "B&lack listed user colour";
+            this.btnSetBlackListColour.UseVisualStyleBackColor = true;
+            this.btnSetBlackListColour.Click += new System.EventHandler(this.btnSetBlackListColour_Click);
+            // 
             // chkBrowser
             // 
             this.chkBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -607,31 +726,31 @@ namespace IRCM
             this.addUseToBlacklistToolStripMenuItem,
             this.addarticletoWatchToolStripMenuItem});
             this.contextMenuPageMoves.Name = "contextMenuPageMoves";
-            this.contextMenuPageMoves.Size = new System.Drawing.Size(184, 76);
+            this.contextMenuPageMoves.Size = new System.Drawing.Size(196, 76);
             // 
             // loadNewPageToolStripMenuItem
             // 
             this.loadNewPageToolStripMenuItem.Name = "loadNewPageToolStripMenuItem";
-            this.loadNewPageToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.loadNewPageToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
             this.loadNewPageToolStripMenuItem.Text = "Load new page";
             this.loadNewPageToolStripMenuItem.Click += new System.EventHandler(this.loadNewPageToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(180, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(192, 6);
             // 
             // addUseToBlacklistToolStripMenuItem
             // 
             this.addUseToBlacklistToolStripMenuItem.Name = "addUseToBlacklistToolStripMenuItem";
-            this.addUseToBlacklistToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.addUseToBlacklistToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
             this.addUseToBlacklistToolStripMenuItem.Text = "Add user to blacklist";
             this.addUseToBlacklistToolStripMenuItem.Click += new System.EventHandler(this.addUseToBlacklistToolStripMenuItem_Click);
             // 
             // addarticletoWatchToolStripMenuItem
             // 
             this.addarticletoWatchToolStripMenuItem.Name = "addarticletoWatchToolStripMenuItem";
-            this.addarticletoWatchToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.addarticletoWatchToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
             this.addarticletoWatchToolStripMenuItem.Text = "Add article to watchlist";
             this.addarticletoWatchToolStripMenuItem.Click += new System.EventHandler(this.addarticletoWatchToolStripMenuItem_Click);
             // 
@@ -829,26 +948,26 @@ namespace IRCM
             this.loadAdminsLogToolStripMenuItem,
             this.loadArticleuserPageToolStripMenuItem});
             this.contextMenuActions.Name = "contextMenuActions";
-            this.contextMenuActions.Size = new System.Drawing.Size(185, 70);
+            this.contextMenuActions.Size = new System.Drawing.Size(192, 70);
             // 
             // loadAdminTalkPageToolStripMenuItem
             // 
             this.loadAdminTalkPageToolStripMenuItem.Name = "loadAdminTalkPageToolStripMenuItem";
-            this.loadAdminTalkPageToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.loadAdminTalkPageToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
             this.loadAdminTalkPageToolStripMenuItem.Text = "Load admin talk page";
             this.loadAdminTalkPageToolStripMenuItem.Click += new System.EventHandler(this.loadAdminTalkPageToolStripMenuItem_Click);
             // 
             // loadAdminsLogToolStripMenuItem
             // 
             this.loadAdminsLogToolStripMenuItem.Name = "loadAdminsLogToolStripMenuItem";
-            this.loadAdminsLogToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.loadAdminsLogToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
             this.loadAdminsLogToolStripMenuItem.Text = "Load admins log";
             this.loadAdminsLogToolStripMenuItem.Click += new System.EventHandler(this.loadAdminsLogToolStripMenuItem_Click);
             // 
             // loadArticleuserPageToolStripMenuItem
             // 
             this.loadArticleuserPageToolStripMenuItem.Name = "loadArticleuserPageToolStripMenuItem";
-            this.loadArticleuserPageToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.loadArticleuserPageToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
             this.loadArticleuserPageToolStripMenuItem.Text = "Load article/user page";
             this.loadArticleuserPageToolStripMenuItem.Click += new System.EventHandler(this.loadArticleuserPageToolStripMenuItem_Click);
             // 
@@ -1009,26 +1128,26 @@ namespace IRCM
             this.loadBlockPageToolStripMenuItem,
             this.addUserToBlackListToolStripMenuItem});
             this.contextMenuNewUser.Name = "contextMenuNewUser";
-            this.contextMenuNewUser.Size = new System.Drawing.Size(176, 70);
+            this.contextMenuNewUser.Size = new System.Drawing.Size(185, 70);
             // 
             // loadUserPageToolStripMenuItem
             // 
             this.loadUserPageToolStripMenuItem.Name = "loadUserPageToolStripMenuItem";
-            this.loadUserPageToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.loadUserPageToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.loadUserPageToolStripMenuItem.Text = "Load User page";
             this.loadUserPageToolStripMenuItem.Click += new System.EventHandler(this.loadUserPageToolStripMenuItem_Click);
             // 
             // loadBlockPageToolStripMenuItem
             // 
             this.loadBlockPageToolStripMenuItem.Name = "loadBlockPageToolStripMenuItem";
-            this.loadBlockPageToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.loadBlockPageToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.loadBlockPageToolStripMenuItem.Text = "Load block page";
             this.loadBlockPageToolStripMenuItem.Click += new System.EventHandler(this.loadBlockPageToolStripMenuItem_Click);
             // 
             // addUserToBlackListToolStripMenuItem
             // 
             this.addUserToBlackListToolStripMenuItem.Name = "addUserToBlackListToolStripMenuItem";
-            this.addUserToBlackListToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.addUserToBlackListToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.addUserToBlackListToolStripMenuItem.Text = "Add user to black list";
             this.addUserToBlackListToolStripMenuItem.Click += new System.EventHandler(this.addUserToBlackListToolStripMenuItem_Click);
             // 
@@ -1041,38 +1160,38 @@ namespace IRCM
             this.addUserToBlacklistToolStripMenuItem1,
             this.addArticlefileToWatchlistToolStripMenuItem});
             this.contextMenuNewStuff.Name = "contextMenuNewStuff";
-            this.contextMenuNewStuff.Size = new System.Drawing.Size(203, 98);
+            this.contextMenuNewStuff.Size = new System.Drawing.Size(219, 98);
             // 
             // loadArticlefileToolStripMenuItem
             // 
             this.loadArticlefileToolStripMenuItem.Name = "loadArticlefileToolStripMenuItem";
-            this.loadArticlefileToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.loadArticlefileToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
             this.loadArticlefileToolStripMenuItem.Text = "Load article/file";
             this.loadArticlefileToolStripMenuItem.Click += new System.EventHandler(this.loadArticlefileToolStripMenuItem_Click);
             // 
             // loadUserPageToolStripMenuItem1
             // 
             this.loadUserPageToolStripMenuItem1.Name = "loadUserPageToolStripMenuItem1";
-            this.loadUserPageToolStripMenuItem1.Size = new System.Drawing.Size(202, 22);
+            this.loadUserPageToolStripMenuItem1.Size = new System.Drawing.Size(218, 22);
             this.loadUserPageToolStripMenuItem1.Text = "Load user page";
             this.loadUserPageToolStripMenuItem1.Click += new System.EventHandler(this.loadUserPageToolStripMenuItem1_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(199, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(215, 6);
             // 
             // addUserToBlacklistToolStripMenuItem1
             // 
             this.addUserToBlacklistToolStripMenuItem1.Name = "addUserToBlacklistToolStripMenuItem1";
-            this.addUserToBlacklistToolStripMenuItem1.Size = new System.Drawing.Size(202, 22);
+            this.addUserToBlacklistToolStripMenuItem1.Size = new System.Drawing.Size(218, 22);
             this.addUserToBlacklistToolStripMenuItem1.Text = "Add user to blacklist";
             this.addUserToBlacklistToolStripMenuItem1.Click += new System.EventHandler(this.addUserToBlacklistToolStripMenuItem1_Click);
             // 
             // addArticlefileToWatchlistToolStripMenuItem
             // 
             this.addArticlefileToWatchlistToolStripMenuItem.Name = "addArticlefileToWatchlistToolStripMenuItem";
-            this.addArticlefileToWatchlistToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.addArticlefileToWatchlistToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
             this.addArticlefileToWatchlistToolStripMenuItem.Text = "Add Article/file to watchlist";
             this.addArticlefileToWatchlistToolStripMenuItem.Click += new System.EventHandler(this.addArticlefileToWatchlistToolStripMenuItem_Click);
             // 
@@ -1261,59 +1380,59 @@ namespace IRCM
             this.blacklistUserToolStripMenuItem,
             this.unblacklistUserToolStripMenuItem});
             this.contextMenuEdit.Name = "contextMenuEdit";
-            this.contextMenuEdit.Size = new System.Drawing.Size(156, 164);
+            this.contextMenuEdit.Size = new System.Drawing.Size(164, 164);
             // 
             // diffToolStripMenuItem
             // 
             this.diffToolStripMenuItem.Name = "diffToolStripMenuItem";
-            this.diffToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.diffToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.diffToolStripMenuItem.Text = "Load diff";
             this.diffToolStripMenuItem.Click += new System.EventHandler(this.diffToolStripMenuItem_Click);
             // 
             // articleToolStripMenuItem
             // 
             this.articleToolStripMenuItem.Name = "articleToolStripMenuItem";
-            this.articleToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.articleToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.articleToolStripMenuItem.Text = "Load article";
             this.articleToolStripMenuItem.Click += new System.EventHandler(this.articleToolStripMenuItem_Click);
             // 
             // userToolStripMenuItem
             // 
             this.userToolStripMenuItem.Name = "userToolStripMenuItem";
-            this.userToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.userToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.userToolStripMenuItem.Text = "Load user page";
             this.userToolStripMenuItem.Click += new System.EventHandler(this.userToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(152, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(160, 6);
             // 
             // whitelistUserToolStripMenuItem
             // 
             this.whitelistUserToolStripMenuItem.Name = "whitelistUserToolStripMenuItem";
-            this.whitelistUserToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.whitelistUserToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.whitelistUserToolStripMenuItem.Text = "Whitelist user";
             this.whitelistUserToolStripMenuItem.Click += new System.EventHandler(this.whitelistUserToolStripMenuItem_Click);
             // 
             // unwhitelistUserToolStripMenuItem
             // 
             this.unwhitelistUserToolStripMenuItem.Name = "unwhitelistUserToolStripMenuItem";
-            this.unwhitelistUserToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.unwhitelistUserToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.unwhitelistUserToolStripMenuItem.Text = "Un-whitelist user";
             this.unwhitelistUserToolStripMenuItem.Click += new System.EventHandler(this.unwhitelistUserToolStripMenuItem_Click);
             // 
             // blacklistUserToolStripMenuItem
             // 
             this.blacklistUserToolStripMenuItem.Name = "blacklistUserToolStripMenuItem";
-            this.blacklistUserToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.blacklistUserToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.blacklistUserToolStripMenuItem.Text = "Blacklist user";
             this.blacklistUserToolStripMenuItem.Click += new System.EventHandler(this.blacklistUserToolStripMenuItem_Click);
             // 
             // unblacklistUserToolStripMenuItem
             // 
             this.unblacklistUserToolStripMenuItem.Name = "unblacklistUserToolStripMenuItem";
-            this.unblacklistUserToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.unblacklistUserToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.unblacklistUserToolStripMenuItem.Text = "Un-blacklist user";
             this.unblacklistUserToolStripMenuItem.Click += new System.EventHandler(this.unblacklistUserToolStripMenuItem_Click);
             // 
@@ -1363,6 +1482,187 @@ namespace IRCM
             this.FeedTab.Text = "Feed";
             this.FeedTab.UseVisualStyleBackColor = true;
             // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(8, 11);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(131, 13);
+            this.label19.TabIndex = 0;
+            this.label19.Text = "Internet relay chat settings";
+            // 
+            // cmboProject
+            // 
+            this.cmboProject.DropDownHeight = 206;
+            this.cmboProject.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmboProject.FormattingEnabled = true;
+            this.cmboProject.IntegralHeight = false;
+            this.cmboProject.Location = new System.Drawing.Point(201, 84);
+            this.cmboProject.Name = "cmboProject";
+            this.cmboProject.Size = new System.Drawing.Size(125, 21);
+            this.cmboProject.TabIndex = 11;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(8, 293);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(88, 13);
+            this.label18.TabIndex = 13;
+            this.label18.Text = "Server &messages";
+            // 
+            // cmboLang
+            // 
+            this.cmboLang.DropDownHeight = 212;
+            this.cmboLang.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmboLang.FormattingEnabled = true;
+            this.cmboLang.IntegralHeight = false;
+            this.cmboLang.Location = new System.Drawing.Point(87, 84);
+            this.cmboLang.Name = "cmboLang";
+            this.cmboLang.Size = new System.Drawing.Size(98, 21);
+            this.cmboLang.TabIndex = 9;
+            // 
+            // lbldot
+            // 
+            this.lbldot.AutoSize = true;
+            this.lbldot.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbldot.Location = new System.Drawing.Point(187, 82);
+            this.lbldot.Name = "lbldot";
+            this.lbldot.Size = new System.Drawing.Size(14, 20);
+            this.lbldot.TabIndex = 10;
+            this.lbldot.Text = ".";
+            // 
+            // lblHash
+            // 
+            this.lblHash.AutoSize = true;
+            this.lblHash.Location = new System.Drawing.Point(73, 87);
+            this.lblHash.Name = "lblHash";
+            this.lblHash.Size = new System.Drawing.Size(14, 13);
+            this.lblHash.TabIndex = 8;
+            this.lblHash.Text = "#";
+            // 
+            // btnCopy
+            // 
+            this.btnCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCopy.Location = new System.Drawing.Point(462, 280);
+            this.btnCopy.Name = "btnCopy";
+            this.btnCopy.Size = new System.Drawing.Size(75, 23);
+            this.btnCopy.TabIndex = 15;
+            this.btnCopy.Text = "Copy";
+            this.btnCopy.UseVisualStyleBackColor = true;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(9, 33);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(61, 13);
+            this.label5.TabIndex = 1;
+            this.label5.Text = "Nick &name:";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox1.BackColor = System.Drawing.SystemColors.Window;
+            this.textBox1.Location = new System.Drawing.Point(8, 309);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox1.Size = new System.Drawing.Size(868, 269);
+            this.textBox1.TabIndex = 14;
+            // 
+            // txtServer
+            // 
+            this.txtServer.Location = new System.Drawing.Point(76, 56);
+            this.txtServer.Name = "txtServer";
+            this.txtServer.Size = new System.Drawing.Size(109, 20);
+            this.txtServer.TabIndex = 4;
+            this.txtServer.Text = "irc.wikimedia.org";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(29, 59);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(41, 13);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "&Server:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(21, 85);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(49, 13);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "C&hannel:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(191, 59);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(29, 13);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "&Port:";
+            // 
+            // txtPort
+            // 
+            this.txtPort.Location = new System.Drawing.Point(226, 56);
+            this.txtPort.Name = "txtPort";
+            this.txtPort.Size = new System.Drawing.Size(100, 20);
+            this.txtPort.TabIndex = 6;
+            this.txtPort.Text = "6667";
+            // 
+            // label14
+            // 
+            this.label14.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(540, 11);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(192, 13);
+            this.label14.TabIndex = 16;
+            this.label14.Text = "Statistics (Filter settings are not applied)";
+            // 
+            // btnResetStats
+            // 
+            this.btnResetStats.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnResetStats.Location = new System.Drawing.Point(801, 6);
+            this.btnResetStats.Name = "btnResetStats";
+            this.btnResetStats.Size = new System.Drawing.Size(75, 23);
+            this.btnResetStats.TabIndex = 18;
+            this.btnResetStats.Text = "&Reset";
+            this.btnResetStats.UseVisualStyleBackColor = true;
+            this.btnResetStats.Click += new System.EventHandler(this.btnResetStats_Click);
+            // 
+            // dataGridStatistics
+            // 
+            this.dataGridStatistics.AllowUserToAddRows = false;
+            this.dataGridStatistics.AllowUserToDeleteRows = false;
+            this.dataGridStatistics.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridStatistics.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridStatistics.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridStatistics.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.clmType,
+            this.clmCount});
+            this.dataGridStatistics.Location = new System.Drawing.Point(543, 30);
+            this.dataGridStatistics.Name = "dataGridStatistics";
+            this.dataGridStatistics.Size = new System.Drawing.Size(333, 273);
+            this.dataGridStatistics.TabIndex = 17;
+            // 
+            // clmType
+            // 
+            this.clmType.HeaderText = "Type";
+            this.clmType.Name = "clmType";
+            // 
+            // clmCount
+            // 
+            this.clmCount.HeaderText = "Count";
+            this.clmCount.Name = "clmCount";
+            // 
             // BrowserTab
             // 
             this.BrowserTab.Controls.Add(this.webBrowser);
@@ -1389,9 +1689,9 @@ namespace IRCM
             this.webBrowser.Size = new System.Drawing.Size(884, 552);
             this.webBrowser.TabIndex = 3;
             this.webBrowser.TimeoutLimit = 30;
-            this.webBrowser.StatusTextChanged += new System.EventHandler(this.webBrowser_StatusChanged);
             this.webBrowser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowser_Navigating_1);
             this.webBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser_DocumentCompleted_1);
+            this.webBrowser.StatusTextChanged += new System.EventHandler(this.webBrowser_StatusChanged);
             // 
             // toolStripBrowser
             // 
@@ -1483,27 +1783,27 @@ namespace IRCM
             this.btnRevert.Enabled = false;
             this.btnRevert.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnRevert.Name = "btnRevert";
-            this.btnRevert.Size = new System.Drawing.Size(52, 22);
+            this.btnRevert.Size = new System.Drawing.Size(53, 22);
             this.btnRevert.Text = "Revert";
             // 
             // revertAndWarnToolStripMenuItem
             // 
             this.revertAndWarnToolStripMenuItem.Name = "revertAndWarnToolStripMenuItem";
-            this.revertAndWarnToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.revertAndWarnToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.revertAndWarnToolStripMenuItem.Text = "Revert and warn";
             this.revertAndWarnToolStripMenuItem.Click += new System.EventHandler(this.revertAndWarnToolStripMenuItem_Click);
             // 
             // revertAndReportToolStripMenuItem
             // 
             this.revertAndReportToolStripMenuItem.Name = "revertAndReportToolStripMenuItem";
-            this.revertAndReportToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.revertAndReportToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.revertAndReportToolStripMenuItem.Text = "Revert and report";
             this.revertAndReportToolStripMenuItem.Click += new System.EventHandler(this.revertAndReportToolStripMenuItem_Click);
             // 
             // revertToolStripMenuItem
             // 
             this.revertToolStripMenuItem.Name = "revertToolStripMenuItem";
-            this.revertToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.revertToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.revertToolStripMenuItem.Text = "Revert";
             this.revertToolStripMenuItem.Click += new System.EventHandler(this.revertToolStripMenuItem_Click);
             // 
@@ -1514,7 +1814,7 @@ namespace IRCM
             this.btnWarn.Image = ((System.Drawing.Image)(resources.GetObject("btnWarn.Image")));
             this.btnWarn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnWarn.Name = "btnWarn";
-            this.btnWarn.Size = new System.Drawing.Size(46, 22);
+            this.btnWarn.Size = new System.Drawing.Size(48, 22);
             this.btnWarn.Text = "Warn";
             // 
             // btnUser
@@ -1534,63 +1834,63 @@ namespace IRCM
             this.btnUser.Image = ((System.Drawing.Image)(resources.GetObject("btnUser.Image")));
             this.btnUser.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnUser.Name = "btnUser";
-            this.btnUser.Size = new System.Drawing.Size(42, 22);
+            this.btnUser.Size = new System.Drawing.Size(43, 22);
             this.btnUser.Text = "User";
             // 
             // contribsToolStripMenuItem
             // 
             this.contribsToolStripMenuItem.Name = "contribsToolStripMenuItem";
-            this.contribsToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.contribsToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
             this.contribsToolStripMenuItem.Text = "Contribs";
             this.contribsToolStripMenuItem.Click += new System.EventHandler(this.contribsToolStripMenuItem_Click);
             // 
             // logsToolStripMenuItem
             // 
             this.logsToolStripMenuItem.Name = "logsToolStripMenuItem";
-            this.logsToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.logsToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
             this.logsToolStripMenuItem.Text = "Logs";
             this.logsToolStripMenuItem.Click += new System.EventHandler(this.logsToolStripMenuItem_Click);
             // 
             // blockLogToolStripMenuItem
             // 
             this.blockLogToolStripMenuItem.Name = "blockLogToolStripMenuItem";
-            this.blockLogToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.blockLogToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
             this.blockLogToolStripMenuItem.Text = "Block log";
             this.blockLogToolStripMenuItem.Click += new System.EventHandler(this.blockLogToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(205, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(211, 6);
             // 
             // reportToolStripMenuItem
             // 
             this.reportToolStripMenuItem.Name = "reportToolStripMenuItem";
-            this.reportToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.reportToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
             this.reportToolStripMenuItem.Text = "Report";
             this.reportToolStripMenuItem.Click += new System.EventHandler(this.reportToolStripMenuItem_Click);
             // 
             // blockToolStripMenuItem
             // 
             this.blockToolStripMenuItem.Name = "blockToolStripMenuItem";
-            this.blockToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.blockToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
             this.blockToolStripMenuItem.Text = "Block";
             // 
             // blockAndLeaveAMessageToolStripMenuItem
             // 
             this.blockAndLeaveAMessageToolStripMenuItem.Name = "blockAndLeaveAMessageToolStripMenuItem";
-            this.blockAndLeaveAMessageToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.blockAndLeaveAMessageToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
             this.blockAndLeaveAMessageToolStripMenuItem.Text = "Block and leave a message";
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(205, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(211, 6);
             // 
             // blacklistToolStripMenuItem
             // 
             this.blacklistToolStripMenuItem.Name = "blacklistToolStripMenuItem";
-            this.blacklistToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.blacklistToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
             this.blacklistToolStripMenuItem.Text = "Blacklist";
             this.blacklistToolStripMenuItem.Click += new System.EventHandler(this.blacklistToolStripMenuItem_Click);
             // 
@@ -1604,19 +1904,19 @@ namespace IRCM
             this.btnPage.Image = ((System.Drawing.Image)(resources.GetObject("btnPage.Image")));
             this.btnPage.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnPage.Name = "btnPage";
-            this.btnPage.Size = new System.Drawing.Size(45, 22);
+            this.btnPage.Size = new System.Drawing.Size(46, 22);
             this.btnPage.Text = "Page";
             // 
             // addStubToolStripMenuItem
             // 
             this.addStubToolStripMenuItem.Name = "addStubToolStripMenuItem";
-            this.addStubToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.addStubToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.addStubToolStripMenuItem.Text = "Add stub";
             // 
             // tagWithToolStripMenuItem
             // 
             this.tagWithToolStripMenuItem.Name = "tagWithToolStripMenuItem";
-            this.tagWithToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.tagWithToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.tagWithToolStripMenuItem.Text = "Tag with";
             // 
             // statusStrip
@@ -1647,14 +1947,14 @@ namespace IRCM
             // 
             this.lblUserName.BackColor = System.Drawing.Color.Red;
             this.lblUserName.Name = "lblUserName";
-            this.lblUserName.Size = new System.Drawing.Size(61, 17);
+            this.lblUserName.Size = new System.Drawing.Size(68, 17);
             this.lblUserName.Text = "Logged out";
             this.lblUserName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblStatusText
             // 
             this.lblStatusText.Name = "lblStatusText";
-            this.lblStatusText.Size = new System.Drawing.Size(37, 17);
+            this.lblStatusText.Size = new System.Drawing.Size(39, 17);
             this.lblStatusText.Text = "Status";
             // 
             // saveXML
@@ -1683,54 +1983,54 @@ namespace IRCM
             this.toolStripSeparator7,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "&File";
             // 
             // loadSettingsToolStripMenuItem
             // 
             this.loadSettingsToolStripMenuItem.Name = "loadSettingsToolStripMenuItem";
-            this.loadSettingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.loadSettingsToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.loadSettingsToolStripMenuItem.Text = "&Load settings";
             this.loadSettingsToolStripMenuItem.Click += new System.EventHandler(this.loadSettingsToolStripMenuItem_Click);
             // 
             // saveSettingsToolStripMenuItem
             // 
             this.saveSettingsToolStripMenuItem.Name = "saveSettingsToolStripMenuItem";
-            this.saveSettingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveSettingsToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.saveSettingsToolStripMenuItem.Text = "&Save settings";
             this.saveSettingsToolStripMenuItem.Click += new System.EventHandler(this.saveSettingsToolStripMenuItem_Click);
             // 
             // loadDefaultSettingsToolStripMenuItem
             // 
             this.loadDefaultSettingsToolStripMenuItem.Name = "loadDefaultSettingsToolStripMenuItem";
-            this.loadDefaultSettingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.loadDefaultSettingsToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.loadDefaultSettingsToolStripMenuItem.Text = "&Reset settings";
             this.loadDefaultSettingsToolStripMenuItem.Click += new System.EventHandler(this.loadDefaultSettingsToolStripMenuItem_Click);
             // 
             // loginToolStripMenuItem
             // 
             this.loginToolStripMenuItem.Name = "loginToolStripMenuItem";
-            this.loginToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.loginToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.loginToolStripMenuItem.Text = "&Login";
             this.loginToolStripMenuItem.Click += new System.EventHandler(this.loginToolStripMenuItem_Click);
             // 
             // profilesToolStripMenuItem
             // 
             this.profilesToolStripMenuItem.Name = "profilesToolStripMenuItem";
-            this.profilesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.profilesToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.profilesToolStripMenuItem.Text = "&Profiles";
             this.profilesToolStripMenuItem.Click += new System.EventHandler(this.profilesToolStripMenuItem_Click);
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(143, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -1740,20 +2040,20 @@ namespace IRCM
             this.iRCMonitorPageToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(41, 20);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(44, 20);
             this.toolStripMenuItem1.Text = "&Help";
             // 
             // iRCMonitorPageToolStripMenuItem
             // 
             this.iRCMonitorPageToolStripMenuItem.Name = "iRCMonitorPageToolStripMenuItem";
-            this.iRCMonitorPageToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.iRCMonitorPageToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.iRCMonitorPageToolStripMenuItem.Text = "IRCMonitor page";
             this.iRCMonitorPageToolStripMenuItem.Click += new System.EventHandler(this.iRCMonitorPageToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.aboutToolStripMenuItem.Text = "&About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -1805,300 +2105,6 @@ namespace IRCM
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // clmCount
-            // 
-            this.clmCount.HeaderText = "Count";
-            this.clmCount.Name = "clmCount";
-            // 
-            // clmType
-            // 
-            this.clmType.HeaderText = "Type";
-            this.clmType.Name = "clmType";
-            // 
-            // dataGridStatistics
-            // 
-            this.dataGridStatistics.AllowUserToAddRows = false;
-            this.dataGridStatistics.AllowUserToDeleteRows = false;
-            this.dataGridStatistics.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridStatistics.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridStatistics.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridStatistics.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.clmType,
-            this.clmCount});
-            this.dataGridStatistics.Location = new System.Drawing.Point(543, 30);
-            this.dataGridStatistics.Name = "dataGridStatistics";
-            this.dataGridStatistics.Size = new System.Drawing.Size(333, 273);
-            this.dataGridStatistics.TabIndex = 17;
-            // 
-            // btnResetStats
-            // 
-            this.btnResetStats.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnResetStats.Location = new System.Drawing.Point(801, 6);
-            this.btnResetStats.Name = "btnResetStats";
-            this.btnResetStats.Size = new System.Drawing.Size(75, 23);
-            this.btnResetStats.TabIndex = 18;
-            this.btnResetStats.Text = "&Reset";
-            this.btnResetStats.UseVisualStyleBackColor = true;
-            this.btnResetStats.Click += new System.EventHandler(this.btnResetStats_Click);
-            // 
-            // label14
-            // 
-            this.label14.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(540, 11);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(192, 13);
-            this.label14.TabIndex = 16;
-            this.label14.Text = "Statistics (Filter settings are not applied)";
-            // 
-            // cmboLang
-            // 
-            this.cmboLang.DropDownHeight = 212;
-            this.cmboLang.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmboLang.FormattingEnabled = true;
-            this.cmboLang.IntegralHeight = false;
-            this.cmboLang.Location = new System.Drawing.Point(87, 84);
-            this.cmboLang.Name = "cmboLang";
-            this.cmboLang.Size = new System.Drawing.Size(98, 21);
-            this.cmboLang.TabIndex = 9;
-            // 
-            // lbldot
-            // 
-            this.lbldot.AutoSize = true;
-            this.lbldot.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbldot.Location = new System.Drawing.Point(187, 82);
-            this.lbldot.Name = "lbldot";
-            this.lbldot.Size = new System.Drawing.Size(14, 20);
-            this.lbldot.TabIndex = 10;
-            this.lbldot.Text = ".";
-            // 
-            // lblHash
-            // 
-            this.lblHash.AutoSize = true;
-            this.lblHash.Location = new System.Drawing.Point(73, 87);
-            this.lblHash.Name = "lblHash";
-            this.lblHash.Size = new System.Drawing.Size(14, 13);
-            this.lblHash.TabIndex = 8;
-            this.lblHash.Text = "#";
-            // 
-            // cmboProject
-            // 
-            this.cmboProject.DropDownHeight = 206;
-            this.cmboProject.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmboProject.FormattingEnabled = true;
-            this.cmboProject.IntegralHeight = false;
-            this.cmboProject.Location = new System.Drawing.Point(201, 84);
-            this.cmboProject.Name = "cmboProject";
-            this.cmboProject.Size = new System.Drawing.Size(125, 21);
-            this.cmboProject.TabIndex = 11;
-            // 
-            // btnCopy
-            // 
-            this.btnCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCopy.Location = new System.Drawing.Point(462, 280);
-            this.btnCopy.Name = "btnCopy";
-            this.btnCopy.Size = new System.Drawing.Size(75, 23);
-            this.btnCopy.TabIndex = 15;
-            this.btnCopy.Text = "Copy";
-            this.btnCopy.UseVisualStyleBackColor = true;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(9, 33);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(61, 13);
-            this.label5.TabIndex = 1;
-            this.label5.Text = "Nick &name:";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.BackColor = System.Drawing.SystemColors.Window;
-            this.textBox1.Location = new System.Drawing.Point(8, 309);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(868, 269);
-            this.textBox1.TabIndex = 14;
-            // 
-            // txtNickname
-            // 
-            this.txtNickname.Enabled = false;
-            this.txtNickname.Location = new System.Drawing.Point(76, 30);
-            this.txtNickname.Name = "txtNickname";
-            this.txtNickname.Size = new System.Drawing.Size(250, 20);
-            this.txtNickname.TabIndex = 2;
-            this.toolTip.SetToolTip(this.txtNickname, "Leave blank for random name");
-            // 
-            // txtServer
-            // 
-            this.txtServer.Location = new System.Drawing.Point(76, 56);
-            this.txtServer.Name = "txtServer";
-            this.txtServer.Size = new System.Drawing.Size(109, 20);
-            this.txtServer.TabIndex = 4;
-            this.txtServer.Text = "irc.wikimedia.org";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(29, 59);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(41, 13);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "&Server:";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(21, 85);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(49, 13);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "C&hannel:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(191, 59);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(29, 13);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "&Port:";
-            // 
-            // txtPort
-            // 
-            this.txtPort.Location = new System.Drawing.Point(226, 56);
-            this.txtPort.Name = "txtPort";
-            this.txtPort.Size = new System.Drawing.Size(100, 20);
-            this.txtPort.TabIndex = 6;
-            this.txtPort.Text = "6667";
-            // 
-            // chkOnlyBlackAndWatched
-            // 
-            this.chkOnlyBlackAndWatched.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkOnlyBlackAndWatched.AutoSize = true;
-            this.chkOnlyBlackAndWatched.Location = new System.Drawing.Point(677, 9);
-            this.chkOnlyBlackAndWatched.Name = "chkOnlyBlackAndWatched";
-            this.chkOnlyBlackAndWatched.Size = new System.Drawing.Size(199, 17);
-            this.chkOnlyBlackAndWatched.TabIndex = 17;
-            this.chkOnlyBlackAndWatched.Text = "Show &only black and watch list items";
-            this.chkOnlyBlackAndWatched.UseVisualStyleBackColor = true;
-            // 
-            // chkIgnoreWhiteList
-            // 
-            this.chkIgnoreWhiteList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.chkIgnoreWhiteList.AutoSize = true;
-            this.chkIgnoreWhiteList.Location = new System.Drawing.Point(11, 510);
-            this.chkIgnoreWhiteList.Name = "chkIgnoreWhiteList";
-            this.chkIgnoreWhiteList.Size = new System.Drawing.Size(139, 17);
-            this.chkIgnoreWhiteList.TabIndex = 10;
-            this.chkIgnoreWhiteList.Text = "I&gnore white listed users";
-            this.chkIgnoreWhiteList.UseVisualStyleBackColor = true;
-            // 
-            // btnSetWatchedColour
-            // 
-            this.btnSetWatchedColour.Location = new System.Drawing.Point(6, 138);
-            this.btnSetWatchedColour.Name = "btnSetWatchedColour";
-            this.btnSetWatchedColour.Size = new System.Drawing.Size(127, 23);
-            this.btnSetWatchedColour.TabIndex = 4;
-            this.btnSetWatchedColour.Text = "Watched item colour";
-            this.btnSetWatchedColour.UseVisualStyleBackColor = true;
-            // 
-            // chkChangeCheckedColour
-            // 
-            this.chkChangeCheckedColour.AutoSize = true;
-            this.chkChangeCheckedColour.Checked = true;
-            this.chkChangeCheckedColour.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkChangeCheckedColour.Location = new System.Drawing.Point(6, 167);
-            this.chkChangeCheckedColour.Name = "chkChangeCheckedColour";
-            this.chkChangeCheckedColour.Size = new System.Drawing.Size(127, 17);
-            this.chkChangeCheckedColour.TabIndex = 5;
-            this.chkChangeCheckedColour.Text = "Colour after &checking";
-            this.chkChangeCheckedColour.UseVisualStyleBackColor = true;
-            // 
-            // btnSetCheckedColour
-            // 
-            this.btnSetCheckedColour.Location = new System.Drawing.Point(6, 190);
-            this.btnSetCheckedColour.Name = "btnSetCheckedColour";
-            this.btnSetCheckedColour.Size = new System.Drawing.Size(127, 23);
-            this.btnSetCheckedColour.TabIndex = 6;
-            this.btnSetCheckedColour.Text = "C&hecked edit colour";
-            this.btnSetCheckedColour.UseVisualStyleBackColor = true;
-            // 
-            // btnSetBlackListColour
-            // 
-            this.btnSetBlackListColour.Location = new System.Drawing.Point(6, 109);
-            this.btnSetBlackListColour.Name = "btnSetBlackListColour";
-            this.btnSetBlackListColour.Size = new System.Drawing.Size(127, 23);
-            this.btnSetBlackListColour.TabIndex = 3;
-            this.btnSetBlackListColour.Text = "B&lack listed user colour";
-            this.btnSetBlackListColour.UseVisualStyleBackColor = true;
-            // 
-            // btnSetWhiteListColour
-            // 
-            this.btnSetWhiteListColour.Location = new System.Drawing.Point(6, 79);
-            this.btnSetWhiteListColour.Name = "btnSetWhiteListColour";
-            this.btnSetWhiteListColour.Size = new System.Drawing.Size(127, 23);
-            this.btnSetWhiteListColour.TabIndex = 2;
-            this.btnSetWhiteListColour.Text = "W&hite listed user colour";
-            this.btnSetWhiteListColour.UseVisualStyleBackColor = true;
-            // 
-            // btnRegisteredUserColour
-            // 
-            this.btnRegisteredUserColour.Location = new System.Drawing.Point(6, 49);
-            this.btnRegisteredUserColour.Name = "btnRegisteredUserColour";
-            this.btnRegisteredUserColour.Size = new System.Drawing.Size(127, 23);
-            this.btnRegisteredUserColour.TabIndex = 1;
-            this.btnRegisteredUserColour.Text = "R&egistered user colour";
-            this.btnRegisteredUserColour.UseVisualStyleBackColor = true;
-            // 
-            // btnIPColour
-            // 
-            this.btnIPColour.Location = new System.Drawing.Point(6, 19);
-            this.btnIPColour.Name = "btnIPColour";
-            this.btnIPColour.Size = new System.Drawing.Size(127, 23);
-            this.btnIPColour.TabIndex = 0;
-            this.btnIPColour.Text = "&IP address user colour";
-            this.btnIPColour.UseVisualStyleBackColor = true;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.btnIPColour);
-            this.groupBox2.Controls.Add(this.btnSetWatchedColour);
-            this.groupBox2.Controls.Add(this.btnRegisteredUserColour);
-            this.groupBox2.Controls.Add(this.chkChangeCheckedColour);
-            this.groupBox2.Controls.Add(this.btnSetWhiteListColour);
-            this.groupBox2.Controls.Add(this.btnSetCheckedColour);
-            this.groupBox2.Controls.Add(this.btnSetBlackListColour);
-            this.groupBox2.Location = new System.Drawing.Point(370, 46);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(140, 219);
-            this.groupBox2.TabIndex = 16;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Colours";
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(8, 293);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(88, 13);
-            this.label18.TabIndex = 13;
-            this.label18.Text = "Server &messages";
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(8, 11);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(131, 13);
-            this.label19.TabIndex = 0;
-            this.label19.Text = "Internet relay chat settings";
-            // 
             // IRCMonitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2115,10 +2121,12 @@ namespace IRCM
             this.MinimumSize = new System.Drawing.Size(700, 500);
             this.Name = "IRCMonitor";
             this.Text = "IRCMonitor - development version";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.IRCMonitor_FormClosing);
             this.Load += new System.EventHandler(this.IRCMonitor_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.IRCMonitor_FormClosing);
             this.ListsTab.ResumeLayout(false);
             this.ListsTab.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.contextMenuPageMoves.ResumeLayout(false);
             this.ActionTab.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
@@ -2143,6 +2151,7 @@ namespace IRCM
             this.tabControl.ResumeLayout(false);
             this.FeedTab.ResumeLayout(false);
             this.FeedTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridStatistics)).EndInit();
             this.BrowserTab.ResumeLayout(false);
             this.BrowserTab.PerformLayout();
             this.toolStripBrowser.ResumeLayout(false);
@@ -2153,9 +2162,6 @@ namespace IRCM
             this.MainMenu.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridStatistics)).EndInit();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
