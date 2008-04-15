@@ -1188,10 +1188,10 @@ namespace WikiFunctions
         {
             string[] months = (string[])ENLangMonthNames.Clone();
 
-            SiteInfo si = new SiteInfo(URLLong);
-
             try
             {
+                SiteInfo si = new SiteInfo(URLLong);
+
                 for (int i = 0; i < months.Length; i++) months[i] += "-gen";
                 Dictionary<string, string> messages = si.GetMessages(months);
 
