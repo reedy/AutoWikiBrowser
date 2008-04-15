@@ -129,6 +129,8 @@ namespace WikiFunctions.Parse
             }
             while (!ArticleTextBefore.Equals(ArticleText));
 
+            ReplaceMore(WikiRegexes.Blockquote.Matches(ArticleText), ref ArticleText);
+
             ReplaceMore(WikiRegexes.Images.Matches(ArticleText), ref ArticleText);
 
             ReplaceMore(WikiRegexes.Source.Matches(ArticleText), ref ArticleText);
