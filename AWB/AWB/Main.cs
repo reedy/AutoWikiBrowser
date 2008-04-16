@@ -225,6 +225,7 @@ namespace AutoWikiBrowser
             StatusLabelText = "Initialising...";
             splash.SetProgress(20);
             Variables.MainForm = this;
+            lblOnlyBots.BringToFront();
             Updater.UpdateAWB(new Tools.SetProgress(splash.SetProgress)); // progress 22-29 in UpdateAWB()
             splash.SetProgress(30);
 
@@ -677,9 +678,7 @@ namespace AutoWikiBrowser
 
             if (!Abort)
             {
-                if (BotMode && chkQuickSave.Checked)
-                    StartDelayedAutoSaveTimer();
-                else if (toolStripComboOnLoad.SelectedIndex == 0)
+                if (toolStripComboOnLoad.SelectedIndex == 0)
                     GetDiff();
                 else if (toolStripComboOnLoad.SelectedIndex == 1)
                     GetPreview();
@@ -1493,8 +1492,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             chkAutoMode.Enabled = Variables.User.IsBot;
             if (BotMode)
                 BotMode = Variables.User.IsBot;
-            if (chkQuickSave.Checked)
-                chkQuickSave.Checked = Variables.User.IsBot;
             lblOnlyBots.Visible = !Variables.User.IsBot;
         }
 
@@ -1525,7 +1522,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void SetBotModeEnabled(bool enabled)
         {
-            label2.Enabled = chkSuppressTag.Enabled = chkQuickSave.Enabled = nudBotSpeed.Enabled
+            label2.Enabled = chkSuppressTag.Enabled = nudBotSpeed.Enabled
             = lblAutoDelay.Enabled = btnResetNudges.Enabled = lblNudges.Enabled = chkNudge.Enabled
             = chkNudgeSkip.Enabled = chkNudge.Checked = chkShutdown.Enabled = enabled;
         }
@@ -1546,7 +1543,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             {
                 chkAutoMode.Enabled = false;
                 BotMode = false;
-                chkQuickSave.Checked = false;
                 lblOnlyBots.Visible = true;
                 webBrowserEdit.BringToFront();
                 webBrowserEdit.LoadLogOut();
@@ -1859,9 +1855,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             Tools.WriteDebugEnabled = true;
             listMaker1.Add("Project:AutoWikiBrowser/Sandbox");
             //Variables.User.WikiStatus = true; // Stop logging in and the username code doesn't work!
-            Variables.User.IsBot = true;
-            Variables.User.IsAdmin = true;
-            chkQuickSave.Enabled = true;
             lblOnlyBots.Visible = false;
             dumpHTMLToolStripMenuItem.Visible = true;
             logOutDebugToolStripMenuItem.Visible = true;
@@ -1904,7 +1897,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                     SetProject(myPrefs.Language, myPrefs.Project, myPrefs.CustomProject);
 
                     Variables.User.WikiStatus = false;
-                    chkQuickSave.Checked = false;
                     BotMode = false;
                     lblOnlyBots.Visible = true;
                     Variables.User.IsBot = false;
