@@ -243,7 +243,7 @@ namespace WikiFunctions.AWBSettings
         public EditPrefs(bool mGeneralFixes, bool mTagger, bool mUnicodify, int mRecategorisation,
             string mNewCategory, string mNewCategory2, int mReImage, string mImageFind, string mReplace,
             bool mSkipIfNoCatChange, bool mSkipIfNoImgChange, bool mAppendText, bool mAppend, string mText,
-            int mNewlines, int mAutoDelay, bool mQuickSave, bool mSuppressTag, bool mRegexTypoFix)
+            int mNewlines, int mAutoDelay, bool mSuppressTag, bool mRegexTypoFix)
         {
             GeneralFixes = mGeneralFixes;
             Tagger = mTagger;
@@ -261,7 +261,6 @@ namespace WikiFunctions.AWBSettings
             Text = mText;
             Newlines = mNewlines;
             AutoDelay = mAutoDelay;
-            QuickSave = mQuickSave;
             SuppressTag = mSuppressTag;
             RegexTypoFix = mRegexTypoFix;
         }
@@ -287,7 +286,6 @@ namespace WikiFunctions.AWBSettings
         public int Newlines = 2;
 
         public int AutoDelay = 10;
-        public bool QuickSave = false;
         public bool SuppressTag = false;
         public bool OverrideWatchlist = false;
         public bool RegexTypoFix = false;
