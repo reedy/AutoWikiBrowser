@@ -3312,7 +3312,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         #region Edit Box Saver
         private void EditBoxSaveTimer_Tick(object sender, EventArgs e)
         {
-            SaveEditBoxText(AutoSaveEditBoxFile);
+            if (AutoSaveEditBoxFile.Trim().Length == 0) SaveEditBoxText(AutoSaveEditBoxFile);
         }
 
         private void SaveEditBoxText(string path)
