@@ -95,13 +95,13 @@ namespace AutoWikiBrowser
                 psi.FileName = txtProgram.Text;
                 psi.Arguments = txtParameters.Text;
                 
-
                 if (radFile.Checked)
                 {
-                    System.IO.StreamWriter writer = new System.IO.StreamWriter(IOFile);
-                    writer.Write(ArticleText);
-
-                    writer.Close();
+                    using (System.IO.StreamWriter writer = new System.IO.StreamWriter(IOFile))
+                    {
+                        writer.Write(ArticleText);
+                        writer.Close();
+                    }
                 }
                 else
                     psi.Arguments = psi.Arguments.Replace("%%articletext%%", ArticleText);
@@ -113,11 +113,11 @@ namespace AutoWikiBrowser
 
                 if (System.IO.File.Exists(IOFile))
                 {
-                    System.IO.StreamReader reader = System.IO.File.OpenText(IOFile);
-
-                    ArticleText = reader.ReadToEnd();
-
-                    reader.Close();
+                    using (System.IO.StreamReader reader = System.IO.File.OpenText(IOFile))
+                    {
+                        ArticleText = reader.ReadToEnd();
+                        reader.Close();
+                    }
 
                     Skip = (chkSkip.Checked && (ArticleText == OrigText));
 
@@ -125,8 +125,9 @@ namespace AutoWikiBrowser
                 }
                 return ArticleText;
             }
-            catch
+            catch (Exception ex)
             {
+                WikiFunctions.ErrorHandler.Handle(ex);
                 return OrigText;
             }
         }
