@@ -556,9 +556,11 @@ namespace WikiFunctions.Lists
                 string pageText = "";
                 string title = "";
 
-                StreamReader sr = new StreamReader(fileName, Encoding.Default);
-                pageText = sr.ReadToEnd();
-                sr.Close();
+                using (StreamReader sr = new StreamReader(fileName, Encoding.Default))
+                {
+                    pageText = sr.ReadToEnd();
+                    sr.Close();
+                }
 
                 if (LoadWikiLink.IsMatch(pageText))
                 {
