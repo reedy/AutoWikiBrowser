@@ -574,7 +574,7 @@ namespace WikiFunctions.Lists
                 }
                 else
                 {
-                    foreach (string s in pageText.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
+                    foreach (string s in pageText.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries))
                     {
                         if (s.Trim().Length == 0 || !Tools.IsValidTitle(s)) continue;
                         title = Tools.TurnFirstToUpper(s.Trim());
