@@ -79,7 +79,7 @@ namespace WikiFunctions
                 Disambigs = new Regex(@"{{([Dd]isambiguation|[Dd]isambig|[Нн]еоднозначность])}}", RegexOptions.Compiled);
             }
             else
-                Disambigs = new Regex(@"{{([234]CC|[Dd]isambig|[Gg]eodis|[Hh]ndis|[Ss]urname|[Nn]umberdis|[Rr]oaddis)}}", RegexOptions.Compiled);
+                Disambigs = new Regex(@"{{([234]CC|[Dd]isambig|[Gg]eodis|[Hh]ndis|[Ss]urname|[Nn]umberdis|[Rr]oaddis|[Ll]etter-disambig)}}", RegexOptions.Compiled);
         }
 
         /// <summary>
