@@ -82,10 +82,6 @@ namespace WikiFunctions.Parse
 
             RegexConversion.Add(new Regex("\\{\\{(?:Template:)?(Prettytable|Prettytable100|Pt)\\}\\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{subst:Prettytable}}");
             RegexConversion.Add(new Regex("\\{\\{(?:[Tt]emplate:)?(PAGENAMEE?\\}\\}|[Ll]ived\\||[Bb]io-cats\\|)", RegexOptions.Compiled), "{{subst:$1");
-
-            RegexConversion.Add(new Regex(@"\{\{[Ll]ife(?:time|span)\|([0-9]{4})\|([0-9]{4})\|(.*?)\}\}", RegexOptions.Compiled), "[[Category:$1 births|$3]]\r\n[[Category:$2 deaths|$3]]");
-            RegexConversion.Add(new Regex(@"\{\{[Ll]ife(?:time|span)\|\|([0-9]{4})\|(.*?)\}\}", RegexOptions.Compiled), "[[Category:Year of birth unknown|$2]]\r\n[[Category:$1 deaths|$2]]");
-            RegexConversion.Add(new Regex(@"\{\{[Ll]ife(?:time|span)\|([0-9]{4})\|\|(.*?)\}\}", RegexOptions.Compiled), "[[Category:$1 births|$2]]\r\n[[Category:Year of death unknown|$2]]");
         }
 
         Dictionary<Regex, string> RegexUnicode = new Dictionary<Regex, string>();
