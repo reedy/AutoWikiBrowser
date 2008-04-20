@@ -274,6 +274,38 @@ bar"));
             Assert.AreEqual("", Tools.RemoveHashFromPageTitle("#"));
             Assert.AreEqual("", Tools.RemoveHashFromPageTitle(""));
         }
+
+        [Test]
+        public void TestSplitLines()
+        {
+            CollectionAssert.IsEmpty(Tools.SplitLines(""));
+
+            string[] test = new string[] { "foo" };
+            CollectionAssert.AreEqual(test, Tools.SplitLines("foo"));
+            CollectionAssert.AreEqual(test, Tools.SplitLines("foo\r"));
+            CollectionAssert.AreEqual(test, Tools.SplitLines("foo\n"));
+            CollectionAssert.AreEqual(test, Tools.SplitLines("foo\r\n"));
+                
+            test = new string[] { "foo", "bar" };
+            CollectionAssert.AreEqual(test, Tools.SplitLines("foo\r\nbar"));
+            CollectionAssert.AreEqual(test, Tools.SplitLines("foo\rbar"));
+            CollectionAssert.AreEqual(test, Tools.SplitLines("foo\rbar"));
+
+            test = new string[] { "" };
+            CollectionAssert.AreEqual(test, Tools.SplitLines("\n"));
+            CollectionAssert.AreEqual(test, Tools.SplitLines("\r\n"));
+            CollectionAssert.AreEqual(test, Tools.SplitLines("\r"));
+
+            test = new string[] { "", "" };
+            CollectionAssert.AreEqual(test, Tools.SplitLines("\n\n"));
+            CollectionAssert.AreEqual(test, Tools.SplitLines("\r\n\r\n"));
+            CollectionAssert.AreEqual(test, Tools.SplitLines("\r\r"));
+
+            test = new string[] { "", "foo", "", "bar" };
+            CollectionAssert.AreEqual(test, Tools.SplitLines("\r\nfoo\r\n\r\nbar"));
+            CollectionAssert.AreEqual(test, Tools.SplitLines("\rfoo\r\rbar"));
+            CollectionAssert.AreEqual(test, Tools.SplitLines("\nfoo\n\nbar"));
+        }
     }
 
     [TestFixture]
@@ -309,6 +341,7 @@ bar"));
         public void WithApostrophes()
         {
             Assert.AreEqual("Ddoe, John", Tools.MakeHumanCatKey("J'ohn D'Doe"));
+            Assert.AreEqual("Test", Tools.MakeHumanCatKey("'Test"));
         }
 
         [Test]
@@ -322,7 +355,9 @@ bar"));
         {
             Assert.AreEqual("Doe", Tools.MakeHumanCatKey("Ďöê"));
             Assert.AreEqual("Doe, John", Tools.MakeHumanCatKey("Ĵǒħń Ďöê"));
-            Assert.AreEqual("Епрст", Tools.MakeHumanCatKey("Ёпрст"));
+
+            // Ё should be changed, but not Й
+            Assert.AreEqual("Епрстий", Tools.MakeHumanCatKey("Ёпрстий"));
         }
 
         [Test]
