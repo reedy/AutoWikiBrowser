@@ -1103,5 +1103,44 @@ Message: {2}
             catch { }
         }
         #endregion
+
+        /// <summary>
+        /// Splits a string of text to separate lines. Supports every line ending possible - CRLF, CR, LF
+        /// </summary>
+        /// <param name="source">String to split</param>
+        /// <returns>Array of lines</returns>
+        public static string[] SplitLines(string source)
+        {
+            char[] separators = new char[] { '\r', '\n' };
+            List<string> res = new List<string>();
+            //StringBuilder sb = new StringBuilder(Math.Max(Math.Min(4096, source.Length), source.Length / 10));
+            string s;
+            int pos = 0;
+            int sourceLength = source.Length;
+
+            while (pos < sourceLength)
+            {
+                int eol = source.IndexOfAny(separators, pos);
+                if (eol < 0)
+                {
+                    s = source.Substring(pos);
+                    pos = sourceLength;
+                }
+                else
+                {
+                    s = source.Substring(pos, eol - pos);
+                    char ch = source[eol];
+                    eol++;
+                    if (ch == '\r' && eol < sourceLength)
+                    {
+                        if (source[eol] == '\n') eol++;
+                    }
+                    pos = eol;
+                }
+                res.Add(s);
+            }
+
+            return res.ToArray();
+        }
     }
 }
