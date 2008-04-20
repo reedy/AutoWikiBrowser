@@ -726,8 +726,11 @@ namespace AutoWikiBrowser
         {
             try
             {
-                string HTML = webBrowserEdit.Document.Body.InnerHtml;
-                if (HTML.Contains("The Wikipedia database is temporarily in read-only mode for the following reason"))
+                string HTML = null;
+                if (webBrowserEdit.Document != null && webBrowserEdit.Document.Body != null)
+                    HTML = webBrowserEdit.Document.Body.InnerHtml;
+
+                if (string.IsNullOrEmpty(HTML) || HTML.Contains("The Wikipedia database is temporarily in read-only mode for the following reason"))
                 {//http://en.wikipedia.org/wiki/MediaWiki:Readonlytext
 
                     if (retries < 10)
@@ -740,7 +743,12 @@ namespace AutoWikiBrowser
                     else
                     {
                         retries = 0;
-                        SkipPage("Database is locked, tried 10 times");
+                        if (!string.IsNullOrEmpty(HTML)) SkipPage("Database is locked, tried 10 times");
+                        else
+                        {
+                            MessageBox.Show("Loading edit page failed after 10 retries. Processing stopped.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            Stop();
+                        }
                         return false;
                     }
                 }
