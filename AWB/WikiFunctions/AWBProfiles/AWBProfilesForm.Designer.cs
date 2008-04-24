@@ -28,27 +28,10 @@ namespace WikiFunctions.Profiles
         /// </summary>
         protected void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
-            "1",
-            "Reedy Boy",
-            "No",
-            "",
-            "No",
-            ""}, -1);
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
-            "2",
-            "Reedy Bot",
-            "No",
-            "",
-            "No",
-            ""}, -1);
             this.SuspendLayout();
             // 
             // lvAccounts
             // 
-            this.lvAccounts.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2});
             this.lvAccounts.Size = new System.Drawing.Size(494, 170);
             this.lvAccounts.DoubleClick += new System.EventHandler(this.lvAccounts_DoubleClick);
             // 
