@@ -98,7 +98,7 @@ namespace UnitTests
             AssertChange("a[[ b]]", "a [[b]]");
         }
 
-        [Test, Category("Unarchived bugs")]
+        [Test]
         // this transformation is currently at Parsers.FixDates()
         public void DoubleBr()
         {
