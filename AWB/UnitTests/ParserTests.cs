@@ -145,6 +145,8 @@ namespace UnitTests
             Assert.AreEqual("[[Image:foo.jpg|Some [http://some_crap.com]]]",
                 parser.FixSyntax("[[Image:foo.jpg|Some [http://some_crap.com]]]"));
 
+            Assert.AreEqual("Image:foo.jpg|{{{some_crap}}}]]", parser.FixSyntax("Image:foo.jpg|{{{some_crap}}}]]"));
+
             Assert.AreEqual("[[somelink]]", parser.FixSyntax("[somelink]]"));
             Assert.AreEqual("[[somelink]]", parser.FixSyntax("[[somelink]"));
             Assert.AreNotEqual("[[somelink]]", parser.FixSyntax("[somelink]"));
@@ -196,6 +198,28 @@ http://example.com }}");
             // shouldn't fix - not enough information
             //Assert.AreEqual("[[ a ]]", Parsers.FixLinkWhitespace("[[ a ]]"));
             //disabled for the time being to avoid unnecesary clutter
+        }
+
+        [Test, Category("Incomplete")]
+        public void TestCanonicalizeTitle()
+        {
+            Assert.AreEqual("foo (bar)", Parsers.CanonicalizeTitle("foo_%28bar%29"));
+
+            // it may or may not fix it, but shouldn't break anything
+            StringAssert.Contains("{{bar_boz}}", Parsers.CanonicalizeTitle("foo_bar{{bar_boz}}"));
+        }
+
+        [Test, Category("Incomplete"), Category("Unarchived bugs")]
+        public void TestFixCategories()
+        {
+            Assert.AreEqual("[[Category:Foo bar]]", Parsers.FixCategories("[[ categOry : Foo_bar]]"));
+            Assert.AreEqual("[[Category:Foo bar|boz]]", Parsers.FixCategories("[[ categOry : Foo_bar|boz]]"));
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser#.2Fdoc_pages_and_includeonly_sections
+            Assert.AreEqual("[[Category:foo bar|boz_quux]]", Parsers.FixCategories("[[Category: foo_bar|boz_quux]]"));
+            Assert.AreEqual("[[Category:foo bar|{{boz_quux}}]]", Parsers.FixCategories("[[Category: foo_bar|{{boz_quux}}]]"));
+            StringAssert.Contains("{{{boz_quux}}}", Parsers.FixCategories("[[CategorY : foo_bar{{{boz_quux}}}]]"));
+            Assert.AreEqual("[[Category:foo bar|{{{boz_quux}}}]]", Parsers.FixCategories("[[CategorY : foo_bar|{{{boz_quux}}}]]"));
         }
     }
 
