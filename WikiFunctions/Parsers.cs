@@ -1455,7 +1455,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 }
                 if (allsame && matches > 1 && !string.IsNullOrEmpty(sort))
                 {
-                    if (sort.Length > 4) // So that this doesn't get confused by sort keys of "*", " ", etc.
+                    if (sort.Length > 4  && // So that this doesn't get confused by sort keys of "*", " ", etc.
+                        !sort.StartsWith(" ")) // MW bug: DEFAULTSORT doesn't treat leading spaces the same way 
+                        //as categories do
                     {
                         foreach (Match m in cats)
                         {

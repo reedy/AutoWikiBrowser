@@ -434,7 +434,7 @@ http://example.com }}");
             Assert.IsFalse(Parsers.IsCorrectEditSummary("[[test]] [["));
         }
 
-        [Test]
+        [Test, Category("Unarchived bugs")]
         public void TestChangeToDefaultSort()
         {
             bool noChange;
@@ -491,6 +491,12 @@ http://example.com }}");
             Assert.AreEqual("{{DEFAULTSORT:Test}}",
                 p.ChangeToDefaultSort("{{DEFAULTSORT:Tést}}", "Foo", out noChange));
             Assert.IsFalse(noChange);
+
+            //http://en.wikipedia.org/wiki/Wikipedia:AWB/B#DEFAULTSORT_with_spaces
+            // DEFAULTSORT doesn't treat leading spaces the same way as categories do
+            Assert.AreEqual("[[Category:Test1| Foooo]][[Category:Test2| Foooo]]",
+                p.ChangeToDefaultSort("[[Category:Test1| Foooo]][[Category:Test2| Foooo]]", "Bar", out noChange));
+            Assert.IsTrue(noChange);
         }
     }
 
