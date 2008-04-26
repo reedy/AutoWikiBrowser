@@ -803,7 +803,7 @@ namespace AutoWikiBrowser
                         if (DlgTalk.ShowDialog() == DialogResult.Yes)
                             Tools.OpenUserTalkInBrowser();
                         else
-                            Tools.OpenURLInBrowser(Variables.GetUserTalkURL());
+                            Process.Start("iexplore", Variables.GetUserTalkURL());
                     }
                     return false;
                 }
