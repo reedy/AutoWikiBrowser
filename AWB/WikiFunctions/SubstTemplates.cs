@@ -118,6 +118,8 @@ namespace WikiFunctions
 
         public string SubstituteTemplates(string ArticleText, string ArticleTitle)
         {
+            if (Regexes.Count == 0) return ArticleText; // nothing to substitute
+
             if (chkIgnoreUnformatted.Checked)
                 ArticleText = RemoveUnformatted.HideUnformatted(ArticleText);
             if (!chkUseExpandTemplates.Checked)
