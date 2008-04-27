@@ -16,6 +16,7 @@ namespace UnitTests
 
         public SiteInfoTests()
         {
+            Globals.UnitTestMode = true;
             TearDown();
         }
 
@@ -28,7 +29,7 @@ namespace UnitTests
         [TearDown]
         public void TearDown()
         {
-            //if (File.Exists("$Tests.xml")) File.Delete("$Tests.xml");
+            if (File.Exists(fileName)) File.Delete(fileName);
         }
 
         [Test]
