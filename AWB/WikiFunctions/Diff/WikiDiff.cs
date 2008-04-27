@@ -381,18 +381,29 @@ td.diff-addedline span.diffchange {
         #endregion
     }
 
-    internal class Word
+    public sealed class Word
     {
-        public string TheWord;
-        public string Whitespace;
+        private string m_Word;
+        private string m_Whitespace;
+        private string m_ToString;
+        private int m_HashCode;
 
-        int HashCode;
+        public string TheWord
+        {
+            get { return m_Word; }
+        }
+
+        public string Whitespace
+        {
+            get { return m_Whitespace; }
+        }
 
         public Word(string word, string white)
         {
-            TheWord = word;
-            Whitespace = white;
-            HashCode = (TheWord/* + Whitespace*/).GetHashCode();
+            m_Word = word;
+            m_Whitespace = white;
+            m_ToString = word + white;
+            m_HashCode = (word/* + white*/).GetHashCode();
         }
 
         /// <summary>
@@ -410,36 +421,104 @@ td.diff-addedline span.diffchange {
             @"([\p{Sm}\p{P}]|[^\s\p{P}\p{Sm}]*)(\s*)", 
             RegexOptions.Compiled);
 
+        /// borrowed from wikidiff2 for consistency
+        private static bool IsText(char ch)
+        {
+            // Standard alphanumeric
+            if ((ch >= '0' && ch <= '9') ||
+               (ch == '_') ||
+               (ch >= 'A' && ch <= 'Z') ||
+               (ch >= 'a' && ch <= 'z'))
+            {
+                return true;
+            }
+            // Punctuation and control characters
+            if (ch < 0xc0) return false;
+            // Thai, return false so it gets split up
+            if (ch >= 0xe00 && ch <= 0xee7) return false;
+            // Chinese/Japanese, same
+            if (ch >= 0x3000 && ch <= 0x9fff) return false;
+            //if (ch >= 0x20000 && ch <= 0x2a000) return false;
+            // Otherwise assume it's from a language that uses spaces
+            return true;
+        }
+
+        /// borrowed from wikidiff2 for consistency
+        private static bool IsSpace(char ch)
+        {
+            return ch == ' ' || ch == '\t';
+        }
+
         public static List<Word> SplitString(string s)
         {
             List<Word> lst = new List<Word>();
 
-            foreach (Match m in Splitter.Matches(s))
-                if (m.Value.Length > 0) lst.Add(new Word(m.Groups[1].Value, m.Groups[2].Value));
+            int pos = 0;
+            int len = s.Length;
+            while (pos < len)
+            {
+                char ch = s[pos];
+                int i = pos;
+
+                // first group has three different opportunities:
+                if (IsSpace(ch))
+                {
+                    // one or more whitespace characters
+                    while (i < len && IsSpace(s[i])) i++;
+                }
+                else if (IsText(ch))
+                {
+                    // one or more text characters
+                    while (i < len && IsText(s[i])) i++;
+                }
+                else
+                {
+                    // one character, no matter what it is
+                    i++;
+                }
+
+                string wordBody = s.Substring(pos, i - pos);
+                pos = i;
+
+                // second group: any whitespace character
+                while (i < len && IsSpace(s[i])) i++;
+                string trail = s.Substring(pos, i - pos);
+
+                lst.Add(new Word(wordBody, trail));
+                pos = i;
+            }
 
             return lst;
         }
+        //{
+        //    List<Word> lst = new List<Word>();
+
+        //    foreach (Match m in Splitter.Matches(s))
+        //        if (m.Value.Length > 0) lst.Add(new Word(m.Groups[1].Value, m.Groups[2].Value));
+
+        //    return lst;
+        //}
 
         #region Overrides
         public override string ToString()
         {
-            return TheWord + Whitespace;
+            return m_ToString;
         }
 
         public override bool Equals(object obj)
         {
-            return TheWord.Equals((obj as Word).TheWord);
+            return TheWord.Equals(((Word)obj).TheWord);
         }
 
         public override int GetHashCode()
         {
-            return HashCode;
+            return m_HashCode;
         }
         #endregion
     }
 
 #pragma warning disable 0618
-    internal class WordComparer : IComparer, IHashCodeProvider
+    public class WordComparer : IComparer, IHashCodeProvider
     {
         public int GetHashCode(object obj)
         {

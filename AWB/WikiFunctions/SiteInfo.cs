@@ -17,19 +17,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Xml;
+using System.Xml.Serialization;
 
 namespace WikiFunctions
 {
     /// <summary>
     /// This class holds all basic information about a wiki
     /// </summary>
-    public class SiteInfo
+    [Serializable]
+    public class SiteInfo : IXmlSerializable
     {
         private string m_ScriptPath;
         private Dictionary<int, string> m_Namespaces = new Dictionary<int,string>();
         private Dictionary<string, string> m_MessageCache = new Dictionary<string, string>();
+        private DateTime m_Time;
 
         /// <summary>
         /// Creates an instance of the class
@@ -37,13 +41,34 @@ namespace WikiFunctions
         /// <param name="scriptPath">URL where index.php and api.php reside</param>
         public SiteInfo(string scriptPath)
         {
-            m_ScriptPath = scriptPath;
-            if (!m_ScriptPath.EndsWith("/")) m_ScriptPath = m_ScriptPath + "/";
+            ScriptPath = scriptPath;
 
-            Load();
+            LoadNamespaces();
+            m_Time = DateTime.Now;
         }
 
-        public void Load()
+        public SiteInfo(string scriptPath, Dictionary<int, string> namespaces)
+        {
+            ScriptPath = scriptPath;
+            m_Namespaces = namespaces;
+            m_Time = DateTime.Now;
+        }
+
+        internal SiteInfo()
+        {
+        }
+
+        private void VerifyIntegrity()
+        {
+        }
+
+        public static string NormalizeURL(string url)
+        {
+            if (!url.EndsWith("/")) return url + "/";
+            else return url;
+        }
+
+        public void LoadNamespaces()
         {
             string output = Tools.GetHTML(m_ScriptPath + "api.php?action=query&meta=siteinfo&siprop=general|namespaces|statistics&format=xml");
 
@@ -58,10 +83,23 @@ namespace WikiFunctions
             }
         }
 
+        [XmlAttribute(AttributeName = "url")]
         public string ScriptPath
-        { get { return m_ScriptPath; } }
+        { 
+            get { return m_ScriptPath; }
+            internal set
+            {
+                m_ScriptPath = NormalizeURL(value);
+            }
+        }
 
+        [XmlAttribute(AttributeName = "time")]
+        public DateTime Time
+        {
+            get { return m_Time; }
+        }
 
+        [XmlIgnore]
         public Dictionary<int, string> Namespaces
         {
             get
@@ -93,5 +131,138 @@ namespace WikiFunctions
 
         #region Service functions
         #endregion
+
+        #region IXmlSerializable Members
+
+        public System.Xml.Schema.XmlSchema GetSchema()
+        {
+            return null;
+        }
+
+        public void ReadXml(XmlReader reader)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public void WriteXml(XmlWriter writer)
+        {
+            //writer.WriteStartElement("site");
+            writer.WriteAttributeString("URL", m_ScriptPath);
+            writer.WriteStartAttribute("Time");
+            writer.WriteValue(m_Time);
+            {
+                writer.WriteStartElement("Namespaces");
+                {
+                    foreach (KeyValuePair<int, string> p in m_Namespaces)
+                    {
+                        writer.WriteStartElement("Namespace");
+                        writer.WriteAttributeString("id", p.Key.ToString());
+                        writer.WriteValue(p.Value);
+                        writer.WriteEndElement();
+                    }
+                }
+            }
+            //writer.WriteEndElement();
+        }
+
+        #endregion
+    }
+
+    public class SiteInfoCache
+    {
+        TimeSpan m_LifeTime = new TimeSpan(5, 0, 0, 0);
+        string m_CachePath;
+        List<SiteInfo> m_Cache = new List<SiteInfo>();
+
+        static XmlSerializer m_Serializer = new XmlSerializer(typeof(SiteInfo[]));
+
+        List<SiteInfo> m_Sites = new List<SiteInfo>();
+
+        public TimeSpan LifeTime
+        {
+            get { return m_LifeTime; }
+            set { m_LifeTime = value; }
+        }
+
+        public SiteInfoCache(string cachePath)
+        {
+            m_CachePath = cachePath;
+
+            if (File.Exists(m_CachePath))
+            {
+                using (FileStream fs = new FileStream(m_CachePath, FileMode.Open))
+                {
+                    m_Cache.AddRange((SiteInfo[])m_Serializer.Deserialize(fs));
+                }
+            }
+        }
+
+        public SiteInfoCache()
+            :this("Namespaces.xml")
+        {
+        }
+
+        public SiteInfo Get(string url)
+        {
+            SiteInfo si = Find(url);
+            if (si != null) return si;
+
+            si = new SiteInfo(url);
+            m_Cache.Add(si);
+            SaveCache();
+
+            return si;
+        }
+
+        public SiteInfo Find(string url)
+        {
+            url = SiteInfo.NormalizeURL(url);
+            foreach (SiteInfo si in m_Cache)
+            {
+                if (si.ScriptPath == url)
+                {
+                    if (si.Time < DateTime.Now + m_LifeTime) return si;
+                    else
+                    {
+                        m_Cache.Remove(si);
+                        return null;
+                    }
+                }
+            }
+            return null;
+        }
+
+        public void SaveCache()
+        {
+            using (FileStream fs = new FileStream(m_CachePath, FileMode.Create))
+            {
+                m_Serializer.Serialize(fs, m_Cache.ToArray());
+            }
+        }
+
+#if (DEBUG)
+        public void Add(SiteInfo si)
+        {
+            m_Cache.Add(si);
+        }
+#endif
+    }
+
+    public class SiteInfoException : Exception
+    {
+        public SiteInfoException(string message)
+            : base(message)
+        {
+        }
+
+        public SiteInfoException(string message, Exception innerException)
+            : base(message, innerException)
+        {
+        }
+
+        public SiteInfoException(Exception innerException)
+            : base("Site information error: " + innerException.Message, innerException)
+        {
+        }
     }
 }
