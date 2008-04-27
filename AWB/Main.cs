@@ -1941,13 +1941,23 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 Variables.SetProject(code, project, customProject);
 
                 //set interwikiorder
-                if (Variables.LangCode == LangCodeEnum.en || Variables.LangCode == LangCodeEnum.pl ||
-                    Variables.LangCode == LangCodeEnum.simple)
-                    parsers.InterWikiOrder = InterWikiOrderEnum.LocalLanguageAlpha;
-                else if (Variables.LangCode == LangCodeEnum.he)
-                    parsers.InterWikiOrder = InterWikiOrderEnum.AlphabeticalEnFirst;
-                else
-                    parsers.InterWikiOrder = InterWikiOrderEnum.Alphabetical;
+                switch (Variables.LangCode)
+                {
+                    case LangCodeEnum.en:
+                    case LangCodeEnum.pl:
+                    case LangCodeEnum.simple:
+                        parsers.InterWikiOrder = InterWikiOrderEnum.LocalLanguageAlpha;
+                        break;
+
+                    case LangCodeEnum.he:
+                    case LangCodeEnum.hu:
+                        parsers.InterWikiOrder = InterWikiOrderEnum.AlphabeticalEnFirst;
+                        break;
+
+                    default:
+                        parsers.InterWikiOrder = InterWikiOrderEnum.Alphabetical;
+                        break;
+                }
 
                 //user interface
                 if (!Variables.IsWikipediaEN)
