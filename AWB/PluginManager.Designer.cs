@@ -31,7 +31,7 @@ namespace AutoWikiBrowser
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Loaded Plugins", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Previously loaded Plugins", System.Windows.Forms.HorizontalAlignment.Left);
-            this.lvPlugin = new WikiFunctions.Controls.NoFlickerListView();
+            this.lvPlugin = new WikiFunctions.Controls.NoFlickerExtendedListView();
             this.colName = new System.Windows.Forms.ColumnHeader();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.loadPluginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -154,7 +154,7 @@ namespace AutoWikiBrowser
 
         #endregion
 
-        private WikiFunctions.Controls.NoFlickerListView lvPlugin;
+        private WikiFunctions.Controls.NoFlickerExtendedListView lvPlugin;
         private System.Windows.Forms.ColumnHeader colName;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem pluginToolStripMenuItem;

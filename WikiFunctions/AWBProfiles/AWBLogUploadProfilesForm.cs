@@ -71,6 +71,7 @@ namespace WikiFunctions.Profiles
         /// </summary>
         private void loadProfiles()
         {
+            lvAccounts.BeginUpdate();
             lvAccounts.Items.Clear();
 
             foreach (AWBProfile profile in AWBProfiles.GetProfiles())
@@ -92,7 +93,8 @@ namespace WikiFunctions.Profiles
             }
 
             UpdateUI();
-            WikiFunctions.Lists.ListViewColumnResize.resizeListView(lvAccounts);
+            lvAccounts.ResizeColumns();
+            lvAccounts.EndUpdate();
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
