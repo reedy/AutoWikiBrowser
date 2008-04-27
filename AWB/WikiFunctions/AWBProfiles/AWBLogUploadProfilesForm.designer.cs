@@ -29,7 +29,7 @@ namespace WikiFunctions.Profiles
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.lvAccounts = new System.Windows.Forms.ListView();
+            this.lvAccounts = new WikiFunctions.Controls.NoFlickerExtendedListView(true);
             this.colID = new System.Windows.Forms.ColumnHeader();
             this.colAccountName = new System.Windows.Forms.ColumnHeader();
             this.colPasswordSaved = new System.Windows.Forms.ColumnHeader();
@@ -246,7 +246,7 @@ namespace WikiFunctions.Profiles
 
         #endregion
 
-        protected System.Windows.Forms.ListView lvAccounts;
+        protected WikiFunctions.Controls.NoFlickerExtendedListView lvAccounts;
         protected System.Windows.Forms.ColumnHeader colAccountName;
         protected System.Windows.Forms.ColumnHeader colPasswordSaved;
         protected System.Windows.Forms.ColumnHeader colProfileSettings;

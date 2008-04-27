@@ -1,6 +1,6 @@
 namespace WikiFunctions.Controls
 {
-    partial class NoFlickerListView
+    partial class NoFlickerExtendedListView
     {
         /// <summary> 
         /// Required designer variable.

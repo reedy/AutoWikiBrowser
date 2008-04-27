@@ -166,7 +166,6 @@
     <Compile Include="ListMaker.Designer.cs">
       <DependentUpon>ListMaker.cs</DependentUpon>
     </Compile>
-    <Compile Include="ListViewStuff.cs" />
     <Compile Include="Logging\LoggingBase.cs" />
     <Compile Include="Logging\LoggingInterface.cs" />
     <Compile Include="Logging\LogUploader.cs" />

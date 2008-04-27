@@ -123,7 +123,7 @@ namespace IRCM
             this.addUserToBlacklistToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.addArticlefileToWatchlistToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EditTab = new System.Windows.Forms.TabPage();
-            this.listViewEdit = new WikiFunctions.Controls.NoFlickerListView();
+            this.listViewEdit = new WikiFunctions.Controls.NoFlickerExtendedListView();
             this.columnHeader19 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader20 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader21 = new System.Windows.Forms.ColumnHeader();
@@ -2291,7 +2291,7 @@ namespace IRCM
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.ToolStripButton btnOpenInBrowser;
-        private WikiFunctions.Controls.NoFlickerListView listViewEdit;
+        private WikiFunctions.Controls.NoFlickerExtendedListView listViewEdit;
         private System.Windows.Forms.ColumnHeader columnHeader19;
         private System.Windows.Forms.ColumnHeader columnHeader20;
         private System.Windows.Forms.ColumnHeader columnHeader21;

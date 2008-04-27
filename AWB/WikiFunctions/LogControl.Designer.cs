@@ -56,12 +56,12 @@ namespace WikiFunctions.Logging
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lvIgnored = new WikiFunctions.Controls.NoFlickerListView();
+            this.lvIgnored = new WikiFunctions.Controls.NoFlickerExtendedListView(true);
             this.colIgnoreArticle = new System.Windows.Forms.ColumnHeader();
             this.colIgnoreTime = new System.Windows.Forms.ColumnHeader();
             this.colSkippedBy = new System.Windows.Forms.ColumnHeader();
             this.colSkipReason = new System.Windows.Forms.ColumnHeader();
-            this.lvSaved = new WikiFunctions.Controls.NoFlickerListView();
+            this.lvSaved = new WikiFunctions.Controls.NoFlickerExtendedListView(true);
             this.colSuccessSave = new System.Windows.Forms.ColumnHeader();
             this.colSuccessTime = new System.Windows.Forms.ColumnHeader();
             this.mnuListView.SuspendLayout();
@@ -302,7 +302,6 @@ namespace WikiFunctions.Logging
             this.lvIgnored.UseCompatibleStateImageBehavior = false;
             this.lvIgnored.View = System.Windows.Forms.View.Details;
             this.lvIgnored.DoubleClick += new System.EventHandler(this.LogLists_DoubleClick);
-            this.lvIgnored.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lvIgnoredColumnSort);
             // 
             // colIgnoreArticle
             // 
@@ -341,7 +340,6 @@ namespace WikiFunctions.Logging
             this.lvSaved.UseCompatibleStateImageBehavior = false;
             this.lvSaved.View = System.Windows.Forms.View.Details;
             this.lvSaved.DoubleClick += new System.EventHandler(this.LogLists_DoubleClick);
-            this.lvSaved.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lvSavedColumnSort);
             // 
             // colSuccessSave
             // 
@@ -375,12 +373,12 @@ namespace WikiFunctions.Logging
 
         #endregion
 
-        private Controls.NoFlickerListView lvIgnored;
+        private Controls.NoFlickerExtendedListView lvIgnored;
         private System.Windows.Forms.ColumnHeader colIgnoreArticle;
         private System.Windows.Forms.ColumnHeader colIgnoreTime;
         private System.Windows.Forms.ColumnHeader colSkippedBy;
         private System.Windows.Forms.ColumnHeader colSkipReason;
-        private Controls.NoFlickerListView lvSaved;
+        private Controls.NoFlickerExtendedListView lvSaved;
         private System.Windows.Forms.ColumnHeader colSuccessSave;
         private System.Windows.Forms.ColumnHeader colSuccessTime;
         private System.Windows.Forms.Button btnAddToList;
