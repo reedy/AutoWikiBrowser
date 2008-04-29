@@ -30,18 +30,6 @@ namespace WikiFunctions.Controls
 {
     public partial class NoFlickerExtendedListView : ListView
     {
-        protected override bool DoubleBuffered
-        {
-            get
-            {
-                return base.DoubleBuffered;
-            }
-            set
-            {
-                base.DoubleBuffered = value;
-            }
-        }
-
         /// <summary>
         /// 
         /// </summary>
@@ -61,7 +49,7 @@ namespace WikiFunctions.Controls
 
             this.sortColumnsOnClick = sortColumnOnClick;
 
-            DoubleBuffered = true;
+            this.DoubleBuffered = true;
         }
 
         bool sortColumnsOnClick;
@@ -153,6 +141,15 @@ namespace WikiFunctions.Controls
 
             if (useUpdateMethods)
                 this.EndUpdate();
+        }
+
+        /// <summary>
+        /// Get/Set if the Control is Double Buffered
+        /// </summary>
+        protected override bool DoubleBuffered
+        {
+            get { return base.DoubleBuffered; }
+            set { base.DoubleBuffered = value; }
         }
 
         /// <remarks>From http://msdn2.microsoft.com/en-us/library/ms996467.aspx </remarks>
