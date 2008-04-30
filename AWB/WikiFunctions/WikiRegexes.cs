@@ -33,7 +33,7 @@ namespace WikiFunctions
             Category = new Regex(@"\[\[" + Variables.NamespacesCaseInsensitive[14] + @"(.*?)\]\]|<[Gg]allery\b([^>]*?)>[\s\S]*?</ ?[Gg]allery>", RegexOptions.Compiled);
             Images = new Regex(@"\[\[" + Variables.NamespacesCaseInsensitive[6] + @"(.*?)\]\]|<[Gg]allery\b([^>]*?)>[\s\S]*?</ ?[Gg]allery>", RegexOptions.Compiled);
             Stub = new Regex(@"{{.*?" + Variables.Stub + @"}}", RegexOptions.Compiled);
-            PossiblyCommentedStub = new Regex(@"(<!-- ?\{\{.*?" + Variables.Stub + @"\b\}\}.*?-->|\{\{.*?" + Variables.Stub + @"\}\})", RegexOptions.Compiled);
+            PossiblyCommentedStub = new Regex(@"(<!-- ?\{\{[^}]*?" + Variables.Stub + @"\b\}\}.*?-->|\{\{[^}]*?" + Variables.Stub + @"\}\})", RegexOptions.Compiled);
             string s = Variables.NamespacesCaseInsensitive[10];
             if (s[0] == '(') s = s.Insert(s.Length - 1, "|");
             else s = "(?:" + s + "|)";

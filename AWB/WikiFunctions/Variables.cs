@@ -82,7 +82,7 @@ namespace WikiFunctions
             else
             {
                 SetToEnglish("Wikipedia:", "Wikipedia talk:");
-                Stub = "stub";
+                Stub = "[Ss]tub";
                 RegenerateRegexes();
             }
         }
@@ -1270,6 +1270,8 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
             mSummaryTag = " using ";
 
             MonthNames = ENLangMonthNames;
+            SectStub = @"\{\{[Ss]ect";
+            Stub = "[Ss]tub";
 
             RTL = false;
         }
