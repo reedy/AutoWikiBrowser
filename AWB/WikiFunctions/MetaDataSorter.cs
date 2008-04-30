@@ -498,8 +498,7 @@ namespace WikiFunctions.Parse
             foreach(Match m in matches)
             {
                 site = m.Groups[1].Value.ToLower();
-                if (site != "ru-sib") // remove links to Zolotaryovpedia now that it has been closed
-                    interWikiList.Add("[[" + site + ":" + m.Groups[2].Value + "]]");
+                interWikiList.Add("[[" + site + ":" + m.Groups[2].Value + "]]");
             }
 
             ArticleText = Tools.RemoveMatches(ArticleText, matches);
