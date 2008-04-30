@@ -428,19 +428,24 @@ namespace WikiFunctions.Parse
         {
             List<string> stubList = new List<string>();
             MatchCollection matches = WikiRegexes.PossiblyCommentedStub.Matches(ArticleText);
-            string x = "";
+            if (matches.Count == 0) return "";
 
-            foreach (Match m in matches)
+            string x = "";
+            StringBuilder sb = new StringBuilder(ArticleText);
+
+            for (int i = matches.Count - 1; i >= 0; i--)
             {
+                Match m = matches[i];
                 x = m.Value;
-                if (!Regex.IsMatch(x, Variables.SectStub) || x.Contains("|"))
+                if (!Regex.IsMatch(x, Variables.SectStub) && !x.Contains("|"))
                 {
                     stubList.Add(x);
+                    sb.Remove(m.Index, x.Length);
                 }
             }
+            ArticleText = sb.ToString();
 
-            ArticleText = Tools.RemoveMatches(ArticleText, matches);
-
+            stubList.Reverse();
             if (stubList.Count != 0)
                 return ListToString(stubList);
             else
