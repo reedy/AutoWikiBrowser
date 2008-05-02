@@ -68,7 +68,7 @@ namespace UnitTests
     }
 
     [TestFixture]
-    // Don't place test that require switching to non-default locale here
+    // Don't place tests that require switching to non-default locale here
     public class RegexTests : RegexTestsBase
     {
         [Test]
@@ -113,6 +113,19 @@ namespace UnitTests
 
             // multiple lines
             TestMatch(WikiRegexes.Blockquote, "< Blockquote >foo\r\nbar</ BLOCKQUOTE>", "< Blockquote >foo\r\nbar</ BLOCKQUOTE>");
+        }
+
+        [Test]
+        public void Template()
+        {
+            RegexAssert.Matches("{{foo}}", WikiRegexes.TemplateMultiLine, "{{foo}}");
+            RegexAssert.Matches("{{foo}}", WikiRegexes.TemplateMultiLine, "123{{foo}}test");
+            RegexAssert.Matches("{{foo|bar}}", WikiRegexes.TemplateMultiLine, "{{foo|bar}}");
+            RegexAssert.Matches("{{foo\r\n|bar=test}}", WikiRegexes.TemplateMultiLine, "{{foo\r\n|bar=test}}");
+
+            RegexAssert.Matches("Should match distinct templates", WikiRegexes.TemplateMultiLine, "{{foo}}{{bar}}", "{{foo}}", "{{bar}}");
+
+            RegexAssert.Matches("{{foo| {bar} }}", WikiRegexes.TemplateMultiLine, "{{foo| {bar} }}");
         }
     }
 }

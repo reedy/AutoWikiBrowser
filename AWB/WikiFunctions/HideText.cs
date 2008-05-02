@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Collections;
 
 namespace WikiFunctions.Parse
 {
@@ -84,7 +85,7 @@ namespace WikiFunctions.Parse
 
         List<HideObject> MoreHide = new List<HideObject>(32);
 
-        void ReplaceMore(MatchCollection matches, ref string ArticleText)
+        void ReplaceMore(ICollection matches, ref string ArticleText)
         {
             string s = "";
 
@@ -118,16 +119,11 @@ namespace WikiFunctions.Parse
             do
             { // hide nested templates
                 ArticleTextBefore = ArticleText;
-                ReplaceMore(WikiRegexes.Template.Matches(ArticleText), ref ArticleText);
+                List<Match> matches = Parsers.GetTemplates(ArticleText, Parsers.EveryTemplate);
+                ReplaceMore(matches, ref ArticleText);
             }
             while (!ArticleTextBefore.Equals(ArticleText));
 
-            do
-            { // hide nested templates
-                ArticleTextBefore = ArticleText;
-                ReplaceMore(WikiRegexes.TemplateMultiLine.Matches(ArticleText), ref ArticleText);
-            }
-            while (!ArticleTextBefore.Equals(ArticleText));
 
             ReplaceMore(WikiRegexes.Blockquote.Matches(ArticleText), ref ArticleText);
 
