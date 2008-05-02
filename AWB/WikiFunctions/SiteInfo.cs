@@ -240,12 +240,10 @@ namespace WikiFunctions
             }
         }
 
-#if (DEBUG)
         public void Add(SiteInfo si)
         {
             m_Cache.Add(si);
         }
-#endif
     }
 
     public class SiteInfoException : Exception
