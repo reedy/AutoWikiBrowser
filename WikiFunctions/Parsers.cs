@@ -929,7 +929,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <summary>
         /// regex that matches every template, for GetTemplate
         /// </summary>
-        public static string EveryTemplate = @"[^\|\}]*";
+        public static string EveryTemplate = @"[^\|\{\}]+";
 
         /// <summary>
         /// extracts template using the given match
