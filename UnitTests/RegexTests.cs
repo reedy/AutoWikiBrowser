@@ -127,5 +127,16 @@ namespace UnitTests
 
             RegexAssert.Matches("{{foo| {bar} }}", WikiRegexes.TemplateMultiLine, "{{foo| {bar} }}");
         }
+
+        [Test]
+        public void BulletedText()
+        {
+            RegexAssert.NoMatch(WikiRegexes.BulletedText, "");
+            RegexAssert.Matches(WikiRegexes.BulletedText, ":foo", ":foo");
+            RegexAssert.Matches(WikiRegexes.BulletedText, ":foo\r\n", ":foo\r");
+            RegexAssert.Matches(WikiRegexes.BulletedText, "#foo\r\n*:bar", "#foo\r", "*:bar");
+            RegexAssert.Matches(WikiRegexes.BulletedText, "#foo\r\ntest\r\n*:bar", "#foo\r", "*:bar");
+            RegexAssert.Matches(WikiRegexes.BulletedText, " foo\r\nfoo bar", " foo\r");
+        }
     }
 }

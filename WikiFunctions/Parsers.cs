@@ -1613,7 +1613,13 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             double ratio = 0;
 
             string commentsStripped = WikiRegexes.Comments.Replace(ArticleText, "");
+            Sorter.interwikis(ref commentsStripped);
             int words = Tools.WordCount(commentsStripped);
+            
+            // bulleted or indented text should weigh less than simple text.
+            // for example, actor stubs may contain large filmographies
+            string crapStripped = WikiRegexes.BulletedText.Replace(commentsStripped, "");
+            words = (words + Tools.WordCount(crapStripped)) / 2;
 
             // update by-date tags
             foreach (KeyValuePair<Regex, string> k in RegexTagger)

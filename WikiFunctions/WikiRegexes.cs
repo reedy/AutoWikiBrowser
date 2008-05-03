@@ -159,6 +159,11 @@ namespace WikiFunctions
         /// Matches text indented with a :
         /// </summary>
         public static readonly Regex IndentedText = new Regex(@"^:.*", RegexOptions.Compiled | RegexOptions.Multiline);
+
+        /// <summary>
+        /// Matches indented, bulleted or numbered text
+        /// </summary>
+        public static readonly Regex BulletedText = new Regex(@"^[\*#: ]+.*?$", RegexOptions.Multiline | RegexOptions.Compiled);
         
         /// <summary>
         /// Matches single line templates
