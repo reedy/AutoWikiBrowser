@@ -38,7 +38,7 @@ using System.Net;
 
 namespace WikiFunctions
 {
-    public enum LangCodeEnum { en, ar, bg, ca, da, de, dsb, eo, es, fi, fr, he, hu, Is, it, ja, ku, nl, no, mi, pl, pt, ro, ru, simple, sk, sl, sr, sv, ta, te, tj, uk, ur, zh }
+    public enum LangCodeEnum { en, ar, be, bg, ca, da, de, dsb, eo, es, fi, fr, he, hu, Is, it, ja, ku, nl, no, mi, pl, pt, ro, ru, simple, sk, sl, sr, sv, ta, te, tj, uk, ur, zh }
     public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikiquote, wikiversity, wikibooks, wikinews, commons, meta, species, lastWMF = species, wikia, custom }
 
     /// <summary>
