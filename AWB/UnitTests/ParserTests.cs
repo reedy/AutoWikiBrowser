@@ -141,7 +141,7 @@ namespace UnitTests
             Assert.AreEqual("[[Image:foo.jpg|Some [http://some_crap.com]]]",
                 parser.FixSyntax("[[Image:foo.jpg|Some [[http://some_crap.com]]]]"));
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#NEsted_square_brackets_again.
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_3#NEsted_square_brackets_again.
             Assert.AreEqual("[[Image:foo.jpg|Some [http://some_crap.com]]]",
                 parser.FixSyntax("[[Image:foo.jpg|Some [http://some_crap.com]]]"));
 
