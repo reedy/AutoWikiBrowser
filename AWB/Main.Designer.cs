@@ -2948,7 +2948,7 @@ namespace AutoWikiBrowser
             this.chkSkipNonExistent.Name = "chkSkipNonExistent";
             this.chkSkipNonExistent.Size = new System.Drawing.Size(117, 17);
             this.chkSkipNonExistent.TabIndex = 10;
-            this.chkSkipNonExistent.Text = "Non-e&xistant pages";
+            this.chkSkipNonExistent.Text = "Non-e&xistent pages";
             this.chkSkipNonExistent.UseVisualStyleBackColor = true;
             this.chkSkipNonExistent.CheckedChanged += new System.EventHandler(this.chkSkipNonExistent_CheckedChanged);
             // 
