@@ -196,6 +196,8 @@ namespace WikiFunctions.Parse
     public class MetaDataSorter
     {
         Parsers parser;
+
+        public List<string> PossibleInterwikis;
         public MetaDataSorter(Parsers p)
         {
             parser = p;
@@ -207,7 +209,6 @@ namespace WikiFunctions.Parse
 
             string s = string.Join("|", SiteMatrix.WikipediaLanguages.ToArray());
             s = @"\[\[\s?(" + s + @")\s?:\s?([^\]]*)\s?\]\]";
-            FastIW = new Regex(s, RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
             //create a comparer
             InterWikiOrder = InterWikiOrderEnum.LocalLanguageAlpha;
@@ -224,9 +225,6 @@ namespace WikiFunctions.Parse
         private string[] InterwikiAlphaEnFirst; 
         //List<Regex> InterWikisList = new List<Regex>();
         Regex IWSplit = new Regex(",", RegexOptions.Compiled);
-
-        Regex FastIW;
-
 
         private InterWikiComparer Comparer;
         private InterWikiOrderEnum order = InterWikiOrderEnum.LocalLanguageAlpha;
@@ -255,7 +253,8 @@ namespace WikiFunctions.Parse
                         throw new ArgumentOutOfRangeException("MetaDataSorter.InterWikiOrder",
                             (System.Exception)null);
                 }
-                Comparer = new InterWikiComparer(new List<string>(seq), SiteMatrix.GetProjectLanguages(Variables.Project));
+                PossibleInterwikis = SiteMatrix.GetProjectLanguages(Variables.Project);
+                Comparer = new InterWikiComparer(new List<string>(seq), PossibleInterwikis);
             }
             get
             {
@@ -488,20 +487,27 @@ namespace WikiFunctions.Parse
             return interwikis;
         }
 
+        static readonly Regex FastIW = new Regex(@"\[\[\s*([-a-zA-Z]*?)\s*:\s*([^\]]*?)\s*\]\]", RegexOptions.Compiled);
+
         private List<string> removeInterWikis(ref string ArticleText)
         {
             List<string> interWikiList = new List<string>();
+            MatchCollection matches = FastIW.Matches(ArticleText);
+            if (matches.Count == 0) return interWikiList;
+
+            List<Match> goodMatches = new List<Match>(matches.Count);
 
             string site;
 
-            MatchCollection matches  = FastIW.Matches(ArticleText);
-            foreach(Match m in matches)
+            foreach (Match m in matches)
             {
-                site = m.Groups[1].Value.ToLower();
-                interWikiList.Add("[[" + site + ":" + m.Groups[2].Value + "]]");
+                site = m.Groups[1].Value.Trim().ToLower();
+                if (!PossibleInterwikis.Contains(site)) continue;
+                goodMatches.Add(m);
+                interWikiList.Add("[[" + site + ":" + m.Groups[2].Value.Trim() + "]]");
             }
 
-            ArticleText = Tools.RemoveMatches(ArticleText, matches);
+            ArticleText = Tools.RemoveMatches(ArticleText, goodMatches);
 
             string interWikiComment = "";
             if (InterLangRegex.IsMatch(ArticleText))

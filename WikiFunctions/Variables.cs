@@ -1683,8 +1683,10 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Tools.WriteDebug(this.ToString(), ex.Message);
+                Tools.WriteDebug(this.ToString(), ex.StackTrace);
                 IsBot = IsAdmin = WikiStatus = false;
                 return WikiStatusResult.Error;
             }
@@ -1699,15 +1701,21 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
             {
                 string strText = Tools.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=raw");
 
-                if (strText.Length == 0) return WikiStatusResult.Error;
+                if (strText.Length == 0)
+                {
+                    Tools.WriteDebug(this.ToString(), "Empty version checkpage");
+                    return WikiStatusResult.Error;
+                }
 
                 if (!strText.Contains(AWBVersion + " enabled"))
                     return WikiStatusResult.OldVersion;
                 else
                     return WikiStatusResult.Null;
             }
-            catch
+            catch (Exception ex)
             {
+                Tools.WriteDebug(this.ToString(), ex.Message);
+                Tools.WriteDebug(this.ToString(), ex.StackTrace);
                 return WikiStatusResult.Error;
             }
         }
