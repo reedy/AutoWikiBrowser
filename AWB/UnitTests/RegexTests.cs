@@ -138,5 +138,22 @@ namespace UnitTests
             RegexAssert.Matches(WikiRegexes.BulletedText, "#foo\r\ntest\r\n*:bar", "#foo\r", "*:bar");
             RegexAssert.Matches(WikiRegexes.BulletedText, " foo\r\nfoo bar", " foo\r");
         }
+
+        [Test, Category("Unarchived bugs")]
+        public void Refs()
+        {
+            RegexAssert.Matches(WikiRegexes.Refs, "<ref>foo</ref>", "<ref>foo</ref>");
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Typo_fixes_being_applied_to_a_reference_name
+            RegexAssert.Matches(WikiRegexes.Refs, "<REF NAME=\"foo\" >bar</ref >", "<REF NAME=\"foo\" >bar</ref >");
+            RegexAssert.Matches(WikiRegexes.Refs, "<REF  NAME=foo>bar< /ref>", "<REF  NAME=foo>bar< /ref>");
+            //RegexAssert.Matches(WikiRegexes.Refs, "<ref/>", "<ref/>");
+            RegexAssert.Matches(WikiRegexes.Refs, "<ReF Name=foo/>", "<ReF Name=foo/>");
+            RegexAssert.Matches(WikiRegexes.Refs, "<ReF Name = 'foo'/>", "<ReF Name = 'foo'/>");
+            RegexAssert.Matches(WikiRegexes.Refs, "<ReF Name = \"foo\"/>", "<ReF Name = \"foo\"/>");
+
+            RegexAssert.NoMatch(WikiRegexes.Refs, "<refname=foo>bar</ref>");
+            RegexAssert.NoMatch(WikiRegexes.Refs, "<refname=foo/>");
+        }
     }
 }
