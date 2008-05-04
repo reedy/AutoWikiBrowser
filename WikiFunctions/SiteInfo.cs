@@ -246,21 +246,22 @@ namespace WikiFunctions
         }
     }
 
+    [Serializable]
     public class SiteInfoException : Exception
     {
+        public SiteInfoException()
+            : base() { }
+
         public SiteInfoException(string message)
-            : base(message)
-        {
-        }
+            : base(message) { }
 
         public SiteInfoException(string message, Exception innerException)
-            : base(message, innerException)
-        {
-        }
+            : base(message, innerException) { }
 
         public SiteInfoException(Exception innerException)
-            : base("Site information error: " + innerException.Message, innerException)
-        {
-        }
+            : base("Site information error: " + innerException.Message, innerException) { }
+
+        protected SiteInfoException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+            : base(info, context) { }
     }
 }

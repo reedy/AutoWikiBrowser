@@ -205,7 +205,7 @@ namespace WikiFunctions.Parse
             LoadInterWiki();
 
             if (InterwikiLocalAlpha == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException("InterwikiLocalAlpha");
 
             string s = string.Join("|", SiteMatrix.WikipediaLanguages.ToArray());
             s = @"\[\[\s?(" + s + @")\s?:\s?([^\]]*)\s?\]\]";

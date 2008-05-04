@@ -102,7 +102,7 @@ namespace WikiFunctions.Logging
                     return "#[[:" + mArticle + "]]";
 
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException("LogFileType");
             }
         }
 
@@ -230,7 +230,7 @@ namespace WikiFunctions.Logging
                         return -1;
 
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException("SubItem");
             }
         }
 

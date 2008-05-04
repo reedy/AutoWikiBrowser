@@ -276,7 +276,7 @@ namespace WikiFunctions
                         break;
 
                     default:
-                        throw new ArgumentOutOfRangeException();
+                        throw new ArgumentOutOfRangeException("option");
                 }
 
             if (noChange && SkipIfNoChange)
@@ -321,7 +321,7 @@ namespace WikiFunctions
                     break;
 
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException("option");
             }
 
             if (noChange && SkipIfNoChange)
