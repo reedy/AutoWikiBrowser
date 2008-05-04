@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using WikiFunctions.AWBSettings;
 using WikiFunctions.Parse;
 
+[assembly: CLSCompliant(true)]
 namespace DelinkerPlugin
 {
     public class DelinkerPlugin : IAWBPlugin
