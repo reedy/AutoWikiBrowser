@@ -363,7 +363,14 @@ namespace WikiFunctions.Parse
     {
         public TypoException()
             : base() { }
+
         public TypoException(string message)
             : base(message) { }
+
+        public TypoException(string message, Exception inner)
+            : base(message, inner) { }
+        
+        protected TypoException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+            : base(info, context) { }
     }
 }

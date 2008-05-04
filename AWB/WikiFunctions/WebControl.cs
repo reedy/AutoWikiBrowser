@@ -1058,13 +1058,16 @@ namespace WikiFunctions.Browser
     [Serializable]
     public class WebBrowserOperationsException : System.Exception
     {
-        public WebBrowserOperationsException(string message, Exception inner)
-            : base("Web browser operations exception: " + message, inner) { }
-
         public WebBrowserOperationsException()
             : base("Web browser operations exception") { }
 
         public WebBrowserOperationsException(string message)
             : base(message) { }
+
+        public WebBrowserOperationsException(string message, Exception inner)
+            : base("Web browser operations exception: " + message, inner) { }
+
+        protected WebBrowserOperationsException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+            : base(info, context) { }
     }
 }
