@@ -7,7 +7,7 @@
     <ProjectGuid>{3843A310-3E53-40E1-8276-5ADF988CBA6C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IFD</RootNamespace>
+    <RootNamespace>AutoWikiBrowser.Plugins.IFD</RootNamespace>
     <AssemblyName>IFD</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>

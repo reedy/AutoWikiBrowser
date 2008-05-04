@@ -7,7 +7,7 @@
     <ProjectGuid>{C95998EA-A697-4A30-97A2-651980A75DD3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DelinkerPlugin</RootNamespace>
+    <RootNamespace>AutoWikiBrowser.Plugins.Delinker</RootNamespace>
     <AssemblyName>DelinkerPlugin</AssemblyName>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
     <FileUpgradeFlags>
