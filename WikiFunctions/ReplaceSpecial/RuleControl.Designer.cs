@@ -110,6 +110,7 @@ namespace WikiFunctions.MWB
         // 
         // ReplaceTabPage
         // 
+        this.ReplaceTabPage.BackColor = System.Drawing.Color.White;
         this.ReplaceTabPage.Controls.Add(this.ReplaceSplit);
         this.ReplaceTabPage.Controls.Add(this.ReplaceIsCaseSensitiveCheckBox);
         this.ReplaceTabPage.Controls.Add(this.ReplaceIsRegexCheckbox);
@@ -124,7 +125,6 @@ namespace WikiFunctions.MWB
         this.ReplaceTabPage.Size = new System.Drawing.Size(401, 301);
         this.ReplaceTabPage.TabIndex = 0;
         this.ReplaceTabPage.Text = "Find";
-        this.ReplaceTabPage.UseVisualStyleBackColor = true;
         // 
         // ReplaceSplit
         // 
@@ -254,15 +254,18 @@ namespace WikiFunctions.MWB
         // TestFind
         // 
         this.TestFind.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+        this.TestFind.BackColor = System.Drawing.SystemColors.Control;
         this.TestFind.Location = new System.Drawing.Point(320, 272);
         this.TestFind.Name = "TestFind";
         this.TestFind.Size = new System.Drawing.Size(75, 23);
         this.TestFind.TabIndex = 7;
         this.TestFind.Text = "&Test...";
+        this.TestFind.UseVisualStyleBackColor = false;
         this.TestFind.Click += new System.EventHandler(this.TestFind_Click);
         // 
         // IfTabPage
         // 
+        this.IfTabPage.BackColor = System.Drawing.Color.White;
         this.IfTabPage.Controls.Add(this.IfSplit);
         this.IfTabPage.Controls.Add(this.IfIsSinglelineCheckBox);
         this.IfTabPage.Controls.Add(this.IfIsMultilineCheckbox);
@@ -275,7 +278,6 @@ namespace WikiFunctions.MWB
         this.IfTabPage.Size = new System.Drawing.Size(401, 301);
         this.IfTabPage.TabIndex = 1;
         this.IfTabPage.Text = "If";
-        this.IfTabPage.UseVisualStyleBackColor = true;
         // 
         // IfSplit
         // 
@@ -393,11 +395,13 @@ namespace WikiFunctions.MWB
         // TestIf
         // 
         this.TestIf.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+        this.TestIf.BackColor = System.Drawing.SystemColors.Control;
         this.TestIf.Location = new System.Drawing.Point(320, 272);
         this.TestIf.Name = "TestIf";
         this.TestIf.Size = new System.Drawing.Size(75, 23);
         this.TestIf.TabIndex = 5;
         this.TestIf.Text = "&Test...";
+        this.TestIf.UseVisualStyleBackColor = false;
         this.TestIf.Click += new System.EventHandler(this.TestIf_Click);
         // 
         // label1
@@ -462,19 +466,19 @@ namespace WikiFunctions.MWB
             this.testIfContainsToolStripMenuItem,
             this.testIfNotContainsToolStripMenuItem});
         this.contextMenu.Name = "contextMenu";
-        this.contextMenu.Size = new System.Drawing.Size(186, 48);
+        this.contextMenu.Size = new System.Drawing.Size(182, 48);
         // 
         // testIfContainsToolStripMenuItem
         // 
         this.testIfContainsToolStripMenuItem.Name = "testIfContainsToolStripMenuItem";
-        this.testIfContainsToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+        this.testIfContainsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
         this.testIfContainsToolStripMenuItem.Text = "Test if contains...";
         this.testIfContainsToolStripMenuItem.Click += new System.EventHandler(this.testIfContainsToolStripMenuItem_Click);
         // 
         // testIfNotContainsToolStripMenuItem
         // 
         this.testIfNotContainsToolStripMenuItem.Name = "testIfNotContainsToolStripMenuItem";
-        this.testIfNotContainsToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+        this.testIfNotContainsToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
         this.testIfNotContainsToolStripMenuItem.Text = "Test if not contains..";
         this.testIfNotContainsToolStripMenuItem.Click += new System.EventHandler(this.testIfNotContainsToolStripMenuItem_Click);
         // 
