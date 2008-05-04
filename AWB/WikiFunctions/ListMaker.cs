@@ -56,7 +56,7 @@ namespace WikiFunctions.Controls.Lists
             //    cmboSourceSelect.Items.Add("Redirects");
         }
 
-        new public void Refresh()
+        new public static void Refresh()
         { }
 
         public string strlbArticlesTooltip = "";

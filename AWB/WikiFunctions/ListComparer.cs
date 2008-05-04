@@ -66,19 +66,6 @@ namespace WikiFunctions.Controls.Lists
             updateCounts();
         }
 
-        private string TurnFirstToUpper(string input)
-        {
-            //turns first character to uppercase
-            if (input.Length > 0)
-            {
-                input = input.Trim();
-                string temp = input.Substring(0, 1);
-                return temp.ToUpper() + input.Remove(0, 1);
-            }
-            else
-                return "";
-        }
-
         private void SaveList(StringBuilder strList)
         {
             try
@@ -197,7 +184,7 @@ namespace WikiFunctions.Controls.Lists
             Tools.Copy(MenuItemOwner(sender));
         }
 
-        private ListBox MenuItemOwner(object sender)
+        private static ListBox MenuItemOwner(object sender)
         {
             try { return ((ListBox)((ContextMenuStrip)sender).SourceControl); }
             catch

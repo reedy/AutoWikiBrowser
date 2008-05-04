@@ -696,12 +696,10 @@ namespace WikiFunctions.MWB
             }
         }
 
-        private void setNodeColour(TreeNode node, IRule rule)
+        private static void setNodeColour(TreeNode node, IRule rule)
         {
             if (rule.enabled_)
-            {
                 node.BackColor = Color.White;
-            }
             else
                 node.BackColor = Color.Red;
         }
