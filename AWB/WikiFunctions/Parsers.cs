@@ -1479,6 +1479,12 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ArticleText">The wiki text of the article.</param>
+        /// <param name="NoChange"></param>
+        /// <returns></returns>
         public string LivingPeople(string ArticleText, out bool NoChange)
         {
             NoChange = true;
@@ -1491,9 +1497,13 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ArticleText">The wiki text of the article.</param>
+        /// <returns></returns>
         public static string LivingPeople(string ArticleText)
         {
-
             if (Regex.IsMatch(ArticleText, "\\[\\[ ?Category ?:[ _]?([0-9]{1,2}[ _]century[ _]deaths|[0-9s]{4,5}[ _]deaths|Disappeared[ _]people|Living[ _]people|Year[ _]of[ _]death[ _]missing|Possibly[ _]living[ _]people)", RegexOptions.IgnoreCase))
                 return ArticleText;
 
@@ -1593,7 +1603,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         }
 
         /// <summary>
-        /// adds/removes
+        /// If necessary, adds/removes wikify or stub tag
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <param name="ArticleTitle">The article title.</param>
