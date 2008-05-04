@@ -1257,7 +1257,13 @@ namespace WikiFunctions.Controls.Lists
         private void loadArticlesInBrowser()
         {
             foreach (Article item in lbArticles.SelectedItems)
-                Tools.OpenURLInBrowser(Variables.URLLong + "index.php?title=" + System.Web.HttpUtility.UrlEncode(item.Name));
+            {
+                try
+                {
+                    Tools.OpenURLInBrowser(Variables.URLLong + "index.php?title=" + System.Web.HttpUtility.UrlEncode(item.Name));
+                }
+                catch { }
+            }
         }
 
         private void removeToolStripMenuItem_Click(object sender, EventArgs e)
