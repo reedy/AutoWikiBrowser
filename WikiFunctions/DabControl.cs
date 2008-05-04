@@ -154,7 +154,7 @@ namespace WikiFunctions.Disambiguation
                     }
                 }
                 Surroundings = ArticleText.Substring(SurroundingsStart, n - SurroundingsStart);
-                PosInSurroundings = Surroundings.IndexOf(Match.Value);
+                PosInSurroundings = Match.Index - SurroundingsStart; //Surroundings.IndexOf(Match.Value);
 
                 // check if the link is at the beginning of a sentence
                 for (n = Match.Index - 1; n > posStart; --n)
@@ -177,6 +177,7 @@ namespace WikiFunctions.Disambiguation
                 txtViewer.SelectionFont = new System.Drawing.Font(txtViewer.SelectionFont.FontFamily,
                     txtViewer.SelectionFont.Size, System.Drawing.FontStyle.Bold);
                 txtViewer.SelectionBackColor = System.Drawing.Color.FromArgb(0xFFD754);
+                txtViewer.Select(SurroundingsStart - posStart, 0);
                 txtViewer.ScrollToCaret();
                 txtViewer.Select(0, 0);
 

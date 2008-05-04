@@ -1260,7 +1260,7 @@ namespace WikiFunctions.Controls.Lists
             {
                 try
                 {
-                    Tools.OpenURLInBrowser(Variables.URLLong + "index.php?title=" + System.Web.HttpUtility.UrlEncode(item.Name));
+                    Tools.OpenArticleInBrowser(item.Name);
                 }
                 catch { }
             }
