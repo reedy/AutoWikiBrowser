@@ -75,7 +75,7 @@ namespace WikiFunctions
         {
             try
             {
-                string targetUrl = indexpath + "index.php?title=" + Article + "&action=raw&ctype=text/plain&dontcountme=s";
+                string targetUrl = indexpath + "index.php?title=" + Tools.WikiEncode(Article) + "&action=raw";
 
                 if (oldid != 0)
                     targetUrl += "&oldid=" + oldid;
