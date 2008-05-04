@@ -627,7 +627,7 @@ namespace WikiFunctions
         {
             if (mPluginEditSummary.Length > 0)
             {
-                EditSummary += " " + mPluginEditSummary.Trim();
+                EditSummary += mPluginEditSummary.Trim();
                 mPluginEditSummary = "";
             }
         }
