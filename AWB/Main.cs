@@ -3370,7 +3370,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 string text = "";
                 try
                 {
-                    text = Tools.GetHTML(Variables.URLLong + "index.php?title=Project:AutoWikiBrowser/User_talk_templates&action=raw", Encoding.UTF8);
+                    text = Tools.GetArticleText("Project:AutoWikiBrowser/User talk templates");
                 }
                 catch
                 {

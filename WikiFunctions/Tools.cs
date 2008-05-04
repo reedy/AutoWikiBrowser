@@ -347,13 +347,14 @@ namespace WikiFunctions
                 return "";
 
             string text = "";
+            string url = Variables.GetPlainTextURL(ArticleTitle);
             try
             {
-                text = GetHTML(Variables.GetPlainTextURL(ArticleTitle), Encoding.UTF8);
+                text = GetHTML(url, Encoding.UTF8);
             }
             catch
             {
-                throw new Exception("There was a problem loading " + Variables.URLLong + "index.php?title=" + ArticleTitle + ", please make sure the page exists");
+                throw new Exception("There was a problem loading " + url + ", please make sure the page exists");
             }
 
             return text;

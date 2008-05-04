@@ -1325,7 +1325,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
 
         public static string GetPlainTextURL(string title)
         {
-            return NonPrettifiedURL(title) + "&action=raw&ctype=text/plain&dontcountme=s";
+            return NonPrettifiedURL(title) + "&action=raw";
         }
         #endregion
     }

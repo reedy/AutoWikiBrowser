@@ -309,7 +309,7 @@ namespace WikiFunctions.Parse
                         {
                             try
                             {
-                                text = Tools.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/Typos&action=raw&ctype=text/plain&dontcountme=s", Encoding.UTF8);
+                                text = Tools.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/Typos&action=raw", Encoding.UTF8);
                                 TyposLoaded = true;
                             }
                             catch
