@@ -852,11 +852,11 @@ namespace WikiFunctions.Controls.Lists
 
         private void RemoveSelectedArticle()
         {
+            lbArticles.BeginUpdate();
+
             try
             {
                 Saved = false;
-
-                lbArticles.BeginUpdate();
                 int i = lbArticles.SelectedIndex;
 
                 if (lbArticles.SelectedItems.Count > 0)
@@ -869,11 +869,11 @@ namespace WikiFunctions.Controls.Lists
                     lbArticles.SelectedIndex = i;
                 else
                     lbArticles.SelectedIndex = i - 1;
-
-                lbArticles.EndUpdate();
             }
             catch
             { }
+
+            lbArticles.EndUpdate();
 
             UpdateNumberOfArticles();
         }
