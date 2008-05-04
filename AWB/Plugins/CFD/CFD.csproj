@@ -7,7 +7,7 @@
     <ProjectGuid>{3443EC53-0B83-4356-A032-AD9693448F19}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CFD</RootNamespace>
+    <RootNamespace>AutoWikiBrowser.Plugins.CFD</RootNamespace>
     <AssemblyName>CFD</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>

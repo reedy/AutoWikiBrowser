@@ -9,7 +9,7 @@ using WikiFunctions.AWBSettings;
 using WikiFunctions.Parse;
 
 [assembly: CLSCompliant(true)]
-namespace DelinkerPlugin
+namespace AutoWikiBrowser.Plugins.Delinker
 {
     public class DelinkerPlugin : IAWBPlugin
     {

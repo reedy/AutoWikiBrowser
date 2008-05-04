@@ -1,4 +1,4 @@
-namespace DelinkerPlugin
+namespace AutoWikiBrowser.Plugins.Delinker
 {
     partial class SettingsForm
     {
