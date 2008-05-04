@@ -217,7 +217,7 @@ namespace WikiFunctions.DBScanner
     {
         public HasBadLinks() { }
 
-        public bool FixLinks(string ArticleText)
+        public static bool FixLinks(string ArticleText)
         {
             string y = "";
 

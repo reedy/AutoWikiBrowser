@@ -31,7 +31,7 @@ namespace WikiFunctions
     public class SiteInfo : IXmlSerializable
     {
         private string m_ScriptPath;
-        private Dictionary<int, string> m_Namespaces = new Dictionary<int,string>();
+        private Dictionary<int, string> m_Namespaces = new Dictionary<int, string>();
         private Dictionary<string, string> m_MessageCache = new Dictionary<string, string>();
         private DateTime m_Time;
 
@@ -55,12 +55,10 @@ namespace WikiFunctions
         }
 
         internal SiteInfo()
-        {
-        }
+        { }
 
-        private void VerifyIntegrity()
-        {
-        }
+        private static void VerifyIntegrity()
+        { }
 
         public static string NormalizeURL(string url)
         {
@@ -85,7 +83,7 @@ namespace WikiFunctions
 
         [XmlAttribute(AttributeName = "url")]
         public string ScriptPath
-        { 
+        {
             get { return m_ScriptPath; }
             internal set
             {
@@ -198,7 +196,7 @@ namespace WikiFunctions
         }
 
         public SiteInfoCache()
-            :this("Namespaces.xml")
+            : this("Namespaces.xml")
         {
         }
 

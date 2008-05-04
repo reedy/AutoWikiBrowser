@@ -67,7 +67,7 @@ namespace WikiFunctions.Parse
             }
         }
 
-        private Replacement RowToReplacement(DataGridViewRow dataGridRow)
+        private static Replacement RowToReplacement(DataGridViewRow dataGridRow)
         {
             Replacement rep = new Replacement();
             string f = "";

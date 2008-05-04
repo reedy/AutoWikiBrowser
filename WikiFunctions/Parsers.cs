@@ -1490,7 +1490,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
-        public string LivingPeople(string ArticleText)
+        public static string LivingPeople(string ArticleText)
         {
 
             if (Regex.IsMatch(ArticleText, "\\[\\[ ?Category ?:[ _]?([0-9]{1,2}[ _]century[ _]deaths|[0-9s]{4,5}[ _]deaths|Disappeared[ _]people|Living[ _]people|Year[ _]of[ _]death[ _]missing|Possibly[ _]living[ _]people)", RegexOptions.IgnoreCase))

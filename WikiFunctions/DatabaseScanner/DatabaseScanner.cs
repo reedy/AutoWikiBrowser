@@ -583,11 +583,10 @@ namespace WikiFunctions.DBScanner
             openInBrowserToolStripMenuItem.Enabled = (lbArticles.SelectedIndex >= 0);
         }
 
-        private string convert(string text)
+        private static string convert(string text)
         {
-            text = text.Replace(@"\r\n", @"
+            return text.Replace(@"\r\n", @"
 ");
-            return text;
         }
 
         private void txtTitleContains_Leave(object sender, EventArgs e)
