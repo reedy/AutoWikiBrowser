@@ -631,7 +631,7 @@ namespace WikiFunctions.Lists
                         list.Add(new WikiFunctions.Article(title));
                     }
 
-                    if (googleText.Contains("<br>Next</a>"))
+                    if (googleText.Contains("img src=\"nav_next.gif\""))
                     {
                         intStart += 100;
                         url = "http://www.google.com/search?q=" + google + "+site:" + Variables.URL + "&num=100&hl=en&lr=&start=" + intStart.ToString() + "&sa=N&filter=0";
