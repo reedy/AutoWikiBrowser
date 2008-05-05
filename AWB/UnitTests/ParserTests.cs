@@ -434,7 +434,7 @@ http://example.com }}");
             Assert.IsFalse(Parsers.IsCorrectEditSummary("[[test]] [["));
         }
 
-        [Test, Category("Unarchived bugs")]
+        [Test]
         public void TestChangeToDefaultSort()
         {
             bool noChange;
@@ -487,12 +487,17 @@ http://example.com }}");
                 p.ChangeToDefaultSort("[[Category:Test1|Foooô]][[Category:Test2|Foooô]]", "Bar", out noChange));
             Assert.IsFalse(noChange);
 
-            // should also fix diacritics in existing defaultsort's
+            // should also fix diacritics in existing defaultsort's and remove leading spaces
+            // also support mimicking templates
             Assert.AreEqual("{{DEFAULTSORT:Test}}",
-                p.ChangeToDefaultSort("{{DEFAULTSORT:Tést}}", "Foo", out noChange));
+                p.ChangeToDefaultSort("{{defaultsort| Tést}}", "Foo", out noChange));
             Assert.IsFalse(noChange);
 
-            //http://en.wikipedia.org/wiki/Wikipedia:AWB/B#DEFAULTSORT_with_spaces
+            // shouldn't change whitespace-only sortkeys
+            Assert.AreEqual("{{DEFAULTSORT: \t}}", p.ChangeToDefaultSort("{{DEFAULTSORT: \t}}", "Foo", out noChange));
+            Assert.IsTrue(noChange);
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#DEFAULTSORT_with_spaces
             // DEFAULTSORT doesn't treat leading spaces the same way as categories do
             Assert.AreEqual("[[Category:Test1| Foooo]][[Category:Test2| Foooo]]",
                 p.ChangeToDefaultSort("[[Category:Test1| Foooo]][[Category:Test2| Foooo]]", "Bar", out noChange));
