@@ -1471,8 +1471,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             }
             else // already has DEFAULTSORT
             {
-                string s = Tools.RemoveDiacritics(match.Value);
-                if (s != match.Value) ArticleText = ArticleText.Replace(match.Value, s);
+                string s = Tools.RemoveDiacritics(match.Groups[1].Value).Trim();
+                if (s != match.Groups[1].Value && s.Length > 0) 
+                    ArticleText = ArticleText.Replace(match.Value, "{{DEFAULTSORT:" + s + "}}");
             }
 
             NoChange = (testText == ArticleText);
