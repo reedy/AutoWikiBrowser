@@ -650,8 +650,13 @@ namespace AutoWikiBrowser
 
                 UpdateWebBrowserStatus(null, null);
 
-                if (!Abort && skippable && chkSkipNoChanges.Checked &&
-                    TheArticle.ArticleText == TheArticle.OriginalArticleText)
+                if (!Abort && TheArticle.SkipArticle)
+                {
+                    SkipPageReasonAlreadyProvided(); // Don't send a reason; ProcessPage() should already have logged one
+                    return;
+                }
+                else if (!Abort && skippable && chkSkipNoChanges.Checked &&
+    TheArticle.ArticleText == TheArticle.OriginalArticleText)
                 {
                     SkipPage("No change");
                     return;
@@ -660,11 +665,6 @@ namespace AutoWikiBrowser
                     (string.Compare(Regex.Replace(TheArticle.OriginalArticleText, @"\s+", @""), Regex.Replace(TheArticle.ArticleText, @"\s+", @"")) == 0))
                 {
                     SkipPage("Only whitespace changed");
-                    return;
-                }
-                else if (!Abort && TheArticle.SkipArticle)
-                {
-                    SkipPageReasonAlreadyProvided(); // Don't send a reason; ProcessPage() should already have logged one
                     return;
                 }
             }
