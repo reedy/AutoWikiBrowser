@@ -135,8 +135,8 @@ namespace WikiFunctions.Lists
         /// <summary>
         /// Gets a list of articles and sub-categories in a category.
         /// </summary>
-        /// <param name="Category">The category.</param>
-        /// <param name="SubCategories">Whether to get all sub categories as well.</param>
+        /// <param name="category">The category.</param>
+        /// <param name="subCategories">Whether to get all sub categories as well.</param>
         /// <returns>The list of the articles.</returns>
         public static List<Article> FromCategory(bool subCategories, params string[] categories)
         {
@@ -223,8 +223,8 @@ namespace WikiFunctions.Lists
         /// <summary>
         /// Gets a list of articles that link to the given page.
         /// </summary>
-        /// <param name="Pages">The page to find links to.</param>
-        /// <param name="Embedded">Gets articles that embed (transclude).</param>
+        /// <param name="embedded">Gets articles that embed (transclude).</param>
+        /// <param name="pages">The page to find links to.</param>
         /// <returns>The list of the articles.</returns>
         public static List<Article> FromWhatLinksHere(bool embedded, params string[] pages)
         {
@@ -292,7 +292,7 @@ namespace WikiFunctions.Lists
         /// <summary>
         /// Gets a list of articles that redirect to the given page.
         /// </summary>
-        /// <param name="Pages">The pages to find redirects to.</param>
+        /// <param name="pages">The pages to find redirects to.</param>
         /// <returns>The list of the articles.</returns>
         public static List<Article> FromRedirects(params string[] pages)
         {
@@ -379,7 +379,7 @@ namespace WikiFunctions.Lists
         /// <summary>
         /// Gets a list of links on a page.
         /// </summary>
-        /// <param name="Article">The page to find links on.</param>
+        /// <param name="articles">The page to find links on.</param>
         /// <returns>The list of the links.</returns>
         public static List<Article> FromLinksOnPage(params string[] articles)
         {
@@ -441,8 +441,7 @@ namespace WikiFunctions.Lists
         /// <summary>
         /// Gets a list of Images on a page.
         /// </summary>
-        /// <param name="Limit">The maximum number of results resulted.</param>
-        /// <param name="Article">The page to find images on.</param>
+        /// <param name="articles">The page to find images on.</param>
         /// <returns>The list of the images.</returns>
         public static List<Article> FromImagesOnPage(params string[] articles)
         {
@@ -492,8 +491,7 @@ namespace WikiFunctions.Lists
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="Limit"></param>
-        /// <param name="Articles"></param>
+        /// <param name="articles"></param>
         /// <returns></returns>
         public static List<Article> FromTransclusionsOnPage(params string[] articles)
         {
@@ -545,7 +543,7 @@ namespace WikiFunctions.Lists
         /// <summary>
         /// Gets a list of pages from text file
         /// </summary>
-        /// <param name="fileName">The file path of the list.</param>
+        /// <param name="fileNames">The file path of the list.</param>
         /// <returns>The list of the links.</returns>
         public static List<Article> FromTextFile(params string[] fileNames)
         {
@@ -595,8 +593,7 @@ namespace WikiFunctions.Lists
         /// <summary>
         /// Gets a list from a google search of the site.
         /// </summary>
-        /// <param name="Limit">The maximum number of results resulted.</param>
-        /// <param name="Google">The term to search for.</param>
+        /// <param name="googles">The term to search for.</param>
         /// <returns>The list of the articles.</returns>
         public static List<Article> FromGoogleSearch(params string[] googles)
         {
@@ -651,13 +648,13 @@ namespace WikiFunctions.Lists
         /// <summary>
         /// Gets a list from a users contribs.
         /// </summary>
-        /// <param name="User">The name of the user.</param>
+        /// <param name="users">The name of the user.</param>
         /// <returns>The list of the articles.</returns>
         public static List<Article> FromUserContribs(params string[] users)
         {
             return FromUserContribs(false, users);
         }
-     
+
         /// <summary>
         /// Gets a list from a users contribs.
         /// </summary>
@@ -726,7 +723,7 @@ namespace WikiFunctions.Lists
         /// <summary>
         /// Gets a list of links on a special page.
         /// </summary>
-        /// <param name="Special">The page to find links on, e.g. "Deadendpages" or "Deadendpages&limit=500&offset=0".</param>
+        /// <param name="specials">The page to find links on, e.g. "Deadendpages" or "Deadendpages&limit=500&offset=0".</param>
         /// <returns>The list of the articles.</returns>
         public static List<Article> FromSpecialPage(params string[] specials)
         {
@@ -736,8 +733,8 @@ namespace WikiFunctions.Lists
         /// <summary>
         /// Gets a list of links on a special page.
         /// </summary>
-        /// <param name="Limit">The maximum number of results resulted.</param>
-        /// <param name="Special">The page to find links on, e.g. "Deadendpages" or "Deadendpages&limit=500&offset=0".</param>
+        /// <param name="limit">The maximum number of results resulted.</param>
+        /// <param name="specials">The page to find links on, e.g. "Deadendpages" or "Deadendpages&limit=500&offset=0".</param>
         /// <returns>The list of the articles.</returns>
         public static List<Article> FromSpecialPage(int limit, params string[] specials)
         {
@@ -814,8 +811,7 @@ namespace WikiFunctions.Lists
         /// <summary>
         /// Gets a list of articles that use an image.
         /// </summary>
-        /// <param name="Limit">The maximum number of results resulted.</param>
-        /// <param name="Image">The image.</param>
+        /// <param name="images">The image.</param>
         /// <returns>The list of the articles.</returns>
         public static List<Article> FromImageLinks(params string[] images)
         {
@@ -904,7 +900,6 @@ namespace WikiFunctions.Lists
         /// <summary>
         /// Gets a list from wiki's internal search
         /// </summary>
-        /// <param name="Limit">The maximum number of results resulted.</param>
         /// <param name="terms">The terms to search for.</param>
         /// <returns>The list of the articles.</returns>
         public static List<Article> FromWikiSearch(params string[] terms)
@@ -1131,9 +1126,10 @@ namespace WikiFunctions.Lists
     public class PageDoesNotExistException : System.Exception
     {
         public PageDoesNotExistException() { }
-        public PageDoesNotExistException(string message) : base(message) { }
-
-        public PageDoesNotExistException(string message, System.Exception inner) : base(message, inner) { }
+        public PageDoesNotExistException(string message)
+            : base(message) { }
+        public PageDoesNotExistException(string message, System.Exception inner)
+            : base(message, inner) { }
         protected PageDoesNotExistException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) { }
     }
