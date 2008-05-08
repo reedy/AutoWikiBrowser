@@ -650,16 +650,21 @@ namespace AutoWikiBrowser
 
                 UpdateWebBrowserStatus(null, null);
 
-                if (!Abort && TheArticle.SkipArticle)
+                if (!Abort)
                 {
-                    SkipPageReasonAlreadyProvided(); // Don't send a reason; ProcessPage() should already have logged one
-                    return;
-                }
-                else if (!Abort && skippable && chkSkipNoChanges.Checked &&
+                    if (TheArticle.SkipArticle)
+                    {
+                        SkipPageReasonAlreadyProvided(); // Don't send a reason; ProcessPage() should already have logged one
+                        return;
+                    }
+
+                    if (skippable && chkSkipNoChanges.Checked &&
     TheArticle.ArticleText == TheArticle.OriginalArticleText)
-                {
-                    SkipPage("No change");
-                    return;
+                    {
+                        SkipPage("No change");
+                        return;
+                    }
+
                 }
                 else if (chkSkipWhitespace.Checked &&
                     (string.Compare(Regex.Replace(TheArticle.OriginalArticleText, @"\s+", @""), Regex.Replace(TheArticle.ArticleText, @"\s+", @"")) == 0))
