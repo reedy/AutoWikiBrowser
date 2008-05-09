@@ -15,6 +15,8 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
         A
         FA
         NA
+        List
+        FL
         Code = 100
     End Enum
     Friend Enum Importance As Integer

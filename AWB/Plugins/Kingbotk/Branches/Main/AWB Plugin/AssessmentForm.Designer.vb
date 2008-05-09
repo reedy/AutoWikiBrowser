@@ -83,10 +83,10 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
             '
             Me.ClassCheckedListBox.CheckOnClick = True
             Me.ClassCheckedListBox.FormattingEnabled = True
-            Me.ClassCheckedListBox.Items.AddRange(New Object() {"Unassessed", "Stub", "Start", "B", "GA", "A", "FA", "Not Applicable"})
+            Me.ClassCheckedListBox.Items.AddRange(New Object() {"Unassessed", "Stub", "Start", "B", "GA", "A", "FA", "Not Applicable", "List", "FL"})
             Me.ClassCheckedListBox.Location = New System.Drawing.Point(12, 26)
             Me.ClassCheckedListBox.Name = "ClassCheckedListBox"
-            Me.ClassCheckedListBox.Size = New System.Drawing.Size(120, 124)
+            Me.ClassCheckedListBox.Size = New System.Drawing.Size(120, 154)
             Me.ClassCheckedListBox.TabIndex = 3
             Me.ToolTip1.SetToolTip(Me.ClassCheckedListBox, "Article classification")
             '
