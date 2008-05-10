@@ -32,3 +32,7 @@ dt, dd {
 .prot {
 	font-family: monospace;
 }
+
+.showhide {
+	display: none;
+}

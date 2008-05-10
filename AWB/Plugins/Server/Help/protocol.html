@@ -1,23 +1,27 @@
-<!--?xml version="1.0" encoding="ISO-8859-1" ?>
-<?xml-stylesheet href="res/xhtml-toc.xsl" version="1.0" type="text/xsl"?-->
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!--?xml-stylesheet href="res/xhtml-toc.xsl" version="1.0" type="text/xsl"?-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
 <head>
 	<title>AWB Server Protocol</title>
 	<meta name="copyright" content="© 2008 Stephen Kennedy" />
 	<link rel="stylesheet" type="text/css" href="res/style.css" />
+	<script type="text/javascript" src="res/showhide.js"></script>
 </head>
 <body>
 <p>This document details the protocol implemented by the <a href="main.html">AWB Server plugin</a>. Some proof-of-concept clients are also included in the AWB repository; patches and entirely new clients are <a href="http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Dev">warmly welcomed</a>.</p>
 <p>This document was prepared on 10 May 2008 and covers protocol version 0.1.</p>
+<hr />
 
-<h1><a name="Handshake">Handshake</a></h1>
-<p>Upon receiving a connection the server replies <a href="#HELLO" class="prot">200 HELLO</a> if it is able to accept a connection or <a href="#BUSY" class="prot">500 BUSY</a> if not (only one authenticated client connection is allowed at a time in order to keep things simple).</p> This is followed by a <a href="#REQUIRE" class="prot">201 REQUIRE CLIENT</a> challenge; the client <i>must</i> respond by sending <a href="#CLIENT" class="prot">CLIENT</a> and <a href="#VERSION" class="prot">VERSION</a> commands.
-<p>If authentication and/or encryption is required, the server will also send one or more <a href="#REQUIRE" class="prot">201 REQUIRE</a> challenges.</p>
-<p>Following the handshake, and authentication/encryption if required by the user, the server sends <span class="prot"><a href="#OK">250 OK</a> AutoWikiBrowser/&lt;AWB version&gt;/&lt;Server software&gt;/&lt;Server version&gt;</span>.</p>
+<h1><a name="Handshake">Handshake and authentication</a></h1>
+<p>Upon receiving a connection the server replies <a href="#200" class="prot">200 HELLO</a> if it is able to accept a connection or <a href="#500" class="prot">500 BUSY</a> if not (only one authenticated client connection is allowed at a time in order to keep things simple). Upon receipt of <a href="#200" class="prot">200 HELLO</a> the client <i>must</i> reply <a href="#HELLO" class="prot">HELLO</a>.</p>
+<p>Once <a href="#HELLO" class="prot">HELLO</a> has been received the server issues a <a href="#201" class="prot">201 REQUIRE CLIENT</a> challenge; the client <i>must</i> respond by sending <a href="#CLIENT" class="prot">CLIENT</a> and <a href="#VERSION" class="prot">VERSION</a> data.</p>
+<p>If authentication and/or <a href="#crypt">encryption</a> is required, the server will then issue one or more <a href="#201" class="prot">201 REQUIRE</a> challenges. </p>
+<p>The handshaking finishes with protocol negotiation. The server issues a <a href="#201" class="prot">201 REQUIRE PROTOCOL</a> challenge and determines the highest protocol level supported by both client and server (follow the link for more details).</p>
+<p>Following the handshake, and authentication/encryption if required by the user, the server sends <span class="prot"><a href="#270">270 READY</a> AutoWikiBrowser/&lt;AWB version&gt;/&lt;Server software&gt;/&lt;Server version&gt;</span>.</p>
 
-<h2>Example transcript</h2>
-<!-- use a show/hide div -->
+<h2>Example transcript <span style="font-size-adjust: 0.30; text-decoration: underline;"><a href="#" onclick="toggle_visibility('handshaketx');">Show/hide</a></span></h2>
+<div class="showhide" id="handshaketx">
 <p>&gt; 500 BUSY
 <br/>&lt; FORCE LOGIN
 <br/>&gt; 200 HELLO
@@ -53,40 +57,76 @@
 <br/>&gt; 111 CURRENT Talk:Brian May
 <br/>&gt; 120 LISTLENGTH 243
 <br/>&lt; BYE
-<br/>&gt; 260 See ya
-</p>
+<br/>&gt; 210 See ya
+</p></div>
 
 <h1>Commands</h1>
 <dl>
 	<dt><a name="BYE" class="prot">BYE</a></dt>
 	<dd>Tells the server to end the session.</dd>
 
+	<dt><a name="CLIENT" class="prot">CLIENT &lt;name&gt;</a></dt>
+	<dd>Tells the server the name of the client product (e.g. <i>AWB Windows Mobile 6 Client</i>).</dd>
+
 	<dt><a name="OK" class="prot">FORCE</a></dt>
-	<dd><span class="prot">FORCE LOGIN</span>: If (and only if) the server greeted the client with <a href="#BUSY" class="prot">500 BUSY</a>, the client may tell the server that it wishes to forceably login and disconnect the currently logged in user/session. <a href="#Handshake">Handshaking</a> will continue as normal.</dd>
+	<dd><span class="prot">FORCE LOGIN</span>: If (and only if) the server greeted the client with <a href="#500" class="prot">500 BUSY</a>, the client may tell the server that it wishes to forceably login and disconnect the currently logged in user/session. <a href="#Handshake">Handshaking</a> will continue as normal.</dd>
+
+	<dt><a name="HELLO" class="prot">HELLO</a></dt>
+	<dd>Initiates the <a href="#Handshake">handshake</a>.</dd>
+
+	<dt><a name="PASS" class="prot">PASS &lt;password&gt;</a></dt>
+	<dd>Login with &lt;password&gt;.</dd>
+
+	<dt><a name="PROTOCOL" class="prot">PROTOCOL &lt;version&gt;</a></dt>
+	<dd>Informs the server that the clients support a maximum protocol version of &lt;version&gt;. After receiving PROTOCOL and PROTOCOLTYPE commands the server responds with <a href="#260" class="prot">260 PROTOCOL</a>.</dd>
+
+	<dt><a name="PROTOCOLTYPE" class="prot">PROTOCOLTYPE</a></dt>
+	<dd><span class="prot">PROTOCOLTYPE SIMPLE</span>: Use a simple text-based command/response protocol.<!-- SOAP may come later for full-service clients--></dd>
+
+	<dt><a name="USER" class="prot">USER &lt;username&gt;</a></dt>
+	<dd>Login with &lt;username&gt;.</dd>
+
+	<dt><a name="VERSION" class="prot">VERSION &lt;version&gt;</a></dt>
+	<dd>Tells the server the version of the client product (e.g. <i>1.0.0.0</i>).</dd>
 </dl>
 
 <h1>Server response codes</h1>
 <dl>
-	<dt class="awb"><a name="HELLO" class="prot">200 HELLO</a></dt>
+	<dt class="awb"><a name="200" class="prot">200 HELLO</a></dt>
 	<dd>The server is ready to accept a connection. See "<a href="#Handshake">Handshake</a>" for more information.</dd>
 
-	<dt><a name="REQUIRE" class="prot">201 REQUIRE</a></dt>
-	<dd><span class="prot">REQUIRE CLIENT</span>:
-	<br/><span class="prot">REQUIRE KEY</span>:
-	<br/><span class="prot">REQUIRE LOGIN</span>:</dd>
+	<dt><a name="201" class="prot">201 REQUIRE</a></dt>
+	<dd><span class="prot">REQUIRE CLIENT</span>: The client is required to identify itself by sending <a href="#CLIENT" class="prot">CLIENT</a> and <a href="#VERSION" class="prot">VERSION</a> data.
+	<br/><span class="prot">REQUIRE KEY</span>: The client must send it's public key. See "<a href="#crypt">Encryption</a>".
+	<br/><span class="prot">REQUIRE LOGIN</span>: The client must login by sending <a href="#USER" class="prot">USER</a> and <a href="#PASS" class="prot">PASS</a>.
+	<br/><span class="prot">REQUIRE PROTOCOL</span>: The client is required to inform the server of the highest protocol version it supports (<a href="#PROTOCOL" class="prot">PROTOCOL</a>) and the protocol type it wishes to use (<a href="#PROTOCOLTYPE" class="prot">PROTOCOLTYPE</a>).</dd>
 
-	<dt><a name="OK" class="prot">250 OK</a></dt>
+	<dt><a name="210" class="prot">210 &lt;message&gt;</a></dt>
+	<dd>The server is ending the session in response to a <a href="#BYE">BYE</a> command.</dd>
+
+	<dt><a name="250" class="prot">250 OK</a></dt>
 	<dd>The request or data sent by the client was received and processed by the server without error.</dd>
 
-	<dt><a name="OK" class="prot">500 BUSY</a></dt>
-	<dd>A user is already logged into the server. To force their disconnection the client may send a <a href="#FORCE" class="prot">FORCE LOGIN</a> command. Otherwise, the client should end the connection by disconnecting or sending <a href="#FORCE" class="prot">BYE</a>.</dd>
+	<dt><a name="260" class="prot">260 PROTOCOL &lt;version&gt;</a></dt>
+	<dd>The protocol &lt;version&gt; that will be used during the session.</dd>
+
+	<dt><a name="270" class="prot">270 READY AutoWikiBrowser/&lt;AWB version&gt;/&lt;Server software&gt;/&lt;Server version&gt;</a></dt>
+	<dd><a href="#Handshake">Handshaking</a> and authentication is complete and the client is free to issue commands to the server.</dd>
+
+	<dt><a name="500" class="prot">500 BUSY</a></dt>
+	<dd>A user is already logged into the server. To force their disconnection the client may send a <a href="#FORCE" class="prot">FORCE LOGIN</a> command. Otherwise, the client should <a href="#discon">end the connection</a> by disconnecting or sending <a href="#FORCE" class="prot">BYE</a>.</dd>
 
 	<dt><a name="501" class="prot">501 &lt;reason&gt;</a></dt>
 	<dd>The command failed or could not be accepted because of &lt;reason&gt;.</dd>
 </dl>
 
-<h1>Ending the session</h1>
+<h1><a name="discon">Ending the session</a></h1>
 <p>The client may simply disconnect by closing the TCP/IP connection although it is preferred for the client to send <a href="#FORCE" class="prot">BYE</a>.</p>
+
+<hr />
+
+<h1><a name="crypt">Encryption</a></h1>
+(KEY both ways)
 
 <hr />
 <p><small>© 2008, <a href="http://www.sdk-software.com/" target="_blank">Stephen Kennedy</a>/AWB team</small></p>
