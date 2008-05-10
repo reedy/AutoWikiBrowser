@@ -12,8 +12,49 @@
 <p>This document was prepared on 10 May 2008 and covers protocol version 0.1.</p>
 
 <h1><a name="Handshake">Handshake</a></h1>
-<p>Upon receiving a connection the server replies <a href="#HELLO" class="prot">200 HELLO</a> if it is able to accept a connection or <a href="#BUSY" class="prot">500 BUSY</a> if not.</p>
+<p>Upon receiving a connection the server replies <a href="#HELLO" class="prot">200 HELLO</a> if it is able to accept a connection or <a href="#BUSY" class="prot">500 BUSY</a> if not (only one authenticated client connection is allowed at a time in order to keep things simple).</p> This is followed by a <a href="#REQUIRE" class="prot">201 REQUIRE CLIENT</a> challenge; the client <i>must</i> respond by sending <a href="#CLIENT" class="prot">CLIENT</a> and <a href="#VERSION" class="prot">VERSION</a> commands.
 <p>If authentication and/or encryption is required, the server will also send one or more <a href="#REQUIRE" class="prot">201 REQUIRE</a> challenges.</p>
+<p>Following the handshake, and authentication/encryption if required by the user, the server sends <span class="prot"><a href="#OK">250 OK</a> AutoWikiBrowser/&lt;AWB version&gt;/&lt;Server software&gt;/&lt;Server version&gt;</span>.</p>
+
+<h2>Example transcript</h2>
+<!-- use a show/hide div -->
+<p>&gt; 500 BUSY
+<br/>&lt; FORCE LOGIN
+<br/>&gt; 200 HELLO
+<br/>&lt; HELLO
+<br/>&gt; 201 REQUIRE CLIENT
+<br/>&lt; CLIENT AWB Windows Mobile 6 Client
+<br/>&gt; 250 OK
+<br/>&lt; VERSION 1.0.0.0
+<br/>&gt; 250 OK
+<br/>&gt; 201 REQUIRE LOGIN
+<br/>&lt; USER Fred
+<br/>&gt; 250 OK
+<br/>&lt; PASS &lt;password&gt;
+<br/>&gt; 250 OK
+<br/>&gt; 201 REQUIRE PROTOCOL
+<br/>&lt; PROTOCOL 0.2
+<br/>&gt; 250 OK
+<br/>&lt; PROTOCOLTYPE SIMPLE
+<br/>&gt; 260 PROTOCOL 0.1
+<br/>&gt; 270 READY AutoWikiBrowser/5.0.0.0/AWB Server Plugin/1.0.0.0
+<br/>&lt; WANT WIKI LANG BOTENABLED BOTMODE SETTINGS LISTLENGTH ACTIVE
+<br/>&gt; 100 WIKI wikipedia
+<br/>&gt; 101 LANG en
+<br/>&gt; 109 SETTINGS F:\Documents\AWB\Default settings.xml
+<br/>&gt; 110 ACTIVE YES
+<br/>&gt; 120 LISTLENGTH 245
+<br/>&gt; 140 BOTENABLED YES
+<br/>&gt; 141 BOTMODE YES
+<br/>&lt; UPDATEME CURRENT ACTIVE LISTLENGTH
+<br/>&gt; 250 OK
+<br/>&gt; 111 CURRENT Talk:Bob Dylan
+<br/>&gt; 120 LISTLENGTH 244
+<br/>&gt; 111 CURRENT Talk:Brian May
+<br/>&gt; 120 LISTLENGTH 243
+<br/>&lt; BYE
+<br/>&gt; 260 See ya
+</p>
 
 <h1>Commands</h1>
 <dl>
@@ -30,7 +71,9 @@
 	<dd>The server is ready to accept a connection. See "<a href="#Handshake">Handshake</a>" for more information.</dd>
 
 	<dt><a name="REQUIRE" class="prot">201 REQUIRE</a></dt>
-	<dd><span class="prot">REQUIRE RSA</span>:</dd>
+	<dd><span class="prot">REQUIRE CLIENT</span>:
+	<br/><span class="prot">REQUIRE KEY</span>:
+	<br/><span class="prot">REQUIRE LOGIN</span>:</dd>
 
 	<dt><a name="OK" class="prot">250 OK</a></dt>
 	<dd>The request or data sent by the client was received and processed by the server without error.</dd>
