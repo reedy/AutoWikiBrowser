@@ -38,8 +38,6 @@
 <br/>&gt; 250 OK
 <br/>&gt; 201 REQUIRE PROTOCOL
 <br/>&lt; PROTOCOL 0.2
-<br/>&gt; 250 OK
-<br/>&lt; PROTOCOLTYPE SIMPLE
 <br/>&gt; 260 PROTOCOL 0.1
 <br/>&gt; 270 READY AutoWikiBrowser/5.0.0.0/AWB Server Plugin/1.0.0.0
 <br/>&lt; WANT WIKI LANG BOTENABLED BOTMODE SETTINGS LISTLENGTH ACTIVE
@@ -78,10 +76,7 @@
 	<dd>Login with &lt;password&gt;.</dd>
 
 	<dt><a name="PROTOCOL" class="prot">PROTOCOL &lt;version&gt;</a></dt>
-	<dd>Informs the server that the clients support a maximum protocol version of &lt;version&gt;. After receiving PROTOCOL and PROTOCOLTYPE commands the server responds with <a href="#260" class="prot">260 PROTOCOL</a>.</dd>
-
-	<dt><a name="PROTOCOLTYPE" class="prot">PROTOCOLTYPE</a></dt>
-	<dd><span class="prot">PROTOCOLTYPE SIMPLE</span>: Use a simple text-based command/response protocol.<!-- SOAP may come later for full-service clients--></dd>
+	<dd>Informs the server that the clients support a maximum protocol version of &lt;version&gt;. After receiving the PROTOCOL command the server responds with <a href="#260" class="prot">260 PROTOCOL</a>.</dd>
 
 	<dt><a name="USER" class="prot">USER &lt;username&gt;</a></dt>
 	<dd>Login with &lt;username&gt;.</dd>
@@ -99,7 +94,7 @@
 	<dd><span class="prot">REQUIRE CLIENT</span>: The client is required to identify itself by sending <a href="#CLIENT" class="prot">CLIENT</a> and <a href="#VERSION" class="prot">VERSION</a> data.
 	<br/><span class="prot">REQUIRE KEY</span>: The client must send it's public key. See "<a href="#crypt">Encryption</a>".
 	<br/><span class="prot">REQUIRE LOGIN</span>: The client must login by sending <a href="#USER" class="prot">USER</a> and <a href="#PASS" class="prot">PASS</a>.
-	<br/><span class="prot">REQUIRE PROTOCOL</span>: The client is required to inform the server of the highest protocol version it supports (<a href="#PROTOCOL" class="prot">PROTOCOL</a>) and the protocol type it wishes to use (<a href="#PROTOCOLTYPE" class="prot">PROTOCOLTYPE</a>).</dd>
+	<br/><span class="prot">REQUIRE PROTOCOL</span>: The client is required to inform the server of the highest protocol version it supports (<a href="#PROTOCOL" class="prot">PROTOCOL</a>).</dd>
 
 	<dt><a name="210" class="prot">210 &lt;message&gt;</a></dt>
 	<dd>The server is ending the session in response to a <a href="#BYE">BYE</a> command.</dd>
@@ -118,6 +113,9 @@
 
 	<dt><a name="501" class="prot">501 &lt;reason&gt;</a></dt>
 	<dd>The command failed or could not be accepted because of &lt;reason&gt;.</dd>
+
+	<dt><a name="502" class="prot">502 BYE &lt;message&gt;</a></dt>
+	<dd>The server is unilaterally ending the session.</dd>
 </dl>
 
 <h1><a name="discon">Ending the session</a></h1>

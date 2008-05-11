@@ -27,7 +27,6 @@ using WikiFunctions.Logging;
 using WikiFunctions.Parse;
 using WikiFunctions.Lists;
 using WikiFunctions.AWBSettings;
-using System.Xml.Serialization;
 
 [assembly: CLSCompliant(true)]
 namespace AutoWikiBrowser.Plugins.IFD
