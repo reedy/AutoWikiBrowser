@@ -31,7 +31,7 @@ using WikiFunctions.AWBSettings;
 [assembly: CLSCompliant(true)]
 namespace AutoWikiBrowser.Plugins.IFD
 {
-    public sealed class IfdCore : IAWBPlugin
+    public sealed class IfdAWBPlugin : IAWBPlugin
     {
         private ToolStripMenuItem pluginenabledMenuItem = new ToolStripMenuItem("Images For Deletion plugin");
         private ToolStripMenuItem pluginconfigMenuItem = new ToolStripMenuItem("Configuration");

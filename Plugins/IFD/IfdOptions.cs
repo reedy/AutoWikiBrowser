@@ -44,11 +44,11 @@ namespace AutoWikiBrowser.Plugins.IFD
 
         public new void Show()
         {
-            chkSkip.Checked = IfdCore.Settings.Skip;
-            chkComment.Checked = IfdCore.Settings.Comment;
+            chkSkip.Checked = IfdAWBPlugin.Settings.Skip;
+            chkComment.Checked = IfdAWBPlugin.Settings.Comment;
 
             Grid.Rows.Clear();
-            foreach (KeyValuePair<string, string> p in IfdCore.Settings.Images)
+            foreach (KeyValuePair<string, string> p in IfdAWBPlugin.Settings.Images)
             {
                 Grid.Rows.Add(new string[2] { p.Key, p.Value });
             }
@@ -57,10 +57,10 @@ namespace AutoWikiBrowser.Plugins.IFD
 
             if (ShowDialog() != DialogResult.OK) return;
 
-            IfdCore.Settings.Skip = chkSkip.Checked;
-            IfdCore.Settings.Comment = chkComment.Checked;
+            IfdAWBPlugin.Settings.Skip = chkSkip.Checked;
+            IfdAWBPlugin.Settings.Comment = chkComment.Checked;
 
-            IfdCore.Settings.Images = ToDo;
+            IfdAWBPlugin.Settings.Images = ToDo;
 
             prevContent = txtBacklog.Text;
         }
@@ -119,7 +119,7 @@ namespace AutoWikiBrowser.Plugins.IFD
                     Enabled = true;
 
                     if (req.Result != null && req.Result is List<Article>)
-                        IfdCore.AWB.ListMaker.Add((List<Article>)req.Result);
+                        IfdAWBPlugin.AWB.ListMaker.Add((List<Article>)req.Result);
                 }
             }
             catch (Exception ex)

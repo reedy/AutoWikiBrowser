@@ -11,7 +11,7 @@ using WikiFunctions.Parse;
 [assembly: CLSCompliant(true)]
 namespace AutoWikiBrowser.Plugins.Delinker
 {
-    public class DelinkerPlugin : IAWBPlugin
+    public class DelinkerAWBPlugin : IAWBPlugin
     {
         private ToolStripMenuItem pluginenabledMenuItem = new ToolStripMenuItem("Delinker plugin");
         private ToolStripMenuItem pluginconfigMenuItem = new ToolStripMenuItem("Configuration");
