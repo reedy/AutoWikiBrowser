@@ -77,13 +77,11 @@ namespace AutoWikiBrowser
                 {
                     lblStatus.Text = "No module loaded";
                     lblStatus.BackColor = Color.Orange;
-                    lblBuilt.Text = "Custom Module Built At: n/a";
                 }
                 else
                 {
                     lblStatus.Text = "Module compiled and loaded";
                     lblStatus.BackColor = Color.LightGreen;
-                    lblBuilt.Text = "Custom Module Built At: " + DateTime.Now;
                 }
             }
         }
@@ -141,17 +139,14 @@ namespace AutoWikiBrowser
                     if (g != null)
                         Module = (IModule)Activator.CreateInstance(t);
                 }
+
+                lblBuilt.Text = "Custom Module Built At: " + DateTime.Now;
             }
             catch (Exception ex)
             {
                 Module = null;
                 ErrorHandler.Handle(ex);
             }
-        }
-
-        public void SetModuleNotBuilt()
-        {
-            Module = null;
         }
 
         private void btnDone_Click(object sender, EventArgs e)
