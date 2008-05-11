@@ -182,14 +182,4 @@ namespace AutoWikiBrowser.Plugins.IFD
             new AboutBox().Show();
         }
     }
-
-    [Serializable]
-    internal sealed class IfdSettings
-    { // TODO: This is crap!
-        public bool Enabled;
-        public Dictionary<string, string> Images = new Dictionary<string, string>();
-        public bool Comment = true;
-        public bool Skip = true;
-    }
-
 }

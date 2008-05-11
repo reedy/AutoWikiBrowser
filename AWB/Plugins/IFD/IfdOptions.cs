@@ -140,4 +140,13 @@ namespace AutoWikiBrowser.Plugins.IFD
             RefreshImgs();
         }
     }
+
+    [Serializable]
+    internal sealed class IfdSettings
+    { // TODO: Refine this
+        public bool Enabled;
+        public Dictionary<string, string> Images = new Dictionary<string, string>();
+        public bool Comment = true;
+        public bool Skip = true;
+    }
 }
