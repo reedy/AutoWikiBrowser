@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2007 Martin Richards, Stephen Kennedy <steve@sdk-software.com>
+Copyright (C) 2007 Martin Richards, Stephen Kennedy
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
