@@ -22,7 +22,7 @@ namespace WikiFunctions.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "2.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace WikiFunctions.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("WikiFunctions.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace WikiFunctions.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -60,26 +60,33 @@ namespace WikiFunctions.Properties {
             }
         }
         
-        internal static System.IO.UnmanagedMemoryStream beep1 {
+        public static System.Drawing.Icon AWBIcon {
+            get {
+                object obj = ResourceManager.GetObject("AWBIcon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        public static System.IO.UnmanagedMemoryStream beep1 {
             get {
                 return ResourceManager.GetStream("beep1", resourceCulture);
             }
         }
         
-        internal static System.IO.UnmanagedMemoryStream beep2 {
+        public static System.IO.UnmanagedMemoryStream beep2 {
             get {
                 return ResourceManager.GetStream("beep2", resourceCulture);
             }
         }
         
-        internal static System.Drawing.Bitmap changes {
+        public static System.Drawing.Bitmap changes {
             get {
                 object obj = ResourceManager.GetObject("changes", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap filesave {
+        public static System.Drawing.Bitmap filesave {
             get {
                 object obj = ResourceManager.GetObject("filesave", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -93,90 +100,90 @@ namespace WikiFunctions.Properties {
         ///
         ///This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without ev [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string GPL {
+        public static string GPL {
             get {
                 return ResourceManager.GetString("GPL", resourceCulture);
             }
         }
         
-        internal static System.Drawing.Bitmap LeftArrow {
+        public static System.Drawing.Bitmap LeftArrow {
             get {
                 object obj = ResourceManager.GetObject("LeftArrow", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap NewWindow {
+        public static System.Drawing.Bitmap NewWindow {
             get {
                 object obj = ResourceManager.GetObject("NewWindow", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap preview {
+        public static System.Drawing.Bitmap preview {
             get {
                 object obj = ResourceManager.GetObject("preview", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap RightArrow {
+        public static System.Drawing.Bitmap RightArrow {
             get {
                 object obj = ResourceManager.GetObject("RightArrow", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap RollBack {
+        public static System.Drawing.Bitmap RollBack {
             get {
                 object obj = ResourceManager.GetObject("RollBack", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap Run {
+        public static System.Drawing.Bitmap Run {
             get {
                 object obj = ResourceManager.GetObject("Run", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap Save {
+        public static System.Drawing.Bitmap Save {
             get {
                 object obj = ResourceManager.GetObject("Save", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap Showhide {
+        public static System.Drawing.Bitmap Showhide {
             get {
                 object obj = ResourceManager.GetObject("Showhide", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap Showhideparameters {
+        public static System.Drawing.Bitmap Showhideparameters {
             get {
                 object obj = ResourceManager.GetObject("Showhideparameters", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap Showhideparameters2 {
+        public static System.Drawing.Bitmap Showhideparameters2 {
             get {
                 object obj = ResourceManager.GetObject("Showhideparameters2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap Stop {
+        public static System.Drawing.Bitmap Stop {
             get {
                 object obj = ResourceManager.GetObject("Stop", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap Vista_trashcan_empty {
+        public static System.Drawing.Bitmap Vista_trashcan_empty {
             get {
                 object obj = ResourceManager.GetObject("Vista_trashcan_empty", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
