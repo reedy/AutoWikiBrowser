@@ -117,6 +117,7 @@ namespace AutoWikiBrowser
             splash.SetProgress(5);
             try
             {
+                Icon = WikiFunctions.Properties.Resources.AWBIcon;
                 lblUserName.Alignment = ToolStripItemAlignment.Right;
                 lblProject.Alignment = ToolStripItemAlignment.Right;
                 lblTimer.Alignment = ToolStripItemAlignment.Right;
@@ -124,22 +125,17 @@ namespace AutoWikiBrowser
                 lblIgnoredArticles.Alignment = ToolStripItemAlignment.Right;
                 lblEditCount.Alignment = ToolStripItemAlignment.Right;
 
-                btntsShowHide.Image = Res.btnshowhide_image;
-                btntsShowHideParameters.Image = Res.btnshowhideparameters_image;
-                btntsSave.Image = Res.btntssave_image;
-                btntsIgnore.Image = Res.GoLtr;
-                btntsStop.Image = Res.Stop;
-                btntsPreview.Image = Res.preview;
-                btntsChanges.Image = Res.changes;
-                btntsFalsePositive.Image = Res.RolledBack;
-                btntsStart.Image = Res.Run;
-                btntsDelete.Image = Res.Delete;
+                btntsShowHide.Image = Resources.Showhide;
+                btntsShowHideParameters.Image = Resources.Showhideparameters;
+                btntsSave.Image = Resources.Save;
+                btntsIgnore.Image = Resources.RightArrow;
+                btntsStop.Image = Resources.Stop;
+                btntsPreview.Image = Resources.preview;
+                btntsChanges.Image = Resources.changes;
+                btntsFalsePositive.Image = Resources.RollBack;
+                btntsStart.Image = Resources.Run;
+                btntsDelete.Image = Resources.Vista_trashcan_empty;
 
-                //btnSave.Image = Res.btntssave_image;
-                //btnIgnore.Image = Res.GoLtr;
-
-                //btnDiff.Image = Res.changes;
-                //btnPreview.Image = Res.preview;
                 splash.SetProgress(10);
                 int stubcount = 500;
                 bool catkey = false;
@@ -1337,7 +1333,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             enlargeEditAreaToolStripMenuItem.Checked = !enlargeEditAreaToolStripMenuItem.Checked;
             if (groupBox2.Visible)
             {
-                btntsShowHideParameters.Image = Res.btnshowhideparameters2_image;
+                btntsShowHideParameters.Image = Resources.Showhideparameters2;
 
                 oldPosition = tabControl2.Location; ;
                 tabControl2.Location = new Point(groupBox2.Location.X, groupBox2.Location.Y - 5);
@@ -1347,7 +1343,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
             else
             {
-                btntsShowHideParameters.Image = Res.btnshowhideparameters_image;
+                btntsShowHideParameters.Image = Resources.Showhideparameters;
 
                 tabControl2.Location = oldPosition;
                 tabControl2.Size = oldSize;

@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B5B0008C-A306-4B0D-B91E-5C03DA7014E0}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -240,7 +240,6 @@
     <Compile Include="ReplaceSpecial\TemplateParamRuleControl.designer.cs">
       <DependentUpon>TemplateParamRuleControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="ResourcesManager.cs" />
     <Compile Include="SettingsClasses.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -394,7 +393,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Resources.resx">
       <SubType>Designer</SubType>
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <CustomToolNamespace>WikiFunctions.Properties</CustomToolNamespace>
     </EmbeddedResource>
@@ -404,6 +403,7 @@
     <None Include="Resources\beep21.wav" />
     <Content Include="Diff\Diff.dll" />
     <Content Include="Resources\Bot Image.png" />
+    <None Include="Resources\globe.ico" />
     <None Include="Resources\Vista-trashcan_empty.png" />
     <None Include="Resources\btnshowhideparameters2.image2.png" />
     <None Include="Resources\btnshowhide.image2.png" />

@@ -57,10 +57,10 @@ namespace IRCM
             cmboNewStuffNamespace.SelectedIndex = 0;
             cmboPageMoveNamespace.SelectedIndex = 0;
 
-            btnBack.Image = WikiFunctions.Properties.Res.GoRtl;
-            btnFoward.Image = WikiFunctions.Properties.Res.GoLtr;
-            btnStop.Image = WikiFunctions.Properties.Res.Stop;
-            btnOpenInBrowser.Image = WikiFunctions.Properties.Res.NewWindow;
+            btnBack.Image = WikiFunctions.Properties.Resources.LeftArrow;
+            btnFoward.Image = WikiFunctions.Properties.Resources.RightArrow;
+            btnStop.Image = WikiFunctions.Properties.Resources.Stop;
+            btnOpenInBrowser.Image = WikiFunctions.Properties.Resources.NewWindow;
 
             Variables.SetProject(LangCodeEnum.en, ProjectEnum.wikipedia);
 

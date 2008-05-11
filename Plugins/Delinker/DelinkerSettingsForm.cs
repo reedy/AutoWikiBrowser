@@ -13,6 +13,7 @@ namespace AutoWikiBrowser.Plugins.Delinker
         public SettingsForm()
         {
             InitializeComponent();
+            Icon = WikiFunctions.Properties.Resources.AWBIcon;
         }
 
         private void OK_Click(object sender, EventArgs e)
