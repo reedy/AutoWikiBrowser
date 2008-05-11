@@ -102,9 +102,9 @@ namespace AutoWikiBrowser.Plugins.Delinker
             this.Subdomains.AutoSize = true;
             this.Subdomains.Location = new System.Drawing.Point(15, 72);
             this.Subdomains.Name = "Subdomains";
-            this.Subdomains.Size = new System.Drawing.Size(128, 17);
+            this.Subdomains.Size = new System.Drawing.Size(120, 17);
             this.Subdomains.TabIndex = 6;
-            this.Subdomains.Text = "Including subdomains";
+            this.Subdomains.Text = "Include subdomains";
             this.Subdomains.UseVisualStyleBackColor = true;
             // 
             // comboBox1
