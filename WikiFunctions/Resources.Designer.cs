@@ -89,12 +89,9 @@ namespace WikiFunctions.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Copyright (c) 2008 Martin Richards, Max Semenik, Sam Reed and/or Stephen Kennedy, et al. Please refer to source code headers for author details and copyright claims.
         ///
-        ///This program is free software; you can redistribute it and/or modify
-        ///it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or
-        ///(at your option) any later version.
+        ///This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the license, or (at your option) any later version.
         ///
-        ///This program is distributed in the hope that it will be useful,
-        ///but WITHOUT ANY WARRANTY; without [rest of string was truncated]&quot;;.
+        ///This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without ev [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GPL {
             get {

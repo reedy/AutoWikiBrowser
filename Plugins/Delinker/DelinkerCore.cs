@@ -65,13 +65,8 @@ namespace AutoWikiBrowser.Plugins.Delinker
 
         void ShowSettings(object sender, EventArgs e)
         {
-            using (SettingsForm sf = new SettingsForm())
-            {
-                if (sf.ShowDialog(AWB.Form) == DialogResult.OK)
-                {
-                    GenerateRegexes();
-                }
-            }
+            if (new SettingsForm().ShowDialog(AWB.Form) == DialogResult.OK)
+                GenerateRegexes();
         }
 
         void PluginEnabledCheckedChange(object sender, EventArgs e)
