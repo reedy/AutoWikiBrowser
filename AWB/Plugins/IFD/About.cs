@@ -26,7 +26,7 @@ namespace AutoWikiBrowser.Plugins.IFD
         {
             lblVersion.Text = "Version " + 
                 System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            textBoxDescription.Text = GFDLNotice;
+            textBoxDescription.Text = GPLNotice;
             lnkDownload.Visible = false;
             Text = "IFD Plugin";
         }

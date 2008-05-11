@@ -28,7 +28,7 @@ namespace AutoWikiBrowser.Plugins.CFD
         {
             lblVersion.Text = "Version " + 
                 System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            textBoxDescription.Text = GFDLNotice;
+            textBoxDescription.Text = GPLNotice;
             lnkDownload.Visible = false;
             Text = "CFD Plugin";
         }
