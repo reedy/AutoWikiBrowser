@@ -473,7 +473,10 @@ namespace AutoWikiBrowser
             cModule.ModuleEnabled = p.Module.Enabled;
             cModule.Language = p.Module.Language;
             cModule.Code = p.Module.Code.Replace("\n", "\r\n");
-            if (cModule.ModuleEnabled) cModule.MakeModule();
+            if (cModule.ModuleEnabled)
+                cModule.MakeModule();
+            else
+                cModule.SetModuleNotBuilt();
 
             externalProgram.Settings = p.ExternalProgram;
 
