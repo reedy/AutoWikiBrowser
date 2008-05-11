@@ -42,6 +42,9 @@ namespace AutoWikiBrowser.Plugins.Server
         internal static ToolStripMenuItem ConfigMenuItem = new ToolStripMenuItem("Configuration");
         internal static ToolStripMenuItem AboutMenuItem = new ToolStripMenuItem("About the AWB " + conMe);
 
+        // Settings:
+        internal static Settings ServerSettings = new Settings();
+
         #region IAWBPlugin Members
 
         void IAWBPlugin.Initialise(IAutoWikiBrowser sender)
@@ -57,9 +60,17 @@ namespace AutoWikiBrowser.Plugins.Server
             StatusText.Margin = new Padding(50, 0, 50, 0);
             StatusText.BorderSides = ToolStripStatusLabelBorderSides.Left | ToolStripStatusLabelBorderSides.Right;
             StatusText.BorderStyle = Border3DStyle.Etched;
-
-            AWBForm.HelpToolStripMenuItem.DropDownItems.Add(AboutMenuItem);
             AboutMenuItem.Click += AboutMenuItemClicked;
+
+            EnabledMenuItem.CheckOnClick = true;
+            EnabledMenuItem.CheckedChanged += PluginEnabledCheckedChange;
+
+            ConfigMenuItem.Click += ShowSettings;
+
+            EnabledMenuItem.DropDownItems.Add(ConfigMenuItem);
+            AWBForm.PluginsToolStripMenuItem.DropDownItems.Add(EnabledMenuItem);
+            AWBForm.HelpToolStripMenuItem.DropDownItems.Add(AboutMenuItem);
+            AWBForm.HelpToolStripMenuItem.DropDownItems.Add(AboutMenuItem);
         }
 
         public string Name
@@ -74,7 +85,7 @@ namespace AutoWikiBrowser.Plugins.Server
 
         string IAWBPlugin.ProcessArticle(IAutoWikiBrowser sender, ProcessArticleEventArgs eventargs)
         {
-            return "";
+            return eventargs.ArticleText;
         }
 
         void IAWBPlugin.LoadSettings(object[] prefs)
@@ -101,11 +112,29 @@ namespace AutoWikiBrowser.Plugins.Server
 
         #endregion
 
-        #region UI Event Handlers
+        #region UI Event Handlers and properties
 
         private static void AboutMenuItemClicked(Object sender, EventArgs e)
         {
             new ServerAboutBox().Show();
+        }
+
+        private void ShowSettings(Object sender, EventArgs e)
+        { new ServerOptions().Show(); }
+
+        private bool PluginEnabled
+        {
+            get { return EnabledMenuItem.Checked; }
+            set { EnabledMenuItem.Checked = value; }
+        }
+
+        private void PluginEnabledCheckedChange(Object sender, EventArgs e)
+        {
+            //Settings.Enabled = PluginEnabled;
+            if (PluginEnabled)
+                AWBForm.NotifyBalloon(Name + " enabled", ToolTipIcon.Info);
+            else
+                AWBForm.NotifyBalloon(Name + " disabled", ToolTipIcon.Info);
         }
 
         #endregion

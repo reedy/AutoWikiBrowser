@@ -35,7 +35,6 @@ namespace AutoWikiBrowser.Plugins.Server
 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.ClientSize = new System.Drawing.Size(262, 207);
-            this.Name = "ServerAboutBox";
             this.Text = "AWB Server Plugin";
             this.ResumeLayout(false);
             this.PerformLayout();
