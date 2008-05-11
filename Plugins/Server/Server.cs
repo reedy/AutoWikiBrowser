@@ -42,5 +42,22 @@ namespace AutoWikiBrowser.Plugins.Server
         {
             return ResponseCode + " " + ResponseCode.ToString() + Data;
         }
+
+        /*
+         * When receiving new connection, check if somebody is logged in or not, and if they are
+         * issue a BUSY. Reject all other commands except FORCE LOGIN; if that is received close the
+         * earlier connection *after* the new one is authenticated.
+         * 
+         * When interracting with the command track the state of what command we receive next, and
+         * accept only that command or commands which can be issued at any time (NB: If login is required
+         * VERSION can only be processed *after* authentication).
+         * 
+         * CAN PROBABLY DO SOME OF THIS BY ADDING AND REMOVING HANDLERS DEPENDING ON STATE (vs logic).
+         * 
+         * Store details of current login and the last 5 or 10 connection attempts, and have a pop up
+         * form the user can view.
+         * 
+         * Don't forget to write to the trace listener where applicable.
+        */
     }
 }

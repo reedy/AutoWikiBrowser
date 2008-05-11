@@ -22,6 +22,7 @@ using System.Text;
 using System.Windows.Forms;
 using WikiFunctions;
 using WikiFunctions.Plugin;
+using WikiFunctions.AWBSettings;
 
 [assembly: CLSCompliant(true)]
 namespace AutoWikiBrowser.Plugins.Server
@@ -56,17 +57,20 @@ namespace AutoWikiBrowser.Plugins.Server
             AWBForm = sender;
 
             // Set up our UI objects:
-            AWBForm.StatusStrip.Items.Insert(2, StatusText);
             StatusText.Margin = new Padding(50, 0, 50, 0);
             StatusText.BorderSides = ToolStripStatusLabelBorderSides.Left | ToolStripStatusLabelBorderSides.Right;
             StatusText.BorderStyle = Border3DStyle.Etched;
-            AboutMenuItem.Click += AboutMenuItemClicked;
-
+            AWBForm.StatusStrip.ShowItemToolTips = true; // naughty hack in case somebody turns this off in the designer
+            StatusText.ToolTipText = "Double click to view connections";
             EnabledMenuItem.CheckOnClick = true;
-            EnabledMenuItem.CheckedChanged += PluginEnabledCheckedChange;
 
+            // Event handlers:
+            AboutMenuItem.Click += AboutMenuItemClicked;
+            EnabledMenuItem.CheckedChanged += PluginEnabledCheckedChange;
             ConfigMenuItem.Click += ShowSettings;
 
+            // Add our UI objects to the AWB main form:
+            AWBForm.StatusStrip.Items.Insert(2, StatusText);
             EnabledMenuItem.DropDownItems.Add(ConfigMenuItem);
             AWBForm.PluginsToolStripMenuItem.DropDownItems.Add(EnabledMenuItem);
             AWBForm.HelpToolStripMenuItem.DropDownItems.Add(AboutMenuItem);
@@ -74,14 +78,10 @@ namespace AutoWikiBrowser.Plugins.Server
         }
 
         public string Name
-        {
-            get { return "AWB " + conMe; }
-        }
+        { get { return "AWB " + conMe; } }
 
         string IAWBPlugin.WikiName
-        {
-            get { return Name; }
-        }
+        { get { return Name; } }
 
         string IAWBPlugin.ProcessArticle(IAutoWikiBrowser sender, ProcessArticleEventArgs eventargs)
         {
@@ -90,53 +90,61 @@ namespace AutoWikiBrowser.Plugins.Server
 
         void IAWBPlugin.LoadSettings(object[] prefs)
         {
+            if (prefs != null && prefs[0] is PrefsKeyPair)
+            {
+                PrefsKeyPair pref = prefs[0] as PrefsKeyPair;
+                if (pref.Name == "Enabled")
+                    PluginEnabled = (bool)pref.Setting;
+            }
         }
 
         object[] IAWBPlugin.SaveSettings()
-        {
-            return null;
-        }
+        { return new object[] { new PrefsKeyPair("Enabled", PluginEnabled) }; }
 
         void IAWBPlugin.Reset()
-        {            
-        }
+        { EnabledMenuItem.Checked = false; }
 
         void IAWBPlugin.Nudge(out bool Cancel)
-        {
-            Cancel = false;
-        }
+        { Cancel = false; }
 
-        void IAWBPlugin.Nudged(int Nudges)
-        {            
-        }
+        void IAWBPlugin.Nudged(int Nudges) {}
 
         #endregion
 
-        #region UI Event Handlers and properties
-
-        private static void AboutMenuItemClicked(Object sender, EventArgs e)
-        {
-            new ServerAboutBox().Show();
-        }
-
-        private void ShowSettings(Object sender, EventArgs e)
-        { new ServerOptions().Show(); }
-
+        // Properties
         private bool PluginEnabled
         {
             get { return EnabledMenuItem.Checked; }
-            set { EnabledMenuItem.Checked = value; }
+            set
+            {
+                if (value != EnabledMenuItem.Checked) // prevent the event from firing unless there's a change
+                    EnabledMenuItem.Checked = value;
+            }
+        }
+
+        // Event handlers
+        private static void AboutMenuItemClicked(Object sender, EventArgs e)
+        { new ServerAboutBox().Show(); }
+
+        /// <summary>
+        /// Show the settings form; if Server Enabled status changes toggle the menu item which will
+        /// 'fire' the handler.
+        /// </summary>
+        private void ShowSettings(Object sender, EventArgs e)
+        {
+            ServerOptions OptionsForm = new ServerOptions();
+            OptionsForm.ServerEnabled = PluginEnabled;
+            if (OptionsForm.ShowDialog(AWBForm.Form) == DialogResult.OK)
+                PluginEnabled = OptionsForm.ServerEnabled;
         }
 
         private void PluginEnabledCheckedChange(Object sender, EventArgs e)
         {
-            //Settings.Enabled = PluginEnabled;
+            // TODO: Validate settings; start/stop server listening. eg could attach to this event in server object
             if (PluginEnabled)
                 AWBForm.NotifyBalloon(Name + " enabled", ToolTipIcon.Info);
             else
                 AWBForm.NotifyBalloon(Name + " disabled", ToolTipIcon.Info);
         }
-
-        #endregion
     }
 }
