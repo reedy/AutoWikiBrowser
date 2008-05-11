@@ -157,10 +157,7 @@ namespace AutoWikiBrowser.Plugins.IFD
         public void Nudged(int Nudges) { }
 
         private void ShowSettings(Object sender, EventArgs e)
-        {
-            IfdOptions o = new IfdOptions();
-            o.Show();
-        }
+        { new IfdOptions().Show(); }
 
         private bool PluginEnabled
         {
