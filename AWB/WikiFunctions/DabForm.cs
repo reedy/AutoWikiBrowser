@@ -28,7 +28,7 @@ using System.Text.RegularExpressions;
 using WikiFunctions.Disambiguation;
 using System.Web;
 
-namespace AutoWikiBrowser
+namespace WikiFunctions.Disambiguation
 {
     public partial class DabForm : Form
     {
