@@ -139,6 +139,8 @@ namespace AutoWikiBrowser
                     if (g != null)
                         Module = (IModule)Activator.CreateInstance(t);
                 }
+
+                lblBuilt.Text = "Custom Module Built At: " + DateTime.Now;
             }
             catch (Exception ex)
             {
