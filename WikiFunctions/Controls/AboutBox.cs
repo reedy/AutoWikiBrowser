@@ -41,7 +41,7 @@ namespace WikiFunctions.Controls
         protected virtual void Initialise()
         {
             lblVersion.Text = "Version " + Tools.VersionString;
-            textBoxDescription.Text = GFDLNotice;  
+            textBoxDescription.Text = GPLNotice;  
         }
 
         protected virtual void okButton_Click(object sender, EventArgs e)
@@ -65,8 +65,8 @@ namespace WikiFunctions.Controls
             /// <summary>
             /// Returns a GFDL authors and copyright notice for use within AWB projects
             /// </summary>
-            public static string GFDLNotice
-            { get { return Properties.Resources.GFDL; } }
+            public static string GPLNotice
+            { get { return Properties.Resources.GPL; } }
 
             /// <summary>
             /// Extracts an assembly description (usually created by Visual Studio?)
@@ -95,7 +95,7 @@ namespace WikiFunctions.Controls
             }
 
             public static string GetDetailedMessage(Assembly Ass)
-            { return AssemblyDescription(Ass) + System.Environment.NewLine + System.Environment.NewLine + GFDLNotice; }
+            { return AssemblyDescription(Ass) + System.Environment.NewLine + System.Environment.NewLine + GPLNotice; }
         #endregion
     }
 }
