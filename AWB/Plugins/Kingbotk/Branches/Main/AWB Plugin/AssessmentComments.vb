@@ -1,4 +1,4 @@
-Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
+Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
     Friend NotInheritable Class AssessmentComments
 
         Private mTalkTitle As String, mClss As Classification, mNeedsInfobox As Boolean, mNeedsPhoto As Boolean

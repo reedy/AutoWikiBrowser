@@ -1,4 +1,4 @@
-Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
+Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
     ' TODO: There's a great deal of common code used in these controls which could be inherited if I can work out how to inherit from and use a custom user control
     Friend NotInheritable Class WPSongsSettings
         Implements IGenericSettings

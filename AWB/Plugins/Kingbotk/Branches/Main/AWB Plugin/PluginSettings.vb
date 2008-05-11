@@ -1,4 +1,4 @@
-Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
+Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
     Friend NotInheritable Class PluginSettingsControl
         Private WithEvents LivingPeopleToolStripMenuItem As New ToolStripMenuItem("Living people")
 

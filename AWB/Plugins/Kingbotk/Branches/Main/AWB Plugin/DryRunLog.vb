@@ -1,7 +1,7 @@
 Imports System.IO
 Imports System.Text.encoding
 
-Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
+Namespace AutoWikiBrowser.Plugins.Kingbotk
     Friend NotInheritable Class DryRunLog
         ' If there comes a request to log more info in the dry run, this could maybe implement IMyTraceListener.
         ' I think for now though this solution is perfectly adequate.

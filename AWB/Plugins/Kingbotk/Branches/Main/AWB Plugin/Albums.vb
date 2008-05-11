@@ -1,4 +1,4 @@
-Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
+Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
     Friend NotInheritable Class WPAlbumsSettings
         Implements IGenericSettings
 

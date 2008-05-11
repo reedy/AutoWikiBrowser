@@ -55,10 +55,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Import Include="AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk" />
-    <Import Include="AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components" />
-    <Import Include="AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments" />
-    <Import Include="AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins" />
+    <Import Include="AutoWikiBrowser.Plugins.Kingbotk" />
+    <Import Include="AutoWikiBrowser.Plugins.Kingbotk.Components" />
+    <Import Include="AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments" />
+    <Import Include="AutoWikiBrowser.Plugins.Kingbotk.Plugins" />
     <Import Include="My" />
     <Import Include="System" />
     <Import Include="System.Collections" />

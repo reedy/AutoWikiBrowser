@@ -1,4 +1,4 @@
-Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
+Namespace AutoWikiBrowser.Plugins.Kingbotk
     Friend Enum SkipResults As Integer
         NotSet = -1
         'Processed = 0

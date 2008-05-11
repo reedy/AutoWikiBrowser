@@ -1,4 +1,4 @@
-﻿Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
+﻿Namespace AutoWikiBrowser.Plugins.Kingbotk
     Partial Class PluginBase
         ' Redirects:
         ' SPACES SHOULD BE WRITTEN TO XML AND IN THE GENERIC TL ALTERNATE NAME TEXT BOX AS SPACES ONLY
@@ -192,7 +192,7 @@
     End Class
 End Namespace
 
-Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
+Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
     Partial Class GenericTemplatePlugin
         ''' <summary>
         ''' This is called when the contents of TemplateNameTextBox or AlternateNamesTextBox changes, or when HasAlternateNamesCheckBox is (un)checked

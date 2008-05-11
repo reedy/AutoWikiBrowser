@@ -1,4 +1,4 @@
-﻿Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
+﻿Namespace AutoWikiBrowser.Plugins.Kingbotk
     ''' <summary>
     ''' An object which wraps around a collection of template parameters
     ''' </summary>

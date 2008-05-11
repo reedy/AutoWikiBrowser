@@ -1,4 +1,4 @@
-Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
+Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
     <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
     Partial Class AssessmentForm
         Inherits System.Windows.Forms.Form

@@ -1,5 +1,5 @@
 ' By Reedy Boy, based on the Australia plugin
-Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
+Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
     Friend NotInheritable Class WPIndiaSettings
         Implements IGenericSettings
 

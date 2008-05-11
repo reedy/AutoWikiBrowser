@@ -1,4 +1,4 @@
-Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
+Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
     <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
     Partial Class WPMilHistSettings
         Inherits System.Windows.Forms.UserControl
