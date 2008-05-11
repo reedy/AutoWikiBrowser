@@ -17,16 +17,16 @@ namespace AutoWikiBrowser.Plugins.Delinker
 
         private void OK_Click(object sender, EventArgs e)
         {
-            DelinkerPlugin.Skip = Skip.Checked;
-            DelinkerPlugin.Link = Link.Text;
-            DelinkerPlugin.RemoveEmptiedSections = RemoveSections.Checked;
+            DelinkerAWBPlugin.Skip = Skip.Checked;
+            DelinkerAWBPlugin.Link = Link.Text;
+            DelinkerAWBPlugin.RemoveEmptiedSections = RemoveSections.Checked;
         }
 
         private void SettingsForm_Load(object sender, EventArgs e)
         {
-            Link.Text = DelinkerPlugin.Link;
-            Skip.Checked = DelinkerPlugin.Skip;
-            RemoveSections.Checked = DelinkerPlugin.RemoveEmptiedSections;
+            Link.Text = DelinkerAWBPlugin.Link;
+            Skip.Checked = DelinkerAWBPlugin.Skip;
+            RemoveSections.Checked = DelinkerAWBPlugin.RemoveEmptiedSections;
         }
     }
 }
