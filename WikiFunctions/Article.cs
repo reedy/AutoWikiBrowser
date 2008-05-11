@@ -573,7 +573,7 @@ namespace WikiFunctions
             bool skipIfNoChange)
         {
             bool noChange;
-            AutoWikiBrowser.DabForm df = new AutoWikiBrowser.DabForm();
+            WikiFunctions.Disambiguation.DabForm df = new WikiFunctions.Disambiguation.DabForm();
             string strTemp = df.Disambiguate(mArticleText, mName, dabLinkText,
                 dabVariantsLines, Context, botMode, out noChange);
 

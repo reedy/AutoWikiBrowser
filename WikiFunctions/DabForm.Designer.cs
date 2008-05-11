@@ -1,4 +1,4 @@
-namespace AutoWikiBrowser
+namespace WikiFunctions.Disambiguation
 {
     partial class DabForm
     {
