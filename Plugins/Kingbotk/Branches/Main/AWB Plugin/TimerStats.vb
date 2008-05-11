@@ -1,4 +1,4 @@
-Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
+Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
     Friend NotInheritable Class TimerStats
         Private WithEvents webcontrol As WikiFunctions.Browser.WebControl
         Private WithEvents mStats As PluginSettingsControl.Stats

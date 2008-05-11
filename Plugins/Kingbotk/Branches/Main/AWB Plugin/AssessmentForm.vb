@@ -1,6 +1,6 @@
 Imports System.Windows.Forms
 
-Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
+Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
     Friend NotInheritable Class AssessmentForm
 
         Friend Shared Sub AllowOnlyOneCheckedItem(ByVal sender As Object, ByVal e As ItemCheckEventArgs) _

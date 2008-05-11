@@ -1,4 +1,4 @@
-Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
+Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
     <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
    Partial Class PluginSettingsControl
         Inherits System.Windows.Forms.UserControl
@@ -99,7 +99,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
             Me.NAPriorityMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.BotTimer = New System.Windows.Forms.Timer(Me.components)
             Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
-            Me.TimerStats1 = New AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.TimerStats
+            Me.TimerStats1 = New AutoWikiBrowser.Plugins.Kingbotk.Components.TimerStats
             Me.OpenBadInBrowserCheckBox = New System.Windows.Forms.CheckBox
             Me.AWBGroupBox.SuspendLayout()
             Me.GroupBox2.SuspendLayout()
@@ -867,7 +867,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
         Friend WithEvents MenuAbout As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents MenuHelp As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents Led1 As WikiFunctions.Controls.LED
-        Friend WithEvents TimerStats1 As AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components.TimerStats
+        Friend WithEvents TimerStats1 As AutoWikiBrowser.Plugins.Kingbotk.Components.TimerStats
         Friend WithEvents TextInsertContextMenuStrip As System.Windows.Forms.ContextMenuStrip
         Friend WithEvents MenuHelpReleaseNotes As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents Label7 As System.Windows.Forms.Label

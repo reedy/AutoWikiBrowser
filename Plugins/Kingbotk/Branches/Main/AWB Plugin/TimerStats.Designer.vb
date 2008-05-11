@@ -1,4 +1,4 @@
-Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
+Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
     <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
     Partial Class TimerStats
         Inherits System.Windows.Forms.UserControl

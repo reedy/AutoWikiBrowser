@@ -1,4 +1,4 @@
-Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Components
+Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
     ''' <summary>
     ''' A form which displays the configuration properties of a "generic template"
     ''' </summary>

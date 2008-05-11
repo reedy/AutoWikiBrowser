@@ -1,5 +1,5 @@
 ' Manual assessment:
-Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
+Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
     Friend NotInheritable Class Assessments
         Implements IDisposable
 

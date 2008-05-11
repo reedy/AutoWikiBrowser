@@ -1,4 +1,4 @@
-Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
+Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
     Friend NotInheritable Class GenericTemplateSettings
         Implements IGenericSettings
 
@@ -661,7 +661,7 @@ Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.Plugins
     End Class
 End Namespace
 
-Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
+Namespace AutoWikiBrowser.Plugins.Kingbotk
     Friend Interface IGenericTemplatePlugin
         Sub Goodbye()
         ReadOnly Property GenericTemplateKey() As String

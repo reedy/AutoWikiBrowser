@@ -1,6 +1,6 @@
 Imports System.Windows.Forms
 
-Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk.ManualAssessments
+Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
     Friend NotInheritable Class AssessmentsInstructionsDialog
         Private Sub OK_Button_Click(ByVal sender As Object, ByVal e As EventArgs) Handles OK_Button.Click
             If CheckBox1.Checked _

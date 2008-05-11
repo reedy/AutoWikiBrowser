@@ -1,4 +1,4 @@
-﻿Namespace AutoWikiBrowser.Plugins.SDKSoftware.Kingbotk
+﻿Namespace AutoWikiBrowser.Plugins.Kingbotk
     Partial Class Article
         ' Enum:
         Private Enum BannerShellsEnum
