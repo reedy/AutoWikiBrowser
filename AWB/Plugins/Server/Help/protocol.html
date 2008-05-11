@@ -13,7 +13,7 @@
 <p>This document was prepared on 10 May 2008 and covers protocol version 0.1.</p>
 <hr />
 
-<h1><a name="Handshake">Handshake and authentication</a></h1>
+<h1><a name="Handshake"></a>Handshake and authentication</h1>
 <p>Upon receiving a connection the server replies <a href="#200" class="prot">200 HELLO</a> if it is able to accept a connection or <a href="#500" class="prot">500 BUSY</a> if not (only one authenticated client connection is allowed at a time in order to keep things simple). Upon receipt of <a href="#200" class="prot">200 HELLO</a> the client <i>must</i> reply <a href="#HELLO" class="prot">HELLO</a>.</p>
 <p>Once <a href="#HELLO" class="prot">HELLO</a> has been received the server issues a <a href="#201" class="prot">201 REQUIRE CLIENT</a> challenge; the client <i>must</i> respond by sending <a href="#CLIENT" class="prot">CLIENT</a> and <a href="#VERSION" class="prot">VERSION</a> data.</p>
 <p>If authentication and/or <a href="#crypt">encryption</a> is required, the server will then issue one or more <a href="#201" class="prot">201 REQUIRE</a> challenges. </p>
@@ -55,75 +55,78 @@
 <br/>&gt; 111 CURRENT Talk:Brian May
 <br/>&gt; 120 LISTLENGTH 243
 <br/>&lt; BYE
-<br/>&gt; 210 See ya
+<br/>&gt; 210 BYE See ya
 </p></div>
 
 <h1>Commands</h1>
 <dl>
-	<dt><a name="BYE" class="prot">BYE</a></dt>
+	<dt><a name="BYE" class="prot"></a>BYE</dt>
 	<dd>Tells the server to end the session.</dd>
 
-	<dt><a name="CLIENT" class="prot">CLIENT &lt;name&gt;</a></dt>
+	<dt><a name="CLIENT" class="prot"></a>CLIENT &lt;name&gt;</dt>
 	<dd>Tells the server the name of the client product (e.g. <i>AWB Windows Mobile 6 Client</i>).</dd>
 
-	<dt><a name="OK" class="prot">FORCE</a></dt>
+	<dt><a name="OK" class="prot"></a>FORCE</dt>
 	<dd><span class="prot">FORCE LOGIN</span>: If (and only if) the server greeted the client with <a href="#500" class="prot">500 BUSY</a>, the client may tell the server that it wishes to forceably login and disconnect the currently logged in user/session. <a href="#Handshake">Handshaking</a> will continue as normal.</dd>
 
-	<dt><a name="HELLO" class="prot">HELLO</a></dt>
+	<dt><a name="HELLO" class="prot"></a>HELLO</dt>
 	<dd>Initiates the <a href="#Handshake">handshake</a>.</dd>
 
-	<dt><a name="PASS" class="prot">PASS &lt;password&gt;</a></dt>
+	<dt><a name="PASS" class="prot"></a>PASS &lt;password&gt;</dt>
 	<dd>Login with &lt;password&gt;.</dd>
 
-	<dt><a name="PROTOCOL" class="prot">PROTOCOL &lt;version&gt;</a></dt>
+	<dt><a name="PROTOCOL" class="prot"></a>PROTOCOL &lt;version&gt;</dt>
 	<dd>Informs the server that the clients support a maximum protocol version of &lt;version&gt;. After receiving the PROTOCOL command the server responds with <a href="#260" class="prot">260 PROTOCOL</a>.</dd>
 
-	<dt><a name="USER" class="prot">USER &lt;username&gt;</a></dt>
+	<dt><a name="USER" class="prot"></a>USER &lt;username&gt;</dt>
 	<dd>Login with &lt;username&gt;.</dd>
 
-	<dt><a name="VERSION" class="prot">VERSION &lt;version&gt;</a></dt>
+	<dt><a name="VERSION" class="prot"></a>VERSION &lt;version&gt;</dt>
 	<dd>Tells the server the version of the client product (e.g. <i>1.0.0.0</i>).</dd>
 </dl>
 
 <h1>Server response codes</h1>
 <dl>
-	<dt class="awb"><a name="200" class="prot">200 HELLO</a></dt>
+	<dt class="awb"><a name="200" class="prot"></a>200 HELLO</dt>
 	<dd>The server is ready to accept a connection. See "<a href="#Handshake">Handshake</a>" for more information.</dd>
 
-	<dt><a name="201" class="prot">201 REQUIRE</a></dt>
+	<dt><a name="201" class="prot"></a>201 REQUIRE</dt>
 	<dd><span class="prot">REQUIRE CLIENT</span>: The client is required to identify itself by sending <a href="#CLIENT" class="prot">CLIENT</a> and <a href="#VERSION" class="prot">VERSION</a> data.
 	<br/><span class="prot">REQUIRE KEY</span>: The client must send it's public key. See "<a href="#crypt">Encryption</a>".
 	<br/><span class="prot">REQUIRE LOGIN</span>: The client must login by sending <a href="#USER" class="prot">USER</a> and <a href="#PASS" class="prot">PASS</a>.
 	<br/><span class="prot">REQUIRE PROTOCOL</span>: The client is required to inform the server of the highest protocol version it supports (<a href="#PROTOCOL" class="prot">PROTOCOL</a>).</dd>
 
-	<dt><a name="210" class="prot">210 &lt;message&gt;</a></dt>
+	<dt><a name="210" class="prot"></a>210 BYE &lt;message&gt;</dt>
 	<dd>The server is ending the session in response to a <a href="#BYE">BYE</a> command.</dd>
 
-	<dt><a name="250" class="prot">250 OK</a></dt>
+	<dt><a name="250" class="prot"></a>250 OK</dt>
 	<dd>The request or data sent by the client was received and processed by the server without error.</dd>
 
-	<dt><a name="260" class="prot">260 PROTOCOL &lt;version&gt;</a></dt>
+	<dt><a name="260" class="prot"></a>260 PROTOCOL &lt;version&gt;</dt>
 	<dd>The protocol &lt;version&gt; that will be used during the session.</dd>
 
-	<dt><a name="270" class="prot">270 READY AutoWikiBrowser/&lt;AWB version&gt;/&lt;Server software&gt;/&lt;Server version&gt;</a></dt>
+	<dt><a name="270" class="prot"></a>270 READY AutoWikiBrowser/&lt;AWB version&gt;/&lt;Server software&gt;/&lt;Server version&gt;</dt>
 	<dd><a href="#Handshake">Handshaking</a> and authentication is complete and the client is free to issue commands to the server.</dd>
 
-	<dt><a name="500" class="prot">500 BUSY</a></dt>
+	<dt><a name="500" class="prot"></a>500 BUSY</dt>
 	<dd>A user is already logged into the server. To force their disconnection the client may send a <a href="#FORCE" class="prot">FORCE LOGIN</a> command. Otherwise, the client should <a href="#discon">end the connection</a> by disconnecting or sending <a href="#FORCE" class="prot">BYE</a>.</dd>
 
-	<dt><a name="501" class="prot">501 &lt;reason&gt;</a></dt>
+	<dt><a name="501" class="prot"></a>501 REJECTED &lt;reason&gt;</dt>
 	<dd>The command failed or could not be accepted because of &lt;reason&gt;.</dd>
 
-	<dt><a name="502" class="prot">502 BYE &lt;message&gt;</a></dt>
+	<dt><a name="502" class="prot"></a>502 UNAUTHORISED &lt;reason&gt;</dt>
+	<dd>The username and/or password supplied is invalid.</dd>
+
+	<dt><a name="510" class="prot"></a>510 DISCON &lt;message&gt;</dt>
 	<dd>The server is unilaterally ending the session.</dd>
 </dl>
 
-<h1><a name="discon">Ending the session</a></h1>
+<h1><a name="discon"></a>Ending the session</h1>
 <p>The client may simply disconnect by closing the TCP/IP connection although it is preferred for the client to send <a href="#FORCE" class="prot">BYE</a>.</p>
 
 <hr />
 
-<h1><a name="crypt">Encryption</a></h1>
+<h1><a name="crypt"></a>Encryption</h1>
 (KEY both ways)
 
 <hr />
