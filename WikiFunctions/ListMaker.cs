@@ -594,8 +594,10 @@ namespace WikiFunctions.Controls.Lists
             }
 
             Saved = false;
-            s = Tools.TurnFirstToUpper(s);
-            Article a = new Article(Tools.RemoveSyntax(s));
+            if (s.Contains("#"))
+                s = s.Substring(0, s.IndexOf('#'));
+
+            Article a = new Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(s)));
             lbArticles.Items.Add(a);
             UpdateNumberOfArticles();
             if (FilterNonMainAuto)
