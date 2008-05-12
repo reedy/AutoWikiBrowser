@@ -50,7 +50,6 @@ using System.Security.Permissions;
 using WikiFunctions.Controls.Lists;
 using AutoWikiBrowser.Plugins;
 
-[assembly: CLSCompliant(true)]
 namespace AutoWikiBrowser
 {
     [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]

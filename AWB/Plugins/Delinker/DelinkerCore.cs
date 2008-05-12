@@ -8,7 +8,6 @@ using System.Windows.Forms;
 using WikiFunctions.AWBSettings;
 using WikiFunctions.Parse;
 
-[assembly: CLSCompliant(true)]
 namespace AutoWikiBrowser.Plugins.Delinker
 {
     public class DelinkerAWBPlugin : IAWBPlugin

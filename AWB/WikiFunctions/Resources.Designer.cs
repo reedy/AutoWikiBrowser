@@ -72,7 +72,7 @@ namespace WikiFunctions.Properties {
                 return ResourceManager.GetStream("beep1", resourceCulture);
             }
         }
-        
+
         public static System.IO.UnmanagedMemoryStream beep2 {
             get {
                 return ResourceManager.GetStream("beep2", resourceCulture);

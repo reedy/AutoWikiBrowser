@@ -32,7 +32,6 @@ using ICSharpCode.SharpZipLib.Zip;
 using System.Text.RegularExpressions;
 using System.Net;
 
-[assembly: CLSCompliant(true)]
 namespace AwbUpdater
 {
     internal sealed partial class Updater : Form
