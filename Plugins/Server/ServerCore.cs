@@ -57,7 +57,7 @@ namespace AutoWikiBrowser.Plugins.Server
             AWBForm = sender;
 
             // Set up our UI objects:
-            StatusText.Margin = new Padding(50, 0, 50, 0);
+            StatusText.Margin = new Padding(10, 0, 10, 0);
             StatusText.BorderSides = ToolStripStatusLabelBorderSides.Left | ToolStripStatusLabelBorderSides.Right;
             StatusText.BorderStyle = Border3DStyle.Etched;
             AWBForm.StatusStrip.ShowItemToolTips = true; // naughty hack in case somebody turns this off in the designer
@@ -75,6 +75,9 @@ namespace AutoWikiBrowser.Plugins.Server
             AWBForm.PluginsToolStripMenuItem.DropDownItems.Add(EnabledMenuItem);
             AWBForm.HelpToolStripMenuItem.DropDownItems.Add(AboutMenuItem);
             AWBForm.HelpToolStripMenuItem.DropDownItems.Add(AboutMenuItem);
+
+            // HACK:
+            Server.Init(22);//49155);
         }
 
         public string Name
@@ -142,9 +145,13 @@ namespace AutoWikiBrowser.Plugins.Server
         {
             // TODO: Validate settings; start/stop server listening. eg could attach to this event in server object
             if (PluginEnabled)
+            {
                 AWBForm.NotifyBalloon(Name + " enabled", ToolTipIcon.Info);
+            }
             else
+            {
                 AWBForm.NotifyBalloon(Name + " disabled", ToolTipIcon.Info);
+            }
         }
     }
 }
