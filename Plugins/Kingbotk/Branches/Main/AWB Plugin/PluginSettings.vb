@@ -162,7 +162,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
                 .SkipNonExistentPagesCheckBox.Checked = False
                 .ApplyGeneralFixesCheckBox.Checked = False
                 .AutoTagCheckBox.Checked = False
-                If .EditSummary.Text = "clean up" Then .EditSummary.Text = ""
+                If .EditSummaryComboBox.Text = "clean up" Then .EditSummaryComboBox.Text = ""
             End With
         End Sub
         Private Sub LivingPeopleToolStripMenuItemClick(ByVal sender As Object, ByVal e As EventArgs)
