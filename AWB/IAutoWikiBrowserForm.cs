@@ -49,8 +49,5 @@ namespace AutoWikiBrowser
         WikiFunctions.Controls.Lists.ListMaker IAutoWikiBrowserForm.ListMaker { get { return listMaker1; } }
         WikiFunctions.Browser.WebControl IAutoWikiBrowserForm.WebControl { get { return webBrowserEdit; } }
         ContextMenuStrip IAutoWikiBrowserForm.EditBoxContextMenu { get { return mnuTextBox; } }
-
-        [ObsoleteAttribute]
-        TabControl IAutoWikiBrowserForm.Tab { get { throw new NotImplementedException("Please use IAutoWikiBrowserTabs"); } }
     }
 }

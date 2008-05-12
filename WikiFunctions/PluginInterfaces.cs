@@ -118,7 +118,6 @@ namespace WikiFunctions.Plugin
         WikiFunctions.Controls.Lists.ListMaker ListMaker { get; }
         WikiFunctions.Browser.WebControl WebControl { get; }
         ContextMenuStrip EditBoxContextMenu { get; }
-        TabControl Tab { get; }
 
         /// <summary>
         /// Display a message balloon above AWB's system tray icon
@@ -228,6 +227,9 @@ namespace WikiFunctions.Plugin
         string CustomModule { get; }
 
         event GetLogUploadLocationsEvent GetLogUploadLocations;
+
+        [ObsoleteAttribute]
+        TabControl Tab { get; }
     }
 
     public delegate void GetLogUploadLocationsEvent(IAutoWikiBrowser sender, List<WikiFunctions.Logging.Uploader.LogEntry> locations);

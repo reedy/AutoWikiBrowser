@@ -38,7 +38,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Server.cs" />
+    <Compile Include="Server.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Server.Designer.cs">
+      <DependentUpon>Server.cs</DependentUpon>
+    </Compile>
     <Compile Include="ServerAbout.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -58,6 +63,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Server.resx">
+      <DependentUpon>Server.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="ServerOptions.resx">
       <DependentUpon>ServerOptions.cs</DependentUpon>
       <SubType>Designer</SubType>
