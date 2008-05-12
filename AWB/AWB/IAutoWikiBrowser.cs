@@ -49,5 +49,8 @@ namespace AutoWikiBrowser
             if (GetLogUploadLocations != null)
                 GetLogUploadLocations(this, locations);
         }
+
+        [ObsoleteAttribute]
+        TabControl IAutoWikiBrowser.Tab { get { throw new NotImplementedException("Please use IAutoWikiBrowserTabs"); } }
     }
 }

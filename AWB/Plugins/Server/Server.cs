@@ -19,10 +19,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Data;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace AutoWikiBrowser.Plugins.Server
 {
@@ -40,12 +44,20 @@ namespace AutoWikiBrowser.Plugins.Server
         DISCON = 510
     }
 
-    internal static class Server
+    internal partial class Server : UserControl
     {
+        public Server()
+        { InitializeComponent(); }
+
+        private static Thread thread;
+
         // Management
-        // This sub is from http://www.gnu.org/projects/dotgnu/pnetlib-doc/System/Net/Sockets/Socket.html with modifications
         internal static void Init(int port)
         {
+            //}
+
+            //private static void ThreadEntryPoint()
+            //{ // based on http://www.gnu.org/projects/dotgnu/pnetlib-doc/System/Net/Sockets/Socket.html
             IAsyncResult asyncAccept = null;
 
             try
@@ -71,18 +83,6 @@ namespace AutoWikiBrowser.Plugins.Server
             {
                 throw;
             }
-
-            // could call listenSocket.EndAccept(asyncAccept) here
-            // instead of in the callback method, but since 
-            // EndAccept blocks, the behavior would be similar to 
-            // calling the synchronous Accept method
-
-            //if (writeDot(asyncAccept) == true)
-            //{
-            //    // allow time for callbacks to
-            //    // finish before the program ends 
-            //    Thread.Sleep(3000);
-            //}
         }
 
         internal static void Stop()
@@ -101,24 +101,6 @@ namespace AutoWikiBrowser.Plugins.Server
         }
 
         // Helper routines
-
-        // From http://www.gnu.org/projects/dotgnu/pnetlib-doc/System/Net/Sockets/Socket.html:
-        // times out after 20 seconds but operation continues
-        //private static bool writeDot(IAsyncResult ar)
-        //{
-        //    int i = 0;
-        //    while (ar.IsCompleted == false)
-        //    {
-        //        if (i++ > 40)
-        //        {
-        //            Console.WriteLine("Timed out.");
-        //            return false;
-        //        }
-        //        Console.Write(".");
-        //        Thread.Sleep(500);
-        //    }
-        //    return true;
-        //}
 
         /*
          * When receiving new connection, check if somebody is logged in or not, and if they are

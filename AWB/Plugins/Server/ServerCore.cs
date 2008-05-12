@@ -42,6 +42,10 @@ namespace AutoWikiBrowser.Plugins.Server
         internal static ToolStripMenuItem ConfigMenuItem = new ToolStripMenuItem("Configuration");
         internal static ToolStripMenuItem AboutMenuItem = new ToolStripMenuItem("About the AWB " + conMe);
 
+        // Tab page:
+        internal static TabPage ServerPluginTabPage = new TabPage("Server");
+        private static Server ServerUserControl;
+
         // Settings:
         internal static Settings ServerSettings = new Settings();
 
@@ -55,18 +59,25 @@ namespace AutoWikiBrowser.Plugins.Server
             // Store AWB object reference:
             AWBForm = sender;
 
+            // Initialise our settings object:
+            ServerUserControl = new Server();
+
             // Set up our UI objects:
+            StatusText.Visible = false;
             StatusText.Margin = new Padding(10, 0, 10, 0);
             StatusText.BorderSides = ToolStripStatusLabelBorderSides.Left | ToolStripStatusLabelBorderSides.Right;
             StatusText.BorderStyle = Border3DStyle.Etched;
-            AWBForm.StatusStrip.ShowItemToolTips = true; // naughty hack in case somebody turns this off in the designer
-            StatusText.ToolTipText = "Double click to view connections";
+            //AWBForm.StatusStrip.ShowItemToolTips = true; // naughty hack in case somebody turns this off in the designer
             EnabledMenuItem.CheckOnClick = true;
+            ServerPluginTabPage.UseVisualStyleBackColor = true;
+            ServerPluginTabPage.Controls.Add(ServerUserControl);
 
             // Event handlers:
             AboutMenuItem.Click += AboutMenuItemClicked;
             EnabledMenuItem.CheckedChanged += PluginEnabledCheckedChange;
             ConfigMenuItem.Click += ShowSettings;
+            ServerUserControl.HideButton.Click += HideButton_Click;
+            ServerUserControl.SettingsButton.Click += ShowSettings;
 
             // Add our UI objects to the AWB main form:
             AWBForm.StatusStrip.Items.Insert(2, StatusText);
@@ -74,9 +85,6 @@ namespace AutoWikiBrowser.Plugins.Server
             AWBForm.PluginsToolStripMenuItem.DropDownItems.Add(EnabledMenuItem);
             AWBForm.HelpToolStripMenuItem.DropDownItems.Add(AboutMenuItem);
             AWBForm.HelpToolStripMenuItem.DropDownItems.Add(AboutMenuItem);
-
-            // HACK:
-            Server.Init(22);//49155);
         }
 
         public string Name
@@ -143,14 +151,24 @@ namespace AutoWikiBrowser.Plugins.Server
         private void PluginEnabledCheckedChange(Object sender, EventArgs e)
         {
             // TODO: Validate settings; start/stop server listening. eg could attach to this event in server object
+            StatusText.Visible = PluginEnabled;
+
             if (PluginEnabled)
             {
                 AWBForm.NotifyBalloon(Name + " enabled", ToolTipIcon.Info);
+                AWBForm.AddTabPage(ServerPluginTabPage);
+
+                // HACK:
+                Server.Init(22);//49155);
             }
             else
             {
                 AWBForm.NotifyBalloon(Name + " disabled", ToolTipIcon.Info);
+                AWBForm.RemoveTabPage(ServerPluginTabPage);
             }
         }
+
+        private static void HideButton_Click(object sender, EventArgs e)
+        { AWBForm.RemoveTabPage(ServerPluginTabPage); }
     }
 }
