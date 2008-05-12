@@ -907,8 +907,8 @@ namespace AutoWikiBrowser
             listMaker1.Remove(TheArticle);
             NudgeTimer.Stop();
             sameArticleNudges = 0;
-            if (tabControl2.SelectedTab == tpHistory)
-                tabControl2.SelectedTab = tpEdit;
+            if (EditBoxTab.SelectedTab == tpHistory)
+                EditBoxTab.SelectedTab = tpEdit;
             LogControl1.AddLog(false, TheArticle.LogListener);
 
             if (listMaker1.Count == 0 && AutoSaveEditBoxEnabled)
@@ -1299,7 +1299,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         {
             try
             {
-                tabControl2.SelectedTab = tpEdit;
+                EditBoxTab.SelectedTab = tpEdit;
                 txtEdit.Select();
                 if (destLine < 0) return;
 
@@ -1335,20 +1335,20 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             {
                 btntsShowHideParameters.Image = Resources.Showhideparameters2;
 
-                oldPosition = tabControl2.Location; ;
-                tabControl2.Location = new Point(groupBox2.Location.X, groupBox2.Location.Y - 5);
+                oldPosition = EditBoxTab.Location; ;
+                EditBoxTab.Location = new Point(groupBox2.Location.X, groupBox2.Location.Y - 5);
 
-                oldSize = tabControl2.Size;
-                tabControl2.Size = new Size((tabControl2.Size.Width + tabControl1.Size.Width + groupBox2.Size.Width + 8), tabControl2.Size.Height);
+                oldSize = EditBoxTab.Size;
+                EditBoxTab.Size = new Size((EditBoxTab.Size.Width + MainTab.Size.Width + groupBox2.Size.Width + 8), EditBoxTab.Size.Height);
             }
             else
             {
                 btntsShowHideParameters.Image = Resources.Showhideparameters;
 
-                tabControl2.Location = oldPosition;
-                tabControl2.Size = oldSize;
+                EditBoxTab.Location = oldPosition;
+                EditBoxTab.Size = oldSize;
             }
-            groupBox2.Visible = tabControl1.Visible = !groupBox2.Visible;
+            groupBox2.Visible = MainTab.Visible = !groupBox2.Visible;
         }
 
         private void UpdateUserName(object sender, EventArgs e)
@@ -1764,7 +1764,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void lbDuplicateWikilinks_Click(object sender, EventArgs e)
         {
-            tabControl2.SelectedTab = tpEdit;
+            EditBoxTab.SelectedTab = tpEdit;
             int selection = lbDuplicateWikilinks.SelectedIndex;
             if (selection != oldselection)
                 Find.ResetFind();
@@ -1813,7 +1813,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void btnFind_Click(object sender, EventArgs e)
         {
-            tabControl2.SelectedTab = tpEdit;
+            EditBoxTab.SelectedTab = tpEdit;
             Find.Find1(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked, txtEdit, TheArticle.Name);
         }
 
@@ -3191,7 +3191,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void btnRemove_Click(object sender, EventArgs e)
         {
-            tabControl2.SelectedTab = tpEdit;
+            EditBoxTab.SelectedTab = tpEdit;
             string selectedtext = txtEdit.SelectedText;
             if (selectedtext.StartsWith("[[") && selectedtext.EndsWith("]]"))
             {
@@ -3429,7 +3429,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         {
             try
             {
-                if (tabControl2.SelectedTab == tpHistory)
+                if (EditBoxTab.SelectedTab == tpHistory)
                 {
                     if (webBrowserHistory.Url != new System.Uri(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName + "&action=history&useskin=myskin") && !string.IsNullOrEmpty(TheArticle.URLEncodedName))
                         webBrowserHistory.Navigate(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName + "&action=history&useskin=myskin");

@@ -274,8 +274,8 @@ namespace AutoWikiBrowser
             this.EditBoxSaveTimer = new System.Windows.Forms.Timer(this.components);
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.listMaker1 = new WikiFunctions.Controls.Lists.ListMaker();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tpSetOptions = new System.Windows.Forms.TabPage();
+            this.MainTab = new System.Windows.Forms.TabControl();
+            this.tpOptions = new System.Windows.Forms.TabPage();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
             this.chkSkipIfNoRegexTypo = new System.Windows.Forms.CheckBox();
             this.chkRegExTypo = new System.Windows.Forms.CheckBox();
@@ -351,7 +351,7 @@ namespace AutoWikiBrowser
             this.lblCats = new System.Windows.Forms.Label();
             this.lblImages = new System.Windows.Forms.Label();
             this.lblLinks = new System.Windows.Forms.Label();
-            this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.EditBoxTab = new System.Windows.Forms.TabControl();
             this.tpEdit = new System.Windows.Forms.TabPage();
             this.tpHistory = new System.Windows.Forms.TabPage();
             this.webBrowserHistory = new System.Windows.Forms.WebBrowser();
@@ -392,8 +392,8 @@ namespace AutoWikiBrowser
             this.toolStrip.SuspendLayout();
             this.mnuNotify.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.tabControl1.SuspendLayout();
-            this.tpSetOptions.SuspendLayout();
+            this.MainTab.SuspendLayout();
+            this.tpOptions.SuspendLayout();
             this.groupBox13.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -418,7 +418,7 @@ namespace AutoWikiBrowser
             this.findGroup.SuspendLayout();
             this.AlertGroup.SuspendLayout();
             this.SummaryGroup.SuspendLayout();
-            this.tabControl2.SuspendLayout();
+            this.EditBoxTab.SuspendLayout();
             this.tpEdit.SuspendLayout();
             this.tpHistory.SuspendLayout();
             this.tpLogs.SuspendLayout();
@@ -2459,36 +2459,36 @@ namespace AutoWikiBrowser
             this.listMaker1.TabIndex = 0;
             this.listMaker1.WikiStatus = false;
             // 
-            // tabControl1
+            // MainTab
             // 
-            this.tabControl1.Controls.Add(this.tpSetOptions);
-            this.tabControl1.Controls.Add(this.tpMoreOptions);
-            this.tabControl1.Controls.Add(this.tpDab);
-            this.tabControl1.Controls.Add(this.tpSkip);
-            this.tabControl1.Controls.Add(this.tpBots);
-            this.tabControl1.Controls.Add(this.tpStart);
-            this.tabControl1.HotTrack = true;
-            this.tabControl1.Location = new System.Drawing.Point(218, 2);
-            this.tabControl1.MaximumSize = new System.Drawing.Size(286, 377);
-            this.tabControl1.MinimumSize = new System.Drawing.Size(286, 377);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(286, 377);
-            this.tabControl1.TabIndex = 1;
-            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
+            this.MainTab.Controls.Add(this.tpOptions);
+            this.MainTab.Controls.Add(this.tpMoreOptions);
+            this.MainTab.Controls.Add(this.tpDab);
+            this.MainTab.Controls.Add(this.tpSkip);
+            this.MainTab.Controls.Add(this.tpBots);
+            this.MainTab.Controls.Add(this.tpStart);
+            this.MainTab.HotTrack = true;
+            this.MainTab.Location = new System.Drawing.Point(218, 2);
+            this.MainTab.MaximumSize = new System.Drawing.Size(286, 377);
+            this.MainTab.MinimumSize = new System.Drawing.Size(286, 377);
+            this.MainTab.Name = "MainTab";
+            this.MainTab.SelectedIndex = 0;
+            this.MainTab.Size = new System.Drawing.Size(286, 377);
+            this.MainTab.TabIndex = 1;
+            this.MainTab.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
-            // tpSetOptions
+            // tpOptions
             // 
-            this.tpSetOptions.Controls.Add(this.groupBox13);
-            this.tpSetOptions.Controls.Add(this.groupBox1);
-            this.tpSetOptions.Controls.Add(this.groupBox6);
-            this.tpSetOptions.Location = new System.Drawing.Point(4, 22);
-            this.tpSetOptions.Name = "tpSetOptions";
-            this.tpSetOptions.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSetOptions.Size = new System.Drawing.Size(278, 351);
-            this.tpSetOptions.TabIndex = 0;
-            this.tpSetOptions.Text = "Options";
-            this.tpSetOptions.UseVisualStyleBackColor = true;
+            this.tpOptions.Controls.Add(this.groupBox13);
+            this.tpOptions.Controls.Add(this.groupBox1);
+            this.tpOptions.Controls.Add(this.groupBox6);
+            this.tpOptions.Location = new System.Drawing.Point(4, 22);
+            this.tpOptions.Name = "tpOptions";
+            this.tpOptions.Padding = new System.Windows.Forms.Padding(3);
+            this.tpOptions.Size = new System.Drawing.Size(278, 351);
+            this.tpOptions.TabIndex = 0;
+            this.tpOptions.Text = "Options";
+            this.tpOptions.UseVisualStyleBackColor = true;
             // 
             // groupBox13
             // 
@@ -3377,22 +3377,22 @@ namespace AutoWikiBrowser
             this.lblLinks.TabIndex = 20;
             this.lblLinks.Text = "Links:";
             // 
-            // tabControl2
+            // EditBoxTab
             // 
-            this.tabControl2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.EditBoxTab.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl2.Controls.Add(this.tpEdit);
-            this.tabControl2.Controls.Add(this.tpHistory);
-            this.tabControl2.Controls.Add(this.tpLogs);
-            this.tabControl2.Controls.Add(this.tpLoggingOptions);
-            this.tabControl2.HotTrack = true;
-            this.tabControl2.Location = new System.Drawing.Point(506, 2);
-            this.tabControl2.Name = "tabControl2";
-            this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(402, 377);
-            this.tabControl2.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
-            this.tabControl2.TabIndex = 2;
-            this.tabControl2.SelectedIndexChanged += new System.EventHandler(this.tabControl2_SelectedIndexChanged);
+            this.EditBoxTab.Controls.Add(this.tpEdit);
+            this.EditBoxTab.Controls.Add(this.tpHistory);
+            this.EditBoxTab.Controls.Add(this.tpLogs);
+            this.EditBoxTab.Controls.Add(this.tpLoggingOptions);
+            this.EditBoxTab.HotTrack = true;
+            this.EditBoxTab.Location = new System.Drawing.Point(506, 2);
+            this.EditBoxTab.Name = "EditBoxTab";
+            this.EditBoxTab.SelectedIndex = 0;
+            this.EditBoxTab.Size = new System.Drawing.Size(402, 377);
+            this.EditBoxTab.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
+            this.EditBoxTab.TabIndex = 2;
+            this.EditBoxTab.SelectedIndexChanged += new System.EventHandler(this.tabControl2_SelectedIndexChanged);
             // 
             // tpEdit
             // 
@@ -3508,9 +3508,9 @@ namespace AutoWikiBrowser
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.Controls.Add(this.tabControl1);
+            this.panel1.Controls.Add(this.MainTab);
             this.panel1.Controls.Add(this.groupBox2);
-            this.panel1.Controls.Add(this.tabControl2);
+            this.panel1.Controls.Add(this.EditBoxTab);
             this.panel1.Location = new System.Drawing.Point(0, 268);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(907, 386);
@@ -3646,8 +3646,8 @@ namespace AutoWikiBrowser
             this.toolStrip.PerformLayout();
             this.mnuNotify.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
-            this.tabControl1.ResumeLayout(false);
-            this.tpSetOptions.ResumeLayout(false);
+            this.MainTab.ResumeLayout(false);
+            this.tpOptions.ResumeLayout(false);
             this.groupBox13.ResumeLayout(false);
             this.groupBox13.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -3689,7 +3689,7 @@ namespace AutoWikiBrowser
             this.AlertGroup.PerformLayout();
             this.SummaryGroup.ResumeLayout(false);
             this.SummaryGroup.PerformLayout();
-            this.tabControl2.ResumeLayout(false);
+            this.EditBoxTab.ResumeLayout(false);
             this.tpEdit.ResumeLayout(false);
             this.tpEdit.PerformLayout();
             this.tpHistory.ResumeLayout(false);
@@ -3843,8 +3843,8 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem saveTextToFileToolStripMenuItem;
         private System.Windows.Forms.GroupBox groupBox2;
         private WikiFunctions.Controls.Lists.ListMaker listMaker1;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tpSetOptions;
+        private System.Windows.Forms.TabControl MainTab;
+        private System.Windows.Forms.TabPage tpOptions;
         private System.Windows.Forms.GroupBox groupBox13;
         private System.Windows.Forms.CheckBox chkSkipIfNoRegexTypo;
         private System.Windows.Forms.LinkLabel linkLabel1;
@@ -3933,7 +3933,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnDiff;
         private System.Windows.Forms.Button btnIgnore;
-        private System.Windows.Forms.TabControl tabControl2;
+        private System.Windows.Forms.TabControl EditBoxTab;
         private System.Windows.Forms.TabPage tpEdit;
         private System.Windows.Forms.TextBox txtEdit;
         private System.Windows.Forms.TabPage tpLogs;
