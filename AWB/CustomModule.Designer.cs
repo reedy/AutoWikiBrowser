@@ -30,7 +30,7 @@ namespace AutoWikiBrowser
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CustomModule));
             this.txtCode = new System.Windows.Forms.TextBox();
-            this.btnDone = new System.Windows.Forms.Button();
+            this.btnClose = new System.Windows.Forms.Button();
             this.btnMake = new System.Windows.Forms.Button();
             this.cmboLang = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -63,16 +63,16 @@ namespace AutoWikiBrowser
             this.txtCode.Text = resources.GetString("txtCode.Text");
             this.txtCode.WordWrap = false;
             // 
-            // btnDone
+            // btnClose
             // 
-            this.btnDone.Enabled = false;
-            this.btnDone.Location = new System.Drawing.Point(577, 30);
-            this.btnDone.Name = "btnDone";
-            this.btnDone.Size = new System.Drawing.Size(75, 23);
-            this.btnDone.TabIndex = 1;
-            this.btnDone.Text = "Done";
-            this.btnDone.UseVisualStyleBackColor = true;
-            this.btnDone.Click += new System.EventHandler(this.btnDone_Click);
+            this.btnClose.Enabled = false;
+            this.btnClose.Location = new System.Drawing.Point(577, 30);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(75, 23);
+            this.btnClose.TabIndex = 1;
+            this.btnClose.Text = "Close";
+            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // btnMake
             // 
@@ -212,7 +212,7 @@ namespace AutoWikiBrowser
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cmboLang);
             this.Controls.Add(this.btnMake);
-            this.Controls.Add(this.btnDone);
+            this.Controls.Add(this.btnClose);
             this.Controls.Add(this.txtCode);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -230,7 +230,7 @@ namespace AutoWikiBrowser
         #endregion
 
         private System.Windows.Forms.TextBox txtCode;
-        private System.Windows.Forms.Button btnDone;
+        private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Button btnMake;
         private System.Windows.Forms.ComboBox cmboLang;
         private System.Windows.Forms.Label label1;
