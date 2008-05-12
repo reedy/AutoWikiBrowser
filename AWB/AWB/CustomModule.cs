@@ -149,7 +149,7 @@ namespace AutoWikiBrowser
             }
         }
 
-        private void btnDone_Click(object sender, EventArgs e)
+        private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
         }
@@ -235,7 +235,7 @@ The int value ""Namespace"" gives you the key of the namespace, e.g. mainspace i
 
         private void chkModuleEnabled_CheckedChanged(object sender, EventArgs e)
         {
-            btnDone.Enabled = btnMake.Enabled = chkModuleEnabled.Checked;
+            btnClose.Enabled = btnMake.Enabled = chkModuleEnabled.Checked;
         }
 
         private void chkFixedwidth_CheckedChanged(object sender, EventArgs e)
