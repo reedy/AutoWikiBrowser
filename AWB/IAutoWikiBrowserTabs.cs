@@ -57,7 +57,11 @@ namespace AutoWikiBrowser
         void IAutoWikiBrowserTabs.HideAllTabPages()
         {
             HiddenTabPages = new List<TabPage>();
-            HiddenTabPages.AddRange((IEnumerable<TabPage>)MainTab.TabPages);
+            // HiddenTabPages.AddRange((IEnumerable<TabPage>)MainTab.TabPages); // why doesn't this work?
+            foreach (TabPage tabp in MainTab.TabPages)
+            {
+                HiddenTabPages.Add(tabp);
+            }
             MainTab.TabPages.Clear();
         }
 
@@ -68,6 +72,7 @@ namespace AutoWikiBrowser
                 if (!HiddenTabPages.Contains(tabp))
                     HiddenTabPages.Add(tabp);
             }
+            MainTab.TabPages.Clear();
 
             AddTabPage(tpOptions);
             AddTabPage(tpMoreOptions);
