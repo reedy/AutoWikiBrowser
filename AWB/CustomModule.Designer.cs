@@ -65,7 +65,6 @@ namespace AutoWikiBrowser
             // 
             // btnClose
             // 
-            this.btnClose.Enabled = false;
             this.btnClose.Location = new System.Drawing.Point(577, 30);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
