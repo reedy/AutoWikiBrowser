@@ -567,8 +567,7 @@ namespace WikiFunctions.Lists
                         title = m.Groups[1].Value;
                         if (!RegexFromFile.IsMatch(title) && (!(title.StartsWith("#"))))
                         {
-                            title = Tools.TurnFirstToUpper(title);
-                            list.Add(new WikiFunctions.Article(title));
+                            list.Add(new WikiFunctions.Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(title))));
                         }
                     }
                 }
@@ -577,8 +576,7 @@ namespace WikiFunctions.Lists
                     foreach (string s in pageText.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries))
                     {
                         if (s.Trim().Length == 0 || !Tools.IsValidTitle(s)) continue;
-                        title = Tools.TurnFirstToUpper(s.Trim());
-                        list.Add(new WikiFunctions.Article(title));
+                        list.Add(new WikiFunctions.Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(s.Trim()))));
                     }
                 }
             }
