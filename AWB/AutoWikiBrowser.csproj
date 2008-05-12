@@ -121,6 +121,15 @@
     <Compile Include="IAutoWikiBrowser.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="IAutoWikiBrowserCommands.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IAutoWikiBrowserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IAutoWikiBrowserInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="LoggingSettings.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -259,6 +268,9 @@
     </Compile>
     <Compile Include="SummaryEditor.Designer.cs">
       <DependentUpon>SummaryEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IAutoWikiBrowserTabs.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="UserSettings.cs">
       <SubType>Form</SubType>

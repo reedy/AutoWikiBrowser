@@ -476,7 +476,7 @@ namespace AutoWikiBrowser
             if (cModule.ModuleEnabled) 
                 cModule.MakeModule();
             else
-                cModule.SetModuleNotBuilt();
+                //cModule.SetModuleNotBuilt();
 
             externalProgram.Settings = p.ExternalProgram;
 

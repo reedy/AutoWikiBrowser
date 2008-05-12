@@ -28,7 +28,7 @@ using WikiFunctions.Logging;
 namespace WikiFunctions.Plugin
 {
     /* Please DO NOT CHANGE without consulting plugin authors, unless moving to a new AWB major version (v5, v6 etc).
-     * This interface is a contract with external plugins. */
+     * This interface is a contract with external plugins. If radical changes are needed, create a new additional i/f. */
     /// <summary>
     /// An interface for plugin components to be recognised by and interract with AWB
     /// </summary>
@@ -69,10 +69,10 @@ namespace WikiFunctions.Plugin
         /// </summary>
         /// <returns>An array of deserialised setting objects belonging to your plugin</returns>
         /// <remarks>Plugin authors have at least 4 ways of saving their settings, by returning an array of:
-       /// 1. Simple, serializable types such as Strings.
-       /// 2. AWBSettings.PrefsKeyPair objects
+       /// 1. Simple, serializable types such as Strings
+       /// 2. AWBSettings.PrefsKeyPair objects (used by the CFD/IFD plugins amongst others)
        /// 3. Custom public classes with each field marked as Serializable
-       /// 4. An XML block converted to a String. (This is what the Kingbotk plugin uses).</remarks>
+       /// 4. An XML block converted to a String (used by the Kingbotk plugin)</remarks>
         object[] SaveSettings();
 
         /// <summary>
@@ -93,24 +93,9 @@ namespace WikiFunctions.Plugin
         void Nudged(int Nudges);
     }
 
-    /* This interface allows plugins to manipulate AWB UI elements. Members can be added without breaking plugins,
-     * since plugins use but don't implement the interface. Removing members is to be avoided if at all possible. */
-    public interface IAutoWikiBrowser
+    public interface IAutoWikiBrowserForm : IAutoWikiBrowserTabs
     {
         Form Form { get; }
-
-        /// <summary>
-        /// Returns a reference to a WikiFunctions.Logging.TraceManager class which handles AWB's logging. This object also implements the IMyTraceListener interface. Plugin authors can use this reference to write to all active loggers, including the AWB Log tab and logfiles.
-        /// </summary>
-        TraceManager TraceManager { get; } // implements IMyTraceListener
-        WikiFunctions.Logging.Uploader.UploadableLogSettings2 LoggingSettings { get; }
-        TabPage MoreOptionsTab { get; }
-        TabPage OptionsTab { get; }
-        TabPage StartTab { get; }
-        TabPage SkipTab { get; }
-        TabPage DabTab { get; }
-        TabPage BotTab { get; }
-        TabPage LoggingTab { get; }
         TextBox EditBox { get; }
         TextBox CategoryTextBox { get; }
         CheckBox BotModeCheckbox { get; }
@@ -120,14 +105,13 @@ namespace WikiFunctions.Plugin
         Button SkipButton { get; }
         Button StartButton { get; }
         Button StopButton { get; }
-        ComboBox EditSummary { get; }
+        ComboBox EditSummaryComboBox { get; }
         StatusStrip StatusStrip { get; }
         NotifyIcon NotifyIcon { get; }
         ToolStripMenuItem HelpToolStripMenuItem { get; }
         CheckBox SkipNonExistentPagesCheckBox { get;  }
         CheckBox ApplyGeneralFixesCheckBox { get; }
         CheckBox AutoTagCheckBox { get; }
-        bool SkipNoChanges { get; set; }
         ToolStripMenuItem PluginsToolStripMenuItem { get; }
         ToolStripMenuItem InsertTagToolStripMenuItem { get; }
         ToolStripMenuItem ToolStripMenuGeneral { get; }
@@ -135,11 +119,32 @@ namespace WikiFunctions.Plugin
         WikiFunctions.Browser.WebControl WebControl { get; }
         ContextMenuStrip EditBoxContextMenu { get; }
         TabControl Tab { get; }
-        WikiFunctions.Parse.FindandReplace FindandReplace { get; }
-        WikiFunctions.SubstTemplates SubstTemplates { get; }
-        ProjectEnum Project { get; }
-        LangCodeEnum LangCode { get; }
-        string CustomModule { get; }
+
+        /// <summary>
+        /// Display a message balloon above AWB's system tray icon
+        /// </summary>
+        /// <param name="Message"></param>
+        /// <param name="Icon"></param>
+        void NotifyBalloon(string Message, ToolTipIcon Icon);
+    }
+
+    public interface IAutoWikiBrowserTabs
+    {
+        TabPage MoreOptionsTab { get; }
+        TabPage OptionsTab { get; }
+        TabPage StartTab { get; }
+        TabPage SkipTab { get; }
+        TabPage DabTab { get; }
+        TabPage BotTab { get; }
+        TabPage LoggingTab { get; }
+        void AddTabPage(TabPage tab);
+        void RemoveTabPage(TabPage tab);
+        void HideAllTabPages();
+        void ShowAllTabPages();
+    }
+
+    public interface IAutoWikiBrowserInfo
+    {
         System.Version AWBVersion { get; }
         System.Version WikiFunctionsVersion { get; }
         string AWBVersionString { get; }
@@ -148,15 +153,23 @@ namespace WikiFunctions.Plugin
         int NumberOfEdits { get; }
         int NumberOfIgnoredEdits { get; }
         int NumberOfEditsPerMinute { get; }
-
-        /// <summary>
-        /// Display a message balloon above AWB's system tray icon
-        /// </summary>
-        /// <param name="Message"></param>
-        /// <param name="Icon"></param>
-        void NotifyBalloon(string Message, ToolTipIcon Icon);
         int Nudges { get; }
+        ProjectEnum Project { get; }
+        LangCodeEnum LangCode { get; }
+        bool CheckStatus(bool Login);
+    }
 
+    public interface IAutoWikiBrowserCommands
+    {
+        void ShowHelp(string URL);
+        void ShowHelpEnWiki(string Article);
+
+        void Start(IAWBPlugin sender);
+        void Start(string sender);
+        void Stop(IAWBPlugin sender);
+        void Stop(string sender);
+        void Save(IAWBPlugin sender);
+        void Save(string sender);
         /// <summary>
         /// Add an article log entry to the AWB Log tab
         /// </summary>
@@ -168,15 +181,6 @@ namespace WikiFunctions.Plugin
         /// Turn off any logging to files
         /// </summary>
         void TurnOffLogging();
-        void ShowHelp(string URL);
-        void ShowHelpEnWiki(string Article);
-
-        void Start(IAWBPlugin sender);
-        void Start(string sender);
-        void Stop(IAWBPlugin sender);
-        void Stop(string sender);
-        void Save(IAWBPlugin sender);
-        void Save(string sender);
 
         /// <summary>
         /// For the purposes of the logging tab, mark the page as Skipped and provide a reason.
@@ -202,8 +206,22 @@ namespace WikiFunctions.Plugin
         void GetDiff(string sender);
         void GetPreview(IAWBPlugin sender);
         void GetPreview(string sender);
+    }
 
-        bool CheckStatus(bool Login);
+    /* This interface allows plugins to manipulate AWB UI elements. Members can be added without breaking plugins,
+     * since plugins use but don't implement the interface. Removing members is to be avoided if at all possible. */
+    public interface IAutoWikiBrowser : IAutoWikiBrowserForm, IAutoWikiBrowserCommands, IAutoWikiBrowserInfo
+    {
+
+        /// <summary>
+        /// Returns a reference to a WikiFunctions.Logging.TraceManager class which handles AWB's logging. This object also implements the IMyTraceListener interface. Plugin authors can use this reference to write to all active loggers, including the AWB Log tab and logfiles.
+        /// </summary>
+        TraceManager TraceManager { get; } // implements IMyTraceListener
+        WikiFunctions.Logging.Uploader.UploadableLogSettings2 LoggingSettings { get; }
+        bool SkipNoChanges { get; set; }
+        WikiFunctions.Parse.FindandReplace FindandReplace { get; }
+        WikiFunctions.SubstTemplates SubstTemplates { get; }
+        string CustomModule { get; }
 
         event GetLogUploadLocationsEvent GetLogUploadLocations;
     }
