@@ -26,7 +26,6 @@ using System.Collections;
 using System.Web;
 using WikiFunctions.Lists;
 
-[assembly: CLSCompliant(true)]
 namespace WikiFunctions.Parse
 {
     /// <summary>

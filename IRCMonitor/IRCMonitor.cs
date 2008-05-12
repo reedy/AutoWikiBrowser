@@ -35,7 +35,6 @@ using System.Net;
 using WikiFunctions.Browser;
 using System.Reflection;
 
-[assembly: CLSCompliant(true)]
 namespace IRCM
 {
     /// <summary>

@@ -24,7 +24,6 @@ using WikiFunctions;
 using WikiFunctions.Plugin;
 using WikiFunctions.AWBSettings;
 
-[assembly: CLSCompliant(true)]
 namespace AutoWikiBrowser.Plugins.Server
 {
     /// <summary>

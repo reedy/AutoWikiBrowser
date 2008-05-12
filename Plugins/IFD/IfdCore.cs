@@ -28,7 +28,6 @@ using WikiFunctions.Parse;
 using WikiFunctions.Lists;
 using WikiFunctions.AWBSettings;
 
-[assembly: CLSCompliant(true)]
 namespace AutoWikiBrowser.Plugins.IFD
 {
     public sealed class IfdAWBPlugin : IAWBPlugin
