@@ -1818,7 +1818,6 @@ namespace AutoWikiBrowser
             this.txtEdit.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.txtEdit.Size = new System.Drawing.Size(394, 315);
             this.txtEdit.TabIndex = 0;
-            this.toolTip1.SetToolTip(this.txtEdit, "Edit the article\'s text in this box");
             this.txtEdit.TextChanged += new System.EventHandler(this.txtEdit_TextChanged);
             // 
             // chkShutdown
