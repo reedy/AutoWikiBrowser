@@ -128,6 +128,9 @@ namespace WikiFunctions.Plugin
         void NotifyBalloon(string Message, ToolTipIcon Icon);
     }
 
+    /// <summary>
+    /// Gives access to the tab pages on the main AWB form
+    /// </summary>
     public interface IAutoWikiBrowserTabs
     {
         TabPage MoreOptionsTab { get; }
@@ -137,10 +140,11 @@ namespace WikiFunctions.Plugin
         TabPage DabTab { get; }
         TabPage BotTab { get; }
         TabPage LoggingTab { get; }
-        void AddTabPage(TabPage tab);
-        void RemoveTabPage(TabPage tab);
+        void AddTabPage(TabPage tabp);
+        void RemoveTabPage(TabPage tabp);
         void HideAllTabPages();
         void ShowAllTabPages();
+        bool ContainsTabPage(TabPage tabp);
     }
 
     public interface IAutoWikiBrowserInfo
