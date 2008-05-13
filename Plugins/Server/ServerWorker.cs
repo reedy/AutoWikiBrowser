@@ -185,7 +185,7 @@ namespace AutoWikiBrowser.Plugins.Server
             /// <param name="sender"></param>
             /// <param name="e"></param>
             private void WaitingForClientResponseDelegate(object sender, SocketAsyncEventArgs e)
-            {
+            { // Called
                 try
                 {
                     GroupCollection captureGroups = ParseReceivedData(e);
@@ -194,6 +194,8 @@ namespace AutoWikiBrowser.Plugins.Server
                         case "HELLO":
                             SendData(ServerResponseCode.OK, "Get the fuck out of Dodge!");
                             break;
+
+                            // TODO: Other commands / rejecting commands we can't accept right now
                     }
                 }
                 catch (AWBServerCommandNotRecognisedException)
@@ -219,6 +221,7 @@ namespace AutoWikiBrowser.Plugins.Server
                 if (m.Success)
                     return m.Groups;
                 else
+                    // TODO: We're getting here when the client has quit and not actually sent anything
                     throw new AWBServerCommandNotRecognisedException();
             }
 
