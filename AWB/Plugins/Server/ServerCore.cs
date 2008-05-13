@@ -44,7 +44,7 @@ namespace AutoWikiBrowser.Plugins.Server
 
         // Tab page:
         internal static TabPage ServerPluginTabPage = new TabPage("Server");
-        private static ServerControl ServerUserControl;
+        internal static ServerControl ServerUserControl;
 
         // Settings:
         internal static Settings ServerSettings = new Settings();
@@ -159,7 +159,7 @@ namespace AutoWikiBrowser.Plugins.Server
                 AWBForm.AddTabPage(ServerPluginTabPage);
 
                 // HACK:
-                ServerControl.Init(49155);
+                ServerControl.Server.Init(49155);
             }
             else
             {

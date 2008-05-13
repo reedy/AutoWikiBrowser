@@ -38,11 +38,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Server.cs" />
+    <Compile Include="Server.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="ServerAbout.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ServerControl.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="ServerControl.designer.cs">
       <DependentUpon>ServerControl.cs</DependentUpon>
