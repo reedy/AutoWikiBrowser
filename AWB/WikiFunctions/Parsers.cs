@@ -369,6 +369,9 @@ namespace WikiFunctions.Parse
 
             ArticleText = Regex.Replace(ArticleText.Trim(), "----+$", "");
 
+            if (ArticleText.Contains("\r\n|\r\n\r\n")) ArticleText = ArticleText.Replace("\r\n|\r\n\r\n", "\r\n|\r\n");
+            if (ArticleText.Contains("\r\n\r\n|")) ArticleText = ArticleText.Replace("\r\n\r\n|", "\r\n|");
+
             return ArticleText.Trim();
         }
 
@@ -436,6 +439,9 @@ namespace WikiFunctions.Parse
         readonly Regex SyntaxRegexItalic = new Regex("<i>(.*?)</i>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex SyntaxRegexBold = new Regex("<b>(.*?)</b>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
+        // Matches <p> tags only if current line does not start from ! or | (indicator of table cells)
+        readonly Regex SyntaxRemoveParagraphs = new Regex(@"(?<!^[!\|].*)</? ?[Pp]>", RegexOptions.Multiline | RegexOptions.Compiled);
+
         //readonly Regex InOpenBrackets = new Regex(@"\[\[[^\]]{,100}", RegexOptions.RightToLeft | RegexOptions.Compiled);
 
         /// <summary>
@@ -452,8 +458,7 @@ namespace WikiFunctions.Parse
             if (Regex.IsMatch(ArticleText, "</?b>", RegexOptions.IgnoreCase))
                 ArticleText = SyntaxRegexBold.Replace(ArticleText, "'''$1'''");
 
-            if (Regex.IsMatch(ArticleText, "</?p>", RegexOptions.IgnoreCase))
-                ArticleText = Regex.Replace(ArticleText, "</?p>", "", RegexOptions.IgnoreCase);
+            ArticleText = SyntaxRemoveParagraphs.Replace(ArticleText, "\r\n\r\n");
 
             ArticleText = Regex.Replace(ArticleText, "^<hr>|^----+", "----", RegexOptions.Multiline);
 

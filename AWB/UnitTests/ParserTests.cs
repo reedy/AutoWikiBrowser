@@ -209,13 +209,13 @@ http://example.com }}");
             StringAssert.Contains("{{bar_boz}}", Parsers.CanonicalizeTitle("foo_bar{{bar_boz}}"));
         }
 
-        [Test, Category("Incomplete"), Category("Unarchived bugs")]
+        [Test]
         public void TestFixCategories()
         {
             Assert.AreEqual("[[Category:Foo bar]]", Parsers.FixCategories("[[ categOry : Foo_bar]]"));
             Assert.AreEqual("[[Category:Foo bar|boz]]", Parsers.FixCategories("[[ categOry : Foo_bar|boz]]"));
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser#.2Fdoc_pages_and_includeonly_sections
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Archive_18#.2Fdoc_pages_and_includeonly_sections
             Assert.AreEqual("[[Category:foo bar|boz_quux]]", Parsers.FixCategories("[[Category: foo_bar|boz_quux]]"));
             Assert.AreEqual("[[Category:foo bar|{{boz_quux}}]]", Parsers.FixCategories("[[Category: foo_bar|{{boz_quux}}]]"));
             StringAssert.Contains("{{{boz_quux}}}", Parsers.FixCategories("[[CategorY : foo_bar{{{boz_quux}}}]]"));
@@ -257,6 +257,51 @@ http://example.com }}");
             StringAssert.StartsWith("==foo==", p.FixHeadings("=='''foo'''==\r\n", "test"));
             Assert.AreEqual("quux\r\n==foo==\r\nbar", p.FixHeadings("quux\r\n=='''foo'''==\r\nbar", "test"));
             Assert.AreEqual("quux\r\n==foo==\r\n\r\nbar", p.FixHeadings("quux\r\n=='''foo'''==\r\n\r\nbar", "test"));
+        }
+
+        [Test, Category("Unarchived bugs")]
+        public void TestParagraphFormatter()
+        {
+            Assert.AreEqual("", p.FixSyntax("<p>")); // trimmed by whitespace optimiser
+            Assert.AreEqual("a\r\n\r\nb", p.FixSyntax("a</p>b"));
+            Assert.AreEqual("a\r\n\r\nb", p.FixSyntax("<p>a</p>b"));
+            Assert.AreEqual("a\r\n\r\n\r\nb", p.FixSyntax("a\r\n<p>b"));
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Clean_up_deformats_tables_removing_.3C_p_.3E_tags
+            Assert.AreEqual("| a<p>b", p.FixSyntax("| a<p>b"));
+            Assert.AreEqual("! a<p>b", p.FixSyntax("! a<p>b"));
+            Assert.AreEqual("foo\r\n| a<p>b", p.FixSyntax("foo\r\n| a<p>b"));
+            Assert.AreEqual("foo\r\n! a<p>b", p.FixSyntax("foo\r\n! a<p>b"));
+            Assert.AreEqual("foo! a\r\n\r\nb", p.FixSyntax("foo! a<p>b"));
+            Assert.AreEqual("{{foo|bar}} a\r\n\r\nb", p.FixSyntax("{{foo|bar}} a<p>b"));
+            Assert.AreEqual("!<p>", p.FixSyntax("!<p>"));
+            Assert.AreEqual("|<p>", p.FixSyntax("|<p>"));
+        }
+
+        [Test, Category("Incomplete")]
+        //TODO: cover everything
+        public void TestFixWhitespace()
+        {
+            Assert.AreEqual("", Parsers.RemoveWhiteSpace("     "));
+            Assert.AreEqual("a\r\n\r\n b", Parsers.RemoveWhiteSpace("a\r\n\r\n\r\n b"));
+            //Assert.AreEqual(" a", Parsers.RemoveWhiteSpace(" a")); // fails, but it doesn't seem harmful, at least for
+                                                                     // WMF projects with their design guidelines
+            //Assert.AreEqual(" a", Parsers.RemoveWhiteSpace("\r\n a \r\n")); // same as above
+            Assert.AreEqual("a", Parsers.RemoveWhiteSpace("\r\na \r\n")); // the above errors have effect only on the first line
+            Assert.AreEqual("", Parsers.RemoveWhiteSpace("\r\n"));
+            Assert.AreEqual("", Parsers.RemoveWhiteSpace("\r\n\r\n"));
+            Assert.AreEqual("a\r\nb", Parsers.RemoveWhiteSpace("a\r\nb"));
+            Assert.AreEqual("a\r\n\r\nb", Parsers.RemoveWhiteSpace("a\r\n\r\nb"));
+            Assert.AreEqual("a\r\n\r\nb", Parsers.RemoveWhiteSpace("a\r\n\r\n\r\nb"));
+
+            Assert.AreEqual("== foo ==\r\n==bar", Parsers.RemoveWhiteSpace("== foo ==\r\n==bar"));
+            Assert.AreEqual("== foo ==\r\n==bar", Parsers.RemoveWhiteSpace("== foo ==\r\n\r\n==bar"));
+            Assert.AreEqual("== foo ==\r\n==bar", Parsers.RemoveWhiteSpace("== foo ==\r\n\r\n\r\n==bar"));
+
+            Assert.AreEqual("{|\r\n| foo\r\n|\r\nbar\r\n|}", Parsers.RemoveWhiteSpace("{|\r\n| foo\r\n\r\n|\r\n\r\nbar\r\n|}"));
+
+            // eh? should we fix such tables too?
+            //Assert.AreEqual("{|\r\n! foo\r\n!\r\nbar\r\n|}", Parsers.RemoveWhiteSpace("{|\r\n! foo\r\n\r\n!\r\n\r\nbar\r\n|}"));
         }
     }
 
