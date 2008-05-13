@@ -233,6 +233,7 @@ namespace AutoWikiBrowser
             }
             catch (Exception ex)
             {
+                ErrorHandler.Handle(ex);
                 MessageBox.Show(ex.Message, "Error saving settings", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -476,7 +477,7 @@ namespace AutoWikiBrowser
             if (cModule.ModuleEnabled) 
                 cModule.MakeModule();
             else
-                //cModule.SetModuleNotBuilt();
+                cModule.SetModuleNotBuilt();
 
             externalProgram.Settings = p.ExternalProgram;
 

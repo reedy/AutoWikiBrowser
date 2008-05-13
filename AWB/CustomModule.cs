@@ -57,8 +57,8 @@ namespace AutoWikiBrowser
         public bool ModuleEnabled
         {
             get { return chkModuleEnabled.Checked; }
-            set 
-            { 
+            set
+            {
                 chkModuleEnabled.Checked = value;
                 if (value)
                     MakeModule();
@@ -77,13 +77,13 @@ namespace AutoWikiBrowser
                 {
                     lblStatus.Text = "No module loaded";
                     lblStatus.BackColor = Color.Orange;
-                    //lblBuilt.Text = "Custom Module Built At: n/a";
+                    lblBuilt.Text = "Custom Module Built At: n/a";
                 }
                 else
                 {
                     lblStatus.Text = "Module compiled and loaded";
                     lblStatus.BackColor = Color.LightGreen;
-                    //lblBuilt.Text = "Custom Module Built At: " + DateTime.Now;
+                    lblBuilt.Text = "Custom Module Built At: " + DateTime.Now;
                 }
             }
         }
@@ -147,10 +147,10 @@ namespace AutoWikiBrowser
             }
         }
 
-        //public void SetModuleNotBuilt()
-        //{
-        //    Module = null;
-        //} 
+        public void SetModuleNotBuilt()
+        {
+            Module = null;
+        }
 
         private void btnClose_Click(object sender, EventArgs e)
         {
@@ -182,7 +182,7 @@ namespace AutoWikiBrowser
 {
     class Module1 : WikiFunctions.Plugin.IModule
     {
-";                
+";
                 codeexample = @"        public string ProcessArticle(string ArticleText, string ArticleTitle, int wikiNamespace, out string Summary, out bool Skip)
         {
             Skip = false;
@@ -251,5 +251,32 @@ The int value ""Namespace"" gives you the key of the namespace, e.g. mainspace i
 
             txtCode.Font = lblStart.Font = lblEnd.Font = a;
         }
+
+        #region txtCode Context Menu
+        private void menuitemMakeFromTextBoxUndo_Click(object sender, EventArgs e)
+        {
+            txtCode.Undo();
+        }
+
+        private void menuitemMakeFromTextBoxCut_Click(object sender, EventArgs e)
+        {
+            txtCode.Cut();
+        }
+
+        private void menuitemMakeFromTextBoxCopy_Click(object sender, EventArgs e)
+        {
+            txtCode.Copy();
+        }
+
+        private void menuitemMakeFromTextBoxPaste_Click(object sender, EventArgs e)
+        {
+            txtCode.Paste();
+        }
+
+        private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            txtCode.SelectAll();
+        }
+        #endregion
     }
 }

@@ -28,8 +28,17 @@ namespace AutoWikiBrowser
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CustomModule));
             this.txtCode = new System.Windows.Forms.TextBox();
+            this.mnuTextBox = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.menuitemMakeFromTextBoxUndo = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator27 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuitemMakeFromTextBoxCut = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuitemMakeFromTextBoxCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuitemMakeFromTextBoxPaste = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnClose = new System.Windows.Forms.Button();
             this.btnMake = new System.Windows.Forms.Button();
             this.cmboLang = new System.Windows.Forms.ComboBox();
@@ -43,6 +52,7 @@ namespace AutoWikiBrowser
             this.guideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chkFixedwidth = new System.Windows.Forms.CheckBox();
             this.lblBuilt = new System.Windows.Forms.Label();
+            this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -51,6 +61,7 @@ namespace AutoWikiBrowser
             this.txtCode.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCode.ContextMenuStrip = this.mnuTextBox;
             this.txtCode.Font = new System.Drawing.Font("Courier New", 9F);
             this.txtCode.Location = new System.Drawing.Point(12, 231);
             this.txtCode.MaxLength = 0;
@@ -62,6 +73,69 @@ namespace AutoWikiBrowser
             this.txtCode.TabStop = false;
             this.txtCode.Text = resources.GetString("txtCode.Text");
             this.txtCode.WordWrap = false;
+            // 
+            // mnuTextBox
+            // 
+            this.mnuTextBox.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuitemMakeFromTextBoxUndo,
+            this.toolStripSeparator27,
+            this.menuitemMakeFromTextBoxCut,
+            this.menuitemMakeFromTextBoxCopy,
+            this.menuitemMakeFromTextBoxPaste,
+            this.toolStripSeparator1,
+            this.selectAllToolStripMenuItem});
+            this.mnuTextBox.Name = "mnuMakeFromTextBox";
+            this.mnuTextBox.Size = new System.Drawing.Size(165, 148);
+            // 
+            // menuitemMakeFromTextBoxUndo
+            // 
+            this.menuitemMakeFromTextBoxUndo.Name = "menuitemMakeFromTextBoxUndo";
+            this.menuitemMakeFromTextBoxUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.menuitemMakeFromTextBoxUndo.Size = new System.Drawing.Size(164, 22);
+            this.menuitemMakeFromTextBoxUndo.Text = "&Undo";
+            this.menuitemMakeFromTextBoxUndo.Click += new System.EventHandler(this.menuitemMakeFromTextBoxUndo_Click);
+            // 
+            // toolStripSeparator27
+            // 
+            this.toolStripSeparator27.Name = "toolStripSeparator27";
+            this.toolStripSeparator27.Size = new System.Drawing.Size(161, 6);
+            // 
+            // menuitemMakeFromTextBoxCut
+            // 
+            this.menuitemMakeFromTextBoxCut.Name = "menuitemMakeFromTextBoxCut";
+            this.menuitemMakeFromTextBoxCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.menuitemMakeFromTextBoxCut.Size = new System.Drawing.Size(164, 22);
+            this.menuitemMakeFromTextBoxCut.Text = "Cu&t";
+            this.menuitemMakeFromTextBoxCut.Click += new System.EventHandler(this.menuitemMakeFromTextBoxCut_Click);
+            // 
+            // menuitemMakeFromTextBoxCopy
+            // 
+            this.menuitemMakeFromTextBoxCopy.Name = "menuitemMakeFromTextBoxCopy";
+            this.menuitemMakeFromTextBoxCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.menuitemMakeFromTextBoxCopy.Size = new System.Drawing.Size(164, 22);
+            this.menuitemMakeFromTextBoxCopy.Text = "&Copy";
+            this.menuitemMakeFromTextBoxCopy.Click += new System.EventHandler(this.menuitemMakeFromTextBoxCopy_Click);
+            // 
+            // menuitemMakeFromTextBoxPaste
+            // 
+            this.menuitemMakeFromTextBoxPaste.Name = "menuitemMakeFromTextBoxPaste";
+            this.menuitemMakeFromTextBoxPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.menuitemMakeFromTextBoxPaste.Size = new System.Drawing.Size(164, 22);
+            this.menuitemMakeFromTextBoxPaste.Text = "&Paste";
+            this.menuitemMakeFromTextBoxPaste.Click += new System.EventHandler(this.menuitemMakeFromTextBoxPaste_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(161, 6);
+            // 
+            // selectAllToolStripMenuItem
+            // 
+            this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
+            this.selectAllToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
+            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.selectAllToolStripMenuItem.Text = "&Select All";
+            this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.selectAllToolStripMenuItem_Click);
             // 
             // btnClose
             // 
@@ -219,6 +293,7 @@ namespace AutoWikiBrowser
             this.ShowIcon = false;
             this.Text = "Module";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CustomModule_FormClosing);
+            this.mnuTextBox.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -242,5 +317,13 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem guideToolStripMenuItem;
         private System.Windows.Forms.CheckBox chkFixedwidth;
         private System.Windows.Forms.Label lblBuilt;
+        private System.Windows.Forms.ContextMenuStrip mnuTextBox;
+        private System.Windows.Forms.ToolStripMenuItem menuitemMakeFromTextBoxUndo;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator27;
+        private System.Windows.Forms.ToolStripMenuItem menuitemMakeFromTextBoxCut;
+        private System.Windows.Forms.ToolStripMenuItem menuitemMakeFromTextBoxCopy;
+        private System.Windows.Forms.ToolStripMenuItem menuitemMakeFromTextBoxPaste;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem selectAllToolStripMenuItem;
     }
 }

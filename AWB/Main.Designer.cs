@@ -209,7 +209,6 @@ namespace AutoWikiBrowser
             this.chkNudge = new System.Windows.Forms.CheckBox();
             this.chkLock = new System.Windows.Forms.CheckBox();
             this.chkMinor = new System.Windows.Forms.CheckBox();
-            this.txtEdit = new System.Windows.Forms.TextBox();
             this.chkShutdown = new System.Windows.Forms.CheckBox();
             this.btnProtect = new System.Windows.Forms.Button();
             this.btnMove = new System.Windows.Forms.Button();
@@ -240,6 +239,7 @@ namespace AutoWikiBrowser
             this.btnFindAndReplaceAdvanced = new System.Windows.Forms.Button();
             this.btnMoreFindAndReplce = new System.Windows.Forms.Button();
             this.imgStrike = new System.Windows.Forms.PictureBox();
+            this.txtEdit = new System.Windows.Forms.TextBox();
             this.mnuHistory = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1802,24 +1802,6 @@ namespace AutoWikiBrowser
             this.toolTip1.SetToolTip(this.chkMinor, "Mark edit as a minor edit");
             this.chkMinor.CheckedChanged += new System.EventHandler(this.chkMinor_CheckedChanged);
             // 
-            // txtEdit
-            // 
-            this.txtEdit.AcceptsReturn = true;
-            this.txtEdit.AcceptsTab = true;
-            this.txtEdit.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtEdit.ContextMenuStrip = this.mnuTextBox;
-            this.txtEdit.Enabled = false;
-            this.txtEdit.Font = new System.Drawing.Font("Courier New", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtEdit.Location = new System.Drawing.Point(0, 31);
-            this.txtEdit.MaxLength = 0;
-            this.txtEdit.Multiline = true;
-            this.txtEdit.Name = "txtEdit";
-            this.txtEdit.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtEdit.Size = new System.Drawing.Size(394, 315);
-            this.txtEdit.TabIndex = 0;
-            this.txtEdit.TextChanged += new System.EventHandler(this.txtEdit_TextChanged);
-            // 
             // chkShutdown
             // 
             this.chkShutdown.AutoSize = true;
@@ -2171,6 +2153,24 @@ namespace AutoWikiBrowser
             this.imgStrike.TabStop = false;
             this.toolTip1.SetToolTip(this.imgStrike, "Strike text");
             this.imgStrike.Click += new System.EventHandler(this.imgStrike_Click);
+            // 
+            // txtEdit
+            // 
+            this.txtEdit.AcceptsReturn = true;
+            this.txtEdit.AcceptsTab = true;
+            this.txtEdit.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtEdit.ContextMenuStrip = this.mnuTextBox;
+            this.txtEdit.Enabled = false;
+            this.txtEdit.Font = new System.Drawing.Font("Courier New", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtEdit.Location = new System.Drawing.Point(0, 31);
+            this.txtEdit.MaxLength = 0;
+            this.txtEdit.Multiline = true;
+            this.txtEdit.Name = "txtEdit";
+            this.txtEdit.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtEdit.Size = new System.Drawing.Size(394, 315);
+            this.txtEdit.TabIndex = 0;
+            this.txtEdit.TextChanged += new System.EventHandler(this.txtEdit_TextChanged);
             // 
             // mnuHistory
             // 
@@ -3526,7 +3526,7 @@ namespace AutoWikiBrowser
             this.toolStripSeparatorMakeFromTextBox,
             this.mnuCopyToCategoryLog});
             this.mnuMakeFromTextBox.Name = "mnuMakeFromTextBox";
-            this.mnuMakeFromTextBox.Size = new System.Drawing.Size(424, 126);
+            this.mnuMakeFromTextBox.Size = new System.Drawing.Size(424, 148);
             // 
             // menuitemMakeFromTextBoxUndo
             // 
