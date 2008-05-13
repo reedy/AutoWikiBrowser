@@ -52,9 +52,4 @@ namespace AutoWikiBrowser.Plugins.Server
         private void CopyToolTip(Control source, Control destination)
         { toolTip1.SetToolTip(destination, toolTip1.GetToolTip(source)); }
     }
-
-    internal sealed class Settings
-    // TODO: Load from registry
-    {
-    }
 }

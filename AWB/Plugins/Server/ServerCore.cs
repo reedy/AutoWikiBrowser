@@ -31,24 +31,11 @@ namespace AutoWikiBrowser.Plugins.Server
     /// </summary>
     public sealed class ServerAWBPlugin : IAWBPlugin
     {
-        private const string conMe = "Server Plugin";
-
-        // AWB objects:
-        internal static IAutoWikiBrowser AWBForm;
-        internal static ToolStripStatusLabel StatusText = new ToolStripStatusLabel(conMe + " loaded");
-
-        // Menu items:
-        internal static ToolStripMenuItem EnabledMenuItem = new ToolStripMenuItem(conMe);
-        internal static ToolStripMenuItem ConfigMenuItem = new ToolStripMenuItem("Configuration");
-        internal static ToolStripMenuItem AboutMenuItem = new ToolStripMenuItem("About the AWB " + conMe);
-        internal static ToolStripMenuItem TabPageMenuItem = new ToolStripMenuItem("Tab Page");
+        internal const string ME = "Server Plugin";
 
         // Tab page:
         internal static TabPage ServerPluginTabPage = new TabPage("Server");
         internal static ServerControl ServerUserControl;
-
-        // Settings:
-        internal static Settings ServerSettings = new Settings();
 
         #region IAWBPlugin Members
 
@@ -57,42 +44,16 @@ namespace AutoWikiBrowser.Plugins.Server
             if (sender == null)
                 throw new ArgumentNullException("sender");
 
-            // Store AWB object reference:
-            AWBForm = sender;
+            // Delegate UI-setup to our user control object:
+            ServerUserControl = new ServerControl(sender);
 
-            // Initialise our settings object:
-            ServerUserControl = new ServerControl();
-
-            // Set up our UI objects:
-            StatusText.Visible = false;
-            StatusText.Margin = new Padding(10, 0, 10, 0);
-            StatusText.BorderSides = ToolStripStatusLabelBorderSides.Left | ToolStripStatusLabelBorderSides.Right;
-            StatusText.BorderStyle = Border3DStyle.Etched;
-            //AWBForm.StatusStrip.ShowItemToolTips = true; // naughty hack in case somebody turns this off in the designer
-            EnabledMenuItem.CheckOnClick = true;
-            TabPageMenuItem.CheckOnClick = true;
+            // Set up the TabPage and attach the user control to it:
             ServerPluginTabPage.UseVisualStyleBackColor = true;
             ServerPluginTabPage.Controls.Add(ServerUserControl);
-
-            // Event handlers:
-            AboutMenuItem.Click += AboutMenuItemClicked;
-            EnabledMenuItem.CheckedChanged += PluginEnabled_CheckedChange;
-            TabPageMenuItem.CheckedChanged += TabPageMenuItem_CheckedChange;
-            ConfigMenuItem.Click += ShowSettings;
-            ServerUserControl.HideButton.Click += HideButton_Click;
-            ServerUserControl.SettingsButton.Click += ShowSettings;
-
-            // Add our UI objects to the AWB main form:
-            AWBForm.StatusStrip.Items.Insert(2, StatusText);
-            EnabledMenuItem.DropDownItems.Add(ConfigMenuItem);
-            EnabledMenuItem.DropDownItems.Add(TabPageMenuItem);
-            AWBForm.PluginsToolStripMenuItem.DropDownItems.Add(EnabledMenuItem);
-            AWBForm.HelpToolStripMenuItem.DropDownItems.Add(AboutMenuItem);
-            AWBForm.HelpToolStripMenuItem.DropDownItems.Add(AboutMenuItem);
         }
 
         public string Name
-        { get { return "AWB " + conMe; } }
+        { get { return "AWB " + ME; } }
 
         string IAWBPlugin.WikiName
         { get { return Name; } }
@@ -108,15 +69,15 @@ namespace AutoWikiBrowser.Plugins.Server
             {
                 PrefsKeyPair pref = prefs[0] as PrefsKeyPair;
                 if (pref.Name == "Enabled")
-                    PluginEnabled = (bool)pref.Setting;
+                    ServerUserControl.PluginEnabled = (bool)pref.Setting;
             }
         }
 
         object[] IAWBPlugin.SaveSettings()
-        { return new object[] { new PrefsKeyPair("Enabled", PluginEnabled) }; }
+        { return new object[] { new PrefsKeyPair("Enabled", ServerUserControl.PluginEnabled) }; }
 
         void IAWBPlugin.Reset()
-        { EnabledMenuItem.Checked = false; }
+        { ServerUserControl.PluginEnabled = false; }
 
         void IAWBPlugin.Nudge(out bool Cancel)
         { Cancel = false; }
@@ -124,70 +85,5 @@ namespace AutoWikiBrowser.Plugins.Server
         void IAWBPlugin.Nudged(int Nudges) {}
 
         #endregion
-
-        // Properties
-        private bool PluginEnabled
-        {
-            get { return EnabledMenuItem.Checked; }
-            set
-            {
-                if (value != EnabledMenuItem.Checked) // prevent the event from firing unless there's a change
-                    EnabledMenuItem.Checked = value;
-            }
-        }
-
-        // Event handlers
-        private static void AboutMenuItemClicked(Object sender, EventArgs e)
-        { new ServerAboutBox().Show(); }
-
-        /// <summary>
-        /// Show the settings form; if Server Enabled status changes toggle the menu item which will
-        /// 'fire' the handler.
-        /// </summary>
-        private void ShowSettings(Object sender, EventArgs e)
-        {
-            ServerOptions OptionsForm = new ServerOptions();
-            OptionsForm.ServerEnabled = PluginEnabled;
-            if (OptionsForm.ShowDialog(AWBForm.Form) == DialogResult.OK)
-                PluginEnabled = OptionsForm.ServerEnabled;
-        }
-
-        private void PluginEnabled_CheckedChange(Object sender, EventArgs e)
-        {
-            // TODO: Validate settings; start/stop server listening. eg could attach to this event in server object
-            StatusText.Visible = PluginEnabled;
-
-            if (PluginEnabled)
-            {
-                AWBForm.NotifyBalloon(Name + " enabled", ToolTipIcon.Info);
-                ShowHideTab(true);
-
-                // HACK:
-                ServerControl.Server.Init(49155);
-                // TODO: Get details from registry in settings control
-            }
-            else
-            {
-                AWBForm.NotifyBalloon(Name + " disabled", ToolTipIcon.Info);
-                ShowHideTab(false);
-            }
-        }
-
-        private static void TabPageMenuItem_CheckedChange(Object sender, EventArgs e)
-        { ShowHideTab(TabPageMenuItem.Checked); }
-
-        private static void HideButton_Click(object sender, EventArgs e)
-        { ShowHideTab(false); }
-
-        private static void ShowHideTab(bool ShowHide)
-        {
-            if (TabPageMenuItem.Checked != ShowHide)
-                TabPageMenuItem.Checked = ShowHide;
-
-            if (ShowHide)
-                AWBForm.AddTabPage(ServerPluginTabPage);
-            else
-                AWBForm.RemoveTabPage(ServerPluginTabPage);
-        }
     }
 }

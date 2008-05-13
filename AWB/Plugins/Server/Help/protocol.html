@@ -14,7 +14,7 @@
 <hr />
 
 <h1><a name="Handshake"></a>Handshake and authentication</h1>
-<p>Upon receiving a connection the server replies <a href="#200" class="prot">200 HELLO</a> if it is able to accept a connection or <a href="#500" class="prot">500 BUSY</a> if not (only one authenticated client connection is allowed at a time in order to keep things simple). Upon receipt of <a href="#200" class="prot">200 HELLO</a> the client <i>must</i> reply <a href="#HELLO" class="prot">HELLO</a>.</p>
+<p>Upon receiving a connection the server replies <a href="#200" class="prot">200 HELLO</a> if it is able to accept a connection; <a href="#520" class="prot">520 SERVICE_NOT_AVAILABLE<a> if the server cannot accept a connection; and <a href="#500" class="prot">500 BUSY</a> if the server is available but you already have a connection established (only one authenticated client connection is allowed at a time in order to keep things simple). Upon receipt of <a href="#200" class="prot">200 HELLO</a> the client <i>must</i> reply <a href="#HELLO" class="prot">HELLO</a>.</p>
 <p>Once <a href="#HELLO" class="prot">HELLO</a> has been received the server issues a <a href="#201" class="prot">201 REQUIRE CLIENT</a> challenge; the client <i>must</i> respond by sending <a href="#CLIENT" class="prot">CLIENT</a> and <a href="#VERSION" class="prot">VERSION</a> data.</p>
 <p>If authentication and/or <a href="#crypt">encryption</a> is required, the server will then issue one or more <a href="#201" class="prot">201 REQUIRE</a> challenges. </p>
 <p>The handshaking finishes with protocol negotiation. The server issues a <a href="#201" class="prot">201 REQUIRE PROTOCOL</a> challenge and determines the highest protocol level supported by both client and server (follow the link for more details).</p>
@@ -119,6 +119,9 @@
 
 	<dt><a name="510" class="prot"></a>510 DISCON &lt;message&gt;</dt>
 	<dd>The server is unilaterally ending the session.</dd>
+
+	<dt><a name="520" class="prot"></a>520 SERVICE_NOT_AVAILABLE</dt>
+	<dd>The server is busy and cannot accept a connection. Try again later.</dd>
 </dl>
 
 <h1><a name="discon"></a>Ending the session</h1>
