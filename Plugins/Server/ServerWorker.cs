@@ -188,11 +188,17 @@ namespace AutoWikiBrowser.Plugins.Server
             {
                 try
                 {
-                    GroupCollection captures = ParseReceivedData(e);
+                    GroupCollection captureGroups = ParseReceivedData(e);
+                    switch (captureGroups["command"].Value)
+                    {
+                        case "HELLO":
+                            SendData(ServerResponseCode.OK, "Get the fuck out of Dodge!");
+                            break;
+                    }
                 }
                 catch (AWBServerCommandNotRecognisedException)
-                { 
-                }
+                // Couldn't parse any command out of the data we received
+                { SendData(ServerResponseCode.REJECTED, "Command not understood"); }
                 catch { throw; }
             }
 
