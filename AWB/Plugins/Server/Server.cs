@@ -66,8 +66,6 @@ namespace AutoWikiBrowser.Plugins.Server
             /// <param name="port">The TCP port number to listen on</param>
             internal void Init(int port)
             {
-                IAsyncResult asyncAccept = null;
-
                 try
                 {
                     string hostname = Dns.GetHostName();
@@ -81,7 +79,7 @@ namespace AutoWikiBrowser.Plugins.Server
 
                     // Start listening:
                     mMainSocket.Listen(Math.Min((int)SocketOptionName.MaxConnections, MAX_BACKLOG));
-                    asyncAccept = mMainSocket.BeginAccept(new AsyncCallback(this.AcceptConnectionDelegate), mMainSocket);
+                    AcceptConnections();
                 }
                 //catch (SocketException ex)
                 //{
@@ -89,6 +87,9 @@ namespace AutoWikiBrowser.Plugins.Server
                 //}
                 catch { throw; }
             }
+
+            private void AcceptConnections()
+            { mMainSocket.BeginAccept(new AsyncCallback(this.AcceptConnectionDelegate), mMainSocket); }
 
             /// <summary>
             /// Stop the server
@@ -133,8 +134,13 @@ namespace AutoWikiBrowser.Plugins.Server
                     // We can accept the connection but client will have to FORCE LOGIN to proceed:
                     sw.SendData(ServerResponseCode.BUSY);
                 else
+                {
                     // We wish to accept the connection; let's get the user logged in (if need be) etc
                     sw.SendData(ServerResponseCode.HELLO);
+                }
+
+                // Release the main socket:
+                AcceptConnections();
             }
 
             // Helper routines and properties
