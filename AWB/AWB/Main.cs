@@ -634,14 +634,14 @@ namespace AutoWikiBrowser
                 else if (!BotMode)
                     MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
 
+            ErrorHandler.CurrentArticle = "";
+
             if (!doNotAutomaticallyDoAnythingToolStripMenuItem.Checked)
             {
                 StatusLabelText = "Processing page";
                 Application.DoEvents();
 
                 ProcessPage();
-
-                ErrorHandler.CurrentArticle = "";
 
                 UpdateWebBrowserStatus(null, null);
 
