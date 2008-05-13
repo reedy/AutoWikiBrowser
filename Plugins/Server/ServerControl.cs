@@ -19,14 +19,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Net;
-using System.Net.Sockets;
 using System.Text;
-using System.Threading;
-using System.Windows.Forms;
 
 namespace AutoWikiBrowser.Plugins.Server
 {
@@ -44,12 +37,12 @@ namespace AutoWikiBrowser.Plugins.Server
         DISCON = 510
     }
 
-    internal partial class Server : UserControl
+    internal partial class ServerControl : UserControl
     {
-        public Server()
+        public ServerControl()
         { InitializeComponent(); }
 
-        private static Thread thread;
+        private static Thread thread; // TODO: Thread management (if needed)
 
         // Management
         internal static void Init(int port)
@@ -73,7 +66,7 @@ namespace AutoWikiBrowser.Plugins.Server
 
                 // Start listening:
                 listenSocket.Listen(Math.Min((int)SocketOptionName.MaxConnections, 10));
-                asyncAccept = listenSocket.BeginAccept(new AsyncCallback(Server.acceptCallback), listenSocket);
+                asyncAccept = listenSocket.BeginAccept(new AsyncCallback(ServerControl.acceptCallback), listenSocket);
             }
             catch (SocketException ex)
             {

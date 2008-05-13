@@ -35,7 +35,7 @@ namespace AutoWikiBrowser.Plugins.Server
 
         // AWB objects:
         internal static IAutoWikiBrowser AWBForm;
-        internal static ToolStripStatusLabel StatusText = new ToolStripStatusLabel(conMe + " Loaded");
+        internal static ToolStripStatusLabel StatusText = new ToolStripStatusLabel(conMe + " loaded");
 
         // Menu items:
         internal static ToolStripMenuItem EnabledMenuItem = new ToolStripMenuItem(conMe);
@@ -44,7 +44,7 @@ namespace AutoWikiBrowser.Plugins.Server
 
         // Tab page:
         internal static TabPage ServerPluginTabPage = new TabPage("Server");
-        private static Server ServerUserControl;
+        private static ServerControl ServerUserControl;
 
         // Settings:
         internal static Settings ServerSettings = new Settings();
@@ -60,7 +60,7 @@ namespace AutoWikiBrowser.Plugins.Server
             AWBForm = sender;
 
             // Initialise our settings object:
-            ServerUserControl = new Server();
+            ServerUserControl = new ServerControl();
 
             // Set up our UI objects:
             StatusText.Visible = false;
@@ -159,7 +159,7 @@ namespace AutoWikiBrowser.Plugins.Server
                 AWBForm.AddTabPage(ServerPluginTabPage);
 
                 // HACK:
-                Server.Init(22);//49155);
+                ServerControl.Init(49155);
             }
             else
             {
