@@ -1,6 +1,6 @@
 ﻿namespace AutoWikiBrowser.Plugins.Server
 {
-    partial class Server
+    partial class ServerControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -52,7 +52,7 @@
             this.HideButton.Text = "Hide";
             this.HideButton.UseVisualStyleBackColor = true;
             // 
-            // Server
+            // ServerControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -60,7 +60,7 @@
             this.Controls.Add(this.SettingsButton);
             this.MaximumSize = new System.Drawing.Size(276, 349);
             this.MinimumSize = new System.Drawing.Size(276, 349);
-            this.Name = "Server";
+            this.Name = "ServerControl";
             this.Size = new System.Drawing.Size(276, 349);
             this.ResumeLayout(false);
 
