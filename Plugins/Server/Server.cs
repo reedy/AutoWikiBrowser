@@ -31,6 +31,7 @@ namespace AutoWikiBrowser.Plugins.Server
 {
     internal enum ServerResponseCode
     {
+        None = 0,
         HELLO = 200,
         REQUIRE = 201,
         BYE = 210,
@@ -41,7 +42,7 @@ namespace AutoWikiBrowser.Plugins.Server
         REJECTED = 501,
         UNAUTHORISED = 502,
         DISCON = 510,
-        SERVICENOTAVAILABLE = 520
+        SERVICE_NOT_AVAILABLE = 520
     }
 
     partial class ServerControl
@@ -49,21 +50,21 @@ namespace AutoWikiBrowser.Plugins.Server
         /// <summary>
         /// Receives TCP/IP connections from clients and processes them
         /// </summary>
-        internal static class Server
+        internal class Server : IDisposable
         {
-            private const int MAX_CLIENTS = 0; // HACK: // 3;
+            private const int MAX_CLIENTS = 3;
             private const int MAX_BACKLOG = 3; // the number of incoming connections that can be queued for acceptance
 
-            private static Socket mMainSocket; // Main server socket which accepts connections and passes them onto...:
-            private static List<ServerWorker> mWorkerSockets = new List<ServerWorker>(); // Worker sockets which talk to clients
-            private static ServerWorker mLoggedInClient; // A reference to the ServerWorker which is managing the one allowed active session (if any)
+            private Socket mMainSocket; // Main server socket which accepts connections and passes them onto...:
+            private List<ServerWorker> mWorkerSockets = new List<ServerWorker>(); // Worker sockets which talk to clients
+            private ServerWorker mLoggedInClient; // A reference to the ServerWorker which is managing the one allowed active session (if any)
 
             // Management
             /// <summary>
             ///  Start listening for connections
             /// </summary>
             /// <param name="port">The TCP port number to listen on</param>
-            internal static void Init(int port)
+            internal void Init(int port)
             {
                 IAsyncResult asyncAccept = null;
 
@@ -80,7 +81,7 @@ namespace AutoWikiBrowser.Plugins.Server
 
                     // Start listening:
                     mMainSocket.Listen(Math.Min((int)SocketOptionName.MaxConnections, MAX_BACKLOG));
-                    asyncAccept = mMainSocket.BeginAccept(new AsyncCallback(Server.acceptCallbackDelegate), mMainSocket);
+                    asyncAccept = mMainSocket.BeginAccept(new AsyncCallback(this.AcceptConnectionDelegate), mMainSocket);
                 }
                 catch (SocketException ex)
                 {
@@ -97,7 +98,7 @@ namespace AutoWikiBrowser.Plugins.Server
             /// </summary>
             internal static void Stop()
             {
-                // TODO: Stop the server
+                // TODO: Stop the server (maybe make disposable; certainly have to close all sockets)
             }
 
             /// <summary>
@@ -105,9 +106,10 @@ namespace AutoWikiBrowser.Plugins.Server
             ///  We get encryption set up and the user logged in (if specified by user settings).
             /// </summary>
             /// <param name="sw"></param>
-            private static void ProcessLogin(ServerWorker sw)
+            private void ProcessLogin(ServerWorker sw)
             {
-
+                // send HELLO:
+                //sw.SendData(ServerResponseCode.HELLO, "", 
                 // Once logged in:
                 mLoggedInClient = sw;
 
@@ -119,7 +121,7 @@ namespace AutoWikiBrowser.Plugins.Server
             /// Delegate which is called when a new connection is received
             /// </summary>
             /// <param name="asyncAccept"></param>
-            private static void acceptCallbackDelegate(IAsyncResult asyncAccept)
+            private void AcceptConnectionDelegate(IAsyncResult asyncAccept)
             {
                 // Accept the connection on a new socket
                 Socket socket = mMainSocket.EndAccept(asyncAccept);
@@ -129,44 +131,18 @@ namespace AutoWikiBrowser.Plugins.Server
 
                 if (mWorkerSockets.Count >= MAX_CLIENTS)
                     // We cannot accept the connection as we have reached our limit:
-                    sw.SendData(ServerResponseCode.SERVICENOTAVAILABLE, "Try again later",
-                        new EventHandler<SocketAsyncEventArgs>(rejectConnectionDelegate));
+                    sw.SendData(ServerResponseCode.SERVICE_NOT_AVAILABLE);
                 else if (HaveLoggedInUser)
                     // We can accept the connection but client will have to FORCE LOGIN to proceed:
-                    sw.SendData(ServerResponseCode.BUSY, "",
-                        new EventHandler<SocketAsyncEventArgs>(UserAlreadyLoggedInDelegate));
+                    sw.SendData(ServerResponseCode.BUSY);
                 else
                     // We wish to accept the connection; let's get the user logged in (if need be) etc
-                    ProcessLogin(sw);
-            }
-
-            /// <summary>
-            /// Delegate which closes a connection once a "Try again later" message has been sent
-            /// </summary>
-            /// <param name="sender"></param>
-            /// <param name="e"></param>
-            private static void rejectConnectionDelegate(object sender, SocketAsyncEventArgs e)
-            {
-                // I don't know if there's a better way to do this or not (this is my first
-                // attempt at System.Net.Sockets and it's complicated!) but let's extract the
-                // socket object from the UserToken property and check that we're still connected,
-                // and if we are... we kick out the JAMs
-                ServerWorker s = e.UserToken as ServerWorker;
-                if (s.Connected) s.Close();
-            }
-
-            /// <summary>
-            ///  Delegate which receives a client response after we have sent BUSY
-            /// </summary>
-            /// <param name="sender"></param>
-            /// <param name="e"></param>
-            private static void UserAlreadyLoggedInDelegate(object sender, SocketAsyncEventArgs e)
-            {
+                    sw.SendData(ServerResponseCode.HELLO);
             }
 
             // Helper routines and properties
-            private static bool HaveLoggedInUser
-            { get { return mLoggedInClient == null; } }
+            private bool HaveLoggedInUser
+            { get { return mLoggedInClient != null; } }
 
             /* TODO: NOTES:
              * When receiving new connection, check if somebody is logged in or not, and if they are
@@ -191,21 +167,29 @@ namespace AutoWikiBrowser.Plugins.Server
             private class ServerWorker
             {
                 /* Custom object as I'm likely to want to store some stuff other than the socket at some point,
-                 * and if not we at least get slightly better encapsaulation. */
+                 * and if not we at least get slightly better encapsulation. */
                 private readonly Socket m_WorkerSocket;
+
+                private ServerResponseCode LastServerResponse = ServerResponseCode.None;
 
                 // Constructor, receives an IAsyncResult corresponding to an incoming connection attempt:
                 internal ServerWorker(Socket workerSocket)
                 { m_WorkerSocket = workerSocket; }
+
+                                /// <summary>
+                /// Format data for sending to client and assign an event handler for the Completed event
+                /// </summary>
+                /// <param name="ResponseCode"></param>
+                /// <param name="Data"></param>
+                internal void SendData(ServerResponseCode ResponseCode)
+                { SendData(ResponseCode, ""); }
 
                 /// <summary>
                 /// Format data for sending to client and assign an event handler for the Completed event
                 /// </summary>
                 /// <param name="ResponseCode"></param>
                 /// <param name="Data"></param>
-                /// <param name="Delegate"></param>
-                internal void SendData(ServerResponseCode ResponseCode, string Data,
-                    EventHandler<SocketAsyncEventArgs> Delegate)
+                internal void SendData(ServerResponseCode ResponseCode, string Data)
                 {
                     // Get a new SocketAsyncEventArgs object:
                     SocketAsyncEventArgs e = new SocketAsyncEventArgs();
@@ -217,8 +201,24 @@ namespace AutoWikiBrowser.Plugins.Server
                     // Send a reference to this object for use in next callback:
                     e.UserToken = this;
 
+                    // Store our last response:
+                    LastServerResponse = ResponseCode;
+
                     // Assign delegate to handle the Completed event
-                    e.Completed += Delegate;
+                    switch (ResponseCode)
+                    {
+                        case ServerResponseCode.None:
+                            throw new ArgumentException();
+
+                        case ServerResponseCode.DISCON:
+                        case ServerResponseCode.SERVICE_NOT_AVAILABLE:
+                            e.Completed += this.rejectConnectionDelegate;
+                            break;
+
+                        default:
+                            e.Completed += this.DataSentDelegate;
+                            break;
+                    }
 
                     // Blast that data down the wire yo:
                     m_WorkerSocket.SendAsync(e);
@@ -232,7 +232,7 @@ namespace AutoWikiBrowser.Plugins.Server
                 /// <returns></returns>
                 private static byte[] ServerResponse(ServerResponseCode ResponseCode, string Data)
                 {
-                    if (Data != "") Data = " " + Data;
+                    if (Data != "") Data = " " + Data; // this will be ok for null too won't it?
                     return Encoding.UTF8.GetBytes(
                         (int)ResponseCode + " " + ResponseCode.ToString() + Data + "\r\n");
                 }
@@ -242,7 +242,99 @@ namespace AutoWikiBrowser.Plugins.Server
 
                 internal void Close()
                 { m_WorkerSocket.Close(); }
+
+                // Delegates:
+
+                /// <summary>
+                /// Delegate which closes a connection once a "Try again later" message has been sent
+                /// </summary>
+                /// <param name="sender"></param>
+                /// <param name="e"></param>
+                private void rejectConnectionDelegate(object sender, SocketAsyncEventArgs e)
+                {
+                    // I don't know if there's a better way to do this or not (this is my first
+                    // attempt at System.Net.Sockets and it's complicated!) but let's extract the
+                    // socket object from the UserToken property and check that we're still connected,
+                    // and if we are... we kick out the JAMs
+                    //ServerWorker s = e.UserToken as ServerWorker; // probably don't need this now we're using delegates inside instance variables
+                    if (Connected) Close();
+                }
+
+                /// <summary>
+                ///  Delegate which listens for a client response or command after we sent a request or a challenge
+                /// </summary>
+                /// <param name="sender"></param>
+                /// <param name="e"></param>
+                private void DataSentDelegate(object sender, SocketAsyncEventArgs e)
+                {
+                    // Based on a sub from http://www.ajaxpro.info/download/SocketClient.cs.txt
+                    if (e.SocketError == SocketError.Success)
+                    {
+                        if (e.LastOperation == SocketAsyncOperation.Send)
+                        {
+                            // Prepare receiving.
+                            //Socket s = e.UserToken as Socket;
+
+                            byte[] response = new byte[255];
+                            e.SetBuffer(response, 0, response.Length);
+
+                            switch (LastServerResponse)
+                            {
+                                case ServerResponseCode.OK:
+                                case ServerResponseCode.REJECTED:
+                                case ServerResponseCode.READY:
+                                    e.Completed += new EventHandler<SocketAsyncEventArgs>(this.OnReceiveDelegate);
+                                    break;
+
+                                case ServerResponseCode.BYE:
+                                case ServerResponseCode.BUSY:
+                                case ServerResponseCode.HELLO:
+                                case ServerResponseCode.REQUIRE:
+                                case ServerResponseCode.UNAUTHORISED:
+                                case ServerResponseCode.PROTOCOL:
+                                    e.Completed += new EventHandler<SocketAsyncEventArgs>
+                                        (this.WaitingForClientResponseDelegate);
+                                    break;
+                            }
+
+                            m_WorkerSocket.ReceiveAsync(e);
+                        }
+                    }
+                    else
+                    {
+                        throw new SocketException((int)e.SocketError);
+                    }
+
+                }
+
+                /// <summary>
+                ///  Delegate which handles client data when we're waiting for a specific response or an at-any-time command
+                /// </summary>
+                /// <param name="sender"></param>
+                /// <param name="e"></param>
+                private void WaitingForClientResponseDelegate(object sender, SocketAsyncEventArgs e)
+                {
+                }
+
+                /// <summary>
+                ///  Delegate which handles client data when we're waiting for something to happen (us to send an event, or client to issue a command)
+                /// </summary>
+                /// <param name="sender"></param>
+                /// <param name="e"></param>
+                private void OnReceiveDelegate(object sender, SocketAsyncEventArgs e)
+                {
+                }
             }
+
+            #region IDisposable Members
+
+            public void Dispose()
+            {
+                // TODO: IDisposable
+                throw new NotImplementedException();
+            }
+
+            #endregion
         }
     }
 }

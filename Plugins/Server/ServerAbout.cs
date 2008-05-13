@@ -22,6 +22,9 @@ using System.Text;
 
 namespace AutoWikiBrowser.Plugins.Server
 {
+    /// <summary>
+    /// About the AWB Server Plugin
+    /// </summary>
     internal sealed class ServerAboutBox : WikiFunctions.Controls.AboutBox
     {
         protected override void Initialise()
