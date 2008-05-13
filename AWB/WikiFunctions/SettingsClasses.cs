@@ -186,7 +186,7 @@ namespace WikiFunctions.AWBSettings
             AfterOtherFixes = findAndReplace.AfterOtherFixes;
             Replacements = findAndReplace.GetList();
             AdvancedReps = replaceSpecial.GetRules();
-            
+
             SubstTemplates = mSubstTemplates;
             IncludeComments = mIncludeComments;
             ExpandRecursively = mExpandRecursively;
@@ -201,7 +201,7 @@ namespace WikiFunctions.AWBSettings
         public List<WikiFunctions.Parse.Replacement> Replacements = new List<WikiFunctions.Parse.Replacement>();
 
         public List<WikiFunctions.MWB.IRule> AdvancedReps = new List<WikiFunctions.MWB.IRule>();
-        
+
         public string[] SubstTemplates = new string[0];
         public bool IncludeComments = false;
         public bool ExpandRecursively = true;
@@ -301,21 +301,21 @@ namespace WikiFunctions.AWBSettings
             bool mSkipNoFindAndReplace, bool mSkipNoRegexTypoFix, bool mSkipNoDisambiguation,
             bool mSkipWhitespaceOnly, string mGeneralSkip)
         {
-            SkipNonexistent=mSkipNonexistent;
-            Skipexistent=mSkipexistent;
-            SkipWhenNoChanges =mSkipWhenNoChanges;
+            SkipNonexistent = mSkipNonexistent;
+            Skipexistent = mSkipexistent;
+            SkipWhenNoChanges = mSkipWhenNoChanges;
             SkipSpamFilterBlocked = mSkipWhenSpamFilterBlocked;
             SkipInuse = mSkipInuse;
-            SkipDoes=mSkipDoes;
-            SkipDoesNot=mSkipDoesNot;
-            SkipDoesText=mSkipDoesText;
-            SkipDoesNotText=mSkipDoesNotText;
-            Regex=mRegex;
-            CaseSensitive=mCaseSensitive;
-            SkipNoFindAndReplace=mSkipNoFindAndReplace;
-            SkipNoRegexTypoFix=mSkipNoRegexTypoFix;
-            SkipNoDisambiguation=mSkipNoDisambiguation;
-            GeneralSkip=mGeneralSkip;
+            SkipDoes = mSkipDoes;
+            SkipDoesNot = mSkipDoesNot;
+            SkipDoesText = mSkipDoesText;
+            SkipDoesNotText = mSkipDoesNotText;
+            Regex = mRegex;
+            CaseSensitive = mCaseSensitive;
+            SkipNoFindAndReplace = mSkipNoFindAndReplace;
+            SkipNoRegexTypoFix = mSkipNoRegexTypoFix;
+            SkipNoDisambiguation = mSkipNoDisambiguation;
+            GeneralSkip = mGeneralSkip;
             SkipWhenOnlyWhitespaceChanged = mSkipWhitespaceOnly;
         }
 
@@ -392,7 +392,7 @@ namespace WikiFunctions.AWBSettings
             Flash = mFlash;
             Minimize = mMinimize;
             TimeOutLimit = mTimeOutLimit;
-            AutoSaveEdit=new EditBoxAutoSavePrefs(autoSaveEditBoxEnabled, autoSaveEditBoxPeriod,
+            AutoSaveEdit = new EditBoxAutoSavePrefs(autoSaveEditBoxEnabled, autoSaveEditBoxPeriod,
                 autoSaveEditBoxFile);
             LockSummary = mLockSummary;
             EditToolbarEnabled = mEditToolbarEnabled;
@@ -480,9 +480,9 @@ namespace WikiFunctions.AWBSettings
         public bool DebugUploading;
         public int UploadMaxLines = 1000;
         public string LogFolder = "";
-        public string UploadJobName="";
-        public string UploadLocation="";
-        public string LogCategoryName="";
+        public string UploadJobName = "";
+        public string UploadLocation = "";
+        public string LogCategoryName = "";
     }
 
     [Serializable]
@@ -560,7 +560,7 @@ namespace WikiFunctions.AWBSettings
     public class SpecialFilterPrefs
     {
         internal SpecialFilterPrefs() { }
-        public SpecialFilterPrefs(/*Dictionary<int, bool> nameValues, */bool RemoveDupes, 
+        public SpecialFilterPrefs(/*Dictionary<int, bool> nameValues, */bool RemoveDupes,
             bool FilterTitlesThatContain, bool FilterTitlesThatDontContain, bool AreRegex,
             int OpType, List<string> Remove)
         {
@@ -590,7 +590,7 @@ namespace WikiFunctions.AWBSettings
         public List<string> remove = new List<string>();
     }
 
-    [Serializable, ]
+    [Serializable,]
     public class PluginPrefs
     {
         internal PluginPrefs() { }

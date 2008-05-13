@@ -29,8 +29,6 @@ namespace AutoWikiBrowser
 {
     public partial class ExternalProgram : Form, WikiFunctions.Plugin.IModule
     {
-        private WikiFunctions.AWBSettings.ExternalProgramPrefs settings;
-
         public ExternalProgram()
         {
             InitializeComponent();
@@ -46,32 +44,21 @@ namespace AutoWikiBrowser
         {
             get
             {
-                settings.Enabled = chkEnabled.Checked;
-                settings.Skip = chkSkip.Checked;
-
-                settings.WorkingDir = txtWorkingDir.Text;
-                settings.Program = txtProgram.Text;
-                settings.Parameters = txtParameters.Text;
-
-                settings.PassAsFile = radFile.Checked;
-                settings.OutputFile = txtFile.Text;
-
-                return settings;
+                return new WikiFunctions.AWBSettings.ExternalProgramPrefs(chkEnabled.Checked, chkSkip.Checked,
+                    txtWorkingDir.Text, txtProgram.Text, txtParameters.Text, radFile.Checked, txtFile.Text);
             }
             set
             {
-                settings = value;
+                chkEnabled.Checked = value.Enabled;
+                chkSkip.Checked = value.Skip;
 
-                chkEnabled.Checked = settings.Enabled;
-                chkSkip.Checked = settings.Skip;
+                txtWorkingDir.Text = value.WorkingDir;
+                txtProgram.Text = value.Program;
+                txtParameters.Text = value.Parameters;
 
-                txtWorkingDir.Text = settings.WorkingDir;
-                txtProgram.Text = settings.Program;
-                txtParameters.Text = settings.Parameters;
-
-                radFile.Checked = settings.PassAsFile;
-                radParameter.Checked = !settings.PassAsFile;
-                txtFile.Text = settings.OutputFile;
+                radFile.Checked = value.PassAsFile;
+                radParameter.Checked = !value.PassAsFile;
+                txtFile.Text = value.OutputFile;
             }
         }
 
