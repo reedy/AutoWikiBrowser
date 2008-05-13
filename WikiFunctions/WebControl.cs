@@ -1056,7 +1056,7 @@ namespace WikiFunctions.Browser
     }
 
     [Serializable]
-    public class WebBrowserOperationsException : System.Exception
+    public class WebBrowserOperationsException : ApplicationException
     {
         public WebBrowserOperationsException()
             : base("Web browser operations exception") { }

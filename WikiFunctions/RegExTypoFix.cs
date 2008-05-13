@@ -359,7 +359,7 @@ namespace WikiFunctions.Parse
     }
 
     [Serializable]
-    public class TypoException : Exception
+    public class TypoException : ApplicationException
     {
         public TypoException()
             : base() { }
