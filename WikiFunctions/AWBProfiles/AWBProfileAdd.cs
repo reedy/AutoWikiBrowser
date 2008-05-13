@@ -103,13 +103,8 @@ namespace WikiFunctions.Profiles
                 profile.useforupload = chkUseForUpload.Checked;
                 profile.notes = txtNotes.Text;
 
-                if (editid == -1)
-                    AWBProfiles.AddProfile(profile);
-                else
-                {
-                    profile.id = editid;
-                    AWBProfiles.EditProfile(profile);
-                }
+                profile.id = editid;
+                AWBProfiles.AddEditProfile(profile);
 
                 this.DialogResult = DialogResult.Yes;
             }
