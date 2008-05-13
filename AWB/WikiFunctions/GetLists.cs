@@ -1121,7 +1121,7 @@ namespace WikiFunctions.Lists
     }
 
     [Serializable]
-    public class PageDoesNotExistException : System.Exception
+    public class PageDoesNotExistException : ApplicationException
     {
         public PageDoesNotExistException() { }
         public PageDoesNotExistException(string message)

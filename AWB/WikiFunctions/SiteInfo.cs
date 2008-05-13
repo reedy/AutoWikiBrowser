@@ -245,7 +245,7 @@ namespace WikiFunctions
     }
 
     [Serializable]
-    public class SiteInfoException : Exception
+    public class SiteInfoException : ApplicationException
     {
         public SiteInfoException()
             : base() { }
