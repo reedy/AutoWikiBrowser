@@ -41,6 +41,7 @@ namespace AutoWikiBrowser.Plugins.Server
         internal static ToolStripMenuItem EnabledMenuItem = new ToolStripMenuItem(conMe);
         internal static ToolStripMenuItem ConfigMenuItem = new ToolStripMenuItem("Configuration");
         internal static ToolStripMenuItem AboutMenuItem = new ToolStripMenuItem("About the AWB " + conMe);
+        internal static ToolStripMenuItem TabPageMenuItem = new ToolStripMenuItem("Tab Page");
 
         // Tab page:
         internal static TabPage ServerPluginTabPage = new TabPage("Server");
@@ -69,12 +70,14 @@ namespace AutoWikiBrowser.Plugins.Server
             StatusText.BorderStyle = Border3DStyle.Etched;
             //AWBForm.StatusStrip.ShowItemToolTips = true; // naughty hack in case somebody turns this off in the designer
             EnabledMenuItem.CheckOnClick = true;
+            TabPageMenuItem.CheckOnClick = true;
             ServerPluginTabPage.UseVisualStyleBackColor = true;
             ServerPluginTabPage.Controls.Add(ServerUserControl);
 
             // Event handlers:
             AboutMenuItem.Click += AboutMenuItemClicked;
-            EnabledMenuItem.CheckedChanged += PluginEnabledCheckedChange;
+            EnabledMenuItem.CheckedChanged += PluginEnabled_CheckedChange;
+            TabPageMenuItem.CheckedChanged += TabPageMenuItem_CheckedChange;
             ConfigMenuItem.Click += ShowSettings;
             ServerUserControl.HideButton.Click += HideButton_Click;
             ServerUserControl.SettingsButton.Click += ShowSettings;
@@ -82,6 +85,7 @@ namespace AutoWikiBrowser.Plugins.Server
             // Add our UI objects to the AWB main form:
             AWBForm.StatusStrip.Items.Insert(2, StatusText);
             EnabledMenuItem.DropDownItems.Add(ConfigMenuItem);
+            EnabledMenuItem.DropDownItems.Add(TabPageMenuItem);
             AWBForm.PluginsToolStripMenuItem.DropDownItems.Add(EnabledMenuItem);
             AWBForm.HelpToolStripMenuItem.DropDownItems.Add(AboutMenuItem);
             AWBForm.HelpToolStripMenuItem.DropDownItems.Add(AboutMenuItem);
@@ -148,7 +152,7 @@ namespace AutoWikiBrowser.Plugins.Server
                 PluginEnabled = OptionsForm.ServerEnabled;
         }
 
-        private void PluginEnabledCheckedChange(Object sender, EventArgs e)
+        private void PluginEnabled_CheckedChange(Object sender, EventArgs e)
         {
             // TODO: Validate settings; start/stop server listening. eg could attach to this event in server object
             StatusText.Visible = PluginEnabled;
@@ -156,19 +160,34 @@ namespace AutoWikiBrowser.Plugins.Server
             if (PluginEnabled)
             {
                 AWBForm.NotifyBalloon(Name + " enabled", ToolTipIcon.Info);
-                AWBForm.AddTabPage(ServerPluginTabPage);
+                ShowHideTab(true);
 
                 // HACK:
                 ServerControl.Server.Init(49155);
+                // TODO: Get details from registry in settings control
             }
             else
             {
                 AWBForm.NotifyBalloon(Name + " disabled", ToolTipIcon.Info);
-                AWBForm.RemoveTabPage(ServerPluginTabPage);
+                ShowHideTab(false);
             }
         }
 
+        private static void TabPageMenuItem_CheckedChange(Object sender, EventArgs e)
+        { ShowHideTab(TabPageMenuItem.Checked); }
+
         private static void HideButton_Click(object sender, EventArgs e)
-        { AWBForm.RemoveTabPage(ServerPluginTabPage); }
+        { ShowHideTab(false); }
+
+        private static void ShowHideTab(bool ShowHide)
+        {
+            if (TabPageMenuItem.Checked != ShowHide)
+                TabPageMenuItem.Checked = ShowHide;
+
+            if (ShowHide)
+                AWBForm.AddTabPage(ServerPluginTabPage);
+            else
+                AWBForm.RemoveTabPage(ServerPluginTabPage);
+        }
     }
 }
