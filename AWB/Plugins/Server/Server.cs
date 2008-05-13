@@ -144,23 +144,6 @@ namespace AutoWikiBrowser.Plugins.Server
             private bool HaveLoggedInUser
             { get { return mLoggedInClient != null; } }
 
-            /* TODO: NOTES:
-             * When receiving new connection, check if somebody is logged in or not, and if they are
-             * issue a BUSY. Reject all other commands except FORCE LOGIN; if that is received close the
-             * earlier connection *after* the new one is authenticated.
-             * 
-             * When interracting with the command track the state of what command we receive next, and
-             * accept only that command or commands which can be issued at any time (NB: If login is required
-             * VERSION can only be processed *after* authentication).
-             * 
-             * CAN PROBABLY DO SOME OF THIS BY ADDING AND REMOVING HANDLERS DEPENDING ON STATE (vs logic).
-             * 
-             * Store details of current login and the last 5 or 10 connection attempts, and have a pop up
-             * form the user can view.
-             * 
-             * Don't forget to write to the trace listener where applicable.
-            */
-
             /// <summary>
             /// A wrapper around System.Net.Sockets.Socket; handles one client connection per object and maintains state
             /// </summary>
@@ -176,7 +159,7 @@ namespace AutoWikiBrowser.Plugins.Server
                 internal ServerWorker(Socket workerSocket)
                 { m_WorkerSocket = workerSocket; }
 
-                                /// <summary>
+                /// <summary>
                 /// Format data for sending to client and assign an event handler for the Completed event
                 /// </summary>
                 /// <param name="ResponseCode"></param>
@@ -244,7 +227,9 @@ namespace AutoWikiBrowser.Plugins.Server
                 { m_WorkerSocket.Close(); }
 
                 // Delegates:
-
+                // TODO: Ensure all code inside delegates which will run on a different thread are thread-safe,
+                // i.e. they safely access shared variables and don't directly interfere with the UI
+                // see e.g. http://www.codeguru.com/csharp/csharp/cs_network/sockets/article.php/c8781/#Client6
                 /// <summary>
                 /// Delegate which closes a connection once a "Try again later" message has been sent
                 /// </summary>
@@ -324,6 +309,26 @@ namespace AutoWikiBrowser.Plugins.Server
                 private void OnReceiveDelegate(object sender, SocketAsyncEventArgs e)
                 {
                 }
+
+                /* TODO: NOTES:
+                 * When receiving new connection, check if somebody is logged in or not, and if they are
+                 * issue a BUSY. Reject all other commands except FORCE LOGIN; if that is received close the
+                 * earlier connection *after* the new one is authenticated.
+                 * 
+                 * When interracting with the command track the state of what command we receive next, and
+                 * accept only that command or commands which can be issued at any time (NB: If login is required
+                 * VERSION can only be processed *after* authentication).
+                 * 
+                 * CAN PROBABLY DO SOME OF THIS BY ADDING AND REMOVING HANDLERS DEPENDING ON STATE (vs logic).
+                 * 
+                 * If we're sending something to the client, make sure we're not still waiting for a response and if we
+                 * are queue up the transmission. LastServerResponse may be enough for this or we may need a Blocking bool
+                 * or something... I'll see when I get that far.
+                 * 
+                 * Show details of current login and the last 5 or 10 connection attempts and other guff on the tab page
+                 * 
+                 * Don't forget to write to the trace listener where applicable.
+                */
             }
 
             #region IDisposable Members
