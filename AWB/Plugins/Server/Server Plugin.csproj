@@ -58,6 +58,9 @@
     <Compile Include="ServerOptions.Designer.cs">
       <DependentUpon>ServerOptions.cs</DependentUpon>
     </Compile>
+    <Compile Include="ServerWorker.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\WikiFunctions\WikiFunctions.csproj">
