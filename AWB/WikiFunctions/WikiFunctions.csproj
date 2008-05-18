@@ -210,7 +210,6 @@
       <DependentUpon>RegexTester.cs</DependentUpon>
     </Compile>
     <Compile Include="RegExTypoFix.cs" />
-    <Compile Include="Utils.cs" />
     <Compile Include="ReplaceSpecial\InTemplateRule.cs" />
     <Compile Include="ReplaceSpecial\InTemplateRuleControl.cs">
       <SubType>UserControl</SubType>
