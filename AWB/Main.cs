@@ -237,6 +237,9 @@ namespace AutoWikiBrowser
                 else
                     listMaker1.MakeListEnabled = true;
 
+                webBrowserDiff.Navigate("about:blank");
+                webBrowserDiff.ObjectForScripting = this;
+
                 splash.SetProgress(35);
                 if (Properties.Settings.Default.LogInOnStart)
                     CheckStatus(false);
@@ -272,9 +275,6 @@ namespace AutoWikiBrowser
                         + "Please verify that you're connected to Internet.", "Error",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-
-                webBrowserDiff.Navigate("about:blank");
-                webBrowserDiff.ObjectForScripting = this;
 
                 if (userProfileToLoad != -1)
                 {
