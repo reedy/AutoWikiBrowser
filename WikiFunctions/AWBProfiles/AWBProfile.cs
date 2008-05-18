@@ -1,6 +1,6 @@
 /*
 AWB Profiles
-Copyright (C) 2008 Sam Reed, Stephen Kennedy
+Copyright (C) 2007 Sam Reed
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -17,15 +17,11 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-// TODO: NB: Needs testing after tidying and restructuring. Existing profiles
-// will not work unless a bit of code is written to move them, as I've renamed
-// the registry key.
-
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.VisualBasic.Devices;
 using System.Windows.Forms;
-using WikiFunctions.Encryption;
 
 namespace WikiFunctions.Profiles
 {
@@ -54,9 +50,44 @@ namespace WikiFunctions.Profiles
 
     public static class AWBProfiles
     {
-        private static EncryptionUtils EncryptionUtils = new EncryptionUtils("tnf47bgfdwlp9,.q",
-            "oi frjweopi 4r390%^($%%^$HJKJNMHJGY 2`';'[#", "SH1ew yuhn gxe$£$%^y HNKLHWEQ JEW`b");
-        private const string ProfileRegistryString = "Profiles\\";
+        private const string RegKey = "Software\\Wikipedia\\AutoWikiBrowser\\Profiles";
+        private const string PassPhrase = "oi frjweopi 4r390%^($%%^$HJKJNMHJGY 2`';'[#";
+        private const string Salt = "SH1ew yuhn gxe$£$%^y HNKLHWEQ JEW`b";
+        private const string IV16Chars = "tnf47bgfdwlp9,.q";
+
+        /// <summary>
+        /// Encrypts a string using the specified Pass Key and Salt
+        /// </summary>
+        /// <param name="text">String to be encrypted</param>
+        /// <returns>Encrypted String</returns>
+        private static string Encrypt(string text)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(text))
+                    return Encryption.RijndaelSimple.Encrypt(text, PassPhrase, Salt, "SHA1", 2, IV16Chars, 256);
+                else
+                    return text;
+            }
+            catch { return text; }
+        }
+
+        /// <summary>
+        /// Decrypts a string
+        /// </summary>
+        /// <param name="text">String to be decrypted</param>
+        /// <returns>Decrypted String</returns>
+        private static string Decrypt(string text)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(text))
+                    return Encryption.RijndaelSimple.Decrypt(text, PassPhrase, Salt, "SHA1", 2, IV16Chars, 256);
+                else
+                    return text;
+            }
+            catch { return text; }
+        }
 
         /// <summary>
         /// Gets all the Saved Profiles from the Registry
@@ -80,10 +111,10 @@ namespace WikiFunctions.Profiles
         public static AWBProfile GetProfile(int id)
         {
             AWBProfile prof = new AWBProfile();
-            //Computer myComputer = new Computer();
+            Computer myComputer = new Computer();
 
             prof.id = id;
-            try { prof.Username = RegistryGetAndDecryptValue(id + "\\User", ""); }
+            try { prof.Username = Decrypt(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "User", "").ToString()); }
             catch
             {
                 if (MessageBox.Show("Profile corrupt. Would you like to delete this profile?", "Delete corrupt profile?", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -94,14 +125,14 @@ namespace WikiFunctions.Profiles
 
             // one try...catch without a resume has the effect that all remaining code in the try block is skipped
             // WHY are we just ignoring these errors anyway? There should be a wrapper around Registry.GetValue perhaps?
-            try { prof.Password = RegistryGetAndDecryptValue(id + "Pass", ""); }
+            try { prof.Password = Decrypt(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Pass", "").ToString()); }
             catch { prof.Password = ""; }
             finally
             {
-                prof.defaultsettings = RegistryGetValue(id + "\\Settings", "");
-                try { prof.useforupload = bool.Parse(RegistryGetValue(id + "\\UseForUpload", "")); }
+                prof.defaultsettings = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Settings", "").ToString();
+                try { prof.useforupload = bool.Parse(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "UseForUpload", "").ToString()); }
                 catch { prof.useforupload = false; }
-                prof.notes = RegistryGetValue(id +  "\\Notes", "");
+                prof.notes = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Notes", "").ToString();
             }
             return prof;
         }
@@ -167,7 +198,10 @@ namespace WikiFunctions.Profiles
             {
                 AWBProfiles.ResetTempPassword();
                 foreach (int id in GetProfileIDs())
-                { RegistrySetValue(id, "UseForUpload", false.ToString()); }
+                {
+                    Microsoft.Win32.RegistryKey key = new Computer().Registry.CurrentUser.OpenSubKey(RegKey + "\\" + id, true);
+                    key.SetValue("UseForUpload", false);
+                }
             }
             catch { }
         }
@@ -178,7 +212,9 @@ namespace WikiFunctions.Profiles
         /// <param name="id">Profile ID</param>
         /// <returns>Decrypted password</returns>
         public static string GetPassword(int id)
-        { return RegistryGetAndDecryptValue(id + "\\Pass", ""); }
+        {
+            return Decrypt(new Computer().Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Pass", "").ToString());
+        }
 
         /// <summary>
         /// Gets the decrypted username of a specified profile
@@ -186,7 +222,9 @@ namespace WikiFunctions.Profiles
         /// <param name="id">Profile ID</param>
         /// <returns>Decrypted password</returns>
         public static string GetUsername(int id)
-        { return RegistryGetAndDecryptValue(id + "\\User", ""); }
+        {
+            return Decrypt(new Computer().Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "User", "").ToString());
+        }
 
         /// <summary>
         /// Set/Change the password of the specified profile
@@ -194,7 +232,9 @@ namespace WikiFunctions.Profiles
         /// <param name="id">Profile ID</param>
         /// <param name="password">Password</param>
         public static void SetPassword(int id, string password)
-        { SetProfilePassword(id, EncryptionUtils.Encrypt(password)); }
+        {
+            SetProfilePassword(id, Encrypt(password));
+        }
 
         /// <summary>
         /// Sets the Profile Password in the Registry
@@ -203,31 +243,46 @@ namespace WikiFunctions.Profiles
         /// <param name="password">Password</param>
         private static void SetProfilePassword(int id, string password)
         {
-            try { RegistrySetValue(id, "Pass", password); }
+            try
+            {
+                Microsoft.Win32.RegistryKey key = new Computer().Registry.CurrentUser.OpenSubKey(RegKey + "\\" + id, true);
+                key.SetValue("Pass", password);
+            }
             catch { }
         }
 
         /// <summary>
-        /// Writes a new or modified Profile to the registry
+        /// Adds a new Profile to the Registry
+        /// </summary>
+        /// <param name="profile">Profile Object of User</param>
+        public static void AddProfile(AWBProfile profile)
+        {
+            try { AddEditProfile(profile, new Computer().Registry.CurrentUser.CreateSubKey(RegKey + "\\" + GetFirstFreeID())); }
+            catch { }
+        }
+
+        /// <summary>
+        /// Edits the profile
+        /// </summary>
+        /// <param name="profile">Profile Object of User</param>
+        public static void EditProfile(AWBProfile profile)
+        {
+            try { AddEditProfile(profile, new Computer().Registry.CurrentUser.OpenSubKey(RegKey + "\\" + profile.id, true)); }
+            catch { }
+        }
+
+        /// <summary>
+        /// Does the registry writing for add & edit profiles
         /// </summary>
         /// <param name="profile">Profile Object of User</param>
         /// <param name="Key">Registry Key for Adding/Editing</param>
-        internal static void AddEditProfile(AWBProfile profile)
+        private static void AddEditProfile(AWBProfile profile, Microsoft.Win32.RegistryKey Key)
         {
-            if (profile.id == -1)
-                profile.id = GetFirstFreeID();
-
-            Microsoft.Win32.RegistryKey Key = RegistryGetWritableKey(profile.id);
-
-            try
-            {
-                Key.SetValue("User", EncryptionUtils.Encrypt(profile.Username));
-                Key.SetValue("Pass", EncryptionUtils.Encrypt(profile.Password));
-                Key.SetValue("Settings", profile.defaultsettings);
-                Key.SetValue("UseForUpload", profile.useforupload);
-                Key.SetValue("Notes", profile.notes);
-            }
-            catch { }
+            Key.SetValue("User", Encrypt(profile.Username));
+            Key.SetValue("Pass", Encrypt(profile.Password));
+            Key.SetValue("Settings", profile.defaultsettings);
+            Key.SetValue("UseForUpload", profile.useforupload);
+            Key.SetValue("Notes", profile.notes);
         }
 
         /// <summary>
@@ -237,7 +292,7 @@ namespace WikiFunctions.Profiles
         {
             get
             {
-                try { return RegistryGetAndDecryptValue("TempPassword", ""); }
+                try { return Decrypt(new Computer().Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey, "TempPassword", "").ToString()); }
                 catch { return ""; }
             }
 
@@ -245,8 +300,8 @@ namespace WikiFunctions.Profiles
             {
                 try
                 {
-                    Microsoft.Win32.RegistryKey key = RegistryUtils.GetWritableKey(ProfileRegistryString);
-                    if (key != null) key.SetValue("TempPassword", EncryptionUtils.Encrypt(value));
+                    Microsoft.Win32.RegistryKey key = new Computer().Registry.CurrentUser.OpenSubKey(RegKey, true);
+                    if (key != null) key.SetValue("TempPassword", Encrypt(value));
                 }
                 catch { }
             }
@@ -266,8 +321,18 @@ namespace WikiFunctions.Profiles
         /// <param name="id"></param>
         public static void DeleteProfile(int id)
         {
-            try { RegistryUtils.DeleteSubKey(ProfileRegistryString + id); }
+            try { Microsoft.Win32.Registry.CurrentUser.DeleteSubKey(RegKey + "\\" + id.ToString()); }
             catch { }
+        }
+
+        /// <summary>
+        /// Counts the number of Profiles
+        /// </summary>
+        /// <returns>Number of Profiles</returns>
+        private static int CountSubKeys()
+        {
+            try { return new Computer().Registry.CurrentUser.OpenSubKey(RegKey).SubKeyCount; }
+            catch { return 0; }
         }
 
         /// <summary>
@@ -279,8 +344,9 @@ namespace WikiFunctions.Profiles
             List<int> profileIds = new List<int>();
             try
             {
-                foreach (string id in RegistryUtils.OpenSubKey(ProfileRegistryString).GetSubKeyNames())
-                { profileIds.Add(int.Parse(id)); }
+                foreach (string id in new Computer().Registry.CurrentUser.OpenSubKey(RegKey).GetSubKeyNames())
+                    profileIds.Add(int.Parse(id));
+
                 return profileIds;
             }
             catch
@@ -307,18 +373,5 @@ namespace WikiFunctions.Profiles
 
             return i;
         }
-
-        // Wrapper around RegistryUtils
-        private static string RegistryGetValue(string suffix, object defaultValue)
-        { return RegistryUtils.GetValue(ProfileRegistryString + suffix, defaultValue); }
-
-        private static string RegistryGetAndDecryptValue(string suffix, object defaultValue)
-        { return EncryptionUtils.RegistryGetValueAndDecrypt(ProfileRegistryString + suffix, defaultValue); }
-
-        private static void RegistrySetValue(int keyNameSuffix, string valueName, string value)
-        { RegistryUtils.SetValue(ProfileRegistryString + keyNameSuffix, valueName, value); }
-
-        private static Microsoft.Win32.RegistryKey RegistryGetWritableKey(int keyNameSuffix)
-        { return RegistryUtils.GetWritableKey(ProfileRegistryString + keyNameSuffix); }
     }
 }

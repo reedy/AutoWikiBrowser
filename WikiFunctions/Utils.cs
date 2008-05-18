@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (C) 2008 Stephen Kennedy, Sam Reed
+Copyright (C) 2008 Sam Reed, Stephen Kennedy
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -16,79 +16,26 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+using Microsoft.VisualBasic.Devices;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace WikiFunctions
 {
-    /// <summary>
-    /// Provides access to the local computer registry below HKEY_CURRENT_USER\Software\AutoWikiBrowser only
-    /// </summary>
-    /// <remarks>Clients should implement their own error handling</remarks>
     public static class RegistryUtils
     {
         private const string KeyPrefix = "Software\\AutoWikiBrowser\\";
-        private static Microsoft.Win32.RegistryKey registryKey = new Microsoft.VisualBasic.Devices.Computer().Registry.CurrentUser;
+        private static Computer myComputer = new Computer();
 
-        /// <summary>
-        /// Gets a string value from an AWB registry subkey
-        /// </summary>
-        /// <param name="keyNameSuffix"></param>
-        /// <param name="defaultValue"></param>
-        /// <returns></returns>
-        public static string GetValue(string keyNameSuffix, object defaultValue)
-        { return registryKey.GetValue(BuildKeyName(keyNameSuffix), defaultValue).ToString(); }
-
-        /// <summary>
-        /// Writes a string value to an AWB registry subkey
-        /// </summary>
-        /// <param name="keyNameSuffix"></param>
-        /// <param name="valueName"></param>
-        /// <param name="value"></param>
-        public static void SetValue(string keyNameSuffix, string valueName, string value)
-        { GetWritableKey(keyNameSuffix).SetValue(valueName, value); }
-
-        /// <summary>
-        /// Opens or creates a writable registry key from the AWB registry area
-        /// </summary>
-        /// <param name="keyNameSuffix"></param>
-        /// <returns></returns>
-        public static Microsoft.Win32.RegistryKey GetWritableKey(string keyNameSuffix)
+        public static string GetAWBCurrentUserSubKey(string keyNameSuffix, object defaultValue)
         {
-            // Note that CreateSubKey() creates a new subkey *or opens an existing key for write access*
-            return registryKey.CreateSubKey(BuildKeyName(keyNameSuffix));
+            return myComputer.Registry.CurrentUser.GetValue(keyNameSuffix, defaultValue).ToString();
         }
-
-        /// <summary>
-        /// Opens a read-only registry key from the AWB registry area
-        /// </summary>
-        /// <param name="keyNameSuffix"></param>
-        /// <returns></returns>
-        public static Microsoft.Win32.RegistryKey OpenSubKey(string keyNameSuffix)
-        { return registryKey.OpenSubKey(BuildKeyName(keyNameSuffix)); }
-
-        /// <summary>
-        /// Deletes a sub key
-        /// </summary>
-        public static void DeleteSubKey(string keyNameSuffix, bool throwOnMissingSubKey)
-        { registryKey.DeleteSubKey(BuildKeyName(keyNameSuffix), throwOnMissingSubKey); }
-
-        /// <summary>
-        /// Deletes a sub key
-        /// </summary>
-        public static void DeleteSubKey(string keyNameSuffix)
-        { registryKey.DeleteSubKey(BuildKeyName(keyNameSuffix)); }
-
-        private static string BuildKeyName(string keyNameSuffix)
-        { return KeyPrefix + "\\" + keyNameSuffix; }
     }
 
     namespace Encryption
     {
-        /// <summary>
-        /// Provides a friendly wrapper around the RijndaelSimple class
-        /// </summary>
         public class EncryptionUtils
         {
             internal readonly string IV16Chars;
@@ -103,10 +50,10 @@ namespace WikiFunctions
             }
 
             /// <summary>
-            /// Encrypts a string
+            /// Encrypts a string using the specified Pass Key and Salt
             /// </summary>
             /// <param name="text">String to be encrypted</param>
-            /// <returns>Encrypted string</returns>
+            /// <returns>Encrypted String</returns>
             public string Encrypt(string text)
             {
                 try
@@ -123,7 +70,7 @@ namespace WikiFunctions
             /// Decrypts a string
             /// </summary>
             /// <param name="text">String to be decrypted</param>
-            /// <returns>Decrypted string</returns>
+            /// <returns>Decrypted String</returns>
             public string Decrypt(string text)
             {
                 try
@@ -136,8 +83,8 @@ namespace WikiFunctions
                 catch { return text; }
             }
 
-            public string RegistryGetValueAndDecrypt(string keyNameSuffix, object defaultValue)
-            { return Decrypt(RegistryUtils.GetValue(keyNameSuffix, defaultValue)); }
+            public string DecryptAWBCurrentUserSubKey(string keyNameSuffix, object defaultValue)
+            { return Decrypt(RegistryUtils.GetAWBCurrentUserSubKey(keyNameSuffix, defaultValue)); }
         }
     }
 }
