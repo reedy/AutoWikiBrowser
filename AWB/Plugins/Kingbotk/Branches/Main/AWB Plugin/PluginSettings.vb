@@ -159,7 +159,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         Private Sub SetAWBToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) _
         Handles SetAWBToolStripMenuItem.Click
             With PluginManager.AWBForm
-                .SkipNonExistentPagesCheckBox.Checked = False
+                .SkipNonExistentPages.Checked = False
                 .ApplyGeneralFixesCheckBox.Checked = False
                 .AutoTagCheckBox.Checked = False
                 If .EditSummaryComboBox.Text = "clean up" Then .EditSummaryComboBox.Text = ""
