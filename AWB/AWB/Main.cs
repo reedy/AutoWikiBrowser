@@ -823,12 +823,12 @@ namespace AutoWikiBrowser
 
                 bool wpTextbox1IsNull = (webBrowserEdit.Document.GetElementById("wpTextbox1").InnerText == null);
 
-                if (wpTextbox1IsNull && chkSkipNonExistent.Checked)
+                if (wpTextbox1IsNull && radSkipNonExistent.Checked)
                 {//check if it is a non-existent page, if so then skip it automatically.
                     SkipPage("Non-existent page");
                     return false;
                 }
-                if (!wpTextbox1IsNull && chkSkipExistent.Checked)
+                if (!wpTextbox1IsNull && radSkipExistent.Checked)
                 {
                     SkipPage("Existing page");
                     return false;
@@ -3405,18 +3405,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             PageReload = true;
             webBrowserEdit.LoadEditPage(TheArticle.Name);
             TheArticle.OriginalArticleText = webBrowserEdit.GetArticleText();
-        }
-
-        private void chkSkipNonExistent_CheckedChanged(object sender, EventArgs e)
-        {
-            if (chkSkipNonExistent.Checked)
-                chkSkipExistent.Checked = false;
-        }
-
-        private void chkSkipExistent_CheckedChanged(object sender, EventArgs e)
-        {
-            if (chkSkipExistent.Checked)
-                chkSkipNonExistent.Checked = false;
         }
 
         #region History

@@ -109,7 +109,7 @@ namespace WikiFunctions.Plugin
         StatusStrip StatusStrip { get; }
         NotifyIcon NotifyIcon { get; }
         ToolStripMenuItem HelpToolStripMenuItem { get; }
-        CheckBox SkipNonExistentPagesCheckBox { get;  }
+        RadioButton SkipNonExistentPages { get;  }
         CheckBox ApplyGeneralFixesCheckBox { get; }
         CheckBox AutoTagCheckBox { get; }
         ToolStripMenuItem PluginsToolStripMenuItem { get; }
