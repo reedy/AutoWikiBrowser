@@ -213,16 +213,7 @@ namespace AutoWikiBrowser
             this.btnProtect = new System.Windows.Forms.Button();
             this.btnMove = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
-            this.chkSkipIfContains = new System.Windows.Forms.CheckBox();
-            this.txtSkipIfNotContains = new System.Windows.Forms.TextBox();
-            this.txtSkipIfContains = new System.Windows.Forms.TextBox();
-            this.chkSkipIfNotContains = new System.Windows.Forms.CheckBox();
-            this.chkSkipIsRegex = new System.Windows.Forms.CheckBox();
-            this.chkSkipNoChanges = new System.Windows.Forms.CheckBox();
-            this.chkSkipWhitespace = new System.Windows.Forms.CheckBox();
             this.btnSubst = new System.Windows.Forms.Button();
-            this.chkSkipIfInuse = new System.Windows.Forms.CheckBox();
-            this.chkSkipSpamFilter = new System.Windows.Forms.CheckBox();
             this.btnWatch = new System.Windows.Forms.Button();
             this.imgSub = new System.Windows.Forms.PictureBox();
             this.imgSup = new System.Windows.Forms.PictureBox();
@@ -239,6 +230,15 @@ namespace AutoWikiBrowser
             this.btnFindAndReplaceAdvanced = new System.Windows.Forms.Button();
             this.btnMoreFindAndReplce = new System.Windows.Forms.Button();
             this.imgStrike = new System.Windows.Forms.PictureBox();
+            this.chkSkipIfContains = new System.Windows.Forms.CheckBox();
+            this.txtSkipIfNotContains = new System.Windows.Forms.TextBox();
+            this.txtSkipIfContains = new System.Windows.Forms.TextBox();
+            this.chkSkipIfNotContains = new System.Windows.Forms.CheckBox();
+            this.chkSkipIsRegex = new System.Windows.Forms.CheckBox();
+            this.chkSkipNoChanges = new System.Windows.Forms.CheckBox();
+            this.chkSkipSpamFilter = new System.Windows.Forms.CheckBox();
+            this.chkSkipIfInuse = new System.Windows.Forms.CheckBox();
+            this.chkSkipWhitespace = new System.Windows.Forms.CheckBox();
             this.txtEdit = new System.Windows.Forms.TextBox();
             this.mnuHistory = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -314,6 +314,9 @@ namespace AutoWikiBrowser
             this.tpSkip = new System.Windows.Forms.TabPage();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.radSkipNone = new System.Windows.Forms.RadioButton();
+            this.radSkipExistent = new System.Windows.Forms.RadioButton();
+            this.radSkipNonExistent = new System.Windows.Forms.RadioButton();
             this.chkSkipCaseSensitive = new System.Windows.Forms.CheckBox();
             this.tpBots = new System.Windows.Forms.TabPage();
             this.groupBox16 = new System.Windows.Forms.GroupBox();
@@ -372,9 +375,6 @@ namespace AutoWikiBrowser
             this.mnuCopyToCategoryLog = new System.Windows.Forms.ToolStripMenuItem();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
-            this.radSkipNone = new System.Windows.Forms.RadioButton();
-            this.radSkipExistent = new System.Windows.Forms.RadioButton();
-            this.radSkipNonExistent = new System.Windows.Forms.RadioButton();
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -1851,80 +1851,6 @@ namespace AutoWikiBrowser
             this.toolTip1.SetToolTip(this.btnDelete, "Delete this page");
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
-            // chkSkipIfContains
-            // 
-            this.chkSkipIfContains.Location = new System.Drawing.Point(6, 19);
-            this.chkSkipIfContains.Name = "chkSkipIfContains";
-            this.chkSkipIfContains.Size = new System.Drawing.Size(89, 17);
-            this.chkSkipIfContains.TabIndex = 0;
-            this.chkSkipIfContains.Text = "&Contains:";
-            this.toolTip1.SetToolTip(this.chkSkipIfContains, "Skip articles that contain this text");
-            this.chkSkipIfContains.UseVisualStyleBackColor = true;
-            this.chkSkipIfContains.CheckedChanged += new System.EventHandler(this.chkIgnoreIfContains_CheckedChanged);
-            // 
-            // txtSkipIfNotContains
-            // 
-            this.txtSkipIfNotContains.Enabled = false;
-            this.txtSkipIfNotContains.Location = new System.Drawing.Point(106, 41);
-            this.txtSkipIfNotContains.Name = "txtSkipIfNotContains";
-            this.txtSkipIfNotContains.Size = new System.Drawing.Size(154, 20);
-            this.txtSkipIfNotContains.TabIndex = 3;
-            this.toolTip1.SetToolTip(this.txtSkipIfNotContains, "Skip articles that do not contain this text");
-            // 
-            // txtSkipIfContains
-            // 
-            this.txtSkipIfContains.Enabled = false;
-            this.txtSkipIfContains.Location = new System.Drawing.Point(106, 17);
-            this.txtSkipIfContains.Name = "txtSkipIfContains";
-            this.txtSkipIfContains.Size = new System.Drawing.Size(154, 20);
-            this.txtSkipIfContains.TabIndex = 1;
-            this.toolTip1.SetToolTip(this.txtSkipIfContains, "Skip articles that contain this text");
-            // 
-            // chkSkipIfNotContains
-            // 
-            this.chkSkipIfNotContains.Location = new System.Drawing.Point(6, 43);
-            this.chkSkipIfNotContains.Name = "chkSkipIfNotContains";
-            this.chkSkipIfNotContains.Size = new System.Drawing.Size(103, 18);
-            this.chkSkipIfNotContains.TabIndex = 2;
-            this.chkSkipIfNotContains.Text = "Does&n\'t contain:";
-            this.toolTip1.SetToolTip(this.chkSkipIfNotContains, "Skip articles that do not contain this text");
-            this.chkSkipIfNotContains.UseVisualStyleBackColor = true;
-            this.chkSkipIfNotContains.CheckedChanged += new System.EventHandler(this.chkOnlyIfContains_CheckedChanged);
-            // 
-            // chkSkipIsRegex
-            // 
-            this.chkSkipIsRegex.AutoSize = true;
-            this.chkSkipIsRegex.Location = new System.Drawing.Point(44, 67);
-            this.chkSkipIsRegex.Name = "chkSkipIsRegex";
-            this.chkSkipIsRegex.Size = new System.Drawing.Size(121, 17);
-            this.chkSkipIsRegex.TabIndex = 4;
-            this.chkSkipIsRegex.Text = "&Regular expressions";
-            this.toolTip1.SetToolTip(this.chkSkipIsRegex, "Enables regular expressions for the \"Skip if contains\"");
-            this.chkSkipIsRegex.UseVisualStyleBackColor = true;
-            // 
-            // chkSkipNoChanges
-            // 
-            this.chkSkipNoChanges.AutoSize = true;
-            this.chkSkipNoChanges.Location = new System.Drawing.Point(6, 136);
-            this.chkSkipNoChanges.Name = "chkSkipNoChanges";
-            this.chkSkipNoChanges.Size = new System.Drawing.Size(131, 17);
-            this.chkSkipNoChanges.TabIndex = 8;
-            this.chkSkipNoChanges.Text = "No c&hanges are made";
-            this.toolTip1.SetToolTip(this.chkSkipNoChanges, "Automatically skips articles when no changes were automatically made");
-            this.chkSkipNoChanges.UseVisualStyleBackColor = true;
-            // 
-            // chkSkipWhitespace
-            // 
-            this.chkSkipWhitespace.AutoSize = true;
-            this.chkSkipWhitespace.Location = new System.Drawing.Point(6, 159);
-            this.chkSkipWhitespace.Name = "chkSkipWhitespace";
-            this.chkSkipWhitespace.Size = new System.Drawing.Size(159, 17);
-            this.chkSkipWhitespace.TabIndex = 9;
-            this.chkSkipWhitespace.Text = "Only &whitespace is changed";
-            this.toolTip1.SetToolTip(this.chkSkipWhitespace, "Automatically skips articles when only whitespace changes were automatically made" +
-                    "");
-            this.chkSkipWhitespace.UseVisualStyleBackColor = true;
-            // 
             // btnSubst
             // 
             this.btnSubst.Enabled = false;
@@ -1935,28 +1861,6 @@ namespace AutoWikiBrowser
             this.btnSubst.Text = "Template &substitution";
             this.toolTip1.SetToolTip(this.btnSubst, "Specify which templates to use substitute with its wikicode on a page");
             this.btnSubst.Click += new System.EventHandler(this.btnSubst_Click);
-            // 
-            // chkSkipIfInuse
-            // 
-            this.chkSkipIfInuse.AutoSize = true;
-            this.chkSkipIfInuse.Location = new System.Drawing.Point(6, 90);
-            this.chkSkipIfInuse.Name = "chkSkipIfInuse";
-            this.chkSkipIfInuse.Size = new System.Drawing.Size(96, 17);
-            this.chkSkipIfInuse.TabIndex = 6;
-            this.chkSkipIfInuse.Text = "Article is in &use";
-            this.toolTip1.SetToolTip(this.chkSkipIfInuse, "Skip if {{inuse}} appears on the page");
-            this.chkSkipIfInuse.UseVisualStyleBackColor = true;
-            // 
-            // chkSkipSpamFilter
-            // 
-            this.chkSkipSpamFilter.AutoSize = true;
-            this.chkSkipSpamFilter.Location = new System.Drawing.Point(6, 113);
-            this.chkSkipSpamFilter.Name = "chkSkipSpamFilter";
-            this.chkSkipSpamFilter.Size = new System.Drawing.Size(149, 17);
-            this.chkSkipSpamFilter.TabIndex = 7;
-            this.chkSkipSpamFilter.Text = "Edit &blocked by spam filter";
-            this.toolTip1.SetToolTip(this.chkSkipSpamFilter, "Skip if the spam filter is preventing saving");
-            this.chkSkipSpamFilter.UseVisualStyleBackColor = true;
             // 
             // btnWatch
             // 
@@ -2156,6 +2060,102 @@ namespace AutoWikiBrowser
             this.imgStrike.TabStop = false;
             this.toolTip1.SetToolTip(this.imgStrike, "Strike text");
             this.imgStrike.Click += new System.EventHandler(this.imgStrike_Click);
+            // 
+            // chkSkipIfContains
+            // 
+            this.chkSkipIfContains.Location = new System.Drawing.Point(6, 19);
+            this.chkSkipIfContains.Name = "chkSkipIfContains";
+            this.chkSkipIfContains.Size = new System.Drawing.Size(89, 17);
+            this.chkSkipIfContains.TabIndex = 0;
+            this.chkSkipIfContains.Text = "&Contains:";
+            this.toolTip1.SetToolTip(this.chkSkipIfContains, "Skip articles that contain this text");
+            this.chkSkipIfContains.UseVisualStyleBackColor = true;
+            this.chkSkipIfContains.CheckedChanged += new System.EventHandler(this.chkIgnoreIfContains_CheckedChanged);
+            // 
+            // txtSkipIfNotContains
+            // 
+            this.txtSkipIfNotContains.Enabled = false;
+            this.txtSkipIfNotContains.Location = new System.Drawing.Point(106, 41);
+            this.txtSkipIfNotContains.Name = "txtSkipIfNotContains";
+            this.txtSkipIfNotContains.Size = new System.Drawing.Size(154, 20);
+            this.txtSkipIfNotContains.TabIndex = 3;
+            this.toolTip1.SetToolTip(this.txtSkipIfNotContains, "Skip articles that do not contain this text");
+            // 
+            // txtSkipIfContains
+            // 
+            this.txtSkipIfContains.Enabled = false;
+            this.txtSkipIfContains.Location = new System.Drawing.Point(106, 17);
+            this.txtSkipIfContains.Name = "txtSkipIfContains";
+            this.txtSkipIfContains.Size = new System.Drawing.Size(154, 20);
+            this.txtSkipIfContains.TabIndex = 1;
+            this.toolTip1.SetToolTip(this.txtSkipIfContains, "Skip articles that contain this text");
+            // 
+            // chkSkipIfNotContains
+            // 
+            this.chkSkipIfNotContains.Location = new System.Drawing.Point(6, 43);
+            this.chkSkipIfNotContains.Name = "chkSkipIfNotContains";
+            this.chkSkipIfNotContains.Size = new System.Drawing.Size(103, 18);
+            this.chkSkipIfNotContains.TabIndex = 2;
+            this.chkSkipIfNotContains.Text = "Does&n\'t contain:";
+            this.toolTip1.SetToolTip(this.chkSkipIfNotContains, "Skip articles that do not contain this text");
+            this.chkSkipIfNotContains.UseVisualStyleBackColor = true;
+            this.chkSkipIfNotContains.CheckedChanged += new System.EventHandler(this.chkOnlyIfContains_CheckedChanged);
+            // 
+            // chkSkipIsRegex
+            // 
+            this.chkSkipIsRegex.AutoSize = true;
+            this.chkSkipIsRegex.Location = new System.Drawing.Point(44, 67);
+            this.chkSkipIsRegex.Name = "chkSkipIsRegex";
+            this.chkSkipIsRegex.Size = new System.Drawing.Size(121, 17);
+            this.chkSkipIsRegex.TabIndex = 4;
+            this.chkSkipIsRegex.Text = "&Regular expressions";
+            this.toolTip1.SetToolTip(this.chkSkipIsRegex, "Enables regular expressions for the \"Skip if contains\"");
+            this.chkSkipIsRegex.UseVisualStyleBackColor = true;
+            // 
+            // chkSkipNoChanges
+            // 
+            this.chkSkipNoChanges.AutoSize = true;
+            this.chkSkipNoChanges.Location = new System.Drawing.Point(6, 136);
+            this.chkSkipNoChanges.Name = "chkSkipNoChanges";
+            this.chkSkipNoChanges.Size = new System.Drawing.Size(131, 17);
+            this.chkSkipNoChanges.TabIndex = 8;
+            this.chkSkipNoChanges.Text = "No c&hanges are made";
+            this.toolTip1.SetToolTip(this.chkSkipNoChanges, "Automatically skips articles when no changes were automatically made");
+            this.chkSkipNoChanges.UseVisualStyleBackColor = true;
+            // 
+            // chkSkipSpamFilter
+            // 
+            this.chkSkipSpamFilter.AutoSize = true;
+            this.chkSkipSpamFilter.Location = new System.Drawing.Point(6, 113);
+            this.chkSkipSpamFilter.Name = "chkSkipSpamFilter";
+            this.chkSkipSpamFilter.Size = new System.Drawing.Size(149, 17);
+            this.chkSkipSpamFilter.TabIndex = 7;
+            this.chkSkipSpamFilter.Text = "Edit &blocked by spam filter";
+            this.toolTip1.SetToolTip(this.chkSkipSpamFilter, "Skip if the spam filter is preventing saving");
+            this.chkSkipSpamFilter.UseVisualStyleBackColor = true;
+            // 
+            // chkSkipIfInuse
+            // 
+            this.chkSkipIfInuse.AutoSize = true;
+            this.chkSkipIfInuse.Location = new System.Drawing.Point(6, 90);
+            this.chkSkipIfInuse.Name = "chkSkipIfInuse";
+            this.chkSkipIfInuse.Size = new System.Drawing.Size(96, 17);
+            this.chkSkipIfInuse.TabIndex = 6;
+            this.chkSkipIfInuse.Text = "Article is in &use";
+            this.toolTip1.SetToolTip(this.chkSkipIfInuse, "Skip if {{inuse}} appears on the page");
+            this.chkSkipIfInuse.UseVisualStyleBackColor = true;
+            // 
+            // chkSkipWhitespace
+            // 
+            this.chkSkipWhitespace.AutoSize = true;
+            this.chkSkipWhitespace.Location = new System.Drawing.Point(6, 159);
+            this.chkSkipWhitespace.Name = "chkSkipWhitespace";
+            this.chkSkipWhitespace.Size = new System.Drawing.Size(159, 17);
+            this.chkSkipWhitespace.TabIndex = 9;
+            this.chkSkipWhitespace.Text = "Only &whitespace is changed";
+            this.toolTip1.SetToolTip(this.chkSkipWhitespace, "Automatically skips articles when only whitespace changes were automatically made" +
+                    "");
+            this.chkSkipWhitespace.UseVisualStyleBackColor = true;
             // 
             // txtEdit
             // 
@@ -2912,6 +2912,7 @@ namespace AutoWikiBrowser
             // 
             // groupBox8
             // 
+            this.groupBox8.Controls.Add(this.txtSkipIfNotContains);
             this.groupBox8.Controls.Add(this.groupBox3);
             this.groupBox8.Controls.Add(this.chkSkipWhitespace);
             this.groupBox8.Controls.Add(this.chkSkipIfInuse);
@@ -2921,7 +2922,6 @@ namespace AutoWikiBrowser
             this.groupBox8.Controls.Add(this.chkSkipIsRegex);
             this.groupBox8.Controls.Add(this.chkSkipIfNotContains);
             this.groupBox8.Controls.Add(this.txtSkipIfContains);
-            this.groupBox8.Controls.Add(this.txtSkipIfNotContains);
             this.groupBox8.Controls.Add(this.chkSkipIfContains);
             this.groupBox8.Location = new System.Drawing.Point(6, 6);
             this.groupBox8.Name = "groupBox8";
@@ -2941,6 +2941,38 @@ namespace AutoWikiBrowser
             this.groupBox3.TabIndex = 15;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Page Skip";
+            // 
+            // radSkipNone
+            // 
+            this.radSkipNone.AutoSize = true;
+            this.radSkipNone.Location = new System.Drawing.Point(6, 65);
+            this.radSkipNone.Name = "radSkipNone";
+            this.radSkipNone.Size = new System.Drawing.Size(51, 17);
+            this.radSkipNone.TabIndex = 17;
+            this.radSkipNone.Text = "None";
+            this.radSkipNone.UseVisualStyleBackColor = true;
+            // 
+            // radSkipExistent
+            // 
+            this.radSkipExistent.AutoSize = true;
+            this.radSkipExistent.Location = new System.Drawing.Point(6, 42);
+            this.radSkipExistent.Name = "radSkipExistent";
+            this.radSkipExistent.Size = new System.Drawing.Size(93, 17);
+            this.radSkipExistent.TabIndex = 16;
+            this.radSkipExistent.Text = "&Existing pages";
+            this.radSkipExistent.UseVisualStyleBackColor = true;
+            // 
+            // radSkipNonExistent
+            // 
+            this.radSkipNonExistent.AutoSize = true;
+            this.radSkipNonExistent.Checked = true;
+            this.radSkipNonExistent.Location = new System.Drawing.Point(6, 19);
+            this.radSkipNonExistent.Name = "radSkipNonExistent";
+            this.radSkipNonExistent.Size = new System.Drawing.Size(116, 17);
+            this.radSkipNonExistent.TabIndex = 15;
+            this.radSkipNonExistent.TabStop = true;
+            this.radSkipNonExistent.Text = "Non-e&xistent pages";
+            this.radSkipNonExistent.UseVisualStyleBackColor = true;
             // 
             // chkSkipCaseSensitive
             // 
@@ -3591,38 +3623,6 @@ namespace AutoWikiBrowser
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
             // 
-            // radSkipNone
-            // 
-            this.radSkipNone.AutoSize = true;
-            this.radSkipNone.Location = new System.Drawing.Point(6, 65);
-            this.radSkipNone.Name = "radSkipNone";
-            this.radSkipNone.Size = new System.Drawing.Size(51, 17);
-            this.radSkipNone.TabIndex = 17;
-            this.radSkipNone.Text = "None";
-            this.radSkipNone.UseVisualStyleBackColor = true;
-            // 
-            // radSkipExistent
-            // 
-            this.radSkipExistent.AutoSize = true;
-            this.radSkipExistent.Location = new System.Drawing.Point(6, 42);
-            this.radSkipExistent.Name = "radSkipExistent";
-            this.radSkipExistent.Size = new System.Drawing.Size(93, 17);
-            this.radSkipExistent.TabIndex = 16;
-            this.radSkipExistent.Text = "&Existing pages";
-            this.radSkipExistent.UseVisualStyleBackColor = true;
-            // 
-            // radSkipNonExistent
-            // 
-            this.radSkipNonExistent.AutoSize = true;
-            this.radSkipNonExistent.Checked = true;
-            this.radSkipNonExistent.Location = new System.Drawing.Point(6, 19);
-            this.radSkipNonExistent.Name = "radSkipNonExistent";
-            this.radSkipNonExistent.Size = new System.Drawing.Size(116, 17);
-            this.radSkipNonExistent.TabIndex = 15;
-            this.radSkipNonExistent.TabStop = true;
-            this.radSkipNonExistent.Text = "Non-e&xistent pages";
-            this.radSkipNonExistent.UseVisualStyleBackColor = true;
-            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -4033,7 +4033,16 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem categoryToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator24;
         private System.Windows.Forms.TabPage tpSkip;
+        private System.Windows.Forms.ToolStripMenuItem UsageStatsMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem filterOutNonMainSpaceToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem removeDuplicatesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator28;
+        private System.Windows.Forms.ToolStripMenuItem focusAtEndOfEditTextBoxToolStripMenuItem;
         private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.RadioButton radSkipNone;
+        private System.Windows.Forms.RadioButton radSkipExistent;
+        private System.Windows.Forms.RadioButton radSkipNonExistent;
         private System.Windows.Forms.CheckBox chkSkipWhitespace;
         private System.Windows.Forms.CheckBox chkSkipIfInuse;
         private System.Windows.Forms.CheckBox chkSkipSpamFilter;
@@ -4044,14 +4053,5 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.TextBox txtSkipIfContains;
         private System.Windows.Forms.TextBox txtSkipIfNotContains;
         private System.Windows.Forms.CheckBox chkSkipIfContains;
-        private System.Windows.Forms.ToolStripMenuItem UsageStatsMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem filterOutNonMainSpaceToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem removeDuplicatesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator28;
-        private System.Windows.Forms.ToolStripMenuItem focusAtEndOfEditTextBoxToolStripMenuItem;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.RadioButton radSkipNone;
-        private System.Windows.Forms.RadioButton radSkipExistent;
-        private System.Windows.Forms.RadioButton radSkipNonExistent;
     }
 }
