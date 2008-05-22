@@ -677,6 +677,12 @@ namespace AutoWikiBrowser
             //Update statistics and alerts
             ArticleInfo(false);
 
+            if (chkSkipNoPageLinks.Checked && (lblLinks.Text == "Links: 0"))
+            {
+                SkipPage("Page contains no Links");
+                return;
+            }
+
             if (!Abort)
             {
                 if (toolStripComboOnLoad.SelectedIndex == 0)
@@ -1687,6 +1693,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             int intLinks = 0;
             int intInterLinks = 0;
             lblWarn.Text = "";
+            lbDuplicateWikilinks.Items.Clear();
 
             if (reset)
             {
@@ -1697,7 +1704,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 lblLinks.Text = "Links: ";
                 lblInterLinks.Text = "Interwiki links: ";
 
-                lbDuplicateWikilinks.Items.Clear();
                 lblDuplicateWikilinks.Visible = false;
                 lbDuplicateWikilinks.Visible = false;
                 btnRemove.Visible = false;
@@ -1732,7 +1738,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 lblInterLinks.Text = "Interwiki links: " + intInterLinks.ToString();
 
                 //Find multiple links                
-                lbDuplicateWikilinks.Items.Clear();
                 ArrayList arrayLinks = new ArrayList();
                 string x = "";
                 //get all the links

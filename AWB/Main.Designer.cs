@@ -375,6 +375,7 @@ namespace AutoWikiBrowser
             this.mnuCopyToCategoryLog = new System.Windows.Forms.ToolStripMenuItem();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
+            this.chkSkipNoPageLinks = new System.Windows.Forms.CheckBox();
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -2912,6 +2913,7 @@ namespace AutoWikiBrowser
             // 
             // groupBox8
             // 
+            this.groupBox8.Controls.Add(this.chkSkipNoPageLinks);
             this.groupBox8.Controls.Add(this.txtSkipIfNotContains);
             this.groupBox8.Controls.Add(this.groupBox3);
             this.groupBox8.Controls.Add(this.chkSkipWhitespace);
@@ -3623,6 +3625,16 @@ namespace AutoWikiBrowser
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
             // 
+            // chkSkipNoPageLinks
+            // 
+            this.chkSkipNoPageLinks.AutoSize = true;
+            this.chkSkipNoPageLinks.Location = new System.Drawing.Point(6, 280);
+            this.chkSkipNoPageLinks.Name = "chkSkipNoPageLinks";
+            this.chkSkipNoPageLinks.Size = new System.Drawing.Size(110, 17);
+            this.chkSkipNoPageLinks.TabIndex = 16;
+            this.chkSkipNoPageLinks.Text = "Contains no Links";
+            this.chkSkipNoPageLinks.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -4053,5 +4065,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.TextBox txtSkipIfContains;
         private System.Windows.Forms.TextBox txtSkipIfNotContains;
         private System.Windows.Forms.CheckBox chkSkipIfContains;
+        private System.Windows.Forms.CheckBox chkSkipNoPageLinks;
     }
 }
