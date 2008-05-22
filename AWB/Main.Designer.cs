@@ -313,6 +313,7 @@ namespace AutoWikiBrowser
             this.chkEnableDab = new System.Windows.Forms.CheckBox();
             this.tpSkip = new System.Windows.Forms.TabPage();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.chkSkipNoPageLinks = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.radSkipNone = new System.Windows.Forms.RadioButton();
             this.radSkipExistent = new System.Windows.Forms.RadioButton();
@@ -360,7 +361,6 @@ namespace AutoWikiBrowser
             this.tpLogs = new System.Windows.Forms.TabPage();
             this.LogControl1 = new WikiFunctions.Logging.LogControl();
             this.tpLoggingOptions = new System.Windows.Forms.TabPage();
-            this.loggingSettings1 = new AutoWikiBrowser.LoggingSettings();
             this.webBrowserDiff = new System.Windows.Forms.WebBrowser();
             this.toolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
             this.ShutdownTimer = new System.Windows.Forms.Timer(this.components);
@@ -374,8 +374,8 @@ namespace AutoWikiBrowser
             this.toolStripSeparatorMakeFromTextBox = new System.Windows.Forms.ToolStripSeparator();
             this.mnuCopyToCategoryLog = new System.Windows.Forms.ToolStripMenuItem();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
+            this.loggingSettings1 = new AutoWikiBrowser.LoggingSettings();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
-            this.chkSkipNoPageLinks = new System.Windows.Forms.CheckBox();
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -2172,7 +2172,7 @@ namespace AutoWikiBrowser
             this.txtEdit.Multiline = true;
             this.txtEdit.Name = "txtEdit";
             this.txtEdit.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtEdit.Size = new System.Drawing.Size(394, 315);
+            this.txtEdit.Size = new System.Drawing.Size(394, 320);
             this.txtEdit.TabIndex = 0;
             this.txtEdit.TextChanged += new System.EventHandler(this.txtEdit_TextChanged);
             // 
@@ -2932,6 +2932,16 @@ namespace AutoWikiBrowser
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "General skip options";
             // 
+            // chkSkipNoPageLinks
+            // 
+            this.chkSkipNoPageLinks.AutoSize = true;
+            this.chkSkipNoPageLinks.Location = new System.Drawing.Point(6, 280);
+            this.chkSkipNoPageLinks.Name = "chkSkipNoPageLinks";
+            this.chkSkipNoPageLinks.Size = new System.Drawing.Size(110, 17);
+            this.chkSkipNoPageLinks.TabIndex = 16;
+            this.chkSkipNoPageLinks.Text = "Contains no Links";
+            this.chkSkipNoPageLinks.UseVisualStyleBackColor = true;
+            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.radSkipNone);
@@ -3494,15 +3504,6 @@ namespace AutoWikiBrowser
             this.tpLoggingOptions.Text = "Logging to file";
             this.tpLoggingOptions.UseVisualStyleBackColor = true;
             // 
-            // loggingSettings1
-            // 
-            this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
-            this.loggingSettings1.Margin = new System.Windows.Forms.Padding(4);
-            this.loggingSettings1.Name = "loggingSettings1";
-            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
-            this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
-            this.loggingSettings1.TabIndex = 0;
-            // 
             // webBrowserDiff
             // 
             this.webBrowserDiff.AllowWebBrowserDrop = false;
@@ -3620,20 +3621,19 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
             this.webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
             // 
+            // loggingSettings1
+            // 
+            this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
+            this.loggingSettings1.Margin = new System.Windows.Forms.Padding(4);
+            this.loggingSettings1.Name = "loggingSettings1";
+            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
+            this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
+            this.loggingSettings1.TabIndex = 0;
+            // 
             // NudgeTimer
             // 
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
-            // 
-            // chkSkipNoPageLinks
-            // 
-            this.chkSkipNoPageLinks.AutoSize = true;
-            this.chkSkipNoPageLinks.Location = new System.Drawing.Point(6, 280);
-            this.chkSkipNoPageLinks.Name = "chkSkipNoPageLinks";
-            this.chkSkipNoPageLinks.Size = new System.Drawing.Size(110, 17);
-            this.chkSkipNoPageLinks.TabIndex = 16;
-            this.chkSkipNoPageLinks.Text = "Contains no Links";
-            this.chkSkipNoPageLinks.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
