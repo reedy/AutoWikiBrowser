@@ -120,7 +120,7 @@ namespace AutoWikiBrowser
         private void cmboProject_SelectedIndexChanged(object sender, EventArgs e)
         {
             //disable language selection for single language projects
-            cmboLang.Enabled = cmboProject.SelectedIndex <= cmboProject.Items.Count - 6;
+            cmboLang.Enabled = cmboProject.SelectedIndex <= cmboProject.Items.Count - 7;
 
             lblPostfix.Text = "";
             ProjectEnum prj = (ProjectEnum)Enum.Parse(typeof(ProjectEnum), cmboProject.SelectedItem.ToString());
