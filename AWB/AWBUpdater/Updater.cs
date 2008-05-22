@@ -362,6 +362,12 @@ namespace AwbUpdater
 
                 if (File.Exists(AWBdirectory + "WikiFunctions2.dll"))
                     File.Delete(AWBdirectory + "WikiFunctions2.dll");
+
+                if (File.Exists(AWBdirectory + "WPAssessmentsCatCreator.dll"))
+                    File.Delete(AWBdirectory + "WPAssessmentsCatCreator.dll");
+
+                if (Directory.Exists(AWBdirectory + "\\Plugins\\WPAssessmentsCatCreator"))
+                    Directory.Delete(AWBdirectory + "\\Plugins\\WPAssessmentsCatCreator", true);
             }
             progressUpdate.Value = 90;
         }
