@@ -113,6 +113,7 @@ namespace AutoWikiBrowser
             RightToLeft = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft
                 ? RightToLeft.Yes : RightToLeft.No;
             InitializeComponent();
+            Tools.RegistryMigration();
             splash.SetProgress(5);
             try
             {
@@ -3908,8 +3909,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void UsageStatsMenuItem_Click(object sender, EventArgs e)
         { UsageStats.OpenUsageStatsURL(); }
-
-
     }
         #endregion
 }

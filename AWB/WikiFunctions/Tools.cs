@@ -1163,5 +1163,43 @@ Message: {2}
 
             return res.ToArray();
         }
+
+        public static void RegistryMigration()
+        {
+            try
+            {
+                string regKey = "Software\\Wikipedia";
+
+                Microsoft.Win32.RegistryKey wpReg = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(regKey);
+
+                if (wpReg == null)
+                    return;
+
+                //RecentSettings
+                Microsoft.Win32.RegistryKey reg = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(regKey + "\\AutoWikiBrowser");
+
+                if (reg == null)
+                    return;
+
+                Profiles.AWBProfiles.MigrateProfiles();
+
+                if (reg.ValueCount > 0)
+                {
+                    string s = reg.GetValue("RecentList", "").ToString();
+
+                    reg = Microsoft.Win32.Registry.CurrentUser.CreateSubKey("Software\\AutoWikiBrowser");
+                    reg.SetValue("RecentList", s);
+                }
+
+                //Delete old Registry Stuff
+                if (wpReg.SubKeyCount == 1)
+                    new Microsoft.VisualBasic.Devices.Computer().Registry.CurrentUser.DeleteSubKeyTree(regKey);
+                else
+                    new Microsoft.VisualBasic.Devices.Computer().Registry.CurrentUser.DeleteSubKeyTree(regKey + "\\AutoWikiBrowser");
+
+            }
+            catch
+            { }
+        }
     }
 }

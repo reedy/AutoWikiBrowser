@@ -268,6 +268,7 @@
     <Compile Include="LogControl.Designer.cs">
       <DependentUpon>LogControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utils.cs" />
     <Compile Include="Variables.cs" />
     <Compile Include="WebControl.cs">
       <SubType>Component</SubType>
