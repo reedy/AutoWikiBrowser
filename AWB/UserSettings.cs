@@ -254,7 +254,7 @@ namespace AutoWikiBrowser
                chkSkipNoCatChange.Checked, chkSkipNoImgChange.Checked, chkAppend.Checked, !rdoPrepend.Checked,
                txtAppendMessage.Text, (int)udNewlineChars.Value, (int)nudBotSpeed.Value, chkSuppressTag.Checked,
                chkRegExTypo.Checked), new ListPrefs(listMaker1, SaveArticleList),
-               new SkipPrefs(chkSkipNonExistent.Checked, chkSkipExistent.Checked, chkSkipNoChanges.Checked, chkSkipSpamFilter.Checked,
+               new SkipPrefs(radSkipNonExistent.Checked, radSkipExistent.Checked, chkSkipNoChanges.Checked, chkSkipSpamFilter.Checked,
                chkSkipIfInuse.Checked, chkSkipIfContains.Checked, chkSkipIfNotContains.Checked, txtSkipIfContains.Text,
                txtSkipIfNotContains.Text, chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked,
                chkSkipWhenNoFAR.Checked, chkSkipIfNoRegexTypo.Checked, chkSkipNoDab.Checked, chkSkipWhitespace.Checked, Skip.SelectedItem),
@@ -377,8 +377,8 @@ namespace AutoWikiBrowser
 
             chkRegExTypo.Checked = p.Editprefs.RegexTypoFix;
 
-            chkSkipNonExistent.Checked = p.SkipOptions.SkipNonexistent;
-            chkSkipExistent.Checked = p.SkipOptions.Skipexistent;
+            radSkipNonExistent.Checked = p.SkipOptions.SkipNonexistent;
+            radSkipExistent.Checked = p.SkipOptions.Skipexistent;
             chkSkipNoChanges.Checked = p.SkipOptions.SkipWhenNoChanges;
             chkSkipSpamFilter.Checked = p.SkipOptions.SkipSpamFilterBlocked;
             chkSkipIfInuse.Checked = p.SkipOptions.SkipInuse;

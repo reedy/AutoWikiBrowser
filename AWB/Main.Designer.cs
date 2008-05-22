@@ -313,8 +313,7 @@ namespace AutoWikiBrowser
             this.chkEnableDab = new System.Windows.Forms.CheckBox();
             this.tpSkip = new System.Windows.Forms.TabPage();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.chkSkipExistent = new System.Windows.Forms.CheckBox();
-            this.chkSkipNonExistent = new System.Windows.Forms.CheckBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.chkSkipCaseSensitive = new System.Windows.Forms.CheckBox();
             this.tpBots = new System.Windows.Forms.TabPage();
             this.groupBox16 = new System.Windows.Forms.GroupBox();
@@ -373,6 +372,9 @@ namespace AutoWikiBrowser
             this.mnuCopyToCategoryLog = new System.Windows.Forms.ToolStripMenuItem();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
+            this.radSkipNone = new System.Windows.Forms.RadioButton();
+            this.radSkipExistent = new System.Windows.Forms.RadioButton();
+            this.radSkipNonExistent = new System.Windows.Forms.RadioButton();
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -409,6 +411,7 @@ namespace AutoWikiBrowser
             this.groupBox11.SuspendLayout();
             this.tpSkip.SuspendLayout();
             this.groupBox8.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.tpBots.SuspendLayout();
             this.groupBox16.SuspendLayout();
             this.groupBox14.SuspendLayout();
@@ -2909,11 +2912,10 @@ namespace AutoWikiBrowser
             // 
             // groupBox8
             // 
+            this.groupBox8.Controls.Add(this.groupBox3);
             this.groupBox8.Controls.Add(this.chkSkipWhitespace);
             this.groupBox8.Controls.Add(this.chkSkipIfInuse);
             this.groupBox8.Controls.Add(this.chkSkipSpamFilter);
-            this.groupBox8.Controls.Add(this.chkSkipExistent);
-            this.groupBox8.Controls.Add(this.chkSkipNonExistent);
             this.groupBox8.Controls.Add(this.chkSkipNoChanges);
             this.groupBox8.Controls.Add(this.chkSkipCaseSensitive);
             this.groupBox8.Controls.Add(this.chkSkipIsRegex);
@@ -2928,29 +2930,17 @@ namespace AutoWikiBrowser
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "General skip options";
             // 
-            // chkSkipExistent
+            // groupBox3
             // 
-            this.chkSkipExistent.AutoSize = true;
-            this.chkSkipExistent.Location = new System.Drawing.Point(6, 205);
-            this.chkSkipExistent.Name = "chkSkipExistent";
-            this.chkSkipExistent.Size = new System.Drawing.Size(94, 17);
-            this.chkSkipExistent.TabIndex = 11;
-            this.chkSkipExistent.Text = "&Existing pages";
-            this.chkSkipExistent.UseVisualStyleBackColor = true;
-            this.chkSkipExistent.CheckedChanged += new System.EventHandler(this.chkSkipExistent_CheckedChanged);
-            // 
-            // chkSkipNonExistent
-            // 
-            this.chkSkipNonExistent.AutoSize = true;
-            this.chkSkipNonExistent.Checked = true;
-            this.chkSkipNonExistent.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSkipNonExistent.Location = new System.Drawing.Point(6, 182);
-            this.chkSkipNonExistent.Name = "chkSkipNonExistent";
-            this.chkSkipNonExistent.Size = new System.Drawing.Size(117, 17);
-            this.chkSkipNonExistent.TabIndex = 10;
-            this.chkSkipNonExistent.Text = "Non-e&xistent pages";
-            this.chkSkipNonExistent.UseVisualStyleBackColor = true;
-            this.chkSkipNonExistent.CheckedChanged += new System.EventHandler(this.chkSkipNonExistent_CheckedChanged);
+            this.groupBox3.Controls.Add(this.radSkipNone);
+            this.groupBox3.Controls.Add(this.radSkipExistent);
+            this.groupBox3.Controls.Add(this.radSkipNonExistent);
+            this.groupBox3.Location = new System.Drawing.Point(6, 182);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(131, 92);
+            this.groupBox3.TabIndex = 15;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Page Skip";
             // 
             // chkSkipCaseSensitive
             // 
@@ -3526,7 +3516,7 @@ namespace AutoWikiBrowser
             this.toolStripSeparatorMakeFromTextBox,
             this.mnuCopyToCategoryLog});
             this.mnuMakeFromTextBox.Name = "mnuMakeFromTextBox";
-            this.mnuMakeFromTextBox.Size = new System.Drawing.Size(424, 148);
+            this.mnuMakeFromTextBox.Size = new System.Drawing.Size(424, 126);
             // 
             // menuitemMakeFromTextBoxUndo
             // 
@@ -3601,6 +3591,38 @@ namespace AutoWikiBrowser
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
             // 
+            // radSkipNone
+            // 
+            this.radSkipNone.AutoSize = true;
+            this.radSkipNone.Location = new System.Drawing.Point(6, 65);
+            this.radSkipNone.Name = "radSkipNone";
+            this.radSkipNone.Size = new System.Drawing.Size(51, 17);
+            this.radSkipNone.TabIndex = 17;
+            this.radSkipNone.Text = "None";
+            this.radSkipNone.UseVisualStyleBackColor = true;
+            // 
+            // radSkipExistent
+            // 
+            this.radSkipExistent.AutoSize = true;
+            this.radSkipExistent.Location = new System.Drawing.Point(6, 42);
+            this.radSkipExistent.Name = "radSkipExistent";
+            this.radSkipExistent.Size = new System.Drawing.Size(93, 17);
+            this.radSkipExistent.TabIndex = 16;
+            this.radSkipExistent.Text = "&Existing pages";
+            this.radSkipExistent.UseVisualStyleBackColor = true;
+            // 
+            // radSkipNonExistent
+            // 
+            this.radSkipNonExistent.AutoSize = true;
+            this.radSkipNonExistent.Checked = true;
+            this.radSkipNonExistent.Location = new System.Drawing.Point(6, 19);
+            this.radSkipNonExistent.Name = "radSkipNonExistent";
+            this.radSkipNonExistent.Size = new System.Drawing.Size(116, 17);
+            this.radSkipNonExistent.TabIndex = 15;
+            this.radSkipNonExistent.TabStop = true;
+            this.radSkipNonExistent.Text = "Non-e&xistent pages";
+            this.radSkipNonExistent.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -3672,6 +3694,8 @@ namespace AutoWikiBrowser
             this.tpSkip.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.tpBots.ResumeLayout(false);
             this.groupBox16.ResumeLayout(false);
             this.groupBox16.PerformLayout();
@@ -4013,8 +4037,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkSkipWhitespace;
         private System.Windows.Forms.CheckBox chkSkipIfInuse;
         private System.Windows.Forms.CheckBox chkSkipSpamFilter;
-        private System.Windows.Forms.CheckBox chkSkipExistent;
-        private System.Windows.Forms.CheckBox chkSkipNonExistent;
         private System.Windows.Forms.CheckBox chkSkipNoChanges;
         private System.Windows.Forms.CheckBox chkSkipCaseSensitive;
         private System.Windows.Forms.CheckBox chkSkipIsRegex;
@@ -4027,5 +4049,9 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem removeDuplicatesToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator28;
         private System.Windows.Forms.ToolStripMenuItem focusAtEndOfEditTextBoxToolStripMenuItem;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.RadioButton radSkipNone;
+        private System.Windows.Forms.RadioButton radSkipExistent;
+        private System.Windows.Forms.RadioButton radSkipNonExistent;
     }
 }
