@@ -306,6 +306,19 @@ bar"));
             CollectionAssert.AreEqual(test, Tools.SplitLines("\rfoo\r\rbar"));
             CollectionAssert.AreEqual(test, Tools.SplitLines("\nfoo\n\nbar"));
         }
+
+        [Test, Category("Unarchived bugs")]
+        public void TestRedirectTarget()
+        {
+            Assert.AreEqual("Foo", Tools.RedirectTarget("#redirect [[Foo]]"));
+            Assert.AreEqual("Foo", Tools.RedirectTarget("#REDIRECT[[Foo]]"));
+            Assert.AreEqual("Foo bar", Tools.RedirectTarget("#redirect[[:Foo bar ]]"));
+            Assert.AreEqual("Foo bar", Tools.RedirectTarget("#redirect[[ :  Foo bar ]]"));
+            Assert.AreEqual("Foo", Tools.RedirectTarget("{{delete}}\r\n#redirect [[Foo]]"));
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#AWB_follows_piped_redirects_to_an_invalid_page_title
+            Assert.AreEqual("Foo", Tools.RedirectTarget("#REDIRECT [[Foo|bar]]"));
+        }
     }
 
     [TestFixture]

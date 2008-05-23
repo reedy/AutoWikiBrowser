@@ -118,6 +118,16 @@ namespace WikiFunctions
         }
 
         /// <summary>
+        /// Gets the target of the redirect
+        /// </summary>
+        /// <param name="Text">The title.</param>
+        public static string RedirectTarget(string Text)
+        {
+            Match m = WikiRegexes.Redirect.Match(Text);
+            return m.Groups[1].Value;
+        }
+
+        /// <summary>
         /// Returns true if given project belongs to Wikimedia
         /// </summary>
         public static bool IsWikimediaProject(ProjectEnum p)
@@ -126,16 +136,6 @@ namespace WikiFunctions
                 || p == ProjectEnum.wikibooks || p == ProjectEnum.wikinews || p == ProjectEnum.wikipedia
                 || p == ProjectEnum.wikiquote || p == ProjectEnum.wikisource || p == ProjectEnum.wikiversity
                 || p == ProjectEnum.wiktionary);
-        }
-
-        /// <summary>
-        /// Gets the target of the redirect
-        /// </summary>
-        /// <param name="Text">The title.</param>
-        public static string RedirectTarget(string Text)
-        {
-            Match m = WikiRegexes.Redirect.Match(Text);
-            return m.Groups[1].Value;
         }
 
         static char[] InvalidChars = new char[] { '[', ']', '{', '}', '|', '<', '>', '#' };
