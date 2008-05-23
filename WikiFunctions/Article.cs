@@ -238,7 +238,7 @@ namespace WikiFunctions
             if (SkipIfNoChange && noChange)
                 Trace.AWBSkipped("No Unicodification");
             else if (!noChange)
-                this.AWBChangeArticleText("Article Unicodified", strTemp, false);
+                this.AWBChangeArticleText("Page Unicodified", strTemp, false);
         }
 
         /// <summary>

@@ -89,7 +89,7 @@ namespace WikiFunctions.DBScanner
 
                 if (fileName.Length == 0)
                 {
-                    MessageBox.Show("Please open an \"Articles\" XML data-dump file from the file menu\r\n\r\nSee the About menu for where to download this file.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Please open an \"Pages\" XML data-dump file from the file menu\r\n\r\nSee the About menu for where to download this file.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 

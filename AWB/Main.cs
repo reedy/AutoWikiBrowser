@@ -566,7 +566,7 @@ namespace AutoWikiBrowser
                 {
                     listMaker1.Remove(TheArticle); // or we get stuck in a loop
                     TheArticle = redirect; // if we didn't do this, we were writing the SkipPage info to the AWBLogListener belonging to the object redirect and resident in the MyTrace collection, but then attempting to add TheArticle's log listener to the logging tab
-                    SkipPage("Article is not in mainspace");
+                    SkipPage("Page is not in mainspace");
                     return;
                 }
 
@@ -608,14 +608,14 @@ namespace AutoWikiBrowser
             if (chkSkipIfContains.Checked && TheArticle.SkipIfContains(txtSkipIfContains.Text,
                 chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, true))
             {
-                SkipPage("Article contains: " + txtSkipIfContains.Text);
+                SkipPage("Page contains: " + txtSkipIfContains.Text);
                 return;
             }
 
             if (chkSkipIfNotContains.Checked && TheArticle.SkipIfContains(txtSkipIfNotContains.Text,
                 chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, false))
             {
-                SkipPage("Article does not contain: " + txtSkipIfNotContains.Text);
+                SkipPage("Page does not contain: " + txtSkipIfNotContains.Text);
                 return;
             }
 
@@ -2002,7 +2002,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             SetStartButton(enabled);
 
             //listMaker1.ButtonsEnabled = enabled;
-            lbltsNumberofItems.Text = "Articles: " + listMaker1.NumberOfArticles.ToString();
+            lbltsNumberofItems.Text = "Pages: " + listMaker1.NumberOfArticles.ToString();
             bypassAllRedirectsToolStripMenuItem.Enabled = Variables.User.IsAdmin;
         }
 
