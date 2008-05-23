@@ -24,6 +24,7 @@ using System.Net;
 using System.Reflection;
 using System.Web;
 using System.IO;
+using System.Xml;
 
 /// Site prerequisites: MediaWiki 1.13+ with the following settings:
 /// * $wgEnableAPI = true; (enabled by default in DefaultSettings.php)
@@ -104,12 +105,12 @@ namespace WikiFunctions.API
         public string Timestamp
         { get { return m_Timestamp; } }
 
-        string m_PageName = "";
+        string m_PageTitle = "";
         /// <summary>
         /// Name of the page currently being edited
         /// </summary>
-        public string PageName
-        { get { return m_PageName; } }
+        public string PageTitle
+        { get { return m_PageTitle; } }
 
         string m_PageText = "";
         /// <summary>
@@ -126,16 +127,35 @@ namespace WikiFunctions.API
         { get { return m_Cookies; } }
         #endregion
 
+        /// <summary>
+        /// Resets all internal variables, discarding edit tokens, etc
+        /// </summary>
+        public void Reset()
+        {
+            m_Action = null;
+            m_EditToken = null;
+            m_PageText = null;
+            m_PageTitle = null;
+            m_Timestamp = null;
+        }
+
         #region URL stuff
         protected static string BuildQuery(string[,] request)
         {
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i <= request.GetUpperBound(0); i++)
             {
+                string s = request[i, 0];
+                if (string.IsNullOrEmpty(s)) continue;
                 sb.Append('&');
-                sb.Append(request[i, 0]);
-                sb.Append('=');
-                sb.Append(HttpUtility.UrlEncode(request[i, 1]));
+                sb.Append(s);
+
+                s = request[i, 1];
+                if (s != null) // empty string is a valid parameter value!
+                {
+                    sb.Append('=');
+                    sb.Append(HttpUtility.UrlEncode(s));
+                }
             }
 
             return sb.ToString();
@@ -248,46 +268,119 @@ namespace WikiFunctions.API
         #region Login
         public void Login(string username, string password)
         {
+            Reset();
+
             string result = HttpPost(new string[,] { { "action", "login" } },
                 new string[,] { { "lgname", username }, { "lgpassword", password } }, false);
+
+            CheckForError(result);
+
+            XmlReader xr = XmlReader.Create(new StringReader(result));
+            xr.ReadToFollowing("login");
+            string status = xr.GetAttribute("result");
+            if (!status.Equals("Success", StringComparison.InvariantCultureIgnoreCase))
+            {
+                throw new ApiLoginException(this, status);
+            }
+        }
+
+        public void Logout()
+        {
+            Reset();
         }
         #endregion
 
         #region Page modification
-        public void Open(string pageName)
+        public string Open(string pageName)
         {
-            if(string.IsNullOrEmpty(pageName)) throw new ArgumentException("Page name required", "pageName");
+            if (string.IsNullOrEmpty(pageName)) throw new ArgumentException("Page name required", "pageName");
+
+            Reset();
 
             // action=query&prop=info|revisions&intoken=edit&titles=Main%20Page&rvprop=timestamp|user|comment|content
             string result = HttpGet(new string[,] { 
                 { "action", "query" },
                 { "prop", "info|revisions" },
-                {"intoken","edit"},
-                {"titles", pageName},
-                {"rvprop", "timestamp|user|comment|content"}
+                { "intoken","edit" },
+                { "titles", pageName },
+                { "rvprop", "content|timestamp" } // timestamp|user|comment|
             });
+
+            CheckForError(result);
+
+            try
+            {
+                XmlReader xr = XmlReader.Create(new StringReader(result));
+                xr.ReadToFollowing("page");
+                m_EditToken = xr.GetAttribute("edittoken");
+                m_PageTitle = xr.GetAttribute("title");
+
+                xr.ReadToDescendant("revisions");
+                xr.ReadToDescendant("rev");
+                m_Timestamp = xr.GetAttribute("timestamp");
+                m_PageText = xr.ReadString();
+
+                m_Action = "edit";
+            }
+            catch (Exception ex)
+            {
+                throw new ApiBrokenXmlException(this, ex);
+            }
+
+            return m_PageText;
         }
 
         public void Save(string pageText, string summary, bool minor, bool watch)
         {
             if (string.IsNullOrEmpty(pageText)) throw new ArgumentException("Can't save empty pages", "pageText");
             if (string.IsNullOrEmpty(summary)) throw new ArgumentException("Edit summary required", "summary");
+            if (m_Action != "edit") throw new ApiException(this, "This page is not opened properly for editing");
+            if (string.IsNullOrEmpty(m_EditToken)) throw new ApiException(this, "Edit token is needed to edit pages");
 
-            throw new NotImplementedException();
+            string result = HttpPost(
+                new string[,]
+                {
+                    { "action", "edit" },
+                    { "title", m_PageTitle },
+                    { minor ? "minor" : null, null },
+                    { watch ? "watch" : null, null }
+                },
+                new string[,]
+                {
+                    { "token", m_EditToken },
+                    { "text", pageText },
+                    { "summary", summary },
+                    { "timestamp", m_Timestamp }
+                });
+
+            CheckForError(result);
         }
         #endregion
 
 
         #region Error handling
 
-        void ParseError(string result)
+        void CheckForError(string result)
         {
-            if (!result.Contains("<error")) return;
+            if (!result.Contains("<error")) return; 
+
+            XmlReader xr = XmlReader.Create(new StringReader(result));
+            if (xr.ReadToFollowing("error"))
+            {
+                throw new ApiErrorException(this, xr.GetAttribute("code"), xr.GetAttribute("info"));
+            }
         }
 
         #endregion
 
         #region Helpers
+
+        protected string BoolToParam(bool value)
+        {
+            if (value) return "1";
+
+            return "0";
+        }
 
         #endregion
     }
