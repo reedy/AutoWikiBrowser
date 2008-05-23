@@ -72,7 +72,7 @@ namespace WikiFunctions
                     s = "REDIRECT";
                     break;
             }
-            Redirect = new Regex(@"^#" + s + @".*?\[\[(.*?)\]\]", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            Redirect = new Regex(@"^#" + s + @".*?\[\[\s*:?\s*([^\|]*?)\s*(|\|.*?)]\]", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Multiline);
 
             if (Variables.LangCode == LangCodeEnum.ru)
             {
@@ -197,6 +197,7 @@ namespace WikiFunctions
 
         /// <summary>
         /// Matches redirects
+        /// Don't use directly, use Tools.IsRedirect() and Tools.RedirectTargetInstead
         /// </summary>
         public static Regex Redirect;
         // remove this line after February 2008! // = new Regex("^#redirect.*?\\[\\[(.*?)\\]\\]", RegexOptions.IgnoreCase | RegexOptions.Singleline); //temp note: Sam and I are assuming that MakeLangSpecificRegexes() will always be called (after Sam's change in next or previous revision); if that's not so, declare a constant with the redirect regex text in it so we don't again have the problem of the regexes being different here and in that procedure
