@@ -161,7 +161,7 @@ namespace WikiFunctions.DBScanner
             // 
             this.openXMLDialog.FileName = "current or articles XML file";
             this.openXMLDialog.Filter = "XML file|*.xml";
-            this.openXMLDialog.Title = "Open \"current\" or \"articles\" XML file";
+            this.openXMLDialog.Title = "Open \"current\" or \"Pages\" XML file";
             // 
             // saveFileDialog2
             // 
@@ -581,7 +581,7 @@ namespace WikiFunctions.DBScanner
             this.chkArticleDoesContain.Name = "chkArticleDoesContain";
             this.chkArticleDoesContain.Size = new System.Drawing.Size(101, 17);
             this.chkArticleDoesContain.TabIndex = 0;
-            this.chkArticleDoesContain.Text = "Article &contains:";
+            this.chkArticleDoesContain.Text = "Page &contains:";
             this.chkArticleDoesContain.CheckedChanged += new System.EventHandler(this.chkDoesContain_CheckedChanged);
             // 
             // nudLinks
@@ -885,7 +885,7 @@ namespace WikiFunctions.DBScanner
             this.txtStartFrom.Name = "txtStartFrom";
             this.txtStartFrom.Size = new System.Drawing.Size(192, 20);
             this.txtStartFrom.TabIndex = 3;
-            this.toolTip1.SetToolTip(this.txtStartFrom, "Article to start scanning from, leave blank to start at beginning");
+            this.toolTip1.SetToolTip(this.txtStartFrom, "Page to start scanning from, leave blank to start at beginning");
             // 
             // contextMenuStrip1
             // 

@@ -305,7 +305,7 @@ namespace WikiFunctions.Logging
             // 
             // colIgnoreArticle
             // 
-            this.colIgnoreArticle.Text = "Article";
+            this.colIgnoreArticle.Text = "Page";
             this.colIgnoreArticle.Width = 48;
             // 
             // colIgnoreTime
@@ -343,7 +343,7 @@ namespace WikiFunctions.Logging
             // 
             // colSuccessSave
             // 
-            this.colSuccessSave.Text = "Article";
+            this.colSuccessSave.Text = "Page";
             this.colSuccessSave.Width = 171;
             // 
             // colSuccessTime

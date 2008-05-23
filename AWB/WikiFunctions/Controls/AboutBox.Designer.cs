@@ -100,7 +100,7 @@ namespace WikiFunctions.Controls
             this.lnkDownload.Size = new System.Drawing.Size(211, 13);
             this.lnkDownload.TabIndex = 33;
             this.lnkDownload.TabStop = true;
-            this.lnkDownload.Text = "Download the newest \"Articles\" XML dump";
+            this.lnkDownload.Text = "Download the newest \"Pages\" XML dump";
             this.lnkDownload.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkDownload_LinkClicked);
             // 
             // AboutBox

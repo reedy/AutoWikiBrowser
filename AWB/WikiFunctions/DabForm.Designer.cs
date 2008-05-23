@@ -127,7 +127,7 @@ namespace WikiFunctions.Disambiguation
             this.btnArticle.Name = "btnArticle";
             this.btnArticle.Size = new System.Drawing.Size(75, 23);
             this.btnArticle.TabIndex = 9;
-            this.btnArticle.Text = "Article…";
+            this.btnArticle.Text = "Page…";
             this.btnArticle.UseVisualStyleBackColor = true;
             this.btnArticle.Click += new System.EventHandler(this.btnArticle_Click);
             // 

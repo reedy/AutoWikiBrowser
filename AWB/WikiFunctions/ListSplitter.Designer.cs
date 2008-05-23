@@ -82,7 +82,7 @@ namespace WikiFunctions.Controls.Lists
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(81, 13);
             this.label2.TabIndex = 8;
-            this.label2.Text = "Articles per File:";
+            this.label2.Text = "Pages per File:";
             // 
             // btnXMLSave
             // 

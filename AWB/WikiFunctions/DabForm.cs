@@ -259,7 +259,7 @@ namespace WikiFunctions.Disambiguation
                 WikiFunctions.Browser.WebControl browser = new WikiFunctions.Browser.WebControl();
                 browser.Navigate(Variables.URLLong + "index.php?title=" + Tools.WikiEncode(ArticleTitle) + "&action=watch");
                 browser.Wait();
-                MessageBox.Show("Article successfully added to your watchlist");
+                MessageBox.Show("Page successfully added to your watchlist");
             }
             catch (Exception ex)
             {
@@ -274,7 +274,7 @@ namespace WikiFunctions.Disambiguation
                 WikiFunctions.Browser.WebControl browser = new WikiFunctions.Browser.WebControl();
                 browser.Navigate(Variables.URLLong + "index.php?title=" + Tools.WikiEncode(ArticleTitle) + "&action=unwatch");
                 browser.Wait();
-                MessageBox.Show("Article successfully removed from your watchlist");
+                MessageBox.Show("Page successfully removed from your watchlist");
             }
             catch (Exception ex)
             {
