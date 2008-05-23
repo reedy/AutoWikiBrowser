@@ -30,6 +30,8 @@ namespace AutoWikiBrowser
         {
             this.chkEnabled = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtFile = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.btnSelect = new System.Windows.Forms.Button();
             this.radFile = new System.Windows.Forms.RadioButton();
             this.radParameter = new System.Windows.Forms.RadioButton();
@@ -42,8 +44,6 @@ namespace AutoWikiBrowser
             this.chkSkip = new System.Windows.Forms.CheckBox();
             this.btnOk = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.txtFile = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -76,6 +76,22 @@ namespace AutoWikiBrowser
             this.groupBox1.Size = new System.Drawing.Size(322, 189);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
+            // 
+            // txtFile
+            // 
+            this.txtFile.Location = new System.Drawing.Point(130, 126);
+            this.txtFile.Name = "txtFile";
+            this.txtFile.Size = new System.Drawing.Size(186, 20);
+            this.txtFile.TabIndex = 12;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 129);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(90, 13);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Input/Output File:";
             // 
             // btnSelect
             // 
@@ -173,29 +189,13 @@ namespace AutoWikiBrowser
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 11;
-            this.btnOk.Text = "Done";
+            this.btnOk.Text = "Close";
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // txtFile
-            // 
-            this.txtFile.Location = new System.Drawing.Point(130, 126);
-            this.txtFile.Name = "txtFile";
-            this.txtFile.Size = new System.Drawing.Size(186, 20);
-            this.txtFile.TabIndex = 12;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 129);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(90, 13);
-            this.label4.TabIndex = 11;
-            this.label4.Text = "Input/Output File:";
             // 
             // ExternalProgram
             // 
