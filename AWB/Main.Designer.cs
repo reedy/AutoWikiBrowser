@@ -361,6 +361,7 @@ namespace AutoWikiBrowser
             this.tpLogs = new System.Windows.Forms.TabPage();
             this.LogControl1 = new WikiFunctions.Logging.LogControl();
             this.tpLoggingOptions = new System.Windows.Forms.TabPage();
+            this.loggingSettings1 = new AutoWikiBrowser.LoggingSettings();
             this.webBrowserDiff = new System.Windows.Forms.WebBrowser();
             this.toolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
             this.ShutdownTimer = new System.Windows.Forms.Timer(this.components);
@@ -374,7 +375,6 @@ namespace AutoWikiBrowser
             this.toolStripSeparatorMakeFromTextBox = new System.Windows.Forms.ToolStripSeparator();
             this.mnuCopyToCategoryLog = new System.Windows.Forms.ToolStripMenuItem();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
-            this.loggingSettings1 = new AutoWikiBrowser.LoggingSettings();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -1756,9 +1756,9 @@ namespace AutoWikiBrowser
             this.chkUnicodifyWhole.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkUnicodifyWhole.Location = new System.Drawing.Point(6, 65);
             this.chkUnicodifyWhole.Name = "chkUnicodifyWhole";
-            this.chkUnicodifyWhole.Size = new System.Drawing.Size(132, 17);
+            this.chkUnicodifyWhole.Size = new System.Drawing.Size(128, 17);
             this.chkUnicodifyWhole.TabIndex = 2;
-            this.chkUnicodifyWhole.Text = "&Unicodify whole article";
+            this.chkUnicodifyWhole.Text = "&Unicodify whole page";
             this.toolTip1.SetToolTip(this.chkUnicodifyWhole, "Converts all (with some exceptions) HTML and URL encoded characters to unicode");
             // 
             // chkFindandReplace
@@ -2140,9 +2140,9 @@ namespace AutoWikiBrowser
             this.chkSkipIfInuse.AutoSize = true;
             this.chkSkipIfInuse.Location = new System.Drawing.Point(6, 90);
             this.chkSkipIfInuse.Name = "chkSkipIfInuse";
-            this.chkSkipIfInuse.Size = new System.Drawing.Size(96, 17);
+            this.chkSkipIfInuse.Size = new System.Drawing.Size(92, 17);
             this.chkSkipIfInuse.TabIndex = 6;
-            this.chkSkipIfInuse.Text = "Article is in &use";
+            this.chkSkipIfInuse.Text = "Page is in &use";
             this.toolTip1.SetToolTip(this.chkSkipIfInuse, "Skip if {{inuse}} appears on the page");
             this.chkSkipIfInuse.UseVisualStyleBackColor = true;
             // 
@@ -2627,9 +2627,9 @@ namespace AutoWikiBrowser
             this.chkSkipNoImgChange.Enabled = false;
             this.chkSkipNoImgChange.Location = new System.Drawing.Point(7, 68);
             this.chkSkipNoImgChange.Name = "chkSkipNoImgChange";
-            this.chkSkipNoImgChange.Size = new System.Drawing.Size(198, 17);
+            this.chkSkipNoImgChange.Size = new System.Drawing.Size(194, 17);
             this.chkSkipNoImgChange.TabIndex = 4;
-            this.chkSkipNoImgChange.Text = "Skip article when no image changed";
+            this.chkSkipNoImgChange.Text = "Skip page when no image changed";
             this.chkSkipNoImgChange.UseVisualStyleBackColor = true;
             // 
             // txtImageWith
@@ -2738,9 +2738,9 @@ namespace AutoWikiBrowser
             this.chkSkipNoCatChange.Enabled = false;
             this.chkSkipNoCatChange.Location = new System.Drawing.Point(7, 68);
             this.chkSkipNoCatChange.Name = "chkSkipNoCatChange";
-            this.chkSkipNoCatChange.Size = new System.Drawing.Size(211, 17);
+            this.chkSkipNoCatChange.Size = new System.Drawing.Size(207, 17);
             this.chkSkipNoCatChange.TabIndex = 4;
-            this.chkSkipNoCatChange.Text = "Skip article when no category changed";
+            this.chkSkipNoCatChange.Text = "Skip page when no category changed";
             this.chkSkipNoCatChange.UseVisualStyleBackColor = true;
             // 
             // txtNewCategory2
@@ -2852,9 +2852,9 @@ namespace AutoWikiBrowser
             this.chkSkipNoDab.AutoSize = true;
             this.chkSkipNoDab.Location = new System.Drawing.Point(6, 225);
             this.chkSkipNoDab.Name = "chkSkipNoDab";
-            this.chkSkipNoDab.Size = new System.Drawing.Size(229, 17);
+            this.chkSkipNoDab.Size = new System.Drawing.Size(225, 17);
             this.chkSkipNoDab.TabIndex = 1;
-            this.chkSkipNoDab.Text = "Skip article when no disambiguations made";
+            this.chkSkipNoDab.Text = "Skip page when no disambiguations made";
             this.chkSkipNoDab.UseVisualStyleBackColor = true;
             // 
             // txtDabVariants
@@ -3088,9 +3088,9 @@ namespace AutoWikiBrowser
             this.chkNudgeSkip.Enabled = false;
             this.chkNudgeSkip.Location = new System.Drawing.Point(9, 72);
             this.chkNudgeSkip.Name = "chkNudgeSkip";
-            this.chkNudgeSkip.Size = new System.Drawing.Size(198, 17);
+            this.chkNudgeSkip.Size = new System.Drawing.Size(194, 17);
             this.chkNudgeSkip.TabIndex = 3;
-            this.chkNudgeSkip.Text = "Skip article if first nudge doesn\'t help";
+            this.chkNudgeSkip.Text = "Skip page if first nudge doesn\'t help";
             // 
             // btnResetNudges
             // 
@@ -3363,7 +3363,7 @@ namespace AutoWikiBrowser
             this.SummaryGroup.Size = new System.Drawing.Size(139, 90);
             this.SummaryGroup.TabIndex = 16;
             this.SummaryGroup.TabStop = false;
-            this.SummaryGroup.Text = "Article statistics";
+            this.SummaryGroup.Text = "Page statistics";
             // 
             // lblWords
             // 
@@ -3504,6 +3504,15 @@ namespace AutoWikiBrowser
             this.tpLoggingOptions.Text = "Logging to file";
             this.tpLoggingOptions.UseVisualStyleBackColor = true;
             // 
+            // loggingSettings1
+            // 
+            this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
+            this.loggingSettings1.Margin = new System.Windows.Forms.Padding(4);
+            this.loggingSettings1.Name = "loggingSettings1";
+            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
+            this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
+            this.loggingSettings1.TabIndex = 0;
+            // 
             // webBrowserDiff
             // 
             this.webBrowserDiff.AllowWebBrowserDrop = false;
@@ -3620,15 +3629,6 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.WebBrowserShortcutsEnabled = false;
             this.webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
             this.webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
-            // 
-            // loggingSettings1
-            // 
-            this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
-            this.loggingSettings1.Margin = new System.Windows.Forms.Padding(4);
-            this.loggingSettings1.Name = "loggingSettings1";
-            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
-            this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
-            this.loggingSettings1.TabIndex = 0;
             // 
             // NudgeTimer
             // 
