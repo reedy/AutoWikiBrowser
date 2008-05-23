@@ -37,6 +37,7 @@ namespace AutoWikiBrowser
                 System.Threading.Thread.CurrentThread.Name = "Main thread";
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
+                Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
 
                 string fileToLoad = "";
                 int profileID = -1;
@@ -73,6 +74,11 @@ namespace AutoWikiBrowser
             {
                 WikiFunctions.ErrorHandler.Handle(ex);
             }
+        }
+
+        static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
+        {
+            WikiFunctions.ErrorHandler.Handle(e.Exception);
         }
 
         internal static System.Version Version { get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; } }
