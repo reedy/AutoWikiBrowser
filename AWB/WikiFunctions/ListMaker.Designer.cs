@@ -224,7 +224,7 @@ namespace WikiFunctions.Controls.Lists
             this.openInBrowserToolStripMenuItem,
             this.openHistoryInBrowserToolStripMenuItem});
             this.mnuListBox.Name = "contextMenuStrip2";
-            this.mnuListBox.Size = new System.Drawing.Size(209, 458);
+            this.mnuListBox.Size = new System.Drawing.Size(209, 480);
             this.mnuListBox.Opening += new System.ComponentModel.CancelEventHandler(this.mnuListBox_Opening);
             // 
             // filterOutNonMainSpaceArticlesToolStripMenuItem
@@ -411,14 +411,14 @@ namespace WikiFunctions.Controls.Lists
             // 
             this.selectedToolStripMenuItem.Name = "selectedToolStripMenuItem";
             this.selectedToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.selectedToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.selectedToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.selectedToolStripMenuItem.Text = "Selected";
             this.selectedToolStripMenuItem.Click += new System.EventHandler(this.selectedToolStripMenuItem_Click);
             // 
             // duplicatesToolStripMenuItem
             // 
             this.duplicatesToolStripMenuItem.Name = "duplicatesToolStripMenuItem";
-            this.duplicatesToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.duplicatesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.duplicatesToolStripMenuItem.Text = "Duplicates";
             this.duplicatesToolStripMenuItem.Click += new System.EventHandler(this.duplicatesToolStripMenuItem_Click);
             // 
@@ -458,7 +458,7 @@ namespace WikiFunctions.Controls.Lists
             // 
             this.openInBrowserToolStripMenuItem.Name = "openInBrowserToolStripMenuItem";
             this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
-            this.openInBrowserToolStripMenuItem.Text = "Open article in browser";
+            this.openInBrowserToolStripMenuItem.Text = "Open page in browser";
             this.openInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem_Click);
             // 
             // openHistoryInBrowserToolStripMenuItem
