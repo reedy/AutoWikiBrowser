@@ -154,6 +154,11 @@ namespace WikiFunctions.API
             m_Timestamp = null;
         }
 
+        public void Abort()
+        {
+            throw new NotImplementedException();
+        }
+
         #region URL stuff
         protected static string BuildQuery(string[,] request)
         {
@@ -332,7 +337,7 @@ namespace WikiFunctions.API
             try
             {
                 XmlReader xr = XmlReader.Create(new StringReader(result));
-                xr.ReadToFollowing("page");
+                if (!xr.ReadToFollowing("page")) throw new Exception("Cannot find <page> element");
                 m_EditToken = xr.GetAttribute("edittoken");
                 m_PageTitle = xr.GetAttribute("title");
 
@@ -385,7 +390,7 @@ namespace WikiFunctions.API
             Reset();
         }
 
-        public void Delete(string summary)
+        public void Delete(string title, string summary)
         {
         }
         #endregion
@@ -406,7 +411,7 @@ namespace WikiFunctions.API
         /// Checks the XML returned by the server for error codes and throws an appropriate exception
         /// </summary>
         /// <param name="xml">Server output</param>
-        /// <param name="action">The action performed</param>
+        /// <param name="action">The action performed, null if don't check</param>
         void CheckForError(string xml, string action)
         {
             if (string.IsNullOrEmpty(xml)) throw new ApiBlankException(this);

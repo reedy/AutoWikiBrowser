@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="API\ApiEdit.cs" />
     <Compile Include="API\ApiExceptions.cs" />
+    <Compile Include="API\AsyncApiEdit.cs" />
     <Compile Include="API\IApiEdit.cs" />
     <Compile Include="Article.cs">
       <SubType>Code</SubType>

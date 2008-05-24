@@ -60,5 +60,53 @@ namespace WikiFunctions.API
         /// <param name="url"></param>
         /// <returns>Text received</returns>
         string HttpGet(string url);
+
+        void Login(string username, string password);
+
+        void Logout();
+
+        /// <summary>
+        /// Opens a page for editing
+        /// </summary>
+        /// <param name="title">Title of the page to edit</param>
+        /// <returns>Page content</returns>
+        string Open(string title);
+
+        /// <summary>
+        /// Saves the previously opened page
+        /// </summary>
+        /// <param name="pageText">New page content.</param>
+        /// <param name="summary">Edit summary. Must not be empty.</param>
+        /// <param name="minor">Whether the edit should be marked as minor</param>
+        /// <param name="watch">Whether the page should be watchlisted</param>
+        void Save(string pageText, string summary, bool minor, bool watch);
+
+        /// <summary>
+        /// Deletes the page
+        /// </summary>
+        /// <param name="title">Title of the page to delete</param>
+        /// <param name="reason">Reason for deletion. Must not be empty.</param>
+        void Delete(string title, string reason);
+
+        void Protect(string title, string reason, string expiry, Protection edit, Protection move);
+
+        void Protect(string title, string reason, TimeSpan expiry, Protection edit, Protection move);
+
+        void MovePage(string title, string newTitle, string reason, bool moveTalk, bool noRedirect);
+
+        /// <summary>
+        /// Aborts the current operation
+        /// </summary>
+        void Abort();
     }
+
+    /// <summary>
+    /// Protection level for a page
+    /// </summary>
+    public enum Protection
+    {
+        None,
+        Autoconfirmed,
+        Sysop
+    };
 }
