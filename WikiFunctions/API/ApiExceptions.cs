@@ -140,4 +140,20 @@ namespace WikiFunctions.API
             return code;
         }
     }
+
+    public class ApiMaxlagException : ApiErrorException
+    {
+        public ApiMaxlagException(ApiEdit editor, string message)
+            : base(editor, "maxlag", "Maxlag exceeded: '" + message + "'")
+        {
+        }
+    }
+
+    public class ApiCaptchaException : ApiException
+    {
+        public ApiCaptchaException(ApiEdit editor)
+            : base(editor, "Captcha required")
+        {
+        }
+    }
 }

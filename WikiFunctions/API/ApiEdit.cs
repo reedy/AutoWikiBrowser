@@ -69,6 +69,20 @@ namespace WikiFunctions.API
             }
         }
 
+        /// <summary>
+        /// Creates a new instance of the ApiEdit class by cloning an existing instance
+        /// ATTENTION: the clones will share the same cookie container, so logging off or logging under another username
+        /// with one edit will automatically make another one do the same
+        /// </summary>
+        /// <param name="toClone">Object to clone</param>
+        public ApiEdit(ApiEdit toClone)
+        {
+            m_URL = toClone.m_URL;
+            m_Maxlag = toClone.m_Maxlag;
+            m_Cookies = toClone.m_Cookies;
+            ProxySettings = toClone.ProxySettings;
+        }
+
         #region Properties
         string m_URL;
         /// <summary>
@@ -87,48 +101,49 @@ namespace WikiFunctions.API
             set { m_Maxlag = value; }
         }
 
-        string m_Action = "";
+        string m_Action;
         /// <summary>
         /// Action for which we have edit token
         /// </summary>
         public string Action
         { get { return m_Action; } }
 
-        string m_EditToken = "";
+        string m_EditToken;
         /// <summary>
         /// Edit token (http://www.mediawiki.org/wiki/Manual:Edit_token)
         /// </summary>
         public string EditToken
         { get { return m_EditToken; } }
 
-        string m_Timestamp = "";
+        string m_Timestamp;
         public string Timestamp
         { get { return m_Timestamp; } }
 
-        string m_PageTitle = "";
+        string m_PageTitle;
         /// <summary>
         /// Name of the page currently being edited
         /// </summary>
         public string PageTitle
         { get { return m_PageTitle; } }
 
-        string m_PageText = "";
+        string m_PageText;
         /// <summary>
         /// Initial content of the page currently being edited
         /// </summary>
         public string PageText
         { get { return m_PageText; } }
-        
-        CookieCollection m_Cookies = new CookieCollection();
+
+        CookieContainer m_Cookies = new CookieContainer();
         /// <summary>
         /// Cookies stored between requests
         /// </summary>
-        public CookieCollection Cookies
+        public CookieContainer Cookies
         { get { return m_Cookies; } }
         #endregion
 
         /// <summary>
-        /// Resets all internal variables, discarding edit tokens, etc
+        /// Resets all internal variables, discarding edit tokens and so on,
+        /// but does not logs off
         /// </summary>
         public void Reset()
         {
@@ -190,7 +205,7 @@ namespace WikiFunctions.API
         #endregion
 
         #region Network access
-        Dictionary<string, IWebProxy> ProxyCache = new Dictionary<string, IWebProxy>();
+        static Dictionary<string, IWebProxy> ProxyCache = new Dictionary<string, IWebProxy>();
         IWebProxy ProxySettings;
         static string UserAgent = string.Format("WikiFunctions/{0} ({1})", Assembly.GetExecutingAssembly().GetName().Version.ToString(),
             Environment.OSVersion.VersionString);
@@ -200,21 +215,13 @@ namespace WikiFunctions.API
             HttpWebRequest res = (HttpWebRequest)WebRequest.Create(url);
             if (ProxySettings != null) res.Proxy = ProxySettings;
             res.UserAgent = UserAgent;
-            res.CookieContainer = new CookieContainer();
-            res.CookieContainer.Add(Cookies);
+            res.CookieContainer = m_Cookies;
             res.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
 
             return res;
         }
 
-        protected void RecycleRequest(HttpWebRequest req)
-        {
-            if (!req.HaveResponse || !req.RequestUri.ToString().StartsWith(URL)) return; // foolproof
-
-            m_Cookies = req.CookieContainer.GetCookies(req.RequestUri);
-        }
-
-        public string HttpPost(string[,] get, string[,] post, bool autoParams)
+        protected string HttpPost(string[,] get, string[,] post, bool autoParams)
         {
             string url = BuildUrl(get, autoParams);
 
@@ -231,33 +238,39 @@ namespace WikiFunctions.API
             }
 
             WebResponse resp = req.GetResponse();
-            RecycleRequest(req);
             return (new StreamReader(resp.GetResponseStream())).ReadToEnd();
         }
 
-        public string HttpPost(string[,] get, string[,] post)
+        protected string HttpPost(string[,] get, string[,] post)
         {
             return HttpPost(get, post, true);
         }
 
-        public string HttpGet(string[,] request, bool autoParams)
+        protected string HttpGet(string[,] request, bool autoParams)
         {
             string url = BuildUrl(request, autoParams);
 
             return HttpGet(url);
         }
 
-        public string HttpGet(string[,] request)
+        protected string HttpGet(string[,] request)
         {
             return HttpGet(request, true);
         }
 
+        /// <summary>
+        /// Performs a HTTP request
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns>Text received</returns>
         public string HttpGet(string url)
         {
             HttpWebRequest req = CreateRequest(url);
 
+            // SECURITY: don't send cookies to third-party sites
+            if (!url.StartsWith(URL)) req.CookieContainer = null; 
+
             HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
-            RecycleRequest(req);
             using (StreamReader sr = new StreamReader(resp.GetResponseStream()))
             {
                 return sr.ReadToEnd();
@@ -273,7 +286,7 @@ namespace WikiFunctions.API
             string result = HttpPost(new string[,] { { "action", "login" } },
                 new string[,] { { "lgname", username }, { "lgpassword", password } }, false);
 
-            CheckForError(result);
+            CheckForError(result, "login");
 
             XmlReader xr = XmlReader.Create(new StringReader(result));
             xr.ReadToFollowing("login");
@@ -288,13 +301,20 @@ namespace WikiFunctions.API
         {
             Reset();
             string result = HttpGet(new string[,] { { "action", "logout" } }, false);
+            CheckForError(result, "logout");
         }
         #endregion
 
         #region Page modification
-        public string Open(string pageName)
+
+        /// <summary>
+        /// Opens a page for editing
+        /// </summary>
+        /// <param name="title">Title of the page to edit</param>
+        /// <returns>Page content</returns>
+        public string Open(string title)
         {
-            if (string.IsNullOrEmpty(pageName)) throw new ArgumentException("Page name required", "pageName");
+            if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "pageName");
 
             Reset();
 
@@ -303,7 +323,7 @@ namespace WikiFunctions.API
                 { "action", "query" },
                 { "prop", "info|revisions" },
                 { "intoken","edit" },
-                { "titles", pageName },
+                { "titles", title },
                 { "rvprop", "content|timestamp" } // timestamp|user|comment|
             });
 
@@ -331,6 +351,13 @@ namespace WikiFunctions.API
             return m_PageText;
         }
 
+        /// <summary>
+        /// Saves the previously opened page
+        /// </summary>
+        /// <param name="pageText">New page content. Must not be empty.</param>
+        /// <param name="summary">Edit summary. Must not be empty.</param>
+        /// <param name="minor">Whether the edit should be marked as minor</param>
+        /// <param name="watch">Whether the page should be watchlisted</param>
         public void Save(string pageText, string summary, bool minor, bool watch)
         {
             if (string.IsNullOrEmpty(pageText)) throw new ArgumentException("Can't save empty pages", "pageText");
@@ -354,7 +381,12 @@ namespace WikiFunctions.API
                     { "timestamp", m_Timestamp }
                 });
 
-            CheckForError(result);
+            CheckForError(result, "edit");
+            Reset();
+        }
+
+        public void Delete(string summary)
+        {
         }
         #endregion
 
@@ -377,17 +409,37 @@ namespace WikiFunctions.API
         /// <param name="action">The action performed</param>
         void CheckForError(string xml, string action)
         {
+            if (string.IsNullOrEmpty(xml)) throw new ApiBlankException(this);
+
             if (!xml.Contains("<error") && string.IsNullOrEmpty(action)) return; 
 
             XmlReader xr = XmlReader.Create(new StringReader(xml));
             if (xml.Contains("<error") && xr.ReadToFollowing("error"))
             {
-                throw new ApiErrorException(this, xr.GetAttribute("code"), xr.GetAttribute("info"));
+                string errorCode = xr.GetAttribute("code");
+                string errorMessage = xr.GetAttribute("info");
+
+                switch (errorCode.ToLower())
+                {
+                    case "maxlag":
+                        throw new ApiMaxlagException(this, errorMessage);
+                    default:
+                        throw new ApiErrorException(this, errorCode, errorMessage);
+                }
             }
 
             if (!string.IsNullOrEmpty(action) && xr.ReadToFollowing(action))
             {
                 string result = xr.GetAttribute("result");
+                if (result != null && result != "Success")
+                {
+                    if (xr.ReadToFollowing("captcha"))
+                    {
+                        throw new ApiCaptchaException(this);
+                    }
+                    else
+                        throw new ApiErrorException(this, result, result);
+                }
             }
         }
 
