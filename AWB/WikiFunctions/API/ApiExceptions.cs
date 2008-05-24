@@ -78,6 +78,23 @@ namespace WikiFunctions.API
     }
 
     /// <summary>
+    /// Thrown when an API call returns status other than "Success"
+    /// </summary>
+    //public class ApiCallFailedException : ApiErrorException
+    //{
+    //    string m_Action;
+
+    //    public string Action
+    //    { get { return m_Action; } }
+
+    //    public ApiCallFailedException(ApiEdit editor, string action, string errorCode)
+    //        :base (editor,
+    //    {
+    //        m_Action = action;
+    //    }
+    //}
+
+    /// <summary>
     /// Thrown when an API call returned zero-size reply. Most likely, this indicates a server internal error.
     /// </summary>
     public class ApiBlankException : ApiException

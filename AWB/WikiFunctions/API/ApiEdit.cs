@@ -178,7 +178,7 @@ namespace WikiFunctions.API
         protected string BuildUrl(string[,] request, bool autoParams)
         {
             string url = URL + "api.php?format=xml" + BuildQuery(request);
-            if (autoParams) url += "&assert=url&maxlag=" + Maxlag;
+            if (autoParams) url += "&assert=false&maxlag=" + Maxlag;
 
             return url;
         }
@@ -287,6 +287,7 @@ namespace WikiFunctions.API
         public void Logout()
         {
             Reset();
+            string result = HttpGet(new string[,] { { "action", "logout" } }, false);
         }
         #endregion
 
@@ -306,7 +307,7 @@ namespace WikiFunctions.API
                 { "rvprop", "content|timestamp" } // timestamp|user|comment|
             });
 
-            CheckForError(result);
+            CheckForError(result, "query");
 
             try
             {
@@ -360,14 +361,33 @@ namespace WikiFunctions.API
 
         #region Error handling
 
-        void CheckForError(string result)
+        /// <summary>
+        /// Checks the XML returned by the server for error codes and throws an appropriate exception
+        /// </summary>
+        /// <param name="xml">Server output</param>
+        void CheckForError(string xml)
         {
-            if (!result.Contains("<error")) return; 
+            CheckForError(xml, null);
+        }
 
-            XmlReader xr = XmlReader.Create(new StringReader(result));
-            if (xr.ReadToFollowing("error"))
+        /// <summary>
+        /// Checks the XML returned by the server for error codes and throws an appropriate exception
+        /// </summary>
+        /// <param name="xml">Server output</param>
+        /// <param name="action">The action performed</param>
+        void CheckForError(string xml, string action)
+        {
+            if (!xml.Contains("<error") && string.IsNullOrEmpty(action)) return; 
+
+            XmlReader xr = XmlReader.Create(new StringReader(xml));
+            if (xml.Contains("<error") && xr.ReadToFollowing("error"))
             {
                 throw new ApiErrorException(this, xr.GetAttribute("code"), xr.GetAttribute("info"));
+            }
+
+            if (!string.IsNullOrEmpty(action) && xr.ReadToFollowing(action))
+            {
+                string result = xr.GetAttribute("result");
             }
         }
 
