@@ -149,7 +149,7 @@ namespace WikiFunctions.Lists
                 if (!vistedCategories.Contains(categories[i]))
                 {
                     vistedCategories.Add(categories[i]);
-                    string cmtitle = encodeText(Regex.Replace(categories[i], Variables.NamespacesCaseInsensitive[14], ""));
+                    string cmtitle = Tools.WikiEncode(Regex.Replace(categories[i], Variables.NamespacesCaseInsensitive[14], ""));
 
                     string url = Variables.URLLong + "api.php?action=query&list=categorymembers&cmtitle=Category:" + cmtitle + "&cmcategory=" + cmtitle + "&format=xml&cmlimit=500";
                     int ns = 0;
@@ -240,7 +240,7 @@ namespace WikiFunctions.Lists
             foreach (string page in pages)
             {
                 if (page.Trim().Length == 0) continue;
-                string url = Variables.URLLong + "api.php?action=query&list=" + request + "&" + initial + "title=" + Tools.RemoveHashFromPageTitle(encodeText(page)) + "&format=xml&" + initial + "limit=500";
+                string url = Variables.URLLong + "api.php?action=query&list=" + request + "&" + initial + "title=" + Tools.RemoveHashFromPageTitle(Tools.WikiEncode(page)) + "&format=xml&" + initial + "limit=500";
                 string title = "";
                 int ns = 0;
 
@@ -272,7 +272,7 @@ namespace WikiFunctions.Lists
                                 if (reader.Value.Length != 0)
                                 {
                                     string continueFrom = reader.Value;
-                                    url = Variables.URLLong + "api.php?action=query&list=" + request + "&" + initial + "title=" + encodeText(page) + "&format=xml&" + initial + "limit=500&" + initial + "continue=" + continueFrom;
+                                    url = Variables.URLLong + "api.php?action=query&list=" + request + "&" + initial + "title=" + Tools.WikiEncode(page) + "&format=xml&" + initial + "limit=500&" + initial + "continue=" + continueFrom;
                                     more = true;
                                 }
                             }
@@ -316,7 +316,7 @@ namespace WikiFunctions.Lists
                     string title = "";
                     int ns = 0;
                     string page = onePage;
-                    page = encodeText(page);
+                    page = Tools.WikiEncode(page);
                     string url = Variables.URLLong + "api.php?action=query&list=backlinks&bltitle=" + page + "&bllimit=500&blfilterredir=redirects&format=xml";
 
                     while (true)
@@ -389,7 +389,7 @@ namespace WikiFunctions.Lists
             {
                 try
                 {
-                    string url = Variables.URLLong + "api.php?action=query&prop=links&titles=" + encodeText(article) + "&format=xml";
+                    string url = Variables.URLLong + "api.php?action=query&prop=links&titles=" + Tools.WikiEncode(article) + "&format=xml";
                     string title = "";
                     int ns = 0;
 
@@ -449,7 +449,7 @@ namespace WikiFunctions.Lists
 
             foreach (string article in articles)
             {
-                string url = Variables.URLLong + "api.php?action=query&prop=images&titles=" + encodeText(article) + "&format=xml";
+                string url = Variables.URLLong + "api.php?action=query&prop=images&titles=" + Tools.WikiEncode(article) + "&format=xml";
 
                 while (true)
                 {
@@ -499,7 +499,7 @@ namespace WikiFunctions.Lists
 
             foreach (string article in articles)
             {
-                string url = Variables.URLLong + "api.php?action=query&prop=templates&titles=" + encodeText(article) + "&format=xml";
+                string url = Variables.URLLong + "api.php?action=query&prop=templates&titles=" + Tools.WikiEncode(article) + "&format=xml";
 
                 while (true)
                 {
@@ -600,7 +600,7 @@ namespace WikiFunctions.Lists
             foreach (string g in googles)
             {
                 int intStart = 0;
-                string google = encodeText(g);
+                string google = Tools.WikiEncode(g);
                 google = google.Replace("_", " ");
                 string url = "http://www.google.com/search?q=" + google + "+site:" + Variables.URL + "&num=100&hl=en&lr=&start=0&sa=N&filter=0";
                 string title = "";
@@ -668,7 +668,7 @@ namespace WikiFunctions.Lists
                 string title = "";
                 int ns = 0;
                 string page = u;
-                page = encodeText(page);
+                page = Tools.WikiEncode(page);
 
                 string url = Variables.URLLong + "api.php?action=query&list=usercontribs&ucuser=" + page + "&uclimit=500&format=xml";
 
@@ -818,7 +818,7 @@ namespace WikiFunctions.Lists
             foreach (string i in images)
             {
                 string image = Regex.Replace(i, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
-                image = encodeText(image);
+                image = Tools.WikiEncode(image);
 
                 string url = Variables.URLLong + "api.php?action=query&list=imageusage&iutitle=Image:" + image + "&iulimit=500&format=xml";
                 string title = "";
@@ -993,11 +993,6 @@ namespace WikiFunctions.Lists
         #endregion
 
         #region Other methods
-
-        private static string encodeText(string txt)
-        {
-            return txt.Replace(' ', '_').Replace("&", "%26").Replace("+", "%2B");
-        }
 
         private static List<Article> FilterSomeArticles(List<Article> UnfilteredArticles)
         {
