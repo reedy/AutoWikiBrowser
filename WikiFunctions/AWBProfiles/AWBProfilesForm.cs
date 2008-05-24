@@ -51,6 +51,7 @@ namespace WikiFunctions.Profiles
                 webBrowser = new WikiFunctions.Browser.WebControl();
 
             webBrowser.Login(Username, Password);
+            System.Threading.Thread.Sleep(1000); // HACK: fix this mess
             LoadProfile(null, null);
             Variables.User.UpdateWikiStatus();
         }
