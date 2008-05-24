@@ -117,7 +117,7 @@ namespace WikiFunctions.API
         {
         }
         public ApiBrokenXmlException(ApiEdit editor, Exception innerException)
-            : base(editor, "Error parsing data returned by server." , innerException)
+            : base(editor, "Error parsing data returned by server: " + innerException.Message , innerException)
         {
         }
     }
