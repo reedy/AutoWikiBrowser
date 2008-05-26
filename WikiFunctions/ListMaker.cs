@@ -357,7 +357,7 @@ namespace WikiFunctions.Controls.Lists
         private void btnMakeList_Click(object sender, EventArgs e)
         {
             //make sure there is some text.
-            if (txtSelectSource.Text.Length == 0 && txtSelectSource.Enabled)
+            if (txtSelectSource.Enabled && txtSelectSource.Text.Length == 0)
             {
                 MessageBox.Show("Please enter some text", "No text", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
