@@ -900,6 +900,16 @@ namespace AutoWikiBrowser
                 StartDelayedRestartTimer(null, null);
                 return;
             }
+            //else if (webBrowserEdit.Document.Body.InnerHtml.Contains("<DIV CLASS="))
+            //{//WMF Error
+            //    StartDelayedRestartTimer(null, null);
+            //    return;
+            //}
+            //else if (webBrowserEdit.Document.Body.InnerHtml.Contains("<DIV CLASS="))
+            //{//Read-Only DB
+            //    StartDelayedRestartTimer(null, null);
+            //    return;
+            //}
 
             //lower restart delay
             if (intRestartDelay > 5)
