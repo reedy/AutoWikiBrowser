@@ -69,10 +69,10 @@ namespace WikiFunctions.Plugin
         /// </summary>
         /// <returns>An array of deserialised setting objects belonging to your plugin</returns>
         /// <remarks>Plugin authors have at least 4 ways of saving their settings, by returning an array of:
-       /// 1. Simple, serializable types such as Strings
-       /// 2. AWBSettings.PrefsKeyPair objects (used by the CFD/IFD plugins amongst others)
-       /// 3. Custom public classes with each field marked as Serializable
-       /// 4. An XML block converted to a String (used by the Kingbotk plugin)</remarks>
+        /// 1. Simple, serializable types such as Strings
+        /// 2. AWBSettings.PrefsKeyPair objects (used by the CFD/IFD plugins amongst others)
+        /// 3. Custom public classes with each field marked as Serializable
+        /// 4. An XML block converted to a String (used by the Kingbotk plugin)</remarks>
         object[] SaveSettings();
 
         /// <summary>
@@ -299,5 +299,12 @@ namespace WikiFunctions.Plugin
 
         bool SkipNoDefaultSortAdded
         { get; }
+    }
+    
+    public interface IListMakerPlugin
+    {
+        List<Article> Search(string[] searchCriteria);
+        string Name { get;}
+        void Initialise(WikiFunctions.Controls.Lists.ListMaker listMaker);
     }
 }
