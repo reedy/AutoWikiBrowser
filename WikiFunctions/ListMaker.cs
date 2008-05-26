@@ -255,6 +255,7 @@ namespace WikiFunctions.Controls.Lists
                     lblSourceSelect.Text = Variables.Namespaces[14];
                     txtSelectSource.Enabled = true;
                     break;
+                case SourceType.WhatLinksHereIncludingRedirects:
                 case SourceType.WhatLinksHere:
                     lblSourceSelect.Text = "What links to";
                     txtSelectSource.Enabled = true;
@@ -786,6 +787,9 @@ namespace WikiFunctions.Controls.Lists
                         break;
                     case SourceType.WhatLinksHere:
                         Add(GetLists.FromWhatLinksHere(false, strSource));
+                        break;
+                    case SourceType.WhatLinksHereIncludingRedirects:
+                        Add(GetLists.FromWhatLinksHere(false, true, strSource));
                         break;
                     case SourceType.WhatTranscludesPage:
                         Add(GetLists.FromWhatLinksHere(true, strSource));
@@ -1342,5 +1346,5 @@ namespace WikiFunctions.Controls.Lists
 
 namespace WikiFunctions.Lists
 {
-    public enum SourceType { None = -1, Category, CategoryRecursive, WhatLinksHere, WhatTranscludesPage, LinksOnPage, ImagesOnPage, TransclusionsOnPage, TextFile, GoogleWikipedia, UserContribs, AllUserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist, WikiSearch, Redirects }
+    public enum SourceType { None = -1, Category, CategoryRecursive, WhatLinksHere, WhatLinksHereIncludingRedirects, WhatTranscludesPage, LinksOnPage, ImagesOnPage, TransclusionsOnPage, TextFile, GoogleWikipedia, UserContribs, AllUserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist, WikiSearch, Redirects }
 }

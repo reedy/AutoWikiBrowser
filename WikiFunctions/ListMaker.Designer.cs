@@ -96,7 +96,7 @@ namespace WikiFunctions.Controls.Lists
             this.txtSelectSource.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.txtSelectSource.Location = new System.Drawing.Point(71, 30);
             this.txtSelectSource.Name = "txtSelectSource";
-            this.txtSelectSource.Size = new System.Drawing.Size(116, 20);
+            this.txtSelectSource.Size = new System.Drawing.Size(122, 20);
             this.txtSelectSource.TabIndex = 2;
             this.txtSelectSource.DoubleClick += new System.EventHandler(this.txtSelectSource_DoubleClick);
             this.txtSelectSource.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSelectSource_KeyDown);
@@ -174,6 +174,7 @@ namespace WikiFunctions.Controls.Lists
             "Category",
             "Category (recursive)",
             "What links here",
+            "What links here (Inc. Redirects)",
             "What transcludes page",
             "Links on page",
             "Images on page",
@@ -190,7 +191,7 @@ namespace WikiFunctions.Controls.Lists
             "Redirects"});
             this.cmboSourceSelect.Location = new System.Drawing.Point(71, 2);
             this.cmboSourceSelect.Name = "cmboSourceSelect";
-            this.cmboSourceSelect.Size = new System.Drawing.Size(116, 21);
+            this.cmboSourceSelect.Size = new System.Drawing.Size(122, 21);
             this.cmboSourceSelect.TabIndex = 1;
             this.cmboSourceSelect.Tag = "Source of pages to edit";
             this.cmboSourceSelect.SelectedIndexChanged += new System.EventHandler(this.cmboSourceSelect_SelectedIndexChanged);
@@ -224,7 +225,7 @@ namespace WikiFunctions.Controls.Lists
             this.openInBrowserToolStripMenuItem,
             this.openHistoryInBrowserToolStripMenuItem});
             this.mnuListBox.Name = "contextMenuStrip2";
-            this.mnuListBox.Size = new System.Drawing.Size(209, 480);
+            this.mnuListBox.Size = new System.Drawing.Size(209, 458);
             this.mnuListBox.Opening += new System.ComponentModel.CancelEventHandler(this.mnuListBox_Opening);
             // 
             // filterOutNonMainSpaceArticlesToolStripMenuItem
@@ -411,14 +412,14 @@ namespace WikiFunctions.Controls.Lists
             // 
             this.selectedToolStripMenuItem.Name = "selectedToolStripMenuItem";
             this.selectedToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.selectedToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.selectedToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.selectedToolStripMenuItem.Text = "Selected";
             this.selectedToolStripMenuItem.Click += new System.EventHandler(this.selectedToolStripMenuItem_Click);
             // 
             // duplicatesToolStripMenuItem
             // 
             this.duplicatesToolStripMenuItem.Name = "duplicatesToolStripMenuItem";
-            this.duplicatesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.duplicatesToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.duplicatesToolStripMenuItem.Text = "Duplicates";
             this.duplicatesToolStripMenuItem.Click += new System.EventHandler(this.duplicatesToolStripMenuItem_Click);
             // 
