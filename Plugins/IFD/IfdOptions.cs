@@ -112,7 +112,7 @@ namespace AutoWikiBrowser.Plugins.IFD
                     Enabled = false;
 
                     GetLists.QuietMode = true;
-                    req.GetList(GetLists.From.Category, imgs);
+                    req.GetList(GetLists.From.ImageLinks, imgs);
 
                     req.Wait();
                     GetLists.QuietMode = false;
