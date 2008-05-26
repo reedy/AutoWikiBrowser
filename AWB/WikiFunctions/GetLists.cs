@@ -642,11 +642,7 @@ namespace WikiFunctions.Lists
                         title = m.Groups[1].Value;
                         if (!title.StartsWith(Variables.URL + "/wiki/")) continue;
 
-                        title = title.Remove(0, (Variables.URL + "/wiki/").Length);
-
-                        title = HttpUtility.UrlDecode(title).Replace('_', ' ');
-
-                        list.Add(new WikiFunctions.Article(title));
+                        list.Add(new WikiFunctions.Article(Tools.GetPageFromURL(title)));
                     }
 
                     if (googleText.Contains("img src=\"nav_next.gif\""))
