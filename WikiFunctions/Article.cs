@@ -201,6 +201,22 @@ namespace WikiFunctions
         { Trace.AWBSkipped(reason); }
 
         /// <summary>
+        /// Returns whether the only change betweent the current article text and the original article text is whitespace changes
+        /// </summary>
+        public bool OnlyWhiteSpaceChanged
+        {
+            get { return (string.Compare(Regex.Replace(mOriginalArticleText, @"\s+", ""), Regex.Replace(mArticleText, @"\s+", "")) == 0); }
+        }
+
+        /// <summary>
+        /// Returns whether the current article text is the same as the original article text
+        /// </summary>
+        public bool NoArticleTextChanged
+        {
+            get { return (string.Compare(mOriginalArticleText, mArticleText) == 0); }
+        }
+
+        /// <summary>
         /// Send the article to a plugin for processing
         /// </summary>
         /// <param name="plugin">The plugin</param>

@@ -654,19 +654,17 @@ namespace AutoWikiBrowser
                         return;
                     }
 
-                    if (skippable && chkSkipNoChanges.Checked &&
-    TheArticle.ArticleText == TheArticle.OriginalArticleText)
+                    if (skippable && chkSkipNoChanges.Checked && TheArticle.NoArticleTextChanged)
                     {
                         SkipPage("No change");
                         return;
                     }
 
-                }
-                else if (chkSkipWhitespace.Checked &&
-                    (string.Compare(Regex.Replace(TheArticle.OriginalArticleText, @"\s+", @""), Regex.Replace(TheArticle.ArticleText, @"\s+", @"")) == 0))
-                {
-                    SkipPage("Only whitespace changed");
-                    return;
+                    if (chkSkipWhitespace.Checked && TheArticle.OnlyWhiteSpaceChanged)
+                    {
+                        SkipPage("Only whitespace changed");
+                        return;
+                    }
                 }
             }
 
