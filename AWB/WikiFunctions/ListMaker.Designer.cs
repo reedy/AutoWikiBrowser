@@ -174,7 +174,7 @@ namespace WikiFunctions.Controls.Lists
             "Category",
             "Category (recursive)",
             "What links here",
-            "What links here (Inc. Redirects)",
+            "What links here (inc. Redirects)",
             "What transcludes page",
             "Links on page",
             "Images on page",
