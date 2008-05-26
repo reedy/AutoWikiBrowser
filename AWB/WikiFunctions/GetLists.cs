@@ -305,7 +305,7 @@ namespace WikiFunctions.Lists
         /// <returns>The list of the articles.</returns>
         public static List<Article> FromWhatLinksHere(bool embedded, params string[] pages)
         {
-            return FromWhatLinksHere(embedded, pages);
+            return FromWhatLinksHere(embedded, false, pages);
         }
 
         #endregion
