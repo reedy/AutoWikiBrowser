@@ -48,6 +48,7 @@ namespace WikiFunctions.Lists
             Category,
             CategoryRecursive,
             Whatlinkshere,
+            WhatLinksHereIncludingRedirects,
             WhatTranscludesHere,
             WhatTranscludesThis,
             Redirects,
@@ -109,6 +110,8 @@ namespace WikiFunctions.Lists
                     return FromWatchList();
                 case From.Whatlinkshere:
                     return FromWhatLinksHere(false, params1);
+                case From.WhatLinksHereIncludingRedirects:
+                    return FromWhatLinksHere(false, true, params1);
                 case From.WhatTranscludesHere:
                     return FromWhatLinksHere(true, params1);
                 case From.WikiSearch:
@@ -224,9 +227,10 @@ namespace WikiFunctions.Lists
         /// Gets a list of articles that link to the given page.
         /// </summary>
         /// <param name="embedded">Gets articles that embed (transclude).</param>
+        /// <param name="includeRedirects">Whether to get links to the redirects</param>
         /// <param name="pages">The page to find links to.</param>
         /// <returns>The list of the articles.</returns>
-        public static List<Article> FromWhatLinksHere(bool embedded, params string[] pages)
+        public static List<Article> FromWhatLinksHere(bool embedded, bool includeRedirects, params string[] pages)
         {
             string request = "backlinks";
             string initial = "bl";
@@ -241,6 +245,10 @@ namespace WikiFunctions.Lists
             {
                 if (page.Trim().Length == 0) continue;
                 string url = Variables.URLLong + "api.php?action=query&list=" + request + "&" + initial + "title=" + Tools.RemoveHashFromPageTitle(Tools.WikiEncode(page)) + "&format=xml&" + initial + "limit=500";
+
+                if (includeRedirects)
+                    url += "&blredirect";
+
                 string title = "";
                 int ns = 0;
 
@@ -273,6 +281,10 @@ namespace WikiFunctions.Lists
                                 {
                                     string continueFrom = reader.Value;
                                     url = Variables.URLLong + "api.php?action=query&list=" + request + "&" + initial + "title=" + Tools.WikiEncode(page) + "&format=xml&" + initial + "limit=500&" + initial + "continue=" + continueFrom;
+                                    
+                                    if (includeRedirects)
+                                        url += "&blredirect";
+
                                     more = true;
                                 }
                             }
@@ -283,6 +295,17 @@ namespace WikiFunctions.Lists
                 }
             }
             return list;
+        }
+
+        /// <summary>
+        /// Gets a list of articles that link to the given page.
+        /// </summary>
+        /// <param name="embedded">Gets articles that embed (transclude).</param>
+        /// <param name="pages">The page to find links to.</param>
+        /// <returns>The list of the articles.</returns>
+        public static List<Article> FromWhatLinksHere(bool embedded, params string[] pages)
+        {
+            return FromWhatLinksHere(embedded, pages);
         }
 
         #endregion
