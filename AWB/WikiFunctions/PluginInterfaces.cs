@@ -30,7 +30,7 @@ namespace WikiFunctions.Plugin
     /* Please DO NOT CHANGE without consulting plugin authors, unless moving to a new AWB major version (v5, v6 etc).
      * This interface is a contract with external plugins. If radical changes are needed, create a new additional i/f. */
     /// <summary>
-    /// An interface for plugin components to be recognised by and interract with AWB
+    /// An interface for plugin components to be recognised by and interact with AWB
     /// </summary>
     public interface IAWBPlugin
     {
@@ -273,7 +273,7 @@ namespace WikiFunctions.Plugin
 
     public interface IModule
     {
-        string ProcessArticle(string ArticleText, string ArticleTitle, int Namespace, out string Summary, 
+        string ProcessArticle(string ArticleText, string ArticleTitle, int Namespace, out string Summary,
             out bool Skip);
     }
 
@@ -300,11 +300,15 @@ namespace WikiFunctions.Plugin
         bool SkipNoDefaultSortAdded
         { get; }
     }
-    
+
+    /// <summary>
+    /// An Interface for plugins to interact with the ListMaker for creating lists
+    /// </summary>
     public interface IListMakerPlugin
     {
         List<Article> Search(string[] searchCriteria);
-        string Name { get;}
-        void Initialise(WikiFunctions.Controls.Lists.ListMaker listMaker);
+        string Name { get; }
+        string DisplayText { get; }
+        void Initialise(WikiFunctions.Controls.Lists.ListMaker sender);
     }
 }
