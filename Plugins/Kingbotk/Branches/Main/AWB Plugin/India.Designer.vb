@@ -31,6 +31,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.LinkLabel1 = New System.Windows.Forms.LinkLabel
             Me.TabControl1 = New System.Windows.Forms.TabControl
             Me.TabPage1 = New System.Windows.Forms.TabPage
+            Me.ChennaiCheckBox = New System.Windows.Forms.CheckBox
             Me.GujuratCheckBox = New System.Windows.Forms.CheckBox
             Me.PunjabCheckbox = New System.Windows.Forms.CheckBox
             Me.HimachalCheckBox = New System.Windows.Forms.CheckBox
@@ -47,6 +48,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.BengalCheckBox = New System.Windows.Forms.CheckBox
             Me.AndhraCheckBox = New System.Windows.Forms.CheckBox
             Me.TabPage2 = New System.Windows.Forms.TabPage
+            Me.TelevisionCheckBox = New System.Windows.Forms.CheckBox
             Me.ProtectedCheckBox = New System.Windows.Forms.CheckBox
             Me.LiteratureCheckBox = New System.Windows.Forms.CheckBox
             Me.TamilCheckBox = New System.Windows.Forms.CheckBox
@@ -89,7 +91,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'MaharashtraCheckBox
             '
             Me.MaharashtraCheckBox.AutoSize = True
-            Me.MaharashtraCheckBox.Location = New System.Drawing.Point(104, 37)
+            Me.MaharashtraCheckBox.Location = New System.Drawing.Point(103, 49)
             Me.MaharashtraCheckBox.Name = "MaharashtraCheckBox"
             Me.MaharashtraCheckBox.Size = New System.Drawing.Size(85, 17)
             Me.MaharashtraCheckBox.TabIndex = 28
@@ -142,6 +144,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'TabPage1
             '
             Me.TabPage1.BackColor = System.Drawing.Color.Transparent
+            Me.TabPage1.Controls.Add(Me.ChennaiCheckBox)
             Me.TabPage1.Controls.Add(Me.GujuratCheckBox)
             Me.TabPage1.Controls.Add(Me.PunjabCheckbox)
             Me.TabPage1.Controls.Add(Me.HimachalCheckBox)
@@ -165,10 +168,20 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.TabPage1.TabIndex = 0
             Me.TabPage1.Text = "India 1"
             '
+            'ChennaiCheckBox
+            '
+            Me.ChennaiCheckBox.AutoSize = True
+            Me.ChennaiCheckBox.Location = New System.Drawing.Point(6, 97)
+            Me.ChennaiCheckBox.Name = "ChennaiCheckBox"
+            Me.ChennaiCheckBox.Size = New System.Drawing.Size(65, 17)
+            Me.ChennaiCheckBox.TabIndex = 42
+            Me.ChennaiCheckBox.Text = "Chennai"
+            Me.ChennaiCheckBox.UseVisualStyleBackColor = True
+            '
             'GujuratCheckBox
             '
             Me.GujuratCheckBox.AutoSize = True
-            Me.GujuratCheckBox.Location = New System.Drawing.Point(14, 129)
+            Me.GujuratCheckBox.Location = New System.Drawing.Point(5, 143)
             Me.GujuratCheckBox.Name = "GujuratCheckBox"
             Me.GujuratCheckBox.Size = New System.Drawing.Size(60, 17)
             Me.GujuratCheckBox.TabIndex = 41
@@ -178,7 +191,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'PunjabCheckbox
             '
             Me.PunjabCheckbox.AutoSize = True
-            Me.PunjabCheckbox.Location = New System.Drawing.Point(104, 174)
+            Me.PunjabCheckbox.Location = New System.Drawing.Point(103, 186)
             Me.PunjabCheckbox.Name = "PunjabCheckbox"
             Me.PunjabCheckbox.Size = New System.Drawing.Size(59, 17)
             Me.PunjabCheckbox.TabIndex = 40
@@ -188,7 +201,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'HimachalCheckBox
             '
             Me.HimachalCheckBox.AutoSize = True
-            Me.HimachalCheckBox.Location = New System.Drawing.Point(104, 152)
+            Me.HimachalCheckBox.Location = New System.Drawing.Point(103, 164)
             Me.HimachalCheckBox.Name = "HimachalCheckBox"
             Me.HimachalCheckBox.Size = New System.Drawing.Size(112, 17)
             Me.HimachalCheckBox.TabIndex = 39
@@ -198,7 +211,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'WBengalCheckBox
             '
             Me.WBengalCheckBox.AutoSize = True
-            Me.WBengalCheckBox.Location = New System.Drawing.Point(104, 106)
+            Me.WBengalCheckBox.Location = New System.Drawing.Point(103, 118)
             Me.WBengalCheckBox.Name = "WBengalCheckBox"
             Me.WBengalCheckBox.Size = New System.Drawing.Size(87, 17)
             Me.WBengalCheckBox.TabIndex = 38
@@ -209,7 +222,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'MapsCheckBox
             '
             Me.MapsCheckBox.AutoSize = True
-            Me.MapsCheckBox.Location = New System.Drawing.Point(14, 39)
+            Me.MapsCheckBox.Location = New System.Drawing.Point(6, 28)
             Me.MapsCheckBox.Name = "MapsCheckBox"
             Me.MapsCheckBox.Size = New System.Drawing.Size(52, 17)
             Me.MapsCheckBox.TabIndex = 37
@@ -219,7 +232,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'GeogCheckBox
             '
             Me.GeogCheckBox.AutoSize = True
-            Me.GeogCheckBox.Location = New System.Drawing.Point(14, 17)
+            Me.GeogCheckBox.Location = New System.Drawing.Point(6, 6)
             Me.GeogCheckBox.Name = "GeogCheckBox"
             Me.GeogCheckBox.Size = New System.Drawing.Size(78, 17)
             Me.GeogCheckBox.TabIndex = 36
@@ -229,7 +242,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'DistrictsCheckBox
             '
             Me.DistrictsCheckBox.AutoSize = True
-            Me.DistrictsCheckBox.Location = New System.Drawing.Point(14, 62)
+            Me.DistrictsCheckBox.Location = New System.Drawing.Point(6, 51)
             Me.DistrictsCheckBox.Name = "DistrictsCheckBox"
             Me.DistrictsCheckBox.Size = New System.Drawing.Size(63, 17)
             Me.DistrictsCheckBox.TabIndex = 35
@@ -239,7 +252,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'CitiesCheckBox
             '
             Me.CitiesCheckBox.AutoSize = True
-            Me.CitiesCheckBox.Location = New System.Drawing.Point(14, 82)
+            Me.CitiesCheckBox.Location = New System.Drawing.Point(6, 74)
             Me.CitiesCheckBox.Name = "CitiesCheckBox"
             Me.CitiesCheckBox.Size = New System.Drawing.Size(51, 17)
             Me.CitiesCheckBox.TabIndex = 34
@@ -249,7 +262,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'StatesCheckBox
             '
             Me.StatesCheckBox.AutoSize = True
-            Me.StatesCheckBox.Location = New System.Drawing.Point(14, 105)
+            Me.StatesCheckBox.Location = New System.Drawing.Point(6, 120)
             Me.StatesCheckBox.Name = "StatesCheckBox"
             Me.StatesCheckBox.Size = New System.Drawing.Size(56, 17)
             Me.StatesCheckBox.TabIndex = 30
@@ -259,7 +272,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'TamilnaduCheckBox
             '
             Me.TamilnaduCheckBox.AutoSize = True
-            Me.TamilnaduCheckBox.Location = New System.Drawing.Point(104, 83)
+            Me.TamilnaduCheckBox.Location = New System.Drawing.Point(103, 95)
             Me.TamilnaduCheckBox.Name = "TamilnaduCheckBox"
             Me.TamilnaduCheckBox.Size = New System.Drawing.Size(75, 17)
             Me.TamilnaduCheckBox.TabIndex = 29
@@ -269,7 +282,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'KeralaCheckBox
             '
             Me.KeralaCheckBox.AutoSize = True
-            Me.KeralaCheckBox.Location = New System.Drawing.Point(104, 17)
+            Me.KeralaCheckBox.Location = New System.Drawing.Point(103, 29)
             Me.KeralaCheckBox.Name = "KeralaCheckBox"
             Me.KeralaCheckBox.Size = New System.Drawing.Size(56, 17)
             Me.KeralaCheckBox.TabIndex = 27
@@ -279,7 +292,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'KarnatakaCheckBox
             '
             Me.KarnatakaCheckBox.AutoSize = True
-            Me.KarnatakaCheckBox.Location = New System.Drawing.Point(14, 174)
+            Me.KarnatakaCheckBox.Location = New System.Drawing.Point(103, 6)
             Me.KarnatakaCheckBox.Name = "KarnatakaCheckBox"
             Me.KarnatakaCheckBox.Size = New System.Drawing.Size(75, 17)
             Me.KarnatakaCheckBox.TabIndex = 26
@@ -289,7 +302,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'GoaCheckBox
             '
             Me.GoaCheckBox.AutoSize = True
-            Me.GoaCheckBox.Location = New System.Drawing.Point(14, 151)
+            Me.GoaCheckBox.Location = New System.Drawing.Point(6, 166)
             Me.GoaCheckBox.Name = "GoaCheckBox"
             Me.GoaCheckBox.Size = New System.Drawing.Size(46, 17)
             Me.GoaCheckBox.TabIndex = 25
@@ -299,7 +312,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'BengalCheckBox
             '
             Me.BengalCheckBox.AutoSize = True
-            Me.BengalCheckBox.Location = New System.Drawing.Point(104, 129)
+            Me.BengalCheckBox.Location = New System.Drawing.Point(103, 141)
             Me.BengalCheckBox.Name = "BengalCheckBox"
             Me.BengalCheckBox.Size = New System.Drawing.Size(59, 17)
             Me.BengalCheckBox.TabIndex = 24
@@ -309,7 +322,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'AndhraCheckBox
             '
             Me.AndhraCheckBox.AutoSize = True
-            Me.AndhraCheckBox.Location = New System.Drawing.Point(104, 60)
+            Me.AndhraCheckBox.Location = New System.Drawing.Point(103, 72)
             Me.AndhraCheckBox.Name = "AndhraCheckBox"
             Me.AndhraCheckBox.Size = New System.Drawing.Size(102, 17)
             Me.AndhraCheckBox.TabIndex = 23
@@ -319,6 +332,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'TabPage2
             '
             Me.TabPage2.BackColor = System.Drawing.Color.Transparent
+            Me.TabPage2.Controls.Add(Me.TelevisionCheckBox)
             Me.TabPage2.Controls.Add(Me.ProtectedCheckBox)
             Me.TabPage2.Controls.Add(Me.LiteratureCheckBox)
             Me.TabPage2.Controls.Add(Me.TamilCheckBox)
@@ -331,6 +345,16 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.TabPage2.Size = New System.Drawing.Size(244, 210)
             Me.TabPage2.TabIndex = 1
             Me.TabPage2.Text = "India 2"
+            '
+            'TelevisionCheckBox
+            '
+            Me.TelevisionCheckBox.AutoSize = True
+            Me.TelevisionCheckBox.Location = New System.Drawing.Point(5, 98)
+            Me.TelevisionCheckBox.Name = "TelevisionCheckBox"
+            Me.TelevisionCheckBox.Size = New System.Drawing.Size(74, 17)
+            Me.TelevisionCheckBox.TabIndex = 44
+            Me.TelevisionCheckBox.Text = "Television"
+            Me.TelevisionCheckBox.UseVisualStyleBackColor = True
             '
             'ProtectedCheckBox
             '
@@ -452,6 +476,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Private WithEvents PunjabCheckbox As System.Windows.Forms.CheckBox
         Private WithEvents GujuratCheckBox As System.Windows.Forms.CheckBox
         Private WithEvents WBengalCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents TelevisionCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents ChennaiCheckBox As System.Windows.Forms.CheckBox
 
     End Class
 End Namespace

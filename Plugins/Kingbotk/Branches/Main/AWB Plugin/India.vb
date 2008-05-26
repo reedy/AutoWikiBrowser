@@ -4,6 +4,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Implements IGenericSettings
 
         Private Const conCitiesParm As String = "IndCities"
+        Private Const conChennaiParm As String = "IndChennai"
         Private Const conDistrictsParm As String = "IndDistricts"
         Private Const conStatesParm As String = "IndStates"
         Private Const conAndhraParm As String = "IndAndhra"
@@ -17,6 +18,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Private Const conHistoryParm As String = "IndHistory"
         Private Const conCinemaParm As String = "IndCinema"
         Private Const conTamilParm As String = "IndTamil"
+        Private Const conTelevisionParm As String = "IndTele"
 
         Private Const conPunjabParm As String = "IndPunjab"
         Private Const conGeogParm As String = "IndGeography"
@@ -30,6 +32,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 #Region "XML interface:"
         Friend Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader) Implements IGenericSettings.ReadXML
             Cities = PluginManager.XMLReadBoolean(Reader, conCitiesParm, Cities)
+            Chennai = PluginManager.XMLReadBoolean(Reader, conChennaiParm, Chennai)
             Districts = PluginManager.XMLReadBoolean(Reader, conDistrictsParm, Districts)
             States = PluginManager.XMLReadBoolean(Reader, conStatesParm, States)
             Andhra = PluginManager.XMLReadBoolean(Reader, conAndhraParm, Andhra)
@@ -40,6 +43,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Maharashtra = PluginManager.XMLReadBoolean(Reader, conMaharashtraParm, Maharashtra)
             Tamilnadu = PluginManager.XMLReadBoolean(Reader, conTamilnaduParm, Tamilnadu)
             Politics = PluginManager.XMLReadBoolean(Reader, conPoliticsParm, Politics)
+            Television = PluginManager.XMLReadBoolean(Reader, conTelevisionParm, Television)
             History = PluginManager.XMLReadBoolean(Reader, conHistoryParm, History)
             Cinema = PluginManager.XMLReadBoolean(Reader, conCinemaParm, Cinema)
             Tamil = PluginManager.XMLReadBoolean(Reader, conTamilParm, Tamil)
@@ -54,6 +58,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Friend Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter) Implements IGenericSettings.WriteXML
             With Writer
                 .WriteAttributeString(conCitiesParm, Cities.ToString)
+                .WriteAttributeString(conChennaiParm, Chennai.ToString)
                 .WriteAttributeString(conDistrictsParm, States.ToString)
                 .WriteAttributeString(conStatesParm, States.ToString)
                 .WriteAttributeString(conAndhraParm, Andhra.ToString)
@@ -64,6 +69,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 .WriteAttributeString(conMaharashtraParm, Maharashtra.ToString)
                 .WriteAttributeString(conTamilnaduParm, Tamilnadu.ToString)
                 .WriteAttributeString(conPoliticsParm, Politics.ToString)
+                .WriteAttributeString(conTelevisionParm, Television.ToString)
                 .WriteAttributeString(conHistoryParm, History.ToString)
                 .WriteAttributeString(conCinemaParm, Cinema.ToString)
                 .WriteAttributeString(conTamilParm, Tamil.ToString)
@@ -94,6 +100,14 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             End Get
             Set(ByVal value As Boolean)
                 CitiesCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Chennai() As Boolean
+            Get
+                Return ChennaiCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                ChennaiCheckBox.Checked = value
             End Set
         End Property
         Friend Property Districts() As Boolean
@@ -182,6 +196,14 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             End Get
             Set(ByVal value As Boolean)
                 PoliticsCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Television() As Boolean
+            Get
+                Return TelevisionCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                TelevisionCheckBox.Checked = value
             End Set
         End Property
         Friend Property History() As Boolean
@@ -382,6 +404,10 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                     AddAndLogNewParamWithAYesValue("cities")
                     AddEmptyParam("cities-importance")
                 End If
+                If .Chennai Then
+                    AddAndLogNewParamWithAYesValue("chennai")
+                    AddAndLogEmptyParam("chennai-importance")
+                End If
                 If .Districts Then
                     AddAndLogNewParamWithAYesValue("districts")
                     AddEmptyParam("districts-importance")
@@ -421,6 +447,10 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 If .Politics Then
                     AddAndLogNewParamWithAYesValue("politics")
                     AddEmptyParam("politics-importance")
+                End If
+                If .Television Then
+                    AddAndLogNewParamWithAYesValue("television")
+                    AddEmptyParam("television-importance")
                 End If
                 If .History Then
                     AddAndLogNewParamWithAYesValue("history")
