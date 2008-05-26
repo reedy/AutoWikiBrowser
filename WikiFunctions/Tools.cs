@@ -1087,6 +1087,18 @@ Message: {2}
             return ArticleText;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="link"></param>
+        /// <returns></returns>
+        public static string GetPageFromURL(string link)
+        {
+            link = link.Remove(0, (Variables.URL + "/wiki/").Length);
+
+            return System.Web.HttpUtility.UrlDecode(link).Replace('_', ' ');
+        }
+
         #region Copy
         /// <summary>
         /// Copy selected items from a listbox
