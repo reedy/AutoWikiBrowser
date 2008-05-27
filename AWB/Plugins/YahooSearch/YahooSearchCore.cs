@@ -129,6 +129,9 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
         { get { return true; } }
 
         public bool Selected() { return true; }
+
+        public bool IsThreaded
+        { get { return true; } }
         #endregion
     }
 }

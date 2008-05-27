@@ -104,6 +104,9 @@ namespace WikiFunctions.Controls.Lists
 
         public ListMaker()
         {
+            listItems.Add(new Category());
+            listItems.Add(new CategoryRecursive());
+
             InitializeComponent();
 
             //m_ListItems.Add(new Test());
@@ -316,6 +319,7 @@ namespace WikiFunctions.Controls.Lists
             //switch (SelectedSource)
             //{
             //    // TODO: These strings and bools need to go into new ListMaker provider objects, and here we just fire a Selected() call on the active IListMakerProvider
+            //    case SourceType.CategoryRecursive:
             //    case SourceType.Category:
             //        lblSourceSelect.Text = Variables.Namespaces[14];
             //        txtSelectSource.Enabled = true;
@@ -371,10 +375,6 @@ namespace WikiFunctions.Controls.Lists
             //        break;
             //    case SourceType.Redirects:
             //        lblSourceSelect.Text = "Redirects to:";
-            //        txtSelectSource.Enabled = true;
-            //        break;
-            //    case SourceType.CategoryRecursive:
-            //        lblSourceSelect.Text = Variables.Namespaces[14];
             //        txtSelectSource.Enabled = true;
             //        break;
             //    case SourceType.Plugin:
