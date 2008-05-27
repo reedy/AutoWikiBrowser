@@ -77,9 +77,22 @@ namespace WikiFunctions.Controls.Lists
         {
             listItems.Add(new Category());
             listItems.Add(new CategoryRecursive());
-            listItems.Add(new TextFile());
             listItems.Add(new WhatLinksHere());
             listItems.Add(new WhatLinksHereIncludingRedirects());
+            listItems.Add(new WhatTranscludesPage());
+            listItems.Add(new LinksOnPage());
+            listItems.Add(new ImagesOnPage());
+            listItems.Add(new TransclusionsOnPage());
+            listItems.Add(new TextFile());
+            listItems.Add(new GoogleSearch());
+            listItems.Add(new UserContribs());
+            listItems.Add(new UserContribsAll());
+            listItems.Add(new SpecialPage());
+            listItems.Add(new ImageFileLinks());
+            //listItems.Add(new DatabaseScanner());
+            listItems.Add(new MyWatchlist());
+            listItems.Add(new WikiSearch());
+            listItems.Add(new Redirects());
 
             InitializeComponent();
 
@@ -287,78 +300,7 @@ namespace WikiFunctions.Controls.Lists
 
             lblSourceSelect.Text = searchItem.SelectSourceTextBoxText;
             txtSelectSource.Enabled = searchItem.SelectSourceTextBoxEnabled;
-
-            //switch (SelectedSource)
-            //{
-            //    // TODO: These strings and bools need to go into new ListMaker provider objects, and here we just fire a Selected() call on the active IListMakerProvider
-            //    case SourceType.CategoryRecursive:
-            //    case SourceType.Category:
-            //        lblSourceSelect.Text = Variables.Namespaces[14];
-            //        txtSelectSource.Enabled = true;
-            //        break;
-            //    case SourceType.WhatLinksHereIncludingRedirects:
-            //    case SourceType.WhatLinksHere:
-            //        lblSourceSelect.Text = "What links to";
-            //        txtSelectSource.Enabled = true;
-            //        break;
-            //    case SourceType.WhatTranscludesPage:
-            //        lblSourceSelect.Text = "What embeds";
-            //        txtSelectSource.Enabled = true;
-            //        break;
-            //    case SourceType.LinksOnPage:
-            //        lblSourceSelect.Text = "Links on";
-            //        txtSelectSource.Enabled = true;
-            //        break;
-            //    case SourceType.ImagesOnPage:
-            //        lblSourceSelect.Text = "Images on";
-            //        txtSelectSource.Enabled = true;
-            //        break;
-            //    case SourceType.TransclusionsOnPage:
-            //        lblSourceSelect.Text = "Transclusions on";
-            //        txtSelectSource.Enabled = true;
-            //        break;
-            //    case SourceType.TextFile:
-            //        lblSourceSelect.Text = "From file:";
-            //        txtSelectSource.Enabled = false;
-            //        break;
-            //    case SourceType.GoogleWikipedia:
-            //        lblSourceSelect.Text = "Google search:";
-            //        txtSelectSource.Enabled = true;
-            //        break;
-            //    case SourceType.UserContribs:
-            //        lblSourceSelect.Text = Variables.Namespaces[2];
-            //        txtSelectSource.Enabled = true;
-            //        break;
-            //    case SourceType.AllUserContribs:
-            //        lblSourceSelect.Text = Variables.Namespaces[2];
-            //        txtSelectSource.Enabled = true;
-            //        break;
-            //    case SourceType.SpecialPage:
-            //        lblSourceSelect.Text = Variables.Namespaces[-1];
-            //        txtSelectSource.Enabled = true;
-            //        break;
-            //    case SourceType.ImageFileLinks:
-            //        lblSourceSelect.Text = Variables.Namespaces[6];
-            //        txtSelectSource.Enabled = true;
-            //        break;
-            //    case SourceType.WikiSearch:
-            //        lblSourceSelect.Text = "Wiki search";
-            //        txtSelectSource.Enabled = true;
-            //        break;
-            //    case SourceType.Redirects:
-            //        lblSourceSelect.Text = "Redirects to:";
-            //        txtSelectSource.Enabled = true;
-            //        break;
-            //    case SourceType.Plugin:
-            //        lblSourceSelect.Text = "Plugin Search";
-            //        txtSelectSource.Enabled = true;
-            //        break;
-            //    default:
-            //        lblSourceSelect.Text = "";
-            //        txtSelectSource.Enabled = false;
-            //        break;
-            //}
-        }
+       }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
@@ -621,7 +563,6 @@ namespace WikiFunctions.Controls.Lists
         {
             WikiFunctions.DBScanner.DatabaseScanner ds = new WikiFunctions.DBScanner.DatabaseScanner(lbArticles);
             ds.Show();
-            UpdateNumberOfArticles();
         }
 
         private delegate void AddToListDel(string s);
@@ -1453,7 +1394,7 @@ namespace WikiFunctions.Controls.Lists
 
         public void AddProvider(IListMakerProvider provider)
         {
-            listItems.Add(provider); // TODO: Plugins get added here, nothing else to do
+            listItems.Add(provider);
         }
     }
 }
