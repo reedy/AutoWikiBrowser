@@ -150,6 +150,7 @@
     <Compile Include="FindandReplace.Designer.cs">
       <DependentUpon>FindandReplace.cs</DependentUpon>
     </Compile>
+    <Compile Include="Lists.cs" />
     <Compile Include="ListSplitter.cs">
       <SubType>Form</SubType>
     </Compile>

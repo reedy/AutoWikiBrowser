@@ -1,5 +1,7 @@
 /*
 ListMaker
+(c) Martin Richards
+(c) Stephen Kennedy
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -15,6 +17,28 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
+
+/*
+ * Category
+Category (recursive)
+What links here
+What links here (inc. Redirects)
+What transcludes page
+Links on page
+Images on page
+Transclusions on page
+Text file
+Google search
+User contribs
+User contribs (all)
+Special page
+Image file links
+Database dump
+My watchlist
+Wiki search
+Redirects
+Plugin
+ * */
 
 using System;
 using System.Collections.Generic;
@@ -36,7 +60,9 @@ namespace WikiFunctions.Controls.Lists
 
     public partial class ListMaker : UserControl, IEnumerable<Article>, ICollection<Article>, IList<Article>
     {
-        public static List<WikiFunctions.Plugin.IListMakerPlugin> ListMakerPlugins = new List<WikiFunctions.Plugin.IListMakerPlugin>();
+        //public static List<WikiFunctions.Plugin.IListMakerPlugin> ListMakerPlugins = new List<WikiFunctions.Plugin.IListMakerPlugin>();
+        // TODO: This compiles, but if it doesn't work we'll have to use a non-generic ArrayList
+        private static List<IListMakerProvider> m_ListItems = new List<IListMakerProvider>();
 
         public event ListMakerEventHandler StatusTextChanged;
         public event ListMakerEventHandler BusyStateChanged;
@@ -53,6 +79,11 @@ namespace WikiFunctions.Controls.Lists
 
         public ListMaker()
         {
+            // TODO: Don't know if this is the right place to do this (needs testing) or even whether the concept is sound
+            // We'll manage our own collection of list items:
+            cmboSourceSelect.DataSource = m_ListItems;
+            // Bind IListMakerProvider.DisplayText to be the displayed text:
+            cmboSourceSelect.DisplayMember = "DisplayText"; 
             InitializeComponent();
             //if (Variables.LangCode == LangCodeEnum.en)
             //    cmboSourceSelect.Items.Add("Redirects");
@@ -253,6 +284,7 @@ namespace WikiFunctions.Controls.Lists
 
             switch (SelectedSource)
             {
+                // TODO: These strings and bools need to go into new ListMaker provider objects, and here we just fire a Selected() call on the active IListMakerProvider
                 case SourceType.Category:
                     lblSourceSelect.Text = Variables.Namespaces[14];
                     txtSelectSource.Enabled = true;
@@ -762,20 +794,20 @@ namespace WikiFunctions.Controls.Lists
             }
             else if (st == SourceType.Plugin)
             {
-                foreach (WikiFunctions.Plugin.IListMakerPlugin plugin in ListMakerPlugins)
-                {
-                    //if (cmboSourceSelect.Text == plugin.DisplayText)
-                    //{
-                    pluginToRun = plugin;
-                    strSource = sourceValues;
-                    ThreadStart thr_Process = new ThreadStart(MakeListPlugin);
-                    ListerThread = new Thread(thr_Process);
-                    ListerThread.IsBackground = true;
-                    ListerThread.Start();
+                //foreach (WikiFunctions.Plugin.IListMakerPlugin plugin in ListMakerPlugins)
+                //{
+                //    //if (cmboSourceSelect.Text == plugin.DisplayText)
+                //    //{
+                //    pluginToRun = plugin;
+                //    strSource = sourceValues;
+                //    ThreadStart thr_Process = new ThreadStart(MakeListPlugin);
+                //    ListerThread = new Thread(thr_Process);
+                //    ListerThread.IsBackground = true;
+                //    ListerThread.Start();
 
-                    break;
-                    //}
-                }
+                //    break;
+                //    //}
+                //}
             }
             else
             {
@@ -1393,10 +1425,10 @@ namespace WikiFunctions.Controls.Lists
             get { return SpecialFilter.Settings; }
             set { SpecialFilter.Settings = value; }
         }
-    }
-}
 
-namespace WikiFunctions.Lists
-{
-    public enum SourceType { None = -1, Category, CategoryRecursive, WhatLinksHere, WhatLinksHereIncludingRedirects, WhatTranscludesPage, LinksOnPage, ImagesOnPage, TransclusionsOnPage, TextFile, GoogleWikipedia, UserContribs, AllUserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist, WikiSearch, Redirects, Plugin }
+        public void AddProvider(IListMakerProvider provider)
+        {
+            m_ListItems.Add(provider); // TODO: Plugins get added here, nothing else to do
+        }
+    }
 }

@@ -170,26 +170,6 @@ namespace WikiFunctions.Controls.Lists
             this.cmboSourceSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmboSourceSelect.FormattingEnabled = true;
             this.cmboSourceSelect.IntegralHeight = false;
-            this.cmboSourceSelect.Items.AddRange(new object[] {
-            "Category",
-            "Category (recursive)",
-            "What links here",
-            "What links here (inc. Redirects)",
-            "What transcludes page",
-            "Links on page",
-            "Images on page",
-            "Transclusions on page",
-            "Text file",
-            "Google search",
-            "User contribs",
-            "User contribs (all)",
-            "Special page",
-            "Image file links",
-            "Database dump",
-            "My watchlist",
-            "Wiki search",
-            "Redirects",
-            "Plugin"});
             this.cmboSourceSelect.Location = new System.Drawing.Point(71, 2);
             this.cmboSourceSelect.Name = "cmboSourceSelect";
             this.cmboSourceSelect.Size = new System.Drawing.Size(122, 21);
