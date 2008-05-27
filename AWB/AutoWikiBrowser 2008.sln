@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DelinkerPlugin", "Plugins\D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server Plugin", "Plugins\Server\Server Plugin.csproj", "{9AF2D0F6-4ADA-4029-B2B4-28480E56EF0C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YahooSearch", "Plugins\YahooSearch\YahooSearch.csproj", "{D8371B08-85CF-4DFF-85B8-71EBF4661D71}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -123,6 +125,16 @@ Global
 		{9AF2D0F6-4ADA-4029-B2B4-28480E56EF0C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{9AF2D0F6-4ADA-4029-B2B4-28480E56EF0C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{9AF2D0F6-4ADA-4029-B2B4-28480E56EF0C}.Release|Win32.ActiveCfg = Release|Any CPU
+		{D8371B08-85CF-4DFF-85B8-71EBF4661D71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8371B08-85CF-4DFF-85B8-71EBF4661D71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8371B08-85CF-4DFF-85B8-71EBF4661D71}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{D8371B08-85CF-4DFF-85B8-71EBF4661D71}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{D8371B08-85CF-4DFF-85B8-71EBF4661D71}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{D8371B08-85CF-4DFF-85B8-71EBF4661D71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8371B08-85CF-4DFF-85B8-71EBF4661D71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8371B08-85CF-4DFF-85B8-71EBF4661D71}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{D8371B08-85CF-4DFF-85B8-71EBF4661D71}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{D8371B08-85CF-4DFF-85B8-71EBF4661D71}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
