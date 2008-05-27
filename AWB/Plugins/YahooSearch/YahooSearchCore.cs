@@ -35,33 +35,44 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
     /// <remarks>
     /// http://developer.yahoo.com/search/web/V1/webSearch.html
     /// "The Web Search service is limited to 5,000 queries per IP address per day."
+    /// Will also only return <s>1000</s> 998 results in one search
     /// </remarks>
     public class YahooSearchListMakerPlugin : IListMakerPlugin
     {
         internal const string appID = "3mG9u3PV34GC4rnRXJlID0_3aUb0.XVxGZYrbFcYClzQYUqtlkn0u6iXVwYVv9sW1Q--";
         #region IListMakerPlugin Members
 
-        string baseUrl = "http://search.yahooapis.com/WebSearchService/V1/webSearch?appid=" + appID + "&query={0}&results=100&site=" + WikiFunctions.Variables.URL + "&start={1}";
+        string baseUrl = "http://search.yahooapis.com/WebSearchService/V1/webSearch?appid=" + appID + "&query={0}&results={1}&site=" + WikiFunctions.Variables.URL + "&start={2}";
 
         public List<Article> Search(string[] searchCriteria)
         {
             List<Article> articles = new List<Article>();
-            int start = 0;
+            int start = 1, noResults = 100;
 
             foreach (string s in searchCriteria)
             {
-                string url = string.Format(baseUrl, s, start.ToString());
+                string url = string.Format(baseUrl, s, noResults, start.ToString());
                 string html, title;
                 int resultsReturned = 0, totalResults = 0;
 
                 do
                 {
                     html = Tools.GetHTML(url);
+                    //Console.WriteLine(url);
 
                     using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
                     {
                         while (reader.Read())
                         {
+                            if (reader.Name.Equals(""))
+                            {
+                                if (string.Compare(reader.ToString(), "limit exceeded", true) == 0)
+                                {
+                                    System.Windows.Forms.MessageBox.Show("Query limit for Yahoo Exceeded. Please try again later");
+                                    return articles;
+                                }
+                            }
+
                             if (reader.Name.Equals("ResultSet"))
                             {
                                 string val;
@@ -92,14 +103,12 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
                     if (resultsReturned < 100)
                         break;
 
-                    int totalReturnedResults = (start + resultsReturned - 1);
-
-                    if ((totalReturnedResults < totalResults) && (totalReturnedResults < 900))
-                        start += 100;
+                    if ((articles.Count < totalResults) && (articles.Count <= 900))
+                        start += noResults;
                     else
                         break;
 
-                    url = string.Format(baseUrl, s, start.ToString());
+                    url = string.Format(baseUrl, s, noResults, start.ToString());
                 } while (true);
             }
 
