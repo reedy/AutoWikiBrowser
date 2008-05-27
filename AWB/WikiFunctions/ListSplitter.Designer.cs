@@ -106,7 +106,6 @@ namespace WikiFunctions.Controls.Lists
             // 
             // listMaker1
             // 
-            this.listMaker1.ListFile = "";
             this.listMaker1.Location = new System.Drawing.Point(12, 12);
             this.listMaker1.Name = "listMaker1";
             this.listMaker1.SelectedSource = WikiFunctions.Lists.SourceType.None;

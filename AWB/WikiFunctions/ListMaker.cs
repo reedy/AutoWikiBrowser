@@ -18,8 +18,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-/*
- * Category
+/* Category
 Category (recursive)
 What links here
 What links here (inc. Redirects)
@@ -37,8 +36,7 @@ Database dump
 My watchlist
 Wiki search
 Redirects
-Plugin
- * */
+*/
 
 using System;
 using System.Collections.Generic;
@@ -73,43 +71,17 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public event ListMakerEventHandler ListFinished;
 
-        //private class Test : IListMakerProvider
-        //{
-        //    #region IListMakerProvider Members
-
-        //    public List<Article> Search(string[] searchCriteria)
-        //    {
-        //        return new List<Article>();
-        //    }
-
-        //    public string DisplayText
-        //    {
-        //        get { return "text"; }
-        //    }
-
-        //    public string SelectSourceTextBoxText
-        //    {
-        //        get { return "text"; }
-        //    }
-
-        //    public bool Selected()
-        //    {
-        //        return true;
-        //    }
-
-        //    #endregion
-        //}
-
         SpecialFilter SpecialFilter = new SpecialFilter();
 
         public ListMaker()
         {
             listItems.Add(new Category());
             listItems.Add(new CategoryRecursive());
+            listItems.Add(new TextFile());
+            listItems.Add(new WhatLinksHere());
+            listItems.Add(new WhatLinksHereIncludingRedirects());
 
             InitializeComponent();
-
-            //m_ListItems.Add(new Test());
 
             // We'll manage our own collection of list items:
             cmboSourceSelect.DataSource = listItems;
@@ -314,7 +286,7 @@ namespace WikiFunctions.Controls.Lists
             IListMakerProvider searchItem = listItems[cmboSourceSelect.SelectedIndex];
 
             lblSourceSelect.Text = searchItem.SelectSourceTextBoxText;
-            txtSelectSource.Enabled = searchItem.SelectSourceEnabled;
+            txtSelectSource.Enabled = searchItem.SelectSourceTextBoxEnabled;
 
             //switch (SelectedSource)
             //{
@@ -784,11 +756,23 @@ namespace WikiFunctions.Controls.Lists
 
             pluginToRun = listItems[cmboSourceSelect.SelectedIndex];
 
-            strSource = sourceValues;
-            ThreadStart thr_Process = new ThreadStart(MakeListPlugin);
-            ListerThread = new Thread(thr_Process);
-            ListerThread.IsBackground = true;
-            ListerThread.Start();
+            if (pluginToRun.IsThreaded)
+            {
+                strSource = sourceValues;
+                ThreadStart thr_Process = new ThreadStart(MakeListPlugin);
+                ListerThread = new Thread(thr_Process);
+                ListerThread.IsBackground = true;
+                ListerThread.Start();
+            }
+            else
+            {
+                BusyStatus = true;
+
+                Add(pluginToRun.Search(sourceValues));
+
+                BusyStatus = false;
+                UpdateNumberOfArticles();
+            }
 
             //if (st == SourceType.DatabaseDump)
             //{

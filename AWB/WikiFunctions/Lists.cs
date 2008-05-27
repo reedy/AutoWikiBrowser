@@ -57,7 +57,7 @@ namespace WikiFunctions.Lists
         /// <summary>
         /// 
         /// </summary>
-        bool SelectSourceEnabled { get; }
+        bool SelectSourceTextBoxEnabled { get;}
 
         /// <summary>
         /// Called when the ListMaker Provider has been selected in the ComboBox
@@ -90,10 +90,8 @@ namespace WikiFunctions.Lists
             get { return Variables.Namespaces[14]; }
         }
 
-        public bool SelectSourceEnabled
-        {
-            get { return true; }
-        }
+        public bool SelectSourceTextBoxEnabled
+        { get { return true; } }
 
         public bool Selected()
         {
@@ -110,7 +108,11 @@ namespace WikiFunctions.Lists
     {
         public override List<Article> Search(string[] searchCriteria)
         {
-            return GetLists.FromCategory(true, searchCriteria);
+            GetLists.QuietMode = true;
+            List<Article> ret = GetLists.FromCategory(true, searchCriteria);
+            GetLists.QuietMode = false;
+
+            return ret;
         }
 
         public override string DisplayText
@@ -118,6 +120,152 @@ namespace WikiFunctions.Lists
             get { return "Category (recursive)"; }
         }
     }
+
+    public class TextFile : IListMakerProvider
+    {
+        OpenFileDialog openListDialog;
+        public TextFile()
+        {
+            openListDialog = new OpenFileDialog();
+            openListDialog.Filter = "text files|*.txt|All files|*.*";
+            openListDialog.Multiselect = true;
+        }
+
+        #region IListMakerProvider Members
+
+        public List<Article> Search(string[] searchCriteria)
+        {
+            List<Article> ret = new List<Article>();
+            try
+            {
+                if (openListDialog.ShowDialog() == DialogResult.OK)
+                {
+                    ret = GetLists.FromTextFile(openListDialog.FileNames);
+                }
+                return ret;
+            }
+            catch (Exception ex)
+            {
+                ErrorHandler.Handle(ex);
+                return ret;
+            }
+        }
+
+        public string DisplayText
+        {
+            get { return "Text File"; }
+        }
+
+        public string SelectSourceTextBoxText
+        {
+            get { return "From file:"; }
+        }
+
+        public bool SelectSourceTextBoxEnabled
+        { get { return false; } }
+
+        public bool Selected()
+        {
+            return false;
+        }
+
+        public bool IsThreaded
+        {
+            get { return false; }
+        }
+
+        #endregion
+    }
+
+    public class WhatLinksHere : IListMakerProvider
+    {
+        #region IListMakerProvider Members
+
+        public virtual List<Article> Search(string[] searchCriteria)
+        {
+            return GetLists.FromWhatLinksHere(false, searchCriteria);
+        }
+
+        public virtual string DisplayText
+        {
+            get { return "What links here"; }
+        }
+
+        public string SelectSourceTextBoxText
+        {
+            get { return "What links to"; }
+        }
+
+        public bool SelectSourceTextBoxEnabled
+        {
+            get { return true; }
+        }
+
+        public bool Selected()
+        {
+            return true;
+        }
+
+        public bool IsThreaded
+        {
+            get { return true; }
+        }
+
+        #endregion
+    }
+
+    public class WhatLinksHereIncludingRedirects : WhatLinksHere
+    {
+        public override List<Article> Search(string[] searchCriteria)
+        {
+            return GetLists.FromWhatLinksHere(false, true, searchCriteria);
+        }
+
+        public override string DisplayText
+        {
+            get
+            {
+                return base.DisplayText + " (inc. Redirects)";
+            }
+        } 
+    }
+
+    //public class  : IListMakerProvider
+    //{
+    //    #region IListMakerProvider Members
+
+    //    public virtual List<Article> Search(string[] searchCriteria)
+    //    {
+    //        return ;
+    //    }
+
+    //    public virtual string DisplayText
+    //    {
+    //        get { return ""; }
+    //    }
+
+    //    public string SelectSourceTextBoxText
+    //    {
+    //        get { return ""; }
+    //    }
+
+    //    public bool SelectSourceTextBoxEnabled
+    //    {
+    //        get { return ; }
+    //    }
+
+    //    public bool Selected()
+    //    {
+    //        return ;
+    //    }
+
+    //    public bool IsThreaded
+    //    {
+    //        get { return ; }
+    //    }
+
+    //    #endregion
+    //}
 
     // TODO: May well no longer be needed
     public enum SourceType { None = -1, Category, CategoryRecursive, WhatLinksHere, WhatLinksHereIncludingRedirects, WhatTranscludesPage, LinksOnPage, ImagesOnPage, TransclusionsOnPage, TextFile, GoogleWikipedia, UserContribs, AllUserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist, WikiSearch, Redirects, Plugin }
