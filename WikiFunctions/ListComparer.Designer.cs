@@ -190,7 +190,6 @@ namespace WikiFunctions.Controls.Lists
             // 
             // listMaker1
             // 
-            this.listMaker1.ListFile = "";
             this.listMaker1.Location = new System.Drawing.Point(7, 18);
             this.listMaker1.Name = "listMaker1";
             this.listMaker1.Size = new System.Drawing.Size(201, 351);
@@ -210,7 +209,6 @@ namespace WikiFunctions.Controls.Lists
             // 
             // listMaker2
             // 
-            this.listMaker2.ListFile = "";
             this.listMaker2.Location = new System.Drawing.Point(7, 18);
             this.listMaker2.Name = "listMaker2";
             this.listMaker2.SelectedSource = WikiFunctions.Lists.SourceType.Category;

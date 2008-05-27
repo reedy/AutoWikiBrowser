@@ -2451,7 +2451,6 @@ namespace AutoWikiBrowser
             // 
             // listMaker1
             // 
-            this.listMaker1.ListFile = "";
             this.listMaker1.Location = new System.Drawing.Point(7, 15);
             this.listMaker1.Margin = new System.Windows.Forms.Padding(4);
             this.listMaker1.Name = "listMaker1";

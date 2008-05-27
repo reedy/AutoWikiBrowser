@@ -125,6 +125,9 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
         public string SelectSourceTextBoxText
         { get { return "Search string"; } }
 
+        public bool SelectSourceTextBoxEnabled
+        { get { return true; } }
+
         public bool SelectSourceEnabled
         { get { return true; } }
 
