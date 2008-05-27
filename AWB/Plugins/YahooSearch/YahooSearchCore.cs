@@ -117,25 +117,18 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
         }
 
         public string Name
-        {
-            get { return "Yahoo Search Plugin"; }
-        }
+        { get { return "Yahoo Search Plugin"; } }
 
         public string DisplayText
-        {
-            get { return "Yahoo Search"; }
-        }
-
-        //public void Initialise()
-        //{
-        //    //throw new Exception("The method or operation is not implemented.");
-        //}
+        { get { return "Yahoo Search"; } }
 
         public string SelectSourceTextBoxText
         { get { return "Search string"; } }
 
-        public bool Selected() { return true; }
+        public bool SelectSourceEnabled
+        { get { return true; } }
 
+        public bool Selected() { return true; }
         #endregion
     }
 }
