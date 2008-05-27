@@ -36,6 +36,8 @@ namespace WikiFunctions.Controls.Lists
 
     public partial class ListMaker : UserControl, IEnumerable<Article>, ICollection<Article>, IList<Article>
     {
+        public static List<WikiFunctions.Plugin.IListMakerPlugin> ListMakerPlugins = new List<WikiFunctions.Plugin.IListMakerPlugin>();
+
         public event ListMakerEventHandler StatusTextChanged;
         public event ListMakerEventHandler BusyStateChanged;
         public event ListMakerEventHandler NoOfArticlesChanged;
@@ -310,6 +312,10 @@ namespace WikiFunctions.Controls.Lists
                     break;
                 case SourceType.CategoryRecursive:
                     lblSourceSelect.Text = Variables.Namespaces[14];
+                    txtSelectSource.Enabled = true;
+                    break;
+                case SourceType.Plugin:
+                    lblSourceSelect.Text = "Plugin Search";
                     txtSelectSource.Enabled = true;
                     break;
                 default:
@@ -754,6 +760,23 @@ namespace WikiFunctions.Controls.Lists
                     MessageBox.Show("Please ensure you are logged in", "Log In");
                 }
             }
+            else if (st == SourceType.Plugin)
+            {
+                foreach (WikiFunctions.Plugin.IListMakerPlugin plugin in ListMakerPlugins)
+                {
+                    //if (cmboSourceSelect.Text == plugin.DisplayText)
+                    //{
+                    pluginToRun = plugin;
+                    strSource = sourceValues;
+                    ThreadStart thr_Process = new ThreadStart(MakeListPlugin);
+                    ListerThread = new Thread(thr_Process);
+                    ListerThread.IsBackground = true;
+                    ListerThread.Start();
+
+                    break;
+                    //}
+                }
+            }
             else
             {
                 Source = st;
@@ -765,6 +788,39 @@ namespace WikiFunctions.Controls.Lists
                 ListerThread.Start();
             }
 		}
+
+        WikiFunctions.Plugin.IListMakerPlugin pluginToRun;
+
+        private void MakeListPlugin()
+        {
+            Saved = false;
+            StartProgressBar();
+
+            try
+            {
+                Add(pluginToRun.Search(strSource));
+            }
+            catch (ThreadAbortException)
+            {
+            }
+            catch (PageDoesNotExistException ex)
+            {
+                MessageBox.Show(ex.Message, "Page does not exist", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                ErrorHandler.ListMakerText = txtSelectSource.Text;
+                ErrorHandler.Handle(ex);
+            }
+            finally
+            {
+                if (FilterNonMainAuto)
+                    FilterNonMainArticles();
+                if (FilterDuplicates)
+                    removeListDuplicates();
+                StopProgressBar();
+            }
+        }
 
         SourceType Source = SourceType.Category;
         string[] strSource;
@@ -1342,5 +1398,5 @@ namespace WikiFunctions.Controls.Lists
 
 namespace WikiFunctions.Lists
 {
-    public enum SourceType { None = -1, Category, CategoryRecursive, WhatLinksHere, WhatLinksHereIncludingRedirects, WhatTranscludesPage, LinksOnPage, ImagesOnPage, TransclusionsOnPage, TextFile, GoogleWikipedia, UserContribs, AllUserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist, WikiSearch, Redirects }
+    public enum SourceType { None = -1, Category, CategoryRecursive, WhatLinksHere, WhatLinksHereIncludingRedirects, WhatTranscludesPage, LinksOnPage, ImagesOnPage, TransclusionsOnPage, TextFile, GoogleWikipedia, UserContribs, AllUserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist, WikiSearch, Redirects, Plugin }
 }
