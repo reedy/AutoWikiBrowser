@@ -7,7 +7,7 @@
     <ProjectGuid>{D8371B08-85CF-4DFF-85B8-71EBF4661D71}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>YahooSearch</RootNamespace>
+    <RootNamespace>WikiFunctions.Plugins.ListMaker.YahooSearch</RootNamespace>
     <AssemblyName>YahooSearch</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

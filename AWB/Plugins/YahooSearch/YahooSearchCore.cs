@@ -29,28 +29,55 @@ using WikiFunctions.Plugin;
 
 namespace WikiFunctions.Plugins.ListMaker.YahooSearch
 {
-	//http://developer.yahoo.com/search/
+    /// <summary>
+    /// http://developer.yahoo.com/search/
+    /// </summary>
+    /// <remarks>
+    /// http://developer.yahoo.com/search/web/V1/webSearch.html
+    /// "The Web Search service is limited to 5,000 queries per IP address per day."
+    /// </remarks>
     public class YahooSearchListMakerPlugin : IListMakerPlugin
     {
         internal const string appID = "3mG9u3PV34GC4rnRXJlID0_3aUb0.XVxGZYrbFcYClzQYUqtlkn0u6iXVwYVv9sW1Q--";
         #region IListMakerPlugin Members
 
+        string baseUrl = "http://search.yahooapis.com/WebSearchService/V1/webSearch?appid=" + appID + "&query={0}&results=100&site=" + WikiFunctions.Variables.URL + "&start={1}";
+
         public List<Article> Search(string[] searchCriteria)
         {
             List<Article> articles = new List<Article>();
+            int start = 0;
 
             foreach (string s in searchCriteria)
             {
-                string url = "http://search.yahooapis.com/WebSearchService/V1/webSearch?appid=" + appID + "&query=" + s + "&results=100&site=" + WikiFunctions.Variables.URL;
-                string html = Tools.GetHTML(url);
-                string title;
+                string url = string.Format(baseUrl, s, start.ToString());
+                string html, title;
+                int resultsReturned = 0, totalResults = 0;
 
                 do
                 {
+                    html = Tools.GetHTML(url);
+
                     using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
                     {
                         while (reader.Read())
                         {
+                            if (reader.Name.Equals("ResultSet"))
+                            {
+                                string val;
+                                reader.MoveToAttribute("totalResultsAvailable");
+                                val = reader.Value;
+
+                                if (!string.IsNullOrEmpty(val))
+                                    totalResults = int.Parse(val);
+
+                                reader.MoveToAttribute("totalResultsReturned");
+                                val = reader.Value;
+
+                                if (!string.IsNullOrEmpty(val))
+                                    resultsReturned = int.Parse(val);
+                            }
+
                             if (reader.Name.Equals("ClickUrl"))
                             {
                                 title = reader.ReadString();
@@ -62,9 +89,17 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
                         }
                     }
 
-                    //TODO:More Pages of Results
+                    if (resultsReturned < 100)
+                        break;
 
-                    break;
+                    int totalReturnedResults = (start + resultsReturned - 1);
+
+                    if ((totalReturnedResults < totalResults) && (totalReturnedResults < 900))
+                        start += 100;
+                    else
+                        break;
+
+                    url = string.Format(baseUrl, s, start.ToString());
                 } while (true);
             }
 
