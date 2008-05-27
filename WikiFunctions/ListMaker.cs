@@ -764,11 +764,7 @@ namespace WikiFunctions.Controls.Lists
                 ListerThread.IsBackground = true;
                 ListerThread.Start();
             }
-            if (FilterNonMainAuto)
-                FilterNonMainArticles();
-            if (FilterDuplicates)
-                removeListDuplicates();
-        }
+		}
 
         SourceType Source = SourceType.Category;
         string[] strSource;
