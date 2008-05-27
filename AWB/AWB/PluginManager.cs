@@ -38,7 +38,8 @@ namespace AutoWikiBrowser
     internal sealed partial class PluginManager : Form
     {
         IAutoWikiBrowser AWB;
-        //List<string> prevPlugins;
+        //List<string> prevArticlePlugins;
+        //List<string> prevLMPlugins;
         ListViewItem lvi;
 
         static string LastPluginLoadedLocation;
@@ -127,12 +128,28 @@ namespace AutoWikiBrowser
                 lvi.Group = lvPlugin.Groups["groupArticleLoaded"];
                 lvPlugin.Items.Add(lvi);
             }
+            //foreach (string pluginName in )
+            //{
+            //    lvi = new ListViewItem(pluginName);
+            //    lvi.Group = lvPlugin.Groups["groupLMLoaded"];
+            //    lvPlugin.Items.Add(lvi);
+            //}
+
             UpdatePluginCount();
         }
 
         //private void LoadPreviouslyLoadedPluginList()
         //{
-        //    foreach (string pluginName in prevPlugins)
+        //    foreach (string pluginName in prevArticlePlugins)
+        //    {
+        //        if (System.IO.File.Exists(pluginName))
+        //        {
+        //            lvi = new ListViewItem(pluginName);
+        //            lvi.Group = lvPlugin.Groups["groupArticlePrevious"];
+        //            lvPlugin.Items.Add(lvi);
+        //        }
+        //    }
+        //    foreach (string pluginName in prevLMPlugins)
         //    {
         //        if (System.IO.File.Exists(pluginName))
         //        {
@@ -147,7 +164,7 @@ namespace AutoWikiBrowser
         {
             foreach (ListViewItem item in lvPlugin.SelectedItems)
             {
-                if (item.Group == lvPlugin.Groups["groupLoaded"])
+                if (item.Group == lvPlugin.Groups["groupArticleLoaded"])
                 {
                     loadPluginToolStripMenuItem.Enabled = false;
                     break;
@@ -170,7 +187,7 @@ namespace AutoWikiBrowser
 
         private void UpdatePluginCount()
         {
-            lblPluginCount.Text = Plugin.Count().ToString();
+            lblPluginCount.Text = lvPlugin.Items.Count.ToString(); //Plugin.Count().ToString();
         }
     }
 
@@ -179,8 +196,15 @@ namespace AutoWikiBrowser
         internal static class Plugin
         // TODO: Document me
         {
+            /// <summary>
+            /// 
+            /// </summary>
             internal static Dictionary<string, IAWBPlugin> Items = new Dictionary<string, IAWBPlugin>();
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <returns></returns>
             internal static string GetPluginsWikiTextBlock()
             {
                 string retval = "";
@@ -191,11 +215,19 @@ namespace AutoWikiBrowser
                 return retval;
             }
 
+            /// <summary>
+            /// Gets the Number of Plugins currently Loaded
+            /// </summary>
+            /// <returns>Number of Plugins</returns>
             internal static int Count()
             {
                 return Items.Count;
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <returns></returns>
             internal static List<string> GetPluginList()
             {
                 List<string> plugins = new List<string>();
@@ -208,6 +240,11 @@ namespace AutoWikiBrowser
                 return plugins;
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="awb"></param>
+            /// <param name="splash"></param>
             internal static void LoadPluginsStartup(IAutoWikiBrowser awb, Splash splash)
             {
                 splash.SetProgress(75);
@@ -218,6 +255,12 @@ namespace AutoWikiBrowser
                 splash.SetProgress(89);
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="awb"></param>
+            /// <param name="Plugins"></param>
+            /// <param name="afterStartup"></param>
             internal static void LoadPlugins(IAutoWikiBrowser awb, string[] Plugins, bool afterStartup)
             {
                 try
@@ -262,6 +305,11 @@ namespace AutoWikiBrowser
                 }
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="plugin"></param>
+            /// <param name="awb"></param>
             private static void InitialisePlugin(IAWBPlugin plugin, IAutoWikiBrowser awb)
             {
                 try
@@ -274,6 +322,11 @@ namespace AutoWikiBrowser
                 }
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="plugin"></param>
+            /// <returns></returns>
             internal static string GetPluginVersionString(IAWBPlugin plugin)
             { return System.Reflection.Assembly.GetAssembly(plugin.GetType()).GetName().Version.ToString(); }
         }
