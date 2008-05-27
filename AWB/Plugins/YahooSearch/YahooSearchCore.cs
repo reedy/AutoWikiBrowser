@@ -30,12 +30,13 @@ using WikiFunctions.Plugin;
 namespace WikiFunctions.Plugins.ListMaker.YahooSearch
 {
     /// <summary>
+    /// Plugin to Search Yahoo
     /// http://developer.yahoo.com/search/
     /// </summary>
     /// <remarks>
     /// http://developer.yahoo.com/search/web/V1/webSearch.html
     /// "The Web Search service is limited to 5,000 queries per IP address per day."
-    /// Will also only return <s>1000</s> 998 results in one search
+    /// This search will also only return <s>1000</s> 998 results per search
     /// </remarks>
     public class YahooSearchListMakerPlugin : IListMakerPlugin
     {
@@ -64,7 +65,7 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
                     {
                         while (reader.Read())
                         {
-                            if (reader.Name.Equals(""))
+                            if (reader.Name.Equals("Message"))
                             {
                                 if (string.Compare(reader.ToString(), "limit exceeded", true) == 0)
                                 {
