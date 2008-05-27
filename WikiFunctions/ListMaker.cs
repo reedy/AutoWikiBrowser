@@ -79,14 +79,13 @@ namespace WikiFunctions.Controls.Lists
 
         public ListMaker()
         {
+            InitializeComponent();
+
             // TODO: Don't know if this is the right place to do this (needs testing) or even whether the concept is sound
             // We'll manage our own collection of list items:
             cmboSourceSelect.DataSource = m_ListItems;
             // Bind IListMakerProvider.DisplayText to be the displayed text:
             cmboSourceSelect.DisplayMember = "DisplayText"; 
-            InitializeComponent();
-            //if (Variables.LangCode == LangCodeEnum.en)
-            //    cmboSourceSelect.Items.Add("Redirects");
         }
 
         new public static void Refresh()
@@ -512,7 +511,7 @@ namespace WikiFunctions.Controls.Lists
         public SourceType SelectedSource
         {
             get { return (SourceType)cmboSourceSelect.SelectedIndex; }
-            set { cmboSourceSelect.SelectedIndex = (int)value; }
+            set { }//cmboSourceSelect.SelectedIndex = (int)value; } //TODO:Re-enable when populated
         }
 
         /// <summary>
