@@ -188,7 +188,8 @@ namespace WikiFunctions.Controls.Lists
             "Database dump",
             "My watchlist",
             "Wiki search",
-            "Redirects"});
+            "Redirects",
+            "Plugin"});
             this.cmboSourceSelect.Location = new System.Drawing.Point(71, 2);
             this.cmboSourceSelect.Name = "cmboSourceSelect";
             this.cmboSourceSelect.Size = new System.Drawing.Size(122, 21);

@@ -330,6 +330,10 @@
       <Project>{9AF2D0F6-4ADA-4029-B2B4-28480E56EF0C}</Project>
       <Name>Server Plugin</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Plugins\YahooSearch\YahooSearch.csproj">
+      <Project>{D8371B08-85CF-4DFF-85B8-71EBF4661D71}</Project>
+      <Name>YahooSearch</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WikiFunctions\WikiFunctions.csproj">
       <Project>{B5B0008C-A306-4B0D-B91E-5C03DA7014E0}</Project>
       <Name>WikiFunctions</Name>
