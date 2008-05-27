@@ -308,9 +308,10 @@ namespace WikiFunctions.Controls.Lists
         {
             if (DesignMode) return; // avoid calling Variables constructor
 
+            IListMakerProvider searchItem = listItems[cmboSourceSelect.SelectedIndex];
 
-            lblSourceSelect.Text = listItems[cmboSourceSelect.SelectedIndex].SelectSourceTextBoxText;
-            txtSelectSource.Enabled = listItems[cmboSourceSelect.SelectedIndex].SelectSourceEnabled;
+            lblSourceSelect.Text = searchItem.SelectSourceTextBoxText;
+            txtSelectSource.Enabled = searchItem.SelectSourceEnabled;
 
             //switch (SelectedSource)
             //{
