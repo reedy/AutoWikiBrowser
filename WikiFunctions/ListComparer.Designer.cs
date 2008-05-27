@@ -193,7 +193,6 @@ namespace WikiFunctions.Controls.Lists
             this.listMaker1.ListFile = "";
             this.listMaker1.Location = new System.Drawing.Point(7, 18);
             this.listMaker1.Name = "listMaker1";
-            this.listMaker1.SelectedSource = WikiFunctions.Lists.SourceType.Category;
             this.listMaker1.Size = new System.Drawing.Size(201, 351);
             this.listMaker1.SourceText = "";
             this.listMaker1.TabIndex = 14;

@@ -309,11 +309,6 @@ namespace WikiFunctions.Plugin
     public interface IListMakerPlugin : WikiFunctions.Lists.IListMakerProvider
     {
         /// <summary>
-        /// Initialises the ListMaker Provider plugin
-        /// </summary>
-        //void Initialise();
-
-        /// <summary>
         /// The name of the plugin
         /// </summary>
         string Name { get; }

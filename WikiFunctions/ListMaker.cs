@@ -60,9 +60,7 @@ namespace WikiFunctions.Controls.Lists
 
     public partial class ListMaker : UserControl, IEnumerable<Article>, ICollection<Article>, IList<Article>
     {
-        //public static List<WikiFunctions.Plugin.IListMakerPlugin> ListMakerPlugins = new List<WikiFunctions.Plugin.IListMakerPlugin>();
-        // TODO: This compiles, but if it doesn't work we'll have to use a non-generic ArrayList
-        private static List<IListMakerProvider> m_ListItems = new List<IListMakerProvider>();
+        private static BindingList<IListMakerProvider> listItems = new BindingList<IListMakerProvider>();
 
         public event ListMakerEventHandler StatusTextChanged;
         public event ListMakerEventHandler BusyStateChanged;
@@ -75,17 +73,46 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public event ListMakerEventHandler ListFinished;
 
+        //private class Test : IListMakerProvider
+        //{
+        //    #region IListMakerProvider Members
+
+        //    public List<Article> Search(string[] searchCriteria)
+        //    {
+        //        return new List<Article>();
+        //    }
+
+        //    public string DisplayText
+        //    {
+        //        get { return "text"; }
+        //    }
+
+        //    public string SelectSourceTextBoxText
+        //    {
+        //        get { return "text"; }
+        //    }
+
+        //    public bool Selected()
+        //    {
+        //        return true;
+        //    }
+
+        //    #endregion
+        //}
+
         SpecialFilter SpecialFilter = new SpecialFilter();
 
         public ListMaker()
         {
             InitializeComponent();
 
-            // TODO: Don't know if this is the right place to do this (needs testing) or even whether the concept is sound
+            //m_ListItems.Add(new Test());
+
             // We'll manage our own collection of list items:
-            cmboSourceSelect.DataSource = m_ListItems;
+            cmboSourceSelect.DataSource = listItems;
             // Bind IListMakerProvider.DisplayText to be the displayed text:
-            cmboSourceSelect.DisplayMember = "DisplayText"; 
+            cmboSourceSelect.DisplayMember = "DisplayText";
+            cmboSourceSelect.ValueMember = "DisplayText";
         }
 
         new public static void Refresh()
@@ -281,79 +308,83 @@ namespace WikiFunctions.Controls.Lists
         {
             if (DesignMode) return; // avoid calling Variables constructor
 
-            switch (SelectedSource)
-            {
-                // TODO: These strings and bools need to go into new ListMaker provider objects, and here we just fire a Selected() call on the active IListMakerProvider
-                case SourceType.Category:
-                    lblSourceSelect.Text = Variables.Namespaces[14];
-                    txtSelectSource.Enabled = true;
-                    break;
-                case SourceType.WhatLinksHereIncludingRedirects:
-                case SourceType.WhatLinksHere:
-                    lblSourceSelect.Text = "What links to";
-                    txtSelectSource.Enabled = true;
-                    break;
-                case SourceType.WhatTranscludesPage:
-                    lblSourceSelect.Text = "What embeds";
-                    txtSelectSource.Enabled = true;
-                    break;
-                case SourceType.LinksOnPage:
-                    lblSourceSelect.Text = "Links on";
-                    txtSelectSource.Enabled = true;
-                    break;
-                case SourceType.ImagesOnPage:
-                    lblSourceSelect.Text = "Images on";
-                    txtSelectSource.Enabled = true;
-                    break;
-                case SourceType.TransclusionsOnPage:
-                    lblSourceSelect.Text = "Transclusions on";
-                    txtSelectSource.Enabled = true;
-                    break;
-                case SourceType.TextFile:
-                    lblSourceSelect.Text = "From file:";
-                    txtSelectSource.Enabled = false;
-                    break;
-                case SourceType.GoogleWikipedia:
-                    lblSourceSelect.Text = "Google search:";
-                    txtSelectSource.Enabled = true;
-                    break;
-                case SourceType.UserContribs:
-                    lblSourceSelect.Text = Variables.Namespaces[2];
-                    txtSelectSource.Enabled = true;
-                    break;
-                case SourceType.AllUserContribs:
-                    lblSourceSelect.Text = Variables.Namespaces[2];
-                    txtSelectSource.Enabled = true;
-                    break;
-                case SourceType.SpecialPage:
-                    lblSourceSelect.Text = Variables.Namespaces[-1];
-                    txtSelectSource.Enabled = true;
-                    break;
-                case SourceType.ImageFileLinks:
-                    lblSourceSelect.Text = Variables.Namespaces[6];
-                    txtSelectSource.Enabled = true;
-                    break;
-                case SourceType.WikiSearch:
-                    lblSourceSelect.Text = "Wiki search";
-                    txtSelectSource.Enabled = true;
-                    break;
-                case SourceType.Redirects:
-                    lblSourceSelect.Text = "Redirects to:";
-                    txtSelectSource.Enabled = true;
-                    break;
-                case SourceType.CategoryRecursive:
-                    lblSourceSelect.Text = Variables.Namespaces[14];
-                    txtSelectSource.Enabled = true;
-                    break;
-                case SourceType.Plugin:
-                    lblSourceSelect.Text = "Plugin Search";
-                    txtSelectSource.Enabled = true;
-                    break;
-                default:
-                    lblSourceSelect.Text = "";
-                    txtSelectSource.Enabled = false;
-                    break;
-            }
+
+            lblSourceSelect.Text = listItems[cmboSourceSelect.SelectedIndex].SelectSourceTextBoxText;
+            txtSelectSource.Enabled = listItems[cmboSourceSelect.SelectedIndex].SelectSourceEnabled;
+
+            //switch (SelectedSource)
+            //{
+            //    // TODO: These strings and bools need to go into new ListMaker provider objects, and here we just fire a Selected() call on the active IListMakerProvider
+            //    case SourceType.Category:
+            //        lblSourceSelect.Text = Variables.Namespaces[14];
+            //        txtSelectSource.Enabled = true;
+            //        break;
+            //    case SourceType.WhatLinksHereIncludingRedirects:
+            //    case SourceType.WhatLinksHere:
+            //        lblSourceSelect.Text = "What links to";
+            //        txtSelectSource.Enabled = true;
+            //        break;
+            //    case SourceType.WhatTranscludesPage:
+            //        lblSourceSelect.Text = "What embeds";
+            //        txtSelectSource.Enabled = true;
+            //        break;
+            //    case SourceType.LinksOnPage:
+            //        lblSourceSelect.Text = "Links on";
+            //        txtSelectSource.Enabled = true;
+            //        break;
+            //    case SourceType.ImagesOnPage:
+            //        lblSourceSelect.Text = "Images on";
+            //        txtSelectSource.Enabled = true;
+            //        break;
+            //    case SourceType.TransclusionsOnPage:
+            //        lblSourceSelect.Text = "Transclusions on";
+            //        txtSelectSource.Enabled = true;
+            //        break;
+            //    case SourceType.TextFile:
+            //        lblSourceSelect.Text = "From file:";
+            //        txtSelectSource.Enabled = false;
+            //        break;
+            //    case SourceType.GoogleWikipedia:
+            //        lblSourceSelect.Text = "Google search:";
+            //        txtSelectSource.Enabled = true;
+            //        break;
+            //    case SourceType.UserContribs:
+            //        lblSourceSelect.Text = Variables.Namespaces[2];
+            //        txtSelectSource.Enabled = true;
+            //        break;
+            //    case SourceType.AllUserContribs:
+            //        lblSourceSelect.Text = Variables.Namespaces[2];
+            //        txtSelectSource.Enabled = true;
+            //        break;
+            //    case SourceType.SpecialPage:
+            //        lblSourceSelect.Text = Variables.Namespaces[-1];
+            //        txtSelectSource.Enabled = true;
+            //        break;
+            //    case SourceType.ImageFileLinks:
+            //        lblSourceSelect.Text = Variables.Namespaces[6];
+            //        txtSelectSource.Enabled = true;
+            //        break;
+            //    case SourceType.WikiSearch:
+            //        lblSourceSelect.Text = "Wiki search";
+            //        txtSelectSource.Enabled = true;
+            //        break;
+            //    case SourceType.Redirects:
+            //        lblSourceSelect.Text = "Redirects to:";
+            //        txtSelectSource.Enabled = true;
+            //        break;
+            //    case SourceType.CategoryRecursive:
+            //        lblSourceSelect.Text = Variables.Namespaces[14];
+            //        txtSelectSource.Enabled = true;
+            //        break;
+            //    case SourceType.Plugin:
+            //        lblSourceSelect.Text = "Plugin Search";
+            //        txtSelectSource.Enabled = true;
+            //        break;
+            //    default:
+            //        lblSourceSelect.Text = "";
+            //        txtSelectSource.Enabled = false;
+            //        break;
+            //}
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -400,27 +431,28 @@ namespace WikiFunctions.Controls.Lists
                 return;
             }
 
-            SourceType st = SelectedSource;
-            if (st != SourceType.WikiSearch && st != SourceType.GoogleWikipedia)
-            {
-                txtSelectSource.Text = Tools.RemoveHashFromPageTitle(txtSelectSource.Text.Trim('[', ']'));
-            }
+            //SourceType st = SelectedSource;
+            //if (st != SourceType.WikiSearch && st != SourceType.GoogleWikipedia)
+            //{
+            //    txtSelectSource.Text = Tools.RemoveHashFromPageTitle(txtSelectSource.Text.Trim('[', ']'));
+            //}
 
-            if (st == SourceType.Category || st == SourceType.CategoryRecursive)
-                txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.NamespacesCaseInsensitive[14], "", RegexOptions.IgnoreCase);
-            else if (st == SourceType.UserContribs)
-                txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[2], "", RegexOptions.IgnoreCase);
-            else if (st == SourceType.SpecialPage)
-                txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[-1], "", RegexOptions.IgnoreCase);
-            else if (st == SourceType.ImageFileLinks)
-                txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
+            //if (st == SourceType.Category || st == SourceType.CategoryRecursive)
+            //    txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.NamespacesCaseInsensitive[14], "", RegexOptions.IgnoreCase);
+            //else if (st == SourceType.UserContribs)
+            //    txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[2], "", RegexOptions.IgnoreCase);
+            //else if (st == SourceType.SpecialPage)
+            //    txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[-1], "", RegexOptions.IgnoreCase);
+            //else if (st == SourceType.ImageFileLinks)
+            //    txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
 
-            if (st != SourceType.GoogleWikipedia && st != SourceType.WikiSearch)
-                txtSelectSource.Text = Tools.TurnFirstToUpper(txtSelectSource.Text);
-            txtSelectSource.AutoCompleteCustomSource.Add(txtSelectSource.Text);
+            //if (st != SourceType.GoogleWikipedia && st != SourceType.WikiSearch)
+            //    txtSelectSource.Text = Tools.TurnFirstToUpper(txtSelectSource.Text);
 
             txtSelectSource.Text = txtSelectSource.Text.Trim();
-            MakeList(st, txtSelectSource.Text.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
+            txtSelectSource.AutoCompleteCustomSource.Add(txtSelectSource.Text);
+
+            MakeList(txtSelectSource.Text.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
         }
 
         private void lbArticles_MouseMove(object sender, MouseEventArgs e)
@@ -745,82 +777,91 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         /// <param name="ST">The type of list to create</param>
         /// <param name="SourceValues">An array of string values to create the list with, e.g. an array of categories. Use null if not appropriate</param>
-        public void MakeList(SourceType st, string[] sourceValues)
+        public void MakeList(string[] sourceValues)
         {
             btnStop.Visible = true;
-            if (st == SourceType.DatabaseDump)
-            {
-                launchDumpSearcher();
-                return;
-            }
-            else if (st == SourceType.TextFile)
-            {
-                try
-                {
-                    OpenFileDialog openListDialog = new OpenFileDialog();
-                    openListDialog.Filter = "text files|*.txt|All files|*.*";
-                    openListDialog.Multiselect = true;
 
-                    this.Focus();
-                    if (openListDialog.ShowDialog() == DialogResult.OK)
-                    {
-                        Add(GetLists.FromTextFile(openListDialog.FileNames));
-                        ListFile = openListDialog.FileName;
-                    }
-                    UpdateNumberOfArticles();
-                }
-                catch (Exception ex)
-                {
-                    ErrorHandler.Handle(ex);
-                }
+            pluginToRun = listItems[cmboSourceSelect.SelectedIndex];
 
-                return;
-            }
-            else if (st == SourceType.MyWatchlist)
-            {
-                try
-                {
-                    BusyStatus = true;
-                    Add(GetLists.FromWatchList());
-                    BusyStatus = false;
-                    UpdateNumberOfArticles();
-                    return;
-                }
-                catch
-                {
-                    MessageBox.Show("Please ensure you are logged in", "Log In");
-                }
-            }
-            else if (st == SourceType.Plugin)
-            {
-                //foreach (WikiFunctions.Plugin.IListMakerPlugin plugin in ListMakerPlugins)
-                //{
-                //    //if (cmboSourceSelect.Text == plugin.DisplayText)
-                //    //{
-                //    pluginToRun = plugin;
-                //    strSource = sourceValues;
-                //    ThreadStart thr_Process = new ThreadStart(MakeListPlugin);
-                //    ListerThread = new Thread(thr_Process);
-                //    ListerThread.IsBackground = true;
-                //    ListerThread.Start();
+            strSource = sourceValues;
+            ThreadStart thr_Process = new ThreadStart(MakeListPlugin);
+            ListerThread = new Thread(thr_Process);
+            ListerThread.IsBackground = true;
+            ListerThread.Start();
 
-                //    break;
-                //    //}
-                //}
-            }
-            else
-            {
-                Source = st;
-                strSource = sourceValues;
+            //if (st == SourceType.DatabaseDump)
+            //{
+            //    launchDumpSearcher();
+            //    return;
+            //}
+            //else if (st == SourceType.TextFile)
+            //{
+            //    try
+            //    {
+            //        OpenFileDialog openListDialog = new OpenFileDialog();
+            //        openListDialog.Filter = "text files|*.txt|All files|*.*";
+            //        openListDialog.Multiselect = true;
 
-                ThreadStart thr_Process = new ThreadStart(MakeList2);
-                ListerThread = new Thread(thr_Process);
-                ListerThread.IsBackground = true;
-                ListerThread.Start();
-            }
+            //        this.Focus();
+            //        if (openListDialog.ShowDialog() == DialogResult.OK)
+            //        {
+            //            Add(GetLists.FromTextFile(openListDialog.FileNames));
+            //            ListFile = openListDialog.FileName;
+            //        }
+            //        UpdateNumberOfArticles();
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        ErrorHandler.Handle(ex);
+            //    }
+
+            //    return;
+            //}
+            //else if (st == SourceType.MyWatchlist)
+            //{
+            //    try
+            //    {
+            //        BusyStatus = true;
+            //        Add(GetLists.FromWatchList());
+            //        BusyStatus = false;
+            //        UpdateNumberOfArticles();
+            //        return;
+            //    }
+            //    catch
+            //    {
+            //        MessageBox.Show("Please ensure you are logged in", "Log In");
+            //    }
+            //}
+            //else if (st == SourceType.Plugin)
+            //{
+            //    //foreach (WikiFunctions.Plugin.IListMakerPlugin plugin in ListMakerPlugins)
+            //    //{
+            //    //    //if (cmboSourceSelect.Text == plugin.DisplayText)
+            //    //    //{
+            //    //    pluginToRun = plugin;
+            //    //    strSource = sourceValues;
+            //    //    ThreadStart thr_Process = new ThreadStart(MakeListPlugin);
+            //    //    ListerThread = new Thread(thr_Process);
+            //    //    ListerThread.IsBackground = true;
+            //    //    ListerThread.Start();
+
+            //    //    break;
+            //    //    //}
+            //    //}
+            //}
+            //else
+            //{
+            //    Source = st;
+            //    strSource = sourceValues;
+
+            //    ThreadStart thr_Process = new ThreadStart(MakeList2);
+            //    ListerThread = new Thread(thr_Process);
+            //    ListerThread.IsBackground = true;
+            //    ListerThread.Start();
+            //}
 		}
 
-        WikiFunctions.Plugin.IListMakerPlugin pluginToRun;
+        WikiFunctions.Lists.IListMakerProvider pluginToRun;
 
         private void MakeListPlugin()
         {
@@ -1427,7 +1468,7 @@ namespace WikiFunctions.Controls.Lists
 
         public void AddProvider(IListMakerProvider provider)
         {
-            m_ListItems.Add(provider); // TODO: Plugins get added here, nothing else to do
+            listItems.Add(provider); // TODO: Plugins get added here, nothing else to do
         }
     }
 }

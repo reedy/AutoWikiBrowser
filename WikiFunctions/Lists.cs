@@ -55,6 +55,11 @@ namespace WikiFunctions.Lists
         string SelectSourceTextBoxText { get; }
 
         /// <summary>
+        /// 
+        /// </summary>
+        bool SelectSourceEnabled { get; }
+
+        /// <summary>
         /// Called when the ListMaker Provider has been selected in the ComboBox
         /// </summary>
         /// <returns>A boolean indicating whether Select Source text box should be enabled</returns>
