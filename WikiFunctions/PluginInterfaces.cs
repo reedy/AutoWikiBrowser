@@ -304,11 +304,18 @@ namespace WikiFunctions.Plugin
     /// <summary>
     /// An Interface for plugins to interact with the ListMaker for creating lists
     /// </summary>
-    public interface IListMakerPlugin
+    /// <remarks>Ideally we would pass an IAutoWikiBrowser at init() time, but that might not be thread-safe
+    /// and also the Listmaker control is not AWB specific.</remarks>
+    public interface IListMakerPlugin : WikiFunctions.Lists.IListMakerProvider
     {
-        List<Article> Search(string[] searchCriteria);
+        /// <summary>
+        /// Initialises the ListMaker Provider plugin
+        /// </summary>
+        //void Initialise();
+
+        /// <summary>
+        /// The name of the plugin
+        /// </summary>
         string Name { get; }
-        string DisplayText { get; }
-        void Initialise(WikiFunctions.Controls.Lists.ListMaker sender);
     }
 }

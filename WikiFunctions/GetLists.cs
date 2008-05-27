@@ -29,7 +29,8 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Threading;
 
-// TODO: Plenty here could be encapsulated in Article.cs
+// TODO: These need to be moved into objects which implement IListMakerProvider (perhaps rename this file to ListMakerProviders?)
+// TODO: Providers which are very similar and which currently share methods like FromWhatLinksHere() can use a base class for the base functionality and an inherited class which does the secondary job, and both get thrown onto the listmaker at design time (if possible) or run time if not
 
 namespace WikiFunctions.Lists
 {
@@ -127,10 +128,10 @@ namespace WikiFunctions.Lists
         /// <param name="What">Which source to use</param>
         /// <param name="Params">Optional parameters, depend on source</param>
         /// <returns>The list of pages</returns>
-        public static List<Article> FromVariant(From what, params string[] params1)
-        {
-            return FromVariant(what, -1, params1);
-        }
+        //public static List<Article> FromVariant(From what, params string[] params1)
+        //{
+        //    return FromVariant(what, -1, params1);
+        //}
         #endregion
 
         #region From category

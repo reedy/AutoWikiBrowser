@@ -287,10 +287,6 @@ namespace AutoWikiBrowser
                                 {
                                     IAWBPlugin plugin = (IAWBPlugin)Activator.CreateInstance(t);
                                     Items.Add(plugin.Name, plugin);
-                                    if (plugin.Name == "Kingbotk Plugin" && t.Assembly.GetName().Version.Major < 2)
-                                        MessageBox.Show("You are using an out of date version of the Kingbotk Plugin. Please upgrade.",
-                                            "Kingbotk Plugin", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-
                                     InitialisePlugin(plugin, awb);
 
                                     if (afterStartup) UsageStats.AddedPlugin(plugin);
@@ -300,7 +296,8 @@ namespace AutoWikiBrowser
                                 {
                                     IListMakerPlugin plugin = (IListMakerPlugin)Activator.CreateInstance(t);
 
-                                    WikiFunctions.Controls.Lists.ListMaker.ListMakerPlugins.Add(plugin);
+                                    //WikiFunctions.Controls.Lists.ListMaker.ListMakerPlugins.Add(plugin);
+                                    Program.AWB.ListMaker.AddProvider(plugin);
                                 }
                             }
                         }

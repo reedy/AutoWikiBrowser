@@ -126,10 +126,15 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
             get { return "Yahoo Search"; }
         }
 
-        public void Initialise(WikiFunctions.Controls.Lists.ListMaker sender)
-        {
-            //throw new Exception("The method or operation is not implemented.");
-        }
+        //public void Initialise()
+        //{
+        //    //throw new Exception("The method or operation is not implemented.");
+        //}
+
+        public string SelectSourceTextBoxText
+        { get { return "Search string"; } }
+
+        public bool Selected() { return true; }
 
         #endregion
     }
