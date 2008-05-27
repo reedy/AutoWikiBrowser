@@ -86,7 +86,7 @@ namespace AutoWikiBrowser
             try
             {
                 Microsoft.Win32.RegistryKey reg = Microsoft.Win32.Registry.CurrentUser.
-                    OpenSubKey("Software\\Wikipedia\\AutoWikiBrowser");
+                    OpenSubKey("Software\\AutoWikiBrowser");
 
                 LastPluginLoadedLocation = reg.GetValue("RecentPluginLoadedLocation", "").ToString();
             }
@@ -98,7 +98,7 @@ namespace AutoWikiBrowser
             try
             {
                 Microsoft.Win32.RegistryKey reg = Microsoft.Win32.Registry.CurrentUser.
-            CreateSubKey("Software\\Wikipedia\\AutoWikiBrowser");
+            CreateSubKey("Software\\AutoWikiBrowser");
 
                 reg.SetValue("RecentPluginLoadedLocation", LastPluginLoadedLocation);
             }
@@ -124,7 +124,7 @@ namespace AutoWikiBrowser
             foreach (string pluginName in Plugin.GetPluginList())
             {
                 lvi = new ListViewItem(pluginName);
-                lvi.Group = lvPlugin.Groups["groupLoaded"];
+                lvi.Group = lvPlugin.Groups["groupArticleLoaded"];
                 lvPlugin.Items.Add(lvi);
             }
             UpdatePluginCount();
@@ -137,7 +137,7 @@ namespace AutoWikiBrowser
         //        if (System.IO.File.Exists(pluginName))
         //        {
         //            lvi = new ListViewItem(pluginName);
-        //            lvi.Group = lvPlugin.Groups["groupPrevious"];
+        //            lvi.Group = lvPlugin.Groups["groupArticlePrevious"];
         //            lvPlugin.Items.Add(lvi);
         //        }
         //    }

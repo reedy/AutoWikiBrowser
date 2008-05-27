@@ -1199,8 +1199,18 @@ Message: {2}
                 {
                     string s = reg.GetValue("RecentList", "").ToString();
 
+                    string pluginLocation = "";
+                    try
+                    {
+                        pluginLocation = reg.GetValue("RecentPluginLoadedLocation").ToString();
+                    }
+                    catch { }
+
                     reg = Microsoft.Win32.Registry.CurrentUser.CreateSubKey("Software\\AutoWikiBrowser");
                     reg.SetValue("RecentList", s);
+
+                    if (!string.IsNullOrEmpty(pluginLocation))
+                        reg.SetValue("RecentPluginLoadedLocation", pluginLocation);
                 }
 
                 //Delete old Registry Stuff

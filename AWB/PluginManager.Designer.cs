@@ -29,8 +29,10 @@ namespace AutoWikiBrowser
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Loaded Plugins", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Previously loaded Plugins", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Loaded Article Plugins", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Previously Loaded Article Plugins", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Loaded ListMaker Plugins", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("Previously Loaded ListMaker Plugins", System.Windows.Forms.HorizontalAlignment.Left);
             this.lvPlugin = new WikiFunctions.Controls.NoFlickerExtendedListView();
             this.colName = new System.Windows.Forms.ColumnHeader();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -52,16 +54,23 @@ namespace AutoWikiBrowser
             this.lvPlugin.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.colName});
             this.lvPlugin.ContextMenuStrip = this.contextMenuStrip1;
-            listViewGroup1.Header = "Loaded Plugins";
-            listViewGroup1.Name = "groupLoaded";
-            listViewGroup2.Header = "Previously loaded Plugins";
-            listViewGroup2.Name = "groupPrevious";
+            listViewGroup1.Header = "Loaded Article Plugins";
+            listViewGroup1.Name = "groupArticleLoaded";
+            listViewGroup2.Header = "Previously Loaded Article Plugins";
+            listViewGroup2.Name = "groupArticlePrevious";
+            listViewGroup3.Header = "Loaded ListMaker Plugins";
+            listViewGroup3.Name = "groupLMLoaded";
+            listViewGroup4.Header = "Previously Loaded ListMaker Plugins";
+            listViewGroup4.Name = "groupLMPrevious";
             this.lvPlugin.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
             listViewGroup1,
-            listViewGroup2});
+            listViewGroup2,
+            listViewGroup3,
+            listViewGroup4});
             this.lvPlugin.Location = new System.Drawing.Point(12, 47);
             this.lvPlugin.Name = "lvPlugin";
             this.lvPlugin.Size = new System.Drawing.Size(384, 231);
+            this.lvPlugin.SortColumnsOnClick = false;
             this.lvPlugin.TabIndex = 0;
             this.lvPlugin.UseCompatibleStateImageBehavior = false;
             this.lvPlugin.View = System.Windows.Forms.View.Details;
