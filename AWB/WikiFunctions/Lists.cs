@@ -44,6 +44,13 @@ namespace WikiFunctions.Lists
         /// <returns></returns>
         List<Article> Search(string[] searchCriteria); // TODO: This may need to use param, or accept one string and perform string splitting within the encapsulated code
 
+        ///// <summary>
+        ///// Process the search criteria and return a list of articles
+        ///// </summary>
+        ///// <param name="searchCriteria"></param>
+        ///// <returns></returns>
+        //List<Article> Search(string searchCriteria);
+
         /// <summary>
         /// The text to display as the combobox list item
         /// </summary>
@@ -77,10 +84,14 @@ namespace WikiFunctions.Lists
 
         protected bool subCats = false;
 
+        //public virtual List<Article> Search(string searchCriteria)
+        //{
+        //    return Search(searchCriteria.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
+        //}
+
         public virtual List<Article> Search(string[] searchCriteria)
         {
-            foreach(string s in searchCriteria)
-                s = Regex.Replace(s, "^" + Variables.NamespacesCaseInsensitive[14], "", RegexOptions.IgnoreCase);
+            searchCriteria = Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[14], "");
 
             return GetLists.FromCategory(subCats, searchCriteria);
         }
@@ -407,8 +418,7 @@ namespace WikiFunctions.Lists
 
         public virtual List<Article> Search(string[] searchCriteria)
         {
-            foreach(string s in searchCriteria)
-                s = Regex.Replace(s, "^" + Variables.Namespaces[2], "", RegexOptions.IgnoreCase);
+            searchCriteria = Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[2], "");
 
             return GetLists.FromUserContribs(all, searchCriteria);
         }
@@ -461,8 +471,7 @@ namespace WikiFunctions.Lists
 
         public List<Article> Search(string[] searchCriteria)
         {
-            foreach(string s in searchCriteria)
-                s = Regex.Replace(s, "^" + Variables.Namespaces[-1], "", RegexOptions.IgnoreCase);
+            searchCriteria = Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[-1], "");
 
             return GetLists.FromSpecialPage(searchCriteria);
         }
@@ -501,8 +510,7 @@ namespace WikiFunctions.Lists
 
         public List<Article> Search(string[] searchCriteria)
         {
-            foreach(string s in searchCriteria)
-                s = Regex.Replace(s, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
+            searchCriteria = Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[6], "");
 
             return GetLists.FromImageLinks(searchCriteria);
         }

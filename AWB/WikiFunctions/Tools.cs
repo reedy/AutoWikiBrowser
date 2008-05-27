@@ -1099,6 +1099,18 @@ Message: {2}
             return System.Web.HttpUtility.UrlDecode(link).Replace('_', ' ');
         }
 
+        public static string[] RegexReplaceOnArray(string[] input, string find, string rep)
+        {
+            if (input == null)
+                return null;
+
+            for (int i = 0; i < input.Length; i++)
+            {
+                input[i] = Regex.Replace(input[i], find, rep, RegexOptions.IgnoreCase);
+            }
+            return input;
+        }
+
         #region Copy
         /// <summary>
         /// Copy selected items from a listbox

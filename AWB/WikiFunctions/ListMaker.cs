@@ -340,13 +340,12 @@ namespace WikiFunctions.Controls.Lists
         private void btnMakeList_Click(object sender, EventArgs e)
         {
             //make sure there is some text.
-            if (txtSelectSource.Enabled && txtSelectSource.Text.Length == 0)
+            if (txtSelectSource.Enabled && string.IsNullOrEmpty(txtSelectSource.Text))
             {
                 MessageBox.Show("Please enter some text", "No text", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            //SourceType st = SelectedSource;
             //if (st != SourceType.WikiSearch && st != SourceType.GoogleWikipedia)
             //{
             //    txtSelectSource.Text = Tools.RemoveHashFromPageTitle(txtSelectSource.Text.Trim('[', ']'));
@@ -445,7 +444,7 @@ namespace WikiFunctions.Controls.Lists
         /// Gets or sets the selected index
         /// </summary>
         public SourceType SelectedSource
-        {
+        {//TODO:Update/Deal with
             get { return (SourceType)cmboSourceSelect.SelectedIndex; }
             set { }//cmboSourceSelect.SelectedIndex = (int)value; } //TODO:Re-enable when populated
         }
@@ -706,6 +705,7 @@ namespace WikiFunctions.Controls.Lists
             //}
 		}
 
+        string[] strSource;
         WikiFunctions.Lists.IListMakerProvider pluginToRun;
 
         private void MakeListPlugin()
@@ -717,9 +717,7 @@ namespace WikiFunctions.Controls.Lists
             {
                 Add(pluginToRun.Search(strSource));
             }
-            catch (ThreadAbortException)
-            {
-            }
+            catch (ThreadAbortException) { }
             catch (PageDoesNotExistException ex)
             {
                 MessageBox.Show(ex.Message, "Page does not exist", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -738,9 +736,6 @@ namespace WikiFunctions.Controls.Lists
                 StopProgressBar();
             }
         }
-
-        SourceType Source = SourceType.Category;
-        string[] strSource;
 
         private void RemoveSelectedArticle()
         {
