@@ -453,7 +453,7 @@ namespace WikiFunctions.Controls.Lists
             txtSelectSource.Text = txtSelectSource.Text.Trim();
             txtSelectSource.AutoCompleteCustomSource.Add(txtSelectSource.Text);
 
-            MakeList(txtSelectSource.Text.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
+            MakeList(SourceType.None, txtSelectSource.Text.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
         }
 
         private void lbArticles_MouseMove(object sender, MouseEventArgs e)
@@ -778,7 +778,7 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         /// <param name="ST">The type of list to create</param>
         /// <param name="SourceValues">An array of string values to create the list with, e.g. an array of categories. Use null if not appropriate</param>
-        public void MakeList(string[] sourceValues)
+        public void MakeList(SourceType st, string[] sourceValues)
         {
             btnStop.Visible = true;
 
