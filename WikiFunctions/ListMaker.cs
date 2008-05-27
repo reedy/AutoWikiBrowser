@@ -350,19 +350,8 @@ namespace WikiFunctions.Controls.Lists
             //if (st != SourceType.WikiSearch && st != SourceType.GoogleWikipedia)
             //{
             //    txtSelectSource.Text = Tools.RemoveHashFromPageTitle(txtSelectSource.Text.Trim('[', ']'));
-            //}
-
-            //if (st == SourceType.Category || st == SourceType.CategoryRecursive)
-            //    txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.NamespacesCaseInsensitive[14], "", RegexOptions.IgnoreCase);
-            //else if (st == SourceType.UserContribs)
-            //    txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[2], "", RegexOptions.IgnoreCase);
-            //else if (st == SourceType.SpecialPage)
-            //    txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[-1], "", RegexOptions.IgnoreCase);
-            //else if (st == SourceType.ImageFileLinks)
-            //    txtSelectSource.Text = Regex.Replace(txtSelectSource.Text, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
-
-            //if (st != SourceType.GoogleWikipedia && st != SourceType.WikiSearch)
             //    txtSelectSource.Text = Tools.TurnFirstToUpper(txtSelectSource.Text);
+            //}
 
             txtSelectSource.Text = txtSelectSource.Text.Trim();
             txtSelectSource.AutoCompleteCustomSource.Add(txtSelectSource.Text);
@@ -606,11 +595,6 @@ namespace WikiFunctions.Controls.Lists
 
             lbArticles.BeginUpdate();
 
-            //foreach (Article a in l)
-            //{
-            //    //if (!lbArticles.Items.Contains(a))
-            //    lbArticles.Items.Add(a);
-            //}
             lbArticles.Items.AddRange(l.ToArray());
 
             lbArticles.EndUpdate();
@@ -720,71 +704,6 @@ namespace WikiFunctions.Controls.Lists
             //    launchDumpSearcher();
             //    return;
             //}
-            //else if (st == SourceType.TextFile)
-            //{
-            //    try
-            //    {
-            //        OpenFileDialog openListDialog = new OpenFileDialog();
-            //        openListDialog.Filter = "text files|*.txt|All files|*.*";
-            //        openListDialog.Multiselect = true;
-
-            //        this.Focus();
-            //        if (openListDialog.ShowDialog() == DialogResult.OK)
-            //        {
-            //            Add(GetLists.FromTextFile(openListDialog.FileNames));
-            //            ListFile = openListDialog.FileName;
-            //        }
-            //        UpdateNumberOfArticles();
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        ErrorHandler.Handle(ex);
-            //    }
-
-            //    return;
-            //}
-            //else if (st == SourceType.MyWatchlist)
-            //{
-            //    try
-            //    {
-            //        BusyStatus = true;
-            //        Add(GetLists.FromWatchList());
-            //        BusyStatus = false;
-            //        UpdateNumberOfArticles();
-            //        return;
-            //    }
-            //    catch
-            //    {
-            //        MessageBox.Show("Please ensure you are logged in", "Log In");
-            //    }
-            //}
-            //else if (st == SourceType.Plugin)
-            //{
-            //    //foreach (WikiFunctions.Plugin.IListMakerPlugin plugin in ListMakerPlugins)
-            //    //{
-            //    //    //if (cmboSourceSelect.Text == plugin.DisplayText)
-            //    //    //{
-            //    //    pluginToRun = plugin;
-            //    //    strSource = sourceValues;
-            //    //    ThreadStart thr_Process = new ThreadStart(MakeListPlugin);
-            //    //    ListerThread = new Thread(thr_Process);
-            //    //    ListerThread.IsBackground = true;
-            //    //    ListerThread.Start();
-
-            //    //    break;
-            //    //    //}
-            //    //}
-            //}
-            //else
-            //{
-            //    Source = st;
-            //    strSource = sourceValues;
-
-            //    ThreadStart thr_Process = new ThreadStart(MakeList2);
-            //    ListerThread = new Thread(thr_Process);
-            //    ListerThread.IsBackground = true;
-            //    ListerThread.Start();
-            //}
 		}
 
         WikiFunctions.Lists.IListMakerProvider pluginToRun;
@@ -822,89 +741,6 @@ namespace WikiFunctions.Controls.Lists
 
         SourceType Source = SourceType.Category;
         string[] strSource;
-
-        private void MakeList2()
-        {
-            Saved = false;
-            StartProgressBar();
-
-            try
-            {
-                switch (Source)
-                {
-                    case SourceType.Category:
-                        Add(GetLists.FromCategory(false, strSource));
-                        break;
-                    case SourceType.WhatLinksHere:
-                        Add(GetLists.FromWhatLinksHere(false, strSource));
-                        break;
-                    case SourceType.WhatLinksHereIncludingRedirects:
-                        Add(GetLists.FromWhatLinksHere(false, true, strSource));
-                        break;
-                    case SourceType.WhatTranscludesPage:
-                        Add(GetLists.FromWhatLinksHere(true, strSource));
-                        break;
-                    case SourceType.LinksOnPage:
-                        Add(GetLists.FromLinksOnPage(strSource));
-                        break;
-                    case SourceType.ImagesOnPage:
-                        Add(GetLists.FromImagesOnPage(strSource));
-                        break;
-                    case SourceType.TransclusionsOnPage:
-                        Add(GetLists.FromTransclusionsOnPage(strSource));
-                        break;
-                    case SourceType.GoogleWikipedia:
-                        Add(GetLists.FromGoogleSearch(strSource));
-                        break;
-                    case SourceType.UserContribs:
-                        Add(GetLists.FromUserContribs(strSource));
-                        break;
-                    case SourceType.AllUserContribs:
-                        Add(GetLists.FromUserContribs(true, strSource));
-                        break;
-                    case SourceType.SpecialPage:
-                        Add(GetLists.FromSpecialPage(strSource));
-                        break;
-                    case SourceType.ImageFileLinks:
-                        Add(GetLists.FromImageLinks(strSource));
-                        break;
-                    case SourceType.WikiSearch:
-                        Add(GetLists.FromWikiSearch(strSource));
-                        break;
-                    case SourceType.Redirects:
-                        Add(GetLists.FromRedirects(strSource));
-                        break;
-                    case SourceType.CategoryRecursive:
-                        GetLists.QuietMode = true;
-                        Add(GetLists.FromCategory(true, strSource));
-                        GetLists.QuietMode = false;
-                        break;
-                    default:
-                        break;
-                }
-
-            }
-            catch (ThreadAbortException)
-            {
-            }
-            catch (PageDoesNotExistException ex)
-            {
-                MessageBox.Show(ex.Message, "Page does not exist", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            catch (Exception ex)
-            {
-                ErrorHandler.ListMakerText = txtSelectSource.Text;
-                ErrorHandler.Handle(ex);
-            }
-            finally
-            {
-                if (FilterNonMainAuto)
-                    FilterNonMainArticles();
-                if (FilterDuplicates)
-                    removeListDuplicates();
-                StopProgressBar();
-            }
-        }
 
         private void RemoveSelectedArticle()
         {

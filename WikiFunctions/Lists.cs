@@ -75,9 +75,14 @@ namespace WikiFunctions.Lists
     {
         #region IListMakerProvider Members
 
+        protected bool subCats = false;
+
         public virtual List<Article> Search(string[] searchCriteria)
         {
-            return GetLists.FromCategory(false, searchCriteria);
+            foreach(string s in searchCriteria)
+                s = Regex.Replace(s, "^" + Variables.NamespacesCaseInsensitive[14], "", RegexOptions.IgnoreCase);
+
+            return GetLists.FromCategory(subCats, searchCriteria);
         }
 
         public virtual string DisplayText
@@ -109,7 +114,8 @@ namespace WikiFunctions.Lists
         public override List<Article> Search(string[] searchCriteria)
         {
             GetLists.QuietMode = true;
-            List<Article> ret = GetLists.FromCategory(true, searchCriteria);
+            subCats = true;
+            List<Article> ret = base.Search(searchCriteria);
             GetLists.QuietMode = false;
 
             return ret;
@@ -397,9 +403,14 @@ namespace WikiFunctions.Lists
     {
         #region IListMakerProvider Members
 
+        protected bool all = false;
+
         public virtual List<Article> Search(string[] searchCriteria)
         {
-            return GetLists.FromUserContribs(searchCriteria);
+            foreach(string s in searchCriteria)
+                s = Regex.Replace(s, "^" + Variables.Namespaces[2], "", RegexOptions.IgnoreCase);
+
+            return GetLists.FromUserContribs(all, searchCriteria);
         }
 
         public virtual string DisplayText
@@ -432,10 +443,10 @@ namespace WikiFunctions.Lists
 
     public class UserContribsAll : UserContribs
     {
-
         public override List<Article> Search(string[] searchCriteria)
         {
-            return GetLists.FromUserContribs(true, searchCriteria);
+            all = false;
+            return base.Search(searchCriteria);
         }
 
         public override string DisplayText
@@ -450,6 +461,9 @@ namespace WikiFunctions.Lists
 
         public List<Article> Search(string[] searchCriteria)
         {
+            foreach(string s in searchCriteria)
+                s = Regex.Replace(s, "^" + Variables.Namespaces[-1], "", RegexOptions.IgnoreCase);
+
             return GetLists.FromSpecialPage(searchCriteria);
         }
 
@@ -487,6 +501,9 @@ namespace WikiFunctions.Lists
 
         public List<Article> Search(string[] searchCriteria)
         {
+            foreach(string s in searchCriteria)
+                s = Regex.Replace(s, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
+
             return GetLists.FromImageLinks(searchCriteria);
         }
 
