@@ -64,6 +64,59 @@ namespace WikiFunctions.Lists
         /// </summary>
         /// <returns>A boolean indicating whether Select Source text box should be enabled</returns>
         bool Selected();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        bool IsThreaded { get;}
+    }
+
+    public class Category : IListMakerProvider
+    {
+        #region IListMakerProvider Members
+
+        public virtual List<Article> Search(string[] searchCriteria)
+        {
+            return GetLists.FromCategory(false, searchCriteria);
+        }
+
+        public virtual string DisplayText
+        {
+            get { return "Category"; }
+        }
+
+        public string SelectSourceTextBoxText
+        {
+            get { return Variables.Namespaces[14]; }
+        }
+
+        public bool SelectSourceEnabled
+        {
+            get { return true; }
+        }
+
+        public bool Selected()
+        {
+            return true;
+        }
+
+        public bool IsThreaded
+        { get { return true; } }
+
+        #endregion
+    }
+
+    public class CategoryRecursive : Category
+    {
+        public override List<Article> Search(string[] searchCriteria)
+        {
+            return GetLists.FromCategory(true, searchCriteria);
+        }
+
+        public override string DisplayText
+        {
+            get { return "Category (recursive)"; }
+        }
     }
 
     // TODO: May well no longer be needed
