@@ -44,27 +44,6 @@ namespace WikiFunctions.Lists
         /// </summary>
         public static bool QuietMode;
 
-        public enum From
-        {
-            Category,
-            CategoryRecursive,
-            Whatlinkshere,
-            WhatLinksHereIncludingRedirects,
-            WhatTranscludesHere,
-            WhatTranscludesThis,
-            Redirects,
-            ImagesOnPage,
-            TextFile,
-            Google,
-            UserContribs,
-            AllUserContribs,
-            SpecialPage,
-            ImageLinks,
-            Watchlist,
-            WikiSearch,
-            Listusers
-        }
-
         readonly static Regex regexli = new Regex("<li>.*</li>", RegexOptions.Compiled);
         readonly static Regex regexe = new Regex("<li>\\(?<a href=\"[^\"]*\" title=\"([^\"]*)\">[^<>]*</a> \\(redirect page\\)", RegexOptions.Compiled);
         readonly static Regex regexe2 = new Regex("<a href=\"[^\"]*\" title=\"([^\"]*)\">[^<>]*</a>", RegexOptions.Compiled);
@@ -79,47 +58,9 @@ namespace WikiFunctions.Lists
         /// <param name="Limit">Max. number of pages to return, -1 if no limit</param>
         /// <param name="Params">Optional parameters, depend on source</param>
         /// <returns>The list of pages</returns>
-        public static List<Article> FromVariant(From what, int limit, params string[] params1)
+        public static List<Article> FromVariant(WikiFunctions.Lists.IListMakerProvider what, params string[] params1)
         {
-            switch (what)
-            {
-                case From.Category:
-                    return FromCategory(false, params1);
-                case From.CategoryRecursive:
-                    return FromCategory(true, params1);
-                case From.Google:
-                    return FromGoogleSearch(params1);
-                case From.ImageLinks:
-                    return FromImageLinks(params1);
-                case From.ImagesOnPage:
-                    return FromImagesOnPage(params1);
-                case From.WhatTranscludesThis:
-                    return FromTransclusionsOnPage(params1);
-                case From.Listusers:
-                    return FromListUsers(params1[0], params1[1], limit);
-                case From.Redirects:
-                    return FromRedirects(params1);
-                case From.SpecialPage:
-                    return FromSpecialPage(limit, params1);
-                case From.TextFile:
-                    return FromTextFile(params1);
-                case From.UserContribs:
-                    return FromUserContribs(params1);
-                case From.AllUserContribs:
-                    return FromUserContribs(true, params1);
-                case From.Watchlist:
-                    return FromWatchList();
-                case From.Whatlinkshere:
-                    return FromWhatLinksHere(false, params1);
-                case From.WhatLinksHereIncludingRedirects:
-                    return FromWhatLinksHere(false, true, params1);
-                case From.WhatTranscludesHere:
-                    return FromWhatLinksHere(true, params1);
-                case From.WikiSearch:
-                    return FromWikiSearch(params1);
-                default:
-                    throw new Exception("Invalid argument to GetLists.FromVariant()");
-            }
+            return what.MakeList(params1);
         }
 
         /// <summary>
@@ -745,21 +686,10 @@ namespace WikiFunctions.Lists
         /// <returns>The list of the articles.</returns>
         public static List<Article> FromSpecialPage(params string[] specials)
         {
-            return FromSpecialPage(-1, specials);
-        }
-
-        /// <summary>
-        /// Gets a list of links on a special page.
-        /// </summary>
-        /// <param name="limit">The maximum number of results resulted.</param>
-        /// <param name="specials">The page to find links on, e.g. "Deadendpages" or "Deadendpages&limit=500&offset=0".</param>
-        /// <returns>The list of the articles.</returns>
-        public static List<Article> FromSpecialPage(int limit, params string[] specials)
-        {
             //TODO:Fix!
             List<Article> list = new List<Article>();
 
-            if (limit < 0) limit = 1000;
+            int limit = 1000;
 
             foreach (string s in specials)
             {
@@ -983,10 +913,10 @@ namespace WikiFunctions.Lists
         /// <param name="limit">limit of users returned (max. 5000) if value <= 0, maximum assumed</param>
         /// <returns>The list of the articles.</returns>
         /// <remarks>Only used by IRCM</remarks>
-        public static List<Article> FromListUsers(string group, string from, int limit)
+        public static List<Article> FromListUsers(string group, string from)
         {
             //TODO:api.php?
-            if (limit == 0 || limit < 0) limit = 5000;
+            int limit = 5000;
             List<Article> list = new List<Article>();
 
             try

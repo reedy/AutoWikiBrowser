@@ -93,14 +93,13 @@ namespace WikiFunctions.Background
         protected object objParam1;
         protected object objParam2;
         protected object objParam3;
-        protected int intParam;
 
         private void InitThread(ThreadStart start)
         {
             BgThread = new Thread(start);
             BgThread.IsBackground = true;
-            BgThread.Name = string.Format("BackgroundRequest (strParam = {0}, objParam1 = {1}, objParam2 = {2}, objParam3 = {3}, intParam = {4})",
-                strParam, objParam1, objParam2, objParam3, intParam);
+            BgThread.Name = string.Format("BackgroundRequest (strParam = {0}, objParam1 = {1}, objParam2 = {2}, objParam3 = {3})",
+                strParam, objParam1, objParam2, objParam3);
             BgThread.Start();
         }
 
@@ -286,27 +285,15 @@ namespace WikiFunctions.Background
         /// Returns a list of articles using GetLists.FromVariant
         /// </summary>
         /// <param name="What">Which source to use</param>
-        /// <param name="Limit">Max. number of pages to return, -1 if no limit</param>
         /// <param name="Params">Optional parameters, depend on source</param>
-        public void GetList(WikiFunctions.Lists.IListMakerProvider what, int limit, params string[] params1)
+        public void GetList(WikiFunctions.Lists.IListMakerProvider what, params string[] params1)
         {
             objParam1 = what;
             objParam2 = params1;
-            intParam = limit;
 
             if (HasUI) ui = new PleaseWait();
             if (HasUI) ui.Show(Variables.MainForm as Form);
             InitThread(new ThreadStart(GetListFunc));
-        }
-
-        /// <summary>
-        /// Returns a list of articles using GetLists.FromVariant
-        /// </summary>
-        /// <param name="What">Which source to use</param>
-        /// <param name="Params">Optional parameters, depend on source</param>
-        public void GetList(WikiFunctions.Lists.IListMakerProvider what, params string[] params1)
-        {
-            GetList(what, -1, params1);
         }
 
         private void GetListFunc()
