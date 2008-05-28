@@ -143,7 +143,7 @@ namespace AutoWikiBrowser.Plugins.IFD
 
     [Serializable]
     internal sealed class IfdSettings
-    { // TODO: Refine this
+    {
         public bool Enabled;
         public Dictionary<string, string> Images = new Dictionary<string, string>();
         public bool Comment = true;
